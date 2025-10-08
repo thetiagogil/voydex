@@ -23,10 +23,9 @@ export const Providers = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
-        enableSystem={true}
-        disableTransitionOnChange={false}
-        storageKey="theme"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
       >
         {children}
       </ThemeProvider>
