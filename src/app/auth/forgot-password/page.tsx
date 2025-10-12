@@ -1,9 +1,10 @@
-import { ForgotPasswordForm } from "@/components/forgot-password-form";
+import { ForgotPasswordForm } from "@/components/forms/forgot-password-form";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export default function Page() {
   return (
-    <div>
+    <PageLayout>
       <ForgotPasswordForm />
-    </div>
+    </PageLayout>
   );
 }

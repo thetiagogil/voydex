@@ -1,18 +1,10 @@
-import { AuthButton } from "@/components/auth-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { Hero } from "@/components/hero";
-import { hasEnvVars } from "@/lib/utils";
+import { Hero } from "@/components/layout/hero";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export default function Home() {
   return (
-    <main>
-      <div>
-        <nav>{!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}</nav>
-
-        <div>
-          <Hero />
-        </div>
-      </div>
-    </main>
+    <PageLayout>
+      <Hero />
+    </PageLayout>
   );
 }

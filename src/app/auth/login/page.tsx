@@ -1,9 +1,10 @@
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/forms/login-form";
+import { PageLayout } from "@/components/layout/page-layout";
 
 export default function Page() {
   return (
-    <div>
+    <PageLayout width="sm">
       <LoginForm />
-    </div>
+    </PageLayout>
   );
 }

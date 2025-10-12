@@ -37,8 +37,7 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      router.push("/gens");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -55,6 +54,7 @@ export function LoginForm({
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleLogin}>
             <div>
@@ -91,7 +91,7 @@ export function LoginForm({
             </div>
             <div>
               Don&apos;t have an account?{" "}
-              <Link href="/auth/sign-up">Sign up</Link>
+              <Link href="/auth/signup">Sign up</Link>
             </div>
           </form>
         </CardContent>
