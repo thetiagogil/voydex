@@ -5,7 +5,7 @@
     "config": "",
     "css": "app/globals.css",
     "baseColor": "neutral",
-    "cssVariables": false
+    "cssVariables": true
   },
   "aliases": {
     "components": "@/components",
