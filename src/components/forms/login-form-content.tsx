@@ -35,7 +35,7 @@ export const LoginFormContent = () => {
       });
 
       reset();
-      router.push("/gens");
+      router.push("/gen");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";
@@ -64,7 +64,7 @@ export const LoginFormContent = () => {
             <Input
               id="password"
               type="password"
-              placeholder="********"
+              placeholder="••••••"
               {...register("password")}
             />
           </FieldWrapper>
