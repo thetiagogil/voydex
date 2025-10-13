@@ -58,7 +58,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
     <>
       <nav className={`px-auto border-b border-border ${className}`}>
         <div
-          className={`${PAGE_CONTAINER_WIDTH.xl} mx-auto flex h-14 items-center justify-between px-6`}
+          className={`${PAGE_CONTAINER_WIDTH.lg} mx-auto flex h-14 items-center justify-between px-6`}
         >
           <div className="flex items-center space-x-8">
             {navLinks.map((link) => (
@@ -78,8 +78,8 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <User className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="rounded-full">
+                <User />
               </Button>
             </DropdownMenuTrigger>
 
@@ -127,12 +127,13 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
 
                   <DropdownMenuGroup>
                     <DropdownMenuItem
+                      className="hover:bg-destructive/20 focus:bg-destructive/20"
                       onClick={() => {
                         handleLogout();
                       }}
                     >
-                      <LogOut className="h-4 w-4" />
-                      Log out
+                      <LogOut className="h-4 w-4 text-destructive" />
+                      <span className="text-destructive">Log out</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </>
