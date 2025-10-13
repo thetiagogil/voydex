@@ -1,3 +1,4 @@
+import { PageBreadcrumbsNavigation } from "@/components/layout/page-breadcrumbs-navigation";
 import { type PageContainerWidth } from "@/lib/constants/layout";
 import { ReactNode } from "react";
 import { PageContainer } from "./page-container";
@@ -25,6 +26,7 @@ export function PageLayout({
       )}
       <main>
         <PageContainer className={className} width={width}>
+          <PageBreadcrumbsNavigation />
           {children}
         </PageContainer>
       </main>

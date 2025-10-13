@@ -35,7 +35,7 @@ export const LoginFormContent = () => {
       });
 
       reset();
-      router.push("/gen");
+      router.push("/dashboard");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";
