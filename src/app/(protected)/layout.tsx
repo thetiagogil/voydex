@@ -8,9 +8,9 @@ export default async function ProtectedLayout({
   children: ReactNode;
 }) {
   const supabase = await createClient();
-  const { data: claims, error } = await supabase.auth.getClaims();
+  const { data: isAuth, error } = await supabase.auth.getClaims();
 
-  if (!claims || error) {
+  if (!isAuth || error) {
     redirect("/");
   }
 

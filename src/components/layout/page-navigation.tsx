@@ -1,7 +1,8 @@
 "use client";
 
-import { useAuth, useLogout } from "@/hooks/useAuth";
+import { useClaims, useLogout } from "@/hooks/useAuth";
 import { PAGE_CONTAINER_WIDTH } from "@/lib/constants/layout";
+import { toastPromise } from "@/lib/utils/toast-promise";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import {
   LogIn,
@@ -30,12 +31,17 @@ type PageNavigationProps = {
 export function PageNavigation({ className = "" }: PageNavigationProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: isAuth, isFetching } = useAuth();
+  const { data: isAuth, isFetching } = useClaims();
   const { mutateAsync: logout } = useLogout();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await toastPromise(logout(), {
+        loading: "Logging you out…",
+        success: "Log out successful!",
+        error: (err) => err?.message || "Logout failed",
+      });
+
       router.push("/");
     } catch (err) {
       console.error("Logout error:", err);
