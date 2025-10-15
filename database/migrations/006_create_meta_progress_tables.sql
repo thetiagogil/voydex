@@ -7,7 +7,7 @@
 -- ================================================================================
 CREATE TABLE meta.progress_categories (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    game_id UUID NOT NULL REFERENCES meta.games(id) ON DELETE CASCADE,
+    game_id INTEGER NOT NULL REFERENCES meta.games(id) ON DELETE CASCADE,
     slug VARCHAR(50) NOT NULL,
     name VARCHAR(100) NOT NULL,
     description TEXT,

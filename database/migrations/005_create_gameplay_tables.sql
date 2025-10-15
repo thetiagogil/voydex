@@ -8,7 +8,7 @@
 CREATE TABLE gameplay.plays (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    game_id UUID NOT NULL REFERENCES meta.games(id),
+    game_id INTEGER NOT NULL REFERENCES meta.games(id),
     name VARCHAR(200) NOT NULL UNIQUE,
     status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'dropped', 'paused')),
     challenge_type VARCHAR(50) DEFAULT 'normal',

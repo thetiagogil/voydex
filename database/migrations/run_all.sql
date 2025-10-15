@@ -6,8 +6,8 @@
 \i 002_create_core_meta_tables.sql
 \i 003_create_dex_tables.sql
 \i 004_create_pokemon_learnsets.sql
-\i 005_create_meta_progress_tables.sql
-\i 006_create_gameplay_tables.sql
+\i 005_create_gameplay_tables.sql
+\i 006_create_meta_progress_tables.sql
 \i 007_create_meta_other_tables.sql
 
 -- ================================================================================

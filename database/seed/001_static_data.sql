@@ -78,7 +78,7 @@ INSERT INTO meta.version_groups (
 (18, 8, 'swsh', 'Sword/Shield'),
 (19, 8, 'bdsp', 'Brilliant Diamond/Shining Pearl'),
 -- Generation IX
-(20, 9, 'sv', 'Scarlet/Violet'),
+(20, 9, 'sv', 'Scarlet/Violet');
 
 -- ================================================================================
 -- GAMES
@@ -108,7 +108,7 @@ INSERT INTO meta.games (
 (8, 3, 3, 5, 'sapphire', 'Pokémon Sapphire', 'base', 202, 386, 2003),
 (9, 3, 1, 6, 'firered', 'Pokémon FireRed', 'remake', 151, 386, 2004),
 (10, 3, 1, 6, 'leafgreen', 'Pokémon LeafGreen', 'remake', 151, 386, 2004),
-(11, 3, 3, 7, 'emerald', 'Pokémon Emerald', 'enhanced', 202, 386, 2005);
+(11, 3, 3, 7, 'emerald', 'Pokémon Emerald', 'enhanced', 202, 386, 2005),
 -- Generation IV
 (12, 4, 4, 8, 'diamond', 'Pokémon Diamond', 'base', 151, 493, 2007),
 (13, 4, 4, 8, 'pearl', 'Pokémon Pearl', 'base', 151, 493, 2007),

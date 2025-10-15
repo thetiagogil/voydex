@@ -13,7 +13,7 @@ CREATE TABLE meta.regional_dex_entries (
     is_available BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(version_group_id, regional_number),
-    UNIQUE(pokemon_species_id, version_group_id)
+    UNIQUE(pokemon_id, version_group_id)
 );
 
 -- ================================================================================
@@ -22,9 +22,9 @@ CREATE TABLE meta.regional_dex_entries (
 CREATE TABLE meta.pokemon_game_availability (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     pokemon_id INTEGER NOT NULL REFERENCES dex.pokemon_base(id),
-    game_id UUID NOT NULL REFERENCES meta.games(id),
+    game_id INTEGER NOT NULL REFERENCES meta.games(id),
     is_available BOOLEAN DEFAULT true,
     is_version_exclusive BOOLEAN DEFAULT false,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(pokemon_species_id, game_id)
+    UNIQUE(pokemon_id, game_id)
 );

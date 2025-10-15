@@ -315,4 +315,4 @@ INSERT INTO dex.abilities (
 (304, 9, 'tera-shift', 'Tera Shift', 'When the Pokémon enters a battle, it absorbs the energy around itself and transforms into its Terastal Form.'),
 (305, 9, 'tera-shell', 'Tera Shell', 'The Pokémon''s shell contains the powers of each type. All damage-dealing moves that hit the Pokémon when its HP is full will not be very effective.'),
 (306, 9, 'teraform-zero', 'Teraform Zero', 'When Terapagos changes into its Stellar Form, it uses its hidden powers to eliminate all effects of weather and terrain, reducing them to zero.'),
-(307, 9, 'poison-puppeteer', 'Poison Puppeteer', 'Pokémon poisoned by Pecharunt''s moves will also become confused.'),
+(307, 9, 'poison-puppeteer', 'Poison Puppeteer', 'Pokémon poisoned by Pecharunt''s moves will also become confused.');
