@@ -13,8 +13,3 @@ CREATE TABLE dex.pokemon_learnsets (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(pokemon_id, move_id, version_group_id)
 );
-
-COMMENT ON TABLE dex.pokemon_learnsets IS 'Simple Pokemon movesets - which Pokemon can learn which moves in each version group';
-COMMENT ON COLUMN dex.pokemon_learnsets.pokemon_id IS 'Pokemon that can learn the move';
-COMMENT ON COLUMN dex.pokemon_learnsets.move_id IS 'Move that can be learned';
-COMMENT ON COLUMN dex.pokemon_learnsets.version_group_id IS 'Version group where this combination is available';

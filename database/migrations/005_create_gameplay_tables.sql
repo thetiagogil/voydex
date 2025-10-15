@@ -57,5 +57,3 @@ CREATE TABLE gameplay.progress (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(play_id, progress_item_id)
 );
-
-COMMENT ON TABLE gameplay.progress IS 'User progress tracking for specific plays';
