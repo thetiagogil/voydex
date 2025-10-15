@@ -1,140 +1,112 @@
 #!/usr/bin/env node
 
-import { readFileSync } from "fs";
+/**
+ * Database Setup Script
+ *
+ * Creates database schemas and tables by running migration files in the correct order.
+ * This script establishes the complete database structure needed for the Pokemon Tracker application.
+ *
+ * Usage: npm run db:setup
+ */
+
 import { join } from "path";
-import { Client } from "pg";
+import {
+  closeDatabaseConnection,
+  connectToDatabase,
+  createDatabaseClient,
+  displaySummary,
+  executeSqlFile,
+  getCustomSchemas,
+  getTablesFromSchemas,
+  handleScriptError,
+  loadEnvironment,
+  readSqlFile,
+} from "../helpers/script-utils.js";
 
-// Load environment variables manually
-const envContent = readFileSync(join(process.cwd(), ".env.local"), "utf8");
-envContent.split("\n").forEach((line) => {
-  const [key, ...valueParts] = line.split("=");
-  if (key && valueParts.length > 0) {
-    const value = valueParts.join("=").trim();
-    if (value) {
-      process.env[key.trim()] = value;
-    }
-  }
-});
-
-// Get connection details from environment
-const dbUrl = process.env.SUPABASE_DB_URL;
-const dbPassword = process.env.SUPABASE_DB_PASSWORD;
-
-if (!dbUrl || !dbPassword) {
-  console.error("❌ Missing required environment variables:");
-  console.error("Required: SUPABASE_DB_URL, SUPABASE_DB_PASSWORD");
-  console.error(
-    "\n💡 Get these from your Supabase Dashboard > Settings > Database"
-  );
-  console.error("Look for 'Connection string' and 'Database password'");
-  process.exit(1);
-}
-
-// Build connection string (replace [YOUR-PASSWORD] with actual password)
-const connectionString = dbUrl.replace("[YOUR-PASSWORD]", dbPassword);
-
-console.log("🚀 Connecting to PostgreSQL database...");
-console.log(
-  "📡 Connection string:",
-  connectionString.replace(dbPassword, "***")
-);
-
-const client = new Client({
-  connectionString: connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-
-const migrations = [
+/**
+ * Migration files in dependency order
+ * Note: 006 must run before 005 due to foreign key dependencies
+ */
+const MIGRATION_FILES = [
   "001_create_schemas.sql",
   "002_create_core_meta_tables.sql",
   "003_create_dex_tables.sql",
   "004_create_pokemon_learnsets.sql",
-  "006_create_meta_progress_tables.sql",
+  "006_create_meta_progress_tables.sql", // Dependencies require this order
   "005_create_gameplay_tables.sql",
   "007_create_meta_other_tables.sql",
 ];
 
-async function runMigration(filename) {
-  console.log(`\n🔄 Running migration: ${filename}`);
+/**
+ * Execute a single migration file
+ * @param {Client} client - Database client
+ * @param {string} filename - Migration filename
+ * @returns {Promise<boolean>} Success status
+ */
+async function runMigration(client, filename) {
+  const migrationPath = join(process.cwd(), "database", "migrations", filename);
+  const sqlContent = readSqlFile(migrationPath);
 
-  try {
-    const sqlContent = readFileSync(
-      join(process.cwd(), "database", "migrations", filename),
-      "utf8"
-    );
-
-    // Execute the entire SQL content as one query
-    // PostgreSQL can handle multiple statements in one query
-    await client.query(sqlContent);
-
-    console.log(`✅ ${filename} completed successfully`);
-    return true;
-  } catch (error) {
-    console.error(`❌ Error in ${filename}:`, error.message);
-    return false;
-  }
+  return await executeSqlFile(client, sqlContent, filename);
 }
 
-async function runAllMigrations() {
+/**
+ * Main function to run database setup
+ */
+async function setupDatabase() {
+  let client;
+
   try {
+    console.log("🏗️  Pokemon Tracker Database Setup");
+    console.log("=====================================\n");
+
+    // Load environment and create client
+    const env = loadEnvironment();
+    client = createDatabaseClient(env.SUPABASE_DB_URL);
+
     // Connect to database
-    await client.connect();
-    console.log("✅ Connected to database successfully");
+    await connectToDatabase(client);
 
-    console.log("\n📊 Starting database migrations...");
+    console.log("📊 Executing database migrations...\n");
 
-    // Run migrations in order
-    for (const migration of migrations) {
-      const success = await runMigration(migration);
+    // Execute each migration file
+    for (const filename of MIGRATION_FILES) {
+      const success = await runMigration(client, filename);
+
       if (!success) {
-        console.error("❌ Migration failed. Stopping execution.");
-        process.exit(1);
+        throw new Error(`Migration ${filename} failed - stopping setup`);
       }
+
+      // Brief pause between migrations for better logging
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    console.log("\n🎉 All migrations completed successfully!");
+    console.log("\n� Verifying database structure...");
 
-    // Verify tables were created
-    console.log("\n📊 Verifying created tables...");
-    const result = await client.query(`
-      SELECT 
-        schemaname,
-        tablename
-      FROM pg_tables 
-      WHERE schemaname IN ('dex', 'meta', 'gameplay')
-      ORDER BY schemaname, tablename;
-    `);
+    // Get created schemas and tables
+    const schemas = await getCustomSchemas(client);
+    const tables = await getTablesFromSchemas(client, schemas);
 
+    // Display verification results
     console.log("\n📋 Created tables:");
-    result.rows.forEach((row) => {
-      console.log(`   ${row.schemaname}.${row.tablename}`);
+    tables.forEach((table) => {
+      console.log(`   ${table.schemaname}.${table.tablename}`);
     });
 
-    // Count unique schemas
-    const schemaCount = new Set(result.rows.map((row) => row.schemaname)).size;
-
-    console.log(
-      `\n✨ Database ready! Created ${result.rows.length} tables across ${schemaCount} schemas.`
-    );
+    // Display summary
+    displaySummary("Database Setup Complete", {
+      "Schemas Created": schemas.length,
+      "Tables Created": tables.length,
+      "Migrations Executed": MIGRATION_FILES.length,
+    });
   } catch (error) {
-    console.error("❌ Database connection failed:", error.message);
-    console.error("\n🔍 Common issues:");
-    console.error(
-      "1. Check your .env.local file has correct SUPABASE_DB_URL and SUPABASE_DB_PASSWORD"
-    );
-    console.error(
-      "2. Make sure your database URL includes the correct region and project ID"
-    );
-    console.error("3. Verify your database password is correct");
-    console.error(
-      "4. Check if your IP is whitelisted (if using direct connection)"
-    );
-    process.exit(1);
+    await handleScriptError(error, client, "Database setup");
   } finally {
-    await client.end();
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }
 
-runAllMigrations();
+// Execute the setup
+setupDatabase();

@@ -1,133 +1,150 @@
 #!/usr/bin/env node
 
-import { readFileSync } from "fs";
+/**
+ * Database Seeding Script
+ *
+ * Populates the database with Pokemon reference data including:
+ * - Game metadata (generations, regions, games, types, natures)
+ * - Pokemon abilities with official descriptions
+ * - Pokemon moves with stats and descriptions
+ *
+ * Usage: npm run db:seed
+ */
+
 import { join } from "path";
-import { Client } from "pg";
+import {
+  closeDatabaseConnection,
+  connectToDatabase,
+  createDatabaseClient,
+  displaySummary,
+  executeSqlFile,
+  getCustomSchemas,
+  handleScriptError,
+  loadEnvironment,
+  readSqlFile,
+} from "../helpers/script-utils.js";
 
-// Load environment variables
-const envPath = join(process.cwd(), ".env.local");
-const envContent = readFileSync(envPath, "utf8");
-envContent.split("\n").forEach((line) => {
-  const [key, ...valueParts] = line.split("=");
-  if (key && valueParts.length > 0) {
-    const value = valueParts.join("=").trim();
-    if (value) {
-      process.env[key.trim()] = value;
+/**
+ * Seed files to execute in order
+ * Static data must be loaded first as it provides base reference data
+ */
+const SEED_FILES = [
+  "001_static_data.sql", // Base game data (generations, regions, types, etc.)
+  "002_abilities.sql", // Pokemon abilities from PokeAPI
+  "003_moves.sql", // Pokemon moves with stats and descriptions
+];
+
+/**
+ * Execute a single seed file
+ * @param {Client} client - Database client
+ * @param {string} filename - Seed filename
+ * @returns {Promise<boolean>} Success status
+ */
+async function runSeedFile(client, filename) {
+  const seedPath = join(process.cwd(), "database", "seed", filename);
+  const sqlContent = readSqlFile(seedPath);
+
+  return await executeSqlFile(client, sqlContent, filename);
+}
+
+/**
+ * Get data counts for summary display
+ * @param {Client} client - Database client
+ * @returns {Promise<Object>} Object with data counts
+ */
+async function getDataCounts(client) {
+  try {
+    const queries = [
+      { key: "Types", query: "SELECT COUNT(*) FROM dex.types" },
+      { key: "Pokemon", query: "SELECT COUNT(*) FROM dex.pokemon_base" },
+      { key: "Moves", query: "SELECT COUNT(*) FROM dex.moves" },
+      { key: "Abilities", query: "SELECT COUNT(*) FROM dex.abilities" },
+      { key: "Generations", query: "SELECT COUNT(*) FROM meta.generations" },
+    ];
+
+    const results = {};
+
+    for (const { key, query } of queries) {
+      try {
+        const result = await client.query(query);
+        results[key] = parseInt(result.rows[0].count);
+      } catch (error) {
+        results[key] = 0; // Table might not exist or be empty
+      }
     }
-  }
-});
 
-const dbUrl = process.env.SUPABASE_DB_URL;
-const dbPassword = process.env.SUPABASE_DB_PASSWORD;
-
-if (!dbUrl || !dbPassword) {
-  console.error("❌ Missing database connection info in .env.local");
-  console.error("\n🔧 You need to add these to your .env.local file:");
-  console.error("SUPABASE_DB_URL=your_connection_string_here");
-  console.error("SUPABASE_DB_PASSWORD=your_database_password_here");
-  console.error(
-    "\n📋 Get these from: Supabase Dashboard > Settings > Database"
-  );
-  process.exit(1);
-}
-
-const connectionString = dbUrl.replace("[YOUR-PASSWORD]", dbPassword);
-
-console.log("🍃 Seeding database with Pokemon data...");
-console.log(
-  "📡 Connecting to:",
-  connectionString.split("@")[1]?.split("/")[0] || "database"
-);
-
-const client = new Client({
-  connectionString: connectionString,
-  ssl: { rejectUnauthorized: false },
-});
-
-const seedFiles = ["001_static_data.sql", "002_abilities.sql", "003_moves.sql"];
-
-async function runSeedFile(filename) {
-  console.log(`\n🌱 Seeding: ${filename}`);
-
-  try {
-    const sqlContent = readFileSync(
-      join(process.cwd(), "database", "seed", filename),
-      "utf8"
-    );
-
-    // Execute the SQL content
-    await client.query(sqlContent);
-
-    console.log(`✅ ${filename} completed successfully`);
-    return true;
+    return results;
   } catch (error) {
-    console.error(`❌ Error in ${filename}:`, error.message);
-    return false;
+    console.error(
+      "⚠️  Warning: Could not retrieve data counts:",
+      error.message
+    );
+    return {};
   }
 }
 
+/**
+ * Main function to run database seeding
+ */
 async function seedDatabase() {
+  let client;
+
   try {
-    await client.connect();
-    console.log("✅ Connected to database successfully");
+    console.log("🌱 Pokemon Tracker Database Seeding");
+    console.log("===================================\n");
 
-    console.log("\n🌱 Starting database seeding...");
+    // Load environment and create client
+    const env = loadEnvironment();
+    client = createDatabaseClient(env.SUPABASE_DB_URL);
 
-    // Check if schemas exist
-    const schemaCheck = await client.query(`
-      SELECT schema_name 
-      FROM information_schema.schemata 
-      WHERE schema_name IN ('dex', 'meta', 'gameplay')
-      ORDER BY schema_name
-    `);
+    // Connect to database
+    await connectToDatabase(client);
 
-    if (schemaCheck.rows.length === 0) {
-      console.error("❌ Database schemas not found!");
+    // Verify schemas exist before seeding
+    console.log("🔍 Verifying database structure...");
+    const schemas = await getCustomSchemas(client);
+
+    if (schemas.length === 0) {
+      console.error("❌ No database schemas found!");
       console.error(
-        "💡 Run 'npm run db:setup' first to create the database structure."
+        '💡 Run "npm run db:setup" first to create the database structure'
       );
       process.exit(1);
     }
 
-    console.log(
-      "🏗️ Found schemas:",
-      schemaCheck.rows.map((r) => r.schema_name).join(", ")
-    );
+    console.log(`✅ Found schemas: ${schemas.join(", ")}\n`);
 
-    // Run seed files in order
-    for (const seedFile of seedFiles) {
-      const success = await runSeedFile(seedFile);
+    console.log("📊 Executing seed files...\n");
+
+    // Execute each seed file
+    for (const filename of SEED_FILES) {
+      const success = await runSeedFile(client, filename);
+
       if (!success) {
-        console.error("❌ Seeding failed. Stopping execution.");
-        process.exit(1);
+        throw new Error(`Seeding failed at ${filename} - stopping execution`);
       }
+
+      // Brief pause between files for better logging
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    console.log("\n🎉 Database seeding completed successfully!");
+    console.log("\n� Gathering data statistics...");
 
-    // Show summary
-    console.log("\n📊 Seeding Summary:");
-    const counts = await Promise.all([
-      client.query("SELECT COUNT(*) FROM dex.types"),
-      client.query("SELECT COUNT(*) FROM dex.pokemon_base"),
-      client.query("SELECT COUNT(*) FROM dex.moves"),
-      client.query("SELECT COUNT(*) FROM dex.abilities"),
-      client.query("SELECT COUNT(*) FROM meta.generations"),
-    ]);
+    // Get data counts for summary
+    const dataCounts = await getDataCounts(client);
 
-    console.log(`   🔷 Types: ${counts[0].rows[0].count}`);
-    console.log(`   🐾 Pokemon: ${counts[1].rows[0].count}`);
-    console.log(`   ⚔️  Moves: ${counts[2].rows[0].count}`);
-    console.log(`   ✨ Abilities: ${counts[3].rows[0].count}`);
-    console.log(`   📚 Generations: ${counts[4].rows[0].count}`);
+    // Display summary
+    displaySummary("Database Seeding Complete", dataCounts);
 
-    console.log("\n🚀 Database is ready for use!");
+    console.log("� Your Pokemon database is now ready for use!");
   } catch (error) {
-    console.error("❌ Seeding failed:", error.message);
-    process.exit(1);
+    await handleScriptError(error, client, "Database seeding");
   } finally {
-    await client.end();
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }
 
+// Execute the seeding
 seedDatabase();

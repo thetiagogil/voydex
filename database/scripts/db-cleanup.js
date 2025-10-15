@@ -1,117 +1,142 @@
-import { readFileSync } from "fs";
-import { join } from "path";
-import { Client } from "pg";
+#!/usr/bin/env node
 
-// Load environment variables manually
-const envContent = readFileSync(join(process.cwd(), ".env.local"), "utf8");
-envContent.split("\n").forEach((line) => {
-  const [key, ...valueParts] = line.split("=");
-  if (key && valueParts.length > 0) {
-    const value = valueParts.join("=").trim();
-    if (value) {
-      process.env[key.trim()] = value;
-    }
-  }
-});
+/**
+ * Database Cleanup Script
+ *
+ * ⚠️  DANGER: This script removes ALL data from ALL schemas while preserving table structure.
+ * Use this when you want to clear all Pokemon and user data but keep the database structure intact.
+ *
+ * What it does:
+ * - Removes all data from dex, meta, and gameplay schemas
+ * - Preserves all table structures and relationships
+ * - Maintains foreign key constraints
+ *
+ * Manual execution only: node database/scripts/db-cleanup.js
+ */
 
-// Get connection details from environment
-const dbUrl = process.env.SUPABASE_DB_URL;
+import {
+  closeDatabaseConnection,
+  connectToDatabase,
+  createDatabaseClient,
+  displaySummary,
+  getCustomSchemas,
+  getTablesFromSchemas,
+  handleScriptError,
+  loadEnvironment,
+  showCountdown,
+} from "../helpers/script-utils.js";
 
-if (!dbUrl) {
-  console.error("❌ Missing database connection info in .env.local");
-  console.error("\n🔧 You need to add this to your .env.local file:");
-  console.error(
-    "SUPABASE_DB_URL=postgresql://postgres.[project]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres"
-  );
-  process.exit(1);
-}
-
-// Database connection string
-const connectionString = dbUrl;
-
-async function cleanupDatabase() {
-  const client = new Client({ connectionString });
+/**
+ * Truncate all tables in specified schemas
+ * @param {Client} client - Database client
+ * @param {string[]} schemaNames - Schema names to clean
+ * @returns {Promise<number>} Number of tables cleaned
+ */
+async function truncateAllTables(client, schemaNames) {
+  let cleanedCount = 0;
 
   try {
-    console.log(
-      "🧹 Cleaning up database (removing all data, keeping structure)..."
-    );
-    console.log("📡 Connecting to: aws-1-eu-west-3.pooler.supabase.com:6543");
-    await client.connect();
-    console.log("✅ Connected to database successfully\n");
+    console.log("🔧 Disabling foreign key constraints...");
+    await client.query("SET session_replication_role = replica;");
 
-    console.log(
-      "⚠️  WARNING: This will PERMANENTLY DELETE all data from all schemas!"
-    );
-    console.log("🏗️  Database structure (tables, schemas) will be preserved.");
-    console.log("💾 Make sure you have backed up any important data.\n");
+    // Get all tables from specified schemas
+    const tables = await getTablesFromSchemas(client, schemaNames);
 
-    // 20-second countdown
-    console.log("🔄 Database cleanup will begin in:");
-    for (let i = 20; i > 0; i--) {
-      console.log(`   ⏰ ${i} seconds... (Press Ctrl+C to cancel)`);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    if (tables.length === 0) {
+      console.log("📭 No tables found to clean");
+      return 0;
     }
 
-    console.log("🧹 Starting database cleanup NOW...\n");
+    console.log(`\n🗑️  Clearing data from ${tables.length} tables...`);
 
-    // Get all schemas we manage
-    const schemasResult = await client.query(`
-      SELECT schema_name 
-      FROM information_schema.schemata 
-      WHERE schema_name IN ('dex', 'meta', 'gameplay')
-      ORDER BY schema_name;
-    `);
+    // Truncate each table
+    for (const table of tables) {
+      const fullTableName = `${table.schemaname}.${table.tablename}`;
+      console.log(`   🗑️  Clearing ${fullTableName}`);
 
+      await client.query(`TRUNCATE TABLE ${fullTableName} CASCADE;`);
+      cleanedCount++;
+    }
+
+    console.log("\n🔧 Re-enabling foreign key constraints...");
+    await client.query("SET session_replication_role = DEFAULT;");
+
+    return cleanedCount;
+  } catch (error) {
+    // Always try to re-enable constraints
+    try {
+      await client.query("SET session_replication_role = DEFAULT;");
+    } catch (constraintError) {
+      console.error("⚠️  Warning: Could not re-enable foreign key constraints");
+    }
+    throw error;
+  }
+}
+
+/**
+ * Main function to run database cleanup
+ */
+async function cleanupDatabase() {
+  let client;
+
+  try {
+    console.log("🧹 Pokemon Tracker Database Cleanup");
+    console.log("===================================\n");
+
+    // Load environment and create client
+    const env = loadEnvironment();
+    client = createDatabaseClient(env.SUPABASE_DB_URL);
+
+    // Connect to database
+    await connectToDatabase(client);
+
+    // Display strong warnings
+    console.log("⚠️  ⚠️  ⚠️  DANGER ZONE ⚠️  ⚠️  ⚠️");
+    console.log("🔥 This will PERMANENTLY DELETE all data from ALL schemas!");
     console.log(
-      "🏗️  Found schemas:",
-      schemasResult.rows.map((row) => row.schema_name).join(", ")
+      "🏗️  Database structure (tables, relationships) will be preserved"
     );
+    console.log("💾 Make sure you have backed up any important data\n");
 
-    // Get all tables from our schemas (in dependency order for deletion)
-    const tablesResult = await client.query(`
-      SELECT schemaname, tablename 
-      FROM pg_tables 
-      WHERE schemaname IN ('dex', 'meta', 'gameplay')
-      ORDER BY 
-        CASE schemaname 
-          WHEN 'gameplay' THEN 1 
-          WHEN 'meta' THEN 2 
-          WHEN 'dex' THEN 3 
-        END,
-        tablename;
-    `);
+    // Get schemas to clean
+    const schemas = await getCustomSchemas(client);
 
-    if (tablesResult.rows.length === 0) {
-      console.log("📭 No tables found to cleanup.");
+    if (schemas.length === 0) {
+      console.log("📭 No custom schemas found to clean");
       return;
     }
 
-    console.log("\n🗑️  Clearing data from tables...");
+    console.log(`🎯 Target schemas: ${schemas.join(", ")}\n`);
 
-    // Disable foreign key checks temporarily for faster cleanup
-    await client.query("SET session_replication_role = replica;");
+    // Show countdown with cancellation option
+    await showCountdown(20, "Database cleanup will begin");
 
-    // Clear data from each table
-    for (const row of tablesResult.rows) {
-      const tableName = `${row.schemaname}.${row.tablename}`;
-      console.log(`   🗑️  Clearing ${tableName}`);
+    // Perform the cleanup
+    const cleanedTables = await truncateAllTables(client, schemas);
 
-      await client.query(`TRUNCATE TABLE ${tableName} CASCADE;`);
-    }
+    // Display summary
+    displaySummary("Database Cleanup Complete", {
+      "Schemas Cleaned": schemas.length,
+      "Tables Cleared": cleanedTables,
+      "Data Removed": "All records",
+      Structure: "Preserved",
+    });
 
-    // Re-enable foreign key checks
-    await client.query("SET session_replication_role = DEFAULT;");
-
-    console.log("\n🧹 Database cleanup completed successfully!");
-    console.log("🏗️  All table structures preserved.");
-    console.log("💡 Run npm script to reseed data if needed.");
+    console.log('💡 Run "npm run db:seed" to repopulate with Pokemon data');
   } catch (error) {
-    console.error("❌ Cleanup failed:", error.message);
-    process.exit(1);
+    await handleScriptError(error, client, "Database cleanup");
   } finally {
-    await client.end();
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }
 
+/* if (!validation.isValid) {
+  throw new Error(
+    `${ERROR_MESSAGES.SCHEMA_NOT_FOUND.message}: ${validation.missingSchemas.join(", ")}`
+  );
+} */
+
+// Execute the cleanup operation
 cleanupDatabase();

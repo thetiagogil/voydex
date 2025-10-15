@@ -15,23 +15,23 @@ We provide **historically accurate** Pokemon data with modern automation:
 
 ```
 database/
-├── scripts/            # Database management scripts (organized)
-│   ├── db-setup.js            # Create database schemas & tables
-│   ├── db-seed.js             # Populate with Pokemon data
-│   ├── db-reset.js            # ⚠️ DANGER: Complete database reset
-│   ├── db-cleanup.js          # ⚠️ DANGER: Clear all data, keep structure
-│   └── db-cleanup-reference.js # Clear reference data, preserve gameplay
-├── migrations/          # Database schema files (in dependency order)
+├── scripts/                                  # Database management scripts (organized)
+│   ├── db-test.js                            # Test database connection
+│   ├── db-setup.js                           # Create database schemas & tables
+│   ├── db-seed.js                            # Populate with Pokemon data
+│   ├── db-reset.js                           # ⚠️ DANGER: Complete database reset
+│   ├── db-cleanup.js                         # ⚠️ DANGER: Clear all data, keep structure
+│   └── db-cleanup-static.js               # Clear reference data, preserve user data
+├── migrations/                               # Database schema files (in dependency order)
 │   ├── 001_create_schemas.sql
 │   ├── 002_create_core_meta_tables.sql
 │   ├── 003_create_dex_tables.sql
 │   ├── 004_create_pokemon_learnsets.sql
-│   ├── 005_create_gameplay_tables.sql     # Fixed: Gameplay tables
-│   ├── 006_create_meta_progress_tables.sql # Fixed: Progress tables
+│   ├── 005_create_gameplay_tables.sql        # Fixed: Gameplay tables
+│   ├── 006_create_meta_progress_tables.sql   # Fixed: Progress tables
 │   └── 007_create_meta_other_tables.sql
-├── seed/               # Pokemon data and static content
-├── helpers/            # Database utility functions
-└── db-test.js         # Test database connection
+├── seed/                                     # Pokemon data and static content
+└── helpers/                                  # Database utility functions
 ```
 
 ## 🚀 Quick Start
@@ -59,17 +59,17 @@ npm run db:seed
 
 These scripts are **NOT** included in package.json for safety. Run them manually only when needed:
 
-| Script                   | Command                                         | Description                                     |
-| ------------------------ | ----------------------------------------------- | ----------------------------------------------- |
-| **db-reset**             | `node database/scripts/db-reset.js`             | 🔥 Delete ALL schemas (10s countdown)           |
-| **db-cleanup**           | `node database/scripts/db-cleanup.js`           | 🧹 Clear all data, keep structure (10s)         |
-| **db-cleanup-reference** | `node database/scripts/db-cleanup-reference.js` | 🎯 Clear reference data, preserve gameplay (5s) |
+| Script                | Command                                      | Description                                     |
+| --------------------- | -------------------------------------------- | ----------------------------------------------- |
+| **db-reset**          | `node database/scripts/db-reset.js`          | 🔥 Delete ALL schemas (10s countdown)           |
+| **db-cleanup**        | `node database/scripts/db-cleanup.js`        | 🧹 Clear all data, keep structure (10s)         |
+| **db-cleanup-static** | `node database/scripts/db-cleanup-static.js` | 🎯 Clear reference data, preserve gameplay (5s) |
 
 ### 🛡️ Safety Features
 
 - **Countdown timers**: 5-10 seconds to cancel with Ctrl+C
 - **Clear warnings**: Multiple warnings about data loss
-- **Preserved user data**: `db-cleanup-reference` preserves gameplay schema
+- **Preserved user data**: `db-cleanup-static` preserves gameplay schema
 
 ## 🔧 Prerequisites
 

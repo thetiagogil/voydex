@@ -12,7 +12,10 @@
     "prettier:check": "prettier . --check",
     "db:test": "node database/scripts/db-test.js",
     "db:setup": "node database/scripts/db-setup.js",
-    "db:seed": "node database/scripts/db-seed.js"
+    "db:seed": "node database/scripts/db-seed.js",
+    "db:reset": "node database/scripts/db-reset.js",
+    "db:cleanup": "node database/scripts/db-cleanup.js",
+    "db:cleanup:static": "node database/scripts/db-cleanup-static.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -1,92 +1,121 @@
 #!/usr/bin/env node
 
-import { readFileSync } from "fs";
-import { join } from "path";
-import { Client } from "pg";
+/**
+ * Database Reset Script
+ *
+ * 🔥 EXTREME DANGER: This script completely destroys all database schemas and data.
+ * This is the most destructive operation available - use only when absolutely necessary.
+ *
+ * What it does:
+ * - Drops all custom schemas (dex, meta, gameplay) entirely
+ * - Removes all tables, data, relationships, and constraints
+ * - Requires complete rebuild via db-setup after execution
+ *
+ * Manual execution only: node database/scripts/db-reset.js
+ */
 
-// Load environment variables
-const envPath = join(process.cwd(), ".env.local");
-const envContent = readFileSync(envPath, "utf8");
-envContent.split("\n").forEach((line) => {
-  const [key, ...valueParts] = line.split("=");
-  if (key && valueParts.length > 0) {
-    const value = valueParts.join("=").trim();
-    if (value) {
-      process.env[key.trim()] = value;
-    }
-  }
-});
+import {
+  closeDatabaseConnection,
+  connectToDatabase,
+  createDatabaseClient,
+  displaySummary,
+  getCustomSchemas,
+  handleScriptError,
+  loadEnvironment,
+  showCountdown,
+} from "../helpers/script-utils.js";
 
-const dbUrl = process.env.SUPABASE_DB_URL;
-const dbPassword = process.env.SUPABASE_DB_PASSWORD;
-
-if (!dbUrl || !dbPassword) {
-  console.error("❌ Missing database connection info in .env.local");
-  console.error("\n🔧 You need to add these to your .env.local file:");
-  console.error("SUPABASE_DB_URL=your_connection_string_here");
-  console.error("SUPABASE_DB_PASSWORD=your_database_password_here");
-  console.error(
-    "\n📋 Get these from: Supabase Dashboard > Settings > Database"
+/**
+ * Drop schemas in safe order (reverse dependency order)
+ * @param {Client} client - Database client
+ * @param {string[]} schemaNames - Schema names to drop
+ * @returns {Promise<number>} Number of schemas dropped
+ */
+async function dropSchemasInOrder(client, schemaNames) {
+  // Drop in reverse dependency order to avoid constraint issues
+  const dropOrder = ["gameplay", "meta", "dex"];
+  const schemasToProcess = dropOrder.filter((schema) =>
+    schemaNames.includes(schema)
   );
-  process.exit(1);
+
+  let droppedCount = 0;
+
+  for (const schemaName of schemasToProcess) {
+    try {
+      console.log(`🗑️  Dropping schema: ${schemaName}`);
+      await client.query(`DROP SCHEMA IF EXISTS ${schemaName} CASCADE;`);
+      console.log(`✅ Dropped ${schemaName} schema`);
+      droppedCount++;
+    } catch (error) {
+      console.error(`❌ Failed to drop ${schemaName} schema:`, error.message);
+    }
+  }
+
+  return droppedCount;
 }
 
-const connectionString = dbUrl.replace("[YOUR-PASSWORD]", dbPassword);
-
-console.log("🧹 Resetting database...");
-console.log(
-  "📡 Connecting to:",
-  connectionString.split("@")[1]?.split("/")[0] || "database"
-);
-
-const client = new Client({
-  connectionString: connectionString,
-  ssl: { rejectUnauthorized: false },
-});
-
+/**
+ * Main function to run database reset
+ */
 async function resetDatabase() {
+  let client;
+
   try {
-    await client.connect();
-    console.log("✅ Connected to database successfully");
+    console.log("🔥 Pokemon Tracker Database Reset");
+    console.log("=================================\n");
 
+    // Load environment and create client
+    const env = loadEnvironment();
+    client = createDatabaseClient(env.SUPABASE_DB_URL);
+
+    // Connect to database
+    await connectToDatabase(client);
+
+    // Display extreme warnings
+    console.log("🚨🚨🚨 EXTREME DANGER ZONE 🚨🚨🚨");
+    console.log("💀 This will PERMANENTLY DELETE ALL schemas and data!");
+    console.log("💀 This action CANNOT BE UNDONE!");
+    console.log("💾 Make sure you have backed up any important data");
     console.log(
-      "\n⚠️  WARNING: This will PERMANENTLY DELETE all custom schemas and data!"
+      '🔄 You will need to run "npm run db:setup" to rebuild the database\n'
     );
-    console.log("� This action cannot be undone!");
-    console.log("💾 Make sure you have backed up any important data.");
 
-    // 20-second countdown
-    console.log("\n🔄 Database reset will begin in:");
-    for (let i = 20; i > 0; i--) {
-      console.log(`   ⏰ ${i} seconds... (Press Ctrl+C to cancel)`);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Check existing schemas
+    const schemas = await getCustomSchemas(client);
+
+    if (schemas.length === 0) {
+      console.log("📭 No custom schemas found to reset");
+      return;
     }
 
-    console.log("🗑️  Starting database reset NOW...");
+    console.log(`💀 Will destroy: ${schemas.join(", ")} schemas\n`);
 
-    // Drop schemas (CASCADE will drop all tables and data)
-    const schemas = ["gameplay", "meta", "dex"];
+    // Extended countdown for this dangerous operation
+    await showCountdown(20, "Database reset will begin");
 
-    for (const schema of schemas) {
-      try {
-        console.log(`🗑️  Dropping schema: ${schema}`);
-        await client.query(`DROP SCHEMA IF EXISTS ${schema} CASCADE`);
-        console.log(`✅ Dropped ${schema} schema`);
-      } catch (error) {
-        console.log(`⚠️  Could not drop ${schema}: ${error.message}`);
-      }
-    }
+    console.log("💀 Starting database reset NOW...\n");
 
-    console.log("\n🧹 Database reset completed!");
-    console.log(
-      "💡 Run 'npm run db:setup' to recreate the database structure."
-    );
+    // Drop all schemas
+    const droppedCount = await dropSchemasInOrder(client, schemas);
+
+    // Display summary
+    displaySummary("Database Reset Complete", {
+      "Schemas Dropped": droppedCount,
+      "Tables Removed": "All",
+      "Data Removed": "All",
+      Status: "Database Empty",
+    });
+
+    console.log("⚠️  Database has been completely reset!");
+    console.log('💡 Run "npm run db:setup" to recreate the database structure');
   } catch (error) {
-    console.error("❌ Reset failed:", error.message);
-    process.exit(1);
+    await handleScriptError(error, client, "Database reset");
   } finally {
-    await client.end();
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }
 
+// Execute the database reset operation
 resetDatabase();
