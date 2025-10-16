@@ -4,7 +4,7 @@ import { StatsSection } from "@/components/features/dashboard/stats-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { generationData } from "@/lib/mock-data";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const generations = Object.values(generationData);
 
   return (

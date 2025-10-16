@@ -48,7 +48,11 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
     }
   };
 
-  const navLinks = [{ name: "Home", href: "/" }];
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Dex", href: "/dex" },
+    ...(isAuth ? [{ name: "Dashboard", href: "/dashboard" }] : []),
+  ];
 
   const detectedPage = navLinks.find((link) =>
     link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
