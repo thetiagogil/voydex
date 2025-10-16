@@ -5,6 +5,7 @@ import { PAGE_CONTAINER_WIDTH } from "@/lib/constants/layout";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import {
+  Info,
   LogIn,
   LogOut,
   Settings,
@@ -88,7 +89,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-48">
-              {!isFetching && !isAuth ? (
+              {!isFetching && !isAuth && (
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
                     <Link href="/auth/login">
@@ -104,29 +105,42 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-              ) : (
+              )}
+
+              {!isFetching && isAuth && (
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild disabled>
+                    <Link href="/profile" className="flex items-center gap-2">
+                      <UserIcon className="h-4 w-4" />
+                      <span className="grow truncate">Profile</span>
+                      <Badge>Soon</Badge>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild disabled>
+                    <Link href="/settings" className="flex items-center gap-2">
+                      <Settings className="h-4 w-4" />
+                      <span className="grow truncate">Settings</span>
+                      <Badge>Soon</Badge>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              )}
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuGroup>
+                <DropdownMenuItem asChild disabled>
+                  <Link href="/intro" className="flex items-center gap-2">
+                    <Info className="h-4 w-4" />
+                    <span className="grow truncate">Learn more</span>
+                    <Badge>Soon</Badge>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+
+              {!isFetching && isAuth && (
                 <>
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild disabled>
-                      <Link href="/profile" className="flex items-center gap-2">
-                        <UserIcon className="h-4 w-4" />
-                        <span className="grow truncate">Profile</span>
-                        <Badge>Soon</Badge>
-                      </Link>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem asChild disabled>
-                      <Link
-                        href="/settings"
-                        className="flex items-center gap-2"
-                      >
-                        <Settings className="h-4 w-4" />
-                        <span className="grow truncate">Settings</span>
-                        <Badge>Soon</Badge>
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-
                   <DropdownMenuSeparator />
 
                   <DropdownMenuGroup>
