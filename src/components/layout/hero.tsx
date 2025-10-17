@@ -25,7 +25,8 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-2xl mx-auto">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6">
-          Poketracker
+          <span className="text-primary">Poke</span>
+          <span className="text-foreground">tracker</span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed">
