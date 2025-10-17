@@ -1,26 +1,28 @@
 -- ================================================================================
--- Migration: 003
+-- Migration: 003 - Base Tables (Modern PokeAPI Data)
 -- ================================================================================
+-- Tables that store modern/latest data from PokeAPI
+-- These represent current state - changes tables handle historical differences
 
 -- ================================================================================
--- TYPES TABLE
+-- TYPES TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
 CREATE TABLE dex.types (
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER REFERENCES meta.generations(id),
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(50) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ================================================================================
--- NATURES TABLE  
+-- NATURES TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
 CREATE TABLE dex.natures (
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER REFERENCES meta.generations(id),
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(50) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
     increased_stat VARCHAR(50),
     decreased_stat VARCHAR(50),
     liked_flavor VARCHAR(50),
@@ -29,89 +31,106 @@ CREATE TABLE dex.natures (
 );
 
 -- ================================================================================
--- EGG GROUPS TABLE
+-- EGG GROUPS TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
 CREATE TABLE dex.egg_groups (
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER REFERENCES meta.generations(id),
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(50) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ================================================================================
--- ABILITIES TABLE
+-- ABILITIES TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
 CREATE TABLE dex.abilities (
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER REFERENCES meta.generations(id),
-    slug VARCHAR(50) NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
     description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(slug, generation_id)
+    is_main_series BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ================================================================================
--- MOVES TABLE
+-- MOVES TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
 CREATE TABLE dex.moves (
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER REFERENCES meta.generations(id),
-    type_id INTEGER REFERENCES dex.types(id),
-    slug VARCHAR(50) NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
+    type_id INTEGER NOT NULL REFERENCES dex.types(id),
     description TEXT,
+    
+    -- Modern/latest stats (from PokeAPI)
     power INTEGER,
     accuracy INTEGER,
-    pp INTEGER,
-    damage_class VARCHAR(20) NOT NULL, -- physical, special, status
+    pp INTEGER NOT NULL,
+    damage_class VARCHAR(20) NOT NULL, -- 'physical', 'special', 'status'
     priority INTEGER DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(slug, generation_id)
+    effect_chance INTEGER,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ================================================================================
--- POKEMON BASE TABLE (Base = Introduction Generation + All Special Stats)
+-- POKEMONS TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
-CREATE TABLE dex.pokemon_base (
+CREATE TABLE dex.pokemons (
     -- Identifiers
     id INTEGER PRIMARY KEY,
-    generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
     species_id INTEGER NOT NULL,
+    national_number INTEGER NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
+    
+    -- Type information (modern)
     type_1_id INTEGER NOT NULL REFERENCES dex.types(id),
     type_2_id INTEGER REFERENCES dex.types(id),
+    
+    -- Abilities (modern)
     ability_1_id INTEGER REFERENCES dex.abilities(id),
     ability_2_id INTEGER REFERENCES dex.abilities(id),
     hidden_ability_id INTEGER REFERENCES dex.abilities(id),
+    
+    -- Breeding
     egg_group_1_id INTEGER REFERENCES dex.egg_groups(id),
     egg_group_2_id INTEGER REFERENCES dex.egg_groups(id),
     
-    -- Information
-    slug VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL,
-    national_number INTEGER NOT NULL,
+    -- Form information
     form_name VARCHAR(50),
     is_default_form BOOLEAN DEFAULT true,
     
     -- Physical characteristics
-    height INTEGER NOT NULL,
-    weight INTEGER NOT NULL,
+    height INTEGER NOT NULL, -- decimeters
+    weight INTEGER NOT NULL, -- hectograms
     color VARCHAR(20),
     
-    -- Stats
+    -- Modern base stats
     hp INTEGER NOT NULL,
     attack INTEGER NOT NULL,
     defense INTEGER NOT NULL,
     special_attack INTEGER NOT NULL,
     special_defense INTEGER NOT NULL,
     speed INTEGER NOT NULL,
-    special INTEGER NOT NULL,
+    base_experience INTEGER,
     
     -- Game mechanics
     growth_rate VARCHAR(20),
-    gender_rate INTEGER,
+    gender_rate INTEGER, -- -1 = genderless, 0-8 = female rate in eighths
+    capture_rate INTEGER,
+    base_happiness INTEGER,
     
+    -- Flags
+    is_baby BOOLEAN DEFAULT false,
+    is_legendary BOOLEAN DEFAULT false,
+    is_mythical BOOLEAN DEFAULT false,
+    
+    -- Resources
     sprite_url TEXT,
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -119,28 +138,26 @@ CREATE TABLE dex.pokemon_base (
 );
 
 -- ================================================================================
--- POKEMON CHANGES
+-- ITEMS TABLE (Base: Latest from PokeAPI)
 -- ================================================================================
-CREATE TABLE dex.pokemon_changes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    pokemon_id INTEGER NOT NULL REFERENCES dex.pokemon_base(id),
-    generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
-
-    -- Type/ability changes
-    type_1_override INTEGER REFERENCES dex.types(id),
-    type_2_override INTEGER REFERENCES dex.types(id),
-    ability_1_override INTEGER REFERENCES dex.abilities(id),
-    ability_2_override INTEGER REFERENCES dex.abilities(id),
-    hidden_ability_override INTEGER REFERENCES dex.abilities(id),
+CREATE TABLE dex.items (
+    id INTEGER PRIMARY KEY,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    generation_introduced INTEGER NOT NULL REFERENCES meta.generations(id),
     
-    -- Stat changes
-    hp_override INTEGER,
-    attack_override INTEGER,
-    defense_override INTEGER,
-    special_attack_override INTEGER,
-    special_defense_override INTEGER,
-    speed_override INTEGER,
+    -- Item properties
+    category VARCHAR(50),
+    cost INTEGER DEFAULT 0,
+    fling_power INTEGER,
+    fling_effect VARCHAR(100),
     
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(pokemon_id, generation_id)
+    -- Description and effects
+    description TEXT,
+    effect TEXT,
+    
+    -- Resources
+    sprite_url TEXT,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
