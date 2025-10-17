@@ -113,7 +113,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
                     <Link href="/profile" className="flex items-center gap-2">
                       <UserIcon className="h-4 w-4" />
                       <span className="grow truncate">Profile</span>
-                      <Badge>Soon</Badge>
+                      <Badge variant="outline">Soon</Badge>
                     </Link>
                   </DropdownMenuItem>
 
@@ -121,7 +121,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
                     <Link href="/settings" className="flex items-center gap-2">
                       <Settings className="h-4 w-4" />
                       <span className="grow truncate">Settings</span>
-                      <Badge>Soon</Badge>
+                      <Badge variant="outline">Soon</Badge>
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -134,7 +134,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
                   <Link href="/intro" className="flex items-center gap-2">
                     <Info className="h-4 w-4" />
                     <span className="grow truncate">Learn more</span>
-                    <Badge>Soon</Badge>
+                    <Badge variant="outline">Soon</Badge>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
