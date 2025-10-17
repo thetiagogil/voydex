@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Poketracker",
   description: "Pokemon Tracker App",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
 };
 
 const geistSans = Geist({

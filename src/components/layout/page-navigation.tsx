@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { Logo } from "../shared/logo";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
@@ -50,9 +51,8 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
   };
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Dex", href: "/dex" },
     ...(isAuth ? [{ name: "Dashboard", href: "/dashboard" }] : []),
+    { name: "Dex", href: "/dex" },
   ];
 
   const detectedPage = navLinks.find((link) =>
@@ -65,20 +65,26 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
         <div
           className={`${PAGE_CONTAINER_WIDTH.lg} mx-auto flex h-14 items-center justify-between px-6`}
         >
-          <div className="flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`font-medium transition-colors ${
-                  detectedPage === link.name
-                    ? "text-primary"
-                    : "hover:text-primary/80"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <div className="flex items-center space-x-12">
+            <Link href="/" className="flex-shrink-0">
+              <Logo showText size="sm" />
+            </Link>
+
+            <div className="flex items-center space-x-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`font-medium transition-colors ${
+                    detectedPage === link.name
+                      ? "text-primary"
+                      : "hover:text-primary/80"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <DropdownMenu>
