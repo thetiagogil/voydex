@@ -1,10 +1,10 @@
--- ================================================================================
+-- ========================================
 -- Seed Meta Data
--- ================================================================================
+-- ========================================
 
--- ================================================================================
+-- ========================================
 -- GENERATIONS
--- ================================================================================
+-- ========================================
 INSERT INTO meta.generations (
     id,
     slug,
@@ -22,9 +22,9 @@ INSERT INTO meta.generations (
 (9, 'generation-ix', 'Generation IX', 2022);
 
 
--- ================================================================================
+-- ========================================
 -- REGIONS
--- ================================================================================
+-- ========================================
 INSERT INTO meta.regions (
     id,
     generation_id,
@@ -41,9 +41,9 @@ INSERT INTO meta.regions (
 (8, 8, 'galar', 'Galar'),
 (9, 9, 'paldea', 'Paldea');
 
--- ================================================================================
+-- ========================================
 -- VERSION GROUPS
--- ================================================================================
+-- ========================================
 INSERT INTO meta.version_groups (
     id,
     generation_id,
@@ -80,9 +80,9 @@ INSERT INTO meta.version_groups (
 -- Generation IX
 (20, 9, 'sv', 'Scarlet/Violet');
 
--- ================================================================================
+-- ========================================
 -- GAMES
--- ================================================================================
+-- ========================================
 INSERT INTO meta.games (
     id,
     generation_id,
@@ -96,47 +96,76 @@ INSERT INTO meta.games (
     release_year
 ) VALUES
 -- Generation I
-(1, 1, 1, 1, 'red', 'Pokémon Red', 'base', 151, 151, 1998),
-(2, 1, 1, 1, 'blue', 'Pokémon Blue', 'base', 151, 151, 1998),
+(1, 1, 1, 1, 'red', 'Pokémon Red', 'main', 151, 151, 1998),
+(2, 1, 1, 1, 'blue', 'Pokémon Blue', 'main', 151, 151, 1998),
 (3, 1, 1, 2, 'yellow', 'Pokémon Yellow', 'enhanced', 151, 151, 1999),
 -- Generation II
-(4, 2, 2, 3, 'gold', 'Pokémon Gold', 'base', 251, 251, 2000),
-(5, 2, 2, 3, 'silver', 'Pokémon Silver', 'base', 251, 251, 2000),
+(4, 2, 2, 3, 'gold', 'Pokémon Gold', 'main', 251, 251, 2000),
+(5, 2, 2, 3, 'silver', 'Pokémon Silver', 'main', 251, 251, 2000),
 (6, 2, 2, 4, 'crystal', 'Pokémon Crystal', 'enhanced', 251, 251, 2001),
 -- Generation III
-(7, 3, 3, 5, 'ruby', 'Pokémon Ruby', 'base', 202, 386, 2003),
-(8, 3, 3, 5, 'sapphire', 'Pokémon Sapphire', 'base', 202, 386, 2003),
+(7, 3, 3, 5, 'ruby', 'Pokémon Ruby', 'main', 202, 386, 2003),
+(8, 3, 3, 5, 'sapphire', 'Pokémon Sapphire', 'main', 202, 386, 2003),
 (9, 3, 1, 6, 'firered', 'Pokémon FireRed', 'remake', 151, 386, 2004),
 (10, 3, 1, 6, 'leafgreen', 'Pokémon LeafGreen', 'remake', 151, 386, 2004),
 (11, 3, 3, 7, 'emerald', 'Pokémon Emerald', 'enhanced', 202, 386, 2005),
 -- Generation IV
-(12, 4, 4, 8, 'diamond', 'Pokémon Diamond', 'base', 151, 493, 2007),
-(13, 4, 4, 8, 'pearl', 'Pokémon Pearl', 'base', 151, 493, 2007),
+(12, 4, 4, 8, 'diamond', 'Pokémon Diamond', 'main', 151, 493, 2007),
+(13, 4, 4, 8, 'pearl', 'Pokémon Pearl', 'main', 151, 493, 2007),
 (14, 4, 4, 9, 'platinum', 'Pokémon Platinum', 'enhanced', 210, 493, 2009),
 (15, 4, 2, 10, 'heartgold', 'Pokémon HeartGold', 'remake', 251, 493, 2010),
 (16, 4, 2, 10, 'soulsilver', 'Pokémon SoulSilver', 'remake', 251, 493, 2010),
 -- Generation V
-(17, 5, 5, 11, 'black', 'Pokémon Black', 'base', 155, 649, 2011),
-(18, 5, 5, 11, 'white', 'Pokémon White', 'base', 155, 649, 2011),
-(19, 5, 5, 12, 'black-2', 'Pokémon Black 2', 'base', 300, 649, 2012),
-(20, 5, 5, 12, 'white-2', 'Pokémon White 2', 'base', 300, 649, 2012),
+(17, 5, 5, 11, 'black', 'Pokémon Black', 'main', 155, 649, 2011),
+(18, 5, 5, 11, 'white', 'Pokémon White', 'main', 155, 649, 2011),
+(19, 5, 5, 12, 'black-2', 'Pokémon Black 2', 'main', 300, 649, 2012),
+(20, 5, 5, 12, 'white-2', 'Pokémon White 2', 'main', 300, 649, 2012),
 -- Generation VI
-(21, 6, 6, 13, 'x', 'Pokémon X', 'base', 457, 721, 2013),
-(22, 6, 6, 13, 'y', 'Pokémon Y', 'base', 457, 721, 2013),
+(21, 6, 6, 13, 'x', 'Pokémon X', 'main', 457, 721, 2013),
+(22, 6, 6, 13, 'y', 'Pokémon Y', 'main', 457, 721, 2013),
 (23, 6, 3, 14, 'omega-ruby', 'Pokémon Omega Ruby', 'remake', 211, 721, 2014),
 (24, 6, 3, 14, 'alpha-sapphire', 'Pokémon Alpha Sapphire', 'remake', 211, 721, 2014),
 -- Generation VII
-(25, 7, 7, 15, 'sun', 'Pokémon Sun', 'base', 302, 809, 2016),
-(26, 7, 7, 15, 'moon', 'Pokémon Moon', 'base', 302, 809, 2016),
+(25, 7, 7, 15, 'sun', 'Pokémon Sun', 'main', 302, 809, 2016),
+(26, 7, 7, 15, 'moon', 'Pokémon Moon', 'main', 302, 809, 2016),
 (27, 7, 7, 16, 'ultra-sun', 'Pokémon Ultra Sun', 'enhanced', 403, 809, 2017),
 (28, 7, 7, 16, 'ultra-moon', 'Pokémon Ultra Moon', 'enhanced', 403, 809, 2017),
-(29, 7, 1, 17, 'lets-go-pikachu', 'Pokémon Let''s Go, Pikachu!', 'remake', 153, 809, 2018),
-(30, 7, 1, 17, 'lets-go-eevee', 'Pokémon Let''s Go, Eevee!', 'remake', 153, 809, 2018),
+(29, 7, 1, 17, 'lets-go-pikachu', 'Pokémon Let''s Go, Pikachu!', 'spin-off', 153, 809, 2018),
+(30, 7, 1, 17, 'lets-go-eevee', 'Pokémon Let''s Go, Eevee!', 'spin-off', 153, 809, 2018),
 -- Generation VIII
-(31, 8, 8, 18, 'sword', 'Pokémon Sword', 'base', 403, 905, 2019),
-(32, 8, 8, 18, 'shield', 'Pokémon Shield', 'base', 403, 905, 2019),
+(31, 8, 8, 18, 'sword', 'Pokémon Sword', 'main', 403, 905, 2019),
+(32, 8, 8, 18, 'shield', 'Pokémon Shield', 'main', 403, 905, 2019),
 (33, 8, 4, 19, 'brilliant-diamond', 'Pokémon Brilliant Diamond', 'remake', 151, 905, 2021),
 (34, 8, 4, 19, 'shining-pearl', 'Pokémon Shining Pearl', 'remake', 151, 905, 2021),
 -- Generation IX
-(35, 9, 9, 20, 'scarlet', 'Pokémon Scarlet', 'base', 400, 1025, 2022),
-(36, 9, 9, 20, 'violet', 'Pokémon Violet', 'base', 400, 1025, 2022);
+(35, 9, 9, 20, 'scarlet', 'Pokémon Scarlet', 'main', 400, 1025, 2022),
+(36, 9, 9, 20, 'violet', 'Pokémon Violet', 'main', 400, 1025, 2022);
+
+
+-- ========================================
+-- VALIDATION QUERIES
+-- ========================================
+-- 1) Version group gen must match game gen (informational; all should be 0 rows)
+SELECT g.id, g.slug, g.generation_id AS game_gen, vg.generation_id AS vg_gen
+FROM meta.games g
+JOIN meta.version_groups vg ON vg.id = g.version_group_id
+WHERE g.generation_id <> vg.generation_id;
+
+-- 2) Regions exist and are consistent FKs (should be 0 rows)
+SELECT g.id, g.slug, r.slug AS region_slug
+FROM meta.games g
+LEFT JOIN meta.regions r ON r.id = g.region_id
+WHERE r.id IS NULL;
+
+-- 3) Uniqueness sanity (should be 0 rows)
+SELECT slug FROM meta.generations GROUP BY slug HAVING COUNT(*) > 1;
+SELECT slug FROM meta.regions GROUP BY slug HAVING COUNT(*) > 1;
+SELECT slug FROM meta.version_groups GROUP BY slug HAVING COUNT(*) > 1;
+SELECT slug FROM meta.games GROUP BY slug HAVING COUNT(*) > 1;
+
+-- 4) Optional: see remakes pointing to older regions (informational)
+SELECT g.slug AS game, g.generation_id AS game_gen, r.slug AS region, r.generation_id AS region_gen
+FROM meta.games g
+JOIN meta.regions r ON r.id = g.region_id
+WHERE r.generation_id <> g.generation_id
+ORDER BY g.id;
