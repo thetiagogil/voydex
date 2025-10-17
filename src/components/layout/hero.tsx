@@ -25,7 +25,7 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-2xl mx-auto">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6">
-          PokéTracker
+          Poketracker
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed">
@@ -51,7 +51,7 @@ export function Hero() {
             size="lg"
             className="w-full sm:w-auto"
           >
-            <Link href="/dex">Browse Pokédex</Link>
+            <Link href="/pokedex">Browse Pokédex</Link>
           </Button>
 
           <Button

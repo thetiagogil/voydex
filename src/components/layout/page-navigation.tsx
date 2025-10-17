@@ -52,7 +52,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
 
   const navLinks = [
     ...(isAuth ? [{ name: "Dashboard", href: "/dashboard" }] : []),
-    { name: "Dex", href: "/dex" },
+    { name: "Pokédex", href: "/pokedex" },
   ];
 
   const detectedPage = navLinks.find((link) =>
