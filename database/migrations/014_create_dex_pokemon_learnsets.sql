@@ -15,6 +15,9 @@ CREATE TABLE dex.pokemon_learnsets (
   UNIQUE (species_id, form_id, move_id, generation_id)
 );
 
+CREATE INDEX idx_learnsets_form_gen
+  ON dex.pokemon_learnsets (form_id, generation_id);
+
 CREATE INDEX idx_learnsets_species_gen
   ON dex.pokemon_learnsets (species_id, generation_id);
 

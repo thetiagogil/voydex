@@ -162,12 +162,6 @@ async function runForGen(gen) {
     "seed",
     `008_pokeapi_pokemon_forms_gen${gen}.sql`
   );
-  const reviewFileGen = path.resolve(
-    process.cwd(),
-    "database",
-    "seed",
-    `008_pokeapi_pokemon_forms_gen${gen}_nondefault.json`
-  );
 
   let sql;
   if (rows.length === 0) sql = header + "-- No rows to insert\n";

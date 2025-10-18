@@ -83,7 +83,6 @@ CREATE TABLE dex.pokemon_attributes (
   special_defense INTEGER,
   speed INTEGER NOT NULL,
   special INTEGER,
-  base_experience INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   PRIMARY KEY (species_id, form_id, generation_start_id),
 
@@ -92,7 +91,6 @@ CREATE TABLE dex.pokemon_attributes (
   CHECK (special_attack IS NULL OR special_attack > 0),
   CHECK (special_defense IS NULL OR special_defense > 0),
   CHECK (special IS NULL OR special > 0),
-  CHECK (base_experience IS NULL OR base_experience >= 0),
   
   -- representation rule: exactly one of (Gen1 single) vs (split)
   -- EITHER: special IS NOT NULL AND spa/spd are BOTH NULL

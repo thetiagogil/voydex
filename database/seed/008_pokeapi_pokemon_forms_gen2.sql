@@ -4,6 +4,7 @@
 INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url) VALUES
 (152, 'chikorita', 'Chikorita', 2, 9, 64, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/152.png'),
 (153, 'bayleef', 'Bayleef', 2, 12, 158, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/153.png'),
+(154, 'meganium', 'Meganium', 2, 18, 1005, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/154.png'),
 (155, 'cyndaquil', 'Cyndaquil', 2, 5, 79, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/155.png'),
 (156, 'quilava', 'Quilava', 2, 9, 190, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/156.png'),
 (157, 'typhlosion', 'Typhlosion', 2, 17, 795, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/157.png'),

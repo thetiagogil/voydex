@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/egg-group)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T15:23:30.126Z
+-- Generated at: 2025-10-18T16:10:39.899Z
 
 INSERT INTO dex.egg_groups (id, slug, name, generation_introduced_id) VALUES
 (1, 'monster', 'Monster', 1),
