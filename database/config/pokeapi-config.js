@@ -19,6 +19,4 @@ export const GEN_MAP = {
   "generation-ix": 9,
 };
 
-export const DEFAULT_DELAY_MS = 100; // default per-request delay for polite fetching
-
-// NOTE: RESOURCE_ENDPOINTS removed because endpoints are used directly by scripts/helpers.
+export const DEFAULT_DELAY_MS = 100;
