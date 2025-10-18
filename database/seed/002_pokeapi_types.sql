@@ -1,7 +1,7 @@
 -- Generated from PokeAPI (/type)
 -- Skipped slugs: unknown, stellar
 -- generation_introduced_id is derived from the PokeAPI generation field when present.
--- Generated at: 2025-10-18T15:07:13.393Z
+-- Generated at: 2025-10-18T15:23:23.979Z
 
 INSERT INTO dex.types (id, slug, name, generation_introduced_id) VALUES
 (1, 'normal', 'Normal', 1),

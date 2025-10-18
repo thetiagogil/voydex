@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/ability)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T15:08:19.667Z
+-- Generated at: 2025-10-18T15:24:14.863Z
 
 INSERT INTO dex.abilities (id, slug, name, generation_introduced_id, effect_short, effect_long) VALUES
 (1, 'stench', 'Stench', 3, 'Has a 10% chance of making target Pokémon flinch with each hit.', 'This Pokémon''s damaging moves have a 10% chance to make the target flinch with each hit if they do not already cause flinching as a secondary effect.

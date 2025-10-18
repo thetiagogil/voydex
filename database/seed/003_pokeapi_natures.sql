@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/nature)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T15:07:27.888Z
+-- Generated at: 2025-10-18T15:23:27.813Z
 
 INSERT INTO dex.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor) VALUES
 (1, 'hardy', 'Hardy', 3, NULL, NULL, NULL, NULL),
