@@ -1,7 +1,11 @@
 // Configurable constants for PokeAPI ETL scripts.
 // Edit this file to adjust skipped slugs, generation mapping, and other small options.
 
+// Generic set of slugs to skip across resources. Resource-specific sets can extend this.
 export const SKIP_SLUGS = new Set(["unknown", "stellar"]);
+
+// Backwards-compatible alias for type-specific scripts that previously used SKIP_TYPES_SLUGS
+export const SKIP_TYPES_SLUGS = new Set([...SKIP_SLUGS]);
 
 export const GEN_MAP = {
   "generation-i": 1,
@@ -17,11 +21,4 @@ export const GEN_MAP = {
 
 export const DEFAULT_DELAY_MS = 100; // default per-request delay for polite fetching
 
-export const RESOURCE_ENDPOINTS = {
-  types: "type",
-  abilities: "ability",
-  moves: "move",
-  items: "item",
-  species: "pokemon-species",
-  pokemon: "pokemon",
-};
+// NOTE: RESOURCE_ENDPOINTS removed because endpoints are used directly by scripts/helpers.

@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
+import { SKIP_SLUGS } from "../../config/pokeapi-config.js";
 import { confirmOrExit, getFlag } from "../../helpers/cli.js";
 import { logger, prettyLog } from "../../helpers/logger.js";
 import { fetchAllTypes } from "../../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const force = getFlag("--force");
+const showSql = getFlag("--sql");
 
 const OUT_FILE = path.resolve(
   process.cwd(),
@@ -35,24 +37,23 @@ async function main() {
   }
 
   logger.section("Fetching /type index from PokeAPI", "🔎");
-  const rows = await fetchAllTypes({ delay: 100 });
+  const rows = await fetchAllTypes({ delay: 100, dry });
   prettyLog(`Collected ${rows.length} normalized rows`);
 
   const header = `-- Generated from PokeAPI (/type)
--- Skipped slugs: unknown, stellar
+-- Skipped slugs: ${Array.from(SKIP_SLUGS).join(", ")}
 -- generation_introduced_id is derived from the PokeAPI generation field when present.
 -- Generated at: ${new Date().toISOString()}
 \n`;
 
-  // Build a single multi-row INSERT for compactness and better readability.
   let sql;
   if (rows.length === 0) {
     sql = header + "-- No rows to insert\n";
   } else {
     const values = rows
       .map((r) => {
-        const slug = String(r.slug).replace(/'/g, "''");
-        const name = String(r.name).replace(/'/g, "''");
+        const slug = escapeSql(r.slug) ?? "";
+        const name = escapeSql(r.name) ?? "";
         return `(${r.id}, '${slug}', '${name}', ${r.generation_introduced_id})`;
       })
       .join(",\n");
@@ -62,13 +63,14 @@ async function main() {
   }
 
   if (dry) {
-    logger.section("SQL preview", "📄");
-    logger.sqlBlock(sql);
+    if (showSql) {
+      logger.section("SQL preview", "📄");
+      logger.sqlBlock(sql);
+    }
     logger.success(`Preview complete — ${rows.length} rows would be written.`);
     return;
   }
 
-  // ensure seed dir exists
   const seedsDir = path.dirname(OUT_FILE);
   if (!fs.existsSync(seedsDir)) fs.mkdirSync(seedsDir, { recursive: true });
 
