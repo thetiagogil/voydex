@@ -6,7 +6,7 @@
 -- POKÉMON AVAILABILITY PER GAME
 -- Whether a species (optionally a form) is obtainable in a specific game.
 -- ========================================
-CREATE TABLE meta.pokemon_availability_per_game (
+CREATE TABLE dex.pokemon_availability_per_game (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   species_id INTEGER NOT NULL REFERENCES dex.pokemon_species(id) ON DELETE CASCADE,
   form_id INTEGER REFERENCES dex.pokemon_forms(id) ON DELETE CASCADE,  -- NULL = species/default form
@@ -18,17 +18,17 @@ CREATE TABLE meta.pokemon_availability_per_game (
   CHECK (NOT is_version_exclusive OR is_available)
 );
 
-CREATE INDEX idx_availability_game ON meta.pokemon_availability_per_game(game_id);
-CREATE INDEX idx_availability_species ON meta.pokemon_availability_per_game(species_id);
-CREATE INDEX idx_availability_form ON meta.pokemon_availability_per_game(form_id);
-CREATE INDEX idx_availability_game_species ON meta.pokemon_availability_per_game (game_id, species_id);
+CREATE INDEX idx_availability_game ON dex.pokemon_availability_per_game(game_id);
+CREATE INDEX idx_availability_species ON dex.pokemon_availability_per_game(species_id);
+CREATE INDEX idx_availability_form ON dex.pokemon_availability_per_game(form_id);
+CREATE INDEX idx_availability_game_species ON dex.pokemon_availability_per_game (game_id, species_id);
 
 -- Use a UNIQUE INDEX for (game_id, species_id, COALESCE(form_id,0))
 CREATE UNIQUE INDEX uq_availability_species_form_per_game
-  ON meta.pokemon_availability_per_game (game_id, species_id, COALESCE(form_id, 0));
+  ON dex.pokemon_availability_per_game (game_id, species_id, COALESCE(form_id, 0));
 
 -- Consistency: form_id must belong to species_id
-CREATE OR REPLACE FUNCTION meta.enforce_form_belongs_to_species_avail()
+CREATE OR REPLACE FUNCTION dex.enforce_form_belongs_to_species_avail()
 RETURNS TRIGGER AS $$
 DECLARE form_species INT;
 BEGIN
@@ -47,7 +47,7 @@ BEGIN
   RETURN NEW;
 END$$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trg_availability_form_species ON meta.pokemon_availability_per_game;
+DROP TRIGGER IF EXISTS trg_availability_form_species ON dex.pokemon_availability_per_game;
 CREATE TRIGGER trg_availability_form_species
-BEFORE INSERT OR UPDATE ON meta.pokemon_availability_per_game
-FOR EACH ROW EXECUTE FUNCTION meta.enforce_form_belongs_to_species_avail();
+BEFORE INSERT OR UPDATE ON dex.pokemon_availability_per_game
+FOR EACH ROW EXECUTE FUNCTION dex.enforce_form_belongs_to_species_avail();
