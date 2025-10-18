@@ -78,16 +78,38 @@ CREATE TABLE dex.pokemon_attributes (
   hp  INTEGER NOT NULL,
   attack INTEGER NOT NULL,
   defense INTEGER NOT NULL,
-  special_attack INTEGER NOT NULL,
-  special_defense INTEGER NOT NULL,
+  special_attack INTEGER,
+  special_defense INTEGER,
   speed INTEGER NOT NULL,
+  special INTEGER,
   base_experience INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   PRIMARY KEY (species_id, form_id, generation_start_id),
 
   CHECK (type2_id IS NULL OR type1_id <> type2_id),
-  CHECK (hp > 0 AND attack > 0 AND defense > 0 AND special_attack > 0 AND special_defense > 0 AND speed > 0),
-  CHECK (base_experience IS NULL OR base_experience >= 0)
+  CHECK (hp > 0 AND attack > 0 AND defense > 0 AND speed > 0),
+  CHECK (special_attack IS NULL OR special_attack > 0),
+  CHECK (special_defense IS NULL OR special_defense > 0),
+  CHECK (special IS NULL OR special > 0),
+  CHECK (base_experience IS NULL OR base_experience >= 0),
+  
+  -- representation rule: exactly one of (Gen1 single) vs (split)
+  -- EITHER: special IS NOT NULL AND spa/spd are BOTH NULL
+  -- OR: special IS NULL AND spa/spd are BOTH NOT NULL
+  CHECK (
+    (special IS NOT NULL AND special_attack IS NULL AND special_defense IS NULL)
+    OR
+    (special IS NULL AND special_attack IS NOT NULL AND special_defense IS NOT NULL)
+  ),
+
+  -- generation rule:
+  -- In Gen 1 (generation_start_id = 1): special is allowed (and required by rule above).
+  -- In Gen 2+ : special MUST be NULL (split-only).
+  CHECK (
+    (generation_start_id = 1)
+    OR
+    (generation_start_id <> 1 AND special IS NULL)
+  )  
 );
 
 CREATE INDEX idx_pokemon_attrs_lookup
