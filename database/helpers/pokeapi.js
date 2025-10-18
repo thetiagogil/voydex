@@ -119,21 +119,40 @@ export function titleCase(s) {
     .join(" ");
 }
 
+export function getGenerationId(generationObj, fallback = 1) {
+  if (!generationObj) return fallback;
+  if (generationObj.name) {
+    const key = String(generationObj.name).toLowerCase();
+    if (GEN_MAP[key]) return GEN_MAP[key];
+  }
+  if (generationObj.url) {
+    try {
+      const m = String(generationObj.url).match(/\/(\d+)\/?$/);
+      if (m) return Number(m[1]) || fallback;
+    } catch (err) {
+      // ignore
+    }
+  }
+  return fallback;
+}
+
 export function normalizeTypeObject(obj) {
   if (!obj || typeof obj.id !== "number") return null;
   const slug = String(obj.name || "").toLowerCase();
   if (SKIP_SLUGS.has(slug)) return null;
   const id = obj.id;
   const name = titleCase(slug);
-  let generation_introduced_id = 1;
-  if (obj.generation && obj.generation.name) {
-    const g = String(obj.generation.name).toLowerCase();
-    if (GEN_MAP[g]) generation_introduced_id = GEN_MAP[g];
-  }
+  const generation_introduced_id = getGenerationId(obj.generation, 1);
   return { id, slug, name, generation_introduced_id };
 }
 
-function escapeSql(s) {
+export function escapeSql(s) {
   if (s == null) return null;
   return String(s).replace(/['\u2019]/g, "''");
+}
+
+export function formatStatField(obj) {
+  if (!obj) return null;
+  // PokeAPI stat objects may appear as { name: 'hp', url: '...' }
+  return obj.name ? String(obj.name) : null;
 }

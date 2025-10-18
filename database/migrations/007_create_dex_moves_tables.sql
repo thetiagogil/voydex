@@ -7,8 +7,14 @@
 -- ========================================
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'move_damage_class') THEN
-    CREATE TYPE move_damage_class AS ENUM ('physical','special','status');
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type t
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'move_damage_class'
+      AND n.nspname = 'dex'
+  ) THEN
+    EXECUTE 'CREATE TYPE dex.move_damage_class AS ENUM (''physical'',''special'',''status'')';
   END IF;
 END$$;
 
@@ -36,7 +42,7 @@ CREATE TABLE dex.moves_by_gen (
   accuracy INTEGER,
   pp INTEGER NOT NULL,
   priority INTEGER NOT NULL DEFAULT 0,
-  damage_class move_damage_class,
+  damage_class dex.move_damage_class,
   effect_chance INTEGER,
   PRIMARY KEY (move_id, generation_start_id),
 

@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import {
-  DEFAULT_DELAY_MS,
-  GEN_MAP,
-  SKIP_SLUGS,
-} from "../../config/pokeapi-config.js";
+import { DEFAULT_DELAY_MS, SKIP_SLUGS } from "../../config/pokeapi-config.js";
 import { confirmOrExit, getFlag } from "../../helpers/cli.js";
 import { logger, prettyLog } from "../../helpers/logger.js";
 import {
+  escapeSql,
   fetchAllIndexEntries,
   fetchJson,
+  getGenerationId,
   titleCase,
 } from "../../helpers/pokeapi.js";
 
@@ -73,11 +71,7 @@ async function main() {
       }
       const id = obj.id;
       const name = titleCase(slug);
-      let generation_introduced_id = 1;
-      if (obj.generation && obj.generation.name) {
-        const g = String(obj.generation.name).toLowerCase();
-        if (GEN_MAP[g]) generation_introduced_id = GEN_MAP[g];
-      }
+      const generation_introduced_id = getGenerationId(obj.generation, 3);
       let effect_short = null;
       let effect_long = null;
       if (Array.isArray(obj.effect_entries)) {
@@ -121,14 +115,10 @@ async function main() {
   } else {
     const values = rows
       .map((r) => {
-        const slug = String(r.slug).replace(/'/g, "''");
-        const name = String(r.name).replace(/'/g, "''");
-        const shortEff = r.effect_short
-          ? String(r.effect_short).replace(/'/g, "''")
-          : null;
-        const longEff = r.effect_long
-          ? String(r.effect_long).replace(/'/g, "''")
-          : null;
+        const slug = escapeSql(r.slug) ?? "";
+        const name = escapeSql(r.name) ?? "";
+        const shortEff = r.effect_short ? escapeSql(r.effect_short) : null;
+        const longEff = r.effect_long ? escapeSql(r.effect_long) : null;
         return `(${r.id}, '${slug}', '${name}', ${r.generation_introduced_id}, ${shortEff ? `'${shortEff}'` : "NULL"}, ${longEff ? `'${longEff}'` : "NULL"})`;
       })
       .join(",\n");

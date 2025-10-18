@@ -7,12 +7,24 @@
 -- ========================================
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'stat_name') THEN
-    CREATE TYPE stat_name AS ENUM ('hp','attack','defense','special_attack','special_defense','speed');
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type t
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'stat_name' AND n.nspname = 'dex'
+  ) THEN
+    CREATE TYPE dex.stat_name AS ENUM (
+      'hp','attack','defense','special-attack','special-defense','speed'
+    );
   END IF;
 
-  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'berry_flavor') THEN
-    CREATE TYPE berry_flavor AS ENUM ('spicy','dry','sweet','bitter','sour');
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type t
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'berry_flavor' AND n.nspname = 'dex'
+  ) THEN
+    CREATE TYPE dex.berry_flavor AS ENUM ('spicy','dry','sweet','bitter','sour');
   END IF;
 END$$;
 
@@ -24,10 +36,10 @@ CREATE TABLE dex.natures (
   slug VARCHAR(50) NOT NULL UNIQUE,
   name VARCHAR(50) NOT NULL UNIQUE,
   generation_introduced_id INTEGER NOT NULL REFERENCES meta.generations(id),
-  increased_stat stat_name,
-  decreased_stat stat_name,
-  liked_flavor berry_flavor,
-  disliked_flavor berry_flavor,
+  increased_stat dex.stat_name,
+  decreased_stat dex.stat_name,
+  liked_flavor dex.berry_flavor,
+  disliked_flavor dex.berry_flavor,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
   CHECK (

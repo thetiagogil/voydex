@@ -4,7 +4,7 @@ import path from "path";
 import { SKIP_SLUGS } from "../../config/pokeapi-config.js";
 import { confirmOrExit, getFlag } from "../../helpers/cli.js";
 import { logger, prettyLog } from "../../helpers/logger.js";
-import { fetchAllTypes } from "../../helpers/pokeapi.js";
+import { escapeSql, fetchAllTypes } from "../../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const force = getFlag("--force");

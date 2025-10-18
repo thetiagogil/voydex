@@ -45,8 +45,16 @@ CREATE INDEX idx_version_groups_generation ON meta.version_groups(generation_id)
 -- ========================================
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'game_type') THEN
-    CREATE TYPE game_type AS ENUM ('main', 'remake', 'enhanced', 'dlc', 'spin-off');
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_type t
+    JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'game_type'
+      AND n.nspname = 'meta'
+  ) THEN
+    EXECUTE 'CREATE TYPE meta.game_type AS ENUM (
+      ''main'', ''remake'', ''enhanced'', ''dlc'', ''spin-off''
+    )';
   END IF;
 END$$;
 
@@ -60,7 +68,7 @@ CREATE TABLE meta.games (
   generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
   region_id INTEGER NOT NULL REFERENCES meta.regions(id),
   version_group_id INTEGER NOT NULL REFERENCES meta.version_groups(id),
-  type game_type NOT NULL,
+  type meta.game_type NOT NULL,
   regional_dex_count INTEGER,
   national_dex_count INTEGER,
   release_year INTEGER NOT NULL CHECK (release_year BETWEEN 1996 AND 2100),

@@ -16,7 +16,8 @@
     "db:seed": "node database/scripts/db-seed.js",
     "db:validate": "node database/scripts/db-validations.js",
     "db:cleanup": "node database/scripts/db-cleanup.js",
-    "db:cleanup:rows": "node database/scripts/db-cleanup-rows.js"
+    "db:cleanup:rows": "node database/scripts/db-cleanup-rows.js",
+    "db:repopulate": "node database/scripts/db-cleanup.js && node database/scripts/db-migration.js && node database/scripts/db-import-pokeapi-etl.js && node database/scripts/db-seed.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
