@@ -53,6 +53,10 @@ async function main() {
       "database/scripts/etl/005_generate-pokeapi-moves.js",
       "--force",
     ]);
+    await runCmd("node", [
+      "database/scripts/etl/006_generate-pokeapi-pokemon_species.js",
+      "--force",
+    ]);
     // Run seed runner to apply all seed files non-interactively
     await runCmd("node", ["database/scripts/db-seed.js", "all", "--y"]);
 
