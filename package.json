@@ -12,6 +12,7 @@
     "prettier:check": "prettier . --check",
     "db:status": "node database/scripts/db-status.js",
     "db:migrate": "node database/scripts/db-migration.js",
+    "db:import": "node database/scripts/db-import-pokeapi-etl.js",
     "db:seed": "node database/scripts/db-seed.js",
     "db:validate": "node database/scripts/db-validations.js",
     "db:cleanup": "node database/scripts/db-cleanup.js",

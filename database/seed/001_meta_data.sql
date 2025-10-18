@@ -5,12 +5,7 @@
 -- ========================================
 -- GENERATIONS
 -- ========================================
-INSERT INTO meta.generations (
-    id,
-    slug,
-    name,
-    start_year
-) VALUES
+INSERT INTO meta.generations (id, slug, name, start_year) VALUES
 (1, 'generation-i', 'Generation I', 1998),
 (2, 'generation-ii', 'Generation II', 2000),
 (3, 'generation-iii', 'Generation III', 2003),
@@ -25,12 +20,7 @@ INSERT INTO meta.generations (
 -- ========================================
 -- REGIONS
 -- ========================================
-INSERT INTO meta.regions (
-    id,
-    generation_id,
-    slug,
-    name
-) VALUES
+INSERT INTO meta.regions (id, generation_id, slug, name) VALUES
 (1, 1, 'kanto', 'Kanto'),
 (2, 2, 'johto', 'Johto'),
 (3, 3, 'hoenn', 'Hoenn'),
@@ -44,12 +34,7 @@ INSERT INTO meta.regions (
 -- ========================================
 -- VERSION GROUPS
 -- ========================================
-INSERT INTO meta.version_groups (
-    id,
-    generation_id,
-    slug,
-    name
-) VALUES
+INSERT INTO meta.version_groups (id, generation_id, slug, name) VALUES
 -- Generation I
 (1, 1, 'rb', 'Red/Blue'),
 (2, 1, 'y', 'Yellow'),
