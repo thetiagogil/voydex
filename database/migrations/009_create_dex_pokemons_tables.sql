@@ -44,6 +44,7 @@ CREATE TABLE dex.pokemon_forms (
   height INTEGER,
   weight INTEGER,
   is_default BOOLEAN NOT NULL DEFAULT true,
+  sprite_url VARCHAR(255),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE (species_id, slug),
 

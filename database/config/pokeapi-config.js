@@ -20,3 +20,24 @@ export const GEN_MAP = {
 };
 
 export const DEFAULT_DELAY_MS = 100;
+
+// Patterns for form slugs we want to skip (temporary / event / mega / gmax / cap / totem, etc.)
+export const SKIP_FORM_PATTERNS = [
+  /gmax/i,
+  /mega/i,
+  /gigantamax/i,
+  /totem/i,
+  /cap/i,
+  /starter/i,
+  /cosplay/i,
+  /partner/i,
+  /pop-?star/i,
+  /rock-?star/i,
+  /libre/i,
+  /phd/i,
+  /event/i,
+  // Hisuian regional forms (e.g. "hisui", "hisuan", "hisuian")
+  /hisui/i,
+  /hisuan/i,
+  /hisui-?/i,
+];

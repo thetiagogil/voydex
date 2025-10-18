@@ -151,6 +151,91 @@ export function escapeSql(s) {
   return String(s).replace(/['\u2019]/g, "''");
 }
 
+// Fetch generation resource lists (moves, abilities, types, pokemon_species, version_groups)
+export async function fetchGenerationResources(genId) {
+  if (!genId) return {};
+  try {
+    const url = `https://pokeapi.co/api/v2/generation/${genId}`;
+    const gen = await fetchJson(url);
+    const toSet = (arr) =>
+      new Set((arr || []).map((r) => String(r.url || r.name).toLowerCase()));
+    return {
+      moves: toSet(gen.moves),
+      abilities: toSet(gen.abilities),
+      types: toSet(gen.types),
+      pokemon_species: toSet(gen.pokemon_species),
+      version_groups: toSet(gen.version_groups),
+    };
+  } catch (err) {
+    prettyLog(`Failed fetching generation ${genId}: ${err.message || err}`, {
+      emoji: "⚠️",
+    });
+    return {};
+  }
+}
+
+// Cache for version_group -> generation id lookups
+const _versionGroupGenCache = new Map();
+
+export async function getGenerationIdFromVersionGroupUrl(vgUrl) {
+  if (!vgUrl) return null;
+  if (_versionGroupGenCache.has(vgUrl)) return _versionGroupGenCache.get(vgUrl);
+  try {
+    const vg = await fetchJson(vgUrl);
+    const genId = getGenerationId(vg.generation, null);
+    _versionGroupGenCache.set(vgUrl, genId);
+    return genId;
+  } catch (err) {
+    return null;
+  }
+}
+
+// Determine earliest generation where this pokemon (variety) appears using game_indices -> version_group -> generation
+export async function getFormIntroducedGeneration(pokemonObj, fallback = 1) {
+  if (!pokemonObj) return fallback;
+  try {
+    // Prefer game_indices if present; if not, try to fetch full pokemon object (it may be a partial)
+    let indices = Array.isArray(pokemonObj.game_indices)
+      ? pokemonObj.game_indices
+      : [];
+    if ((!indices || indices.length === 0) && pokemonObj.url) {
+      try {
+        const full = await fetchJson(pokemonObj.url);
+        indices = Array.isArray(full.game_indices) ? full.game_indices : [];
+        // if species missing, copy it so fallback below can use it
+        if (!pokemonObj.species && full.species)
+          pokemonObj.species = full.species;
+      } catch (err) {
+        // ignore fetch errors and fall back
+      }
+    }
+
+    let minGen = Infinity;
+    for (const gi of indices) {
+      const vg = gi && gi.version_group;
+      if (!vg || !vg.url) continue;
+      const genId = await getGenerationIdFromVersionGroupUrl(vg.url);
+      if (typeof genId === "number" && genId < minGen) minGen = genId;
+    }
+    if (minGen !== Infinity) return minGen;
+  } catch (err) {
+    // ignore and fallback
+  }
+
+  // Last resort: try species generation (may be less accurate for form-introduced)
+  try {
+    if (pokemonObj.species && pokemonObj.species.url) {
+      const species = await fetchJson(pokemonObj.species.url);
+      const g = getGenerationId(species.generation, null);
+      if (typeof g === "number") return g;
+    }
+  } catch (err) {
+    // ignore
+  }
+
+  return fallback;
+}
+
 export function formatStatField(obj) {
   if (!obj) return null;
   // PokeAPI stat objects may appear as { name: 'hp', url: '...' }
