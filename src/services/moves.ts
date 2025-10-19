@@ -6,7 +6,7 @@ export async function getMoves() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .schema("dex")
-    .from("moves_latest")
+    .from("moves")
     .select("*");
   return { data, error };
 }
