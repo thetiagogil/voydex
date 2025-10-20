@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/ability)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T16:11:23.703Z
+-- Generated at: 2025-10-19T16:14:15.438Z
 
 INSERT INTO dex.abilities (id, slug, name, generation_introduced_id, effect_short, effect_long) VALUES
 (1, 'stench', 'Stench', 3, 'Has a 10% chance of making target Pokémon flinch with each hit.', 'This Pokémon''s damaging moves have a 10% chance to make the target flinch with each hit if they do not already cause flinching as a secondary effect.
@@ -22,7 +22,7 @@ If this Pokémon is holding a focus sash, this ability takes precedence and the 
 (7, 'limber', 'Limber', 3, 'Prevents paralysis.', 'This Pokémon cannot be paralyzed.
 
 If a Pokémon is paralyzed and acquires this ability, its paralysis is healed; this includes when regaining a lost ability upon leaving battle.'),
-(8, 'sand-veil', 'Sand Veil', 3, 'Increases evasion to 1.25x during a sandstorm.  Protects against sandstorm damage.', 'During a sandstorm, this Pokémon has 1.25x its evasion, and it does not take sandstorm damage regardless of type.
+(8, 'sand-veil', 'Sand Veil', 3, 'Increases evasion to 1.25× during a sandstorm.  Protects against sandstorm damage.', 'During a sandstorm, this Pokémon has 1.25× its evasion, and it does not take sandstorm damage regardless of type.
 
 The evasion bonus does not count as a stat modifier.
 
@@ -46,7 +46,7 @@ If a Pokémon is infatuated and acquires this ability, its infatuation is cleare
 (13, 'cloud-nine', 'Cloud Nine', 3, 'Negates all effects of weather, but does not prevent the weather itself.', 'While this Pokémon is in battle, weather can still be in play, but will not have any of its effects.
 
 This ability functions identically to air lock.'),
-(14, 'compound-eyes', 'Compound Eyes', 3, 'Increases moves'' accuracy to 1.3x.', 'This Pokémon''s moves have 1.3x their accuracy.
+(14, 'compound-eyes', 'Compound Eyes', 3, 'Increases moves'' accuracy to 1.3×.', 'This Pokémon''s moves have 1.3× their accuracy.
 
 This ability has no effect on the one-hit KO moves (fissure, guillotine, horn drill, and sheer cold).
 
@@ -66,7 +66,7 @@ In Pokémon Colosseum and XD: Gale of Darkness, this ability does not take effec
 (17, 'immunity', 'Immunity', 3, 'Prevents poison.', 'This Pokémon cannot be poisoned.  This includes bad poison.
 
 If a Pokémon is poisoned and acquires this ability, its poison is healed; this includes when regaining a lost ability upon leaving battle.'),
-(18, 'flash-fire', 'Flash Fire', 3, 'Protects against fire moves.  Once one has been blocked, the Pokémon''s own Fire moves inflict 1.5x damage until it leaves battle.', 'This Pokémon is immune to fire-type moves.  Once this Pokémon has been hit by a Fire move, its own Fire moves will inflict 1.5x as much damage until it leaves battle.
+(18, 'flash-fire', 'Flash Fire', 3, 'Protects against fire moves.  Once one has been blocked, the Pokémon''s own Fire moves inflict 1.5× damage until it leaves battle.', 'This Pokémon is immune to fire-type moves.  Once this Pokémon has been hit by a Fire move, its own Fire moves will inflict 1.5× as much damage until it leaves battle.
 
 This ability has no effect while the Pokémon is frozen.  The Fire damage bonus is retained even if the Pokémon is frozen and thawed or the ability is lost or disabled.  Fire moves will ignore this Pokémon''s substitute.  This ability takes effect even on non-damaging moves, i.e. will o wisp.'),
 (19, 'shield-dust', 'Shield Dust', 3, 'Protects against incoming moves'' extra effects.', 'This Pokémon is immune to the extra effects of moves used against it.
@@ -209,7 +209,7 @@ If this Pokémon is confused, its confusion is not checked when loafing around; 
 If this Pokémon attempts to move but fails, e.g. because of paralysis or gravity, it still counts as having moved and will loaf around the next turn.  If it does not attempt to move, e.g. because it is asleep or frozen, whatever it would have done will be postponed until its next attempt; that is, it will either loaf around or move as usual, depending on what it last did.
 
 This ability cannot be changed with worry seed, but it can be disabled with gastro acid, changed with role play, or traded away with skill swap.'),
-(55, 'hustle', 'Hustle', 3, 'Strengthens physical moves to inflict 1.5x damage, but decreases their accuracy to 0.8x.', 'This Pokémon''s physical moves do 1.5x as much regular damage, but have 0.8x their usual accuracy.
+(55, 'hustle', 'Hustle', 3, 'Strengthens physical moves to inflict 1.5× damage, but decreases their accuracy to 0.8×.', 'This Pokémon''s physical moves do 1.5× as much regular damage, but have 0.8× their usual accuracy.
 
 Special moves are unaffected.  Moves that do set damage, such as seismic toss, have their accuracy affected, but not their damage.
 
@@ -217,10 +217,10 @@ Overworld: If the lead Pokémon has this ability, higher-levelled Pokémon have 
 (56, 'cute-charm', 'Cute Charm', 3, 'Has a 30% chance of infatuating attacking Pokémon on contact.', 'Whenever a move makes contact with this Pokémon, the move''s user has a 30% chance of being infatuated.
 
 Overworld: If the first Pokémon in the party has this ability, any wild Pokémon whose species can be either gender has a 2/3 chance of being set to the opposite gender, and a 1/3 chance of having a random gender as usual.'),
-(57, 'plus', 'Plus', 3, 'Increases Special Attack to 1.5x when a friendly Pokémon has plus or minus.', 'This Pokémon has 1.5x its Special Attack if any friendly Pokémon has plus or minus.
+(57, 'plus', 'Plus', 3, 'Increases Special Attack to 1.5× when a friendly Pokémon has plus or minus.', 'This Pokémon has 1.5× its Special Attack if any friendly Pokémon has plus or minus.
 
 This bonus does not count as a stat modifier.  If either ability is disabled by gastro acid, both lose their effect.'),
-(58, 'minus', 'Minus', 3, 'Increases Special Attack to 1.5x when a friendly Pokémon has plus or minus.', 'This Pokémon has 1.5x its Special Attack if any friendly Pokémon has plus or minus.
+(58, 'minus', 'Minus', 3, 'Increases Special Attack to 1.5× when a friendly Pokémon has plus or minus.', 'This Pokémon has 1.5× its Special Attack if any friendly Pokémon has plus or minus.
 
 This bonus does not count as a stat modifier.  If either ability is disabled by gastro acid, both lose their effect.'),
 (59, 'forecast', 'Forecast', 3, 'Changes castform''s type and form to match the weather.', 'During rain, strong sunlight, or hail, this Pokémon''s type changes to water, fire, or ice, respectively, and its form changes to match.
@@ -234,19 +234,19 @@ Damaging moves that would remove this Pokémon''s item can still inflict damage 
 
 Overworld: If the lead Pokémon has this ability, the encounter rate while fishing is increased.'),
 (61, 'shed-skin', 'Shed Skin', 3, 'Has a 33% chance of curing any major status ailment after each turn.', 'After each turn, this Pokémon has a 33% of being cured of any major status ailment.'),
-(62, 'guts', 'Guts', 3, 'Increases Attack to 1.5x with a major status ailment.', 'Whenever this Pokémon is asleep, burned, paralyzed, or poisoned, it has 1.5x its Attack.  This Pokémon is not affected by the usual Attack cut from a burn.
+(62, 'guts', 'Guts', 3, 'Increases Attack to 1.5× with a major status ailment.', 'Whenever this Pokémon is asleep, burned, paralyzed, or poisoned, it has 1.5× its Attack.  This Pokémon is not affected by the usual Attack cut from a burn.
 
 This bonus does not count as a stat modifier.'),
-(63, 'marvel-scale', 'Marvel Scale', 3, 'Increases Defense to 1.5x with a major status ailment.', 'Whenever this Pokémon has a major status ailment, it has 1.5x its Defense.
+(63, 'marvel-scale', 'Marvel Scale', 3, 'Increases Defense to 1.5× with a major status ailment.', 'Whenever this Pokémon has a major status ailment, it has 1.5× its Defense.
 
 This bonus does not count as a stat modifier.'),
 (64, 'liquid-ooze', 'Liquid Ooze', 3, 'Damages opponents using leeching moves for as much as they would heal.', 'Whenever a Pokémon would heal after hitting this Pokémon with a leeching move like absorb, it instead loses as many HP as it would usually gain.
 
 dream eater is unaffected.'),
-(65, 'overgrow', 'Overgrow', 3, 'Strengthens grass moves to inflict 1.5x damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its grass-type moves inflict 1.5x as much regular damage.'),
-(66, 'blaze', 'Blaze', 3, 'Strengthens fire moves to inflict 1.5x damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its fire-type moves inflict 1.5x as much regular damage.'),
-(67, 'torrent', 'Torrent', 3, 'Strengthens water moves to inflict 1.5x damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its water-type moves inflict 1.5x as much regular damage.'),
-(68, 'swarm', 'Swarm', 3, 'Strengthens bug moves to inflict 1.5x damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its bug-type moves inflict 1.5x as much regular damage.
+(65, 'overgrow', 'Overgrow', 3, 'Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its grass-type moves inflict 1.5× as much regular damage.'),
+(66, 'blaze', 'Blaze', 3, 'Strengthens fire moves to inflict 1.5× damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its fire-type moves inflict 1.5× as much regular damage.'),
+(67, 'torrent', 'Torrent', 3, 'Strengthens water moves to inflict 1.5× damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its water-type moves inflict 1.5× as much regular damage.'),
+(68, 'swarm', 'Swarm', 3, 'Strengthens bug moves to inflict 1.5× damage at 1/3 max HP or less.', 'When this Pokémon has 1/3 or less of its HP remaining, its bug-type moves inflict 1.5× as much regular damage.
 
 Overworld: If the lead Pokémon has this ability, the wild encounter rate is increased.'),
 (69, 'rock-head', 'Rock Head', 3, 'Protects against recoil damage.', 'This Pokémon does not receive recoil damage from its recoil moves.
@@ -291,11 +291,11 @@ This ability functions identically to cloud nine.'),
 This ability will not take effect if this Pokémon is immune to Electric moves.  Electric moves will ignore this Pokémon''s substitute.
 
 This effect includes non-damaging moves, i.e. thunder wave.'),
-(79, 'rivalry', 'Rivalry', 4, 'Increases damage inflicted to 1.25x against Pokémon of the same gender, but decreases damage to 0.75x against the opposite gender.', 'This Pokémon inflicts 1.25x as much regular damage against Pokémon of the same gender and 0.75x as much regular damage against Pokémon of the opposite gender.
+(79, 'rivalry', 'Rivalry', 4, 'Increases damage inflicted to 1.25× against Pokémon of the same gender, but decreases damage to 0.75× against the opposite gender.', 'This Pokémon inflicts 1.25× as much regular damage against Pokémon of the same gender and 0.75× as much regular damage against Pokémon of the opposite gender.
 
 If either Pokémon is genderless, damage is unaffected.'),
 (80, 'steadfast', 'Steadfast', 4, 'Raises Speed one stage upon flinching.', 'Whenever this Pokémon flinches, its Speed rises one stage.'),
-(81, 'snow-cloak', 'Snow Cloak', 4, 'Increases evasion to 1.25x during hail.  Protects against hail damage.', 'During hail, this Pokémon has 1.25x its evasion, and it does not take hail damage regardless of type.
+(81, 'snow-cloak', 'Snow Cloak', 4, 'Increases evasion to 1.25× during hail.  Protects against hail damage.', 'During hail, this Pokémon has 1.25× its evasion, and it does not take hail damage regardless of type.
 
 The evasion bonus does not count as a stat modifier.
 
@@ -311,19 +311,19 @@ This includes when the Pokémon drops its item because of knock off.  This bonus
 (86, 'simple', 'Simple', 4, 'Doubles the Pokémon''s stat modifiers.  These doubled modifiers are still capped at -6 or 6 stages.', 'Each stage of this Pokémon''s stat modifiers acts as two stages.  These doubled stages are still limited to a minimum of -6 and a maximum of 6.
 
 This Pokémon can still accumulate less than -3 or more than 3 stages of stat modifiers, even though the extra ones have no effect after doubling.'),
-(87, 'dry-skin', 'Dry Skin', 4, 'Causes 1/8 max HP in damage each turn during strong sunlight, but heals for 1/8 max HP during rain.  Increases damage from fire moves to 1.25x, but absorbs water moves, healing for 1/4 max HP.', 'This Pokémon takes 1/8 of its maximum HP in damage after each turn during strong sunlight, but it heals for 1/8 of its HP each turn during rain.  This Pokémon takes 1.25x as much damage from fire-type moves, but whenever a water move hits it, it heals for 1/4 its maximum HP instead.'),
+(87, 'dry-skin', 'Dry Skin', 4, 'Causes 1/8 max HP in damage each turn during strong sunlight, but heals for 1/8 max HP during rain.  Increases damage from fire moves to 1.25×, but absorbs water moves, healing for 1/4 max HP.', 'This Pokémon takes 1/8 of its maximum HP in damage after each turn during strong sunlight, but it heals for 1/8 of its HP each turn during rain.  This Pokémon takes 1.25× as much damage from fire-type moves, but whenever a water move hits it, it heals for 1/4 its maximum HP instead.'),
 (88, 'download', 'Download', 4, 'Raises the attack stat corresponding to the opponents'' weaker defense one stage upon entering battle.', 'When this Pokémon enters battle, its Attack or Special Attack, whichever corresponds to its opponents'' weaker total defensive stat, rises one stage.  In the event of a tie, Special Attack is raised.
 
 This ability also takes effect when acquired during a battle.'),
-(89, 'iron-fist', 'Iron Fist', 4, 'Strengthens punch-based moves to 1.2x their power.', 'Moves flagged as being punch-based have 1.2x their base power for this Pokémon.
+(89, 'iron-fist', 'Iron Fist', 4, 'Strengthens punch-based moves to 1.2× their power.', 'Moves flagged as being punch-based have 1.2× their base power for this Pokémon.
 
 sucker punch is not flagged as punch-based; its original, Japanese name only means "surprise attack".'),
 (90, 'poison-heal', 'Poison Heal', 4, 'Heals for 1/8 max HP after each turn when poisoned in place of damage.', 'If this Pokémon is poisoned, it will heal for 1/8 of its maximum HP after each turn rather than taking damage.  This includes bad poison.'),
-(91, 'adaptability', 'Adaptability', 4, 'Increases the same-type attack bonus from 1.5x to 2x.', 'This Pokémon inflicts twice as much damage with moves whose types match its own, rather than the usual same-type attack bonus of 1.5x.'),
+(91, 'adaptability', 'Adaptability', 4, 'Increases the same-type attack bonus from 1.5× to 2×.', 'This Pokémon inflicts twice as much damage with moves whose types match its own, rather than the usual same-type attack bonus of 1.5×.'),
 (92, 'skill-link', 'Skill Link', 4, 'Extends two-to-five-hit moves and triple kick to their full length every time.', 'This Pokémon always hits five times with two-to-five-hit moves, such as icicle spear.  It also bypasses the accuracy checks on triple kick''s second and third hits.'),
 (93, 'hydration', 'Hydration', 4, 'Cures any major status ailment after each turn during rain.', 'This Pokémon is cured of any major status ailment after each turn during rain.'),
-(94, 'solar-power', 'Solar Power', 4, 'Increases Special Attack to 1.5x but costs 1/8 max HP after each turn during strong sunlight.', 'During strong sunlight, this Pokémon has 1.5x its Special Attack but takes 1/8 of its maximum HP in damage after each turn.'),
-(95, 'quick-feet', 'Quick Feet', 4, 'Increases Speed to 1.5x with a major status ailment.', 'Whenever this Pokémon has a major status ailment, it has 1.5x its Speed.  This Pokémon is not affected by the usual Speed cut from paralysis.
+(94, 'solar-power', 'Solar Power', 4, 'Increases Special Attack to 1.5× but costs 1/8 max HP after each turn during strong sunlight.', 'During strong sunlight, this Pokémon has 1.5× its Special Attack but takes 1/8 of its maximum HP in damage after each turn.'),
+(95, 'quick-feet', 'Quick Feet', 4, 'Increases Speed to 1.5× with a major status ailment.', 'Whenever this Pokémon has a major status ailment, it has 1.5× its Speed.  This Pokémon is not affected by the usual Speed cut from paralysis.
 
 Overworld: If the lead Pokémon has this ability, the wild encounter rate is halved.'),
 (96, 'normalize', 'Normalize', 4, 'Makes the Pokémon''s moves all act normal-type.', 'This Pokémon''s moves all act as if they were normal-type.
@@ -331,7 +331,7 @@ Overworld: If the lead Pokémon has this ability, the wild encounter rate is hal
 Moves that inflict typeless damage do so as usual.  Moves of variable type, such as hidden power, are affected.  They otherwise work as usual, however; weather ball, for example, is always forced to be Normal, but it still has doubled power and looks different during weather.
 
 As thunder wave is prevented by immunities, unlike most non-damaging moves, it does not affect ghost-type Pokémon under the effect of this ability.'),
-(97, 'sniper', 'Sniper', 4, 'Strengthens critical hits to inflict 3x damage rather than 2x.', 'This Pokémon inflicts triple damage with critical hits, rather than the usual double damage.'),
+(97, 'sniper', 'Sniper', 4, 'Strengthens critical hits to inflict 3× damage rather than 2×.', 'This Pokémon inflicts triple damage with critical hits, rather than the usual double damage.'),
 (98, 'magic-guard', 'Magic Guard', 4, 'Protects against damage not directly caused by a move.', 'This Pokémon is immune to damage not directly caused by a move.
 
 For example, this Pokémon takes no damage from from weather, recoil, status ailments, or spikes, but it still suffers from the Attack cut when burned, and a life orb will still power up this Pokémon''s moves without damaging it.  Anything that directly depends on such damage will also not happen; for example, leech seed will neither hurt this Pokémon nor heal the opponent, and Pokémon with a jaboca berry or rowap berry will not consume the berry when hit by this Pokémon.
@@ -353,7 +353,7 @@ Multiple Pokémon with this ability move in order of Speed amongst themselves.
 The full incense and lagging tail take precedence over this ability; that is, Pokémon with these items move after Pokémon with this ability.  Pokémon with both this ability and one of these items are delayed as much as if they had only the item.
 
 This ability works as usual during trick room: Pokémon with this ability will move in reverse order of Speed after Pokémon without it.'),
-(101, 'technician', 'Technician', 4, 'Strengthens moves of 60 base power or less to 1.5x their power.', 'This Pokémon''s moves have 1.5x their power if their base power is 60 or less.
+(101, 'technician', 'Technician', 4, 'Strengthens moves of 60 base power or less to 1.5× their power.', 'This Pokémon''s moves have 1.5× their power if their base power is 60 or less.
 
 This includes moves of variable power, such as hidden power and magnitude, when their power is 60 or less.  helping hand''s power boost is taken into account for any move, as is defense curl''s power boost for rollout.'),
 (102, 'leaf-guard', 'Leaf Guard', 4, 'Protects against major status ailments during strong sunlight.', 'This Pokémon cannot be given a major status ailment during strong sunlight.
@@ -399,7 +399,7 @@ Effectively, this affects modifiers of every stat except Speed.
 
 The power of punishment and stored power is calculated as usual.  When this Pokémon hurts itself in confusion, its stat modifiers affect damage as usual.'),
 (110, 'tinted-lens', 'Tinted Lens', 4, 'Doubles damage inflicted with not-very-effective moves.', 'This Pokémon deals twice as much damage with moves that are not very effective against the target.'),
-(111, 'filter', 'Filter', 4, 'Decreases damage taken from super-effective moves by 1/4.', 'This Pokémon takes 0.75x as much damage from moves that are super effective against it.
+(111, 'filter', 'Filter', 4, 'Decreases damage taken from super-effective moves by 1/4.', 'This Pokémon takes 0.75× as much damage from moves that are super effective against it.
 
 This ability functions identically to solid rock.'),
 (112, 'slow-start', 'Slow Start', 4, 'Halves Attack and Speed for five turns upon entering battle.', 'This Pokémon''s Attack and Speed are halved for five turns upon entering battle.
@@ -412,7 +412,7 @@ Ghost Pokémon''s other types affect damage as usual.'),
 
 If the move''s intended target also has this ability, the move is not redirected.  When multiple Pokémon with this ability are possible targets for redirection, the move is redirected to the one with the highest Speed stat, or, in the case of a tie, to a random tied Pokémon.  follow me takes precedence over this ability.'),
 (115, 'ice-body', 'Ice Body', 4, 'Heals for 1/16 max HP after each turn during hail.  Protects against hail damage.', 'This Pokémon heals for 1/16 of its maximum HP after each turn during hail, and it does not take hail damage regardless of type.'),
-(116, 'solid-rock', 'Solid Rock', 4, 'Decreases damage taken from super-effective moves by 1/4.', 'This Pokémon takes 0.75x as much damage from moves that are super effective against it.
+(116, 'solid-rock', 'Solid Rock', 4, 'Decreases damage taken from super-effective moves by 1/4.', 'This Pokémon takes 0.75× as much damage from moves that are super effective against it.
 
 This ability functions identically to filter.'),
 (117, 'snow-warning', 'Snow Warning', 4, 'Summons hail that lasts indefinitely upon entering battle.', 'The weather changes to hail when this Pokémon enters battle and does not end unless cancelled by another weather condition.
@@ -424,7 +424,7 @@ This ability is checked after the battle ends, at which point any temporary abil
 (119, 'frisk', 'Frisk', 4, 'Reveals an opponent''s held item upon entering battle.', 'When this Pokémon enters battle, it reveals an opposing Pokémon''s held item to all participating trainers.
 
 In a double battle, if one opponent has an item, this Pokémon will Frisk that Pokémon; if both have an item, it will Frisk one at random.'),
-(120, 'reckless', 'Reckless', 4, 'Strengthens recoil moves to 1.2x their power.', 'This Pokémon''s recoil moves and crash moves have 1.2x their base power.
+(120, 'reckless', 'Reckless', 4, 'Strengthens recoil moves to 1.2× their power.', 'This Pokémon''s recoil moves and crash moves have 1.2× their base power.
 
 struggle is unaffected.
 
@@ -436,14 +436,14 @@ This Pokémon''s held item, whether or not it is a Plate, cannot be taken by cov
 This ability has no effect for any Pokémon other than arceus.  This ability cannot be traded with skill swap, nor copied with role play or trace, nor disabled with gastro acid, nor changed with worry seed.  This Pokémon cannot use Skill Swap or Role Play to lose its ability itself.  mold breaker cannot ignore this ability.
 
 If a Pokémon Transforms into an Arceus with this ability, it will Transform into Arceus''s default, normal-type form.  If the Transforming Pokémon is holding a Plate, this ability will then activate and change the Pokémon into the corresponding form.'),
-(122, 'flower-gift', 'Flower Gift', 4, 'Increases friendly Pokémon''s Attack and Special Defense to 1.5x during strong sunlight.', 'Friendly Pokémon have 1.5x their Attack and Special Defense during strong sunlight if any friendly Pokémon has this ability.
+(122, 'flower-gift', 'Flower Gift', 4, 'Increases friendly Pokémon''s Attack and Special Defense to 1.5× during strong sunlight.', 'Friendly Pokémon have 1.5× their Attack and Special Defense during strong sunlight if any friendly Pokémon has this ability.
 
 Unlike forecast, multitype, and zen mode, this ability is not tied to its Pokémon''s form change; cherrim will switch between its forms even if it loses this ability.  As such, this ability also works if obtained by a Pokémon other than Cherrim.'),
 (123, 'bad-dreams', 'Bad Dreams', 4, 'Damages sleeping opponents for 1/8 their max HP after each turn.', 'Opposing Pokémon take 1/8 of their maximum HP in damage after each turn while they are asleep.'),
 (124, 'pickpocket', 'Pickpocket', 5, 'Steals attacking Pokémon''s held items on contact.', 'Whenever a move makes contact with this Pokémon, if it does not have a held item, it steals the attacker''s held item.
 
 This Pokémon cannot steal upon being knocked out.  It can steal if the attacker has a substitute, but cannot steal when its own Substitute is hit.  If a move hits multiple times, only the last hit triggers this ability.  If this Pokémon is wild, it cannot steal from a trained Pokémon.'),
-(125, 'sheer-force', 'Sheer Force', 5, 'Strengthens moves with extra effects to 1.3x their power, but prevents their extra effects.', 'This Pokémon''s moves with extra effects have 1.3x their power, but lose their extra effects.
+(125, 'sheer-force', 'Sheer Force', 5, 'Strengthens moves with extra effects to 1.3× their power, but prevents their extra effects.', 'This Pokémon''s moves with extra effects have 1.3× their power, but lose their extra effects.
 
 An effect chance is a move''s chance to inflict a status ailment, cause a stat change, or make the target flinch in addition to the move''s main effect. For example, thunder shock''s paralysis is an extra effect, but thunder wave''s is not, nor are knock off''s item removal and air cutter''s increased critical hit rate.
 
@@ -458,7 +458,7 @@ If multiple stats are lowered at once, this ability takes effect with each stat 
 (129, 'defeatist', 'Defeatist', 5, 'Halves Attack and Special Attack at 50% max HP or less.', 'This Pokémon''s Attack and Special Attack are halved when it has half its HP or less.'),
 (130, 'cursed-body', 'Cursed Body', 5, 'Has a 30% chance of Disabling any move that hits the Pokémon.', 'Moves that hit this Pokémon have a 30% chance of being Disabled afterward.'),
 (131, 'healer', 'Healer', 5, 'Has a 30% chance of curing each adjacent ally of any major status ailment after each turn.', 'Friendly Pokémon next to this Pokémon in double and triple battles each have a 30% chance of being cured of any major status ailment after each turn.'),
-(132, 'friend-guard', 'Friend Guard', 5, 'Decreases all direct damage taken by friendly Pokémon to 0.75x.', 'All friendly Pokémon take 0.75x as much direct damage from moves while this Pokémon is in battle.
+(132, 'friend-guard', 'Friend Guard', 5, 'Decreases all direct damage taken by friendly Pokémon to 0.75×.', 'All friendly Pokémon take 0.75× as much direct damage from moves while this Pokémon is in battle.
 
 This effect stacks if multiple allied Pokémon have it.'),
 (133, 'weak-armor', 'Weak Armor', 5, 'Raises Speed and lowers Defense by one stage each upon being hit by a physical move.', 'Whenever a physical move hits this Pokémon, its Speed rises one stage and its Defense falls one stage.
@@ -467,8 +467,8 @@ This ability triggers on every hit of a multiple-hit move.'),
 (134, 'heavy-metal', 'Heavy Metal', 5, 'Doubles the Pokémon''s weight.', 'This Pokémon has double the usual weight for its species.'),
 (135, 'light-metal', 'Light Metal', 5, 'Halves the Pokémon''s weight.', 'This Pokémon has half the usual weight for its species.'),
 (136, 'multiscale', 'Multiscale', 5, 'Halves damage taken from full HP.', 'This Pokémon takes half as much damage when it is hit having full HP.'),
-(137, 'toxic-boost', 'Toxic Boost', 5, 'Increases Attack to 1.5x when poisoned.', 'This Pokémon has 1.5x its Attack when poisoned.'),
-(138, 'flare-boost', 'Flare Boost', 5, 'Increases Special Attack to 1.5x when burned.', 'This Pokémon has 1.5x its Special Attack when burned.'),
+(137, 'toxic-boost', 'Toxic Boost', 5, 'Increases Attack to 1.5× when poisoned.', 'This Pokémon has 1.5× its Attack when poisoned.'),
+(138, 'flare-boost', 'Flare Boost', 5, 'Increases Special Attack to 1.5× when burned.', 'This Pokémon has 1.5× its Special Attack when burned.'),
 (139, 'harvest', 'Harvest', 5, 'Has a 50% chance of restoring a used Berry after each turn if the Pokémon has held no items in the meantime.', 'After each turn, if the last item this Pokémon consumed was a Berry and it is not currently holding an item, it has a 50% chance of regaining that Berry, or a 100% chance during strong sunlight.'),
 (140, 'telepathy', 'Telepathy', 5, 'Protects against friendly Pokémon''s damaging moves.', 'This Pokémon does not take damage from friendly Pokémon''s moves, including single-target moves aimed at it.'),
 (141, 'moody', 'Moody', 5, 'Raises a random stat two stages and lowers another one stage after each turn.', 'After each turn, one of this Pokémon''s stats at random rises two stages, and another falls one stage.
@@ -486,7 +486,7 @@ This ability does not take effect when a battle ends.'),
 This Pokémon can still be passed negative Defense modifiers through heart swap or guard swap.'),
 (146, 'sand-rush', 'Sand Rush', 5, 'Doubles Speed during a sandstorm.  Protects against sandstorm damage.', 'This Pokémon''s Speed is doubled during a sandstorm, and it does not take sandstorm damage, regardless of type.'),
 (147, 'wonder-skin', 'Wonder Skin', 5, 'Lowers incoming non-damaging moves'' base accuracy to exactly 50%.', 'Non-damaging moves have exactly 50% base accuracy against this Pokémon.'),
-(148, 'analytic', 'Analytic', 5, 'Strengthens moves to 1.3x their power when moving last.', 'This Pokémon''s moves have 1.3x their power when it moves last in a turn.
+(148, 'analytic', 'Analytic', 5, 'Strengthens moves to 1.3× their power when moving last.', 'This Pokémon''s moves have 1.3× their power when it moves last in a turn.
 
 future sight and doom desire are unaffected.'),
 (149, 'illusion', 'Illusion', 5, 'Takes the appearance of the last conscious party Pokémon upon being sent out until hit by a damaging move.', 'This Pokémon, upon being sent out, appears to have the species, nickname, and Poké Ball of the last Pokémon in the party that is able to battle.  This illusion breaks upon being hit by a damaging move.
@@ -515,14 +515,14 @@ All reflectable moves are non-damaging, and most non-damaging moves that target 
 A move reflected by this ability or magic coat cannot be reflected back.'),
 (157, 'sap-sipper', 'Sap Sipper', 5, 'Absorbs grass moves, raising Attack one stage.', 'Whenever a grass-type move hits this Pokémon, its Attack rises one stage, negating any other effect on it.'),
 (158, 'prankster', 'Prankster', 5, 'Raises non-damaging moves'' priority by one stage.', 'This Pokémon''s non-damaging moves have their priority increased by one stage.'),
-(159, 'sand-force', 'Sand Force', 5, 'Strengthens rock, ground, and steel moves to 1.3x their power during a sandstorm.  Protects against sandstorm damage.', 'During a sandstorm, this Pokémon''s rock-, ground-, and steel-type moves have 1.3x their base power.  This Pokémon does not take sandstorm damage, regardless of type.'),
+(159, 'sand-force', 'Sand Force', 5, 'Strengthens rock, ground, and steel moves to 1.3× their power during a sandstorm.  Protects against sandstorm damage.', 'During a sandstorm, this Pokémon''s rock-, ground-, and steel-type moves have 1.3× their base power.  This Pokémon does not take sandstorm damage, regardless of type.'),
 (160, 'iron-barbs', 'Iron Barbs', 5, 'Damages attacking Pokémon for 1/8 their max HP on contact.', 'Whenever a move makes contact with this Pokémon, the move''s user takes 1/8 of its maximum HP in damage.
 
 This ability functions identically to rough skin.'),
 (161, 'zen-mode', 'Zen Mode', 5, 'Changes darmanitan''s form after each turn depending on its HP: Zen Mode below 50% max HP, and Standard Mode otherwise.', 'This Pokémon switches between Standard Mode and Zen Mode after each turn depending on its HP.  Below 50% of its maximum HP, it switches to Zen Mode, and at 50% or above, it switches to Standard Mode.
 
 This Pokémon returns to Standard Mode upon leaving battle or losing this ability.  This ability has no effect if this Pokémon is not a darmanitan.'),
-(162, 'victory-star', 'Victory Star', 5, 'Increases moves'' accuracy to 1.1x for friendly Pokémon.', 'All friendly Pokémon''s moves, including this Pokémon''s own moves, have 1.1x their usual accuracy while this Pokémon is in battle.'),
+(162, 'victory-star', 'Victory Star', 5, 'Increases moves'' accuracy to 1.1× for friendly Pokémon.', 'All friendly Pokémon''s moves, including this Pokémon''s own moves, have 1.1× their usual accuracy while this Pokémon is in battle.'),
 (163, 'turboblaze', 'Turboblaze', 5, 'Bypasses targets'' abilities if they could hinder or prevent moves.', 'This Pokémon''s moves completely ignore abilities that could hinder or prevent their effect on the target.
 
 For example, this Pokémon''s moves ignore abilities that would fully negate them, such as water absorb; abilities that would prevent any of their effects, such as clear body, shell armor, or sticky hold; and abilities that grant any general protective benefit, such as simple, snow cloak, or thick fat.  If an ability could either hinder or help this Pokémon''s moves, e.g. dry skin or unaware, the ability is ignored either way.
@@ -555,21 +555,21 @@ The type change takes place just before the move is used.'),
 (170, 'magician', 'Magician', 6, 'Steals the target''s held item when the bearer uses a damaging move.', 'Steals the target''s held item when the bearer uses a damaging move.'),
 (171, 'bulletproof', 'Bulletproof', 6, 'Protects against bullet, ball, and bomb-based moves.', 'Protects against bullet, ball, and bomb-based moves.'),
 (172, 'competitive', 'Competitive', 6, 'Raises Special Attack by two stages upon having any stat lowered.', 'Raises Special Attack by two stages upon having any stat lowered.'),
-(173, 'strong-jaw', 'Strong Jaw', 6, 'Strengthens biting moves to 1.5x their power.', 'Strengthens biting moves to 1.5x their power.'),
-(174, 'refrigerate', 'Refrigerate', 6, 'Turns the bearer''s normal moves into ice moves and strengthens them to 1.3x their power.', 'Turns the bearer''s normal-type moves into ice-type moves.  Moves changed by this ability have 1.3x their power.'),
+(173, 'strong-jaw', 'Strong Jaw', 6, 'Strengthens biting moves to 1.5× their power.', 'Strengthens biting moves to 1.5× their power.'),
+(174, 'refrigerate', 'Refrigerate', 6, 'Turns the bearer''s normal moves into ice moves and strengthens them to 1.3× their power.', 'Turns the bearer''s normal-type moves into ice-type moves.  Moves changed by this ability have 1.3× their power.'),
 (175, 'sweet-veil', 'Sweet Veil', 6, 'Prevents friendly Pokémon from sleeping.', 'Prevents friendly Pokémon from sleeping.'),
 (176, 'stance-change', 'Stance Change', 6, 'Changes aegislash to Blade Forme before using a damaging move, or Shield Forme before using kings shield.', 'Changes aegislash to Blade Forme before using a damaging move, or Shield Forme before using kings shield.'),
 (177, 'gale-wings', 'Gale Wings', 6, 'Raises flying moves'' priority by one stage.', 'Raises flying moves'' priority by one stage.'),
-(178, 'mega-launcher', 'Mega Launcher', 6, 'Strengthens aura and pulse moves to 1.5x their power.', 'Strengthens aura and pulse moves to 1.5x their power.'),
+(178, 'mega-launcher', 'Mega Launcher', 6, 'Strengthens aura and pulse moves to 1.5× their power.', 'Strengthens aura and pulse moves to 1.5× their power.'),
 (179, 'grass-pelt', 'Grass Pelt', 6, 'Boosts Defense while grassy terrain is in effect.', 'Boosts Defense while grassy terrain is in effect.'),
 (180, 'symbiosis', 'Symbiosis', 6, 'Passes the bearer''s held item to an ally when the ally uses up its item.', 'Passes the bearer''s held item to an ally when the ally uses up its item.'),
-(181, 'tough-claws', 'Tough Claws', 6, 'Strengthens moves that make contact to 1.33x their power.', 'Strengthens moves that make contact to 1.33x their power.'),
-(182, 'pixilate', 'Pixilate', 6, 'Turns the bearer''s normal moves into fairy moves and strengthens them to 1.3x their power.', 'Turns the bearer''s normal-type moves into fairy moves.  Moves changed by this ability have 1.3x their power.'),
+(181, 'tough-claws', 'Tough Claws', 6, 'Strengthens moves that make contact to 1.33× their power.', 'Strengthens moves that make contact to 1.33× their power.'),
+(182, 'pixilate', 'Pixilate', 6, 'Turns the bearer''s normal moves into fairy moves and strengthens them to 1.3× their power.', 'Turns the bearer''s normal-type moves into fairy moves.  Moves changed by this ability have 1.3× their power.'),
 (183, 'gooey', 'Gooey', 6, 'Lowers attacking Pokémon''s Speed by one stage on contact.', 'Lowers attacking Pokémon''s Speed by one stage on contact.'),
-(184, 'aerilate', 'Aerilate', 6, 'Turns the bearer''s normal moves into flying moves and strengthens them to 1.3x their power.', 'Turns the bearer''s normal-type moves into flying-type moves.  Moves changed by this ability have 1.3x their power.'),
+(184, 'aerilate', 'Aerilate', 6, 'Turns the bearer''s normal moves into flying moves and strengthens them to 1.3× their power.', 'Turns the bearer''s normal-type moves into flying-type moves.  Moves changed by this ability have 1.3× their power.'),
 (185, 'parental-bond', 'Parental Bond', 6, 'Lets the bearer hit twice with damaging moves.  The second hit has half power.', 'Lets the bearer hit twice with damaging moves.  The second hit has half power.'),
-(186, 'dark-aura', 'Dark Aura', 6, 'Strengthens dark moves to 1.33x their power for all friendly and opposing Pokémon.', 'Strengthens dark moves for all friendly and opposing Pokémon.'),
-(187, 'fairy-aura', 'Fairy Aura', 6, 'Strengthens fairy moves to 1.33x their power for all friendly and opposing Pokémon.', 'Strengthens fairy moves for all friendly and opposing Pokémon.'),
+(186, 'dark-aura', 'Dark Aura', 6, 'Strengthens dark moves to 1.33× their power for all friendly and opposing Pokémon.', 'Strengthens dark moves for all friendly and opposing Pokémon.'),
+(187, 'fairy-aura', 'Fairy Aura', 6, 'Strengthens fairy moves to 1.33× their power for all friendly and opposing Pokémon.', 'Strengthens fairy moves for all friendly and opposing Pokémon.'),
 (188, 'aura-break', 'Aura Break', 6, 'Makes dark aura and fairy aura weaken moves of their respective types.', 'While this Pokémon is on the field, dark aura and fairy aura weaken moves of their respective types to 2/3 their power, rather than strengthening them.'),
 (189, 'primordial-sea', 'Primordial Sea', 6, 'Creates heavy rain, which has all the properties of Rain Dance, cannot be replaced, and causes damaging Fire moves to fail.', 'When this Pokémon enters battle or gains this ability, the weather becomes heavy rain.  Heavy rain has all the properties of rain dance and also causes damaging Fire moves to fail.
 
@@ -596,13 +596,13 @@ air lock and cloud nine will prevent the effect of a mysterious air current, but
 This ability cannot be copied, replaced, or nullified.  This ability only takes effect for Minior.'),
 (198, 'stakeout', 'Stakeout', 7, 'This Pokémon''s moves have double power against Pokémon that switched in this turn.', 'This Pokémon''s moves have double power against Pokémon that switched in this turn.'),
 (199, 'water-bubble', 'Water Bubble', 7, 'Halves damage from Fire moves, doubles damage of Water moves, and prevents burns.', 'When this Pokémon is hit by a Fire move, the damage is halved.  When this Pokémon uses a Water move, the power is doubled. This Pokémon cannot be burned, and if it becomes burned, the burn is immediately cured.'),
-(200, 'steelworker', 'Steelworker', 7, 'This Pokémon''s Steel moves have 1.5x power.', 'This Pokémon''s Steel moves have 1.5x power.'),
+(200, 'steelworker', 'Steelworker', 7, 'This Pokémon''s Steel moves have 1.5× power.', 'This Pokémon''s Steel moves have 1.5× power.'),
 (201, 'berserk', 'Berserk', 7, 'Raises this Pokémon''s Special Attack by one stage every time its HP drops below half.', 'Whenever this Pokémon takes damage from a move that causes its HP to drop below 50%, its Special Attack rises by one stage.'),
 (202, 'slush-rush', 'Slush Rush', 7, 'During Hail, this Pokémon has double Speed.', 'During Hail, this Pokémon has double Speed.'),
 (203, 'long-reach', 'Long Reach', 7, 'This Pokémon''s moves do not make contact.', 'A move used by this Pokémon will not make contact.'),
 (204, 'liquid-voice', 'Liquid Voice', 7, 'Sound-based moves become Water-type.', 'When this Pokémon uses a move that is sound-based, that move''s type is Water.'),
 (205, 'triage', 'Triage', 7, 'This Pokémon''s healing moves have their priority increased by 3.', 'This Pokémon''s healing moves have their priority increased by 3.'),
-(206, 'galvanize', 'Galvanize', 7, 'This Pokémon''s Normal moves are Electric and have their power increased to 1.2x.', 'When this Pokémon uses a Normal moves, that move is Electric its power is 1.2x.'),
+(206, 'galvanize', 'Galvanize', 7, 'This Pokémon''s Normal moves are Electric and have their power increased to 1.2×.', 'When this Pokémon uses a Normal moves, that move is Electric its power is 1.2×.'),
 (207, 'surge-surfer', 'Surge Surfer', 7, 'Doubles this Pokémon''s Speed on Electric Terrain.', 'Doubles this Pokémon''s Speed on Electric Terrain.'),
 (208, 'schooling', 'Schooling', 7, 'Wishiwashi becomes Schooling Form when its HP is 25% or higher.', 'If this Pokémon is a wishiwashi and level 20 or above, then when it enters battle and at the start of each turn, it becomes Schooling Form if its HP is 25% or higher and Solo Form otherwise.
 
@@ -621,7 +621,7 @@ This ability cannot be copied or replaced.  This ability only takes effect for Z
 (214, 'queenly-majesty', 'Queenly Majesty', 7, 'Opposing Pokémon cannot use priority attacks.', 'When an opposing Pokémon attempts to use a move that targets this Pokémon or an ally, and that move has priority, it will fail.'),
 (215, 'innards-out', 'Innards Out', 7, 'When this Pokémon faints from an opponent''s move, that opponent takes damage equal to the HP this Pokémon had remaining.', 'When this Pokémon faints from an opponent''s move, that opponent takes damage equal to the HP this Pokémon had remaining.'),
 (216, 'dancer', 'Dancer', 7, 'Whenever another Pokémon uses a dance move, this Pokémon will use the same move immediately afterwards.', 'Whenever another Pokémon uses a dance move, this Pokémon will use the same move immediately afterwards.'),
-(217, 'battery', 'Battery', 7, 'Ally Pokémon''s moves have their power increased to 1.3x.', 'Ally Pokémon''s moves have their power increased to 1.3x.'),
+(217, 'battery', 'Battery', 7, 'Ally Pokémon''s moves have their power increased to 1.3×.', 'Ally Pokémon''s moves have their power increased to 1.3×.'),
 (218, 'fluffy', 'Fluffy', 7, 'Damage from contact moves is halved.  Damage from Fire moves is doubled.', 'Damage from contact moves is halved.  Damage from Fire moves is doubled.'),
 (219, 'dazzling', 'Dazzling', 7, 'Opposing Pokémon cannot use priority attacks.', 'When an opposing Pokémon attempts to use a move that targets this Pokémon or an ally, and that move has priority, it will fail.'),
 (220, 'soul-heart', 'Soul Heart', 7, 'This Pokémon''s Special Attack rises by one stage every time any Pokémon faints.', 'This Pokémon''s Special Attack rises by one stage every time any Pokémon faints.'),
@@ -642,10 +642,10 @@ This Ability is not bypassed by mold breaker, teravolt, or turboblaze.'),
 (231, 'shadow-shield', 'Shadow Shield', 7, 'When this Pokémon has full HP, regular damage from moves is halved.', 'When this Pokémon has full HP, regular damage (not fixed damage!) from moves is halved.
 
 This ability cannot be nullified.'),
-(232, 'prism-armor', 'Prism Armor', 7, 'Reduces super-effective damage to 0.75x.', 'Super-effective damage this Pokémon takes is reduced to 0.75x.
+(232, 'prism-armor', 'Prism Armor', 7, 'Reduces super-effective damage to 0.75×.', 'Super-effective damage this Pokémon takes is reduced to 0.75×.
 
 This Ability is not bypassed by mold breaker, teravolt, or turboblaze.'),
-(233, 'neuroforce', 'Neuroforce', 7, 'Increases super-effective damage dealt to 1.25x.', 'Increases super-effective damage dealt to 1.25x.'),
+(233, 'neuroforce', 'Neuroforce', 7, 'Increases super-effective damage dealt to 1.25×.', 'Increases super-effective damage dealt to 1.25×.'),
 (234, 'intrepid-sword', 'Intrepid Sword', 8, 'Boosts Attack in battle.', 'Boosts the Pokémon''s Attack stat the first time the Pokémon enters a battle.'),
 (235, 'dauntless-shield', 'Dauntless Shield', 8, 'Boosts Defense in battle.', 'Boosts the Pokémon''s Defense stat the first time the Pokémon enters a battle.'),
 (236, 'libero', 'Libero', 8, 'Libero changes the Pokémon''s type to that of its previously used attack.', 'Changes the Pokémon''s type to the type of the move it''s about to use. This works only once each time the Pokémon enters battle.'),

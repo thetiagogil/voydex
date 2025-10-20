@@ -1,5 +1,5 @@
 -- Generated from PokeAPI (pokemon_forms)
--- Generated at: 2025-10-18T16:54:35.221Z
+-- Generated at: 2025-10-20T09:56:44.203Z
 
 INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url) VALUES
 (152, 'chikorita', 'Chikorita', 2, 9, 64, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/152.png'),

@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/move)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T16:13:33.188Z
+-- Generated at: 2025-10-19T16:19:58.315Z
 
 INSERT INTO dex.moves (id, slug, name, generation_introduced_id, description) VALUES
 (1, 'pound', 'Pound', 1, 'Pounds with fore­

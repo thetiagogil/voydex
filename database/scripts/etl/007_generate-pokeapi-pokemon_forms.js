@@ -15,10 +15,8 @@ import {
 } from "../../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
-const force = getFlag("--force");
 const showSql = getFlag("--sql");
 
-// parse --gen=1,2 or --gen=1
 function parseGenFlag() {
   const arg = process.argv.slice(2).find((a) => a.startsWith("--gen="));
   if (!arg) return null;
@@ -98,7 +96,10 @@ async function runForGen(gen) {
         }
 
         // skip by configured form patterns (mega, gmax, totem, event, etc.)
-        if (Array.isArray(SKIP_FORM_PATTERNS)) {
+        // Apply skip patterns only to non-default forms. Default forms represent
+        // the species canonical entry and should not be skipped just because
+        // their slug contains substrings like "mega" (e.g. "meganium").
+        if (!isDefault && Array.isArray(SKIP_FORM_PATTERNS)) {
           let skip = false;
           for (const rx of SKIP_FORM_PATTERNS) {
             if (
@@ -160,7 +161,7 @@ async function runForGen(gen) {
     process.cwd(),
     "database",
     "seed",
-    `008_pokeapi_pokemon_forms_gen${gen}.sql`
+    `007_pokeapi_pokemon_forms_gen${gen}.sql`
   );
 
   let sql;

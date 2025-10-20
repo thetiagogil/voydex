@@ -1,6 +1,6 @@
 -- Generated from PokeAPI (/pokemon-species)
 -- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-18T16:16:29.176Z
+-- Generated at: 2025-10-19T16:23:20.084Z
 
 INSERT INTO dex.pokemon_species (id, slug, name, introduced_generation_id, egg_group1_id, egg_group2_id, national_number, color, gender_rate, capture_rate, base_happiness, growth_rate, is_baby, is_legendary, is_mythical) VALUES
 (1, 'bulbasaur', 'Bulbasaur', 1, 1, 7, 1, 'Green', 1, 45, 70, 'medium-slow', false, false, false),

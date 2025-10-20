@@ -1,5 +1,5 @@
 -- Generated from PokeAPI (pokemon_forms)
--- Generated at: 2025-10-18T16:51:34.541Z
+-- Generated at: 2025-10-19T16:25:23.811Z
 
 INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url) VALUES
 (1, 'bulbasaur', 'Bulbasaur', 1, 7, 69, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png'),

@@ -1,8 +1,4 @@
 -- ========================================
--- Seed Meta Data
--- ========================================
-
--- ========================================
 -- GENERATIONS
 -- ========================================
 INSERT INTO meta.generations (id, slug, name, start_year) VALUES
@@ -14,7 +10,8 @@ INSERT INTO meta.generations (id, slug, name, start_year) VALUES
 (6, 'generation-vi', 'Generation VI', 2013),
 (7, 'generation-vii', 'Generation VII', 2016),
 (8, 'generation-viii', 'Generation VIII', 2019),
-(9, 'generation-ix', 'Generation IX', 2022);
+(9, 'generation-ix', 'Generation IX', 2022)
+ON CONFLICT (id) DO NOTHING;
 
 
 -- ========================================
@@ -29,7 +26,8 @@ INSERT INTO meta.regions (id, generation_id, slug, name) VALUES
 (6, 6, 'kalos', 'Kalos'),
 (7, 7, 'alola', 'Alola'),
 (8, 8, 'galar', 'Galar'),
-(9, 9, 'paldea', 'Paldea');
+(9, 9, 'paldea', 'Paldea')
+ON CONFLICT (id) DO NOTHING;
 
 -- ========================================
 -- VERSION GROUPS
@@ -63,7 +61,8 @@ INSERT INTO meta.version_groups (id, generation_id, slug, name) VALUES
 (18, 8, 'swsh', 'Sword/Shield'),
 (19, 8, 'bdsp', 'Brilliant Diamond/Shining Pearl'),
 -- Generation IX
-(20, 9, 'sv', 'Scarlet/Violet');
+(20, 9, 'sv', 'Scarlet/Violet')
+ON CONFLICT (id) DO NOTHING;
 
 -- ========================================
 -- GAMES
@@ -124,33 +123,5 @@ INSERT INTO meta.games (
 (34, 8, 4, 19, 'shining-pearl', 'Pokémon Shining Pearl', 'remake', 151, 905, 2021),
 -- Generation IX
 (35, 9, 9, 20, 'scarlet', 'Pokémon Scarlet', 'main', 400, 1025, 2022),
-(36, 9, 9, 20, 'violet', 'Pokémon Violet', 'main', 400, 1025, 2022);
-
-
--- ========================================
--- VALIDATION QUERIES
--- ========================================
--- 1) Version group gen must match game gen (informational; all should be 0 rows)
-SELECT g.id, g.slug, g.generation_id AS game_gen, vg.generation_id AS vg_gen
-FROM meta.games g
-JOIN meta.version_groups vg ON vg.id = g.version_group_id
-WHERE g.generation_id <> vg.generation_id;
-
--- 2) Regions exist and are consistent FKs (should be 0 rows)
-SELECT g.id, g.slug, r.slug AS region_slug
-FROM meta.games g
-LEFT JOIN meta.regions r ON r.id = g.region_id
-WHERE r.id IS NULL;
-
--- 3) Uniqueness sanity (should be 0 rows)
-SELECT slug FROM meta.generations GROUP BY slug HAVING COUNT(*) > 1;
-SELECT slug FROM meta.regions GROUP BY slug HAVING COUNT(*) > 1;
-SELECT slug FROM meta.version_groups GROUP BY slug HAVING COUNT(*) > 1;
-SELECT slug FROM meta.games GROUP BY slug HAVING COUNT(*) > 1;
-
--- 4) Optional: see remakes pointing to older regions (informational)
-SELECT g.slug AS game, g.generation_id AS game_gen, r.slug AS region, r.generation_id AS region_gen
-FROM meta.games g
-JOIN meta.regions r ON r.id = g.region_id
-WHERE r.generation_id <> g.generation_id
-ORDER BY g.id;
+(36, 9, 9, 20, 'violet', 'Pokémon Violet', 'main', 400, 1025, 2022)
+ON CONFLICT (id) DO NOTHING;

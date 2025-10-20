@@ -1,5 +1,5 @@
 -- Generated from PokeAPI (pokemon_forms)
--- Generated at: 2025-10-18T22:04:52.220Z
+-- Generated at: 2025-10-19T16:26:12.785Z
 
 INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url) VALUES
 (252, 'treecko', 'Treecko', 3, 5, 50, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/252.png'),
@@ -136,8 +136,5 @@ INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id,
 (383, 'groudon', 'Groudon', 3, 35, 9500, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/383.png'),
 (384, 'rayquaza', 'Rayquaza', 3, 70, 2065, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/384.png'),
 (385, 'jirachi', 'Jirachi', 3, 3, 11, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png'),
-(386, 'deoxys', 'Deoxys Normal', 3, 17, 608, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/386.png'),
-(386, 'deoxys', 'Deoxys Attack', 3, 17, 608, false, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10001.png'),
-(386, 'deoxys', 'Deoxys Defense', 3, 17, 608, false, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10002.png'),
-(386, 'deoxys', 'Deoxys Speed', 3, 17, 608, false, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10003.png')
+(386, 'deoxys', 'Deoxys ', 3, 17, 608, true, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/386.png')
 ON CONFLICT (species_id, slug) DO NOTHING;
