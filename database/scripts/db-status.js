@@ -3,9 +3,9 @@ import {
   getCustomSchemas,
   getTablesFromSchemas,
   withClient,
-} from "../helpers/db.js";
-import { loadEnvironment } from "../helpers/env.js";
-import { logger } from "../helpers/logger.js";
+} from "./helpers/db.js";
+import { loadEnvironment } from "./helpers/env.js";
+import { logger } from "./helpers/logger.js";
 
 async function main() {
   const env = loadEnvironment();

@@ -1,0 +1,15 @@
+CREATE TABLE
+  dex.move_availability_per_game (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
+    move_id INTEGER NOT NULL REFERENCES dex.moves (id) ON DELETE CASCADE,
+    version_group_id INTEGER NOT NULL REFERENCES meta.version_groups (id) ON DELETE CASCADE,
+    is_available BOOLEAN NOT NULL DEFAULT TRUE,
+    notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT now (),
+    UNIQUE (move_id, version_group_id),
+    CHECK (NOT is_available)
+  );
+
+CREATE INDEX idx_move_availability_version ON dex.move_availability_per_game (version_group_id);
+
+CREATE INDEX idx_move_availability_move ON dex.move_availability_per_game (move_id);

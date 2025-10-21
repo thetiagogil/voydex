@@ -11,14 +11,12 @@
     "prettier:format": "prettier . --write",
     "prettier:check": "prettier . --check",
     "db:status": "node database/scripts/db-status.js",
-    "db:migrate": "node database/scripts/db-migration.js",
-    "db:import": "node database/scripts/db-import-pokeapi-etl.js",
-    "db:seed:etl": "node database/scripts/db-seed-etl.js",
-    "db:seed:curated": "node database/scripts/db-seed-curated.js",
-    "db:validate": "node database/scripts/db-validations.js",
-    "db:cleanup": "node database/scripts/db-cleanup.js",
-    "db:cleanup:rows": "node database/scripts/db-cleanup-rows.js",
-    "db:repopulate": "node database/scripts/db-repopulate.js"
+    "db:migrate": "node database/scripts/db-migrate.js",
+    "db:import": "node database/scripts/db-import.js",
+    "db:seed": "node database/scripts/db-seed.js",
+    "db:clean": "node database/scripts/db-clean.js",
+    "db:clean:rows": "node database/scripts/db-clean-rows.js",
+    "db:validate": "node database/scripts/db-validate.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

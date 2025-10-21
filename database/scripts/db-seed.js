@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 import path from "path";
-import { chooseFromList, confirmOrExit } from "../helpers/cli.js";
-import { logger } from "../helpers/logger.js";
+import { chooseFromList, confirmOrExit } from "./helpers/cli.js";
+import { logger } from "./helpers/logger.js";
 import {
   listSqlFiles,
   runSequentialFiles,
   runSqlFile,
-} from "../helpers/sql-runner.js";
+} from "./helpers/sql-runner.js";
 
 async function main() {
   let filename = process.argv[2];
 
-  const seedsDir = path.resolve(process.cwd(), "database", "seed");
+  const seedsDir = path.resolve(process.cwd(), "database", "seed", "approved");
   const available = listSqlFiles(seedsDir);
 
   if (!filename) {
