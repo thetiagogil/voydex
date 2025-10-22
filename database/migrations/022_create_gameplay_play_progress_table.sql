@@ -2,7 +2,7 @@ CREATE TABLE
   gameplay.progress (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
     play_id UUID NOT NULL REFERENCES gameplay.plays (id) ON DELETE CASCADE,
-    progress_item_id UUID NOT NULL REFERENCES meta.progress_items (id) ON DELETE CASCADE,
+    progress_item_id INTEGER NOT NULL REFERENCES meta.progress_items (id) ON DELETE CASCADE,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW (),

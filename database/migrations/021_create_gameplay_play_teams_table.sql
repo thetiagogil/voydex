@@ -14,8 +14,6 @@ CREATE TABLE
     level INTEGER NOT NULL DEFAULT 1 CHECK (level BETWEEN 1 AND 100),
     gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'genderless')),
     is_shiny BOOLEAN DEFAULT FALSE,
-    held_item_id INTEGER REFERENCES dex.items (id),
-    ball_item_id INTEGER REFERENCES dex.items (id),
     team_slot INTEGER NOT NULL CHECK (team_slot BETWEEN 1 AND 20),
     created_at TIMESTAMPTZ DEFAULT now (),
     updated_at TIMESTAMPTZ DEFAULT now (),
@@ -27,7 +25,5 @@ CREATE INDEX idx_team_play ON gameplay.team_pokemon (play_id);
 CREATE INDEX idx_team_species ON gameplay.team_pokemon (species_id);
 
 CREATE INDEX idx_team_form ON gameplay.team_pokemon (form_id);
-
-CREATE INDEX idx_team_items ON gameplay.team_pokemon (held_item_id, ball_item_id);
 
 CREATE INDEX idx_team_slot ON gameplay.team_pokemon (play_id, team_slot);
