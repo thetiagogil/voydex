@@ -1,0 +1,97 @@
+-- Generated from PokeAPI (/ability)
+-- Generated at: 2025-10-22T16:49:03.401Z
+WITH
+    a AS (
+        SELECT
+            *
+        FROM
+            (
+                VALUES
+                    ('stench', 'Stench', 'generation-iii', 'Has a 10% chance of making target Pokémon flinch with each hit.'),
+                    ('drizzle', 'Drizzle', 'generation-iii', 'Summons rain that lasts indefinitely upon entering battle.'),
+                    ('speed-boost', 'Speed Boost', 'generation-iii', 'Raises Speed one stage after each turn.'),
+                    ('battle-armor', 'Battle Armor', 'generation-iii', 'Protects against critical hits.'),
+                    ('sturdy', 'Sturdy', 'generation-iii', 'Prevents being KOed from full HP, leaving 1 HP instead.  Protects against the one-hit KO moves regardless of HP.'),
+                    ('damp', 'Damp', 'generation-iii', 'Prevents self destruct, explosion, and aftermath from working while the Pokémon is in battle.'),
+                    ('limber', 'Limber', 'generation-iii', 'Prevents paralysis.'),
+                    ('sand-veil', 'Sand Veil', 'generation-iii', 'Increases evasion to 1.25x during a sandstorm.  Protects against sandstorm damage.'),
+                    ('static', 'Static', 'generation-iii', 'Has a 30% chance of paralyzing attacking Pokémon on contact.'),
+                    ('volt-absorb', 'Volt Absorb', 'generation-iii', 'Absorbs electric moves, healing for 1/4 max HP.'),
+                    ('water-absorb', 'Water Absorb', 'generation-iii', 'Absorbs water moves, healing for 1/4 max HP.'),
+                    ('oblivious', 'Oblivious', 'generation-iii', 'Prevents infatuation and protects against captivate.'),
+                    ('cloud-nine', 'Cloud Nine', 'generation-iii', 'Negates all effects of weather, but does not prevent the weather itself.'),
+                    ('compound-eyes', 'Compound Eyes', 'generation-iii', 'Increases moves'' accuracy to 1.3x.'),
+                    ('insomnia', 'Insomnia', 'generation-iii', 'Prevents sleep.'),
+                    ('color-change', 'Color Change', 'generation-iii', 'Changes type to match when hit by a damaging move.'),
+                    ('immunity', 'Immunity', 'generation-iii', 'Prevents poison.'),
+                    ('flash-fire', 'Flash Fire', 'generation-iii', 'Protects against fire moves.  Once one has been blocked, the Pokémon''s own Fire moves inflict 1.5x damage until it leaves battle.'),
+                    ('shield-dust', 'Shield Dust', 'generation-iii', 'Protects against incoming moves'' extra effects.'),
+                    ('own-tempo', 'Own Tempo', 'generation-iii', 'Prevents confusion.'),
+                    ('suction-cups', 'Suction Cups', 'generation-iii', 'Prevents being forced out of battle by other Pokémon''s moves.'),
+                    ('intimidate', 'Intimidate', 'generation-iii', 'Lowers opponents'' Attack one stage upon entering battle.'),
+                    ('shadow-tag', 'Shadow Tag', 'generation-iii', 'Prevents opponents from fleeing or switching out.'),
+                    ('rough-skin', 'Rough Skin', 'generation-iii', 'Damages attacking Pokémon for 1/8 their max HP on contact.'),
+                    ('wonder-guard', 'Wonder Guard', 'generation-iii', 'Protects against damaging moves that are not super effective.'),
+                    ('levitate', 'Levitate', 'generation-iii', 'Evades ground moves.'),
+                    ('effect-spore', 'Effect Spore', 'generation-iii', 'Has a 30% chance of inflcting either paralysis, poison, or sleep on attacking Pokémon on contact.'),
+                    ('synchronize', 'Synchronize', 'generation-iii', 'Copies burns, paralysis, and poison received onto the Pokémon that inflicted them.'),
+                    ('clear-body', 'Clear Body', 'generation-iii', 'Prevents stats from being lowered by other Pokémon.'),
+                    ('natural-cure', 'Natural Cure', 'generation-iii', 'Cures any major status ailment upon switching out.'),
+                    ('lightning-rod', 'Lightning Rod', 'generation-iii', 'Redirects single-target electric moves to this Pokémon where possible.  Absorbs Electric moves, raising Special Attack one stage.'),
+                    ('serene-grace', 'Serene Grace', 'generation-iii', 'Doubles the chance of moves'' extra effects occurring.'),
+                    ('swift-swim', 'Swift Swim', 'generation-iii', 'Doubles Speed during rain.'),
+                    ('chlorophyll', 'Chlorophyll', 'generation-iii', 'Doubles Speed during strong sunlight.'),
+                    ('illuminate', 'Illuminate', 'generation-iii', 'Doubles the wild encounter rate.'),
+                    ('trace', 'Trace', 'generation-iii', 'Copies an opponent''s ability upon entering battle.'),
+                    ('huge-power', 'Huge Power', 'generation-iii', 'Doubles Attack in battle.'),
+                    ('poison-point', 'Poison Point', 'generation-iii', 'Has a 30% chance of poisoning attacking Pokémon on contact.'),
+                    ('inner-focus', 'Inner Focus', 'generation-iii', 'Prevents flinching.'),
+                    ('magma-armor', 'Magma Armor', 'generation-iii', 'Prevents freezing.'),
+                    ('water-veil', 'Water Veil', 'generation-iii', 'Prevents burns.'),
+                    ('magnet-pull', 'Magnet Pull', 'generation-iii', 'Prevents steel opponents from fleeing or switching out.'),
+                    ('soundproof', 'Soundproof', 'generation-iii', 'Protects against sound-based moves.'),
+                    ('rain-dish', 'Rain Dish', 'generation-iii', 'Heals for 1/16 max HP after each turn during rain.'),
+                    ('sand-stream', 'Sand Stream', 'generation-iii', 'Summons a sandstorm that lasts indefinitely upon entering battle.'),
+                    ('pressure', 'Pressure', 'generation-iii', 'Increases the PP cost of moves targetting the Pokémon by one.'),
+                    ('thick-fat', 'Thick Fat', 'generation-iii', 'Halves damage from fire and ice moves.'),
+                    ('early-bird', 'Early Bird', 'generation-iii', 'Makes sleep pass twice as quickly.'),
+                    ('flame-body', 'Flame Body', 'generation-iii', 'Has a 30% chance of burning attacking Pokémon on contact.'),
+                    ('run-away', 'Run Away', 'generation-iii', 'Ensures success fleeing from wild battles.'),
+                    ('keen-eye', 'Keen Eye', 'generation-iii', 'Prevents accuracy from being lowered.'),
+                    ('hyper-cutter', 'Hyper Cutter', 'generation-iii', 'Prevents Attack from being lowered by other Pokémon.'),
+                    ('pickup', 'Pickup', 'generation-iii', 'Picks up other Pokémon''s used and Flung held items.  May also pick up an item after battle.'),
+                    ('truant', 'Truant', 'generation-iii', 'Skips every second turn.'),
+                    ('hustle', 'Hustle', 'generation-iii', 'Strengthens physical moves to inflict 1.5x damage, but decreases their accuracy to 0.8x.'),
+                    ('cute-charm', 'Cute Charm', 'generation-iii', 'Has a 30% chance of infatuating attacking Pokémon on contact.'),
+                    ('plus', 'Plus', 'generation-iii', 'Increases Special Attack to 1.5x when a friendly Pokémon has plus or minus.'),
+                    ('minus', 'Minus', 'generation-iii', 'Increases Special Attack to 1.5x when a friendly Pokémon has plus or minus.'),
+                    ('forecast', 'Forecast', 'generation-iii', 'Changes castform''s type and form to match the weather.'),
+                    ('sticky-hold', 'Sticky Hold', 'generation-iii', 'Prevents a held item from being removed by other Pokémon.'),
+                    ('shed-skin', 'Shed Skin', 'generation-iii', 'Has a 33% chance of curing any major status ailment after each turn.'),
+                    ('guts', 'Guts', 'generation-iii', 'Increases Attack to 1.5x with a major status ailment.'),
+                    ('marvel-scale', 'Marvel Scale', 'generation-iii', 'Increases Defense to 1.5x with a major status ailment.'),
+                    ('liquid-ooze', 'Liquid Ooze', 'generation-iii', 'Damages opponents using leeching moves for as much as they would heal.'),
+                    ('overgrow', 'Overgrow', 'generation-iii', 'Strengthens grass moves to inflict 1.5x damage at 1/3 max HP or less.'),
+                    ('blaze', 'Blaze', 'generation-iii', 'Strengthens fire moves to inflict 1.5x damage at 1/3 max HP or less.'),
+                    ('torrent', 'Torrent', 'generation-iii', 'Strengthens water moves to inflict 1.5x damage at 1/3 max HP or less.'),
+                    ('swarm', 'Swarm', 'generation-iii', 'Strengthens bug moves to inflict 1.5x damage at 1/3 max HP or less.'),
+                    ('rock-head', 'Rock Head', 'generation-iii', 'Protects against recoil damage.'),
+                    ('drought', 'Drought', 'generation-iii', 'Summons strong sunlight that lasts indefinitely upon entering battle.'),
+                    ('arena-trap', 'Arena Trap', 'generation-iii', 'Prevents opponents from fleeing or switching out.  Eluded by flying-types and Pokémon in the air.'),
+                    ('vital-spirit', 'Vital Spirit', 'generation-iii', 'Prevents sleep.'),
+                    ('white-smoke', 'White Smoke', 'generation-iii', 'Prevents stats from being lowered by other Pokémon.'),
+                    ('pure-power', 'Pure Power', 'generation-iii', 'Doubles Attack in battle.'),
+                    ('shell-armor', 'Shell Armor', 'generation-iii', 'Protects against critical hits.'),
+                    ('air-lock', 'Air Lock', 'generation-iii', 'Negates all effects of weather, but does not prevent the weather itself.'),
+            ) AS a (slug, name, generation_introduced_slug, effect)
+    )
+INSERT INTO
+    dex.abilities (slug, name, generation_introduced_id, effect)
+SELECT
+    a.slug,
+    a.name,
+    gen.id,
+    a.effect
+FROM
+    a
+    JOIN meta.generations gen ON gen.slug = a.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
