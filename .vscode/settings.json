@@ -16,7 +16,7 @@
   },
   "Prettier-SQL.keywordCase": "upper",
   "Prettier-SQL.linesBetweenQueries": 1,
-  "Prettier-SQL.expressionWidth": 200,
+  "Prettier-SQL.expressionWidth": 300,
   "Prettier-SQL.denseOperators": false,
   "Prettier-SQL.commaPosition": "after"
 }

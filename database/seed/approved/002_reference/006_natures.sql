@@ -1,5 +1,4 @@
 -- Generated from PokeAPI (/nature)
--- Skipped slugs: unknown, stellar
 -- Generated at: 2025-10-19T16:12:33.173Z
 WITH
     n AS (

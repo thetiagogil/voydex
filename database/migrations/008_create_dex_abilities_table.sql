@@ -4,8 +4,7 @@ CREATE TABLE
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL UNIQUE,
     generation_introduced_id INTEGER NOT NULL REFERENCES meta.generations (id),
-    effect_short TEXT,
-    effect_long TEXT,
+    effect TEXT,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW ()

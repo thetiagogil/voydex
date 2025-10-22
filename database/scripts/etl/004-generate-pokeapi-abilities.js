@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { DEFAULT_DELAY_MS, SKIP_SLUGS } from "../../config/pokeapi-config.js";
-import { confirmOrExit, getFlag } from "../../helpers/cli.js";
-import { logger, prettyLog } from "../../helpers/logger.js";
+import { DEFAULT_DELAY_MS, SKIP_SLUGS } from "../config/pokeapi-config.js";
+import { confirmOrExit, getFlag } from "../helpers/cli.js";
+import { logger, prettyLog } from "../helpers/logger.js";
 import {
   escapeSql,
   fetchAllIndexEntries,
   fetchJson,
-  getGenerationId,
   titleCase,
-} from "../../helpers/pokeapi.js";
+} from "../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const force = getFlag("--force");
@@ -70,45 +69,49 @@ async function main() {
         prettyLog(`Skipping ${slug}`, { emoji: "⏭️" });
         continue;
       }
-      const id = obj.id;
+
       const name = titleCase(slug);
-      const generation_introduced_id = getGenerationId(obj.generation, 3);
-      let effect_short = null;
-      let effect_long = null;
+      // Use generation.slug (name) rather than numeric id
+      const generation_introduced_slug =
+        obj.generation && obj.generation.name
+          ? String(obj.generation.name).toLowerCase()
+          : null;
+      let effect = null;
       if (Array.isArray(obj.effect_entries)) {
         const en = obj.effect_entries.find(
           (x) => x.language && x.language.name === "en"
         );
         if (en) {
-          effect_short = en.short_effect || null;
-          effect_long = en.effect || null;
+          effect = en.short_effect || null;
         }
       }
 
+      // keep the original PokeAPI id so we can order by it
       rows.push({
-        id,
+        id: obj.id,
         slug,
         name,
-        generation_introduced_id,
-        effect_short,
-        effect_long,
+        generation_introduced_slug,
+        effect,
       });
     } catch (err) {
       prettyLog(`Failed fetching ${e.url}: ${err.message || err}`, {
         emoji: "⚠️",
       });
     }
-    // avoid unnecessary waiting during dry runs; respect DEFAULT_DELAY_MS otherwise
+
     const delayMs = dry ? 0 : DEFAULT_DELAY_MS;
     if (delayMs) await new Promise((res) => setTimeout(res, delayMs));
   }
 
-  rows.sort((a, b) => a.id - b.id);
+  // sort by PokeAPI id for canonical ordering
+  rows.sort((a, b) => (a.id || 0) - (b.id || 0));
 
   const header = `-- Generated from PokeAPI (/ability)
 -- Skipped slugs: ${Array.from(SKIP_SLUGS).join(", ")}
 -- Generated at: ${new Date().toISOString()}
-\n`;
+
+`;
 
   let sql;
   if (rows.length === 0) {
@@ -118,13 +121,15 @@ async function main() {
       .map((r) => {
         const slug = escapeSql(r.slug) ?? "";
         const name = escapeSql(r.name) ?? "";
-        const shortEff = r.effect_short ? escapeSql(r.effect_short) : null;
-        const longEff = r.effect_long ? escapeSql(r.effect_long) : null;
-        return `(${r.id}, '${slug}', '${name}', ${r.generation_introduced_id}, ${shortEff ? `'${shortEff}'` : "NULL"}, ${longEff ? `'${longEff}'` : "NULL"})`;
+        const genSlug = r.generation_introduced_slug
+          ? escapeSql(r.generation_introduced_slug)
+          : null;
+        const effect = r.effect ? escapeSql(r.effect) : null;
+        return `('${slug}', '${name}', ${genSlug ? `'${genSlug}'` : "NULL"}, ${effect ? `'${effect}'` : "NULL"})`;
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.abilities (id, slug, name, generation_introduced_id, effect_short, effect_long) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
+    const insert = `INSERT INTO dex.abilities (slug, name, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 
