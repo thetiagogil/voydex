@@ -21,7 +21,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "006_pokeapi_pokemon_species.sql"
+  "012_pokeapi_pokemon_species.sql"
 );
 
 async function main() {

@@ -14,13 +14,14 @@ import {
 const dry = getFlag("--dry");
 const force = getFlag("--force");
 const showSql = getFlag("--sql");
+const splitByGeneration = getFlag("--split-by-generation");
 
 const OUT_FILE = path.resolve(
   process.cwd(),
   "database",
   "seed",
   "etl",
-  "004_pokeapi_abilities.sql"
+  "008_pokeapi_abilities.sql"
 );
 
 async function main() {
@@ -113,25 +114,98 @@ async function main() {
 
 `;
 
-  let sql;
   if (rows.length === 0) {
-    sql = header + "-- No rows to insert\n";
-  } else {
-    const values = rows
-      .map((r) => {
-        const slug = escapeSql(r.slug) ?? "";
-        const name = escapeSql(r.name) ?? "";
-        const genSlug = r.generation_introduced_slug
-          ? escapeSql(r.generation_introduced_slug)
-          : null;
-        const effect = r.effect ? escapeSql(r.effect) : null;
-        return `('${slug}', '${name}', ${genSlug ? `'${genSlug}'` : "NULL"}, ${effect ? `'${effect}'` : "NULL"})`;
-      })
-      .join(",\n");
-
-    const insert = `INSERT INTO dex.abilities (slug, name, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
-    sql = header + insert + "\n";
+    const sql = header + "-- No rows to insert\n";
+    if (dry) {
+      if (showSql) (logger.section("SQL preview", "📄"), logger.sqlBlock(sql));
+      logger.success("Preview complete — 0 rows would be written.");
+    }
+    return;
   }
+
+  function sanitizeSlug(s) {
+    if (!s) return "unknown";
+    return String(s)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .replace(/-+/g, "-");
+  }
+
+  if (splitByGeneration) {
+    const groups = rows.reduce((acc, r) => {
+      const g = r.generation_introduced_slug || "unknown";
+      acc[g] = acc[g] || [];
+      acc[g].push(r);
+      return acc;
+    }, {});
+
+    const seedsDir = path.dirname(OUT_FILE);
+    if (!fs.existsSync(seedsDir)) fs.mkdirSync(seedsDir, { recursive: true });
+
+    const summaries = [];
+    for (const gen of Object.keys(groups)) {
+      const grp = groups[gen];
+      const values = grp
+        .map((r) => {
+          const slug = escapeSql(r.slug) ?? "";
+          const name = escapeSql(r.name) ?? "";
+          const extId = typeof r.id === "number" ? r.id : "NULL";
+          const genSlug = r.generation_introduced_slug
+            ? `'${escapeSql(r.generation_introduced_slug)}'`
+            : "NULL";
+          const effect = r.effect ? `'${escapeSql(r.effect)}'` : "NULL";
+          return `('${slug}', '${name}', ${extId}, ${genSlug}, ${effect})`;
+        })
+        .join(",\n");
+
+      const insert = `INSERT INTO dex.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+      const sql = header + insert + "\n";
+
+      const fname = `008_abilities_${sanitizeSlug(gen)}.sql`;
+      const outPath = path.resolve(seedsDir, fname);
+
+      if (dry) {
+        if (showSql) {
+          logger.section(`SQL preview — ${fname}`, "📄");
+          logger.sqlBlock(sql);
+        }
+        summaries.push({ file: fname, rows: grp.length });
+      } else {
+        fs.writeFileSync(outPath, sql, "utf8");
+        logger.success(
+          `Wrote ${path.relative(process.cwd(), outPath)} (${grp.length} rows)`
+        );
+      }
+    }
+
+    if (dry) {
+      logger.success(
+        `Preview complete — ${rows.length} rows across ${Object.keys(groups).length} generation files.`
+      );
+      for (const s of summaries) prettyLog(`- ${s.file}: ${s.rows} rows`);
+      return;
+    }
+
+    return;
+  }
+
+  // default: single-file output
+  const values = rows
+    .map((r) => {
+      const slug = escapeSql(r.slug) ?? "";
+      const name = escapeSql(r.name) ?? "";
+      const extId = typeof r.id === "number" ? r.id : "NULL";
+      const genSlug = r.generation_introduced_slug
+        ? `'${escapeSql(r.generation_introduced_slug)}'`
+        : "NULL";
+      const effect = r.effect ? `'${escapeSql(r.effect)}'` : "NULL";
+      return `('${slug}', '${name}', ${extId}, ${genSlug}, ${effect})`;
+    })
+    .join(",\n");
+
+  const insert = `INSERT INTO dex.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+  const sql = header + insert + "\n";
 
   if (dry) {
     if (showSql) {

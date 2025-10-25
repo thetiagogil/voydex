@@ -148,7 +148,15 @@ export function normalizeTypeObject(obj) {
 
 export function escapeSql(s) {
   if (s == null) return null;
-  return String(s).replace(/['\u2019]/g, "''");
+  // Normalize whitespace (newlines, tabs, non-breaking spaces) to single spaces,
+  // remove soft-hyphens and trim. Then escape single quotes (including U+2019).
+  let str = String(s);
+  // Remove soft hyphen (U+00AD) which can insert visual breaks
+  str = str.replace(/\u00AD/g, "");
+  // Replace various whitespace (including NBSP) with a single space
+  str = str.replace(/[\s\u00A0]+/g, " ").trim();
+  // Escape single quotes and right single quotation mark
+  return str.replace(/['\u2019]/g, "''");
 }
 
 // Fetch generation resource lists (moves, abilities, types, pokemon_species, version_groups)

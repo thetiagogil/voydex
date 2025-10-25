@@ -1,27 +1,27 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { SKIP_SLUGS } from "../../config/pokeapi-config.js";
-import { confirmOrExit, getFlag } from "../../helpers/cli.js";
-import { logger, prettyLog } from "../../helpers/logger.js";
+import { SKIP_SLUGS } from "../config/pokeapi-config.js";
+import { confirmOrExit, getFlag } from "../helpers/cli.js";
+import { logger, prettyLog } from "../helpers/logger.js";
 import {
   escapeSql,
   fetchAllIndexEntries,
   fetchJson,
-  getGenerationId,
   titleCase,
-} from "../../helpers/pokeapi.js";
+} from "../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const force = getFlag("--force");
 const showSql = getFlag("--sql");
+const splitByGeneration = getFlag("--split-by-generation");
 
 const OUT_FILE = path.resolve(
   process.cwd(),
   "database",
   "seed",
   "etl",
-  "005_pokeapi_moves.sql"
+  "008_pokeapi_moves.sql"
 );
 
 async function main() {
@@ -74,24 +74,27 @@ async function main() {
 
       const id = obj.id;
       const name = titleCase(slug);
-      const generation_introduced_id = getGenerationId(obj.generation, 1);
+      const generation_introduced_slug =
+        obj.generation && obj.generation.name
+          ? String(obj.generation.name).toLowerCase()
+          : null;
 
-      // description: use English flavor_text_entries when available; fallback to effect_entries
-      let description = null;
+      // effect: use English flavor_text_entries when available; fallback to effect_entries
+      let effect = null;
       if (Array.isArray(obj.flavor_text_entries)) {
         const en = obj.flavor_text_entries.find(
           (x) => x.language && x.language.name === "en"
         );
-        if (en) description = en.flavor_text || null;
+        if (en) effect = en.flavor_text || null;
       }
-      if (!description && Array.isArray(obj.effect_entries)) {
+      if (!effect && Array.isArray(obj.effect_entries)) {
         const en = obj.effect_entries.find(
           (x) => x.language && x.language.name === "en"
         );
-        if (en) description = en.short_effect || en.effect || null;
+        if (en) effect = en.short_effect || en.effect || null;
       }
 
-      rows.push({ id, slug, name, generation_introduced_id, description });
+      rows.push({ id, slug, name, generation_introduced_slug, effect });
     } catch (err) {
       prettyLog(`Failed fetching ${e.url}: ${err.message || err}`, {
         emoji: "⚠️",
@@ -102,29 +105,101 @@ async function main() {
     if (delayMs) await new Promise((res) => setTimeout(res, delayMs));
   }
 
-  rows.sort((a, b) => a.id - b.id);
+  // canonical ordering by PokeAPI id
+  rows.sort((a, b) => (a.id || 0) - (b.id || 0));
 
   const header = `-- Generated from PokeAPI (/move)
 -- Skipped slugs: ${Array.from(SKIP_SLUGS).join(", ")}
 -- Generated at: ${new Date().toISOString()}
-\n`;
 
-  let sql;
+`;
+
   if (rows.length === 0) {
-    sql = header + "-- No rows to insert\n";
-  } else {
-    const values = rows
-      .map((r) => {
-        const slug = escapeSql(r.slug) ?? "";
-        const name = escapeSql(r.name) ?? "";
-        const desc = r.description ? `'${escapeSql(r.description)}'` : "NULL";
-        return `(${r.id}, '${slug}', '${name}', ${r.generation_introduced_id}, ${desc})`;
-      })
-      .join(",\n");
-
-    const insert = `INSERT INTO dex.moves (id, slug, name, generation_introduced_id, description) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
-    sql = header + insert + "\n";
+    logger.section("No rows collected — nothing to write", "ℹ️");
+    return;
   }
+
+  function sanitizeSlug(s) {
+    if (!s) return "unknown";
+    return String(s)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .replace(/-+/g, "-");
+  }
+
+  if (splitByGeneration) {
+    const groups = rows.reduce((acc, r) => {
+      const g = r.generation_introduced_slug || "unknown";
+      acc[g] = acc[g] || [];
+      acc[g].push(r);
+      return acc;
+    }, {});
+
+    const seedsDir = path.dirname(OUT_FILE);
+    if (!fs.existsSync(seedsDir)) fs.mkdirSync(seedsDir, { recursive: true });
+
+    const summaries = [];
+    for (const gen of Object.keys(groups)) {
+      const grp = groups[gen];
+      const values = grp
+        .map((r) => {
+          const slug = escapeSql(r.slug) ?? "";
+          const name = escapeSql(r.name) ?? "";
+          const genSlug = r.generation_introduced_slug
+            ? `'${escapeSql(r.generation_introduced_slug)}'`
+            : "NULL";
+          const extId = typeof r.id === "number" ? r.id : "NULL";
+          const desc = r.effect ? `'${escapeSql(r.effect)}'` : "NULL";
+          return `('${slug}', '${name}', ${extId}, ${genSlug}, ${desc})`;
+        })
+        .join(",\n");
+
+      const insert = `INSERT INTO dex.moves (slug, name, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+      const sql = header + insert + "\n";
+
+      const fname = `009_moves_${sanitizeSlug(gen)}.sql`;
+      const outPath = path.resolve(seedsDir, fname);
+
+      if (dry) {
+        if (showSql) {
+          logger.section(`SQL preview — ${fname}`, "📄");
+          logger.sqlBlock(sql);
+        }
+        summaries.push({ file: fname, rows: grp.length });
+      } else {
+        fs.writeFileSync(outPath, sql, "utf8");
+        logger.success(
+          `Wrote ${path.relative(process.cwd(), outPath)} (${grp.length} rows)`
+        );
+      }
+    }
+
+    if (dry) {
+      logger.success(
+        `Preview complete — ${rows.length} rows across ${Object.keys(groups).length} generation files.`
+      );
+      for (const s of summaries) prettyLog(`- ${s.file}: ${s.rows} rows`);
+      return;
+    }
+
+    return;
+  }
+
+  const values = rows
+    .map((r) => {
+      const slug = escapeSql(r.slug) ?? "";
+      const name = escapeSql(r.name) ?? "";
+      const genSlug = r.generation_introduced_slug
+        ? `'${escapeSql(r.generation_introduced_slug)}'`
+        : "NULL";
+      const desc = r.effect ? `'${escapeSql(r.effect)}'` : "NULL";
+      return `('${slug}', '${name}', ${genSlug}, ${desc})`;
+    })
+    .join(",\n");
+
+  const insert = `INSERT INTO dex.moves (slug, name, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+  const sql = header + insert + "\n";
 
   if (dry) {
     if (showSql) {

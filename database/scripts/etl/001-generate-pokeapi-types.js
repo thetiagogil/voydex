@@ -15,7 +15,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "001_pokeapi_types.sql"
+  "005_pokeapi_types.sql"
 );
 
 async function main() {

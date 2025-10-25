@@ -9,10 +9,10 @@ const __dirname = path.dirname(__filename);
 
 const SEED_DIR = path.resolve(__dirname, "../../seed/etl");
 const GEN_FILES = [
-  "008_pokeapi_pokemon_availability_gen1.sql",
-  "008_pokeapi_pokemon_availability_gen2.sql",
-  "008_pokeapi_pokemon_availability_gen3.sql",
-  "008_pokeapi_pokemon_availability_gen4.sql",
+  "015_pokeapi_pokemon_availability_gen1.sql",
+  "015_pokeapi_pokemon_availability_gen2.sql",
+  "015_pokeapi_pokemon_availability_gen3.sql",
+  "015_pokeapi_pokemon_availability_gen4.sql",
 ].map((f) => path.join(SEED_DIR, f));
 
 function parseArgs() {

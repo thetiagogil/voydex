@@ -21,7 +21,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "003_pokeapi_egg_groups.sql"
+  "007_pokeapi_egg_groups.sql"
 );
 
 async function main() {

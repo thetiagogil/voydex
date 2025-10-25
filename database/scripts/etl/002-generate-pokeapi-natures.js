@@ -22,7 +22,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "002_pokeapi_natures.sql"
+  "006_pokeapi_natures.sql"
 );
 
 async function main() {

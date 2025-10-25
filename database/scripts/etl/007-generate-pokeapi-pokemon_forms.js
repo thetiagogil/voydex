@@ -161,7 +161,7 @@ async function runForGen(gen) {
     process.cwd(),
     "database",
     "seed",
-    `007_pokeapi_pokemon_forms_gen${gen}.sql`
+    `013_pokeapi_pokemon_forms_gen${gen}.sql`
   );
 
   let sql;
