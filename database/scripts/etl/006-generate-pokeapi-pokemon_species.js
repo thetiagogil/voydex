@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { DEFAULT_DELAY_MS, SKIP_SLUGS } from "../../config/pokeapi-config.js";
-import { confirmOrExit, getFlag } from "../../helpers/cli.js";
-import { logger, prettyLog } from "../../helpers/logger.js";
+import { DEFAULT_DELAY_MS, SKIP_SLUGS } from "../config/pokeapi-config.js";
+import { confirmOrExit, getFlag } from "../helpers/cli.js";
+import { logger, prettyLog } from "../helpers/logger.js";
 import {
   escapeSql,
   fetchAllIndexEntries,
   fetchJson,
-  getGenerationId,
   titleCase,
-} from "../../helpers/pokeapi.js";
+} from "../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const force = getFlag("--force");
 const showSql = getFlag("--sql");
+const splitByGen = getFlag("--split-by-generation");
 
 const OUT_FILE = path.resolve(
   process.cwd(),
@@ -57,6 +57,7 @@ async function main() {
   prettyLog(`Preparing to fetch ${candidates.length} pokemon species details`);
 
   const rows = [];
+  const rowsByGen = {};
   const total = candidates.length;
   for (let i = 0; i < total; i++) {
     const e = candidates[i];
@@ -77,29 +78,12 @@ async function main() {
 
       const id = obj.id;
       const name = titleCase(slug);
-      const introduced_generation_id = getGenerationId(obj.generation, 1);
+      const introduced_generation_slug =
+        obj.generation && obj.generation.name
+          ? String(obj.generation.name)
+          : "generation-i";
 
-      // egg groups: use first two if present (parse id from url)
-      let egg_group1_id = null;
-      let egg_group2_id = null;
-      if (Array.isArray(obj.egg_groups) && obj.egg_groups.length > 0) {
-        try {
-          const g1 = obj.egg_groups[0];
-          const m1 = String(g1?.url || "").match(/\/(\d+)\/?$/);
-          if (m1) egg_group1_id = Number(m1[1]);
-        } catch (err) {
-          /* ignore */
-        }
-        if (obj.egg_groups.length > 1) {
-          try {
-            const g2 = obj.egg_groups[1];
-            const m2 = String(g2?.url || "").match(/\/(\d+)\/?$/);
-            if (m2) egg_group2_id = Number(m2[1]);
-          } catch (err) {
-            /* ignore */
-          }
-        }
-      }
+      // egg groups are handled in pokemon_attributes; don't include them here
 
       // national number: prefer pokedex_numbers entry for the 'national' pokedex
       let national_number = null;
@@ -113,36 +97,25 @@ async function main() {
       if (national_number == null) national_number = obj.id;
 
       const color = obj.color ? titleCase(obj.color.name) : null;
-      const gender_rate =
-        typeof obj.gender_rate === "number" ? obj.gender_rate : null;
-      const capture_rate =
-        typeof obj.capture_rate === "number" ? obj.capture_rate : null;
-      const base_happiness =
-        typeof obj.base_happiness === "number" ? obj.base_happiness : null;
-      const growth_rate = obj.growth_rate
-        ? String(obj.growth_rate.name || obj.growth_rate)
-        : null;
       const is_baby = !!obj.is_baby;
       const is_legendary = !!obj.is_legendary;
       const is_mythical = !!obj.is_mythical;
 
-      rows.push({
+      const row = {
         id,
         slug,
         name,
-        introduced_generation_id,
-        egg_group1_id,
-        egg_group2_id,
+        introduced_generation_slug,
         national_number,
         color,
-        gender_rate,
-        capture_rate,
-        base_happiness,
-        growth_rate,
         is_baby,
         is_legendary,
         is_mythical,
-      });
+      };
+      rows.push(row);
+      rowsByGen[introduced_generation_slug] =
+        rowsByGen[introduced_generation_slug] || [];
+      rowsByGen[introduced_generation_slug].push(row);
     } catch (err) {
       prettyLog(`Failed fetching ${e.url}: ${err.message || err}`, {
         emoji: "⚠️",
@@ -158,50 +131,122 @@ async function main() {
   const header = `-- Generated from PokeAPI (/pokemon-species)
 -- Skipped slugs: ${Array.from(SKIP_SLUGS).join(", ")}
 -- Generated at: ${new Date().toISOString()}
+-- NOTE: This seed uses slug-based lookups. VALUES rows are (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
 \n`;
 
-  let sql;
-  if (rows.length === 0) {
-    sql = header + "-- No rows to insert\n";
-  } else {
-    const values = rows
+  function buildSqlForRows(rs) {
+    if (!rs || rs.length === 0) return header + "-- No rows to insert\n";
+    const values = rs
       .map((r) => {
         const slug = escapeSql(r.slug) ?? "";
         const name = escapeSql(r.name) ?? "";
-        const introduced = r.introduced_generation_id || 1;
-        const egg1 = r.egg_group1_id != null ? r.egg_group1_id : "NULL";
-        const egg2 = r.egg_group2_id != null ? r.egg_group2_id : "NULL";
+        const introduced = r.introduced_generation_slug
+          ? `${r.introduced_generation_slug}`
+          : "generation-i";
         const nat = r.national_number != null ? r.national_number : "NULL";
         const color = r.color ? `'${escapeSql(r.color)}'` : "NULL";
-        const gender = r.gender_rate != null ? r.gender_rate : "NULL";
-        const capture = r.capture_rate != null ? r.capture_rate : "NULL";
-        const happiness = r.base_happiness != null ? r.base_happiness : "NULL";
-        const growth = r.growth_rate ? `'${escapeSql(r.growth_rate)}'` : "NULL";
-        const is_baby = r.is_baby ? "true" : "false";
-        const is_legendary = r.is_legendary ? "true" : "false";
-        const is_mythical = r.is_mythical ? "true" : "false";
-        return `(${r.id}, '${slug}', '${name}', ${introduced}, ${egg1}, ${egg2}, ${nat}, ${color}, ${gender}, ${capture}, ${happiness}, ${growth}, ${is_baby}, ${is_legendary}, ${is_mythical})`;
+        const is_baby = r.is_baby ? "TRUE" : "FALSE";
+        const is_legendary = r.is_legendary ? "TRUE" : "FALSE";
+        const is_mythical = r.is_mythical ? "TRUE" : "FALSE";
+        return `('${slug}','${name}','${introduced}',${nat},${color},${is_baby},${is_legendary},${is_mythical})`;
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.pokemon_species (id, slug, name, introduced_generation_id, egg_group1_id, egg_group2_id, national_number, color, gender_rate, capture_rate, base_happiness, growth_rate, is_baby, is_legendary, is_mythical) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
-    sql = header + insert + "\n";
+    const sql = `${header}WITH vals(slug,name,introduced_generation_slug,national_number,color,is_baby,is_legendary,is_mythical) AS (\nVALUES\n${values}\n)\nINSERT INTO dex.pokemon_species (slug,name,introduced_generation_id,national_number,color,is_baby,is_legendary,is_mythical,created_at)\nSELECT v.slug, v.name, g.id, v.national_number, v.color, v.is_baby, v.is_legendary, v.is_mythical, now()\nFROM vals v\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nON CONFLICT (slug) DO NOTHING;\n`;
+    return sql;
   }
 
+  if (splitByGen) {
+    // write one file per generation present in rowsByGen
+    const base = path.resolve(
+      process.cwd(),
+      "database",
+      "seed",
+      "generated",
+      "pokemon_species"
+    );
+    if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
+    const shortGen = (g) => {
+      const map = {
+        "generation-i": "gen1",
+        "generation-ii": "gen2",
+        "generation-iii": "gen3",
+        "generation-iv": "gen4",
+        "generation-v": "gen5",
+        "generation-vi": "gen6",
+        "generation-vii": "gen7",
+        "generation-viii": "gen8",
+        "generation-ix": "gen9",
+      };
+      return map[g] || g.replace(/[^a-z0-9_-]/gi, "_");
+    };
+
+    const gens = Object.keys(rowsByGen).sort();
+    for (const gen of gens) {
+      const rs = rowsByGen[gen];
+      const sql = buildSqlForRows(rs);
+      if (dry) {
+        const preview = path.resolve(
+          process.cwd(),
+          "database",
+          "seed",
+          "reports",
+          `pokemon_species_preview_${shortGen(gen)}_${Date.now()}.sql`
+        );
+        fs.mkdirSync(path.dirname(preview), { recursive: true });
+        fs.writeFileSync(preview, sql, "utf8");
+        logger.success(`Wrote preview SQL: ${preview} (${rs.length} rows)`);
+      } else {
+        const fname = path.join(
+          base,
+          `010_pokemon_species_${shortGen(gen)}_generated.sql`
+        );
+        fs.writeFileSync(fname, sql, "utf8");
+        logger.success(
+          `Wrote ${path.relative(process.cwd(), fname)} (${rs.length} rows)`
+        );
+      }
+    }
+    return;
+  }
+
+  // not split: write a single generated file
+  const sql = buildSqlForRows(rows);
   if (dry) {
     if (showSql) {
       logger.section("SQL preview", "📄");
       logger.sqlBlock(sql);
     }
-    logger.success(`Preview complete — ${rows.length} rows would be written.`);
+    const preview = path.resolve(
+      process.cwd(),
+      "database",
+      "seed",
+      "reports",
+      `pokemon_species_preview_${Date.now()}.sql`
+    );
+    fs.mkdirSync(path.dirname(preview), { recursive: true });
+    fs.writeFileSync(preview, sql, "utf8");
+    logger.success(
+      `Preview complete — ${rows.length} rows would be written. Wrote preview: ${preview}`
+    );
     return;
   }
 
-  const seedsDir = path.dirname(OUT_FILE);
-  if (!fs.existsSync(seedsDir)) fs.mkdirSync(seedsDir, { recursive: true });
-  fs.writeFileSync(OUT_FILE, sql, "utf8");
+  const outDir = path.resolve(
+    process.cwd(),
+    "database",
+    "seed",
+    "etl",
+    "pokemon_species"
+  );
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  const outFile = path.join(
+    outDir,
+    `012_pokeapi_pokemon_species_generated.sql`
+  );
+  fs.writeFileSync(outFile, sql, "utf8");
   logger.success(
-    `Wrote ${path.relative(process.cwd(), OUT_FILE)} (${rows.length} rows)`
+    `Wrote ${path.relative(process.cwd(), outFile)} (${rows.length} rows)`
   );
 }
 

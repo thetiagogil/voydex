@@ -4,8 +4,6 @@ CREATE TABLE
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL UNIQUE,
     introduced_generation_id INTEGER NOT NULL REFERENCES meta.generations (id),
-    egg_group1_id INTEGER REFERENCES dex.egg_groups (id),
-    egg_group2_id INTEGER REFERENCES dex.egg_groups (id),
     national_number INTEGER NOT NULL,
     color VARCHAR(20),
     is_baby BOOLEAN DEFAULT FALSE,

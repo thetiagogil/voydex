@@ -8,6 +8,8 @@ CREATE TABLE
     ability1_id INTEGER REFERENCES dex.abilities (id),
     ability2_id INTEGER REFERENCES dex.abilities (id),
     hidden_ability_id INTEGER REFERENCES dex.abilities (id),
+    egg_group1_id INTEGER REFERENCES dex.egg_groups (id),
+    egg_group2_id INTEGER REFERENCES dex.egg_groups (id),
     hp INTEGER NOT NULL,
     attack INTEGER NOT NULL,
     defense INTEGER NOT NULL,
