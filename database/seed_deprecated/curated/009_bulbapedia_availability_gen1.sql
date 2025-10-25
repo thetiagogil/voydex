@@ -773,7 +773,7 @@ WITH v AS (
     )
 )
 INSERT INTO
-  dex.pokemon_availability_per_game (
+  dex.pokemon_availability (
     species_id,
     form_id,
     version_group_id,

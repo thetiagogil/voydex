@@ -14,7 +14,7 @@
   "[sql]": {
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
-  "Prettier-SQL.keywordCase": "upper",
+  "Prettier-SQL.keywordCase": "preserve",
   "Prettier-SQL.linesBetweenQueries": 1,
   "Prettier-SQL.expressionWidth": 300,
   "Prettier-SQL.denseOperators": false,

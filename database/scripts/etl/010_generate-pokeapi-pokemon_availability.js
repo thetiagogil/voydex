@@ -71,7 +71,7 @@ function buildCuratedSqlForRows(rows) {
     return `(${species}, ${form}, ${gameId}, ${isAvailable}, ${isVersionExclusive}, ${source}, ${meta})`;
   });
 
-  const header = `-- Generated curated availability (values -> join by slug)\n-- Generated at: ${new Date().toISOString()}\n\nWITH v AS (\n  SELECT * FROM (\n    VALUES\n    ${tuples.join(",\n    ")}\n  ) AS t(\n    species_slug,\n    form_slug,\n    game_id,\n    is_available,\n    is_version_exclusive,\n    source,\n    source_metadata\n  )\n)\nINSERT INTO dex.pokemon_availability_per_game (species_id, form_id, game_id, is_available, is_version_exclusive, source, source_metadata)\nSELECT\n  s.id AS species_id,\n  COALESCE(f.id, df.id) AS form_id,\n  v.game_id::integer,\n  v.is_available::boolean,\n  v.is_version_exclusive::boolean,\n  v.source::text,\n  v.source_metadata::jsonb\nFROM v\nJOIN dex.pokemon_species s ON s.slug = v.species_slug\nLEFT JOIN dex.pokemon_forms f ON f.slug = v.form_slug AND f.species_id = s.id\nLEFT JOIN dex.pokemon_forms df ON df.species_id = s.id AND df.is_default = true\nON CONFLICT ON CONSTRAINT uq_availability_species_form_per_game DO UPDATE SET\n  is_available = EXCLUDED.is_available,\n  is_version_exclusive = EXCLUDED.is_version_exclusive,\n  source = EXCLUDED.source,\n  source_metadata = EXCLUDED.source_metadata,\n  updated_at = NOW();\n\n`;
+  const header = `-- Generated curated availability (values -> join by slug)\n-- Generated at: ${new Date().toISOString()}\n\nWITH v AS (\n  SELECT * FROM (\n    VALUES\n    ${tuples.join(",\n    ")}\n  ) AS t(\n    species_slug,\n    form_slug,\n    game_id,\n    is_available,\n    is_version_exclusive,\n    source,\n    source_metadata\n  )\n)\nINSERT INTO dex.pokemon_availability (species_id, form_id, game_id, is_available, is_version_exclusive, source, source_metadata)\nSELECT\n  s.id AS species_id,\n  COALESCE(f.id, df.id) AS form_id,\n  v.game_id::integer,\n  v.is_available::boolean,\n  v.is_version_exclusive::boolean,\n  v.source::text,\n  v.source_metadata::jsonb\nFROM v\nJOIN dex.pokemon_species s ON s.slug = v.species_slug\nLEFT JOIN dex.pokemon_forms f ON f.slug = v.form_slug AND f.species_id = s.id\nLEFT JOIN dex.pokemon_forms df ON df.species_id = s.id AND df.is_default = true\nON CONFLICT ON CONSTRAINT uq_availability_species_form_per_game DO UPDATE SET\n  is_available = EXCLUDED.is_available,\n  is_version_exclusive = EXCLUDED.is_version_exclusive,\n  source = EXCLUDED.source,\n  source_metadata = EXCLUDED.source_metadata,\n  updated_at = NOW();\n\n`;
 
   return header;
 }
@@ -90,7 +90,7 @@ async function main() {
     const content = fs.readFileSync(filePath, "utf8");
     // parse per-row INSERT lines to extract information
     const insertRe =
-      /INSERT INTO dex\.pokemon_availability_per_game \([^)]*\) VALUES \(([^)]+)\) ON CONFLICT[^;]+;/g;
+      /INSERT INTO dex\.pokemon_availability \([^)]*\) VALUES \(([^)]+)\) ON CONFLICT[^;]+;/g;
     const rows = [];
     let m;
     while ((m = insertRe.exec(content)) !== null) {

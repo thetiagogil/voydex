@@ -3,20 +3,19 @@ CREATE TYPE dex.move_damage_class AS ENUM ('physical', 'special', 'status');
 CREATE TABLE
   dex.move_attributes (
     move_id INTEGER NOT NULL REFERENCES dex.moves (id) ON DELETE CASCADE,
-    name_alt VARCHAR(100),
     generation_start_id INTEGER NOT NULL REFERENCES meta.generations (id),
+    version_group_start_id INTEGER REFERENCES meta.version_groups (id),
     type_id INTEGER NOT NULL REFERENCES dex.types (id),
-    POWER INTEGER,
+    power INTEGER,
     accuracy INTEGER,
     pp INTEGER NOT NULL,
     priority INTEGER NOT NULL DEFAULT 0,
     damage_class dex.move_damage_class,
-    effect_chance INTEGER,
     PRIMARY KEY (move_id, generation_start_id),
     CHECK (pp > 0),
     CHECK (
-      POWER IS NULL
-      OR POWER >= 1
+      power IS NULL
+      OR power >= 1
     ),
     CHECK (
       accuracy IS NULL
@@ -29,4 +28,15 @@ CREATE TABLE
     )
   );
 
-CREATE INDEX idx_move_attributes_lookup ON dex.move_attributes (move_id, generation_start_id DESC);
+-- exactly one generation-level row per (move,generation)
+CREATE UNIQUE INDEX ux_move_attributes_generation_only ON dex.move_attributes (move_id, generation_start_id)
+WHERE
+  version_group_start_id IS NULL;
+
+-- at most one override per (move,generation,version_group)
+CREATE UNIQUE INDEX ux_move_attributes_override ON dex.move_attributes (move_id, generation_start_id, version_group_start_id)
+WHERE
+  version_group_start_id IS NOT NULL;
+
+-- helpful lookup index
+CREATE INDEX idx_move_attributes_lookup ON dex.move_attributes (move_id, generation_start_id DESC, version_group_start_id);

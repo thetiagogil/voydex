@@ -729,7 +729,7 @@ WITH v AS (
     species_slug, form_slug, game_slug, is_available, is_version_exclusive, method
   )
 )
-INSERT INTO dex.pokemon_availability_per_game (species_id, form_id, version_group_id, game_id, is_available, is_version_exclusive, method)
+INSERT INTO dex.pokemon_availability (species_id, form_id, version_group_id, game_id, is_available, is_version_exclusive, method)
 SELECT
   s.id AS species_id,
   COALESCE(f.id, df.id) AS form_id,
