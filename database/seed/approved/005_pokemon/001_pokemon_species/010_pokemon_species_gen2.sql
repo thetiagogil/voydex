@@ -109,20 +109,19 @@ WITH
                     ('lugia', 'Lugia', 'generation-ii', 249, 'White', FALSE, TRUE, FALSE),
                     ('ho-oh', 'Ho Oh', 'generation-ii', 250, 'Red', FALSE, TRUE, FALSE),
                     ('celebi', 'Celebi', 'generation-ii', 251, 'Green', FALSE, FALSE, TRUE)
-            ) AS p (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
+            ) AS ps (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
     )
 INSERT INTO
-    dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical, created_at)
+    dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 SELECT
-    p.slug,
-    p.name,
+    ps.slug,
+    ps.name,
     gen.id,
-    p.national_number,
-    p.color,
-    p.is_baby,
-    p.is_legendary,
-    p.is_mythical,
-    now ()
+    ps.national_number,
+    ps.color,
+    ps.is_baby,
+    ps.is_legendary,
+    ps.is_mythical
 FROM
-    p
-    LEFT JOIN meta.generations gen ON gen.slug = p.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;
+    ps
+    LEFT JOIN meta.generations gen ON gen.slug = ps.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;

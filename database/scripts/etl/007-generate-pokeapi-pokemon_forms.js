@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { SKIP_FORM_PATTERNS, SKIP_SLUGS } from "../../config/pokeapi-config.js";
-import { getFlag } from "../../helpers/cli.js";
-import { logger, prettyLog } from "../../helpers/logger.js";
+import { SKIP_FORM_PATTERNS, SKIP_SLUGS } from "../config/pokeapi-config.js";
+import { getFlag } from "../helpers/cli.js";
+import { logger, prettyLog } from "../helpers/logger.js";
 import {
   escapeSql,
   fetchAllIndexEntries,
@@ -12,7 +12,7 @@ import {
   getFormIntroducedGeneration,
   getGenerationId,
   titleCase,
-} from "../../helpers/pokeapi.js";
+} from "../helpers/pokeapi.js";
 
 const dry = getFlag("--dry");
 const showSql = getFlag("--sql");
@@ -127,6 +127,7 @@ async function runForGen(gen) {
 
         const row = {
           species_id: species.id,
+          species_slug: speciesSlug,
           slug,
           name,
           introduced_generation_id,
@@ -161,26 +162,34 @@ async function runForGen(gen) {
     process.cwd(),
     "database",
     "seed",
-    `013_pokeapi_pokemon_forms_gen${gen}.sql`
+    "generated",
+    "pokemon_forms",
+    `013_pokeapi_pokemon_forms_gen${gen}_generated.sql`
   );
 
   let sql;
   if (rows.length === 0) sql = header + "-- No rows to insert\n";
   else {
+    // Build slug-based VALUES with server-side joins (species slug -> id, generation slug -> id)
     const values = rows
       .map((r) => {
+        const speciesSlug =
+          escapeSql(r.species_slug || String(r.species_id)) ?? "";
         const slug = escapeSql(r.slug) ?? "";
         const name = escapeSql(r.name) ?? "";
         const sprite = r.sprite_url ? `'${escapeSql(r.sprite_url)}'` : "NULL";
         const h = r.height != null ? r.height : "NULL";
         const w = r.weight != null ? r.weight : "NULL";
-        const genId = r.introduced_generation_id || 1;
-        const isDef = r.is_default ? "true" : "false";
-        return `(${r.species_id}, '${slug}', '${name}', ${genId}, ${h}, ${w}, ${isDef}, ${sprite})`;
+        const genSlug = r.introduced_generation_id
+          ? `generation-${r.introduced_generation_id}`
+          : `generation-1`;
+        const isDef = r.is_default ? "TRUE" : "FALSE";
+        // order: slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url
+        return `('${slug}','${name}','${speciesSlug}','${genSlug}',${h},${w},${isDef},${sprite})`;
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url) VALUES\n${values}\nON CONFLICT (species_id, slug) DO NOTHING;`;
+    const insert = `WITH vals(slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url) AS (\nVALUES\n${values}\n)\nINSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url, created_at)\nSELECT sp.id, v.slug, v.name, g.id, v.height, v.weight, v.is_default, v.sprite_url, now()\nFROM vals v\nLEFT JOIN dex.pokemon_species sp ON sp.slug = v.species_slug\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nWHERE sp.id IS NOT NULL\nON CONFLICT (species_id, slug) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 

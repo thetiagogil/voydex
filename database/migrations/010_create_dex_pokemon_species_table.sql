@@ -12,7 +12,7 @@ CREATE TABLE
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW (),
-      CHECK (national_number > 0),
+      CHECK (national_number > 0)
   );
 
 CREATE INDEX idx_pokemon_species_national_number ON dex.pokemon_species (national_number);

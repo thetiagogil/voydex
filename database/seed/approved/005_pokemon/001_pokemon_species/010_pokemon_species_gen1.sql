@@ -163,7 +163,7 @@ WITH
             ) AS ps (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
     )
 INSERT INTO
-    dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical, created_at)
+    dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 SELECT
     ps.slug,
     ps.name,
@@ -172,8 +172,7 @@ SELECT
     ps.color,
     ps.is_baby,
     ps.is_legendary,
-    ps.is_mythical,
-    now ()
+    ps.is_mythical
 FROM
     ps
     LEFT JOIN meta.generations gen ON gen.slug = ps.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;
