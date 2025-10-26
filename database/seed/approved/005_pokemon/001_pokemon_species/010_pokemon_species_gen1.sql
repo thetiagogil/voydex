@@ -175,4 +175,4 @@ SELECT
     ps.is_mythical
 FROM
     ps
-    LEFT JOIN meta.generations gen ON gen.slug = ps.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;
+    JOIN meta.generations gen ON gen.slug = ps.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;
