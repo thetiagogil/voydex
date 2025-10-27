@@ -7,36 +7,37 @@ WITH
         FROM
             (
                 VALUES
-                    ('hardy', 'Hardy', 'generation-iii', NULL, NULL, NULL, NULL),
-                    ('bold', 'Bold', 'generation-iii', 'defense', 'attack', 'sour', NULL),
-                    ('modest', 'Modest', 'generation-iii', 'special-attack', 'attack', 'dry', NULL),
-                    ('calm', 'Calm', 'generation-iii', 'special-defense', 'attack', 'bitter', NULL),
-                    ('timid', 'Timid', 'generation-iii', 'speed', 'attack', 'sweet', NULL),
-                    ('lonely', 'Lonely', 'generation-iii', 'attack', 'defense', 'spicy', NULL),
-                    ('docile', 'Docile', 'generation-iii', NULL, NULL, NULL, NULL),
-                    ('mild', 'Mild', 'generation-iii', 'special-attack', 'defense', 'dry', NULL),
-                    ('gentle', 'Gentle', 'generation-iii', 'special-defense', 'defense', 'bitter', NULL),
-                    ('hasty', 'Hasty', 'generation-iii', 'speed', 'defense', 'sweet', NULL),
-                    ('adamant', 'Adamant', 'generation-iii', 'attack', 'special-attack', 'spicy', NULL),
-                    ('impish', 'Impish', 'generation-iii', 'defense', 'special-attack', 'sour', NULL),
-                    ('bashful', 'Bashful', 'generation-iii', NULL, NULL, NULL, NULL),
-                    ('careful', 'Careful', 'generation-iii', 'special-defense', 'special-attack', 'bitter', NULL),
-                    ('rash', 'Rash', 'generation-iii', 'special-attack', 'special-defense', 'dry', NULL),
-                    ('jolly', 'Jolly', 'generation-iii', 'speed', 'special-attack', 'sweet', NULL),
-                    ('naughty', 'Naughty', 'generation-iii', 'attack', 'special-defense', 'spicy', NULL),
-                    ('lax', 'Lax', 'generation-iii', 'defense', 'special-defense', 'sour', NULL),
-                    ('quirky', 'Quirky', 'generation-iii', NULL, NULL, NULL, NULL),
-                    ('naive', 'Naive', 'generation-iii', 'speed', 'special-defense', 'sweet', NULL),
-                    ('brave', 'Brave', 'generation-iii', 'attack', 'speed', 'spicy', NULL),
-                    ('relaxed', 'Relaxed', 'generation-iii', 'defense', 'speed', 'sour', NULL),
-                    ('quiet', 'Quiet', 'generation-iii', 'special-attack', 'speed', 'dry', NULL),
-                    ('sassy', 'Sassy', 'generation-iii', 'special-defense', 'speed', 'bitter', NULL),
-                    ('serious', 'Serious', 'generation-iii', NULL, NULL, NULL, NULL)
-            ) AS n (slug, name, generation_slug, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
+                    (1, 'hardy', 'Hardy', 'generation-iii', NULL, NULL, NULL, NULL),
+                    (2, 'bold', 'Bold', 'generation-iii', 'defense', 'attack', 'sour', NULL),
+                    (3, 'modest', 'Modest', 'generation-iii', 'special-attack', 'attack', 'dry', NULL),
+                    (4, 'calm', 'Calm', 'generation-iii', 'special-defense', 'attack', 'bitter', NULL),
+                    (5, 'timid', 'Timid', 'generation-iii', 'speed', 'attack', 'sweet', NULL),
+                    (6, 'lonely', 'Lonely', 'generation-iii', 'attack', 'defense', 'spicy', NULL),
+                    (7, 'docile', 'Docile', 'generation-iii', NULL, NULL, NULL, NULL),
+                    (8, 'mild', 'Mild', 'generation-iii', 'special-attack', 'defense', 'dry', NULL),
+                    (9, 'gentle', 'Gentle', 'generation-iii', 'special-defense', 'defense', 'bitter', NULL),
+                    (10, 'hasty', 'Hasty', 'generation-iii', 'speed', 'defense', 'sweet', NULL),
+                    (11, 'adamant', 'Adamant', 'generation-iii', 'attack', 'special-attack', 'spicy', NULL),
+                    (12, 'impish', 'Impish', 'generation-iii', 'defense', 'special-attack', 'sour', NULL),
+                    (13, 'bashful', 'Bashful', 'generation-iii', NULL, NULL, NULL, NULL),
+                    (14, 'careful', 'Careful', 'generation-iii', 'special-defense', 'special-attack', 'bitter', NULL),
+                    (15, 'rash', 'Rash', 'generation-iii', 'special-attack', 'special-defense', 'dry', NULL),
+                    (16, 'jolly', 'Jolly', 'generation-iii', 'speed', 'special-attack', 'sweet', NULL),
+                    (17, 'naughty', 'Naughty', 'generation-iii', 'attack', 'special-defense', 'spicy', NULL),
+                    (18, 'lax', 'Lax', 'generation-iii', 'defense', 'special-defense', 'sour', NULL),
+                    (19, 'quirky', 'Quirky', 'generation-iii', NULL, NULL, NULL, NULL),
+                    (20, 'naive', 'Naive', 'generation-iii', 'speed', 'special-defense', 'sweet', NULL),
+                    (21, 'brave', 'Brave', 'generation-iii', 'attack', 'speed', 'spicy', NULL),
+                    (22, 'relaxed', 'Relaxed', 'generation-iii', 'defense', 'speed', 'sour', NULL),
+                    (23, 'quiet', 'Quiet', 'generation-iii', 'special-attack', 'speed', 'dry', NULL),
+                    (24, 'sassy', 'Sassy', 'generation-iii', 'special-defense', 'speed', 'bitter', NULL),
+                    (25, 'serious', 'Serious', 'generation-iii', NULL, NULL, NULL, NULL)
+            ) AS n (id, slug, name, generation_slug, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
     )
 INSERT INTO
-    dex.natures (slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
+    dex.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
 SELECT
+    n.id,
     n.slug,
     n.name,
     gen.id,

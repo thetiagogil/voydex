@@ -5,20 +5,21 @@ WITH
         FROM
             (
                 VALUES
-                    ('kanto', 'Kanto', 'generation-i'),
-                    ('johto', 'Johto', 'generation-ii'),
-                    ('hoenn', 'Hoenn', 'generation-iii'),
-                    ('sinnoh', 'Sinnoh', 'generation-iv'),
-                    ('unova', 'Unova', 'generation-v'),
-                    ('kalos', 'Kalos', 'generation-vi'),
-                    ('alola', 'Alola', 'generation-vii'),
-                    ('galar', 'Galar', 'generation-viii'),
-                    ('paldea', 'Paldea', 'generation-ix')
-            ) AS t (slug, name, generation_slug)
+                    (1, 'kanto', 'Kanto', 'generation-i'),
+                    (2, 'johto', 'Johto', 'generation-ii'),
+                    (3, 'hoenn', 'Hoenn', 'generation-iii'),
+                    (4, 'sinnoh', 'Sinnoh', 'generation-iv'),
+                    (5, 'unova', 'Unova', 'generation-v'),
+                    (6, 'kalos', 'Kalos', 'generation-vi'),
+                    (7, 'alola', 'Alola', 'generation-vii'),
+                    (8, 'galar', 'Galar', 'generation-viii'),
+                    (9, 'paldea', 'Paldea', 'generation-ix')
+            ) AS t (id, slug, name, generation_slug)
     )
 INSERT INTO
-    meta.regions (slug, name, generation_id)
+    meta.regions (id, slug, name, generation_id)
 SELECT
+    r.id,
     r.slug,
     r.name,
     gen.id

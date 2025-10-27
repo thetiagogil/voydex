@@ -8,29 +8,30 @@ WITH
         FROM
             (
                 VALUES
-                    ('normal', 'Normal', 'generation-i'),
-                    ('fighting', 'Fighting', 'generation-i'),
-                    ('flying', 'Flying', 'generation-i'),
-                    ('poison', 'Poison', 'generation-i'),
-                    ('ground', 'Ground', 'generation-i'),
-                    ('rock', 'Rock', 'generation-i'),
-                    ('bug', 'Bug', 'generation-i'),
-                    ('ghost', 'Ghost', 'generation-i'),
-                    ('steel', 'Steel', 'generation-ii'),
-                    ('fire', 'Fire', 'generation-i'),
-                    ('water', 'Water', 'generation-i'),
-                    ('grass', 'Grass', 'generation-i'),
-                    ('electric', 'Electric', 'generation-i'),
-                    ('psychic', 'Psychic', 'generation-i'),
-                    ('ice', 'Ice', 'generation-i'),
-                    ('dragon', 'Dragon', 'generation-i'),
-                    ('dark', 'Dark', 'generation-ii'),
-                    ('fairy', 'Fairy', 'generation-vi')
-            ) AS t (slug, name, generation_slug)
+                    (1, 'normal', 'Normal', 'generation-i'),
+                    (2, 'fighting', 'Fighting', 'generation-i'),
+                    (3, 'flying', 'Flying', 'generation-i'),
+                    (4, 'poison', 'Poison', 'generation-i'),
+                    (5, 'ground', 'Ground', 'generation-i'),
+                    (6, 'rock', 'Rock', 'generation-i'),
+                    (7, 'bug', 'Bug', 'generation-i'),
+                    (8, 'ghost', 'Ghost', 'generation-i'),
+                    (9, 'steel', 'Steel', 'generation-ii'),
+                    (10, 'fire', 'Fire', 'generation-i'),
+                    (11, 'water', 'Water', 'generation-i'),
+                    (12, 'grass', 'Grass', 'generation-i'),
+                    (13, 'electric', 'Electric', 'generation-i'),
+                    (14, 'psychic', 'Psychic', 'generation-i'),
+                    (15, 'ice', 'Ice', 'generation-i'),
+                    (16, 'dragon', 'Dragon', 'generation-i'),
+                    (17, 'dark', 'Dark', 'generation-ii'),
+                    (18, 'fairy', 'Fairy', 'generation-vi')
+            ) AS t (id, slug, name, generation_slug)
     )
 INSERT INTO
-    dex.types (slug, name, generation_introduced_id)
+    dex.types (id, slug, name, generation_introduced_id)
 SELECT
+    t.id,
     t.slug,
     t.name,
     gen.id
