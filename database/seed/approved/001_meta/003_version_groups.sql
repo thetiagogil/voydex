@@ -13,7 +13,7 @@ WITH
                     (6, 'frlg', 'FireRed/LeafGreen', 'generation-iii'),
                     (7, 'e', 'Emerald', 'generation-iii'),
                     (8, 'dp', 'Diamond/Pearl', 'generation-iv'),
-                    (9, 'p', 'Platinum', 'generation-iv'),
+                    (9, 'pt', 'Platinum', 'generation-iv'),
                     (10, 'hgss', 'HeartGold/SoulSilver', 'generation-iv')
             ) AS t (id, slug, name, generation_slug)
     )
