@@ -5,6 +5,7 @@ CREATE TABLE
     form_id INTEGER REFERENCES dex.pokemon_forms (id) ON DELETE CASCADE,
     move_id INTEGER NOT NULL REFERENCES dex.moves (id) ON DELETE CASCADE,
     generation_id INTEGER NOT NULL REFERENCES meta.generations (id) ON DELETE CASCADE,
+    version_group_id INTEGER REFERENCES meta.version_groups (id) ON DELETE CASCADE,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW (),
@@ -16,3 +17,5 @@ CREATE INDEX idx_learnsets_form_gen ON dex.pokemon_learnsets (form_id, generatio
 CREATE INDEX idx_learnsets_species_gen ON dex.pokemon_learnsets (species_id, generation_id);
 
 CREATE INDEX idx_learnsets_move_gen ON dex.pokemon_learnsets (move_id, generation_id);
+
+CREATE INDEX idx_learnsets_version_group ON dex.pokemon_learnsets (version_group_id);
