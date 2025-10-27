@@ -10,12 +10,13 @@
     "lint": "eslint",
     "prettier:format": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "db:test": "node database/scripts/db-test.js",
-    "db:setup": "node database/scripts/db-setup.js",
+    "db:status": "node database/scripts/db-status.js",
+    "db:migrate": "node database/scripts/db-migrate.js",
+    "db:import": "node database/scripts/db-import.js",
     "db:seed": "node database/scripts/db-seed.js",
-    "db:reset": "node database/scripts/db-reset.js",
-    "db:cleanup": "node database/scripts/db-cleanup.js",
-    "db:cleanup:static": "node database/scripts/db-cleanup-static.js"
+    "db:clean": "node database/scripts/db-clean.js",
+    "db:clean:rows": "node database/scripts/db-clean-rows.js",
+    "db:validate": "node database/scripts/db-validate.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -35,6 +36,7 @@
     "@types/pg": "^8.15.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
     "lucide-react": "^0.545.0",
     "next": "15.5.4",
     "next-themes": "^0.4.6",
