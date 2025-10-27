@@ -1,4 +1,4 @@
-CREATE TYPE meta.game_type AS ENUM ('main', 'remake', 'enhanced', 'dlc', 'spin-off');
+CREATE TYPE meta.type_values AS ENUM ('main', 'remake', 'enhanced', 'dlc', 'spin-off');
 
 CREATE TABLE
   meta.games (
@@ -8,7 +8,7 @@ CREATE TABLE
     generation_id INTEGER NOT NULL REFERENCES meta.generations (id),
     region_id INTEGER NOT NULL REFERENCES meta.regions (id),
     version_group_id INTEGER NOT NULL REFERENCES meta.version_groups (id),
-    type meta.game_type NOT NULL,
+    type meta.type_values NOT NULL,
     regional_dex_count INTEGER,
     national_dex_count INTEGER,
     release_year INTEGER NOT NULL CHECK (release_year BETWEEN 1996 AND 2100),

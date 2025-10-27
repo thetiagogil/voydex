@@ -1,6 +1,6 @@
-CREATE TYPE dex.stat_name AS ENUM ('hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed');
+CREATE TYPE dex.stat_values AS ENUM ('hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed');
 
-CREATE TYPE dex.berry_flavor AS ENUM ('spicy', 'dry', 'sweet', 'bitter', 'sour');
+CREATE TYPE dex.flavor_values AS ENUM ('spicy', 'dry', 'sweet', 'bitter', 'sour');
 
 CREATE TABLE
   dex.natures (
@@ -8,10 +8,10 @@ CREATE TABLE
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(50) NOT NULL UNIQUE,
     generation_introduced_id INTEGER NOT NULL REFERENCES meta.generations (id),
-    increased_stat dex.stat_name,
-    decreased_stat dex.stat_name,
-    liked_flavor dex.berry_flavor,
-    disliked_flavor dex.berry_flavor,
+    increased_stat dex.stat_values,
+    decreased_stat dex.stat_values,
+    liked_flavor dex.flavor_values,
+    disliked_flavor dex.flavor_values,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW (),

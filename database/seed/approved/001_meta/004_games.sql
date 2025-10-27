@@ -34,7 +34,7 @@ SELECT
     vg.id,
     CASE
         WHEN g.type IS NULL THEN NULL
-        ELSE CAST(g.type AS meta.game_type)
+        ELSE CAST(g.type AS meta.type_values)
     END,
     g.regional_dex_count,
     g.national_dex_count,
