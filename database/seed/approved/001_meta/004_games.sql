@@ -20,27 +20,7 @@ WITH
                     (13, 'pearl', 'Pokémon Pearl', 'generation-iv', 'sinnoh', 'dp', 'main', 151, 493, 2007),
                     (14, 'platinum', 'Pokémon Platinum', 'generation-iv', 'sinnoh', 'p', 'enhanced', 210, 493, 2009),
                     (15, 'heartgold', 'Pokémon HeartGold', 'generation-iv', 'johto', 'hgss', 'remake', 251, 493, 2010),
-                    (16, 'soulsilver', 'Pokémon SoulSilver', 'generation-iv', 'johto', 'hgss', 'remake', 251, 493, 2010),
-                    (17, 'black', 'Pokémon Black', 'generation-v', 'unova', 'bw', 'main', 155, 649, 2011),
-                    (18, 'white', 'Pokémon White', 'generation-v', 'unova', 'bw', 'main', 155, 649, 2011),
-                    (19, 'black-2', 'Pokémon Black 2', 'generation-v', 'unova', 'bw', 'main', 300, 649, 2012),
-                    (20, 'white-2', 'Pokémon White 2', 'generation-v', 'unova', 'bw', 'main', 300, 649, 2012),
-                    (21, 'x', 'Pokémon X', 'generation-vi', 'kalos', 'xy', 'main', 457, 721, 2013),
-                    (22, 'y', 'Pokémon Y', 'generation-vi', 'kalos', 'xy', 'main', 457, 721, 2013),
-                    (23, 'omega-ruby', 'Pokémon Omega Ruby', 'generation-vi', 'kalos', 'oras', 'remake', 211, 721, 2014),
-                    (24, 'alpha-sapphire', 'Pokémon Alpha Sapphire', 'generation-vi', 'kalos', 'oras', 'remake', 211, 721, 2014),
-                    (25, 'sun', 'Pokémon Sun', 'generation-vii', 'alola', 'sm', 'main', 302, 809, 2016),
-                    (26, 'moon', 'Pokémon Moon', 'generation-vii', 'alola', 'sm', 'main', 302, 809, 2016),
-                    (27, 'ultra-sun', 'Pokémon Ultra Sun', 'generation-vii', 'alola', 'usum', 'enhanced', 403, 809, 2017),
-                    (28, 'ultra-moon', 'Pokémon Ultra Moon', 'generation-vii', 'alola', 'usum', 'enhanced', 403, 809, 2017),
-                    (29, 'lets-go-pikachu', 'Pokémon Let''s Go, Pikachu!', 'generation-vii', 'alola', 'lgpe', 'spin-off', 153, 809, 2018),
-                    (30, 'lets-go-eevee', 'Pokémon Let''s Go, Eevee!', 'generation-vii', 'alola', 'lgpe', 'spin-off', 153, 809, 2018),
-                    (31, 'sword', 'Pokémon Sword', 'generation-viii', 'galar', 'swsh', 'main', 403, 905, 2019),
-                    (32, 'shield', 'Pokémon Shield', 'generation-viii', 'galar', 'swsh', 'main', 403, 905, 2019),
-                    (33, 'brilliant-diamond', 'Pokémon Brilliant Diamond', 'generation-viii', 'galar', 'bdsp', 'remake', 151, 905, 2021),
-                    (34, 'shining-pearl', 'Pokémon Shining Pearl', 'generation-viii', 'galar', 'bdsp', 'remake', 151, 905, 2021),
-                    (35, 'scarlet', 'Pokémon Scarlet', 'generation-ix', 'paldea', 'sv', 'main', 400, 1025, 2022),
-                    (36, 'violet', 'Pokémon Violet', 'generation-ix', 'paldea', 'sv', 'main', 400, 1025, 2022)
+                    (16, 'soulsilver', 'Pokémon SoulSilver', 'generation-iv', 'johto', 'hgss', 'remake', 251, 493, 2010)
             ) AS t (id, slug, name, generation_slug, region_slug, version_group_slug, type, regional_dex_count, national_dex_count, release_year)
     )
 INSERT INTO

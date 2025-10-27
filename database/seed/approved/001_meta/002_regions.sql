@@ -8,12 +8,7 @@ WITH
                     (1, 'kanto', 'Kanto', 'generation-i'),
                     (2, 'johto', 'Johto', 'generation-ii'),
                     (3, 'hoenn', 'Hoenn', 'generation-iii'),
-                    (4, 'sinnoh', 'Sinnoh', 'generation-iv'),
-                    (5, 'unova', 'Unova', 'generation-v'),
-                    (6, 'kalos', 'Kalos', 'generation-vi'),
-                    (7, 'alola', 'Alola', 'generation-vii'),
-                    (8, 'galar', 'Galar', 'generation-viii'),
-                    (9, 'paldea', 'Paldea', 'generation-ix')
+                    (4, 'sinnoh', 'Sinnoh', 'generation-iv')
             ) AS t (id, slug, name, generation_slug)
     )
 INSERT INTO

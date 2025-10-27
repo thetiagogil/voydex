@@ -14,17 +14,7 @@ WITH
                     (7, 'e', 'Emerald', 'generation-iii'),
                     (8, 'dp', 'Diamond/Pearl', 'generation-iv'),
                     (9, 'p', 'Platinum', 'generation-iv'),
-                    (10, 'hgss', 'HeartGold/SoulSilver', 'generation-iv'),
-                    (11, 'bw', 'Black/White', 'generation-v'),
-                    (12, 'b2w2', 'Black 2/White 2', 'generation-v'),
-                    (13, 'xy', 'X/Y', 'generation-vi'),
-                    (14, 'oras', 'Omega Ruby/Alpha Sapphire', 'generation-vi'),
-                    (15, 'sm', 'Sun/Moon', 'generation-vii'),
-                    (16, 'usum', 'Ultra Sun/Ultra Moon', 'generation-vii'),
-                    (17, 'lgpe', 'Let''s Go, Pikachu!/Let''s Go, Eevee!', 'generation-viii'),
-                    (18, 'swsh', 'Sword/Shield', 'generation-viii'),
-                    (19, 'bdsp', 'Brilliant Diamond/Shining Pearl', 'generation-viii'),
-                    (20, 'sv', 'Scarlet/Violet', 'generation-ix')
+                    (10, 'hgss', 'HeartGold/SoulSilver', 'generation-iv')
             ) AS t (id, slug, name, generation_slug)
     )
 INSERT INTO

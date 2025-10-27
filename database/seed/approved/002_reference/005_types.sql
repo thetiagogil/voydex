@@ -24,8 +24,7 @@ WITH
                     (14, 'psychic', 'Psychic', 'generation-i'),
                     (15, 'ice', 'Ice', 'generation-i'),
                     (16, 'dragon', 'Dragon', 'generation-i'),
-                    (17, 'dark', 'Dark', 'generation-ii'),
-                    (18, 'fairy', 'Fairy', 'generation-vi')
+                    (17, 'dark', 'Dark', 'generation-ii')
             ) AS t (id, slug, name, generation_slug)
     )
 INSERT INTO
