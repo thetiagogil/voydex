@@ -7,6 +7,7 @@ CREATE TABLE
     game_id INTEGER REFERENCES meta.games (id) ON DELETE CASCADE, -- NULL = default
     description TEXT,
     timeline_message VARCHAR(500),
+    location VARCHAR(100),
     sort_order INTEGER NOT NULL,
     created_at TIMESTAMP
     WITH

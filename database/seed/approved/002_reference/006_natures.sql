@@ -43,19 +43,19 @@ SELECT
     gen.id,
     CASE
         WHEN n.increased_stat IS NULL THEN NULL
-        ELSE CAST(n.increased_stat AS dex.stat_name)
+        ELSE CAST(n.increased_stat AS dex.stat_values)
     END,
     CASE
         WHEN n.decreased_stat IS NULL THEN NULL
-        ELSE CAST(n.decreased_stat AS dex.stat_name)
+        ELSE CAST(n.decreased_stat AS dex.stat_values)
     END,
     CASE
         WHEN n.liked_flavor IS NULL THEN NULL
-        ELSE CAST(n.liked_flavor AS dex.berry_flavor)
+        ELSE CAST(n.liked_flavor AS dex.flavor_values)
     END,
     CASE
         WHEN n.disliked_flavor IS NULL THEN NULL
-        ELSE CAST(n.disliked_flavor AS dex.berry_flavor)
+        ELSE CAST(n.disliked_flavor AS dex.flavor_values)
     END
 FROM
     n
