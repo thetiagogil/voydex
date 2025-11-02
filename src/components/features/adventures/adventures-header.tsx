@@ -1,12 +1,12 @@
-interface DashboardHeaderProps {
+interface AdventuresHeaderProps {
   title?: string;
   description?: string;
 }
 
-export function DashboardHeader({
+export function AdventuresHeader({
   title = "Choose Your Generation",
   description = "Select a Pokémon generation to start tracking your playthroughs and team progress.",
-}: DashboardHeaderProps) {
+}: AdventuresHeaderProps) {
   return (
     <div className="space-y-2">
       <h1 className="text-3xl font-bold tracking-tight">{title}</h1>

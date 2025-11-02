@@ -1,6 +1,6 @@
 -- View: Playthrough List
 -- Purpose: List user's playthroughs with game context and summary stats
--- Used in: /dashboard, /gen/[genSlug]/game/[gameSlug]
+-- Used in: /adventures, /adventures/gen/[genSlug]/game/[gameSlug]
 CREATE
 OR REPLACE VIEW gameplay.playthrough_list AS
 SELECT

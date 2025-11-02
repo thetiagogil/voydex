@@ -17,7 +17,7 @@ export function GenerationGrid({ generations }: GenerationGridProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {generations.map((gen) => (
-        <Link key={gen.slug} href={`/gen/${gen.slug}`}>
+        <Link key={gen.slug} href={`/adventures/gen/${gen.slug}`}>
           <Card className="h-full transition-colors hover:bg-muted/50 cursor-pointer">
             <CardHeader>
               <div className="flex items-start justify-between">

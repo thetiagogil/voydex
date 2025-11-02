@@ -1,6 +1,6 @@
 -- View: User Stats
--- Purpose: Dashboard KPI cards
--- Used in: /dashboard
+-- Purpose: Adventures KPI cards
+-- Used in: /adventures
 CREATE
 OR REPLACE VIEW gameplay.user_stats AS
 SELECT

@@ -1,6 +1,6 @@
 -- View: Generation Overview
--- Purpose: Dashboard page - list all generations with metadata
--- Used in: /dashboard, /gen
+-- Purpose: Adventures page - list all generations with metadata
+-- Used in: /adventures, /gen
 CREATE
 OR REPLACE VIEW meta.generation_overview AS
 SELECT

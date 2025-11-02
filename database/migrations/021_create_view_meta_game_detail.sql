@@ -1,6 +1,6 @@
 -- View: Game Detail
 -- Purpose: Game page - complete game info with generation and region data
--- Used in: /gen/[genSlug]/game/[gameSlug]
+-- Used in: /adventures/gen/[genSlug]/game/[gameSlug]
 CREATE
 OR REPLACE VIEW meta.game_detail AS
 SELECT

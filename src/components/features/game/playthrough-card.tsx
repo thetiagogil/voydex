@@ -49,7 +49,9 @@ export function PlaythroughCard({
 }: PlaythroughCardProps) {
   return (
     <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
-      <Link href={`/gen/${genSlug}/game/${gameSlug}/play/${playthrough.id}`}>
+      <Link
+        href={`/adventures/gen/${genSlug}/game/${gameSlug}/play/${playthrough.id}`}
+      >
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-1">

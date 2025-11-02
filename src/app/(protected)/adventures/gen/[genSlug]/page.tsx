@@ -90,7 +90,9 @@ export default async function GenerationPage({ params }: GenerationPageProps) {
 
                   <div className="pt-2">
                     <Button asChild className="w-full">
-                      <Link href={`/gen/${generation.slug}/game/${game.slug}`}>
+                      <Link
+                        href={`/adventures/gen/${generation.slug}/game/${game.slug}`}
+                      >
                         View Game
                       </Link>
                     </Button>

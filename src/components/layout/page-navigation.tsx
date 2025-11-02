@@ -51,7 +51,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
   };
 
   const navLinks = [
-    ...(isAuth ? [{ name: "Dashboard", href: "/dashboard" }] : []),
+    ...(isAuth ? [{ name: "Adventures", href: "/adventures" }] : []),
     { name: "Pokédex", href: "/pokedex" },
   ];
 

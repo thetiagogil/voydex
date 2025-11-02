@@ -28,7 +28,7 @@ export function PlaythroughsList({
             Pokémon journey.
           </p>
           <Button asChild>
-            <Link href={`/gen/${genSlug}/${gameSlug}/play/new`}>
+            <Link href={`/adventures/gen/${genSlug}/${gameSlug}/play/new`}>
               <Play className="h-4 w-4 mr-2" />
               Start New Playthrough
             </Link>
@@ -85,7 +85,7 @@ export function PlaythroughsList({
                 </div>
                 <Button asChild size="sm">
                   <Link
-                    href={`/gen/${genSlug}/${gameSlug}/play/${playthrough.id}`}
+                    href={`/adventures/gen/${genSlug}/${gameSlug}/play/${playthrough.id}`}
                   >
                     Continue
                   </Link>

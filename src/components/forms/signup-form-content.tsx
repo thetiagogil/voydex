@@ -36,7 +36,7 @@ export const SignupFormContent = () => {
         error: (err) => err?.message || "Login failed",
       });
       reset();
-      router.push("/dashboard");
+      router.push("/adventures");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";

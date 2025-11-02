@@ -1,6 +1,6 @@
 -- View: Playthrough Detail
 -- Purpose: Full playthrough page with all team and progress details
--- Used in: /gen/[genSlug]/game/[gameSlug]/play/[playId]
+-- Used in: /adventures/gen/[genSlug]/game/[gameSlug]/play/[playId]
 CREATE
 OR REPLACE VIEW gameplay.playthrough_detail AS
 SELECT
