@@ -1,0 +1,161 @@
+-- ============================================================================
+-- SEED FILE TEMPLATES
+-- ============================================================================
+-- This file contains standardized templates for creating seed files.
+-- All seed files should follow one of these patterns for consistency.
+-- ============================================================================
+-- ============================================================================
+-- PATTERN 1: SIMPLE INSERT (No Foreign Keys)
+-- ============================================================================
+-- Use for: Tables with no foreign key dependencies (e.g., generations)
+-- Example: 001_generations.sql
+--
+-- INSERT INTO
+--     schema.table_name (column1, column2, column3)
+-- VALUES
+--     (value1, value2, value3),
+--     (value4, value5, value6)
+-- ON CONFLICT (unique_column) DO NOTHING;
+-- ============================================================================
+-- PATTERN 2: SINGLE SLUG REFERENCE (One Foreign Key)
+-- ============================================================================
+-- Use for: Tables with ONE foreign key relationship via slug
+-- Example: regions.sql, types.sql
+--
+-- Template:
+-- WITH
+--     tmp AS (
+--         SELECT
+--             *
+--         FROM
+--             (
+--                 VALUES
+--                     (id1, 'slug1', 'Name 1', 'foreign_slug1'),
+--                     (id2, 'slug2', 'Name 2', 'foreign_slug2')
+--             ) AS t (id, slug, name, foreign_slug)
+--     )
+-- INSERT INTO
+--     schema.target_table (id, slug, name, foreign_id)
+-- SELECT
+--     tmp.id,
+--     tmp.slug,
+--     tmp.name,
+--     ref.id
+-- FROM
+--     tmp
+--     JOIN schema.reference_table ref ON ref.slug = tmp.foreign_slug
+-- ON CONFLICT (slug) DO NOTHING;
+-- ============================================================================
+-- PATTERN 3: MULTIPLE SLUG REFERENCES (Multiple Foreign Keys)
+-- ============================================================================
+-- Use for: Tables with MULTIPLE foreign key relationships via slugs
+-- Example: progress_categories.sql, progress_items.sql
+--
+-- Template:
+-- WITH
+--     tmp AS (
+--         SELECT
+--             *
+--         FROM
+--             (
+--                 VALUES
+--                     ('slug1', 'Name 1', 'ref1_slug', 'ref2_slug', 'type_value'),
+--                     ('slug2', 'Name 2', 'ref1_slug', 'ref2_slug', 'type_value')
+--             ) AS t (slug, name, ref1_slug, ref2_slug, type_column)
+--     )
+-- INSERT INTO
+--     schema.target_table (slug, name, ref1_id, ref2_id, type_column)
+-- SELECT
+--     tmp.slug,
+--     tmp.name,
+--     ref1.id,
+--     ref2.id,
+--     tmp.type_column::schema.enum_type
+-- FROM
+--     tmp
+--     JOIN schema.reference1 ref1 ON ref1.slug = tmp.ref1_slug
+--     JOIN schema.reference2 ref2 ON ref2.slug = tmp.ref2_slug
+-- ON CONFLICT DO NOTHING;
+-- ============================================================================
+-- PATTERN 4: MULTI-REFERENCE WITH OPTIONAL NULLABLE FK
+-- ============================================================================
+-- Use for: Tables with multiple foreign keys where some are optional/nullable
+-- Example: progress_items.sql (game_id can be NULL)
+--
+-- Template:
+-- WITH
+--     tmp AS (
+--         SELECT
+--             *
+--         FROM
+--             (
+--                 VALUES
+--                     ('slug1', 'Name 1', 'category_slug', 'vg_slug', NULL),
+--                     ('slug2', 'Name 2', 'category_slug', 'vg_slug', 'game_slug')
+--             ) AS t (slug, name, category_slug, version_group_slug, game_slug)
+--     )
+-- INSERT INTO
+--     schema.target_table (slug, name, category_id, game_id)
+-- SELECT
+--     tmp.slug,
+--     tmp.name,
+--     cat.id,
+--     game.id
+-- FROM
+--     tmp
+--     JOIN schema.categories cat ON cat.slug = tmp.category_slug
+--     JOIN meta.version_groups vg ON vg.slug = tmp.version_group_slug
+--     AND cat.version_group_id = vg.id  -- Ensure FK consistency
+--     LEFT JOIN meta.games game ON game.slug = tmp.game_slug
+-- ON CONFLICT DO NOTHING;
+-- ============================================================================
+-- PATTERN 5: ENUM TYPE CASTING
+-- ============================================================================
+-- For columns using custom ENUM types, use :: casting syntax:
+--
+-- Correct:
+--   tmp.type_column::schema.enum_type
+--
+-- Incorrect (don't use):
+--   tmp.type_column AS schema.enum_type  -- Wrong syntax
+--   CAST(tmp.type_column AS schema.enum_type)  -- Verbose
+-- ============================================================================
+-- BEST PRACTICES
+-- ============================================================================
+-- 1. Always use CTE name 'tmp' for consistency (or descriptive name like 'pokemon_data')
+-- 2. Use descriptive column names in VALUES tuple for clarity
+-- 3. Always JOIN foreign keys by slug, never by hardcoded IDs
+-- 4. Use LEFT JOIN for nullable foreign keys, INNER JOIN for required ones
+-- 5. Always include ON CONFLICT clause to make seeds idempotent
+-- 6. Group related data with comment separators (e.g., -- Generation 1 --)
+-- 7. For complex constraints, include additional JOIN conditions (see Pattern 4)
+-- 8. Use :: casting for ENUMs, not AS or CAST()
+-- 9. Format with SQL Prettier for consistency
+-- 10. Include metadata comments (Generated from PokeAPI, date, etc.)
+-- ============================================================================
+-- COMMON PITFALLS TO AVOID
+-- ============================================================================
+-- ❌ DON'T hardcode IDs in VALUES
+--    VALUES (1, 'slug', 'Name', 5)  -- FK ID hardcoded
+--
+-- ✅ DO use slug-based joins
+--    VALUES ('slug', 'Name', 'foreign_slug')
+--    JOIN ref_table ON ref_table.slug = tmp.foreign_slug
+--
+-- ❌ DON'T use AS for enum casting
+--    tmp.type AS schema.enum_type
+--
+-- ✅ DO use :: for enum casting
+--    tmp.type::schema.enum_type
+--
+-- ❌ DON'T reference table aliases not in FROM/JOIN
+--    WHERE vg.id = ...  -- vg not joined
+--
+-- ✅ DO include all referenced tables in FROM/JOIN
+--    JOIN version_groups vg ON vg.slug = tmp.vg_slug
+--
+-- ❌ DON'T skip ON CONFLICT clause
+--    INSERT INTO ... SELECT ...  -- Can fail on re-run
+--
+-- ✅ DO make seeds idempotent
+--    INSERT INTO ... SELECT ... ON CONFLICT DO NOTHING

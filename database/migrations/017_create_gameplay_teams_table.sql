@@ -27,3 +27,73 @@ CREATE INDEX idx_team_species ON gameplay.team_pokemon (species_id);
 CREATE INDEX idx_team_form ON gameplay.team_pokemon (form_id);
 
 CREATE INDEX idx_team_slot ON gameplay.team_pokemon (play_id, team_slot);
+
+CREATE INDEX idx_team_play_updated ON gameplay.team_pokemon (play_id, updated_at DESC);
+
+-- Enable Row Level Security
+ALTER TABLE gameplay.team_pokemon ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+CREATE POLICY "Users can view own team pokemon" ON gameplay.team_pokemon FOR
+SELECT
+  USING (
+    auth.uid () IN (
+      SELECT
+        user_id
+      FROM
+        gameplay.plays
+      WHERE
+        id = team_pokemon.play_id
+    )
+  );
+
+CREATE POLICY "Users can insert own team pokemon" ON gameplay.team_pokemon FOR INSERT
+WITH
+  CHECK (
+    auth.uid () IN (
+      SELECT
+        user_id
+      FROM
+        gameplay.plays
+      WHERE
+        id = team_pokemon.play_id
+    )
+  );
+
+CREATE POLICY "Users can update own team pokemon" ON gameplay.team_pokemon FOR
+UPDATE USING (
+  auth.uid () IN (
+    SELECT
+      user_id
+    FROM
+      gameplay.plays
+    WHERE
+      id = team_pokemon.play_id
+  )
+)
+WITH
+  CHECK (
+    auth.uid () IN (
+      SELECT
+        user_id
+      FROM
+        gameplay.plays
+      WHERE
+        id = team_pokemon.play_id
+    )
+  );
+
+CREATE POLICY "Users can delete own team pokemon" ON gameplay.team_pokemon FOR DELETE USING (
+  auth.uid () IN (
+    SELECT
+      user_id
+    FROM
+      gameplay.plays
+    WHERE
+      id = team_pokemon.play_id
+  )
+);
+
+-- Trigger for updated_at
+CREATE TRIGGER update_team_pokemon_updated_at BEFORE
+UPDATE ON gameplay.team_pokemon FOR EACH ROW EXECUTE FUNCTION update_updated_at_column ();

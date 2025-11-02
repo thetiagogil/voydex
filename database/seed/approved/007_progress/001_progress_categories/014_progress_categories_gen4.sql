@@ -23,7 +23,7 @@ WITH
                     ('badges-johto', 'Johto Badges', 'hgss', 'main-story', 'Earn the 8 Johto gym badges.', 1),
                     ('elite-four', 'Elite Four', 'hgss', 'main-story', 'Defeat the Elite Four and become champion.', 2),
                     ('badges-kanto', 'Kanto Badges', 'hgss', 'post-game', 'Earn the 8 Kanto gym badges.', 3),
-                    ('regional-pokedex', 'Kanto Pokédex', 'hgss', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4),
+                    ('regional-pokedex', 'Kanto Pokédex', 'hgss', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4)
             ) AS xxx (slug, name, version_group_slug, type, description, sort_order)
     )
 INSERT INTO
@@ -32,7 +32,7 @@ SELECT
     xxx.slug,
     xxx.name,
     vg.id,
-    xxx.type AS meta.progress_category_type,
+    xxx.type::meta.progress_category_type,
     xxx.description,
     xxx.sort_order
 FROM

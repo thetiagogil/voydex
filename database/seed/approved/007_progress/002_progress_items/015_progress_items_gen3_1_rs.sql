@@ -32,8 +32,8 @@ WITH
                     ('catch-latios', 'Catch Latios', 'legendary', 'rs', 'ruby', 'Catch Latios.', 'Caught Latios.', NULL, 7),
                     ('catch-latias', 'Catch Latias', 'legendary', 'rs', 'sapphire', 'Catch Latias.', 'Caught Latias.', NULL, 7),
                     -- Pokedex
-                    ('complete-pokedex', 'Complete Pokédex', 'pokedex', 'rs', NULL, 'Complete the Hoenn Pokédex.', 'Completed the Hoenn Pokédex.', NULL, 1),
-            ) AS xxx (slug, name, progress_category_slug, game_slug, description, timeline_message, location, sort_order)
+                    ('complete-pokedex', 'Complete Pokédex', 'regional-pokedex', 'rs', NULL, 'Complete the Hoenn Pokédex.', 'Completed the Hoenn Pokédex.', NULL, 1)
+            ) AS xxx (slug, name, progress_category_slug, version_group_slug, game_slug, description, timeline_message, location, sort_order)
     )
 INSERT INTO
     meta.progress_items (slug, name, progress_category_id, game_id, description, timeline_message, location, sort_order)
@@ -48,6 +48,7 @@ SELECT
     xxx.sort_order
 FROM
     xxx
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug
     JOIN meta.progress_categories pgc ON pgc.slug = xxx.progress_category_slug
     AND pgc.version_group_id = vg.id
     LEFT JOIN meta.games gam ON gam.slug = xxx.game_slug ON CONFLICT DO NOTHING;

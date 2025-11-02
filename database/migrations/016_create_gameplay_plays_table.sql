@@ -26,3 +26,28 @@ CREATE INDEX idx_plays_user ON gameplay.plays (user_id);
 CREATE INDEX idx_plays_game ON gameplay.plays (game_id);
 
 CREATE INDEX idx_plays_status ON gameplay.plays (status);
+
+CREATE INDEX idx_plays_user_status_updated ON gameplay.plays (user_id, status, updated_at DESC);
+
+-- Enable Row Level Security
+ALTER TABLE gameplay.plays ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+CREATE POLICY "Users can view own plays" ON gameplay.plays FOR
+SELECT
+  USING (auth.uid () = user_id);
+
+CREATE POLICY "Users can insert own plays" ON gameplay.plays FOR INSERT
+WITH
+  CHECK (auth.uid () = user_id);
+
+CREATE POLICY "Users can update own plays" ON gameplay.plays FOR
+UPDATE USING (auth.uid () = user_id)
+WITH
+  CHECK (auth.uid () = user_id);
+
+CREATE POLICY "Users can delete own plays" ON gameplay.plays FOR DELETE USING (auth.uid () = user_id);
+
+-- Trigger for updated_at
+CREATE TRIGGER update_plays_updated_at BEFORE
+UPDATE ON gameplay.plays FOR EACH ROW EXECUTE FUNCTION update_updated_at_column ();

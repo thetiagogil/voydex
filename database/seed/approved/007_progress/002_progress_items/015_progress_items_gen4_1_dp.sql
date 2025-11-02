@@ -31,8 +31,8 @@ WITH
                     ('catch-giratina', 'Catch Giratina', 'legendary', 'rs', NULL, 'Catch Giratina.', 'Caught Giratina.', 'Turnback Cave', 7),
                     ('catch-cresselia', 'Catch Cresselia', 'legendary', 'rs', NULL, 'Catch Cresselia.', 'Caught Cresselia.', 'Fullmoon Island', 8),
                     -- Pokedex
-                    ('complete-pokedex', 'Complete Pokédex', 'pokedex', 'rs', NULL, 'Complete the Sinnoh Pokédex.', 'Completed the Sinnoh Pokédex.', NULL, 1),
-            ) AS xxx (slug, name, progress_category_slug, game_slug, description, timeline_message, location, sort_order)
+                    ('complete-pokedex', 'Complete Pokédex', 'regional-pokedex', 'rs', NULL, 'Complete the Sinnoh Pokédex.', 'Completed the Sinnoh Pokédex.', NULL, 1)
+            ) AS xxx (slug, name, progress_category_slug, version_group_slug, game_slug, description, timeline_message, location, sort_order)
     )
 INSERT INTO
     meta.progress_items (slug, name, progress_category_id, game_id, description, timeline_message, location, sort_order)
@@ -47,6 +47,7 @@ SELECT
     xxx.sort_order
 FROM
     xxx
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug
     JOIN meta.progress_categories pgc ON pgc.slug = xxx.progress_category_slug
     AND pgc.version_group_id = vg.id
     LEFT JOIN meta.games gam ON gam.slug = xxx.game_slug ON CONFLICT DO NOTHING;

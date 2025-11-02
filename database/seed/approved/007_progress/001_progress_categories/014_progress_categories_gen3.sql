@@ -22,7 +22,7 @@ WITH
                     -- ============================================
                     ('badges', 'Hoenn Badges', 'e', 'main-story', 'Earn the 8 Hoenn Gym Badges.', 1),
                     ('elite-four', 'Elite Four', 'e', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('regional-pokedex', 'Hoenn Pokédex', 'e', 'dex', 'Catch all Pokémon and complete the Pokédex.', 3),
+                    ('regional-pokedex', 'Hoenn Pokédex', 'e', 'dex', 'Catch all Pokémon and complete the Pokédex.', 3)
             ) AS xxx (slug, name, version_group_slug, type, description, sort_order)
     )
 INSERT INTO
@@ -31,7 +31,7 @@ SELECT
     xxx.slug,
     xxx.name,
     vg.id,
-    xxx.type AS meta.progress_category_type,
+    xxx.type::meta.progress_category_type,
     xxx.description,
     xxx.sort_order
 FROM

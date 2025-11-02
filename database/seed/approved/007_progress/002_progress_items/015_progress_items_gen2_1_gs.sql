@@ -69,8 +69,8 @@ WITH
                     ('catch-entei', 'Catch Entei', 'legendary', 'gs', NULL, 'Catch Entei.', 'Caught Entei.', NULL, 4),
                     ('catch-suicune', 'Catch Suicune', 'legendary', 'gs', NULL, 'Catch Suicune.', 'Caught Suicune.', NULL, 5),
                     -- Pokedex
-                    ('complete-pokedex', 'Complete Pokédex', 'pokedex', 'gs', NULL, 'Complete the Johto Pokédex.', 'Completed the Johto Pokédex.', NULL, 1),
-            ) AS xxx (slug, name, progress_category_slug, game_slug, description, timeline_message, location, sort_order)
+                    ('complete-pokedex', 'Complete Pokédex', 'regional-pokedex', 'gs', NULL, 'Complete the Johto Pokédex.', 'Completed the Johto Pokédex.', NULL, 1)
+            ) AS xxx (slug, name, progress_category_slug, version_group_slug, game_slug, description, timeline_message, location, sort_order)
     )
 INSERT INTO
     meta.progress_items (slug, name, progress_category_id, game_id, description, timeline_message, location, sort_order)
@@ -85,6 +85,7 @@ SELECT
     xxx.sort_order
 FROM
     xxx
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug
     JOIN meta.progress_categories pgc ON pgc.slug = xxx.progress_category_slug
     AND pgc.version_group_id = vg.id
     LEFT JOIN meta.games gam ON gam.slug = xxx.game_slug ON CONFLICT DO NOTHING;

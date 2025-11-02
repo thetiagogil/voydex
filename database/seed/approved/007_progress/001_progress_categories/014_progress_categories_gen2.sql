@@ -33,7 +33,7 @@ SELECT
     xxx.slug,
     xxx.name,
     vg.id,
-    xxx.type AS meta.progress_category_type,
+    xxx.type::meta.progress_category_type,
     xxx.description,
     xxx.sort_order
 FROM
