@@ -21,7 +21,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "008_pokeapi_moves.sql"
+  "008_pokeapi_moves.sql",
 );
 
 async function main() {
@@ -30,7 +30,7 @@ async function main() {
   if (fs.existsSync(OUT_FILE) && !force) {
     logger.section(
       `Seed file already exists: ${path.relative(process.cwd(), OUT_FILE)}`,
-      "⚠️"
+      "⚠️",
     );
     logger.list([
       "The generator will not overwrite the existing file unless you confirm.",
@@ -83,13 +83,13 @@ async function main() {
       let effect = null;
       if (Array.isArray(obj.flavor_text_entries)) {
         const en = obj.flavor_text_entries.find(
-          (x) => x.language && x.language.name === "en"
+          (x) => x.language && x.language.name === "en",
         );
         if (en) effect = en.flavor_text || null;
       }
       if (!effect && Array.isArray(obj.effect_entries)) {
         const en = obj.effect_entries.find(
-          (x) => x.language && x.language.name === "en"
+          (x) => x.language && x.language.name === "en",
         );
         if (en) effect = en.short_effect || en.effect || null;
       }
@@ -170,14 +170,14 @@ async function main() {
       } else {
         fs.writeFileSync(outPath, sql, "utf8");
         logger.success(
-          `Wrote ${path.relative(process.cwd(), outPath)} (${grp.length} rows)`
+          `Wrote ${path.relative(process.cwd(), outPath)} (${grp.length} rows)`,
         );
       }
     }
 
     if (dry) {
       logger.success(
-        `Preview complete — ${rows.length} rows across ${Object.keys(groups).length} generation files.`
+        `Preview complete — ${rows.length} rows across ${Object.keys(groups).length} generation files.`,
       );
       for (const s of summaries) prettyLog(`- ${s.file}: ${s.rows} rows`);
       return;
@@ -215,7 +215,7 @@ async function main() {
 
   fs.writeFileSync(OUT_FILE, sql, "utf8");
   logger.success(
-    `Wrote ${path.relative(process.cwd(), OUT_FILE)} (${rows.length} rows)`
+    `Wrote ${path.relative(process.cwd(), OUT_FILE)} (${rows.length} rows)`,
   );
 }
 

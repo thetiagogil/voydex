@@ -48,7 +48,7 @@ export function PlaythroughCard({
   gameSlug,
 }: PlaythroughCardProps) {
   return (
-    <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
+    <Card className="hover:bg-muted/50 cursor-pointer transition-colors">
       <Link
         href={`/adventures/gen/${genSlug}/game/${gameSlug}/play/${playthrough.id}`}
       >
@@ -58,7 +58,7 @@ export function PlaythroughCard({
               <CardTitle className="text-lg">{playthrough.title}</CardTitle>
               <CardDescription className="flex items-center gap-2">
                 <div
-                  className={`w-2 h-2 rounded-full ${getStatusColor(playthrough.status)}`}
+                  className={`h-2 w-2 rounded-full ${getStatusColor(playthrough.status)}`}
                 />
                 {getStatusLabel(playthrough.status)}
               </CardDescription>
@@ -75,7 +75,7 @@ export function PlaythroughCard({
                 {playthrough.progress.badges}/{playthrough.progress.totalBadges}
               </span>
             </div>
-            <div className="w-full bg-muted rounded-full h-2">
+            <div className="bg-muted h-2 w-full rounded-full">
               <div
                 className="bg-primary h-2 rounded-full transition-all"
                 style={{
@@ -88,14 +88,14 @@ export function PlaythroughCard({
           {/* Current Status */}
           <div className="space-y-1 text-sm">
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <Calendar className="text-muted-foreground h-4 w-4" />
               <span className="text-muted-foreground">Currently at:</span>
               <span className="font-medium">
                 {playthrough.progress.currentLocation}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="text-muted-foreground h-4 w-4" />
               <span className="text-muted-foreground">Playtime:</span>
               <span className="font-medium">
                 {playthrough.progress.playtime}

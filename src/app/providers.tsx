@@ -17,7 +17,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
             staleTime: 60 * 1000, // 1 minute
           },
         },
-      })
+      }),
   );
 
   return (

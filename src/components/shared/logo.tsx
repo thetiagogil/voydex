@@ -27,7 +27,7 @@ export function Logo({ className, size = "md", showText = false }: LogoProps) {
       <div className={cn("relative flex-shrink-0", sizeClasses[size])}>
         <svg
           viewBox="0 0 100 100"
-          className="w-full h-full"
+          className="h-full w-full"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >

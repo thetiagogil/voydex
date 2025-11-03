@@ -26,7 +26,7 @@ export async function executeSqlFile(client, sql, label = "sql") {
     const took = Date.now() - start;
     console.error(
       `❌  Error executing ${label} (${took}ms):`,
-      err.message || err
+      err.message || err,
     );
     return false;
   }

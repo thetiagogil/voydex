@@ -92,7 +92,7 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm">
-          <Eye className="h-4 w-4 mr-1" />
+          <Eye className="mr-1 h-4 w-4" />
           Full Team ({allPokemon.length})
         </Button>
       </SheetTrigger>
@@ -103,7 +103,7 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
         <div className="mt-6 space-y-6">
           {/* Active Team */}
           <div>
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+            <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
               <Users className="h-5 w-5" />
               Active Team ({playthrough.team.length}/6)
             </h3>
@@ -111,16 +111,16 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
               {playthrough.team.map((pokemon) => (
                 <Card key={pokemon.id} className="border-primary/20">
                   <CardContent className="p-3">
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="mb-2 flex items-start justify-between">
                       <div>
                         <p className="font-semibold">{pokemon.nickname}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {pokemon.species}
                         </p>
                       </div>
                       <Badge variant="outline">Lv. {pokemon.level}</Badge>
                     </div>
-                    <div className="flex gap-1 mb-2">
+                    <div className="mb-2 flex gap-1">
                       {pokemon.types.map((type) => (
                         <Badge
                           key={type}
@@ -130,7 +130,7 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
                         </Badge>
                       ))}
                     </div>
-                    <div className="text-xs space-y-1">
+                    <div className="space-y-1 text-xs">
                       <p>
                         <span className="text-muted-foreground">Nature:</span>{" "}
                         {pokemon.nature}
@@ -148,23 +148,23 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
 
           {/* PC Storage */}
           <div>
-            <h3 className="text-lg font-semibold mb-3">
+            <h3 className="mb-3 text-lg font-semibold">
               PC Storage ({mockPokemonStorage.length})
             </h3>
             <div className="grid gap-3 sm:grid-cols-2">
               {mockPokemonStorage.map((pokemon) => (
                 <Card key={pokemon.id}>
                   <CardContent className="p-3">
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="mb-2 flex items-start justify-between">
                       <div>
                         <p className="font-semibold">{pokemon.nickname}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {pokemon.species}
                         </p>
                       </div>
                       <Badge variant="outline">Lv. {pokemon.level}</Badge>
                     </div>
-                    <div className="flex gap-1 mb-2">
+                    <div className="mb-2 flex gap-1">
                       {pokemon.types.map((type) => (
                         <Badge
                           key={type}
@@ -174,7 +174,7 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
                         </Badge>
                       ))}
                     </div>
-                    <div className="text-xs space-y-1">
+                    <div className="space-y-1 text-xs">
                       <p>
                         <span className="text-muted-foreground">Nature:</span>{" "}
                         {pokemon.nature}

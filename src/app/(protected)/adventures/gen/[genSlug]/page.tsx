@@ -40,7 +40,7 @@ export default async function GenerationPage({ params }: GenerationPageProps) {
           </div>
 
           <div className="space-y-2">
-            <p className="text-lg text-muted-foreground">
+            <p className="text-muted-foreground text-lg">
               {generation.region} Region • {generation.years}
             </p>
             <p className="text-muted-foreground max-w-2xl">
@@ -59,7 +59,7 @@ export default async function GenerationPage({ params }: GenerationPageProps) {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="space-y-2">
-                      <div className={`w-4 h-4 rounded-full ${game.color}`} />
+                      <div className={`h-4 w-4 rounded-full ${game.color}`} />
                       <CardTitle className="text-lg">{game.name}</CardTitle>
                       <CardDescription>
                         {game.version} ({game.year})
@@ -69,7 +69,7 @@ export default async function GenerationPage({ params }: GenerationPageProps) {
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {game.description}
                   </p>
 

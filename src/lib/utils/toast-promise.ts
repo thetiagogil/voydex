@@ -11,7 +11,7 @@ interface ToastPromiseOptions<T = unknown> {
 
 export const toastPromise = async <T>(
   promise: Promise<T>,
-  options: ToastPromiseOptions<T>
+  options: ToastPromiseOptions<T>,
 ): Promise<T> => {
   const loadingToast = toast.loading(options.loading);
 

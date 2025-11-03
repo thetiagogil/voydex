@@ -181,7 +181,7 @@ async function main() {
     const unresolved = curatedRows.filter((x) => !x.species_slug);
     if (unresolved.length > 0) {
       console.warn(
-        `Warning: ${unresolved.length} rows could not be resolved to species_slug for file ${path.basename(filePath)}.`
+        `Warning: ${unresolved.length} rows could not be resolved to species_slug for file ${path.basename(filePath)}.`,
       );
       // show a couple
       console.warn(unresolved.slice(0, 5));

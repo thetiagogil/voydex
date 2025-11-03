@@ -44,11 +44,11 @@ async function runForGen(gen) {
   });
 
   const filtered = candidates.filter((c) =>
-    allowedSpeciesSet.has(String(c.url || c.name).toLowerCase())
+    allowedSpeciesSet.has(String(c.url || c.name).toLowerCase()),
   );
 
   prettyLog(
-    `Preparing to fetch ${filtered.length} species for forms generation (gen ${gen})`
+    `Preparing to fetch ${filtered.length} species for forms generation (gen ${gen})`,
   );
 
   const rows = [];
@@ -83,14 +83,14 @@ async function runForGen(gen) {
         // determine the form's introduced generation (inspect game_indices -> version_group -> generation)
         const introduced_generation_id = await getFormIntroducedGeneration(
           poke,
-          speciesGen
+          speciesGen,
         );
 
         // include only forms introduced in the requested generation
         if (introduced_generation_id !== gen) {
           prettyLog(
             `Skipping ${slug} (introduced in gen ${introduced_generation_id} != ${gen})`,
-            { emoji: "⏭️" }
+            { emoji: "⏭️" },
           );
           continue;
         }
@@ -150,10 +150,10 @@ async function runForGen(gen) {
   }
 
   rows.sort(
-    (a, b) => a.species_id - b.species_id || a.slug.localeCompare(b.slug)
+    (a, b) => a.species_id - b.species_id || a.slug.localeCompare(b.slug),
   );
   nondefault.sort(
-    (a, b) => a.species_id - b.species_id || a.slug.localeCompare(b.slug)
+    (a, b) => a.species_id - b.species_id || a.slug.localeCompare(b.slug),
   );
 
   const header = `-- Generated from PokeAPI (pokemon_forms)\n-- Generated at: ${new Date().toISOString()}\n\n`;
@@ -164,7 +164,7 @@ async function runForGen(gen) {
     "seed",
     "generated",
     "pokemon_forms",
-    `013_pokeapi_pokemon_forms_gen${gen}_generated.sql`
+    `013_pokeapi_pokemon_forms_gen${gen}_generated.sql`,
   );
 
   let sql;
@@ -200,7 +200,7 @@ async function runForGen(gen) {
     }
     // Do not write non-default JSON file per user's request; just report counts
     logger.success(
-      `Preview complete — gen ${gen}: ${rows.length} default form rows would be written; ${nondefault.length} non-default candidates were identified (not written to disk).`
+      `Preview complete — gen ${gen}: ${rows.length} default form rows would be written; ${nondefault.length} non-default candidates were identified (not written to disk).`,
     );
     return {
       outFileGen,
@@ -216,7 +216,7 @@ async function runForGen(gen) {
   fs.writeFileSync(outFileGen, sql, "utf8");
   // Do not write non-default JSON file per user's request. Keep behavior: write SQL and report nondefault count.
   logger.success(
-    `Wrote gen ${gen}: ${path.relative(process.cwd(), outFileGen)} (${rows.length} rows). Identified ${nondefault.length} non-default candidates (not written to disk).`
+    `Wrote gen ${gen}: ${path.relative(process.cwd(), outFileGen)} (${rows.length} rows). Identified ${nondefault.length} non-default candidates (not written to disk).`,
   );
   return {
     outFileGen,
@@ -230,7 +230,7 @@ async function main() {
   logger.header("Generate PokeAPI Pokemon Forms seed", "🌱");
   if (!Array.isArray(gens) || gens.length === 0) {
     logger.failure(
-      "You must specify a generation using --gen=<n> (e.g. --gen=1 or --gen=1,2)"
+      "You must specify a generation using --gen=<n> (e.g. --gen=1 or --gen=1,2)",
     );
     process.exit(1);
   }

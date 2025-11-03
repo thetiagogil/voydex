@@ -36,7 +36,7 @@ export async function withClient(callback, connectionString) {
 // Return custom schemas (filters out system/supabase schemas)
 export async function getCustomSchemas(client) {
   const res = await client.query(
-    `select nspname from pg_namespace order by nspname;`
+    `select nspname from pg_namespace order by nspname;`,
   );
 
   const blacklist = new Set([
@@ -67,10 +67,10 @@ export async function getTablesFromSchemas(client, schemas) {
     schemas.map(async (s) => {
       const r = await client.query(
         `select schemaname, tablename from pg_tables where schemaname = $1 order by tablename;`,
-        [s]
+        [s],
       );
       return r.rows;
-    })
+    }),
   );
   return list.flat();
 }

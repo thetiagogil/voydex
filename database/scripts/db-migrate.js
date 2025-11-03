@@ -35,12 +35,12 @@ async function main() {
       "Type 'y' to confirm running ALL migrations in order: ",
       {
         flag: "--y",
-      }
+      },
     );
 
     const filePaths = available.map((f) => path.resolve(migrationsDir, f));
     const ok = await runSequentialFiles(filePaths, (p) =>
-      runSqlFile(p, path.basename(p))
+      runSqlFile(p, path.basename(p)),
     );
     if (!ok) {
       logger.failure("Stopped after a failed migration");

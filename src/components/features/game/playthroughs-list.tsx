@@ -21,15 +21,15 @@ export function PlaythroughsList({
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-12">
-          <Trophy className="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No Playthroughs Yet</h3>
-          <p className="text-muted-foreground text-center mb-6 max-w-md">
+          <Trophy className="text-muted-foreground mb-4 h-12 w-12" />
+          <h3 className="mb-2 text-lg font-semibold">No Playthroughs Yet</h3>
+          <p className="text-muted-foreground mb-6 max-w-md text-center">
             Start your first playthrough of this game to begin tracking your
             Pokémon journey.
           </p>
           <Button asChild>
             <Link href={`/adventures/gen/${genSlug}/${gameSlug}/play/new`}>
-              <Play className="h-4 w-4 mr-2" />
+              <Play className="mr-2 h-4 w-4" />
               Start New Playthrough
             </Link>
           </Button>
@@ -44,7 +44,7 @@ export function PlaythroughsList({
         <h2 className="text-lg font-semibold">Your Playthroughs</h2>
         <Button asChild variant="outline" size="sm">
           <Link href={`/gen/${genSlug}/${gameSlug}/play/new`}>
-            <Play className="h-4 w-4 mr-2" />
+            <Play className="mr-2 h-4 w-4" />
             New Playthrough
           </Link>
         </Button>
@@ -54,7 +54,7 @@ export function PlaythroughsList({
         {playthroughs.map((playthrough) => (
           <Card
             key={playthrough.id}
-            className="hover:shadow-md transition-shadow"
+            className="transition-shadow hover:shadow-md"
           >
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
@@ -77,7 +77,7 @@ export function PlaythroughsList({
                           ? "🎮 In Progress"
                           : "⏸️ Paused"}
                     </Badge>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-muted-foreground text-sm">
                       Started{" "}
                       {new Date(playthrough.createdAt).toLocaleDateString()}
                     </span>
@@ -102,7 +102,7 @@ export function PlaythroughsList({
                     {Math.round(
                       (playthrough.progress.badges /
                         playthrough.progress.totalBadges) *
-                        100
+                        100,
                     )}
                     %
                   </span>
@@ -118,14 +118,14 @@ export function PlaythroughsList({
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
                 <div className="flex items-center gap-2">
                   <Trophy className="h-4 w-4 text-amber-500" />
                   <span>{playthrough.progress.badges} Badges</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
-                    <span className="text-xs text-white font-bold">⚡</span>
+                  <div className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500">
+                    <span className="text-xs font-bold text-white">⚡</span>
                   </div>
                   <span>{playthrough.team.length}/6 Team</span>
                 </div>
@@ -141,15 +141,15 @@ export function PlaythroughsList({
 
               {/* Team Preview */}
               {playthrough.team && playthrough.team.length > 0 && (
-                <div className="pt-2 border-t">
-                  <p className="text-sm text-muted-foreground mb-2">
+                <div className="border-t pt-2">
+                  <p className="text-muted-foreground mb-2 text-sm">
                     Current Team
                   </p>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex flex-wrap gap-2">
                     {playthrough.team.slice(0, 6).map((pokemon, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-1 text-xs bg-muted rounded-md px-2 py-1"
+                        className="bg-muted flex items-center gap-1 rounded-md px-2 py-1 text-xs"
                       >
                         <span>{pokemon.nickname || pokemon.species}</span>
                         <span className="text-muted-foreground">

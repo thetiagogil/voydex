@@ -21,7 +21,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "012_pokeapi_pokemon_species.sql"
+  "012_pokeapi_pokemon_species.sql",
 );
 
 async function main() {
@@ -30,7 +30,7 @@ async function main() {
   if (fs.existsSync(OUT_FILE) && !force) {
     logger.section(
       `Seed file already exists: ${path.relative(process.cwd(), OUT_FILE)}`,
-      "⚠️"
+      "⚠️",
     );
     logger.list([
       "The generator will not overwrite the existing file unless you confirm.",
@@ -45,7 +45,7 @@ async function main() {
 
   logger.section(
     "Fetching /pokemon-species index from PokeAPI (all pages)",
-    "🔎"
+    "🔎",
   );
   const candidates = await fetchAllIndexEntries("pokemon-species", {
     filterCandidates: true,
@@ -89,7 +89,7 @@ async function main() {
       let national_number = null;
       if (Array.isArray(obj.pokedex_numbers)) {
         const nat = obj.pokedex_numbers.find(
-          (p) => p.pokedex && p.pokedex.name === "national"
+          (p) => p.pokedex && p.pokedex.name === "national",
         );
         if (nat && typeof nat.entry_number === "number")
           national_number = nat.entry_number;
@@ -163,7 +163,7 @@ async function main() {
       "database",
       "seed",
       "generated",
-      "pokemon_species"
+      "pokemon_species",
     );
     if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
     const shortGen = (g) => {
@@ -191,7 +191,7 @@ async function main() {
           "database",
           "seed",
           "reports",
-          `pokemon_species_preview_${shortGen(gen)}_${Date.now()}.sql`
+          `pokemon_species_preview_${shortGen(gen)}_${Date.now()}.sql`,
         );
         fs.mkdirSync(path.dirname(preview), { recursive: true });
         fs.writeFileSync(preview, sql, "utf8");
@@ -199,11 +199,11 @@ async function main() {
       } else {
         const fname = path.join(
           base,
-          `010_pokemon_species_${shortGen(gen)}_generated.sql`
+          `010_pokemon_species_${shortGen(gen)}_generated.sql`,
         );
         fs.writeFileSync(fname, sql, "utf8");
         logger.success(
-          `Wrote ${path.relative(process.cwd(), fname)} (${rs.length} rows)`
+          `Wrote ${path.relative(process.cwd(), fname)} (${rs.length} rows)`,
         );
       }
     }
@@ -222,12 +222,12 @@ async function main() {
       "database",
       "seed",
       "reports",
-      `pokemon_species_preview_${Date.now()}.sql`
+      `pokemon_species_preview_${Date.now()}.sql`,
     );
     fs.mkdirSync(path.dirname(preview), { recursive: true });
     fs.writeFileSync(preview, sql, "utf8");
     logger.success(
-      `Preview complete — ${rows.length} rows would be written. Wrote preview: ${preview}`
+      `Preview complete — ${rows.length} rows would be written. Wrote preview: ${preview}`,
     );
     return;
   }
@@ -237,16 +237,16 @@ async function main() {
     "database",
     "seed",
     "etl",
-    "pokemon_species"
+    "pokemon_species",
   );
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   const outFile = path.join(
     outDir,
-    `012_pokeapi_pokemon_species_generated.sql`
+    `012_pokeapi_pokemon_species_generated.sql`,
   );
   fs.writeFileSync(outFile, sql, "utf8");
   logger.success(
-    `Wrote ${path.relative(process.cwd(), outFile)} (${rows.length} rows)`
+    `Wrote ${path.relative(process.cwd(), outFile)} (${rows.length} rows)`,
   );
 }
 

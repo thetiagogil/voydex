@@ -41,9 +41,9 @@ export function PlayStats({ playthrough }: PlayStatsProps) {
         <Card>
           <CardContent className="pt-4">
             <div className="flex items-center gap-2">
-              <Trophy className="h-4 w-4 text-muted-foreground" />
+              <Trophy className="text-muted-foreground h-4 w-4" />
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Badges</p>
+                <p className="text-muted-foreground text-sm">Badges</p>
                 <p className="text-lg font-semibold">
                   {playthrough.progress.badges}/
                   {playthrough.progress.totalBadges}
@@ -56,9 +56,9 @@ export function PlayStats({ playthrough }: PlayStatsProps) {
         <Card>
           <CardContent className="pt-4">
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Users className="text-muted-foreground h-4 w-4" />
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Team</p>
+                <p className="text-muted-foreground text-sm">Team</p>
                 <p className="text-lg font-semibold">
                   {playthrough.team.length}/6
                 </p>
@@ -70,9 +70,9 @@ export function PlayStats({ playthrough }: PlayStatsProps) {
         <Card>
           <CardContent className="pt-4">
             <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <MapPin className="text-muted-foreground h-4 w-4" />
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Location</p>
+                <p className="text-muted-foreground text-sm">Location</p>
                 <p className="text-sm font-semibold">
                   {playthrough.progress.currentLocation}
                 </p>
@@ -84,9 +84,9 @@ export function PlayStats({ playthrough }: PlayStatsProps) {
         <Card>
           <CardContent className="pt-4">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="text-muted-foreground h-4 w-4" />
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Playtime</p>
+                <p className="text-muted-foreground text-sm">Playtime</p>
                 <p className="text-sm font-semibold">
                   {playthrough.progress.playtime}
                 </p>

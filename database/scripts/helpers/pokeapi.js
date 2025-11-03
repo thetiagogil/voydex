@@ -62,7 +62,7 @@ export async function fetchAllIndexEntries(resource, opts = {}) {
     const entries = Array.isArray(page.results) ? page.results : [];
     all.push(...entries);
     prettyLog(
-      `Fetched page ${pageCount} — ${entries.length} entries (total so far: ${all.length})`
+      `Fetched page ${pageCount} — ${entries.length} entries (total so far: ${all.length})`,
     );
     const delayMs = opts.dry ? 0 : (opts.delay ?? DEFAULT_DELAY_MS);
     if (delayMs) await wait(delayMs);
@@ -84,7 +84,7 @@ export async function fetchAllIndexEntries(resource, opts = {}) {
       return true;
     });
     prettyLog(
-      `Collected ${candidates.length} ${resource} index candidate entries`
+      `Collected ${candidates.length} ${resource} index candidate entries`,
     );
     // visual separation between index fetching and detail fetching
     prettyLog("");

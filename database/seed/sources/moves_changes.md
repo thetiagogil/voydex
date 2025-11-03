@@ -4,7 +4,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 ==Power changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -44,7 +44,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 
 ====[[Generation II]] to [[Generation III]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -55,26 +55,30 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |- style="background:#ddf"
 ! style="background:#{{Johto color}}" | {{color2|000|Generation II|Gen II}}
 ! style="background:#{{Hoenn color}}" | {{color2|000|Generation III|Gen III}}
+
 <!--|-
 | {{m|Dragon Rage}}
 | style="text-align:center; background:#{{Fighting color}}" | {{typecolor|Fighting}}
 | 40
 | — -->
+
 |-
 | {{m|Low Kick}}
 | style="text-align:center; background:#{{Fighting color}}" | {{typecolor|Fighting}}
 | 50
 | —{{tt|*|Power depends on target's weight}}
+
 <!--|-
 | {{m|Sonic Boom}}
 | style="text-align:center; background:#{{Fighting color}}" | {{typecolor|Fighting}}
 | 20
 | — -->
+
 |}
 |}
 
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -150,7 +154,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -286,7 +290,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -602,7 +606,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -660,7 +664,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 
 ====[[Generation VII]] to [[Generation VIII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -711,7 +715,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 |}
 |}
 ====[[Generation VIII]] to [[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -832,7 +836,7 @@ Some moves have '''changed their mechanics''' in the Pokémon [[core series]] ga
 There are certain moves that have changed in attack power within the generation as well.
 
 ====[[Generation III]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -854,7 +858,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -894,7 +898,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -918,7 +922,7 @@ There are certain moves that have changed in attack power within the generation 
 ==Accuracy changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -940,6 +944,7 @@ There are certain moves that have changed in attack power within the generation 
 | 90%
 | 70%
 |-
+
 <!--| {{m|Fissure}}
 | style="text-align:center; background:#{{Ground color}}" | {{typecolor|Ground}}
 | 30%
@@ -955,6 +960,7 @@ There are certain moves that have changed in attack power within the generation 
 | 30%
 | {{tt|—|Accuracy depends on target's level}}
 |--->
+
 | {{m|Rock Throw}}
 | style="text-align:center; background:#{{Rock color}}" | {{typecolor|Rock}}
 | 65%
@@ -968,7 +974,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation II]] to [[Generation III]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -989,12 +995,14 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | 100%
 | &mdash;
+
 <!--|-
 | {{m|Nightmare}}
 | style="text-align:center; background:#{{Ghost color}}" | {{typecolor|Ghost}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | —
 | 100% -->
+
 |-
 | {{m|Pain Split}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
@@ -1009,7 +1017,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1021,18 +1029,21 @@ There are certain moves that have changed in attack power within the generation 
 |- style="background:#ddf"
 ! style="background:#{{Hoenn color}}" | {{color2|000|Generation III|Gen III}}
 ! style="background:#{{Sinnoh color}}" | {{color2|000|Generation IV|Gen IV}}
+
 <!--|-
 | {{m|Assist}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Bide}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Physical color}}" | [[Physical move|{{color|{{Physical textcolor}}|Physical}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Block}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
@@ -1057,6 +1068,7 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Disable}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
@@ -1069,18 +1081,21 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 70%
 | 100%
+
 <!--|-
 | {{m|Follow Me}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Foresight}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Grudge}}
 | style="text-align:center; background:#{{Ghost color}}" | {{typecolor|Ghost}}
@@ -1093,12 +1108,14 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Hypnosis}}
 | style="text-align:center; background:#{{Psychic color}}" | {{typecolor|Psychic}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 60%
 | 70%{{sup/4|DP}}
+
 <!--|-
 | {{m|Imprison}}
 | style="text-align:center; background:#{{Psychic color}}" | {{typecolor|Psychic}}
@@ -1111,12 +1128,14 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Lock-On}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Magic Coat}}
 | style="text-align:center; background:#{{Psychic color}}" | {{typecolor|Psychic}}
@@ -1129,6 +1148,7 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Memento}}
 | style="text-align:center; background:#{{Dark color}}" | {{typecolor|Dark}}
@@ -1136,18 +1156,21 @@ There are certain moves that have changed in attack power within the generation 
 | —
 | 100%
 |-
+
 <!--|-
 | {{m|Mimic}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Mind Reader}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Mud Sport}}
 | style="text-align:center; background:#{{Ground color}}" | {{typecolor|Ground}}
@@ -1160,6 +1183,7 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 95%
 | — -->
+
 |-
 | {{m|Nightmare}}
 | style="text-align:center; background:#{{Ghost color}}" | {{typecolor|Ghost}}
@@ -1172,6 +1196,7 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Pain Split}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
@@ -1226,12 +1251,14 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |-
 | {{m|Struggle}}
 | style="text-align:center; background:#{{Normal color}}" | {{typecolor|Normal}}
 | style="text-align:center; background:#{{Physical color}}" | [[Physical move|{{color|{{Physical textcolor}}|Physical}}]]
 | 100%
 | —
+
 <!--|-
 | {{m|Tail Glow}}
 | style="text-align:center; background:#{{Bug color}}" | {{typecolor|Bug}}
@@ -1262,11 +1289,12 @@ There are certain moves that have changed in attack power within the generation 
 | style="text-align:center; background:#{{Status color}}" | [[Status move|{{color|{{Status textcolor}}|Status}}]]
 | 100%
 | — -->
+
 |}
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1396,7 +1424,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1478,7 +1506,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1518,7 +1546,7 @@ There are certain moves that have changed in attack power within the generation 
 |}
 
 ====[[Generation VIII]] to [[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1550,7 +1578,7 @@ There are certain moves that have changed in attack power within the generation 
 There are certain moves that have changed in accuracy within the generation as well.
 
 ====[[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1574,7 +1602,7 @@ There are certain moves that have changed in accuracy within the generation as w
 ==PP changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1594,7 +1622,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1646,7 +1674,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1710,7 +1738,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1822,7 +1850,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1845,7 +1873,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation VII]] to [[Generation VIII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1873,7 +1901,7 @@ There are certain moves that have changed in accuracy within the generation as w
 |}
 
 ====[[Generation VIII]] to [[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -1982,7 +2010,7 @@ There are certain moves that have changed in accuracy within the generation as w
 There are certain moves that have changed in their PP within the generation as well.
 
 ====[[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2012,7 +2040,7 @@ There are certain moves that have changed in their PP within the generation as w
 ==Additional effect changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2102,7 +2130,7 @@ There are certain moves that have changed in their PP within the generation as w
 |}
 
 ====[[Generation II]] to [[Generation III]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2126,7 +2154,7 @@ There are certain moves that have changed in their PP within the generation as w
 |}
 |}
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2177,7 +2205,7 @@ There are certain moves that have changed in their PP within the generation as w
 |}
 |}
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2211,7 +2239,7 @@ There are certain moves that have changed in their PP within the generation as w
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2239,7 +2267,7 @@ There are certain moves that have changed in their PP within the generation as w
 |}
 
 ====[[Generation VII]] to [[Generation VIII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2270,7 +2298,7 @@ There are certain moves that have changed in their PP within the generation as w
 There are certain moves that have changed in additional effects within the generation as well.
 
 ====[[Generation I]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2292,7 +2320,7 @@ There are certain moves that have changed in additional effects within the gener
 ==Type changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2322,7 +2350,7 @@ There are certain moves that have changed in additional effects within the gener
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2368,7 +2396,7 @@ There are certain moves that have changed in additional effects within the gener
 ==Damage category changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2386,7 +2414,7 @@ There are certain moves that have changed in additional effects within the gener
 |}
 
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2616,7 +2644,7 @@ There are certain moves that have changed in additional effects within the gener
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2634,7 +2662,7 @@ There are certain moves that have changed in additional effects within the gener
 |}
 
 ====[[Generation VIII]] to [[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2663,7 +2691,7 @@ There are certain moves that have changed in additional effects within the gener
 There are certain moves that have changed damage category within the generation as well.
 
 ====[[Generation VIII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; text-align:center; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2691,7 +2719,7 @@ There are certain moves that have changed damage category within the generation 
 ==Targeting changes==
 ===Between generations===
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2703,53 +2731,53 @@ There are certain moves that have changed damage category within the generation 
 ! style="background:#{{Sinnoh color}}" | {{color2|000|Generation IV|Gen IV}}
 |-
 | {{m|Helping Hand}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent ally</small>
 |}
 |-
 | {{m|Surf}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent Pokémon</small>
 |}
 |}
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2761,17 +2789,17 @@ There are certain moves that have changed damage category within the generation 
 ! style="background:#{{Unova color}}" | {{color2|000|Generation V|Gen V}}
 |-
 | {{m|Conversion 2}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2780,22 +2808,22 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
 |-
 | {{m|Poison Gas}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any other Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2804,14 +2832,14 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |}
 |}
 
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2823,7 +2851,7 @@ There are certain moves that have changed damage category within the generation 
 ! style="background:#{{Kalos color}}" | {{color2|000|Generation V|Gen VI}}
 |-
 | {{m|Cotton Spore}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2832,10 +2860,10 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2844,12 +2872,12 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |-
 | {{m|Nature Power}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2858,10 +2886,10 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
@@ -2870,14 +2898,14 @@ There are certain moves that have changed damage category within the generation 
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#FF4500; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
 |}
 |}
 
 ====[[Generation VII]] to [[Generation VIII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2889,31 +2917,31 @@ There are certain moves that have changed damage category within the generation 
 ! style="background:#{{Galar color}}" | {{color2|000|Generation VIII|Gen VIII}}
 |-
 | {{m|Howl}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>User and all allies</small>
 |}
 |}
 |}
 
 ====[[Generation VIII]] to [[Generation IX]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -2925,134 +2953,134 @@ There are certain moves that have changed damage category within the generation 
 ! style="background:#{{Paldea color}}" | {{color2|000|Generation IX|Gen IX}}
 |-
 | {{m|Bleakwind Storm}}
-| width="150px" style="background:#FFF; border:1px solid #D8D8D8" | 
+| width="150px" style="background:#FFF; border:1px solid #D8D8D8" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #D8D8D8" | 
+| width="150px" style="background:#FFF; border:1px solid #D8D8D8" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |-
 | {{m|Mystical Power}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
 |-
 | {{m|Raging Fury}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Self</small>
 |}
 |-
 | {{m|Sandsear Storm}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |-
 | {{m|Springtide Storm}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |-
 | {{m|Wildbolt Storm}}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>Any adjacent Pokémon</small>
 |}
-| width="150px" style="background:#FFF; border:1px solid #000" | 
+| width="150px" style="background:#FFF; border:1px solid #000" |
 {| width="100%" style="margin:auto; text-align:center; background:#FFF; border-collapse:collapse"
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#ED1C24; border:1px solid #000; line-height:6px" | &nbsp;
 |-
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
 | style="background:#709AD1; border:1px solid #000; line-height:6px" | &nbsp;
-|- 
+|-
 | colspan="3" style="line-height:10px" | <small>All adjacent opponents</small>
 |}
 |}
@@ -3061,7 +3089,7 @@ There are certain moves that have changed damage category within the generation 
 ==[[Contact]] changes==
 ===Between generations===
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3093,7 +3121,7 @@ There are certain moves that have changed damage category within the generation 
 ==[[Priority]] changes==
 ===Between generations===
 ====[[Generation I]] to [[Generation II]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3115,7 +3143,7 @@ There are certain moves that have changed damage category within the generation 
 |}
 
 ====[[Generation II]] to [[Generation III]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3149,7 +3177,7 @@ There are certain moves that have changed damage category within the generation 
 |}
 
 ====[[Generation III]] to [[Generation IV]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3167,7 +3195,7 @@ There are certain moves that have changed damage category within the generation 
 |}
 
 ====[[Generation IV]] to [[Generation V]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3201,7 +3229,7 @@ There are certain moves that have changed damage category within the generation 
 |}
 
 ====[[Generation V]] to [[Generation VI]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3231,7 +3259,7 @@ There are certain moves that have changed damage category within the generation 
 |}
 
 ====[[Generation VI]] to [[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3252,7 +3280,7 @@ There are certain moves that have changed damage category within the generation 
 There are certain moves that have changed in priority within the generation as well.
 
 ====[[Generation VII]]====
-{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy" 
+{| style="margin:auto; background:#ddf; border:3px solid #ccf" class="roundy"
 |-
 |
 {| border=1 width="100%" style="margin:auto; background:#FFF; border:1px solid #ddf; border-collapse:collapse" cellpadding="2px"
@@ -3268,4 +3296,3 @@ There are certain moves that have changed in priority within the generation as w
 | <tt>-6</tt>
 |}
 |}
-

@@ -30,7 +30,7 @@ export function CreatePlaythroughDialog({
       <DialogTrigger asChild>
         {trigger || (
           <Button>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 h-4 w-4" />
             New Playthrough
           </Button>
         )}

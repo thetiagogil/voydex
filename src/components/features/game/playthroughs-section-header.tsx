@@ -9,7 +9,7 @@ export function PlaythroughsSectionHeader({
   game,
 }: PlaythroughsSectionHeaderProps) {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <h2 className="text-2xl font-semibold">My Playthroughs</h2>
       <CreatePlaythroughDialog game={game} />
     </div>

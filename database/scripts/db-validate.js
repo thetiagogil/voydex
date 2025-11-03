@@ -12,7 +12,7 @@ function argVal(flag) {
 
 function usage() {
   console.log(
-    "Usage: node db-validate.js [--dir <seed-folder>] [--preview] [--db <connectionString>]"
+    "Usage: node db-validate.js [--dir <seed-folder>] [--preview] [--db <connectionString>]",
   );
   process.exit(1);
 }
@@ -36,14 +36,14 @@ function runStaticChecks(sql, filePath) {
   const problems = [];
   if (/,,/.test(sql)) {
     problems.push(
-      "Found adjacent commas (,,) — possible missing value in VALUES"
+      "Found adjacent commas (,,) — possible missing value in VALUES",
     );
   }
   // warn only when the SELECT projection explicitly includes `gen.slug` (common mistake)
   const selMatch = sql.match(/SELECT([\s\S]*?)FROM/i);
   if (selMatch && /\bgen\.slug\b/i.test(selMatch[1])) {
     problems.push(
-      "Selecting gen.slug in the SELECT projection — prefer resolving to gen.id in the SELECT"
+      "Selecting gen.slug in the SELECT projection — prefer resolving to gen.id in the SELECT",
     );
   }
   // empty WITH detection: WITH <name> AS (    )
@@ -61,7 +61,7 @@ function runStaticChecks(sql, filePath) {
     const slugCols = cols.filter((c) => c.endsWith("_slug"));
     if (slugCols.length > 0) {
       problems.push(
-        `INSERT column list contains slug-like columns (${slugCols.join(", ")}) — ensure the SELECT resolves slugs to ids`
+        `INSERT column list contains slug-like columns (${slugCols.join(", ")}) — ensure the SELECT resolves slugs to ids`,
       );
     }
   }
@@ -129,7 +129,7 @@ async function main() {
 
   if (preview) {
     console.log(
-      `\nPreview mode: skipping any DB execution. (${results.length} files scanned)`
+      `\nPreview mode: skipping any DB execution. (${results.length} files scanned)`,
     );
     console.log(`Problems found: ${totalProblems}`);
     process.exit(totalProblems > 0 ? 2 : 0);
@@ -138,7 +138,7 @@ async function main() {
   const conn = dbArg || process.env.SUPABASE_DB_URL;
   if (!conn) {
     console.error(
-      "No database connection string provided. Use --db <conn> or set SUPABASE_DB_URL"
+      "No database connection string provided. Use --db <conn> or set SUPABASE_DB_URL",
     );
     process.exit(3);
   }
@@ -152,7 +152,7 @@ async function main() {
   }
 
   console.log(
-    "Connected to DB — running transactional dry-runs (each file in its own transaction)"
+    "Connected to DB — running transactional dry-runs (each file in its own transaction)",
   );
 
   let failures = 0;
@@ -179,7 +179,7 @@ async function main() {
   await client.end();
 
   console.log(
-    `\nDone. Files scanned: ${results.length}. Failures: ${failures}. Static problems: ${totalProblems}`
+    `\nDone. Files scanned: ${results.length}. Failures: ${failures}. Static problems: ${totalProblems}`,
   );
   process.exit(failures > 0 || totalProblems > 0 ? 5 : 0);
 }

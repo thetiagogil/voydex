@@ -35,12 +35,12 @@ async function main() {
       "Type 'y' to confirm running ALL seed files in order: ",
       {
         flag: "--y",
-      }
+      },
     );
 
     const filePaths = available.map((f) => path.resolve(seedsDir, f));
     const ok = await runSequentialFiles(filePaths, (p) =>
-      runSqlFile(p, path.basename(p))
+      runSqlFile(p, path.basename(p)),
     );
     if (!ok) {
       logger.failure("Stopped after a failed seed file");

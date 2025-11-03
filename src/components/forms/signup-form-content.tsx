@@ -95,7 +95,7 @@ export const SignupFormContent = () => {
           <Button
             type="button"
             variant="link"
-            className="p-0 h-auto font-normal"
+            className="h-auto p-0 font-normal"
             onClick={() => router.push("/auth/login")}
           >
             Log in

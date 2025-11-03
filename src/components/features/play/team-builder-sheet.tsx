@@ -135,7 +135,7 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
   const getStatTotal = (stats: Record<string, number>) => {
     return Object.values(stats).reduce(
       (total: number, stat) => total + stat,
-      0
+      0,
     );
   };
 
@@ -143,7 +143,7 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
     <Sheet>
       <SheetTrigger asChild>
         <Button size="sm">
-          <Edit3 className="h-4 w-4 mr-1" />
+          <Edit3 className="mr-1 h-4 w-4" />
           Team Builder
         </Button>
       </SheetTrigger>
@@ -167,18 +167,18 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
                       <Card
                         key={index}
                         className={
-                          !pokemon ? "border-dashed border-2 bg-muted/20" : ""
+                          !pokemon ? "bg-muted/20 border-2 border-dashed" : ""
                         }
                       >
                         <CardContent className="p-3">
                           {pokemon ? (
                             <div className="space-y-2">
-                              <div className="flex justify-between items-start">
+                              <div className="flex items-start justify-between">
                                 <div>
                                   <p className="font-semibold">
                                     {pokemon.nickname}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-muted-foreground text-sm">
                                     {pokemon.species}
                                   </p>
                                 </div>
@@ -198,9 +198,9 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
                               </div>
                             </div>
                           ) : (
-                            <div className="flex flex-col items-center justify-center h-20 text-center">
-                              <Plus className="h-6 w-6 text-muted-foreground mb-1" />
-                              <p className="text-xs text-muted-foreground">
+                            <div className="flex h-20 flex-col items-center justify-center text-center">
+                              <Plus className="text-muted-foreground mb-1 h-6 w-6" />
+                              <p className="text-muted-foreground text-xs">
                                 Empty Slot
                               </p>
                             </div>
@@ -221,7 +221,7 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
             <CardContent>
               <div className="space-y-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Search className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                   <Input
                     placeholder="Search Pokémon by name or type..."
                     className="pl-10"
@@ -242,15 +242,15 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
                   <Card key={pokemon.id} className="relative">
                     {pokemon.recommended && (
                       <div className="absolute top-2 right-2">
-                        <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                        <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
                       </div>
                     )}
                     <CardContent className="p-4">
                       <div className="space-y-3">
-                        <div className="flex justify-between items-start">
+                        <div className="flex items-start justify-between">
                           <div>
                             <p className="font-semibold">{pokemon.name}</p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-muted-foreground text-sm">
                               BST: {getStatTotal(pokemon.baseStats)}
                             </p>
                           </div>

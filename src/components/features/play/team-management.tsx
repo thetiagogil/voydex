@@ -48,7 +48,7 @@ export function TeamManagement({ playthrough }: TeamManagementProps) {
           {teamSlots.map((pokemon, index) => (
             <Card
               key={index}
-              className={`transition-colors ${!pokemon ? "border-dashed border-2 bg-muted/20" : ""}`}
+              className={`transition-colors ${!pokemon ? "bg-muted/20 border-2 border-dashed" : ""}`}
             >
               <CardContent className="p-4">
                 {pokemon ? (
@@ -56,7 +56,7 @@ export function TeamManagement({ playthrough }: TeamManagementProps) {
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <p className="font-semibold">{pokemon.nickname}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {pokemon.species}
                         </p>
                       </div>
@@ -89,7 +89,7 @@ export function TeamManagement({ playthrough }: TeamManagementProps) {
                       </div>
 
                       <div className="space-y-1">
-                        <p className="text-xs text-muted-foreground">Moves:</p>
+                        <p className="text-muted-foreground text-xs">Moves:</p>
                         <div className="flex flex-wrap gap-1">
                           {pokemon.moves.map((move) => (
                             <Badge
@@ -105,10 +105,10 @@ export function TeamManagement({ playthrough }: TeamManagementProps) {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-32 text-center">
-                    <Plus className="h-8 w-8 text-muted-foreground mb-2" />
-                    <p className="text-sm text-muted-foreground">Empty Slot</p>
-                    <p className="text-xs text-muted-foreground">
+                  <div className="flex h-32 flex-col items-center justify-center text-center">
+                    <Plus className="text-muted-foreground mb-2 h-8 w-8" />
+                    <p className="text-muted-foreground text-sm">Empty Slot</p>
+                    <p className="text-muted-foreground text-xs">
                       Click to add Pokémon
                     </p>
                   </div>

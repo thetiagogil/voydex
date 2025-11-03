@@ -46,7 +46,7 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
       acc[type] = (acc[type] || 0) + 1;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   // Calculate type coverage
@@ -104,7 +104,7 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm">
-          <Shield className="h-4 w-4 mr-1" />
+          <Shield className="mr-1 h-4 w-4" />
           Team Analysis
         </Button>
       </SheetTrigger>
@@ -124,20 +124,20 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Team Size</p>
+                  <p className="text-muted-foreground text-sm">Team Size</p>
                   <p className="text-2xl font-bold">
                     {playthrough.team.length}/6
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Average Level</p>
+                  <p className="text-muted-foreground text-sm">Average Level</p>
                   <p className="text-2xl font-bold">
                     {Math.round(averageLevel)}
                   </p>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between text-sm mb-2">
+                <div className="mb-2 flex justify-between text-sm">
                   <span>Type Coverage</span>
                   <span>{Math.round(coveragePercentage)}%</span>
                 </div>
@@ -174,7 +174,7 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-3">
+              <p className="text-muted-foreground mb-3 text-sm">
                 Types your team can effectively counter:
               </p>
               <div className="flex flex-wrap gap-2">
@@ -200,7 +200,7 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-3">
+              <p className="text-muted-foreground mb-3 text-sm">
                 Types that can threaten your team:
               </p>
               <div className="flex flex-wrap gap-2">
@@ -208,7 +208,7 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
                   <Badge
                     key={type as string}
                     variant="outline"
-                    className="text-xs border-orange-500 text-orange-600"
+                    className="border-orange-500 text-xs text-orange-600"
                   >
                     {type as string}
                   </Badge>

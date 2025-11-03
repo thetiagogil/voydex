@@ -41,13 +41,13 @@ export function ProgressTracking({ playthrough }: ProgressTrackingProps) {
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-4">
                     <div className="mt-1">
-                      <Icon className="h-5 w-5 text-muted-foreground" />
+                      <Icon className="text-muted-foreground h-5 w-5" />
                     </div>
                     <div className="flex-1 space-y-2">
                       <div className="flex items-start justify-between">
                         <div>
                           <h3 className="font-semibold">{item.name}</h3>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {item.description}
                           </p>
                         </div>
@@ -61,7 +61,7 @@ export function ProgressTracking({ playthrough }: ProgressTrackingProps) {
                           {item.completedDate && (
                             <Badge variant="outline" className="text-xs">
                               {new Date(
-                                item.completedDate
+                                item.completedDate,
                               ).toLocaleDateString()}
                             </Badge>
                           )}
@@ -73,7 +73,7 @@ export function ProgressTracking({ playthrough }: ProgressTrackingProps) {
                             value={(item.progress / item.total) * 100}
                             className="flex-1"
                           />
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-muted-foreground text-xs">
                             {item.progress}/{item.total}
                           </span>
                         </div>

@@ -55,7 +55,7 @@ async function main() {
       "database",
       "scripts",
       "etl",
-      s
+      s,
     );
     logger.section(`Running: ${s}`, "▶️");
     if (!force) {

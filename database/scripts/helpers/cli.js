@@ -18,7 +18,7 @@ export async function promptConfirm(promptText = "Type 'y' to confirm: ") {
     rl.question(promptText, (a) => {
       rl.close();
       res(a);
-    })
+    }),
   );
   return String(answer).trim().toLowerCase() === "y";
 }
@@ -27,7 +27,7 @@ export async function countdown(seconds = 5, message) {
   if (!seconds || seconds <= 0) return;
   logger.section(
     message ?? `Proceeding in ${seconds} seconds... Press CTRL+C to abort`,
-    "❗"
+    "❗",
   );
   for (let i = seconds; i > 0; i--) {
     process.stdout.write(`⌛ ${i}... Press CTRL+C to abort` + "\n");
@@ -51,7 +51,7 @@ export async function chooseFromList(items, opts = {}) {
   logger.blank();
   logger.confirmation();
   console.log(
-    "Type the number (e.g. 1), filename, 'all' to run all, or press Enter to run the latest."
+    "Type the number (e.g. 1), filename, 'all' to run all, or press Enter to run the latest.",
   );
   const rl = await import("readline");
   const input = await new Promise((res) => {
@@ -85,7 +85,7 @@ export function getFlag(name) {
 
 export async function confirmOrExit(
   promptText = "Type 'y' to confirm: ",
-  opts = {}
+  opts = {},
 ) {
   const { envVar, flag } = opts;
   if (flag && getFlag(flag)) return true;

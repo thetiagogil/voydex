@@ -54,7 +54,7 @@ export const FieldWrapper = forwardRef<HTMLDivElement, Props>(
         )}
       </Field>
     );
-  }
+  },
 );
 
 FieldWrapper.displayName = "FieldWrapper";

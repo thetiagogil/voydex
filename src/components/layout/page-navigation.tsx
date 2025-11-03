@@ -56,12 +56,12 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
   ];
 
   const detectedPage = navLinks.find((link) =>
-    link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
+    link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
   )?.name;
 
   return (
     <>
-      <nav className={`px-auto border-b border-border ${className}`}>
+      <nav className={`px-auto border-border border-b ${className}`}>
         <div
           className={`${PAGE_CONTAINER_WIDTH.lg} mx-auto flex h-14 items-center justify-between px-6`}
         >
@@ -156,7 +156,7 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
                         handleLogout();
                       }}
                     >
-                      <LogOut className="h-4 w-4 text-destructive" />
+                      <LogOut className="text-destructive h-4 w-4" />
                       <span className="text-destructive">Log out</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>

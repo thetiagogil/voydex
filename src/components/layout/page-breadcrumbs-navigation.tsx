@@ -145,15 +145,15 @@ export function PageBreadcrumbsNavigation() {
 
   return (
     <nav
-      className="flex items-center space-x-1 text-sm text-muted-foreground mb-4"
+      className="text-muted-foreground mb-4 flex items-center space-x-1 text-sm"
       aria-label="Breadcrumb"
     >
       <Home className="h-4 w-4" />
       {breadcrumbs.map((item, index) => (
         <Fragment key={item.href}>
-          {index > 0 && <ChevronRight className="h-4 w-4 mx-1" />}
+          {index > 0 && <ChevronRight className="mx-1 h-4 w-4" />}
           {item.current ? (
-            <span className="font-medium text-foreground" aria-current="page">
+            <span className="text-foreground font-medium" aria-current="page">
               {item.label}
             </span>
           ) : (

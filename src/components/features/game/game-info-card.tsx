@@ -14,9 +14,9 @@ export function GameInfoCard({ game }: GameInfoCardProps) {
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <CardTitle className="text-2xl">{game.name}</CardTitle>
-            <p className="text-lg text-muted-foreground">{game.version}</p>
+            <p className="text-muted-foreground text-lg">{game.version}</p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4" />
             {game.year}
           </div>
@@ -35,7 +35,7 @@ export function GameInfoCard({ game }: GameInfoCardProps) {
           </div>
         )}
 
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex items-center gap-4 text-sm">
           <div className="flex items-center gap-1">
             <Badge variant="outline">{game.region} Region</Badge>
           </div>

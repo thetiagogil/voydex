@@ -15,7 +15,7 @@ const OUT_FILE = path.resolve(
   "database",
   "seed",
   "etl",
-  "005_pokeapi_types.sql"
+  "005_pokeapi_types.sql",
 );
 
 async function main() {
@@ -24,7 +24,7 @@ async function main() {
   if (fs.existsSync(OUT_FILE) && !force) {
     logger.section(
       `Seed file already exists: ${path.relative(process.cwd(), OUT_FILE)}`,
-      "⚠️"
+      "⚠️",
     );
     logger.list([
       "The generator will not overwrite the existing file unless you confirm.",
@@ -77,7 +77,7 @@ async function main() {
 
   fs.writeFileSync(OUT_FILE, sql, "utf8");
   logger.success(
-    `Wrote ${path.relative(process.cwd(), OUT_FILE)} (${rows.length} rows)`
+    `Wrote ${path.relative(process.cwd(), OUT_FILE)} (${rows.length} rows)`,
   );
 }
 
