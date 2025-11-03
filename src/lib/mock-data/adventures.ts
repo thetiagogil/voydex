@@ -20,8 +20,7 @@ export interface GenerationPlayData {
   playthroughsCount: number;
   activePlays: number;
   completedPlays: number;
-  totalBadges: number;
-  maxBadges: number;
+  averageCompletion: number; // Average completion % across tracked plays
   isEnabled: boolean; // false for gen 5+
 }
 
@@ -61,8 +60,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 3,
     activePlays: 2,
     completedPlays: 1,
-    totalBadges: 16,
-    maxBadges: 24,
+    averageCompletion: 67, // Average of 3 plays: 100% (completed) + 65% + 35%
     isEnabled: true,
   },
   {
@@ -76,8 +74,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 2,
     activePlays: 1,
     completedPlays: 1,
-    totalBadges: 16,
-    maxBadges: 16,
+    averageCompletion: 78, // Average of 2 plays: 100% (completed) + 56%
     isEnabled: true,
   },
   {
@@ -91,8 +88,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 2,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 8,
-    maxBadges: 40,
+    averageCompletion: 42, // Average of 2 plays: 45% + 38%
     isEnabled: true,
   },
   {
@@ -106,8 +102,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 1,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 5,
-    maxBadges: 40,
+    averageCompletion: 28, // Single play at 28%
     isEnabled: true,
   },
   {
@@ -121,8 +116,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 0,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 0,
-    maxBadges: 32,
+    averageCompletion: 0,
     isEnabled: false,
   },
   {
@@ -136,8 +130,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 0,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 0,
-    maxBadges: 32,
+    averageCompletion: 0,
     isEnabled: false,
   },
   {
@@ -151,8 +144,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 0,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 0,
-    maxBadges: 0,
+    averageCompletion: 0,
     isEnabled: false,
   },
   {
@@ -166,8 +158,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 0,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 0,
-    maxBadges: 32,
+    averageCompletion: 0,
     isEnabled: false,
   },
   {
@@ -181,8 +172,7 @@ export const mockGenerationPlayData: GenerationPlayData[] = [
     playthroughsCount: 0,
     activePlays: 0,
     completedPlays: 0,
-    totalBadges: 0,
-    maxBadges: 32,
+    averageCompletion: 0,
     isEnabled: false,
   },
 ];

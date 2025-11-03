@@ -1,3 +1,4 @@
+import { CircularProgress } from "@/components/shared/circular-progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { GenerationPlayData } from "@/lib/mock-data";
@@ -44,22 +45,34 @@ export const GenerationCards = ({ generations }: GenerationCardsProps) => {
 
               {/* Play Data */}
               {gen.isEnabled && gen.playthroughsCount > 0 && (
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Playthroughs</span>
-                    <span className="font-medium">{gen.playthroughsCount}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Active</span>
-                    <span className="text-primary font-medium">
-                      {gen.activePlays}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Badges</span>
-                    <span className="font-medium">
-                      {gen.totalBadges}/{gen.maxBadges}
-                    </span>
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between gap-8">
+                        <span className="text-muted-foreground">
+                          Playthroughs
+                        </span>
+                        <span className="font-medium">
+                          {gen.playthroughsCount}
+                        </span>
+                      </div>
+                      <div className="flex justify-between gap-8">
+                        <span className="text-muted-foreground">Active</span>
+                        <span className="text-primary font-medium">
+                          {gen.activePlays}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <CircularProgress
+                        value={gen.averageCompletion}
+                        size={80}
+                        strokeWidth={4}
+                        showLabel
+                        labelClassName="text-xs"
+                        renderLabel={(p) => `${p}%`}
+                      />
+                    </div>
                   </div>
                 </div>
               )}

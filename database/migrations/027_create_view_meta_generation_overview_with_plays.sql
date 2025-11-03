@@ -13,25 +13,7 @@ SELECT
     COALESCE(play_stats.playthroughs_count, 0) AS playthroughs_count,
     COALESCE(play_stats.active_plays, 0) AS active_plays,
     COALESCE(play_stats.completed_plays, 0) AS completed_plays,
-    COALESCE(play_stats.total_badges, 0) AS total_badges,
-    -- Calculate max possible badges for this generation
-    (
-        SELECT
-            COUNT(*)
-        FROM
-            meta.progress_categories pc
-            JOIN meta.version_groups vg ON vg.generation_id = g.id
-        WHERE
-            pc.version_group_id = vg.id
-            AND pc.slug = 'badges'
-    ) * (
-        SELECT
-            COUNT(*)
-        FROM
-            meta.games
-        WHERE
-            generation_id = g.id
-    ) AS max_badges,
+    COALESCE(play_stats.average_completion, 0) AS average_completion,
     TRUE AS is_enabled -- Set to false for generations 5+ when not ready
 FROM
     meta.generations g
@@ -53,17 +35,31 @@ FROM
                     WHEN p.status = 'completed' THEN p.id
                 END
             ) AS completed_plays,
-            COUNT(DISTINCT prg.id) FILTER (
-                WHERE
-                    prg.completed = TRUE
-                    AND pc.slug = 'badges'
-            ) AS total_badges
+            -- Calculate average completion percentage across tracked plays
+            ROUND(
+                AVG(
+                    CASE
+                        WHEN p.is_tracked THEN (
+                            -- Calculate completion % based on completed progress items
+                            SELECT
+                                (
+                                    COUNT(*) FILTER (
+                                        WHERE
+                                            prg.completed = TRUE
+                                    ) * 100.0 / NULLIF(COUNT(*), 0)
+                                )
+                            FROM
+                                gameplay.progress prg
+                                JOIN meta.progress_items pi ON pi.id = prg.progress_item_id
+                            WHERE
+                                prg.play_id = p.id
+                        )
+                    END
+                )
+            ) :: INTEGER AS average_completion
         FROM
             gameplay.plays p
             JOIN meta.games gm ON gm.id = p.game_id
-            LEFT JOIN gameplay.progress prg ON prg.play_id = p.id
-            LEFT JOIN meta.progress_items pi ON pi.id = prg.progress_item_id
-            LEFT JOIN meta.progress_categories pc ON pc.id = pi.progress_category_id
         WHERE
             p.user_id = auth.uid () -- Only current user's plays
         GROUP BY
@@ -79,7 +75,7 @@ GROUP BY
     play_stats.playthroughs_count,
     play_stats.active_plays,
     play_stats.completed_plays,
-    play_stats.total_badges
+    play_stats.average_completion
 ORDER BY
     g.id;
 
@@ -88,3 +84,4 @@ GRANT SELECT ON meta.generation_overview_with_plays TO authenticated, anon;
 
 -- Note: This view combines static generation metadata with dynamic user play data
 -- The is_enabled flag should be set based on which generations are currently supported
+-- Only tracked plays (is_tracked = TRUE) are included in average_completion calculation

@@ -1,3 +1,4 @@
+import { CircularProgress } from "@/components/shared/circular-progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { GenerationPlayData } from "@/lib/mock-data";
@@ -61,14 +62,15 @@ export const GenerationRows = ({ generations }: GenerationRowsProps) => {
                         </p>
                         <p className="text-muted-foreground text-xs">Active</p>
                       </div>
-                      <div className="min-w-[100px] text-center">
-                        <p className="text-2xl font-bold">
-                          {gen.totalBadges}
-                          <span className="text-muted-foreground text-sm">
-                            /{gen.maxBadges}
-                          </span>
-                        </p>
-                        <p className="text-muted-foreground text-xs">Badges</p>
+                      <div className="flex min-w-[100px] flex-col items-center gap-1">
+                        <CircularProgress
+                          value={gen.averageCompletion}
+                          size={80}
+                          strokeWidth={4}
+                          showLabel
+                          labelClassName="text-xs"
+                          renderLabel={(p) => `${p}%`}
+                        />
                       </div>
                     </>
                   ) : (

@@ -1,5 +1,5 @@
 import { type AdventureStats } from "@/lib/mock-data/adventures";
-import { Award, Target, Trophy } from "lucide-react";
+import { Award, Target, TrendingUp } from "lucide-react";
 import { StatsCard } from "./stats-card";
 
 interface StatsSectionProps {
@@ -16,16 +16,16 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
         description={`Out of ${stats.totalPlaythroughs} total adventures`}
       />
       <StatsCard
-        icon={<Trophy className="h-5 w-5" />}
-        value={stats.totalBadges}
-        label="Badges Earned"
-        description="Across all adventures"
+        icon={<TrendingUp className="h-5 w-5" />}
+        value={`${stats.completionRate}%`}
+        label="Overall Completion"
+        description="Average across all adventures"
       />
       <StatsCard
         icon={<Award className="h-5 w-5" />}
         value={stats.totalPokemonCaught}
         label="Pokémon Caught"
-        description="Across all adventures"
+        description="Total encounters captured"
       />
     </div>
   );
