@@ -9,10 +9,10 @@ interface ToastPromiseOptions<T = unknown> {
 // Enhanced toast.promise that works like Supabase's loading states
 // Shows loading → success/error transition in the same toast
 
-export async function toastPromise<T>(
+export const toastPromise = async <T>(
   promise: Promise<T>,
   options: ToastPromiseOptions<T>
-): Promise<T> {
+): Promise<T> => {
   const loadingToast = toast.loading(options.loading);
 
   try {
@@ -35,4 +35,4 @@ export async function toastPromise<T>(
     toast.error(errorMessage, { id: loadingToast });
     throw err;
   }
-}
+};
