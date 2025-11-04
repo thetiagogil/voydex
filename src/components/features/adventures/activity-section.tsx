@@ -78,11 +78,11 @@ export const ActivitySection = ({
                           {activity.message}
                         </p>
                         <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                          <span>{activity.gameName}</span>
+                          <span>•</span>
                           <span className="font-medium">
                             {activity.playthroughName}
                           </span>
-                          <span>•</span>
-                          <span>{activity.gameName}</span>
                         </div>
                         {activity.location && (
                           <div className="text-muted-foreground flex items-center gap-1 text-xs">

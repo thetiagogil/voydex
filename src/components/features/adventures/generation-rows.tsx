@@ -26,7 +26,7 @@ export const GenerationRows = ({ generations }: GenerationRowsProps) => {
                 : "opacity-50",
             )}
           >
-            <CardContent className="py-4">
+            <CardContent>
               <div className="flex items-center gap-6">
                 {/* Metadata Section (Left) */}
                 <div className="flex-1 space-y-1">
@@ -45,7 +45,7 @@ export const GenerationRows = ({ generations }: GenerationRowsProps) => {
                 </div>
 
                 {/* Play Data Section (Right) */}
-                <div className="flex items-center gap-8">
+                <div className="flex items-center">
                   {gen.isEnabled ? (
                     <>
                       <div className="min-w-[80px] text-center">
@@ -62,7 +62,7 @@ export const GenerationRows = ({ generations }: GenerationRowsProps) => {
                         </p>
                         <p className="text-muted-foreground text-xs">Active</p>
                       </div>
-                      <div className="flex min-w-[100px] flex-col items-center gap-1">
+                      <div className="flex min-w-[80px] flex-col items-center gap-1">
                         <CircularProgress
                           value={gen.averageCompletion}
                           size={80}
