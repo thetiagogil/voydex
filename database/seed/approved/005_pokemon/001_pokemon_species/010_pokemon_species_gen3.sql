@@ -3,7 +3,7 @@
 -- Generated at: 2025-10-25T23:28:53.142Z
 -- NOTE: This seed uses slug-based lookups. VALUES rows are (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
 WITH
-    ps AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -144,19 +144,19 @@ WITH
                     ('rayquaza', 'Rayquaza', 'generation-iii', 384, 'Green', FALSE, TRUE, FALSE),
                     ('jirachi', 'Jirachi', 'generation-iii', 385, 'Yellow', FALSE, FALSE, TRUE),
                     ('deoxys', 'Deoxys', 'generation-iii', 386, 'Red', FALSE, FALSE, TRUE)
-            ) AS ps (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
+            ) AS xxx (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
     )
 INSERT INTO
     dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 SELECT
-    ps.slug,
-    ps.name,
+    xxx.slug,
+    xxx.name,
     gen.id,
-    ps.national_number,
-    ps.color,
-    ps.is_baby,
-    ps.is_legendary,
-    ps.is_mythical
+    xxx.national_number,
+    xxx.color,
+    xxx.is_baby,
+    xxx.is_legendary,
+    xxx.is_mythical
 FROM
-    ps
-    JOIN meta.generations gen ON gen.slug = ps.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.introduced_generation_slug ON CONFLICT (slug) DO NOTHING;

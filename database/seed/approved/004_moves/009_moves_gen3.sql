@@ -2,7 +2,7 @@
 -- Skipped slugs: unknown, stellar
 -- Generated at: 2025-10-25T00:13:21.742Z
 WITH
-    m AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -111,16 +111,16 @@ WITH
                     ('water-pulse', 'Water Pulse', 352, 'generation-iii', 'Attacks with ultrasonic waves. May confuse the foe'),
                     ('doom-desire', 'Doom Desire', 353, 'generation-iii', 'Summons strong sunlight to attack 2 turns later.'),
                     ('psycho-boost', 'Psycho Boost', 354, 'generation-iii', 'Allows a full-power attack, but sharply lowers SP. ATK.')
-            ) AS m (slug, name, external_id, generation_introduced_slug, effect)
+            ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
     dex.moves (slug, name, external_id, generation_introduced_id, effect)
 SELECT
-    m.slug,
-    m.name,
-    m.external_id,
+    xxx.slug,
+    xxx.name,
+    xxx.external_id,
     gen.id,
-    m.effect
+    xxx.effect
 FROM
-    m
-    JOIN meta.generations gen ON gen.slug = m.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;

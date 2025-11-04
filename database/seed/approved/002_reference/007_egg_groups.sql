@@ -1,7 +1,5 @@
--- Generated from PokeAPI (/egg-group)
--- Generated at: 2025-10-19T16:12:44.295Z
 WITH
-    e AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -22,15 +20,15 @@ WITH
                     (13, 'monster', 'Monster', 'generation-ii'),
                     (14, 'ditto', 'Ditto', 'generation-ii'),
                     (15, 'no-eggs-discovered', 'No Eggs Discovered', 'generation-ii')
-            ) AS e (id, slug, name, generation_slug)
+            ) AS xxx (id, slug, name, generation_slug)
     )
 INSERT INTO
     dex.egg_groups (id, slug, name, generation_introduced_id)
 SELECT
-    e.id,
-    e.slug,
-    e.name,
+    xxx.id,
+    xxx.slug,
+    xxx.name,
     gen.id
 FROM
-    e
-    JOIN meta.generations gen ON gen.slug = e.generation_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_slug ON CONFLICT (slug) DO NOTHING;

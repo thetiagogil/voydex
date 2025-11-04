@@ -2,7 +2,7 @@
 -- Skipped slugs: unknown, stellar
 -- Generated at: 2025-10-25T00:13:21.742Z
 WITH
-    m AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -173,16 +173,16 @@ WITH
                     ('slash', 'Slash', 163, 'generation-i', 'Has a high criti cal hit ratio.'),
                     ('substitute', 'Substitute', 164, 'generation-i', 'Makes a decoy with 1/4 user''s max HP.'),
                     ('struggle', 'Struggle', 165, 'generation-i', 'Used only if all PP are exhausted.')
-            ) AS m (slug, name, external_id, generation_introduced_slug, effect)
+            ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
     dex.moves (slug, name, external_id, generation_introduced_id, effect)
 SELECT
-    m.slug,
-    m.name,
-    m.external_id,
+    xxx.slug,
+    xxx.name,
+    xxx.external_id,
     gen.id,
-    m.effect
+    xxx.effect
 FROM
-    m
-    JOIN meta.generations gen ON gen.slug = m.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;

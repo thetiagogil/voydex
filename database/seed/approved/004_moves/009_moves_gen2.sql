@@ -2,7 +2,7 @@
 -- Skipped slugs: unknown, stellar
 -- Generated at: 2025-10-25T00:13:21.742Z
 WITH
-    m AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -94,16 +94,16 @@ WITH
                     ('rock-smash', 'Rock Smash', 249, 'generation-ii', 'An attack that may lower DEFENSE.'),
                     ('whirlpool', 'Whirlpool', 250, 'generation-ii', 'Traps the foe for 2-5 turns.'),
                     ('beat-up', 'Beat Up', 251, 'generation-ii', 'Party POKéMON join in the attack.')
-            ) AS m (slug, name, external_id, generation_introduced_slug, effect)
+            ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
     dex.moves (slug, name, external_id, generation_introduced_id, effect)
 SELECT
-    m.slug,
-    m.name,
-    m.external_id,
+    xxx.slug,
+    xxx.name,
+    xxx.external_id,
     gen.id,
-    m.effect
+    xxx.effect
 FROM
-    m
-    JOIN meta.generations gen ON gen.slug = m.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;

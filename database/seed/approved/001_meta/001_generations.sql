@@ -1,7 +1,7 @@
 INSERT INTO
-    meta.generations (id, slug, name, start_year)
+    meta.generations (id, slug, name, start_year, end_year, new_pokemon_count, total_pokemon_count)
 VALUES
-    (1, 'generation-i', 'Generation I', 1998),
-    (2, 'generation-ii', 'Generation II', 2000),
-    (3, 'generation-iii', 'Generation III', 2003),
-    (4, 'generation-iv', 'Generation IV', 2007) ON CONFLICT (slug) DO NOTHING;
+    (1, 'generation-i', 'Generation I', 1996, 2000, 151, 151),
+    (2, 'generation-ii', 'Generation II', 2000, 2002, 100, 251),
+    (3, 'generation-iii', 'Generation III', 2002, 2006, 135, 386),
+    (4, 'generation-iv', 'Generation IV', 2006, 2010, 107, 493) ON CONFLICT (slug) DO NOTHING;

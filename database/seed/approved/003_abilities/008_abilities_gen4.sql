@@ -1,7 +1,5 @@
--- Generated from PokeAPI (/ability)
--- Generated at: 2025-10-22T16:49:03.401Z
 WITH
-    a AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -54,16 +52,16 @@ WITH
                     ('multitype', 'Multitype', 121, 'generation-iv', 'Changes arceus''s type and form to match its held Plate.'),
                     ('flower-gift', 'Flower Gift', 122, 'generation-iv', 'Increases friendly Pokémon''s Attack and Special Defense to 1.5x during strong sunlight.'),
                     ('bad-dreams', 'Bad Dreams', 123, 'generation-iv', 'Damages sleeping opponents for 1/8 their max HP after each turn.')
-            ) AS a (slug, name, external_id, generation_introduced_slug, effect)
+            ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
     dex.abilities (slug, name, external_id, generation_introduced_id, effect)
 SELECT
-    a.slug,
-    a.name,
-    a.external_id,
+    xxx.slug,
+    xxx.name,
+    xxx.external_id,
     gen.id,
-    a.effect
+    xxx.effect
 FROM
-    a
-    JOIN meta.generations gen ON gen.slug = a.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;

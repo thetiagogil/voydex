@@ -1,8 +1,5 @@
--- Generated from PokeAPI (/type)
--- Skipped slugs: unknown, stellar
--- Generated at: 2025-10-19T16:12:22.520Z
 WITH
-    t AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -25,15 +22,15 @@ WITH
                     (15, 'ice', 'Ice', 'generation-i'),
                     (16, 'dragon', 'Dragon', 'generation-i'),
                     (17, 'dark', 'Dark', 'generation-ii')
-            ) AS t (id, slug, name, generation_slug)
+            ) AS xxx (id, slug, name, generation_slug)
     )
 INSERT INTO
     dex.types (id, slug, name, generation_introduced_id)
 SELECT
-    t.id,
-    t.slug,
-    t.name,
+    xxx.id,
+    xxx.slug,
+    xxx.name,
     gen.id
 FROM
-    t
-    JOIN meta.generations gen ON gen.slug = t.generation_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_slug ON CONFLICT (slug) DO NOTHING;

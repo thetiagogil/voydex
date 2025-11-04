@@ -2,7 +2,7 @@
 -- Skipped slugs: unknown, stellar
 -- Generated at: 2025-10-25T00:13:21.742Z
 WITH
-    m AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -121,16 +121,16 @@ WITH
                     ('seed-flare', 'Seed Flare', 465, 'generation-iv', 'The user generates a shock wave from within its body. It may also lower the target''s Sp. Def.'),
                     ('ominous-wind', 'Ominous Wind', 466, 'generation-iv', 'The user creates a gust of repulsive wind. It may also raise all the user''s stats at once.'),
                     ('shadow-force', 'Shadow Force', 467, 'generation-iv', 'The user disappears, then strikes the foe on the second turn. It hits even if the foe used Protect.')
-            ) AS m (slug, name, external_id, generation_introduced_slug, effect)
+            ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
     dex.moves (slug, name, external_id, generation_introduced_id, effect)
 SELECT
-    m.slug,
-    m.name,
-    m.external_id,
+    xxx.slug,
+    xxx.name,
+    xxx.external_id,
     gen.id,
-    m.effect
+    xxx.effect
 FROM
-    m
-    JOIN meta.generations gen ON gen.slug = m.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_introduced_slug ON CONFLICT (slug) DO NOTHING;

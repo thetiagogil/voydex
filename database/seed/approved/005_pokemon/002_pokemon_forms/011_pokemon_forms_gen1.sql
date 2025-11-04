@@ -1,7 +1,7 @@
 -- Generated from PokeAPI (pokemon_forms)
 -- Generated at: 2025-10-26T01:09:27.330Z
 WITH
-    pf AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -158,21 +158,21 @@ WITH
                     ('dragonite', 'Dragonite', 'dragonite', 'generation-i', 22, 2100, TRUE, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/149.png'),
                     ('mewtwo', 'Mewtwo', 'mewtwo', 'generation-i', 20, 1220, TRUE, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png'),
                     ('mew', 'Mew', 'mew', 'generation-i', 4, 40, TRUE, 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png')
-            ) AS pf (slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url)
+            ) AS xxx (slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url)
     )
 INSERT INTO
     dex.pokemon_forms (slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url, created_at)
 SELECT
-    pf.slug,
-    pf.name,
+    xxx.slug,
+    xxx.name,
     ps.id,
     gen.id,
-    pf.height,
-    pf.weight,
-    pf.is_default,
-    pf.sprite_url,
+    xxx.height,
+    xxx.weight,
+    xxx.is_default,
+    xxx.sprite_url,
     now ()
 FROM
-    pf
-    LEFT JOIN dex.pokemon_species ps ON ps.slug = pf.species_slug
-    LEFT JOIN meta.generations gen ON gen.slug = pf.introduced_generation_slug ON CONFLICT (species_id, slug) DO NOTHING;
+    xxx
+    LEFT JOIN dex.pokemon_species ps ON ps.slug = xxx.species_slug
+    LEFT JOIN meta.generations gen ON gen.slug = xxx.introduced_generation_slug ON CONFLICT (species_id, slug) DO NOTHING;

@@ -1,5 +1,5 @@
 WITH
-    v AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -20,10 +20,10 @@ WITH
 INSERT INTO
     meta.version_groups (id, slug, name, generation_id)
 SELECT
-    v.id,
-    v.slug,
-    v.name,
+    xxx.id,
+    xxx.slug,
+    xxx.name,
     gen.id
 FROM
-    v
-    JOIN meta.generations gen ON gen.slug = v.generation_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_slug ON CONFLICT (slug) DO NOTHING;

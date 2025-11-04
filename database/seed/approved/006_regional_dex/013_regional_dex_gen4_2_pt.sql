@@ -1,5 +1,5 @@
 WITH
-    rd AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -227,7 +227,7 @@ WITH
                     ('absol', NULL, 'pt', 209),
                     ('giratina', NULL, 'pt', 210),
                     ('giratina', 'o', 'pt', 210)
-            ) AS rd (species_slug, form_slug, version_group_slug, regional_number)
+            ) AS xxx (species_slug, form_slug, version_group_slug, regional_number)
     )
 INSERT INTO
     meta.regional_dex_entries (species_id, form_id, version_group_id, regional_number)
@@ -235,9 +235,9 @@ SELECT
     ps.id AS species_id,
     pf.id AS form_id,
     vg.id AS version_group_id,
-    rd.regional_number
+    xxx.regional_number
 FROM
-    rd
-    JOIN dex.pokemon_species ps ON ps.slug = rd.species_slug
-    LEFT JOIN dex.pokemon_forms pf ON pf.slug = rd.form_slug
-    JOIN meta.version_groups vg ON vg.slug = rd.version_group_slug ON CONFLICT DO NOTHING;
+    xxx
+    JOIN dex.pokemon_species ps ON ps.slug = xxx.species_slug
+    LEFT JOIN dex.pokemon_forms pf ON pf.slug = xxx.form_slug
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT DO NOTHING;

@@ -1,5 +1,5 @@
 WITH
-    g AS (
+    xxx AS (
         SELECT
             *
         FROM
@@ -26,21 +26,21 @@ WITH
 INSERT INTO
     meta.games (id, slug, name, generation_id, region_id, version_group_id, type, regional_dex_count, national_dex_count, release_year)
 SELECT
-    g.id,
-    g.slug,
-    g.name,
+    xxx.id,
+    xxx.slug,
+    xxx.name,
     gen.id,
     reg.id,
     vg.id,
     CASE
-        WHEN g.type IS NULL THEN NULL
-        ELSE CAST(g.type AS meta.type_values)
+        WHEN xxx.type IS NULL THEN NULL
+        ELSE CAST(xxx.type AS meta.type_values)
     END,
-    g.regional_dex_count,
-    g.national_dex_count,
-    g.release_year
+    xxx.regional_dex_count,
+    xxx.national_dex_count,
+    xxx.release_year
 FROM
-    g
-    JOIN meta.generations gen ON gen.slug = g.generation_slug
-    LEFT JOIN meta.regions reg ON reg.slug = g.region_slug
-    LEFT JOIN meta.version_groups vg ON vg.slug = g.version_group_slug ON CONFLICT (slug) DO NOTHING;
+    xxx
+    JOIN meta.generations gen ON gen.slug = xxx.generation_slug
+    LEFT JOIN meta.regions reg ON reg.slug = xxx.region_slug
+    LEFT JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT (slug) DO NOTHING;
