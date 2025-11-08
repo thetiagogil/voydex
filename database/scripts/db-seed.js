@@ -1,6 +1,17 @@
 #!/usr/bin/env node
+/**
+ * Database Seeding
+ *
+ * Runs SQL seed files to populate reference data.
+ * Interactive mode lets you choose which file to run,
+ * or run all seed files in order.
+ */
+
 import path from "path";
+import { fileURLToPath } from "url";
+import { SEED_CONFIG } from "./config/database.config.js";
 import { chooseFromList, confirmOrExit } from "./helpers/cli.js";
+import { loadEnvironment } from "./helpers/env.js";
 import { logger } from "./helpers/logger.js";
 import {
   listSqlFiles,
@@ -8,51 +19,98 @@ import {
   runSqlFile,
 } from "./helpers/sql-runner.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function main() {
-  let filename = process.argv[2];
+  try {
+    // Load environment
+    loadEnvironment();
 
-  const seedsDir = path.resolve(process.cwd(), "database", "seed", "approved");
-  const available = listSqlFiles(seedsDir);
+    // Get seed files directory (dynamically from config)
+    const seedsDir = path.join(
+      __dirname,
+      "..",
+      SEED_CONFIG.baseDir,
+      SEED_CONFIG.approvedDir,
+    );
+    const available = listSqlFiles(seedsDir);
 
-  if (!filename) {
-    logger.header("Seed runner (interactive)", "🌱");
-    filename = await chooseFromList(available, {
-      prompt: "Seed runner (interactive)",
-      defaultLatest: true,
-    });
+    if (available.length === 0) {
+      logger.failure(
+        `No seed files found in database/${SEED_CONFIG.baseDir}/${SEED_CONFIG.approvedDir}`,
+      );
+      logger.info("Add SQL seed files to that directory first");
+      process.exit(1);
+    }
+
+    // Get filename from args or prompt user
+    let filename = process.argv[2];
+
     if (!filename) {
-      logger.failure("No selection made. Exiting.");
+      logger.header("Database Seeding (Interactive)", "🌱");
+      filename = await chooseFromList(available, {
+        prompt: "Choose a seed file to run",
+        defaultLatest: true,
+      });
+
+      if (!filename) {
+        logger.failure("No selection made. Exiting.");
+        process.exit(1);
+      }
+
+      if (filename !== "all" && filename !== available[available.length - 1]) {
+        logger.info(`Selected: ${filename}`);
+      }
+    }
+
+    // Handle "all" selection
+    if (filename === "all") {
+      logger.section("Running All Seed Files", "🌱");
+      logger.warning("This will run all seed files in alphabetical order");
+      logger.blank();
+      logger.list(available, { bullet: "•" });
+
+      await confirmOrExit("Type 'y' to run all seed files: ", { flag: "--y" });
+
+      logger.section("Seeding Database", "⚙️");
+      const filePaths = available.map((f) => path.join(seedsDir, f));
+
+      const success = await runSequentialFiles(filePaths, (filePath) =>
+        runSqlFile(filePath, path.basename(filePath)),
+      );
+
+      logger.blank();
+      if (success) {
+        logger.success("All seed files applied successfully");
+      } else {
+        logger.failure("Stopped after failed seed file");
+        process.exit(1);
+      }
+
+      return;
+    }
+
+    // Run single file
+    logger.header("Database Seeding", "🌱");
+    logger.info(`Running seed file: ${filename}`);
+    logger.blank();
+
+    const filePath = path.join(seedsDir, filename);
+    const success = await runSqlFile(filePath, filename);
+
+    logger.blank();
+    if (success) {
+      logger.success("Seed file applied successfully");
+    } else {
+      logger.failure("Seed file failed");
       process.exit(1);
     }
-    if (filename !== "all" && filename !== available[available.length - 1]) {
-      logger.section(`Selected: ${filename}`);
-    }
+  } catch (err) {
+    logger.blank();
+    logger.failure(`Script failed: ${err.message}`);
+    process.exit(1);
   }
-
-  if (filename === "all") {
-    logger.section("You selected: run ALL seed files", "⚠️");
-    await confirmOrExit(
-      "Type 'y' to confirm running ALL seed files in order: ",
-      {
-        flag: "--y",
-      },
-    );
-
-    const filePaths = available.map((f) => path.resolve(seedsDir, f));
-    const ok = await runSequentialFiles(filePaths, (p) =>
-      runSqlFile(p, path.basename(p)),
-    );
-    if (!ok) {
-      logger.failure("Stopped after a failed seed file");
-      process.exit(1);
-    }
-    logger.success("All seed files applied");
-    process.exit(0);
-  }
-
-  const filePath = path.resolve(seedsDir, filename);
-  const ok = await runSqlFile(filePath, filename);
-  process.exit(ok ? 0 : 1);
 }
 
 main();

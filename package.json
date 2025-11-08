@@ -12,11 +12,14 @@
     "prettier:check": "prettier . --check",
     "db:status": "node database/scripts/db-status.js",
     "db:migrate": "node database/scripts/db-migrate.js",
-    "db:import": "node database/scripts/db-import.js",
+    "db:migrate:all": "node database/scripts/db-migrate-all.js",
     "db:seed": "node database/scripts/db-seed.js",
-    "db:clean": "node database/scripts/db-clean.js",
-    "db:clean:rows": "node database/scripts/db-clean-rows.js",
-    "db:validate": "node database/scripts/db-validate.js"
+    "db:clean:all": "node database/scripts/db-clean-all.js",
+    "db:clean:static": "node database/scripts/db-clean-static.js",
+    "db:clean:all-rows": "node database/scripts/db-clean-all-rows.js",
+    "db:clean:static-rows": "node database/scripts/db-clean-static-rows.js",
+    "db:validate": "node database/scripts/db-validate.js",
+    "db:refresh-views": "node database/scripts/refresh-materialized-views.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
