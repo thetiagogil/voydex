@@ -6,7 +6,7 @@ import { hasEnvVars } from "../utils/env";
 const SUPABASE_URL = ENV_VARS.SUPABASE_URL;
 const SUPABASE_KEY = ENV_VARS.SUPABASE_PUBLISHABLE_KEY;
 
-export async function updateSession(request: NextRequest) {
+export const updateSession = async (request: NextRequest) => {
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -73,4 +73,4 @@ export async function updateSession(request: NextRequest) {
   // of sync and terminate the user's session prematurely!
 
   return supabaseResponse;
-}
+};

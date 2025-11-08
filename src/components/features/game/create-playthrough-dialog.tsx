@@ -21,10 +21,10 @@ interface CreatePlaythroughDialogProps {
   trigger?: React.ReactNode;
 }
 
-export function CreatePlaythroughDialog({
+export const CreatePlaythroughDialog = ({
   game,
   trigger,
-}: CreatePlaythroughDialogProps) {
+}: CreatePlaythroughDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,4 +56,4 @@ export function CreatePlaythroughDialog({
       </DialogContent>
     </Dialog>
   );
-}
+};

@@ -11,12 +11,12 @@ interface PageLayoutProps {
   showNavigation?: boolean;
 }
 
-export function PageLayout({
+export const PageLayout = ({
   children,
   className,
   width = "lg",
   showNavigation = true,
-}: PageLayoutProps) {
+}: PageLayoutProps) => {
   return (
     <div className="min-h-screen">
       {showNavigation && (
@@ -32,4 +32,4 @@ export function PageLayout({
       </main>
     </div>
   );
-}
+};

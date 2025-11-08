@@ -9,7 +9,7 @@ interface ProgressTrackingProps {
   playthrough: Playthrough;
 }
 
-export function ProgressTracking({ playthrough }: ProgressTrackingProps) {
+export const ProgressTracking = ({ playthrough }: ProgressTrackingProps) => {
   const getProgressTypeIcon = (type: ProgressItem["type"]) => {
     switch (type) {
       case "gym":
@@ -88,4 +88,4 @@ export function ProgressTracking({ playthrough }: ProgressTrackingProps) {
       </CardContent>
     </Card>
   );
-}
+};

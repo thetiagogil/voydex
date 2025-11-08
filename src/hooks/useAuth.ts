@@ -1,7 +1,7 @@
 import { type Auth } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function useClaims() {
+export const useClaims = () => {
   return useQuery({
     queryKey: ["auth", "claims"],
     queryFn: async () => {
@@ -14,9 +14,9 @@ export function useClaims() {
     placeholderData: false,
     staleTime: 1000 * 30,
   });
-}
+};
 
-export function useLogin() {
+export const useLogin = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (auth: Auth) => {
@@ -37,9 +37,9 @@ export function useLogin() {
       await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
     },
   });
-}
+};
 
-export function useSignup() {
+export const useSignup = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (auth: Auth) => {
@@ -60,9 +60,9 @@ export function useSignup() {
       await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
     },
   });
-}
+};
 
-export function useLogout() {
+export const useLogout = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {
@@ -81,4 +81,4 @@ export function useLogout() {
       await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
     },
   });
-}
+};

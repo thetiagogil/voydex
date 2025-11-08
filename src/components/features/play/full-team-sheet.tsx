@@ -69,7 +69,7 @@ const mockPokemonStorage: Pokemon[] = [
   },
 ];
 
-export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
+export const FullTeamSheet = ({ playthrough }: FullTeamSheetProps) => {
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       Fire: "bg-red-500",
@@ -193,4 +193,4 @@ export function FullTeamSheet({ playthrough }: FullTeamSheetProps) {
       </SheetContent>
     </Sheet>
   );
-}
+};

@@ -38,7 +38,7 @@ const typeChart = {
   },
 };
 
-export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
+export const TeamAnalysisSheet = ({ playthrough }: TeamAnalysisSheetProps) => {
   // Analyze team composition
   const teamTypes = playthrough.team.flatMap((pokemon) => pokemon.types);
   const typeCount = teamTypes.reduce(
@@ -252,4 +252,4 @@ export function TeamAnalysisSheet({ playthrough }: TeamAnalysisSheetProps) {
       </SheetContent>
     </Sheet>
   );
-}
+};

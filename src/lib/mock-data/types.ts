@@ -23,14 +23,20 @@ export interface GenerationData {
 export interface PlaythroughData {
   id: string;
   title: string;
-  status: "active" | "completed" | "paused";
+  status: "active" | "completed" | "paused" | "dropped";
   createdAt: string;
   updatedAt: string;
   progress: {
-    badges: number;
-    totalBadges: number;
-    currentLocation: string;
-    playtime: string;
+    // General completion % (calculated from all progress items)
+    overallCompletion?: number;
+    // Pokemon-specific stats (can be shown specifically)
+    pokemonCaught?: number;
+    totalPokemon?: number; // Available Pokemon in game
+    // Legacy badge data (kept for backward compatibility)
+    badges?: number;
+    totalBadges?: number;
+    currentLocation?: string;
+    playtime?: string;
   };
   team: {
     name: string;

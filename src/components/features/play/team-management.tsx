@@ -10,7 +10,7 @@ interface TeamManagementProps {
   playthrough: Playthrough;
 }
 
-export function TeamManagement({ playthrough }: TeamManagementProps) {
+export const TeamManagement = ({ playthrough }: TeamManagementProps) => {
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       Fire: "bg-red-500",
@@ -120,4 +120,4 @@ export function TeamManagement({ playthrough }: TeamManagementProps) {
       </CardContent>
     </Card>
   );
-}
+};

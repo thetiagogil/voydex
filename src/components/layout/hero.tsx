@@ -5,7 +5,7 @@ import { useClaims } from "@/hooks/useAuth";
 import Image from "next/image";
 import Link from "next/link";
 
-export function Hero() {
+export const Hero = () => {
   const { data: isAuthenticated, isLoading } = useClaims();
 
   return (
@@ -67,4 +67,4 @@ export function Hero() {
       </div>
     </div>
   );
-}
+};

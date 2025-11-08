@@ -4,6 +4,6 @@ import { ENV_VARS } from "../constants/env";
 const SUPABASE_URL = ENV_VARS.SUPABASE_URL;
 const SUPABASE_KEY = ENV_VARS.SUPABASE_PUBLISHABLE_KEY;
 
-export function createClient() {
+export const createClient = () => {
   return createBrowserClient(SUPABASE_URL!, SUPABASE_KEY!);
-}
+};

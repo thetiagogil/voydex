@@ -12,11 +12,11 @@ interface PlaythroughsListProps {
   genSlug: string;
 }
 
-export function PlaythroughsList({
+export const PlaythroughsList = ({
   playthroughs,
   gameSlug,
   genSlug,
-}: PlaythroughsListProps) {
+}: PlaythroughsListProps) => {
   if (playthroughs.length === 0) {
     return (
       <Card>
@@ -166,4 +166,4 @@ export function PlaythroughsList({
       </div>
     </div>
   );
-}
+};

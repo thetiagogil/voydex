@@ -11,7 +11,7 @@ interface BreadcrumbItem {
   current?: boolean;
 }
 
-export function PageBreadcrumbsNavigation() {
+export const PageBreadcrumbsNavigation = () => {
   const pathname = usePathname();
 
   const getBreadcrumbs = (): BreadcrumbItem[] => {
@@ -168,4 +168,4 @@ export function PageBreadcrumbsNavigation() {
       ))}
     </nav>
   );
-}
+};

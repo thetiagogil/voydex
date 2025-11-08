@@ -20,6 +20,9 @@ export const gameData: Record<string, GameInfo> = {
         createdAt: "2024-01-15",
         updatedAt: "2024-01-20",
         progress: {
+          overallCompletion: 45, // General completion % across all progress items
+          pokemonCaught: 68,
+          totalPokemon: 151,
           badges: 3,
           totalBadges: 8,
           currentLocation: "Celadon City",
@@ -38,6 +41,9 @@ export const gameData: Record<string, GameInfo> = {
         createdAt: "2023-12-01",
         updatedAt: "2023-12-15",
         progress: {
+          overallCompletion: 12,
+          pokemonCaught: 15,
+          totalPokemon: 151,
           badges: 1,
           totalBadges: 8,
           currentLocation: "Pewter City",

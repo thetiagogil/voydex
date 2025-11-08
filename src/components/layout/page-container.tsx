@@ -10,11 +10,11 @@ interface PageContainerProps {
   className?: string;
 }
 
-export function PageContainer({
+export const PageContainer = ({
   children,
   width = "lg",
   className = "",
-}: PageContainerProps) {
+}: PageContainerProps) => {
   return (
     <div
       className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto px-6 py-12 ${className}`}
@@ -22,4 +22,4 @@ export function PageContainer({
       {children}
     </div>
   );
-}
+};

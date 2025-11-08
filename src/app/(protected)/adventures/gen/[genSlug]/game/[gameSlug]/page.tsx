@@ -1,18 +1,9 @@
-import { CreatePlaythroughDialog } from "@/components/features/game/create-playthrough-dialog";
-import { GameInfoCard } from "@/components/features/game/game-info-card";
+import { EmptyPlaythroughsState } from "@/components/features/game/empty-playthroughs-state";
+import { GameHeader } from "@/components/features/game/game-header";
 import { PlaythroughCard } from "@/components/features/game/playthrough-card";
 import { PlaythroughsSectionHeader } from "@/components/features/game/playthroughs-section-header";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Button } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
 import { gameData } from "@/lib/mock-data";
-import { Play, Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 
 interface GamePageProps {
@@ -34,31 +25,12 @@ export default async function GamePage({ params }: GamePageProps) {
   return (
     <PageLayout>
       <div className="space-y-6">
-        <GameInfoCard game={game} />
+        <GameHeader game={game} />
 
         <PlaythroughsSectionHeader game={game} />
 
         {!game.playthroughs || game.playthroughs.length === 0 ? (
-          <Empty className="border">
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Play />
-              </EmptyMedia>
-              <EmptyTitle>No playthroughs yet</EmptyTitle>
-              <EmptyDescription>
-                Start your first adventure in {game.name}!
-              </EmptyDescription>
-            </EmptyHeader>
-            <CreatePlaythroughDialog
-              game={game}
-              trigger={
-                <Button>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Create Playthrough
-                </Button>
-              }
-            />
-          </Empty>
+          <EmptyPlaythroughsState game={game} />
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {game.playthroughs?.map((playthrough) => (

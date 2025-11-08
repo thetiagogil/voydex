@@ -1,3 +1,4 @@
+import { PlayHeader } from "@/components/features/play/play-header";
 import { PlayStats } from "@/components/features/play/play-stats";
 import { ProgressTracking } from "@/components/features/play/progress-tracking";
 import { TeamManagement } from "@/components/features/play/team-management";
@@ -24,6 +25,8 @@ export default async function PlayPage({ params }: PlayPageProps) {
   return (
     <PageLayout>
       <div className="space-y-8">
+        <PlayHeader playthrough={playthrough} />
+
         <PlayStats playthrough={playthrough} />
 
         <TeamManagement playthrough={playthrough} />

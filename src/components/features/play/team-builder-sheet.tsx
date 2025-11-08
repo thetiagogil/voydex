@@ -111,7 +111,7 @@ const availablePokemon = [
   },
 ];
 
-export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
+export const TeamBuilderSheet = ({ playthrough }: TeamBuilderSheetProps) => {
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       Fire: "bg-red-500",
@@ -334,4 +334,4 @@ export function TeamBuilderSheet({ playthrough }: TeamBuilderSheetProps) {
       </SheetContent>
     </Sheet>
   );
-}
+};

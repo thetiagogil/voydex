@@ -30,7 +30,7 @@ type PageNavigationProps = {
   className?: string;
 };
 
-export function PageNavigation({ className = "" }: PageNavigationProps) {
+export const PageNavigation = ({ className = "" }: PageNavigationProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const { data: isAuth, isFetching } = useClaims();
@@ -168,4 +168,4 @@ export function PageNavigation({ className = "" }: PageNavigationProps) {
       </nav>
     </>
   );
-}
+};

@@ -42,11 +42,11 @@ const getStatusLabel = (status: PlaythroughData["status"]) => {
   }
 };
 
-export function PlaythroughCard({
+export const PlaythroughCard = ({
   playthrough,
   genSlug,
   gameSlug,
-}: PlaythroughCardProps) {
+}: PlaythroughCardProps) => {
   return (
     <Card className="hover:bg-muted/50 cursor-pointer transition-colors">
       <Link
@@ -67,40 +67,56 @@ export function PlaythroughCard({
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {/* Progress */}
+          {/* Overall Completion - General % (not category-specific) */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Gym Badges</span>
-              <span>
-                {playthrough.progress.badges}/{playthrough.progress.totalBadges}
-              </span>
+              <span>Overall Completion</span>
+              <span>{playthrough.progress.overallCompletion || 0}%</span>
             </div>
             <div className="bg-muted h-2 w-full rounded-full">
               <div
                 className="bg-primary h-2 rounded-full transition-all"
                 style={{
-                  width: `${(playthrough.progress.badges / playthrough.progress.totalBadges) * 100}%`,
+                  width: `${playthrough.progress.overallCompletion || 0}%`,
                 }}
               />
             </div>
           </div>
 
+          {/* Pokemon Stats */}
+          {(playthrough.progress.pokemonCaught !== undefined ||
+            playthrough.progress.totalPokemon !== undefined) && (
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Pokémon Caught:</span>
+              <span className="font-medium">
+                {playthrough.progress.pokemonCaught || 0}
+                {playthrough.progress.totalPokemon
+                  ? `/${playthrough.progress.totalPokemon}`
+                  : ""}
+              </span>
+            </div>
+          )}
+
           {/* Current Status */}
           <div className="space-y-1 text-sm">
-            <div className="flex items-center gap-2">
-              <Calendar className="text-muted-foreground h-4 w-4" />
-              <span className="text-muted-foreground">Currently at:</span>
-              <span className="font-medium">
-                {playthrough.progress.currentLocation}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="text-muted-foreground h-4 w-4" />
-              <span className="text-muted-foreground">Playtime:</span>
-              <span className="font-medium">
-                {playthrough.progress.playtime}
-              </span>
-            </div>
+            {playthrough.progress.currentLocation && (
+              <div className="flex items-center gap-2">
+                <Calendar className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground">Currently at:</span>
+                <span className="font-medium">
+                  {playthrough.progress.currentLocation}
+                </span>
+              </div>
+            )}
+            {playthrough.progress.playtime && (
+              <div className="flex items-center gap-2">
+                <Clock className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground">Playtime:</span>
+                <span className="font-medium">
+                  {playthrough.progress.playtime}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Team Preview */}
@@ -125,4 +141,4 @@ export function PlaythroughCard({
       </Link>
     </Card>
   );
-}
+};

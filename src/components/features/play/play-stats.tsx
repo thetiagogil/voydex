@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { type Playthrough } from "@/lib/mock-data";
 import { Clock, MapPin, Trophy, Users } from "lucide-react";
@@ -7,35 +6,9 @@ interface PlayStatsProps {
   playthrough: Playthrough;
 }
 
-export function PlayStats({ playthrough }: PlayStatsProps) {
+export const PlayStats = ({ playthrough }: PlayStatsProps) => {
   return (
     <>
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">{playthrough.title}</h1>
-          <p className="text-muted-foreground">
-            {playthrough.game.name} • {playthrough.game.genName}
-          </p>
-        </div>
-
-        <Badge
-          className={
-            playthrough.status === "active"
-              ? "bg-green-500"
-              : playthrough.status === "completed"
-                ? "bg-blue-500"
-                : "bg-yellow-500"
-          }
-        >
-          {playthrough.status === "active"
-            ? "Active"
-            : playthrough.status === "completed"
-              ? "Completed"
-              : "Paused"}
-        </Badge>
-      </div>
-
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
@@ -97,4 +70,4 @@ export function PlayStats({ playthrough }: PlayStatsProps) {
       </div>
     </>
   );
-}
+};
