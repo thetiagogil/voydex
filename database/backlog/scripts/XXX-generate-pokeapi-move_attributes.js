@@ -117,7 +117,7 @@ async function main() {
     if (delayMs) await new Promise((res) => setTimeout(res, delayMs));
   }
 
-  // canonical ordering by PokeAPI id (keeps ordering consistent with dex.moves)
+  // canonical ordering by PokeAPI id (keeps ordering consistent with meta.moves)
   rows.sort((a, b) => (a.id || 0) - (b.id || 0));
 
   const header = `-- Generated from PokeAPI (/move) -> move_attributes
@@ -177,15 +177,15 @@ async function main() {
         })
         .join(",\n");
 
-      const insert = `INSERT INTO dex.move_attributes (move_id, generation_start_id, version_group_start_id, type_id, power, accuracy, pp, priority, damage_class)
-SELECT m.id, g.id, vg.id, t.id, v.power, v.accuracy, v.pp, v.priority, v.damage_class::dex.move_damage_class
+      const insert = `INSERT INTO meta.move_attributes (move_id, generation_start_id, version_group_start_id, type_id, power, accuracy, pp, priority, damage_class)
+SELECT m.id, g.id, vg.id, t.id, v.power, v.accuracy, v.pp, v.priority, v.damage_class::meta.move_damage_class
 FROM (VALUES
 ${values}
 ) AS v(move_slug, generation_start_slug, version_group_start_slug, type_slug, power, accuracy, pp, priority, damage_class)
-LEFT JOIN dex.moves m ON m.slug = v.move_slug
+LEFT JOIN meta.moves m ON m.slug = v.move_slug
 LEFT JOIN meta.generations g ON g.slug = v.generation_start_slug
 LEFT JOIN meta.version_groups vg ON vg.slug = v.version_group_start_slug
-LEFT JOIN dex.types t ON t.slug = v.type_slug
+LEFT JOIN meta.types t ON t.slug = v.type_slug
 WHERE m.id IS NOT NULL;`;
 
       const sql = header + insert + "\n";
@@ -236,14 +236,14 @@ WHERE m.id IS NOT NULL;`;
     })
     .join(",\n");
 
-  const insert = `INSERT INTO dex.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class)
-SELECT m.id, g.id, t.id, v.power, v.accuracy, v.pp, v.priority, v.damage_class::dex.move_damage_class
+  const insert = `INSERT INTO meta.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class)
+SELECT m.id, g.id, t.id, v.power, v.accuracy, v.pp, v.priority, v.damage_class::meta.move_damage_class
 FROM (VALUES
 ${values}
 ) AS v(move_slug, generation_start_slug, type_slug, power, accuracy, pp, priority, damage_class)
-LEFT JOIN dex.moves m ON m.slug = v.move_slug
+LEFT JOIN meta.moves m ON m.slug = v.move_slug
 LEFT JOIN meta.generations g ON g.slug = v.generation_start_slug
-LEFT JOIN dex.types t ON t.slug = v.type_slug
+LEFT JOIN meta.types t ON t.slug = v.type_slug
 WHERE m.id IS NOT NULL;`;
 
   const sql = header + insert + "\n";

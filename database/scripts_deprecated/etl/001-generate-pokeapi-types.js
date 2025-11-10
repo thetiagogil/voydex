@@ -59,7 +59,7 @@ async function main() {
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.types (id, slug, name, generation_introduced_id) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
+    const insert = `INSERT INTO meta.types (id, slug, name, generation_introduced_id) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 

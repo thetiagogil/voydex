@@ -23,7 +23,7 @@ WITH
             ) AS xxx (id, slug, name, generation_slug)
     )
 INSERT INTO
-    dex.egg_groups (id, slug, name, generation_introduced_id)
+    meta.egg_groups (id, slug, name, generation_introduced_id)
 SELECT
     xxx.id,
     xxx.slug,

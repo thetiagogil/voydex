@@ -51,25 +51,6 @@ CREATE INDEX idx_plays_user_game ON gameplay.plays (user_id, game_id);
 -- WHEN USED: "Show me the most recently started playthroughs"
 CREATE INDEX idx_plays_created_at_desc ON gameplay.plays (created_at DESC);
 
--- Enable Row Level Security
-ALTER TABLE gameplay.plays ENABLE ROW LEVEL SECURITY;
-
--- RLS Policies
-CREATE POLICY "Users can view own plays" ON gameplay.plays FOR
-SELECT
-  USING (auth.uid () = user_id);
-
-CREATE POLICY "Users can insert own plays" ON gameplay.plays FOR INSERT
-WITH
-  CHECK (auth.uid () = user_id);
-
-CREATE POLICY "Users can update own plays" ON gameplay.plays FOR
-UPDATE USING (auth.uid () = user_id)
-WITH
-  CHECK (auth.uid () = user_id);
-
-CREATE POLICY "Users can delete own plays" ON gameplay.plays FOR DELETE USING (auth.uid () = user_id);
-
 -- Trigger for updated_at
 CREATE TRIGGER update_plays_updated_at BEFORE
 UPDATE ON gameplay.plays FOR EACH ROW EXECUTE FUNCTION update_updated_at_column ();

@@ -152,7 +152,7 @@ async function main() {
       })
       .join(",\n");
 
-    const sql = `${header}WITH vals(slug,name,introduced_generation_slug,national_number,color,is_baby,is_legendary,is_mythical) AS (\nVALUES\n${values}\n)\nINSERT INTO dex.pokemon_species (slug,name,introduced_generation_id,national_number,color,is_baby,is_legendary,is_mythical,created_at)\nSELECT v.slug, v.name, g.id, v.national_number, v.color, v.is_baby, v.is_legendary, v.is_mythical, now()\nFROM vals v\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nON CONFLICT (slug) DO NOTHING;\n`;
+    const sql = `${header}WITH vals(slug,name,introduced_generation_slug,national_number,color,is_baby,is_legendary,is_mythical) AS (\nVALUES\n${values}\n)\nINSERT INTO meta.pokemon_species (slug,name,introduced_generation_id,national_number,color,is_baby,is_legendary,is_mythical,created_at)\nSELECT v.slug, v.name, g.id, v.national_number, v.color, v.is_baby, v.is_legendary, v.is_mythical, now()\nFROM vals v\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nON CONFLICT (slug) DO NOTHING;\n`;
     return sql;
   }
 

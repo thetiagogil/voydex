@@ -1198,14 +1198,14 @@ All [[form]] names below match what is seen in the Pokédex in the latest game t
 {{ndex|1004|Chi-Yu|Dark|Fire}}
 {{ndex|1005|Roaring Moon|Dragon|Dark}}
 {{ndex|1006|Iron Valiant|Fairy|Fighting}}
-{{ndex|1007|Koraidon|formname=Apex Build|Fighting|Dragon}}<!-- 5 form names in SV data, but no forms in in-game SV/HOME dex...
+{{ndex|1007|Koraidon|formname=Apex Build|Fighting|Dragon}}<!-- 5 form names in SV data, but no forms in in-game SV/HOME meta...
 {{ndex|1007|Koraidon|formname=Apex Build|Fighting|Dragon|forms=5}}
 {{ndex/form|1007|Koraidon|-Limited|Limited Build|Fighting|Dragon}}
 {{ndex/form|1007|Koraidon|-Sprinting|Sprinting Build|Fighting|Dragon}}
 {{ndex/form|1007|Koraidon|-Swimming|Swimming Build|Fighting|Dragon}}
 {{ndex/form|1007|Koraidon|-Gliding|Gliding Build|Fighting|Dragon}}
 -->
-{{ndex|1008|Miraidon|formname=Ultimate Mode|Electric|Dragon}}<!-- 5 form names in SV data, but no forms in in-game SV/HOME dex...
+{{ndex|1008|Miraidon|formname=Ultimate Mode|Electric|Dragon}}<!-- 5 form names in SV data, but no forms in in-game SV/HOME meta...
 {{ndex|1008|Miraidon|formname=Ultimate Mode|Electric|Dragon|forms=5}}
 {{ndex/form|1008|Miraidon|-Low-Power|Low-Power Mode|Electric|Dragon}}
 {{ndex/form|1008|Miraidon|-Drive|Drive Mode|Electric|Dragon}}

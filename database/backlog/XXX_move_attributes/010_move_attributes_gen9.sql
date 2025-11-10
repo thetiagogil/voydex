@@ -79,7 +79,7 @@ WITH
             ) AS m (move_slug, generation_start_slug, version_group_start_slug, type_slug, power, accuracy, pp, priority, damage_class)
     )
 INSERT INTO
-    dex.move_attributes (move_id, generation_start_id, version_group_start_id, type_id, power, accuracy, pp, priority, damage_class)
+    meta.move_attributes (move_id, generation_start_id, version_group_start_id, type_id, power, accuracy, pp, priority, damage_class)
 SELECT
     mv.id,
     gen.id,
@@ -91,11 +91,11 @@ SELECT
     m.priority,
     CASE
         WHEN m.damage_class IS NULL THEN NULL
-        ELSE CAST(m.damage_class AS dex.move_damage_class)
+        ELSE CAST(m.damage_class AS meta.move_damage_class)
     END
 FROM
     m
-    LEFT JOIN dex.moves mv ON mv.slug = m.move_slug
+    LEFT JOIN meta.moves mv ON mv.slug = m.move_slug
     JOIN meta.generations gen ON gen.slug = m.generation_start_slug
     LEFT JOIN meta.version_groups vg ON vg.slug = m.version_group_start_slug
-    LEFT JOIN dex.types typ ON typ.slug = m.type_slug ON CONFLICT (move_id, generation_start_id, version_group_start_id) DO NOTHING;
+    LEFT JOIN meta.types typ ON typ.slug = m.type_slug ON CONFLICT (move_id, generation_start_id, version_group_start_id) DO NOTHING;

@@ -220,7 +220,7 @@ WITH
             ) AS t (species_slug, form_slug, version_group_slug, game_slug, is_available, method_type)
     )
 INSERT INTO
-    dex.pokemon_availability (species_id, form_id, version_group_id, game_id, is_available, method_type)
+    meta.pokemon_availability (species_id, form_id, version_group_id, game_id, is_available, method_type)
 SELECT
     ps.id AS species_id,
     pf.id AS form_id,
@@ -261,7 +261,7 @@ SELECT
     ) AS method_type
 FROM
     pav
-    JOIN dex.pokemon_species ps ON ps.slug = pav.species_slug
-    LEFT JOIN dex.pokemon_forms pf ON pf.slug = pav.form_slug
+    JOIN meta.pokemon_species ps ON ps.slug = pav.species_slug
+    LEFT JOIN meta.pokemon_forms pf ON pf.slug = pav.form_slug
     JOIN meta.version_groups vg ON vg.slug = pav.version_group_slug
     LEFT JOIN meta.games gam ON gam.slug = pav.game_slug ON CONFLICT DO NOTHING;

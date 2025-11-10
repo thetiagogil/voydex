@@ -176,7 +176,7 @@ WITH
             ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
-    dex.moves (slug, name, external_id, generation_introduced_id, effect)
+    meta.moves (slug, name, external_id, generation_introduced_id, effect)
 SELECT
     xxx.slug,
     xxx.name,

@@ -117,7 +117,7 @@ WITH
             ) AS xxx (slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url)
     )
 INSERT INTO
-    dex.pokemon_forms (slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url, created_at)
+    meta.pokemon_forms (slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url, created_at)
 SELECT
     xxx.slug,
     xxx.name,
@@ -130,5 +130,5 @@ SELECT
     now ()
 FROM
     xxx
-    LEFT JOIN dex.pokemon_species ps ON ps.slug = xxx.species_slug
+    LEFT JOIN meta.pokemon_species ps ON ps.slug = xxx.species_slug
     LEFT JOIN meta.generations gen ON gen.slug = xxx.introduced_generation_slug ON CONFLICT (species_id, slug) DO NOTHING;

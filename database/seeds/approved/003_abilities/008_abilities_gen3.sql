@@ -84,7 +84,7 @@ WITH
             ) AS xxx (slug, name, external_id, generation_introduced_slug, effect)
     )
 INSERT INTO
-    dex.abilities (slug, name, external_id, generation_introduced_id, effect)
+    meta.abilities (slug, name, external_id, generation_introduced_id, effect)
 SELECT
     xxx.slug,
     xxx.name,

@@ -132,7 +132,7 @@ async function main() {
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
+    const insert = `INSERT INTO meta.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 

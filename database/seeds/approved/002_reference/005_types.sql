@@ -25,7 +25,7 @@ WITH
             ) AS xxx (id, slug, name, generation_slug)
     )
 INSERT INTO
-    dex.types (id, slug, name, generation_introduced_id)
+    meta.types (id, slug, name, generation_introduced_id)
 SELECT
     xxx.id,
     xxx.slug,

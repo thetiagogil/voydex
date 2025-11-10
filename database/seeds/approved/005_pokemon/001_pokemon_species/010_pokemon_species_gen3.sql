@@ -147,7 +147,7 @@ WITH
             ) AS xxx (slug, name, introduced_generation_slug, national_number, color, is_baby, is_legendary, is_mythical)
     )
 INSERT INTO
-    dex.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
+    meta.pokemon_species (slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 SELECT
     xxx.slug,
     xxx.name,

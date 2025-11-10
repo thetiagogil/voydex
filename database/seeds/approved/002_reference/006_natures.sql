@@ -35,7 +35,7 @@ WITH
             ) AS n (id, slug, name, generation_slug, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
     )
 INSERT INTO
-    dex.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
+    meta.natures (id, slug, name, generation_introduced_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
 SELECT
     n.id,
     n.slug,
@@ -43,19 +43,19 @@ SELECT
     gen.id,
     CASE
         WHEN n.increased_stat IS NULL THEN NULL
-        ELSE CAST(n.increased_stat AS dex.stat_values)
+        ELSE CAST(n.increased_stat AS meta.stat_values)
     END,
     CASE
         WHEN n.decreased_stat IS NULL THEN NULL
-        ELSE CAST(n.decreased_stat AS dex.stat_values)
+        ELSE CAST(n.decreased_stat AS meta.stat_values)
     END,
     CASE
         WHEN n.liked_flavor IS NULL THEN NULL
-        ELSE CAST(n.liked_flavor AS dex.flavor_values)
+        ELSE CAST(n.liked_flavor AS meta.flavor_values)
     END,
     CASE
         WHEN n.disliked_flavor IS NULL THEN NULL
-        ELSE CAST(n.disliked_flavor AS dex.flavor_values)
+        ELSE CAST(n.disliked_flavor AS meta.flavor_values)
     END
 FROM
     n

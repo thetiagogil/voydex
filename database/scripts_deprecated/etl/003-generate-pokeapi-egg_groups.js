@@ -100,7 +100,7 @@ async function main() {
       })
       .join(",\n");
 
-    const insert = `INSERT INTO dex.egg_groups (id, slug, name, generation_introduced_id) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
+    const insert = `INSERT INTO meta.egg_groups (id, slug, name, generation_introduced_id) VALUES\n${values}\nON CONFLICT (id) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 

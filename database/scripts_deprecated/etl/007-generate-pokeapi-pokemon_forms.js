@@ -189,7 +189,7 @@ async function runForGen(gen) {
       })
       .join(",\n");
 
-    const insert = `WITH vals(slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url) AS (\nVALUES\n${values}\n)\nINSERT INTO dex.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url, created_at)\nSELECT sp.id, v.slug, v.name, g.id, v.height, v.weight, v.is_default, v.sprite_url, now()\nFROM vals v\nLEFT JOIN dex.pokemon_species sp ON sp.slug = v.species_slug\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nWHERE sp.id IS NOT NULL\nON CONFLICT (species_id, slug) DO NOTHING;`;
+    const insert = `WITH vals(slug, name, species_slug, introduced_generation_slug, height, weight, is_default, sprite_url) AS (\nVALUES\n${values}\n)\nINSERT INTO meta.pokemon_forms (species_id, slug, name, introduced_generation_id, height, weight, is_default, sprite_url, created_at)\nSELECT sp.id, v.slug, v.name, g.id, v.height, v.weight, v.is_default, v.sprite_url, now()\nFROM vals v\nLEFT JOIN meta.pokemon_species sp ON sp.slug = v.species_slug\nLEFT JOIN meta.generations g ON g.slug = v.introduced_generation_slug\nWHERE sp.id IS NOT NULL\nON CONFLICT (species_id, slug) DO NOTHING;`;
     sql = header + insert + "\n";
   }
 

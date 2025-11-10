@@ -159,7 +159,7 @@ async function main() {
         })
         .join(",\n");
 
-      const insert = `INSERT INTO dex.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+      const insert = `INSERT INTO meta.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
       const sql = header + insert + "\n";
 
       const fname = `008_abilities_${sanitizeSlug(gen)}.sql`;
@@ -204,7 +204,7 @@ async function main() {
     })
     .join(",\n");
 
-  const insert = `INSERT INTO dex.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
+  const insert = `INSERT INTO meta.abilities (slug, name, external_id, generation_introduced_slug, effect) VALUES\n${values}\nON CONFLICT (slug) DO NOTHING;`;
   const sql = header + insert + "\n";
 
   if (dry) {

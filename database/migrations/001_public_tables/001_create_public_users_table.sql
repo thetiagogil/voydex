@@ -1,17 +1,3 @@
--- =====================================================
--- Migration: Create Users Table
--- =====================================================
--- Purpose: Store minimal application-level user profiles
--- Schema: public (following Supabase convention for user-facing tables)
--- Dependencies: auth.users (Supabase authentication)
---
--- This table:
--- - Acts as the application profile layer on top of Supabase auth
--- - Stores only essential display information (display_name, avatar)
--- - Uses auth.users.id as the primary key (1:1 relationship)
--- - Protected by RLS so users can only read/update their own profile
--- =====================================================
--- Create the users table
 CREATE TABLE
     IF NOT EXISTS public.users (
         -- Primary key linked to Supabase auth
@@ -23,35 +9,6 @@ CREATE TABLE
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW ()
     );
-
--- =====================================================
--- Row Level Security (RLS)
--- =====================================================
--- Enable RLS
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-
--- Policy: Users can view all profiles (public profiles only)
-DROP POLICY IF EXISTS "users_select_policy" ON public.users;
-CREATE POLICY "users_select_policy" ON public.users FOR
-SELECT
-    USING (TRUE);
-
--- Policy: Users can insert only their own profile
-DROP POLICY IF EXISTS "users_insert_policy" ON public.users;
-CREATE POLICY "users_insert_policy" ON public.users FOR INSERT
-WITH
-    CHECK (auth.uid () = id);
-
--- Policy: Users can update only their own profile
-DROP POLICY IF EXISTS "users_update_policy" ON public.users;
-CREATE POLICY "users_update_policy" ON public.users FOR
-UPDATE USING (auth.uid () = id)
-WITH
-    CHECK (auth.uid () = id);
-
--- Policy: Users can delete only their own profile
-DROP POLICY IF EXISTS "users_delete_policy" ON public.users;
-CREATE POLICY "users_delete_policy" ON public.users FOR DELETE USING (auth.uid () = id);
 
 -- =====================================================
 -- Triggers
