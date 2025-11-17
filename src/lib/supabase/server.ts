@@ -5,9 +5,8 @@ import { ENV_VARS } from "../constants/env";
 const SUPABASE_URL = ENV_VARS.SUPABASE_URL;
 const SUPABASE_KEY = ENV_VARS.SUPABASE_PUBLISHABLE_KEY;
 
-export const createClient = async () => {
+export async function createClient() {
   const cookieStore = await cookies();
-
   return createServerClient(SUPABASE_URL!, SUPABASE_KEY!, {
     cookies: {
       getAll() {
@@ -26,4 +25,4 @@ export const createClient = async () => {
       },
     },
   });
-};
+}
