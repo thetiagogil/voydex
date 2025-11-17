@@ -50,11 +50,7 @@ WITH
                     ('psyduck', NULL, 'pt', 43),
                     ('golduck', NULL, 'pt', 44),
                     ('burmy', NULL, 'pt', 45),
-                    ('burmy', 'g', 'pt', 45),
-                    ('burmy', 's', 'pt', 45),
                     ('wormadam', NULL, 'pt', 46),
-                    ('wormadam', 'g', 'pt', 46),
-                    ('wormadam', 's', 'pt', 46),
                     ('mothim', NULL, 'pt', 47),
                     ('wurmple', NULL, 'pt', 48),
                     ('silcoon', NULL, 'pt', 49),
@@ -69,9 +65,7 @@ WITH
                     ('cherubi', NULL, 'pt', 58),
                     ('cherrim', NULL, 'pt', 59),
                     ('shellos', NULL, 'pt', 60),
-                    ('shellos', 'e', 'pt', 60),
                     ('gastrodon', NULL, 'pt', 61),
-                    ('gastrodon', 'e', 'pt', 61),
                     ('heracross', NULL, 'pt', 62),
                     ('aipom', NULL, 'pt', 63),
                     ('ambipom', NULL, 'pt', 64),
@@ -163,11 +157,6 @@ WITH
                     ('palkia', NULL, 'pt', 150),
                     ('manaphy', NULL, 'pt', 151),
                     ('rotom', NULL, 'pt', 152),
-                    ('rotom', 'o', 'pt', 152),
-                    ('rotom', 'w', 'pt', 152),
-                    ('rotom', 'r', 'pt', 152),
-                    ('rotom', 'f', 'pt', 152),
-                    ('rotom', 'l', 'pt', 152),
                     ('gligar', NULL, 'pt', 153),
                     ('gliscor', NULL, 'pt', 154),
                     ('nosepass', NULL, 'pt', 155),
@@ -225,8 +214,7 @@ WITH
                     ('glalie', NULL, 'pt', 207),
                     ('froslass', NULL, 'pt', 208),
                     ('absol', NULL, 'pt', 209),
-                    ('giratina', NULL, 'pt', 210),
-                    ('giratina', 'o', 'pt', 210)
+                    ('giratina', NULL, 'pt', 210)
             ) AS xxx (species_slug, form_slug, version_group_slug, regional_number)
     )
 INSERT INTO
@@ -240,4 +228,4 @@ FROM
     xxx
     JOIN meta.pokemon_species ps ON ps.slug = xxx.species_slug
     LEFT JOIN meta.pokemon_forms pf ON pf.slug = xxx.form_slug
-    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT DO NOTHING;
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug;

@@ -50,11 +50,7 @@ WITH
                     ('psyduck', NULL, 'dp', 43),
                     ('golduck', NULL, 'dp', 44),
                     ('burmy', NULL, 'dp', 45),
-                    ('burmy', 'g', 'dp', 45),
-                    ('burmy', 's', 'dp', 45),
                     ('wormadam', NULL, 'dp', 46),
-                    ('wormadam', 'g', 'dp', 46),
-                    ('wormadam', 's', 'dp', 46),
                     ('mothim', NULL, 'dp', 47),
                     ('wurmple', NULL, 'dp', 48),
                     ('silcoon', NULL, 'dp', 49),
@@ -69,9 +65,7 @@ WITH
                     ('cherubi', NULL, 'dp', 58),
                     ('cherrim', NULL, 'dp', 59),
                     ('shellos', NULL, 'dp', 60),
-                    ('shellos', 'e', 'dp', 60),
                     ('gastrodon', NULL, 'dp', 61),
-                    ('gastrodon', 'e', 'dp', 61),
                     ('heracross', NULL, 'dp', 62),
                     ('aipom', NULL, 'dp', 63),
                     ('ambipom', NULL, 'dp', 64),
@@ -175,4 +169,4 @@ FROM
     xxx
     JOIN meta.pokemon_species ps ON ps.slug = xxx.species_slug
     LEFT JOIN meta.pokemon_forms pf ON pf.slug = xxx.form_slug
-    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT DO NOTHING;
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug;

@@ -264,4 +264,4 @@ FROM
     JOIN meta.pokemon_species ps ON ps.slug = pav.species_slug
     LEFT JOIN meta.pokemon_forms pf ON pf.slug = pav.form_slug
     JOIN meta.version_groups vg ON vg.slug = pav.version_group_slug
-    LEFT JOIN meta.games gam ON gam.slug = pav.game_slug ON CONFLICT DO NOTHING;
+    LEFT JOIN meta.games gam ON gam.slug = pav.game_slug;

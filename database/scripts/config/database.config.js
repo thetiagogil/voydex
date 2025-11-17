@@ -25,7 +25,7 @@ export const SCHEMA_TYPES = {
  */
 export const PROTECTED_TABLES = [
   "gameplay.plays",
-  "gameplay.team_pokemon",
+  "gameplay.pokemon_team",
   "gameplay.progress",
   "gameplay.pokemon_caught",
   "public.users",

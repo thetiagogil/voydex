@@ -37,4 +37,4 @@ SELECT
     xxx.sort_order
 FROM
     xxx
-    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT DO NOTHING;
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug;

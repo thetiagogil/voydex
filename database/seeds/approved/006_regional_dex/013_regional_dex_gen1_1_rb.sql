@@ -169,4 +169,4 @@ FROM
     xxx
     JOIN meta.pokemon_species ps ON ps.slug = xxx.species_slug
     LEFT JOIN meta.pokemon_forms pf ON pf.slug = xxx.form_slug
-    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT DO NOTHING;
+    JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug;

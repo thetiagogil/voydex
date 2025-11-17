@@ -18,4 +18,4 @@ CREATE INDEX idx_items_generation_introduced ON meta.items (generation_introduce
 -- If this table is added, add these lines to create_gameplay_play_teams_table.sql
 -- held_item_id INTEGER REFERENCES meta.items (id),
 -- ball_item_id INTEGER REFERENCES meta.items (id),
--- CREATE INDEX idx_team_items ON gameplay.team_pokemon (held_item_id, ball_item_id);
+-- CREATE INDEX idx_team_items ON gameplay.pokemon_team (held_item_id, ball_item_id);

@@ -75,7 +75,7 @@
 --     tmp
 --     JOIN schema.reference1 ref1 ON ref1.slug = tmp.ref1_slug
 --     JOIN schema.reference2 ref2 ON ref2.slug = tmp.ref2_slug
--- ON CONFLICT DO NOTHING;
+-- ;
 -- ============================================================================
 -- PATTERN 4: MULTI-REFERENCE WITH OPTIONAL NULLABLE FK
 -- ============================================================================
@@ -107,7 +107,7 @@
 --     JOIN meta.version_groups vg ON vg.slug = tmp.version_group_slug
 --     AND cat.version_group_id = vg.id  -- Ensure FK consistency
 --     LEFT JOIN meta.games game ON game.slug = tmp.game_slug
--- ON CONFLICT DO NOTHING;
+-- ;
 -- ============================================================================
 -- PATTERN 5: ENUM TYPE CASTING
 -- ============================================================================
@@ -158,4 +158,4 @@
 --    INSERT INTO ... SELECT ...  -- Can fail on re-run
 --
 -- ✅ DO make seeds idempotent
---    INSERT INTO ... SELECT ... ON CONFLICT DO NOTHING
+--    INSERT INTO ... SELECT ...

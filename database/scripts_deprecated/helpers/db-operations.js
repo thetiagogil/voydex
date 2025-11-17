@@ -1,6 +1,6 @@
 /**
  * Database Operations Helper
- * 
+ *
  * Centralized business logic for database cleaning operations.
  * Keeps scripts clean by abstracting schema/table management.
  */
@@ -12,18 +12,18 @@ import { getCustomSchemas, getTablesFromSchemas, withClient } from "./db.js";
 // =====================================================
 
 export const SCHEMA_TYPES = {
-  STATIC: ['dex', 'meta'],      // Reference data (safe to reset)
-  DYNAMIC: ['gameplay'],         // User data (NEVER reset in prod)
-  PRESENTATION: ['views'],       // Views/functions (safe to recreate)
-  ALL_CUSTOM: ['dex', 'meta', 'gameplay', 'views']
+  STATIC: ["dex", "meta"], // Reference data (safe to reset)
+  DYNAMIC: ["gameplay"], // User data (NEVER reset in prod)
+  PRESENTATION: ["views"], // Views/functions (safe to recreate)
+  ALL_CUSTOM: ["dex", "meta", "gameplay", "views"],
 };
 
 export const PROTECTED_TABLES = [
-  'gameplay.plays',
-  'gameplay.team_pokemon',
-  'gameplay.progress',
-  'gameplay.pokemon_caught',
-  'public.users'
+  "gameplay.plays",
+  "gameplay.pokemon_team",
+  "gameplay.progress",
+  "gameplay.pokemon_caught",
+  "public.users",
 ];
 
 // =====================================================
@@ -36,11 +36,11 @@ export const PROTECTED_TABLES = [
 export async function getSchemasByType(type, dbUrl) {
   const allSchemas = await withClient(
     async (client) => await getCustomSchemas(client),
-    dbUrl
+    dbUrl,
   );
 
   const targetSchemas = SCHEMA_TYPES[type] || [];
-  return allSchemas.filter(s => targetSchemas.includes(s));
+  return allSchemas.filter((s) => targetSchemas.includes(s));
 }
 
 /**
@@ -52,22 +52,19 @@ export async function dropSchemas(schemas, dbUrl) {
   }
 
   const sql = schemas
-    .map(s => `DROP SCHEMA IF EXISTS ${s} CASCADE;`)
-    .join('\n');
+    .map((s) => `DROP SCHEMA IF EXISTS ${s} CASCADE;`)
+    .join("\n");
 
-  const success = await withClient(
-    async (client) => {
-      await client.query(sql);
-      return true;
-    },
-    dbUrl
-  );
+  const success = await withClient(async (client) => {
+    await client.query(sql);
+    return true;
+  }, dbUrl);
 
   return {
     success,
-    message: success 
-      ? `Dropped ${schemas.length} schema(s)` 
-      : 'Failed to drop schemas'
+    message: success
+      ? `Dropped ${schemas.length} schema(s)`
+      : "Failed to drop schemas",
   };
 }
 
@@ -83,7 +80,7 @@ export async function getFilteredTables(schemas, options, dbUrl) {
 
   const allTables = await withClient(
     async (client) => await getTablesFromSchemas(client, schemas),
-    dbUrl
+    dbUrl,
   );
 
   if (!excludeProtected) {
@@ -91,7 +88,7 @@ export async function getFilteredTables(schemas, options, dbUrl) {
   }
 
   // Filter out protected tables
-  return allTables.filter(t => {
+  return allTables.filter((t) => {
     const qualifiedName = `${t.schemaname}.${t.tablename}`;
     return !PROTECTED_TABLES.includes(qualifiedName);
   });
@@ -105,22 +102,19 @@ export async function truncateTables(tables, dbUrl) {
     return { success: false, message: "No tables to truncate" };
   }
 
-  const qualified = tables.map(t => `${t.schemaname}.${t.tablename}`);
-  const sql = `TRUNCATE TABLE ${qualified.join(', ')} RESTART IDENTITY CASCADE;`;
+  const qualified = tables.map((t) => `${t.schemaname}.${t.tablename}`);
+  const sql = `TRUNCATE TABLE ${qualified.join(", ")} RESTART IDENTITY CASCADE;`;
 
-  const success = await withClient(
-    async (client) => {
-      await client.query(sql);
-      return true;
-    },
-    dbUrl
-  );
+  const success = await withClient(async (client) => {
+    await client.query(sql);
+    return true;
+  }, dbUrl);
 
   return {
     success,
-    message: success 
-      ? `Truncated ${tables.length} table(s)` 
-      : 'Failed to truncate tables'
+    message: success
+      ? `Truncated ${tables.length} table(s)`
+      : "Failed to truncate tables",
   };
 }
 
@@ -133,12 +127,10 @@ export async function truncateTables(tables, dbUrl) {
  */
 export function categorizeSchemas(schemas) {
   return {
-    static: schemas.filter(s => SCHEMA_TYPES.STATIC.includes(s)),
-    dynamic: schemas.filter(s => SCHEMA_TYPES.DYNAMIC.includes(s)),
-    presentation: schemas.filter(s => SCHEMA_TYPES.PRESENTATION.includes(s)),
-    unknown: schemas.filter(s => 
-      !SCHEMA_TYPES.ALL_CUSTOM.includes(s)
-    )
+    static: schemas.filter((s) => SCHEMA_TYPES.STATIC.includes(s)),
+    dynamic: schemas.filter((s) => SCHEMA_TYPES.DYNAMIC.includes(s)),
+    presentation: schemas.filter((s) => SCHEMA_TYPES.PRESENTATION.includes(s)),
+    unknown: schemas.filter((s) => !SCHEMA_TYPES.ALL_CUSTOM.includes(s)),
   };
 }
 
@@ -148,43 +140,44 @@ export function categorizeSchemas(schemas) {
 export async function analyzeImpact(operation, dbUrl) {
   const allSchemas = await withClient(
     async (client) => await getCustomSchemas(client),
-    dbUrl
+    dbUrl,
   );
 
   const categorized = categorizeSchemas(allSchemas);
-  
+
   let affectedSchemas = [];
   let preservedSchemas = [];
-  let warningLevel = 'safe';
+  let warningLevel = "safe";
 
   switch (operation) {
-    case 'drop-all':
+    case "drop-all":
       affectedSchemas = allSchemas;
-      warningLevel = 'danger';
+      warningLevel = "danger";
       break;
-    
-    case 'drop-static':
+
+    case "drop-static":
       affectedSchemas = [...categorized.static, ...categorized.presentation];
       preservedSchemas = categorized.dynamic;
-      warningLevel = 'warning';
+      warningLevel = "warning";
       break;
-    
-    case 'truncate-all':
+
+    case "truncate-all":
       affectedSchemas = allSchemas;
-      warningLevel = 'danger';
+      warningLevel = "danger";
       break;
-    
-    case 'truncate-static':
+
+    case "truncate-static":
       affectedSchemas = categorized.static;
       preservedSchemas = [...categorized.dynamic, ...categorized.presentation];
-      warningLevel = 'safe';
+      warningLevel = "safe";
       break;
   }
 
   const affectedTables = await getFilteredTables(affectedSchemas, {}, dbUrl);
-  const preservedTables = preservedSchemas.length > 0 
-    ? await getFilteredTables(preservedSchemas, {}, dbUrl)
-    : [];
+  const preservedTables =
+    preservedSchemas.length > 0
+      ? await getFilteredTables(preservedSchemas, {}, dbUrl)
+      : [];
 
   return {
     affectedSchemas,
@@ -192,6 +185,6 @@ export async function analyzeImpact(operation, dbUrl) {
     affectedTables,
     preservedTables,
     warningLevel,
-    hasUserData: affectedSchemas.some(s => categorized.dynamic.includes(s))
+    hasUserData: affectedSchemas.some((s) => categorized.dynamic.includes(s)),
   };
 }

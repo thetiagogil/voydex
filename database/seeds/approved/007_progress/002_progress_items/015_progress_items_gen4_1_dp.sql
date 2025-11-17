@@ -50,4 +50,4 @@ FROM
     JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug
     JOIN meta.progress_categories pgc ON pgc.slug = xxx.progress_category_slug
     AND pgc.version_group_id = vg.id
-    LEFT JOIN meta.games gam ON gam.slug = xxx.game_slug ON CONFLICT DO NOTHING;
+    LEFT JOIN meta.games gam ON gam.slug = xxx.game_slug;
