@@ -82,7 +82,7 @@ interface PlayPokemonCaught {
   species_id: number;
   form_id: number | null;
   species: BaseInfo;
-  form: (BaseInfo & { sprite_url?: string | null }) | null;
+  form: BaseInfo | null;
   caught: boolean;
   types?: BaseInfo[];
 }

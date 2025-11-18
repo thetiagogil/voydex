@@ -2,6 +2,7 @@ interface BaseInfo {
   id: number;
   slug: string;
   name: string;
+  sprite_url?: string | null;
 }
 
 type Type =

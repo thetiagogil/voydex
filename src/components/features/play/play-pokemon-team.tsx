@@ -1,6 +1,13 @@
+import { TypeBadge } from "@/components/shared/type-badge";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getTypeColor } from "@/lib/utils/common";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Plus, Users } from "lucide-react";
 
 interface PlayPokemonTeamProps {
@@ -40,70 +47,113 @@ export const PlayPokemonTeam = ({
           {pokemonTeamSlots.map((pokemon, index) => (
             <Card
               key={index}
-              className={`transition-colors ${!pokemon ? "bg-muted/20 border-1 border-dashed" : ""}`}
+              className={`transition-colors ${!pokemon ? "border-1 border-dashed" : ""}`}
             >
-              <CardContent className="p-4">
+              <CardContent>
                 {pokemon ? (
-                  <div className="space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <p className="font-semibold">{pokemon.nickname}</p>
-                        <p className="text-muted-foreground text-sm">
-                          {pokemon.species.name}
-                        </p>
+                  <div className="space-y-4">
+                    <div className="flex gap-4">
+                      <div className="w-50">
+                        {/* Pokemon sprite */}
+                        {pokemon.form?.sprite_url ? (
+                          <img
+                            src={pokemon.form.sprite_url}
+                            alt={pokemon.species.name}
+                            className="h-32 object-contain"
+                          />
+                        ) : (
+                          <div className="bg-muted border-accent flex h-32 w-32 items-center justify-center rounded-full border">
+                            <span className="text-muted-foreground text-xs"></span>
+                          </div>
+                        )}
                       </div>
-                      <Badge variant="outline">Lv. {pokemon.level}</Badge>
-                    </div>
 
-                    <div className="space-y-2">
-                      <div className="flex gap-1">
-                        {pokemon.types.map((type) => (
-                          <Badge
-                            key={type.id}
-                            className={`text-xs text-white ${getTypeColor(type.slug as Type)}`}
-                          >
-                            {type.name}
+                      <div className="flex w-50 flex-col gap-2">
+                        {/* Pokemon name */}
+                        <div className="flex w-full items-start justify-between">
+                          <div>
+                            <p className="font-semibold">
+                              {pokemon.species.name}
+                            </p>
+                            <p className="text-muted-foreground text-sm">
+                              {pokemon.nickname}
+                            </p>
+                          </div>
+                          <Badge variant="outline-secondary">
+                            Lv. {pokemon.level}
                           </Badge>
-                        ))}
-                      </div>
+                        </div>
 
-                      <div className="space-y-1 text-xs">
-                        <p>
-                          <span className="text-muted-foreground">Nature:</span>{" "}
-                          {pokemon.nature.name}
-                        </p>
-                        <p>
-                          <span className="text-muted-foreground">
-                            Ability:
-                          </span>{" "}
-                          {pokemon.ability?.name}
-                        </p>
-                      </div>
-
-                      <div className="space-y-1">
-                        <p className="text-muted-foreground text-xs">Moves:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {pokemon.moves.map((move) => (
-                            <Badge
-                              key={move.id}
-                              variant="outline"
-                              className="text-xs"
-                            >
-                              {move.name}
-                            </Badge>
+                        {/* Pokemon types */}
+                        <div className="flex gap-1">
+                          {pokemon.types.map((type) => (
+                            <div key={type.id}>
+                              <TypeBadge type={type.name as Type} />
+                            </div>
                           ))}
                         </div>
+
+                        {/* Pokemon nature and ability */}
+                        <div className="space-y-1 text-xs">
+                          <p>
+                            <span className="text-muted-foreground">
+                              Nature:
+                            </span>{" "}
+                            {pokemon.nature?.name || (
+                              <i className="text-muted-foreground">None</i>
+                            )}
+                          </p>
+
+                          <p>
+                            <span className="text-muted-foreground">
+                              Ability:
+                            </span>{" "}
+                            {pokemon.ability?.name || (
+                              <i className="text-muted-foreground">None</i>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      {/* Pokemon moves - always render 4 slots, filling with <Empty /> when missing */}
+                      <div className="grid grid-cols-2 gap-2">
+                        {Array.from({ length: 4 }).map((_, i) => {
+                          const move = pokemon.moves[i];
+                          if (move) {
+                            return (
+                              <Badge
+                                key={i}
+                                variant="outline-secondary"
+                                className="w-full py-2 text-xs"
+                              >
+                                {move.name}
+                              </Badge>
+                            );
+                          }
+
+                          return (
+                            <Badge
+                              key={i}
+                              variant="outline-secondary"
+                              className="w-full border-dashed py-2 opacity-50"
+                            />
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex h-32 flex-col items-center justify-center text-center">
-                    <Plus className="text-muted-foreground mb-2 h-8 w-8" />
-                    <p className="text-muted-foreground text-sm">Empty Slot</p>
-                    <p className="text-muted-foreground text-xs">
-                      Click to add Pokémon
-                    </p>
-                  </div>
+                  <Empty className="opacity-50">
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <Plus />
+                      </EmptyMedia>
+                      <EmptyTitle>Empty Slot</EmptyTitle>
+                      <EmptyDescription>Click to add Pokémon</EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
                 )}
               </CardContent>
             </Card>

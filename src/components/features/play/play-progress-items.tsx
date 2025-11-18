@@ -16,7 +16,7 @@ export const PlayProgressItems = ({ items }: { items: PlayProgressItem[] }) => {
             {/* Item content */}
             {item.description && (
               <p className="text-muted-foreground mt-1 text-xs">
-                {item.description} at {item.location || "unknown location"}
+                {item.description} at {item.location || "unknown location"}.
               </p>
             )}
 

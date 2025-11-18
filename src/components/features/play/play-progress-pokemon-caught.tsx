@@ -1,4 +1,5 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
+import { TypeBadge } from "@/components/shared/type-badge";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -72,8 +73,6 @@ export const PlayProgressPokemonCaught = ({
               checked={isCaught}
               className="flex flex-col items-center justify-center gap-2 text-center"
             >
-              {/* Regional number badge */}
-
               {/* Pokemon sprite */}
               {pokemon.form?.sprite_url ? (
                 <img
@@ -101,12 +100,7 @@ export const PlayProgressPokemonCaught = ({
               {pokemon.types && pokemon.types.length > 0 && (
                 <div className="flex gap-1">
                   {pokemon.types.map((type: any) => (
-                    <span
-                      key={type.id}
-                      className="bg-muted text-muted-foreground rounded px-2 py-0.5 text-xs"
-                    >
-                      {type.name}
-                    </span>
+                    <TypeBadge key={type.id} type={type.name as Type} />
                   ))}
                 </div>
               )}
