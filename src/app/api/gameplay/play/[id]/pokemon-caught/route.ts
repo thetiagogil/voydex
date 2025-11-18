@@ -2,10 +2,11 @@ import { getPlayRegionalDex } from "@/services/gameplay/play-pokemon-caught";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const playId = params.id;
+  const { id: playId } = await params;
+
   const { data, error } = await getPlayRegionalDex(playId);
   if (error) {
     return NextResponse.json(

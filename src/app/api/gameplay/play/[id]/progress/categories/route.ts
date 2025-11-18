@@ -2,10 +2,11 @@ import { getPlayProgressCategories } from "@/services/gameplay/play-progress-cat
 import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const playId = (await params).id;
+  const { id: playId } = await params;
+
   const { data, error } = await getPlayProgressCategories(playId);
   if (error) {
     return NextResponse.json(

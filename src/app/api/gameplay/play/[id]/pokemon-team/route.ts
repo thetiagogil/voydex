@@ -5,8 +5,8 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params;
-  const playId = id;
+  const { id: playId } = await params;
+
   if (!playId)
     return NextResponse.json({ error: "Missing play id" }, { status: 400 });
 
