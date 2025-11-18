@@ -50,7 +50,7 @@ export const PlayProgressDrawer = ({
           )}
         </DrawerHeader>
 
-        <div className="overflow-y-auto px-4">
+        <div className="flex flex-col gap-4 overflow-y-auto px-4">
           {isLoading ? (
             <Loading />
           ) : isDexCategory && pokemonCaught && pokemonCaught.length > 0 ? (
@@ -68,7 +68,7 @@ export const PlayProgressDrawer = ({
 
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline-secondary">Close</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
