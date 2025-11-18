@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const playId = params.id;
+  const playId = (await params).id;
   const { data, error } = await getPlayProgressCategories(playId);
   if (error) {
     return NextResponse.json(

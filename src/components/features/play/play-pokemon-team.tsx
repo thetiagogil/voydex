@@ -40,7 +40,7 @@ export const PlayPokemonTeam = ({
           {pokemonTeamSlots.map((pokemon, index) => (
             <Card
               key={index}
-              className={`transition-colors ${!pokemon ? "bg-muted/20 border-2 border-dashed" : ""}`}
+              className={`transition-colors ${!pokemon ? "bg-muted/20 border-1 border-dashed" : ""}`}
             >
               <CardContent className="p-4">
                 {pokemon ? (

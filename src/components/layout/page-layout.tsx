@@ -1,7 +1,7 @@
 import { PageBreadcrumbsNavigation } from "@/components/layout/page-breadcrumbs-navigation";
 import { type PageContainerWidth } from "@/lib/constants/layout";
 import { ReactNode } from "react";
-import { Spinner } from "../ui/spinner";
+import { Loading } from "../shared/loading";
 import { PageContainer } from "./page-container";
 import { PageNavigation } from "./page-navigation";
 
@@ -30,9 +30,7 @@ export const PageLayout = ({
       <main>
         <PageContainer className={className} width={width}>
           {isLoading ? (
-            <div className="flex items-center justify-center">
-              <Spinner className="size-6" />
-            </div>
+            <Loading />
           ) : (
             <>
               <PageBreadcrumbsNavigation />

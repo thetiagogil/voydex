@@ -70,6 +70,7 @@ interface PlayProgressItem {
   slug: string;
   name: string;
   description?: string | null;
+  location?: string | null;
   userProgress?: {
     completed: boolean;
     completed_at?: string | null;
@@ -81,6 +82,7 @@ interface PlayPokemonCaught {
   species_id: number;
   form_id: number | null;
   species: BaseInfo;
-  form: BaseInfo | null;
+  form: (BaseInfo & { sprite_url?: string | null }) | null;
   caught: boolean;
+  types?: BaseInfo[];
 }

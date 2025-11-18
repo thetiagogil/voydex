@@ -22,7 +22,7 @@ export const getPlayProgressItems = async (
   const { data: items, error: itemsErr } = await supabase
     .schema("meta")
     .from("progress_items")
-    .select("id, slug, name, description, sort_order")
+    .select("id, slug, name, description, location, sort_order")
     .eq("progress_category_id", categoryId)
     .order("sort_order", { ascending: true });
   if (itemsErr) return { data: null, error: itemsErr };
@@ -101,6 +101,7 @@ export const getPlayProgressItems = async (
         slug: it.slug,
         name: it.name,
         description: it.description,
+        location: it.location,
         userProgress: { completed: true, completed_at: explicit.completed_at },
       };
 
@@ -111,6 +112,7 @@ export const getPlayProgressItems = async (
         slug: it.slug,
         name: it.name,
         description: it.description,
+        location: it.location,
         userProgress: { completed: true, completed_at: null },
       };
     }
@@ -120,6 +122,7 @@ export const getPlayProgressItems = async (
       slug: it.slug,
       name: it.name,
       description: it.description,
+      location: it.location,
       userProgress: null,
     };
   });

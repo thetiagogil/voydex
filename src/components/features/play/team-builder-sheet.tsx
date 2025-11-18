@@ -167,7 +167,7 @@ export const TeamBuilderSheet = ({ playthrough }: TeamBuilderSheetProps) => {
                       <Card
                         key={index}
                         className={
-                          !pokemon ? "bg-muted/20 border-2 border-dashed" : ""
+                          !pokemon ? "bg-muted/20 border-1 border-dashed" : ""
                         }
                       >
                         <CardContent className="p-3">
