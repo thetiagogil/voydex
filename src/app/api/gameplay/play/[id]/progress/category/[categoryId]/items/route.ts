@@ -1,4 +1,4 @@
-import { getPlayProgressItems } from "@/services/gameplay/play-progress";
+import { getPlayProgressItems } from "@/services/gameplay/play-progress-items";
 import { NextResponse } from "next/server";
 
 export async function GET(

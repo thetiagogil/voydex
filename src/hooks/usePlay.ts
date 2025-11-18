@@ -17,6 +17,23 @@ export const usePlay = (playId?: string) => {
   });
 };
 
+export const usePlayPokemonTeam = (playId?: string) => {
+  const enabled = Boolean(playId);
+  return useQuery({
+    queryKey: ["play", playId, "pokemon-team"],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId || "")}/pokemon-team`,
+      );
+      const data = await res.json();
+      if (!res.ok) return false;
+      return data;
+    },
+    enabled,
+    staleTime: 1000 * 30,
+  });
+};
+
 export const usePlayProgressCategories = (playId?: string) => {
   const enabled = Boolean(playId);
   return useQuery({

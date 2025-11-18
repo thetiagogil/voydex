@@ -15,11 +15,11 @@ export const getPlayRegionalDex = async (playId: string) => {
   if (playErr) return { data: null, error: playErr };
   if (!play) return { data: null, error: null };
 
-  // 2) fetch game to get version_group_id
+  // 2) fetch game to get version_group_id and generation_id
   const { data: game, error: gameErr } = await supabase
     .schema("meta")
     .from("games")
-    .select("id, version_group_id")
+    .select("id, version_group_id, generation_id")
     .eq("id", play.game_id)
     .maybeSingle();
   if (gameErr) return { data: null, error: gameErr };
@@ -39,60 +39,30 @@ export const getPlayRegionalDex = async (playId: string) => {
   const dexEntries = regionalDex || [];
   if (dexEntries.length === 0) return { data: [], error: null };
 
-  // 4) batch-fetch species
-  const speciesIds = [...new Set(dexEntries.map((e: any) => e.species_id))];
-  const { data: speciesRows, error: speciesErr } = await supabase
-    .schema("meta")
-    .from("pokemon_species")
-    .select("id, slug, name")
-    .in("id", speciesIds);
-  if (speciesErr) return { data: null, error: speciesErr };
+  // 4) Use generation view to fetch Pokemon data with all metadata already joined
+  const generationView = `pokemon_generation_${["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix"][game.generation_id - 1]}`;
 
-  const speciesById: Record<number, any> = {};
-  (speciesRows || []).forEach((s: any) => {
-    speciesById[s.id] = s;
+  const speciesIds = [...new Set(dexEntries.map((e: any) => e.species_id))];
+  const { data: pokemonData, error: pokemonErr } = await supabase
+    .schema("views")
+    .from(generationView)
+    .select("*")
+    .in("species_id", speciesIds);
+  if (pokemonErr) return { data: null, error: pokemonErr };
+
+  // Build lookup maps by species_id and form_id
+  const pokemonBySpecies: Record<number, any[]> = {};
+  const pokemonByForm: Record<number, any> = {};
+
+  (pokemonData || []).forEach((p: any) => {
+    if (!pokemonBySpecies[p.species_id]) {
+      pokemonBySpecies[p.species_id] = [];
+    }
+    pokemonBySpecies[p.species_id].push(p);
+    pokemonByForm[p.form_id] = p;
   });
 
-  // 5) batch-fetch forms (explicit forms referenced by regional entries)
-  const formIds = dexEntries
-    .map((e: any) => e.form_id)
-    .filter((fid: any) => fid !== null);
-  let formsById: Record<number, any> = {};
-  if (formIds.length > 0) {
-    const { data: formRows, error: formErr } = await supabase
-      .schema("meta")
-      .from("pokemon_forms")
-      .select("id, slug, name, sprite_url, species_id, is_default")
-      .in("id", formIds);
-    if (formErr) return { data: null, error: formErr };
-    (formRows || []).forEach((f: any) => {
-      formsById[f.id] = f;
-    });
-  }
-
-  // 5b) fetch default forms for species where regional entry has no explicit form_id
-  const speciesNeedingDefault = [
-    ...new Set(
-      dexEntries
-        .filter((e: any) => e.form_id === null)
-        .map((e: any) => e.species_id),
-    ),
-  ];
-  let defaultFormBySpecies: Record<number, any> = {};
-  if (speciesNeedingDefault.length > 0) {
-    const { data: defaultForms, error: defErr } = await supabase
-      .schema("meta")
-      .from("pokemon_forms")
-      .select("id, slug, name, sprite_url, species_id, is_default")
-      .in("species_id", speciesNeedingDefault)
-      .eq("is_default", true);
-    if (defErr) return { data: null, error: defErr };
-    (defaultForms || []).forEach((f: any) => {
-      defaultFormBySpecies[f.species_id] = f;
-    });
-  }
-
-  // 6) fetch pokemon_caught for this play
+  // 5) fetch pokemon_caught for this play
   const { data: caught, error: caughtErr } = await supabase
     .schema("gameplay")
     .from("pokemon_caught")
@@ -107,39 +77,64 @@ export const getPlayRegionalDex = async (playId: string) => {
     caughtSet.add(key);
   });
 
-  // 7) map regional dex entries with caught status
+  // 6) map regional dex entries with caught status using generation view data
   const result: PlayPokemonCaught[] = dexEntries.map((entry: any) => {
     const key = entry.form_id
       ? `${entry.species_id}:${entry.form_id}`
       : `${entry.species_id}`;
     const isCaught = caughtSet.has(key);
 
-    // choose form: explicit form if present, otherwise species default form
-    const explicitForm = entry.form_id ? formsById[entry.form_id] : null;
-    const defaultForm = !entry.form_id
-      ? defaultFormBySpecies[entry.species_id] || null
-      : null;
-
-    const chosenForm = explicitForm || defaultForm;
+    // Find the Pokemon from view data
+    let pokemon = null;
+    if (entry.form_id) {
+      // Explicit form specified
+      pokemon = pokemonByForm[entry.form_id];
+    } else {
+      // Use default form for species
+      const speciesForms = pokemonBySpecies[entry.species_id] || [];
+      pokemon =
+        speciesForms.find((p: any) => p.is_default_form) || speciesForms[0];
+    }
 
     return {
       regional_number: entry.regional_number,
       species_id: entry.species_id,
-      form_id: entry.form_id || (chosenForm ? chosenForm.id : null),
-      species: speciesById[entry.species_id] || {
-        id: entry.species_id,
-        slug: "unknown",
-        name: "Unknown",
-      },
-      form: chosenForm
+      form_id: entry.form_id || (pokemon ? pokemon.form_id : null),
+      species: pokemon
         ? {
-            id: chosenForm.id,
-            slug: chosenForm.slug,
-            name: chosenForm.name,
-            sprite_url: chosenForm.sprite_url || null,
+            id: pokemon.species_id,
+            slug: pokemon.species_slug,
+            name: pokemon.species_name,
+          }
+        : {
+            id: entry.species_id,
+            slug: "unknown",
+            name: "Unknown",
+          },
+      form: pokemon
+        ? {
+            id: pokemon.form_id,
+            slug: pokemon.form_slug,
+            name: pokemon.form_name,
+            sprite_url: pokemon.sprite_url || null,
           }
         : null,
       caught: isCaught,
+      // Include additional metadata from view for potential use
+      types: pokemon
+        ? [
+            pokemon.type1_id && {
+              id: pokemon.type1_id,
+              slug: pokemon.type1_slug,
+              name: pokemon.type1_name,
+            },
+            pokemon.type2_id && {
+              id: pokemon.type2_id,
+              slug: pokemon.type2_slug,
+              name: pokemon.type2_name,
+            },
+          ].filter(Boolean)
+        : [],
     };
   });
 

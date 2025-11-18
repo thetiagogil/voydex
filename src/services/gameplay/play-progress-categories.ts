@@ -5,11 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 export const getPlayProgressCategories = async (playId: string) => {
   const supabase = await createClient();
 
-  // 1) fetch play row to find game_id
+  // 1) fetch play row to find game_id and mythical flag
   const { data: play, error: playErr } = await supabase
     .schema("gameplay")
     .from("plays")
-    .select("id, game_id")
+    .select("id, game_id, include_mythical_pokemon")
     .eq("id", playId)
     .maybeSingle();
   if (playErr) return { data: null, error: playErr };
@@ -31,7 +31,7 @@ export const getPlayProgressCategories = async (playId: string) => {
   const { data: categories, error: catErr } = await supabase
     .schema("meta")
     .from("progress_categories")
-    .select("id, slug, name, type, sort_order, version_group_id")
+    .select("id, slug, name, type, description, sort_order, version_group_id")
     .eq("version_group_id", versionGroupId)
     .order("sort_order", { ascending: true });
   if (catErr) return { data: null, error: catErr };
@@ -80,9 +80,12 @@ export const getPlayProgressCategories = async (playId: string) => {
 
   // 6) build summary per category
   // Special-case dex categories: compute totals from regional_dex_entries and pokemon_caught
-  const dexCategories = catList.filter((c: any) => c.type === "dex");
+  const dexCategories = catList.filter(
+    (c: any) => c.slug === "regional-pokedex" || c.slug === "national-pokedex",
+  );
   let dexTotals: Record<number, { total: number; caught: number }> = {};
 
+  // Handle regional/national dex categories
   if (dexCategories.length > 0) {
     // fetch regional dex entries for this version_group
     const { data: regionalDex, error: rdErr } = await supabase
@@ -92,15 +95,40 @@ export const getPlayProgressCategories = async (playId: string) => {
       .eq("version_group_id", versionGroupId);
     if (rdErr) return { data: null, error: rdErr };
 
-    const regionalKeys = (regionalDex || []).map((r: any) =>
+    let filteredDex = regionalDex || [];
+
+    // Filter out mythical Pokemon if flag is false
+    if (!play.include_mythical_pokemon && filteredDex.length > 0) {
+      const speciesIds = [
+        ...new Set(filteredDex.map((r: any) => r.species_id)),
+      ];
+      const { data: speciesData, error: speciesErr } = await supabase
+        .schema("meta")
+        .from("pokemon_species")
+        .select("id, is_mythical")
+        .in("id", speciesIds);
+      if (speciesErr) return { data: null, error: speciesErr };
+
+      const mythicalIds = new Set(
+        (speciesData || [])
+          .filter((s: any) => s.is_mythical)
+          .map((s: any) => s.id),
+      );
+
+      filteredDex = filteredDex.filter(
+        (r: any) => !mythicalIds.has(r.species_id),
+      );
+    }
+
+    const regionalKeys = filteredDex.map((r: any) =>
       r.form_id ? `${r.species_id}:${r.form_id}` : `${r.species_id}`,
     );
 
-    // fetch pokemon_caught for this play matching species/form from regional dex
+    // fetch pokemon_caught for this play
     let caughtCount = 0;
     if (regionalKeys.length > 0) {
       const speciesIds = [
-        ...new Set((regionalDex || []).map((r: any) => r.species_id)),
+        ...new Set(filteredDex.map((r: any) => r.species_id)),
       ];
       const { data: caught, error: caughtErr } = await supabase
         .schema("gameplay")
@@ -118,7 +146,6 @@ export const getPlayProgressCategories = async (playId: string) => {
         caughtSet.add(key);
       });
 
-      // count how many regional keys are matched by caughtSet
       caughtCount = regionalKeys.reduce(
         (acc: number, k: string) => (caughtSet.has(k) ? acc + 1 : acc),
         0,
@@ -135,10 +162,12 @@ export const getPlayProgressCategories = async (playId: string) => {
     let total: number;
     let completed: number;
 
-    if (c.type === "dex" && dexTotals[c.id]) {
+    if (dexTotals[c.id]) {
+      // Use dex totals from pokemon_caught
       total = dexTotals[c.id].total;
       completed = dexTotals[c.id].caught;
     } else {
+      // Use progress_items for all other categories (badges, elite-four, legendary, etc.)
       const itemIds = itemsByCategory[c.id] || [];
       total = itemIds.length;
       completed = itemIds.reduce(
@@ -153,6 +182,7 @@ export const getPlayProgressCategories = async (playId: string) => {
       id: c.id,
       slug: c.slug,
       name: c.name,
+      description: c.description,
       items_total: total,
       items_completed: completed,
       percentage_completed: percent,
@@ -160,129 +190,4 @@ export const getPlayProgressCategories = async (playId: string) => {
   });
 
   return { data: summaries, error: null };
-};
-
-export const getPlayProgressItems = async (
-  playId: string,
-  categoryId: number,
-) => {
-  const supabase = await createClient();
-
-  // 0) fetch category to check type (dex special-case)
-  const { data: category, error: catErr } = await supabase
-    .schema("meta")
-    .from("progress_categories")
-    .select("id, type, version_group_id")
-    .eq("id", categoryId)
-    .maybeSingle();
-  if (catErr) return { data: null, error: catErr };
-  if (!category) return { data: [], error: null };
-
-  // 1) fetch items for category (no pagination as requested)
-  const { data: items, error: itemsErr } = await supabase
-    .schema("meta")
-    .from("progress_items")
-    .select("id, slug, name, description, sort_order")
-    .eq("progress_category_id", categoryId)
-    .order("sort_order", { ascending: true });
-  if (itemsErr) return { data: null, error: itemsErr };
-
-  const itemIds = (items || []).map((it: any) => it.id);
-
-  // 2) fetch user progress rows for these items
-  let progressRows: any[] = [];
-  if (itemIds.length > 0) {
-    const { data: pRows, error: pErr } = await supabase
-      .schema("gameplay")
-      .from("progress")
-      .select("progress_item_id, completed_at")
-      .eq("play_id", playId)
-      .in("progress_item_id", itemIds);
-    if (pErr) return { data: null, error: pErr };
-    progressRows = pRows || [];
-  }
-
-  const progressByItem: Record<number, any> = {};
-  progressRows.forEach((r: any) => {
-    progressByItem[r.progress_item_id] = r;
-  });
-
-  // 3) if this is a dex category, compute derived completion from regional_dex_entries + pokemon_caught
-  let dexDerivedCompleted = false;
-  if (category.type === "dex") {
-    // fetch regional dex entries for the category's version_group
-    const vgId = category.version_group_id;
-    const { data: regionalDex, error: rdErr } = await supabase
-      .schema("meta")
-      .from("regional_dex_entries")
-      .select("species_id, form_id")
-      .eq("version_group_id", vgId);
-    if (rdErr) return { data: null, error: rdErr };
-
-    const regionalKeys = (regionalDex || []).map((r: any) =>
-      r.form_id ? `${r.species_id}:${r.form_id}` : `${r.species_id}`,
-    );
-
-    if (regionalKeys.length === 0) {
-      dexDerivedCompleted = false;
-    } else {
-      const speciesIds = [
-        ...new Set((regionalDex || []).map((r: any) => r.species_id)),
-      ];
-      const { data: caught, error: caughtErr } = await supabase
-        .schema("gameplay")
-        .from("pokemon_caught")
-        .select("species_id, form_id")
-        .eq("play_id", playId)
-        .in("species_id", speciesIds);
-      if (caughtErr) return { data: null, error: caughtErr };
-
-      const caughtSet = new Set<string>();
-      (caught || []).forEach((c: any) => {
-        const key = c.form_id
-          ? `${c.species_id}:${c.form_id}`
-          : `${c.species_id}`;
-        caughtSet.add(key);
-      });
-
-      const matched = regionalKeys.reduce(
-        (acc: number, k: string) => (caughtSet.has(k) ? acc + 1 : acc),
-        0,
-      );
-      dexDerivedCompleted = matched >= regionalKeys.length;
-    }
-  }
-
-  const result: PlayProgressItem[] = (items || []).map((it: any) => {
-    const explicit = progressByItem[it.id];
-    if (explicit)
-      return {
-        id: it.id,
-        slug: it.slug,
-        name: it.name,
-        description: it.description,
-        userProgress: { completed: true, completed_at: explicit.completed_at },
-      };
-
-    // if no explicit progress and category is dex, use derived completion
-    if (!explicit && category.type === "dex" && dexDerivedCompleted) {
-      return {
-        id: it.id,
-        slug: it.slug,
-        name: it.name,
-        description: it.description,
-        userProgress: { completed: true, completed_at: null },
-      };
-    }
-
-    return {
-      id: it.id,
-      slug: it.slug,
-      name: it.name,
-      description: it.description,
-      userProgress: null,
-    };
-  });
-
-  return { data: result, error: null };
 };
