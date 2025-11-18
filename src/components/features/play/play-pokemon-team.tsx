@@ -1,24 +1,29 @@
 import { TypeBadge } from "@/components/shared/type-badge";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
-  EmptyTitle,
 } from "@/components/ui/empty";
-import { Plus, Users } from "lucide-react";
+import { BookPlus, Plus, Users } from "lucide-react";
+import { useState } from "react";
 
 interface PlayPokemonTeamProps {
   playId: string;
+  playGen: string;
   pokemonTeam?: PlayPokemonTeam[];
 }
 
 export const PlayPokemonTeam = ({
   playId,
+  playGen,
   pokemonTeam,
 }: PlayPokemonTeamProps) => {
+  const [viewPokemonDetails, setviewPokemonDetails] = useState<boolean>(false);
+
   const team: PlayPokemonTeam[] = pokemonTeam || [];
 
   // Create empty slots for team display (always show 6 slots)
@@ -34,130 +39,149 @@ export const PlayPokemonTeam = ({
             <Users className="h-5 w-5" />
             Active Team ({team.length}/6)
           </CardTitle>
-          {/* <div className="flex gap-2">
-            <FullTeamSheet playId={playId} />
+          <div className="flex gap-2">
+            <Button
+              variant={viewPokemonDetails ? "outline" : "outline-secondary"}
+              size="sm"
+              onClick={() => setviewPokemonDetails(!viewPokemonDetails)}
+            >
+              <BookPlus className="h-4 w-4" />
+            </Button>
+
+            {/* <FullTeamSheet playId={playId} />
             <TeamAnalysisSheet playId={playId} />
-            <TeamBuilderSheet playId={playId} />
-          </div> */}
+            <TeamBuilderSheet playId={playId} /> */}
+          </div>
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="h-full">
         <div className="grid gap-4 md:grid-cols-3">
-          {pokemonTeamSlots.map((pokemon, index) => (
-            <Card
-              key={index}
-              className={`transition-colors ${!pokemon ? "border-1 border-dashed" : ""}`}
-            >
-              <CardContent>
-                {pokemon ? (
-                  <div className="space-y-4">
-                    <div className="flex gap-4">
-                      <div className="w-50">
-                        {/* Pokemon sprite */}
-                        {pokemon.form?.sprite_url ? (
-                          <img
-                            src={pokemon.form.sprite_url}
-                            alt={pokemon.species.name}
-                            className="h-32 object-contain"
-                          />
-                        ) : (
-                          <div className="bg-muted border-accent flex h-32 w-32 items-center justify-center rounded-full border">
-                            <span className="text-muted-foreground text-xs"></span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex w-50 flex-col gap-2">
-                        {/* Pokemon name */}
-                        <div className="flex w-full items-start justify-between">
-                          <div>
-                            <p className="font-semibold">
-                              {pokemon.species.name}
-                            </p>
-                            <p className="text-muted-foreground text-sm">
-                              {pokemon.nickname}
-                            </p>
-                          </div>
-                          <Badge variant="outline-secondary">
-                            Lv. {pokemon.level}
-                          </Badge>
-                        </div>
-
-                        {/* Pokemon types */}
-                        <div className="flex gap-1">
-                          {pokemon.types.map((type) => (
-                            <div key={type.id}>
-                              <TypeBadge type={type.name as Type} />
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Pokemon nature and ability */}
-                        <div className="space-y-1 text-xs">
-                          <p>
-                            <span className="text-muted-foreground">
-                              Nature:
-                            </span>{" "}
-                            {pokemon.nature?.name || (
-                              <i className="text-muted-foreground">None</i>
-                            )}
-                          </p>
-
-                          <p>
-                            <span className="text-muted-foreground">
-                              Ability:
-                            </span>{" "}
-                            {pokemon.ability?.name || (
-                              <i className="text-muted-foreground">None</i>
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      {/* Pokemon moves - always render 4 slots, filling with <Empty /> when missing */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {Array.from({ length: 4 }).map((_, i) => {
-                          const move = pokemon.moves[i];
-                          if (move) {
-                            return (
-                              <Badge
-                                key={i}
-                                variant="outline-secondary"
-                                className="w-full py-2 text-xs"
-                              >
-                                {move.name}
-                              </Badge>
-                            );
-                          }
-
-                          return (
-                            <Badge
-                              key={i}
-                              variant="outline-secondary"
-                              className="w-full border-dashed py-2 opacity-50"
+          {pokemonTeamSlots.map((pokemon, index) => {
+            const showNatureAbility =
+              !!pokemon && (!!pokemon.ability || !!pokemon.nature);
+            return (
+              <Card
+                key={index}
+                className={`transition-colors ${!pokemon ? "border-1 border-dashed" : ""}`}
+              >
+                <CardContent className="flex-1">
+                  {pokemon ? (
+                    <div className="space-y-4">
+                      <div className="flex gap-4">
+                        <div className="flex w-50 justify-center">
+                          {/* Pokemon sprite */}
+                          {pokemon.form?.sprite_url ? (
+                            <img
+                              src={pokemon.form.sprite_url}
+                              alt={pokemon.species.name}
+                              className="h-24 object-contain"
                             />
-                          );
-                        })}
+                          ) : (
+                            <div className="bg-muted border-accent flex h-24 w-24 items-center justify-center rounded-full border">
+                              <span className="text-muted-foreground text-xs"></span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex w-50 flex-col gap-2">
+                          {/* Pokemon name */}
+                          <div className="flex w-full items-start justify-between">
+                            <div>
+                              <p className="font-semibold">
+                                {pokemon.species.name}
+                              </p>
+                              <p className="text-muted-foreground text-sm">
+                                {pokemon.nickname}
+                              </p>
+                            </div>
+                            <Badge variant="outline-secondary">
+                              Lv. {pokemon.level}
+                            </Badge>
+                          </div>
+
+                          {/* Pokemon types */}
+                          <div className="flex gap-1">
+                            {pokemon.types.map((type) => (
+                              <div key={type.id}>
+                                <TypeBadge type={type.name as Type} />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
+
+                      {viewPokemonDetails && (
+                        <>
+                          {/* Pokemon nature and ability */}
+                          {showNatureAbility && (
+                            <div className="flex gap-2">
+                              <div className="flex w-50 flex-col gap-2">
+                                <p className="text-muted-foreground text-xs">
+                                  Nature
+                                </p>
+                                <Badge
+                                  variant="outline-secondary"
+                                  className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.nature?.name ? "border-dashed opacity-50" : ""}`}
+                                >
+                                  {pokemon.nature?.name || "-"}
+                                </Badge>
+                              </div>
+
+                              <div className="flex w-50 flex-col gap-2">
+                                <p className="text-muted-foreground text-xs">
+                                  Ability
+                                </p>
+                                <Badge
+                                  variant="outline-secondary"
+                                  className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.ability?.name ? "border-dashed opacity-50" : ""}`}
+                                >
+                                  {pokemon.ability?.name || "-"}
+                                </Badge>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Pokemon moves */}
+                          <div className="flex flex-col gap-2">
+                            <p className="text-muted-foreground text-xs">
+                              Moves
+                            </p>
+                            {/* Pokemon moves - always render 4 slots, filling with <Empty /> when missing */}
+                            <div className="grid grid-cols-2 gap-2">
+                              {Array.from({ length: 4 }).map((_, i) => {
+                                const move = pokemon.moves[i];
+                                return (
+                                  <Badge
+                                    key={i}
+                                    variant="outline-secondary"
+                                    className={`text-muted-foreground w-full py-1 text-xs ${!move?.name ? "border-dashed opacity-50" : ""}`}
+                                  >
+                                    {move?.name || "-"}
+                                  </Badge>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
-                  </div>
-                ) : (
-                  <Empty className="opacity-50">
-                    <EmptyHeader>
-                      <EmptyMedia variant="icon">
-                        <Plus />
-                      </EmptyMedia>
-                      <EmptyTitle>Empty Slot</EmptyTitle>
-                      <EmptyDescription>Click to add Pokémon</EmptyDescription>
-                    </EmptyHeader>
-                  </Empty>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                  ) : (
+                    <Empty className="flex h-full flex-col items-center justify-center opacity-50">
+                      <EmptyHeader>
+                        <EmptyMedia variant="icon">
+                          <Plus />
+                        </EmptyMedia>
+                        <EmptyDescription>
+                          Click to add Pokémon
+                        </EmptyDescription>
+                      </EmptyHeader>
+                    </Empty>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </CardContent>
     </Card>
