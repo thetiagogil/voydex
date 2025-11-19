@@ -57,7 +57,7 @@ export const PlayProgressPokemonCaught = ({
         )}
       </div>
 
-      <div className="grid gap-4 pb-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {filteredPokemon.map((pokemon: PlayPokemonCaught) => {
           const isCaught = pokemon.caught;
 

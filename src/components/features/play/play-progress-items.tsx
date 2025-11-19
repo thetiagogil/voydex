@@ -2,7 +2,7 @@ import { SquareCheckbox } from "@/components/shared/square-checkbox";
 
 export const PlayProgressItems = ({ items }: { items: PlayProgressItem[] }) => {
   return (
-    <div className="grid gap-3 pb-4 sm:grid-cols-2">
+    <div className="grid gap-3 sm:grid-cols-2">
       {items.map((item: PlayProgressItem) => {
         const isCompleted = item.userProgress?.completed || false;
 

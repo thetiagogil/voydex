@@ -29,7 +29,10 @@ export const PlayPokemonTeam = ({
   // Create empty slots for team display (always show 6 slots)
   const pokemonTeamSlots = Array(6)
     .fill(null)
-    .map((_, index) => team[index] || null);
+    .map(
+      (_, index) =>
+        team.filter((pokemon) => pokemon.position <= 6)[index] || null,
+    );
 
   return (
     <Card>
@@ -47,10 +50,6 @@ export const PlayPokemonTeam = ({
             >
               <BookPlus className="h-4 w-4" />
             </Button>
-
-            {/* <FullTeamSheet playId={playId} />
-            <TeamAnalysisSheet playId={playId} />
-            <TeamBuilderSheet playId={playId} /> */}
           </div>
         </div>
       </CardHeader>
@@ -84,7 +83,7 @@ export const PlayPokemonTeam = ({
                           )}
                         </div>
 
-                        <div className="flex w-50 flex-col gap-2">
+                        <div className="flex w-50 flex-col justify-between">
                           {/* Pokemon name */}
                           <div className="flex w-full items-start justify-between">
                             <div>
@@ -167,7 +166,7 @@ export const PlayPokemonTeam = ({
                       )}
                     </div>
                   ) : (
-                    <Empty className="flex h-full flex-col items-center justify-center opacity-50">
+                    <Empty className="flex h-full flex-col items-center justify-center p-0 opacity-50">
                       <EmptyHeader>
                         <EmptyMedia variant="icon">
                           <Plus />
