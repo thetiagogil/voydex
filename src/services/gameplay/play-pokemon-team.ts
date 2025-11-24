@@ -181,3 +181,80 @@ export const getPlayPokemonTeam = async (playId: string) => {
 
   return { data: result, error: null };
 };
+
+export const addPokemonToTeam = async (
+  playId: string,
+  pokemon: {
+    species_id: number;
+    form_id: number;
+    position: number;
+    nickname?: string;
+    level: number;
+    gender?: string;
+    is_shiny?: boolean;
+    nature_id?: number;
+    ability_id?: number;
+    move1_id?: number;
+    move2_id?: number;
+    move3_id?: number;
+    move4_id?: number;
+  },
+) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .insert({
+      play_id: playId,
+      ...pokemon,
+    })
+    .select()
+    .single();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+export const updatePokemonInTeam = async (
+  pokemonId: string,
+  updates: {
+    position?: number;
+    nickname?: string;
+    level?: number;
+    gender?: string;
+    is_shiny?: boolean;
+    nature_id?: number;
+    ability_id?: number;
+    move1_id?: number;
+    move2_id?: number;
+    move3_id?: number;
+    move4_id?: number;
+  },
+) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .update(updates)
+    .eq("id", pokemonId)
+    .select()
+    .single();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+export const removePokemonFromTeam = async (pokemonId: string) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .delete()
+    .eq("id", pokemonId);
+
+  if (error) return { data: null, error };
+  return { data: { success: true }, error: null };
+};

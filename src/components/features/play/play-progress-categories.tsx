@@ -32,13 +32,12 @@ export const PlayProgressCategories = ({
         <CardHeader>
           <CardTitle>Progress Tracking</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="space-y-4">
+          <>
             {categories.map((category: PlayProgressCategory) => {
               return (
                 <Card
                   key={category.id}
-                  className="hover:bg-muted/50 cursor-pointer transition-colors"
                   onClick={() => handleCategoryClick(category)}
                 >
                   <CardContent className="pt-4">
@@ -75,7 +74,7 @@ export const PlayProgressCategories = ({
                 </Card>
               );
             })}
-          </div>
+          </>
         </CardContent>
       </Card>
 

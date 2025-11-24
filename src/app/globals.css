@@ -147,3 +147,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* track */
+::-webkit-scrollbar-track {
+  background: var(--input);
+}
+
+/* handle */
+::-webkit-scrollbar-thumb {
+  background: var(--input);
+}
+
+/* handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ring);
+}

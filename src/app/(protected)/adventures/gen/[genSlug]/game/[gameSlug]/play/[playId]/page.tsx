@@ -50,11 +50,17 @@ export default function PlayPage({ params }: PlayPageProps) {
     );
   }
 
+  const generationId = playData.data.game.generation.id;
+
   return (
     <PageLayout>
       <div className="space-y-8">
         <PlayHeader play={playData} />
-        <PlayPokemonTeam playId={playId} pokemonTeam={pokemonTeamData} />
+        <PlayPokemonTeam
+          playId={playId}
+          generationId={generationId}
+          pokemonTeam={pokemonTeamData}
+        />
         <PlayProgressCategories
           playId={playId}
           progressCategories={progressCategoriesData}

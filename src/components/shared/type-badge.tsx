@@ -1,4 +1,46 @@
+import Image from "next/image";
 import { Badge } from "../ui/badge";
+
+// Type icon imports
+import bugIcon from "@/lib/icons/bug.svg";
+import darkIcon from "@/lib/icons/dark.svg";
+import dragonIcon from "@/lib/icons/dragon.svg";
+import electricIcon from "@/lib/icons/electric.svg";
+import fairyIcon from "@/lib/icons/fairy.svg";
+import fightingIcon from "@/lib/icons/fighting.svg";
+import fireIcon from "@/lib/icons/fire.svg";
+import flyingIcon from "@/lib/icons/flying.svg";
+import ghostIcon from "@/lib/icons/ghost.svg";
+import grassIcon from "@/lib/icons/grass.svg";
+import groundIcon from "@/lib/icons/ground.svg";
+import iceIcon from "@/lib/icons/ice.svg";
+import normalIcon from "@/lib/icons/normal.svg";
+import poisonIcon from "@/lib/icons/poison.svg";
+import psychicIcon from "@/lib/icons/psychic.svg";
+import rockIcon from "@/lib/icons/rock.svg";
+import steelIcon from "@/lib/icons/steel.svg";
+import waterIcon from "@/lib/icons/water.svg";
+
+const TYPE_ICONS: Record<string, any> = {
+  Bug: bugIcon,
+  Dark: darkIcon,
+  Dragon: dragonIcon,
+  Electric: electricIcon,
+  Fairy: fairyIcon,
+  Fighting: fightingIcon,
+  Fire: fireIcon,
+  Flying: flyingIcon,
+  Ghost: ghostIcon,
+  Grass: grassIcon,
+  Ground: groundIcon,
+  Ice: iceIcon,
+  Normal: normalIcon,
+  Poison: poisonIcon,
+  Psychic: psychicIcon,
+  Rock: rockIcon,
+  Steel: steelIcon,
+  Water: waterIcon,
+};
 
 const TYPE_STYLES_OUTLINE: Record<string, string> = {
   Normal: "bg-type-normal/15 border-type-normal/50 text-type-normal",
@@ -22,35 +64,51 @@ const TYPE_STYLES_OUTLINE: Record<string, string> = {
 };
 
 const TYPE_STYLES_SOLID: Record<string, string> = {
-  Normal: "bg-type-normal/75 border-type-normal/75",
-  Fire: "bg-type-fire/75 border-type-fire/75",
-  Water: "bg-type-water/75 border-type-water/75",
-  Electric: "bg-type-electric/75 border-type-electric/75",
-  Grass: "bg-type-grass/75 border-type-grass/75",
-  Ice: "bg-type-ice/75 border-type-ice/75",
-  Fighting: "bg-type-fighting/75 border-type-fighting/75",
-  Poison: "bg-type-poison/75 border-type-poison/75",
-  Ground: "bg-type-ground/75 border-type-ground/75",
-  Flying: "bg-type-flying/75 border-type-flying/75",
-  Psychic: "bg-type-psychic/75 border-type-psychic/75",
-  Bug: "bg-type-bug/75 border-type-bug/75",
-  Rock: "bg-type-rock/75 border-type-rock/75",
-  Ghost: "bg-type-ghost/75 border-type-ghost/75",
-  Dragon: "bg-type-dragon/75 border-type-dragon/75",
-  Dark: "bg-type-dark/75 border-type-dark/75",
-  Steel: "bg-type-steel/75 border-type-steel/75",
-  Fairy: "bg-type-fairy/75 border-type-fairy/75",
+  Normal: "bg-type-normal/75 ",
+  Fire: "bg-type-fire/75",
+  Water: "bg-type-water/75",
+  Electric: "bg-type-electric/75",
+  Grass: "bg-type-grass/75",
+  Ice: "bg-type-ice/75",
+  Fighting: "bg-type-fighting/75",
+  Poison: "bg-type-poison/75",
+  Ground: "bg-type-ground/75",
+  Flying: "bg-type-flying/75",
+  Psychic: "bg-type-psychic/75",
+  Bug: "bg-type-bug/75",
+  Rock: "bg-type-rock/75",
+  Ghost: "bg-type-ghost/75",
+  Dragon: "bg-type-dragon/75",
+  Dark: "bg-type-dark/75",
+  Steel: "bg-type-steel/75",
+  Fairy: "bg-type-fairy/75",
 };
 
 export const TypeBadge = ({
   type,
   variant = "outline",
+  size,
+  className,
 }: {
   type: Type;
   variant?: "solid" | "outline";
+  size?: "sm";
+  showIcon?: boolean;
+  className?: string;
 }) => {
   const typeStyles =
     variant === "solid" ? TYPE_STYLES_SOLID[type] : TYPE_STYLES_OUTLINE[type];
+  const icon = TYPE_ICONS[type];
 
-  return <Badge className={typeStyles}>{type}</Badge>;
+  if (size === "sm") {
+    return (
+      <Badge
+        className={`${typeStyles} ${className} h-7 w-7 rounded-full text-center`}
+      >
+        {icon && <Image src={icon} alt={type} width={20} height={20} />}
+      </Badge>
+    );
+  }
+
+  return <Badge className={`${typeStyles} ${className}`}>{type}</Badge>;
 };
