@@ -4,7 +4,6 @@ import {
   pokemonTeamSchema,
   type PokemonTeamFormValues,
 } from "@/components/forms/schemas/pokemon-team-schemas";
-import { FieldWrapper } from "@/components/shared/field-wrapper";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -13,23 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAbilities } from "@/hooks/useAbilities";
 import { useMoves } from "@/hooks/useMoves";
 import { useNatures } from "@/hooks/useNatures";
@@ -38,11 +22,18 @@ import { usePokemonForms, usePokemonSpecies } from "@/hooks/usePokemon";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import {
+  AttributeFields,
+  BasicInfoFields,
+  MoveFields,
+  FormField as PokemonFormField,
+  SpeciesField,
+} from "./team-form-fields";
 
 interface PlayPokemonTeamFormProps {
-  open: boolean;
-  openOnChange: (open: boolean) => void;
+  openDialog: boolean;
+  setOpenDialog: (open: boolean) => void;
   playId: string;
   generationId: number;
   pokemon: PlayPokemonTeam | null;
@@ -51,8 +42,8 @@ interface PlayPokemonTeamFormProps {
 }
 
 export const PlayPokemonTeamForm = ({
-  open,
-  openOnChange,
+  openDialog,
+  setOpenDialog,
   playId,
   generationId,
   pokemon,
@@ -63,17 +54,15 @@ export const PlayPokemonTeamForm = ({
   const updatePokemon = useUpdatePokemonInTeam();
   const isEditing = !!pokemon;
 
-  // Lazy load metadata only when dialog is open
-  const { data: speciesList = [] } = usePokemonSpecies(generationId, open);
-  const { data: natures = [] } = useNatures(open);
-  const { data: abilities = [] } = useAbilities(open);
-  const { data: moves = [] } = useMoves(open);
+  const { data: speciesList = [] } = usePokemonSpecies(generationId);
+  const { data: natures = [] } = useNatures();
+  const { data: abilities = [] } = useAbilities();
+  const { data: moves = [] } = useMoves();
 
   const {
     register,
     handleSubmit,
     watch,
-    control,
     reset,
     setValue,
     formState: { errors },
@@ -110,70 +99,6 @@ export const PlayPokemonTeamForm = ({
     () => forms.find((f) => f.id === selectedFormId),
     [forms, selectedFormId],
   );
-
-  // Reset form when dialog opens
-  useEffect(() => {
-    if (open) {
-      if (pokemon) {
-        reset({
-          species_id: pokemon.species.id,
-          form_id: pokemon.form?.id,
-          nickname: pokemon.nickname || "",
-          level: pokemon.level || 5,
-          position: pokemon.position || position || 1,
-          gender:
-            (pokemon.gender as "male" | "female" | "genderless" | "unknown") ||
-            "unknown",
-          is_shiny: pokemon.is_shiny || false,
-          nature_id: pokemon.nature?.id,
-          ability_id: pokemon.ability?.id,
-          move1_id: pokemon.moves[0]?.id,
-          move2_id: pokemon.moves[1]?.id,
-          move3_id: pokemon.moves[2]?.id,
-          move4_id: pokemon.moves[3]?.id,
-        });
-      } else {
-        reset({
-          species_id: undefined,
-          form_id: undefined,
-          nickname: "",
-          level: 5,
-          position: position || 1,
-          gender: "unknown",
-          is_shiny: false,
-          nature_id: undefined,
-          ability_id: undefined,
-          move1_id: undefined,
-          move2_id: undefined,
-          move3_id: undefined,
-          move4_id: undefined,
-        });
-      }
-    }
-  }, [open, pokemon, position, reset]);
-
-  // Auto-select first form when species changes
-  useEffect(() => {
-    if (forms.length > 0 && !selectedFormId) {
-      setValue("form_id", forms[0].id);
-    }
-  }, [forms, selectedFormId, setValue]);
-
-  // Reset form when species changes (except form_id which auto-selects)
-  useEffect(() => {
-    if (selectedSpeciesId) {
-      setValue("nickname", "");
-      setValue("level", 5);
-      setValue("gender", "unknown");
-      setValue("is_shiny", false);
-      setValue("nature_id", undefined);
-      setValue("ability_id", undefined);
-      setValue("move1_id", undefined);
-      setValue("move2_id", undefined);
-      setValue("move3_id", undefined);
-      setValue("move4_id", undefined);
-    }
-  }, [selectedSpeciesId, setValue]);
 
   const onSubmit = async (data: PokemonTeamFormValues) => {
     try {
@@ -235,489 +160,204 @@ export const PlayPokemonTeamForm = ({
     }
   };
 
+  // Reset form when dialog opens
+  useEffect(() => {
+    if (pokemon) {
+      reset({
+        species_id: pokemon.species.id,
+        form_id: pokemon.form?.id,
+        nickname: pokemon.nickname || "",
+        level: pokemon.level || 5,
+        position: pokemon.position || position || 1,
+        gender:
+          (pokemon.gender as "male" | "female" | "genderless" | "unknown") ||
+          "unknown",
+        is_shiny: pokemon.is_shiny || false,
+        nature_id: pokemon.nature?.id,
+        ability_id: pokemon.ability?.id,
+        move1_id: pokemon.moves[0]?.id,
+        move2_id: pokemon.moves[1]?.id,
+        move3_id: pokemon.moves[2]?.id,
+        move4_id: pokemon.moves[3]?.id,
+      });
+    } else {
+      reset({
+        species_id: undefined,
+        form_id: undefined,
+        nickname: "",
+        level: 5,
+        position: position || 1,
+        gender: "unknown",
+        is_shiny: false,
+        nature_id: undefined,
+        ability_id: undefined,
+        move1_id: undefined,
+        move2_id: undefined,
+        move3_id: undefined,
+        move4_id: undefined,
+      });
+    }
+  }, [pokemon, position, reset]);
+
+  // Auto-select first form when species changes
+  useEffect(() => {
+    if (forms.length > 0 && !selectedFormId) {
+      setValue("form_id", forms[0].id);
+    }
+  }, [forms, selectedFormId, setValue]);
+
+  // Reset form when species changes (except form_id which auto-selects)
+  useEffect(() => {
+    if (selectedSpeciesId) {
+      setValue("nickname", "");
+      setValue("level", 5);
+      setValue("gender", "unknown");
+      setValue("is_shiny", false);
+      setValue("nature_id", undefined);
+      setValue("ability_id", undefined);
+      setValue("move1_id", undefined);
+      setValue("move2_id", undefined);
+      setValue("move3_id", undefined);
+      setValue("move4_id", undefined);
+    }
+  }, [selectedSpeciesId, setValue]);
+
   return (
-    <Dialog open={open} onOpenChange={openOnChange}>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="max-w-3xl gap-0 p-0">
-        <DialogHeader className="border-border border-b p-4">
+        <DialogHeader className="border-border border-b p-6">
           <DialogTitle>
             {isEditing ? "Edit Pokémon" : "Add Pokémon"}
           </DialogTitle>
         </DialogHeader>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex max-h-[85vh] flex-col"
+          className="flex max-h-[80vh] flex-col"
         >
-          {/* Top Section - Pokemon Selection (Static) */}
-          <div className="border-border border-b p-4">
-            <FieldSet>
-              <FieldLegend variant="label">Pokémon Selection</FieldLegend>
-              <div className="flex gap-4">
-                {/* Selection Fields */}
-                <div className="flex-1 space-y-4">
-                  <Field>
-                    <FieldLabel htmlFor="species_id">Species</FieldLabel>
-                    <Controller
-                      name="species_id"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          value={field.value?.toString() || ""}
-                          onValueChange={(value) =>
-                            field.onChange(value ? Number(value) : undefined)
-                          }
-                        >
-                          <SelectTrigger
-                            id="species_id"
-                            className="w-full"
-                            aria-invalid={!!errors.species_id}
-                          >
-                            <SelectValue placeholder="Select a Pokémon..." />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {speciesList.map((species) => (
-                              <SelectItem
-                                key={species.id}
-                                value={species.id.toString()}
-                              >
-                                {species.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    />
-                    {errors.species_id && (
-                      <FieldDescription className="text-destructive">
-                        {errors.species_id.message}
-                      </FieldDescription>
-                    )}
-                  </Field>
+          {/* Top Section */}
+          <div className="border-border flex gap-4 border-b p-6">
+            <FieldSet className="flex-1">
+              <FieldLegend>Pokémon Selection</FieldLegend>
+              <div className="flex gap-2">
+                <FieldGroup>
+                  <SpeciesField
+                    species={speciesList}
+                    value={selectedSpeciesId}
+                    onChange={(value) => setValue("species_id", value as any)}
+                    error={errors.species_id?.message}
+                  />
 
-                  <Field>
-                    <FieldLabel htmlFor="form_id">Form</FieldLabel>
-                    <Controller
-                      name="form_id"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          value={field.value?.toString() || ""}
-                          onValueChange={(value) =>
-                            field.onChange(value ? Number(value) : undefined)
-                          }
-                          disabled={!selectedSpeciesId || forms.length === 0}
-                        >
-                          <SelectTrigger
-                            id="form_id"
-                            className="w-full"
-                            aria-invalid={!!errors.form_id}
-                          >
-                            <SelectValue placeholder="Select a form..." />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {forms.map((form) => (
-                              <SelectItem
-                                key={form.id}
-                                value={form.id.toString()}
-                              >
-                                {form.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    />
-                    {errors.form_id && (
-                      <FieldDescription className="text-destructive">
-                        {errors.form_id.message}
-                      </FieldDescription>
-                    )}
-                  </Field>
-                </div>
+                  <PokemonFormField
+                    forms={forms}
+                    value={selectedFormId}
+                    onChange={(value) => setValue("form_id", value as any)}
+                    disabled={!selectedSpeciesId || forms.length === 0}
+                    error={errors.form_id?.message}
+                  />
+                </FieldGroup>
 
-                {/* Pokemon Sprite Preview */}
-                <div className="w-32 shrink-0">
-                  <div className="bg-muted/30 flex h-full items-center justify-center rounded-lg p-2">
-                    {selectedForm?.sprite_url ? (
-                      <div className="flex flex-col items-center gap-2">
-                        <img
-                          src={selectedForm.sprite_url}
-                          alt={selectedSpecies?.name || "Pokemon"}
-                          width={96}
-                          height={96}
-                          className="object-contain"
-                        />
-                        {selectedSpecies && (
-                          <p className="line-clamp-2 text-center text-xs font-medium">
-                            {selectedSpecies.name}
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="flex h-24 w-24 items-center justify-center">
-                        <span className="text-muted-foreground text-xs">
-                          No preview
-                        </span>
-                      </div>
-                    )}
+                <div className="flex flex-col items-center justify-end gap-2">
+                  <div className="h-28 w-28 shrink-0">
+                    <div className="flex h-full items-center justify-center rounded-lg p-2">
+                      {selectedForm?.sprite_url ? (
+                        <div className="flex flex-col items-center gap-2">
+                          <img
+                            src={selectedForm.sprite_url}
+                            alt={selectedSpecies?.name || "Pokemon"}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <span className="text-muted-foreground text-xs">
+                            No preview
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  <Label className="flex cursor-pointer items-center gap-2">
+                    <Checkbox
+                      checked={watch("is_shiny")}
+                      onCheckedChange={(checked) =>
+                        setValue("is_shiny", checked === true)
+                      }
+                    />
+                    <span className="text-sm font-normal">Shiny</span>
+                  </Label>
                 </div>
               </div>
             </FieldSet>
           </div>
 
           {/* Scrollable Section */}
-          <div className="border-border flex-1 overflow-y-auto border-b p-4">
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend variant="label">Basic Information</FieldLegend>
-                <FieldGroup>
-                  <FieldWrapper
-                    id="nickname"
-                    label="Nickname"
-                    hint="Optional custom name"
-                    error={errors.nickname?.message}
-                  >
-                    <Input
-                      id="nickname"
-                      placeholder={
-                        selectedSpecies?.name ||
-                        pokemon?.species.name ||
-                        "Enter nickname"
-                      }
-                      {...register("nickname")}
-                    />
-                  </FieldWrapper>
+          <div className="border-border flex flex-1 flex-col gap-7 overflow-y-auto border-b p-6">
+            <FieldSet>
+              <FieldLegend>Basic Information</FieldLegend>
+              <FieldGroup>
+                <BasicInfoFields
+                  register={register}
+                  speciesName={selectedSpecies?.name}
+                  pokemonName={pokemon?.species.name}
+                  genderValue={watch("gender")}
+                  onGenderChange={(value) => setValue("gender", value as any)}
+                  errors={{
+                    nickname: errors.nickname,
+                    level: errors.level,
+                    position: errors.position,
+                    gender: errors.gender,
+                  }}
+                />
+              </FieldGroup>
+            </FieldSet>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <FieldWrapper
-                      id="level"
-                      label="Level"
-                      error={errors.level?.message}
-                    >
-                      <Input
-                        id="level"
-                        type="number"
-                        min={1}
-                        max={100}
-                        {...register("level", { valueAsNumber: true })}
-                      />
-                    </FieldWrapper>
+            <FieldSet>
+              <FieldLegend>Battle Attributes</FieldLegend>
+              <FieldGroup>
+                <AttributeFields
+                  natures={natures}
+                  abilities={abilities}
+                  natureValue={watch("nature_id")}
+                  abilityValue={watch("ability_id")}
+                  onNatureChange={(value) =>
+                    setValue("nature_id", value as any)
+                  }
+                  onAbilityChange={(value) =>
+                    setValue("ability_id", value as any)
+                  }
+                  errors={{
+                    nature_id: errors.nature_id,
+                    ability_id: errors.ability_id,
+                  }}
+                />
+              </FieldGroup>
 
-                    <FieldWrapper
-                      id="position"
-                      label="Position"
-                      hint="1-6: Active Team, 7-12: Box"
-                      error={errors.position?.message}
-                    >
-                      <Input
-                        id="position"
-                        type="number"
-                        min={1}
-                        max={12}
-                        {...register("position", { valueAsNumber: true })}
-                      />
-                    </FieldWrapper>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <Field>
-                      <FieldLabel htmlFor="gender">Gender</FieldLabel>
-                      <Controller
-                        name="gender"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value || "unknown"}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger id="gender" className="w-full">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="unknown">Unknown</SelectItem>
-                              <SelectItem value="male">Male</SelectItem>
-                              <SelectItem value="female">Female</SelectItem>
-                              <SelectItem value="genderless">
-                                Genderless
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.gender && (
-                        <FieldDescription className="text-destructive">
-                          {errors.gender.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-
-                    <div className="flex items-end pb-2">
-                      <Label className="flex cursor-pointer items-center gap-2">
-                        <Controller
-                          name="is_shiny"
-                          control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          )}
-                        />
-                        <span className="text-sm font-normal">Shiny</span>
-                      </Label>
-                    </div>
-                  </div>
-                </FieldGroup>
-
-                <FieldLegend variant="label">Attributes</FieldLegend>
-                <FieldGroup>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Field>
-                      <FieldLabel htmlFor="nature_id">Nature</FieldLabel>
-                      <Controller
-                        name="nature_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="nature_id"
-                              className="w-full"
-                              aria-invalid={!!errors.nature_id}
-                            >
-                              <SelectValue placeholder="Select nature..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {natures.map((nature) => (
-                                <SelectItem
-                                  key={nature.id}
-                                  value={nature.id.toString()}
-                                >
-                                  {nature.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.nature_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.nature_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-
-                    <Field>
-                      <FieldLabel htmlFor="ability_id">Ability</FieldLabel>
-                      <Controller
-                        name="ability_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="ability_id"
-                              className="w-full"
-                              aria-invalid={!!errors.ability_id}
-                            >
-                              <SelectValue placeholder="Select ability..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {abilities.map((ability) => (
-                                <SelectItem
-                                  key={ability.id}
-                                  value={ability.id.toString()}
-                                >
-                                  {ability.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.ability_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.ability_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-                  </div>
-                </FieldGroup>
-
-                <FieldLegend variant="label">Moves</FieldLegend>
-                <FieldGroup>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Field>
-                      <FieldLabel htmlFor="move1_id">Move 1</FieldLabel>
-                      <Controller
-                        name="move1_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="move1_id"
-                              className="w-full"
-                              aria-invalid={!!errors.move1_id}
-                            >
-                              <SelectValue placeholder="Select move..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {moves.map((move) => (
-                                <SelectItem
-                                  key={move.id}
-                                  value={move.id.toString()}
-                                >
-                                  {move.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.move1_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.move1_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-
-                    <Field>
-                      <FieldLabel htmlFor="move2_id">Move 2</FieldLabel>
-                      <Controller
-                        name="move2_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="move2_id"
-                              className="w-full"
-                              aria-invalid={!!errors.move2_id}
-                            >
-                              <SelectValue placeholder="Select move..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {moves.map((move) => (
-                                <SelectItem
-                                  key={move.id}
-                                  value={move.id.toString()}
-                                >
-                                  {move.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.move2_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.move2_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-
-                    <Field>
-                      <FieldLabel htmlFor="move3_id">Move 3</FieldLabel>
-                      <Controller
-                        name="move3_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="move3_id"
-                              className="w-full"
-                              aria-invalid={!!errors.move3_id}
-                            >
-                              <SelectValue placeholder="Select move..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {moves.map((move) => (
-                                <SelectItem
-                                  key={move.id}
-                                  value={move.id.toString()}
-                                >
-                                  {move.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.move3_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.move3_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-
-                    <Field>
-                      <FieldLabel htmlFor="move4_id">Move 4</FieldLabel>
-                      <Controller
-                        name="move4_id"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value?.toString() || ""}
-                            onValueChange={(value) =>
-                              field.onChange(value ? Number(value) : undefined)
-                            }
-                          >
-                            <SelectTrigger
-                              id="move4_id"
-                              className="w-full"
-                              aria-invalid={!!errors.move4_id}
-                            >
-                              <SelectValue placeholder="Select move..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {moves.map((move) => (
-                                <SelectItem
-                                  key={move.id}
-                                  value={move.id.toString()}
-                                >
-                                  {move.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.move4_id && (
-                        <FieldDescription className="text-destructive">
-                          {errors.move4_id.message}
-                        </FieldDescription>
-                      )}
-                    </Field>
-                  </div>
-                </FieldGroup>
-              </FieldSet>
-            </FieldGroup>
+              <FieldGroup>
+                <MoveFields
+                  moves={moves}
+                  move1Value={watch("move1_id")}
+                  move2Value={watch("move2_id")}
+                  move3Value={watch("move3_id")}
+                  move4Value={watch("move4_id")}
+                  onMove1Change={(value) => setValue("move1_id", value as any)}
+                  onMove2Change={(value) => setValue("move2_id", value as any)}
+                  onMove3Change={(value) => setValue("move3_id", value as any)}
+                  onMove4Change={(value) => setValue("move4_id", value as any)}
+                  errors={{
+                    move1_id: errors.move1_id,
+                    move2_id: errors.move2_id,
+                    move3_id: errors.move3_id,
+                    move4_id: errors.move4_id,
+                  }}
+                />
+              </FieldGroup>
+            </FieldSet>
           </div>
 
-          {/* Bottom Actions (Static) */}
-          <div className="p-4">
+          {/* Bottom Section */}
+          <div className="p-6">
             <div className="flex gap-2">
               <Button
                 type="submit"
@@ -726,7 +366,7 @@ export const PlayPokemonTeamForm = ({
               >
                 {isEditing ? "Save Changes" : "Add Pokémon"}
               </Button>
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button type="button" variant="outline-primary" onClick={onClose}>
                 Cancel
               </Button>
             </div>

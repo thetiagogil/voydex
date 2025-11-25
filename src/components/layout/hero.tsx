@@ -48,7 +48,7 @@ export const Hero = () => {
 
           <Button
             asChild
-            variant="outline"
+            variant="outline-primary"
             size="lg"
             className="w-full sm:w-auto"
           >
@@ -57,7 +57,7 @@ export const Hero = () => {
 
           <Button
             asChild
-            variant="outline"
+            variant="outline-primary"
             size="lg"
             className="w-full sm:w-auto"
           >

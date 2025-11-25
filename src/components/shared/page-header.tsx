@@ -9,11 +9,11 @@ interface PageHeaderProps {
   metadata?: ReactNode;
   badge?: {
     label: string;
-    variant?: "default" | "secondary" | "outline" | "destructive";
+    variant?: "default" | "secondary" | "outline-primary" | "destructive";
   };
   badges?: Array<{
     label: string;
-    variant?: "default" | "secondary" | "outline" | "destructive";
+    variant?: "default" | "secondary" | "outline-primary" | "destructive";
   }>;
 }
 

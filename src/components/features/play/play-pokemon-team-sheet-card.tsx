@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 
-interface PlayPokemonTeamDrawerCardProps {
+interface PlayPokemonTeamSheetCardProps {
+  openDetails: boolean;
   pokemon: PlayPokemonTeam;
-  viewDetails: boolean;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -127,16 +127,16 @@ const PokemonActions = ({ onDelete }: { onDelete: () => void }) => {
   );
 };
 
-export const PlayPokemonTeamDrawerCard = ({
+export const PlayPokemonTeamSheetCard = ({
+  openDetails,
   pokemon,
-  viewDetails,
   onEdit,
   onDelete,
-}: PlayPokemonTeamDrawerCardProps) => {
+}: PlayPokemonTeamSheetCardProps) => {
   return (
     <Card onClick={onEdit}>
       <CardContent className="flex items-center gap-4">
-        {!viewDetails ? (
+        {!openDetails ? (
           // Compact view
           <>
             <PokemonSprite pokemon={pokemon} />

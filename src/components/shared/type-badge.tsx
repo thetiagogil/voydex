@@ -86,12 +86,12 @@ const TYPE_STYLES_SOLID: Record<string, string> = {
 
 export const TypeBadge = ({
   type,
-  variant = "outline",
+  variant = "outline-primary",
   size,
   className,
 }: {
   type: Type;
-  variant?: "solid" | "outline";
+  variant?: "solid" | "outline-primary";
   size?: "sm";
   showIcon?: boolean;
   className?: string;

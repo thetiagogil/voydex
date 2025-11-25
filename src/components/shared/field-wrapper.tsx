@@ -14,10 +14,11 @@ type Props = {
   error?: string | null;
   children: ReactElement;
   className?: string;
+  optional?: boolean;
 };
 
 export const FieldWrapper = forwardRef<HTMLDivElement, Props>(
-  ({ id, label, hint, error, children, className }, ref) => {
+  ({ id, label, hint, error, children, className, optional }, ref) => {
     const describedId = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
 
     const child = isValidElement(children)
@@ -43,7 +44,14 @@ export const FieldWrapper = forwardRef<HTMLDivElement, Props>(
 
     return (
       <Field ref={ref} className={className}>
-        {label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
+        {label && (
+          <FieldLabel htmlFor={id}>
+            {label}{" "}
+            {optional && (
+              <span className="text-muted-foreground">(Optional)</span>
+            )}
+          </FieldLabel>
+        )}
         {child}
         {error ? (
           <FieldDescription id={`${id}-error`} className="text-destructive">

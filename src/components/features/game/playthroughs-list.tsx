@@ -42,7 +42,7 @@ export const PlaythroughsList = ({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Your Playthroughs</h2>
-        <Button asChild variant="outline" size="sm">
+        <Button asChild variant="outline-primary" size="sm">
           <Link href={`/gen/${genSlug}/${gameSlug}/play/new`}>
             <Play className="mr-2 h-4 w-4" />
             New Playthrough
@@ -67,7 +67,7 @@ export const PlaythroughsList = ({
                           ? "default"
                           : playthrough.status === "active"
                             ? "secondary"
-                            : "outline"
+                            : "outline-primary"
                       }
                       className="text-xs"
                     >

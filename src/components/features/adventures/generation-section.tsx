@@ -20,14 +20,18 @@ export const GenerationSection = ({ generations }: GenerationSectionProps) => {
         <h2 className="text-2xl font-semibold">Generations</h2>
         <div className="flex gap-2">
           <Button
-            variant={viewMode === "rows" ? "outline" : "outline-secondary"}
+            variant={
+              viewMode === "rows" ? "outline-primary" : "outline-secondary"
+            }
             size="sm"
             onClick={() => setViewMode("rows")}
           >
             <List className="h-4 w-4" />
           </Button>
           <Button
-            variant={viewMode === "cards" ? "outline" : "outline-secondary"}
+            variant={
+              viewMode === "cards" ? "outline-primary" : "outline-secondary"
+            }
             size="sm"
             onClick={() => setViewMode("cards")}
           >

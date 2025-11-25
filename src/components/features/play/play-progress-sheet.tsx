@@ -3,34 +3,33 @@
 import { Loading } from "@/components/shared/loading";
 import { Button } from "@/components/ui/button";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { usePlayPokemonCaught, usePlayProgressItems } from "@/hooks/usePlay";
 import { PlayProgressItems } from "./play-progress-items";
 import { PlayProgressPokemonCaught } from "./play-progress-pokemon-caught";
 
 interface PlayProgressItemsProps {
+  open: boolean;
+  setOpenSheet: (open: boolean) => void;
   playId: string;
   category: PlayProgressCategory;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
 }
 
-export const PlayProgressDrawer = ({
+export const PlayProgressSheet = ({
+  open,
+  setOpenSheet,
   playId,
   category,
-  open,
-  onOpenChange,
 }: PlayProgressItemsProps) => {
   const isDexCategory = category?.slug.includes("pokedex");
 
-  // Fetch either progress items or pokemon caught depending on category type
   const { data: items, isLoading: itemsLoading } = usePlayProgressItems(
     playId,
     !isDexCategory ? category?.id : undefined,
@@ -41,14 +40,14 @@ export const PlayProgressDrawer = ({
   const isLoading = isDexCategory ? pokemonLoading : itemsLoading;
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>{category?.name}</DrawerTitle>
+    <Sheet open={open} onOpenChange={setOpenSheet}>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>{category?.name}</SheetTitle>
           {category?.description && (
-            <DrawerDescription>{category.description}</DrawerDescription>
+            <SheetDescription>{category.description}</SheetDescription>
           )}
-        </DrawerHeader>
+        </SheetHeader>
 
         <div className="flex flex-col gap-4 overflow-y-auto px-4">
           {isLoading ? (
@@ -66,12 +65,12 @@ export const PlayProgressDrawer = ({
           )}
         </div>
 
-        <DrawerFooter>
-          <DrawerClose asChild>
+        <SheetFooter>
+          <SheetClose asChild>
             <Button variant="outline-secondary">Close</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };

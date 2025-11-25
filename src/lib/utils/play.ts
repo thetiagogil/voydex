@@ -1,6 +1,6 @@
 export const getPlayStatusVariant = (
   status: PlayStatus,
-): "default" | "secondary" | "outline" | "destructive" => {
+): "default" | "secondary" | "outline-primary" | "destructive" => {
   switch (status) {
     case "active":
       return "default";
@@ -9,6 +9,6 @@ export const getPlayStatusVariant = (
     case "dropped":
       return "destructive";
     case "paused":
-      return "outline";
+      return "outline-primary";
   }
 };
