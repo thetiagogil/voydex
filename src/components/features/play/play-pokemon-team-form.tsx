@@ -2,6 +2,7 @@
 
 import {
   pokemonTeamSchema,
+  pokemonTeamSchemaGen1And2,
   type PokemonTeamFormValues,
 } from "@/components/forms/schemas/pokemon-team-schemas";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,9 @@ export const PlayPokemonTeamForm = ({
   const { data: abilities = [] } = useAbilities();
   const { data: moves = [] } = useMoves();
 
+  // Determine if nature and ability are available (Gen 3+)
+  const hasNatureAndAbility = generationId >= 3;
+
   const {
     register,
     handleSubmit,
@@ -73,14 +77,16 @@ export const PlayPokemonTeamForm = ({
     setValue,
     formState: { errors },
   } = useForm<PokemonTeamFormValues>({
-    resolver: zodResolver(pokemonTeamSchema),
+    resolver: zodResolver(
+      hasNatureAndAbility ? pokemonTeamSchema : pokemonTeamSchemaGen1And2,
+    ) as any,
     defaultValues: {
       species_id: undefined,
       form_id: undefined,
       nickname: "",
       level: 5,
       position: position || 1,
-      gender: "unknown",
+      gender: undefined,
       is_shiny: false,
       nature_id: undefined,
       ability_id: undefined,
@@ -88,7 +94,7 @@ export const PlayPokemonTeamForm = ({
       move2_id: undefined,
       move3_id: undefined,
       move4_id: undefined,
-    },
+    } as any,
   });
 
   const selectedSpeciesId = watch("species_id");
@@ -116,7 +122,7 @@ export const PlayPokemonTeamForm = ({
             pokemonId: pokemon.id,
             updates: {
               nickname: data.nickname || undefined,
-              level: data.level,
+              level: data.level || 5,
               position: data.position,
               gender: data.gender,
               is_shiny: data.is_shiny,
@@ -142,7 +148,7 @@ export const PlayPokemonTeamForm = ({
               species_id: data.species_id,
               form_id: data.form_id,
               nickname: data.nickname || undefined,
-              level: data.level,
+              level: data.level || 5,
               position: data.position,
               gender: data.gender,
               is_shiny: data.is_shiny,
@@ -178,8 +184,9 @@ export const PlayPokemonTeamForm = ({
           level: pokemon.level || 5,
           position: pokemon.position || position || 1,
           gender:
-            (pokemon.gender as "male" | "female" | "genderless" | "unknown") ||
-            "unknown",
+            pokemon.gender === "unknown"
+              ? undefined
+              : (pokemon.gender as "male" | "female" | "genderless"),
           is_shiny: pokemon.is_shiny || false,
           nature_id: pokemon.nature?.id,
           ability_id: pokemon.ability?.id,
@@ -187,7 +194,7 @@ export const PlayPokemonTeamForm = ({
           move2_id: pokemon.moves[1]?.id,
           move3_id: pokemon.moves[2]?.id,
           move4_id: pokemon.moves[3]?.id,
-        });
+        } as any);
       } else {
         reset({
           species_id: undefined,
@@ -195,7 +202,7 @@ export const PlayPokemonTeamForm = ({
           nickname: "",
           level: 5,
           position: position || 1,
-          gender: "unknown",
+          gender: undefined,
           is_shiny: false,
           nature_id: undefined,
           ability_id: undefined,
@@ -203,7 +210,7 @@ export const PlayPokemonTeamForm = ({
           move2_id: undefined,
           move3_id: undefined,
           move4_id: undefined,
-        });
+        } as any);
       }
     }
   }, [openDialog, pokemon, position, reset]);
@@ -339,23 +346,27 @@ export const PlayPokemonTeamForm = ({
 
             <FieldSet>
               <FieldLegend>Battle Attributes</FieldLegend>
-              <FieldGroup>
-                <div className="grid grid-cols-2 gap-4">
-                  <NatureField
-                    natures={natures}
-                    value={watch("nature_id")}
-                    onChange={(value: any) => setValue("nature_id", value)}
-                    error={errors.nature_id}
-                  />
+              {hasNatureAndAbility && (
+                <FieldGroup>
+                  <div className="grid grid-cols-2 gap-4">
+                    <NatureField
+                      natures={natures}
+                      value={watch("nature_id")}
+                      onChange={(value: any) => setValue("nature_id", value)}
+                      error={errors.nature_id}
+                      required
+                    />
 
-                  <AbilityField
-                    abilities={abilities}
-                    value={watch("ability_id")}
-                    onChange={(value: any) => setValue("ability_id", value)}
-                    error={errors.ability_id}
-                  />
-                </div>
-              </FieldGroup>
+                    <AbilityField
+                      abilities={abilities}
+                      value={watch("ability_id")}
+                      onChange={(value: any) => setValue("ability_id", value)}
+                      error={errors.ability_id}
+                      required
+                    />
+                  </div>
+                </FieldGroup>
+              )}
 
               <FieldGroup>
                 <div className="grid grid-cols-2 gap-4">
@@ -375,6 +386,7 @@ export const PlayPokemonTeamForm = ({
                     label="Move 2"
                     id="move2_id"
                     error={errors.move2_id}
+                    disabled={!watch("move1_id")}
                   />
 
                   <MoveField
@@ -384,6 +396,7 @@ export const PlayPokemonTeamForm = ({
                     label="Move 3"
                     id="move3_id"
                     error={errors.move3_id}
+                    disabled={!watch("move2_id")}
                   />
 
                   <MoveField
@@ -393,6 +406,7 @@ export const PlayPokemonTeamForm = ({
                     label="Move 4"
                     id="move4_id"
                     error={errors.move4_id}
+                    disabled={!watch("move3_id")}
                   />
                 </div>
               </FieldGroup>

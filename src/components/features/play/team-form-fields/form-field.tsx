@@ -33,7 +33,12 @@ export function FormField({
 
   return (
     <Field>
-      <FieldLabel htmlFor="form_id">Form</FieldLabel>
+      <FieldLabel htmlFor="form_id">
+        <span>
+          Form
+          <span className="text-destructive"> *</span>
+        </span>
+      </FieldLabel>
       <Combobox
         id="form_id"
         options={options}

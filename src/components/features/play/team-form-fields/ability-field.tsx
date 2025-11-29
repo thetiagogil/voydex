@@ -9,6 +9,7 @@ interface AbilityFieldProps {
   value?: number;
   onChange: (value: number | undefined) => void;
   error?: FieldError;
+  required?: boolean;
 }
 
 export function AbilityField({
@@ -16,6 +17,7 @@ export function AbilityField({
   value,
   onChange,
   error,
+  required = false,
 }: AbilityFieldProps) {
   const options = abilities.map((a) => ({
     value: a.id.toString(),
@@ -24,7 +26,9 @@ export function AbilityField({
 
   return (
     <Field>
-      <FieldLabel htmlFor="ability_id">Ability</FieldLabel>
+      <FieldLabel htmlFor="ability_id">
+        Ability{required && <span className="text-destructive ml-1">*</span>}
+      </FieldLabel>
       <Combobox
         id="ability_id"
         options={options}

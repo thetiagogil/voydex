@@ -27,7 +27,12 @@ export function SpeciesField({
 
   return (
     <Field>
-      <FieldLabel htmlFor="species_id">Species</FieldLabel>
+      <FieldLabel htmlFor="species_id">
+        <span>
+          Species
+          <span className="text-destructive"> *</span>
+        </span>
+      </FieldLabel>
       <Combobox
         id="species_id"
         options={options}

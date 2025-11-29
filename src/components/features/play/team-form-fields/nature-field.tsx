@@ -9,6 +9,7 @@ interface NatureFieldProps {
   value?: number;
   onChange: (value: number | undefined) => void;
   error?: FieldError;
+  required?: boolean;
 }
 
 export function NatureField({
@@ -16,6 +17,7 @@ export function NatureField({
   value,
   onChange,
   error,
+  required = false,
 }: NatureFieldProps) {
   const options = natures.map((n) => ({
     value: n.id.toString(),
@@ -24,7 +26,9 @@ export function NatureField({
 
   return (
     <Field>
-      <FieldLabel htmlFor="nature_id">Nature</FieldLabel>
+      <FieldLabel htmlFor="nature_id">
+        Nature{required && <span className="text-destructive ml-1">*</span>}
+      </FieldLabel>
       <Combobox
         id="nature_id"
         options={options}

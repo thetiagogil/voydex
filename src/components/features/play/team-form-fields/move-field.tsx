@@ -11,6 +11,7 @@ interface MoveFieldProps {
   label: string;
   id: string;
   error?: FieldError;
+  disabled?: boolean;
 }
 
 export function MoveField({
@@ -20,6 +21,7 @@ export function MoveField({
   label,
   id,
   error,
+  disabled = false,
 }: MoveFieldProps) {
   const options = moves.map((m) => ({
     value: m.id.toString(),
@@ -36,6 +38,7 @@ export function MoveField({
         onValueChange={(val) => onChange(val ? Number(val) : undefined)}
         placeholder="Select move..."
         searchPlaceholder="Search moves..."
+        disabled={disabled}
         aria-invalid={!!error}
       />
       {error && (
