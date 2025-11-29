@@ -14,10 +14,9 @@ CREATE TABLE
     level INTEGER NOT NULL DEFAULT 1 CHECK (level BETWEEN 1 AND 100),
     gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'genderless')),
     is_shiny BOOLEAN DEFAULT FALSE,
-    position INTEGER NOT NULL CHECK (position BETWEEN 1 AND 20),
+    position INTEGER NOT NULL CHECK (position BETWEEN 1 AND 12),
     created_at TIMESTAMPTZ DEFAULT now (),
-    updated_at TIMESTAMPTZ DEFAULT now (),
-    UNIQUE (play_id, position)
+    updated_at TIMESTAMPTZ DEFAULT now ()
   );
 
 -- WHAT: Index on play_id (which playthrough this Pokemon belongs to)

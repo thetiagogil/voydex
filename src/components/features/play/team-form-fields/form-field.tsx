@@ -14,6 +14,7 @@ interface FormFieldProps {
   value?: number;
   onChange: (value: number | undefined) => void;
   disabled?: boolean;
+  loading?: boolean;
   error?: string;
 }
 
@@ -22,6 +23,7 @@ export function FormField({
   value,
   onChange,
   disabled,
+  loading,
   error,
 }: FormFieldProps) {
   const options = forms.map((f) => ({
@@ -40,6 +42,7 @@ export function FormField({
         placeholder="Select a form..."
         searchPlaceholder="Search forms..."
         disabled={disabled}
+        loading={loading}
         aria-invalid={!!error}
       />
       {error && (

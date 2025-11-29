@@ -9,11 +9,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { useAbilities } from "@/hooks/useAbilities";
 import { useMoves } from "@/hooks/useMoves";
 import { useNatures } from "@/hooks/useNatures";
@@ -23,13 +25,15 @@ import { toastPromise } from "@/lib/utils/toast-promise";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import {
-  AttributeFields,
-  BasicInfoFields,
-  MoveFields,
-  FormField as PokemonFormField,
-  SpeciesField,
-} from "./team-form-fields";
+import { AbilityField } from "./team-form-fields/ability-field";
+import { FormField } from "./team-form-fields/form-field";
+import { GenderField } from "./team-form-fields/gender-field";
+import { LevelField } from "./team-form-fields/level-field";
+import { MoveField } from "./team-form-fields/move-field";
+import { NatureField } from "./team-form-fields/nature-field";
+import { NicknameField } from "./team-form-fields/nickname-field";
+import { PositionField } from "./team-form-fields/position-field";
+import { SpeciesField } from "./team-form-fields/species-field";
 
 interface PlayPokemonTeamFormProps {
   openDialog: boolean;
@@ -38,6 +42,7 @@ interface PlayPokemonTeamFormProps {
   generationId: number;
   pokemon: PlayPokemonTeam | null;
   position: number | null;
+  team?: PlayPokemonTeam[];
   onClose: () => void;
 }
 
@@ -48,6 +53,7 @@ export const PlayPokemonTeamForm = ({
   generationId,
   pokemon,
   position,
+  team = [],
   onClose,
 }: PlayPokemonTeamFormProps) => {
   const addPokemon = useAddPokemonToTeam();
@@ -86,7 +92,8 @@ export const PlayPokemonTeamForm = ({
   });
 
   const selectedSpeciesId = watch("species_id");
-  const { data: forms = [] } = usePokemonForms(selectedSpeciesId);
+  const { data: forms = [], isLoading: isLoadingForms } =
+    usePokemonForms(selectedSpeciesId);
 
   // Get selected species and form for sprite display
   const selectedSpecies = useMemo(
@@ -162,65 +169,55 @@ export const PlayPokemonTeamForm = ({
 
   // Reset form when dialog opens
   useEffect(() => {
-    if (pokemon) {
-      reset({
-        species_id: pokemon.species.id,
-        form_id: pokemon.form?.id,
-        nickname: pokemon.nickname || "",
-        level: pokemon.level || 5,
-        position: pokemon.position || position || 1,
-        gender:
-          (pokemon.gender as "male" | "female" | "genderless" | "unknown") ||
-          "unknown",
-        is_shiny: pokemon.is_shiny || false,
-        nature_id: pokemon.nature?.id,
-        ability_id: pokemon.ability?.id,
-        move1_id: pokemon.moves[0]?.id,
-        move2_id: pokemon.moves[1]?.id,
-        move3_id: pokemon.moves[2]?.id,
-        move4_id: pokemon.moves[3]?.id,
-      });
-    } else {
-      reset({
-        species_id: undefined,
-        form_id: undefined,
-        nickname: "",
-        level: 5,
-        position: position || 1,
-        gender: "unknown",
-        is_shiny: false,
-        nature_id: undefined,
-        ability_id: undefined,
-        move1_id: undefined,
-        move2_id: undefined,
-        move3_id: undefined,
-        move4_id: undefined,
-      });
+    if (openDialog) {
+      if (pokemon) {
+        reset({
+          species_id: pokemon.species.id,
+          form_id: pokemon.form?.id,
+          nickname: pokemon.nickname || "",
+          level: pokemon.level || 5,
+          position: pokemon.position || position || 1,
+          gender:
+            (pokemon.gender as "male" | "female" | "genderless" | "unknown") ||
+            "unknown",
+          is_shiny: pokemon.is_shiny || false,
+          nature_id: pokemon.nature?.id,
+          ability_id: pokemon.ability?.id,
+          move1_id: pokemon.moves[0]?.id,
+          move2_id: pokemon.moves[1]?.id,
+          move3_id: pokemon.moves[2]?.id,
+          move4_id: pokemon.moves[3]?.id,
+        });
+      } else {
+        reset({
+          species_id: undefined,
+          form_id: undefined,
+          nickname: "",
+          level: 5,
+          position: position || 1,
+          gender: "unknown",
+          is_shiny: false,
+          nature_id: undefined,
+          ability_id: undefined,
+          move1_id: undefined,
+          move2_id: undefined,
+          move3_id: undefined,
+          move4_id: undefined,
+        });
+      }
     }
-  }, [pokemon, position, reset]);
+  }, [openDialog, pokemon, position, reset]);
 
-  // Auto-select first form when species changes
+  // Auto-select form when species changes
   useEffect(() => {
-    if (forms.length > 0 && !selectedFormId) {
+    if (forms.length === 1) {
+      // Auto-select if only one form
+      setValue("form_id", forms[0].id);
+    } else if (forms.length > 1 && !isEditing) {
+      // Auto-select first form only when adding new pokemon with multiple forms
       setValue("form_id", forms[0].id);
     }
-  }, [forms, selectedFormId, setValue]);
-
-  // Reset form when species changes (except form_id which auto-selects)
-  useEffect(() => {
-    if (selectedSpeciesId) {
-      setValue("nickname", "");
-      setValue("level", 5);
-      setValue("gender", "unknown");
-      setValue("is_shiny", false);
-      setValue("nature_id", undefined);
-      setValue("ability_id", undefined);
-      setValue("move1_id", undefined);
-      setValue("move2_id", undefined);
-      setValue("move3_id", undefined);
-      setValue("move4_id", undefined);
-    }
-  }, [selectedSpeciesId, setValue]);
+  }, [forms, setValue, isEditing]);
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -229,6 +226,11 @@ export const PlayPokemonTeamForm = ({
           <DialogTitle>
             {isEditing ? "Edit Pokémon" : "Add Pokémon"}
           </DialogTitle>
+          <DialogDescription>
+            {isEditing
+              ? "Update the details of your Pokémon"
+              : "Add a new Pokémon to your team"}
+          </DialogDescription>
         </DialogHeader>
 
         <form
@@ -248,11 +250,16 @@ export const PlayPokemonTeamForm = ({
                     error={errors.species_id?.message}
                   />
 
-                  <PokemonFormField
+                  <FormField
                     forms={forms}
                     value={selectedFormId}
                     onChange={(value) => setValue("form_id", value as any)}
-                    disabled={!selectedSpeciesId || forms.length === 0}
+                    disabled={
+                      !selectedSpeciesId ||
+                      forms.length === 0 ||
+                      forms.length === 1
+                    }
+                    loading={isLoadingForms}
                     error={errors.form_id?.message}
                   />
                 </FieldGroup>
@@ -260,7 +267,11 @@ export const PlayPokemonTeamForm = ({
                 <div className="flex flex-col items-center justify-end gap-2">
                   <div className="h-28 w-28 shrink-0">
                     <div className="flex h-full items-center justify-center rounded-lg p-2">
-                      {selectedForm?.sprite_url ? (
+                      {isLoadingForms ? (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <Spinner className="text-muted size-8" />
+                        </div>
+                      ) : selectedForm?.sprite_url ? (
                         <div className="flex flex-col items-center gap-2">
                           <img
                             src={selectedForm.sprite_url}
@@ -297,18 +308,31 @@ export const PlayPokemonTeamForm = ({
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
               <FieldGroup>
-                <BasicInfoFields
+                <NicknameField
                   register={register}
-                  speciesName={selectedSpecies?.name}
-                  pokemonName={pokemon?.species.name}
-                  genderValue={watch("gender")}
-                  onGenderChange={(value) => setValue("gender", value as any)}
-                  errors={{
-                    nickname: errors.nickname,
-                    level: errors.level,
-                    position: errors.position,
-                    gender: errors.gender,
-                  }}
+                  placeholder={
+                    selectedSpecies?.name ||
+                    pokemon?.species.name ||
+                    "Enter nickname"
+                  }
+                  error={errors.nickname}
+                />
+
+                <LevelField register={register} error={errors.level} />
+
+                <GenderField
+                  value={watch("gender")}
+                  onChange={(value: any) => setValue("gender", value)}
+                  error={errors.gender}
+                />
+
+                <PositionField
+                  value={watch("position")}
+                  onChange={(value: any) => setValue("position", value)}
+                  team={team}
+                  currentPokemonId={pokemon?.id}
+                  isEditing={isEditing}
+                  error={errors.position?.message}
                 />
               </FieldGroup>
             </FieldSet>
@@ -316,42 +340,61 @@ export const PlayPokemonTeamForm = ({
             <FieldSet>
               <FieldLegend>Battle Attributes</FieldLegend>
               <FieldGroup>
-                <AttributeFields
-                  natures={natures}
-                  abilities={abilities}
-                  natureValue={watch("nature_id")}
-                  abilityValue={watch("ability_id")}
-                  onNatureChange={(value) =>
-                    setValue("nature_id", value as any)
-                  }
-                  onAbilityChange={(value) =>
-                    setValue("ability_id", value as any)
-                  }
-                  errors={{
-                    nature_id: errors.nature_id,
-                    ability_id: errors.ability_id,
-                  }}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <NatureField
+                    natures={natures}
+                    value={watch("nature_id")}
+                    onChange={(value: any) => setValue("nature_id", value)}
+                    error={errors.nature_id}
+                  />
+
+                  <AbilityField
+                    abilities={abilities}
+                    value={watch("ability_id")}
+                    onChange={(value: any) => setValue("ability_id", value)}
+                    error={errors.ability_id}
+                  />
+                </div>
               </FieldGroup>
 
               <FieldGroup>
-                <MoveFields
-                  moves={moves}
-                  move1Value={watch("move1_id")}
-                  move2Value={watch("move2_id")}
-                  move3Value={watch("move3_id")}
-                  move4Value={watch("move4_id")}
-                  onMove1Change={(value) => setValue("move1_id", value as any)}
-                  onMove2Change={(value) => setValue("move2_id", value as any)}
-                  onMove3Change={(value) => setValue("move3_id", value as any)}
-                  onMove4Change={(value) => setValue("move4_id", value as any)}
-                  errors={{
-                    move1_id: errors.move1_id,
-                    move2_id: errors.move2_id,
-                    move3_id: errors.move3_id,
-                    move4_id: errors.move4_id,
-                  }}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <MoveField
+                    moves={moves}
+                    value={watch("move1_id")}
+                    onChange={(value: any) => setValue("move1_id", value)}
+                    label="Move 1"
+                    id="move1_id"
+                    error={errors.move1_id}
+                  />
+
+                  <MoveField
+                    moves={moves}
+                    value={watch("move2_id")}
+                    onChange={(value: any) => setValue("move2_id", value)}
+                    label="Move 2"
+                    id="move2_id"
+                    error={errors.move2_id}
+                  />
+
+                  <MoveField
+                    moves={moves}
+                    value={watch("move3_id")}
+                    onChange={(value: any) => setValue("move3_id", value)}
+                    label="Move 3"
+                    id="move3_id"
+                    error={errors.move3_id}
+                  />
+
+                  <MoveField
+                    moves={moves}
+                    value={watch("move4_id")}
+                    onChange={(value: any) => setValue("move4_id", value)}
+                    label="Move 4"
+                    id="move4_id"
+                    error={errors.move4_id}
+                  />
+                </div>
               </FieldGroup>
             </FieldSet>
           </div>

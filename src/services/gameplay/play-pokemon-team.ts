@@ -234,6 +234,43 @@ export const updatePokemonInTeam = async (
 ) => {
   const supabase = await createClient();
 
+  // If position is being updated, handle position swapping
+  if (updates.position !== undefined) {
+    // Get the current pokemon being updated
+    const { data: currentPokemon, error: currentError } = await supabase
+      .schema("gameplay")
+      .from("pokemon_team")
+      .select("position, play_id")
+      .eq("id", pokemonId)
+      .single();
+
+    if (currentError) return { data: null, error: currentError };
+
+    const oldPosition = currentPokemon.position;
+    const newPosition = updates.position;
+
+    // Check if there's a Pokemon at the target position
+    const { data: occupyingPokemon, error: occupyingError } = await supabase
+      .schema("gameplay")
+      .from("pokemon_team")
+      .select("id, position")
+      .eq("play_id", currentPokemon.play_id)
+      .eq("position", newPosition)
+      .neq("id", pokemonId)
+      .maybeSingle();
+
+    // If there's a Pokemon at the target position, swap them
+    if (occupyingPokemon && !occupyingError) {
+      const { error: swapError } = await supabase
+        .schema("gameplay")
+        .from("pokemon_team")
+        .update({ position: oldPosition })
+        .eq("id", occupyingPokemon.id);
+
+      if (swapError) return { data: null, error: swapError };
+    }
+  }
+
   const { data, error } = await supabase
     .schema("gameplay")
     .from("pokemon_team")
@@ -249,12 +286,54 @@ export const updatePokemonInTeam = async (
 export const removePokemonFromTeam = async (pokemonId: string) => {
   const supabase = await createClient();
 
-  const { error } = await supabase
+  // Get the Pokemon being removed to determine its position and location
+  const { data: removedPokemon, error: getError } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .select("position, play_id")
+    .eq("id", pokemonId)
+    .single();
+
+  if (getError) return { data: null, error: getError };
+
+  const removedPosition = removedPokemon.position;
+  const isActiveTeam = removedPosition <= 6;
+
+  // Delete the Pokemon
+  const { error: deleteError } = await supabase
     .schema("gameplay")
     .from("pokemon_team")
     .delete()
     .eq("id", pokemonId);
 
-  if (error) return { data: null, error };
+  if (deleteError) return { data: null, error: deleteError };
+
+  // Re-order remaining Pokemon in the same location
+  const startPosition = isActiveTeam ? 1 : 7;
+  const endPosition = isActiveTeam ? 6 : 12;
+
+  const { data: remainingTeam, error: teamError } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .select("id, position")
+    .eq("play_id", removedPokemon.play_id)
+    .gte("position", startPosition)
+    .lte("position", endPosition)
+    .gt("position", removedPosition)
+    .order("position", { ascending: true });
+
+  if (teamError) return { data: null, error: teamError };
+
+  // Shift down Pokemon that were after the removed one
+  if (remainingTeam && remainingTeam.length > 0) {
+    for (const pokemon of remainingTeam) {
+      await supabase
+        .schema("gameplay")
+        .from("pokemon_team")
+        .update({ position: pokemon.position - 1 })
+        .eq("id", pokemon.id);
+    }
+  }
+
   return { data: { success: true }, error: null };
 };

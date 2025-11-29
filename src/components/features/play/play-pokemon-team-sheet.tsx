@@ -42,13 +42,20 @@ const PlayPokemonTeamInternal = ({
   handleEdit,
   handleDelete,
 }: PlayPokemonTeamProps) => {
+  // Sort team by position to show in order
+  const sortedTeam = [...team].sort((a, b) => a.position - b.position);
+  const canAdd = team.length < 6;
+  const nextPosition = isBox ? team.length + 7 : team.length + 1;
+
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">Active Team ({team.length}/6)</h3>
+        <h3 className="text-sm font-semibold">
+          {isBox ? `Box (${team.length}/6)` : `Active Team (${team.length}/6)`}
+        </h3>
       </div>
       <div className="space-y-2">
-        {team.map((pokemon) => (
+        {sortedTeam.map((pokemon) => (
           <PlayPokemonTeamSheetCard
             key={pokemon.id}
             pokemon={pokemon}
@@ -58,18 +65,18 @@ const PlayPokemonTeamInternal = ({
           />
         ))}
 
-        {/* Empty slots */}
-        {Array.from({ length: 6 - team.length }).map((_, i) => (
+        {/* Add button - only show if there's space */}
+        {canAdd && (
           <Card
-            key={i}
-            onClick={() => handleAdd(team.length + i + 1 + (isBox ? 6 : 0))}
+            onClick={() => handleAdd(nextPosition)}
+            className="hover:border-primary cursor-pointer border-dashed"
           >
-            <CardContent className="flex items-center justify-center gap-2 p-3">
+            <CardContent className="flex items-center justify-center gap-2 p-2">
               <Plus className="text-muted-foreground h-4 w-4" />
               <span className="text-muted-foreground text-sm">Add Pokémon</span>
             </CardContent>
           </Card>
-        ))}
+        )}
       </div>
     </div>
   );
@@ -116,8 +123,6 @@ export const PlayPokemonTeamSheet = ({
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setEditingPokemon(null);
-    setAddPosition(null);
   };
 
   return (
@@ -185,6 +190,7 @@ export const PlayPokemonTeamSheet = ({
           generationId={generationId}
           pokemon={editingPokemon}
           position={addPosition}
+          team={team}
           onClose={handleCloseDialog}
         />
       </SheetContent>

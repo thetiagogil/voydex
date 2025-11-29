@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils/cn";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
+import { Spinner } from "./spinner";
 
 export interface ComboboxOption {
   value: string;
@@ -31,6 +32,7 @@ export interface ComboboxProps {
   searchPlaceholder?: string;
   emptyText?: string;
   disabled?: boolean;
+  loading?: boolean;
   className?: string;
   id?: string;
   "aria-invalid"?: boolean;
@@ -44,6 +46,7 @@ export function Combobox({
   searchPlaceholder = "Search...",
   emptyText = "No results found.",
   disabled = false,
+  loading = false,
   className,
   id,
   "aria-invalid": ariaInvalid,
@@ -62,10 +65,17 @@ export function Combobox({
           aria-expanded={open}
           aria-invalid={ariaInvalid}
           disabled={disabled}
+          aria-busy={loading}
           className={cn("w-full justify-between", className)}
         >
           <span className="truncate">
-            {selectedOption ? selectedOption.label : placeholder}
+            {loading ? (
+              <Spinner />
+            ) : selectedOption ? (
+              selectedOption.label
+            ) : (
+              placeholder
+            )}
           </span>
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>

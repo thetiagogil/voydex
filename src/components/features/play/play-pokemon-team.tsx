@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/empty";
 import { BookPlus, Edit, Plus, Users } from "lucide-react";
 import { useState } from "react";
+import { PlayPokemonTeamForm } from "./play-pokemon-team-form";
 import { PlayPokemonTeamSheet } from "./play-pokemon-team-sheet";
 
 interface PlayPokemonTeamProps {
@@ -25,16 +26,42 @@ export const PlayPokemonTeam = ({
 }: PlayPokemonTeamProps) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [openPokemonDetails, setOpenPokemonDetails] = useState<boolean>(false);
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemonTeam | null>(
+    null,
+  );
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
+  const [addPosition, setAddPosition] = useState<number | null>(null);
 
   const team: PlayPokemonTeam[] = pokemonTeam || [];
 
-  // Create empty slots for team display (always show 6 slots)
+  const handleQuickEdit = (pokemon: PlayPokemonTeam) => {
+    setEditingPokemon(pokemon);
+    setAddPosition(null);
+    setOpenEditDialog(true);
+  };
+
+  const handleQuickAdd = () => {
+    setEditingPokemon(null);
+    // Calculate next available position in active team
+    const activeTeam = team.filter((p) => p.position <= 6);
+    const nextPosition = activeTeam.length + 1;
+    setAddPosition(nextPosition <= 6 ? nextPosition : 7); // Default to box if active team full
+    setOpenEditDialog(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEditDialog(false);
+    setEditingPokemon(null);
+    setAddPosition(null);
+  };
+
+  // Create slots filled sequentially (no gaps)
+  const activeTeam = team
+    .filter((p) => p.position <= 6)
+    .sort((a, b) => a.position - b.position);
   const pokemonTeamSlots = Array(6)
     .fill(null)
-    .map(
-      (_, index) =>
-        team.filter((pokemon) => pokemon.position <= 6)[index] || null,
-    );
+    .map((_, index) => activeTeam[index] || null);
 
   return (
     <Card>
@@ -42,7 +69,7 @@ export const PlayPokemonTeam = ({
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
-            Active Team ({team.length}/6)
+            Active Team ({activeTeam.length}/6)
           </CardTitle>
           <div className="flex gap-2">
             <Button
@@ -73,8 +100,10 @@ export const PlayPokemonTeam = ({
             return (
               <Card
                 key={index}
-                className={`transition-colors ${!pokemon ? "border-1 border-dashed" : ""}`}
-                onClick={() => {}}
+                className={`transition-colors ${!pokemon ? "hover:border-primary cursor-pointer border-1 border-dashed" : "hover:border-primary cursor-pointer"}`}
+                onClick={() =>
+                  pokemon ? handleQuickEdit(pokemon) : handleQuickAdd()
+                }
               >
                 <CardContent className="flex-1">
                   {pokemon ? (
@@ -201,6 +230,18 @@ export const PlayPokemonTeam = ({
         setOpenSheet={setOpenSheet}
         playId={playId}
         generationId={generationId}
+      />
+
+      {/* Quick Edit Dialog */}
+      <PlayPokemonTeamForm
+        openDialog={openEditDialog}
+        setOpenDialog={setOpenEditDialog}
+        playId={playId}
+        generationId={generationId}
+        pokemon={editingPokemon}
+        position={addPosition}
+        team={team}
+        onClose={handleCloseEdit}
       />
     </Card>
   );
