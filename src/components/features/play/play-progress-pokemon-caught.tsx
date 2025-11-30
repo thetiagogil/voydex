@@ -3,7 +3,9 @@ import { TypeBadge } from "@/components/shared/type-badge";
 import { Input } from "@/components/ui/input";
 import {
   useCheckPokemonCaught,
+  useCheckPokemonCaughtBatch,
   useUncheckPokemonCaught,
+  useUncheckPokemonCaughtBatch,
 } from "@/hooks/usePlay";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -20,6 +22,8 @@ export const PlayProgressPokemonCaught = ({
   const [searchQuery, setSearchQuery] = useState("");
   const checkCaught = useCheckPokemonCaught();
   const uncheckCaught = useUncheckPokemonCaught();
+  const checkBatch = useCheckPokemonCaughtBatch();
+  const uncheckBatch = useUncheckPokemonCaughtBatch();
 
   const filteredPokemon = useMemo(() => {
     if (!searchQuery.trim()) return pokemonCaught;
@@ -64,6 +68,35 @@ export const PlayProgressPokemonCaught = ({
     }
   };
 
+  const handleSelectAll = () => {
+    const pokemonToCheck = filteredPokemon
+      .filter((pokemon) => !pokemon.caught)
+      .map((pokemon) => ({
+        speciesId: pokemon.species_id,
+        formId: pokemon.form_id || 0,
+      }));
+
+    if (pokemonToCheck.length > 0) {
+      checkBatch.mutate({
+        playId,
+        pokemon: pokemonToCheck,
+      });
+    }
+  };
+
+  const handleUnselectAll = () => {
+    const speciesIdsToUncheck = filteredPokemon
+      .filter((pokemon) => pokemon.caught)
+      .map((pokemon) => pokemon.species_id);
+
+    if (speciesIdsToUncheck.length > 0) {
+      uncheckBatch.mutate({
+        playId,
+        speciesIds: speciesIdsToUncheck,
+      });
+    }
+  };
+
   return (
     <>
       <div className="relative mt-1">
@@ -81,6 +114,21 @@ export const PlayProgressPokemonCaught = ({
             className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer transition-colors"
           />
         )}
+      </div>
+
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={handleSelectAll}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-1.5 text-sm transition-colors"
+        >
+          Select All Visible
+        </button>
+        <button
+          onClick={handleUnselectAll}
+          className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md px-3 py-1.5 text-sm transition-colors"
+        >
+          Unselect All Visible
+        </button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

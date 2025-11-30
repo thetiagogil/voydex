@@ -1,5 +1,10 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
-import { useCheckProgressItem, useUncheckProgressItem } from "@/hooks/usePlay";
+import {
+  useCheckProgressItem,
+  useCheckProgressItemBatch,
+  useUncheckProgressItem,
+  useUncheckProgressItemBatch,
+} from "@/hooks/usePlay";
 
 interface PlayProgressItemsProps {
   items: PlayProgressItem[];
@@ -14,6 +19,8 @@ export const PlayProgressItems = ({
 }: PlayProgressItemsProps) => {
   const checkComplete = useCheckProgressItem();
   const checkIncomplete = useUncheckProgressItem();
+  const checkBatch = useCheckProgressItemBatch();
+  const uncheckBatch = useUncheckProgressItemBatch();
 
   const handleToggle = (item: PlayProgressItem, checked: boolean) => {
     if (checked) {
@@ -31,35 +38,81 @@ export const PlayProgressItems = ({
     }
   };
 
+  const handleSelectAll = () => {
+    const itemsToCheck = items
+      .filter((item) => !item.userProgress?.completed)
+      .map((item) => item.id);
+
+    if (itemsToCheck.length > 0) {
+      checkBatch.mutate({
+        playId,
+        progressItemIds: itemsToCheck,
+        categoryId,
+      });
+    }
+  };
+
+  const handleUnselectAll = () => {
+    const itemsToUncheck = items
+      .filter((item) => item.userProgress?.completed)
+      .map((item) => item.id);
+
+    if (itemsToUncheck.length > 0) {
+      uncheckBatch.mutate({
+        playId,
+        progressItemIds: itemsToUncheck,
+        categoryId,
+      });
+    }
+  };
+
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      {items.map((item: PlayProgressItem) => {
-        const isCompleted = item.userProgress?.completed || false;
+    <>
+      <div className="mb-4 flex gap-2">
+        <button
+          onClick={handleSelectAll}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-1.5 text-sm transition-colors"
+        >
+          Select All
+        </button>
+        <button
+          onClick={handleUnselectAll}
+          className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md px-3 py-1.5 text-sm transition-colors"
+        >
+          Unselect All
+        </button>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {items.map((item: PlayProgressItem) => {
+          const isCompleted = item.userProgress?.completed || false;
 
-        return (
-          <SquareCheckbox
-            key={`item-${item.id}`}
-            title={item.name}
-            id={`item-${item.id}`}
-            checked={isCompleted}
-            onCheckedChange={(checked) => handleToggle(item, checked)}
-          >
-            {/* Item content */}
-            {item.description && (
-              <p className="text-muted-foreground mt-1 text-xs">
-                {item.description} at {item.location || "unknown location"}.
-              </p>
-            )}
+          return (
+            <SquareCheckbox
+              key={`item-${item.id}`}
+              title={item.name}
+              id={`item-${item.id}`}
+              checked={isCompleted}
+              onCheckedChange={(checked) => handleToggle(item, checked)}
+            >
+              {/* Item content */}
+              {item.description && (
+                <p className="text-muted-foreground mt-1 text-xs">
+                  {item.description} at {item.location || "unknown location"}.
+                </p>
+              )}
 
-            {/* Completion date */}
-            {isCompleted && item.userProgress?.completed_at && (
-              <span className="text-muted-foreground text-xs">
-                {new Date(item.userProgress.completed_at).toLocaleDateString()}
-              </span>
-            )}
-          </SquareCheckbox>
-        );
-      })}
-    </div>
+              {/* Completion date */}
+              {isCompleted && item.userProgress?.completed_at && (
+                <span className="text-muted-foreground text-xs">
+                  {new Date(
+                    item.userProgress.completed_at,
+                  ).toLocaleDateString()}
+                </span>
+              )}
+            </SquareCheckbox>
+          );
+        })}
+      </div>
+    </>
   );
 };

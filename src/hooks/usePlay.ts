@@ -613,6 +613,389 @@ export const useUncheckPokemonCaught = () => {
   });
 };
 
+// Batch mutations for progress items
+export const useCheckProgressItemBatch = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      progressItemIds,
+      categoryId,
+    }: {
+      playId: string;
+      progressItemIds: number[];
+      categoryId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/batch-check`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ progressItemIds, categoryId }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to check progress items");
+      }
+
+      return await res.json();
+    },
+    onMutate: async ({ playId, progressItemIds, categoryId }) => {
+      const itemsQueryKey = [
+        "play",
+        playId,
+        "progress",
+        "category",
+        categoryId,
+        "items",
+      ];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      await qc.cancelQueries({ queryKey: itemsQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      const previousItems = qc.getQueryData(itemsQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update items
+      qc.setQueryData(itemsQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((item: any) =>
+          progressItemIds.includes(item.id)
+            ? {
+                ...item,
+                userProgress: {
+                  ...item.userProgress,
+                  completed: true,
+                  completed_at: new Date().toISOString(),
+                },
+              }
+            : item,
+        );
+      });
+
+      // Optimistically update categories
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.id === categoryId) {
+            const newCompleted =
+              (cat.items_completed || 0) + progressItemIds.length;
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousItems,
+        previousCategories,
+        itemsQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousItems) {
+        qc.setQueryData(context.itemsQueryKey, context.previousItems);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId, categoryId }) => {
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "progress", "category", categoryId, "items"],
+      });
+    },
+  });
+};
+
+export const useUncheckProgressItemBatch = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      progressItemIds,
+      categoryId,
+    }: {
+      playId: string;
+      progressItemIds: number[];
+      categoryId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/batch-uncheck`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ progressItemIds, categoryId }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to uncheck progress items");
+      }
+
+      return await res.json();
+    },
+    onMutate: async ({ playId, progressItemIds, categoryId }) => {
+      const itemsQueryKey = [
+        "play",
+        playId,
+        "progress",
+        "category",
+        categoryId,
+        "items",
+      ];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      await qc.cancelQueries({ queryKey: itemsQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      const previousItems = qc.getQueryData(itemsQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update items
+      qc.setQueryData(itemsQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((item: any) =>
+          progressItemIds.includes(item.id)
+            ? {
+                ...item,
+                userProgress: {
+                  ...item.userProgress,
+                  completed: false,
+                  completed_at: null,
+                },
+              }
+            : item,
+        );
+      });
+
+      // Optimistically update categories
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.id === categoryId) {
+            const newCompleted = Math.max(
+              0,
+              (cat.items_completed || 0) - progressItemIds.length,
+            );
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousItems,
+        previousCategories,
+        itemsQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousItems) {
+        qc.setQueryData(context.itemsQueryKey, context.previousItems);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId, categoryId }) => {
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "progress", "category", categoryId, "items"],
+      });
+    },
+  });
+};
+
+// Batch mutations for pokemon caught
+export const useCheckPokemonCaughtBatch = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      pokemon,
+    }: {
+      playId: string;
+      pokemon: Array<{ speciesId: number; formId: number }>;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/batch-check`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pokemon }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to check pokemon");
+      }
+
+      return await res.json();
+    },
+    onMutate: async ({ playId, pokemon }) => {
+      const caughtQueryKey = ["play", playId, "pokemon-caught"];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      await qc.cancelQueries({ queryKey: caughtQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      const previousCaught = qc.getQueryData(caughtQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      const speciesIds = pokemon.map((p) => p.speciesId);
+
+      // Optimistically update pokemon caught
+      qc.setQueryData(caughtQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((p: any) =>
+          speciesIds.includes(p.species_id) ? { ...p, caught: true } : p,
+        );
+      });
+
+      // Optimistically update categories
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.slug?.includes("pokedex")) {
+            const newCompleted = (cat.items_completed || 0) + pokemon.length;
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousCaught,
+        previousCategories,
+        caughtQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousCaught) {
+        qc.setQueryData(context.caughtQueryKey, context.previousCaught);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokemon-caught"],
+      });
+    },
+  });
+};
+
+export const useUncheckPokemonCaughtBatch = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      speciesIds,
+    }: {
+      playId: string;
+      speciesIds: number[];
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/batch-uncheck`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ speciesIds }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to uncheck pokemon");
+      }
+
+      return await res.json();
+    },
+    onMutate: async ({ playId, speciesIds }) => {
+      const caughtQueryKey = ["play", playId, "pokemon-caught"];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      await qc.cancelQueries({ queryKey: caughtQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      const previousCaught = qc.getQueryData(caughtQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update pokemon caught
+      qc.setQueryData(caughtQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((p: any) =>
+          speciesIds.includes(p.species_id) ? { ...p, caught: false } : p,
+        );
+      });
+
+      // Optimistically update categories
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.slug?.includes("pokedex")) {
+            const newCompleted = Math.max(
+              0,
+              (cat.items_completed || 0) - speciesIds.length,
+            );
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousCaught,
+        previousCategories,
+        caughtQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previousCaught) {
+        qc.setQueryData(context.caughtQueryKey, context.previousCaught);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokemon-caught"],
+      });
+    },
+  });
+};
+
 // Prefetch helpers
 export const usePlayProgressPrefetch = () => {
   const qc = useQueryClient();
