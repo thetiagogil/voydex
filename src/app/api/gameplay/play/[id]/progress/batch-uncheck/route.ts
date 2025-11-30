@@ -1,4 +1,4 @@
-import { uncheckProgressItemBatch } from "@/services/gameplay/play-progress-uncheck-batch";
+import { uncheckPlayProgressItemBatch as uncheckProgressItemBatch } from "@/services/gameplay/play-progress-uncheck-batch";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -24,17 +24,13 @@ export async function DELETE(
       );
     }
 
-    const result = await uncheckProgressItemBatch(playId, progressItemIds);
+    await uncheckProgressItemBatch(playId, progressItemIds);
 
-    if (result.error) {
-      return NextResponse.json(
-        { error: result.error.message },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ success: true, data: result.data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
   }
 }

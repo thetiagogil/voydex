@@ -1,4 +1,4 @@
-import { getPlayPokemonTeam } from "@/services/gameplay/play-pokemon-team";
+import { getPlayTeam as getPlayPokemonTeam } from "@/services/gameplay/play-team";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

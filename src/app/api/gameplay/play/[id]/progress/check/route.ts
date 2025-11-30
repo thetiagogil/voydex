@@ -1,4 +1,4 @@
-import { checkProgressItem } from "@/services/gameplay/play-progress-check";
+import { checkPlayProgressItem as checkProgressItem } from "@/services/gameplay/play-progress-item-check";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -18,10 +18,15 @@ export async function POST(
 
     const result = await checkProgressItem(playId, progressItemId);
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error checking progress item as complete:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to check progress item as complete" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to check progress item as complete",
+      },
       { status: 500 },
     );
   }

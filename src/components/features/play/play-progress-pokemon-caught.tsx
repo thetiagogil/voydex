@@ -1,12 +1,15 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { TypeBadge } from "@/components/shared/type-badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  useCheckPokemonCaught,
-  useCheckPokemonCaughtBatch,
-  useUncheckPokemonCaught,
-  useUncheckPokemonCaughtBatch,
-} from "@/hooks/usePlay";
+  useCheckPlayPokemonCaught,
+  useCheckPlayPokemonCaughtBatch,
+} from "@/hooks/gameplay/usePlayPokemonCaughtCheck";
+import {
+  useUncheckPlayPokemonCaught,
+  useUncheckPlayPokemonCaughtBatch,
+} from "@/hooks/gameplay/usePlayPokemonCaughtUncheck";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -20,10 +23,10 @@ export const PlayProgressPokemonCaught = ({
   playId,
 }: PlayProgressPokemonCaughtProps) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const checkCaught = useCheckPokemonCaught();
-  const uncheckCaught = useUncheckPokemonCaught();
-  const checkBatch = useCheckPokemonCaughtBatch();
-  const uncheckBatch = useUncheckPokemonCaughtBatch();
+  const checkCaught = useCheckPlayPokemonCaught();
+  const uncheckCaught = useUncheckPlayPokemonCaught();
+  const checkBatch = useCheckPlayPokemonCaughtBatch();
+  const uncheckBatch = useUncheckPlayPokemonCaughtBatch();
 
   const filteredPokemon = useMemo(() => {
     if (!searchQuery.trim()) return pokemonCaught;
@@ -116,19 +119,13 @@ export const PlayProgressPokemonCaught = ({
         )}
       </div>
 
-      <div className="mt-4 flex gap-2">
-        <button
-          onClick={handleSelectAll}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-1.5 text-sm transition-colors"
-        >
-          Select All Visible
-        </button>
-        <button
-          onClick={handleUnselectAll}
-          className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md px-3 py-1.5 text-sm transition-colors"
-        >
-          Unselect All Visible
-        </button>
+      <div className="flex justify-end gap-2">
+        <Button variant="outline-secondary" onClick={handleSelectAll}>
+          Select All
+        </Button>
+        <Button variant="outline-secondary" onClick={handleUnselectAll}>
+          Unselect All
+        </Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

@@ -1,4 +1,4 @@
-import { getPokemonForms } from "@/services/pokemon";
+import { getPokemonForms } from "@/services/meta/pokemon";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,7 +10,10 @@ export async function GET(
   const { data, error } = await getPokemonForms(parseInt(speciesId));
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json(data);

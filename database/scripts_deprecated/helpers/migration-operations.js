@@ -1,30 +1,30 @@
 /**
  * Migration Operations Helper
- * 
+ *
  * Centralized logic for running database migrations.
  * Handles folder structure, ordering, and execution.
  */
 
-import fs from 'fs';
-import path from 'path';
-import { listSqlFiles, runSqlFile } from './sql-runner.js';
+import fs from "fs";
+import path from "path";
+import { listSqlFiles, runSqlFile } from "./sql-runner.js";
 
 // =====================================================
 // Migration Folder Structure
 // =====================================================
 
 export const MIGRATION_FOLDERS = {
-  PUBLIC: '001_public_tables',
-  STATIC: '002_static_tables',
-  DYNAMIC: '003_dynamic_tables',
-  VIEWS: '004_views'
+  PUBLIC: "001_public_tables",
+  STATIC: "002_static_tables",
+  DYNAMIC: "003_dynamic_tables",
+  VIEWS: "004_views",
 };
 
 export const MIGRATION_ORDER = [
   MIGRATION_FOLDERS.PUBLIC,
   MIGRATION_FOLDERS.STATIC,
   MIGRATION_FOLDERS.DYNAMIC,
-  MIGRATION_FOLDERS.VIEWS
+  MIGRATION_FOLDERS.VIEWS,
 ];
 
 // =====================================================
@@ -39,20 +39,20 @@ export function getAllMigrationFiles(migrationsDir) {
 
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-    
+
     if (!fs.existsSync(folderPath)) {
       console.warn(`⚠️  Warning: Migration folder not found: ${folder}`);
       continue;
     }
 
     const files = listSqlFiles(folderPath);
-    
-    files.forEach(file => {
+
+    files.forEach((file) => {
       allFiles.push({
         folder,
         filename: file,
         fullPath: path.join(folderPath, file),
-        displayName: `${folder}/${file}`
+        displayName: `${folder}/${file}`,
       });
     });
   }
@@ -68,20 +68,20 @@ export function getMigrationFilesFromFolders(migrationsDir, folderNames) {
 
   for (const folder of folderNames) {
     const folderPath = path.join(migrationsDir, folder);
-    
+
     if (!fs.existsSync(folderPath)) {
       console.warn(`⚠️  Warning: Migration folder not found: ${folder}`);
       continue;
     }
 
     const files = listSqlFiles(folderPath);
-    
-    files.forEach(file => {
+
+    files.forEach((file) => {
       allFiles.push({
         folder,
         filename: file,
         fullPath: path.join(folderPath, file),
-        displayName: `${folder}/${file}`
+        displayName: `${folder}/${file}`,
       });
     });
   }
@@ -105,7 +105,7 @@ export function validateMigrationStructure(migrationsDir) {
   // Check each expected folder
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-    
+
     if (!fs.existsSync(folderPath)) {
       warnings.push(`Missing migration folder: ${folder}`);
       continue;
@@ -120,7 +120,7 @@ export function validateMigrationStructure(migrationsDir) {
   return {
     valid: issues.length === 0,
     issues,
-    warnings
+    warnings,
   };
 }
 
@@ -137,23 +137,20 @@ export async function runMigrations(migrationFiles, options = {}) {
 
   for (let i = 0; i < migrationFiles.length; i++) {
     const migration = migrationFiles[i];
-    
+
     if (onProgress) {
       onProgress({
         current: i + 1,
         total: migrationFiles.length,
-        migration
+        migration,
       });
     }
 
-    const success = await runSqlFile(
-      migration.fullPath,
-      migration.displayName
-    );
+    const success = await runSqlFile(migration.fullPath, migration.displayName);
 
     results.push({
       migration: migration.displayName,
-      success
+      success,
     });
 
     if (!success && stopOnError) {
@@ -161,7 +158,7 @@ export async function runMigrations(migrationFiles, options = {}) {
         success: false,
         completed: i + 1,
         total: migrationFiles.length,
-        results
+        results,
       };
     }
   }
@@ -170,7 +167,7 @@ export async function runMigrations(migrationFiles, options = {}) {
     success: true,
     completed: migrationFiles.length,
     total: migrationFiles.length,
-    results
+    results,
   };
 }
 
@@ -187,7 +184,7 @@ export function getMigrationSummary(migrationsDir) {
 
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-    
+
     if (!fs.existsSync(folderPath)) {
       summary[folder] = { count: 0, exists: false };
       continue;
@@ -197,17 +194,17 @@ export function getMigrationSummary(migrationsDir) {
     summary[folder] = {
       count: files.length,
       exists: true,
-      files: files.map(f => ({
+      files: files.map((f) => ({
         name: f,
-        path: path.join(folderPath, f)
-      }))
+        path: path.join(folderPath, f),
+      })),
     };
     totalFiles += files.length;
   }
 
   return {
     folders: summary,
-    totalFiles
+    totalFiles,
   };
 }
 
@@ -217,30 +214,32 @@ export function getMigrationSummary(migrationsDir) {
 export function getFolderInfo(folderName) {
   const info = {
     [MIGRATION_FOLDERS.PUBLIC]: {
-      name: 'Public Tables',
-      description: 'User profiles (public schema)',
-      color: '🔵'
+      name: "Public Tables",
+      description: "User profiles (public schema)",
+      color: "🔵",
     },
     [MIGRATION_FOLDERS.STATIC]: {
-      name: 'Static Tables',
-      description: 'Reference data (dex, meta)',
-      color: '🟢'
+      name: "Static Tables",
+      description: "Reference data (dex, meta)",
+      color: "🟢",
     },
     [MIGRATION_FOLDERS.DYNAMIC]: {
-      name: 'Dynamic Tables',
-      description: 'User gameplay data',
-      color: '🟡'
+      name: "Dynamic Tables",
+      description: "User gameplay data",
+      color: "🟡",
     },
     [MIGRATION_FOLDERS.VIEWS]: {
-      name: 'Views',
-      description: 'Presentation layer',
-      color: '🟣'
-    }
+      name: "Views",
+      description: "Presentation layer",
+      color: "🟣",
+    },
   };
 
-  return info[folderName] || {
-    name: folderName,
-    description: 'Unknown',
-    color: '⚪'
-  };
+  return (
+    info[folderName] || {
+      name: folderName,
+      description: "Unknown",
+      color: "⚪",
+    }
+  );
 }

@@ -5,11 +5,9 @@ import { PlayPokemonTeam } from "@/components/features/play/play-pokemon-team";
 import { PlayProgressCategories } from "@/components/features/play/play-progress-categories";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  usePlay,
-  usePlayPokemonTeam,
-  usePlayProgressCategories,
-} from "@/hooks/usePlay";
+import { usePlay } from "@/hooks/gameplay/usePlay";
+import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
+import { usePlayProgressCategories } from "@/hooks/gameplay/usePlayProgressCategories";
 import { use } from "react";
 
 interface PlayPageProps {

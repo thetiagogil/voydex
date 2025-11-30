@@ -1,10 +1,13 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
+import { Button } from "@/components/ui/button";
 import {
-  useCheckProgressItem,
-  useCheckProgressItemBatch,
-  useUncheckProgressItem,
-  useUncheckProgressItemBatch,
-} from "@/hooks/usePlay";
+  useCheckPlayProgressItem,
+  useCheckPlayProgressItemBatch,
+} from "@/hooks/gameplay/usePlayProgressItemCheck";
+import {
+  useUncheckPlayProgressItem,
+  useUncheckPlayProgressItemBatch,
+} from "@/hooks/gameplay/usePlayProgressItemUncheck";
 
 interface PlayProgressItemsProps {
   items: PlayProgressItem[];
@@ -17,10 +20,10 @@ export const PlayProgressItems = ({
   playId,
   categoryId,
 }: PlayProgressItemsProps) => {
-  const checkComplete = useCheckProgressItem();
-  const checkIncomplete = useUncheckProgressItem();
-  const checkBatch = useCheckProgressItemBatch();
-  const uncheckBatch = useUncheckProgressItemBatch();
+  const checkComplete = useCheckPlayProgressItem();
+  const checkIncomplete = useUncheckPlayProgressItem();
+  const checkBatch = useCheckPlayProgressItemBatch();
+  const uncheckBatch = useUncheckPlayProgressItemBatch();
 
   const handleToggle = (item: PlayProgressItem, checked: boolean) => {
     if (checked) {
@@ -68,20 +71,15 @@ export const PlayProgressItems = ({
 
   return (
     <>
-      <div className="mb-4 flex gap-2">
-        <button
-          onClick={handleSelectAll}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-1.5 text-sm transition-colors"
-        >
+      <div className="flex justify-end gap-2">
+        <Button variant="outline-secondary" onClick={handleSelectAll}>
           Select All
-        </button>
-        <button
-          onClick={handleUnselectAll}
-          className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md px-3 py-1.5 text-sm transition-colors"
-        >
+        </Button>
+        <Button variant="outline-secondary" onClick={handleUnselectAll}>
           Unselect All
-        </button>
+        </Button>
       </div>
+
       <div className="grid gap-3 sm:grid-cols-2">
         {items.map((item: PlayProgressItem) => {
           const isCompleted = item.userProgress?.completed || false;

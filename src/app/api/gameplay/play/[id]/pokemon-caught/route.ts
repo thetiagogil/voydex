@@ -10,7 +10,7 @@ export async function GET(
   const { data, error } = await getPlayRegionalDex(playId);
   if (error) {
     return NextResponse.json(
-      { error: error.message || String(error) },
+      { error: error.message ?? String(error) },
       { status: 500 },
     );
   }

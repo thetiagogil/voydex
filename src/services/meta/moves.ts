@@ -2,8 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-const PAGE_SIZE = 50;
-
 export const getMoves = async (page?: number, limit?: number) => {
   const supabase = await createClient();
 

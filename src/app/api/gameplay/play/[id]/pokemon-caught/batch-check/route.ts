@@ -1,4 +1,4 @@
-import { checkPokemonCaughtBatch } from "@/services/gameplay/play-pokemon-caught-check-batch";
+import { checkPlayPokemonCaughtBatch as checkPokemonCaughtBatch } from "@/services/gameplay/play-pokemon-caught-check-batch";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -17,17 +17,13 @@ export async function POST(
       );
     }
 
-    const result = await checkPokemonCaughtBatch(playId, pokemon);
+    await checkPokemonCaughtBatch(playId, pokemon);
 
-    if (result.error) {
-      return NextResponse.json(
-        { error: result.error.message },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ success: true, data: result.data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
   }
 }

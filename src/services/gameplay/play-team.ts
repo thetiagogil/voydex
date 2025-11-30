@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-export const getPlayPokemonTeam = async (playId: string) => {
+export const getPlayTeam = async (playId: string) => {
   const supabase = await createClient();
 
   // First, fetch the play to determine the generation
@@ -182,7 +182,7 @@ export const getPlayPokemonTeam = async (playId: string) => {
   return { data: result, error: null };
 };
 
-export const addPokemonToTeam = async (
+export const addPokemonToPlayTeam = async (
   playId: string,
   pokemon: {
     species_id: number;
@@ -216,7 +216,7 @@ export const addPokemonToTeam = async (
   return { data, error: null };
 };
 
-export const updatePokemonInTeam = async (
+export const updatePokemonInPlayTeam = async (
   pokemonId: string,
   updates: {
     position?: number;
@@ -283,7 +283,7 @@ export const updatePokemonInTeam = async (
   return { data, error: null };
 };
 
-export const removePokemonFromTeam = async (pokemonId: string) => {
+export const removePokemonFromPlayTeam = async (pokemonId: string) => {
   const supabase = await createClient();
 
   // Get the Pokemon being removed to determine its position and location

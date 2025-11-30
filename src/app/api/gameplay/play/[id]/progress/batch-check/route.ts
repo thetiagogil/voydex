@@ -1,4 +1,4 @@
-import { checkProgressItemBatch } from "@/services/gameplay/play-progress-check-batch";
+import { checkPlayProgressItemBatch as checkProgressItemBatch } from "@/services/gameplay/play-progress-check-batch";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -24,17 +24,13 @@ export async function POST(
       );
     }
 
-    const result = await checkProgressItemBatch(playId, progressItemIds);
+    await checkProgressItemBatch(playId, progressItemIds);
 
-    if (result.error) {
-      return NextResponse.json(
-        { error: result.error.message },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ success: true, data: result.data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
   }
 }

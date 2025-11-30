@@ -17,11 +17,14 @@ import {
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { useAbilities } from "@/hooks/useAbilities";
-import { useMoves } from "@/hooks/useMoves";
-import { useNatures } from "@/hooks/useNatures";
-import { useAddPokemonToTeam, useUpdatePokemonInTeam } from "@/hooks/usePlay";
-import { usePokemonForms, usePokemonSpecies } from "@/hooks/usePokemon";
+import {
+  useAddPokemonToTeam,
+  useUpdatePokemonInTeam,
+} from "@/hooks/gameplay/usePlayPokemonTeam";
+import { useAbilities } from "@/hooks/meta/useAbilities";
+import { useMoves } from "@/hooks/meta/useMoves";
+import { useNatures } from "@/hooks/meta/useNatures";
+import { usePokemonForms, usePokemonSpecies } from "@/hooks/meta/usePokemon";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";

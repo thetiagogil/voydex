@@ -1,4 +1,4 @@
-import { checkPokemonCaught } from "@/services/gameplay/play-pokemon-caught-check";
+import { checkPlayPokemonCaught as checkPokemonCaught } from "@/services/gameplay/play-pokemon-caught-check";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -18,10 +18,15 @@ export async function POST(
 
     const result = await checkPokemonCaught(playId, speciesId, formId);
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error checking pokemon as caught:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to check pokemon as caught" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to check pokemon as caught",
+      },
       { status: 500 },
     );
   }

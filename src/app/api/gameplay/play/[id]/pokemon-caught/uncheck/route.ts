@@ -1,4 +1,4 @@
-import { uncheckPokemonCaught } from "@/services/gameplay/play-pokemon-caught-uncheck";
+import { uncheckPlayPokemonCaught as uncheckPokemonCaught } from "@/services/gameplay/play-pokemon-caught-uncheck";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -24,10 +24,15 @@ export async function DELETE(
       formId ? parseInt(formId) : 0,
     );
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error unchecking Pokémon as caught:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to uncheck Pokémon as caught" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to uncheck Pokémon as caught",
+      },
       { status: 500 },
     );
   }

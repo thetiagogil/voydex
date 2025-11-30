@@ -1,7 +1,7 @@
 import {
-  removePokemonFromTeam,
-  updatePokemonInTeam,
-} from "@/services/gameplay/play-pokemon-team";
+  removePokemonFromPlayTeam as removePokemonFromTeam,
+  updatePokemonInPlayTeam as updatePokemonInTeam,
+} from "@/services/gameplay/play-team";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(

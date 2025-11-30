@@ -293,7 +293,7 @@ Files run alphabetically within each folder. Prefix with numbers for explicit or
 The following tables are marked as protected and scripts will warn before affecting them:
 
 - `gameplay.plays`
-- `gameplay.pokemon_team`
+- `gameplay.team`
 - `gameplay.progress`
 - `gameplay.pokemon_caught`
 - `public.users`

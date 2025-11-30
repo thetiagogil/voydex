@@ -11,7 +11,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { usePlayPokemonCaught, usePlayProgressItems } from "@/hooks/usePlay";
+import { usePlayPokemonCaught } from "@/hooks/gameplay/usePlayPokemonCaught";
+import { usePlayProgressItems } from "@/hooks/gameplay/usePlayProgressItems";
 import { PlayProgressItems } from "./play-progress-items";
 import { PlayProgressPokemonCaught } from "./play-progress-pokemon-caught";
 

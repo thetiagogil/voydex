@@ -1,4 +1,4 @@
-import { uncheckProgressItem } from "@/services/gameplay/play-progress-uncheck";
+import { uncheckPlayProgressItem as uncheckProgressItem } from "@/services/gameplay/play-progress-item-uncheck";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -19,10 +19,15 @@ export async function DELETE(
 
     const result = await uncheckProgressItem(playId, parseInt(progressItemId));
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error checking progress item as incomplete:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to check progress item as incomplete" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to check progress item as incomplete",
+      },
       { status: 500 },
     );
   }

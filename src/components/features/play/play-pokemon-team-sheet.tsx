@@ -12,7 +12,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { usePlayPokemonTeam, useRemovePokemonFromTeam } from "@/hooks/usePlay";
+import {
+  usePlayPokemonTeam,
+  useRemovePokemonFromTeam,
+} from "@/hooks/gameplay/usePlayPokemonTeam";
 import { BookPlus, Plus } from "lucide-react";
 import { useState } from "react";
 import { PlayPokemonTeamForm } from "./play-pokemon-team-form";

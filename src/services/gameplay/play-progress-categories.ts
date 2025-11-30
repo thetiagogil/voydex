@@ -81,7 +81,7 @@ export const getPlayProgressCategories = async (playId: string) => {
   // 6) build summary per category
   // Special-case dex categories: compute totals from regional_dex_entries and pokemon_caught
   const dexCategories = catList.filter((c: any) => c.slug.includes("pokedex"));
-  let dexTotals: Record<number, { total: number; caught: number }> = {};
+  const dexTotals: Record<number, { total: number; caught: number }> = {};
 
   // Handle regional/national dex categories
   if (dexCategories.length > 0) {
