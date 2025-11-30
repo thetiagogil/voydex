@@ -1,6 +1,32 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
+import { useCheckProgressItem, useUncheckProgressItem } from "@/hooks/usePlay";
 
-export const PlayProgressItems = ({ items }: { items: PlayProgressItem[] }) => {
+interface PlayProgressItemsProps {
+  items: PlayProgressItem[];
+  playId: string;
+}
+
+export const PlayProgressItems = ({
+  items,
+  playId,
+}: PlayProgressItemsProps) => {
+  const checkComplete = useCheckProgressItem();
+  const checkIncomplete = useUncheckProgressItem();
+
+  const handleToggle = (item: PlayProgressItem, checked: boolean) => {
+    if (checked) {
+      checkComplete.mutate({
+        playId,
+        progressItemId: item.id,
+      });
+    } else {
+      checkIncomplete.mutate({
+        playId,
+        progressItemId: item.id,
+      });
+    }
+  };
+
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((item: PlayProgressItem) => {
@@ -12,6 +38,8 @@ export const PlayProgressItems = ({ items }: { items: PlayProgressItem[] }) => {
             title={item.name}
             id={`item-${item.id}`}
             checked={isCompleted}
+            onCheckedChange={(checked) => handleToggle(item, checked)}
+            disabled={checkComplete.isPending || checkIncomplete.isPending}
           >
             {/* Item content */}
             {item.description && (

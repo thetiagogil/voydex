@@ -129,7 +129,7 @@ export const PageBreadcrumbsNavigation = () => {
       }
     }
 
-    // Mark the last item as current if not already marked
+    // Check the last item as current if not already checked
     if (breadcrumbs.length > 0 && !breadcrumbs.some((b) => b.current)) {
       breadcrumbs[breadcrumbs.length - 1].current = true;
     }

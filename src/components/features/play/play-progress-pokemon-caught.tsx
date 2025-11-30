@@ -1,15 +1,25 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { TypeBadge } from "@/components/shared/type-badge";
 import { Input } from "@/components/ui/input";
+import {
+  useCheckPokemonCaught,
+  useUncheckPokemonCaught,
+} from "@/hooks/usePlay";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
+interface PlayProgressPokemonCaughtProps {
+  pokemonCaught: PlayPokemonCaught[];
+  playId: string;
+}
+
 export const PlayProgressPokemonCaught = ({
   pokemonCaught,
-}: {
-  pokemonCaught: PlayPokemonCaught[];
-}) => {
+  playId,
+}: PlayProgressPokemonCaughtProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const checkCaught = useCheckPokemonCaught();
+  const uncheckCaught = useUncheckPokemonCaught();
 
   const filteredPokemon = useMemo(() => {
     if (!searchQuery.trim()) return pokemonCaught;
@@ -38,6 +48,22 @@ export const PlayProgressPokemonCaught = ({
     });
   }, [pokemonCaught, searchQuery]);
 
+  const handleToggle = (pokemon: PlayPokemonCaught, checked: boolean) => {
+    if (checked) {
+      checkCaught.mutate({
+        playId,
+        speciesId: pokemon.species_id,
+        formId: pokemon.form_id || 0,
+      });
+    } else {
+      uncheckCaught.mutate({
+        playId,
+        speciesId: pokemon.species_id,
+        formId: pokemon.form_id || 0,
+      });
+    }
+  };
+
   return (
     <>
       <div className="relative mt-1">
@@ -52,7 +78,7 @@ export const PlayProgressPokemonCaught = ({
         {searchQuery && (
           <X
             onClick={() => setSearchQuery("")}
-            className="text-muted-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2"
+            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer transition-colors"
           />
         )}
       </div>
@@ -71,6 +97,8 @@ export const PlayProgressPokemonCaught = ({
               }
               id={`pokemon-${pokemon.species_id}-${pokemon.form_id}`}
               checked={isCaught}
+              onCheckedChange={(checked) => handleToggle(pokemon, checked)}
+              disabled={checkCaught.isPending || uncheckCaught.isPending}
               className="flex flex-col items-center justify-center gap-2 text-center"
             >
               {/* Pokemon sprite */}

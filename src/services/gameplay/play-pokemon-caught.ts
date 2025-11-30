@@ -70,19 +70,16 @@ export const getPlayRegionalDex = async (playId: string) => {
     .eq("play_id", playId);
   if (caughtErr) return { data: null, error: caughtErr };
 
-  // build caught set (species_id or species_id:form_id)
-  const caughtSet = new Set<string>();
+  // build caught set - always use species_id since that's what the UNIQUE constraint uses
+  const caughtSet = new Set<number>();
   (caught || []).forEach((c: any) => {
-    const key = c.form_id ? `${c.species_id}:${c.form_id}` : `${c.species_id}`;
-    caughtSet.add(key);
+    caughtSet.add(c.species_id);
   });
 
   // 6) map regional dex entries with caught status using generation view data
   const result: PlayPokemonCaught[] = dexEntries.map((entry: any) => {
-    const key = entry.form_id
-      ? `${entry.species_id}:${entry.form_id}`
-      : `${entry.species_id}`;
-    const isCaught = caughtSet.has(key);
+    // Check if this species is caught (regardless of form, since constraint is on species_id)
+    const isCaught = caughtSet.has(entry.species_id);
 
     // Find the Pokemon from view data
     let pokemon = null;

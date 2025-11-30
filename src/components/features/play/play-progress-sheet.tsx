@@ -53,9 +53,12 @@ export const PlayProgressSheet = ({
           {isLoading ? (
             <Loading />
           ) : isDexCategory && pokemonCaught && pokemonCaught.length > 0 ? (
-            <PlayProgressPokemonCaught pokemonCaught={pokemonCaught} />
+            <PlayProgressPokemonCaught
+              pokemonCaught={pokemonCaught}
+              playId={playId}
+            />
           ) : items && items.length > 0 ? (
-            <PlayProgressItems items={items} />
+            <PlayProgressItems items={items} playId={playId} />
           ) : (
             <div className="flex flex-col">
               <p className="text-muted-foreground text-sm">

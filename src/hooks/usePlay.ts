@@ -219,6 +219,150 @@ export const useRemovePokemonFromTeam = () => {
   });
 };
 
+// Progress mutations
+export const useCheckProgressItem = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      progressItemId,
+    }: {
+      playId: string;
+      progressItemId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/check`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ progressItemId }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to check progress item");
+      }
+
+      return await res.json();
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["play", variables.playId, "progress"],
+      });
+    },
+  });
+};
+
+export const useUncheckProgressItem = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      progressItemId,
+    }: {
+      playId: string;
+      progressItemId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/uncheck?progressItemId=${progressItemId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to uncheck progress item");
+      }
+
+      return await res.json();
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["play", variables.playId, "progress"],
+      });
+    },
+  });
+};
+
+// Pokemon caught mutations
+export const useCheckPokemonCaught = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      speciesId,
+      formId,
+    }: {
+      playId: string;
+      speciesId: number;
+      formId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/check`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ speciesId, formId }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(
+          errorData?.error || "Failed to check pokemon as caught",
+        );
+      }
+
+      return await res.json();
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["play", variables.playId, "pokemon-caught"],
+      });
+    },
+  });
+};
+
+export const useUncheckPokemonCaught = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      speciesId,
+      formId,
+    }: {
+      playId: string;
+      speciesId: number;
+      formId: number;
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/uncheck?speciesId=${speciesId}&formId=${formId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(
+          errorData?.error || "Failed to uncheck pokemon as caught",
+        );
+      }
+
+      return await res.json();
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["play", variables.playId, "pokemon-caught"],
+      });
+    },
+  });
+};
+
 // Prefetch helpers
 export const usePlayProgressPrefetch = () => {
   const qc = useQueryClient();
