@@ -1,9 +1,15 @@
-import { getMoves } from "@/services/moves";
+import { getMoves } from "@/services/meta/moves";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const { data, error } = await getMoves();
-  if (error) return NextResponse.json({ error }, { status: 500 });
-  if (!data) return NextResponse.json({ error: "Not data" }, { status: 404 });
-  return NextResponse.json(data, { status: 200 });
+
+  if (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json(data);
 }

@@ -32,10 +32,10 @@ export const GenerationRows = ({ generations }: GenerationRowsProps) => {
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-3">
                     <h3 className="text-lg font-semibold">{gen.genName}</h3>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline-primary" className="text-xs">
                       {gen.pokemonCount} Pokémon
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline-primary" className="text-xs">
                       {gen.gamesCount} Games
                     </Badge>
                   </div>

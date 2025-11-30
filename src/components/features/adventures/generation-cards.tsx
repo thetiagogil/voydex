@@ -32,8 +32,10 @@ export const GenerationCards = ({ generations }: GenerationCardsProps) => {
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold">{gen.genName}</h3>
                   <div className="flex gap-2">
-                    <Badge variant="outline">{gen.pokemonCount} Pokémon</Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline-primary">
+                      {gen.pokemonCount} Pokémon
+                    </Badge>
+                    <Badge variant="outline-primary" className="text-xs">
                       {gen.gamesCount} Games
                     </Badge>
                   </div>

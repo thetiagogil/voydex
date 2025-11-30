@@ -67,7 +67,11 @@ export const GameCard = ({ game, genSlug }: GameCardProps) => {
           <p className="text-sm font-medium">Features:</p>
           <div className="flex flex-wrap gap-1">
             {game.features.map((feature) => (
-              <Badge key={feature} variant="outline" className="text-xs">
+              <Badge
+                key={feature}
+                variant="outline-primary"
+                className="text-xs"
+              >
                 {feature}
               </Badge>
             ))}

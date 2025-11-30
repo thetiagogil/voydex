@@ -39,7 +39,7 @@ Tables that should NEVER be truncated without explicit confirmation.
 ```javascript
 export const PROTECTED_TABLES = [
   "gameplay.plays",
-  "gameplay.pokemon_team",
+  "gameplay.team",
   "gameplay.progress",
   "gameplay.pokemon_caught",
   "public.users",

@@ -41,7 +41,7 @@ async function main() {
     // Only truncate reference/static data that can be safely reseeded
     const PROTECTED_TABLES = [
       "gameplay.plays", // User playthroughs (NEVER delete)
-      "gameplay.pokemon_team", // User team compositions (NEVER delete)
+      "gameplay.team", // User team compositions (NEVER delete)
       "gameplay.progress", // User progress tracking (NEVER delete)
       "gameplay.pokemon_caught", // User caught Pokemon (NEVER delete)
       "public.users", // User profiles (NEVER delete)

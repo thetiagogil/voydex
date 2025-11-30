@@ -1,14 +1,19 @@
 import { cn } from "@/lib/utils/cn";
 import * as React from "react";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, onClick, ...props }: React.ComponentProps<"div">) {
+  const isClickable = !!onClick;
+
   return (
     <div
       data-slot="card"
       className={cn(
         "bg-card text-card-foreground border-border flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        isClickable &&
+          "hover:bg-primary/5 hover:border-primary/50 cursor-pointer transition-colors",
         className,
       )}
+      onClick={onClick}
       {...props}
     />
   );

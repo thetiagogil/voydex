@@ -125,12 +125,16 @@ export const PlaythroughCard = ({
               <p className="text-sm font-medium">Current Team:</p>
               <div className="flex flex-wrap gap-1">
                 {playthrough.team.slice(0, 3).map((pokemon, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
+                  <Badge
+                    key={index}
+                    variant="outline-primary"
+                    className="text-xs"
+                  >
                     {pokemon.name} Lv.{pokemon.level}
                   </Badge>
                 ))}
                 {playthrough.team.length > 3 && (
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline-primary" className="text-xs">
                     +{playthrough.team.length - 3} more
                   </Badge>
                 )}
