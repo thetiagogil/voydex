@@ -98,7 +98,6 @@ export const PlayProgressPokemonCaught = ({
               id={`pokemon-${pokemon.species_id}-${pokemon.form_id}`}
               checked={isCaught}
               onCheckedChange={(checked) => handleToggle(pokemon, checked)}
-              disabled={checkCaught.isPending || uncheckCaught.isPending}
               className="flex flex-col items-center justify-center gap-2 text-center"
             >
               {/* Pokemon sprite */}

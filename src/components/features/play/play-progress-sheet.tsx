@@ -58,7 +58,11 @@ export const PlayProgressSheet = ({
               playId={playId}
             />
           ) : items && items.length > 0 ? (
-            <PlayProgressItems items={items} playId={playId} />
+            <PlayProgressItems
+              items={items}
+              playId={playId}
+              categoryId={category.id}
+            />
           ) : (
             <div className="flex flex-col">
               <p className="text-muted-foreground text-sm">

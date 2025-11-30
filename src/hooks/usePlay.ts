@@ -226,9 +226,11 @@ export const useCheckProgressItem = () => {
     mutationFn: async ({
       playId,
       progressItemId,
+      categoryId,
     }: {
       playId: string;
       progressItemId: number;
+      categoryId: number;
     }) => {
       const res = await fetch(
         `/api/gameplay/play/${encodeURIComponent(playId)}/progress/check`,
@@ -246,9 +248,79 @@ export const useCheckProgressItem = () => {
 
       return await res.json();
     },
-    onSuccess: (_data, variables) => {
+    onMutate: async ({ playId, progressItemId, categoryId }) => {
+      const itemsQueryKey = [
+        "play",
+        playId,
+        "progress",
+        "category",
+        categoryId,
+        "items",
+      ];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      // Cancel outgoing refetches
+      await qc.cancelQueries({ queryKey: itemsQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      // Snapshot previous values
+      const previousItems = qc.getQueryData(itemsQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update items (set userProgress.completed to true)
+      qc.setQueryData(itemsQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((item: any) =>
+          item.id === progressItemId
+            ? {
+                ...item,
+                userProgress: {
+                  ...item.userProgress,
+                  completed: true,
+                  completed_at: new Date().toISOString(),
+                },
+              }
+            : item,
+        );
+      });
+
+      // Optimistically update categories (increment completed count)
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.id === categoryId) {
+            const newCompleted = (cat.items_completed || 0) + 1;
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousItems,
+        previousCategories,
+        itemsQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousItems) {
+        qc.setQueryData(context.itemsQueryKey, context.previousItems);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId, categoryId }) => {
+      // Only refetch items - categories are already correct from optimistic update
       qc.invalidateQueries({
-        queryKey: ["play", variables.playId, "progress"],
+        queryKey: ["play", playId, "progress", "category", categoryId, "items"],
       });
     },
   });
@@ -260,9 +332,11 @@ export const useUncheckProgressItem = () => {
     mutationFn: async ({
       playId,
       progressItemId,
+      categoryId,
     }: {
       playId: string;
       progressItemId: number;
+      categoryId: number;
     }) => {
       const res = await fetch(
         `/api/gameplay/play/${encodeURIComponent(playId)}/progress/uncheck?progressItemId=${progressItemId}`,
@@ -279,9 +353,79 @@ export const useUncheckProgressItem = () => {
 
       return await res.json();
     },
-    onSuccess: (_data, variables) => {
+    onMutate: async ({ playId, progressItemId, categoryId }) => {
+      const itemsQueryKey = [
+        "play",
+        playId,
+        "progress",
+        "category",
+        categoryId,
+        "items",
+      ];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      // Cancel outgoing refetches
+      await qc.cancelQueries({ queryKey: itemsQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      // Snapshot previous values
+      const previousItems = qc.getQueryData(itemsQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update items (set userProgress.completed to false)
+      qc.setQueryData(itemsQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((item: any) =>
+          item.id === progressItemId
+            ? {
+                ...item,
+                userProgress: {
+                  ...item.userProgress,
+                  completed: false,
+                  completed_at: null,
+                },
+              }
+            : item,
+        );
+      });
+
+      // Optimistically update categories (decrement completed count)
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.id === categoryId) {
+            const newCompleted = Math.max(0, (cat.items_completed || 0) - 1);
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousItems,
+        previousCategories,
+        itemsQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousItems) {
+        qc.setQueryData(context.itemsQueryKey, context.previousItems);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: (_data, _error, { playId, categoryId }) => {
+      // Only refetch items - categories are already correct from optimistic update
       qc.invalidateQueries({
-        queryKey: ["play", variables.playId, "progress"],
+        queryKey: ["play", playId, "progress", "category", categoryId, "items"],
       });
     },
   });
@@ -318,10 +462,63 @@ export const useCheckPokemonCaught = () => {
 
       return await res.json();
     },
-    onSuccess: (_data, variables) => {
-      qc.invalidateQueries({
-        queryKey: ["play", variables.playId, "pokemon-caught"],
+    onMutate: async ({ playId, speciesId }) => {
+      const caughtQueryKey = ["play", playId, "pokemon-caught"];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      // Cancel outgoing refetches
+      await qc.cancelQueries({ queryKey: caughtQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      // Snapshot previous values
+      const previousCaught = qc.getQueryData(caughtQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update to mark as caught
+      qc.setQueryData(caughtQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((pokemon: any) =>
+          pokemon.species_id === speciesId
+            ? { ...pokemon, caught: true }
+            : pokemon,
+        );
       });
+
+      // Optimistically update categories (increment completed for Pokedex category)
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.slug?.includes("pokedex")) {
+            const newCompleted = (cat.items_completed || 0) + 1;
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousCaught,
+        previousCategories,
+        caughtQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousCaught) {
+        qc.setQueryData(context.caughtQueryKey, context.previousCaught);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: () => {
+      // No refetch needed - optimistic updates are accurate
     },
   });
 };
@@ -355,10 +552,63 @@ export const useUncheckPokemonCaught = () => {
 
       return await res.json();
     },
-    onSuccess: (_data, variables) => {
-      qc.invalidateQueries({
-        queryKey: ["play", variables.playId, "pokemon-caught"],
+    onMutate: async ({ playId, speciesId }) => {
+      const caughtQueryKey = ["play", playId, "pokemon-caught"];
+      const categoriesQueryKey = ["play", playId, "progress", "categories"];
+
+      // Cancel outgoing refetches
+      await qc.cancelQueries({ queryKey: caughtQueryKey });
+      await qc.cancelQueries({ queryKey: categoriesQueryKey });
+
+      // Snapshot previous values
+      const previousCaught = qc.getQueryData(caughtQueryKey);
+      const previousCategories = qc.getQueryData(categoriesQueryKey);
+
+      // Optimistically update to mark as not caught
+      qc.setQueryData(caughtQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((pokemon: any) =>
+          pokemon.species_id === speciesId
+            ? { ...pokemon, caught: false }
+            : pokemon,
+        );
       });
+
+      // Optimistically update categories (decrement completed for Pokedex category)
+      qc.setQueryData(categoriesQueryKey, (old: any) => {
+        if (!old) return old;
+        return old.map((cat: any) => {
+          if (cat.slug?.includes("pokedex")) {
+            const newCompleted = Math.max(0, (cat.items_completed || 0) - 1);
+            const total = cat.items_total || 1;
+            return {
+              ...cat,
+              items_completed: newCompleted,
+              percentage_completed: (newCompleted / total) * 100,
+            };
+          }
+          return cat;
+        });
+      });
+
+      return {
+        previousCaught,
+        previousCategories,
+        caughtQueryKey,
+        categoriesQueryKey,
+      };
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousCaught) {
+        qc.setQueryData(context.caughtQueryKey, context.previousCaught);
+      }
+      if (context?.previousCategories) {
+        qc.setQueryData(context.categoriesQueryKey, context.previousCategories);
+      }
+    },
+    onSettled: () => {
+      // No refetch needed - optimistic updates are accurate
     },
   });
 };

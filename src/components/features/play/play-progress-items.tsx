@@ -4,11 +4,13 @@ import { useCheckProgressItem, useUncheckProgressItem } from "@/hooks/usePlay";
 interface PlayProgressItemsProps {
   items: PlayProgressItem[];
   playId: string;
+  categoryId: number;
 }
 
 export const PlayProgressItems = ({
   items,
   playId,
+  categoryId,
 }: PlayProgressItemsProps) => {
   const checkComplete = useCheckProgressItem();
   const checkIncomplete = useUncheckProgressItem();
@@ -18,11 +20,13 @@ export const PlayProgressItems = ({
       checkComplete.mutate({
         playId,
         progressItemId: item.id,
+        categoryId,
       });
     } else {
       checkIncomplete.mutate({
         playId,
         progressItemId: item.id,
+        categoryId,
       });
     }
   };
@@ -39,7 +43,6 @@ export const PlayProgressItems = ({
             id={`item-${item.id}`}
             checked={isCompleted}
             onCheckedChange={(checked) => handleToggle(item, checked)}
-            disabled={checkComplete.isPending || checkIncomplete.isPending}
           >
             {/* Item content */}
             {item.description && (

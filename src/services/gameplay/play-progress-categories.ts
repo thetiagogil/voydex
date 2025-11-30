@@ -118,39 +118,30 @@ export const getPlayProgressCategories = async (playId: string) => {
       );
     }
 
-    const regionalKeys = filteredDex.map((r: any) =>
-      r.form_id ? `${r.species_id}:${r.form_id}` : `${r.species_id}`,
-    );
+    // Get unique species IDs (database constraint is on species_id only)
+    const uniqueSpeciesIds = [
+      ...new Set(filteredDex.map((r: any) => r.species_id)),
+    ];
 
     // fetch pokemon_caught for this play
     let caughtCount = 0;
-    if (regionalKeys.length > 0) {
-      const speciesIds = [
-        ...new Set(filteredDex.map((r: any) => r.species_id)),
-      ];
+    if (uniqueSpeciesIds.length > 0) {
       const { data: caught, error: caughtErr } = await supabase
         .schema("gameplay")
         .from("pokemon_caught")
-        .select("species_id, form_id")
+        .select("species_id")
         .eq("play_id", playId)
-        .in("species_id", speciesIds);
+        .in("species_id", uniqueSpeciesIds);
       if (caughtErr) return { data: null, error: caughtErr };
 
-      const caughtSet = new Set<string>();
-      (caught || []).forEach((c: any) => {
-        const key = c.form_id
-          ? `${c.species_id}:${c.form_id}`
-          : `${c.species_id}`;
-        caughtSet.add(key);
-      });
-
-      caughtCount = regionalKeys.reduce(
-        (acc: number, k: string) => (caughtSet.has(k) ? acc + 1 : acc),
-        0,
+      // Count unique caught species
+      const caughtSpeciesIds = new Set(
+        (caught || []).map((c: any) => c.species_id),
       );
+      caughtCount = caughtSpeciesIds.size;
     }
 
-    const totalDexCount = regionalKeys.length;
+    const totalDexCount = uniqueSpeciesIds.length;
     dexCategories.forEach((c: any) => {
       dexTotals[c.id] = { total: totalDexCount, caught: caughtCount };
     });
