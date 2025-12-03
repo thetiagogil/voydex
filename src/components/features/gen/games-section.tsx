@@ -1,26 +1,27 @@
-import { GamesGrid } from "./games-grid";
+import { Header } from "@/components/shared/header";
+import { GameCard } from "./game-card";
 
-interface GamesSectionProps {
-  games: Array<{
-    slug: string;
-    name: string;
-    version: string;
-    color: string;
-    year: number;
-    description: string;
-    features: string[];
-    playthroughCount?: number;
-    activePlaythroughs?: number;
-    completedPlaythroughs?: number;
-  }>;
-  genSlug: string;
-}
+const GamesGrid = ({ games, genId }: { games: Game[]; genId: string }) => {
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {games.map((game: Game) => (
+        <GameCard key={game.id} game={game} genId={genId} />
+      ))}
+    </div>
+  );
+};
 
-export const GamesSection = ({ games, genSlug }: GamesSectionProps) => {
+export const GamesSection = ({
+  games,
+  genId,
+}: {
+  games: Game[];
+  genId: string;
+}) => {
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-semibold">Available Games</h2>
-      <GamesGrid games={games} genSlug={genSlug} />
+      <Header title="Available Games" size="sm" />
+      <GamesGrid games={games} genId={genId} />
     </div>
   );
 };
