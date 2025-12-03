@@ -5,6 +5,15 @@ interface BaseInfo {
   sprite_url?: string | null;
 }
 
+interface Breadcrumbs {
+  label: string;
+  href: string;
+  menu?: {
+    endpoint: string;
+  };
+}
+[];
+
 type Type =
   | "normal"
   | "fire"

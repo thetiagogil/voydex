@@ -24,7 +24,7 @@ import { useState } from "react";
 interface PositionFieldProps {
   value?: number;
   onChange: (value: number) => void;
-  team?: PlayPokemonTeam[];
+  team?: PlayPokemon[];
   currentPokemonId?: string;
   error?: string;
   isEditing?: boolean;

@@ -6,17 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { type PlaythroughData } from "@/lib/mock-data";
-import { Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 
-interface PlaythroughCardProps {
-  playthrough: PlaythroughData;
-  genSlug: string;
+interface GamePlayCardProps {
+  play: Game["plays"][number];
+  genId: string | number;
   gameSlug: string;
 }
 
-const getStatusColor = (status: PlaythroughData["status"]) => {
+const getStatusColor = (status: Play["status"]) => {
   switch (status) {
     case "active":
       return "bg-green-500";
@@ -29,7 +27,7 @@ const getStatusColor = (status: PlaythroughData["status"]) => {
   }
 };
 
-const getStatusLabel = (status: PlaythroughData["status"]) => {
+const getStatusLabel = (status: Play["status"]) => {
   switch (status) {
     case "active":
       return "Active";
@@ -42,25 +40,19 @@ const getStatusLabel = (status: PlaythroughData["status"]) => {
   }
 };
 
-export const PlaythroughCard = ({
-  playthrough,
-  genSlug,
-  gameSlug,
-}: PlaythroughCardProps) => {
+export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
   return (
     <Card className="hover:bg-muted/50 cursor-pointer transition-colors">
-      <Link
-        href={`/adventures/gen/${genSlug}/game/${gameSlug}/play/${playthrough.id}`}
-      >
+      <Link href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-lg">{playthrough.title}</CardTitle>
+              <CardTitle className="text-lg">{play.name}</CardTitle>
               <CardDescription className="flex items-center gap-2">
                 <div
-                  className={`h-2 w-2 rounded-full ${getStatusColor(playthrough.status)}`}
+                  className={`h-2 w-2 rounded-full ${getStatusColor(play.status)}`}
                 />
-                {getStatusLabel(playthrough.status)}
+                {getStatusLabel(play.status)}
               </CardDescription>
             </div>
           </div>
@@ -68,74 +60,72 @@ export const PlaythroughCard = ({
 
         <CardContent className="space-y-4">
           {/* Overall Completion - General % (not category-specific) */}
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span>Overall Completion</span>
-              <span>{playthrough.progress.overallCompletion || 0}%</span>
+              <span>{play.progress.overallCompletion || 0}%</span>
             </div>
             <div className="bg-muted h-2 w-full rounded-full">
               <div
                 className="bg-primary h-2 rounded-full transition-all"
                 style={{
-                  width: `${playthrough.progress.overallCompletion || 0}%`,
+                  width: `${play.progress.overallCompletion || 0}%`,
                 }}
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Pokemon Stats */}
-          {(playthrough.progress.pokemonCaught !== undefined ||
-            playthrough.progress.totalPokemon !== undefined) && (
+          {/* {(play.progress.pokemonCaught !== undefined ||
+            play.progress.totalPokemon !== undefined) && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Pokémon Caught:</span>
               <span className="font-medium">
-                {playthrough.progress.pokemonCaught || 0}
-                {playthrough.progress.totalPokemon
-                  ? `/${playthrough.progress.totalPokemon}`
+                {play.progress.pokemonCaught || 0}
+                {play.progress.totalPokemon
+                  ? `/${play.progress.totalPokemon}`
                   : ""}
               </span>
             </div>
-          )}
+          )} */}
 
           {/* Current Status */}
-          <div className="space-y-1 text-sm">
-            {playthrough.progress.currentLocation && (
+          {/* <div className="space-y-1 text-sm">
+            {play.progress.currentLocation && (
               <div className="flex items-center gap-2">
                 <Calendar className="text-muted-foreground h-4 w-4" />
                 <span className="text-muted-foreground">Currently at:</span>
                 <span className="font-medium">
-                  {playthrough.progress.currentLocation}
+                  {play.progress.currentLocation}
                 </span>
               </div>
             )}
-            {playthrough.progress.playtime && (
+            {play.progress.playtime && (
               <div className="flex items-center gap-2">
                 <Clock className="text-muted-foreground h-4 w-4" />
                 <span className="text-muted-foreground">Playtime:</span>
-                <span className="font-medium">
-                  {playthrough.progress.playtime}
-                </span>
+                <span className="font-medium">{play.progress.playtime}</span>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Team Preview */}
-          {playthrough.team.length > 0 && (
+          {play.pokemon_team.length > 0 && (
             <div className="space-y-2">
               <p className="text-sm font-medium">Current Team:</p>
               <div className="flex flex-wrap gap-1">
-                {playthrough.team.slice(0, 3).map((pokemon, index) => (
+                {play.pokemon_team.slice(0, 3).map((pokemon, index) => (
                   <Badge
                     key={index}
                     variant="outline-primary"
                     className="text-xs"
                   >
-                    {pokemon.name} Lv.{pokemon.level}
+                    {pokemon.species?.name} Lv.{pokemon.level}
                   </Badge>
                 ))}
-                {playthrough.team.length > 3 && (
+                {play.pokemon_team.length > 3 && (
                   <Badge variant="outline-primary" className="text-xs">
-                    +{playthrough.team.length - 3} more
+                    +{play.pokemon_team.length - 3} more
                   </Badge>
                 )}
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { PlayHeader } from "@/components/features/play/play-header";
-import { PlayPokemonTeam } from "@/components/features/play/play-pokemon-team";
+import { PlayPokemon } from "@/components/features/play/play-pokemon-team";
 import { PlayProgressCategories } from "@/components/features/play/play-progress-categories";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Spinner } from "@/components/ui/spinner";
@@ -21,7 +21,7 @@ interface PlayPageProps {
 export default function PlayPage({ params }: PlayPageProps) {
   const { playId } = use(params);
   const {
-    data: playData,
+    data: play,
     isLoading: playLoading,
     error: playError,
   } = usePlay(playId);
@@ -38,7 +38,7 @@ export default function PlayPage({ params }: PlayPageProps) {
     );
   }
 
-  if (playError || !playData?.data) {
+  if (playError || !play?.data) {
     return (
       <PageLayout>
         <div className="flex items-center justify-center py-12">
@@ -48,13 +48,13 @@ export default function PlayPage({ params }: PlayPageProps) {
     );
   }
 
-  const generationId = playData.data.game.generation.id;
+  const generationId = play.data.game.generation.id;
 
   return (
     <PageLayout>
       <div className="space-y-8">
-        <PlayHeader play={playData} />
-        <PlayPokemonTeam
+        <PlayHeader play={play.data} />
+        <PlayPokemon
           playId={playId}
           generationId={generationId}
           pokemonTeam={pokemonTeamData}

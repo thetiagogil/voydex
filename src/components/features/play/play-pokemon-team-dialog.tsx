@@ -39,18 +39,18 @@ import { NicknameField } from "./team-form-fields/nickname-field";
 import { PositionField } from "./team-form-fields/position-field";
 import { SpeciesField } from "./team-form-fields/species-field";
 
-interface PlayPokemonTeamFormProps {
+interface PlayPokemonTeamDialogProps {
   openDialog: boolean;
   setOpenDialog: (open: boolean) => void;
   playId: string;
   generationId: number;
-  pokemon: PlayPokemonTeam | null;
+  pokemon: PlayPokemon | null;
   position: number | null;
-  team?: PlayPokemonTeam[];
+  team?: PlayPokemon[];
   onClose: () => void;
 }
 
-export const PlayPokemonTeamForm = ({
+export const PlayPokemonTeamDialog = ({
   openDialog,
   setOpenDialog,
   playId,
@@ -59,7 +59,7 @@ export const PlayPokemonTeamForm = ({
   position,
   team = [],
   onClose,
-}: PlayPokemonTeamFormProps) => {
+}: PlayPokemonTeamDialogProps) => {
   const addPokemon = useAddPokemonToTeam();
   const updatePokemon = useUpdatePokemonInTeam();
   const isEditing = !!pokemon;

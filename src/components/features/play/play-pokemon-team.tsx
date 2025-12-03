@@ -10,31 +10,31 @@ import {
 } from "@/components/ui/empty";
 import { BookPlus, Edit, Plus, Users } from "lucide-react";
 import { useState } from "react";
-import { PlayPokemonTeamForm } from "./play-pokemon-team-form";
+import { PlayPokemonTeamDialog } from "./play-pokemon-team-dialog";
 import { PlayPokemonTeamSheet } from "./play-pokemon-team-sheet";
 
 interface PlayPokemonTeamProps {
   playId: string;
   generationId: number;
-  pokemonTeam?: PlayPokemonTeam[];
+  pokemonTeam?: PlayPokemon[];
 }
 
-export const PlayPokemonTeam = ({
+export const PlayPokemon = ({
   playId,
   generationId,
   pokemonTeam,
 }: PlayPokemonTeamProps) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [openPokemonDetails, setOpenPokemonDetails] = useState<boolean>(false);
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemonTeam | null>(
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
     null,
   );
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [addPosition, setAddPosition] = useState<number | null>(null);
 
-  const team: PlayPokemonTeam[] = pokemonTeam || [];
+  const team: PlayPokemon[] = pokemonTeam || [];
 
-  const handleQuickEdit = (pokemon: PlayPokemonTeam) => {
+  const handleQuickEdit = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);
     setAddPosition(null);
     setOpenEditDialog(true);
@@ -233,7 +233,7 @@ export const PlayPokemonTeam = ({
       />
 
       {/* Quick Edit Dialog */}
-      <PlayPokemonTeamForm
+      <PlayPokemonTeamDialog
         openDialog={openEditDialog}
         setOpenDialog={setOpenEditDialog}
         playId={playId}

@@ -16,24 +16,20 @@ import {
 import { type GameInfo } from "@/lib/mock-data/types";
 import { Plus } from "lucide-react";
 
-interface CreatePlaythroughDialogProps {
+interface GameCreateNewPlayDialogProps {
   game: GameInfo;
-  trigger?: React.ReactNode;
 }
 
-export const CreatePlaythroughDialog = ({
+export const GameCreateNewPlayDialog = ({
   game,
-  trigger,
-}: CreatePlaythroughDialogProps) => {
+}: GameCreateNewPlayDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            New Playthrough
-          </Button>
-        )}
+        <Button variant="outline-secondary">
+          <Plus className="mr-2 h-4 w-4" />
+          New Playthrough
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

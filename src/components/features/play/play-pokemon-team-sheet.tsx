@@ -18,15 +18,15 @@ import {
 } from "@/hooks/gameplay/usePlayPokemonTeam";
 import { BookPlus, Plus } from "lucide-react";
 import { useState } from "react";
-import { PlayPokemonTeamForm } from "./play-pokemon-team-form";
+import { PlayPokemonTeamDialog } from "./play-pokemon-team-dialog";
 import { PlayPokemonTeamSheetCard } from "./play-pokemon-team-sheet-card";
 
 interface PlayPokemonTeamProps {
-  team: PlayPokemonTeam[];
+  team: PlayPokemon[];
   openDetails: boolean;
   isBox?: boolean;
   handleAdd: (position: number) => void;
-  handleEdit: (pokemon: PlayPokemonTeam) => void;
+  handleEdit: (pokemon: PlayPokemon) => void;
   handleDelete: (pokemonId: string) => void;
 }
 
@@ -95,12 +95,12 @@ export const PlayPokemonTeamSheet = ({
   const removePokemon = useRemovePokemonFromTeam();
   const [openDetails, setOpenDetails] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemonTeam | null>(
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
     null,
   );
   const [addPosition, setAddPosition] = useState<number | null>(null);
 
-  const team: PlayPokemonTeam[] = pokemonTeam || [];
+  const team: PlayPokemon[] = pokemonTeam || [];
   const activeTeam = team.filter((p) => p.position <= 6);
   const boxTeam = team.filter((p) => p.position > 6);
 
@@ -110,7 +110,7 @@ export const PlayPokemonTeamSheet = ({
     setOpenDialog(true);
   };
 
-  const handleEdit = (pokemon: PlayPokemonTeam) => {
+  const handleEdit = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);
     setAddPosition(null);
     setOpenDialog(true);
@@ -186,7 +186,7 @@ export const PlayPokemonTeamSheet = ({
         </SheetFooter>
 
         {/* Edit/Add Dialog */}
-        <PlayPokemonTeamForm
+        <PlayPokemonTeamDialog
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
           playId={playId}

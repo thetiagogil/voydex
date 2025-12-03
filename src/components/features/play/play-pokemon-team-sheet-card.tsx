@@ -6,12 +6,12 @@ import { Trash2 } from "lucide-react";
 
 interface PlayPokemonTeamSheetCardProps {
   openDetails: boolean;
-  pokemon: PlayPokemonTeam;
+  pokemon: PlayPokemon;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const PokemonSprite = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
+const PokemonSprite = ({ pokemon }: { pokemon: PlayPokemon }) => {
   const spriteSize = "h-10 w-10";
   return (
     <div
@@ -32,7 +32,7 @@ const PokemonSprite = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
   );
 };
 
-const PokemonInfo = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
+const PokemonInfo = ({ pokemon }: { pokemon: PlayPokemon }) => {
   return (
     <div className="min-w-[100px]">
       <p className="truncate text-sm font-semibold">
@@ -47,7 +47,7 @@ const PokemonInfo = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
   );
 };
 
-const PokemonLevel = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
+const PokemonLevel = ({ pokemon }: { pokemon: PlayPokemon }) => {
   return (
     <Badge variant="outline-secondary" className="text-xs">
       Lv. {pokemon.level}
@@ -59,7 +59,7 @@ const PokemonTypes = ({
   pokemon,
   showDetails,
 }: {
-  pokemon: PlayPokemonTeam;
+  pokemon: PlayPokemon;
   showDetails: boolean;
 }) => {
   return (
@@ -80,7 +80,7 @@ const PokemonTypes = ({
   );
 };
 
-const PokemonNatureAbility = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
+const PokemonNatureAbility = ({ pokemon }: { pokemon: PlayPokemon }) => {
   return (
     <div className="flex min-w-[100px] flex-col gap-1 text-xs">
       <div className="truncate">
@@ -95,7 +95,7 @@ const PokemonNatureAbility = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
   );
 };
 
-const PokemonMoves = ({ pokemon }: { pokemon: PlayPokemonTeam }) => {
+const PokemonMoves = ({ pokemon }: { pokemon: PlayPokemon }) => {
   return (
     <div className="grid flex-1 grid-cols-2 gap-1 text-xs">
       {Array.from({ length: 4 }).map((_, i) => {
