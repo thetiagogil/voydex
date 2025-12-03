@@ -2,7 +2,7 @@ import { ActivitySection } from "@/components/features/adventures/activity-secti
 import { GenerationSection } from "@/components/features/adventures/generation-section";
 import { StatsSection } from "@/components/features/adventures/stats-section";
 import { PageLayout } from "@/components/layout/page-layout";
-import { PageHeader } from "@/components/shared/page-header";
+import { Header } from "@/components/shared/header";
 import {
   mockAdventureStats,
   mockGenerationPlayData,
@@ -13,7 +13,8 @@ export default function AdventuresPage() {
   return (
     <PageLayout>
       <div className="space-y-6">
-        <PageHeader
+        <Header
+          size="lg"
           title="Adventures"
           description="Track your Pokémon journeys across all generations. View your active playthroughs, earned badges, and recent achievements."
         />

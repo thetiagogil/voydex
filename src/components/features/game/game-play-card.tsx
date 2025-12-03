@@ -47,7 +47,9 @@ export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-lg">{play.name}</CardTitle>
+              <CardTitle className="flex w-100 items-center justify-between gap-2 text-lg">
+                {play.name}
+              </CardTitle>
               <CardDescription className="flex items-center gap-2">
                 <div
                   className={`h-2 w-2 rounded-full ${getStatusColor(play.status)}`}

@@ -21,3 +21,16 @@ export const getTypeColor = (type: Type) => {
   };
   return colors[type] || "bg-gray-400";
 };
+
+export const getStatusColor = (status: Play["status"]) => {
+  switch (status) {
+    case "active":
+      return "bg-green-500";
+    case "completed":
+      return "bg-blue-500";
+    case "paused":
+      return "bg-yellow-500";
+    default:
+      return "bg-gray-500";
+  }
+};

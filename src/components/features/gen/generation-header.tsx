@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/shared/page-header";
+import { Header } from "@/components/shared/header";
 
 interface GenerationHeaderProps {
   generation: {
@@ -43,11 +43,11 @@ export const GenerationHeader = ({ generation }: GenerationHeaderProps) => {
   }
 
   return (
-    <PageHeader
+    <Header
       title={generation.name}
       metadata={metadata}
       description={generation.description}
-      badge={{
+      badges={{
         label: `${generation.pokemonCount} Pokémon`,
       }}
     />

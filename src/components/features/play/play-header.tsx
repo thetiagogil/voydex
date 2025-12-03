@@ -1,13 +1,18 @@
-import { PageHeader } from "@/components/shared/page-header";
-import { getPlayStatusVariant } from "@/lib/utils/play";
+import { Header } from "@/components/shared/header";
+import { Button } from "@/components/ui/button";
+import { getStatusColor } from "@/lib/utils/common";
 
 export const PlayHeader = ({ play }: { play: Play }) => (
-  <PageHeader
+  <Header
+    size="lg"
     title={play.name}
-    badge={{
-      label: play.status,
-      variant: getPlayStatusVariant(play.status),
-    }}
+    info={
+      <div
+        title={play.status}
+        className={`h-3 w-3 rounded-full ${getStatusColor(play.status)}`}
+      />
+    }
     metadata={`${play.game.generation.name} • ${play.game.name}`}
+    actions={<Button variant="outline-secondary">Edit play</Button>}
   />
 );

@@ -1,11 +1,11 @@
-import { PageHeader } from "@/components/shared/page-header";
+import { Header } from "@/components/shared/header";
+import { Badge } from "@/components/ui/badge";
 
 export const GameHeader = ({ game }: { game: Game }) => (
-  <PageHeader
+  <Header
+    size="lg"
     title={game.name}
-    badge={{
-      label: game.type + " game",
-    }}
+    info={<Badge variant="outline-secondary">{game.type + " game"}</Badge>}
     metadata={`${game.generation?.name} • ${game.region?.name} • ${game.release_year}`}
   />
 );
