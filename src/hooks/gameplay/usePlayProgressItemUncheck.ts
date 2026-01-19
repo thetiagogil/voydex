@@ -104,7 +104,7 @@ export const useUncheckPlayProgressItem = () => {
   });
 };
 
-export const useUncheckPlayProgressItemBatch = () => {
+export const useUncheckPlayProgressItemBulk = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -117,7 +117,7 @@ export const useUncheckPlayProgressItemBatch = () => {
       categoryId: number;
     }) => {
       const res = await fetch(
-        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/batch-uncheck`,
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/bulk-uncheck`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

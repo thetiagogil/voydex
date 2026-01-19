@@ -1,4 +1,4 @@
-import { checkPlayProgressItemBatch as checkProgressItemBatch } from "@/services/gameplay/play-progress-check-batch";
+import { checkProgressItemBulk } from "@/services/gameplay/play-progress";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -24,7 +24,7 @@ export async function POST(
       );
     }
 
-    await checkProgressItemBatch(playId, progressItemIds);
+    await checkProgressItemBulk(playId, progressItemIds);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

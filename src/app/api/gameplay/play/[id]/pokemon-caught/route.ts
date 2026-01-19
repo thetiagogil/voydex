@@ -1,4 +1,4 @@
-import { getPlayRegionalDex } from "@/services/gameplay/play-pokemon-caught";
+import { getPlayRegionalDex } from "@/services/gameplay/play-dex";
 import { NextResponse } from "next/server";
 
 export async function GET(

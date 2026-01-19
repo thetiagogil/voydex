@@ -1,9 +1,9 @@
 import { Header } from "@/components/shared/header";
 import { Badge } from "@/components/ui/badge";
 
-export const GenHeader = ({ gen }: { gen: Gen }) => {
+export const GenHeader = ({ gen }: { gen: Generation }) => {
   // Build metadata text
-  let metadata = `${gen.start_year} - ${gen.end_year}`;
+  const metadata = `${gen.start_year} - ${gen.end_year || "Present"}`;
   // Add user stats if available (general completion only, not category-specific)
 
   return (

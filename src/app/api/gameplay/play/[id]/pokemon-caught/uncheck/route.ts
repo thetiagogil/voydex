@@ -1,4 +1,4 @@
-import { uncheckPlayPokemonCaught as uncheckPokemonCaught } from "@/services/gameplay/play-pokemon-caught-uncheck";
+import { uncheckPokemonCaught } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -9,7 +9,6 @@ export async function DELETE(
     const { id: playId } = await params;
     const { searchParams } = new URL(request.url);
     const speciesId = searchParams.get("speciesId");
-    const formId = searchParams.get("formId");
 
     if (!speciesId) {
       return NextResponse.json(
@@ -18,11 +17,7 @@ export async function DELETE(
       );
     }
 
-    const result = await uncheckPokemonCaught(
-      playId,
-      parseInt(speciesId),
-      formId ? parseInt(formId) : 0,
-    );
+    const result = await uncheckPokemonCaught(playId, parseInt(speciesId));
     return NextResponse.json(result);
   } catch (error: unknown) {
     console.error("Error unchecking Pokémon as caught:", error);

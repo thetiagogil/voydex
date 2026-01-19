@@ -66,11 +66,11 @@ const PokemonTypes = ({
     <div className={`flex ${showDetails && "min-w-[120px]"} gap-1`}>
       {pokemon.types.map((type) =>
         showDetails ? (
-          <TypeBadge key={type.id} type={type.name as Type} />
+          <TypeBadge key={type.id} type={type.name as PokemonType} />
         ) : (
           <TypeBadge
             key={type.id}
-            type={type.name as Type}
+            type={type.name as PokemonType}
             size="sm"
             variant="solid"
           />

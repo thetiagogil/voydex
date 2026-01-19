@@ -1,20 +1,28 @@
+// =============================================================================
+// BASE INFO - Common structure for entities with id, slug, name
+// =============================================================================
+
 interface BaseInfo {
   id: number;
   slug: string;
   name: string;
-  sprite_url?: string | null;
 }
 
-interface Breadcrumbs {
+// =============================================================================
+// BREADCRUMBS - Navigation breadcrumb item
+// =============================================================================
+
+interface Breadcrumb {
   label: string;
   href: string;
-  menu?: {
-    endpoint: string;
-  };
+  current?: boolean;
 }
-[];
 
-type Type =
+// =============================================================================
+// POKEMON TYPES
+// =============================================================================
+
+type PokemonType =
   | "normal"
   | "fire"
   | "water"

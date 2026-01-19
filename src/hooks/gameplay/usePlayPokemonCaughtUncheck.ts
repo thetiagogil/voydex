@@ -90,7 +90,7 @@ export const useUncheckPlayPokemonCaught = () => {
   });
 };
 
-export const useUncheckPlayPokemonCaughtBatch = () => {
+export const useUncheckPlayPokemonCaughtBulk = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -101,7 +101,7 @@ export const useUncheckPlayPokemonCaughtBatch = () => {
       speciesIds: number[];
     }) => {
       const res = await fetch(
-        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/batch-uncheck`,
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/bulk-uncheck`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

@@ -91,7 +91,7 @@ export const useCheckPlayPokemonCaught = () => {
   });
 };
 
-export const useCheckPlayPokemonCaughtBatch = () => {
+export const useCheckPlayPokemonCaughtBulk = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -102,7 +102,7 @@ export const useCheckPlayPokemonCaughtBatch = () => {
       pokemon: Array<{ speciesId: number; formId: number }>;
     }) => {
       const res = await fetch(
-        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/batch-check`,
+        `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught/bulk-check`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

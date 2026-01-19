@@ -105,7 +105,7 @@ export const useCheckPlayProgressItem = () => {
   });
 };
 
-export const useCheckPlayProgressItemBatch = () => {
+export const useCheckPlayProgressItemBulk = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -118,7 +118,7 @@ export const useCheckPlayProgressItemBatch = () => {
       categoryId: number;
     }) => {
       const res = await fetch(
-        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/batch-check`,
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/bulk-check`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

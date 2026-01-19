@@ -2,75 +2,192 @@
 
 import { createClient } from "@/lib/supabase/server";
 
+// =============================================================================
+// GET PLAY DETAILS
+// =============================================================================
+
 export const getPlay = async (id: string) => {
   const supabase = await createClient();
-  const { data: play, error: playError } = await supabase
-    .schema("gameplay")
-    .from("plays")
+
+  const { data: play, error } = await supabase
+    .schema("views")
+    .from("play_details")
     .select("*")
-    .eq("id", id)
+    .eq("play_id", id)
     .maybeSingle();
 
-  if (playError) return { data: null, error: playError };
+  if (error) return { data: null, error };
   if (!play) return { data: null, error: null };
 
-  let game = null;
-  if (play.game_id != null) {
-    const { data: g, error: gameError } = await supabase
-      .schema("meta")
-      .from("games")
-      .select("id, slug, name, generation_id, version_group_id")
-      .eq("id", play.game_id)
-      .maybeSingle();
-    if (gameError) return { data: null, error: gameError };
-    game = g;
-  }
+  const result = {
+    id: play.play_id,
+    user_id: play.user_id,
+    name: play.play_name,
+    status: play.status,
+    notes: play.notes,
+    include_unique_pokemon: play.include_unique_pokemon,
+    include_regional_dex: play.include_regional_dex,
+    include_national_dex: play.include_national_dex,
+    include_mythical_pokemon: play.include_mythical_pokemon,
+    created_at: play.created_at,
+    updated_at: play.updated_at,
+    game: {
+      id: play.game_id,
+      slug: play.game_slug,
+      name: play.game_name,
+      type: play.game_type,
+      regional_dex_count: play.regional_dex_count,
+      national_dex_count: play.national_dex_count,
+      version_group_id: play.version_group_id,
+      generation: {
+        id: play.generation_id,
+        slug: play.generation_slug,
+        name: play.generation_name,
+      },
+      region: {
+        id: play.region_id,
+        slug: play.region_slug,
+        name: play.region_name,
+      },
+    },
+  };
 
-  let generation = null;
-  if (game && game.generation_id != null) {
-    const { data: gen, error: genError } = await supabase
-      .schema("meta")
-      .from("generations")
-      .select("id, slug, name")
-      .eq("id", game.generation_id)
-      .maybeSingle();
-    if (genError) return { data: null, error: genError };
-    generation = gen;
-  }
+  const breadcrumbs = [
+    { label: "Adventures", href: "/adventures" },
+    {
+      label: play.generation_name,
+      href: `/adventures/gen/${play.generation_id}`,
+    },
+    {
+      label: play.game_name,
+      href: `/adventures/gen/${play.generation_id}/game/${play.game_slug}`,
+    },
+    {
+      label: play.play_name || "My Playthrough",
+      href: `/adventures/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
+      current: true,
+    },
+  ];
 
-  // Nest generation inside game for convenience (snapshot)
-  if (game && generation) {
-    game = { ...game, generation };
-  }
+  return { data: result, error: null, breadcrumbs };
+};
 
-  // Build breadcrumbs for UI (small snapshot)
-  const breadcrumbs = [];
-  // Adventures root
-  breadcrumbs.push({ label: "Adventures", href: "/adventures" });
+// =============================================================================
+// GET PLAY STATS
+// =============================================================================
 
-  if (generation) {
-    const genLabel = generation.name || generation.slug;
-    breadcrumbs.push({
-      label: genLabel,
-      href: `/adventures/gen/${generation.id}`,
-      menu: { endpoint: `/api/games?generation_id=${generation.id}` },
-    });
-  }
+export const getPlayStats = async (playId: string) => {
+  const supabase = await createClient();
 
-  if (game) {
-    breadcrumbs.push({
-      label: game.name,
-      href: `/adventures/gen/${generation?.id ?? "0"}/game/${game.slug}`,
-      menu: { endpoint: `/api/games?generation_id=${generation?.id ?? ""}` },
-    });
-  }
+  const { data, error } = await supabase
+    .schema("views")
+    .from("play_stats")
+    .select("*")
+    .eq("play_id", playId)
+    .maybeSingle();
 
-  const finalLabel = play.name || "My Playthrough";
-  breadcrumbs.push({
-    label: finalLabel,
-    href: `/adventures/gen/${generation?.id ?? "0"}/game/${game?.slug ?? "unknown"}/play/${play.id}`,
-    current: true,
-  });
+  if (error) return { data: null, error };
 
-  return { data: { ...play, game }, error: null, breadcrumbs };
+  return {
+    data: {
+      teamSize: data?.team_size ?? 0,
+      highestLevel: data?.highest_level ?? 0,
+      shinyCount: data?.shiny_count ?? 0,
+      pokemonCaughtCount: data?.pokemon_caught_count ?? 0,
+      completedProgressItems: data?.completed_progress_items ?? 0,
+    },
+    error: null,
+  };
+};
+
+// =============================================================================
+// CREATE PLAY
+// =============================================================================
+
+export const createPlay = async (gameId: number, name?: string) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+  // Default status_id = 1 (active) is set by the database default
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("plays")
+    .insert({
+      user_id: user.id,
+      game_id: gameId,
+      name: name || null,
+    })
+    .select()
+    .single();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+// =============================================================================
+// UPDATE PLAY
+// =============================================================================
+
+export const updatePlay = async (
+  playId: string,
+  updates: {
+    name?: string;
+    status_id?: number;
+    notes?: string;
+    include_unique_pokemon?: boolean;
+    include_regional_dex?: boolean;
+    include_national_dex?: boolean;
+    include_mythical_pokemon?: boolean;
+  },
+) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("plays")
+    .update(updates)
+    .eq("id", playId)
+    .select()
+    .single();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+// =============================================================================
+// DELETE PLAY
+// =============================================================================
+
+export const deletePlay = async (playId: string) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .schema("gameplay")
+    .from("plays")
+    .delete()
+    .eq("id", playId);
+
+  if (error) return { success: false, error };
+  return { success: true, error: null };
+};
+
+// =============================================================================
+// GET PLAY STATUSES (lookup table)
+// =============================================================================
+
+export const getPlayStatuses = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("play_statuses")
+    .select("id, slug, name, description, is_terminal, sort_order")
+    .order("sort_order", { ascending: true });
+
+  if (error) return { data: null, error };
+  return { data: data ?? [], error: null };
 };

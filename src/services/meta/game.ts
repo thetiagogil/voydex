@@ -14,6 +14,19 @@ export const getGame = async (id: string) => {
   if (gameError) return { data: null, error: gameError };
   if (!game) return { data: null, error: null };
 
+  // Get game type
+  let gameType = null;
+  if (game.type_id != null) {
+    const { data: gt, error: gtError } = await supabase
+      .schema("meta")
+      .from("game_types")
+      .select("id, slug, name")
+      .eq("id", game.type_id)
+      .maybeSingle();
+    if (gtError) return { data: null, error: gtError };
+    gameType = gt;
+  }
+
   let generation = null;
   if (game.generation_id != null) {
     const { data: gen, error: genError } = await supabase
@@ -38,34 +51,43 @@ export const getGame = async (id: string) => {
     region = reg;
   }
 
-  // Get plays for this game with team data and stats
+  // Get plays for this game with stats from view
   const { data: plays, error: playsError } = await supabase
-    .schema("gameplay")
-    .from("plays")
-    .select(
-      `
-      id,
-      name,
-      status,
-      created_at,
-      updated_at,
-      pokemon_team:pokemon_team (
-        id,
-        nickname,
-        level,
-        species_id
-      )
-    `,
-    )
+    .schema("views")
+    .from("game_plays_with_stats")
+    .select("*")
     .eq("game_id", game.id)
     .order("updated_at", { ascending: false });
 
   if (playsError) return { data: null, error: playsError };
 
-  // Collect all species IDs from the plays so we can batch-fetch species names
+  // Get team data for each play
+  const playIds = (plays || []).map((p: any) => p.play_id);
+  let teamsByPlayId: Record<string, any[]> = {};
+
+  if (playIds.length > 0) {
+    const { data: teamData } = await supabase
+      .schema("gameplay")
+      .from("pokemon_team")
+      .select("play_id, id, nickname, level, species_id")
+      .in("play_id", playIds);
+
+    teamsByPlayId = (teamData || []).reduce(
+      (acc: any, t: any) => {
+        if (!acc[t.play_id]) acc[t.play_id] = [];
+        acc[t.play_id].push(t);
+        return acc;
+      },
+      {} as Record<string, any[]>,
+    );
+  }
+
+  if (playsError) return { data: null, error: playsError };
+
+  // Collect all species IDs from teams so we can batch-fetch species names
   const speciesIds = new Set<number>();
-  (plays || []).forEach((pl: any) => {
-    (pl.pokemon_team || []).forEach((pt: any) => {
+  Object.values(teamsByPlayId).forEach((team: any[]) => {
+    team.forEach((pt: any) => {
       if (pt?.species_id) speciesIds.add(pt.species_id);
     });
   });
@@ -90,54 +112,31 @@ export const getGame = async (id: string) => {
     );
   }
 
-  const playsWithStats = await Promise.all(
-    (plays || []).map(async (play) => {
-      const { count: pokemonCaughtCount } = await supabase
-        .schema("gameplay")
-        .from("pokemon_caught")
-        .select("*", { count: "exact", head: true })
-        .eq("play_id", play.id);
-
-      const { data: progressData } = await supabase
-        .schema("gameplay")
-        .from("progress")
-        .select("progress_item_id")
-        .eq("play_id", play.id)
-        .eq("is_completed", true);
-
-      const completedItems = progressData?.length || 0;
-
-      const { count: totalItems } = await supabase
-        .schema("meta")
-        .from("progress_items")
-        .select("*", { count: "exact", head: true });
-
-      const overallCompletion =
-        totalItems && totalItems > 0
-          ? Math.round((completedItems / totalItems) * 100)
-          : 0;
-
-      return {
-        ...play,
-        pokemonCaught: pokemonCaughtCount || 0,
-        overallCompletion,
-        pokemon_team: (play.pokemon_team || []).map((pokemon: any) => ({
-          ...pokemon,
-          species: pokemon
-            ? {
-                id: pokemon.id,
-                slug: (
-                  pokemon.species_id && pokemon_species[pokemon.species_id]
-                )?.species_slug,
-                name:
-                  pokemon.species_id &&
-                  pokemon_species[pokemon.species_id]?.species_name,
-              }
-            : null,
-        })),
-      };
-    }),
-  );
+  // Map plays with their team data (stats already included from view)
+  const playsWithStats = (plays || []).map((play: any) => {
+    const team = teamsByPlayId[play.play_id] || [];
+    return {
+      id: play.play_id,
+      name: play.play_name,
+      status: play.status,
+      created_at: play.created_at,
+      updated_at: play.updated_at,
+      team_size: play.team_size,
+      highest_level: play.highest_level,
+      pokemon_caught_count: play.pokemon_caught_count,
+      completed_progress_items: play.completed_progress_items,
+      pokemon_team: team.map((pokemon: any) => ({
+        ...pokemon,
+        species: pokemon.species_id
+          ? {
+              id: pokemon.species_id,
+              slug: pokemon_species[pokemon.species_id]?.species_slug,
+              name: pokemon_species[pokemon.species_id]?.species_name,
+            }
+          : null,
+      })),
+    };
+  });
 
   // Calculate game stats from plays
   const totalPlaythroughs = playsWithStats.length;
@@ -147,17 +146,8 @@ export const getGame = async (id: string) => {
   const completedPlaythroughs = playsWithStats.filter(
     (p) => p.status === "completed",
   ).length;
-  const averageCompletion =
-    totalPlaythroughs > 0
-      ? Math.round(
-          playsWithStats.reduce(
-            (sum, p) => sum + (p.overallCompletion || 0),
-            0,
-          ) / totalPlaythroughs,
-        )
-      : 0;
   const totalPokemonCaught = playsWithStats.reduce(
-    (sum, p) => sum + (p.pokemonCaught || 0),
+    (sum, p) => sum + (p.pokemon_caught_count || 0),
     0,
   );
 
@@ -182,6 +172,7 @@ export const getGame = async (id: string) => {
   return {
     data: {
       ...game,
+      type: gameType?.slug ?? null,
       generation,
       region,
       plays: playsWithStats,
@@ -189,7 +180,6 @@ export const getGame = async (id: string) => {
         totalPlaythroughs,
         activePlaythroughs,
         completedPlaythroughs,
-        averageCompletion,
         totalPokemonCaught,
       },
     },

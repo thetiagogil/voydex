@@ -144,7 +144,7 @@ export const PlayPokemon = ({
                           <div className="flex gap-1">
                             {pokemon.types.map((type) => (
                               <div key={type.id}>
-                                <TypeBadge type={type.name as Type} />
+                                <TypeBadge type={type.name as PokemonType} />
                               </div>
                             ))}
                           </div>

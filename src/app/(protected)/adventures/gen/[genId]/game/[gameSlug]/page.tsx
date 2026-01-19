@@ -51,16 +51,14 @@ export default function GamePage({ params }: GamePageProps) {
           <GameEmptyPlay game={game.data} />
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
-            {game.data.plays.map(
-              (play: Play & { pokemon_team: PlayPokemon[] }) => (
-                <GamePlayCard
-                  key={play.id}
-                  play={play}
-                  genId={genId}
-                  gameSlug={gameSlug}
-                />
-              ),
-            )}
+            {game.data.plays.map((play: GamePlaySummary) => (
+              <GamePlayCard
+                key={play.id}
+                play={play}
+                genId={genId}
+                gameSlug={gameSlug}
+              />
+            ))}
           </div>
         )}
       </div>

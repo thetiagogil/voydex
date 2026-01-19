@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 
 interface GamePlayCardProps {
-  play: Game["plays"][number];
+  play: GamePlaySummary;
   genId: string | number;
   gameSlug: string;
 }

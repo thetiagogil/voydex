@@ -21,10 +21,10 @@ WITH
                     (14, 'platinum', 'Pokémon Platinum', 'generation-iv', 'sinnoh', 'pt', 'enhanced', 210, 493, 2009),
                     (15, 'heart-gold', 'Pokémon HeartGold', 'generation-iv', 'johto', 'hgss', 'remake', 251, 493, 2010),
                     (16, 'soul-silver', 'Pokémon SoulSilver', 'generation-iv', 'johto', 'hgss', 'remake', 251, 493, 2010)
-            ) AS t (id, slug, name, generation_slug, region_slug, version_group_slug, type, regional_dex_count, national_dex_count, release_year)
+            ) AS t (id, slug, name, generation_slug, region_slug, version_group_slug, type_slug, regional_dex_count, national_dex_count, release_year)
     )
 INSERT INTO
-    meta.games (id, slug, name, generation_id, region_id, version_group_id, type, regional_dex_count, national_dex_count, release_year)
+    meta.games (id, slug, name, generation_id, region_id, version_group_id, type_id, regional_dex_count, national_dex_count, release_year)
 SELECT
     xxx.id,
     xxx.slug,
@@ -32,10 +32,7 @@ SELECT
     gen.id,
     reg.id,
     vg.id,
-    CASE
-        WHEN xxx.type IS NULL THEN NULL
-        ELSE CAST(xxx.type AS meta.type_values)
-    END,
+    gt.id,
     xxx.regional_dex_count,
     xxx.national_dex_count,
     xxx.release_year
@@ -43,4 +40,5 @@ FROM
     xxx
     JOIN meta.generations gen ON gen.slug = xxx.generation_slug
     LEFT JOIN meta.regions reg ON reg.slug = xxx.region_slug
-    LEFT JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug ON CONFLICT (slug) DO NOTHING;
+    LEFT JOIN meta.version_groups vg ON vg.slug = xxx.version_group_slug
+    LEFT JOIN meta.game_types gt ON gt.slug = xxx.type_slug ON CONFLICT (slug) DO NOTHING;

@@ -1,4 +1,4 @@
-import { checkPlayPokemonCaughtBatch as checkPokemonCaughtBatch } from "@/services/gameplay/play-pokemon-caught-check-batch";
+import { checkPokemonCaughtBulk } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -17,7 +17,7 @@ export async function POST(
       );
     }
 
-    await checkPokemonCaughtBatch(playId, pokemon);
+    await checkPokemonCaughtBulk(playId, pokemon);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

@@ -1,5 +1,5 @@
-export const getTypeColor = (type: Type) => {
-  const colors: Record<Type, string> = {
+export const getTypeColor = (type: PokemonType) => {
+  const colors: Record<PokemonType, string> = {
     normal: "#A8A77A",
     fire: "#EE8130",
     water: "#6390F0",

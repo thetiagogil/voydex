@@ -1,16 +1,26 @@
-interface Gen {
+// =============================================================================
+// GENERATION
+// =============================================================================
+
+interface Generation {
   id: number;
   slug: string;
   name: string;
   start_year: number;
-  end_year: number;
+  end_year: number | null;
   new_pokemon_count: number;
   total_pokemon_count: number;
-  created_at: string;
-  games: Game[];
 }
 
-interface GenData {
-  data: Gen;
-  breadcrumbs: Breadcrumbs[];
+// =============================================================================
+// GENERATION WITH STATS (from dashboard service)
+// =============================================================================
+
+interface GenerationWithStats extends Generation {
+  gameCount: number;
+  stats: {
+    totalPlays: number;
+    activePlays: number;
+    completedPlays: number;
+  };
 }

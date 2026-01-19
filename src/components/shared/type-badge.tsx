@@ -90,7 +90,7 @@ export const TypeBadge = ({
   size,
   className,
 }: {
-  type: Type;
+  type: PokemonType;
   variant?: "solid" | "outline-primary";
   size?: "sm";
   showIcon?: boolean;

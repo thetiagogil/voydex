@@ -2,11 +2,11 @@ import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { Button } from "@/components/ui/button";
 import {
   useCheckPlayProgressItem,
-  useCheckPlayProgressItemBatch,
+  useCheckPlayProgressItemBulk,
 } from "@/hooks/gameplay/usePlayProgressItemCheck";
 import {
   useUncheckPlayProgressItem,
-  useUncheckPlayProgressItemBatch,
+  useUncheckPlayProgressItemBulk,
 } from "@/hooks/gameplay/usePlayProgressItemUncheck";
 
 interface PlayProgressItemsProps {
@@ -22,8 +22,8 @@ export const PlayProgressItems = ({
 }: PlayProgressItemsProps) => {
   const checkComplete = useCheckPlayProgressItem();
   const checkIncomplete = useUncheckPlayProgressItem();
-  const checkBatch = useCheckPlayProgressItemBatch();
-  const uncheckBatch = useUncheckPlayProgressItemBatch();
+  const checkBulk = useCheckPlayProgressItemBulk();
+  const uncheckBulk = useUncheckPlayProgressItemBulk();
 
   const handleToggle = (item: PlayProgressItem, checked: boolean) => {
     if (checked) {
@@ -43,11 +43,11 @@ export const PlayProgressItems = ({
 
   const handleSelectAll = () => {
     const itemsToCheck = items
-      .filter((item) => !item.userProgress?.completed)
+      .filter((item) => !item.completed)
       .map((item) => item.id);
 
     if (itemsToCheck.length > 0) {
-      checkBatch.mutate({
+      checkBulk.mutate({
         playId,
         progressItemIds: itemsToCheck,
         categoryId,
@@ -57,11 +57,11 @@ export const PlayProgressItems = ({
 
   const handleUnselectAll = () => {
     const itemsToUncheck = items
-      .filter((item) => item.userProgress?.completed)
+      .filter((item) => item.completed)
       .map((item) => item.id);
 
     if (itemsToUncheck.length > 0) {
-      uncheckBatch.mutate({
+      uncheckBulk.mutate({
         playId,
         progressItemIds: itemsToUncheck,
         categoryId,
@@ -82,7 +82,7 @@ export const PlayProgressItems = ({
 
       <div className="grid gap-3 sm:grid-cols-2">
         {items.map((item: PlayProgressItem) => {
-          const isCompleted = item.userProgress?.completed || false;
+          const isCompleted = item.completed || false;
 
           return (
             <SquareCheckbox
@@ -100,11 +100,9 @@ export const PlayProgressItems = ({
               )}
 
               {/* Completion date */}
-              {isCompleted && item.userProgress?.completed_at && (
+              {isCompleted && item.completedAt && (
                 <span className="text-muted-foreground text-xs">
-                  {new Date(
-                    item.userProgress.completed_at,
-                  ).toLocaleDateString()}
+                  {new Date(item.completedAt).toLocaleDateString()}
                 </span>
               )}
             </SquareCheckbox>

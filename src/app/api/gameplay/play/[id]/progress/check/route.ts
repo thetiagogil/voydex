@@ -1,4 +1,4 @@
-import { checkPlayProgressItem as checkProgressItem } from "@/services/gameplay/play-progress-item-check";
+import { checkProgressItem } from "@/services/gameplay/play-progress";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
