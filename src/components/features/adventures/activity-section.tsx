@@ -1,28 +1,42 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { type RecentActivity } from "@/lib/mock-data/adventures";
-import { Calendar, MapPin, Sparkles, Trophy } from "lucide-react";
+import type { RecentActivityItem } from "@/types/dashboard";
+import { Calendar, Sparkles, Star, Trophy } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ActivitySectionProps {
-  activities: RecentActivity[];
+  activities: RecentActivityItem[];
   maxItems?: number;
 }
 
-const getCategoryIcon = (category: RecentActivity["category"]) => {
-  switch (category) {
-    case "badge":
-      return <Trophy className="text-primary h-4 w-4" />;
-    case "elite-four":
-      return <Trophy className="text-primary h-4 w-4" />;
-    case "legendary":
-      return <Sparkles className="text-primary h-4 w-4" />;
-    case "pokedex":
-      return <Calendar className="text-primary h-4 w-4" />;
-    case "story":
-      return <MapPin className="text-primary h-4 w-4" />;
-    default:
-      return <MapPin className="text-muted-foreground h-4 w-4" />;
+const getActivityIcon = (activity: RecentActivityItem) => {
+  // Team additions show pokemon sprite instead
+  if (activity.type === "team_add") {
+    return null;
   }
+
+  // Progress-based icons by category slug
+  const categorySlug = activity.category?.slug.toLowerCase();
+  const activityMessage = activity.message.toLowerCase();
+  if (categorySlug?.includes("badges")) {
+    return <Star className="h-4 w-4 text-orange-500" />;
+  }
+  if (
+    categorySlug?.includes("elite-four") &&
+    !activityMessage?.includes("champion")
+  ) {
+    return <Trophy className="h-4 w-4 text-purple-500" />;
+  }
+  if (
+    categorySlug?.includes("elite-four") &&
+    activityMessage?.includes("champion")
+  ) {
+    return <Trophy className="h-4 w-4 text-yellow-500" />;
+  }
+  if (categorySlug?.includes("legendary")) {
+    return <Sparkles className="text-primary h-4 w-4" />;
+  }
+  return <Calendar className="text-muted-foreground h-4 w-4" />;
 };
 
 const formatRelativeTime = (dateString: string): string => {
@@ -45,60 +59,63 @@ export const ActivitySection = ({
   const displayedActivities = activities.slice(0, maxItems);
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-semibold">Recent Activity</h2>
+    <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
+      <h2 className="text-xl font-semibold">Recent Activity</h2>
 
-      <Card>
-        <CardContent>
-          <div className="pr-2">
-            <div className="space-y-4">
-              {displayedActivities.length === 0 ? (
-                <div className="text-muted-foreground py-8 text-center">
-                  <p>No recent activity</p>
-                  <p className="text-sm">
-                    Start playing to see your progress here!
-                  </p>
-                </div>
-              ) : (
-                displayedActivities.map((activity) => (
-                  <Link
-                    key={activity.id}
-                    href={`/adventures/gen/${activity.genSlug}/game/${activity.gameSlug}/play/${activity.playthroughId}`}
-                    className="block"
-                  >
-                    <div className="hover:bg-muted/50 flex gap-3 rounded-lg p-3 transition-colors">
-                      <div className="mt-1 flex-shrink-0">
-                        <div className="bg-primary/10 rounded-lg p-2">
-                          {getCategoryIcon(activity.category)}
+      <Card className="flex flex-1 flex-col overflow-hidden">
+        <CardContent className="flex-1 overflow-y-auto">
+          <div className="space-y-2">
+            {displayedActivities.length === 0 ? (
+              <div className="text-muted-foreground py-8 text-center">
+                <p>No recent activity</p>
+                <p className="text-sm">
+                  Start playing to see your progress here!
+                </p>
+              </div>
+            ) : (
+              displayedActivities.map((activity, i) => (
+                <Link key={i} href={activity.href} className="block">
+                  <div className="hover:bg-muted/50 flex gap-3 rounded-lg p-2.5 transition-colors">
+                    {/* Icon or Sprite */}
+                    <div className="flex-shrink-0">
+                      {activity.type === "team_add" &&
+                      activity.pokemon?.spriteUrl ? (
+                        <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
+                          <Image
+                            src={activity.pokemon.spriteUrl}
+                            alt={activity.pokemon.name}
+                            height={32}
+                            width={32}
+                            className="object-contain p-1"
+                          />
                         </div>
-                      </div>
-
-                      <div className="min-w-0 flex-1 space-y-1">
-                        <p className="text-sm leading-snug font-medium">
-                          {activity.message}
-                        </p>
-                        <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                          <span>{activity.gameName}</span>
-                          <span>•</span>
-                          <span className="font-medium">
-                            {activity.playthroughName}
-                          </span>
+                      ) : (
+                        <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
+                          {getActivityIcon(activity)}
                         </div>
-                        {activity.location && (
-                          <div className="text-muted-foreground flex items-center gap-1 text-xs">
-                            <MapPin className="h-3 w-3" />
-                            <span>{activity.location}</span>
-                          </div>
-                        )}
-                        <p className="text-muted-foreground text-xs">
-                          {formatRelativeTime(activity.completedAt)}
-                        </p>
-                      </div>
+                      )}
                     </div>
-                  </Link>
-                ))
-              )}
-            </div>
+
+                    {/* Content */}
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <p className="text-sm leading-snug font-medium">
+                        {activity.message}
+                      </p>
+                      <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
+                        <span className="truncate">{activity.game.name}</span>
+                        <span>•</span>
+                        <span className="truncate font-medium">
+                          {activity.play.name}
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground text-xs">
+                        {formatRelativeTime(activity.activityAt)}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </CardContent>
       </Card>

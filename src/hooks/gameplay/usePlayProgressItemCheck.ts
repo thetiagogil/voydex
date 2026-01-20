@@ -46,18 +46,15 @@ export const useCheckPlayProgressItem = () => {
       const previousItems = qc.getQueryData(itemsQueryKey);
       const previousCategories = qc.getQueryData(categoriesQueryKey);
 
-      // Optimistically update items (set userProgress.completed to true)
+      // Optimistically update items (set completed to true)
       qc.setQueryData(itemsQueryKey, (old: any) => {
         if (!old) return old;
         return old.map((item: any) =>
           item.id === progressItemId
             ? {
                 ...item,
-                userProgress: {
-                  ...item.userProgress,
-                  completed: true,
-                  completed_at: new Date().toISOString(),
-                },
+                completed: true,
+                completedAt: new Date().toISOString(),
               }
             : item,
         );
@@ -68,12 +65,11 @@ export const useCheckPlayProgressItem = () => {
         if (!old) return old;
         return old.map((cat: any) => {
           if (cat.id === categoryId) {
-            const newCompleted = (cat.items_completed || 0) + 1;
-            const total = cat.items_total || 1;
+            const newCompleted = (cat.completedItems || 0) + 1;
+            const total = cat.totalItems || 1;
             return {
               ...cat,
-              items_completed: newCompleted,
-              percentage_completed: (newCompleted / total) * 100,
+              completedItems: newCompleted,
             };
           }
           return cat;
@@ -157,11 +153,8 @@ export const useCheckPlayProgressItemBulk = () => {
           progressItemIds.includes(item.id)
             ? {
                 ...item,
-                userProgress: {
-                  ...item.userProgress,
-                  completed: true,
-                  completed_at: new Date().toISOString(),
-                },
+                completed: true,
+                completedAt: new Date().toISOString(),
               }
             : item,
         );
@@ -173,12 +166,10 @@ export const useCheckPlayProgressItemBulk = () => {
         return old.map((cat: any) => {
           if (cat.id === categoryId) {
             const newCompleted =
-              (cat.items_completed || 0) + progressItemIds.length;
-            const total = cat.items_total || 1;
+              (cat.completedItems || 0) + progressItemIds.length;
             return {
               ...cat,
-              items_completed: newCompleted,
-              percentage_completed: (newCompleted / total) * 100,
+              completedItems: newCompleted,
             };
           }
           return cat;

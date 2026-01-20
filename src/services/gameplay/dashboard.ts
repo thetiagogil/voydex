@@ -134,14 +134,8 @@ export const getDashboardStats = async () => {
       total_plays: 0,
       active_plays: 0,
       completed_plays: 0,
-      planned_plays: 0,
-      games_played: 0,
-      generations_explored: 0,
-      total_pokemon_caught: 0,
-      total_team_pokemon: 0,
-      shiny_pokemon: 0,
-      highest_level_pokemon: 0,
-      progress_items_completed: 0,
+      total_unique_species: 0,
+      last_activity: null,
     },
     error: null,
   };
@@ -164,34 +158,47 @@ export const getRecentActivity = async (limit = 10) => {
     .from("recent_activity")
     .select("*")
     .eq("user_id", user.id)
-    .order("updated_at", { ascending: false })
+    .order("activity_at", { ascending: false })
     .limit(limit);
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
   const result = data.map((activity) => ({
+    id: `${activity.activity_type}-${activity.play_id}-${activity.activity_at}`,
+    type: activity.activity_type,
+    message: activity.activity_message,
+    activityAt: activity.activity_at,
     play: {
       id: activity.play_id,
       name: activity.play_name,
-      status: activity.status,
-      updated_at: activity.updated_at,
     },
     game: {
-      id: activity.game_id,
       slug: activity.game_slug,
       name: activity.game_name,
     },
     generation: {
       id: activity.generation_id,
       slug: activity.generation_slug,
-      name: activity.generation_name,
     },
-    stats: {
-      teamSize: activity.team_size,
-      highestLevel: activity.highest_level,
-      pokemonCaught: activity.pokemon_caught_count,
-    },
+    // Conditional objects based on activity type
+    category: activity.category_id
+      ? {
+          id: activity.category_id,
+          slug: activity.category_slug,
+          name: activity.category_name,
+        }
+      : null,
+    pokemon: activity.species_id
+      ? {
+          speciesId: activity.species_id,
+          speciesSlug: activity.species_slug,
+          formId: activity.form_id,
+          formSlug: activity.form_slug,
+          name: activity.pokemon_name,
+          spriteUrl: activity.sprite_url,
+        }
+      : null,
     href: `/adventures/gen/${activity.generation_id}/game/${activity.game_slug}/play/${activity.play_id}`,
   }));
 

@@ -1,33 +1,56 @@
+"use client";
+
 import { ActivitySection } from "@/components/features/adventures/activity-section";
 import { GenerationSection } from "@/components/features/adventures/generation-section";
 import { StatsSection } from "@/components/features/adventures/stats-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Header } from "@/components/shared/header";
+import { Loading } from "@/components/shared/loading";
 import {
-  mockAdventureStats,
-  mockGenerationPlayData,
-  mockRecentActivity,
-} from "@/lib/mock-data/adventures";
+  useDashboardStats,
+  useGenerationsWithUserStats,
+  useRecentActivity,
+} from "@/hooks/gameplay/useDashboard";
 
 export default function AdventuresPage() {
+  const { data: stats, isLoading: isStatsLoading } = useDashboardStats();
+  const { data: generations, isLoading: isGenerationsLoading } =
+    useGenerationsWithUserStats();
+  const { data: activities, isLoading: isActivitiesLoading } =
+    useRecentActivity(15);
+
+  if (isStatsLoading || isGenerationsLoading || isActivitiesLoading) {
+    return (
+      <PageLayout isLoading>
+        <Loading />
+      </PageLayout>
+    );
+  }
+
   return (
-    <PageLayout>
-      <div className="space-y-6">
+    <PageLayout className="flex flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col space-y-6 overflow-hidden">
         <Header
           size="lg"
           title="Adventures"
-          description="Track your Pokémon journeys across all generations. View your active playthroughs, earned badges, and recent achievements."
+          description="Track your Pokémon journeys across all generations."
         />
 
-        <StatsSection stats={mockAdventureStats} />
+        <div className="flex flex-1 flex-col space-y-6 overflow-hidden">
+          {/* Stats Section */}
+          <StatsSection stats={stats ?? null} />
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <GenerationSection generations={mockGenerationPlayData} />
-          </div>
+          {/* Main Content - Two Columns with Independent Scrolling */}
+          <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-3">
+            {/* Generations Column */}
+            <div className="flex min-h-0 flex-col lg:col-span-2">
+              <GenerationSection generations={generations ?? []} />
+            </div>
 
-          <div className="lg:col-span-1">
-            <ActivitySection activities={mockRecentActivity} />
+            {/* Activity Column */}
+            <div className="flex min-h-0 flex-col lg:col-span-1">
+              <ActivitySection activities={activities ?? []} maxItems={5} />
+            </div>
           </div>
         </div>
       </div>

@@ -10,19 +10,22 @@ WITH
                     -- ============================================
                     ('badges', 'Hoenn Badges', 'rs', 'main-story', 'Earn the 8 Hoenn Gym Badges.', 1),
                     ('elite-four', 'Elite Four', 'rs', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('regional-pokedex', 'Hoenn Pokédex', 'rs', 'dex', 'Catch all Pokémon and complete the Pokédex.', 3),
+                    ('legendary', 'Legendary', 'rs', 'side-quest', 'Catch the legendary Pokémon.', 3),
+                    ('regional-pokedex', 'Hoenn Pokédex', 'rs', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4),
                     -- ============================================
                     -- Version group 'lgfr'
                     -- ============================================
                     ('badges', 'Kanto Badges', 'lgfr', 'main-story', 'Earn the 8 Kanto Gym Badges.', 1),
                     ('elite-four', 'Elite Four', 'lgfr', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('regional-pokedex', 'Kanto Pokédex', 'lgfr', 'dex', 'Catch all Pokémon and complete the Pokédex.', 3),
+                    ('legendary', 'Legendary', 'lgfr', 'side-quest', 'Catch the legendary Pokémon.', 3),
+                    ('regional-pokedex', 'Kanto Pokédex', 'lgfr', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4),
                     -- ============================================
                     -- Version group 'e'
                     -- ============================================
                     ('badges', 'Hoenn Badges', 'e', 'main-story', 'Earn the 8 Hoenn Gym Badges.', 1),
                     ('elite-four', 'Elite Four', 'e', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('regional-pokedex', 'Hoenn Pokédex', 'e', 'dex', 'Catch all Pokémon and complete the Pokédex.', 3)
+                    ('legendary', 'Legendary', 'e', 'side-quest', 'Catch the legendary Pokémon.', 3),
+                    ('regional-pokedex', 'Hoenn Pokédex', 'e', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4)
             ) AS xxx (slug, name, version_group_slug, type, description, sort_order)
     )
 INSERT INTO

@@ -13,7 +13,7 @@ WITH
                     ('badges-kanto', 'Kanto Badges', 'gs', 'post-game', 'Earn the 8 Kanto gym badges.', 3),
                     ('final-battle', 'Final Battle', 'gs', 'post-game', 'Fight against Red atop Mt. Silver.', 4),
                     ('unown-mode', 'Unown Mode', 'gs', 'collection', 'Catch all Unown forms in the Ruins of Alph.', 5),
-                    ('legendary', 'Legendary', 'gs', 'dex', 'Catch the legendary Pokémon.', 6),
+                    ('legendary', 'Legendary', 'gs', 'side-quest', 'Catch the legendary Pokémon.', 6),
                     ('regional-pokedex', 'New Pokédex', 'gs', 'dex', 'Catch all Pokémon and Catch all Pokémon and complete the Pokédex.', 7),
                     -- ============================================
                     -- Version group 'c'
@@ -23,7 +23,7 @@ WITH
                     ('badges-kanto', 'Kanto Badges', 'c', 'post-game', 'Earn the 8 Kanto gym badges.', 3),
                     ('final-battle', 'Final Battle', 'c', 'post-game', 'Fight against Red atop Mt. Silver.', 4),
                     ('unown-mode', 'Unown Mode', 'c', 'collection', 'Catch all Unown forms in the Ruins of Alph.', 5),
-                    ('legendary', 'Legendary', 'c', 'dex', 'Catch the legendary Pokémon.', 6),
+                    ('legendary', 'Legendary', 'c', 'side-quest', 'Catch the legendary Pokémon.', 6),
                     ('regional-pokedex', 'New Pokédex', 'c', 'dex', 'Catch all Pokémon and complete the Pokédex.', 7)
             ) AS xxx (slug, name, version_group_slug, type, description, sort_order)
     )

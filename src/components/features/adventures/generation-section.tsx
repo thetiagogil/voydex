@@ -1,24 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { type GenerationPlayData } from "@/lib/mock-data/adventures";
+import type { GenerationWithUserStats } from "@/types/dashboard";
 import { LayoutGrid, List } from "lucide-react";
 import { useState } from "react";
 import { GenerationCards } from "./generation-cards";
 import { GenerationRows } from "./generation-rows";
 
 interface GenerationSectionProps {
-  generations: GenerationPlayData[];
+  generations: GenerationWithUserStats[];
 }
 
 export const GenerationSection = ({ generations }: GenerationSectionProps) => {
   const [viewMode, setViewMode] = useState<"rows" | "cards">("rows");
 
   return (
-    <div className="space-y-4">
+    <div className="flex h-full flex-col space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Generations</h2>
-        <div className="flex gap-2">
+        <h2 className="text-xl font-semibold">Generations</h2>
+        <div className="flex gap-1">
           <Button
             variant={
               viewMode === "rows" ? "outline-primary" : "outline-secondary"
@@ -40,8 +40,10 @@ export const GenerationSection = ({ generations }: GenerationSectionProps) => {
         </div>
       </div>
 
-      {viewMode === "rows" && <GenerationRows generations={generations} />}
-      {viewMode === "cards" && <GenerationCards generations={generations} />}
+      <div className="flex-1 overflow-y-auto pr-2">
+        {viewMode === "rows" && <GenerationRows generations={generations} />}
+        {viewMode === "cards" && <GenerationCards generations={generations} />}
+      </div>
     </div>
   );
 };

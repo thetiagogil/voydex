@@ -3,7 +3,7 @@
 import { GamesSection } from "@/components/features/gen/games-section";
 import { GenHeader } from "@/components/features/gen/gen-header";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Spinner } from "@/components/ui/spinner";
+import { Loading } from "@/components/shared/loading";
 import { useGen } from "@/hooks/useGens";
 import { notFound } from "next/navigation";
 import { use } from "react";
@@ -21,7 +21,7 @@ export default function GenPage({ params }: GenPageProps) {
   if (genLoading) {
     return (
       <PageLayout isLoading>
-        <Spinner className="size-6" />
+        <Loading />
       </PageLayout>
     );
   }

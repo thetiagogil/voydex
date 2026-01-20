@@ -4,7 +4,7 @@ import { GameEmptyPlay } from "@/components/features/game/game-empty-play";
 import { GameHeader } from "@/components/features/game/game-header";
 import { GamePlayCard } from "@/components/features/game/game-play-card";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Spinner } from "@/components/ui/spinner";
+import { Loading } from "@/components/shared/loading";
 import { useGameBySlug } from "@/hooks/useGames";
 import { use } from "react";
 
@@ -27,7 +27,7 @@ export default function GamePage({ params }: GamePageProps) {
   if (gameLoading) {
     return (
       <PageLayout isLoading>
-        <Spinner className="size-6" />
+        <Loading />
       </PageLayout>
     );
   }

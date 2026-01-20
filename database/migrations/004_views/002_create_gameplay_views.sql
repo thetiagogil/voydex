@@ -456,7 +456,15 @@ SELECT
   gen.id AS generation_id,
   gen.slug AS generation_slug,
   pi.timeline_message AS activity_message,
+  -- Category object
+  pc.id AS category_id,
+  pc.slug AS category_slug,
   pc.name AS category_name,
+  -- Pokemon object (NULL for progress)
+  NULL::INTEGER AS species_id,
+  NULL::TEXT AS species_slug,
+  NULL::INTEGER AS form_id,
+  NULL::TEXT AS form_slug,
   NULL::TEXT AS pokemon_name,
   NULL::TEXT AS sprite_url,
   pr.completed_at AS activity_at
@@ -480,12 +488,21 @@ SELECT
   gen.id AS generation_id,
   gen.slug AS generation_slug,
   'Added ' || COALESCE(t.nickname, pf.name) || ' to team' AS activity_message,
-  NULL AS category_name,
+  -- Category object (NULL for team adds)
+  NULL::INTEGER AS category_id,
+  NULL::TEXT AS category_slug,
+  NULL::TEXT AS category_name,
+  -- Pokemon object
+  ps.id AS species_id,
+  ps.slug AS species_slug,
+  pf.id AS form_id,
+  pf.slug AS form_slug,
   pf.name AS pokemon_name,
   pf.sprite_url,
   t.created_at AS activity_at
 FROM gameplay.pokemon_team t
 JOIN gameplay.plays p ON t.play_id = p.id
 JOIN meta.pokemon_forms pf ON t.form_id = pf.id
+JOIN meta.pokemon_species ps ON pf.species_id = ps.id
 JOIN meta.games g ON p.game_id = g.id
 JOIN meta.generations gen ON g.generation_id = gen.id;

@@ -4,7 +4,7 @@ import { PlayHeader } from "@/components/features/play/play-header";
 import { PlayPokemon } from "@/components/features/play/play-pokemon-team";
 import { PlayProgressCategories } from "@/components/features/play/play-progress-categories";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Spinner } from "@/components/ui/spinner";
+import { Loading } from "@/components/shared/loading";
 import { usePlay } from "@/hooks/gameplay/usePlay";
 import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
 import { usePlayProgressCategories } from "@/hooks/gameplay/usePlayProgressCategories";
@@ -33,7 +33,7 @@ export default function PlayPage({ params }: PlayPageProps) {
   if (playLoading || pokemonTeamLoading || progressCategoriesLoading) {
     return (
       <PageLayout isLoading>
-        <Spinner className="size-6" />
+        <Loading />
       </PageLayout>
     );
   }

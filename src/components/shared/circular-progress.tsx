@@ -27,7 +27,7 @@ export const CircularProgress = ({
   circleStrokeWidth = 8,
   progressStrokeWidth = 8,
 }: CircularProgressProps) => {
-  const radius = size / 2 - 10;
+  const radius = size / 2 - 5;
   const circumference = Math.ceil(3.14 * radius * 2);
   const percentage = Math.ceil(circumference * ((100 - value) / 100));
 
