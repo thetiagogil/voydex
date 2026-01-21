@@ -4,132 +4,144 @@ import { createClient } from "@/lib/supabase/server";
 
 export const getGen = async (id: string) => {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // Get the gen
-  const { data: gen, error: genError } = await supabase
-    .schema("meta")
-    .from("generations")
+  // Get the generation with static stats from view
+  const { data: genData, error: genError } = await supabase
+    .schema("views")
+    .from("generation_with_stats")
     .select("*")
-    .eq("id", id)
+    .eq("generation_id", id)
     .maybeSingle();
 
   if (genError) return { data: null, error: genError };
-  if (!gen) return { data: null, error: null };
+  if (!genData) return { data: null, error: null };
 
-  // Get games for this gen
-  const { data: games, error: gamesError } = await supabase
-    .schema("meta")
-    .from("games")
-    .select("*")
-    .eq("generation_id", gen.id)
-    .order("id", { ascending: true });
+  // Get user-specific stats if logged in
+  let userStats: GenerationUserStats | null = null;
+  if (user) {
+    const { data: userStatsData } = await supabase
+      .schema("views")
+      .from("generation_user_stats")
+      .select("*")
+      .eq("generation_id", id)
+      .eq("user_id", user.id)
+      .maybeSingle();
 
-  if (gamesError) return { data: null, error: gamesError };
-
-  // For each game, get play stats
-  const gamesWithStats = await Promise.all(
-    (games || []).map(async (game) => {
-      const { data: plays } = await supabase
-        .schema("gameplay")
-        .from("plays")
-        .select("id, status")
-        .eq("game_id", game.id);
-
-      const playthroughCount = plays?.length || 0;
-      const activePlaythroughs =
-        plays?.filter((p) => p.status === "active").length || 0;
-      const completedPlaythroughs =
-        plays?.filter((p) => p.status === "completed").length || 0;
-
-      return {
-        ...game,
-        playthroughCount,
-        activePlaythroughs,
-        completedPlaythroughs,
+    if (userStatsData) {
+      userStats = {
+        totalPlays: userStatsData.total_plays,
+        activePlays: userStatsData.active_plays,
+        completedPlays: userStatsData.completed_plays,
+        gamesPlayed: userStatsData.games_played,
+        uniqueSpeciesCaught: userStatsData.unique_species_caught,
+        lastPlayedAt: userStatsData.last_played_at,
       };
-    }),
-  );
-
-  // Calculate gen-level stats
-  const totalPlaythroughs = gamesWithStats.reduce(
-    (sum, g) => sum + g.playthroughCount,
-    0,
-  );
-
-  // Get all plays for this gen to calculate average completion
-  const gameIds = games?.map((g) => g.id) || [];
-  let averageCompletion = 0;
-  let totalPokemonCaught = 0;
-
-  if (gameIds.length > 0) {
-    const { data: allPlays } = await supabase
-      .schema("gameplay")
-      .from("plays")
-      .select("id")
-      .in("game_id", gameIds);
-
-    if (allPlays && allPlays.length > 0) {
-      const playIds = allPlays.map((p) => p.id);
-
-      // Calculate average completion from progress
-      const completionPromises = playIds.map(async (playId) => {
-        const { data: progressData } = await supabase
-          .schema("gameplay")
-          .from("progress")
-          .select("progress_item_id")
-          .eq("play_id", playId)
-          .eq("is_completed", true);
-
-        const completedItems = progressData?.length || 0;
-
-        const { count: totalItems } = await supabase
-          .schema("meta")
-          .from("progress_items")
-          .select("*", { count: "exact", head: true });
-
-        return totalItems && totalItems > 0
-          ? Math.round((completedItems / totalItems) * 100)
-          : 0;
-      });
-
-      const completions = await Promise.all(completionPromises);
-      averageCompletion =
-        completions.length > 0
-          ? Math.round(
-              completions.reduce((sum, c) => sum + c, 0) / completions.length,
-            )
-          : 0;
-
-      // Get total unique Pokemon caught
-      const { count: pokemonCount } = await supabase
-        .schema("gameplay")
-        .from("pokemon_caught")
-        .select("species_id", { count: "exact", head: true })
-        .in("play_id", playIds);
-
-      totalPokemonCaught = pokemonCount || 0;
     }
   }
 
+  // Get region for this generation
+  const { data: region } = await supabase
+    .schema("meta")
+    .from("regions")
+    .select("id, slug, name")
+    .eq("generation_id", id)
+    .maybeSingle();
+
+  // Get games for this gen with their static info and user play stats
+  const { data: games, error: gamesError } = await supabase
+    .schema("views")
+    .from("game_with_stats")
+    .select("*")
+    .eq("generation_id", id)
+    .order("game_id", { ascending: true });
+
+  if (gamesError) return { data: null, error: gamesError };
+
+  // Get user play counts per game
+  let gameUserStats: Record<
+    number,
+    { total: number; active: number; completed: number }
+  > = {};
+  if (user) {
+    const { data: userGameStats } = await supabase
+      .schema("views")
+      .from("game_user_stats")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (userGameStats) {
+      gameUserStats = userGameStats.reduce(
+        (acc, stats) => {
+          acc[stats.game_id] = {
+            total: stats.total_plays,
+            active: stats.active_plays,
+            completed: stats.completed_plays,
+          };
+          return acc;
+        },
+        {} as Record<
+          number,
+          { total: number; active: number; completed: number }
+        >,
+      );
+    }
+  }
+
+  // Map games with their stats
+  const gamesWithStats: GameWithPlayStats[] = (games || []).map((game) => ({
+    id: game.game_id,
+    slug: game.game_slug,
+    name: game.game_name,
+    type: game.game_type,
+    releaseYear: game.release_year,
+    regionalDexCount: game.regional_dex_count,
+    region: {
+      id: game.region_id,
+      slug: game.region_slug,
+      name: game.region_name,
+    },
+    stats: {
+      totalPlays: gameUserStats[game.game_id]?.total || 0,
+      activePlays: gameUserStats[game.game_id]?.active || 0,
+      completedPlays: gameUserStats[game.game_id]?.completed || 0,
+    },
+  }));
+
+  // Build generation object
+  const generation: GenerationWithGames = {
+    id: genData.generation_id,
+    slug: genData.generation_slug,
+    name: genData.generation_name,
+    start_year: genData.start_year,
+    end_year: genData.end_year,
+    new_pokemon_count: genData.new_pokemon_count,
+    total_pokemon_count: genData.total_pokemon_count,
+    region: region || { id: 0, slug: "", name: "Unknown" },
+    staticStats: {
+      gameCount: genData.game_count,
+      mainGameCount: genData.main_game_count,
+      remakeCount: genData.remake_count,
+      enhancedCount: genData.enhanced_count,
+    },
+    userStats,
+    games: gamesWithStats,
+  };
+
   // Build breadcrumbs
-  const breadcrumbs = [];
-  breadcrumbs.push({ label: "Adventures", href: "/adventures" });
-  breadcrumbs.push({
-    label: gen.name,
-    href: `/adventures/gen/${gen.id}`,
-    current: true,
-  });
+  const breadcrumbs = [
+    { label: "Adventures", href: "/adventures" },
+    {
+      label: generation.name,
+      href: `/adventures/gen/${generation.id}`,
+      current: true,
+    },
+  ];
 
   return {
-    data: {
-      ...gen,
-      games: gamesWithStats,
-      stats: {
-        playthroughsCount: totalPlaythroughs,
-        averageCompletion,
-        totalPokemonCaught,
-      },
-    },
+    data: generation,
     error: null,
     breadcrumbs,
   };

@@ -6,6 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import Image from "next/image";
 import Link from "next/link";
 
 interface GamePlayCardProps {
@@ -14,7 +16,7 @@ interface GamePlayCardProps {
   gameSlug: string;
 }
 
-const getStatusColor = (status: Play["status"]) => {
+const getStatusColor = (status: PlayStatus) => {
   switch (status) {
     case "active":
       return "bg-green-500";
@@ -22,12 +24,14 @@ const getStatusColor = (status: Play["status"]) => {
       return "bg-blue-500";
     case "paused":
       return "bg-yellow-500";
+    case "dropped":
+      return "bg-red-500";
     default:
       return "bg-gray-500";
   }
 };
 
-const getStatusLabel = (status: Play["status"]) => {
+const getStatusLabel = (status: PlayStatus) => {
   switch (status) {
     case "active":
       return "Active";
@@ -35,21 +39,35 @@ const getStatusLabel = (status: Play["status"]) => {
       return "Completed";
     case "paused":
       return "Paused";
+    case "dropped":
+      return "Dropped";
     default:
       return "Unknown";
   }
 };
 
 export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
+  // Calculate progress percentage
+  const progressPercentage =
+    play.total_progress_items > 0
+      ? Math.round(
+          (play.completed_progress_items / play.total_progress_items) * 100,
+        )
+      : 0;
+
+  // Calculate dex completion
+  const dexPercentage =
+    play.regional_dex_count > 0
+      ? Math.round((play.pokemon_caught_count / play.regional_dex_count) * 100)
+      : 0;
+
   return (
     <Card className="hover:bg-muted/50 cursor-pointer transition-colors">
       <Link href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
-        <CardHeader>
+        <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <CardTitle className="flex w-100 items-center justify-between gap-2 text-lg">
-                {play.name}
-              </CardTitle>
+              <CardTitle className="text-lg">{play.name}</CardTitle>
               <CardDescription className="flex items-center gap-2">
                 <div
                   className={`h-2 w-2 rounded-full ${getStatusColor(play.status)}`}
@@ -57,79 +75,65 @@ export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
                 {getStatusLabel(play.status)}
               </CardDescription>
             </div>
+            {play.highest_level > 0 && (
+              <Badge variant="outline-secondary">
+                Lv. {play.highest_level}
+              </Badge>
+            )}
           </div>
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {/* Overall Completion - General % (not category-specific) */}
-          {/* <div className="space-y-2">
+          {/* Progress Bar */}
+          <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Overall Completion</span>
-              <span>{play.progress.overallCompletion || 0}%</span>
-            </div>
-            <div className="bg-muted h-2 w-full rounded-full">
-              <div
-                className="bg-primary h-2 rounded-full transition-all"
-                style={{
-                  width: `${play.progress.overallCompletion || 0}%`,
-                }}
-              />
-            </div>
-          </div> */}
-
-          {/* Pokemon Stats */}
-          {/* {(play.progress.pokemonCaught !== undefined ||
-            play.progress.totalPokemon !== undefined) && (
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Pokémon Caught:</span>
+              <span className="text-muted-foreground">Progress</span>
               <span className="font-medium">
-                {play.progress.pokemonCaught || 0}
-                {play.progress.totalPokemon
-                  ? `/${play.progress.totalPokemon}`
-                  : ""}
+                {play.completed_progress_items}/{play.total_progress_items} (
+                {progressPercentage}%)
               </span>
             </div>
-          )} */}
+            <Progress value={progressPercentage} className="h-2" />
+          </div>
 
-          {/* Current Status */}
-          {/* <div className="space-y-1 text-sm">
-            {play.progress.currentLocation && (
-              <div className="flex items-center gap-2">
-                <Calendar className="text-muted-foreground h-4 w-4" />
-                <span className="text-muted-foreground">Currently at:</span>
-                <span className="font-medium">
-                  {play.progress.currentLocation}
-                </span>
-              </div>
-            )}
-            {play.progress.playtime && (
-              <div className="flex items-center gap-2">
-                <Clock className="text-muted-foreground h-4 w-4" />
-                <span className="text-muted-foreground">Playtime:</span>
-                <span className="font-medium">{play.progress.playtime}</span>
-              </div>
-            )}
-          </div> */}
+          {/* Dex Progress */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Pokédex</span>
+              <span className="font-medium">
+                {play.pokemon_caught_count}/{play.regional_dex_count} (
+                {dexPercentage}%)
+              </span>
+            </div>
+            <Progress value={dexPercentage} className="h-2" />
+          </div>
 
           {/* Team Preview */}
           {play.pokemon_team.length > 0 && (
             <div className="space-y-2">
-              <p className="text-sm font-medium">Current Team:</p>
+              <p className="text-muted-foreground text-sm">Current Team</p>
               <div className="flex flex-wrap gap-1">
-                {play.pokemon_team.slice(0, 3).map((pokemon, index) => (
-                  <Badge
+                {play.pokemon_team.slice(0, 6).map((pokemon, index) => (
+                  <div
                     key={index}
-                    variant="outline-primary"
-                    className="text-xs"
+                    className="bg-muted flex items-center gap-1.5 rounded-full py-1 pr-2.5 pl-1"
                   >
-                    {pokemon.species?.name} Lv.{pokemon.level}
-                  </Badge>
+                    {pokemon.sprite_url ? (
+                      <Image
+                        src={pokemon.sprite_url}
+                        alt={pokemon.species?.name || "Pokemon"}
+                        width={24}
+                        height={24}
+                        className="h-6 w-6"
+                      />
+                    ) : (
+                      <div className="bg-muted-foreground/20 h-6 w-6 rounded-full" />
+                    )}
+                    <span className="text-xs font-medium">
+                      {pokemon.nickname || pokemon.species?.name}
+                    </span>
+                  </div>
                 ))}
-                {play.pokemon_team.length > 3 && (
-                  <Badge variant="outline-primary" className="text-xs">
-                    +{play.pokemon_team.length - 3} more
-                  </Badge>
-                )}
               </div>
             </div>
           )}

@@ -1,26 +1,32 @@
-import { Header } from "@/components/shared/header";
 import { GameCard } from "./game-card";
 
-const GamesGrid = ({ games, genId }: { games: Game[]; genId: string }) => {
+interface GamesSectionProps {
+  games: GameWithPlayStats[];
+  genId: string;
+}
+
+const GamesGrid = ({
+  games,
+  genId,
+}: {
+  games: GameWithPlayStats[];
+  genId: string;
+}) => {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {games.map((game: Game) => (
+      {games.map((game) => (
         <GameCard key={game.id} game={game} genId={genId} />
       ))}
     </div>
   );
 };
 
-export const GamesSection = ({
-  games,
-  genId,
-}: {
-  games: Game[];
-  genId: string;
-}) => {
+export const GamesSection = ({ games, genId }: GamesSectionProps) => {
+  // Group games by type
+
   return (
     <div className="space-y-4">
-      <Header title="Available Games" size="sm" />
+      <h2 className="text-xl font-semibold">Main Games</h2>
       <GamesGrid games={games} genId={genId} />
     </div>
   );

@@ -32,7 +32,7 @@ export default function GenPage({ params }: GenPageProps) {
 
   return (
     <PageLayout>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <GenHeader gen={gen.data} />
         <GamesSection games={gen.data.games} genId={genId} />
       </div>

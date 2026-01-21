@@ -7,12 +7,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { type GameInfo } from "@/lib/mock-data/types";
 import { Play } from "lucide-react";
 import { GameCreateNewPlayDialog } from "./game-create-new-play-dialog";
 
 interface GameEmptyPlayProps {
-  game: GameInfo;
+  game: GameWithFullData;
 }
 
 export const GameEmptyPlay = ({ game }: GameEmptyPlayProps) => {

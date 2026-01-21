@@ -2,7 +2,7 @@
 
 import { GameEmptyPlay } from "@/components/features/game/game-empty-play";
 import { GameHeader } from "@/components/features/game/game-header";
-import { GamePlayCard } from "@/components/features/game/game-play-card";
+import { PlaysSection } from "@/components/features/game/plays-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useGameBySlug } from "@/hooks/useGames";
@@ -32,34 +32,27 @@ export default function GamePage({ params }: GamePageProps) {
     );
   }
 
-  if (gameError || !game) {
+  if (gameError || !game?.data) {
     return (
       <PageLayout>
         <div className="flex items-center justify-center py-12">
-          <p className="text-muted-foreground">Play not found</p>
+          <p className="text-muted-foreground">Game not found</p>
         </div>
       </PageLayout>
     );
   }
 
+  const gameData = game.data as GameWithFullData;
+
   return (
     <PageLayout>
       <div className="space-y-8">
-        <GameHeader game={game.data} />
+        <GameHeader game={gameData} />
 
-        {game.data.plays.length === 0 ? (
-          <GameEmptyPlay game={game.data} />
+        {gameData.plays.length === 0 ? (
+          <GameEmptyPlay game={gameData} />
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {game.data.plays.map((play: GamePlaySummary) => (
-              <GamePlayCard
-                key={play.id}
-                play={play}
-                genId={genId}
-                gameSlug={gameSlug}
-              />
-            ))}
-          </div>
+          <PlaysSection plays={gameData.plays} game={gameData} genId={genId} />
         )}
       </div>
     </PageLayout>

@@ -41,7 +41,7 @@ export const PageBreadcrumbsNavigation = () => {
           ] || genSlug;
 
         breadcrumbs.push({
-          label: `Gen ${genRoman}`,
+          label: `Generation ${genRoman}`,
           href: `/adventures/gen/${genSlug}`,
         });
 

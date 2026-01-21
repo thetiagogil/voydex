@@ -49,11 +49,33 @@ interface GamePlaySummary {
   highest_level: number;
   pokemon_caught_count: number;
   completed_progress_items: number;
+  total_progress_items: number;
+  regional_dex_count: number;
   pokemon_team: {
     id: string;
     nickname: string | null;
     level: number;
     species_id: number;
     species: BaseInfo | null;
+    sprite_url: string | null;
   }[];
+}
+
+// =============================================================================
+// GAME WITH FULL DATA (for game page)
+// =============================================================================
+
+interface GameWithFullData extends Game {
+  type: GameType;
+  plays: GamePlaySummary[];
+  staticStats: {
+    progressCategoryCount: number;
+    progressItemCount: number;
+  };
+  userStats: {
+    totalPlaythroughs: number;
+    activePlaythroughs: number;
+    completedPlaythroughs: number;
+    totalPokemonCaught: number;
+  };
 }

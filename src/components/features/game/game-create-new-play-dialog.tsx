@@ -13,11 +13,10 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { type GameInfo } from "@/lib/mock-data/types";
 import { Plus } from "lucide-react";
 
 interface GameCreateNewPlayDialogProps {
-  game: GameInfo;
+  game: GameWithFullData;
 }
 
 export const GameCreateNewPlayDialog = ({
