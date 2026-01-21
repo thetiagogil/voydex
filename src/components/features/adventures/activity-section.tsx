@@ -59,11 +59,11 @@ export const ActivitySection = ({
   const displayedActivities = activities.slice(0, maxItems);
 
   return (
-    <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
+    <div className="flex flex-1 flex-col space-y-4">
       <h2 className="text-xl font-semibold">Recent Activity</h2>
 
-      <Card className="flex flex-1 flex-col overflow-hidden">
-        <CardContent className="flex-1 overflow-y-auto">
+      <Card className="flex flex-1 flex-col">
+        <CardContent className="flex-1">
           <div className="space-y-2">
             {displayedActivities.length === 0 ? (
               <div className="text-muted-foreground py-8 text-center">

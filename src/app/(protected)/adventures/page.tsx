@@ -17,7 +17,7 @@ export default function AdventuresPage() {
   const { data: generations, isLoading: isGenerationsLoading } =
     useGenerationsWithUserStats();
   const { data: activities, isLoading: isActivitiesLoading } =
-    useRecentActivity(15);
+    useRecentActivity(20);
 
   if (isStatsLoading || isGenerationsLoading || isActivitiesLoading) {
     return (
@@ -28,15 +28,15 @@ export default function AdventuresPage() {
   }
 
   return (
-    <PageLayout className="flex flex-col overflow-hidden">
-      <div className="flex flex-1 flex-col space-y-6 overflow-hidden">
+    <PageLayout className="flex flex-col">
+      <div className="flex flex-1 flex-col space-y-6">
         <Header
           size="lg"
           title="Adventures"
           description="Track your Pokémon journeys across all generations."
         />
 
-        <div className="flex flex-1 flex-col space-y-6 overflow-hidden">
+        <div className="flex flex-1 flex-col space-y-6">
           {/* Stats Section */}
           <StatsSection stats={stats ?? null} />
 
@@ -49,7 +49,7 @@ export default function AdventuresPage() {
 
             {/* Activity Column */}
             <div className="flex min-h-0 flex-col lg:col-span-1">
-              <ActivitySection activities={activities ?? []} maxItems={5} />
+              <ActivitySection activities={activities ?? []} maxItems={10} />
             </div>
           </div>
         </div>

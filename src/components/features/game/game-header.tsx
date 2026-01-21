@@ -33,10 +33,10 @@ const getGameTypeLabel = (type: string) => {
 };
 
 export const GameHeader = ({ game }: GameHeaderProps) => (
-  <div className="flex flex-col gap-6 md:flex-row md:items-start">
+  <div className="flex gap-6">
     {/* Game Image Placeholder */}
-    <div className="bg-muted flex h-40 w-full shrink-0 items-center justify-center rounded-xl md:h-48 md:w-64">
-      <ImageIcon className="text-muted-foreground/50 h-16 w-16" />
+    <div className="bg-muted flex h-18 w-18 shrink-0 items-center justify-center rounded-xl">
+      <ImageIcon className="text-muted-foreground/50 h-12 w-12" />
     </div>
 
     {/* Game Info */}

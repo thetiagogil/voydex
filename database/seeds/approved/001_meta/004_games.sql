@@ -13,7 +13,7 @@ WITH
                     (6, 'crystal', 'Pokémon Crystal', 'generation-ii', 'johto', 'c', 'enhanced', 251, 251, 2001),
                     (7, 'ruby', 'Pokémon Ruby', 'generation-iii', 'hoenn', 'rs', 'main', 202, 386, 2003),
                     (8, 'sapphire', 'Pokémon Sapphire', 'generation-iii', 'hoenn', 'rs', 'main', 202, 386, 2003),
-                    (9, 'firered', 'Pokémon FireRed', 'generation-iii', 'kanto', 'frlg', 'remake', 151, 386, 2004),
+                    (9, 'fire-red', 'Pokémon FireRed', 'generation-iii', 'kanto', 'frlg', 'remake', 151, 386, 2004),
                     (10, 'leaf-green', 'Pokémon LeafGreen', 'generation-iii', 'kanto', 'frlg', 'remake', 151, 386, 2004),
                     (11, 'emerald', 'Pokémon Emerald', 'generation-iii', 'hoenn', 'e', 'enhanced', 202, 386, 2005),
                     (12, 'diamond', 'Pokémon Diamond', 'generation-iv', 'sinnoh', 'dp', 'main', 151, 493, 2007),

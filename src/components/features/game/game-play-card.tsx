@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -65,21 +64,14 @@ export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
     <Card className="hover:bg-muted/50 cursor-pointer transition-colors">
       <Link href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
         <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <CardTitle className="text-lg">{play.name}</CardTitle>
-              <CardDescription className="flex items-center gap-2">
-                <div
-                  className={`h-2 w-2 rounded-full ${getStatusColor(play.status)}`}
-                />
-                {getStatusLabel(play.status)}
-              </CardDescription>
-            </div>
-            {play.highest_level > 0 && (
-              <Badge variant="outline-secondary">
-                Lv. {play.highest_level}
-              </Badge>
-            )}
+          <div className="space-y-1">
+            <CardTitle className="text-lg">{play.name}</CardTitle>
+            <CardDescription className="flex items-center gap-2">
+              <div
+                className={`h-2 w-2 rounded-full ${getStatusColor(play.status)}`}
+              />
+              {getStatusLabel(play.status)}
+            </CardDescription>
           </div>
         </CardHeader>
 
@@ -88,35 +80,25 @@ export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Progress</span>
-              <span className="font-medium">
-                {play.completed_progress_items}/{play.total_progress_items} (
-                {progressPercentage}%)
+              <span className="space-x-1 font-medium">
+                <span className="text-muted-foreground text-xs">
+                  {play.completed_progress_items}/{play.total_progress_items}
+                </span>
+                <span>({progressPercentage}%)</span>
               </span>
             </div>
             <Progress value={progressPercentage} className="h-2" />
-          </div>
-
-          {/* Dex Progress */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Pokédex</span>
-              <span className="font-medium">
-                {play.pokemon_caught_count}/{play.regional_dex_count} (
-                {dexPercentage}%)
-              </span>
-            </div>
-            <Progress value={dexPercentage} className="h-2" />
           </div>
 
           {/* Team Preview */}
           {play.pokemon_team.length > 0 && (
             <div className="space-y-2">
               <p className="text-muted-foreground text-sm">Current Team</p>
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-3">
                 {play.pokemon_team.slice(0, 6).map((pokemon, index) => (
                   <div
                     key={index}
-                    className="bg-muted flex items-center gap-1.5 rounded-full py-1 pr-2.5 pl-1"
+                    className="bg-muted flex items-center gap-1.5 rounded-full p-3"
                   >
                     {pokemon.sprite_url ? (
                       <Image
@@ -124,14 +106,11 @@ export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
                         alt={pokemon.species?.name || "Pokemon"}
                         width={24}
                         height={24}
-                        className="h-6 w-6"
+                        className="h-10 w-10"
                       />
                     ) : (
-                      <div className="bg-muted-foreground/20 h-6 w-6 rounded-full" />
+                      <div className="bg-muted-foreground/20 h-10 w-10 rounded-full" />
                     )}
-                    <span className="text-xs font-medium">
-                      {pokemon.nickname || pokemon.species?.name}
-                    </span>
                   </div>
                 ))}
               </div>
