@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getGameCoverUrl } from "@/lib/supabase/storage";
 
 // =============================================================================
 // GET GAME WITH STATS
@@ -28,6 +29,7 @@ export const getGame = async (slug: string) => {
     national_dex_count: game.national_dex_count,
     version_group_id: game.version_group_id,
     release_year: game.release_year,
+    cover_url: await getGameCoverUrl(game.game_slug),
     generation: {
       id: game.generation_id,
       slug: game.generation_slug,
@@ -147,22 +149,25 @@ export const getGamesByGeneration = async (generationId: number) => {
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
-  const result = data.map((game) => ({
-    id: game.game_id,
-    slug: game.game_slug,
-    name: game.game_name,
-    type: game.game_type,
-    regional_dex_count: game.regional_dex_count,
-    national_dex_count: game.national_dex_count,
-    release_year: game.release_year,
-    region: {
-      id: game.region_id,
-      slug: game.region_slug,
-      name: game.region_name,
-    },
-    progressCategoryCount: game.progress_category_count,
-    progressItemCount: game.progress_item_count,
-  }));
+  const result = await Promise.all(
+    data.map(async (game) => ({
+      id: game.game_id,
+      slug: game.game_slug,
+      name: game.game_name,
+      type: game.game_type,
+      regional_dex_count: game.regional_dex_count,
+      national_dex_count: game.national_dex_count,
+      release_year: game.release_year,
+      cover_url: await getGameCoverUrl(game.game_slug),
+      region: {
+        id: game.region_id,
+        slug: game.region_slug,
+        name: game.region_name,
+      },
+      progressCategoryCount: game.progress_category_count,
+      progressItemCount: game.progress_item_count,
+    })),
+  );
 
   return { data: result, error: null };
 };

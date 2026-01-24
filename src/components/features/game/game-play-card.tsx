@@ -46,18 +46,11 @@ const getStatusLabel = (status: PlayStatus) => {
 };
 
 export const GamePlayCard = ({ play, genId, gameSlug }: GamePlayCardProps) => {
-  // Calculate progress percentage
   const progressPercentage =
     play.total_progress_items > 0
       ? Math.round(
           (play.completed_progress_items / play.total_progress_items) * 100,
         )
-      : 0;
-
-  // Calculate dex completion
-  const dexPercentage =
-    play.regional_dex_count > 0
-      ? Math.round((play.pokemon_caught_count / play.regional_dex_count) * 100)
       : 0;
 
   return (

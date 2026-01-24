@@ -13,7 +13,7 @@ const GamesGrid = ({
   genId: string;
 }) => {
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex flex-wrap justify-center gap-10 sm:justify-start sm:gap-6">
       {games.map((game) => (
         <GameCard key={game.id} game={game} genId={genId} />
       ))}
@@ -22,11 +22,9 @@ const GamesGrid = ({
 };
 
 export const GamesSection = ({ games, genId }: GamesSectionProps) => {
-  // Group games by type
-
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Main Games</h2>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold">Games</h2>
       <GamesGrid games={games} genId={genId} />
     </div>
   );

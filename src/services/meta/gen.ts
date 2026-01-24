@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getGameCoverUrl } from "@/lib/supabase/storage";
 
 export const getGen = async (id: string) => {
   const supabase = await createClient();
@@ -41,14 +42,6 @@ export const getGen = async (id: string) => {
       };
     }
   }
-
-  // Get region for this generation
-  const { data: region } = await supabase
-    .schema("meta")
-    .from("regions")
-    .select("id, slug, name")
-    .eq("generation_id", id)
-    .maybeSingle();
 
   // Get games for this gen with their static info and user play stats
   const { data: games, error: gamesError } = await supabase
@@ -91,24 +84,27 @@ export const getGen = async (id: string) => {
   }
 
   // Map games with their stats
-  const gamesWithStats: GameWithPlayStats[] = (games || []).map((game) => ({
-    id: game.game_id,
-    slug: game.game_slug,
-    name: game.game_name,
-    type: game.game_type,
-    releaseYear: game.release_year,
-    regionalDexCount: game.regional_dex_count,
-    region: {
-      id: game.region_id,
-      slug: game.region_slug,
-      name: game.region_name,
-    },
-    stats: {
-      totalPlays: gameUserStats[game.game_id]?.total || 0,
-      activePlays: gameUserStats[game.game_id]?.active || 0,
-      completedPlays: gameUserStats[game.game_id]?.completed || 0,
-    },
-  }));
+  const gamesWithStats: GameWithPlayStats[] = await Promise.all(
+    (games || []).map(async (game) => ({
+      id: game.game_id,
+      slug: game.game_slug,
+      name: game.game_name,
+      type: game.game_type,
+      releaseYear: game.release_year,
+      regionalDexCount: game.regional_dex_count,
+      cover_url: await getGameCoverUrl(game.game_slug),
+      region: {
+        id: game.region_id,
+        slug: game.region_slug,
+        name: game.region_name,
+      },
+      stats: {
+        totalPlays: gameUserStats[game.game_id]?.total || 0,
+        activePlays: gameUserStats[game.game_id]?.active || 0,
+        completedPlays: gameUserStats[game.game_id]?.completed || 0,
+      },
+    })),
+  );
 
   // Build generation object
   const generation: GenerationWithGames = {
@@ -119,7 +115,6 @@ export const getGen = async (id: string) => {
     end_year: genData.end_year,
     new_pokemon_count: genData.new_pokemon_count,
     total_pokemon_count: genData.total_pokemon_count,
-    region: region || { id: 0, slug: "", name: "Unknown" },
     staticStats: {
       gameCount: genData.game_count,
       mainGameCount: genData.main_game_count,

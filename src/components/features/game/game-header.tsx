@@ -1,6 +1,7 @@
 import { Header } from "@/components/shared/header";
 import { Badge } from "@/components/ui/badge";
 import { ImageIcon, MapPin } from "lucide-react";
+import Image from "next/image";
 
 interface GameHeaderProps {
   game: GameWithFullData;
@@ -34,9 +35,20 @@ const getGameTypeLabel = (type: string) => {
 
 export const GameHeader = ({ game }: GameHeaderProps) => (
   <div className="flex gap-6">
-    {/* Game Image Placeholder */}
-    <div className="bg-muted flex h-18 w-18 shrink-0 items-center justify-center rounded-xl">
-      <ImageIcon className="text-muted-foreground/50 h-12 w-12" />
+    {/* Game Image */}
+    <div className="bg-muted relative h-18 w-18 shrink-0 overflow-hidden rounded-xl">
+      {game.cover_url ? (
+        <Image
+          src={game.cover_url}
+          alt={game.name}
+          fill
+          className="object-cover"
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <ImageIcon className="text-muted-foreground/50 h-12 w-12" />
+        </div>
+      )}
     </div>
 
     {/* Game Info */}

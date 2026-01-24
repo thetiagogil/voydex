@@ -21,6 +21,7 @@ interface Game {
   national_dex_count: number;
   release_year: number;
   created_at: string;
+  cover_url: string | null;
   generation: BaseInfo;
   region: BaseInfo;
 }

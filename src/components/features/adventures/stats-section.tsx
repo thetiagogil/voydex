@@ -1,3 +1,4 @@
+import { QuickStat } from "@/components/shared/quick-stat";
 import type { DashboardStats } from "@/types/dashboard";
 import { CircleCheck, Compass, Notebook, Target } from "lucide-react";
 import { StatsCard } from "./stats-card";
@@ -17,33 +18,44 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <StatsCard
-        icon={<Compass className="h-5 w-5" />}
-        value={data.total_plays}
-        label="Total Adventures"
-        description="All playthroughs"
-        variant="primary"
-      />
-      <StatsCard
-        icon={<Target className="h-5 w-5" />}
-        value={data.active_plays}
-        label="Active"
-        description="Currently playing"
-        variant="warning"
-      />
-      <StatsCard
-        icon={<CircleCheck className="h-5 w-5" />}
-        value={data.completed_plays}
-        label="Completed"
-        description="Finished adventures"
-        variant="success"
-      />
-      <StatsCard
-        icon={<Notebook className="h-5 w-5" />}
-        value={data.total_unique_species}
-        label="Species Caught"
-        description="Unique Pokémon"
-      />
+      <StatsCard>
+        <h2>All Playthroughs</h2>
+        <QuickStat
+          size="lg"
+          icon={<Compass className="h-5 w-5" />}
+          value={data.total_plays}
+          variant="primary"
+        />
+      </StatsCard>
+
+      <StatsCard>
+        <h2>Active Playthroughs</h2>
+        <QuickStat
+          size="lg"
+          icon={<Target className="h-5 w-5" />}
+          value={data.active_plays}
+          variant="yellow"
+        />
+      </StatsCard>
+
+      <StatsCard>
+        <h2>Finished Playthroughs</h2>
+        <QuickStat
+          size="lg"
+          icon={<CircleCheck className="h-5 w-5" />}
+          value={data.completed_plays}
+          variant="green"
+        />
+      </StatsCard>
+
+      <StatsCard>
+        <h2>Species Caught</h2>
+        <QuickStat
+          size="lg"
+          icon={<Notebook className="h-5 w-5" />}
+          value={data.total_unique_species}
+        />
+      </StatsCard>
     </div>
   );
 };

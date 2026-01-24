@@ -54,7 +54,6 @@ interface GenerationWithStats extends Generation {
 // =============================================================================
 
 interface GenerationWithGames extends Generation {
-  region: BaseInfo;
   staticStats: GenerationStaticStats;
   userStats: GenerationUserStats | null;
   games: GameWithPlayStats[];
@@ -71,6 +70,7 @@ interface GameWithPlayStats {
   type: GameType;
   releaseYear: number;
   regionalDexCount: number;
+  cover_url: string | null;
   region: BaseInfo;
   stats: {
     totalPlays: number;

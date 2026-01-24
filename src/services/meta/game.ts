@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getGameCoverUrl } from "@/lib/supabase/storage";
 
 export const getGame = async (id: string) => {
   const supabase = await createClient();
@@ -119,6 +120,7 @@ export const getGame = async (id: string) => {
     national_dex_count: gameData.national_dex_count,
     release_year: gameData.release_year,
     created_at: "",
+    cover_url: await getGameCoverUrl(gameData.game_slug),
     generation: {
       id: gameData.generation_id,
       slug: gameData.generation_slug,
