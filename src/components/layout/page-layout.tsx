@@ -16,15 +16,15 @@ interface PageLayoutProps {
 export const PageLayout = ({
   children,
   className,
-  width = "lg",
+  width = "xl",
   showNavigation = true,
   isLoading = false,
 }: PageLayoutProps) => {
   return (
-    <div className="min-h-screen">
+    <div className="bg-grid-pattern min-h-screen">
       {showNavigation && (
-        <header>
-          <PageNavigation />
+        <header className="px-auto border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-lg">
+          <PageNavigation width={width} />
         </header>
       )}
       <main>

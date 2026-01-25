@@ -102,24 +102,25 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
               size="sm"
               icon={<Target className="h-4 w-4" />}
               value={game.stats.activePlays}
-              variant="yellow"
+              variant="active"
             />
             <QuickStat
               size="sm"
               icon={<PauseCircle className="h-4 w-4" />}
               value={1}
-              variant="cyan"
+              variant="paused"
             />
             <QuickStat
               size="sm"
               icon={<CircleCheck className="h-4 w-4" />}
               value={game.stats.completedPlays}
-              variant="green"
+              variant="completed"
             />
             <QuickStat
               size="sm"
               icon={<Trash2Icon className="h-4 w-4" />}
               value={1}
+              variant="dropped"
             />
           </div>
         ) : (

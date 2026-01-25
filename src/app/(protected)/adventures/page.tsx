@@ -4,7 +4,6 @@ import { ActivitySection } from "@/components/features/adventures/activity-secti
 import { GenerationSection } from "@/components/features/adventures/generation-section";
 import { StatsSection } from "@/components/features/adventures/stats-section";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Header } from "@/components/shared/header";
 import { Loading } from "@/components/shared/loading";
 import {
   useDashboardStats,
@@ -28,29 +27,21 @@ export default function AdventuresPage() {
   }
 
   return (
-    <PageLayout className="flex flex-col">
-      <div className="flex flex-1 flex-col space-y-6">
-        <Header
-          size="lg"
-          title="Adventures"
-          description="Track your Pokémon journeys across all generations."
-        />
+    <PageLayout className="flex h-[90vh] flex-col overflow-hidden">
+      <div className="flex min-h-0 flex-1 flex-col gap-6">
+        {/* Stats Section */}
+        <StatsSection stats={stats ?? null} />
 
-        <div className="flex flex-1 flex-col space-y-6">
-          {/* Stats Section */}
-          <StatsSection stats={stats ?? null} />
+        {/* Main Content - Two Columns with Independent Scrolling */}
+        <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-3">
+          {/* Generations Column */}
+          <div className="min-h-0 lg:col-span-2">
+            <GenerationSection generations={generations ?? []} />
+          </div>
 
-          {/* Main Content - Two Columns with Independent Scrolling */}
-          <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-3">
-            {/* Generations Column */}
-            <div className="flex min-h-0 flex-col lg:col-span-2">
-              <GenerationSection generations={generations ?? []} />
-            </div>
-
-            {/* Activity Column */}
-            <div className="flex min-h-0 flex-col lg:col-span-1">
-              <ActivitySection activities={activities ?? []} maxItems={10} />
-            </div>
+          {/* Activity Column */}
+          <div className="min-h-0 lg:col-span-1">
+            <ActivitySection activities={activities ?? []} />
           </div>
         </div>
       </div>

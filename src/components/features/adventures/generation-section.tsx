@@ -1,7 +1,10 @@
 "use client";
 
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { GenerationWithUserStats } from "@/types/dashboard";
-import { GenerationRows } from "./generation-rows";
+import { Map } from "lucide-react";
+import { GenerationCard } from "./generation-card";
 
 interface GenerationSectionProps {
   generations: GenerationWithUserStats[];
@@ -9,12 +12,20 @@ interface GenerationSectionProps {
 
 export const GenerationSection = ({ generations }: GenerationSectionProps) => {
   return (
-    <div className="flex flex-col space-y-4">
-      <h2 className="text-xl font-semibold">Generations</h2>
-
-      <div className="flex-1 overflow-y-auto pr-2">
-        <GenerationRows generations={generations} />
+    <Card className="h-full gap-0 p-0">
+      <div className="border-border flex items-center gap-2 border-b p-4">
+        <Map className="text-primary h-5 w-5" />
+        <h2 className="text-foreground text-lg font-bold">
+          Explore Generations
+        </h2>
       </div>
-    </div>
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col gap-4 p-4">
+          {generations.map((generation, i) => {
+            return <GenerationCard key={i} generation={generation} />;
+          })}
+        </div>
+      </ScrollArea>
+    </Card>
   );
 };

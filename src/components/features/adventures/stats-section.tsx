@@ -1,4 +1,3 @@
-import { QuickStat } from "@/components/shared/quick-stat";
 import type { DashboardStats } from "@/types/dashboard";
 import { CircleCheck, Compass, Notebook, Target } from "lucide-react";
 import { StatsCard } from "./stats-card";
@@ -18,44 +17,32 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <StatsCard>
-        <h2>All Playthroughs</h2>
-        <QuickStat
-          size="lg"
-          icon={<Compass className="h-5 w-5" />}
-          value={data.total_plays}
-          variant="primary"
-        />
-      </StatsCard>
+      <StatsCard
+        icon={<Compass className="h-5 w-5" />}
+        value={data.total_plays}
+        label="Total Playthroughs"
+        variant="primary"
+      />
 
-      <StatsCard>
-        <h2>Active Playthroughs</h2>
-        <QuickStat
-          size="lg"
-          icon={<Target className="h-5 w-5" />}
-          value={data.active_plays}
-          variant="yellow"
-        />
-      </StatsCard>
+      <StatsCard
+        icon={<Target className="h-5 w-5" />}
+        value={data.active_plays}
+        variant="orange"
+        label="Active Playthroughs"
+      />
 
-      <StatsCard>
-        <h2>Finished Playthroughs</h2>
-        <QuickStat
-          size="lg"
-          icon={<CircleCheck className="h-5 w-5" />}
-          value={data.completed_plays}
-          variant="green"
-        />
-      </StatsCard>
+      <StatsCard
+        icon={<CircleCheck className="h-5 w-5" />}
+        value={data.completed_plays}
+        variant="green"
+        label="Completed Playthroughs"
+      />
 
-      <StatsCard>
-        <h2>Species Caught</h2>
-        <QuickStat
-          size="lg"
-          icon={<Notebook className="h-5 w-5" />}
-          value={data.total_unique_species}
-        />
-      </StatsCard>
+      <StatsCard
+        icon={<Notebook className="h-5 w-5" />}
+        value={data.total_unique_species}
+        label="Unique Pokémon Caught"
+      />
     </div>
   );
 };
