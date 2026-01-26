@@ -1,4 +1,4 @@
-import { uncheckPlayProgressItem as uncheckProgressItem } from "@/services/gameplay/play-progress-item-uncheck";
+import { uncheckProgressItem } from "@/services/gameplay/play-progress";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(

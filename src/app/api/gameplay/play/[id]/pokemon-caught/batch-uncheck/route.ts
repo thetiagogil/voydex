@@ -1,4 +1,4 @@
-import { uncheckPlayPokemonCaughtBatch as uncheckPokemonCaughtBatch } from "@/services/gameplay/play-pokemon-caught-uncheck-batch";
+import { uncheckPokemonCaughtBulk } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -17,7 +17,7 @@ export async function DELETE(
       );
     }
 
-    await uncheckPokemonCaughtBatch(playId, speciesIds);
+    await uncheckPokemonCaughtBulk(playId, speciesIds);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

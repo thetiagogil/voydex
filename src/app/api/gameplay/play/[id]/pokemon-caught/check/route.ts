@@ -1,4 +1,4 @@
-import { checkPlayPokemonCaught as checkPokemonCaught } from "@/services/gameplay/play-pokemon-caught-check";
+import { checkPokemonCaught } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(

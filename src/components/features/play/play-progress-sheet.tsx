@@ -29,7 +29,9 @@ export const PlayProgressSheet = ({
   playId,
   category,
 }: PlayProgressItemsProps) => {
-  const isDexCategory = category?.slug.includes("pokedex");
+  // Only treat actual Pokédex categories (not legendary) as dex categories
+  const isDexCategory =
+    category?.type === "dex" && category?.slug.includes("pokedex");
 
   const { data: items, isLoading: itemsLoading } = usePlayProgressItems(
     playId,

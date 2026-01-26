@@ -1,23 +1,22 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { type GameInfo } from "@/lib/mock-data/types";
 import { Play } from "lucide-react";
-import { GameCreateNewPlayDialog } from "./game-create-new-play-dialog";
 
 interface GameEmptyPlayProps {
-  game: GameInfo;
+  game: GameWithFullData;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-export const GameEmptyPlay = ({ game }: GameEmptyPlayProps) => {
+export const GameEmptyPlay = ({ game, setOpen }: GameEmptyPlayProps) => {
   return (
-    <Card className="bg-background border-dashed">
+    <Card onClick={() => setOpen(true)} className="bg-background border-dashed">
       <CardContent>
         <Empty>
           <EmptyHeader>
@@ -26,12 +25,9 @@ export const GameEmptyPlay = ({ game }: GameEmptyPlayProps) => {
             </EmptyMedia>
             <EmptyTitle>No playthroughs yet</EmptyTitle>
             <EmptyDescription>
-              Start your first adventure in {game.name}!
+              Click here to start your first adventure in {game.name}!
             </EmptyDescription>
           </EmptyHeader>
-          <EmptyContent>
-            <GameCreateNewPlayDialog game={game} />
-          </EmptyContent>
         </Empty>
       </CardContent>
     </Card>

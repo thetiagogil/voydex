@@ -1,47 +1,29 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { type GenerationPlayData } from "@/lib/mock-data/adventures";
-import { LayoutGrid, List } from "lucide-react";
-import { useState } from "react";
-import { GenerationCards } from "./generation-cards";
-import { GenerationRows } from "./generation-rows";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import type { GenerationWithUserStats } from "@/types/dashboard";
+import { Map } from "lucide-react";
+import { GenerationCard } from "./generation-card";
 
 interface GenerationSectionProps {
-  generations: GenerationPlayData[];
+  generations: GenerationWithUserStats[];
 }
 
 export const GenerationSection = ({ generations }: GenerationSectionProps) => {
-  const [viewMode, setViewMode] = useState<"rows" | "cards">("rows");
-
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Generations</h2>
-        <div className="flex gap-2">
-          <Button
-            variant={
-              viewMode === "rows" ? "outline-primary" : "outline-secondary"
-            }
-            size="sm"
-            onClick={() => setViewMode("rows")}
-          >
-            <List className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={
-              viewMode === "cards" ? "outline-primary" : "outline-secondary"
-            }
-            size="sm"
-            onClick={() => setViewMode("cards")}
-          >
-            <LayoutGrid className="h-4 w-4" />
-          </Button>
-        </div>
+    <Card className="h-full gap-0 p-0">
+      <div className="border-border flex items-center gap-2 border-b p-4">
+        <Map className="text-primary h-5 w-5" />
+        <h2 className="text-foreground text-lg font-bold">Generations</h2>
       </div>
-
-      {viewMode === "rows" && <GenerationRows generations={generations} />}
-      {viewMode === "cards" && <GenerationCards generations={generations} />}
-    </div>
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col gap-4 p-4">
+          {generations.map((generation, i) => {
+            return <GenerationCard key={i} generation={generation} />;
+          })}
+        </div>
+      </ScrollArea>
+    </Card>
   );
 };

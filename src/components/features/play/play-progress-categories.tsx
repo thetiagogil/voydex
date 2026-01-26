@@ -54,16 +54,27 @@ export const PlayProgressCategories = ({
                         )}
                       </div>
                       <Badge variant="outline-primary">
-                        {category.items_completed}/{category.items_total}
+                        {category.completedItems}/{category.totalItems}
                       </Badge>
                     </div>
                     <div className="flex items-center gap-2">
                       <Progress
-                        value={category.percentage_completed || 0}
+                        value={
+                          category.totalItems > 0
+                            ? (category.completedItems / category.totalItems) *
+                              100
+                            : 0
+                        }
                         className="flex-1"
                       />
                       <span className="text-muted-foreground text-xs">
-                        {category.percentage_completed?.toFixed(1) || 0}%
+                        {category.totalItems > 0
+                          ? (
+                              (category.completedItems / category.totalItems) *
+                              100
+                            ).toFixed(1)
+                          : 0}
+                        %
                       </span>
                     </div>
                   </div>

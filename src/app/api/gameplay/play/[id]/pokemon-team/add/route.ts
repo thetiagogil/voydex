@@ -1,4 +1,4 @@
-import { addPokemonToPlayTeam as addPokemonToTeam } from "@/services/gameplay/play-team";
+import { addPokemonToTeam } from "@/services/gameplay/play-team";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(

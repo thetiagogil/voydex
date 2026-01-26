@@ -8,13 +8,13 @@ export const getClaims = async () => {
   return { data, error };
 };
 
-export const logIn = async (auth: Auth) => {
+export const logIn = async (auth: AuthCredentials) => {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword(auth);
   return { data, error };
 };
 
-export const signUp = async (auth: Auth) => {
+export const signUp = async (auth: AuthCredentials) => {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp(auth);
   return { data, error };

@@ -1,10 +1,8 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Empty,
@@ -13,24 +11,21 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { type GameInfo } from "@/lib/mock-data/types";
 import { Plus } from "lucide-react";
 
 interface GameCreateNewPlayDialogProps {
-  game: GameInfo;
+  game: GameWithFullData;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 export const GameCreateNewPlayDialog = ({
   game,
+  open,
+  setOpen,
 }: GameCreateNewPlayDialogProps) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline-secondary">
-          <Plus className="mr-2 h-4 w-4" />
-          New Playthrough
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Playthrough</DialogTitle>

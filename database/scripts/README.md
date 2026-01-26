@@ -92,12 +92,45 @@ Shows current database structure, schemas, tables, and row counts.
 node database/scripts/db-status.js
 ```
 
+#### `db-info.js`
+
+Comprehensive database information with multiple output modes:
+
+```bash
+# Full summary (all sections)
+node database/scripts/db-info.js
+
+# Tables only with row counts
+node database/scripts/db-info.js --tables
+
+# Views only
+node database/scripts/db-info.js --views
+
+# Size statistics
+node database/scripts/db-info.js --sizes
+
+# Data summary (key table counts)
+node database/scripts/db-info.js --data
+```
+
 #### `db-validate.js`
 
 Validates database integrity, checks required schemas and migration structure.
 
 ```bash
 node database/scripts/db-validate.js
+```
+
+#### `db-refresh-views.js`
+
+Drops and recreates all views from migration files:
+
+```bash
+# Interactive mode
+node database/scripts/db-refresh-views.js
+
+# Auto-confirm
+node database/scripts/db-refresh-views.js --y
 ```
 
 #### `db-seed.js`
@@ -203,8 +236,18 @@ node database/scripts/db-seed.js all
 # Show current state
 node database/scripts/db-status.js
 
+# Show comprehensive info
+node database/scripts/db-info.js
+
 # Validate integrity
 node database/scripts/db-validate.js
+```
+
+### Refresh Views After Changes
+
+```bash
+# Recreate all views from migration files
+node database/scripts/db-refresh-views.js --y
 ```
 
 ## Helper Modules

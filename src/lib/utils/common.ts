@@ -1,5 +1,5 @@
-export const getTypeColor = (type: Type) => {
-  const colors: Record<Type, string> = {
+export const getTypeColor = (type: PokemonType) => {
+  const colors: Record<PokemonType, string> = {
     normal: "#A8A77A",
     fire: "#EE8130",
     water: "#6390F0",
@@ -33,4 +33,17 @@ export const getStatusColor = (status: Play["status"]) => {
     default:
       return "bg-gray-500";
   }
+};
+
+export const formatRelativeTime = (dateString: string): string => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Just now";
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  return date.toLocaleDateString();
 };

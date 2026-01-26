@@ -10,14 +10,14 @@ WITH
                     -- ============================================
                     ('badges', 'Kanto Badges', 'rb', 'main-story', 'Earn the 8 Kanto gym badges.', 1),
                     ('elite-four', 'Elite Four', 'rb', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('legendary', 'Legendary', 'rb', 'dex', 'Catch the legendary Pokémon.', 3),
+                    ('legendary', 'Legendary', 'rb', 'side-quest', 'Catch the legendary Pokémon.', 3),
                     ('regional-pokedex', 'Kanto Pokédex', 'rb', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4),
                     -- ============================================
                     -- Version group 'y'
                     -- ============================================
                     ('badges', 'Kanto Badges', 'y', 'main-story', 'Earn the 8 Kanto gym badges.', 1),
                     ('elite-four', 'Elite Four', 'y', 'main-story', 'Defeat the Elite Four and become champion.', 2),
-                    ('legendary', 'Legendary', 'y', 'dex', 'Catch the legendary Pokémon.', 3),
+                    ('legendary', 'Legendary', 'y', 'side-quest', 'Catch the legendary Pokémon.', 3),
                     ('regional-pokedex', 'Kanto Pokédex', 'y', 'dex', 'Catch all Pokémon and complete the Pokédex.', 4)
             ) AS xxx (slug, name, version_group_slug, type, description, sort_order)
     )

@@ -18,7 +18,7 @@ export const useClaims = () => {
 export const useLogin = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (auth: Auth) => {
+    mutationFn: async (auth: AuthCredentials) => {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ export const useLogin = () => {
 export const useSignup = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (auth: Auth) => {
+    mutationFn: async (auth: AuthCredentials) => {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

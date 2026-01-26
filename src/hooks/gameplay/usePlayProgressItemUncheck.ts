@@ -45,18 +45,15 @@ export const useUncheckPlayProgressItem = () => {
       const previousItems = qc.getQueryData(itemsQueryKey);
       const previousCategories = qc.getQueryData(categoriesQueryKey);
 
-      // Optimistically update items (set userProgress.completed to false)
+      // Optimistically update items (set completed to false)
       qc.setQueryData(itemsQueryKey, (old: any) => {
         if (!old) return old;
         return old.map((item: any) =>
           item.id === progressItemId
             ? {
                 ...item,
-                userProgress: {
-                  ...item.userProgress,
-                  completed: false,
-                  completed_at: null,
-                },
+                completed: false,
+                completedAt: null,
               }
             : item,
         );
@@ -67,12 +64,10 @@ export const useUncheckPlayProgressItem = () => {
         if (!old) return old;
         return old.map((cat: any) => {
           if (cat.id === categoryId) {
-            const newCompleted = Math.max(0, (cat.items_completed || 0) - 1);
-            const total = cat.items_total || 1;
+            const newCompleted = Math.max(0, (cat.completedItems || 0) - 1);
             return {
               ...cat,
-              items_completed: newCompleted,
-              percentage_completed: (newCompleted / total) * 100,
+              completedItems: newCompleted,
             };
           }
           return cat;
@@ -104,7 +99,7 @@ export const useUncheckPlayProgressItem = () => {
   });
 };
 
-export const useUncheckPlayProgressItemBatch = () => {
+export const useUncheckPlayProgressItemBulk = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -117,7 +112,7 @@ export const useUncheckPlayProgressItemBatch = () => {
       categoryId: number;
     }) => {
       const res = await fetch(
-        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/batch-uncheck`,
+        `/api/gameplay/play/${encodeURIComponent(playId)}/progress/bulk-uncheck`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -156,11 +151,8 @@ export const useUncheckPlayProgressItemBatch = () => {
           progressItemIds.includes(item.id)
             ? {
                 ...item,
-                userProgress: {
-                  ...item.userProgress,
-                  completed: false,
-                  completed_at: null,
-                },
+                completed: false,
+                completedAt: null,
               }
             : item,
         );
@@ -173,13 +165,11 @@ export const useUncheckPlayProgressItemBatch = () => {
           if (cat.id === categoryId) {
             const newCompleted = Math.max(
               0,
-              (cat.items_completed || 0) - progressItemIds.length,
+              (cat.completedItems || 0) - progressItemIds.length,
             );
-            const total = cat.items_total || 1;
             return {
               ...cat,
-              items_completed: newCompleted,
-              percentage_completed: (newCompleted / total) * 100,
+              completedItems: newCompleted,
             };
           }
           return cat;

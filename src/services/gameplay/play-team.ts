@@ -2,187 +2,92 @@
 
 import { createClient } from "@/lib/supabase/server";
 
+// =============================================================================
+// GET PLAY TEAM
+// =============================================================================
+
 export const getPlayTeam = async (playId: string) => {
   const supabase = await createClient();
 
-  // First, fetch the play to determine the generation
-  const { data: play, error: playErr } = await supabase
-    .schema("gameplay")
-    .from("plays")
-    .select("id, game_id")
-    .eq("id", playId)
-    .maybeSingle();
-  if (playErr) return { data: null, error: playErr };
-  if (!play) return { data: null, error: null };
-
-  const { data: game, error: gameErr } = await supabase
-    .schema("meta")
-    .from("games")
-    .select("generation_id")
-    .eq("id", play.game_id)
-    .maybeSingle();
-  if (gameErr) return { data: null, error: gameErr };
-  if (!game) return { data: null, error: null };
-
-  // Fetch raw team rows
-  const { data: teamRows, error: teamError } = await supabase
-    .schema("gameplay")
-    .from("pokemon_team")
+  const { data, error } = await supabase
+    .schema("views")
+    .from("play_team_pokemon")
     .select("*")
     .eq("play_id", playId)
     .order("position", { ascending: true });
 
-  if (teamError) return { data: null, error: teamError };
+  if (error) return { data: null, error };
+  if (!data) return { data: [], error: null };
 
-  const rows = teamRows || [];
-  if (rows.length === 0) return { data: [], error: null };
-
-  // Collect referenced ids
-  const speciesIds = new Set<number>();
-  const formIds = new Set<number>();
-  const natureIds = new Set<number>();
-  const moveIds = new Set<number>();
-
-  rows.forEach((r: any) => {
-    if (r.species_id) speciesIds.add(r.species_id);
-    if (r.form_id) formIds.add(r.form_id);
-    if (r.nature_id) natureIds.add(r.nature_id);
-    if (r.move1_id) moveIds.add(r.move1_id);
-    if (r.move2_id) moveIds.add(r.move2_id);
-    if (r.move3_id) moveIds.add(r.move3_id);
-    if (r.move4_id) moveIds.add(r.move4_id);
-  });
-
-  const toArray = (s: Set<number>) => Array.from(s);
-
-  // Use generation view to get Pokemon data with types and abilities already joined
-  const generationView = `pokemon_generation_${["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix"][game.generation_id - 1]}`;
-
-  const { data: pokemonData, error: pokemonErr } = await supabase
-    .schema("views")
-    .from(generationView)
-    .select("*")
-    .in("species_id", toArray(speciesIds))
-    .in("form_id", toArray(formIds));
-  if (pokemonErr) return { data: null, error: pokemonErr };
-
-  // Build Pokemon lookup by form_id
-  const pokemonByForm: Record<number, any> = {};
-  (pokemonData || []).forEach((p: any) => {
-    pokemonByForm[p.form_id] = p;
-  });
-
-  // Helper to fetch a meta table by ids
-  const fetchMeta = async (table: string, ids: number[]) => {
-    if (ids.length === 0) return {};
-    const { data: metaRows, error: metaErr } = await supabase
-      .schema("meta")
-      .from(table)
-      .select("id, slug, name")
-      .in("id", ids);
-    if (metaErr) throw metaErr;
-    const map: Record<number, any> = {};
-    (metaRows || []).forEach((m: any) => (map[m.id] = m));
-    return map;
-  };
-
-  // Fetch only natures and moves separately
-  const [natureMap, movesMap] = await Promise.all([
-    fetchMeta("natures", toArray(natureIds)),
-    fetchMeta("moves", toArray(moveIds)),
-  ]);
-
-  // Map rows into composed objects using generation view data
-  const result = rows.map((row: any) => {
-    const pokemon = pokemonByForm[row.form_id];
-
-    const types: any[] = [];
-    if (pokemon?.type1_id) {
-      types.push({
-        id: pokemon.type1_id,
-        slug: pokemon.type1_slug,
-        name: pokemon.type1_name,
-      });
-    }
-    if (pokemon?.type2_id) {
-      types.push({
-        id: pokemon.type2_id,
-        slug: pokemon.type2_slug,
-        name: pokemon.type2_name,
-      });
-    }
-
-    const moves: any[] = [];
-    if (row.move1_id && movesMap[row.move1_id])
-      moves.push(movesMap[row.move1_id]);
-    if (row.move2_id && movesMap[row.move2_id])
-      moves.push(movesMap[row.move2_id]);
-    if (row.move3_id && movesMap[row.move3_id])
-      moves.push(movesMap[row.move3_id]);
-    if (row.move4_id && movesMap[row.move4_id])
-      moves.push(movesMap[row.move4_id]);
-
-    // Extract ability from team row's ability_id or use Pokemon's default ability
-    let ability = null;
-    if (row.ability_id && pokemon) {
-      // Find which ability matches (ability1, ability2, or hidden_ability)
-      if (row.ability_id === pokemon.ability1_id) {
-        ability = {
-          id: pokemon.ability1_id,
-          slug: pokemon.ability1_slug,
-          name: pokemon.ability1_name,
-        };
-      } else if (row.ability_id === pokemon.ability2_id) {
-        ability = {
-          id: pokemon.ability2_id,
-          slug: pokemon.ability2_slug,
-          name: pokemon.ability2_name,
-        };
-      } else if (row.ability_id === pokemon.hidden_ability_id) {
-        ability = {
-          id: pokemon.hidden_ability_id,
-          slug: pokemon.hidden_ability_slug,
-          name: pokemon.hidden_ability_name,
-        };
-      }
-    }
-
-    return {
-      id: row.id,
-      play_id: row.play_id,
-      position: row.position,
-      nickname: row.nickname,
-      level: row.level,
-      gender: row.gender,
-      is_shiny: row.is_shiny,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-      species: pokemon
-        ? {
-            id: pokemon.species_id,
-            slug: pokemon.species_slug,
-            name: pokemon.species_name,
-          }
-        : null,
-      form: pokemon
-        ? {
-            id: pokemon.form_id,
-            slug: pokemon.form_slug,
-            name: pokemon.form_name,
-            sprite_url: pokemon.sprite_url,
-          }
-        : null,
-      types,
-      nature: natureMap[row.nature_id] || null,
-      ability,
-      moves,
-    };
-  });
+  const result = data.map((row) => ({
+    id: row.team_pokemon_id,
+    play_id: playId,
+    position: row.position,
+    nickname: row.nickname,
+    level: row.level,
+    gender: row.gender,
+    is_shiny: row.is_shiny,
+    species: {
+      id: row.species_id,
+      slug: row.species_slug,
+      name: row.species_name,
+    },
+    form: {
+      id: row.form_id,
+      slug: row.form_slug,
+      name: row.form_name,
+      sprite_url: row.sprite_url,
+    },
+    types: [
+      row.type1_id && {
+        id: row.type1_id,
+        slug: row.type1_slug,
+        name: row.type1_name,
+      },
+      row.type2_id && {
+        id: row.type2_id,
+        slug: row.type2_slug,
+        name: row.type2_name,
+      },
+    ].filter(Boolean),
+    nature: row.nature_id
+      ? { id: row.nature_id, slug: row.nature_slug, name: row.nature_name }
+      : null,
+    ability: row.ability_id
+      ? { id: row.ability_id, slug: row.ability_slug, name: row.ability_name }
+      : null,
+    moves: [
+      row.move1_id && {
+        id: row.move1_id,
+        slug: row.move1_slug,
+        name: row.move1_name,
+      },
+      row.move2_id && {
+        id: row.move2_id,
+        slug: row.move2_slug,
+        name: row.move2_name,
+      },
+      row.move3_id && {
+        id: row.move3_id,
+        slug: row.move3_slug,
+        name: row.move3_name,
+      },
+      row.move4_id && {
+        id: row.move4_id,
+        slug: row.move4_slug,
+        name: row.move4_name,
+      },
+    ].filter(Boolean),
+  }));
 
   return { data: result, error: null };
 };
 
-export const addPokemonToPlayTeam = async (
+// =============================================================================
+// ADD POKEMON TO TEAM
+// =============================================================================
+
+export const addPokemonToTeam = async (
   playId: string,
   pokemon: {
     species_id: number;
@@ -216,7 +121,11 @@ export const addPokemonToPlayTeam = async (
   return { data, error: null };
 };
 
-export const updatePokemonInPlayTeam = async (
+// =============================================================================
+// UPDATE POKEMON IN TEAM
+// =============================================================================
+
+export const updateTeamPokemon = async (
   pokemonId: string,
   updates: {
     position?: number;
@@ -234,9 +143,8 @@ export const updatePokemonInPlayTeam = async (
 ) => {
   const supabase = await createClient();
 
-  // If position is being updated, handle position swapping
+  // Handle position swapping if position is being updated
   if (updates.position !== undefined) {
-    // Get the current pokemon being updated
     const { data: currentPokemon, error: currentError } = await supabase
       .schema("gameplay")
       .from("pokemon_team")
@@ -259,7 +167,7 @@ export const updatePokemonInPlayTeam = async (
       .neq("id", pokemonId)
       .maybeSingle();
 
-    // If there's a Pokemon at the target position, swap them
+    // Swap positions if there's a Pokemon at the target
     if (occupyingPokemon && !occupyingError) {
       const { error: swapError } = await supabase
         .schema("gameplay")
@@ -283,10 +191,14 @@ export const updatePokemonInPlayTeam = async (
   return { data, error: null };
 };
 
-export const removePokemonFromPlayTeam = async (pokemonId: string) => {
+// =============================================================================
+// REMOVE POKEMON FROM TEAM
+// =============================================================================
+
+export const removeTeamPokemon = async (pokemonId: string) => {
   const supabase = await createClient();
 
-  // Get the Pokemon being removed to determine its position and location
+  // Get the Pokemon being removed
   const { data: removedPokemon, error: getError } = await supabase
     .schema("gameplay")
     .from("pokemon_team")

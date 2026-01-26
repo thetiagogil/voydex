@@ -8,9 +8,9 @@ function Card({ className, onClick, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground border-border flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "bg-card text-card-foreground border-border flex flex-col gap-6 rounded-xl border p-4 shadow-sm",
         isClickable &&
-          "hover:bg-primary/5 hover:border-primary/50 cursor-pointer transition-colors",
+          "hover:border-primary/50 cursor-pointer transition-colors",
         className,
       )}
       onClick={onClick}
@@ -66,13 +66,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-6", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="card-content" className={cn(className)} {...props} />;
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {

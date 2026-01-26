@@ -1,34 +1,61 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils/cn";
 
-interface StatsCardProps {
+interface QuickStatProps {
   icon: React.ReactNode;
   value: string | number;
-  label: string;
-  description?: string;
+  label?: string;
+  variant?: "default" | "primary" | "orange" | "green";
 }
+
+const bgStyles = {
+  default: "bg-muted",
+  primary: "bg-primary/10",
+  orange: "bg-orange-500/10",
+  green: "bg-green-500/10",
+};
+
+const textStyles = {
+  default: "",
+  primary: "text-primary",
+  orange: "text-orange-600 dark:text-orange-400",
+  green: "text-green-600 dark:text-green-400",
+};
+
+const valueStyles = {
+  default: "",
+  primary: "text-primary",
+  orange: "text-orange-600 dark:text-orange-400",
+  green: "text-green-600 dark:text-green-400",
+};
 
 export const StatsCard = ({
   icon,
   value,
   label,
-  description,
-}: StatsCardProps) => {
+  variant = "default",
+}: QuickStatProps) => {
   return (
     <Card>
-      <CardContent>
-        <div className="flex items-start gap-4">
-          <div className="bg-primary/10 text-primary rounded-lg p-2">
-            {icon}
-          </div>
-          <div className="flex-1 space-y-1">
-            <p className="text-2xl font-bold">{value}</p>
-            <p className="text-muted-foreground text-sm font-medium">{label}</p>
-            {description && (
-              <p className="text-muted-foreground text-xs">{description}</p>
-            )}
-          </div>
+      <div className="flex items-center gap-3">
+        <div
+          className={cn(
+            "rounded-xl p-3",
+            bgStyles[variant],
+            textStyles[variant],
+          )}
+        >
+          {icon}
         </div>
-      </CardContent>
+
+        <div>
+          <p className={cn("text-xl font-bold", valueStyles[variant])}>
+            {value}
+          </p>
+
+          <p className="text-muted-foreground text-xs">{label}</p>
+        </div>
+      </div>
     </Card>
   );
 };

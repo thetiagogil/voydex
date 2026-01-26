@@ -1,48 +1,53 @@
 import { ReactNode } from "react";
+import { Card } from "../ui/card";
 
 interface HeaderProps {
-  size?: "sm" | "md" | "lg";
   icon?: ReactNode;
   title: string;
-  info?: ReactNode;
+  badge?: ReactNode;
   metadata?: ReactNode;
   description?: string;
+  info?: ReactNode;
   actions?: ReactNode;
 }
 
 export const Header = ({
-  size = "md",
   icon,
   title,
-  info,
+  badge,
   metadata,
-  description,
+  info,
   actions,
 }: HeaderProps) => {
-  const sizeClass =
-    size === "sm" ? "text-xl" : size === "md" ? "text-2xl" : "text-3xl";
-
   return (
-    <div className="flex items-start justify-between gap-4 space-y-4">
-      <div className="flex-1 space-y-2">
-        {/* Title + Icon + Badges */}
-        <div className="flex flex-wrap items-center gap-3">
-          {icon && <div className="flex-shrink-0">{icon}</div>}
-          <h1 className={`font-bold tracking-tight ${sizeClass}`}>{title}</h1>
-          {info && <div className="flex-shrink-0">{info}</div>}
+    <Card className="min-h-[136px] justify-center p-6">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+        <div className="flex flex-1 items-center gap-4">
+          {/* Icon */}
+          {icon && <div>{icon}</div>}
+
+          <div className="flex flex-col gap-2">
+            {/* Title + Badge */}
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-3xl font-bold">{title}</h1>
+              {badge && <div>{badge}</div>}
+            </div>
+
+            {/* Metadata */}
+            {metadata && (
+              <div className="text-muted-foreground">{metadata}</div>
+            )}
+          </div>
         </div>
 
-        {/* Metadata (e.g., "Kanto Region • 1996-2000") */}
-        {metadata && <div className="text-muted-foreground">{metadata}</div>}
+        <div>
+          {/* Info */}
+          {info && <div>{info}</div>}
 
-        {/* Description */}
-        {description && (
-          <p className="text-muted-foreground max-w-2xl">{description}</p>
-        )}
+          {/* Actions */}
+          {actions && <div>{actions}</div>}
+        </div>
       </div>
-
-      {/* Actions */}
-      {actions && <div className="flex-shrink-0">{actions}</div>}
-    </div>
+    </Card>
   );
 };

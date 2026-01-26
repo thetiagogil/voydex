@@ -1,14 +1,13 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
-import { TypeBadge } from "@/components/shared/type-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   useCheckPlayPokemonCaught,
-  useCheckPlayPokemonCaughtBatch,
+  useCheckPlayPokemonCaughtBulk,
 } from "@/hooks/gameplay/usePlayPokemonCaughtCheck";
 import {
   useUncheckPlayPokemonCaught,
-  useUncheckPlayPokemonCaughtBatch,
+  useUncheckPlayPokemonCaughtBulk,
 } from "@/hooks/gameplay/usePlayPokemonCaughtUncheck";
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -25,8 +24,8 @@ export const PlayProgressPokemonCaught = ({
   const [searchQuery, setSearchQuery] = useState("");
   const checkCaught = useCheckPlayPokemonCaught();
   const uncheckCaught = useUncheckPlayPokemonCaught();
-  const checkBatch = useCheckPlayPokemonCaughtBatch();
-  const uncheckBatch = useUncheckPlayPokemonCaughtBatch();
+  const checkBulk = useCheckPlayPokemonCaughtBulk();
+  const uncheckBulk = useUncheckPlayPokemonCaughtBulk();
 
   const filteredPokemon = useMemo(() => {
     if (!searchQuery.trim()) return pokemonCaught;
@@ -42,14 +41,6 @@ export const PlayProgressPokemonCaught = ({
 
       // Search by regional number
       if (pokemon.regional_number.toString().includes(query)) return true;
-
-      // Search by type
-      if (
-        pokemon.types?.some((type: any) =>
-          type.name.toLowerCase().includes(query),
-        )
-      )
-        return true;
 
       return false;
     });
@@ -80,7 +71,7 @@ export const PlayProgressPokemonCaught = ({
       }));
 
     if (pokemonToCheck.length > 0) {
-      checkBatch.mutate({
+      checkBulk.mutate({
         playId,
         pokemon: pokemonToCheck,
       });
@@ -93,7 +84,7 @@ export const PlayProgressPokemonCaught = ({
       .map((pokemon) => pokemon.species_id);
 
     if (speciesIdsToUncheck.length > 0) {
-      uncheckBatch.mutate({
+      uncheckBulk.mutate({
         playId,
         speciesIds: speciesIdsToUncheck,
       });
@@ -167,15 +158,6 @@ export const PlayProgressPokemonCaught = ({
                   </p>
                 )}
               </div>
-
-              {/* Types */}
-              {pokemon.types && pokemon.types.length > 0 && (
-                <div className="flex gap-1">
-                  {pokemon.types.map((type: any) => (
-                    <TypeBadge key={type.id} type={type.name as Type} />
-                  ))}
-                </div>
-              )}
             </SquareCheckbox>
           );
         })}

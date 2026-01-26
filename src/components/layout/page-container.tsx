@@ -12,12 +12,12 @@ interface PageContainerProps {
 
 export const PageContainer = ({
   children,
-  width = "lg",
+  width = "xl",
   className = "",
 }: PageContainerProps) => {
   return (
     <div
-      className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto px-6 py-12 ${className}`}
+      className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto px-4 py-6 ${className}`}
     >
       {children}
     </div>
