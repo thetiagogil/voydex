@@ -1,12 +1,13 @@
 "use client";
 
+import { GameCreateNewPlayDialog } from "@/components/features/game/game-create-new-play-dialog";
 import { GameEmptyPlay } from "@/components/features/game/game-empty-play";
 import { GameHeader } from "@/components/features/game/game-header";
 import { PlaysSection } from "@/components/features/game/plays-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useGameBySlug } from "@/hooks/useGames";
-import { use } from "react";
+import { use, useState } from "react";
 
 interface GamePageProps {
   params: Promise<{
@@ -17,6 +18,7 @@ interface GamePageProps {
 
 export default function GamePage({ params }: GamePageProps) {
   const { genId, gameSlug } = use(params);
+  const [open, setOpen] = useState<boolean>(false);
 
   const {
     data: game,
@@ -45,16 +47,25 @@ export default function GamePage({ params }: GamePageProps) {
   const gameData = game.data as GameWithFullData;
 
   return (
-    <PageLayout>
-      <div className="space-y-8">
-        <GameHeader game={gameData} />
+    <>
+      <PageLayout>
+        <div className="space-y-8">
+          <GameHeader game={gameData} />
 
-        {gameData.plays.length === 0 ? (
-          <GameEmptyPlay game={gameData} />
-        ) : (
-          <PlaysSection plays={gameData.plays} game={gameData} genId={genId} />
-        )}
-      </div>
-    </PageLayout>
+          {gameData.plays.length === 0 ? (
+            <GameEmptyPlay game={gameData} open={open} setOpen={setOpen} />
+          ) : (
+            <PlaysSection
+              plays={gameData.plays}
+              game={gameData}
+              genId={genId}
+              open={open}
+              setOpen={setOpen}
+            />
+          )}
+        </div>
+      </PageLayout>
+      <GameCreateNewPlayDialog open={open} setOpen={setOpen} game={gameData} />
+    </>
   );
 }

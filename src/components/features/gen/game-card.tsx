@@ -23,12 +23,12 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex gap-4">
-            <div className="bg-muted border-border rounded-lg border p-1">
+            <div className="bg-muted border-border rounded-xl border p-1">
               <Image
                 src={game.cover_url!}
                 alt={game.name}
-                height={80}
-                width={80}
+                height={72}
+                width={72}
                 className="rounded-lg"
               />
             </div>

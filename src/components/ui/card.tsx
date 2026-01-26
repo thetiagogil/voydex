@@ -10,7 +10,7 @@ function Card({ className, onClick, ...props }: React.ComponentProps<"div">) {
       className={cn(
         "bg-card text-card-foreground border-border flex flex-col gap-6 rounded-xl border p-4 shadow-sm",
         isClickable &&
-          "hover:bg-primary/5 hover:border-primary/50 cursor-pointer transition-colors",
+          "hover:border-primary/50 cursor-pointer transition-colors",
         className,
       )}
       onClick={onClick}

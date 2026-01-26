@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils/cn";
 
 interface QuickStatProps {
   icon: React.ReactNode;
@@ -38,13 +39,19 @@ export const StatsCard = ({
     <Card>
       <div className="flex items-center gap-3">
         <div
-          className={`rounded-xl p-3 ${bgStyles[variant]} ${textStyles[variant]} p-2`}
+          className={cn(
+            "rounded-xl p-3",
+            bgStyles[variant],
+            textStyles[variant],
+          )}
         >
           {icon}
         </div>
 
         <div>
-          <p className={`text-xl font-bold ${valueStyles[variant]}`}>{value}</p>
+          <p className={cn("text-xl font-bold", valueStyles[variant])}>
+            {value}
+          </p>
 
           <p className="text-muted-foreground text-xs">{label}</p>
         </div>

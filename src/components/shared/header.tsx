@@ -20,7 +20,7 @@ export const Header = ({
   actions,
 }: HeaderProps) => {
   return (
-    <Card className="p-6">
+    <Card className="min-h-[136px] justify-center p-6">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex flex-1 items-center gap-4">
           {/* Icon */}
@@ -33,7 +33,7 @@ export const Header = ({
               {badge && <div>{badge}</div>}
             </div>
 
-            {/* Metadata (e.g., "Kanto Region • 1996-2000") */}
+            {/* Metadata */}
             {metadata && (
               <div className="text-muted-foreground">{metadata}</div>
             )}

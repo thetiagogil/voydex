@@ -1,6 +1,7 @@
 import { Header } from "@/components/shared/header";
-import { Badge } from "@/components/ui/badge";
-import { ImageIcon, MapPin } from "lucide-react";
+import { StatBadge } from "@/components/shared/stat-badge";
+import { StatCard } from "@/components/shared/stat-card";
+import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface GameHeaderProps {
@@ -33,47 +34,51 @@ const getGameTypeLabel = (type: string) => {
   }
 };
 
-export const GameHeader = ({ game }: GameHeaderProps) => (
-  <div className="flex gap-6">
-    {/* Game Image */}
-    <div className="bg-muted relative h-18 w-18 shrink-0 overflow-hidden rounded-xl">
-      {game.cover_url ? (
-        <Image
-          src={game.cover_url}
-          alt={game.name}
-          fill
-          className="object-cover"
-        />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <ImageIcon className="text-muted-foreground/50 h-12 w-12" />
+export const GameHeader = ({ game }: GameHeaderProps) => {
+  const totalPlays = game.plays?.length || 0;
+  const activePlays =
+    game.plays?.filter((play) => play.status === "active").length || 0;
+  const completedPlays =
+    game.plays?.filter((play) => play.status === "completed").length || 0;
+  return (
+    <Header
+      icon={
+        <div className="bg-muted border-border rounded-lg border p-1">
+          <Image
+            src={game.cover_url!}
+            alt={game.name}
+            height={72}
+            width={72}
+            className="rounded-lg"
+          />
         </div>
-      )}
-    </div>
-
-    {/* Game Info */}
-    <div className="flex-1">
-      <Header
-        size="lg"
-        title={game.name}
-        info={
-          <Badge variant={getGameTypeColor(game.type)}>
-            {getGameTypeLabel(game.type)}
-          </Badge>
-        }
-        metadata={
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
-              {game.region?.name} Region
-            </span>
-            <span>•</span>
-            <span>{game.generation?.name}</span>
-            <span>•</span>
-            <span>{game.release_year}</span>
-          </div>
-        }
-      />
-    </div>
-  </div>
-);
+      }
+      title={game.name}
+      metadata={
+        <div className="flex flex-wrap items-center gap-2">
+          <StatBadge
+            icon={<MapPin className="h-3 w-3" />}
+            value={game.region.name}
+            title="Region"
+          />
+          <StatBadge
+            icon={<Calendar className="h-3 w-3" />}
+            value={game.release_year}
+            title="Release Year"
+          />
+        </div>
+      }
+      info={
+        <div className="flex flex-wrap gap-3">
+          <StatCard title={totalPlays} description="Plays" variant="primary" />
+          <StatCard title={activePlays} description="Active" variant="orange" />
+          <StatCard
+            title={completedPlays}
+            description="Completed"
+            variant="green"
+          />
+        </div>
+      }
+    />
+  );
+};
