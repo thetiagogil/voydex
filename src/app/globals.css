@@ -202,3 +202,7 @@
 ::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--input) 60%, var(--input));
 }
+
+.box-shadow {
+  box-shadow: 0px 0px 12px oklch(13.998% 0.00691 269.665 / 0.4);
+}

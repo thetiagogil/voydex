@@ -1,6 +1,6 @@
 import { Badge } from "../ui/badge";
 
-interface QuickStatProps {
+interface StatBadgeProps {
   icon: React.ReactNode;
   value: string | number;
   title: string;
@@ -31,16 +31,16 @@ const valueStyles = {
   yellow: "text-yellow-600 dark:text-yellow-400",
 };
 
-export const QuickStat = ({
+export const StatBadge = ({
   icon,
   value,
   title,
   variant = "default",
-}: QuickStatProps) => {
+}: StatBadgeProps) => {
   return (
     <Badge
       variant="outline-secondary"
-      className={`gap-1 ${bgStyles[variant]}`}
+      className={`gap-1 py-1 ${bgStyles[variant]}`}
       title={title}
     >
       <div className={`${textStyles[variant]}`}>{icon}</div>

@@ -1,4 +1,4 @@
-import { QuickStat } from "@/components/shared/quick-stat";
+import { StatBadge } from "@/components/shared/stat-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { GenerationWithUserStats } from "@/types/dashboard";
 import {
@@ -19,7 +19,7 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
   return (
     <Link key={generation.slug} href={`/adventures/gen/${generation.id}`}>
       <Card
-        className={`group hover:border-primary/50 block cursor-pointer border p-5 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl ${generation.userStats.totalPlays === 0 ? "opacity-40 hover:opacity-100" : "shadow-xl"}`}
+        className={`group hover:border-primary/50 cursor-pointer p-5 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl ${generation.userStats.totalPlays === 0 ? "opacity-40 hover:opacity-100" : "shadow-xl"}`}
       >
         <CardContent className="relative">
           <div className="flex items-center gap-4">
@@ -33,12 +33,12 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
               <div className="flex flex-1 justify-between">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-lg font-bold">{generation.name}</h3>
-                  <QuickStat
+                  <StatBadge
                     icon={<Cat className="h-3 w-3" />}
                     value={generation.totalPokemonCount}
-                    title="Total Pokémon"
+                    title="Total pokémon"
                   />
-                  <QuickStat
+                  <StatBadge
                     icon={<Gamepad2 className="h-3 w-3" />}
                     value={generation.gameCount}
                     title="Total games"
@@ -46,23 +46,23 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                 </div>
                 {generation.userStats.totalPlays > 0 && (
                   <div className="flex items-center gap-2">
-                    <QuickStat
+                    <StatBadge
                       icon={<Compass className="h-3 w-3" />}
                       value={generation.userStats.totalPlays}
                       variant="primary"
-                      title="Total Plays"
+                      title="Total plays"
                     />
-                    <QuickStat
+                    <StatBadge
                       icon={<Target className="h-3 w-3" />}
                       value={generation.userStats.activePlays}
                       variant="orange"
-                      title="Active Plays"
+                      title="Active plays"
                     />
-                    <QuickStat
+                    <StatBadge
                       icon={<CircleCheck className="h-3 w-3" />}
                       value={generation.userStats.completedPlays}
                       variant="green"
-                      title="Completed Plays"
+                      title="Completed plays"
                     />
                   </div>
                 )}

@@ -5,27 +5,15 @@ interface GamesSectionProps {
   genId: string;
 }
 
-const GamesGrid = ({
-  games,
-  genId,
-}: {
-  games: GameWithPlayStats[];
-  genId: string;
-}) => {
-  return (
-    <div className="flex flex-wrap justify-center gap-10 sm:justify-start sm:gap-6">
-      {games.map((game) => (
-        <GameCard key={game.id} game={game} genId={genId} />
-      ))}
-    </div>
-  );
-};
-
 export const GamesSection = ({ games, genId }: GamesSectionProps) => {
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Games</h2>
-      <GamesGrid games={games} genId={genId} />
+    <div className="space-y-4">
+      <h2 className="text-2xl font-semibold">Games</h2>
+      <div className="grid grid-cols-1 gap-10 sm:gap-6 md:grid-cols-3">
+        {games.map((game) => (
+          <GameCard key={game.id} game={game} genId={genId} />
+        ))}
+      </div>
     </div>
   );
 };

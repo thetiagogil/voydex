@@ -1,23 +1,13 @@
-import { QuickStat } from "@/components/shared/quick-stat";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { StatBadge } from "@/components/shared/stat-badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Calendar,
-  Cat,
+  ChevronRight,
   CircleCheck,
-  ImageIcon,
+  Compass,
   MapPin,
-  PauseCircle,
   Target,
-  Trash2Icon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,116 +17,72 @@ interface GameCardProps {
   genId: string;
 }
 
-const getGameTypeLabel = (type: string) => {
-  switch (type) {
-    case "main":
-      return "Main Game";
-    case "remake":
-      return "Remake";
-    case "enhanced":
-      return "Enhanced";
-    default:
-      return type;
-  }
-};
-
 export const GameCard = ({ game, genId }: GameCardProps) => {
-  const hasPlays = game.stats.totalPlays > 0;
-
   return (
-    <Card className="group flex h-full w-[270px] flex-col hover:shadow-xl">
-      {/* Game Image with Gradient Overlay */}
-
-      <CardHeader className="pb-3">
-        <div className="relative h-48 w-full overflow-hidden">
-          {game.cover_url ? (
-            <>
+    <Link href={`/adventures/gen/${genId}/game/${game.slug}`}>
+      <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
+        <CardContent className="flex flex-col">
+          <div className="flex gap-4">
+            <div className="bg-muted border-border rounded-lg border p-1">
               <Image
-                src={game.cover_url}
+                src={game.cover_url!}
                 alt={game.name}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                height={80}
+                width={80}
+                className="rounded-lg"
               />
-              <div className="from-background via-background/20 absolute inset-0 bg-gradient-to-t to-transparent" />
-            </>
-          ) : (
-            <div className="bg-muted flex h-full w-full items-center justify-center">
-              <ImageIcon className="text-muted-foreground/30 h-16 w-16" />
             </div>
+
+            <div className="flex w-full flex-col gap-1">
+              <div className="flex items-start justify-between">
+                <h3 className="text-xl font-bold">{game.name}</h3>
+                <ChevronRight className="group-hover:text-primary h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
+                <StatBadge
+                  icon={<MapPin className="h-3 w-3" />}
+                  value={game.region.name}
+                  title="Region"
+                />
+                <StatBadge
+                  icon={<Calendar className="h-3 w-3" />}
+                  value={game.releaseYear}
+                  title="Release Year"
+                />
+              </div>
+            </div>
+          </div>
+
+          <Separator className="mt-8 mb-4" />
+
+          {game.stats.totalPlays > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              <StatBadge
+                icon={<Compass className="h-3 w-3" />}
+                value={game.stats.totalPlays}
+                variant="primary"
+                title="Total plays"
+              />
+              <StatBadge
+                icon={<Target className="h-3 w-3" />}
+                value={game.stats.activePlays}
+                variant="orange"
+                title="Active plays"
+              />
+              <StatBadge
+                icon={<CircleCheck className="h-3 w-3" />}
+                value={game.stats.completedPlays}
+                variant="green"
+                title="Completed plays"
+              />
+            </div>
+          ) : (
+            <p className="text-muted-foreground text-sm">
+              No plays recorded yet.
+            </p>
           )}
-
-          {/* Type Badge - Floating on Image */}
-          <div className="absolute top-3 right-3">
-            <Badge variant="secondary">{getGameTypeLabel(game.type)}</Badge>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <CardTitle className="text-lg leading-tight">{game.name}</CardTitle>
-          <CardDescription className="flex items-center gap-2 text-sm">
-            <QuickStat
-              size="sm"
-              icon={<MapPin className="h-4 w-4" />}
-              value={game.region.name}
-            />
-            <span>•</span>
-            <QuickStat
-              size="sm"
-              icon={<Calendar className="h-4 w-4" />}
-              value={game.releaseYear}
-            />
-            <span>•</span>
-            <QuickStat
-              size="sm"
-              icon={<Cat className="h-4 w-4" />}
-              value={game.regionalDexCount}
-            />
-          </CardDescription>
-        </div>
-      </CardHeader>
-
-      <CardContent className="flex flex-1 flex-col space-y-4">
-        {/* Play Stats (if any) */}
-        {hasPlays ? (
-          <div className="bg-muted/50 flex flex-wrap justify-around gap-3 rounded-lg p-3 text-sm">
-            <QuickStat
-              size="sm"
-              icon={<Target className="h-4 w-4" />}
-              value={game.stats.activePlays}
-              variant="active"
-            />
-            <QuickStat
-              size="sm"
-              icon={<PauseCircle className="h-4 w-4" />}
-              value={1}
-              variant="paused"
-            />
-            <QuickStat
-              size="sm"
-              icon={<CircleCheck className="h-4 w-4" />}
-              value={game.stats.completedPlays}
-              variant="completed"
-            />
-            <QuickStat
-              size="sm"
-              icon={<Trash2Icon className="h-4 w-4" />}
-              value={1}
-              variant="dropped"
-            />
-          </div>
-        ) : (
-          <div className="text-muted-foreground bg-muted/30 rounded-lg p-3 text-center text-sm italic">
-            No adventures yet
-          </div>
-        )}
-      </CardContent>
-      <CardFooter>
-        {/* View Game Button */}
-        <Button asChild className="w-full" variant="outline-secondary">
-          <Link href={`/adventures/gen/${genId}/game/${game.slug}`}>
-            {hasPlays ? "View Adventures" : "Start Adventure"}
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
