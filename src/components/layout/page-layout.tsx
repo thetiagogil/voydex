@@ -1,9 +1,9 @@
-import { PageBreadcrumbsNavigation } from "@/components/layout/page-breadcrumbs-navigation";
+import { PageBreadcrumbs } from "@/components/layout/page-breadcrumbs";
 import { type PageContainerWidth } from "@/lib/constants/layout";
 import { ReactNode } from "react";
 import { Loading } from "../shared/loading";
 import { PageContainer } from "./page-container";
-import { PageNavigation } from "./page-navigation";
+import { PageNavbar } from "./page-navbar";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -24,7 +24,7 @@ export const PageLayout = ({
     <div className="bg-grid-pattern min-h-screen">
       {showNavigation && (
         <header className="px-auto border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-lg">
-          <PageNavigation width={width} />
+          <PageNavbar width={width} />
         </header>
       )}
       <main>
@@ -33,7 +33,7 @@ export const PageLayout = ({
             <Loading />
           ) : (
             <>
-              <PageBreadcrumbsNavigation />
+              <PageBreadcrumbs />
               {children}
             </>
           )}

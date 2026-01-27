@@ -5,17 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Trophy } from "lucide-react";
 import { useState } from "react";
-import { PlayProgressSheet } from "./play-progress-sheet";
+import { ProgressItemsSheet } from "./progress-items-sheet";
 
-interface PlayProgressCategoriesProps {
+interface ProgressCategoriesCardProps {
   playId: string;
   progressCategories?: any[];
 }
 
-export const PlayProgressCategories = ({
+export const ProgressCategoriesCard = ({
   playId,
   progressCategories,
-}: PlayProgressCategoriesProps) => {
+}: ProgressCategoriesCardProps) => {
   const categories: PlayProgressCategory[] = progressCategories || [];
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] =
@@ -53,7 +53,7 @@ export const PlayProgressCategories = ({
                           </p>
                         )}
                       </div>
-                      <Badge variant="outline-primary">
+                      <Badge variant="outline">
                         {category.completedItems}/{category.totalItems}
                       </Badge>
                     </div>
@@ -86,7 +86,7 @@ export const PlayProgressCategories = ({
       </CardContent>
 
       {selectedCategory && (
-        <PlayProgressSheet
+        <ProgressItemsSheet
           open={openSheet}
           setOpenSheet={setOpenSheet}
           playId={playId}

@@ -20,25 +20,21 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-interface PageNavigationProfileProps {
+interface PageNavbarProfileProps {
   isFetching: boolean;
   isAuth: boolean | null;
   handleLogout: () => void;
 }
 
-export const PageNavigationProfile = ({
+export const PageNavbarProfile = ({
   isFetching,
   isAuth,
   handleLogout,
-}: PageNavigationProfileProps) => {
+}: PageNavbarProfileProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline-secondary"
-          size="icon"
-          className="rounded-full"
-        >
+        <Button variant="outline-primary" size="icon" className="rounded-full">
           <User />
         </Button>
       </DropdownMenuTrigger>
@@ -68,7 +64,7 @@ export const PageNavigationProfile = ({
               <Link href="/profile" className="flex items-center gap-2">
                 <UserIcon className="h-4 w-4" />
                 <span className="grow truncate">Profile</span>
-                <Badge variant="outline-primary">Soon</Badge>
+                <Badge variant="outline">Soon</Badge>
               </Link>
             </DropdownMenuItem>
 
@@ -76,7 +72,7 @@ export const PageNavigationProfile = ({
               <Link href="/settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
                 <span className="grow truncate">Settings</span>
-                <Badge variant="outline-primary">Soon</Badge>
+                <Badge variant="outline">Soon</Badge>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -89,7 +85,7 @@ export const PageNavigationProfile = ({
             <Link href="/intro" className="flex items-center gap-2">
               <Cat className="h-4 w-4" />
               <span className="grow truncate">Pokédex</span>
-              <Badge variant="outline-primary">Soon</Badge>
+              <Badge variant="outline">Soon</Badge>
             </Link>
           </DropdownMenuItem>
 
@@ -97,7 +93,7 @@ export const PageNavigationProfile = ({
             <Link href="/intro" className="flex items-center gap-2">
               <Info className="h-4 w-4" />
               <span className="grow truncate">Learn more</span>
-              <Badge variant="outline-primary">Soon</Badge>
+              <Badge variant="outline">Soon</Badge>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

@@ -13,17 +13,13 @@ import {
 } from "@/components/ui/empty";
 import { Plus } from "lucide-react";
 
-interface GameCreateNewPlayDialogProps {
+interface PlayModalProps {
   game: GameWithFullData;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const GameCreateNewPlayDialog = ({
-  game,
-  open,
-  setOpen,
-}: GameCreateNewPlayDialogProps) => {
+export const PlayModal = ({ game, open, setOpen }: PlayModalProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>

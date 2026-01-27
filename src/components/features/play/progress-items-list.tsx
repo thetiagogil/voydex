@@ -9,17 +9,17 @@ import {
   useUncheckPlayProgressItemBulk,
 } from "@/hooks/gameplay/usePlayProgressItemUncheck";
 
-interface PlayProgressItemsProps {
+interface ProgressItemsListProps {
   items: PlayProgressItem[];
   playId: string;
   categoryId: number;
 }
 
-export const PlayProgressItems = ({
+export const ProgressItemsList = ({
   items,
   playId,
   categoryId,
-}: PlayProgressItemsProps) => {
+}: ProgressItemsListProps) => {
   const checkComplete = useCheckPlayProgressItem();
   const checkIncomplete = useUncheckPlayProgressItem();
   const checkBulk = useCheckPlayProgressItemBulk();

@@ -29,17 +29,17 @@ import { toastPromise } from "@/lib/utils/toast-promise";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { AbilityField } from "./team-form-fields/ability-field";
-import { FormField } from "./team-form-fields/form-field";
-import { GenderField } from "./team-form-fields/gender-field";
-import { LevelField } from "./team-form-fields/level-field";
-import { MoveField } from "./team-form-fields/move-field";
-import { NatureField } from "./team-form-fields/nature-field";
-import { NicknameField } from "./team-form-fields/nickname-field";
-import { PositionField } from "./team-form-fields/position-field";
-import { SpeciesField } from "./team-form-fields/species-field";
+import { AbilityField } from "./pokemon-team-modal-fields/ability-field";
+import { FormField } from "./pokemon-team-modal-fields/form-field";
+import { GenderField } from "./pokemon-team-modal-fields/gender-field";
+import { LevelField } from "./pokemon-team-modal-fields/level-field";
+import { MoveField } from "./pokemon-team-modal-fields/move-field";
+import { NatureField } from "./pokemon-team-modal-fields/nature-field";
+import { NicknameField } from "./pokemon-team-modal-fields/nickname-field";
+import { PositionField } from "./pokemon-team-modal-fields/position-field";
+import { SpeciesField } from "./pokemon-team-modal-fields/species-field";
 
-interface PlayPokemonTeamDialogProps {
+interface PokemonTeamModalProps {
   openDialog: boolean;
   setOpenDialog: (open: boolean) => void;
   playId: string;
@@ -50,7 +50,7 @@ interface PlayPokemonTeamDialogProps {
   onClose: () => void;
 }
 
-export const PlayPokemonTeamDialog = ({
+export const PokemonTeamModal = ({
   openDialog,
   setOpenDialog,
   playId,
@@ -59,7 +59,7 @@ export const PlayPokemonTeamDialog = ({
   position,
   team = [],
   onClose,
-}: PlayPokemonTeamDialogProps) => {
+}: PokemonTeamModalProps) => {
   const addPokemon = useAddPokemonToTeam();
   const updatePokemon = useUpdatePokemonInTeam();
   const isEditing = !!pokemon;

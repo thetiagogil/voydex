@@ -9,15 +9,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-interface PageNavigationMenuProps {
-  links: { name: string; href: string }[];
-}
-
-export const PageNavigationMenu = ({ links }: PageNavigationMenuProps) => {
+export const PageNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline-primary" size="icon" className="rounded-full">
+        <Button
+          variant="outline-secondary"
+          size="icon"
+          className="rounded-full"
+        >
           <Menu />
         </Button>
       </DropdownMenuTrigger>

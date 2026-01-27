@@ -9,14 +9,14 @@ import { toastPromise } from "@/lib/utils/toast-promise";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../shared/logo";
-import { PageNavigationMenu } from "./page-navigation-menu";
-import { PageNavigationProfile } from "./page-navigation-profile";
+import { PageNavbarMenu } from "./page-navbar-menu";
+import { PageNavbarProfile } from "./page-navbar-profile";
 
-interface PageNavigationProps {
+interface PageNavbarProps {
   width?: PageContainerWidth;
 }
 
-export const PageNavigation = ({ width = "xl" }: PageNavigationProps) => {
+export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const { data: isAuth, isFetching } = useClaims();
@@ -49,17 +49,18 @@ export const PageNavigation = ({ width = "xl" }: PageNavigationProps) => {
   return (
     <nav>
       <div
-        className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto flex h-16 items-center justify-between px-4 sm:px-8`}
+        className={`${PAGE_CONTAINER_WIDTH[width]} md: mx-auto grid h-16 grid-cols-2 items-center px-4 sm:px-8 md:grid-cols-3`}
       >
-        <div>
+        <div className="flex items-center">
           <Link href="/" className="flex-shrink-0">
             <Logo showText size="sm" />
           </Link>
         </div>
 
-        {!isFetching && isAuth && (
-          <div className="hidden items-center gap-4 md:flex">
-            {links.map((link) => (
+        <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
+          {!isFetching &&
+            isAuth &&
+            links.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
@@ -72,18 +73,19 @@ export const PageNavigation = ({ width = "xl" }: PageNavigationProps) => {
                 {link.name}
               </Link>
             ))}
-          </div>
-        )}
+        </div>
 
-        <div className="flex items-center gap-2">
-          <PageNavigationProfile
+        <div className="flex items-center justify-end gap-2">
+          {!isFetching && isAuth && (
+            <span className="md:hidden">
+              <PageNavbarMenu />
+            </span>
+          )}
+          <PageNavbarProfile
             isFetching={isFetching}
             isAuth={isAuth}
             handleLogout={handleLogout}
           />
-          <span className="md:hidden">
-            <PageNavigationMenu links={links} />
-          </span>
         </div>
       </div>
     </nav>

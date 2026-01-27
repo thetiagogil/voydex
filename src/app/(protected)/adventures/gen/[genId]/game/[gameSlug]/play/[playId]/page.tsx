@@ -1,8 +1,9 @@
 "use client";
 
 import { PlayHeader } from "@/components/features/play/play-header";
-import { PlayPokemon } from "@/components/features/play/play-pokemon-team";
-import { PlayProgressCategories } from "@/components/features/play/play-progress-categories";
+import { PokemonTeam } from "@/components/features/play/pokemon-team";
+import { ProgressCategoriesCard } from "@/components/features/play/progress-categories-card";
+
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { usePlay } from "@/hooks/gameplay/usePlay";
@@ -54,12 +55,12 @@ export default function PlayPage({ params }: PlayPageProps) {
     <PageLayout>
       <div className="space-y-8">
         <PlayHeader play={play.data} />
-        <PlayPokemon
+        <PokemonTeam
           playId={playId}
           generationId={generationId}
           pokemonTeam={pokemonTeamData}
         />
-        <PlayProgressCategories
+        <ProgressCategoriesCard
           playId={playId}
           progressCategories={progressCategoriesData}
         />

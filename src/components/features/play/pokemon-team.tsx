@@ -10,20 +10,19 @@ import {
 } from "@/components/ui/empty";
 import { BookPlus, Edit, Plus, Users } from "lucide-react";
 import { useState } from "react";
-import { PlayPokemonTeamDialog } from "./play-pokemon-team-dialog";
-import { PlayPokemonTeamSheet } from "./play-pokemon-team-sheet";
+import { PokemonTeamModal } from "./pokemon-team-modal";
 
-interface PlayPokemonTeamProps {
+interface PokemonTeamProps {
   playId: string;
   generationId: number;
   pokemonTeam?: PlayPokemon[];
 }
 
-export const PlayPokemon = ({
+export const PokemonTeam = ({
   playId,
   generationId,
   pokemonTeam,
-}: PlayPokemonTeamProps) => {
+}: PokemonTeamProps) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [openPokemonDetails, setOpenPokemonDetails] = useState<boolean>(false);
   const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
@@ -135,9 +134,7 @@ export const PlayPokemon = ({
                                 {pokemon.nickname}
                               </p>
                             </div>
-                            <Badge variant="outline-secondary">
-                              Lv. {pokemon.level}
-                            </Badge>
+                            <Badge variant="outline">Lv. {pokemon.level}</Badge>
                           </div>
 
                           {/* Pokemon types */}
@@ -161,7 +158,7 @@ export const PlayPokemon = ({
                                   Nature
                                 </p>
                                 <Badge
-                                  variant="outline-secondary"
+                                  variant="outline"
                                   className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.nature?.name ? "border-dashed opacity-50" : ""}`}
                                 >
                                   {pokemon.nature?.name || "-"}
@@ -173,7 +170,7 @@ export const PlayPokemon = ({
                                   Ability
                                 </p>
                                 <Badge
-                                  variant="outline-secondary"
+                                  variant="outline"
                                   className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.ability?.name ? "border-dashed opacity-50" : ""}`}
                                 >
                                   {pokemon.ability?.name || "-"}
@@ -194,7 +191,7 @@ export const PlayPokemon = ({
                                 return (
                                   <Badge
                                     key={i}
-                                    variant="outline-secondary"
+                                    variant="outline"
                                     className={`text-muted-foreground w-full py-1 text-xs ${!move?.name ? "border-dashed opacity-50" : ""}`}
                                   >
                                     {move?.name || "-"}
@@ -225,15 +222,7 @@ export const PlayPokemon = ({
         </div>
       </CardContent>
 
-      <PlayPokemonTeamSheet
-        openSheet={openSheet}
-        setOpenSheet={setOpenSheet}
-        playId={playId}
-        generationId={generationId}
-      />
-
-      {/* Quick Edit Dialog */}
-      <PlayPokemonTeamDialog
+      <PokemonTeamModal
         openDialog={openEditDialog}
         setOpenDialog={setOpenEditDialog}
         playId={playId}

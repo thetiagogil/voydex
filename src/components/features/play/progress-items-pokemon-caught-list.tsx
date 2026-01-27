@@ -12,15 +12,15 @@ import {
 import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
-interface PlayProgressPokemonCaughtProps {
+interface ProgressItemsPokemonCaughtListProps {
   playId: string;
   pokemonCaught: PlayPokemonCaught[];
 }
 
-export const PlayProgressPokemonCaught = ({
+export const ProgressItemsPokemonCaughtList = ({
   playId,
   pokemonCaught,
-}: PlayProgressPokemonCaughtProps) => {
+}: ProgressItemsPokemonCaughtListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const checkCaught = useCheckPlayPokemonCaught();
   const uncheckCaught = useUncheckPlayPokemonCaught();

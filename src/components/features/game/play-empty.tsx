@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/empty";
 import { Play } from "lucide-react";
 
-interface GameEmptyPlayProps {
+interface PlayEmptyProps {
   game: GameWithFullData;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const GameEmptyPlay = ({ game, setOpen }: GameEmptyPlayProps) => {
+export const PlayEmpty = ({ game, setOpen }: PlayEmptyProps) => {
   return (
     <Card onClick={() => setOpen(true)} className="bg-background border-dashed">
       <CardContent>

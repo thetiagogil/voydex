@@ -11,7 +11,7 @@ interface BreadcrumbItem {
   current?: boolean;
 }
 
-export const PageBreadcrumbsNavigation = () => {
+export const PageBreadcrumbs = () => {
   const pathname = usePathname();
 
   const getBreadcrumbs = (): BreadcrumbItem[] => {

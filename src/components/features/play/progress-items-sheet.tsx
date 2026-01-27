@@ -13,22 +13,22 @@ import {
 } from "@/components/ui/sheet";
 import { usePlayPokemonCaught } from "@/hooks/gameplay/usePlayPokemonCaught";
 import { usePlayProgressItems } from "@/hooks/gameplay/usePlayProgressItems";
-import { PlayProgressItems } from "./play-progress-items";
-import { PlayProgressPokemonCaught } from "./play-progress-pokemon-caught";
+import { ProgressItemsList } from "./progress-items-list";
+import { ProgressItemsPokemonCaughtList } from "./progress-items-pokemon-caught-list";
 
-interface PlayProgressItemsProps {
+interface ProgressItemsSheetProps {
   open: boolean;
   setOpenSheet: (open: boolean) => void;
   playId: string;
   category: PlayProgressCategory;
 }
 
-export const PlayProgressSheet = ({
+export const ProgressItemsSheet = ({
   open,
   setOpenSheet,
   playId,
   category,
-}: PlayProgressItemsProps) => {
+}: ProgressItemsSheetProps) => {
   // Only treat actual Pokédex categories (not legendary) as dex categories
   const isDexCategory =
     category?.type === "dex" && category?.slug.includes("pokedex");
@@ -56,12 +56,12 @@ export const PlayProgressSheet = ({
           {isLoading ? (
             <Loading />
           ) : isDexCategory && pokemonCaught && pokemonCaught.length > 0 ? (
-            <PlayProgressPokemonCaught
+            <ProgressItemsPokemonCaughtList
               pokemonCaught={pokemonCaught}
               playId={playId}
             />
           ) : items && items.length > 0 ? (
-            <PlayProgressItems
+            <ProgressItemsList
               items={items}
               playId={playId}
               categoryId={category.id}
