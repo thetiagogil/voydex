@@ -6,28 +6,11 @@ import {
   PageContainerWidth,
 } from "@/lib/constants/layout";
 import { toastPromise } from "@/lib/utils/toast-promise";
-import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import {
-  Info,
-  LogIn,
-  LogOut,
-  Settings,
-  User,
-  UserIcon,
-  UserPlus,
-} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../shared/logo";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { PageNavigationMenu } from "./page-navigation-menu";
+import { PageNavigationProfile } from "./page-navigation-profile";
 
 interface PageNavigationProps {
   width?: PageContainerWidth;
@@ -53,27 +36,30 @@ export const PageNavigation = ({ width = "xl" }: PageNavigationProps) => {
     }
   };
 
-  const navLinks = [
-    ...(isAuth ? [{ name: "Adventures", href: "/adventures" }] : []),
-    { name: "Pokédex", href: "/pokedex" },
+  const links = [
+    { name: "Adventures", href: "/adventures" },
+    { name: "Plays", href: "/plays" },
+    { name: "Collection", href: "/collection" },
   ];
 
-  const detectedPage = navLinks.find((link) =>
+  const detectedPage = links.find((link) =>
     link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
   )?.name;
 
   return (
     <nav>
       <div
-        className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto flex h-16 items-center justify-between px-4`}
+        className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto flex h-16 items-center justify-between px-4 sm:px-8`}
       >
-        <div className="flex items-center space-x-12">
+        <div>
           <Link href="/" className="flex-shrink-0">
             <Logo showText size="sm" />
           </Link>
+        </div>
 
-          <div className="flex items-center space-x-4">
-            {navLinks.map((link) => (
+        {!isFetching && isAuth && (
+          <div className="hidden items-center gap-4 md:flex">
+            {links.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
@@ -87,89 +73,18 @@ export const PageNavigation = ({ width = "xl" }: PageNavigationProps) => {
               </Link>
             ))}
           </div>
+        )}
+
+        <div className="flex items-center gap-2">
+          <PageNavigationProfile
+            isFetching={isFetching}
+            isAuth={isAuth}
+            handleLogout={handleLogout}
+          />
+          <span className="md:hidden">
+            <PageNavigationMenu links={links} />
+          </span>
         </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline-primary"
-              size="icon"
-              className="rounded-full"
-            >
-              <User />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end" className="w-48">
-            {!isFetching && !isAuth && (
-              <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/login">
-                    <LogIn className="h-4 w-4" />
-                    Log in
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/signup">
-                    <UserPlus className="h-4 w-4" />
-                    Sign up
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            )}
-
-            {!isFetching && isAuth && (
-              <DropdownMenuGroup>
-                <DropdownMenuItem asChild disabled>
-                  <Link href="/profile" className="flex items-center gap-2">
-                    <UserIcon className="h-4 w-4" />
-                    <span className="grow truncate">Profile</span>
-                    <Badge variant="outline-primary">Soon</Badge>
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild disabled>
-                  <Link href="/settings" className="flex items-center gap-2">
-                    <Settings className="h-4 w-4" />
-                    <span className="grow truncate">Settings</span>
-                    <Badge variant="outline-primary">Soon</Badge>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            )}
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild disabled>
-                <Link href="/intro" className="flex items-center gap-2">
-                  <Info className="h-4 w-4" />
-                  <span className="grow truncate">Learn more</span>
-                  <Badge variant="outline-primary">Soon</Badge>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-
-            {!isFetching && isAuth && (
-              <>
-                <DropdownMenuSeparator />
-
-                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    className="hover:bg-destructive/20 focus:bg-destructive/20"
-                    onClick={() => {
-                      handleLogout();
-                    }}
-                  >
-                    <LogOut className="text-destructive h-4 w-4" />
-                    <span className="text-destructive">Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </nav>
   );

@@ -17,7 +17,7 @@ export const PageContainer = ({
 }: PageContainerProps) => {
   return (
     <div
-      className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto px-4 py-6 ${className}`}
+      className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto px-4 py-6 sm:px-8 ${className}`}
     >
       {children}
     </div>
