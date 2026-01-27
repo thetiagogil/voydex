@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { RecentActivityItem } from "@/types/dashboard";
-import { Clock } from "lucide-react";
 import { ActivityCard } from "./activity-card";
 
 interface ActivitySectionProps {
@@ -12,7 +11,6 @@ export const ActivitySection = ({ activities }: ActivitySectionProps) => {
   return (
     <Card className="h-full gap-0 p-0">
       <div className="border-border flex items-center gap-2 border-b p-4">
-        <Clock className="text-primary h-5 w-5" />
         <h2 className="text-foreground text-lg font-bold">Recent Activity</h2>
       </div>
       <ScrollArea className="flex-1">

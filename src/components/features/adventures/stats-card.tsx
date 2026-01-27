@@ -37,19 +37,32 @@ export const StatsCard = ({
 }: QuickStatProps) => {
   return (
     <Card>
-      <div className="flex items-center gap-3">
-        <div
-          className={cn(
-            "rounded-xl p-3",
-            bgStyles[variant],
-            textStyles[variant],
-          )}
-        >
-          {icon}
+      <div className="flex flex-col items-center gap-3 md:flex-row">
+        <div className="flex items-center gap-2">
+          <div
+            className={cn(
+              "rounded-xl p-2 md:p-3",
+              bgStyles[variant],
+              textStyles[variant],
+            )}
+          >
+            {icon}
+          </div>
+
+          <p
+            className={cn("text-xl font-bold md:hidden", valueStyles[variant])}
+          >
+            {value}
+          </p>
         </div>
 
-        <div>
-          <p className={cn("text-xl font-bold", valueStyles[variant])}>
+        <div className="text-center md:text-left">
+          <p
+            className={cn(
+              "hidden text-xl font-bold md:inline-block",
+              valueStyles[variant],
+            )}
+          >
             {value}
           </p>
 

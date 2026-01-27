@@ -23,15 +23,16 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
       >
         <CardContent className="relative">
           <div className="flex gap-4">
-            {/* Generation Badge Circle */}
             <div className="text-md bg-primary/10 border-primary/30 text-primary flex h-13 w-13 shrink-0 items-center justify-center rounded-xl border font-bold">
               {generation.name.replace("Generation ", "")}
             </div>
 
-            <div className="w-full">
-              <div className="flex flex-1 justify-between">
+            <div className="flex w-full flex-1">
+              <div className="flex flex-1 flex-col gap-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-lg font-bold">{generation.name}</h3>
+                  <h3 className="hidden text-lg font-bold sm:inline-block">
+                    {generation.name}
+                  </h3>
                   <StatBadge
                     icon={<Cat className="h-3 w-3" />}
                     value={generation.totalPokemonCount}
@@ -43,6 +44,14 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                     title="Total games"
                   />
                 </div>
+
+                <p className="text-muted-foreground text-sm font-medium">
+                  {generation.startYear}
+                  {generation.endYear ? ` - ${generation.endYear}` : "+"}
+                </p>
+              </div>
+
+              <div className="flex items-start">
                 {generation.userStats.totalPlays > 0 && (
                   <div className="flex items-center gap-2">
                     <StatBadge
@@ -51,28 +60,25 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                       variant="primary"
                       title="Total plays"
                     />
-                    <StatBadge
-                      icon={<Target className="h-3 w-3" />}
-                      value={generation.userStats.activePlays}
-                      variant="orange"
-                      title="Active plays"
-                    />
-                    <StatBadge
-                      icon={<CircleCheck className="h-3 w-3" />}
-                      value={generation.userStats.completedPlays}
-                      variant="green"
-                      title="Completed plays"
-                    />
+                    <span className="hidden gap-2 sm:inline-flex">
+                      <StatBadge
+                        icon={<Target className="h-3 w-3" />}
+                        value={generation.userStats.activePlays}
+                        variant="orange"
+                        title="Active plays"
+                      />
+                      <StatBadge
+                        icon={<CircleCheck className="h-3 w-3" />}
+                        value={generation.userStats.completedPlays}
+                        variant="green"
+                        title="Completed plays"
+                      />
+                    </span>
 
                     <ChevronRight className="group-hover:text-primary h-4 w-4" />
                   </div>
                 )}
               </div>
-
-              <p className="text-muted-foreground text-sm font-medium">
-                {generation.startYear}
-                {generation.endYear ? ` - ${generation.endYear}` : "+"}
-              </p>
             </div>
           </div>
         </CardContent>

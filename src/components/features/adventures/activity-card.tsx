@@ -41,7 +41,6 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
   return (
     <Link href={activity.href}>
       <div className="bg-muted/30 hover:bg-muted/50 flex items-start gap-3 rounded-lg p-3 transition-colors">
-        {/* Icon or Sprite */}
         <div className="flex-shrink-0">
           {activity.type === "team_add" && activity.pokemon?.spriteUrl ? (
             <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
@@ -60,7 +59,6 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
           )}
         </div>
 
-        {/* Content */}
         <div className="min-w-0 flex-1">
           <p className="text-sm leading-tight font-medium text-wrap">
             {activity.message}

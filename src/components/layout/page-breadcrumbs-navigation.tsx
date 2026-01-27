@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Home } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
@@ -145,21 +145,23 @@ export const PageBreadcrumbsNavigation = () => {
 
   return (
     <nav
-      className="text-muted-foreground mb-4 flex items-center space-x-1 text-sm"
+      className="text-muted-foreground mb-4 hidden items-center space-x-1 text-sm sm:flex"
       aria-label="Breadcrumb"
     >
-      <Home className="h-4 w-4" />
       {breadcrumbs.map((item, index) => (
         <Fragment key={item.href}>
           {index > 0 && <ChevronRight className="mx-1 h-4 w-4" />}
           {item.current ? (
-            <span className="text-foreground font-medium" aria-current="page">
+            <span
+              className="text-foreground truncate font-medium"
+              aria-current="page"
+            >
               {item.label}
             </span>
           ) : (
             <Link
               href={item.href}
-              className="hover:text-foreground transition-colors"
+              className="hover:text-foreground truncate transition-colors"
             >
               {item.label}
             </Link>

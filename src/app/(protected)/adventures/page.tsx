@@ -27,7 +27,7 @@ export default function AdventuresPage() {
   }
 
   return (
-    <PageLayout className="flex h-[90vh] flex-col overflow-hidden">
+    <PageLayout className="flex flex-col overflow-hidden lg:h-[90vh]">
       <div className="flex min-h-0 flex-1 flex-col gap-6">
         {/* Stats Section */}
         <StatsSection stats={stats ?? null} />

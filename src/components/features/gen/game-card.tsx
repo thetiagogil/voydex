@@ -34,7 +34,7 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
             </div>
 
             <div className="flex w-full flex-col gap-1">
-              <div className="flex items-start justify-between">
+              <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold">{game.name}</h3>
                 <ChevronRight className="group-hover:text-primary h-4 w-4" />
               </div>

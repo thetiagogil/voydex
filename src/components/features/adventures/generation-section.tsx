@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { GenerationWithUserStats } from "@/types/dashboard";
-import { Map } from "lucide-react";
 import { GenerationCard } from "./generation-card";
 
 interface GenerationSectionProps {
@@ -14,7 +13,6 @@ export const GenerationSection = ({ generations }: GenerationSectionProps) => {
   return (
     <Card className="h-full gap-0 p-0">
       <div className="border-border flex items-center gap-2 border-b p-4">
-        <Map className="text-primary h-5 w-5" />
         <h2 className="text-foreground text-lg font-bold">Generations</h2>
       </div>
       <ScrollArea className="flex-1">

@@ -16,7 +16,7 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <StatsCard
         icon={<Compass className="h-5 w-5" />}
         value={data.total_plays}
