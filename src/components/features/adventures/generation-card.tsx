@@ -1,14 +1,8 @@
-import { StatBadge } from "@/components/shared/stat-badge";
+import { QuickInfo } from "@/components/shared/quick-info";
+import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import type { GenerationWithUserStats } from "@/types/dashboard";
-import {
-  Cat,
-  ChevronRight,
-  CircleCheck,
-  Compass,
-  Gamepad2,
-  Target,
-} from "lucide-react";
+import { Cat, ChevronRight, Gamepad2 } from "lucide-react";
 import Link from "next/link";
 
 interface GenerationCardsProps {
@@ -33,12 +27,12 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                   <h3 className="hidden text-lg font-bold sm:inline-block">
                     {generation.name}
                   </h3>
-                  <StatBadge
+                  <QuickInfo
                     icon={<Cat className="h-3 w-3" />}
                     value={generation.totalPokemonCount}
                     title="Total pokémon"
                   />
-                  <StatBadge
+                  <QuickInfo
                     icon={<Gamepad2 className="h-3 w-3" />}
                     value={generation.gameCount}
                     title="Total games"
@@ -54,24 +48,21 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
               <div className="flex items-start">
                 {generation.userStats.totalPlays > 0 && (
                   <div className="flex items-center gap-2">
-                    <StatBadge
-                      icon={<Compass className="h-3 w-3" />}
+                    <StatusInfo
+                      status="total"
                       value={generation.userStats.totalPlays}
-                      variant="primary"
-                      title="Total plays"
+                      isBadge
                     />
                     <span className="hidden gap-2 sm:inline-flex">
-                      <StatBadge
-                        icon={<Target className="h-3 w-3" />}
+                      <StatusInfo
+                        status="active"
                         value={generation.userStats.activePlays}
-                        variant="orange"
-                        title="Active plays"
+                        isBadge
                       />
-                      <StatBadge
-                        icon={<CircleCheck className="h-3 w-3" />}
+                      <StatusInfo
+                        status="completed"
                         value={generation.userStats.completedPlays}
-                        variant="green"
-                        title="Completed plays"
+                        isBadge
                       />
                     </span>
 

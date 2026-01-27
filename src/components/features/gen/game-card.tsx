@@ -1,14 +1,8 @@
-import { StatBadge } from "@/components/shared/stat-badge";
+import { QuickInfo } from "@/components/shared/quick-info";
+import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  Calendar,
-  ChevronRight,
-  CircleCheck,
-  Compass,
-  MapPin,
-  Target,
-} from "lucide-react";
+import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -39,12 +33,12 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
                 <ChevronRight className="group-hover:text-primary h-4 w-4" />
               </div>
               <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
-                <StatBadge
+                <QuickInfo
                   icon={<MapPin className="h-3 w-3" />}
                   value={game.region.name}
                   title="Region"
                 />
-                <StatBadge
+                <QuickInfo
                   icon={<Calendar className="h-3 w-3" />}
                   value={game.releaseYear}
                   title="Release Year"
@@ -57,23 +51,20 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
 
           {game.stats.totalPlays > 0 ? (
             <div className="flex flex-wrap gap-2">
-              <StatBadge
-                icon={<Compass className="h-3 w-3" />}
+              <StatusInfo
+                status="total"
                 value={game.stats.totalPlays}
-                variant="primary"
-                title="Total plays"
+                isBadge
               />
-              <StatBadge
-                icon={<Target className="h-3 w-3" />}
+              <StatusInfo
+                status="active"
                 value={game.stats.activePlays}
-                variant="orange"
-                title="Active plays"
+                isBadge
               />
-              <StatBadge
-                icon={<CircleCheck className="h-3 w-3" />}
+              <StatusInfo
+                status="completed"
                 value={game.stats.completedPlays}
-                variant="green"
-                title="Completed plays"
+                isBadge
               />
             </div>
           ) : (

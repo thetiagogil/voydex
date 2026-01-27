@@ -1,6 +1,7 @@
-import { StatBadge } from "@/components/shared/stat-badge";
+import { QuickInfo } from "@/components/shared/quick-info";
+import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatRelativeTime } from "@/lib/utils/common";
+import { formatTime } from "@/lib/utils/common";
 import { ChevronRight, Clock, Swords } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,36 +11,6 @@ interface PlayCardProps {
   genId: string | number;
   gameSlug: string;
 }
-
-const getStatusColor = (status: PlayStatus) => {
-  switch (status) {
-    case "active":
-      return "bg-green-500";
-    case "completed":
-      return "bg-blue-500";
-    case "paused":
-      return "bg-yellow-500";
-    case "dropped":
-      return "bg-red-500";
-    default:
-      return "bg-gray-500";
-  }
-};
-
-const getStatusLabel = (status: PlayStatus) => {
-  switch (status) {
-    case "active":
-      return "Active";
-    case "completed":
-      return "Completed";
-    case "paused":
-      return "Paused";
-    case "dropped":
-      return "Dropped";
-    default:
-      return "Unknown";
-  }
-};
 
 export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
   return (
@@ -54,11 +25,14 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
 
               <div className="flex flex-1 justify-between gap-2">
                 <div>
-                  <h3 className="text-lg font-semibold">{play.name}</h3>
+                  <div className="flex gap-2">
+                    <h3 className="text-lg font-semibold">{play.name}</h3>
+                    <StatusInfo status={play.status} />
+                  </div>
                   <div className="text-muted-foreground">
-                    <StatBadge
+                    <QuickInfo
                       icon={<Clock className="h-3 w-3" />}
-                      value={formatRelativeTime(play.updated_at)}
+                      value={formatTime(play.updated_at)}
                       title="Last updated"
                     />
                   </div>

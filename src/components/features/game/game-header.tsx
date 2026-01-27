@@ -1,5 +1,5 @@
 import { Header } from "@/components/shared/header";
-import { StatBadge } from "@/components/shared/stat-badge";
+import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
 import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
@@ -7,32 +7,6 @@ import Image from "next/image";
 interface GameHeaderProps {
   game: GameWithFullData;
 }
-
-const getGameTypeColor = (type: string) => {
-  switch (type) {
-    case "main":
-      return "outline-primary";
-    case "remake":
-      return "outline-secondary";
-    case "enhanced":
-      return "secondary";
-    default:
-      return "outline-secondary";
-  }
-};
-
-const getGameTypeLabel = (type: string) => {
-  switch (type) {
-    case "main":
-      return "Main Game";
-    case "remake":
-      return "Remake";
-    case "enhanced":
-      return "Enhanced";
-    default:
-      return type;
-  }
-};
 
 export const GameHeader = ({ game }: GameHeaderProps) => {
   const totalPlays = game.plays?.length || 0;
@@ -56,12 +30,12 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       title={game.name}
       metadata={
         <div className="flex flex-wrap items-center gap-2">
-          <StatBadge
+          <QuickInfo
             icon={<MapPin className="h-3 w-3" />}
             value={game.region.name}
             title="Region"
           />
-          <StatBadge
+          <QuickInfo
             icon={<Calendar className="h-3 w-3" />}
             value={game.release_year}
             title="Release Year"

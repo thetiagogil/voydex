@@ -1,5 +1,5 @@
 import { Header } from "@/components/shared/header";
-import { StatBadge } from "@/components/shared/stat-badge";
+import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
 import { Calendar, Gamepad2 } from "lucide-react";
 
@@ -22,12 +22,12 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
       title={gen.name}
       metadata={
         <div className="flex flex-wrap items-center gap-2 text-sm">
-          <StatBadge
+          <QuickInfo
             icon={<Calendar className="h-4 w-4" />}
             value={yearRange}
             title="Generation years"
           />
-          <StatBadge
+          <QuickInfo
             icon={<Gamepad2 className="h-4 w-4" />}
             value={gen.staticStats.gameCount}
             title="Total games"
@@ -39,7 +39,7 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
           <StatCard
             title={gen.userStats?.totalPlays || 0}
             description="Plays"
-            variant="primary"
+            variant="blue"
           />
           <StatCard
             title={gen.userStats?.activePlays || 0}

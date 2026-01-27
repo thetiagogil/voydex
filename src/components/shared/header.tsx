@@ -28,7 +28,7 @@ export const Header = ({
 
           <div className="flex flex-col gap-2">
             {/* Title + Badge */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-4">
               <h1 className="text-3xl font-bold">{title}</h1>
               {badge && <div>{badge}</div>}
             </div>

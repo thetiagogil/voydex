@@ -1,4 +1,4 @@
-import { formatRelativeTime } from "@/lib/utils/common";
+import { formatTime } from "@/lib/utils/common";
 import type { RecentActivityItem } from "@/types/dashboard";
 import { Calendar, Sparkles, Star, Trophy } from "lucide-react";
 import Image from "next/image";
@@ -67,7 +67,7 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
             {activity.game.name} • {activity.play.name}
           </p>
           <p className="text-muted-foreground/70 text-xs">
-            {formatRelativeTime(activity.activityAt)}
+            {formatTime(activity.activityAt)}
           </p>
         </div>
       </div>

@@ -3,12 +3,12 @@ import { Card } from "@/components/ui/card";
 interface StatCardProps {
   title: number;
   description: string;
-  variant?: "default" | "primary" | "orange" | "green" | "yellow";
+  variant?: "default" | "blue" | "orange" | "green" | "yellow";
 }
 
 const textStyles = {
   default: "",
-  primary: "text-blue-600 dark:text-blue-400",
+  blue: "text-blue-600 dark:text-blue-400",
   orange: "text-orange-600 dark:text-orange-400",
   green: "text-green-600 dark:text-green-400",
   yellow: "text-yellow-600 dark:text-yellow-400",
