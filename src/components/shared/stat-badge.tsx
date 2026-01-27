@@ -1,22 +1,15 @@
+import { type ReactNode } from "react";
 import { Badge } from "../ui/badge";
 
 interface StatBadgeProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   value: string | number;
   title: string;
   variant?: "default" | "primary" | "orange" | "green" | "yellow";
 }
 
-const bgStyles = {
-  default: "bg-muted",
-  primary: "bg-primary/10",
-  orange: "bg-orange-500/10",
-  green: "bg-green-500/10",
-  yellow: "bg-yellow-500/10",
-};
-
 const textStyles = {
-  default: "",
+  default: "text-muted-foreground",
   primary: "text-blue-600 dark:text-blue-400",
   orange: "text-orange-600 dark:text-orange-400",
   green: "text-green-600 dark:text-green-400",
@@ -24,7 +17,7 @@ const textStyles = {
 };
 
 const valueStyles = {
-  default: "",
+  default: "text-muted-foreground",
   primary: "text-blue-600 dark:text-blue-400",
   orange: "text-orange-600 dark:text-orange-400",
   green: "text-green-600 dark:text-green-400",
@@ -38,13 +31,9 @@ export const StatBadge = ({
   variant = "default",
 }: StatBadgeProps) => {
   return (
-    <Badge
-      variant="outline-secondary"
-      className={`gap-1 py-1 ${bgStyles[variant]}`}
-      title={title}
-    >
-      <div className={`${textStyles[variant]}`}>{icon}</div>
-      <p className={`${valueStyles[variant]}`}>{value}</p>
+    <Badge variant="outline" className={"gap-1 py-1"} title={title}>
+      <div className={textStyles[variant]}>{icon}</div>
+      <p className={valueStyles[variant]}>{value}</p>
     </Badge>
   );
 };
