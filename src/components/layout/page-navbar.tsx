@@ -64,10 +64,10 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`font-medium transition-colors ${
+                className={`rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
                   detectedPage === link.name
-                    ? "text-primary"
-                    : "hover:text-primary/80"
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 {link.name}

@@ -60,6 +60,7 @@ interface GamePlaySummary {
     species: BaseInfo | null;
     sprite_url: string | null;
   }[];
+  game: Game;
 }
 
 // =============================================================================

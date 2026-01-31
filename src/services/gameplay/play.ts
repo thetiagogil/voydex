@@ -191,3 +191,61 @@ export const getPlayStatuses = async () => {
   if (error) return { data: null, error };
   return { data: data ?? [], error: null };
 };
+
+// =============================================================================
+// GET ALL USER PLAYS
+// =============================================================================
+
+export const getAllUserPlays = async () => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { data: null, error: { message: "Not authenticated" } };
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("all_user_plays")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("updated_at", { ascending: false });
+
+  if (error) return { data: null, error };
+  if (!data) return { data: [], error: null };
+
+  const result = data.map((play) => ({
+    id: play.play_id,
+    name: play.play_name,
+    status: play.status,
+    created_at: play.created_at,
+    updated_at: play.updated_at,
+    game: {
+      id: play.game_id,
+      slug: play.game_slug,
+      name: play.game_name,
+      type: play.game_type,
+      regional_dex_count: play.regional_dex_count,
+      national_dex_count: play.national_dex_count,
+      generation: {
+        id: play.generation_id,
+        slug: play.generation_slug,
+        name: play.generation_name,
+      },
+      region: {
+        id: play.region_id,
+        slug: play.region_slug,
+        name: play.region_name,
+      },
+    },
+    team_size: play.team_size,
+    highest_level: play.highest_level,
+    pokemon_caught_count: play.pokemon_caught_count,
+    completed_progress_items: play.completed_progress_items,
+    total_progress_items: play.total_progress_items,
+    regional_dex_count: play.regional_dex_count,
+    pokemon_team: play.pokemon_team,
+  }));
+
+  return { data: result, error: null };
+};
