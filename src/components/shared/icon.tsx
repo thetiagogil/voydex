@@ -40,6 +40,7 @@ const ICON_MAP = {
   pokemonCaught: Notebook,
   calendar: Calendar,
   details: BookPlus,
+  shiny: Sparkles,
 
   // Entities
   user: User,
@@ -62,7 +63,7 @@ const ICON_MAP = {
 
   // Recent activity
   badge: Star,
-  legendary: Sparkles,
+  legendary: Cat,
   eliteFour: Trophy,
   champion: Trophy,
 

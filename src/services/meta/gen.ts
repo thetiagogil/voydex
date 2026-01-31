@@ -141,3 +141,15 @@ export const getGen = async (id: string) => {
     breadcrumbs,
   };
 };
+
+export const getGens = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("meta")
+    .from("generations")
+    .select("id, slug, name")
+    .order("id");
+
+  return { data, error };
+};
