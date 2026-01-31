@@ -1,3 +1,4 @@
+import { Icon } from "@/components/shared/icon";
 import { TypeBadge } from "@/components/shared/type-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,6 @@ import {
   EmptyHeader,
   EmptyMedia,
 } from "@/components/ui/empty";
-import { BookPlus, Edit, Plus, Users } from "lucide-react";
 import { useState } from "react";
 import { PokemonTeamModal } from "./pokemon-team-modal";
 
@@ -67,7 +67,7 @@ export const PokemonTeam = ({
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
+            <Icon name="user" size={20} />
             Active Team ({activeTeam.length}/6)
           </CardTitle>
           <div className="flex gap-2">
@@ -76,7 +76,7 @@ export const PokemonTeam = ({
               size="sm"
               onClick={() => setOpenSheet(true)}
             >
-              <Edit className="h-4 w-4" />
+              <Icon name="add" />
             </Button>
             <Button
               variant={
@@ -85,7 +85,7 @@ export const PokemonTeam = ({
               size="sm"
               onClick={() => setOpenPokemonDetails(!openPokemonDetails)}
             >
-              <BookPlus className="h-4 w-4" />
+              <Icon name="details" />
             </Button>
           </div>
         </div>
@@ -207,7 +207,7 @@ export const PokemonTeam = ({
                     <Empty className="flex h-full flex-col items-center justify-center p-0 opacity-50">
                       <EmptyHeader>
                         <EmptyMedia variant="icon">
-                          <Plus />
+                          <Icon name="add" />
                         </EmptyMedia>
                         <EmptyDescription>
                           Click to add Pokémon

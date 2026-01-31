@@ -1,5 +1,5 @@
+import { Icon } from "@/components/shared/icon";
 import type { DashboardStats } from "@/types/dashboard";
-import { CircleCheck, Compass, Notebook, Target } from "lucide-react";
 import { StatsCard } from "./stats-card";
 
 interface StatsSectionProps {
@@ -18,28 +18,28 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <StatsCard
-        icon={<Compass className="h-5 w-5" />}
+        icon={<Icon name="total" size={20} />}
         value={data.total_plays}
         label="Total Playthroughs"
         variant="primary"
       />
 
       <StatsCard
-        icon={<Target className="h-5 w-5" />}
+        icon={<Icon name="active" size={20} />}
         value={data.active_plays}
         variant="orange"
         label="Active Playthroughs"
       />
 
       <StatsCard
-        icon={<CircleCheck className="h-5 w-5" />}
+        icon={<Icon name="completed" size={20} />}
         value={data.completed_plays}
         variant="green"
         label="Completed Playthroughs"
       />
 
       <StatsCard
-        icon={<Notebook className="h-5 w-5" />}
+        icon={<Icon name="pokemonCaught" size={20} />}
         value={data.total_unique_species}
         label="Unique Pokémon Caught"
       />

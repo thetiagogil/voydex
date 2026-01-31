@@ -1,3 +1,4 @@
+import { Icon } from "@/components/shared/icon";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Empty,
@@ -6,7 +7,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Play } from "lucide-react";
 
 interface PlayEmptyProps {
   game: GameWithFullData;
@@ -21,7 +21,7 @@ export const PlayEmpty = ({ game, setOpen }: PlayEmptyProps) => {
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Play />
+              <Icon name="play" />
             </EmptyMedia>
             <EmptyTitle>No playthroughs yet</EmptyTitle>
             <EmptyDescription>

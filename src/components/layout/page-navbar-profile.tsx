@@ -1,15 +1,6 @@
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import {
-  Cat,
-  Info,
-  LogIn,
-  LogOut,
-  Settings,
-  User,
-  UserIcon,
-  UserPlus,
-} from "lucide-react";
 import Link from "next/link";
+import { Icon } from "../shared/icon";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
@@ -35,7 +26,7 @@ export const PageNavbarProfile = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline-primary" size="icon" className="rounded-full">
-          <User />
+          <Icon name="user" />
         </Button>
       </DropdownMenuTrigger>
 
@@ -44,14 +35,14 @@ export const PageNavbarProfile = ({
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
               <Link href="/auth/login">
-                <LogIn className="h-4 w-4" />
+                <Icon name="login" />
                 Log in
               </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
               <Link href="/auth/signup">
-                <UserPlus className="h-4 w-4" />
+                <Icon name="signup" />
                 Sign up
               </Link>
             </DropdownMenuItem>
@@ -62,7 +53,7 @@ export const PageNavbarProfile = ({
           <DropdownMenuGroup>
             <DropdownMenuItem asChild disabled>
               <Link href="/profile" className="flex items-center gap-2">
-                <UserIcon className="h-4 w-4" />
+                <Icon name="user" />
                 <span className="grow truncate">Profile</span>
                 <Badge variant="outline">Soon</Badge>
               </Link>
@@ -70,7 +61,7 @@ export const PageNavbarProfile = ({
 
             <DropdownMenuItem asChild disabled>
               <Link href="/settings" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
+                <Icon name="settings" />
                 <span className="grow truncate">Settings</span>
                 <Badge variant="outline">Soon</Badge>
               </Link>
@@ -82,8 +73,8 @@ export const PageNavbarProfile = ({
 
         <DropdownMenuGroup>
           <DropdownMenuItem asChild disabled>
-            <Link href="/intro" className="flex items-center gap-2">
-              <Cat className="h-4 w-4" />
+            <Link href="/pokedex" className="flex items-center gap-2">
+              <Icon name="pokedex" />
               <span className="grow truncate">Pokédex</span>
               <Badge variant="outline">Soon</Badge>
             </Link>
@@ -91,7 +82,7 @@ export const PageNavbarProfile = ({
 
           <DropdownMenuItem asChild disabled>
             <Link href="/intro" className="flex items-center gap-2">
-              <Info className="h-4 w-4" />
+              <Icon name="intro" />
               <span className="grow truncate">Learn more</span>
               <Badge variant="outline">Soon</Badge>
             </Link>
@@ -109,7 +100,7 @@ export const PageNavbarProfile = ({
                   handleLogout();
                 }}
               >
-                <LogOut className="text-destructive h-4 w-4" />
+                <Icon name="logout" className="text-destructive" />
                 <span className="text-destructive">Log out</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -1,12 +1,6 @@
 import { cn } from "@/lib/utils/cn";
-import {
-  CircleCheck,
-  Compass,
-  PauseCircle,
-  Target,
-  XCircle,
-} from "lucide-react";
 import { Badge } from "../ui/badge";
+import { Icon } from "./icon";
 
 interface StatusInfoProps {
   status: "total" | PlayStatus;
@@ -16,12 +10,11 @@ interface StatusInfoProps {
 
 const getStatusVariant = (props: StatusInfoProps) => {
   const { status, value, isBadge } = props;
-  const smIcon = "h-3 w-3";
-  const lgIcon = "h-4 w-4";
+  const size = value ? 12 : 16;
   switch (status) {
     case "total":
       return {
-        icon: <Compass className={cn(value ? smIcon : lgIcon)} />,
+        icon: <Icon name="total" size={size} />,
         title: "Total plays",
         className: cn(
           "text-blue-600 dark:text-blue-400 border-0",
@@ -30,7 +23,7 @@ const getStatusVariant = (props: StatusInfoProps) => {
       };
     case "active":
       return {
-        icon: <Target className={cn(value ? smIcon : lgIcon)} />,
+        icon: <Icon name="active" size={size} />,
         title: "Active plays",
         className: cn(
           "text-orange-600 dark:text-orange-400 border-0",
@@ -39,7 +32,7 @@ const getStatusVariant = (props: StatusInfoProps) => {
       };
     case "completed":
       return {
-        icon: <CircleCheck className={cn(value ? smIcon : lgIcon)} />,
+        icon: <Icon name="completed" size={size} />,
         title: "Completed plays",
         className: cn(
           "text-green-600 dark:text-green-400 border-0",
@@ -48,7 +41,7 @@ const getStatusVariant = (props: StatusInfoProps) => {
       };
     case "paused":
       return {
-        icon: <PauseCircle className={cn(value ? smIcon : lgIcon)} />,
+        icon: <Icon name="paused" size={size} />,
         title: "Paused plays",
         className: cn(
           "text-yellow-600 dark:text-yellow-400 border-0",
@@ -57,7 +50,7 @@ const getStatusVariant = (props: StatusInfoProps) => {
       };
     case "dropped":
       return {
-        icon: <XCircle className={cn(value ? smIcon : lgIcon)} />,
+        icon: <Icon name="dropped" size={size} />,
         title: "Dropped plays",
         className: "text-muted-foreground",
       };

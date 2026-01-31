@@ -1,8 +1,8 @@
+import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import type { GenerationWithUserStats } from "@/types/dashboard";
-import { Cat, ChevronRight, Gamepad2 } from "lucide-react";
 import Link from "next/link";
 
 interface GenerationCardsProps {
@@ -28,12 +28,12 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                     {generation.name}
                   </h3>
                   <QuickInfo
-                    icon={<Cat className="h-3 w-3" />}
+                    icon={<Icon name="pokemon" size={12} />}
                     value={generation.totalPokemonCount}
                     title="Total pokémon"
                   />
                   <QuickInfo
-                    icon={<Gamepad2 className="h-3 w-3" />}
+                    icon={<Icon name="game" size={12} />}
                     value={generation.gameCount}
                     title="Total games"
                   />
@@ -66,7 +66,10 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                       />
                     </span>
 
-                    <ChevronRight className="group-hover:text-primary h-4 w-4" />
+                    <Icon
+                      name="rightArrow"
+                      className="group-hover:text-primary"
+                    />
                   </div>
                 )}
               </div>

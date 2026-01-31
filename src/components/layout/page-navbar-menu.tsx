@@ -1,6 +1,6 @@
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import { ClipboardCheck, Gamepad2, House, Menu } from "lucide-react";
 import Link from "next/link";
+import { Icon } from "../shared/icon";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -18,7 +18,7 @@ export const PageNavbarMenu = () => {
           size="icon"
           className="rounded-full"
         >
-          <Menu />
+          <Icon name="menu" />
         </Button>
       </DropdownMenuTrigger>
 
@@ -26,21 +26,21 @@ export const PageNavbarMenu = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href="/adventures">
-              <House className="h-4 w-4" />
+              <Icon name="adventure" />
               Adventures
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
             <Link href="/plays">
-              <Gamepad2 className="h-4 w-4" />
+              <Icon name="play" />
               Plays
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
             <Link href="/collection">
-              <ClipboardCheck className="h-4 w-4" />
+              <Icon name="collection" />
               Collection
             </Link>
           </DropdownMenuItem>

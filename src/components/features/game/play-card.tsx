@@ -1,8 +1,8 @@
+import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatTime } from "@/lib/utils/common";
-import { ChevronRight, Clock, Swords } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,7 +20,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center">
             <div className="flex w-full flex-1 gap-4">
               <div className="text-md bg-primary/10 border-primary/30 text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border font-bold">
-                <Swords className="h-6 w-6" />
+                <Icon name="play" className="h-6 w-6" />
               </div>
 
               <div className="flex flex-1 justify-between gap-2">
@@ -31,13 +31,16 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                   </div>
                   <div className="text-muted-foreground">
                     <QuickInfo
-                      icon={<Clock className="h-3 w-3" />}
+                      icon={<Icon name="time" size={12} />}
                       value={formatTime(play.updated_at)}
                       title="Last updated"
                     />
                   </div>
                 </div>
-                <ChevronRight className="group-hover:text-primary h-4 w-4 sm:hidden lg:inline-block xl:hidden" />
+                <Icon
+                  name="rightArrow"
+                  className="group-hover:text-primary sm:hidden lg:inline-block xl:hidden"
+                />
               </div>
             </div>
 
@@ -68,7 +71,10 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
               )}
             </div>
 
-            <ChevronRight className="group-hover:text-primary hidden h-4 w-4 sm:inline-block lg:hidden xl:inline-block" />
+            <Icon
+              name="rightArrow"
+              className="group-hover:text-primary hidden sm:inline-block lg:hidden xl:inline-block"
+            />
           </div>
         </CardContent>
       </Card>

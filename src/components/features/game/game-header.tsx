@@ -1,7 +1,7 @@
 import { Header } from "@/components/shared/header";
+import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
-import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface GameHeaderProps {
@@ -31,12 +31,12 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       metadata={
         <div className="flex flex-wrap items-center gap-2">
           <QuickInfo
-            icon={<MapPin className="h-3 w-3" />}
+            icon={<Icon name="region" />}
             value={game.region.name}
             title="Region"
           />
           <QuickInfo
-            icon={<Calendar className="h-3 w-3" />}
+            icon={<Icon name="calendar" />}
             value={game.release_year}
             title="Release Year"
           />
@@ -44,7 +44,7 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       }
       info={
         <div className="flex flex-wrap gap-3">
-          <StatCard title={totalPlays} description="Plays" variant="primary" />
+          <StatCard title={totalPlays} description="Plays" variant="blue" />
           <StatCard title={activePlays} description="Active" variant="orange" />
           <StatCard
             title={completedPlays}

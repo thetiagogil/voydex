@@ -1,3 +1,4 @@
+import { Icon } from "@/components/shared/icon";
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,6 @@ import {
   useUncheckPlayPokemonCaught,
   useUncheckPlayPokemonCaughtBulk,
 } from "@/hooks/gameplay/usePlayPokemonCaughtUncheck";
-import { Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
 interface ProgressItemsPokemonCaughtListProps {
@@ -94,7 +94,10 @@ export const ProgressItemsPokemonCaughtList = ({
   return (
     <>
       <div className="relative mt-1">
-        <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+        <Icon
+          name="search"
+          className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"
+        />
         <Input
           type="text"
           placeholder="Search by name, number or type..."
@@ -103,9 +106,10 @@ export const ProgressItemsPokemonCaughtList = ({
           className="pl-9"
         />
         {searchQuery && (
-          <X
+          <Icon
+            name="x"
             onClick={() => setSearchQuery("")}
-            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 cursor-pointer transition-colors"
+            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer transition-colors"
           />
         )}
       </div>

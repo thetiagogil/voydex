@@ -1,6 +1,6 @@
+import { Icon } from "@/components/shared/icon";
 import { formatTime } from "@/lib/utils/common";
 import type { RecentActivityItem } from "@/types/dashboard";
-import { Calendar, Sparkles, Star, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,24 +17,24 @@ const getActivityIcon = (activity: RecentActivityItem) => {
   const categorySlug = activity.category?.slug.toLowerCase();
   const activityMessage = activity.message.toLowerCase();
   if (categorySlug?.includes("badges")) {
-    return <Star className="h-4 w-4 text-green-500" />;
+    return <Icon name="badge" className="text-green-500" />;
   }
   if (
     categorySlug?.includes("elite-four") &&
     !activityMessage?.includes("champion")
   ) {
-    return <Trophy className="h-4 w-4 text-cyan-500" />;
+    return <Icon name="champion" className="text-cyan-500" />;
   }
   if (
     categorySlug?.includes("elite-four") &&
     activityMessage?.includes("champion")
   ) {
-    return <Trophy className="h-4 w-4 text-yellow-500" />;
+    return <Icon name="eliteFour" className="text-yellow-500" />;
   }
   if (categorySlug?.includes("legendary")) {
-    return <Sparkles className="text-primary h-4 w-4" />;
+    return <Icon name="legendary" className="text-primary" />;
   }
-  return <Calendar className="text-muted-foreground h-4 w-4" />;
+  return <Icon name="calendar" className="text-muted-foreground" />;
 };
 
 export const ActivityCard = ({ activity }: ActivityCardProps) => {

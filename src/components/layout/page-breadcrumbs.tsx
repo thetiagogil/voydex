@@ -1,9 +1,9 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
+import { Icon } from "../shared/icon";
 
 interface BreadcrumbItem {
   label: string;
@@ -150,7 +150,7 @@ export const PageBreadcrumbs = () => {
     >
       {breadcrumbs.map((item, index) => (
         <Fragment key={item.href}>
-          {index > 0 && <ChevronRight className="mx-1 h-4 w-4" />}
+          {index > 0 && <Icon name="rightArrow" className="mx-1" />}
           {item.current ? (
             <span
               className="text-foreground truncate font-medium"

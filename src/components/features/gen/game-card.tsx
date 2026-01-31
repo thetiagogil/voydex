@@ -1,8 +1,8 @@
+import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, ChevronRight, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,16 +30,16 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold">{game.name}</h3>
-                <ChevronRight className="group-hover:text-primary h-4 w-4" />
+                <Icon name="rightArrow" className="group-hover:text-primary" />
               </div>
               <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
                 <QuickInfo
-                  icon={<MapPin className="h-3 w-3" />}
+                  icon={<Icon name="adventure" size={12} />}
                   value={game.region.name}
                   title="Region"
                 />
                 <QuickInfo
-                  icon={<Calendar className="h-3 w-3" />}
+                  icon={<Icon name="calendar" size={12} />}
                   value={game.releaseYear}
                   title="Release Year"
                 />

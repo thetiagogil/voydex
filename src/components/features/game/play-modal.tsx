@@ -1,3 +1,4 @@
+import { Icon } from "@/components/shared/icon";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Plus } from "lucide-react";
 
 interface PlayModalProps {
   game: GameWithFullData;
@@ -30,7 +30,7 @@ export const PlayModal = ({ game, open, setOpen }: PlayModalProps) => {
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <Plus />
+                <Icon name="add" />
               </EmptyMedia>
               <EmptyTitle>Create New Adventure</EmptyTitle>
               <EmptyDescription>

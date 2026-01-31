@@ -1,7 +1,7 @@
 import { Header } from "@/components/shared/header";
+import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
-import { Calendar, Gamepad2 } from "lucide-react";
 
 interface GenHeaderProps {
   gen: GenerationWithGames;
@@ -21,14 +21,14 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
       }
       title={gen.name}
       metadata={
-        <div className="flex flex-wrap items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2">
           <QuickInfo
-            icon={<Calendar className="h-4 w-4" />}
+            icon={<Icon name="calendar" />}
             value={yearRange}
             title="Generation years"
           />
           <QuickInfo
-            icon={<Gamepad2 className="h-4 w-4" />}
+            icon={<Icon name="game" />}
             value={gen.staticStats.gameCount}
             title="Total games"
           />
