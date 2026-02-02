@@ -3,7 +3,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { getGameCoverUrl } from "@/lib/supabase/storage";
 
-export const getGen = async (id: string) => {
+// =============================================================================
+// GET SINGLE GENERATION WITH GAMES
+// =============================================================================
+
+export const getGeneration = async (id: string) => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -142,7 +146,11 @@ export const getGen = async (id: string) => {
   };
 };
 
-export const getGens = async () => {
+// =============================================================================
+// GET ALL GENERATIONS (for dropdowns/lists)
+// =============================================================================
+
+export const getGenerations = async () => {
   const supabase = await createClient();
 
   const { data, error } = await supabase

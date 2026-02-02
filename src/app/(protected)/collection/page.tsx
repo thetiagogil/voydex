@@ -9,12 +9,12 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useCollection } from "@/hooks/gameplay/useCollection";
 import { useTypes } from "@/hooks/meta/useTypes";
-import { useGens } from "@/hooks/useGens";
+import { useGenerations } from "@/hooks/useGenerations";
 import { useMemo, useState } from "react";
 
 export default function CollectionPage() {
   const { data: collection, isLoading } = useCollection();
-  const { data: generations } = useGens();
+  const { data: generations } = useGenerations();
   const { data: types } = useTypes();
 
   const [search, setSearch] = useState("");

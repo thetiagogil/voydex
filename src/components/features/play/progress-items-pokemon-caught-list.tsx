@@ -5,21 +5,22 @@ import { Input } from "@/components/ui/input";
 import {
   useCheckPlayPokemonCaught,
   useCheckPlayPokemonCaughtBulk,
-} from "@/hooks/gameplay/usePlayPokemonCaughtCheck";
-import {
   useUncheckPlayPokemonCaught,
   useUncheckPlayPokemonCaughtBulk,
-} from "@/hooks/gameplay/usePlayPokemonCaughtUncheck";
+} from "@/hooks/gameplay/usePlayPokemonCaughtMutations";
+import { Maximize2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
 interface ProgressItemsPokemonCaughtListProps {
   playId: string;
   pokemonCaught: PlayPokemonCaught[];
+  onExpand?: () => void;
 }
 
 export const ProgressItemsPokemonCaughtList = ({
   playId,
   pokemonCaught,
+  onExpand,
 }: ProgressItemsPokemonCaughtListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const checkCaught = useCheckPlayPokemonCaught();
@@ -121,6 +122,17 @@ export const ProgressItemsPokemonCaughtList = ({
         <Button variant="outline-secondary" onClick={handleUnselectAll}>
           Unselect All
         </Button>
+        {onExpand && (
+          <Button
+            variant="outline-secondary"
+            onClick={onExpand}
+            className="hidden md:inline-flex"
+            title="Expand to full page"
+          >
+            <Maximize2 className="mr-1.5 h-4 w-4" />
+            Expand
+          </Button>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

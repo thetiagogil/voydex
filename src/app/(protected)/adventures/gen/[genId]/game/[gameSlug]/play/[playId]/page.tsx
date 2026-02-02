@@ -13,14 +13,14 @@ import { use } from "react";
 
 interface PlayPageProps {
   params: Promise<{
-    genSlug: string;
+    genId: string;
     gameSlug: string;
     playId: string;
   }>;
 }
 
 export default function PlayPage({ params }: PlayPageProps) {
-  const { playId } = use(params);
+  const { genId, gameSlug, playId } = use(params);
   const {
     data: play,
     isLoading: playLoading,
@@ -49,19 +49,21 @@ export default function PlayPage({ params }: PlayPageProps) {
     );
   }
 
-  const generationId = play.data.game.generation.id;
-
   return (
     <PageLayout>
       <div className="space-y-8">
         <PlayHeader play={play.data} />
         <PokemonTeam
           playId={playId}
-          generationId={generationId}
+          generationId={play.data.game.generation.id}
+          genId={genId}
+          gameSlug={gameSlug}
           pokemonTeam={pokemonTeamData}
         />
         <ProgressCategoriesCard
           playId={playId}
+          genId={genId}
+          gameSlug={gameSlug}
           progressCategories={progressCategoriesData}
         />
       </div>

@@ -1,50 +1,73 @@
-import { Icon } from "@/components/shared/icon";
-import { TypeBadge } from "@/components/shared/type-badge";
-import { Badge } from "@/components/ui/badge";
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-} from "@/components/ui/empty";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils/cn";
+import { Archive, ExternalLink, Plus, Sparkles, Users } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+import { PokemonTeamCard } from "./pokemon-team-card";
 import { PokemonTeamModal } from "./pokemon-team-modal";
 
 interface PokemonTeamProps {
   playId: string;
   generationId: number;
+  genId: string;
+  gameSlug: string;
   pokemonTeam?: PlayPokemon[];
 }
 
 export const PokemonTeam = ({
   playId,
   generationId,
+  genId,
+  gameSlug,
   pokemonTeam,
 }: PokemonTeamProps) => {
-  const [openSheet, setOpenSheet] = useState<boolean>(false);
-  const [openPokemonDetails, setOpenPokemonDetails] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState("team");
   const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
     null,
   );
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [addPosition, setAddPosition] = useState<number | null>(null);
+  const [addToTeam, setAddToTeam] = useState<boolean>(true);
 
-  const team: PlayPokemon[] = pokemonTeam || [];
+  const allPokemon: PlayPokemon[] = pokemonTeam || [];
 
-  const handleQuickEdit = (pokemon: PlayPokemon) => {
+  // Split into team (position <= 6) and box (position > 6)
+  const teamPokemon = allPokemon
+    .filter((p) => p.position <= 6)
+    .sort((a, b) => a.position - b.position);
+  const boxPokemon = allPokemon
+    .filter((p) => p.position > 6)
+    .sort((a, b) => a.position - b.position);
+
+  const shinyCount = allPokemon.filter((p) => p.is_shiny).length;
+
+  // Create 6 team slots (filled sequentially)
+  const teamSlots = Array.from({ length: 6 }, (_, i) => teamPokemon[i] || null);
+
+  const handleEditClick = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);
     setAddPosition(null);
     setOpenEditDialog(true);
   };
 
-  const handleQuickAdd = () => {
+  const handleAddClick = (toTeam: boolean) => {
     setEditingPokemon(null);
-    // Calculate next available position in active team
-    const activeTeam = team.filter((p) => p.position <= 6);
-    const nextPosition = activeTeam.length + 1;
-    setAddPosition(nextPosition <= 6 ? nextPosition : 7); // Default to box if active team full
+    setAddToTeam(toTeam);
+    if (toTeam) {
+      // Next position in team
+      const nextPosition = teamPokemon.length + 1;
+      setAddPosition(nextPosition <= 6 ? nextPosition : 7);
+    } else {
+      // Add to box - find max position and add 1
+      const maxBoxPosition =
+        boxPokemon.length > 0
+          ? Math.max(...boxPokemon.map((p) => p.position))
+          : 6;
+      setAddPosition(maxBoxPosition + 1);
+    }
     setOpenEditDialog(true);
   };
 
@@ -54,173 +77,130 @@ export const PokemonTeam = ({
     setAddPosition(null);
   };
 
-  // Create slots filled sequentially (no gaps)
-  const activeTeam = team
-    .filter((p) => p.position <= 6)
-    .sort((a, b) => a.position - b.position);
-  const pokemonTeamSlots = Array(6)
-    .fill(null)
-    .map((_, index) => activeTeam[index] || null);
-
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Icon name="user" size={20} />
-            Active Team ({activeTeam.length}/6)
-          </CardTitle>
-          <div className="flex gap-2">
+    <section className="rounded-xl border">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        {/* Header */}
+        <div className="flex items-center justify-between gap-4 border-b p-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
+              {activeTab === "team" ? (
+                <Users className="text-primary h-5 w-5" />
+              ) : (
+                <Archive className="text-primary h-5 w-5" />
+              )}
+            </div>
+            <div>
+              <h2 className="text-foreground text-xl font-bold">Pokémon</h2>
+              <p className="text-muted-foreground text-xs">
+                {teamPokemon.length}/6 team · {boxPokemon.length} in box
+                {shinyCount > 0 && (
+                  <span className="text-warning ml-2 inline-flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" />
+                    {shinyCount} shiny
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <TabsList className="h-9">
+              <TabsTrigger value="team" className="px-3 text-xs">
+                <Users className="mr-1.5 h-3.5 w-3.5" />
+                Team
+              </TabsTrigger>
+              <TabsTrigger value="box" className="px-3 text-xs">
+                <Archive className="mr-1.5 h-3.5 w-3.5" />
+                Box
+              </TabsTrigger>
+            </TabsList>
+
             <Button
-              variant={openSheet ? "outline-primary" : "outline-secondary"}
               size="sm"
-              onClick={() => setOpenSheet(true)}
+              onClick={() => handleAddClick(activeTab === "team")}
+              disabled={activeTab === "team" && teamPokemon.length >= 6}
+              className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
             >
-              <Icon name="add" />
+              <Plus className="mr-1 h-4 w-4" />
+              Add
             </Button>
-            <Button
-              variant={
-                openPokemonDetails ? "outline-primary" : "outline-secondary"
-              }
-              size="sm"
-              onClick={() => setOpenPokemonDetails(!openPokemonDetails)}
-            >
-              <Icon name="details" />
+
+            <Button size="sm" variant="outline-secondary" asChild>
+              <Link
+                href={`/adventures/gen/${genId}/game/${gameSlug}/play/${playId}/pokemon-team`}
+              >
+                <ExternalLink className="mr-1 h-4 w-4" />
+                Manage
+              </Link>
             </Button>
           </div>
         </div>
-      </CardHeader>
 
-      <CardContent className="h-full">
-        <div className="grid gap-4 md:grid-cols-3">
-          {pokemonTeamSlots.map((pokemon, index) => {
-            const showNatureAbility =
-              !!pokemon && (!!pokemon.ability || !!pokemon.nature);
-            return (
-              <Card
-                key={index}
-                className={`transition-colors ${!pokemon ? "hover:border-primary cursor-pointer border-1 border-dashed" : "hover:border-primary cursor-pointer"}`}
-                onClick={() =>
-                  pokemon ? handleQuickEdit(pokemon) : handleQuickAdd()
-                }
-              >
-                <CardContent className="flex-1">
-                  {pokemon ? (
-                    <div className="space-y-4">
-                      <div className="flex gap-4">
-                        <div className="flex w-50 justify-center">
-                          <div className="h-24 w-24">
-                            {/* Pokemon sprite */}
-                            {pokemon.form?.sprite_url ? (
-                              <img
-                                src={pokemon.form.sprite_url}
-                                alt={pokemon.species.name}
-                                className="h-full w-full object-contain"
-                              />
-                            ) : (
-                              <span className="bg-muted border-accent flex h-full w-full items-center justify-center rounded-full border" />
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="flex w-50 flex-col justify-between">
-                          {/* Pokemon name */}
-                          <div className="flex w-full items-start justify-between">
-                            <div>
-                              <p className="font-semibold">
-                                {pokemon.species.name}
-                              </p>
-                              <p className="text-muted-foreground text-sm">
-                                {pokemon.nickname}
-                              </p>
-                            </div>
-                            <Badge variant="outline">Lv. {pokemon.level}</Badge>
-                          </div>
-
-                          {/* Pokemon types */}
-                          <div className="flex gap-1">
-                            {pokemon.types.map((type) => (
-                              <div key={type.id}>
-                                <TypeBadge type={type.name as PokemonType} />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {openPokemonDetails && (
-                        <>
-                          {/* Pokemon nature and ability */}
-                          {showNatureAbility && (
-                            <div className="flex gap-2">
-                              <div className="flex w-50 flex-col gap-2">
-                                <p className="text-muted-foreground text-xs">
-                                  Nature
-                                </p>
-                                <Badge
-                                  variant="outline"
-                                  className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.nature?.name ? "border-dashed opacity-50" : ""}`}
-                                >
-                                  {pokemon.nature?.name || "-"}
-                                </Badge>
-                              </div>
-
-                              <div className="flex w-50 flex-col gap-2">
-                                <p className="text-muted-foreground text-xs">
-                                  Ability
-                                </p>
-                                <Badge
-                                  variant="outline"
-                                  className={`text-muted-foreground w-full py-1 text-xs ${!pokemon.ability?.name ? "border-dashed opacity-50" : ""}`}
-                                >
-                                  {pokemon.ability?.name || "-"}
-                                </Badge>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Pokemon moves */}
-                          <div className="flex flex-col gap-2">
-                            <p className="text-muted-foreground text-xs">
-                              Moves
-                            </p>
-                            {/* Pokemon moves - always render 4 slots, filling with <Empty /> when missing */}
-                            <div className="grid grid-cols-2 gap-2">
-                              {Array.from({ length: 4 }).map((_, i) => {
-                                const move = pokemon.moves[i];
-                                return (
-                                  <Badge
-                                    key={i}
-                                    variant="outline"
-                                    className={`text-muted-foreground w-full py-1 text-xs ${!move?.name ? "border-dashed opacity-50" : ""}`}
-                                  >
-                                    {move?.name || "-"}
-                                  </Badge>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <Empty className="flex h-full flex-col items-center justify-center p-0 opacity-50">
-                      <EmptyHeader>
-                        <EmptyMedia variant="icon">
-                          <Icon name="add" />
-                        </EmptyMedia>
-                        <EmptyDescription>
-                          Click to add Pokémon
-                        </EmptyDescription>
-                      </EmptyHeader>
-                    </Empty>
+        {/* Team Tab Content */}
+        <TabsContent value="team" className="mt-0 p-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {teamSlots.map((pokemon, index) =>
+              pokemon ? (
+                <PokemonTeamCard
+                  key={pokemon.id}
+                  pokemon={pokemon}
+                  onEditClick={() => handleEditClick(pokemon)}
+                />
+              ) : (
+                <button
+                  key={`empty-${index}`}
+                  onClick={() => handleAddClick(true)}
+                  className={cn(
+                    "flex aspect-[4/5] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-3",
+                    "border-muted-foreground/30 hover:border-primary/50",
+                    "transition-all duration-200",
                   )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </CardContent>
+                >
+                  <div className="bg-muted flex h-12 w-12 items-center justify-center rounded-full">
+                    <Plus className="text-muted-foreground h-6 w-6" />
+                  </div>
+                  <span className="text-muted-foreground text-sm">
+                    Slot {index + 1}
+                  </span>
+                </button>
+              ),
+            )}
+          </div>
+        </TabsContent>
+
+        {/* Box Tab Content */}
+        <TabsContent value="box" className="mt-0 p-4">
+          {boxPokemon.length === 0 ? (
+            <div className="py-12 text-center">
+              <div className="bg-muted mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl">
+                <Archive className="text-muted-foreground h-7 w-7" />
+              </div>
+              <p className="text-muted-foreground mb-3 text-sm">
+                No Pokémon in the box yet.
+              </p>
+              <Button
+                size="sm"
+                variant="outline-secondary"
+                onClick={() => handleAddClick(false)}
+              >
+                <Plus className="mr-1 h-4 w-4" />
+                Add to Box
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {boxPokemon.map((pokemon) => (
+                <PokemonTeamCard
+                  key={pokemon.id}
+                  pokemon={pokemon}
+                  onEditClick={() => handleEditClick(pokemon)}
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
 
       <PokemonTeamModal
         openDialog={openEditDialog}
@@ -229,9 +209,9 @@ export const PokemonTeam = ({
         generationId={generationId}
         pokemon={editingPokemon}
         position={addPosition}
-        team={team}
+        team={allPokemon}
         onClose={handleCloseEdit}
       />
-    </Card>
+    </section>
   );
 };

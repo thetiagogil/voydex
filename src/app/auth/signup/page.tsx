@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/layout/page-layout";
 
 export default function Page() {
   return (
-    <PageLayout width="xs">
+    <PageLayout>
       <AuthForm mode="signup" />
     </PageLayout>
   );

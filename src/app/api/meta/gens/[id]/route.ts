@@ -1,4 +1,4 @@
-import { getGen } from "@/services/meta/gen";
+import { getGeneration } from "@/services/meta/generation";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -10,7 +10,7 @@ export async function GET(
   if (!genId)
     return NextResponse.json({ error: "Missing gen id" }, { status: 400 });
 
-  const result = await getGen(genId);
+  const result = await getGeneration(genId);
   const { data, error, breadcrumbs } = result as any;
   if (error) return NextResponse.json({ error }, { status: 500 });
   if (!data)

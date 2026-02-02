@@ -4,7 +4,7 @@ import { GamesSection } from "@/components/features/gen/games-section";
 import { GenHeader } from "@/components/features/gen/gen-header";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
-import { useGen } from "@/hooks/useGens";
+import { useGeneration } from "@/hooks/useGenerations";
 import { notFound } from "next/navigation";
 import { use } from "react";
 
@@ -16,7 +16,11 @@ interface GenPageProps {
 
 export default function GenPage({ params }: GenPageProps) {
   const { genId } = use(params);
-  const { data: gen, isLoading: genLoading, error: genError } = useGen(genId);
+  const {
+    data: gen,
+    isLoading: genLoading,
+    error: genError,
+  } = useGeneration(genId);
 
   if (genLoading) {
     return (

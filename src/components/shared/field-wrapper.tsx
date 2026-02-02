@@ -47,7 +47,7 @@ export const FieldWrapper = forwardRef<HTMLDivElement, Props>(
         {label && (
           <FieldLabel htmlFor={id}>
             {label}
-            {required && <span className="text-destructive">*hey</span>}
+            {required && <span className="text-destructive">*</span>}
           </FieldLabel>
         )}
         {child}

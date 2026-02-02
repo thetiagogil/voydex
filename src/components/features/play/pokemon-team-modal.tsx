@@ -21,9 +21,7 @@ import {
   useAddPokemonToTeam,
   useUpdatePokemonInTeam,
 } from "@/hooks/gameplay/usePlayPokemonTeam";
-import { useAbilities } from "@/hooks/meta/useAbilities";
-import { useMoves } from "@/hooks/meta/useMoves";
-import { useNatures } from "@/hooks/meta/useNatures";
+import { useAbilities, useMoves, useNatures } from "@/hooks/meta";
 import { usePokemonForms, usePokemonSpecies } from "@/hooks/meta/usePokemon";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { zodResolver } from "@hookform/resolvers/zod";

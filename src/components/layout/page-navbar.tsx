@@ -49,7 +49,7 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
   return (
     <nav>
       <div
-        className={`${PAGE_CONTAINER_WIDTH[width]} md: mx-auto grid h-16 grid-cols-2 items-center px-4 sm:px-8 md:grid-cols-3`}
+        className={`${PAGE_CONTAINER_WIDTH[width]} mx-auto grid h-16 grid-cols-2 items-center px-4 sm:px-8 md:grid-cols-3`}
       >
         <div className="flex items-center">
           <Link href="/" className="flex-shrink-0">

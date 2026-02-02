@@ -3,22 +3,23 @@ import { Button } from "@/components/ui/button";
 import {
   useCheckPlayProgressItem,
   useCheckPlayProgressItemBulk,
-} from "@/hooks/gameplay/usePlayProgressItemCheck";
-import {
   useUncheckPlayProgressItem,
   useUncheckPlayProgressItemBulk,
-} from "@/hooks/gameplay/usePlayProgressItemUncheck";
+} from "@/hooks/gameplay/usePlayProgressMutations";
+import { Maximize2 } from "lucide-react";
 
 interface ProgressItemsListProps {
   items: PlayProgressItem[];
   playId: string;
   categoryId: number;
+  onExpand?: () => void;
 }
 
 export const ProgressItemsList = ({
   items,
   playId,
   categoryId,
+  onExpand,
 }: ProgressItemsListProps) => {
   const checkComplete = useCheckPlayProgressItem();
   const checkIncomplete = useUncheckPlayProgressItem();
@@ -78,6 +79,17 @@ export const ProgressItemsList = ({
         <Button variant="outline-secondary" onClick={handleUnselectAll}>
           Unselect All
         </Button>
+        {onExpand && (
+          <Button
+            variant="outline-secondary"
+            onClick={onExpand}
+            className="hidden md:inline-flex"
+            title="Expand to full page"
+          >
+            <Maximize2 className="mr-1.5 h-4 w-4" />
+            Expand
+          </Button>
+        )}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">

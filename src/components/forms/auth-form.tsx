@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PAGE_CONTAINER_WIDTH } from "@/lib/constants/layout";
 import { LoginFormContent } from "./login-form-content";
 import { SignupFormContent } from "./signup-form-content";
 
@@ -18,7 +19,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
   const isSignup = mode === "signup";
 
   return (
-    <Card>
+    <Card className={PAGE_CONTAINER_WIDTH.xs}>
       <CardHeader>
         <CardTitle>{isSignup ? "Create Account" : "Log In"}</CardTitle>
         <CardDescription>
