@@ -1,69 +1,87 @@
 import { cn } from "@/lib/utils/cn";
 import {
   BookPlus,
+  Box,
   Calendar,
-  Cat,
   ChevronRight,
+  Circle,
   CircleCheck,
+  CirclePlay,
   ClipboardCheck,
   Clock,
   Compass,
-  Edit,
+  Edit2,
   Gamepad2,
   Info,
   Layers,
+  Leaf,
+  Link,
   LogIn,
   LogOut,
   MapPin,
+  Mars,
+  Menu,
   Notebook,
   PauseCircle,
   Plus,
   Search,
   Settings,
+  Shield,
   Sparkles,
   Star,
   Swords,
-  Target,
   Trash,
   Trophy,
   User,
   UserPlus,
+  Venus,
   X,
   XCircle,
   type LucideIcon,
 } from "lucide-react";
+import { Pokeball } from "./pokeball";
 
 const ICON_MAP = {
   // Basic
   rightArrow: ChevronRight,
   time: Clock,
-  pokemonCaught: Notebook,
   calendar: Calendar,
   details: BookPlus,
+  box: Box,
+  link: Link,
+  circle: Circle,
+
+  // Pokemon
+  pokemonCaught: Notebook,
+  male: Mars,
+  female: Venus,
+  ability: Shield,
+  nature: Leaf,
+  move: Swords,
   shiny: Sparkles,
 
   // Entities
   user: User,
-  pokemon: Cat,
+  pokemon: Pokeball,
 
   // Features
   adventure: MapPin,
   generation: Layers,
   game: Gamepad2,
-  play: Swords,
+  play: Compass,
   region: MapPin,
   collection: ClipboardCheck,
 
   // Play status
   total: Compass,
-  active: Target,
+  active: CirclePlay,
   completed: CircleCheck,
   paused: PauseCircle,
   dropped: XCircle,
 
   // Recent activity
   badge: Star,
-  legendary: Cat,
+  legendary: Pokeball,
   eliteFour: Trophy,
   champion: Trophy,
 
@@ -71,9 +89,9 @@ const ICON_MAP = {
   login: LogIn,
   signup: UserPlus,
   logout: LogOut,
-  menu: Layers,
+  menu: Menu,
   add: Plus,
-  edit: Edit,
+  edit: Edit2,
   delete: Trash,
   search: Search,
   x: X,
@@ -81,23 +99,23 @@ const ICON_MAP = {
   // Pages
   settings: Settings,
   intro: Info,
-  pokedex: Cat,
+  pokedex: Pokeball,
 } as const;
 
-export type IconName = keyof typeof ICON_MAP;
+export type IconType = keyof typeof ICON_MAP;
 
 interface IconProps {
-  name: IconName;
-  className?: string;
+  type: IconType;
   size?: number;
+  className?: string;
   onClick?: () => void;
 }
 
-export const Icon = ({ name, className, size = 16, onClick }: IconProps) => {
-  const IconComponent = ICON_MAP[name] as LucideIcon;
+export const Icon = ({ type, className, size = 16, onClick }: IconProps) => {
+  const IconComponent = ICON_MAP[type] as LucideIcon;
 
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found in ICON_MAP`);
+    console.warn(`Icon "${type}" not found in ICON_MAP`);
     return null;
   }
 

@@ -19,7 +19,7 @@ export const PlaysSection = ({
     <div className="space-y-4">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold">Games</h2>
-        <Button variant="outline-secondary" onClick={() => setOpen(true)}>
+        <Button variant="secondary" onClick={() => setOpen(true)}>
           New Play
         </Button>
       </div>

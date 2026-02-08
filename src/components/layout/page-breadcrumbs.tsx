@@ -150,7 +150,7 @@ export const PageBreadcrumbs = () => {
     >
       {breadcrumbs.map((item, index) => (
         <Fragment key={item.href}>
-          {index > 0 && <Icon name="rightArrow" className="mx-1" />}
+          {index > 0 && <Icon type="rightArrow" className="mx-1" />}
           {item.current ? (
             <span
               className="text-foreground truncate font-medium"

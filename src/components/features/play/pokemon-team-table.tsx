@@ -11,6 +11,12 @@ interface PokemonTeamTableRowProps {
   onEdit: () => void;
 }
 
+interface PokemonTeamTableProps {
+  pokemon: PlayPokemon[];
+  onEdit: (pokemon: PlayPokemon) => void;
+  emptyMessage?: string;
+}
+
 export const PokemonTeamTableRow = ({
   pokemon,
   onEdit,
@@ -27,7 +33,6 @@ export const PokemonTeamTableRow = ({
         ? "text-pink-400"
         : "text-muted-foreground";
 
-  const moves = pokemon.moves.filter(Boolean);
   const isInTeam = pokemon.position <= 6;
 
   return (
@@ -49,7 +54,6 @@ export const PokemonTeamTableRow = ({
                 "h-full w-full object-contain",
                 pokemon.is_shiny && "drop-shadow-[0_0_8px_hsl(45,100%,50%)]",
               )}
-              style={{ imageRendering: "pixelated" }}
             />
           ) : (
             <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">
@@ -119,12 +123,6 @@ export const PokemonTeamTableRow = ({
     </div>
   );
 };
-
-interface PokemonTeamTableProps {
-  pokemon: PlayPokemon[];
-  onEdit: (pokemon: PlayPokemon) => void;
-  emptyMessage?: string;
-}
 
 export const PokemonTeamTable = ({
   pokemon,

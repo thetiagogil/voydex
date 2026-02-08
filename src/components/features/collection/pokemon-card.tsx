@@ -66,7 +66,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           {/* Shiny Indicator - Top Left */}
           {pokemon.isShiny && (
             <div className="absolute top-3 left-3 flex items-center justify-center">
-              <Icon name="shiny" className="text-primary" size={12} />
+              <Icon type="shiny" className="text-primary" size={12} />
             </div>
           )}
 
@@ -105,7 +105,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
                 <TypeBadge
                   key={type.id}
                   type={type.name as PokemonType}
-                  variant="outline-primary"
+                  variant="outline"
                 />
               ))}
             </div>

@@ -18,28 +18,28 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <StatsCard
-        icon={<Icon name="total" size={20} />}
+        icon={<Icon type="total" size={20} />}
         value={data.total_plays}
         label="Total Playthroughs"
-        variant="primary"
+        variant="total"
       />
 
       <StatsCard
-        icon={<Icon name="active" size={20} />}
+        icon={<Icon type="active" size={20} />}
         value={data.active_plays}
-        variant="orange"
+        variant="active"
         label="Active Playthroughs"
       />
 
       <StatsCard
-        icon={<Icon name="completed" size={20} />}
+        icon={<Icon type="completed" size={20} />}
         value={data.completed_plays}
-        variant="green"
+        variant="completed"
         label="Completed Playthroughs"
       />
 
       <StatsCard
-        icon={<Icon name="pokemonCaught" size={20} />}
+        icon={<Icon type="pokemonCaught" size={20} />}
         value={data.total_unique_species}
         label="Unique Pokémon Caught"
       />

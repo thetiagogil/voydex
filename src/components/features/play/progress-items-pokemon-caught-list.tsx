@@ -8,19 +8,16 @@ import {
   useUncheckPlayPokemonCaught,
   useUncheckPlayPokemonCaughtBulk,
 } from "@/hooks/gameplay/usePlayPokemonCaughtMutations";
-import { Maximize2 } from "lucide-react";
 import { useMemo, useState } from "react";
 
 interface ProgressItemsPokemonCaughtListProps {
   playId: string;
   pokemonCaught: PlayPokemonCaught[];
-  onExpand?: () => void;
 }
 
 export const ProgressItemsPokemonCaughtList = ({
   playId,
   pokemonCaught,
-  onExpand,
 }: ProgressItemsPokemonCaughtListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const checkCaught = useCheckPlayPokemonCaught();
@@ -96,7 +93,7 @@ export const ProgressItemsPokemonCaughtList = ({
     <>
       <div className="relative mt-1">
         <Icon
-          name="search"
+          type="search"
           className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"
         />
         <Input
@@ -108,31 +105,23 @@ export const ProgressItemsPokemonCaughtList = ({
         />
         {searchQuery && (
           <Icon
-            name="x"
+            type="x"
             onClick={() => setSearchQuery("")}
             className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer transition-colors"
           />
         )}
       </div>
 
-      <div className="flex justify-end gap-2">
-        <Button variant="outline-secondary" onClick={handleSelectAll}>
+      <div className="flex gap-2">
+        <Button variant="secondary" onClick={handleSelectAll}>
           Select All
         </Button>
-        <Button variant="outline-secondary" onClick={handleUnselectAll}>
+        <Button variant="secondary" onClick={handleUnselectAll}>
           Unselect All
         </Button>
-        {onExpand && (
-          <Button
-            variant="outline-secondary"
-            onClick={onExpand}
-            className="hidden md:inline-flex"
-            title="Expand to full page"
-          >
-            <Maximize2 className="mr-1.5 h-4 w-4" />
-            Expand
-          </Button>
-        )}
+        <Button variant="secondary" onClick={() => {}} disabled>
+          Expand
+        </Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

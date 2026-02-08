@@ -21,7 +21,7 @@ export const PlayEmpty = ({ game, setOpen }: PlayEmptyProps) => {
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Icon name="play" />
+              <Icon type="play" />
             </EmptyMedia>
             <EmptyTitle>No playthroughs yet</EmptyTitle>
             <EmptyDescription>

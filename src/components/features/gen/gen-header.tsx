@@ -23,12 +23,12 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
       metadata={
         <div className="flex flex-wrap items-center gap-2">
           <QuickInfo
-            icon={<Icon name="calendar" />}
+            icon={<Icon type="calendar" />}
             value={yearRange}
             title="Generation years"
           />
           <QuickInfo
-            icon={<Icon name="game" />}
+            icon={<Icon type="game" />}
             value={gen.staticStats.gameCount}
             title="Total games"
           />
@@ -39,17 +39,17 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
           <StatCard
             title={gen.userStats?.totalPlays || 0}
             description="Plays"
-            variant="blue"
+            variant="total"
           />
           <StatCard
             title={gen.userStats?.activePlays || 0}
             description="Active"
-            variant="orange"
+            variant="active"
           />
           <StatCard
             title={gen.userStats?.completedPlays || 0}
             description="Completed"
-            variant="green"
+            variant="completed"
           />
         </div>
       }

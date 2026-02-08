@@ -13,12 +13,8 @@ export const PageNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline-secondary"
-          size="icon"
-          className="rounded-full"
-        >
-          <Icon name="menu" />
+        <Button variant="outline" size="icon" className="rounded-full">
+          <Icon type="menu" />
         </Button>
       </DropdownMenuTrigger>
 
@@ -26,21 +22,21 @@ export const PageNavbarMenu = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href="/adventures">
-              <Icon name="adventure" />
+              <Icon type="adventure" />
               Adventures
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
             <Link href="/plays">
-              <Icon name="play" />
+              <Icon type="play" />
               Plays
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
             <Link href="/collection">
-              <Icon name="collection" />
+              <Icon type="collection" />
               Collection
             </Link>
           </DropdownMenuItem>

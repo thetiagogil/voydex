@@ -10,7 +10,7 @@ export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
   return (
     <div className="border-border bg-card flex flex-col items-center justify-center rounded-xl border p-12 text-center shadow-sm">
       <div className="bg-muted text-muted-foreground mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
-        <Icon name="play" size={32} />
+        <Icon type="play" size={32} />
       </div>
       <h3 className="mb-2 text-xl font-semibold">
         {hasFilters ? "No matching plays" : "No plays yet"}
@@ -21,11 +21,11 @@ export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
           : "Start a new playthrough from the adventures page!"}
       </p>
       {hasFilters ? (
-        <Button variant="outline-secondary" onClick={onClearFilters}>
+        <Button variant="secondary" onClick={onClearFilters}>
           Clear filters
         </Button>
       ) : (
-        <Button asChild variant="outline-secondary">
+        <Button asChild variant="secondary">
           <a href="/adventures">Browse Games</a>
         </Button>
       )}

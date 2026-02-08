@@ -65,13 +65,6 @@ export const POKEMON_COLORS = {
   pink: "#FFB3D9",
 } as const;
 
-export const STATUS_COLORS = {
-  active: "#51CF66",
-  completed: "#4DABF7",
-  paused: "#FFD43B",
-  dropped: "#FF6B6B",
-} as const;
-
 export type PokemonType = (typeof POKEMON_TYPES)[number];
 export type Generation = (typeof GENERATIONS)[number];
 export type PokemonColor = keyof typeof POKEMON_COLORS;

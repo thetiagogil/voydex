@@ -30,16 +30,16 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold">{game.name}</h3>
-                <Icon name="rightArrow" className="group-hover:text-primary" />
+                <Icon type="rightArrow" className="group-hover:text-primary" />
               </div>
               <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
                 <QuickInfo
-                  icon={<Icon name="adventure" size={12} />}
+                  icon={<Icon type="adventure" size={12} />}
                   value={game.region.name}
                   title="Region"
                 />
                 <QuickInfo
-                  icon={<Icon name="calendar" size={12} />}
+                  icon={<Icon type="calendar" size={12} />}
                   value={game.releaseYear}
                   title="Release Year"
                 />

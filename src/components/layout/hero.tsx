@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useClaims } from "@/hooks/useAuth";
-import Image from "next/image";
 import Link from "next/link";
+import { BgImage } from "../shared/bg-image";
 
 export const Hero = () => {
   const { data: isAuthenticated, isLoading } = useClaims();
@@ -11,16 +11,7 @@ export const Hero = () => {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/bg-1.jpg"
-          alt="Pokemon background"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="dark:bg-background/60 absolute inset-0" />
-      </div>
+      <BgImage isHero />
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
@@ -48,7 +39,7 @@ export const Hero = () => {
 
           <Button
             asChild
-            variant="outline-primary"
+            variant="outline"
             size="lg"
             className="w-full sm:w-auto"
           >
@@ -57,7 +48,7 @@ export const Hero = () => {
 
           <Button
             asChild
-            variant="outline-primary"
+            variant="outline"
             size="lg"
             className="w-full sm:w-auto"
           >

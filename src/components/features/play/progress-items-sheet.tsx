@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sheet";
 import { usePlayPokemonCaught } from "@/hooks/gameplay/usePlayPokemonCaught";
 import { usePlayProgressItems } from "@/hooks/gameplay/usePlayProgressItems";
-import { useRouter } from "next/navigation";
 import { ProgressItemsList } from "./progress-items-list";
 import { ProgressItemsPokemonCaughtList } from "./progress-items-pokemon-caught-list";
 
@@ -22,8 +21,6 @@ interface ProgressItemsSheetProps {
   setOpenSheet: (open: boolean) => void;
   playId: string;
   category: PlayProgressCategory;
-  genId: string;
-  gameSlug: string;
 }
 
 export const ProgressItemsSheet = ({
@@ -31,12 +28,7 @@ export const ProgressItemsSheet = ({
   setOpenSheet,
   playId,
   category,
-  genId,
-  gameSlug,
 }: ProgressItemsSheetProps) => {
-  const router = useRouter();
-
-  // Only treat actual Pokédex categories (not legendary) as dex categories
   const isDexCategory =
     category?.type === "dex" && category?.slug.includes("pokedex");
 
@@ -48,13 +40,6 @@ export const ProgressItemsSheet = ({
     usePlayPokemonCaught(isDexCategory ? playId : undefined);
 
   const isLoading = isDexCategory ? pokemonLoading : itemsLoading;
-
-  const handleExpand = () => {
-    // Navigate to full page view
-    const progressUrl = `/adventures/gen/${genId}/game/${gameSlug}/play/${playId}/progress/${category?.slug || category?.id}`;
-    setOpenSheet(false);
-    router.push(progressUrl);
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpenSheet}>
@@ -73,14 +58,12 @@ export const ProgressItemsSheet = ({
             <ProgressItemsPokemonCaughtList
               pokemonCaught={pokemonCaught}
               playId={playId}
-              onExpand={handleExpand}
             />
           ) : items && items.length > 0 ? (
             <ProgressItemsList
               items={items}
               playId={playId}
               categoryId={category.id}
-              onExpand={handleExpand}
             />
           ) : (
             <div className="flex flex-col">
@@ -93,7 +76,7 @@ export const ProgressItemsSheet = ({
 
         <SheetFooter>
           <SheetClose asChild>
-            <Button variant="outline-secondary">Close</Button>
+            <Button variant="secondary">Close</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

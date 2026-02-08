@@ -1,8 +1,8 @@
 "use client";
 
 import { GameHeader } from "@/components/features/game/game-header";
+import { PlayCreateModal } from "@/components/features/game/play-create-modal";
 import { PlayEmpty } from "@/components/features/game/play-empty";
-import { PlayModal } from "@/components/features/game/play-modal";
 import { PlaysSection } from "@/components/features/game/plays-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
@@ -65,7 +65,7 @@ export default function GamePage({ params }: GamePageProps) {
           )}
         </div>
       </PageLayout>
-      <PlayModal open={open} setOpen={setOpen} game={gameData} />
+      <PlayCreateModal open={open} setOpen={setOpen} game={gameData} />
     </>
   );
 }

@@ -1,4 +1,6 @@
-import { Icon } from "@/components/shared/icon";
+import { Icon, IconType } from "@/components/shared/icon";
+import { ACTIVITY_COLORS, type ActivityType } from "@/lib/constants/styles";
+import { cn } from "@/lib/utils/cn";
 import { formatTime } from "@/lib/utils/common";
 import type { RecentActivityItem } from "@/types/dashboard";
 import Image from "next/image";
@@ -8,42 +10,39 @@ interface ActivityCardProps {
   activity: RecentActivityItem;
 }
 const getActivityIcon = (activity: RecentActivityItem) => {
-  // Team additions show pokemon sprite instead
-  if (activity.type === "team_add") {
-    return null;
-  }
+  if (activity.type === "team_add") return null;
 
-  // Progress-based icons by category slug
   const categorySlug = activity.category?.slug.toLowerCase();
   const activityMessage = activity.message.toLowerCase();
+
   if (categorySlug?.includes("badges")) {
-    return <Icon name="badge" className="text-green-500" />;
+    return "badge";
   }
+
   if (
     categorySlug?.includes("elite-four") &&
     !activityMessage?.includes("champion")
   ) {
-    return <Icon name="champion" className="text-cyan-500" />;
+    return "champion";
   }
+
   if (
     categorySlug?.includes("elite-four") &&
     activityMessage?.includes("champion")
   ) {
-    return <Icon name="eliteFour" className="text-yellow-500" />;
+    return "eliteFour";
   }
-  if (categorySlug?.includes("legendary")) {
-    return <Icon name="legendary" className="text-primary" />;
-  }
-  return <Icon name="calendar" className="text-muted-foreground" />;
+
+  return "pokemon";
 };
 
 export const ActivityCard = ({ activity }: ActivityCardProps) => {
   return (
     <Link href={activity.href}>
-      <div className="bg-muted/30 hover:bg-muted/50 flex items-start gap-3 rounded-lg p-3 transition-colors">
+      <div className="bg-foreground/5 hover:bg-foreground/10 flex items-start gap-3 rounded-lg p-3 transition-colors">
         <div className="flex-shrink-0">
           {activity.type === "team_add" && activity.pokemon?.spriteUrl ? (
-            <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
+            <div className="bg-foreground/10 flex h-10 w-10 items-center justify-center rounded-xl">
               <Image
                 src={activity.pokemon.spriteUrl}
                 alt={activity.pokemon.name}
@@ -53,8 +52,20 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
               />
             </div>
           ) : (
-            <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
-              {getActivityIcon(activity)}
+            <div
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-lg",
+                ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]
+                  ?.bg || "",
+              )}
+            >
+              <Icon
+                type={getActivityIcon(activity) as IconType}
+                className={
+                  ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]
+                    ?.icon || ""
+                }
+              />
             </div>
           )}
         </div>

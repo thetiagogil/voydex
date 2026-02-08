@@ -76,6 +76,8 @@ export const useUpdatePokemonInTeam = () => {
       playId: string;
       pokemonId: string;
       updates: {
+        species_id?: number;
+        form_id?: number;
         position?: number;
         nickname?: string;
         level?: number;

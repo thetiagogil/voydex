@@ -151,7 +151,7 @@ export function PositionField({
           <PopoverTrigger asChild>
             <Button
               id="position"
-              variant="outline-secondary"
+              variant="secondary"
               role="combobox"
               aria-expanded={open}
               aria-invalid={!!error}

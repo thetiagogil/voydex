@@ -63,7 +63,6 @@ export default function PlayPokemonTeamPage({
     .sort((a, b) => a.position - b.position);
 
   const shinyCount = allPokemon.filter((p) => p.is_shiny).length;
-  const generationId = play.data.game.generation.id;
 
   // Build the back URL using the route params
   const backUrl = `/adventures/gen/${genId}/game/${gameSlug}/play/${playId}`;
@@ -205,8 +204,7 @@ export default function PlayPokemonTeamPage({
       <PokemonTeamModal
         openDialog={openEditDialog}
         setOpenDialog={setOpenEditDialog}
-        playId={playId}
-        generationId={generationId}
+        play={play.data}
         pokemon={editingPokemon}
         position={addPosition}
         team={allPokemon}

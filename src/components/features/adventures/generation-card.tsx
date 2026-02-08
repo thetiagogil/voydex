@@ -2,6 +2,7 @@ import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils/cn";
 import type { GenerationWithUserStats } from "@/types/dashboard";
 import Link from "next/link";
 
@@ -13,7 +14,13 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
   return (
     <Link key={generation.slug} href={`/adventures/gen/${generation.id}`}>
       <Card
-        className={`group hover:border-primary/50 cursor-pointer p-5 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl ${generation.userStats.totalPlays === 0 ? "opacity-40 hover:opacity-100" : "shadow-xl"}`}
+        className={cn(
+          "group hover:border-primary/50 cursor-pointer p-5 hover:shadow-2xl",
+          "transition-all duration-300 hover:translate-y-[-4px]",
+          generation.userStats.totalPlays === 0
+            ? "opacity-40 hover:opacity-100"
+            : "shadow-xl",
+        )}
       >
         <CardContent className="relative">
           <div className="flex gap-4">
@@ -28,12 +35,12 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                     {generation.name}
                   </h3>
                   <QuickInfo
-                    icon={<Icon name="pokemon" size={12} />}
+                    icon={<Icon type="pokemon" size={12} />}
                     value={generation.totalPokemonCount}
                     title="Total pokémon"
                   />
                   <QuickInfo
-                    icon={<Icon name="game" size={12} />}
+                    icon={<Icon type="game" size={12} />}
                     value={generation.gameCount}
                     title="Total games"
                   />
@@ -67,7 +74,7 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                     </span>
 
                     <Icon
-                      name="rightArrow"
+                      type="rightArrow"
                       className="group-hover:text-primary"
                     />
                   </div>

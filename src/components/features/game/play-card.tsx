@@ -20,7 +20,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center">
             <div className="flex w-full flex-1 gap-4">
               <div className="text-md bg-primary/10 border-primary/30 text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border font-bold">
-                <Icon name="play" className="h-6 w-6" />
+                <Icon type="play" className="h-6 w-6" />
               </div>
 
               <div className="flex flex-1 justify-between gap-2">
@@ -31,14 +31,14 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                   </div>
                   <div className="text-muted-foreground">
                     <QuickInfo
-                      icon={<Icon name="time" size={12} />}
+                      icon={<Icon type="time" size={12} />}
                       value={formatTime(play.updated_at)}
                       title="Last updated"
                     />
                   </div>
                 </div>
                 <Icon
-                  name="rightArrow"
+                  type="rightArrow"
                   className="group-hover:text-primary sm:hidden lg:inline-block xl:hidden"
                 />
               </div>
@@ -72,7 +72,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
             </div>
 
             <Icon
-              name="rightArrow"
+              type="rightArrow"
               className="group-hover:text-primary hidden sm:inline-block lg:hidden xl:inline-block"
             />
           </div>

@@ -31,12 +31,12 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       metadata={
         <div className="flex flex-wrap items-center gap-2">
           <QuickInfo
-            icon={<Icon name="region" />}
+            icon={<Icon type="region" />}
             value={game.region.name}
             title="Region"
           />
           <QuickInfo
-            icon={<Icon name="calendar" />}
+            icon={<Icon type="calendar" />}
             value={game.release_year}
             title="Release Year"
           />
@@ -44,12 +44,12 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       }
       info={
         <div className="flex flex-wrap gap-3">
-          <StatCard title={totalPlays} description="Plays" variant="blue" />
-          <StatCard title={activePlays} description="Active" variant="orange" />
+          <StatCard title={totalPlays} description="Plays" variant="total" />
+          <StatCard title={activePlays} description="Active" variant="active" />
           <StatCard
             title={completedPlays}
             description="Completed"
-            variant="green"
+            variant="completed"
           />
         </div>
       }

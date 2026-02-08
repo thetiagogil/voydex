@@ -40,7 +40,7 @@ export const CollectionFilters = ({
         {/* Search */}
         <div className="relative">
           <Icon
-            name="search"
+            type="search"
             className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
             size={16}
           />

@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { STATUS_COLORS } from "@/lib/constants/styles";
 
 interface PlaysFiltersProps {
   search: string;
@@ -39,7 +40,7 @@ export const PlaysFilters = ({
         {/* Search */}
         <div className="relative flex-1">
           <Icon
-            name="search"
+            type="search"
             className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
             size={16}
           />
@@ -59,31 +60,34 @@ export const PlaysFilters = ({
           <SelectContent>
             <SelectItem value="all">
               <span className="flex items-center gap-2">
-                <Icon name="total" className="text-blue-500" />
+                <Icon type="total" className={STATUS_COLORS.total.icon} />
                 All ({statusCounts.all})
               </span>
             </SelectItem>
             <SelectItem value="active">
               <span className="flex items-center gap-2">
-                <Icon name="active" className="text-orange-500" />
+                <Icon type="active" className={STATUS_COLORS.active.icon} />
                 Active ({statusCounts.active})
               </span>
             </SelectItem>
             <SelectItem value="completed">
               <span className="flex items-center gap-2">
-                <Icon name="completed" className="text-green-500" />
+                <Icon
+                  type="completed"
+                  className={STATUS_COLORS.completed.icon}
+                />
                 Completed ({statusCounts.completed})
               </span>
             </SelectItem>
             <SelectItem value="paused">
               <span className="flex items-center gap-2">
-                <Icon name="paused" className="text-yellow-500" />
+                <Icon type="paused" className={STATUS_COLORS.paused.icon} />
                 Paused ({statusCounts.paused})
               </span>
             </SelectItem>
             <SelectItem value="dropped">
               <span className="flex items-center gap-2">
-                <Icon name="dropped" className="text-muted-foreground" />
+                <Icon type="dropped" className={STATUS_COLORS.dropped.icon} />
                 Dropped ({statusCounts.dropped})
               </span>
             </SelectItem>
