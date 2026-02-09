@@ -16,7 +16,8 @@ CREATE TABLE
     is_shiny BOOLEAN DEFAULT FALSE,
     position INTEGER NOT NULL CHECK (position BETWEEN 1 AND 12),
     created_at TIMESTAMPTZ DEFAULT now (),
-    updated_at TIMESTAMPTZ DEFAULT now ()
+    updated_at TIMESTAMPTZ DEFAULT now (),
+    UNIQUE (play_id, position)
   );
 
 -- WHAT: Index on play_id (which playthrough this Pokemon belongs to)

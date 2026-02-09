@@ -107,6 +107,53 @@ export const addPokemonToTeam = async (
 ) => {
   const supabase = await createClient();
 
+  // Check team size before adding
+  const { count } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .select("*", { count: "exact", head: true })
+    .eq("play_id", playId);
+
+  if (count !== null && count >= 12) {
+    return {
+      data: null,
+      error: {
+        message: "Team is full. Maximum 12 Pokemon allowed.",
+        code: "TEAM_FULL",
+      },
+    };
+  }
+
+  // Check if position is already occupied
+  const { data: existingPokemon } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .select("id, position")
+    .eq("play_id", playId)
+    .eq("position", pokemon.position)
+    .maybeSingle();
+
+  // If position is occupied, shift all Pokemon from that position onwards by 1
+  if (existingPokemon) {
+    const { data: pokemonToShift } = await supabase
+      .schema("gameplay")
+      .from("pokemon_team")
+      .select("id, position")
+      .eq("play_id", playId)
+      .gte("position", pokemon.position)
+      .order("position", { ascending: false }); // Process in reverse to avoid conflicts
+
+    if (pokemonToShift) {
+      for (const p of pokemonToShift) {
+        await supabase
+          .schema("gameplay")
+          .from("pokemon_team")
+          .update({ position: p.position + 1 })
+          .eq("id", p.id);
+      }
+    }
+  }
+
   const { data, error } = await supabase
     .schema("gameplay")
     .from("pokemon_team")
@@ -143,7 +190,7 @@ export const updateTeamPokemon = async (
 ) => {
   const supabase = await createClient();
 
-  // Handle position swapping if position is being updated
+  // Handle position changes if position is being updated
   if (updates.position !== undefined) {
     const { data: currentPokemon, error: currentError } = await supabase
       .schema("gameplay")
@@ -157,25 +204,40 @@ export const updateTeamPokemon = async (
     const oldPosition = currentPokemon.position;
     const newPosition = updates.position;
 
-    // Check if there's a Pokemon at the target position
-    const { data: occupyingPokemon, error: occupyingError } = await supabase
-      .schema("gameplay")
-      .from("pokemon_team")
-      .select("id, position")
-      .eq("play_id", currentPokemon.play_id)
-      .eq("position", newPosition)
-      .neq("id", pokemonId)
-      .maybeSingle();
-
-    // Swap positions if there's a Pokemon at the target
-    if (occupyingPokemon && !occupyingError) {
-      const { error: swapError } = await supabase
+    // Only process if position actually changes
+    if (oldPosition !== newPosition) {
+      // Check if there's a Pokemon at the target position
+      const { data: occupyingPokemon } = await supabase
         .schema("gameplay")
         .from("pokemon_team")
-        .update({ position: oldPosition })
-        .eq("id", occupyingPokemon.id);
+        .select("id, position")
+        .eq("play_id", currentPokemon.play_id)
+        .eq("position", newPosition)
+        .neq("id", pokemonId)
+        .maybeSingle();
 
-      if (swapError) return { data: null, error: swapError };
+      // If target position is occupied, swap positions
+      if (occupyingPokemon) {
+        // Use a temporary position outside the valid range to avoid conflicts
+        const tempPosition = 999;
+
+        // Move current Pokemon to temp position first
+        await supabase
+          .schema("gameplay")
+          .from("pokemon_team")
+          .update({ position: tempPosition })
+          .eq("id", pokemonId);
+
+        // Move occupying Pokemon to old position
+        await supabase
+          .schema("gameplay")
+          .from("pokemon_team")
+          .update({ position: oldPosition })
+          .eq("id", occupyingPokemon.id);
+
+        // Move current Pokemon to new position
+        updates.position = newPosition;
+      }
     }
   }
 
