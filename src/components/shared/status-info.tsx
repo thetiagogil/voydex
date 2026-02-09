@@ -10,11 +10,11 @@ interface StatusInfoProps {
 }
 
 const STATUS_TITLES: Record<string, string> = {
-  total: "Total plays",
-  active: "Active plays",
-  completed: "Completed plays",
-  paused: "Paused plays",
-  dropped: "Dropped plays",
+  total: "Total",
+  active: "Active",
+  completed: "Completed",
+  paused: "Paused",
+  dropped: "Dropped",
 };
 
 const getStatusVariant = (props: StatusInfoProps) => {

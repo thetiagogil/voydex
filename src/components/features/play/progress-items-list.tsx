@@ -1,5 +1,6 @@
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   useCheckPlayProgressItem,
   useCheckPlayProgressItemBulk,
@@ -69,7 +70,7 @@ export const ProgressItemsList = ({
 
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex gap-2 px-4">
         <Button variant="secondary" onClick={handleSelectAll}>
           Select All
         </Button>
@@ -78,35 +79,37 @@ export const ProgressItemsList = ({
         </Button>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        {items.map((item: PlayProgressItem) => {
-          const isCompleted = item.completed || false;
+      <ScrollArea>
+        <div className="grid gap-4 px-4 sm:grid-cols-2">
+          {items.map((item: PlayProgressItem) => {
+            const isCompleted = item.completed || false;
 
-          return (
-            <SquareCheckbox
-              key={`item-${item.id}`}
-              title={item.name}
-              id={`item-${item.id}`}
-              checked={isCompleted}
-              onCheckedChange={(checked) => handleToggle(item, checked)}
-            >
-              {/* Item content */}
-              {item.description && (
-                <p className="text-muted-foreground mt-1 text-xs">
-                  {item.description} at {item.location || "unknown location"}.
-                </p>
-              )}
+            return (
+              <SquareCheckbox
+                key={`item-${item.id}`}
+                title={item.name}
+                id={`item-${item.id}`}
+                checked={isCompleted}
+                onCheckedChange={(checked) => handleToggle(item, checked)}
+              >
+                {/* Item content */}
+                {item.description && (
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {item.description} at {item.location || "unknown location"}.
+                  </p>
+                )}
 
-              {/* Completion date */}
-              {isCompleted && item.completedAt && (
-                <span className="text-muted-foreground text-xs">
-                  {new Date(item.completedAt).toLocaleDateString()}
-                </span>
-              )}
-            </SquareCheckbox>
-          );
-        })}
-      </div>
+                {/* Completion date */}
+                {isCompleted && item.completedAt && (
+                  <span className="text-muted-foreground text-xs">
+                    {new Date(item.completedAt).toLocaleDateString()}
+                  </span>
+                )}
+              </SquareCheckbox>
+            );
+          })}
+        </div>
+      </ScrollArea>
     </>
   );
 };

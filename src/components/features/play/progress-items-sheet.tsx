@@ -51,7 +51,7 @@ export const ProgressItemsSheet = ({
           )}
         </SheetHeader>
 
-        <div className="flex flex-col gap-4 overflow-y-auto px-4">
+        <div className="flex flex-col gap-4 overflow-hidden">
           {isLoading ? (
             <Loading />
           ) : isDexCategory && pokemonCaught && pokemonCaught.length > 0 ? (

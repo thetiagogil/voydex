@@ -2,6 +2,7 @@ import { Icon } from "@/components/shared/icon";
 import { SquareCheckbox } from "@/components/shared/square-checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   useCheckPlayPokemonCaught,
   useCheckPlayPokemonCaughtBulk,
@@ -91,10 +92,10 @@ export const ProgressItemsPokemonCaughtList = ({
 
   return (
     <>
-      <div className="relative mt-1">
+      <div className="relative mt-1 px-4">
         <Icon
           type="search"
-          className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"
+          className="text-muted-foreground absolute top-1/2 left-7 -translate-y-1/2"
         />
         <Input
           type="text"
@@ -112,7 +113,7 @@ export const ProgressItemsPokemonCaughtList = ({
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 px-4">
         <Button variant="secondary" onClick={handleSelectAll}>
           Select All
         </Button>
@@ -124,49 +125,54 @@ export const ProgressItemsPokemonCaughtList = ({
         </Button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {filteredPokemon.map((pokemon: PlayPokemonCaught) => {
-          const isCaught = pokemon.caught;
+      <ScrollArea>
+        <div className="grid gap-4 px-4 sm:grid-cols-2">
+          {filteredPokemon.map((pokemon: PlayPokemonCaught) => {
+            const isCaught = pokemon.caught;
 
-          return (
-            <SquareCheckbox
-              key={`${pokemon.species_id}-${pokemon.form_id}`}
-              title={
-                <span className="text-muted-foreground text-xs font-medium">
-                  #{pokemon.regional_number.toString().padStart(3, "0")}
-                </span>
-              }
-              id={`pokemon-${pokemon.species_id}-${pokemon.form_id}`}
-              checked={isCaught}
-              onCheckedChange={(checked) => handleToggle(pokemon, checked)}
-              className="flex flex-col items-center justify-center gap-2 text-center"
-            >
-              {/* Pokemon sprite */}
-              {pokemon.form?.sprite_url ? (
-                <img
-                  src={pokemon.form.sprite_url}
-                  alt={pokemon.species.name}
-                  className="h-16 object-contain"
-                />
-              ) : (
-                <div className="bg-muted border-accent flex h-16 w-16 items-center justify-center rounded-full border">
-                  <span className="text-muted-foreground text-xs"></span>
-                </div>
-              )}
-
-              {/* Pokemon name */}
-              <div className="flex-1">
-                <h4 className="text-sm font-medium">{pokemon.species.name}</h4>
-                {pokemon.form && pokemon.form.name !== pokemon.species.name && (
-                  <p className="text-muted-foreground text-xs">
-                    {pokemon.form.name}
-                  </p>
+            return (
+              <SquareCheckbox
+                key={`${pokemon.species_id}-${pokemon.form_id}`}
+                title={
+                  <span className="text-muted-foreground text-xs font-medium">
+                    #{pokemon.regional_number.toString().padStart(3, "0")}
+                  </span>
+                }
+                id={`pokemon-${pokemon.species_id}-${pokemon.form_id}`}
+                checked={isCaught}
+                onCheckedChange={(checked) => handleToggle(pokemon, checked)}
+                className="flex flex-col items-center justify-center gap-2 text-center"
+              >
+                {/* Pokemon sprite */}
+                {pokemon.form?.sprite_url ? (
+                  <img
+                    src={pokemon.form.sprite_url}
+                    alt={pokemon.species.name}
+                    className="h-16 object-contain"
+                  />
+                ) : (
+                  <div className="bg-muted border-accent flex h-16 w-16 items-center justify-center rounded-full border">
+                    <span className="text-muted-foreground text-xs"></span>
+                  </div>
                 )}
-              </div>
-            </SquareCheckbox>
-          );
-        })}
-      </div>
+
+                {/* Pokemon name */}
+                <div className="flex-1">
+                  <h4 className="text-sm font-medium">
+                    {pokemon.species.name}
+                  </h4>
+                  {pokemon.form &&
+                    pokemon.form.name !== pokemon.species.name && (
+                      <p className="text-muted-foreground text-xs">
+                        {pokemon.form.name}
+                      </p>
+                    )}
+                </div>
+              </SquareCheckbox>
+            );
+          })}
+        </div>
+      </ScrollArea>
     </>
   );
 };
