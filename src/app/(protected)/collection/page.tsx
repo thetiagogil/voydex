@@ -4,7 +4,7 @@ import { CollectionEmpty } from "@/components/features/collection/collection-emp
 import { CollectionFilters } from "@/components/features/collection/collection-filters";
 import { CollectionGrid } from "@/components/features/collection/collection-grid";
 import { CollectionHeader } from "@/components/features/collection/collection-header";
-import { CollectionResultsInfo } from "@/components/features/collection/collection-results-info";
+import { ResultsInfo } from "@/components/features/shared/results-info";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useCollection } from "@/hooks/gameplay/useCollection";
@@ -96,7 +96,7 @@ export default function CollectionPage() {
 
   return (
     <PageLayout>
-      <div className="space-y-8">
+      <div className="flex flex-col gap-4">
         <CollectionHeader
           totalCount={collection?.length || 0}
           uniqueSpecies={uniqueSpecies}
@@ -116,7 +116,7 @@ export default function CollectionPage() {
           onShinyFilterChange={setShinyFilter}
         />
 
-        <CollectionResultsInfo
+        <ResultsInfo
           count={sortedPokemon.length}
           hasFilters={hasFilters}
           onClearFilters={handleClearFilters}

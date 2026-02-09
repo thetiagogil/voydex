@@ -32,7 +32,7 @@ export const PlayCreateModal = ({
       const result = await toastPromise(
         createPlay.mutateAsync({
           gameId: game.id,
-          name: data.name?.trim() || undefined,
+          name: data.name?.trim() || `My ${game.name} Adventure`,
         }),
         {
           loading: "Creating playthrough...",

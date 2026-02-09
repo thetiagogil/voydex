@@ -4,7 +4,7 @@ import { PlaysEmpty } from "@/components/features/plays/plays-empty";
 import { PlaysFilters } from "@/components/features/plays/plays-filters";
 import { PlaysHeader } from "@/components/features/plays/plays-header";
 import { PlaysList } from "@/components/features/plays/plays-list";
-import { PlaysResultsInfo } from "@/components/features/plays/plays-results-info";
+import { ResultsInfo } from "@/components/features/shared/results-info";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { usePlays } from "@/hooks/gameplay/usePlays";
@@ -75,7 +75,7 @@ export default function PlaysPage() {
 
   return (
     <PageLayout>
-      <div className="space-y-8">
+      <div className="flex flex-col gap-4">
         <PlaysHeader totalCount={plays?.length || 0} />
 
         <PlaysFilters
@@ -88,7 +88,7 @@ export default function PlaysPage() {
           onSortByChange={setSortBy}
         />
 
-        <PlaysResultsInfo
+        <ResultsInfo
           count={sortedPlays.length}
           hasFilters={hasFilters}
           onClearFilters={handleClearFilters}

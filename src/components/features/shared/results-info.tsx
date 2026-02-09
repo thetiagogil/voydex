@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 
-interface CollectionResultsInfoProps {
+interface ResultsInfoProps {
   count: number;
   hasFilters: boolean;
   onClearFilters: () => void;
 }
 
-export const CollectionResultsInfo = ({
+export const ResultsInfo = ({
   count,
   hasFilters,
   onClearFilters,
-}: CollectionResultsInfoProps) => {
+}: ResultsInfoProps) => {
   if (!hasFilters) return null;
 
   return (
@@ -18,7 +18,7 @@ export const CollectionResultsInfo = ({
       <span>
         {count} result{count !== 1 ? "s" : ""}
       </span>
-      <Button variant="ghost" size="sm" onClick={onClearFilters}>
+      <Button variant="ghost" onClick={onClearFilters}>
         Clear filters
       </Button>
     </div>

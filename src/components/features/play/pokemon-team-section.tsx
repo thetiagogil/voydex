@@ -60,8 +60,7 @@ export const PokemonTeamSection = ({
   return (
     <Card className="gap-0 p-0">
       <Tabs defaultValue="team">
-        {/* Header */}
-        <div className="border-border flex items-center justify-between gap-2 border-b p-4">
+        <div className="border-border flex justify-between gap-2 border-b p-4 sm:items-center">
           <div>
             <h2 className="text-foreground text-xl font-bold">Pokémon</h2>
             <p className="text-muted-foreground flex gap-1 text-xs">
@@ -81,16 +80,17 @@ export const PokemonTeamSection = ({
             <TabsList>
               <TabsTrigger value="team">
                 <Icon type="user" />
-                Team
+                <span className="hidden sm:inline-block">Team</span>
               </TabsTrigger>
               <TabsTrigger value="box">
                 <Icon type="box" />
-                Box
+                <span className="hidden sm:inline-block">Box</span>
               </TabsTrigger>
             </TabsList>
 
             <Button variant="outline" onClick={handleAddClick}>
-              <Icon type="add" /> Add pokémon
+              <Icon type="add" />
+              <span className="hidden sm:inline-block">Add pokémon</span>
             </Button>
 
             <Button variant="outline" asChild>
@@ -98,7 +98,7 @@ export const PokemonTeamSection = ({
                 href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
               >
                 <Icon type="edit" />
-                Manage
+                <span className="hidden sm:inline-block">Manage</span>
               </Link>
             </Button>
           </div>
@@ -132,7 +132,7 @@ export const PokemonTeamSection = ({
                   hasNatureAndAbility={hasNatureAndAbility}
                 />
               ) : (
-                <PokemonEmpty key={i} index={i} />
+                <PokemonEmpty key={i} index={i} isBox />
               ),
             )}
           </div>

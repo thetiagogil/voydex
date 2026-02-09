@@ -1,5 +1,9 @@
 import { Icon } from "@/components/shared/icon";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import {
   Select,
   SelectContent,
@@ -38,21 +42,19 @@ export const PlaysFilters = ({
     <div className="border-border bg-card rounded-xl border p-4 shadow-sm">
       <div className="flex flex-col gap-4 md:flex-row">
         {/* Search */}
-        <div className="relative flex-1">
-          <Icon
-            type="search"
-            className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-            size={16}
-          />
-          <Input
+        <InputGroup>
+          <InputGroupInput
+            id="inline-start-input"
             placeholder="Search plays or games..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-10"
           />
-        </div>
 
-        {/* Status Filter */}
+          <InputGroupAddon align="inline-start">
+            <Icon type="search" />
+          </InputGroupAddon>
+        </InputGroup>
+
         <Select value={statusFilter} onValueChange={onStatusFilterChange}>
           <SelectTrigger className="w-full md:w-48">
             <SelectValue placeholder="Filter by status" />
@@ -94,7 +96,6 @@ export const PlaysFilters = ({
           </SelectContent>
         </Select>
 
-        {/* Sort */}
         <Select value={sortBy} onValueChange={onSortByChange}>
           <SelectTrigger className="w-full md:w-48">
             <SelectValue placeholder="Sort by" />

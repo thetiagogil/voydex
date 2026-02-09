@@ -16,7 +16,10 @@ interface PlayEmptyProps {
 
 export const PlayEmpty = ({ game, setOpen }: PlayEmptyProps) => {
   return (
-    <Card onClick={() => setOpen(true)} className="bg-background border-dashed">
+    <Card
+      onClick={() => setOpen(true)}
+      className="bg-background cursor-pointer border-dashed"
+    >
       <CardContent>
         <Empty>
           <EmptyHeader>

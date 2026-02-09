@@ -1,19 +1,17 @@
 import { z } from "zod";
 
-// Schema for creating a new play
 export const playCreateSchema = z.object({
   name: z
     .string()
-    .max(100, "Name cannot exceed 100 characters")
+    .max(50, "Name cannot exceed 50 characters")
     .optional()
     .or(z.literal("")),
 });
 
-// Schema for editing a play
 export const playEditSchema = z.object({
   name: z
     .string()
-    .max(100, "Name cannot exceed 100 characters")
+    .max(50, "Name cannot exceed 50 characters")
     .optional()
     .or(z.literal("")),
   notes: z

@@ -26,7 +26,12 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
               <div className="flex flex-1 justify-between gap-2">
                 <div>
                   <div className="flex gap-2">
-                    <h3 className="text-lg font-semibold">{play.name}</h3>
+                    <h3
+                      className="w-40 truncate text-lg font-semibold sm:w-full"
+                      title={play.name}
+                    >
+                      {play.name}
+                    </h3>
                     <StatusInfo status={play.status} />
                   </div>
                   <div className="text-muted-foreground">

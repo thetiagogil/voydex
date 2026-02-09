@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PlayCard } from "./play-card";
+import { PlayCard } from "../shared/play-card";
 
 interface PlaysSectionProps {
   plays: GamePlaySummary[];
@@ -19,11 +19,11 @@ export const PlaysSection = ({
     <div className="space-y-4">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold">Games</h2>
-        <Button variant="secondary" onClick={() => setOpen(true)}>
+        <Button variant="ghost" onClick={() => setOpen(true)}>
           New Play
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-6">
+      <div className="flex flex-col">
         {plays.map((play) => (
           <PlayCard
             key={play.id}

@@ -1,5 +1,9 @@
 import { Icon } from "@/components/shared/icon";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import {
   Select,
   SelectContent,
@@ -35,24 +39,20 @@ export const CollectionFilters = ({
 }: CollectionFiltersProps) => {
   return (
     <div className="border-border bg-card rounded-xl border p-4 shadow-sm">
-      {/* All filters in one responsive row */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto_auto_auto]">
-        {/* Search */}
-        <div className="relative">
-          <Icon
-            type="search"
-            className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-            size={16}
-          />
-          <Input
+        <InputGroup>
+          <InputGroupInput
+            id="inline-start-input"
             placeholder="Search by name or number..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-10"
           />
-        </div>
 
-        {/* Generation Filter */}
+          <InputGroupAddon align="inline-start">
+            <Icon type="search" />
+          </InputGroupAddon>
+        </InputGroup>
+
         <Select
           value={generationFilter}
           onValueChange={onGenerationFilterChange}
@@ -70,7 +70,6 @@ export const CollectionFilters = ({
           </SelectContent>
         </Select>
 
-        {/* Type Filter */}
         <Select value={typeFilter} onValueChange={onTypeFilterChange}>
           <SelectTrigger className="w-full md:w-[140px]">
             <SelectValue placeholder="Type" />
@@ -85,7 +84,6 @@ export const CollectionFilters = ({
           </SelectContent>
         </Select>
 
-        {/* Shiny Filter */}
         <Select value={shinyFilter} onValueChange={onShinyFilterChange}>
           <SelectTrigger className="w-full md:w-[140px]">
             <SelectValue placeholder="Shiny" />

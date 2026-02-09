@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { RecentActivityItem } from "@/types/dashboard";
 import { ActivityCard } from "./activity-card";
+import { ActivityEmpty } from "./activity-empty";
 
 interface ActivitySectionProps {
   activities: RecentActivityItem[];
@@ -16,12 +17,7 @@ export const ActivitySection = ({ activities }: ActivitySectionProps) => {
       <ScrollArea className="flex-1">
         <div className="space-y-2 p-4">
           {activities.length === 0 ? (
-            <div className="text-muted-foreground pt-4 text-center">
-              <p>No recent activity</p>
-              <p className="text-sm">
-                Start playing to see your progress here!
-              </p>
-            </div>
+            <ActivityEmpty />
           ) : (
             <div className="flex flex-col gap-2">
               {activities.map((activity, i) => {

@@ -18,9 +18,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
+import { STATUS_COLORS } from "@/lib/constants/styles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Icon } from "../shared/icon";
 
 interface PlayFormContentCreateProps {
   mode: "create";
@@ -63,13 +65,6 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
       : { name: props.initialValues?.name || "" },
   });
 
-  // Reset form when initialValues change (for edit mode)
-  useEffect(() => {
-    if (isEditMode) {
-      reset(props.initialValues);
-    }
-  }, [isEditMode, props.initialValues, reset]);
-
   const handleFormSubmit = async (
     data: PlayCreateFormValues | PlayEditFormValues,
   ) => {
@@ -80,12 +75,20 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
     }
   };
 
+  useEffect(() => {
+    if (isEditMode) {
+      reset(props.initialValues);
+    }
+  }, [isEditMode, props.initialValues, reset]);
+
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="flex flex-col gap-4"
+    >
       <FieldSet>
         <FieldGroup>
-          {/* Playthrough Name */}
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <FieldWrapper
               id="playName"
               label={isEditMode ? "Name" : "Playthrough Name (optional)"}
@@ -100,13 +103,12 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             </FieldWrapper>
             {!isEditMode && (
               <p className="text-muted-foreground text-xs">
-                Give your playthrough a memorable name, or leave blank for
+                Give your playthrough a memorable name or leave blank for
                 default
               </p>
             )}
           </div>
 
-          {/* Status (edit mode only) */}
           {isEditMode && props.statuses && (
             <FieldWrapper
               id="status"
@@ -128,7 +130,13 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                     <SelectContent>
                       {props.statuses.map((status) => (
                         <SelectItem key={status.id} value={status.slug}>
-                          {status.name}
+                          <span className="flex items-center gap-2">
+                            <Icon
+                              type={status.slug}
+                              className={STATUS_COLORS[status.slug]?.icon}
+                            />
+                            {status.name}
+                          </span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -138,7 +146,6 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             </FieldWrapper>
           )}
 
-          {/* Notes (edit mode only) */}
           {isEditMode && (
             <FieldWrapper
               id="notes"
@@ -153,21 +160,13 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
               />
             </FieldWrapper>
           )}
-
-          {/* Game info preview */}
-          <div className="bg-muted/50 rounded-lg p-3">
-            <p className="text-sm font-medium">{game.name}</p>
-            <p className="text-muted-foreground text-xs">
-              {game.generation?.name} • {game.region?.name}
-            </p>
-          </div>
         </FieldGroup>
       </FieldSet>
 
       <div className="flex gap-2">
         <Button
           type="button"
-          variant="secondary"
+          variant="outline"
           onClick={onCancel}
           disabled={isPending}
         >

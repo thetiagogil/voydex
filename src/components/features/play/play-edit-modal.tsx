@@ -53,9 +53,7 @@ export const PlayEditModal = ({ play, open, setOpen }: PlayEditModalProps) => {
       );
 
       setOpen(false);
-    } catch (error) {
-      // Error is handled by toastPromise
-    }
+    } catch (error) {}
   };
 
   const handleClose = () => {

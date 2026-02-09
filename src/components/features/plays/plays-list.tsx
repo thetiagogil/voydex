@@ -1,4 +1,4 @@
-import { PlayCard } from "@/components/features/game/play-card";
+import { PlayCard } from "@/components/features/shared/play-card";
 
 interface PlaysListProps {
   plays: GamePlaySummary[];
