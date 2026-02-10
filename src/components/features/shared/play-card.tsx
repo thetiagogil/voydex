@@ -17,7 +17,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
     <Link href={`/dashboard/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="flex w-full flex-1 gap-4">
               <div className="text-md bg-primary/10 border-primary/30 text-primary flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border font-bold">
                 <Icon type="play" className="h-6 w-6" />
@@ -44,7 +44,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                 </div>
                 <Icon
                   type="rightArrow"
-                  className="group-hover:text-primary sm:hidden lg:inline-block xl:hidden"
+                  className="group-hover:text-primary md:hidden"
                 />
               </div>
             </div>
@@ -78,7 +78,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
 
             <Icon
               type="rightArrow"
-              className="group-hover:text-primary hidden sm:inline-block lg:hidden xl:inline-block"
+              className="group-hover:text-primary hidden md:inline-block"
             />
           </div>
         </CardContent>

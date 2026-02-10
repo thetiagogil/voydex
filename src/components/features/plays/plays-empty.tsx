@@ -40,7 +40,7 @@ export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
               </Button>
             ) : (
               <Button asChild variant="secondary">
-                <a href="/dashboard">Go to dashboard</a>
+                <a href="/dashboard">Dashboard</a>
               </Button>
             )}
           </EmptyContent>
