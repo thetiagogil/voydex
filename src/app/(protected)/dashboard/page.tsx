@@ -1,8 +1,8 @@
 "use client";
 
-import { ActivitySection } from "@/components/features/adventures/activity-section";
-import { GenerationSection } from "@/components/features/adventures/generation-section";
-import { StatsSection } from "@/components/features/adventures/stats-section";
+import { ActivitySection } from "@/components/features/dashboard/activity-section";
+import { GenerationSection } from "@/components/features/dashboard/generation-section";
+import { StatsSection } from "@/components/features/dashboard/stats-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import {
@@ -11,7 +11,7 @@ import {
   useRecentActivity,
 } from "@/hooks/gameplay/useDashboard";
 
-export default function AdventuresPage() {
+export default function DashboardPage() {
   const { data: stats, isLoading: isStatsLoading } = useDashboardStats();
   const { data: generations, isLoading: isGenerationsLoading } =
     useGenerationsWithUserStats();

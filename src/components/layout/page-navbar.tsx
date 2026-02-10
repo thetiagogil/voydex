@@ -37,7 +37,7 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
   };
 
   const links = [
-    { name: "Adventures", href: "/adventures" },
+    { name: "Dashboard", href: "/dashboard" },
     { name: "Plays", href: "/plays" },
     { name: "Collection", href: "/collection" },
   ];

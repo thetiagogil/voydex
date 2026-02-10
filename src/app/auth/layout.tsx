@@ -11,7 +11,7 @@ export default async function AuthLayout({
   const { data: isAuth, error } = await supabase.auth.getClaims();
 
   if (isAuth || error) {
-    redirect("/adventures");
+    redirect("/dashboard");
   }
 
   return <>{children}</>;

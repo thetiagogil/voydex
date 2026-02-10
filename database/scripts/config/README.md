@@ -107,7 +107,7 @@ Configure which materialized views to manage.
 ```javascript
 export const MATERIALIZED_VIEWS = [
   {
-    name: "views.mv_adventures_generation_metadata",
+    name: "views.mv_dashboard_generation_metadata",
     description: "Generation metadata with games and regions",
     supportsConcurrent: true, // true if view has unique index
     estimatedRows: "< 20",

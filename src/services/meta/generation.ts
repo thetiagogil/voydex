@@ -131,10 +131,10 @@ export const getGeneration = async (id: string) => {
 
   // Build breadcrumbs
   const breadcrumbs = [
-    { label: "Adventures", href: "/adventures" },
+    { label: "Dashboard", href: "/dashboard" },
     {
       label: generation.name,
-      href: `/adventures/gen/${generation.id}`,
+      href: `/dashboard/gen/${generation.id}`,
       current: true,
     },
   ];

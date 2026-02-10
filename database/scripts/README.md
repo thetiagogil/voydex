@@ -172,7 +172,7 @@ Refresh materialized views manually. Configure views in the script.
 node database/scripts/refresh-materialized-views.js
 
 # Refresh specific view
-node database/scripts/refresh-materialized-views.js --view=views.mv_adventures_generation_metadata
+node database/scripts/refresh-materialized-views.js --view=views.mv_dashboard_generation_metadata
 
 # Use CONCURRENT (non-blocking)
 node database/scripts/refresh-materialized-views.js --concurrent

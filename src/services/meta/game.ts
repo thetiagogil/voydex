@@ -141,14 +141,14 @@ export const getGame = async (id: string) => {
 
   // Build breadcrumbs for UI
   const breadcrumbs = [
-    { label: "Adventures", href: "/adventures" },
+    { label: "Dashboard", href: "/dashboard" },
     {
       label: game.generation.name,
-      href: `/adventures/gen/${game.generation_id}`,
+      href: `/dashboard/gen/${game.generation_id}`,
     },
     {
       label: game.name,
-      href: `/adventures/gen/${game.generation_id}/game/${game.slug}`,
+      href: `/dashboard/gen/${game.generation_id}/game/${game.slug}`,
       current: true,
     },
   ];

@@ -21,9 +21,9 @@ export const PageNavbarMenu = () => {
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/adventures">
+            <Link href="/dashboard">
               <Icon type="adventure" />
-              Adventures
+              Dashboard
             </Link>
           </DropdownMenuItem>
 

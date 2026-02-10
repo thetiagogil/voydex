@@ -53,18 +53,18 @@ export const getPlay = async (id: string) => {
   };
 
   const breadcrumbs = [
-    { label: "Adventures", href: "/adventures" },
+    { label: "Dashboard", href: "/dashboard" },
     {
       label: play.generation_name,
-      href: `/adventures/gen/${play.generation_id}`,
+      href: `/dashboard/gen/${play.generation_id}`,
     },
     {
       label: play.game_name,
-      href: `/adventures/gen/${play.generation_id}/game/${play.game_slug}`,
+      href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}`,
     },
     {
       label: play.play_name || "My Playthrough",
-      href: `/adventures/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
+      href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
       current: true,
     },
   ];

@@ -1,15 +1,15 @@
 -- =====================================================
--- Migration: Adventures - Recent Activity View
+-- Migration: Dashboard - Recent Activity View
 -- =====================================================
 -- Purpose: Show user's recent progress items with full context
--- Used In: /adventures page (ActivitySection component)
+-- Used In: /dashboard page (ActivitySection component)
 -- Type: Regular View (real-time data)
 -- Dependencies: gameplay.progress, gameplay.plays, meta.*
 --
--- Page Location: src/app/(protected)/adventures/page.tsx
--- Component: src/components/features/adventures/activity-section.tsx
--- API Route: /api/adventures/activity
--- Hook: useRecentActivity(limit) in src/hooks/useAdventures.ts
+-- Page Location: src/app/(protected)/dashboard/page.tsx
+-- Component: src/components/features/dashboard/activity-section.tsx
+-- API Route: /api/dashboard/activity
+-- Hook: useRecentActivity(limit) in src/hooks/useDashboard.ts
 --
 -- Why Regular View:
 -- - Time-ordered data that must be real-time
@@ -18,7 +18,7 @@
 -- - Includes navigation context (gen/game/play slugs)
 --
 -- Query Pattern:
---   SELECT * FROM views.v_adventures_recent_activity
+--   SELECT * FROM views.v_dashboard_recent_activity
 --   WHERE user_id = auth.uid()
 --   ORDER BY completed_at DESC
 --   LIMIT 10
@@ -26,10 +26,10 @@
 -- Returns: Array of recent progress items with full context
 -- =====================================================
 -- =====================================================
--- View: Adventures - Recent Activity
+-- View: Dashboard - Recent Activity
 -- =====================================================
 CREATE
-OR REPLACE VIEW views.v_adventures_recent_activity AS
+OR REPLACE VIEW views.v_dashboard_recent_activity AS
 SELECT
     -- Progress item identification
     prog.id,
@@ -97,37 +97,37 @@ ORDER BY
 -- Grant SELECT to authenticated users
 GRANT
 SELECT
-    ON views.v_adventures_recent_activity TO authenticated,
+    ON views.v_dashboard_recent_activity TO authenticated,
     service_role;
 
 -- =====================================================
 -- Comments
 -- =====================================================
-COMMENT ON VIEW views.v_adventures_recent_activity IS 'Recent progress items with full playthrough and game context for the /adventures page. Filter by user_id and order by completed_at DESC.';
+COMMENT ON VIEW views.v_dashboard_recent_activity IS 'Recent progress items with full playthrough and game context for the /dashboard page. Filter by user_id and order by completed_at DESC.';
 
 -- =====================================================
 -- Usage Examples
 -- =====================================================
 -- Get user's recent activity (last 10 items):
---   SELECT * FROM views.v_adventures_recent_activity
+--   SELECT * FROM views.v_dashboard_recent_activity
 --   WHERE user_id = auth.uid()
 --   ORDER BY completed_at DESC
 --   LIMIT 10;
 --
 -- Get recent badges only:
---   SELECT * FROM views.v_adventures_recent_activity
+--   SELECT * FROM views.v_dashboard_recent_activity
 --   WHERE user_id = auth.uid()
 --     AND category = 'badge'
 --   ORDER BY completed_at DESC
 --   LIMIT 5;
 --
 -- Get activity for specific playthrough:
---   SELECT * FROM views.v_adventures_recent_activity
+--   SELECT * FROM views.v_dashboard_recent_activity
 --   WHERE playthrough_id = 'uuid'
 --   ORDER BY completed_at DESC;
 --
 -- Get all activity in past 7 days:
---   SELECT * FROM views.v_adventures_recent_activity
+--   SELECT * FROM views.v_dashboard_recent_activity
 --   WHERE user_id = auth.uid()
 --     AND completed_at >= NOW() - INTERVAL '7 days'
 --   ORDER BY completed_at DESC;

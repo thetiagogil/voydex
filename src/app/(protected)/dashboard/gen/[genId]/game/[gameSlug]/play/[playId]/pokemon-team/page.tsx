@@ -65,7 +65,7 @@ export default function PlayPokemonTeamPage({
   const shinyCount = allPokemon.filter((p) => p.is_shiny).length;
 
   // Build the back URL using the route params
-  const backUrl = `/adventures/gen/${genId}/game/${gameSlug}/play/${playId}`;
+  const backUrl = `/dashboard/gen/${genId}/game/${gameSlug}/play/${playId}`;
 
   const handleEditClick = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);

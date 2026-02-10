@@ -95,7 +95,7 @@ export const PokemonTeamSection = ({
 
             <Button variant="outline" asChild>
               <Link
-                href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
+                href={`/dashboard/gen/${genId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
               >
                 <Icon type="edit" />
                 <span className="hidden sm:inline-block">Manage</span>

@@ -46,7 +46,7 @@ export const PlayCreateModal = ({
       // Navigate to the new play page
       if (result?.id) {
         router.push(
-          `/adventures/gen/${game.generation?.id}/game/${game.slug}/play/${result.id}`,
+          `/dashboard/gen/${game.generation?.id}/game/${game.slug}/play/${result.id}`,
         );
       }
     } catch (error) {

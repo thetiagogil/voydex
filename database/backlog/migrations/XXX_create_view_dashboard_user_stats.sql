@@ -1,15 +1,15 @@
 -- =====================================================
--- Migration: Adventures - User Statistics View
+-- Migration: Dashboard - User Statistics View
 -- =====================================================
--- Purpose: Calculate per-user adventure statistics
--- Used In: /adventures page (StatsSection component)
+-- Purpose: Calculate per-user dashboard statistics
+-- Used In: /dashboard page (StatsSection component)
 -- Type: Function + Regular View (real-time data)
 -- Dependencies: gameplay.plays, gameplay.progress, gameplay.pokemon_caught
 --
--- Page Location: src/app/(protected)/adventures/page.tsx
--- Component: src/components/features/adventures/stats-section.tsx
--- API Route: /api/adventures/stats
--- Hook: useAdventureStats() in src/hooks/useAdventures.ts
+-- Page Location: src/app/(protected)/dashboard/page.tsx
+-- Component: src/components/features/dashboard/stats-section.tsx
+-- API Route: /api/dashboard/stats
+-- Hook: useDashboardStats() in src/hooks/useDashboard.ts
 --
 -- Why Function-Based View:
 -- - Guarantees exactly 1 row per user (even if no data)
@@ -17,7 +17,7 @@
 -- - Real-time calculations (not materialized)
 -- - Respects RLS via auth.uid()
 --
--- Query Pattern: SELECT * FROM views.v_adventures_user_stats
+-- Query Pattern: SELECT * FROM views.v_dashboard_user_stats
 -- Returns: Single row with user's aggregate statistics
 -- =====================================================
 
@@ -25,7 +25,7 @@
 -- Function: Get User Adventure Stats
 -- =====================================================
 
-CREATE OR REPLACE FUNCTION views.fn_adventures_user_stats(target_user_id UUID)
+CREATE OR REPLACE FUNCTION views.fn_dashboard_user_stats(target_user_id UUID)
 RETURNS TABLE (
   user_id UUID,
   total_playthroughs BIGINT,
@@ -142,42 +142,42 @@ $$;
 -- View: User Adventure Stats (Wrapper)
 -- =====================================================
 
-CREATE OR REPLACE VIEW views.v_adventures_user_stats AS
+CREATE OR REPLACE VIEW views.v_dashboard_user_stats AS
 SELECT
   stats.*
 FROM
-  views.fn_adventures_user_stats(auth.uid()) AS stats;
+  views.fn_dashboard_user_stats(auth.uid()) AS stats;
 
 -- =====================================================
 -- Permissions
 -- =====================================================
 
 -- Grant EXECUTE on function to authenticated users
-GRANT EXECUTE ON FUNCTION views.fn_adventures_user_stats(UUID) 
+GRANT EXECUTE ON FUNCTION views.fn_dashboard_user_stats(UUID) 
   TO authenticated, service_role;
 
 -- Grant SELECT on view to authenticated users
-GRANT SELECT ON views.v_adventures_user_stats 
+GRANT SELECT ON views.v_dashboard_user_stats 
   TO authenticated, service_role;
 
 -- =====================================================
 -- Comments
 -- =====================================================
 
-COMMENT ON FUNCTION views.fn_adventures_user_stats(UUID) IS 
-  'Calculate adventure statistics for a specific user. Returns exactly 1 row with aggregate counts.';
+COMMENT ON FUNCTION views.fn_dashboard_user_stats(UUID) IS 
+  'Calculate dashboard statistics for a specific user. Returns exactly 1 row with aggregate counts.';
 
-COMMENT ON VIEW views.v_adventures_user_stats IS 
-  'Per-user adventure statistics for /adventures page. Automatically filters by auth.uid(). Always returns 1 row.';
+COMMENT ON VIEW views.v_dashboard_user_stats IS 
+  'Per-user dashboard statistics for /dashboard page. Automatically filters by auth.uid(). Always returns 1 row.';
 
 -- =====================================================
 -- Usage Examples
 -- =====================================================
 -- From authenticated context (uses auth.uid()):
---   SELECT * FROM views.v_adventures_user_stats;
+--   SELECT * FROM views.v_dashboard_user_stats;
 --
 -- From service role (specify user_id):
---   SELECT * FROM views.fn_adventures_user_stats('user-uuid-here');
+--   SELECT * FROM views.fn_dashboard_user_stats('user-uuid-here');
 --
 -- Expected result:
 --   {

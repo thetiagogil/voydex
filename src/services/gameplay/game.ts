@@ -45,14 +45,14 @@ export const getGame = async (slug: string) => {
   };
 
   const breadcrumbs = [
-    { label: "Adventures", href: "/adventures" },
+    { label: "Dashboard", href: "/dashboard" },
     {
       label: game.generation_name,
-      href: `/adventures/gen/${game.generation_id}`,
+      href: `/dashboard/gen/${game.generation_id}`,
     },
     {
       label: game.game_name,
-      href: `/adventures/gen/${game.generation_id}/game/${game.game_slug}`,
+      href: `/dashboard/gen/${game.generation_id}/game/${game.game_slug}`,
       current: true,
     },
   ];

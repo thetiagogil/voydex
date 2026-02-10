@@ -30,7 +30,7 @@ export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
             <EmptyDescription>
               {hasFilters
                 ? "Try adjusting your search or filters."
-                : "Start a new playthrough from the adventures page!"}
+                : "Start a new playthrough from the dashboard page!"}
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
@@ -40,7 +40,7 @@ export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
               </Button>
             ) : (
               <Button asChild variant="secondary">
-                <a href="/adventures">Go to dashboard</a>
+                <a href="/dashboard">Go to dashboard</a>
               </Button>
             )}
           </EmptyContent>

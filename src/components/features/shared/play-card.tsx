@@ -14,7 +14,7 @@ interface PlayCardProps {
 
 export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
   return (
-    <Link href={`/adventures/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
+    <Link href={`/dashboard/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center">

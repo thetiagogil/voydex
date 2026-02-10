@@ -99,9 +99,9 @@ export const SEED_CONFIG = {
  */
 export const MATERIALIZED_VIEWS = [
   {
-    name: "views.mv_adventures_generation_metadata",
+    name: "views.mv_dashboard_generation_metadata",
     description:
-      "Generation metadata with games and regions for /adventures page",
+      "Generation metadata with games and regions for /dashboard page",
     supportsConcurrent: true,
     estimatedRows: "< 20",
   },

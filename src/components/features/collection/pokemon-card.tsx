@@ -13,7 +13,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
 
   return (
     <Link
-      href={`/adventures/gen/${pokemon.game.generation.id}/game/${pokemon.game.slug}/play/${pokemon.playId}`}
+      href={`/dashboard/gen/${pokemon.game.generation.id}/game/${pokemon.game.slug}/play/${pokemon.playId}`}
     >
       <Card
         onClick={() => {}}

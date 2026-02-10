@@ -43,7 +43,7 @@ export const CollectionEmpty = ({
               </Button>
             ) : (
               <Button asChild variant="secondary">
-                <a href="/adventures">Go to dashboard</a>
+                <a href="/dashboard">Go to dashboard</a>
               </Button>
             )}
           </EmptyContent>

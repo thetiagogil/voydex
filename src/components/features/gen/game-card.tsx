@@ -13,7 +13,7 @@ interface GameCardProps {
 
 export const GameCard = ({ game, genId }: GameCardProps) => {
   return (
-    <Link href={`/adventures/gen/${genId}/game/${game.slug}`}>
+    <Link href={`/dashboard/gen/${genId}/game/${game.slug}`}>
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex gap-4">

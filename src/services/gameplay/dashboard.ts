@@ -32,10 +32,10 @@ export const getGeneration = async (generationId: number) => {
   };
 
   const breadcrumbs = [
-    { label: "Adventures", href: "/adventures" },
+    { label: "Dashboard", href: "/dashboard" },
     {
       label: gen.generation_name,
-      href: `/adventures/gen/${gen.generation_id}`,
+      href: `/dashboard/gen/${gen.generation_id}`,
       current: true,
     },
   ];
@@ -199,7 +199,7 @@ export const getRecentActivity = async (limit = 10) => {
           spriteUrl: activity.sprite_url,
         }
       : null,
-    href: `/adventures/gen/${activity.generation_id}/game/${activity.game_slug}/play/${activity.play_id}`,
+    href: `/dashboard/gen/${activity.generation_id}/game/${activity.game_slug}/play/${activity.play_id}`,
   }));
 
   return { data: result, error: null };

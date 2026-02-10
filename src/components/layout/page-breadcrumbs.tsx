@@ -18,13 +18,13 @@ export const PageBreadcrumbs = () => {
     const segments = pathname.split("/").filter(Boolean);
     const breadcrumbs: BreadcrumbItem[] = [];
 
-    // Always start with Adventures if we're in protected routes
+    // Always start with Dashboard if we're in protected routes
     if (
       segments.includes("protected") ||
-      pathname.startsWith("/adventures") ||
+      pathname.startsWith("/dashboard") ||
       pathname.startsWith("/gen")
     ) {
-      breadcrumbs.push({ label: "Adventures", href: "/adventures" });
+      breadcrumbs.push({ label: "Dashboard", href: "/dashboard" });
     }
 
     // Handle generation routes
@@ -42,7 +42,7 @@ export const PageBreadcrumbs = () => {
 
         breadcrumbs.push({
           label: `Generation ${genRoman}`,
-          href: `/adventures/gen/${genSlug}`,
+          href: `/dashboard/gen/${genSlug}`,
         });
 
         // Handle game routes
@@ -59,7 +59,7 @@ export const PageBreadcrumbs = () => {
 
             breadcrumbs.push({
               label: gameName,
-              href: `/adventures/gen/${genSlug}/game/${gameSlug}`,
+              href: `/dashboard/gen/${genSlug}/game/${gameSlug}`,
             });
 
             // Handle play routes
@@ -70,7 +70,7 @@ export const PageBreadcrumbs = () => {
               if (playId && playId !== "create") {
                 breadcrumbs.push({
                   label: "My Playthrough", // TODO: Get real play title from API
-                  href: `/adventures/gen/${genSlug}/game/${gameSlug}/play/${playId}`,
+                  href: `/dashboard/gen/${genSlug}/game/${gameSlug}/play/${playId}`,
                   current: segments.length === playIndex + 2,
                 });
 

@@ -29,7 +29,7 @@ export const Hero = () => {
             <Button size="lg">Loading...</Button>
           ) : isAuthenticated ? (
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/adventures">Go to Adventures</Link>
+              <Link href="/dashboard">Go to Dashboard</Link>
             </Button>
           ) : (
             <Button asChild size="lg" className="w-full sm:w-auto">

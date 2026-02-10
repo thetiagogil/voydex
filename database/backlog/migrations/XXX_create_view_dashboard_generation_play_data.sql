@@ -1,15 +1,15 @@
 -- =====================================================
--- Migration: Adventures - Generation Play Data View
+-- Migration: Dashboard - Generation Play Data View
 -- =====================================================
 -- Purpose: Combine generation metadata with user play statistics
--- Used In: /adventures page (GenerationSection component)
+-- Used In: /dashboard page (GenerationSection component)
 -- Type: Regular View (real-time data)
--- Dependencies: views.mv_adventures_generation_metadata, gameplay.plays
+-- Dependencies: views.mv_dashboard_generation_metadata, gameplay.plays
 --
--- Page Location: src/app/(protected)/adventures/page.tsx
--- Component: src/components/features/adventures/generation-section.tsx
--- API Route: /api/adventures/generations
--- Hook: useGenerationPlayData() in src/hooks/useAdventures.ts
+-- Page Location: src/app/(protected)/dashboard/page.tsx
+-- Component: src/components/features/dashboard/generation-section.tsx
+-- API Route: /api/dashboard/generations
+-- Hook: useGenerationPlayData() in src/hooks/useDashboard.ts
 --
 -- Why Regular View:
 -- - Combines static metadata (from matview) with dynamic user data
@@ -18,7 +18,7 @@
 -- - user_id is NULL for generations without user plays
 --
 -- Query Pattern:
---   SELECT * FROM views.v_adventures_generation_play_data
+--   SELECT * FROM views.v_dashboard_generation_play_data
 --   WHERE user_id = auth.uid() OR user_id IS NULL
 --   ORDER BY gen_id
 --
@@ -26,10 +26,10 @@
 -- =====================================================
 
 -- =====================================================
--- View: Adventures - Generation Play Data
+-- View: Dashboard - Generation Play Data
 -- =====================================================
 
-CREATE OR REPLACE VIEW views.v_adventures_generation_play_data AS
+CREATE OR REPLACE VIEW views.v_dashboard_generation_play_data AS
 WITH user_play_stats AS (
   -- Calculate per-user, per-generation play statistics
   SELECT
@@ -96,7 +96,7 @@ SELECT
   
 FROM
   -- Start with all generation metadata (from materialized view - pre-computed)
-  views.mv_adventures_generation_metadata md
+  views.mv_dashboard_generation_metadata md
   
   -- Left join user play stats (NULL if user has no plays)
   LEFT JOIN user_play_stats ups ON md.gen_id = ups.generation_id
@@ -109,32 +109,32 @@ ORDER BY
 -- =====================================================
 
 -- Grant SELECT to authenticated users
-GRANT SELECT ON views.v_adventures_generation_play_data 
+GRANT SELECT ON views.v_dashboard_generation_play_data 
   TO authenticated, service_role;
 
 -- =====================================================
 -- Comments
 -- =====================================================
 
-COMMENT ON VIEW views.v_adventures_generation_play_data IS 
-  'Generation metadata combined with per-user play statistics for /adventures page. Shows all generations; user_id is NULL for generations without user plays.';
+COMMENT ON VIEW views.v_dashboard_generation_play_data IS 
+  'Generation metadata combined with per-user play statistics for /dashboard page. Shows all generations; user_id is NULL for generations without user plays.';
 
 -- =====================================================
 -- Usage Examples
 -- =====================================================
 -- Get all generations with current user's stats:
---   SELECT * FROM views.v_adventures_generation_play_data
+--   SELECT * FROM views.v_dashboard_generation_play_data
 --   WHERE user_id = auth.uid() OR user_id IS NULL
 --   ORDER BY gen_id;
 --
 -- Get only enabled generations:
---   SELECT * FROM views.v_adventures_generation_play_data
+--   SELECT * FROM views.v_dashboard_generation_play_data
 --   WHERE is_enabled = TRUE
 --     AND (user_id = auth.uid() OR user_id IS NULL)
 --   ORDER BY gen_id;
 --
 -- Get generations where user has active plays:
---   SELECT * FROM views.v_adventures_generation_play_data
+--   SELECT * FROM views.v_dashboard_generation_play_data
 --   WHERE user_id = auth.uid()
 --     AND active_plays > 0
 --   ORDER BY gen_id;
