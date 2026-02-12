@@ -1,5 +1,5 @@
 import { Icon } from "@/components/shared/icon";
-import { TypeBadge } from "@/components/shared/type-badge";
+import { TypeDisplay } from "@/components/shared/type-display";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
@@ -67,7 +67,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
 
             <div className="flex justify-center gap-2">
               {pokemon.types.map((type) => (
-                <TypeBadge key={type.id} type={type.name as PokemonType} />
+                <TypeDisplay key={type.id} type={type.name as PokemonType} />
               ))}
             </div>
           </div>

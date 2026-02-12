@@ -54,6 +54,17 @@ export const PlayTeamFormContent = ({
   // Determine if nature and ability are available (Gen 3+)
   const hasNatureAndAbility = generationId >= 3;
 
+  // Calculate default position for new pokemon (last available position)
+  const defaultPosition = useMemo(() => {
+    if (isEditing || position) return position || 1;
+
+    // Find the highest position in the current team
+    if (team.length === 0) return 1;
+
+    const maxPosition = Math.max(...team.map((p) => p.position));
+    return maxPosition + 1;
+  }, [isEditing, position, team]);
+
   const {
     register,
     handleSubmit,
@@ -70,7 +81,7 @@ export const PlayTeamFormContent = ({
       form_id: undefined,
       nickname: "",
       level: 5,
-      position: position || 1,
+      position: defaultPosition,
       gender: undefined,
       is_shiny: false,
       nature_id: undefined,
@@ -125,7 +136,7 @@ export const PlayTeamFormContent = ({
         form_id: undefined,
         nickname: "",
         level: 5,
-        position: position || 1,
+        position: defaultPosition,
         gender: undefined,
         is_shiny: false,
         nature_id: undefined,
@@ -136,7 +147,7 @@ export const PlayTeamFormContent = ({
         move4_id: undefined,
       } as any);
     }
-  }, [pokemon, position, reset]);
+  }, [pokemon, position, reset, defaultPosition]);
 
   // Auto-select form when species changes
   useEffect(() => {

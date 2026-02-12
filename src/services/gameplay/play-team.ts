@@ -133,25 +133,15 @@ export const addPokemonToTeam = async (
     .eq("position", pokemon.position)
     .maybeSingle();
 
-  // If position is occupied, shift all Pokemon from that position onwards by 1
+  // If position is occupied, return an error
   if (existingPokemon) {
-    const { data: pokemonToShift } = await supabase
-      .schema("gameplay")
-      .from("pokemon_team")
-      .select("id, position")
-      .eq("play_id", playId)
-      .gte("position", pokemon.position)
-      .order("position", { ascending: false }); // Process in reverse to avoid conflicts
-
-    if (pokemonToShift) {
-      for (const p of pokemonToShift) {
-        await supabase
-          .schema("gameplay")
-          .from("pokemon_team")
-          .update({ position: p.position + 1 })
-          .eq("id", p.id);
-      }
-    }
+    return {
+      data: null,
+      error: {
+        message: `Position ${pokemon.position} is already occupied.`,
+        code: "POSITION_OCCUPIED",
+      },
+    };
   }
 
   const { data, error } = await supabase

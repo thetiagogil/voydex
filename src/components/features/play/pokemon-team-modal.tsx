@@ -39,7 +39,6 @@ export const PokemonTeamModal = ({
   const isEditing = !!pokemon;
 
   const handleSubmit = async (data: PokemonTeamFormValues) => {
-    console.log("Form data received:", data);
     try {
       if (isEditing && pokemon) {
         await toastPromise(
