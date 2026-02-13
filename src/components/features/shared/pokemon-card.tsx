@@ -36,9 +36,7 @@ export const PokemonCard = ({
     <>
       <div className="flex items-center justify-between p-1">
         <div className={cn("flex items-center gap-2", typeColors.text)}>
-          <h3 className={cn("text-lg leading-tight font-bold")}>
-            {displayName}
-          </h3>
+          <h3 className="text-lg leading-tight font-bold">{displayName}</h3>
 
           <div className="flex items-center gap-1">
             {pokemon.gender &&
@@ -63,8 +61,7 @@ export const PokemonCard = ({
       <div
         className={cn(
           "mx-1 mb-3 flex items-center justify-center",
-          "min-h-[180px] rounded-lg bg-white/5",
-          typeColors.border,
+          "min-h-[180px] rounded-lg bg-white/2",
         )}
       >
         {spriteUrl ? (
@@ -87,10 +84,9 @@ export const PokemonCard = ({
   const cardClassName = cn(
     "relative min-h-[260px] overflow-hidden",
     "flex cursor-pointer flex-col gap-1 rounded-xl border p-4",
-    "shadow-xl hover:shadow-2xl",
+    "bg-card shadow-xl hover:shadow-2xl",
     "transition-all duration-300 hover:translate-y-[-4px]",
     typeColors.border,
-    typeColors.bg,
   );
 
   if (href) {
