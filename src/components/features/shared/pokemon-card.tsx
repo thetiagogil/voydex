@@ -84,8 +84,9 @@ export const PokemonCard = ({
   const cardClassName = cn(
     "relative min-h-[260px] overflow-hidden",
     "flex cursor-pointer flex-col gap-1 rounded-xl border p-4",
-    "bg-card shadow-xl hover:shadow-2xl",
+    " shadow-xl hover:shadow-2xl",
     "transition-all duration-300 hover:translate-y-[-4px]",
+    typeColors.bg,
     typeColors.border,
   );
 

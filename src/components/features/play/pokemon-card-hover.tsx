@@ -18,6 +18,25 @@ export const PokemonCardHover = ({
   return (
     <HoverCardContent className="w-72 p-0" align="center" side="top">
       <div className="p-4">
+        <div className="flex flex-col gap-1">
+          <div className="text-muted-foreground flex items-center gap-1 text-sm">
+            <Icon type="info" size={12} />
+            <span>Info</span>
+          </div>
+
+          <div className="flex items-baseline gap-2 text-sm">
+            <div className="flex items-baseline gap-1 text-sm">
+              <span className="truncate">{pokemon.species?.name}</span>
+              {pokemon.nickname && (
+                <span className="truncate">({pokemon.nickname})</span>
+              )}
+            </div>
+            <span className="truncate">Lv. {pokemon.level}</span>
+          </div>
+        </div>
+
+        <Separator className="my-2" />
+
         {hasNatureAndAbility && (
           <>
             <div className="flex flex-col gap-1">

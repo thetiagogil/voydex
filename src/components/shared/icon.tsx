@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/cn";
 import {
+  ArrowUp,
   BookPlus,
   Box,
   Calendar,
@@ -50,6 +51,7 @@ const ICON_MAP = {
   box: Box,
   link: Link,
   circle: Circle,
+  info: Info,
 
   // Pokemon
   pokemonCaught: Notebook,
@@ -59,6 +61,7 @@ const ICON_MAP = {
   nature: Leaf,
   move: Swords,
   shiny: Sparkles,
+  level: ArrowUp,
 
   // Entities
   user: User,
