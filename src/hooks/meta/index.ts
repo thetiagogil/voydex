@@ -1,4 +1,5 @@
 import { fetcher } from "@/lib/utils/fetcher";
+import type { BaseInfo } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 
 /**

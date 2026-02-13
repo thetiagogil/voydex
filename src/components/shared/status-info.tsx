@@ -1,5 +1,6 @@
 import { STATUS_COLORS } from "@/lib/constants/styles";
 import { cn } from "@/lib/utils/cn";
+import type { PlayStatus } from "@/types/play";
 import { Badge } from "../ui/badge";
 import { Icon } from "./icon";
 

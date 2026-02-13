@@ -2,15 +2,16 @@ import { Header } from "@/components/shared/header";
 import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
+import type { GenerationWithGames } from "@/types/gen";
 
 interface GenHeaderProps {
   gen: GenerationWithGames;
 }
 
 export const GenHeader = ({ gen }: GenHeaderProps) => {
-  const yearRange = gen.end_year
-    ? `${gen.start_year} - ${gen.end_year}`
-    : `${gen.start_year} - Present`;
+  const yearRange = gen.endYear
+    ? `${gen.startYear} - ${gen.endYear}`
+    : `${gen.startYear} - Present`;
 
   return (
     <Header

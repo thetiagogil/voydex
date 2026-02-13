@@ -61,8 +61,6 @@ export default function PlayPage({ params }: PlayPageProps) {
         />
         <ProgressCategoriesSection
           playId={playId}
-          genId={genId}
-          gameSlug={gameSlug}
           progressCategories={progressCategoriesData}
         />
       </div>

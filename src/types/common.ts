@@ -2,7 +2,7 @@
 // BASE INFO - Common structure for entities with id, slug, name
 // =============================================================================
 
-interface BaseInfo {
+export interface BaseInfo {
   id: number;
   slug: string;
   name: string;
@@ -12,7 +12,7 @@ interface BaseInfo {
 // BREADCRUMBS - Navigation breadcrumb item
 // =============================================================================
 
-interface Breadcrumb {
+export interface Breadcrumb {
   label: string;
   href: string;
   current?: boolean;
@@ -22,7 +22,7 @@ interface Breadcrumb {
 // POKEMON TYPES
 // =============================================================================
 
-type PokemonType =
+export type PokemonType =
   | "normal"
   | "fire"
   | "water"

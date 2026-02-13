@@ -1,3 +1,5 @@
+import type { GamePlaySummary } from "@/types/game";
+import type { PlayStatusInfo } from "@/types/play";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const usePlays = () => {

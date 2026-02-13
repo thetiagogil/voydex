@@ -3,6 +3,7 @@ import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatTime } from "@/lib/utils/common";
+import type { GamePlaySummary } from "@/types/game";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -37,7 +38,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                   <div className="text-muted-foreground">
                     <QuickInfo
                       icon={<Icon type="time" size={12} />}
-                      value={formatTime(play.updated_at)}
+                      value={formatTime(play.updatedAt)}
                       title="Last updated"
                     />
                   </div>
@@ -50,14 +51,14 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
             </div>
 
             <div className="flex items-center gap-2">
-              {play.pokemon_team.map((pokemon) => {
+              {play?.pokemonTeam?.map((pokemon) => {
                 return (
                   <div
                     key={pokemon.id}
                     className="bg-muted border-border flex h-12 w-12 items-center justify-center rounded-lg border"
                   >
                     <Image
-                      src={pokemon.sprite_url!}
+                      src={pokemon.spriteUrl!}
                       alt={pokemon.species?.name || "Pokemon Sprite"}
                       height={32}
                       width={32}
@@ -66,7 +67,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                   </div>
                 );
               })}
-              {Array.from({ length: 6 - play.pokemon_team.length }).map(
+              {Array.from({ length: 6 - (play?.pokemonTeam?.length || 0) }).map(
                 (_, i) => (
                   <div
                     key={`empty-${i}`}

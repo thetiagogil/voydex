@@ -2,41 +2,43 @@
 // PLAY STATUS
 // =============================================================================
 
-type PlayStatus = "active" | "paused" | "completed" | "dropped";
+import type { BaseInfo } from "./common";
 
-interface PlayStatusInfo {
+export type PlayStatus = "active" | "paused" | "completed" | "dropped";
+
+export interface PlayStatusInfo {
   id: number;
   slug: PlayStatus;
   name: string;
   description: string | null;
-  is_terminal: boolean;
-  sort_order: number;
+  isTerminal: boolean;
+  sortOrder: number;
 }
 
 // =============================================================================
 // PLAY
 // =============================================================================
 
-interface Play {
+export interface Play {
   id: string;
-  user_id: string;
+  userId: string;
   name: string;
   status: PlayStatus;
   notes: string | null;
-  include_unique_pokemon: boolean;
-  include_regional_dex: boolean;
-  include_national_dex: boolean;
-  include_mythical_pokemon: boolean;
-  created_at: string;
-  updated_at: string;
+  includeUniquePokemon: boolean;
+  includeRegionalDex: boolean;
+  includeNationalDex: boolean;
+  includeMythicalPokemon: boolean;
+  createdAt: string;
+  updatedAt: string;
   game: {
     id: number;
     slug: string;
     name: string;
     type: string;
-    regional_dex_count: number;
-    national_dex_count: number;
-    version_group_id: number;
+    regionalDexCount: number;
+    nationalDexCount: number;
+    versionGroupId: number;
     generation: BaseInfo;
     region: BaseInfo;
   };
@@ -46,7 +48,7 @@ interface Play {
 // PLAY STATS
 // =============================================================================
 
-interface PlayStats {
+export interface PlayStats {
   teamSize: number;
   highestLevel: number;
   shinyCount: number;
@@ -58,16 +60,16 @@ interface PlayStats {
 // PLAY TEAM POKEMON
 // =============================================================================
 
-interface PlayPokemon {
+export interface PlayPokemon {
   id: string;
-  play_id: string;
+  playId: string;
   position: number;
   nickname: string | null;
   level: number;
   gender: string | null;
-  is_shiny: boolean;
+  isShiny: boolean;
   species: BaseInfo;
-  form: BaseInfo & { sprite_url: string | null };
+  form: BaseInfo & { spriteUrl: string | null };
   types: BaseInfo[];
   nature: BaseInfo | null;
   ability: BaseInfo | null;
@@ -78,7 +80,7 @@ interface PlayPokemon {
 // PLAY PROGRESS
 // =============================================================================
 
-interface PlayProgressCategory {
+export interface PlayProgressCategory {
   id: number;
   slug: string;
   name: string;
@@ -89,7 +91,7 @@ interface PlayProgressCategory {
   completedItems: number;
 }
 
-interface PlayProgressItem {
+export interface PlayProgressItem {
   id: number;
   slug: string;
   name: string;
@@ -104,13 +106,13 @@ interface PlayProgressItem {
 // PLAY REGIONAL DEX
 // =============================================================================
 
-interface PlayPokemonCaught {
-  regional_number: number;
-  species_id: number;
-  form_id: number | null;
+export interface PlayPokemonCaught {
+  regionalNumber: number;
+  speciesId: number;
+  formId: number | null;
   species: BaseInfo;
-  form: BaseInfo & { sprite_url: string | null };
+  form: BaseInfo & { spriteUrl: string | null };
   caught: boolean;
-  is_legendary: boolean;
-  is_mythical: boolean;
+  isLegendary: boolean;
+  isMythical: boolean;
 }

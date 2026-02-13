@@ -4,6 +4,7 @@ import { Icon } from "@/components/shared/icon";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { Play, PlayPokemon } from "@/types/play";
 import { useState } from "react";
 import { PokemonTeamModal } from "../play/pokemon-team-modal";
 import { PokemonTeamTable } from "./pokemon-team-table";

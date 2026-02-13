@@ -2,19 +2,16 @@
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
+import type { PlayProgressCategory } from "@/types/play";
 import { ProgressCategoriesCard } from "./progress-categories-card";
 
 interface ProgressCategoriesSectionProps {
   playId: string;
-  genId: string;
-  gameSlug: string;
   progressCategories?: PlayProgressCategory[];
 }
 
 export const ProgressCategoriesSection = ({
   playId,
-  genId,
-  gameSlug,
   progressCategories,
 }: ProgressCategoriesSectionProps) => {
   const categories: PlayProgressCategory[] = progressCategories || [];
@@ -51,8 +48,6 @@ export const ProgressCategoriesSection = ({
             <ProgressCategoriesCard
               key={i}
               playId={playId}
-              genId={genId}
-              gameSlug={gameSlug}
               category={category}
             />
           );

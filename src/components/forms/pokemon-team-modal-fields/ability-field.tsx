@@ -2,6 +2,7 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import type { BaseInfo } from "@/types/common";
 import type { FieldError } from "react-hook-form";
 
 interface AbilityFieldProps {

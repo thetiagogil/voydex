@@ -3,20 +3,17 @@
 import { Icon } from "@/components/shared/icon";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
+import type { PlayProgressCategory } from "@/types/play";
 import { useState } from "react";
 import { ProgressItemsSheet } from "./progress-items-sheet";
 
 interface ProgressCategoriesCardProps {
   playId: string;
-  genId: string;
-  gameSlug: string;
   category: PlayProgressCategory;
 }
 
 export const ProgressCategoriesCard = ({
   playId,
-  genId,
-  gameSlug,
   category,
 }: ProgressCategoriesCardProps) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);

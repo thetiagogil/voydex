@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { usePlayStatuses, useUpdatePlay } from "@/hooks/gameplay/usePlays";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import type { GameWithFullData } from "@/types/game";
+import type { Play } from "@/types/play";
 import { useMemo } from "react";
 
 interface PlayEditModalProps {
@@ -53,7 +55,9 @@ export const PlayEditModal = ({ play, open, setOpen }: PlayEditModalProps) => {
       );
 
       setOpen(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClose = () => {

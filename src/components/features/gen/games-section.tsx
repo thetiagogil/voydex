@@ -1,3 +1,4 @@
+import type { GameWithPlayStats } from "@/types/gen";
 import { GameCard } from "./game-card";
 
 interface GamesSectionProps {

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { usePlayPokemonCaught } from "@/hooks/gameplay/usePlayPokemonCaught";
 import { usePlayProgressItems } from "@/hooks/gameplay/usePlayProgressItems";
+import type { PlayProgressCategory } from "@/types/play";
 import { ProgressItemsList } from "./progress-items-list";
 import { ProgressItemsPokemonCaughtList } from "./progress-items-pokemon-caught-list";
 

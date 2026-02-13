@@ -2,6 +2,7 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import type { BaseInfo } from "@/types/common";
 
 interface PokemonSpecies extends BaseInfo {
   introduced_generation_id: number;

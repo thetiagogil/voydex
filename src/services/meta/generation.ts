@@ -2,6 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getGameCoverUrl } from "@/lib/supabase/storage";
+import type {
+  GameWithPlayStats,
+  GenerationUserStats,
+  GenerationWithGames,
+} from "@/types/gen";
 
 // =============================================================================
 // GET SINGLE GENERATION WITH GAMES
@@ -96,7 +101,7 @@ export const getGeneration = async (id: string) => {
       type: game.game_type,
       releaseYear: game.release_year,
       regionalDexCount: game.regional_dex_count,
-      cover_url: await getGameCoverUrl(game.game_slug),
+      coverUrl: await getGameCoverUrl(game.game_slug),
       region: {
         id: game.region_id,
         slug: game.region_slug,
@@ -115,10 +120,10 @@ export const getGeneration = async (id: string) => {
     id: genData.generation_id,
     slug: genData.generation_slug,
     name: genData.generation_name,
-    start_year: genData.start_year,
-    end_year: genData.end_year,
-    new_pokemon_count: genData.new_pokemon_count,
-    total_pokemon_count: genData.total_pokemon_count,
+    startYear: genData.start_year,
+    endYear: genData.end_year,
+    newPokemonCount: genData.new_pokemon_count,
+    totalPokemonCount: genData.total_pokemon_count,
     staticStats: {
       gameCount: genData.game_count,
       mainGameCount: genData.main_game_count,

@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { usePlay } from "@/hooks/gameplay/usePlay";
 import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
+import type { PlayPokemon } from "@/types/play";
 import { use } from "react";
 
 interface PlayPokemonTeamPageProps {
@@ -50,7 +51,7 @@ export default function PlayPokemonTeamPage({
     .filter((p) => p.position > 6)
     .sort((a, b) => a.position - b.position);
 
-  const shinyCount = allPokemon.filter((p) => p.is_shiny).length;
+  const shinyCount = allPokemon.filter((p) => p.isShiny).length;
   const backUrl = `/dashboard/gen/${genId}/game/${gameSlug}/play/${playId}`;
 
   return (

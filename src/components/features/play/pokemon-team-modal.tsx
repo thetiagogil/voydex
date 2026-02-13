@@ -14,6 +14,7 @@ import {
   useUpdatePokemonInTeam,
 } from "@/hooks/gameplay/usePlayPokemonTeam";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import type { Play, PlayPokemon } from "@/types/play";
 
 interface PokemonTeamModalProps {
   openDialog: boolean;

@@ -7,6 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import type { GameWithFullData } from "@/types/game";
 
 interface PlayEmptyProps {
   game: GameWithFullData;

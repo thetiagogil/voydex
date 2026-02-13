@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import type { GamePlaySummary, GameWithFullData } from "@/types/game";
 import { PlayCard } from "../shared/play-card";
 
 interface PlaysSectionProps {

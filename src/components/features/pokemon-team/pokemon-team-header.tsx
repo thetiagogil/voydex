@@ -4,6 +4,7 @@ import { Header } from "@/components/shared/header";
 import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { Button } from "@/components/ui/button";
+import type { Play } from "@/types/play";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

@@ -1,5 +1,6 @@
 import { TYPE_COLORS, type PokemonTypeKey } from "@/lib/constants/type-styles";
 import { cn } from "@/lib/utils/cn";
+import type { PokemonType } from "@/types/common";
 
 interface TypeIconProps {
   iconPath: string;

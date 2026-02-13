@@ -1,3 +1,4 @@
+import type { BaseInfo } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 
 interface PokemonSpecies extends BaseInfo {
@@ -5,9 +6,9 @@ interface PokemonSpecies extends BaseInfo {
 }
 
 interface PokemonForm extends BaseInfo {
-  species_id: number;
-  is_default: boolean;
-  sprite_url: string | null;
+  speciesId: number;
+  isDefault: boolean;
+  spriteUrl: string | null;
 }
 
 export const usePokemonSpecies = (generationId?: number, enabled = true) => {

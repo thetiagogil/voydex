@@ -2,7 +2,9 @@
 // AUTH - Login/Register credentials
 // =============================================================================
 
-interface AuthCredentials {
+import type { Breadcrumb } from "./common";
+
+export interface AuthCredentials {
   email: string;
   password: string;
 }
@@ -11,11 +13,11 @@ interface AuthCredentials {
 // API RESPONSE - Standard service response wrapper
 // =============================================================================
 
-interface ServiceResponse<T> {
+export interface ServiceResponse<T> {
   data: T | null;
   error: { message: string } | null;
 }
 
-interface ServiceResponseWithBreadcrumbs<T> extends ServiceResponse<T> {
+export interface ServiceResponseWithBreadcrumbs<T> extends ServiceResponse<T> {
   breadcrumbs?: Breadcrumb[];
 }

@@ -42,11 +42,11 @@ export default function PlaysPage() {
     switch (sortBy) {
       case "updated":
         return (
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
       case "created":
         return (
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
       case "name":
         return a.name.localeCompare(b.name);

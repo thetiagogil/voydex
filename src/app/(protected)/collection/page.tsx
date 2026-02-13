@@ -43,7 +43,10 @@ export default function CollectionPage() {
       // Type filter
       const matchesType =
         typeFilter === "all" ||
-        pokemon.types.some((type) => type.id.toString() === typeFilter);
+        pokemon.types.some(
+          (type: { id: number; slug: string; name: string }) =>
+            type.id.toString() === typeFilter,
+        );
 
       // Shiny filter
       const matchesShiny =

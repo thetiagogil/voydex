@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCreatePlay } from "@/hooks/gameplay/usePlays";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import type { GameWithFullData } from "@/types/game";
 import { useRouter } from "next/navigation";
 
 interface PlayCreateModalProps {
@@ -50,7 +51,7 @@ export const PlayCreateModal = ({
         );
       }
     } catch (error) {
-      // Error is handled by toastPromise
+      console.log(error);
     }
   };
 

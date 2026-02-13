@@ -12,7 +12,9 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { useAbilities, useMoves, useNatures } from "@/hooks/meta";
 import { usePokemonForms, usePokemonSpecies } from "@/hooks/meta/usePokemon";
+import type { PlayPokemon } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { AbilityField } from "./pokemon-team-modal-fields/ability-field";
@@ -122,7 +124,7 @@ export const PlayTeamFormContent = ({
           pokemon.gender === "unknown"
             ? undefined
             : (pokemon.gender as "male" | "female" | "genderless"),
-        is_shiny: pokemon.is_shiny || false,
+        is_shiny: pokemon.isShiny || false,
         nature_id: pokemon.nature?.id,
         ability_id: pokemon.ability?.id,
         move1_id: pokemon.moves[0]?.id,
@@ -201,11 +203,13 @@ export const PlayTeamFormContent = ({
                     <div className="flex h-full w-full items-center justify-center">
                       <Spinner className="text-muted size-8" />
                     </div>
-                  ) : selectedForm?.sprite_url ? (
+                  ) : selectedForm?.spriteUrl ? (
                     <div className="flex flex-col items-center gap-2">
-                      <img
-                        src={selectedForm.sprite_url}
+                      <Image
+                        src={selectedForm.spriteUrl}
                         alt={selectedSpecies?.name || "Pokemon"}
+                        width={112}
+                        height={112}
                         className="h-full w-full object-contain"
                       />
                     </div>

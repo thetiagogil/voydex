@@ -1,3 +1,4 @@
+import type { AuthCredentials } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useClaims = () => {

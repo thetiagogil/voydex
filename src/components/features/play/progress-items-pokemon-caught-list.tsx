@@ -9,6 +9,8 @@ import {
   useUncheckPlayPokemonCaught,
   useUncheckPlayPokemonCaughtBulk,
 } from "@/hooks/gameplay/usePlayPokemonCaughtMutations";
+import type { PlayPokemonCaught } from "@/types/play";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
 interface ProgressItemsPokemonCaughtListProps {
@@ -39,7 +41,7 @@ export const ProgressItemsPokemonCaughtList = ({
       if (pokemon.form?.name?.toLowerCase().includes(query)) return true;
 
       // Search by regional number
-      if (pokemon.regional_number.toString().includes(query)) return true;
+      if (pokemon.regionalNumber.toString().includes(query)) return true;
 
       return false;
     });
@@ -49,14 +51,14 @@ export const ProgressItemsPokemonCaughtList = ({
     if (checked) {
       checkCaught.mutate({
         playId,
-        speciesId: pokemon.species_id,
-        formId: pokemon.form_id || 0,
+        speciesId: pokemon.speciesId,
+        formId: pokemon.formId || 0,
       });
     } else {
       uncheckCaught.mutate({
         playId,
-        speciesId: pokemon.species_id,
-        formId: pokemon.form_id || 0,
+        speciesId: pokemon.speciesId,
+        formId: pokemon.formId || 0,
       });
     }
   };
@@ -65,8 +67,8 @@ export const ProgressItemsPokemonCaughtList = ({
     const pokemonToCheck = filteredPokemon
       .filter((pokemon) => !pokemon.caught)
       .map((pokemon) => ({
-        speciesId: pokemon.species_id,
-        formId: pokemon.form_id || 0,
+        speciesId: pokemon.speciesId,
+        formId: pokemon.formId || 0,
       }));
 
     if (pokemonToCheck.length > 0) {
@@ -80,7 +82,7 @@ export const ProgressItemsPokemonCaughtList = ({
   const handleUnselectAll = () => {
     const speciesIdsToUncheck = filteredPokemon
       .filter((pokemon) => pokemon.caught)
-      .map((pokemon) => pokemon.species_id);
+      .map((pokemon) => pokemon.speciesId);
 
     if (speciesIdsToUncheck.length > 0) {
       uncheckBulk.mutate({
@@ -132,22 +134,24 @@ export const ProgressItemsPokemonCaughtList = ({
 
             return (
               <SquareCheckbox
-                key={`${pokemon.species_id}-${pokemon.form_id}`}
+                key={`${pokemon.speciesId}-${pokemon.formId}`}
                 title={
                   <span className="text-muted-foreground text-xs font-medium">
-                    #{pokemon.regional_number.toString().padStart(3, "0")}
+                    #{pokemon.regionalNumber.toString().padStart(3, "0")}
                   </span>
                 }
-                id={`pokemon-${pokemon.species_id}-${pokemon.form_id}`}
+                id={`pokemon-${pokemon.speciesId}-${pokemon.formId}`}
                 checked={isCaught}
                 onCheckedChange={(checked) => handleToggle(pokemon, checked)}
                 className="flex flex-col items-center justify-center gap-2 text-center"
               >
                 {/* Pokemon sprite */}
-                {pokemon.form?.sprite_url ? (
-                  <img
-                    src={pokemon.form.sprite_url}
+                {pokemon.form?.spriteUrl ? (
+                  <Image
+                    src={pokemon.form.spriteUrl}
                     alt={pokemon.species.name}
+                    width={64}
+                    height={64}
                     className="h-16 object-contain"
                   />
                 ) : (

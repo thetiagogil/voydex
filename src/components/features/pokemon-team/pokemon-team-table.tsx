@@ -12,7 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils/cn";
+import type { PokemonType } from "@/types/common";
+import type { PlayPokemon } from "@/types/play";
 import { Pencil, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 interface PokemonTeamTableProps {
   pokemon: PlayPokemon[];
@@ -51,7 +54,7 @@ export const PokemonTeamTable = ({
       <TableBody>
         {pokemon.map((p) => {
           const displayName = p.nickname || p.species?.name || "Unknown";
-          const spriteUrl = p.form?.sprite_url;
+          const spriteUrl = p.form?.spriteUrl;
           const genderSymbol =
             p.gender === "male" ? "♂" : p.gender === "female" ? "♀" : "—";
           const genderColor =
@@ -66,16 +69,18 @@ export const PokemonTeamTable = ({
             <TableRow key={p.id}>
               <TableCell>
                 <div className="relative h-12 w-12 shrink-0">
-                  {p.is_shiny && (
+                  {p.isShiny && (
                     <Sparkles className="text-warning absolute -top-1 -right-1 z-10 h-3.5 w-3.5" />
                   )}
                   {spriteUrl ? (
-                    <img
+                    <Image
                       src={spriteUrl}
                       alt={displayName}
+                      width={48}
+                      height={48}
                       className={cn(
                         "h-full w-full object-contain",
-                        p.is_shiny && "drop-shadow-[0_0_8px_hsl(45,100%,50%)]",
+                        p.isShiny && "drop-shadow-[0_0_8px_hsl(45,100%,50%)]",
                       )}
                     />
                   ) : (

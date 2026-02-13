@@ -1,4 +1,4 @@
-interface CollectionPokemon {
+export interface CollectionPokemon {
   id: string;
   playId: string;
   nickname: string | null;

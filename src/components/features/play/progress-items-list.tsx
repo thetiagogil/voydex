@@ -7,6 +7,7 @@ import {
   useUncheckPlayProgressItem,
   useUncheckPlayProgressItemBulk,
 } from "@/hooks/gameplay/usePlayProgressMutations";
+import type { PlayProgressItem } from "@/types/play";
 
 interface ProgressItemsListProps {
   items: PlayProgressItem[];

@@ -5,7 +5,7 @@
 
 export const TYPE_COLORS = {
   normal: {
-    bg: "bg-type-normal/15",
+    bg: "bg-type-normal/10",
     bgSolid: "bg-type-normal/90",
     border: "border-type-normal/50",
     text: "text-type-normal",
@@ -13,7 +13,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-normal/20",
   },
   fire: {
-    bg: "bg-type-fire/15",
+    bg: "bg-type-fire/10",
     bgSolid: "bg-type-fire/90",
     border: "border-type-fire/50",
     text: "text-type-fire",
@@ -21,7 +21,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-fire/20",
   },
   water: {
-    bg: "bg-type-water/15",
+    bg: "bg-type-water/10",
     bgSolid: "bg-type-water/90",
     border: "border-type-water/50",
     text: "text-type-water",
@@ -29,7 +29,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-water/20",
   },
   electric: {
-    bg: "bg-type-electric/15",
+    bg: "bg-type-electric/10",
     bgSolid: "bg-type-electric/90",
     border: "border-type-electric/50",
     text: "text-type-electric",
@@ -37,7 +37,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-electric/20",
   },
   grass: {
-    bg: "bg-type-grass/15",
+    bg: "bg-type-grass/10",
     bgSolid: "bg-type-grass/90",
     border: "border-type-grass/50",
     text: "text-type-grass",
@@ -45,7 +45,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-grass/20",
   },
   ice: {
-    bg: "bg-type-ice/15",
+    bg: "bg-type-ice/10",
     bgSolid: "bg-type-ice/90",
     border: "border-type-ice/50",
     text: "text-type-ice",
@@ -53,7 +53,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-ice/20",
   },
   fighting: {
-    bg: "bg-type-fighting/15",
+    bg: "bg-type-fighting/10",
     bgSolid: "bg-type-fighting/90",
     border: "border-type-fighting/50",
     text: "text-type-fighting",
@@ -61,7 +61,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-fighting/20",
   },
   poison: {
-    bg: "bg-type-poison/15",
+    bg: "bg-type-poison/10",
     bgSolid: "bg-type-poison/90",
     border: "border-type-poison/50",
     text: "text-type-poison",
@@ -69,7 +69,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-poison/20",
   },
   ground: {
-    bg: "bg-type-ground/15",
+    bg: "bg-type-ground/10",
     bgSolid: "bg-type-ground/90",
     border: "border-type-ground/50",
     text: "text-type-ground",
@@ -77,7 +77,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-ground/20",
   },
   flying: {
-    bg: "bg-type-flying/15",
+    bg: "bg-type-flying/10",
     bgSolid: "bg-type-flying/90",
     border: "border-type-flying/50",
     text: "text-type-flying",
@@ -85,7 +85,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-flying/20",
   },
   psychic: {
-    bg: "bg-type-psychic/15",
+    bg: "bg-type-psychic/10",
     bgSolid: "bg-type-psychic/90",
     border: "border-type-psychic/50",
     text: "text-type-psychic",
@@ -93,7 +93,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-psychic/20",
   },
   bug: {
-    bg: "bg-type-bug/15",
+    bg: "bg-type-bug/10",
     bgSolid: "bg-type-bug/90",
     border: "border-type-bug/50",
     text: "text-type-bug",
@@ -101,7 +101,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-bug/20",
   },
   rock: {
-    bg: "bg-type-rock/15",
+    bg: "bg-type-rock/10",
     bgSolid: "bg-type-rock/90",
     border: "border-type-rock/50",
     text: "text-type-rock",
@@ -109,7 +109,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-rock/20",
   },
   ghost: {
-    bg: "bg-type-ghost/15",
+    bg: "bg-type-ghost/10",
     bgSolid: "bg-type-ghost/90",
     border: "border-type-ghost/50",
     text: "text-type-ghost",
@@ -117,7 +117,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-ghost/20",
   },
   dragon: {
-    bg: "bg-type-dragon/15",
+    bg: "bg-type-dragon/10",
     bgSolid: "bg-type-dragon/90",
     border: "border-type-dragon/50",
     text: "text-type-dragon",
@@ -125,7 +125,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-dragon/20",
   },
   dark: {
-    bg: "bg-type-dark/15",
+    bg: "bg-type-dark/10",
     bgSolid: "bg-type-dark/90",
     border: "border-type-dark/50",
     text: "text-type-dark",
@@ -133,7 +133,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-dark/20",
   },
   steel: {
-    bg: "bg-type-steel/15",
+    bg: "bg-type-steel/10",
     bgSolid: "bg-type-steel/90",
     border: "border-type-steel/50",
     text: "text-type-steel",
@@ -141,7 +141,7 @@ export const TYPE_COLORS = {
     glow: "shadow-type-steel/20",
   },
   fairy: {
-    bg: "bg-type-fairy/15",
+    bg: "bg-type-fairy/10",
     bgSolid: "bg-type-fairy/90",
     border: "border-type-fairy/50",
     text: "text-type-fairy",

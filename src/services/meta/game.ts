@@ -2,6 +2,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getGameCoverUrl } from "@/lib/supabase/storage";
+import type { GamePlaySummary, GameWithFullData } from "@/types/game";
+import type { PlayStatus } from "@/types/play";
 
 export const getGame = async (id: string) => {
   const supabase = await createClient();
@@ -63,6 +65,33 @@ export const getGame = async (id: string) => {
       );
     }
 
+    // Build the game base first so we can use it in plays
+    const gameBase = {
+      id: gameData.game_id,
+      slug: gameData.game_slug,
+      name: gameData.game_name,
+      type: gameData.game_type,
+      typeId: 0,
+      generationId: gameData.generation_id,
+      regionId: gameData.region_id,
+      versionGroupId: gameData.version_group_id,
+      regionalDexCount: gameData.regional_dex_count,
+      nationalDexCount: gameData.national_dex_count,
+      releaseYear: gameData.release_year,
+      createdAt: "",
+      coverUrl: await getGameCoverUrl(gameData.game_slug),
+      generation: {
+        id: gameData.generation_id,
+        slug: gameData.generation_slug,
+        name: gameData.generation_name,
+      },
+      region: {
+        id: gameData.region_id,
+        slug: gameData.region_slug,
+        name: gameData.region_name,
+      },
+    };
+
     // Map plays with their team data
     plays = (playsData || []).map((play: GamePlayData) => {
       const team = teamsByPlayId[play.play_id] || [];
@@ -70,26 +99,27 @@ export const getGame = async (id: string) => {
         id: play.play_id,
         name: play.play_name,
         status: play.status,
-        created_at: play.created_at,
-        updated_at: play.updated_at,
-        team_size: play.team_size,
-        highest_level: play.highest_level,
-        pokemon_caught_count: play.pokemon_caught_count,
-        completed_progress_items: play.completed_progress_items,
-        total_progress_items: gameData.progress_item_count,
-        regional_dex_count: gameData.regional_dex_count,
-        pokemon_team: team.map((pokemon: TeamPokemonData) => ({
+        createdAt: play.created_at,
+        updatedAt: play.updated_at,
+        teamSize: play.team_size,
+        highestLevel: play.highest_level,
+        pokemonCaughtCount: play.pokemon_caught_count,
+        completedProgressItems: play.completed_progress_items,
+        totalProgressItems: gameData.progress_item_count,
+        regionalDexCount: gameData.regional_dex_count,
+        pokemonTeam: team.map((pokemon: TeamPokemonData) => ({
           id: pokemon.team_pokemon_id,
           nickname: pokemon.nickname,
           level: pokemon.level,
-          species_id: pokemon.species_id,
+          speciesId: pokemon.species_id,
           species: {
             id: pokemon.species_id,
             slug: pokemon.species_slug,
             name: pokemon.species_name,
           },
-          sprite_url: pokemon.sprite_url,
+          spriteUrl: pokemon.sprite_url,
         })),
+        game: gameBase,
       };
     });
 
@@ -100,7 +130,7 @@ export const getGame = async (id: string) => {
       completedPlaythroughs: plays.filter((p) => p.status === "completed")
         .length,
       totalPokemonCaught: plays.reduce(
-        (sum, p) => sum + (p.pokemon_caught_count || 0),
+        (sum, p) => sum + (p.pokemonCaughtCount || 0),
         0,
       ),
     };
@@ -112,15 +142,15 @@ export const getGame = async (id: string) => {
     slug: gameData.game_slug,
     name: gameData.game_name,
     type: gameData.game_type,
-    type_id: 0, // Not needed for display
-    generation_id: gameData.generation_id,
-    region_id: gameData.region_id,
-    version_group_id: gameData.version_group_id,
-    regional_dex_count: gameData.regional_dex_count,
-    national_dex_count: gameData.national_dex_count,
-    release_year: gameData.release_year,
-    created_at: "",
-    cover_url: await getGameCoverUrl(gameData.game_slug),
+    typeId: 0, // Not needed for display
+    generationId: gameData.generation_id,
+    regionId: gameData.region_id,
+    versionGroupId: gameData.version_group_id,
+    regionalDexCount: gameData.regional_dex_count,
+    nationalDexCount: gameData.national_dex_count,
+    releaseYear: gameData.release_year,
+    createdAt: "",
+    coverUrl: await getGameCoverUrl(gameData.game_slug),
     generation: {
       id: gameData.generation_id,
       slug: gameData.generation_slug,
@@ -144,11 +174,11 @@ export const getGame = async (id: string) => {
     { label: "Dashboard", href: "/dashboard" },
     {
       label: game.generation.name,
-      href: `/dashboard/gen/${game.generation_id}`,
+      href: `/dashboard/gen/${game.generationId}`,
     },
     {
       label: game.name,
-      href: `/dashboard/gen/${game.generation_id}/game/${game.slug}`,
+      href: `/dashboard/gen/${game.generationId}/game/${game.slug}`,
       current: true,
     },
   ];

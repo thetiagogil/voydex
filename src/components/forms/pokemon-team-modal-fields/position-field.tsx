@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils/cn";
+import type { PlayPokemon } from "@/types/play";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 

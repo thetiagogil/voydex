@@ -21,12 +21,12 @@ export const getPlayTeam = async (playId: string) => {
 
   const result = data.map((row) => ({
     id: row.team_pokemon_id,
-    play_id: playId,
+    playId: playId,
     position: row.position,
     nickname: row.nickname,
     level: row.level,
     gender: row.gender,
-    is_shiny: row.is_shiny,
+    isShiny: row.is_shiny,
     species: {
       id: row.species_id,
       slug: row.species_slug,
@@ -36,7 +36,7 @@ export const getPlayTeam = async (playId: string) => {
       id: row.form_id,
       slug: row.form_slug,
       name: row.form_name,
-      sprite_url: row.sprite_url,
+      spriteUrl: row.sprite_url,
     },
     types: [
       row.type1_id && {

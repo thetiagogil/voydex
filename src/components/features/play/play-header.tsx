@@ -5,6 +5,7 @@ import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Button } from "@/components/ui/button";
+import type { Play } from "@/types/play";
 import { useState } from "react";
 import { PlayEditModal } from "./play-edit-modal";
 
@@ -38,7 +39,7 @@ export const PlayHeader = ({ play }: { play: Play }) => {
             <span>•</span>
             <QuickInfo
               icon={<Icon type="calendar" />}
-              value={`Started on ${new Date(play.created_at).toLocaleDateString()}`}
+              value={`Started on ${new Date(play.createdAt).toLocaleDateString()}`}
               title="Start date of the play"
             />
           </div>

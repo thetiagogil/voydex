@@ -3,6 +3,7 @@ import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import type { GameWithPlayStats } from "@/types/gen";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,7 +20,7 @@ export const GameCard = ({ game, genId }: GameCardProps) => {
           <div className="flex gap-4">
             <div className="bg-muted border-border rounded-xl border p-1">
               <Image
-                src={game.cover_url!}
+                src={game.coverUrl!}
                 alt={game.name}
                 height={72}
                 width={72}

@@ -2,6 +2,7 @@ import { Header } from "@/components/shared/header";
 import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatCard } from "@/components/shared/stat-card";
+import type { GameWithFullData } from "@/types/game";
 import Image from "next/image";
 
 interface GameHeaderProps {
@@ -19,7 +20,7 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
       icon={
         <div className="bg-muted border-border rounded-lg border p-1">
           <Image
-            src={game.cover_url!}
+            src={game.coverUrl!}
             alt={game.name}
             height={72}
             width={72}
@@ -37,7 +38,7 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
           />
           <QuickInfo
             icon={<Icon type="calendar" />}
-            value={game.release_year}
+            value={game.releaseYear}
             title="Release Year"
           />
         </div>

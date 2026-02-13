@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { STATUS_COLORS } from "@/lib/constants/styles";
+import type { GameWithFullData } from "@/types/game";
+import type { PlayStatusInfo } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";

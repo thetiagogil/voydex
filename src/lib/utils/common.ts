@@ -1,3 +1,5 @@
+import type { Play } from "@/types/play";
+
 export const getStatusColor = (status: Play["status"]) => {
   switch (status) {
     case "active":

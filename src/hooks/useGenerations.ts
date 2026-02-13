@@ -1,4 +1,7 @@
 import { fetcher } from "@/lib/utils/fetcher";
+import type { ServiceResponseWithBreadcrumbs } from "@/types/api";
+import type { BaseInfo } from "@/types/common";
+import type { GenerationWithGames } from "@/types/gen";
 import { useQuery } from "@tanstack/react-query";
 
 // =============================================================================
@@ -6,9 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 // =============================================================================
 
 export const useGeneration = (generationId: string) => {
-  return useQuery({
+  return useQuery<ServiceResponseWithBreadcrumbs<GenerationWithGames>>({
     queryKey: ["meta", "generations", generationId],
-    queryFn: () => fetcher(`/api/meta/gens/${generationId}`),
+    queryFn: () =>
+      fetcher<ServiceResponseWithBreadcrumbs<GenerationWithGames>>(
+        `/api/meta/gens/${generationId}`,
+      ),
     enabled: !!generationId,
   });
 };

@@ -4,6 +4,7 @@ import { Icon } from "@/components/shared/icon";
 import { Badge } from "@/components/ui/badge";
 import { HoverCardContent } from "@/components/ui/hover-card";
 import { Separator } from "@/components/ui/separator";
+import type { PlayPokemon } from "@/types/play";
 
 interface PokemonCardHoverProps {
   pokemon: PlayPokemon;
@@ -65,13 +66,16 @@ export const PokemonCardHover = ({
 
           {pokemon.moves.length > 0 ? (
             <div className="flex flex-wrap gap-1">
-              {pokemon.moves.map((move) =>
+              {pokemon.moves.map((move, index) =>
                 move ? (
                   <Badge key={move.id} variant="outline">
                     <span className="truncate text-xs">{move.name}</span>
                   </Badge>
                 ) : (
-                  <span className="text-muted-foreground text-xs italic">
+                  <span
+                    key={index}
+                    className="text-muted-foreground text-xs italic"
+                  >
                     No moves
                   </span>
                 ),

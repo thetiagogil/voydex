@@ -4,9 +4,10 @@ import { Icon } from "@/components/shared/icon";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { Play, PlayPokemon } from "@/types/play";
 import Link from "next/link";
 import { useState } from "react";
-import { PokemonCard } from "./pokemon-card";
+import { PokemonCard } from "../shared/pokemon-card";
 import { PokemonEmpty } from "./pokemon-empty";
 import { PokemonTeamModal } from "./pokemon-team-modal";
 
@@ -38,7 +39,7 @@ export const PokemonTeamSection = ({
     .sort((a, b) => a.position - b.position);
 
   const hasNatureAndAbility = play.game?.generation?.id >= 3;
-  const shinyCount = allPokemon.filter((p) => p.is_shiny).length;
+  const shinyCount = allPokemon.filter((p) => p.isShiny).length;
   const teamSlots = Array.from({ length: 6 }, (_, i) => teamPokemon[i] || null);
   const boxSlots = Array.from({ length: 6 }, (_, i) => boxPokemon[i] || null);
 
@@ -105,14 +106,15 @@ export const PokemonTeamSection = ({
         </div>
 
         <TabsContent value="team" className="p-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
             {teamSlots.map((pokemon, i) =>
               pokemon ? (
                 <PokemonCard
                   key={i}
                   pokemon={pokemon}
-                  onEditClick={() => handleEditClick(pokemon)}
+                  onClick={() => handleEditClick(pokemon)}
                   hasNatureAndAbility={hasNatureAndAbility}
+                  hasCardHover
                 />
               ) : (
                 <PokemonEmpty key={i} index={i} />
@@ -122,14 +124,15 @@ export const PokemonTeamSection = ({
         </TabsContent>
 
         <TabsContent value="box" className="p-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
             {boxSlots.map((pokemon, i) =>
               pokemon ? (
                 <PokemonCard
                   key={i}
                   pokemon={pokemon}
-                  onEditClick={() => handleEditClick(pokemon)}
+                  onClick={() => handleEditClick(pokemon)}
                   hasNatureAndAbility={hasNatureAndAbility}
+                  hasCardHover
                 />
               ) : (
                 <PokemonEmpty key={i} index={i} isBox />

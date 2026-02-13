@@ -7,6 +7,7 @@ import { PlaysSection } from "@/components/features/game/plays-section";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useGameBySlug } from "@/hooks/useGames";
+import type { GameWithFullData } from "@/types/game";
 import { use, useState } from "react";
 
 interface GamePageProps {

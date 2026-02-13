@@ -2,21 +2,24 @@
 // GENERATION
 // =============================================================================
 
-interface Generation {
+import type { BaseInfo } from "./common";
+import type { GameType } from "./game";
+
+export interface Generation {
   id: number;
   slug: string;
   name: string;
-  start_year: number;
-  end_year: number | null;
-  new_pokemon_count: number;
-  total_pokemon_count: number;
+  startYear: number;
+  endYear: number | null;
+  newPokemonCount: number;
+  totalPokemonCount: number;
 }
 
 // =============================================================================
 // GENERATION STATIC STATS (from generation_with_stats view)
 // =============================================================================
 
-interface GenerationStaticStats {
+export interface GenerationStaticStats {
   gameCount: number;
   mainGameCount: number;
   remakeCount: number;
@@ -27,7 +30,7 @@ interface GenerationStaticStats {
 // GENERATION USER STATS (from generation_user_stats view)
 // =============================================================================
 
-interface GenerationUserStats {
+export interface GenerationUserStats {
   totalPlays: number;
   activePlays: number;
   completedPlays: number;
@@ -40,7 +43,7 @@ interface GenerationUserStats {
 // GENERATION WITH STATS (from dashboard service)
 // =============================================================================
 
-interface GenerationWithStats extends Generation {
+export interface GenerationWithStats extends Generation {
   gameCount: number;
   stats: {
     totalPlays: number;
@@ -53,7 +56,7 @@ interface GenerationWithStats extends Generation {
 // GENERATION WITH FULL DATA (for gen page)
 // =============================================================================
 
-interface GenerationWithGames extends Generation {
+export interface GenerationWithGames extends Generation {
   staticStats: GenerationStaticStats;
   userStats: GenerationUserStats | null;
   games: GameWithPlayStats[];
@@ -63,14 +66,14 @@ interface GenerationWithGames extends Generation {
 // GAME WITH PLAY STATS (for gen page game cards)
 // =============================================================================
 
-interface GameWithPlayStats {
+export interface GameWithPlayStats {
   id: number;
   slug: string;
   name: string;
   type: GameType;
   releaseYear: number;
   regionalDexCount: number;
-  cover_url: string | null;
+  coverUrl: string | null;
   region: BaseInfo;
   stats: {
     totalPlays: number;

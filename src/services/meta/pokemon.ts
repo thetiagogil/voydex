@@ -27,5 +27,16 @@ export const getPokemonForms = async (speciesId: number) => {
     .eq("species_id", speciesId)
     .order("is_default", { ascending: false });
 
-  return { data, error };
+  if (error) return { data: null, error };
+
+  const transformed = data?.map((form) => ({
+    id: form.id,
+    slug: form.slug,
+    name: form.name,
+    spriteUrl: form.sprite_url,
+    speciesId: form.species_id,
+    isDefault: form.is_default,
+  }));
+
+  return { data: transformed, error: null };
 };

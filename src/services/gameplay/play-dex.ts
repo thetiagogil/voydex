@@ -20,9 +20,9 @@ export const getPlayRegionalDex = async (playId: string) => {
   if (!data) return { data: [], error: null };
 
   const result = data.map((entry) => ({
-    regional_number: entry.regional_number,
-    species_id: entry.species_id,
-    form_id: entry.form_id,
+    regionalNumber: entry.regional_number,
+    speciesId: entry.species_id,
+    formId: entry.form_id,
     species: {
       id: entry.species_id,
       slug: entry.species_slug,
@@ -32,11 +32,11 @@ export const getPlayRegionalDex = async (playId: string) => {
       id: entry.form_id,
       slug: entry.form_slug,
       name: entry.form_name,
-      sprite_url: entry.sprite_url,
+      spriteUrl: entry.sprite_url,
     },
     caught: entry.is_caught,
-    is_legendary: entry.is_legendary,
-    is_mythical: entry.is_mythical,
+    isLegendary: entry.is_legendary,
+    isMythical: entry.is_mythical,
   }));
 
   return { data: result, error: null };

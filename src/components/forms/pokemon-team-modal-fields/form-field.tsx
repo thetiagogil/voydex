@@ -2,11 +2,12 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import type { BaseInfo } from "@/types/common";
 
 interface PokemonForm extends BaseInfo {
-  species_id: number;
-  is_default: boolean;
-  sprite_url: string | null;
+  speciesId: number;
+  isDefault: boolean;
+  spriteUrl: string | null;
 }
 
 interface FormFieldProps {
