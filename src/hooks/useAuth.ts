@@ -1,7 +1,10 @@
+import { useDatabaseStatus } from "@/contexts/database-status";
 import type { AuthCredentials } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useClaims = () => {
+  const { isDbAvailable, isChecking } = useDatabaseStatus();
+
   return useQuery({
     queryKey: ["auth", "claims"],
     queryFn: async () => {
@@ -10,6 +13,7 @@ export const useClaims = () => {
       if (!res.ok) return false;
       return data;
     },
+    enabled: isDbAvailable && !isChecking,
     retry: false,
     placeholderData: false,
     staleTime: 1000 * 30,
