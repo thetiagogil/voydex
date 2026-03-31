@@ -1,6 +1,8 @@
 -- ============================================================================
 -- Table: meta.games
 -- Individual Pokémon game titles. Real games only — no DLC entries.
+-- Dex counts are intentionally omitted: dex membership and counts are derived
+-- from meta.dexes + meta.dex_entries, not stored redundantly here.
 -- ============================================================================
 CREATE TABLE
     meta.games (
@@ -11,8 +13,6 @@ CREATE TABLE
         region_id INTEGER NOT NULL REFERENCES meta.regions (id),
         version_group_id INTEGER NOT NULL REFERENCES meta.version_groups (id),
         type_id INTEGER NOT NULL REFERENCES meta.game_types (id),
-        regional_dex_count INTEGER,
-        national_dex_count INTEGER,
         release_year INTEGER NOT NULL CHECK (release_year BETWEEN 1996 AND 2100),
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
         UNIQUE (version_group_id, name)
@@ -34,4 +34,4 @@ CREATE INDEX idx_games_generation_type ON meta.games (generation_id, type_id);
 CREATE INDEX idx_games_release_year ON meta.games (release_year DESC);
 
 -- Comments
-COMMENT ON TABLE meta.games IS 'Individual game titles. Real games only — DLC is modeled as version groups, not games.';
+COMMENT ON TABLE meta.games IS 'Individual game titles. Real games only — DLC is modeled as version groups, not games. Dex counts are derived from meta.dex_entries, not stored here.';
