@@ -1,34 +1,26 @@
 /**
- * Environment Configuration Loader
- *
- * Loads environment variables from .env.local or .env
- * Initialized once at module load to avoid duplicate logs
+ * Environment loader — reads .env.local or .env, validates required vars.
  */
 
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-// Auto-load environment on module initialization
+// Auto-load on import
 (() => {
-  try {
-    const envPath = path.resolve(process.cwd(), ".env.local");
-    if (fs.existsSync(envPath)) {
-      dotenv.config({ path: envPath });
-      return;
-    }
-    const fallbackPath = path.resolve(process.cwd(), ".env");
-    if (fs.existsSync(fallbackPath)) {
-      dotenv.config({ path: fallbackPath });
-    }
-  } catch (err) {
-    // Silently fail - environment validation happens in loadEnvironment()
+  const envLocal = path.resolve(process.cwd(), ".env.local");
+  const envDefault = path.resolve(process.cwd(), ".env");
+
+  if (fs.existsSync(envLocal)) {
+    dotenv.config({ path: envLocal });
+  } else if (fs.existsSync(envDefault)) {
+    dotenv.config({ path: envDefault });
   }
 })();
 
 /**
- * Load and validate environment variables
- * @throws {Error} If required variables are missing
+ * Load and validate required environment variables.
+ * @returns {{ SUPABASE_DB_URL: string, SUPABASE_DB_PASSWORD?: string, SUPABASE_SERVICE_ROLE_KEY?: string }}
  */
 export function loadEnvironment() {
   const env = {
@@ -37,11 +29,10 @@ export function loadEnvironment() {
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   };
 
-  // Validate required variables
   if (!env.SUPABASE_DB_URL) {
     throw new Error(
       "Missing required environment variable: SUPABASE_DB_URL\n" +
-        "Please set it in .env.local or .env",
+        "Set it in .env.local or .env",
     );
   }
 
@@ -49,7 +40,7 @@ export function loadEnvironment() {
 }
 
 /**
- * Check if environment is properly configured
+ * Check if environment is properly configured (non-throwing).
  */
 export function validateEnvironment() {
   try {

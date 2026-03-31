@@ -1,33 +1,21 @@
 /**
- * Database Connection Utility
- *
- * Manages PostgreSQL client creation and connection lifecycle
+ * Database connection — pg client lifecycle and introspection queries.
  */
 
 import { Client } from "pg";
 import { SYSTEM_SCHEMAS, TIMEOUTS } from "../config/database.config.js";
 import { loadEnvironment } from "./env.js";
 
-/**
- * Create a new PostgreSQL client
- */
 export function createDatabaseClient(connectionString) {
   if (!connectionString) {
-    throw new Error(
-      "Missing database connection string. Ensure SUPABASE_DB_URL is set in your environment.",
-    );
+    throw new Error("Missing database connection string.");
   }
-
   return new Client({
     connectionString,
-    // Increase timeout for long-running migrations
     statement_timeout: TIMEOUTS.statement,
   });
 }
 
-/**
- * Connect to database
- */
 export async function connectToDatabase(client) {
   try {
     await client.connect();
@@ -36,30 +24,20 @@ export async function connectToDatabase(client) {
   }
 }
 
-/**
- * Close database connection
- */
 export async function closeDatabaseConnection(client) {
   try {
     await client.end();
-  } catch (err) {
-    // Ignore errors during cleanup
+  } catch {
+    /* ignore cleanup errors */
   }
 }
 
 /**
- * Execute operation with automatic connection management
+ * Run callback with automatic connect/disconnect.
  */
 export async function withClient(callback, connectionString) {
   const env = loadEnvironment();
   const conn = connectionString || env.SUPABASE_DB_URL;
-
-  if (!conn) {
-    throw new Error(
-      "Database connection string not provided and SUPABASE_DB_URL not set",
-    );
-  }
-
   const client = createDatabaseClient(conn);
 
   try {
@@ -70,98 +48,65 @@ export async function withClient(callback, connectionString) {
   }
 }
 
-/**
- * Get list of custom schemas (excludes system/supabase schemas)
- */
+// ── Introspection ────────────────────────────────────
+
 export async function getCustomSchemas(client) {
   const result = await client.query(`
-    SELECT nspname 
-    FROM pg_namespace 
+    SELECT nspname FROM pg_namespace
     WHERE nspname NOT LIKE 'pg_%'
     ORDER BY nspname;
   `);
-
   return result.rows
-    .map((row) => row.nspname)
-    .filter((name) => {
-      if (!name) return false;
-      if (SYSTEM_SCHEMAS.has(name)) return false;
-      return true;
-    });
+    .map((r) => r.nspname)
+    .filter((name) => name && !SYSTEM_SCHEMAS.has(name));
 }
 
-/**
- * Get tables from specific schemas
- */
 export async function getTablesFromSchemas(client, schemas) {
-  if (!schemas || schemas.length === 0) {
-    return [];
-  }
-
-  const results = await Promise.all(
+  if (!schemas?.length) return [];
+  const rows = await Promise.all(
     schemas.map(async (schema) => {
-      const result = await client.query(
-        `
-        SELECT schemaname, tablename 
-        FROM pg_tables 
-        WHERE schemaname = $1 
-        ORDER BY tablename;
-        `,
+      const res = await client.query(
+        `SELECT schemaname, tablename FROM pg_tables WHERE schemaname = $1 ORDER BY tablename;`,
         [schema],
       );
-      return result.rows;
+      return res.rows;
     }),
   );
-
-  return results.flat();
+  return rows.flat();
 }
 
-/**
- * Get all tables in the database (custom schemas only)
- */
 export async function getAllCustomTables(client) {
   const schemas = await getCustomSchemas(client);
   return getTablesFromSchemas(client, schemas);
 }
 
-/**
- * Check if a schema exists
- */
 export async function schemaExists(client, schemaName) {
-  const result = await client.query(
-    `
-    SELECT EXISTS (
-      SELECT 1 FROM pg_namespace WHERE nspname = $1
-    ) as exists;
-    `,
+  const res = await client.query(
+    `SELECT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = $1) AS exists;`,
     [schemaName],
   );
-  return result.rows[0]?.exists || false;
+  return res.rows[0]?.exists ?? false;
 }
 
-/**
- * Check if a table exists
- */
 export async function tableExists(client, schemaName, tableName) {
-  const result = await client.query(
-    `
-    SELECT EXISTS (
-      SELECT 1 
-      FROM pg_tables 
-      WHERE schemaname = $1 AND tablename = $2
-    ) as exists;
-    `,
+  const res = await client.query(
+    `SELECT EXISTS (SELECT 1 FROM pg_tables WHERE schemaname = $1 AND tablename = $2) AS exists;`,
     [schemaName, tableName],
   );
-  return result.rows[0]?.exists || false;
+  return res.rows[0]?.exists ?? false;
 }
 
-/**
- * Get table row count
- */
 export async function getTableRowCount(client, schemaName, tableName) {
-  const result = await client.query(
-    `SELECT COUNT(*) as count FROM "${schemaName}"."${tableName}";`,
+  const res = await client.query(
+    `SELECT COUNT(*) AS count FROM "${schemaName}"."${tableName}";`,
   );
-  return parseInt(result.rows[0]?.count || "0", 10);
+  return parseInt(res.rows[0]?.count ?? "0", 10);
+}
+
+export async function getViewsInSchema(client, schemaName) {
+  const res = await client.query(
+    `SELECT table_name FROM information_schema.views WHERE table_schema = $1 ORDER BY table_name;`,
+    [schemaName],
+  );
+  return res.rows.map((r) => r.table_name);
 }
