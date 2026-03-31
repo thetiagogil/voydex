@@ -4,7 +4,7 @@
 -- ============================================================================
 CREATE TABLE
     meta.pokemon_forms (
-        id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        id INTEGER PRIMARY KEY,
         slug VARCHAR(50) NOT NULL,
         name VARCHAR(100) NOT NULL UNIQUE,
         species_id INTEGER NOT NULL REFERENCES meta.pokemon_species (id) ON DELETE CASCADE,

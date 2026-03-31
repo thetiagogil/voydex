@@ -4,7 +4,7 @@
 -- ============================================================================
 CREATE TABLE
     meta.pokemon_species (
-        id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        id INTEGER PRIMARY KEY,
         slug VARCHAR(50) NOT NULL UNIQUE,
         name VARCHAR(100) NOT NULL UNIQUE,
         introduced_generation_id INTEGER NOT NULL REFERENCES meta.generations (id),

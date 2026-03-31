@@ -4,7 +4,7 @@
 -- ============================================================================
 CREATE TABLE
     meta.games (
-        id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        id INTEGER PRIMARY KEY,
         slug VARCHAR(50) NOT NULL UNIQUE,
         name VARCHAR(100) NOT NULL UNIQUE,
         generation_id INTEGER NOT NULL REFERENCES meta.generations (id),
