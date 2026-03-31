@@ -2,7 +2,7 @@
 /**
  * Drop All Schemas (DANGER)
  *
- * Drops ALL custom schemas (dex, meta, gameplay, views).
+ * Drops ALL custom schemas (meta, gameplay, views).
  * This is a DESTRUCTIVE operation that deletes user data.
  * Only use in development environments.
  */

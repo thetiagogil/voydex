@@ -46,7 +46,7 @@ async function main() {
     logger.section("Schemas", "🗂️");
     logger.keyValue({
       "Total custom schemas": schemas.length,
-      "Static (dex, meta)": categorized.static.length,
+      "Static (meta)": categorized.static.length,
       "Dynamic (gameplay)": categorized.dynamic.length,
       "Presentation (views)": categorized.presentation.length,
     });

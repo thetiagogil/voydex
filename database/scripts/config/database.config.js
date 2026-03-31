@@ -13,10 +13,10 @@
  * Schema classifications for clean/migration operations
  */
 export const SCHEMA_TYPES = {
-  STATIC: ["dex", "meta"], // Reference data (safe to reset)
+  STATIC: ["meta"], // Reference data (safe to reset)
   DYNAMIC: ["gameplay"], // User data (NEVER reset in prod)
   PRESENTATION: ["views"], // Views/functions (safe to recreate)
-  ALL_CUSTOM: ["dex", "meta", "gameplay", "views"],
+  ALL_CUSTOM: ["meta", "gameplay", "views"],
 };
 
 /**
@@ -25,9 +25,10 @@ export const SCHEMA_TYPES = {
  */
 export const PROTECTED_TABLES = [
   "gameplay.plays",
-  "gameplay.pokemon_team",
-  "gameplay.progress",
-  "gameplay.pokemon_caught",
+  "gameplay.play_optional_version_groups",
+  "gameplay.play_team_pokemon",
+  "gameplay.play_progress",
+  "gameplay.play_pokemon_caught",
   "public.users",
 ];
 
@@ -41,8 +42,8 @@ export const PROTECTED_TABLES = [
  */
 export const MIGRATION_FOLDERS = {
   PUBLIC: "001_public_tables",
-  STATIC: "002_static_tables",
-  DYNAMIC: "003_dynamic_tables",
+  META: "002_meta_tables",
+  GAMEPLAY: "003_gameplay_tables",
   VIEWS: "004_views",
 };
 
@@ -55,13 +56,13 @@ export const MIGRATION_FOLDER_INFO = {
     description: "User profiles (public schema)",
     emoji: "🔵",
   },
-  "002_static_tables": {
-    name: "Static Tables",
-    description: "Reference data (dex, meta)",
+  "002_meta_tables": {
+    name: "Meta Tables",
+    description: "Reference data (meta schema)",
     emoji: "🟢",
   },
-  "003_dynamic_tables": {
-    name: "Dynamic Tables",
+  "003_gameplay_tables": {
+    name: "Gameplay Tables",
     description: "User gameplay data",
     emoji: "🟡",
   },

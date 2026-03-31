@@ -2,7 +2,7 @@
 /**
  * Truncate Static Tables
  *
- * Truncates tables in static schemas (dex, meta).
+ * Truncates tables in static schemas (meta).
  * Preserves user gameplay data and views.
  * Safe for development refresh.
  */

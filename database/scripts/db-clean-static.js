@@ -2,7 +2,7 @@
 /**
  * Drop Static Schemas
  *
- * Drops static reference schemas (dex, meta, views).
+ * Drops static reference schemas (meta, views).
  * Preserves user gameplay data.
  * Safe for development refresh.
  */
@@ -50,7 +50,7 @@ async function main() {
 
     // Warning
     showDangerWarning("DROP STATIC SCHEMAS", [
-      "This will delete reference data schemas (dex, meta, views)",
+      "This will delete reference data schemas (meta, views)",
       "User gameplay data will be preserved",
       "Run migrations after to recreate schemas",
     ]);

@@ -157,7 +157,7 @@ Interactive single-file migration runner. Useful for testing individual migratio
 node database/scripts/db-migrate.js
 
 # Run specific file
-node database/scripts/db-migrate.js 002_static_tables/001_create_types_table.sql
+node database/scripts/db-migrate.js 002_meta_tables/006_create_meta_types_table.sql
 
 # Run all (same as db-migrate-all.js)
 node database/scripts/db-migrate.js all
@@ -322,8 +322,8 @@ Migrations are organized in numbered folders:
 ```
 migrations/
   001_public_tables/      # User profiles (public schema)
-  002_static_tables/      # Reference data (dex, meta)
-  003_dynamic_tables/     # User gameplay data
+  002_meta_tables/        # Reference data (meta schema)
+  003_gameplay_tables/    # User gameplay data
   004_views/              # Presentation layer
 ```
 
@@ -336,9 +336,10 @@ Files run alphabetically within each folder. Prefix with numbers for explicit or
 The following tables are marked as protected and scripts will warn before affecting them:
 
 - `gameplay.plays`
-- `gameplay.team`
-- `gameplay.progress`
-- `gameplay.pokemon_caught`
+- `gameplay.play_optional_version_groups`
+- `gameplay.play_team_pokemon`
+- `gameplay.play_progress`
+- `gameplay.play_pokemon_caught`
 - `public.users`
 
 ### Danger Warnings

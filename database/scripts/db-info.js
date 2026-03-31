@@ -16,12 +16,12 @@
  */
 
 import { getFlag } from "./helpers/cli.js";
-import { categorizeSchemas } from "./helpers/db-operations.js";
 import {
   getDatabaseStats,
   getTableSizes,
   getViewsInSchema,
 } from "./helpers/db-operations-extended.js";
+import { categorizeSchemas } from "./helpers/db-operations.js";
 import {
   getCustomSchemas,
   getTableRowCount,
@@ -159,13 +159,20 @@ async function showDataSummary(dbUrl) {
     ["meta", "abilities"],
     ["meta", "moves"],
     ["meta", "natures"],
+    ["meta", "items"],
     ["meta", "progress_categories"],
     ["meta", "progress_items"],
-    ["meta", "regional_dex_entries"],
+    ["meta", "regional_dex"],
+    ["meta", "pokemon_availability"],
+    ["meta", "move_attributes"],
+    ["meta", "move_availability"],
+    ["meta", "item_availability"],
+    ["meta", "pokemon_learnsets"],
     ["gameplay", "plays"],
-    ["gameplay", "pokemon_team"],
-    ["gameplay", "pokemon_caught"],
-    ["gameplay", "progress"],
+    ["gameplay", "play_optional_version_groups"],
+    ["gameplay", "play_team_pokemon"],
+    ["gameplay", "play_pokemon_caught"],
+    ["gameplay", "play_progress"],
   ];
 
   for (const [schema, table] of tablesToCount) {
@@ -189,13 +196,22 @@ async function showDataSummary(dbUrl) {
   console.log(`     Abilities:        ${counts["meta.abilities"]}`);
   console.log(`     Moves:            ${counts["meta.moves"]}`);
   console.log(`     Natures:          ${counts["meta.natures"]}`);
+  console.log(`     Items:            ${counts["meta.items"]}`);
 
   logger.blank();
   console.log("  🐾 Pokemon Data:");
   console.log(`     Species:          ${counts["meta.pokemon_species"]}`);
   console.log(`     Forms:            ${counts["meta.pokemon_forms"]}`);
   console.log(`     Attributes:       ${counts["meta.pokemon_attributes"]}`);
-  console.log(`     Regional Dex:     ${counts["meta.regional_dex_entries"]}`);
+  console.log(`     Regional Dex:     ${counts["meta.regional_dex"]}`);
+  console.log(`     Availability:     ${counts["meta.pokemon_availability"]}`);
+  console.log(`     Learnsets:        ${counts["meta.pokemon_learnsets"]}`);
+
+  logger.blank();
+  console.log("  📝 Move & Item Data:");
+  console.log(`     Move Attributes:  ${counts["meta.move_attributes"]}`);
+  console.log(`     Move Availability:${counts["meta.move_availability"]}`);
+  console.log(`     Item Availability:${counts["meta.item_availability"]}`);
 
   logger.blank();
   console.log("  📋 Progress Data:");
@@ -205,9 +221,14 @@ async function showDataSummary(dbUrl) {
   logger.blank();
   console.log("  🎮 Gameplay Data:");
   console.log(`     Plays:            ${counts["gameplay.plays"]}`);
-  console.log(`     Team Pokemon:     ${counts["gameplay.pokemon_team"]}`);
-  console.log(`     Pokemon Caught:   ${counts["gameplay.pokemon_caught"]}`);
-  console.log(`     Progress:         ${counts["gameplay.progress"]}`);
+  console.log(
+    `     Optional VGs:     ${counts["gameplay.play_optional_version_groups"]}`,
+  );
+  console.log(`     Team Pokemon:     ${counts["gameplay.play_team_pokemon"]}`);
+  console.log(
+    `     Pokemon Caught:   ${counts["gameplay.play_pokemon_caught"]}`,
+  );
+  console.log(`     Progress:         ${counts["gameplay.play_progress"]}`);
 }
 
 // =====================================================

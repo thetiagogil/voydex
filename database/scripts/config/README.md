@@ -23,10 +23,10 @@ The single source of truth for all database script configurations.
 
 ```javascript
 export const SCHEMA_TYPES = {
-  STATIC: ["dex", "meta", "your_new_static_schema"], // Add here
+  STATIC: ["meta", "your_new_static_schema"], // Add here
   DYNAMIC: ["gameplay"],
   PRESENTATION: ["views"],
-  ALL_CUSTOM: ["dex", "meta", "gameplay", "views", "your_new_schema"], // And here
+  ALL_CUSTOM: ["meta", "gameplay", "views", "your_new_schema"], // And here
 };
 ```
 
@@ -39,9 +39,10 @@ Tables that should NEVER be truncated without explicit confirmation.
 ```javascript
 export const PROTECTED_TABLES = [
   "gameplay.plays",
-  "gameplay.team",
-  "gameplay.progress",
-  "gameplay.pokemon_caught",
+  "gameplay.play_optional_version_groups",
+  "gameplay.play_team_pokemon",
+  "gameplay.play_progress",
+  "gameplay.play_pokemon_caught",
   "public.users",
   "your_schema.your_protected_table", // Add here
 ];
@@ -56,8 +57,8 @@ Define migration folder structure and execution order.
 ```javascript
 export const MIGRATION_FOLDERS = {
   PUBLIC: "001_public_tables",
-  STATIC: "002_static_tables",
-  DYNAMIC: "003_dynamic_tables",
+  META: "002_meta_tables",
+  GAMEPLAY: "003_gameplay_tables",
   VIEWS: "004_views",
   YOUR_NEW: "005_your_new_folder", // Add here
 };
@@ -177,11 +178,11 @@ Let's say you want to add a new "analytics" schema:
 
 ```javascript
 export const SCHEMA_TYPES = {
-  STATIC: ["dex", "meta"],
+  STATIC: ["meta"],
   DYNAMIC: ["gameplay"],
   PRESENTATION: ["views"],
   ANALYTICS: ["analytics"], // New type
-  ALL_CUSTOM: ["dex", "meta", "gameplay", "views", "analytics"],
+  ALL_CUSTOM: ["meta", "gameplay", "views", "analytics"],
 };
 ```
 
@@ -190,8 +191,8 @@ export const SCHEMA_TYPES = {
 ```javascript
 export const MIGRATION_FOLDERS = {
   PUBLIC: "001_public_tables",
-  STATIC: "002_static_tables",
-  DYNAMIC: "003_dynamic_tables",
+  META: "002_meta_tables",
+  GAMEPLAY: "003_gameplay_tables",
   VIEWS: "004_views",
   ANALYTICS: "005_analytics_tables", // New folder
 };

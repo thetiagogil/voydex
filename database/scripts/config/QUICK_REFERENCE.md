@@ -8,9 +8,9 @@ Update in `database.config.js`:
 
 ```javascript
 export const SCHEMA_TYPES = {
-  STATIC: ["dex", "meta", "your_new_schema"], // Add to appropriate type
+  STATIC: ["meta", "your_new_schema"], // Add to appropriate type
   // ...
-  ALL_CUSTOM: ["dex", "meta", "gameplay", "views", "your_new_schema"], // Add here too
+  ALL_CUSTOM: ["meta", "gameplay", "views", "your_new_schema"], // Add here too
 };
 ```
 
