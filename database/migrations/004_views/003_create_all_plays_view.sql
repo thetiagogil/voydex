@@ -1,7 +1,6 @@
 -- =============================================================================
 -- VIEW: all_user_plays
--- All plays for a user with game info, stats, and team pokemon
--- Used for the Plays page listing
+-- All plays for a user with game metadata, stats, and team JSON
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.all_user_plays AS
@@ -32,10 +31,10 @@ SELECT
   pstats.highest_level,
   pstats.pokemon_caught_count,
   pstats.completed_progress_items,
-  -- Total progress items for this game
-  (SELECT COUNT(*) 
-   FROM meta.progress_items pi 
-   JOIN meta.progress_categories pc ON pi.progress_category_id = pc.id 
+  -- Total progress items for this game (base VG only for static count)
+  (SELECT COUNT(*)
+   FROM meta.progress_items pi
+   JOIN meta.progress_categories pc ON pi.progress_category_id = pc.id
    WHERE pc.version_group_id = g.version_group_id
      AND (pi.game_id IS NULL OR pi.game_id = g.id))::INTEGER AS total_progress_items,
   -- Team Pokemon (aggregated as JSON for easier consumption)
@@ -46,18 +45,18 @@ SELECT
           'id', t.id,
           'nickname', t.nickname,
           'level', t.level,
-          'species_id', ps.id,
+          'species_id', sp.id,
           'species', json_build_object(
-            'id', ps.id,
-            'slug', ps.slug,
-            'name', ps.name
+            'id', sp.id,
+            'slug', sp.slug,
+            'name', sp.name
           ),
           'sprite_url', pf.sprite_url
         )
         ORDER BY t.position
       )
-      FROM gameplay.pokemon_team t
-      JOIN meta.pokemon_species ps ON t.species_id = ps.id
+      FROM gameplay.play_team_pokemon t
+      JOIN meta.pokemon_species sp ON t.species_id = sp.id
       JOIN meta.pokemon_forms pf ON t.form_id = pf.id
       WHERE t.play_id = p.id
     ),

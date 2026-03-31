@@ -4,14 +4,14 @@ CREATE TABLE
     slug VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL UNIQUE,
     external_id INTEGER NOT NULL UNIQUE,
-    generation_introduced_id INTEGER NOT NULL REFERENCES meta.generations (id),
+    introduced_generation_id INTEGER NOT NULL REFERENCES meta.generations (id),
     effect TEXT,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT NOW ()
   );
 
--- WHAT: Index on generation_introduced_id (when this move was first introduced)
+-- WHAT: Index on introduced_generation_id (when this move was first introduced)
 -- WHY: Makes it fast to find all moves introduced in a specific generation
 -- WHEN USED: "Show me all new moves added in Gen 4"
-CREATE INDEX idx_moves_generation_introduced ON meta.moves (generation_introduced_id);
+CREATE INDEX idx_moves_introduced_generation ON meta.moves (introduced_generation_id);

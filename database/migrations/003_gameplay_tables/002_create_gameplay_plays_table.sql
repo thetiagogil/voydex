@@ -62,3 +62,26 @@ CREATE INDEX idx_plays_user_game_updated ON gameplay.plays (user_id, game_id, up
 -- Trigger for updated_at
 CREATE TRIGGER update_plays_updated_at BEFORE
 UPDATE ON gameplay.plays FOR EACH ROW EXECUTE FUNCTION update_updated_at_column ();
+
+-- =============================================================================
+-- RLS POLICIES: plays
+-- Users can only access their own playthroughs
+-- =============================================================================
+ALTER TABLE gameplay.plays ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE gameplay.plays FORCE ROW LEVEL SECURITY;
+
+CREATE POLICY plays_select ON gameplay.plays FOR
+SELECT
+  USING (auth.uid () = user_id);
+
+CREATE POLICY plays_insert ON gameplay.plays FOR INSERT
+WITH
+  CHECK (auth.uid () = user_id);
+
+CREATE POLICY plays_update ON gameplay.plays FOR
+UPDATE USING (auth.uid () = user_id)
+WITH
+  CHECK (auth.uid () = user_id);
+
+CREATE POLICY plays_delete ON gameplay.plays FOR DELETE USING (auth.uid () = user_id);

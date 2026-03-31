@@ -1,7 +1,6 @@
 -- =============================================================================
 -- VIEW: user_pokemon_collection
--- All pokemon from team across all user's plays
--- Used for the Collection page
+-- All team Pokemon across all plays with full metadata
 -- =============================================================================
 CREATE
 OR REPLACE VIEW views.user_pokemon_collection AS
@@ -54,9 +53,13 @@ SELECT
     ab.name AS ability_name,
     t.nature_id,
     n.slug AS nature_slug,
-    n.name AS nature_name
+    n.name AS nature_name,
+    -- Held item
+    t.held_item_id,
+    hi.slug AS held_item_slug,
+    hi.name AS held_item_name
 FROM
-    gameplay.pokemon_team t
+    gameplay.play_team_pokemon t
     JOIN gameplay.plays p ON t.play_id = p.id
     JOIN gameplay.play_statuses ps ON p.status_id = ps.id
     JOIN meta.games g ON p.game_id = g.id
@@ -81,4 +84,5 @@ FROM
     LEFT JOIN meta.types t1 ON attrs.type1_id = t1.id
     LEFT JOIN meta.types t2 ON attrs.type2_id = t2.id
     LEFT JOIN meta.abilities ab ON t.ability_id = ab.id
-    LEFT JOIN meta.natures n ON t.nature_id = n.id;
+    LEFT JOIN meta.natures n ON t.nature_id = n.id
+    LEFT JOIN meta.items hi ON t.held_item_id = hi.id;

@@ -1,10 +1,13 @@
 -- =============================================================================
 -- GAMEPLAY VIEWS
+-- All views reference renamed tables: play_team_pokemon, play_progress,
+-- play_pokemon_caught. DLC-aware views use gameplay.get_effective_version_group_ids()
+-- to resolve the play's base VG + enabled DLC VGs.
 -- =============================================================================
 
 -- =============================================================================
 -- VIEW: play_details
--- Full play details with game, generation, and region info
+-- Full play details with game, generation, region, and enabled DLC info
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.play_details AS
@@ -40,7 +43,19 @@ SELECT
   -- Region info
   r.id AS region_id,
   r.slug AS region_slug,
-  r.name AS region_name
+  r.name AS region_name,
+  -- Optional DLC version groups (JSON array, empty if none)
+  COALESCE(
+    (SELECT json_agg(json_build_object(
+      'id', dlc_vg.id,
+      'slug', dlc_vg.slug,
+      'name', dlc_vg.name
+    ))
+    FROM gameplay.play_optional_version_groups povg
+    JOIN meta.version_groups dlc_vg ON povg.version_group_id = dlc_vg.id
+    WHERE povg.play_id = p.id),
+    '[]'::json
+  ) AS optional_dlc_version_groups
 FROM gameplay.plays p
 JOIN gameplay.play_statuses ps ON p.status_id = ps.id
 JOIN meta.games g ON p.game_id = g.id
@@ -75,21 +90,21 @@ SELECT
 FROM gameplay.plays p
 JOIN gameplay.play_statuses ps ON p.status_id = ps.id
 LEFT JOIN LATERAL (
-  SELECT 
+  SELECT
     COUNT(*)::INTEGER AS team_size,
     MAX(level)::INTEGER AS highest_level,
     COUNT(*) FILTER (WHERE is_shiny = TRUE)::INTEGER AS shiny_count
-  FROM gameplay.pokemon_team t
+  FROM gameplay.play_team_pokemon t
   WHERE t.play_id = p.id
 ) team_stats ON TRUE
 LEFT JOIN LATERAL (
   SELECT COUNT(*)::INTEGER AS pokemon_caught_count
-  FROM gameplay.pokemon_caught pc
+  FROM gameplay.play_pokemon_caught pc
   WHERE pc.play_id = p.id
 ) caught_stats ON TRUE
 LEFT JOIN LATERAL (
   SELECT COUNT(*)::INTEGER AS completed_items
-  FROM gameplay.progress pr
+  FROM gameplay.play_progress pr
   WHERE pr.play_id = p.id
 ) progress_stats ON TRUE;
 
@@ -97,6 +112,7 @@ LEFT JOIN LATERAL (
 -- =============================================================================
 -- VIEW: play_progress_category_summary
 -- Progress category summary with completion stats
+-- DLC-aware: includes categories from enabled DLC version groups
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.play_progress_category_summary AS
@@ -116,13 +132,14 @@ SELECT
   COALESCE(item_counts.completed_items, 0)::INTEGER AS completed_items
 FROM gameplay.plays p
 JOIN meta.games g ON p.game_id = g.id
-JOIN meta.progress_categories pc ON pc.version_group_id = g.version_group_id
+JOIN meta.progress_categories pc
+  ON pc.version_group_id IN (SELECT gameplay.get_effective_version_group_ids(p.id))
 LEFT JOIN LATERAL (
   SELECT
     COUNT(pi.id)::INTEGER AS total_items,
     COUNT(pr.progress_item_id)::INTEGER AS completed_items
   FROM meta.progress_items pi
-  LEFT JOIN gameplay.progress pr ON pr.progress_item_id = pi.id AND pr.play_id = p.id
+  LEFT JOIN gameplay.play_progress pr ON pr.progress_item_id = pi.id AND pr.play_id = p.id
   WHERE pi.progress_category_id = pc.id
     AND (pi.game_id IS NULL OR pi.game_id = g.id)
 ) item_counts ON TRUE;
@@ -131,6 +148,7 @@ LEFT JOIN LATERAL (
 -- =============================================================================
 -- VIEW: play_progress_items_with_status
 -- Progress items with completion status for a play
+-- DLC-aware: includes items from enabled DLC version groups
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.play_progress_items_with_status AS
@@ -150,20 +168,29 @@ SELECT
   pi.location,
   pi.sort_order,
   pi.game_id AS item_game_id,
+  pi.tracking_type,
+  pi.target_count,
   -- Progress status
   pr.completed_at,
-  CASE WHEN pr.progress_item_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_completed
+  pr.current_count,
+  CASE WHEN pr.progress_item_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_completed,
+  -- Pokemon ref (for species-goal items)
+  pref.species_id AS ref_species_id,
+  pref.form_id AS ref_form_id
 FROM gameplay.plays p
 JOIN meta.games g ON p.game_id = g.id
-JOIN meta.progress_categories pc ON pc.version_group_id = g.version_group_id
+JOIN meta.progress_categories pc
+  ON pc.version_group_id IN (SELECT gameplay.get_effective_version_group_ids(p.id))
 JOIN meta.progress_items pi ON pi.progress_category_id = pc.id
   AND (pi.game_id IS NULL OR pi.game_id = g.id)
-LEFT JOIN gameplay.progress pr ON pr.progress_item_id = pi.id AND pr.play_id = p.id;
+LEFT JOIN gameplay.play_progress pr ON pr.progress_item_id = pi.id AND pr.play_id = p.id
+LEFT JOIN meta.progress_item_pokemon_refs pref ON pref.progress_item_id = pi.id;
 
 
 -- =============================================================================
 -- VIEW: play_regional_dex
 -- Regional dex entries with caught status
+-- DLC-aware: includes dex entries from enabled DLC version groups
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.play_regional_dex AS
@@ -172,7 +199,7 @@ SELECT
   p.user_id,
   p.include_mythical_pokemon,
   g.generation_id,
-  g.version_group_id,
+  rde.version_group_id,
   -- Regional dex entry
   rde.regional_number,
   -- Species info
@@ -183,25 +210,26 @@ SELECT
   ps.is_baby,
   ps.is_legendary,
   ps.is_mythical,
-  -- Form info (use default form if not specified)
-  COALESCE(rde.form_id, df.id) AS form_id,
-  COALESCE(form.slug, df.slug) AS form_slug,
-  COALESCE(form.name, df.name) AS form_name,
-  COALESCE(form.sprite_url, df.sprite_url) AS sprite_url,
+  -- Form info
+  rde.form_id,
+  f.slug AS form_slug,
+  f.name AS form_name,
+  f.sprite_url,
   -- Caught status
   CASE WHEN pc.species_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_caught
 FROM gameplay.plays p
 JOIN meta.games g ON p.game_id = g.id
-JOIN meta.regional_dex_entries rde ON rde.version_group_id = g.version_group_id
+JOIN meta.regional_dex_entries rde
+  ON rde.version_group_id IN (SELECT gameplay.get_effective_version_group_ids(p.id))
 JOIN meta.pokemon_species ps ON rde.species_id = ps.id
-LEFT JOIN meta.pokemon_forms form ON rde.form_id = form.id
-LEFT JOIN meta.pokemon_forms df ON df.species_id = ps.id AND df.is_default = TRUE
-LEFT JOIN gameplay.pokemon_caught pc ON pc.play_id = p.id AND pc.species_id = ps.id;
+JOIN meta.pokemon_forms f ON rde.form_id = f.id
+LEFT JOIN gameplay.play_pokemon_caught pc
+  ON pc.play_id = p.id AND pc.species_id = ps.id AND pc.form_id = rde.form_id;
 
 
 -- =============================================================================
 -- VIEW: play_team_pokemon
--- Full team Pokemon with all related metadata
+-- Full team Pokemon with all related metadata including held item
 -- =============================================================================
 
 CREATE OR REPLACE VIEW views.play_team_pokemon AS
@@ -243,12 +271,16 @@ SELECT
   t.nature_id,
   n.slug AS nature_slug,
   n.name AS nature_name,
+  -- Held item
+  t.held_item_id,
+  hi.slug AS held_item_slug,
+  hi.name AS held_item_name,
   -- Moves
   t.move1_id, m1.slug AS move1_slug, m1.name AS move1_name,
   t.move2_id, m2.slug AS move2_slug, m2.name AS move2_name,
   t.move3_id, m3.slug AS move3_slug, m3.name AS move3_name,
   t.move4_id, m4.slug AS move4_slug, m4.name AS move4_name
-FROM gameplay.pokemon_team t
+FROM gameplay.play_team_pokemon t
 JOIN gameplay.plays p ON t.play_id = p.id
 JOIN meta.games g ON p.game_id = g.id
 JOIN meta.pokemon_species ps ON t.species_id = ps.id
@@ -265,6 +297,7 @@ LEFT JOIN meta.types t1 ON attrs.type1_id = t1.id
 LEFT JOIN meta.types t2 ON attrs.type2_id = t2.id
 LEFT JOIN meta.abilities ab ON t.ability_id = ab.id
 LEFT JOIN meta.natures n ON t.nature_id = n.id
+LEFT JOIN meta.items hi ON t.held_item_id = hi.id
 LEFT JOIN meta.moves m1 ON t.move1_id = m1.id
 LEFT JOIN meta.moves m2 ON t.move2_id = m2.id
 LEFT JOIN meta.moves m3 ON t.move3_id = m3.id
@@ -302,8 +335,8 @@ SELECT
   -- Progress category count for this version group
   (SELECT COUNT(*) FROM meta.progress_categories pc WHERE pc.version_group_id = vg.id)::INTEGER AS progress_category_count,
   -- Progress item count for this version group
-  (SELECT COUNT(*) FROM meta.progress_items pi 
-   JOIN meta.progress_categories pc ON pi.progress_category_id = pc.id 
+  (SELECT COUNT(*) FROM meta.progress_items pi
+   JOIN meta.progress_categories pc ON pi.progress_category_id = pc.id
    WHERE pc.version_group_id = vg.id)::INTEGER AS progress_item_count
 FROM meta.games g
 JOIN meta.game_types gt ON g.type_id = gt.id
@@ -404,7 +437,7 @@ FROM meta.generations gen
 LEFT JOIN meta.games g ON g.generation_id = gen.id
 LEFT JOIN gameplay.plays p ON p.game_id = g.id
 LEFT JOIN gameplay.play_statuses ps ON p.status_id = ps.id
-LEFT JOIN gameplay.pokemon_caught pc ON pc.play_id = p.id
+LEFT JOIN gameplay.play_pokemon_caught pc ON pc.play_id = p.id
 GROUP BY gen.id, p.user_id;
 
 
@@ -426,16 +459,16 @@ SELECT
   -- Pokemon stats
   COUNT(DISTINCT pc.species_id)::INTEGER AS total_unique_species,
   -- Team stats
-  (SELECT COUNT(*) FILTER (WHERE t.is_shiny = TRUE) 
-   FROM gameplay.pokemon_team t 
-   JOIN gameplay.plays pl ON t.play_id = pl.id 
+  (SELECT COUNT(*) FILTER (WHERE t.is_shiny = TRUE)
+   FROM gameplay.play_team_pokemon t
+   JOIN gameplay.plays pl ON t.play_id = pl.id
    WHERE pl.user_id = p.user_id)::INTEGER AS total_shinies,
   -- Activity
   MAX(p.updated_at) AS last_activity
 FROM gameplay.plays p
 JOIN gameplay.play_statuses ps ON p.status_id = ps.id
 JOIN meta.games g ON p.game_id = g.id
-LEFT JOIN gameplay.pokemon_caught pc ON pc.play_id = p.id
+LEFT JOIN gameplay.play_pokemon_caught pc ON pc.play_id = p.id
 GROUP BY p.user_id;
 
 
@@ -468,7 +501,7 @@ SELECT
   NULL::TEXT AS pokemon_name,
   NULL::TEXT AS sprite_url,
   pr.completed_at AS activity_at
-FROM gameplay.progress pr
+FROM gameplay.play_progress pr
 JOIN gameplay.plays p ON pr.play_id = p.id
 JOIN meta.progress_items pi ON pr.progress_item_id = pi.id
 JOIN meta.progress_categories pc ON pi.progress_category_id = pc.id
@@ -500,7 +533,7 @@ SELECT
   pf.name AS pokemon_name,
   pf.sprite_url,
   t.created_at AS activity_at
-FROM gameplay.pokemon_team t
+FROM gameplay.play_team_pokemon t
 JOIN gameplay.plays p ON t.play_id = p.id
 JOIN meta.pokemon_forms pf ON t.form_id = pf.id
 JOIN meta.pokemon_species ps ON pf.species_id = ps.id
