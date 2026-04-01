@@ -1,11 +1,11 @@
 -- ============================================================================
 -- Table: meta.pokemon_forms
--- Specific forms of a Pokémon species (default, regional, mega, etc.).
+-- Specific forms of a Pokémon species (default, regional, alternate, etc.).
 -- ============================================================================
 CREATE TABLE
     meta.pokemon_forms (
         id INTEGER PRIMARY KEY,
-        slug VARCHAR(50) NOT NULL,
+        slug VARCHAR(50) NOT NULL UNIQUE,
         name VARCHAR(100) NOT NULL UNIQUE,
         species_id INTEGER NOT NULL REFERENCES meta.pokemon_species (id) ON DELETE CASCADE,
         introduced_generation_id INTEGER NOT NULL REFERENCES meta.generations (id),
@@ -14,7 +14,6 @@ CREATE TABLE
         is_default BOOLEAN NOT NULL DEFAULT TRUE,
         sprite_url VARCHAR(255),
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
-        UNIQUE (species_id, slug),
         CHECK (
             height IS NULL
             OR height > 0
