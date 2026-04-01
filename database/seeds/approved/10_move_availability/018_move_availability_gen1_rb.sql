@@ -1,0 +1,182 @@
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: PokeAPI (availability cross-reference)
+-- ============================================================================
+-- File Scope
+-- ============================================================================
+-- Generation: 1
+-- Table: meta.move_availability
+-- Scope: version-group-specific (rb)
+-- Moves: 165
+INSERT INTO
+    meta.move_availability (move_id, version_group_id)
+VALUES
+    (1, 1), -- pound
+    (2, 1), -- karate-chop
+    (3, 1), -- double-slap
+    (4, 1), -- comet-punch
+    (5, 1), -- mega-punch
+    (6, 1), -- pay-day
+    (7, 1), -- fire-punch
+    (8, 1), -- ice-punch
+    (9, 1), -- thunder-punch
+    (10, 1), -- scratch
+    (11, 1), -- vice-grip
+    (12, 1), -- guillotine
+    (13, 1), -- razor-wind
+    (14, 1), -- swords-dance
+    (15, 1), -- cut
+    (16, 1), -- gust
+    (17, 1), -- wing-attack
+    (18, 1), -- whirlwind
+    (19, 1), -- fly
+    (20, 1), -- bind
+    (21, 1), -- slam
+    (22, 1), -- vine-whip
+    (23, 1), -- stomp
+    (24, 1), -- double-kick
+    (25, 1), -- mega-kick
+    (26, 1), -- jump-kick
+    (27, 1), -- rolling-kick
+    (28, 1), -- sand-attack
+    (29, 1), -- headbutt
+    (30, 1), -- horn-attack
+    (31, 1), -- fury-attack
+    (32, 1), -- horn-drill
+    (33, 1), -- tackle
+    (34, 1), -- body-slam
+    (35, 1), -- wrap
+    (36, 1), -- take-down
+    (37, 1), -- thrash
+    (38, 1), -- double-edge
+    (39, 1), -- tail-whip
+    (40, 1), -- poison-sting
+    (41, 1), -- twineedle
+    (42, 1), -- pin-missile
+    (43, 1), -- leer
+    (44, 1), -- bite
+    (45, 1), -- growl
+    (46, 1), -- roar
+    (47, 1), -- sing
+    (48, 1), -- supersonic
+    (49, 1), -- sonic-boom
+    (50, 1), -- disable
+    (51, 1), -- acid
+    (52, 1), -- ember
+    (53, 1), -- flamethrower
+    (54, 1), -- mist
+    (55, 1), -- water-gun
+    (56, 1), -- hydro-pump
+    (57, 1), -- surf
+    (58, 1), -- ice-beam
+    (59, 1), -- blizzard
+    (60, 1), -- psybeam
+    (61, 1), -- bubble-beam
+    (62, 1), -- aurora-beam
+    (63, 1), -- hyper-beam
+    (64, 1), -- peck
+    (65, 1), -- drill-peck
+    (66, 1), -- submission
+    (67, 1), -- low-kick
+    (68, 1), -- counter
+    (69, 1), -- seismic-toss
+    (70, 1), -- strength
+    (71, 1), -- absorb
+    (72, 1), -- mega-drain
+    (73, 1), -- leech-seed
+    (74, 1), -- growth
+    (75, 1), -- razor-leaf
+    (76, 1), -- solar-beam
+    (77, 1), -- poison-powder
+    (78, 1), -- stun-spore
+    (79, 1), -- sleep-powder
+    (80, 1), -- petal-dance
+    (81, 1), -- string-shot
+    (82, 1), -- dragon-rage
+    (83, 1), -- fire-spin
+    (84, 1), -- thunder-shock
+    (85, 1), -- thunderbolt
+    (86, 1), -- thunder-wave
+    (87, 1), -- thunder
+    (88, 1), -- rock-throw
+    (89, 1), -- earthquake
+    (90, 1), -- fissure
+    (91, 1), -- dig
+    (92, 1), -- toxic
+    (93, 1), -- confusion
+    (94, 1), -- psychic
+    (95, 1), -- hypnosis
+    (96, 1), -- meditate
+    (97, 1), -- agility
+    (98, 1), -- quick-attack
+    (99, 1), -- rage
+    (100, 1), -- teleport
+    (101, 1), -- night-shade
+    (102, 1), -- mimic
+    (103, 1), -- screech
+    (104, 1), -- double-team
+    (105, 1), -- recover
+    (106, 1), -- harden
+    (107, 1), -- minimize
+    (108, 1), -- smokescreen
+    (109, 1), -- confuse-ray
+    (110, 1), -- withdraw
+    (111, 1), -- defense-curl
+    (112, 1), -- barrier
+    (113, 1), -- light-screen
+    (114, 1), -- haze
+    (115, 1), -- reflect
+    (116, 1), -- focus-energy
+    (117, 1), -- bide
+    (118, 1), -- metronome
+    (119, 1), -- mirror-move
+    (120, 1), -- self-destruct
+    (121, 1), -- egg-bomb
+    (122, 1), -- lick
+    (123, 1), -- smog
+    (124, 1), -- sludge
+    (125, 1), -- bone-club
+    (126, 1), -- fire-blast
+    (127, 1), -- waterfall
+    (128, 1), -- clamp
+    (129, 1), -- swift
+    (130, 1), -- skull-bash
+    (131, 1), -- spike-cannon
+    (132, 1), -- constrict
+    (133, 1), -- amnesia
+    (134, 1), -- kinesis
+    (135, 1), -- soft-boiled
+    (136, 1), -- high-jump-kick
+    (137, 1), -- glare
+    (138, 1), -- dream-eater
+    (139, 1), -- poison-gas
+    (140, 1), -- barrage
+    (141, 1), -- leech-life
+    (142, 1), -- lovely-kiss
+    (143, 1), -- sky-attack
+    (144, 1), -- transform
+    (145, 1), -- bubble
+    (146, 1), -- dizzy-punch
+    (147, 1), -- spore
+    (148, 1), -- flash
+    (149, 1), -- psywave
+    (150, 1), -- splash
+    (151, 1), -- acid-armor
+    (152, 1), -- crabhammer
+    (153, 1), -- explosion
+    (154, 1), -- fury-swipes
+    (155, 1), -- bonemerang
+    (156, 1), -- rest
+    (157, 1), -- rock-slide
+    (158, 1), -- hyper-fang
+    (159, 1), -- sharpen
+    (160, 1), -- conversion
+    (161, 1), -- tri-attack
+    (162, 1), -- super-fang
+    (163, 1), -- slash
+    (164, 1), -- substitute
+    (165, 1);
+
+-- struggle
