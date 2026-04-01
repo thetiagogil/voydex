@@ -1,10 +1,16 @@
--- Source: Poketracker product definition
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Poketracker product definition
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: gameplay.play_statuses
--- Rows: 4
---
--- id = 1 must be the default active status (plays.status_id DEFAULT 1).
--- is_terminal = TRUE marks statuses where the play is considered finished.
+-- Scope: global
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- id=1 is the default active status. is_terminal=TRUE marks finished playthroughs.
 INSERT INTO
     gameplay.play_statuses (id, slug, name, description, is_terminal, sort_order)
 VALUES

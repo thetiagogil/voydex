@@ -1,22 +1,23 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VI), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: changes to Gen 2 Pokémon (#152-251)
 -- Table: meta.pokemon_attributes
--- Rows: 11
---
--- Gen 6 (X/Y) changes to Gen 2 Pokémon:
---   1. Fairy type additions: Cleffa, Togepi, Togetic became Fairy or Fairy/Flying;
---      Igglybuff gained Fairy as type2; Marill, Azumarill gained Fairy as type2;
---      Snubbull, Granbull became pure Fairy.
---   2. Stat increases: Ampharos Def +10, Bellossom Def +10,
---      Azumarill SpA +10, Jumpluff SpD +10.
---   3. Ability2 addition: Igglybuff gained Competitive (172).
---
--- Type IDs: 1=Normal 3=Water 4=Electric 5=Grass 10=Flying 18=Fairy
+-- Scope: changes to Gen 2 Pokémon (#152–251)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Fairy type applied to Cleffa, Togepi/Togetic, Igglybuff, Snubbull/Granbull, Marill/Azumarill.
+-- Minor stat increases (Ampharos, Bellossom, Azumarill, Jumpluff). Igglybuff gains Competitive (ab2).
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #173 Cleffa: type Normal→Fairy
     (173, 17300, 6, 18, NULL, 56, 98, 132, 15, NULL, 50, 25, 28, 45, 55, 15, NULL),
     -- #174 Igglybuff: type2 NULL→Fairy, ability2 NULL→Competitive(172)

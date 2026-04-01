@@ -1,11 +1,13 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 2
--- Scope: base generation seed
 -- Table: meta.egg_groups
--- Rows: 15
---
--- introduced_generation_id -> meta.generations(id)
--- All egg groups were introduced in Gen 2 when breeding was added.
+-- Scope: global
 INSERT INTO
     meta.egg_groups (id, slug, name, introduced_generation_id)
 VALUES

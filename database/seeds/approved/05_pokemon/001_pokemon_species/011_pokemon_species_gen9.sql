@@ -1,13 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 9
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 120
---
--- id = national_number = National Pokédex number.
--- Gen 9 has no baby Pokémon.
+-- Scope: base generation seed (#906–1025)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
 -- Includes The Teal Mask and The Indigo Disk DLC Pokémon.
--- Pecharunt (#1025) is the final Pokémon as of the current National Dex.
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

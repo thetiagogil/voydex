@@ -1,8 +1,13 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: base generation seed (includes ORAS moves)
 -- Table: meta.moves
--- Rows: 62
+-- Scope: base generation seed (includes ORAS moves)
 INSERT INTO
     meta.moves (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

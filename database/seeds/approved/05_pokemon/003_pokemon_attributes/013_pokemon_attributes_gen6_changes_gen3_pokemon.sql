@@ -1,22 +1,23 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VI), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: changes to Gen 3 Pokémon (#252-386)
 -- Table: meta.pokemon_attributes
--- Rows: 12
---
--- Gen 6 (X/Y) changes to Gen 3 Pokémon:
---   1. Fairy type additions: Ralts/Kirlia/Gardevoir gained Fairy as type2,
---      Azurill gained Fairy as type2, Mawile gained Fairy as type2.
---   2. Stat increases: Beautifly SpA +10, Exploud SpD +10.
---   3. HA additions (from NULL): Plusle→Lightning Rod(31), Minun→Volt Absorb(10),
---      Kecleon→Protean(168), Duskull→Frisk(119), Dusclops→Frisk(119).
---
--- Type IDs: 1=Normal 4=Electric 11=Psychic 12=Bug 14=Ghost 17=Steel 18=Fairy
--- Ability IDs: 10=Volt Absorb 31=Lightning Rod 119=Frisk 168=Protean
+-- Scope: changes to Gen 3 Pokémon (#252–386)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Fairy type added to Ralts line, Azurill, Mawile. Minor stat increases (Beautifly, Exploud).
+-- Plusle, Minun, Kecleon, Duskull, Dusclops gain HAs (were NULL in Gen 5).
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #267 Beautifly: SpA 90→100
     (267, 26700, 6, 12, 10, 68, NULL, 79, 5, NULL, 60, 70, 50, 100, 50, 65, NULL),
     -- #280 Ralts: type2 NULL→Fairy

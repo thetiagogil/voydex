@@ -1,11 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 4
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 107
---
--- id = national_number = National Pokédex number.
--- Gen 4 babies: Budew, Chingling, Bonsly, Mime Jr., Happiny, Munchlax, Riolu, Mantyke.
+-- Scope: base generation seed (#387–493)
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

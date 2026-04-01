@@ -1,17 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 8
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 43
---
--- Non-default forms introduced in Gen 8.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Includes: 19 Galarian variants, 16 Hisuian variants, 8 other persistent forms.
--- Excluded: Zacian Crowned / Zamazenta Crowned (Rusted Sword/Shield = held items),
---   Cramorant Gulping/Gorging (battle-only), Morpeko Hangry (battle-only),
---   Eiscue Noice (battle-only), Eternatus Eternamax (unobtainable boss form),
---   Zarude Dada (cosmetic scarf), Magearna Original Color (cosmetic),
---   Alcremie decorations (cosmetic), Sinistea/Polteageist Antique (cosmetic).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Excluded: Zacian/Zamazenta Crowned (held items); battle-only forms; cosmetic variants (Zarude Dada, Magearna color, Alcremie, Sinistea/Polteageist).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

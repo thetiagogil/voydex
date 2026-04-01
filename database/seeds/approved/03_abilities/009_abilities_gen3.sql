@@ -1,12 +1,17 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 3
--- Scope: base generation seed
 -- Table: meta.abilities
--- Rows: 76
---
--- Abilities were introduced in Gen 3 (Ruby/Sapphire).
--- id = external_id = national ability index (Bulbapedia canonical order).
--- effect is NULL here; mechanical descriptions belong to future reference data.
+-- Scope: base generation seed (IDs 1–76)
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- effect is NULL; mechanical descriptions are not stored.
 INSERT INTO
     meta.abilities (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

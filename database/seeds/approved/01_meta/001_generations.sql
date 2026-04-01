@@ -1,10 +1,16 @@
--- Source: Bulbapedia
--- Secondary source: Serebii
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: meta.generations
--- Rows: 9
--- Note: end_year is not stored. Generation end boundaries are cosmetic and
--- should not be maintained as schema data.
+-- Scope: global
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- end_year is not stored. Generation end boundaries are cosmetic.
 INSERT INTO
     meta.generations (id, slug, name, start_year, new_pokemon_count, total_pokemon_count)
 VALUES

@@ -1,10 +1,16 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 1
--- Scope: base generation seed
 -- Table: meta.types
--- Rows: 15
---
--- introduced_generation_id -> meta.generations(id)
+-- Scope: base generation seed
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
 -- Gen 1 introduced 15 types. The ??? type is excluded (removed in Gen 5).
 INSERT INTO
     meta.types (id, slug, name, introduced_generation_id)

@@ -1,24 +1,22 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VII), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: changes to Gen 1 Pokémon (#001-151)
 -- Table: meta.pokemon_attributes
--- Rows: 7
---
--- Gen 7 (Sun/Moon) made stat adjustments to many older Pokémon and changed
--- some abilities. This file covers:
---   1. Stat increases: Arbok Atk +10, Dugtrio Atk +20, Farfetch'd Atk +25,
---      Dodrio Spe +10, Electrode Spe +10, Exeggutor SpD +10.
---   2. Ability changes: Gengar ab1 Levitate(26) → Cursed Body(130).
---
--- Ability IDs referenced:
---   130=Cursed Body (Gengar's new ab1, replacing Levitate)
---
--- Type IDs: Normal(1) Fire(2) Water(3) Electric(4) Grass(5) Poison(8) Ground(9)
---   Flying(10) Psychic(11) Ghost(14)
+-- Scope: changes to Gen 1 Pokémon (#001–151)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Stat increases for 6 species. Gengar ab1 changed from Levitate to Cursed Body.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #024 Arbok: Atk 85→95
     (24, 2400, 7, 8, NULL, 22, 61, 127, 7, 13, 60, 95, 69, 65, 79, 80, NULL),
     -- #051 Dugtrio: Atk 80→100

@@ -1,16 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 27
---
--- Non-default forms introduced in Gen 7.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Includes: 18 Alolan regional variants, Oricorio styles, Lycanroc forms,
---   Zygarde 10%/Complete (introduced gen 7), Necrozma fusions.
--- Excluded: Ultra Necrozma (Ultranecrozium Z held item + battle trigger),
---   Wishiwashi School (battle-only), Minior Core (battle-only),
---   Mimikyu Busted (battle-only), Silvally types (held item, no stat difference).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Excluded: Ultra Necrozma (held item); Wishiwashi School, Minior Core, Mimikyu Busted (battle-only); Silvally types (no stat difference).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

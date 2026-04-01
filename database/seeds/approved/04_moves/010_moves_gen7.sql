@@ -1,10 +1,14 @@
--- Source: Bulbapedia (cross-referenced with PokeAPI)
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: PokeAPI
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: base generation seed (SM + USUM + LGPE)
 -- Table: meta.moves
--- Rows: 121
--- Note: Generic Z-Move physical/special variants each have their own game index.
---       Species-specific Z-Moves and LGPE-exclusive moves are included.
+-- Scope: base generation seed (SM + USUM + LGPE)
 INSERT INTO
     meta.moves (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

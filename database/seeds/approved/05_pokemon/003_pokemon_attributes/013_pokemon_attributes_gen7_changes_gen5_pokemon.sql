@@ -1,26 +1,22 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VII), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: changes to Gen 5 Pokémon (#494-649)
 -- Table: meta.pokemon_attributes
--- Rows: 11
---
--- Gen 7 (Sun/Moon) stat adjustments and ability2 additions for Gen 5 species.
--- This file covers:
---   1. Stat increases: Woobat HP +10, Crustle Atk +10,
---      Beartic Atk +20, Cryogonal HP +10 & Def +20.
---   2. Ability2 additions: Roggenrola Weak Armor(133), Boldore Weak Armor(133),
---      Gigalith Sand Stream(45), Vanillite Snow Cloak(81),
---      Vanillish Snow Cloak(81), Vanilluxe Snow Warning(117),
---      Cubchoo Slush Rush(202), Beartic Slush Rush(202).
---
--- New ability IDs referenced:
---   202=Slush Rush (new Gen 7 ability, added to Cubchoo/Beartic)
---
--- Type IDs: Ice(6) Psychic(11) Flying(10) Bug(12) Rock(13)
+-- Scope: changes to Gen 5 Pokémon (#494–649)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Stat increases for 4 species. Roggenrola line, Vanillite line, Cubchoo line gain ability2.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #524 Roggenrola: ab2 NULL→Weak Armor(133)
     (524, 52400, 7, 13, NULL, 5, 133, 159, 11, NULL, 55, 75, 85, 25, 25, 15, NULL),
     -- #525 Boldore: ab2 NULL→Weak Armor(133)

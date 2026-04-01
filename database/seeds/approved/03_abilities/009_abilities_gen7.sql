@@ -1,8 +1,13 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: base generation seed
 -- Table: meta.abilities
--- Rows: 42
+-- Scope: base generation seed (IDs 192–233)
 INSERT INTO
     meta.abilities (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

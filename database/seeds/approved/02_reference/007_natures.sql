@@ -1,14 +1,17 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 3
--- Scope: base generation seed
 -- Table: meta.natures
--- Rows: 25
---
--- introduced_generation_id -> meta.generations(id)
--- All 25 natures were introduced in Gen 3.
--- Neutral natures have NULL for increased/decreased stat and liked/disliked flavor.
--- Stat enums: 'hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'
--- Flavor enums: 'spicy', 'dry', 'sweet', 'bitter', 'sour'
+-- Scope: global
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Neutral natures have NULL for stat modifiers and flavor.
 INSERT INTO
     meta.natures (id, slug, name, introduced_generation_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
 VALUES

@@ -1,24 +1,23 @@
--- Source: Bulbapedia — List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: changes to Gen 4 Pokémon (#387-493)
 -- Table: meta.pokemon_attributes
--- Rows: 4
---
--- Gen 6 (X/Y) changes to Gen 4 Pokémon:
---   1. Fairy type additions: Togekiss type1 Normal→Fairy,
---      Mime Jr. gained Fairy as type2.
---   2. HA additions (from NULL): Starly→Reckless(120),
---      Dusknoir→Frisk(119).
---
--- Note: Staravia/Staraptor already had Reckless as HA from Gen V.
--- Only Starly was missing it and gained it in Gen VI.
---
--- Type IDs: 10=Flying 11=Psychic 14=Ghost 18=Fairy
--- Ability IDs: 119=Frisk 120=Reckless
+-- Scope: changes to Gen 4 Pokémon (#387–493)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Togekiss gains Fairy as type1. Mime Jr. gains Fairy as type2.
+-- Starly and Dusknoir gain HAs (were NULL in Gen 5).
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #396 Starly: HA NULL→Reckless(120)
     (396, 39600, 6, 1, 10, 51, NULL, 120, 6, NULL, 40, 55, 30, 30, 30, 60, NULL),
     -- #439 Mime Jr.: type2 NULL→Fairy

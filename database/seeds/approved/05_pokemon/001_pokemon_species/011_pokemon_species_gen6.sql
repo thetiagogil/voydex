@@ -1,11 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 72
---
--- id = national_number = National Pokédex number.
--- Gen 6 has no baby Pokémon.
+-- Scope: base generation seed (#650–721)
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

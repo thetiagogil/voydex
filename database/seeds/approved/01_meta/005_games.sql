@@ -1,18 +1,13 @@
--- Source: Bulbapedia
--- Secondary source: Serebii
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: meta.games
--- Rows: 38
---
--- FK references:
---   generation_id    -> meta.generations(id)
---   region_id        -> meta.regions(id)
---   version_group_id -> meta.version_groups(id)
---   type_id          -> meta.game_types(id)
---
--- game_types: 1=main, 2=enhanced, 3=remake, 4=sequel, 5=other
--- regions:    1=Kanto 2=Johto 3=Hoenn 4=Sinnoh 5=Unova 6=Kalos
---             7=Alola 8=Galar 9=Paldea 10=Hisui
+-- Scope: global
 --
 -- Dex counts are NOT stored here.
 -- They are derived from meta.dexes + meta.dex_entries.

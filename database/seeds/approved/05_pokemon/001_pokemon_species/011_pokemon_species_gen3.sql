@@ -1,11 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 3
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 135
---
--- id = national_number = National Pokédex number.
--- Gen 3 babies: Azurill, Wynaut.
+-- Scope: base generation seed (#252–386)
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

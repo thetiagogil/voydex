@@ -1,11 +1,18 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 5
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 156
---
--- id = national_number = National Pokédex number.
--- Gen 5 has no baby Pokémon.
+-- Scope: base generation seed (#494–649)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
 -- Victini is #494 (before starters in the Unova Dex, but #494 nationally).
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)

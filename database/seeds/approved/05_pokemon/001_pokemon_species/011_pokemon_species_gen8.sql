@@ -1,14 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 8
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 96
---
--- id = national_number = National Pokédex number.
--- Gen 8 baby: Toxel (#848).
--- Legends: Arceus introduced Hisuian forms and new evolutions (Wyrdeer,
--- Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, Enamorus).
--- These are Gen 8 species per Bulbapedia classification.
+-- Scope: base generation seed (#810–905)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Includes Legends: Arceus additions (#899–905): Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, Enamorus.
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

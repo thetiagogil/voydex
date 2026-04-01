@@ -1,18 +1,22 @@
--- Source: Bulbapedia — List of Pokémon by Egg Group
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 8
--- Scope: changes to Gen 3 Pokémon (#252-386)
 -- Table: meta.pokemon_attributes
--- Rows: 6
---
--- Gen 8 (Sword/Shield) added second egg groups to several Gen 3 Pokémon:
---   1. Ralts/Kirlia/Gardevoir: eg Amorphous(12) → Human-Like(10)+Amorphous(12)
---   2. Trapinch/Vibrava/Flygon: eg Bug(5) → Bug(5)+Dragon(13)
---
--- Egg Group IDs: Monster(1) Bug(5) Human-Like(10) Mineral(11) Amorphous(12) Dragon(13)
+-- Scope: changes to Gen 3 Pokémon (#252–386)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Ralts/Kirlia/Gardevoir gain Amorphous egg group. Trapinch/Vibrava/Flygon gain Dragon egg group.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #280 Ralts: eg Amorphous → Human-Like+Amorphous
     (280, 28000, 8, 11, 18, 28, 36, 140, 10, 12, 28, 25, 25, 45, 35, 40, NULL),
     -- #281 Kirlia: eg Amorphous → Human-Like+Amorphous

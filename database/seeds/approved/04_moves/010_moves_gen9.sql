@@ -1,8 +1,14 @@
--- Source: Bulbapedia (cross-referenced with PokeAPI)
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: PokeAPI
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 9
--- Scope: base generation seed (SV + Teal Mask + Indigo Disk)
 -- Table: meta.moves
--- Rows: 69
+-- Scope: base generation seed (SV + Teal Mask + Indigo Disk)
 INSERT INTO
     meta.moves (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

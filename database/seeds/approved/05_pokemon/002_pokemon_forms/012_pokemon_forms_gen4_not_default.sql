@@ -1,13 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 4
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 8
---
--- Non-default forms introduced in Gen 4.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- All forms here are persistent alternate states the player can switch between or lock at evolution.
--- Excluded: Giratina Origin (requires Griseous Orb held item).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Giratina Origin excluded (Griseous Orb = held item).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

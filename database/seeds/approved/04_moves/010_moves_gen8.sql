@@ -1,10 +1,18 @@
--- Source: Bulbapedia (cross-referenced with PokeAPI)
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: PokeAPI
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 8
--- Scope: base generation seed (SwSh + IoA + CT + PLA)
 -- Table: meta.moves
--- Rows: 108
--- Note: Includes Max Moves (743, 757-774), IoA/CT moves (797-826), and PLA moves (827-850).
---       G-Max Moves are NOT included here (they are listed separately on Bulbapedia).
+-- Scope: base generation seed (SwSh + IoA + CT + PLA)
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- G-Max Moves are excluded (separate Bulbapedia listing, not tracked here).
 INSERT INTO
     meta.moves (id, slug, name, external_id, introduced_generation_id, effect)
 VALUES

@@ -1,12 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 1
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 151
---
--- id = national_number = National Pokédex number.
--- color values follow Bulbapedia Pokédex color categorization.
--- Gen 1 has no baby Pokémon. Baby Pokémon were introduced in Gen 2.
+-- Scope: base generation seed (#001–151)
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

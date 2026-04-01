@@ -1,25 +1,22 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VII), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: changes to Gen 3 Pokémon (#252-386)
 -- Table: meta.pokemon_attributes
--- Rows: 11
---
--- Gen 7 (Sun/Moon) stat adjustments and ability2 additions for Gen 3 species.
--- This file covers:
---   1. Stat increases: Swellow SpA +25, Pelipper SpA +10,
---      Masquerain SpA +20 & Spe +20, Delcatty Spe +25,
---      Volbeat Def +20 & SpD +10, Illumise Def +20 & SpD +10,
---      Lunatone HP +20, Solrock HP +20,
---      Chimecho HP +10 & Def +10 & SpD +10.
---   2. Ability2 additions: Wingull Hydration(93), Pelipper Drizzle(2),
---      Torkoal Drought(70).
---
--- Type IDs: Normal(1) Fire(2) Water(3) Psychic(11) Bug(12) Rock(13)
---   Flying(10)
+-- Scope: changes to Gen 3 Pokémon (#252–386)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Stat increases for 9 species. Wingull/Pelipper/Torkoal gain second ability.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #277 Swellow: SpA 50→75
     (277, 27700, 7, 1, 10, 62, NULL, 113, 6, NULL, 60, 85, 60, 75, 50, 125, NULL),
     -- #278 Wingull: ab2 NULL→Hydration(93)

@@ -1,13 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 5
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 7
---
--- Non-default forms introduced in Gen 5.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Excluded: Darmanitan Zen Mode (battle-only), Meloetta Pirouette (battle-only).
--- Excluded: Deerling/Sawsbuck seasonal (cosmetic), Unown letters (cosmetic, gen 2).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Excluded: Darmanitan Zen Mode, Meloetta Pirouette (battle-only); Deerling/Sawsbuck seasonal, Unown letters (cosmetic).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

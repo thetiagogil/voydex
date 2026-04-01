@@ -1,10 +1,12 @@
--- Source: Bulbapedia
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: meta.learn_methods
--- Rows: 7
---
--- Curated learn method classifications for the Poketracker.
--- These cover the canonical ways a Pokémon can learn a move.
+-- Scope: global
 INSERT INTO
     meta.learn_methods (id, slug, name)
 VALUES

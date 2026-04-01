@@ -1,27 +1,23 @@
--- Source: Bulbapedia — List of Pokémon by base stats (Generation VI), List of Pokémon by Ability
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: changes to Gen 1 Pokémon (#001-151)
 -- Table: meta.pokemon_attributes
--- Rows: 18
---
--- Gen 6 (X/Y) introduced the Fairy type and made stat adjustments.
--- This file covers:
---   1. Fairy type additions: Clefairy/Clefable became pure Fairy,
---      Jigglypuff/Wigglytuff gained Fairy as type2, Mr. Mime gained Fairy as type2.
---   2. Stat increases: +10 to one or two stats for 14 species.
---   3. Ability2 additions: Jigglypuff/Wigglytuff gained Competitive (172).
---   4. HA change: Zapdos HA changed from Lightning Rod (31) to Static (9).
---
--- Ability IDs referenced:
---   172=Competitive (new Gen 6 ability, added to Jigglypuff/Wigglytuff)
---   9=Static (Zapdos HA replacement)
---
--- Type IDs: 1=Normal 4=Electric 5=Grass 7=Fighting 8=Poison 9=Ground
---   10=Flying 11=Psychic 12=Bug 13=Rock 17=Steel 18=Fairy
+-- Scope: changes to Gen 1 Pokémon (#001–151)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Fairy type added to Clefairy/Clefable (pure Fairy), Jigglypuff/Wigglytuff, Mr. Mime.
+-- Minor stat increases for 14 species. Zapdos HA changed from Lightning Rod to Static.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
-    --          sid    fid  gen  t1    t2   ab1   ab2   hab   eg1   eg2    hp  atk  def  satk sdef  spd  spc
     -- #012 Butterfree: SpA 80→90
     (12, 1200, 6, 12, 10, 14, NULL, 110, 5, NULL, 60, 45, 50, 90, 80, 70, NULL),
     -- #015 Beedrill: Atk 80→90

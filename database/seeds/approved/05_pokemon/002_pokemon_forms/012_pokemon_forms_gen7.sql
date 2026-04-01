@@ -1,10 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: base generation seed
 -- Table: meta.pokemon_forms
--- Rows: 88
---
--- Default forms only. id = species_id * 100 (form_offset = 0).
+-- Scope: default forms (#722–809)
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

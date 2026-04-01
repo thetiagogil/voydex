@@ -1,18 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 9
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 6
---
--- Non-default forms introduced in Gen 9.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Includes: 3 Paldean Tauros breeds, Paldean Wooper, Oinkologne Female,
---   Bloodmoon Ursaluna (Teal Mask).
--- Excluded: 3 Ogerpon masks (Wellspring/Hearthflame/Cornerstone = held items),
---   Palafin Hero (battle-only), Terapagos Terastal/Stellar (battle-only),
---   Squawkabilly plumage (cosmetic), Maushold family size (cosmetic),
---   Dudunsparce segments (cosmetic), Tatsugiri forms (cosmetic),
---   Poltchageist/Sinistcha authenticity marks (cosmetic).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Excluded: Ogerpon masks (held items); Palafin Hero, Terapagos Terastal/Stellar (battle-only); cosmetic variants.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

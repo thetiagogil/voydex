@@ -1,16 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 6
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 8
---
--- Non-default forms introduced in Gen 6.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Includes: Meowstic Female, Pumpkaboo/Gourgeist size variants, Hoopa Unbound.
--- Excluded: 48 Mega Evolutions (held Mega Stone + battle trigger),
---   2 Primal Reversions (held Blue/Red Orb + battle trigger),
---   Vivillon patterns (cosmetic), Furfrou trims (cosmetic),
---   Flabébé/Floette/Florges flower colors (cosmetic), Aegislash Blade (battle-only).
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Excluded: 48 Mega Evolutions, 2 Primal Reversions (held items); Aegislash Blade (battle-only); cosmetic variants.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES

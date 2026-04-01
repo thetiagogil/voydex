@@ -1,11 +1,17 @@
--- Source: Bulbapedia
--- Secondary source: Serebii
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: meta.version_groups
--- Rows: 27
---
--- DLC expansions use parent_version_group_id to reference their base VG.
--- generation_id references meta.generations(id).
+-- Scope: global
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- DLC expansions use parent_version_group_id to reference their base version group.
 INSERT INTO
     meta.version_groups (id, slug, name, generation_id, parent_version_group_id)
 VALUES

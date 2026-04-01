@@ -1,13 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 7
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 88
---
--- id = national_number = National Pokédex number.
--- Gen 7 has no baby Pokémon.
--- Meltan and Melmetal (#808-809) were introduced via Pokémon GO
--- but are classified as Gen 7 mythicals per Bulbapedia.
+-- Scope: base generation seed (#722–809)
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Meltan and Melmetal (#808–809) classified as Gen 7 mythicals per Bulbapedia (introduced via Pokémon GO).
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

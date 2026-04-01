@@ -1,10 +1,16 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 2
--- Scope: base generation seed
 -- Table: meta.types
--- Rows: 2
---
--- introduced_generation_id -> meta.generations(id)
+-- Scope: new types
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
 -- Gen 2 introduced Dark and Steel.
 INSERT INTO
     meta.types (id, slug, name, introduced_generation_id)

@@ -1,11 +1,16 @@
--- Source: Bulbapedia
--- Scope: global
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: meta.item_categories
--- Rows: 13
---
--- Curated item categories for the Poketracker.
--- These are product-defined groupings based on Bulbapedia's item categories,
--- simplified for tracker use.
+-- Scope: global
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Product-defined groupings, not direct Bulbapedia categories.
 INSERT INTO
     meta.item_categories (id, slug, name)
 VALUES

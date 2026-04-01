@@ -1,12 +1,14 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 2
--- Scope: base generation seed
 -- Table: meta.pokemon_species
--- Rows: 100
---
--- id = national_number = National Pokédex number.
--- Gen 2 introduced baby Pokémon: Pichu, Cleffa, Igglybuff, Togepi,
--- Tyrogue, Smoochum, Elekid, Magby.
+-- Scope: base generation seed (#152–251)
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

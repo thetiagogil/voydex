@@ -1,12 +1,19 @@
--- Source: Bulbapedia
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Generation: 3
--- Scope: non-default forms
 -- Table: meta.pokemon_forms
--- Rows: 3
---
--- Non-default forms introduced in Gen 3.
--- id = species_id * 100 + form_offset (Bulbapedia form order).
--- Deoxys formes are persistent — player changes via meteorite interaction.
+-- Scope: non-default forms
+
+-- ============================================================================
+-- Important Notes
+-- ============================================================================
+-- Deoxys formes are persistent (changed via meteorite interaction).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES
