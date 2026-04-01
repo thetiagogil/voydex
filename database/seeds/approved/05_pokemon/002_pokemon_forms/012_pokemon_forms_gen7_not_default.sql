@@ -2,18 +2,17 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 7
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
-
 -- ============================================================================
 -- Important Notes
 -- ============================================================================
--- Excluded: Ultra Necrozma (held item); Wishiwashi School, Minior Core, Mimikyu Busted (battle-only); Silvally types (no stat difference).
+-- Excluded: Ultra Necrozma (battle-only transformation); Zygarde Complete (battle-only — Power Construct triggers in battle).
+-- Excluded: Wishiwashi School, Minior Core, Mimikyu Busted (battle-only); Silvally types (no stat difference).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES
@@ -46,9 +45,8 @@ VALUES
     (74501, 'lycanroc-midnight', 'Lycanroc (Midnight)', 745, 7, NULL, NULL, FALSE, NULL),
     (74502, 'lycanroc-dusk', 'Lycanroc (Dusk)', 745, 7, NULL, NULL, FALSE, NULL),
     -- === Zygarde Forms (species from Gen 6, forms introduced in Gen 7) ===
-    -- 50% Forme is default (71800). 10% and Complete have different stats.
+    -- 50% Forme is default (71800). 10% has different stats. Complete excluded (battle-only).
     (71801, 'zygarde-10-percent', 'Zygarde (10% Forme)', 718, 7, NULL, NULL, FALSE, NULL),
-    (71802, 'zygarde-complete', 'Zygarde (Complete Forme)', 718, 7, NULL, NULL, FALSE, NULL),
     -- === Necrozma Fusions ===
     -- Normal is default (80000). Dusk Mane/Dawn Wings via N-Solarizer/N-Lunarizer (key items).
     (80001, 'necrozma-dusk-mane', 'Necrozma (Dusk Mane)', 800, 7, NULL, NULL, FALSE, NULL),

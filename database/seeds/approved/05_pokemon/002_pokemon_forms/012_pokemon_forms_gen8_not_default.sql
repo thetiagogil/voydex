@@ -2,18 +2,16 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 8
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
-
 -- ============================================================================
 -- Important Notes
 -- ============================================================================
--- Excluded: Zacian/Zamazenta Crowned (held items); battle-only forms; cosmetic variants (Zarude Dada, Magearna color, Alcremie, Sinistea/Polteageist).
+-- Excluded: battle-only forms; cosmetic variants (Zarude Dada, Magearna color, Alcremie, Sinistea/Polteageist).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES
@@ -69,4 +67,8 @@ VALUES
     -- Basculegion Female: different stats from male.
     (90201, 'basculegion-female', 'Basculegion (Female)', 902, 8, NULL, NULL, FALSE, NULL),
     -- Enamorus Therian: persistent via Reveal Glass (key item).
-    (90501, 'enamorus-therian', 'Enamorus (Therian)', 905, 8, NULL, NULL, FALSE, NULL);
+    (90501, 'enamorus-therian', 'Enamorus (Therian)', 905, 8, NULL, NULL, FALSE, NULL),
+    -- Zacian: Crowned Sword, persistent via Rusted Sword (held item). Hero is default (88800).
+    (88801, 'zacian-crowned-sword', 'Zacian (Crowned Sword)', 888, 8, NULL, NULL, FALSE, NULL),
+    -- Zamazenta: Crowned Shield, persistent via Rusted Shield (held item). Hero is default (88900).
+    (88901, 'zamazenta-crowned-shield', 'Zamazenta (Crowned Shield)', 889, 8, NULL, NULL, FALSE, NULL);

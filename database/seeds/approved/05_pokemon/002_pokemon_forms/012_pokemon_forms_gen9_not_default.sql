@@ -2,18 +2,16 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 9
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
-
 -- ============================================================================
 -- Important Notes
 -- ============================================================================
--- Excluded: Ogerpon masks (held items); Palafin Hero, Terapagos Terastal/Stellar (battle-only); cosmetic variants.
+-- Excluded: Palafin Hero, Terapagos Terastal/Stellar (battle-only); cosmetic variants.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)
 VALUES
@@ -28,4 +26,9 @@ VALUES
     -- Ursaluna Bloodmoon: distinct variant from The Teal Mask DLC, different stats/type.
     (90101, 'ursaluna-bloodmoon', 'Ursaluna (Bloodmoon)', 901, 9, NULL, NULL, FALSE, NULL),
     -- Oinkologne Female: different stats from male.
-    (91601, 'oinkologne-female', 'Oinkologne (Female)', 916, 9, NULL, NULL, FALSE, NULL);
+    (91601, 'oinkologne-female', 'Oinkologne (Female)', 916, 9, NULL, NULL, FALSE, NULL),
+    -- === Ogerpon Mask Forms ===
+    -- Teal Mask is default (101700). Other masks are persistent via held mask items.
+    (101701, 'ogerpon-wellspring-mask', 'Ogerpon (Wellspring Mask)', 1017, 9, NULL, NULL, FALSE, NULL),
+    (101702, 'ogerpon-hearthflame-mask', 'Ogerpon (Hearthflame Mask)', 1017, 9, NULL, NULL, FALSE, NULL),
+    (101703, 'ogerpon-cornerstone-mask', 'Ogerpon (Cornerstone Mask)', 1017, 9, NULL, NULL, FALSE, NULL);
