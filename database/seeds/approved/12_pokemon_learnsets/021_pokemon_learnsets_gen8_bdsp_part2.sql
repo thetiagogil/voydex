@@ -1,499 +1,34 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: PokeAPI (data derived from Bulbapedia/Serebii)
+-- Primary: Serebii (pokedex-swsh)
 
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 8
 -- Table: meta.pokemon_learnsets
--- Scope: Brilliant Diamond / Shining Pearl (VG 21) learnsets (Part 2 of 6)
-INSERT INTO
-    meta.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at)
+-- Version Group: BDSP (21)
+-- Description: BDSP learnsets - level-up, TMs, eggs (Part 2/6)
+
+INSERT INTO meta.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at)
 VALUES
-    -- #091 Cloyster
-    (91, 9100, 48, 21, 1, 1),  -- supersonic lv1
-    (91, 9100, 62, 21, 1, 1),  -- aurora-beam lv1
-    (91, 9100, 110, 21, 1, 1),  -- withdraw lv1
-    (91, 9100, 182, 21, 1, 1),  -- protect lv1
-    (91, 9100, 390, 21, 1, 1),  -- toxic-spikes lv1
-    (91, 9100, 191, 21, 1, 28),  -- spikes lv28
-    (91, 9100, 131, 21, 1, 40),  -- spike-cannon lv40
-    (91, 9100, 57, 21, 2, NULL),  -- surf tm
-    (91, 9100, 58, 21, 2, NULL),  -- ice-beam tm
-    (91, 9100, 59, 21, 2, NULL),  -- blizzard tm
-    (91, 9100, 63, 21, 2, NULL),  -- hyper-beam tm
-    (91, 9100, 92, 21, 2, NULL),  -- toxic tm
-    (91, 9100, 104, 21, 2, NULL),  -- double-team tm
-    (91, 9100, 153, 21, 2, NULL),  -- explosion tm
-    (91, 9100, 156, 21, 2, NULL),  -- rest tm
-    (91, 9100, 164, 21, 2, NULL),  -- substitute tm
-    (91, 9100, 182, 21, 2, NULL),  -- protect tm
-    (91, 9100, 203, 21, 2, NULL),  -- endure tm
-    (91, 9100, 207, 21, 2, NULL),  -- swagger tm
-    (91, 9100, 213, 21, 2, NULL),  -- attract tm
-    (91, 9100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (91, 9100, 216, 21, 2, NULL),  -- return tm
-    (91, 9100, 218, 21, 2, NULL),  -- frustration tm
-    (91, 9100, 237, 21, 2, NULL),  -- hidden-power tm
-    (91, 9100, 240, 21, 2, NULL),  -- rain-dance tm
-    (91, 9100, 258, 21, 2, NULL),  -- hail tm
-    (91, 9100, 259, 21, 2, NULL),  -- torment tm
-    (91, 9100, 263, 21, 2, NULL),  -- facade tm
-    (91, 9100, 290, 21, 2, NULL),  -- secret-power tm
-    (91, 9100, 352, 21, 2, NULL),  -- water-pulse tm
-    (91, 9100, 362, 21, 2, NULL),  -- brine tm
-    (91, 9100, 363, 21, 2, NULL),  -- natural-gift tm
-    (91, 9100, 371, 21, 2, NULL),  -- payback tm
-    (91, 9100, 398, 21, 2, NULL),  -- poison-jab tm
-    (91, 9100, 416, 21, 2, NULL),  -- giga-impact tm
-    (91, 9100, 419, 21, 2, NULL),  -- avalanche tm
-    (91, 9100, 445, 21, 2, NULL),  -- captivate tm
-    (91, 9100, 129, 21, 6, NULL),  -- swift tutor
-    (91, 9100, 173, 21, 6, NULL),  -- snore tutor
-    (91, 9100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (91, 9100, 291, 21, 6, NULL),  -- dive tutor
-    (91, 9100, 324, 21, 6, NULL),  -- signal-beam tutor
-    (91, 9100, 334, 21, 6, NULL),  -- iron-defense tutor
-    -- #092 Gastly
-    (92, 9200, 95, 21, 1, 1),  -- hypnosis lv1
-    (92, 9200, 122, 21, 1, 1),  -- lick lv1
-    (92, 9200, 180, 21, 1, 5),  -- spite lv5
-    (92, 9200, 212, 21, 1, 8),  -- mean-look lv8
-    (92, 9200, 174, 21, 1, 12),  -- curse lv12
-    (92, 9200, 101, 21, 1, 15),  -- night-shade lv15
-    (92, 9200, 109, 21, 1, 19),  -- confuse-ray lv19
-    (92, 9200, 389, 21, 1, 22),  -- sucker-punch lv22
-    (92, 9200, 371, 21, 1, 26),  -- payback lv26
-    (92, 9200, 247, 21, 1, 29),  -- shadow-ball lv29
-    (92, 9200, 138, 21, 1, 33),  -- dream-eater lv33
-    (92, 9200, 399, 21, 1, 36),  -- dark-pulse lv36
-    (92, 9200, 194, 21, 1, 40),  -- destiny-bond lv40
-    (92, 9200, 171, 21, 1, 43),  -- nightmare lv43
-    (92, 9200, 85, 21, 2, NULL),  -- thunderbolt tm
-    (92, 9200, 92, 21, 2, NULL),  -- toxic tm
-    (92, 9200, 94, 21, 2, NULL),  -- psychic tm
-    (92, 9200, 104, 21, 2, NULL),  -- double-team tm
-    (92, 9200, 138, 21, 2, NULL),  -- dream-eater tm
-    (92, 9200, 153, 21, 2, NULL),  -- explosion tm
-    (92, 9200, 156, 21, 2, NULL),  -- rest tm
-    (92, 9200, 164, 21, 2, NULL),  -- substitute tm
-    (92, 9200, 168, 21, 2, NULL),  -- thief tm
-    (92, 9200, 182, 21, 2, NULL),  -- protect tm
-    (92, 9200, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (92, 9200, 202, 21, 2, NULL),  -- giga-drain tm
-    (92, 9200, 203, 21, 2, NULL),  -- endure tm
-    (92, 9200, 207, 21, 2, NULL),  -- swagger tm
-    (92, 9200, 213, 21, 2, NULL),  -- attract tm
-    (92, 9200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (92, 9200, 216, 21, 2, NULL),  -- return tm
-    (92, 9200, 218, 21, 2, NULL),  -- frustration tm
-    (92, 9200, 237, 21, 2, NULL),  -- hidden-power tm
-    (92, 9200, 240, 21, 2, NULL),  -- rain-dance tm
-    (92, 9200, 241, 21, 2, NULL),  -- sunny-day tm
-    (92, 9200, 244, 21, 2, NULL),  -- psych-up tm
-    (92, 9200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (92, 9200, 259, 21, 2, NULL),  -- torment tm
-    (92, 9200, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (92, 9200, 263, 21, 2, NULL),  -- facade tm
-    (92, 9200, 269, 21, 2, NULL),  -- taunt tm
-    (92, 9200, 285, 21, 2, NULL),  -- skill-swap tm
-    (92, 9200, 289, 21, 2, NULL),  -- snatch tm
-    (92, 9200, 290, 21, 2, NULL),  -- secret-power tm
-    (92, 9200, 363, 21, 2, NULL),  -- natural-gift tm
-    (92, 9200, 371, 21, 2, NULL),  -- payback tm
-    (92, 9200, 373, 21, 2, NULL),  -- embargo tm
-    (92, 9200, 399, 21, 2, NULL),  -- dark-pulse tm
-    (92, 9200, 412, 21, 2, NULL),  -- energy-ball tm
-    (92, 9200, 433, 21, 2, NULL),  -- trick-room tm
-    (92, 9200, 445, 21, 2, NULL),  -- captivate tm
-    (92, 9200, 7, 21, 5, NULL),  -- fire-punch egg
-    (92, 9200, 8, 21, 5, NULL),  -- ice-punch egg
-    (92, 9200, 9, 21, 5, NULL),  -- thunder-punch egg
-    (92, 9200, 114, 21, 5, NULL),  -- haze egg
-    (92, 9200, 149, 21, 5, NULL),  -- psywave egg
-    (92, 9200, 153, 21, 5, NULL),  -- explosion egg
-    (92, 9200, 195, 21, 5, NULL),  -- perish-song egg
-    (92, 9200, 261, 21, 5, NULL),  -- will-o-wisp egg
-    (92, 9200, 288, 21, 5, NULL),  -- grudge egg
-    (92, 9200, 310, 21, 5, NULL),  -- astonish egg
-    (92, 9200, 7, 21, 6, NULL),  -- fire-punch tutor
-    (92, 9200, 8, 21, 6, NULL),  -- ice-punch tutor
-    (92, 9200, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (92, 9200, 173, 21, 6, NULL),  -- snore tutor
-    (92, 9200, 180, 21, 6, NULL),  -- spite tutor
-    (92, 9200, 196, 21, 6, NULL),  -- icy-wind tutor
-    (92, 9200, 253, 21, 6, NULL),  -- uproar tutor
-    (92, 9200, 271, 21, 6, NULL),  -- trick tutor
-    (92, 9200, 282, 21, 6, NULL),  -- knock-off tutor
-    (92, 9200, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (92, 9200, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #093 Haunter
-    (93, 9300, 95, 21, 1, 1),  -- hypnosis lv1
-    (93, 9300, 122, 21, 1, 1),  -- lick lv1
-    (93, 9300, 180, 21, 1, 1),  -- spite lv1
-    (93, 9300, 212, 21, 1, 8),  -- mean-look lv8
-    (93, 9300, 174, 21, 1, 12),  -- curse lv12
-    (93, 9300, 101, 21, 1, 15),  -- night-shade lv15
-    (93, 9300, 109, 21, 1, 19),  -- confuse-ray lv19
-    (93, 9300, 389, 21, 1, 22),  -- sucker-punch lv22
-    (93, 9300, 325, 21, 1, 25),  -- shadow-punch lv25
-    (93, 9300, 371, 21, 1, 28),  -- payback lv28
-    (93, 9300, 247, 21, 1, 33),  -- shadow-ball lv33
-    (93, 9300, 138, 21, 1, 39),  -- dream-eater lv39
-    (93, 9300, 399, 21, 1, 44),  -- dark-pulse lv44
-    (93, 9300, 194, 21, 1, 50),  -- destiny-bond lv50
-    (93, 9300, 171, 21, 1, 55),  -- nightmare lv55
-    (93, 9300, 85, 21, 2, NULL),  -- thunderbolt tm
-    (93, 9300, 92, 21, 2, NULL),  -- toxic tm
-    (93, 9300, 94, 21, 2, NULL),  -- psychic tm
-    (93, 9300, 104, 21, 2, NULL),  -- double-team tm
-    (93, 9300, 138, 21, 2, NULL),  -- dream-eater tm
-    (93, 9300, 153, 21, 2, NULL),  -- explosion tm
-    (93, 9300, 156, 21, 2, NULL),  -- rest tm
-    (93, 9300, 164, 21, 2, NULL),  -- substitute tm
-    (93, 9300, 168, 21, 2, NULL),  -- thief tm
-    (93, 9300, 182, 21, 2, NULL),  -- protect tm
-    (93, 9300, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (93, 9300, 202, 21, 2, NULL),  -- giga-drain tm
-    (93, 9300, 203, 21, 2, NULL),  -- endure tm
-    (93, 9300, 207, 21, 2, NULL),  -- swagger tm
-    (93, 9300, 213, 21, 2, NULL),  -- attract tm
-    (93, 9300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (93, 9300, 216, 21, 2, NULL),  -- return tm
-    (93, 9300, 218, 21, 2, NULL),  -- frustration tm
-    (93, 9300, 237, 21, 2, NULL),  -- hidden-power tm
-    (93, 9300, 240, 21, 2, NULL),  -- rain-dance tm
-    (93, 9300, 241, 21, 2, NULL),  -- sunny-day tm
-    (93, 9300, 244, 21, 2, NULL),  -- psych-up tm
-    (93, 9300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (93, 9300, 259, 21, 2, NULL),  -- torment tm
-    (93, 9300, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (93, 9300, 263, 21, 2, NULL),  -- facade tm
-    (93, 9300, 269, 21, 2, NULL),  -- taunt tm
-    (93, 9300, 285, 21, 2, NULL),  -- skill-swap tm
-    (93, 9300, 289, 21, 2, NULL),  -- snatch tm
-    (93, 9300, 290, 21, 2, NULL),  -- secret-power tm
-    (93, 9300, 363, 21, 2, NULL),  -- natural-gift tm
-    (93, 9300, 371, 21, 2, NULL),  -- payback tm
-    (93, 9300, 373, 21, 2, NULL),  -- embargo tm
-    (93, 9300, 374, 21, 2, NULL),  -- fling tm
-    (93, 9300, 398, 21, 2, NULL),  -- poison-jab tm
-    (93, 9300, 399, 21, 2, NULL),  -- dark-pulse tm
-    (93, 9300, 412, 21, 2, NULL),  -- energy-ball tm
-    (93, 9300, 421, 21, 2, NULL),  -- shadow-claw tm
-    (93, 9300, 433, 21, 2, NULL),  -- trick-room tm
-    (93, 9300, 445, 21, 2, NULL),  -- captivate tm
-    (93, 9300, 7, 21, 6, NULL),  -- fire-punch tutor
-    (93, 9300, 8, 21, 6, NULL),  -- ice-punch tutor
-    (93, 9300, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (93, 9300, 173, 21, 6, NULL),  -- snore tutor
-    (93, 9300, 180, 21, 6, NULL),  -- spite tutor
-    (93, 9300, 196, 21, 6, NULL),  -- icy-wind tutor
-    (93, 9300, 253, 21, 6, NULL),  -- uproar tutor
-    (93, 9300, 271, 21, 6, NULL),  -- trick tutor
-    (93, 9300, 282, 21, 6, NULL),  -- knock-off tutor
-    (93, 9300, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (93, 9300, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #094 Gengar
-    (94, 9400, 95, 21, 1, 1),  -- hypnosis lv1
-    (94, 9400, 122, 21, 1, 1),  -- lick lv1
-    (94, 9400, 180, 21, 1, 1),  -- spite lv1
-    (94, 9400, 212, 21, 1, 8),  -- mean-look lv8
-    (94, 9400, 174, 21, 1, 12),  -- curse lv12
-    (94, 9400, 101, 21, 1, 15),  -- night-shade lv15
-    (94, 9400, 109, 21, 1, 19),  -- confuse-ray lv19
-    (94, 9400, 389, 21, 1, 22),  -- sucker-punch lv22
-    (94, 9400, 325, 21, 1, 25),  -- shadow-punch lv25
-    (94, 9400, 371, 21, 1, 28),  -- payback lv28
-    (94, 9400, 247, 21, 1, 33),  -- shadow-ball lv33
-    (94, 9400, 138, 21, 1, 39),  -- dream-eater lv39
-    (94, 9400, 399, 21, 1, 44),  -- dark-pulse lv44
-    (94, 9400, 194, 21, 1, 50),  -- destiny-bond lv50
-    (94, 9400, 171, 21, 1, 55),  -- nightmare lv55
-    (94, 9400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (94, 9400, 70, 21, 2, NULL),  -- strength tm
-    (94, 9400, 85, 21, 2, NULL),  -- thunderbolt tm
-    (94, 9400, 87, 21, 2, NULL),  -- thunder tm
-    (94, 9400, 92, 21, 2, NULL),  -- toxic tm
-    (94, 9400, 94, 21, 2, NULL),  -- psychic tm
-    (94, 9400, 104, 21, 2, NULL),  -- double-team tm
-    (94, 9400, 138, 21, 2, NULL),  -- dream-eater tm
-    (94, 9400, 153, 21, 2, NULL),  -- explosion tm
-    (94, 9400, 156, 21, 2, NULL),  -- rest tm
-    (94, 9400, 164, 21, 2, NULL),  -- substitute tm
-    (94, 9400, 168, 21, 2, NULL),  -- thief tm
-    (94, 9400, 182, 21, 2, NULL),  -- protect tm
-    (94, 9400, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (94, 9400, 202, 21, 2, NULL),  -- giga-drain tm
-    (94, 9400, 203, 21, 2, NULL),  -- endure tm
-    (94, 9400, 207, 21, 2, NULL),  -- swagger tm
-    (94, 9400, 213, 21, 2, NULL),  -- attract tm
-    (94, 9400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (94, 9400, 216, 21, 2, NULL),  -- return tm
-    (94, 9400, 218, 21, 2, NULL),  -- frustration tm
-    (94, 9400, 237, 21, 2, NULL),  -- hidden-power tm
-    (94, 9400, 240, 21, 2, NULL),  -- rain-dance tm
-    (94, 9400, 241, 21, 2, NULL),  -- sunny-day tm
-    (94, 9400, 244, 21, 2, NULL),  -- psych-up tm
-    (94, 9400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (94, 9400, 249, 21, 2, NULL),  -- rock-smash tm
-    (94, 9400, 259, 21, 2, NULL),  -- torment tm
-    (94, 9400, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (94, 9400, 263, 21, 2, NULL),  -- facade tm
-    (94, 9400, 264, 21, 2, NULL),  -- focus-punch tm
-    (94, 9400, 269, 21, 2, NULL),  -- taunt tm
-    (94, 9400, 280, 21, 2, NULL),  -- brick-break tm
-    (94, 9400, 285, 21, 2, NULL),  -- skill-swap tm
-    (94, 9400, 289, 21, 2, NULL),  -- snatch tm
-    (94, 9400, 290, 21, 2, NULL),  -- secret-power tm
-    (94, 9400, 363, 21, 2, NULL),  -- natural-gift tm
-    (94, 9400, 371, 21, 2, NULL),  -- payback tm
-    (94, 9400, 373, 21, 2, NULL),  -- embargo tm
-    (94, 9400, 374, 21, 2, NULL),  -- fling tm
-    (94, 9400, 398, 21, 2, NULL),  -- poison-jab tm
-    (94, 9400, 399, 21, 2, NULL),  -- dark-pulse tm
-    (94, 9400, 409, 21, 2, NULL),  -- drain-punch tm
-    (94, 9400, 411, 21, 2, NULL),  -- focus-blast tm
-    (94, 9400, 412, 21, 2, NULL),  -- energy-ball tm
-    (94, 9400, 416, 21, 2, NULL),  -- giga-impact tm
-    (94, 9400, 421, 21, 2, NULL),  -- shadow-claw tm
-    (94, 9400, 433, 21, 2, NULL),  -- trick-room tm
-    (94, 9400, 445, 21, 2, NULL),  -- captivate tm
-    (94, 9400, 7, 21, 6, NULL),  -- fire-punch tutor
-    (94, 9400, 8, 21, 6, NULL),  -- ice-punch tutor
-    (94, 9400, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (94, 9400, 173, 21, 6, NULL),  -- snore tutor
-    (94, 9400, 180, 21, 6, NULL),  -- spite tutor
-    (94, 9400, 196, 21, 6, NULL),  -- icy-wind tutor
-    (94, 9400, 253, 21, 6, NULL),  -- uproar tutor
-    (94, 9400, 271, 21, 6, NULL),  -- trick tutor
-    (94, 9400, 282, 21, 6, NULL),  -- knock-off tutor
-    (94, 9400, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (94, 9400, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #095 Onix
-    (95, 9500, 20, 21, 1, 1),  -- bind lv1
-    (95, 9500, 33, 21, 1, 1),  -- tackle lv1
-    (95, 9500, 106, 21, 1, 1),  -- harden lv1
-    (95, 9500, 300, 21, 1, 1),  -- mud-sport lv1
-    (95, 9500, 103, 21, 1, 6),  -- screech lv6
-    (95, 9500, 88, 21, 1, 9),  -- rock-throw lv9
-    (95, 9500, 99, 21, 1, 14),  -- rage lv14
-    (95, 9500, 317, 21, 1, 17),  -- rock-tomb lv17
-    (95, 9500, 201, 21, 1, 22),  -- sandstorm lv22
-    (95, 9500, 21, 21, 1, 25),  -- slam lv25
-    (95, 9500, 397, 21, 1, 30),  -- rock-polish lv30
-    (95, 9500, 225, 21, 1, 33),  -- dragon-breath lv33
-    (95, 9500, 174, 21, 1, 38),  -- curse lv38
-    (95, 9500, 231, 21, 1, 41),  -- iron-tail lv41
-    (95, 9500, 328, 21, 1, 46),  -- sand-tomb lv46
-    (95, 9500, 38, 21, 1, 49),  -- double-edge lv49
-    (95, 9500, 444, 21, 1, 54),  -- stone-edge lv54
-    (95, 9500, 46, 21, 2, NULL),  -- roar tm
-    (95, 9500, 70, 21, 2, NULL),  -- strength tm
-    (95, 9500, 89, 21, 2, NULL),  -- earthquake tm
-    (95, 9500, 91, 21, 2, NULL),  -- dig tm
-    (95, 9500, 92, 21, 2, NULL),  -- toxic tm
-    (95, 9500, 104, 21, 2, NULL),  -- double-team tm
-    (95, 9500, 153, 21, 2, NULL),  -- explosion tm
-    (95, 9500, 156, 21, 2, NULL),  -- rest tm
-    (95, 9500, 157, 21, 2, NULL),  -- rock-slide tm
-    (95, 9500, 164, 21, 2, NULL),  -- substitute tm
-    (95, 9500, 182, 21, 2, NULL),  -- protect tm
-    (95, 9500, 201, 21, 2, NULL),  -- sandstorm tm
-    (95, 9500, 203, 21, 2, NULL),  -- endure tm
-    (95, 9500, 207, 21, 2, NULL),  -- swagger tm
-    (95, 9500, 213, 21, 2, NULL),  -- attract tm
-    (95, 9500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (95, 9500, 216, 21, 2, NULL),  -- return tm
-    (95, 9500, 218, 21, 2, NULL),  -- frustration tm
-    (95, 9500, 231, 21, 2, NULL),  -- iron-tail tm
-    (95, 9500, 237, 21, 2, NULL),  -- hidden-power tm
-    (95, 9500, 241, 21, 2, NULL),  -- sunny-day tm
-    (95, 9500, 244, 21, 2, NULL),  -- psych-up tm
-    (95, 9500, 249, 21, 2, NULL),  -- rock-smash tm
-    (95, 9500, 259, 21, 2, NULL),  -- torment tm
-    (95, 9500, 263, 21, 2, NULL),  -- facade tm
-    (95, 9500, 269, 21, 2, NULL),  -- taunt tm
-    (95, 9500, 290, 21, 2, NULL),  -- secret-power tm
-    (95, 9500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (95, 9500, 360, 21, 2, NULL),  -- gyro-ball tm
-    (95, 9500, 363, 21, 2, NULL),  -- natural-gift tm
-    (95, 9500, 371, 21, 2, NULL),  -- payback tm
-    (95, 9500, 397, 21, 2, NULL),  -- rock-polish tm
-    (95, 9500, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (95, 9500, 430, 21, 2, NULL),  -- flash-cannon tm
-    (95, 9500, 431, 21, 2, NULL),  -- rock-climb tm
-    (95, 9500, 444, 21, 2, NULL),  -- stone-edge tm
-    (95, 9500, 445, 21, 2, NULL),  -- captivate tm
-    (95, 9500, 446, 21, 2, NULL),  -- stealth-rock tm
-    (95, 9500, 111, 21, 5, NULL),  -- defense-curl egg
-    (95, 9500, 153, 21, 5, NULL),  -- explosion egg
-    (95, 9500, 157, 21, 5, NULL),  -- rock-slide egg
-    (95, 9500, 175, 21, 5, NULL),  -- flail egg
-    (95, 9500, 205, 21, 5, NULL),  -- rollout egg
-    (95, 9500, 335, 21, 5, NULL),  -- block egg
-    (95, 9500, 350, 21, 5, NULL),  -- rock-blast egg
-    (95, 9500, 173, 21, 6, NULL),  -- snore tutor
-    (95, 9500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (95, 9500, 205, 21, 6, NULL),  -- rollout tutor
-    (95, 9500, 239, 21, 6, NULL),  -- twister tutor
-    (95, 9500, 246, 21, 6, NULL),  -- ancient-power tutor
-    (95, 9500, 414, 21, 6, NULL),  -- earth-power tutor
-    (95, 9500, 442, 21, 6, NULL),  -- iron-head tutor
-    -- #096 Drowzee
-    (96, 9600, 1, 21, 1, 1),  -- pound lv1
-    (96, 9600, 95, 21, 1, 1),  -- hypnosis lv1
-    (96, 9600, 50, 21, 1, 7),  -- disable lv7
-    (96, 9600, 93, 21, 1, 9),  -- confusion lv9
-    (96, 9600, 29, 21, 1, 15),  -- headbutt lv15
-    (96, 9600, 139, 21, 1, 18),  -- poison-gas lv18
-    (96, 9600, 96, 21, 1, 21),  -- meditate lv21
-    (96, 9600, 60, 21, 1, 26),  -- psybeam lv26
-    (96, 9600, 244, 21, 1, 29),  -- psych-up lv29
-    (96, 9600, 207, 21, 1, 37),  -- swagger lv37
-    (96, 9600, 94, 21, 1, 40),  -- psychic lv40
-    (96, 9600, 417, 21, 1, 43),  -- nasty-plot lv43
-    (96, 9600, 428, 21, 1, 50),  -- zen-headbutt lv50
-    (96, 9600, 248, 21, 1, 53),  -- future-sight lv53
-    (96, 9600, 86, 21, 2, NULL),  -- thunder-wave tm
-    (96, 9600, 92, 21, 2, NULL),  -- toxic tm
-    (96, 9600, 94, 21, 2, NULL),  -- psychic tm
-    (96, 9600, 104, 21, 2, NULL),  -- double-team tm
-    (96, 9600, 113, 21, 2, NULL),  -- light-screen tm
-    (96, 9600, 115, 21, 2, NULL),  -- reflect tm
-    (96, 9600, 138, 21, 2, NULL),  -- dream-eater tm
-    (96, 9600, 148, 21, 2, NULL),  -- flash tm
-    (96, 9600, 156, 21, 2, NULL),  -- rest tm
-    (96, 9600, 164, 21, 2, NULL),  -- substitute tm
-    (96, 9600, 168, 21, 2, NULL),  -- thief tm
-    (96, 9600, 182, 21, 2, NULL),  -- protect tm
-    (96, 9600, 203, 21, 2, NULL),  -- endure tm
-    (96, 9600, 207, 21, 2, NULL),  -- swagger tm
-    (96, 9600, 213, 21, 2, NULL),  -- attract tm
-    (96, 9600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (96, 9600, 216, 21, 2, NULL),  -- return tm
-    (96, 9600, 218, 21, 2, NULL),  -- frustration tm
-    (96, 9600, 219, 21, 2, NULL),  -- safeguard tm
-    (96, 9600, 237, 21, 2, NULL),  -- hidden-power tm
-    (96, 9600, 240, 21, 2, NULL),  -- rain-dance tm
-    (96, 9600, 241, 21, 2, NULL),  -- sunny-day tm
-    (96, 9600, 244, 21, 2, NULL),  -- psych-up tm
-    (96, 9600, 247, 21, 2, NULL),  -- shadow-ball tm
-    (96, 9600, 259, 21, 2, NULL),  -- torment tm
-    (96, 9600, 263, 21, 2, NULL),  -- facade tm
-    (96, 9600, 264, 21, 2, NULL),  -- focus-punch tm
-    (96, 9600, 269, 21, 2, NULL),  -- taunt tm
-    (96, 9600, 278, 21, 2, NULL),  -- recycle tm
-    (96, 9600, 280, 21, 2, NULL),  -- brick-break tm
-    (96, 9600, 285, 21, 2, NULL),  -- skill-swap tm
-    (96, 9600, 289, 21, 2, NULL),  -- snatch tm
-    (96, 9600, 290, 21, 2, NULL),  -- secret-power tm
-    (96, 9600, 347, 21, 2, NULL),  -- calm-mind tm
-    (96, 9600, 363, 21, 2, NULL),  -- natural-gift tm
-    (96, 9600, 374, 21, 2, NULL),  -- fling tm
-    (96, 9600, 409, 21, 2, NULL),  -- drain-punch tm
-    (96, 9600, 433, 21, 2, NULL),  -- trick-room tm
-    (96, 9600, 445, 21, 2, NULL),  -- captivate tm
-    (96, 9600, 447, 21, 2, NULL),  -- grass-knot tm
-    (96, 9600, 7, 21, 5, NULL),  -- fire-punch egg
-    (96, 9600, 8, 21, 5, NULL),  -- ice-punch egg
-    (96, 9600, 9, 21, 5, NULL),  -- thunder-punch egg
-    (96, 9600, 112, 21, 5, NULL),  -- barrier egg
-    (96, 9600, 260, 21, 5, NULL),  -- flatter egg
-    (96, 9600, 272, 21, 5, NULL),  -- role-play egg
-    (96, 9600, 274, 21, 5, NULL),  -- assist egg
-    (96, 9600, 417, 21, 5, NULL),  -- nasty-plot egg
-    (96, 9600, 427, 21, 5, NULL),  -- psycho-cut egg
-    (96, 9600, 7, 21, 6, NULL),  -- fire-punch tutor
-    (96, 9600, 8, 21, 6, NULL),  -- ice-punch tutor
-    (96, 9600, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (96, 9600, 271, 21, 6, NULL),  -- trick tutor
-    (96, 9600, 324, 21, 6, NULL),  -- signal-beam tutor
-    (96, 9600, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #097 Hypno
-    (97, 9700, 1, 21, 1, 1),  -- pound lv1
-    (97, 9700, 50, 21, 1, 1),  -- disable lv1
-    (97, 9700, 93, 21, 1, 1),  -- confusion lv1
-    (97, 9700, 95, 21, 1, 1),  -- hypnosis lv1
-    (97, 9700, 171, 21, 1, 1),  -- nightmare lv1
-    (97, 9700, 415, 21, 1, 1),  -- switcheroo lv1
-    (97, 9700, 29, 21, 1, 15),  -- headbutt lv15
-    (97, 9700, 139, 21, 1, 18),  -- poison-gas lv18
-    (97, 9700, 96, 21, 1, 21),  -- meditate lv21
-    (97, 9700, 60, 21, 1, 28),  -- psybeam lv28
-    (97, 9700, 244, 21, 1, 33),  -- psych-up lv33
-    (97, 9700, 207, 21, 1, 45),  -- swagger lv45
-    (97, 9700, 94, 21, 1, 50),  -- psychic lv50
-    (97, 9700, 417, 21, 1, 55),  -- nasty-plot lv55
-    (97, 9700, 428, 21, 1, 64),  -- zen-headbutt lv64
-    (97, 9700, 248, 21, 1, 69),  -- future-sight lv69
-    (97, 9700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (97, 9700, 86, 21, 2, NULL),  -- thunder-wave tm
-    (97, 9700, 92, 21, 2, NULL),  -- toxic tm
-    (97, 9700, 94, 21, 2, NULL),  -- psychic tm
-    (97, 9700, 104, 21, 2, NULL),  -- double-team tm
-    (97, 9700, 113, 21, 2, NULL),  -- light-screen tm
-    (97, 9700, 115, 21, 2, NULL),  -- reflect tm
-    (97, 9700, 138, 21, 2, NULL),  -- dream-eater tm
-    (97, 9700, 148, 21, 2, NULL),  -- flash tm
-    (97, 9700, 156, 21, 2, NULL),  -- rest tm
-    (97, 9700, 164, 21, 2, NULL),  -- substitute tm
-    (97, 9700, 168, 21, 2, NULL),  -- thief tm
-    (97, 9700, 182, 21, 2, NULL),  -- protect tm
-    (97, 9700, 203, 21, 2, NULL),  -- endure tm
-    (97, 9700, 207, 21, 2, NULL),  -- swagger tm
-    (97, 9700, 213, 21, 2, NULL),  -- attract tm
-    (97, 9700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (97, 9700, 216, 21, 2, NULL),  -- return tm
-    (97, 9700, 218, 21, 2, NULL),  -- frustration tm
-    (97, 9700, 219, 21, 2, NULL),  -- safeguard tm
-    (97, 9700, 237, 21, 2, NULL),  -- hidden-power tm
-    (97, 9700, 240, 21, 2, NULL),  -- rain-dance tm
-    (97, 9700, 241, 21, 2, NULL),  -- sunny-day tm
-    (97, 9700, 244, 21, 2, NULL),  -- psych-up tm
-    (97, 9700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (97, 9700, 259, 21, 2, NULL),  -- torment tm
-    (97, 9700, 263, 21, 2, NULL),  -- facade tm
-    (97, 9700, 264, 21, 2, NULL),  -- focus-punch tm
-    (97, 9700, 269, 21, 2, NULL),  -- taunt tm
-    (97, 9700, 278, 21, 2, NULL),  -- recycle tm
-    (97, 9700, 280, 21, 2, NULL),  -- brick-break tm
-    (97, 9700, 285, 21, 2, NULL),  -- skill-swap tm
-    (97, 9700, 289, 21, 2, NULL),  -- snatch tm
-    (97, 9700, 290, 21, 2, NULL),  -- secret-power tm
-    (97, 9700, 347, 21, 2, NULL),  -- calm-mind tm
-    (97, 9700, 363, 21, 2, NULL),  -- natural-gift tm
-    (97, 9700, 374, 21, 2, NULL),  -- fling tm
-    (97, 9700, 409, 21, 2, NULL),  -- drain-punch tm
-    (97, 9700, 411, 21, 2, NULL),  -- focus-blast tm
-    (97, 9700, 416, 21, 2, NULL),  -- giga-impact tm
-    (97, 9700, 433, 21, 2, NULL),  -- trick-room tm
-    (97, 9700, 445, 21, 2, NULL),  -- captivate tm
-    (97, 9700, 447, 21, 2, NULL),  -- grass-knot tm
-    (97, 9700, 7, 21, 6, NULL),  -- fire-punch tutor
-    (97, 9700, 8, 21, 6, NULL),  -- ice-punch tutor
-    (97, 9700, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (97, 9700, 271, 21, 6, NULL),  -- trick tutor
-    (97, 9700, 324, 21, 6, NULL),  -- signal-beam tutor
-    (97, 9700, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #098 Krabby
-    (98, 9800, 145, 21, 1, 1),  -- bubble lv1
-    (98, 9800, 300, 21, 1, 1),  -- mud-sport lv1
-    (98, 9800, 11, 21, 1, 5),  -- vice-grip lv5
-    (98, 9800, 43, 21, 1, 9),  -- leer lv9
-    (98, 9800, 106, 21, 1, 11),  -- harden lv11
-    (98, 9800, 61, 21, 1, 15),  -- bubble-beam lv15
-    (98, 9800, 341, 21, 1, 19),  -- mud-shot lv19
-    (98, 9800, 232, 21, 1, 21),  -- metal-claw lv21
-    (98, 9800, 23, 21, 1, 25),  -- stomp lv25
-    (98, 9800, 182, 21, 1, 29),  -- protect lv29
-    (98, 9800, 12, 21, 1, 31),  -- guillotine lv31
-    (98, 9800, 21, 21, 1, 35),  -- slam lv35
-    (98, 9800, 362, 21, 1, 39),  -- brine lv39
-    (98, 9800, 152, 21, 1, 41),  -- crabhammer lv41
-    (98, 9800, 175, 21, 1, 45),  -- flail lv45
+    (97, 9700, 95, 21, 8, NULL),  -- hypnosis start
+    (97, 9700, 248, 21, 8, NULL),  -- future-sight start
+    (97, 9700, 415, 21, 8, NULL),  -- switcheroo start
+    (97, 9700, 417, 21, 8, NULL),  -- nasty-plot start
+    (98, 9800, 106, 21, 1, 4),  -- harden lv4
+    (98, 9800, 232, 21, 1, 8),  -- metal-claw lv8
+    (98, 9800, 341, 21, 1, 12),  -- mud-shot lv12
+    (98, 9800, 182, 21, 1, 16),  -- protect lv16
+    (98, 9800, 61, 21, 1, 20),  -- bubble-beam lv20
+    (98, 9800, 23, 21, 1, 24),  -- stomp lv24
+    (98, 9800, 175, 21, 1, 29),  -- flail lv29
+    (98, 9800, 534, 21, 1, 32),  -- razor-shell lv32
+    (98, 9800, 21, 21, 1, 36),  -- slam lv36
+    (98, 9800, 14, 21, 1, 40),  -- swords-dance lv40
+    (98, 9800, 152, 21, 1, 44),  -- crabhammer lv44
+    (98, 9800, 12, 21, 1, 48),  -- guillotine lv48
     (98, 9800, 14, 21, 2, NULL),  -- swords-dance tm
     (98, 9800, 15, 21, 2, NULL),  -- cut tm
     (98, 9800, 57, 21, 2, NULL),  -- surf tm
@@ -501,7 +36,6 @@ VALUES
     (98, 9800, 59, 21, 2, NULL),  -- blizzard tm
     (98, 9800, 70, 21, 2, NULL),  -- strength tm
     (98, 9800, 91, 21, 2, NULL),  -- dig tm
-    (98, 9800, 92, 21, 2, NULL),  -- toxic tm
     (98, 9800, 104, 21, 2, NULL),  -- double-team tm
     (98, 9800, 156, 21, 2, NULL),  -- rest tm
     (98, 9800, 157, 21, 2, NULL),  -- rock-slide tm
@@ -513,56 +47,41 @@ VALUES
     (98, 9800, 207, 21, 2, NULL),  -- swagger tm
     (98, 9800, 213, 21, 2, NULL),  -- attract tm
     (98, 9800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (98, 9800, 216, 21, 2, NULL),  -- return tm
-    (98, 9800, 218, 21, 2, NULL),  -- frustration tm
-    (98, 9800, 237, 21, 2, NULL),  -- hidden-power tm
     (98, 9800, 240, 21, 2, NULL),  -- rain-dance tm
     (98, 9800, 249, 21, 2, NULL),  -- rock-smash tm
     (98, 9800, 258, 21, 2, NULL),  -- hail tm
     (98, 9800, 263, 21, 2, NULL),  -- facade tm
     (98, 9800, 280, 21, 2, NULL),  -- brick-break tm
-    (98, 9800, 290, 21, 2, NULL),  -- secret-power tm
     (98, 9800, 317, 21, 2, NULL),  -- rock-tomb tm
     (98, 9800, 352, 21, 2, NULL),  -- water-pulse tm
     (98, 9800, 362, 21, 2, NULL),  -- brine tm
-    (98, 9800, 363, 21, 2, NULL),  -- natural-gift tm
     (98, 9800, 374, 21, 2, NULL),  -- fling tm
     (98, 9800, 404, 21, 2, NULL),  -- x-scissor tm
-    (98, 9800, 445, 21, 2, NULL),  -- captivate tm
-    (98, 9800, 14, 21, 5, NULL),  -- swords-dance egg
+    (98, 9800, 503, 21, 2, NULL),  -- scald tm
     (98, 9800, 21, 21, 5, NULL),  -- slam egg
-    (98, 9800, 91, 21, 5, NULL),  -- dig egg
+    (98, 9800, 97, 21, 5, NULL),  -- agility egg
     (98, 9800, 114, 21, 5, NULL),  -- haze egg
     (98, 9800, 133, 21, 5, NULL),  -- amnesia egg
+    (98, 9800, 163, 21, 5, NULL),  -- slash egg
     (98, 9800, 175, 21, 5, NULL),  -- flail egg
     (98, 9800, 246, 21, 5, NULL),  -- ancient-power egg
     (98, 9800, 282, 21, 5, NULL),  -- knock-off egg
     (98, 9800, 321, 21, 5, NULL),  -- tickle egg
-    (98, 9800, 173, 21, 6, NULL),  -- snore tutor
-    (98, 9800, 189, 21, 6, NULL),  -- mud-slap tutor
-    (98, 9800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (98, 9800, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (98, 9800, 246, 21, 6, NULL),  -- ancient-power tutor
-    (98, 9800, 276, 21, 6, NULL),  -- superpower tutor
-    (98, 9800, 282, 21, 6, NULL),  -- knock-off tutor
-    (98, 9800, 291, 21, 6, NULL),  -- dive tutor
-    (98, 9800, 334, 21, 6, NULL),  -- iron-defense tutor
-    -- #099 Kingler
-    (99, 9900, 11, 21, 1, 1),  -- vice-grip lv1
-    (99, 9900, 145, 21, 1, 1),  -- bubble lv1
-    (99, 9900, 300, 21, 1, 1),  -- mud-sport lv1
-    (99, 9900, 43, 21, 1, 9),  -- leer lv9
-    (99, 9900, 106, 21, 1, 11),  -- harden lv11
-    (99, 9900, 61, 21, 1, 15),  -- bubble-beam lv15
-    (99, 9900, 341, 21, 1, 19),  -- mud-shot lv19
-    (99, 9900, 232, 21, 1, 21),  -- metal-claw lv21
-    (99, 9900, 23, 21, 1, 25),  -- stomp lv25
-    (99, 9900, 182, 21, 1, 32),  -- protect lv32
-    (99, 9900, 12, 21, 1, 37),  -- guillotine lv37
-    (99, 9900, 21, 21, 1, 44),  -- slam lv44
-    (99, 9900, 362, 21, 1, 51),  -- brine lv51
-    (99, 9900, 152, 21, 1, 56),  -- crabhammer lv56
-    (99, 9900, 175, 21, 1, 63),  -- flail lv63
+    (98, 9800, 359, 21, 5, NULL),  -- hammer-arm egg
+    (98, 9800, 400, 21, 5, NULL),  -- night-slash egg
+    (98, 9800, 502, 21, 5, NULL),  -- ally-switch egg
+    (98, 9800, 43, 21, 8, NULL),  -- leer start
+    (98, 9800, 55, 21, 8, NULL),  -- water-gun start
+    (99, 9900, 341, 21, 1, 12),  -- mud-shot lv12
+    (99, 9900, 182, 21, 1, 16),  -- protect lv16
+    (99, 9900, 61, 21, 1, 20),  -- bubble-beam lv20
+    (99, 9900, 23, 21, 1, 24),  -- stomp lv24
+    (99, 9900, 175, 21, 1, 31),  -- flail lv31
+    (99, 9900, 534, 21, 1, 36),  -- razor-shell lv36
+    (99, 9900, 21, 21, 1, 42),  -- slam lv42
+    (99, 9900, 14, 21, 1, 48),  -- swords-dance lv48
+    (99, 9900, 152, 21, 1, 54),  -- crabhammer lv54
+    (99, 9900, 12, 21, 1, 60),  -- guillotine lv60
     (99, 9900, 14, 21, 2, NULL),  -- swords-dance tm
     (99, 9900, 15, 21, 2, NULL),  -- cut tm
     (99, 9900, 57, 21, 2, NULL),  -- surf tm
@@ -571,7 +90,6 @@ VALUES
     (99, 9900, 63, 21, 2, NULL),  -- hyper-beam tm
     (99, 9900, 70, 21, 2, NULL),  -- strength tm
     (99, 9900, 91, 21, 2, NULL),  -- dig tm
-    (99, 9900, 92, 21, 2, NULL),  -- toxic tm
     (99, 9900, 104, 21, 2, NULL),  -- double-team tm
     (99, 9900, 156, 21, 2, NULL),  -- rest tm
     (99, 9900, 157, 21, 2, NULL),  -- rock-slide tm
@@ -583,51 +101,54 @@ VALUES
     (99, 9900, 207, 21, 2, NULL),  -- swagger tm
     (99, 9900, 213, 21, 2, NULL),  -- attract tm
     (99, 9900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (99, 9900, 216, 21, 2, NULL),  -- return tm
-    (99, 9900, 218, 21, 2, NULL),  -- frustration tm
-    (99, 9900, 237, 21, 2, NULL),  -- hidden-power tm
     (99, 9900, 240, 21, 2, NULL),  -- rain-dance tm
     (99, 9900, 249, 21, 2, NULL),  -- rock-smash tm
     (99, 9900, 258, 21, 2, NULL),  -- hail tm
     (99, 9900, 263, 21, 2, NULL),  -- facade tm
     (99, 9900, 280, 21, 2, NULL),  -- brick-break tm
-    (99, 9900, 290, 21, 2, NULL),  -- secret-power tm
     (99, 9900, 317, 21, 2, NULL),  -- rock-tomb tm
     (99, 9900, 352, 21, 2, NULL),  -- water-pulse tm
     (99, 9900, 362, 21, 2, NULL),  -- brine tm
-    (99, 9900, 363, 21, 2, NULL),  -- natural-gift tm
     (99, 9900, 374, 21, 2, NULL),  -- fling tm
     (99, 9900, 404, 21, 2, NULL),  -- x-scissor tm
     (99, 9900, 416, 21, 2, NULL),  -- giga-impact tm
-    (99, 9900, 445, 21, 2, NULL),  -- captivate tm
-    (99, 9900, 173, 21, 6, NULL),  -- snore tutor
-    (99, 9900, 189, 21, 6, NULL),  -- mud-slap tutor
-    (99, 9900, 196, 21, 6, NULL),  -- icy-wind tutor
-    (99, 9900, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (99, 9900, 246, 21, 6, NULL),  -- ancient-power tutor
-    (99, 9900, 276, 21, 6, NULL),  -- superpower tutor
-    (99, 9900, 282, 21, 6, NULL),  -- knock-off tutor
-    (99, 9900, 291, 21, 6, NULL),  -- dive tutor
-    (99, 9900, 334, 21, 6, NULL),  -- iron-defense tutor
-    -- #100 Voltorb
-    (100, 10000, 268, 21, 1, 1),  -- charge lv1
-    (100, 10000, 33, 21, 1, 5),  -- tackle lv5
-    (100, 10000, 49, 21, 1, 8),  -- sonic-boom lv8
-    (100, 10000, 209, 21, 1, 12),  -- spark lv12
-    (100, 10000, 205, 21, 1, 15),  -- rollout lv15
-    (100, 10000, 103, 21, 1, 19),  -- screech lv19
-    (100, 10000, 113, 21, 1, 22),  -- light-screen lv22
-    (100, 10000, 451, 21, 1, 26),  -- charge-beam lv26
-    (100, 10000, 120, 21, 1, 29),  -- self-destruct lv29
-    (100, 10000, 129, 21, 1, 33),  -- swift lv33
-    (100, 10000, 393, 21, 1, 36),  -- magnet-rise lv36
-    (100, 10000, 360, 21, 1, 40),  -- gyro-ball lv40
-    (100, 10000, 153, 21, 1, 43),  -- explosion lv43
-    (100, 10000, 243, 21, 1, 47),  -- mirror-coat lv47
+    (99, 9900, 503, 21, 2, NULL),  -- scald tm
+    (99, 9900, 21, 21, 5, NULL),  -- slam egg
+    (99, 9900, 97, 21, 5, NULL),  -- agility egg
+    (99, 9900, 114, 21, 5, NULL),  -- haze egg
+    (99, 9900, 133, 21, 5, NULL),  -- amnesia egg
+    (99, 9900, 163, 21, 5, NULL),  -- slash egg
+    (99, 9900, 175, 21, 5, NULL),  -- flail egg
+    (99, 9900, 246, 21, 5, NULL),  -- ancient-power egg
+    (99, 9900, 282, 21, 5, NULL),  -- knock-off egg
+    (99, 9900, 321, 21, 5, NULL),  -- tickle egg
+    (99, 9900, 359, 21, 5, NULL),  -- hammer-arm egg
+    (99, 9900, 400, 21, 5, NULL),  -- night-slash egg
+    (99, 9900, 502, 21, 5, NULL),  -- ally-switch egg
+    (99, 9900, 43, 21, 8, NULL),  -- leer start
+    (99, 9900, 55, 21, 8, NULL),  -- water-gun start
+    (99, 9900, 106, 21, 8, NULL),  -- harden start
+    (99, 9900, 232, 21, 8, NULL),  -- metal-claw start
+    (99, 9900, 359, 21, 8, NULL),  -- hammer-arm start
+    (99, 9900, 469, 21, 8, NULL),  -- wide-guard start
+    (100, 10000, 84, 21, 1, 4),  -- thunder-shock lv4
+    (100, 10000, 598, 21, 1, 6),  -- eerie-impulse lv6
+    (100, 10000, 209, 21, 1, 9),  -- spark lv9
+    (100, 10000, 205, 21, 1, 11),  -- rollout lv11
+    (100, 10000, 103, 21, 1, 13),  -- screech lv13
+    (100, 10000, 451, 21, 1, 16),  -- charge-beam lv16
+    (100, 10000, 129, 21, 1, 20),  -- swift lv20
+    (100, 10000, 486, 21, 1, 22),  -- electro-ball lv22
+    (100, 10000, 120, 21, 1, 26),  -- self-destruct lv26
+    (100, 10000, 113, 21, 1, 29),  -- light-screen lv29
+    (100, 10000, 393, 21, 1, 34),  -- magnet-rise lv34
+    (100, 10000, 435, 21, 1, 37),  -- discharge lv37
+    (100, 10000, 153, 21, 1, 41),  -- explosion lv41
+    (100, 10000, 360, 21, 1, 46),  -- gyro-ball lv46
+    (100, 10000, 243, 21, 1, 48),  -- mirror-coat lv48
     (100, 10000, 85, 21, 2, NULL),  -- thunderbolt tm
     (100, 10000, 86, 21, 2, NULL),  -- thunder-wave tm
     (100, 10000, 87, 21, 2, NULL),  -- thunder tm
-    (100, 10000, 92, 21, 2, NULL),  -- toxic tm
     (100, 10000, 104, 21, 2, NULL),  -- double-team tm
     (100, 10000, 113, 21, 2, NULL),  -- light-screen tm
     (100, 10000, 148, 21, 2, NULL),  -- flash tm
@@ -639,44 +160,35 @@ VALUES
     (100, 10000, 203, 21, 2, NULL),  -- endure tm
     (100, 10000, 207, 21, 2, NULL),  -- swagger tm
     (100, 10000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (100, 10000, 216, 21, 2, NULL),  -- return tm
-    (100, 10000, 218, 21, 2, NULL),  -- frustration tm
-    (100, 10000, 237, 21, 2, NULL),  -- hidden-power tm
     (100, 10000, 240, 21, 2, NULL),  -- rain-dance tm
     (100, 10000, 259, 21, 2, NULL),  -- torment tm
     (100, 10000, 263, 21, 2, NULL),  -- facade tm
     (100, 10000, 269, 21, 2, NULL),  -- taunt tm
-    (100, 10000, 290, 21, 2, NULL),  -- secret-power tm
     (100, 10000, 351, 21, 2, NULL),  -- shock-wave tm
     (100, 10000, 360, 21, 2, NULL),  -- gyro-ball tm
-    (100, 10000, 363, 21, 2, NULL),  -- natural-gift tm
     (100, 10000, 451, 21, 2, NULL),  -- charge-beam tm
-    (100, 10000, 129, 21, 6, NULL),  -- swift tutor
-    (100, 10000, 173, 21, 6, NULL),  -- snore tutor
-    (100, 10000, 205, 21, 6, NULL),  -- rollout tutor
-    (100, 10000, 324, 21, 6, NULL),  -- signal-beam tutor
-    (100, 10000, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (100, 10000, 393, 21, 6, NULL),  -- magnet-rise tutor
-    -- #101 Electrode
-    (101, 10100, 33, 21, 1, 1),  -- tackle lv1
-    (101, 10100, 49, 21, 1, 1),  -- sonic-boom lv1
-    (101, 10100, 209, 21, 1, 1),  -- spark lv1
-    (101, 10100, 268, 21, 1, 1),  -- charge lv1
-    (101, 10100, 205, 21, 1, 15),  -- rollout lv15
-    (101, 10100, 103, 21, 1, 19),  -- screech lv19
-    (101, 10100, 113, 21, 1, 22),  -- light-screen lv22
-    (101, 10100, 451, 21, 1, 26),  -- charge-beam lv26
-    (101, 10100, 120, 21, 1, 29),  -- self-destruct lv29
-    (101, 10100, 129, 21, 1, 35),  -- swift lv35
-    (101, 10100, 393, 21, 1, 40),  -- magnet-rise lv40
-    (101, 10100, 360, 21, 1, 46),  -- gyro-ball lv46
-    (101, 10100, 153, 21, 1, 51),  -- explosion lv51
-    (101, 10100, 243, 21, 1, 57),  -- mirror-coat lv57
+    (100, 10000, 521, 21, 2, NULL),  -- volt-switch tm
+    (100, 10000, 33, 21, 8, NULL),  -- tackle start
+    (100, 10000, 268, 21, 8, NULL),  -- charge start
+    (101, 10100, 84, 21, 1, 4),  -- thunder-shock lv4
+    (101, 10100, 598, 21, 1, 6),  -- eerie-impulse lv6
+    (101, 10100, 209, 21, 1, 9),  -- spark lv9
+    (101, 10100, 205, 21, 1, 11),  -- rollout lv11
+    (101, 10100, 103, 21, 1, 13),  -- screech lv13
+    (101, 10100, 451, 21, 1, 16),  -- charge-beam lv16
+    (101, 10100, 129, 21, 1, 20),  -- swift lv20
+    (101, 10100, 486, 21, 1, 22),  -- electro-ball lv22
+    (101, 10100, 120, 21, 1, 26),  -- self-destruct lv26
+    (101, 10100, 113, 21, 1, 29),  -- light-screen lv29
+    (101, 10100, 393, 21, 1, 36),  -- magnet-rise lv36
+    (101, 10100, 435, 21, 1, 41),  -- discharge lv41
+    (101, 10100, 153, 21, 1, 47),  -- explosion lv47
+    (101, 10100, 360, 21, 1, 54),  -- gyro-ball lv54
+    (101, 10100, 243, 21, 1, 58),  -- mirror-coat lv58
     (101, 10100, 63, 21, 2, NULL),  -- hyper-beam tm
     (101, 10100, 85, 21, 2, NULL),  -- thunderbolt tm
     (101, 10100, 86, 21, 2, NULL),  -- thunder-wave tm
     (101, 10100, 87, 21, 2, NULL),  -- thunder tm
-    (101, 10100, 92, 21, 2, NULL),  -- toxic tm
     (101, 10100, 104, 21, 2, NULL),  -- double-team tm
     (101, 10100, 113, 21, 2, NULL),  -- light-screen tm
     (101, 10100, 148, 21, 2, NULL),  -- flash tm
@@ -688,44 +200,33 @@ VALUES
     (101, 10100, 203, 21, 2, NULL),  -- endure tm
     (101, 10100, 207, 21, 2, NULL),  -- swagger tm
     (101, 10100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (101, 10100, 216, 21, 2, NULL),  -- return tm
-    (101, 10100, 218, 21, 2, NULL),  -- frustration tm
-    (101, 10100, 237, 21, 2, NULL),  -- hidden-power tm
     (101, 10100, 240, 21, 2, NULL),  -- rain-dance tm
     (101, 10100, 259, 21, 2, NULL),  -- torment tm
     (101, 10100, 263, 21, 2, NULL),  -- facade tm
     (101, 10100, 269, 21, 2, NULL),  -- taunt tm
-    (101, 10100, 290, 21, 2, NULL),  -- secret-power tm
     (101, 10100, 351, 21, 2, NULL),  -- shock-wave tm
     (101, 10100, 360, 21, 2, NULL),  -- gyro-ball tm
-    (101, 10100, 363, 21, 2, NULL),  -- natural-gift tm
     (101, 10100, 416, 21, 2, NULL),  -- giga-impact tm
     (101, 10100, 451, 21, 2, NULL),  -- charge-beam tm
-    (101, 10100, 129, 21, 6, NULL),  -- swift tutor
-    (101, 10100, 173, 21, 6, NULL),  -- snore tutor
-    (101, 10100, 205, 21, 6, NULL),  -- rollout tutor
-    (101, 10100, 324, 21, 6, NULL),  -- signal-beam tutor
-    (101, 10100, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (101, 10100, 393, 21, 6, NULL),  -- magnet-rise tutor
-    -- #102 Exeggcute
-    (102, 10200, 95, 21, 1, 1),  -- hypnosis lv1
-    (102, 10200, 140, 21, 1, 1),  -- barrage lv1
-    (102, 10200, 253, 21, 1, 1),  -- uproar lv1
-    (102, 10200, 115, 21, 1, 7),  -- reflect lv7
-    (102, 10200, 73, 21, 1, 11),  -- leech-seed lv11
-    (102, 10200, 331, 21, 1, 17),  -- bullet-seed lv17
-    (102, 10200, 78, 21, 1, 19),  -- stun-spore lv19
-    (102, 10200, 77, 21, 1, 21),  -- poison-powder lv21
-    (102, 10200, 79, 21, 1, 23),  -- sleep-powder lv23
-    (102, 10200, 93, 21, 1, 27),  -- confusion lv27
-    (102, 10200, 388, 21, 1, 33),  -- worry-seed lv33
-    (102, 10200, 363, 21, 1, 37),  -- natural-gift lv37
-    (102, 10200, 76, 21, 1, 43),  -- solar-beam lv43
-    (102, 10200, 94, 21, 1, 47),  -- psychic lv47
+    (101, 10100, 521, 21, 2, NULL),  -- volt-switch tm
+    (101, 10100, 33, 21, 8, NULL),  -- tackle start
+    (101, 10100, 268, 21, 8, NULL),  -- charge start
+    (101, 10100, 598, 21, 8, NULL),  -- eerie-impulse start
+    (101, 10100, 602, 21, 8, NULL),  -- magnetic-flux start
+    (102, 10200, 115, 21, 1, 5),  -- reflect lv5
+    (102, 10200, 73, 21, 1, 10),  -- leech-seed lv10
+    (102, 10200, 72, 21, 1, 15),  -- mega-drain lv15
+    (102, 10200, 93, 21, 1, 20),  -- confusion lv20
+    (102, 10200, 235, 21, 1, 25),  -- synthesis lv25
+    (102, 10200, 331, 21, 1, 30),  -- bullet-seed lv30
+    (102, 10200, 202, 21, 1, 35),  -- giga-drain lv35
+    (102, 10200, 326, 21, 1, 40),  -- extrasensory lv40
+    (102, 10200, 253, 21, 1, 45),  -- uproar lv45
+    (102, 10200, 388, 21, 1, 50),  -- worry-seed lv50
+    (102, 10200, 76, 21, 1, 55),  -- solar-beam lv55
     (102, 10200, 14, 21, 2, NULL),  -- swords-dance tm
     (102, 10200, 70, 21, 2, NULL),  -- strength tm
     (102, 10200, 76, 21, 2, NULL),  -- solar-beam tm
-    (102, 10200, 92, 21, 2, NULL),  -- toxic tm
     (102, 10200, 94, 21, 2, NULL),  -- psychic tm
     (102, 10200, 104, 21, 2, NULL),  -- double-team tm
     (102, 10200, 113, 21, 2, NULL),  -- light-screen tm
@@ -743,50 +244,33 @@ VALUES
     (102, 10200, 207, 21, 2, NULL),  -- swagger tm
     (102, 10200, 213, 21, 2, NULL),  -- attract tm
     (102, 10200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (102, 10200, 216, 21, 2, NULL),  -- return tm
-    (102, 10200, 218, 21, 2, NULL),  -- frustration tm
-    (102, 10200, 237, 21, 2, NULL),  -- hidden-power tm
     (102, 10200, 241, 21, 2, NULL),  -- sunny-day tm
     (102, 10200, 244, 21, 2, NULL),  -- psych-up tm
     (102, 10200, 263, 21, 2, NULL),  -- facade tm
     (102, 10200, 285, 21, 2, NULL),  -- skill-swap tm
-    (102, 10200, 290, 21, 2, NULL),  -- secret-power tm
     (102, 10200, 331, 21, 2, NULL),  -- bullet-seed tm
-    (102, 10200, 363, 21, 2, NULL),  -- natural-gift tm
     (102, 10200, 412, 21, 2, NULL),  -- energy-ball tm
     (102, 10200, 433, 21, 2, NULL),  -- trick-room tm
-    (102, 10200, 445, 21, 2, NULL),  -- captivate tm
     (102, 10200, 447, 21, 2, NULL),  -- grass-knot tm
-    (102, 10200, 115, 21, 5, NULL),  -- reflect egg
+    (102, 10200, 77, 21, 5, NULL),  -- poison-powder egg
+    (102, 10200, 78, 21, 5, NULL),  -- stun-spore egg
+    (102, 10200, 79, 21, 5, NULL),  -- sleep-powder egg
     (102, 10200, 174, 21, 5, NULL),  -- curse egg
     (102, 10200, 235, 21, 5, NULL),  -- synthesis egg
     (102, 10200, 236, 21, 5, NULL),  -- moonlight egg
-    (102, 10200, 244, 21, 5, NULL),  -- psych-up egg
     (102, 10200, 246, 21, 5, NULL),  -- ancient-power egg
     (102, 10200, 267, 21, 5, NULL),  -- nature-power egg
     (102, 10200, 275, 21, 5, NULL),  -- ingrain egg
-    (102, 10200, 381, 21, 5, NULL),  -- lucky-chant egg
+    (102, 10200, 335, 21, 5, NULL),  -- block egg
+    (102, 10200, 384, 21, 5, NULL),  -- power-swap egg
     (102, 10200, 437, 21, 5, NULL),  -- leaf-storm egg
-    (102, 10200, 173, 21, 6, NULL),  -- snore tutor
-    (102, 10200, 205, 21, 6, NULL),  -- rollout tutor
-    (102, 10200, 235, 21, 6, NULL),  -- synthesis tutor
-    (102, 10200, 246, 21, 6, NULL),  -- ancient-power tutor
-    (102, 10200, 253, 21, 6, NULL),  -- uproar tutor
-    (102, 10200, 402, 21, 6, NULL),  -- seed-bomb tutor
-    -- #103 Exeggutor
-    (103, 10300, 23, 21, 1, 1),  -- stomp lv1
-    (103, 10300, 93, 21, 1, 1),  -- confusion lv1
-    (103, 10300, 95, 21, 1, 1),  -- hypnosis lv1
-    (103, 10300, 140, 21, 1, 1),  -- barrage lv1
-    (103, 10300, 402, 21, 1, 1),  -- seed-bomb lv1
-    (103, 10300, 121, 21, 1, 27),  -- egg-bomb lv27
-    (103, 10300, 452, 21, 1, 37),  -- wood-hammer lv37
-    (103, 10300, 437, 21, 1, 47),  -- leaf-storm lv47
+    (102, 10200, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (102, 10200, 71, 21, 8, NULL),  -- absorb start
+    (102, 10200, 95, 21, 8, NULL),  -- hypnosis start
     (103, 10300, 14, 21, 2, NULL),  -- swords-dance tm
     (103, 10300, 63, 21, 2, NULL),  -- hyper-beam tm
     (103, 10300, 70, 21, 2, NULL),  -- strength tm
     (103, 10300, 76, 21, 2, NULL),  -- solar-beam tm
-    (103, 10300, 92, 21, 2, NULL),  -- toxic tm
     (103, 10300, 94, 21, 2, NULL),  -- psychic tm
     (103, 10300, 104, 21, 2, NULL),  -- double-team tm
     (103, 10300, 113, 21, 2, NULL),  -- light-screen tm
@@ -804,42 +288,60 @@ VALUES
     (103, 10300, 207, 21, 2, NULL),  -- swagger tm
     (103, 10300, 213, 21, 2, NULL),  -- attract tm
     (103, 10300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (103, 10300, 216, 21, 2, NULL),  -- return tm
-    (103, 10300, 218, 21, 2, NULL),  -- frustration tm
-    (103, 10300, 237, 21, 2, NULL),  -- hidden-power tm
     (103, 10300, 241, 21, 2, NULL),  -- sunny-day tm
     (103, 10300, 244, 21, 2, NULL),  -- psych-up tm
     (103, 10300, 263, 21, 2, NULL),  -- facade tm
     (103, 10300, 285, 21, 2, NULL),  -- skill-swap tm
-    (103, 10300, 290, 21, 2, NULL),  -- secret-power tm
     (103, 10300, 331, 21, 2, NULL),  -- bullet-seed tm
-    (103, 10300, 363, 21, 2, NULL),  -- natural-gift tm
+    (103, 10300, 347, 21, 2, NULL),  -- calm-mind tm
     (103, 10300, 412, 21, 2, NULL),  -- energy-ball tm
     (103, 10300, 416, 21, 2, NULL),  -- giga-impact tm
     (103, 10300, 433, 21, 2, NULL),  -- trick-room tm
-    (103, 10300, 445, 21, 2, NULL),  -- captivate tm
     (103, 10300, 447, 21, 2, NULL),  -- grass-knot tm
-    (103, 10300, 173, 21, 6, NULL),  -- snore tutor
-    (103, 10300, 205, 21, 6, NULL),  -- rollout tutor
-    (103, 10300, 235, 21, 6, NULL),  -- synthesis tutor
-    (103, 10300, 246, 21, 6, NULL),  -- ancient-power tutor
-    (103, 10300, 402, 21, 6, NULL),  -- seed-bomb tutor
-    (103, 10300, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #104 Cubone
-    (104, 10400, 45, 21, 1, 1),  -- growl lv1
-    (104, 10400, 39, 21, 1, 3),  -- tail-whip lv3
-    (104, 10400, 125, 21, 1, 7),  -- bone-club lv7
-    (104, 10400, 29, 21, 1, 11),  -- headbutt lv11
-    (104, 10400, 43, 21, 1, 13),  -- leer lv13
-    (104, 10400, 116, 21, 1, 17),  -- focus-energy lv17
-    (104, 10400, 155, 21, 1, 21),  -- bonemerang lv21
-    (104, 10400, 99, 21, 1, 23),  -- rage lv23
-    (104, 10400, 206, 21, 1, 27),  -- false-swipe lv27
-    (104, 10400, 37, 21, 1, 31),  -- thrash lv31
-    (104, 10400, 374, 21, 1, 33),  -- fling lv33
-    (104, 10400, 198, 21, 1, 37),  -- bone-rush lv37
-    (104, 10400, 283, 21, 1, 41),  -- endeavor lv41
-    (104, 10400, 38, 21, 1, 43),  -- double-edge lv43
+    (103, 10300, 523, 21, 2, NULL),  -- bulldoze tm
+    (103, 10300, 77, 21, 5, NULL),  -- poison-powder egg
+    (103, 10300, 78, 21, 5, NULL),  -- stun-spore egg
+    (103, 10300, 79, 21, 5, NULL),  -- sleep-powder egg
+    (103, 10300, 174, 21, 5, NULL),  -- curse egg
+    (103, 10300, 235, 21, 5, NULL),  -- synthesis egg
+    (103, 10300, 236, 21, 5, NULL),  -- moonlight egg
+    (103, 10300, 246, 21, 5, NULL),  -- ancient-power egg
+    (103, 10300, 267, 21, 5, NULL),  -- nature-power egg
+    (103, 10300, 275, 21, 5, NULL),  -- ingrain egg
+    (103, 10300, 335, 21, 5, NULL),  -- block egg
+    (103, 10300, 384, 21, 5, NULL),  -- power-swap egg
+    (103, 10300, 437, 21, 5, NULL),  -- leaf-storm egg
+    (103, 10300, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (103, 10300, 23, 21, 8, NULL),  -- stomp start
+    (103, 10300, 71, 21, 8, NULL),  -- absorb start
+    (103, 10300, 72, 21, 8, NULL),  -- mega-drain start
+    (103, 10300, 73, 21, 8, NULL),  -- leech-seed start
+    (103, 10300, 76, 21, 8, NULL),  -- solar-beam start
+    (103, 10300, 93, 21, 8, NULL),  -- confusion start
+    (103, 10300, 95, 21, 8, NULL),  -- hypnosis start
+    (103, 10300, 115, 21, 8, NULL),  -- reflect start
+    (103, 10300, 202, 21, 8, NULL),  -- giga-drain start
+    (103, 10300, 235, 21, 8, NULL),  -- synthesis start
+    (103, 10300, 253, 21, 8, NULL),  -- uproar start
+    (103, 10300, 326, 21, 8, NULL),  -- extrasensory start
+    (103, 10300, 331, 21, 8, NULL),  -- bullet-seed start
+    (103, 10300, 388, 21, 8, NULL),  -- worry-seed start
+    (103, 10300, 402, 21, 8, NULL),  -- seed-bomb start
+    (103, 10300, 437, 21, 8, NULL),  -- leaf-storm start
+    (103, 10300, 452, 21, 8, NULL),  -- wood-hammer start
+    (103, 10300, 473, 21, 8, NULL),  -- psyshock start
+    (104, 10400, 39, 21, 1, 4),  -- tail-whip lv4
+    (104, 10400, 206, 21, 1, 8),  -- false-swipe lv8
+    (104, 10400, 29, 21, 1, 12),  -- headbutt lv12
+    (104, 10400, 514, 21, 1, 16),  -- retaliate lv16
+    (104, 10400, 374, 21, 1, 20),  -- fling lv20
+    (104, 10400, 707, 21, 1, 24),  -- stomping-tantrum lv24
+    (104, 10400, 198, 21, 1, 29),  -- bone-rush lv29
+    (104, 10400, 116, 21, 1, 32),  -- focus-energy lv32
+    (104, 10400, 283, 21, 1, 36),  -- endeavor lv36
+    (104, 10400, 155, 21, 1, 40),  -- bonemerang lv40
+    (104, 10400, 37, 21, 1, 44),  -- thrash lv44
+    (104, 10400, 38, 21, 1, 48),  -- double-edge lv48
     (104, 10400, 14, 21, 2, NULL),  -- swords-dance tm
     (104, 10400, 53, 21, 2, NULL),  -- flamethrower tm
     (104, 10400, 58, 21, 2, NULL),  -- ice-beam tm
@@ -847,7 +349,6 @@ VALUES
     (104, 10400, 70, 21, 2, NULL),  -- strength tm
     (104, 10400, 89, 21, 2, NULL),  -- earthquake tm
     (104, 10400, 91, 21, 2, NULL),  -- dig tm
-    (104, 10400, 92, 21, 2, NULL),  -- toxic tm
     (104, 10400, 104, 21, 2, NULL),  -- double-team tm
     (104, 10400, 126, 21, 2, NULL),  -- fire-blast tm
     (104, 10400, 156, 21, 2, NULL),  -- rest tm
@@ -861,58 +362,40 @@ VALUES
     (104, 10400, 207, 21, 2, NULL),  -- swagger tm
     (104, 10400, 213, 21, 2, NULL),  -- attract tm
     (104, 10400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (104, 10400, 216, 21, 2, NULL),  -- return tm
-    (104, 10400, 218, 21, 2, NULL),  -- frustration tm
     (104, 10400, 231, 21, 2, NULL),  -- iron-tail tm
-    (104, 10400, 237, 21, 2, NULL),  -- hidden-power tm
     (104, 10400, 241, 21, 2, NULL),  -- sunny-day tm
     (104, 10400, 249, 21, 2, NULL),  -- rock-smash tm
     (104, 10400, 263, 21, 2, NULL),  -- facade tm
     (104, 10400, 264, 21, 2, NULL),  -- focus-punch tm
     (104, 10400, 280, 21, 2, NULL),  -- brick-break tm
-    (104, 10400, 290, 21, 2, NULL),  -- secret-power tm
     (104, 10400, 317, 21, 2, NULL),  -- rock-tomb tm
     (104, 10400, 332, 21, 2, NULL),  -- aerial-ace tm
-    (104, 10400, 363, 21, 2, NULL),  -- natural-gift tm
     (104, 10400, 374, 21, 2, NULL),  -- fling tm
     (104, 10400, 431, 21, 2, NULL),  -- rock-climb tm
-    (104, 10400, 445, 21, 2, NULL),  -- captivate tm
     (104, 10400, 446, 21, 2, NULL),  -- stealth-rock tm
-    (104, 10400, 14, 21, 5, NULL),  -- swords-dance egg
+    (104, 10400, 523, 21, 2, NULL),  -- bulldoze tm
     (104, 10400, 24, 21, 5, NULL),  -- double-kick egg
+    (104, 10400, 43, 21, 5, NULL),  -- leer egg
     (104, 10400, 103, 21, 5, NULL),  -- screech egg
     (104, 10400, 130, 21, 5, NULL),  -- skull-bash egg
-    (104, 10400, 157, 21, 5, NULL),  -- rock-slide egg
+    (104, 10400, 174, 21, 5, NULL),  -- curse egg
     (104, 10400, 187, 21, 5, NULL),  -- belly-drum egg
     (104, 10400, 195, 21, 5, NULL),  -- perish-song egg
+    (104, 10400, 197, 21, 5, NULL),  -- detect egg
     (104, 10400, 246, 21, 5, NULL),  -- ancient-power egg
     (104, 10400, 442, 21, 5, NULL),  -- iron-head egg
-    (104, 10400, 7, 21, 6, NULL),  -- fire-punch tutor
-    (104, 10400, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (104, 10400, 173, 21, 6, NULL),  -- snore tutor
-    (104, 10400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (104, 10400, 196, 21, 6, NULL),  -- icy-wind tutor
-    (104, 10400, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (104, 10400, 253, 21, 6, NULL),  -- uproar tutor
-    (104, 10400, 282, 21, 6, NULL),  -- knock-off tutor
-    (104, 10400, 283, 21, 6, NULL),  -- endeavor tutor
-    (104, 10400, 334, 21, 6, NULL),  -- iron-defense tutor
-    (104, 10400, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #105 Marowak
-    (105, 10500, 29, 21, 1, 1),  -- headbutt lv1
-    (105, 10500, 39, 21, 1, 1),  -- tail-whip lv1
-    (105, 10500, 45, 21, 1, 1),  -- growl lv1
-    (105, 10500, 125, 21, 1, 1),  -- bone-club lv1
-    (105, 10500, 43, 21, 1, 13),  -- leer lv13
-    (105, 10500, 116, 21, 1, 17),  -- focus-energy lv17
-    (105, 10500, 155, 21, 1, 21),  -- bonemerang lv21
-    (105, 10500, 99, 21, 1, 23),  -- rage lv23
-    (105, 10500, 206, 21, 1, 27),  -- false-swipe lv27
-    (105, 10500, 37, 21, 1, 33),  -- thrash lv33
-    (105, 10500, 374, 21, 1, 37),  -- fling lv37
-    (105, 10500, 198, 21, 1, 43),  -- bone-rush lv43
-    (105, 10500, 283, 21, 1, 49),  -- endeavor lv49
-    (105, 10500, 38, 21, 1, 53),  -- double-edge lv53
+    (104, 10400, 45, 21, 8, NULL),  -- growl start
+    (104, 10400, 189, 21, 8, NULL),  -- mud-slap start
+    (105, 10500, 29, 21, 1, 12),  -- headbutt lv12
+    (105, 10500, 514, 21, 1, 16),  -- retaliate lv16
+    (105, 10500, 374, 21, 1, 20),  -- fling lv20
+    (105, 10500, 707, 21, 1, 24),  -- stomping-tantrum lv24
+    (105, 10500, 198, 21, 1, 31),  -- bone-rush lv31
+    (105, 10500, 116, 21, 1, 36),  -- focus-energy lv36
+    (105, 10500, 283, 21, 1, 42),  -- endeavor lv42
+    (105, 10500, 155, 21, 1, 48),  -- bonemerang lv48
+    (105, 10500, 37, 21, 1, 54),  -- thrash lv54
+    (105, 10500, 38, 21, 1, 60),  -- double-edge lv60
     (105, 10500, 14, 21, 2, NULL),  -- swords-dance tm
     (105, 10500, 53, 21, 2, NULL),  -- flamethrower tm
     (105, 10500, 58, 21, 2, NULL),  -- ice-beam tm
@@ -921,7 +404,6 @@ VALUES
     (105, 10500, 70, 21, 2, NULL),  -- strength tm
     (105, 10500, 89, 21, 2, NULL),  -- earthquake tm
     (105, 10500, 91, 21, 2, NULL),  -- dig tm
-    (105, 10500, 92, 21, 2, NULL),  -- toxic tm
     (105, 10500, 104, 21, 2, NULL),  -- double-team tm
     (105, 10500, 126, 21, 2, NULL),  -- fire-blast tm
     (105, 10500, 156, 21, 2, NULL),  -- rest tm
@@ -935,58 +417,48 @@ VALUES
     (105, 10500, 207, 21, 2, NULL),  -- swagger tm
     (105, 10500, 213, 21, 2, NULL),  -- attract tm
     (105, 10500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (105, 10500, 216, 21, 2, NULL),  -- return tm
-    (105, 10500, 218, 21, 2, NULL),  -- frustration tm
     (105, 10500, 231, 21, 2, NULL),  -- iron-tail tm
-    (105, 10500, 237, 21, 2, NULL),  -- hidden-power tm
     (105, 10500, 241, 21, 2, NULL),  -- sunny-day tm
     (105, 10500, 249, 21, 2, NULL),  -- rock-smash tm
     (105, 10500, 263, 21, 2, NULL),  -- facade tm
     (105, 10500, 264, 21, 2, NULL),  -- focus-punch tm
     (105, 10500, 280, 21, 2, NULL),  -- brick-break tm
-    (105, 10500, 290, 21, 2, NULL),  -- secret-power tm
     (105, 10500, 317, 21, 2, NULL),  -- rock-tomb tm
     (105, 10500, 332, 21, 2, NULL),  -- aerial-ace tm
-    (105, 10500, 363, 21, 2, NULL),  -- natural-gift tm
     (105, 10500, 374, 21, 2, NULL),  -- fling tm
     (105, 10500, 411, 21, 2, NULL),  -- focus-blast tm
     (105, 10500, 416, 21, 2, NULL),  -- giga-impact tm
     (105, 10500, 431, 21, 2, NULL),  -- rock-climb tm
     (105, 10500, 444, 21, 2, NULL),  -- stone-edge tm
-    (105, 10500, 445, 21, 2, NULL),  -- captivate tm
     (105, 10500, 446, 21, 2, NULL),  -- stealth-rock tm
-    (105, 10500, 7, 21, 6, NULL),  -- fire-punch tutor
-    (105, 10500, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (105, 10500, 173, 21, 6, NULL),  -- snore tutor
-    (105, 10500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (105, 10500, 196, 21, 6, NULL),  -- icy-wind tutor
-    (105, 10500, 200, 21, 6, NULL),  -- outrage tutor
-    (105, 10500, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (105, 10500, 253, 21, 6, NULL),  -- uproar tutor
-    (105, 10500, 282, 21, 6, NULL),  -- knock-off tutor
-    (105, 10500, 283, 21, 6, NULL),  -- endeavor tutor
-    (105, 10500, 334, 21, 6, NULL),  -- iron-defense tutor
-    (105, 10500, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #106 Hitmonlee
-    (106, 10600, 24, 21, 1, 1),  -- double-kick lv1
-    (106, 10600, 279, 21, 1, 1),  -- revenge lv1
-    (106, 10600, 96, 21, 1, 5),  -- meditate lv5
-    (106, 10600, 27, 21, 1, 9),  -- rolling-kick lv9
-    (106, 10600, 26, 21, 1, 13),  -- jump-kick lv13
-    (106, 10600, 280, 21, 1, 17),  -- brick-break lv17
-    (106, 10600, 116, 21, 1, 21),  -- focus-energy lv21
-    (106, 10600, 364, 21, 1, 25),  -- feint lv25
-    (106, 10600, 136, 21, 1, 29),  -- high-jump-kick lv29
-    (106, 10600, 170, 21, 1, 33),  -- mind-reader lv33
-    (106, 10600, 193, 21, 1, 37),  -- foresight lv37
-    (106, 10600, 299, 21, 1, 41),  -- blaze-kick lv41
-    (106, 10600, 203, 21, 1, 45),  -- endure lv45
-    (106, 10600, 25, 21, 1, 49),  -- mega-kick lv49
-    (106, 10600, 370, 21, 1, 53),  -- close-combat lv53
-    (106, 10600, 179, 21, 1, 57),  -- reversal lv57
+    (105, 10500, 523, 21, 2, NULL),  -- bulldoze tm
+    (105, 10500, 24, 21, 5, NULL),  -- double-kick egg
+    (105, 10500, 43, 21, 5, NULL),  -- leer egg
+    (105, 10500, 103, 21, 5, NULL),  -- screech egg
+    (105, 10500, 130, 21, 5, NULL),  -- skull-bash egg
+    (105, 10500, 174, 21, 5, NULL),  -- curse egg
+    (105, 10500, 187, 21, 5, NULL),  -- belly-drum egg
+    (105, 10500, 195, 21, 5, NULL),  -- perish-song egg
+    (105, 10500, 197, 21, 5, NULL),  -- detect egg
+    (105, 10500, 246, 21, 5, NULL),  -- ancient-power egg
+    (105, 10500, 442, 21, 5, NULL),  -- iron-head egg
+    (105, 10500, 39, 21, 8, NULL),  -- tail-whip start
+    (105, 10500, 45, 21, 8, NULL),  -- growl start
+    (105, 10500, 189, 21, 8, NULL),  -- mud-slap start
+    (105, 10500, 206, 21, 8, NULL),  -- false-swipe start
+    (106, 10600, 24, 21, 1, 4),  -- double-kick lv4
+    (106, 10600, 67, 21, 1, 8),  -- low-kick lv8
+    (106, 10600, 203, 21, 1, 12),  -- endure lv12
+    (106, 10600, 279, 21, 1, 16),  -- revenge lv16
+    (106, 10600, 469, 21, 1, 21),  -- wide-guard lv21
+    (106, 10600, 299, 21, 1, 24),  -- blaze-kick lv24
+    (106, 10600, 170, 21, 1, 28),  -- mind-reader lv28
+    (106, 10600, 25, 21, 1, 32),  -- mega-kick lv32
+    (106, 10600, 370, 21, 1, 36),  -- close-combat lv36
+    (106, 10600, 179, 21, 1, 40),  -- reversal lv40
+    (106, 10600, 136, 21, 1, 44),  -- high-jump-kick lv44
     (106, 10600, 70, 21, 2, NULL),  -- strength tm
     (106, 10600, 89, 21, 2, NULL),  -- earthquake tm
-    (106, 10600, 92, 21, 2, NULL),  -- toxic tm
     (106, 10600, 104, 21, 2, NULL),  -- double-team tm
     (106, 10600, 156, 21, 2, NULL),  -- rest tm
     (106, 10600, 157, 21, 2, NULL),  -- rock-slide tm
@@ -997,54 +469,53 @@ VALUES
     (106, 10600, 207, 21, 2, NULL),  -- swagger tm
     (106, 10600, 213, 21, 2, NULL),  -- attract tm
     (106, 10600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (106, 10600, 216, 21, 2, NULL),  -- return tm
-    (106, 10600, 218, 21, 2, NULL),  -- frustration tm
-    (106, 10600, 237, 21, 2, NULL),  -- hidden-power tm
     (106, 10600, 240, 21, 2, NULL),  -- rain-dance tm
     (106, 10600, 241, 21, 2, NULL),  -- sunny-day tm
     (106, 10600, 249, 21, 2, NULL),  -- rock-smash tm
     (106, 10600, 263, 21, 2, NULL),  -- facade tm
     (106, 10600, 264, 21, 2, NULL),  -- focus-punch tm
     (106, 10600, 280, 21, 2, NULL),  -- brick-break tm
-    (106, 10600, 290, 21, 2, NULL),  -- secret-power tm
     (106, 10600, 317, 21, 2, NULL),  -- rock-tomb tm
     (106, 10600, 339, 21, 2, NULL),  -- bulk-up tm
-    (106, 10600, 363, 21, 2, NULL),  -- natural-gift tm
     (106, 10600, 374, 21, 2, NULL),  -- fling tm
     (106, 10600, 398, 21, 2, NULL),  -- poison-jab tm
     (106, 10600, 411, 21, 2, NULL),  -- focus-blast tm
     (106, 10600, 431, 21, 2, NULL),  -- rock-climb tm
     (106, 10600, 444, 21, 2, NULL),  -- stone-edge tm
-    (106, 10600, 445, 21, 2, NULL),  -- captivate tm
-    (106, 10600, 129, 21, 6, NULL),  -- swift tutor
-    (106, 10600, 173, 21, 6, NULL),  -- snore tutor
-    (106, 10600, 189, 21, 6, NULL),  -- mud-slap tutor
-    (106, 10600, 270, 21, 6, NULL),  -- helping-hand tutor
-    (106, 10600, 276, 21, 6, NULL),  -- superpower tutor
-    (106, 10600, 282, 21, 6, NULL),  -- knock-off tutor
-    (106, 10600, 340, 21, 6, NULL),  -- bounce tutor
-    (106, 10600, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (106, 10600, 410, 21, 6, NULL),  -- vacuum-wave tutor
-    -- #107 Hitmonchan
-    (107, 10700, 4, 21, 1, 1),  -- comet-punch lv1
-    (107, 10700, 279, 21, 1, 1),  -- revenge lv1
-    (107, 10700, 97, 21, 1, 6),  -- agility lv6
-    (107, 10700, 228, 21, 1, 11),  -- pursuit lv11
-    (107, 10700, 183, 21, 1, 16),  -- mach-punch lv16
-    (107, 10700, 418, 21, 1, 16),  -- bullet-punch lv16
-    (107, 10700, 364, 21, 1, 21),  -- feint lv21
-    (107, 10700, 410, 21, 1, 26),  -- vacuum-wave lv26
-    (107, 10700, 7, 21, 1, 31),  -- fire-punch lv31
-    (107, 10700, 8, 21, 1, 31),  -- ice-punch lv31
-    (107, 10700, 9, 21, 1, 31),  -- thunder-punch lv31
-    (107, 10700, 327, 21, 1, 36),  -- sky-uppercut lv36
-    (107, 10700, 5, 21, 1, 41),  -- mega-punch lv41
-    (107, 10700, 197, 21, 1, 46),  -- detect lv46
-    (107, 10700, 68, 21, 1, 51),  -- counter lv51
-    (107, 10700, 370, 21, 1, 56),  -- close-combat lv56
+    (106, 10600, 490, 21, 2, NULL),  -- low-sweep tm
+    (106, 10600, 523, 21, 2, NULL),  -- bulldoze tm
+    (106, 10600, 526, 21, 2, NULL),  -- work-up tm
+    (106, 10600, 68, 21, 5, NULL),  -- counter egg
+    (106, 10600, 136, 21, 5, NULL),  -- high-jump-kick egg
+    (106, 10600, 170, 21, 5, NULL),  -- mind-reader egg
+    (106, 10600, 183, 21, 5, NULL),  -- mach-punch egg
+    (106, 10600, 229, 21, 5, NULL),  -- rapid-spin egg
+    (106, 10600, 270, 21, 5, NULL),  -- helping-hand egg
+    (106, 10600, 364, 21, 5, NULL),  -- feint egg
+    (106, 10600, 410, 21, 5, NULL),  -- vacuum-wave egg
+    (106, 10600, 418, 21, 5, NULL),  -- bullet-punch egg
+    (106, 10600, 33, 21, 8, NULL),  -- tackle start
+    (106, 10600, 116, 21, 8, NULL),  -- focus-energy start
+    (106, 10600, 252, 21, 8, NULL),  -- fake-out start
+    (106, 10600, 270, 21, 8, NULL),  -- helping-hand start
+    (106, 10600, 280, 21, 8, NULL),  -- brick-break start
+    (106, 10600, 364, 21, 8, NULL),  -- feint start
+    (106, 10600, 490, 21, 8, NULL),  -- low-sweep start
+    (107, 10700, 183, 21, 1, 4),  -- mach-punch lv4
+    (107, 10700, 612, 21, 1, 8),  -- power-up-punch lv8
+    (107, 10700, 197, 21, 1, 12),  -- detect lv12
+    (107, 10700, 279, 21, 1, 16),  -- revenge lv16
+    (107, 10700, 501, 21, 1, 21),  -- quick-guard lv21
+    (107, 10700, 7, 21, 1, 24),  -- fire-punch lv24
+    (107, 10700, 8, 21, 1, 24),  -- ice-punch lv24
+    (107, 10700, 9, 21, 1, 24),  -- thunder-punch lv24
+    (107, 10700, 97, 21, 1, 28),  -- agility lv28
+    (107, 10700, 5, 21, 1, 32),  -- mega-punch lv32
+    (107, 10700, 370, 21, 1, 36),  -- close-combat lv36
+    (107, 10700, 68, 21, 1, 40),  -- counter lv40
+    (107, 10700, 264, 21, 1, 44),  -- focus-punch lv44
     (107, 10700, 70, 21, 2, NULL),  -- strength tm
     (107, 10700, 89, 21, 2, NULL),  -- earthquake tm
-    (107, 10700, 92, 21, 2, NULL),  -- toxic tm
     (107, 10700, 104, 21, 2, NULL),  -- double-team tm
     (107, 10700, 156, 21, 2, NULL),  -- rest tm
     (107, 10700, 157, 21, 2, NULL),  -- rock-slide tm
@@ -1055,48 +526,49 @@ VALUES
     (107, 10700, 207, 21, 2, NULL),  -- swagger tm
     (107, 10700, 213, 21, 2, NULL),  -- attract tm
     (107, 10700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (107, 10700, 216, 21, 2, NULL),  -- return tm
-    (107, 10700, 218, 21, 2, NULL),  -- frustration tm
-    (107, 10700, 237, 21, 2, NULL),  -- hidden-power tm
     (107, 10700, 240, 21, 2, NULL),  -- rain-dance tm
     (107, 10700, 241, 21, 2, NULL),  -- sunny-day tm
     (107, 10700, 249, 21, 2, NULL),  -- rock-smash tm
     (107, 10700, 263, 21, 2, NULL),  -- facade tm
     (107, 10700, 264, 21, 2, NULL),  -- focus-punch tm
     (107, 10700, 280, 21, 2, NULL),  -- brick-break tm
-    (107, 10700, 290, 21, 2, NULL),  -- secret-power tm
     (107, 10700, 317, 21, 2, NULL),  -- rock-tomb tm
     (107, 10700, 339, 21, 2, NULL),  -- bulk-up tm
-    (107, 10700, 363, 21, 2, NULL),  -- natural-gift tm
     (107, 10700, 374, 21, 2, NULL),  -- fling tm
     (107, 10700, 409, 21, 2, NULL),  -- drain-punch tm
     (107, 10700, 411, 21, 2, NULL),  -- focus-blast tm
     (107, 10700, 431, 21, 2, NULL),  -- rock-climb tm
     (107, 10700, 444, 21, 2, NULL),  -- stone-edge tm
-    (107, 10700, 445, 21, 2, NULL),  -- captivate tm
-    (107, 10700, 7, 21, 6, NULL),  -- fire-punch tutor
-    (107, 10700, 8, 21, 6, NULL),  -- ice-punch tutor
-    (107, 10700, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (107, 10700, 129, 21, 6, NULL),  -- swift tutor
-    (107, 10700, 173, 21, 6, NULL),  -- snore tutor
-    (107, 10700, 189, 21, 6, NULL),  -- mud-slap tutor
-    (107, 10700, 270, 21, 6, NULL),  -- helping-hand tutor
-    (107, 10700, 410, 21, 6, NULL),  -- vacuum-wave tutor
-    -- #108 Lickitung
-    (108, 10800, 122, 21, 1, 1),  -- lick lv1
-    (108, 10800, 48, 21, 1, 5),  -- supersonic lv5
-    (108, 10800, 111, 21, 1, 9),  -- defense-curl lv9
-    (108, 10800, 282, 21, 1, 13),  -- knock-off lv13
-    (108, 10800, 35, 21, 1, 17),  -- wrap lv17
-    (108, 10800, 23, 21, 1, 21),  -- stomp lv21
-    (108, 10800, 50, 21, 1, 25),  -- disable lv25
-    (108, 10800, 21, 21, 1, 29),  -- slam lv29
-    (108, 10800, 205, 21, 1, 33),  -- rollout lv33
-    (108, 10800, 382, 21, 1, 37),  -- me-first lv37
-    (108, 10800, 287, 21, 1, 41),  -- refresh lv41
-    (108, 10800, 103, 21, 1, 45),  -- screech lv45
-    (108, 10800, 438, 21, 1, 49),  -- power-whip lv49
-    (108, 10800, 378, 21, 1, 53),  -- wring-out lv53
+    (107, 10700, 490, 21, 2, NULL),  -- low-sweep tm
+    (107, 10700, 523, 21, 2, NULL),  -- bulldoze tm
+    (107, 10700, 526, 21, 2, NULL),  -- work-up tm
+    (107, 10700, 68, 21, 5, NULL),  -- counter egg
+    (107, 10700, 136, 21, 5, NULL),  -- high-jump-kick egg
+    (107, 10700, 170, 21, 5, NULL),  -- mind-reader egg
+    (107, 10700, 183, 21, 5, NULL),  -- mach-punch egg
+    (107, 10700, 229, 21, 5, NULL),  -- rapid-spin egg
+    (107, 10700, 270, 21, 5, NULL),  -- helping-hand egg
+    (107, 10700, 364, 21, 5, NULL),  -- feint egg
+    (107, 10700, 410, 21, 5, NULL),  -- vacuum-wave egg
+    (107, 10700, 418, 21, 5, NULL),  -- bullet-punch egg
+    (107, 10700, 33, 21, 8, NULL),  -- tackle start
+    (107, 10700, 116, 21, 8, NULL),  -- focus-energy start
+    (107, 10700, 252, 21, 8, NULL),  -- fake-out start
+    (107, 10700, 270, 21, 8, NULL),  -- helping-hand start
+    (107, 10700, 364, 21, 8, NULL),  -- feint start
+    (107, 10700, 409, 21, 8, NULL),  -- drain-punch start
+    (107, 10700, 410, 21, 8, NULL),  -- vacuum-wave start
+    (107, 10700, 418, 21, 8, NULL),  -- bullet-punch start
+    (108, 10800, 205, 21, 1, 6),  -- rollout lv6
+    (108, 10800, 48, 21, 1, 12),  -- supersonic lv12
+    (108, 10800, 35, 21, 1, 18),  -- wrap lv18
+    (108, 10800, 50, 21, 1, 24),  -- disable lv24
+    (108, 10800, 23, 21, 1, 30),  -- stomp lv30
+    (108, 10800, 282, 21, 1, 36),  -- knock-off lv36
+    (108, 10800, 103, 21, 1, 42),  -- screech lv42
+    (108, 10800, 21, 21, 1, 48),  -- slam lv48
+    (108, 10800, 438, 21, 1, 54),  -- power-whip lv54
+    (108, 10800, 187, 21, 1, 60),  -- belly-drum lv60
     (108, 10800, 14, 21, 2, NULL),  -- swords-dance tm
     (108, 10800, 15, 21, 2, NULL),  -- cut tm
     (108, 10800, 53, 21, 2, NULL),  -- flamethrower tm
@@ -1110,7 +582,6 @@ VALUES
     (108, 10800, 87, 21, 2, NULL),  -- thunder tm
     (108, 10800, 89, 21, 2, NULL),  -- earthquake tm
     (108, 10800, 91, 21, 2, NULL),  -- dig tm
-    (108, 10800, 92, 21, 2, NULL),  -- toxic tm
     (108, 10800, 104, 21, 2, NULL),  -- double-team tm
     (108, 10800, 126, 21, 2, NULL),  -- fire-blast tm
     (108, 10800, 138, 21, 2, NULL),  -- dream-eater tm
@@ -1124,10 +595,7 @@ VALUES
     (108, 10800, 207, 21, 2, NULL),  -- swagger tm
     (108, 10800, 213, 21, 2, NULL),  -- attract tm
     (108, 10800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (108, 10800, 216, 21, 2, NULL),  -- return tm
-    (108, 10800, 218, 21, 2, NULL),  -- frustration tm
     (108, 10800, 231, 21, 2, NULL),  -- iron-tail tm
-    (108, 10800, 237, 21, 2, NULL),  -- hidden-power tm
     (108, 10800, 240, 21, 2, NULL),  -- rain-dance tm
     (108, 10800, 241, 21, 2, NULL),  -- sunny-day tm
     (108, 10800, 244, 21, 2, NULL),  -- psych-up tm
@@ -1136,49 +604,39 @@ VALUES
     (108, 10800, 263, 21, 2, NULL),  -- facade tm
     (108, 10800, 264, 21, 2, NULL),  -- focus-punch tm
     (108, 10800, 280, 21, 2, NULL),  -- brick-break tm
-    (108, 10800, 290, 21, 2, NULL),  -- secret-power tm
     (108, 10800, 317, 21, 2, NULL),  -- rock-tomb tm
     (108, 10800, 351, 21, 2, NULL),  -- shock-wave tm
     (108, 10800, 352, 21, 2, NULL),  -- water-pulse tm
-    (108, 10800, 363, 21, 2, NULL),  -- natural-gift tm
     (108, 10800, 374, 21, 2, NULL),  -- fling tm
     (108, 10800, 416, 21, 2, NULL),  -- giga-impact tm
     (108, 10800, 431, 21, 2, NULL),  -- rock-climb tm
-    (108, 10800, 445, 21, 2, NULL),  -- captivate tm
+    (108, 10800, 523, 21, 2, NULL),  -- bulldoze tm
+    (108, 10800, 526, 21, 2, NULL),  -- work-up tm
     (108, 10800, 34, 21, 5, NULL),  -- body-slam egg
+    (108, 10800, 37, 21, 5, NULL),  -- thrash egg
     (108, 10800, 133, 21, 5, NULL),  -- amnesia egg
-    (108, 10800, 164, 21, 5, NULL),  -- substitute egg
     (108, 10800, 173, 21, 5, NULL),  -- snore egg
     (108, 10800, 174, 21, 5, NULL),  -- curse egg
     (108, 10800, 187, 21, 5, NULL),  -- belly-drum egg
-    (108, 10800, 214, 21, 5, NULL),  -- sleep-talk egg
-    (108, 10800, 222, 21, 5, NULL),  -- magnitude egg
-    (108, 10800, 265, 21, 5, NULL),  -- smelling-salts egg
+    (108, 10800, 330, 21, 5, NULL),  -- muddy-water egg
     (108, 10800, 359, 21, 5, NULL),  -- hammer-arm egg
-    (108, 10800, 7, 21, 6, NULL),  -- fire-punch tutor
-    (108, 10800, 8, 21, 6, NULL),  -- ice-punch tutor
-    (108, 10800, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (108, 10800, 173, 21, 6, NULL),  -- snore tutor
-    (108, 10800, 189, 21, 6, NULL),  -- mud-slap tutor
-    (108, 10800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (108, 10800, 205, 21, 6, NULL),  -- rollout tutor
-    (108, 10800, 282, 21, 6, NULL),  -- knock-off tutor
-    (108, 10800, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (108, 10800, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #109 Koffing
-    (109, 10900, 33, 21, 1, 1),  -- tackle lv1
-    (109, 10900, 139, 21, 1, 1),  -- poison-gas lv1
-    (109, 10900, 123, 21, 1, 6),  -- smog lv6
-    (109, 10900, 108, 21, 1, 10),  -- smokescreen lv10
-    (109, 10900, 372, 21, 1, 15),  -- assurance lv15
-    (109, 10900, 120, 21, 1, 19),  -- self-destruct lv19
-    (109, 10900, 124, 21, 1, 24),  -- sludge lv24
-    (109, 10900, 114, 21, 1, 28),  -- haze lv28
-    (109, 10900, 360, 21, 1, 33),  -- gyro-ball lv33
-    (109, 10900, 153, 21, 1, 37),  -- explosion lv37
-    (109, 10900, 188, 21, 1, 42),  -- sludge-bomb lv42
-    (109, 10900, 194, 21, 1, 46),  -- destiny-bond lv46
-    (109, 10900, 262, 21, 1, 51),  -- memento lv51
+    (108, 10800, 428, 21, 5, NULL),  -- zen-headbutt egg
+    (108, 10800, 562, 21, 5, NULL),  -- belch egg
+    (108, 10800, 111, 21, 8, NULL),  -- defense-curl start
+    (108, 10800, 122, 21, 8, NULL),  -- lick start
+    (109, 10900, 123, 21, 1, 4),  -- smog lv4
+    (109, 10900, 108, 21, 1, 8),  -- smokescreen lv8
+    (109, 10900, 499, 21, 1, 12),  -- clear-smog lv12
+    (109, 10900, 372, 21, 1, 16),  -- assurance lv16
+    (109, 10900, 124, 21, 1, 20),  -- sludge lv20
+    (109, 10900, 114, 21, 1, 24),  -- haze lv24
+    (109, 10900, 120, 21, 1, 28),  -- self-destruct lv28
+    (109, 10900, 188, 21, 1, 32),  -- sludge-bomb lv32
+    (109, 10900, 92, 21, 1, 36),  -- toxic lv36
+    (109, 10900, 562, 21, 1, 40),  -- belch lv40
+    (109, 10900, 153, 21, 1, 44),  -- explosion lv44
+    (109, 10900, 262, 21, 1, 48),  -- memento lv48
+    (109, 10900, 194, 21, 1, 52),  -- destiny-bond lv52
     (109, 10900, 53, 21, 2, NULL),  -- flamethrower tm
     (109, 10900, 85, 21, 2, NULL),  -- thunderbolt tm
     (109, 10900, 87, 21, 2, NULL),  -- thunder tm
@@ -1196,9 +654,6 @@ VALUES
     (109, 10900, 207, 21, 2, NULL),  -- swagger tm
     (109, 10900, 213, 21, 2, NULL),  -- attract tm
     (109, 10900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (109, 10900, 216, 21, 2, NULL),  -- return tm
-    (109, 10900, 218, 21, 2, NULL),  -- frustration tm
-    (109, 10900, 237, 21, 2, NULL),  -- hidden-power tm
     (109, 10900, 240, 21, 2, NULL),  -- rain-dance tm
     (109, 10900, 241, 21, 2, NULL),  -- sunny-day tm
     (109, 10900, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -1206,40 +661,35 @@ VALUES
     (109, 10900, 261, 21, 2, NULL),  -- will-o-wisp tm
     (109, 10900, 263, 21, 2, NULL),  -- facade tm
     (109, 10900, 269, 21, 2, NULL),  -- taunt tm
-    (109, 10900, 290, 21, 2, NULL),  -- secret-power tm
     (109, 10900, 351, 21, 2, NULL),  -- shock-wave tm
     (109, 10900, 360, 21, 2, NULL),  -- gyro-ball tm
-    (109, 10900, 363, 21, 2, NULL),  -- natural-gift tm
     (109, 10900, 371, 21, 2, NULL),  -- payback tm
     (109, 10900, 399, 21, 2, NULL),  -- dark-pulse tm
-    (109, 10900, 445, 21, 2, NULL),  -- captivate tm
     (109, 10900, 60, 21, 5, NULL),  -- psybeam egg
     (109, 10900, 103, 21, 5, NULL),  -- screech egg
-    (109, 10900, 149, 21, 5, NULL),  -- psywave egg
     (109, 10900, 174, 21, 5, NULL),  -- curse egg
     (109, 10900, 180, 21, 5, NULL),  -- spite egg
     (109, 10900, 194, 21, 5, NULL),  -- destiny-bond egg
     (109, 10900, 220, 21, 5, NULL),  -- pain-split egg
-    (109, 10900, 261, 21, 5, NULL),  -- will-o-wisp egg
+    (109, 10900, 254, 21, 5, NULL),  -- stockpile egg
+    (109, 10900, 255, 21, 5, NULL),  -- spit-up egg
+    (109, 10900, 256, 21, 5, NULL),  -- swallow egg
     (109, 10900, 288, 21, 5, NULL),  -- grudge egg
-    (109, 10900, 173, 21, 6, NULL),  -- snore tutor
-    (109, 10900, 180, 21, 6, NULL),  -- spite tutor
-    (109, 10900, 205, 21, 6, NULL),  -- rollout tutor
-    (109, 10900, 253, 21, 6, NULL),  -- uproar tutor
-    -- #110 Weezing
-    (110, 11000, 33, 21, 1, 1),  -- tackle lv1
-    (110, 11000, 108, 21, 1, 1),  -- smokescreen lv1
-    (110, 11000, 123, 21, 1, 1),  -- smog lv1
-    (110, 11000, 139, 21, 1, 1),  -- poison-gas lv1
-    (110, 11000, 372, 21, 1, 15),  -- assurance lv15
-    (110, 11000, 120, 21, 1, 19),  -- self-destruct lv19
-    (110, 11000, 124, 21, 1, 24),  -- sludge lv24
-    (110, 11000, 114, 21, 1, 28),  -- haze lv28
-    (110, 11000, 458, 21, 1, 33),  -- double-hit lv33
-    (110, 11000, 153, 21, 1, 40),  -- explosion lv40
-    (110, 11000, 188, 21, 1, 48),  -- sludge-bomb lv48
-    (110, 11000, 194, 21, 1, 55),  -- destiny-bond lv55
-    (110, 11000, 262, 21, 1, 63),  -- memento lv63
+    (109, 10900, 390, 21, 5, NULL),  -- toxic-spikes egg
+    (109, 10900, 599, 21, 5, NULL),  -- venom-drench egg
+    (109, 10900, 33, 21, 8, NULL),  -- tackle start
+    (109, 10900, 139, 21, 8, NULL),  -- poison-gas start
+    (110, 11000, 499, 21, 1, 12),  -- clear-smog lv12
+    (110, 11000, 372, 21, 1, 16),  -- assurance lv16
+    (110, 11000, 124, 21, 1, 20),  -- sludge lv20
+    (110, 11000, 114, 21, 1, 24),  -- haze lv24
+    (110, 11000, 120, 21, 1, 28),  -- self-destruct lv28
+    (110, 11000, 188, 21, 1, 32),  -- sludge-bomb lv32
+    (110, 11000, 92, 21, 1, 38),  -- toxic lv38
+    (110, 11000, 562, 21, 1, 44),  -- belch lv44
+    (110, 11000, 153, 21, 1, 50),  -- explosion lv50
+    (110, 11000, 262, 21, 1, 56),  -- memento lv56
+    (110, 11000, 194, 21, 1, 62),  -- destiny-bond lv62
     (110, 11000, 53, 21, 2, NULL),  -- flamethrower tm
     (110, 11000, 63, 21, 2, NULL),  -- hyper-beam tm
     (110, 11000, 85, 21, 2, NULL),  -- thunderbolt tm
@@ -1258,9 +708,6 @@ VALUES
     (110, 11000, 207, 21, 2, NULL),  -- swagger tm
     (110, 11000, 213, 21, 2, NULL),  -- attract tm
     (110, 11000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (110, 11000, 216, 21, 2, NULL),  -- return tm
-    (110, 11000, 218, 21, 2, NULL),  -- frustration tm
-    (110, 11000, 237, 21, 2, NULL),  -- hidden-power tm
     (110, 11000, 240, 21, 2, NULL),  -- rain-dance tm
     (110, 11000, 241, 21, 2, NULL),  -- sunny-day tm
     (110, 11000, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -1268,30 +715,41 @@ VALUES
     (110, 11000, 261, 21, 2, NULL),  -- will-o-wisp tm
     (110, 11000, 263, 21, 2, NULL),  -- facade tm
     (110, 11000, 269, 21, 2, NULL),  -- taunt tm
-    (110, 11000, 290, 21, 2, NULL),  -- secret-power tm
     (110, 11000, 351, 21, 2, NULL),  -- shock-wave tm
     (110, 11000, 360, 21, 2, NULL),  -- gyro-ball tm
-    (110, 11000, 363, 21, 2, NULL),  -- natural-gift tm
     (110, 11000, 371, 21, 2, NULL),  -- payback tm
     (110, 11000, 399, 21, 2, NULL),  -- dark-pulse tm
     (110, 11000, 416, 21, 2, NULL),  -- giga-impact tm
-    (110, 11000, 445, 21, 2, NULL),  -- captivate tm
-    (110, 11000, 173, 21, 6, NULL),  -- snore tutor
-    (110, 11000, 180, 21, 6, NULL),  -- spite tutor
-    (110, 11000, 205, 21, 6, NULL),  -- rollout tutor
-    (110, 11000, 253, 21, 6, NULL),  -- uproar tutor
-    -- #111 Rhyhorn
-    (111, 11100, 30, 21, 1, 1),  -- horn-attack lv1
-    (111, 11100, 39, 21, 1, 1),  -- tail-whip lv1
-    (111, 11100, 23, 21, 1, 9),  -- stomp lv9
-    (111, 11100, 31, 21, 1, 13),  -- fury-attack lv13
-    (111, 11100, 184, 21, 1, 21),  -- scary-face lv21
-    (111, 11100, 350, 21, 1, 25),  -- rock-blast lv25
-    (111, 11100, 36, 21, 1, 33),  -- take-down lv33
-    (111, 11100, 32, 21, 1, 37),  -- horn-drill lv37
-    (111, 11100, 444, 21, 1, 45),  -- stone-edge lv45
-    (111, 11100, 89, 21, 1, 49),  -- earthquake lv49
-    (111, 11100, 224, 21, 1, 57),  -- megahorn lv57
+    (110, 11000, 60, 21, 5, NULL),  -- psybeam egg
+    (110, 11000, 103, 21, 5, NULL),  -- screech egg
+    (110, 11000, 174, 21, 5, NULL),  -- curse egg
+    (110, 11000, 180, 21, 5, NULL),  -- spite egg
+    (110, 11000, 194, 21, 5, NULL),  -- destiny-bond egg
+    (110, 11000, 220, 21, 5, NULL),  -- pain-split egg
+    (110, 11000, 254, 21, 5, NULL),  -- stockpile egg
+    (110, 11000, 255, 21, 5, NULL),  -- spit-up egg
+    (110, 11000, 256, 21, 5, NULL),  -- swallow egg
+    (110, 11000, 288, 21, 5, NULL),  -- grudge egg
+    (110, 11000, 390, 21, 5, NULL),  -- toxic-spikes egg
+    (110, 11000, 599, 21, 5, NULL),  -- venom-drench egg
+    (110, 11000, 33, 21, 8, NULL),  -- tackle start
+    (110, 11000, 108, 21, 8, NULL),  -- smokescreen start
+    (110, 11000, 123, 21, 8, NULL),  -- smog start
+    (110, 11000, 139, 21, 8, NULL),  -- poison-gas start
+    (110, 11000, 257, 21, 8, NULL),  -- heat-wave start
+    (110, 11000, 458, 21, 8, NULL),  -- double-hit start
+    (111, 11100, 479, 21, 1, 5),  -- smack-down lv5
+    (111, 11100, 523, 21, 1, 10),  -- bulldoze lv10
+    (111, 11100, 30, 21, 1, 15),  -- horn-attack lv15
+    (111, 11100, 184, 21, 1, 20),  -- scary-face lv20
+    (111, 11100, 23, 21, 1, 25),  -- stomp lv25
+    (111, 11100, 350, 21, 1, 30),  -- rock-blast lv30
+    (111, 11100, 529, 21, 1, 35),  -- drill-run lv35
+    (111, 11100, 36, 21, 1, 40),  -- take-down lv40
+    (111, 11100, 89, 21, 1, 45),  -- earthquake lv45
+    (111, 11100, 444, 21, 1, 50),  -- stone-edge lv50
+    (111, 11100, 224, 21, 1, 55),  -- megahorn lv55
+    (111, 11100, 32, 21, 1, 60),  -- horn-drill lv60
     (111, 11100, 14, 21, 2, NULL),  -- swords-dance tm
     (111, 11100, 46, 21, 2, NULL),  -- roar tm
     (111, 11100, 53, 21, 2, NULL),  -- flamethrower tm
@@ -1302,7 +760,6 @@ VALUES
     (111, 11100, 87, 21, 2, NULL),  -- thunder tm
     (111, 11100, 89, 21, 2, NULL),  -- earthquake tm
     (111, 11100, 91, 21, 2, NULL),  -- dig tm
-    (111, 11100, 92, 21, 2, NULL),  -- toxic tm
     (111, 11100, 104, 21, 2, NULL),  -- double-team tm
     (111, 11100, 126, 21, 2, NULL),  -- fire-blast tm
     (111, 11100, 156, 21, 2, NULL),  -- rest tm
@@ -1315,62 +772,45 @@ VALUES
     (111, 11100, 207, 21, 2, NULL),  -- swagger tm
     (111, 11100, 213, 21, 2, NULL),  -- attract tm
     (111, 11100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (111, 11100, 216, 21, 2, NULL),  -- return tm
-    (111, 11100, 218, 21, 2, NULL),  -- frustration tm
     (111, 11100, 231, 21, 2, NULL),  -- iron-tail tm
-    (111, 11100, 237, 21, 2, NULL),  -- hidden-power tm
     (111, 11100, 240, 21, 2, NULL),  -- rain-dance tm
     (111, 11100, 241, 21, 2, NULL),  -- sunny-day tm
     (111, 11100, 249, 21, 2, NULL),  -- rock-smash tm
     (111, 11100, 263, 21, 2, NULL),  -- facade tm
-    (111, 11100, 290, 21, 2, NULL),  -- secret-power tm
     (111, 11100, 317, 21, 2, NULL),  -- rock-tomb tm
     (111, 11100, 351, 21, 2, NULL),  -- shock-wave tm
-    (111, 11100, 363, 21, 2, NULL),  -- natural-gift tm
     (111, 11100, 371, 21, 2, NULL),  -- payback tm
     (111, 11100, 397, 21, 2, NULL),  -- rock-polish tm
     (111, 11100, 398, 21, 2, NULL),  -- poison-jab tm
     (111, 11100, 406, 21, 2, NULL),  -- dragon-pulse tm
     (111, 11100, 431, 21, 2, NULL),  -- rock-climb tm
     (111, 11100, 444, 21, 2, NULL),  -- stone-edge tm
-    (111, 11100, 445, 21, 2, NULL),  -- captivate tm
     (111, 11100, 446, 21, 2, NULL),  -- stealth-rock tm
-    (111, 11100, 14, 21, 5, NULL),  -- swords-dance egg
+    (111, 11100, 523, 21, 2, NULL),  -- bulldoze tm
     (111, 11100, 68, 21, 5, NULL),  -- counter egg
-    (111, 11100, 157, 21, 5, NULL),  -- rock-slide egg
+    (111, 11100, 130, 21, 5, NULL),  -- skull-bash egg
     (111, 11100, 174, 21, 5, NULL),  -- curse egg
     (111, 11100, 179, 21, 5, NULL),  -- reversal egg
-    (111, 11100, 222, 21, 5, NULL),  -- magnitude egg
     (111, 11100, 242, 21, 5, NULL),  -- crunch egg
     (111, 11100, 306, 21, 5, NULL),  -- crush-claw egg
+    (111, 11100, 368, 21, 5, NULL),  -- metal-burst egg
     (111, 11100, 407, 21, 5, NULL),  -- dragon-rush egg
     (111, 11100, 422, 21, 5, NULL),  -- thunder-fang egg
     (111, 11100, 423, 21, 5, NULL),  -- ice-fang egg
     (111, 11100, 424, 21, 5, NULL),  -- fire-fang egg
-    (111, 11100, 173, 21, 6, NULL),  -- snore tutor
-    (111, 11100, 180, 21, 6, NULL),  -- spite tutor
-    (111, 11100, 189, 21, 6, NULL),  -- mud-slap tutor
-    (111, 11100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (111, 11100, 205, 21, 6, NULL),  -- rollout tutor
-    (111, 11100, 246, 21, 6, NULL),  -- ancient-power tutor
-    (111, 11100, 253, 21, 6, NULL),  -- uproar tutor
-    (111, 11100, 276, 21, 6, NULL),  -- superpower tutor
-    (111, 11100, 283, 21, 6, NULL),  -- endeavor tutor
-    (111, 11100, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (111, 11100, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #112 Rhydon
-    (112, 11200, 23, 21, 1, 1),  -- stomp lv1
-    (112, 11200, 30, 21, 1, 1),  -- horn-attack lv1
-    (112, 11200, 31, 21, 1, 1),  -- fury-attack lv1
-    (112, 11200, 39, 21, 1, 1),  -- tail-whip lv1
-    (112, 11200, 184, 21, 1, 21),  -- scary-face lv21
-    (112, 11200, 350, 21, 1, 25),  -- rock-blast lv25
-    (112, 11200, 36, 21, 1, 33),  -- take-down lv33
-    (112, 11200, 32, 21, 1, 37),  -- horn-drill lv37
-    (112, 11200, 359, 21, 1, 42),  -- hammer-arm lv42
-    (112, 11200, 444, 21, 1, 45),  -- stone-edge lv45
-    (112, 11200, 89, 21, 1, 49),  -- earthquake lv49
-    (112, 11200, 224, 21, 1, 57),  -- megahorn lv57
+    (111, 11100, 470, 21, 5, NULL),  -- guard-split egg
+    (111, 11100, 33, 21, 8, NULL),  -- tackle start
+    (111, 11100, 39, 21, 8, NULL),  -- tail-whip start
+    (112, 11200, 30, 21, 1, 15),  -- horn-attack lv15
+    (112, 11200, 184, 21, 1, 20),  -- scary-face lv20
+    (112, 11200, 23, 21, 1, 25),  -- stomp lv25
+    (112, 11200, 350, 21, 1, 30),  -- rock-blast lv30
+    (112, 11200, 529, 21, 1, 35),  -- drill-run lv35
+    (112, 11200, 36, 21, 1, 40),  -- take-down lv40
+    (112, 11200, 89, 21, 1, 47),  -- earthquake lv47
+    (112, 11200, 444, 21, 1, 54),  -- stone-edge lv54
+    (112, 11200, 224, 21, 1, 61),  -- megahorn lv61
+    (112, 11200, 32, 21, 1, 68),  -- horn-drill lv68
     (112, 11200, 14, 21, 2, NULL),  -- swords-dance tm
     (112, 11200, 15, 21, 2, NULL),  -- cut tm
     (112, 11200, 46, 21, 2, NULL),  -- roar tm
@@ -1384,7 +824,6 @@ VALUES
     (112, 11200, 87, 21, 2, NULL),  -- thunder tm
     (112, 11200, 89, 21, 2, NULL),  -- earthquake tm
     (112, 11200, 91, 21, 2, NULL),  -- dig tm
-    (112, 11200, 92, 21, 2, NULL),  -- toxic tm
     (112, 11200, 104, 21, 2, NULL),  -- double-team tm
     (112, 11200, 126, 21, 2, NULL),  -- fire-blast tm
     (112, 11200, 156, 21, 2, NULL),  -- rest tm
@@ -1397,20 +836,15 @@ VALUES
     (112, 11200, 207, 21, 2, NULL),  -- swagger tm
     (112, 11200, 213, 21, 2, NULL),  -- attract tm
     (112, 11200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (112, 11200, 216, 21, 2, NULL),  -- return tm
-    (112, 11200, 218, 21, 2, NULL),  -- frustration tm
     (112, 11200, 231, 21, 2, NULL),  -- iron-tail tm
-    (112, 11200, 237, 21, 2, NULL),  -- hidden-power tm
     (112, 11200, 240, 21, 2, NULL),  -- rain-dance tm
     (112, 11200, 241, 21, 2, NULL),  -- sunny-day tm
     (112, 11200, 249, 21, 2, NULL),  -- rock-smash tm
     (112, 11200, 263, 21, 2, NULL),  -- facade tm
     (112, 11200, 264, 21, 2, NULL),  -- focus-punch tm
     (112, 11200, 280, 21, 2, NULL),  -- brick-break tm
-    (112, 11200, 290, 21, 2, NULL),  -- secret-power tm
     (112, 11200, 317, 21, 2, NULL),  -- rock-tomb tm
     (112, 11200, 351, 21, 2, NULL),  -- shock-wave tm
-    (112, 11200, 363, 21, 2, NULL),  -- natural-gift tm
     (112, 11200, 371, 21, 2, NULL),  -- payback tm
     (112, 11200, 374, 21, 2, NULL),  -- fling tm
     (112, 11200, 397, 21, 2, NULL),  -- rock-polish tm
@@ -1422,39 +856,38 @@ VALUES
     (112, 11200, 421, 21, 2, NULL),  -- shadow-claw tm
     (112, 11200, 431, 21, 2, NULL),  -- rock-climb tm
     (112, 11200, 444, 21, 2, NULL),  -- stone-edge tm
-    (112, 11200, 445, 21, 2, NULL),  -- captivate tm
     (112, 11200, 446, 21, 2, NULL),  -- stealth-rock tm
-    (112, 11200, 7, 21, 6, NULL),  -- fire-punch tutor
-    (112, 11200, 8, 21, 6, NULL),  -- ice-punch tutor
-    (112, 11200, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (112, 11200, 173, 21, 6, NULL),  -- snore tutor
-    (112, 11200, 180, 21, 6, NULL),  -- spite tutor
-    (112, 11200, 189, 21, 6, NULL),  -- mud-slap tutor
-    (112, 11200, 196, 21, 6, NULL),  -- icy-wind tutor
-    (112, 11200, 200, 21, 6, NULL),  -- outrage tutor
-    (112, 11200, 205, 21, 6, NULL),  -- rollout tutor
-    (112, 11200, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (112, 11200, 246, 21, 6, NULL),  -- ancient-power tutor
-    (112, 11200, 253, 21, 6, NULL),  -- uproar tutor
-    (112, 11200, 276, 21, 6, NULL),  -- superpower tutor
-    (112, 11200, 283, 21, 6, NULL),  -- endeavor tutor
-    (112, 11200, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (112, 11200, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #113 Chansey
-    (113, 11300, 1, 21, 1, 1),  -- pound lv1
-    (113, 11300, 45, 21, 1, 1),  -- growl lv1
-    (113, 11300, 39, 21, 1, 5),  -- tail-whip lv5
-    (113, 11300, 287, 21, 1, 9),  -- refresh lv9
-    (113, 11300, 135, 21, 1, 12),  -- soft-boiled lv12
-    (113, 11300, 3, 21, 1, 16),  -- double-slap lv16
-    (113, 11300, 107, 21, 1, 20),  -- minimize lv20
-    (113, 11300, 47, 21, 1, 23),  -- sing lv23
-    (113, 11300, 374, 21, 1, 27),  -- fling lv27
-    (113, 11300, 111, 21, 1, 31),  -- defense-curl lv31
-    (113, 11300, 113, 21, 1, 34),  -- light-screen lv34
-    (113, 11300, 121, 21, 1, 38),  -- egg-bomb lv38
-    (113, 11300, 361, 21, 1, 42),  -- healing-wish lv42
-    (113, 11300, 38, 21, 1, 46),  -- double-edge lv46
+    (112, 11200, 523, 21, 2, NULL),  -- bulldoze tm
+    (112, 11200, 68, 21, 5, NULL),  -- counter egg
+    (112, 11200, 130, 21, 5, NULL),  -- skull-bash egg
+    (112, 11200, 174, 21, 5, NULL),  -- curse egg
+    (112, 11200, 179, 21, 5, NULL),  -- reversal egg
+    (112, 11200, 242, 21, 5, NULL),  -- crunch egg
+    (112, 11200, 306, 21, 5, NULL),  -- crush-claw egg
+    (112, 11200, 368, 21, 5, NULL),  -- metal-burst egg
+    (112, 11200, 407, 21, 5, NULL),  -- dragon-rush egg
+    (112, 11200, 422, 21, 5, NULL),  -- thunder-fang egg
+    (112, 11200, 423, 21, 5, NULL),  -- ice-fang egg
+    (112, 11200, 424, 21, 5, NULL),  -- fire-fang egg
+    (112, 11200, 470, 21, 5, NULL),  -- guard-split egg
+    (112, 11200, 33, 21, 8, NULL),  -- tackle start
+    (112, 11200, 39, 21, 8, NULL),  -- tail-whip start
+    (112, 11200, 359, 21, 8, NULL),  -- hammer-arm start
+    (112, 11200, 479, 21, 8, NULL),  -- smack-down start
+    (112, 11200, 523, 21, 8, NULL),  -- bulldoze start
+    (113, 11300, 39, 21, 1, 4),  -- tail-whip lv4
+    (113, 11300, 497, 21, 1, 8),  -- echoed-voice lv8
+    (113, 11300, 791, 21, 1, 12),  -- life-dew lv12
+    (113, 11300, 47, 21, 1, 16),  -- sing lv16
+    (113, 11300, 374, 21, 1, 20),  -- fling lv20
+    (113, 11300, 36, 21, 1, 24),  -- take-down lv24
+    (113, 11300, 505, 21, 1, 28),  -- heal-pulse lv28
+    (113, 11300, 270, 21, 1, 32),  -- helping-hand lv32
+    (113, 11300, 113, 21, 1, 36),  -- light-screen lv36
+    (113, 11300, 38, 21, 1, 40),  -- double-edge lv40
+    (113, 11300, 135, 21, 1, 44),  -- soft-boiled lv44
+    (113, 11300, 387, 21, 1, 48),  -- last-resort lv48
+    (113, 11300, 361, 21, 1, 52),  -- healing-wish lv52
     (113, 11300, 53, 21, 2, NULL),  -- flamethrower tm
     (113, 11300, 58, 21, 2, NULL),  -- ice-beam tm
     (113, 11300, 59, 21, 2, NULL),  -- blizzard tm
@@ -1465,7 +898,6 @@ VALUES
     (113, 11300, 86, 21, 2, NULL),  -- thunder-wave tm
     (113, 11300, 87, 21, 2, NULL),  -- thunder tm
     (113, 11300, 89, 21, 2, NULL),  -- earthquake tm
-    (113, 11300, 92, 21, 2, NULL),  -- toxic tm
     (113, 11300, 94, 21, 2, NULL),  -- psychic tm
     (113, 11300, 104, 21, 2, NULL),  -- double-team tm
     (113, 11300, 113, 21, 2, NULL),  -- light-screen tm
@@ -1481,11 +913,8 @@ VALUES
     (113, 11300, 207, 21, 2, NULL),  -- swagger tm
     (113, 11300, 213, 21, 2, NULL),  -- attract tm
     (113, 11300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (113, 11300, 216, 21, 2, NULL),  -- return tm
-    (113, 11300, 218, 21, 2, NULL),  -- frustration tm
     (113, 11300, 219, 21, 2, NULL),  -- safeguard tm
     (113, 11300, 231, 21, 2, NULL),  -- iron-tail tm
-    (113, 11300, 237, 21, 2, NULL),  -- hidden-power tm
     (113, 11300, 240, 21, 2, NULL),  -- rain-dance tm
     (113, 11300, 241, 21, 2, NULL),  -- sunny-day tm
     (113, 11300, 244, 21, 2, NULL),  -- psych-up tm
@@ -1497,63 +926,54 @@ VALUES
     (113, 11300, 278, 21, 2, NULL),  -- recycle tm
     (113, 11300, 280, 21, 2, NULL),  -- brick-break tm
     (113, 11300, 285, 21, 2, NULL),  -- skill-swap tm
-    (113, 11300, 289, 21, 2, NULL),  -- snatch tm
-    (113, 11300, 290, 21, 2, NULL),  -- secret-power tm
     (113, 11300, 317, 21, 2, NULL),  -- rock-tomb tm
     (113, 11300, 347, 21, 2, NULL),  -- calm-mind tm
     (113, 11300, 351, 21, 2, NULL),  -- shock-wave tm
     (113, 11300, 352, 21, 2, NULL),  -- water-pulse tm
-    (113, 11300, 363, 21, 2, NULL),  -- natural-gift tm
     (113, 11300, 374, 21, 2, NULL),  -- fling tm
     (113, 11300, 409, 21, 2, NULL),  -- drain-punch tm
     (113, 11300, 416, 21, 2, NULL),  -- giga-impact tm
     (113, 11300, 431, 21, 2, NULL),  -- rock-climb tm
-    (113, 11300, 445, 21, 2, NULL),  -- captivate tm
     (113, 11300, 446, 21, 2, NULL),  -- stealth-rock tm
     (113, 11300, 447, 21, 2, NULL),  -- grass-knot tm
     (113, 11300, 451, 21, 2, NULL),  -- charge-beam tm
+    (113, 11300, 523, 21, 2, NULL),  -- bulldoze tm
+    (113, 11300, 526, 21, 2, NULL),  -- work-up tm
+    (113, 11300, 605, 21, 2, NULL),  -- dazzling-gleam tm
     (113, 11300, 68, 21, 5, NULL),  -- counter egg
+    (113, 11300, 69, 21, 5, NULL),  -- seismic-toss egg
     (113, 11300, 118, 21, 5, NULL),  -- metronome egg
-    (113, 11300, 164, 21, 5, NULL),  -- substitute egg
     (113, 11300, 215, 21, 5, NULL),  -- heal-bell egg
     (113, 11300, 217, 21, 5, NULL),  -- present egg
     (113, 11300, 270, 21, 5, NULL),  -- helping-hand egg
     (113, 11300, 312, 21, 5, NULL),  -- aromatherapy egg
     (113, 11300, 356, 21, 5, NULL),  -- gravity egg
-    (113, 11300, 7, 21, 6, NULL),  -- fire-punch tutor
-    (113, 11300, 8, 21, 6, NULL),  -- ice-punch tutor
-    (113, 11300, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (113, 11300, 173, 21, 6, NULL),  -- snore tutor
-    (113, 11300, 189, 21, 6, NULL),  -- mud-slap tutor
-    (113, 11300, 196, 21, 6, NULL),  -- icy-wind tutor
-    (113, 11300, 205, 21, 6, NULL),  -- rollout tutor
-    (113, 11300, 270, 21, 6, NULL),  -- helping-hand tutor
-    (113, 11300, 283, 21, 6, NULL),  -- endeavor tutor
-    (113, 11300, 387, 21, 6, NULL),  -- last-resort tutor
-    (113, 11300, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #114 Tangela
-    (114, 11400, 132, 21, 1, 1),  -- constrict lv1
-    (114, 11400, 275, 21, 1, 1),  -- ingrain lv1
-    (114, 11400, 79, 21, 1, 5),  -- sleep-powder lv5
-    (114, 11400, 71, 21, 1, 8),  -- absorb lv8
-    (114, 11400, 74, 21, 1, 12),  -- growth lv12
-    (114, 11400, 77, 21, 1, 15),  -- poison-powder lv15
-    (114, 11400, 22, 21, 1, 19),  -- vine-whip lv19
-    (114, 11400, 20, 21, 1, 22),  -- bind lv22
-    (114, 11400, 72, 21, 1, 26),  -- mega-drain lv26
-    (114, 11400, 78, 21, 1, 29),  -- stun-spore lv29
-    (114, 11400, 246, 21, 1, 33),  -- ancient-power lv33
-    (114, 11400, 282, 21, 1, 36),  -- knock-off lv36
-    (114, 11400, 363, 21, 1, 40),  -- natural-gift lv40
-    (114, 11400, 21, 21, 1, 43),  -- slam lv43
-    (114, 11400, 321, 21, 1, 47),  -- tickle lv47
-    (114, 11400, 378, 21, 1, 50),  -- wring-out lv50
-    (114, 11400, 438, 21, 1, 54),  -- power-whip lv54
+    (113, 11300, 1, 21, 8, NULL),  -- pound start
+    (113, 11300, 107, 21, 8, NULL),  -- minimize start
+    (113, 11300, 111, 21, 8, NULL),  -- defense-curl start
+    (113, 11300, 186, 21, 8, NULL),  -- sweet-kiss start
+    (113, 11300, 204, 21, 8, NULL),  -- charm start
+    (113, 11300, 343, 21, 8, NULL),  -- covet start
+    (113, 11300, 383, 21, 8, NULL),  -- copycat start
+    (113, 11300, 574, 21, 8, NULL),  -- disarming-voice start
+    (114, 11400, 78, 21, 1, 4),  -- stun-spore lv4
+    (114, 11400, 74, 21, 1, 8),  -- growth lv8
+    (114, 11400, 72, 21, 1, 12),  -- mega-drain lv12
+    (114, 11400, 22, 21, 1, 16),  -- vine-whip lv16
+    (114, 11400, 77, 21, 1, 20),  -- poison-powder lv20
+    (114, 11400, 246, 21, 1, 24),  -- ancient-power lv24
+    (114, 11400, 282, 21, 1, 28),  -- knock-off lv28
+    (114, 11400, 202, 21, 1, 32),  -- giga-drain lv32
+    (114, 11400, 79, 21, 1, 36),  -- sleep-powder lv36
+    (114, 11400, 21, 21, 1, 40),  -- slam lv40
+    (114, 11400, 321, 21, 1, 44),  -- tickle lv44
+    (114, 11400, 438, 21, 1, 48),  -- power-whip lv48
+    (114, 11400, 275, 21, 1, 52),  -- ingrain lv52
+    (114, 11400, 580, 21, 1, 56),  -- grassy-terrain lv56
     (114, 11400, 14, 21, 2, NULL),  -- swords-dance tm
     (114, 11400, 15, 21, 2, NULL),  -- cut tm
     (114, 11400, 63, 21, 2, NULL),  -- hyper-beam tm
     (114, 11400, 76, 21, 2, NULL),  -- solar-beam tm
-    (114, 11400, 92, 21, 2, NULL),  -- toxic tm
     (114, 11400, 104, 21, 2, NULL),  -- double-team tm
     (114, 11400, 115, 21, 2, NULL),  -- reflect tm
     (114, 11400, 148, 21, 2, NULL),  -- flash tm
@@ -1567,50 +987,40 @@ VALUES
     (114, 11400, 207, 21, 2, NULL),  -- swagger tm
     (114, 11400, 213, 21, 2, NULL),  -- attract tm
     (114, 11400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (114, 11400, 216, 21, 2, NULL),  -- return tm
-    (114, 11400, 218, 21, 2, NULL),  -- frustration tm
-    (114, 11400, 237, 21, 2, NULL),  -- hidden-power tm
     (114, 11400, 241, 21, 2, NULL),  -- sunny-day tm
     (114, 11400, 244, 21, 2, NULL),  -- psych-up tm
     (114, 11400, 249, 21, 2, NULL),  -- rock-smash tm
     (114, 11400, 263, 21, 2, NULL),  -- facade tm
-    (114, 11400, 290, 21, 2, NULL),  -- secret-power tm
     (114, 11400, 331, 21, 2, NULL),  -- bullet-seed tm
     (114, 11400, 351, 21, 2, NULL),  -- shock-wave tm
-    (114, 11400, 363, 21, 2, NULL),  -- natural-gift tm
     (114, 11400, 412, 21, 2, NULL),  -- energy-ball tm
     (114, 11400, 416, 21, 2, NULL),  -- giga-impact tm
-    (114, 11400, 445, 21, 2, NULL),  -- captivate tm
     (114, 11400, 447, 21, 2, NULL),  -- grass-knot tm
     (114, 11400, 72, 21, 5, NULL),  -- mega-drain egg
     (114, 11400, 73, 21, 5, NULL),  -- leech-seed egg
     (114, 11400, 93, 21, 5, NULL),  -- confusion egg
-    (114, 11400, 115, 21, 5, NULL),  -- reflect egg
     (114, 11400, 133, 21, 5, NULL),  -- amnesia egg
     (114, 11400, 175, 21, 5, NULL),  -- flail egg
     (114, 11400, 267, 21, 5, NULL),  -- nature-power egg
     (114, 11400, 283, 21, 5, NULL),  -- endeavor egg
+    (114, 11400, 384, 21, 5, NULL),  -- power-swap egg
     (114, 11400, 437, 21, 5, NULL),  -- leaf-storm egg
-    (114, 11400, 173, 21, 6, NULL),  -- snore tutor
-    (114, 11400, 235, 21, 6, NULL),  -- synthesis tutor
-    (114, 11400, 246, 21, 6, NULL),  -- ancient-power tutor
-    (114, 11400, 282, 21, 6, NULL),  -- knock-off tutor
-    (114, 11400, 402, 21, 6, NULL),  -- seed-bomb tutor
-    -- #115 Kangaskhan
-    (115, 11500, 4, 21, 1, 1),  -- comet-punch lv1
-    (115, 11500, 43, 21, 1, 1),  -- leer lv1
-    (115, 11500, 252, 21, 1, 7),  -- fake-out lv7
-    (115, 11500, 39, 21, 1, 10),  -- tail-whip lv10
-    (115, 11500, 44, 21, 1, 13),  -- bite lv13
-    (115, 11500, 5, 21, 1, 19),  -- mega-punch lv19
-    (115, 11500, 99, 21, 1, 22),  -- rage lv22
-    (115, 11500, 146, 21, 1, 25),  -- dizzy-punch lv25
-    (115, 11500, 242, 21, 1, 31),  -- crunch lv31
-    (115, 11500, 203, 21, 1, 34),  -- endure lv34
-    (115, 11500, 200, 21, 1, 37),  -- outrage lv37
-    (115, 11500, 458, 21, 1, 43),  -- double-hit lv43
-    (115, 11500, 389, 21, 1, 46),  -- sucker-punch lv46
-    (115, 11500, 179, 21, 1, 49),  -- reversal lv49
+    (114, 11400, 476, 21, 5, NULL),  -- rage-powder egg
+    (114, 11400, 20, 21, 8, NULL),  -- bind start
+    (114, 11400, 71, 21, 8, NULL),  -- absorb start
+    (115, 11500, 45, 21, 1, 4),  -- growl lv4
+    (115, 11500, 252, 21, 1, 8),  -- fake-out lv8
+    (115, 11500, 44, 21, 1, 12),  -- bite lv12
+    (115, 11500, 23, 21, 1, 16),  -- stomp lv16
+    (115, 11500, 116, 21, 1, 20),  -- focus-energy lv20
+    (115, 11500, 29, 21, 1, 24),  -- headbutt lv24
+    (115, 11500, 389, 21, 1, 28),  -- sucker-punch lv28
+    (115, 11500, 458, 21, 1, 32),  -- double-hit lv32
+    (115, 11500, 242, 21, 1, 36),  -- crunch lv36
+    (115, 11500, 203, 21, 1, 40),  -- endure lv40
+    (115, 11500, 179, 21, 1, 44),  -- reversal lv44
+    (115, 11500, 200, 21, 1, 48),  -- outrage lv48
+    (115, 11500, 387, 21, 1, 52),  -- last-resort lv52
     (115, 11500, 15, 21, 2, NULL),  -- cut tm
     (115, 11500, 46, 21, 2, NULL),  -- roar tm
     (115, 11500, 53, 21, 2, NULL),  -- flamethrower tm
@@ -1624,7 +1034,6 @@ VALUES
     (115, 11500, 87, 21, 2, NULL),  -- thunder tm
     (115, 11500, 89, 21, 2, NULL),  -- earthquake tm
     (115, 11500, 91, 21, 2, NULL),  -- dig tm
-    (115, 11500, 92, 21, 2, NULL),  -- toxic tm
     (115, 11500, 104, 21, 2, NULL),  -- double-team tm
     (115, 11500, 126, 21, 2, NULL),  -- fire-blast tm
     (115, 11500, 156, 21, 2, NULL),  -- rest tm
@@ -1637,10 +1046,8 @@ VALUES
     (115, 11500, 207, 21, 2, NULL),  -- swagger tm
     (115, 11500, 213, 21, 2, NULL),  -- attract tm
     (115, 11500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (115, 11500, 216, 21, 2, NULL),  -- return tm
-    (115, 11500, 218, 21, 2, NULL),  -- frustration tm
+    (115, 11500, 219, 21, 2, NULL),  -- safeguard tm
     (115, 11500, 231, 21, 2, NULL),  -- iron-tail tm
-    (115, 11500, 237, 21, 2, NULL),  -- hidden-power tm
     (115, 11500, 240, 21, 2, NULL),  -- rain-dance tm
     (115, 11500, 241, 21, 2, NULL),  -- sunny-day tm
     (115, 11500, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -1649,12 +1056,10 @@ VALUES
     (115, 11500, 263, 21, 2, NULL),  -- facade tm
     (115, 11500, 264, 21, 2, NULL),  -- focus-punch tm
     (115, 11500, 280, 21, 2, NULL),  -- brick-break tm
-    (115, 11500, 290, 21, 2, NULL),  -- secret-power tm
     (115, 11500, 317, 21, 2, NULL),  -- rock-tomb tm
     (115, 11500, 332, 21, 2, NULL),  -- aerial-ace tm
     (115, 11500, 351, 21, 2, NULL),  -- shock-wave tm
     (115, 11500, 352, 21, 2, NULL),  -- water-pulse tm
-    (115, 11500, 363, 21, 2, NULL),  -- natural-gift tm
     (115, 11500, 374, 21, 2, NULL),  -- fling tm
     (115, 11500, 409, 21, 2, NULL),  -- drain-punch tm
     (115, 11500, 411, 21, 2, NULL),  -- focus-blast tm
@@ -1662,49 +1067,34 @@ VALUES
     (115, 11500, 419, 21, 2, NULL),  -- avalanche tm
     (115, 11500, 421, 21, 2, NULL),  -- shadow-claw tm
     (115, 11500, 431, 21, 2, NULL),  -- rock-climb tm
-    (115, 11500, 445, 21, 2, NULL),  -- captivate tm
+    (115, 11500, 523, 21, 2, NULL),  -- bulldoze tm
+    (115, 11500, 526, 21, 2, NULL),  -- work-up tm
     (115, 11500, 23, 21, 5, NULL),  -- stomp egg
     (115, 11500, 38, 21, 5, NULL),  -- double-edge egg
     (115, 11500, 50, 21, 5, NULL),  -- disable egg
     (115, 11500, 68, 21, 5, NULL),  -- counter egg
     (115, 11500, 116, 21, 5, NULL),  -- focus-energy egg
-    (115, 11500, 164, 21, 5, NULL),  -- substitute egg
-    (115, 11500, 193, 21, 5, NULL),  -- foresight egg
-    (115, 11500, 219, 21, 5, NULL),  -- safeguard egg
+    (115, 11500, 253, 21, 5, NULL),  -- uproar egg
     (115, 11500, 283, 21, 5, NULL),  -- endeavor egg
     (115, 11500, 306, 21, 5, NULL),  -- crush-claw egg
     (115, 11500, 359, 21, 5, NULL),  -- hammer-arm egg
-    (115, 11500, 7, 21, 6, NULL),  -- fire-punch tutor
-    (115, 11500, 8, 21, 6, NULL),  -- ice-punch tutor
-    (115, 11500, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (115, 11500, 173, 21, 6, NULL),  -- snore tutor
-    (115, 11500, 180, 21, 6, NULL),  -- spite tutor
-    (115, 11500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (115, 11500, 196, 21, 6, NULL),  -- icy-wind tutor
-    (115, 11500, 200, 21, 6, NULL),  -- outrage tutor
-    (115, 11500, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (115, 11500, 253, 21, 6, NULL),  -- uproar tutor
-    (115, 11500, 270, 21, 6, NULL),  -- helping-hand tutor
-    (115, 11500, 283, 21, 6, NULL),  -- endeavor tutor
-    (115, 11500, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (115, 11500, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #116 Horsea
-    (116, 11600, 145, 21, 1, 1),  -- bubble lv1
-    (116, 11600, 108, 21, 1, 4),  -- smokescreen lv4
-    (116, 11600, 43, 21, 1, 8),  -- leer lv8
-    (116, 11600, 55, 21, 1, 11),  -- water-gun lv11
-    (116, 11600, 116, 21, 1, 14),  -- focus-energy lv14
-    (116, 11600, 61, 21, 1, 18),  -- bubble-beam lv18
-    (116, 11600, 97, 21, 1, 23),  -- agility lv23
-    (116, 11600, 239, 21, 1, 26),  -- twister lv26
-    (116, 11600, 362, 21, 1, 30),  -- brine lv30
-    (116, 11600, 56, 21, 1, 35),  -- hydro-pump lv35
-    (116, 11600, 349, 21, 1, 38),  -- dragon-dance lv38
-    (116, 11600, 406, 21, 1, 42),  -- dragon-pulse lv42
+    (115, 11500, 509, 21, 5, NULL),  -- circle-throw egg
+    (115, 11500, 1, 21, 8, NULL),  -- pound start
+    (115, 11500, 39, 21, 8, NULL),  -- tail-whip start
+    (116, 11600, 108, 21, 1, 5),  -- smokescreen lv5
+    (116, 11600, 239, 21, 1, 10),  -- twister lv10
+    (116, 11600, 116, 21, 1, 15),  -- focus-energy lv15
+    (116, 11600, 225, 21, 1, 20),  -- dragon-breath lv20
+    (116, 11600, 61, 21, 1, 25),  -- bubble-beam lv25
+    (116, 11600, 97, 21, 1, 30),  -- agility lv30
+    (116, 11600, 673, 21, 1, 35),  -- laser-focus lv35
+    (116, 11600, 406, 21, 1, 40),  -- dragon-pulse lv40
+    (116, 11600, 56, 21, 1, 45),  -- hydro-pump lv45
+    (116, 11600, 349, 21, 1, 50),  -- dragon-dance lv50
+    (116, 11600, 240, 21, 1, 55),  -- rain-dance lv55
     (116, 11600, 57, 21, 2, NULL),  -- surf tm
     (116, 11600, 58, 21, 2, NULL),  -- ice-beam tm
     (116, 11600, 59, 21, 2, NULL),  -- blizzard tm
-    (116, 11600, 92, 21, 2, NULL),  -- toxic tm
     (116, 11600, 104, 21, 2, NULL),  -- double-team tm
     (116, 11600, 127, 21, 2, NULL),  -- waterfall tm
     (116, 11600, 156, 21, 2, NULL),  -- rest tm
@@ -1714,53 +1104,38 @@ VALUES
     (116, 11600, 207, 21, 2, NULL),  -- swagger tm
     (116, 11600, 213, 21, 2, NULL),  -- attract tm
     (116, 11600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (116, 11600, 216, 21, 2, NULL),  -- return tm
-    (116, 11600, 218, 21, 2, NULL),  -- frustration tm
-    (116, 11600, 237, 21, 2, NULL),  -- hidden-power tm
     (116, 11600, 240, 21, 2, NULL),  -- rain-dance tm
     (116, 11600, 258, 21, 2, NULL),  -- hail tm
     (116, 11600, 263, 21, 2, NULL),  -- facade tm
-    (116, 11600, 290, 21, 2, NULL),  -- secret-power tm
     (116, 11600, 352, 21, 2, NULL),  -- water-pulse tm
     (116, 11600, 362, 21, 2, NULL),  -- brine tm
-    (116, 11600, 363, 21, 2, NULL),  -- natural-gift tm
     (116, 11600, 406, 21, 2, NULL),  -- dragon-pulse tm
     (116, 11600, 430, 21, 2, NULL),  -- flash-cannon tm
-    (116, 11600, 445, 21, 2, NULL),  -- captivate tm
+    (116, 11600, 503, 21, 2, NULL),  -- scald tm
     (116, 11600, 50, 21, 5, NULL),  -- disable egg
     (116, 11600, 62, 21, 5, NULL),  -- aurora-beam egg
-    (116, 11600, 82, 21, 5, NULL),  -- dragon-rage egg
     (116, 11600, 150, 21, 5, NULL),  -- splash egg
     (116, 11600, 175, 21, 5, NULL),  -- flail egg
     (116, 11600, 190, 21, 5, NULL),  -- octazooka egg
+    (116, 11600, 200, 21, 5, NULL),  -- outrage egg
     (116, 11600, 225, 21, 5, NULL),  -- dragon-breath egg
-    (116, 11600, 324, 21, 5, NULL),  -- signal-beam egg
-    (116, 11600, 129, 21, 6, NULL),  -- swift tutor
-    (116, 11600, 173, 21, 6, NULL),  -- snore tutor
-    (116, 11600, 196, 21, 6, NULL),  -- icy-wind tutor
-    (116, 11600, 200, 21, 6, NULL),  -- outrage tutor
-    (116, 11600, 239, 21, 6, NULL),  -- twister tutor
-    (116, 11600, 291, 21, 6, NULL),  -- dive tutor
-    (116, 11600, 324, 21, 6, NULL),  -- signal-beam tutor
-    (116, 11600, 340, 21, 6, NULL),  -- bounce tutor
-    -- #117 Seadra
-    (117, 11700, 43, 21, 1, 1),  -- leer lv1
-    (117, 11700, 55, 21, 1, 1),  -- water-gun lv1
-    (117, 11700, 108, 21, 1, 1),  -- smokescreen lv1
-    (117, 11700, 145, 21, 1, 1),  -- bubble lv1
-    (117, 11700, 116, 21, 1, 14),  -- focus-energy lv14
-    (117, 11700, 61, 21, 1, 18),  -- bubble-beam lv18
-    (117, 11700, 97, 21, 1, 23),  -- agility lv23
-    (117, 11700, 239, 21, 1, 26),  -- twister lv26
-    (117, 11700, 362, 21, 1, 30),  -- brine lv30
-    (117, 11700, 56, 21, 1, 40),  -- hydro-pump lv40
-    (117, 11700, 349, 21, 1, 48),  -- dragon-dance lv48
-    (117, 11700, 406, 21, 1, 57),  -- dragon-pulse lv57
+    (116, 11600, 330, 21, 5, NULL),  -- muddy-water egg
+    (116, 11600, 499, 21, 5, NULL),  -- clear-smog egg
+    (116, 11600, 43, 21, 8, NULL),  -- leer start
+    (116, 11600, 55, 21, 8, NULL),  -- water-gun start
+    (117, 11700, 116, 21, 1, 15),  -- focus-energy lv15
+    (117, 11700, 225, 21, 1, 20),  -- dragon-breath lv20
+    (117, 11700, 61, 21, 1, 25),  -- bubble-beam lv25
+    (117, 11700, 97, 21, 1, 30),  -- agility lv30
+    (117, 11700, 673, 21, 1, 37),  -- laser-focus lv37
+    (117, 11700, 406, 21, 1, 44),  -- dragon-pulse lv44
+    (117, 11700, 56, 21, 1, 51),  -- hydro-pump lv51
+    (117, 11700, 349, 21, 1, 58),  -- dragon-dance lv58
+    (117, 11700, 240, 21, 1, 65),  -- rain-dance lv65
     (117, 11700, 57, 21, 2, NULL),  -- surf tm
     (117, 11700, 58, 21, 2, NULL),  -- ice-beam tm
     (117, 11700, 59, 21, 2, NULL),  -- blizzard tm
     (117, 11700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (117, 11700, 92, 21, 2, NULL),  -- toxic tm
     (117, 11700, 104, 21, 2, NULL),  -- double-team tm
     (117, 11700, 127, 21, 2, NULL),  -- waterfall tm
     (117, 11700, 156, 21, 2, NULL),  -- rest tm
@@ -1770,46 +1145,42 @@ VALUES
     (117, 11700, 207, 21, 2, NULL),  -- swagger tm
     (117, 11700, 213, 21, 2, NULL),  -- attract tm
     (117, 11700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (117, 11700, 216, 21, 2, NULL),  -- return tm
-    (117, 11700, 218, 21, 2, NULL),  -- frustration tm
-    (117, 11700, 237, 21, 2, NULL),  -- hidden-power tm
     (117, 11700, 240, 21, 2, NULL),  -- rain-dance tm
     (117, 11700, 258, 21, 2, NULL),  -- hail tm
     (117, 11700, 263, 21, 2, NULL),  -- facade tm
-    (117, 11700, 290, 21, 2, NULL),  -- secret-power tm
     (117, 11700, 352, 21, 2, NULL),  -- water-pulse tm
     (117, 11700, 362, 21, 2, NULL),  -- brine tm
-    (117, 11700, 363, 21, 2, NULL),  -- natural-gift tm
     (117, 11700, 406, 21, 2, NULL),  -- dragon-pulse tm
     (117, 11700, 416, 21, 2, NULL),  -- giga-impact tm
     (117, 11700, 430, 21, 2, NULL),  -- flash-cannon tm
-    (117, 11700, 445, 21, 2, NULL),  -- captivate tm
-    (117, 11700, 129, 21, 6, NULL),  -- swift tutor
-    (117, 11700, 173, 21, 6, NULL),  -- snore tutor
-    (117, 11700, 196, 21, 6, NULL),  -- icy-wind tutor
-    (117, 11700, 200, 21, 6, NULL),  -- outrage tutor
-    (117, 11700, 239, 21, 6, NULL),  -- twister tutor
-    (117, 11700, 291, 21, 6, NULL),  -- dive tutor
-    (117, 11700, 324, 21, 6, NULL),  -- signal-beam tutor
-    (117, 11700, 340, 21, 6, NULL),  -- bounce tutor
-    -- #118 Goldeen
-    (118, 11800, 39, 21, 1, 1),  -- tail-whip lv1
-    (118, 11800, 64, 21, 1, 1),  -- peck lv1
-    (118, 11800, 346, 21, 1, 1),  -- water-sport lv1
-    (118, 11800, 48, 21, 1, 7),  -- supersonic lv7
-    (118, 11800, 30, 21, 1, 11),  -- horn-attack lv11
-    (118, 11800, 352, 21, 1, 17),  -- water-pulse lv17
-    (118, 11800, 175, 21, 1, 21),  -- flail lv21
-    (118, 11800, 392, 21, 1, 27),  -- aqua-ring lv27
-    (118, 11800, 31, 21, 1, 31),  -- fury-attack lv31
-    (118, 11800, 127, 21, 1, 37),  -- waterfall lv37
-    (118, 11800, 32, 21, 1, 41),  -- horn-drill lv41
-    (118, 11800, 97, 21, 1, 47),  -- agility lv47
-    (118, 11800, 224, 21, 1, 51),  -- megahorn lv51
+    (117, 11700, 503, 21, 2, NULL),  -- scald tm
+    (117, 11700, 50, 21, 5, NULL),  -- disable egg
+    (117, 11700, 62, 21, 5, NULL),  -- aurora-beam egg
+    (117, 11700, 150, 21, 5, NULL),  -- splash egg
+    (117, 11700, 175, 21, 5, NULL),  -- flail egg
+    (117, 11700, 190, 21, 5, NULL),  -- octazooka egg
+    (117, 11700, 200, 21, 5, NULL),  -- outrage egg
+    (117, 11700, 225, 21, 5, NULL),  -- dragon-breath egg
+    (117, 11700, 330, 21, 5, NULL),  -- muddy-water egg
+    (117, 11700, 499, 21, 5, NULL),  -- clear-smog egg
+    (117, 11700, 43, 21, 8, NULL),  -- leer start
+    (117, 11700, 55, 21, 8, NULL),  -- water-gun start
+    (117, 11700, 108, 21, 8, NULL),  -- smokescreen start
+    (117, 11700, 239, 21, 8, NULL),  -- twister start
+    (118, 11800, 48, 21, 1, 5),  -- supersonic lv5
+    (118, 11800, 352, 21, 1, 10),  -- water-pulse lv10
+    (118, 11800, 30, 21, 1, 15),  -- horn-attack lv15
+    (118, 11800, 97, 21, 1, 20),  -- agility lv20
+    (118, 11800, 392, 21, 1, 25),  -- aqua-ring lv25
+    (118, 11800, 175, 21, 1, 30),  -- flail lv30
+    (118, 11800, 127, 21, 1, 35),  -- waterfall lv35
+    (118, 11800, 487, 21, 1, 40),  -- soak lv40
+    (118, 11800, 224, 21, 1, 45),  -- megahorn lv45
+    (118, 11800, 32, 21, 1, 50),  -- horn-drill lv50
+    (118, 11800, 14, 21, 2, NULL),  -- swords-dance tm
     (118, 11800, 57, 21, 2, NULL),  -- surf tm
     (118, 11800, 58, 21, 2, NULL),  -- ice-beam tm
     (118, 11800, 59, 21, 2, NULL),  -- blizzard tm
-    (118, 11800, 92, 21, 2, NULL),  -- toxic tm
     (118, 11800, 104, 21, 2, NULL),  -- double-team tm
     (118, 11800, 127, 21, 2, NULL),  -- waterfall tm
     (118, 11800, 156, 21, 2, NULL),  -- rest tm
@@ -1819,53 +1190,36 @@ VALUES
     (118, 11800, 207, 21, 2, NULL),  -- swagger tm
     (118, 11800, 213, 21, 2, NULL),  -- attract tm
     (118, 11800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (118, 11800, 216, 21, 2, NULL),  -- return tm
-    (118, 11800, 218, 21, 2, NULL),  -- frustration tm
-    (118, 11800, 237, 21, 2, NULL),  -- hidden-power tm
     (118, 11800, 240, 21, 2, NULL),  -- rain-dance tm
     (118, 11800, 258, 21, 2, NULL),  -- hail tm
     (118, 11800, 263, 21, 2, NULL),  -- facade tm
-    (118, 11800, 290, 21, 2, NULL),  -- secret-power tm
     (118, 11800, 352, 21, 2, NULL),  -- water-pulse tm
-    (118, 11800, 363, 21, 2, NULL),  -- natural-gift tm
     (118, 11800, 398, 21, 2, NULL),  -- poison-jab tm
-    (118, 11800, 445, 21, 2, NULL),  -- captivate tm
+    (118, 11800, 503, 21, 2, NULL),  -- scald tm
+    (118, 11800, 34, 21, 5, NULL),  -- body-slam egg
     (118, 11800, 56, 21, 5, NULL),  -- hydro-pump egg
     (118, 11800, 60, 21, 5, NULL),  -- psybeam egg
     (118, 11800, 114, 21, 5, NULL),  -- haze egg
+    (118, 11800, 130, 21, 5, NULL),  -- skull-bash egg
     (118, 11800, 189, 21, 5, NULL),  -- mud-slap egg
-    (118, 11800, 214, 21, 5, NULL),  -- sleep-talk egg
-    (118, 11800, 300, 21, 5, NULL),  -- mud-sport egg
+    (118, 11800, 341, 21, 5, NULL),  -- mud-shot egg
+    (118, 11800, 367, 21, 5, NULL),  -- acupressure egg
     (118, 11800, 401, 21, 5, NULL),  -- aqua-tail egg
-    (118, 11800, 129, 21, 6, NULL),  -- swift tutor
-    (118, 11800, 173, 21, 6, NULL),  -- snore tutor
-    (118, 11800, 189, 21, 6, NULL),  -- mud-slap tutor
-    (118, 11800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (118, 11800, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (118, 11800, 282, 21, 6, NULL),  -- knock-off tutor
-    (118, 11800, 291, 21, 6, NULL),  -- dive tutor
-    (118, 11800, 340, 21, 6, NULL),  -- bounce tutor
-    (118, 11800, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #119 Seaking
-    (119, 11900, 39, 21, 1, 1),  -- tail-whip lv1
-    (119, 11900, 48, 21, 1, 1),  -- supersonic lv1
-    (119, 11900, 64, 21, 1, 1),  -- peck lv1
-    (119, 11900, 346, 21, 1, 1),  -- water-sport lv1
-    (119, 11900, 398, 21, 1, 1),  -- poison-jab lv1
-    (119, 11900, 30, 21, 1, 11),  -- horn-attack lv11
-    (119, 11900, 352, 21, 1, 17),  -- water-pulse lv17
-    (119, 11900, 175, 21, 1, 21),  -- flail lv21
-    (119, 11900, 392, 21, 1, 27),  -- aqua-ring lv27
-    (119, 11900, 31, 21, 1, 31),  -- fury-attack lv31
-    (119, 11900, 127, 21, 1, 40),  -- waterfall lv40
-    (119, 11900, 32, 21, 1, 47),  -- horn-drill lv47
-    (119, 11900, 97, 21, 1, 56),  -- agility lv56
-    (119, 11900, 224, 21, 1, 63),  -- megahorn lv63
+    (118, 11800, 39, 21, 8, NULL),  -- tail-whip start
+    (118, 11800, 64, 21, 8, NULL),  -- peck start
+    (119, 11900, 30, 21, 1, 15),  -- horn-attack lv15
+    (119, 11900, 97, 21, 1, 20),  -- agility lv20
+    (119, 11900, 392, 21, 1, 25),  -- aqua-ring lv25
+    (119, 11900, 175, 21, 1, 30),  -- flail lv30
+    (119, 11900, 127, 21, 1, 37),  -- waterfall lv37
+    (119, 11900, 487, 21, 1, 44),  -- soak lv44
+    (119, 11900, 224, 21, 1, 51),  -- megahorn lv51
+    (119, 11900, 32, 21, 1, 58),  -- horn-drill lv58
+    (119, 11900, 14, 21, 2, NULL),  -- swords-dance tm
     (119, 11900, 57, 21, 2, NULL),  -- surf tm
     (119, 11900, 58, 21, 2, NULL),  -- ice-beam tm
     (119, 11900, 59, 21, 2, NULL),  -- blizzard tm
     (119, 11900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (119, 11900, 92, 21, 2, NULL),  -- toxic tm
     (119, 11900, 104, 21, 2, NULL),  -- double-team tm
     (119, 11900, 127, 21, 2, NULL),  -- waterfall tm
     (119, 11900, 156, 21, 2, NULL),  -- rest tm
@@ -1875,49 +1229,46 @@ VALUES
     (119, 11900, 207, 21, 2, NULL),  -- swagger tm
     (119, 11900, 213, 21, 2, NULL),  -- attract tm
     (119, 11900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (119, 11900, 216, 21, 2, NULL),  -- return tm
-    (119, 11900, 218, 21, 2, NULL),  -- frustration tm
-    (119, 11900, 237, 21, 2, NULL),  -- hidden-power tm
     (119, 11900, 240, 21, 2, NULL),  -- rain-dance tm
     (119, 11900, 258, 21, 2, NULL),  -- hail tm
     (119, 11900, 263, 21, 2, NULL),  -- facade tm
-    (119, 11900, 290, 21, 2, NULL),  -- secret-power tm
     (119, 11900, 352, 21, 2, NULL),  -- water-pulse tm
-    (119, 11900, 363, 21, 2, NULL),  -- natural-gift tm
     (119, 11900, 398, 21, 2, NULL),  -- poison-jab tm
     (119, 11900, 416, 21, 2, NULL),  -- giga-impact tm
-    (119, 11900, 445, 21, 2, NULL),  -- captivate tm
-    (119, 11900, 129, 21, 6, NULL),  -- swift tutor
-    (119, 11900, 173, 21, 6, NULL),  -- snore tutor
-    (119, 11900, 189, 21, 6, NULL),  -- mud-slap tutor
-    (119, 11900, 196, 21, 6, NULL),  -- icy-wind tutor
-    (119, 11900, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (119, 11900, 282, 21, 6, NULL),  -- knock-off tutor
-    (119, 11900, 291, 21, 6, NULL),  -- dive tutor
-    (119, 11900, 340, 21, 6, NULL),  -- bounce tutor
-    (119, 11900, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #120 Staryu
-    (120, 12000, 33, 21, 1, 1),  -- tackle lv1
-    (120, 12000, 106, 21, 1, 1),  -- harden lv1
-    (120, 12000, 55, 21, 1, 6),  -- water-gun lv6
-    (120, 12000, 229, 21, 1, 10),  -- rapid-spin lv10
-    (120, 12000, 105, 21, 1, 15),  -- recover lv15
-    (120, 12000, 293, 21, 1, 19),  -- camouflage lv19
-    (120, 12000, 129, 21, 1, 24),  -- swift lv24
-    (120, 12000, 61, 21, 1, 28),  -- bubble-beam lv28
-    (120, 12000, 107, 21, 1, 33),  -- minimize lv33
-    (120, 12000, 360, 21, 1, 37),  -- gyro-ball lv37
-    (120, 12000, 113, 21, 1, 42),  -- light-screen lv42
-    (120, 12000, 408, 21, 1, 46),  -- power-gem lv46
-    (120, 12000, 322, 21, 1, 51),  -- cosmic-power lv51
-    (120, 12000, 56, 21, 1, 55),  -- hydro-pump lv55
+    (119, 11900, 503, 21, 2, NULL),  -- scald tm
+    (119, 11900, 34, 21, 5, NULL),  -- body-slam egg
+    (119, 11900, 56, 21, 5, NULL),  -- hydro-pump egg
+    (119, 11900, 60, 21, 5, NULL),  -- psybeam egg
+    (119, 11900, 114, 21, 5, NULL),  -- haze egg
+    (119, 11900, 130, 21, 5, NULL),  -- skull-bash egg
+    (119, 11900, 189, 21, 5, NULL),  -- mud-slap egg
+    (119, 11900, 341, 21, 5, NULL),  -- mud-shot egg
+    (119, 11900, 367, 21, 5, NULL),  -- acupressure egg
+    (119, 11900, 401, 21, 5, NULL),  -- aqua-tail egg
+    (119, 11900, 39, 21, 8, NULL),  -- tail-whip start
+    (119, 11900, 48, 21, 8, NULL),  -- supersonic start
+    (119, 11900, 64, 21, 8, NULL),  -- peck start
+    (119, 11900, 352, 21, 8, NULL),  -- water-pulse start
+    (120, 12000, 55, 21, 1, 4),  -- water-gun lv4
+    (120, 12000, 109, 21, 1, 8),  -- confuse-ray lv8
+    (120, 12000, 229, 21, 1, 12),  -- rapid-spin lv12
+    (120, 12000, 107, 21, 1, 16),  -- minimize lv16
+    (120, 12000, 129, 21, 1, 20),  -- swift lv20
+    (120, 12000, 60, 21, 1, 24),  -- psybeam lv24
+    (120, 12000, 362, 21, 1, 28),  -- brine lv28
+    (120, 12000, 113, 21, 1, 32),  -- light-screen lv32
+    (120, 12000, 408, 21, 1, 36),  -- power-gem lv36
+    (120, 12000, 94, 21, 1, 40),  -- psychic lv40
+    (120, 12000, 57, 21, 1, 44),  -- surf lv44
+    (120, 12000, 105, 21, 1, 48),  -- recover lv48
+    (120, 12000, 322, 21, 1, 52),  -- cosmic-power lv52
+    (120, 12000, 56, 21, 1, 56),  -- hydro-pump lv56
     (120, 12000, 57, 21, 2, NULL),  -- surf tm
     (120, 12000, 58, 21, 2, NULL),  -- ice-beam tm
     (120, 12000, 59, 21, 2, NULL),  -- blizzard tm
     (120, 12000, 85, 21, 2, NULL),  -- thunderbolt tm
     (120, 12000, 86, 21, 2, NULL),  -- thunder-wave tm
     (120, 12000, 87, 21, 2, NULL),  -- thunder tm
-    (120, 12000, 92, 21, 2, NULL),  -- toxic tm
     (120, 12000, 94, 21, 2, NULL),  -- psychic tm
     (120, 12000, 104, 21, 2, NULL),  -- double-team tm
     (120, 12000, 113, 21, 2, NULL),  -- light-screen tm
@@ -1930,33 +1281,19 @@ VALUES
     (120, 12000, 203, 21, 2, NULL),  -- endure tm
     (120, 12000, 207, 21, 2, NULL),  -- swagger tm
     (120, 12000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (120, 12000, 216, 21, 2, NULL),  -- return tm
-    (120, 12000, 218, 21, 2, NULL),  -- frustration tm
-    (120, 12000, 237, 21, 2, NULL),  -- hidden-power tm
     (120, 12000, 240, 21, 2, NULL),  -- rain-dance tm
     (120, 12000, 244, 21, 2, NULL),  -- psych-up tm
     (120, 12000, 258, 21, 2, NULL),  -- hail tm
     (120, 12000, 263, 21, 2, NULL),  -- facade tm
     (120, 12000, 278, 21, 2, NULL),  -- recycle tm
-    (120, 12000, 290, 21, 2, NULL),  -- secret-power tm
     (120, 12000, 352, 21, 2, NULL),  -- water-pulse tm
     (120, 12000, 360, 21, 2, NULL),  -- gyro-ball tm
     (120, 12000, 362, 21, 2, NULL),  -- brine tm
-    (120, 12000, 363, 21, 2, NULL),  -- natural-gift tm
     (120, 12000, 430, 21, 2, NULL),  -- flash-cannon tm
-    (120, 12000, 129, 21, 6, NULL),  -- swift tutor
-    (120, 12000, 173, 21, 6, NULL),  -- snore tutor
-    (120, 12000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (120, 12000, 205, 21, 6, NULL),  -- rollout tutor
-    (120, 12000, 239, 21, 6, NULL),  -- twister tutor
-    (120, 12000, 291, 21, 6, NULL),  -- dive tutor
-    (120, 12000, 324, 21, 6, NULL),  -- signal-beam tutor
-    -- #121 Starmie
-    (121, 12100, 55, 21, 1, 1),  -- water-gun lv1
-    (121, 12100, 105, 21, 1, 1),  -- recover lv1
-    (121, 12100, 129, 21, 1, 1),  -- swift lv1
-    (121, 12100, 229, 21, 1, 1),  -- rapid-spin lv1
-    (121, 12100, 109, 21, 1, 28),  -- confuse-ray lv28
+    (120, 12000, 503, 21, 2, NULL),  -- scald tm
+    (120, 12000, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (120, 12000, 33, 21, 8, NULL),  -- tackle start
+    (120, 12000, 106, 21, 8, NULL),  -- harden start
     (121, 12100, 57, 21, 2, NULL),  -- surf tm
     (121, 12100, 58, 21, 2, NULL),  -- ice-beam tm
     (121, 12100, 59, 21, 2, NULL),  -- blizzard tm
@@ -1964,7 +1301,6 @@ VALUES
     (121, 12100, 85, 21, 2, NULL),  -- thunderbolt tm
     (121, 12100, 86, 21, 2, NULL),  -- thunder-wave tm
     (121, 12100, 87, 21, 2, NULL),  -- thunder tm
-    (121, 12100, 92, 21, 2, NULL),  -- toxic tm
     (121, 12100, 94, 21, 2, NULL),  -- psychic tm
     (121, 12100, 104, 21, 2, NULL),  -- double-team tm
     (121, 12100, 113, 21, 2, NULL),  -- light-screen tm
@@ -1978,148 +1314,55 @@ VALUES
     (121, 12100, 203, 21, 2, NULL),  -- endure tm
     (121, 12100, 207, 21, 2, NULL),  -- swagger tm
     (121, 12100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (121, 12100, 216, 21, 2, NULL),  -- return tm
-    (121, 12100, 218, 21, 2, NULL),  -- frustration tm
-    (121, 12100, 237, 21, 2, NULL),  -- hidden-power tm
     (121, 12100, 240, 21, 2, NULL),  -- rain-dance tm
     (121, 12100, 244, 21, 2, NULL),  -- psych-up tm
     (121, 12100, 258, 21, 2, NULL),  -- hail tm
     (121, 12100, 263, 21, 2, NULL),  -- facade tm
     (121, 12100, 278, 21, 2, NULL),  -- recycle tm
     (121, 12100, 285, 21, 2, NULL),  -- skill-swap tm
-    (121, 12100, 290, 21, 2, NULL),  -- secret-power tm
     (121, 12100, 352, 21, 2, NULL),  -- water-pulse tm
     (121, 12100, 360, 21, 2, NULL),  -- gyro-ball tm
     (121, 12100, 362, 21, 2, NULL),  -- brine tm
-    (121, 12100, 363, 21, 2, NULL),  -- natural-gift tm
     (121, 12100, 416, 21, 2, NULL),  -- giga-impact tm
     (121, 12100, 419, 21, 2, NULL),  -- avalanche tm
     (121, 12100, 430, 21, 2, NULL),  -- flash-cannon tm
     (121, 12100, 433, 21, 2, NULL),  -- trick-room tm
     (121, 12100, 447, 21, 2, NULL),  -- grass-knot tm
-    (121, 12100, 129, 21, 6, NULL),  -- swift tutor
-    (121, 12100, 173, 21, 6, NULL),  -- snore tutor
-    (121, 12100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (121, 12100, 205, 21, 6, NULL),  -- rollout tutor
-    (121, 12100, 239, 21, 6, NULL),  -- twister tutor
-    (121, 12100, 271, 21, 6, NULL),  -- trick tutor
-    (121, 12100, 291, 21, 6, NULL),  -- dive tutor
-    (121, 12100, 324, 21, 6, NULL),  -- signal-beam tutor
-    -- #122 Mr-Mime
-    (122, 12200, 93, 21, 1, 1),  -- confusion lv1
-    (122, 12200, 112, 21, 1, 1),  -- barrier lv1
-    (122, 12200, 345, 21, 1, 1),  -- magical-leaf lv1
-    (122, 12200, 384, 21, 1, 1),  -- power-swap lv1
-    (122, 12200, 385, 21, 1, 1),  -- guard-swap lv1
-    (122, 12200, 383, 21, 1, 4),  -- copycat lv4
-    (122, 12200, 96, 21, 1, 8),  -- meditate lv8
-    (122, 12200, 227, 21, 1, 11),  -- encore lv11
-    (122, 12200, 3, 21, 1, 15),  -- double-slap lv15
-    (122, 12200, 102, 21, 1, 18),  -- mimic lv18
-    (122, 12200, 113, 21, 1, 22),  -- light-screen lv22
-    (122, 12200, 115, 21, 1, 22),  -- reflect lv22
-    (122, 12200, 60, 21, 1, 25),  -- psybeam lv25
-    (122, 12200, 164, 21, 1, 29),  -- substitute lv29
-    (122, 12200, 278, 21, 1, 32),  -- recycle lv32
-    (122, 12200, 271, 21, 1, 36),  -- trick lv36
-    (122, 12200, 94, 21, 1, 39),  -- psychic lv39
-    (122, 12200, 272, 21, 1, 43),  -- role-play lv43
-    (122, 12200, 226, 21, 1, 46),  -- baton-pass lv46
-    (122, 12200, 219, 21, 1, 50),  -- safeguard lv50
-    (122, 12200, 63, 21, 2, NULL),  -- hyper-beam tm
-    (122, 12200, 76, 21, 2, NULL),  -- solar-beam tm
-    (122, 12200, 85, 21, 2, NULL),  -- thunderbolt tm
-    (122, 12200, 86, 21, 2, NULL),  -- thunder-wave tm
-    (122, 12200, 87, 21, 2, NULL),  -- thunder tm
-    (122, 12200, 92, 21, 2, NULL),  -- toxic tm
-    (122, 12200, 94, 21, 2, NULL),  -- psychic tm
-    (122, 12200, 104, 21, 2, NULL),  -- double-team tm
-    (122, 12200, 113, 21, 2, NULL),  -- light-screen tm
-    (122, 12200, 115, 21, 2, NULL),  -- reflect tm
-    (122, 12200, 138, 21, 2, NULL),  -- dream-eater tm
-    (122, 12200, 148, 21, 2, NULL),  -- flash tm
-    (122, 12200, 156, 21, 2, NULL),  -- rest tm
-    (122, 12200, 164, 21, 2, NULL),  -- substitute tm
-    (122, 12200, 168, 21, 2, NULL),  -- thief tm
-    (122, 12200, 182, 21, 2, NULL),  -- protect tm
-    (122, 12200, 203, 21, 2, NULL),  -- endure tm
-    (122, 12200, 207, 21, 2, NULL),  -- swagger tm
-    (122, 12200, 213, 21, 2, NULL),  -- attract tm
-    (122, 12200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (122, 12200, 216, 21, 2, NULL),  -- return tm
-    (122, 12200, 218, 21, 2, NULL),  -- frustration tm
-    (122, 12200, 219, 21, 2, NULL),  -- safeguard tm
-    (122, 12200, 237, 21, 2, NULL),  -- hidden-power tm
-    (122, 12200, 240, 21, 2, NULL),  -- rain-dance tm
-    (122, 12200, 241, 21, 2, NULL),  -- sunny-day tm
-    (122, 12200, 244, 21, 2, NULL),  -- psych-up tm
-    (122, 12200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (122, 12200, 259, 21, 2, NULL),  -- torment tm
-    (122, 12200, 263, 21, 2, NULL),  -- facade tm
-    (122, 12200, 264, 21, 2, NULL),  -- focus-punch tm
-    (122, 12200, 269, 21, 2, NULL),  -- taunt tm
-    (122, 12200, 278, 21, 2, NULL),  -- recycle tm
-    (122, 12200, 280, 21, 2, NULL),  -- brick-break tm
-    (122, 12200, 285, 21, 2, NULL),  -- skill-swap tm
-    (122, 12200, 289, 21, 2, NULL),  -- snatch tm
-    (122, 12200, 290, 21, 2, NULL),  -- secret-power tm
-    (122, 12200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (122, 12200, 347, 21, 2, NULL),  -- calm-mind tm
-    (122, 12200, 351, 21, 2, NULL),  -- shock-wave tm
-    (122, 12200, 363, 21, 2, NULL),  -- natural-gift tm
-    (122, 12200, 371, 21, 2, NULL),  -- payback tm
-    (122, 12200, 374, 21, 2, NULL),  -- fling tm
-    (122, 12200, 409, 21, 2, NULL),  -- drain-punch tm
-    (122, 12200, 411, 21, 2, NULL),  -- focus-blast tm
-    (122, 12200, 412, 21, 2, NULL),  -- energy-ball tm
-    (122, 12200, 416, 21, 2, NULL),  -- giga-impact tm
-    (122, 12200, 433, 21, 2, NULL),  -- trick-room tm
-    (122, 12200, 445, 21, 2, NULL),  -- captivate tm
-    (122, 12200, 447, 21, 2, NULL),  -- grass-knot tm
-    (122, 12200, 451, 21, 2, NULL),  -- charge-beam tm
-    (122, 12200, 95, 21, 5, NULL),  -- hypnosis egg
-    (122, 12200, 102, 21, 5, NULL),  -- mimic egg
-    (122, 12200, 109, 21, 5, NULL),  -- confuse-ray egg
-    (122, 12200, 244, 21, 5, NULL),  -- psych-up egg
-    (122, 12200, 248, 21, 5, NULL),  -- future-sight egg
-    (122, 12200, 252, 21, 5, NULL),  -- fake-out egg
-    (122, 12200, 271, 21, 5, NULL),  -- trick egg
-    (122, 12200, 298, 21, 5, NULL),  -- teeter-dance egg
-    (122, 12200, 358, 21, 5, NULL),  -- wake-up-slap egg
-    (122, 12200, 7, 21, 6, NULL),  -- fire-punch tutor
-    (122, 12200, 8, 21, 6, NULL),  -- ice-punch tutor
-    (122, 12200, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (122, 12200, 173, 21, 6, NULL),  -- snore tutor
-    (122, 12200, 189, 21, 6, NULL),  -- mud-slap tutor
-    (122, 12200, 270, 21, 6, NULL),  -- helping-hand tutor
-    (122, 12200, 271, 21, 6, NULL),  -- trick tutor
-    (122, 12200, 324, 21, 6, NULL),  -- signal-beam tutor
-    (122, 12200, 334, 21, 6, NULL),  -- iron-defense tutor
-    (122, 12200, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #123 Scyther
-    (123, 12300, 43, 21, 1, 1),  -- leer lv1
-    (123, 12300, 98, 21, 1, 1),  -- quick-attack lv1
-    (123, 12300, 410, 21, 1, 1),  -- vacuum-wave lv1
-    (123, 12300, 116, 21, 1, 5),  -- focus-energy lv5
-    (123, 12300, 228, 21, 1, 9),  -- pursuit lv9
-    (123, 12300, 206, 21, 1, 13),  -- false-swipe lv13
-    (123, 12300, 97, 21, 1, 17),  -- agility lv17
-    (123, 12300, 17, 21, 1, 21),  -- wing-attack lv21
-    (123, 12300, 210, 21, 1, 25),  -- fury-cutter lv25
-    (123, 12300, 163, 21, 1, 29),  -- slash lv29
-    (123, 12300, 13, 21, 1, 33),  -- razor-wind lv33
-    (123, 12300, 104, 21, 1, 37),  -- double-team lv37
-    (123, 12300, 404, 21, 1, 41),  -- x-scissor lv41
-    (123, 12300, 400, 21, 1, 45),  -- night-slash lv45
-    (123, 12300, 458, 21, 1, 49),  -- double-hit lv49
-    (123, 12300, 403, 21, 1, 53),  -- air-slash lv53
-    (123, 12300, 14, 21, 1, 57),  -- swords-dance lv57
-    (123, 12300, 364, 21, 1, 61),  -- feint lv61
+    (121, 12100, 503, 21, 2, NULL),  -- scald tm
+    (121, 12100, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (121, 12100, 33, 21, 8, NULL),  -- tackle start
+    (121, 12100, 55, 21, 8, NULL),  -- water-gun start
+    (121, 12100, 56, 21, 8, NULL),  -- hydro-pump start
+    (121, 12100, 57, 21, 8, NULL),  -- surf start
+    (121, 12100, 60, 21, 8, NULL),  -- psybeam start
+    (121, 12100, 94, 21, 8, NULL),  -- psychic start
+    (121, 12100, 105, 21, 8, NULL),  -- recover start
+    (121, 12100, 106, 21, 8, NULL),  -- harden start
+    (121, 12100, 107, 21, 8, NULL),  -- minimize start
+    (121, 12100, 109, 21, 8, NULL),  -- confuse-ray start
+    (121, 12100, 113, 21, 8, NULL),  -- light-screen start
+    (121, 12100, 129, 21, 8, NULL),  -- swift start
+    (121, 12100, 229, 21, 8, NULL),  -- rapid-spin start
+    (121, 12100, 322, 21, 8, NULL),  -- cosmic-power start
+    (121, 12100, 362, 21, 8, NULL),  -- brine start
+    (121, 12100, 408, 21, 8, NULL),  -- power-gem start
+    (123, 12300, 210, 21, 1, 4),  -- fury-cutter lv4
+    (123, 12300, 206, 21, 1, 8),  -- false-swipe lv8
+    (123, 12300, 17, 21, 1, 12),  -- wing-attack lv12
+    (123, 12300, 104, 21, 1, 16),  -- double-team lv16
+    (123, 12300, 458, 21, 1, 20),  -- double-hit lv20
+    (123, 12300, 163, 21, 1, 24),  -- slash lv24
+    (123, 12300, 116, 21, 1, 28),  -- focus-energy lv28
+    (123, 12300, 97, 21, 1, 32),  -- agility lv32
+    (123, 12300, 403, 21, 1, 36),  -- air-slash lv36
+    (123, 12300, 404, 21, 1, 40),  -- x-scissor lv40
+    (123, 12300, 673, 21, 1, 44),  -- laser-focus lv44
+    (123, 12300, 14, 21, 1, 48),  -- swords-dance lv48
     (123, 12300, 14, 21, 2, NULL),  -- swords-dance tm
     (123, 12300, 15, 21, 2, NULL),  -- cut tm
     (123, 12300, 63, 21, 2, NULL),  -- hyper-beam tm
-    (123, 12300, 92, 21, 2, NULL),  -- toxic tm
     (123, 12300, 104, 21, 2, NULL),  -- double-team tm
+    (123, 12300, 113, 21, 2, NULL),  -- light-screen tm
     (123, 12300, 156, 21, 2, NULL),  -- rest tm
     (123, 12300, 164, 21, 2, NULL),  -- substitute tm
     (123, 12300, 168, 21, 2, NULL),  -- thief tm
@@ -2130,58 +1373,40 @@ VALUES
     (123, 12300, 211, 21, 2, NULL),  -- steel-wing tm
     (123, 12300, 213, 21, 2, NULL),  -- attract tm
     (123, 12300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (123, 12300, 216, 21, 2, NULL),  -- return tm
-    (123, 12300, 218, 21, 2, NULL),  -- frustration tm
-    (123, 12300, 237, 21, 2, NULL),  -- hidden-power tm
+    (123, 12300, 219, 21, 2, NULL),  -- safeguard tm
     (123, 12300, 240, 21, 2, NULL),  -- rain-dance tm
     (123, 12300, 241, 21, 2, NULL),  -- sunny-day tm
     (123, 12300, 249, 21, 2, NULL),  -- rock-smash tm
     (123, 12300, 263, 21, 2, NULL),  -- facade tm
     (123, 12300, 280, 21, 2, NULL),  -- brick-break tm
-    (123, 12300, 290, 21, 2, NULL),  -- secret-power tm
-    (123, 12300, 318, 21, 2, NULL),  -- silver-wind tm
     (123, 12300, 332, 21, 2, NULL),  -- aerial-ace tm
     (123, 12300, 355, 21, 2, NULL),  -- roost tm
-    (123, 12300, 363, 21, 2, NULL),  -- natural-gift tm
     (123, 12300, 369, 21, 2, NULL),  -- u-turn tm
     (123, 12300, 404, 21, 2, NULL),  -- x-scissor tm
+    (123, 12300, 405, 21, 2, NULL),  -- bug-buzz tm
     (123, 12300, 416, 21, 2, NULL),  -- giga-impact tm
     (123, 12300, 432, 21, 2, NULL),  -- defog tm
-    (123, 12300, 445, 21, 2, NULL),  -- captivate tm
-    (123, 12300, 13, 21, 5, NULL),  -- razor-wind egg
     (123, 12300, 68, 21, 5, NULL),  -- counter egg
-    (123, 12300, 113, 21, 5, NULL),  -- light-screen egg
     (123, 12300, 179, 21, 5, NULL),  -- reversal egg
-    (123, 12300, 203, 21, 5, NULL),  -- endure egg
-    (123, 12300, 219, 21, 5, NULL),  -- safeguard egg
     (123, 12300, 226, 21, 5, NULL),  -- baton-pass egg
-    (123, 12300, 318, 21, 5, NULL),  -- silver-wind egg
+    (123, 12300, 364, 21, 5, NULL),  -- feint egg
     (123, 12300, 400, 21, 5, NULL),  -- night-slash egg
-    (123, 12300, 405, 21, 5, NULL),  -- bug-buzz egg
-    (123, 12300, 129, 21, 6, NULL),  -- swift tutor
-    (123, 12300, 173, 21, 6, NULL),  -- snore tutor
-    (123, 12300, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (123, 12300, 282, 21, 6, NULL),  -- knock-off tutor
-    (123, 12300, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #124 Jynx
-    (124, 12400, 1, 21, 1, 1),  -- pound lv1
-    (124, 12400, 122, 21, 1, 1),  -- lick lv1
-    (124, 12400, 142, 21, 1, 1),  -- lovely-kiss lv1
-    (124, 12400, 181, 21, 1, 1),  -- powder-snow lv1
-    (124, 12400, 3, 21, 1, 15),  -- double-slap lv15
-    (124, 12400, 8, 21, 1, 18),  -- ice-punch lv18
-    (124, 12400, 212, 21, 1, 21),  -- mean-look lv21
-    (124, 12400, 313, 21, 1, 25),  -- fake-tears lv25
-    (124, 12400, 358, 21, 1, 28),  -- wake-up-slap lv28
-    (124, 12400, 419, 21, 1, 33),  -- avalanche lv33
-    (124, 12400, 34, 21, 1, 39),  -- body-slam lv39
-    (124, 12400, 378, 21, 1, 44),  -- wring-out lv44
-    (124, 12400, 195, 21, 1, 49),  -- perish-song lv49
-    (124, 12400, 59, 21, 1, 55),  -- blizzard lv55
+    (123, 12300, 501, 21, 5, NULL),  -- quick-guard egg
+    (123, 12300, 43, 21, 8, NULL),  -- leer start
+    (123, 12300, 98, 21, 8, NULL),  -- quick-attack start
+    (124, 12400, 93, 21, 1, 12),  -- confusion lv12
+    (124, 12400, 343, 21, 1, 16),  -- covet lv16
+    (124, 12400, 47, 21, 1, 20),  -- sing lv20
+    (124, 12400, 313, 21, 1, 24),  -- fake-tears lv24
+    (124, 12400, 8, 21, 1, 28),  -- ice-punch lv28
+    (124, 12400, 94, 21, 1, 34),  -- psychic lv34
+    (124, 12400, 142, 21, 1, 40),  -- lovely-kiss lv40
+    (124, 12400, 212, 21, 1, 46),  -- mean-look lv46
+    (124, 12400, 195, 21, 1, 52),  -- perish-song lv52
+    (124, 12400, 59, 21, 1, 58),  -- blizzard lv58
     (124, 12400, 58, 21, 2, NULL),  -- ice-beam tm
     (124, 12400, 59, 21, 2, NULL),  -- blizzard tm
     (124, 12400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (124, 12400, 92, 21, 2, NULL),  -- toxic tm
     (124, 12400, 94, 21, 2, NULL),  -- psychic tm
     (124, 12400, 104, 21, 2, NULL),  -- double-team tm
     (124, 12400, 113, 21, 2, NULL),  -- light-screen tm
@@ -2196,9 +1421,6 @@ VALUES
     (124, 12400, 207, 21, 2, NULL),  -- swagger tm
     (124, 12400, 213, 21, 2, NULL),  -- attract tm
     (124, 12400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (124, 12400, 216, 21, 2, NULL),  -- return tm
-    (124, 12400, 218, 21, 2, NULL),  -- frustration tm
-    (124, 12400, 237, 21, 2, NULL),  -- hidden-power tm
     (124, 12400, 240, 21, 2, NULL),  -- rain-dance tm
     (124, 12400, 244, 21, 2, NULL),  -- psych-up tm
     (124, 12400, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -2210,47 +1432,43 @@ VALUES
     (124, 12400, 278, 21, 2, NULL),  -- recycle tm
     (124, 12400, 280, 21, 2, NULL),  -- brick-break tm
     (124, 12400, 285, 21, 2, NULL),  -- skill-swap tm
-    (124, 12400, 290, 21, 2, NULL),  -- secret-power tm
     (124, 12400, 347, 21, 2, NULL),  -- calm-mind tm
     (124, 12400, 352, 21, 2, NULL),  -- water-pulse tm
-    (124, 12400, 363, 21, 2, NULL),  -- natural-gift tm
     (124, 12400, 371, 21, 2, NULL),  -- payback tm
     (124, 12400, 374, 21, 2, NULL),  -- fling tm
     (124, 12400, 409, 21, 2, NULL),  -- drain-punch tm
     (124, 12400, 411, 21, 2, NULL),  -- focus-blast tm
     (124, 12400, 412, 21, 2, NULL),  -- energy-ball tm
     (124, 12400, 416, 21, 2, NULL),  -- giga-impact tm
+    (124, 12400, 417, 21, 2, NULL),  -- nasty-plot tm
     (124, 12400, 419, 21, 2, NULL),  -- avalanche tm
     (124, 12400, 433, 21, 2, NULL),  -- trick-room tm
-    (124, 12400, 445, 21, 2, NULL),  -- captivate tm
     (124, 12400, 447, 21, 2, NULL),  -- grass-knot tm
-    (124, 12400, 8, 21, 6, NULL),  -- ice-punch tutor
-    (124, 12400, 173, 21, 6, NULL),  -- snore tutor
-    (124, 12400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (124, 12400, 196, 21, 6, NULL),  -- icy-wind tutor
-    (124, 12400, 270, 21, 6, NULL),  -- helping-hand tutor
-    (124, 12400, 271, 21, 6, NULL),  -- trick tutor
-    (124, 12400, 324, 21, 6, NULL),  -- signal-beam tutor
-    (124, 12400, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #125 Electabuzz
-    (125, 12500, 43, 21, 1, 1),  -- leer lv1
-    (125, 12500, 84, 21, 1, 1),  -- thunder-shock lv1
-    (125, 12500, 98, 21, 1, 1),  -- quick-attack lv1
-    (125, 12500, 67, 21, 1, 10),  -- low-kick lv10
-    (125, 12500, 129, 21, 1, 16),  -- swift lv16
-    (125, 12500, 351, 21, 1, 19),  -- shock-wave lv19
-    (125, 12500, 113, 21, 1, 25),  -- light-screen lv25
+    (124, 12400, 8, 21, 5, NULL),  -- ice-punch egg
+    (124, 12400, 252, 21, 5, NULL),  -- fake-out egg
+    (124, 12400, 272, 21, 5, NULL),  -- role-play egg
+    (124, 12400, 273, 21, 5, NULL),  -- wish egg
+    (124, 12400, 1, 21, 8, NULL),  -- pound start
+    (124, 12400, 122, 21, 8, NULL),  -- lick start
+    (124, 12400, 181, 21, 8, NULL),  -- powder-snow start
+    (124, 12400, 186, 21, 8, NULL),  -- sweet-kiss start
+    (124, 12400, 383, 21, 8, NULL),  -- copycat start
+    (125, 12500, 129, 21, 1, 12),  -- swift lv12
+    (125, 12500, 351, 21, 1, 16),  -- shock-wave lv16
+    (125, 12500, 86, 21, 1, 20),  -- thunder-wave lv20
+    (125, 12500, 103, 21, 1, 24),  -- screech lv24
     (125, 12500, 9, 21, 1, 28),  -- thunder-punch lv28
-    (125, 12500, 435, 21, 1, 37),  -- discharge lv37
-    (125, 12500, 85, 21, 1, 43),  -- thunderbolt lv43
-    (125, 12500, 103, 21, 1, 52),  -- screech lv52
+    (125, 12500, 435, 21, 1, 34),  -- discharge lv34
+    (125, 12500, 67, 21, 1, 40),  -- low-kick lv40
+    (125, 12500, 85, 21, 1, 46),  -- thunderbolt lv46
+    (125, 12500, 113, 21, 1, 52),  -- light-screen lv52
     (125, 12500, 87, 21, 1, 58),  -- thunder lv58
+    (125, 12500, 416, 21, 1, 64),  -- giga-impact lv64
     (125, 12500, 63, 21, 2, NULL),  -- hyper-beam tm
     (125, 12500, 70, 21, 2, NULL),  -- strength tm
     (125, 12500, 85, 21, 2, NULL),  -- thunderbolt tm
     (125, 12500, 86, 21, 2, NULL),  -- thunder-wave tm
     (125, 12500, 87, 21, 2, NULL),  -- thunder tm
-    (125, 12500, 92, 21, 2, NULL),  -- toxic tm
     (125, 12500, 94, 21, 2, NULL),  -- psychic tm
     (125, 12500, 104, 21, 2, NULL),  -- double-team tm
     (125, 12500, 113, 21, 2, NULL),  -- light-screen tm
@@ -2263,50 +1481,44 @@ VALUES
     (125, 12500, 207, 21, 2, NULL),  -- swagger tm
     (125, 12500, 213, 21, 2, NULL),  -- attract tm
     (125, 12500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (125, 12500, 216, 21, 2, NULL),  -- return tm
-    (125, 12500, 218, 21, 2, NULL),  -- frustration tm
     (125, 12500, 231, 21, 2, NULL),  -- iron-tail tm
-    (125, 12500, 237, 21, 2, NULL),  -- hidden-power tm
     (125, 12500, 240, 21, 2, NULL),  -- rain-dance tm
     (125, 12500, 249, 21, 2, NULL),  -- rock-smash tm
     (125, 12500, 263, 21, 2, NULL),  -- facade tm
     (125, 12500, 264, 21, 2, NULL),  -- focus-punch tm
     (125, 12500, 280, 21, 2, NULL),  -- brick-break tm
-    (125, 12500, 290, 21, 2, NULL),  -- secret-power tm
     (125, 12500, 351, 21, 2, NULL),  -- shock-wave tm
-    (125, 12500, 363, 21, 2, NULL),  -- natural-gift tm
     (125, 12500, 374, 21, 2, NULL),  -- fling tm
     (125, 12500, 411, 21, 2, NULL),  -- focus-blast tm
     (125, 12500, 416, 21, 2, NULL),  -- giga-impact tm
     (125, 12500, 431, 21, 2, NULL),  -- rock-climb tm
-    (125, 12500, 445, 21, 2, NULL),  -- captivate tm
     (125, 12500, 451, 21, 2, NULL),  -- charge-beam tm
-    (125, 12500, 7, 21, 6, NULL),  -- fire-punch tutor
-    (125, 12500, 8, 21, 6, NULL),  -- ice-punch tutor
-    (125, 12500, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (125, 12500, 129, 21, 6, NULL),  -- swift tutor
-    (125, 12500, 173, 21, 6, NULL),  -- snore tutor
-    (125, 12500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (125, 12500, 270, 21, 6, NULL),  -- helping-hand tutor
-    (125, 12500, 324, 21, 6, NULL),  -- signal-beam tutor
-    (125, 12500, 393, 21, 6, NULL),  -- magnet-rise tutor
-    -- #126 Magmar
-    (126, 12600, 43, 21, 1, 1),  -- leer lv1
-    (126, 12600, 52, 21, 1, 1),  -- ember lv1
-    (126, 12600, 123, 21, 1, 1),  -- smog lv1
-    (126, 12600, 108, 21, 1, 10),  -- smokescreen lv10
-    (126, 12600, 185, 21, 1, 16),  -- feint-attack lv16
-    (126, 12600, 83, 21, 1, 19),  -- fire-spin lv19
-    (126, 12600, 109, 21, 1, 25),  -- confuse-ray lv25
+    (125, 12500, 490, 21, 2, NULL),  -- low-sweep tm
+    (125, 12500, 521, 21, 2, NULL),  -- volt-switch tm
+    (125, 12500, 7, 21, 5, NULL),  -- fire-punch egg
+    (125, 12500, 8, 21, 5, NULL),  -- ice-punch egg
+    (125, 12500, 223, 21, 5, NULL),  -- dynamic-punch egg
+    (125, 12500, 238, 21, 5, NULL),  -- cross-chop egg
+    (125, 12500, 359, 21, 5, NULL),  -- hammer-arm egg
+    (125, 12500, 364, 21, 5, NULL),  -- feint egg
+    (125, 12500, 43, 21, 8, NULL),  -- leer start
+    (125, 12500, 84, 21, 8, NULL),  -- thunder-shock start
+    (125, 12500, 98, 21, 8, NULL),  -- quick-attack start
+    (125, 12500, 268, 21, 8, NULL),  -- charge start
+    (126, 12600, 499, 21, 1, 12),  -- clear-smog lv12
+    (126, 12600, 172, 21, 1, 16),  -- flame-wheel lv16
+    (126, 12600, 109, 21, 1, 20),  -- confuse-ray lv20
+    (126, 12600, 184, 21, 1, 24),  -- scary-face lv24
     (126, 12600, 7, 21, 1, 28),  -- fire-punch lv28
-    (126, 12600, 436, 21, 1, 36),  -- lava-plume lv36
-    (126, 12600, 53, 21, 1, 41),  -- flamethrower lv41
-    (126, 12600, 241, 21, 1, 49),  -- sunny-day lv49
-    (126, 12600, 126, 21, 1, 54),  -- fire-blast lv54
+    (126, 12600, 436, 21, 1, 34),  -- lava-plume lv34
+    (126, 12600, 67, 21, 1, 40),  -- low-kick lv40
+    (126, 12600, 53, 21, 1, 46),  -- flamethrower lv46
+    (126, 12600, 241, 21, 1, 52),  -- sunny-day lv52
+    (126, 12600, 126, 21, 1, 58),  -- fire-blast lv58
+    (126, 12600, 63, 21, 1, 64),  -- hyper-beam lv64
     (126, 12600, 53, 21, 2, NULL),  -- flamethrower tm
     (126, 12600, 63, 21, 2, NULL),  -- hyper-beam tm
     (126, 12600, 70, 21, 2, NULL),  -- strength tm
-    (126, 12600, 92, 21, 2, NULL),  -- toxic tm
     (126, 12600, 94, 21, 2, NULL),  -- psychic tm
     (126, 12600, 104, 21, 2, NULL),  -- double-team tm
     (126, 12600, 126, 21, 2, NULL),  -- fire-blast tm
@@ -2318,44 +1530,46 @@ VALUES
     (126, 12600, 207, 21, 2, NULL),  -- swagger tm
     (126, 12600, 213, 21, 2, NULL),  -- attract tm
     (126, 12600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (126, 12600, 216, 21, 2, NULL),  -- return tm
-    (126, 12600, 218, 21, 2, NULL),  -- frustration tm
     (126, 12600, 231, 21, 2, NULL),  -- iron-tail tm
-    (126, 12600, 237, 21, 2, NULL),  -- hidden-power tm
     (126, 12600, 241, 21, 2, NULL),  -- sunny-day tm
     (126, 12600, 249, 21, 2, NULL),  -- rock-smash tm
     (126, 12600, 261, 21, 2, NULL),  -- will-o-wisp tm
     (126, 12600, 263, 21, 2, NULL),  -- facade tm
     (126, 12600, 264, 21, 2, NULL),  -- focus-punch tm
     (126, 12600, 280, 21, 2, NULL),  -- brick-break tm
-    (126, 12600, 290, 21, 2, NULL),  -- secret-power tm
     (126, 12600, 315, 21, 2, NULL),  -- overheat tm
-    (126, 12600, 363, 21, 2, NULL),  -- natural-gift tm
     (126, 12600, 374, 21, 2, NULL),  -- fling tm
     (126, 12600, 411, 21, 2, NULL),  -- focus-blast tm
     (126, 12600, 416, 21, 2, NULL),  -- giga-impact tm
     (126, 12600, 431, 21, 2, NULL),  -- rock-climb tm
-    (126, 12600, 445, 21, 2, NULL),  -- captivate tm
-    (126, 12600, 7, 21, 6, NULL),  -- fire-punch tutor
-    (126, 12600, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (126, 12600, 173, 21, 6, NULL),  -- snore tutor
-    (126, 12600, 189, 21, 6, NULL),  -- mud-slap tutor
-    (126, 12600, 257, 21, 6, NULL),  -- heat-wave tutor
-    (126, 12600, 270, 21, 6, NULL),  -- helping-hand tutor
-    -- #127 Pinsir
-    (127, 12700, 11, 21, 1, 1),  -- vice-grip lv1
-    (127, 12700, 116, 21, 1, 1),  -- focus-energy lv1
-    (127, 12700, 20, 21, 1, 4),  -- bind lv4
-    (127, 12700, 69, 21, 1, 8),  -- seismic-toss lv8
-    (127, 12700, 106, 21, 1, 13),  -- harden lv13
-    (127, 12700, 279, 21, 1, 18),  -- revenge lv18
-    (127, 12700, 280, 21, 1, 21),  -- brick-break lv21
-    (127, 12700, 233, 21, 1, 25),  -- vital-throw lv25
-    (127, 12700, 404, 21, 1, 30),  -- x-scissor lv30
-    (127, 12700, 37, 21, 1, 35),  -- thrash lv35
-    (127, 12700, 14, 21, 1, 38),  -- swords-dance lv38
-    (127, 12700, 66, 21, 1, 42),  -- submission lv42
-    (127, 12700, 12, 21, 1, 47),  -- guillotine lv47
+    (126, 12600, 490, 21, 2, NULL),  -- low-sweep tm
+    (126, 12600, 5, 21, 5, NULL),  -- mega-punch egg
+    (126, 12600, 9, 21, 5, NULL),  -- thunder-punch egg
+    (126, 12600, 103, 21, 5, NULL),  -- screech egg
+    (126, 12600, 116, 21, 5, NULL),  -- focus-energy egg
+    (126, 12600, 183, 21, 5, NULL),  -- mach-punch egg
+    (126, 12600, 187, 21, 5, NULL),  -- belly-drum egg
+    (126, 12600, 223, 21, 5, NULL),  -- dynamic-punch egg
+    (126, 12600, 238, 21, 5, NULL),  -- cross-chop egg
+    (126, 12600, 384, 21, 5, NULL),  -- power-swap egg
+    (126, 12600, 394, 21, 5, NULL),  -- flare-blitz egg
+    (126, 12600, 562, 21, 5, NULL),  -- belch egg
+    (126, 12600, 43, 21, 8, NULL),  -- leer start
+    (126, 12600, 52, 21, 8, NULL),  -- ember start
+    (126, 12600, 108, 21, 8, NULL),  -- smokescreen start
+    (126, 12600, 123, 21, 8, NULL),  -- smog start
+    (127, 12700, 116, 21, 1, 4),  -- focus-energy lv4
+    (127, 12700, 20, 21, 1, 8),  -- bind lv8
+    (127, 12700, 69, 21, 1, 12),  -- seismic-toss lv12
+    (127, 12700, 450, 21, 1, 16),  -- bug-bite lv16
+    (127, 12700, 480, 21, 1, 20),  -- storm-throw lv20
+    (127, 12700, 458, 21, 1, 24),  -- double-hit lv24
+    (127, 12700, 233, 21, 1, 28),  -- vital-throw lv28
+    (127, 12700, 404, 21, 1, 32),  -- x-scissor lv32
+    (127, 12700, 70, 21, 1, 36),  -- strength lv36
+    (127, 12700, 14, 21, 1, 40),  -- swords-dance lv40
+    (127, 12700, 66, 21, 1, 44),  -- submission lv44
+    (127, 12700, 12, 21, 1, 48),  -- guillotine lv48
     (127, 12700, 276, 21, 1, 52),  -- superpower lv52
     (127, 12700, 14, 21, 2, NULL),  -- swords-dance tm
     (127, 12700, 15, 21, 2, NULL),  -- cut tm
@@ -2363,7 +1577,6 @@ VALUES
     (127, 12700, 70, 21, 2, NULL),  -- strength tm
     (127, 12700, 89, 21, 2, NULL),  -- earthquake tm
     (127, 12700, 91, 21, 2, NULL),  -- dig tm
-    (127, 12700, 92, 21, 2, NULL),  -- toxic tm
     (127, 12700, 104, 21, 2, NULL),  -- double-team tm
     (127, 12700, 156, 21, 2, NULL),  -- rest tm
     (127, 12700, 157, 21, 2, NULL),  -- rock-slide tm
@@ -2375,53 +1588,43 @@ VALUES
     (127, 12700, 207, 21, 2, NULL),  -- swagger tm
     (127, 12700, 213, 21, 2, NULL),  -- attract tm
     (127, 12700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (127, 12700, 216, 21, 2, NULL),  -- return tm
-    (127, 12700, 218, 21, 2, NULL),  -- frustration tm
-    (127, 12700, 237, 21, 2, NULL),  -- hidden-power tm
     (127, 12700, 240, 21, 2, NULL),  -- rain-dance tm
     (127, 12700, 241, 21, 2, NULL),  -- sunny-day tm
     (127, 12700, 249, 21, 2, NULL),  -- rock-smash tm
     (127, 12700, 263, 21, 2, NULL),  -- facade tm
     (127, 12700, 264, 21, 2, NULL),  -- focus-punch tm
     (127, 12700, 280, 21, 2, NULL),  -- brick-break tm
-    (127, 12700, 290, 21, 2, NULL),  -- secret-power tm
     (127, 12700, 317, 21, 2, NULL),  -- rock-tomb tm
     (127, 12700, 339, 21, 2, NULL),  -- bulk-up tm
-    (127, 12700, 363, 21, 2, NULL),  -- natural-gift tm
     (127, 12700, 374, 21, 2, NULL),  -- fling tm
     (127, 12700, 404, 21, 2, NULL),  -- x-scissor tm
     (127, 12700, 411, 21, 2, NULL),  -- focus-blast tm
     (127, 12700, 416, 21, 2, NULL),  -- giga-impact tm
     (127, 12700, 431, 21, 2, NULL),  -- rock-climb tm
     (127, 12700, 444, 21, 2, NULL),  -- stone-edge tm
-    (127, 12700, 445, 21, 2, NULL),  -- captivate tm
     (127, 12700, 446, 21, 2, NULL),  -- stealth-rock tm
+    (127, 12700, 523, 21, 2, NULL),  -- bulldoze tm
     (127, 12700, 31, 21, 5, NULL),  -- fury-attack egg
+    (127, 12700, 37, 21, 5, NULL),  -- thrash egg
     (127, 12700, 98, 21, 5, NULL),  -- quick-attack egg
     (127, 12700, 175, 21, 5, NULL),  -- flail egg
-    (127, 12700, 185, 21, 5, NULL),  -- feint-attack egg
-    (127, 12700, 206, 21, 5, NULL),  -- false-swipe egg
+    (127, 12700, 276, 21, 5, NULL),  -- superpower egg
     (127, 12700, 364, 21, 5, NULL),  -- feint egg
     (127, 12700, 370, 21, 5, NULL),  -- close-combat egg
-    (127, 12700, 173, 21, 6, NULL),  -- snore tutor
-    (127, 12700, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (127, 12700, 276, 21, 6, NULL),  -- superpower tutor
-    (127, 12700, 282, 21, 6, NULL),  -- knock-off tutor
-    (127, 12700, 334, 21, 6, NULL),  -- iron-defense tutor
-    -- #128 Tauros
-    (128, 12800, 33, 21, 1, 1),  -- tackle lv1
-    (128, 12800, 39, 21, 1, 3),  -- tail-whip lv3
-    (128, 12800, 99, 21, 1, 5),  -- rage lv5
-    (128, 12800, 30, 21, 1, 8),  -- horn-attack lv8
-    (128, 12800, 184, 21, 1, 11),  -- scary-face lv11
-    (128, 12800, 228, 21, 1, 15),  -- pursuit lv15
-    (128, 12800, 156, 21, 1, 19),  -- rest lv19
-    (128, 12800, 371, 21, 1, 24),  -- payback lv24
-    (128, 12800, 428, 21, 1, 29),  -- zen-headbutt lv29
+    (127, 12700, 450, 21, 5, NULL),  -- bug-bite egg
+    (127, 12700, 106, 21, 8, NULL),  -- harden start
+    (128, 12800, 526, 21, 1, 5),  -- work-up lv5
+    (128, 12800, 371, 21, 1, 10),  -- payback lv10
+    (128, 12800, 372, 21, 1, 15),  -- assurance lv15
+    (128, 12800, 30, 21, 1, 20),  -- horn-attack lv20
+    (128, 12800, 184, 21, 1, 25),  -- scary-face lv25
+    (128, 12800, 428, 21, 1, 30),  -- zen-headbutt lv30
     (128, 12800, 36, 21, 1, 35),  -- take-down lv35
-    (128, 12800, 207, 21, 1, 41),  -- swagger lv41
-    (128, 12800, 37, 21, 1, 48),  -- thrash lv48
-    (128, 12800, 416, 21, 1, 55),  -- giga-impact lv55
+    (128, 12800, 156, 21, 1, 40),  -- rest lv40
+    (128, 12800, 207, 21, 1, 45),  -- swagger lv45
+    (128, 12800, 37, 21, 1, 50),  -- thrash lv50
+    (128, 12800, 38, 21, 1, 55),  -- double-edge lv55
+    (128, 12800, 416, 21, 1, 60),  -- giga-impact lv60
     (128, 12800, 53, 21, 2, NULL),  -- flamethrower tm
     (128, 12800, 57, 21, 2, NULL),  -- surf tm
     (128, 12800, 58, 21, 2, NULL),  -- ice-beam tm
@@ -2432,7 +1635,6 @@ VALUES
     (128, 12800, 85, 21, 2, NULL),  -- thunderbolt tm
     (128, 12800, 87, 21, 2, NULL),  -- thunder tm
     (128, 12800, 89, 21, 2, NULL),  -- earthquake tm
-    (128, 12800, 92, 21, 2, NULL),  -- toxic tm
     (128, 12800, 104, 21, 2, NULL),  -- double-team tm
     (128, 12800, 126, 21, 2, NULL),  -- fire-blast tm
     (128, 12800, 156, 21, 2, NULL),  -- rest tm
@@ -2444,50 +1646,38 @@ VALUES
     (128, 12800, 207, 21, 2, NULL),  -- swagger tm
     (128, 12800, 213, 21, 2, NULL),  -- attract tm
     (128, 12800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (128, 12800, 216, 21, 2, NULL),  -- return tm
-    (128, 12800, 218, 21, 2, NULL),  -- frustration tm
     (128, 12800, 231, 21, 2, NULL),  -- iron-tail tm
-    (128, 12800, 237, 21, 2, NULL),  -- hidden-power tm
     (128, 12800, 240, 21, 2, NULL),  -- rain-dance tm
     (128, 12800, 241, 21, 2, NULL),  -- sunny-day tm
     (128, 12800, 249, 21, 2, NULL),  -- rock-smash tm
     (128, 12800, 263, 21, 2, NULL),  -- facade tm
-    (128, 12800, 290, 21, 2, NULL),  -- secret-power tm
     (128, 12800, 317, 21, 2, NULL),  -- rock-tomb tm
     (128, 12800, 351, 21, 2, NULL),  -- shock-wave tm
     (128, 12800, 352, 21, 2, NULL),  -- water-pulse tm
-    (128, 12800, 363, 21, 2, NULL),  -- natural-gift tm
     (128, 12800, 371, 21, 2, NULL),  -- payback tm
     (128, 12800, 416, 21, 2, NULL),  -- giga-impact tm
     (128, 12800, 431, 21, 2, NULL),  -- rock-climb tm
     (128, 12800, 444, 21, 2, NULL),  -- stone-edge tm
-    (128, 12800, 445, 21, 2, NULL),  -- captivate tm
-    (128, 12800, 173, 21, 6, NULL),  -- snore tutor
-    (128, 12800, 180, 21, 6, NULL),  -- spite tutor
-    (128, 12800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (128, 12800, 200, 21, 6, NULL),  -- outrage tutor
-    (128, 12800, 253, 21, 6, NULL),  -- uproar tutor
-    (128, 12800, 270, 21, 6, NULL),  -- helping-hand tutor
-    (128, 12800, 283, 21, 6, NULL),  -- endeavor tutor
-    (128, 12800, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (128, 12800, 442, 21, 6, NULL),  -- iron-head tutor
-    -- #129 Magikarp
-    (129, 12900, 150, 21, 1, 1),  -- splash lv1
+    (128, 12800, 523, 21, 2, NULL),  -- bulldoze tm
+    (128, 12800, 526, 21, 2, NULL),  -- work-up tm
+    (128, 12800, 33, 21, 8, NULL),  -- tackle start
+    (128, 12800, 39, 21, 8, NULL),  -- tail-whip start
     (129, 12900, 33, 21, 1, 15),  -- tackle lv15
-    (129, 12900, 175, 21, 1, 30),  -- flail lv30
-    (129, 12900, 340, 21, 6, NULL),  -- bounce tutor
-    -- #130 Gyarados
-    (130, 13000, 37, 21, 1, 1),  -- thrash lv1
-    (130, 13000, 44, 21, 1, 20),  -- bite lv20
-    (130, 13000, 82, 21, 1, 23),  -- dragon-rage lv23
-    (130, 13000, 43, 21, 1, 26),  -- leer lv26
-    (130, 13000, 239, 21, 1, 29),  -- twister lv29
-    (130, 13000, 423, 21, 1, 32),  -- ice-fang lv32
-    (130, 13000, 401, 21, 1, 35),  -- aqua-tail lv35
-    (130, 13000, 240, 21, 1, 38),  -- rain-dance lv38
-    (130, 13000, 56, 21, 1, 41),  -- hydro-pump lv41
-    (130, 13000, 349, 21, 1, 44),  -- dragon-dance lv44
-    (130, 13000, 63, 21, 1, 47),  -- hyper-beam lv47
+    (129, 12900, 175, 21, 1, 25),  -- flail lv25
+    (129, 12900, 150, 21, 8, NULL),  -- splash start
+    (130, 13000, 250, 21, 1, 4),  -- whirlpool lv4
+    (130, 13000, 423, 21, 1, 8),  -- ice-fang lv8
+    (130, 13000, 362, 21, 1, 12),  -- brine lv12
+    (130, 13000, 184, 21, 1, 16),  -- scary-face lv16
+    (130, 13000, 127, 21, 1, 21),  -- waterfall lv21
+    (130, 13000, 242, 21, 1, 24),  -- crunch lv24
+    (130, 13000, 240, 21, 1, 28),  -- rain-dance lv28
+    (130, 13000, 401, 21, 1, 32),  -- aqua-tail lv32
+    (130, 13000, 349, 21, 1, 36),  -- dragon-dance lv36
+    (130, 13000, 56, 21, 1, 40),  -- hydro-pump lv40
+    (130, 13000, 542, 21, 1, 44),  -- hurricane lv44
+    (130, 13000, 37, 21, 1, 48),  -- thrash lv48
+    (130, 13000, 63, 21, 1, 52),  -- hyper-beam lv52
     (130, 13000, 46, 21, 2, NULL),  -- roar tm
     (130, 13000, 53, 21, 2, NULL),  -- flamethrower tm
     (130, 13000, 57, 21, 2, NULL),  -- surf tm
@@ -2499,7 +1689,6 @@ VALUES
     (130, 13000, 86, 21, 2, NULL),  -- thunder-wave tm
     (130, 13000, 87, 21, 2, NULL),  -- thunder tm
     (130, 13000, 89, 21, 2, NULL),  -- earthquake tm
-    (130, 13000, 92, 21, 2, NULL),  -- toxic tm
     (130, 13000, 104, 21, 2, NULL),  -- double-team tm
     (130, 13000, 126, 21, 2, NULL),  -- fire-blast tm
     (130, 13000, 127, 21, 2, NULL),  -- waterfall tm
@@ -2511,52 +1700,42 @@ VALUES
     (130, 13000, 207, 21, 2, NULL),  -- swagger tm
     (130, 13000, 213, 21, 2, NULL),  -- attract tm
     (130, 13000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (130, 13000, 216, 21, 2, NULL),  -- return tm
-    (130, 13000, 218, 21, 2, NULL),  -- frustration tm
-    (130, 13000, 237, 21, 2, NULL),  -- hidden-power tm
+    (130, 13000, 231, 21, 2, NULL),  -- iron-tail tm
     (130, 13000, 240, 21, 2, NULL),  -- rain-dance tm
     (130, 13000, 249, 21, 2, NULL),  -- rock-smash tm
     (130, 13000, 258, 21, 2, NULL),  -- hail tm
     (130, 13000, 259, 21, 2, NULL),  -- torment tm
     (130, 13000, 263, 21, 2, NULL),  -- facade tm
     (130, 13000, 269, 21, 2, NULL),  -- taunt tm
-    (130, 13000, 290, 21, 2, NULL),  -- secret-power tm
     (130, 13000, 352, 21, 2, NULL),  -- water-pulse tm
     (130, 13000, 362, 21, 2, NULL),  -- brine tm
-    (130, 13000, 363, 21, 2, NULL),  -- natural-gift tm
     (130, 13000, 371, 21, 2, NULL),  -- payback tm
     (130, 13000, 399, 21, 2, NULL),  -- dark-pulse tm
     (130, 13000, 406, 21, 2, NULL),  -- dragon-pulse tm
     (130, 13000, 416, 21, 2, NULL),  -- giga-impact tm
     (130, 13000, 419, 21, 2, NULL),  -- avalanche tm
     (130, 13000, 444, 21, 2, NULL),  -- stone-edge tm
-    (130, 13000, 445, 21, 2, NULL),  -- captivate tm
-    (130, 13000, 173, 21, 6, NULL),  -- snore tutor
-    (130, 13000, 180, 21, 6, NULL),  -- spite tutor
-    (130, 13000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (130, 13000, 200, 21, 6, NULL),  -- outrage tutor
-    (130, 13000, 239, 21, 6, NULL),  -- twister tutor
-    (130, 13000, 253, 21, 6, NULL),  -- uproar tutor
-    (130, 13000, 291, 21, 6, NULL),  -- dive tutor
-    (130, 13000, 340, 21, 6, NULL),  -- bounce tutor
-    (130, 13000, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (130, 13000, 442, 21, 6, NULL),  -- iron-head tutor
-    -- #131 Lapras
-    (131, 13100, 45, 21, 1, 1),  -- growl lv1
-    (131, 13100, 47, 21, 1, 1),  -- sing lv1
-    (131, 13100, 55, 21, 1, 1),  -- water-gun lv1
-    (131, 13100, 54, 21, 1, 4),  -- mist lv4
-    (131, 13100, 109, 21, 1, 7),  -- confuse-ray lv7
-    (131, 13100, 420, 21, 1, 10),  -- ice-shard lv10
-    (131, 13100, 352, 21, 1, 14),  -- water-pulse lv14
-    (131, 13100, 34, 21, 1, 18),  -- body-slam lv18
-    (131, 13100, 240, 21, 1, 22),  -- rain-dance lv22
-    (131, 13100, 195, 21, 1, 27),  -- perish-song lv27
-    (131, 13100, 58, 21, 1, 32),  -- ice-beam lv32
-    (131, 13100, 362, 21, 1, 37),  -- brine lv37
-    (131, 13100, 219, 21, 1, 43),  -- safeguard lv43
-    (131, 13100, 56, 21, 1, 49),  -- hydro-pump lv49
-    (131, 13100, 329, 21, 1, 55),  -- sheer-cold lv55
+    (130, 13000, 503, 21, 2, NULL),  -- scald tm
+    (130, 13000, 523, 21, 2, NULL),  -- bulldoze tm
+    (130, 13000, 33, 21, 8, NULL),  -- tackle start
+    (130, 13000, 43, 21, 8, NULL),  -- leer start
+    (130, 13000, 44, 21, 8, NULL),  -- bite start
+    (130, 13000, 150, 21, 8, NULL),  -- splash start
+    (130, 13000, 175, 21, 8, NULL),  -- flail start
+    (130, 13000, 239, 21, 8, NULL),  -- twister start
+    (131, 13100, 47, 21, 1, 5),  -- sing lv5
+    (131, 13100, 54, 21, 1, 10),  -- mist lv10
+    (131, 13100, 791, 21, 1, 15),  -- life-dew lv15
+    (131, 13100, 420, 21, 1, 20),  -- ice-shard lv20
+    (131, 13100, 109, 21, 1, 25),  -- confuse-ray lv25
+    (131, 13100, 352, 21, 1, 30),  -- water-pulse lv30
+    (131, 13100, 362, 21, 1, 35),  -- brine lv35
+    (131, 13100, 34, 21, 1, 40),  -- body-slam lv40
+    (131, 13100, 58, 21, 1, 45),  -- ice-beam lv45
+    (131, 13100, 240, 21, 1, 50),  -- rain-dance lv50
+    (131, 13100, 56, 21, 1, 55),  -- hydro-pump lv55
+    (131, 13100, 195, 21, 1, 60),  -- perish-song lv60
+    (131, 13100, 329, 21, 1, 65),  -- sheer-cold lv65
     (131, 13100, 46, 21, 2, NULL),  -- roar tm
     (131, 13100, 57, 21, 2, NULL),  -- surf tm
     (131, 13100, 58, 21, 2, NULL),  -- ice-beam tm
@@ -2565,7 +1744,6 @@ VALUES
     (131, 13100, 70, 21, 2, NULL),  -- strength tm
     (131, 13100, 85, 21, 2, NULL),  -- thunderbolt tm
     (131, 13100, 87, 21, 2, NULL),  -- thunder tm
-    (131, 13100, 92, 21, 2, NULL),  -- toxic tm
     (131, 13100, 94, 21, 2, NULL),  -- psychic tm
     (131, 13100, 104, 21, 2, NULL),  -- double-team tm
     (131, 13100, 127, 21, 2, NULL),  -- waterfall tm
@@ -2577,60 +1755,43 @@ VALUES
     (131, 13100, 207, 21, 2, NULL),  -- swagger tm
     (131, 13100, 213, 21, 2, NULL),  -- attract tm
     (131, 13100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (131, 13100, 216, 21, 2, NULL),  -- return tm
-    (131, 13100, 218, 21, 2, NULL),  -- frustration tm
     (131, 13100, 219, 21, 2, NULL),  -- safeguard tm
     (131, 13100, 231, 21, 2, NULL),  -- iron-tail tm
-    (131, 13100, 237, 21, 2, NULL),  -- hidden-power tm
     (131, 13100, 240, 21, 2, NULL),  -- rain-dance tm
     (131, 13100, 249, 21, 2, NULL),  -- rock-smash tm
     (131, 13100, 258, 21, 2, NULL),  -- hail tm
     (131, 13100, 263, 21, 2, NULL),  -- facade tm
-    (131, 13100, 290, 21, 2, NULL),  -- secret-power tm
     (131, 13100, 351, 21, 2, NULL),  -- shock-wave tm
     (131, 13100, 352, 21, 2, NULL),  -- water-pulse tm
     (131, 13100, 362, 21, 2, NULL),  -- brine tm
-    (131, 13100, 363, 21, 2, NULL),  -- natural-gift tm
     (131, 13100, 406, 21, 2, NULL),  -- dragon-pulse tm
     (131, 13100, 416, 21, 2, NULL),  -- giga-impact tm
     (131, 13100, 419, 21, 2, NULL),  -- avalanche tm
-    (131, 13100, 445, 21, 2, NULL),  -- captivate tm
+    (131, 13100, 523, 21, 2, NULL),  -- bulldoze tm
     (131, 13100, 32, 21, 5, NULL),  -- horn-drill egg
     (131, 13100, 90, 21, 5, NULL),  -- fissure egg
-    (131, 13100, 164, 21, 5, NULL),  -- substitute egg
     (131, 13100, 174, 21, 5, NULL),  -- curse egg
-    (131, 13100, 193, 21, 5, NULL),  -- foresight egg
-    (131, 13100, 214, 21, 5, NULL),  -- sleep-talk egg
     (131, 13100, 246, 21, 5, NULL),  -- ancient-power egg
+    (131, 13100, 248, 21, 5, NULL),  -- future-sight egg
     (131, 13100, 250, 21, 5, NULL),  -- whirlpool egg
-    (131, 13100, 287, 21, 5, NULL),  -- refresh egg
     (131, 13100, 321, 21, 5, NULL),  -- tickle egg
     (131, 13100, 349, 21, 5, NULL),  -- dragon-dance egg
-    (131, 13100, 173, 21, 6, NULL),  -- snore tutor
-    (131, 13100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (131, 13100, 200, 21, 6, NULL),  -- outrage tutor
-    (131, 13100, 246, 21, 6, NULL),  -- ancient-power tutor
-    (131, 13100, 291, 21, 6, NULL),  -- dive tutor
-    (131, 13100, 324, 21, 6, NULL),  -- signal-beam tutor
-    (131, 13100, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (131, 13100, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (131, 13100, 442, 21, 6, NULL),  -- iron-head tutor
-    -- #132 Ditto
-    (132, 13200, 144, 21, 1, 1),  -- transform lv1
-    -- #133 Eevee
-    (133, 13300, 33, 21, 1, 1),  -- tackle lv1
-    (133, 13300, 39, 21, 1, 1),  -- tail-whip lv1
-    (133, 13300, 270, 21, 1, 1),  -- helping-hand lv1
-    (133, 13300, 28, 21, 1, 8),  -- sand-attack lv8
-    (133, 13300, 45, 21, 1, 15),  -- growl lv15
-    (133, 13300, 98, 21, 1, 22),  -- quick-attack lv22
-    (133, 13300, 44, 21, 1, 29),  -- bite lv29
-    (133, 13300, 226, 21, 1, 36),  -- baton-pass lv36
-    (133, 13300, 36, 21, 1, 43),  -- take-down lv43
-    (133, 13300, 387, 21, 1, 50),  -- last-resort lv50
-    (133, 13300, 376, 21, 1, 57),  -- trump-card lv57
+    (131, 13100, 573, 21, 5, NULL),  -- freeze-dry egg
+    (131, 13100, 45, 21, 8, NULL),  -- growl start
+    (131, 13100, 55, 21, 8, NULL),  -- water-gun start
+    (132, 13200, 144, 21, 8, NULL),  -- transform start
+    (133, 13300, 28, 21, 1, 5),  -- sand-attack lv5
+    (133, 13300, 98, 21, 1, 10),  -- quick-attack lv10
+    (133, 13300, 608, 21, 1, 15),  -- baby-doll-eyes lv15
+    (133, 13300, 129, 21, 1, 20),  -- swift lv20
+    (133, 13300, 44, 21, 1, 25),  -- bite lv25
+    (133, 13300, 383, 21, 1, 30),  -- copycat lv30
+    (133, 13300, 226, 21, 1, 35),  -- baton-pass lv35
+    (133, 13300, 36, 21, 1, 40),  -- take-down lv40
+    (133, 13300, 204, 21, 1, 45),  -- charm lv45
+    (133, 13300, 38, 21, 1, 50),  -- double-edge lv50
+    (133, 13300, 387, 21, 1, 55),  -- last-resort lv55
     (133, 13300, 91, 21, 2, NULL),  -- dig tm
-    (133, 13300, 92, 21, 2, NULL),  -- toxic tm
     (133, 13300, 104, 21, 2, NULL),  -- double-team tm
     (133, 13300, 156, 21, 2, NULL),  -- rest tm
     (133, 13300, 164, 21, 2, NULL),  -- substitute tm
@@ -2639,46 +1800,40 @@ VALUES
     (133, 13300, 207, 21, 2, NULL),  -- swagger tm
     (133, 13300, 213, 21, 2, NULL),  -- attract tm
     (133, 13300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (133, 13300, 216, 21, 2, NULL),  -- return tm
-    (133, 13300, 218, 21, 2, NULL),  -- frustration tm
     (133, 13300, 231, 21, 2, NULL),  -- iron-tail tm
-    (133, 13300, 237, 21, 2, NULL),  -- hidden-power tm
     (133, 13300, 240, 21, 2, NULL),  -- rain-dance tm
     (133, 13300, 241, 21, 2, NULL),  -- sunny-day tm
     (133, 13300, 247, 21, 2, NULL),  -- shadow-ball tm
     (133, 13300, 263, 21, 2, NULL),  -- facade tm
-    (133, 13300, 290, 21, 2, NULL),  -- secret-power tm
-    (133, 13300, 363, 21, 2, NULL),  -- natural-gift tm
-    (133, 13300, 445, 21, 2, NULL),  -- captivate tm
+    (133, 13300, 526, 21, 2, NULL),  -- work-up tm
+    (133, 13300, 24, 21, 5, NULL),  -- double-kick egg
     (133, 13300, 174, 21, 5, NULL),  -- curse egg
     (133, 13300, 175, 21, 5, NULL),  -- flail egg
-    (133, 13300, 203, 21, 5, NULL),  -- endure egg
+    (133, 13300, 189, 21, 5, NULL),  -- mud-slap egg
+    (133, 13300, 197, 21, 5, NULL),  -- detect egg
     (133, 13300, 204, 21, 5, NULL),  -- charm egg
     (133, 13300, 273, 21, 5, NULL),  -- wish egg
     (133, 13300, 281, 21, 5, NULL),  -- yawn egg
     (133, 13300, 313, 21, 5, NULL),  -- fake-tears egg
     (133, 13300, 321, 21, 5, NULL),  -- tickle egg
     (133, 13300, 343, 21, 5, NULL),  -- covet egg
-    (133, 13300, 129, 21, 6, NULL),  -- swift tutor
-    (133, 13300, 173, 21, 6, NULL),  -- snore tutor
-    (133, 13300, 189, 21, 6, NULL),  -- mud-slap tutor
-    (133, 13300, 270, 21, 6, NULL),  -- helping-hand tutor
-    (133, 13300, 387, 21, 6, NULL),  -- last-resort tutor
-    -- #134 Vaporeon
-    (134, 13400, 33, 21, 1, 1),  -- tackle lv1
-    (134, 13400, 39, 21, 1, 1),  -- tail-whip lv1
-    (134, 13400, 270, 21, 1, 1),  -- helping-hand lv1
-    (134, 13400, 28, 21, 1, 8),  -- sand-attack lv8
-    (134, 13400, 55, 21, 1, 15),  -- water-gun lv15
-    (134, 13400, 98, 21, 1, 22),  -- quick-attack lv22
-    (134, 13400, 44, 21, 1, 29),  -- bite lv29
-    (134, 13400, 62, 21, 1, 36),  -- aurora-beam lv36
-    (134, 13400, 392, 21, 1, 43),  -- aqua-ring lv43
-    (134, 13400, 387, 21, 1, 50),  -- last-resort lv50
-    (134, 13400, 114, 21, 1, 57),  -- haze lv57
-    (134, 13400, 151, 21, 1, 64),  -- acid-armor lv64
-    (134, 13400, 56, 21, 1, 71),  -- hydro-pump lv71
-    (134, 13400, 330, 21, 1, 78),  -- muddy-water lv78
+    (133, 13300, 500, 21, 5, NULL),  -- stored-power egg
+    (133, 13300, 33, 21, 8, NULL),  -- tackle start
+    (133, 13300, 39, 21, 8, NULL),  -- tail-whip start
+    (133, 13300, 45, 21, 8, NULL),  -- growl start
+    (133, 13300, 270, 21, 8, NULL),  -- helping-hand start
+    (133, 13300, 343, 21, 8, NULL),  -- covet start
+    (134, 13400, 28, 21, 1, 5),  -- sand-attack lv5
+    (134, 13400, 98, 21, 1, 10),  -- quick-attack lv10
+    (134, 13400, 608, 21, 1, 15),  -- baby-doll-eyes lv15
+    (134, 13400, 114, 21, 1, 20),  -- haze lv20
+    (134, 13400, 352, 21, 1, 25),  -- water-pulse lv25
+    (134, 13400, 62, 21, 1, 30),  -- aurora-beam lv30
+    (134, 13400, 392, 21, 1, 35),  -- aqua-ring lv35
+    (134, 13400, 330, 21, 1, 40),  -- muddy-water lv40
+    (134, 13400, 151, 21, 1, 45),  -- acid-armor lv45
+    (134, 13400, 56, 21, 1, 50),  -- hydro-pump lv50
+    (134, 13400, 387, 21, 1, 55),  -- last-resort lv55
     (134, 13400, 46, 21, 2, NULL),  -- roar tm
     (134, 13400, 57, 21, 2, NULL),  -- surf tm
     (134, 13400, 58, 21, 2, NULL),  -- ice-beam tm
@@ -2686,7 +1841,6 @@ VALUES
     (134, 13400, 63, 21, 2, NULL),  -- hyper-beam tm
     (134, 13400, 70, 21, 2, NULL),  -- strength tm
     (134, 13400, 91, 21, 2, NULL),  -- dig tm
-    (134, 13400, 92, 21, 2, NULL),  -- toxic tm
     (134, 13400, 104, 21, 2, NULL),  -- double-team tm
     (134, 13400, 127, 21, 2, NULL),  -- waterfall tm
     (134, 13400, 156, 21, 2, NULL),  -- rest tm
@@ -2696,46 +1850,54 @@ VALUES
     (134, 13400, 207, 21, 2, NULL),  -- swagger tm
     (134, 13400, 213, 21, 2, NULL),  -- attract tm
     (134, 13400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (134, 13400, 216, 21, 2, NULL),  -- return tm
-    (134, 13400, 218, 21, 2, NULL),  -- frustration tm
     (134, 13400, 231, 21, 2, NULL),  -- iron-tail tm
-    (134, 13400, 237, 21, 2, NULL),  -- hidden-power tm
     (134, 13400, 240, 21, 2, NULL),  -- rain-dance tm
     (134, 13400, 241, 21, 2, NULL),  -- sunny-day tm
     (134, 13400, 247, 21, 2, NULL),  -- shadow-ball tm
     (134, 13400, 249, 21, 2, NULL),  -- rock-smash tm
     (134, 13400, 258, 21, 2, NULL),  -- hail tm
     (134, 13400, 263, 21, 2, NULL),  -- facade tm
-    (134, 13400, 290, 21, 2, NULL),  -- secret-power tm
     (134, 13400, 352, 21, 2, NULL),  -- water-pulse tm
     (134, 13400, 362, 21, 2, NULL),  -- brine tm
-    (134, 13400, 363, 21, 2, NULL),  -- natural-gift tm
     (134, 13400, 416, 21, 2, NULL),  -- giga-impact tm
-    (134, 13400, 445, 21, 2, NULL),  -- captivate tm
-    (134, 13400, 129, 21, 6, NULL),  -- swift tutor
-    (134, 13400, 173, 21, 6, NULL),  -- snore tutor
-    (134, 13400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (134, 13400, 196, 21, 6, NULL),  -- icy-wind tutor
-    (134, 13400, 270, 21, 6, NULL),  -- helping-hand tutor
-    (134, 13400, 291, 21, 6, NULL),  -- dive tutor
-    (134, 13400, 324, 21, 6, NULL),  -- signal-beam tutor
-    (134, 13400, 387, 21, 6, NULL),  -- last-resort tutor
-    (134, 13400, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #135 Jolteon
-    (135, 13500, 33, 21, 1, 1),  -- tackle lv1
-    (135, 13500, 39, 21, 1, 1),  -- tail-whip lv1
-    (135, 13500, 270, 21, 1, 1),  -- helping-hand lv1
-    (135, 13500, 28, 21, 1, 8),  -- sand-attack lv8
-    (135, 13500, 84, 21, 1, 15),  -- thunder-shock lv15
-    (135, 13500, 98, 21, 1, 22),  -- quick-attack lv22
-    (135, 13500, 24, 21, 1, 29),  -- double-kick lv29
-    (135, 13500, 42, 21, 1, 36),  -- pin-missile lv36
-    (135, 13500, 422, 21, 1, 43),  -- thunder-fang lv43
-    (135, 13500, 387, 21, 1, 50),  -- last-resort lv50
-    (135, 13500, 86, 21, 1, 57),  -- thunder-wave lv57
-    (135, 13500, 97, 21, 1, 64),  -- agility lv64
-    (135, 13500, 87, 21, 1, 71),  -- thunder lv71
-    (135, 13500, 435, 21, 1, 78),  -- discharge lv78
+    (134, 13400, 503, 21, 2, NULL),  -- scald tm
+    (134, 13400, 526, 21, 2, NULL),  -- work-up tm
+    (134, 13400, 24, 21, 5, NULL),  -- double-kick egg
+    (134, 13400, 174, 21, 5, NULL),  -- curse egg
+    (134, 13400, 175, 21, 5, NULL),  -- flail egg
+    (134, 13400, 189, 21, 5, NULL),  -- mud-slap egg
+    (134, 13400, 197, 21, 5, NULL),  -- detect egg
+    (134, 13400, 204, 21, 5, NULL),  -- charm egg
+    (134, 13400, 273, 21, 5, NULL),  -- wish egg
+    (134, 13400, 281, 21, 5, NULL),  -- yawn egg
+    (134, 13400, 313, 21, 5, NULL),  -- fake-tears egg
+    (134, 13400, 321, 21, 5, NULL),  -- tickle egg
+    (134, 13400, 343, 21, 5, NULL),  -- covet egg
+    (134, 13400, 500, 21, 5, NULL),  -- stored-power egg
+    (134, 13400, 33, 21, 8, NULL),  -- tackle start
+    (134, 13400, 36, 21, 8, NULL),  -- take-down start
+    (134, 13400, 38, 21, 8, NULL),  -- double-edge start
+    (134, 13400, 39, 21, 8, NULL),  -- tail-whip start
+    (134, 13400, 44, 21, 8, NULL),  -- bite start
+    (134, 13400, 45, 21, 8, NULL),  -- growl start
+    (134, 13400, 55, 21, 8, NULL),  -- water-gun start
+    (134, 13400, 129, 21, 8, NULL),  -- swift start
+    (134, 13400, 204, 21, 8, NULL),  -- charm start
+    (134, 13400, 226, 21, 8, NULL),  -- baton-pass start
+    (134, 13400, 270, 21, 8, NULL),  -- helping-hand start
+    (134, 13400, 343, 21, 8, NULL),  -- covet start
+    (134, 13400, 383, 21, 8, NULL),  -- copycat start
+    (135, 13500, 28, 21, 1, 5),  -- sand-attack lv5
+    (135, 13500, 98, 21, 1, 10),  -- quick-attack lv10
+    (135, 13500, 608, 21, 1, 15),  -- baby-doll-eyes lv15
+    (135, 13500, 86, 21, 1, 20),  -- thunder-wave lv20
+    (135, 13500, 24, 21, 1, 25),  -- double-kick lv25
+    (135, 13500, 422, 21, 1, 30),  -- thunder-fang lv30
+    (135, 13500, 42, 21, 1, 35),  -- pin-missile lv35
+    (135, 13500, 435, 21, 1, 40),  -- discharge lv40
+    (135, 13500, 97, 21, 1, 45),  -- agility lv45
+    (135, 13500, 87, 21, 1, 50),  -- thunder lv50
+    (135, 13500, 387, 21, 1, 55),  -- last-resort lv55
     (135, 13500, 46, 21, 2, NULL),  -- roar tm
     (135, 13500, 63, 21, 2, NULL),  -- hyper-beam tm
     (135, 13500, 70, 21, 2, NULL),  -- strength tm
@@ -2743,7 +1905,6 @@ VALUES
     (135, 13500, 86, 21, 2, NULL),  -- thunder-wave tm
     (135, 13500, 87, 21, 2, NULL),  -- thunder tm
     (135, 13500, 91, 21, 2, NULL),  -- dig tm
-    (135, 13500, 92, 21, 2, NULL),  -- toxic tm
     (135, 13500, 104, 21, 2, NULL),  -- double-team tm
     (135, 13500, 113, 21, 2, NULL),  -- light-screen tm
     (135, 13500, 148, 21, 2, NULL),  -- flash tm
@@ -2754,49 +1915,58 @@ VALUES
     (135, 13500, 207, 21, 2, NULL),  -- swagger tm
     (135, 13500, 213, 21, 2, NULL),  -- attract tm
     (135, 13500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (135, 13500, 216, 21, 2, NULL),  -- return tm
-    (135, 13500, 218, 21, 2, NULL),  -- frustration tm
     (135, 13500, 231, 21, 2, NULL),  -- iron-tail tm
-    (135, 13500, 237, 21, 2, NULL),  -- hidden-power tm
     (135, 13500, 240, 21, 2, NULL),  -- rain-dance tm
     (135, 13500, 241, 21, 2, NULL),  -- sunny-day tm
     (135, 13500, 247, 21, 2, NULL),  -- shadow-ball tm
     (135, 13500, 249, 21, 2, NULL),  -- rock-smash tm
     (135, 13500, 263, 21, 2, NULL),  -- facade tm
-    (135, 13500, 290, 21, 2, NULL),  -- secret-power tm
     (135, 13500, 351, 21, 2, NULL),  -- shock-wave tm
-    (135, 13500, 363, 21, 2, NULL),  -- natural-gift tm
     (135, 13500, 416, 21, 2, NULL),  -- giga-impact tm
-    (135, 13500, 445, 21, 2, NULL),  -- captivate tm
     (135, 13500, 451, 21, 2, NULL),  -- charge-beam tm
-    (135, 13500, 129, 21, 6, NULL),  -- swift tutor
-    (135, 13500, 173, 21, 6, NULL),  -- snore tutor
-    (135, 13500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (135, 13500, 270, 21, 6, NULL),  -- helping-hand tutor
-    (135, 13500, 324, 21, 6, NULL),  -- signal-beam tutor
-    (135, 13500, 387, 21, 6, NULL),  -- last-resort tutor
-    (135, 13500, 393, 21, 6, NULL),  -- magnet-rise tutor
-    -- #136 Flareon
-    (136, 13600, 33, 21, 1, 1),  -- tackle lv1
-    (136, 13600, 39, 21, 1, 1),  -- tail-whip lv1
-    (136, 13600, 270, 21, 1, 1),  -- helping-hand lv1
-    (136, 13600, 28, 21, 1, 8),  -- sand-attack lv8
-    (136, 13600, 52, 21, 1, 15),  -- ember lv15
-    (136, 13600, 98, 21, 1, 22),  -- quick-attack lv22
-    (136, 13600, 44, 21, 1, 29),  -- bite lv29
-    (136, 13600, 83, 21, 1, 36),  -- fire-spin lv36
-    (136, 13600, 424, 21, 1, 43),  -- fire-fang lv43
-    (136, 13600, 387, 21, 1, 50),  -- last-resort lv50
-    (136, 13600, 123, 21, 1, 57),  -- smog lv57
-    (136, 13600, 184, 21, 1, 64),  -- scary-face lv64
-    (136, 13600, 126, 21, 1, 71),  -- fire-blast lv71
-    (136, 13600, 436, 21, 1, 78),  -- lava-plume lv78
+    (135, 13500, 521, 21, 2, NULL),  -- volt-switch tm
+    (135, 13500, 526, 21, 2, NULL),  -- work-up tm
+    (135, 13500, 24, 21, 5, NULL),  -- double-kick egg
+    (135, 13500, 174, 21, 5, NULL),  -- curse egg
+    (135, 13500, 175, 21, 5, NULL),  -- flail egg
+    (135, 13500, 189, 21, 5, NULL),  -- mud-slap egg
+    (135, 13500, 197, 21, 5, NULL),  -- detect egg
+    (135, 13500, 204, 21, 5, NULL),  -- charm egg
+    (135, 13500, 273, 21, 5, NULL),  -- wish egg
+    (135, 13500, 281, 21, 5, NULL),  -- yawn egg
+    (135, 13500, 313, 21, 5, NULL),  -- fake-tears egg
+    (135, 13500, 321, 21, 5, NULL),  -- tickle egg
+    (135, 13500, 343, 21, 5, NULL),  -- covet egg
+    (135, 13500, 500, 21, 5, NULL),  -- stored-power egg
+    (135, 13500, 33, 21, 8, NULL),  -- tackle start
+    (135, 13500, 36, 21, 8, NULL),  -- take-down start
+    (135, 13500, 38, 21, 8, NULL),  -- double-edge start
+    (135, 13500, 39, 21, 8, NULL),  -- tail-whip start
+    (135, 13500, 44, 21, 8, NULL),  -- bite start
+    (135, 13500, 45, 21, 8, NULL),  -- growl start
+    (135, 13500, 84, 21, 8, NULL),  -- thunder-shock start
+    (135, 13500, 129, 21, 8, NULL),  -- swift start
+    (135, 13500, 204, 21, 8, NULL),  -- charm start
+    (135, 13500, 226, 21, 8, NULL),  -- baton-pass start
+    (135, 13500, 270, 21, 8, NULL),  -- helping-hand start
+    (135, 13500, 343, 21, 8, NULL),  -- covet start
+    (135, 13500, 383, 21, 8, NULL),  -- copycat start
+    (136, 13600, 28, 21, 1, 5),  -- sand-attack lv5
+    (136, 13600, 98, 21, 1, 10),  -- quick-attack lv10
+    (136, 13600, 608, 21, 1, 15),  -- baby-doll-eyes lv15
+    (136, 13600, 123, 21, 1, 20),  -- smog lv20
+    (136, 13600, 44, 21, 1, 25),  -- bite lv25
+    (136, 13600, 424, 21, 1, 30),  -- fire-fang lv30
+    (136, 13600, 83, 21, 1, 35),  -- fire-spin lv35
+    (136, 13600, 436, 21, 1, 40),  -- lava-plume lv40
+    (136, 13600, 184, 21, 1, 45),  -- scary-face lv45
+    (136, 13600, 394, 21, 1, 50),  -- flare-blitz lv50
+    (136, 13600, 387, 21, 1, 55),  -- last-resort lv55
     (136, 13600, 46, 21, 2, NULL),  -- roar tm
     (136, 13600, 53, 21, 2, NULL),  -- flamethrower tm
     (136, 13600, 63, 21, 2, NULL),  -- hyper-beam tm
     (136, 13600, 70, 21, 2, NULL),  -- strength tm
     (136, 13600, 91, 21, 2, NULL),  -- dig tm
-    (136, 13600, 92, 21, 2, NULL),  -- toxic tm
     (136, 13600, 104, 21, 2, NULL),  -- double-team tm
     (136, 13600, 126, 21, 2, NULL),  -- fire-blast tm
     (136, 13600, 156, 21, 2, NULL),  -- rest tm
@@ -2806,44 +1976,52 @@ VALUES
     (136, 13600, 207, 21, 2, NULL),  -- swagger tm
     (136, 13600, 213, 21, 2, NULL),  -- attract tm
     (136, 13600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (136, 13600, 216, 21, 2, NULL),  -- return tm
-    (136, 13600, 218, 21, 2, NULL),  -- frustration tm
     (136, 13600, 231, 21, 2, NULL),  -- iron-tail tm
-    (136, 13600, 237, 21, 2, NULL),  -- hidden-power tm
     (136, 13600, 240, 21, 2, NULL),  -- rain-dance tm
     (136, 13600, 241, 21, 2, NULL),  -- sunny-day tm
     (136, 13600, 247, 21, 2, NULL),  -- shadow-ball tm
     (136, 13600, 249, 21, 2, NULL),  -- rock-smash tm
     (136, 13600, 261, 21, 2, NULL),  -- will-o-wisp tm
     (136, 13600, 263, 21, 2, NULL),  -- facade tm
-    (136, 13600, 290, 21, 2, NULL),  -- secret-power tm
     (136, 13600, 315, 21, 2, NULL),  -- overheat tm
-    (136, 13600, 363, 21, 2, NULL),  -- natural-gift tm
     (136, 13600, 416, 21, 2, NULL),  -- giga-impact tm
-    (136, 13600, 445, 21, 2, NULL),  -- captivate tm
-    (136, 13600, 129, 21, 6, NULL),  -- swift tutor
-    (136, 13600, 173, 21, 6, NULL),  -- snore tutor
-    (136, 13600, 189, 21, 6, NULL),  -- mud-slap tutor
-    (136, 13600, 257, 21, 6, NULL),  -- heat-wave tutor
-    (136, 13600, 270, 21, 6, NULL),  -- helping-hand tutor
-    (136, 13600, 276, 21, 6, NULL),  -- superpower tutor
-    (136, 13600, 387, 21, 6, NULL),  -- last-resort tutor
-    -- #137 Porygon
-    (137, 13700, 33, 21, 1, 1),  -- tackle lv1
-    (137, 13700, 159, 21, 1, 1),  -- sharpen lv1
-    (137, 13700, 160, 21, 1, 1),  -- conversion lv1
-    (137, 13700, 176, 21, 1, 1),  -- conversion-2 lv1
-    (137, 13700, 60, 21, 1, 7),  -- psybeam lv7
-    (137, 13700, 97, 21, 1, 12),  -- agility lv12
-    (137, 13700, 105, 21, 1, 18),  -- recover lv18
-    (137, 13700, 393, 21, 1, 23),  -- magnet-rise lv23
-    (137, 13700, 324, 21, 1, 29),  -- signal-beam lv29
-    (137, 13700, 278, 21, 1, 34),  -- recycle lv34
+    (136, 13600, 526, 21, 2, NULL),  -- work-up tm
+    (136, 13600, 24, 21, 5, NULL),  -- double-kick egg
+    (136, 13600, 174, 21, 5, NULL),  -- curse egg
+    (136, 13600, 175, 21, 5, NULL),  -- flail egg
+    (136, 13600, 189, 21, 5, NULL),  -- mud-slap egg
+    (136, 13600, 197, 21, 5, NULL),  -- detect egg
+    (136, 13600, 204, 21, 5, NULL),  -- charm egg
+    (136, 13600, 273, 21, 5, NULL),  -- wish egg
+    (136, 13600, 281, 21, 5, NULL),  -- yawn egg
+    (136, 13600, 313, 21, 5, NULL),  -- fake-tears egg
+    (136, 13600, 321, 21, 5, NULL),  -- tickle egg
+    (136, 13600, 343, 21, 5, NULL),  -- covet egg
+    (136, 13600, 500, 21, 5, NULL),  -- stored-power egg
+    (136, 13600, 33, 21, 8, NULL),  -- tackle start
+    (136, 13600, 36, 21, 8, NULL),  -- take-down start
+    (136, 13600, 38, 21, 8, NULL),  -- double-edge start
+    (136, 13600, 39, 21, 8, NULL),  -- tail-whip start
+    (136, 13600, 45, 21, 8, NULL),  -- growl start
+    (136, 13600, 52, 21, 8, NULL),  -- ember start
+    (136, 13600, 129, 21, 8, NULL),  -- swift start
+    (136, 13600, 204, 21, 8, NULL),  -- charm start
+    (136, 13600, 226, 21, 8, NULL),  -- baton-pass start
+    (136, 13600, 270, 21, 8, NULL),  -- helping-hand start
+    (136, 13600, 343, 21, 8, NULL),  -- covet start
+    (136, 13600, 383, 21, 8, NULL),  -- copycat start
+    (137, 13700, 278, 21, 1, 5),  -- recycle lv5
+    (137, 13700, 393, 21, 1, 10),  -- magnet-rise lv10
+    (137, 13700, 84, 21, 1, 15),  -- thunder-shock lv15
+    (137, 13700, 60, 21, 1, 20),  -- psybeam lv20
+    (137, 13700, 176, 21, 1, 25),  -- conversion-2 lv25
+    (137, 13700, 97, 21, 1, 30),  -- agility lv30
+    (137, 13700, 105, 21, 1, 35),  -- recover lv35
     (137, 13700, 435, 21, 1, 40),  -- discharge lv40
-    (137, 13700, 199, 21, 1, 45),  -- lock-on lv45
-    (137, 13700, 161, 21, 1, 51),  -- tri-attack lv51
-    (137, 13700, 277, 21, 1, 56),  -- magic-coat lv56
-    (137, 13700, 192, 21, 1, 62),  -- zap-cannon lv62
+    (137, 13700, 161, 21, 1, 45),  -- tri-attack lv45
+    (137, 13700, 277, 21, 1, 50),  -- magic-coat lv50
+    (137, 13700, 199, 21, 1, 55),  -- lock-on lv55
+    (137, 13700, 192, 21, 1, 60),  -- zap-cannon lv60
     (137, 13700, 58, 21, 2, NULL),  -- ice-beam tm
     (137, 13700, 59, 21, 2, NULL),  -- blizzard tm
     (137, 13700, 63, 21, 2, NULL),  -- hyper-beam tm
@@ -2851,7 +2029,6 @@ VALUES
     (137, 13700, 85, 21, 2, NULL),  -- thunderbolt tm
     (137, 13700, 86, 21, 2, NULL),  -- thunder-wave tm
     (137, 13700, 87, 21, 2, NULL),  -- thunder tm
-    (137, 13700, 92, 21, 2, NULL),  -- toxic tm
     (137, 13700, 94, 21, 2, NULL),  -- psychic tm
     (137, 13700, 104, 21, 2, NULL),  -- double-team tm
     (137, 13700, 138, 21, 2, NULL),  -- dream-eater tm
@@ -2863,48 +2040,35 @@ VALUES
     (137, 13700, 203, 21, 2, NULL),  -- endure tm
     (137, 13700, 207, 21, 2, NULL),  -- swagger tm
     (137, 13700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (137, 13700, 216, 21, 2, NULL),  -- return tm
-    (137, 13700, 218, 21, 2, NULL),  -- frustration tm
     (137, 13700, 231, 21, 2, NULL),  -- iron-tail tm
-    (137, 13700, 237, 21, 2, NULL),  -- hidden-power tm
     (137, 13700, 240, 21, 2, NULL),  -- rain-dance tm
     (137, 13700, 241, 21, 2, NULL),  -- sunny-day tm
     (137, 13700, 244, 21, 2, NULL),  -- psych-up tm
     (137, 13700, 247, 21, 2, NULL),  -- shadow-ball tm
     (137, 13700, 263, 21, 2, NULL),  -- facade tm
     (137, 13700, 278, 21, 2, NULL),  -- recycle tm
-    (137, 13700, 290, 21, 2, NULL),  -- secret-power tm
     (137, 13700, 332, 21, 2, NULL),  -- aerial-ace tm
     (137, 13700, 351, 21, 2, NULL),  -- shock-wave tm
-    (137, 13700, 363, 21, 2, NULL),  -- natural-gift tm
     (137, 13700, 416, 21, 2, NULL),  -- giga-impact tm
     (137, 13700, 433, 21, 2, NULL),  -- trick-room tm
     (137, 13700, 451, 21, 2, NULL),  -- charge-beam tm
-    (137, 13700, 129, 21, 6, NULL),  -- swift tutor
-    (137, 13700, 173, 21, 6, NULL),  -- snore tutor
-    (137, 13700, 196, 21, 6, NULL),  -- icy-wind tutor
-    (137, 13700, 271, 21, 6, NULL),  -- trick tutor
-    (137, 13700, 324, 21, 6, NULL),  -- signal-beam tutor
-    (137, 13700, 387, 21, 6, NULL),  -- last-resort tutor
-    (137, 13700, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #138 Omanyte
-    (138, 13800, 110, 21, 1, 1),  -- withdraw lv1
-    (138, 13800, 132, 21, 1, 1),  -- constrict lv1
-    (138, 13800, 44, 21, 1, 7),  -- bite lv7
-    (138, 13800, 55, 21, 1, 10),  -- water-gun lv10
-    (138, 13800, 205, 21, 1, 16),  -- rollout lv16
-    (138, 13800, 43, 21, 1, 19),  -- leer lv19
+    (137, 13700, 33, 21, 8, NULL),  -- tackle start
+    (137, 13700, 160, 21, 8, NULL),  -- conversion start
+    (138, 13800, 205, 21, 1, 5),  -- rollout lv5
+    (138, 13800, 28, 21, 1, 10),  -- sand-attack lv10
+    (138, 13800, 55, 21, 1, 15),  -- water-gun lv15
+    (138, 13800, 43, 21, 1, 20),  -- leer lv20
     (138, 13800, 341, 21, 1, 25),  -- mud-shot lv25
-    (138, 13800, 362, 21, 1, 28),  -- brine lv28
-    (138, 13800, 182, 21, 1, 34),  -- protect lv34
-    (138, 13800, 246, 21, 1, 37),  -- ancient-power lv37
-    (138, 13800, 321, 21, 1, 43),  -- tickle lv43
-    (138, 13800, 350, 21, 1, 46),  -- rock-blast lv46
-    (138, 13800, 56, 21, 1, 52),  -- hydro-pump lv52
+    (138, 13800, 246, 21, 1, 30),  -- ancient-power lv30
+    (138, 13800, 362, 21, 1, 35),  -- brine lv35
+    (138, 13800, 182, 21, 1, 41),  -- protect lv41
+    (138, 13800, 350, 21, 1, 45),  -- rock-blast lv45
+    (138, 13800, 57, 21, 1, 50),  -- surf lv50
+    (138, 13800, 504, 21, 1, 55),  -- shell-smash lv55
+    (138, 13800, 56, 21, 1, 60),  -- hydro-pump lv60
     (138, 13800, 57, 21, 2, NULL),  -- surf tm
     (138, 13800, 58, 21, 2, NULL),  -- ice-beam tm
     (138, 13800, 59, 21, 2, NULL),  -- blizzard tm
-    (138, 13800, 92, 21, 2, NULL),  -- toxic tm
     (138, 13800, 104, 21, 2, NULL),  -- double-team tm
     (138, 13800, 127, 21, 2, NULL),  -- waterfall tm
     (138, 13800, 156, 21, 2, NULL),  -- rest tm
@@ -2917,60 +2081,46 @@ VALUES
     (138, 13800, 207, 21, 2, NULL),  -- swagger tm
     (138, 13800, 213, 21, 2, NULL),  -- attract tm
     (138, 13800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (138, 13800, 216, 21, 2, NULL),  -- return tm
-    (138, 13800, 218, 21, 2, NULL),  -- frustration tm
-    (138, 13800, 237, 21, 2, NULL),  -- hidden-power tm
     (138, 13800, 240, 21, 2, NULL),  -- rain-dance tm
     (138, 13800, 249, 21, 2, NULL),  -- rock-smash tm
     (138, 13800, 258, 21, 2, NULL),  -- hail tm
     (138, 13800, 263, 21, 2, NULL),  -- facade tm
-    (138, 13800, 290, 21, 2, NULL),  -- secret-power tm
     (138, 13800, 317, 21, 2, NULL),  -- rock-tomb tm
     (138, 13800, 352, 21, 2, NULL),  -- water-pulse tm
     (138, 13800, 360, 21, 2, NULL),  -- gyro-ball tm
     (138, 13800, 362, 21, 2, NULL),  -- brine tm
-    (138, 13800, 363, 21, 2, NULL),  -- natural-gift tm
     (138, 13800, 397, 21, 2, NULL),  -- rock-polish tm
-    (138, 13800, 445, 21, 2, NULL),  -- captivate tm
     (138, 13800, 446, 21, 2, NULL),  -- stealth-rock tm
+    (138, 13800, 503, 21, 2, NULL),  -- scald tm
     (138, 13800, 21, 21, 5, NULL),  -- slam egg
+    (138, 13800, 44, 21, 5, NULL),  -- bite egg
     (138, 13800, 48, 21, 5, NULL),  -- supersonic egg
     (138, 13800, 61, 21, 5, NULL),  -- bubble-beam egg
     (138, 13800, 62, 21, 5, NULL),  -- aurora-beam egg
     (138, 13800, 114, 21, 5, NULL),  -- haze egg
-    (138, 13800, 157, 21, 5, NULL),  -- rock-slide egg
     (138, 13800, 191, 21, 5, NULL),  -- spikes egg
+    (138, 13800, 250, 21, 5, NULL),  -- whirlpool egg
     (138, 13800, 282, 21, 5, NULL),  -- knock-off egg
-    (138, 13800, 378, 21, 5, NULL),  -- wring-out egg
+    (138, 13800, 321, 21, 5, NULL),  -- tickle egg
+    (138, 13800, 330, 21, 5, NULL),  -- muddy-water egg
     (138, 13800, 390, 21, 5, NULL),  -- toxic-spikes egg
-    (138, 13800, 173, 21, 6, NULL),  -- snore tutor
-    (138, 13800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (138, 13800, 205, 21, 6, NULL),  -- rollout tutor
-    (138, 13800, 246, 21, 6, NULL),  -- ancient-power tutor
-    (138, 13800, 282, 21, 6, NULL),  -- knock-off tutor
-    (138, 13800, 291, 21, 6, NULL),  -- dive tutor
-    (138, 13800, 334, 21, 6, NULL),  -- iron-defense tutor
-    (138, 13800, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #139 Omastar
-    (139, 13900, 44, 21, 1, 1),  -- bite lv1
-    (139, 13900, 110, 21, 1, 1),  -- withdraw lv1
-    (139, 13900, 132, 21, 1, 1),  -- constrict lv1
-    (139, 13900, 55, 21, 1, 10),  -- water-gun lv10
-    (139, 13900, 205, 21, 1, 16),  -- rollout lv16
-    (139, 13900, 43, 21, 1, 19),  -- leer lv19
+    (138, 13800, 513, 21, 5, NULL),  -- reflect-type egg
+    (138, 13800, 20, 21, 8, NULL),  -- bind start
+    (138, 13800, 110, 21, 8, NULL),  -- withdraw start
+    (139, 13900, 55, 21, 1, 15),  -- water-gun lv15
+    (139, 13900, 43, 21, 1, 20),  -- leer lv20
     (139, 13900, 341, 21, 1, 25),  -- mud-shot lv25
-    (139, 13900, 362, 21, 1, 28),  -- brine lv28
-    (139, 13900, 182, 21, 1, 34),  -- protect lv34
-    (139, 13900, 246, 21, 1, 37),  -- ancient-power lv37
-    (139, 13900, 131, 21, 1, 40),  -- spike-cannon lv40
-    (139, 13900, 321, 21, 1, 48),  -- tickle lv48
-    (139, 13900, 350, 21, 1, 56),  -- rock-blast lv56
-    (139, 13900, 56, 21, 1, 67),  -- hydro-pump lv67
+    (139, 13900, 246, 21, 1, 30),  -- ancient-power lv30
+    (139, 13900, 362, 21, 1, 35),  -- brine lv35
+    (139, 13900, 182, 21, 1, 43),  -- protect lv43
+    (139, 13900, 350, 21, 1, 49),  -- rock-blast lv49
+    (139, 13900, 57, 21, 1, 56),  -- surf lv56
+    (139, 13900, 504, 21, 1, 63),  -- shell-smash lv63
+    (139, 13900, 56, 21, 1, 70),  -- hydro-pump lv70
     (139, 13900, 57, 21, 2, NULL),  -- surf tm
     (139, 13900, 58, 21, 2, NULL),  -- ice-beam tm
     (139, 13900, 59, 21, 2, NULL),  -- blizzard tm
     (139, 13900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (139, 13900, 92, 21, 2, NULL),  -- toxic tm
     (139, 13900, 104, 21, 2, NULL),  -- double-team tm
     (139, 13900, 127, 21, 2, NULL),  -- waterfall tm
     (139, 13900, 156, 21, 2, NULL),  -- rest tm
@@ -2983,51 +2133,54 @@ VALUES
     (139, 13900, 207, 21, 2, NULL),  -- swagger tm
     (139, 13900, 213, 21, 2, NULL),  -- attract tm
     (139, 13900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (139, 13900, 216, 21, 2, NULL),  -- return tm
-    (139, 13900, 218, 21, 2, NULL),  -- frustration tm
-    (139, 13900, 237, 21, 2, NULL),  -- hidden-power tm
     (139, 13900, 240, 21, 2, NULL),  -- rain-dance tm
     (139, 13900, 249, 21, 2, NULL),  -- rock-smash tm
     (139, 13900, 258, 21, 2, NULL),  -- hail tm
     (139, 13900, 263, 21, 2, NULL),  -- facade tm
-    (139, 13900, 290, 21, 2, NULL),  -- secret-power tm
     (139, 13900, 317, 21, 2, NULL),  -- rock-tomb tm
     (139, 13900, 352, 21, 2, NULL),  -- water-pulse tm
     (139, 13900, 360, 21, 2, NULL),  -- gyro-ball tm
     (139, 13900, 362, 21, 2, NULL),  -- brine tm
-    (139, 13900, 363, 21, 2, NULL),  -- natural-gift tm
     (139, 13900, 397, 21, 2, NULL),  -- rock-polish tm
     (139, 13900, 416, 21, 2, NULL),  -- giga-impact tm
     (139, 13900, 431, 21, 2, NULL),  -- rock-climb tm
     (139, 13900, 444, 21, 2, NULL),  -- stone-edge tm
-    (139, 13900, 445, 21, 2, NULL),  -- captivate tm
     (139, 13900, 446, 21, 2, NULL),  -- stealth-rock tm
-    (139, 13900, 173, 21, 6, NULL),  -- snore tutor
-    (139, 13900, 196, 21, 6, NULL),  -- icy-wind tutor
-    (139, 13900, 205, 21, 6, NULL),  -- rollout tutor
-    (139, 13900, 246, 21, 6, NULL),  -- ancient-power tutor
-    (139, 13900, 282, 21, 6, NULL),  -- knock-off tutor
-    (139, 13900, 291, 21, 6, NULL),  -- dive tutor
-    (139, 13900, 334, 21, 6, NULL),  -- iron-defense tutor
-    (139, 13900, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #140 Kabuto
-    (140, 14000, 10, 21, 1, 1),  -- scratch lv1
-    (140, 14000, 106, 21, 1, 1),  -- harden lv1
-    (140, 14000, 71, 21, 1, 6),  -- absorb lv6
-    (140, 14000, 43, 21, 1, 11),  -- leer lv11
-    (140, 14000, 341, 21, 1, 16),  -- mud-shot lv16
-    (140, 14000, 28, 21, 1, 21),  -- sand-attack lv21
-    (140, 14000, 203, 21, 1, 26),  -- endure lv26
-    (140, 14000, 453, 21, 1, 31),  -- aqua-jet lv31
-    (140, 14000, 72, 21, 1, 36),  -- mega-drain lv36
-    (140, 14000, 319, 21, 1, 41),  -- metal-sound lv41
-    (140, 14000, 246, 21, 1, 46),  -- ancient-power lv46
-    (140, 14000, 378, 21, 1, 51),  -- wring-out lv51
+    (139, 13900, 503, 21, 2, NULL),  -- scald tm
+    (139, 13900, 21, 21, 5, NULL),  -- slam egg
+    (139, 13900, 44, 21, 5, NULL),  -- bite egg
+    (139, 13900, 48, 21, 5, NULL),  -- supersonic egg
+    (139, 13900, 61, 21, 5, NULL),  -- bubble-beam egg
+    (139, 13900, 62, 21, 5, NULL),  -- aurora-beam egg
+    (139, 13900, 114, 21, 5, NULL),  -- haze egg
+    (139, 13900, 191, 21, 5, NULL),  -- spikes egg
+    (139, 13900, 250, 21, 5, NULL),  -- whirlpool egg
+    (139, 13900, 282, 21, 5, NULL),  -- knock-off egg
+    (139, 13900, 321, 21, 5, NULL),  -- tickle egg
+    (139, 13900, 330, 21, 5, NULL),  -- muddy-water egg
+    (139, 13900, 390, 21, 5, NULL),  -- toxic-spikes egg
+    (139, 13900, 513, 21, 5, NULL),  -- reflect-type egg
+    (139, 13900, 20, 21, 8, NULL),  -- bind start
+    (139, 13900, 28, 21, 8, NULL),  -- sand-attack start
+    (139, 13900, 110, 21, 8, NULL),  -- withdraw start
+    (139, 13900, 205, 21, 8, NULL),  -- rollout start
+    (139, 13900, 242, 21, 8, NULL),  -- crunch start
+    (140, 14000, 10, 21, 1, 5),  -- scratch lv5
+    (140, 14000, 28, 21, 1, 10),  -- sand-attack lv10
+    (140, 14000, 453, 21, 1, 15),  -- aqua-jet lv15
+    (140, 14000, 43, 21, 1, 20),  -- leer lv20
+    (140, 14000, 341, 21, 1, 25),  -- mud-shot lv25
+    (140, 14000, 246, 21, 1, 30),  -- ancient-power lv30
+    (140, 14000, 362, 21, 1, 35),  -- brine lv35
+    (140, 14000, 182, 21, 1, 41),  -- protect lv41
+    (140, 14000, 141, 21, 1, 45),  -- leech-life lv45
+    (140, 14000, 710, 21, 1, 50),  -- liquidation lv50
+    (140, 14000, 319, 21, 1, 55),  -- metal-sound lv55
+    (140, 14000, 444, 21, 1, 60),  -- stone-edge lv60
     (140, 14000, 57, 21, 2, NULL),  -- surf tm
     (140, 14000, 58, 21, 2, NULL),  -- ice-beam tm
     (140, 14000, 59, 21, 2, NULL),  -- blizzard tm
     (140, 14000, 91, 21, 2, NULL),  -- dig tm
-    (140, 14000, 92, 21, 2, NULL),  -- toxic tm
     (140, 14000, 104, 21, 2, NULL),  -- double-team tm
     (140, 14000, 127, 21, 2, NULL),  -- waterfall tm
     (140, 14000, 156, 21, 2, NULL),  -- rest tm
@@ -3041,24 +2194,22 @@ VALUES
     (140, 14000, 207, 21, 2, NULL),  -- swagger tm
     (140, 14000, 213, 21, 2, NULL),  -- attract tm
     (140, 14000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (140, 14000, 216, 21, 2, NULL),  -- return tm
-    (140, 14000, 218, 21, 2, NULL),  -- frustration tm
-    (140, 14000, 237, 21, 2, NULL),  -- hidden-power tm
     (140, 14000, 240, 21, 2, NULL),  -- rain-dance tm
     (140, 14000, 249, 21, 2, NULL),  -- rock-smash tm
     (140, 14000, 258, 21, 2, NULL),  -- hail tm
     (140, 14000, 263, 21, 2, NULL),  -- facade tm
-    (140, 14000, 290, 21, 2, NULL),  -- secret-power tm
     (140, 14000, 317, 21, 2, NULL),  -- rock-tomb tm
+    (140, 14000, 332, 21, 2, NULL),  -- aerial-ace tm
     (140, 14000, 352, 21, 2, NULL),  -- water-pulse tm
     (140, 14000, 362, 21, 2, NULL),  -- brine tm
-    (140, 14000, 363, 21, 2, NULL),  -- natural-gift tm
     (140, 14000, 397, 21, 2, NULL),  -- rock-polish tm
-    (140, 14000, 445, 21, 2, NULL),  -- captivate tm
+    (140, 14000, 444, 21, 2, NULL),  -- stone-edge tm
     (140, 14000, 446, 21, 2, NULL),  -- stealth-rock tm
+    (140, 14000, 503, 21, 2, NULL),  -- scald tm
+    (140, 14000, 36, 21, 5, NULL),  -- take-down egg
     (140, 14000, 61, 21, 5, NULL),  -- bubble-beam egg
     (140, 14000, 62, 21, 5, NULL),  -- aurora-beam egg
-    (140, 14000, 91, 21, 5, NULL),  -- dig egg
+    (140, 14000, 72, 21, 5, NULL),  -- mega-drain egg
     (140, 14000, 103, 21, 5, NULL),  -- screech egg
     (140, 14000, 109, 21, 5, NULL),  -- confuse-ray egg
     (140, 14000, 175, 21, 5, NULL),  -- flail egg
@@ -3066,30 +2217,18 @@ VALUES
     (140, 14000, 229, 21, 5, NULL),  -- rapid-spin egg
     (140, 14000, 282, 21, 5, NULL),  -- knock-off egg
     (140, 14000, 341, 21, 5, NULL),  -- mud-shot egg
-    (140, 14000, 173, 21, 6, NULL),  -- snore tutor
-    (140, 14000, 189, 21, 6, NULL),  -- mud-slap tutor
-    (140, 14000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (140, 14000, 205, 21, 6, NULL),  -- rollout tutor
-    (140, 14000, 246, 21, 6, NULL),  -- ancient-power tutor
-    (140, 14000, 282, 21, 6, NULL),  -- knock-off tutor
-    (140, 14000, 334, 21, 6, NULL),  -- iron-defense tutor
-    (140, 14000, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #141 Kabutops
-    (141, 14100, 10, 21, 1, 1),  -- scratch lv1
-    (141, 14100, 43, 21, 1, 1),  -- leer lv1
-    (141, 14100, 71, 21, 1, 1),  -- absorb lv1
-    (141, 14100, 106, 21, 1, 1),  -- harden lv1
-    (141, 14100, 364, 21, 1, 1),  -- feint lv1
-    (141, 14100, 341, 21, 1, 16),  -- mud-shot lv16
-    (141, 14100, 28, 21, 1, 21),  -- sand-attack lv21
-    (141, 14100, 203, 21, 1, 26),  -- endure lv26
-    (141, 14100, 453, 21, 1, 31),  -- aqua-jet lv31
-    (141, 14100, 72, 21, 1, 36),  -- mega-drain lv36
-    (141, 14100, 163, 21, 1, 40),  -- slash lv40
-    (141, 14100, 319, 21, 1, 45),  -- metal-sound lv45
-    (141, 14100, 246, 21, 1, 54),  -- ancient-power lv54
-    (141, 14100, 378, 21, 1, 63),  -- wring-out lv63
-    (141, 14100, 400, 21, 1, 72),  -- night-slash lv72
+    (140, 14000, 71, 21, 8, NULL),  -- absorb start
+    (140, 14000, 106, 21, 8, NULL),  -- harden start
+    (141, 14100, 453, 21, 1, 15),  -- aqua-jet lv15
+    (141, 14100, 43, 21, 1, 20),  -- leer lv20
+    (141, 14100, 341, 21, 1, 25),  -- mud-shot lv25
+    (141, 14100, 246, 21, 1, 30),  -- ancient-power lv30
+    (141, 14100, 362, 21, 1, 35),  -- brine lv35
+    (141, 14100, 182, 21, 1, 43),  -- protect lv43
+    (141, 14100, 141, 21, 1, 49),  -- leech-life lv49
+    (141, 14100, 710, 21, 1, 56),  -- liquidation lv56
+    (141, 14100, 319, 21, 1, 63),  -- metal-sound lv63
+    (141, 14100, 444, 21, 1, 70),  -- stone-edge lv70
     (141, 14100, 14, 21, 2, NULL),  -- swords-dance tm
     (141, 14100, 15, 21, 2, NULL),  -- cut tm
     (141, 14100, 57, 21, 2, NULL),  -- surf tm
@@ -3097,7 +2236,6 @@ VALUES
     (141, 14100, 59, 21, 2, NULL),  -- blizzard tm
     (141, 14100, 63, 21, 2, NULL),  -- hyper-beam tm
     (141, 14100, 91, 21, 2, NULL),  -- dig tm
-    (141, 14100, 92, 21, 2, NULL),  -- toxic tm
     (141, 14100, 104, 21, 2, NULL),  -- double-team tm
     (141, 14100, 127, 21, 2, NULL),  -- waterfall tm
     (141, 14100, 156, 21, 2, NULL),  -- rest tm
@@ -3111,63 +2249,58 @@ VALUES
     (141, 14100, 207, 21, 2, NULL),  -- swagger tm
     (141, 14100, 213, 21, 2, NULL),  -- attract tm
     (141, 14100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (141, 14100, 216, 21, 2, NULL),  -- return tm
-    (141, 14100, 218, 21, 2, NULL),  -- frustration tm
-    (141, 14100, 237, 21, 2, NULL),  -- hidden-power tm
     (141, 14100, 240, 21, 2, NULL),  -- rain-dance tm
     (141, 14100, 249, 21, 2, NULL),  -- rock-smash tm
     (141, 14100, 258, 21, 2, NULL),  -- hail tm
     (141, 14100, 263, 21, 2, NULL),  -- facade tm
     (141, 14100, 280, 21, 2, NULL),  -- brick-break tm
-    (141, 14100, 290, 21, 2, NULL),  -- secret-power tm
     (141, 14100, 317, 21, 2, NULL),  -- rock-tomb tm
     (141, 14100, 332, 21, 2, NULL),  -- aerial-ace tm
     (141, 14100, 352, 21, 2, NULL),  -- water-pulse tm
     (141, 14100, 362, 21, 2, NULL),  -- brine tm
-    (141, 14100, 363, 21, 2, NULL),  -- natural-gift tm
     (141, 14100, 397, 21, 2, NULL),  -- rock-polish tm
     (141, 14100, 404, 21, 2, NULL),  -- x-scissor tm
     (141, 14100, 416, 21, 2, NULL),  -- giga-impact tm
     (141, 14100, 431, 21, 2, NULL),  -- rock-climb tm
     (141, 14100, 444, 21, 2, NULL),  -- stone-edge tm
-    (141, 14100, 445, 21, 2, NULL),  -- captivate tm
     (141, 14100, 446, 21, 2, NULL),  -- stealth-rock tm
-    (141, 14100, 173, 21, 6, NULL),  -- snore tutor
-    (141, 14100, 189, 21, 6, NULL),  -- mud-slap tutor
-    (141, 14100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (141, 14100, 205, 21, 6, NULL),  -- rollout tutor
-    (141, 14100, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (141, 14100, 246, 21, 6, NULL),  -- ancient-power tutor
-    (141, 14100, 276, 21, 6, NULL),  -- superpower tutor
-    (141, 14100, 282, 21, 6, NULL),  -- knock-off tutor
-    (141, 14100, 291, 21, 6, NULL),  -- dive tutor
-    (141, 14100, 334, 21, 6, NULL),  -- iron-defense tutor
-    (141, 14100, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (141, 14100, 414, 21, 6, NULL),  -- earth-power tutor
-    -- #142 Aerodactyl
-    (142, 14200, 17, 21, 1, 1),  -- wing-attack lv1
-    (142, 14200, 44, 21, 1, 1),  -- bite lv1
-    (142, 14200, 48, 21, 1, 1),  -- supersonic lv1
-    (142, 14200, 184, 21, 1, 1),  -- scary-face lv1
-    (142, 14200, 422, 21, 1, 1),  -- thunder-fang lv1
-    (142, 14200, 423, 21, 1, 1),  -- ice-fang lv1
-    (142, 14200, 424, 21, 1, 1),  -- fire-fang lv1
-    (142, 14200, 46, 21, 1, 9),  -- roar lv9
-    (142, 14200, 97, 21, 1, 17),  -- agility lv17
-    (142, 14200, 246, 21, 1, 25),  -- ancient-power lv25
-    (142, 14200, 242, 21, 1, 33),  -- crunch lv33
-    (142, 14200, 36, 21, 1, 41),  -- take-down lv41
-    (142, 14200, 442, 21, 1, 49),  -- iron-head lv49
-    (142, 14200, 63, 21, 1, 57),  -- hyper-beam lv57
-    (142, 14200, 157, 21, 1, 65),  -- rock-slide lv65
-    (142, 14200, 416, 21, 1, 73),  -- giga-impact lv73
+    (141, 14100, 503, 21, 2, NULL),  -- scald tm
+    (141, 14100, 36, 21, 5, NULL),  -- take-down egg
+    (141, 14100, 61, 21, 5, NULL),  -- bubble-beam egg
+    (141, 14100, 62, 21, 5, NULL),  -- aurora-beam egg
+    (141, 14100, 72, 21, 5, NULL),  -- mega-drain egg
+    (141, 14100, 103, 21, 5, NULL),  -- screech egg
+    (141, 14100, 109, 21, 5, NULL),  -- confuse-ray egg
+    (141, 14100, 175, 21, 5, NULL),  -- flail egg
+    (141, 14100, 196, 21, 5, NULL),  -- icy-wind egg
+    (141, 14100, 229, 21, 5, NULL),  -- rapid-spin egg
+    (141, 14100, 282, 21, 5, NULL),  -- knock-off egg
+    (141, 14100, 341, 21, 5, NULL),  -- mud-shot egg
+    (141, 14100, 10, 21, 8, NULL),  -- scratch start
+    (141, 14100, 28, 21, 8, NULL),  -- sand-attack start
+    (141, 14100, 71, 21, 8, NULL),  -- absorb start
+    (141, 14100, 106, 21, 8, NULL),  -- harden start
+    (141, 14100, 163, 21, 8, NULL),  -- slash start
+    (141, 14100, 364, 21, 8, NULL),  -- feint start
+    (141, 14100, 400, 21, 8, NULL),  -- night-slash start
+    (142, 14200, 48, 21, 1, 5),  -- supersonic lv5
+    (142, 14200, 17, 21, 1, 10),  -- wing-attack lv10
+    (142, 14200, 184, 21, 1, 15),  -- scary-face lv15
+    (142, 14200, 157, 21, 1, 20),  -- rock-slide lv20
+    (142, 14200, 46, 21, 1, 25),  -- roar lv25
+    (142, 14200, 242, 21, 1, 30),  -- crunch lv30
+    (142, 14200, 442, 21, 1, 35),  -- iron-head lv35
+    (142, 14200, 36, 21, 1, 40),  -- take-down lv40
+    (142, 14200, 444, 21, 1, 45),  -- stone-edge lv45
+    (142, 14200, 97, 21, 1, 50),  -- agility lv50
+    (142, 14200, 63, 21, 1, 55),  -- hyper-beam lv55
+    (142, 14200, 416, 21, 1, 60),  -- giga-impact lv60
     (142, 14200, 19, 21, 2, NULL),  -- fly tm
     (142, 14200, 46, 21, 2, NULL),  -- roar tm
     (142, 14200, 53, 21, 2, NULL),  -- flamethrower tm
     (142, 14200, 63, 21, 2, NULL),  -- hyper-beam tm
     (142, 14200, 70, 21, 2, NULL),  -- strength tm
     (142, 14200, 89, 21, 2, NULL),  -- earthquake tm
-    (142, 14200, 92, 21, 2, NULL),  -- toxic tm
     (142, 14200, 104, 21, 2, NULL),  -- double-team tm
     (142, 14200, 126, 21, 2, NULL),  -- fire-blast tm
     (142, 14200, 156, 21, 2, NULL),  -- rest tm
@@ -3181,62 +2314,47 @@ VALUES
     (142, 14200, 211, 21, 2, NULL),  -- steel-wing tm
     (142, 14200, 213, 21, 2, NULL),  -- attract tm
     (142, 14200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (142, 14200, 216, 21, 2, NULL),  -- return tm
-    (142, 14200, 218, 21, 2, NULL),  -- frustration tm
     (142, 14200, 231, 21, 2, NULL),  -- iron-tail tm
-    (142, 14200, 237, 21, 2, NULL),  -- hidden-power tm
     (142, 14200, 240, 21, 2, NULL),  -- rain-dance tm
     (142, 14200, 241, 21, 2, NULL),  -- sunny-day tm
     (142, 14200, 249, 21, 2, NULL),  -- rock-smash tm
     (142, 14200, 259, 21, 2, NULL),  -- torment tm
     (142, 14200, 263, 21, 2, NULL),  -- facade tm
     (142, 14200, 269, 21, 2, NULL),  -- taunt tm
-    (142, 14200, 290, 21, 2, NULL),  -- secret-power tm
     (142, 14200, 317, 21, 2, NULL),  -- rock-tomb tm
     (142, 14200, 332, 21, 2, NULL),  -- aerial-ace tm
     (142, 14200, 337, 21, 2, NULL),  -- dragon-claw tm
     (142, 14200, 355, 21, 2, NULL),  -- roost tm
-    (142, 14200, 363, 21, 2, NULL),  -- natural-gift tm
     (142, 14200, 371, 21, 2, NULL),  -- payback tm
     (142, 14200, 397, 21, 2, NULL),  -- rock-polish tm
     (142, 14200, 406, 21, 2, NULL),  -- dragon-pulse tm
     (142, 14200, 416, 21, 2, NULL),  -- giga-impact tm
     (142, 14200, 432, 21, 2, NULL),  -- defog tm
     (142, 14200, 444, 21, 2, NULL),  -- stone-edge tm
-    (142, 14200, 445, 21, 2, NULL),  -- captivate tm
     (142, 14200, 446, 21, 2, NULL),  -- stealth-rock tm
+    (142, 14200, 523, 21, 2, NULL),  -- bulldoze tm
     (142, 14200, 18, 21, 5, NULL),  -- whirlwind egg
     (142, 14200, 174, 21, 5, NULL),  -- curse egg
-    (142, 14200, 193, 21, 5, NULL),  -- foresight egg
-    (142, 14200, 211, 21, 5, NULL),  -- steel-wing egg
     (142, 14200, 225, 21, 5, NULL),  -- dragon-breath egg
-    (142, 14200, 228, 21, 5, NULL),  -- pursuit egg
+    (142, 14200, 366, 21, 5, NULL),  -- tailwind egg
     (142, 14200, 372, 21, 5, NULL),  -- assurance egg
-    (142, 14200, 129, 21, 6, NULL),  -- swift tutor
-    (142, 14200, 173, 21, 6, NULL),  -- snore tutor
-    (142, 14200, 239, 21, 6, NULL),  -- twister tutor
-    (142, 14200, 246, 21, 6, NULL),  -- ancient-power tutor
-    (142, 14200, 257, 21, 6, NULL),  -- heat-wave tutor
-    (142, 14200, 314, 21, 6, NULL),  -- air-cutter tutor
-    (142, 14200, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (142, 14200, 414, 21, 6, NULL),  -- earth-power tutor
-    (142, 14200, 442, 21, 6, NULL),  -- iron-head tutor
-    (142, 14200, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #143 Snorlax
-    (143, 14300, 33, 21, 1, 1),  -- tackle lv1
-    (143, 14300, 111, 21, 1, 4),  -- defense-curl lv4
-    (143, 14300, 133, 21, 1, 9),  -- amnesia lv9
-    (143, 14300, 122, 21, 1, 12),  -- lick lv12
-    (143, 14300, 187, 21, 1, 17),  -- belly-drum lv17
-    (143, 14300, 281, 21, 1, 20),  -- yawn lv20
-    (143, 14300, 156, 21, 1, 25),  -- rest lv25
-    (143, 14300, 173, 21, 1, 28),  -- snore lv28
-    (143, 14300, 214, 21, 1, 28),  -- sleep-talk lv28
-    (143, 14300, 34, 21, 1, 33),  -- body-slam lv33
-    (143, 14300, 335, 21, 1, 36),  -- block lv36
-    (143, 14300, 205, 21, 1, 41),  -- rollout lv41
-    (143, 14300, 242, 21, 1, 44),  -- crunch lv44
-    (143, 14300, 416, 21, 1, 49),  -- giga-impact lv49
+    (142, 14200, 469, 21, 5, NULL),  -- wide-guard egg
+    (142, 14200, 44, 21, 8, NULL),  -- bite start
+    (142, 14200, 246, 21, 8, NULL),  -- ancient-power start
+    (143, 14300, 281, 21, 1, 12),  -- yawn lv12
+    (143, 14300, 44, 21, 1, 16),  -- bite lv16
+    (143, 14300, 156, 21, 1, 20),  -- rest lv20
+    (143, 14300, 173, 21, 1, 20),  -- snore lv20
+    (143, 14300, 214, 21, 1, 20),  -- sleep-talk lv20
+    (143, 14300, 242, 21, 1, 24),  -- crunch lv24
+    (143, 14300, 34, 21, 1, 28),  -- body-slam lv28
+    (143, 14300, 484, 21, 1, 32),  -- heavy-slam lv32
+    (143, 14300, 133, 21, 1, 36),  -- amnesia lv36
+    (143, 14300, 667, 21, 1, 40),  -- high-horsepower lv40
+    (143, 14300, 359, 21, 1, 44),  -- hammer-arm lv44
+    (143, 14300, 187, 21, 1, 48),  -- belly-drum lv48
+    (143, 14300, 562, 21, 1, 52),  -- belch lv52
+    (143, 14300, 416, 21, 1, 56),  -- giga-impact lv56
     (143, 14300, 53, 21, 2, NULL),  -- flamethrower tm
     (143, 14300, 57, 21, 2, NULL),  -- surf tm
     (143, 14300, 58, 21, 2, NULL),  -- ice-beam tm
@@ -3247,7 +2365,6 @@ VALUES
     (143, 14300, 85, 21, 2, NULL),  -- thunderbolt tm
     (143, 14300, 87, 21, 2, NULL),  -- thunder tm
     (143, 14300, 89, 21, 2, NULL),  -- earthquake tm
-    (143, 14300, 92, 21, 2, NULL),  -- toxic tm
     (143, 14300, 94, 21, 2, NULL),  -- psychic tm
     (143, 14300, 104, 21, 2, NULL),  -- double-team tm
     (143, 14300, 126, 21, 2, NULL),  -- fire-blast tm
@@ -3260,9 +2377,6 @@ VALUES
     (143, 14300, 207, 21, 2, NULL),  -- swagger tm
     (143, 14300, 213, 21, 2, NULL),  -- attract tm
     (143, 14300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (143, 14300, 216, 21, 2, NULL),  -- return tm
-    (143, 14300, 218, 21, 2, NULL),  -- frustration tm
-    (143, 14300, 237, 21, 2, NULL),  -- hidden-power tm
     (143, 14300, 240, 21, 2, NULL),  -- rain-dance tm
     (143, 14300, 241, 21, 2, NULL),  -- sunny-day tm
     (143, 14300, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -3271,59 +2385,58 @@ VALUES
     (143, 14300, 264, 21, 2, NULL),  -- focus-punch tm
     (143, 14300, 278, 21, 2, NULL),  -- recycle tm
     (143, 14300, 280, 21, 2, NULL),  -- brick-break tm
-    (143, 14300, 290, 21, 2, NULL),  -- secret-power tm
     (143, 14300, 317, 21, 2, NULL),  -- rock-tomb tm
     (143, 14300, 351, 21, 2, NULL),  -- shock-wave tm
     (143, 14300, 352, 21, 2, NULL),  -- water-pulse tm
-    (143, 14300, 363, 21, 2, NULL),  -- natural-gift tm
     (143, 14300, 374, 21, 2, NULL),  -- fling tm
     (143, 14300, 411, 21, 2, NULL),  -- focus-blast tm
     (143, 14300, 416, 21, 2, NULL),  -- giga-impact tm
     (143, 14300, 431, 21, 2, NULL),  -- rock-climb tm
-    (143, 14300, 445, 21, 2, NULL),  -- captivate tm
+    (143, 14300, 523, 21, 2, NULL),  -- bulldoze tm
+    (143, 14300, 526, 21, 2, NULL),  -- work-up tm
     (143, 14300, 18, 21, 5, NULL),  -- whirlwind egg
     (143, 14300, 38, 21, 5, NULL),  -- double-edge egg
+    (143, 14300, 68, 21, 5, NULL),  -- counter egg
     (143, 14300, 90, 21, 5, NULL),  -- fissure egg
     (143, 14300, 122, 21, 5, NULL),  -- lick egg
-    (143, 14300, 164, 21, 5, NULL),  -- substitute egg
     (143, 14300, 174, 21, 5, NULL),  -- curse egg
     (143, 14300, 204, 21, 5, NULL),  -- charm egg
-    (143, 14300, 228, 21, 5, NULL),  -- pursuit egg
-    (143, 14300, 7, 21, 6, NULL),  -- fire-punch tutor
-    (143, 14300, 8, 21, 6, NULL),  -- ice-punch tutor
-    (143, 14300, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (143, 14300, 173, 21, 6, NULL),  -- snore tutor
-    (143, 14300, 189, 21, 6, NULL),  -- mud-slap tutor
-    (143, 14300, 196, 21, 6, NULL),  -- icy-wind tutor
-    (143, 14300, 200, 21, 6, NULL),  -- outrage tutor
-    (143, 14300, 205, 21, 6, NULL),  -- rollout tutor
-    (143, 14300, 276, 21, 6, NULL),  -- superpower tutor
-    (143, 14300, 387, 21, 6, NULL),  -- last-resort tutor
-    (143, 14300, 402, 21, 6, NULL),  -- seed-bomb tutor
-    (143, 14300, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (143, 14300, 441, 21, 6, NULL),  -- gunk-shot tutor
-    (143, 14300, 442, 21, 6, NULL),  -- iron-head tutor
-    -- #144 Articuno
-    (144, 14400, 16, 21, 1, 1),  -- gust lv1
-    (144, 14400, 181, 21, 1, 1),  -- powder-snow lv1
-    (144, 14400, 54, 21, 1, 8),  -- mist lv8
+    (143, 14300, 380, 21, 5, NULL),  -- gastro-acid egg
+    (143, 14300, 495, 21, 5, NULL),  -- after-you egg
+    (143, 14300, 562, 21, 5, NULL),  -- belch egg
+    (143, 14300, 612, 21, 5, NULL),  -- power-up-punch egg
+    (143, 14300, 33, 21, 8, NULL),  -- tackle start
+    (143, 14300, 103, 21, 8, NULL),  -- screech start
+    (143, 14300, 111, 21, 8, NULL),  -- defense-curl start
+    (143, 14300, 118, 21, 8, NULL),  -- metronome start
+    (143, 14300, 122, 21, 8, NULL),  -- lick start
+    (143, 14300, 175, 21, 8, NULL),  -- flail start
+    (143, 14300, 254, 21, 8, NULL),  -- stockpile start
+    (143, 14300, 256, 21, 8, NULL),  -- swallow start
+    (143, 14300, 278, 21, 8, NULL),  -- recycle start
+    (143, 14300, 335, 21, 8, NULL),  -- block start
+    (143, 14300, 343, 21, 8, NULL),  -- covet start
+    (143, 14300, 374, 21, 8, NULL),  -- fling start
+    (143, 14300, 387, 21, 8, NULL),  -- last-resort start
+    (144, 14400, 181, 21, 1, 5),  -- powder-snow lv5
+    (144, 14400, 115, 21, 1, 10),  -- reflect lv10
     (144, 14400, 420, 21, 1, 15),  -- ice-shard lv15
-    (144, 14400, 170, 21, 1, 22),  -- mind-reader lv22
-    (144, 14400, 246, 21, 1, 29),  -- ancient-power lv29
-    (144, 14400, 97, 21, 1, 36),  -- agility lv36
-    (144, 14400, 58, 21, 1, 43),  -- ice-beam lv43
-    (144, 14400, 115, 21, 1, 50),  -- reflect lv50
-    (144, 14400, 355, 21, 1, 57),  -- roost lv57
-    (144, 14400, 366, 21, 1, 64),  -- tailwind lv64
-    (144, 14400, 59, 21, 1, 71),  -- blizzard lv71
-    (144, 14400, 329, 21, 1, 78),  -- sheer-cold lv78
-    (144, 14400, 258, 21, 1, 85),  -- hail lv85
+    (144, 14400, 97, 21, 1, 20),  -- agility lv20
+    (144, 14400, 246, 21, 1, 25),  -- ancient-power lv25
+    (144, 14400, 366, 21, 1, 30),  -- tailwind lv30
+    (144, 14400, 573, 21, 1, 35),  -- freeze-dry lv35
+    (144, 14400, 355, 21, 1, 40),  -- roost lv40
+    (144, 14400, 58, 21, 1, 45),  -- ice-beam lv45
+    (144, 14400, 258, 21, 1, 50),  -- hail lv50
+    (144, 14400, 542, 21, 1, 55),  -- hurricane lv55
+    (144, 14400, 170, 21, 1, 60),  -- mind-reader lv60
+    (144, 14400, 59, 21, 1, 65),  -- blizzard lv65
+    (144, 14400, 329, 21, 1, 70),  -- sheer-cold lv70
     (144, 14400, 19, 21, 2, NULL),  -- fly tm
     (144, 14400, 46, 21, 2, NULL),  -- roar tm
     (144, 14400, 58, 21, 2, NULL),  -- ice-beam tm
     (144, 14400, 59, 21, 2, NULL),  -- blizzard tm
     (144, 14400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (144, 14400, 92, 21, 2, NULL),  -- toxic tm
     (144, 14400, 104, 21, 2, NULL),  -- double-team tm
     (144, 14400, 115, 21, 2, NULL),  -- reflect tm
     (144, 14400, 156, 21, 2, NULL),  -- rest tm
@@ -3334,55 +2447,41 @@ VALUES
     (144, 14400, 207, 21, 2, NULL),  -- swagger tm
     (144, 14400, 211, 21, 2, NULL),  -- steel-wing tm
     (144, 14400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (144, 14400, 216, 21, 2, NULL),  -- return tm
-    (144, 14400, 218, 21, 2, NULL),  -- frustration tm
-    (144, 14400, 237, 21, 2, NULL),  -- hidden-power tm
     (144, 14400, 240, 21, 2, NULL),  -- rain-dance tm
     (144, 14400, 241, 21, 2, NULL),  -- sunny-day tm
     (144, 14400, 249, 21, 2, NULL),  -- rock-smash tm
     (144, 14400, 258, 21, 2, NULL),  -- hail tm
     (144, 14400, 263, 21, 2, NULL),  -- facade tm
-    (144, 14400, 290, 21, 2, NULL),  -- secret-power tm
     (144, 14400, 332, 21, 2, NULL),  -- aerial-ace tm
     (144, 14400, 352, 21, 2, NULL),  -- water-pulse tm
     (144, 14400, 355, 21, 2, NULL),  -- roost tm
-    (144, 14400, 363, 21, 2, NULL),  -- natural-gift tm
     (144, 14400, 365, 21, 2, NULL),  -- pluck tm
     (144, 14400, 369, 21, 2, NULL),  -- u-turn tm
     (144, 14400, 416, 21, 2, NULL),  -- giga-impact tm
     (144, 14400, 419, 21, 2, NULL),  -- avalanche tm
     (144, 14400, 432, 21, 2, NULL),  -- defog tm
-    (144, 14400, 129, 21, 6, NULL),  -- swift tutor
-    (144, 14400, 173, 21, 6, NULL),  -- snore tutor
-    (144, 14400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (144, 14400, 196, 21, 6, NULL),  -- icy-wind tutor
-    (144, 14400, 239, 21, 6, NULL),  -- twister tutor
-    (144, 14400, 246, 21, 6, NULL),  -- ancient-power tutor
-    (144, 14400, 314, 21, 6, NULL),  -- air-cutter tutor
-    (144, 14400, 324, 21, 6, NULL),  -- signal-beam tutor
-    (144, 14400, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #145 Zapdos
-    (145, 14500, 64, 21, 1, 1),  -- peck lv1
-    (145, 14500, 84, 21, 1, 1),  -- thunder-shock lv1
-    (145, 14500, 86, 21, 1, 8),  -- thunder-wave lv8
-    (145, 14500, 197, 21, 1, 15),  -- detect lv15
-    (145, 14500, 365, 21, 1, 22),  -- pluck lv22
-    (145, 14500, 246, 21, 1, 29),  -- ancient-power lv29
-    (145, 14500, 268, 21, 1, 36),  -- charge lv36
-    (145, 14500, 97, 21, 1, 43),  -- agility lv43
-    (145, 14500, 435, 21, 1, 50),  -- discharge lv50
-    (145, 14500, 355, 21, 1, 57),  -- roost lv57
-    (145, 14500, 113, 21, 1, 64),  -- light-screen lv64
-    (145, 14500, 65, 21, 1, 71),  -- drill-peck lv71
-    (145, 14500, 87, 21, 1, 78),  -- thunder lv78
-    (145, 14500, 240, 21, 1, 85),  -- rain-dance lv85
+    (144, 14400, 16, 21, 8, NULL),  -- gust start
+    (144, 14400, 54, 21, 8, NULL),  -- mist start
+    (145, 14500, 84, 21, 1, 5),  -- thunder-shock lv5
+    (145, 14500, 113, 21, 1, 10),  -- light-screen lv10
+    (145, 14500, 365, 21, 1, 15),  -- pluck lv15
+    (145, 14500, 97, 21, 1, 20),  -- agility lv20
+    (145, 14500, 246, 21, 1, 25),  -- ancient-power lv25
+    (145, 14500, 268, 21, 1, 30),  -- charge lv30
+    (145, 14500, 65, 21, 1, 35),  -- drill-peck lv35
+    (145, 14500, 355, 21, 1, 40),  -- roost lv40
+    (145, 14500, 435, 21, 1, 45),  -- discharge lv45
+    (145, 14500, 240, 21, 1, 50),  -- rain-dance lv50
+    (145, 14500, 87, 21, 1, 55),  -- thunder lv55
+    (145, 14500, 197, 21, 1, 60),  -- detect lv60
+    (145, 14500, 602, 21, 1, 65),  -- magnetic-flux lv65
+    (145, 14500, 192, 21, 1, 70),  -- zap-cannon lv70
     (145, 14500, 19, 21, 2, NULL),  -- fly tm
     (145, 14500, 46, 21, 2, NULL),  -- roar tm
     (145, 14500, 63, 21, 2, NULL),  -- hyper-beam tm
     (145, 14500, 85, 21, 2, NULL),  -- thunderbolt tm
     (145, 14500, 86, 21, 2, NULL),  -- thunder-wave tm
     (145, 14500, 87, 21, 2, NULL),  -- thunder tm
-    (145, 14500, 92, 21, 2, NULL),  -- toxic tm
     (145, 14500, 104, 21, 2, NULL),  -- double-team tm
     (145, 14500, 113, 21, 2, NULL),  -- light-screen tm
     (145, 14500, 148, 21, 2, NULL),  -- flash tm
@@ -3394,53 +2493,41 @@ VALUES
     (145, 14500, 207, 21, 2, NULL),  -- swagger tm
     (145, 14500, 211, 21, 2, NULL),  -- steel-wing tm
     (145, 14500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (145, 14500, 216, 21, 2, NULL),  -- return tm
-    (145, 14500, 218, 21, 2, NULL),  -- frustration tm
-    (145, 14500, 237, 21, 2, NULL),  -- hidden-power tm
     (145, 14500, 240, 21, 2, NULL),  -- rain-dance tm
     (145, 14500, 241, 21, 2, NULL),  -- sunny-day tm
     (145, 14500, 249, 21, 2, NULL),  -- rock-smash tm
+    (145, 14500, 258, 21, 2, NULL),  -- hail tm
     (145, 14500, 263, 21, 2, NULL),  -- facade tm
-    (145, 14500, 290, 21, 2, NULL),  -- secret-power tm
     (145, 14500, 332, 21, 2, NULL),  -- aerial-ace tm
     (145, 14500, 351, 21, 2, NULL),  -- shock-wave tm
     (145, 14500, 355, 21, 2, NULL),  -- roost tm
-    (145, 14500, 363, 21, 2, NULL),  -- natural-gift tm
     (145, 14500, 365, 21, 2, NULL),  -- pluck tm
     (145, 14500, 369, 21, 2, NULL),  -- u-turn tm
     (145, 14500, 416, 21, 2, NULL),  -- giga-impact tm
     (145, 14500, 432, 21, 2, NULL),  -- defog tm
     (145, 14500, 451, 21, 2, NULL),  -- charge-beam tm
-    (145, 14500, 129, 21, 6, NULL),  -- swift tutor
-    (145, 14500, 173, 21, 6, NULL),  -- snore tutor
-    (145, 14500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (145, 14500, 239, 21, 6, NULL),  -- twister tutor
-    (145, 14500, 246, 21, 6, NULL),  -- ancient-power tutor
-    (145, 14500, 257, 21, 6, NULL),  -- heat-wave tutor
-    (145, 14500, 314, 21, 6, NULL),  -- air-cutter tutor
-    (145, 14500, 324, 21, 6, NULL),  -- signal-beam tutor
-    (145, 14500, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #146 Moltres
-    (146, 14600, 17, 21, 1, 1),  -- wing-attack lv1
-    (146, 14600, 52, 21, 1, 1),  -- ember lv1
-    (146, 14600, 83, 21, 1, 8),  -- fire-spin lv8
-    (146, 14600, 97, 21, 1, 15),  -- agility lv15
-    (146, 14600, 203, 21, 1, 22),  -- endure lv22
-    (146, 14600, 246, 21, 1, 29),  -- ancient-power lv29
-    (146, 14600, 53, 21, 1, 36),  -- flamethrower lv36
-    (146, 14600, 219, 21, 1, 43),  -- safeguard lv43
-    (146, 14600, 403, 21, 1, 50),  -- air-slash lv50
-    (146, 14600, 355, 21, 1, 57),  -- roost lv57
-    (146, 14600, 257, 21, 1, 64),  -- heat-wave lv64
-    (146, 14600, 76, 21, 1, 71),  -- solar-beam lv71
-    (146, 14600, 143, 21, 1, 78),  -- sky-attack lv78
-    (146, 14600, 241, 21, 1, 85),  -- sunny-day lv85
+    (145, 14500, 521, 21, 2, NULL),  -- volt-switch tm
+    (145, 14500, 64, 21, 8, NULL),  -- peck start
+    (145, 14500, 86, 21, 8, NULL),  -- thunder-wave start
+    (146, 14600, 52, 21, 1, 5),  -- ember lv5
+    (146, 14600, 219, 21, 1, 10),  -- safeguard lv10
+    (146, 14600, 17, 21, 1, 15),  -- wing-attack lv15
+    (146, 14600, 97, 21, 1, 20),  -- agility lv20
+    (146, 14600, 246, 21, 1, 25),  -- ancient-power lv25
+    (146, 14600, 510, 21, 1, 30),  -- incinerate lv30
+    (146, 14600, 403, 21, 1, 35),  -- air-slash lv35
+    (146, 14600, 355, 21, 1, 40),  -- roost lv40
+    (146, 14600, 257, 21, 1, 45),  -- heat-wave lv45
+    (146, 14600, 241, 21, 1, 50),  -- sunny-day lv50
+    (146, 14600, 542, 21, 1, 55),  -- hurricane lv55
+    (146, 14600, 203, 21, 1, 60),  -- endure lv60
+    (146, 14600, 682, 21, 1, 65),  -- burn-up lv65
+    (146, 14600, 143, 21, 1, 70),  -- sky-attack lv70
     (146, 14600, 19, 21, 2, NULL),  -- fly tm
     (146, 14600, 46, 21, 2, NULL),  -- roar tm
     (146, 14600, 53, 21, 2, NULL),  -- flamethrower tm
     (146, 14600, 63, 21, 2, NULL),  -- hyper-beam tm
     (146, 14600, 76, 21, 2, NULL),  -- solar-beam tm
-    (146, 14600, 92, 21, 2, NULL),  -- toxic tm
     (146, 14600, 104, 21, 2, NULL),  -- double-team tm
     (146, 14600, 126, 21, 2, NULL),  -- fire-blast tm
     (146, 14600, 156, 21, 2, NULL),  -- rest tm
@@ -3451,46 +2538,33 @@ VALUES
     (146, 14600, 207, 21, 2, NULL),  -- swagger tm
     (146, 14600, 211, 21, 2, NULL),  -- steel-wing tm
     (146, 14600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (146, 14600, 216, 21, 2, NULL),  -- return tm
-    (146, 14600, 218, 21, 2, NULL),  -- frustration tm
     (146, 14600, 219, 21, 2, NULL),  -- safeguard tm
-    (146, 14600, 237, 21, 2, NULL),  -- hidden-power tm
     (146, 14600, 240, 21, 2, NULL),  -- rain-dance tm
     (146, 14600, 241, 21, 2, NULL),  -- sunny-day tm
     (146, 14600, 249, 21, 2, NULL),  -- rock-smash tm
     (146, 14600, 261, 21, 2, NULL),  -- will-o-wisp tm
     (146, 14600, 263, 21, 2, NULL),  -- facade tm
-    (146, 14600, 290, 21, 2, NULL),  -- secret-power tm
     (146, 14600, 315, 21, 2, NULL),  -- overheat tm
     (146, 14600, 332, 21, 2, NULL),  -- aerial-ace tm
     (146, 14600, 355, 21, 2, NULL),  -- roost tm
-    (146, 14600, 363, 21, 2, NULL),  -- natural-gift tm
     (146, 14600, 365, 21, 2, NULL),  -- pluck tm
     (146, 14600, 369, 21, 2, NULL),  -- u-turn tm
     (146, 14600, 416, 21, 2, NULL),  -- giga-impact tm
     (146, 14600, 432, 21, 2, NULL),  -- defog tm
-    (146, 14600, 129, 21, 6, NULL),  -- swift tutor
-    (146, 14600, 173, 21, 6, NULL),  -- snore tutor
-    (146, 14600, 189, 21, 6, NULL),  -- mud-slap tutor
-    (146, 14600, 239, 21, 6, NULL),  -- twister tutor
-    (146, 14600, 246, 21, 6, NULL),  -- ancient-power tutor
-    (146, 14600, 257, 21, 6, NULL),  -- heat-wave tutor
-    (146, 14600, 314, 21, 6, NULL),  -- air-cutter tutor
-    (146, 14600, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #147 Dratini
-    (147, 14700, 35, 21, 1, 1),  -- wrap lv1
-    (147, 14700, 43, 21, 1, 1),  -- leer lv1
-    (147, 14700, 86, 21, 1, 5),  -- thunder-wave lv5
-    (147, 14700, 239, 21, 1, 11),  -- twister lv11
-    (147, 14700, 82, 21, 1, 15),  -- dragon-rage lv15
-    (147, 14700, 21, 21, 1, 21),  -- slam lv21
-    (147, 14700, 97, 21, 1, 25),  -- agility lv25
+    (146, 14600, 16, 21, 8, NULL),  -- gust start
+    (146, 14600, 43, 21, 8, NULL),  -- leer start
+    (147, 14700, 239, 21, 1, 5),  -- twister lv5
+    (147, 14700, 86, 21, 1, 10),  -- thunder-wave lv10
+    (147, 14700, 525, 21, 1, 15),  -- dragon-tail lv15
+    (147, 14700, 97, 21, 1, 20),  -- agility lv20
+    (147, 14700, 21, 21, 1, 25),  -- slam lv25
     (147, 14700, 401, 21, 1, 31),  -- aqua-tail lv31
     (147, 14700, 407, 21, 1, 35),  -- dragon-rush lv35
-    (147, 14700, 219, 21, 1, 41),  -- safeguard lv41
-    (147, 14700, 349, 21, 1, 45),  -- dragon-dance lv45
-    (147, 14700, 200, 21, 1, 51),  -- outrage lv51
-    (147, 14700, 63, 21, 1, 55),  -- hyper-beam lv55
+    (147, 14700, 219, 21, 1, 40),  -- safeguard lv40
+    (147, 14700, 240, 21, 1, 45),  -- rain-dance lv45
+    (147, 14700, 349, 21, 1, 50),  -- dragon-dance lv50
+    (147, 14700, 200, 21, 1, 55),  -- outrage lv55
+    (147, 14700, 63, 21, 1, 60),  -- hyper-beam lv60
     (147, 14700, 53, 21, 2, NULL),  -- flamethrower tm
     (147, 14700, 57, 21, 2, NULL),  -- surf tm
     (147, 14700, 58, 21, 2, NULL),  -- ice-beam tm
@@ -3499,8 +2573,8 @@ VALUES
     (147, 14700, 85, 21, 2, NULL),  -- thunderbolt tm
     (147, 14700, 86, 21, 2, NULL),  -- thunder-wave tm
     (147, 14700, 87, 21, 2, NULL),  -- thunder tm
-    (147, 14700, 92, 21, 2, NULL),  -- toxic tm
     (147, 14700, 104, 21, 2, NULL),  -- double-team tm
+    (147, 14700, 113, 21, 2, NULL),  -- light-screen tm
     (147, 14700, 126, 21, 2, NULL),  -- fire-blast tm
     (147, 14700, 127, 21, 2, NULL),  -- waterfall tm
     (147, 14700, 156, 21, 2, NULL),  -- rest tm
@@ -3510,49 +2584,36 @@ VALUES
     (147, 14700, 207, 21, 2, NULL),  -- swagger tm
     (147, 14700, 213, 21, 2, NULL),  -- attract tm
     (147, 14700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (147, 14700, 216, 21, 2, NULL),  -- return tm
-    (147, 14700, 218, 21, 2, NULL),  -- frustration tm
     (147, 14700, 219, 21, 2, NULL),  -- safeguard tm
     (147, 14700, 231, 21, 2, NULL),  -- iron-tail tm
-    (147, 14700, 237, 21, 2, NULL),  -- hidden-power tm
     (147, 14700, 240, 21, 2, NULL),  -- rain-dance tm
     (147, 14700, 241, 21, 2, NULL),  -- sunny-day tm
     (147, 14700, 258, 21, 2, NULL),  -- hail tm
     (147, 14700, 263, 21, 2, NULL),  -- facade tm
-    (147, 14700, 290, 21, 2, NULL),  -- secret-power tm
     (147, 14700, 351, 21, 2, NULL),  -- shock-wave tm
     (147, 14700, 352, 21, 2, NULL),  -- water-pulse tm
-    (147, 14700, 363, 21, 2, NULL),  -- natural-gift tm
     (147, 14700, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (147, 14700, 445, 21, 2, NULL),  -- captivate tm
+    (147, 14700, 416, 21, 2, NULL),  -- giga-impact tm
     (147, 14700, 48, 21, 5, NULL),  -- supersonic egg
     (147, 14700, 54, 21, 5, NULL),  -- mist egg
-    (147, 14700, 113, 21, 5, NULL),  -- light-screen egg
     (147, 14700, 114, 21, 5, NULL),  -- haze egg
     (147, 14700, 225, 21, 5, NULL),  -- dragon-breath egg
+    (147, 14700, 245, 21, 5, NULL),  -- extreme-speed egg
     (147, 14700, 349, 21, 5, NULL),  -- dragon-dance egg
     (147, 14700, 407, 21, 5, NULL),  -- dragon-rush egg
-    (147, 14700, 129, 21, 6, NULL),  -- swift tutor
-    (147, 14700, 173, 21, 6, NULL),  -- snore tutor
-    (147, 14700, 196, 21, 6, NULL),  -- icy-wind tutor
-    (147, 14700, 200, 21, 6, NULL),  -- outrage tutor
-    (147, 14700, 239, 21, 6, NULL),  -- twister tutor
-    (147, 14700, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (147, 14700, 434, 21, 6, NULL),  -- draco-meteor tutor
-    -- #148 Dragonair
-    (148, 14800, 35, 21, 1, 1),  -- wrap lv1
-    (148, 14800, 43, 21, 1, 1),  -- leer lv1
-    (148, 14800, 86, 21, 1, 1),  -- thunder-wave lv1
-    (148, 14800, 239, 21, 1, 1),  -- twister lv1
-    (148, 14800, 82, 21, 1, 15),  -- dragon-rage lv15
-    (148, 14800, 21, 21, 1, 21),  -- slam lv21
-    (148, 14800, 97, 21, 1, 25),  -- agility lv25
+    (147, 14700, 453, 21, 5, NULL),  -- aqua-jet egg
+    (147, 14700, 35, 21, 8, NULL),  -- wrap start
+    (147, 14700, 43, 21, 8, NULL),  -- leer start
+    (148, 14800, 525, 21, 1, 15),  -- dragon-tail lv15
+    (148, 14800, 97, 21, 1, 20),  -- agility lv20
+    (148, 14800, 21, 21, 1, 25),  -- slam lv25
     (148, 14800, 401, 21, 1, 33),  -- aqua-tail lv33
     (148, 14800, 407, 21, 1, 39),  -- dragon-rush lv39
-    (148, 14800, 219, 21, 1, 47),  -- safeguard lv47
-    (148, 14800, 349, 21, 1, 53),  -- dragon-dance lv53
-    (148, 14800, 200, 21, 1, 61),  -- outrage lv61
-    (148, 14800, 63, 21, 1, 67),  -- hyper-beam lv67
+    (148, 14800, 219, 21, 1, 46),  -- safeguard lv46
+    (148, 14800, 240, 21, 1, 53),  -- rain-dance lv53
+    (148, 14800, 349, 21, 1, 60),  -- dragon-dance lv60
+    (148, 14800, 200, 21, 1, 67),  -- outrage lv67
+    (148, 14800, 63, 21, 1, 74),  -- hyper-beam lv74
     (148, 14800, 53, 21, 2, NULL),  -- flamethrower tm
     (148, 14800, 57, 21, 2, NULL),  -- surf tm
     (148, 14800, 58, 21, 2, NULL),  -- ice-beam tm
@@ -3561,8 +2622,8 @@ VALUES
     (148, 14800, 85, 21, 2, NULL),  -- thunderbolt tm
     (148, 14800, 86, 21, 2, NULL),  -- thunder-wave tm
     (148, 14800, 87, 21, 2, NULL),  -- thunder tm
-    (148, 14800, 92, 21, 2, NULL),  -- toxic tm
     (148, 14800, 104, 21, 2, NULL),  -- double-team tm
+    (148, 14800, 113, 21, 2, NULL),  -- light-screen tm
     (148, 14800, 126, 21, 2, NULL),  -- fire-blast tm
     (148, 14800, 127, 21, 2, NULL),  -- waterfall tm
     (148, 14800, 156, 21, 2, NULL),  -- rest tm
@@ -3572,46 +2633,38 @@ VALUES
     (148, 14800, 207, 21, 2, NULL),  -- swagger tm
     (148, 14800, 213, 21, 2, NULL),  -- attract tm
     (148, 14800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (148, 14800, 216, 21, 2, NULL),  -- return tm
-    (148, 14800, 218, 21, 2, NULL),  -- frustration tm
     (148, 14800, 219, 21, 2, NULL),  -- safeguard tm
     (148, 14800, 231, 21, 2, NULL),  -- iron-tail tm
-    (148, 14800, 237, 21, 2, NULL),  -- hidden-power tm
     (148, 14800, 240, 21, 2, NULL),  -- rain-dance tm
     (148, 14800, 241, 21, 2, NULL),  -- sunny-day tm
     (148, 14800, 258, 21, 2, NULL),  -- hail tm
     (148, 14800, 263, 21, 2, NULL),  -- facade tm
-    (148, 14800, 290, 21, 2, NULL),  -- secret-power tm
     (148, 14800, 351, 21, 2, NULL),  -- shock-wave tm
     (148, 14800, 352, 21, 2, NULL),  -- water-pulse tm
-    (148, 14800, 363, 21, 2, NULL),  -- natural-gift tm
     (148, 14800, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (148, 14800, 445, 21, 2, NULL),  -- captivate tm
-    (148, 14800, 129, 21, 6, NULL),  -- swift tutor
-    (148, 14800, 173, 21, 6, NULL),  -- snore tutor
-    (148, 14800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (148, 14800, 200, 21, 6, NULL),  -- outrage tutor
-    (148, 14800, 239, 21, 6, NULL),  -- twister tutor
-    (148, 14800, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (148, 14800, 434, 21, 6, NULL),  -- draco-meteor tutor
-    -- #149 Dragonite
-    (149, 14900, 7, 21, 1, 1),  -- fire-punch lv1
-    (149, 14900, 9, 21, 1, 1),  -- thunder-punch lv1
-    (149, 14900, 35, 21, 1, 1),  -- wrap lv1
-    (149, 14900, 43, 21, 1, 1),  -- leer lv1
-    (149, 14900, 86, 21, 1, 1),  -- thunder-wave lv1
-    (149, 14900, 239, 21, 1, 1),  -- twister lv1
-    (149, 14900, 355, 21, 1, 1),  -- roost lv1
-    (149, 14900, 82, 21, 1, 15),  -- dragon-rage lv15
-    (149, 14900, 21, 21, 1, 21),  -- slam lv21
-    (149, 14900, 97, 21, 1, 25),  -- agility lv25
+    (148, 14800, 416, 21, 2, NULL),  -- giga-impact tm
+    (148, 14800, 48, 21, 5, NULL),  -- supersonic egg
+    (148, 14800, 54, 21, 5, NULL),  -- mist egg
+    (148, 14800, 114, 21, 5, NULL),  -- haze egg
+    (148, 14800, 225, 21, 5, NULL),  -- dragon-breath egg
+    (148, 14800, 245, 21, 5, NULL),  -- extreme-speed egg
+    (148, 14800, 349, 21, 5, NULL),  -- dragon-dance egg
+    (148, 14800, 407, 21, 5, NULL),  -- dragon-rush egg
+    (148, 14800, 453, 21, 5, NULL),  -- aqua-jet egg
+    (148, 14800, 35, 21, 8, NULL),  -- wrap start
+    (148, 14800, 43, 21, 8, NULL),  -- leer start
+    (148, 14800, 86, 21, 8, NULL),  -- thunder-wave start
+    (148, 14800, 239, 21, 8, NULL),  -- twister start
+    (149, 14900, 525, 21, 1, 15),  -- dragon-tail lv15
+    (149, 14900, 97, 21, 1, 20),  -- agility lv20
+    (149, 14900, 21, 21, 1, 25),  -- slam lv25
     (149, 14900, 401, 21, 1, 33),  -- aqua-tail lv33
     (149, 14900, 407, 21, 1, 39),  -- dragon-rush lv39
-    (149, 14900, 219, 21, 1, 47),  -- safeguard lv47
-    (149, 14900, 349, 21, 1, 53),  -- dragon-dance lv53
-    (149, 14900, 17, 21, 1, 55),  -- wing-attack lv55
-    (149, 14900, 200, 21, 1, 64),  -- outrage lv64
-    (149, 14900, 63, 21, 1, 73),  -- hyper-beam lv73
+    (149, 14900, 200, 21, 1, 41),  -- outrage lv41
+    (149, 14900, 219, 21, 1, 46),  -- safeguard lv46
+    (149, 14900, 240, 21, 1, 53),  -- rain-dance lv53
+    (149, 14900, 349, 21, 1, 62),  -- dragon-dance lv62
+    (149, 14900, 63, 21, 1, 80),  -- hyper-beam lv80
     (149, 14900, 15, 21, 2, NULL),  -- cut tm
     (149, 14900, 19, 21, 2, NULL),  -- fly tm
     (149, 14900, 46, 21, 2, NULL),  -- roar tm
@@ -3625,8 +2678,8 @@ VALUES
     (149, 14900, 86, 21, 2, NULL),  -- thunder-wave tm
     (149, 14900, 87, 21, 2, NULL),  -- thunder tm
     (149, 14900, 89, 21, 2, NULL),  -- earthquake tm
-    (149, 14900, 92, 21, 2, NULL),  -- toxic tm
     (149, 14900, 104, 21, 2, NULL),  -- double-team tm
+    (149, 14900, 113, 21, 2, NULL),  -- light-screen tm
     (149, 14900, 126, 21, 2, NULL),  -- fire-blast tm
     (149, 14900, 127, 21, 2, NULL),  -- waterfall tm
     (149, 14900, 156, 21, 2, NULL),  -- rest tm
@@ -3639,11 +2692,8 @@ VALUES
     (149, 14900, 211, 21, 2, NULL),  -- steel-wing tm
     (149, 14900, 213, 21, 2, NULL),  -- attract tm
     (149, 14900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (149, 14900, 216, 21, 2, NULL),  -- return tm
-    (149, 14900, 218, 21, 2, NULL),  -- frustration tm
     (149, 14900, 219, 21, 2, NULL),  -- safeguard tm
     (149, 14900, 231, 21, 2, NULL),  -- iron-tail tm
-    (149, 14900, 237, 21, 2, NULL),  -- hidden-power tm
     (149, 14900, 240, 21, 2, NULL),  -- rain-dance tm
     (149, 14900, 241, 21, 2, NULL),  -- sunny-day tm
     (149, 14900, 249, 21, 2, NULL),  -- rock-smash tm
@@ -3651,57 +2701,49 @@ VALUES
     (149, 14900, 263, 21, 2, NULL),  -- facade tm
     (149, 14900, 264, 21, 2, NULL),  -- focus-punch tm
     (149, 14900, 280, 21, 2, NULL),  -- brick-break tm
-    (149, 14900, 290, 21, 2, NULL),  -- secret-power tm
     (149, 14900, 317, 21, 2, NULL),  -- rock-tomb tm
     (149, 14900, 332, 21, 2, NULL),  -- aerial-ace tm
     (149, 14900, 337, 21, 2, NULL),  -- dragon-claw tm
     (149, 14900, 351, 21, 2, NULL),  -- shock-wave tm
     (149, 14900, 352, 21, 2, NULL),  -- water-pulse tm
     (149, 14900, 355, 21, 2, NULL),  -- roost tm
-    (149, 14900, 363, 21, 2, NULL),  -- natural-gift tm
     (149, 14900, 374, 21, 2, NULL),  -- fling tm
     (149, 14900, 406, 21, 2, NULL),  -- dragon-pulse tm
     (149, 14900, 411, 21, 2, NULL),  -- focus-blast tm
     (149, 14900, 416, 21, 2, NULL),  -- giga-impact tm
     (149, 14900, 432, 21, 2, NULL),  -- defog tm
     (149, 14900, 444, 21, 2, NULL),  -- stone-edge tm
-    (149, 14900, 445, 21, 2, NULL),  -- captivate tm
-    (149, 14900, 7, 21, 6, NULL),  -- fire-punch tutor
-    (149, 14900, 8, 21, 6, NULL),  -- ice-punch tutor
-    (149, 14900, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (149, 14900, 129, 21, 6, NULL),  -- swift tutor
-    (149, 14900, 173, 21, 6, NULL),  -- snore tutor
-    (149, 14900, 189, 21, 6, NULL),  -- mud-slap tutor
-    (149, 14900, 196, 21, 6, NULL),  -- icy-wind tutor
-    (149, 14900, 200, 21, 6, NULL),  -- outrage tutor
-    (149, 14900, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (149, 14900, 239, 21, 6, NULL),  -- twister tutor
-    (149, 14900, 257, 21, 6, NULL),  -- heat-wave tutor
-    (149, 14900, 276, 21, 6, NULL),  -- superpower tutor
-    (149, 14900, 291, 21, 6, NULL),  -- dive tutor
-    (149, 14900, 314, 21, 6, NULL),  -- air-cutter tutor
-    (149, 14900, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (149, 14900, 434, 21, 6, NULL),  -- draco-meteor tutor
-    (149, 14900, 442, 21, 6, NULL),  -- iron-head tutor
-    (149, 14900, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #150 Mewtwo
-    (150, 15000, 50, 21, 1, 1),  -- disable lv1
-    (150, 15000, 93, 21, 1, 1),  -- confusion lv1
-    (150, 15000, 112, 21, 1, 8),  -- barrier lv8
-    (150, 15000, 129, 21, 1, 15),  -- swift lv15
-    (150, 15000, 248, 21, 1, 22),  -- future-sight lv22
-    (150, 15000, 244, 21, 1, 29),  -- psych-up lv29
-    (150, 15000, 357, 21, 1, 36),  -- miracle-eye lv36
-    (150, 15000, 54, 21, 1, 43),  -- mist lv43
-    (150, 15000, 427, 21, 1, 50),  -- psycho-cut lv50
-    (150, 15000, 133, 21, 1, 57),  -- amnesia lv57
-    (150, 15000, 384, 21, 1, 64),  -- power-swap lv64
-    (150, 15000, 385, 21, 1, 64),  -- guard-swap lv64
-    (150, 15000, 94, 21, 1, 71),  -- psychic lv71
-    (150, 15000, 382, 21, 1, 79),  -- me-first lv79
-    (150, 15000, 105, 21, 1, 86),  -- recover lv86
-    (150, 15000, 219, 21, 1, 93),  -- safeguard lv93
-    (150, 15000, 396, 21, 1, 100),  -- aura-sphere lv100
+    (149, 14900, 523, 21, 2, NULL),  -- bulldoze tm
+    (149, 14900, 48, 21, 5, NULL),  -- supersonic egg
+    (149, 14900, 54, 21, 5, NULL),  -- mist egg
+    (149, 14900, 114, 21, 5, NULL),  -- haze egg
+    (149, 14900, 225, 21, 5, NULL),  -- dragon-breath egg
+    (149, 14900, 245, 21, 5, NULL),  -- extreme-speed egg
+    (149, 14900, 349, 21, 5, NULL),  -- dragon-dance egg
+    (149, 14900, 407, 21, 5, NULL),  -- dragon-rush egg
+    (149, 14900, 453, 21, 5, NULL),  -- aqua-jet egg
+    (149, 14900, 7, 21, 8, NULL),  -- fire-punch start
+    (149, 14900, 9, 21, 8, NULL),  -- thunder-punch start
+    (149, 14900, 17, 21, 8, NULL),  -- wing-attack start
+    (149, 14900, 35, 21, 8, NULL),  -- wrap start
+    (149, 14900, 43, 21, 8, NULL),  -- leer start
+    (149, 14900, 86, 21, 8, NULL),  -- thunder-wave start
+    (149, 14900, 239, 21, 8, NULL),  -- twister start
+    (149, 14900, 245, 21, 8, NULL),  -- extreme-speed start
+    (149, 14900, 355, 21, 8, NULL),  -- roost start
+    (149, 14900, 542, 21, 8, NULL),  -- hurricane start
+    (150, 15000, 246, 21, 1, 8),  -- ancient-power lv8
+    (150, 15000, 427, 21, 1, 16),  -- psycho-cut lv16
+    (150, 15000, 219, 21, 1, 24),  -- safeguard lv24
+    (150, 15000, 133, 21, 1, 32),  -- amnesia lv32
+    (150, 15000, 396, 21, 1, 40),  -- aura-sphere lv40
+    (150, 15000, 94, 21, 1, 48),  -- psychic lv48
+    (150, 15000, 384, 21, 1, 56),  -- power-swap lv56
+    (150, 15000, 385, 21, 1, 56),  -- guard-swap lv56
+    (150, 15000, 54, 21, 1, 64),  -- mist lv64
+    (150, 15000, 540, 21, 1, 72),  -- psystrike lv72
+    (150, 15000, 105, 21, 1, 80),  -- recover lv80
+    (150, 15000, 248, 21, 1, 88),  -- future-sight lv88
     (150, 15000, 53, 21, 2, NULL),  -- flamethrower tm
     (150, 15000, 58, 21, 2, NULL),  -- ice-beam tm
     (150, 15000, 59, 21, 2, NULL),  -- blizzard tm
@@ -3712,7 +2754,6 @@ VALUES
     (150, 15000, 86, 21, 2, NULL),  -- thunder-wave tm
     (150, 15000, 87, 21, 2, NULL),  -- thunder tm
     (150, 15000, 89, 21, 2, NULL),  -- earthquake tm
-    (150, 15000, 92, 21, 2, NULL),  -- toxic tm
     (150, 15000, 94, 21, 2, NULL),  -- psychic tm
     (150, 15000, 104, 21, 2, NULL),  -- double-team tm
     (150, 15000, 113, 21, 2, NULL),  -- light-screen tm
@@ -3728,11 +2769,8 @@ VALUES
     (150, 15000, 203, 21, 2, NULL),  -- endure tm
     (150, 15000, 207, 21, 2, NULL),  -- swagger tm
     (150, 15000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (150, 15000, 216, 21, 2, NULL),  -- return tm
-    (150, 15000, 218, 21, 2, NULL),  -- frustration tm
     (150, 15000, 219, 21, 2, NULL),  -- safeguard tm
     (150, 15000, 231, 21, 2, NULL),  -- iron-tail tm
-    (150, 15000, 237, 21, 2, NULL),  -- hidden-power tm
     (150, 15000, 240, 21, 2, NULL),  -- rain-dance tm
     (150, 15000, 241, 21, 2, NULL),  -- sunny-day tm
     (150, 15000, 244, 21, 2, NULL),  -- psych-up tm
@@ -3747,52 +2785,42 @@ VALUES
     (150, 15000, 278, 21, 2, NULL),  -- recycle tm
     (150, 15000, 280, 21, 2, NULL),  -- brick-break tm
     (150, 15000, 285, 21, 2, NULL),  -- skill-swap tm
-    (150, 15000, 289, 21, 2, NULL),  -- snatch tm
-    (150, 15000, 290, 21, 2, NULL),  -- secret-power tm
     (150, 15000, 317, 21, 2, NULL),  -- rock-tomb tm
     (150, 15000, 332, 21, 2, NULL),  -- aerial-ace tm
     (150, 15000, 339, 21, 2, NULL),  -- bulk-up tm
     (150, 15000, 347, 21, 2, NULL),  -- calm-mind tm
     (150, 15000, 351, 21, 2, NULL),  -- shock-wave tm
     (150, 15000, 352, 21, 2, NULL),  -- water-pulse tm
-    (150, 15000, 363, 21, 2, NULL),  -- natural-gift tm
-    (150, 15000, 373, 21, 2, NULL),  -- embargo tm
     (150, 15000, 374, 21, 2, NULL),  -- fling tm
     (150, 15000, 398, 21, 2, NULL),  -- poison-jab tm
     (150, 15000, 409, 21, 2, NULL),  -- drain-punch tm
     (150, 15000, 411, 21, 2, NULL),  -- focus-blast tm
     (150, 15000, 412, 21, 2, NULL),  -- energy-ball tm
     (150, 15000, 416, 21, 2, NULL),  -- giga-impact tm
+    (150, 15000, 417, 21, 2, NULL),  -- nasty-plot tm
     (150, 15000, 419, 21, 2, NULL),  -- avalanche tm
     (150, 15000, 431, 21, 2, NULL),  -- rock-climb tm
     (150, 15000, 433, 21, 2, NULL),  -- trick-room tm
     (150, 15000, 444, 21, 2, NULL),  -- stone-edge tm
     (150, 15000, 447, 21, 2, NULL),  -- grass-knot tm
     (150, 15000, 451, 21, 2, NULL),  -- charge-beam tm
-    (150, 15000, 7, 21, 6, NULL),  -- fire-punch tutor
-    (150, 15000, 8, 21, 6, NULL),  -- ice-punch tutor
-    (150, 15000, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (150, 15000, 129, 21, 6, NULL),  -- swift tutor
-    (150, 15000, 173, 21, 6, NULL),  -- snore tutor
-    (150, 15000, 189, 21, 6, NULL),  -- mud-slap tutor
-    (150, 15000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (150, 15000, 271, 21, 6, NULL),  -- trick tutor
-    (150, 15000, 324, 21, 6, NULL),  -- signal-beam tutor
-    (150, 15000, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (150, 15000, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    -- #151 Mew
-    (151, 15100, 1, 21, 1, 1),  -- pound lv1
-    (151, 15100, 144, 21, 1, 1),  -- transform lv1
-    (151, 15100, 5, 21, 1, 10),  -- mega-punch lv10
-    (151, 15100, 118, 21, 1, 20),  -- metronome lv20
-    (151, 15100, 94, 21, 1, 30),  -- psychic lv30
-    (151, 15100, 112, 21, 1, 40),  -- barrier lv40
-    (151, 15100, 246, 21, 1, 50),  -- ancient-power lv50
-    (151, 15100, 133, 21, 1, 60),  -- amnesia lv60
-    (151, 15100, 382, 21, 1, 70),  -- me-first lv70
-    (151, 15100, 226, 21, 1, 80),  -- baton-pass lv80
-    (151, 15100, 417, 21, 1, 90),  -- nasty-plot lv90
-    (151, 15100, 396, 21, 1, 100),  -- aura-sphere lv100
+    (150, 15000, 490, 21, 2, NULL),  -- low-sweep tm
+    (150, 15000, 523, 21, 2, NULL),  -- bulldoze tm
+    (150, 15000, 50, 21, 8, NULL),  -- disable start
+    (150, 15000, 93, 21, 8, NULL),  -- confusion start
+    (150, 15000, 129, 21, 8, NULL),  -- swift start
+    (150, 15000, 673, 21, 8, NULL),  -- laser-focus start
+    (150, 15000, 791, 21, 8, NULL),  -- life-dew start
+    (151, 15100, 133, 21, 1, 10),  -- amnesia lv10
+    (151, 15100, 226, 21, 1, 20),  -- baton-pass lv20
+    (151, 15100, 246, 21, 1, 30),  -- ancient-power lv30
+    (151, 15100, 791, 21, 1, 40),  -- life-dew lv40
+    (151, 15100, 417, 21, 1, 50),  -- nasty-plot lv50
+    (151, 15100, 118, 21, 1, 60),  -- metronome lv60
+    (151, 15100, 286, 21, 1, 70),  -- imprison lv70
+    (151, 15100, 144, 21, 1, 80),  -- transform lv80
+    (151, 15100, 396, 21, 1, 90),  -- aura-sphere lv90
+    (151, 15100, 94, 21, 1, 100),  -- psychic lv100
     (151, 15100, 14, 21, 2, NULL),  -- swords-dance tm
     (151, 15100, 15, 21, 2, NULL),  -- cut tm
     (151, 15100, 19, 21, 2, NULL),  -- fly tm
@@ -3833,11 +2861,8 @@ VALUES
     (151, 15100, 211, 21, 2, NULL),  -- steel-wing tm
     (151, 15100, 213, 21, 2, NULL),  -- attract tm
     (151, 15100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (151, 15100, 216, 21, 2, NULL),  -- return tm
-    (151, 15100, 218, 21, 2, NULL),  -- frustration tm
     (151, 15100, 219, 21, 2, NULL),  -- safeguard tm
     (151, 15100, 231, 21, 2, NULL),  -- iron-tail tm
-    (151, 15100, 237, 21, 2, NULL),  -- hidden-power tm
     (151, 15100, 240, 21, 2, NULL),  -- rain-dance tm
     (151, 15100, 241, 21, 2, NULL),  -- sunny-day tm
     (151, 15100, 244, 21, 2, NULL),  -- psych-up tm
@@ -3852,11 +2877,8 @@ VALUES
     (151, 15100, 278, 21, 2, NULL),  -- recycle tm
     (151, 15100, 280, 21, 2, NULL),  -- brick-break tm
     (151, 15100, 285, 21, 2, NULL),  -- skill-swap tm
-    (151, 15100, 289, 21, 2, NULL),  -- snatch tm
-    (151, 15100, 290, 21, 2, NULL),  -- secret-power tm
     (151, 15100, 315, 21, 2, NULL),  -- overheat tm
     (151, 15100, 317, 21, 2, NULL),  -- rock-tomb tm
-    (151, 15100, 318, 21, 2, NULL),  -- silver-wind tm
     (151, 15100, 331, 21, 2, NULL),  -- bullet-seed tm
     (151, 15100, 332, 21, 2, NULL),  -- aerial-ace tm
     (151, 15100, 337, 21, 2, NULL),  -- dragon-claw tm
@@ -3867,21 +2889,21 @@ VALUES
     (151, 15100, 355, 21, 2, NULL),  -- roost tm
     (151, 15100, 360, 21, 2, NULL),  -- gyro-ball tm
     (151, 15100, 362, 21, 2, NULL),  -- brine tm
-    (151, 15100, 363, 21, 2, NULL),  -- natural-gift tm
     (151, 15100, 365, 21, 2, NULL),  -- pluck tm
     (151, 15100, 369, 21, 2, NULL),  -- u-turn tm
     (151, 15100, 371, 21, 2, NULL),  -- payback tm
-    (151, 15100, 373, 21, 2, NULL),  -- embargo tm
     (151, 15100, 374, 21, 2, NULL),  -- fling tm
     (151, 15100, 397, 21, 2, NULL),  -- rock-polish tm
     (151, 15100, 398, 21, 2, NULL),  -- poison-jab tm
     (151, 15100, 399, 21, 2, NULL),  -- dark-pulse tm
     (151, 15100, 404, 21, 2, NULL),  -- x-scissor tm
+    (151, 15100, 405, 21, 2, NULL),  -- bug-buzz tm
     (151, 15100, 406, 21, 2, NULL),  -- dragon-pulse tm
     (151, 15100, 409, 21, 2, NULL),  -- drain-punch tm
     (151, 15100, 411, 21, 2, NULL),  -- focus-blast tm
     (151, 15100, 412, 21, 2, NULL),  -- energy-ball tm
     (151, 15100, 416, 21, 2, NULL),  -- giga-impact tm
+    (151, 15100, 417, 21, 2, NULL),  -- nasty-plot tm
     (151, 15100, 419, 21, 2, NULL),  -- avalanche tm
     (151, 15100, 421, 21, 2, NULL),  -- shadow-claw tm
     (151, 15100, 430, 21, 2, NULL),  -- flash-cannon tm
@@ -3889,57 +2911,24 @@ VALUES
     (151, 15100, 432, 21, 2, NULL),  -- defog tm
     (151, 15100, 433, 21, 2, NULL),  -- trick-room tm
     (151, 15100, 444, 21, 2, NULL),  -- stone-edge tm
-    (151, 15100, 445, 21, 2, NULL),  -- captivate tm
     (151, 15100, 446, 21, 2, NULL),  -- stealth-rock tm
     (151, 15100, 447, 21, 2, NULL),  -- grass-knot tm
     (151, 15100, 451, 21, 2, NULL),  -- charge-beam tm
-    (151, 15100, 7, 21, 6, NULL),  -- fire-punch tutor
-    (151, 15100, 8, 21, 6, NULL),  -- ice-punch tutor
-    (151, 15100, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (151, 15100, 129, 21, 6, NULL),  -- swift tutor
-    (151, 15100, 173, 21, 6, NULL),  -- snore tutor
-    (151, 15100, 180, 21, 6, NULL),  -- spite tutor
-    (151, 15100, 189, 21, 6, NULL),  -- mud-slap tutor
-    (151, 15100, 196, 21, 6, NULL),  -- icy-wind tutor
-    (151, 15100, 200, 21, 6, NULL),  -- outrage tutor
-    (151, 15100, 205, 21, 6, NULL),  -- rollout tutor
-    (151, 15100, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (151, 15100, 235, 21, 6, NULL),  -- synthesis tutor
-    (151, 15100, 239, 21, 6, NULL),  -- twister tutor
-    (151, 15100, 246, 21, 6, NULL),  -- ancient-power tutor
-    (151, 15100, 253, 21, 6, NULL),  -- uproar tutor
-    (151, 15100, 257, 21, 6, NULL),  -- heat-wave tutor
-    (151, 15100, 270, 21, 6, NULL),  -- helping-hand tutor
-    (151, 15100, 271, 21, 6, NULL),  -- trick tutor
-    (151, 15100, 276, 21, 6, NULL),  -- superpower tutor
-    (151, 15100, 282, 21, 6, NULL),  -- knock-off tutor
-    (151, 15100, 283, 21, 6, NULL),  -- endeavor tutor
-    (151, 15100, 291, 21, 6, NULL),  -- dive tutor
-    (151, 15100, 314, 21, 6, NULL),  -- air-cutter tutor
-    (151, 15100, 324, 21, 6, NULL),  -- signal-beam tutor
-    (151, 15100, 334, 21, 6, NULL),  -- iron-defense tutor
-    (151, 15100, 340, 21, 6, NULL),  -- bounce tutor
-    (151, 15100, 380, 21, 6, NULL),  -- gastro-acid tutor
-    (151, 15100, 387, 21, 6, NULL),  -- last-resort tutor
-    (151, 15100, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (151, 15100, 393, 21, 6, NULL),  -- magnet-rise tutor
-    (151, 15100, 401, 21, 6, NULL),  -- aqua-tail tutor
-    (151, 15100, 402, 21, 6, NULL),  -- seed-bomb tutor
-    (151, 15100, 410, 21, 6, NULL),  -- vacuum-wave tutor
-    (151, 15100, 414, 21, 6, NULL),  -- earth-power tutor
-    (151, 15100, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (151, 15100, 441, 21, 6, NULL),  -- gunk-shot tutor
-    (151, 15100, 442, 21, 6, NULL),  -- iron-head tutor
-    (151, 15100, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #152 Chikorita
-    (152, 15200, 33, 21, 1, 1),  -- tackle lv1
-    (152, 15200, 45, 21, 1, 1),  -- growl lv1
+    (151, 15100, 490, 21, 2, NULL),  -- low-sweep tm
+    (151, 15100, 503, 21, 2, NULL),  -- scald tm
+    (151, 15100, 521, 21, 2, NULL),  -- volt-switch tm
+    (151, 15100, 523, 21, 2, NULL),  -- bulldoze tm
+    (151, 15100, 526, 21, 2, NULL),  -- work-up tm
+    (151, 15100, 555, 21, 2, NULL),  -- snarl tm
+    (151, 15100, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (151, 15100, 1, 21, 8, NULL),  -- pound start
+    (151, 15100, 513, 21, 8, NULL),  -- reflect-type start
     (152, 15200, 75, 21, 1, 6),  -- razor-leaf lv6
     (152, 15200, 77, 21, 1, 9),  -- poison-powder lv9
     (152, 15200, 235, 21, 1, 12),  -- synthesis lv12
     (152, 15200, 115, 21, 1, 17),  -- reflect lv17
     (152, 15200, 345, 21, 1, 20),  -- magical-leaf lv20
-    (152, 15200, 363, 21, 1, 23),  -- natural-gift lv23
+    (152, 15200, 267, 21, 1, 23),  -- nature-power lv23
     (152, 15200, 230, 21, 1, 28),  -- sweet-scent lv28
     (152, 15200, 113, 21, 1, 31),  -- light-screen lv31
     (152, 15200, 34, 21, 1, 34),  -- body-slam lv34
@@ -3949,7 +2938,6 @@ VALUES
     (152, 15200, 14, 21, 2, NULL),  -- swords-dance tm
     (152, 15200, 15, 21, 2, NULL),  -- cut tm
     (152, 15200, 76, 21, 2, NULL),  -- solar-beam tm
-    (152, 15200, 92, 21, 2, NULL),  -- toxic tm
     (152, 15200, 104, 21, 2, NULL),  -- double-team tm
     (152, 15200, 113, 21, 2, NULL),  -- light-screen tm
     (152, 15200, 115, 21, 2, NULL),  -- reflect tm
@@ -3962,20 +2950,16 @@ VALUES
     (152, 15200, 207, 21, 2, NULL),  -- swagger tm
     (152, 15200, 213, 21, 2, NULL),  -- attract tm
     (152, 15200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (152, 15200, 216, 21, 2, NULL),  -- return tm
-    (152, 15200, 218, 21, 2, NULL),  -- frustration tm
     (152, 15200, 219, 21, 2, NULL),  -- safeguard tm
     (152, 15200, 231, 21, 2, NULL),  -- iron-tail tm
-    (152, 15200, 237, 21, 2, NULL),  -- hidden-power tm
     (152, 15200, 241, 21, 2, NULL),  -- sunny-day tm
     (152, 15200, 263, 21, 2, NULL),  -- facade tm
-    (152, 15200, 290, 21, 2, NULL),  -- secret-power tm
     (152, 15200, 331, 21, 2, NULL),  -- bullet-seed tm
-    (152, 15200, 363, 21, 2, NULL),  -- natural-gift tm
     (152, 15200, 412, 21, 2, NULL),  -- energy-ball tm
-    (152, 15200, 445, 21, 2, NULL),  -- captivate tm
     (152, 15200, 447, 21, 2, NULL),  -- grass-knot tm
+    (152, 15200, 526, 21, 2, NULL),  -- work-up tm
     (152, 15200, 22, 21, 5, NULL),  -- vine-whip egg
+    (152, 15200, 34, 21, 5, NULL),  -- body-slam egg
     (152, 15200, 68, 21, 5, NULL),  -- counter egg
     (152, 15200, 73, 21, 5, NULL),  -- leech-seed egg
     (152, 15200, 175, 21, 5, NULL),  -- flail egg
@@ -3983,24 +2967,17 @@ VALUES
     (152, 15200, 267, 21, 5, NULL),  -- nature-power egg
     (152, 15200, 275, 21, 5, NULL),  -- ingrain egg
     (152, 15200, 312, 21, 5, NULL),  -- aromatherapy egg
-    (152, 15200, 320, 21, 5, NULL),  -- grass-whistle egg
-    (152, 15200, 378, 21, 5, NULL),  -- wring-out egg
     (152, 15200, 437, 21, 5, NULL),  -- leaf-storm egg
-    (152, 15200, 173, 21, 6, NULL),  -- snore tutor
-    (152, 15200, 189, 21, 6, NULL),  -- mud-slap tutor
-    (152, 15200, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (152, 15200, 235, 21, 6, NULL),  -- synthesis tutor
-    (152, 15200, 246, 21, 6, NULL),  -- ancient-power tutor
-    (152, 15200, 402, 21, 6, NULL),  -- seed-bomb tutor
-    -- #153 Bayleef
-    (153, 15300, 33, 21, 1, 1),  -- tackle lv1
-    (153, 15300, 45, 21, 1, 1),  -- growl lv1
-    (153, 15300, 75, 21, 1, 1),  -- razor-leaf lv1
-    (153, 15300, 77, 21, 1, 1),  -- poison-powder lv1
+    (152, 15200, 505, 21, 5, NULL),  -- heal-pulse egg
+    (152, 15200, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (152, 15200, 33, 21, 8, NULL),  -- tackle start
+    (152, 15200, 45, 21, 8, NULL),  -- growl start
+    (153, 15300, 75, 21, 1, 6),  -- razor-leaf lv6
+    (153, 15300, 77, 21, 1, 9),  -- poison-powder lv9
     (153, 15300, 235, 21, 1, 12),  -- synthesis lv12
     (153, 15300, 115, 21, 1, 18),  -- reflect lv18
     (153, 15300, 345, 21, 1, 22),  -- magical-leaf lv22
-    (153, 15300, 363, 21, 1, 26),  -- natural-gift lv26
+    (153, 15300, 267, 21, 1, 26),  -- nature-power lv26
     (153, 15300, 230, 21, 1, 32),  -- sweet-scent lv32
     (153, 15300, 113, 21, 1, 36),  -- light-screen lv36
     (153, 15300, 34, 21, 1, 40),  -- body-slam lv40
@@ -4011,7 +2988,6 @@ VALUES
     (153, 15300, 15, 21, 2, NULL),  -- cut tm
     (153, 15300, 70, 21, 2, NULL),  -- strength tm
     (153, 15300, 76, 21, 2, NULL),  -- solar-beam tm
-    (153, 15300, 92, 21, 2, NULL),  -- toxic tm
     (153, 15300, 104, 21, 2, NULL),  -- double-team tm
     (153, 15300, 113, 21, 2, NULL),  -- light-screen tm
     (153, 15300, 115, 21, 2, NULL),  -- reflect tm
@@ -4024,49 +3000,50 @@ VALUES
     (153, 15300, 207, 21, 2, NULL),  -- swagger tm
     (153, 15300, 213, 21, 2, NULL),  -- attract tm
     (153, 15300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (153, 15300, 216, 21, 2, NULL),  -- return tm
-    (153, 15300, 218, 21, 2, NULL),  -- frustration tm
     (153, 15300, 219, 21, 2, NULL),  -- safeguard tm
     (153, 15300, 231, 21, 2, NULL),  -- iron-tail tm
-    (153, 15300, 237, 21, 2, NULL),  -- hidden-power tm
     (153, 15300, 241, 21, 2, NULL),  -- sunny-day tm
     (153, 15300, 249, 21, 2, NULL),  -- rock-smash tm
     (153, 15300, 263, 21, 2, NULL),  -- facade tm
-    (153, 15300, 290, 21, 2, NULL),  -- secret-power tm
     (153, 15300, 331, 21, 2, NULL),  -- bullet-seed tm
-    (153, 15300, 363, 21, 2, NULL),  -- natural-gift tm
     (153, 15300, 412, 21, 2, NULL),  -- energy-ball tm
-    (153, 15300, 445, 21, 2, NULL),  -- captivate tm
     (153, 15300, 447, 21, 2, NULL),  -- grass-knot tm
-    (153, 15300, 173, 21, 6, NULL),  -- snore tutor
-    (153, 15300, 189, 21, 6, NULL),  -- mud-slap tutor
-    (153, 15300, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (153, 15300, 235, 21, 6, NULL),  -- synthesis tutor
-    (153, 15300, 246, 21, 6, NULL),  -- ancient-power tutor
-    (153, 15300, 402, 21, 6, NULL),  -- seed-bomb tutor
-    -- #154 Meganium
-    (154, 15400, 33, 21, 1, 1),  -- tackle lv1
-    (154, 15400, 45, 21, 1, 1),  -- growl lv1
-    (154, 15400, 75, 21, 1, 1),  -- razor-leaf lv1
-    (154, 15400, 77, 21, 1, 1),  -- poison-powder lv1
+    (153, 15300, 526, 21, 2, NULL),  -- work-up tm
+    (153, 15300, 22, 21, 5, NULL),  -- vine-whip egg
+    (153, 15300, 34, 21, 5, NULL),  -- body-slam egg
+    (153, 15300, 68, 21, 5, NULL),  -- counter egg
+    (153, 15300, 73, 21, 5, NULL),  -- leech-seed egg
+    (153, 15300, 175, 21, 5, NULL),  -- flail egg
+    (153, 15300, 246, 21, 5, NULL),  -- ancient-power egg
+    (153, 15300, 267, 21, 5, NULL),  -- nature-power egg
+    (153, 15300, 275, 21, 5, NULL),  -- ingrain egg
+    (153, 15300, 312, 21, 5, NULL),  -- aromatherapy egg
+    (153, 15300, 437, 21, 5, NULL),  -- leaf-storm egg
+    (153, 15300, 505, 21, 5, NULL),  -- heal-pulse egg
+    (153, 15300, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (153, 15300, 33, 21, 8, NULL),  -- tackle start
+    (153, 15300, 45, 21, 8, NULL),  -- growl start
+    (153, 15300, 75, 21, 8, NULL),  -- razor-leaf start
+    (153, 15300, 77, 21, 8, NULL),  -- poison-powder start
+    (154, 15400, 75, 21, 1, 6),  -- razor-leaf lv6
+    (154, 15400, 77, 21, 1, 9),  -- poison-powder lv9
     (154, 15400, 235, 21, 1, 12),  -- synthesis lv12
     (154, 15400, 115, 21, 1, 18),  -- reflect lv18
     (154, 15400, 345, 21, 1, 22),  -- magical-leaf lv22
-    (154, 15400, 363, 21, 1, 26),  -- natural-gift lv26
-    (154, 15400, 80, 21, 1, 32),  -- petal-dance lv32
+    (154, 15400, 267, 21, 1, 26),  -- nature-power lv26
     (154, 15400, 230, 21, 1, 34),  -- sweet-scent lv34
     (154, 15400, 113, 21, 1, 40),  -- light-screen lv40
     (154, 15400, 34, 21, 1, 46),  -- body-slam lv46
     (154, 15400, 219, 21, 1, 54),  -- safeguard lv54
     (154, 15400, 312, 21, 1, 60),  -- aromatherapy lv60
     (154, 15400, 76, 21, 1, 66),  -- solar-beam lv66
+    (154, 15400, 572, 21, 1, 70),  -- petal-blizzard lv70
     (154, 15400, 14, 21, 2, NULL),  -- swords-dance tm
     (154, 15400, 15, 21, 2, NULL),  -- cut tm
     (154, 15400, 63, 21, 2, NULL),  -- hyper-beam tm
     (154, 15400, 70, 21, 2, NULL),  -- strength tm
     (154, 15400, 76, 21, 2, NULL),  -- solar-beam tm
     (154, 15400, 89, 21, 2, NULL),  -- earthquake tm
-    (154, 15400, 92, 21, 2, NULL),  -- toxic tm
     (154, 15400, 104, 21, 2, NULL),  -- double-team tm
     (154, 15400, 113, 21, 2, NULL),  -- light-screen tm
     (154, 15400, 115, 21, 2, NULL),  -- reflect tm
@@ -4079,48 +3056,53 @@ VALUES
     (154, 15400, 207, 21, 2, NULL),  -- swagger tm
     (154, 15400, 213, 21, 2, NULL),  -- attract tm
     (154, 15400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (154, 15400, 216, 21, 2, NULL),  -- return tm
-    (154, 15400, 218, 21, 2, NULL),  -- frustration tm
     (154, 15400, 219, 21, 2, NULL),  -- safeguard tm
     (154, 15400, 231, 21, 2, NULL),  -- iron-tail tm
-    (154, 15400, 237, 21, 2, NULL),  -- hidden-power tm
     (154, 15400, 241, 21, 2, NULL),  -- sunny-day tm
     (154, 15400, 249, 21, 2, NULL),  -- rock-smash tm
     (154, 15400, 263, 21, 2, NULL),  -- facade tm
-    (154, 15400, 290, 21, 2, NULL),  -- secret-power tm
     (154, 15400, 331, 21, 2, NULL),  -- bullet-seed tm
-    (154, 15400, 363, 21, 2, NULL),  -- natural-gift tm
     (154, 15400, 412, 21, 2, NULL),  -- energy-ball tm
     (154, 15400, 416, 21, 2, NULL),  -- giga-impact tm
     (154, 15400, 431, 21, 2, NULL),  -- rock-climb tm
-    (154, 15400, 445, 21, 2, NULL),  -- captivate tm
     (154, 15400, 447, 21, 2, NULL),  -- grass-knot tm
-    (154, 15400, 173, 21, 6, NULL),  -- snore tutor
-    (154, 15400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (154, 15400, 200, 21, 6, NULL),  -- outrage tutor
-    (154, 15400, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (154, 15400, 235, 21, 6, NULL),  -- synthesis tutor
-    (154, 15400, 246, 21, 6, NULL),  -- ancient-power tutor
-    (154, 15400, 338, 21, 6, NULL),  -- frenzy-plant tutor
-    (154, 15400, 402, 21, 6, NULL),  -- seed-bomb tutor
-    -- #155 Cyndaquil
-    (155, 15500, 33, 21, 1, 1),  -- tackle lv1
-    (155, 15500, 43, 21, 1, 1),  -- leer lv1
-    (155, 15500, 108, 21, 1, 4),  -- smokescreen lv4
+    (154, 15400, 523, 21, 2, NULL),  -- bulldoze tm
+    (154, 15400, 526, 21, 2, NULL),  -- work-up tm
+    (154, 15400, 22, 21, 5, NULL),  -- vine-whip egg
+    (154, 15400, 34, 21, 5, NULL),  -- body-slam egg
+    (154, 15400, 68, 21, 5, NULL),  -- counter egg
+    (154, 15400, 73, 21, 5, NULL),  -- leech-seed egg
+    (154, 15400, 175, 21, 5, NULL),  -- flail egg
+    (154, 15400, 246, 21, 5, NULL),  -- ancient-power egg
+    (154, 15400, 267, 21, 5, NULL),  -- nature-power egg
+    (154, 15400, 275, 21, 5, NULL),  -- ingrain egg
+    (154, 15400, 312, 21, 5, NULL),  -- aromatherapy egg
+    (154, 15400, 437, 21, 5, NULL),  -- leaf-storm egg
+    (154, 15400, 505, 21, 5, NULL),  -- heal-pulse egg
+    (154, 15400, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (154, 15400, 33, 21, 8, NULL),  -- tackle start
+    (154, 15400, 45, 21, 8, NULL),  -- growl start
+    (154, 15400, 75, 21, 8, NULL),  -- razor-leaf start
+    (154, 15400, 77, 21, 8, NULL),  -- poison-powder start
+    (154, 15400, 80, 21, 8, NULL),  -- petal-dance start
+    (154, 15400, 572, 21, 8, NULL),  -- petal-blizzard start
+    (155, 15500, 108, 21, 1, 6),  -- smokescreen lv6
     (155, 15500, 52, 21, 1, 10),  -- ember lv10
     (155, 15500, 98, 21, 1, 13),  -- quick-attack lv13
     (155, 15500, 172, 21, 1, 19),  -- flame-wheel lv19
     (155, 15500, 111, 21, 1, 22),  -- defense-curl lv22
-    (155, 15500, 129, 21, 1, 28),  -- swift lv28
-    (155, 15500, 436, 21, 1, 31),  -- lava-plume lv31
-    (155, 15500, 53, 21, 1, 37),  -- flamethrower lv37
-    (155, 15500, 205, 21, 1, 40),  -- rollout lv40
-    (155, 15500, 38, 21, 1, 46),  -- double-edge lv46
-    (155, 15500, 284, 21, 1, 49),  -- eruption lv49
+    (155, 15500, 488, 21, 1, 28),  -- flame-charge lv28
+    (155, 15500, 129, 21, 1, 31),  -- swift lv31
+    (155, 15500, 436, 21, 1, 37),  -- lava-plume lv37
+    (155, 15500, 53, 21, 1, 40),  -- flamethrower lv40
+    (155, 15500, 517, 21, 1, 46),  -- inferno lv46
+    (155, 15500, 205, 21, 1, 49),  -- rollout lv49
+    (155, 15500, 38, 21, 1, 55),  -- double-edge lv55
+    (155, 15500, 682, 21, 1, 58),  -- burn-up lv58
+    (155, 15500, 284, 21, 1, 64),  -- eruption lv64
     (155, 15500, 15, 21, 2, NULL),  -- cut tm
     (155, 15500, 53, 21, 2, NULL),  -- flamethrower tm
     (155, 15500, 91, 21, 2, NULL),  -- dig tm
-    (155, 15500, 92, 21, 2, NULL),  -- toxic tm
     (155, 15500, 104, 21, 2, NULL),  -- double-team tm
     (155, 15500, 126, 21, 2, NULL),  -- fire-blast tm
     (155, 15500, 156, 21, 2, NULL),  -- rest tm
@@ -4130,53 +3112,45 @@ VALUES
     (155, 15500, 207, 21, 2, NULL),  -- swagger tm
     (155, 15500, 213, 21, 2, NULL),  -- attract tm
     (155, 15500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (155, 15500, 216, 21, 2, NULL),  -- return tm
-    (155, 15500, 218, 21, 2, NULL),  -- frustration tm
-    (155, 15500, 237, 21, 2, NULL),  -- hidden-power tm
     (155, 15500, 241, 21, 2, NULL),  -- sunny-day tm
     (155, 15500, 261, 21, 2, NULL),  -- will-o-wisp tm
     (155, 15500, 263, 21, 2, NULL),  -- facade tm
-    (155, 15500, 290, 21, 2, NULL),  -- secret-power tm
     (155, 15500, 315, 21, 2, NULL),  -- overheat tm
     (155, 15500, 332, 21, 2, NULL),  -- aerial-ace tm
-    (155, 15500, 363, 21, 2, NULL),  -- natural-gift tm
-    (155, 15500, 445, 21, 2, NULL),  -- captivate tm
+    (155, 15500, 526, 21, 2, NULL),  -- work-up tm
     (155, 15500, 24, 21, 5, NULL),  -- double-kick egg
     (155, 15500, 37, 21, 5, NULL),  -- thrash egg
     (155, 15500, 38, 21, 5, NULL),  -- double-edge egg
     (155, 15500, 98, 21, 5, NULL),  -- quick-attack egg
     (155, 15500, 154, 21, 5, NULL),  -- fury-swipes egg
     (155, 15500, 179, 21, 5, NULL),  -- reversal egg
-    (155, 15500, 193, 21, 5, NULL),  -- foresight egg
+    (155, 15500, 267, 21, 5, NULL),  -- nature-power egg
     (155, 15500, 306, 21, 5, NULL),  -- crush-claw egg
+    (155, 15500, 326, 21, 5, NULL),  -- extrasensory egg
     (155, 15500, 336, 21, 5, NULL),  -- howl egg
     (155, 15500, 343, 21, 5, NULL),  -- covet egg
     (155, 15500, 394, 21, 5, NULL),  -- flare-blitz egg
-    (155, 15500, 129, 21, 6, NULL),  -- swift tutor
-    (155, 15500, 173, 21, 6, NULL),  -- snore tutor
-    (155, 15500, 189, 21, 6, NULL),  -- mud-slap tutor
-    (155, 15500, 205, 21, 6, NULL),  -- rollout tutor
-    (155, 15500, 257, 21, 6, NULL),  -- heat-wave tutor
-    -- #156 Quilava
-    (156, 15600, 33, 21, 1, 1),  -- tackle lv1
-    (156, 15600, 43, 21, 1, 1),  -- leer lv1
-    (156, 15600, 108, 21, 1, 1),  -- smokescreen lv1
+    (155, 15500, 33, 21, 8, NULL),  -- tackle start
+    (155, 15500, 43, 21, 8, NULL),  -- leer start
+    (156, 15600, 108, 21, 1, 6),  -- smokescreen lv6
     (156, 15600, 52, 21, 1, 10),  -- ember lv10
     (156, 15600, 98, 21, 1, 13),  -- quick-attack lv13
     (156, 15600, 172, 21, 1, 20),  -- flame-wheel lv20
     (156, 15600, 111, 21, 1, 24),  -- defense-curl lv24
     (156, 15600, 129, 21, 1, 31),  -- swift lv31
-    (156, 15600, 436, 21, 1, 35),  -- lava-plume lv35
-    (156, 15600, 53, 21, 1, 42),  -- flamethrower lv42
-    (156, 15600, 205, 21, 1, 46),  -- rollout lv46
-    (156, 15600, 38, 21, 1, 53),  -- double-edge lv53
-    (156, 15600, 284, 21, 1, 57),  -- eruption lv57
+    (156, 15600, 488, 21, 1, 35),  -- flame-charge lv35
+    (156, 15600, 436, 21, 1, 42),  -- lava-plume lv42
+    (156, 15600, 53, 21, 1, 46),  -- flamethrower lv46
+    (156, 15600, 517, 21, 1, 53),  -- inferno lv53
+    (156, 15600, 205, 21, 1, 57),  -- rollout lv57
+    (156, 15600, 38, 21, 1, 64),  -- double-edge lv64
+    (156, 15600, 682, 21, 1, 68),  -- burn-up lv68
+    (156, 15600, 284, 21, 1, 75),  -- eruption lv75
     (156, 15600, 15, 21, 2, NULL),  -- cut tm
     (156, 15600, 46, 21, 2, NULL),  -- roar tm
     (156, 15600, 53, 21, 2, NULL),  -- flamethrower tm
     (156, 15600, 70, 21, 2, NULL),  -- strength tm
     (156, 15600, 91, 21, 2, NULL),  -- dig tm
-    (156, 15600, 92, 21, 2, NULL),  -- toxic tm
     (156, 15600, 104, 21, 2, NULL),  -- double-team tm
     (156, 15600, 126, 21, 2, NULL),  -- fire-blast tm
     (156, 15600, 156, 21, 2, NULL),  -- rest tm
@@ -4186,41 +3160,44 @@ VALUES
     (156, 15600, 207, 21, 2, NULL),  -- swagger tm
     (156, 15600, 213, 21, 2, NULL),  -- attract tm
     (156, 15600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (156, 15600, 216, 21, 2, NULL),  -- return tm
-    (156, 15600, 218, 21, 2, NULL),  -- frustration tm
-    (156, 15600, 237, 21, 2, NULL),  -- hidden-power tm
     (156, 15600, 241, 21, 2, NULL),  -- sunny-day tm
     (156, 15600, 249, 21, 2, NULL),  -- rock-smash tm
     (156, 15600, 261, 21, 2, NULL),  -- will-o-wisp tm
     (156, 15600, 263, 21, 2, NULL),  -- facade tm
     (156, 15600, 264, 21, 2, NULL),  -- focus-punch tm
     (156, 15600, 280, 21, 2, NULL),  -- brick-break tm
-    (156, 15600, 290, 21, 2, NULL),  -- secret-power tm
     (156, 15600, 315, 21, 2, NULL),  -- overheat tm
     (156, 15600, 332, 21, 2, NULL),  -- aerial-ace tm
-    (156, 15600, 363, 21, 2, NULL),  -- natural-gift tm
-    (156, 15600, 445, 21, 2, NULL),  -- captivate tm
-    (156, 15600, 129, 21, 6, NULL),  -- swift tutor
-    (156, 15600, 173, 21, 6, NULL),  -- snore tutor
-    (156, 15600, 189, 21, 6, NULL),  -- mud-slap tutor
-    (156, 15600, 205, 21, 6, NULL),  -- rollout tutor
-    (156, 15600, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (156, 15600, 257, 21, 6, NULL),  -- heat-wave tutor
-    -- #157 Typhlosion
-    (157, 15700, 33, 21, 1, 1),  -- tackle lv1
-    (157, 15700, 43, 21, 1, 1),  -- leer lv1
-    (157, 15700, 52, 21, 1, 1),  -- ember lv1
-    (157, 15700, 108, 21, 1, 1),  -- smokescreen lv1
-    (157, 15700, 360, 21, 1, 1),  -- gyro-ball lv1
+    (156, 15600, 526, 21, 2, NULL),  -- work-up tm
+    (156, 15600, 24, 21, 5, NULL),  -- double-kick egg
+    (156, 15600, 37, 21, 5, NULL),  -- thrash egg
+    (156, 15600, 38, 21, 5, NULL),  -- double-edge egg
+    (156, 15600, 98, 21, 5, NULL),  -- quick-attack egg
+    (156, 15600, 154, 21, 5, NULL),  -- fury-swipes egg
+    (156, 15600, 179, 21, 5, NULL),  -- reversal egg
+    (156, 15600, 267, 21, 5, NULL),  -- nature-power egg
+    (156, 15600, 306, 21, 5, NULL),  -- crush-claw egg
+    (156, 15600, 326, 21, 5, NULL),  -- extrasensory egg
+    (156, 15600, 336, 21, 5, NULL),  -- howl egg
+    (156, 15600, 343, 21, 5, NULL),  -- covet egg
+    (156, 15600, 394, 21, 5, NULL),  -- flare-blitz egg
+    (156, 15600, 33, 21, 8, NULL),  -- tackle start
+    (156, 15600, 43, 21, 8, NULL),  -- leer start
+    (156, 15600, 108, 21, 8, NULL),  -- smokescreen start
+    (157, 15700, 108, 21, 1, 6),  -- smokescreen lv6
+    (157, 15700, 52, 21, 1, 10),  -- ember lv10
     (157, 15700, 98, 21, 1, 13),  -- quick-attack lv13
     (157, 15700, 172, 21, 1, 20),  -- flame-wheel lv20
     (157, 15700, 111, 21, 1, 24),  -- defense-curl lv24
     (157, 15700, 129, 21, 1, 31),  -- swift lv31
-    (157, 15700, 436, 21, 1, 35),  -- lava-plume lv35
-    (157, 15700, 53, 21, 1, 42),  -- flamethrower lv42
-    (157, 15700, 205, 21, 1, 46),  -- rollout lv46
-    (157, 15700, 38, 21, 1, 53),  -- double-edge lv53
-    (157, 15700, 284, 21, 1, 57),  -- eruption lv57
+    (157, 15700, 488, 21, 1, 35),  -- flame-charge lv35
+    (157, 15700, 436, 21, 1, 43),  -- lava-plume lv43
+    (157, 15700, 53, 21, 1, 48),  -- flamethrower lv48
+    (157, 15700, 517, 21, 1, 56),  -- inferno lv56
+    (157, 15700, 205, 21, 1, 61),  -- rollout lv61
+    (157, 15700, 38, 21, 1, 69),  -- double-edge lv69
+    (157, 15700, 682, 21, 1, 74),  -- burn-up lv74
+    (157, 15700, 284, 21, 1, 82),  -- eruption lv82
     (157, 15700, 15, 21, 2, NULL),  -- cut tm
     (157, 15700, 46, 21, 2, NULL),  -- roar tm
     (157, 15700, 53, 21, 2, NULL),  -- flamethrower tm
@@ -4229,7 +3206,6 @@ VALUES
     (157, 15700, 76, 21, 2, NULL),  -- solar-beam tm
     (157, 15700, 89, 21, 2, NULL),  -- earthquake tm
     (157, 15700, 91, 21, 2, NULL),  -- dig tm
-    (157, 15700, 92, 21, 2, NULL),  -- toxic tm
     (157, 15700, 104, 21, 2, NULL),  -- double-team tm
     (157, 15700, 126, 21, 2, NULL),  -- fire-blast tm
     (157, 15700, 156, 21, 2, NULL),  -- rest tm
@@ -4240,59 +3216,62 @@ VALUES
     (157, 15700, 207, 21, 2, NULL),  -- swagger tm
     (157, 15700, 213, 21, 2, NULL),  -- attract tm
     (157, 15700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (157, 15700, 216, 21, 2, NULL),  -- return tm
-    (157, 15700, 218, 21, 2, NULL),  -- frustration tm
-    (157, 15700, 237, 21, 2, NULL),  -- hidden-power tm
     (157, 15700, 241, 21, 2, NULL),  -- sunny-day tm
     (157, 15700, 249, 21, 2, NULL),  -- rock-smash tm
     (157, 15700, 261, 21, 2, NULL),  -- will-o-wisp tm
     (157, 15700, 263, 21, 2, NULL),  -- facade tm
     (157, 15700, 264, 21, 2, NULL),  -- focus-punch tm
     (157, 15700, 280, 21, 2, NULL),  -- brick-break tm
-    (157, 15700, 290, 21, 2, NULL),  -- secret-power tm
     (157, 15700, 315, 21, 2, NULL),  -- overheat tm
     (157, 15700, 317, 21, 2, NULL),  -- rock-tomb tm
     (157, 15700, 332, 21, 2, NULL),  -- aerial-ace tm
     (157, 15700, 360, 21, 2, NULL),  -- gyro-ball tm
-    (157, 15700, 363, 21, 2, NULL),  -- natural-gift tm
     (157, 15700, 374, 21, 2, NULL),  -- fling tm
     (157, 15700, 411, 21, 2, NULL),  -- focus-blast tm
     (157, 15700, 416, 21, 2, NULL),  -- giga-impact tm
     (157, 15700, 421, 21, 2, NULL),  -- shadow-claw tm
     (157, 15700, 431, 21, 2, NULL),  -- rock-climb tm
-    (157, 15700, 445, 21, 2, NULL),  -- captivate tm
-    (157, 15700, 7, 21, 6, NULL),  -- fire-punch tutor
-    (157, 15700, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (157, 15700, 129, 21, 6, NULL),  -- swift tutor
-    (157, 15700, 173, 21, 6, NULL),  -- snore tutor
-    (157, 15700, 189, 21, 6, NULL),  -- mud-slap tutor
-    (157, 15700, 205, 21, 6, NULL),  -- rollout tutor
-    (157, 15700, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (157, 15700, 257, 21, 6, NULL),  -- heat-wave tutor
-    (157, 15700, 307, 21, 6, NULL),  -- blast-burn tutor
-    -- #158 Totodile
-    (158, 15800, 10, 21, 1, 1),  -- scratch lv1
-    (158, 15800, 43, 21, 1, 1),  -- leer lv1
+    (157, 15700, 523, 21, 2, NULL),  -- bulldoze tm
+    (157, 15700, 526, 21, 2, NULL),  -- work-up tm
+    (157, 15700, 24, 21, 5, NULL),  -- double-kick egg
+    (157, 15700, 37, 21, 5, NULL),  -- thrash egg
+    (157, 15700, 38, 21, 5, NULL),  -- double-edge egg
+    (157, 15700, 98, 21, 5, NULL),  -- quick-attack egg
+    (157, 15700, 154, 21, 5, NULL),  -- fury-swipes egg
+    (157, 15700, 179, 21, 5, NULL),  -- reversal egg
+    (157, 15700, 267, 21, 5, NULL),  -- nature-power egg
+    (157, 15700, 306, 21, 5, NULL),  -- crush-claw egg
+    (157, 15700, 326, 21, 5, NULL),  -- extrasensory egg
+    (157, 15700, 336, 21, 5, NULL),  -- howl egg
+    (157, 15700, 343, 21, 5, NULL),  -- covet egg
+    (157, 15700, 394, 21, 5, NULL),  -- flare-blitz egg
+    (157, 15700, 33, 21, 8, NULL),  -- tackle start
+    (157, 15700, 38, 21, 8, NULL),  -- double-edge start
+    (157, 15700, 43, 21, 8, NULL),  -- leer start
+    (157, 15700, 52, 21, 8, NULL),  -- ember start
+    (157, 15700, 108, 21, 8, NULL),  -- smokescreen start
+    (157, 15700, 284, 21, 8, NULL),  -- eruption start
+    (157, 15700, 360, 21, 8, NULL),  -- gyro-ball start
     (158, 15800, 55, 21, 1, 6),  -- water-gun lv6
-    (158, 15800, 99, 21, 1, 8),  -- rage lv8
+    (158, 15800, 189, 21, 1, 8),  -- mud-slap lv8
     (158, 15800, 44, 21, 1, 13),  -- bite lv13
     (158, 15800, 184, 21, 1, 15),  -- scary-face lv15
     (158, 15800, 423, 21, 1, 20),  -- ice-fang lv20
     (158, 15800, 175, 21, 1, 22),  -- flail lv22
     (158, 15800, 242, 21, 1, 27),  -- crunch lv27
-    (158, 15800, 163, 21, 1, 29),  -- slash lv29
-    (158, 15800, 103, 21, 1, 34),  -- screech lv34
-    (158, 15800, 37, 21, 1, 36),  -- thrash lv36
-    (158, 15800, 401, 21, 1, 41),  -- aqua-tail lv41
-    (158, 15800, 276, 21, 1, 43),  -- superpower lv43
-    (158, 15800, 56, 21, 1, 48),  -- hydro-pump lv48
+    (158, 15800, 67, 21, 1, 29),  -- low-kick lv29
+    (158, 15800, 163, 21, 1, 34),  -- slash lv34
+    (158, 15800, 103, 21, 1, 36),  -- screech lv36
+    (158, 15800, 37, 21, 1, 41),  -- thrash lv41
+    (158, 15800, 401, 21, 1, 43),  -- aqua-tail lv43
+    (158, 15800, 276, 21, 1, 48),  -- superpower lv48
+    (158, 15800, 56, 21, 1, 50),  -- hydro-pump lv50
     (158, 15800, 14, 21, 2, NULL),  -- swords-dance tm
     (158, 15800, 15, 21, 2, NULL),  -- cut tm
     (158, 15800, 57, 21, 2, NULL),  -- surf tm
     (158, 15800, 58, 21, 2, NULL),  -- ice-beam tm
     (158, 15800, 59, 21, 2, NULL),  -- blizzard tm
     (158, 15800, 91, 21, 2, NULL),  -- dig tm
-    (158, 15800, 92, 21, 2, NULL),  -- toxic tm
     (158, 15800, 104, 21, 2, NULL),  -- double-team tm
     (158, 15800, 127, 21, 2, NULL),  -- waterfall tm
     (158, 15800, 156, 21, 2, NULL),  -- rest tm
@@ -4303,60 +3282,47 @@ VALUES
     (158, 15800, 207, 21, 2, NULL),  -- swagger tm
     (158, 15800, 213, 21, 2, NULL),  -- attract tm
     (158, 15800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (158, 15800, 216, 21, 2, NULL),  -- return tm
-    (158, 15800, 218, 21, 2, NULL),  -- frustration tm
     (158, 15800, 231, 21, 2, NULL),  -- iron-tail tm
-    (158, 15800, 237, 21, 2, NULL),  -- hidden-power tm
     (158, 15800, 240, 21, 2, NULL),  -- rain-dance tm
     (158, 15800, 258, 21, 2, NULL),  -- hail tm
     (158, 15800, 263, 21, 2, NULL),  -- facade tm
     (158, 15800, 264, 21, 2, NULL),  -- focus-punch tm
     (158, 15800, 280, 21, 2, NULL),  -- brick-break tm
-    (158, 15800, 290, 21, 2, NULL),  -- secret-power tm
     (158, 15800, 317, 21, 2, NULL),  -- rock-tomb tm
     (158, 15800, 332, 21, 2, NULL),  -- aerial-ace tm
+    (158, 15800, 337, 21, 2, NULL),  -- dragon-claw tm
     (158, 15800, 352, 21, 2, NULL),  -- water-pulse tm
-    (158, 15800, 363, 21, 2, NULL),  -- natural-gift tm
     (158, 15800, 374, 21, 2, NULL),  -- fling tm
     (158, 15800, 421, 21, 2, NULL),  -- shadow-claw tm
-    (158, 15800, 445, 21, 2, NULL),  -- captivate tm
+    (158, 15800, 503, 21, 2, NULL),  -- scald tm
+    (158, 15800, 526, 21, 2, NULL),  -- work-up tm
     (158, 15800, 8, 21, 5, NULL),  -- ice-punch egg
     (158, 15800, 37, 21, 5, NULL),  -- thrash egg
     (158, 15800, 56, 21, 5, NULL),  -- hydro-pump egg
-    (158, 15800, 157, 21, 5, NULL),  -- rock-slide egg
     (158, 15800, 232, 21, 5, NULL),  -- metal-claw egg
     (158, 15800, 242, 21, 5, NULL),  -- crunch egg
     (158, 15800, 246, 21, 5, NULL),  -- ancient-power egg
-    (158, 15800, 300, 21, 5, NULL),  -- mud-sport egg
-    (158, 15800, 337, 21, 5, NULL),  -- dragon-claw egg
-    (158, 15800, 346, 21, 5, NULL),  -- water-sport egg
+    (158, 15800, 260, 21, 5, NULL),  -- flatter egg
+    (158, 15800, 313, 21, 5, NULL),  -- fake-tears egg
+    (158, 15800, 335, 21, 5, NULL),  -- block egg
     (158, 15800, 349, 21, 5, NULL),  -- dragon-dance egg
-    (158, 15800, 8, 21, 6, NULL),  -- ice-punch tutor
-    (158, 15800, 173, 21, 6, NULL),  -- snore tutor
-    (158, 15800, 180, 21, 6, NULL),  -- spite tutor
-    (158, 15800, 189, 21, 6, NULL),  -- mud-slap tutor
-    (158, 15800, 196, 21, 6, NULL),  -- icy-wind tutor
-    (158, 15800, 246, 21, 6, NULL),  -- ancient-power tutor
-    (158, 15800, 253, 21, 6, NULL),  -- uproar tutor
-    (158, 15800, 276, 21, 6, NULL),  -- superpower tutor
-    (158, 15800, 291, 21, 6, NULL),  -- dive tutor
-    (158, 15800, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #159 Croconaw
-    (159, 15900, 10, 21, 1, 1),  -- scratch lv1
-    (159, 15900, 43, 21, 1, 1),  -- leer lv1
-    (159, 15900, 55, 21, 1, 1),  -- water-gun lv1
-    (159, 15900, 99, 21, 1, 8),  -- rage lv8
+    (158, 15800, 453, 21, 5, NULL),  -- aqua-jet egg
+    (158, 15800, 10, 21, 8, NULL),  -- scratch start
+    (158, 15800, 43, 21, 8, NULL),  -- leer start
+    (159, 15900, 55, 21, 1, 6),  -- water-gun lv6
+    (159, 15900, 189, 21, 1, 8),  -- mud-slap lv8
     (159, 15900, 44, 21, 1, 13),  -- bite lv13
     (159, 15900, 184, 21, 1, 15),  -- scary-face lv15
     (159, 15900, 423, 21, 1, 21),  -- ice-fang lv21
     (159, 15900, 175, 21, 1, 24),  -- flail lv24
     (159, 15900, 242, 21, 1, 30),  -- crunch lv30
-    (159, 15900, 163, 21, 1, 33),  -- slash lv33
-    (159, 15900, 103, 21, 1, 39),  -- screech lv39
-    (159, 15900, 37, 21, 1, 42),  -- thrash lv42
-    (159, 15900, 401, 21, 1, 48),  -- aqua-tail lv48
-    (159, 15900, 276, 21, 1, 51),  -- superpower lv51
-    (159, 15900, 56, 21, 1, 57),  -- hydro-pump lv57
+    (159, 15900, 67, 21, 1, 33),  -- low-kick lv33
+    (159, 15900, 163, 21, 1, 39),  -- slash lv39
+    (159, 15900, 103, 21, 1, 42),  -- screech lv42
+    (159, 15900, 37, 21, 1, 48),  -- thrash lv48
+    (159, 15900, 401, 21, 1, 51),  -- aqua-tail lv51
+    (159, 15900, 276, 21, 1, 57),  -- superpower lv57
+    (159, 15900, 56, 21, 1, 60),  -- hydro-pump lv60
     (159, 15900, 14, 21, 2, NULL),  -- swords-dance tm
     (159, 15900, 15, 21, 2, NULL),  -- cut tm
     (159, 15900, 46, 21, 2, NULL),  -- roar tm
@@ -4365,7 +3331,6 @@ VALUES
     (159, 15900, 59, 21, 2, NULL),  -- blizzard tm
     (159, 15900, 70, 21, 2, NULL),  -- strength tm
     (159, 15900, 91, 21, 2, NULL),  -- dig tm
-    (159, 15900, 92, 21, 2, NULL),  -- toxic tm
     (159, 15900, 104, 21, 2, NULL),  -- double-team tm
     (159, 15900, 127, 21, 2, NULL),  -- waterfall tm
     (159, 15900, 156, 21, 2, NULL),  -- rest tm
@@ -4376,51 +3341,49 @@ VALUES
     (159, 15900, 207, 21, 2, NULL),  -- swagger tm
     (159, 15900, 213, 21, 2, NULL),  -- attract tm
     (159, 15900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (159, 15900, 216, 21, 2, NULL),  -- return tm
-    (159, 15900, 218, 21, 2, NULL),  -- frustration tm
     (159, 15900, 231, 21, 2, NULL),  -- iron-tail tm
-    (159, 15900, 237, 21, 2, NULL),  -- hidden-power tm
     (159, 15900, 240, 21, 2, NULL),  -- rain-dance tm
     (159, 15900, 249, 21, 2, NULL),  -- rock-smash tm
     (159, 15900, 258, 21, 2, NULL),  -- hail tm
     (159, 15900, 263, 21, 2, NULL),  -- facade tm
     (159, 15900, 264, 21, 2, NULL),  -- focus-punch tm
     (159, 15900, 280, 21, 2, NULL),  -- brick-break tm
-    (159, 15900, 290, 21, 2, NULL),  -- secret-power tm
     (159, 15900, 317, 21, 2, NULL),  -- rock-tomb tm
     (159, 15900, 332, 21, 2, NULL),  -- aerial-ace tm
+    (159, 15900, 337, 21, 2, NULL),  -- dragon-claw tm
     (159, 15900, 352, 21, 2, NULL),  -- water-pulse tm
-    (159, 15900, 363, 21, 2, NULL),  -- natural-gift tm
     (159, 15900, 374, 21, 2, NULL),  -- fling tm
     (159, 15900, 421, 21, 2, NULL),  -- shadow-claw tm
-    (159, 15900, 445, 21, 2, NULL),  -- captivate tm
-    (159, 15900, 8, 21, 6, NULL),  -- ice-punch tutor
-    (159, 15900, 173, 21, 6, NULL),  -- snore tutor
-    (159, 15900, 180, 21, 6, NULL),  -- spite tutor
-    (159, 15900, 189, 21, 6, NULL),  -- mud-slap tutor
-    (159, 15900, 196, 21, 6, NULL),  -- icy-wind tutor
-    (159, 15900, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (159, 15900, 246, 21, 6, NULL),  -- ancient-power tutor
-    (159, 15900, 253, 21, 6, NULL),  -- uproar tutor
-    (159, 15900, 276, 21, 6, NULL),  -- superpower tutor
-    (159, 15900, 291, 21, 6, NULL),  -- dive tutor
-    -- #160 Feraligatr
-    (160, 16000, 10, 21, 1, 1),  -- scratch lv1
-    (160, 16000, 43, 21, 1, 1),  -- leer lv1
-    (160, 16000, 55, 21, 1, 1),  -- water-gun lv1
-    (160, 16000, 99, 21, 1, 1),  -- rage lv1
+    (159, 15900, 503, 21, 2, NULL),  -- scald tm
+    (159, 15900, 526, 21, 2, NULL),  -- work-up tm
+    (159, 15900, 8, 21, 5, NULL),  -- ice-punch egg
+    (159, 15900, 37, 21, 5, NULL),  -- thrash egg
+    (159, 15900, 56, 21, 5, NULL),  -- hydro-pump egg
+    (159, 15900, 232, 21, 5, NULL),  -- metal-claw egg
+    (159, 15900, 242, 21, 5, NULL),  -- crunch egg
+    (159, 15900, 246, 21, 5, NULL),  -- ancient-power egg
+    (159, 15900, 260, 21, 5, NULL),  -- flatter egg
+    (159, 15900, 313, 21, 5, NULL),  -- fake-tears egg
+    (159, 15900, 335, 21, 5, NULL),  -- block egg
+    (159, 15900, 349, 21, 5, NULL),  -- dragon-dance egg
+    (159, 15900, 453, 21, 5, NULL),  -- aqua-jet egg
+    (159, 15900, 10, 21, 8, NULL),  -- scratch start
+    (159, 15900, 43, 21, 8, NULL),  -- leer start
+    (159, 15900, 55, 21, 8, NULL),  -- water-gun start
+    (160, 16000, 55, 21, 1, 6),  -- water-gun lv6
+    (160, 16000, 189, 21, 1, 8),  -- mud-slap lv8
     (160, 16000, 44, 21, 1, 13),  -- bite lv13
     (160, 16000, 184, 21, 1, 15),  -- scary-face lv15
     (160, 16000, 423, 21, 1, 21),  -- ice-fang lv21
     (160, 16000, 175, 21, 1, 24),  -- flail lv24
-    (160, 16000, 97, 21, 1, 30),  -- agility lv30
     (160, 16000, 242, 21, 1, 32),  -- crunch lv32
-    (160, 16000, 163, 21, 1, 37),  -- slash lv37
-    (160, 16000, 103, 21, 1, 45),  -- screech lv45
-    (160, 16000, 37, 21, 1, 50),  -- thrash lv50
-    (160, 16000, 401, 21, 1, 58),  -- aqua-tail lv58
-    (160, 16000, 276, 21, 1, 63),  -- superpower lv63
-    (160, 16000, 56, 21, 1, 71),  -- hydro-pump lv71
+    (160, 16000, 67, 21, 1, 37),  -- low-kick lv37
+    (160, 16000, 163, 21, 1, 45),  -- slash lv45
+    (160, 16000, 103, 21, 1, 50),  -- screech lv50
+    (160, 16000, 37, 21, 1, 58),  -- thrash lv58
+    (160, 16000, 401, 21, 1, 63),  -- aqua-tail lv63
+    (160, 16000, 276, 21, 1, 71),  -- superpower lv71
+    (160, 16000, 56, 21, 1, 76),  -- hydro-pump lv76
     (160, 16000, 14, 21, 2, NULL),  -- swords-dance tm
     (160, 16000, 15, 21, 2, NULL),  -- cut tm
     (160, 16000, 46, 21, 2, NULL),  -- roar tm
@@ -4431,7 +3394,6 @@ VALUES
     (160, 16000, 70, 21, 2, NULL),  -- strength tm
     (160, 16000, 89, 21, 2, NULL),  -- earthquake tm
     (160, 16000, 91, 21, 2, NULL),  -- dig tm
-    (160, 16000, 92, 21, 2, NULL),  -- toxic tm
     (160, 16000, 104, 21, 2, NULL),  -- double-team tm
     (160, 16000, 127, 21, 2, NULL),  -- waterfall tm
     (160, 16000, 156, 21, 2, NULL),  -- rest tm
@@ -4442,22 +3404,17 @@ VALUES
     (160, 16000, 207, 21, 2, NULL),  -- swagger tm
     (160, 16000, 213, 21, 2, NULL),  -- attract tm
     (160, 16000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (160, 16000, 216, 21, 2, NULL),  -- return tm
-    (160, 16000, 218, 21, 2, NULL),  -- frustration tm
     (160, 16000, 231, 21, 2, NULL),  -- iron-tail tm
-    (160, 16000, 237, 21, 2, NULL),  -- hidden-power tm
     (160, 16000, 240, 21, 2, NULL),  -- rain-dance tm
     (160, 16000, 249, 21, 2, NULL),  -- rock-smash tm
     (160, 16000, 258, 21, 2, NULL),  -- hail tm
     (160, 16000, 263, 21, 2, NULL),  -- facade tm
     (160, 16000, 264, 21, 2, NULL),  -- focus-punch tm
     (160, 16000, 280, 21, 2, NULL),  -- brick-break tm
-    (160, 16000, 290, 21, 2, NULL),  -- secret-power tm
     (160, 16000, 317, 21, 2, NULL),  -- rock-tomb tm
     (160, 16000, 332, 21, 2, NULL),  -- aerial-ace tm
     (160, 16000, 337, 21, 2, NULL),  -- dragon-claw tm
     (160, 16000, 352, 21, 2, NULL),  -- water-pulse tm
-    (160, 16000, 363, 21, 2, NULL),  -- natural-gift tm
     (160, 16000, 374, 21, 2, NULL),  -- fling tm
     (160, 16000, 406, 21, 2, NULL),  -- dragon-pulse tm
     (160, 16000, 411, 21, 2, NULL),  -- focus-blast tm
@@ -4465,23 +3422,25 @@ VALUES
     (160, 16000, 419, 21, 2, NULL),  -- avalanche tm
     (160, 16000, 421, 21, 2, NULL),  -- shadow-claw tm
     (160, 16000, 431, 21, 2, NULL),  -- rock-climb tm
-    (160, 16000, 445, 21, 2, NULL),  -- captivate tm
-    (160, 16000, 8, 21, 6, NULL),  -- ice-punch tutor
-    (160, 16000, 173, 21, 6, NULL),  -- snore tutor
-    (160, 16000, 180, 21, 6, NULL),  -- spite tutor
-    (160, 16000, 189, 21, 6, NULL),  -- mud-slap tutor
-    (160, 16000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (160, 16000, 200, 21, 6, NULL),  -- outrage tutor
-    (160, 16000, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (160, 16000, 246, 21, 6, NULL),  -- ancient-power tutor
-    (160, 16000, 253, 21, 6, NULL),  -- uproar tutor
-    (160, 16000, 276, 21, 6, NULL),  -- superpower tutor
-    (160, 16000, 291, 21, 6, NULL),  -- dive tutor
-    (160, 16000, 308, 21, 6, NULL),  -- hydro-cannon tutor
-    (160, 16000, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #161 Sentret
-    (161, 16100, 10, 21, 1, 1),  -- scratch lv1
-    (161, 16100, 193, 21, 1, 1),  -- foresight lv1
+    (160, 16000, 503, 21, 2, NULL),  -- scald tm
+    (160, 16000, 523, 21, 2, NULL),  -- bulldoze tm
+    (160, 16000, 526, 21, 2, NULL),  -- work-up tm
+    (160, 16000, 8, 21, 5, NULL),  -- ice-punch egg
+    (160, 16000, 37, 21, 5, NULL),  -- thrash egg
+    (160, 16000, 56, 21, 5, NULL),  -- hydro-pump egg
+    (160, 16000, 232, 21, 5, NULL),  -- metal-claw egg
+    (160, 16000, 242, 21, 5, NULL),  -- crunch egg
+    (160, 16000, 246, 21, 5, NULL),  -- ancient-power egg
+    (160, 16000, 260, 21, 5, NULL),  -- flatter egg
+    (160, 16000, 313, 21, 5, NULL),  -- fake-tears egg
+    (160, 16000, 335, 21, 5, NULL),  -- block egg
+    (160, 16000, 349, 21, 5, NULL),  -- dragon-dance egg
+    (160, 16000, 453, 21, 5, NULL),  -- aqua-jet egg
+    (160, 16000, 10, 21, 8, NULL),  -- scratch start
+    (160, 16000, 43, 21, 8, NULL),  -- leer start
+    (160, 16000, 55, 21, 8, NULL),  -- water-gun start
+    (160, 16000, 97, 21, 8, NULL),  -- agility start
+    (160, 16000, 189, 21, 8, NULL),  -- mud-slap start
     (161, 16100, 111, 21, 1, 4),  -- defense-curl lv4
     (161, 16100, 98, 21, 1, 7),  -- quick-attack lv7
     (161, 16100, 154, 21, 1, 13),  -- fury-swipes lv13
@@ -4492,16 +3451,16 @@ VALUES
     (161, 16100, 389, 21, 1, 31),  -- sucker-punch lv31
     (161, 16100, 133, 21, 1, 36),  -- amnesia lv36
     (161, 16100, 226, 21, 1, 39),  -- baton-pass lv39
-    (161, 16100, 382, 21, 1, 42),  -- me-first lv42
+    (161, 16100, 179, 21, 1, 42),  -- reversal lv42
     (161, 16100, 304, 21, 1, 47),  -- hyper-voice lv47
     (161, 16100, 15, 21, 2, NULL),  -- cut tm
     (161, 16100, 53, 21, 2, NULL),  -- flamethrower tm
     (161, 16100, 57, 21, 2, NULL),  -- surf tm
     (161, 16100, 58, 21, 2, NULL),  -- ice-beam tm
+    (161, 16100, 59, 21, 2, NULL),  -- blizzard tm
     (161, 16100, 76, 21, 2, NULL),  -- solar-beam tm
     (161, 16100, 85, 21, 2, NULL),  -- thunderbolt tm
     (161, 16100, 91, 21, 2, NULL),  -- dig tm
-    (161, 16100, 92, 21, 2, NULL),  -- toxic tm
     (161, 16100, 104, 21, 2, NULL),  -- double-team tm
     (161, 16100, 156, 21, 2, NULL),  -- rest tm
     (161, 16100, 164, 21, 2, NULL),  -- substitute tm
@@ -4511,56 +3470,34 @@ VALUES
     (161, 16100, 207, 21, 2, NULL),  -- swagger tm
     (161, 16100, 213, 21, 2, NULL),  -- attract tm
     (161, 16100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (161, 16100, 216, 21, 2, NULL),  -- return tm
-    (161, 16100, 218, 21, 2, NULL),  -- frustration tm
     (161, 16100, 231, 21, 2, NULL),  -- iron-tail tm
-    (161, 16100, 237, 21, 2, NULL),  -- hidden-power tm
     (161, 16100, 240, 21, 2, NULL),  -- rain-dance tm
     (161, 16100, 241, 21, 2, NULL),  -- sunny-day tm
     (161, 16100, 247, 21, 2, NULL),  -- shadow-ball tm
     (161, 16100, 263, 21, 2, NULL),  -- facade tm
     (161, 16100, 264, 21, 2, NULL),  -- focus-punch tm
     (161, 16100, 280, 21, 2, NULL),  -- brick-break tm
-    (161, 16100, 290, 21, 2, NULL),  -- secret-power tm
     (161, 16100, 351, 21, 2, NULL),  -- shock-wave tm
     (161, 16100, 352, 21, 2, NULL),  -- water-pulse tm
-    (161, 16100, 363, 21, 2, NULL),  -- natural-gift tm
     (161, 16100, 369, 21, 2, NULL),  -- u-turn tm
     (161, 16100, 374, 21, 2, NULL),  -- fling tm
     (161, 16100, 421, 21, 2, NULL),  -- shadow-claw tm
-    (161, 16100, 445, 21, 2, NULL),  -- captivate tm
     (161, 16100, 447, 21, 2, NULL),  -- grass-knot tm
     (161, 16100, 451, 21, 2, NULL),  -- charge-beam tm
+    (161, 16100, 526, 21, 2, NULL),  -- work-up tm
     (161, 16100, 38, 21, 5, NULL),  -- double-edge egg
     (161, 16100, 116, 21, 5, NULL),  -- focus-energy egg
     (161, 16100, 163, 21, 5, NULL),  -- slash egg
-    (161, 16100, 164, 21, 5, NULL),  -- substitute egg
     (161, 16100, 179, 21, 5, NULL),  -- reversal egg
     (161, 16100, 204, 21, 5, NULL),  -- charm egg
-    (161, 16100, 228, 21, 5, NULL),  -- pursuit egg
     (161, 16100, 271, 21, 5, NULL),  -- trick egg
-    (161, 16100, 274, 21, 5, NULL),  -- assist egg
     (161, 16100, 343, 21, 5, NULL),  -- covet egg
     (161, 16100, 387, 21, 5, NULL),  -- last-resort egg
-    (161, 16100, 7, 21, 6, NULL),  -- fire-punch tutor
-    (161, 16100, 8, 21, 6, NULL),  -- ice-punch tutor
-    (161, 16100, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (161, 16100, 129, 21, 6, NULL),  -- swift tutor
-    (161, 16100, 173, 21, 6, NULL),  -- snore tutor
-    (161, 16100, 189, 21, 6, NULL),  -- mud-slap tutor
-    (161, 16100, 205, 21, 6, NULL),  -- rollout tutor
-    (161, 16100, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (161, 16100, 253, 21, 6, NULL),  -- uproar tutor
-    (161, 16100, 270, 21, 6, NULL),  -- helping-hand tutor
-    (161, 16100, 282, 21, 6, NULL),  -- knock-off tutor
-    (161, 16100, 387, 21, 6, NULL),  -- last-resort tutor
-    (161, 16100, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (161, 16100, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #162 Furret
-    (162, 16200, 10, 21, 1, 1),  -- scratch lv1
-    (162, 16200, 98, 21, 1, 1),  -- quick-attack lv1
-    (162, 16200, 111, 21, 1, 1),  -- defense-curl lv1
-    (162, 16200, 193, 21, 1, 1),  -- foresight lv1
+    (161, 16100, 608, 21, 5, NULL),  -- baby-doll-eyes egg
+    (161, 16100, 10, 21, 8, NULL),  -- scratch start
+    (161, 16100, 45, 21, 8, NULL),  -- growl start
+    (162, 16200, 111, 21, 1, 4),  -- defense-curl lv4
+    (162, 16200, 98, 21, 1, 7),  -- quick-attack lv7
     (162, 16200, 154, 21, 1, 13),  -- fury-swipes lv13
     (162, 16200, 270, 21, 1, 17),  -- helping-hand lv17
     (162, 16200, 266, 21, 1, 21),  -- follow-me lv21
@@ -4569,7 +3506,7 @@ VALUES
     (162, 16200, 389, 21, 1, 36),  -- sucker-punch lv36
     (162, 16200, 133, 21, 1, 42),  -- amnesia lv42
     (162, 16200, 226, 21, 1, 46),  -- baton-pass lv46
-    (162, 16200, 382, 21, 1, 50),  -- me-first lv50
+    (162, 16200, 179, 21, 1, 50),  -- reversal lv50
     (162, 16200, 304, 21, 1, 56),  -- hyper-voice lv56
     (162, 16200, 15, 21, 2, NULL),  -- cut tm
     (162, 16200, 53, 21, 2, NULL),  -- flamethrower tm
@@ -4582,7 +3519,6 @@ VALUES
     (162, 16200, 85, 21, 2, NULL),  -- thunderbolt tm
     (162, 16200, 87, 21, 2, NULL),  -- thunder tm
     (162, 16200, 91, 21, 2, NULL),  -- dig tm
-    (162, 16200, 92, 21, 2, NULL),  -- toxic tm
     (162, 16200, 104, 21, 2, NULL),  -- double-team tm
     (162, 16200, 156, 21, 2, NULL),  -- rest tm
     (162, 16200, 164, 21, 2, NULL),  -- substitute tm
@@ -4592,10 +3528,7 @@ VALUES
     (162, 16200, 207, 21, 2, NULL),  -- swagger tm
     (162, 16200, 213, 21, 2, NULL),  -- attract tm
     (162, 16200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (162, 16200, 216, 21, 2, NULL),  -- return tm
-    (162, 16200, 218, 21, 2, NULL),  -- frustration tm
     (162, 16200, 231, 21, 2, NULL),  -- iron-tail tm
-    (162, 16200, 237, 21, 2, NULL),  -- hidden-power tm
     (162, 16200, 240, 21, 2, NULL),  -- rain-dance tm
     (162, 16200, 241, 21, 2, NULL),  -- sunny-day tm
     (162, 16200, 247, 21, 2, NULL),  -- shadow-ball tm
@@ -4603,50 +3536,45 @@ VALUES
     (162, 16200, 263, 21, 2, NULL),  -- facade tm
     (162, 16200, 264, 21, 2, NULL),  -- focus-punch tm
     (162, 16200, 280, 21, 2, NULL),  -- brick-break tm
-    (162, 16200, 290, 21, 2, NULL),  -- secret-power tm
     (162, 16200, 351, 21, 2, NULL),  -- shock-wave tm
     (162, 16200, 352, 21, 2, NULL),  -- water-pulse tm
-    (162, 16200, 363, 21, 2, NULL),  -- natural-gift tm
     (162, 16200, 369, 21, 2, NULL),  -- u-turn tm
     (162, 16200, 374, 21, 2, NULL),  -- fling tm
     (162, 16200, 411, 21, 2, NULL),  -- focus-blast tm
     (162, 16200, 416, 21, 2, NULL),  -- giga-impact tm
     (162, 16200, 421, 21, 2, NULL),  -- shadow-claw tm
-    (162, 16200, 445, 21, 2, NULL),  -- captivate tm
     (162, 16200, 447, 21, 2, NULL),  -- grass-knot tm
     (162, 16200, 451, 21, 2, NULL),  -- charge-beam tm
-    (162, 16200, 7, 21, 6, NULL),  -- fire-punch tutor
-    (162, 16200, 8, 21, 6, NULL),  -- ice-punch tutor
-    (162, 16200, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (162, 16200, 129, 21, 6, NULL),  -- swift tutor
-    (162, 16200, 173, 21, 6, NULL),  -- snore tutor
-    (162, 16200, 189, 21, 6, NULL),  -- mud-slap tutor
-    (162, 16200, 205, 21, 6, NULL),  -- rollout tutor
-    (162, 16200, 210, 21, 6, NULL),  -- fury-cutter tutor
-    (162, 16200, 253, 21, 6, NULL),  -- uproar tutor
-    (162, 16200, 270, 21, 6, NULL),  -- helping-hand tutor
-    (162, 16200, 282, 21, 6, NULL),  -- knock-off tutor
-    (162, 16200, 387, 21, 6, NULL),  -- last-resort tutor
-    (162, 16200, 389, 21, 6, NULL),  -- sucker-punch tutor
-    (162, 16200, 401, 21, 6, NULL),  -- aqua-tail tutor
-    -- #163 Hoothoot
-    (163, 16300, 33, 21, 1, 1),  -- tackle lv1
-    (163, 16300, 45, 21, 1, 1),  -- growl lv1
-    (163, 16300, 193, 21, 1, 1),  -- foresight lv1
-    (163, 16300, 95, 21, 1, 5),  -- hypnosis lv5
-    (163, 16300, 64, 21, 1, 9),  -- peck lv9
-    (163, 16300, 253, 21, 1, 13),  -- uproar lv13
-    (163, 16300, 115, 21, 1, 17),  -- reflect lv17
-    (163, 16300, 93, 21, 1, 21),  -- confusion lv21
-    (163, 16300, 36, 21, 1, 25),  -- take-down lv25
-    (163, 16300, 403, 21, 1, 29),  -- air-slash lv29
-    (163, 16300, 428, 21, 1, 33),  -- zen-headbutt lv33
-    (163, 16300, 326, 21, 1, 37),  -- extrasensory lv37
-    (163, 16300, 375, 21, 1, 41),  -- psycho-shift lv41
-    (163, 16300, 355, 21, 1, 45),  -- roost lv45
-    (163, 16300, 138, 21, 1, 49),  -- dream-eater lv49
+    (162, 16200, 526, 21, 2, NULL),  -- work-up tm
+    (162, 16200, 38, 21, 5, NULL),  -- double-edge egg
+    (162, 16200, 116, 21, 5, NULL),  -- focus-energy egg
+    (162, 16200, 163, 21, 5, NULL),  -- slash egg
+    (162, 16200, 179, 21, 5, NULL),  -- reversal egg
+    (162, 16200, 204, 21, 5, NULL),  -- charm egg
+    (162, 16200, 271, 21, 5, NULL),  -- trick egg
+    (162, 16200, 343, 21, 5, NULL),  -- covet egg
+    (162, 16200, 387, 21, 5, NULL),  -- last-resort egg
+    (162, 16200, 608, 21, 5, NULL),  -- baby-doll-eyes egg
+    (162, 16200, 10, 21, 8, NULL),  -- scratch start
+    (162, 16200, 45, 21, 8, NULL),  -- growl start
+    (162, 16200, 97, 21, 8, NULL),  -- agility start
+    (162, 16200, 98, 21, 8, NULL),  -- quick-attack start
+    (162, 16200, 111, 21, 8, NULL),  -- defense-curl start
+    (162, 16200, 489, 21, 8, NULL),  -- coil start
+    (163, 16300, 33, 21, 1, 3),  -- tackle lv3
+    (163, 16300, 497, 21, 1, 6),  -- echoed-voice lv6
+    (163, 16300, 93, 21, 1, 9),  -- confusion lv9
+    (163, 16300, 115, 21, 1, 12),  -- reflect lv12
+    (163, 16300, 375, 21, 1, 15),  -- psycho-shift lv15
+    (163, 16300, 403, 21, 1, 18),  -- air-slash lv18
+    (163, 16300, 326, 21, 1, 21),  -- extrasensory lv21
+    (163, 16300, 36, 21, 1, 24),  -- take-down lv24
+    (163, 16300, 253, 21, 1, 27),  -- uproar lv27
+    (163, 16300, 355, 21, 1, 30),  -- roost lv30
+    (163, 16300, 585, 21, 1, 33),  -- moonblast lv33
+    (163, 16300, 95, 21, 1, 36),  -- hypnosis lv36
+    (163, 16300, 138, 21, 1, 39),  -- dream-eater lv39
     (163, 16300, 19, 21, 2, NULL),  -- fly tm
-    (163, 16300, 92, 21, 2, NULL),  -- toxic tm
     (163, 16300, 94, 21, 2, NULL),  -- psychic tm
     (163, 16300, 104, 21, 2, NULL),  -- double-team tm
     (163, 16300, 115, 21, 2, NULL),  -- reflect tm
@@ -4660,60 +3588,43 @@ VALUES
     (163, 16300, 211, 21, 2, NULL),  -- steel-wing tm
     (163, 16300, 213, 21, 2, NULL),  -- attract tm
     (163, 16300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (163, 16300, 216, 21, 2, NULL),  -- return tm
-    (163, 16300, 218, 21, 2, NULL),  -- frustration tm
-    (163, 16300, 237, 21, 2, NULL),  -- hidden-power tm
     (163, 16300, 240, 21, 2, NULL),  -- rain-dance tm
     (163, 16300, 241, 21, 2, NULL),  -- sunny-day tm
     (163, 16300, 244, 21, 2, NULL),  -- psych-up tm
     (163, 16300, 247, 21, 2, NULL),  -- shadow-ball tm
     (163, 16300, 263, 21, 2, NULL),  -- facade tm
     (163, 16300, 278, 21, 2, NULL),  -- recycle tm
-    (163, 16300, 290, 21, 2, NULL),  -- secret-power tm
-    (163, 16300, 318, 21, 2, NULL),  -- silver-wind tm
     (163, 16300, 332, 21, 2, NULL),  -- aerial-ace tm
+    (163, 16300, 347, 21, 2, NULL),  -- calm-mind tm
     (163, 16300, 355, 21, 2, NULL),  -- roost tm
-    (163, 16300, 363, 21, 2, NULL),  -- natural-gift tm
     (163, 16300, 365, 21, 2, NULL),  -- pluck tm
+    (163, 16300, 417, 21, 2, NULL),  -- nasty-plot tm
     (163, 16300, 432, 21, 2, NULL),  -- defog tm
-    (163, 16300, 445, 21, 2, NULL),  -- captivate tm
+    (163, 16300, 526, 21, 2, NULL),  -- work-up tm
     (163, 16300, 17, 21, 5, NULL),  -- wing-attack egg
     (163, 16300, 18, 21, 5, NULL),  -- whirlwind egg
     (163, 16300, 48, 21, 5, NULL),  -- supersonic egg
     (163, 16300, 97, 21, 5, NULL),  -- agility egg
     (163, 16300, 101, 21, 5, NULL),  -- night-shade egg
-    (163, 16300, 119, 21, 5, NULL),  -- mirror-move egg
     (163, 16300, 143, 21, 5, NULL),  -- sky-attack egg
-    (163, 16300, 185, 21, 5, NULL),  -- feint-attack egg
+    (163, 16300, 212, 21, 5, NULL),  -- mean-look egg
     (163, 16300, 297, 21, 5, NULL),  -- feather-dance egg
-    (163, 16300, 129, 21, 6, NULL),  -- swift tutor
-    (163, 16300, 189, 21, 6, NULL),  -- mud-slap tutor
-    (163, 16300, 239, 21, 6, NULL),  -- twister tutor
-    (163, 16300, 253, 21, 6, NULL),  -- uproar tutor
-    (163, 16300, 257, 21, 6, NULL),  -- heat-wave tutor
-    (163, 16300, 314, 21, 6, NULL),  -- air-cutter tutor
-    (163, 16300, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (163, 16300, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #164 Noctowl
-    (164, 16400, 33, 21, 1, 1),  -- tackle lv1
-    (164, 16400, 45, 21, 1, 1),  -- growl lv1
-    (164, 16400, 95, 21, 1, 1),  -- hypnosis lv1
-    (164, 16400, 143, 21, 1, 1),  -- sky-attack lv1
-    (164, 16400, 193, 21, 1, 1),  -- foresight lv1
-    (164, 16400, 64, 21, 1, 9),  -- peck lv9
-    (164, 16400, 253, 21, 1, 13),  -- uproar lv13
-    (164, 16400, 115, 21, 1, 17),  -- reflect lv17
-    (164, 16400, 93, 21, 1, 22),  -- confusion lv22
-    (164, 16400, 36, 21, 1, 27),  -- take-down lv27
-    (164, 16400, 403, 21, 1, 32),  -- air-slash lv32
-    (164, 16400, 428, 21, 1, 37),  -- zen-headbutt lv37
-    (164, 16400, 326, 21, 1, 42),  -- extrasensory lv42
-    (164, 16400, 375, 21, 1, 47),  -- psycho-shift lv47
-    (164, 16400, 355, 21, 1, 52),  -- roost lv52
-    (164, 16400, 138, 21, 1, 57),  -- dream-eater lv57
+    (163, 16300, 542, 21, 5, NULL),  -- hurricane egg
+    (163, 16300, 45, 21, 8, NULL),  -- growl start
+    (163, 16300, 64, 21, 8, NULL),  -- peck start
+    (164, 16400, 93, 21, 1, 9),  -- confusion lv9
+    (164, 16400, 115, 21, 1, 12),  -- reflect lv12
+    (164, 16400, 375, 21, 1, 15),  -- psycho-shift lv15
+    (164, 16400, 403, 21, 1, 18),  -- air-slash lv18
+    (164, 16400, 326, 21, 1, 23),  -- extrasensory lv23
+    (164, 16400, 36, 21, 1, 28),  -- take-down lv28
+    (164, 16400, 253, 21, 1, 33),  -- uproar lv33
+    (164, 16400, 355, 21, 1, 38),  -- roost lv38
+    (164, 16400, 585, 21, 1, 43),  -- moonblast lv43
+    (164, 16400, 95, 21, 1, 48),  -- hypnosis lv48
+    (164, 16400, 138, 21, 1, 53),  -- dream-eater lv53
     (164, 16400, 19, 21, 2, NULL),  -- fly tm
     (164, 16400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (164, 16400, 92, 21, 2, NULL),  -- toxic tm
     (164, 16400, 94, 21, 2, NULL),  -- psychic tm
     (164, 16400, 104, 21, 2, NULL),  -- double-team tm
     (164, 16400, 115, 21, 2, NULL),  -- reflect tm
@@ -4727,50 +3638,50 @@ VALUES
     (164, 16400, 211, 21, 2, NULL),  -- steel-wing tm
     (164, 16400, 213, 21, 2, NULL),  -- attract tm
     (164, 16400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (164, 16400, 216, 21, 2, NULL),  -- return tm
-    (164, 16400, 218, 21, 2, NULL),  -- frustration tm
-    (164, 16400, 237, 21, 2, NULL),  -- hidden-power tm
     (164, 16400, 240, 21, 2, NULL),  -- rain-dance tm
     (164, 16400, 241, 21, 2, NULL),  -- sunny-day tm
     (164, 16400, 244, 21, 2, NULL),  -- psych-up tm
     (164, 16400, 247, 21, 2, NULL),  -- shadow-ball tm
     (164, 16400, 263, 21, 2, NULL),  -- facade tm
     (164, 16400, 278, 21, 2, NULL),  -- recycle tm
-    (164, 16400, 290, 21, 2, NULL),  -- secret-power tm
-    (164, 16400, 318, 21, 2, NULL),  -- silver-wind tm
     (164, 16400, 332, 21, 2, NULL),  -- aerial-ace tm
+    (164, 16400, 347, 21, 2, NULL),  -- calm-mind tm
     (164, 16400, 355, 21, 2, NULL),  -- roost tm
-    (164, 16400, 363, 21, 2, NULL),  -- natural-gift tm
     (164, 16400, 365, 21, 2, NULL),  -- pluck tm
     (164, 16400, 416, 21, 2, NULL),  -- giga-impact tm
+    (164, 16400, 417, 21, 2, NULL),  -- nasty-plot tm
     (164, 16400, 432, 21, 2, NULL),  -- defog tm
-    (164, 16400, 445, 21, 2, NULL),  -- captivate tm
-    (164, 16400, 129, 21, 6, NULL),  -- swift tutor
-    (164, 16400, 189, 21, 6, NULL),  -- mud-slap tutor
-    (164, 16400, 239, 21, 6, NULL),  -- twister tutor
-    (164, 16400, 253, 21, 6, NULL),  -- uproar tutor
-    (164, 16400, 257, 21, 6, NULL),  -- heat-wave tutor
-    (164, 16400, 314, 21, 6, NULL),  -- air-cutter tutor
-    (164, 16400, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (164, 16400, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #165 Ledyba
-    (165, 16500, 33, 21, 1, 1),  -- tackle lv1
-    (165, 16500, 48, 21, 1, 6),  -- supersonic lv6
-    (165, 16500, 4, 21, 1, 9),  -- comet-punch lv9
-    (165, 16500, 113, 21, 1, 14),  -- light-screen lv14
-    (165, 16500, 115, 21, 1, 14),  -- reflect lv14
-    (165, 16500, 219, 21, 1, 14),  -- safeguard lv14
-    (165, 16500, 183, 21, 1, 17),  -- mach-punch lv17
-    (165, 16500, 226, 21, 1, 22),  -- baton-pass lv22
-    (165, 16500, 318, 21, 1, 25),  -- silver-wind lv25
-    (165, 16500, 97, 21, 1, 30),  -- agility lv30
-    (165, 16500, 129, 21, 1, 33),  -- swift lv33
-    (165, 16500, 38, 21, 1, 38),  -- double-edge lv38
-    (165, 16500, 405, 21, 1, 41),  -- bug-buzz lv41
+    (164, 16400, 526, 21, 2, NULL),  -- work-up tm
+    (164, 16400, 17, 21, 5, NULL),  -- wing-attack egg
+    (164, 16400, 18, 21, 5, NULL),  -- whirlwind egg
+    (164, 16400, 48, 21, 5, NULL),  -- supersonic egg
+    (164, 16400, 97, 21, 5, NULL),  -- agility egg
+    (164, 16400, 101, 21, 5, NULL),  -- night-shade egg
+    (164, 16400, 143, 21, 5, NULL),  -- sky-attack egg
+    (164, 16400, 212, 21, 5, NULL),  -- mean-look egg
+    (164, 16400, 297, 21, 5, NULL),  -- feather-dance egg
+    (164, 16400, 542, 21, 5, NULL),  -- hurricane egg
+    (164, 16400, 33, 21, 8, NULL),  -- tackle start
+    (164, 16400, 45, 21, 8, NULL),  -- growl start
+    (164, 16400, 64, 21, 8, NULL),  -- peck start
+    (164, 16400, 143, 21, 8, NULL),  -- sky-attack start
+    (164, 16400, 497, 21, 8, NULL),  -- echoed-voice start
+    (165, 16500, 48, 21, 1, 5),  -- supersonic lv5
+    (165, 16500, 129, 21, 1, 8),  -- swift lv8
+    (165, 16500, 113, 21, 1, 12),  -- light-screen lv12
+    (165, 16500, 115, 21, 1, 12),  -- reflect lv12
+    (165, 16500, 219, 21, 1, 12),  -- safeguard lv12
+    (165, 16500, 183, 21, 1, 15),  -- mach-punch lv15
+    (165, 16500, 355, 21, 1, 19),  -- roost lv19
+    (165, 16500, 522, 21, 1, 22),  -- struggle-bug lv22
+    (165, 16500, 226, 21, 1, 26),  -- baton-pass lv26
+    (165, 16500, 97, 21, 1, 29),  -- agility lv29
+    (165, 16500, 405, 21, 1, 33),  -- bug-buzz lv33
+    (165, 16500, 403, 21, 1, 36),  -- air-slash lv36
+    (165, 16500, 38, 21, 1, 40),  -- double-edge lv40
     (165, 16500, 14, 21, 2, NULL),  -- swords-dance tm
     (165, 16500, 76, 21, 2, NULL),  -- solar-beam tm
     (165, 16500, 91, 21, 2, NULL),  -- dig tm
-    (165, 16500, 92, 21, 2, NULL),  -- toxic tm
     (165, 16500, 104, 21, 2, NULL),  -- double-team tm
     (165, 16500, 113, 21, 2, NULL),  -- light-screen tm
     (165, 16500, 115, 21, 2, NULL),  -- reflect tm
@@ -4784,60 +3695,43 @@ VALUES
     (165, 16500, 207, 21, 2, NULL),  -- swagger tm
     (165, 16500, 213, 21, 2, NULL),  -- attract tm
     (165, 16500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (165, 16500, 216, 21, 2, NULL),  -- return tm
-    (165, 16500, 218, 21, 2, NULL),  -- frustration tm
     (165, 16500, 219, 21, 2, NULL),  -- safeguard tm
-    (165, 16500, 237, 21, 2, NULL),  -- hidden-power tm
     (165, 16500, 241, 21, 2, NULL),  -- sunny-day tm
     (165, 16500, 263, 21, 2, NULL),  -- facade tm
     (165, 16500, 264, 21, 2, NULL),  -- focus-punch tm
     (165, 16500, 280, 21, 2, NULL),  -- brick-break tm
-    (165, 16500, 290, 21, 2, NULL),  -- secret-power tm
-    (165, 16500, 318, 21, 2, NULL),  -- silver-wind tm
     (165, 16500, 332, 21, 2, NULL),  -- aerial-ace tm
     (165, 16500, 355, 21, 2, NULL),  -- roost tm
-    (165, 16500, 363, 21, 2, NULL),  -- natural-gift tm
     (165, 16500, 369, 21, 2, NULL),  -- u-turn tm
     (165, 16500, 374, 21, 2, NULL),  -- fling tm
+    (165, 16500, 405, 21, 2, NULL),  -- bug-buzz tm
     (165, 16500, 409, 21, 2, NULL),  -- drain-punch tm
-    (165, 16500, 445, 21, 2, NULL),  -- captivate tm
     (165, 16500, 60, 21, 5, NULL),  -- psybeam egg
+    (165, 16500, 68, 21, 5, NULL),  -- counter egg
     (165, 16500, 103, 21, 5, NULL),  -- screech egg
-    (165, 16500, 117, 21, 5, NULL),  -- bide egg
     (165, 16500, 227, 21, 5, NULL),  -- encore egg
     (165, 16500, 282, 21, 5, NULL),  -- knock-off egg
-    (165, 16500, 318, 21, 5, NULL),  -- silver-wind egg
-    (165, 16500, 405, 21, 5, NULL),  -- bug-buzz egg
+    (165, 16500, 366, 21, 5, NULL),  -- tailwind egg
     (165, 16500, 450, 21, 5, NULL),  -- bug-bite egg
-    (165, 16500, 8, 21, 6, NULL),  -- ice-punch tutor
-    (165, 16500, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (165, 16500, 129, 21, 6, NULL),  -- swift tutor
-    (165, 16500, 173, 21, 6, NULL),  -- snore tutor
-    (165, 16500, 205, 21, 6, NULL),  -- rollout tutor
-    (165, 16500, 253, 21, 6, NULL),  -- uproar tutor
-    (165, 16500, 282, 21, 6, NULL),  -- knock-off tutor
-    (165, 16500, 314, 21, 6, NULL),  -- air-cutter tutor
-    (165, 16500, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #166 Ledian
-    (166, 16600, 4, 21, 1, 1),  -- comet-punch lv1
-    (166, 16600, 33, 21, 1, 1),  -- tackle lv1
-    (166, 16600, 48, 21, 1, 1),  -- supersonic lv1
-    (166, 16600, 113, 21, 1, 14),  -- light-screen lv14
-    (166, 16600, 115, 21, 1, 14),  -- reflect lv14
-    (166, 16600, 219, 21, 1, 14),  -- safeguard lv14
-    (166, 16600, 183, 21, 1, 17),  -- mach-punch lv17
-    (166, 16600, 226, 21, 1, 24),  -- baton-pass lv24
-    (166, 16600, 318, 21, 1, 29),  -- silver-wind lv29
-    (166, 16600, 97, 21, 1, 36),  -- agility lv36
-    (166, 16600, 129, 21, 1, 41),  -- swift lv41
-    (166, 16600, 38, 21, 1, 48),  -- double-edge lv48
-    (166, 16600, 405, 21, 1, 53),  -- bug-buzz lv53
+    (165, 16500, 33, 21, 8, NULL),  -- tackle start
+    (166, 16600, 48, 21, 1, 5),  -- supersonic lv5
+    (166, 16600, 129, 21, 1, 8),  -- swift lv8
+    (166, 16600, 113, 21, 1, 12),  -- light-screen lv12
+    (166, 16600, 115, 21, 1, 12),  -- reflect lv12
+    (166, 16600, 219, 21, 1, 12),  -- safeguard lv12
+    (166, 16600, 183, 21, 1, 15),  -- mach-punch lv15
+    (166, 16600, 355, 21, 1, 20),  -- roost lv20
+    (166, 16600, 522, 21, 1, 24),  -- struggle-bug lv24
+    (166, 16600, 226, 21, 1, 29),  -- baton-pass lv29
+    (166, 16600, 97, 21, 1, 33),  -- agility lv33
+    (166, 16600, 405, 21, 1, 38),  -- bug-buzz lv38
+    (166, 16600, 403, 21, 1, 42),  -- air-slash lv42
+    (166, 16600, 38, 21, 1, 47),  -- double-edge lv47
     (166, 16600, 14, 21, 2, NULL),  -- swords-dance tm
     (166, 16600, 63, 21, 2, NULL),  -- hyper-beam tm
     (166, 16600, 70, 21, 2, NULL),  -- strength tm
     (166, 16600, 76, 21, 2, NULL),  -- solar-beam tm
     (166, 16600, 91, 21, 2, NULL),  -- dig tm
-    (166, 16600, 92, 21, 2, NULL),  -- toxic tm
     (166, 16600, 104, 21, 2, NULL),  -- double-team tm
     (166, 16600, 113, 21, 2, NULL),  -- light-screen tm
     (166, 16600, 115, 21, 2, NULL),  -- reflect tm
@@ -4851,53 +3745,47 @@ VALUES
     (166, 16600, 207, 21, 2, NULL),  -- swagger tm
     (166, 16600, 213, 21, 2, NULL),  -- attract tm
     (166, 16600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (166, 16600, 216, 21, 2, NULL),  -- return tm
-    (166, 16600, 218, 21, 2, NULL),  -- frustration tm
     (166, 16600, 219, 21, 2, NULL),  -- safeguard tm
-    (166, 16600, 237, 21, 2, NULL),  -- hidden-power tm
     (166, 16600, 241, 21, 2, NULL),  -- sunny-day tm
     (166, 16600, 249, 21, 2, NULL),  -- rock-smash tm
     (166, 16600, 263, 21, 2, NULL),  -- facade tm
     (166, 16600, 264, 21, 2, NULL),  -- focus-punch tm
     (166, 16600, 280, 21, 2, NULL),  -- brick-break tm
-    (166, 16600, 290, 21, 2, NULL),  -- secret-power tm
-    (166, 16600, 318, 21, 2, NULL),  -- silver-wind tm
     (166, 16600, 332, 21, 2, NULL),  -- aerial-ace tm
     (166, 16600, 355, 21, 2, NULL),  -- roost tm
-    (166, 16600, 363, 21, 2, NULL),  -- natural-gift tm
     (166, 16600, 369, 21, 2, NULL),  -- u-turn tm
     (166, 16600, 374, 21, 2, NULL),  -- fling tm
+    (166, 16600, 405, 21, 2, NULL),  -- bug-buzz tm
     (166, 16600, 409, 21, 2, NULL),  -- drain-punch tm
     (166, 16600, 411, 21, 2, NULL),  -- focus-blast tm
     (166, 16600, 416, 21, 2, NULL),  -- giga-impact tm
-    (166, 16600, 445, 21, 2, NULL),  -- captivate tm
-    (166, 16600, 8, 21, 6, NULL),  -- ice-punch tutor
-    (166, 16600, 9, 21, 6, NULL),  -- thunder-punch tutor
-    (166, 16600, 129, 21, 6, NULL),  -- swift tutor
-    (166, 16600, 173, 21, 6, NULL),  -- snore tutor
-    (166, 16600, 205, 21, 6, NULL),  -- rollout tutor
-    (166, 16600, 253, 21, 6, NULL),  -- uproar tutor
-    (166, 16600, 282, 21, 6, NULL),  -- knock-off tutor
-    (166, 16600, 314, 21, 6, NULL),  -- air-cutter tutor
-    (166, 16600, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #167 Spinarak
-    (167, 16700, 40, 21, 1, 1),  -- poison-sting lv1
-    (167, 16700, 81, 21, 1, 1),  -- string-shot lv1
-    (167, 16700, 184, 21, 1, 5),  -- scary-face lv5
-    (167, 16700, 132, 21, 1, 8),  -- constrict lv8
-    (167, 16700, 141, 21, 1, 12),  -- leech-life lv12
+    (166, 16600, 60, 21, 5, NULL),  -- psybeam egg
+    (166, 16600, 68, 21, 5, NULL),  -- counter egg
+    (166, 16600, 103, 21, 5, NULL),  -- screech egg
+    (166, 16600, 227, 21, 5, NULL),  -- encore egg
+    (166, 16600, 282, 21, 5, NULL),  -- knock-off egg
+    (166, 16600, 366, 21, 5, NULL),  -- tailwind egg
+    (166, 16600, 450, 21, 5, NULL),  -- bug-bite egg
+    (166, 16600, 33, 21, 8, NULL),  -- tackle start
+    (166, 16600, 48, 21, 8, NULL),  -- supersonic start
+    (166, 16600, 129, 21, 8, NULL),  -- swift start
+    (167, 16700, 71, 21, 1, 5),  -- absorb lv5
+    (167, 16700, 611, 21, 1, 8),  -- infestation lv8
+    (167, 16700, 184, 21, 1, 12),  -- scary-face lv12
     (167, 16700, 101, 21, 1, 15),  -- night-shade lv15
     (167, 16700, 425, 21, 1, 19),  -- shadow-sneak lv19
     (167, 16700, 154, 21, 1, 22),  -- fury-swipes lv22
     (167, 16700, 389, 21, 1, 26),  -- sucker-punch lv26
-    (167, 16700, 169, 21, 1, 29),  -- spider-web lv29
+    (167, 16700, 141, 21, 1, 29),  -- leech-life lv29
     (167, 16700, 97, 21, 1, 33),  -- agility lv33
     (167, 16700, 42, 21, 1, 36),  -- pin-missile lv36
     (167, 16700, 94, 21, 1, 40),  -- psychic lv40
     (167, 16700, 398, 21, 1, 43),  -- poison-jab lv43
+    (167, 16700, 440, 21, 1, 47),  -- cross-poison lv47
+    (167, 16700, 564, 21, 1, 50),  -- sticky-web lv50
+    (167, 16700, 672, 21, 1, 54),  -- toxic-thread lv54
     (167, 16700, 76, 21, 2, NULL),  -- solar-beam tm
     (167, 16700, 91, 21, 2, NULL),  -- dig tm
-    (167, 16700, 92, 21, 2, NULL),  -- toxic tm
     (167, 16700, 94, 21, 2, NULL),  -- psychic tm
     (167, 16700, 104, 21, 2, NULL),  -- double-team tm
     (167, 16700, 148, 21, 2, NULL),  -- flash tm
@@ -4911,46 +3799,40 @@ VALUES
     (167, 16700, 207, 21, 2, NULL),  -- swagger tm
     (167, 16700, 213, 21, 2, NULL),  -- attract tm
     (167, 16700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (167, 16700, 216, 21, 2, NULL),  -- return tm
-    (167, 16700, 218, 21, 2, NULL),  -- frustration tm
-    (167, 16700, 237, 21, 2, NULL),  -- hidden-power tm
     (167, 16700, 241, 21, 2, NULL),  -- sunny-day tm
     (167, 16700, 263, 21, 2, NULL),  -- facade tm
-    (167, 16700, 290, 21, 2, NULL),  -- secret-power tm
-    (167, 16700, 363, 21, 2, NULL),  -- natural-gift tm
     (167, 16700, 398, 21, 2, NULL),  -- poison-jab tm
-    (167, 16700, 445, 21, 2, NULL),  -- captivate tm
-    (167, 16700, 49, 21, 5, NULL),  -- sonic-boom egg
+    (167, 16700, 404, 21, 2, NULL),  -- x-scissor tm
+    (167, 16700, 405, 21, 2, NULL),  -- bug-buzz tm
     (167, 16700, 50, 21, 5, NULL),  -- disable egg
     (167, 16700, 60, 21, 5, NULL),  -- psybeam egg
+    (167, 16700, 224, 21, 5, NULL),  -- megahorn egg
     (167, 16700, 226, 21, 5, NULL),  -- baton-pass egg
-    (167, 16700, 228, 21, 5, NULL),  -- pursuit egg
-    (167, 16700, 324, 21, 5, NULL),  -- signal-beam egg
     (167, 16700, 390, 21, 5, NULL),  -- toxic-spikes egg
-    (167, 16700, 398, 21, 5, NULL),  -- poison-jab egg
-    (167, 16700, 324, 21, 6, NULL),  -- signal-beam tutor
-    (167, 16700, 340, 21, 6, NULL),  -- bounce tutor
-    (167, 16700, 389, 21, 6, NULL),  -- sucker-punch tutor
-    -- #168 Ariados
-    (168, 16800, 40, 21, 1, 1),  -- poison-sting lv1
-    (168, 16800, 81, 21, 1, 1),  -- string-shot lv1
-    (168, 16800, 132, 21, 1, 1),  -- constrict lv1
-    (168, 16800, 184, 21, 1, 1),  -- scary-face lv1
-    (168, 16800, 450, 21, 1, 1),  -- bug-bite lv1
-    (168, 16800, 141, 21, 1, 12),  -- leech-life lv12
+    (167, 16700, 400, 21, 5, NULL),  -- night-slash egg
+    (167, 16700, 476, 21, 5, NULL),  -- rage-powder egg
+    (167, 16700, 679, 21, 5, NULL),  -- lunge egg
+    (167, 16700, 40, 21, 8, NULL),  -- poison-sting start
+    (167, 16700, 81, 21, 8, NULL),  -- string-shot start
+    (168, 16800, 71, 21, 1, 5),  -- absorb lv5
+    (168, 16800, 611, 21, 1, 8),  -- infestation lv8
+    (168, 16800, 184, 21, 1, 12),  -- scary-face lv12
     (168, 16800, 101, 21, 1, 15),  -- night-shade lv15
     (168, 16800, 425, 21, 1, 19),  -- shadow-sneak lv19
     (168, 16800, 154, 21, 1, 23),  -- fury-swipes lv23
     (168, 16800, 389, 21, 1, 28),  -- sucker-punch lv28
-    (168, 16800, 169, 21, 1, 32),  -- spider-web lv32
+    (168, 16800, 141, 21, 1, 32),  -- leech-life lv32
     (168, 16800, 97, 21, 1, 37),  -- agility lv37
     (168, 16800, 42, 21, 1, 41),  -- pin-missile lv41
     (168, 16800, 94, 21, 1, 46),  -- psychic lv46
     (168, 16800, 398, 21, 1, 50),  -- poison-jab lv50
+    (168, 16800, 440, 21, 1, 55),  -- cross-poison lv55
+    (168, 16800, 564, 21, 1, 58),  -- sticky-web lv58
+    (168, 16800, 672, 21, 1, 63),  -- toxic-thread lv63
+    (168, 16800, 14, 21, 2, NULL),  -- swords-dance tm
     (168, 16800, 63, 21, 2, NULL),  -- hyper-beam tm
     (168, 16800, 76, 21, 2, NULL),  -- solar-beam tm
     (168, 16800, 91, 21, 2, NULL),  -- dig tm
-    (168, 16800, 92, 21, 2, NULL),  -- toxic tm
     (168, 16800, 94, 21, 2, NULL),  -- psychic tm
     (168, 16800, 104, 21, 2, NULL),  -- double-team tm
     (168, 16800, 148, 21, 2, NULL),  -- flash tm
@@ -4964,33 +3846,37 @@ VALUES
     (168, 16800, 207, 21, 2, NULL),  -- swagger tm
     (168, 16800, 213, 21, 2, NULL),  -- attract tm
     (168, 16800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (168, 16800, 216, 21, 2, NULL),  -- return tm
-    (168, 16800, 218, 21, 2, NULL),  -- frustration tm
-    (168, 16800, 237, 21, 2, NULL),  -- hidden-power tm
     (168, 16800, 241, 21, 2, NULL),  -- sunny-day tm
     (168, 16800, 263, 21, 2, NULL),  -- facade tm
-    (168, 16800, 290, 21, 2, NULL),  -- secret-power tm
-    (168, 16800, 363, 21, 2, NULL),  -- natural-gift tm
     (168, 16800, 398, 21, 2, NULL),  -- poison-jab tm
+    (168, 16800, 404, 21, 2, NULL),  -- x-scissor tm
+    (168, 16800, 405, 21, 2, NULL),  -- bug-buzz tm
     (168, 16800, 416, 21, 2, NULL),  -- giga-impact tm
-    (168, 16800, 445, 21, 2, NULL),  -- captivate tm
-    (168, 16800, 324, 21, 6, NULL),  -- signal-beam tutor
-    (168, 16800, 340, 21, 6, NULL),  -- bounce tutor
-    (168, 16800, 389, 21, 6, NULL),  -- sucker-punch tutor
-    -- #169 Crobat
-    (169, 16900, 48, 21, 1, 1),  -- supersonic lv1
-    (169, 16900, 103, 21, 1, 1),  -- screech lv1
-    (169, 16900, 141, 21, 1, 1),  -- leech-life lv1
-    (169, 16900, 310, 21, 1, 1),  -- astonish lv1
-    (169, 16900, 440, 21, 1, 1),  -- cross-poison lv1
-    (169, 16900, 44, 21, 1, 13),  -- bite lv13
-    (169, 16900, 17, 21, 1, 17),  -- wing-attack lv17
-    (169, 16900, 109, 21, 1, 21),  -- confuse-ray lv21
+    (168, 16800, 50, 21, 5, NULL),  -- disable egg
+    (168, 16800, 60, 21, 5, NULL),  -- psybeam egg
+    (168, 16800, 224, 21, 5, NULL),  -- megahorn egg
+    (168, 16800, 226, 21, 5, NULL),  -- baton-pass egg
+    (168, 16800, 390, 21, 5, NULL),  -- toxic-spikes egg
+    (168, 16800, 400, 21, 5, NULL),  -- night-slash egg
+    (168, 16800, 476, 21, 5, NULL),  -- rage-powder egg
+    (168, 16800, 679, 21, 5, NULL),  -- lunge egg
+    (168, 16800, 14, 21, 8, NULL),  -- swords-dance start
+    (168, 16800, 40, 21, 8, NULL),  -- poison-sting start
+    (168, 16800, 71, 21, 8, NULL),  -- absorb start
+    (168, 16800, 81, 21, 8, NULL),  -- string-shot start
+    (168, 16800, 116, 21, 8, NULL),  -- focus-energy start
+    (168, 16800, 450, 21, 8, NULL),  -- bug-bite start
+    (168, 16800, 565, 21, 8, NULL),  -- fell-stinger start
+    (168, 16800, 599, 21, 8, NULL),  -- venom-drench start
+    (169, 16900, 305, 21, 1, 15),  -- poison-fang lv15
+    (169, 16900, 501, 21, 1, 20),  -- quick-guard lv20
     (169, 16900, 314, 21, 1, 27),  -- air-cutter lv27
-    (169, 16900, 212, 21, 1, 33),  -- mean-look lv33
-    (169, 16900, 305, 21, 1, 39),  -- poison-fang lv39
-    (169, 16900, 114, 21, 1, 45),  -- haze lv45
-    (169, 16900, 403, 21, 1, 51),  -- air-slash lv51
+    (169, 16900, 44, 21, 1, 34),  -- bite lv34
+    (169, 16900, 114, 21, 1, 41),  -- haze lv41
+    (169, 16900, 474, 21, 1, 48),  -- venoshock lv48
+    (169, 16900, 109, 21, 1, 55),  -- confuse-ray lv55
+    (169, 16900, 403, 21, 1, 62),  -- air-slash lv62
+    (169, 16900, 141, 21, 1, 69),  -- leech-life lv69
     (169, 16900, 19, 21, 2, NULL),  -- fly tm
     (169, 16900, 63, 21, 2, NULL),  -- hyper-beam tm
     (169, 16900, 92, 21, 2, NULL),  -- toxic tm
@@ -5006,58 +3892,56 @@ VALUES
     (169, 16900, 211, 21, 2, NULL),  -- steel-wing tm
     (169, 16900, 213, 21, 2, NULL),  -- attract tm
     (169, 16900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (169, 16900, 216, 21, 2, NULL),  -- return tm
-    (169, 16900, 218, 21, 2, NULL),  -- frustration tm
-    (169, 16900, 237, 21, 2, NULL),  -- hidden-power tm
     (169, 16900, 240, 21, 2, NULL),  -- rain-dance tm
     (169, 16900, 241, 21, 2, NULL),  -- sunny-day tm
     (169, 16900, 247, 21, 2, NULL),  -- shadow-ball tm
     (169, 16900, 259, 21, 2, NULL),  -- torment tm
     (169, 16900, 263, 21, 2, NULL),  -- facade tm
     (169, 16900, 269, 21, 2, NULL),  -- taunt tm
-    (169, 16900, 289, 21, 2, NULL),  -- snatch tm
-    (169, 16900, 290, 21, 2, NULL),  -- secret-power tm
     (169, 16900, 332, 21, 2, NULL),  -- aerial-ace tm
     (169, 16900, 355, 21, 2, NULL),  -- roost tm
-    (169, 16900, 363, 21, 2, NULL),  -- natural-gift tm
     (169, 16900, 365, 21, 2, NULL),  -- pluck tm
     (169, 16900, 369, 21, 2, NULL),  -- u-turn tm
     (169, 16900, 371, 21, 2, NULL),  -- payback tm
     (169, 16900, 399, 21, 2, NULL),  -- dark-pulse tm
     (169, 16900, 404, 21, 2, NULL),  -- x-scissor tm
     (169, 16900, 416, 21, 2, NULL),  -- giga-impact tm
+    (169, 16900, 417, 21, 2, NULL),  -- nasty-plot tm
     (169, 16900, 432, 21, 2, NULL),  -- defog tm
-    (169, 16900, 445, 21, 2, NULL),  -- captivate tm
-    (169, 16900, 129, 21, 6, NULL),  -- swift tutor
-    (169, 16900, 173, 21, 6, NULL),  -- snore tutor
-    (169, 16900, 239, 21, 6, NULL),  -- twister tutor
-    (169, 16900, 253, 21, 6, NULL),  -- uproar tutor
-    (169, 16900, 257, 21, 6, NULL),  -- heat-wave tutor
-    (169, 16900, 314, 21, 6, NULL),  -- air-cutter tutor
-    (169, 16900, 428, 21, 6, NULL),  -- zen-headbutt tutor
-    (169, 16900, 466, 21, 6, NULL),  -- ominous-wind tutor
-    -- #170 Chinchou
-    (170, 17000, 48, 21, 1, 1),  -- supersonic lv1
-    (170, 17000, 145, 21, 1, 1),  -- bubble lv1
-    (170, 17000, 86, 21, 1, 6),  -- thunder-wave lv6
-    (170, 17000, 175, 21, 1, 9),  -- flail lv9
-    (170, 17000, 55, 21, 1, 12),  -- water-gun lv12
-    (170, 17000, 109, 21, 1, 17),  -- confuse-ray lv17
+    (169, 16900, 16, 21, 5, NULL),  -- gust egg
+    (169, 16900, 17, 21, 5, NULL),  -- wing-attack egg
+    (169, 16900, 18, 21, 5, NULL),  -- whirlwind egg
+    (169, 16900, 95, 21, 5, NULL),  -- hypnosis egg
+    (169, 16900, 98, 21, 5, NULL),  -- quick-attack egg
+    (169, 16900, 174, 21, 5, NULL),  -- curse egg
+    (169, 16900, 413, 21, 5, NULL),  -- brave-bird egg
+    (169, 16900, 428, 21, 5, NULL),  -- zen-headbutt egg
+    (169, 16900, 599, 21, 5, NULL),  -- venom-drench egg
+    (169, 16900, 48, 21, 8, NULL),  -- supersonic start
+    (169, 16900, 71, 21, 8, NULL),  -- absorb start
+    (169, 16900, 92, 21, 8, NULL),  -- toxic start
+    (169, 16900, 103, 21, 8, NULL),  -- screech start
+    (169, 16900, 212, 21, 8, NULL),  -- mean-look start
+    (169, 16900, 310, 21, 8, NULL),  -- astonish start
+    (169, 16900, 366, 21, 8, NULL),  -- tailwind start
+    (169, 16900, 440, 21, 8, NULL),  -- cross-poison start
+    (170, 17000, 486, 21, 1, 4),  -- electro-ball lv4
+    (170, 17000, 86, 21, 1, 8),  -- thunder-wave lv8
+    (170, 17000, 61, 21, 1, 12),  -- bubble-beam lv12
+    (170, 17000, 109, 21, 1, 16),  -- confuse-ray lv16
     (170, 17000, 209, 21, 1, 20),  -- spark lv20
-    (170, 17000, 36, 21, 1, 23),  -- take-down lv23
-    (170, 17000, 61, 21, 1, 28),  -- bubble-beam lv28
-    (170, 17000, 324, 21, 1, 31),  -- signal-beam lv31
-    (170, 17000, 435, 21, 1, 34),  -- discharge lv34
-    (170, 17000, 392, 21, 1, 39),  -- aqua-ring lv39
-    (170, 17000, 56, 21, 1, 42),  -- hydro-pump lv42
-    (170, 17000, 268, 21, 1, 45),  -- charge lv45
+    (170, 17000, 268, 21, 1, 24),  -- charge lv24
+    (170, 17000, 435, 21, 1, 28),  -- discharge lv28
+    (170, 17000, 392, 21, 1, 32),  -- aqua-ring lv32
+    (170, 17000, 175, 21, 1, 36),  -- flail lv36
+    (170, 17000, 36, 21, 1, 40),  -- take-down lv40
+    (170, 17000, 56, 21, 1, 44),  -- hydro-pump lv44
     (170, 17000, 57, 21, 2, NULL),  -- surf tm
     (170, 17000, 58, 21, 2, NULL),  -- ice-beam tm
     (170, 17000, 59, 21, 2, NULL),  -- blizzard tm
     (170, 17000, 85, 21, 2, NULL),  -- thunderbolt tm
     (170, 17000, 86, 21, 2, NULL),  -- thunder-wave tm
     (170, 17000, 87, 21, 2, NULL),  -- thunder tm
-    (170, 17000, 92, 21, 2, NULL),  -- toxic tm
     (170, 17000, 104, 21, 2, NULL),  -- double-team tm
     (170, 17000, 127, 21, 2, NULL),  -- waterfall tm
     (170, 17000, 148, 21, 2, NULL),  -- flash tm
@@ -5068,19 +3952,16 @@ VALUES
     (170, 17000, 207, 21, 2, NULL),  -- swagger tm
     (170, 17000, 213, 21, 2, NULL),  -- attract tm
     (170, 17000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (170, 17000, 216, 21, 2, NULL),  -- return tm
-    (170, 17000, 218, 21, 2, NULL),  -- frustration tm
-    (170, 17000, 237, 21, 2, NULL),  -- hidden-power tm
     (170, 17000, 240, 21, 2, NULL),  -- rain-dance tm
     (170, 17000, 258, 21, 2, NULL),  -- hail tm
     (170, 17000, 263, 21, 2, NULL),  -- facade tm
-    (170, 17000, 290, 21, 2, NULL),  -- secret-power tm
     (170, 17000, 351, 21, 2, NULL),  -- shock-wave tm
     (170, 17000, 352, 21, 2, NULL),  -- water-pulse tm
     (170, 17000, 362, 21, 2, NULL),  -- brine tm
-    (170, 17000, 363, 21, 2, NULL),  -- natural-gift tm
-    (170, 17000, 445, 21, 2, NULL),  -- captivate tm
     (170, 17000, 451, 21, 2, NULL),  -- charge-beam tm
+    (170, 17000, 503, 21, 2, NULL),  -- scald tm
+    (170, 17000, 521, 21, 2, NULL),  -- volt-switch tm
+    (170, 17000, 605, 21, 2, NULL),  -- dazzling-gleam tm
     (170, 17000, 54, 21, 5, NULL),  -- mist egg
     (170, 17000, 60, 21, 5, NULL),  -- psybeam egg
     (170, 17000, 97, 21, 5, NULL),  -- agility egg
@@ -5088,9 +3969,1047 @@ VALUES
     (170, 17000, 133, 21, 5, NULL),  -- amnesia egg
     (170, 17000, 175, 21, 5, NULL),  -- flail egg
     (170, 17000, 250, 21, 5, NULL),  -- whirlpool egg
-    (170, 17000, 173, 21, 6, NULL),  -- snore tutor
-    (170, 17000, 196, 21, 6, NULL),  -- icy-wind tutor
-    (170, 17000, 291, 21, 6, NULL),  -- dive tutor
-    (170, 17000, 324, 21, 6, NULL),  -- signal-beam tutor
-    (170, 17000, 340, 21, 6, NULL),  -- bounce tutor
-    (170, 17000, 389, 21, 6, NULL);  -- sucker-punch tutor
+    (170, 17000, 487, 21, 5, NULL),  -- soak egg
+    (170, 17000, 48, 21, 8, NULL),  -- supersonic start
+    (170, 17000, 55, 21, 8, NULL),  -- water-gun start
+    (171, 17100, 61, 21, 1, 12),  -- bubble-beam lv12
+    (171, 17100, 109, 21, 1, 16),  -- confuse-ray lv16
+    (171, 17100, 209, 21, 1, 20),  -- spark lv20
+    (171, 17100, 268, 21, 1, 24),  -- charge lv24
+    (171, 17100, 435, 21, 1, 30),  -- discharge lv30
+    (171, 17100, 392, 21, 1, 36),  -- aqua-ring lv36
+    (171, 17100, 175, 21, 1, 42),  -- flail lv42
+    (171, 17100, 36, 21, 1, 48),  -- take-down lv48
+    (171, 17100, 56, 21, 1, 54),  -- hydro-pump lv54
+    (171, 17100, 57, 21, 2, NULL),  -- surf tm
+    (171, 17100, 58, 21, 2, NULL),  -- ice-beam tm
+    (171, 17100, 59, 21, 2, NULL),  -- blizzard tm
+    (171, 17100, 63, 21, 2, NULL),  -- hyper-beam tm
+    (171, 17100, 85, 21, 2, NULL),  -- thunderbolt tm
+    (171, 17100, 86, 21, 2, NULL),  -- thunder-wave tm
+    (171, 17100, 87, 21, 2, NULL),  -- thunder tm
+    (171, 17100, 104, 21, 2, NULL),  -- double-team tm
+    (171, 17100, 127, 21, 2, NULL),  -- waterfall tm
+    (171, 17100, 148, 21, 2, NULL),  -- flash tm
+    (171, 17100, 156, 21, 2, NULL),  -- rest tm
+    (171, 17100, 164, 21, 2, NULL),  -- substitute tm
+    (171, 17100, 182, 21, 2, NULL),  -- protect tm
+    (171, 17100, 203, 21, 2, NULL),  -- endure tm
+    (171, 17100, 207, 21, 2, NULL),  -- swagger tm
+    (171, 17100, 213, 21, 2, NULL),  -- attract tm
+    (171, 17100, 214, 21, 2, NULL),  -- sleep-talk tm
+    (171, 17100, 240, 21, 2, NULL),  -- rain-dance tm
+    (171, 17100, 258, 21, 2, NULL),  -- hail tm
+    (171, 17100, 263, 21, 2, NULL),  -- facade tm
+    (171, 17100, 351, 21, 2, NULL),  -- shock-wave tm
+    (171, 17100, 352, 21, 2, NULL),  -- water-pulse tm
+    (171, 17100, 362, 21, 2, NULL),  -- brine tm
+    (171, 17100, 416, 21, 2, NULL),  -- giga-impact tm
+    (171, 17100, 451, 21, 2, NULL),  -- charge-beam tm
+    (171, 17100, 503, 21, 2, NULL),  -- scald tm
+    (171, 17100, 521, 21, 2, NULL),  -- volt-switch tm
+    (171, 17100, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (171, 17100, 54, 21, 5, NULL),  -- mist egg
+    (171, 17100, 60, 21, 5, NULL),  -- psybeam egg
+    (171, 17100, 97, 21, 5, NULL),  -- agility egg
+    (171, 17100, 103, 21, 5, NULL),  -- screech egg
+    (171, 17100, 133, 21, 5, NULL),  -- amnesia egg
+    (171, 17100, 175, 21, 5, NULL),  -- flail egg
+    (171, 17100, 250, 21, 5, NULL),  -- whirlpool egg
+    (171, 17100, 487, 21, 5, NULL),  -- soak egg
+    (171, 17100, 48, 21, 8, NULL),  -- supersonic start
+    (171, 17100, 55, 21, 8, NULL),  -- water-gun start
+    (171, 17100, 86, 21, 8, NULL),  -- thunder-wave start
+    (171, 17100, 254, 21, 8, NULL),  -- stockpile start
+    (171, 17100, 255, 21, 8, NULL),  -- spit-up start
+    (171, 17100, 256, 21, 8, NULL),  -- swallow start
+    (171, 17100, 486, 21, 8, NULL),  -- electro-ball start
+    (171, 17100, 598, 21, 8, NULL),  -- eerie-impulse start
+    (172, 17200, 589, 21, 1, 4),  -- play-nice lv4
+    (172, 17200, 186, 21, 1, 8),  -- sweet-kiss lv8
+    (172, 17200, 609, 21, 1, 12),  -- nuzzle lv12
+    (172, 17200, 417, 21, 1, 16),  -- nasty-plot lv16
+    (172, 17200, 204, 21, 1, 20),  -- charm lv20
+    (172, 17200, 57, 21, 2, NULL),  -- surf tm
+    (172, 17200, 85, 21, 2, NULL),  -- thunderbolt tm
+    (172, 17200, 86, 21, 2, NULL),  -- thunder-wave tm
+    (172, 17200, 87, 21, 2, NULL),  -- thunder tm
+    (172, 17200, 104, 21, 2, NULL),  -- double-team tm
+    (172, 17200, 113, 21, 2, NULL),  -- light-screen tm
+    (172, 17200, 115, 21, 2, NULL),  -- reflect tm
+    (172, 17200, 148, 21, 2, NULL),  -- flash tm
+    (172, 17200, 156, 21, 2, NULL),  -- rest tm
+    (172, 17200, 164, 21, 2, NULL),  -- substitute tm
+    (172, 17200, 182, 21, 2, NULL),  -- protect tm
+    (172, 17200, 203, 21, 2, NULL),  -- endure tm
+    (172, 17200, 207, 21, 2, NULL),  -- swagger tm
+    (172, 17200, 213, 21, 2, NULL),  -- attract tm
+    (172, 17200, 214, 21, 2, NULL),  -- sleep-talk tm
+    (172, 17200, 231, 21, 2, NULL),  -- iron-tail tm
+    (172, 17200, 240, 21, 2, NULL),  -- rain-dance tm
+    (172, 17200, 263, 21, 2, NULL),  -- facade tm
+    (172, 17200, 351, 21, 2, NULL),  -- shock-wave tm
+    (172, 17200, 374, 21, 2, NULL),  -- fling tm
+    (172, 17200, 417, 21, 2, NULL),  -- nasty-plot tm
+    (172, 17200, 447, 21, 2, NULL),  -- grass-knot tm
+    (172, 17200, 451, 21, 2, NULL),  -- charge-beam tm
+    (172, 17200, 521, 21, 2, NULL),  -- volt-switch tm
+    (172, 17200, 9, 21, 5, NULL),  -- thunder-punch egg
+    (172, 17200, 175, 21, 5, NULL),  -- flail egg
+    (172, 17200, 179, 21, 5, NULL),  -- reversal egg
+    (172, 17200, 217, 21, 5, NULL),  -- present egg
+    (172, 17200, 227, 21, 5, NULL),  -- encore egg
+    (172, 17200, 252, 21, 5, NULL),  -- fake-out egg
+    (172, 17200, 268, 21, 5, NULL),  -- charge egg
+    (172, 17200, 273, 21, 5, NULL),  -- wish egg
+    (172, 17200, 321, 21, 5, NULL),  -- tickle egg
+    (172, 17200, 344, 21, 5, NULL),  -- volt-tackle egg
+    (172, 17200, 574, 21, 5, NULL),  -- disarming-voice egg
+    (172, 17200, 604, 21, 5, NULL),  -- electric-terrain egg
+    (172, 17200, 39, 21, 8, NULL),  -- tail-whip start
+    (172, 17200, 84, 21, 8, NULL),  -- thunder-shock start
+    (173, 17300, 47, 21, 1, 4),  -- sing lv4
+    (173, 17300, 186, 21, 1, 8),  -- sweet-kiss lv8
+    (173, 17300, 574, 21, 1, 12),  -- disarming-voice lv12
+    (173, 17300, 227, 21, 1, 16),  -- encore lv16
+    (173, 17300, 204, 21, 1, 20),  -- charm lv20
+    (173, 17300, 53, 21, 2, NULL),  -- flamethrower tm
+    (173, 17300, 76, 21, 2, NULL),  -- solar-beam tm
+    (173, 17300, 86, 21, 2, NULL),  -- thunder-wave tm
+    (173, 17300, 91, 21, 2, NULL),  -- dig tm
+    (173, 17300, 94, 21, 2, NULL),  -- psychic tm
+    (173, 17300, 104, 21, 2, NULL),  -- double-team tm
+    (173, 17300, 113, 21, 2, NULL),  -- light-screen tm
+    (173, 17300, 115, 21, 2, NULL),  -- reflect tm
+    (173, 17300, 126, 21, 2, NULL),  -- fire-blast tm
+    (173, 17300, 138, 21, 2, NULL),  -- dream-eater tm
+    (173, 17300, 148, 21, 2, NULL),  -- flash tm
+    (173, 17300, 156, 21, 2, NULL),  -- rest tm
+    (173, 17300, 164, 21, 2, NULL),  -- substitute tm
+    (173, 17300, 182, 21, 2, NULL),  -- protect tm
+    (173, 17300, 203, 21, 2, NULL),  -- endure tm
+    (173, 17300, 207, 21, 2, NULL),  -- swagger tm
+    (173, 17300, 213, 21, 2, NULL),  -- attract tm
+    (173, 17300, 214, 21, 2, NULL),  -- sleep-talk tm
+    (173, 17300, 219, 21, 2, NULL),  -- safeguard tm
+    (173, 17300, 231, 21, 2, NULL),  -- iron-tail tm
+    (173, 17300, 240, 21, 2, NULL),  -- rain-dance tm
+    (173, 17300, 241, 21, 2, NULL),  -- sunny-day tm
+    (173, 17300, 244, 21, 2, NULL),  -- psych-up tm
+    (173, 17300, 247, 21, 2, NULL),  -- shadow-ball tm
+    (173, 17300, 263, 21, 2, NULL),  -- facade tm
+    (173, 17300, 278, 21, 2, NULL),  -- recycle tm
+    (173, 17300, 351, 21, 2, NULL),  -- shock-wave tm
+    (173, 17300, 352, 21, 2, NULL),  -- water-pulse tm
+    (173, 17300, 374, 21, 2, NULL),  -- fling tm
+    (173, 17300, 447, 21, 2, NULL),  -- grass-knot tm
+    (173, 17300, 526, 21, 2, NULL),  -- work-up tm
+    (173, 17300, 102, 21, 5, NULL),  -- mimic egg
+    (173, 17300, 118, 21, 5, NULL),  -- metronome egg
+    (173, 17300, 133, 21, 5, NULL),  -- amnesia egg
+    (173, 17300, 150, 21, 5, NULL),  -- splash egg
+    (173, 17300, 187, 21, 5, NULL),  -- belly-drum egg
+    (173, 17300, 217, 21, 5, NULL),  -- present egg
+    (173, 17300, 273, 21, 5, NULL),  -- wish egg
+    (173, 17300, 312, 21, 5, NULL),  -- aromatherapy egg
+    (173, 17300, 313, 21, 5, NULL),  -- fake-tears egg
+    (173, 17300, 321, 21, 5, NULL),  -- tickle egg
+    (173, 17300, 343, 21, 5, NULL),  -- covet egg
+    (173, 17300, 500, 21, 5, NULL),  -- stored-power egg
+    (173, 17300, 505, 21, 5, NULL),  -- heal-pulse egg
+    (173, 17300, 581, 21, 5, NULL),  -- misty-terrain egg
+    (173, 17300, 1, 21, 8, NULL),  -- pound start
+    (173, 17300, 150, 21, 8, NULL),  -- splash start
+    (173, 17300, 383, 21, 8, NULL),  -- copycat start
+    (174, 17400, 111, 21, 1, 4),  -- defense-curl lv4
+    (174, 17400, 186, 21, 1, 8),  -- sweet-kiss lv8
+    (174, 17400, 574, 21, 1, 12),  -- disarming-voice lv12
+    (174, 17400, 50, 21, 1, 16),  -- disable lv16
+    (174, 17400, 204, 21, 1, 20),  -- charm lv20
+    (174, 17400, 53, 21, 2, NULL),  -- flamethrower tm
+    (174, 17400, 76, 21, 2, NULL),  -- solar-beam tm
+    (174, 17400, 86, 21, 2, NULL),  -- thunder-wave tm
+    (174, 17400, 91, 21, 2, NULL),  -- dig tm
+    (174, 17400, 94, 21, 2, NULL),  -- psychic tm
+    (174, 17400, 104, 21, 2, NULL),  -- double-team tm
+    (174, 17400, 113, 21, 2, NULL),  -- light-screen tm
+    (174, 17400, 115, 21, 2, NULL),  -- reflect tm
+    (174, 17400, 126, 21, 2, NULL),  -- fire-blast tm
+    (174, 17400, 138, 21, 2, NULL),  -- dream-eater tm
+    (174, 17400, 148, 21, 2, NULL),  -- flash tm
+    (174, 17400, 156, 21, 2, NULL),  -- rest tm
+    (174, 17400, 164, 21, 2, NULL),  -- substitute tm
+    (174, 17400, 182, 21, 2, NULL),  -- protect tm
+    (174, 17400, 203, 21, 2, NULL),  -- endure tm
+    (174, 17400, 207, 21, 2, NULL),  -- swagger tm
+    (174, 17400, 213, 21, 2, NULL),  -- attract tm
+    (174, 17400, 214, 21, 2, NULL),  -- sleep-talk tm
+    (174, 17400, 219, 21, 2, NULL),  -- safeguard tm
+    (174, 17400, 240, 21, 2, NULL),  -- rain-dance tm
+    (174, 17400, 241, 21, 2, NULL),  -- sunny-day tm
+    (174, 17400, 244, 21, 2, NULL),  -- psych-up tm
+    (174, 17400, 247, 21, 2, NULL),  -- shadow-ball tm
+    (174, 17400, 263, 21, 2, NULL),  -- facade tm
+    (174, 17400, 278, 21, 2, NULL),  -- recycle tm
+    (174, 17400, 351, 21, 2, NULL),  -- shock-wave tm
+    (174, 17400, 352, 21, 2, NULL),  -- water-pulse tm
+    (174, 17400, 374, 21, 2, NULL),  -- fling tm
+    (174, 17400, 447, 21, 2, NULL),  -- grass-knot tm
+    (174, 17400, 526, 21, 2, NULL),  -- work-up tm
+    (174, 17400, 195, 21, 5, NULL),  -- perish-song egg
+    (174, 17400, 205, 21, 5, NULL),  -- rollout egg
+    (174, 17400, 217, 21, 5, NULL),  -- present egg
+    (174, 17400, 273, 21, 5, NULL),  -- wish egg
+    (174, 17400, 313, 21, 5, NULL),  -- fake-tears egg
+    (174, 17400, 343, 21, 5, NULL),  -- covet egg
+    (174, 17400, 356, 21, 5, NULL),  -- gravity egg
+    (174, 17400, 387, 21, 5, NULL),  -- last-resort egg
+    (174, 17400, 505, 21, 5, NULL),  -- heal-pulse egg
+    (174, 17400, 581, 21, 5, NULL),  -- misty-terrain egg
+    (174, 17400, 1, 21, 8, NULL),  -- pound start
+    (174, 17400, 47, 21, 8, NULL),  -- sing start
+    (174, 17400, 383, 21, 8, NULL),  -- copycat start
+    (175, 17500, 186, 21, 1, 4),  -- sweet-kiss lv4
+    (175, 17500, 791, 21, 1, 8),  -- life-dew lv8
+    (175, 17500, 204, 21, 1, 12),  -- charm lv12
+    (175, 17500, 246, 21, 1, 16),  -- ancient-power lv16
+    (175, 17500, 281, 21, 1, 20),  -- yawn lv20
+    (175, 17500, 118, 21, 1, 24),  -- metronome lv24
+    (175, 17500, 495, 21, 1, 28),  -- after-you lv28
+    (175, 17500, 38, 21, 1, 32),  -- double-edge lv32
+    (175, 17500, 219, 21, 1, 36),  -- safeguard lv36
+    (175, 17500, 266, 21, 1, 40),  -- follow-me lv40
+    (175, 17500, 226, 21, 1, 44),  -- baton-pass lv44
+    (175, 17500, 387, 21, 1, 48),  -- last-resort lv48
+    (175, 17500, 273, 21, 1, 52),  -- wish lv52
+    (175, 17500, 53, 21, 2, NULL),  -- flamethrower tm
+    (175, 17500, 76, 21, 2, NULL),  -- solar-beam tm
+    (175, 17500, 86, 21, 2, NULL),  -- thunder-wave tm
+    (175, 17500, 94, 21, 2, NULL),  -- psychic tm
+    (175, 17500, 104, 21, 2, NULL),  -- double-team tm
+    (175, 17500, 113, 21, 2, NULL),  -- light-screen tm
+    (175, 17500, 115, 21, 2, NULL),  -- reflect tm
+    (175, 17500, 126, 21, 2, NULL),  -- fire-blast tm
+    (175, 17500, 138, 21, 2, NULL),  -- dream-eater tm
+    (175, 17500, 148, 21, 2, NULL),  -- flash tm
+    (175, 17500, 156, 21, 2, NULL),  -- rest tm
+    (175, 17500, 164, 21, 2, NULL),  -- substitute tm
+    (175, 17500, 182, 21, 2, NULL),  -- protect tm
+    (175, 17500, 203, 21, 2, NULL),  -- endure tm
+    (175, 17500, 207, 21, 2, NULL),  -- swagger tm
+    (175, 17500, 213, 21, 2, NULL),  -- attract tm
+    (175, 17500, 214, 21, 2, NULL),  -- sleep-talk tm
+    (175, 17500, 219, 21, 2, NULL),  -- safeguard tm
+    (175, 17500, 240, 21, 2, NULL),  -- rain-dance tm
+    (175, 17500, 241, 21, 2, NULL),  -- sunny-day tm
+    (175, 17500, 244, 21, 2, NULL),  -- psych-up tm
+    (175, 17500, 247, 21, 2, NULL),  -- shadow-ball tm
+    (175, 17500, 249, 21, 2, NULL),  -- rock-smash tm
+    (175, 17500, 263, 21, 2, NULL),  -- facade tm
+    (175, 17500, 351, 21, 2, NULL),  -- shock-wave tm
+    (175, 17500, 352, 21, 2, NULL),  -- water-pulse tm
+    (175, 17500, 374, 21, 2, NULL),  -- fling tm
+    (175, 17500, 417, 21, 2, NULL),  -- nasty-plot tm
+    (175, 17500, 447, 21, 2, NULL),  -- grass-knot tm
+    (175, 17500, 526, 21, 2, NULL),  -- work-up tm
+    (175, 17500, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (175, 17500, 64, 21, 5, NULL),  -- peck egg
+    (175, 17500, 217, 21, 5, NULL),  -- present egg
+    (175, 17500, 234, 21, 5, NULL),  -- morning-sun egg
+    (175, 17500, 248, 21, 5, NULL),  -- future-sight egg
+    (175, 17500, 326, 21, 5, NULL),  -- extrasensory egg
+    (175, 17500, 375, 21, 5, NULL),  -- psycho-shift egg
+    (175, 17500, 500, 21, 5, NULL),  -- stored-power egg
+    (175, 17500, 1, 21, 8, NULL),  -- pound start
+    (175, 17500, 45, 21, 8, NULL),  -- growl start
+    (176, 17600, 204, 21, 1, 12),  -- charm lv12
+    (176, 17600, 246, 21, 1, 16),  -- ancient-power lv16
+    (176, 17600, 281, 21, 1, 20),  -- yawn lv20
+    (176, 17600, 118, 21, 1, 24),  -- metronome lv24
+    (176, 17600, 495, 21, 1, 28),  -- after-you lv28
+    (176, 17600, 38, 21, 1, 32),  -- double-edge lv32
+    (176, 17600, 219, 21, 1, 36),  -- safeguard lv36
+    (176, 17600, 266, 21, 1, 40),  -- follow-me lv40
+    (176, 17600, 226, 21, 1, 44),  -- baton-pass lv44
+    (176, 17600, 387, 21, 1, 48),  -- last-resort lv48
+    (176, 17600, 273, 21, 1, 52),  -- wish lv52
+    (176, 17600, 19, 21, 2, NULL),  -- fly tm
+    (176, 17600, 53, 21, 2, NULL),  -- flamethrower tm
+    (176, 17600, 63, 21, 2, NULL),  -- hyper-beam tm
+    (176, 17600, 76, 21, 2, NULL),  -- solar-beam tm
+    (176, 17600, 86, 21, 2, NULL),  -- thunder-wave tm
+    (176, 17600, 94, 21, 2, NULL),  -- psychic tm
+    (176, 17600, 104, 21, 2, NULL),  -- double-team tm
+    (176, 17600, 113, 21, 2, NULL),  -- light-screen tm
+    (176, 17600, 115, 21, 2, NULL),  -- reflect tm
+    (176, 17600, 126, 21, 2, NULL),  -- fire-blast tm
+    (176, 17600, 138, 21, 2, NULL),  -- dream-eater tm
+    (176, 17600, 148, 21, 2, NULL),  -- flash tm
+    (176, 17600, 156, 21, 2, NULL),  -- rest tm
+    (176, 17600, 164, 21, 2, NULL),  -- substitute tm
+    (176, 17600, 182, 21, 2, NULL),  -- protect tm
+    (176, 17600, 203, 21, 2, NULL),  -- endure tm
+    (176, 17600, 207, 21, 2, NULL),  -- swagger tm
+    (176, 17600, 211, 21, 2, NULL),  -- steel-wing tm
+    (176, 17600, 213, 21, 2, NULL),  -- attract tm
+    (176, 17600, 214, 21, 2, NULL),  -- sleep-talk tm
+    (176, 17600, 219, 21, 2, NULL),  -- safeguard tm
+    (176, 17600, 240, 21, 2, NULL),  -- rain-dance tm
+    (176, 17600, 241, 21, 2, NULL),  -- sunny-day tm
+    (176, 17600, 244, 21, 2, NULL),  -- psych-up tm
+    (176, 17600, 247, 21, 2, NULL),  -- shadow-ball tm
+    (176, 17600, 249, 21, 2, NULL),  -- rock-smash tm
+    (176, 17600, 263, 21, 2, NULL),  -- facade tm
+    (176, 17600, 264, 21, 2, NULL),  -- focus-punch tm
+    (176, 17600, 280, 21, 2, NULL),  -- brick-break tm
+    (176, 17600, 332, 21, 2, NULL),  -- aerial-ace tm
+    (176, 17600, 351, 21, 2, NULL),  -- shock-wave tm
+    (176, 17600, 352, 21, 2, NULL),  -- water-pulse tm
+    (176, 17600, 355, 21, 2, NULL),  -- roost tm
+    (176, 17600, 374, 21, 2, NULL),  -- fling tm
+    (176, 17600, 409, 21, 2, NULL),  -- drain-punch tm
+    (176, 17600, 416, 21, 2, NULL),  -- giga-impact tm
+    (176, 17600, 417, 21, 2, NULL),  -- nasty-plot tm
+    (176, 17600, 432, 21, 2, NULL),  -- defog tm
+    (176, 17600, 447, 21, 2, NULL),  -- grass-knot tm
+    (176, 17600, 526, 21, 2, NULL),  -- work-up tm
+    (176, 17600, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (176, 17600, 64, 21, 5, NULL),  -- peck egg
+    (176, 17600, 217, 21, 5, NULL),  -- present egg
+    (176, 17600, 234, 21, 5, NULL),  -- morning-sun egg
+    (176, 17600, 248, 21, 5, NULL),  -- future-sight egg
+    (176, 17600, 326, 21, 5, NULL),  -- extrasensory egg
+    (176, 17600, 375, 21, 5, NULL),  -- psycho-shift egg
+    (176, 17600, 500, 21, 5, NULL),  -- stored-power egg
+    (176, 17600, 1, 21, 8, NULL),  -- pound start
+    (176, 17600, 45, 21, 8, NULL),  -- growl start
+    (176, 17600, 186, 21, 8, NULL),  -- sweet-kiss start
+    (176, 17600, 584, 21, 8, NULL),  -- fairy-wind start
+    (176, 17600, 791, 21, 8, NULL),  -- life-dew start
+    (177, 17700, 500, 21, 1, 5),  -- stored-power lv5
+    (177, 17700, 100, 21, 1, 10),  -- teleport lv10
+    (177, 17700, 109, 21, 1, 15),  -- confuse-ray lv15
+    (177, 17700, 101, 21, 1, 20),  -- night-shade lv20
+    (177, 17700, 375, 21, 1, 26),  -- psycho-shift lv26
+    (177, 17700, 384, 21, 1, 30),  -- power-swap lv30
+    (177, 17700, 94, 21, 1, 35),  -- psychic lv35
+    (177, 17700, 385, 21, 1, 35),  -- guard-swap lv35
+    (177, 17700, 273, 21, 1, 40),  -- wish lv40
+    (177, 17700, 248, 21, 1, 45),  -- future-sight lv45
+    (177, 17700, 76, 21, 2, NULL),  -- solar-beam tm
+    (177, 17700, 86, 21, 2, NULL),  -- thunder-wave tm
+    (177, 17700, 94, 21, 2, NULL),  -- psychic tm
+    (177, 17700, 104, 21, 2, NULL),  -- double-team tm
+    (177, 17700, 113, 21, 2, NULL),  -- light-screen tm
+    (177, 17700, 115, 21, 2, NULL),  -- reflect tm
+    (177, 17700, 138, 21, 2, NULL),  -- dream-eater tm
+    (177, 17700, 148, 21, 2, NULL),  -- flash tm
+    (177, 17700, 156, 21, 2, NULL),  -- rest tm
+    (177, 17700, 164, 21, 2, NULL),  -- substitute tm
+    (177, 17700, 168, 21, 2, NULL),  -- thief tm
+    (177, 17700, 182, 21, 2, NULL),  -- protect tm
+    (177, 17700, 202, 21, 2, NULL),  -- giga-drain tm
+    (177, 17700, 203, 21, 2, NULL),  -- endure tm
+    (177, 17700, 207, 21, 2, NULL),  -- swagger tm
+    (177, 17700, 211, 21, 2, NULL),  -- steel-wing tm
+    (177, 17700, 213, 21, 2, NULL),  -- attract tm
+    (177, 17700, 214, 21, 2, NULL),  -- sleep-talk tm
+    (177, 17700, 240, 21, 2, NULL),  -- rain-dance tm
+    (177, 17700, 241, 21, 2, NULL),  -- sunny-day tm
+    (177, 17700, 244, 21, 2, NULL),  -- psych-up tm
+    (177, 17700, 247, 21, 2, NULL),  -- shadow-ball tm
+    (177, 17700, 263, 21, 2, NULL),  -- facade tm
+    (177, 17700, 285, 21, 2, NULL),  -- skill-swap tm
+    (177, 17700, 332, 21, 2, NULL),  -- aerial-ace tm
+    (177, 17700, 347, 21, 2, NULL),  -- calm-mind tm
+    (177, 17700, 355, 21, 2, NULL),  -- roost tm
+    (177, 17700, 365, 21, 2, NULL),  -- pluck tm
+    (177, 17700, 369, 21, 2, NULL),  -- u-turn tm
+    (177, 17700, 433, 21, 2, NULL),  -- trick-room tm
+    (177, 17700, 447, 21, 2, NULL),  -- grass-knot tm
+    (177, 17700, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (177, 17700, 65, 21, 5, NULL),  -- drill-peck egg
+    (177, 17700, 98, 21, 5, NULL),  -- quick-attack egg
+    (177, 17700, 114, 21, 5, NULL),  -- haze egg
+    (177, 17700, 297, 21, 5, NULL),  -- feather-dance egg
+    (177, 17700, 389, 21, 5, NULL),  -- sucker-punch egg
+    (177, 17700, 428, 21, 5, NULL),  -- zen-headbutt egg
+    (177, 17700, 493, 21, 5, NULL),  -- simple-beam egg
+    (177, 17700, 502, 21, 5, NULL),  -- ally-switch egg
+    (177, 17700, 43, 21, 8, NULL),  -- leer start
+    (177, 17700, 64, 21, 8, NULL),  -- peck start
+    (178, 17800, 109, 21, 1, 15),  -- confuse-ray lv15
+    (178, 17800, 101, 21, 1, 20),  -- night-shade lv20
+    (178, 17800, 375, 21, 1, 28),  -- psycho-shift lv28
+    (178, 17800, 384, 21, 1, 34),  -- power-swap lv34
+    (178, 17800, 385, 21, 1, 34),  -- guard-swap lv34
+    (178, 17800, 94, 21, 1, 41),  -- psychic lv41
+    (178, 17800, 273, 21, 1, 48),  -- wish lv48
+    (178, 17800, 248, 21, 1, 55),  -- future-sight lv55
+    (178, 17800, 19, 21, 2, NULL),  -- fly tm
+    (178, 17800, 63, 21, 2, NULL),  -- hyper-beam tm
+    (178, 17800, 76, 21, 2, NULL),  -- solar-beam tm
+    (178, 17800, 86, 21, 2, NULL),  -- thunder-wave tm
+    (178, 17800, 94, 21, 2, NULL),  -- psychic tm
+    (178, 17800, 104, 21, 2, NULL),  -- double-team tm
+    (178, 17800, 113, 21, 2, NULL),  -- light-screen tm
+    (178, 17800, 115, 21, 2, NULL),  -- reflect tm
+    (178, 17800, 138, 21, 2, NULL),  -- dream-eater tm
+    (178, 17800, 148, 21, 2, NULL),  -- flash tm
+    (178, 17800, 156, 21, 2, NULL),  -- rest tm
+    (178, 17800, 164, 21, 2, NULL),  -- substitute tm
+    (178, 17800, 168, 21, 2, NULL),  -- thief tm
+    (178, 17800, 182, 21, 2, NULL),  -- protect tm
+    (178, 17800, 202, 21, 2, NULL),  -- giga-drain tm
+    (178, 17800, 203, 21, 2, NULL),  -- endure tm
+    (178, 17800, 207, 21, 2, NULL),  -- swagger tm
+    (178, 17800, 211, 21, 2, NULL),  -- steel-wing tm
+    (178, 17800, 213, 21, 2, NULL),  -- attract tm
+    (178, 17800, 214, 21, 2, NULL),  -- sleep-talk tm
+    (178, 17800, 240, 21, 2, NULL),  -- rain-dance tm
+    (178, 17800, 241, 21, 2, NULL),  -- sunny-day tm
+    (178, 17800, 244, 21, 2, NULL),  -- psych-up tm
+    (178, 17800, 247, 21, 2, NULL),  -- shadow-ball tm
+    (178, 17800, 263, 21, 2, NULL),  -- facade tm
+    (178, 17800, 285, 21, 2, NULL),  -- skill-swap tm
+    (178, 17800, 332, 21, 2, NULL),  -- aerial-ace tm
+    (178, 17800, 347, 21, 2, NULL),  -- calm-mind tm
+    (178, 17800, 355, 21, 2, NULL),  -- roost tm
+    (178, 17800, 365, 21, 2, NULL),  -- pluck tm
+    (178, 17800, 369, 21, 2, NULL),  -- u-turn tm
+    (178, 17800, 416, 21, 2, NULL),  -- giga-impact tm
+    (178, 17800, 432, 21, 2, NULL),  -- defog tm
+    (178, 17800, 433, 21, 2, NULL),  -- trick-room tm
+    (178, 17800, 447, 21, 2, NULL),  -- grass-knot tm
+    (178, 17800, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (178, 17800, 65, 21, 5, NULL),  -- drill-peck egg
+    (178, 17800, 98, 21, 5, NULL),  -- quick-attack egg
+    (178, 17800, 114, 21, 5, NULL),  -- haze egg
+    (178, 17800, 297, 21, 5, NULL),  -- feather-dance egg
+    (178, 17800, 389, 21, 5, NULL),  -- sucker-punch egg
+    (178, 17800, 428, 21, 5, NULL),  -- zen-headbutt egg
+    (178, 17800, 493, 21, 5, NULL),  -- simple-beam egg
+    (178, 17800, 502, 21, 5, NULL),  -- ally-switch egg
+    (178, 17800, 43, 21, 8, NULL),  -- leer start
+    (178, 17800, 64, 21, 8, NULL),  -- peck start
+    (178, 17800, 100, 21, 8, NULL),  -- teleport start
+    (178, 17800, 366, 21, 8, NULL),  -- tailwind start
+    (178, 17800, 403, 21, 8, NULL),  -- air-slash start
+    (178, 17800, 500, 21, 8, NULL),  -- stored-power start
+    (179, 17900, 86, 21, 1, 4),  -- thunder-wave lv4
+    (179, 17900, 84, 21, 1, 8),  -- thunder-shock lv8
+    (179, 17900, 178, 21, 1, 11),  -- cotton-spore lv11
+    (179, 17900, 268, 21, 1, 15),  -- charge lv15
+    (179, 17900, 36, 21, 1, 18),  -- take-down lv18
+    (179, 17900, 486, 21, 1, 22),  -- electro-ball lv22
+    (179, 17900, 109, 21, 1, 25),  -- confuse-ray lv25
+    (179, 17900, 408, 21, 1, 29),  -- power-gem lv29
+    (179, 17900, 435, 21, 1, 32),  -- discharge lv32
+    (179, 17900, 538, 21, 1, 36),  -- cotton-guard lv36
+    (179, 17900, 451, 21, 1, 39),  -- charge-beam lv39
+    (179, 17900, 113, 21, 1, 43),  -- light-screen lv43
+    (179, 17900, 87, 21, 1, 46),  -- thunder lv46
+    (179, 17900, 85, 21, 2, NULL),  -- thunderbolt tm
+    (179, 17900, 86, 21, 2, NULL),  -- thunder-wave tm
+    (179, 17900, 87, 21, 2, NULL),  -- thunder tm
+    (179, 17900, 104, 21, 2, NULL),  -- double-team tm
+    (179, 17900, 113, 21, 2, NULL),  -- light-screen tm
+    (179, 17900, 115, 21, 2, NULL),  -- reflect tm
+    (179, 17900, 148, 21, 2, NULL),  -- flash tm
+    (179, 17900, 156, 21, 2, NULL),  -- rest tm
+    (179, 17900, 164, 21, 2, NULL),  -- substitute tm
+    (179, 17900, 182, 21, 2, NULL),  -- protect tm
+    (179, 17900, 203, 21, 2, NULL),  -- endure tm
+    (179, 17900, 207, 21, 2, NULL),  -- swagger tm
+    (179, 17900, 213, 21, 2, NULL),  -- attract tm
+    (179, 17900, 214, 21, 2, NULL),  -- sleep-talk tm
+    (179, 17900, 219, 21, 2, NULL),  -- safeguard tm
+    (179, 17900, 231, 21, 2, NULL),  -- iron-tail tm
+    (179, 17900, 240, 21, 2, NULL),  -- rain-dance tm
+    (179, 17900, 263, 21, 2, NULL),  -- facade tm
+    (179, 17900, 351, 21, 2, NULL),  -- shock-wave tm
+    (179, 17900, 451, 21, 2, NULL),  -- charge-beam tm
+    (179, 17900, 28, 21, 5, NULL),  -- sand-attack egg
+    (179, 17900, 34, 21, 5, NULL),  -- body-slam egg
+    (179, 17900, 36, 21, 5, NULL),  -- take-down egg
+    (179, 17900, 97, 21, 5, NULL),  -- agility egg
+    (179, 17900, 103, 21, 5, NULL),  -- screech egg
+    (179, 17900, 260, 21, 5, NULL),  -- flatter egg
+    (179, 17900, 268, 21, 5, NULL),  -- charge egg
+    (179, 17900, 495, 21, 5, NULL),  -- after-you egg
+    (179, 17900, 598, 21, 5, NULL),  -- eerie-impulse egg
+    (179, 17900, 604, 21, 5, NULL),  -- electric-terrain egg
+    (179, 17900, 33, 21, 8, NULL),  -- tackle start
+    (179, 17900, 45, 21, 8, NULL),  -- growl start
+    (180, 18000, 86, 21, 1, 4),  -- thunder-wave lv4
+    (180, 18000, 84, 21, 1, 8),  -- thunder-shock lv8
+    (180, 18000, 178, 21, 1, 11),  -- cotton-spore lv11
+    (180, 18000, 268, 21, 1, 16),  -- charge lv16
+    (180, 18000, 36, 21, 1, 20),  -- take-down lv20
+    (180, 18000, 486, 21, 1, 25),  -- electro-ball lv25
+    (180, 18000, 109, 21, 1, 29),  -- confuse-ray lv29
+    (180, 18000, 408, 21, 1, 34),  -- power-gem lv34
+    (180, 18000, 435, 21, 1, 38),  -- discharge lv38
+    (180, 18000, 538, 21, 1, 43),  -- cotton-guard lv43
+    (180, 18000, 451, 21, 1, 47),  -- charge-beam lv47
+    (180, 18000, 113, 21, 1, 52),  -- light-screen lv52
+    (180, 18000, 87, 21, 1, 56),  -- thunder lv56
+    (180, 18000, 70, 21, 2, NULL),  -- strength tm
+    (180, 18000, 85, 21, 2, NULL),  -- thunderbolt tm
+    (180, 18000, 86, 21, 2, NULL),  -- thunder-wave tm
+    (180, 18000, 87, 21, 2, NULL),  -- thunder tm
+    (180, 18000, 104, 21, 2, NULL),  -- double-team tm
+    (180, 18000, 113, 21, 2, NULL),  -- light-screen tm
+    (180, 18000, 115, 21, 2, NULL),  -- reflect tm
+    (180, 18000, 148, 21, 2, NULL),  -- flash tm
+    (180, 18000, 156, 21, 2, NULL),  -- rest tm
+    (180, 18000, 164, 21, 2, NULL),  -- substitute tm
+    (180, 18000, 182, 21, 2, NULL),  -- protect tm
+    (180, 18000, 203, 21, 2, NULL),  -- endure tm
+    (180, 18000, 207, 21, 2, NULL),  -- swagger tm
+    (180, 18000, 213, 21, 2, NULL),  -- attract tm
+    (180, 18000, 214, 21, 2, NULL),  -- sleep-talk tm
+    (180, 18000, 219, 21, 2, NULL),  -- safeguard tm
+    (180, 18000, 231, 21, 2, NULL),  -- iron-tail tm
+    (180, 18000, 240, 21, 2, NULL),  -- rain-dance tm
+    (180, 18000, 249, 21, 2, NULL),  -- rock-smash tm
+    (180, 18000, 263, 21, 2, NULL),  -- facade tm
+    (180, 18000, 264, 21, 2, NULL),  -- focus-punch tm
+    (180, 18000, 280, 21, 2, NULL),  -- brick-break tm
+    (180, 18000, 351, 21, 2, NULL),  -- shock-wave tm
+    (180, 18000, 374, 21, 2, NULL),  -- fling tm
+    (180, 18000, 451, 21, 2, NULL),  -- charge-beam tm
+    (180, 18000, 521, 21, 2, NULL),  -- volt-switch tm
+    (180, 18000, 28, 21, 5, NULL),  -- sand-attack egg
+    (180, 18000, 34, 21, 5, NULL),  -- body-slam egg
+    (180, 18000, 36, 21, 5, NULL),  -- take-down egg
+    (180, 18000, 97, 21, 5, NULL),  -- agility egg
+    (180, 18000, 103, 21, 5, NULL),  -- screech egg
+    (180, 18000, 260, 21, 5, NULL),  -- flatter egg
+    (180, 18000, 268, 21, 5, NULL),  -- charge egg
+    (180, 18000, 495, 21, 5, NULL),  -- after-you egg
+    (180, 18000, 598, 21, 5, NULL),  -- eerie-impulse egg
+    (180, 18000, 604, 21, 5, NULL),  -- electric-terrain egg
+    (180, 18000, 33, 21, 8, NULL),  -- tackle start
+    (180, 18000, 45, 21, 8, NULL),  -- growl start
+    (180, 18000, 84, 21, 8, NULL),  -- thunder-shock start
+    (180, 18000, 86, 21, 8, NULL),  -- thunder-wave start
+    (181, 18100, 86, 21, 1, 4),  -- thunder-wave lv4
+    (181, 18100, 84, 21, 1, 8),  -- thunder-shock lv8
+    (181, 18100, 178, 21, 1, 11),  -- cotton-spore lv11
+    (181, 18100, 268, 21, 1, 16),  -- charge lv16
+    (181, 18100, 36, 21, 1, 20),  -- take-down lv20
+    (181, 18100, 486, 21, 1, 25),  -- electro-ball lv25
+    (181, 18100, 109, 21, 1, 29),  -- confuse-ray lv29
+    (181, 18100, 408, 21, 1, 35),  -- power-gem lv35
+    (181, 18100, 435, 21, 1, 40),  -- discharge lv40
+    (181, 18100, 538, 21, 1, 46),  -- cotton-guard lv46
+    (181, 18100, 451, 21, 1, 51),  -- charge-beam lv51
+    (181, 18100, 113, 21, 1, 57),  -- light-screen lv57
+    (181, 18100, 87, 21, 1, 62),  -- thunder lv62
+    (181, 18100, 406, 21, 1, 65),  -- dragon-pulse lv65
+    (181, 18100, 63, 21, 2, NULL),  -- hyper-beam tm
+    (181, 18100, 70, 21, 2, NULL),  -- strength tm
+    (181, 18100, 85, 21, 2, NULL),  -- thunderbolt tm
+    (181, 18100, 86, 21, 2, NULL),  -- thunder-wave tm
+    (181, 18100, 87, 21, 2, NULL),  -- thunder tm
+    (181, 18100, 104, 21, 2, NULL),  -- double-team tm
+    (181, 18100, 113, 21, 2, NULL),  -- light-screen tm
+    (181, 18100, 115, 21, 2, NULL),  -- reflect tm
+    (181, 18100, 148, 21, 2, NULL),  -- flash tm
+    (181, 18100, 156, 21, 2, NULL),  -- rest tm
+    (181, 18100, 164, 21, 2, NULL),  -- substitute tm
+    (181, 18100, 182, 21, 2, NULL),  -- protect tm
+    (181, 18100, 203, 21, 2, NULL),  -- endure tm
+    (181, 18100, 207, 21, 2, NULL),  -- swagger tm
+    (181, 18100, 213, 21, 2, NULL),  -- attract tm
+    (181, 18100, 214, 21, 2, NULL),  -- sleep-talk tm
+    (181, 18100, 219, 21, 2, NULL),  -- safeguard tm
+    (181, 18100, 231, 21, 2, NULL),  -- iron-tail tm
+    (181, 18100, 240, 21, 2, NULL),  -- rain-dance tm
+    (181, 18100, 249, 21, 2, NULL),  -- rock-smash tm
+    (181, 18100, 263, 21, 2, NULL),  -- facade tm
+    (181, 18100, 264, 21, 2, NULL),  -- focus-punch tm
+    (181, 18100, 280, 21, 2, NULL),  -- brick-break tm
+    (181, 18100, 351, 21, 2, NULL),  -- shock-wave tm
+    (181, 18100, 374, 21, 2, NULL),  -- fling tm
+    (181, 18100, 406, 21, 2, NULL),  -- dragon-pulse tm
+    (181, 18100, 411, 21, 2, NULL),  -- focus-blast tm
+    (181, 18100, 416, 21, 2, NULL),  -- giga-impact tm
+    (181, 18100, 431, 21, 2, NULL),  -- rock-climb tm
+    (181, 18100, 451, 21, 2, NULL),  -- charge-beam tm
+    (181, 18100, 521, 21, 2, NULL),  -- volt-switch tm
+    (181, 18100, 523, 21, 2, NULL),  -- bulldoze tm
+    (181, 18100, 28, 21, 5, NULL),  -- sand-attack egg
+    (181, 18100, 34, 21, 5, NULL),  -- body-slam egg
+    (181, 18100, 36, 21, 5, NULL),  -- take-down egg
+    (181, 18100, 97, 21, 5, NULL),  -- agility egg
+    (181, 18100, 103, 21, 5, NULL),  -- screech egg
+    (181, 18100, 260, 21, 5, NULL),  -- flatter egg
+    (181, 18100, 268, 21, 5, NULL),  -- charge egg
+    (181, 18100, 495, 21, 5, NULL),  -- after-you egg
+    (181, 18100, 598, 21, 5, NULL),  -- eerie-impulse egg
+    (181, 18100, 604, 21, 5, NULL),  -- electric-terrain egg
+    (181, 18100, 7, 21, 8, NULL),  -- fire-punch start
+    (181, 18100, 9, 21, 8, NULL),  -- thunder-punch start
+    (181, 18100, 33, 21, 8, NULL),  -- tackle start
+    (181, 18100, 45, 21, 8, NULL),  -- growl start
+    (181, 18100, 84, 21, 8, NULL),  -- thunder-shock start
+    (181, 18100, 86, 21, 8, NULL),  -- thunder-wave start
+    (181, 18100, 192, 21, 8, NULL),  -- zap-cannon start
+    (181, 18100, 406, 21, 8, NULL),  -- dragon-pulse start
+    (181, 18100, 602, 21, 8, NULL),  -- magnetic-flux start
+    (182, 18200, 14, 21, 2, NULL),  -- swords-dance tm
+    (182, 18200, 15, 21, 2, NULL),  -- cut tm
+    (182, 18200, 63, 21, 2, NULL),  -- hyper-beam tm
+    (182, 18200, 76, 21, 2, NULL),  -- solar-beam tm
+    (182, 18200, 92, 21, 2, NULL),  -- toxic tm
+    (182, 18200, 104, 21, 2, NULL),  -- double-team tm
+    (182, 18200, 148, 21, 2, NULL),  -- flash tm
+    (182, 18200, 156, 21, 2, NULL),  -- rest tm
+    (182, 18200, 164, 21, 2, NULL),  -- substitute tm
+    (182, 18200, 182, 21, 2, NULL),  -- protect tm
+    (182, 18200, 188, 21, 2, NULL),  -- sludge-bomb tm
+    (182, 18200, 202, 21, 2, NULL),  -- giga-drain tm
+    (182, 18200, 203, 21, 2, NULL),  -- endure tm
+    (182, 18200, 207, 21, 2, NULL),  -- swagger tm
+    (182, 18200, 213, 21, 2, NULL),  -- attract tm
+    (182, 18200, 214, 21, 2, NULL),  -- sleep-talk tm
+    (182, 18200, 219, 21, 2, NULL),  -- safeguard tm
+    (182, 18200, 241, 21, 2, NULL),  -- sunny-day tm
+    (182, 18200, 263, 21, 2, NULL),  -- facade tm
+    (182, 18200, 331, 21, 2, NULL),  -- bullet-seed tm
+    (182, 18200, 374, 21, 2, NULL),  -- fling tm
+    (182, 18200, 409, 21, 2, NULL),  -- drain-punch tm
+    (182, 18200, 412, 21, 2, NULL),  -- energy-ball tm
+    (182, 18200, 416, 21, 2, NULL),  -- giga-impact tm
+    (182, 18200, 447, 21, 2, NULL),  -- grass-knot tm
+    (182, 18200, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (182, 18200, 73, 21, 5, NULL),  -- leech-seed egg
+    (182, 18200, 75, 21, 5, NULL),  -- razor-leaf egg
+    (182, 18200, 175, 21, 5, NULL),  -- flail egg
+    (182, 18200, 204, 21, 5, NULL),  -- charm egg
+    (182, 18200, 235, 21, 5, NULL),  -- synthesis egg
+    (182, 18200, 267, 21, 5, NULL),  -- nature-power egg
+    (182, 18200, 275, 21, 5, NULL),  -- ingrain egg
+    (182, 18200, 298, 21, 5, NULL),  -- teeter-dance egg
+    (182, 18200, 321, 21, 5, NULL),  -- tickle egg
+    (182, 18200, 495, 21, 5, NULL),  -- after-you egg
+    (182, 18200, 668, 21, 5, NULL),  -- strength-sap egg
+    (182, 18200, 51, 21, 8, NULL),  -- acid start
+    (182, 18200, 71, 21, 8, NULL),  -- absorb start
+    (182, 18200, 72, 21, 8, NULL),  -- mega-drain start
+    (182, 18200, 74, 21, 8, NULL),  -- growth start
+    (182, 18200, 77, 21, 8, NULL),  -- poison-powder start
+    (182, 18200, 78, 21, 8, NULL),  -- stun-spore start
+    (182, 18200, 79, 21, 8, NULL),  -- sleep-powder start
+    (182, 18200, 80, 21, 8, NULL),  -- petal-dance start
+    (182, 18200, 92, 21, 8, NULL),  -- toxic start
+    (182, 18200, 202, 21, 8, NULL),  -- giga-drain start
+    (182, 18200, 230, 21, 8, NULL),  -- sweet-scent start
+    (182, 18200, 236, 21, 8, NULL),  -- moonlight start
+    (182, 18200, 483, 21, 8, NULL),  -- quiver-dance start
+    (182, 18200, 572, 21, 8, NULL),  -- petal-blizzard start
+    (182, 18200, 580, 21, 8, NULL),  -- grassy-terrain start
+    (182, 18200, 585, 21, 8, NULL),  -- moonblast start
+    (183, 18300, 57, 21, 2, NULL),  -- surf tm
+    (183, 18300, 58, 21, 2, NULL),  -- ice-beam tm
+    (183, 18300, 59, 21, 2, NULL),  -- blizzard tm
+    (183, 18300, 70, 21, 2, NULL),  -- strength tm
+    (183, 18300, 91, 21, 2, NULL),  -- dig tm
+    (183, 18300, 104, 21, 2, NULL),  -- double-team tm
+    (183, 18300, 113, 21, 2, NULL),  -- light-screen tm
+    (183, 18300, 127, 21, 2, NULL),  -- waterfall tm
+    (183, 18300, 156, 21, 2, NULL),  -- rest tm
+    (183, 18300, 164, 21, 2, NULL),  -- substitute tm
+    (183, 18300, 182, 21, 2, NULL),  -- protect tm
+    (183, 18300, 203, 21, 2, NULL),  -- endure tm
+    (183, 18300, 207, 21, 2, NULL),  -- swagger tm
+    (183, 18300, 213, 21, 2, NULL),  -- attract tm
+    (183, 18300, 214, 21, 2, NULL),  -- sleep-talk tm
+    (183, 18300, 231, 21, 2, NULL),  -- iron-tail tm
+    (183, 18300, 240, 21, 2, NULL),  -- rain-dance tm
+    (183, 18300, 249, 21, 2, NULL),  -- rock-smash tm
+    (183, 18300, 258, 21, 2, NULL),  -- hail tm
+    (183, 18300, 263, 21, 2, NULL),  -- facade tm
+    (183, 18300, 264, 21, 2, NULL),  -- focus-punch tm
+    (183, 18300, 280, 21, 2, NULL),  -- brick-break tm
+    (183, 18300, 352, 21, 2, NULL),  -- water-pulse tm
+    (183, 18300, 374, 21, 2, NULL),  -- fling tm
+    (183, 18300, 447, 21, 2, NULL),  -- grass-knot tm
+    (183, 18300, 503, 21, 2, NULL),  -- scald tm
+    (183, 18300, 526, 21, 2, NULL),  -- work-up tm
+    (183, 18300, 34, 21, 5, NULL),  -- body-slam egg
+    (183, 18300, 47, 21, 5, NULL),  -- sing egg
+    (183, 18300, 48, 21, 5, NULL),  -- supersonic egg
+    (183, 18300, 133, 21, 5, NULL),  -- amnesia egg
+    (183, 18300, 187, 21, 5, NULL),  -- belly-drum egg
+    (183, 18300, 195, 21, 5, NULL),  -- perish-song egg
+    (183, 18300, 217, 21, 5, NULL),  -- present egg
+    (183, 18300, 248, 21, 5, NULL),  -- future-sight egg
+    (183, 18300, 276, 21, 5, NULL),  -- superpower egg
+    (183, 18300, 321, 21, 5, NULL),  -- tickle egg
+    (183, 18300, 330, 21, 5, NULL),  -- muddy-water egg
+    (183, 18300, 383, 21, 5, NULL),  -- copycat egg
+    (183, 18300, 453, 21, 5, NULL),  -- aqua-jet egg
+    (183, 18300, 487, 21, 5, NULL),  -- soak egg
+    (184, 18400, 57, 21, 2, NULL),  -- surf tm
+    (184, 18400, 58, 21, 2, NULL),  -- ice-beam tm
+    (184, 18400, 59, 21, 2, NULL),  -- blizzard tm
+    (184, 18400, 63, 21, 2, NULL),  -- hyper-beam tm
+    (184, 18400, 70, 21, 2, NULL),  -- strength tm
+    (184, 18400, 91, 21, 2, NULL),  -- dig tm
+    (184, 18400, 104, 21, 2, NULL),  -- double-team tm
+    (184, 18400, 113, 21, 2, NULL),  -- light-screen tm
+    (184, 18400, 127, 21, 2, NULL),  -- waterfall tm
+    (184, 18400, 156, 21, 2, NULL),  -- rest tm
+    (184, 18400, 164, 21, 2, NULL),  -- substitute tm
+    (184, 18400, 182, 21, 2, NULL),  -- protect tm
+    (184, 18400, 203, 21, 2, NULL),  -- endure tm
+    (184, 18400, 207, 21, 2, NULL),  -- swagger tm
+    (184, 18400, 213, 21, 2, NULL),  -- attract tm
+    (184, 18400, 214, 21, 2, NULL),  -- sleep-talk tm
+    (184, 18400, 231, 21, 2, NULL),  -- iron-tail tm
+    (184, 18400, 240, 21, 2, NULL),  -- rain-dance tm
+    (184, 18400, 249, 21, 2, NULL),  -- rock-smash tm
+    (184, 18400, 258, 21, 2, NULL),  -- hail tm
+    (184, 18400, 263, 21, 2, NULL),  -- facade tm
+    (184, 18400, 264, 21, 2, NULL),  -- focus-punch tm
+    (184, 18400, 280, 21, 2, NULL),  -- brick-break tm
+    (184, 18400, 352, 21, 2, NULL),  -- water-pulse tm
+    (184, 18400, 374, 21, 2, NULL),  -- fling tm
+    (184, 18400, 411, 21, 2, NULL),  -- focus-blast tm
+    (184, 18400, 416, 21, 2, NULL),  -- giga-impact tm
+    (184, 18400, 447, 21, 2, NULL),  -- grass-knot tm
+    (184, 18400, 503, 21, 2, NULL),  -- scald tm
+    (184, 18400, 523, 21, 2, NULL),  -- bulldoze tm
+    (184, 18400, 526, 21, 2, NULL),  -- work-up tm
+    (184, 18400, 34, 21, 5, NULL),  -- body-slam egg
+    (184, 18400, 47, 21, 5, NULL),  -- sing egg
+    (184, 18400, 48, 21, 5, NULL),  -- supersonic egg
+    (184, 18400, 133, 21, 5, NULL),  -- amnesia egg
+    (184, 18400, 187, 21, 5, NULL),  -- belly-drum egg
+    (184, 18400, 195, 21, 5, NULL),  -- perish-song egg
+    (184, 18400, 217, 21, 5, NULL),  -- present egg
+    (184, 18400, 248, 21, 5, NULL),  -- future-sight egg
+    (184, 18400, 276, 21, 5, NULL),  -- superpower egg
+    (184, 18400, 321, 21, 5, NULL),  -- tickle egg
+    (184, 18400, 330, 21, 5, NULL),  -- muddy-water egg
+    (184, 18400, 383, 21, 5, NULL),  -- copycat egg
+    (184, 18400, 453, 21, 5, NULL),  -- aqua-jet egg
+    (184, 18400, 487, 21, 5, NULL),  -- soak egg
+    (185, 18500, 335, 21, 1, 12),  -- block lv12
+    (185, 18500, 102, 21, 1, 16),  -- mimic lv16
+    (185, 18500, 317, 21, 1, 20),  -- rock-tomb lv20
+    (185, 18500, 715, 21, 1, 24),  -- tearful-look lv24
+    (185, 18500, 389, 21, 1, 28),  -- sucker-punch lv28
+    (185, 18500, 157, 21, 1, 32),  -- rock-slide lv32
+    (185, 18500, 67, 21, 1, 36),  -- low-kick lv36
+    (185, 18500, 68, 21, 1, 40),  -- counter lv40
+    (185, 18500, 38, 21, 1, 44),  -- double-edge lv44
+    (185, 18500, 457, 21, 1, 48),  -- head-smash lv48
+    (185, 18500, 70, 21, 2, NULL),  -- strength tm
+    (185, 18500, 89, 21, 2, NULL),  -- earthquake tm
+    (185, 18500, 91, 21, 2, NULL),  -- dig tm
+    (185, 18500, 104, 21, 2, NULL),  -- double-team tm
+    (185, 18500, 153, 21, 2, NULL),  -- explosion tm
+    (185, 18500, 156, 21, 2, NULL),  -- rest tm
+    (185, 18500, 157, 21, 2, NULL),  -- rock-slide tm
+    (185, 18500, 164, 21, 2, NULL),  -- substitute tm
+    (185, 18500, 168, 21, 2, NULL),  -- thief tm
+    (185, 18500, 182, 21, 2, NULL),  -- protect tm
+    (185, 18500, 201, 21, 2, NULL),  -- sandstorm tm
+    (185, 18500, 203, 21, 2, NULL),  -- endure tm
+    (185, 18500, 207, 21, 2, NULL),  -- swagger tm
+    (185, 18500, 213, 21, 2, NULL),  -- attract tm
+    (185, 18500, 214, 21, 2, NULL),  -- sleep-talk tm
+    (185, 18500, 241, 21, 2, NULL),  -- sunny-day tm
+    (185, 18500, 244, 21, 2, NULL),  -- psych-up tm
+    (185, 18500, 249, 21, 2, NULL),  -- rock-smash tm
+    (185, 18500, 259, 21, 2, NULL),  -- torment tm
+    (185, 18500, 263, 21, 2, NULL),  -- facade tm
+    (185, 18500, 264, 21, 2, NULL),  -- focus-punch tm
+    (185, 18500, 269, 21, 2, NULL),  -- taunt tm
+    (185, 18500, 280, 21, 2, NULL),  -- brick-break tm
+    (185, 18500, 317, 21, 2, NULL),  -- rock-tomb tm
+    (185, 18500, 347, 21, 2, NULL),  -- calm-mind tm
+    (185, 18500, 374, 21, 2, NULL),  -- fling tm
+    (185, 18500, 397, 21, 2, NULL),  -- rock-polish tm
+    (185, 18500, 444, 21, 2, NULL),  -- stone-edge tm
+    (185, 18500, 446, 21, 2, NULL),  -- stealth-rock tm
+    (185, 18500, 523, 21, 2, NULL),  -- bulldoze tm
+    (185, 18500, 29, 21, 5, NULL),  -- headbutt egg
+    (185, 18500, 106, 21, 5, NULL),  -- harden egg
+    (185, 18500, 111, 21, 5, NULL),  -- defense-curl egg
+    (185, 18500, 120, 21, 5, NULL),  -- self-destruct egg
+    (185, 18500, 174, 21, 5, NULL),  -- curse egg
+    (185, 18500, 205, 21, 5, NULL),  -- rollout egg
+    (185, 18500, 328, 21, 5, NULL),  -- sand-tomb egg
+    (185, 18500, 21, 21, 8, NULL),  -- slam start
+    (185, 18500, 88, 21, 8, NULL),  -- rock-throw start
+    (185, 18500, 175, 21, 8, NULL),  -- flail start
+    (185, 18500, 313, 21, 8, NULL),  -- fake-tears start
+    (185, 18500, 359, 21, 8, NULL),  -- hammer-arm start
+    (185, 18500, 383, 21, 8, NULL),  -- copycat start
+    (185, 18500, 444, 21, 8, NULL),  -- stone-edge start
+    (185, 18500, 452, 21, 8, NULL),  -- wood-hammer start
+    (186, 18600, 57, 21, 2, NULL),  -- surf tm
+    (186, 18600, 58, 21, 2, NULL),  -- ice-beam tm
+    (186, 18600, 59, 21, 2, NULL),  -- blizzard tm
+    (186, 18600, 63, 21, 2, NULL),  -- hyper-beam tm
+    (186, 18600, 70, 21, 2, NULL),  -- strength tm
+    (186, 18600, 89, 21, 2, NULL),  -- earthquake tm
+    (186, 18600, 91, 21, 2, NULL),  -- dig tm
+    (186, 18600, 94, 21, 2, NULL),  -- psychic tm
+    (186, 18600, 104, 21, 2, NULL),  -- double-team tm
+    (186, 18600, 127, 21, 2, NULL),  -- waterfall tm
+    (186, 18600, 156, 21, 2, NULL),  -- rest tm
+    (186, 18600, 164, 21, 2, NULL),  -- substitute tm
+    (186, 18600, 168, 21, 2, NULL),  -- thief tm
+    (186, 18600, 182, 21, 2, NULL),  -- protect tm
+    (186, 18600, 203, 21, 2, NULL),  -- endure tm
+    (186, 18600, 207, 21, 2, NULL),  -- swagger tm
+    (186, 18600, 213, 21, 2, NULL),  -- attract tm
+    (186, 18600, 214, 21, 2, NULL),  -- sleep-talk tm
+    (186, 18600, 240, 21, 2, NULL),  -- rain-dance tm
+    (186, 18600, 249, 21, 2, NULL),  -- rock-smash tm
+    (186, 18600, 258, 21, 2, NULL),  -- hail tm
+    (186, 18600, 263, 21, 2, NULL),  -- facade tm
+    (186, 18600, 264, 21, 2, NULL),  -- focus-punch tm
+    (186, 18600, 280, 21, 2, NULL),  -- brick-break tm
+    (186, 18600, 352, 21, 2, NULL),  -- water-pulse tm
+    (186, 18600, 371, 21, 2, NULL),  -- payback tm
+    (186, 18600, 374, 21, 2, NULL),  -- fling tm
+    (186, 18600, 411, 21, 2, NULL),  -- focus-blast tm
+    (186, 18600, 416, 21, 2, NULL),  -- giga-impact tm
+    (186, 18600, 503, 21, 2, NULL),  -- scald tm
+    (186, 18600, 523, 21, 2, NULL),  -- bulldoze tm
+    (186, 18600, 54, 21, 5, NULL),  -- mist egg
+    (186, 18600, 61, 21, 5, NULL),  -- bubble-beam egg
+    (186, 18600, 114, 21, 5, NULL),  -- haze egg
+    (186, 18600, 150, 21, 5, NULL),  -- splash egg
+    (186, 18600, 170, 21, 5, NULL),  -- mind-reader egg
+    (186, 18600, 227, 21, 5, NULL),  -- encore egg
+    (186, 18600, 283, 21, 5, NULL),  -- endeavor egg
+    (186, 18600, 341, 21, 5, NULL),  -- mud-shot egg
+    (186, 18600, 1, 21, 8, NULL),  -- pound start
+    (186, 18600, 34, 21, 8, NULL),  -- body-slam start
+    (186, 18600, 38, 21, 8, NULL),  -- double-edge start
+    (186, 18600, 55, 21, 8, NULL),  -- water-gun start
+    (186, 18600, 56, 21, 8, NULL),  -- hydro-pump start
+    (186, 18600, 61, 21, 8, NULL),  -- bubble-beam start
+    (186, 18600, 95, 21, 8, NULL),  -- hypnosis start
+    (186, 18600, 187, 21, 8, NULL),  -- belly-drum start
+    (186, 18600, 195, 21, 8, NULL),  -- perish-song start
+    (186, 18600, 207, 21, 8, NULL),  -- swagger start
+    (186, 18600, 240, 21, 8, NULL),  -- rain-dance start
+    (186, 18600, 304, 21, 8, NULL),  -- hyper-voice start
+    (186, 18600, 340, 21, 8, NULL),  -- bounce start
+    (186, 18600, 341, 21, 8, NULL),  -- mud-shot start
+    (186, 18600, 414, 21, 8, NULL),  -- earth-power start
+    (187, 18700, 235, 21, 1, 4),  -- synthesis lv4
+    (187, 18700, 39, 21, 1, 6),  -- tail-whip lv6
+    (187, 18700, 33, 21, 1, 8),  -- tackle lv8
+    (187, 18700, 584, 21, 1, 10),  -- fairy-wind lv10
+    (187, 18700, 77, 21, 1, 12),  -- poison-powder lv12
+    (187, 18700, 78, 21, 1, 14),  -- stun-spore lv14
+    (187, 18700, 79, 21, 1, 16),  -- sleep-powder lv16
+    (187, 18700, 331, 21, 1, 19),  -- bullet-seed lv19
+    (187, 18700, 73, 21, 1, 22),  -- leech-seed lv22
+    (187, 18700, 72, 21, 1, 25),  -- mega-drain lv25
+    (187, 18700, 512, 21, 1, 28),  -- acrobatics lv28
+    (187, 18700, 476, 21, 1, 31),  -- rage-powder lv31
+    (187, 18700, 178, 21, 1, 34),  -- cotton-spore lv34
+    (187, 18700, 369, 21, 1, 37),  -- u-turn lv37
+    (187, 18700, 388, 21, 1, 40),  -- worry-seed lv40
+    (187, 18700, 202, 21, 1, 43),  -- giga-drain lv43
+    (187, 18700, 340, 21, 1, 46),  -- bounce lv46
+    (187, 18700, 262, 21, 1, 49),  -- memento lv49
+    (187, 18700, 14, 21, 2, NULL),  -- swords-dance tm
+    (187, 18700, 76, 21, 2, NULL),  -- solar-beam tm
+    (187, 18700, 104, 21, 2, NULL),  -- double-team tm
+    (187, 18700, 115, 21, 2, NULL),  -- reflect tm
+    (187, 18700, 148, 21, 2, NULL),  -- flash tm
+    (187, 18700, 156, 21, 2, NULL),  -- rest tm
+    (187, 18700, 164, 21, 2, NULL),  -- substitute tm
+    (187, 18700, 182, 21, 2, NULL),  -- protect tm
+    (187, 18700, 202, 21, 2, NULL),  -- giga-drain tm
+    (187, 18700, 203, 21, 2, NULL),  -- endure tm
+    (187, 18700, 207, 21, 2, NULL),  -- swagger tm
+    (187, 18700, 213, 21, 2, NULL),  -- attract tm
+    (187, 18700, 214, 21, 2, NULL),  -- sleep-talk tm
+    (187, 18700, 241, 21, 2, NULL),  -- sunny-day tm
+    (187, 18700, 244, 21, 2, NULL),  -- psych-up tm
+    (187, 18700, 263, 21, 2, NULL),  -- facade tm
+    (187, 18700, 331, 21, 2, NULL),  -- bullet-seed tm
+    (187, 18700, 332, 21, 2, NULL),  -- aerial-ace tm
+    (187, 18700, 369, 21, 2, NULL),  -- u-turn tm
+    (187, 18700, 412, 21, 2, NULL),  -- energy-ball tm
+    (187, 18700, 447, 21, 2, NULL),  -- grass-knot tm
+    (187, 18700, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (187, 18700, 38, 21, 5, NULL),  -- double-edge egg
+    (187, 18700, 93, 21, 5, NULL),  -- confusion egg
+    (187, 18700, 133, 21, 5, NULL),  -- amnesia egg
+    (187, 18700, 227, 21, 5, NULL),  -- encore egg
+    (187, 18700, 270, 21, 5, NULL),  -- helping-hand egg
+    (187, 18700, 312, 21, 5, NULL),  -- aromatherapy egg
+    (187, 18700, 388, 21, 5, NULL),  -- worry-seed egg
+    (187, 18700, 402, 21, 5, NULL),  -- seed-bomb egg
+    (187, 18700, 538, 21, 5, NULL),  -- cotton-guard egg
+    (187, 18700, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (187, 18700, 668, 21, 5, NULL),  -- strength-sap egg
+    (187, 18700, 71, 21, 8, NULL),  -- absorb start
+    (187, 18700, 150, 21, 8, NULL),  -- splash start
+    (188, 18800, 235, 21, 1, 4),  -- synthesis lv4
+    (188, 18800, 39, 21, 1, 6),  -- tail-whip lv6
+    (188, 18800, 33, 21, 1, 8),  -- tackle lv8
+    (188, 18800, 584, 21, 1, 10),  -- fairy-wind lv10
+    (188, 18800, 77, 21, 1, 12),  -- poison-powder lv12
+    (188, 18800, 78, 21, 1, 14),  -- stun-spore lv14
+    (188, 18800, 79, 21, 1, 16),  -- sleep-powder lv16
+    (188, 18800, 331, 21, 1, 20),  -- bullet-seed lv20
+    (188, 18800, 73, 21, 1, 24),  -- leech-seed lv24
+    (188, 18800, 72, 21, 1, 28),  -- mega-drain lv28
+    (188, 18800, 512, 21, 1, 32),  -- acrobatics lv32
+    (188, 18800, 476, 21, 1, 36),  -- rage-powder lv36
+    (188, 18800, 178, 21, 1, 40),  -- cotton-spore lv40
+    (188, 18800, 369, 21, 1, 44),  -- u-turn lv44
+    (188, 18800, 388, 21, 1, 48),  -- worry-seed lv48
+    (188, 18800, 202, 21, 1, 52),  -- giga-drain lv52
+    (188, 18800, 340, 21, 1, 56),  -- bounce lv56
+    (188, 18800, 262, 21, 1, 60),  -- memento lv60
+    (188, 18800, 14, 21, 2, NULL),  -- swords-dance tm
+    (188, 18800, 76, 21, 2, NULL),  -- solar-beam tm
+    (188, 18800, 104, 21, 2, NULL),  -- double-team tm
+    (188, 18800, 115, 21, 2, NULL),  -- reflect tm
+    (188, 18800, 148, 21, 2, NULL),  -- flash tm
+    (188, 18800, 156, 21, 2, NULL),  -- rest tm
+    (188, 18800, 164, 21, 2, NULL),  -- substitute tm
+    (188, 18800, 182, 21, 2, NULL),  -- protect tm
+    (188, 18800, 202, 21, 2, NULL),  -- giga-drain tm
+    (188, 18800, 203, 21, 2, NULL),  -- endure tm
+    (188, 18800, 207, 21, 2, NULL),  -- swagger tm
+    (188, 18800, 213, 21, 2, NULL),  -- attract tm
+    (188, 18800, 214, 21, 2, NULL),  -- sleep-talk tm
+    (188, 18800, 241, 21, 2, NULL),  -- sunny-day tm
+    (188, 18800, 244, 21, 2, NULL),  -- psych-up tm
+    (188, 18800, 263, 21, 2, NULL),  -- facade tm
+    (188, 18800, 331, 21, 2, NULL),  -- bullet-seed tm
+    (188, 18800, 332, 21, 2, NULL),  -- aerial-ace tm
+    (188, 18800, 369, 21, 2, NULL),  -- u-turn tm
+    (188, 18800, 412, 21, 2, NULL),  -- energy-ball tm
+    (188, 18800, 447, 21, 2, NULL),  -- grass-knot tm
+    (188, 18800, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (188, 18800, 38, 21, 5, NULL),  -- double-edge egg
+    (188, 18800, 93, 21, 5, NULL),  -- confusion egg
+    (188, 18800, 133, 21, 5, NULL),  -- amnesia egg
+    (188, 18800, 227, 21, 5, NULL),  -- encore egg
+    (188, 18800, 270, 21, 5, NULL),  -- helping-hand egg
+    (188, 18800, 312, 21, 5, NULL),  -- aromatherapy egg
+    (188, 18800, 388, 21, 5, NULL),  -- worry-seed egg
+    (188, 18800, 402, 21, 5, NULL),  -- seed-bomb egg
+    (188, 18800, 538, 21, 5, NULL),  -- cotton-guard egg
+    (188, 18800, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (188, 18800, 668, 21, 5, NULL),  -- strength-sap egg
+    (188, 18800, 39, 21, 8, NULL),  -- tail-whip start
+    (188, 18800, 71, 21, 8, NULL),  -- absorb start
+    (188, 18800, 150, 21, 8, NULL),  -- splash start
+    (188, 18800, 235, 21, 8, NULL),  -- synthesis start
+    (189, 18900, 235, 21, 1, 4),  -- synthesis lv4
+    (189, 18900, 39, 21, 1, 6),  -- tail-whip lv6
+    (189, 18900, 33, 21, 1, 8),  -- tackle lv8
+    (189, 18900, 584, 21, 1, 10),  -- fairy-wind lv10
+    (189, 18900, 77, 21, 1, 12),  -- poison-powder lv12
+    (189, 18900, 78, 21, 1, 14),  -- stun-spore lv14
+    (189, 18900, 79, 21, 1, 16),  -- sleep-powder lv16
+    (189, 18900, 331, 21, 1, 20),  -- bullet-seed lv20
+    (189, 18900, 73, 21, 1, 24),  -- leech-seed lv24
+    (189, 18900, 72, 21, 1, 29),  -- mega-drain lv29
+    (189, 18900, 512, 21, 1, 34),  -- acrobatics lv34
+    (189, 18900, 476, 21, 1, 39),  -- rage-powder lv39
+    (189, 18900, 178, 21, 1, 44),  -- cotton-spore lv44
+    (189, 18900, 369, 21, 1, 49),  -- u-turn lv49
+    (189, 18900, 388, 21, 1, 54),  -- worry-seed lv54
+    (189, 18900, 202, 21, 1, 59),  -- giga-drain lv59
+    (189, 18900, 340, 21, 1, 64),  -- bounce lv64
+    (189, 18900, 262, 21, 1, 69),  -- memento lv69
+    (189, 18900, 14, 21, 2, NULL),  -- swords-dance tm
+    (189, 18900, 63, 21, 2, NULL),  -- hyper-beam tm
+    (189, 18900, 76, 21, 2, NULL),  -- solar-beam tm
+    (189, 18900, 104, 21, 2, NULL),  -- double-team tm
+    (189, 18900, 115, 21, 2, NULL),  -- reflect tm
+    (189, 18900, 148, 21, 2, NULL),  -- flash tm
+    (189, 18900, 156, 21, 2, NULL),  -- rest tm
+    (189, 18900, 164, 21, 2, NULL),  -- substitute tm
+    (189, 18900, 182, 21, 2, NULL),  -- protect tm
+    (189, 18900, 202, 21, 2, NULL),  -- giga-drain tm
+    (189, 18900, 203, 21, 2, NULL),  -- endure tm
+    (189, 18900, 207, 21, 2, NULL),  -- swagger tm
+    (189, 18900, 213, 21, 2, NULL),  -- attract tm
+    (189, 18900, 214, 21, 2, NULL),  -- sleep-talk tm
+    (189, 18900, 241, 21, 2, NULL),  -- sunny-day tm
+    (189, 18900, 244, 21, 2, NULL),  -- psych-up tm
+    (189, 18900, 263, 21, 2, NULL),  -- facade tm
+    (189, 18900, 331, 21, 2, NULL),  -- bullet-seed tm
+    (189, 18900, 332, 21, 2, NULL),  -- aerial-ace tm
+    (189, 18900, 369, 21, 2, NULL),  -- u-turn tm
+    (189, 18900, 412, 21, 2, NULL),  -- energy-ball tm
+    (189, 18900, 416, 21, 2, NULL),  -- giga-impact tm
+    (189, 18900, 447, 21, 2, NULL),  -- grass-knot tm
+    (189, 18900, 605, 21, 2, NULL),  -- dazzling-gleam tm
+    (189, 18900, 38, 21, 5, NULL),  -- double-edge egg
+    (189, 18900, 93, 21, 5, NULL),  -- confusion egg
+    (189, 18900, 133, 21, 5, NULL),  -- amnesia egg
+    (189, 18900, 227, 21, 5, NULL),  -- encore egg
+    (189, 18900, 270, 21, 5, NULL),  -- helping-hand egg
+    (189, 18900, 312, 21, 5, NULL),  -- aromatherapy egg
+    (189, 18900, 388, 21, 5, NULL),  -- worry-seed egg
+    (189, 18900, 402, 21, 5, NULL),  -- seed-bomb egg
+    (189, 18900, 538, 21, 5, NULL),  -- cotton-guard egg
+    (189, 18900, 580, 21, 5, NULL),  -- grassy-terrain egg
+    (189, 18900, 668, 21, 5, NULL),  -- strength-sap egg
+    (189, 18900, 39, 21, 8, NULL),  -- tail-whip start
+    (189, 18900, 71, 21, 8, NULL),  -- absorb start
+    (189, 18900, 150, 21, 8, NULL),  -- splash start
+    (189, 18900, 235, 21, 8, NULL),  -- synthesis start
+    (190, 19000, 28, 21, 1, 4),  -- sand-attack lv4
+    (190, 19000, 310, 21, 1, 8),  -- astonish lv8
+    (190, 19000, 226, 21, 1, 11),  -- baton-pass lv11
+    (190, 19000, 321, 21, 1, 15),  -- tickle lv15
+    (190, 19000, 154, 21, 1, 18),  -- fury-swipes lv18
+    (190, 19000, 129, 21, 1, 22),  -- swift lv22
+    (190, 19000, 103, 21, 1, 25),  -- screech lv25
+    (190, 19000, 97, 21, 1, 29),  -- agility lv29
+    (190, 19000, 458, 21, 1, 32),  -- double-hit lv32
+    (190, 19000, 374, 21, 1, 36),  -- fling lv36
+    (190, 19000, 417, 21, 1, 39),  -- nasty-plot lv39
+    (190, 19000, 387, 21, 1, 43),  -- last-resort lv43
+    (190, 19000, 15, 21, 2, NULL),  -- cut tm
+    (190, 19000, 70, 21, 2, NULL),  -- strength tm
+    (190, 19000, 76, 21, 2, NULL),  -- solar-beam tm
+    (190, 19000, 85, 21, 2, NULL),  -- thunderbolt tm
+    (190, 19000, 86, 21, 2, NULL),  -- thunder-wave tm
+    (190, 19000, 87, 21, 2, NULL),  -- thunder tm
+    (190, 19000, 91, 21, 2, NULL),  -- dig tm
+    (190, 19000, 104, 21, 2, NULL),  -- double-team tm
+    (190, 19000, 138, 21, 2, NULL),  -- dream-eater tm
+    (190, 19000, 156, 21, 2, NULL),  -- rest tm
+    (190, 19000, 164, 21, 2, NULL),  -- substitute tm
+    (190, 19000, 168, 21, 2, NULL),  -- thief tm
+    (190, 19000, 182, 21, 2, NULL),  -- protect tm
+    (190, 19000, 203, 21, 2, NULL),  -- endure tm
+    (190, 19000, 207, 21, 2, NULL),  -- swagger tm
+    (190, 19000, 213, 21, 2, NULL),  -- attract tm
+    (190, 19000, 214, 21, 2, NULL),  -- sleep-talk tm
+    (190, 19000, 231, 21, 2, NULL),  -- iron-tail tm
+    (190, 19000, 240, 21, 2, NULL),  -- rain-dance tm
+    (190, 19000, 241, 21, 2, NULL),  -- sunny-day tm
+    (190, 19000, 247, 21, 2, NULL),  -- shadow-ball tm
+    (190, 19000, 249, 21, 2, NULL),  -- rock-smash tm
+    (190, 19000, 263, 21, 2, NULL),  -- facade tm
+    (190, 19000, 264, 21, 2, NULL),  -- focus-punch tm
+    (190, 19000, 269, 21, 2, NULL),  -- taunt tm
+    (190, 19000, 280, 21, 2, NULL),  -- brick-break tm
+    (190, 19000, 332, 21, 2, NULL),  -- aerial-ace tm
+    (190, 19000, 351, 21, 2, NULL),  -- shock-wave tm
+    (190, 19000, 352, 21, 2, NULL);  -- water-pulse tm
