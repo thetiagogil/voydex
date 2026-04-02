@@ -16,4 +16,6 @@ VALUES
     (4, 'tr', 'TR'),
     (5, 'egg', 'Egg Move'),
     (6, 'tutor', 'Move Tutor'),
-    (7, 'evolution', 'Evolution');
+    (7, 'evolution', 'Evolution'),
+    (8, 'starting-move', 'Starting Move'),
+    (9, 'reminder', 'Move Reminder');
