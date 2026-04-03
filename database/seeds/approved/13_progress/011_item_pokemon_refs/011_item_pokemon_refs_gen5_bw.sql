@@ -5,11 +5,11 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (516, 643, 64300), -- reshiram → Reshiram
-    (517, 644, 64400), -- zekrom → Zekrom
-    (518, 646, 64600), -- kyurem → Kyurem
-    (519, 638, 63800), -- cobalion → Cobalion
-    (520, 639, 63900), -- terrakion → Terrakion
-    (521, 640, 64000);
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id = 17 AND slug = 'reshiram'), 643, 64300), -- reshiram → Reshiram
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id = 18 AND slug = 'zekrom'), 644, 64400), -- zekrom → Zekrom
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'kyurem'), 646, 64600), -- kyurem → Kyurem
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'cobalion'), 638, 63800), -- cobalion → Cobalion
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'terrakion'), 639, 63900), -- terrakion → Terrakion
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'virizion'), 640, 64000);
 
 -- virizion → Virizion

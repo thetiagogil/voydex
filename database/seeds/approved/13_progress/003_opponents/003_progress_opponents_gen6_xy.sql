@@ -1,27 +1,212 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (xy, VG 13)
 -- ============================================================================
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
-    (350, 13, NULL, 'viola', 'Viola', 'gym-leader', NULL, 1),
-    (351, 13, NULL, 'grant', 'Grant', 'gym-leader', NULL, 2),
-    (352, 13, NULL, 'korrina', 'Korrina', 'gym-leader', NULL, 3),
-    (353, 13, NULL, 'ramos', 'Ramos', 'gym-leader', NULL, 4),
-    (354, 13, NULL, 'clemont', 'Clemont', 'gym-leader', NULL, 5),
-    (355, 13, NULL, 'valerie', 'Valerie', 'gym-leader', NULL, 6),
-    (356, 13, NULL, 'olympia', 'Olympia', 'gym-leader', NULL, 7),
-    (357, 13, NULL, 'wulfric', 'Wulfric', 'gym-leader', NULL, 8),
-    (358, 13, NULL, 'malva', 'Malva', 'elite-four', NULL, 9),
-    (359, 13, NULL, 'siebold', 'Siebold', 'elite-four', NULL, 10),
-    (360, 13, NULL, 'wikstrom', 'Wikstrom', 'elite-four', NULL, 11),
-    (361, 13, NULL, 'drasna', 'Drasna', 'elite-four', NULL, 12),
-    (362, 13, NULL, 'diantha', 'Diantha', 'champion', NULL, 13);
+    (
+        13,
+        NULL,
+        'viola',
+        'Viola',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'bug'
+        ),
+        NULL,
+        1
+    ),
+    (
+        13,
+        NULL,
+        'grant',
+        'Grant',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        2
+    ),
+    (
+        13,
+        NULL,
+        'korrina',
+        'Korrina',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        3
+    ),
+    (
+        13,
+        NULL,
+        'ramos',
+        'Ramos',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'grass'
+        ),
+        NULL,
+        4
+    ),
+    (
+        13,
+        NULL,
+        'clemont',
+        'Clemont',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        5
+    ),
+    (
+        13,
+        NULL,
+        'valerie',
+        'Valerie',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fairy'
+        ),
+        NULL,
+        6
+    ),
+    (
+        13,
+        NULL,
+        'olympia',
+        'Olympia',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        7
+    ),
+    (
+        13,
+        NULL,
+        'wulfric',
+        'Wulfric',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ice'
+        ),
+        NULL,
+        8
+    ),
+    (
+        13,
+        NULL,
+        'malva',
+        'Malva',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        9
+    ),
+    (
+        13,
+        NULL,
+        'siebold',
+        'Siebold',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        10
+    ),
+    (
+        13,
+        NULL,
+        'wikstrom',
+        'Wikstrom',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'steel'
+        ),
+        NULL,
+        11
+    ),
+    (
+        13,
+        NULL,
+        'drasna',
+        'Drasna',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dragon'
+        ),
+        NULL,
+        12
+    ),
+    (13, NULL, 'diantha', 'Diantha', 'champion', NULL, NULL, 13);

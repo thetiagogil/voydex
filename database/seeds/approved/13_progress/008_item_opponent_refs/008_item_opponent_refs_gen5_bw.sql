@@ -5,20 +5,20 @@
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
 VALUES
-    (501, 300), -- trio-badge → Cilan/Chili/Cress
-    (502, 301), -- basic-badge → Lenora
-    (503, 302), -- insect-badge → Burgh
-    (504, 303), -- bolt-badge → Elesa
-    (505, 304), -- quake-badge → Clay
-    (506, 305), -- jet-badge → Skyla
-    (507, 306), -- freeze-badge → Brycen
-    (508, 307), -- legend-badge → Drayden
-    (509, 308), -- elite-four-shauntal → Shauntal
-    (510, 309), -- elite-four-grimsley → Grimsley
-    (511, 310), -- elite-four-caitlin → Caitlin
-    (512, 311), -- elite-four-marshal → Marshal
-    (513, 312), -- n-battle → N
-    (514, 313), -- ghetsis-battle → Ghetsis
-    (515, 314);
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'trio-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'cilan-chili-cress')), -- trio-badge → Cilan/Chili/Cress
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'basic-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'lenora')), -- basic-badge → Lenora
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'insect-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'burgh')), -- insect-badge → Burgh
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'bolt-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'elesa')), -- bolt-badge → Elesa
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'quake-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'clay')), -- quake-badge → Clay
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'jet-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'skyla')), -- jet-badge → Skyla
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'freeze-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'brycen')), -- freeze-badge → Brycen
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'legend-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'drayden')), -- legend-badge → Drayden
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'elite-four-shauntal'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'shauntal')), -- elite-four-shauntal → Shauntal
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'elite-four-grimsley'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'grimsley')), -- elite-four-grimsley → Grimsley
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'elite-four-caitlin'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'caitlin')), -- elite-four-caitlin → Caitlin
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'elite-four-marshal'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'marshal')), -- elite-four-marshal → Marshal
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'n-battle'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'n')), -- n-battle → N
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'ghetsis-battle'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'ghetsis')), -- ghetsis-battle → Ghetsis
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'champion-alder'), (SELECT id FROM progress.opponents WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'alder'));
 
 -- champion-alder → Alder

@@ -5,8 +5,8 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (720, 791, 79100), -- solgaleo → Solgaleo
-    (721, 792, 79200), -- lunala → Lunala
-    (722, 800, 80000);
+    ((SELECT id FROM progress.items WHERE version_group_id = 16 AND game_id = 27 AND slug = 'solgaleo'), 791, 79100), -- solgaleo → Solgaleo
+    ((SELECT id FROM progress.items WHERE version_group_id = 16 AND game_id = 28 AND slug = 'lunala'), 792, 79200), -- lunala → Lunala
+    ((SELECT id FROM progress.items WHERE version_group_id = 16 AND game_id IS NULL AND slug = 'necrozma'), 800, 80000);
 
 -- necrozma → Necrozma

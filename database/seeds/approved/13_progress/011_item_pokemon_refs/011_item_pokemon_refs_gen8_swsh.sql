@@ -5,8 +5,8 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (813, 888, 88800), -- zacian → Zacian
-    (814, 889, 88900), -- zamazenta → Zamazenta
-    (815, 890, 89000);
+    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 31 AND slug = 'zacian'), 888, 88800), -- zacian → Zacian
+    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 32 AND slug = 'zamazenta'), 889, 88900), -- zamazenta → Zamazenta
+    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'eternatus'), 890, 89000);
 
 -- eternatus → Eternatus

@@ -1,21 +1,58 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (swsh-ioa, VG 19)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- Isle of Armor DLC. Mustard is the dojo master.
--- Klara (Sword) / Avery (Shield) are version-exclusive rivals.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
-    (461, 19, NULL, 'mustard', 'Mustard', 'story-boss', NULL, 1),
-    (462, 19, 31, 'klara', 'Klara', 'story-boss', NULL, 2),
-    (463, 19, 32, 'avery', 'Avery', 'story-boss', NULL, 2);
+    (
+        19,
+        NULL,
+        'mustard',
+        'Mustard',
+        'story_boss',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        1
+    ),
+    (
+        19,
+        31,
+        'klara',
+        'Klara',
+        'story_boss',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'poison'
+        ),
+        NULL,
+        2
+    ),
+    (
+        19,
+        32,
+        'avery',
+        'Avery',
+        'story_boss',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        2
+    );

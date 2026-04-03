@@ -1,30 +1,228 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (oras, VG 14)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- ORAS: Remake of RS. Wallace is 8th gym, Steven is champion.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
-    (363, 14, NULL, 'roxanne', 'Roxanne', 'gym-leader', NULL, 1),
-    (364, 14, NULL, 'brawly', 'Brawly', 'gym-leader', NULL, 2),
-    (365, 14, NULL, 'wattson', 'Wattson', 'gym-leader', NULL, 3),
-    (366, 14, NULL, 'flannery', 'Flannery', 'gym-leader', NULL, 4),
-    (367, 14, NULL, 'norman', 'Norman', 'gym-leader', NULL, 5),
-    (368, 14, NULL, 'winona', 'Winona', 'gym-leader', NULL, 6),
-    (369, 14, NULL, 'tate-and-liza', 'Tate & Liza', 'gym-leader', NULL, 7),
-    (370, 14, NULL, 'wallace', 'Wallace', 'gym-leader', NULL, 8),
-    (371, 14, NULL, 'sidney', 'Sidney', 'elite-four', NULL, 9),
-    (372, 14, NULL, 'phoebe', 'Phoebe', 'elite-four', NULL, 10),
-    (373, 14, NULL, 'glacia', 'Glacia', 'elite-four', NULL, 11),
-    (374, 14, NULL, 'drake', 'Drake', 'elite-four', NULL, 12),
-    (375, 14, NULL, 'steven', 'Steven', 'champion', NULL, 13);
+    (
+        14,
+        NULL,
+        'roxanne',
+        'Roxanne',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        1
+    ),
+    (
+        14,
+        NULL,
+        'brawly',
+        'Brawly',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        2
+    ),
+    (
+        14,
+        NULL,
+        'wattson',
+        'Wattson',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        3
+    ),
+    (
+        14,
+        NULL,
+        'flannery',
+        'Flannery',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        4
+    ),
+    (
+        14,
+        NULL,
+        'norman',
+        'Norman',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'normal'
+        ),
+        NULL,
+        5
+    ),
+    (
+        14,
+        NULL,
+        'winona',
+        'Winona',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'flying'
+        ),
+        NULL,
+        6
+    ),
+    (
+        14,
+        NULL,
+        'tate-and-liza',
+        'Tate & Liza',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        7
+    ),
+    (
+        14,
+        NULL,
+        'wallace',
+        'Wallace',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        8
+    ),
+    (
+        14,
+        NULL,
+        'sidney',
+        'Sidney',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dark'
+        ),
+        NULL,
+        9
+    ),
+    (
+        14,
+        NULL,
+        'phoebe',
+        'Phoebe',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        10
+    ),
+    (
+        14,
+        NULL,
+        'glacia',
+        'Glacia',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ice'
+        ),
+        NULL,
+        11
+    ),
+    (
+        14,
+        NULL,
+        'drake',
+        'Drake',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dragon'
+        ),
+        NULL,
+        12
+    ),
+    (
+        14,
+        NULL,
+        'steven',
+        'Steven',
+        'champion',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'steel'
+        ),
+        NULL,
+        13
+    );

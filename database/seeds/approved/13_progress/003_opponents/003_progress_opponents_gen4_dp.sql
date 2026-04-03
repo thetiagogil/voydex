@@ -1,31 +1,212 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (dp, VG 8)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- Diamond/Pearl: Gym order differs from Platinum.
--- DP order: Roark, Gardenia, Fantina, Maylene, Wake, Byron, Candice, Volkner.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
-    (263, 8, NULL, 'roark', 'Roark', 'gym-leader', NULL, 1),
-    (264, 8, NULL, 'gardenia', 'Gardenia', 'gym-leader', NULL, 2),
-    (265, 8, NULL, 'fantina', 'Fantina', 'gym-leader', NULL, 3),
-    (266, 8, NULL, 'maylene', 'Maylene', 'gym-leader', NULL, 4),
-    (267, 8, NULL, 'crasher-wake', 'Crasher Wake', 'gym-leader', NULL, 5),
-    (268, 8, NULL, 'byron', 'Byron', 'gym-leader', NULL, 6),
-    (269, 8, NULL, 'candice', 'Candice', 'gym-leader', NULL, 7),
-    (270, 8, NULL, 'volkner', 'Volkner', 'gym-leader', NULL, 8),
-    (271, 8, NULL, 'aaron', 'Aaron', 'elite-four', NULL, 9),
-    (272, 8, NULL, 'bertha', 'Bertha', 'elite-four', NULL, 10),
-    (273, 8, NULL, 'flint', 'Flint', 'elite-four', NULL, 11),
-    (274, 8, NULL, 'lucian', 'Lucian', 'elite-four', NULL, 12),
-    (275, 8, NULL, 'cynthia', 'Cynthia', 'champion', NULL, 13);
+    (
+        8,
+        NULL,
+        'roark',
+        'Roark',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        1
+    ),
+    (
+        8,
+        NULL,
+        'gardenia',
+        'Gardenia',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'grass'
+        ),
+        NULL,
+        2
+    ),
+    (
+        8,
+        NULL,
+        'fantina',
+        'Fantina',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        3
+    ),
+    (
+        8,
+        NULL,
+        'maylene',
+        'Maylene',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        4
+    ),
+    (
+        8,
+        NULL,
+        'crasher-wake',
+        'Crasher Wake',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        5
+    ),
+    (
+        8,
+        NULL,
+        'byron',
+        'Byron',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'steel'
+        ),
+        NULL,
+        6
+    ),
+    (
+        8,
+        NULL,
+        'candice',
+        'Candice',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ice'
+        ),
+        NULL,
+        7
+    ),
+    (
+        8,
+        NULL,
+        'volkner',
+        'Volkner',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        8
+    ),
+    (
+        8,
+        NULL,
+        'aaron',
+        'Aaron',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'bug'
+        ),
+        NULL,
+        9
+    ),
+    (
+        8,
+        NULL,
+        'bertha',
+        'Bertha',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ground'
+        ),
+        NULL,
+        10
+    ),
+    (
+        8,
+        NULL,
+        'flint',
+        'Flint',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        11
+    ),
+    (
+        8,
+        NULL,
+        'lucian',
+        'Lucian',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        12
+    ),
+    (8, NULL, 'cynthia', 'Cynthia', 'champion', NULL, NULL, 13);

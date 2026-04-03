@@ -1,32 +1,217 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (lgpe, VG 17)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- Let's Go Pikachu/Eevee: Kanto gym structure. Same 8 leaders as RB/FRLG.
--- Champion battle is against the rival.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
-    (436, 17, NULL, 'brock', 'Brock', 'gym-leader', NULL, 1),
-    (437, 17, NULL, 'misty', 'Misty', 'gym-leader', NULL, 2),
-    (438, 17, NULL, 'lt-surge', 'Lt. Surge', 'gym-leader', NULL, 3),
-    (439, 17, NULL, 'erika', 'Erika', 'gym-leader', NULL, 4),
-    (440, 17, NULL, 'koga', 'Koga', 'gym-leader', NULL, 5),
-    (441, 17, NULL, 'sabrina', 'Sabrina', 'gym-leader', NULL, 6),
-    (442, 17, NULL, 'blaine', 'Blaine', 'gym-leader', NULL, 7),
-    (443, 17, NULL, 'giovanni', 'Giovanni', 'gym-leader', NULL, 8),
-    (444, 17, NULL, 'lorelei', 'Lorelei', 'elite-four', NULL, 9),
-    (445, 17, NULL, 'bruno', 'Bruno', 'elite-four', NULL, 10),
-    (446, 17, NULL, 'agatha', 'Agatha', 'elite-four', NULL, 11),
-    (447, 17, NULL, 'lance', 'Lance', 'elite-four', NULL, 12),
-    (448, 17, NULL, 'rival', 'Rival', 'champion', NULL, 13),
-    (449, 17, NULL, 'blue', 'Blue', 'story-boss', NULL, 14);
+    -- Gym Leaders
+    (
+        17,
+        NULL,
+        'brock',
+        'Brock',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        1
+    ),
+    (
+        17,
+        NULL,
+        'misty',
+        'Misty',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        2
+    ),
+    (
+        17,
+        NULL,
+        'lt-surge',
+        'Lt. Surge',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        3
+    ),
+    (
+        17,
+        NULL,
+        'erika',
+        'Erika',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'grass'
+        ),
+        NULL,
+        4
+    ),
+    (
+        17,
+        NULL,
+        'koga',
+        'Koga',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'poison'
+        ),
+        NULL,
+        5
+    ),
+    (
+        17,
+        NULL,
+        'sabrina',
+        'Sabrina',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        6
+    ),
+    (
+        17,
+        NULL,
+        'blaine',
+        'Blaine',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        7
+    ),
+    (
+        17,
+        NULL,
+        'giovanni',
+        'Giovanni',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ground'
+        ),
+        NULL,
+        8
+    ),
+    -- Elite Four
+    (
+        17,
+        NULL,
+        'lorelei',
+        'Lorelei',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ice'
+        ),
+        NULL,
+        9
+    ),
+    (
+        17,
+        NULL,
+        'bruno',
+        'Bruno',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        10
+    ),
+    (
+        17,
+        NULL,
+        'agatha',
+        'Agatha',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        11
+    ),
+    (
+        17,
+        NULL,
+        'lance',
+        'Lance',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dragon'
+        ),
+        NULL,
+        12
+    ),
+    -- Champion
+    (17, NULL, 'rival', 'Trace', 'champion', NULL, NULL, 13),
+    -- Story Boss
+    (17, NULL, 'blue', 'Blue', 'story_boss', NULL, NULL, 14);

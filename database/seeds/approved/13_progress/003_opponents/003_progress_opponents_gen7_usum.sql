@@ -1,39 +1,285 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (usum, VG 16)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- USUM: Mina trial added. Champion is Hau. Ultra Necrozma is story boss.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
     -- Trial Captains
-    (400, 16, NULL, 'ilima', 'Ilima', 'trial-captain', NULL, 1),
-    (401, 16, NULL, 'lana', 'Lana', 'trial-captain', NULL, 2),
-    (402, 16, NULL, 'kiawe', 'Kiawe', 'trial-captain', NULL, 3),
-    (403, 16, NULL, 'mallow', 'Mallow', 'trial-captain', NULL, 4),
-    (404, 16, NULL, 'sophocles', 'Sophocles', 'trial-captain', NULL, 5),
-    (405, 16, NULL, 'acerola', 'Acerola', 'trial-captain', NULL, 6),
-    (406, 16, NULL, 'mina', 'Mina', 'trial-captain', NULL, 7),
+    (
+        16,
+        NULL,
+        'ilima',
+        'Ilima',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'normal'
+        ),
+        NULL,
+        1
+    ),
+    (
+        16,
+        NULL,
+        'lana',
+        'Lana',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        2
+    ),
+    (
+        16,
+        NULL,
+        'kiawe',
+        'Kiawe',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        3
+    ),
+    (
+        16,
+        NULL,
+        'mallow',
+        'Mallow',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'grass'
+        ),
+        NULL,
+        4
+    ),
+    (
+        16,
+        NULL,
+        'sophocles',
+        'Sophocles',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        5
+    ),
+    (
+        16,
+        NULL,
+        'acerola',
+        'Acerola',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        6
+    ),
+    (
+        16,
+        NULL,
+        'mina',
+        'Mina',
+        'trial_captain',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fairy'
+        ),
+        NULL,
+        7
+    ),
     -- Kahunas
-    (407, 16, NULL, 'hala', 'Hala', 'kahuna', NULL, 8),
-    (408, 16, NULL, 'olivia', 'Olivia', 'kahuna', NULL, 9),
-    (409, 16, NULL, 'nanu', 'Nanu', 'kahuna', NULL, 10),
-    (410, 16, NULL, 'hapu', 'Hapu', 'kahuna', NULL, 11),
+    (
+        16,
+        NULL,
+        'hala',
+        'Hala',
+        'kahuna',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        8
+    ),
+    (
+        16,
+        NULL,
+        'olivia',
+        'Olivia',
+        'kahuna',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        9
+    ),
+    (
+        16,
+        NULL,
+        'nanu',
+        'Nanu',
+        'kahuna',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dark'
+        ),
+        NULL,
+        10
+    ),
+    (
+        16,
+        NULL,
+        'hapu',
+        'Hapu',
+        'kahuna',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ground'
+        ),
+        NULL,
+        11
+    ),
     -- Elite Four
-    (411, 16, NULL, 'molayne', 'Molayne', 'elite-four', NULL, 12),
-    (412, 16, NULL, 'olivia-e4', 'Olivia', 'elite-four', NULL, 13),
-    (413, 16, NULL, 'acerola-e4', 'Acerola', 'elite-four', NULL, 14),
-    (414, 16, NULL, 'kahili', 'Kahili', 'elite-four', NULL, 15),
+    (
+        16,
+        NULL,
+        'molayne',
+        'Molayne',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'steel'
+        ),
+        NULL,
+        12
+    ),
+    (
+        16,
+        NULL,
+        'olivia-e4',
+        'Olivia',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        13
+    ),
+    (
+        16,
+        NULL,
+        'acerola-e4',
+        'Acerola',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        14
+    ),
+    (
+        16,
+        NULL,
+        'kahili',
+        'Kahili',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'flying'
+        ),
+        NULL,
+        15
+    ),
     -- Champion
-    (415, 16, NULL, 'hau', 'Hau', 'champion', NULL, 16),
-    -- Story boss
-    (416, 16, NULL, 'ultra-necrozma', 'Ultra Necrozma', 'story-boss', NULL, 17);
+    (16, NULL, 'hau', 'Hau', 'champion', NULL, NULL, 16),
+    -- Story Boss
+    (
+        16,
+        NULL,
+        'ultra-necrozma',
+        'Ultra Necrozma',
+        'story_boss',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        17
+    );

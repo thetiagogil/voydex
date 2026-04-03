@@ -5,18 +5,18 @@
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
 VALUES
-    (301, 200), -- stone-badge → Roxanne
-    (302, 201), -- knuckle-badge → Brawly
-    (303, 202), -- dynamo-badge → Wattson
-    (304, 203), -- heat-badge → Flannery
-    (305, 204), -- balance-badge → Norman
-    (306, 205), -- feather-badge → Winona
-    (307, 206), -- mind-badge → Tate & Liza
-    (308, 207), -- rain-badge → Juan
-    (309, 208), -- elite-four-sidney → Sidney
-    (310, 209), -- elite-four-phoebe → Phoebe
-    (311, 210), -- elite-four-glacia → Glacia
-    (312, 211), -- elite-four-drake → Drake
-    (313, 212);
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'stone-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'roxanne')), -- stone-badge → Roxanne
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'knuckle-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'brawly')), -- knuckle-badge → Brawly
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'dynamo-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'wattson')), -- dynamo-badge → Wattson
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'heat-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'flannery')), -- heat-badge → Flannery
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'balance-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'norman')), -- balance-badge → Norman
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'feather-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'winona')), -- feather-badge → Winona
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'mind-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'tate-and-liza')), -- mind-badge → Tate & Liza
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'rain-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'juan')), -- rain-badge → Juan
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'elite-four-sidney'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'sidney')), -- elite-four-sidney → Sidney
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'elite-four-phoebe'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'phoebe')), -- elite-four-phoebe → Phoebe
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'elite-four-glacia'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'glacia')), -- elite-four-glacia → Glacia
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'elite-four-drake'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'drake')), -- elite-four-drake → Drake
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'champion-wallace'), (SELECT id FROM progress.opponents WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'wallace'));
 
 -- champion-wallace → Wallace

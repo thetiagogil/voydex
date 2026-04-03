@@ -5,11 +5,11 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (315, 384, 38400), -- rayquaza → Rayquaza
-    (316, 383, 38300), -- groudon → Groudon
-    (317, 382, 38200), -- kyogre → Kyogre
-    (318, 377, 37700), -- regirock → Regirock
-    (319, 378, 37800), -- regice → Regice
-    (320, 379, 37900);
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'rayquaza'), 384, 38400), -- rayquaza → Rayquaza
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'groudon'), 383, 38300), -- groudon → Groudon
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'kyogre'), 382, 38200), -- kyogre → Kyogre
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'regirock'), 377, 37700), -- regirock → Regirock
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'regice'), 378, 37800), -- regice → Regice
+    ((SELECT id FROM progress.items WHERE version_group_id = 6 AND game_id IS NULL AND slug = 'registeel'), 379, 37900);
 
 -- registeel → Registeel

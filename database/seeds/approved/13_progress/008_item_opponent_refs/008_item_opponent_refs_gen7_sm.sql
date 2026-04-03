@@ -5,20 +5,20 @@
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
 VALUES
-    (1271, 417), -- ilima-trial → Ilima
-    (1272, 423), -- grand-trial-hala → Hala
-    (1273, 418), -- lana-trial → Lana
-    (1274, 419), -- kiawe-trial → Kiawe
-    (1275, 420), -- mallow-trial → Mallow
-    (1276, 424), -- grand-trial-olivia → Olivia
-    (1277, 421), -- sophocles-trial → Sophocles
-    (1278, 422), -- acerola-trial → Acerola
-    (1279, 425), -- grand-trial-nanu → Nanu
-    (1281, 426), -- grand-trial-hapu → Hapu
-    (1282, 427), -- elite-four-hala → Hala (E4)
-    (1283, 428), -- elite-four-olivia → Olivia (E4)
-    (1284, 429), -- elite-four-acerola → Acerola (E4)
-    (1285, 430), -- elite-four-kahili → Kahili
-    (1286, 431);
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'ilima-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'ilima')), -- ilima-trial → Ilima
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'grand-trial-hala'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'hala')), -- grand-trial-hala → Hala
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'lana-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'lana')), -- lana-trial → Lana
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'kiawe-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'kiawe')), -- kiawe-trial → Kiawe
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'mallow-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'mallow')), -- mallow-trial → Mallow
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'grand-trial-olivia'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'olivia')), -- grand-trial-olivia → Olivia
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'sophocles-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'sophocles')), -- sophocles-trial → Sophocles
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'acerola-trial'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'acerola')), -- acerola-trial → Acerola
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'grand-trial-nanu'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'nanu')), -- grand-trial-nanu → Nanu
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'grand-trial-hapu'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'hapu')), -- grand-trial-hapu → Hapu
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'elite-four-hala'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'hala-e4')), -- elite-four-hala → Hala (E4)
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'elite-four-olivia'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'olivia-e4')), -- elite-four-olivia → Olivia (E4)
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'elite-four-acerola'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'acerola-e4')), -- elite-four-acerola → Acerola (E4)
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'elite-four-kahili'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'kahili')), -- elite-four-kahili → Kahili
+    ((SELECT id FROM progress.items WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'champion-kukui'), (SELECT id FROM progress.opponents WHERE version_group_id = 15 AND game_id IS NULL AND slug = 'kukui'));
 
 -- champion-kukui → Professor Kukui

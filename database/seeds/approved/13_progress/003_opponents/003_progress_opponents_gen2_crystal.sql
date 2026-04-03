@@ -1,43 +1,353 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
 -- Table: progress.opponents
 -- Scope: version-group-specific (crystal, VG 4)
 -- ============================================================================
--- Important Notes
--- ============================================================================
--- Crystal: Johto + Kanto + Mt. Silver. Same as GS plus Suicune event.
 INSERT INTO
-    progress.opponents (id, version_group_id, game_id, slug, name, opponent_role, sprite_url, sort_order)
+    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
 VALUES
     -- Johto gym leaders
-    (150, 4, NULL, 'falkner', 'Falkner', 'gym-leader', NULL, 1),
-    (151, 4, NULL, 'bugsy', 'Bugsy', 'gym-leader', NULL, 2),
-    (152, 4, NULL, 'whitney', 'Whitney', 'gym-leader', NULL, 3),
-    (153, 4, NULL, 'morty', 'Morty', 'gym-leader', NULL, 4),
-    (154, 4, NULL, 'chuck', 'Chuck', 'gym-leader', NULL, 5),
-    (155, 4, NULL, 'jasmine', 'Jasmine', 'gym-leader', NULL, 6),
-    (156, 4, NULL, 'pryce', 'Pryce', 'gym-leader', NULL, 7),
-    (157, 4, NULL, 'clair', 'Clair', 'gym-leader', NULL, 8),
-    -- Johto Elite Four
-    (158, 4, NULL, 'will', 'Will', 'elite-four', NULL, 9),
-    (159, 4, NULL, 'koga', 'Koga', 'elite-four', NULL, 10),
-    (160, 4, NULL, 'bruno', 'Bruno', 'elite-four', NULL, 11),
-    (161, 4, NULL, 'karen', 'Karen', 'elite-four', NULL, 12),
-    (162, 4, NULL, 'lance', 'Lance', 'champion', NULL, 13),
+    (
+        4,
+        NULL,
+        'falkner',
+        'Falkner',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'flying'
+        ),
+        NULL,
+        1
+    ),
+    (
+        4,
+        NULL,
+        'bugsy',
+        'Bugsy',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'bug'
+        ),
+        NULL,
+        2
+    ),
+    (
+        4,
+        NULL,
+        'whitney',
+        'Whitney',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'normal'
+        ),
+        NULL,
+        3
+    ),
+    (
+        4,
+        NULL,
+        'morty',
+        'Morty',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ghost'
+        ),
+        NULL,
+        4
+    ),
+    (
+        4,
+        NULL,
+        'chuck',
+        'Chuck',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        5
+    ),
+    (
+        4,
+        NULL,
+        'jasmine',
+        'Jasmine',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'steel'
+        ),
+        NULL,
+        6
+    ),
+    (
+        4,
+        NULL,
+        'pryce',
+        'Pryce',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'ice'
+        ),
+        NULL,
+        7
+    ),
+    (
+        4,
+        NULL,
+        'clair',
+        'Clair',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dragon'
+        ),
+        NULL,
+        8
+    ),
+    -- Elite Four
+    (
+        4,
+        NULL,
+        'will',
+        'Will',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        9
+    ),
+    (
+        4,
+        NULL,
+        'koga',
+        'Koga',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'poison'
+        ),
+        NULL,
+        10
+    ),
+    (
+        4,
+        NULL,
+        'bruno',
+        'Bruno',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fighting'
+        ),
+        NULL,
+        11
+    ),
+    (
+        4,
+        NULL,
+        'karen',
+        'Karen',
+        'elite_four',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dark'
+        ),
+        NULL,
+        12
+    ),
+    (
+        4,
+        NULL,
+        'lance',
+        'Lance',
+        'champion',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'dragon'
+        ),
+        NULL,
+        13
+    ),
     -- Kanto gym leaders (post-game)
-    (163, 4, NULL, 'lt-surge-kanto', 'Lt. Surge', 'gym-leader', NULL, 14),
-    (164, 4, NULL, 'sabrina-kanto', 'Sabrina', 'gym-leader', NULL, 15),
-    (165, 4, NULL, 'erika-kanto', 'Erika', 'gym-leader', NULL, 16),
-    (166, 4, NULL, 'janine', 'Janine', 'gym-leader', NULL, 17),
-    (167, 4, NULL, 'misty-kanto', 'Misty', 'gym-leader', NULL, 18),
-    (168, 4, NULL, 'brock-kanto', 'Brock', 'gym-leader', NULL, 19),
-    (169, 4, NULL, 'blaine-kanto', 'Blaine', 'gym-leader', NULL, 20),
-    (170, 4, NULL, 'blue-kanto', 'Blue', 'gym-leader', NULL, 21),
+    (
+        4,
+        NULL,
+        'lt-surge-kanto',
+        'Lt. Surge',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'electric'
+        ),
+        NULL,
+        14
+    ),
+    (
+        4,
+        NULL,
+        'sabrina-kanto',
+        'Sabrina',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'psychic'
+        ),
+        NULL,
+        15
+    ),
+    (
+        4,
+        NULL,
+        'erika-kanto',
+        'Erika',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'grass'
+        ),
+        NULL,
+        16
+    ),
+    (
+        4,
+        NULL,
+        'janine',
+        'Janine',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'poison'
+        ),
+        NULL,
+        17
+    ),
+    (
+        4,
+        NULL,
+        'misty-kanto',
+        'Misty',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'water'
+        ),
+        NULL,
+        18
+    ),
+    (
+        4,
+        NULL,
+        'brock-kanto',
+        'Brock',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'rock'
+        ),
+        NULL,
+        19
+    ),
+    (
+        4,
+        NULL,
+        'blaine-kanto',
+        'Blaine',
+        'gym_leader',
+        (
+            SELECT
+                id
+            FROM
+                meta.types
+            WHERE
+                slug = 'fire'
+        ),
+        NULL,
+        20
+    ),
+    (4, NULL, 'blue-kanto', 'Blue', 'gym_leader', NULL, NULL, 21),
     -- Mt. Silver
-    (171, 4, NULL, 'red', 'Red', 'champion', NULL, 22);
+    (4, NULL, 'red', 'Red', 'champion', NULL, NULL, 22);

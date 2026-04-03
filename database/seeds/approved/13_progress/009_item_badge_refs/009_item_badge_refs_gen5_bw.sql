@@ -5,13 +5,13 @@
 INSERT INTO
     progress.item_badge_refs (progress_item_id, badge_id)
 VALUES
-    (501, 190), -- trio-badge → Trio Badge
-    (502, 191), -- basic-badge → Basic Badge
-    (503, 192), -- insect-badge → Insect Badge
-    (504, 193), -- bolt-badge → Bolt Badge
-    (505, 194), -- quake-badge → Quake Badge
-    (506, 195), -- jet-badge → Jet Badge
-    (507, 196), -- freeze-badge → Freeze Badge
-    (508, 197);
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'trio-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'trio-badge')), -- trio-badge → Trio Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'basic-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'basic-badge')), -- basic-badge → Basic Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'insect-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'insect-badge')), -- insect-badge → Insect Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'bolt-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'bolt-badge')), -- bolt-badge → Bolt Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'quake-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'quake-badge')), -- quake-badge → Quake Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'jet-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'jet-badge')), -- jet-badge → Jet Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'freeze-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'freeze-badge')), -- freeze-badge → Freeze Badge
+    ((SELECT id FROM progress.items WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'legend-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 11 AND game_id IS NULL AND slug = 'legend-badge'));
 
 -- legend-badge → Legend Badge

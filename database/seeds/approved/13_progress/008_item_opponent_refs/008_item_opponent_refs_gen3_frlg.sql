@@ -5,18 +5,18 @@
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
 VALUES
-    (1101, 226), -- boulder-badge → Brock
-    (1102, 227), -- cascade-badge → Misty
-    (1103, 228), -- thunder-badge → Lt. Surge
-    (1104, 229), -- rainbow-badge → Erika
-    (1105, 230), -- soul-badge → Koga
-    (1106, 231), -- marsh-badge → Sabrina
-    (1107, 232), -- volcano-badge → Blaine
-    (1108, 233), -- earth-badge → Giovanni
-    (1110, 234), -- elite-four-lorelei → Lorelei
-    (1111, 235), -- elite-four-bruno → Bruno
-    (1112, 236), -- elite-four-agatha → Agatha
-    (1113, 237), -- elite-four-lance → Lance
-    (1114, 238);
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'boulder-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'brock')), -- boulder-badge → Brock
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'cascade-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'misty')), -- cascade-badge → Misty
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'thunder-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'lt-surge')), -- thunder-badge → Lt. Surge
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'rainbow-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'erika')), -- rainbow-badge → Erika
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'soul-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'koga')), -- soul-badge → Koga
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'marsh-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'sabrina')), -- marsh-badge → Sabrina
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'volcano-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'blaine')), -- volcano-badge → Blaine
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'earth-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'giovanni')), -- earth-badge → Giovanni
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'elite-four-lorelei'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'lorelei')), -- elite-four-lorelei → Lorelei
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'elite-four-bruno'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'bruno')), -- elite-four-bruno → Bruno
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'elite-four-agatha'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'agatha')), -- elite-four-agatha → Agatha
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'elite-four-lance'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'lance')), -- elite-four-lance → Lance
+    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'champion-blue'), (SELECT id FROM progress.opponents WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'blue'));
 
 -- champion-blue → Blue

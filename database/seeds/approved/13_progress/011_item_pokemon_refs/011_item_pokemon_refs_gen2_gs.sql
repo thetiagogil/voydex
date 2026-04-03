@@ -5,10 +5,10 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (1053, 250, 25000), -- ho-oh → Ho-Oh
-    (1054, 249, 24900), -- lugia → Lugia
-    (1055, 243, 24300), -- raikou → Raikou
-    (1056, 244, 24400), -- entei → Entei
-    (1057, 245, 24500);
+    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id = 4 AND slug = 'ho-oh'), 250, 25000), -- ho-oh → Ho-Oh
+    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id = 5 AND slug = 'lugia'), 249, 24900), -- lugia → Lugia
+    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'raikou'), 243, 24300), -- raikou → Raikou
+    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'entei'), 244, 24400), -- entei → Entei
+    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'suicune'), 245, 24500);
 
 -- suicune → Suicune

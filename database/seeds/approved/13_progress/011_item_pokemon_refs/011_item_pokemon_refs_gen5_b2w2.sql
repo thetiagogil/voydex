@@ -5,12 +5,12 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (1217, 646, 64602), -- black-kyurem → Kyurem (Black)
-    (1218, 646, 64601), -- white-kyurem → Kyurem (White)
-    (1219, 638, 63800), -- cobalion → Cobalion
-    (1220, 639, 63900), -- terrakion → Terrakion
-    (1221, 640, 64000), -- virizion → Virizion
-    (1222, 485, 48500), -- heatran → Heatran
-    (1223, 488, 48800);
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id = 19 AND slug = 'black-kyurem'), 646, 64602), -- black-kyurem → Kyurem (Black)
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id = 20 AND slug = 'white-kyurem'), 646, 64601), -- white-kyurem → Kyurem (White)
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id IS NULL AND slug = 'cobalion'), 638, 63800), -- cobalion → Cobalion
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id IS NULL AND slug = 'terrakion'), 639, 63900), -- terrakion → Terrakion
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id IS NULL AND slug = 'virizion'), 640, 64000), -- virizion → Virizion
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id IS NULL AND slug = 'heatran'), 485, 48500), -- heatran → Heatran
+    ((SELECT id FROM progress.items WHERE version_group_id = 12 AND game_id IS NULL AND slug = 'cresselia'), 488, 48800);
 
 -- cresselia → Cresselia

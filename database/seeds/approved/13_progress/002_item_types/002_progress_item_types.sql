@@ -12,10 +12,10 @@
 -- ============================================================================
 -- Item types classify the nature of each progress milestone.
 INSERT INTO
-    progress.item_types (id, slug, name)
+    progress.item_types (slug, name)
 VALUES
-    (1, 'story-battle', 'Story Battle'),
-    (2, 'story-checkpoint', 'Story Checkpoint'),
-    (3, 'pokemon-milestone', 'Pokémon Milestone'),
-    (4, 'collectible', 'Collectible'),
-    (5, 'critical-choice', 'Critical Choice');
+    ('story-battle', 'Story Battle'),
+    ('story-checkpoint', 'Story Checkpoint'),
+    ('pokemon-milestone', 'Pokémon Milestone'),
+    ('collectible', 'Collectible'),
+    ('critical-choice', 'Critical Choice');

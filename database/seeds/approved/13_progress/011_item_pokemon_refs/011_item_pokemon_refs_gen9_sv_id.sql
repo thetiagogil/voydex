@@ -5,7 +5,7 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (1437, 1024, 102400), -- terapagos → Terapagos
-    (1438, 1025, 102500);
+    ((SELECT id FROM progress.items WHERE version_group_id = 25 AND game_id IS NULL AND slug = 'terapagos'), 1024, 102400), -- terapagos → Terapagos
+    ((SELECT id FROM progress.items WHERE version_group_id = 25 AND game_id IS NULL AND slug = 'pecharunt'), 1025, 102500);
 
 -- pecharunt → Pecharunt

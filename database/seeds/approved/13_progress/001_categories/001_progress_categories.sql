@@ -13,10 +13,10 @@
 -- Categories organize progress items into logical groups.
 -- sort_order controls display order in the app.
 INSERT INTO
-    progress.categories (id, slug, name, sort_order)
+    progress.categories (slug, name, sort_order)
 VALUES
-    (1, 'main-story', 'Main Story', 1),
-    (2, 'post-game', 'Post Game', 2),
-    (3, 'pokemon', 'Pokémon', 3),
-    (4, 'collectibles', 'Collectibles', 4),
-    (5, 'choices', 'Choices', 5);
+    ('main-story', 'Main Story', 1),
+    ('post-game', 'Post Game', 2),
+    ('pokemon', 'Pokémon', 3),
+    ('collectibles', 'Collectibles', 4),
+    ('choices', 'Choices', 5);

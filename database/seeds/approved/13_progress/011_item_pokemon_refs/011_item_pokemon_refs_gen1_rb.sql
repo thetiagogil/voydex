@@ -5,10 +5,10 @@
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
 VALUES
-    (109, 143, 14300), -- snorlax → Snorlax
-    (116, 144, 14400), -- articuno → Articuno
-    (117, 145, 14500), -- zapdos → Zapdos
-    (118, 146, 14600), -- moltres → Moltres
-    (119, 150, 15000);
+    ((SELECT id FROM progress.items WHERE version_group_id = 1 AND game_id IS NULL AND slug = 'snorlax'), 143, 14300), -- snorlax → Snorlax
+    ((SELECT id FROM progress.items WHERE version_group_id = 1 AND game_id IS NULL AND slug = 'articuno'), 144, 14400), -- articuno → Articuno
+    ((SELECT id FROM progress.items WHERE version_group_id = 1 AND game_id IS NULL AND slug = 'zapdos'), 145, 14500), -- zapdos → Zapdos
+    ((SELECT id FROM progress.items WHERE version_group_id = 1 AND game_id IS NULL AND slug = 'moltres'), 146, 14600), -- moltres → Moltres
+    ((SELECT id FROM progress.items WHERE version_group_id = 1 AND game_id IS NULL AND slug = 'mewtwo'), 150, 15000);
 
 -- mewtwo → Mewtwo
