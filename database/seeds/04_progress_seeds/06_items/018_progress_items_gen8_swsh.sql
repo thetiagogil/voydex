@@ -31,7 +31,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (18, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex.', 1, FALSE::BOOLEAN),
+            (18, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex.', 1, FALSE),
             (18, NULL, 'main-story', 'story-battle', 'grass-badge', 'Grass Badge', 'Defeat Milo in Turffield Stadium.', 2, FALSE),
             (18, NULL, 'main-story', 'story-battle', 'water-badge', 'Water Badge', 'Defeat Nessa in Hulbury Stadium.', 3, FALSE),
             (18, NULL, 'main-story', 'story-battle', 'fire-badge', 'Fire Badge', 'Defeat Kabu in Motostoke Stadium.', 4, FALSE),

@@ -28,7 +28,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (12, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Juniper.', 1, FALSE::BOOLEAN),
+            (12, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Juniper.', 1, FALSE),
             (12, NULL, 'main-story', 'story-battle', 'basic-badge', 'Basic Badge', 'Defeat Cheren in Aspertia City Gym.', 2, FALSE),
             (12, NULL, 'main-story', 'story-battle', 'toxic-badge', 'Toxic Badge', 'Defeat Roxie in Virbank City Gym.', 3, FALSE),
             (12, NULL, 'main-story', 'story-battle', 'insect-badge', 'Insect Badge', 'Defeat Burgh in Castelia City Gym.', 4, FALSE),

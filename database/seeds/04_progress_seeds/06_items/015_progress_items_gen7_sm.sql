@@ -31,7 +31,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (15, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Kukui.', 1, FALSE::BOOLEAN),
+            (15, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Kukui.', 1, FALSE),
             (15, NULL, 'main-story', 'story-battle', 'ilima-trial', 'Ilima''''s Trial', 'Complete Ilima''''s Normal-type trial in Verdant Cavern.', 2, FALSE),
             (15, NULL, 'main-story', 'story-battle', 'grand-trial-hala', 'Grand Trial: Hala', 'Defeat Kahuna Hala on Melemele Island.', 3, FALSE),
             (15, NULL, 'main-story', 'story-battle', 'lana-trial', 'Lana''''s Trial', 'Complete Lana''''s Water-type trial in Brooklet Hill.', 4, FALSE),

@@ -1,15 +1,7 @@
 -- ============================================================================
--- Source
--- ============================================================================
--- Primary: Bulbapedia
--- Secondary: Serebii
--- ============================================================================
--- File Scope
--- ============================================================================
+-- Source: Bulbapedia, Serebii
 -- Table: progress.items
 -- Scope: version-group-specific (sv, VG 23)
--- ============================================================================
--- Important Notes
 -- ============================================================================
 -- Version Group: 23 (Scarlet / Violet)
 -- Three parallel story paths converge before the finale:
@@ -17,6 +9,7 @@
 -- Box legendary: Koraidon (Scarlet, game 36) / Miraidon (Violet, game 37).
 -- Professor AI: Sada (Scarlet) / Turo (Violet) — modeled as shared milestone.
 -- Titan encounters are story checkpoints (wild Pokémon, not trainer battles).
+-- ============================================================================
 WITH
     seed_data (
         version_group_id,
@@ -30,7 +23,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (23, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Clavell.', 1, FALSE::BOOLEAN),
+            (23, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Clavell.', 1, FALSE),
             (23, NULL, 'main-story', 'story-battle', 'bug-badge', 'Bug Badge', 'Defeat Katy in Cortondo Gym.', 2, FALSE),
             (23, NULL, 'main-story', 'story-battle', 'grass-badge', 'Grass Badge', 'Defeat Brassius in Artazon Gym.', 3, FALSE),
             (23, NULL, 'main-story', 'story-battle', 'electric-badge', 'Electric Badge', 'Defeat Iono in Levincia Gym.', 4, FALSE),
@@ -60,6 +53,10 @@ WITH
             (23, NULL, 'post-game', 'story-checkpoint', 'academy-ace-tournament', 'Academy Ace Tournament', 'Participate in the Academy Ace Tournament.', 1, TRUE),
             (23, 36, 'pokemon', 'pokemon-milestone', 'koraidon', 'Koraidon', 'Encounter Koraidon.', 1, TRUE),
             (23, 37, 'pokemon', 'pokemon-milestone', 'miraidon', 'Miraidon', 'Encounter Miraidon.', 1, TRUE),
+            (23, NULL, 'collectibles', 'collectible', 'purple-stakes', 'Purple Ominous Stakes', 'Pull all 8 purple stakes to unseal the Grasswither Shrine.', 1, TRUE),
+            (23, NULL, 'collectibles', 'collectible', 'yellow-stakes', 'Yellow Ominous Stakes', 'Pull all 8 yellow stakes to unseal the Groundblight Shrine.', 2, TRUE),
+            (23, NULL, 'collectibles', 'collectible', 'green-stakes', 'Green Ominous Stakes', 'Pull all 8 green stakes to unseal the Firescourge Shrine.', 3, TRUE),
+            (23, NULL, 'collectibles', 'collectible', 'blue-stakes', 'Blue Ominous Stakes', 'Pull all 8 blue stakes to unseal the Icerend Shrine.', 4, TRUE),
             (23, NULL, 'choices', 'critical-choice', 'starter-choice', 'Starter Choice', 'Choose your starter Pokémon.', 1, FALSE)
     )
 INSERT INTO

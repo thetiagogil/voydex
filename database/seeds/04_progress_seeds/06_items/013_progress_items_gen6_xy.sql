@@ -28,7 +28,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (13, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Sycamore.', 1, FALSE::BOOLEAN),
+            (13, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Sycamore.', 1, FALSE),
             (13, NULL, 'main-story', 'story-battle', 'bug-badge', 'Bug Badge', 'Defeat Viola in Santalune City Gym.', 2, FALSE),
             (13, NULL, 'main-story', 'story-battle', 'cliff-badge', 'Cliff Badge', 'Defeat Grant in Cyllage City Gym.', 3, FALSE),
             (13, NULL, 'main-story', 'story-battle', 'rumble-badge', 'Rumble Badge', 'Defeat Korrina in Shalour City Gym.', 4, FALSE),

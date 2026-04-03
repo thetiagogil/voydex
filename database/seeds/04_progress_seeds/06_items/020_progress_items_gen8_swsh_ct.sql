@@ -28,7 +28,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (20, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-crown-tundra', 'Arrive in the Crown Tundra', 'Arrive at Freezington in the Crown Tundra.', 1, FALSE::BOOLEAN),
+            (20, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-crown-tundra', 'Arrive in the Crown Tundra', 'Arrive at Freezington in the Crown Tundra.', 1, FALSE),
             (20, NULL, 'main-story', 'story-battle', 'peony-battle', 'Peony Battle', 'Defeat Peony at Freezington.', 2, FALSE),
             (20, NULL, 'main-story', 'story-checkpoint', 'calyrex-quest', 'Calyrex Quest', 'Reunite Calyrex with its steed.', 3, FALSE),
             (20, NULL, 'main-story', 'story-checkpoint', 'regi-temples', 'Regi Temples', 'Complete the Regi temple puzzles.', 4, FALSE),

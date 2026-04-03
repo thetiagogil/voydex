@@ -27,7 +27,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (9, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Rowan.', 1, FALSE::BOOLEAN),
+            (9, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Rowan.', 1, FALSE),
             (9, NULL, 'main-story', 'story-battle', 'coal-badge', 'Coal Badge', 'Defeat Roark in Oreburgh City Gym.', 2, FALSE),
             (9, NULL, 'main-story', 'story-battle', 'forest-badge', 'Forest Badge', 'Defeat Gardenia in Eterna City Gym.', 3, FALSE),
             (9, NULL, 'main-story', 'story-battle', 'cobble-badge', 'Cobble Badge', 'Defeat Maylene in Veilstone City Gym.', 4, FALSE),

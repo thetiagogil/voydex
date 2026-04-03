@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (16, NULL::INTEGER, 'ilima', 'Ilima', 'trial_captain'::progress.opponent_role, 1::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (16, NULL::INTEGER, 'ilima', 'Ilima', 'trial_captain', 1, NULL::INTEGER, NULL::TEXT, 1),
             (16, NULL, 'lana', 'Lana', 'trial_captain', 3, NULL, NULL, 2),
             (16, NULL, 'kiawe', 'Kiawe', 'trial_captain', 2, NULL, NULL, 3),
             (16, NULL, 'mallow', 'Mallow', 'trial_captain', 5, NULL, NULL, 4),

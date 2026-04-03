@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (24, NULL::INTEGER, 'kieran', 'Kieran', 'story_boss'::progress.opponent_role, NULL::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (24, NULL::INTEGER, 'kieran', 'Kieran', 'story_boss', NULL::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
             (24, NULL, 'carmine', 'Carmine', 'story_boss', NULL, NULL, NULL, 2)
     )
 INSERT INTO

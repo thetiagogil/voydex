@@ -27,7 +27,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (24, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-kitakami', 'Arrive in Kitakami', 'Arrive at Mossui Town in Kitakami.', 1, FALSE::BOOLEAN),
+            (24, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-kitakami', 'Arrive in Kitakami', 'Arrive at Mossui Town in Kitakami.', 1, FALSE),
             (24, NULL, 'main-story', 'story-checkpoint', 'festival-of-masks', 'Festival of Masks', 'Attend the Festival of Masks.', 2, FALSE),
             (24, NULL, 'main-story', 'story-battle', 'kieran-battle-1', 'Kieran Battle 1', 'Defeat Kieran in the first battle.', 3, FALSE),
             (24, NULL, 'main-story', 'story-checkpoint', 'loyal-three-quest', 'Loyal Three Quest', 'Confront the Loyal Three at the shrines.', 4, FALSE),

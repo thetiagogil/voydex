@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (20, NULL::INTEGER, 'peony', 'Peony', 'story_boss'::progress.opponent_role, 17::INTEGER, NULL::INTEGER, NULL::TEXT, 1)
+            (20, NULL::INTEGER, 'peony', 'Peony', 'story_boss', 17, NULL::INTEGER, NULL::TEXT, 1)
     )
 INSERT INTO
     progress.opponents (

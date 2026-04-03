@@ -26,7 +26,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (2, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pikachu', 'Receive Pikachu', 'Receive Pikachu from Professor Oak.', 1, FALSE::BOOLEAN),
+            (2, NULL::INTEGER, 'main-story', 'story-checkpoint', 'receive-pikachu', 'Receive Pikachu', 'Receive Pikachu from Professor Oak.', 1, FALSE),
             (2, NULL, 'main-story', 'story-checkpoint', 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex from Professor Oak.', 2, FALSE),
             (2, NULL, 'main-story', 'story-battle', 'boulder-badge', 'Boulder Badge', 'Defeat Brock in Pewter City Gym.', 3, FALSE),
             (2, NULL, 'main-story', 'story-battle', 'cascade-badge', 'Cascade Badge', 'Defeat Misty in Cerulean City Gym.', 4, FALSE),

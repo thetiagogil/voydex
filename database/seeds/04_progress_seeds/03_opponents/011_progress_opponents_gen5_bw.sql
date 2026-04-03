@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (11, NULL::INTEGER, 'cilan-chili-cress', 'Cilan / Chili / Cress', 'gym_leader'::progress.opponent_role, NULL::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (11, NULL::INTEGER, 'cilan-chili-cress', 'Cilan / Chili / Cress', 'gym_leader', NULL::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
             (11, NULL, 'lenora', 'Lenora', 'gym_leader', 1, NULL, NULL, 2),
             (11, NULL, 'burgh', 'Burgh', 'gym_leader', 12, NULL, NULL, 3),
             (11, NULL, 'elesa', 'Elesa', 'gym_leader', 4, NULL, NULL, 4),

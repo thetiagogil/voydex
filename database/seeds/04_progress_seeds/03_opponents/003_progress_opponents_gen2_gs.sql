@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (3, NULL::INTEGER, 'falkner', 'Falkner', 'gym_leader'::progress.opponent_role, 10::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (3, NULL::INTEGER, 'falkner', 'Falkner', 'gym_leader', 10, NULL::INTEGER, NULL::TEXT, 1),
             (3, NULL, 'bugsy', 'Bugsy', 'gym_leader', 12, NULL, NULL, 2),
             (3, NULL, 'whitney', 'Whitney', 'gym_leader', 1, NULL, NULL, 3),
             (3, NULL, 'morty', 'Morty', 'gym_leader', 14, NULL, NULL, 4),

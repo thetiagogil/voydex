@@ -27,7 +27,7 @@ WITH
         is_optional
     ) AS (
         VALUES
-            (25, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-blueberry', 'Arrive at Blueberry Academy', 'Arrive at the Blueberry Academy in Unova.', 1, FALSE::BOOLEAN),
+            (25, NULL::INTEGER, 'main-story', 'story-checkpoint', 'arrive-blueberry', 'Arrive at Blueberry Academy', 'Arrive at the Blueberry Academy in Unova.', 1, FALSE),
             (25, NULL, 'main-story', 'story-battle', 'bb-elite-four-crispin', 'BB Elite Four Crispin', 'Defeat Crispin of the BB League Elite Four.', 2, FALSE),
             (25, NULL, 'main-story', 'story-battle', 'bb-elite-four-amarys', 'BB Elite Four Amarys', 'Defeat Amarys of the BB League Elite Four.', 3, FALSE),
             (25, NULL, 'main-story', 'story-battle', 'bb-elite-four-lacey', 'BB Elite Four Lacey', 'Defeat Lacey of the BB League Elite Four.', 4, FALSE),

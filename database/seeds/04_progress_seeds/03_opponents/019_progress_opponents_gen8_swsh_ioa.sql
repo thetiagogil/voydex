@@ -15,7 +15,7 @@ WITH
         sort_order
     ) AS (
         VALUES
-            (19, NULL::INTEGER, 'mustard', 'Mustard', 'story_boss'::progress.opponent_role, 7::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (19, NULL::INTEGER, 'mustard', 'Mustard', 'story_boss', 7, NULL::INTEGER, NULL::TEXT, 1),
             (19, 31, 'klara', 'Klara', 'story_boss', 8, NULL, NULL, 2),
             (19, 32, 'avery', 'Avery', 'story_boss', 11, NULL, NULL, 2)
     )
