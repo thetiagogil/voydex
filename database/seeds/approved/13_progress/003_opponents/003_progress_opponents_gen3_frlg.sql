@@ -2,211 +2,54 @@
 -- Table: progress.opponents
 -- Scope: version-group-specific (frlg, VG 7)
 -- ============================================================================
+WITH
+    seed_data (
+        version_group_id,
+        game_id,
+        slug,
+        name,
+        opponent_role,
+        specialty_type_1_id,
+        specialty_type_2_id,
+        sprite_url,
+        sort_order
+    ) AS (
+        VALUES
+            (7, NULL::INTEGER, 'brock', 'Brock', 'gym_leader'::progress.opponent_role, 13::INTEGER, NULL::INTEGER, NULL::TEXT, 1),
+            (7, NULL, 'misty', 'Misty', 'gym_leader', 3, NULL, NULL, 2),
+            (7, NULL, 'lt-surge', 'Lt. Surge', 'gym_leader', 4, NULL, NULL, 3),
+            (7, NULL, 'erika', 'Erika', 'gym_leader', 5, NULL, NULL, 4),
+            (7, NULL, 'koga', 'Koga', 'gym_leader', 8, NULL, NULL, 5),
+            (7, NULL, 'sabrina', 'Sabrina', 'gym_leader', 11, NULL, NULL, 6),
+            (7, NULL, 'blaine', 'Blaine', 'gym_leader', 2, NULL, NULL, 7),
+            (7, NULL, 'giovanni', 'Giovanni', 'gym_leader', 9, NULL, NULL, 8),
+            (7, NULL, 'lorelei', 'Lorelei', 'elite_four', 6, NULL, NULL, 9),
+            (7, NULL, 'bruno', 'Bruno', 'elite_four', 7, NULL, NULL, 10),
+            (7, NULL, 'agatha', 'Agatha', 'elite_four', 14, NULL, NULL, 11),
+            (7, NULL, 'lance', 'Lance', 'elite_four', 15, NULL, NULL, 12),
+            (7, NULL, 'blue', 'Blue', 'champion', NULL, NULL, NULL, 13)
+    )
 INSERT INTO
-    progress.opponents (version_group_id, game_id, slug, name, opponent_role, specialty_type_1_id, sprite_url, sort_order)
-VALUES
-    (
-        7,
-        NULL,
-        'brock',
-        'Brock',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'rock'
-        ),
-        NULL,
-        1
-    ),
-    (
-        7,
-        NULL,
-        'misty',
-        'Misty',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'water'
-        ),
-        NULL,
-        2
-    ),
-    (
-        7,
-        NULL,
-        'lt-surge',
-        'Lt. Surge',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'electric'
-        ),
-        NULL,
-        3
-    ),
-    (
-        7,
-        NULL,
-        'erika',
-        'Erika',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'grass'
-        ),
-        NULL,
-        4
-    ),
-    (
-        7,
-        NULL,
-        'koga',
-        'Koga',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'poison'
-        ),
-        NULL,
-        5
-    ),
-    (
-        7,
-        NULL,
-        'sabrina',
-        'Sabrina',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'psychic'
-        ),
-        NULL,
-        6
-    ),
-    (
-        7,
-        NULL,
-        'blaine',
-        'Blaine',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'fire'
-        ),
-        NULL,
-        7
-    ),
-    (
-        7,
-        NULL,
-        'giovanni',
-        'Giovanni',
-        'gym_leader',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'ground'
-        ),
-        NULL,
-        8
-    ),
-    (
-        7,
-        NULL,
-        'lorelei',
-        'Lorelei',
-        'elite_four',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'ice'
-        ),
-        NULL,
-        9
-    ),
-    (
-        7,
-        NULL,
-        'bruno',
-        'Bruno',
-        'elite_four',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'fighting'
-        ),
-        NULL,
-        10
-    ),
-    (
-        7,
-        NULL,
-        'agatha',
-        'Agatha',
-        'elite_four',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'ghost'
-        ),
-        NULL,
-        11
-    ),
-    (
-        7,
-        NULL,
-        'lance',
-        'Lance',
-        'elite_four',
-        (
-            SELECT
-                id
-            FROM
-                meta.types
-            WHERE
-                slug = 'dragon'
-        ),
-        NULL,
-        12
-    ),
-    (7, NULL, 'blue', 'Blue', 'champion', NULL, NULL, 13);
+    progress.opponents (
+        version_group_id,
+        game_id,
+        slug,
+        name,
+        opponent_role,
+        specialty_type_1_id,
+        specialty_type_2_id,
+        sprite_url,
+        sort_order
+    )
+SELECT
+    version_group_id,
+    game_id,
+    slug,
+    name,
+    opponent_role,
+    specialty_type_1_id,
+    specialty_type_2_id,
+    sprite_url,
+    sort_order
+FROM
+    seed_data;

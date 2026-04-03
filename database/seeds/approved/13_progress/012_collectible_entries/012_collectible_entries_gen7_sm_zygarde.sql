@@ -2,185 +2,126 @@
 -- Table: progress.collectible_entries
 -- Scope: Zygarde Cells / Cores (SM, VG 15)
 -- ============================================================================
--- Important Notes
+-- 95 Zygarde Cells + 5 Zygarde Cores scattered across Alola in Sun/Moon.
+-- Cells appear as green sparkles; Cores appear as pink sparkles.
+-- Some are only available during day or night.
+-- Sources: Bulbapedia (Zygarde Cell), Serebii (sunmoon/zygarde)
 -- ============================================================================
--- 100 Zygarde Cells + Cores are scattered across Alola in Sun/Moon.
--- Each cell/core has a specific location. Some are only available during
--- day or night. The collectible_id references the 'zygarde-cells' collectible.
--- Full location data should be populated from Bulbapedia / Serebii sources.
+WITH
+    seed_data (slug, name, location_name, sub_location_name, description, sort_order) AS (
+        VALUES
+            ('cell-01', 'Zygarde Cell #1', 'Route 1', NULL::TEXT, 'Available during daytime.', 1),
+            ('cell-02', 'Zygarde Cell #2', 'Route 1', NULL, 'Available during daytime.', 2),
+            ('cell-03', 'Zygarde Cell #3', 'Route 1', 'Pokémon Research Lab', NULL, 3),
+            ('core-01', 'Zygarde Core #1', 'Route 1', NULL, 'Teaches Extreme Speed.', 4),
+            ('cell-04', 'Zygarde Cell #4', 'Iki Town', NULL, 'Available during nighttime.', 5),
+            ('core-02', 'Zygarde Core #2', 'Iki Town', NULL, 'Teaches Thousand Arrows.', 6),
+            ('cell-05', 'Zygarde Cell #5', 'Trainers'' School', '1F', 'Available during nighttime.', 7),
+            ('cell-06', 'Zygarde Cell #6', 'Hau''oli City', NULL, 'Available during nighttime.', 8),
+            ('cell-07', 'Zygarde Cell #7', 'Hau''oli City', 'Ilima''s House', NULL, 9),
+            ('cell-08', 'Zygarde Cell #8', 'Route 2', NULL, NULL, 10),
+            ('cell-09', 'Zygarde Cell #9', 'Hau''oli Cemetery', NULL, NULL, 11),
+            ('cell-10', 'Zygarde Cell #10', 'Verdant Cavern', NULL, NULL, 12),
+            ('cell-11', 'Zygarde Cell #11', 'Route 3', NULL, 'Available during daytime.', 13),
+            ('cell-12', 'Zygarde Cell #12', 'Route 3', NULL, NULL, 14),
+            ('cell-13', 'Zygarde Cell #13', 'Kala''e Bay', NULL, NULL, 15),
+            ('cell-14', 'Zygarde Cell #14', 'Ruins of Conflict', NULL, NULL, 16),
+            ('cell-15', 'Zygarde Cell #15', 'Heahea City', 'Tide Song Hotel', NULL, 17),
+            ('cell-16', 'Zygarde Cell #16', 'Heahea City', 'Dimensional Research Lab', 'Available during nighttime.', 18),
+            ('cell-17', 'Zygarde Cell #17', 'Route 4', NULL, NULL, 19),
+            ('cell-18', 'Zygarde Cell #18', 'Paniola Ranch', NULL, 'Available during nighttime.', 20),
+            ('cell-19', 'Zygarde Cell #19', 'Paniola Ranch', NULL, 'Available during daytime.', 21),
+            ('cell-20', 'Zygarde Cell #20', 'Route 5', NULL, NULL, 22),
+            ('cell-21', 'Zygarde Cell #21', 'Royal Avenue', 'Thrifty Megamart', 'Available during daytime.', 23),
+            ('cell-22', 'Zygarde Cell #22', 'Royal Avenue', NULL, 'Available during nighttime.', 24),
+            ('cell-23', 'Zygarde Cell #23', 'Route 7', NULL, NULL, 25),
+            ('cell-24', 'Zygarde Cell #24', 'Wela Volcano Park', NULL, NULL, 26),
+            ('cell-25', 'Zygarde Cell #25', 'Route 8', NULL, NULL, 27),
+            ('cell-26', 'Zygarde Cell #26', 'Route 8', NULL, 'Available during daytime.', 28),
+            ('cell-27', 'Zygarde Cell #27', 'Lush Jungle', NULL, NULL, 29),
+            ('cell-28', 'Zygarde Cell #28', 'Diglett''s Tunnel', NULL, NULL, 30),
+            ('core-03', 'Zygarde Core #3', 'Konikoni City', NULL, 'Teaches Dragon Dance.', 31),
+            ('cell-29', 'Zygarde Cell #29', 'Konikoni City', 'Lighthouse Point', 'Available during nighttime.', 32),
+            ('cell-30', 'Zygarde Cell #30', 'Akala Outskirts', NULL, NULL, 33),
+            ('cell-31', 'Zygarde Cell #31', 'Hano Beach', NULL, NULL, 34),
+            ('cell-32', 'Zygarde Cell #32', 'Hano Beach', NULL, 'Available during daytime.', 35),
+            ('cell-33', 'Zygarde Cell #33', 'Malie City', NULL, 'Available during daytime.', 36),
+            ('cell-34', 'Zygarde Cell #34', 'Malie City', 'Community Center', 'Available during nighttime.', 37),
+            ('cell-35', 'Zygarde Cell #35', 'Malie City', 'Outer Cape', 'Available during daytime.', 38),
+            ('cell-36', 'Zygarde Cell #36', 'Malie Garden', NULL, NULL, 39),
+            ('cell-37', 'Zygarde Cell #37', 'Route 10', NULL, 'Available during daytime.', 40),
+            ('cell-38', 'Zygarde Cell #38', 'Hokulani Observatory', NULL, 'Available during nighttime.', 41),
+            ('cell-39', 'Zygarde Cell #39', 'Route 11', NULL, 'Available during nighttime.', 42),
+            ('cell-40', 'Zygarde Cell #40', 'Route 12', NULL, NULL, 43),
+            ('cell-41', 'Zygarde Cell #41', 'Route 12', NULL, NULL, 44),
+            ('cell-42', 'Zygarde Cell #42', 'Blush Mountain', NULL, NULL, 45),
+            ('cell-43', 'Zygarde Cell #43', 'Secluded Shore', NULL, 'Available during nighttime.', 46),
+            ('cell-44', 'Zygarde Cell #44', 'Secluded Shore', NULL, 'Available during daytime.', 47),
+            ('cell-45', 'Zygarde Cell #45', 'Route 13', NULL, 'Available during nighttime.', 48),
+            ('cell-46', 'Zygarde Cell #46', 'Route 13', NULL, NULL, 49),
+            ('cell-47', 'Zygarde Cell #47', 'Tapu Village', NULL, NULL, 50),
+            ('cell-48', 'Zygarde Cell #48', 'Route 15', 'Aether House', 'Available during daytime.', 51),
+            ('cell-49', 'Zygarde Cell #49', 'Route 15', NULL, NULL, 52),
+            ('cell-50', 'Zygarde Cell #50', 'Route 14', NULL, 'Available during nighttime.', 53),
+            ('cell-51', 'Zygarde Cell #51', 'Route 14', NULL, NULL, 54),
+            ('cell-52', 'Zygarde Cell #52', 'Haina Desert', NULL, NULL, 55),
+            ('cell-53', 'Zygarde Cell #53', 'Ruins of Abundance', NULL, NULL, 56),
+            ('cell-54', 'Zygarde Cell #54', 'Route 16', NULL, 'Available during daytime.', 57),
+            ('cell-55', 'Zygarde Cell #55', 'Ula''ula Meadow', NULL, NULL, 58),
+            ('cell-56', 'Zygarde Cell #56', 'Ula''ula Meadow', NULL, NULL, 59),
+            ('core-04', 'Zygarde Core #4', 'Route 17', NULL, 'Teaches Thousand Waves.', 60),
+            ('cell-57', 'Zygarde Cell #57', 'Route 17', NULL, NULL, 61),
+            ('cell-58', 'Zygarde Cell #58', 'Route 17', NULL, NULL, 62),
+            ('cell-59', 'Zygarde Cell #59', 'Po Town', NULL, 'Available during nighttime.', 63),
+            ('cell-60', 'Zygarde Cell #60', 'Po Town', NULL, 'Available during daytime.', 64),
+            ('cell-61', 'Zygarde Cell #61', 'Mount Lanakila', NULL, NULL, 65),
+            ('cell-62', 'Zygarde Cell #62', 'Mount Lanakila', NULL, NULL, 66),
+            ('cell-63', 'Zygarde Cell #63', 'Aether Paradise', 'B2F Lab Area', NULL, 67),
+            ('cell-64', 'Zygarde Cell #64', 'Aether Paradise', 'Exterior', NULL, 68),
+            ('cell-65', 'Zygarde Cell #65', 'Aether Paradise', 'Exterior', 'Available during daytime.', 69),
+            ('cell-66', 'Zygarde Cell #66', 'Aether Paradise', 'Exterior', 'Available during nighttime.', 70),
+            ('cell-67', 'Zygarde Cell #67', 'Aether Paradise', 'Lusamine''s Mansion', NULL, 71),
+            ('cell-68', 'Zygarde Cell #68', 'Seafolk Village', NULL, NULL, 72),
+            ('cell-69', 'Zygarde Cell #69', 'Seafolk Village', NULL, NULL, 73),
+            ('cell-70', 'Zygarde Cell #70', 'Poni Wilds', NULL, NULL, 74),
+            ('cell-71', 'Zygarde Cell #71', 'Poni Wilds', NULL, 'Available during daytime.', 75),
+            ('cell-72', 'Zygarde Cell #72', 'Poni Wilds', NULL, 'Available during nighttime.', 76),
+            ('cell-73', 'Zygarde Cell #73', 'Ancient Poni Path', 'Hapu''s House', NULL, 77),
+            ('cell-74', 'Zygarde Cell #74', 'Ancient Poni Path', NULL, 'Available during daytime.', 78),
+            ('cell-75', 'Zygarde Cell #75', 'Ancient Poni Path', NULL, 'Available during nighttime.', 79),
+            ('core-05', 'Zygarde Core #5', 'Ancient Poni Path', NULL, 'Teaches Core Enforcer.', 80),
+            ('cell-76', 'Zygarde Cell #76', 'Poni Breaker Coast', NULL, 'Available during daytime.', 81),
+            ('cell-77', 'Zygarde Cell #77', 'Poni Breaker Coast', NULL, 'Available during nighttime.', 82),
+            ('cell-78', 'Zygarde Cell #78', 'Ruins of Hope', NULL, NULL, 83),
+            ('cell-79', 'Zygarde Cell #79', 'Vast Poni Canyon', '1F', NULL, 84),
+            ('cell-80', 'Zygarde Cell #80', 'Vast Poni Canyon', '2F', NULL, 85),
+            ('cell-81', 'Zygarde Cell #81', 'Vast Poni Canyon', '3F', NULL, 86),
+            ('cell-82', 'Zygarde Cell #82', 'Vast Poni Canyon', 'Exterior', NULL, 87),
+            ('cell-83', 'Zygarde Cell #83', 'Poni Grove', NULL, NULL, 88),
+            ('cell-84', 'Zygarde Cell #84', 'Poni Grove', NULL, NULL, 89),
+            ('cell-85', 'Zygarde Cell #85', 'Poni Plains', NULL, 'Available during daytime.', 90),
+            ('cell-86', 'Zygarde Cell #86', 'Poni Plains', NULL, NULL, 91),
+            ('cell-87', 'Zygarde Cell #87', 'Poni Plains', NULL, 'Available during nighttime.', 92),
+            ('cell-88', 'Zygarde Cell #88', 'Poni Meadow', NULL, NULL, 93),
+            ('cell-89', 'Zygarde Cell #89', 'Resolution Cave', 'Exterior', 'Available during daytime.', 94),
+            ('cell-90', 'Zygarde Cell #90', 'Resolution Cave', 'Interior', 'Available during nighttime.', 95),
+            ('cell-91', 'Zygarde Cell #91', 'Resolution Cave', 'Interior', NULL, 96),
+            ('cell-92', 'Zygarde Cell #92', 'Poni Coast', NULL, NULL, 97),
+            ('cell-93', 'Zygarde Cell #93', 'Poni Coast', NULL, NULL, 98),
+            ('cell-94', 'Zygarde Cell #94', 'Poni Gauntlet', NULL, NULL, 99),
+            ('cell-95', 'Zygarde Cell #95', 'Poni Gauntlet', NULL, NULL, 100)
+    )
 INSERT INTO
     progress.collectible_entries (collectible_id, slug, name, location_name, sub_location_name, description, sort_order)
-VALUES
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-01',
-        'Zygarde Cell #1',
-        'Route 1',
-        'Trainers'' School 1F',
-        'Available during daytime.',
-        1
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-02',
-        'Zygarde Cell #2',
-        'Route 1',
-        'Trainers'' School 2F',
-        'Available during nighttime.',
-        2
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-03',
-        'Zygarde Cell #3',
-        'Route 1',
-        'Professor Kukui''s Lab',
-        'Available during nighttime.',
-        3
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-04',
-        'Zygarde Cell #4',
-        'Route 1',
-        NULL,
-        'Available during daytime.',
-        4
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-05',
-        'Zygarde Cell #5',
-        'Route 3',
-        NULL,
-        'Available during daytime.',
-        5
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'core-01',
-        'Zygarde Core #1',
-        'Iki Town',
-        NULL,
-        'Power of the Land.',
-        6
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-06',
-        'Zygarde Cell #6',
-        'Hau''oli City',
-        'Shopping District',
-        'Available during daytime.',
-        7
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-07',
-        'Zygarde Cell #7',
-        'Hau''oli City',
-        'Beachfront',
-        'Available during nighttime.',
-        8
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-08',
-        'Zygarde Cell #8',
-        'Hau''oli City',
-        'Marina',
-        'Available during daytime.',
-        9
-    ),
-    (
-        (
-            SELECT
-                id
-            FROM
-                progress.collectibles
-            WHERE
-                version_group_id = 15
-                AND slug = 'zygarde-cells'
-        ),
-        'cell-09',
-        'Zygarde Cell #9',
-        'Hau''oli Cemetery',
-        NULL,
-        'Available during nighttime.',
-        10
-    );
-
--- NOTE: This is a partial seed with 10 of 100 entries. Full data set should
--- be populated from official location guides (Bulbapedia / Serebii).
+SELECT
+    c.id,
+    s.slug,
+    s.name,
+    s.location_name,
+    s.sub_location_name,
+    s.description,
+    s.sort_order
+FROM
+    seed_data s
+    JOIN progress.collectibles c ON c.version_group_id = 15
+        AND c.slug = 'zygarde-cells';

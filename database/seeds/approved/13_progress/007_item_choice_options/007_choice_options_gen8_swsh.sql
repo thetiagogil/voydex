@@ -2,10 +2,40 @@
 -- Table: progress.item_choice_options
 -- Scope: version-group-specific (swsh, VG 18)
 -- ============================================================================
+WITH
+    seed_data (
+        item_vg,
+        item_game_id,
+        item_slug,
+        slug,
+        name,
+        pokemon_species_id,
+        pokemon_form_id,
+        sort_order
+    ) AS (
+        VALUES
+            (18, NULL::INTEGER, 'starter-choice', 'grookey', 'Grookey', 810, 81000, 1),
+            (18, NULL, 'starter-choice', 'scorbunny', 'Scorbunny', 813, 81300, 2),
+            (18, NULL, 'starter-choice', 'sobble', 'Sobble', 816, 81600, 3)
+    )
 INSERT INTO
-    progress.item_choice_options (progress_item_id, slug, name, pokemon_species_id, pokemon_form_id, sort_order)
-VALUES
-    -- Starter Choice (item 816)
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'starter-choice'), 'grookey', 'Grookey', 810, 81000, 1),
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'starter-choice'), 'scorbunny', 'Scorbunny', 813, 81300, 2),
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'starter-choice'), 'sobble', 'Sobble', 816, 81600, 3);
+    progress.item_choice_options (
+        progress_item_id,
+        slug,
+        name,
+        pokemon_species_id,
+        pokemon_form_id,
+        sort_order
+    )
+SELECT
+    i.id,
+    s.slug,
+    s.name,
+    s.pokemon_species_id,
+    s.pokemon_form_id,
+    s.sort_order
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug;

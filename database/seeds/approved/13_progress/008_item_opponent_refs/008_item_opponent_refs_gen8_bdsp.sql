@@ -2,21 +2,33 @@
 -- Table: progress.item_opponent_refs
 -- Scope: version-group-specific (bdsp, VG 21)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, opp_game_id, opp_slug) AS (
+        VALUES
+            (21, NULL::INTEGER, 'coal-badge', NULL::INTEGER, 'roark'),
+            (21, NULL, 'forest-badge', NULL, 'gardenia'),
+            (21, NULL, 'relic-badge', NULL, 'fantina'),
+            (21, NULL, 'cobble-badge', NULL, 'maylene'),
+            (21, NULL, 'fen-badge', NULL, 'crasher-wake'),
+            (21, NULL, 'mine-badge', NULL, 'byron'),
+            (21, NULL, 'icicle-badge', NULL, 'candice'),
+            (21, NULL, 'beacon-badge', NULL, 'volkner'),
+            (21, NULL, 'elite-four-aaron', NULL, 'aaron'),
+            (21, NULL, 'elite-four-bertha', NULL, 'bertha'),
+            (21, NULL, 'elite-four-flint', NULL, 'flint'),
+            (21, NULL, 'elite-four-lucian', NULL, 'lucian'),
+            (21, NULL, 'champion-cynthia', NULL, 'cynthia')
+    )
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'coal-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'roark')), -- coal-badge → Roark
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'forest-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'gardenia')), -- forest-badge → Gardenia
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'relic-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'fantina')), -- relic-badge → Fantina
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'cobble-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'maylene')), -- cobble-badge → Maylene
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'fen-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'crasher-wake')), -- fen-badge → Crasher Wake
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'mine-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'byron')), -- mine-badge → Byron
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'icicle-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'candice')), -- icicle-badge → Candice
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'beacon-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'volkner')), -- beacon-badge → Volkner
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'elite-four-aaron'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'aaron')), -- elite-four-aaron → Aaron
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'elite-four-bertha'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'bertha')), -- elite-four-bertha → Bertha
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'elite-four-flint'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'flint')), -- elite-four-flint → Flint
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'elite-four-lucian'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'lucian')), -- elite-four-lucian → Lucian
-    ((SELECT id FROM progress.items WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'champion-cynthia'), (SELECT id FROM progress.opponents WHERE version_group_id = 21 AND game_id IS NULL AND slug = 'cynthia'));
-
--- champion-cynthia → Cynthia
+SELECT
+    i.id,
+    o.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.opponents o ON o.version_group_id = s.item_vg
+        AND o.game_id IS NOT DISTINCT FROM s.opp_game_id
+        AND o.slug = s.opp_slug;

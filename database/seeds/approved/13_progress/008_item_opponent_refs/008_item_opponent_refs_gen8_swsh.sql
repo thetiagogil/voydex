@@ -2,19 +2,31 @@
 -- Table: progress.item_opponent_refs
 -- Scope: version-group-specific (swsh, VG 18)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, opp_game_id, opp_slug) AS (
+        VALUES
+            (18, NULL::INTEGER, 'grass-badge', NULL::INTEGER, 'milo'),
+            (18, NULL, 'water-badge', NULL, 'nessa'),
+            (18, NULL, 'fire-badge', NULL, 'kabu'),
+            (18, 31, 'fighting-badge', 31, 'bea'),
+            (18, 32, 'ghost-badge', 32, 'allister'),
+            (18, NULL, 'fairy-badge', NULL, 'opal'),
+            (18, 31, 'rock-badge', 31, 'gordie'),
+            (18, 32, 'ice-badge', 32, 'melony'),
+            (18, NULL, 'dark-badge', NULL, 'piers'),
+            (18, NULL, 'dragon-badge', NULL, 'raihan'),
+            (18, NULL, 'champion-leon', NULL, 'leon')
+    )
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'grass-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'milo')), -- grass-badge → Milo
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'water-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'nessa')), -- water-badge → Nessa
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'fire-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'kabu')), -- fire-badge → Kabu
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 31 AND slug = 'fighting-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id = 31 AND slug = 'bea')), -- fighting-badge → Bea (Sword)
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 32 AND slug = 'ghost-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id = 32 AND slug = 'allister')), -- ghost-badge → Allister (Shield)
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'fairy-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'opal')), -- fairy-badge → Opal
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 31 AND slug = 'rock-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id = 31 AND slug = 'gordie')), -- rock-badge → Gordie (Sword)
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id = 32 AND slug = 'ice-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id = 32 AND slug = 'melony')), -- ice-badge → Melony (Shield)
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'dark-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'piers')), -- dark-badge → Piers
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'dragon-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'raihan')), -- dragon-badge → Raihan
-    ((SELECT id FROM progress.items WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'champion-leon'), (SELECT id FROM progress.opponents WHERE version_group_id = 18 AND game_id IS NULL AND slug = 'leon'));
-
--- champion-leon → Leon
+SELECT
+    i.id,
+    o.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.opponents o ON o.version_group_id = s.item_vg
+        AND o.game_id IS NOT DISTINCT FROM s.opp_game_id
+        AND o.slug = s.opp_slug;

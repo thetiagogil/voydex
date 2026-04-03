@@ -2,10 +2,22 @@
 -- Table: progress.item_opponent_refs
 -- Scope: version-group-specific (sv-tm, VG 24)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, opp_game_id, opp_slug) AS (
+        VALUES
+            (24, NULL::INTEGER, 'kieran-battle-1', NULL::INTEGER, 'kieran'),
+            (24, NULL, 'kieran-battle-2', NULL, 'kieran')
+    )
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 24 AND game_id IS NULL AND slug = 'kieran-battle-1'), (SELECT id FROM progress.opponents WHERE version_group_id = 24 AND game_id IS NULL AND slug = 'kieran')), -- kieran-battle-1 → Kieran
-    ((SELECT id FROM progress.items WHERE version_group_id = 24 AND game_id IS NULL AND slug = 'kieran-battle-2'), (SELECT id FROM progress.opponents WHERE version_group_id = 24 AND game_id IS NULL AND slug = 'kieran'));
-
--- kieran-battle-2 → Kieran
+SELECT
+    i.id,
+    o.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.opponents o ON o.version_group_id = s.item_vg
+        AND o.game_id IS NOT DISTINCT FROM s.opp_game_id
+        AND o.slug = s.opp_slug;

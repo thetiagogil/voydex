@@ -2,16 +2,28 @@
 -- Table: progress.item_badge_refs
 -- Scope: version-group-specific (frlg, VG 7)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, badge_game_id, badge_slug) AS (
+        VALUES
+            (7, NULL::INTEGER, 'boulder-badge', NULL::INTEGER, 'boulder-badge'),
+            (7, NULL, 'cascade-badge', NULL, 'cascade-badge'),
+            (7, NULL, 'thunder-badge', NULL, 'thunder-badge'),
+            (7, NULL, 'rainbow-badge', NULL, 'rainbow-badge'),
+            (7, NULL, 'soul-badge', NULL, 'soul-badge'),
+            (7, NULL, 'marsh-badge', NULL, 'marsh-badge'),
+            (7, NULL, 'volcano-badge', NULL, 'volcano-badge'),
+            (7, NULL, 'earth-badge', NULL, 'earth-badge')
+    )
 INSERT INTO
     progress.item_badge_refs (progress_item_id, badge_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'boulder-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'boulder-badge')), -- boulder-badge → Boulder Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'cascade-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'cascade-badge')), -- cascade-badge → Cascade Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'thunder-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'thunder-badge')), -- thunder-badge → Thunder Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'rainbow-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'rainbow-badge')), -- rainbow-badge → Rainbow Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'soul-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'soul-badge')), -- soul-badge → Soul Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'marsh-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'marsh-badge')), -- marsh-badge → Marsh Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'volcano-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'volcano-badge')), -- volcano-badge → Volcano Badge
-    ((SELECT id FROM progress.items WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'earth-badge'), (SELECT id FROM progress.badges WHERE version_group_id = 7 AND game_id IS NULL AND slug = 'earth-badge'));
-
--- earth-badge → Earth Badge
+SELECT
+    i.id,
+    b.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.badges b ON b.version_group_id = s.item_vg
+        AND b.game_id IS NOT DISTINCT FROM s.badge_game_id
+        AND b.slug = s.badge_slug;

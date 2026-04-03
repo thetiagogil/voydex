@@ -2,13 +2,23 @@
 -- Table: progress.item_pokemon_refs
 -- Scope: version-group-specific (gs, VG 3)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, species_id, form_id) AS (
+        VALUES
+            (3, 4::INTEGER, 'ho-oh', 250, 25000),
+            (3, 5, 'lugia', 249, 24900),
+            (3, NULL, 'raikou', 243, 24300),
+            (3, NULL, 'entei', 244, 24400),
+            (3, NULL, 'suicune', 245, 24500)
+    )
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id = 4 AND slug = 'ho-oh'), 250, 25000), -- ho-oh → Ho-Oh
-    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id = 5 AND slug = 'lugia'), 249, 24900), -- lugia → Lugia
-    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'raikou'), 243, 24300), -- raikou → Raikou
-    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'entei'), 244, 24400), -- entei → Entei
-    ((SELECT id FROM progress.items WHERE version_group_id = 3 AND game_id IS NULL AND slug = 'suicune'), 245, 24500);
-
--- suicune → Suicune
+SELECT
+    i.id,
+    s.species_id,
+    s.form_id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug;

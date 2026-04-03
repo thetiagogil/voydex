@@ -2,22 +2,34 @@
 -- Table: progress.item_opponent_refs
 -- Scope: version-group-specific (lgpe, VG 17)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, opp_game_id, opp_slug) AS (
+        VALUES
+            (17, NULL::INTEGER, 'boulder-badge', NULL::INTEGER, 'brock'),
+            (17, NULL, 'cascade-badge', NULL, 'misty'),
+            (17, NULL, 'thunder-badge', NULL, 'lt-surge'),
+            (17, NULL, 'rainbow-badge', NULL, 'erika'),
+            (17, NULL, 'soul-badge', NULL, 'koga'),
+            (17, NULL, 'marsh-badge', NULL, 'sabrina'),
+            (17, NULL, 'volcano-badge', NULL, 'blaine'),
+            (17, NULL, 'earth-badge', NULL, 'giovanni'),
+            (17, NULL, 'elite-four-lorelei', NULL, 'lorelei'),
+            (17, NULL, 'elite-four-bruno', NULL, 'bruno'),
+            (17, NULL, 'elite-four-agatha', NULL, 'agatha'),
+            (17, NULL, 'elite-four-lance', NULL, 'lance'),
+            (17, NULL, 'champion-rival', NULL, 'rival'),
+            (17, NULL, 'blue-battle', NULL, 'blue')
+    )
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'boulder-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'brock')), -- boulder-badge → Brock
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'cascade-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'misty')), -- cascade-badge → Misty
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'thunder-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'lt-surge')), -- thunder-badge → Lt. Surge
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'rainbow-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'erika')), -- rainbow-badge → Erika
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'soul-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'koga')), -- soul-badge → Koga
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'marsh-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'sabrina')), -- marsh-badge → Sabrina
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'volcano-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'blaine')), -- volcano-badge → Blaine
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'earth-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'giovanni')), -- earth-badge → Giovanni
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'elite-four-lorelei'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'lorelei')), -- elite-four-lorelei → Lorelei
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'elite-four-bruno'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'bruno')), -- elite-four-bruno → Bruno
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'elite-four-agatha'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'agatha')), -- elite-four-agatha → Agatha
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'elite-four-lance'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'lance')), -- elite-four-lance → Lance
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'champion-rival'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'rival')), -- champion-rival → Rival
-    ((SELECT id FROM progress.items WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'blue-battle'), (SELECT id FROM progress.opponents WHERE version_group_id = 17 AND game_id IS NULL AND slug = 'blue'));
-
--- blue-battle → Blue
+SELECT
+    i.id,
+    o.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.opponents o ON o.version_group_id = s.item_vg
+        AND o.game_id IS NOT DISTINCT FROM s.opp_game_id
+        AND o.slug = s.opp_slug;

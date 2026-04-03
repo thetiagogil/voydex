@@ -2,33 +2,42 @@
 -- Table: progress.item_opponent_refs
 -- Scope: version-group-specific (hgss, VG 10)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, opp_game_id, opp_slug) AS (
+        VALUES
+            (10, NULL::INTEGER, 'zephyr-badge', NULL::INTEGER, 'falkner'),
+            (10, NULL, 'hive-badge', NULL, 'bugsy'),
+            (10, NULL, 'plain-badge', NULL, 'whitney'),
+            (10, NULL, 'fog-badge', NULL, 'morty'),
+            (10, NULL, 'storm-badge', NULL, 'chuck'),
+            (10, NULL, 'mineral-badge', NULL, 'jasmine'),
+            (10, NULL, 'glacier-badge', NULL, 'pryce'),
+            (10, NULL, 'rising-badge', NULL, 'clair'),
+            (10, NULL, 'elite-four-will', NULL, 'will'),
+            (10, NULL, 'elite-four-koga', NULL, 'koga'),
+            (10, NULL, 'elite-four-bruno', NULL, 'bruno'),
+            (10, NULL, 'elite-four-karen', NULL, 'karen'),
+            (10, NULL, 'champion-lance', NULL, 'lance'),
+            (10, NULL, 'thunder-badge-kanto', NULL, 'lt-surge-kanto'),
+            (10, NULL, 'marsh-badge-kanto', NULL, 'sabrina-kanto'),
+            (10, NULL, 'rainbow-badge-kanto', NULL, 'erika-kanto'),
+            (10, NULL, 'soul-badge-kanto', NULL, 'janine'),
+            (10, NULL, 'cascade-badge-kanto', NULL, 'misty-kanto'),
+            (10, NULL, 'volcano-badge-kanto', NULL, 'blaine-kanto'),
+            (10, NULL, 'earth-badge-kanto', NULL, 'blue-kanto'),
+            (10, NULL, 'boulder-badge-kanto', NULL, 'brock-kanto'),
+            (10, NULL, 'red', NULL, 'red')
+    )
 INSERT INTO
     progress.item_opponent_refs (progress_item_id, opponent_id)
-VALUES
-    -- Johto gyms
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'zephyr-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'falkner')), -- zephyr-badge → Falkner
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'hive-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'bugsy')), -- hive-badge → Bugsy
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'plain-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'whitney')), -- plain-badge → Whitney
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'fog-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'morty')), -- fog-badge → Morty
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'storm-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'chuck')), -- storm-badge → Chuck
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'mineral-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'jasmine')), -- mineral-badge → Jasmine
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'glacier-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'pryce')), -- glacier-badge → Pryce
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'rising-badge'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'clair')), -- rising-badge → Clair
-    -- E4 + Champion
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'elite-four-will'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'will')), -- elite-four-will → Will
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'elite-four-koga'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'koga')), -- elite-four-koga → Koga
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'elite-four-bruno'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'bruno')), -- elite-four-bruno → Bruno
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'elite-four-karen'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'karen')), -- elite-four-karen → Karen
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'champion-lance'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'lance')), -- champion-lance → Lance
-    -- Kanto gyms (post-game)
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'thunder-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'lt-surge-kanto')), -- thunder-badge-kanto → Lt. Surge
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'marsh-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'sabrina-kanto')), -- marsh-badge-kanto → Sabrina
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'rainbow-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'erika-kanto')), -- rainbow-badge-kanto → Erika
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'soul-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'janine')), -- soul-badge-kanto → Janine
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'cascade-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'misty-kanto')), -- cascade-badge-kanto → Misty
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'volcano-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'blaine-kanto')), -- volcano-badge-kanto → Blaine
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'earth-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'blue-kanto')), -- earth-badge-kanto → Blue
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'boulder-badge-kanto'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'brock-kanto')), -- boulder-badge-kanto → Brock
-    ((SELECT id FROM progress.items WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'red'), (SELECT id FROM progress.opponents WHERE version_group_id = 10 AND game_id IS NULL AND slug = 'red'));
-
--- red → Red
+SELECT
+    i.id,
+    o.id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug
+    JOIN progress.opponents o ON o.version_group_id = s.item_vg
+        AND o.game_id IS NOT DISTINCT FROM s.opp_game_id
+        AND o.slug = s.opp_slug;

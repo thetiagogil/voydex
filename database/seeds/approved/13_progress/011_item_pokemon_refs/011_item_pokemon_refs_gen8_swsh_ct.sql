@@ -2,14 +2,24 @@
 -- Table: progress.item_pokemon_refs
 -- Scope: version-group-specific (swsh-ct, VG 20)
 -- ============================================================================
+WITH
+    seed_data (item_vg, item_game_id, item_slug, species_id, form_id) AS (
+        VALUES
+            (20, NULL::INTEGER, 'calyrex', 898, 89800),
+            (20, NULL, 'regieleki-regidrago', 894, 89400),
+            (20, NULL, 'regieleki-regidrago', 895, 89500),
+            (20, NULL, 'galarian-articuno', 144, 14401),
+            (20, NULL, 'galarian-zapdos', 145, 14501),
+            (20, NULL, 'galarian-moltres', 146, 14601)
+    )
 INSERT INTO
     progress.item_pokemon_refs (progress_item_id, species_id, form_id)
-VALUES
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'calyrex'), 898, 89800), -- calyrex → Calyrex
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'regieleki-regidrago'), 894, 89400), -- regieleki-regidrago → Regieleki
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'regieleki-regidrago'), 895, 89500), -- regieleki-regidrago → Regidrago
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'galarian-articuno'), 144, 14401), -- galarian-articuno → Articuno (Galar)
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'galarian-zapdos'), 145, 14501), -- galarian-zapdos → Zapdos (Galar)
-    ((SELECT id FROM progress.items WHERE version_group_id = 20 AND game_id IS NULL AND slug = 'galarian-moltres'), 146, 14601);
-
--- galarian-moltres → Moltres (Galar)
+SELECT
+    i.id,
+    s.species_id,
+    s.form_id
+FROM
+    seed_data s
+    JOIN progress.items i ON i.version_group_id = s.item_vg
+        AND i.game_id IS NOT DISTINCT FROM s.item_game_id
+        AND i.slug = s.item_slug;
