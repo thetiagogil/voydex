@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: meta.item_categories
 -- Scope: global
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Product-defined groupings, not direct Bulbapedia categories.
 INSERT INTO
     meta.item_categories (id, slug, name)

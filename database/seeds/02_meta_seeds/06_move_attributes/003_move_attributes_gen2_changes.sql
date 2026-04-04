@@ -9,9 +9,6 @@
 -- Generation: 2
 -- Table: meta.move_attributes
 -- Scope: generation changes
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Four Gen 1 moves had their type corrected in Gen 2:
 -- Karate Chop (Normal -> Fighting), Gust (Normal -> Flying),
 -- Sand Attack (Normal -> Ground), Bite (Normal -> Dark).

@@ -8,9 +8,6 @@
 -- Generation: 1
 -- Table: meta.types
 -- Scope: base generation seed
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Gen 1 introduced 15 types. The ??? type is excluded (removed in Gen 5).
 INSERT INTO
     meta.types (id, slug, name, introduced_generation_id)

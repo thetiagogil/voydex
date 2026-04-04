@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (lgpe, VG 17)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 17 (Let's Go, Pikachu! / Let's Go, Eevee!)
 -- Kanto remake. No starter choice — partner is Pikachu (game 29) or Eevee (game 30).
 -- Snorlax is a story checkpoint (blocking Route 12/16).

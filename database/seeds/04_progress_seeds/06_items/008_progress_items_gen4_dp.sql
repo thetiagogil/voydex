@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (dp, VG 8)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 8 (Diamond / Pearl)
 -- Gym order: Roark, Gardenia, Fantina, Maylene, Wake, Byron, Candice, Volkner.
 -- Box legendary game-specific: Dialga (Diamond, game 12), Palkia (Pearl, game 13).

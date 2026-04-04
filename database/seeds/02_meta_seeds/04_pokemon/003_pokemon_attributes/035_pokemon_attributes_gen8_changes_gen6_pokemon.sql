@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 8
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 6 Pokémon (#650–721)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Aegislash Shield Forme stat nerf (Def/SpD 150→140).
 -- Hawlucha, Bergmite/Avalugg, Noibat/Noivern gain second egg groups.
 INSERT INTO

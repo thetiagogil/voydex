@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.item_choice_options
 -- Scope: version-group-specific (rb, VG 1)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- pokemon_species_id and pokemon_form_id link to meta tables.
 -- form_id formula: species_id * 100 (default form).
 WITH

@@ -8,9 +8,6 @@
 -- Generation: 3
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 3
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Deoxys forms share Psychic type and Pressure ability but have very different stat spreads.
 -- No Hidden Abilities in Gen 3 (all NULL).
 INSERT INTO

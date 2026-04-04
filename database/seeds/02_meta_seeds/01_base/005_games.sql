@@ -58,17 +58,17 @@ VALUES
     (26, 'moon', 'Pokémon Moon', 7, 7, 15, 1, 2016),
     (27, 'ultra-sun', 'Pokémon Ultra Sun', 7, 7, 16, 2, 2017),
     (28, 'ultra-moon', 'Pokémon Ultra Moon', 7, 7, 16, 2, 2017),
-    (29, 'lets-go-pikachu', 'Pokémon Let''s Go, Pikachu!', 7, 1, 17, 3, 2018),
-    (30, 'lets-go-eevee', 'Pokémon Let''s Go, Eevee!', 7, 1, 17, 3, 2018),
+    (29, 'lets-go-pikachu', 'Pokémon Let''s Go, Pikachu!', 7, 1, 17, 5, 2018),
+    (30, 'lets-go-eevee', 'Pokémon Let''s Go, Eevee!', 7, 1, 17, 5, 2018),
     -- Gen 8
     (31, 'sword', 'Pokémon Sword', 8, 8, 18, 1, 2019),
     (32, 'shield', 'Pokémon Shield', 8, 8, 18, 1, 2019),
     (33, 'brilliant-diamond', 'Pokémon Brilliant Diamond', 8, 4, 21, 3, 2021),
     (34, 'shining-pearl', 'Pokémon Shining Pearl', 8, 4, 21, 3, 2021),
-    -- Legends: Arceus — main series, Gen 8, Hisui (region 10)
-    (35, 'legends-arceus', 'Pokémon Legends: Arceus', 8, 10, 22, 1, 2022),
+    -- Legends: Arceus — other, Gen 8, Hisui (region 10)
+    (35, 'legends-arceus', 'Pokémon Legends: Arceus', 8, 10, 22, 5, 2022),
     -- Gen 9
     (36, 'scarlet', 'Pokémon Scarlet', 9, 9, 23, 1, 2022),
     (37, 'violet', 'Pokémon Violet', 9, 9, 23, 1, 2022),
-    -- Legends: Z-A — main series, Gen 9, Kalos (region 6)
-    (38, 'legends-za', 'Pokémon Legends: Z-A', 9, 6, 27, 1, 2025);
+    -- Legends: Z-A — other, Gen 9, Kalos (region 6)
+    (38, 'legends-za', 'Pokémon Legends: Z-A', 9, 6, 27, 5, 2025);

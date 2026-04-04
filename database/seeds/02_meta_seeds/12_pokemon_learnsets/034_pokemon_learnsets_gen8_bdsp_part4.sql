@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Serebii (pokedex-swsh)
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,5006 +9,5006 @@
 -- Table: meta.pokemon_learnsets
 -- Version Group: BDSP (21)
 -- Description: BDSP learnsets - level-up, TMs, eggs (Part 4/6)
-
-INSERT INTO meta.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at)
+INSERT INTO
+    meta.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at)
 VALUES
-    (284, 28400, 59, 21, 2, NULL),  -- blizzard tm
-    (284, 28400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (284, 28400, 76, 21, 2, NULL),  -- solar-beam tm
-    (284, 28400, 104, 21, 2, NULL),  -- double-team tm
-    (284, 28400, 148, 21, 2, NULL),  -- flash tm
-    (284, 28400, 156, 21, 2, NULL),  -- rest tm
-    (284, 28400, 164, 21, 2, NULL),  -- substitute tm
-    (284, 28400, 168, 21, 2, NULL),  -- thief tm
-    (284, 28400, 182, 21, 2, NULL),  -- protect tm
-    (284, 28400, 202, 21, 2, NULL),  -- giga-drain tm
-    (284, 28400, 203, 21, 2, NULL),  -- endure tm
-    (284, 28400, 207, 21, 2, NULL),  -- swagger tm
-    (284, 28400, 213, 21, 2, NULL),  -- attract tm
-    (284, 28400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (284, 28400, 240, 21, 2, NULL),  -- rain-dance tm
-    (284, 28400, 241, 21, 2, NULL),  -- sunny-day tm
-    (284, 28400, 244, 21, 2, NULL),  -- psych-up tm
-    (284, 28400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (284, 28400, 263, 21, 2, NULL),  -- facade tm
-    (284, 28400, 332, 21, 2, NULL),  -- aerial-ace tm
-    (284, 28400, 352, 21, 2, NULL),  -- water-pulse tm
-    (284, 28400, 355, 21, 2, NULL),  -- roost tm
-    (284, 28400, 369, 21, 2, NULL),  -- u-turn tm
-    (284, 28400, 405, 21, 2, NULL),  -- bug-buzz tm
-    (284, 28400, 412, 21, 2, NULL),  -- energy-ball tm
-    (284, 28400, 416, 21, 2, NULL),  -- giga-impact tm
-    (284, 28400, 432, 21, 2, NULL),  -- defog tm
-    (284, 28400, 503, 21, 2, NULL),  -- scald tm
-    (284, 28400, 56, 21, 5, NULL),  -- hydro-pump egg
-    (284, 28400, 60, 21, 5, NULL),  -- psybeam egg
-    (284, 28400, 170, 21, 5, NULL),  -- mind-reader egg
-    (284, 28400, 341, 21, 5, NULL),  -- mud-shot egg
-    (284, 28400, 450, 21, 5, NULL),  -- bug-bite egg
-    (284, 28400, 453, 21, 5, NULL),  -- aqua-jet egg
-    (284, 28400, 471, 21, 5, NULL),  -- power-split egg
-    (284, 28400, 565, 21, 5, NULL),  -- fell-stinger egg
-    (284, 28400, 679, 21, 5, NULL),  -- lunge egg
-    (284, 28400, 18, 21, 8, NULL),  -- whirlwind start
-    (284, 28400, 54, 21, 8, NULL),  -- mist start
-    (284, 28400, 55, 21, 8, NULL),  -- water-gun start
-    (284, 28400, 61, 21, 8, NULL),  -- bubble-beam start
-    (284, 28400, 97, 21, 8, NULL),  -- agility start
-    (284, 28400, 98, 21, 8, NULL),  -- quick-attack start
-    (284, 28400, 114, 21, 8, NULL),  -- haze start
-    (284, 28400, 226, 21, 8, NULL),  -- baton-pass start
-    (284, 28400, 230, 21, 8, NULL),  -- sweet-scent start
-    (284, 28400, 405, 21, 8, NULL),  -- bug-buzz start
-    (284, 28400, 453, 21, 8, NULL),  -- aqua-jet start
-    (284, 28400, 483, 21, 8, NULL),  -- quiver-dance start
-    (284, 28400, 564, 21, 8, NULL),  -- sticky-web start
-    (285, 28500, 78, 21, 1, 5),  -- stun-spore lv5
-    (285, 28500, 73, 21, 1, 8),  -- leech-seed lv8
-    (285, 28500, 72, 21, 1, 12),  -- mega-drain lv12
-    (285, 28500, 29, 21, 1, 15),  -- headbutt lv15
-    (285, 28500, 77, 21, 1, 19),  -- poison-powder lv19
-    (285, 28500, 388, 21, 1, 22),  -- worry-seed lv22
-    (285, 28500, 202, 21, 1, 26),  -- giga-drain lv26
-    (285, 28500, 74, 21, 1, 29),  -- growth lv29
-    (285, 28500, 92, 21, 1, 33),  -- toxic lv33
-    (285, 28500, 402, 21, 1, 36),  -- seed-bomb lv36
-    (285, 28500, 147, 21, 1, 40),  -- spore lv40
-    (285, 28500, 76, 21, 2, NULL),  -- solar-beam tm
-    (285, 28500, 92, 21, 2, NULL),  -- toxic tm
-    (285, 28500, 104, 21, 2, NULL),  -- double-team tm
-    (285, 28500, 148, 21, 2, NULL),  -- flash tm
-    (285, 28500, 156, 21, 2, NULL),  -- rest tm
-    (285, 28500, 164, 21, 2, NULL),  -- substitute tm
-    (285, 28500, 182, 21, 2, NULL),  -- protect tm
-    (285, 28500, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (285, 28500, 202, 21, 2, NULL),  -- giga-drain tm
-    (285, 28500, 203, 21, 2, NULL),  -- endure tm
-    (285, 28500, 206, 21, 2, NULL),  -- false-swipe tm
-    (285, 28500, 207, 21, 2, NULL),  -- swagger tm
-    (285, 28500, 213, 21, 2, NULL),  -- attract tm
-    (285, 28500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (285, 28500, 219, 21, 2, NULL),  -- safeguard tm
-    (285, 28500, 241, 21, 2, NULL),  -- sunny-day tm
-    (285, 28500, 263, 21, 2, NULL),  -- facade tm
-    (285, 28500, 331, 21, 2, NULL),  -- bullet-seed tm
-    (285, 28500, 409, 21, 2, NULL),  -- drain-punch tm
-    (285, 28500, 412, 21, 2, NULL),  -- energy-ball tm
-    (285, 28500, 447, 21, 2, NULL),  -- grass-knot tm
-    (285, 28500, 204, 21, 5, NULL),  -- charm egg
-    (285, 28500, 270, 21, 5, NULL),  -- helping-hand egg
-    (285, 28500, 313, 21, 5, NULL),  -- fake-tears egg
-    (285, 28500, 388, 21, 5, NULL),  -- worry-seed egg
-    (285, 28500, 402, 21, 5, NULL),  -- seed-bomb egg
-    (285, 28500, 33, 21, 8, NULL),  -- tackle start
-    (285, 28500, 71, 21, 8, NULL),  -- absorb start
-    (286, 28600, 78, 21, 1, 5),  -- stun-spore lv5
-    (286, 28600, 73, 21, 1, 8),  -- leech-seed lv8
-    (286, 28600, 72, 21, 1, 12),  -- mega-drain lv12
-    (286, 28600, 29, 21, 1, 15),  -- headbutt lv15
-    (286, 28600, 364, 21, 1, 19),  -- feint lv19
-    (286, 28600, 68, 21, 1, 22),  -- counter lv22
-    (286, 28600, 395, 21, 1, 28),  -- force-palm lv28
-    (286, 28600, 170, 21, 1, 33),  -- mind-reader lv33
-    (286, 28600, 409, 21, 1, 39),  -- drain-punch lv39
-    (286, 28600, 402, 21, 1, 44),  -- seed-bomb lv44
-    (286, 28600, 223, 21, 1, 50),  -- dynamic-punch lv50
-    (286, 28600, 14, 21, 2, NULL),  -- swords-dance tm
-    (286, 28600, 15, 21, 2, NULL),  -- cut tm
-    (286, 28600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (286, 28600, 70, 21, 2, NULL),  -- strength tm
-    (286, 28600, 76, 21, 2, NULL),  -- solar-beam tm
-    (286, 28600, 104, 21, 2, NULL),  -- double-team tm
-    (286, 28600, 148, 21, 2, NULL),  -- flash tm
-    (286, 28600, 156, 21, 2, NULL),  -- rest tm
-    (286, 28600, 157, 21, 2, NULL),  -- rock-slide tm
-    (286, 28600, 164, 21, 2, NULL),  -- substitute tm
-    (286, 28600, 182, 21, 2, NULL),  -- protect tm
-    (286, 28600, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (286, 28600, 202, 21, 2, NULL),  -- giga-drain tm
-    (286, 28600, 203, 21, 2, NULL),  -- endure tm
-    (286, 28600, 206, 21, 2, NULL),  -- false-swipe tm
-    (286, 28600, 207, 21, 2, NULL),  -- swagger tm
-    (286, 28600, 213, 21, 2, NULL),  -- attract tm
-    (286, 28600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (286, 28600, 219, 21, 2, NULL),  -- safeguard tm
-    (286, 28600, 231, 21, 2, NULL),  -- iron-tail tm
-    (286, 28600, 241, 21, 2, NULL),  -- sunny-day tm
-    (286, 28600, 249, 21, 2, NULL),  -- rock-smash tm
-    (286, 28600, 263, 21, 2, NULL),  -- facade tm
-    (286, 28600, 264, 21, 2, NULL),  -- focus-punch tm
-    (286, 28600, 280, 21, 2, NULL),  -- brick-break tm
-    (286, 28600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (286, 28600, 331, 21, 2, NULL),  -- bullet-seed tm
-    (286, 28600, 339, 21, 2, NULL),  -- bulk-up tm
-    (286, 28600, 374, 21, 2, NULL),  -- fling tm
-    (286, 28600, 409, 21, 2, NULL),  -- drain-punch tm
-    (286, 28600, 411, 21, 2, NULL),  -- focus-blast tm
-    (286, 28600, 412, 21, 2, NULL),  -- energy-ball tm
-    (286, 28600, 416, 21, 2, NULL),  -- giga-impact tm
-    (286, 28600, 444, 21, 2, NULL),  -- stone-edge tm
-    (286, 28600, 447, 21, 2, NULL),  -- grass-knot tm
-    (286, 28600, 490, 21, 2, NULL),  -- low-sweep tm
-    (286, 28600, 526, 21, 2, NULL),  -- work-up tm
-    (286, 28600, 204, 21, 5, NULL),  -- charm egg
-    (286, 28600, 270, 21, 5, NULL),  -- helping-hand egg
-    (286, 28600, 313, 21, 5, NULL),  -- fake-tears egg
-    (286, 28600, 388, 21, 5, NULL),  -- worry-seed egg
-    (286, 28600, 402, 21, 5, NULL),  -- seed-bomb egg
-    (286, 28600, 33, 21, 8, NULL),  -- tackle start
-    (286, 28600, 71, 21, 8, NULL),  -- absorb start
-    (286, 28600, 73, 21, 8, NULL),  -- leech-seed start
-    (286, 28600, 74, 21, 8, NULL),  -- growth start
-    (286, 28600, 77, 21, 8, NULL),  -- poison-powder start
-    (286, 28600, 78, 21, 8, NULL),  -- stun-spore start
-    (286, 28600, 92, 21, 8, NULL),  -- toxic start
-    (286, 28600, 147, 21, 8, NULL),  -- spore start
-    (286, 28600, 183, 21, 8, NULL),  -- mach-punch start
-    (286, 28600, 202, 21, 8, NULL),  -- giga-drain start
-    (286, 28600, 388, 21, 8, NULL),  -- worry-seed start
-    (287, 28700, 227, 21, 1, 6),  -- encore lv6
-    (287, 28700, 303, 21, 1, 9),  -- slack-off lv9
-    (287, 28700, 156, 21, 1, 14),  -- rest lv14
-    (287, 28700, 133, 21, 1, 17),  -- amnesia lv17
-    (287, 28700, 343, 21, 1, 22),  -- covet lv22
-    (287, 28700, 29, 21, 1, 25),  -- headbutt lv25
-    (287, 28700, 68, 21, 1, 30),  -- counter lv30
-    (287, 28700, 175, 21, 1, 33),  -- flail lv33
-    (287, 28700, 583, 21, 1, 38),  -- play-rough lv38
-    (287, 28700, 15, 21, 2, NULL),  -- cut tm
-    (287, 28700, 53, 21, 2, NULL),  -- flamethrower tm
-    (287, 28700, 58, 21, 2, NULL),  -- ice-beam tm
-    (287, 28700, 59, 21, 2, NULL),  -- blizzard tm
-    (287, 28700, 70, 21, 2, NULL),  -- strength tm
-    (287, 28700, 76, 21, 2, NULL),  -- solar-beam tm
-    (287, 28700, 85, 21, 2, NULL),  -- thunderbolt tm
-    (287, 28700, 87, 21, 2, NULL),  -- thunder tm
-    (287, 28700, 104, 21, 2, NULL),  -- double-team tm
-    (287, 28700, 126, 21, 2, NULL),  -- fire-blast tm
-    (287, 28700, 156, 21, 2, NULL),  -- rest tm
-    (287, 28700, 157, 21, 2, NULL),  -- rock-slide tm
-    (287, 28700, 164, 21, 2, NULL),  -- substitute tm
-    (287, 28700, 182, 21, 2, NULL),  -- protect tm
-    (287, 28700, 203, 21, 2, NULL),  -- endure tm
-    (287, 28700, 207, 21, 2, NULL),  -- swagger tm
-    (287, 28700, 213, 21, 2, NULL),  -- attract tm
-    (287, 28700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (287, 28700, 240, 21, 2, NULL),  -- rain-dance tm
-    (287, 28700, 241, 21, 2, NULL),  -- sunny-day tm
-    (287, 28700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (287, 28700, 249, 21, 2, NULL),  -- rock-smash tm
-    (287, 28700, 263, 21, 2, NULL),  -- facade tm
-    (287, 28700, 264, 21, 2, NULL),  -- focus-punch tm
-    (287, 28700, 280, 21, 2, NULL),  -- brick-break tm
-    (287, 28700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (287, 28700, 332, 21, 2, NULL),  -- aerial-ace tm
-    (287, 28700, 339, 21, 2, NULL),  -- bulk-up tm
-    (287, 28700, 351, 21, 2, NULL),  -- shock-wave tm
-    (287, 28700, 352, 21, 2, NULL),  -- water-pulse tm
-    (287, 28700, 374, 21, 2, NULL),  -- fling tm
-    (287, 28700, 421, 21, 2, NULL),  -- shadow-claw tm
-    (287, 28700, 526, 21, 2, NULL),  -- work-up tm
-    (287, 28700, 34, 21, 5, NULL),  -- body-slam egg
-    (287, 28700, 163, 21, 5, NULL),  -- slash egg
-    (287, 28700, 173, 21, 5, NULL),  -- snore egg
-    (287, 28700, 174, 21, 5, NULL),  -- curse egg
-    (287, 28700, 306, 21, 5, NULL),  -- crush-claw egg
-    (287, 28700, 321, 21, 5, NULL),  -- tickle egg
-    (287, 28700, 359, 21, 5, NULL),  -- hammer-arm egg
-    (287, 28700, 400, 21, 5, NULL),  -- night-slash egg
-    (287, 28700, 495, 21, 5, NULL),  -- after-you egg
-    (287, 28700, 10, 21, 8, NULL),  -- scratch start
-    (287, 28700, 281, 21, 8, NULL),  -- yawn start
-    (288, 28800, 227, 21, 1, 6),  -- encore lv6
-    (288, 28800, 253, 21, 1, 9),  -- uproar lv9
-    (288, 28800, 154, 21, 1, 14),  -- fury-swipes lv14
-    (288, 28800, 203, 21, 1, 17),  -- endure lv17
-    (288, 28800, 163, 21, 1, 23),  -- slash lv23
-    (288, 28800, 29, 21, 1, 27),  -- headbutt lv27
-    (288, 28800, 68, 21, 1, 33),  -- counter lv33
-    (288, 28800, 264, 21, 1, 37),  -- focus-punch lv37
-    (288, 28800, 179, 21, 1, 43),  -- reversal lv43
-    (288, 28800, 15, 21, 2, NULL),  -- cut tm
-    (288, 28800, 46, 21, 2, NULL),  -- roar tm
-    (288, 28800, 53, 21, 2, NULL),  -- flamethrower tm
-    (288, 28800, 58, 21, 2, NULL),  -- ice-beam tm
-    (288, 28800, 59, 21, 2, NULL),  -- blizzard tm
-    (288, 28800, 70, 21, 2, NULL),  -- strength tm
-    (288, 28800, 76, 21, 2, NULL),  -- solar-beam tm
-    (288, 28800, 85, 21, 2, NULL),  -- thunderbolt tm
-    (288, 28800, 87, 21, 2, NULL),  -- thunder tm
-    (288, 28800, 89, 21, 2, NULL),  -- earthquake tm
-    (288, 28800, 104, 21, 2, NULL),  -- double-team tm
-    (288, 28800, 126, 21, 2, NULL),  -- fire-blast tm
-    (288, 28800, 156, 21, 2, NULL),  -- rest tm
-    (288, 28800, 157, 21, 2, NULL),  -- rock-slide tm
-    (288, 28800, 164, 21, 2, NULL),  -- substitute tm
-    (288, 28800, 182, 21, 2, NULL),  -- protect tm
-    (288, 28800, 203, 21, 2, NULL),  -- endure tm
-    (288, 28800, 207, 21, 2, NULL),  -- swagger tm
-    (288, 28800, 213, 21, 2, NULL),  -- attract tm
-    (288, 28800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (288, 28800, 240, 21, 2, NULL),  -- rain-dance tm
-    (288, 28800, 241, 21, 2, NULL),  -- sunny-day tm
-    (288, 28800, 247, 21, 2, NULL),  -- shadow-ball tm
-    (288, 28800, 249, 21, 2, NULL),  -- rock-smash tm
-    (288, 28800, 263, 21, 2, NULL),  -- facade tm
-    (288, 28800, 264, 21, 2, NULL),  -- focus-punch tm
-    (288, 28800, 269, 21, 2, NULL),  -- taunt tm
-    (288, 28800, 280, 21, 2, NULL),  -- brick-break tm
-    (288, 28800, 317, 21, 2, NULL),  -- rock-tomb tm
-    (288, 28800, 332, 21, 2, NULL),  -- aerial-ace tm
-    (288, 28800, 339, 21, 2, NULL),  -- bulk-up tm
-    (288, 28800, 351, 21, 2, NULL),  -- shock-wave tm
-    (288, 28800, 352, 21, 2, NULL),  -- water-pulse tm
-    (288, 28800, 374, 21, 2, NULL),  -- fling tm
-    (288, 28800, 411, 21, 2, NULL),  -- focus-blast tm
-    (288, 28800, 421, 21, 2, NULL),  -- shadow-claw tm
-    (288, 28800, 431, 21, 2, NULL),  -- rock-climb tm
-    (288, 28800, 490, 21, 2, NULL),  -- low-sweep tm
-    (288, 28800, 523, 21, 2, NULL),  -- bulldoze tm
-    (288, 28800, 526, 21, 2, NULL),  -- work-up tm
-    (288, 28800, 34, 21, 5, NULL),  -- body-slam egg
-    (288, 28800, 163, 21, 5, NULL),  -- slash egg
-    (288, 28800, 173, 21, 5, NULL),  -- snore egg
-    (288, 28800, 174, 21, 5, NULL),  -- curse egg
-    (288, 28800, 306, 21, 5, NULL),  -- crush-claw egg
-    (288, 28800, 321, 21, 5, NULL),  -- tickle egg
-    (288, 28800, 359, 21, 5, NULL),  -- hammer-arm egg
-    (288, 28800, 400, 21, 5, NULL),  -- night-slash egg
-    (288, 28800, 495, 21, 5, NULL),  -- after-you egg
-    (288, 28800, 10, 21, 8, NULL),  -- scratch start
-    (288, 28800, 116, 21, 8, NULL),  -- focus-energy start
-    (288, 28800, 133, 21, 8, NULL),  -- amnesia start
-    (288, 28800, 156, 21, 8, NULL),  -- rest start
-    (288, 28800, 175, 21, 8, NULL),  -- flail start
-    (288, 28800, 179, 21, 8, NULL),  -- reversal start
-    (288, 28800, 227, 21, 8, NULL),  -- encore start
-    (288, 28800, 253, 21, 8, NULL),  -- uproar start
-    (288, 28800, 281, 21, 8, NULL),  -- yawn start
-    (288, 28800, 303, 21, 8, NULL),  -- slack-off start
-    (288, 28800, 343, 21, 8, NULL),  -- covet start
-    (288, 28800, 583, 21, 8, NULL),  -- play-rough start
-    (289, 28900, 227, 21, 1, 6),  -- encore lv6
-    (289, 28900, 303, 21, 1, 9),  -- slack-off lv9
-    (289, 28900, 156, 21, 1, 14),  -- rest lv14
-    (289, 28900, 133, 21, 1, 17),  -- amnesia lv17
-    (289, 28900, 343, 21, 1, 23),  -- covet lv23
-    (289, 28900, 29, 21, 1, 27),  -- headbutt lv27
-    (289, 28900, 68, 21, 1, 33),  -- counter lv33
-    (289, 28900, 175, 21, 1, 39),  -- flail lv39
-    (289, 28900, 374, 21, 1, 47),  -- fling lv47
-    (289, 28900, 389, 21, 1, 53),  -- sucker-punch lv53
-    (289, 28900, 359, 21, 1, 61),  -- hammer-arm lv61
-    (289, 28900, 15, 21, 2, NULL),  -- cut tm
-    (289, 28900, 46, 21, 2, NULL),  -- roar tm
-    (289, 28900, 53, 21, 2, NULL),  -- flamethrower tm
-    (289, 28900, 58, 21, 2, NULL),  -- ice-beam tm
-    (289, 28900, 59, 21, 2, NULL),  -- blizzard tm
-    (289, 28900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (289, 28900, 70, 21, 2, NULL),  -- strength tm
-    (289, 28900, 76, 21, 2, NULL),  -- solar-beam tm
-    (289, 28900, 85, 21, 2, NULL),  -- thunderbolt tm
-    (289, 28900, 87, 21, 2, NULL),  -- thunder tm
-    (289, 28900, 89, 21, 2, NULL),  -- earthquake tm
-    (289, 28900, 104, 21, 2, NULL),  -- double-team tm
-    (289, 28900, 126, 21, 2, NULL),  -- fire-blast tm
-    (289, 28900, 156, 21, 2, NULL),  -- rest tm
-    (289, 28900, 157, 21, 2, NULL),  -- rock-slide tm
-    (289, 28900, 164, 21, 2, NULL),  -- substitute tm
-    (289, 28900, 182, 21, 2, NULL),  -- protect tm
-    (289, 28900, 203, 21, 2, NULL),  -- endure tm
-    (289, 28900, 207, 21, 2, NULL),  -- swagger tm
-    (289, 28900, 213, 21, 2, NULL),  -- attract tm
-    (289, 28900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (289, 28900, 240, 21, 2, NULL),  -- rain-dance tm
-    (289, 28900, 241, 21, 2, NULL),  -- sunny-day tm
-    (289, 28900, 247, 21, 2, NULL),  -- shadow-ball tm
-    (289, 28900, 249, 21, 2, NULL),  -- rock-smash tm
-    (289, 28900, 263, 21, 2, NULL),  -- facade tm
-    (289, 28900, 264, 21, 2, NULL),  -- focus-punch tm
-    (289, 28900, 269, 21, 2, NULL),  -- taunt tm
-    (289, 28900, 280, 21, 2, NULL),  -- brick-break tm
-    (289, 28900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (289, 28900, 332, 21, 2, NULL),  -- aerial-ace tm
-    (289, 28900, 339, 21, 2, NULL),  -- bulk-up tm
-    (289, 28900, 351, 21, 2, NULL),  -- shock-wave tm
-    (289, 28900, 352, 21, 2, NULL),  -- water-pulse tm
-    (289, 28900, 374, 21, 2, NULL),  -- fling tm
-    (289, 28900, 411, 21, 2, NULL),  -- focus-blast tm
-    (289, 28900, 416, 21, 2, NULL),  -- giga-impact tm
-    (289, 28900, 421, 21, 2, NULL),  -- shadow-claw tm
-    (289, 28900, 431, 21, 2, NULL),  -- rock-climb tm
-    (289, 28900, 490, 21, 2, NULL),  -- low-sweep tm
-    (289, 28900, 523, 21, 2, NULL),  -- bulldoze tm
-    (289, 28900, 526, 21, 2, NULL),  -- work-up tm
-    (289, 28900, 34, 21, 5, NULL),  -- body-slam egg
-    (289, 28900, 163, 21, 5, NULL),  -- slash egg
-    (289, 28900, 173, 21, 5, NULL),  -- snore egg
-    (289, 28900, 174, 21, 5, NULL),  -- curse egg
-    (289, 28900, 306, 21, 5, NULL),  -- crush-claw egg
-    (289, 28900, 321, 21, 5, NULL),  -- tickle egg
-    (289, 28900, 359, 21, 5, NULL),  -- hammer-arm egg
-    (289, 28900, 400, 21, 5, NULL),  -- night-slash egg
-    (289, 28900, 495, 21, 5, NULL),  -- after-you egg
-    (289, 28900, 10, 21, 8, NULL),  -- scratch start
-    (289, 28900, 116, 21, 8, NULL),  -- focus-energy start
-    (289, 28900, 154, 21, 8, NULL),  -- fury-swipes start
-    (289, 28900, 163, 21, 8, NULL),  -- slash start
-    (289, 28900, 179, 21, 8, NULL),  -- reversal start
-    (289, 28900, 203, 21, 8, NULL),  -- endure start
-    (289, 28900, 207, 21, 8, NULL),  -- swagger start
-    (289, 28900, 227, 21, 8, NULL),  -- encore start
-    (289, 28900, 253, 21, 8, NULL),  -- uproar start
-    (289, 28900, 264, 21, 8, NULL),  -- focus-punch start
-    (289, 28900, 281, 21, 8, NULL),  -- yawn start
-    (289, 28900, 303, 21, 8, NULL),  -- slack-off start
-    (289, 28900, 359, 21, 8, NULL),  -- hammer-arm start
-    (289, 28900, 374, 21, 8, NULL),  -- fling start
-    (289, 28900, 583, 21, 8, NULL),  -- play-rough start
-    (290, 29000, 106, 21, 1, 5),  -- harden lv5
-    (290, 29000, 206, 21, 1, 10),  -- false-swipe lv10
-    (290, 29000, 189, 21, 1, 15),  -- mud-slap lv15
-    (290, 29000, 71, 21, 1, 21),  -- absorb lv21
-    (290, 29000, 232, 21, 1, 25),  -- metal-claw lv25
-    (290, 29000, 154, 21, 1, 30),  -- fury-swipes lv30
-    (290, 29000, 170, 21, 1, 35),  -- mind-reader lv35
-    (290, 29000, 91, 21, 1, 40),  -- dig lv40
-    (290, 29000, 15, 21, 2, NULL),  -- cut tm
-    (290, 29000, 76, 21, 2, NULL),  -- solar-beam tm
-    (290, 29000, 91, 21, 2, NULL),  -- dig tm
-    (290, 29000, 104, 21, 2, NULL),  -- double-team tm
-    (290, 29000, 148, 21, 2, NULL),  -- flash tm
-    (290, 29000, 156, 21, 2, NULL),  -- rest tm
-    (290, 29000, 164, 21, 2, NULL),  -- substitute tm
-    (290, 29000, 182, 21, 2, NULL),  -- protect tm
-    (290, 29000, 201, 21, 2, NULL),  -- sandstorm tm
-    (290, 29000, 202, 21, 2, NULL),  -- giga-drain tm
-    (290, 29000, 203, 21, 2, NULL),  -- endure tm
-    (290, 29000, 206, 21, 2, NULL),  -- false-swipe tm
-    (290, 29000, 207, 21, 2, NULL),  -- swagger tm
-    (290, 29000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (290, 29000, 241, 21, 2, NULL),  -- sunny-day tm
-    (290, 29000, 247, 21, 2, NULL),  -- shadow-ball tm
-    (290, 29000, 263, 21, 2, NULL),  -- facade tm
-    (290, 29000, 332, 21, 2, NULL),  -- aerial-ace tm
-    (290, 29000, 404, 21, 2, NULL),  -- x-scissor tm
-    (290, 29000, 405, 21, 2, NULL),  -- bug-buzz tm
-    (290, 29000, 16, 21, 5, NULL),  -- gust egg
-    (290, 29000, 175, 21, 5, NULL),  -- flail egg
-    (290, 29000, 400, 21, 5, NULL),  -- night-slash egg
-    (290, 29000, 450, 21, 5, NULL),  -- bug-bite egg
-    (290, 29000, 515, 21, 5, NULL),  -- final-gambit egg
-    (290, 29000, 10, 21, 8, NULL),  -- scratch start
-    (290, 29000, 28, 21, 8, NULL),  -- sand-attack start
-    (291, 29100, 97, 21, 1, 15),  -- agility lv15
-    (291, 29100, 71, 21, 1, 23),  -- absorb lv23
-    (291, 29100, 450, 21, 1, 29),  -- bug-bite lv29
-    (291, 29100, 154, 21, 1, 36),  -- fury-swipes lv36
-    (291, 29100, 170, 21, 1, 43),  -- mind-reader lv43
-    (291, 29100, 163, 21, 1, 50),  -- slash lv50
-    (291, 29100, 14, 21, 1, 57),  -- swords-dance lv57
-    (291, 29100, 404, 21, 1, 64),  -- x-scissor lv64
-    (291, 29100, 14, 21, 2, NULL),  -- swords-dance tm
-    (291, 29100, 15, 21, 2, NULL),  -- cut tm
-    (291, 29100, 63, 21, 2, NULL),  -- hyper-beam tm
-    (291, 29100, 76, 21, 2, NULL),  -- solar-beam tm
-    (291, 29100, 91, 21, 2, NULL),  -- dig tm
-    (291, 29100, 104, 21, 2, NULL),  -- double-team tm
-    (291, 29100, 148, 21, 2, NULL),  -- flash tm
-    (291, 29100, 156, 21, 2, NULL),  -- rest tm
-    (291, 29100, 164, 21, 2, NULL),  -- substitute tm
-    (291, 29100, 168, 21, 2, NULL),  -- thief tm
-    (291, 29100, 182, 21, 2, NULL),  -- protect tm
-    (291, 29100, 201, 21, 2, NULL),  -- sandstorm tm
-    (291, 29100, 202, 21, 2, NULL),  -- giga-drain tm
-    (291, 29100, 203, 21, 2, NULL),  -- endure tm
-    (291, 29100, 206, 21, 2, NULL),  -- false-swipe tm
-    (291, 29100, 207, 21, 2, NULL),  -- swagger tm
-    (291, 29100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (291, 29100, 241, 21, 2, NULL),  -- sunny-day tm
-    (291, 29100, 247, 21, 2, NULL),  -- shadow-ball tm
-    (291, 29100, 263, 21, 2, NULL),  -- facade tm
-    (291, 29100, 332, 21, 2, NULL),  -- aerial-ace tm
-    (291, 29100, 355, 21, 2, NULL),  -- roost tm
-    (291, 29100, 369, 21, 2, NULL),  -- u-turn tm
-    (291, 29100, 404, 21, 2, NULL),  -- x-scissor tm
-    (291, 29100, 405, 21, 2, NULL),  -- bug-buzz tm
-    (291, 29100, 416, 21, 2, NULL),  -- giga-impact tm
-    (291, 29100, 432, 21, 2, NULL),  -- defog tm
-    (291, 29100, 16, 21, 5, NULL),  -- gust egg
-    (291, 29100, 175, 21, 5, NULL),  -- flail egg
-    (291, 29100, 400, 21, 5, NULL),  -- night-slash egg
-    (291, 29100, 450, 21, 5, NULL),  -- bug-bite egg
-    (291, 29100, 515, 21, 5, NULL),  -- final-gambit egg
-    (291, 29100, 10, 21, 8, NULL),  -- scratch start
-    (291, 29100, 28, 21, 8, NULL),  -- sand-attack start
-    (291, 29100, 91, 21, 8, NULL),  -- dig start
-    (291, 29100, 103, 21, 8, NULL),  -- screech start
-    (291, 29100, 104, 21, 8, NULL),  -- double-team start
-    (291, 29100, 106, 21, 8, NULL),  -- harden start
-    (291, 29100, 189, 21, 8, NULL),  -- mud-slap start
-    (291, 29100, 206, 21, 8, NULL),  -- false-swipe start
-    (291, 29100, 210, 21, 8, NULL),  -- fury-cutter start
-    (291, 29100, 226, 21, 8, NULL),  -- baton-pass start
-    (291, 29100, 232, 21, 8, NULL),  -- metal-claw start
-    (291, 29100, 332, 21, 8, NULL),  -- aerial-ace start
-    (292, 29200, 109, 21, 1, 15),  -- confuse-ray lv15
-    (292, 29200, 71, 21, 1, 23),  -- absorb lv23
-    (292, 29200, 425, 21, 1, 29),  -- shadow-sneak lv29
-    (292, 29200, 154, 21, 1, 36),  -- fury-swipes lv36
-    (292, 29200, 170, 21, 1, 43),  -- mind-reader lv43
-    (292, 29200, 247, 21, 1, 50),  -- shadow-ball lv50
-    (292, 29200, 180, 21, 1, 57),  -- spite lv57
-    (292, 29200, 566, 21, 1, 64),  -- phantom-force lv64
-    (292, 29200, 15, 21, 2, NULL),  -- cut tm
-    (292, 29200, 63, 21, 2, NULL),  -- hyper-beam tm
-    (292, 29200, 76, 21, 2, NULL),  -- solar-beam tm
-    (292, 29200, 91, 21, 2, NULL),  -- dig tm
-    (292, 29200, 104, 21, 2, NULL),  -- double-team tm
-    (292, 29200, 138, 21, 2, NULL),  -- dream-eater tm
-    (292, 29200, 148, 21, 2, NULL),  -- flash tm
-    (292, 29200, 156, 21, 2, NULL),  -- rest tm
-    (292, 29200, 164, 21, 2, NULL),  -- substitute tm
-    (292, 29200, 168, 21, 2, NULL),  -- thief tm
-    (292, 29200, 182, 21, 2, NULL),  -- protect tm
-    (292, 29200, 201, 21, 2, NULL),  -- sandstorm tm
-    (292, 29200, 202, 21, 2, NULL),  -- giga-drain tm
-    (292, 29200, 203, 21, 2, NULL),  -- endure tm
-    (292, 29200, 206, 21, 2, NULL),  -- false-swipe tm
-    (292, 29200, 207, 21, 2, NULL),  -- swagger tm
-    (292, 29200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (292, 29200, 241, 21, 2, NULL),  -- sunny-day tm
-    (292, 29200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (292, 29200, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (292, 29200, 263, 21, 2, NULL),  -- facade tm
-    (292, 29200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (292, 29200, 404, 21, 2, NULL),  -- x-scissor tm
-    (292, 29200, 405, 21, 2, NULL),  -- bug-buzz tm
-    (292, 29200, 416, 21, 2, NULL),  -- giga-impact tm
-    (292, 29200, 421, 21, 2, NULL),  -- shadow-claw tm
-    (292, 29200, 10, 21, 8, NULL),  -- scratch start
-    (292, 29200, 28, 21, 8, NULL),  -- sand-attack start
-    (292, 29200, 91, 21, 8, NULL),  -- dig start
-    (292, 29200, 106, 21, 8, NULL),  -- harden start
-    (292, 29200, 189, 21, 8, NULL),  -- mud-slap start
-    (292, 29200, 206, 21, 8, NULL),  -- false-swipe start
-    (292, 29200, 232, 21, 8, NULL),  -- metal-claw start
-    (292, 29200, 288, 21, 8, NULL),  -- grudge start
-    (292, 29200, 421, 21, 8, NULL),  -- shadow-claw start
-    (293, 29300, 497, 21, 1, 5),  -- echoed-voice lv5
-    (293, 29300, 336, 21, 1, 10),  -- howl lv10
-    (293, 29300, 156, 21, 1, 15),  -- rest lv15
-    (293, 29300, 214, 21, 1, 15),  -- sleep-talk lv15
-    (293, 29300, 23, 21, 1, 21),  -- stomp lv21
-    (293, 29300, 46, 21, 1, 25),  -- roar lv25
-    (293, 29300, 48, 21, 1, 30),  -- supersonic lv30
-    (293, 29300, 253, 21, 1, 35),  -- uproar lv35
-    (293, 29300, 103, 21, 1, 40),  -- screech lv40
-    (293, 29300, 304, 21, 1, 45),  -- hyper-voice lv45
-    (293, 29300, 46, 21, 2, NULL),  -- roar tm
-    (293, 29300, 53, 21, 2, NULL),  -- flamethrower tm
-    (293, 29300, 58, 21, 2, NULL),  -- ice-beam tm
-    (293, 29300, 59, 21, 2, NULL),  -- blizzard tm
-    (293, 29300, 76, 21, 2, NULL),  -- solar-beam tm
-    (293, 29300, 104, 21, 2, NULL),  -- double-team tm
-    (293, 29300, 126, 21, 2, NULL),  -- fire-blast tm
-    (293, 29300, 156, 21, 2, NULL),  -- rest tm
-    (293, 29300, 164, 21, 2, NULL),  -- substitute tm
-    (293, 29300, 182, 21, 2, NULL),  -- protect tm
-    (293, 29300, 203, 21, 2, NULL),  -- endure tm
-    (293, 29300, 207, 21, 2, NULL),  -- swagger tm
-    (293, 29300, 213, 21, 2, NULL),  -- attract tm
-    (293, 29300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (293, 29300, 240, 21, 2, NULL),  -- rain-dance tm
-    (293, 29300, 241, 21, 2, NULL),  -- sunny-day tm
-    (293, 29300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (293, 29300, 263, 21, 2, NULL),  -- facade tm
-    (293, 29300, 351, 21, 2, NULL),  -- shock-wave tm
-    (293, 29300, 352, 21, 2, NULL),  -- water-pulse tm
-    (293, 29300, 374, 21, 2, NULL),  -- fling tm
-    (293, 29300, 526, 21, 2, NULL),  -- work-up tm
-    (293, 29300, 18, 21, 5, NULL),  -- whirlwind egg
-    (293, 29300, 36, 21, 5, NULL),  -- take-down egg
-    (293, 29300, 108, 21, 5, NULL),  -- smokescreen egg
-    (293, 29300, 173, 21, 5, NULL),  -- snore egg
-    (293, 29300, 283, 21, 5, NULL),  -- endeavor egg
-    (293, 29300, 313, 21, 5, NULL),  -- fake-tears egg
-    (293, 29300, 326, 21, 5, NULL),  -- extrasensory egg
-    (293, 29300, 359, 21, 5, NULL),  -- hammer-arm egg
-    (293, 29300, 509, 21, 5, NULL),  -- circle-throw egg
-    (293, 29300, 574, 21, 5, NULL),  -- disarming-voice egg
-    (293, 29300, 1, 21, 8, NULL),  -- pound start
-    (293, 29300, 310, 21, 8, NULL),  -- astonish start
-    (294, 29400, 156, 21, 1, 15),  -- rest lv15
-    (294, 29400, 214, 21, 1, 15),  -- sleep-talk lv15
-    (294, 29400, 23, 21, 1, 23),  -- stomp lv23
-    (294, 29400, 46, 21, 1, 29),  -- roar lv29
-    (294, 29400, 48, 21, 1, 36),  -- supersonic lv36
-    (294, 29400, 253, 21, 1, 43),  -- uproar lv43
-    (294, 29400, 103, 21, 1, 50),  -- screech lv50
-    (294, 29400, 304, 21, 1, 57),  -- hyper-voice lv57
-    (294, 29400, 46, 21, 2, NULL),  -- roar tm
-    (294, 29400, 53, 21, 2, NULL),  -- flamethrower tm
-    (294, 29400, 58, 21, 2, NULL),  -- ice-beam tm
-    (294, 29400, 59, 21, 2, NULL),  -- blizzard tm
-    (294, 29400, 70, 21, 2, NULL),  -- strength tm
-    (294, 29400, 76, 21, 2, NULL),  -- solar-beam tm
-    (294, 29400, 89, 21, 2, NULL),  -- earthquake tm
-    (294, 29400, 104, 21, 2, NULL),  -- double-team tm
-    (294, 29400, 126, 21, 2, NULL),  -- fire-blast tm
-    (294, 29400, 156, 21, 2, NULL),  -- rest tm
-    (294, 29400, 157, 21, 2, NULL),  -- rock-slide tm
-    (294, 29400, 164, 21, 2, NULL),  -- substitute tm
-    (294, 29400, 182, 21, 2, NULL),  -- protect tm
-    (294, 29400, 203, 21, 2, NULL),  -- endure tm
-    (294, 29400, 207, 21, 2, NULL),  -- swagger tm
-    (294, 29400, 213, 21, 2, NULL),  -- attract tm
-    (294, 29400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (294, 29400, 240, 21, 2, NULL),  -- rain-dance tm
-    (294, 29400, 241, 21, 2, NULL),  -- sunny-day tm
-    (294, 29400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (294, 29400, 249, 21, 2, NULL),  -- rock-smash tm
-    (294, 29400, 259, 21, 2, NULL),  -- torment tm
-    (294, 29400, 263, 21, 2, NULL),  -- facade tm
-    (294, 29400, 269, 21, 2, NULL),  -- taunt tm
-    (294, 29400, 280, 21, 2, NULL),  -- brick-break tm
-    (294, 29400, 315, 21, 2, NULL),  -- overheat tm
-    (294, 29400, 317, 21, 2, NULL),  -- rock-tomb tm
-    (294, 29400, 351, 21, 2, NULL),  -- shock-wave tm
-    (294, 29400, 352, 21, 2, NULL),  -- water-pulse tm
-    (294, 29400, 374, 21, 2, NULL),  -- fling tm
-    (294, 29400, 523, 21, 2, NULL),  -- bulldoze tm
-    (294, 29400, 526, 21, 2, NULL),  -- work-up tm
-    (294, 29400, 18, 21, 5, NULL),  -- whirlwind egg
-    (294, 29400, 36, 21, 5, NULL),  -- take-down egg
-    (294, 29400, 108, 21, 5, NULL),  -- smokescreen egg
-    (294, 29400, 173, 21, 5, NULL),  -- snore egg
-    (294, 29400, 283, 21, 5, NULL),  -- endeavor egg
-    (294, 29400, 313, 21, 5, NULL),  -- fake-tears egg
-    (294, 29400, 326, 21, 5, NULL),  -- extrasensory egg
-    (294, 29400, 359, 21, 5, NULL),  -- hammer-arm egg
-    (294, 29400, 509, 21, 5, NULL),  -- circle-throw egg
-    (294, 29400, 574, 21, 5, NULL),  -- disarming-voice egg
-    (294, 29400, 1, 21, 8, NULL),  -- pound start
-    (294, 29400, 44, 21, 8, NULL),  -- bite start
-    (294, 29400, 310, 21, 8, NULL),  -- astonish start
-    (294, 29400, 336, 21, 8, NULL),  -- howl start
-    (294, 29400, 497, 21, 8, NULL),  -- echoed-voice start
-    (295, 29500, 156, 21, 1, 15),  -- rest lv15
-    (295, 29500, 214, 21, 1, 15),  -- sleep-talk lv15
-    (295, 29500, 23, 21, 1, 23),  -- stomp lv23
-    (295, 29500, 46, 21, 1, 29),  -- roar lv29
-    (295, 29500, 48, 21, 1, 36),  -- supersonic lv36
-    (295, 29500, 253, 21, 1, 45),  -- uproar lv45
-    (295, 29500, 103, 21, 1, 54),  -- screech lv54
-    (295, 29500, 304, 21, 1, 63),  -- hyper-voice lv63
-    (295, 29500, 586, 21, 1, 72),  -- boomburst lv72
-    (295, 29500, 63, 21, 1, 81),  -- hyper-beam lv81
-    (295, 29500, 46, 21, 2, NULL),  -- roar tm
-    (295, 29500, 53, 21, 2, NULL),  -- flamethrower tm
-    (295, 29500, 57, 21, 2, NULL),  -- surf tm
-    (295, 29500, 58, 21, 2, NULL),  -- ice-beam tm
-    (295, 29500, 59, 21, 2, NULL),  -- blizzard tm
-    (295, 29500, 63, 21, 2, NULL),  -- hyper-beam tm
-    (295, 29500, 70, 21, 2, NULL),  -- strength tm
-    (295, 29500, 76, 21, 2, NULL),  -- solar-beam tm
-    (295, 29500, 89, 21, 2, NULL),  -- earthquake tm
-    (295, 29500, 104, 21, 2, NULL),  -- double-team tm
-    (295, 29500, 126, 21, 2, NULL),  -- fire-blast tm
-    (295, 29500, 156, 21, 2, NULL),  -- rest tm
-    (295, 29500, 157, 21, 2, NULL),  -- rock-slide tm
-    (295, 29500, 164, 21, 2, NULL),  -- substitute tm
-    (295, 29500, 182, 21, 2, NULL),  -- protect tm
-    (295, 29500, 203, 21, 2, NULL),  -- endure tm
-    (295, 29500, 207, 21, 2, NULL),  -- swagger tm
-    (295, 29500, 213, 21, 2, NULL),  -- attract tm
-    (295, 29500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (295, 29500, 240, 21, 2, NULL),  -- rain-dance tm
-    (295, 29500, 241, 21, 2, NULL),  -- sunny-day tm
-    (295, 29500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (295, 29500, 249, 21, 2, NULL),  -- rock-smash tm
-    (295, 29500, 259, 21, 2, NULL),  -- torment tm
-    (295, 29500, 263, 21, 2, NULL),  -- facade tm
-    (295, 29500, 269, 21, 2, NULL),  -- taunt tm
-    (295, 29500, 280, 21, 2, NULL),  -- brick-break tm
-    (295, 29500, 315, 21, 2, NULL),  -- overheat tm
-    (295, 29500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (295, 29500, 351, 21, 2, NULL),  -- shock-wave tm
-    (295, 29500, 352, 21, 2, NULL),  -- water-pulse tm
-    (295, 29500, 374, 21, 2, NULL),  -- fling tm
-    (295, 29500, 411, 21, 2, NULL),  -- focus-blast tm
-    (295, 29500, 416, 21, 2, NULL),  -- giga-impact tm
-    (295, 29500, 419, 21, 2, NULL),  -- avalanche tm
-    (295, 29500, 431, 21, 2, NULL),  -- rock-climb tm
-    (295, 29500, 523, 21, 2, NULL),  -- bulldoze tm
-    (295, 29500, 526, 21, 2, NULL),  -- work-up tm
-    (295, 29500, 18, 21, 5, NULL),  -- whirlwind egg
-    (295, 29500, 36, 21, 5, NULL),  -- take-down egg
-    (295, 29500, 108, 21, 5, NULL),  -- smokescreen egg
-    (295, 29500, 173, 21, 5, NULL),  -- snore egg
-    (295, 29500, 283, 21, 5, NULL),  -- endeavor egg
-    (295, 29500, 313, 21, 5, NULL),  -- fake-tears egg
-    (295, 29500, 326, 21, 5, NULL),  -- extrasensory egg
-    (295, 29500, 359, 21, 5, NULL),  -- hammer-arm egg
-    (295, 29500, 509, 21, 5, NULL),  -- circle-throw egg
-    (295, 29500, 574, 21, 5, NULL),  -- disarming-voice egg
-    (295, 29500, 1, 21, 8, NULL),  -- pound start
-    (295, 29500, 44, 21, 8, NULL),  -- bite start
-    (295, 29500, 242, 21, 8, NULL),  -- crunch start
-    (295, 29500, 310, 21, 8, NULL),  -- astonish start
-    (295, 29500, 336, 21, 8, NULL),  -- howl start
-    (295, 29500, 422, 21, 8, NULL),  -- thunder-fang start
-    (295, 29500, 423, 21, 8, NULL),  -- ice-fang start
-    (295, 29500, 424, 21, 8, NULL),  -- fire-fang start
-    (295, 29500, 497, 21, 8, NULL),  -- echoed-voice start
-    (296, 29600, 28, 21, 1, 4),  -- sand-attack lv4
-    (296, 29600, 292, 21, 1, 7),  -- arm-thrust lv7
-    (296, 29600, 252, 21, 1, 10),  -- fake-out lv10
-    (296, 29600, 395, 21, 1, 13),  -- force-palm lv13
-    (296, 29600, 18, 21, 1, 16),  -- whirlwind lv16
-    (296, 29600, 282, 21, 1, 19),  -- knock-off lv19
-    (296, 29600, 233, 21, 1, 22),  -- vital-throw lv22
-    (296, 29600, 187, 21, 1, 25),  -- belly-drum lv25
-    (296, 29600, 197, 21, 1, 28),  -- detect lv28
-    (296, 29600, 69, 21, 1, 31),  -- seismic-toss lv31
-    (296, 29600, 264, 21, 1, 34),  -- focus-punch lv34
-    (296, 29600, 203, 21, 1, 37),  -- endure lv37
-    (296, 29600, 370, 21, 1, 40),  -- close-combat lv40
-    (296, 29600, 179, 21, 1, 43),  -- reversal lv43
-    (296, 29600, 484, 21, 1, 46),  -- heavy-slam lv46
-    (296, 29600, 57, 21, 2, NULL),  -- surf tm
-    (296, 29600, 70, 21, 2, NULL),  -- strength tm
-    (296, 29600, 89, 21, 2, NULL),  -- earthquake tm
-    (296, 29600, 91, 21, 2, NULL),  -- dig tm
-    (296, 29600, 104, 21, 2, NULL),  -- double-team tm
-    (296, 29600, 156, 21, 2, NULL),  -- rest tm
-    (296, 29600, 157, 21, 2, NULL),  -- rock-slide tm
-    (296, 29600, 164, 21, 2, NULL),  -- substitute tm
-    (296, 29600, 182, 21, 2, NULL),  -- protect tm
-    (296, 29600, 203, 21, 2, NULL),  -- endure tm
-    (296, 29600, 207, 21, 2, NULL),  -- swagger tm
-    (296, 29600, 213, 21, 2, NULL),  -- attract tm
-    (296, 29600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (296, 29600, 240, 21, 2, NULL),  -- rain-dance tm
-    (296, 29600, 241, 21, 2, NULL),  -- sunny-day tm
-    (296, 29600, 249, 21, 2, NULL),  -- rock-smash tm
-    (296, 29600, 263, 21, 2, NULL),  -- facade tm
-    (296, 29600, 264, 21, 2, NULL),  -- focus-punch tm
-    (296, 29600, 280, 21, 2, NULL),  -- brick-break tm
-    (296, 29600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (296, 29600, 339, 21, 2, NULL),  -- bulk-up tm
-    (296, 29600, 374, 21, 2, NULL),  -- fling tm
-    (296, 29600, 398, 21, 2, NULL),  -- poison-jab tm
-    (296, 29600, 411, 21, 2, NULL),  -- focus-blast tm
-    (296, 29600, 431, 21, 2, NULL),  -- rock-climb tm
-    (296, 29600, 490, 21, 2, NULL),  -- low-sweep tm
-    (296, 29600, 523, 21, 2, NULL),  -- bulldoze tm
-    (296, 29600, 526, 21, 2, NULL),  -- work-up tm
-    (296, 29600, 68, 21, 5, NULL),  -- counter egg
-    (296, 29600, 197, 21, 5, NULL),  -- detect egg
-    (296, 29600, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (296, 29600, 238, 21, 5, NULL),  -- cross-chop egg
-    (296, 29600, 270, 21, 5, NULL),  -- helping-hand egg
-    (296, 29600, 279, 21, 5, NULL),  -- revenge egg
-    (296, 29600, 364, 21, 5, NULL),  -- feint egg
-    (296, 29600, 418, 21, 5, NULL),  -- bullet-punch egg
-    (296, 29600, 469, 21, 5, NULL),  -- wide-guard egg
-    (296, 29600, 33, 21, 8, NULL),  -- tackle start
-    (296, 29600, 116, 21, 8, NULL),  -- focus-energy start
-    (297, 29700, 28, 21, 1, 4),  -- sand-attack lv4
-    (297, 29700, 292, 21, 1, 7),  -- arm-thrust lv7
-    (297, 29700, 252, 21, 1, 10),  -- fake-out lv10
-    (297, 29700, 395, 21, 1, 13),  -- force-palm lv13
-    (297, 29700, 18, 21, 1, 16),  -- whirlwind lv16
-    (297, 29700, 282, 21, 1, 19),  -- knock-off lv19
-    (297, 29700, 233, 21, 1, 22),  -- vital-throw lv22
-    (297, 29700, 187, 21, 1, 26),  -- belly-drum lv26
-    (297, 29700, 197, 21, 1, 30),  -- detect lv30
-    (297, 29700, 69, 21, 1, 34),  -- seismic-toss lv34
-    (297, 29700, 264, 21, 1, 38),  -- focus-punch lv38
-    (297, 29700, 203, 21, 1, 42),  -- endure lv42
-    (297, 29700, 370, 21, 1, 46),  -- close-combat lv46
-    (297, 29700, 179, 21, 1, 50),  -- reversal lv50
-    (297, 29700, 484, 21, 1, 54),  -- heavy-slam lv54
-    (297, 29700, 57, 21, 2, NULL),  -- surf tm
-    (297, 29700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (297, 29700, 70, 21, 2, NULL),  -- strength tm
-    (297, 29700, 89, 21, 2, NULL),  -- earthquake tm
-    (297, 29700, 91, 21, 2, NULL),  -- dig tm
-    (297, 29700, 104, 21, 2, NULL),  -- double-team tm
-    (297, 29700, 156, 21, 2, NULL),  -- rest tm
-    (297, 29700, 157, 21, 2, NULL),  -- rock-slide tm
-    (297, 29700, 164, 21, 2, NULL),  -- substitute tm
-    (297, 29700, 182, 21, 2, NULL),  -- protect tm
-    (297, 29700, 203, 21, 2, NULL),  -- endure tm
-    (297, 29700, 207, 21, 2, NULL),  -- swagger tm
-    (297, 29700, 213, 21, 2, NULL),  -- attract tm
-    (297, 29700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (297, 29700, 240, 21, 2, NULL),  -- rain-dance tm
-    (297, 29700, 241, 21, 2, NULL),  -- sunny-day tm
-    (297, 29700, 249, 21, 2, NULL),  -- rock-smash tm
-    (297, 29700, 263, 21, 2, NULL),  -- facade tm
-    (297, 29700, 264, 21, 2, NULL),  -- focus-punch tm
-    (297, 29700, 280, 21, 2, NULL),  -- brick-break tm
-    (297, 29700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (297, 29700, 339, 21, 2, NULL),  -- bulk-up tm
-    (297, 29700, 362, 21, 2, NULL),  -- brine tm
-    (297, 29700, 371, 21, 2, NULL),  -- payback tm
-    (297, 29700, 374, 21, 2, NULL),  -- fling tm
-    (297, 29700, 398, 21, 2, NULL),  -- poison-jab tm
-    (297, 29700, 411, 21, 2, NULL),  -- focus-blast tm
-    (297, 29700, 416, 21, 2, NULL),  -- giga-impact tm
-    (297, 29700, 431, 21, 2, NULL),  -- rock-climb tm
-    (297, 29700, 444, 21, 2, NULL),  -- stone-edge tm
-    (297, 29700, 490, 21, 2, NULL),  -- low-sweep tm
-    (297, 29700, 523, 21, 2, NULL),  -- bulldoze tm
-    (297, 29700, 526, 21, 2, NULL),  -- work-up tm
-    (297, 29700, 68, 21, 5, NULL),  -- counter egg
-    (297, 29700, 197, 21, 5, NULL),  -- detect egg
-    (297, 29700, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (297, 29700, 238, 21, 5, NULL),  -- cross-chop egg
-    (297, 29700, 270, 21, 5, NULL),  -- helping-hand egg
-    (297, 29700, 279, 21, 5, NULL),  -- revenge egg
-    (297, 29700, 364, 21, 5, NULL),  -- feint egg
-    (297, 29700, 418, 21, 5, NULL),  -- bullet-punch egg
-    (297, 29700, 469, 21, 5, NULL),  -- wide-guard egg
-    (297, 29700, 28, 21, 8, NULL),  -- sand-attack start
-    (297, 29700, 33, 21, 8, NULL),  -- tackle start
-    (297, 29700, 116, 21, 8, NULL),  -- focus-energy start
-    (297, 29700, 292, 21, 8, NULL),  -- arm-thrust start
-    (297, 29700, 362, 21, 8, NULL),  -- brine start
-    (298, 29800, 270, 21, 1, 3),  -- helping-hand lv3
-    (298, 29800, 61, 21, 1, 6),  -- bubble-beam lv6
-    (298, 29800, 204, 21, 1, 9),  -- charm lv9
-    (298, 29800, 21, 21, 1, 12),  -- slam lv12
-    (298, 29800, 340, 21, 1, 15),  -- bounce lv15
-    (298, 29800, 57, 21, 2, NULL),  -- surf tm
-    (298, 29800, 58, 21, 2, NULL),  -- ice-beam tm
-    (298, 29800, 59, 21, 2, NULL),  -- blizzard tm
-    (298, 29800, 104, 21, 2, NULL),  -- double-team tm
-    (298, 29800, 113, 21, 2, NULL),  -- light-screen tm
-    (298, 29800, 127, 21, 2, NULL),  -- waterfall tm
-    (298, 29800, 156, 21, 2, NULL),  -- rest tm
-    (298, 29800, 164, 21, 2, NULL),  -- substitute tm
-    (298, 29800, 182, 21, 2, NULL),  -- protect tm
-    (298, 29800, 203, 21, 2, NULL),  -- endure tm
-    (298, 29800, 207, 21, 2, NULL),  -- swagger tm
-    (298, 29800, 213, 21, 2, NULL),  -- attract tm
-    (298, 29800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (298, 29800, 231, 21, 2, NULL),  -- iron-tail tm
-    (298, 29800, 240, 21, 2, NULL),  -- rain-dance tm
-    (298, 29800, 258, 21, 2, NULL),  -- hail tm
-    (298, 29800, 263, 21, 2, NULL),  -- facade tm
-    (298, 29800, 352, 21, 2, NULL),  -- water-pulse tm
-    (298, 29800, 503, 21, 2, NULL),  -- scald tm
-    (298, 29800, 526, 21, 2, NULL),  -- work-up tm
-    (298, 29800, 21, 21, 5, NULL),  -- slam egg
-    (298, 29800, 34, 21, 5, NULL),  -- body-slam egg
-    (298, 29800, 47, 21, 5, NULL),  -- sing egg
-    (298, 29800, 48, 21, 5, NULL),  -- supersonic egg
-    (298, 29800, 187, 21, 5, NULL),  -- belly-drum egg
-    (298, 29800, 195, 21, 5, NULL),  -- perish-song egg
-    (298, 29800, 217, 21, 5, NULL),  -- present egg
-    (298, 29800, 227, 21, 5, NULL),  -- encore egg
-    (298, 29800, 313, 21, 5, NULL),  -- fake-tears egg
-    (298, 29800, 321, 21, 5, NULL),  -- tickle egg
-    (298, 29800, 330, 21, 5, NULL),  -- muddy-water egg
-    (298, 29800, 383, 21, 5, NULL),  -- copycat egg
-    (298, 29800, 453, 21, 5, NULL),  -- aqua-jet egg
-    (298, 29800, 487, 21, 5, NULL),  -- soak egg
-    (298, 29800, 39, 21, 8, NULL),  -- tail-whip start
-    (298, 29800, 55, 21, 8, NULL),  -- water-gun start
-    (298, 29800, 150, 21, 8, NULL),  -- splash start
-    (299, 29900, 106, 21, 1, 4),  -- harden lv4
-    (299, 29900, 335, 21, 1, 7),  -- block lv7
-    (299, 29900, 88, 21, 1, 10),  -- rock-throw lv10
-    (299, 29900, 86, 21, 1, 13),  -- thunder-wave lv13
-    (299, 29900, 156, 21, 1, 16),  -- rest lv16
-    (299, 29900, 209, 21, 1, 19),  -- spark lv19
-    (299, 29900, 157, 21, 1, 22),  -- rock-slide lv22
-    (299, 29900, 408, 21, 1, 25),  -- power-gem lv25
-    (299, 29900, 350, 21, 1, 28),  -- rock-blast lv28
-    (299, 29900, 435, 21, 1, 31),  -- discharge lv31
-    (299, 29900, 201, 21, 1, 34),  -- sandstorm lv34
-    (299, 29900, 414, 21, 1, 37),  -- earth-power lv37
-    (299, 29900, 444, 21, 1, 40),  -- stone-edge lv40
-    (299, 29900, 192, 21, 1, 43),  -- zap-cannon lv43
-    (299, 29900, 199, 21, 1, 43),  -- lock-on lv43
-    (299, 29900, 70, 21, 2, NULL),  -- strength tm
-    (299, 29900, 85, 21, 2, NULL),  -- thunderbolt tm
-    (299, 29900, 86, 21, 2, NULL),  -- thunder-wave tm
-    (299, 29900, 87, 21, 2, NULL),  -- thunder tm
-    (299, 29900, 89, 21, 2, NULL),  -- earthquake tm
-    (299, 29900, 104, 21, 2, NULL),  -- double-team tm
-    (299, 29900, 153, 21, 2, NULL),  -- explosion tm
-    (299, 29900, 156, 21, 2, NULL),  -- rest tm
-    (299, 29900, 157, 21, 2, NULL),  -- rock-slide tm
-    (299, 29900, 164, 21, 2, NULL),  -- substitute tm
-    (299, 29900, 182, 21, 2, NULL),  -- protect tm
-    (299, 29900, 201, 21, 2, NULL),  -- sandstorm tm
-    (299, 29900, 203, 21, 2, NULL),  -- endure tm
-    (299, 29900, 207, 21, 2, NULL),  -- swagger tm
-    (299, 29900, 213, 21, 2, NULL),  -- attract tm
-    (299, 29900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (299, 29900, 241, 21, 2, NULL),  -- sunny-day tm
-    (299, 29900, 249, 21, 2, NULL),  -- rock-smash tm
-    (299, 29900, 259, 21, 2, NULL),  -- torment tm
-    (299, 29900, 263, 21, 2, NULL),  -- facade tm
-    (299, 29900, 269, 21, 2, NULL),  -- taunt tm
-    (299, 29900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (299, 29900, 351, 21, 2, NULL),  -- shock-wave tm
-    (299, 29900, 397, 21, 2, NULL),  -- rock-polish tm
-    (299, 29900, 444, 21, 2, NULL),  -- stone-edge tm
-    (299, 29900, 446, 21, 2, NULL),  -- stealth-rock tm
-    (299, 29900, 521, 21, 2, NULL),  -- volt-switch tm
-    (299, 29900, 523, 21, 2, NULL),  -- bulldoze tm
-    (299, 29900, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (299, 29900, 38, 21, 5, NULL),  -- double-edge egg
-    (299, 29900, 205, 21, 5, NULL),  -- rollout egg
-    (299, 29900, 335, 21, 5, NULL),  -- block egg
-    (299, 29900, 469, 21, 5, NULL),  -- wide-guard egg
-    (299, 29900, 33, 21, 8, NULL),  -- tackle start
-    (300, 30000, 33, 21, 1, 4),  -- tackle lv4
-    (300, 30000, 47, 21, 1, 7),  -- sing lv7
-    (300, 30000, 213, 21, 1, 10),  -- attract lv10
-    (300, 30000, 574, 21, 1, 13),  -- disarming-voice lv13
-    (300, 30000, 154, 21, 1, 16),  -- fury-swipes lv16
-    (300, 30000, 383, 21, 1, 19),  -- copycat lv19
-    (300, 30000, 371, 21, 1, 22),  -- payback lv22
-    (300, 30000, 204, 21, 1, 25),  -- charm lv25
-    (300, 30000, 263, 21, 1, 31),  -- facade lv31
-    (300, 30000, 343, 21, 1, 34),  -- covet lv34
-    (300, 30000, 215, 21, 1, 37),  -- heal-bell lv37
-    (300, 30000, 38, 21, 1, 40),  -- double-edge lv40
-    (300, 30000, 608, 21, 1, 43),  -- baby-doll-eyes lv43
-    (300, 30000, 583, 21, 1, 46),  -- play-rough lv46
-    (300, 30000, 58, 21, 2, NULL),  -- ice-beam tm
-    (300, 30000, 59, 21, 2, NULL),  -- blizzard tm
-    (300, 30000, 76, 21, 2, NULL),  -- solar-beam tm
-    (300, 30000, 85, 21, 2, NULL),  -- thunderbolt tm
-    (300, 30000, 86, 21, 2, NULL),  -- thunder-wave tm
-    (300, 30000, 87, 21, 2, NULL),  -- thunder tm
-    (300, 30000, 91, 21, 2, NULL),  -- dig tm
-    (300, 30000, 104, 21, 2, NULL),  -- double-team tm
-    (300, 30000, 138, 21, 2, NULL),  -- dream-eater tm
-    (300, 30000, 148, 21, 2, NULL),  -- flash tm
-    (300, 30000, 156, 21, 2, NULL),  -- rest tm
-    (300, 30000, 164, 21, 2, NULL),  -- substitute tm
-    (300, 30000, 182, 21, 2, NULL),  -- protect tm
-    (300, 30000, 203, 21, 2, NULL),  -- endure tm
-    (300, 30000, 207, 21, 2, NULL),  -- swagger tm
-    (300, 30000, 213, 21, 2, NULL),  -- attract tm
-    (300, 30000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (300, 30000, 219, 21, 2, NULL),  -- safeguard tm
-    (300, 30000, 231, 21, 2, NULL),  -- iron-tail tm
-    (300, 30000, 240, 21, 2, NULL),  -- rain-dance tm
-    (300, 30000, 241, 21, 2, NULL),  -- sunny-day tm
-    (300, 30000, 244, 21, 2, NULL),  -- psych-up tm
-    (300, 30000, 247, 21, 2, NULL),  -- shadow-ball tm
-    (300, 30000, 263, 21, 2, NULL),  -- facade tm
-    (300, 30000, 347, 21, 2, NULL),  -- calm-mind tm
-    (300, 30000, 351, 21, 2, NULL),  -- shock-wave tm
-    (300, 30000, 352, 21, 2, NULL),  -- water-pulse tm
-    (300, 30000, 371, 21, 2, NULL),  -- payback tm
-    (300, 30000, 417, 21, 2, NULL),  -- nasty-plot tm
-    (300, 30000, 447, 21, 2, NULL),  -- grass-knot tm
-    (300, 30000, 451, 21, 2, NULL),  -- charge-beam tm
-    (300, 30000, 526, 21, 2, NULL),  -- work-up tm
-    (300, 30000, 226, 21, 5, NULL),  -- baton-pass egg
-    (300, 30000, 252, 21, 5, NULL),  -- fake-out egg
-    (300, 30000, 253, 21, 5, NULL),  -- uproar egg
-    (300, 30000, 270, 21, 5, NULL),  -- helping-hand egg
-    (300, 30000, 273, 21, 5, NULL),  -- wish egg
-    (300, 30000, 313, 21, 5, NULL),  -- fake-tears egg
-    (300, 30000, 321, 21, 5, NULL),  -- tickle egg
-    (300, 30000, 322, 21, 5, NULL),  -- cosmic-power egg
-    (300, 30000, 387, 21, 5, NULL),  -- last-resort egg
-    (300, 30000, 389, 21, 5, NULL),  -- sucker-punch egg
-    (300, 30000, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (300, 30000, 493, 21, 5, NULL),  -- simple-beam egg
-    (300, 30000, 39, 21, 8, NULL),  -- tail-whip start
-    (300, 30000, 45, 21, 8, NULL),  -- growl start
-    (300, 30000, 252, 21, 8, NULL),  -- fake-out start
-    (301, 30100, 58, 21, 2, NULL),  -- ice-beam tm
-    (301, 30100, 59, 21, 2, NULL),  -- blizzard tm
-    (301, 30100, 63, 21, 2, NULL),  -- hyper-beam tm
-    (301, 30100, 70, 21, 2, NULL),  -- strength tm
-    (301, 30100, 76, 21, 2, NULL),  -- solar-beam tm
-    (301, 30100, 85, 21, 2, NULL),  -- thunderbolt tm
-    (301, 30100, 86, 21, 2, NULL),  -- thunder-wave tm
-    (301, 30100, 87, 21, 2, NULL),  -- thunder tm
-    (301, 30100, 91, 21, 2, NULL),  -- dig tm
-    (301, 30100, 104, 21, 2, NULL),  -- double-team tm
-    (301, 30100, 138, 21, 2, NULL),  -- dream-eater tm
-    (301, 30100, 148, 21, 2, NULL),  -- flash tm
-    (301, 30100, 156, 21, 2, NULL),  -- rest tm
-    (301, 30100, 164, 21, 2, NULL),  -- substitute tm
-    (301, 30100, 182, 21, 2, NULL),  -- protect tm
-    (301, 30100, 203, 21, 2, NULL),  -- endure tm
-    (301, 30100, 207, 21, 2, NULL),  -- swagger tm
-    (301, 30100, 213, 21, 2, NULL),  -- attract tm
-    (301, 30100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (301, 30100, 219, 21, 2, NULL),  -- safeguard tm
-    (301, 30100, 231, 21, 2, NULL),  -- iron-tail tm
-    (301, 30100, 240, 21, 2, NULL),  -- rain-dance tm
-    (301, 30100, 241, 21, 2, NULL),  -- sunny-day tm
-    (301, 30100, 244, 21, 2, NULL),  -- psych-up tm
-    (301, 30100, 247, 21, 2, NULL),  -- shadow-ball tm
-    (301, 30100, 249, 21, 2, NULL),  -- rock-smash tm
-    (301, 30100, 263, 21, 2, NULL),  -- facade tm
-    (301, 30100, 347, 21, 2, NULL),  -- calm-mind tm
-    (301, 30100, 351, 21, 2, NULL),  -- shock-wave tm
-    (301, 30100, 352, 21, 2, NULL),  -- water-pulse tm
-    (301, 30100, 371, 21, 2, NULL),  -- payback tm
-    (301, 30100, 416, 21, 2, NULL),  -- giga-impact tm
-    (301, 30100, 417, 21, 2, NULL),  -- nasty-plot tm
-    (301, 30100, 447, 21, 2, NULL),  -- grass-knot tm
-    (301, 30100, 451, 21, 2, NULL),  -- charge-beam tm
-    (301, 30100, 526, 21, 2, NULL),  -- work-up tm
-    (301, 30100, 226, 21, 5, NULL),  -- baton-pass egg
-    (301, 30100, 252, 21, 5, NULL),  -- fake-out egg
-    (301, 30100, 253, 21, 5, NULL),  -- uproar egg
-    (301, 30100, 270, 21, 5, NULL),  -- helping-hand egg
-    (301, 30100, 273, 21, 5, NULL),  -- wish egg
-    (301, 30100, 313, 21, 5, NULL),  -- fake-tears egg
-    (301, 30100, 321, 21, 5, NULL),  -- tickle egg
-    (301, 30100, 322, 21, 5, NULL),  -- cosmic-power egg
-    (301, 30100, 387, 21, 5, NULL),  -- last-resort egg
-    (301, 30100, 389, 21, 5, NULL),  -- sucker-punch egg
-    (301, 30100, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (301, 30100, 493, 21, 5, NULL),  -- simple-beam egg
-    (301, 30100, 33, 21, 8, NULL),  -- tackle start
-    (301, 30100, 38, 21, 8, NULL),  -- double-edge start
-    (301, 30100, 39, 21, 8, NULL),  -- tail-whip start
-    (301, 30100, 45, 21, 8, NULL),  -- growl start
-    (301, 30100, 47, 21, 8, NULL),  -- sing start
-    (301, 30100, 154, 21, 8, NULL),  -- fury-swipes start
-    (301, 30100, 204, 21, 8, NULL),  -- charm start
-    (301, 30100, 213, 21, 8, NULL),  -- attract start
-    (301, 30100, 215, 21, 8, NULL),  -- heal-bell start
-    (301, 30100, 252, 21, 8, NULL),  -- fake-out start
-    (301, 30100, 263, 21, 8, NULL),  -- facade start
-    (301, 30100, 343, 21, 8, NULL),  -- covet start
-    (301, 30100, 371, 21, 8, NULL),  -- payback start
-    (301, 30100, 383, 21, 8, NULL),  -- copycat start
-    (301, 30100, 574, 21, 8, NULL),  -- disarming-voice start
-    (301, 30100, 583, 21, 8, NULL),  -- play-rough start
-    (301, 30100, 608, 21, 8, NULL),  -- baby-doll-eyes start
-    (302, 30200, 310, 21, 1, 3),  -- astonish lv3
-    (302, 30200, 109, 21, 1, 6),  -- confuse-ray lv6
-    (302, 30200, 425, 21, 1, 9),  -- shadow-sneak lv9
-    (302, 30200, 252, 21, 1, 12),  -- fake-out lv12
-    (302, 30200, 50, 21, 1, 15),  -- disable lv15
-    (302, 30200, 197, 21, 1, 18),  -- detect lv18
-    (302, 30200, 101, 21, 1, 21),  -- night-shade lv21
-    (302, 30200, 154, 21, 1, 24),  -- fury-swipes lv24
-    (302, 30200, 282, 21, 1, 27),  -- knock-off lv27
-    (302, 30200, 511, 21, 1, 30),  -- quash lv30
-    (302, 30200, 421, 21, 1, 33),  -- shadow-claw lv33
-    (302, 30200, 212, 21, 1, 36),  -- mean-look lv36
-    (302, 30200, 408, 21, 1, 39),  -- power-gem lv39
-    (302, 30200, 428, 21, 1, 42),  -- zen-headbutt lv42
-    (302, 30200, 247, 21, 1, 45),  -- shadow-ball lv45
-    (302, 30200, 492, 21, 1, 48),  -- foul-play lv48
-    (302, 30200, 15, 21, 2, NULL),  -- cut tm
-    (302, 30200, 91, 21, 2, NULL),  -- dig tm
-    (302, 30200, 94, 21, 2, NULL),  -- psychic tm
-    (302, 30200, 104, 21, 2, NULL),  -- double-team tm
-    (302, 30200, 138, 21, 2, NULL),  -- dream-eater tm
-    (302, 30200, 148, 21, 2, NULL),  -- flash tm
-    (302, 30200, 156, 21, 2, NULL),  -- rest tm
-    (302, 30200, 164, 21, 2, NULL),  -- substitute tm
-    (302, 30200, 168, 21, 2, NULL),  -- thief tm
-    (302, 30200, 182, 21, 2, NULL),  -- protect tm
-    (302, 30200, 203, 21, 2, NULL),  -- endure tm
-    (302, 30200, 207, 21, 2, NULL),  -- swagger tm
-    (302, 30200, 213, 21, 2, NULL),  -- attract tm
-    (302, 30200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (302, 30200, 240, 21, 2, NULL),  -- rain-dance tm
-    (302, 30200, 241, 21, 2, NULL),  -- sunny-day tm
-    (302, 30200, 244, 21, 2, NULL),  -- psych-up tm
-    (302, 30200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (302, 30200, 249, 21, 2, NULL),  -- rock-smash tm
-    (302, 30200, 259, 21, 2, NULL),  -- torment tm
-    (302, 30200, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (302, 30200, 263, 21, 2, NULL),  -- facade tm
-    (302, 30200, 264, 21, 2, NULL),  -- focus-punch tm
-    (302, 30200, 269, 21, 2, NULL),  -- taunt tm
-    (302, 30200, 280, 21, 2, NULL),  -- brick-break tm
-    (302, 30200, 317, 21, 2, NULL),  -- rock-tomb tm
-    (302, 30200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (302, 30200, 347, 21, 2, NULL),  -- calm-mind tm
-    (302, 30200, 351, 21, 2, NULL),  -- shock-wave tm
-    (302, 30200, 352, 21, 2, NULL),  -- water-pulse tm
-    (302, 30200, 360, 21, 2, NULL),  -- gyro-ball tm
-    (302, 30200, 371, 21, 2, NULL),  -- payback tm
-    (302, 30200, 374, 21, 2, NULL),  -- fling tm
-    (302, 30200, 398, 21, 2, NULL),  -- poison-jab tm
-    (302, 30200, 399, 21, 2, NULL),  -- dark-pulse tm
-    (302, 30200, 409, 21, 2, NULL),  -- drain-punch tm
-    (302, 30200, 417, 21, 2, NULL),  -- nasty-plot tm
-    (302, 30200, 421, 21, 2, NULL),  -- shadow-claw tm
-    (302, 30200, 490, 21, 2, NULL),  -- low-sweep tm
-    (302, 30200, 555, 21, 2, NULL),  -- snarl tm
-    (302, 30200, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (302, 30200, 105, 21, 5, NULL),  -- recover egg
-    (302, 30200, 212, 21, 5, NULL),  -- mean-look egg
-    (302, 30200, 236, 21, 5, NULL),  -- moonlight egg
-    (302, 30200, 260, 21, 5, NULL),  -- flatter egg
-    (302, 30200, 271, 21, 5, NULL),  -- trick egg
-    (302, 30200, 286, 21, 5, NULL),  -- imprison egg
-    (302, 30200, 364, 21, 5, NULL),  -- feint egg
-    (302, 30200, 368, 21, 5, NULL),  -- metal-burst egg
-    (302, 30200, 389, 21, 5, NULL),  -- sucker-punch egg
-    (302, 30200, 10, 21, 8, NULL),  -- scratch start
-    (302, 30200, 43, 21, 8, NULL),  -- leer start
-    (303, 30300, 584, 21, 1, 4),  -- fairy-wind lv4
-    (303, 30300, 226, 21, 1, 8),  -- baton-pass lv8
-    (303, 30300, 44, 21, 1, 12),  -- bite lv12
-    (303, 30300, 254, 21, 1, 16),  -- stockpile lv16
-    (303, 30300, 255, 21, 1, 16),  -- spit-up lv16
-    (303, 30300, 256, 21, 1, 16),  -- swallow lv16
-    (303, 30300, 389, 21, 1, 20),  -- sucker-punch lv20
-    (303, 30300, 334, 21, 1, 24),  -- iron-defense lv24
-    (303, 30300, 242, 21, 1, 28),  -- crunch lv28
-    (303, 30300, 230, 21, 1, 32),  -- sweet-scent lv32
-    (303, 30300, 442, 21, 1, 36),  -- iron-head lv36
-    (303, 30300, 269, 21, 1, 40),  -- taunt lv40
-    (303, 30300, 313, 21, 1, 44),  -- fake-tears lv44
-    (303, 30300, 583, 21, 1, 48),  -- play-rough lv48
-    (303, 30300, 14, 21, 2, NULL),  -- swords-dance tm
-    (303, 30300, 53, 21, 2, NULL),  -- flamethrower tm
-    (303, 30300, 58, 21, 2, NULL),  -- ice-beam tm
-    (303, 30300, 63, 21, 2, NULL),  -- hyper-beam tm
-    (303, 30300, 70, 21, 2, NULL),  -- strength tm
-    (303, 30300, 76, 21, 2, NULL),  -- solar-beam tm
-    (303, 30300, 104, 21, 2, NULL),  -- double-team tm
-    (303, 30300, 126, 21, 2, NULL),  -- fire-blast tm
-    (303, 30300, 156, 21, 2, NULL),  -- rest tm
-    (303, 30300, 157, 21, 2, NULL),  -- rock-slide tm
-    (303, 30300, 164, 21, 2, NULL),  -- substitute tm
-    (303, 30300, 182, 21, 2, NULL),  -- protect tm
-    (303, 30300, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (303, 30300, 201, 21, 2, NULL),  -- sandstorm tm
-    (303, 30300, 203, 21, 2, NULL),  -- endure tm
-    (303, 30300, 206, 21, 2, NULL),  -- false-swipe tm
-    (303, 30300, 207, 21, 2, NULL),  -- swagger tm
-    (303, 30300, 213, 21, 2, NULL),  -- attract tm
-    (303, 30300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (303, 30300, 240, 21, 2, NULL),  -- rain-dance tm
-    (303, 30300, 241, 21, 2, NULL),  -- sunny-day tm
-    (303, 30300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (303, 30300, 249, 21, 2, NULL),  -- rock-smash tm
-    (303, 30300, 259, 21, 2, NULL),  -- torment tm
-    (303, 30300, 263, 21, 2, NULL),  -- facade tm
-    (303, 30300, 264, 21, 2, NULL),  -- focus-punch tm
-    (303, 30300, 269, 21, 2, NULL),  -- taunt tm
-    (303, 30300, 280, 21, 2, NULL),  -- brick-break tm
-    (303, 30300, 317, 21, 2, NULL),  -- rock-tomb tm
-    (303, 30300, 371, 21, 2, NULL),  -- payback tm
-    (303, 30300, 374, 21, 2, NULL),  -- fling tm
-    (303, 30300, 399, 21, 2, NULL),  -- dark-pulse tm
-    (303, 30300, 411, 21, 2, NULL),  -- focus-blast tm
-    (303, 30300, 416, 21, 2, NULL),  -- giga-impact tm
-    (303, 30300, 430, 21, 2, NULL),  -- flash-cannon tm
-    (303, 30300, 444, 21, 2, NULL),  -- stone-edge tm
-    (303, 30300, 446, 21, 2, NULL),  -- stealth-rock tm
-    (303, 30300, 447, 21, 2, NULL),  -- grass-knot tm
-    (303, 30300, 451, 21, 2, NULL),  -- charge-beam tm
-    (303, 30300, 21, 21, 5, NULL),  -- slam egg
-    (303, 30300, 69, 21, 5, NULL),  -- seismic-toss egg
-    (303, 30300, 246, 21, 5, NULL),  -- ancient-power egg
-    (303, 30300, 305, 21, 5, NULL),  -- poison-fang egg
-    (303, 30300, 321, 21, 5, NULL),  -- tickle egg
-    (303, 30300, 368, 21, 5, NULL),  -- metal-burst egg
-    (303, 30300, 385, 21, 5, NULL),  -- guard-swap egg
-    (303, 30300, 389, 21, 5, NULL),  -- sucker-punch egg
-    (303, 30300, 422, 21, 5, NULL),  -- thunder-fang egg
-    (303, 30300, 423, 21, 5, NULL),  -- ice-fang egg
-    (303, 30300, 424, 21, 5, NULL),  -- fire-fang egg
-    (303, 30300, 581, 21, 5, NULL),  -- misty-terrain egg
-    (303, 30300, 612, 21, 5, NULL),  -- power-up-punch egg
-    (303, 30300, 45, 21, 8, NULL),  -- growl start
-    (303, 30300, 310, 21, 8, NULL),  -- astonish start
-    (304, 30400, 232, 21, 1, 4),  -- metal-claw lv4
-    (304, 30400, 317, 21, 1, 8),  -- rock-tomb lv8
-    (304, 30400, 46, 21, 1, 12),  -- roar lv12
-    (304, 30400, 29, 21, 1, 16),  -- headbutt lv16
-    (304, 30400, 182, 21, 1, 20),  -- protect lv20
-    (304, 30400, 157, 21, 1, 24),  -- rock-slide lv24
-    (304, 30400, 442, 21, 1, 28),  -- iron-head lv28
-    (304, 30400, 319, 21, 1, 33),  -- metal-sound lv33
-    (304, 30400, 36, 21, 1, 36),  -- take-down lv36
-    (304, 30400, 475, 21, 1, 40),  -- autotomize lv40
-    (304, 30400, 231, 21, 1, 44),  -- iron-tail lv44
-    (304, 30400, 334, 21, 1, 48),  -- iron-defense lv48
-    (304, 30400, 484, 21, 1, 52),  -- heavy-slam lv52
-    (304, 30400, 38, 21, 1, 56),  -- double-edge lv56
-    (304, 30400, 368, 21, 1, 60),  -- metal-burst lv60
-    (304, 30400, 15, 21, 2, NULL),  -- cut tm
-    (304, 30400, 46, 21, 2, NULL),  -- roar tm
-    (304, 30400, 70, 21, 2, NULL),  -- strength tm
-    (304, 30400, 89, 21, 2, NULL),  -- earthquake tm
-    (304, 30400, 91, 21, 2, NULL),  -- dig tm
-    (304, 30400, 104, 21, 2, NULL),  -- double-team tm
-    (304, 30400, 156, 21, 2, NULL),  -- rest tm
-    (304, 30400, 157, 21, 2, NULL),  -- rock-slide tm
-    (304, 30400, 164, 21, 2, NULL),  -- substitute tm
-    (304, 30400, 182, 21, 2, NULL),  -- protect tm
-    (304, 30400, 201, 21, 2, NULL),  -- sandstorm tm
-    (304, 30400, 203, 21, 2, NULL),  -- endure tm
-    (304, 30400, 207, 21, 2, NULL),  -- swagger tm
-    (304, 30400, 213, 21, 2, NULL),  -- attract tm
-    (304, 30400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (304, 30400, 231, 21, 2, NULL),  -- iron-tail tm
-    (304, 30400, 240, 21, 2, NULL),  -- rain-dance tm
-    (304, 30400, 241, 21, 2, NULL),  -- sunny-day tm
-    (304, 30400, 249, 21, 2, NULL),  -- rock-smash tm
-    (304, 30400, 263, 21, 2, NULL),  -- facade tm
-    (304, 30400, 317, 21, 2, NULL),  -- rock-tomb tm
-    (304, 30400, 332, 21, 2, NULL),  -- aerial-ace tm
-    (304, 30400, 351, 21, 2, NULL),  -- shock-wave tm
-    (304, 30400, 352, 21, 2, NULL),  -- water-pulse tm
-    (304, 30400, 397, 21, 2, NULL),  -- rock-polish tm
-    (304, 30400, 421, 21, 2, NULL),  -- shadow-claw tm
-    (304, 30400, 446, 21, 2, NULL),  -- stealth-rock tm
-    (304, 30400, 523, 21, 2, NULL),  -- bulldoze tm
-    (304, 30400, 23, 21, 5, NULL),  -- stomp egg
-    (304, 30400, 34, 21, 5, NULL),  -- body-slam egg
-    (304, 30400, 103, 21, 5, NULL),  -- screech egg
-    (304, 30400, 174, 21, 5, NULL),  -- curse egg
-    (304, 30400, 179, 21, 5, NULL),  -- reversal egg
-    (304, 30400, 189, 21, 5, NULL),  -- mud-slap egg
-    (304, 30400, 276, 21, 5, NULL),  -- superpower egg
-    (304, 30400, 283, 21, 5, NULL),  -- endeavor egg
-    (304, 30400, 407, 21, 5, NULL),  -- dragon-rush egg
-    (304, 30400, 442, 21, 5, NULL),  -- iron-head egg
-    (304, 30400, 457, 21, 5, NULL),  -- head-smash egg
-    (304, 30400, 33, 21, 8, NULL),  -- tackle start
-    (304, 30400, 106, 21, 8, NULL),  -- harden start
-    (305, 30500, 46, 21, 1, 12),  -- roar lv12
-    (305, 30500, 29, 21, 1, 16),  -- headbutt lv16
-    (305, 30500, 182, 21, 1, 20),  -- protect lv20
-    (305, 30500, 157, 21, 1, 24),  -- rock-slide lv24
-    (305, 30500, 442, 21, 1, 28),  -- iron-head lv28
-    (305, 30500, 319, 21, 1, 35),  -- metal-sound lv35
-    (305, 30500, 36, 21, 1, 40),  -- take-down lv40
-    (305, 30500, 475, 21, 1, 46),  -- autotomize lv46
-    (305, 30500, 231, 21, 1, 52),  -- iron-tail lv52
-    (305, 30500, 334, 21, 1, 58),  -- iron-defense lv58
-    (305, 30500, 484, 21, 1, 64),  -- heavy-slam lv64
-    (305, 30500, 38, 21, 1, 70),  -- double-edge lv70
-    (305, 30500, 368, 21, 1, 76),  -- metal-burst lv76
-    (305, 30500, 15, 21, 2, NULL),  -- cut tm
-    (305, 30500, 46, 21, 2, NULL),  -- roar tm
-    (305, 30500, 70, 21, 2, NULL),  -- strength tm
-    (305, 30500, 89, 21, 2, NULL),  -- earthquake tm
-    (305, 30500, 91, 21, 2, NULL),  -- dig tm
-    (305, 30500, 104, 21, 2, NULL),  -- double-team tm
-    (305, 30500, 156, 21, 2, NULL),  -- rest tm
-    (305, 30500, 157, 21, 2, NULL),  -- rock-slide tm
-    (305, 30500, 164, 21, 2, NULL),  -- substitute tm
-    (305, 30500, 182, 21, 2, NULL),  -- protect tm
-    (305, 30500, 201, 21, 2, NULL),  -- sandstorm tm
-    (305, 30500, 203, 21, 2, NULL),  -- endure tm
-    (305, 30500, 207, 21, 2, NULL),  -- swagger tm
-    (305, 30500, 213, 21, 2, NULL),  -- attract tm
-    (305, 30500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (305, 30500, 231, 21, 2, NULL),  -- iron-tail tm
-    (305, 30500, 240, 21, 2, NULL),  -- rain-dance tm
-    (305, 30500, 241, 21, 2, NULL),  -- sunny-day tm
-    (305, 30500, 249, 21, 2, NULL),  -- rock-smash tm
-    (305, 30500, 263, 21, 2, NULL),  -- facade tm
-    (305, 30500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (305, 30500, 332, 21, 2, NULL),  -- aerial-ace tm
-    (305, 30500, 351, 21, 2, NULL),  -- shock-wave tm
-    (305, 30500, 352, 21, 2, NULL),  -- water-pulse tm
-    (305, 30500, 397, 21, 2, NULL),  -- rock-polish tm
-    (305, 30500, 421, 21, 2, NULL),  -- shadow-claw tm
-    (305, 30500, 444, 21, 2, NULL),  -- stone-edge tm
-    (305, 30500, 446, 21, 2, NULL),  -- stealth-rock tm
-    (305, 30500, 523, 21, 2, NULL),  -- bulldoze tm
-    (305, 30500, 23, 21, 5, NULL),  -- stomp egg
-    (305, 30500, 34, 21, 5, NULL),  -- body-slam egg
-    (305, 30500, 103, 21, 5, NULL),  -- screech egg
-    (305, 30500, 174, 21, 5, NULL),  -- curse egg
-    (305, 30500, 179, 21, 5, NULL),  -- reversal egg
-    (305, 30500, 189, 21, 5, NULL),  -- mud-slap egg
-    (305, 30500, 276, 21, 5, NULL),  -- superpower egg
-    (305, 30500, 283, 21, 5, NULL),  -- endeavor egg
-    (305, 30500, 407, 21, 5, NULL),  -- dragon-rush egg
-    (305, 30500, 442, 21, 5, NULL),  -- iron-head egg
-    (305, 30500, 457, 21, 5, NULL),  -- head-smash egg
-    (305, 30500, 33, 21, 8, NULL),  -- tackle start
-    (305, 30500, 106, 21, 8, NULL),  -- harden start
-    (305, 30500, 232, 21, 8, NULL),  -- metal-claw start
-    (305, 30500, 317, 21, 8, NULL),  -- rock-tomb start
-    (306, 30600, 46, 21, 1, 12),  -- roar lv12
-    (306, 30600, 29, 21, 1, 16),  -- headbutt lv16
-    (306, 30600, 182, 21, 1, 20),  -- protect lv20
-    (306, 30600, 157, 21, 1, 24),  -- rock-slide lv24
-    (306, 30600, 442, 21, 1, 28),  -- iron-head lv28
-    (306, 30600, 319, 21, 1, 35),  -- metal-sound lv35
-    (306, 30600, 36, 21, 1, 40),  -- take-down lv40
-    (306, 30600, 475, 21, 1, 48),  -- autotomize lv48
-    (306, 30600, 231, 21, 1, 56),  -- iron-tail lv56
-    (306, 30600, 334, 21, 1, 64),  -- iron-defense lv64
-    (306, 30600, 484, 21, 1, 72),  -- heavy-slam lv72
-    (306, 30600, 38, 21, 1, 80),  -- double-edge lv80
-    (306, 30600, 368, 21, 1, 88),  -- metal-burst lv88
-    (306, 30600, 15, 21, 2, NULL),  -- cut tm
-    (306, 30600, 46, 21, 2, NULL),  -- roar tm
-    (306, 30600, 53, 21, 2, NULL),  -- flamethrower tm
-    (306, 30600, 57, 21, 2, NULL),  -- surf tm
-    (306, 30600, 58, 21, 2, NULL),  -- ice-beam tm
-    (306, 30600, 59, 21, 2, NULL),  -- blizzard tm
-    (306, 30600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (306, 30600, 70, 21, 2, NULL),  -- strength tm
-    (306, 30600, 76, 21, 2, NULL),  -- solar-beam tm
-    (306, 30600, 85, 21, 2, NULL),  -- thunderbolt tm
-    (306, 30600, 86, 21, 2, NULL),  -- thunder-wave tm
-    (306, 30600, 87, 21, 2, NULL),  -- thunder tm
-    (306, 30600, 89, 21, 2, NULL),  -- earthquake tm
-    (306, 30600, 91, 21, 2, NULL),  -- dig tm
-    (306, 30600, 104, 21, 2, NULL),  -- double-team tm
-    (306, 30600, 126, 21, 2, NULL),  -- fire-blast tm
-    (306, 30600, 156, 21, 2, NULL),  -- rest tm
-    (306, 30600, 157, 21, 2, NULL),  -- rock-slide tm
-    (306, 30600, 164, 21, 2, NULL),  -- substitute tm
-    (306, 30600, 182, 21, 2, NULL),  -- protect tm
-    (306, 30600, 201, 21, 2, NULL),  -- sandstorm tm
-    (306, 30600, 203, 21, 2, NULL),  -- endure tm
-    (306, 30600, 207, 21, 2, NULL),  -- swagger tm
-    (306, 30600, 213, 21, 2, NULL),  -- attract tm
-    (306, 30600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (306, 30600, 231, 21, 2, NULL),  -- iron-tail tm
-    (306, 30600, 240, 21, 2, NULL),  -- rain-dance tm
-    (306, 30600, 241, 21, 2, NULL),  -- sunny-day tm
-    (306, 30600, 249, 21, 2, NULL),  -- rock-smash tm
-    (306, 30600, 263, 21, 2, NULL),  -- facade tm
-    (306, 30600, 264, 21, 2, NULL),  -- focus-punch tm
-    (306, 30600, 269, 21, 2, NULL),  -- taunt tm
-    (306, 30600, 280, 21, 2, NULL),  -- brick-break tm
-    (306, 30600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (306, 30600, 332, 21, 2, NULL),  -- aerial-ace tm
-    (306, 30600, 337, 21, 2, NULL),  -- dragon-claw tm
-    (306, 30600, 351, 21, 2, NULL),  -- shock-wave tm
-    (306, 30600, 352, 21, 2, NULL),  -- water-pulse tm
-    (306, 30600, 371, 21, 2, NULL),  -- payback tm
-    (306, 30600, 374, 21, 2, NULL),  -- fling tm
-    (306, 30600, 397, 21, 2, NULL),  -- rock-polish tm
-    (306, 30600, 399, 21, 2, NULL),  -- dark-pulse tm
-    (306, 30600, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (306, 30600, 411, 21, 2, NULL),  -- focus-blast tm
-    (306, 30600, 416, 21, 2, NULL),  -- giga-impact tm
-    (306, 30600, 419, 21, 2, NULL),  -- avalanche tm
-    (306, 30600, 421, 21, 2, NULL),  -- shadow-claw tm
-    (306, 30600, 430, 21, 2, NULL),  -- flash-cannon tm
-    (306, 30600, 431, 21, 2, NULL),  -- rock-climb tm
-    (306, 30600, 444, 21, 2, NULL),  -- stone-edge tm
-    (306, 30600, 446, 21, 2, NULL),  -- stealth-rock tm
-    (306, 30600, 523, 21, 2, NULL),  -- bulldoze tm
-    (306, 30600, 23, 21, 5, NULL),  -- stomp egg
-    (306, 30600, 34, 21, 5, NULL),  -- body-slam egg
-    (306, 30600, 103, 21, 5, NULL),  -- screech egg
-    (306, 30600, 174, 21, 5, NULL),  -- curse egg
-    (306, 30600, 179, 21, 5, NULL),  -- reversal egg
-    (306, 30600, 189, 21, 5, NULL),  -- mud-slap egg
-    (306, 30600, 276, 21, 5, NULL),  -- superpower egg
-    (306, 30600, 283, 21, 5, NULL),  -- endeavor egg
-    (306, 30600, 407, 21, 5, NULL),  -- dragon-rush egg
-    (306, 30600, 442, 21, 5, NULL),  -- iron-head egg
-    (306, 30600, 457, 21, 5, NULL),  -- head-smash egg
-    (306, 30600, 33, 21, 8, NULL),  -- tackle start
-    (306, 30600, 106, 21, 8, NULL),  -- harden start
-    (306, 30600, 232, 21, 8, NULL),  -- metal-claw start
-    (306, 30600, 317, 21, 8, NULL),  -- rock-tomb start
-    (307, 30700, 67, 21, 1, 4),  -- low-kick lv4
-    (307, 30700, 93, 21, 1, 7),  -- confusion lv7
-    (307, 30700, 197, 21, 1, 9),  -- detect lv9
-    (307, 30700, 203, 21, 1, 12),  -- endure lv12
-    (307, 30700, 364, 21, 1, 15),  -- feint lv15
-    (307, 30700, 395, 21, 1, 17),  -- force-palm lv17
-    (307, 30700, 60, 21, 1, 20),  -- psybeam lv20
-    (307, 30700, 347, 21, 1, 23),  -- calm-mind lv23
-    (307, 30700, 170, 21, 1, 25),  -- mind-reader lv25
-    (307, 30700, 136, 21, 1, 28),  -- high-jump-kick lv28
-    (307, 30700, 244, 21, 1, 31),  -- psych-up lv31
-    (307, 30700, 367, 21, 1, 33),  -- acupressure lv33
-    (307, 30700, 379, 21, 1, 36),  -- power-trick lv36
-    (307, 30700, 179, 21, 1, 39),  -- reversal lv39
-    (307, 30700, 105, 21, 1, 41),  -- recover lv41
-    (307, 30700, 68, 21, 1, 44),  -- counter lv44
-    (307, 30700, 70, 21, 2, NULL),  -- strength tm
-    (307, 30700, 94, 21, 2, NULL),  -- psychic tm
-    (307, 30700, 104, 21, 2, NULL),  -- double-team tm
-    (307, 30700, 113, 21, 2, NULL),  -- light-screen tm
-    (307, 30700, 115, 21, 2, NULL),  -- reflect tm
-    (307, 30700, 138, 21, 2, NULL),  -- dream-eater tm
-    (307, 30700, 148, 21, 2, NULL),  -- flash tm
-    (307, 30700, 156, 21, 2, NULL),  -- rest tm
-    (307, 30700, 157, 21, 2, NULL),  -- rock-slide tm
-    (307, 30700, 164, 21, 2, NULL),  -- substitute tm
-    (307, 30700, 182, 21, 2, NULL),  -- protect tm
-    (307, 30700, 203, 21, 2, NULL),  -- endure tm
-    (307, 30700, 207, 21, 2, NULL),  -- swagger tm
-    (307, 30700, 213, 21, 2, NULL),  -- attract tm
-    (307, 30700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (307, 30700, 240, 21, 2, NULL),  -- rain-dance tm
-    (307, 30700, 241, 21, 2, NULL),  -- sunny-day tm
-    (307, 30700, 244, 21, 2, NULL),  -- psych-up tm
-    (307, 30700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (307, 30700, 249, 21, 2, NULL),  -- rock-smash tm
-    (307, 30700, 263, 21, 2, NULL),  -- facade tm
-    (307, 30700, 264, 21, 2, NULL),  -- focus-punch tm
-    (307, 30700, 278, 21, 2, NULL),  -- recycle tm
-    (307, 30700, 280, 21, 2, NULL),  -- brick-break tm
-    (307, 30700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (307, 30700, 339, 21, 2, NULL),  -- bulk-up tm
-    (307, 30700, 347, 21, 2, NULL),  -- calm-mind tm
-    (307, 30700, 374, 21, 2, NULL),  -- fling tm
-    (307, 30700, 398, 21, 2, NULL),  -- poison-jab tm
-    (307, 30700, 409, 21, 2, NULL),  -- drain-punch tm
-    (307, 30700, 411, 21, 2, NULL),  -- focus-blast tm
-    (307, 30700, 447, 21, 2, NULL),  -- grass-knot tm
-    (307, 30700, 490, 21, 2, NULL),  -- low-sweep tm
-    (307, 30700, 526, 21, 2, NULL),  -- work-up tm
-    (307, 30700, 7, 21, 5, NULL),  -- fire-punch egg
-    (307, 30700, 8, 21, 5, NULL),  -- ice-punch egg
-    (307, 30700, 9, 21, 5, NULL),  -- thunder-punch egg
-    (307, 30700, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (307, 30700, 226, 21, 5, NULL),  -- baton-pass egg
-    (307, 30700, 252, 21, 5, NULL),  -- fake-out egg
-    (307, 30700, 384, 21, 5, NULL),  -- power-swap egg
-    (307, 30700, 385, 21, 5, NULL),  -- guard-swap egg
-    (307, 30700, 418, 21, 5, NULL),  -- bullet-punch egg
-    (307, 30700, 427, 21, 5, NULL),  -- psycho-cut egg
-    (307, 30700, 501, 21, 5, NULL),  -- quick-guard egg
-    (307, 30700, 1, 21, 8, NULL),  -- pound start
-    (308, 30800, 67, 21, 1, 4),  -- low-kick lv4
-    (308, 30800, 93, 21, 1, 7),  -- confusion lv7
-    (308, 30800, 197, 21, 1, 9),  -- detect lv9
-    (308, 30800, 203, 21, 1, 12),  -- endure lv12
-    (308, 30800, 364, 21, 1, 15),  -- feint lv15
-    (308, 30800, 395, 21, 1, 17),  -- force-palm lv17
-    (308, 30800, 60, 21, 1, 20),  -- psybeam lv20
-    (308, 30800, 347, 21, 1, 23),  -- calm-mind lv23
-    (308, 30800, 170, 21, 1, 25),  -- mind-reader lv25
-    (308, 30800, 136, 21, 1, 28),  -- high-jump-kick lv28
-    (308, 30800, 244, 21, 1, 31),  -- psych-up lv31
-    (308, 30800, 367, 21, 1, 33),  -- acupressure lv33
-    (308, 30800, 379, 21, 1, 36),  -- power-trick lv36
-    (308, 30800, 179, 21, 1, 42),  -- reversal lv42
-    (308, 30800, 105, 21, 1, 47),  -- recover lv47
-    (308, 30800, 68, 21, 1, 53),  -- counter lv53
-    (308, 30800, 63, 21, 2, NULL),  -- hyper-beam tm
-    (308, 30800, 70, 21, 2, NULL),  -- strength tm
-    (308, 30800, 94, 21, 2, NULL),  -- psychic tm
-    (308, 30800, 104, 21, 2, NULL),  -- double-team tm
-    (308, 30800, 113, 21, 2, NULL),  -- light-screen tm
-    (308, 30800, 115, 21, 2, NULL),  -- reflect tm
-    (308, 30800, 138, 21, 2, NULL),  -- dream-eater tm
-    (308, 30800, 148, 21, 2, NULL),  -- flash tm
-    (308, 30800, 156, 21, 2, NULL),  -- rest tm
-    (308, 30800, 157, 21, 2, NULL),  -- rock-slide tm
-    (308, 30800, 164, 21, 2, NULL),  -- substitute tm
-    (308, 30800, 182, 21, 2, NULL),  -- protect tm
-    (308, 30800, 203, 21, 2, NULL),  -- endure tm
-    (308, 30800, 207, 21, 2, NULL),  -- swagger tm
-    (308, 30800, 213, 21, 2, NULL),  -- attract tm
-    (308, 30800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (308, 30800, 240, 21, 2, NULL),  -- rain-dance tm
-    (308, 30800, 241, 21, 2, NULL),  -- sunny-day tm
-    (308, 30800, 244, 21, 2, NULL),  -- psych-up tm
-    (308, 30800, 247, 21, 2, NULL),  -- shadow-ball tm
-    (308, 30800, 249, 21, 2, NULL),  -- rock-smash tm
-    (308, 30800, 263, 21, 2, NULL),  -- facade tm
-    (308, 30800, 264, 21, 2, NULL),  -- focus-punch tm
-    (308, 30800, 278, 21, 2, NULL),  -- recycle tm
-    (308, 30800, 280, 21, 2, NULL),  -- brick-break tm
-    (308, 30800, 317, 21, 2, NULL),  -- rock-tomb tm
-    (308, 30800, 339, 21, 2, NULL),  -- bulk-up tm
-    (308, 30800, 347, 21, 2, NULL),  -- calm-mind tm
-    (308, 30800, 374, 21, 2, NULL),  -- fling tm
-    (308, 30800, 398, 21, 2, NULL),  -- poison-jab tm
-    (308, 30800, 409, 21, 2, NULL),  -- drain-punch tm
-    (308, 30800, 411, 21, 2, NULL),  -- focus-blast tm
-    (308, 30800, 412, 21, 2, NULL),  -- energy-ball tm
-    (308, 30800, 416, 21, 2, NULL),  -- giga-impact tm
-    (308, 30800, 447, 21, 2, NULL),  -- grass-knot tm
-    (308, 30800, 490, 21, 2, NULL),  -- low-sweep tm
-    (308, 30800, 526, 21, 2, NULL),  -- work-up tm
-    (308, 30800, 7, 21, 5, NULL),  -- fire-punch egg
-    (308, 30800, 8, 21, 5, NULL),  -- ice-punch egg
-    (308, 30800, 9, 21, 5, NULL),  -- thunder-punch egg
-    (308, 30800, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (308, 30800, 226, 21, 5, NULL),  -- baton-pass egg
-    (308, 30800, 252, 21, 5, NULL),  -- fake-out egg
-    (308, 30800, 384, 21, 5, NULL),  -- power-swap egg
-    (308, 30800, 385, 21, 5, NULL),  -- guard-swap egg
-    (308, 30800, 418, 21, 5, NULL),  -- bullet-punch egg
-    (308, 30800, 427, 21, 5, NULL),  -- psycho-cut egg
-    (308, 30800, 501, 21, 5, NULL),  -- quick-guard egg
-    (308, 30800, 1, 21, 8, NULL),  -- pound start
-    (308, 30800, 7, 21, 8, NULL),  -- fire-punch start
-    (308, 30800, 8, 21, 8, NULL),  -- ice-punch start
-    (308, 30800, 9, 21, 8, NULL),  -- thunder-punch start
-    (308, 30800, 93, 21, 8, NULL),  -- confusion start
-    (308, 30800, 197, 21, 8, NULL),  -- detect start
-    (308, 30800, 428, 21, 8, NULL),  -- zen-headbutt start
-    (309, 30900, 43, 21, 1, 4),  -- leer lv4
-    (309, 30900, 336, 21, 1, 8),  -- howl lv8
-    (309, 30900, 98, 21, 1, 12),  -- quick-attack lv12
-    (309, 30900, 351, 21, 1, 16),  -- shock-wave lv16
-    (309, 30900, 44, 21, 1, 20),  -- bite lv20
-    (309, 30900, 422, 21, 1, 24),  -- thunder-fang lv24
-    (309, 30900, 46, 21, 1, 28),  -- roar lv28
-    (309, 30900, 435, 21, 1, 32),  -- discharge lv32
-    (309, 30900, 268, 21, 1, 36),  -- charge lv36
-    (309, 30900, 528, 21, 1, 40),  -- wild-charge lv40
-    (309, 30900, 87, 21, 1, 44),  -- thunder lv44
-    (309, 30900, 46, 21, 2, NULL),  -- roar tm
-    (309, 30900, 53, 21, 2, NULL),  -- flamethrower tm
-    (309, 30900, 70, 21, 2, NULL),  -- strength tm
-    (309, 30900, 85, 21, 2, NULL),  -- thunderbolt tm
-    (309, 30900, 86, 21, 2, NULL),  -- thunder-wave tm
-    (309, 30900, 87, 21, 2, NULL),  -- thunder tm
-    (309, 30900, 104, 21, 2, NULL),  -- double-team tm
-    (309, 30900, 113, 21, 2, NULL),  -- light-screen tm
-    (309, 30900, 148, 21, 2, NULL),  -- flash tm
-    (309, 30900, 156, 21, 2, NULL),  -- rest tm
-    (309, 30900, 164, 21, 2, NULL),  -- substitute tm
-    (309, 30900, 168, 21, 2, NULL),  -- thief tm
-    (309, 30900, 182, 21, 2, NULL),  -- protect tm
-    (309, 30900, 203, 21, 2, NULL),  -- endure tm
-    (309, 30900, 207, 21, 2, NULL),  -- swagger tm
-    (309, 30900, 213, 21, 2, NULL),  -- attract tm
-    (309, 30900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (309, 30900, 231, 21, 2, NULL),  -- iron-tail tm
-    (309, 30900, 240, 21, 2, NULL),  -- rain-dance tm
-    (309, 30900, 263, 21, 2, NULL),  -- facade tm
-    (309, 30900, 351, 21, 2, NULL),  -- shock-wave tm
-    (309, 30900, 451, 21, 2, NULL),  -- charge-beam tm
-    (309, 30900, 521, 21, 2, NULL),  -- volt-switch tm
-    (309, 30900, 555, 21, 2, NULL),  -- snarl tm
-    (309, 30900, 29, 21, 5, NULL),  -- headbutt egg
-    (309, 30900, 129, 21, 5, NULL),  -- swift egg
-    (309, 30900, 174, 21, 5, NULL),  -- curse egg
-    (309, 30900, 209, 21, 5, NULL),  -- spark egg
-    (309, 30900, 242, 21, 5, NULL),  -- crunch egg
-    (309, 30900, 253, 21, 5, NULL),  -- uproar egg
-    (309, 30900, 415, 21, 5, NULL),  -- switcheroo egg
-    (309, 30900, 422, 21, 5, NULL),  -- thunder-fang egg
-    (309, 30900, 423, 21, 5, NULL),  -- ice-fang egg
-    (309, 30900, 424, 21, 5, NULL),  -- fire-fang egg
-    (309, 30900, 435, 21, 5, NULL),  -- discharge egg
-    (309, 30900, 486, 21, 5, NULL),  -- electro-ball egg
-    (309, 30900, 598, 21, 5, NULL),  -- eerie-impulse egg
-    (309, 30900, 33, 21, 8, NULL),  -- tackle start
-    (309, 30900, 86, 21, 8, NULL),  -- thunder-wave start
-    (310, 31000, 98, 21, 1, 12),  -- quick-attack lv12
-    (310, 31000, 351, 21, 1, 16),  -- shock-wave lv16
-    (310, 31000, 44, 21, 1, 20),  -- bite lv20
-    (310, 31000, 422, 21, 1, 24),  -- thunder-fang lv24
-    (310, 31000, 46, 21, 1, 30),  -- roar lv30
-    (310, 31000, 435, 21, 1, 36),  -- discharge lv36
-    (310, 31000, 268, 21, 1, 42),  -- charge lv42
-    (310, 31000, 528, 21, 1, 48),  -- wild-charge lv48
-    (310, 31000, 87, 21, 1, 54),  -- thunder lv54
-    (310, 31000, 604, 21, 1, 60),  -- electric-terrain lv60
-    (310, 31000, 46, 21, 2, NULL),  -- roar tm
-    (310, 31000, 53, 21, 2, NULL),  -- flamethrower tm
-    (310, 31000, 63, 21, 2, NULL),  -- hyper-beam tm
-    (310, 31000, 70, 21, 2, NULL),  -- strength tm
-    (310, 31000, 85, 21, 2, NULL),  -- thunderbolt tm
-    (310, 31000, 86, 21, 2, NULL),  -- thunder-wave tm
-    (310, 31000, 87, 21, 2, NULL),  -- thunder tm
-    (310, 31000, 104, 21, 2, NULL),  -- double-team tm
-    (310, 31000, 113, 21, 2, NULL),  -- light-screen tm
-    (310, 31000, 148, 21, 2, NULL),  -- flash tm
-    (310, 31000, 156, 21, 2, NULL),  -- rest tm
-    (310, 31000, 164, 21, 2, NULL),  -- substitute tm
-    (310, 31000, 168, 21, 2, NULL),  -- thief tm
-    (310, 31000, 182, 21, 2, NULL),  -- protect tm
-    (310, 31000, 203, 21, 2, NULL),  -- endure tm
-    (310, 31000, 207, 21, 2, NULL),  -- swagger tm
-    (310, 31000, 213, 21, 2, NULL),  -- attract tm
-    (310, 31000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (310, 31000, 231, 21, 2, NULL),  -- iron-tail tm
-    (310, 31000, 240, 21, 2, NULL),  -- rain-dance tm
-    (310, 31000, 263, 21, 2, NULL),  -- facade tm
-    (310, 31000, 315, 21, 2, NULL),  -- overheat tm
-    (310, 31000, 351, 21, 2, NULL),  -- shock-wave tm
-    (310, 31000, 416, 21, 2, NULL),  -- giga-impact tm
-    (310, 31000, 451, 21, 2, NULL),  -- charge-beam tm
-    (310, 31000, 521, 21, 2, NULL),  -- volt-switch tm
-    (310, 31000, 555, 21, 2, NULL),  -- snarl tm
-    (310, 31000, 29, 21, 5, NULL),  -- headbutt egg
-    (310, 31000, 129, 21, 5, NULL),  -- swift egg
-    (310, 31000, 174, 21, 5, NULL),  -- curse egg
-    (310, 31000, 209, 21, 5, NULL),  -- spark egg
-    (310, 31000, 242, 21, 5, NULL),  -- crunch egg
-    (310, 31000, 253, 21, 5, NULL),  -- uproar egg
-    (310, 31000, 415, 21, 5, NULL),  -- switcheroo egg
-    (310, 31000, 422, 21, 5, NULL),  -- thunder-fang egg
-    (310, 31000, 423, 21, 5, NULL),  -- ice-fang egg
-    (310, 31000, 424, 21, 5, NULL),  -- fire-fang egg
-    (310, 31000, 435, 21, 5, NULL),  -- discharge egg
-    (310, 31000, 486, 21, 5, NULL),  -- electro-ball egg
-    (310, 31000, 598, 21, 5, NULL),  -- eerie-impulse egg
-    (310, 31000, 33, 21, 8, NULL),  -- tackle start
-    (310, 31000, 43, 21, 8, NULL),  -- leer start
-    (310, 31000, 86, 21, 8, NULL),  -- thunder-wave start
-    (310, 31000, 336, 21, 8, NULL),  -- howl start
-    (310, 31000, 424, 21, 8, NULL),  -- fire-fang start
-    (311, 31100, 270, 21, 1, 4),  -- helping-hand lv4
-    (311, 31100, 209, 21, 1, 7),  -- spark lv7
-    (311, 31100, 227, 21, 1, 10),  -- encore lv10
-    (311, 31100, 285, 21, 1, 13),  -- skill-swap lv13
-    (311, 31100, 129, 21, 1, 16),  -- swift lv16
-    (311, 31100, 486, 21, 1, 19),  -- electro-ball lv19
-    (311, 31100, 383, 21, 1, 22),  -- copycat lv22
-    (311, 31100, 204, 21, 1, 25),  -- charm lv25
-    (311, 31100, 268, 21, 1, 28),  -- charge lv28
-    (311, 31100, 435, 21, 1, 31),  -- discharge lv31
-    (311, 31100, 226, 21, 1, 34),  -- baton-pass lv34
-    (311, 31100, 97, 21, 1, 37),  -- agility lv37
-    (311, 31100, 387, 21, 1, 40),  -- last-resort lv40
-    (311, 31100, 87, 21, 1, 43),  -- thunder lv43
-    (311, 31100, 417, 21, 1, 46),  -- nasty-plot lv46
-    (311, 31100, 494, 21, 1, 49),  -- entrainment lv49
-    (311, 31100, 85, 21, 2, NULL),  -- thunderbolt tm
-    (311, 31100, 86, 21, 2, NULL),  -- thunder-wave tm
-    (311, 31100, 87, 21, 2, NULL),  -- thunder tm
-    (311, 31100, 104, 21, 2, NULL),  -- double-team tm
-    (311, 31100, 113, 21, 2, NULL),  -- light-screen tm
-    (311, 31100, 148, 21, 2, NULL),  -- flash tm
-    (311, 31100, 156, 21, 2, NULL),  -- rest tm
-    (311, 31100, 164, 21, 2, NULL),  -- substitute tm
-    (311, 31100, 182, 21, 2, NULL),  -- protect tm
-    (311, 31100, 203, 21, 2, NULL),  -- endure tm
-    (311, 31100, 207, 21, 2, NULL),  -- swagger tm
-    (311, 31100, 213, 21, 2, NULL),  -- attract tm
-    (311, 31100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (311, 31100, 231, 21, 2, NULL),  -- iron-tail tm
-    (311, 31100, 240, 21, 2, NULL),  -- rain-dance tm
-    (311, 31100, 263, 21, 2, NULL),  -- facade tm
-    (311, 31100, 285, 21, 2, NULL),  -- skill-swap tm
-    (311, 31100, 351, 21, 2, NULL),  -- shock-wave tm
-    (311, 31100, 374, 21, 2, NULL),  -- fling tm
-    (311, 31100, 417, 21, 2, NULL),  -- nasty-plot tm
-    (311, 31100, 447, 21, 2, NULL),  -- grass-knot tm
-    (311, 31100, 451, 21, 2, NULL),  -- charge-beam tm
-    (311, 31100, 521, 21, 2, NULL),  -- volt-switch tm
-    (311, 31100, 47, 21, 5, NULL),  -- sing egg
-    (311, 31100, 186, 21, 5, NULL),  -- sweet-kiss egg
-    (311, 31100, 204, 21, 5, NULL),  -- charm egg
-    (311, 31100, 273, 21, 5, NULL),  -- wish egg
-    (311, 31100, 313, 21, 5, NULL),  -- fake-tears egg
-    (311, 31100, 435, 21, 5, NULL),  -- discharge egg
-    (311, 31100, 715, 21, 5, NULL),  -- tearful-look egg
-    (311, 31100, 45, 21, 8, NULL),  -- growl start
-    (311, 31100, 86, 21, 8, NULL),  -- thunder-wave start
-    (311, 31100, 98, 21, 8, NULL),  -- quick-attack start
-    (311, 31100, 589, 21, 8, NULL),  -- play-nice start
-    (311, 31100, 609, 21, 8, NULL),  -- nuzzle start
-    (312, 31200, 270, 21, 1, 4),  -- helping-hand lv4
-    (312, 31200, 209, 21, 1, 7),  -- spark lv7
-    (312, 31200, 227, 21, 1, 10),  -- encore lv10
-    (312, 31200, 415, 21, 1, 13),  -- switcheroo lv13
-    (312, 31200, 129, 21, 1, 16),  -- swift lv16
-    (312, 31200, 486, 21, 1, 19),  -- electro-ball lv19
-    (312, 31200, 383, 21, 1, 22),  -- copycat lv22
-    (312, 31200, 313, 21, 1, 25),  -- fake-tears lv25
-    (312, 31200, 268, 21, 1, 28),  -- charge lv28
-    (312, 31200, 435, 21, 1, 31),  -- discharge lv31
-    (312, 31200, 226, 21, 1, 34),  -- baton-pass lv34
-    (312, 31200, 97, 21, 1, 37),  -- agility lv37
-    (312, 31200, 387, 21, 1, 40),  -- last-resort lv40
-    (312, 31200, 87, 21, 1, 43),  -- thunder lv43
-    (312, 31200, 417, 21, 1, 46),  -- nasty-plot lv46
-    (312, 31200, 494, 21, 1, 49),  -- entrainment lv49
-    (312, 31200, 85, 21, 2, NULL),  -- thunderbolt tm
-    (312, 31200, 86, 21, 2, NULL),  -- thunder-wave tm
-    (312, 31200, 87, 21, 2, NULL),  -- thunder tm
-    (312, 31200, 104, 21, 2, NULL),  -- double-team tm
-    (312, 31200, 113, 21, 2, NULL),  -- light-screen tm
-    (312, 31200, 148, 21, 2, NULL),  -- flash tm
-    (312, 31200, 156, 21, 2, NULL),  -- rest tm
-    (312, 31200, 164, 21, 2, NULL),  -- substitute tm
-    (312, 31200, 182, 21, 2, NULL),  -- protect tm
-    (312, 31200, 203, 21, 2, NULL),  -- endure tm
-    (312, 31200, 207, 21, 2, NULL),  -- swagger tm
-    (312, 31200, 213, 21, 2, NULL),  -- attract tm
-    (312, 31200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (312, 31200, 231, 21, 2, NULL),  -- iron-tail tm
-    (312, 31200, 240, 21, 2, NULL),  -- rain-dance tm
-    (312, 31200, 263, 21, 2, NULL),  -- facade tm
-    (312, 31200, 351, 21, 2, NULL),  -- shock-wave tm
-    (312, 31200, 374, 21, 2, NULL),  -- fling tm
-    (312, 31200, 417, 21, 2, NULL),  -- nasty-plot tm
-    (312, 31200, 447, 21, 2, NULL),  -- grass-knot tm
-    (312, 31200, 451, 21, 2, NULL),  -- charge-beam tm
-    (312, 31200, 521, 21, 2, NULL),  -- volt-switch tm
-    (312, 31200, 47, 21, 5, NULL),  -- sing egg
-    (312, 31200, 186, 21, 5, NULL),  -- sweet-kiss egg
-    (312, 31200, 204, 21, 5, NULL),  -- charm egg
-    (312, 31200, 273, 21, 5, NULL),  -- wish egg
-    (312, 31200, 313, 21, 5, NULL),  -- fake-tears egg
-    (312, 31200, 435, 21, 5, NULL),  -- discharge egg
-    (312, 31200, 715, 21, 5, NULL),  -- tearful-look egg
-    (312, 31200, 45, 21, 8, NULL),  -- growl start
-    (312, 31200, 86, 21, 8, NULL),  -- thunder-wave start
-    (312, 31200, 98, 21, 8, NULL),  -- quick-attack start
-    (312, 31200, 589, 21, 8, NULL),  -- play-nice start
-    (312, 31200, 609, 21, 8, NULL),  -- nuzzle start
-    (313, 31300, 104, 21, 1, 5),  -- double-team lv5
-    (313, 31300, 109, 21, 1, 8),  -- confuse-ray lv8
-    (313, 31300, 98, 21, 1, 12),  -- quick-attack lv12
-    (313, 31300, 522, 21, 1, 15),  -- struggle-bug lv15
-    (313, 31300, 236, 21, 1, 19),  -- moonlight lv19
-    (313, 31300, 294, 21, 1, 22),  -- tail-glow lv22
-    (313, 31300, 227, 21, 1, 26),  -- encore lv26
-    (313, 31300, 182, 21, 1, 29),  -- protect lv29
-    (313, 31300, 428, 21, 1, 33),  -- zen-headbutt lv33
-    (313, 31300, 270, 21, 1, 36),  -- helping-hand lv36
-    (313, 31300, 405, 21, 1, 40),  -- bug-buzz lv40
-    (313, 31300, 583, 21, 1, 43),  -- play-rough lv43
-    (313, 31300, 38, 21, 1, 47),  -- double-edge lv47
-    (313, 31300, 611, 21, 1, 50),  -- infestation lv50
-    (313, 31300, 76, 21, 2, NULL),  -- solar-beam tm
-    (313, 31300, 85, 21, 2, NULL),  -- thunderbolt tm
-    (313, 31300, 86, 21, 2, NULL),  -- thunder-wave tm
-    (313, 31300, 87, 21, 2, NULL),  -- thunder tm
-    (313, 31300, 104, 21, 2, NULL),  -- double-team tm
-    (313, 31300, 113, 21, 2, NULL),  -- light-screen tm
-    (313, 31300, 148, 21, 2, NULL),  -- flash tm
-    (313, 31300, 156, 21, 2, NULL),  -- rest tm
-    (313, 31300, 164, 21, 2, NULL),  -- substitute tm
-    (313, 31300, 168, 21, 2, NULL),  -- thief tm
-    (313, 31300, 182, 21, 2, NULL),  -- protect tm
-    (313, 31300, 202, 21, 2, NULL),  -- giga-drain tm
-    (313, 31300, 203, 21, 2, NULL),  -- endure tm
-    (313, 31300, 207, 21, 2, NULL),  -- swagger tm
-    (313, 31300, 213, 21, 2, NULL),  -- attract tm
-    (313, 31300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (313, 31300, 240, 21, 2, NULL),  -- rain-dance tm
-    (313, 31300, 241, 21, 2, NULL),  -- sunny-day tm
-    (313, 31300, 244, 21, 2, NULL),  -- psych-up tm
-    (313, 31300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (313, 31300, 263, 21, 2, NULL),  -- facade tm
-    (313, 31300, 264, 21, 2, NULL),  -- focus-punch tm
-    (313, 31300, 280, 21, 2, NULL),  -- brick-break tm
-    (313, 31300, 332, 21, 2, NULL),  -- aerial-ace tm
-    (313, 31300, 351, 21, 2, NULL),  -- shock-wave tm
-    (313, 31300, 352, 21, 2, NULL),  -- water-pulse tm
-    (313, 31300, 355, 21, 2, NULL),  -- roost tm
-    (313, 31300, 369, 21, 2, NULL),  -- u-turn tm
-    (313, 31300, 374, 21, 2, NULL),  -- fling tm
-    (313, 31300, 405, 21, 2, NULL),  -- bug-buzz tm
-    (313, 31300, 451, 21, 2, NULL),  -- charge-beam tm
-    (313, 31300, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (313, 31300, 69, 21, 5, NULL),  -- seismic-toss egg
-    (313, 31300, 226, 21, 5, NULL),  -- baton-pass egg
-    (313, 31300, 227, 21, 5, NULL),  -- encore egg
-    (313, 31300, 271, 21, 5, NULL),  -- trick egg
-    (313, 31300, 679, 21, 5, NULL),  -- lunge egg
-    (313, 31300, 33, 21, 8, NULL),  -- tackle start
-    (313, 31300, 589, 21, 8, NULL),  -- play-nice start
-    (314, 31400, 230, 21, 1, 5),  -- sweet-scent lv5
-    (314, 31400, 204, 21, 1, 9),  -- charm lv9
-    (314, 31400, 98, 21, 1, 12),  -- quick-attack lv12
-    (314, 31400, 522, 21, 1, 15),  -- struggle-bug lv15
-    (314, 31400, 236, 21, 1, 19),  -- moonlight lv19
-    (314, 31400, 273, 21, 1, 22),  -- wish lv22
-    (314, 31400, 227, 21, 1, 26),  -- encore lv26
-    (314, 31400, 260, 21, 1, 29),  -- flatter lv29
-    (314, 31400, 428, 21, 1, 33),  -- zen-headbutt lv33
-    (314, 31400, 270, 21, 1, 36),  -- helping-hand lv36
-    (314, 31400, 405, 21, 1, 40),  -- bug-buzz lv40
-    (314, 31400, 583, 21, 1, 43),  -- play-rough lv43
-    (314, 31400, 343, 21, 1, 47),  -- covet lv47
-    (314, 31400, 611, 21, 1, 50),  -- infestation lv50
-    (314, 31400, 76, 21, 2, NULL),  -- solar-beam tm
-    (314, 31400, 85, 21, 2, NULL),  -- thunderbolt tm
-    (314, 31400, 86, 21, 2, NULL),  -- thunder-wave tm
-    (314, 31400, 87, 21, 2, NULL),  -- thunder tm
-    (314, 31400, 104, 21, 2, NULL),  -- double-team tm
-    (314, 31400, 113, 21, 2, NULL),  -- light-screen tm
-    (314, 31400, 148, 21, 2, NULL),  -- flash tm
-    (314, 31400, 156, 21, 2, NULL),  -- rest tm
-    (314, 31400, 164, 21, 2, NULL),  -- substitute tm
-    (314, 31400, 168, 21, 2, NULL),  -- thief tm
-    (314, 31400, 182, 21, 2, NULL),  -- protect tm
-    (314, 31400, 202, 21, 2, NULL),  -- giga-drain tm
-    (314, 31400, 203, 21, 2, NULL),  -- endure tm
-    (314, 31400, 207, 21, 2, NULL),  -- swagger tm
-    (314, 31400, 213, 21, 2, NULL),  -- attract tm
-    (314, 31400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (314, 31400, 240, 21, 2, NULL),  -- rain-dance tm
-    (314, 31400, 241, 21, 2, NULL),  -- sunny-day tm
-    (314, 31400, 244, 21, 2, NULL),  -- psych-up tm
-    (314, 31400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (314, 31400, 263, 21, 2, NULL),  -- facade tm
-    (314, 31400, 264, 21, 2, NULL),  -- focus-punch tm
-    (314, 31400, 280, 21, 2, NULL),  -- brick-break tm
-    (314, 31400, 332, 21, 2, NULL),  -- aerial-ace tm
-    (314, 31400, 351, 21, 2, NULL),  -- shock-wave tm
-    (314, 31400, 352, 21, 2, NULL),  -- water-pulse tm
-    (314, 31400, 355, 21, 2, NULL),  -- roost tm
-    (314, 31400, 369, 21, 2, NULL),  -- u-turn tm
-    (314, 31400, 374, 21, 2, NULL),  -- fling tm
-    (314, 31400, 405, 21, 2, NULL),  -- bug-buzz tm
-    (314, 31400, 451, 21, 2, NULL),  -- charge-beam tm
-    (314, 31400, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (314, 31400, 74, 21, 5, NULL),  -- growth egg
-    (314, 31400, 109, 21, 5, NULL),  -- confuse-ray egg
-    (314, 31400, 226, 21, 5, NULL),  -- baton-pass egg
-    (314, 31400, 227, 21, 5, NULL),  -- encore egg
-    (314, 31400, 312, 21, 5, NULL),  -- aromatherapy egg
-    (314, 31400, 313, 21, 5, NULL),  -- fake-tears egg
-    (314, 31400, 33, 21, 8, NULL),  -- tackle start
-    (314, 31400, 589, 21, 8, NULL),  -- play-nice start
-    (315, 31500, 72, 21, 1, 5),  -- mega-drain lv5
-    (315, 31500, 73, 21, 1, 10),  -- leech-seed lv10
-    (315, 31500, 345, 21, 1, 15),  -- magical-leaf lv15
-    (315, 31500, 390, 21, 1, 20),  -- toxic-spikes lv20
-    (315, 31500, 230, 21, 1, 25),  -- sweet-scent lv25
-    (315, 31500, 202, 21, 1, 30),  -- giga-drain lv30
-    (315, 31500, 235, 21, 1, 35),  -- synthesis lv35
-    (315, 31500, 92, 21, 1, 40),  -- toxic lv40
-    (315, 31500, 572, 21, 1, 45),  -- petal-blizzard lv45
-    (315, 31500, 312, 21, 1, 50),  -- aromatherapy lv50
-    (315, 31500, 275, 21, 1, 55),  -- ingrain lv55
-    (315, 31500, 80, 21, 1, 60),  -- petal-dance lv60
-    (315, 31500, 14, 21, 2, NULL),  -- swords-dance tm
-    (315, 31500, 15, 21, 2, NULL),  -- cut tm
-    (315, 31500, 76, 21, 2, NULL),  -- solar-beam tm
-    (315, 31500, 92, 21, 2, NULL),  -- toxic tm
-    (315, 31500, 104, 21, 2, NULL),  -- double-team tm
-    (315, 31500, 148, 21, 2, NULL),  -- flash tm
-    (315, 31500, 156, 21, 2, NULL),  -- rest tm
-    (315, 31500, 164, 21, 2, NULL),  -- substitute tm
-    (315, 31500, 182, 21, 2, NULL),  -- protect tm
-    (315, 31500, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (315, 31500, 202, 21, 2, NULL),  -- giga-drain tm
-    (315, 31500, 203, 21, 2, NULL),  -- endure tm
-    (315, 31500, 207, 21, 2, NULL),  -- swagger tm
-    (315, 31500, 213, 21, 2, NULL),  -- attract tm
-    (315, 31500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (315, 31500, 240, 21, 2, NULL),  -- rain-dance tm
-    (315, 31500, 241, 21, 2, NULL),  -- sunny-day tm
-    (315, 31500, 244, 21, 2, NULL),  -- psych-up tm
-    (315, 31500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (315, 31500, 263, 21, 2, NULL),  -- facade tm
-    (315, 31500, 331, 21, 2, NULL),  -- bullet-seed tm
-    (315, 31500, 398, 21, 2, NULL),  -- poison-jab tm
-    (315, 31500, 412, 21, 2, NULL),  -- energy-ball tm
-    (315, 31500, 447, 21, 2, NULL),  -- grass-knot tm
-    (315, 31500, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (315, 31500, 42, 21, 5, NULL),  -- pin-missile egg
-    (315, 31500, 75, 21, 5, NULL),  -- razor-leaf egg
-    (315, 31500, 79, 21, 5, NULL),  -- sleep-powder egg
-    (315, 31500, 170, 21, 5, NULL),  -- mind-reader egg
-    (315, 31500, 178, 21, 5, NULL),  -- cotton-spore egg
-    (315, 31500, 191, 21, 5, NULL),  -- spikes egg
-    (315, 31500, 235, 21, 5, NULL),  -- synthesis egg
-    (315, 31500, 326, 21, 5, NULL),  -- extrasensory egg
-    (315, 31500, 402, 21, 5, NULL),  -- seed-bomb egg
-    (315, 31500, 437, 21, 5, NULL),  -- leaf-storm egg
-    (315, 31500, 438, 21, 5, NULL),  -- power-whip egg
-    (315, 31500, 791, 21, 5, NULL),  -- life-dew egg
-    (315, 31500, 40, 21, 8, NULL),  -- poison-sting start
-    (315, 31500, 71, 21, 8, NULL),  -- absorb start
-    (315, 31500, 74, 21, 8, NULL),  -- growth start
-    (315, 31500, 78, 21, 8, NULL),  -- stun-spore start
-    (315, 31500, 388, 21, 8, NULL),  -- worry-seed start
-    (316, 31600, 281, 21, 1, 5),  -- yawn lv5
-    (316, 31600, 139, 21, 1, 8),  -- poison-gas lv8
-    (316, 31600, 124, 21, 1, 10),  -- sludge lv10
-    (316, 31600, 133, 21, 1, 12),  -- amnesia lv12
-    (316, 31600, 491, 21, 1, 17),  -- acid-spray lv17
-    (316, 31600, 227, 21, 1, 20),  -- encore lv20
-    (316, 31600, 92, 21, 1, 25),  -- toxic lv25
-    (316, 31600, 254, 21, 1, 28),  -- stockpile lv28
-    (316, 31600, 255, 21, 1, 28),  -- spit-up lv28
-    (316, 31600, 256, 21, 1, 28),  -- swallow lv28
-    (316, 31600, 188, 21, 1, 33),  -- sludge-bomb lv33
-    (316, 31600, 380, 21, 1, 36),  -- gastro-acid lv36
-    (316, 31600, 562, 21, 1, 41),  -- belch lv41
-    (316, 31600, 220, 21, 1, 44),  -- pain-split lv44
-    (316, 31600, 441, 21, 1, 49),  -- gunk-shot lv49
-    (316, 31600, 58, 21, 2, NULL),  -- ice-beam tm
-    (316, 31600, 70, 21, 2, NULL),  -- strength tm
-    (316, 31600, 76, 21, 2, NULL),  -- solar-beam tm
-    (316, 31600, 92, 21, 2, NULL),  -- toxic tm
-    (316, 31600, 104, 21, 2, NULL),  -- double-team tm
-    (316, 31600, 138, 21, 2, NULL),  -- dream-eater tm
-    (316, 31600, 153, 21, 2, NULL),  -- explosion tm
-    (316, 31600, 156, 21, 2, NULL),  -- rest tm
-    (316, 31600, 164, 21, 2, NULL),  -- substitute tm
-    (316, 31600, 182, 21, 2, NULL),  -- protect tm
-    (316, 31600, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (316, 31600, 203, 21, 2, NULL),  -- endure tm
-    (316, 31600, 207, 21, 2, NULL),  -- swagger tm
-    (316, 31600, 213, 21, 2, NULL),  -- attract tm
-    (316, 31600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (316, 31600, 240, 21, 2, NULL),  -- rain-dance tm
-    (316, 31600, 241, 21, 2, NULL),  -- sunny-day tm
-    (316, 31600, 247, 21, 2, NULL),  -- shadow-ball tm
-    (316, 31600, 249, 21, 2, NULL),  -- rock-smash tm
-    (316, 31600, 263, 21, 2, NULL),  -- facade tm
-    (316, 31600, 331, 21, 2, NULL),  -- bullet-seed tm
-    (316, 31600, 351, 21, 2, NULL),  -- shock-wave tm
-    (316, 31600, 352, 21, 2, NULL),  -- water-pulse tm
-    (316, 31600, 123, 21, 5, NULL),  -- smog egg
-    (316, 31600, 151, 21, 5, NULL),  -- acid-armor egg
-    (316, 31600, 174, 21, 5, NULL),  -- curse egg
-    (316, 31600, 189, 21, 5, NULL),  -- mud-slap egg
-    (316, 31600, 194, 21, 5, NULL),  -- destiny-bond egg
-    (316, 31600, 220, 21, 5, NULL),  -- pain-split egg
-    (316, 31600, 441, 21, 5, NULL),  -- gunk-shot egg
-    (316, 31600, 599, 21, 5, NULL),  -- venom-drench egg
-    (316, 31600, 1, 21, 8, NULL),  -- pound start
-    (317, 31700, 281, 21, 1, 5),  -- yawn lv5
-    (317, 31700, 139, 21, 1, 8),  -- poison-gas lv8
-    (317, 31700, 124, 21, 1, 10),  -- sludge lv10
-    (317, 31700, 133, 21, 1, 12),  -- amnesia lv12
-    (317, 31700, 491, 21, 1, 17),  -- acid-spray lv17
-    (317, 31700, 227, 21, 1, 20),  -- encore lv20
-    (317, 31700, 92, 21, 1, 25),  -- toxic lv25
-    (317, 31700, 254, 21, 1, 30),  -- stockpile lv30
-    (317, 31700, 255, 21, 1, 30),  -- spit-up lv30
-    (317, 31700, 256, 21, 1, 30),  -- swallow lv30
-    (317, 31700, 188, 21, 1, 37),  -- sludge-bomb lv37
-    (317, 31700, 380, 21, 1, 42),  -- gastro-acid lv42
-    (317, 31700, 562, 21, 1, 49),  -- belch lv49
-    (317, 31700, 220, 21, 1, 54),  -- pain-split lv54
-    (317, 31700, 441, 21, 1, 61),  -- gunk-shot lv61
-    (317, 31700, 58, 21, 2, NULL),  -- ice-beam tm
-    (317, 31700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (317, 31700, 70, 21, 2, NULL),  -- strength tm
-    (317, 31700, 76, 21, 2, NULL),  -- solar-beam tm
-    (317, 31700, 89, 21, 2, NULL),  -- earthquake tm
-    (317, 31700, 92, 21, 2, NULL),  -- toxic tm
-    (317, 31700, 104, 21, 2, NULL),  -- double-team tm
-    (317, 31700, 138, 21, 2, NULL),  -- dream-eater tm
-    (317, 31700, 153, 21, 2, NULL),  -- explosion tm
-    (317, 31700, 156, 21, 2, NULL),  -- rest tm
-    (317, 31700, 164, 21, 2, NULL),  -- substitute tm
-    (317, 31700, 182, 21, 2, NULL),  -- protect tm
-    (317, 31700, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (317, 31700, 203, 21, 2, NULL),  -- endure tm
-    (317, 31700, 207, 21, 2, NULL),  -- swagger tm
-    (317, 31700, 213, 21, 2, NULL),  -- attract tm
-    (317, 31700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (317, 31700, 240, 21, 2, NULL),  -- rain-dance tm
-    (317, 31700, 241, 21, 2, NULL),  -- sunny-day tm
-    (317, 31700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (317, 31700, 249, 21, 2, NULL),  -- rock-smash tm
-    (317, 31700, 263, 21, 2, NULL),  -- facade tm
-    (317, 31700, 331, 21, 2, NULL),  -- bullet-seed tm
-    (317, 31700, 351, 21, 2, NULL),  -- shock-wave tm
-    (317, 31700, 352, 21, 2, NULL),  -- water-pulse tm
-    (317, 31700, 416, 21, 2, NULL),  -- giga-impact tm
-    (317, 31700, 523, 21, 2, NULL),  -- bulldoze tm
-    (317, 31700, 123, 21, 5, NULL),  -- smog egg
-    (317, 31700, 151, 21, 5, NULL),  -- acid-armor egg
-    (317, 31700, 174, 21, 5, NULL),  -- curse egg
-    (317, 31700, 189, 21, 5, NULL),  -- mud-slap egg
-    (317, 31700, 194, 21, 5, NULL),  -- destiny-bond egg
-    (317, 31700, 220, 21, 5, NULL),  -- pain-split egg
-    (317, 31700, 441, 21, 5, NULL),  -- gunk-shot egg
-    (317, 31700, 599, 21, 5, NULL),  -- venom-drench egg
-    (317, 31700, 1, 21, 8, NULL),  -- pound start
-    (317, 31700, 34, 21, 8, NULL),  -- body-slam start
-    (317, 31700, 124, 21, 8, NULL),  -- sludge start
-    (317, 31700, 139, 21, 8, NULL),  -- poison-gas start
-    (317, 31700, 281, 21, 8, NULL),  -- yawn start
-    (317, 31700, 441, 21, 8, NULL),  -- gunk-shot start
-    (317, 31700, 599, 21, 8, NULL),  -- venom-drench start
-    (318, 31800, 305, 21, 1, 4),  -- poison-fang lv4
-    (318, 31800, 116, 21, 1, 8),  -- focus-energy lv8
-    (318, 31800, 184, 21, 1, 12),  -- scary-face lv12
-    (318, 31800, 44, 21, 1, 16),  -- bite lv16
-    (318, 31800, 423, 21, 1, 20),  -- ice-fang lv20
-    (318, 31800, 103, 21, 1, 24),  -- screech lv24
-    (318, 31800, 207, 21, 1, 28),  -- swagger lv28
-    (318, 31800, 242, 21, 1, 32),  -- crunch lv32
-    (318, 31800, 97, 21, 1, 36),  -- agility lv36
-    (318, 31800, 710, 21, 1, 40),  -- liquidation lv40
-    (318, 31800, 36, 21, 1, 44),  -- take-down lv44
-    (318, 31800, 57, 21, 2, NULL),  -- surf tm
-    (318, 31800, 58, 21, 2, NULL),  -- ice-beam tm
-    (318, 31800, 59, 21, 2, NULL),  -- blizzard tm
-    (318, 31800, 104, 21, 2, NULL),  -- double-team tm
-    (318, 31800, 127, 21, 2, NULL),  -- waterfall tm
-    (318, 31800, 156, 21, 2, NULL),  -- rest tm
-    (318, 31800, 164, 21, 2, NULL),  -- substitute tm
-    (318, 31800, 168, 21, 2, NULL),  -- thief tm
-    (318, 31800, 182, 21, 2, NULL),  -- protect tm
-    (318, 31800, 203, 21, 2, NULL),  -- endure tm
-    (318, 31800, 207, 21, 2, NULL),  -- swagger tm
-    (318, 31800, 213, 21, 2, NULL),  -- attract tm
-    (318, 31800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (318, 31800, 240, 21, 2, NULL),  -- rain-dance tm
-    (318, 31800, 258, 21, 2, NULL),  -- hail tm
-    (318, 31800, 259, 21, 2, NULL),  -- torment tm
-    (318, 31800, 263, 21, 2, NULL),  -- facade tm
-    (318, 31800, 269, 21, 2, NULL),  -- taunt tm
-    (318, 31800, 352, 21, 2, NULL),  -- water-pulse tm
-    (318, 31800, 362, 21, 2, NULL),  -- brine tm
-    (318, 31800, 371, 21, 2, NULL),  -- payback tm
-    (318, 31800, 399, 21, 2, NULL),  -- dark-pulse tm
-    (318, 31800, 503, 21, 2, NULL),  -- scald tm
-    (318, 31800, 555, 21, 2, NULL),  -- snarl tm
-    (318, 31800, 37, 21, 5, NULL),  -- thrash egg
-    (318, 31800, 38, 21, 5, NULL),  -- double-edge egg
-    (318, 31800, 56, 21, 5, NULL),  -- hydro-pump egg
-    (318, 31800, 129, 21, 5, NULL),  -- swift egg
-    (318, 31800, 194, 21, 5, NULL),  -- destiny-bond egg
-    (318, 31800, 246, 21, 5, NULL),  -- ancient-power egg
-    (318, 31800, 43, 21, 8, NULL),  -- leer start
-    (318, 31800, 453, 21, 8, NULL),  -- aqua-jet start
-    (319, 31900, 184, 21, 1, 12),  -- scary-face lv12
-    (319, 31900, 44, 21, 1, 16),  -- bite lv16
-    (319, 31900, 423, 21, 1, 20),  -- ice-fang lv20
-    (319, 31900, 103, 21, 1, 24),  -- screech lv24
-    (319, 31900, 207, 21, 1, 28),  -- swagger lv28
-    (319, 31900, 242, 21, 1, 34),  -- crunch lv34
-    (319, 31900, 97, 21, 1, 40),  -- agility lv40
-    (319, 31900, 710, 21, 1, 46),  -- liquidation lv46
-    (319, 31900, 36, 21, 1, 52),  -- take-down lv52
-    (319, 31900, 46, 21, 2, NULL),  -- roar tm
-    (319, 31900, 57, 21, 2, NULL),  -- surf tm
-    (319, 31900, 58, 21, 2, NULL),  -- ice-beam tm
-    (319, 31900, 59, 21, 2, NULL),  -- blizzard tm
-    (319, 31900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (319, 31900, 70, 21, 2, NULL),  -- strength tm
-    (319, 31900, 89, 21, 2, NULL),  -- earthquake tm
-    (319, 31900, 104, 21, 2, NULL),  -- double-team tm
-    (319, 31900, 127, 21, 2, NULL),  -- waterfall tm
-    (319, 31900, 156, 21, 2, NULL),  -- rest tm
-    (319, 31900, 164, 21, 2, NULL),  -- substitute tm
-    (319, 31900, 168, 21, 2, NULL),  -- thief tm
-    (319, 31900, 182, 21, 2, NULL),  -- protect tm
-    (319, 31900, 203, 21, 2, NULL),  -- endure tm
-    (319, 31900, 207, 21, 2, NULL),  -- swagger tm
-    (319, 31900, 213, 21, 2, NULL),  -- attract tm
-    (319, 31900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (319, 31900, 240, 21, 2, NULL),  -- rain-dance tm
-    (319, 31900, 249, 21, 2, NULL),  -- rock-smash tm
-    (319, 31900, 258, 21, 2, NULL),  -- hail tm
-    (319, 31900, 259, 21, 2, NULL),  -- torment tm
-    (319, 31900, 263, 21, 2, NULL),  -- facade tm
-    (319, 31900, 269, 21, 2, NULL),  -- taunt tm
-    (319, 31900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (319, 31900, 352, 21, 2, NULL),  -- water-pulse tm
-    (319, 31900, 362, 21, 2, NULL),  -- brine tm
-    (319, 31900, 371, 21, 2, NULL),  -- payback tm
-    (319, 31900, 398, 21, 2, NULL),  -- poison-jab tm
-    (319, 31900, 399, 21, 2, NULL),  -- dark-pulse tm
-    (319, 31900, 416, 21, 2, NULL),  -- giga-impact tm
-    (319, 31900, 419, 21, 2, NULL),  -- avalanche tm
-    (319, 31900, 503, 21, 2, NULL),  -- scald tm
-    (319, 31900, 523, 21, 2, NULL),  -- bulldoze tm
-    (319, 31900, 555, 21, 2, NULL),  -- snarl tm
-    (319, 31900, 37, 21, 5, NULL),  -- thrash egg
-    (319, 31900, 38, 21, 5, NULL),  -- double-edge egg
-    (319, 31900, 56, 21, 5, NULL),  -- hydro-pump egg
-    (319, 31900, 129, 21, 5, NULL),  -- swift egg
-    (319, 31900, 194, 21, 5, NULL),  -- destiny-bond egg
-    (319, 31900, 246, 21, 5, NULL),  -- ancient-power egg
-    (319, 31900, 43, 21, 8, NULL),  -- leer start
-    (319, 31900, 116, 21, 8, NULL),  -- focus-energy start
-    (319, 31900, 163, 21, 8, NULL),  -- slash start
-    (319, 31900, 305, 21, 8, NULL),  -- poison-fang start
-    (319, 31900, 400, 21, 8, NULL),  -- night-slash start
-    (319, 31900, 453, 21, 8, NULL),  -- aqua-jet start
-    (320, 32000, 45, 21, 1, 3),  -- growl lv3
-    (320, 32000, 310, 21, 1, 6),  -- astonish lv6
-    (320, 32000, 55, 21, 1, 12),  -- water-gun lv12
-    (320, 32000, 54, 21, 1, 15),  -- mist lv15
-    (320, 32000, 352, 21, 1, 18),  -- water-pulse lv18
-    (320, 32000, 484, 21, 1, 21),  -- heavy-slam lv21
-    (320, 32000, 362, 21, 1, 24),  -- brine lv24
-    (320, 32000, 250, 21, 1, 27),  -- whirlpool lv27
-    (320, 32000, 291, 21, 1, 30),  -- dive lv30
-    (320, 32000, 340, 21, 1, 33),  -- bounce lv33
-    (320, 32000, 34, 21, 1, 36),  -- body-slam lv36
-    (320, 32000, 156, 21, 1, 39),  -- rest lv39
-    (320, 32000, 133, 21, 1, 42),  -- amnesia lv42
-    (320, 32000, 56, 21, 1, 45),  -- hydro-pump lv45
-    (320, 32000, 323, 21, 1, 48),  -- water-spout lv48
-    (320, 32000, 46, 21, 2, NULL),  -- roar tm
-    (320, 32000, 57, 21, 2, NULL),  -- surf tm
-    (320, 32000, 58, 21, 2, NULL),  -- ice-beam tm
-    (320, 32000, 59, 21, 2, NULL),  -- blizzard tm
-    (320, 32000, 70, 21, 2, NULL),  -- strength tm
-    (320, 32000, 89, 21, 2, NULL),  -- earthquake tm
-    (320, 32000, 104, 21, 2, NULL),  -- double-team tm
-    (320, 32000, 127, 21, 2, NULL),  -- waterfall tm
-    (320, 32000, 156, 21, 2, NULL),  -- rest tm
-    (320, 32000, 164, 21, 2, NULL),  -- substitute tm
-    (320, 32000, 182, 21, 2, NULL),  -- protect tm
-    (320, 32000, 203, 21, 2, NULL),  -- endure tm
-    (320, 32000, 207, 21, 2, NULL),  -- swagger tm
-    (320, 32000, 213, 21, 2, NULL),  -- attract tm
-    (320, 32000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (320, 32000, 240, 21, 2, NULL),  -- rain-dance tm
-    (320, 32000, 249, 21, 2, NULL),  -- rock-smash tm
-    (320, 32000, 258, 21, 2, NULL),  -- hail tm
-    (320, 32000, 263, 21, 2, NULL),  -- facade tm
-    (320, 32000, 317, 21, 2, NULL),  -- rock-tomb tm
-    (320, 32000, 352, 21, 2, NULL),  -- water-pulse tm
-    (320, 32000, 362, 21, 2, NULL),  -- brine tm
-    (320, 32000, 419, 21, 2, NULL),  -- avalanche tm
-    (320, 32000, 503, 21, 2, NULL),  -- scald tm
-    (320, 32000, 523, 21, 2, NULL),  -- bulldoze tm
-    (320, 32000, 34, 21, 5, NULL),  -- body-slam egg
-    (320, 32000, 37, 21, 5, NULL),  -- thrash egg
-    (320, 32000, 38, 21, 5, NULL),  -- double-edge egg
-    (320, 32000, 90, 21, 5, NULL),  -- fissure egg
-    (320, 32000, 111, 21, 5, NULL),  -- defense-curl egg
-    (320, 32000, 173, 21, 5, NULL),  -- snore egg
-    (320, 32000, 174, 21, 5, NULL),  -- curse egg
-    (320, 32000, 205, 21, 5, NULL),  -- rollout egg
-    (320, 32000, 321, 21, 5, NULL),  -- tickle egg
-    (320, 32000, 392, 21, 5, NULL),  -- aqua-ring egg
-    (320, 32000, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (320, 32000, 487, 21, 5, NULL),  -- soak egg
-    (320, 32000, 499, 21, 5, NULL),  -- clear-smog egg
-    (320, 32000, 150, 21, 8, NULL),  -- splash start
-    (321, 32100, 54, 21, 1, 15),  -- mist lv15
-    (321, 32100, 352, 21, 1, 18),  -- water-pulse lv18
-    (321, 32100, 484, 21, 1, 21),  -- heavy-slam lv21
-    (321, 32100, 362, 21, 1, 24),  -- brine lv24
-    (321, 32100, 250, 21, 1, 27),  -- whirlpool lv27
-    (321, 32100, 291, 21, 1, 30),  -- dive lv30
-    (321, 32100, 340, 21, 1, 33),  -- bounce lv33
-    (321, 32100, 34, 21, 1, 36),  -- body-slam lv36
-    (321, 32100, 156, 21, 1, 39),  -- rest lv39
-    (321, 32100, 133, 21, 1, 44),  -- amnesia lv44
-    (321, 32100, 56, 21, 1, 49),  -- hydro-pump lv49
-    (321, 32100, 323, 21, 1, 54),  -- water-spout lv54
-    (321, 32100, 46, 21, 2, NULL),  -- roar tm
-    (321, 32100, 57, 21, 2, NULL),  -- surf tm
-    (321, 32100, 58, 21, 2, NULL),  -- ice-beam tm
-    (321, 32100, 59, 21, 2, NULL),  -- blizzard tm
-    (321, 32100, 63, 21, 2, NULL),  -- hyper-beam tm
-    (321, 32100, 70, 21, 2, NULL),  -- strength tm
-    (321, 32100, 89, 21, 2, NULL),  -- earthquake tm
-    (321, 32100, 104, 21, 2, NULL),  -- double-team tm
-    (321, 32100, 127, 21, 2, NULL),  -- waterfall tm
-    (321, 32100, 156, 21, 2, NULL),  -- rest tm
-    (321, 32100, 164, 21, 2, NULL),  -- substitute tm
-    (321, 32100, 182, 21, 2, NULL),  -- protect tm
-    (321, 32100, 203, 21, 2, NULL),  -- endure tm
-    (321, 32100, 207, 21, 2, NULL),  -- swagger tm
-    (321, 32100, 213, 21, 2, NULL),  -- attract tm
-    (321, 32100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (321, 32100, 240, 21, 2, NULL),  -- rain-dance tm
-    (321, 32100, 249, 21, 2, NULL),  -- rock-smash tm
-    (321, 32100, 258, 21, 2, NULL),  -- hail tm
-    (321, 32100, 263, 21, 2, NULL),  -- facade tm
-    (321, 32100, 317, 21, 2, NULL),  -- rock-tomb tm
-    (321, 32100, 352, 21, 2, NULL),  -- water-pulse tm
-    (321, 32100, 362, 21, 2, NULL),  -- brine tm
-    (321, 32100, 416, 21, 2, NULL),  -- giga-impact tm
-    (321, 32100, 419, 21, 2, NULL),  -- avalanche tm
-    (321, 32100, 503, 21, 2, NULL),  -- scald tm
-    (321, 32100, 523, 21, 2, NULL),  -- bulldoze tm
-    (321, 32100, 34, 21, 5, NULL),  -- body-slam egg
-    (321, 32100, 37, 21, 5, NULL),  -- thrash egg
-    (321, 32100, 38, 21, 5, NULL),  -- double-edge egg
-    (321, 32100, 90, 21, 5, NULL),  -- fissure egg
-    (321, 32100, 111, 21, 5, NULL),  -- defense-curl egg
-    (321, 32100, 173, 21, 5, NULL),  -- snore egg
-    (321, 32100, 174, 21, 5, NULL),  -- curse egg
-    (321, 32100, 205, 21, 5, NULL),  -- rollout egg
-    (321, 32100, 321, 21, 5, NULL),  -- tickle egg
-    (321, 32100, 392, 21, 5, NULL),  -- aqua-ring egg
-    (321, 32100, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (321, 32100, 487, 21, 5, NULL),  -- soak egg
-    (321, 32100, 499, 21, 5, NULL),  -- clear-smog egg
-    (321, 32100, 45, 21, 8, NULL),  -- growl start
-    (321, 32100, 55, 21, 8, NULL),  -- water-gun start
-    (321, 32100, 150, 21, 8, NULL),  -- splash start
-    (321, 32100, 310, 21, 8, NULL),  -- astonish start
-    (321, 32100, 487, 21, 8, NULL),  -- soak start
-    (321, 32100, 568, 21, 8, NULL),  -- noble-roar start
-    (322, 32200, 52, 21, 1, 5),  -- ember lv5
-    (322, 32200, 116, 21, 1, 8),  -- focus-energy lv8
-    (322, 32200, 523, 21, 1, 12),  -- bulldoze lv12
-    (322, 32200, 172, 21, 1, 15),  -- flame-wheel lv15
-    (322, 32200, 133, 21, 1, 19),  -- amnesia lv19
-    (322, 32200, 436, 21, 1, 22),  -- lava-plume lv22
-    (322, 32200, 414, 21, 1, 26),  -- earth-power lv26
-    (322, 32200, 174, 21, 1, 29),  -- curse lv29
-    (322, 32200, 36, 21, 1, 31),  -- take-down lv31
-    (322, 32200, 281, 21, 1, 36),  -- yawn lv36
-    (322, 32200, 89, 21, 1, 40),  -- earthquake lv40
-    (322, 32200, 53, 21, 1, 43),  -- flamethrower lv43
-    (322, 32200, 38, 21, 1, 47),  -- double-edge lv47
-    (322, 32200, 53, 21, 2, NULL),  -- flamethrower tm
-    (322, 32200, 70, 21, 2, NULL),  -- strength tm
-    (322, 32200, 89, 21, 2, NULL),  -- earthquake tm
-    (322, 32200, 91, 21, 2, NULL),  -- dig tm
-    (322, 32200, 104, 21, 2, NULL),  -- double-team tm
-    (322, 32200, 126, 21, 2, NULL),  -- fire-blast tm
-    (322, 32200, 156, 21, 2, NULL),  -- rest tm
-    (322, 32200, 157, 21, 2, NULL),  -- rock-slide tm
-    (322, 32200, 164, 21, 2, NULL),  -- substitute tm
-    (322, 32200, 182, 21, 2, NULL),  -- protect tm
-    (322, 32200, 201, 21, 2, NULL),  -- sandstorm tm
-    (322, 32200, 203, 21, 2, NULL),  -- endure tm
-    (322, 32200, 207, 21, 2, NULL),  -- swagger tm
-    (322, 32200, 213, 21, 2, NULL),  -- attract tm
-    (322, 32200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (322, 32200, 241, 21, 2, NULL),  -- sunny-day tm
-    (322, 32200, 249, 21, 2, NULL),  -- rock-smash tm
-    (322, 32200, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (322, 32200, 263, 21, 2, NULL),  -- facade tm
-    (322, 32200, 315, 21, 2, NULL),  -- overheat tm
-    (322, 32200, 317, 21, 2, NULL),  -- rock-tomb tm
-    (322, 32200, 446, 21, 2, NULL),  -- stealth-rock tm
-    (322, 32200, 523, 21, 2, NULL),  -- bulldoze tm
-    (322, 32200, 23, 21, 5, NULL),  -- stomp egg
-    (322, 32200, 34, 21, 5, NULL),  -- body-slam egg
-    (322, 32200, 74, 21, 5, NULL),  -- growth egg
-    (322, 32200, 111, 21, 5, NULL),  -- defense-curl egg
-    (322, 32200, 184, 21, 5, NULL),  -- scary-face egg
-    (322, 32200, 205, 21, 5, NULL),  -- rollout egg
-    (322, 32200, 246, 21, 5, NULL),  -- ancient-power egg
-    (322, 32200, 254, 21, 5, NULL),  -- stockpile egg
-    (322, 32200, 255, 21, 5, NULL),  -- spit-up egg
-    (322, 32200, 256, 21, 5, NULL),  -- swallow egg
-    (322, 32200, 257, 21, 5, NULL),  -- heat-wave egg
-    (322, 32200, 281, 21, 5, NULL),  -- yawn egg
-    (322, 32200, 336, 21, 5, NULL),  -- howl egg
-    (322, 32200, 442, 21, 5, NULL),  -- iron-head egg
-    (322, 32200, 484, 21, 5, NULL),  -- heavy-slam egg
-    (322, 32200, 33, 21, 8, NULL),  -- tackle start
-    (322, 32200, 45, 21, 8, NULL),  -- growl start
-    (323, 32300, 52, 21, 1, 8),  -- ember lv8
-    (323, 32300, 116, 21, 1, 8),  -- focus-energy lv8
-    (323, 32300, 523, 21, 1, 12),  -- bulldoze lv12
-    (323, 32300, 172, 21, 1, 15),  -- flame-wheel lv15
-    (323, 32300, 133, 21, 1, 19),  -- amnesia lv19
-    (323, 32300, 436, 21, 1, 22),  -- lava-plume lv22
-    (323, 32300, 414, 21, 1, 26),  -- earth-power lv26
-    (323, 32300, 174, 21, 1, 29),  -- curse lv29
-    (323, 32300, 36, 21, 1, 31),  -- take-down lv31
-    (323, 32300, 281, 21, 1, 39),  -- yawn lv39
-    (323, 32300, 89, 21, 1, 46),  -- earthquake lv46
-    (323, 32300, 284, 21, 1, 52),  -- eruption lv52
-    (323, 32300, 90, 21, 1, 59),  -- fissure lv59
-    (323, 32300, 46, 21, 2, NULL),  -- roar tm
-    (323, 32300, 53, 21, 2, NULL),  -- flamethrower tm
-    (323, 32300, 63, 21, 2, NULL),  -- hyper-beam tm
-    (323, 32300, 70, 21, 2, NULL),  -- strength tm
-    (323, 32300, 76, 21, 2, NULL),  -- solar-beam tm
-    (323, 32300, 89, 21, 2, NULL),  -- earthquake tm
-    (323, 32300, 91, 21, 2, NULL),  -- dig tm
-    (323, 32300, 104, 21, 2, NULL),  -- double-team tm
-    (323, 32300, 126, 21, 2, NULL),  -- fire-blast tm
-    (323, 32300, 153, 21, 2, NULL),  -- explosion tm
-    (323, 32300, 156, 21, 2, NULL),  -- rest tm
-    (323, 32300, 157, 21, 2, NULL),  -- rock-slide tm
-    (323, 32300, 164, 21, 2, NULL),  -- substitute tm
-    (323, 32300, 182, 21, 2, NULL),  -- protect tm
-    (323, 32300, 201, 21, 2, NULL),  -- sandstorm tm
-    (323, 32300, 203, 21, 2, NULL),  -- endure tm
-    (323, 32300, 207, 21, 2, NULL),  -- swagger tm
-    (323, 32300, 213, 21, 2, NULL),  -- attract tm
-    (323, 32300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (323, 32300, 241, 21, 2, NULL),  -- sunny-day tm
-    (323, 32300, 249, 21, 2, NULL),  -- rock-smash tm
-    (323, 32300, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (323, 32300, 263, 21, 2, NULL),  -- facade tm
-    (323, 32300, 315, 21, 2, NULL),  -- overheat tm
-    (323, 32300, 317, 21, 2, NULL),  -- rock-tomb tm
-    (323, 32300, 397, 21, 2, NULL),  -- rock-polish tm
-    (323, 32300, 416, 21, 2, NULL),  -- giga-impact tm
-    (323, 32300, 430, 21, 2, NULL),  -- flash-cannon tm
-    (323, 32300, 444, 21, 2, NULL),  -- stone-edge tm
-    (323, 32300, 446, 21, 2, NULL),  -- stealth-rock tm
-    (323, 32300, 523, 21, 2, NULL),  -- bulldoze tm
-    (323, 32300, 23, 21, 5, NULL),  -- stomp egg
-    (323, 32300, 34, 21, 5, NULL),  -- body-slam egg
-    (323, 32300, 74, 21, 5, NULL),  -- growth egg
-    (323, 32300, 111, 21, 5, NULL),  -- defense-curl egg
-    (323, 32300, 184, 21, 5, NULL),  -- scary-face egg
-    (323, 32300, 205, 21, 5, NULL),  -- rollout egg
-    (323, 32300, 246, 21, 5, NULL),  -- ancient-power egg
-    (323, 32300, 254, 21, 5, NULL),  -- stockpile egg
-    (323, 32300, 255, 21, 5, NULL),  -- spit-up egg
-    (323, 32300, 256, 21, 5, NULL),  -- swallow egg
-    (323, 32300, 257, 21, 5, NULL),  -- heat-wave egg
-    (323, 32300, 281, 21, 5, NULL),  -- yawn egg
-    (323, 32300, 336, 21, 5, NULL),  -- howl egg
-    (323, 32300, 442, 21, 5, NULL),  -- iron-head egg
-    (323, 32300, 484, 21, 5, NULL),  -- heavy-slam egg
-    (323, 32300, 33, 21, 8, NULL),  -- tackle start
-    (323, 32300, 38, 21, 8, NULL),  -- double-edge start
-    (323, 32300, 45, 21, 8, NULL),  -- growl start
-    (323, 32300, 52, 21, 8, NULL),  -- ember start
-    (323, 32300, 53, 21, 8, NULL),  -- flamethrower start
-    (323, 32300, 90, 21, 8, NULL),  -- fissure start
-    (323, 32300, 116, 21, 8, NULL),  -- focus-energy start
-    (323, 32300, 157, 21, 8, NULL),  -- rock-slide start
-    (323, 32300, 284, 21, 8, NULL),  -- eruption start
-    (324, 32400, 110, 21, 1, 4),  -- withdraw lv4
-    (324, 32400, 229, 21, 1, 8),  -- rapid-spin lv8
-    (324, 32400, 108, 21, 1, 12),  -- smokescreen lv12
-    (324, 32400, 499, 21, 1, 16),  -- clear-smog lv16
-    (324, 32400, 172, 21, 1, 20),  -- flame-wheel lv20
-    (324, 32400, 182, 21, 1, 24),  -- protect lv24
-    (324, 32400, 436, 21, 1, 28),  -- lava-plume lv28
-    (324, 32400, 34, 21, 1, 32),  -- body-slam lv32
-    (324, 32400, 334, 21, 1, 36),  -- iron-defense lv36
-    (324, 32400, 53, 21, 1, 40),  -- flamethrower lv40
-    (324, 32400, 174, 21, 1, 44),  -- curse lv44
-    (324, 32400, 257, 21, 1, 48),  -- heat-wave lv48
-    (324, 32400, 133, 21, 1, 52),  -- amnesia lv52
-    (324, 32400, 517, 21, 1, 56),  -- inferno lv56
-    (324, 32400, 504, 21, 1, 60),  -- shell-smash lv60
-    (324, 32400, 284, 21, 1, 64),  -- eruption lv64
-    (324, 32400, 53, 21, 2, NULL),  -- flamethrower tm
-    (324, 32400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (324, 32400, 70, 21, 2, NULL),  -- strength tm
-    (324, 32400, 76, 21, 2, NULL),  -- solar-beam tm
-    (324, 32400, 89, 21, 2, NULL),  -- earthquake tm
-    (324, 32400, 104, 21, 2, NULL),  -- double-team tm
-    (324, 32400, 126, 21, 2, NULL),  -- fire-blast tm
-    (324, 32400, 153, 21, 2, NULL),  -- explosion tm
-    (324, 32400, 156, 21, 2, NULL),  -- rest tm
-    (324, 32400, 157, 21, 2, NULL),  -- rock-slide tm
-    (324, 32400, 164, 21, 2, NULL),  -- substitute tm
-    (324, 32400, 182, 21, 2, NULL),  -- protect tm
-    (324, 32400, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (324, 32400, 203, 21, 2, NULL),  -- endure tm
-    (324, 32400, 207, 21, 2, NULL),  -- swagger tm
-    (324, 32400, 213, 21, 2, NULL),  -- attract tm
-    (324, 32400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (324, 32400, 231, 21, 2, NULL),  -- iron-tail tm
-    (324, 32400, 241, 21, 2, NULL),  -- sunny-day tm
-    (324, 32400, 249, 21, 2, NULL),  -- rock-smash tm
-    (324, 32400, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (324, 32400, 263, 21, 2, NULL),  -- facade tm
-    (324, 32400, 315, 21, 2, NULL),  -- overheat tm
-    (324, 32400, 317, 21, 2, NULL),  -- rock-tomb tm
-    (324, 32400, 360, 21, 2, NULL),  -- gyro-ball tm
-    (324, 32400, 416, 21, 2, NULL),  -- giga-impact tm
-    (324, 32400, 444, 21, 2, NULL),  -- stone-edge tm
-    (324, 32400, 446, 21, 2, NULL),  -- stealth-rock tm
-    (324, 32400, 523, 21, 2, NULL),  -- bulldoze tm
-    (324, 32400, 90, 21, 5, NULL),  -- fissure egg
-    (324, 32400, 130, 21, 5, NULL),  -- skull-bash egg
-    (324, 32400, 175, 21, 5, NULL),  -- flail egg
-    (324, 32400, 246, 21, 5, NULL),  -- ancient-power egg
-    (324, 32400, 276, 21, 5, NULL),  -- superpower egg
-    (324, 32400, 281, 21, 5, NULL),  -- yawn egg
-    (324, 32400, 284, 21, 5, NULL),  -- eruption egg
-    (324, 32400, 499, 21, 5, NULL),  -- clear-smog egg
-    (324, 32400, 52, 21, 8, NULL),  -- ember start
-    (324, 32400, 123, 21, 8, NULL),  -- smog start
-    (325, 32500, 93, 21, 1, 7),  -- confusion lv7
-    (325, 32500, 45, 21, 1, 10),  -- growl lv10
-    (325, 32500, 60, 21, 1, 14),  -- psybeam lv14
-    (325, 32500, 244, 21, 1, 15),  -- psych-up lv15
-    (325, 32500, 109, 21, 1, 18),  -- confuse-ray lv18
-    (325, 32500, 277, 21, 1, 21),  -- magic-coat lv21
-    (325, 32500, 428, 21, 1, 26),  -- zen-headbutt lv26
-    (325, 32500, 156, 21, 1, 29),  -- rest lv29
-    (325, 32500, 408, 21, 1, 29),  -- power-gem lv29
-    (325, 32500, 173, 21, 1, 33),  -- snore lv33
-    (325, 32500, 473, 21, 1, 38),  -- psyshock lv38
-    (325, 32500, 371, 21, 1, 40),  -- payback lv40
-    (325, 32500, 94, 21, 1, 44),  -- psychic lv44
-    (325, 32500, 340, 21, 1, 50),  -- bounce lv50
-    (325, 32500, 86, 21, 2, NULL),  -- thunder-wave tm
-    (325, 32500, 94, 21, 2, NULL),  -- psychic tm
-    (325, 32500, 104, 21, 2, NULL),  -- double-team tm
-    (325, 32500, 113, 21, 2, NULL),  -- light-screen tm
-    (325, 32500, 115, 21, 2, NULL),  -- reflect tm
-    (325, 32500, 138, 21, 2, NULL),  -- dream-eater tm
-    (325, 32500, 148, 21, 2, NULL),  -- flash tm
-    (325, 32500, 156, 21, 2, NULL),  -- rest tm
-    (325, 32500, 164, 21, 2, NULL),  -- substitute tm
-    (325, 32500, 168, 21, 2, NULL),  -- thief tm
-    (325, 32500, 182, 21, 2, NULL),  -- protect tm
-    (325, 32500, 203, 21, 2, NULL),  -- endure tm
-    (325, 32500, 207, 21, 2, NULL),  -- swagger tm
-    (325, 32500, 213, 21, 2, NULL),  -- attract tm
-    (325, 32500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (325, 32500, 231, 21, 2, NULL),  -- iron-tail tm
-    (325, 32500, 240, 21, 2, NULL),  -- rain-dance tm
-    (325, 32500, 241, 21, 2, NULL),  -- sunny-day tm
-    (325, 32500, 244, 21, 2, NULL),  -- psych-up tm
-    (325, 32500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (325, 32500, 259, 21, 2, NULL),  -- torment tm
-    (325, 32500, 263, 21, 2, NULL),  -- facade tm
-    (325, 32500, 269, 21, 2, NULL),  -- taunt tm
-    (325, 32500, 278, 21, 2, NULL),  -- recycle tm
-    (325, 32500, 285, 21, 2, NULL),  -- skill-swap tm
-    (325, 32500, 347, 21, 2, NULL),  -- calm-mind tm
-    (325, 32500, 351, 21, 2, NULL),  -- shock-wave tm
-    (325, 32500, 371, 21, 2, NULL),  -- payback tm
-    (325, 32500, 433, 21, 2, NULL),  -- trick-room tm
-    (325, 32500, 447, 21, 2, NULL),  -- grass-knot tm
-    (325, 32500, 451, 21, 2, NULL),  -- charge-beam tm
-    (325, 32500, 18, 21, 5, NULL),  -- whirlwind egg
-    (325, 32500, 133, 21, 5, NULL),  -- amnesia egg
-    (325, 32500, 243, 21, 5, NULL),  -- mirror-coat egg
-    (325, 32500, 248, 21, 5, NULL),  -- future-sight egg
-    (325, 32500, 271, 21, 5, NULL),  -- trick egg
-    (325, 32500, 326, 21, 5, NULL),  -- extrasensory egg
-    (325, 32500, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (325, 32500, 493, 21, 5, NULL),  -- simple-beam egg
-    (325, 32500, 150, 21, 8, NULL),  -- splash start
-    (326, 32600, 93, 21, 1, 7),  -- confusion lv7
-    (326, 32600, 45, 21, 1, 10),  -- growl lv10
-    (326, 32600, 60, 21, 1, 14),  -- psybeam lv14
-    (326, 32600, 244, 21, 1, 15),  -- psych-up lv15
-    (326, 32600, 109, 21, 1, 18),  -- confuse-ray lv18
-    (326, 32600, 277, 21, 1, 21),  -- magic-coat lv21
-    (326, 32600, 428, 21, 1, 26),  -- zen-headbutt lv26
-    (326, 32600, 408, 21, 1, 29),  -- power-gem lv29
-    (326, 32600, 156, 21, 1, 35),  -- rest lv35
-    (326, 32600, 173, 21, 1, 35),  -- snore lv35
-    (326, 32600, 473, 21, 1, 42),  -- psyshock lv42
-    (326, 32600, 371, 21, 1, 46),  -- payback lv46
-    (326, 32600, 94, 21, 1, 52),  -- psychic lv52
-    (326, 32600, 340, 21, 1, 60),  -- bounce lv60
-    (326, 32600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (326, 32600, 86, 21, 2, NULL),  -- thunder-wave tm
-    (326, 32600, 94, 21, 2, NULL),  -- psychic tm
-    (326, 32600, 104, 21, 2, NULL),  -- double-team tm
-    (326, 32600, 113, 21, 2, NULL),  -- light-screen tm
-    (326, 32600, 115, 21, 2, NULL),  -- reflect tm
-    (326, 32600, 138, 21, 2, NULL),  -- dream-eater tm
-    (326, 32600, 148, 21, 2, NULL),  -- flash tm
-    (326, 32600, 156, 21, 2, NULL),  -- rest tm
-    (326, 32600, 164, 21, 2, NULL),  -- substitute tm
-    (326, 32600, 168, 21, 2, NULL),  -- thief tm
-    (326, 32600, 182, 21, 2, NULL),  -- protect tm
-    (326, 32600, 203, 21, 2, NULL),  -- endure tm
-    (326, 32600, 207, 21, 2, NULL),  -- swagger tm
-    (326, 32600, 213, 21, 2, NULL),  -- attract tm
-    (326, 32600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (326, 32600, 231, 21, 2, NULL),  -- iron-tail tm
-    (326, 32600, 240, 21, 2, NULL),  -- rain-dance tm
-    (326, 32600, 241, 21, 2, NULL),  -- sunny-day tm
-    (326, 32600, 244, 21, 2, NULL),  -- psych-up tm
-    (326, 32600, 247, 21, 2, NULL),  -- shadow-ball tm
-    (326, 32600, 259, 21, 2, NULL),  -- torment tm
-    (326, 32600, 263, 21, 2, NULL),  -- facade tm
-    (326, 32600, 264, 21, 2, NULL),  -- focus-punch tm
-    (326, 32600, 269, 21, 2, NULL),  -- taunt tm
-    (326, 32600, 278, 21, 2, NULL),  -- recycle tm
-    (326, 32600, 280, 21, 2, NULL),  -- brick-break tm
-    (326, 32600, 285, 21, 2, NULL),  -- skill-swap tm
-    (326, 32600, 347, 21, 2, NULL),  -- calm-mind tm
-    (326, 32600, 351, 21, 2, NULL),  -- shock-wave tm
-    (326, 32600, 371, 21, 2, NULL),  -- payback tm
-    (326, 32600, 374, 21, 2, NULL),  -- fling tm
-    (326, 32600, 409, 21, 2, NULL),  -- drain-punch tm
-    (326, 32600, 411, 21, 2, NULL),  -- focus-blast tm
-    (326, 32600, 412, 21, 2, NULL),  -- energy-ball tm
-    (326, 32600, 416, 21, 2, NULL),  -- giga-impact tm
-    (326, 32600, 417, 21, 2, NULL),  -- nasty-plot tm
-    (326, 32600, 433, 21, 2, NULL),  -- trick-room tm
-    (326, 32600, 447, 21, 2, NULL),  -- grass-knot tm
-    (326, 32600, 451, 21, 2, NULL),  -- charge-beam tm
-    (326, 32600, 523, 21, 2, NULL),  -- bulldoze tm
-    (326, 32600, 18, 21, 5, NULL),  -- whirlwind egg
-    (326, 32600, 133, 21, 5, NULL),  -- amnesia egg
-    (326, 32600, 243, 21, 5, NULL),  -- mirror-coat egg
-    (326, 32600, 248, 21, 5, NULL),  -- future-sight egg
-    (326, 32600, 271, 21, 5, NULL),  -- trick egg
-    (326, 32600, 326, 21, 5, NULL),  -- extrasensory egg
-    (326, 32600, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (326, 32600, 493, 21, 5, NULL),  -- simple-beam egg
-    (326, 32600, 150, 21, 8, NULL),  -- splash start
-    (326, 32600, 298, 21, 8, NULL),  -- teeter-dance start
-    (326, 32600, 562, 21, 8, NULL),  -- belch start
-    (327, 32700, 383, 21, 1, 5),  -- copycat lv5
-    (327, 32700, 298, 21, 1, 10),  -- teeter-dance lv10
-    (327, 32700, 60, 21, 1, 14),  -- psybeam lv14
-    (327, 32700, 95, 21, 1, 19),  -- hypnosis lv19
-    (327, 32700, 34, 21, 1, 23),  -- body-slam lv23
-    (327, 32700, 389, 21, 1, 28),  -- sucker-punch lv28
-    (327, 32700, 253, 21, 1, 37),  -- uproar lv37
-    (327, 32700, 244, 21, 1, 41),  -- psych-up lv41
-    (327, 32700, 38, 21, 1, 46),  -- double-edge lv46
-    (327, 32700, 175, 21, 1, 50),  -- flail lv50
-    (327, 32700, 37, 21, 1, 55),  -- thrash lv55
-    (327, 32700, 70, 21, 2, NULL),  -- strength tm
-    (327, 32700, 91, 21, 2, NULL),  -- dig tm
-    (327, 32700, 94, 21, 2, NULL),  -- psychic tm
-    (327, 32700, 104, 21, 2, NULL),  -- double-team tm
-    (327, 32700, 138, 21, 2, NULL),  -- dream-eater tm
-    (327, 32700, 148, 21, 2, NULL),  -- flash tm
-    (327, 32700, 156, 21, 2, NULL),  -- rest tm
-    (327, 32700, 157, 21, 2, NULL),  -- rock-slide tm
-    (327, 32700, 164, 21, 2, NULL),  -- substitute tm
-    (327, 32700, 168, 21, 2, NULL),  -- thief tm
-    (327, 32700, 182, 21, 2, NULL),  -- protect tm
-    (327, 32700, 203, 21, 2, NULL),  -- endure tm
-    (327, 32700, 207, 21, 2, NULL),  -- swagger tm
-    (327, 32700, 213, 21, 2, NULL),  -- attract tm
-    (327, 32700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (327, 32700, 219, 21, 2, NULL),  -- safeguard tm
-    (327, 32700, 240, 21, 2, NULL),  -- rain-dance tm
-    (327, 32700, 241, 21, 2, NULL),  -- sunny-day tm
-    (327, 32700, 244, 21, 2, NULL),  -- psych-up tm
-    (327, 32700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (327, 32700, 249, 21, 2, NULL),  -- rock-smash tm
-    (327, 32700, 263, 21, 2, NULL),  -- facade tm
-    (327, 32700, 264, 21, 2, NULL),  -- focus-punch tm
-    (327, 32700, 278, 21, 2, NULL),  -- recycle tm
-    (327, 32700, 280, 21, 2, NULL),  -- brick-break tm
-    (327, 32700, 285, 21, 2, NULL),  -- skill-swap tm
-    (327, 32700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (327, 32700, 347, 21, 2, NULL),  -- calm-mind tm
-    (327, 32700, 351, 21, 2, NULL),  -- shock-wave tm
-    (327, 32700, 352, 21, 2, NULL),  -- water-pulse tm
-    (327, 32700, 374, 21, 2, NULL),  -- fling tm
-    (327, 32700, 409, 21, 2, NULL),  -- drain-punch tm
-    (327, 32700, 433, 21, 2, NULL),  -- trick-room tm
-    (327, 32700, 526, 21, 2, NULL),  -- work-up tm
-    (327, 32700, 50, 21, 5, NULL),  -- disable egg
-    (327, 32700, 196, 21, 5, NULL),  -- icy-wind egg
-    (327, 32700, 226, 21, 5, NULL),  -- baton-pass egg
-    (327, 32700, 227, 21, 5, NULL),  -- encore egg
-    (327, 32700, 229, 21, 5, NULL),  -- rapid-spin egg
-    (327, 32700, 252, 21, 5, NULL),  -- fake-out egg
-    (327, 32700, 271, 21, 5, NULL),  -- trick egg
-    (327, 32700, 272, 21, 5, NULL),  -- role-play egg
-    (327, 32700, 273, 21, 5, NULL),  -- wish egg
-    (327, 32700, 313, 21, 5, NULL),  -- fake-tears egg
-    (327, 32700, 375, 21, 5, NULL),  -- psycho-shift egg
-    (327, 32700, 427, 21, 5, NULL),  -- psycho-cut egg
-    (327, 32700, 470, 21, 5, NULL),  -- guard-split egg
-    (327, 32700, 33, 21, 8, NULL),  -- tackle start
-    (328, 32800, 673, 21, 1, 4),  -- laser-focus lv4
-    (328, 32800, 44, 21, 1, 8),  -- bite lv8
-    (328, 32800, 189, 21, 1, 12),  -- mud-slap lv12
-    (328, 32800, 328, 21, 1, 16),  -- sand-tomb lv16
-    (328, 32800, 523, 21, 1, 20),  -- bulldoze lv20
-    (328, 32800, 91, 21, 1, 24),  -- dig lv24
-    (328, 32800, 242, 21, 1, 28),  -- crunch lv28
-    (328, 32800, 201, 21, 1, 32),  -- sandstorm lv32
-    (328, 32800, 414, 21, 1, 36),  -- earth-power lv36
-    (328, 32800, 89, 21, 1, 40),  -- earthquake lv40
-    (328, 32800, 276, 21, 1, 44),  -- superpower lv44
-    (328, 32800, 90, 21, 1, 48),  -- fissure lv48
-    (328, 32800, 63, 21, 2, NULL),  -- hyper-beam tm
-    (328, 32800, 70, 21, 2, NULL),  -- strength tm
-    (328, 32800, 76, 21, 2, NULL),  -- solar-beam tm
-    (328, 32800, 89, 21, 2, NULL),  -- earthquake tm
-    (328, 32800, 91, 21, 2, NULL),  -- dig tm
-    (328, 32800, 104, 21, 2, NULL),  -- double-team tm
-    (328, 32800, 156, 21, 2, NULL),  -- rest tm
-    (328, 32800, 157, 21, 2, NULL),  -- rock-slide tm
-    (328, 32800, 164, 21, 2, NULL),  -- substitute tm
-    (328, 32800, 182, 21, 2, NULL),  -- protect tm
-    (328, 32800, 201, 21, 2, NULL),  -- sandstorm tm
-    (328, 32800, 202, 21, 2, NULL),  -- giga-drain tm
-    (328, 32800, 203, 21, 2, NULL),  -- endure tm
-    (328, 32800, 207, 21, 2, NULL),  -- swagger tm
-    (328, 32800, 213, 21, 2, NULL),  -- attract tm
-    (328, 32800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (328, 32800, 241, 21, 2, NULL),  -- sunny-day tm
-    (328, 32800, 249, 21, 2, NULL),  -- rock-smash tm
-    (328, 32800, 263, 21, 2, NULL),  -- facade tm
-    (328, 32800, 317, 21, 2, NULL),  -- rock-tomb tm
-    (328, 32800, 523, 21, 2, NULL),  -- bulldoze tm
-    (328, 32800, 16, 21, 5, NULL),  -- gust egg
-    (328, 32800, 98, 21, 5, NULL),  -- quick-attack egg
-    (328, 32800, 116, 21, 5, NULL),  -- focus-energy egg
-    (328, 32800, 175, 21, 5, NULL),  -- flail egg
-    (328, 32800, 210, 21, 5, NULL),  -- fury-cutter egg
-    (328, 32800, 341, 21, 5, NULL),  -- mud-shot egg
-    (328, 32800, 364, 21, 5, NULL),  -- feint egg
-    (328, 32800, 414, 21, 5, NULL),  -- earth-power egg
-    (328, 32800, 450, 21, 5, NULL),  -- bug-bite egg
-    (328, 32800, 28, 21, 8, NULL),  -- sand-attack start
-    (328, 32800, 310, 21, 8, NULL),  -- astonish start
-    (329, 32900, 189, 21, 1, 12),  -- mud-slap lv12
-    (329, 32900, 328, 21, 1, 16),  -- sand-tomb lv16
-    (329, 32900, 525, 21, 1, 20),  -- dragon-tail lv20
-    (329, 32900, 103, 21, 1, 24),  -- screech lv24
-    (329, 32900, 405, 21, 1, 28),  -- bug-buzz lv28
-    (329, 32900, 201, 21, 1, 32),  -- sandstorm lv32
-    (329, 32900, 414, 21, 1, 38),  -- earth-power lv38
-    (329, 32900, 89, 21, 1, 44),  -- earthquake lv44
-    (329, 32900, 253, 21, 1, 50),  -- uproar lv50
-    (329, 32900, 407, 21, 1, 56),  -- dragon-rush lv56
-    (329, 32900, 586, 21, 1, 62),  -- boomburst lv62
-    (329, 32900, 19, 21, 2, NULL),  -- fly tm
-    (329, 32900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (329, 32900, 70, 21, 2, NULL),  -- strength tm
-    (329, 32900, 76, 21, 2, NULL),  -- solar-beam tm
-    (329, 32900, 89, 21, 2, NULL),  -- earthquake tm
-    (329, 32900, 91, 21, 2, NULL),  -- dig tm
-    (329, 32900, 104, 21, 2, NULL),  -- double-team tm
-    (329, 32900, 156, 21, 2, NULL),  -- rest tm
-    (329, 32900, 157, 21, 2, NULL),  -- rock-slide tm
-    (329, 32900, 164, 21, 2, NULL),  -- substitute tm
-    (329, 32900, 182, 21, 2, NULL),  -- protect tm
-    (329, 32900, 201, 21, 2, NULL),  -- sandstorm tm
-    (329, 32900, 202, 21, 2, NULL),  -- giga-drain tm
-    (329, 32900, 203, 21, 2, NULL),  -- endure tm
-    (329, 32900, 207, 21, 2, NULL),  -- swagger tm
-    (329, 32900, 211, 21, 2, NULL),  -- steel-wing tm
-    (329, 32900, 213, 21, 2, NULL),  -- attract tm
-    (329, 32900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (329, 32900, 241, 21, 2, NULL),  -- sunny-day tm
-    (329, 32900, 249, 21, 2, NULL),  -- rock-smash tm
-    (329, 32900, 263, 21, 2, NULL),  -- facade tm
-    (329, 32900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (329, 32900, 355, 21, 2, NULL),  -- roost tm
-    (329, 32900, 369, 21, 2, NULL),  -- u-turn tm
-    (329, 32900, 405, 21, 2, NULL),  -- bug-buzz tm
-    (329, 32900, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (329, 32900, 432, 21, 2, NULL),  -- defog tm
-    (329, 32900, 523, 21, 2, NULL),  -- bulldoze tm
-    (329, 32900, 16, 21, 5, NULL),  -- gust egg
-    (329, 32900, 98, 21, 5, NULL),  -- quick-attack egg
-    (329, 32900, 116, 21, 5, NULL),  -- focus-energy egg
-    (329, 32900, 175, 21, 5, NULL),  -- flail egg
-    (329, 32900, 210, 21, 5, NULL),  -- fury-cutter egg
-    (329, 32900, 341, 21, 5, NULL),  -- mud-shot egg
-    (329, 32900, 364, 21, 5, NULL),  -- feint egg
-    (329, 32900, 414, 21, 5, NULL),  -- earth-power egg
-    (329, 32900, 450, 21, 5, NULL),  -- bug-bite egg
-    (329, 32900, 28, 21, 8, NULL),  -- sand-attack start
-    (329, 32900, 44, 21, 8, NULL),  -- bite start
-    (329, 32900, 48, 21, 8, NULL),  -- supersonic start
-    (329, 32900, 90, 21, 8, NULL),  -- fissure start
-    (329, 32900, 91, 21, 8, NULL),  -- dig start
-    (329, 32900, 225, 21, 8, NULL),  -- dragon-breath start
-    (329, 32900, 242, 21, 8, NULL),  -- crunch start
-    (329, 32900, 276, 21, 8, NULL),  -- superpower start
-    (329, 32900, 310, 21, 8, NULL),  -- astonish start
-    (329, 32900, 523, 21, 8, NULL),  -- bulldoze start
-    (329, 32900, 673, 21, 8, NULL),  -- laser-focus start
-    (330, 33000, 19, 21, 2, NULL),  -- fly tm
-    (330, 33000, 53, 21, 2, NULL),  -- flamethrower tm
-    (330, 33000, 63, 21, 2, NULL),  -- hyper-beam tm
-    (330, 33000, 70, 21, 2, NULL),  -- strength tm
-    (330, 33000, 76, 21, 2, NULL),  -- solar-beam tm
-    (330, 33000, 89, 21, 2, NULL),  -- earthquake tm
-    (330, 33000, 91, 21, 2, NULL),  -- dig tm
-    (330, 33000, 104, 21, 2, NULL),  -- double-team tm
-    (330, 33000, 126, 21, 2, NULL),  -- fire-blast tm
-    (330, 33000, 156, 21, 2, NULL),  -- rest tm
-    (330, 33000, 157, 21, 2, NULL),  -- rock-slide tm
-    (330, 33000, 164, 21, 2, NULL),  -- substitute tm
-    (330, 33000, 182, 21, 2, NULL),  -- protect tm
-    (330, 33000, 201, 21, 2, NULL),  -- sandstorm tm
-    (330, 33000, 202, 21, 2, NULL),  -- giga-drain tm
-    (330, 33000, 203, 21, 2, NULL),  -- endure tm
-    (330, 33000, 207, 21, 2, NULL),  -- swagger tm
-    (330, 33000, 211, 21, 2, NULL),  -- steel-wing tm
-    (330, 33000, 213, 21, 2, NULL),  -- attract tm
-    (330, 33000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (330, 33000, 231, 21, 2, NULL),  -- iron-tail tm
-    (330, 33000, 241, 21, 2, NULL),  -- sunny-day tm
-    (330, 33000, 249, 21, 2, NULL),  -- rock-smash tm
-    (330, 33000, 263, 21, 2, NULL),  -- facade tm
-    (330, 33000, 317, 21, 2, NULL),  -- rock-tomb tm
-    (330, 33000, 332, 21, 2, NULL),  -- aerial-ace tm
-    (330, 33000, 337, 21, 2, NULL),  -- dragon-claw tm
-    (330, 33000, 355, 21, 2, NULL),  -- roost tm
-    (330, 33000, 369, 21, 2, NULL),  -- u-turn tm
-    (330, 33000, 405, 21, 2, NULL),  -- bug-buzz tm
-    (330, 33000, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (330, 33000, 416, 21, 2, NULL),  -- giga-impact tm
-    (330, 33000, 432, 21, 2, NULL),  -- defog tm
-    (330, 33000, 444, 21, 2, NULL),  -- stone-edge tm
-    (330, 33000, 523, 21, 2, NULL),  -- bulldoze tm
-    (330, 33000, 16, 21, 5, NULL),  -- gust egg
-    (330, 33000, 98, 21, 5, NULL),  -- quick-attack egg
-    (330, 33000, 116, 21, 5, NULL),  -- focus-energy egg
-    (330, 33000, 175, 21, 5, NULL),  -- flail egg
-    (330, 33000, 210, 21, 5, NULL),  -- fury-cutter egg
-    (330, 33000, 341, 21, 5, NULL),  -- mud-shot egg
-    (330, 33000, 364, 21, 5, NULL),  -- feint egg
-    (330, 33000, 414, 21, 5, NULL),  -- earth-power egg
-    (330, 33000, 450, 21, 5, NULL),  -- bug-bite egg
-    (331, 33100, 71, 21, 1, 4),  -- absorb lv4
-    (331, 33100, 74, 21, 1, 7),  -- growth lv7
-    (331, 33100, 73, 21, 1, 10),  -- leech-seed lv10
-    (331, 33100, 28, 21, 1, 13),  -- sand-attack lv13
-    (331, 33100, 398, 21, 1, 16),  -- poison-jab lv16
-    (331, 33100, 372, 21, 1, 19),  -- assurance lv19
-    (331, 33100, 275, 21, 1, 22),  -- ingrain lv22
-    (331, 33100, 371, 21, 1, 26),  -- payback lv26
-    (331, 33100, 191, 21, 1, 30),  -- spikes lv30
-    (331, 33100, 389, 21, 1, 34),  -- sucker-punch lv34
-    (331, 33100, 42, 21, 1, 38),  -- pin-missile lv38
-    (331, 33100, 412, 21, 1, 42),  -- energy-ball lv42
-    (331, 33100, 178, 21, 1, 46),  -- cotton-spore lv46
-    (331, 33100, 201, 21, 1, 50),  -- sandstorm lv50
-    (331, 33100, 194, 21, 1, 54),  -- destiny-bond lv54
-    (331, 33100, 14, 21, 2, NULL),  -- swords-dance tm
-    (331, 33100, 15, 21, 2, NULL),  -- cut tm
-    (331, 33100, 76, 21, 2, NULL),  -- solar-beam tm
-    (331, 33100, 104, 21, 2, NULL),  -- double-team tm
-    (331, 33100, 148, 21, 2, NULL),  -- flash tm
-    (331, 33100, 156, 21, 2, NULL),  -- rest tm
-    (331, 33100, 164, 21, 2, NULL),  -- substitute tm
-    (331, 33100, 182, 21, 2, NULL),  -- protect tm
-    (331, 33100, 201, 21, 2, NULL),  -- sandstorm tm
-    (331, 33100, 202, 21, 2, NULL),  -- giga-drain tm
-    (331, 33100, 203, 21, 2, NULL),  -- endure tm
-    (331, 33100, 207, 21, 2, NULL),  -- swagger tm
-    (331, 33100, 213, 21, 2, NULL),  -- attract tm
-    (331, 33100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (331, 33100, 241, 21, 2, NULL),  -- sunny-day tm
-    (331, 33100, 263, 21, 2, NULL),  -- facade tm
-    (331, 33100, 264, 21, 2, NULL),  -- focus-punch tm
-    (331, 33100, 280, 21, 2, NULL),  -- brick-break tm
-    (331, 33100, 331, 21, 2, NULL),  -- bullet-seed tm
-    (331, 33100, 371, 21, 2, NULL),  -- payback tm
-    (331, 33100, 374, 21, 2, NULL),  -- fling tm
-    (331, 33100, 398, 21, 2, NULL),  -- poison-jab tm
-    (331, 33100, 399, 21, 2, NULL),  -- dark-pulse tm
-    (331, 33100, 409, 21, 2, NULL),  -- drain-punch tm
-    (331, 33100, 412, 21, 2, NULL),  -- energy-ball tm
-    (331, 33100, 417, 21, 2, NULL),  -- nasty-plot tm
-    (331, 33100, 447, 21, 2, NULL),  -- grass-knot tm
-    (331, 33100, 50, 21, 5, NULL),  -- disable egg
-    (331, 33100, 51, 21, 5, NULL),  -- acid egg
-    (331, 33100, 67, 21, 5, NULL),  -- low-kick egg
-    (331, 33100, 68, 21, 5, NULL),  -- counter egg
-    (331, 33100, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (331, 33100, 298, 21, 5, NULL),  -- teeter-dance egg
-    (331, 33100, 335, 21, 5, NULL),  -- block egg
-    (331, 33100, 345, 21, 5, NULL),  -- magical-leaf egg
-    (331, 33100, 388, 21, 5, NULL),  -- worry-seed egg
-    (331, 33100, 402, 21, 5, NULL),  -- seed-bomb egg
-    (331, 33100, 415, 21, 5, NULL),  -- switcheroo egg
-    (331, 33100, 562, 21, 5, NULL),  -- belch egg
-    (331, 33100, 565, 21, 5, NULL),  -- fell-stinger egg
-    (331, 33100, 612, 21, 5, NULL),  -- power-up-punch egg
-    (331, 33100, 40, 21, 8, NULL),  -- poison-sting start
-    (331, 33100, 43, 21, 8, NULL),  -- leer start
-    (332, 33200, 71, 21, 1, 4),  -- absorb lv4
-    (332, 33200, 74, 21, 1, 7),  -- growth lv7
-    (332, 33200, 73, 21, 1, 10),  -- leech-seed lv10
-    (332, 33200, 28, 21, 1, 13),  -- sand-attack lv13
-    (332, 33200, 398, 21, 1, 16),  -- poison-jab lv16
-    (332, 33200, 372, 21, 1, 19),  -- assurance lv19
-    (332, 33200, 275, 21, 1, 22),  -- ingrain lv22
-    (332, 33200, 371, 21, 1, 26),  -- payback lv26
-    (332, 33200, 191, 21, 1, 30),  -- spikes lv30
-    (332, 33200, 389, 21, 1, 35),  -- sucker-punch lv35
-    (332, 33200, 42, 21, 1, 38),  -- pin-missile lv38
-    (332, 33200, 412, 21, 1, 44),  -- energy-ball lv44
-    (332, 33200, 178, 21, 1, 49),  -- cotton-spore lv49
-    (332, 33200, 201, 21, 1, 54),  -- sandstorm lv54
-    (332, 33200, 194, 21, 1, 59),  -- destiny-bond lv59
-    (332, 33200, 14, 21, 2, NULL),  -- swords-dance tm
-    (332, 33200, 15, 21, 2, NULL),  -- cut tm
-    (332, 33200, 63, 21, 2, NULL),  -- hyper-beam tm
-    (332, 33200, 70, 21, 2, NULL),  -- strength tm
-    (332, 33200, 76, 21, 2, NULL),  -- solar-beam tm
-    (332, 33200, 104, 21, 2, NULL),  -- double-team tm
-    (332, 33200, 148, 21, 2, NULL),  -- flash tm
-    (332, 33200, 156, 21, 2, NULL),  -- rest tm
-    (332, 33200, 164, 21, 2, NULL),  -- substitute tm
-    (332, 33200, 182, 21, 2, NULL),  -- protect tm
-    (332, 33200, 201, 21, 2, NULL),  -- sandstorm tm
-    (332, 33200, 202, 21, 2, NULL),  -- giga-drain tm
-    (332, 33200, 203, 21, 2, NULL),  -- endure tm
-    (332, 33200, 207, 21, 2, NULL),  -- swagger tm
-    (332, 33200, 213, 21, 2, NULL),  -- attract tm
-    (332, 33200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (332, 33200, 241, 21, 2, NULL),  -- sunny-day tm
-    (332, 33200, 263, 21, 2, NULL),  -- facade tm
-    (332, 33200, 264, 21, 2, NULL),  -- focus-punch tm
-    (332, 33200, 280, 21, 2, NULL),  -- brick-break tm
-    (332, 33200, 331, 21, 2, NULL),  -- bullet-seed tm
-    (332, 33200, 371, 21, 2, NULL),  -- payback tm
-    (332, 33200, 374, 21, 2, NULL),  -- fling tm
-    (332, 33200, 398, 21, 2, NULL),  -- poison-jab tm
-    (332, 33200, 399, 21, 2, NULL),  -- dark-pulse tm
-    (332, 33200, 409, 21, 2, NULL),  -- drain-punch tm
-    (332, 33200, 411, 21, 2, NULL),  -- focus-blast tm
-    (332, 33200, 412, 21, 2, NULL),  -- energy-ball tm
-    (332, 33200, 416, 21, 2, NULL),  -- giga-impact tm
-    (332, 33200, 417, 21, 2, NULL),  -- nasty-plot tm
-    (332, 33200, 447, 21, 2, NULL),  -- grass-knot tm
-    (332, 33200, 50, 21, 5, NULL),  -- disable egg
-    (332, 33200, 51, 21, 5, NULL),  -- acid egg
-    (332, 33200, 67, 21, 5, NULL),  -- low-kick egg
-    (332, 33200, 68, 21, 5, NULL),  -- counter egg
-    (332, 33200, 223, 21, 5, NULL),  -- dynamic-punch egg
-    (332, 33200, 298, 21, 5, NULL),  -- teeter-dance egg
-    (332, 33200, 335, 21, 5, NULL),  -- block egg
-    (332, 33200, 345, 21, 5, NULL),  -- magical-leaf egg
-    (332, 33200, 388, 21, 5, NULL),  -- worry-seed egg
-    (332, 33200, 402, 21, 5, NULL),  -- seed-bomb egg
-    (332, 33200, 415, 21, 5, NULL),  -- switcheroo egg
-    (332, 33200, 562, 21, 5, NULL),  -- belch egg
-    (332, 33200, 565, 21, 5, NULL),  -- fell-stinger egg
-    (332, 33200, 612, 21, 5, NULL),  -- power-up-punch egg
-    (332, 33200, 40, 21, 8, NULL),  -- poison-sting start
-    (332, 33200, 43, 21, 8, NULL),  -- leer start
-    (332, 33200, 71, 21, 8, NULL),  -- absorb start
-    (332, 33200, 74, 21, 8, NULL),  -- growth start
-    (332, 33200, 194, 21, 8, NULL),  -- destiny-bond start
-    (332, 33200, 279, 21, 8, NULL),  -- revenge start
-    (332, 33200, 596, 21, 8, NULL),  -- spiky-shield start
-    (333, 33300, 574, 21, 1, 4),  -- disarming-voice lv4
-    (333, 33300, 54, 21, 1, 8),  -- mist lv8
-    (333, 33300, 31, 21, 1, 12),  -- fury-attack lv12
-    (333, 33300, 496, 21, 1, 16),  -- round lv16
-    (333, 33300, 225, 21, 1, 20),  -- dragon-breath lv20
-    (333, 33300, 219, 21, 1, 24),  -- safeguard lv24
-    (333, 33300, 47, 21, 1, 28),  -- sing lv28
-    (333, 33300, 538, 21, 1, 32),  -- cotton-guard lv32
-    (333, 33300, 36, 21, 1, 36),  -- take-down lv36
-    (333, 33300, 585, 21, 1, 40),  -- moonblast lv40
-    (333, 33300, 195, 21, 1, 44),  -- perish-song lv44
-    (333, 33300, 19, 21, 2, NULL),  -- fly tm
-    (333, 33300, 58, 21, 2, NULL),  -- ice-beam tm
-    (333, 33300, 76, 21, 2, NULL),  -- solar-beam tm
-    (333, 33300, 104, 21, 2, NULL),  -- double-team tm
-    (333, 33300, 138, 21, 2, NULL),  -- dream-eater tm
-    (333, 33300, 156, 21, 2, NULL),  -- rest tm
-    (333, 33300, 164, 21, 2, NULL),  -- substitute tm
-    (333, 33300, 168, 21, 2, NULL),  -- thief tm
-    (333, 33300, 182, 21, 2, NULL),  -- protect tm
-    (333, 33300, 203, 21, 2, NULL),  -- endure tm
-    (333, 33300, 206, 21, 2, NULL),  -- false-swipe tm
-    (333, 33300, 207, 21, 2, NULL),  -- swagger tm
-    (333, 33300, 211, 21, 2, NULL),  -- steel-wing tm
-    (333, 33300, 213, 21, 2, NULL),  -- attract tm
-    (333, 33300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (333, 33300, 219, 21, 2, NULL),  -- safeguard tm
-    (333, 33300, 240, 21, 2, NULL),  -- rain-dance tm
-    (333, 33300, 241, 21, 2, NULL),  -- sunny-day tm
-    (333, 33300, 244, 21, 2, NULL),  -- psych-up tm
-    (333, 33300, 263, 21, 2, NULL),  -- facade tm
-    (333, 33300, 332, 21, 2, NULL),  -- aerial-ace tm
-    (333, 33300, 355, 21, 2, NULL),  -- roost tm
-    (333, 33300, 365, 21, 2, NULL),  -- pluck tm
-    (333, 33300, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (333, 33300, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (333, 33300, 97, 21, 5, NULL),  -- agility egg
-    (333, 33300, 114, 21, 5, NULL),  -- haze egg
-    (333, 33300, 297, 21, 5, NULL),  -- feather-dance egg
-    (333, 33300, 304, 21, 5, NULL),  -- hyper-voice egg
-    (333, 33300, 310, 21, 5, NULL),  -- astonish egg
-    (333, 33300, 366, 21, 5, NULL),  -- tailwind egg
-    (333, 33300, 384, 21, 5, NULL),  -- power-swap egg
-    (333, 33300, 407, 21, 5, NULL),  -- dragon-rush egg
-    (333, 33300, 583, 21, 5, NULL),  -- play-rough egg
-    (333, 33300, 45, 21, 8, NULL),  -- growl start
-    (333, 33300, 64, 21, 8, NULL),  -- peck start
-    (334, 33400, 19, 21, 2, NULL),  -- fly tm
-    (334, 33400, 46, 21, 2, NULL),  -- roar tm
-    (334, 33400, 53, 21, 2, NULL),  -- flamethrower tm
-    (334, 33400, 58, 21, 2, NULL),  -- ice-beam tm
-    (334, 33400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (334, 33400, 76, 21, 2, NULL),  -- solar-beam tm
-    (334, 33400, 89, 21, 2, NULL),  -- earthquake tm
-    (334, 33400, 104, 21, 2, NULL),  -- double-team tm
-    (334, 33400, 126, 21, 2, NULL),  -- fire-blast tm
-    (334, 33400, 138, 21, 2, NULL),  -- dream-eater tm
-    (334, 33400, 156, 21, 2, NULL),  -- rest tm
-    (334, 33400, 164, 21, 2, NULL),  -- substitute tm
-    (334, 33400, 168, 21, 2, NULL),  -- thief tm
-    (334, 33400, 182, 21, 2, NULL),  -- protect tm
-    (334, 33400, 203, 21, 2, NULL),  -- endure tm
-    (334, 33400, 206, 21, 2, NULL),  -- false-swipe tm
-    (334, 33400, 207, 21, 2, NULL),  -- swagger tm
-    (334, 33400, 211, 21, 2, NULL),  -- steel-wing tm
-    (334, 33400, 213, 21, 2, NULL),  -- attract tm
-    (334, 33400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (334, 33400, 219, 21, 2, NULL),  -- safeguard tm
-    (334, 33400, 231, 21, 2, NULL),  -- iron-tail tm
-    (334, 33400, 240, 21, 2, NULL),  -- rain-dance tm
-    (334, 33400, 241, 21, 2, NULL),  -- sunny-day tm
-    (334, 33400, 244, 21, 2, NULL),  -- psych-up tm
-    (334, 33400, 249, 21, 2, NULL),  -- rock-smash tm
-    (334, 33400, 263, 21, 2, NULL),  -- facade tm
-    (334, 33400, 332, 21, 2, NULL),  -- aerial-ace tm
-    (334, 33400, 337, 21, 2, NULL),  -- dragon-claw tm
-    (334, 33400, 355, 21, 2, NULL),  -- roost tm
-    (334, 33400, 365, 21, 2, NULL),  -- pluck tm
-    (334, 33400, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (334, 33400, 416, 21, 2, NULL),  -- giga-impact tm
-    (334, 33400, 523, 21, 2, NULL),  -- bulldoze tm
-    (334, 33400, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (334, 33400, 97, 21, 5, NULL),  -- agility egg
-    (334, 33400, 114, 21, 5, NULL),  -- haze egg
-    (334, 33400, 297, 21, 5, NULL),  -- feather-dance egg
-    (334, 33400, 304, 21, 5, NULL),  -- hyper-voice egg
-    (334, 33400, 310, 21, 5, NULL),  -- astonish egg
-    (334, 33400, 366, 21, 5, NULL),  -- tailwind egg
-    (334, 33400, 384, 21, 5, NULL),  -- power-swap egg
-    (334, 33400, 407, 21, 5, NULL),  -- dragon-rush egg
-    (334, 33400, 583, 21, 5, NULL),  -- play-rough egg
-    (335, 33500, 98, 21, 1, 5),  -- quick-attack lv5
-    (335, 33500, 210, 21, 1, 8),  -- fury-cutter lv8
-    (335, 33500, 468, 21, 1, 12),  -- hone-claws lv12
-    (335, 33500, 332, 21, 1, 15),  -- aerial-ace lv15
-    (335, 33500, 163, 21, 1, 19),  -- slash lv19
-    (335, 33500, 279, 21, 1, 22),  -- revenge lv22
-    (335, 33500, 306, 21, 1, 26),  -- crush-claw lv26
-    (335, 33500, 206, 21, 1, 29),  -- false-swipe lv29
-    (335, 33500, 263, 21, 1, 33),  -- facade lv33
-    (335, 33500, 197, 21, 1, 36),  -- detect lv36
-    (335, 33500, 404, 21, 1, 40),  -- x-scissor lv40
-    (335, 33500, 269, 21, 1, 43),  -- taunt lv43
-    (335, 33500, 14, 21, 1, 47),  -- swords-dance lv47
-    (335, 33500, 370, 21, 1, 50),  -- close-combat lv50
-    (335, 33500, 14, 21, 2, NULL),  -- swords-dance tm
-    (335, 33500, 46, 21, 2, NULL),  -- roar tm
-    (335, 33500, 53, 21, 2, NULL),  -- flamethrower tm
-    (335, 33500, 58, 21, 2, NULL),  -- ice-beam tm
-    (335, 33500, 59, 21, 2, NULL),  -- blizzard tm
-    (335, 33500, 70, 21, 2, NULL),  -- strength tm
-    (335, 33500, 76, 21, 2, NULL),  -- solar-beam tm
-    (335, 33500, 85, 21, 2, NULL),  -- thunderbolt tm
-    (335, 33500, 86, 21, 2, NULL),  -- thunder-wave tm
-    (335, 33500, 87, 21, 2, NULL),  -- thunder tm
-    (335, 33500, 91, 21, 2, NULL),  -- dig tm
-    (335, 33500, 104, 21, 2, NULL),  -- double-team tm
-    (335, 33500, 126, 21, 2, NULL),  -- fire-blast tm
-    (335, 33500, 156, 21, 2, NULL),  -- rest tm
-    (335, 33500, 157, 21, 2, NULL),  -- rock-slide tm
-    (335, 33500, 164, 21, 2, NULL),  -- substitute tm
-    (335, 33500, 168, 21, 2, NULL),  -- thief tm
-    (335, 33500, 182, 21, 2, NULL),  -- protect tm
-    (335, 33500, 202, 21, 2, NULL),  -- giga-drain tm
-    (335, 33500, 203, 21, 2, NULL),  -- endure tm
-    (335, 33500, 206, 21, 2, NULL),  -- false-swipe tm
-    (335, 33500, 207, 21, 2, NULL),  -- swagger tm
-    (335, 33500, 213, 21, 2, NULL),  -- attract tm
-    (335, 33500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (335, 33500, 231, 21, 2, NULL),  -- iron-tail tm
-    (335, 33500, 240, 21, 2, NULL),  -- rain-dance tm
-    (335, 33500, 241, 21, 2, NULL),  -- sunny-day tm
-    (335, 33500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (335, 33500, 249, 21, 2, NULL),  -- rock-smash tm
-    (335, 33500, 263, 21, 2, NULL),  -- facade tm
-    (335, 33500, 264, 21, 2, NULL),  -- focus-punch tm
-    (335, 33500, 269, 21, 2, NULL),  -- taunt tm
-    (335, 33500, 280, 21, 2, NULL),  -- brick-break tm
-    (335, 33500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (335, 33500, 332, 21, 2, NULL),  -- aerial-ace tm
-    (335, 33500, 351, 21, 2, NULL),  -- shock-wave tm
-    (335, 33500, 352, 21, 2, NULL),  -- water-pulse tm
-    (335, 33500, 371, 21, 2, NULL),  -- payback tm
-    (335, 33500, 374, 21, 2, NULL),  -- fling tm
-    (335, 33500, 398, 21, 2, NULL),  -- poison-jab tm
-    (335, 33500, 404, 21, 2, NULL),  -- x-scissor tm
-    (335, 33500, 411, 21, 2, NULL),  -- focus-blast tm
-    (335, 33500, 421, 21, 2, NULL),  -- shadow-claw tm
-    (335, 33500, 431, 21, 2, NULL),  -- rock-climb tm
-    (335, 33500, 526, 21, 2, NULL),  -- work-up tm
-    (335, 33500, 24, 21, 5, NULL),  -- double-kick egg
-    (335, 33500, 50, 21, 5, NULL),  -- disable egg
-    (335, 33500, 68, 21, 5, NULL),  -- counter egg
-    (335, 33500, 154, 21, 5, NULL),  -- fury-swipes egg
-    (335, 33500, 174, 21, 5, NULL),  -- curse egg
-    (335, 33500, 175, 21, 5, NULL),  -- flail egg
-    (335, 33500, 187, 21, 5, NULL),  -- belly-drum egg
-    (335, 33500, 232, 21, 5, NULL),  -- metal-claw egg
-    (335, 33500, 364, 21, 5, NULL),  -- feint egg
-    (335, 33500, 400, 21, 5, NULL),  -- night-slash egg
-    (335, 33500, 458, 21, 5, NULL),  -- double-hit egg
-    (335, 33500, 501, 21, 5, NULL),  -- quick-guard egg
-    (335, 33500, 515, 21, 5, NULL),  -- final-gambit egg
-    (335, 33500, 10, 21, 8, NULL),  -- scratch start
-    (335, 33500, 43, 21, 8, NULL),  -- leer start
-    (336, 33600, 44, 21, 1, 4),  -- bite lv4
-    (336, 33600, 122, 21, 1, 6),  -- lick lv6
-    (336, 33600, 342, 21, 1, 9),  -- poison-tail lv9
-    (336, 33600, 364, 21, 1, 11),  -- feint lv11
-    (336, 33600, 103, 21, 1, 14),  -- screech lv14
-    (336, 33600, 474, 21, 1, 16),  -- venoshock lv16
-    (336, 33600, 137, 21, 1, 19),  -- glare lv19
-    (336, 33600, 305, 21, 1, 21),  -- poison-fang lv21
-    (336, 33600, 599, 21, 1, 24),  -- venom-drench lv24
-    (336, 33600, 400, 21, 1, 26),  -- night-slash lv26
-    (336, 33600, 380, 21, 1, 29),  -- gastro-acid lv29
-    (336, 33600, 398, 21, 1, 31),  -- poison-jab lv31
-    (336, 33600, 114, 21, 1, 34),  -- haze lv34
-    (336, 33600, 14, 21, 1, 36),  -- swords-dance lv36
-    (336, 33600, 242, 21, 1, 39),  -- crunch lv39
-    (336, 33600, 562, 21, 1, 41),  -- belch lv41
-    (336, 33600, 489, 21, 1, 44),  -- coil lv44
-    (336, 33600, 188, 21, 1, 46),  -- sludge-bomb lv46
-    (336, 33600, 14, 21, 2, NULL),  -- swords-dance tm
-    (336, 33600, 53, 21, 2, NULL),  -- flamethrower tm
-    (336, 33600, 70, 21, 2, NULL),  -- strength tm
-    (336, 33600, 89, 21, 2, NULL),  -- earthquake tm
-    (336, 33600, 91, 21, 2, NULL),  -- dig tm
-    (336, 33600, 104, 21, 2, NULL),  -- double-team tm
-    (336, 33600, 156, 21, 2, NULL),  -- rest tm
-    (336, 33600, 164, 21, 2, NULL),  -- substitute tm
-    (336, 33600, 168, 21, 2, NULL),  -- thief tm
-    (336, 33600, 182, 21, 2, NULL),  -- protect tm
-    (336, 33600, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (336, 33600, 202, 21, 2, NULL),  -- giga-drain tm
-    (336, 33600, 203, 21, 2, NULL),  -- endure tm
-    (336, 33600, 207, 21, 2, NULL),  -- swagger tm
-    (336, 33600, 213, 21, 2, NULL),  -- attract tm
-    (336, 33600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (336, 33600, 231, 21, 2, NULL),  -- iron-tail tm
-    (336, 33600, 240, 21, 2, NULL),  -- rain-dance tm
-    (336, 33600, 241, 21, 2, NULL),  -- sunny-day tm
-    (336, 33600, 249, 21, 2, NULL),  -- rock-smash tm
-    (336, 33600, 263, 21, 2, NULL),  -- facade tm
-    (336, 33600, 269, 21, 2, NULL),  -- taunt tm
-    (336, 33600, 371, 21, 2, NULL),  -- payback tm
-    (336, 33600, 398, 21, 2, NULL),  -- poison-jab tm
-    (336, 33600, 399, 21, 2, NULL),  -- dark-pulse tm
-    (336, 33600, 404, 21, 2, NULL),  -- x-scissor tm
-    (336, 33600, 523, 21, 2, NULL),  -- bulldoze tm
-    (336, 33600, 34, 21, 5, NULL),  -- body-slam egg
-    (336, 33600, 184, 21, 5, NULL),  -- scary-face egg
-    (336, 33600, 254, 21, 5, NULL),  -- stockpile egg
-    (336, 33600, 255, 21, 5, NULL),  -- spit-up egg
-    (336, 33600, 256, 21, 5, NULL),  -- swallow egg
-    (336, 33600, 372, 21, 5, NULL),  -- assurance egg
-    (336, 33600, 400, 21, 5, NULL),  -- night-slash egg
-    (336, 33600, 415, 21, 5, NULL),  -- switcheroo egg
-    (336, 33600, 515, 21, 5, NULL),  -- final-gambit egg
-    (336, 33600, 35, 21, 8, NULL),  -- wrap start
-    (336, 33600, 207, 21, 8, NULL),  -- swagger start
-    (337, 33700, 95, 21, 1, 5),  -- hypnosis lv5
-    (337, 33700, 397, 21, 1, 10),  -- rock-polish lv10
-    (337, 33700, 157, 21, 1, 15),  -- rock-slide lv15
-    (337, 33700, 473, 21, 1, 20),  -- psyshock lv20
-    (337, 33700, 322, 21, 1, 25),  -- cosmic-power lv25
-    (337, 33700, 94, 21, 1, 30),  -- psychic lv30
-    (337, 33700, 444, 21, 1, 35),  -- stone-edge lv35
-    (337, 33700, 248, 21, 1, 40),  -- future-sight lv40
-    (337, 33700, 478, 21, 1, 45),  -- magic-room lv45
-    (337, 33700, 153, 21, 1, 50),  -- explosion lv50
-    (337, 33700, 58, 21, 2, NULL),  -- ice-beam tm
-    (337, 33700, 59, 21, 2, NULL),  -- blizzard tm
-    (337, 33700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (337, 33700, 89, 21, 2, NULL),  -- earthquake tm
-    (337, 33700, 94, 21, 2, NULL),  -- psychic tm
-    (337, 33700, 104, 21, 2, NULL),  -- double-team tm
-    (337, 33700, 113, 21, 2, NULL),  -- light-screen tm
-    (337, 33700, 115, 21, 2, NULL),  -- reflect tm
-    (337, 33700, 138, 21, 2, NULL),  -- dream-eater tm
-    (337, 33700, 148, 21, 2, NULL),  -- flash tm
-    (337, 33700, 153, 21, 2, NULL),  -- explosion tm
-    (337, 33700, 156, 21, 2, NULL),  -- rest tm
-    (337, 33700, 157, 21, 2, NULL),  -- rock-slide tm
-    (337, 33700, 164, 21, 2, NULL),  -- substitute tm
-    (337, 33700, 182, 21, 2, NULL),  -- protect tm
-    (337, 33700, 201, 21, 2, NULL),  -- sandstorm tm
-    (337, 33700, 203, 21, 2, NULL),  -- endure tm
-    (337, 33700, 207, 21, 2, NULL),  -- swagger tm
-    (337, 33700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (337, 33700, 219, 21, 2, NULL),  -- safeguard tm
-    (337, 33700, 240, 21, 2, NULL),  -- rain-dance tm
-    (337, 33700, 244, 21, 2, NULL),  -- psych-up tm
-    (337, 33700, 247, 21, 2, NULL),  -- shadow-ball tm
-    (337, 33700, 258, 21, 2, NULL),  -- hail tm
-    (337, 33700, 263, 21, 2, NULL),  -- facade tm
-    (337, 33700, 278, 21, 2, NULL),  -- recycle tm
-    (337, 33700, 285, 21, 2, NULL),  -- skill-swap tm
-    (337, 33700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (337, 33700, 347, 21, 2, NULL),  -- calm-mind tm
-    (337, 33700, 360, 21, 2, NULL),  -- gyro-ball tm
-    (337, 33700, 397, 21, 2, NULL),  -- rock-polish tm
-    (337, 33700, 416, 21, 2, NULL),  -- giga-impact tm
-    (337, 33700, 417, 21, 2, NULL),  -- nasty-plot tm
-    (337, 33700, 433, 21, 2, NULL),  -- trick-room tm
-    (337, 33700, 444, 21, 2, NULL),  -- stone-edge tm
-    (337, 33700, 446, 21, 2, NULL),  -- stealth-rock tm
-    (337, 33700, 447, 21, 2, NULL),  -- grass-knot tm
-    (337, 33700, 451, 21, 2, NULL),  -- charge-beam tm
-    (337, 33700, 523, 21, 2, NULL),  -- bulldoze tm
-    (337, 33700, 33, 21, 8, NULL),  -- tackle start
-    (337, 33700, 88, 21, 8, NULL),  -- rock-throw start
-    (337, 33700, 93, 21, 8, NULL),  -- confusion start
-    (337, 33700, 106, 21, 8, NULL),  -- harden start
-    (337, 33700, 236, 21, 8, NULL),  -- moonlight start
-    (337, 33700, 585, 21, 8, NULL),  -- moonblast start
-    (338, 33800, 95, 21, 1, 5),  -- hypnosis lv5
-    (338, 33800, 397, 21, 1, 10),  -- rock-polish lv10
-    (338, 33800, 157, 21, 1, 15),  -- rock-slide lv15
-    (338, 33800, 428, 21, 1, 20),  -- zen-headbutt lv20
-    (338, 33800, 322, 21, 1, 25),  -- cosmic-power lv25
-    (338, 33800, 94, 21, 1, 30),  -- psychic lv30
-    (338, 33800, 444, 21, 1, 35),  -- stone-edge lv35
-    (338, 33800, 76, 21, 1, 40),  -- solar-beam lv40
-    (338, 33800, 472, 21, 1, 45),  -- wonder-room lv45
-    (338, 33800, 153, 21, 1, 50),  -- explosion lv50
-    (338, 33800, 14, 21, 2, NULL),  -- swords-dance tm
-    (338, 33800, 53, 21, 2, NULL),  -- flamethrower tm
-    (338, 33800, 63, 21, 2, NULL),  -- hyper-beam tm
-    (338, 33800, 76, 21, 2, NULL),  -- solar-beam tm
-    (338, 33800, 89, 21, 2, NULL),  -- earthquake tm
-    (338, 33800, 94, 21, 2, NULL),  -- psychic tm
-    (338, 33800, 104, 21, 2, NULL),  -- double-team tm
-    (338, 33800, 113, 21, 2, NULL),  -- light-screen tm
-    (338, 33800, 115, 21, 2, NULL),  -- reflect tm
-    (338, 33800, 126, 21, 2, NULL),  -- fire-blast tm
-    (338, 33800, 138, 21, 2, NULL),  -- dream-eater tm
-    (338, 33800, 148, 21, 2, NULL),  -- flash tm
-    (338, 33800, 153, 21, 2, NULL),  -- explosion tm
-    (338, 33800, 156, 21, 2, NULL),  -- rest tm
-    (338, 33800, 157, 21, 2, NULL),  -- rock-slide tm
-    (338, 33800, 164, 21, 2, NULL),  -- substitute tm
-    (338, 33800, 182, 21, 2, NULL),  -- protect tm
-    (338, 33800, 201, 21, 2, NULL),  -- sandstorm tm
-    (338, 33800, 203, 21, 2, NULL),  -- endure tm
-    (338, 33800, 207, 21, 2, NULL),  -- swagger tm
-    (338, 33800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (338, 33800, 219, 21, 2, NULL),  -- safeguard tm
-    (338, 33800, 240, 21, 2, NULL),  -- rain-dance tm
-    (338, 33800, 241, 21, 2, NULL),  -- sunny-day tm
-    (338, 33800, 244, 21, 2, NULL),  -- psych-up tm
-    (338, 33800, 247, 21, 2, NULL),  -- shadow-ball tm
-    (338, 33800, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (338, 33800, 263, 21, 2, NULL),  -- facade tm
-    (338, 33800, 278, 21, 2, NULL),  -- recycle tm
-    (338, 33800, 285, 21, 2, NULL),  -- skill-swap tm
-    (338, 33800, 315, 21, 2, NULL),  -- overheat tm
-    (338, 33800, 317, 21, 2, NULL),  -- rock-tomb tm
-    (338, 33800, 347, 21, 2, NULL),  -- calm-mind tm
-    (338, 33800, 360, 21, 2, NULL),  -- gyro-ball tm
-    (338, 33800, 397, 21, 2, NULL),  -- rock-polish tm
-    (338, 33800, 416, 21, 2, NULL),  -- giga-impact tm
-    (338, 33800, 433, 21, 2, NULL),  -- trick-room tm
-    (338, 33800, 444, 21, 2, NULL),  -- stone-edge tm
-    (338, 33800, 446, 21, 2, NULL),  -- stealth-rock tm
-    (338, 33800, 447, 21, 2, NULL),  -- grass-knot tm
-    (338, 33800, 451, 21, 2, NULL),  -- charge-beam tm
-    (338, 33800, 523, 21, 2, NULL),  -- bulldoze tm
-    (338, 33800, 33, 21, 8, NULL),  -- tackle start
-    (338, 33800, 88, 21, 8, NULL),  -- rock-throw start
-    (338, 33800, 93, 21, 8, NULL),  -- confusion start
-    (338, 33800, 106, 21, 8, NULL),  -- harden start
-    (338, 33800, 234, 21, 8, NULL),  -- morning-sun start
-    (338, 33800, 394, 21, 8, NULL),  -- flare-blitz start
-    (339, 33900, 156, 21, 1, 6),  -- rest lv6
-    (339, 33900, 173, 21, 1, 6),  -- snore lv6
-    (339, 33900, 352, 21, 1, 12),  -- water-pulse lv12
-    (339, 33900, 133, 21, 1, 18),  -- amnesia lv18
-    (339, 33900, 401, 21, 1, 24),  -- aqua-tail lv24
-    (339, 33900, 330, 21, 1, 31),  -- muddy-water lv31
-    (339, 33900, 89, 21, 1, 36),  -- earthquake lv36
-    (339, 33900, 248, 21, 1, 42),  -- future-sight lv42
-    (339, 33900, 90, 21, 1, 48),  -- fissure lv48
-    (339, 33900, 57, 21, 2, NULL),  -- surf tm
-    (339, 33900, 58, 21, 2, NULL),  -- ice-beam tm
-    (339, 33900, 59, 21, 2, NULL),  -- blizzard tm
-    (339, 33900, 89, 21, 2, NULL),  -- earthquake tm
-    (339, 33900, 104, 21, 2, NULL),  -- double-team tm
-    (339, 33900, 127, 21, 2, NULL),  -- waterfall tm
-    (339, 33900, 156, 21, 2, NULL),  -- rest tm
-    (339, 33900, 164, 21, 2, NULL),  -- substitute tm
-    (339, 33900, 182, 21, 2, NULL),  -- protect tm
-    (339, 33900, 201, 21, 2, NULL),  -- sandstorm tm
-    (339, 33900, 203, 21, 2, NULL),  -- endure tm
-    (339, 33900, 207, 21, 2, NULL),  -- swagger tm
-    (339, 33900, 213, 21, 2, NULL),  -- attract tm
-    (339, 33900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (339, 33900, 240, 21, 2, NULL),  -- rain-dance tm
-    (339, 33900, 258, 21, 2, NULL),  -- hail tm
-    (339, 33900, 263, 21, 2, NULL),  -- facade tm
-    (339, 33900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (339, 33900, 352, 21, 2, NULL),  -- water-pulse tm
-    (339, 33900, 503, 21, 2, NULL),  -- scald tm
-    (339, 33900, 523, 21, 2, NULL),  -- bulldoze tm
-    (339, 33900, 36, 21, 5, NULL),  -- take-down egg
-    (339, 33900, 37, 21, 5, NULL),  -- thrash egg
-    (339, 33900, 56, 21, 5, NULL),  -- hydro-pump egg
-    (339, 33900, 175, 21, 5, NULL),  -- flail egg
-    (339, 33900, 209, 21, 5, NULL),  -- spark egg
-    (339, 33900, 250, 21, 5, NULL),  -- whirlpool egg
-    (339, 33900, 330, 21, 5, NULL),  -- muddy-water egg
-    (339, 33900, 341, 21, 5, NULL),  -- mud-shot egg
-    (339, 33900, 349, 21, 5, NULL),  -- dragon-dance egg
-    (339, 33900, 414, 21, 5, NULL),  -- earth-power egg
-    (339, 33900, 55, 21, 8, NULL),  -- water-gun start
-    (339, 33900, 189, 21, 8, NULL),  -- mud-slap start
-    (340, 34000, 352, 21, 1, 12),  -- water-pulse lv12
-    (340, 34000, 133, 21, 1, 18),  -- amnesia lv18
-    (340, 34000, 401, 21, 1, 24),  -- aqua-tail lv24
-    (340, 34000, 330, 21, 1, 33),  -- muddy-water lv33
-    (340, 34000, 89, 21, 1, 40),  -- earthquake lv40
-    (340, 34000, 248, 21, 1, 48),  -- future-sight lv48
-    (340, 34000, 90, 21, 1, 56),  -- fissure lv56
-    (340, 34000, 57, 21, 2, NULL),  -- surf tm
-    (340, 34000, 58, 21, 2, NULL),  -- ice-beam tm
-    (340, 34000, 59, 21, 2, NULL),  -- blizzard tm
-    (340, 34000, 63, 21, 2, NULL),  -- hyper-beam tm
-    (340, 34000, 70, 21, 2, NULL),  -- strength tm
-    (340, 34000, 89, 21, 2, NULL),  -- earthquake tm
-    (340, 34000, 104, 21, 2, NULL),  -- double-team tm
-    (340, 34000, 127, 21, 2, NULL),  -- waterfall tm
-    (340, 34000, 156, 21, 2, NULL),  -- rest tm
-    (340, 34000, 157, 21, 2, NULL),  -- rock-slide tm
-    (340, 34000, 164, 21, 2, NULL),  -- substitute tm
-    (340, 34000, 182, 21, 2, NULL),  -- protect tm
-    (340, 34000, 201, 21, 2, NULL),  -- sandstorm tm
-    (340, 34000, 203, 21, 2, NULL),  -- endure tm
-    (340, 34000, 207, 21, 2, NULL),  -- swagger tm
-    (340, 34000, 213, 21, 2, NULL),  -- attract tm
-    (340, 34000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (340, 34000, 240, 21, 2, NULL),  -- rain-dance tm
-    (340, 34000, 249, 21, 2, NULL),  -- rock-smash tm
-    (340, 34000, 258, 21, 2, NULL),  -- hail tm
-    (340, 34000, 263, 21, 2, NULL),  -- facade tm
-    (340, 34000, 317, 21, 2, NULL),  -- rock-tomb tm
-    (340, 34000, 352, 21, 2, NULL),  -- water-pulse tm
-    (340, 34000, 416, 21, 2, NULL),  -- giga-impact tm
-    (340, 34000, 444, 21, 2, NULL),  -- stone-edge tm
-    (340, 34000, 503, 21, 2, NULL),  -- scald tm
-    (340, 34000, 523, 21, 2, NULL),  -- bulldoze tm
-    (340, 34000, 36, 21, 5, NULL),  -- take-down egg
-    (340, 34000, 37, 21, 5, NULL),  -- thrash egg
-    (340, 34000, 56, 21, 5, NULL),  -- hydro-pump egg
-    (340, 34000, 175, 21, 5, NULL),  -- flail egg
-    (340, 34000, 209, 21, 5, NULL),  -- spark egg
-    (340, 34000, 250, 21, 5, NULL),  -- whirlpool egg
-    (340, 34000, 330, 21, 5, NULL),  -- muddy-water egg
-    (340, 34000, 341, 21, 5, NULL),  -- mud-shot egg
-    (340, 34000, 349, 21, 5, NULL),  -- dragon-dance egg
-    (340, 34000, 414, 21, 5, NULL),  -- earth-power egg
-    (340, 34000, 37, 21, 8, NULL),  -- thrash start
-    (340, 34000, 55, 21, 8, NULL),  -- water-gun start
-    (340, 34000, 156, 21, 8, NULL),  -- rest start
-    (340, 34000, 173, 21, 8, NULL),  -- snore start
-    (340, 34000, 189, 21, 8, NULL),  -- mud-slap start
-    (340, 34000, 321, 21, 8, NULL),  -- tickle start
-    (340, 34000, 428, 21, 8, NULL),  -- zen-headbutt start
-    (340, 34000, 562, 21, 8, NULL),  -- belch start
-    (341, 34100, 43, 21, 1, 4),  -- leer lv4
-    (341, 34100, 269, 21, 1, 8),  -- taunt lv8
-    (341, 34100, 61, 21, 1, 12),  -- bubble-beam lv12
-    (341, 34100, 282, 21, 1, 16),  -- knock-off lv16
-    (341, 34100, 458, 21, 1, 20),  -- double-hit lv20
-    (341, 34100, 182, 21, 1, 24),  -- protect lv24
-    (341, 34100, 400, 21, 1, 28),  -- night-slash lv28
-    (341, 34100, 534, 21, 1, 32),  -- razor-shell lv32
-    (341, 34100, 14, 21, 1, 36),  -- swords-dance lv36
-    (341, 34100, 242, 21, 1, 40),  -- crunch lv40
-    (341, 34100, 152, 21, 1, 44),  -- crabhammer lv44
-    (341, 34100, 283, 21, 1, 48),  -- endeavor lv48
-    (341, 34100, 12, 21, 1, 52),  -- guillotine lv52
-    (341, 34100, 14, 21, 2, NULL),  -- swords-dance tm
-    (341, 34100, 15, 21, 2, NULL),  -- cut tm
-    (341, 34100, 57, 21, 2, NULL),  -- surf tm
-    (341, 34100, 58, 21, 2, NULL),  -- ice-beam tm
-    (341, 34100, 59, 21, 2, NULL),  -- blizzard tm
-    (341, 34100, 70, 21, 2, NULL),  -- strength tm
-    (341, 34100, 91, 21, 2, NULL),  -- dig tm
-    (341, 34100, 104, 21, 2, NULL),  -- double-team tm
-    (341, 34100, 127, 21, 2, NULL),  -- waterfall tm
-    (341, 34100, 156, 21, 2, NULL),  -- rest tm
-    (341, 34100, 157, 21, 2, NULL),  -- rock-slide tm
-    (341, 34100, 164, 21, 2, NULL),  -- substitute tm
-    (341, 34100, 182, 21, 2, NULL),  -- protect tm
-    (341, 34100, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (341, 34100, 203, 21, 2, NULL),  -- endure tm
-    (341, 34100, 206, 21, 2, NULL),  -- false-swipe tm
-    (341, 34100, 207, 21, 2, NULL),  -- swagger tm
-    (341, 34100, 213, 21, 2, NULL),  -- attract tm
-    (341, 34100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (341, 34100, 240, 21, 2, NULL),  -- rain-dance tm
-    (341, 34100, 249, 21, 2, NULL),  -- rock-smash tm
-    (341, 34100, 258, 21, 2, NULL),  -- hail tm
-    (341, 34100, 263, 21, 2, NULL),  -- facade tm
-    (341, 34100, 269, 21, 2, NULL),  -- taunt tm
-    (341, 34100, 280, 21, 2, NULL),  -- brick-break tm
-    (341, 34100, 317, 21, 2, NULL),  -- rock-tomb tm
-    (341, 34100, 332, 21, 2, NULL),  -- aerial-ace tm
-    (341, 34100, 352, 21, 2, NULL),  -- water-pulse tm
-    (341, 34100, 371, 21, 2, NULL),  -- payback tm
-    (341, 34100, 374, 21, 2, NULL),  -- fling tm
-    (341, 34100, 404, 21, 2, NULL),  -- x-scissor tm
-    (341, 34100, 503, 21, 2, NULL),  -- scald tm
-    (341, 34100, 34, 21, 5, NULL),  -- body-slam egg
-    (341, 34100, 38, 21, 5, NULL),  -- double-edge egg
-    (341, 34100, 163, 21, 5, NULL),  -- slash egg
-    (341, 34100, 232, 21, 5, NULL),  -- metal-claw egg
-    (341, 34100, 246, 21, 5, NULL),  -- ancient-power egg
-    (341, 34100, 276, 21, 5, NULL),  -- superpower egg
-    (341, 34100, 282, 21, 5, NULL),  -- knock-off egg
-    (341, 34100, 283, 21, 5, NULL),  -- endeavor egg
-    (341, 34100, 349, 21, 5, NULL),  -- dragon-dance egg
-    (341, 34100, 415, 21, 5, NULL),  -- switcheroo egg
-    (341, 34100, 453, 21, 5, NULL),  -- aqua-jet egg
-    (341, 34100, 55, 21, 8, NULL),  -- water-gun start
-    (341, 34100, 106, 21, 8, NULL),  -- harden start
-    (342, 34200, 61, 21, 1, 12),  -- bubble-beam lv12
-    (342, 34200, 282, 21, 1, 16),  -- knock-off lv16
-    (342, 34200, 458, 21, 1, 20),  -- double-hit lv20
-    (342, 34200, 182, 21, 1, 24),  -- protect lv24
-    (342, 34200, 400, 21, 1, 28),  -- night-slash lv28
-    (342, 34200, 534, 21, 1, 34),  -- razor-shell lv34
-    (342, 34200, 14, 21, 1, 40),  -- swords-dance lv40
-    (342, 34200, 242, 21, 1, 46),  -- crunch lv46
-    (342, 34200, 152, 21, 1, 52),  -- crabhammer lv52
-    (342, 34200, 283, 21, 1, 58),  -- endeavor lv58
-    (342, 34200, 12, 21, 1, 64),  -- guillotine lv64
-    (342, 34200, 14, 21, 2, NULL),  -- swords-dance tm
-    (342, 34200, 15, 21, 2, NULL),  -- cut tm
-    (342, 34200, 57, 21, 2, NULL),  -- surf tm
-    (342, 34200, 58, 21, 2, NULL),  -- ice-beam tm
-    (342, 34200, 59, 21, 2, NULL),  -- blizzard tm
-    (342, 34200, 63, 21, 2, NULL),  -- hyper-beam tm
-    (342, 34200, 70, 21, 2, NULL),  -- strength tm
-    (342, 34200, 91, 21, 2, NULL),  -- dig tm
-    (342, 34200, 104, 21, 2, NULL),  -- double-team tm
-    (342, 34200, 127, 21, 2, NULL),  -- waterfall tm
-    (342, 34200, 156, 21, 2, NULL),  -- rest tm
-    (342, 34200, 157, 21, 2, NULL),  -- rock-slide tm
-    (342, 34200, 164, 21, 2, NULL),  -- substitute tm
-    (342, 34200, 182, 21, 2, NULL),  -- protect tm
-    (342, 34200, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (342, 34200, 203, 21, 2, NULL),  -- endure tm
-    (342, 34200, 206, 21, 2, NULL),  -- false-swipe tm
-    (342, 34200, 207, 21, 2, NULL),  -- swagger tm
-    (342, 34200, 213, 21, 2, NULL),  -- attract tm
-    (342, 34200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (342, 34200, 240, 21, 2, NULL),  -- rain-dance tm
-    (342, 34200, 249, 21, 2, NULL),  -- rock-smash tm
-    (342, 34200, 258, 21, 2, NULL),  -- hail tm
-    (342, 34200, 263, 21, 2, NULL),  -- facade tm
-    (342, 34200, 269, 21, 2, NULL),  -- taunt tm
-    (342, 34200, 280, 21, 2, NULL),  -- brick-break tm
-    (342, 34200, 317, 21, 2, NULL),  -- rock-tomb tm
-    (342, 34200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (342, 34200, 352, 21, 2, NULL),  -- water-pulse tm
-    (342, 34200, 371, 21, 2, NULL),  -- payback tm
-    (342, 34200, 374, 21, 2, NULL),  -- fling tm
-    (342, 34200, 399, 21, 2, NULL),  -- dark-pulse tm
-    (342, 34200, 404, 21, 2, NULL),  -- x-scissor tm
-    (342, 34200, 416, 21, 2, NULL),  -- giga-impact tm
-    (342, 34200, 417, 21, 2, NULL),  -- nasty-plot tm
-    (342, 34200, 419, 21, 2, NULL),  -- avalanche tm
-    (342, 34200, 503, 21, 2, NULL),  -- scald tm
-    (342, 34200, 555, 21, 2, NULL),  -- snarl tm
-    (342, 34200, 34, 21, 5, NULL),  -- body-slam egg
-    (342, 34200, 38, 21, 5, NULL),  -- double-edge egg
-    (342, 34200, 163, 21, 5, NULL),  -- slash egg
-    (342, 34200, 232, 21, 5, NULL),  -- metal-claw egg
-    (342, 34200, 246, 21, 5, NULL),  -- ancient-power egg
-    (342, 34200, 276, 21, 5, NULL),  -- superpower egg
-    (342, 34200, 282, 21, 5, NULL),  -- knock-off egg
-    (342, 34200, 283, 21, 5, NULL),  -- endeavor egg
-    (342, 34200, 349, 21, 5, NULL),  -- dragon-dance egg
-    (342, 34200, 415, 21, 5, NULL),  -- switcheroo egg
-    (342, 34200, 453, 21, 5, NULL),  -- aqua-jet egg
-    (342, 34200, 43, 21, 8, NULL),  -- leer start
-    (342, 34200, 55, 21, 8, NULL),  -- water-gun start
-    (342, 34200, 106, 21, 8, NULL),  -- harden start
-    (342, 34200, 129, 21, 8, NULL),  -- swift start
-    (342, 34200, 269, 21, 8, NULL),  -- taunt start
-    (343, 34300, 229, 21, 1, 3),  -- rapid-spin lv3
-    (343, 34300, 93, 21, 1, 6),  -- confusion lv6
-    (343, 34300, 317, 21, 1, 9),  -- rock-tomb lv9
-    (343, 34300, 379, 21, 1, 12),  -- power-trick lv12
-    (343, 34300, 60, 21, 1, 15),  -- psybeam lv15
-    (343, 34300, 246, 21, 1, 18),  -- ancient-power lv18
-    (343, 34300, 286, 21, 1, 21),  -- imprison lv21
-    (343, 34300, 322, 21, 1, 24),  -- cosmic-power lv24
-    (343, 34300, 326, 21, 1, 27),  -- extrasensory lv27
-    (343, 34300, 414, 21, 1, 30),  -- earth-power lv30
-    (343, 34300, 120, 21, 1, 33),  -- self-destruct lv33
-    (343, 34300, 470, 21, 1, 36),  -- guard-split lv36
-    (343, 34300, 471, 21, 1, 36),  -- power-split lv36
-    (343, 34300, 201, 21, 1, 39),  -- sandstorm lv39
-    (343, 34300, 153, 21, 1, 42),  -- explosion lv42
-    (343, 34300, 58, 21, 2, NULL),  -- ice-beam tm
-    (343, 34300, 76, 21, 2, NULL),  -- solar-beam tm
-    (343, 34300, 89, 21, 2, NULL),  -- earthquake tm
-    (343, 34300, 91, 21, 2, NULL),  -- dig tm
-    (343, 34300, 94, 21, 2, NULL),  -- psychic tm
-    (343, 34300, 104, 21, 2, NULL),  -- double-team tm
-    (343, 34300, 113, 21, 2, NULL),  -- light-screen tm
-    (343, 34300, 115, 21, 2, NULL),  -- reflect tm
-    (343, 34300, 138, 21, 2, NULL),  -- dream-eater tm
-    (343, 34300, 148, 21, 2, NULL),  -- flash tm
-    (343, 34300, 153, 21, 2, NULL),  -- explosion tm
-    (343, 34300, 156, 21, 2, NULL),  -- rest tm
-    (343, 34300, 157, 21, 2, NULL),  -- rock-slide tm
-    (343, 34300, 164, 21, 2, NULL),  -- substitute tm
-    (343, 34300, 182, 21, 2, NULL),  -- protect tm
-    (343, 34300, 201, 21, 2, NULL),  -- sandstorm tm
-    (343, 34300, 203, 21, 2, NULL),  -- endure tm
-    (343, 34300, 207, 21, 2, NULL),  -- swagger tm
-    (343, 34300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (343, 34300, 219, 21, 2, NULL),  -- safeguard tm
-    (343, 34300, 240, 21, 2, NULL),  -- rain-dance tm
-    (343, 34300, 241, 21, 2, NULL),  -- sunny-day tm
-    (343, 34300, 244, 21, 2, NULL),  -- psych-up tm
-    (343, 34300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (343, 34300, 263, 21, 2, NULL),  -- facade tm
-    (343, 34300, 278, 21, 2, NULL),  -- recycle tm
-    (343, 34300, 285, 21, 2, NULL),  -- skill-swap tm
-    (343, 34300, 317, 21, 2, NULL),  -- rock-tomb tm
-    (343, 34300, 347, 21, 2, NULL),  -- calm-mind tm
-    (343, 34300, 360, 21, 2, NULL),  -- gyro-ball tm
-    (343, 34300, 397, 21, 2, NULL),  -- rock-polish tm
-    (343, 34300, 433, 21, 2, NULL),  -- trick-room tm
-    (343, 34300, 446, 21, 2, NULL),  -- stealth-rock tm
-    (343, 34300, 447, 21, 2, NULL),  -- grass-knot tm
-    (343, 34300, 451, 21, 2, NULL),  -- charge-beam tm
-    (343, 34300, 523, 21, 2, NULL),  -- bulldoze tm
-    (343, 34300, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (343, 34300, 106, 21, 8, NULL),  -- harden start
-    (343, 34300, 189, 21, 8, NULL),  -- mud-slap start
-    (344, 34400, 317, 21, 1, 9),  -- rock-tomb lv9
-    (344, 34400, 379, 21, 1, 12),  -- power-trick lv12
-    (344, 34400, 60, 21, 1, 15),  -- psybeam lv15
-    (344, 34400, 246, 21, 1, 18),  -- ancient-power lv18
-    (344, 34400, 286, 21, 1, 21),  -- imprison lv21
-    (344, 34400, 322, 21, 1, 24),  -- cosmic-power lv24
-    (344, 34400, 326, 21, 1, 27),  -- extrasensory lv27
-    (344, 34400, 414, 21, 1, 30),  -- earth-power lv30
-    (344, 34400, 120, 21, 1, 33),  -- self-destruct lv33
-    (344, 34400, 470, 21, 1, 38),  -- guard-split lv38
-    (344, 34400, 471, 21, 1, 38),  -- power-split lv38
-    (344, 34400, 201, 21, 1, 43),  -- sandstorm lv43
-    (344, 34400, 153, 21, 1, 48),  -- explosion lv48
-    (344, 34400, 58, 21, 2, NULL),  -- ice-beam tm
-    (344, 34400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (344, 34400, 70, 21, 2, NULL),  -- strength tm
-    (344, 34400, 76, 21, 2, NULL),  -- solar-beam tm
-    (344, 34400, 89, 21, 2, NULL),  -- earthquake tm
-    (344, 34400, 91, 21, 2, NULL),  -- dig tm
-    (344, 34400, 94, 21, 2, NULL),  -- psychic tm
-    (344, 34400, 104, 21, 2, NULL),  -- double-team tm
-    (344, 34400, 113, 21, 2, NULL),  -- light-screen tm
-    (344, 34400, 115, 21, 2, NULL),  -- reflect tm
-    (344, 34400, 138, 21, 2, NULL),  -- dream-eater tm
-    (344, 34400, 148, 21, 2, NULL),  -- flash tm
-    (344, 34400, 153, 21, 2, NULL),  -- explosion tm
-    (344, 34400, 156, 21, 2, NULL),  -- rest tm
-    (344, 34400, 157, 21, 2, NULL),  -- rock-slide tm
-    (344, 34400, 164, 21, 2, NULL),  -- substitute tm
-    (344, 34400, 182, 21, 2, NULL),  -- protect tm
-    (344, 34400, 201, 21, 2, NULL),  -- sandstorm tm
-    (344, 34400, 203, 21, 2, NULL),  -- endure tm
-    (344, 34400, 207, 21, 2, NULL),  -- swagger tm
-    (344, 34400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (344, 34400, 219, 21, 2, NULL),  -- safeguard tm
-    (344, 34400, 240, 21, 2, NULL),  -- rain-dance tm
-    (344, 34400, 241, 21, 2, NULL),  -- sunny-day tm
-    (344, 34400, 244, 21, 2, NULL),  -- psych-up tm
-    (344, 34400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (344, 34400, 249, 21, 2, NULL),  -- rock-smash tm
-    (344, 34400, 263, 21, 2, NULL),  -- facade tm
-    (344, 34400, 278, 21, 2, NULL),  -- recycle tm
-    (344, 34400, 285, 21, 2, NULL),  -- skill-swap tm
-    (344, 34400, 317, 21, 2, NULL),  -- rock-tomb tm
-    (344, 34400, 347, 21, 2, NULL),  -- calm-mind tm
-    (344, 34400, 360, 21, 2, NULL),  -- gyro-ball tm
-    (344, 34400, 397, 21, 2, NULL),  -- rock-polish tm
-    (344, 34400, 416, 21, 2, NULL),  -- giga-impact tm
-    (344, 34400, 417, 21, 2, NULL),  -- nasty-plot tm
-    (344, 34400, 433, 21, 2, NULL),  -- trick-room tm
-    (344, 34400, 444, 21, 2, NULL),  -- stone-edge tm
-    (344, 34400, 446, 21, 2, NULL),  -- stealth-rock tm
-    (344, 34400, 447, 21, 2, NULL),  -- grass-knot tm
-    (344, 34400, 451, 21, 2, NULL),  -- charge-beam tm
-    (344, 34400, 523, 21, 2, NULL),  -- bulldoze tm
-    (344, 34400, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (344, 34400, 63, 21, 8, NULL),  -- hyper-beam start
-    (344, 34400, 93, 21, 8, NULL),  -- confusion start
-    (344, 34400, 100, 21, 8, NULL),  -- teleport start
-    (344, 34400, 106, 21, 8, NULL),  -- harden start
-    (344, 34400, 189, 21, 8, NULL),  -- mud-slap start
-    (344, 34400, 229, 21, 8, NULL),  -- rapid-spin start
-    (345, 34500, 51, 21, 1, 4),  -- acid lv4
-    (345, 34500, 109, 21, 1, 8),  -- confuse-ray lv8
-    (345, 34500, 275, 21, 1, 12),  -- ingrain lv12
-    (345, 34500, 246, 21, 1, 16),  -- ancient-power lv16
-    (345, 34500, 72, 21, 1, 20),  -- mega-drain lv20
-    (345, 34500, 362, 21, 1, 24),  -- brine lv24
-    (345, 34500, 133, 21, 1, 28),  -- amnesia lv28
-    (345, 34500, 380, 21, 1, 32),  -- gastro-acid lv32
-    (345, 34500, 202, 21, 1, 36),  -- giga-drain lv36
-    (345, 34500, 254, 21, 1, 41),  -- stockpile lv41
-    (345, 34500, 255, 21, 1, 41),  -- spit-up lv41
-    (345, 34500, 256, 21, 1, 41),  -- swallow lv41
-    (345, 34500, 412, 21, 1, 44),  -- energy-ball lv44
-    (345, 34500, 14, 21, 2, NULL),  -- swords-dance tm
-    (345, 34500, 76, 21, 2, NULL),  -- solar-beam tm
-    (345, 34500, 104, 21, 2, NULL),  -- double-team tm
-    (345, 34500, 148, 21, 2, NULL),  -- flash tm
-    (345, 34500, 156, 21, 2, NULL),  -- rest tm
-    (345, 34500, 157, 21, 2, NULL),  -- rock-slide tm
-    (345, 34500, 164, 21, 2, NULL),  -- substitute tm
-    (345, 34500, 182, 21, 2, NULL),  -- protect tm
-    (345, 34500, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (345, 34500, 201, 21, 2, NULL),  -- sandstorm tm
-    (345, 34500, 202, 21, 2, NULL),  -- giga-drain tm
-    (345, 34500, 203, 21, 2, NULL),  -- endure tm
-    (345, 34500, 207, 21, 2, NULL),  -- swagger tm
-    (345, 34500, 213, 21, 2, NULL),  -- attract tm
-    (345, 34500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (345, 34500, 241, 21, 2, NULL),  -- sunny-day tm
-    (345, 34500, 263, 21, 2, NULL),  -- facade tm
-    (345, 34500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (345, 34500, 331, 21, 2, NULL),  -- bullet-seed tm
-    (345, 34500, 362, 21, 2, NULL),  -- brine tm
-    (345, 34500, 397, 21, 2, NULL),  -- rock-polish tm
-    (345, 34500, 412, 21, 2, NULL),  -- energy-ball tm
-    (345, 34500, 446, 21, 2, NULL),  -- stealth-rock tm
-    (345, 34500, 447, 21, 2, NULL),  -- grass-knot tm
-    (345, 34500, 20, 21, 5, NULL),  -- bind egg
-    (345, 34500, 72, 21, 5, NULL),  -- mega-drain egg
-    (345, 34500, 105, 21, 5, NULL),  -- recover egg
-    (345, 34500, 174, 21, 5, NULL),  -- curse egg
-    (345, 34500, 243, 21, 5, NULL),  -- mirror-coat egg
-    (345, 34500, 321, 21, 5, NULL),  -- tickle egg
-    (345, 34500, 35, 21, 8, NULL),  -- wrap start
-    (345, 34500, 310, 21, 8, NULL),  -- astonish start
-    (346, 34600, 275, 21, 1, 12),  -- ingrain lv12
-    (346, 34600, 246, 21, 1, 16),  -- ancient-power lv16
-    (346, 34600, 72, 21, 1, 20),  -- mega-drain lv20
-    (346, 34600, 362, 21, 1, 24),  -- brine lv24
-    (346, 34600, 133, 21, 1, 28),  -- amnesia lv28
-    (346, 34600, 380, 21, 1, 32),  -- gastro-acid lv32
-    (346, 34600, 202, 21, 1, 36),  -- giga-drain lv36
-    (346, 34600, 254, 21, 1, 43),  -- stockpile lv43
-    (346, 34600, 255, 21, 1, 43),  -- spit-up lv43
-    (346, 34600, 256, 21, 1, 43),  -- swallow lv43
-    (346, 34600, 412, 21, 1, 48),  -- energy-ball lv48
-    (346, 34600, 14, 21, 2, NULL),  -- swords-dance tm
-    (346, 34600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (346, 34600, 70, 21, 2, NULL),  -- strength tm
-    (346, 34600, 76, 21, 2, NULL),  -- solar-beam tm
-    (346, 34600, 89, 21, 2, NULL),  -- earthquake tm
-    (346, 34600, 91, 21, 2, NULL),  -- dig tm
-    (346, 34600, 104, 21, 2, NULL),  -- double-team tm
-    (346, 34600, 148, 21, 2, NULL),  -- flash tm
-    (346, 34600, 156, 21, 2, NULL),  -- rest tm
-    (346, 34600, 157, 21, 2, NULL),  -- rock-slide tm
-    (346, 34600, 164, 21, 2, NULL),  -- substitute tm
-    (346, 34600, 182, 21, 2, NULL),  -- protect tm
-    (346, 34600, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (346, 34600, 201, 21, 2, NULL),  -- sandstorm tm
-    (346, 34600, 202, 21, 2, NULL),  -- giga-drain tm
-    (346, 34600, 203, 21, 2, NULL),  -- endure tm
-    (346, 34600, 207, 21, 2, NULL),  -- swagger tm
-    (346, 34600, 213, 21, 2, NULL),  -- attract tm
-    (346, 34600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (346, 34600, 241, 21, 2, NULL),  -- sunny-day tm
-    (346, 34600, 249, 21, 2, NULL),  -- rock-smash tm
-    (346, 34600, 263, 21, 2, NULL),  -- facade tm
-    (346, 34600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (346, 34600, 331, 21, 2, NULL),  -- bullet-seed tm
-    (346, 34600, 362, 21, 2, NULL),  -- brine tm
-    (346, 34600, 397, 21, 2, NULL),  -- rock-polish tm
-    (346, 34600, 412, 21, 2, NULL),  -- energy-ball tm
-    (346, 34600, 416, 21, 2, NULL),  -- giga-impact tm
-    (346, 34600, 444, 21, 2, NULL),  -- stone-edge tm
-    (346, 34600, 446, 21, 2, NULL),  -- stealth-rock tm
-    (346, 34600, 447, 21, 2, NULL),  -- grass-knot tm
-    (346, 34600, 523, 21, 2, NULL),  -- bulldoze tm
-    (346, 34600, 20, 21, 5, NULL),  -- bind egg
-    (346, 34600, 72, 21, 5, NULL),  -- mega-drain egg
-    (346, 34600, 105, 21, 5, NULL),  -- recover egg
-    (346, 34600, 174, 21, 5, NULL),  -- curse egg
-    (346, 34600, 243, 21, 5, NULL),  -- mirror-coat egg
-    (346, 34600, 321, 21, 5, NULL),  -- tickle egg
-    (346, 34600, 35, 21, 8, NULL),  -- wrap start
-    (346, 34600, 51, 21, 8, NULL),  -- acid start
-    (346, 34600, 73, 21, 8, NULL),  -- leech-seed start
-    (346, 34600, 109, 21, 8, NULL),  -- confuse-ray start
-    (346, 34600, 310, 21, 8, NULL),  -- astonish start
-    (347, 34700, 55, 21, 1, 4),  -- water-gun lv4
-    (347, 34700, 479, 21, 1, 8),  -- smack-down lv8
-    (347, 34700, 232, 21, 1, 12),  -- metal-claw lv12
-    (347, 34700, 246, 21, 1, 16),  -- ancient-power lv16
-    (347, 34700, 450, 21, 1, 20),  -- bug-bite lv20
-    (347, 34700, 362, 21, 1, 24),  -- brine lv24
-    (347, 34700, 163, 21, 1, 28),  -- slash lv28
-    (347, 34700, 306, 21, 1, 32),  -- crush-claw lv32
-    (347, 34700, 350, 21, 1, 36),  -- rock-blast lv36
-    (347, 34700, 182, 21, 1, 41),  -- protect lv41
-    (347, 34700, 404, 21, 1, 44),  -- x-scissor lv44
-    (347, 34700, 14, 21, 2, NULL),  -- swords-dance tm
-    (347, 34700, 15, 21, 2, NULL),  -- cut tm
-    (347, 34700, 91, 21, 2, NULL),  -- dig tm
-    (347, 34700, 104, 21, 2, NULL),  -- double-team tm
-    (347, 34700, 156, 21, 2, NULL),  -- rest tm
-    (347, 34700, 157, 21, 2, NULL),  -- rock-slide tm
-    (347, 34700, 164, 21, 2, NULL),  -- substitute tm
-    (347, 34700, 182, 21, 2, NULL),  -- protect tm
-    (347, 34700, 201, 21, 2, NULL),  -- sandstorm tm
-    (347, 34700, 203, 21, 2, NULL),  -- endure tm
-    (347, 34700, 206, 21, 2, NULL),  -- false-swipe tm
-    (347, 34700, 207, 21, 2, NULL),  -- swagger tm
-    (347, 34700, 213, 21, 2, NULL),  -- attract tm
-    (347, 34700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (347, 34700, 241, 21, 2, NULL),  -- sunny-day tm
-    (347, 34700, 249, 21, 2, NULL),  -- rock-smash tm
-    (347, 34700, 263, 21, 2, NULL),  -- facade tm
-    (347, 34700, 280, 21, 2, NULL),  -- brick-break tm
-    (347, 34700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (347, 34700, 332, 21, 2, NULL),  -- aerial-ace tm
-    (347, 34700, 352, 21, 2, NULL),  -- water-pulse tm
-    (347, 34700, 362, 21, 2, NULL),  -- brine tm
-    (347, 34700, 397, 21, 2, NULL),  -- rock-polish tm
-    (347, 34700, 404, 21, 2, NULL),  -- x-scissor tm
-    (347, 34700, 446, 21, 2, NULL),  -- stealth-rock tm
-    (347, 34700, 28, 21, 5, NULL),  -- sand-attack egg
-    (347, 34700, 103, 21, 5, NULL),  -- screech egg
-    (347, 34700, 174, 21, 5, NULL),  -- curse egg
-    (347, 34700, 229, 21, 5, NULL),  -- rapid-spin egg
-    (347, 34700, 282, 21, 5, NULL),  -- knock-off egg
-    (347, 34700, 334, 21, 5, NULL),  -- iron-defense egg
-    (347, 34700, 440, 21, 5, NULL),  -- cross-poison egg
-    (347, 34700, 453, 21, 5, NULL),  -- aqua-jet egg
-    (347, 34700, 106, 21, 8, NULL),  -- harden start
-    (347, 34700, 210, 21, 8, NULL),  -- fury-cutter start
-    (348, 34800, 232, 21, 1, 12),  -- metal-claw lv12
-    (348, 34800, 246, 21, 1, 16),  -- ancient-power lv16
-    (348, 34800, 450, 21, 1, 20),  -- bug-bite lv20
-    (348, 34800, 362, 21, 1, 24),  -- brine lv24
-    (348, 34800, 163, 21, 1, 28),  -- slash lv28
-    (348, 34800, 306, 21, 1, 32),  -- crush-claw lv32
-    (348, 34800, 350, 21, 1, 36),  -- rock-blast lv36
-    (348, 34800, 182, 21, 1, 43),  -- protect lv43
-    (348, 34800, 404, 21, 1, 48),  -- x-scissor lv48
-    (348, 34800, 14, 21, 2, NULL),  -- swords-dance tm
-    (348, 34800, 15, 21, 2, NULL),  -- cut tm
-    (348, 34800, 63, 21, 2, NULL),  -- hyper-beam tm
-    (348, 34800, 70, 21, 2, NULL),  -- strength tm
-    (348, 34800, 89, 21, 2, NULL),  -- earthquake tm
-    (348, 34800, 91, 21, 2, NULL),  -- dig tm
-    (348, 34800, 104, 21, 2, NULL),  -- double-team tm
-    (348, 34800, 156, 21, 2, NULL),  -- rest tm
-    (348, 34800, 157, 21, 2, NULL),  -- rock-slide tm
-    (348, 34800, 164, 21, 2, NULL),  -- substitute tm
-    (348, 34800, 182, 21, 2, NULL),  -- protect tm
-    (348, 34800, 201, 21, 2, NULL),  -- sandstorm tm
-    (348, 34800, 203, 21, 2, NULL),  -- endure tm
-    (348, 34800, 206, 21, 2, NULL),  -- false-swipe tm
-    (348, 34800, 207, 21, 2, NULL),  -- swagger tm
-    (348, 34800, 213, 21, 2, NULL),  -- attract tm
-    (348, 34800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (348, 34800, 231, 21, 2, NULL),  -- iron-tail tm
-    (348, 34800, 241, 21, 2, NULL),  -- sunny-day tm
-    (348, 34800, 249, 21, 2, NULL),  -- rock-smash tm
-    (348, 34800, 263, 21, 2, NULL),  -- facade tm
-    (348, 34800, 280, 21, 2, NULL),  -- brick-break tm
-    (348, 34800, 317, 21, 2, NULL),  -- rock-tomb tm
-    (348, 34800, 332, 21, 2, NULL),  -- aerial-ace tm
-    (348, 34800, 352, 21, 2, NULL),  -- water-pulse tm
-    (348, 34800, 362, 21, 2, NULL),  -- brine tm
-    (348, 34800, 397, 21, 2, NULL),  -- rock-polish tm
-    (348, 34800, 404, 21, 2, NULL),  -- x-scissor tm
-    (348, 34800, 416, 21, 2, NULL),  -- giga-impact tm
-    (348, 34800, 421, 21, 2, NULL),  -- shadow-claw tm
-    (348, 34800, 430, 21, 2, NULL),  -- flash-cannon tm
-    (348, 34800, 444, 21, 2, NULL),  -- stone-edge tm
-    (348, 34800, 446, 21, 2, NULL),  -- stealth-rock tm
-    (348, 34800, 523, 21, 2, NULL),  -- bulldoze tm
-    (348, 34800, 28, 21, 5, NULL),  -- sand-attack egg
-    (348, 34800, 103, 21, 5, NULL),  -- screech egg
-    (348, 34800, 174, 21, 5, NULL),  -- curse egg
-    (348, 34800, 229, 21, 5, NULL),  -- rapid-spin egg
-    (348, 34800, 282, 21, 5, NULL),  -- knock-off egg
-    (348, 34800, 334, 21, 5, NULL),  -- iron-defense egg
-    (348, 34800, 440, 21, 5, NULL),  -- cross-poison egg
-    (348, 34800, 453, 21, 5, NULL),  -- aqua-jet egg
-    (348, 34800, 55, 21, 8, NULL),  -- water-gun start
-    (348, 34800, 106, 21, 8, NULL),  -- harden start
-    (348, 34800, 210, 21, 8, NULL),  -- fury-cutter start
-    (348, 34800, 479, 21, 8, NULL),  -- smack-down start
-    (349, 34900, 33, 21, 1, 15),  -- tackle lv15
-    (349, 34900, 175, 21, 1, 25),  -- flail lv25
-    (349, 34900, 57, 21, 2, NULL),  -- surf tm
-    (349, 34900, 58, 21, 2, NULL),  -- ice-beam tm
-    (349, 34900, 59, 21, 2, NULL),  -- blizzard tm
-    (349, 34900, 104, 21, 2, NULL),  -- double-team tm
-    (349, 34900, 113, 21, 2, NULL),  -- light-screen tm
-    (349, 34900, 127, 21, 2, NULL),  -- waterfall tm
-    (349, 34900, 156, 21, 2, NULL),  -- rest tm
-    (349, 34900, 164, 21, 2, NULL),  -- substitute tm
-    (349, 34900, 182, 21, 2, NULL),  -- protect tm
-    (349, 34900, 203, 21, 2, NULL),  -- endure tm
-    (349, 34900, 207, 21, 2, NULL),  -- swagger tm
-    (349, 34900, 213, 21, 2, NULL),  -- attract tm
-    (349, 34900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (349, 34900, 231, 21, 2, NULL),  -- iron-tail tm
-    (349, 34900, 240, 21, 2, NULL),  -- rain-dance tm
-    (349, 34900, 258, 21, 2, NULL),  -- hail tm
-    (349, 34900, 263, 21, 2, NULL),  -- facade tm
-    (349, 34900, 352, 21, 2, NULL),  -- water-pulse tm
-    (349, 34900, 362, 21, 2, NULL),  -- brine tm
-    (349, 34900, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (349, 34900, 503, 21, 2, NULL),  -- scald tm
-    (349, 34900, 54, 21, 5, NULL),  -- mist egg
-    (349, 34900, 95, 21, 5, NULL),  -- hypnosis egg
-    (349, 34900, 109, 21, 5, NULL),  -- confuse-ray egg
-    (349, 34900, 114, 21, 5, NULL),  -- haze egg
-    (349, 34900, 225, 21, 5, NULL),  -- dragon-breath egg
-    (349, 34900, 243, 21, 5, NULL),  -- mirror-coat egg
-    (349, 34900, 321, 21, 5, NULL),  -- tickle egg
-    (349, 34900, 150, 21, 8, NULL),  -- splash start
-    (350, 35000, 574, 21, 1, 4),  -- disarming-voice lv4
-    (350, 35000, 239, 21, 1, 8),  -- twister lv8
-    (350, 35000, 392, 21, 1, 12),  -- aqua-ring lv12
-    (350, 35000, 213, 21, 1, 16),  -- attract lv16
-    (350, 35000, 791, 21, 1, 20),  -- life-dew lv20
-    (350, 35000, 525, 21, 1, 24),  -- dragon-tail lv24
-    (350, 35000, 105, 21, 1, 28),  -- recover lv28
-    (350, 35000, 401, 21, 1, 32),  -- aqua-tail lv32
-    (350, 35000, 219, 21, 1, 36),  -- safeguard lv36
-    (350, 35000, 57, 21, 1, 40),  -- surf lv40
-    (350, 35000, 240, 21, 1, 44),  -- rain-dance lv44
-    (350, 35000, 489, 21, 1, 48),  -- coil lv48
-    (350, 35000, 56, 21, 1, 52),  -- hydro-pump lv52
-    (350, 35000, 57, 21, 2, NULL),  -- surf tm
-    (350, 35000, 58, 21, 2, NULL),  -- ice-beam tm
-    (350, 35000, 59, 21, 2, NULL),  -- blizzard tm
-    (350, 35000, 63, 21, 2, NULL),  -- hyper-beam tm
-    (350, 35000, 104, 21, 2, NULL),  -- double-team tm
-    (350, 35000, 113, 21, 2, NULL),  -- light-screen tm
-    (350, 35000, 127, 21, 2, NULL),  -- waterfall tm
-    (350, 35000, 156, 21, 2, NULL),  -- rest tm
-    (350, 35000, 164, 21, 2, NULL),  -- substitute tm
-    (350, 35000, 182, 21, 2, NULL),  -- protect tm
-    (350, 35000, 203, 21, 2, NULL),  -- endure tm
-    (350, 35000, 207, 21, 2, NULL),  -- swagger tm
-    (350, 35000, 213, 21, 2, NULL),  -- attract tm
-    (350, 35000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (350, 35000, 219, 21, 2, NULL),  -- safeguard tm
-    (350, 35000, 231, 21, 2, NULL),  -- iron-tail tm
-    (350, 35000, 240, 21, 2, NULL),  -- rain-dance tm
-    (350, 35000, 244, 21, 2, NULL),  -- psych-up tm
-    (350, 35000, 258, 21, 2, NULL),  -- hail tm
-    (350, 35000, 263, 21, 2, NULL),  -- facade tm
-    (350, 35000, 352, 21, 2, NULL),  -- water-pulse tm
-    (350, 35000, 362, 21, 2, NULL),  -- brine tm
-    (350, 35000, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (350, 35000, 416, 21, 2, NULL),  -- giga-impact tm
-    (350, 35000, 419, 21, 2, NULL),  -- avalanche tm
-    (350, 35000, 503, 21, 2, NULL),  -- scald tm
-    (350, 35000, 523, 21, 2, NULL),  -- bulldoze tm
-    (350, 35000, 54, 21, 5, NULL),  -- mist egg
-    (350, 35000, 95, 21, 5, NULL),  -- hypnosis egg
-    (350, 35000, 109, 21, 5, NULL),  -- confuse-ray egg
-    (350, 35000, 114, 21, 5, NULL),  -- haze egg
-    (350, 35000, 225, 21, 5, NULL),  -- dragon-breath egg
-    (350, 35000, 243, 21, 5, NULL),  -- mirror-coat egg
-    (350, 35000, 321, 21, 5, NULL),  -- tickle egg
-    (350, 35000, 33, 21, 8, NULL),  -- tackle start
-    (350, 35000, 35, 21, 8, NULL),  -- wrap start
-    (350, 35000, 55, 21, 8, NULL),  -- water-gun start
-    (350, 35000, 150, 21, 8, NULL),  -- splash start
-    (350, 35000, 175, 21, 8, NULL),  -- flail start
-    (350, 35000, 352, 21, 8, NULL),  -- water-pulse start
-    (351, 35100, 52, 21, 1, 10),  -- ember lv10
-    (351, 35100, 55, 21, 1, 10),  -- water-gun lv10
-    (351, 35100, 181, 21, 1, 10),  -- powder-snow lv10
-    (351, 35100, 29, 21, 1, 15),  -- headbutt lv15
-    (351, 35100, 240, 21, 1, 20),  -- rain-dance lv20
-    (351, 35100, 241, 21, 1, 20),  -- sunny-day lv20
-    (351, 35100, 258, 21, 1, 20),  -- hail lv20
-    (351, 35100, 311, 21, 1, 25),  -- weather-ball lv25
-    (351, 35100, 56, 21, 1, 35),  -- hydro-pump lv35
-    (351, 35100, 59, 21, 1, 35),  -- blizzard lv35
-    (351, 35100, 126, 21, 1, 35),  -- fire-blast lv35
-    (351, 35100, 542, 21, 1, 45),  -- hurricane lv45
-    (351, 35100, 53, 21, 2, NULL),  -- flamethrower tm
-    (351, 35100, 58, 21, 2, NULL),  -- ice-beam tm
-    (351, 35100, 59, 21, 2, NULL),  -- blizzard tm
-    (351, 35100, 76, 21, 2, NULL),  -- solar-beam tm
-    (351, 35100, 85, 21, 2, NULL),  -- thunderbolt tm
-    (351, 35100, 86, 21, 2, NULL),  -- thunder-wave tm
-    (351, 35100, 87, 21, 2, NULL),  -- thunder tm
-    (351, 35100, 104, 21, 2, NULL),  -- double-team tm
-    (351, 35100, 126, 21, 2, NULL),  -- fire-blast tm
-    (351, 35100, 148, 21, 2, NULL),  -- flash tm
-    (351, 35100, 156, 21, 2, NULL),  -- rest tm
-    (351, 35100, 164, 21, 2, NULL),  -- substitute tm
-    (351, 35100, 168, 21, 2, NULL),  -- thief tm
-    (351, 35100, 182, 21, 2, NULL),  -- protect tm
-    (351, 35100, 201, 21, 2, NULL),  -- sandstorm tm
-    (351, 35100, 203, 21, 2, NULL),  -- endure tm
-    (351, 35100, 207, 21, 2, NULL),  -- swagger tm
-    (351, 35100, 213, 21, 2, NULL),  -- attract tm
-    (351, 35100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (351, 35100, 240, 21, 2, NULL),  -- rain-dance tm
-    (351, 35100, 241, 21, 2, NULL),  -- sunny-day tm
-    (351, 35100, 244, 21, 2, NULL),  -- psych-up tm
-    (351, 35100, 247, 21, 2, NULL),  -- shadow-ball tm
-    (351, 35100, 258, 21, 2, NULL),  -- hail tm
-    (351, 35100, 263, 21, 2, NULL),  -- facade tm
-    (351, 35100, 351, 21, 2, NULL),  -- shock-wave tm
-    (351, 35100, 352, 21, 2, NULL),  -- water-pulse tm
-    (351, 35100, 412, 21, 2, NULL),  -- energy-ball tm
-    (351, 35100, 419, 21, 2, NULL),  -- avalanche tm
-    (351, 35100, 503, 21, 2, NULL),  -- scald tm
-    (351, 35100, 526, 21, 2, NULL),  -- work-up tm
-    (351, 35100, 50, 21, 5, NULL),  -- disable egg
-    (351, 35100, 133, 21, 5, NULL),  -- amnesia egg
-    (351, 35100, 248, 21, 5, NULL),  -- future-sight egg
-    (351, 35100, 322, 21, 5, NULL),  -- cosmic-power egg
-    (351, 35100, 385, 21, 5, NULL),  -- guard-swap egg
-    (351, 35100, 499, 21, 5, NULL),  -- clear-smog egg
-    (351, 35100, 506, 21, 5, NULL),  -- hex egg
-    (351, 35100, 513, 21, 5, NULL),  -- reflect-type egg
-    (351, 35100, 33, 21, 8, NULL),  -- tackle start
-    (352, 35200, 20, 21, 1, 4),  -- bind lv4
-    (352, 35200, 425, 21, 1, 7),  -- shadow-sneak lv7
-    (352, 35200, 364, 21, 1, 10),  -- feint lv10
-    (352, 35200, 154, 21, 1, 13),  -- fury-swipes lv13
-    (352, 35200, 50, 21, 1, 16),  -- disable lv16
-    (352, 35200, 60, 21, 1, 18),  -- psybeam lv18
-    (352, 35200, 246, 21, 1, 21),  -- ancient-power lv21
-    (352, 35200, 163, 21, 1, 25),  -- slash lv25
-    (352, 35200, 197, 21, 1, 30),  -- detect lv30
-    (352, 35200, 421, 21, 1, 33),  -- shadow-claw lv33
-    (352, 35200, 103, 21, 1, 38),  -- screech lv38
-    (352, 35200, 164, 21, 1, 42),  -- substitute lv42
-    (352, 35200, 389, 21, 1, 46),  -- sucker-punch lv46
-    (352, 35200, 492, 21, 1, 50),  -- foul-play lv50
-    (352, 35200, 15, 21, 2, NULL),  -- cut tm
-    (352, 35200, 53, 21, 2, NULL),  -- flamethrower tm
-    (352, 35200, 58, 21, 2, NULL),  -- ice-beam tm
-    (352, 35200, 59, 21, 2, NULL),  -- blizzard tm
-    (352, 35200, 70, 21, 2, NULL),  -- strength tm
-    (352, 35200, 76, 21, 2, NULL),  -- solar-beam tm
-    (352, 35200, 85, 21, 2, NULL),  -- thunderbolt tm
-    (352, 35200, 86, 21, 2, NULL),  -- thunder-wave tm
-    (352, 35200, 87, 21, 2, NULL),  -- thunder tm
-    (352, 35200, 91, 21, 2, NULL),  -- dig tm
-    (352, 35200, 104, 21, 2, NULL),  -- double-team tm
-    (352, 35200, 126, 21, 2, NULL),  -- fire-blast tm
-    (352, 35200, 148, 21, 2, NULL),  -- flash tm
-    (352, 35200, 156, 21, 2, NULL),  -- rest tm
-    (352, 35200, 157, 21, 2, NULL),  -- rock-slide tm
-    (352, 35200, 164, 21, 2, NULL),  -- substitute tm
-    (352, 35200, 168, 21, 2, NULL),  -- thief tm
-    (352, 35200, 182, 21, 2, NULL),  -- protect tm
-    (352, 35200, 203, 21, 2, NULL),  -- endure tm
-    (352, 35200, 207, 21, 2, NULL),  -- swagger tm
-    (352, 35200, 213, 21, 2, NULL),  -- attract tm
-    (352, 35200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (352, 35200, 231, 21, 2, NULL),  -- iron-tail tm
-    (352, 35200, 240, 21, 2, NULL),  -- rain-dance tm
-    (352, 35200, 241, 21, 2, NULL),  -- sunny-day tm
-    (352, 35200, 244, 21, 2, NULL),  -- psych-up tm
-    (352, 35200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (352, 35200, 249, 21, 2, NULL),  -- rock-smash tm
-    (352, 35200, 263, 21, 2, NULL),  -- facade tm
-    (352, 35200, 264, 21, 2, NULL),  -- focus-punch tm
-    (352, 35200, 278, 21, 2, NULL),  -- recycle tm
-    (352, 35200, 280, 21, 2, NULL),  -- brick-break tm
-    (352, 35200, 285, 21, 2, NULL),  -- skill-swap tm
-    (352, 35200, 317, 21, 2, NULL),  -- rock-tomb tm
-    (352, 35200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (352, 35200, 351, 21, 2, NULL),  -- shock-wave tm
-    (352, 35200, 352, 21, 2, NULL),  -- water-pulse tm
-    (352, 35200, 374, 21, 2, NULL),  -- fling tm
-    (352, 35200, 409, 21, 2, NULL),  -- drain-punch tm
-    (352, 35200, 417, 21, 2, NULL),  -- nasty-plot tm
-    (352, 35200, 421, 21, 2, NULL),  -- shadow-claw tm
-    (352, 35200, 433, 21, 2, NULL),  -- trick-room tm
-    (352, 35200, 446, 21, 2, NULL),  -- stealth-rock tm
-    (352, 35200, 447, 21, 2, NULL),  -- grass-knot tm
-    (352, 35200, 451, 21, 2, NULL),  -- charge-beam tm
-    (352, 35200, 526, 21, 2, NULL),  -- work-up tm
-    (352, 35200, 50, 21, 5, NULL),  -- disable egg
-    (352, 35200, 105, 21, 5, NULL),  -- recover egg
-    (352, 35200, 252, 21, 5, NULL),  -- fake-out egg
-    (352, 35200, 271, 21, 5, NULL),  -- trick egg
-    (352, 35200, 277, 21, 5, NULL),  -- magic-coat egg
-    (352, 35200, 492, 21, 5, NULL),  -- foul-play egg
-    (352, 35200, 612, 21, 5, NULL),  -- power-up-punch egg
-    (352, 35200, 10, 21, 8, NULL),  -- scratch start
-    (352, 35200, 39, 21, 8, NULL),  -- tail-whip start
-    (352, 35200, 122, 21, 8, NULL),  -- lick start
-    (352, 35200, 168, 21, 8, NULL),  -- thief start
-    (352, 35200, 310, 21, 8, NULL),  -- astonish start
-    (353, 35300, 103, 21, 1, 4),  -- screech lv4
-    (353, 35300, 101, 21, 1, 7),  -- night-shade lv7
-    (353, 35300, 180, 21, 1, 10),  -- spite lv10
-    (353, 35300, 425, 21, 1, 13),  -- shadow-sneak lv13
-    (353, 35300, 261, 21, 1, 16),  -- will-o-wisp lv16
-    (353, 35300, 220, 21, 1, 19),  -- pain-split lv19
-    (353, 35300, 506, 21, 1, 22),  -- hex lv22
-    (353, 35300, 174, 21, 1, 26),  -- curse lv26
-    (353, 35300, 247, 21, 1, 30),  -- shadow-ball lv30
-    (353, 35300, 272, 21, 1, 34),  -- role-play lv34
-    (353, 35300, 389, 21, 1, 38),  -- sucker-punch lv38
-    (353, 35300, 282, 21, 1, 42),  -- knock-off lv42
-    (353, 35300, 288, 21, 1, 46),  -- grudge lv46
-    (353, 35300, 271, 21, 1, 50),  -- trick lv50
-    (353, 35300, 566, 21, 1, 54),  -- phantom-force lv54
-    (353, 35300, 85, 21, 2, NULL),  -- thunderbolt tm
-    (353, 35300, 86, 21, 2, NULL),  -- thunder-wave tm
-    (353, 35300, 87, 21, 2, NULL),  -- thunder tm
-    (353, 35300, 94, 21, 2, NULL),  -- psychic tm
-    (353, 35300, 104, 21, 2, NULL),  -- double-team tm
-    (353, 35300, 138, 21, 2, NULL),  -- dream-eater tm
-    (353, 35300, 148, 21, 2, NULL),  -- flash tm
-    (353, 35300, 156, 21, 2, NULL),  -- rest tm
-    (353, 35300, 164, 21, 2, NULL),  -- substitute tm
-    (353, 35300, 168, 21, 2, NULL),  -- thief tm
-    (353, 35300, 182, 21, 2, NULL),  -- protect tm
-    (353, 35300, 203, 21, 2, NULL),  -- endure tm
-    (353, 35300, 207, 21, 2, NULL),  -- swagger tm
-    (353, 35300, 213, 21, 2, NULL),  -- attract tm
-    (353, 35300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (353, 35300, 240, 21, 2, NULL),  -- rain-dance tm
-    (353, 35300, 241, 21, 2, NULL),  -- sunny-day tm
-    (353, 35300, 244, 21, 2, NULL),  -- psych-up tm
-    (353, 35300, 247, 21, 2, NULL),  -- shadow-ball tm
-    (353, 35300, 259, 21, 2, NULL),  -- torment tm
-    (353, 35300, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (353, 35300, 263, 21, 2, NULL),  -- facade tm
-    (353, 35300, 269, 21, 2, NULL),  -- taunt tm
-    (353, 35300, 285, 21, 2, NULL),  -- skill-swap tm
-    (353, 35300, 347, 21, 2, NULL),  -- calm-mind tm
-    (353, 35300, 351, 21, 2, NULL),  -- shock-wave tm
-    (353, 35300, 371, 21, 2, NULL),  -- payback tm
-    (353, 35300, 399, 21, 2, NULL),  -- dark-pulse tm
-    (353, 35300, 433, 21, 2, NULL),  -- trick-room tm
-    (353, 35300, 451, 21, 2, NULL),  -- charge-beam tm
-    (353, 35300, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (353, 35300, 50, 21, 5, NULL),  -- disable egg
-    (353, 35300, 109, 21, 5, NULL),  -- confuse-ray egg
-    (353, 35300, 194, 21, 5, NULL),  -- destiny-bond egg
-    (353, 35300, 286, 21, 5, NULL),  -- imprison egg
-    (353, 35300, 310, 21, 5, NULL),  -- astonish egg
-    (353, 35300, 425, 21, 5, NULL),  -- shadow-sneak egg
-    (353, 35300, 441, 21, 5, NULL),  -- gunk-shot egg
-    (353, 35300, 566, 21, 5, NULL),  -- phantom-force egg
-    (353, 35300, 282, 21, 8, NULL),  -- knock-off start
-    (354, 35400, 103, 21, 1, 4),  -- screech lv4
-    (354, 35400, 101, 21, 1, 7),  -- night-shade lv7
-    (354, 35400, 180, 21, 1, 10),  -- spite lv10
-    (354, 35400, 425, 21, 1, 13),  -- shadow-sneak lv13
-    (354, 35400, 261, 21, 1, 16),  -- will-o-wisp lv16
-    (354, 35400, 220, 21, 1, 19),  -- pain-split lv19
-    (354, 35400, 506, 21, 1, 22),  -- hex lv22
-    (354, 35400, 174, 21, 1, 26),  -- curse lv26
-    (354, 35400, 247, 21, 1, 30),  -- shadow-ball lv30
-    (354, 35400, 272, 21, 1, 34),  -- role-play lv34
-    (354, 35400, 389, 21, 1, 40),  -- sucker-punch lv40
-    (354, 35400, 282, 21, 1, 46),  -- knock-off lv46
-    (354, 35400, 288, 21, 1, 52),  -- grudge lv52
-    (354, 35400, 271, 21, 1, 58),  -- trick lv58
-    (354, 35400, 566, 21, 1, 64),  -- phantom-force lv64
-    (354, 35400, 63, 21, 2, NULL),  -- hyper-beam tm
-    (354, 35400, 85, 21, 2, NULL),  -- thunderbolt tm
-    (354, 35400, 86, 21, 2, NULL),  -- thunder-wave tm
-    (354, 35400, 87, 21, 2, NULL),  -- thunder tm
-    (354, 35400, 94, 21, 2, NULL),  -- psychic tm
-    (354, 35400, 104, 21, 2, NULL),  -- double-team tm
-    (354, 35400, 138, 21, 2, NULL),  -- dream-eater tm
-    (354, 35400, 148, 21, 2, NULL),  -- flash tm
-    (354, 35400, 156, 21, 2, NULL),  -- rest tm
-    (354, 35400, 164, 21, 2, NULL),  -- substitute tm
-    (354, 35400, 168, 21, 2, NULL),  -- thief tm
-    (354, 35400, 182, 21, 2, NULL),  -- protect tm
-    (354, 35400, 203, 21, 2, NULL),  -- endure tm
-    (354, 35400, 207, 21, 2, NULL),  -- swagger tm
-    (354, 35400, 213, 21, 2, NULL),  -- attract tm
-    (354, 35400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (354, 35400, 240, 21, 2, NULL),  -- rain-dance tm
-    (354, 35400, 241, 21, 2, NULL),  -- sunny-day tm
-    (354, 35400, 244, 21, 2, NULL),  -- psych-up tm
-    (354, 35400, 247, 21, 2, NULL),  -- shadow-ball tm
-    (354, 35400, 259, 21, 2, NULL),  -- torment tm
-    (354, 35400, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (354, 35400, 263, 21, 2, NULL),  -- facade tm
-    (354, 35400, 269, 21, 2, NULL),  -- taunt tm
-    (354, 35400, 285, 21, 2, NULL),  -- skill-swap tm
-    (354, 35400, 347, 21, 2, NULL),  -- calm-mind tm
-    (354, 35400, 351, 21, 2, NULL),  -- shock-wave tm
-    (354, 35400, 371, 21, 2, NULL),  -- payback tm
-    (354, 35400, 374, 21, 2, NULL),  -- fling tm
-    (354, 35400, 399, 21, 2, NULL),  -- dark-pulse tm
-    (354, 35400, 416, 21, 2, NULL),  -- giga-impact tm
-    (354, 35400, 421, 21, 2, NULL),  -- shadow-claw tm
-    (354, 35400, 433, 21, 2, NULL),  -- trick-room tm
-    (354, 35400, 451, 21, 2, NULL),  -- charge-beam tm
-    (354, 35400, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (354, 35400, 50, 21, 5, NULL),  -- disable egg
-    (354, 35400, 109, 21, 5, NULL),  -- confuse-ray egg
-    (354, 35400, 194, 21, 5, NULL),  -- destiny-bond egg
-    (354, 35400, 286, 21, 5, NULL),  -- imprison egg
-    (354, 35400, 310, 21, 5, NULL),  -- astonish egg
-    (354, 35400, 425, 21, 5, NULL),  -- shadow-sneak egg
-    (354, 35400, 441, 21, 5, NULL),  -- gunk-shot egg
-    (354, 35400, 566, 21, 5, NULL),  -- phantom-force egg
-    (354, 35400, 101, 21, 8, NULL),  -- night-shade start
-    (354, 35400, 103, 21, 8, NULL),  -- screech start
-    (354, 35400, 180, 21, 8, NULL),  -- spite start
-    (354, 35400, 282, 21, 8, NULL),  -- knock-off start
-    (354, 35400, 566, 21, 8, NULL),  -- phantom-force start
-    (355, 35500, 50, 21, 1, 4),  -- disable lv4
-    (355, 35500, 425, 21, 1, 8),  -- shadow-sneak lv8
-    (355, 35500, 109, 21, 1, 12),  -- confuse-ray lv12
-    (355, 35500, 101, 21, 1, 16),  -- night-shade lv16
-    (355, 35500, 371, 21, 1, 20),  -- payback lv20
-    (355, 35500, 261, 21, 1, 24),  -- will-o-wisp lv24
-    (355, 35500, 212, 21, 1, 28),  -- mean-look lv28
-    (355, 35500, 506, 21, 1, 32),  -- hex lv32
-    (355, 35500, 174, 21, 1, 36),  -- curse lv36
-    (355, 35500, 247, 21, 1, 40),  -- shadow-ball lv40
-    (355, 35500, 248, 21, 1, 44),  -- future-sight lv44
-    (355, 35500, 58, 21, 2, NULL),  -- ice-beam tm
-    (355, 35500, 59, 21, 2, NULL),  -- blizzard tm
-    (355, 35500, 94, 21, 2, NULL),  -- psychic tm
-    (355, 35500, 104, 21, 2, NULL),  -- double-team tm
-    (355, 35500, 138, 21, 2, NULL),  -- dream-eater tm
-    (355, 35500, 148, 21, 2, NULL),  -- flash tm
-    (355, 35500, 156, 21, 2, NULL),  -- rest tm
-    (355, 35500, 164, 21, 2, NULL),  -- substitute tm
-    (355, 35500, 168, 21, 2, NULL),  -- thief tm
-    (355, 35500, 182, 21, 2, NULL),  -- protect tm
-    (355, 35500, 203, 21, 2, NULL),  -- endure tm
-    (355, 35500, 207, 21, 2, NULL),  -- swagger tm
-    (355, 35500, 213, 21, 2, NULL),  -- attract tm
-    (355, 35500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (355, 35500, 240, 21, 2, NULL),  -- rain-dance tm
-    (355, 35500, 241, 21, 2, NULL),  -- sunny-day tm
-    (355, 35500, 244, 21, 2, NULL),  -- psych-up tm
-    (355, 35500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (355, 35500, 259, 21, 2, NULL),  -- torment tm
-    (355, 35500, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (355, 35500, 263, 21, 2, NULL),  -- facade tm
-    (355, 35500, 269, 21, 2, NULL),  -- taunt tm
-    (355, 35500, 285, 21, 2, NULL),  -- skill-swap tm
-    (355, 35500, 347, 21, 2, NULL),  -- calm-mind tm
-    (355, 35500, 371, 21, 2, NULL),  -- payback tm
-    (355, 35500, 374, 21, 2, NULL),  -- fling tm
-    (355, 35500, 399, 21, 2, NULL),  -- dark-pulse tm
-    (355, 35500, 433, 21, 2, NULL),  -- trick-room tm
-    (355, 35500, 451, 21, 2, NULL),  -- charge-beam tm
-    (355, 35500, 114, 21, 5, NULL),  -- haze egg
-    (355, 35500, 194, 21, 5, NULL),  -- destiny-bond egg
-    (355, 35500, 220, 21, 5, NULL),  -- pain-split egg
-    (355, 35500, 262, 21, 5, NULL),  -- memento egg
-    (355, 35500, 286, 21, 5, NULL),  -- imprison egg
-    (355, 35500, 288, 21, 5, NULL),  -- grudge egg
-    (355, 35500, 43, 21, 8, NULL),  -- leer start
-    (355, 35500, 310, 21, 8, NULL),  -- astonish start
-    (356, 35600, 109, 21, 1, 12),  -- confuse-ray lv12
-    (356, 35600, 101, 21, 1, 16),  -- night-shade lv16
-    (356, 35600, 371, 21, 1, 20),  -- payback lv20
-    (356, 35600, 261, 21, 1, 24),  -- will-o-wisp lv24
-    (356, 35600, 212, 21, 1, 28),  -- mean-look lv28
-    (356, 35600, 506, 21, 1, 32),  -- hex lv32
-    (356, 35600, 174, 21, 1, 36),  -- curse lv36
-    (356, 35600, 247, 21, 1, 42),  -- shadow-ball lv42
-    (356, 35600, 248, 21, 1, 48),  -- future-sight lv48
-    (356, 35600, 58, 21, 2, NULL),  -- ice-beam tm
-    (356, 35600, 59, 21, 2, NULL),  -- blizzard tm
-    (356, 35600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (356, 35600, 70, 21, 2, NULL),  -- strength tm
-    (356, 35600, 89, 21, 2, NULL),  -- earthquake tm
-    (356, 35600, 94, 21, 2, NULL),  -- psychic tm
-    (356, 35600, 104, 21, 2, NULL),  -- double-team tm
-    (356, 35600, 138, 21, 2, NULL),  -- dream-eater tm
-    (356, 35600, 148, 21, 2, NULL),  -- flash tm
-    (356, 35600, 156, 21, 2, NULL),  -- rest tm
-    (356, 35600, 157, 21, 2, NULL),  -- rock-slide tm
-    (356, 35600, 164, 21, 2, NULL),  -- substitute tm
-    (356, 35600, 168, 21, 2, NULL),  -- thief tm
-    (356, 35600, 182, 21, 2, NULL),  -- protect tm
-    (356, 35600, 203, 21, 2, NULL),  -- endure tm
-    (356, 35600, 207, 21, 2, NULL),  -- swagger tm
-    (356, 35600, 213, 21, 2, NULL),  -- attract tm
-    (356, 35600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (356, 35600, 240, 21, 2, NULL),  -- rain-dance tm
-    (356, 35600, 241, 21, 2, NULL),  -- sunny-day tm
-    (356, 35600, 244, 21, 2, NULL),  -- psych-up tm
-    (356, 35600, 247, 21, 2, NULL),  -- shadow-ball tm
-    (356, 35600, 249, 21, 2, NULL),  -- rock-smash tm
-    (356, 35600, 259, 21, 2, NULL),  -- torment tm
-    (356, 35600, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (356, 35600, 263, 21, 2, NULL),  -- facade tm
-    (356, 35600, 264, 21, 2, NULL),  -- focus-punch tm
-    (356, 35600, 269, 21, 2, NULL),  -- taunt tm
-    (356, 35600, 280, 21, 2, NULL),  -- brick-break tm
-    (356, 35600, 285, 21, 2, NULL),  -- skill-swap tm
-    (356, 35600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (356, 35600, 347, 21, 2, NULL),  -- calm-mind tm
-    (356, 35600, 371, 21, 2, NULL),  -- payback tm
-    (356, 35600, 374, 21, 2, NULL),  -- fling tm
-    (356, 35600, 399, 21, 2, NULL),  -- dark-pulse tm
-    (356, 35600, 416, 21, 2, NULL),  -- giga-impact tm
-    (356, 35600, 433, 21, 2, NULL),  -- trick-room tm
-    (356, 35600, 451, 21, 2, NULL),  -- charge-beam tm
-    (356, 35600, 523, 21, 2, NULL),  -- bulldoze tm
-    (356, 35600, 114, 21, 5, NULL),  -- haze egg
-    (356, 35600, 194, 21, 5, NULL),  -- destiny-bond egg
-    (356, 35600, 220, 21, 5, NULL),  -- pain-split egg
-    (356, 35600, 262, 21, 5, NULL),  -- memento egg
-    (356, 35600, 286, 21, 5, NULL),  -- imprison egg
-    (356, 35600, 288, 21, 5, NULL),  -- grudge egg
-    (356, 35600, 7, 21, 8, NULL),  -- fire-punch start
-    (356, 35600, 8, 21, 8, NULL),  -- ice-punch start
-    (356, 35600, 9, 21, 8, NULL),  -- thunder-punch start
-    (356, 35600, 20, 21, 8, NULL),  -- bind start
-    (356, 35600, 43, 21, 8, NULL),  -- leer start
-    (356, 35600, 50, 21, 8, NULL),  -- disable start
-    (356, 35600, 310, 21, 8, NULL),  -- astonish start
-    (356, 35600, 325, 21, 8, NULL),  -- shadow-punch start
-    (356, 35600, 356, 21, 8, NULL),  -- gravity start
-    (356, 35600, 425, 21, 8, NULL),  -- shadow-sneak start
-    (357, 35700, 230, 21, 1, 6),  -- sweet-scent lv6
-    (357, 35700, 23, 21, 1, 10),  -- stomp lv10
-    (357, 35700, 345, 21, 1, 16),  -- magical-leaf lv16
-    (357, 35700, 18, 21, 1, 21),  -- whirlwind lv21
-    (357, 35700, 536, 21, 1, 26),  -- leaf-tornado lv26
-    (357, 35700, 349, 21, 1, 30),  -- dragon-dance lv30
-    (357, 35700, 403, 21, 1, 36),  -- air-slash lv36
-    (357, 35700, 34, 21, 1, 41),  -- body-slam lv41
-    (357, 35700, 692, 21, 1, 46),  -- dragon-hammer lv46
-    (357, 35700, 235, 21, 1, 50),  -- synthesis lv50
-    (357, 35700, 76, 21, 1, 56),  -- solar-beam lv56
-    (357, 35700, 437, 21, 1, 61),  -- leaf-storm lv61
-    (357, 35700, 14, 21, 2, NULL),  -- swords-dance tm
-    (357, 35700, 15, 21, 2, NULL),  -- cut tm
-    (357, 35700, 19, 21, 2, NULL),  -- fly tm
-    (357, 35700, 46, 21, 2, NULL),  -- roar tm
-    (357, 35700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (357, 35700, 70, 21, 2, NULL),  -- strength tm
-    (357, 35700, 76, 21, 2, NULL),  -- solar-beam tm
-    (357, 35700, 89, 21, 2, NULL),  -- earthquake tm
-    (357, 35700, 104, 21, 2, NULL),  -- double-team tm
-    (357, 35700, 148, 21, 2, NULL),  -- flash tm
-    (357, 35700, 156, 21, 2, NULL),  -- rest tm
-    (357, 35700, 164, 21, 2, NULL),  -- substitute tm
-    (357, 35700, 182, 21, 2, NULL),  -- protect tm
-    (357, 35700, 202, 21, 2, NULL),  -- giga-drain tm
-    (357, 35700, 203, 21, 2, NULL),  -- endure tm
-    (357, 35700, 207, 21, 2, NULL),  -- swagger tm
-    (357, 35700, 211, 21, 2, NULL),  -- steel-wing tm
-    (357, 35700, 213, 21, 2, NULL),  -- attract tm
-    (357, 35700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (357, 35700, 219, 21, 2, NULL),  -- safeguard tm
-    (357, 35700, 241, 21, 2, NULL),  -- sunny-day tm
-    (357, 35700, 249, 21, 2, NULL),  -- rock-smash tm
-    (357, 35700, 263, 21, 2, NULL),  -- facade tm
-    (357, 35700, 331, 21, 2, NULL),  -- bullet-seed tm
-    (357, 35700, 332, 21, 2, NULL),  -- aerial-ace tm
-    (357, 35700, 355, 21, 2, NULL),  -- roost tm
-    (357, 35700, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (357, 35700, 412, 21, 2, NULL),  -- energy-ball tm
-    (357, 35700, 416, 21, 2, NULL),  -- giga-impact tm
-    (357, 35700, 432, 21, 2, NULL),  -- defog tm
-    (357, 35700, 447, 21, 2, NULL),  -- grass-knot tm
-    (357, 35700, 523, 21, 2, NULL),  -- bulldoze tm
-    (357, 35700, 21, 21, 5, NULL),  -- slam egg
-    (357, 35700, 29, 21, 5, NULL),  -- headbutt egg
-    (357, 35700, 73, 21, 5, NULL),  -- leech-seed egg
-    (357, 35700, 174, 21, 5, NULL),  -- curse egg
-    (357, 35700, 235, 21, 5, NULL),  -- synthesis egg
-    (357, 35700, 267, 21, 5, NULL),  -- nature-power egg
-    (357, 35700, 348, 21, 5, NULL),  -- leaf-blade egg
-    (357, 35700, 349, 21, 5, NULL),  -- dragon-dance egg
-    (357, 35700, 437, 21, 5, NULL),  -- leaf-storm egg
-    (357, 35700, 692, 21, 5, NULL),  -- dragon-hammer egg
-    (357, 35700, 16, 21, 8, NULL),  -- gust start
-    (357, 35700, 43, 21, 8, NULL),  -- leer start
-    (357, 35700, 74, 21, 8, NULL),  -- growth start
-    (357, 35700, 75, 21, 8, NULL),  -- razor-leaf start
-    (357, 35700, 437, 21, 8, NULL),  -- leaf-storm start
-    (358, 35800, 45, 21, 1, 4),  -- growl lv4
-    (358, 35800, 310, 21, 1, 7),  -- astonish lv7
-    (358, 35800, 93, 21, 1, 10),  -- confusion lv10
-    (358, 35800, 281, 21, 1, 13),  -- yawn lv13
-    (358, 35800, 113, 21, 1, 16),  -- light-screen lv16
-    (358, 35800, 36, 21, 1, 19),  -- take-down lv19
-    (358, 35800, 326, 21, 1, 22),  -- extrasensory lv22
-    (358, 35800, 215, 21, 1, 27),  -- heal-bell lv27
-    (358, 35800, 253, 21, 1, 32),  -- uproar lv32
-    (358, 35800, 219, 21, 1, 37),  -- safeguard lv37
-    (358, 35800, 38, 21, 1, 42),  -- double-edge lv42
-    (358, 35800, 505, 21, 1, 47),  -- heal-pulse lv47
-    (358, 35800, 94, 21, 1, 52),  -- psychic lv52
-    (358, 35800, 361, 21, 1, 57),  -- healing-wish lv57
-    (358, 35800, 86, 21, 2, NULL),  -- thunder-wave tm
-    (358, 35800, 94, 21, 2, NULL),  -- psychic tm
-    (358, 35800, 104, 21, 2, NULL),  -- double-team tm
-    (358, 35800, 113, 21, 2, NULL),  -- light-screen tm
-    (358, 35800, 115, 21, 2, NULL),  -- reflect tm
-    (358, 35800, 138, 21, 2, NULL),  -- dream-eater tm
-    (358, 35800, 148, 21, 2, NULL),  -- flash tm
-    (358, 35800, 156, 21, 2, NULL),  -- rest tm
-    (358, 35800, 164, 21, 2, NULL),  -- substitute tm
-    (358, 35800, 182, 21, 2, NULL),  -- protect tm
-    (358, 35800, 203, 21, 2, NULL),  -- endure tm
-    (358, 35800, 207, 21, 2, NULL),  -- swagger tm
-    (358, 35800, 213, 21, 2, NULL),  -- attract tm
-    (358, 35800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (358, 35800, 219, 21, 2, NULL),  -- safeguard tm
-    (358, 35800, 240, 21, 2, NULL),  -- rain-dance tm
-    (358, 35800, 241, 21, 2, NULL),  -- sunny-day tm
-    (358, 35800, 244, 21, 2, NULL),  -- psych-up tm
-    (358, 35800, 247, 21, 2, NULL),  -- shadow-ball tm
-    (358, 35800, 259, 21, 2, NULL),  -- torment tm
-    (358, 35800, 263, 21, 2, NULL),  -- facade tm
-    (358, 35800, 269, 21, 2, NULL),  -- taunt tm
-    (358, 35800, 278, 21, 2, NULL),  -- recycle tm
-    (358, 35800, 285, 21, 2, NULL),  -- skill-swap tm
-    (358, 35800, 347, 21, 2, NULL),  -- calm-mind tm
-    (358, 35800, 351, 21, 2, NULL),  -- shock-wave tm
-    (358, 35800, 412, 21, 2, NULL),  -- energy-ball tm
-    (358, 35800, 433, 21, 2, NULL),  -- trick-room tm
-    (358, 35800, 447, 21, 2, NULL),  -- grass-knot tm
-    (358, 35800, 451, 21, 2, NULL),  -- charge-beam tm
-    (358, 35800, 605, 21, 2, NULL),  -- dazzling-gleam tm
-    (358, 35800, 50, 21, 5, NULL),  -- disable egg
-    (358, 35800, 95, 21, 5, NULL),  -- hypnosis egg
-    (358, 35800, 105, 21, 5, NULL),  -- recover egg
-    (358, 35800, 174, 21, 5, NULL),  -- curse egg
-    (358, 35800, 195, 21, 5, NULL),  -- perish-song egg
-    (358, 35800, 248, 21, 5, NULL),  -- future-sight egg
-    (358, 35800, 273, 21, 5, NULL),  -- wish egg
-    (358, 35800, 322, 21, 5, NULL),  -- cosmic-power egg
-    (358, 35800, 500, 21, 5, NULL),  -- stored-power egg
-    (358, 35800, 35, 21, 8, NULL),  -- wrap start
-    (358, 35800, 45, 21, 8, NULL),  -- growl start
-    (358, 35800, 93, 21, 8, NULL),  -- confusion start
-    (358, 35800, 310, 21, 8, NULL),  -- astonish start
-    (358, 35800, 361, 21, 8, NULL),  -- healing-wish start
-    (358, 35800, 387, 21, 8, NULL),  -- last-resort start
-    (358, 35800, 494, 21, 8, NULL),  -- entrainment start
-    (359, 35900, 104, 21, 1, 5),  -- double-team lv5
-    (359, 35900, 282, 21, 1, 10),  -- knock-off lv10
-    (359, 35900, 197, 21, 1, 15),  -- detect lv15
-    (359, 35900, 269, 21, 1, 20),  -- taunt lv20
-    (359, 35900, 163, 21, 1, 25),  -- slash lv25
-    (359, 35900, 400, 21, 1, 30),  -- night-slash lv30
-    (359, 35900, 116, 21, 1, 35),  -- focus-energy lv35
-    (359, 35900, 389, 21, 1, 40),  -- sucker-punch lv40
-    (359, 35900, 14, 21, 1, 45),  -- swords-dance lv45
-    (359, 35900, 248, 21, 1, 50),  -- future-sight lv50
-    (359, 35900, 195, 21, 1, 55),  -- perish-song lv55
-    (359, 35900, 14, 21, 2, NULL),  -- swords-dance tm
-    (359, 35900, 15, 21, 2, NULL),  -- cut tm
-    (359, 35900, 53, 21, 2, NULL),  -- flamethrower tm
-    (359, 35900, 58, 21, 2, NULL),  -- ice-beam tm
-    (359, 35900, 59, 21, 2, NULL),  -- blizzard tm
-    (359, 35900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (359, 35900, 70, 21, 2, NULL),  -- strength tm
-    (359, 35900, 85, 21, 2, NULL),  -- thunderbolt tm
-    (359, 35900, 86, 21, 2, NULL),  -- thunder-wave tm
-    (359, 35900, 87, 21, 2, NULL),  -- thunder tm
-    (359, 35900, 104, 21, 2, NULL),  -- double-team tm
-    (359, 35900, 126, 21, 2, NULL),  -- fire-blast tm
-    (359, 35900, 138, 21, 2, NULL),  -- dream-eater tm
-    (359, 35900, 148, 21, 2, NULL),  -- flash tm
-    (359, 35900, 156, 21, 2, NULL),  -- rest tm
-    (359, 35900, 157, 21, 2, NULL),  -- rock-slide tm
-    (359, 35900, 164, 21, 2, NULL),  -- substitute tm
-    (359, 35900, 168, 21, 2, NULL),  -- thief tm
-    (359, 35900, 182, 21, 2, NULL),  -- protect tm
-    (359, 35900, 201, 21, 2, NULL),  -- sandstorm tm
-    (359, 35900, 203, 21, 2, NULL),  -- endure tm
-    (359, 35900, 206, 21, 2, NULL),  -- false-swipe tm
-    (359, 35900, 207, 21, 2, NULL),  -- swagger tm
-    (359, 35900, 213, 21, 2, NULL),  -- attract tm
-    (359, 35900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (359, 35900, 231, 21, 2, NULL),  -- iron-tail tm
-    (359, 35900, 240, 21, 2, NULL),  -- rain-dance tm
-    (359, 35900, 241, 21, 2, NULL),  -- sunny-day tm
-    (359, 35900, 244, 21, 2, NULL),  -- psych-up tm
-    (359, 35900, 247, 21, 2, NULL),  -- shadow-ball tm
-    (359, 35900, 249, 21, 2, NULL),  -- rock-smash tm
-    (359, 35900, 258, 21, 2, NULL),  -- hail tm
-    (359, 35900, 259, 21, 2, NULL),  -- torment tm
-    (359, 35900, 261, 21, 2, NULL),  -- will-o-wisp tm
-    (359, 35900, 263, 21, 2, NULL),  -- facade tm
-    (359, 35900, 269, 21, 2, NULL),  -- taunt tm
-    (359, 35900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (359, 35900, 332, 21, 2, NULL),  -- aerial-ace tm
-    (359, 35900, 347, 21, 2, NULL),  -- calm-mind tm
-    (359, 35900, 351, 21, 2, NULL),  -- shock-wave tm
-    (359, 35900, 352, 21, 2, NULL),  -- water-pulse tm
-    (359, 35900, 371, 21, 2, NULL),  -- payback tm
-    (359, 35900, 399, 21, 2, NULL),  -- dark-pulse tm
-    (359, 35900, 404, 21, 2, NULL),  -- x-scissor tm
-    (359, 35900, 416, 21, 2, NULL),  -- giga-impact tm
-    (359, 35900, 421, 21, 2, NULL),  -- shadow-claw tm
-    (359, 35900, 444, 21, 2, NULL),  -- stone-edge tm
-    (359, 35900, 451, 21, 2, NULL),  -- charge-beam tm
-    (359, 35900, 555, 21, 2, NULL),  -- snarl tm
-    (359, 35900, 38, 21, 5, NULL),  -- double-edge egg
-    (359, 35900, 44, 21, 5, NULL),  -- bite egg
-    (359, 35900, 174, 21, 5, NULL),  -- curse egg
-    (359, 35900, 195, 21, 5, NULL),  -- perish-song egg
-    (359, 35900, 212, 21, 5, NULL),  -- mean-look egg
-    (359, 35900, 224, 21, 5, NULL),  -- megahorn egg
-    (359, 35900, 226, 21, 5, NULL),  -- baton-pass egg
-    (359, 35900, 277, 21, 5, NULL),  -- magic-coat egg
-    (359, 35900, 364, 21, 5, NULL),  -- feint egg
-    (359, 35900, 372, 21, 5, NULL),  -- assurance egg
-    (359, 35900, 389, 21, 5, NULL),  -- sucker-punch egg
-    (359, 35900, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (359, 35900, 506, 21, 5, NULL),  -- hex egg
-    (359, 35900, 583, 21, 5, NULL),  -- play-rough egg
-    (359, 35900, 43, 21, 8, NULL),  -- leer start
-    (359, 35900, 98, 21, 8, NULL),  -- quick-attack start
-    (360, 36000, 219, 21, 2, NULL),  -- safeguard tm
-    (360, 36000, 68, 21, 8, NULL),  -- counter start
-    (360, 36000, 133, 21, 8, NULL),  -- amnesia start
-    (360, 36000, 150, 21, 8, NULL),  -- splash start
-    (360, 36000, 194, 21, 8, NULL),  -- destiny-bond start
-    (360, 36000, 204, 21, 8, NULL),  -- charm start
-    (360, 36000, 219, 21, 8, NULL),  -- safeguard start
-    (360, 36000, 227, 21, 8, NULL),  -- encore start
-    (360, 36000, 243, 21, 8, NULL),  -- mirror-coat start
-    (361, 36100, 43, 21, 1, 5),  -- leer lv5
-    (361, 36100, 104, 21, 1, 10),  -- double-team lv10
-    (361, 36100, 420, 21, 1, 15),  -- ice-shard lv15
-    (361, 36100, 182, 21, 1, 20),  -- protect lv20
-    (361, 36100, 196, 21, 1, 25),  -- icy-wind lv25
-    (361, 36100, 524, 21, 1, 30),  -- frost-breath lv30
-    (361, 36100, 44, 21, 1, 35),  -- bite lv35
-    (361, 36100, 423, 21, 1, 40),  -- ice-fang lv40
-    (361, 36100, 258, 21, 1, 45),  -- hail lv45
-    (361, 36100, 29, 21, 1, 50),  -- headbutt lv50
-    (361, 36100, 242, 21, 1, 55),  -- crunch lv55
-    (361, 36100, 59, 21, 1, 60),  -- blizzard lv60
-    (361, 36100, 58, 21, 2, NULL),  -- ice-beam tm
-    (361, 36100, 59, 21, 2, NULL),  -- blizzard tm
-    (361, 36100, 104, 21, 2, NULL),  -- double-team tm
-    (361, 36100, 113, 21, 2, NULL),  -- light-screen tm
-    (361, 36100, 148, 21, 2, NULL),  -- flash tm
-    (361, 36100, 156, 21, 2, NULL),  -- rest tm
-    (361, 36100, 164, 21, 2, NULL),  -- substitute tm
-    (361, 36100, 182, 21, 2, NULL),  -- protect tm
-    (361, 36100, 203, 21, 2, NULL),  -- endure tm
-    (361, 36100, 207, 21, 2, NULL),  -- swagger tm
-    (361, 36100, 213, 21, 2, NULL),  -- attract tm
-    (361, 36100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (361, 36100, 219, 21, 2, NULL),  -- safeguard tm
-    (361, 36100, 240, 21, 2, NULL),  -- rain-dance tm
-    (361, 36100, 247, 21, 2, NULL),  -- shadow-ball tm
-    (361, 36100, 258, 21, 2, NULL),  -- hail tm
-    (361, 36100, 263, 21, 2, NULL),  -- facade tm
-    (361, 36100, 352, 21, 2, NULL),  -- water-pulse tm
-    (361, 36100, 419, 21, 2, NULL),  -- avalanche tm
-    (361, 36100, 50, 21, 5, NULL),  -- disable egg
-    (361, 36100, 191, 21, 5, NULL),  -- spikes egg
-    (361, 36100, 205, 21, 5, NULL),  -- rollout egg
-    (361, 36100, 311, 21, 5, NULL),  -- weather-ball egg
-    (361, 36100, 313, 21, 5, NULL),  -- fake-tears egg
-    (361, 36100, 335, 21, 5, NULL),  -- block egg
-    (361, 36100, 415, 21, 5, NULL),  -- switcheroo egg
-    (361, 36100, 506, 21, 5, NULL),  -- hex egg
-    (361, 36100, 556, 21, 5, NULL),  -- icicle-crash egg
-    (361, 36100, 181, 21, 8, NULL),  -- powder-snow start
-    (361, 36100, 310, 21, 8, NULL),  -- astonish start
-    (362, 36200, 420, 21, 1, 15),  -- ice-shard lv15
-    (362, 36200, 182, 21, 1, 20),  -- protect lv20
-    (362, 36200, 196, 21, 1, 25),  -- icy-wind lv25
-    (362, 36200, 524, 21, 1, 30),  -- frost-breath lv30
-    (362, 36200, 44, 21, 1, 35),  -- bite lv35
-    (362, 36200, 423, 21, 1, 40),  -- ice-fang lv40
-    (362, 36200, 258, 21, 1, 47),  -- hail lv47
-    (362, 36200, 29, 21, 1, 54),  -- headbutt lv54
-    (362, 36200, 242, 21, 1, 61),  -- crunch lv61
-    (362, 36200, 59, 21, 1, 68),  -- blizzard lv68
-    (362, 36200, 58, 21, 2, NULL),  -- ice-beam tm
-    (362, 36200, 59, 21, 2, NULL),  -- blizzard tm
-    (362, 36200, 63, 21, 2, NULL),  -- hyper-beam tm
-    (362, 36200, 89, 21, 2, NULL),  -- earthquake tm
-    (362, 36200, 104, 21, 2, NULL),  -- double-team tm
-    (362, 36200, 113, 21, 2, NULL),  -- light-screen tm
-    (362, 36200, 148, 21, 2, NULL),  -- flash tm
-    (362, 36200, 153, 21, 2, NULL),  -- explosion tm
-    (362, 36200, 156, 21, 2, NULL),  -- rest tm
-    (362, 36200, 164, 21, 2, NULL),  -- substitute tm
-    (362, 36200, 182, 21, 2, NULL),  -- protect tm
-    (362, 36200, 203, 21, 2, NULL),  -- endure tm
-    (362, 36200, 207, 21, 2, NULL),  -- swagger tm
-    (362, 36200, 213, 21, 2, NULL),  -- attract tm
-    (362, 36200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (362, 36200, 219, 21, 2, NULL),  -- safeguard tm
-    (362, 36200, 240, 21, 2, NULL),  -- rain-dance tm
-    (362, 36200, 247, 21, 2, NULL),  -- shadow-ball tm
-    (362, 36200, 258, 21, 2, NULL),  -- hail tm
-    (362, 36200, 259, 21, 2, NULL),  -- torment tm
-    (362, 36200, 263, 21, 2, NULL),  -- facade tm
-    (362, 36200, 269, 21, 2, NULL),  -- taunt tm
-    (362, 36200, 352, 21, 2, NULL),  -- water-pulse tm
-    (362, 36200, 360, 21, 2, NULL),  -- gyro-ball tm
-    (362, 36200, 371, 21, 2, NULL),  -- payback tm
-    (362, 36200, 399, 21, 2, NULL),  -- dark-pulse tm
-    (362, 36200, 416, 21, 2, NULL),  -- giga-impact tm
-    (362, 36200, 419, 21, 2, NULL),  -- avalanche tm
-    (362, 36200, 523, 21, 2, NULL),  -- bulldoze tm
-    (362, 36200, 50, 21, 5, NULL),  -- disable egg
-    (362, 36200, 191, 21, 5, NULL),  -- spikes egg
-    (362, 36200, 205, 21, 5, NULL),  -- rollout egg
-    (362, 36200, 311, 21, 5, NULL),  -- weather-ball egg
-    (362, 36200, 313, 21, 5, NULL),  -- fake-tears egg
-    (362, 36200, 335, 21, 5, NULL),  -- block egg
-    (362, 36200, 415, 21, 5, NULL),  -- switcheroo egg
-    (362, 36200, 506, 21, 5, NULL),  -- hex egg
-    (362, 36200, 556, 21, 5, NULL),  -- icicle-crash egg
-    (362, 36200, 43, 21, 8, NULL),  -- leer start
-    (362, 36200, 104, 21, 8, NULL),  -- double-team start
-    (362, 36200, 181, 21, 8, NULL),  -- powder-snow start
-    (362, 36200, 310, 21, 8, NULL),  -- astonish start
-    (362, 36200, 329, 21, 8, NULL),  -- sheer-cold start
-    (362, 36200, 573, 21, 8, NULL),  -- freeze-dry start
-    (363, 36300, 45, 21, 1, 4),  -- growl lv4
-    (363, 36300, 55, 21, 1, 8),  -- water-gun lv8
-    (363, 36300, 181, 21, 1, 12),  -- powder-snow lv12
-    (363, 36300, 156, 21, 1, 16),  -- rest lv16
-    (363, 36300, 173, 21, 1, 20),  -- snore lv20
-    (363, 36300, 362, 21, 1, 24),  -- brine lv24
-    (363, 36300, 62, 21, 1, 28),  -- aurora-beam lv28
-    (363, 36300, 227, 21, 1, 33),  -- encore lv33
-    (363, 36300, 34, 21, 1, 36),  -- body-slam lv36
-    (363, 36300, 57, 21, 1, 40),  -- surf lv40
-    (363, 36300, 59, 21, 1, 44),  -- blizzard lv44
-    (363, 36300, 258, 21, 1, 48),  -- hail lv48
-    (363, 36300, 329, 21, 1, 52),  -- sheer-cold lv52
-    (363, 36300, 57, 21, 2, NULL),  -- surf tm
-    (363, 36300, 58, 21, 2, NULL),  -- ice-beam tm
-    (363, 36300, 59, 21, 2, NULL),  -- blizzard tm
-    (363, 36300, 70, 21, 2, NULL),  -- strength tm
-    (363, 36300, 89, 21, 2, NULL),  -- earthquake tm
-    (363, 36300, 104, 21, 2, NULL),  -- double-team tm
-    (363, 36300, 127, 21, 2, NULL),  -- waterfall tm
-    (363, 36300, 156, 21, 2, NULL),  -- rest tm
-    (363, 36300, 157, 21, 2, NULL),  -- rock-slide tm
-    (363, 36300, 164, 21, 2, NULL),  -- substitute tm
-    (363, 36300, 182, 21, 2, NULL),  -- protect tm
-    (363, 36300, 203, 21, 2, NULL),  -- endure tm
-    (363, 36300, 207, 21, 2, NULL),  -- swagger tm
-    (363, 36300, 213, 21, 2, NULL),  -- attract tm
-    (363, 36300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (363, 36300, 231, 21, 2, NULL),  -- iron-tail tm
-    (363, 36300, 240, 21, 2, NULL),  -- rain-dance tm
-    (363, 36300, 249, 21, 2, NULL),  -- rock-smash tm
-    (363, 36300, 258, 21, 2, NULL),  -- hail tm
-    (363, 36300, 263, 21, 2, NULL),  -- facade tm
-    (363, 36300, 317, 21, 2, NULL),  -- rock-tomb tm
-    (363, 36300, 352, 21, 2, NULL),  -- water-pulse tm
-    (363, 36300, 362, 21, 2, NULL),  -- brine tm
-    (363, 36300, 523, 21, 2, NULL),  -- bulldoze tm
-    (363, 36300, 90, 21, 5, NULL),  -- fissure egg
-    (363, 36300, 174, 21, 5, NULL),  -- curse egg
-    (363, 36300, 187, 21, 5, NULL),  -- belly-drum egg
-    (363, 36300, 205, 21, 5, NULL),  -- rollout egg
-    (363, 36300, 254, 21, 5, NULL),  -- stockpile egg
-    (363, 36300, 255, 21, 5, NULL),  -- spit-up egg
-    (363, 36300, 256, 21, 5, NULL),  -- swallow egg
-    (363, 36300, 281, 21, 5, NULL),  -- yawn egg
-    (363, 36300, 392, 21, 5, NULL),  -- aqua-ring egg
-    (363, 36300, 111, 21, 8, NULL),  -- defense-curl start
-    (363, 36300, 205, 21, 8, NULL),  -- rollout start
-    (364, 36400, 181, 21, 1, 12),  -- powder-snow lv12
-    (364, 36400, 156, 21, 1, 16),  -- rest lv16
-    (364, 36400, 173, 21, 1, 20),  -- snore lv20
-    (364, 36400, 362, 21, 1, 24),  -- brine lv24
-    (364, 36400, 62, 21, 1, 28),  -- aurora-beam lv28
-    (364, 36400, 227, 21, 1, 35),  -- encore lv35
-    (364, 36400, 34, 21, 1, 40),  -- body-slam lv40
-    (364, 36400, 57, 21, 1, 46),  -- surf lv46
-    (364, 36400, 59, 21, 1, 52),  -- blizzard lv52
-    (364, 36400, 258, 21, 1, 58),  -- hail lv58
-    (364, 36400, 329, 21, 1, 64),  -- sheer-cold lv64
-    (364, 36400, 46, 21, 2, NULL),  -- roar tm
-    (364, 36400, 57, 21, 2, NULL),  -- surf tm
-    (364, 36400, 58, 21, 2, NULL),  -- ice-beam tm
-    (364, 36400, 59, 21, 2, NULL),  -- blizzard tm
-    (364, 36400, 70, 21, 2, NULL),  -- strength tm
-    (364, 36400, 89, 21, 2, NULL),  -- earthquake tm
-    (364, 36400, 104, 21, 2, NULL),  -- double-team tm
-    (364, 36400, 127, 21, 2, NULL),  -- waterfall tm
-    (364, 36400, 156, 21, 2, NULL),  -- rest tm
-    (364, 36400, 157, 21, 2, NULL),  -- rock-slide tm
-    (364, 36400, 164, 21, 2, NULL),  -- substitute tm
-    (364, 36400, 182, 21, 2, NULL),  -- protect tm
-    (364, 36400, 203, 21, 2, NULL),  -- endure tm
-    (364, 36400, 207, 21, 2, NULL),  -- swagger tm
-    (364, 36400, 213, 21, 2, NULL),  -- attract tm
-    (364, 36400, 214, 21, 2, NULL),  -- sleep-talk tm
-    (364, 36400, 231, 21, 2, NULL),  -- iron-tail tm
-    (364, 36400, 240, 21, 2, NULL),  -- rain-dance tm
-    (364, 36400, 249, 21, 2, NULL),  -- rock-smash tm
-    (364, 36400, 258, 21, 2, NULL),  -- hail tm
-    (364, 36400, 263, 21, 2, NULL),  -- facade tm
-    (364, 36400, 317, 21, 2, NULL),  -- rock-tomb tm
-    (364, 36400, 352, 21, 2, NULL),  -- water-pulse tm
-    (364, 36400, 362, 21, 2, NULL),  -- brine tm
-    (364, 36400, 523, 21, 2, NULL),  -- bulldoze tm
-    (364, 36400, 90, 21, 5, NULL),  -- fissure egg
-    (364, 36400, 174, 21, 5, NULL),  -- curse egg
-    (364, 36400, 187, 21, 5, NULL),  -- belly-drum egg
-    (364, 36400, 205, 21, 5, NULL),  -- rollout egg
-    (364, 36400, 254, 21, 5, NULL),  -- stockpile egg
-    (364, 36400, 255, 21, 5, NULL),  -- spit-up egg
-    (364, 36400, 256, 21, 5, NULL),  -- swallow egg
-    (364, 36400, 281, 21, 5, NULL),  -- yawn egg
-    (364, 36400, 392, 21, 5, NULL),  -- aqua-ring egg
-    (364, 36400, 45, 21, 8, NULL),  -- growl start
-    (364, 36400, 55, 21, 8, NULL),  -- water-gun start
-    (364, 36400, 111, 21, 8, NULL),  -- defense-curl start
-    (364, 36400, 205, 21, 8, NULL),  -- rollout start
-    (364, 36400, 207, 21, 8, NULL),  -- swagger start
-    (365, 36500, 181, 21, 1, 12),  -- powder-snow lv12
-    (365, 36500, 156, 21, 1, 16),  -- rest lv16
-    (365, 36500, 173, 21, 1, 20),  -- snore lv20
-    (365, 36500, 362, 21, 1, 24),  -- brine lv24
-    (365, 36500, 62, 21, 1, 28),  -- aurora-beam lv28
-    (365, 36500, 227, 21, 1, 35),  -- encore lv35
-    (365, 36500, 34, 21, 1, 40),  -- body-slam lv40
-    (365, 36500, 57, 21, 1, 48),  -- surf lv48
-    (365, 36500, 59, 21, 1, 56),  -- blizzard lv56
-    (365, 36500, 258, 21, 1, 64),  -- hail lv64
-    (365, 36500, 329, 21, 1, 72),  -- sheer-cold lv72
-    (365, 36500, 14, 21, 2, NULL),  -- swords-dance tm
-    (365, 36500, 46, 21, 2, NULL),  -- roar tm
-    (365, 36500, 57, 21, 2, NULL),  -- surf tm
-    (365, 36500, 58, 21, 2, NULL),  -- ice-beam tm
-    (365, 36500, 59, 21, 2, NULL),  -- blizzard tm
-    (365, 36500, 63, 21, 2, NULL),  -- hyper-beam tm
-    (365, 36500, 70, 21, 2, NULL),  -- strength tm
-    (365, 36500, 89, 21, 2, NULL),  -- earthquake tm
-    (365, 36500, 104, 21, 2, NULL),  -- double-team tm
-    (365, 36500, 127, 21, 2, NULL),  -- waterfall tm
-    (365, 36500, 156, 21, 2, NULL),  -- rest tm
-    (365, 36500, 157, 21, 2, NULL),  -- rock-slide tm
-    (365, 36500, 164, 21, 2, NULL),  -- substitute tm
-    (365, 36500, 182, 21, 2, NULL),  -- protect tm
-    (365, 36500, 203, 21, 2, NULL),  -- endure tm
-    (365, 36500, 207, 21, 2, NULL),  -- swagger tm
-    (365, 36500, 213, 21, 2, NULL),  -- attract tm
-    (365, 36500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (365, 36500, 231, 21, 2, NULL),  -- iron-tail tm
-    (365, 36500, 240, 21, 2, NULL),  -- rain-dance tm
-    (365, 36500, 249, 21, 2, NULL),  -- rock-smash tm
-    (365, 36500, 258, 21, 2, NULL),  -- hail tm
-    (365, 36500, 263, 21, 2, NULL),  -- facade tm
-    (365, 36500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (365, 36500, 352, 21, 2, NULL),  -- water-pulse tm
-    (365, 36500, 362, 21, 2, NULL),  -- brine tm
-    (365, 36500, 416, 21, 2, NULL),  -- giga-impact tm
-    (365, 36500, 419, 21, 2, NULL),  -- avalanche tm
-    (365, 36500, 523, 21, 2, NULL),  -- bulldoze tm
-    (365, 36500, 90, 21, 5, NULL),  -- fissure egg
-    (365, 36500, 174, 21, 5, NULL),  -- curse egg
-    (365, 36500, 187, 21, 5, NULL),  -- belly-drum egg
-    (365, 36500, 205, 21, 5, NULL),  -- rollout egg
-    (365, 36500, 254, 21, 5, NULL),  -- stockpile egg
-    (365, 36500, 255, 21, 5, NULL),  -- spit-up egg
-    (365, 36500, 256, 21, 5, NULL),  -- swallow egg
-    (365, 36500, 281, 21, 5, NULL),  -- yawn egg
-    (365, 36500, 392, 21, 5, NULL),  -- aqua-ring egg
-    (365, 36500, 45, 21, 8, NULL),  -- growl start
-    (365, 36500, 55, 21, 8, NULL),  -- water-gun start
-    (365, 36500, 111, 21, 8, NULL),  -- defense-curl start
-    (365, 36500, 205, 21, 8, NULL),  -- rollout start
-    (365, 36500, 207, 21, 8, NULL),  -- swagger start
-    (365, 36500, 242, 21, 8, NULL),  -- crunch start
-    (365, 36500, 423, 21, 8, NULL),  -- ice-fang start
-    (366, 36600, 504, 21, 1, 50),  -- shell-smash lv50
-    (366, 36600, 57, 21, 2, NULL),  -- surf tm
-    (366, 36600, 58, 21, 2, NULL),  -- ice-beam tm
-    (366, 36600, 59, 21, 2, NULL),  -- blizzard tm
-    (366, 36600, 104, 21, 2, NULL),  -- double-team tm
-    (366, 36600, 127, 21, 2, NULL),  -- waterfall tm
-    (366, 36600, 156, 21, 2, NULL),  -- rest tm
-    (366, 36600, 164, 21, 2, NULL),  -- substitute tm
-    (366, 36600, 182, 21, 2, NULL),  -- protect tm
-    (366, 36600, 203, 21, 2, NULL),  -- endure tm
-    (366, 36600, 207, 21, 2, NULL),  -- swagger tm
-    (366, 36600, 213, 21, 2, NULL),  -- attract tm
-    (366, 36600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (366, 36600, 240, 21, 2, NULL),  -- rain-dance tm
-    (366, 36600, 258, 21, 2, NULL),  -- hail tm
-    (366, 36600, 263, 21, 2, NULL),  -- facade tm
-    (366, 36600, 352, 21, 2, NULL),  -- water-pulse tm
-    (366, 36600, 362, 21, 2, NULL),  -- brine tm
-    (366, 36600, 503, 21, 2, NULL),  -- scald tm
-    (366, 36600, 34, 21, 5, NULL),  -- body-slam egg
-    (366, 36600, 48, 21, 5, NULL),  -- supersonic egg
-    (366, 36600, 109, 21, 5, NULL),  -- confuse-ray egg
-    (366, 36600, 330, 21, 5, NULL),  -- muddy-water egg
-    (366, 36600, 392, 21, 5, NULL),  -- aqua-ring egg
-    (366, 36600, 55, 21, 8, NULL),  -- water-gun start
-    (366, 36600, 250, 21, 8, NULL),  -- whirlpool start
-    (366, 36600, 334, 21, 8, NULL),  -- iron-defense start
-    (367, 36700, 103, 21, 1, 5),  -- screech lv5
-    (367, 36700, 184, 21, 1, 9),  -- scary-face lv9
-    (367, 36700, 240, 21, 1, 11),  -- rain-dance lv11
-    (367, 36700, 352, 21, 1, 14),  -- water-pulse lv14
-    (367, 36700, 423, 21, 1, 16),  -- ice-fang lv16
-    (367, 36700, 362, 21, 1, 19),  -- brine lv19
-    (367, 36700, 389, 21, 1, 23),  -- sucker-punch lv23
-    (367, 36700, 291, 21, 1, 26),  -- dive lv26
-    (367, 36700, 226, 21, 1, 29),  -- baton-pass lv29
-    (367, 36700, 242, 21, 1, 34),  -- crunch lv34
-    (367, 36700, 401, 21, 1, 39),  -- aqua-tail lv39
-    (367, 36700, 489, 21, 1, 45),  -- coil lv45
-    (367, 36700, 56, 21, 1, 50),  -- hydro-pump lv50
-    (367, 36700, 57, 21, 2, NULL),  -- surf tm
-    (367, 36700, 58, 21, 2, NULL),  -- ice-beam tm
-    (367, 36700, 59, 21, 2, NULL),  -- blizzard tm
-    (367, 36700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (367, 36700, 104, 21, 2, NULL),  -- double-team tm
-    (367, 36700, 127, 21, 2, NULL),  -- waterfall tm
-    (367, 36700, 156, 21, 2, NULL),  -- rest tm
-    (367, 36700, 164, 21, 2, NULL),  -- substitute tm
-    (367, 36700, 182, 21, 2, NULL),  -- protect tm
-    (367, 36700, 203, 21, 2, NULL),  -- endure tm
-    (367, 36700, 207, 21, 2, NULL),  -- swagger tm
-    (367, 36700, 213, 21, 2, NULL),  -- attract tm
-    (367, 36700, 214, 21, 2, NULL),  -- sleep-talk tm
-    (367, 36700, 240, 21, 2, NULL),  -- rain-dance tm
-    (367, 36700, 258, 21, 2, NULL),  -- hail tm
-    (367, 36700, 263, 21, 2, NULL),  -- facade tm
-    (367, 36700, 317, 21, 2, NULL),  -- rock-tomb tm
-    (367, 36700, 352, 21, 2, NULL),  -- water-pulse tm
-    (367, 36700, 362, 21, 2, NULL),  -- brine tm
-    (367, 36700, 416, 21, 2, NULL),  -- giga-impact tm
-    (367, 36700, 503, 21, 2, NULL),  -- scald tm
-    (367, 36700, 34, 21, 5, NULL),  -- body-slam egg
-    (367, 36700, 48, 21, 5, NULL),  -- supersonic egg
-    (367, 36700, 109, 21, 5, NULL),  -- confuse-ray egg
-    (367, 36700, 330, 21, 5, NULL),  -- muddy-water egg
-    (367, 36700, 392, 21, 5, NULL),  -- aqua-ring egg
-    (367, 36700, 44, 21, 8, NULL),  -- bite start
-    (367, 36700, 55, 21, 8, NULL),  -- water-gun start
-    (367, 36700, 250, 21, 8, NULL),  -- whirlpool start
-    (367, 36700, 334, 21, 8, NULL),  -- iron-defense start
-    (367, 36700, 504, 21, 8, NULL),  -- shell-smash start
-    (368, 36800, 240, 21, 1, 5),  -- rain-dance lv5
-    (368, 36800, 97, 21, 1, 9),  -- agility lv9
-    (368, 36800, 577, 21, 1, 11),  -- draining-kiss lv11
-    (368, 36800, 352, 21, 1, 14),  -- water-pulse lv14
-    (368, 36800, 133, 21, 1, 16),  -- amnesia lv16
-    (368, 36800, 392, 21, 1, 19),  -- aqua-ring lv19
-    (368, 36800, 219, 21, 1, 23),  -- safeguard lv23
-    (368, 36800, 291, 21, 1, 26),  -- dive lv26
-    (368, 36800, 226, 21, 1, 29),  -- baton-pass lv29
-    (368, 36800, 94, 21, 1, 34),  -- psychic lv34
-    (368, 36800, 401, 21, 1, 39),  -- aqua-tail lv39
-    (368, 36800, 489, 21, 1, 45),  -- coil lv45
-    (368, 36800, 56, 21, 1, 50),  -- hydro-pump lv50
-    (368, 36800, 57, 21, 2, NULL),  -- surf tm
-    (368, 36800, 58, 21, 2, NULL),  -- ice-beam tm
-    (368, 36800, 59, 21, 2, NULL),  -- blizzard tm
-    (368, 36800, 63, 21, 2, NULL),  -- hyper-beam tm
-    (368, 36800, 94, 21, 2, NULL),  -- psychic tm
-    (368, 36800, 104, 21, 2, NULL),  -- double-team tm
-    (368, 36800, 127, 21, 2, NULL),  -- waterfall tm
-    (368, 36800, 156, 21, 2, NULL),  -- rest tm
-    (368, 36800, 164, 21, 2, NULL),  -- substitute tm
-    (368, 36800, 182, 21, 2, NULL),  -- protect tm
-    (368, 36800, 203, 21, 2, NULL),  -- endure tm
-    (368, 36800, 207, 21, 2, NULL),  -- swagger tm
-    (368, 36800, 213, 21, 2, NULL),  -- attract tm
-    (368, 36800, 214, 21, 2, NULL),  -- sleep-talk tm
-    (368, 36800, 219, 21, 2, NULL),  -- safeguard tm
-    (368, 36800, 240, 21, 2, NULL),  -- rain-dance tm
-    (368, 36800, 244, 21, 2, NULL),  -- psych-up tm
-    (368, 36800, 247, 21, 2, NULL),  -- shadow-ball tm
-    (368, 36800, 258, 21, 2, NULL),  -- hail tm
-    (368, 36800, 263, 21, 2, NULL),  -- facade tm
-    (368, 36800, 352, 21, 2, NULL),  -- water-pulse tm
-    (368, 36800, 362, 21, 2, NULL),  -- brine tm
-    (368, 36800, 416, 21, 2, NULL),  -- giga-impact tm
-    (368, 36800, 503, 21, 2, NULL),  -- scald tm
-    (368, 36800, 34, 21, 5, NULL),  -- body-slam egg
-    (368, 36800, 48, 21, 5, NULL),  -- supersonic egg
-    (368, 36800, 109, 21, 5, NULL),  -- confuse-ray egg
-    (368, 36800, 330, 21, 5, NULL),  -- muddy-water egg
-    (368, 36800, 392, 21, 5, NULL),  -- aqua-ring egg
-    (368, 36800, 55, 21, 8, NULL),  -- water-gun start
-    (368, 36800, 93, 21, 8, NULL),  -- confusion start
-    (368, 36800, 250, 21, 8, NULL),  -- whirlpool start
-    (368, 36800, 334, 21, 8, NULL),  -- iron-defense start
-    (368, 36800, 504, 21, 8, NULL),  -- shell-smash start
-    (369, 36900, 55, 21, 1, 5),  -- water-gun lv5
-    (369, 36900, 246, 21, 1, 10),  -- ancient-power lv10
-    (369, 36900, 281, 21, 1, 15),  -- yawn lv15
-    (369, 36900, 291, 21, 1, 20),  -- dive lv20
-    (369, 36900, 36, 21, 1, 25),  -- take-down lv25
-    (369, 36900, 401, 21, 1, 30),  -- aqua-tail lv30
-    (369, 36900, 156, 21, 1, 35),  -- rest lv35
-    (369, 36900, 175, 21, 1, 40),  -- flail lv40
-    (369, 36900, 56, 21, 1, 45),  -- hydro-pump lv45
-    (369, 36900, 38, 21, 1, 50),  -- double-edge lv50
-    (369, 36900, 457, 21, 1, 55),  -- head-smash lv55
-    (369, 36900, 57, 21, 2, NULL),  -- surf tm
-    (369, 36900, 58, 21, 2, NULL),  -- ice-beam tm
-    (369, 36900, 59, 21, 2, NULL),  -- blizzard tm
-    (369, 36900, 63, 21, 2, NULL),  -- hyper-beam tm
-    (369, 36900, 89, 21, 2, NULL),  -- earthquake tm
-    (369, 36900, 104, 21, 2, NULL),  -- double-team tm
-    (369, 36900, 127, 21, 2, NULL),  -- waterfall tm
-    (369, 36900, 156, 21, 2, NULL),  -- rest tm
-    (369, 36900, 157, 21, 2, NULL),  -- rock-slide tm
-    (369, 36900, 164, 21, 2, NULL),  -- substitute tm
-    (369, 36900, 182, 21, 2, NULL),  -- protect tm
-    (369, 36900, 201, 21, 2, NULL),  -- sandstorm tm
-    (369, 36900, 203, 21, 2, NULL),  -- endure tm
-    (369, 36900, 207, 21, 2, NULL),  -- swagger tm
-    (369, 36900, 213, 21, 2, NULL),  -- attract tm
-    (369, 36900, 214, 21, 2, NULL),  -- sleep-talk tm
-    (369, 36900, 219, 21, 2, NULL),  -- safeguard tm
-    (369, 36900, 240, 21, 2, NULL),  -- rain-dance tm
-    (369, 36900, 244, 21, 2, NULL),  -- psych-up tm
-    (369, 36900, 249, 21, 2, NULL),  -- rock-smash tm
-    (369, 36900, 258, 21, 2, NULL),  -- hail tm
-    (369, 36900, 263, 21, 2, NULL),  -- facade tm
-    (369, 36900, 317, 21, 2, NULL),  -- rock-tomb tm
-    (369, 36900, 347, 21, 2, NULL),  -- calm-mind tm
-    (369, 36900, 352, 21, 2, NULL),  -- water-pulse tm
-    (369, 36900, 362, 21, 2, NULL),  -- brine tm
-    (369, 36900, 397, 21, 2, NULL),  -- rock-polish tm
-    (369, 36900, 416, 21, 2, NULL),  -- giga-impact tm
-    (369, 36900, 444, 21, 2, NULL),  -- stone-edge tm
-    (369, 36900, 446, 21, 2, NULL),  -- stealth-rock tm
-    (369, 36900, 503, 21, 2, NULL),  -- scald tm
-    (369, 36900, 523, 21, 2, NULL),  -- bulldoze tm
-    (369, 36900, 130, 21, 5, NULL),  -- skull-bash egg
-    (369, 36900, 133, 21, 5, NULL),  -- amnesia egg
-    (369, 36900, 173, 21, 5, NULL),  -- snore egg
-    (369, 36900, 189, 21, 5, NULL),  -- mud-slap egg
-    (369, 36900, 330, 21, 5, NULL),  -- muddy-water egg
-    (369, 36900, 341, 21, 5, NULL),  -- mud-shot egg
-    (369, 36900, 401, 21, 5, NULL),  -- aqua-tail egg
-    (369, 36900, 428, 21, 5, NULL),  -- zen-headbutt egg
-    (369, 36900, 33, 21, 8, NULL),  -- tackle start
-    (369, 36900, 106, 21, 8, NULL),  -- harden start
-    (370, 37000, 55, 21, 1, 4),  -- water-gun lv4
-    (370, 37000, 97, 21, 1, 7),  -- agility lv7
-    (370, 37000, 577, 21, 1, 9),  -- draining-kiss lv9
-    (370, 37000, 715, 21, 1, 13),  -- tearful-look lv13
-    (370, 37000, 352, 21, 1, 17),  -- water-pulse lv17
-    (370, 37000, 213, 21, 1, 20),  -- attract lv20
-    (370, 37000, 362, 21, 1, 22),  -- brine lv22
-    (370, 37000, 175, 21, 1, 26),  -- flail lv26
-    (370, 37000, 186, 21, 1, 31),  -- sweet-kiss lv31
-    (370, 37000, 36, 21, 1, 34),  -- take-down lv34
-    (370, 37000, 608, 21, 1, 37),  -- baby-doll-eyes lv37
-    (370, 37000, 392, 21, 1, 40),  -- aqua-ring lv40
-    (370, 37000, 487, 21, 1, 42),  -- soak lv42
-    (370, 37000, 56, 21, 1, 46),  -- hydro-pump lv46
-    (370, 37000, 219, 21, 1, 49),  -- safeguard lv49
-    (370, 37000, 57, 21, 2, NULL),  -- surf tm
-    (370, 37000, 58, 21, 2, NULL),  -- ice-beam tm
-    (370, 37000, 59, 21, 2, NULL),  -- blizzard tm
-    (370, 37000, 104, 21, 2, NULL),  -- double-team tm
-    (370, 37000, 127, 21, 2, NULL),  -- waterfall tm
-    (370, 37000, 156, 21, 2, NULL),  -- rest tm
-    (370, 37000, 164, 21, 2, NULL),  -- substitute tm
-    (370, 37000, 182, 21, 2, NULL),  -- protect tm
-    (370, 37000, 203, 21, 2, NULL),  -- endure tm
-    (370, 37000, 207, 21, 2, NULL),  -- swagger tm
-    (370, 37000, 213, 21, 2, NULL),  -- attract tm
-    (370, 37000, 214, 21, 2, NULL),  -- sleep-talk tm
-    (370, 37000, 219, 21, 2, NULL),  -- safeguard tm
-    (370, 37000, 240, 21, 2, NULL),  -- rain-dance tm
-    (370, 37000, 244, 21, 2, NULL),  -- psych-up tm
-    (370, 37000, 258, 21, 2, NULL),  -- hail tm
-    (370, 37000, 263, 21, 2, NULL),  -- facade tm
-    (370, 37000, 352, 21, 2, NULL),  -- water-pulse tm
-    (370, 37000, 362, 21, 2, NULL),  -- brine tm
-    (370, 37000, 503, 21, 2, NULL),  -- scald tm
-    (370, 37000, 48, 21, 5, NULL),  -- supersonic egg
-    (370, 37000, 150, 21, 5, NULL),  -- splash egg
-    (370, 37000, 392, 21, 5, NULL),  -- aqua-ring egg
-    (370, 37000, 453, 21, 5, NULL),  -- aqua-jet egg
-    (370, 37000, 494, 21, 5, NULL),  -- entrainment egg
-    (370, 37000, 505, 21, 5, NULL),  -- heal-pulse egg
-    (370, 37000, 33, 21, 8, NULL),  -- tackle start
-    (370, 37000, 204, 21, 8, NULL),  -- charm start
-    (371, 37100, 44, 21, 1, 5),  -- bite lv5
-    (371, 37100, 225, 21, 1, 10),  -- dragon-breath lv10
-    (371, 37100, 29, 21, 1, 15),  -- headbutt lv15
-    (371, 37100, 184, 21, 1, 20),  -- scary-face lv20
-    (371, 37100, 242, 21, 1, 25),  -- crunch lv25
-    (371, 37100, 337, 21, 1, 31),  -- dragon-claw lv31
-    (371, 37100, 428, 21, 1, 35),  -- zen-headbutt lv35
-    (371, 37100, 116, 21, 1, 40),  -- focus-energy lv40
-    (371, 37100, 53, 21, 1, 45),  -- flamethrower lv45
-    (371, 37100, 200, 21, 1, 50),  -- outrage lv50
-    (371, 37100, 38, 21, 1, 55),  -- double-edge lv55
-    (371, 37100, 15, 21, 2, NULL),  -- cut tm
-    (371, 37100, 46, 21, 2, NULL),  -- roar tm
-    (371, 37100, 53, 21, 2, NULL),  -- flamethrower tm
-    (371, 37100, 70, 21, 2, NULL),  -- strength tm
-    (371, 37100, 104, 21, 2, NULL),  -- double-team tm
-    (371, 37100, 126, 21, 2, NULL),  -- fire-blast tm
-    (371, 37100, 156, 21, 2, NULL),  -- rest tm
-    (371, 37100, 157, 21, 2, NULL),  -- rock-slide tm
-    (371, 37100, 164, 21, 2, NULL),  -- substitute tm
-    (371, 37100, 182, 21, 2, NULL),  -- protect tm
-    (371, 37100, 203, 21, 2, NULL),  -- endure tm
-    (371, 37100, 207, 21, 2, NULL),  -- swagger tm
-    (371, 37100, 213, 21, 2, NULL),  -- attract tm
-    (371, 37100, 214, 21, 2, NULL),  -- sleep-talk tm
-    (371, 37100, 240, 21, 2, NULL),  -- rain-dance tm
-    (371, 37100, 241, 21, 2, NULL),  -- sunny-day tm
-    (371, 37100, 249, 21, 2, NULL),  -- rock-smash tm
-    (371, 37100, 263, 21, 2, NULL),  -- facade tm
-    (371, 37100, 280, 21, 2, NULL),  -- brick-break tm
-    (371, 37100, 317, 21, 2, NULL),  -- rock-tomb tm
-    (371, 37100, 332, 21, 2, NULL),  -- aerial-ace tm
-    (371, 37100, 337, 21, 2, NULL),  -- dragon-claw tm
-    (371, 37100, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (371, 37100, 421, 21, 2, NULL),  -- shadow-claw tm
-    (371, 37100, 37, 21, 5, NULL),  -- thrash egg
-    (371, 37100, 56, 21, 5, NULL),  -- hydro-pump egg
-    (371, 37100, 111, 21, 5, NULL),  -- defense-curl egg
-    (371, 37100, 239, 21, 5, NULL),  -- twister egg
-    (371, 37100, 349, 21, 5, NULL),  -- dragon-dance egg
-    (371, 37100, 407, 21, 5, NULL),  -- dragon-rush egg
-    (371, 37100, 424, 21, 5, NULL),  -- fire-fang egg
-    (371, 37100, 43, 21, 8, NULL),  -- leer start
-    (371, 37100, 52, 21, 8, NULL),  -- ember start
-    (372, 37200, 29, 21, 1, 15),  -- headbutt lv15
-    (372, 37200, 184, 21, 1, 20),  -- scary-face lv20
-    (372, 37200, 242, 21, 1, 25),  -- crunch lv25
-    (372, 37200, 337, 21, 1, 33),  -- dragon-claw lv33
-    (372, 37200, 428, 21, 1, 39),  -- zen-headbutt lv39
-    (372, 37200, 116, 21, 1, 46),  -- focus-energy lv46
-    (372, 37200, 53, 21, 1, 53),  -- flamethrower lv53
-    (372, 37200, 200, 21, 1, 60),  -- outrage lv60
-    (372, 37200, 38, 21, 1, 67),  -- double-edge lv67
-    (372, 37200, 15, 21, 2, NULL),  -- cut tm
-    (372, 37200, 46, 21, 2, NULL),  -- roar tm
-    (372, 37200, 53, 21, 2, NULL),  -- flamethrower tm
-    (372, 37200, 70, 21, 2, NULL),  -- strength tm
-    (372, 37200, 104, 21, 2, NULL),  -- double-team tm
-    (372, 37200, 126, 21, 2, NULL),  -- fire-blast tm
-    (372, 37200, 156, 21, 2, NULL),  -- rest tm
-    (372, 37200, 157, 21, 2, NULL),  -- rock-slide tm
-    (372, 37200, 164, 21, 2, NULL),  -- substitute tm
-    (372, 37200, 182, 21, 2, NULL),  -- protect tm
-    (372, 37200, 203, 21, 2, NULL),  -- endure tm
-    (372, 37200, 207, 21, 2, NULL),  -- swagger tm
-    (372, 37200, 213, 21, 2, NULL),  -- attract tm
-    (372, 37200, 214, 21, 2, NULL),  -- sleep-talk tm
-    (372, 37200, 240, 21, 2, NULL),  -- rain-dance tm
-    (372, 37200, 241, 21, 2, NULL),  -- sunny-day tm
-    (372, 37200, 249, 21, 2, NULL),  -- rock-smash tm
-    (372, 37200, 263, 21, 2, NULL),  -- facade tm
-    (372, 37200, 280, 21, 2, NULL),  -- brick-break tm
-    (372, 37200, 317, 21, 2, NULL),  -- rock-tomb tm
-    (372, 37200, 332, 21, 2, NULL),  -- aerial-ace tm
-    (372, 37200, 337, 21, 2, NULL),  -- dragon-claw tm
-    (372, 37200, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (372, 37200, 421, 21, 2, NULL),  -- shadow-claw tm
-    (372, 37200, 37, 21, 5, NULL),  -- thrash egg
-    (372, 37200, 56, 21, 5, NULL),  -- hydro-pump egg
-    (372, 37200, 111, 21, 5, NULL),  -- defense-curl egg
-    (372, 37200, 239, 21, 5, NULL),  -- twister egg
-    (372, 37200, 349, 21, 5, NULL),  -- dragon-dance egg
-    (372, 37200, 407, 21, 5, NULL),  -- dragon-rush egg
-    (372, 37200, 424, 21, 5, NULL),  -- fire-fang egg
-    (372, 37200, 43, 21, 8, NULL),  -- leer start
-    (372, 37200, 44, 21, 8, NULL),  -- bite start
-    (372, 37200, 52, 21, 8, NULL),  -- ember start
-    (372, 37200, 182, 21, 8, NULL),  -- protect start
-    (372, 37200, 225, 21, 8, NULL),  -- dragon-breath start
-    (373, 37300, 29, 21, 1, 15),  -- headbutt lv15
-    (373, 37300, 184, 21, 1, 20),  -- scary-face lv20
-    (373, 37300, 242, 21, 1, 25),  -- crunch lv25
-    (373, 37300, 337, 21, 1, 33),  -- dragon-claw lv33
-    (373, 37300, 428, 21, 1, 39),  -- zen-headbutt lv39
-    (373, 37300, 116, 21, 1, 46),  -- focus-energy lv46
-    (373, 37300, 53, 21, 1, 55),  -- flamethrower lv55
-    (373, 37300, 200, 21, 1, 64),  -- outrage lv64
-    (373, 37300, 38, 21, 1, 73),  -- double-edge lv73
-    (373, 37300, 15, 21, 2, NULL),  -- cut tm
-    (373, 37300, 19, 21, 2, NULL),  -- fly tm
-    (373, 37300, 46, 21, 2, NULL),  -- roar tm
-    (373, 37300, 53, 21, 2, NULL),  -- flamethrower tm
-    (373, 37300, 63, 21, 2, NULL),  -- hyper-beam tm
-    (373, 37300, 70, 21, 2, NULL),  -- strength tm
-    (373, 37300, 89, 21, 2, NULL),  -- earthquake tm
-    (373, 37300, 104, 21, 2, NULL),  -- double-team tm
-    (373, 37300, 126, 21, 2, NULL),  -- fire-blast tm
-    (373, 37300, 156, 21, 2, NULL),  -- rest tm
-    (373, 37300, 157, 21, 2, NULL),  -- rock-slide tm
-    (373, 37300, 164, 21, 2, NULL),  -- substitute tm
-    (373, 37300, 182, 21, 2, NULL),  -- protect tm
-    (373, 37300, 203, 21, 2, NULL),  -- endure tm
-    (373, 37300, 207, 21, 2, NULL),  -- swagger tm
-    (373, 37300, 211, 21, 2, NULL),  -- steel-wing tm
-    (373, 37300, 213, 21, 2, NULL),  -- attract tm
-    (373, 37300, 214, 21, 2, NULL),  -- sleep-talk tm
-    (373, 37300, 231, 21, 2, NULL),  -- iron-tail tm
-    (373, 37300, 240, 21, 2, NULL),  -- rain-dance tm
-    (373, 37300, 241, 21, 2, NULL),  -- sunny-day tm
-    (373, 37300, 249, 21, 2, NULL),  -- rock-smash tm
-    (373, 37300, 263, 21, 2, NULL),  -- facade tm
-    (373, 37300, 280, 21, 2, NULL),  -- brick-break tm
-    (373, 37300, 317, 21, 2, NULL),  -- rock-tomb tm
-    (373, 37300, 332, 21, 2, NULL),  -- aerial-ace tm
-    (373, 37300, 337, 21, 2, NULL),  -- dragon-claw tm
-    (373, 37300, 355, 21, 2, NULL),  -- roost tm
-    (373, 37300, 406, 21, 2, NULL),  -- dragon-pulse tm
-    (373, 37300, 416, 21, 2, NULL),  -- giga-impact tm
-    (373, 37300, 421, 21, 2, NULL),  -- shadow-claw tm
-    (373, 37300, 432, 21, 2, NULL),  -- defog tm
-    (373, 37300, 444, 21, 2, NULL),  -- stone-edge tm
-    (373, 37300, 523, 21, 2, NULL),  -- bulldoze tm
-    (373, 37300, 37, 21, 5, NULL),  -- thrash egg
-    (373, 37300, 56, 21, 5, NULL),  -- hydro-pump egg
-    (373, 37300, 111, 21, 5, NULL),  -- defense-curl egg
-    (373, 37300, 239, 21, 5, NULL),  -- twister egg
-    (373, 37300, 349, 21, 5, NULL),  -- dragon-dance egg
-    (373, 37300, 407, 21, 5, NULL),  -- dragon-rush egg
-    (373, 37300, 424, 21, 5, NULL),  -- fire-fang egg
-    (373, 37300, 19, 21, 8, NULL),  -- fly start
-    (373, 37300, 43, 21, 8, NULL),  -- leer start
-    (373, 37300, 44, 21, 8, NULL),  -- bite start
-    (373, 37300, 52, 21, 8, NULL),  -- ember start
-    (373, 37300, 182, 21, 8, NULL),  -- protect start
-    (373, 37300, 225, 21, 8, NULL),  -- dragon-breath start
-    (373, 37300, 525, 21, 8, NULL),  -- dragon-tail start
-    (374, 37400, 33, 21, 8, NULL),  -- tackle start
-    (375, 37500, 428, 21, 1, 6),  -- zen-headbutt lv6
-    (375, 37500, 393, 21, 1, 12),  -- magnet-rise lv12
-    (375, 37500, 430, 21, 1, 18),  -- flash-cannon lv18
-    (375, 37500, 36, 21, 1, 26),  -- take-down lv26
-    (375, 37500, 94, 21, 1, 34),  -- psychic lv34
-    (375, 37500, 184, 21, 1, 42),  -- scary-face lv42
-    (375, 37500, 309, 21, 1, 50),  -- meteor-mash lv50
-    (375, 37500, 334, 21, 1, 58),  -- iron-defense lv58
-    (375, 37500, 97, 21, 1, 66),  -- agility lv66
-    (375, 37500, 63, 21, 1, 74),  -- hyper-beam lv74
-    (375, 37500, 15, 21, 2, NULL),  -- cut tm
-    (375, 37500, 63, 21, 2, NULL),  -- hyper-beam tm
-    (375, 37500, 70, 21, 2, NULL),  -- strength tm
-    (375, 37500, 89, 21, 2, NULL),  -- earthquake tm
-    (375, 37500, 94, 21, 2, NULL),  -- psychic tm
-    (375, 37500, 104, 21, 2, NULL),  -- double-team tm
-    (375, 37500, 113, 21, 2, NULL),  -- light-screen tm
-    (375, 37500, 115, 21, 2, NULL),  -- reflect tm
-    (375, 37500, 148, 21, 2, NULL),  -- flash tm
-    (375, 37500, 153, 21, 2, NULL),  -- explosion tm
-    (375, 37500, 156, 21, 2, NULL),  -- rest tm
-    (375, 37500, 157, 21, 2, NULL),  -- rock-slide tm
-    (375, 37500, 164, 21, 2, NULL),  -- substitute tm
-    (375, 37500, 182, 21, 2, NULL),  -- protect tm
-    (375, 37500, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (375, 37500, 201, 21, 2, NULL),  -- sandstorm tm
-    (375, 37500, 203, 21, 2, NULL),  -- endure tm
-    (375, 37500, 207, 21, 2, NULL),  -- swagger tm
-    (375, 37500, 214, 21, 2, NULL),  -- sleep-talk tm
-    (375, 37500, 240, 21, 2, NULL),  -- rain-dance tm
-    (375, 37500, 241, 21, 2, NULL),  -- sunny-day tm
-    (375, 37500, 244, 21, 2, NULL),  -- psych-up tm
-    (375, 37500, 247, 21, 2, NULL),  -- shadow-ball tm
-    (375, 37500, 249, 21, 2, NULL),  -- rock-smash tm
-    (375, 37500, 263, 21, 2, NULL),  -- facade tm
-    (375, 37500, 280, 21, 2, NULL),  -- brick-break tm
-    (375, 37500, 317, 21, 2, NULL),  -- rock-tomb tm
-    (375, 37500, 332, 21, 2, NULL),  -- aerial-ace tm
-    (375, 37500, 360, 21, 2, NULL),  -- gyro-ball tm
-    (375, 37500, 397, 21, 2, NULL),  -- rock-polish tm
-    (375, 37500, 430, 21, 2, NULL),  -- flash-cannon tm
-    (375, 37500, 446, 21, 2, NULL),  -- stealth-rock tm
-    (375, 37500, 447, 21, 2, NULL),  -- grass-knot tm
-    (375, 37500, 523, 21, 2, NULL),  -- bulldoze tm
-    (375, 37500, 33, 21, 8, NULL),  -- tackle start
-    (375, 37500, 93, 21, 8, NULL),  -- confusion start
-    (375, 37500, 232, 21, 8, NULL),  -- metal-claw start
-    (375, 37500, 418, 21, 8, NULL),  -- bullet-punch start
-    (376, 37600, 428, 21, 1, 6),  -- zen-headbutt lv6
-    (376, 37600, 393, 21, 1, 12),  -- magnet-rise lv12
-    (376, 37600, 430, 21, 1, 16),  -- flash-cannon lv16
-    (376, 37600, 36, 21, 1, 26),  -- take-down lv26
-    (376, 37600, 94, 21, 1, 34),  -- psychic lv34
-    (376, 37600, 184, 21, 1, 42),  -- scary-face lv42
-    (376, 37600, 309, 21, 1, 52),  -- meteor-mash lv52
-    (376, 37600, 334, 21, 1, 62),  -- iron-defense lv62
-    (376, 37600, 97, 21, 1, 72),  -- agility lv72
-    (376, 37600, 63, 21, 1, 82),  -- hyper-beam lv82
-    (376, 37600, 15, 21, 2, NULL),  -- cut tm
-    (376, 37600, 63, 21, 2, NULL),  -- hyper-beam tm
-    (376, 37600, 70, 21, 2, NULL),  -- strength tm
-    (376, 37600, 89, 21, 2, NULL),  -- earthquake tm
-    (376, 37600, 94, 21, 2, NULL),  -- psychic tm
-    (376, 37600, 104, 21, 2, NULL),  -- double-team tm
-    (376, 37600, 113, 21, 2, NULL),  -- light-screen tm
-    (376, 37600, 115, 21, 2, NULL),  -- reflect tm
-    (376, 37600, 148, 21, 2, NULL),  -- flash tm
-    (376, 37600, 153, 21, 2, NULL),  -- explosion tm
-    (376, 37600, 156, 21, 2, NULL),  -- rest tm
-    (376, 37600, 157, 21, 2, NULL),  -- rock-slide tm
-    (376, 37600, 164, 21, 2, NULL),  -- substitute tm
-    (376, 37600, 182, 21, 2, NULL),  -- protect tm
-    (376, 37600, 188, 21, 2, NULL),  -- sludge-bomb tm
-    (376, 37600, 201, 21, 2, NULL),  -- sandstorm tm
-    (376, 37600, 203, 21, 2, NULL),  -- endure tm
-    (376, 37600, 207, 21, 2, NULL),  -- swagger tm
-    (376, 37600, 214, 21, 2, NULL),  -- sleep-talk tm
-    (376, 37600, 240, 21, 2, NULL),  -- rain-dance tm
-    (376, 37600, 241, 21, 2, NULL),  -- sunny-day tm
-    (376, 37600, 244, 21, 2, NULL),  -- psych-up tm
-    (376, 37600, 247, 21, 2, NULL),  -- shadow-ball tm
-    (376, 37600, 249, 21, 2, NULL),  -- rock-smash tm
-    (376, 37600, 263, 21, 2, NULL),  -- facade tm
-    (376, 37600, 280, 21, 2, NULL),  -- brick-break tm
-    (376, 37600, 317, 21, 2, NULL),  -- rock-tomb tm
-    (376, 37600, 332, 21, 2, NULL),  -- aerial-ace tm
-    (376, 37600, 360, 21, 2, NULL),  -- gyro-ball tm
-    (376, 37600, 397, 21, 2, NULL),  -- rock-polish tm
-    (376, 37600, 416, 21, 2, NULL),  -- giga-impact tm
-    (376, 37600, 430, 21, 2, NULL),  -- flash-cannon tm
-    (376, 37600, 446, 21, 2, NULL),  -- stealth-rock tm
-    (376, 37600, 447, 21, 2, NULL),  -- grass-knot tm
-    (376, 37600, 523, 21, 2, NULL),  -- bulldoze tm
-    (376, 37600, 33, 21, 8, NULL),  -- tackle start
-    (376, 37600, 93, 21, 8, NULL),  -- confusion start
-    (376, 37600, 232, 21, 8, NULL),  -- metal-claw start
-    (376, 37600, 359, 21, 8, NULL),  -- hammer-arm start
-    (376, 37600, 418, 21, 8, NULL),  -- bullet-punch start
-    (377, 37700, 523, 21, 1, 6),  -- bulldoze lv6
-    (377, 37700, 246, 21, 1, 12),  -- ancient-power lv12
-    (377, 37700, 23, 21, 1, 18),  -- stomp lv18
-    (377, 37700, 157, 21, 1, 24),  -- rock-slide lv24
-    (377, 37700, 174, 21, 1, 30),  -- curse lv30
-    (377, 37700, 334, 21, 1, 36),  -- iron-defense lv36
-    (377, 37700, 359, 21, 1, 42),  -- hammer-arm lv42
-    (377, 37700, 444, 21, 1, 48),  -- stone-edge lv48
-    (377, 37700, 276, 21, 1, 54),  -- superpower lv54
-    (377, 37700, 199, 21, 1, 60),  -- lock-on lv60
-    (377, 37700, 192, 21, 1, 66),  -- zap-cannon lv66
-    (377, 37700, 63, 21, 1, 72),  -- hyper-beam lv72
-    (377, 37700, 153, 21, 1, 78),  -- explosion lv78
-    (377, 37700, 63, 21, 2, NULL),  -- hyper-beam tm
-    (377, 37700, 70, 21, 2, NULL),  -- strength tm
-    (377, 37700, 85, 21, 2, NULL),  -- thunderbolt tm
-    (377, 37700, 86, 21, 2, NULL),  -- thunder-wave tm
-    (377, 37700, 87, 21, 2, NULL),  -- thunder tm
-    (377, 37700, 89, 21, 2, NULL),  -- earthquake tm
-    (377, 37700, 91, 21, 2, NULL),  -- dig tm
-    (377, 37700, 104, 21, 2, NULL),  -- double-team tm
-    (377, 37700, 153, 21, 2, NULL),  -- explosion tm
-    (377, 37700, 156, 21, 2, NULL),  -- rest tm
-    (377, 37700, 157, 21, 2, NULL),  -- rock-slide tm
-    (377, 37700, 164, 21, 2, NULL),  -- substitute tm
-    (377, 37700, 182, 21, 2, NULL),  -- protect tm
-    (377, 37700, 201, 21, 2, NULL),  -- sandstorm tm
-    (377, 37700, 203, 21, 2, NULL),  -- endure tm
-    (377, 37700, 207, 21, 2, NULL);  -- swagger tm
+    (284, 28400, 59, 21, 2, NULL),
+    (284, 28400, 63, 21, 2, NULL),
+    (284, 28400, 76, 21, 2, NULL),
+    (284, 28400, 104, 21, 2, NULL),
+    (284, 28400, 148, 21, 2, NULL),
+    (284, 28400, 156, 21, 2, NULL),
+    (284, 28400, 164, 21, 2, NULL),
+    (284, 28400, 168, 21, 2, NULL),
+    (284, 28400, 182, 21, 2, NULL),
+    (284, 28400, 202, 21, 2, NULL),
+    (284, 28400, 203, 21, 2, NULL),
+    (284, 28400, 207, 21, 2, NULL),
+    (284, 28400, 213, 21, 2, NULL),
+    (284, 28400, 214, 21, 2, NULL),
+    (284, 28400, 240, 21, 2, NULL),
+    (284, 28400, 241, 21, 2, NULL),
+    (284, 28400, 244, 21, 2, NULL),
+    (284, 28400, 247, 21, 2, NULL),
+    (284, 28400, 263, 21, 2, NULL),
+    (284, 28400, 332, 21, 2, NULL),
+    (284, 28400, 352, 21, 2, NULL),
+    (284, 28400, 355, 21, 2, NULL),
+    (284, 28400, 369, 21, 2, NULL),
+    (284, 28400, 405, 21, 2, NULL),
+    (284, 28400, 412, 21, 2, NULL),
+    (284, 28400, 416, 21, 2, NULL),
+    (284, 28400, 432, 21, 2, NULL),
+    (284, 28400, 503, 21, 2, NULL),
+    (284, 28400, 56, 21, 5, NULL),
+    (284, 28400, 60, 21, 5, NULL),
+    (284, 28400, 170, 21, 5, NULL),
+    (284, 28400, 341, 21, 5, NULL),
+    (284, 28400, 450, 21, 5, NULL),
+    (284, 28400, 453, 21, 5, NULL),
+    (284, 28400, 471, 21, 5, NULL),
+    (284, 28400, 565, 21, 5, NULL),
+    (284, 28400, 679, 21, 5, NULL),
+    (284, 28400, 18, 21, 8, NULL),
+    (284, 28400, 54, 21, 8, NULL),
+    (284, 28400, 55, 21, 8, NULL),
+    (284, 28400, 61, 21, 8, NULL),
+    (284, 28400, 97, 21, 8, NULL),
+    (284, 28400, 98, 21, 8, NULL),
+    (284, 28400, 114, 21, 8, NULL),
+    (284, 28400, 226, 21, 8, NULL),
+    (284, 28400, 230, 21, 8, NULL),
+    (284, 28400, 405, 21, 8, NULL),
+    (284, 28400, 453, 21, 8, NULL),
+    (284, 28400, 483, 21, 8, NULL),
+    (284, 28400, 564, 21, 8, NULL),
+    (285, 28500, 78, 21, 1, 5),
+    (285, 28500, 73, 21, 1, 8),
+    (285, 28500, 72, 21, 1, 12),
+    (285, 28500, 29, 21, 1, 15),
+    (285, 28500, 77, 21, 1, 19),
+    (285, 28500, 388, 21, 1, 22),
+    (285, 28500, 202, 21, 1, 26),
+    (285, 28500, 74, 21, 1, 29),
+    (285, 28500, 92, 21, 1, 33),
+    (285, 28500, 402, 21, 1, 36),
+    (285, 28500, 147, 21, 1, 40),
+    (285, 28500, 76, 21, 2, NULL),
+    (285, 28500, 92, 21, 2, NULL),
+    (285, 28500, 104, 21, 2, NULL),
+    (285, 28500, 148, 21, 2, NULL),
+    (285, 28500, 156, 21, 2, NULL),
+    (285, 28500, 164, 21, 2, NULL),
+    (285, 28500, 182, 21, 2, NULL),
+    (285, 28500, 188, 21, 2, NULL),
+    (285, 28500, 202, 21, 2, NULL),
+    (285, 28500, 203, 21, 2, NULL),
+    (285, 28500, 206, 21, 2, NULL),
+    (285, 28500, 207, 21, 2, NULL),
+    (285, 28500, 213, 21, 2, NULL),
+    (285, 28500, 214, 21, 2, NULL),
+    (285, 28500, 219, 21, 2, NULL),
+    (285, 28500, 241, 21, 2, NULL),
+    (285, 28500, 263, 21, 2, NULL),
+    (285, 28500, 331, 21, 2, NULL),
+    (285, 28500, 409, 21, 2, NULL),
+    (285, 28500, 412, 21, 2, NULL),
+    (285, 28500, 447, 21, 2, NULL),
+    (285, 28500, 204, 21, 5, NULL),
+    (285, 28500, 270, 21, 5, NULL),
+    (285, 28500, 313, 21, 5, NULL),
+    (285, 28500, 388, 21, 5, NULL),
+    (285, 28500, 402, 21, 5, NULL),
+    (285, 28500, 33, 21, 8, NULL),
+    (285, 28500, 71, 21, 8, NULL),
+    (286, 28600, 78, 21, 1, 5),
+    (286, 28600, 73, 21, 1, 8),
+    (286, 28600, 72, 21, 1, 12),
+    (286, 28600, 29, 21, 1, 15),
+    (286, 28600, 364, 21, 1, 19),
+    (286, 28600, 68, 21, 1, 22),
+    (286, 28600, 395, 21, 1, 28),
+    (286, 28600, 170, 21, 1, 33),
+    (286, 28600, 409, 21, 1, 39),
+    (286, 28600, 402, 21, 1, 44),
+    (286, 28600, 223, 21, 1, 50),
+    (286, 28600, 14, 21, 2, NULL),
+    (286, 28600, 15, 21, 2, NULL),
+    (286, 28600, 63, 21, 2, NULL),
+    (286, 28600, 70, 21, 2, NULL),
+    (286, 28600, 76, 21, 2, NULL),
+    (286, 28600, 104, 21, 2, NULL),
+    (286, 28600, 148, 21, 2, NULL),
+    (286, 28600, 156, 21, 2, NULL),
+    (286, 28600, 157, 21, 2, NULL),
+    (286, 28600, 164, 21, 2, NULL),
+    (286, 28600, 182, 21, 2, NULL),
+    (286, 28600, 188, 21, 2, NULL),
+    (286, 28600, 202, 21, 2, NULL),
+    (286, 28600, 203, 21, 2, NULL),
+    (286, 28600, 206, 21, 2, NULL),
+    (286, 28600, 207, 21, 2, NULL),
+    (286, 28600, 213, 21, 2, NULL),
+    (286, 28600, 214, 21, 2, NULL),
+    (286, 28600, 219, 21, 2, NULL),
+    (286, 28600, 231, 21, 2, NULL),
+    (286, 28600, 241, 21, 2, NULL),
+    (286, 28600, 249, 21, 2, NULL),
+    (286, 28600, 263, 21, 2, NULL),
+    (286, 28600, 264, 21, 2, NULL),
+    (286, 28600, 280, 21, 2, NULL),
+    (286, 28600, 317, 21, 2, NULL),
+    (286, 28600, 331, 21, 2, NULL),
+    (286, 28600, 339, 21, 2, NULL),
+    (286, 28600, 374, 21, 2, NULL),
+    (286, 28600, 409, 21, 2, NULL),
+    (286, 28600, 411, 21, 2, NULL),
+    (286, 28600, 412, 21, 2, NULL),
+    (286, 28600, 416, 21, 2, NULL),
+    (286, 28600, 444, 21, 2, NULL),
+    (286, 28600, 447, 21, 2, NULL),
+    (286, 28600, 490, 21, 2, NULL),
+    (286, 28600, 526, 21, 2, NULL),
+    (286, 28600, 204, 21, 5, NULL),
+    (286, 28600, 270, 21, 5, NULL),
+    (286, 28600, 313, 21, 5, NULL),
+    (286, 28600, 388, 21, 5, NULL),
+    (286, 28600, 402, 21, 5, NULL),
+    (286, 28600, 33, 21, 8, NULL),
+    (286, 28600, 71, 21, 8, NULL),
+    (286, 28600, 73, 21, 8, NULL),
+    (286, 28600, 74, 21, 8, NULL),
+    (286, 28600, 77, 21, 8, NULL),
+    (286, 28600, 78, 21, 8, NULL),
+    (286, 28600, 92, 21, 8, NULL),
+    (286, 28600, 147, 21, 8, NULL),
+    (286, 28600, 183, 21, 8, NULL),
+    (286, 28600, 202, 21, 8, NULL),
+    (286, 28600, 388, 21, 8, NULL),
+    (287, 28700, 227, 21, 1, 6),
+    (287, 28700, 303, 21, 1, 9),
+    (287, 28700, 156, 21, 1, 14),
+    (287, 28700, 133, 21, 1, 17),
+    (287, 28700, 343, 21, 1, 22),
+    (287, 28700, 29, 21, 1, 25),
+    (287, 28700, 68, 21, 1, 30),
+    (287, 28700, 175, 21, 1, 33),
+    (287, 28700, 583, 21, 1, 38),
+    (287, 28700, 15, 21, 2, NULL),
+    (287, 28700, 53, 21, 2, NULL),
+    (287, 28700, 58, 21, 2, NULL),
+    (287, 28700, 59, 21, 2, NULL),
+    (287, 28700, 70, 21, 2, NULL),
+    (287, 28700, 76, 21, 2, NULL),
+    (287, 28700, 85, 21, 2, NULL),
+    (287, 28700, 87, 21, 2, NULL),
+    (287, 28700, 104, 21, 2, NULL),
+    (287, 28700, 126, 21, 2, NULL),
+    (287, 28700, 156, 21, 2, NULL),
+    (287, 28700, 157, 21, 2, NULL),
+    (287, 28700, 164, 21, 2, NULL),
+    (287, 28700, 182, 21, 2, NULL),
+    (287, 28700, 203, 21, 2, NULL),
+    (287, 28700, 207, 21, 2, NULL),
+    (287, 28700, 213, 21, 2, NULL),
+    (287, 28700, 214, 21, 2, NULL),
+    (287, 28700, 240, 21, 2, NULL),
+    (287, 28700, 241, 21, 2, NULL),
+    (287, 28700, 247, 21, 2, NULL),
+    (287, 28700, 249, 21, 2, NULL),
+    (287, 28700, 263, 21, 2, NULL),
+    (287, 28700, 264, 21, 2, NULL),
+    (287, 28700, 280, 21, 2, NULL),
+    (287, 28700, 317, 21, 2, NULL),
+    (287, 28700, 332, 21, 2, NULL),
+    (287, 28700, 339, 21, 2, NULL),
+    (287, 28700, 351, 21, 2, NULL),
+    (287, 28700, 352, 21, 2, NULL),
+    (287, 28700, 374, 21, 2, NULL),
+    (287, 28700, 421, 21, 2, NULL),
+    (287, 28700, 526, 21, 2, NULL),
+    (287, 28700, 34, 21, 5, NULL),
+    (287, 28700, 163, 21, 5, NULL),
+    (287, 28700, 173, 21, 5, NULL),
+    (287, 28700, 174, 21, 5, NULL),
+    (287, 28700, 306, 21, 5, NULL),
+    (287, 28700, 321, 21, 5, NULL),
+    (287, 28700, 359, 21, 5, NULL),
+    (287, 28700, 400, 21, 5, NULL),
+    (287, 28700, 495, 21, 5, NULL),
+    (287, 28700, 10, 21, 8, NULL),
+    (287, 28700, 281, 21, 8, NULL),
+    (288, 28800, 227, 21, 1, 6),
+    (288, 28800, 253, 21, 1, 9),
+    (288, 28800, 154, 21, 1, 14),
+    (288, 28800, 203, 21, 1, 17),
+    (288, 28800, 163, 21, 1, 23),
+    (288, 28800, 29, 21, 1, 27),
+    (288, 28800, 68, 21, 1, 33),
+    (288, 28800, 264, 21, 1, 37),
+    (288, 28800, 179, 21, 1, 43),
+    (288, 28800, 15, 21, 2, NULL),
+    (288, 28800, 46, 21, 2, NULL),
+    (288, 28800, 53, 21, 2, NULL),
+    (288, 28800, 58, 21, 2, NULL),
+    (288, 28800, 59, 21, 2, NULL),
+    (288, 28800, 70, 21, 2, NULL),
+    (288, 28800, 76, 21, 2, NULL),
+    (288, 28800, 85, 21, 2, NULL),
+    (288, 28800, 87, 21, 2, NULL),
+    (288, 28800, 89, 21, 2, NULL),
+    (288, 28800, 104, 21, 2, NULL),
+    (288, 28800, 126, 21, 2, NULL),
+    (288, 28800, 156, 21, 2, NULL),
+    (288, 28800, 157, 21, 2, NULL),
+    (288, 28800, 164, 21, 2, NULL),
+    (288, 28800, 182, 21, 2, NULL),
+    (288, 28800, 203, 21, 2, NULL),
+    (288, 28800, 207, 21, 2, NULL),
+    (288, 28800, 213, 21, 2, NULL),
+    (288, 28800, 214, 21, 2, NULL),
+    (288, 28800, 240, 21, 2, NULL),
+    (288, 28800, 241, 21, 2, NULL),
+    (288, 28800, 247, 21, 2, NULL),
+    (288, 28800, 249, 21, 2, NULL),
+    (288, 28800, 263, 21, 2, NULL),
+    (288, 28800, 264, 21, 2, NULL),
+    (288, 28800, 269, 21, 2, NULL),
+    (288, 28800, 280, 21, 2, NULL),
+    (288, 28800, 317, 21, 2, NULL),
+    (288, 28800, 332, 21, 2, NULL),
+    (288, 28800, 339, 21, 2, NULL),
+    (288, 28800, 351, 21, 2, NULL),
+    (288, 28800, 352, 21, 2, NULL),
+    (288, 28800, 374, 21, 2, NULL),
+    (288, 28800, 411, 21, 2, NULL),
+    (288, 28800, 421, 21, 2, NULL),
+    (288, 28800, 431, 21, 2, NULL),
+    (288, 28800, 490, 21, 2, NULL),
+    (288, 28800, 523, 21, 2, NULL),
+    (288, 28800, 526, 21, 2, NULL),
+    (288, 28800, 34, 21, 5, NULL),
+    (288, 28800, 163, 21, 5, NULL),
+    (288, 28800, 173, 21, 5, NULL),
+    (288, 28800, 174, 21, 5, NULL),
+    (288, 28800, 306, 21, 5, NULL),
+    (288, 28800, 321, 21, 5, NULL),
+    (288, 28800, 359, 21, 5, NULL),
+    (288, 28800, 400, 21, 5, NULL),
+    (288, 28800, 495, 21, 5, NULL),
+    (288, 28800, 10, 21, 8, NULL),
+    (288, 28800, 116, 21, 8, NULL),
+    (288, 28800, 133, 21, 8, NULL),
+    (288, 28800, 156, 21, 8, NULL),
+    (288, 28800, 175, 21, 8, NULL),
+    (288, 28800, 179, 21, 8, NULL),
+    (288, 28800, 227, 21, 8, NULL),
+    (288, 28800, 253, 21, 8, NULL),
+    (288, 28800, 281, 21, 8, NULL),
+    (288, 28800, 303, 21, 8, NULL),
+    (288, 28800, 343, 21, 8, NULL),
+    (288, 28800, 583, 21, 8, NULL),
+    (289, 28900, 227, 21, 1, 6),
+    (289, 28900, 303, 21, 1, 9),
+    (289, 28900, 156, 21, 1, 14),
+    (289, 28900, 133, 21, 1, 17),
+    (289, 28900, 343, 21, 1, 23),
+    (289, 28900, 29, 21, 1, 27),
+    (289, 28900, 68, 21, 1, 33),
+    (289, 28900, 175, 21, 1, 39),
+    (289, 28900, 374, 21, 1, 47),
+    (289, 28900, 389, 21, 1, 53),
+    (289, 28900, 359, 21, 1, 61),
+    (289, 28900, 15, 21, 2, NULL),
+    (289, 28900, 46, 21, 2, NULL),
+    (289, 28900, 53, 21, 2, NULL),
+    (289, 28900, 58, 21, 2, NULL),
+    (289, 28900, 59, 21, 2, NULL),
+    (289, 28900, 63, 21, 2, NULL),
+    (289, 28900, 70, 21, 2, NULL),
+    (289, 28900, 76, 21, 2, NULL),
+    (289, 28900, 85, 21, 2, NULL),
+    (289, 28900, 87, 21, 2, NULL),
+    (289, 28900, 89, 21, 2, NULL),
+    (289, 28900, 104, 21, 2, NULL),
+    (289, 28900, 126, 21, 2, NULL),
+    (289, 28900, 156, 21, 2, NULL),
+    (289, 28900, 157, 21, 2, NULL),
+    (289, 28900, 164, 21, 2, NULL),
+    (289, 28900, 182, 21, 2, NULL),
+    (289, 28900, 203, 21, 2, NULL),
+    (289, 28900, 207, 21, 2, NULL),
+    (289, 28900, 213, 21, 2, NULL),
+    (289, 28900, 214, 21, 2, NULL),
+    (289, 28900, 240, 21, 2, NULL),
+    (289, 28900, 241, 21, 2, NULL),
+    (289, 28900, 247, 21, 2, NULL),
+    (289, 28900, 249, 21, 2, NULL),
+    (289, 28900, 263, 21, 2, NULL),
+    (289, 28900, 264, 21, 2, NULL),
+    (289, 28900, 269, 21, 2, NULL),
+    (289, 28900, 280, 21, 2, NULL),
+    (289, 28900, 317, 21, 2, NULL),
+    (289, 28900, 332, 21, 2, NULL),
+    (289, 28900, 339, 21, 2, NULL),
+    (289, 28900, 351, 21, 2, NULL),
+    (289, 28900, 352, 21, 2, NULL),
+    (289, 28900, 374, 21, 2, NULL),
+    (289, 28900, 411, 21, 2, NULL),
+    (289, 28900, 416, 21, 2, NULL),
+    (289, 28900, 421, 21, 2, NULL),
+    (289, 28900, 431, 21, 2, NULL),
+    (289, 28900, 490, 21, 2, NULL),
+    (289, 28900, 523, 21, 2, NULL),
+    (289, 28900, 526, 21, 2, NULL),
+    (289, 28900, 34, 21, 5, NULL),
+    (289, 28900, 163, 21, 5, NULL),
+    (289, 28900, 173, 21, 5, NULL),
+    (289, 28900, 174, 21, 5, NULL),
+    (289, 28900, 306, 21, 5, NULL),
+    (289, 28900, 321, 21, 5, NULL),
+    (289, 28900, 359, 21, 5, NULL),
+    (289, 28900, 400, 21, 5, NULL),
+    (289, 28900, 495, 21, 5, NULL),
+    (289, 28900, 10, 21, 8, NULL),
+    (289, 28900, 116, 21, 8, NULL),
+    (289, 28900, 154, 21, 8, NULL),
+    (289, 28900, 163, 21, 8, NULL),
+    (289, 28900, 179, 21, 8, NULL),
+    (289, 28900, 203, 21, 8, NULL),
+    (289, 28900, 207, 21, 8, NULL),
+    (289, 28900, 227, 21, 8, NULL),
+    (289, 28900, 253, 21, 8, NULL),
+    (289, 28900, 264, 21, 8, NULL),
+    (289, 28900, 281, 21, 8, NULL),
+    (289, 28900, 303, 21, 8, NULL),
+    (289, 28900, 359, 21, 8, NULL),
+    (289, 28900, 374, 21, 8, NULL),
+    (289, 28900, 583, 21, 8, NULL),
+    (290, 29000, 106, 21, 1, 5),
+    (290, 29000, 206, 21, 1, 10),
+    (290, 29000, 189, 21, 1, 15),
+    (290, 29000, 71, 21, 1, 21),
+    (290, 29000, 232, 21, 1, 25),
+    (290, 29000, 154, 21, 1, 30),
+    (290, 29000, 170, 21, 1, 35),
+    (290, 29000, 91, 21, 1, 40),
+    (290, 29000, 15, 21, 2, NULL),
+    (290, 29000, 76, 21, 2, NULL),
+    (290, 29000, 91, 21, 2, NULL),
+    (290, 29000, 104, 21, 2, NULL),
+    (290, 29000, 148, 21, 2, NULL),
+    (290, 29000, 156, 21, 2, NULL),
+    (290, 29000, 164, 21, 2, NULL),
+    (290, 29000, 182, 21, 2, NULL),
+    (290, 29000, 201, 21, 2, NULL),
+    (290, 29000, 202, 21, 2, NULL),
+    (290, 29000, 203, 21, 2, NULL),
+    (290, 29000, 206, 21, 2, NULL),
+    (290, 29000, 207, 21, 2, NULL),
+    (290, 29000, 214, 21, 2, NULL),
+    (290, 29000, 241, 21, 2, NULL),
+    (290, 29000, 247, 21, 2, NULL),
+    (290, 29000, 263, 21, 2, NULL),
+    (290, 29000, 332, 21, 2, NULL),
+    (290, 29000, 404, 21, 2, NULL),
+    (290, 29000, 405, 21, 2, NULL),
+    (290, 29000, 16, 21, 5, NULL),
+    (290, 29000, 175, 21, 5, NULL),
+    (290, 29000, 400, 21, 5, NULL),
+    (290, 29000, 450, 21, 5, NULL),
+    (290, 29000, 515, 21, 5, NULL),
+    (290, 29000, 10, 21, 8, NULL),
+    (290, 29000, 28, 21, 8, NULL),
+    (291, 29100, 97, 21, 1, 15),
+    (291, 29100, 71, 21, 1, 23),
+    (291, 29100, 450, 21, 1, 29),
+    (291, 29100, 154, 21, 1, 36),
+    (291, 29100, 170, 21, 1, 43),
+    (291, 29100, 163, 21, 1, 50),
+    (291, 29100, 14, 21, 1, 57),
+    (291, 29100, 404, 21, 1, 64),
+    (291, 29100, 14, 21, 2, NULL),
+    (291, 29100, 15, 21, 2, NULL),
+    (291, 29100, 63, 21, 2, NULL),
+    (291, 29100, 76, 21, 2, NULL),
+    (291, 29100, 91, 21, 2, NULL),
+    (291, 29100, 104, 21, 2, NULL),
+    (291, 29100, 148, 21, 2, NULL),
+    (291, 29100, 156, 21, 2, NULL),
+    (291, 29100, 164, 21, 2, NULL),
+    (291, 29100, 168, 21, 2, NULL),
+    (291, 29100, 182, 21, 2, NULL),
+    (291, 29100, 201, 21, 2, NULL),
+    (291, 29100, 202, 21, 2, NULL),
+    (291, 29100, 203, 21, 2, NULL),
+    (291, 29100, 206, 21, 2, NULL),
+    (291, 29100, 207, 21, 2, NULL),
+    (291, 29100, 214, 21, 2, NULL),
+    (291, 29100, 241, 21, 2, NULL),
+    (291, 29100, 247, 21, 2, NULL),
+    (291, 29100, 263, 21, 2, NULL),
+    (291, 29100, 332, 21, 2, NULL),
+    (291, 29100, 355, 21, 2, NULL),
+    (291, 29100, 369, 21, 2, NULL),
+    (291, 29100, 404, 21, 2, NULL),
+    (291, 29100, 405, 21, 2, NULL),
+    (291, 29100, 416, 21, 2, NULL),
+    (291, 29100, 432, 21, 2, NULL),
+    (291, 29100, 16, 21, 5, NULL),
+    (291, 29100, 175, 21, 5, NULL),
+    (291, 29100, 400, 21, 5, NULL),
+    (291, 29100, 450, 21, 5, NULL),
+    (291, 29100, 515, 21, 5, NULL),
+    (291, 29100, 10, 21, 8, NULL),
+    (291, 29100, 28, 21, 8, NULL),
+    (291, 29100, 91, 21, 8, NULL),
+    (291, 29100, 103, 21, 8, NULL),
+    (291, 29100, 104, 21, 8, NULL),
+    (291, 29100, 106, 21, 8, NULL),
+    (291, 29100, 189, 21, 8, NULL),
+    (291, 29100, 206, 21, 8, NULL),
+    (291, 29100, 210, 21, 8, NULL),
+    (291, 29100, 226, 21, 8, NULL),
+    (291, 29100, 232, 21, 8, NULL),
+    (291, 29100, 332, 21, 8, NULL),
+    (292, 29200, 109, 21, 1, 15),
+    (292, 29200, 71, 21, 1, 23),
+    (292, 29200, 425, 21, 1, 29),
+    (292, 29200, 154, 21, 1, 36),
+    (292, 29200, 170, 21, 1, 43),
+    (292, 29200, 247, 21, 1, 50),
+    (292, 29200, 180, 21, 1, 57),
+    (292, 29200, 566, 21, 1, 64),
+    (292, 29200, 15, 21, 2, NULL),
+    (292, 29200, 63, 21, 2, NULL),
+    (292, 29200, 76, 21, 2, NULL),
+    (292, 29200, 91, 21, 2, NULL),
+    (292, 29200, 104, 21, 2, NULL),
+    (292, 29200, 138, 21, 2, NULL),
+    (292, 29200, 148, 21, 2, NULL),
+    (292, 29200, 156, 21, 2, NULL),
+    (292, 29200, 164, 21, 2, NULL),
+    (292, 29200, 168, 21, 2, NULL),
+    (292, 29200, 182, 21, 2, NULL),
+    (292, 29200, 201, 21, 2, NULL),
+    (292, 29200, 202, 21, 2, NULL),
+    (292, 29200, 203, 21, 2, NULL),
+    (292, 29200, 206, 21, 2, NULL),
+    (292, 29200, 207, 21, 2, NULL),
+    (292, 29200, 214, 21, 2, NULL),
+    (292, 29200, 241, 21, 2, NULL),
+    (292, 29200, 247, 21, 2, NULL),
+    (292, 29200, 261, 21, 2, NULL),
+    (292, 29200, 263, 21, 2, NULL),
+    (292, 29200, 332, 21, 2, NULL),
+    (292, 29200, 404, 21, 2, NULL),
+    (292, 29200, 405, 21, 2, NULL),
+    (292, 29200, 416, 21, 2, NULL),
+    (292, 29200, 421, 21, 2, NULL),
+    (292, 29200, 10, 21, 8, NULL),
+    (292, 29200, 28, 21, 8, NULL),
+    (292, 29200, 91, 21, 8, NULL),
+    (292, 29200, 106, 21, 8, NULL),
+    (292, 29200, 189, 21, 8, NULL),
+    (292, 29200, 206, 21, 8, NULL),
+    (292, 29200, 232, 21, 8, NULL),
+    (292, 29200, 288, 21, 8, NULL),
+    (292, 29200, 421, 21, 8, NULL),
+    (293, 29300, 497, 21, 1, 5),
+    (293, 29300, 336, 21, 1, 10),
+    (293, 29300, 156, 21, 1, 15),
+    (293, 29300, 214, 21, 1, 15),
+    (293, 29300, 23, 21, 1, 21),
+    (293, 29300, 46, 21, 1, 25),
+    (293, 29300, 48, 21, 1, 30),
+    (293, 29300, 253, 21, 1, 35),
+    (293, 29300, 103, 21, 1, 40),
+    (293, 29300, 304, 21, 1, 45),
+    (293, 29300, 46, 21, 2, NULL),
+    (293, 29300, 53, 21, 2, NULL),
+    (293, 29300, 58, 21, 2, NULL),
+    (293, 29300, 59, 21, 2, NULL),
+    (293, 29300, 76, 21, 2, NULL),
+    (293, 29300, 104, 21, 2, NULL),
+    (293, 29300, 126, 21, 2, NULL),
+    (293, 29300, 156, 21, 2, NULL),
+    (293, 29300, 164, 21, 2, NULL),
+    (293, 29300, 182, 21, 2, NULL),
+    (293, 29300, 203, 21, 2, NULL),
+    (293, 29300, 207, 21, 2, NULL),
+    (293, 29300, 213, 21, 2, NULL),
+    (293, 29300, 214, 21, 2, NULL),
+    (293, 29300, 240, 21, 2, NULL),
+    (293, 29300, 241, 21, 2, NULL),
+    (293, 29300, 247, 21, 2, NULL),
+    (293, 29300, 263, 21, 2, NULL),
+    (293, 29300, 351, 21, 2, NULL),
+    (293, 29300, 352, 21, 2, NULL),
+    (293, 29300, 374, 21, 2, NULL),
+    (293, 29300, 526, 21, 2, NULL),
+    (293, 29300, 18, 21, 5, NULL),
+    (293, 29300, 36, 21, 5, NULL),
+    (293, 29300, 108, 21, 5, NULL),
+    (293, 29300, 173, 21, 5, NULL),
+    (293, 29300, 283, 21, 5, NULL),
+    (293, 29300, 313, 21, 5, NULL),
+    (293, 29300, 326, 21, 5, NULL),
+    (293, 29300, 359, 21, 5, NULL),
+    (293, 29300, 509, 21, 5, NULL),
+    (293, 29300, 574, 21, 5, NULL),
+    (293, 29300, 1, 21, 8, NULL),
+    (293, 29300, 310, 21, 8, NULL),
+    (294, 29400, 156, 21, 1, 15),
+    (294, 29400, 214, 21, 1, 15),
+    (294, 29400, 23, 21, 1, 23),
+    (294, 29400, 46, 21, 1, 29),
+    (294, 29400, 48, 21, 1, 36),
+    (294, 29400, 253, 21, 1, 43),
+    (294, 29400, 103, 21, 1, 50),
+    (294, 29400, 304, 21, 1, 57),
+    (294, 29400, 46, 21, 2, NULL),
+    (294, 29400, 53, 21, 2, NULL),
+    (294, 29400, 58, 21, 2, NULL),
+    (294, 29400, 59, 21, 2, NULL),
+    (294, 29400, 70, 21, 2, NULL),
+    (294, 29400, 76, 21, 2, NULL),
+    (294, 29400, 89, 21, 2, NULL),
+    (294, 29400, 104, 21, 2, NULL),
+    (294, 29400, 126, 21, 2, NULL),
+    (294, 29400, 156, 21, 2, NULL),
+    (294, 29400, 157, 21, 2, NULL),
+    (294, 29400, 164, 21, 2, NULL),
+    (294, 29400, 182, 21, 2, NULL),
+    (294, 29400, 203, 21, 2, NULL),
+    (294, 29400, 207, 21, 2, NULL),
+    (294, 29400, 213, 21, 2, NULL),
+    (294, 29400, 214, 21, 2, NULL),
+    (294, 29400, 240, 21, 2, NULL),
+    (294, 29400, 241, 21, 2, NULL),
+    (294, 29400, 247, 21, 2, NULL),
+    (294, 29400, 249, 21, 2, NULL),
+    (294, 29400, 259, 21, 2, NULL),
+    (294, 29400, 263, 21, 2, NULL),
+    (294, 29400, 269, 21, 2, NULL),
+    (294, 29400, 280, 21, 2, NULL),
+    (294, 29400, 315, 21, 2, NULL),
+    (294, 29400, 317, 21, 2, NULL),
+    (294, 29400, 351, 21, 2, NULL),
+    (294, 29400, 352, 21, 2, NULL),
+    (294, 29400, 374, 21, 2, NULL),
+    (294, 29400, 523, 21, 2, NULL),
+    (294, 29400, 526, 21, 2, NULL),
+    (294, 29400, 18, 21, 5, NULL),
+    (294, 29400, 36, 21, 5, NULL),
+    (294, 29400, 108, 21, 5, NULL),
+    (294, 29400, 173, 21, 5, NULL),
+    (294, 29400, 283, 21, 5, NULL),
+    (294, 29400, 313, 21, 5, NULL),
+    (294, 29400, 326, 21, 5, NULL),
+    (294, 29400, 359, 21, 5, NULL),
+    (294, 29400, 509, 21, 5, NULL),
+    (294, 29400, 574, 21, 5, NULL),
+    (294, 29400, 1, 21, 8, NULL),
+    (294, 29400, 44, 21, 8, NULL),
+    (294, 29400, 310, 21, 8, NULL),
+    (294, 29400, 336, 21, 8, NULL),
+    (294, 29400, 497, 21, 8, NULL),
+    (295, 29500, 156, 21, 1, 15),
+    (295, 29500, 214, 21, 1, 15),
+    (295, 29500, 23, 21, 1, 23),
+    (295, 29500, 46, 21, 1, 29),
+    (295, 29500, 48, 21, 1, 36),
+    (295, 29500, 253, 21, 1, 45),
+    (295, 29500, 103, 21, 1, 54),
+    (295, 29500, 304, 21, 1, 63),
+    (295, 29500, 586, 21, 1, 72),
+    (295, 29500, 63, 21, 1, 81),
+    (295, 29500, 46, 21, 2, NULL),
+    (295, 29500, 53, 21, 2, NULL),
+    (295, 29500, 57, 21, 2, NULL),
+    (295, 29500, 58, 21, 2, NULL),
+    (295, 29500, 59, 21, 2, NULL),
+    (295, 29500, 63, 21, 2, NULL),
+    (295, 29500, 70, 21, 2, NULL),
+    (295, 29500, 76, 21, 2, NULL),
+    (295, 29500, 89, 21, 2, NULL),
+    (295, 29500, 104, 21, 2, NULL),
+    (295, 29500, 126, 21, 2, NULL),
+    (295, 29500, 156, 21, 2, NULL),
+    (295, 29500, 157, 21, 2, NULL),
+    (295, 29500, 164, 21, 2, NULL),
+    (295, 29500, 182, 21, 2, NULL),
+    (295, 29500, 203, 21, 2, NULL),
+    (295, 29500, 207, 21, 2, NULL),
+    (295, 29500, 213, 21, 2, NULL),
+    (295, 29500, 214, 21, 2, NULL),
+    (295, 29500, 240, 21, 2, NULL),
+    (295, 29500, 241, 21, 2, NULL),
+    (295, 29500, 247, 21, 2, NULL),
+    (295, 29500, 249, 21, 2, NULL),
+    (295, 29500, 259, 21, 2, NULL),
+    (295, 29500, 263, 21, 2, NULL),
+    (295, 29500, 269, 21, 2, NULL),
+    (295, 29500, 280, 21, 2, NULL),
+    (295, 29500, 315, 21, 2, NULL),
+    (295, 29500, 317, 21, 2, NULL),
+    (295, 29500, 351, 21, 2, NULL),
+    (295, 29500, 352, 21, 2, NULL),
+    (295, 29500, 374, 21, 2, NULL),
+    (295, 29500, 411, 21, 2, NULL),
+    (295, 29500, 416, 21, 2, NULL),
+    (295, 29500, 419, 21, 2, NULL),
+    (295, 29500, 431, 21, 2, NULL),
+    (295, 29500, 523, 21, 2, NULL),
+    (295, 29500, 526, 21, 2, NULL),
+    (295, 29500, 18, 21, 5, NULL),
+    (295, 29500, 36, 21, 5, NULL),
+    (295, 29500, 108, 21, 5, NULL),
+    (295, 29500, 173, 21, 5, NULL),
+    (295, 29500, 283, 21, 5, NULL),
+    (295, 29500, 313, 21, 5, NULL),
+    (295, 29500, 326, 21, 5, NULL),
+    (295, 29500, 359, 21, 5, NULL),
+    (295, 29500, 509, 21, 5, NULL),
+    (295, 29500, 574, 21, 5, NULL),
+    (295, 29500, 1, 21, 8, NULL),
+    (295, 29500, 44, 21, 8, NULL),
+    (295, 29500, 242, 21, 8, NULL),
+    (295, 29500, 310, 21, 8, NULL),
+    (295, 29500, 336, 21, 8, NULL),
+    (295, 29500, 422, 21, 8, NULL),
+    (295, 29500, 423, 21, 8, NULL),
+    (295, 29500, 424, 21, 8, NULL),
+    (295, 29500, 497, 21, 8, NULL),
+    (296, 29600, 28, 21, 1, 4),
+    (296, 29600, 292, 21, 1, 7),
+    (296, 29600, 252, 21, 1, 10),
+    (296, 29600, 395, 21, 1, 13),
+    (296, 29600, 18, 21, 1, 16),
+    (296, 29600, 282, 21, 1, 19),
+    (296, 29600, 233, 21, 1, 22),
+    (296, 29600, 187, 21, 1, 25),
+    (296, 29600, 197, 21, 1, 28),
+    (296, 29600, 69, 21, 1, 31),
+    (296, 29600, 264, 21, 1, 34),
+    (296, 29600, 203, 21, 1, 37),
+    (296, 29600, 370, 21, 1, 40),
+    (296, 29600, 179, 21, 1, 43),
+    (296, 29600, 484, 21, 1, 46),
+    (296, 29600, 57, 21, 2, NULL),
+    (296, 29600, 70, 21, 2, NULL),
+    (296, 29600, 89, 21, 2, NULL),
+    (296, 29600, 91, 21, 2, NULL),
+    (296, 29600, 104, 21, 2, NULL),
+    (296, 29600, 156, 21, 2, NULL),
+    (296, 29600, 157, 21, 2, NULL),
+    (296, 29600, 164, 21, 2, NULL),
+    (296, 29600, 182, 21, 2, NULL),
+    (296, 29600, 203, 21, 2, NULL),
+    (296, 29600, 207, 21, 2, NULL),
+    (296, 29600, 213, 21, 2, NULL),
+    (296, 29600, 214, 21, 2, NULL),
+    (296, 29600, 240, 21, 2, NULL),
+    (296, 29600, 241, 21, 2, NULL),
+    (296, 29600, 249, 21, 2, NULL),
+    (296, 29600, 263, 21, 2, NULL),
+    (296, 29600, 264, 21, 2, NULL),
+    (296, 29600, 280, 21, 2, NULL),
+    (296, 29600, 317, 21, 2, NULL),
+    (296, 29600, 339, 21, 2, NULL),
+    (296, 29600, 374, 21, 2, NULL),
+    (296, 29600, 398, 21, 2, NULL),
+    (296, 29600, 411, 21, 2, NULL),
+    (296, 29600, 431, 21, 2, NULL),
+    (296, 29600, 490, 21, 2, NULL),
+    (296, 29600, 523, 21, 2, NULL),
+    (296, 29600, 526, 21, 2, NULL),
+    (296, 29600, 68, 21, 5, NULL),
+    (296, 29600, 197, 21, 5, NULL),
+    (296, 29600, 223, 21, 5, NULL),
+    (296, 29600, 238, 21, 5, NULL),
+    (296, 29600, 270, 21, 5, NULL),
+    (296, 29600, 279, 21, 5, NULL),
+    (296, 29600, 364, 21, 5, NULL),
+    (296, 29600, 418, 21, 5, NULL),
+    (296, 29600, 469, 21, 5, NULL),
+    (296, 29600, 33, 21, 8, NULL),
+    (296, 29600, 116, 21, 8, NULL),
+    (297, 29700, 28, 21, 1, 4),
+    (297, 29700, 292, 21, 1, 7),
+    (297, 29700, 252, 21, 1, 10),
+    (297, 29700, 395, 21, 1, 13),
+    (297, 29700, 18, 21, 1, 16),
+    (297, 29700, 282, 21, 1, 19),
+    (297, 29700, 233, 21, 1, 22),
+    (297, 29700, 187, 21, 1, 26),
+    (297, 29700, 197, 21, 1, 30),
+    (297, 29700, 69, 21, 1, 34),
+    (297, 29700, 264, 21, 1, 38),
+    (297, 29700, 203, 21, 1, 42),
+    (297, 29700, 370, 21, 1, 46),
+    (297, 29700, 179, 21, 1, 50),
+    (297, 29700, 484, 21, 1, 54),
+    (297, 29700, 57, 21, 2, NULL),
+    (297, 29700, 63, 21, 2, NULL),
+    (297, 29700, 70, 21, 2, NULL),
+    (297, 29700, 89, 21, 2, NULL),
+    (297, 29700, 91, 21, 2, NULL),
+    (297, 29700, 104, 21, 2, NULL),
+    (297, 29700, 156, 21, 2, NULL),
+    (297, 29700, 157, 21, 2, NULL),
+    (297, 29700, 164, 21, 2, NULL),
+    (297, 29700, 182, 21, 2, NULL),
+    (297, 29700, 203, 21, 2, NULL),
+    (297, 29700, 207, 21, 2, NULL),
+    (297, 29700, 213, 21, 2, NULL),
+    (297, 29700, 214, 21, 2, NULL),
+    (297, 29700, 240, 21, 2, NULL),
+    (297, 29700, 241, 21, 2, NULL),
+    (297, 29700, 249, 21, 2, NULL),
+    (297, 29700, 263, 21, 2, NULL),
+    (297, 29700, 264, 21, 2, NULL),
+    (297, 29700, 280, 21, 2, NULL),
+    (297, 29700, 317, 21, 2, NULL),
+    (297, 29700, 339, 21, 2, NULL),
+    (297, 29700, 362, 21, 2, NULL),
+    (297, 29700, 371, 21, 2, NULL),
+    (297, 29700, 374, 21, 2, NULL),
+    (297, 29700, 398, 21, 2, NULL),
+    (297, 29700, 411, 21, 2, NULL),
+    (297, 29700, 416, 21, 2, NULL),
+    (297, 29700, 431, 21, 2, NULL),
+    (297, 29700, 444, 21, 2, NULL),
+    (297, 29700, 490, 21, 2, NULL),
+    (297, 29700, 523, 21, 2, NULL),
+    (297, 29700, 526, 21, 2, NULL),
+    (297, 29700, 68, 21, 5, NULL),
+    (297, 29700, 197, 21, 5, NULL),
+    (297, 29700, 223, 21, 5, NULL),
+    (297, 29700, 238, 21, 5, NULL),
+    (297, 29700, 270, 21, 5, NULL),
+    (297, 29700, 279, 21, 5, NULL),
+    (297, 29700, 364, 21, 5, NULL),
+    (297, 29700, 418, 21, 5, NULL),
+    (297, 29700, 469, 21, 5, NULL),
+    (297, 29700, 28, 21, 8, NULL),
+    (297, 29700, 33, 21, 8, NULL),
+    (297, 29700, 116, 21, 8, NULL),
+    (297, 29700, 292, 21, 8, NULL),
+    (297, 29700, 362, 21, 8, NULL),
+    (298, 29800, 270, 21, 1, 3),
+    (298, 29800, 61, 21, 1, 6),
+    (298, 29800, 204, 21, 1, 9),
+    (298, 29800, 21, 21, 1, 12),
+    (298, 29800, 340, 21, 1, 15),
+    (298, 29800, 57, 21, 2, NULL),
+    (298, 29800, 58, 21, 2, NULL),
+    (298, 29800, 59, 21, 2, NULL),
+    (298, 29800, 104, 21, 2, NULL),
+    (298, 29800, 113, 21, 2, NULL),
+    (298, 29800, 127, 21, 2, NULL),
+    (298, 29800, 156, 21, 2, NULL),
+    (298, 29800, 164, 21, 2, NULL),
+    (298, 29800, 182, 21, 2, NULL),
+    (298, 29800, 203, 21, 2, NULL),
+    (298, 29800, 207, 21, 2, NULL),
+    (298, 29800, 213, 21, 2, NULL),
+    (298, 29800, 214, 21, 2, NULL),
+    (298, 29800, 231, 21, 2, NULL),
+    (298, 29800, 240, 21, 2, NULL),
+    (298, 29800, 258, 21, 2, NULL),
+    (298, 29800, 263, 21, 2, NULL),
+    (298, 29800, 352, 21, 2, NULL),
+    (298, 29800, 503, 21, 2, NULL),
+    (298, 29800, 526, 21, 2, NULL),
+    (298, 29800, 21, 21, 5, NULL),
+    (298, 29800, 34, 21, 5, NULL),
+    (298, 29800, 47, 21, 5, NULL),
+    (298, 29800, 48, 21, 5, NULL),
+    (298, 29800, 187, 21, 5, NULL),
+    (298, 29800, 195, 21, 5, NULL),
+    (298, 29800, 217, 21, 5, NULL),
+    (298, 29800, 227, 21, 5, NULL),
+    (298, 29800, 313, 21, 5, NULL),
+    (298, 29800, 321, 21, 5, NULL),
+    (298, 29800, 330, 21, 5, NULL),
+    (298, 29800, 383, 21, 5, NULL),
+    (298, 29800, 453, 21, 5, NULL),
+    (298, 29800, 487, 21, 5, NULL),
+    (298, 29800, 39, 21, 8, NULL),
+    (298, 29800, 55, 21, 8, NULL),
+    (298, 29800, 150, 21, 8, NULL),
+    (299, 29900, 106, 21, 1, 4),
+    (299, 29900, 335, 21, 1, 7),
+    (299, 29900, 88, 21, 1, 10),
+    (299, 29900, 86, 21, 1, 13),
+    (299, 29900, 156, 21, 1, 16),
+    (299, 29900, 209, 21, 1, 19),
+    (299, 29900, 157, 21, 1, 22),
+    (299, 29900, 408, 21, 1, 25),
+    (299, 29900, 350, 21, 1, 28),
+    (299, 29900, 435, 21, 1, 31),
+    (299, 29900, 201, 21, 1, 34),
+    (299, 29900, 414, 21, 1, 37),
+    (299, 29900, 444, 21, 1, 40),
+    (299, 29900, 192, 21, 1, 43),
+    (299, 29900, 199, 21, 1, 43),
+    (299, 29900, 70, 21, 2, NULL),
+    (299, 29900, 85, 21, 2, NULL),
+    (299, 29900, 86, 21, 2, NULL),
+    (299, 29900, 87, 21, 2, NULL),
+    (299, 29900, 89, 21, 2, NULL),
+    (299, 29900, 104, 21, 2, NULL),
+    (299, 29900, 153, 21, 2, NULL),
+    (299, 29900, 156, 21, 2, NULL),
+    (299, 29900, 157, 21, 2, NULL),
+    (299, 29900, 164, 21, 2, NULL),
+    (299, 29900, 182, 21, 2, NULL),
+    (299, 29900, 201, 21, 2, NULL),
+    (299, 29900, 203, 21, 2, NULL),
+    (299, 29900, 207, 21, 2, NULL),
+    (299, 29900, 213, 21, 2, NULL),
+    (299, 29900, 214, 21, 2, NULL),
+    (299, 29900, 241, 21, 2, NULL),
+    (299, 29900, 249, 21, 2, NULL),
+    (299, 29900, 259, 21, 2, NULL),
+    (299, 29900, 263, 21, 2, NULL),
+    (299, 29900, 269, 21, 2, NULL),
+    (299, 29900, 317, 21, 2, NULL),
+    (299, 29900, 351, 21, 2, NULL),
+    (299, 29900, 397, 21, 2, NULL),
+    (299, 29900, 444, 21, 2, NULL),
+    (299, 29900, 446, 21, 2, NULL),
+    (299, 29900, 521, 21, 2, NULL),
+    (299, 29900, 523, 21, 2, NULL),
+    (299, 29900, 605, 21, 2, NULL),
+    (299, 29900, 38, 21, 5, NULL),
+    (299, 29900, 205, 21, 5, NULL),
+    (299, 29900, 335, 21, 5, NULL),
+    (299, 29900, 469, 21, 5, NULL),
+    (299, 29900, 33, 21, 8, NULL),
+    (300, 30000, 33, 21, 1, 4),
+    (300, 30000, 47, 21, 1, 7),
+    (300, 30000, 213, 21, 1, 10),
+    (300, 30000, 574, 21, 1, 13),
+    (300, 30000, 154, 21, 1, 16),
+    (300, 30000, 383, 21, 1, 19),
+    (300, 30000, 371, 21, 1, 22),
+    (300, 30000, 204, 21, 1, 25),
+    (300, 30000, 263, 21, 1, 31),
+    (300, 30000, 343, 21, 1, 34),
+    (300, 30000, 215, 21, 1, 37),
+    (300, 30000, 38, 21, 1, 40),
+    (300, 30000, 608, 21, 1, 43),
+    (300, 30000, 583, 21, 1, 46),
+    (300, 30000, 58, 21, 2, NULL),
+    (300, 30000, 59, 21, 2, NULL),
+    (300, 30000, 76, 21, 2, NULL),
+    (300, 30000, 85, 21, 2, NULL),
+    (300, 30000, 86, 21, 2, NULL),
+    (300, 30000, 87, 21, 2, NULL),
+    (300, 30000, 91, 21, 2, NULL),
+    (300, 30000, 104, 21, 2, NULL),
+    (300, 30000, 138, 21, 2, NULL),
+    (300, 30000, 148, 21, 2, NULL),
+    (300, 30000, 156, 21, 2, NULL),
+    (300, 30000, 164, 21, 2, NULL),
+    (300, 30000, 182, 21, 2, NULL),
+    (300, 30000, 203, 21, 2, NULL),
+    (300, 30000, 207, 21, 2, NULL),
+    (300, 30000, 213, 21, 2, NULL),
+    (300, 30000, 214, 21, 2, NULL),
+    (300, 30000, 219, 21, 2, NULL),
+    (300, 30000, 231, 21, 2, NULL),
+    (300, 30000, 240, 21, 2, NULL),
+    (300, 30000, 241, 21, 2, NULL),
+    (300, 30000, 244, 21, 2, NULL),
+    (300, 30000, 247, 21, 2, NULL),
+    (300, 30000, 263, 21, 2, NULL),
+    (300, 30000, 347, 21, 2, NULL),
+    (300, 30000, 351, 21, 2, NULL),
+    (300, 30000, 352, 21, 2, NULL),
+    (300, 30000, 371, 21, 2, NULL),
+    (300, 30000, 417, 21, 2, NULL),
+    (300, 30000, 447, 21, 2, NULL),
+    (300, 30000, 451, 21, 2, NULL),
+    (300, 30000, 526, 21, 2, NULL),
+    (300, 30000, 226, 21, 5, NULL),
+    (300, 30000, 252, 21, 5, NULL),
+    (300, 30000, 253, 21, 5, NULL),
+    (300, 30000, 270, 21, 5, NULL),
+    (300, 30000, 273, 21, 5, NULL),
+    (300, 30000, 313, 21, 5, NULL),
+    (300, 30000, 321, 21, 5, NULL),
+    (300, 30000, 322, 21, 5, NULL),
+    (300, 30000, 387, 21, 5, NULL),
+    (300, 30000, 389, 21, 5, NULL),
+    (300, 30000, 428, 21, 5, NULL),
+    (300, 30000, 493, 21, 5, NULL),
+    (300, 30000, 39, 21, 8, NULL),
+    (300, 30000, 45, 21, 8, NULL),
+    (300, 30000, 252, 21, 8, NULL),
+    (301, 30100, 58, 21, 2, NULL),
+    (301, 30100, 59, 21, 2, NULL),
+    (301, 30100, 63, 21, 2, NULL),
+    (301, 30100, 70, 21, 2, NULL),
+    (301, 30100, 76, 21, 2, NULL),
+    (301, 30100, 85, 21, 2, NULL),
+    (301, 30100, 86, 21, 2, NULL),
+    (301, 30100, 87, 21, 2, NULL),
+    (301, 30100, 91, 21, 2, NULL),
+    (301, 30100, 104, 21, 2, NULL),
+    (301, 30100, 138, 21, 2, NULL),
+    (301, 30100, 148, 21, 2, NULL),
+    (301, 30100, 156, 21, 2, NULL),
+    (301, 30100, 164, 21, 2, NULL),
+    (301, 30100, 182, 21, 2, NULL),
+    (301, 30100, 203, 21, 2, NULL),
+    (301, 30100, 207, 21, 2, NULL),
+    (301, 30100, 213, 21, 2, NULL),
+    (301, 30100, 214, 21, 2, NULL),
+    (301, 30100, 219, 21, 2, NULL),
+    (301, 30100, 231, 21, 2, NULL),
+    (301, 30100, 240, 21, 2, NULL),
+    (301, 30100, 241, 21, 2, NULL),
+    (301, 30100, 244, 21, 2, NULL),
+    (301, 30100, 247, 21, 2, NULL),
+    (301, 30100, 249, 21, 2, NULL),
+    (301, 30100, 263, 21, 2, NULL),
+    (301, 30100, 347, 21, 2, NULL),
+    (301, 30100, 351, 21, 2, NULL),
+    (301, 30100, 352, 21, 2, NULL),
+    (301, 30100, 371, 21, 2, NULL),
+    (301, 30100, 416, 21, 2, NULL),
+    (301, 30100, 417, 21, 2, NULL),
+    (301, 30100, 447, 21, 2, NULL),
+    (301, 30100, 451, 21, 2, NULL),
+    (301, 30100, 526, 21, 2, NULL),
+    (301, 30100, 226, 21, 5, NULL),
+    (301, 30100, 252, 21, 5, NULL),
+    (301, 30100, 253, 21, 5, NULL),
+    (301, 30100, 270, 21, 5, NULL),
+    (301, 30100, 273, 21, 5, NULL),
+    (301, 30100, 313, 21, 5, NULL),
+    (301, 30100, 321, 21, 5, NULL),
+    (301, 30100, 322, 21, 5, NULL),
+    (301, 30100, 387, 21, 5, NULL),
+    (301, 30100, 389, 21, 5, NULL),
+    (301, 30100, 428, 21, 5, NULL),
+    (301, 30100, 493, 21, 5, NULL),
+    (301, 30100, 33, 21, 8, NULL),
+    (301, 30100, 38, 21, 8, NULL),
+    (301, 30100, 39, 21, 8, NULL),
+    (301, 30100, 45, 21, 8, NULL),
+    (301, 30100, 47, 21, 8, NULL),
+    (301, 30100, 154, 21, 8, NULL),
+    (301, 30100, 204, 21, 8, NULL),
+    (301, 30100, 213, 21, 8, NULL),
+    (301, 30100, 215, 21, 8, NULL),
+    (301, 30100, 252, 21, 8, NULL),
+    (301, 30100, 263, 21, 8, NULL),
+    (301, 30100, 343, 21, 8, NULL),
+    (301, 30100, 371, 21, 8, NULL),
+    (301, 30100, 383, 21, 8, NULL),
+    (301, 30100, 574, 21, 8, NULL),
+    (301, 30100, 583, 21, 8, NULL),
+    (301, 30100, 608, 21, 8, NULL),
+    (302, 30200, 310, 21, 1, 3),
+    (302, 30200, 109, 21, 1, 6),
+    (302, 30200, 425, 21, 1, 9),
+    (302, 30200, 252, 21, 1, 12),
+    (302, 30200, 50, 21, 1, 15),
+    (302, 30200, 197, 21, 1, 18),
+    (302, 30200, 101, 21, 1, 21),
+    (302, 30200, 154, 21, 1, 24),
+    (302, 30200, 282, 21, 1, 27),
+    (302, 30200, 511, 21, 1, 30),
+    (302, 30200, 421, 21, 1, 33),
+    (302, 30200, 212, 21, 1, 36),
+    (302, 30200, 408, 21, 1, 39),
+    (302, 30200, 428, 21, 1, 42),
+    (302, 30200, 247, 21, 1, 45),
+    (302, 30200, 492, 21, 1, 48),
+    (302, 30200, 15, 21, 2, NULL),
+    (302, 30200, 91, 21, 2, NULL),
+    (302, 30200, 94, 21, 2, NULL),
+    (302, 30200, 104, 21, 2, NULL),
+    (302, 30200, 138, 21, 2, NULL),
+    (302, 30200, 148, 21, 2, NULL),
+    (302, 30200, 156, 21, 2, NULL),
+    (302, 30200, 164, 21, 2, NULL),
+    (302, 30200, 168, 21, 2, NULL),
+    (302, 30200, 182, 21, 2, NULL),
+    (302, 30200, 203, 21, 2, NULL),
+    (302, 30200, 207, 21, 2, NULL),
+    (302, 30200, 213, 21, 2, NULL),
+    (302, 30200, 214, 21, 2, NULL),
+    (302, 30200, 240, 21, 2, NULL),
+    (302, 30200, 241, 21, 2, NULL),
+    (302, 30200, 244, 21, 2, NULL),
+    (302, 30200, 247, 21, 2, NULL),
+    (302, 30200, 249, 21, 2, NULL),
+    (302, 30200, 259, 21, 2, NULL),
+    (302, 30200, 261, 21, 2, NULL),
+    (302, 30200, 263, 21, 2, NULL),
+    (302, 30200, 264, 21, 2, NULL),
+    (302, 30200, 269, 21, 2, NULL),
+    (302, 30200, 280, 21, 2, NULL),
+    (302, 30200, 317, 21, 2, NULL),
+    (302, 30200, 332, 21, 2, NULL),
+    (302, 30200, 347, 21, 2, NULL),
+    (302, 30200, 351, 21, 2, NULL),
+    (302, 30200, 352, 21, 2, NULL),
+    (302, 30200, 360, 21, 2, NULL),
+    (302, 30200, 371, 21, 2, NULL),
+    (302, 30200, 374, 21, 2, NULL),
+    (302, 30200, 398, 21, 2, NULL),
+    (302, 30200, 399, 21, 2, NULL),
+    (302, 30200, 409, 21, 2, NULL),
+    (302, 30200, 417, 21, 2, NULL),
+    (302, 30200, 421, 21, 2, NULL),
+    (302, 30200, 490, 21, 2, NULL),
+    (302, 30200, 555, 21, 2, NULL),
+    (302, 30200, 605, 21, 2, NULL),
+    (302, 30200, 105, 21, 5, NULL),
+    (302, 30200, 212, 21, 5, NULL),
+    (302, 30200, 236, 21, 5, NULL),
+    (302, 30200, 260, 21, 5, NULL),
+    (302, 30200, 271, 21, 5, NULL),
+    (302, 30200, 286, 21, 5, NULL),
+    (302, 30200, 364, 21, 5, NULL),
+    (302, 30200, 368, 21, 5, NULL),
+    (302, 30200, 389, 21, 5, NULL),
+    (302, 30200, 10, 21, 8, NULL),
+    (302, 30200, 43, 21, 8, NULL),
+    (303, 30300, 584, 21, 1, 4),
+    (303, 30300, 226, 21, 1, 8),
+    (303, 30300, 44, 21, 1, 12),
+    (303, 30300, 254, 21, 1, 16),
+    (303, 30300, 255, 21, 1, 16),
+    (303, 30300, 256, 21, 1, 16),
+    (303, 30300, 389, 21, 1, 20),
+    (303, 30300, 334, 21, 1, 24),
+    (303, 30300, 242, 21, 1, 28),
+    (303, 30300, 230, 21, 1, 32),
+    (303, 30300, 442, 21, 1, 36),
+    (303, 30300, 269, 21, 1, 40),
+    (303, 30300, 313, 21, 1, 44),
+    (303, 30300, 583, 21, 1, 48),
+    (303, 30300, 14, 21, 2, NULL),
+    (303, 30300, 53, 21, 2, NULL),
+    (303, 30300, 58, 21, 2, NULL),
+    (303, 30300, 63, 21, 2, NULL),
+    (303, 30300, 70, 21, 2, NULL),
+    (303, 30300, 76, 21, 2, NULL),
+    (303, 30300, 104, 21, 2, NULL),
+    (303, 30300, 126, 21, 2, NULL),
+    (303, 30300, 156, 21, 2, NULL),
+    (303, 30300, 157, 21, 2, NULL),
+    (303, 30300, 164, 21, 2, NULL),
+    (303, 30300, 182, 21, 2, NULL),
+    (303, 30300, 188, 21, 2, NULL),
+    (303, 30300, 201, 21, 2, NULL),
+    (303, 30300, 203, 21, 2, NULL),
+    (303, 30300, 206, 21, 2, NULL),
+    (303, 30300, 207, 21, 2, NULL),
+    (303, 30300, 213, 21, 2, NULL),
+    (303, 30300, 214, 21, 2, NULL),
+    (303, 30300, 240, 21, 2, NULL),
+    (303, 30300, 241, 21, 2, NULL),
+    (303, 30300, 247, 21, 2, NULL),
+    (303, 30300, 249, 21, 2, NULL),
+    (303, 30300, 259, 21, 2, NULL),
+    (303, 30300, 263, 21, 2, NULL),
+    (303, 30300, 264, 21, 2, NULL),
+    (303, 30300, 269, 21, 2, NULL),
+    (303, 30300, 280, 21, 2, NULL),
+    (303, 30300, 317, 21, 2, NULL),
+    (303, 30300, 371, 21, 2, NULL),
+    (303, 30300, 374, 21, 2, NULL),
+    (303, 30300, 399, 21, 2, NULL),
+    (303, 30300, 411, 21, 2, NULL),
+    (303, 30300, 416, 21, 2, NULL),
+    (303, 30300, 430, 21, 2, NULL),
+    (303, 30300, 444, 21, 2, NULL),
+    (303, 30300, 446, 21, 2, NULL),
+    (303, 30300, 447, 21, 2, NULL),
+    (303, 30300, 451, 21, 2, NULL),
+    (303, 30300, 21, 21, 5, NULL),
+    (303, 30300, 69, 21, 5, NULL),
+    (303, 30300, 246, 21, 5, NULL),
+    (303, 30300, 305, 21, 5, NULL),
+    (303, 30300, 321, 21, 5, NULL),
+    (303, 30300, 368, 21, 5, NULL),
+    (303, 30300, 385, 21, 5, NULL),
+    (303, 30300, 389, 21, 5, NULL),
+    (303, 30300, 422, 21, 5, NULL),
+    (303, 30300, 423, 21, 5, NULL),
+    (303, 30300, 424, 21, 5, NULL),
+    (303, 30300, 581, 21, 5, NULL),
+    (303, 30300, 612, 21, 5, NULL),
+    (303, 30300, 45, 21, 8, NULL),
+    (303, 30300, 310, 21, 8, NULL),
+    (304, 30400, 232, 21, 1, 4),
+    (304, 30400, 317, 21, 1, 8),
+    (304, 30400, 46, 21, 1, 12),
+    (304, 30400, 29, 21, 1, 16),
+    (304, 30400, 182, 21, 1, 20),
+    (304, 30400, 157, 21, 1, 24),
+    (304, 30400, 442, 21, 1, 28),
+    (304, 30400, 319, 21, 1, 33),
+    (304, 30400, 36, 21, 1, 36),
+    (304, 30400, 475, 21, 1, 40),
+    (304, 30400, 231, 21, 1, 44),
+    (304, 30400, 334, 21, 1, 48),
+    (304, 30400, 484, 21, 1, 52),
+    (304, 30400, 38, 21, 1, 56),
+    (304, 30400, 368, 21, 1, 60),
+    (304, 30400, 15, 21, 2, NULL),
+    (304, 30400, 46, 21, 2, NULL),
+    (304, 30400, 70, 21, 2, NULL),
+    (304, 30400, 89, 21, 2, NULL),
+    (304, 30400, 91, 21, 2, NULL),
+    (304, 30400, 104, 21, 2, NULL),
+    (304, 30400, 156, 21, 2, NULL),
+    (304, 30400, 157, 21, 2, NULL),
+    (304, 30400, 164, 21, 2, NULL),
+    (304, 30400, 182, 21, 2, NULL),
+    (304, 30400, 201, 21, 2, NULL),
+    (304, 30400, 203, 21, 2, NULL),
+    (304, 30400, 207, 21, 2, NULL),
+    (304, 30400, 213, 21, 2, NULL),
+    (304, 30400, 214, 21, 2, NULL),
+    (304, 30400, 231, 21, 2, NULL),
+    (304, 30400, 240, 21, 2, NULL),
+    (304, 30400, 241, 21, 2, NULL),
+    (304, 30400, 249, 21, 2, NULL),
+    (304, 30400, 263, 21, 2, NULL),
+    (304, 30400, 317, 21, 2, NULL),
+    (304, 30400, 332, 21, 2, NULL),
+    (304, 30400, 351, 21, 2, NULL),
+    (304, 30400, 352, 21, 2, NULL),
+    (304, 30400, 397, 21, 2, NULL),
+    (304, 30400, 421, 21, 2, NULL),
+    (304, 30400, 446, 21, 2, NULL),
+    (304, 30400, 523, 21, 2, NULL),
+    (304, 30400, 23, 21, 5, NULL),
+    (304, 30400, 34, 21, 5, NULL),
+    (304, 30400, 103, 21, 5, NULL),
+    (304, 30400, 174, 21, 5, NULL),
+    (304, 30400, 179, 21, 5, NULL),
+    (304, 30400, 189, 21, 5, NULL),
+    (304, 30400, 276, 21, 5, NULL),
+    (304, 30400, 283, 21, 5, NULL),
+    (304, 30400, 407, 21, 5, NULL),
+    (304, 30400, 442, 21, 5, NULL),
+    (304, 30400, 457, 21, 5, NULL),
+    (304, 30400, 33, 21, 8, NULL),
+    (304, 30400, 106, 21, 8, NULL),
+    (305, 30500, 46, 21, 1, 12),
+    (305, 30500, 29, 21, 1, 16),
+    (305, 30500, 182, 21, 1, 20),
+    (305, 30500, 157, 21, 1, 24),
+    (305, 30500, 442, 21, 1, 28),
+    (305, 30500, 319, 21, 1, 35),
+    (305, 30500, 36, 21, 1, 40),
+    (305, 30500, 475, 21, 1, 46),
+    (305, 30500, 231, 21, 1, 52),
+    (305, 30500, 334, 21, 1, 58),
+    (305, 30500, 484, 21, 1, 64),
+    (305, 30500, 38, 21, 1, 70),
+    (305, 30500, 368, 21, 1, 76),
+    (305, 30500, 15, 21, 2, NULL),
+    (305, 30500, 46, 21, 2, NULL),
+    (305, 30500, 70, 21, 2, NULL),
+    (305, 30500, 89, 21, 2, NULL),
+    (305, 30500, 91, 21, 2, NULL),
+    (305, 30500, 104, 21, 2, NULL),
+    (305, 30500, 156, 21, 2, NULL),
+    (305, 30500, 157, 21, 2, NULL),
+    (305, 30500, 164, 21, 2, NULL),
+    (305, 30500, 182, 21, 2, NULL),
+    (305, 30500, 201, 21, 2, NULL),
+    (305, 30500, 203, 21, 2, NULL),
+    (305, 30500, 207, 21, 2, NULL),
+    (305, 30500, 213, 21, 2, NULL),
+    (305, 30500, 214, 21, 2, NULL),
+    (305, 30500, 231, 21, 2, NULL),
+    (305, 30500, 240, 21, 2, NULL),
+    (305, 30500, 241, 21, 2, NULL),
+    (305, 30500, 249, 21, 2, NULL),
+    (305, 30500, 263, 21, 2, NULL),
+    (305, 30500, 317, 21, 2, NULL),
+    (305, 30500, 332, 21, 2, NULL),
+    (305, 30500, 351, 21, 2, NULL),
+    (305, 30500, 352, 21, 2, NULL),
+    (305, 30500, 397, 21, 2, NULL),
+    (305, 30500, 421, 21, 2, NULL),
+    (305, 30500, 444, 21, 2, NULL),
+    (305, 30500, 446, 21, 2, NULL),
+    (305, 30500, 523, 21, 2, NULL),
+    (305, 30500, 23, 21, 5, NULL),
+    (305, 30500, 34, 21, 5, NULL),
+    (305, 30500, 103, 21, 5, NULL),
+    (305, 30500, 174, 21, 5, NULL),
+    (305, 30500, 179, 21, 5, NULL),
+    (305, 30500, 189, 21, 5, NULL),
+    (305, 30500, 276, 21, 5, NULL),
+    (305, 30500, 283, 21, 5, NULL),
+    (305, 30500, 407, 21, 5, NULL),
+    (305, 30500, 442, 21, 5, NULL),
+    (305, 30500, 457, 21, 5, NULL),
+    (305, 30500, 33, 21, 8, NULL),
+    (305, 30500, 106, 21, 8, NULL),
+    (305, 30500, 232, 21, 8, NULL),
+    (305, 30500, 317, 21, 8, NULL),
+    (306, 30600, 46, 21, 1, 12),
+    (306, 30600, 29, 21, 1, 16),
+    (306, 30600, 182, 21, 1, 20),
+    (306, 30600, 157, 21, 1, 24),
+    (306, 30600, 442, 21, 1, 28),
+    (306, 30600, 319, 21, 1, 35),
+    (306, 30600, 36, 21, 1, 40),
+    (306, 30600, 475, 21, 1, 48),
+    (306, 30600, 231, 21, 1, 56),
+    (306, 30600, 334, 21, 1, 64),
+    (306, 30600, 484, 21, 1, 72),
+    (306, 30600, 38, 21, 1, 80),
+    (306, 30600, 368, 21, 1, 88),
+    (306, 30600, 15, 21, 2, NULL),
+    (306, 30600, 46, 21, 2, NULL),
+    (306, 30600, 53, 21, 2, NULL),
+    (306, 30600, 57, 21, 2, NULL),
+    (306, 30600, 58, 21, 2, NULL),
+    (306, 30600, 59, 21, 2, NULL),
+    (306, 30600, 63, 21, 2, NULL),
+    (306, 30600, 70, 21, 2, NULL),
+    (306, 30600, 76, 21, 2, NULL),
+    (306, 30600, 85, 21, 2, NULL),
+    (306, 30600, 86, 21, 2, NULL),
+    (306, 30600, 87, 21, 2, NULL),
+    (306, 30600, 89, 21, 2, NULL),
+    (306, 30600, 91, 21, 2, NULL),
+    (306, 30600, 104, 21, 2, NULL),
+    (306, 30600, 126, 21, 2, NULL),
+    (306, 30600, 156, 21, 2, NULL),
+    (306, 30600, 157, 21, 2, NULL),
+    (306, 30600, 164, 21, 2, NULL),
+    (306, 30600, 182, 21, 2, NULL),
+    (306, 30600, 201, 21, 2, NULL),
+    (306, 30600, 203, 21, 2, NULL),
+    (306, 30600, 207, 21, 2, NULL),
+    (306, 30600, 213, 21, 2, NULL),
+    (306, 30600, 214, 21, 2, NULL),
+    (306, 30600, 231, 21, 2, NULL),
+    (306, 30600, 240, 21, 2, NULL),
+    (306, 30600, 241, 21, 2, NULL),
+    (306, 30600, 249, 21, 2, NULL),
+    (306, 30600, 263, 21, 2, NULL),
+    (306, 30600, 264, 21, 2, NULL),
+    (306, 30600, 269, 21, 2, NULL),
+    (306, 30600, 280, 21, 2, NULL),
+    (306, 30600, 317, 21, 2, NULL),
+    (306, 30600, 332, 21, 2, NULL),
+    (306, 30600, 337, 21, 2, NULL),
+    (306, 30600, 351, 21, 2, NULL),
+    (306, 30600, 352, 21, 2, NULL),
+    (306, 30600, 371, 21, 2, NULL),
+    (306, 30600, 374, 21, 2, NULL),
+    (306, 30600, 397, 21, 2, NULL),
+    (306, 30600, 399, 21, 2, NULL),
+    (306, 30600, 406, 21, 2, NULL),
+    (306, 30600, 411, 21, 2, NULL),
+    (306, 30600, 416, 21, 2, NULL),
+    (306, 30600, 419, 21, 2, NULL),
+    (306, 30600, 421, 21, 2, NULL),
+    (306, 30600, 430, 21, 2, NULL),
+    (306, 30600, 431, 21, 2, NULL),
+    (306, 30600, 444, 21, 2, NULL),
+    (306, 30600, 446, 21, 2, NULL),
+    (306, 30600, 523, 21, 2, NULL),
+    (306, 30600, 23, 21, 5, NULL),
+    (306, 30600, 34, 21, 5, NULL),
+    (306, 30600, 103, 21, 5, NULL),
+    (306, 30600, 174, 21, 5, NULL),
+    (306, 30600, 179, 21, 5, NULL),
+    (306, 30600, 189, 21, 5, NULL),
+    (306, 30600, 276, 21, 5, NULL),
+    (306, 30600, 283, 21, 5, NULL),
+    (306, 30600, 407, 21, 5, NULL),
+    (306, 30600, 442, 21, 5, NULL),
+    (306, 30600, 457, 21, 5, NULL),
+    (306, 30600, 33, 21, 8, NULL),
+    (306, 30600, 106, 21, 8, NULL),
+    (306, 30600, 232, 21, 8, NULL),
+    (306, 30600, 317, 21, 8, NULL),
+    (307, 30700, 67, 21, 1, 4),
+    (307, 30700, 93, 21, 1, 7),
+    (307, 30700, 197, 21, 1, 9),
+    (307, 30700, 203, 21, 1, 12),
+    (307, 30700, 364, 21, 1, 15),
+    (307, 30700, 395, 21, 1, 17),
+    (307, 30700, 60, 21, 1, 20),
+    (307, 30700, 347, 21, 1, 23),
+    (307, 30700, 170, 21, 1, 25),
+    (307, 30700, 136, 21, 1, 28),
+    (307, 30700, 244, 21, 1, 31),
+    (307, 30700, 367, 21, 1, 33),
+    (307, 30700, 379, 21, 1, 36),
+    (307, 30700, 179, 21, 1, 39),
+    (307, 30700, 105, 21, 1, 41),
+    (307, 30700, 68, 21, 1, 44),
+    (307, 30700, 70, 21, 2, NULL),
+    (307, 30700, 94, 21, 2, NULL),
+    (307, 30700, 104, 21, 2, NULL),
+    (307, 30700, 113, 21, 2, NULL),
+    (307, 30700, 115, 21, 2, NULL),
+    (307, 30700, 138, 21, 2, NULL),
+    (307, 30700, 148, 21, 2, NULL),
+    (307, 30700, 156, 21, 2, NULL),
+    (307, 30700, 157, 21, 2, NULL),
+    (307, 30700, 164, 21, 2, NULL),
+    (307, 30700, 182, 21, 2, NULL),
+    (307, 30700, 203, 21, 2, NULL),
+    (307, 30700, 207, 21, 2, NULL),
+    (307, 30700, 213, 21, 2, NULL),
+    (307, 30700, 214, 21, 2, NULL),
+    (307, 30700, 240, 21, 2, NULL),
+    (307, 30700, 241, 21, 2, NULL),
+    (307, 30700, 244, 21, 2, NULL),
+    (307, 30700, 247, 21, 2, NULL),
+    (307, 30700, 249, 21, 2, NULL),
+    (307, 30700, 263, 21, 2, NULL),
+    (307, 30700, 264, 21, 2, NULL),
+    (307, 30700, 278, 21, 2, NULL),
+    (307, 30700, 280, 21, 2, NULL),
+    (307, 30700, 317, 21, 2, NULL),
+    (307, 30700, 339, 21, 2, NULL),
+    (307, 30700, 347, 21, 2, NULL),
+    (307, 30700, 374, 21, 2, NULL),
+    (307, 30700, 398, 21, 2, NULL),
+    (307, 30700, 409, 21, 2, NULL),
+    (307, 30700, 411, 21, 2, NULL),
+    (307, 30700, 447, 21, 2, NULL),
+    (307, 30700, 490, 21, 2, NULL),
+    (307, 30700, 526, 21, 2, NULL),
+    (307, 30700, 7, 21, 5, NULL),
+    (307, 30700, 8, 21, 5, NULL),
+    (307, 30700, 9, 21, 5, NULL),
+    (307, 30700, 223, 21, 5, NULL),
+    (307, 30700, 226, 21, 5, NULL),
+    (307, 30700, 252, 21, 5, NULL),
+    (307, 30700, 384, 21, 5, NULL),
+    (307, 30700, 385, 21, 5, NULL),
+    (307, 30700, 418, 21, 5, NULL),
+    (307, 30700, 427, 21, 5, NULL),
+    (307, 30700, 501, 21, 5, NULL),
+    (307, 30700, 1, 21, 8, NULL),
+    (308, 30800, 67, 21, 1, 4),
+    (308, 30800, 93, 21, 1, 7),
+    (308, 30800, 197, 21, 1, 9),
+    (308, 30800, 203, 21, 1, 12),
+    (308, 30800, 364, 21, 1, 15),
+    (308, 30800, 395, 21, 1, 17),
+    (308, 30800, 60, 21, 1, 20),
+    (308, 30800, 347, 21, 1, 23),
+    (308, 30800, 170, 21, 1, 25),
+    (308, 30800, 136, 21, 1, 28),
+    (308, 30800, 244, 21, 1, 31),
+    (308, 30800, 367, 21, 1, 33),
+    (308, 30800, 379, 21, 1, 36),
+    (308, 30800, 179, 21, 1, 42),
+    (308, 30800, 105, 21, 1, 47),
+    (308, 30800, 68, 21, 1, 53),
+    (308, 30800, 63, 21, 2, NULL),
+    (308, 30800, 70, 21, 2, NULL),
+    (308, 30800, 94, 21, 2, NULL),
+    (308, 30800, 104, 21, 2, NULL),
+    (308, 30800, 113, 21, 2, NULL),
+    (308, 30800, 115, 21, 2, NULL),
+    (308, 30800, 138, 21, 2, NULL),
+    (308, 30800, 148, 21, 2, NULL),
+    (308, 30800, 156, 21, 2, NULL),
+    (308, 30800, 157, 21, 2, NULL),
+    (308, 30800, 164, 21, 2, NULL),
+    (308, 30800, 182, 21, 2, NULL),
+    (308, 30800, 203, 21, 2, NULL),
+    (308, 30800, 207, 21, 2, NULL),
+    (308, 30800, 213, 21, 2, NULL),
+    (308, 30800, 214, 21, 2, NULL),
+    (308, 30800, 240, 21, 2, NULL),
+    (308, 30800, 241, 21, 2, NULL),
+    (308, 30800, 244, 21, 2, NULL),
+    (308, 30800, 247, 21, 2, NULL),
+    (308, 30800, 249, 21, 2, NULL),
+    (308, 30800, 263, 21, 2, NULL),
+    (308, 30800, 264, 21, 2, NULL),
+    (308, 30800, 278, 21, 2, NULL),
+    (308, 30800, 280, 21, 2, NULL),
+    (308, 30800, 317, 21, 2, NULL),
+    (308, 30800, 339, 21, 2, NULL),
+    (308, 30800, 347, 21, 2, NULL),
+    (308, 30800, 374, 21, 2, NULL),
+    (308, 30800, 398, 21, 2, NULL),
+    (308, 30800, 409, 21, 2, NULL),
+    (308, 30800, 411, 21, 2, NULL),
+    (308, 30800, 412, 21, 2, NULL),
+    (308, 30800, 416, 21, 2, NULL),
+    (308, 30800, 447, 21, 2, NULL),
+    (308, 30800, 490, 21, 2, NULL),
+    (308, 30800, 526, 21, 2, NULL),
+    (308, 30800, 7, 21, 5, NULL),
+    (308, 30800, 8, 21, 5, NULL),
+    (308, 30800, 9, 21, 5, NULL),
+    (308, 30800, 223, 21, 5, NULL),
+    (308, 30800, 226, 21, 5, NULL),
+    (308, 30800, 252, 21, 5, NULL),
+    (308, 30800, 384, 21, 5, NULL),
+    (308, 30800, 385, 21, 5, NULL),
+    (308, 30800, 418, 21, 5, NULL),
+    (308, 30800, 427, 21, 5, NULL),
+    (308, 30800, 501, 21, 5, NULL),
+    (308, 30800, 1, 21, 8, NULL),
+    (308, 30800, 7, 21, 8, NULL),
+    (308, 30800, 8, 21, 8, NULL),
+    (308, 30800, 9, 21, 8, NULL),
+    (308, 30800, 93, 21, 8, NULL),
+    (308, 30800, 197, 21, 8, NULL),
+    (308, 30800, 428, 21, 8, NULL),
+    (309, 30900, 43, 21, 1, 4),
+    (309, 30900, 336, 21, 1, 8),
+    (309, 30900, 98, 21, 1, 12),
+    (309, 30900, 351, 21, 1, 16),
+    (309, 30900, 44, 21, 1, 20),
+    (309, 30900, 422, 21, 1, 24),
+    (309, 30900, 46, 21, 1, 28),
+    (309, 30900, 435, 21, 1, 32),
+    (309, 30900, 268, 21, 1, 36),
+    (309, 30900, 528, 21, 1, 40),
+    (309, 30900, 87, 21, 1, 44),
+    (309, 30900, 46, 21, 2, NULL),
+    (309, 30900, 53, 21, 2, NULL),
+    (309, 30900, 70, 21, 2, NULL),
+    (309, 30900, 85, 21, 2, NULL),
+    (309, 30900, 86, 21, 2, NULL),
+    (309, 30900, 87, 21, 2, NULL),
+    (309, 30900, 104, 21, 2, NULL),
+    (309, 30900, 113, 21, 2, NULL),
+    (309, 30900, 148, 21, 2, NULL),
+    (309, 30900, 156, 21, 2, NULL),
+    (309, 30900, 164, 21, 2, NULL),
+    (309, 30900, 168, 21, 2, NULL),
+    (309, 30900, 182, 21, 2, NULL),
+    (309, 30900, 203, 21, 2, NULL),
+    (309, 30900, 207, 21, 2, NULL),
+    (309, 30900, 213, 21, 2, NULL),
+    (309, 30900, 214, 21, 2, NULL),
+    (309, 30900, 231, 21, 2, NULL),
+    (309, 30900, 240, 21, 2, NULL),
+    (309, 30900, 263, 21, 2, NULL),
+    (309, 30900, 351, 21, 2, NULL),
+    (309, 30900, 451, 21, 2, NULL),
+    (309, 30900, 521, 21, 2, NULL),
+    (309, 30900, 555, 21, 2, NULL),
+    (309, 30900, 29, 21, 5, NULL),
+    (309, 30900, 129, 21, 5, NULL),
+    (309, 30900, 174, 21, 5, NULL),
+    (309, 30900, 209, 21, 5, NULL),
+    (309, 30900, 242, 21, 5, NULL),
+    (309, 30900, 253, 21, 5, NULL),
+    (309, 30900, 415, 21, 5, NULL),
+    (309, 30900, 422, 21, 5, NULL),
+    (309, 30900, 423, 21, 5, NULL),
+    (309, 30900, 424, 21, 5, NULL),
+    (309, 30900, 435, 21, 5, NULL),
+    (309, 30900, 486, 21, 5, NULL),
+    (309, 30900, 598, 21, 5, NULL),
+    (309, 30900, 33, 21, 8, NULL),
+    (309, 30900, 86, 21, 8, NULL),
+    (310, 31000, 98, 21, 1, 12),
+    (310, 31000, 351, 21, 1, 16),
+    (310, 31000, 44, 21, 1, 20),
+    (310, 31000, 422, 21, 1, 24),
+    (310, 31000, 46, 21, 1, 30),
+    (310, 31000, 435, 21, 1, 36),
+    (310, 31000, 268, 21, 1, 42),
+    (310, 31000, 528, 21, 1, 48),
+    (310, 31000, 87, 21, 1, 54),
+    (310, 31000, 604, 21, 1, 60),
+    (310, 31000, 46, 21, 2, NULL),
+    (310, 31000, 53, 21, 2, NULL),
+    (310, 31000, 63, 21, 2, NULL),
+    (310, 31000, 70, 21, 2, NULL),
+    (310, 31000, 85, 21, 2, NULL),
+    (310, 31000, 86, 21, 2, NULL),
+    (310, 31000, 87, 21, 2, NULL),
+    (310, 31000, 104, 21, 2, NULL),
+    (310, 31000, 113, 21, 2, NULL),
+    (310, 31000, 148, 21, 2, NULL),
+    (310, 31000, 156, 21, 2, NULL),
+    (310, 31000, 164, 21, 2, NULL),
+    (310, 31000, 168, 21, 2, NULL),
+    (310, 31000, 182, 21, 2, NULL),
+    (310, 31000, 203, 21, 2, NULL),
+    (310, 31000, 207, 21, 2, NULL),
+    (310, 31000, 213, 21, 2, NULL),
+    (310, 31000, 214, 21, 2, NULL),
+    (310, 31000, 231, 21, 2, NULL),
+    (310, 31000, 240, 21, 2, NULL),
+    (310, 31000, 263, 21, 2, NULL),
+    (310, 31000, 315, 21, 2, NULL),
+    (310, 31000, 351, 21, 2, NULL),
+    (310, 31000, 416, 21, 2, NULL),
+    (310, 31000, 451, 21, 2, NULL),
+    (310, 31000, 521, 21, 2, NULL),
+    (310, 31000, 555, 21, 2, NULL),
+    (310, 31000, 29, 21, 5, NULL),
+    (310, 31000, 129, 21, 5, NULL),
+    (310, 31000, 174, 21, 5, NULL),
+    (310, 31000, 209, 21, 5, NULL),
+    (310, 31000, 242, 21, 5, NULL),
+    (310, 31000, 253, 21, 5, NULL),
+    (310, 31000, 415, 21, 5, NULL),
+    (310, 31000, 422, 21, 5, NULL),
+    (310, 31000, 423, 21, 5, NULL),
+    (310, 31000, 424, 21, 5, NULL),
+    (310, 31000, 435, 21, 5, NULL),
+    (310, 31000, 486, 21, 5, NULL),
+    (310, 31000, 598, 21, 5, NULL),
+    (310, 31000, 33, 21, 8, NULL),
+    (310, 31000, 43, 21, 8, NULL),
+    (310, 31000, 86, 21, 8, NULL),
+    (310, 31000, 336, 21, 8, NULL),
+    (310, 31000, 424, 21, 8, NULL),
+    (311, 31100, 270, 21, 1, 4),
+    (311, 31100, 209, 21, 1, 7),
+    (311, 31100, 227, 21, 1, 10),
+    (311, 31100, 285, 21, 1, 13),
+    (311, 31100, 129, 21, 1, 16),
+    (311, 31100, 486, 21, 1, 19),
+    (311, 31100, 383, 21, 1, 22),
+    (311, 31100, 204, 21, 1, 25),
+    (311, 31100, 268, 21, 1, 28),
+    (311, 31100, 435, 21, 1, 31),
+    (311, 31100, 226, 21, 1, 34),
+    (311, 31100, 97, 21, 1, 37),
+    (311, 31100, 387, 21, 1, 40),
+    (311, 31100, 87, 21, 1, 43),
+    (311, 31100, 417, 21, 1, 46),
+    (311, 31100, 494, 21, 1, 49),
+    (311, 31100, 85, 21, 2, NULL),
+    (311, 31100, 86, 21, 2, NULL),
+    (311, 31100, 87, 21, 2, NULL),
+    (311, 31100, 104, 21, 2, NULL),
+    (311, 31100, 113, 21, 2, NULL),
+    (311, 31100, 148, 21, 2, NULL),
+    (311, 31100, 156, 21, 2, NULL),
+    (311, 31100, 164, 21, 2, NULL),
+    (311, 31100, 182, 21, 2, NULL),
+    (311, 31100, 203, 21, 2, NULL),
+    (311, 31100, 207, 21, 2, NULL),
+    (311, 31100, 213, 21, 2, NULL),
+    (311, 31100, 214, 21, 2, NULL),
+    (311, 31100, 231, 21, 2, NULL),
+    (311, 31100, 240, 21, 2, NULL),
+    (311, 31100, 263, 21, 2, NULL),
+    (311, 31100, 285, 21, 2, NULL),
+    (311, 31100, 351, 21, 2, NULL),
+    (311, 31100, 374, 21, 2, NULL),
+    (311, 31100, 417, 21, 2, NULL),
+    (311, 31100, 447, 21, 2, NULL),
+    (311, 31100, 451, 21, 2, NULL),
+    (311, 31100, 521, 21, 2, NULL),
+    (311, 31100, 47, 21, 5, NULL),
+    (311, 31100, 186, 21, 5, NULL),
+    (311, 31100, 204, 21, 5, NULL),
+    (311, 31100, 273, 21, 5, NULL),
+    (311, 31100, 313, 21, 5, NULL),
+    (311, 31100, 435, 21, 5, NULL),
+    (311, 31100, 715, 21, 5, NULL),
+    (311, 31100, 45, 21, 8, NULL),
+    (311, 31100, 86, 21, 8, NULL),
+    (311, 31100, 98, 21, 8, NULL),
+    (311, 31100, 589, 21, 8, NULL),
+    (311, 31100, 609, 21, 8, NULL),
+    (312, 31200, 270, 21, 1, 4),
+    (312, 31200, 209, 21, 1, 7),
+    (312, 31200, 227, 21, 1, 10),
+    (312, 31200, 415, 21, 1, 13),
+    (312, 31200, 129, 21, 1, 16),
+    (312, 31200, 486, 21, 1, 19),
+    (312, 31200, 383, 21, 1, 22),
+    (312, 31200, 313, 21, 1, 25),
+    (312, 31200, 268, 21, 1, 28),
+    (312, 31200, 435, 21, 1, 31),
+    (312, 31200, 226, 21, 1, 34),
+    (312, 31200, 97, 21, 1, 37),
+    (312, 31200, 387, 21, 1, 40),
+    (312, 31200, 87, 21, 1, 43),
+    (312, 31200, 417, 21, 1, 46),
+    (312, 31200, 494, 21, 1, 49),
+    (312, 31200, 85, 21, 2, NULL),
+    (312, 31200, 86, 21, 2, NULL),
+    (312, 31200, 87, 21, 2, NULL),
+    (312, 31200, 104, 21, 2, NULL),
+    (312, 31200, 113, 21, 2, NULL),
+    (312, 31200, 148, 21, 2, NULL),
+    (312, 31200, 156, 21, 2, NULL),
+    (312, 31200, 164, 21, 2, NULL),
+    (312, 31200, 182, 21, 2, NULL),
+    (312, 31200, 203, 21, 2, NULL),
+    (312, 31200, 207, 21, 2, NULL),
+    (312, 31200, 213, 21, 2, NULL),
+    (312, 31200, 214, 21, 2, NULL),
+    (312, 31200, 231, 21, 2, NULL),
+    (312, 31200, 240, 21, 2, NULL),
+    (312, 31200, 263, 21, 2, NULL),
+    (312, 31200, 351, 21, 2, NULL),
+    (312, 31200, 374, 21, 2, NULL),
+    (312, 31200, 417, 21, 2, NULL),
+    (312, 31200, 447, 21, 2, NULL),
+    (312, 31200, 451, 21, 2, NULL),
+    (312, 31200, 521, 21, 2, NULL),
+    (312, 31200, 47, 21, 5, NULL),
+    (312, 31200, 186, 21, 5, NULL),
+    (312, 31200, 204, 21, 5, NULL),
+    (312, 31200, 273, 21, 5, NULL),
+    (312, 31200, 313, 21, 5, NULL),
+    (312, 31200, 435, 21, 5, NULL),
+    (312, 31200, 715, 21, 5, NULL),
+    (312, 31200, 45, 21, 8, NULL),
+    (312, 31200, 86, 21, 8, NULL),
+    (312, 31200, 98, 21, 8, NULL),
+    (312, 31200, 589, 21, 8, NULL),
+    (312, 31200, 609, 21, 8, NULL),
+    (313, 31300, 104, 21, 1, 5),
+    (313, 31300, 109, 21, 1, 8),
+    (313, 31300, 98, 21, 1, 12),
+    (313, 31300, 522, 21, 1, 15),
+    (313, 31300, 236, 21, 1, 19),
+    (313, 31300, 294, 21, 1, 22),
+    (313, 31300, 227, 21, 1, 26),
+    (313, 31300, 182, 21, 1, 29),
+    (313, 31300, 428, 21, 1, 33),
+    (313, 31300, 270, 21, 1, 36),
+    (313, 31300, 405, 21, 1, 40),
+    (313, 31300, 583, 21, 1, 43),
+    (313, 31300, 38, 21, 1, 47),
+    (313, 31300, 611, 21, 1, 50),
+    (313, 31300, 76, 21, 2, NULL),
+    (313, 31300, 85, 21, 2, NULL),
+    (313, 31300, 86, 21, 2, NULL),
+    (313, 31300, 87, 21, 2, NULL),
+    (313, 31300, 104, 21, 2, NULL),
+    (313, 31300, 113, 21, 2, NULL),
+    (313, 31300, 148, 21, 2, NULL),
+    (313, 31300, 156, 21, 2, NULL),
+    (313, 31300, 164, 21, 2, NULL),
+    (313, 31300, 168, 21, 2, NULL),
+    (313, 31300, 182, 21, 2, NULL),
+    (313, 31300, 202, 21, 2, NULL),
+    (313, 31300, 203, 21, 2, NULL),
+    (313, 31300, 207, 21, 2, NULL),
+    (313, 31300, 213, 21, 2, NULL),
+    (313, 31300, 214, 21, 2, NULL),
+    (313, 31300, 240, 21, 2, NULL),
+    (313, 31300, 241, 21, 2, NULL),
+    (313, 31300, 244, 21, 2, NULL),
+    (313, 31300, 247, 21, 2, NULL),
+    (313, 31300, 263, 21, 2, NULL),
+    (313, 31300, 264, 21, 2, NULL),
+    (313, 31300, 280, 21, 2, NULL),
+    (313, 31300, 332, 21, 2, NULL),
+    (313, 31300, 351, 21, 2, NULL),
+    (313, 31300, 352, 21, 2, NULL),
+    (313, 31300, 355, 21, 2, NULL),
+    (313, 31300, 369, 21, 2, NULL),
+    (313, 31300, 374, 21, 2, NULL),
+    (313, 31300, 405, 21, 2, NULL),
+    (313, 31300, 451, 21, 2, NULL),
+    (313, 31300, 605, 21, 2, NULL),
+    (313, 31300, 69, 21, 5, NULL),
+    (313, 31300, 226, 21, 5, NULL),
+    (313, 31300, 227, 21, 5, NULL),
+    (313, 31300, 271, 21, 5, NULL),
+    (313, 31300, 679, 21, 5, NULL),
+    (313, 31300, 33, 21, 8, NULL),
+    (313, 31300, 589, 21, 8, NULL),
+    (314, 31400, 230, 21, 1, 5),
+    (314, 31400, 204, 21, 1, 9),
+    (314, 31400, 98, 21, 1, 12),
+    (314, 31400, 522, 21, 1, 15),
+    (314, 31400, 236, 21, 1, 19),
+    (314, 31400, 273, 21, 1, 22),
+    (314, 31400, 227, 21, 1, 26),
+    (314, 31400, 260, 21, 1, 29),
+    (314, 31400, 428, 21, 1, 33),
+    (314, 31400, 270, 21, 1, 36),
+    (314, 31400, 405, 21, 1, 40),
+    (314, 31400, 583, 21, 1, 43),
+    (314, 31400, 343, 21, 1, 47),
+    (314, 31400, 611, 21, 1, 50),
+    (314, 31400, 76, 21, 2, NULL),
+    (314, 31400, 85, 21, 2, NULL),
+    (314, 31400, 86, 21, 2, NULL),
+    (314, 31400, 87, 21, 2, NULL),
+    (314, 31400, 104, 21, 2, NULL),
+    (314, 31400, 113, 21, 2, NULL),
+    (314, 31400, 148, 21, 2, NULL),
+    (314, 31400, 156, 21, 2, NULL),
+    (314, 31400, 164, 21, 2, NULL),
+    (314, 31400, 168, 21, 2, NULL),
+    (314, 31400, 182, 21, 2, NULL),
+    (314, 31400, 202, 21, 2, NULL),
+    (314, 31400, 203, 21, 2, NULL),
+    (314, 31400, 207, 21, 2, NULL),
+    (314, 31400, 213, 21, 2, NULL),
+    (314, 31400, 214, 21, 2, NULL),
+    (314, 31400, 240, 21, 2, NULL),
+    (314, 31400, 241, 21, 2, NULL),
+    (314, 31400, 244, 21, 2, NULL),
+    (314, 31400, 247, 21, 2, NULL),
+    (314, 31400, 263, 21, 2, NULL),
+    (314, 31400, 264, 21, 2, NULL),
+    (314, 31400, 280, 21, 2, NULL),
+    (314, 31400, 332, 21, 2, NULL),
+    (314, 31400, 351, 21, 2, NULL),
+    (314, 31400, 352, 21, 2, NULL),
+    (314, 31400, 355, 21, 2, NULL),
+    (314, 31400, 369, 21, 2, NULL),
+    (314, 31400, 374, 21, 2, NULL),
+    (314, 31400, 405, 21, 2, NULL),
+    (314, 31400, 451, 21, 2, NULL),
+    (314, 31400, 605, 21, 2, NULL),
+    (314, 31400, 74, 21, 5, NULL),
+    (314, 31400, 109, 21, 5, NULL),
+    (314, 31400, 226, 21, 5, NULL),
+    (314, 31400, 227, 21, 5, NULL),
+    (314, 31400, 312, 21, 5, NULL),
+    (314, 31400, 313, 21, 5, NULL),
+    (314, 31400, 33, 21, 8, NULL),
+    (314, 31400, 589, 21, 8, NULL),
+    (315, 31500, 72, 21, 1, 5),
+    (315, 31500, 73, 21, 1, 10),
+    (315, 31500, 345, 21, 1, 15),
+    (315, 31500, 390, 21, 1, 20),
+    (315, 31500, 230, 21, 1, 25),
+    (315, 31500, 202, 21, 1, 30),
+    (315, 31500, 235, 21, 1, 35),
+    (315, 31500, 92, 21, 1, 40),
+    (315, 31500, 572, 21, 1, 45),
+    (315, 31500, 312, 21, 1, 50),
+    (315, 31500, 275, 21, 1, 55),
+    (315, 31500, 80, 21, 1, 60),
+    (315, 31500, 14, 21, 2, NULL),
+    (315, 31500, 15, 21, 2, NULL),
+    (315, 31500, 76, 21, 2, NULL),
+    (315, 31500, 92, 21, 2, NULL),
+    (315, 31500, 104, 21, 2, NULL),
+    (315, 31500, 148, 21, 2, NULL),
+    (315, 31500, 156, 21, 2, NULL),
+    (315, 31500, 164, 21, 2, NULL),
+    (315, 31500, 182, 21, 2, NULL),
+    (315, 31500, 188, 21, 2, NULL),
+    (315, 31500, 202, 21, 2, NULL),
+    (315, 31500, 203, 21, 2, NULL),
+    (315, 31500, 207, 21, 2, NULL),
+    (315, 31500, 213, 21, 2, NULL),
+    (315, 31500, 214, 21, 2, NULL),
+    (315, 31500, 240, 21, 2, NULL),
+    (315, 31500, 241, 21, 2, NULL),
+    (315, 31500, 244, 21, 2, NULL),
+    (315, 31500, 247, 21, 2, NULL),
+    (315, 31500, 263, 21, 2, NULL),
+    (315, 31500, 331, 21, 2, NULL),
+    (315, 31500, 398, 21, 2, NULL),
+    (315, 31500, 412, 21, 2, NULL),
+    (315, 31500, 447, 21, 2, NULL),
+    (315, 31500, 605, 21, 2, NULL),
+    (315, 31500, 42, 21, 5, NULL),
+    (315, 31500, 75, 21, 5, NULL),
+    (315, 31500, 79, 21, 5, NULL),
+    (315, 31500, 170, 21, 5, NULL),
+    (315, 31500, 178, 21, 5, NULL),
+    (315, 31500, 191, 21, 5, NULL),
+    (315, 31500, 235, 21, 5, NULL),
+    (315, 31500, 326, 21, 5, NULL),
+    (315, 31500, 402, 21, 5, NULL),
+    (315, 31500, 437, 21, 5, NULL),
+    (315, 31500, 438, 21, 5, NULL),
+    (315, 31500, 791, 21, 5, NULL),
+    (315, 31500, 40, 21, 8, NULL),
+    (315, 31500, 71, 21, 8, NULL),
+    (315, 31500, 74, 21, 8, NULL),
+    (315, 31500, 78, 21, 8, NULL),
+    (315, 31500, 388, 21, 8, NULL),
+    (316, 31600, 281, 21, 1, 5),
+    (316, 31600, 139, 21, 1, 8),
+    (316, 31600, 124, 21, 1, 10),
+    (316, 31600, 133, 21, 1, 12),
+    (316, 31600, 491, 21, 1, 17),
+    (316, 31600, 227, 21, 1, 20),
+    (316, 31600, 92, 21, 1, 25),
+    (316, 31600, 254, 21, 1, 28),
+    (316, 31600, 255, 21, 1, 28),
+    (316, 31600, 256, 21, 1, 28),
+    (316, 31600, 188, 21, 1, 33),
+    (316, 31600, 380, 21, 1, 36),
+    (316, 31600, 562, 21, 1, 41),
+    (316, 31600, 220, 21, 1, 44),
+    (316, 31600, 441, 21, 1, 49),
+    (316, 31600, 58, 21, 2, NULL),
+    (316, 31600, 70, 21, 2, NULL),
+    (316, 31600, 76, 21, 2, NULL),
+    (316, 31600, 92, 21, 2, NULL),
+    (316, 31600, 104, 21, 2, NULL),
+    (316, 31600, 138, 21, 2, NULL),
+    (316, 31600, 153, 21, 2, NULL),
+    (316, 31600, 156, 21, 2, NULL),
+    (316, 31600, 164, 21, 2, NULL),
+    (316, 31600, 182, 21, 2, NULL),
+    (316, 31600, 188, 21, 2, NULL),
+    (316, 31600, 203, 21, 2, NULL),
+    (316, 31600, 207, 21, 2, NULL),
+    (316, 31600, 213, 21, 2, NULL),
+    (316, 31600, 214, 21, 2, NULL),
+    (316, 31600, 240, 21, 2, NULL),
+    (316, 31600, 241, 21, 2, NULL),
+    (316, 31600, 247, 21, 2, NULL),
+    (316, 31600, 249, 21, 2, NULL),
+    (316, 31600, 263, 21, 2, NULL),
+    (316, 31600, 331, 21, 2, NULL),
+    (316, 31600, 351, 21, 2, NULL),
+    (316, 31600, 352, 21, 2, NULL),
+    (316, 31600, 123, 21, 5, NULL),
+    (316, 31600, 151, 21, 5, NULL),
+    (316, 31600, 174, 21, 5, NULL),
+    (316, 31600, 189, 21, 5, NULL),
+    (316, 31600, 194, 21, 5, NULL),
+    (316, 31600, 220, 21, 5, NULL),
+    (316, 31600, 441, 21, 5, NULL),
+    (316, 31600, 599, 21, 5, NULL),
+    (316, 31600, 1, 21, 8, NULL),
+    (317, 31700, 281, 21, 1, 5),
+    (317, 31700, 139, 21, 1, 8),
+    (317, 31700, 124, 21, 1, 10),
+    (317, 31700, 133, 21, 1, 12),
+    (317, 31700, 491, 21, 1, 17),
+    (317, 31700, 227, 21, 1, 20),
+    (317, 31700, 92, 21, 1, 25),
+    (317, 31700, 254, 21, 1, 30),
+    (317, 31700, 255, 21, 1, 30),
+    (317, 31700, 256, 21, 1, 30),
+    (317, 31700, 188, 21, 1, 37),
+    (317, 31700, 380, 21, 1, 42),
+    (317, 31700, 562, 21, 1, 49),
+    (317, 31700, 220, 21, 1, 54),
+    (317, 31700, 441, 21, 1, 61),
+    (317, 31700, 58, 21, 2, NULL),
+    (317, 31700, 63, 21, 2, NULL),
+    (317, 31700, 70, 21, 2, NULL),
+    (317, 31700, 76, 21, 2, NULL),
+    (317, 31700, 89, 21, 2, NULL),
+    (317, 31700, 92, 21, 2, NULL),
+    (317, 31700, 104, 21, 2, NULL),
+    (317, 31700, 138, 21, 2, NULL),
+    (317, 31700, 153, 21, 2, NULL),
+    (317, 31700, 156, 21, 2, NULL),
+    (317, 31700, 164, 21, 2, NULL),
+    (317, 31700, 182, 21, 2, NULL),
+    (317, 31700, 188, 21, 2, NULL),
+    (317, 31700, 203, 21, 2, NULL),
+    (317, 31700, 207, 21, 2, NULL),
+    (317, 31700, 213, 21, 2, NULL),
+    (317, 31700, 214, 21, 2, NULL),
+    (317, 31700, 240, 21, 2, NULL),
+    (317, 31700, 241, 21, 2, NULL),
+    (317, 31700, 247, 21, 2, NULL),
+    (317, 31700, 249, 21, 2, NULL),
+    (317, 31700, 263, 21, 2, NULL),
+    (317, 31700, 331, 21, 2, NULL),
+    (317, 31700, 351, 21, 2, NULL),
+    (317, 31700, 352, 21, 2, NULL),
+    (317, 31700, 416, 21, 2, NULL),
+    (317, 31700, 523, 21, 2, NULL),
+    (317, 31700, 123, 21, 5, NULL),
+    (317, 31700, 151, 21, 5, NULL),
+    (317, 31700, 174, 21, 5, NULL),
+    (317, 31700, 189, 21, 5, NULL),
+    (317, 31700, 194, 21, 5, NULL),
+    (317, 31700, 220, 21, 5, NULL),
+    (317, 31700, 441, 21, 5, NULL),
+    (317, 31700, 599, 21, 5, NULL),
+    (317, 31700, 1, 21, 8, NULL),
+    (317, 31700, 34, 21, 8, NULL),
+    (317, 31700, 124, 21, 8, NULL),
+    (317, 31700, 139, 21, 8, NULL),
+    (317, 31700, 281, 21, 8, NULL),
+    (317, 31700, 441, 21, 8, NULL),
+    (317, 31700, 599, 21, 8, NULL),
+    (318, 31800, 305, 21, 1, 4),
+    (318, 31800, 116, 21, 1, 8),
+    (318, 31800, 184, 21, 1, 12),
+    (318, 31800, 44, 21, 1, 16),
+    (318, 31800, 423, 21, 1, 20),
+    (318, 31800, 103, 21, 1, 24),
+    (318, 31800, 207, 21, 1, 28),
+    (318, 31800, 242, 21, 1, 32),
+    (318, 31800, 97, 21, 1, 36),
+    (318, 31800, 710, 21, 1, 40),
+    (318, 31800, 36, 21, 1, 44),
+    (318, 31800, 57, 21, 2, NULL),
+    (318, 31800, 58, 21, 2, NULL),
+    (318, 31800, 59, 21, 2, NULL),
+    (318, 31800, 104, 21, 2, NULL),
+    (318, 31800, 127, 21, 2, NULL),
+    (318, 31800, 156, 21, 2, NULL),
+    (318, 31800, 164, 21, 2, NULL),
+    (318, 31800, 168, 21, 2, NULL),
+    (318, 31800, 182, 21, 2, NULL),
+    (318, 31800, 203, 21, 2, NULL),
+    (318, 31800, 207, 21, 2, NULL),
+    (318, 31800, 213, 21, 2, NULL),
+    (318, 31800, 214, 21, 2, NULL),
+    (318, 31800, 240, 21, 2, NULL),
+    (318, 31800, 258, 21, 2, NULL),
+    (318, 31800, 259, 21, 2, NULL),
+    (318, 31800, 263, 21, 2, NULL),
+    (318, 31800, 269, 21, 2, NULL),
+    (318, 31800, 352, 21, 2, NULL),
+    (318, 31800, 362, 21, 2, NULL),
+    (318, 31800, 371, 21, 2, NULL),
+    (318, 31800, 399, 21, 2, NULL),
+    (318, 31800, 503, 21, 2, NULL),
+    (318, 31800, 555, 21, 2, NULL),
+    (318, 31800, 37, 21, 5, NULL),
+    (318, 31800, 38, 21, 5, NULL),
+    (318, 31800, 56, 21, 5, NULL),
+    (318, 31800, 129, 21, 5, NULL),
+    (318, 31800, 194, 21, 5, NULL),
+    (318, 31800, 246, 21, 5, NULL),
+    (318, 31800, 43, 21, 8, NULL),
+    (318, 31800, 453, 21, 8, NULL),
+    (319, 31900, 184, 21, 1, 12),
+    (319, 31900, 44, 21, 1, 16),
+    (319, 31900, 423, 21, 1, 20),
+    (319, 31900, 103, 21, 1, 24),
+    (319, 31900, 207, 21, 1, 28),
+    (319, 31900, 242, 21, 1, 34),
+    (319, 31900, 97, 21, 1, 40),
+    (319, 31900, 710, 21, 1, 46),
+    (319, 31900, 36, 21, 1, 52),
+    (319, 31900, 46, 21, 2, NULL),
+    (319, 31900, 57, 21, 2, NULL),
+    (319, 31900, 58, 21, 2, NULL),
+    (319, 31900, 59, 21, 2, NULL),
+    (319, 31900, 63, 21, 2, NULL),
+    (319, 31900, 70, 21, 2, NULL),
+    (319, 31900, 89, 21, 2, NULL),
+    (319, 31900, 104, 21, 2, NULL),
+    (319, 31900, 127, 21, 2, NULL),
+    (319, 31900, 156, 21, 2, NULL),
+    (319, 31900, 164, 21, 2, NULL),
+    (319, 31900, 168, 21, 2, NULL),
+    (319, 31900, 182, 21, 2, NULL),
+    (319, 31900, 203, 21, 2, NULL),
+    (319, 31900, 207, 21, 2, NULL),
+    (319, 31900, 213, 21, 2, NULL),
+    (319, 31900, 214, 21, 2, NULL),
+    (319, 31900, 240, 21, 2, NULL),
+    (319, 31900, 249, 21, 2, NULL),
+    (319, 31900, 258, 21, 2, NULL),
+    (319, 31900, 259, 21, 2, NULL),
+    (319, 31900, 263, 21, 2, NULL),
+    (319, 31900, 269, 21, 2, NULL),
+    (319, 31900, 317, 21, 2, NULL),
+    (319, 31900, 352, 21, 2, NULL),
+    (319, 31900, 362, 21, 2, NULL),
+    (319, 31900, 371, 21, 2, NULL),
+    (319, 31900, 398, 21, 2, NULL),
+    (319, 31900, 399, 21, 2, NULL),
+    (319, 31900, 416, 21, 2, NULL),
+    (319, 31900, 419, 21, 2, NULL),
+    (319, 31900, 503, 21, 2, NULL),
+    (319, 31900, 523, 21, 2, NULL),
+    (319, 31900, 555, 21, 2, NULL),
+    (319, 31900, 37, 21, 5, NULL),
+    (319, 31900, 38, 21, 5, NULL),
+    (319, 31900, 56, 21, 5, NULL),
+    (319, 31900, 129, 21, 5, NULL),
+    (319, 31900, 194, 21, 5, NULL),
+    (319, 31900, 246, 21, 5, NULL),
+    (319, 31900, 43, 21, 8, NULL),
+    (319, 31900, 116, 21, 8, NULL),
+    (319, 31900, 163, 21, 8, NULL),
+    (319, 31900, 305, 21, 8, NULL),
+    (319, 31900, 400, 21, 8, NULL),
+    (319, 31900, 453, 21, 8, NULL),
+    (320, 32000, 45, 21, 1, 3),
+    (320, 32000, 310, 21, 1, 6),
+    (320, 32000, 55, 21, 1, 12),
+    (320, 32000, 54, 21, 1, 15),
+    (320, 32000, 352, 21, 1, 18),
+    (320, 32000, 484, 21, 1, 21),
+    (320, 32000, 362, 21, 1, 24),
+    (320, 32000, 250, 21, 1, 27),
+    (320, 32000, 291, 21, 1, 30),
+    (320, 32000, 340, 21, 1, 33),
+    (320, 32000, 34, 21, 1, 36),
+    (320, 32000, 156, 21, 1, 39),
+    (320, 32000, 133, 21, 1, 42),
+    (320, 32000, 56, 21, 1, 45),
+    (320, 32000, 323, 21, 1, 48),
+    (320, 32000, 46, 21, 2, NULL),
+    (320, 32000, 57, 21, 2, NULL),
+    (320, 32000, 58, 21, 2, NULL),
+    (320, 32000, 59, 21, 2, NULL),
+    (320, 32000, 70, 21, 2, NULL),
+    (320, 32000, 89, 21, 2, NULL),
+    (320, 32000, 104, 21, 2, NULL),
+    (320, 32000, 127, 21, 2, NULL),
+    (320, 32000, 156, 21, 2, NULL),
+    (320, 32000, 164, 21, 2, NULL),
+    (320, 32000, 182, 21, 2, NULL),
+    (320, 32000, 203, 21, 2, NULL),
+    (320, 32000, 207, 21, 2, NULL),
+    (320, 32000, 213, 21, 2, NULL),
+    (320, 32000, 214, 21, 2, NULL),
+    (320, 32000, 240, 21, 2, NULL),
+    (320, 32000, 249, 21, 2, NULL),
+    (320, 32000, 258, 21, 2, NULL),
+    (320, 32000, 263, 21, 2, NULL),
+    (320, 32000, 317, 21, 2, NULL),
+    (320, 32000, 352, 21, 2, NULL),
+    (320, 32000, 362, 21, 2, NULL),
+    (320, 32000, 419, 21, 2, NULL),
+    (320, 32000, 503, 21, 2, NULL),
+    (320, 32000, 523, 21, 2, NULL),
+    (320, 32000, 34, 21, 5, NULL),
+    (320, 32000, 37, 21, 5, NULL),
+    (320, 32000, 38, 21, 5, NULL),
+    (320, 32000, 90, 21, 5, NULL),
+    (320, 32000, 111, 21, 5, NULL),
+    (320, 32000, 173, 21, 5, NULL),
+    (320, 32000, 174, 21, 5, NULL),
+    (320, 32000, 205, 21, 5, NULL),
+    (320, 32000, 321, 21, 5, NULL),
+    (320, 32000, 392, 21, 5, NULL),
+    (320, 32000, 428, 21, 5, NULL),
+    (320, 32000, 487, 21, 5, NULL),
+    (320, 32000, 499, 21, 5, NULL),
+    (320, 32000, 150, 21, 8, NULL),
+    (321, 32100, 54, 21, 1, 15),
+    (321, 32100, 352, 21, 1, 18),
+    (321, 32100, 484, 21, 1, 21),
+    (321, 32100, 362, 21, 1, 24),
+    (321, 32100, 250, 21, 1, 27),
+    (321, 32100, 291, 21, 1, 30),
+    (321, 32100, 340, 21, 1, 33),
+    (321, 32100, 34, 21, 1, 36),
+    (321, 32100, 156, 21, 1, 39),
+    (321, 32100, 133, 21, 1, 44),
+    (321, 32100, 56, 21, 1, 49),
+    (321, 32100, 323, 21, 1, 54),
+    (321, 32100, 46, 21, 2, NULL),
+    (321, 32100, 57, 21, 2, NULL),
+    (321, 32100, 58, 21, 2, NULL),
+    (321, 32100, 59, 21, 2, NULL),
+    (321, 32100, 63, 21, 2, NULL),
+    (321, 32100, 70, 21, 2, NULL),
+    (321, 32100, 89, 21, 2, NULL),
+    (321, 32100, 104, 21, 2, NULL),
+    (321, 32100, 127, 21, 2, NULL),
+    (321, 32100, 156, 21, 2, NULL),
+    (321, 32100, 164, 21, 2, NULL),
+    (321, 32100, 182, 21, 2, NULL),
+    (321, 32100, 203, 21, 2, NULL),
+    (321, 32100, 207, 21, 2, NULL),
+    (321, 32100, 213, 21, 2, NULL),
+    (321, 32100, 214, 21, 2, NULL),
+    (321, 32100, 240, 21, 2, NULL),
+    (321, 32100, 249, 21, 2, NULL),
+    (321, 32100, 258, 21, 2, NULL),
+    (321, 32100, 263, 21, 2, NULL),
+    (321, 32100, 317, 21, 2, NULL),
+    (321, 32100, 352, 21, 2, NULL),
+    (321, 32100, 362, 21, 2, NULL),
+    (321, 32100, 416, 21, 2, NULL),
+    (321, 32100, 419, 21, 2, NULL),
+    (321, 32100, 503, 21, 2, NULL),
+    (321, 32100, 523, 21, 2, NULL),
+    (321, 32100, 34, 21, 5, NULL),
+    (321, 32100, 37, 21, 5, NULL),
+    (321, 32100, 38, 21, 5, NULL),
+    (321, 32100, 90, 21, 5, NULL),
+    (321, 32100, 111, 21, 5, NULL),
+    (321, 32100, 173, 21, 5, NULL),
+    (321, 32100, 174, 21, 5, NULL),
+    (321, 32100, 205, 21, 5, NULL),
+    (321, 32100, 321, 21, 5, NULL),
+    (321, 32100, 392, 21, 5, NULL),
+    (321, 32100, 428, 21, 5, NULL),
+    (321, 32100, 487, 21, 5, NULL),
+    (321, 32100, 499, 21, 5, NULL),
+    (321, 32100, 45, 21, 8, NULL),
+    (321, 32100, 55, 21, 8, NULL),
+    (321, 32100, 150, 21, 8, NULL),
+    (321, 32100, 310, 21, 8, NULL),
+    (321, 32100, 487, 21, 8, NULL),
+    (321, 32100, 568, 21, 8, NULL),
+    (322, 32200, 52, 21, 1, 5),
+    (322, 32200, 116, 21, 1, 8),
+    (322, 32200, 523, 21, 1, 12),
+    (322, 32200, 172, 21, 1, 15),
+    (322, 32200, 133, 21, 1, 19),
+    (322, 32200, 436, 21, 1, 22),
+    (322, 32200, 414, 21, 1, 26),
+    (322, 32200, 174, 21, 1, 29),
+    (322, 32200, 36, 21, 1, 31),
+    (322, 32200, 281, 21, 1, 36),
+    (322, 32200, 89, 21, 1, 40),
+    (322, 32200, 53, 21, 1, 43),
+    (322, 32200, 38, 21, 1, 47),
+    (322, 32200, 53, 21, 2, NULL),
+    (322, 32200, 70, 21, 2, NULL),
+    (322, 32200, 89, 21, 2, NULL),
+    (322, 32200, 91, 21, 2, NULL),
+    (322, 32200, 104, 21, 2, NULL),
+    (322, 32200, 126, 21, 2, NULL),
+    (322, 32200, 156, 21, 2, NULL),
+    (322, 32200, 157, 21, 2, NULL),
+    (322, 32200, 164, 21, 2, NULL),
+    (322, 32200, 182, 21, 2, NULL),
+    (322, 32200, 201, 21, 2, NULL),
+    (322, 32200, 203, 21, 2, NULL),
+    (322, 32200, 207, 21, 2, NULL),
+    (322, 32200, 213, 21, 2, NULL),
+    (322, 32200, 214, 21, 2, NULL),
+    (322, 32200, 241, 21, 2, NULL),
+    (322, 32200, 249, 21, 2, NULL),
+    (322, 32200, 261, 21, 2, NULL),
+    (322, 32200, 263, 21, 2, NULL),
+    (322, 32200, 315, 21, 2, NULL),
+    (322, 32200, 317, 21, 2, NULL),
+    (322, 32200, 446, 21, 2, NULL),
+    (322, 32200, 523, 21, 2, NULL),
+    (322, 32200, 23, 21, 5, NULL),
+    (322, 32200, 34, 21, 5, NULL),
+    (322, 32200, 74, 21, 5, NULL),
+    (322, 32200, 111, 21, 5, NULL),
+    (322, 32200, 184, 21, 5, NULL),
+    (322, 32200, 205, 21, 5, NULL),
+    (322, 32200, 246, 21, 5, NULL),
+    (322, 32200, 254, 21, 5, NULL),
+    (322, 32200, 255, 21, 5, NULL),
+    (322, 32200, 256, 21, 5, NULL),
+    (322, 32200, 257, 21, 5, NULL),
+    (322, 32200, 281, 21, 5, NULL),
+    (322, 32200, 336, 21, 5, NULL),
+    (322, 32200, 442, 21, 5, NULL),
+    (322, 32200, 484, 21, 5, NULL),
+    (322, 32200, 33, 21, 8, NULL),
+    (322, 32200, 45, 21, 8, NULL),
+    (323, 32300, 52, 21, 1, 8),
+    (323, 32300, 116, 21, 1, 8),
+    (323, 32300, 523, 21, 1, 12),
+    (323, 32300, 172, 21, 1, 15),
+    (323, 32300, 133, 21, 1, 19),
+    (323, 32300, 436, 21, 1, 22),
+    (323, 32300, 414, 21, 1, 26),
+    (323, 32300, 174, 21, 1, 29),
+    (323, 32300, 36, 21, 1, 31),
+    (323, 32300, 281, 21, 1, 39),
+    (323, 32300, 89, 21, 1, 46),
+    (323, 32300, 284, 21, 1, 52),
+    (323, 32300, 90, 21, 1, 59),
+    (323, 32300, 46, 21, 2, NULL),
+    (323, 32300, 53, 21, 2, NULL),
+    (323, 32300, 63, 21, 2, NULL),
+    (323, 32300, 70, 21, 2, NULL),
+    (323, 32300, 76, 21, 2, NULL),
+    (323, 32300, 89, 21, 2, NULL),
+    (323, 32300, 91, 21, 2, NULL),
+    (323, 32300, 104, 21, 2, NULL),
+    (323, 32300, 126, 21, 2, NULL),
+    (323, 32300, 153, 21, 2, NULL),
+    (323, 32300, 156, 21, 2, NULL),
+    (323, 32300, 157, 21, 2, NULL),
+    (323, 32300, 164, 21, 2, NULL),
+    (323, 32300, 182, 21, 2, NULL),
+    (323, 32300, 201, 21, 2, NULL),
+    (323, 32300, 203, 21, 2, NULL),
+    (323, 32300, 207, 21, 2, NULL),
+    (323, 32300, 213, 21, 2, NULL),
+    (323, 32300, 214, 21, 2, NULL),
+    (323, 32300, 241, 21, 2, NULL),
+    (323, 32300, 249, 21, 2, NULL),
+    (323, 32300, 261, 21, 2, NULL),
+    (323, 32300, 263, 21, 2, NULL),
+    (323, 32300, 315, 21, 2, NULL),
+    (323, 32300, 317, 21, 2, NULL),
+    (323, 32300, 397, 21, 2, NULL),
+    (323, 32300, 416, 21, 2, NULL),
+    (323, 32300, 430, 21, 2, NULL),
+    (323, 32300, 444, 21, 2, NULL),
+    (323, 32300, 446, 21, 2, NULL),
+    (323, 32300, 523, 21, 2, NULL),
+    (323, 32300, 23, 21, 5, NULL),
+    (323, 32300, 34, 21, 5, NULL),
+    (323, 32300, 74, 21, 5, NULL),
+    (323, 32300, 111, 21, 5, NULL),
+    (323, 32300, 184, 21, 5, NULL),
+    (323, 32300, 205, 21, 5, NULL),
+    (323, 32300, 246, 21, 5, NULL),
+    (323, 32300, 254, 21, 5, NULL),
+    (323, 32300, 255, 21, 5, NULL),
+    (323, 32300, 256, 21, 5, NULL),
+    (323, 32300, 257, 21, 5, NULL),
+    (323, 32300, 281, 21, 5, NULL),
+    (323, 32300, 336, 21, 5, NULL),
+    (323, 32300, 442, 21, 5, NULL),
+    (323, 32300, 484, 21, 5, NULL),
+    (323, 32300, 33, 21, 8, NULL),
+    (323, 32300, 38, 21, 8, NULL),
+    (323, 32300, 45, 21, 8, NULL),
+    (323, 32300, 52, 21, 8, NULL),
+    (323, 32300, 53, 21, 8, NULL),
+    (323, 32300, 90, 21, 8, NULL),
+    (323, 32300, 116, 21, 8, NULL),
+    (323, 32300, 157, 21, 8, NULL),
+    (323, 32300, 284, 21, 8, NULL),
+    (324, 32400, 110, 21, 1, 4),
+    (324, 32400, 229, 21, 1, 8),
+    (324, 32400, 108, 21, 1, 12),
+    (324, 32400, 499, 21, 1, 16),
+    (324, 32400, 172, 21, 1, 20),
+    (324, 32400, 182, 21, 1, 24),
+    (324, 32400, 436, 21, 1, 28),
+    (324, 32400, 34, 21, 1, 32),
+    (324, 32400, 334, 21, 1, 36),
+    (324, 32400, 53, 21, 1, 40),
+    (324, 32400, 174, 21, 1, 44),
+    (324, 32400, 257, 21, 1, 48),
+    (324, 32400, 133, 21, 1, 52),
+    (324, 32400, 517, 21, 1, 56),
+    (324, 32400, 504, 21, 1, 60),
+    (324, 32400, 284, 21, 1, 64),
+    (324, 32400, 53, 21, 2, NULL),
+    (324, 32400, 63, 21, 2, NULL),
+    (324, 32400, 70, 21, 2, NULL),
+    (324, 32400, 76, 21, 2, NULL),
+    (324, 32400, 89, 21, 2, NULL),
+    (324, 32400, 104, 21, 2, NULL),
+    (324, 32400, 126, 21, 2, NULL),
+    (324, 32400, 153, 21, 2, NULL),
+    (324, 32400, 156, 21, 2, NULL),
+    (324, 32400, 157, 21, 2, NULL),
+    (324, 32400, 164, 21, 2, NULL),
+    (324, 32400, 182, 21, 2, NULL),
+    (324, 32400, 188, 21, 2, NULL),
+    (324, 32400, 203, 21, 2, NULL),
+    (324, 32400, 207, 21, 2, NULL),
+    (324, 32400, 213, 21, 2, NULL),
+    (324, 32400, 214, 21, 2, NULL),
+    (324, 32400, 231, 21, 2, NULL),
+    (324, 32400, 241, 21, 2, NULL),
+    (324, 32400, 249, 21, 2, NULL),
+    (324, 32400, 261, 21, 2, NULL),
+    (324, 32400, 263, 21, 2, NULL),
+    (324, 32400, 315, 21, 2, NULL),
+    (324, 32400, 317, 21, 2, NULL),
+    (324, 32400, 360, 21, 2, NULL),
+    (324, 32400, 416, 21, 2, NULL),
+    (324, 32400, 444, 21, 2, NULL),
+    (324, 32400, 446, 21, 2, NULL),
+    (324, 32400, 523, 21, 2, NULL),
+    (324, 32400, 90, 21, 5, NULL),
+    (324, 32400, 130, 21, 5, NULL),
+    (324, 32400, 175, 21, 5, NULL),
+    (324, 32400, 246, 21, 5, NULL),
+    (324, 32400, 276, 21, 5, NULL),
+    (324, 32400, 281, 21, 5, NULL),
+    (324, 32400, 284, 21, 5, NULL),
+    (324, 32400, 499, 21, 5, NULL),
+    (324, 32400, 52, 21, 8, NULL),
+    (324, 32400, 123, 21, 8, NULL),
+    (325, 32500, 93, 21, 1, 7),
+    (325, 32500, 45, 21, 1, 10),
+    (325, 32500, 60, 21, 1, 14),
+    (325, 32500, 244, 21, 1, 15),
+    (325, 32500, 109, 21, 1, 18),
+    (325, 32500, 277, 21, 1, 21),
+    (325, 32500, 428, 21, 1, 26),
+    (325, 32500, 156, 21, 1, 29),
+    (325, 32500, 408, 21, 1, 29),
+    (325, 32500, 173, 21, 1, 33),
+    (325, 32500, 473, 21, 1, 38),
+    (325, 32500, 371, 21, 1, 40),
+    (325, 32500, 94, 21, 1, 44),
+    (325, 32500, 340, 21, 1, 50),
+    (325, 32500, 86, 21, 2, NULL),
+    (325, 32500, 94, 21, 2, NULL),
+    (325, 32500, 104, 21, 2, NULL),
+    (325, 32500, 113, 21, 2, NULL),
+    (325, 32500, 115, 21, 2, NULL),
+    (325, 32500, 138, 21, 2, NULL),
+    (325, 32500, 148, 21, 2, NULL),
+    (325, 32500, 156, 21, 2, NULL),
+    (325, 32500, 164, 21, 2, NULL),
+    (325, 32500, 168, 21, 2, NULL),
+    (325, 32500, 182, 21, 2, NULL),
+    (325, 32500, 203, 21, 2, NULL),
+    (325, 32500, 207, 21, 2, NULL),
+    (325, 32500, 213, 21, 2, NULL),
+    (325, 32500, 214, 21, 2, NULL),
+    (325, 32500, 231, 21, 2, NULL),
+    (325, 32500, 240, 21, 2, NULL),
+    (325, 32500, 241, 21, 2, NULL),
+    (325, 32500, 244, 21, 2, NULL),
+    (325, 32500, 247, 21, 2, NULL),
+    (325, 32500, 259, 21, 2, NULL),
+    (325, 32500, 263, 21, 2, NULL),
+    (325, 32500, 269, 21, 2, NULL),
+    (325, 32500, 278, 21, 2, NULL),
+    (325, 32500, 285, 21, 2, NULL),
+    (325, 32500, 347, 21, 2, NULL),
+    (325, 32500, 351, 21, 2, NULL),
+    (325, 32500, 371, 21, 2, NULL),
+    (325, 32500, 433, 21, 2, NULL),
+    (325, 32500, 447, 21, 2, NULL),
+    (325, 32500, 451, 21, 2, NULL),
+    (325, 32500, 18, 21, 5, NULL),
+    (325, 32500, 133, 21, 5, NULL),
+    (325, 32500, 243, 21, 5, NULL),
+    (325, 32500, 248, 21, 5, NULL),
+    (325, 32500, 271, 21, 5, NULL),
+    (325, 32500, 326, 21, 5, NULL),
+    (325, 32500, 428, 21, 5, NULL),
+    (325, 32500, 493, 21, 5, NULL),
+    (325, 32500, 150, 21, 8, NULL),
+    (326, 32600, 93, 21, 1, 7),
+    (326, 32600, 45, 21, 1, 10),
+    (326, 32600, 60, 21, 1, 14),
+    (326, 32600, 244, 21, 1, 15),
+    (326, 32600, 109, 21, 1, 18),
+    (326, 32600, 277, 21, 1, 21),
+    (326, 32600, 428, 21, 1, 26),
+    (326, 32600, 408, 21, 1, 29),
+    (326, 32600, 156, 21, 1, 35),
+    (326, 32600, 173, 21, 1, 35),
+    (326, 32600, 473, 21, 1, 42),
+    (326, 32600, 371, 21, 1, 46),
+    (326, 32600, 94, 21, 1, 52),
+    (326, 32600, 340, 21, 1, 60),
+    (326, 32600, 63, 21, 2, NULL),
+    (326, 32600, 86, 21, 2, NULL),
+    (326, 32600, 94, 21, 2, NULL),
+    (326, 32600, 104, 21, 2, NULL),
+    (326, 32600, 113, 21, 2, NULL),
+    (326, 32600, 115, 21, 2, NULL),
+    (326, 32600, 138, 21, 2, NULL),
+    (326, 32600, 148, 21, 2, NULL),
+    (326, 32600, 156, 21, 2, NULL),
+    (326, 32600, 164, 21, 2, NULL),
+    (326, 32600, 168, 21, 2, NULL),
+    (326, 32600, 182, 21, 2, NULL),
+    (326, 32600, 203, 21, 2, NULL),
+    (326, 32600, 207, 21, 2, NULL),
+    (326, 32600, 213, 21, 2, NULL),
+    (326, 32600, 214, 21, 2, NULL),
+    (326, 32600, 231, 21, 2, NULL),
+    (326, 32600, 240, 21, 2, NULL),
+    (326, 32600, 241, 21, 2, NULL),
+    (326, 32600, 244, 21, 2, NULL),
+    (326, 32600, 247, 21, 2, NULL),
+    (326, 32600, 259, 21, 2, NULL),
+    (326, 32600, 263, 21, 2, NULL),
+    (326, 32600, 264, 21, 2, NULL),
+    (326, 32600, 269, 21, 2, NULL),
+    (326, 32600, 278, 21, 2, NULL),
+    (326, 32600, 280, 21, 2, NULL),
+    (326, 32600, 285, 21, 2, NULL),
+    (326, 32600, 347, 21, 2, NULL),
+    (326, 32600, 351, 21, 2, NULL),
+    (326, 32600, 371, 21, 2, NULL),
+    (326, 32600, 374, 21, 2, NULL),
+    (326, 32600, 409, 21, 2, NULL),
+    (326, 32600, 411, 21, 2, NULL),
+    (326, 32600, 412, 21, 2, NULL),
+    (326, 32600, 416, 21, 2, NULL),
+    (326, 32600, 417, 21, 2, NULL),
+    (326, 32600, 433, 21, 2, NULL),
+    (326, 32600, 447, 21, 2, NULL),
+    (326, 32600, 451, 21, 2, NULL),
+    (326, 32600, 523, 21, 2, NULL),
+    (326, 32600, 18, 21, 5, NULL),
+    (326, 32600, 133, 21, 5, NULL),
+    (326, 32600, 243, 21, 5, NULL),
+    (326, 32600, 248, 21, 5, NULL),
+    (326, 32600, 271, 21, 5, NULL),
+    (326, 32600, 326, 21, 5, NULL),
+    (326, 32600, 428, 21, 5, NULL),
+    (326, 32600, 493, 21, 5, NULL),
+    (326, 32600, 150, 21, 8, NULL),
+    (326, 32600, 298, 21, 8, NULL),
+    (326, 32600, 562, 21, 8, NULL),
+    (327, 32700, 383, 21, 1, 5),
+    (327, 32700, 298, 21, 1, 10),
+    (327, 32700, 60, 21, 1, 14),
+    (327, 32700, 95, 21, 1, 19),
+    (327, 32700, 34, 21, 1, 23),
+    (327, 32700, 389, 21, 1, 28),
+    (327, 32700, 253, 21, 1, 37),
+    (327, 32700, 244, 21, 1, 41),
+    (327, 32700, 38, 21, 1, 46),
+    (327, 32700, 175, 21, 1, 50),
+    (327, 32700, 37, 21, 1, 55),
+    (327, 32700, 70, 21, 2, NULL),
+    (327, 32700, 91, 21, 2, NULL),
+    (327, 32700, 94, 21, 2, NULL),
+    (327, 32700, 104, 21, 2, NULL),
+    (327, 32700, 138, 21, 2, NULL),
+    (327, 32700, 148, 21, 2, NULL),
+    (327, 32700, 156, 21, 2, NULL),
+    (327, 32700, 157, 21, 2, NULL),
+    (327, 32700, 164, 21, 2, NULL),
+    (327, 32700, 168, 21, 2, NULL),
+    (327, 32700, 182, 21, 2, NULL),
+    (327, 32700, 203, 21, 2, NULL),
+    (327, 32700, 207, 21, 2, NULL),
+    (327, 32700, 213, 21, 2, NULL),
+    (327, 32700, 214, 21, 2, NULL),
+    (327, 32700, 219, 21, 2, NULL),
+    (327, 32700, 240, 21, 2, NULL),
+    (327, 32700, 241, 21, 2, NULL),
+    (327, 32700, 244, 21, 2, NULL),
+    (327, 32700, 247, 21, 2, NULL),
+    (327, 32700, 249, 21, 2, NULL),
+    (327, 32700, 263, 21, 2, NULL),
+    (327, 32700, 264, 21, 2, NULL),
+    (327, 32700, 278, 21, 2, NULL),
+    (327, 32700, 280, 21, 2, NULL),
+    (327, 32700, 285, 21, 2, NULL),
+    (327, 32700, 317, 21, 2, NULL),
+    (327, 32700, 347, 21, 2, NULL),
+    (327, 32700, 351, 21, 2, NULL),
+    (327, 32700, 352, 21, 2, NULL),
+    (327, 32700, 374, 21, 2, NULL),
+    (327, 32700, 409, 21, 2, NULL),
+    (327, 32700, 433, 21, 2, NULL),
+    (327, 32700, 526, 21, 2, NULL),
+    (327, 32700, 50, 21, 5, NULL),
+    (327, 32700, 196, 21, 5, NULL),
+    (327, 32700, 226, 21, 5, NULL),
+    (327, 32700, 227, 21, 5, NULL),
+    (327, 32700, 229, 21, 5, NULL),
+    (327, 32700, 252, 21, 5, NULL),
+    (327, 32700, 271, 21, 5, NULL),
+    (327, 32700, 272, 21, 5, NULL),
+    (327, 32700, 273, 21, 5, NULL),
+    (327, 32700, 313, 21, 5, NULL),
+    (327, 32700, 375, 21, 5, NULL),
+    (327, 32700, 427, 21, 5, NULL),
+    (327, 32700, 470, 21, 5, NULL),
+    (327, 32700, 33, 21, 8, NULL),
+    (328, 32800, 673, 21, 1, 4),
+    (328, 32800, 44, 21, 1, 8),
+    (328, 32800, 189, 21, 1, 12),
+    (328, 32800, 328, 21, 1, 16),
+    (328, 32800, 523, 21, 1, 20),
+    (328, 32800, 91, 21, 1, 24),
+    (328, 32800, 242, 21, 1, 28),
+    (328, 32800, 201, 21, 1, 32),
+    (328, 32800, 414, 21, 1, 36),
+    (328, 32800, 89, 21, 1, 40),
+    (328, 32800, 276, 21, 1, 44),
+    (328, 32800, 90, 21, 1, 48),
+    (328, 32800, 63, 21, 2, NULL),
+    (328, 32800, 70, 21, 2, NULL),
+    (328, 32800, 76, 21, 2, NULL),
+    (328, 32800, 89, 21, 2, NULL),
+    (328, 32800, 91, 21, 2, NULL),
+    (328, 32800, 104, 21, 2, NULL),
+    (328, 32800, 156, 21, 2, NULL),
+    (328, 32800, 157, 21, 2, NULL),
+    (328, 32800, 164, 21, 2, NULL),
+    (328, 32800, 182, 21, 2, NULL),
+    (328, 32800, 201, 21, 2, NULL),
+    (328, 32800, 202, 21, 2, NULL),
+    (328, 32800, 203, 21, 2, NULL),
+    (328, 32800, 207, 21, 2, NULL),
+    (328, 32800, 213, 21, 2, NULL),
+    (328, 32800, 214, 21, 2, NULL),
+    (328, 32800, 241, 21, 2, NULL),
+    (328, 32800, 249, 21, 2, NULL),
+    (328, 32800, 263, 21, 2, NULL),
+    (328, 32800, 317, 21, 2, NULL),
+    (328, 32800, 523, 21, 2, NULL),
+    (328, 32800, 16, 21, 5, NULL),
+    (328, 32800, 98, 21, 5, NULL),
+    (328, 32800, 116, 21, 5, NULL),
+    (328, 32800, 175, 21, 5, NULL),
+    (328, 32800, 210, 21, 5, NULL),
+    (328, 32800, 341, 21, 5, NULL),
+    (328, 32800, 364, 21, 5, NULL),
+    (328, 32800, 414, 21, 5, NULL),
+    (328, 32800, 450, 21, 5, NULL),
+    (328, 32800, 28, 21, 8, NULL),
+    (328, 32800, 310, 21, 8, NULL),
+    (329, 32900, 189, 21, 1, 12),
+    (329, 32900, 328, 21, 1, 16),
+    (329, 32900, 525, 21, 1, 20),
+    (329, 32900, 103, 21, 1, 24),
+    (329, 32900, 405, 21, 1, 28),
+    (329, 32900, 201, 21, 1, 32),
+    (329, 32900, 414, 21, 1, 38),
+    (329, 32900, 89, 21, 1, 44),
+    (329, 32900, 253, 21, 1, 50),
+    (329, 32900, 407, 21, 1, 56),
+    (329, 32900, 586, 21, 1, 62),
+    (329, 32900, 19, 21, 2, NULL),
+    (329, 32900, 63, 21, 2, NULL),
+    (329, 32900, 70, 21, 2, NULL),
+    (329, 32900, 76, 21, 2, NULL),
+    (329, 32900, 89, 21, 2, NULL),
+    (329, 32900, 91, 21, 2, NULL),
+    (329, 32900, 104, 21, 2, NULL),
+    (329, 32900, 156, 21, 2, NULL),
+    (329, 32900, 157, 21, 2, NULL),
+    (329, 32900, 164, 21, 2, NULL),
+    (329, 32900, 182, 21, 2, NULL),
+    (329, 32900, 201, 21, 2, NULL),
+    (329, 32900, 202, 21, 2, NULL),
+    (329, 32900, 203, 21, 2, NULL),
+    (329, 32900, 207, 21, 2, NULL),
+    (329, 32900, 211, 21, 2, NULL),
+    (329, 32900, 213, 21, 2, NULL),
+    (329, 32900, 214, 21, 2, NULL),
+    (329, 32900, 241, 21, 2, NULL),
+    (329, 32900, 249, 21, 2, NULL),
+    (329, 32900, 263, 21, 2, NULL),
+    (329, 32900, 317, 21, 2, NULL),
+    (329, 32900, 355, 21, 2, NULL),
+    (329, 32900, 369, 21, 2, NULL),
+    (329, 32900, 405, 21, 2, NULL),
+    (329, 32900, 406, 21, 2, NULL),
+    (329, 32900, 432, 21, 2, NULL),
+    (329, 32900, 523, 21, 2, NULL),
+    (329, 32900, 16, 21, 5, NULL),
+    (329, 32900, 98, 21, 5, NULL),
+    (329, 32900, 116, 21, 5, NULL),
+    (329, 32900, 175, 21, 5, NULL),
+    (329, 32900, 210, 21, 5, NULL),
+    (329, 32900, 341, 21, 5, NULL),
+    (329, 32900, 364, 21, 5, NULL),
+    (329, 32900, 414, 21, 5, NULL),
+    (329, 32900, 450, 21, 5, NULL),
+    (329, 32900, 28, 21, 8, NULL),
+    (329, 32900, 44, 21, 8, NULL),
+    (329, 32900, 48, 21, 8, NULL),
+    (329, 32900, 90, 21, 8, NULL),
+    (329, 32900, 91, 21, 8, NULL),
+    (329, 32900, 225, 21, 8, NULL),
+    (329, 32900, 242, 21, 8, NULL),
+    (329, 32900, 276, 21, 8, NULL),
+    (329, 32900, 310, 21, 8, NULL),
+    (329, 32900, 523, 21, 8, NULL),
+    (329, 32900, 673, 21, 8, NULL),
+    (330, 33000, 19, 21, 2, NULL),
+    (330, 33000, 53, 21, 2, NULL),
+    (330, 33000, 63, 21, 2, NULL),
+    (330, 33000, 70, 21, 2, NULL),
+    (330, 33000, 76, 21, 2, NULL),
+    (330, 33000, 89, 21, 2, NULL),
+    (330, 33000, 91, 21, 2, NULL),
+    (330, 33000, 104, 21, 2, NULL),
+    (330, 33000, 126, 21, 2, NULL),
+    (330, 33000, 156, 21, 2, NULL),
+    (330, 33000, 157, 21, 2, NULL),
+    (330, 33000, 164, 21, 2, NULL),
+    (330, 33000, 182, 21, 2, NULL),
+    (330, 33000, 201, 21, 2, NULL),
+    (330, 33000, 202, 21, 2, NULL),
+    (330, 33000, 203, 21, 2, NULL),
+    (330, 33000, 207, 21, 2, NULL),
+    (330, 33000, 211, 21, 2, NULL),
+    (330, 33000, 213, 21, 2, NULL),
+    (330, 33000, 214, 21, 2, NULL),
+    (330, 33000, 231, 21, 2, NULL),
+    (330, 33000, 241, 21, 2, NULL),
+    (330, 33000, 249, 21, 2, NULL),
+    (330, 33000, 263, 21, 2, NULL),
+    (330, 33000, 317, 21, 2, NULL),
+    (330, 33000, 332, 21, 2, NULL),
+    (330, 33000, 337, 21, 2, NULL),
+    (330, 33000, 355, 21, 2, NULL),
+    (330, 33000, 369, 21, 2, NULL),
+    (330, 33000, 405, 21, 2, NULL),
+    (330, 33000, 406, 21, 2, NULL),
+    (330, 33000, 416, 21, 2, NULL),
+    (330, 33000, 432, 21, 2, NULL),
+    (330, 33000, 444, 21, 2, NULL),
+    (330, 33000, 523, 21, 2, NULL),
+    (330, 33000, 16, 21, 5, NULL),
+    (330, 33000, 98, 21, 5, NULL),
+    (330, 33000, 116, 21, 5, NULL),
+    (330, 33000, 175, 21, 5, NULL),
+    (330, 33000, 210, 21, 5, NULL),
+    (330, 33000, 341, 21, 5, NULL),
+    (330, 33000, 364, 21, 5, NULL),
+    (330, 33000, 414, 21, 5, NULL),
+    (330, 33000, 450, 21, 5, NULL),
+    (331, 33100, 71, 21, 1, 4),
+    (331, 33100, 74, 21, 1, 7),
+    (331, 33100, 73, 21, 1, 10),
+    (331, 33100, 28, 21, 1, 13),
+    (331, 33100, 398, 21, 1, 16),
+    (331, 33100, 372, 21, 1, 19),
+    (331, 33100, 275, 21, 1, 22),
+    (331, 33100, 371, 21, 1, 26),
+    (331, 33100, 191, 21, 1, 30),
+    (331, 33100, 389, 21, 1, 34),
+    (331, 33100, 42, 21, 1, 38),
+    (331, 33100, 412, 21, 1, 42),
+    (331, 33100, 178, 21, 1, 46),
+    (331, 33100, 201, 21, 1, 50),
+    (331, 33100, 194, 21, 1, 54),
+    (331, 33100, 14, 21, 2, NULL),
+    (331, 33100, 15, 21, 2, NULL),
+    (331, 33100, 76, 21, 2, NULL),
+    (331, 33100, 104, 21, 2, NULL),
+    (331, 33100, 148, 21, 2, NULL),
+    (331, 33100, 156, 21, 2, NULL),
+    (331, 33100, 164, 21, 2, NULL),
+    (331, 33100, 182, 21, 2, NULL),
+    (331, 33100, 201, 21, 2, NULL),
+    (331, 33100, 202, 21, 2, NULL),
+    (331, 33100, 203, 21, 2, NULL),
+    (331, 33100, 207, 21, 2, NULL),
+    (331, 33100, 213, 21, 2, NULL),
+    (331, 33100, 214, 21, 2, NULL),
+    (331, 33100, 241, 21, 2, NULL),
+    (331, 33100, 263, 21, 2, NULL),
+    (331, 33100, 264, 21, 2, NULL),
+    (331, 33100, 280, 21, 2, NULL),
+    (331, 33100, 331, 21, 2, NULL),
+    (331, 33100, 371, 21, 2, NULL),
+    (331, 33100, 374, 21, 2, NULL),
+    (331, 33100, 398, 21, 2, NULL),
+    (331, 33100, 399, 21, 2, NULL),
+    (331, 33100, 409, 21, 2, NULL),
+    (331, 33100, 412, 21, 2, NULL),
+    (331, 33100, 417, 21, 2, NULL),
+    (331, 33100, 447, 21, 2, NULL),
+    (331, 33100, 50, 21, 5, NULL),
+    (331, 33100, 51, 21, 5, NULL),
+    (331, 33100, 67, 21, 5, NULL),
+    (331, 33100, 68, 21, 5, NULL),
+    (331, 33100, 223, 21, 5, NULL),
+    (331, 33100, 298, 21, 5, NULL),
+    (331, 33100, 335, 21, 5, NULL),
+    (331, 33100, 345, 21, 5, NULL),
+    (331, 33100, 388, 21, 5, NULL),
+    (331, 33100, 402, 21, 5, NULL),
+    (331, 33100, 415, 21, 5, NULL),
+    (331, 33100, 562, 21, 5, NULL),
+    (331, 33100, 565, 21, 5, NULL),
+    (331, 33100, 612, 21, 5, NULL),
+    (331, 33100, 40, 21, 8, NULL),
+    (331, 33100, 43, 21, 8, NULL),
+    (332, 33200, 71, 21, 1, 4),
+    (332, 33200, 74, 21, 1, 7),
+    (332, 33200, 73, 21, 1, 10),
+    (332, 33200, 28, 21, 1, 13),
+    (332, 33200, 398, 21, 1, 16),
+    (332, 33200, 372, 21, 1, 19),
+    (332, 33200, 275, 21, 1, 22),
+    (332, 33200, 371, 21, 1, 26),
+    (332, 33200, 191, 21, 1, 30),
+    (332, 33200, 389, 21, 1, 35),
+    (332, 33200, 42, 21, 1, 38),
+    (332, 33200, 412, 21, 1, 44),
+    (332, 33200, 178, 21, 1, 49),
+    (332, 33200, 201, 21, 1, 54),
+    (332, 33200, 194, 21, 1, 59),
+    (332, 33200, 14, 21, 2, NULL),
+    (332, 33200, 15, 21, 2, NULL),
+    (332, 33200, 63, 21, 2, NULL),
+    (332, 33200, 70, 21, 2, NULL),
+    (332, 33200, 76, 21, 2, NULL),
+    (332, 33200, 104, 21, 2, NULL),
+    (332, 33200, 148, 21, 2, NULL),
+    (332, 33200, 156, 21, 2, NULL),
+    (332, 33200, 164, 21, 2, NULL),
+    (332, 33200, 182, 21, 2, NULL),
+    (332, 33200, 201, 21, 2, NULL),
+    (332, 33200, 202, 21, 2, NULL),
+    (332, 33200, 203, 21, 2, NULL),
+    (332, 33200, 207, 21, 2, NULL),
+    (332, 33200, 213, 21, 2, NULL),
+    (332, 33200, 214, 21, 2, NULL),
+    (332, 33200, 241, 21, 2, NULL),
+    (332, 33200, 263, 21, 2, NULL),
+    (332, 33200, 264, 21, 2, NULL),
+    (332, 33200, 280, 21, 2, NULL),
+    (332, 33200, 331, 21, 2, NULL),
+    (332, 33200, 371, 21, 2, NULL),
+    (332, 33200, 374, 21, 2, NULL),
+    (332, 33200, 398, 21, 2, NULL),
+    (332, 33200, 399, 21, 2, NULL),
+    (332, 33200, 409, 21, 2, NULL),
+    (332, 33200, 411, 21, 2, NULL),
+    (332, 33200, 412, 21, 2, NULL),
+    (332, 33200, 416, 21, 2, NULL),
+    (332, 33200, 417, 21, 2, NULL),
+    (332, 33200, 447, 21, 2, NULL),
+    (332, 33200, 50, 21, 5, NULL),
+    (332, 33200, 51, 21, 5, NULL),
+    (332, 33200, 67, 21, 5, NULL),
+    (332, 33200, 68, 21, 5, NULL),
+    (332, 33200, 223, 21, 5, NULL),
+    (332, 33200, 298, 21, 5, NULL),
+    (332, 33200, 335, 21, 5, NULL),
+    (332, 33200, 345, 21, 5, NULL),
+    (332, 33200, 388, 21, 5, NULL),
+    (332, 33200, 402, 21, 5, NULL),
+    (332, 33200, 415, 21, 5, NULL),
+    (332, 33200, 562, 21, 5, NULL),
+    (332, 33200, 565, 21, 5, NULL),
+    (332, 33200, 612, 21, 5, NULL),
+    (332, 33200, 40, 21, 8, NULL),
+    (332, 33200, 43, 21, 8, NULL),
+    (332, 33200, 71, 21, 8, NULL),
+    (332, 33200, 74, 21, 8, NULL),
+    (332, 33200, 194, 21, 8, NULL),
+    (332, 33200, 279, 21, 8, NULL),
+    (332, 33200, 596, 21, 8, NULL),
+    (333, 33300, 574, 21, 1, 4),
+    (333, 33300, 54, 21, 1, 8),
+    (333, 33300, 31, 21, 1, 12),
+    (333, 33300, 496, 21, 1, 16),
+    (333, 33300, 225, 21, 1, 20),
+    (333, 33300, 219, 21, 1, 24),
+    (333, 33300, 47, 21, 1, 28),
+    (333, 33300, 538, 21, 1, 32),
+    (333, 33300, 36, 21, 1, 36),
+    (333, 33300, 585, 21, 1, 40),
+    (333, 33300, 195, 21, 1, 44),
+    (333, 33300, 19, 21, 2, NULL),
+    (333, 33300, 58, 21, 2, NULL),
+    (333, 33300, 76, 21, 2, NULL),
+    (333, 33300, 104, 21, 2, NULL),
+    (333, 33300, 138, 21, 2, NULL),
+    (333, 33300, 156, 21, 2, NULL),
+    (333, 33300, 164, 21, 2, NULL),
+    (333, 33300, 168, 21, 2, NULL),
+    (333, 33300, 182, 21, 2, NULL),
+    (333, 33300, 203, 21, 2, NULL),
+    (333, 33300, 206, 21, 2, NULL),
+    (333, 33300, 207, 21, 2, NULL),
+    (333, 33300, 211, 21, 2, NULL),
+    (333, 33300, 213, 21, 2, NULL),
+    (333, 33300, 214, 21, 2, NULL),
+    (333, 33300, 219, 21, 2, NULL),
+    (333, 33300, 240, 21, 2, NULL),
+    (333, 33300, 241, 21, 2, NULL),
+    (333, 33300, 244, 21, 2, NULL),
+    (333, 33300, 263, 21, 2, NULL),
+    (333, 33300, 332, 21, 2, NULL),
+    (333, 33300, 355, 21, 2, NULL),
+    (333, 33300, 365, 21, 2, NULL),
+    (333, 33300, 406, 21, 2, NULL),
+    (333, 33300, 605, 21, 2, NULL),
+    (333, 33300, 97, 21, 5, NULL),
+    (333, 33300, 114, 21, 5, NULL),
+    (333, 33300, 297, 21, 5, NULL),
+    (333, 33300, 304, 21, 5, NULL),
+    (333, 33300, 310, 21, 5, NULL),
+    (333, 33300, 366, 21, 5, NULL),
+    (333, 33300, 384, 21, 5, NULL),
+    (333, 33300, 407, 21, 5, NULL),
+    (333, 33300, 583, 21, 5, NULL),
+    (333, 33300, 45, 21, 8, NULL),
+    (333, 33300, 64, 21, 8, NULL),
+    (334, 33400, 19, 21, 2, NULL),
+    (334, 33400, 46, 21, 2, NULL),
+    (334, 33400, 53, 21, 2, NULL),
+    (334, 33400, 58, 21, 2, NULL),
+    (334, 33400, 63, 21, 2, NULL),
+    (334, 33400, 76, 21, 2, NULL),
+    (334, 33400, 89, 21, 2, NULL),
+    (334, 33400, 104, 21, 2, NULL),
+    (334, 33400, 126, 21, 2, NULL),
+    (334, 33400, 138, 21, 2, NULL),
+    (334, 33400, 156, 21, 2, NULL),
+    (334, 33400, 164, 21, 2, NULL),
+    (334, 33400, 168, 21, 2, NULL),
+    (334, 33400, 182, 21, 2, NULL),
+    (334, 33400, 203, 21, 2, NULL),
+    (334, 33400, 206, 21, 2, NULL),
+    (334, 33400, 207, 21, 2, NULL),
+    (334, 33400, 211, 21, 2, NULL),
+    (334, 33400, 213, 21, 2, NULL),
+    (334, 33400, 214, 21, 2, NULL),
+    (334, 33400, 219, 21, 2, NULL),
+    (334, 33400, 231, 21, 2, NULL),
+    (334, 33400, 240, 21, 2, NULL),
+    (334, 33400, 241, 21, 2, NULL),
+    (334, 33400, 244, 21, 2, NULL),
+    (334, 33400, 249, 21, 2, NULL),
+    (334, 33400, 263, 21, 2, NULL),
+    (334, 33400, 332, 21, 2, NULL),
+    (334, 33400, 337, 21, 2, NULL),
+    (334, 33400, 355, 21, 2, NULL),
+    (334, 33400, 365, 21, 2, NULL),
+    (334, 33400, 406, 21, 2, NULL),
+    (334, 33400, 416, 21, 2, NULL),
+    (334, 33400, 523, 21, 2, NULL),
+    (334, 33400, 605, 21, 2, NULL),
+    (334, 33400, 97, 21, 5, NULL),
+    (334, 33400, 114, 21, 5, NULL),
+    (334, 33400, 297, 21, 5, NULL),
+    (334, 33400, 304, 21, 5, NULL),
+    (334, 33400, 310, 21, 5, NULL),
+    (334, 33400, 366, 21, 5, NULL),
+    (334, 33400, 384, 21, 5, NULL),
+    (334, 33400, 407, 21, 5, NULL),
+    (334, 33400, 583, 21, 5, NULL),
+    (335, 33500, 98, 21, 1, 5),
+    (335, 33500, 210, 21, 1, 8),
+    (335, 33500, 468, 21, 1, 12),
+    (335, 33500, 332, 21, 1, 15),
+    (335, 33500, 163, 21, 1, 19),
+    (335, 33500, 279, 21, 1, 22),
+    (335, 33500, 306, 21, 1, 26),
+    (335, 33500, 206, 21, 1, 29),
+    (335, 33500, 263, 21, 1, 33),
+    (335, 33500, 197, 21, 1, 36),
+    (335, 33500, 404, 21, 1, 40),
+    (335, 33500, 269, 21, 1, 43),
+    (335, 33500, 14, 21, 1, 47),
+    (335, 33500, 370, 21, 1, 50),
+    (335, 33500, 14, 21, 2, NULL),
+    (335, 33500, 46, 21, 2, NULL),
+    (335, 33500, 53, 21, 2, NULL),
+    (335, 33500, 58, 21, 2, NULL),
+    (335, 33500, 59, 21, 2, NULL),
+    (335, 33500, 70, 21, 2, NULL),
+    (335, 33500, 76, 21, 2, NULL),
+    (335, 33500, 85, 21, 2, NULL),
+    (335, 33500, 86, 21, 2, NULL),
+    (335, 33500, 87, 21, 2, NULL),
+    (335, 33500, 91, 21, 2, NULL),
+    (335, 33500, 104, 21, 2, NULL),
+    (335, 33500, 126, 21, 2, NULL),
+    (335, 33500, 156, 21, 2, NULL),
+    (335, 33500, 157, 21, 2, NULL),
+    (335, 33500, 164, 21, 2, NULL),
+    (335, 33500, 168, 21, 2, NULL),
+    (335, 33500, 182, 21, 2, NULL),
+    (335, 33500, 202, 21, 2, NULL),
+    (335, 33500, 203, 21, 2, NULL),
+    (335, 33500, 206, 21, 2, NULL),
+    (335, 33500, 207, 21, 2, NULL),
+    (335, 33500, 213, 21, 2, NULL),
+    (335, 33500, 214, 21, 2, NULL),
+    (335, 33500, 231, 21, 2, NULL),
+    (335, 33500, 240, 21, 2, NULL),
+    (335, 33500, 241, 21, 2, NULL),
+    (335, 33500, 247, 21, 2, NULL),
+    (335, 33500, 249, 21, 2, NULL),
+    (335, 33500, 263, 21, 2, NULL),
+    (335, 33500, 264, 21, 2, NULL),
+    (335, 33500, 269, 21, 2, NULL),
+    (335, 33500, 280, 21, 2, NULL),
+    (335, 33500, 317, 21, 2, NULL),
+    (335, 33500, 332, 21, 2, NULL),
+    (335, 33500, 351, 21, 2, NULL),
+    (335, 33500, 352, 21, 2, NULL),
+    (335, 33500, 371, 21, 2, NULL),
+    (335, 33500, 374, 21, 2, NULL),
+    (335, 33500, 398, 21, 2, NULL),
+    (335, 33500, 404, 21, 2, NULL),
+    (335, 33500, 411, 21, 2, NULL),
+    (335, 33500, 421, 21, 2, NULL),
+    (335, 33500, 431, 21, 2, NULL),
+    (335, 33500, 526, 21, 2, NULL),
+    (335, 33500, 24, 21, 5, NULL),
+    (335, 33500, 50, 21, 5, NULL),
+    (335, 33500, 68, 21, 5, NULL),
+    (335, 33500, 154, 21, 5, NULL),
+    (335, 33500, 174, 21, 5, NULL),
+    (335, 33500, 175, 21, 5, NULL),
+    (335, 33500, 187, 21, 5, NULL),
+    (335, 33500, 232, 21, 5, NULL),
+    (335, 33500, 364, 21, 5, NULL),
+    (335, 33500, 400, 21, 5, NULL),
+    (335, 33500, 458, 21, 5, NULL),
+    (335, 33500, 501, 21, 5, NULL),
+    (335, 33500, 515, 21, 5, NULL),
+    (335, 33500, 10, 21, 8, NULL),
+    (335, 33500, 43, 21, 8, NULL),
+    (336, 33600, 44, 21, 1, 4),
+    (336, 33600, 122, 21, 1, 6),
+    (336, 33600, 342, 21, 1, 9),
+    (336, 33600, 364, 21, 1, 11),
+    (336, 33600, 103, 21, 1, 14),
+    (336, 33600, 474, 21, 1, 16),
+    (336, 33600, 137, 21, 1, 19),
+    (336, 33600, 305, 21, 1, 21),
+    (336, 33600, 599, 21, 1, 24),
+    (336, 33600, 400, 21, 1, 26),
+    (336, 33600, 380, 21, 1, 29),
+    (336, 33600, 398, 21, 1, 31),
+    (336, 33600, 114, 21, 1, 34),
+    (336, 33600, 14, 21, 1, 36),
+    (336, 33600, 242, 21, 1, 39),
+    (336, 33600, 562, 21, 1, 41),
+    (336, 33600, 489, 21, 1, 44),
+    (336, 33600, 188, 21, 1, 46),
+    (336, 33600, 14, 21, 2, NULL),
+    (336, 33600, 53, 21, 2, NULL),
+    (336, 33600, 70, 21, 2, NULL),
+    (336, 33600, 89, 21, 2, NULL),
+    (336, 33600, 91, 21, 2, NULL),
+    (336, 33600, 104, 21, 2, NULL),
+    (336, 33600, 156, 21, 2, NULL),
+    (336, 33600, 164, 21, 2, NULL),
+    (336, 33600, 168, 21, 2, NULL),
+    (336, 33600, 182, 21, 2, NULL),
+    (336, 33600, 188, 21, 2, NULL),
+    (336, 33600, 202, 21, 2, NULL),
+    (336, 33600, 203, 21, 2, NULL),
+    (336, 33600, 207, 21, 2, NULL),
+    (336, 33600, 213, 21, 2, NULL),
+    (336, 33600, 214, 21, 2, NULL),
+    (336, 33600, 231, 21, 2, NULL),
+    (336, 33600, 240, 21, 2, NULL),
+    (336, 33600, 241, 21, 2, NULL),
+    (336, 33600, 249, 21, 2, NULL),
+    (336, 33600, 263, 21, 2, NULL),
+    (336, 33600, 269, 21, 2, NULL),
+    (336, 33600, 371, 21, 2, NULL),
+    (336, 33600, 398, 21, 2, NULL),
+    (336, 33600, 399, 21, 2, NULL),
+    (336, 33600, 404, 21, 2, NULL),
+    (336, 33600, 523, 21, 2, NULL),
+    (336, 33600, 34, 21, 5, NULL),
+    (336, 33600, 184, 21, 5, NULL),
+    (336, 33600, 254, 21, 5, NULL),
+    (336, 33600, 255, 21, 5, NULL),
+    (336, 33600, 256, 21, 5, NULL),
+    (336, 33600, 372, 21, 5, NULL),
+    (336, 33600, 400, 21, 5, NULL),
+    (336, 33600, 415, 21, 5, NULL),
+    (336, 33600, 515, 21, 5, NULL),
+    (336, 33600, 35, 21, 8, NULL),
+    (336, 33600, 207, 21, 8, NULL),
+    (337, 33700, 95, 21, 1, 5),
+    (337, 33700, 397, 21, 1, 10),
+    (337, 33700, 157, 21, 1, 15),
+    (337, 33700, 473, 21, 1, 20),
+    (337, 33700, 322, 21, 1, 25),
+    (337, 33700, 94, 21, 1, 30),
+    (337, 33700, 444, 21, 1, 35),
+    (337, 33700, 248, 21, 1, 40),
+    (337, 33700, 478, 21, 1, 45),
+    (337, 33700, 153, 21, 1, 50),
+    (337, 33700, 58, 21, 2, NULL),
+    (337, 33700, 59, 21, 2, NULL),
+    (337, 33700, 63, 21, 2, NULL),
+    (337, 33700, 89, 21, 2, NULL),
+    (337, 33700, 94, 21, 2, NULL),
+    (337, 33700, 104, 21, 2, NULL),
+    (337, 33700, 113, 21, 2, NULL),
+    (337, 33700, 115, 21, 2, NULL),
+    (337, 33700, 138, 21, 2, NULL),
+    (337, 33700, 148, 21, 2, NULL),
+    (337, 33700, 153, 21, 2, NULL),
+    (337, 33700, 156, 21, 2, NULL),
+    (337, 33700, 157, 21, 2, NULL),
+    (337, 33700, 164, 21, 2, NULL),
+    (337, 33700, 182, 21, 2, NULL),
+    (337, 33700, 201, 21, 2, NULL),
+    (337, 33700, 203, 21, 2, NULL),
+    (337, 33700, 207, 21, 2, NULL),
+    (337, 33700, 214, 21, 2, NULL),
+    (337, 33700, 219, 21, 2, NULL),
+    (337, 33700, 240, 21, 2, NULL),
+    (337, 33700, 244, 21, 2, NULL),
+    (337, 33700, 247, 21, 2, NULL),
+    (337, 33700, 258, 21, 2, NULL),
+    (337, 33700, 263, 21, 2, NULL),
+    (337, 33700, 278, 21, 2, NULL),
+    (337, 33700, 285, 21, 2, NULL),
+    (337, 33700, 317, 21, 2, NULL),
+    (337, 33700, 347, 21, 2, NULL),
+    (337, 33700, 360, 21, 2, NULL),
+    (337, 33700, 397, 21, 2, NULL),
+    (337, 33700, 416, 21, 2, NULL),
+    (337, 33700, 417, 21, 2, NULL),
+    (337, 33700, 433, 21, 2, NULL),
+    (337, 33700, 444, 21, 2, NULL),
+    (337, 33700, 446, 21, 2, NULL),
+    (337, 33700, 447, 21, 2, NULL),
+    (337, 33700, 451, 21, 2, NULL),
+    (337, 33700, 523, 21, 2, NULL),
+    (337, 33700, 33, 21, 8, NULL),
+    (337, 33700, 88, 21, 8, NULL),
+    (337, 33700, 93, 21, 8, NULL),
+    (337, 33700, 106, 21, 8, NULL),
+    (337, 33700, 236, 21, 8, NULL),
+    (337, 33700, 585, 21, 8, NULL),
+    (338, 33800, 95, 21, 1, 5),
+    (338, 33800, 397, 21, 1, 10),
+    (338, 33800, 157, 21, 1, 15),
+    (338, 33800, 428, 21, 1, 20),
+    (338, 33800, 322, 21, 1, 25),
+    (338, 33800, 94, 21, 1, 30),
+    (338, 33800, 444, 21, 1, 35),
+    (338, 33800, 76, 21, 1, 40),
+    (338, 33800, 472, 21, 1, 45),
+    (338, 33800, 153, 21, 1, 50),
+    (338, 33800, 14, 21, 2, NULL),
+    (338, 33800, 53, 21, 2, NULL),
+    (338, 33800, 63, 21, 2, NULL),
+    (338, 33800, 76, 21, 2, NULL),
+    (338, 33800, 89, 21, 2, NULL),
+    (338, 33800, 94, 21, 2, NULL),
+    (338, 33800, 104, 21, 2, NULL),
+    (338, 33800, 113, 21, 2, NULL),
+    (338, 33800, 115, 21, 2, NULL),
+    (338, 33800, 126, 21, 2, NULL),
+    (338, 33800, 138, 21, 2, NULL),
+    (338, 33800, 148, 21, 2, NULL),
+    (338, 33800, 153, 21, 2, NULL),
+    (338, 33800, 156, 21, 2, NULL),
+    (338, 33800, 157, 21, 2, NULL),
+    (338, 33800, 164, 21, 2, NULL),
+    (338, 33800, 182, 21, 2, NULL),
+    (338, 33800, 201, 21, 2, NULL),
+    (338, 33800, 203, 21, 2, NULL),
+    (338, 33800, 207, 21, 2, NULL),
+    (338, 33800, 214, 21, 2, NULL),
+    (338, 33800, 219, 21, 2, NULL),
+    (338, 33800, 240, 21, 2, NULL),
+    (338, 33800, 241, 21, 2, NULL),
+    (338, 33800, 244, 21, 2, NULL),
+    (338, 33800, 247, 21, 2, NULL),
+    (338, 33800, 261, 21, 2, NULL),
+    (338, 33800, 263, 21, 2, NULL),
+    (338, 33800, 278, 21, 2, NULL),
+    (338, 33800, 285, 21, 2, NULL),
+    (338, 33800, 315, 21, 2, NULL),
+    (338, 33800, 317, 21, 2, NULL),
+    (338, 33800, 347, 21, 2, NULL),
+    (338, 33800, 360, 21, 2, NULL),
+    (338, 33800, 397, 21, 2, NULL),
+    (338, 33800, 416, 21, 2, NULL),
+    (338, 33800, 433, 21, 2, NULL),
+    (338, 33800, 444, 21, 2, NULL),
+    (338, 33800, 446, 21, 2, NULL),
+    (338, 33800, 447, 21, 2, NULL),
+    (338, 33800, 451, 21, 2, NULL),
+    (338, 33800, 523, 21, 2, NULL),
+    (338, 33800, 33, 21, 8, NULL),
+    (338, 33800, 88, 21, 8, NULL),
+    (338, 33800, 93, 21, 8, NULL),
+    (338, 33800, 106, 21, 8, NULL),
+    (338, 33800, 234, 21, 8, NULL),
+    (338, 33800, 394, 21, 8, NULL),
+    (339, 33900, 156, 21, 1, 6),
+    (339, 33900, 173, 21, 1, 6),
+    (339, 33900, 352, 21, 1, 12),
+    (339, 33900, 133, 21, 1, 18),
+    (339, 33900, 401, 21, 1, 24),
+    (339, 33900, 330, 21, 1, 31),
+    (339, 33900, 89, 21, 1, 36),
+    (339, 33900, 248, 21, 1, 42),
+    (339, 33900, 90, 21, 1, 48),
+    (339, 33900, 57, 21, 2, NULL),
+    (339, 33900, 58, 21, 2, NULL),
+    (339, 33900, 59, 21, 2, NULL),
+    (339, 33900, 89, 21, 2, NULL),
+    (339, 33900, 104, 21, 2, NULL),
+    (339, 33900, 127, 21, 2, NULL),
+    (339, 33900, 156, 21, 2, NULL),
+    (339, 33900, 164, 21, 2, NULL),
+    (339, 33900, 182, 21, 2, NULL),
+    (339, 33900, 201, 21, 2, NULL),
+    (339, 33900, 203, 21, 2, NULL),
+    (339, 33900, 207, 21, 2, NULL),
+    (339, 33900, 213, 21, 2, NULL),
+    (339, 33900, 214, 21, 2, NULL),
+    (339, 33900, 240, 21, 2, NULL),
+    (339, 33900, 258, 21, 2, NULL),
+    (339, 33900, 263, 21, 2, NULL),
+    (339, 33900, 317, 21, 2, NULL),
+    (339, 33900, 352, 21, 2, NULL),
+    (339, 33900, 503, 21, 2, NULL),
+    (339, 33900, 523, 21, 2, NULL),
+    (339, 33900, 36, 21, 5, NULL),
+    (339, 33900, 37, 21, 5, NULL),
+    (339, 33900, 56, 21, 5, NULL),
+    (339, 33900, 175, 21, 5, NULL),
+    (339, 33900, 209, 21, 5, NULL),
+    (339, 33900, 250, 21, 5, NULL),
+    (339, 33900, 330, 21, 5, NULL),
+    (339, 33900, 341, 21, 5, NULL),
+    (339, 33900, 349, 21, 5, NULL),
+    (339, 33900, 414, 21, 5, NULL),
+    (339, 33900, 55, 21, 8, NULL),
+    (339, 33900, 189, 21, 8, NULL),
+    (340, 34000, 352, 21, 1, 12),
+    (340, 34000, 133, 21, 1, 18),
+    (340, 34000, 401, 21, 1, 24),
+    (340, 34000, 330, 21, 1, 33),
+    (340, 34000, 89, 21, 1, 40),
+    (340, 34000, 248, 21, 1, 48),
+    (340, 34000, 90, 21, 1, 56),
+    (340, 34000, 57, 21, 2, NULL),
+    (340, 34000, 58, 21, 2, NULL),
+    (340, 34000, 59, 21, 2, NULL),
+    (340, 34000, 63, 21, 2, NULL),
+    (340, 34000, 70, 21, 2, NULL),
+    (340, 34000, 89, 21, 2, NULL),
+    (340, 34000, 104, 21, 2, NULL),
+    (340, 34000, 127, 21, 2, NULL),
+    (340, 34000, 156, 21, 2, NULL),
+    (340, 34000, 157, 21, 2, NULL),
+    (340, 34000, 164, 21, 2, NULL),
+    (340, 34000, 182, 21, 2, NULL),
+    (340, 34000, 201, 21, 2, NULL),
+    (340, 34000, 203, 21, 2, NULL),
+    (340, 34000, 207, 21, 2, NULL),
+    (340, 34000, 213, 21, 2, NULL),
+    (340, 34000, 214, 21, 2, NULL),
+    (340, 34000, 240, 21, 2, NULL),
+    (340, 34000, 249, 21, 2, NULL),
+    (340, 34000, 258, 21, 2, NULL),
+    (340, 34000, 263, 21, 2, NULL),
+    (340, 34000, 317, 21, 2, NULL),
+    (340, 34000, 352, 21, 2, NULL),
+    (340, 34000, 416, 21, 2, NULL),
+    (340, 34000, 444, 21, 2, NULL),
+    (340, 34000, 503, 21, 2, NULL),
+    (340, 34000, 523, 21, 2, NULL),
+    (340, 34000, 36, 21, 5, NULL),
+    (340, 34000, 37, 21, 5, NULL),
+    (340, 34000, 56, 21, 5, NULL),
+    (340, 34000, 175, 21, 5, NULL),
+    (340, 34000, 209, 21, 5, NULL),
+    (340, 34000, 250, 21, 5, NULL),
+    (340, 34000, 330, 21, 5, NULL),
+    (340, 34000, 341, 21, 5, NULL),
+    (340, 34000, 349, 21, 5, NULL),
+    (340, 34000, 414, 21, 5, NULL),
+    (340, 34000, 37, 21, 8, NULL),
+    (340, 34000, 55, 21, 8, NULL),
+    (340, 34000, 156, 21, 8, NULL),
+    (340, 34000, 173, 21, 8, NULL),
+    (340, 34000, 189, 21, 8, NULL),
+    (340, 34000, 321, 21, 8, NULL),
+    (340, 34000, 428, 21, 8, NULL),
+    (340, 34000, 562, 21, 8, NULL),
+    (341, 34100, 43, 21, 1, 4),
+    (341, 34100, 269, 21, 1, 8),
+    (341, 34100, 61, 21, 1, 12),
+    (341, 34100, 282, 21, 1, 16),
+    (341, 34100, 458, 21, 1, 20),
+    (341, 34100, 182, 21, 1, 24),
+    (341, 34100, 400, 21, 1, 28),
+    (341, 34100, 534, 21, 1, 32),
+    (341, 34100, 14, 21, 1, 36),
+    (341, 34100, 242, 21, 1, 40),
+    (341, 34100, 152, 21, 1, 44),
+    (341, 34100, 283, 21, 1, 48),
+    (341, 34100, 12, 21, 1, 52),
+    (341, 34100, 14, 21, 2, NULL),
+    (341, 34100, 15, 21, 2, NULL),
+    (341, 34100, 57, 21, 2, NULL),
+    (341, 34100, 58, 21, 2, NULL),
+    (341, 34100, 59, 21, 2, NULL),
+    (341, 34100, 70, 21, 2, NULL),
+    (341, 34100, 91, 21, 2, NULL),
+    (341, 34100, 104, 21, 2, NULL),
+    (341, 34100, 127, 21, 2, NULL),
+    (341, 34100, 156, 21, 2, NULL),
+    (341, 34100, 157, 21, 2, NULL),
+    (341, 34100, 164, 21, 2, NULL),
+    (341, 34100, 182, 21, 2, NULL),
+    (341, 34100, 188, 21, 2, NULL),
+    (341, 34100, 203, 21, 2, NULL),
+    (341, 34100, 206, 21, 2, NULL),
+    (341, 34100, 207, 21, 2, NULL),
+    (341, 34100, 213, 21, 2, NULL),
+    (341, 34100, 214, 21, 2, NULL),
+    (341, 34100, 240, 21, 2, NULL),
+    (341, 34100, 249, 21, 2, NULL),
+    (341, 34100, 258, 21, 2, NULL),
+    (341, 34100, 263, 21, 2, NULL),
+    (341, 34100, 269, 21, 2, NULL),
+    (341, 34100, 280, 21, 2, NULL),
+    (341, 34100, 317, 21, 2, NULL),
+    (341, 34100, 332, 21, 2, NULL),
+    (341, 34100, 352, 21, 2, NULL),
+    (341, 34100, 371, 21, 2, NULL),
+    (341, 34100, 374, 21, 2, NULL),
+    (341, 34100, 404, 21, 2, NULL),
+    (341, 34100, 503, 21, 2, NULL),
+    (341, 34100, 34, 21, 5, NULL),
+    (341, 34100, 38, 21, 5, NULL),
+    (341, 34100, 163, 21, 5, NULL),
+    (341, 34100, 232, 21, 5, NULL),
+    (341, 34100, 246, 21, 5, NULL),
+    (341, 34100, 276, 21, 5, NULL),
+    (341, 34100, 282, 21, 5, NULL),
+    (341, 34100, 283, 21, 5, NULL),
+    (341, 34100, 349, 21, 5, NULL),
+    (341, 34100, 415, 21, 5, NULL),
+    (341, 34100, 453, 21, 5, NULL),
+    (341, 34100, 55, 21, 8, NULL),
+    (341, 34100, 106, 21, 8, NULL),
+    (342, 34200, 61, 21, 1, 12),
+    (342, 34200, 282, 21, 1, 16),
+    (342, 34200, 458, 21, 1, 20),
+    (342, 34200, 182, 21, 1, 24),
+    (342, 34200, 400, 21, 1, 28),
+    (342, 34200, 534, 21, 1, 34),
+    (342, 34200, 14, 21, 1, 40),
+    (342, 34200, 242, 21, 1, 46),
+    (342, 34200, 152, 21, 1, 52),
+    (342, 34200, 283, 21, 1, 58),
+    (342, 34200, 12, 21, 1, 64),
+    (342, 34200, 14, 21, 2, NULL),
+    (342, 34200, 15, 21, 2, NULL),
+    (342, 34200, 57, 21, 2, NULL),
+    (342, 34200, 58, 21, 2, NULL),
+    (342, 34200, 59, 21, 2, NULL),
+    (342, 34200, 63, 21, 2, NULL),
+    (342, 34200, 70, 21, 2, NULL),
+    (342, 34200, 91, 21, 2, NULL),
+    (342, 34200, 104, 21, 2, NULL),
+    (342, 34200, 127, 21, 2, NULL),
+    (342, 34200, 156, 21, 2, NULL),
+    (342, 34200, 157, 21, 2, NULL),
+    (342, 34200, 164, 21, 2, NULL),
+    (342, 34200, 182, 21, 2, NULL),
+    (342, 34200, 188, 21, 2, NULL),
+    (342, 34200, 203, 21, 2, NULL),
+    (342, 34200, 206, 21, 2, NULL),
+    (342, 34200, 207, 21, 2, NULL),
+    (342, 34200, 213, 21, 2, NULL),
+    (342, 34200, 214, 21, 2, NULL),
+    (342, 34200, 240, 21, 2, NULL),
+    (342, 34200, 249, 21, 2, NULL),
+    (342, 34200, 258, 21, 2, NULL),
+    (342, 34200, 263, 21, 2, NULL),
+    (342, 34200, 269, 21, 2, NULL),
+    (342, 34200, 280, 21, 2, NULL),
+    (342, 34200, 317, 21, 2, NULL),
+    (342, 34200, 332, 21, 2, NULL),
+    (342, 34200, 352, 21, 2, NULL),
+    (342, 34200, 371, 21, 2, NULL),
+    (342, 34200, 374, 21, 2, NULL),
+    (342, 34200, 399, 21, 2, NULL),
+    (342, 34200, 404, 21, 2, NULL),
+    (342, 34200, 416, 21, 2, NULL),
+    (342, 34200, 417, 21, 2, NULL),
+    (342, 34200, 419, 21, 2, NULL),
+    (342, 34200, 503, 21, 2, NULL),
+    (342, 34200, 555, 21, 2, NULL),
+    (342, 34200, 34, 21, 5, NULL),
+    (342, 34200, 38, 21, 5, NULL),
+    (342, 34200, 163, 21, 5, NULL),
+    (342, 34200, 232, 21, 5, NULL),
+    (342, 34200, 246, 21, 5, NULL),
+    (342, 34200, 276, 21, 5, NULL),
+    (342, 34200, 282, 21, 5, NULL),
+    (342, 34200, 283, 21, 5, NULL),
+    (342, 34200, 349, 21, 5, NULL),
+    (342, 34200, 415, 21, 5, NULL),
+    (342, 34200, 453, 21, 5, NULL),
+    (342, 34200, 43, 21, 8, NULL),
+    (342, 34200, 55, 21, 8, NULL),
+    (342, 34200, 106, 21, 8, NULL),
+    (342, 34200, 129, 21, 8, NULL),
+    (342, 34200, 269, 21, 8, NULL),
+    (343, 34300, 229, 21, 1, 3),
+    (343, 34300, 93, 21, 1, 6),
+    (343, 34300, 317, 21, 1, 9),
+    (343, 34300, 379, 21, 1, 12),
+    (343, 34300, 60, 21, 1, 15),
+    (343, 34300, 246, 21, 1, 18),
+    (343, 34300, 286, 21, 1, 21),
+    (343, 34300, 322, 21, 1, 24),
+    (343, 34300, 326, 21, 1, 27),
+    (343, 34300, 414, 21, 1, 30),
+    (343, 34300, 120, 21, 1, 33),
+    (343, 34300, 470, 21, 1, 36),
+    (343, 34300, 471, 21, 1, 36),
+    (343, 34300, 201, 21, 1, 39),
+    (343, 34300, 153, 21, 1, 42),
+    (343, 34300, 58, 21, 2, NULL),
+    (343, 34300, 76, 21, 2, NULL),
+    (343, 34300, 89, 21, 2, NULL),
+    (343, 34300, 91, 21, 2, NULL),
+    (343, 34300, 94, 21, 2, NULL),
+    (343, 34300, 104, 21, 2, NULL),
+    (343, 34300, 113, 21, 2, NULL),
+    (343, 34300, 115, 21, 2, NULL),
+    (343, 34300, 138, 21, 2, NULL),
+    (343, 34300, 148, 21, 2, NULL),
+    (343, 34300, 153, 21, 2, NULL),
+    (343, 34300, 156, 21, 2, NULL),
+    (343, 34300, 157, 21, 2, NULL),
+    (343, 34300, 164, 21, 2, NULL),
+    (343, 34300, 182, 21, 2, NULL),
+    (343, 34300, 201, 21, 2, NULL),
+    (343, 34300, 203, 21, 2, NULL),
+    (343, 34300, 207, 21, 2, NULL),
+    (343, 34300, 214, 21, 2, NULL),
+    (343, 34300, 219, 21, 2, NULL),
+    (343, 34300, 240, 21, 2, NULL),
+    (343, 34300, 241, 21, 2, NULL),
+    (343, 34300, 244, 21, 2, NULL),
+    (343, 34300, 247, 21, 2, NULL),
+    (343, 34300, 263, 21, 2, NULL),
+    (343, 34300, 278, 21, 2, NULL),
+    (343, 34300, 285, 21, 2, NULL),
+    (343, 34300, 317, 21, 2, NULL),
+    (343, 34300, 347, 21, 2, NULL),
+    (343, 34300, 360, 21, 2, NULL),
+    (343, 34300, 397, 21, 2, NULL),
+    (343, 34300, 433, 21, 2, NULL),
+    (343, 34300, 446, 21, 2, NULL),
+    (343, 34300, 447, 21, 2, NULL),
+    (343, 34300, 451, 21, 2, NULL),
+    (343, 34300, 523, 21, 2, NULL),
+    (343, 34300, 605, 21, 2, NULL),
+    (343, 34300, 106, 21, 8, NULL),
+    (343, 34300, 189, 21, 8, NULL),
+    (344, 34400, 317, 21, 1, 9),
+    (344, 34400, 379, 21, 1, 12),
+    (344, 34400, 60, 21, 1, 15),
+    (344, 34400, 246, 21, 1, 18),
+    (344, 34400, 286, 21, 1, 21),
+    (344, 34400, 322, 21, 1, 24),
+    (344, 34400, 326, 21, 1, 27),
+    (344, 34400, 414, 21, 1, 30),
+    (344, 34400, 120, 21, 1, 33),
+    (344, 34400, 470, 21, 1, 38),
+    (344, 34400, 471, 21, 1, 38),
+    (344, 34400, 201, 21, 1, 43),
+    (344, 34400, 153, 21, 1, 48),
+    (344, 34400, 58, 21, 2, NULL),
+    (344, 34400, 63, 21, 2, NULL),
+    (344, 34400, 70, 21, 2, NULL),
+    (344, 34400, 76, 21, 2, NULL),
+    (344, 34400, 89, 21, 2, NULL),
+    (344, 34400, 91, 21, 2, NULL),
+    (344, 34400, 94, 21, 2, NULL),
+    (344, 34400, 104, 21, 2, NULL),
+    (344, 34400, 113, 21, 2, NULL),
+    (344, 34400, 115, 21, 2, NULL),
+    (344, 34400, 138, 21, 2, NULL),
+    (344, 34400, 148, 21, 2, NULL),
+    (344, 34400, 153, 21, 2, NULL),
+    (344, 34400, 156, 21, 2, NULL),
+    (344, 34400, 157, 21, 2, NULL),
+    (344, 34400, 164, 21, 2, NULL),
+    (344, 34400, 182, 21, 2, NULL),
+    (344, 34400, 201, 21, 2, NULL),
+    (344, 34400, 203, 21, 2, NULL),
+    (344, 34400, 207, 21, 2, NULL),
+    (344, 34400, 214, 21, 2, NULL),
+    (344, 34400, 219, 21, 2, NULL),
+    (344, 34400, 240, 21, 2, NULL),
+    (344, 34400, 241, 21, 2, NULL),
+    (344, 34400, 244, 21, 2, NULL),
+    (344, 34400, 247, 21, 2, NULL),
+    (344, 34400, 249, 21, 2, NULL),
+    (344, 34400, 263, 21, 2, NULL),
+    (344, 34400, 278, 21, 2, NULL),
+    (344, 34400, 285, 21, 2, NULL),
+    (344, 34400, 317, 21, 2, NULL),
+    (344, 34400, 347, 21, 2, NULL),
+    (344, 34400, 360, 21, 2, NULL),
+    (344, 34400, 397, 21, 2, NULL),
+    (344, 34400, 416, 21, 2, NULL),
+    (344, 34400, 417, 21, 2, NULL),
+    (344, 34400, 433, 21, 2, NULL),
+    (344, 34400, 444, 21, 2, NULL),
+    (344, 34400, 446, 21, 2, NULL),
+    (344, 34400, 447, 21, 2, NULL),
+    (344, 34400, 451, 21, 2, NULL),
+    (344, 34400, 523, 21, 2, NULL),
+    (344, 34400, 605, 21, 2, NULL),
+    (344, 34400, 63, 21, 8, NULL),
+    (344, 34400, 93, 21, 8, NULL),
+    (344, 34400, 100, 21, 8, NULL),
+    (344, 34400, 106, 21, 8, NULL),
+    (344, 34400, 189, 21, 8, NULL),
+    (344, 34400, 229, 21, 8, NULL),
+    (345, 34500, 51, 21, 1, 4),
+    (345, 34500, 109, 21, 1, 8),
+    (345, 34500, 275, 21, 1, 12),
+    (345, 34500, 246, 21, 1, 16),
+    (345, 34500, 72, 21, 1, 20),
+    (345, 34500, 362, 21, 1, 24),
+    (345, 34500, 133, 21, 1, 28),
+    (345, 34500, 380, 21, 1, 32),
+    (345, 34500, 202, 21, 1, 36),
+    (345, 34500, 254, 21, 1, 41),
+    (345, 34500, 255, 21, 1, 41),
+    (345, 34500, 256, 21, 1, 41),
+    (345, 34500, 412, 21, 1, 44),
+    (345, 34500, 14, 21, 2, NULL),
+    (345, 34500, 76, 21, 2, NULL),
+    (345, 34500, 104, 21, 2, NULL),
+    (345, 34500, 148, 21, 2, NULL),
+    (345, 34500, 156, 21, 2, NULL),
+    (345, 34500, 157, 21, 2, NULL),
+    (345, 34500, 164, 21, 2, NULL),
+    (345, 34500, 182, 21, 2, NULL),
+    (345, 34500, 188, 21, 2, NULL),
+    (345, 34500, 201, 21, 2, NULL),
+    (345, 34500, 202, 21, 2, NULL),
+    (345, 34500, 203, 21, 2, NULL),
+    (345, 34500, 207, 21, 2, NULL),
+    (345, 34500, 213, 21, 2, NULL),
+    (345, 34500, 214, 21, 2, NULL),
+    (345, 34500, 241, 21, 2, NULL),
+    (345, 34500, 263, 21, 2, NULL),
+    (345, 34500, 317, 21, 2, NULL),
+    (345, 34500, 331, 21, 2, NULL),
+    (345, 34500, 362, 21, 2, NULL),
+    (345, 34500, 397, 21, 2, NULL),
+    (345, 34500, 412, 21, 2, NULL),
+    (345, 34500, 446, 21, 2, NULL),
+    (345, 34500, 447, 21, 2, NULL),
+    (345, 34500, 20, 21, 5, NULL),
+    (345, 34500, 72, 21, 5, NULL),
+    (345, 34500, 105, 21, 5, NULL),
+    (345, 34500, 174, 21, 5, NULL),
+    (345, 34500, 243, 21, 5, NULL),
+    (345, 34500, 321, 21, 5, NULL),
+    (345, 34500, 35, 21, 8, NULL),
+    (345, 34500, 310, 21, 8, NULL),
+    (346, 34600, 275, 21, 1, 12),
+    (346, 34600, 246, 21, 1, 16),
+    (346, 34600, 72, 21, 1, 20),
+    (346, 34600, 362, 21, 1, 24),
+    (346, 34600, 133, 21, 1, 28),
+    (346, 34600, 380, 21, 1, 32),
+    (346, 34600, 202, 21, 1, 36),
+    (346, 34600, 254, 21, 1, 43),
+    (346, 34600, 255, 21, 1, 43),
+    (346, 34600, 256, 21, 1, 43),
+    (346, 34600, 412, 21, 1, 48),
+    (346, 34600, 14, 21, 2, NULL),
+    (346, 34600, 63, 21, 2, NULL),
+    (346, 34600, 70, 21, 2, NULL),
+    (346, 34600, 76, 21, 2, NULL),
+    (346, 34600, 89, 21, 2, NULL),
+    (346, 34600, 91, 21, 2, NULL),
+    (346, 34600, 104, 21, 2, NULL),
+    (346, 34600, 148, 21, 2, NULL),
+    (346, 34600, 156, 21, 2, NULL),
+    (346, 34600, 157, 21, 2, NULL),
+    (346, 34600, 164, 21, 2, NULL),
+    (346, 34600, 182, 21, 2, NULL),
+    (346, 34600, 188, 21, 2, NULL),
+    (346, 34600, 201, 21, 2, NULL),
+    (346, 34600, 202, 21, 2, NULL),
+    (346, 34600, 203, 21, 2, NULL),
+    (346, 34600, 207, 21, 2, NULL),
+    (346, 34600, 213, 21, 2, NULL),
+    (346, 34600, 214, 21, 2, NULL),
+    (346, 34600, 241, 21, 2, NULL),
+    (346, 34600, 249, 21, 2, NULL),
+    (346, 34600, 263, 21, 2, NULL),
+    (346, 34600, 317, 21, 2, NULL),
+    (346, 34600, 331, 21, 2, NULL),
+    (346, 34600, 362, 21, 2, NULL),
+    (346, 34600, 397, 21, 2, NULL),
+    (346, 34600, 412, 21, 2, NULL),
+    (346, 34600, 416, 21, 2, NULL),
+    (346, 34600, 444, 21, 2, NULL),
+    (346, 34600, 446, 21, 2, NULL),
+    (346, 34600, 447, 21, 2, NULL),
+    (346, 34600, 523, 21, 2, NULL),
+    (346, 34600, 20, 21, 5, NULL),
+    (346, 34600, 72, 21, 5, NULL),
+    (346, 34600, 105, 21, 5, NULL),
+    (346, 34600, 174, 21, 5, NULL),
+    (346, 34600, 243, 21, 5, NULL),
+    (346, 34600, 321, 21, 5, NULL),
+    (346, 34600, 35, 21, 8, NULL),
+    (346, 34600, 51, 21, 8, NULL),
+    (346, 34600, 73, 21, 8, NULL),
+    (346, 34600, 109, 21, 8, NULL),
+    (346, 34600, 310, 21, 8, NULL),
+    (347, 34700, 55, 21, 1, 4),
+    (347, 34700, 479, 21, 1, 8),
+    (347, 34700, 232, 21, 1, 12),
+    (347, 34700, 246, 21, 1, 16),
+    (347, 34700, 450, 21, 1, 20),
+    (347, 34700, 362, 21, 1, 24),
+    (347, 34700, 163, 21, 1, 28),
+    (347, 34700, 306, 21, 1, 32),
+    (347, 34700, 350, 21, 1, 36),
+    (347, 34700, 182, 21, 1, 41),
+    (347, 34700, 404, 21, 1, 44),
+    (347, 34700, 14, 21, 2, NULL),
+    (347, 34700, 15, 21, 2, NULL),
+    (347, 34700, 91, 21, 2, NULL),
+    (347, 34700, 104, 21, 2, NULL),
+    (347, 34700, 156, 21, 2, NULL),
+    (347, 34700, 157, 21, 2, NULL),
+    (347, 34700, 164, 21, 2, NULL),
+    (347, 34700, 182, 21, 2, NULL),
+    (347, 34700, 201, 21, 2, NULL),
+    (347, 34700, 203, 21, 2, NULL),
+    (347, 34700, 206, 21, 2, NULL),
+    (347, 34700, 207, 21, 2, NULL),
+    (347, 34700, 213, 21, 2, NULL),
+    (347, 34700, 214, 21, 2, NULL),
+    (347, 34700, 241, 21, 2, NULL),
+    (347, 34700, 249, 21, 2, NULL),
+    (347, 34700, 263, 21, 2, NULL),
+    (347, 34700, 280, 21, 2, NULL),
+    (347, 34700, 317, 21, 2, NULL),
+    (347, 34700, 332, 21, 2, NULL),
+    (347, 34700, 352, 21, 2, NULL),
+    (347, 34700, 362, 21, 2, NULL),
+    (347, 34700, 397, 21, 2, NULL),
+    (347, 34700, 404, 21, 2, NULL),
+    (347, 34700, 446, 21, 2, NULL),
+    (347, 34700, 28, 21, 5, NULL),
+    (347, 34700, 103, 21, 5, NULL),
+    (347, 34700, 174, 21, 5, NULL),
+    (347, 34700, 229, 21, 5, NULL),
+    (347, 34700, 282, 21, 5, NULL),
+    (347, 34700, 334, 21, 5, NULL),
+    (347, 34700, 440, 21, 5, NULL),
+    (347, 34700, 453, 21, 5, NULL),
+    (347, 34700, 106, 21, 8, NULL),
+    (347, 34700, 210, 21, 8, NULL),
+    (348, 34800, 232, 21, 1, 12),
+    (348, 34800, 246, 21, 1, 16),
+    (348, 34800, 450, 21, 1, 20),
+    (348, 34800, 362, 21, 1, 24),
+    (348, 34800, 163, 21, 1, 28),
+    (348, 34800, 306, 21, 1, 32),
+    (348, 34800, 350, 21, 1, 36),
+    (348, 34800, 182, 21, 1, 43),
+    (348, 34800, 404, 21, 1, 48),
+    (348, 34800, 14, 21, 2, NULL),
+    (348, 34800, 15, 21, 2, NULL),
+    (348, 34800, 63, 21, 2, NULL),
+    (348, 34800, 70, 21, 2, NULL),
+    (348, 34800, 89, 21, 2, NULL),
+    (348, 34800, 91, 21, 2, NULL),
+    (348, 34800, 104, 21, 2, NULL),
+    (348, 34800, 156, 21, 2, NULL),
+    (348, 34800, 157, 21, 2, NULL),
+    (348, 34800, 164, 21, 2, NULL),
+    (348, 34800, 182, 21, 2, NULL),
+    (348, 34800, 201, 21, 2, NULL),
+    (348, 34800, 203, 21, 2, NULL),
+    (348, 34800, 206, 21, 2, NULL),
+    (348, 34800, 207, 21, 2, NULL),
+    (348, 34800, 213, 21, 2, NULL),
+    (348, 34800, 214, 21, 2, NULL),
+    (348, 34800, 231, 21, 2, NULL),
+    (348, 34800, 241, 21, 2, NULL),
+    (348, 34800, 249, 21, 2, NULL),
+    (348, 34800, 263, 21, 2, NULL),
+    (348, 34800, 280, 21, 2, NULL),
+    (348, 34800, 317, 21, 2, NULL),
+    (348, 34800, 332, 21, 2, NULL),
+    (348, 34800, 352, 21, 2, NULL),
+    (348, 34800, 362, 21, 2, NULL),
+    (348, 34800, 397, 21, 2, NULL),
+    (348, 34800, 404, 21, 2, NULL),
+    (348, 34800, 416, 21, 2, NULL),
+    (348, 34800, 421, 21, 2, NULL),
+    (348, 34800, 430, 21, 2, NULL),
+    (348, 34800, 444, 21, 2, NULL),
+    (348, 34800, 446, 21, 2, NULL),
+    (348, 34800, 523, 21, 2, NULL),
+    (348, 34800, 28, 21, 5, NULL),
+    (348, 34800, 103, 21, 5, NULL),
+    (348, 34800, 174, 21, 5, NULL),
+    (348, 34800, 229, 21, 5, NULL),
+    (348, 34800, 282, 21, 5, NULL),
+    (348, 34800, 334, 21, 5, NULL),
+    (348, 34800, 440, 21, 5, NULL),
+    (348, 34800, 453, 21, 5, NULL),
+    (348, 34800, 55, 21, 8, NULL),
+    (348, 34800, 106, 21, 8, NULL),
+    (348, 34800, 210, 21, 8, NULL),
+    (348, 34800, 479, 21, 8, NULL),
+    (349, 34900, 33, 21, 1, 15),
+    (349, 34900, 175, 21, 1, 25),
+    (349, 34900, 57, 21, 2, NULL),
+    (349, 34900, 58, 21, 2, NULL),
+    (349, 34900, 59, 21, 2, NULL),
+    (349, 34900, 104, 21, 2, NULL),
+    (349, 34900, 113, 21, 2, NULL),
+    (349, 34900, 127, 21, 2, NULL),
+    (349, 34900, 156, 21, 2, NULL),
+    (349, 34900, 164, 21, 2, NULL),
+    (349, 34900, 182, 21, 2, NULL),
+    (349, 34900, 203, 21, 2, NULL),
+    (349, 34900, 207, 21, 2, NULL),
+    (349, 34900, 213, 21, 2, NULL),
+    (349, 34900, 214, 21, 2, NULL),
+    (349, 34900, 231, 21, 2, NULL),
+    (349, 34900, 240, 21, 2, NULL),
+    (349, 34900, 258, 21, 2, NULL),
+    (349, 34900, 263, 21, 2, NULL),
+    (349, 34900, 352, 21, 2, NULL),
+    (349, 34900, 362, 21, 2, NULL),
+    (349, 34900, 406, 21, 2, NULL),
+    (349, 34900, 503, 21, 2, NULL),
+    (349, 34900, 54, 21, 5, NULL),
+    (349, 34900, 95, 21, 5, NULL),
+    (349, 34900, 109, 21, 5, NULL),
+    (349, 34900, 114, 21, 5, NULL),
+    (349, 34900, 225, 21, 5, NULL),
+    (349, 34900, 243, 21, 5, NULL),
+    (349, 34900, 321, 21, 5, NULL),
+    (349, 34900, 150, 21, 8, NULL),
+    (350, 35000, 574, 21, 1, 4),
+    (350, 35000, 239, 21, 1, 8),
+    (350, 35000, 392, 21, 1, 12),
+    (350, 35000, 213, 21, 1, 16),
+    (350, 35000, 791, 21, 1, 20),
+    (350, 35000, 525, 21, 1, 24),
+    (350, 35000, 105, 21, 1, 28),
+    (350, 35000, 401, 21, 1, 32),
+    (350, 35000, 219, 21, 1, 36),
+    (350, 35000, 57, 21, 1, 40),
+    (350, 35000, 240, 21, 1, 44),
+    (350, 35000, 489, 21, 1, 48),
+    (350, 35000, 56, 21, 1, 52),
+    (350, 35000, 57, 21, 2, NULL),
+    (350, 35000, 58, 21, 2, NULL),
+    (350, 35000, 59, 21, 2, NULL),
+    (350, 35000, 63, 21, 2, NULL),
+    (350, 35000, 104, 21, 2, NULL),
+    (350, 35000, 113, 21, 2, NULL),
+    (350, 35000, 127, 21, 2, NULL),
+    (350, 35000, 156, 21, 2, NULL),
+    (350, 35000, 164, 21, 2, NULL),
+    (350, 35000, 182, 21, 2, NULL),
+    (350, 35000, 203, 21, 2, NULL),
+    (350, 35000, 207, 21, 2, NULL),
+    (350, 35000, 213, 21, 2, NULL),
+    (350, 35000, 214, 21, 2, NULL),
+    (350, 35000, 219, 21, 2, NULL),
+    (350, 35000, 231, 21, 2, NULL),
+    (350, 35000, 240, 21, 2, NULL),
+    (350, 35000, 244, 21, 2, NULL),
+    (350, 35000, 258, 21, 2, NULL),
+    (350, 35000, 263, 21, 2, NULL),
+    (350, 35000, 352, 21, 2, NULL),
+    (350, 35000, 362, 21, 2, NULL),
+    (350, 35000, 406, 21, 2, NULL),
+    (350, 35000, 416, 21, 2, NULL),
+    (350, 35000, 419, 21, 2, NULL),
+    (350, 35000, 503, 21, 2, NULL),
+    (350, 35000, 523, 21, 2, NULL),
+    (350, 35000, 54, 21, 5, NULL),
+    (350, 35000, 95, 21, 5, NULL),
+    (350, 35000, 109, 21, 5, NULL),
+    (350, 35000, 114, 21, 5, NULL),
+    (350, 35000, 225, 21, 5, NULL),
+    (350, 35000, 243, 21, 5, NULL),
+    (350, 35000, 321, 21, 5, NULL),
+    (350, 35000, 33, 21, 8, NULL),
+    (350, 35000, 35, 21, 8, NULL),
+    (350, 35000, 55, 21, 8, NULL),
+    (350, 35000, 150, 21, 8, NULL),
+    (350, 35000, 175, 21, 8, NULL),
+    (350, 35000, 352, 21, 8, NULL),
+    (351, 35100, 52, 21, 1, 10),
+    (351, 35100, 55, 21, 1, 10),
+    (351, 35100, 181, 21, 1, 10),
+    (351, 35100, 29, 21, 1, 15),
+    (351, 35100, 240, 21, 1, 20),
+    (351, 35100, 241, 21, 1, 20),
+    (351, 35100, 258, 21, 1, 20),
+    (351, 35100, 311, 21, 1, 25),
+    (351, 35100, 56, 21, 1, 35),
+    (351, 35100, 59, 21, 1, 35),
+    (351, 35100, 126, 21, 1, 35),
+    (351, 35100, 542, 21, 1, 45),
+    (351, 35100, 53, 21, 2, NULL),
+    (351, 35100, 58, 21, 2, NULL),
+    (351, 35100, 59, 21, 2, NULL),
+    (351, 35100, 76, 21, 2, NULL),
+    (351, 35100, 85, 21, 2, NULL),
+    (351, 35100, 86, 21, 2, NULL),
+    (351, 35100, 87, 21, 2, NULL),
+    (351, 35100, 104, 21, 2, NULL),
+    (351, 35100, 126, 21, 2, NULL),
+    (351, 35100, 148, 21, 2, NULL),
+    (351, 35100, 156, 21, 2, NULL),
+    (351, 35100, 164, 21, 2, NULL),
+    (351, 35100, 168, 21, 2, NULL),
+    (351, 35100, 182, 21, 2, NULL),
+    (351, 35100, 201, 21, 2, NULL),
+    (351, 35100, 203, 21, 2, NULL),
+    (351, 35100, 207, 21, 2, NULL),
+    (351, 35100, 213, 21, 2, NULL),
+    (351, 35100, 214, 21, 2, NULL),
+    (351, 35100, 240, 21, 2, NULL),
+    (351, 35100, 241, 21, 2, NULL),
+    (351, 35100, 244, 21, 2, NULL),
+    (351, 35100, 247, 21, 2, NULL),
+    (351, 35100, 258, 21, 2, NULL),
+    (351, 35100, 263, 21, 2, NULL),
+    (351, 35100, 351, 21, 2, NULL),
+    (351, 35100, 352, 21, 2, NULL),
+    (351, 35100, 412, 21, 2, NULL),
+    (351, 35100, 419, 21, 2, NULL),
+    (351, 35100, 503, 21, 2, NULL),
+    (351, 35100, 526, 21, 2, NULL),
+    (351, 35100, 50, 21, 5, NULL),
+    (351, 35100, 133, 21, 5, NULL),
+    (351, 35100, 248, 21, 5, NULL),
+    (351, 35100, 322, 21, 5, NULL),
+    (351, 35100, 385, 21, 5, NULL),
+    (351, 35100, 499, 21, 5, NULL),
+    (351, 35100, 506, 21, 5, NULL),
+    (351, 35100, 513, 21, 5, NULL),
+    (351, 35100, 33, 21, 8, NULL),
+    (352, 35200, 20, 21, 1, 4),
+    (352, 35200, 425, 21, 1, 7),
+    (352, 35200, 364, 21, 1, 10),
+    (352, 35200, 154, 21, 1, 13),
+    (352, 35200, 50, 21, 1, 16),
+    (352, 35200, 60, 21, 1, 18),
+    (352, 35200, 246, 21, 1, 21),
+    (352, 35200, 163, 21, 1, 25),
+    (352, 35200, 197, 21, 1, 30),
+    (352, 35200, 421, 21, 1, 33),
+    (352, 35200, 103, 21, 1, 38),
+    (352, 35200, 164, 21, 1, 42),
+    (352, 35200, 389, 21, 1, 46),
+    (352, 35200, 492, 21, 1, 50),
+    (352, 35200, 15, 21, 2, NULL),
+    (352, 35200, 53, 21, 2, NULL),
+    (352, 35200, 58, 21, 2, NULL),
+    (352, 35200, 59, 21, 2, NULL),
+    (352, 35200, 70, 21, 2, NULL),
+    (352, 35200, 76, 21, 2, NULL),
+    (352, 35200, 85, 21, 2, NULL),
+    (352, 35200, 86, 21, 2, NULL),
+    (352, 35200, 87, 21, 2, NULL),
+    (352, 35200, 91, 21, 2, NULL),
+    (352, 35200, 104, 21, 2, NULL),
+    (352, 35200, 126, 21, 2, NULL),
+    (352, 35200, 148, 21, 2, NULL),
+    (352, 35200, 156, 21, 2, NULL),
+    (352, 35200, 157, 21, 2, NULL),
+    (352, 35200, 164, 21, 2, NULL),
+    (352, 35200, 168, 21, 2, NULL),
+    (352, 35200, 182, 21, 2, NULL),
+    (352, 35200, 203, 21, 2, NULL),
+    (352, 35200, 207, 21, 2, NULL),
+    (352, 35200, 213, 21, 2, NULL),
+    (352, 35200, 214, 21, 2, NULL),
+    (352, 35200, 231, 21, 2, NULL),
+    (352, 35200, 240, 21, 2, NULL),
+    (352, 35200, 241, 21, 2, NULL),
+    (352, 35200, 244, 21, 2, NULL),
+    (352, 35200, 247, 21, 2, NULL),
+    (352, 35200, 249, 21, 2, NULL),
+    (352, 35200, 263, 21, 2, NULL),
+    (352, 35200, 264, 21, 2, NULL),
+    (352, 35200, 278, 21, 2, NULL),
+    (352, 35200, 280, 21, 2, NULL),
+    (352, 35200, 285, 21, 2, NULL),
+    (352, 35200, 317, 21, 2, NULL),
+    (352, 35200, 332, 21, 2, NULL),
+    (352, 35200, 351, 21, 2, NULL),
+    (352, 35200, 352, 21, 2, NULL),
+    (352, 35200, 374, 21, 2, NULL),
+    (352, 35200, 409, 21, 2, NULL),
+    (352, 35200, 417, 21, 2, NULL),
+    (352, 35200, 421, 21, 2, NULL),
+    (352, 35200, 433, 21, 2, NULL),
+    (352, 35200, 446, 21, 2, NULL),
+    (352, 35200, 447, 21, 2, NULL),
+    (352, 35200, 451, 21, 2, NULL),
+    (352, 35200, 526, 21, 2, NULL),
+    (352, 35200, 50, 21, 5, NULL),
+    (352, 35200, 105, 21, 5, NULL),
+    (352, 35200, 252, 21, 5, NULL),
+    (352, 35200, 271, 21, 5, NULL),
+    (352, 35200, 277, 21, 5, NULL),
+    (352, 35200, 492, 21, 5, NULL),
+    (352, 35200, 612, 21, 5, NULL),
+    (352, 35200, 10, 21, 8, NULL),
+    (352, 35200, 39, 21, 8, NULL),
+    (352, 35200, 122, 21, 8, NULL),
+    (352, 35200, 168, 21, 8, NULL),
+    (352, 35200, 310, 21, 8, NULL),
+    (353, 35300, 103, 21, 1, 4),
+    (353, 35300, 101, 21, 1, 7),
+    (353, 35300, 180, 21, 1, 10),
+    (353, 35300, 425, 21, 1, 13),
+    (353, 35300, 261, 21, 1, 16),
+    (353, 35300, 220, 21, 1, 19),
+    (353, 35300, 506, 21, 1, 22),
+    (353, 35300, 174, 21, 1, 26),
+    (353, 35300, 247, 21, 1, 30),
+    (353, 35300, 272, 21, 1, 34),
+    (353, 35300, 389, 21, 1, 38),
+    (353, 35300, 282, 21, 1, 42),
+    (353, 35300, 288, 21, 1, 46),
+    (353, 35300, 271, 21, 1, 50),
+    (353, 35300, 566, 21, 1, 54),
+    (353, 35300, 85, 21, 2, NULL),
+    (353, 35300, 86, 21, 2, NULL),
+    (353, 35300, 87, 21, 2, NULL),
+    (353, 35300, 94, 21, 2, NULL),
+    (353, 35300, 104, 21, 2, NULL),
+    (353, 35300, 138, 21, 2, NULL),
+    (353, 35300, 148, 21, 2, NULL),
+    (353, 35300, 156, 21, 2, NULL),
+    (353, 35300, 164, 21, 2, NULL),
+    (353, 35300, 168, 21, 2, NULL),
+    (353, 35300, 182, 21, 2, NULL),
+    (353, 35300, 203, 21, 2, NULL),
+    (353, 35300, 207, 21, 2, NULL),
+    (353, 35300, 213, 21, 2, NULL),
+    (353, 35300, 214, 21, 2, NULL),
+    (353, 35300, 240, 21, 2, NULL),
+    (353, 35300, 241, 21, 2, NULL),
+    (353, 35300, 244, 21, 2, NULL),
+    (353, 35300, 247, 21, 2, NULL),
+    (353, 35300, 259, 21, 2, NULL),
+    (353, 35300, 261, 21, 2, NULL),
+    (353, 35300, 263, 21, 2, NULL),
+    (353, 35300, 269, 21, 2, NULL),
+    (353, 35300, 285, 21, 2, NULL),
+    (353, 35300, 347, 21, 2, NULL),
+    (353, 35300, 351, 21, 2, NULL),
+    (353, 35300, 371, 21, 2, NULL),
+    (353, 35300, 399, 21, 2, NULL),
+    (353, 35300, 433, 21, 2, NULL),
+    (353, 35300, 451, 21, 2, NULL),
+    (353, 35300, 605, 21, 2, NULL),
+    (353, 35300, 50, 21, 5, NULL),
+    (353, 35300, 109, 21, 5, NULL),
+    (353, 35300, 194, 21, 5, NULL),
+    (353, 35300, 286, 21, 5, NULL),
+    (353, 35300, 310, 21, 5, NULL),
+    (353, 35300, 425, 21, 5, NULL),
+    (353, 35300, 441, 21, 5, NULL),
+    (353, 35300, 566, 21, 5, NULL),
+    (353, 35300, 282, 21, 8, NULL),
+    (354, 35400, 103, 21, 1, 4),
+    (354, 35400, 101, 21, 1, 7),
+    (354, 35400, 180, 21, 1, 10),
+    (354, 35400, 425, 21, 1, 13),
+    (354, 35400, 261, 21, 1, 16),
+    (354, 35400, 220, 21, 1, 19),
+    (354, 35400, 506, 21, 1, 22),
+    (354, 35400, 174, 21, 1, 26),
+    (354, 35400, 247, 21, 1, 30),
+    (354, 35400, 272, 21, 1, 34),
+    (354, 35400, 389, 21, 1, 40),
+    (354, 35400, 282, 21, 1, 46),
+    (354, 35400, 288, 21, 1, 52),
+    (354, 35400, 271, 21, 1, 58),
+    (354, 35400, 566, 21, 1, 64),
+    (354, 35400, 63, 21, 2, NULL),
+    (354, 35400, 85, 21, 2, NULL),
+    (354, 35400, 86, 21, 2, NULL),
+    (354, 35400, 87, 21, 2, NULL),
+    (354, 35400, 94, 21, 2, NULL),
+    (354, 35400, 104, 21, 2, NULL),
+    (354, 35400, 138, 21, 2, NULL),
+    (354, 35400, 148, 21, 2, NULL),
+    (354, 35400, 156, 21, 2, NULL),
+    (354, 35400, 164, 21, 2, NULL),
+    (354, 35400, 168, 21, 2, NULL),
+    (354, 35400, 182, 21, 2, NULL),
+    (354, 35400, 203, 21, 2, NULL),
+    (354, 35400, 207, 21, 2, NULL),
+    (354, 35400, 213, 21, 2, NULL),
+    (354, 35400, 214, 21, 2, NULL),
+    (354, 35400, 240, 21, 2, NULL),
+    (354, 35400, 241, 21, 2, NULL),
+    (354, 35400, 244, 21, 2, NULL),
+    (354, 35400, 247, 21, 2, NULL),
+    (354, 35400, 259, 21, 2, NULL),
+    (354, 35400, 261, 21, 2, NULL),
+    (354, 35400, 263, 21, 2, NULL),
+    (354, 35400, 269, 21, 2, NULL),
+    (354, 35400, 285, 21, 2, NULL),
+    (354, 35400, 347, 21, 2, NULL),
+    (354, 35400, 351, 21, 2, NULL),
+    (354, 35400, 371, 21, 2, NULL),
+    (354, 35400, 374, 21, 2, NULL),
+    (354, 35400, 399, 21, 2, NULL),
+    (354, 35400, 416, 21, 2, NULL),
+    (354, 35400, 421, 21, 2, NULL),
+    (354, 35400, 433, 21, 2, NULL),
+    (354, 35400, 451, 21, 2, NULL),
+    (354, 35400, 605, 21, 2, NULL),
+    (354, 35400, 50, 21, 5, NULL),
+    (354, 35400, 109, 21, 5, NULL),
+    (354, 35400, 194, 21, 5, NULL),
+    (354, 35400, 286, 21, 5, NULL),
+    (354, 35400, 310, 21, 5, NULL),
+    (354, 35400, 425, 21, 5, NULL),
+    (354, 35400, 441, 21, 5, NULL),
+    (354, 35400, 566, 21, 5, NULL),
+    (354, 35400, 101, 21, 8, NULL),
+    (354, 35400, 103, 21, 8, NULL),
+    (354, 35400, 180, 21, 8, NULL),
+    (354, 35400, 282, 21, 8, NULL),
+    (354, 35400, 566, 21, 8, NULL),
+    (355, 35500, 50, 21, 1, 4),
+    (355, 35500, 425, 21, 1, 8),
+    (355, 35500, 109, 21, 1, 12),
+    (355, 35500, 101, 21, 1, 16),
+    (355, 35500, 371, 21, 1, 20),
+    (355, 35500, 261, 21, 1, 24),
+    (355, 35500, 212, 21, 1, 28),
+    (355, 35500, 506, 21, 1, 32),
+    (355, 35500, 174, 21, 1, 36),
+    (355, 35500, 247, 21, 1, 40),
+    (355, 35500, 248, 21, 1, 44),
+    (355, 35500, 58, 21, 2, NULL),
+    (355, 35500, 59, 21, 2, NULL),
+    (355, 35500, 94, 21, 2, NULL),
+    (355, 35500, 104, 21, 2, NULL),
+    (355, 35500, 138, 21, 2, NULL),
+    (355, 35500, 148, 21, 2, NULL),
+    (355, 35500, 156, 21, 2, NULL),
+    (355, 35500, 164, 21, 2, NULL),
+    (355, 35500, 168, 21, 2, NULL),
+    (355, 35500, 182, 21, 2, NULL),
+    (355, 35500, 203, 21, 2, NULL),
+    (355, 35500, 207, 21, 2, NULL),
+    (355, 35500, 213, 21, 2, NULL),
+    (355, 35500, 214, 21, 2, NULL),
+    (355, 35500, 240, 21, 2, NULL),
+    (355, 35500, 241, 21, 2, NULL),
+    (355, 35500, 244, 21, 2, NULL),
+    (355, 35500, 247, 21, 2, NULL),
+    (355, 35500, 259, 21, 2, NULL),
+    (355, 35500, 261, 21, 2, NULL),
+    (355, 35500, 263, 21, 2, NULL),
+    (355, 35500, 269, 21, 2, NULL),
+    (355, 35500, 285, 21, 2, NULL),
+    (355, 35500, 347, 21, 2, NULL),
+    (355, 35500, 371, 21, 2, NULL),
+    (355, 35500, 374, 21, 2, NULL),
+    (355, 35500, 399, 21, 2, NULL),
+    (355, 35500, 433, 21, 2, NULL),
+    (355, 35500, 451, 21, 2, NULL),
+    (355, 35500, 114, 21, 5, NULL),
+    (355, 35500, 194, 21, 5, NULL),
+    (355, 35500, 220, 21, 5, NULL),
+    (355, 35500, 262, 21, 5, NULL),
+    (355, 35500, 286, 21, 5, NULL),
+    (355, 35500, 288, 21, 5, NULL),
+    (355, 35500, 43, 21, 8, NULL),
+    (355, 35500, 310, 21, 8, NULL),
+    (356, 35600, 109, 21, 1, 12),
+    (356, 35600, 101, 21, 1, 16),
+    (356, 35600, 371, 21, 1, 20),
+    (356, 35600, 261, 21, 1, 24),
+    (356, 35600, 212, 21, 1, 28),
+    (356, 35600, 506, 21, 1, 32),
+    (356, 35600, 174, 21, 1, 36),
+    (356, 35600, 247, 21, 1, 42),
+    (356, 35600, 248, 21, 1, 48),
+    (356, 35600, 58, 21, 2, NULL),
+    (356, 35600, 59, 21, 2, NULL),
+    (356, 35600, 63, 21, 2, NULL),
+    (356, 35600, 70, 21, 2, NULL),
+    (356, 35600, 89, 21, 2, NULL),
+    (356, 35600, 94, 21, 2, NULL),
+    (356, 35600, 104, 21, 2, NULL),
+    (356, 35600, 138, 21, 2, NULL),
+    (356, 35600, 148, 21, 2, NULL),
+    (356, 35600, 156, 21, 2, NULL),
+    (356, 35600, 157, 21, 2, NULL),
+    (356, 35600, 164, 21, 2, NULL),
+    (356, 35600, 168, 21, 2, NULL),
+    (356, 35600, 182, 21, 2, NULL),
+    (356, 35600, 203, 21, 2, NULL),
+    (356, 35600, 207, 21, 2, NULL),
+    (356, 35600, 213, 21, 2, NULL),
+    (356, 35600, 214, 21, 2, NULL),
+    (356, 35600, 240, 21, 2, NULL),
+    (356, 35600, 241, 21, 2, NULL),
+    (356, 35600, 244, 21, 2, NULL),
+    (356, 35600, 247, 21, 2, NULL),
+    (356, 35600, 249, 21, 2, NULL),
+    (356, 35600, 259, 21, 2, NULL),
+    (356, 35600, 261, 21, 2, NULL),
+    (356, 35600, 263, 21, 2, NULL),
+    (356, 35600, 264, 21, 2, NULL),
+    (356, 35600, 269, 21, 2, NULL),
+    (356, 35600, 280, 21, 2, NULL),
+    (356, 35600, 285, 21, 2, NULL),
+    (356, 35600, 317, 21, 2, NULL),
+    (356, 35600, 347, 21, 2, NULL),
+    (356, 35600, 371, 21, 2, NULL),
+    (356, 35600, 374, 21, 2, NULL),
+    (356, 35600, 399, 21, 2, NULL),
+    (356, 35600, 416, 21, 2, NULL),
+    (356, 35600, 433, 21, 2, NULL),
+    (356, 35600, 451, 21, 2, NULL),
+    (356, 35600, 523, 21, 2, NULL),
+    (356, 35600, 114, 21, 5, NULL),
+    (356, 35600, 194, 21, 5, NULL),
+    (356, 35600, 220, 21, 5, NULL),
+    (356, 35600, 262, 21, 5, NULL),
+    (356, 35600, 286, 21, 5, NULL),
+    (356, 35600, 288, 21, 5, NULL),
+    (356, 35600, 7, 21, 8, NULL),
+    (356, 35600, 8, 21, 8, NULL),
+    (356, 35600, 9, 21, 8, NULL),
+    (356, 35600, 20, 21, 8, NULL),
+    (356, 35600, 43, 21, 8, NULL),
+    (356, 35600, 50, 21, 8, NULL),
+    (356, 35600, 310, 21, 8, NULL),
+    (356, 35600, 325, 21, 8, NULL),
+    (356, 35600, 356, 21, 8, NULL),
+    (356, 35600, 425, 21, 8, NULL),
+    (357, 35700, 230, 21, 1, 6),
+    (357, 35700, 23, 21, 1, 10),
+    (357, 35700, 345, 21, 1, 16),
+    (357, 35700, 18, 21, 1, 21),
+    (357, 35700, 536, 21, 1, 26),
+    (357, 35700, 349, 21, 1, 30),
+    (357, 35700, 403, 21, 1, 36),
+    (357, 35700, 34, 21, 1, 41),
+    (357, 35700, 692, 21, 1, 46),
+    (357, 35700, 235, 21, 1, 50),
+    (357, 35700, 76, 21, 1, 56),
+    (357, 35700, 437, 21, 1, 61),
+    (357, 35700, 14, 21, 2, NULL),
+    (357, 35700, 15, 21, 2, NULL),
+    (357, 35700, 19, 21, 2, NULL),
+    (357, 35700, 46, 21, 2, NULL),
+    (357, 35700, 63, 21, 2, NULL),
+    (357, 35700, 70, 21, 2, NULL),
+    (357, 35700, 76, 21, 2, NULL),
+    (357, 35700, 89, 21, 2, NULL),
+    (357, 35700, 104, 21, 2, NULL),
+    (357, 35700, 148, 21, 2, NULL),
+    (357, 35700, 156, 21, 2, NULL),
+    (357, 35700, 164, 21, 2, NULL),
+    (357, 35700, 182, 21, 2, NULL),
+    (357, 35700, 202, 21, 2, NULL),
+    (357, 35700, 203, 21, 2, NULL),
+    (357, 35700, 207, 21, 2, NULL),
+    (357, 35700, 211, 21, 2, NULL),
+    (357, 35700, 213, 21, 2, NULL),
+    (357, 35700, 214, 21, 2, NULL),
+    (357, 35700, 219, 21, 2, NULL),
+    (357, 35700, 241, 21, 2, NULL),
+    (357, 35700, 249, 21, 2, NULL),
+    (357, 35700, 263, 21, 2, NULL),
+    (357, 35700, 331, 21, 2, NULL),
+    (357, 35700, 332, 21, 2, NULL),
+    (357, 35700, 355, 21, 2, NULL),
+    (357, 35700, 406, 21, 2, NULL),
+    (357, 35700, 412, 21, 2, NULL),
+    (357, 35700, 416, 21, 2, NULL),
+    (357, 35700, 432, 21, 2, NULL),
+    (357, 35700, 447, 21, 2, NULL),
+    (357, 35700, 523, 21, 2, NULL),
+    (357, 35700, 21, 21, 5, NULL),
+    (357, 35700, 29, 21, 5, NULL),
+    (357, 35700, 73, 21, 5, NULL),
+    (357, 35700, 174, 21, 5, NULL),
+    (357, 35700, 235, 21, 5, NULL),
+    (357, 35700, 267, 21, 5, NULL),
+    (357, 35700, 348, 21, 5, NULL),
+    (357, 35700, 349, 21, 5, NULL),
+    (357, 35700, 437, 21, 5, NULL),
+    (357, 35700, 692, 21, 5, NULL),
+    (357, 35700, 16, 21, 8, NULL),
+    (357, 35700, 43, 21, 8, NULL),
+    (357, 35700, 74, 21, 8, NULL),
+    (357, 35700, 75, 21, 8, NULL),
+    (357, 35700, 437, 21, 8, NULL),
+    (358, 35800, 45, 21, 1, 4),
+    (358, 35800, 310, 21, 1, 7),
+    (358, 35800, 93, 21, 1, 10),
+    (358, 35800, 281, 21, 1, 13),
+    (358, 35800, 113, 21, 1, 16),
+    (358, 35800, 36, 21, 1, 19),
+    (358, 35800, 326, 21, 1, 22),
+    (358, 35800, 215, 21, 1, 27),
+    (358, 35800, 253, 21, 1, 32),
+    (358, 35800, 219, 21, 1, 37),
+    (358, 35800, 38, 21, 1, 42),
+    (358, 35800, 505, 21, 1, 47),
+    (358, 35800, 94, 21, 1, 52),
+    (358, 35800, 361, 21, 1, 57),
+    (358, 35800, 86, 21, 2, NULL),
+    (358, 35800, 94, 21, 2, NULL),
+    (358, 35800, 104, 21, 2, NULL),
+    (358, 35800, 113, 21, 2, NULL),
+    (358, 35800, 115, 21, 2, NULL),
+    (358, 35800, 138, 21, 2, NULL),
+    (358, 35800, 148, 21, 2, NULL),
+    (358, 35800, 156, 21, 2, NULL),
+    (358, 35800, 164, 21, 2, NULL),
+    (358, 35800, 182, 21, 2, NULL),
+    (358, 35800, 203, 21, 2, NULL),
+    (358, 35800, 207, 21, 2, NULL),
+    (358, 35800, 213, 21, 2, NULL),
+    (358, 35800, 214, 21, 2, NULL),
+    (358, 35800, 219, 21, 2, NULL),
+    (358, 35800, 240, 21, 2, NULL),
+    (358, 35800, 241, 21, 2, NULL),
+    (358, 35800, 244, 21, 2, NULL),
+    (358, 35800, 247, 21, 2, NULL),
+    (358, 35800, 259, 21, 2, NULL),
+    (358, 35800, 263, 21, 2, NULL),
+    (358, 35800, 269, 21, 2, NULL),
+    (358, 35800, 278, 21, 2, NULL),
+    (358, 35800, 285, 21, 2, NULL),
+    (358, 35800, 347, 21, 2, NULL),
+    (358, 35800, 351, 21, 2, NULL),
+    (358, 35800, 412, 21, 2, NULL),
+    (358, 35800, 433, 21, 2, NULL),
+    (358, 35800, 447, 21, 2, NULL),
+    (358, 35800, 451, 21, 2, NULL),
+    (358, 35800, 605, 21, 2, NULL),
+    (358, 35800, 50, 21, 5, NULL),
+    (358, 35800, 95, 21, 5, NULL),
+    (358, 35800, 105, 21, 5, NULL),
+    (358, 35800, 174, 21, 5, NULL),
+    (358, 35800, 195, 21, 5, NULL),
+    (358, 35800, 248, 21, 5, NULL),
+    (358, 35800, 273, 21, 5, NULL),
+    (358, 35800, 322, 21, 5, NULL),
+    (358, 35800, 500, 21, 5, NULL),
+    (358, 35800, 35, 21, 8, NULL),
+    (358, 35800, 45, 21, 8, NULL),
+    (358, 35800, 93, 21, 8, NULL),
+    (358, 35800, 310, 21, 8, NULL),
+    (358, 35800, 361, 21, 8, NULL),
+    (358, 35800, 387, 21, 8, NULL),
+    (358, 35800, 494, 21, 8, NULL),
+    (359, 35900, 104, 21, 1, 5),
+    (359, 35900, 282, 21, 1, 10),
+    (359, 35900, 197, 21, 1, 15),
+    (359, 35900, 269, 21, 1, 20),
+    (359, 35900, 163, 21, 1, 25),
+    (359, 35900, 400, 21, 1, 30),
+    (359, 35900, 116, 21, 1, 35),
+    (359, 35900, 389, 21, 1, 40),
+    (359, 35900, 14, 21, 1, 45),
+    (359, 35900, 248, 21, 1, 50),
+    (359, 35900, 195, 21, 1, 55),
+    (359, 35900, 14, 21, 2, NULL),
+    (359, 35900, 15, 21, 2, NULL),
+    (359, 35900, 53, 21, 2, NULL),
+    (359, 35900, 58, 21, 2, NULL),
+    (359, 35900, 59, 21, 2, NULL),
+    (359, 35900, 63, 21, 2, NULL),
+    (359, 35900, 70, 21, 2, NULL),
+    (359, 35900, 85, 21, 2, NULL),
+    (359, 35900, 86, 21, 2, NULL),
+    (359, 35900, 87, 21, 2, NULL),
+    (359, 35900, 104, 21, 2, NULL),
+    (359, 35900, 126, 21, 2, NULL),
+    (359, 35900, 138, 21, 2, NULL),
+    (359, 35900, 148, 21, 2, NULL),
+    (359, 35900, 156, 21, 2, NULL),
+    (359, 35900, 157, 21, 2, NULL),
+    (359, 35900, 164, 21, 2, NULL),
+    (359, 35900, 168, 21, 2, NULL),
+    (359, 35900, 182, 21, 2, NULL),
+    (359, 35900, 201, 21, 2, NULL),
+    (359, 35900, 203, 21, 2, NULL),
+    (359, 35900, 206, 21, 2, NULL),
+    (359, 35900, 207, 21, 2, NULL),
+    (359, 35900, 213, 21, 2, NULL),
+    (359, 35900, 214, 21, 2, NULL),
+    (359, 35900, 231, 21, 2, NULL),
+    (359, 35900, 240, 21, 2, NULL),
+    (359, 35900, 241, 21, 2, NULL),
+    (359, 35900, 244, 21, 2, NULL),
+    (359, 35900, 247, 21, 2, NULL),
+    (359, 35900, 249, 21, 2, NULL),
+    (359, 35900, 258, 21, 2, NULL),
+    (359, 35900, 259, 21, 2, NULL),
+    (359, 35900, 261, 21, 2, NULL),
+    (359, 35900, 263, 21, 2, NULL),
+    (359, 35900, 269, 21, 2, NULL),
+    (359, 35900, 317, 21, 2, NULL),
+    (359, 35900, 332, 21, 2, NULL),
+    (359, 35900, 347, 21, 2, NULL),
+    (359, 35900, 351, 21, 2, NULL),
+    (359, 35900, 352, 21, 2, NULL),
+    (359, 35900, 371, 21, 2, NULL),
+    (359, 35900, 399, 21, 2, NULL),
+    (359, 35900, 404, 21, 2, NULL),
+    (359, 35900, 416, 21, 2, NULL),
+    (359, 35900, 421, 21, 2, NULL),
+    (359, 35900, 444, 21, 2, NULL),
+    (359, 35900, 451, 21, 2, NULL),
+    (359, 35900, 555, 21, 2, NULL),
+    (359, 35900, 38, 21, 5, NULL),
+    (359, 35900, 44, 21, 5, NULL),
+    (359, 35900, 174, 21, 5, NULL),
+    (359, 35900, 195, 21, 5, NULL),
+    (359, 35900, 212, 21, 5, NULL),
+    (359, 35900, 224, 21, 5, NULL),
+    (359, 35900, 226, 21, 5, NULL),
+    (359, 35900, 277, 21, 5, NULL),
+    (359, 35900, 364, 21, 5, NULL),
+    (359, 35900, 372, 21, 5, NULL),
+    (359, 35900, 389, 21, 5, NULL),
+    (359, 35900, 428, 21, 5, NULL),
+    (359, 35900, 506, 21, 5, NULL),
+    (359, 35900, 583, 21, 5, NULL),
+    (359, 35900, 43, 21, 8, NULL),
+    (359, 35900, 98, 21, 8, NULL),
+    (360, 36000, 219, 21, 2, NULL),
+    (360, 36000, 68, 21, 8, NULL),
+    (360, 36000, 133, 21, 8, NULL),
+    (360, 36000, 150, 21, 8, NULL),
+    (360, 36000, 194, 21, 8, NULL),
+    (360, 36000, 204, 21, 8, NULL),
+    (360, 36000, 219, 21, 8, NULL),
+    (360, 36000, 227, 21, 8, NULL),
+    (360, 36000, 243, 21, 8, NULL),
+    (361, 36100, 43, 21, 1, 5),
+    (361, 36100, 104, 21, 1, 10),
+    (361, 36100, 420, 21, 1, 15),
+    (361, 36100, 182, 21, 1, 20),
+    (361, 36100, 196, 21, 1, 25),
+    (361, 36100, 524, 21, 1, 30),
+    (361, 36100, 44, 21, 1, 35),
+    (361, 36100, 423, 21, 1, 40),
+    (361, 36100, 258, 21, 1, 45),
+    (361, 36100, 29, 21, 1, 50),
+    (361, 36100, 242, 21, 1, 55),
+    (361, 36100, 59, 21, 1, 60),
+    (361, 36100, 58, 21, 2, NULL),
+    (361, 36100, 59, 21, 2, NULL),
+    (361, 36100, 104, 21, 2, NULL),
+    (361, 36100, 113, 21, 2, NULL),
+    (361, 36100, 148, 21, 2, NULL),
+    (361, 36100, 156, 21, 2, NULL),
+    (361, 36100, 164, 21, 2, NULL),
+    (361, 36100, 182, 21, 2, NULL),
+    (361, 36100, 203, 21, 2, NULL),
+    (361, 36100, 207, 21, 2, NULL),
+    (361, 36100, 213, 21, 2, NULL),
+    (361, 36100, 214, 21, 2, NULL),
+    (361, 36100, 219, 21, 2, NULL),
+    (361, 36100, 240, 21, 2, NULL),
+    (361, 36100, 247, 21, 2, NULL),
+    (361, 36100, 258, 21, 2, NULL),
+    (361, 36100, 263, 21, 2, NULL),
+    (361, 36100, 352, 21, 2, NULL),
+    (361, 36100, 419, 21, 2, NULL),
+    (361, 36100, 50, 21, 5, NULL),
+    (361, 36100, 191, 21, 5, NULL),
+    (361, 36100, 205, 21, 5, NULL),
+    (361, 36100, 311, 21, 5, NULL),
+    (361, 36100, 313, 21, 5, NULL),
+    (361, 36100, 335, 21, 5, NULL),
+    (361, 36100, 415, 21, 5, NULL),
+    (361, 36100, 506, 21, 5, NULL),
+    (361, 36100, 556, 21, 5, NULL),
+    (361, 36100, 181, 21, 8, NULL),
+    (361, 36100, 310, 21, 8, NULL),
+    (362, 36200, 420, 21, 1, 15),
+    (362, 36200, 182, 21, 1, 20),
+    (362, 36200, 196, 21, 1, 25),
+    (362, 36200, 524, 21, 1, 30),
+    (362, 36200, 44, 21, 1, 35),
+    (362, 36200, 423, 21, 1, 40),
+    (362, 36200, 258, 21, 1, 47),
+    (362, 36200, 29, 21, 1, 54),
+    (362, 36200, 242, 21, 1, 61),
+    (362, 36200, 59, 21, 1, 68),
+    (362, 36200, 58, 21, 2, NULL),
+    (362, 36200, 59, 21, 2, NULL),
+    (362, 36200, 63, 21, 2, NULL),
+    (362, 36200, 89, 21, 2, NULL),
+    (362, 36200, 104, 21, 2, NULL),
+    (362, 36200, 113, 21, 2, NULL),
+    (362, 36200, 148, 21, 2, NULL),
+    (362, 36200, 153, 21, 2, NULL),
+    (362, 36200, 156, 21, 2, NULL),
+    (362, 36200, 164, 21, 2, NULL),
+    (362, 36200, 182, 21, 2, NULL),
+    (362, 36200, 203, 21, 2, NULL),
+    (362, 36200, 207, 21, 2, NULL),
+    (362, 36200, 213, 21, 2, NULL),
+    (362, 36200, 214, 21, 2, NULL),
+    (362, 36200, 219, 21, 2, NULL),
+    (362, 36200, 240, 21, 2, NULL),
+    (362, 36200, 247, 21, 2, NULL),
+    (362, 36200, 258, 21, 2, NULL),
+    (362, 36200, 259, 21, 2, NULL),
+    (362, 36200, 263, 21, 2, NULL),
+    (362, 36200, 269, 21, 2, NULL),
+    (362, 36200, 352, 21, 2, NULL),
+    (362, 36200, 360, 21, 2, NULL),
+    (362, 36200, 371, 21, 2, NULL),
+    (362, 36200, 399, 21, 2, NULL),
+    (362, 36200, 416, 21, 2, NULL),
+    (362, 36200, 419, 21, 2, NULL),
+    (362, 36200, 523, 21, 2, NULL),
+    (362, 36200, 50, 21, 5, NULL),
+    (362, 36200, 191, 21, 5, NULL),
+    (362, 36200, 205, 21, 5, NULL),
+    (362, 36200, 311, 21, 5, NULL),
+    (362, 36200, 313, 21, 5, NULL),
+    (362, 36200, 335, 21, 5, NULL),
+    (362, 36200, 415, 21, 5, NULL),
+    (362, 36200, 506, 21, 5, NULL),
+    (362, 36200, 556, 21, 5, NULL),
+    (362, 36200, 43, 21, 8, NULL),
+    (362, 36200, 104, 21, 8, NULL),
+    (362, 36200, 181, 21, 8, NULL),
+    (362, 36200, 310, 21, 8, NULL),
+    (362, 36200, 329, 21, 8, NULL),
+    (362, 36200, 573, 21, 8, NULL),
+    (363, 36300, 45, 21, 1, 4),
+    (363, 36300, 55, 21, 1, 8),
+    (363, 36300, 181, 21, 1, 12),
+    (363, 36300, 156, 21, 1, 16),
+    (363, 36300, 173, 21, 1, 20),
+    (363, 36300, 362, 21, 1, 24),
+    (363, 36300, 62, 21, 1, 28),
+    (363, 36300, 227, 21, 1, 33),
+    (363, 36300, 34, 21, 1, 36),
+    (363, 36300, 57, 21, 1, 40),
+    (363, 36300, 59, 21, 1, 44),
+    (363, 36300, 258, 21, 1, 48),
+    (363, 36300, 329, 21, 1, 52),
+    (363, 36300, 57, 21, 2, NULL),
+    (363, 36300, 58, 21, 2, NULL),
+    (363, 36300, 59, 21, 2, NULL),
+    (363, 36300, 70, 21, 2, NULL),
+    (363, 36300, 89, 21, 2, NULL),
+    (363, 36300, 104, 21, 2, NULL),
+    (363, 36300, 127, 21, 2, NULL),
+    (363, 36300, 156, 21, 2, NULL),
+    (363, 36300, 157, 21, 2, NULL),
+    (363, 36300, 164, 21, 2, NULL),
+    (363, 36300, 182, 21, 2, NULL),
+    (363, 36300, 203, 21, 2, NULL),
+    (363, 36300, 207, 21, 2, NULL),
+    (363, 36300, 213, 21, 2, NULL),
+    (363, 36300, 214, 21, 2, NULL),
+    (363, 36300, 231, 21, 2, NULL),
+    (363, 36300, 240, 21, 2, NULL),
+    (363, 36300, 249, 21, 2, NULL),
+    (363, 36300, 258, 21, 2, NULL),
+    (363, 36300, 263, 21, 2, NULL),
+    (363, 36300, 317, 21, 2, NULL),
+    (363, 36300, 352, 21, 2, NULL),
+    (363, 36300, 362, 21, 2, NULL),
+    (363, 36300, 523, 21, 2, NULL),
+    (363, 36300, 90, 21, 5, NULL),
+    (363, 36300, 174, 21, 5, NULL),
+    (363, 36300, 187, 21, 5, NULL),
+    (363, 36300, 205, 21, 5, NULL),
+    (363, 36300, 254, 21, 5, NULL),
+    (363, 36300, 255, 21, 5, NULL),
+    (363, 36300, 256, 21, 5, NULL),
+    (363, 36300, 281, 21, 5, NULL),
+    (363, 36300, 392, 21, 5, NULL),
+    (363, 36300, 111, 21, 8, NULL),
+    (363, 36300, 205, 21, 8, NULL),
+    (364, 36400, 181, 21, 1, 12),
+    (364, 36400, 156, 21, 1, 16),
+    (364, 36400, 173, 21, 1, 20),
+    (364, 36400, 362, 21, 1, 24),
+    (364, 36400, 62, 21, 1, 28),
+    (364, 36400, 227, 21, 1, 35),
+    (364, 36400, 34, 21, 1, 40),
+    (364, 36400, 57, 21, 1, 46),
+    (364, 36400, 59, 21, 1, 52),
+    (364, 36400, 258, 21, 1, 58),
+    (364, 36400, 329, 21, 1, 64),
+    (364, 36400, 46, 21, 2, NULL),
+    (364, 36400, 57, 21, 2, NULL),
+    (364, 36400, 58, 21, 2, NULL),
+    (364, 36400, 59, 21, 2, NULL),
+    (364, 36400, 70, 21, 2, NULL),
+    (364, 36400, 89, 21, 2, NULL),
+    (364, 36400, 104, 21, 2, NULL),
+    (364, 36400, 127, 21, 2, NULL),
+    (364, 36400, 156, 21, 2, NULL),
+    (364, 36400, 157, 21, 2, NULL),
+    (364, 36400, 164, 21, 2, NULL),
+    (364, 36400, 182, 21, 2, NULL),
+    (364, 36400, 203, 21, 2, NULL),
+    (364, 36400, 207, 21, 2, NULL),
+    (364, 36400, 213, 21, 2, NULL),
+    (364, 36400, 214, 21, 2, NULL),
+    (364, 36400, 231, 21, 2, NULL),
+    (364, 36400, 240, 21, 2, NULL),
+    (364, 36400, 249, 21, 2, NULL),
+    (364, 36400, 258, 21, 2, NULL),
+    (364, 36400, 263, 21, 2, NULL),
+    (364, 36400, 317, 21, 2, NULL),
+    (364, 36400, 352, 21, 2, NULL),
+    (364, 36400, 362, 21, 2, NULL),
+    (364, 36400, 523, 21, 2, NULL),
+    (364, 36400, 90, 21, 5, NULL),
+    (364, 36400, 174, 21, 5, NULL),
+    (364, 36400, 187, 21, 5, NULL),
+    (364, 36400, 205, 21, 5, NULL),
+    (364, 36400, 254, 21, 5, NULL),
+    (364, 36400, 255, 21, 5, NULL),
+    (364, 36400, 256, 21, 5, NULL),
+    (364, 36400, 281, 21, 5, NULL),
+    (364, 36400, 392, 21, 5, NULL),
+    (364, 36400, 45, 21, 8, NULL),
+    (364, 36400, 55, 21, 8, NULL),
+    (364, 36400, 111, 21, 8, NULL),
+    (364, 36400, 205, 21, 8, NULL),
+    (364, 36400, 207, 21, 8, NULL),
+    (365, 36500, 181, 21, 1, 12),
+    (365, 36500, 156, 21, 1, 16),
+    (365, 36500, 173, 21, 1, 20),
+    (365, 36500, 362, 21, 1, 24),
+    (365, 36500, 62, 21, 1, 28),
+    (365, 36500, 227, 21, 1, 35),
+    (365, 36500, 34, 21, 1, 40),
+    (365, 36500, 57, 21, 1, 48),
+    (365, 36500, 59, 21, 1, 56),
+    (365, 36500, 258, 21, 1, 64),
+    (365, 36500, 329, 21, 1, 72),
+    (365, 36500, 14, 21, 2, NULL),
+    (365, 36500, 46, 21, 2, NULL),
+    (365, 36500, 57, 21, 2, NULL),
+    (365, 36500, 58, 21, 2, NULL),
+    (365, 36500, 59, 21, 2, NULL),
+    (365, 36500, 63, 21, 2, NULL),
+    (365, 36500, 70, 21, 2, NULL),
+    (365, 36500, 89, 21, 2, NULL),
+    (365, 36500, 104, 21, 2, NULL),
+    (365, 36500, 127, 21, 2, NULL),
+    (365, 36500, 156, 21, 2, NULL),
+    (365, 36500, 157, 21, 2, NULL),
+    (365, 36500, 164, 21, 2, NULL),
+    (365, 36500, 182, 21, 2, NULL),
+    (365, 36500, 203, 21, 2, NULL),
+    (365, 36500, 207, 21, 2, NULL),
+    (365, 36500, 213, 21, 2, NULL),
+    (365, 36500, 214, 21, 2, NULL),
+    (365, 36500, 231, 21, 2, NULL),
+    (365, 36500, 240, 21, 2, NULL),
+    (365, 36500, 249, 21, 2, NULL),
+    (365, 36500, 258, 21, 2, NULL),
+    (365, 36500, 263, 21, 2, NULL),
+    (365, 36500, 317, 21, 2, NULL),
+    (365, 36500, 352, 21, 2, NULL),
+    (365, 36500, 362, 21, 2, NULL),
+    (365, 36500, 416, 21, 2, NULL),
+    (365, 36500, 419, 21, 2, NULL),
+    (365, 36500, 523, 21, 2, NULL),
+    (365, 36500, 90, 21, 5, NULL),
+    (365, 36500, 174, 21, 5, NULL),
+    (365, 36500, 187, 21, 5, NULL),
+    (365, 36500, 205, 21, 5, NULL),
+    (365, 36500, 254, 21, 5, NULL),
+    (365, 36500, 255, 21, 5, NULL),
+    (365, 36500, 256, 21, 5, NULL),
+    (365, 36500, 281, 21, 5, NULL),
+    (365, 36500, 392, 21, 5, NULL),
+    (365, 36500, 45, 21, 8, NULL),
+    (365, 36500, 55, 21, 8, NULL),
+    (365, 36500, 111, 21, 8, NULL),
+    (365, 36500, 205, 21, 8, NULL),
+    (365, 36500, 207, 21, 8, NULL),
+    (365, 36500, 242, 21, 8, NULL),
+    (365, 36500, 423, 21, 8, NULL),
+    (366, 36600, 504, 21, 1, 50),
+    (366, 36600, 57, 21, 2, NULL),
+    (366, 36600, 58, 21, 2, NULL),
+    (366, 36600, 59, 21, 2, NULL),
+    (366, 36600, 104, 21, 2, NULL),
+    (366, 36600, 127, 21, 2, NULL),
+    (366, 36600, 156, 21, 2, NULL),
+    (366, 36600, 164, 21, 2, NULL),
+    (366, 36600, 182, 21, 2, NULL),
+    (366, 36600, 203, 21, 2, NULL),
+    (366, 36600, 207, 21, 2, NULL),
+    (366, 36600, 213, 21, 2, NULL),
+    (366, 36600, 214, 21, 2, NULL),
+    (366, 36600, 240, 21, 2, NULL),
+    (366, 36600, 258, 21, 2, NULL),
+    (366, 36600, 263, 21, 2, NULL),
+    (366, 36600, 352, 21, 2, NULL),
+    (366, 36600, 362, 21, 2, NULL),
+    (366, 36600, 503, 21, 2, NULL),
+    (366, 36600, 34, 21, 5, NULL),
+    (366, 36600, 48, 21, 5, NULL),
+    (366, 36600, 109, 21, 5, NULL),
+    (366, 36600, 330, 21, 5, NULL),
+    (366, 36600, 392, 21, 5, NULL),
+    (366, 36600, 55, 21, 8, NULL),
+    (366, 36600, 250, 21, 8, NULL),
+    (366, 36600, 334, 21, 8, NULL),
+    (367, 36700, 103, 21, 1, 5),
+    (367, 36700, 184, 21, 1, 9),
+    (367, 36700, 240, 21, 1, 11),
+    (367, 36700, 352, 21, 1, 14),
+    (367, 36700, 423, 21, 1, 16),
+    (367, 36700, 362, 21, 1, 19),
+    (367, 36700, 389, 21, 1, 23),
+    (367, 36700, 291, 21, 1, 26),
+    (367, 36700, 226, 21, 1, 29),
+    (367, 36700, 242, 21, 1, 34),
+    (367, 36700, 401, 21, 1, 39),
+    (367, 36700, 489, 21, 1, 45),
+    (367, 36700, 56, 21, 1, 50),
+    (367, 36700, 57, 21, 2, NULL),
+    (367, 36700, 58, 21, 2, NULL),
+    (367, 36700, 59, 21, 2, NULL),
+    (367, 36700, 63, 21, 2, NULL),
+    (367, 36700, 104, 21, 2, NULL),
+    (367, 36700, 127, 21, 2, NULL),
+    (367, 36700, 156, 21, 2, NULL),
+    (367, 36700, 164, 21, 2, NULL),
+    (367, 36700, 182, 21, 2, NULL),
+    (367, 36700, 203, 21, 2, NULL),
+    (367, 36700, 207, 21, 2, NULL),
+    (367, 36700, 213, 21, 2, NULL),
+    (367, 36700, 214, 21, 2, NULL),
+    (367, 36700, 240, 21, 2, NULL),
+    (367, 36700, 258, 21, 2, NULL),
+    (367, 36700, 263, 21, 2, NULL),
+    (367, 36700, 317, 21, 2, NULL),
+    (367, 36700, 352, 21, 2, NULL),
+    (367, 36700, 362, 21, 2, NULL),
+    (367, 36700, 416, 21, 2, NULL),
+    (367, 36700, 503, 21, 2, NULL),
+    (367, 36700, 34, 21, 5, NULL),
+    (367, 36700, 48, 21, 5, NULL),
+    (367, 36700, 109, 21, 5, NULL),
+    (367, 36700, 330, 21, 5, NULL),
+    (367, 36700, 392, 21, 5, NULL),
+    (367, 36700, 44, 21, 8, NULL),
+    (367, 36700, 55, 21, 8, NULL),
+    (367, 36700, 250, 21, 8, NULL),
+    (367, 36700, 334, 21, 8, NULL),
+    (367, 36700, 504, 21, 8, NULL),
+    (368, 36800, 240, 21, 1, 5),
+    (368, 36800, 97, 21, 1, 9),
+    (368, 36800, 577, 21, 1, 11),
+    (368, 36800, 352, 21, 1, 14),
+    (368, 36800, 133, 21, 1, 16),
+    (368, 36800, 392, 21, 1, 19),
+    (368, 36800, 219, 21, 1, 23),
+    (368, 36800, 291, 21, 1, 26),
+    (368, 36800, 226, 21, 1, 29),
+    (368, 36800, 94, 21, 1, 34),
+    (368, 36800, 401, 21, 1, 39),
+    (368, 36800, 489, 21, 1, 45),
+    (368, 36800, 56, 21, 1, 50),
+    (368, 36800, 57, 21, 2, NULL),
+    (368, 36800, 58, 21, 2, NULL),
+    (368, 36800, 59, 21, 2, NULL),
+    (368, 36800, 63, 21, 2, NULL),
+    (368, 36800, 94, 21, 2, NULL),
+    (368, 36800, 104, 21, 2, NULL),
+    (368, 36800, 127, 21, 2, NULL),
+    (368, 36800, 156, 21, 2, NULL),
+    (368, 36800, 164, 21, 2, NULL),
+    (368, 36800, 182, 21, 2, NULL),
+    (368, 36800, 203, 21, 2, NULL),
+    (368, 36800, 207, 21, 2, NULL),
+    (368, 36800, 213, 21, 2, NULL),
+    (368, 36800, 214, 21, 2, NULL),
+    (368, 36800, 219, 21, 2, NULL),
+    (368, 36800, 240, 21, 2, NULL),
+    (368, 36800, 244, 21, 2, NULL),
+    (368, 36800, 247, 21, 2, NULL),
+    (368, 36800, 258, 21, 2, NULL),
+    (368, 36800, 263, 21, 2, NULL),
+    (368, 36800, 352, 21, 2, NULL),
+    (368, 36800, 362, 21, 2, NULL),
+    (368, 36800, 416, 21, 2, NULL),
+    (368, 36800, 503, 21, 2, NULL),
+    (368, 36800, 34, 21, 5, NULL),
+    (368, 36800, 48, 21, 5, NULL),
+    (368, 36800, 109, 21, 5, NULL),
+    (368, 36800, 330, 21, 5, NULL),
+    (368, 36800, 392, 21, 5, NULL),
+    (368, 36800, 55, 21, 8, NULL),
+    (368, 36800, 93, 21, 8, NULL),
+    (368, 36800, 250, 21, 8, NULL),
+    (368, 36800, 334, 21, 8, NULL),
+    (368, 36800, 504, 21, 8, NULL),
+    (369, 36900, 55, 21, 1, 5),
+    (369, 36900, 246, 21, 1, 10),
+    (369, 36900, 281, 21, 1, 15),
+    (369, 36900, 291, 21, 1, 20),
+    (369, 36900, 36, 21, 1, 25),
+    (369, 36900, 401, 21, 1, 30),
+    (369, 36900, 156, 21, 1, 35),
+    (369, 36900, 175, 21, 1, 40),
+    (369, 36900, 56, 21, 1, 45),
+    (369, 36900, 38, 21, 1, 50),
+    (369, 36900, 457, 21, 1, 55),
+    (369, 36900, 57, 21, 2, NULL),
+    (369, 36900, 58, 21, 2, NULL),
+    (369, 36900, 59, 21, 2, NULL),
+    (369, 36900, 63, 21, 2, NULL),
+    (369, 36900, 89, 21, 2, NULL),
+    (369, 36900, 104, 21, 2, NULL),
+    (369, 36900, 127, 21, 2, NULL),
+    (369, 36900, 156, 21, 2, NULL),
+    (369, 36900, 157, 21, 2, NULL),
+    (369, 36900, 164, 21, 2, NULL),
+    (369, 36900, 182, 21, 2, NULL),
+    (369, 36900, 201, 21, 2, NULL),
+    (369, 36900, 203, 21, 2, NULL),
+    (369, 36900, 207, 21, 2, NULL),
+    (369, 36900, 213, 21, 2, NULL),
+    (369, 36900, 214, 21, 2, NULL),
+    (369, 36900, 219, 21, 2, NULL),
+    (369, 36900, 240, 21, 2, NULL),
+    (369, 36900, 244, 21, 2, NULL),
+    (369, 36900, 249, 21, 2, NULL),
+    (369, 36900, 258, 21, 2, NULL),
+    (369, 36900, 263, 21, 2, NULL),
+    (369, 36900, 317, 21, 2, NULL),
+    (369, 36900, 347, 21, 2, NULL),
+    (369, 36900, 352, 21, 2, NULL),
+    (369, 36900, 362, 21, 2, NULL),
+    (369, 36900, 397, 21, 2, NULL),
+    (369, 36900, 416, 21, 2, NULL),
+    (369, 36900, 444, 21, 2, NULL),
+    (369, 36900, 446, 21, 2, NULL),
+    (369, 36900, 503, 21, 2, NULL),
+    (369, 36900, 523, 21, 2, NULL),
+    (369, 36900, 130, 21, 5, NULL),
+    (369, 36900, 133, 21, 5, NULL),
+    (369, 36900, 173, 21, 5, NULL),
+    (369, 36900, 189, 21, 5, NULL),
+    (369, 36900, 330, 21, 5, NULL),
+    (369, 36900, 341, 21, 5, NULL),
+    (369, 36900, 401, 21, 5, NULL),
+    (369, 36900, 428, 21, 5, NULL),
+    (369, 36900, 33, 21, 8, NULL),
+    (369, 36900, 106, 21, 8, NULL),
+    (370, 37000, 55, 21, 1, 4),
+    (370, 37000, 97, 21, 1, 7),
+    (370, 37000, 577, 21, 1, 9),
+    (370, 37000, 715, 21, 1, 13),
+    (370, 37000, 352, 21, 1, 17),
+    (370, 37000, 213, 21, 1, 20),
+    (370, 37000, 362, 21, 1, 22),
+    (370, 37000, 175, 21, 1, 26),
+    (370, 37000, 186, 21, 1, 31),
+    (370, 37000, 36, 21, 1, 34),
+    (370, 37000, 608, 21, 1, 37),
+    (370, 37000, 392, 21, 1, 40),
+    (370, 37000, 487, 21, 1, 42),
+    (370, 37000, 56, 21, 1, 46),
+    (370, 37000, 219, 21, 1, 49),
+    (370, 37000, 57, 21, 2, NULL),
+    (370, 37000, 58, 21, 2, NULL),
+    (370, 37000, 59, 21, 2, NULL),
+    (370, 37000, 104, 21, 2, NULL),
+    (370, 37000, 127, 21, 2, NULL),
+    (370, 37000, 156, 21, 2, NULL),
+    (370, 37000, 164, 21, 2, NULL),
+    (370, 37000, 182, 21, 2, NULL),
+    (370, 37000, 203, 21, 2, NULL),
+    (370, 37000, 207, 21, 2, NULL),
+    (370, 37000, 213, 21, 2, NULL),
+    (370, 37000, 214, 21, 2, NULL),
+    (370, 37000, 219, 21, 2, NULL),
+    (370, 37000, 240, 21, 2, NULL),
+    (370, 37000, 244, 21, 2, NULL),
+    (370, 37000, 258, 21, 2, NULL),
+    (370, 37000, 263, 21, 2, NULL),
+    (370, 37000, 352, 21, 2, NULL),
+    (370, 37000, 362, 21, 2, NULL),
+    (370, 37000, 503, 21, 2, NULL),
+    (370, 37000, 48, 21, 5, NULL),
+    (370, 37000, 150, 21, 5, NULL),
+    (370, 37000, 392, 21, 5, NULL),
+    (370, 37000, 453, 21, 5, NULL),
+    (370, 37000, 494, 21, 5, NULL),
+    (370, 37000, 505, 21, 5, NULL),
+    (370, 37000, 33, 21, 8, NULL),
+    (370, 37000, 204, 21, 8, NULL),
+    (371, 37100, 44, 21, 1, 5),
+    (371, 37100, 225, 21, 1, 10),
+    (371, 37100, 29, 21, 1, 15),
+    (371, 37100, 184, 21, 1, 20),
+    (371, 37100, 242, 21, 1, 25),
+    (371, 37100, 337, 21, 1, 31),
+    (371, 37100, 428, 21, 1, 35),
+    (371, 37100, 116, 21, 1, 40),
+    (371, 37100, 53, 21, 1, 45),
+    (371, 37100, 200, 21, 1, 50),
+    (371, 37100, 38, 21, 1, 55),
+    (371, 37100, 15, 21, 2, NULL),
+    (371, 37100, 46, 21, 2, NULL),
+    (371, 37100, 53, 21, 2, NULL),
+    (371, 37100, 70, 21, 2, NULL),
+    (371, 37100, 104, 21, 2, NULL),
+    (371, 37100, 126, 21, 2, NULL),
+    (371, 37100, 156, 21, 2, NULL),
+    (371, 37100, 157, 21, 2, NULL),
+    (371, 37100, 164, 21, 2, NULL),
+    (371, 37100, 182, 21, 2, NULL),
+    (371, 37100, 203, 21, 2, NULL),
+    (371, 37100, 207, 21, 2, NULL),
+    (371, 37100, 213, 21, 2, NULL),
+    (371, 37100, 214, 21, 2, NULL),
+    (371, 37100, 240, 21, 2, NULL),
+    (371, 37100, 241, 21, 2, NULL),
+    (371, 37100, 249, 21, 2, NULL),
+    (371, 37100, 263, 21, 2, NULL),
+    (371, 37100, 280, 21, 2, NULL),
+    (371, 37100, 317, 21, 2, NULL),
+    (371, 37100, 332, 21, 2, NULL),
+    (371, 37100, 337, 21, 2, NULL),
+    (371, 37100, 406, 21, 2, NULL),
+    (371, 37100, 421, 21, 2, NULL),
+    (371, 37100, 37, 21, 5, NULL),
+    (371, 37100, 56, 21, 5, NULL),
+    (371, 37100, 111, 21, 5, NULL),
+    (371, 37100, 239, 21, 5, NULL),
+    (371, 37100, 349, 21, 5, NULL),
+    (371, 37100, 407, 21, 5, NULL),
+    (371, 37100, 424, 21, 5, NULL),
+    (371, 37100, 43, 21, 8, NULL),
+    (371, 37100, 52, 21, 8, NULL),
+    (372, 37200, 29, 21, 1, 15),
+    (372, 37200, 184, 21, 1, 20),
+    (372, 37200, 242, 21, 1, 25),
+    (372, 37200, 337, 21, 1, 33),
+    (372, 37200, 428, 21, 1, 39),
+    (372, 37200, 116, 21, 1, 46),
+    (372, 37200, 53, 21, 1, 53),
+    (372, 37200, 200, 21, 1, 60),
+    (372, 37200, 38, 21, 1, 67),
+    (372, 37200, 15, 21, 2, NULL),
+    (372, 37200, 46, 21, 2, NULL),
+    (372, 37200, 53, 21, 2, NULL),
+    (372, 37200, 70, 21, 2, NULL),
+    (372, 37200, 104, 21, 2, NULL),
+    (372, 37200, 126, 21, 2, NULL),
+    (372, 37200, 156, 21, 2, NULL),
+    (372, 37200, 157, 21, 2, NULL),
+    (372, 37200, 164, 21, 2, NULL),
+    (372, 37200, 182, 21, 2, NULL),
+    (372, 37200, 203, 21, 2, NULL),
+    (372, 37200, 207, 21, 2, NULL),
+    (372, 37200, 213, 21, 2, NULL),
+    (372, 37200, 214, 21, 2, NULL),
+    (372, 37200, 240, 21, 2, NULL),
+    (372, 37200, 241, 21, 2, NULL),
+    (372, 37200, 249, 21, 2, NULL),
+    (372, 37200, 263, 21, 2, NULL),
+    (372, 37200, 280, 21, 2, NULL),
+    (372, 37200, 317, 21, 2, NULL),
+    (372, 37200, 332, 21, 2, NULL),
+    (372, 37200, 337, 21, 2, NULL),
+    (372, 37200, 406, 21, 2, NULL),
+    (372, 37200, 421, 21, 2, NULL),
+    (372, 37200, 37, 21, 5, NULL),
+    (372, 37200, 56, 21, 5, NULL),
+    (372, 37200, 111, 21, 5, NULL),
+    (372, 37200, 239, 21, 5, NULL),
+    (372, 37200, 349, 21, 5, NULL),
+    (372, 37200, 407, 21, 5, NULL),
+    (372, 37200, 424, 21, 5, NULL),
+    (372, 37200, 43, 21, 8, NULL),
+    (372, 37200, 44, 21, 8, NULL),
+    (372, 37200, 52, 21, 8, NULL),
+    (372, 37200, 182, 21, 8, NULL),
+    (372, 37200, 225, 21, 8, NULL),
+    (373, 37300, 29, 21, 1, 15),
+    (373, 37300, 184, 21, 1, 20),
+    (373, 37300, 242, 21, 1, 25),
+    (373, 37300, 337, 21, 1, 33),
+    (373, 37300, 428, 21, 1, 39),
+    (373, 37300, 116, 21, 1, 46),
+    (373, 37300, 53, 21, 1, 55),
+    (373, 37300, 200, 21, 1, 64),
+    (373, 37300, 38, 21, 1, 73),
+    (373, 37300, 15, 21, 2, NULL),
+    (373, 37300, 19, 21, 2, NULL),
+    (373, 37300, 46, 21, 2, NULL),
+    (373, 37300, 53, 21, 2, NULL),
+    (373, 37300, 63, 21, 2, NULL),
+    (373, 37300, 70, 21, 2, NULL),
+    (373, 37300, 89, 21, 2, NULL),
+    (373, 37300, 104, 21, 2, NULL),
+    (373, 37300, 126, 21, 2, NULL),
+    (373, 37300, 156, 21, 2, NULL),
+    (373, 37300, 157, 21, 2, NULL),
+    (373, 37300, 164, 21, 2, NULL),
+    (373, 37300, 182, 21, 2, NULL),
+    (373, 37300, 203, 21, 2, NULL),
+    (373, 37300, 207, 21, 2, NULL),
+    (373, 37300, 211, 21, 2, NULL),
+    (373, 37300, 213, 21, 2, NULL),
+    (373, 37300, 214, 21, 2, NULL),
+    (373, 37300, 231, 21, 2, NULL),
+    (373, 37300, 240, 21, 2, NULL),
+    (373, 37300, 241, 21, 2, NULL),
+    (373, 37300, 249, 21, 2, NULL),
+    (373, 37300, 263, 21, 2, NULL),
+    (373, 37300, 280, 21, 2, NULL),
+    (373, 37300, 317, 21, 2, NULL),
+    (373, 37300, 332, 21, 2, NULL),
+    (373, 37300, 337, 21, 2, NULL),
+    (373, 37300, 355, 21, 2, NULL),
+    (373, 37300, 406, 21, 2, NULL),
+    (373, 37300, 416, 21, 2, NULL),
+    (373, 37300, 421, 21, 2, NULL),
+    (373, 37300, 432, 21, 2, NULL),
+    (373, 37300, 444, 21, 2, NULL),
+    (373, 37300, 523, 21, 2, NULL),
+    (373, 37300, 37, 21, 5, NULL),
+    (373, 37300, 56, 21, 5, NULL),
+    (373, 37300, 111, 21, 5, NULL),
+    (373, 37300, 239, 21, 5, NULL),
+    (373, 37300, 349, 21, 5, NULL),
+    (373, 37300, 407, 21, 5, NULL),
+    (373, 37300, 424, 21, 5, NULL),
+    (373, 37300, 19, 21, 8, NULL),
+    (373, 37300, 43, 21, 8, NULL),
+    (373, 37300, 44, 21, 8, NULL),
+    (373, 37300, 52, 21, 8, NULL),
+    (373, 37300, 182, 21, 8, NULL),
+    (373, 37300, 225, 21, 8, NULL),
+    (373, 37300, 525, 21, 8, NULL),
+    (374, 37400, 33, 21, 8, NULL),
+    (375, 37500, 428, 21, 1, 6),
+    (375, 37500, 393, 21, 1, 12),
+    (375, 37500, 430, 21, 1, 18),
+    (375, 37500, 36, 21, 1, 26),
+    (375, 37500, 94, 21, 1, 34),
+    (375, 37500, 184, 21, 1, 42),
+    (375, 37500, 309, 21, 1, 50),
+    (375, 37500, 334, 21, 1, 58),
+    (375, 37500, 97, 21, 1, 66),
+    (375, 37500, 63, 21, 1, 74),
+    (375, 37500, 15, 21, 2, NULL),
+    (375, 37500, 63, 21, 2, NULL),
+    (375, 37500, 70, 21, 2, NULL),
+    (375, 37500, 89, 21, 2, NULL),
+    (375, 37500, 94, 21, 2, NULL),
+    (375, 37500, 104, 21, 2, NULL),
+    (375, 37500, 113, 21, 2, NULL),
+    (375, 37500, 115, 21, 2, NULL),
+    (375, 37500, 148, 21, 2, NULL),
+    (375, 37500, 153, 21, 2, NULL),
+    (375, 37500, 156, 21, 2, NULL),
+    (375, 37500, 157, 21, 2, NULL),
+    (375, 37500, 164, 21, 2, NULL),
+    (375, 37500, 182, 21, 2, NULL),
+    (375, 37500, 188, 21, 2, NULL),
+    (375, 37500, 201, 21, 2, NULL),
+    (375, 37500, 203, 21, 2, NULL),
+    (375, 37500, 207, 21, 2, NULL),
+    (375, 37500, 214, 21, 2, NULL),
+    (375, 37500, 240, 21, 2, NULL),
+    (375, 37500, 241, 21, 2, NULL),
+    (375, 37500, 244, 21, 2, NULL),
+    (375, 37500, 247, 21, 2, NULL),
+    (375, 37500, 249, 21, 2, NULL),
+    (375, 37500, 263, 21, 2, NULL),
+    (375, 37500, 280, 21, 2, NULL),
+    (375, 37500, 317, 21, 2, NULL),
+    (375, 37500, 332, 21, 2, NULL),
+    (375, 37500, 360, 21, 2, NULL),
+    (375, 37500, 397, 21, 2, NULL),
+    (375, 37500, 430, 21, 2, NULL),
+    (375, 37500, 446, 21, 2, NULL),
+    (375, 37500, 447, 21, 2, NULL),
+    (375, 37500, 523, 21, 2, NULL),
+    (375, 37500, 33, 21, 8, NULL),
+    (375, 37500, 93, 21, 8, NULL),
+    (375, 37500, 232, 21, 8, NULL),
+    (375, 37500, 418, 21, 8, NULL),
+    (376, 37600, 428, 21, 1, 6),
+    (376, 37600, 393, 21, 1, 12),
+    (376, 37600, 430, 21, 1, 16),
+    (376, 37600, 36, 21, 1, 26),
+    (376, 37600, 94, 21, 1, 34),
+    (376, 37600, 184, 21, 1, 42),
+    (376, 37600, 309, 21, 1, 52),
+    (376, 37600, 334, 21, 1, 62),
+    (376, 37600, 97, 21, 1, 72),
+    (376, 37600, 63, 21, 1, 82),
+    (376, 37600, 15, 21, 2, NULL),
+    (376, 37600, 63, 21, 2, NULL),
+    (376, 37600, 70, 21, 2, NULL),
+    (376, 37600, 89, 21, 2, NULL),
+    (376, 37600, 94, 21, 2, NULL),
+    (376, 37600, 104, 21, 2, NULL),
+    (376, 37600, 113, 21, 2, NULL),
+    (376, 37600, 115, 21, 2, NULL),
+    (376, 37600, 148, 21, 2, NULL),
+    (376, 37600, 153, 21, 2, NULL),
+    (376, 37600, 156, 21, 2, NULL),
+    (376, 37600, 157, 21, 2, NULL),
+    (376, 37600, 164, 21, 2, NULL),
+    (376, 37600, 182, 21, 2, NULL),
+    (376, 37600, 188, 21, 2, NULL),
+    (376, 37600, 201, 21, 2, NULL),
+    (376, 37600, 203, 21, 2, NULL),
+    (376, 37600, 207, 21, 2, NULL),
+    (376, 37600, 214, 21, 2, NULL),
+    (376, 37600, 240, 21, 2, NULL),
+    (376, 37600, 241, 21, 2, NULL),
+    (376, 37600, 244, 21, 2, NULL),
+    (376, 37600, 247, 21, 2, NULL),
+    (376, 37600, 249, 21, 2, NULL),
+    (376, 37600, 263, 21, 2, NULL),
+    (376, 37600, 280, 21, 2, NULL),
+    (376, 37600, 317, 21, 2, NULL),
+    (376, 37600, 332, 21, 2, NULL),
+    (376, 37600, 360, 21, 2, NULL),
+    (376, 37600, 397, 21, 2, NULL),
+    (376, 37600, 416, 21, 2, NULL),
+    (376, 37600, 430, 21, 2, NULL),
+    (376, 37600, 446, 21, 2, NULL),
+    (376, 37600, 447, 21, 2, NULL),
+    (376, 37600, 523, 21, 2, NULL),
+    (376, 37600, 33, 21, 8, NULL),
+    (376, 37600, 93, 21, 8, NULL),
+    (376, 37600, 232, 21, 8, NULL),
+    (376, 37600, 359, 21, 8, NULL),
+    (376, 37600, 418, 21, 8, NULL),
+    (377, 37700, 523, 21, 1, 6),
+    (377, 37700, 246, 21, 1, 12),
+    (377, 37700, 23, 21, 1, 18),
+    (377, 37700, 157, 21, 1, 24),
+    (377, 37700, 174, 21, 1, 30),
+    (377, 37700, 334, 21, 1, 36),
+    (377, 37700, 359, 21, 1, 42),
+    (377, 37700, 444, 21, 1, 48),
+    (377, 37700, 276, 21, 1, 54),
+    (377, 37700, 199, 21, 1, 60),
+    (377, 37700, 192, 21, 1, 66),
+    (377, 37700, 63, 21, 1, 72),
+    (377, 37700, 153, 21, 1, 78),
+    (377, 37700, 63, 21, 2, NULL),
+    (377, 37700, 70, 21, 2, NULL),
+    (377, 37700, 85, 21, 2, NULL),
+    (377, 37700, 86, 21, 2, NULL),
+    (377, 37700, 87, 21, 2, NULL),
+    (377, 37700, 89, 21, 2, NULL),
+    (377, 37700, 91, 21, 2, NULL),
+    (377, 37700, 104, 21, 2, NULL),
+    (377, 37700, 153, 21, 2, NULL),
+    (377, 37700, 156, 21, 2, NULL),
+    (377, 37700, 157, 21, 2, NULL),
+    (377, 37700, 164, 21, 2, NULL),
+    (377, 37700, 182, 21, 2, NULL),
+    (377, 37700, 201, 21, 2, NULL),
+    (377, 37700, 203, 21, 2, NULL),
+    (377, 37700, 207, 21, 2, NULL);

@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (emerald, VG 6)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 6 (Emerald)
 -- Juan is 8th gym (replaces Wallace from RS). Wallace is champion.
 -- Latias/Latios: one roams (player chooses which via lati-choice).

@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 3
 -- Table: meta.pokemon_attributes
 -- Scope: new species (#252–386)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Gen 3-era abilities only (IDs 1–76); Gen IV+ slots are NULL.
 -- Pokémon gaining Fairy typing in Gen 6 are seeded with their Gen 3 types.
 INSERT INTO

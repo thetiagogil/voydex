@@ -8,9 +8,6 @@
 -- Generation: 8
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 8
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Galarian birds (Articuno/Zapdos/Moltres) have no Hidden Abilities.
 -- Hisuian forms received HA assignments when introduced to Gen 9 (HOME/SV).
 -- Basculegion Female ab1=Rattled(155) in Gen 8; changed to Swift Swim(33) in Gen 9 (see gen9_not_default).

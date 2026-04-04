@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (xy, VG 13)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 13 (X / Y)
 -- Box legendary is game-specific: Xerneas (X, game 21) / Yveltal (Y, game 22).
 -- Player receives a Kanto starter from Professor Sycamore.

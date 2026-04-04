@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 6
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 4 Pokémon (#387–493)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Togekiss gains Fairy as type1. Mime Jr. gains Fairy as type2.
 -- Starly and Dusknoir gain HAs (were NULL in Gen 5).
 INSERT INTO

@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.item_types
 -- Scope: global (all version groups)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Item types classify the nature of each progress milestone.
 INSERT INTO
     progress.item_types (slug, name)

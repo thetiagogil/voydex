@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (swsh-ct, VG 20)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 20 (Sword / Shield — The Crown Tundra)
 -- Calyrex + steed choice (Glastrier or Spectrier).
 -- Regi temples and Galarian legendary birds.

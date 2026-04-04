@@ -1,12 +1,16 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.collectible_entries
 -- Scope: Totem Stickers (USUM, VG 16)
--- ============================================================================
 -- 100 Totem Stickers scattered across Alola in Ultra Sun/Ultra Moon.
 -- Collecting stickers unlocks Totem-sized Pokémon from Samson Oak.
 -- Some require Tauros Charge, Fishing Rod, or Machamp Shove to access.
--- ============================================================================
 WITH
     seed_data (slug, name, location_name, sub_location_name, description, sort_order) AS (
         VALUES

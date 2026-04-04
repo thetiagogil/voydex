@@ -1,12 +1,16 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.collectible_entries
 -- Scope: Zygarde Cells / Cores (SM, VG 15)
--- ============================================================================
 -- 95 Zygarde Cells + 5 Zygarde Cores scattered across Alola in Sun/Moon.
 -- Cells appear as green sparkles; Cores appear as pink sparkles.
 -- Some are only available during day or night.
--- ============================================================================
 WITH
     seed_data (slug, name, location_name, sub_location_name, description, sort_order) AS (
         VALUES

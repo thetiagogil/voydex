@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: meta.generations
 -- Scope: global
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- end_year is not stored. Generation end boundaries are cosmetic.
 INSERT INTO
     meta.generations (id, slug, name, start_year, new_pokemon_count, total_pokemon_count)

@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 6
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 5 Pokémon (#494–649)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Cottonee/Whimsicott gain Fairy as type2. Gothita line gains Competitive (ab2).
 -- Venipede line, Ferrothorn, Litwick line gain HAs (were NULL in Gen 5).
 INSERT INTO

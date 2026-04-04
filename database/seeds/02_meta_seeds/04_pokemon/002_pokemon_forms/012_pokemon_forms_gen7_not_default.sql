@@ -8,9 +8,6 @@
 -- Generation: 7
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Excluded: Ultra Necrozma (battle-only transformation); Zygarde Complete (battle-only — Power Construct triggers in battle).
 -- Excluded: Wishiwashi School, Minior Core, Mimikyu Busted (battle-only); Silvally types (no stat difference).
 INSERT INTO

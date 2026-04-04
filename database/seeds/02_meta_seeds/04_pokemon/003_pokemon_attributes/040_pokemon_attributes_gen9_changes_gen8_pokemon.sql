@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 9
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 8 Pokémon (#810–905)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Zacian/Zamazenta Atk nerfed. Kleavor, Basculegion (Male+Female), Sneasler, Enamorus ability updates.
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)

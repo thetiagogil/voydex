@@ -8,9 +8,6 @@
 -- Generation: 7
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 7
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- All Alolan forms were introduced in Gen 7 with Hidden Abilities from launch.
 -- Zygarde 10% has Aura Break / Power Construct (both non-hidden). Complete excluded (battle-only).
 -- Oricorio forms share identical stats (75/70/70/98/70/93) but differ in type1.

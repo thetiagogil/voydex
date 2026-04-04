@@ -7,7 +7,6 @@
 -- ============================================================================
 -- Table: progress.badges
 -- Scope: version-group-specific (lgpe, VG 17)
--- ============================================================================
 INSERT INTO
     progress.badges (version_group_id, game_id, slug, name, sprite_url, sort_order)
 VALUES

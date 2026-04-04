@@ -9,9 +9,6 @@
 -- Generation: 8
 -- Table: meta.moves
 -- Scope: base generation seed (SwSh + IoA + CT + PLA)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- G-Max Moves are excluded (separate Bulbapedia listing, not tracked here).
 INSERT INTO
     meta.moves (id, slug, name, external_id, introduced_generation_id, effect)

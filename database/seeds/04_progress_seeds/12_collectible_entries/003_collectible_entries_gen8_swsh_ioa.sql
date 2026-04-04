@@ -1,12 +1,16 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.collectible_entries
 -- Scope: Alolan Diglett (SwSh IoA, VG 19)
--- ============================================================================
 -- 150 Alolan Diglett hidden across the Isle of Armor in Sword/Shield DLC.
 -- Found by interacting with Diglett poking out of the ground.
 -- Rewards given at milestones (5, 10, 20, 30, 40, 50, 75, 100, 150).
--- ============================================================================
 WITH
     seed_data (slug, name, location_name, sub_location_name, description, sort_order) AS (
         VALUES

@@ -8,9 +8,6 @@
 -- Generation: 5
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Excluded: Darmanitan Zen Mode, Meloetta Pirouette (battle-only); Deerling/Sawsbuck seasonal, Unown letters (cosmetic).
 -- Excluded: Keldeo Resolute (cosmetic only — same stats, abilities, and type as default).
 INSERT INTO

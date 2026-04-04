@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (b2w2, VG 12)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 12 (Black 2 / White 2)
 -- New gym leaders: Cheren (1st), Roxie (2nd), Marlon (8th).
 -- Iris is champion. Colress and Ghetsis are story bosses.

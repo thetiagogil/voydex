@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.badges
 -- Scope: version-group-specific (swsh, VG 18)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version-exclusive: Bea/Gordie (Sword, game 31) vs Allister/Melony (Shield, game 32).
 INSERT INTO
     progress.badges (version_group_id, game_id, slug, name, sprite_url, sort_order)

@@ -8,9 +8,6 @@
 -- Generation: 9
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 9 + Gen 9 changes to Gen 8 non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Section 1: New non-default forms introduced in Gen 9.
 -- Section 2: Gen 9 changes to Gen 8 non-default forms:
 --   - Basculegion Female: ab1 changed from Rattled(155) to Swift Swim(33).
@@ -18,7 +15,6 @@
 --   - Zamazenta Crowned Shield: Attack 130 → 120, Defense 145 → 140, SpDef 145 → 140.
 -- ==========================================================================
 -- Section 1: Gen 9 Non-Default Form Introductions
--- ==========================================================================
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
@@ -46,7 +42,6 @@ VALUES
 
 -- ==========================================================================
 -- Section 2: Gen 9 Changes to Gen 8 Non-Default Forms
--- ==========================================================================
 INSERT INTO
     meta.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

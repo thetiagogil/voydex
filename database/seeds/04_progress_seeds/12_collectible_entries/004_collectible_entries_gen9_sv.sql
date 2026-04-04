@@ -1,15 +1,19 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.collectible_entries
 -- Scope: Ominous Stakes (SV, VG 23)
--- ============================================================================
 -- 32 Ominous Stakes across Paldea (8 per color). Each set of 8 seals one of
 -- the Treasures of Ruin behind a shrine:
 --   Purple Stakes → Wo-Chien  (Grasswither Shrine)
 --   Yellow Stakes → Ting-Lu   (Groundblight Shrine)
 --   Green Stakes  → Chi-Yu    (Firescourge Shrine)
 --   Blue Stakes   → Chien-Pao (Icerend Shrine)
--- ============================================================================
 WITH
     seed_data (collectible_slug, slug, name, location_name, sub_location_name, description, sort_order) AS (
         VALUES

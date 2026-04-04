@@ -8,9 +8,6 @@
 -- Generation: 8
 -- Table: meta.pokemon_attributes
 -- Scope: new species (#810–905)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Includes Legends: Arceus additions (#899–905).
 -- Kleavor HA=Steadfast; Basculegion ab1=Rattled; Sneasler ab2=NULL; Enamorus ab1=Healer.
 -- These four are updated in gen9_changes.

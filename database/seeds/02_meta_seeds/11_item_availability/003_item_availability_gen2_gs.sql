@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,48 +9,88 @@
 -- Table: meta.item_availability
 -- Scope: version-group-specific (gs)
 -- Items: 41
-
 INSERT INTO
     meta.item_availability (item_id, version_group_id)
 VALUES
-    (1, 3),  -- master-ball
-    (2, 3),  -- ultra-ball
-    (3, 3),  -- great-ball
-    (4, 3),  -- poke-ball
-    (5, 3),  -- safari-ball
-    (6, 3),  -- bright-powder
-    (7, 3),  -- quick-claw
-    (8, 3),  -- kings-rock
-    (9, 3),  -- silver-powder
-    (10, 3),  -- smoke-ball
-    (11, 3),  -- focus-band
-    (12, 3),  -- scope-lens
-    (13, 3),  -- metal-coat
-    (14, 3),  -- leftovers
-    (15, 3),  -- light-ball
-    (16, 3),  -- soft-sand
-    (17, 3),  -- hard-stone
-    (18, 3),  -- miracle-seed
-    (19, 3),  -- black-glasses
-    (20, 3),  -- black-belt
-    (21, 3),  -- magnet
-    (22, 3),  -- mystic-water
-    (23, 3),  -- sharp-beak
-    (24, 3),  -- poison-barb
-    (25, 3),  -- never-melt-ice
-    (26, 3),  -- spell-tag
-    (27, 3),  -- twisted-spoon
-    (28, 3),  -- charcoal
-    (29, 3),  -- dragon-fang
-    (30, 3),  -- lucky-punch
-    (31, 3),  -- metal-powder
-    (32, 3),  -- thick-club
-    (33, 3),  -- stick
-    (34, 3),  -- lure-ball
-    (35, 3),  -- level-ball
-    (36, 3),  -- moon-ball
-    (37, 3),  -- heavy-ball
-    (38, 3),  -- fast-ball
-    (39, 3),  -- friend-ball
-    (40, 3),  -- love-ball
-    (41, 3);  -- sport-ball
+    -- Master Ball
+    (1, 3),
+    -- Ultra Ball
+    (2, 3),
+    -- Great Ball
+    (3, 3),
+    -- Poké Ball
+    (4, 3),
+    -- Safari Ball
+    (5, 3),
+    -- Bright Powder
+    (6, 3),
+    -- Quick Claw
+    (7, 3),
+    -- King
+    (8, 3),
+    -- Silver Powder
+    (9, 3),
+    -- Smoke Ball
+    (10, 3),
+    -- Focus Band
+    (11, 3),
+    -- Scope Lens
+    (12, 3),
+    -- Metal Coat
+    (13, 3),
+    -- Leftovers
+    (14, 3),
+    -- Light Ball
+    (15, 3),
+    -- Soft Sand
+    (16, 3),
+    -- Hard Stone
+    (17, 3),
+    -- Miracle Seed
+    (18, 3),
+    -- Black Glasses
+    (19, 3),
+    -- Black Belt
+    (20, 3),
+    -- Magnet
+    (21, 3),
+    -- Mystic Water
+    (22, 3),
+    -- Sharp Beak
+    (23, 3),
+    -- Poison Barb
+    (24, 3),
+    -- Never-Melt Ice
+    (25, 3),
+    -- Spell Tag
+    (26, 3),
+    -- Twisted Spoon
+    (27, 3),
+    -- Charcoal
+    (28, 3),
+    -- Dragon Fang
+    (29, 3),
+    -- Lucky Punch
+    (30, 3),
+    -- Metal Powder
+    (31, 3),
+    -- Thick Club
+    (32, 3),
+    -- Leek
+    (33, 3),
+    -- Lure Ball
+    (34, 3),
+    -- Level Ball
+    (35, 3),
+    -- Moon Ball
+    (36, 3),
+    -- Heavy Ball
+    (37, 3),
+    -- Fast Ball
+    (38, 3),
+    -- Friend Ball
+    (39, 3),
+    -- Love Ball
+    (40, 3),
+    -- Sport Ball
+    (41, 3);

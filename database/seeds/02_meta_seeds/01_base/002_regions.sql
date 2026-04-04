@@ -7,6 +7,7 @@
 -- ============================================================================
 -- Table: meta.regions
 -- Scope: global
+
 INSERT INTO
     meta.regions (id, slug, name)
 VALUES

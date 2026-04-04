@@ -8,9 +8,6 @@
 -- Generation: 4
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 4
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- No Hidden Abilities in Gen 4 (all NULL). HA additions are handled in gen5_not_default.
 -- Rotom appliance forms in Gen 4 are Electric/Ghost with base Rotom stats (BST 440).
 --   They received type changes and stat boosts in Gen 5 (see gen5_not_default).

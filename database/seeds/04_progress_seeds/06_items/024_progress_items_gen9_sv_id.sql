@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (sv-id, VG 25)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 25 (Scarlet / Violet — The Indigo Disk)
 -- Blueberry Academy and BB League Elite Four.
 -- Kieran is the BB League Champion. Terapagos in Area Zero Underdepths.

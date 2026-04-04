@@ -1,13 +1,17 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.collectibles
 -- Scope: all version groups with collectible systems
--- ============================================================================
 -- SM (VG 15): 100 Zygarde Cells / Cores across Alola.
 -- USUM (VG 16): 100 Totem Stickers across Alola.
 -- SwSh IoA (VG 19): 150 Alolan Diglett across the Isle of Armor.
 -- SV (VG 23): 32 Ominous Stakes (4 sets of 8) sealing the Treasures of Ruin.
--- ============================================================================
 INSERT INTO
     progress.collectibles (version_group_id, game_id, slug, name, collectible_type, total_count, sprite_url)
 VALUES

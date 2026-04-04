@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (gs, VG 3)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 3 (Gold / Silver)
 -- Same structure as Crystal minus Crystal-exclusive Suicune event.
 -- Ho-Oh (Gold first) / Lugia (Silver first) are game-specific in access order.

@@ -9,9 +9,6 @@
 -- Generation: 4
 -- Table: meta.move_attributes
 -- Scope: generation changes
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Gen 4 introduced the physical/special split. Each move now has its own damage
 -- class independent of type. Many pre-Gen 4 moves changed damage class here.
 -- This file also includes power/accuracy/pp changes that took effect in Gen 4.

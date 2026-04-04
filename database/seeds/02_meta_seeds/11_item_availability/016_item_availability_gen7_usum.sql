@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,335 +9,662 @@
 -- Table: meta.item_availability
 -- Scope: version-group-specific (usum)
 -- Items: 328
-
 INSERT INTO
     meta.item_availability (item_id, version_group_id)
 VALUES
-    (1, 16),  -- master-ball
-    (2, 16),  -- ultra-ball
-    (3, 16),  -- great-ball
-    (4, 16),  -- poke-ball
-    (5, 16),  -- safari-ball
-    (6, 16),  -- bright-powder
-    (7, 16),  -- quick-claw
-    (8, 16),  -- kings-rock
-    (9, 16),  -- silver-powder
-    (10, 16),  -- smoke-ball
-    (11, 16),  -- focus-band
-    (12, 16),  -- scope-lens
-    (13, 16),  -- metal-coat
-    (14, 16),  -- leftovers
-    (15, 16),  -- light-ball
-    (16, 16),  -- soft-sand
-    (17, 16),  -- hard-stone
-    (18, 16),  -- miracle-seed
-    (19, 16),  -- black-glasses
-    (20, 16),  -- black-belt
-    (21, 16),  -- magnet
-    (22, 16),  -- mystic-water
-    (23, 16),  -- sharp-beak
-    (24, 16),  -- poison-barb
-    (25, 16),  -- never-melt-ice
-    (26, 16),  -- spell-tag
-    (27, 16),  -- twisted-spoon
-    (28, 16),  -- charcoal
-    (29, 16),  -- dragon-fang
-    (30, 16),  -- lucky-punch
-    (31, 16),  -- metal-powder
-    (32, 16),  -- thick-club
-    (33, 16),  -- stick
-    (34, 16),  -- lure-ball
-    (35, 16),  -- level-ball
-    (36, 16),  -- moon-ball
-    (37, 16),  -- heavy-ball
-    (38, 16),  -- fast-ball
-    (39, 16),  -- friend-ball
-    (40, 16),  -- love-ball
-    (41, 16),  -- sport-ball
-    (42, 16),  -- net-ball
-    (43, 16),  -- dive-ball
-    (44, 16),  -- nest-ball
-    (45, 16),  -- repeat-ball
-    (46, 16),  -- timer-ball
-    (47, 16),  -- luxury-ball
-    (48, 16),  -- premier-ball
-    (49, 16),  -- cheri-berry
-    (50, 16),  -- chesto-berry
-    (51, 16),  -- pecha-berry
-    (52, 16),  -- rawst-berry
-    (53, 16),  -- aspear-berry
-    (54, 16),  -- leppa-berry
-    (55, 16),  -- oran-berry
-    (56, 16),  -- persim-berry
-    (57, 16),  -- lum-berry
-    (58, 16),  -- sitrus-berry
-    (59, 16),  -- figy-berry
-    (60, 16),  -- wiki-berry
-    (61, 16),  -- mago-berry
-    (62, 16),  -- aguav-berry
-    (63, 16),  -- iapapa-berry
-    (64, 16),  -- razz-berry
-    (65, 16),  -- bluk-berry
-    (66, 16),  -- nanab-berry
-    (67, 16),  -- wepear-berry
-    (68, 16),  -- pinap-berry
-    (69, 16),  -- pomeg-berry
-    (70, 16),  -- kelpsy-berry
-    (71, 16),  -- qualot-berry
-    (72, 16),  -- hondew-berry
-    (73, 16),  -- grepa-berry
-    (74, 16),  -- tamato-berry
-    (75, 16),  -- cornn-berry
-    (76, 16),  -- magost-berry
-    (77, 16),  -- rabuta-berry
-    (78, 16),  -- nomel-berry
-    (79, 16),  -- spelon-berry
-    (80, 16),  -- pamtre-berry
-    (81, 16),  -- watmel-berry
-    (82, 16),  -- durin-berry
-    (83, 16),  -- belue-berry
-    (84, 16),  -- liechi-berry
-    (85, 16),  -- ganlon-berry
-    (86, 16),  -- salac-berry
-    (87, 16),  -- petaya-berry
-    (88, 16),  -- apicot-berry
-    (89, 16),  -- lansat-berry
-    (90, 16),  -- starf-berry
-    (91, 16),  -- enigma-berry
-    (92, 16),  -- white-herb
-    (93, 16),  -- mental-herb
-    (94, 16),  -- choice-band
-    (95, 16),  -- soul-dew
-    (96, 16),  -- deep-sea-tooth
-    (97, 16),  -- deep-sea-scale
-    (98, 16),  -- silk-scarf
-    (99, 16),  -- shell-bell
-    (100, 16),  -- sea-incense
-    (101, 16),  -- lax-incense
-    (102, 16),  -- dusk-ball
-    (103, 16),  -- heal-ball
-    (104, 16),  -- quick-ball
-    (105, 16),  -- cherish-ball
-    (106, 16),  -- adamant-orb
-    (107, 16),  -- lustrous-orb
-    (108, 16),  -- occa-berry
-    (109, 16),  -- passho-berry
-    (110, 16),  -- wacan-berry
-    (111, 16),  -- rindo-berry
-    (112, 16),  -- yache-berry
-    (113, 16),  -- chople-berry
-    (114, 16),  -- kebia-berry
-    (115, 16),  -- shuca-berry
-    (116, 16),  -- coba-berry
-    (117, 16),  -- payapa-berry
-    (118, 16),  -- tanga-berry
-    (119, 16),  -- charti-berry
-    (120, 16),  -- kasib-berry
-    (121, 16),  -- haban-berry
-    (122, 16),  -- colbur-berry
-    (123, 16),  -- babiri-berry
-    (124, 16),  -- chilan-berry
-    (125, 16),  -- micle-berry
-    (126, 16),  -- custap-berry
-    (127, 16),  -- jaboca-berry
-    (128, 16),  -- rowap-berry
-    (129, 16),  -- wide-lens
-    (130, 16),  -- muscle-band
-    (131, 16),  -- wise-glasses
-    (132, 16),  -- expert-belt
-    (133, 16),  -- light-clay
-    (134, 16),  -- life-orb
-    (135, 16),  -- power-herb
-    (136, 16),  -- toxic-orb
-    (137, 16),  -- flame-orb
-    (138, 16),  -- quick-powder
-    (139, 16),  -- focus-sash
-    (140, 16),  -- zoom-lens
-    (141, 16),  -- metronome
-    (142, 16),  -- iron-ball
-    (143, 16),  -- lagging-tail
-    (144, 16),  -- destiny-knot
-    (145, 16),  -- black-sludge
-    (146, 16),  -- icy-rock
-    (147, 16),  -- smooth-rock
-    (148, 16),  -- heat-rock
-    (149, 16),  -- damp-rock
-    (150, 16),  -- grip-claw
-    (151, 16),  -- choice-scarf
-    (152, 16),  -- sticky-barb
-    (153, 16),  -- shed-shell
-    (154, 16),  -- big-root
-    (155, 16),  -- choice-specs
-    (156, 16),  -- flame-plate
-    (157, 16),  -- splash-plate
-    (158, 16),  -- zap-plate
-    (159, 16),  -- meadow-plate
-    (160, 16),  -- icicle-plate
-    (161, 16),  -- fist-plate
-    (162, 16),  -- toxic-plate
-    (163, 16),  -- earth-plate
-    (164, 16),  -- sky-plate
-    (165, 16),  -- mind-plate
-    (166, 16),  -- insect-plate
-    (167, 16),  -- stone-plate
-    (168, 16),  -- spooky-plate
-    (169, 16),  -- draco-plate
-    (170, 16),  -- dread-plate
-    (171, 16),  -- iron-plate
-    (172, 16),  -- odd-incense
-    (173, 16),  -- rock-incense
-    (174, 16),  -- full-incense
-    (175, 16),  -- wave-incense
-    (176, 16),  -- rose-incense
-    (177, 16),  -- razor-claw
-    (178, 16),  -- razor-fang
-    (179, 16),  -- griseous-orb
-    (180, 16),  -- park-ball
-    (181, 16),  -- douse-drive
-    (182, 16),  -- shock-drive
-    (183, 16),  -- burn-drive
-    (184, 16),  -- chill-drive
-    (185, 16),  -- eviolite
-    (186, 16),  -- float-stone
-    (187, 16),  -- rocky-helmet
-    (188, 16),  -- air-balloon
-    (189, 16),  -- red-card
-    (190, 16),  -- ring-target
-    (191, 16),  -- binding-band
-    (192, 16),  -- absorb-bulb
-    (193, 16),  -- cell-battery
-    (194, 16),  -- eject-button
-    (195, 16),  -- fire-gem
-    (196, 16),  -- water-gem
-    (197, 16),  -- electric-gem
-    (198, 16),  -- grass-gem
-    (199, 16),  -- ice-gem
-    (200, 16),  -- fighting-gem
-    (201, 16),  -- poison-gem
-    (202, 16),  -- ground-gem
-    (203, 16),  -- flying-gem
-    (204, 16),  -- psychic-gem
-    (205, 16),  -- bug-gem
-    (206, 16),  -- rock-gem
-    (207, 16),  -- ghost-gem
-    (208, 16),  -- dark-gem
-    (209, 16),  -- steel-gem
-    (210, 16),  -- pass-orb
-    (211, 16),  -- dream-ball
-    (212, 16),  -- dragon-gem
-    (213, 16),  -- normal-gem
-    (214, 16),  -- weakness-policy
-    (215, 16),  -- assault-vest
-    (216, 16),  -- pixie-plate
-    (217, 16),  -- luminous-moss
-    (218, 16),  -- snowball
-    (219, 16),  -- safety-goggles
-    (220, 16),  -- gengarite
-    (221, 16),  -- gardevoirite
-    (222, 16),  -- ampharosite
-    (223, 16),  -- venusaurite
-    (224, 16),  -- charizardite-x
-    (225, 16),  -- blastoisinite
-    (226, 16),  -- mewtwonite-x
-    (227, 16),  -- mewtwonite-y
-    (228, 16),  -- blazikenite
-    (229, 16),  -- medichamite
-    (230, 16),  -- houndoominite
-    (231, 16),  -- aggronite
-    (232, 16),  -- banettite
-    (233, 16),  -- tyranitarite
-    (234, 16),  -- scizorite
-    (235, 16),  -- pinsirite
-    (236, 16),  -- aerodactylite
-    (237, 16),  -- lucarionite
-    (238, 16),  -- abomasite
-    (239, 16),  -- kangaskhanite
-    (240, 16),  -- gyaradosite
-    (241, 16),  -- absolite
-    (242, 16),  -- charizardite-y
-    (243, 16),  -- alakazite
-    (244, 16),  -- heracronite
-    (245, 16),  -- mawilite
-    (246, 16),  -- manectite
-    (247, 16),  -- garchompite
-    (248, 16),  -- roseli-berry
-    (249, 16),  -- kee-berry
-    (250, 16),  -- maranga-berry
-    (251, 16),  -- fairy-gem
-    (252, 16),  -- latiasite
-    (253, 16),  -- latiosite
-    (254, 16),  -- swampertite
-    (255, 16),  -- sceptilite
-    (256, 16),  -- sablenite
-    (257, 16),  -- altarianite
-    (258, 16),  -- galladite
-    (259, 16),  -- audinite
-    (260, 16),  -- metagrossite
-    (261, 16),  -- sharpedonite
-    (262, 16),  -- slowbronite
-    (263, 16),  -- steelixite
-    (264, 16),  -- pidgeotite
-    (265, 16),  -- glalitite
-    (266, 16),  -- diancite
-    (267, 16),  -- cameruptite
-    (268, 16),  -- lopunnite
-    (269, 16),  -- salamencite
-    (270, 16),  -- beedrillite
-    (271, 16),  -- normalium-z--held
-    (272, 16),  -- firium-z--held
-    (273, 16),  -- waterium-z--held
-    (274, 16),  -- electrium-z--held
-    (275, 16),  -- grassium-z--held
-    (276, 16),  -- icium-z--held
-    (277, 16),  -- fightinium-z--held
-    (278, 16),  -- poisonium-z--held
-    (279, 16),  -- groundium-z--held
-    (280, 16),  -- flyinium-z--held
-    (281, 16),  -- psychium-z--held
-    (282, 16),  -- buginium-z--held
-    (283, 16),  -- rockium-z--held
-    (284, 16),  -- ghostium-z--held
-    (285, 16),  -- dragonium-z--held
-    (286, 16),  -- darkinium-z--held
-    (287, 16),  -- steelium-z--held
-    (288, 16),  -- fairium-z--held
-    (289, 16),  -- pikanium-z--held
-    (290, 16),  -- decidium-z--held
-    (291, 16),  -- incinium-z--held
-    (292, 16),  -- primarium-z--held
-    (293, 16),  -- tapunium-z--held
-    (294, 16),  -- marshadium-z--held
-    (295, 16),  -- aloraichium-z--held
-    (296, 16),  -- snorlium-z--held
-    (297, 16),  -- eevium-z--held
-    (298, 16),  -- mewnium-z--held
-    (299, 16),  -- pikashunium-z--held
-    (300, 16),  -- adrenaline-orb
-    (301, 16),  -- beast-ball
-    (302, 16),  -- red-nectar
-    (303, 16),  -- yellow-nectar
-    (304, 16),  -- pink-nectar
-    (305, 16),  -- purple-nectar
-    (306, 16),  -- terrain-extender
-    (307, 16),  -- protective-pads
-    (308, 16),  -- electric-seed
-    (309, 16),  -- psychic-seed
-    (310, 16),  -- misty-seed
-    (311, 16),  -- grassy-seed
-    (312, 16),  -- fighting-memory
-    (313, 16),  -- flying-memory
-    (314, 16),  -- poison-memory
-    (315, 16),  -- ground-memory
-    (316, 16),  -- rock-memory
-    (317, 16),  -- bug-memory
-    (318, 16),  -- ghost-memory
-    (319, 16),  -- steel-memory
-    (320, 16),  -- fire-memory
-    (321, 16),  -- water-memory
-    (322, 16),  -- grass-memory
-    (323, 16),  -- electric-memory
-    (324, 16),  -- psychic-memory
-    (325, 16),  -- ice-memory
-    (326, 16),  -- dragon-memory
-    (327, 16),  -- dark-memory
-    (328, 16);  -- fairy-memory
+    -- Master Ball
+    (1, 16),
+    -- Ultra Ball
+    (2, 16),
+    -- Great Ball
+    (3, 16),
+    -- Poké Ball
+    (4, 16),
+    -- Safari Ball
+    (5, 16),
+    -- Bright Powder
+    (6, 16),
+    -- Quick Claw
+    (7, 16),
+    -- King
+    (8, 16),
+    -- Silver Powder
+    (9, 16),
+    -- Smoke Ball
+    (10, 16),
+    -- Focus Band
+    (11, 16),
+    -- Scope Lens
+    (12, 16),
+    -- Metal Coat
+    (13, 16),
+    -- Leftovers
+    (14, 16),
+    -- Light Ball
+    (15, 16),
+    -- Soft Sand
+    (16, 16),
+    -- Hard Stone
+    (17, 16),
+    -- Miracle Seed
+    (18, 16),
+    -- Black Glasses
+    (19, 16),
+    -- Black Belt
+    (20, 16),
+    -- Magnet
+    (21, 16),
+    -- Mystic Water
+    (22, 16),
+    -- Sharp Beak
+    (23, 16),
+    -- Poison Barb
+    (24, 16),
+    -- Never-Melt Ice
+    (25, 16),
+    -- Spell Tag
+    (26, 16),
+    -- Twisted Spoon
+    (27, 16),
+    -- Charcoal
+    (28, 16),
+    -- Dragon Fang
+    (29, 16),
+    -- Lucky Punch
+    (30, 16),
+    -- Metal Powder
+    (31, 16),
+    -- Thick Club
+    (32, 16),
+    -- Leek
+    (33, 16),
+    -- Lure Ball
+    (34, 16),
+    -- Level Ball
+    (35, 16),
+    -- Moon Ball
+    (36, 16),
+    -- Heavy Ball
+    (37, 16),
+    -- Fast Ball
+    (38, 16),
+    -- Friend Ball
+    (39, 16),
+    -- Love Ball
+    (40, 16),
+    -- Sport Ball
+    (41, 16),
+    -- Net Ball
+    (42, 16),
+    -- Dive Ball
+    (43, 16),
+    -- Nest Ball
+    (44, 16),
+    -- Repeat Ball
+    (45, 16),
+    -- Timer Ball
+    (46, 16),
+    -- Luxury Ball
+    (47, 16),
+    -- Premier Ball
+    (48, 16),
+    -- Cheri Berry
+    (49, 16),
+    -- Chesto Berry
+    (50, 16),
+    -- Pecha Berry
+    (51, 16),
+    -- Rawst Berry
+    (52, 16),
+    -- Aspear Berry
+    (53, 16),
+    -- Leppa Berry
+    (54, 16),
+    -- Oran Berry
+    (55, 16),
+    -- Persim Berry
+    (56, 16),
+    -- Lum Berry
+    (57, 16),
+    -- Sitrus Berry
+    (58, 16),
+    -- Figy Berry
+    (59, 16),
+    -- Wiki Berry
+    (60, 16),
+    -- Mago Berry
+    (61, 16),
+    -- Aguav Berry
+    (62, 16),
+    -- Iapapa Berry
+    (63, 16),
+    -- Razz Berry
+    (64, 16),
+    -- Bluk Berry
+    (65, 16),
+    -- Nanab Berry
+    (66, 16),
+    -- Wepear Berry
+    (67, 16),
+    -- Pinap Berry
+    (68, 16),
+    -- Pomeg Berry
+    (69, 16),
+    -- Kelpsy Berry
+    (70, 16),
+    -- Qualot Berry
+    (71, 16),
+    -- Hondew Berry
+    (72, 16),
+    -- Grepa Berry
+    (73, 16),
+    -- Tamato Berry
+    (74, 16),
+    -- Cornn Berry
+    (75, 16),
+    -- Magost Berry
+    (76, 16),
+    -- Rabuta Berry
+    (77, 16),
+    -- Nomel Berry
+    (78, 16),
+    -- Spelon Berry
+    (79, 16),
+    -- Pamtre Berry
+    (80, 16),
+    -- Watmel Berry
+    (81, 16),
+    -- Durin Berry
+    (82, 16),
+    -- Belue Berry
+    (83, 16),
+    -- Liechi Berry
+    (84, 16),
+    -- Ganlon Berry
+    (85, 16),
+    -- Salac Berry
+    (86, 16),
+    -- Petaya Berry
+    (87, 16),
+    -- Apicot Berry
+    (88, 16),
+    -- Lansat Berry
+    (89, 16),
+    -- Starf Berry
+    (90, 16),
+    -- Enigma Berry
+    (91, 16),
+    -- White Herb
+    (92, 16),
+    -- Mental Herb
+    (93, 16),
+    -- Choice Band
+    (94, 16),
+    -- Soul Dew
+    (95, 16),
+    -- Deep Sea Tooth
+    (96, 16),
+    -- Deep Sea Scale
+    (97, 16),
+    -- Silk Scarf
+    (98, 16),
+    -- Shell Bell
+    (99, 16),
+    -- Sea Incense
+    (100, 16),
+    -- Lax Incense
+    (101, 16),
+    -- Dusk Ball
+    (102, 16),
+    -- Heal Ball
+    (103, 16),
+    -- Quick Ball
+    (104, 16),
+    -- Cherish Ball
+    (105, 16),
+    -- Adamant Orb
+    (106, 16),
+    -- Lustrous Orb
+    (107, 16),
+    -- Occa Berry
+    (108, 16),
+    -- Passho Berry
+    (109, 16),
+    -- Wacan Berry
+    (110, 16),
+    -- Rindo Berry
+    (111, 16),
+    -- Yache Berry
+    (112, 16),
+    -- Chople Berry
+    (113, 16),
+    -- Kebia Berry
+    (114, 16),
+    -- Shuca Berry
+    (115, 16),
+    -- Coba Berry
+    (116, 16),
+    -- Payapa Berry
+    (117, 16),
+    -- Tanga Berry
+    (118, 16),
+    -- Charti Berry
+    (119, 16),
+    -- Kasib Berry
+    (120, 16),
+    -- Haban Berry
+    (121, 16),
+    -- Colbur Berry
+    (122, 16),
+    -- Babiri Berry
+    (123, 16),
+    -- Chilan Berry
+    (124, 16),
+    -- Micle Berry
+    (125, 16),
+    -- Custap Berry
+    (126, 16),
+    -- Jaboca Berry
+    (127, 16),
+    -- Rowap Berry
+    (128, 16),
+    -- Wide Lens
+    (129, 16),
+    -- Muscle Band
+    (130, 16),
+    -- Wise Glasses
+    (131, 16),
+    -- Expert Belt
+    (132, 16),
+    -- Light Clay
+    (133, 16),
+    -- Life Orb
+    (134, 16),
+    -- Power Herb
+    (135, 16),
+    -- Toxic Orb
+    (136, 16),
+    -- Flame Orb
+    (137, 16),
+    -- Quick Powder
+    (138, 16),
+    -- Focus Sash
+    (139, 16),
+    -- Zoom Lens
+    (140, 16),
+    -- Metronome
+    (141, 16),
+    -- Iron Ball
+    (142, 16),
+    -- Lagging Tail
+    (143, 16),
+    -- Destiny Knot
+    (144, 16),
+    -- Black Sludge
+    (145, 16),
+    -- Icy Rock
+    (146, 16),
+    -- Smooth Rock
+    (147, 16),
+    -- Heat Rock
+    (148, 16),
+    -- Damp Rock
+    (149, 16),
+    -- Grip Claw
+    (150, 16),
+    -- Choice Scarf
+    (151, 16),
+    -- Sticky Barb
+    (152, 16),
+    -- Shed Shell
+    (153, 16),
+    -- Big Root
+    (154, 16),
+    -- Choice Specs
+    (155, 16),
+    -- Flame Plate
+    (156, 16),
+    -- Splash Plate
+    (157, 16),
+    -- Zap Plate
+    (158, 16),
+    -- Meadow Plate
+    (159, 16),
+    -- Icicle Plate
+    (160, 16),
+    -- Fist Plate
+    (161, 16),
+    -- Toxic Plate
+    (162, 16),
+    -- Earth Plate
+    (163, 16),
+    -- Sky Plate
+    (164, 16),
+    -- Mind Plate
+    (165, 16),
+    -- Insect Plate
+    (166, 16),
+    -- Stone Plate
+    (167, 16),
+    -- Spooky Plate
+    (168, 16),
+    -- Draco Plate
+    (169, 16),
+    -- Dread Plate
+    (170, 16),
+    -- Iron Plate
+    (171, 16),
+    -- Odd Incense
+    (172, 16),
+    -- Rock Incense
+    (173, 16),
+    -- Full Incense
+    (174, 16),
+    -- Wave Incense
+    (175, 16),
+    -- Rose Incense
+    (176, 16),
+    -- Razor Claw
+    (177, 16),
+    -- Razor Fang
+    (178, 16),
+    -- Griseous Orb
+    (179, 16),
+    -- Park Ball
+    (180, 16),
+    -- Douse Drive
+    (181, 16),
+    -- Shock Drive
+    (182, 16),
+    -- Burn Drive
+    (183, 16),
+    -- Chill Drive
+    (184, 16),
+    -- Eviolite
+    (185, 16),
+    -- Float Stone
+    (186, 16),
+    -- Rocky Helmet
+    (187, 16),
+    -- Air Balloon
+    (188, 16),
+    -- Red Card
+    (189, 16),
+    -- Ring Target
+    (190, 16),
+    -- Binding Band
+    (191, 16),
+    -- Absorb Bulb
+    (192, 16),
+    -- Cell Battery
+    (193, 16),
+    -- Eject Button
+    (194, 16),
+    -- Fire Gem
+    (195, 16),
+    -- Water Gem
+    (196, 16),
+    -- Electric Gem
+    (197, 16),
+    -- Grass Gem
+    (198, 16),
+    -- Ice Gem
+    (199, 16),
+    -- Fighting Gem
+    (200, 16),
+    -- Poison Gem
+    (201, 16),
+    -- Ground Gem
+    (202, 16),
+    -- Flying Gem
+    (203, 16),
+    -- Psychic Gem
+    (204, 16),
+    -- Bug Gem
+    (205, 16),
+    -- Rock Gem
+    (206, 16),
+    -- Ghost Gem
+    (207, 16),
+    -- Dark Gem
+    (208, 16),
+    -- Steel Gem
+    (209, 16),
+    -- Pass Orb
+    (210, 16),
+    -- Dream Ball
+    (211, 16),
+    -- Dragon Gem
+    (212, 16),
+    -- Normal Gem
+    (213, 16),
+    -- Weakness Policy
+    (214, 16),
+    -- Assault Vest
+    (215, 16),
+    -- Pixie Plate
+    (216, 16),
+    -- Luminous Moss
+    (217, 16),
+    -- Snowball
+    (218, 16),
+    -- Safety Goggles
+    (219, 16),
+    -- Gengarite
+    (220, 16),
+    -- Gardevoirite
+    (221, 16),
+    -- Ampharosite
+    (222, 16),
+    -- Venusaurite
+    (223, 16),
+    -- Charizardite X
+    (224, 16),
+    -- Blastoisinite
+    (225, 16),
+    -- Mewtwonite X
+    (226, 16),
+    -- Mewtwonite Y
+    (227, 16),
+    -- Blazikenite
+    (228, 16),
+    -- Medichamite
+    (229, 16),
+    -- Houndoominite
+    (230, 16),
+    -- Aggronite
+    (231, 16),
+    -- Banettite
+    (232, 16),
+    -- Tyranitarite
+    (233, 16),
+    -- Scizorite
+    (234, 16),
+    -- Pinsirite
+    (235, 16),
+    -- Aerodactylite
+    (236, 16),
+    -- Lucarionite
+    (237, 16),
+    -- Abomasite
+    (238, 16),
+    -- Kangaskhanite
+    (239, 16),
+    -- Gyaradosite
+    (240, 16),
+    -- Absolite
+    (241, 16),
+    -- Charizardite Y
+    (242, 16),
+    -- Alakazite
+    (243, 16),
+    -- Heracronite
+    (244, 16),
+    -- Mawilite
+    (245, 16),
+    -- Manectite
+    (246, 16),
+    -- Garchompite
+    (247, 16),
+    -- Roseli Berry
+    (248, 16),
+    -- Kee Berry
+    (249, 16),
+    -- Maranga Berry
+    (250, 16),
+    -- Fairy Gem
+    (251, 16),
+    -- Latiasite
+    (252, 16),
+    -- Latiosite
+    (253, 16),
+    -- Swampertite
+    (254, 16),
+    -- Sceptilite
+    (255, 16),
+    -- Sablenite
+    (256, 16),
+    -- Altarianite
+    (257, 16),
+    -- Galladite
+    (258, 16),
+    -- Audinite
+    (259, 16),
+    -- Metagrossite
+    (260, 16),
+    -- Sharpedonite
+    (261, 16),
+    -- Slowbronite
+    (262, 16),
+    -- Steelixite
+    (263, 16),
+    -- Pidgeotite
+    (264, 16),
+    -- Glalitite
+    (265, 16),
+    -- Diancite
+    (266, 16),
+    -- Cameruptite
+    (267, 16),
+    -- Lopunnite
+    (268, 16),
+    -- Salamencite
+    (269, 16),
+    -- Beedrillite
+    (270, 16),
+    -- Normalium Z
+    (271, 16),
+    -- Firium Z
+    (272, 16),
+    -- Waterium Z
+    (273, 16),
+    -- Electrium Z
+    (274, 16),
+    -- Grassium Z
+    (275, 16),
+    -- Icium Z
+    (276, 16),
+    -- Fightinium Z
+    (277, 16),
+    -- Poisonium Z
+    (278, 16),
+    -- Groundium Z
+    (279, 16),
+    -- Flyinium Z
+    (280, 16),
+    -- Psychium Z
+    (281, 16),
+    -- Buginium Z
+    (282, 16),
+    -- Rockium Z
+    (283, 16),
+    -- Ghostium Z
+    (284, 16),
+    -- Dragonium Z
+    (285, 16),
+    -- Darkinium Z
+    (286, 16),
+    -- Steelium Z
+    (287, 16),
+    -- Fairium Z
+    (288, 16),
+    -- Pikanium Z
+    (289, 16),
+    -- Decidium Z
+    (290, 16),
+    -- Incinium Z
+    (291, 16),
+    -- Primarium Z
+    (292, 16),
+    -- Tapunium Z
+    (293, 16),
+    -- Marshadium Z
+    (294, 16),
+    -- Aloraichium Z
+    (295, 16),
+    -- Snorlium Z
+    (296, 16),
+    -- Eevium Z
+    (297, 16),
+    -- Mewnium Z
+    (298, 16),
+    -- Pikashunium Z
+    (299, 16),
+    -- Adrenaline Orb
+    (300, 16),
+    -- Beast Ball
+    (301, 16),
+    -- Red Nectar
+    (302, 16),
+    -- Yellow Nectar
+    (303, 16),
+    -- Pink Nectar
+    (304, 16),
+    -- Purple Nectar
+    (305, 16),
+    -- Terrain Extender
+    (306, 16),
+    -- Protective Pads
+    (307, 16),
+    -- Electric Seed
+    (308, 16),
+    -- Psychic Seed
+    (309, 16),
+    -- Misty Seed
+    (310, 16),
+    -- Grassy Seed
+    (311, 16),
+    -- Fighting Memory
+    (312, 16),
+    -- Flying Memory
+    (313, 16),
+    -- Poison Memory
+    (314, 16),
+    -- Ground Memory
+    (315, 16),
+    -- Rock Memory
+    (316, 16),
+    -- Bug Memory
+    (317, 16),
+    -- Ghost Memory
+    (318, 16),
+    -- Steel Memory
+    (319, 16),
+    -- Fire Memory
+    (320, 16),
+    -- Water Memory
+    (321, 16),
+    -- Grass Memory
+    (322, 16),
+    -- Electric Memory
+    (323, 16),
+    -- Psychic Memory
+    (324, 16),
+    -- Ice Memory
+    (325, 16),
+    -- Dragon Memory
+    (326, 16),
+    -- Dark Memory
+    (327, 16),
+    -- Fairy Memory
+    (328, 16);

@@ -8,9 +8,6 @@
 -- Generation: 6
 -- Table: meta.pokemon_attributes
 -- Scope: non-default forms introduced in Gen 6
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Meowstic Female (#678) shares all base stats with Male but has different ab1/HA.
 -- Pumpkaboo/Gourgeist sizes differ in HP, Attack, and Speed. Types and abilities are identical.
 -- Hoopa Unbound (#720) has Psychic/Dark typing vs default Confined's Psychic/Ghost, plus different stats.

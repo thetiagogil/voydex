@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 2
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 1 Pokémon — stat split
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Applies the Gen 2 stat split: special → SpAtk/SpDef for all 151 Gen 1 Pokémon.
 -- Magnemite (#81) and Magneton (#82) gain Steel typing in this file.
 INSERT INTO

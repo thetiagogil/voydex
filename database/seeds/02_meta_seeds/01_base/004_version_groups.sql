@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: meta.version_groups
 -- Scope: global
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- DLC expansions use parent_version_group_id to reference their base version group.
 INSERT INTO
     meta.version_groups (id, slug, name, generation_id, parent_version_group_id)

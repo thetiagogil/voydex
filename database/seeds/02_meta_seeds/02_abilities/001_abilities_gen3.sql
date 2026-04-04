@@ -8,9 +8,6 @@
 -- Generation: 3
 -- Table: meta.abilities
 -- Scope: base generation seed (IDs 1–76)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- effect is NULL; mechanical descriptions are not stored.
 INSERT INTO
     meta.abilities (id, slug, name, external_id, introduced_generation_id, effect)

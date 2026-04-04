@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (hgss, VG 10)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 10 (HeartGold / SoulSilver)
 -- Same structure as Crystal. Ho-Oh first in HG (game 15), Lugia first in SS (game 16).
 WITH

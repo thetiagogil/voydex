@@ -8,15 +8,10 @@
 -- Generation: 3
 -- Table: meta.natures
 -- Scope: global
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Neutral natures have NULL for stat modifiers and flavor.
 INSERT INTO
     meta.natures (id, slug, name, introduced_generation_id, increased_stat, decreased_stat, liked_flavor, disliked_flavor)
 VALUES
-    -- Row order follows Bulbapedia's nature table
-    -- Neutral natures (5): stat-boosting and stat-reducing are the same, stored as NULL
     (1, 'hardy', 'Hardy', 3, NULL, NULL, NULL, NULL),
     (2, 'lonely', 'Lonely', 3, 'attack', 'defense', 'spicy', 'sour'),
     (3, 'brave', 'Brave', 3, 'attack', 'speed', 'spicy', 'sweet'),

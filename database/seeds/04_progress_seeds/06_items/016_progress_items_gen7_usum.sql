@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (usum, VG 16)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 16 (Ultra Sun / Ultra Moon)
 -- Trial system replaces gyms. No gym badges.
 -- Island challenge: 7 trial captains (includes Mina) + 4 grand trials (kahunas).

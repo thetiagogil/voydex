@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: gameplay.play_statuses
 -- Scope: global
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- id=1 is the default active status. is_terminal=TRUE marks finished playthroughs.
 INSERT INTO
     gameplay.play_statuses (id, slug, name, description, is_terminal, sort_order)

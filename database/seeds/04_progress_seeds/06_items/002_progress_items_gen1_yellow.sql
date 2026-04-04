@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (yellow, VG 2)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 2 (Yellow)
 -- Pikachu is given to you (no starter choice). Fossils and Fighting Dojo remain.
 WITH

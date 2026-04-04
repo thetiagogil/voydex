@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,7 +9,6 @@
 -- Table: meta.dexes
 -- Scope: dex definitions (bw)
 -- Dexes: 2
-
 INSERT INTO
     meta.dexes (id, version_group_id, slug, name, dex_kind, sort_order)
 VALUES

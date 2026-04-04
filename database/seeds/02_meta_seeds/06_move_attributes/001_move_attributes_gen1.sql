@@ -9,9 +9,6 @@
 -- Generation: 1
 -- Table: meta.move_attributes
 -- Scope: base generation seed
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Gen 1 had no physical/special split per move. Damage class is determined by
 -- type: Normal, Fighting, Poison, Ground, Flying, Bug, Rock, Ghost = physical.
 -- Fire, Water, Electric, Grass, Ice, Psychic, Dragon = special.

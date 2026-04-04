@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.badges
 -- Scope: version-group-specific (bdsp, VG 21)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- BDSP: Same badges as DP. Faithful remake.
 INSERT INTO
     progress.badges (version_group_id, game_id, slug, name, sprite_url, sort_order)

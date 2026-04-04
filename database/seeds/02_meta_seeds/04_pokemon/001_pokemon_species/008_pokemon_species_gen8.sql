@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 8
 -- Table: meta.pokemon_species
 -- Scope: base generation seed (#810–905)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Includes Legends: Arceus additions (#899–905): Wyrdeer, Kleavor, Ursaluna, Basculegion, Sneasler, Overqwil, Enamorus.
 INSERT INTO
     meta.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)

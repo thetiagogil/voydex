@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 1
 -- Table: meta.pokemon_forms
 -- Scope: default forms (#001–151)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Default forms only. id = species_id × 100 (form_offset = 0). Height and weight are NULL.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)

@@ -8,9 +8,6 @@
 -- Generation: 8
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Excluded: battle-only forms; cosmetic variants (Zarude Dada, Magearna color, Alcremie, Sinistea/Polteageist).
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)

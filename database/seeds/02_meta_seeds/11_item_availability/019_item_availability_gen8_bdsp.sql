@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,271 +9,534 @@
 -- Table: meta.item_availability
 -- Scope: version-group-specific (bdsp)
 -- Items: 264
-
 INSERT INTO
     meta.item_availability (item_id, version_group_id)
 VALUES
-    (1, 21),  -- master-ball
-    (2, 21),  -- ultra-ball
-    (3, 21),  -- great-ball
-    (4, 21),  -- poke-ball
-    (5, 21),  -- safari-ball
-    (6, 21),  -- bright-powder
-    (7, 21),  -- quick-claw
-    (8, 21),  -- kings-rock
-    (9, 21),  -- silver-powder
-    (10, 21),  -- smoke-ball
-    (11, 21),  -- focus-band
-    (12, 21),  -- scope-lens
-    (13, 21),  -- metal-coat
-    (14, 21),  -- leftovers
-    (15, 21),  -- light-ball
-    (16, 21),  -- soft-sand
-    (17, 21),  -- hard-stone
-    (18, 21),  -- miracle-seed
-    (19, 21),  -- black-glasses
-    (20, 21),  -- black-belt
-    (21, 21),  -- magnet
-    (22, 21),  -- mystic-water
-    (23, 21),  -- sharp-beak
-    (24, 21),  -- poison-barb
-    (25, 21),  -- never-melt-ice
-    (26, 21),  -- spell-tag
-    (27, 21),  -- twisted-spoon
-    (28, 21),  -- charcoal
-    (29, 21),  -- dragon-fang
-    (30, 21),  -- lucky-punch
-    (31, 21),  -- metal-powder
-    (32, 21),  -- thick-club
-    (33, 21),  -- stick
-    (34, 21),  -- lure-ball
-    (35, 21),  -- level-ball
-    (36, 21),  -- moon-ball
-    (37, 21),  -- heavy-ball
-    (38, 21),  -- fast-ball
-    (39, 21),  -- friend-ball
-    (40, 21),  -- love-ball
-    (41, 21),  -- sport-ball
-    (42, 21),  -- net-ball
-    (43, 21),  -- dive-ball
-    (44, 21),  -- nest-ball
-    (45, 21),  -- repeat-ball
-    (46, 21),  -- timer-ball
-    (47, 21),  -- luxury-ball
-    (48, 21),  -- premier-ball
-    (49, 21),  -- cheri-berry
-    (50, 21),  -- chesto-berry
-    (51, 21),  -- pecha-berry
-    (52, 21),  -- rawst-berry
-    (53, 21),  -- aspear-berry
-    (54, 21),  -- leppa-berry
-    (55, 21),  -- oran-berry
-    (56, 21),  -- persim-berry
-    (57, 21),  -- lum-berry
-    (58, 21),  -- sitrus-berry
-    (59, 21),  -- figy-berry
-    (60, 21),  -- wiki-berry
-    (61, 21),  -- mago-berry
-    (62, 21),  -- aguav-berry
-    (63, 21),  -- iapapa-berry
-    (64, 21),  -- razz-berry
-    (65, 21),  -- bluk-berry
-    (66, 21),  -- nanab-berry
-    (67, 21),  -- wepear-berry
-    (68, 21),  -- pinap-berry
-    (69, 21),  -- pomeg-berry
-    (70, 21),  -- kelpsy-berry
-    (71, 21),  -- qualot-berry
-    (72, 21),  -- hondew-berry
-    (73, 21),  -- grepa-berry
-    (74, 21),  -- tamato-berry
-    (75, 21),  -- cornn-berry
-    (76, 21),  -- magost-berry
-    (77, 21),  -- rabuta-berry
-    (78, 21),  -- nomel-berry
-    (79, 21),  -- spelon-berry
-    (80, 21),  -- pamtre-berry
-    (81, 21),  -- watmel-berry
-    (82, 21),  -- durin-berry
-    (83, 21),  -- belue-berry
-    (84, 21),  -- liechi-berry
-    (85, 21),  -- ganlon-berry
-    (86, 21),  -- salac-berry
-    (87, 21),  -- petaya-berry
-    (88, 21),  -- apicot-berry
-    (89, 21),  -- lansat-berry
-    (90, 21),  -- starf-berry
-    (91, 21),  -- enigma-berry
-    (92, 21),  -- white-herb
-    (93, 21),  -- mental-herb
-    (94, 21),  -- choice-band
-    (95, 21),  -- soul-dew
-    (96, 21),  -- deep-sea-tooth
-    (97, 21),  -- deep-sea-scale
-    (98, 21),  -- silk-scarf
-    (99, 21),  -- shell-bell
-    (100, 21),  -- sea-incense
-    (101, 21),  -- lax-incense
-    (102, 21),  -- dusk-ball
-    (103, 21),  -- heal-ball
-    (104, 21),  -- quick-ball
-    (105, 21),  -- cherish-ball
-    (106, 21),  -- adamant-orb
-    (107, 21),  -- lustrous-orb
-    (108, 21),  -- occa-berry
-    (109, 21),  -- passho-berry
-    (110, 21),  -- wacan-berry
-    (111, 21),  -- rindo-berry
-    (112, 21),  -- yache-berry
-    (113, 21),  -- chople-berry
-    (114, 21),  -- kebia-berry
-    (115, 21),  -- shuca-berry
-    (116, 21),  -- coba-berry
-    (117, 21),  -- payapa-berry
-    (118, 21),  -- tanga-berry
-    (119, 21),  -- charti-berry
-    (120, 21),  -- kasib-berry
-    (121, 21),  -- haban-berry
-    (122, 21),  -- colbur-berry
-    (123, 21),  -- babiri-berry
-    (124, 21),  -- chilan-berry
-    (125, 21),  -- micle-berry
-    (126, 21),  -- custap-berry
-    (127, 21),  -- jaboca-berry
-    (128, 21),  -- rowap-berry
-    (129, 21),  -- wide-lens
-    (130, 21),  -- muscle-band
-    (131, 21),  -- wise-glasses
-    (132, 21),  -- expert-belt
-    (133, 21),  -- light-clay
-    (134, 21),  -- life-orb
-    (135, 21),  -- power-herb
-    (136, 21),  -- toxic-orb
-    (137, 21),  -- flame-orb
-    (138, 21),  -- quick-powder
-    (139, 21),  -- focus-sash
-    (140, 21),  -- zoom-lens
-    (141, 21),  -- metronome
-    (142, 21),  -- iron-ball
-    (143, 21),  -- lagging-tail
-    (144, 21),  -- destiny-knot
-    (145, 21),  -- black-sludge
-    (146, 21),  -- icy-rock
-    (147, 21),  -- smooth-rock
-    (148, 21),  -- heat-rock
-    (149, 21),  -- damp-rock
-    (150, 21),  -- grip-claw
-    (151, 21),  -- choice-scarf
-    (152, 21),  -- sticky-barb
-    (153, 21),  -- shed-shell
-    (154, 21),  -- big-root
-    (155, 21),  -- choice-specs
-    (156, 21),  -- flame-plate
-    (157, 21),  -- splash-plate
-    (158, 21),  -- zap-plate
-    (159, 21),  -- meadow-plate
-    (160, 21),  -- icicle-plate
-    (161, 21),  -- fist-plate
-    (162, 21),  -- toxic-plate
-    (163, 21),  -- earth-plate
-    (164, 21),  -- sky-plate
-    (165, 21),  -- mind-plate
-    (166, 21),  -- insect-plate
-    (167, 21),  -- stone-plate
-    (168, 21),  -- spooky-plate
-    (169, 21),  -- draco-plate
-    (170, 21),  -- dread-plate
-    (171, 21),  -- iron-plate
-    (172, 21),  -- odd-incense
-    (173, 21),  -- rock-incense
-    (174, 21),  -- full-incense
-    (175, 21),  -- wave-incense
-    (176, 21),  -- rose-incense
-    (177, 21),  -- razor-claw
-    (178, 21),  -- razor-fang
-    (179, 21),  -- griseous-orb
-    (180, 21),  -- park-ball
-    (181, 21),  -- douse-drive
-    (182, 21),  -- shock-drive
-    (183, 21),  -- burn-drive
-    (184, 21),  -- chill-drive
-    (185, 21),  -- eviolite
-    (186, 21),  -- float-stone
-    (187, 21),  -- rocky-helmet
-    (188, 21),  -- air-balloon
-    (189, 21),  -- red-card
-    (190, 21),  -- ring-target
-    (191, 21),  -- binding-band
-    (192, 21),  -- absorb-bulb
-    (193, 21),  -- cell-battery
-    (194, 21),  -- eject-button
-    (195, 21),  -- fire-gem
-    (196, 21),  -- water-gem
-    (197, 21),  -- electric-gem
-    (198, 21),  -- grass-gem
-    (199, 21),  -- ice-gem
-    (200, 21),  -- fighting-gem
-    (201, 21),  -- poison-gem
-    (202, 21),  -- ground-gem
-    (203, 21),  -- flying-gem
-    (204, 21),  -- psychic-gem
-    (205, 21),  -- bug-gem
-    (206, 21),  -- rock-gem
-    (207, 21),  -- ghost-gem
-    (208, 21),  -- dark-gem
-    (209, 21),  -- steel-gem
-    (210, 21),  -- pass-orb
-    (211, 21),  -- dream-ball
-    (212, 21),  -- dragon-gem
-    (213, 21),  -- normal-gem
-    (214, 21),  -- weakness-policy
-    (215, 21),  -- assault-vest
-    (216, 21),  -- pixie-plate
-    (217, 21),  -- luminous-moss
-    (218, 21),  -- snowball
-    (219, 21),  -- safety-goggles
-    (248, 21),  -- roseli-berry
-    (249, 21),  -- kee-berry
-    (250, 21),  -- maranga-berry
-    (251, 21),  -- fairy-gem
-    (300, 21),  -- adrenaline-orb
-    (301, 21),  -- beast-ball
-    (302, 21),  -- red-nectar
-    (303, 21),  -- yellow-nectar
-    (304, 21),  -- pink-nectar
-    (305, 21),  -- purple-nectar
-    (306, 21),  -- terrain-extender
-    (307, 21),  -- protective-pads
-    (308, 21),  -- electric-seed
-    (309, 21),  -- psychic-seed
-    (310, 21),  -- misty-seed
-    (311, 21),  -- grassy-seed
-    (312, 21),  -- fighting-memory
-    (313, 21),  -- flying-memory
-    (314, 21),  -- poison-memory
-    (315, 21),  -- ground-memory
-    (316, 21),  -- rock-memory
-    (317, 21),  -- bug-memory
-    (318, 21),  -- ghost-memory
-    (319, 21),  -- steel-memory
-    (320, 21),  -- fire-memory
-    (321, 21),  -- water-memory
-    (322, 21),  -- grass-memory
-    (323, 21),  -- electric-memory
-    (324, 21),  -- psychic-memory
-    (325, 21),  -- ice-memory
-    (326, 21),  -- dragon-memory
-    (327, 21),  -- dark-memory
-    (328, 21),  -- fairy-memory
-    (329, 21),  -- rusted-sword
-    (330, 21),  -- rusted-shield
-    (331, 21),  -- throat-spray
-    (332, 21),  -- eject-pack
-    (333, 21),  -- heavy-duty-boots
-    (334, 21),  -- blunder-policy
-    (335, 21),  -- room-service
-    (336, 21),  -- utility-umbrella
-    (337, 21),  -- blank-plate
-    (338, 21),  -- legend-plate
-    (339, 21),  -- lastrange-ball
-    (340, 21);  -- laorigin-ball
+    -- Master Ball
+    (1, 21),
+    -- Ultra Ball
+    (2, 21),
+    -- Great Ball
+    (3, 21),
+    -- Poké Ball
+    (4, 21),
+    -- Safari Ball
+    (5, 21),
+    -- Bright Powder
+    (6, 21),
+    -- Quick Claw
+    (7, 21),
+    -- King
+    (8, 21),
+    -- Silver Powder
+    (9, 21),
+    -- Smoke Ball
+    (10, 21),
+    -- Focus Band
+    (11, 21),
+    -- Scope Lens
+    (12, 21),
+    -- Metal Coat
+    (13, 21),
+    -- Leftovers
+    (14, 21),
+    -- Light Ball
+    (15, 21),
+    -- Soft Sand
+    (16, 21),
+    -- Hard Stone
+    (17, 21),
+    -- Miracle Seed
+    (18, 21),
+    -- Black Glasses
+    (19, 21),
+    -- Black Belt
+    (20, 21),
+    -- Magnet
+    (21, 21),
+    -- Mystic Water
+    (22, 21),
+    -- Sharp Beak
+    (23, 21),
+    -- Poison Barb
+    (24, 21),
+    -- Never-Melt Ice
+    (25, 21),
+    -- Spell Tag
+    (26, 21),
+    -- Twisted Spoon
+    (27, 21),
+    -- Charcoal
+    (28, 21),
+    -- Dragon Fang
+    (29, 21),
+    -- Lucky Punch
+    (30, 21),
+    -- Metal Powder
+    (31, 21),
+    -- Thick Club
+    (32, 21),
+    -- Leek
+    (33, 21),
+    -- Lure Ball
+    (34, 21),
+    -- Level Ball
+    (35, 21),
+    -- Moon Ball
+    (36, 21),
+    -- Heavy Ball
+    (37, 21),
+    -- Fast Ball
+    (38, 21),
+    -- Friend Ball
+    (39, 21),
+    -- Love Ball
+    (40, 21),
+    -- Sport Ball
+    (41, 21),
+    -- Net Ball
+    (42, 21),
+    -- Dive Ball
+    (43, 21),
+    -- Nest Ball
+    (44, 21),
+    -- Repeat Ball
+    (45, 21),
+    -- Timer Ball
+    (46, 21),
+    -- Luxury Ball
+    (47, 21),
+    -- Premier Ball
+    (48, 21),
+    -- Cheri Berry
+    (49, 21),
+    -- Chesto Berry
+    (50, 21),
+    -- Pecha Berry
+    (51, 21),
+    -- Rawst Berry
+    (52, 21),
+    -- Aspear Berry
+    (53, 21),
+    -- Leppa Berry
+    (54, 21),
+    -- Oran Berry
+    (55, 21),
+    -- Persim Berry
+    (56, 21),
+    -- Lum Berry
+    (57, 21),
+    -- Sitrus Berry
+    (58, 21),
+    -- Figy Berry
+    (59, 21),
+    -- Wiki Berry
+    (60, 21),
+    -- Mago Berry
+    (61, 21),
+    -- Aguav Berry
+    (62, 21),
+    -- Iapapa Berry
+    (63, 21),
+    -- Razz Berry
+    (64, 21),
+    -- Bluk Berry
+    (65, 21),
+    -- Nanab Berry
+    (66, 21),
+    -- Wepear Berry
+    (67, 21),
+    -- Pinap Berry
+    (68, 21),
+    -- Pomeg Berry
+    (69, 21),
+    -- Kelpsy Berry
+    (70, 21),
+    -- Qualot Berry
+    (71, 21),
+    -- Hondew Berry
+    (72, 21),
+    -- Grepa Berry
+    (73, 21),
+    -- Tamato Berry
+    (74, 21),
+    -- Cornn Berry
+    (75, 21),
+    -- Magost Berry
+    (76, 21),
+    -- Rabuta Berry
+    (77, 21),
+    -- Nomel Berry
+    (78, 21),
+    -- Spelon Berry
+    (79, 21),
+    -- Pamtre Berry
+    (80, 21),
+    -- Watmel Berry
+    (81, 21),
+    -- Durin Berry
+    (82, 21),
+    -- Belue Berry
+    (83, 21),
+    -- Liechi Berry
+    (84, 21),
+    -- Ganlon Berry
+    (85, 21),
+    -- Salac Berry
+    (86, 21),
+    -- Petaya Berry
+    (87, 21),
+    -- Apicot Berry
+    (88, 21),
+    -- Lansat Berry
+    (89, 21),
+    -- Starf Berry
+    (90, 21),
+    -- Enigma Berry
+    (91, 21),
+    -- White Herb
+    (92, 21),
+    -- Mental Herb
+    (93, 21),
+    -- Choice Band
+    (94, 21),
+    -- Soul Dew
+    (95, 21),
+    -- Deep Sea Tooth
+    (96, 21),
+    -- Deep Sea Scale
+    (97, 21),
+    -- Silk Scarf
+    (98, 21),
+    -- Shell Bell
+    (99, 21),
+    -- Sea Incense
+    (100, 21),
+    -- Lax Incense
+    (101, 21),
+    -- Dusk Ball
+    (102, 21),
+    -- Heal Ball
+    (103, 21),
+    -- Quick Ball
+    (104, 21),
+    -- Cherish Ball
+    (105, 21),
+    -- Adamant Orb
+    (106, 21),
+    -- Lustrous Orb
+    (107, 21),
+    -- Occa Berry
+    (108, 21),
+    -- Passho Berry
+    (109, 21),
+    -- Wacan Berry
+    (110, 21),
+    -- Rindo Berry
+    (111, 21),
+    -- Yache Berry
+    (112, 21),
+    -- Chople Berry
+    (113, 21),
+    -- Kebia Berry
+    (114, 21),
+    -- Shuca Berry
+    (115, 21),
+    -- Coba Berry
+    (116, 21),
+    -- Payapa Berry
+    (117, 21),
+    -- Tanga Berry
+    (118, 21),
+    -- Charti Berry
+    (119, 21),
+    -- Kasib Berry
+    (120, 21),
+    -- Haban Berry
+    (121, 21),
+    -- Colbur Berry
+    (122, 21),
+    -- Babiri Berry
+    (123, 21),
+    -- Chilan Berry
+    (124, 21),
+    -- Micle Berry
+    (125, 21),
+    -- Custap Berry
+    (126, 21),
+    -- Jaboca Berry
+    (127, 21),
+    -- Rowap Berry
+    (128, 21),
+    -- Wide Lens
+    (129, 21),
+    -- Muscle Band
+    (130, 21),
+    -- Wise Glasses
+    (131, 21),
+    -- Expert Belt
+    (132, 21),
+    -- Light Clay
+    (133, 21),
+    -- Life Orb
+    (134, 21),
+    -- Power Herb
+    (135, 21),
+    -- Toxic Orb
+    (136, 21),
+    -- Flame Orb
+    (137, 21),
+    -- Quick Powder
+    (138, 21),
+    -- Focus Sash
+    (139, 21),
+    -- Zoom Lens
+    (140, 21),
+    -- Metronome
+    (141, 21),
+    -- Iron Ball
+    (142, 21),
+    -- Lagging Tail
+    (143, 21),
+    -- Destiny Knot
+    (144, 21),
+    -- Black Sludge
+    (145, 21),
+    -- Icy Rock
+    (146, 21),
+    -- Smooth Rock
+    (147, 21),
+    -- Heat Rock
+    (148, 21),
+    -- Damp Rock
+    (149, 21),
+    -- Grip Claw
+    (150, 21),
+    -- Choice Scarf
+    (151, 21),
+    -- Sticky Barb
+    (152, 21),
+    -- Shed Shell
+    (153, 21),
+    -- Big Root
+    (154, 21),
+    -- Choice Specs
+    (155, 21),
+    -- Flame Plate
+    (156, 21),
+    -- Splash Plate
+    (157, 21),
+    -- Zap Plate
+    (158, 21),
+    -- Meadow Plate
+    (159, 21),
+    -- Icicle Plate
+    (160, 21),
+    -- Fist Plate
+    (161, 21),
+    -- Toxic Plate
+    (162, 21),
+    -- Earth Plate
+    (163, 21),
+    -- Sky Plate
+    (164, 21),
+    -- Mind Plate
+    (165, 21),
+    -- Insect Plate
+    (166, 21),
+    -- Stone Plate
+    (167, 21),
+    -- Spooky Plate
+    (168, 21),
+    -- Draco Plate
+    (169, 21),
+    -- Dread Plate
+    (170, 21),
+    -- Iron Plate
+    (171, 21),
+    -- Odd Incense
+    (172, 21),
+    -- Rock Incense
+    (173, 21),
+    -- Full Incense
+    (174, 21),
+    -- Wave Incense
+    (175, 21),
+    -- Rose Incense
+    (176, 21),
+    -- Razor Claw
+    (177, 21),
+    -- Razor Fang
+    (178, 21),
+    -- Griseous Orb
+    (179, 21),
+    -- Park Ball
+    (180, 21),
+    -- Douse Drive
+    (181, 21),
+    -- Shock Drive
+    (182, 21),
+    -- Burn Drive
+    (183, 21),
+    -- Chill Drive
+    (184, 21),
+    -- Eviolite
+    (185, 21),
+    -- Float Stone
+    (186, 21),
+    -- Rocky Helmet
+    (187, 21),
+    -- Air Balloon
+    (188, 21),
+    -- Red Card
+    (189, 21),
+    -- Ring Target
+    (190, 21),
+    -- Binding Band
+    (191, 21),
+    -- Absorb Bulb
+    (192, 21),
+    -- Cell Battery
+    (193, 21),
+    -- Eject Button
+    (194, 21),
+    -- Fire Gem
+    (195, 21),
+    -- Water Gem
+    (196, 21),
+    -- Electric Gem
+    (197, 21),
+    -- Grass Gem
+    (198, 21),
+    -- Ice Gem
+    (199, 21),
+    -- Fighting Gem
+    (200, 21),
+    -- Poison Gem
+    (201, 21),
+    -- Ground Gem
+    (202, 21),
+    -- Flying Gem
+    (203, 21),
+    -- Psychic Gem
+    (204, 21),
+    -- Bug Gem
+    (205, 21),
+    -- Rock Gem
+    (206, 21),
+    -- Ghost Gem
+    (207, 21),
+    -- Dark Gem
+    (208, 21),
+    -- Steel Gem
+    (209, 21),
+    -- Pass Orb
+    (210, 21),
+    -- Dream Ball
+    (211, 21),
+    -- Dragon Gem
+    (212, 21),
+    -- Normal Gem
+    (213, 21),
+    -- Weakness Policy
+    (214, 21),
+    -- Assault Vest
+    (215, 21),
+    -- Pixie Plate
+    (216, 21),
+    -- Luminous Moss
+    (217, 21),
+    -- Snowball
+    (218, 21),
+    -- Safety Goggles
+    (219, 21),
+    -- Roseli Berry
+    (248, 21),
+    -- Kee Berry
+    (249, 21),
+    -- Maranga Berry
+    (250, 21),
+    -- Fairy Gem
+    (251, 21),
+    -- Adrenaline Orb
+    (300, 21),
+    -- Beast Ball
+    (301, 21),
+    -- Red Nectar
+    (302, 21),
+    -- Yellow Nectar
+    (303, 21),
+    -- Pink Nectar
+    (304, 21),
+    -- Purple Nectar
+    (305, 21),
+    -- Terrain Extender
+    (306, 21),
+    -- Protective Pads
+    (307, 21),
+    -- Electric Seed
+    (308, 21),
+    -- Psychic Seed
+    (309, 21),
+    -- Misty Seed
+    (310, 21),
+    -- Grassy Seed
+    (311, 21),
+    -- Fighting Memory
+    (312, 21),
+    -- Flying Memory
+    (313, 21),
+    -- Poison Memory
+    (314, 21),
+    -- Ground Memory
+    (315, 21),
+    -- Rock Memory
+    (316, 21),
+    -- Bug Memory
+    (317, 21),
+    -- Ghost Memory
+    (318, 21),
+    -- Steel Memory
+    (319, 21),
+    -- Fire Memory
+    (320, 21),
+    -- Water Memory
+    (321, 21),
+    -- Grass Memory
+    (322, 21),
+    -- Electric Memory
+    (323, 21),
+    -- Psychic Memory
+    (324, 21),
+    -- Ice Memory
+    (325, 21),
+    -- Dragon Memory
+    (326, 21),
+    -- Dark Memory
+    (327, 21),
+    -- Fairy Memory
+    (328, 21),
+    -- Rusted Sword
+    (329, 21),
+    -- Rusted Shield
+    (330, 21),
+    -- Throat Spray
+    (331, 21),
+    -- Eject Pack
+    (332, 21),
+    -- Heavy-Duty Boots
+    (333, 21),
+    -- Blunder Policy
+    (334, 21),
+    -- Room Service
+    (335, 21),
+    -- Utility Umbrella
+    (336, 21),
+    -- Blank Plate
+    (337, 21),
+    -- Legend Plate
+    (338, 21),
+    -- Strange Ball
+    (339, 21),
+    -- Origin Ball
+    (340, 21);

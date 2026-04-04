@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.badges
 -- Scope: version-group-specific (crystal, VG 4)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- 16 badges: 8 Johto + 8 Kanto (post-game).
 INSERT INTO
     progress.badges (version_group_id, game_id, slug, name, sprite_url, sort_order)

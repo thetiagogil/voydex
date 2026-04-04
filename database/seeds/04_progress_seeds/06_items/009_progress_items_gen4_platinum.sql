@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (platinum, VG 9)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 9 (Platinum)
 -- Gym order: Roark, Gardenia, Maylene, Wake, Fantina, Byron, Candice, Volkner.
 -- Giratina is main-story (Distortion World). Dialga/Palkia are post-game.

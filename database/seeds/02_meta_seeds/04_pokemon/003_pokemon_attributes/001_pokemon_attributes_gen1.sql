@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 1
 -- Table: meta.pokemon_attributes
 -- Scope: base generation seed (#001–151)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Gen 1 uses the single 'special' stat column (special_attack and special_defense are NULL).
 -- Abilities did not exist in Gen 1 (all ability slots are NULL).
 INSERT INTO

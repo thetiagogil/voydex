@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (oras, VG 14)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 14 (Omega Ruby / Alpha Sapphire)
 -- Remake of RS. Wallace is 8th gym, Steven is champion.
 -- Delta Episode post-game with Deoxys.

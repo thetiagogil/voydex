@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (rs, VG 5)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 5 (Ruby / Sapphire)
 -- Wallace is 8th gym, Steven is champion (differs from Emerald).
 -- Box legendary game-specific: Groudon (Ruby, game 7), Kyogre (Sapphire, game 8).

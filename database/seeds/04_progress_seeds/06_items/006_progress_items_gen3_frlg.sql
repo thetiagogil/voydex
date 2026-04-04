@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (frlg, VG 7)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 7 (FireRed / LeafGreen)
 -- Same Kanto structure as RB. Sevii Islands post-game.
 -- Snorlax blocks routes. Three birds + Mewtwo.

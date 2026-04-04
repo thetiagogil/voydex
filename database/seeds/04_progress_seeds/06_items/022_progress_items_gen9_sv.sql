@@ -1,15 +1,19 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (sv, VG 23)
--- ============================================================================
 -- Version Group: 23 (Scarlet / Violet)
 -- Three parallel story paths converge before the finale:
 --   Victory Road (gyms), Starfall Street (Team Star), Path of Legends (titans).
 -- Box legendary: Koraidon (Scarlet, game 36) / Miraidon (Violet, game 37).
 -- Professor AI: Sada (Scarlet) / Turo (Violet) — modeled as shared milestone.
 -- Titan encounters are story checkpoints (wild Pokémon, not trainer battles).
--- ============================================================================
 WITH
     seed_data (
         version_group_id,

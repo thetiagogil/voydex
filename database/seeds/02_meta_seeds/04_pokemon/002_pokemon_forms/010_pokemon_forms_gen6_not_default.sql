@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 6
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Excluded: 48 Mega Evolutions, 2 Primal Reversions (held items); Aegislash Blade (battle-only); cosmetic variants.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)

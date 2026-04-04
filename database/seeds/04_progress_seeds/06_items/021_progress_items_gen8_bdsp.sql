@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (bdsp, VG 21)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 21 (Brilliant Diamond / Shining Pearl)
 -- Faithful remake of DP. Fantina is 3rd gym (same as DP, not Platinum).
 -- Gym order: Roark, Gardenia, Fantina, Maylene, Wake, Byron, Candice, Volkner.

@@ -8,9 +8,6 @@
 -- Generation: 4
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- None. All gameplay-relevant non-default forms for this generation are included.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)

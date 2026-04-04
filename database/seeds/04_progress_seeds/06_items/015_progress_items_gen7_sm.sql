@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (sm, VG 15)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 15 (Sun / Moon)
 -- Trial system replaces gyms. No gym badges.
 -- Island challenge: 6 trial captains + 4 grand trials (kahunas).

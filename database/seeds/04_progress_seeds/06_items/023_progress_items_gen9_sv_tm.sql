@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (sv-tm, VG 24)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 24 (Scarlet / Violet — The Teal Mask)
 -- Kitakami story with Ogerpon. Kieran and Carmine are key characters.
 -- No gym badges. No starter choice.

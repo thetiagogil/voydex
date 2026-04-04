@@ -8,9 +8,6 @@
 -- Generation: 9
 -- Table: meta.pokemon_attributes
 -- Scope: new species (#906–1025, Scarlet/Violet + DLC)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Includes Kitakami and Blueberry Academy DLC species.
 -- Default forms used: Oinkologne Male, Maushold Family of Four, Squawkabilly Green Plumage,
 --   Palafin Zero, Tatsugiri Curly, Dudunsparce Two-Segment, Gimmighoul Chest, Ogerpon Teal Mask,

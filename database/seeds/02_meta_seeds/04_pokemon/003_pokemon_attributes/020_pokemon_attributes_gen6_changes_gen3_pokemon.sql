@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 6
 -- Table: meta.pokemon_attributes
 -- Scope: changes to Gen 3 Pokémon (#252–386)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Fairy type added to Ralts line, Azurill, Mawile. Minor stat increases (Beautifly, Exploud).
 -- Plusle, Minun, Kecleon, Duskull, Dusclops gain HAs (were NULL in Gen 5).
 INSERT INTO

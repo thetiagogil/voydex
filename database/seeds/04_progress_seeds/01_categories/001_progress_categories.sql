@@ -7,9 +7,6 @@
 -- ============================================================================
 -- Table: progress.categories
 -- Scope: global (all version groups)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Categories organize progress items into logical groups.
 -- sort_order controls display order in the app.
 INSERT INTO

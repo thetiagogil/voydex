@@ -1,12 +1,16 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (swsh-ioa, VG 19)
--- ============================================================================
 -- Version Group: 19 (Sword / Shield — The Isle of Armor)
 -- Kubfu evolves into one of two Urshifu forms via Tower choice.
 -- Version-exclusive rival: Klara (Sword, game 31) / Avery (Shield, game 32).
--- ============================================================================
 WITH
     seed_data (
         version_group_id,

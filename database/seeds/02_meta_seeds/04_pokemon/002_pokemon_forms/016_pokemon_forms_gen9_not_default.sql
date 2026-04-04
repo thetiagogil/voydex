@@ -8,9 +8,6 @@
 -- Generation: 9
 -- Table: meta.pokemon_forms
 -- Scope: non-default forms
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Excluded: Palafin Hero, Terapagos Terastal/Stellar (battle-only); cosmetic variants.
 INSERT INTO
     meta.pokemon_forms (id, slug, name, species_id, introduced_generation_id, height, weight, is_default, sprite_url)

@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (crystal, VG 4)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 4 (Crystal)
 -- Suicune is a fixed encounter at the Tin Tower (not roaming like GS).
 WITH

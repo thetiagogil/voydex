@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (bw, VG 11)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 11 (Black / White)
 -- Unique story: N becomes champion, then you fight N + Ghetsis.
 -- Alder is the intended champion but only available post-game.

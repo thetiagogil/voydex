@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 2
 -- Table: meta.pokemon_attributes
 -- Scope: new species (#152–251)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Abilities did not exist until Gen 3 (all ability slots are NULL).
 -- Pokémon that will gain Fairy typing in Gen 6 are seeded with their Gen 2 types here.
 INSERT INTO

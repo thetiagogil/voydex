@@ -13,170 +13,334 @@
 INSERT INTO
     meta.move_availability (move_id, version_group_id)
 VALUES
-    (1, 1), -- pound
-    (2, 1), -- karate-chop
-    (3, 1), -- double-slap
-    (4, 1), -- comet-punch
-    (5, 1), -- mega-punch
-    (6, 1), -- pay-day
-    (7, 1), -- fire-punch
-    (8, 1), -- ice-punch
-    (9, 1), -- thunder-punch
-    (10, 1), -- scratch
-    (11, 1), -- vice-grip
-    (12, 1), -- guillotine
-    (13, 1), -- razor-wind
-    (14, 1), -- swords-dance
-    (15, 1), -- cut
-    (16, 1), -- gust
-    (17, 1), -- wing-attack
-    (18, 1), -- whirlwind
-    (19, 1), -- fly
-    (20, 1), -- bind
-    (21, 1), -- slam
-    (22, 1), -- vine-whip
-    (23, 1), -- stomp
-    (24, 1), -- double-kick
-    (25, 1), -- mega-kick
-    (26, 1), -- jump-kick
-    (27, 1), -- rolling-kick
-    (28, 1), -- sand-attack
-    (29, 1), -- headbutt
-    (30, 1), -- horn-attack
-    (31, 1), -- fury-attack
-    (32, 1), -- horn-drill
-    (33, 1), -- tackle
-    (34, 1), -- body-slam
-    (35, 1), -- wrap
-    (36, 1), -- take-down
-    (37, 1), -- thrash
-    (38, 1), -- double-edge
-    (39, 1), -- tail-whip
-    (40, 1), -- poison-sting
-    (41, 1), -- twineedle
-    (42, 1), -- pin-missile
-    (43, 1), -- leer
-    (44, 1), -- bite
-    (45, 1), -- growl
-    (46, 1), -- roar
-    (47, 1), -- sing
-    (48, 1), -- supersonic
-    (49, 1), -- sonic-boom
-    (50, 1), -- disable
-    (51, 1), -- acid
-    (52, 1), -- ember
-    (53, 1), -- flamethrower
-    (54, 1), -- mist
-    (55, 1), -- water-gun
-    (56, 1), -- hydro-pump
-    (57, 1), -- surf
-    (58, 1), -- ice-beam
-    (59, 1), -- blizzard
-    (60, 1), -- psybeam
-    (61, 1), -- bubble-beam
-    (62, 1), -- aurora-beam
-    (63, 1), -- hyper-beam
-    (64, 1), -- peck
-    (65, 1), -- drill-peck
-    (66, 1), -- submission
-    (67, 1), -- low-kick
-    (68, 1), -- counter
-    (69, 1), -- seismic-toss
-    (70, 1), -- strength
-    (71, 1), -- absorb
-    (72, 1), -- mega-drain
-    (73, 1), -- leech-seed
-    (74, 1), -- growth
-    (75, 1), -- razor-leaf
-    (76, 1), -- solar-beam
-    (77, 1), -- poison-powder
-    (78, 1), -- stun-spore
-    (79, 1), -- sleep-powder
-    (80, 1), -- petal-dance
-    (81, 1), -- string-shot
-    (82, 1), -- dragon-rage
-    (83, 1), -- fire-spin
-    (84, 1), -- thunder-shock
-    (85, 1), -- thunderbolt
-    (86, 1), -- thunder-wave
-    (87, 1), -- thunder
-    (88, 1), -- rock-throw
-    (89, 1), -- earthquake
-    (90, 1), -- fissure
-    (91, 1), -- dig
-    (92, 1), -- toxic
-    (93, 1), -- confusion
-    (94, 1), -- psychic
-    (95, 1), -- hypnosis
-    (96, 1), -- meditate
-    (97, 1), -- agility
-    (98, 1), -- quick-attack
-    (99, 1), -- rage
-    (100, 1), -- teleport
-    (101, 1), -- night-shade
-    (102, 1), -- mimic
-    (103, 1), -- screech
-    (104, 1), -- double-team
-    (105, 1), -- recover
-    (106, 1), -- harden
-    (107, 1), -- minimize
-    (108, 1), -- smokescreen
-    (109, 1), -- confuse-ray
-    (110, 1), -- withdraw
-    (111, 1), -- defense-curl
-    (112, 1), -- barrier
-    (113, 1), -- light-screen
-    (114, 1), -- haze
-    (115, 1), -- reflect
-    (116, 1), -- focus-energy
-    (117, 1), -- bide
-    (118, 1), -- metronome
-    (119, 1), -- mirror-move
-    (120, 1), -- self-destruct
-    (121, 1), -- egg-bomb
-    (122, 1), -- lick
-    (123, 1), -- smog
-    (124, 1), -- sludge
-    (125, 1), -- bone-club
-    (126, 1), -- fire-blast
-    (127, 1), -- waterfall
-    (128, 1), -- clamp
-    (129, 1), -- swift
-    (130, 1), -- skull-bash
-    (131, 1), -- spike-cannon
-    (132, 1), -- constrict
-    (133, 1), -- amnesia
-    (134, 1), -- kinesis
-    (135, 1), -- soft-boiled
-    (136, 1), -- high-jump-kick
-    (137, 1), -- glare
-    (138, 1), -- dream-eater
-    (139, 1), -- poison-gas
-    (140, 1), -- barrage
-    (141, 1), -- leech-life
-    (142, 1), -- lovely-kiss
-    (143, 1), -- sky-attack
-    (144, 1), -- transform
-    (145, 1), -- bubble
-    (146, 1), -- dizzy-punch
-    (147, 1), -- spore
-    (148, 1), -- flash
-    (149, 1), -- psywave
-    (150, 1), -- splash
-    (151, 1), -- acid-armor
-    (152, 1), -- crabhammer
-    (153, 1), -- explosion
-    (154, 1), -- fury-swipes
-    (155, 1), -- bonemerang
-    (156, 1), -- rest
-    (157, 1), -- rock-slide
-    (158, 1), -- hyper-fang
-    (159, 1), -- sharpen
-    (160, 1), -- conversion
-    (161, 1), -- tri-attack
-    (162, 1), -- super-fang
-    (163, 1), -- slash
-    (164, 1), -- substitute
+    -- #001 Pound
+    (1, 1),
+    -- #002 Karate Chop
+    (2, 1),
+    -- #003 Double Slap
+    (3, 1),
+    -- #004 Comet Punch
+    (4, 1),
+    -- #005 Mega Punch
+    (5, 1),
+    -- #006 Pay Day
+    (6, 1),
+    -- #007 Fire Punch
+    (7, 1),
+    -- #008 Ice Punch
+    (8, 1),
+    -- #009 Thunder Punch
+    (9, 1),
+    -- #010 Scratch
+    (10, 1),
+    -- #011 Vise Grip
+    (11, 1),
+    -- #012 Guillotine
+    (12, 1),
+    -- #013 Razor Wind
+    (13, 1),
+    -- #014 Swords Dance
+    (14, 1),
+    -- #015 Cut
+    (15, 1),
+    -- #016 Gust
+    (16, 1),
+    -- #017 Wing Attack
+    (17, 1),
+    -- #018 Whirlwind
+    (18, 1),
+    -- #019 Fly
+    (19, 1),
+    -- #020 Bind
+    (20, 1),
+    -- #021 Slam
+    (21, 1),
+    -- #022 Vine Whip
+    (22, 1),
+    -- #023 Stomp
+    (23, 1),
+    -- #024 Double Kick
+    (24, 1),
+    -- #025 Mega Kick
+    (25, 1),
+    -- #026 Jump Kick
+    (26, 1),
+    -- #027 Rolling Kick
+    (27, 1),
+    -- #028 Sand Attack
+    (28, 1),
+    -- #029 Headbutt
+    (29, 1),
+    -- #030 Horn Attack
+    (30, 1),
+    -- #031 Fury Attack
+    (31, 1),
+    -- #032 Horn Drill
+    (32, 1),
+    -- #033 Tackle
+    (33, 1),
+    -- #034 Body Slam
+    (34, 1),
+    -- #035 Wrap
+    (35, 1),
+    -- #036 Take Down
+    (36, 1),
+    -- #037 Thrash
+    (37, 1),
+    -- #038 Double-Edge
+    (38, 1),
+    -- #039 Tail Whip
+    (39, 1),
+    -- #040 Poison Sting
+    (40, 1),
+    -- #041 Twineedle
+    (41, 1),
+    -- #042 Pin Missile
+    (42, 1),
+    -- #043 Leer
+    (43, 1),
+    -- #044 Bite
+    (44, 1),
+    -- #045 Growl
+    (45, 1),
+    -- #046 Roar
+    (46, 1),
+    -- #047 Sing
+    (47, 1),
+    -- #048 Supersonic
+    (48, 1),
+    -- #049 Sonic Boom
+    (49, 1),
+    -- #050 Disable
+    (50, 1),
+    -- #051 Acid
+    (51, 1),
+    -- #052 Ember
+    (52, 1),
+    -- #053 Flamethrower
+    (53, 1),
+    -- #054 Mist
+    (54, 1),
+    -- #055 Water Gun
+    (55, 1),
+    -- #056 Hydro Pump
+    (56, 1),
+    -- #057 Surf
+    (57, 1),
+    -- #058 Ice Beam
+    (58, 1),
+    -- #059 Blizzard
+    (59, 1),
+    -- #060 Psybeam
+    (60, 1),
+    -- #061 Bubble Beam
+    (61, 1),
+    -- #062 Aurora Beam
+    (62, 1),
+    -- #063 Hyper Beam
+    (63, 1),
+    -- #064 Peck
+    (64, 1),
+    -- #065 Drill Peck
+    (65, 1),
+    -- #066 Submission
+    (66, 1),
+    -- #067 Low Kick
+    (67, 1),
+    -- #068 Counter
+    (68, 1),
+    -- #069 Seismic Toss
+    (69, 1),
+    -- #070 Strength
+    (70, 1),
+    -- #071 Absorb
+    (71, 1),
+    -- #072 Mega Drain
+    (72, 1),
+    -- #073 Leech Seed
+    (73, 1),
+    -- #074 Growth
+    (74, 1),
+    -- #075 Razor Leaf
+    (75, 1),
+    -- #076 Solar Beam
+    (76, 1),
+    -- #077 Poison Powder
+    (77, 1),
+    -- #078 Stun Spore
+    (78, 1),
+    -- #079 Sleep Powder
+    (79, 1),
+    -- #080 Petal Dance
+    (80, 1),
+    -- #081 String Shot
+    (81, 1),
+    -- #082 Dragon Rage
+    (82, 1),
+    -- #083 Fire Spin
+    (83, 1),
+    -- #084 Thunder Shock
+    (84, 1),
+    -- #085 Thunderbolt
+    (85, 1),
+    -- #086 Thunder Wave
+    (86, 1),
+    -- #087 Thunder
+    (87, 1),
+    -- #088 Rock Throw
+    (88, 1),
+    -- #089 Earthquake
+    (89, 1),
+    -- #090 Fissure
+    (90, 1),
+    -- #091 Dig
+    (91, 1),
+    -- #092 Toxic
+    (92, 1),
+    -- #093 Confusion
+    (93, 1),
+    -- #094 Psychic
+    (94, 1),
+    -- #095 Hypnosis
+    (95, 1),
+    -- #096 Meditate
+    (96, 1),
+    -- #097 Agility
+    (97, 1),
+    -- #098 Quick Attack
+    (98, 1),
+    -- #099 Rage
+    (99, 1),
+    -- #100 Teleport
+    (100, 1),
+    -- #101 Night Shade
+    (101, 1),
+    -- #102 Mimic
+    (102, 1),
+    -- #103 Screech
+    (103, 1),
+    -- #104 Double Team
+    (104, 1),
+    -- #105 Recover
+    (105, 1),
+    -- #106 Harden
+    (106, 1),
+    -- #107 Minimize
+    (107, 1),
+    -- #108 Smokescreen
+    (108, 1),
+    -- #109 Confuse Ray
+    (109, 1),
+    -- #110 Withdraw
+    (110, 1),
+    -- #111 Defense Curl
+    (111, 1),
+    -- #112 Barrier
+    (112, 1),
+    -- #113 Light Screen
+    (113, 1),
+    -- #114 Haze
+    (114, 1),
+    -- #115 Reflect
+    (115, 1),
+    -- #116 Focus Energy
+    (116, 1),
+    -- #117 Bide
+    (117, 1),
+    -- #118 Metronome
+    (118, 1),
+    -- #119 Mirror Move
+    (119, 1),
+    -- #120 Self-Destruct
+    (120, 1),
+    -- #121 Egg Bomb
+    (121, 1),
+    -- #122 Lick
+    (122, 1),
+    -- #123 Smog
+    (123, 1),
+    -- #124 Sludge
+    (124, 1),
+    -- #125 Bone Club
+    (125, 1),
+    -- #126 Fire Blast
+    (126, 1),
+    -- #127 Waterfall
+    (127, 1),
+    -- #128 Clamp
+    (128, 1),
+    -- #129 Swift
+    (129, 1),
+    -- #130 Skull Bash
+    (130, 1),
+    -- #131 Spike Cannon
+    (131, 1),
+    -- #132 Constrict
+    (132, 1),
+    -- #133 Amnesia
+    (133, 1),
+    -- #134 Kinesis
+    (134, 1),
+    -- #135 Soft-Boiled
+    (135, 1),
+    -- #136 High Jump Kick
+    (136, 1),
+    -- #137 Glare
+    (137, 1),
+    -- #138 Dream Eater
+    (138, 1),
+    -- #139 Poison Gas
+    (139, 1),
+    -- #140 Barrage
+    (140, 1),
+    -- #141 Leech Life
+    (141, 1),
+    -- #142 Lovely Kiss
+    (142, 1),
+    -- #143 Sky Attack
+    (143, 1),
+    -- #144 Transform
+    (144, 1),
+    -- #145 Bubble
+    (145, 1),
+    -- #146 Dizzy Punch
+    (146, 1),
+    -- #147 Spore
+    (147, 1),
+    -- #148 Flash
+    (148, 1),
+    -- #149 Psywave
+    (149, 1),
+    -- #150 Splash
+    (150, 1),
+    -- #151 Acid Armor
+    (151, 1),
+    -- #152 Crabhammer
+    (152, 1),
+    -- #153 Explosion
+    (153, 1),
+    -- #154 Fury Swipes
+    (154, 1),
+    -- #155 Bonemerang
+    (155, 1),
+    -- #156 Rest
+    (156, 1),
+    -- #157 Rock Slide
+    (157, 1),
+    -- #158 Hyper Fang
+    (158, 1),
+    -- #159 Sharpen
+    (159, 1),
+    -- #160 Conversion
+    (160, 1),
+    -- #161 Tri Attack
+    (161, 1),
+    -- #162 Super Fang
+    (162, 1),
+    -- #163 Slash
+    (163, 1),
+    -- #164 Substitute
+    (164, 1),
     (165, 1);
 
 -- struggle

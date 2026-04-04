@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (swsh, VG 18)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 18 (Sword / Shield)
 -- Some gym leaders are version-exclusive:
 --   Gym 4: Bea (Sword, game 31) / Allister (Shield, game 32)

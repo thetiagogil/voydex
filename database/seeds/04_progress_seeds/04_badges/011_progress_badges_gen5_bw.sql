@@ -7,7 +7,6 @@
 -- ============================================================================
 -- Table: progress.badges
 -- Scope: version-group-specific (bw, VG 11)
--- ============================================================================
 INSERT INTO
     progress.badges (version_group_id, game_id, slug, name, sprite_url, sort_order)
 VALUES

@@ -8,9 +8,6 @@
 -- ============================================================================
 -- Table: progress.items
 -- Scope: version-group-specific (rb, VG 1)
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Version Group: 1 (Red / Blue)
 -- Categories: 1=main-story, 2=post-game, 3=pokemon, 5=choices
 -- Item Types: 1=story-battle, 2=story-checkpoint, 3=pokemon-milestone, 5=critical-choice

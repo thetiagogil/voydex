@@ -2,17 +2,12 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Generation: 5
 -- Table: meta.pokemon_attributes
 -- Scope: new species (#494–649)
-
--- ============================================================================
--- Important Notes
--- ============================================================================
 -- Some ability slots are deliberately NULL (introduced in a later generation).
 -- Non-default forms are handled in separate non-default form attribute files.
 INSERT INTO

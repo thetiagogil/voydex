@@ -2,7 +2,6 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia
-
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -10,108 +9,208 @@
 -- Table: meta.item_availability
 -- Scope: version-group-specific (rs)
 -- Items: 101
-
 INSERT INTO
     meta.item_availability (item_id, version_group_id)
 VALUES
-    (1, 5),  -- master-ball
-    (2, 5),  -- ultra-ball
-    (3, 5),  -- great-ball
-    (4, 5),  -- poke-ball
-    (5, 5),  -- safari-ball
-    (6, 5),  -- bright-powder
-    (7, 5),  -- quick-claw
-    (8, 5),  -- kings-rock
-    (9, 5),  -- silver-powder
-    (10, 5),  -- smoke-ball
-    (11, 5),  -- focus-band
-    (12, 5),  -- scope-lens
-    (13, 5),  -- metal-coat
-    (14, 5),  -- leftovers
-    (15, 5),  -- light-ball
-    (16, 5),  -- soft-sand
-    (17, 5),  -- hard-stone
-    (18, 5),  -- miracle-seed
-    (19, 5),  -- black-glasses
-    (20, 5),  -- black-belt
-    (21, 5),  -- magnet
-    (22, 5),  -- mystic-water
-    (23, 5),  -- sharp-beak
-    (24, 5),  -- poison-barb
-    (25, 5),  -- never-melt-ice
-    (26, 5),  -- spell-tag
-    (27, 5),  -- twisted-spoon
-    (28, 5),  -- charcoal
-    (29, 5),  -- dragon-fang
-    (30, 5),  -- lucky-punch
-    (31, 5),  -- metal-powder
-    (32, 5),  -- thick-club
-    (33, 5),  -- stick
-    (34, 5),  -- lure-ball
-    (35, 5),  -- level-ball
-    (36, 5),  -- moon-ball
-    (37, 5),  -- heavy-ball
-    (38, 5),  -- fast-ball
-    (39, 5),  -- friend-ball
-    (40, 5),  -- love-ball
-    (41, 5),  -- sport-ball
-    (42, 5),  -- net-ball
-    (43, 5),  -- dive-ball
-    (44, 5),  -- nest-ball
-    (45, 5),  -- repeat-ball
-    (46, 5),  -- timer-ball
-    (47, 5),  -- luxury-ball
-    (48, 5),  -- premier-ball
-    (49, 5),  -- cheri-berry
-    (50, 5),  -- chesto-berry
-    (51, 5),  -- pecha-berry
-    (52, 5),  -- rawst-berry
-    (53, 5),  -- aspear-berry
-    (54, 5),  -- leppa-berry
-    (55, 5),  -- oran-berry
-    (56, 5),  -- persim-berry
-    (57, 5),  -- lum-berry
-    (58, 5),  -- sitrus-berry
-    (59, 5),  -- figy-berry
-    (60, 5),  -- wiki-berry
-    (61, 5),  -- mago-berry
-    (62, 5),  -- aguav-berry
-    (63, 5),  -- iapapa-berry
-    (64, 5),  -- razz-berry
-    (65, 5),  -- bluk-berry
-    (66, 5),  -- nanab-berry
-    (67, 5),  -- wepear-berry
-    (68, 5),  -- pinap-berry
-    (69, 5),  -- pomeg-berry
-    (70, 5),  -- kelpsy-berry
-    (71, 5),  -- qualot-berry
-    (72, 5),  -- hondew-berry
-    (73, 5),  -- grepa-berry
-    (74, 5),  -- tamato-berry
-    (75, 5),  -- cornn-berry
-    (76, 5),  -- magost-berry
-    (77, 5),  -- rabuta-berry
-    (78, 5),  -- nomel-berry
-    (79, 5),  -- spelon-berry
-    (80, 5),  -- pamtre-berry
-    (81, 5),  -- watmel-berry
-    (82, 5),  -- durin-berry
-    (83, 5),  -- belue-berry
-    (84, 5),  -- liechi-berry
-    (85, 5),  -- ganlon-berry
-    (86, 5),  -- salac-berry
-    (87, 5),  -- petaya-berry
-    (88, 5),  -- apicot-berry
-    (89, 5),  -- lansat-berry
-    (90, 5),  -- starf-berry
-    (91, 5),  -- enigma-berry
-    (92, 5),  -- white-herb
-    (93, 5),  -- mental-herb
-    (94, 5),  -- choice-band
-    (95, 5),  -- soul-dew
-    (96, 5),  -- deep-sea-tooth
-    (97, 5),  -- deep-sea-scale
-    (98, 5),  -- silk-scarf
-    (99, 5),  -- shell-bell
-    (100, 5),  -- sea-incense
-    (101, 5);  -- lax-incense
+    -- Master Ball
+    (1, 5),
+    -- Ultra Ball
+    (2, 5),
+    -- Great Ball
+    (3, 5),
+    -- Poké Ball
+    (4, 5),
+    -- Safari Ball
+    (5, 5),
+    -- Bright Powder
+    (6, 5),
+    -- Quick Claw
+    (7, 5),
+    -- King
+    (8, 5),
+    -- Silver Powder
+    (9, 5),
+    -- Smoke Ball
+    (10, 5),
+    -- Focus Band
+    (11, 5),
+    -- Scope Lens
+    (12, 5),
+    -- Metal Coat
+    (13, 5),
+    -- Leftovers
+    (14, 5),
+    -- Light Ball
+    (15, 5),
+    -- Soft Sand
+    (16, 5),
+    -- Hard Stone
+    (17, 5),
+    -- Miracle Seed
+    (18, 5),
+    -- Black Glasses
+    (19, 5),
+    -- Black Belt
+    (20, 5),
+    -- Magnet
+    (21, 5),
+    -- Mystic Water
+    (22, 5),
+    -- Sharp Beak
+    (23, 5),
+    -- Poison Barb
+    (24, 5),
+    -- Never-Melt Ice
+    (25, 5),
+    -- Spell Tag
+    (26, 5),
+    -- Twisted Spoon
+    (27, 5),
+    -- Charcoal
+    (28, 5),
+    -- Dragon Fang
+    (29, 5),
+    -- Lucky Punch
+    (30, 5),
+    -- Metal Powder
+    (31, 5),
+    -- Thick Club
+    (32, 5),
+    -- Leek
+    (33, 5),
+    -- Lure Ball
+    (34, 5),
+    -- Level Ball
+    (35, 5),
+    -- Moon Ball
+    (36, 5),
+    -- Heavy Ball
+    (37, 5),
+    -- Fast Ball
+    (38, 5),
+    -- Friend Ball
+    (39, 5),
+    -- Love Ball
+    (40, 5),
+    -- Sport Ball
+    (41, 5),
+    -- Net Ball
+    (42, 5),
+    -- Dive Ball
+    (43, 5),
+    -- Nest Ball
+    (44, 5),
+    -- Repeat Ball
+    (45, 5),
+    -- Timer Ball
+    (46, 5),
+    -- Luxury Ball
+    (47, 5),
+    -- Premier Ball
+    (48, 5),
+    -- Cheri Berry
+    (49, 5),
+    -- Chesto Berry
+    (50, 5),
+    -- Pecha Berry
+    (51, 5),
+    -- Rawst Berry
+    (52, 5),
+    -- Aspear Berry
+    (53, 5),
+    -- Leppa Berry
+    (54, 5),
+    -- Oran Berry
+    (55, 5),
+    -- Persim Berry
+    (56, 5),
+    -- Lum Berry
+    (57, 5),
+    -- Sitrus Berry
+    (58, 5),
+    -- Figy Berry
+    (59, 5),
+    -- Wiki Berry
+    (60, 5),
+    -- Mago Berry
+    (61, 5),
+    -- Aguav Berry
+    (62, 5),
+    -- Iapapa Berry
+    (63, 5),
+    -- Razz Berry
+    (64, 5),
+    -- Bluk Berry
+    (65, 5),
+    -- Nanab Berry
+    (66, 5),
+    -- Wepear Berry
+    (67, 5),
+    -- Pinap Berry
+    (68, 5),
+    -- Pomeg Berry
+    (69, 5),
+    -- Kelpsy Berry
+    (70, 5),
+    -- Qualot Berry
+    (71, 5),
+    -- Hondew Berry
+    (72, 5),
+    -- Grepa Berry
+    (73, 5),
+    -- Tamato Berry
+    (74, 5),
+    -- Cornn Berry
+    (75, 5),
+    -- Magost Berry
+    (76, 5),
+    -- Rabuta Berry
+    (77, 5),
+    -- Nomel Berry
+    (78, 5),
+    -- Spelon Berry
+    (79, 5),
+    -- Pamtre Berry
+    (80, 5),
+    -- Watmel Berry
+    (81, 5),
+    -- Durin Berry
+    (82, 5),
+    -- Belue Berry
+    (83, 5),
+    -- Liechi Berry
+    (84, 5),
+    -- Ganlon Berry
+    (85, 5),
+    -- Salac Berry
+    (86, 5),
+    -- Petaya Berry
+    (87, 5),
+    -- Apicot Berry
+    (88, 5),
+    -- Lansat Berry
+    (89, 5),
+    -- Starf Berry
+    (90, 5),
+    -- Enigma Berry
+    (91, 5),
+    -- White Herb
+    (92, 5),
+    -- Mental Herb
+    (93, 5),
+    -- Choice Band
+    (94, 5),
+    -- Soul Dew
+    (95, 5),
+    -- Deep Sea Tooth
+    (96, 5),
+    -- Deep Sea Scale
+    (97, 5),
+    -- Silk Scarf
+    (98, 5),
+    -- Shell Bell
+    (99, 5),
+    -- Sea Incense
+    (100, 5),
+    -- Lax Incense
+    (101, 5);

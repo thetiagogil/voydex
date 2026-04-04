@@ -1,10 +1,14 @@
 -- ============================================================================
--- Source: Bulbapedia, Serebii
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- Secondary: Serebii
+-- ============================================================================
+-- File Scope
+-- ============================================================================
 -- Table: progress.item_collectible_refs
 -- Scope: version-group-specific (usum, VG 16)
--- ============================================================================
 -- Links progress item 'totem-stickers' → collectible 'totem-stickers' (VG 16).
--- ============================================================================
 WITH
     seed_data (item_vg, item_game_id, item_slug, coll_game_id, coll_slug) AS (
         VALUES
