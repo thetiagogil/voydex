@@ -1,17 +1,16 @@
 # Database Layer
 
-PostgreSQL via Supabase.
+PostgreSQL via Supabase. 56 migrations, 563 seed files.
 
 ---
 
 ## Structure Philosophy
 
-| Layer          | Purpose                                              | Schema                       |
-| -------------- | ---------------------------------------------------- | ---------------------------- |
-| **Migrations** | Schema definitions — tables, enums, indexes, RLS     | `meta`, `gameplay`, `public` |
-| **Seeds**      | Curated static data — reference tables, Pokémon data | `meta`                       |
-| **Gameplay**   | User-owned data — plays, teams, progress             | `gameplay`                   |
-| **Views**      | Read-only presentation layer                         | `views`                      |
+| Layer          | Purpose                                              | Schema                                   |
+| -------------- | ---------------------------------------------------- | ---------------------------------------- |
+| **Migrations** | Schema definitions — tables, enums, indexes, RLS     | `public`, `meta`, `gameplay`, `progress` |
+| **Seeds**      | Curated static data — reference tables, Pokémon data | `meta`, `gameplay`, `progress`           |
+| **Views**      | Read-only presentation layer                         | `views`                                  |
 
 Migrations define **what exists**. Seeds fill **what's true**. Gameplay stores **what users do**. Views precompute **what's shown**.
 
@@ -20,10 +19,11 @@ Migrations define **what exists**. Seeds fill **what's true**. Gameplay stores *
 ```
 database/
 ├── migrations/
-│   ├── 001_public_tables/      Auth functions + user profiles
-│   ├── 002_meta_tables/        All reference data tables
-│   ├── 003_gameplay_tables/    User gameplay tables (RLS)
-│   └── 004_views/              Materialized + standard views
+│   ├── 01_public_tables/       Auth functions + user profiles (2)
+│   ├── 02_meta_tables/         All reference data tables (27)
+│   ├── 03_gameplay_tables/     User gameplay tables with RLS (7)
+│   ├── 04_progress_tables/     Milestone tracking system (15)
+│   └── 05_views/               Standard views (5)
 ├── scripts/
 │   ├── config/                 Central configuration
 │   │   └── database.config.js
@@ -46,20 +46,22 @@ database/
 │       ├── verify-availability.js  Coverage per VG
 │       └── verify-learnsets.js Learnset integrity
 └── seeds/
-    └── approved/               Reviewed seed files (SQL)
-        ├── 01_meta/            Generations, regions, VGs, games
-        ├── 02_reference/       Types, natures, egg groups
-        ├── 03_abilities/       Per-generation ability lists
-        ├── 04_moves/           Per-generation move lists
-        ├── 05_pokemon/         Species, forms, attributes (sub-folders)
-        ├── 06_items/           Per-generation item lists
-        ├── 07_move_attributes/ Move mechanics (timeline model)
-        ├── 08_regional_dex/    Per-VG regional dex entries
-        ├── 09_pokemon_availability/   Per-VG species availability
-        ├── 10_move_availability/      Per-VG move availability
-        ├── 11_item_availability/      Per-VG item availability
-        ├── 12_pokemon_learnsets/      Per-VG learnsets
-        └── 13_progress/        Categories, items, pokemon refs
+    ├── 01_public_seeds/              (empty)
+    ├── 02_meta_seeds/
+    │   ├── 01_base/                  Generations, regions, VGs, games, types, etc.
+    │   ├── 02_abilities/             Per-generation ability lists
+    │   ├── 03_moves/                 Per-generation move lists
+    │   ├── 04_pokemon/               Species, forms, attributes (sub-folders)
+    │   ├── 05_items/                 Per-generation item lists
+    │   ├── 06_move_attributes/       Move mechanics (timeline model)
+    │   ├── 07_dexes/                 Per-VG dex definitions
+    │   ├── 08_dex_entries/           Per-VG dex membership
+    │   ├── 09_pokemon_availability/  Per-VG species availability
+    │   ├── 10_move_availability/     Per-VG move availability
+    │   ├── 11_item_availability/     Per-VG item availability
+    │   └── 12_pokemon_learnsets/     Per-VG learnsets (134 files)
+    ├── 03_gameplay_seeds/            Play statuses
+    └── 04_progress_seeds/            Milestones, badges, opponents, items
 ```
 
 ---
@@ -186,37 +188,27 @@ Applied **only** to gameplay tables:
 
 ## Seed Rules
 
-### CTE Pattern
+### Insert Pattern
 
-Every seed file uses this exact structure:
+All seeds use direct `INSERT INTO ... VALUES` with literal integer IDs:
 
 ```sql
-WITH seed_data (col1, col2, ...) AS (
-  VALUES
-    ('val1', 'val2'),
-    ('val3', 'val4')
-)
-INSERT INTO schema.table (col1, col2, ...)
-SELECT sd.col1, sd.col2, ...
-FROM seed_data sd
--- FK joins here
-LEFT JOIN meta.generations g ON g.slug = sd.generation_slug
-ON CONFLICT (unique_key) DO NOTHING;
+INSERT INTO
+    meta.table_name (id, col1, col2)
+VALUES
+    -- #001 Bulbasaur
+    (1, 100, 'value'),
+    -- #002 Ivysaur
+    (2, 200, 'value');
 ```
 
-- CTE alias: always `seed_data` (aliased as `sd` in SELECT)
-- VALUES alias: `t` only when using `VALUES ... AS t(...)` outside CTE
-- FK resolution: always via slug JOINs, never hardcoded IDs
-- Conflict handling: `ON CONFLICT DO NOTHING` for idempotent inserts
+- FK references use explicit integer IDs — no CTEs, no slug lookups, no subqueries
+- IDs are deterministic and stable across all seed files
+- Conflict handling: none — seeds fail loudly on constraint violations
 
 ### VALUES Blocks
 
-Readable, aligned, one row per line. Source comments at the top:
-
-```sql
--- Source: Bulbapedia, PokéAPI
--- Generation: 1
-```
+One row per line. Per-Pokémon or per-entity block comments (`-- #NNN Name`) above each group.
 
 ### Seed Folders
 
@@ -255,3 +247,9 @@ DLC expansions are modeled as version groups, not games:
 - One row per change point (not per generation)
 - Query: `WHERE generation_start_id <= target_gen ORDER BY generation_start_id DESC LIMIT 1`
 - Example: Tackle has power=35 in Gen 1, power=50 from Gen 5 onward (2 rows total)
+
+---
+
+## Further Reference
+
+See [CONVENTIONS.md](CONVENTIONS.md) for detailed rules on file headers, row comments, ID strategy, style, and schema responsibilities.

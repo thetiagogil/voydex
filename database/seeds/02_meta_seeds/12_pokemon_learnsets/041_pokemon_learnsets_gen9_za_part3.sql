@@ -12,6 +12,7 @@
 INSERT INTO
     meta.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at)
 VALUES
+    -- #669 Flabébé
     (669, 66900, 584, 27, 1, 6),
     (669, 66900, 219, 27, 1, 10),
     (669, 66900, 75, 27, 1, 15),
