@@ -2,11 +2,20 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import type { BaseInfo } from "@/types/common";
+import type { NatureWithStats } from "@/hooks/meta/usePokemonGame";
 import type { FieldError } from "react-hook-form";
 
+const STAT_ABBREVIATIONS: Record<string, string> = {
+  hp: "HP",
+  attack: "Atk",
+  defense: "Def",
+  special_attack: "SpA",
+  special_defense: "SpD",
+  speed: "Spe",
+};
+
 interface NatureFieldProps {
-  natures: BaseInfo[];
+  natures: NatureWithStats[];
   value?: number;
   onChange: (value: number | undefined) => void;
   error?: FieldError;
@@ -20,10 +29,20 @@ export function NatureField({
   error,
   required = false,
 }: NatureFieldProps) {
-  const options = natures.map((n) => ({
-    value: n.id.toString(),
-    label: n.name,
-  }));
+  const options = natures.map((n) => {
+    const inc = n.increasedStat
+      ? STAT_ABBREVIATIONS[n.increasedStat] || n.increasedStat
+      : null;
+    const dec = n.decreasedStat
+      ? STAT_ABBREVIATIONS[n.decreasedStat] || n.decreasedStat
+      : null;
+    const statText = inc && dec ? ` (+${inc} / -${dec})` : " (Neutral)";
+
+    return {
+      value: n.id.toString(),
+      label: `${n.name}${statText}`,
+    };
+  });
 
   return (
     <Field>

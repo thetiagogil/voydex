@@ -10,14 +10,18 @@ interface ActivityCardProps {
 }
 
 const getActivityIcon = (activity: RecentActivityItem): string => {
-  const message = activity.message.toLowerCase();
-
-  if (message.includes("badge")) return "badge";
-  if (message.includes("champion")) return "champion";
-  if (message.includes("elite four")) return "eliteFour";
-  if (message.includes("team") || message.includes("caught")) return "pokemon";
-
-  return "pokemon";
+  switch (activity.type) {
+    case "play_created":
+      return "play";
+    case "play_completed":
+      return "completed";
+    case "pokemon_added":
+      return "pokemon";
+    case "progress_completed":
+      return "badge";
+    default:
+      return "pokemon";
+  }
 };
 
 export const ActivityCard = ({ activity }: ActivityCardProps) => {

@@ -2,14 +2,16 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import type { BaseInfo } from "@/types/common";
 
-interface PokemonSpecies extends BaseInfo {
-  introduced_generation_id: number;
+interface SpeciesOption {
+  id: number;
+  slug: string;
+  name: string;
+  nationalNumber?: number;
 }
 
 interface SpeciesFieldProps {
-  species: PokemonSpecies[];
+  species: SpeciesOption[];
   value?: number;
   onChange: (value: number | undefined) => void;
   error?: string;
@@ -23,7 +25,7 @@ export function SpeciesField({
 }: SpeciesFieldProps) {
   const options = species.map((s) => ({
     value: s.id.toString(),
-    label: s.name,
+    label: s.nationalNumber ? `#${s.nationalNumber} ${s.name}` : s.name,
   }));
 
   return (

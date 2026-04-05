@@ -30,7 +30,11 @@ export interface Game {
 export interface GamePlaySummary {
   id: string;
   name: string;
-  status: PlayStatus;
+  status: {
+    slug: PlayStatus;
+    name: string;
+    isTerminal: boolean;
+  };
   createdAt: string;
   updatedAt: string;
   game?: {

@@ -20,6 +20,10 @@ export const playEditSchema = z.object({
     .optional()
     .or(z.literal("")),
   status_slug: z.string().min(1, "Status is required"),
+  include_unique_pokemon: z.boolean(),
+  include_regional_dex: z.boolean(),
+  include_national_dex: z.boolean(),
+  include_mythical_pokemon: z.boolean(),
 });
 
 export type PlayCreateFormValues = z.infer<typeof playCreateSchema>;

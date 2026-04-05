@@ -12,9 +12,9 @@ interface GameHeaderProps {
 export const GameHeader = ({ game }: GameHeaderProps) => {
   const totalPlays = game.plays?.length || 0;
   const activePlays =
-    game.plays?.filter((play) => play.status === "active").length || 0;
+    game.plays?.filter((play) => play.status.slug === "active").length || 0;
   const completedPlays =
-    game.plays?.filter((play) => play.status === "completed").length || 0;
+    game.plays?.filter((play) => play.status.slug === "completed").length || 0;
   return (
     <Header
       icon={

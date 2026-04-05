@@ -1,5 +1,7 @@
 "use client";
 
+import { CollectiblesSection } from "@/components/features/play/collectibles-section";
+import { DexSection } from "@/components/features/play/dex-section";
 import { PlayHeader } from "@/components/features/play/play-header";
 import { PokemonTeamSection } from "@/components/features/play/pokemon-team-section";
 import { ProgressCategoriesSection } from "@/components/features/play/progress-categories-section";
@@ -7,6 +9,8 @@ import { ProgressCategoriesSection } from "@/components/features/play/progress-c
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { usePlay } from "@/hooks/gameplay/usePlay";
+import { usePlayCollectibles } from "@/hooks/gameplay/usePlayCollectibles";
+import { usePlayDex } from "@/hooks/gameplay/usePlayDex";
 import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
 import { usePlayProgressCategories } from "@/hooks/gameplay/usePlayProgressCategories";
 import { use } from "react";
@@ -30,8 +34,17 @@ export default function PlayPage({ params }: PlayPageProps) {
     usePlayPokemonTeam(playId);
   const { data: progressCategoriesData, isLoading: progressCategoriesLoading } =
     usePlayProgressCategories(playId);
+  const { data: dexData, isLoading: dexLoading } = usePlayDex(playId);
+  const { data: collectiblesData, isLoading: collectiblesLoading } =
+    usePlayCollectibles(playId);
 
-  if (playLoading || pokemonTeamLoading || progressCategoriesLoading) {
+  if (
+    playLoading ||
+    pokemonTeamLoading ||
+    progressCategoriesLoading ||
+    dexLoading ||
+    collectiblesLoading
+  ) {
     return (
       <PageLayout isLoading>
         <Loading />
@@ -63,6 +76,8 @@ export default function PlayPage({ params }: PlayPageProps) {
           playId={playId}
           progressCategories={progressCategoriesData}
         />
+        <DexSection playId={playId} dexEntries={dexData} />
+        <CollectiblesSection playId={playId} collectibles={collectiblesData} />
       </div>
     </PageLayout>
   );

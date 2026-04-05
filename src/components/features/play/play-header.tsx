@@ -21,7 +21,13 @@ export const PlayHeader = ({ play }: { play: Play }) => {
           </div>
         }
         title={play.name}
-        badge={<StatusInfo status={play.status} value={play.status} isBadge />}
+        badge={
+          <StatusInfo
+            status={play.status.slug}
+            value={play.status.name}
+            isBadge
+          />
+        }
         actions={
           <Button variant="outline" onClick={() => setEditOpen(true)}>
             <Icon type="settings" />

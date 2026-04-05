@@ -1,8 +1,8 @@
-import { getNatures } from "@/services/meta/natures";
+import { getNaturesWithStats } from "@/services/meta/pokemon-game";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const { data, error } = await getNatures();
+  const { data, error } = await getNaturesWithStats();
 
   if (error) {
     return NextResponse.json(

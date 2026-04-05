@@ -54,7 +54,9 @@ export const PokemonTeamTable = ({
       <TableBody>
         {pokemon.map((p) => {
           const displayName = p.nickname || p.species?.name || "Unknown";
-          const spriteUrl = p.form?.spriteUrl;
+          const spriteUrl =
+            p.form?.spriteUrl ||
+            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.form?.id}.png`;
           const genderSymbol =
             p.gender === "male" ? "♂" : p.gender === "female" ? "♀" : "—";
           const genderColor =

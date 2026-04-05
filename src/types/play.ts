@@ -23,8 +23,12 @@ export interface Play {
   id: string;
   userId: string;
   name: string;
-  status: PlayStatus;
-  statusSlug: string;
+  status: {
+    id: number;
+    slug: PlayStatus;
+    name: string;
+    isTerminal: boolean;
+  };
   notes: string | null;
   includeUniquePokemon: boolean;
   includeRegionalDex: boolean;

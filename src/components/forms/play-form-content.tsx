@@ -8,6 +8,7 @@ import {
 } from "@/components/forms/schemas/play-schemas";
 import { FieldWrapper } from "@/components/shared/field-wrapper";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -161,6 +162,70 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                 {...register("notes")}
               />
             </FieldWrapper>
+          )}
+
+          {isEditMode && (
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Tracking Settings</label>
+              <div className="space-y-2">
+                <Controller
+                  name="include_regional_dex"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Track Regional Pokédex
+                    </label>
+                  )}
+                />
+                <Controller
+                  name="include_national_dex"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Track National Pokédex
+                    </label>
+                  )}
+                />
+                <Controller
+                  name="include_unique_pokemon"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Include Unique Pokémon
+                    </label>
+                  )}
+                />
+                <Controller
+                  name="include_mythical_pokemon"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Include Mythical Pokémon
+                    </label>
+                  )}
+                />
+              </div>
+            </div>
           )}
         </FieldGroup>
       </FieldSet>

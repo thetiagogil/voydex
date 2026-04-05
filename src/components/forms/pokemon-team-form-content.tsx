@@ -10,8 +10,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { useAbilities, useMoves, useNatures } from "@/hooks/meta";
-import { usePokemonForms, usePokemonSpecies } from "@/hooks/meta/usePokemon";
+import { usePokemonForms } from "@/hooks/meta/usePokemon";
+import {
+  useAvailablePokemon,
+  useNaturesWithStats,
+  usePokemonAbilities,
+  usePokemonLearnset,
+} from "@/hooks/meta/usePokemonGame";
 import type { PlayPokemon } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -29,6 +34,8 @@ import { SpeciesField } from "./pokemon-team-modal-fields/species-field";
 
 interface PlayTeamFormContentProps {
   generationId: number;
+  versionGroupId?: number;
+  gameId?: number;
   team?: PlayPokemon[];
   pokemon?: PlayPokemon | null;
   position?: number | null;
@@ -39,6 +46,8 @@ interface PlayTeamFormContentProps {
 
 export const PlayTeamFormContent = ({
   generationId,
+  versionGroupId,
+  gameId,
   team = [],
   pokemon,
   position,
@@ -48,10 +57,32 @@ export const PlayTeamFormContent = ({
 }: PlayTeamFormContentProps) => {
   const isEditing = !!pokemon;
 
-  const { data: speciesList = [] } = usePokemonSpecies(generationId);
-  const { data: natures = [] } = useNatures();
-  const { data: abilities = [] } = useAbilities();
-  const { data: moves = [] } = useMoves();
+  const { data: availablePokemon = [] } = useAvailablePokemon(
+    versionGroupId,
+    gameId,
+  );
+  const { data: natures = [] } = useNaturesWithStats();
+
+  // Build species list from available pokemon (deduplicate by species)
+  const speciesList = useMemo(() => {
+    const speciesMap = new Map<
+      number,
+      { id: number; slug: string; name: string; nationalNumber: number }
+    >();
+    for (const ap of availablePokemon) {
+      if (!speciesMap.has(ap.speciesId)) {
+        speciesMap.set(ap.speciesId, {
+          id: ap.species.id,
+          slug: ap.species.slug,
+          name: ap.species.name,
+          nationalNumber: ap.species.nationalNumber,
+        });
+      }
+    }
+    return Array.from(speciesMap.values()).sort(
+      (a, b) => a.nationalNumber - b.nationalNumber,
+    );
+  }, [availablePokemon]);
 
   // Determine if nature and ability are available (Gen 3+)
   const hasNatureAndAbility = generationId >= 3;
@@ -110,6 +141,48 @@ export const PlayTeamFormContent = ({
     () => forms.find((f) => f.id === selectedFormId),
     [forms, selectedFormId],
   );
+
+  // Game-scoped abilities for selected species/form
+  const { data: abilities = [] } = usePokemonAbilities(
+    selectedSpeciesId,
+    selectedFormId,
+    generationId,
+  );
+
+  // Game-scoped learnset (moves) for selected species/form
+  const { data: learnsetMoves = [] } = usePokemonLearnset(
+    selectedSpeciesId,
+    selectedFormId,
+    versionGroupId,
+  );
+
+  // Convert learnset to moves list for MoveField (deduplicated by move_id)
+  const moves = useMemo(() => {
+    const moveMap = new Map<
+      number,
+      {
+        id: number;
+        slug: string;
+        name: string;
+        learnMethod: string;
+        levelLearnedAt: number | null;
+      }
+    >();
+    for (const lm of learnsetMoves) {
+      if (!moveMap.has(lm.moveId)) {
+        moveMap.set(lm.moveId, {
+          id: lm.moveId,
+          slug: lm.moveSlug,
+          name: lm.moveName,
+          learnMethod: lm.learnMethod,
+          levelLearnedAt: lm.levelLearnedAt,
+        });
+      }
+    }
+    return Array.from(moveMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+  }, [learnsetMoves]);
 
   // Reset form when pokemon or position changes
   useEffect(() => {
@@ -203,10 +276,13 @@ export const PlayTeamFormContent = ({
                     <div className="flex h-full w-full items-center justify-center">
                       <Spinner className="text-muted size-8" />
                     </div>
-                  ) : selectedForm?.spriteUrl ? (
+                  ) : selectedForm?.spriteUrl || selectedFormId ? (
                     <div className="flex flex-col items-center gap-2">
                       <Image
-                        src={selectedForm.spriteUrl}
+                        src={
+                          selectedForm?.spriteUrl ||
+                          `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedFormId}.png`
+                        }
                         alt={selectedSpecies?.name || "Pokemon"}
                         width={112}
                         height={112}

@@ -23,8 +23,12 @@ export const getPlay = async (id: string) => {
     id: play.play_id,
     userId: play.user_id,
     name: play.play_name,
-    status: play.status_slug,
-    statusSlug: play.status_slug,
+    status: {
+      id: play.status_id,
+      slug: play.status_slug,
+      name: play.status_name,
+      isTerminal: play.status_is_terminal,
+    },
     notes: play.notes,
     includeUniquePokemon: play.include_unique_pokemon,
     includeRegionalDex: play.include_regional_dex,
@@ -236,7 +240,11 @@ export const getAllUserPlays = async () => {
   const result = data.map((play) => ({
     id: play.play_id,
     name: play.play_name,
-    status: play.status_slug,
+    status: {
+      slug: play.status_slug,
+      name: play.status_name,
+      isTerminal: play.status_is_terminal,
+    },
     createdAt: play.created_at,
     updatedAt: play.updated_at,
     game: {

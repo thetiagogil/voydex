@@ -131,7 +131,11 @@ export const getGamePlays = async (gameId: number) => {
   const result = data.map((play) => ({
     id: play.play_id,
     name: play.play_name,
-    status: play.status_slug,
+    status: {
+      slug: play.status_slug,
+      name: play.status_name,
+      isTerminal: play.status_is_terminal,
+    },
     updatedAt: play.updated_at,
   }));
 

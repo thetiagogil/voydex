@@ -29,7 +29,11 @@ export const PlayEditModal = ({ play, open, setOpen }: PlayEditModalProps) => {
     () => ({
       name: play.name || "",
       notes: play.notes || "",
-      status_slug: play.status,
+      status_slug: play.status.slug,
+      include_unique_pokemon: play.includeUniquePokemon,
+      include_regional_dex: play.includeRegionalDex,
+      include_national_dex: play.includeNationalDex,
+      include_mythical_pokemon: play.includeMythicalPokemon,
     }),
     [play],
   );
@@ -45,6 +49,10 @@ export const PlayEditModal = ({ play, open, setOpen }: PlayEditModalProps) => {
             name: data.name?.trim() || undefined,
             notes: data.notes?.trim() || undefined,
             status_id: selectedStatus?.id,
+            include_unique_pokemon: data.include_unique_pokemon,
+            include_regional_dex: data.include_regional_dex,
+            include_national_dex: data.include_national_dex,
+            include_mythical_pokemon: data.include_mythical_pokemon,
           },
         }),
         {

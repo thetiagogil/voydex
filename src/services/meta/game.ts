@@ -74,7 +74,11 @@ export const getGame = async (id: number | string) => {
       return {
         id: play.play_id,
         name: play.play_name,
-        status: play.status_slug,
+        status: {
+          slug: play.status_slug,
+          name: play.status_name,
+          isTerminal: play.status_is_terminal,
+        },
         createdAt: play.created_at,
         updatedAt: play.updated_at,
         pokemonTeam: team.map((pokemon: any) => ({

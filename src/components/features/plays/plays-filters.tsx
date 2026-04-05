@@ -16,6 +16,8 @@ import { STATUS_COLORS } from "@/lib/constants/styles";
 interface PlaysFiltersProps {
   search: string;
   statusFilter: string;
+  generationFilter: string;
+  gameFilter: string;
   sortBy: string;
   statusCounts: {
     all: number;
@@ -24,18 +26,28 @@ interface PlaysFiltersProps {
     paused: number;
     dropped: number;
   };
+  generations: Array<{ id: number; name: string }>;
+  games: Array<{ id: number; name: string }>;
   onSearchChange: (value: string) => void;
   onStatusFilterChange: (value: string) => void;
+  onGenerationFilterChange: (value: string) => void;
+  onGameFilterChange: (value: string) => void;
   onSortByChange: (value: string) => void;
 }
 
 export const PlaysFilters = ({
   search,
   statusFilter,
+  generationFilter,
+  gameFilter,
   sortBy,
   statusCounts,
+  generations,
+  games,
   onSearchChange,
   onStatusFilterChange,
+  onGenerationFilterChange,
+  onGameFilterChange,
   onSortByChange,
 }: PlaysFiltersProps) => {
   return (
@@ -54,6 +66,37 @@ export const PlaysFilters = ({
             <Icon type="search" />
           </InputGroupAddon>
         </InputGroup>
+
+        <Select
+          value={generationFilter}
+          onValueChange={onGenerationFilterChange}
+        >
+          <SelectTrigger className="w-full md:w-48">
+            <SelectValue placeholder="Generation" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Generations</SelectItem>
+            {generations.map((gen) => (
+              <SelectItem key={gen.id} value={gen.id.toString()}>
+                {gen.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={gameFilter} onValueChange={onGameFilterChange}>
+          <SelectTrigger className="w-full md:w-48">
+            <SelectValue placeholder="Game" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Games</SelectItem>
+            {games.map((game) => (
+              <SelectItem key={game.id} value={game.id.toString()}>
+                {game.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         <Select value={statusFilter} onValueChange={onStatusFilterChange}>
           <SelectTrigger className="w-full md:w-48">

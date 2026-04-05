@@ -27,7 +27,9 @@ export const PokemonCard = ({
   hasCardHover,
 }: PokemonCardProps) => {
   const displayName = pokemon.nickname || pokemon.species?.name || "Unknown";
-  const spriteUrl = pokemon.form?.spriteUrl;
+  const spriteUrl =
+    pokemon.form?.spriteUrl ||
+    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.form?.id}.png`;
 
   const primaryType = pokemon.types[0]?.name?.toLowerCase() as PokemonTypeKey;
   const typeColors = TYPE_COLORS[primaryType] || TYPE_COLORS.normal;

@@ -117,6 +117,8 @@ export const PokemonTeamModal = ({
 
         <PlayTeamFormContent
           generationId={play.game?.generation?.id}
+          versionGroupId={play.game?.versionGroupId}
+          gameId={play.game?.id}
           team={team}
           pokemon={pokemon}
           position={position}

@@ -1,6 +1,6 @@
-import type { Play } from "@/types/play";
+import type { PlayStatus } from "@/types/play";
 
-export const getStatusColor = (status: Play["status"]) => {
+export const getStatusColor = (status: PlayStatus) => {
   switch (status) {
     case "active":
       return "bg-green-500/20 text-green-500";

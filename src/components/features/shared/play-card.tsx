@@ -32,7 +32,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                     >
                       {play.name}
                     </h3>
-                    <StatusInfo status={play.status} />
+                    <StatusInfo status={play.status.slug} />
                   </div>
                   <div className="text-muted-foreground">
                     <QuickInfo
