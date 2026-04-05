@@ -3,35 +3,19 @@ import { ACTIVITY_COLORS, type ActivityType } from "@/lib/constants/styles";
 import { cn } from "@/lib/utils/cn";
 import { formatTime } from "@/lib/utils/common";
 import type { RecentActivityItem } from "@/types/dashboard";
-import Image from "next/image";
 import Link from "next/link";
 
 interface ActivityCardProps {
   activity: RecentActivityItem;
 }
-const getActivityIcon = (activity: RecentActivityItem) => {
-  if (activity.type === "team_add") return null;
 
-  const categorySlug = activity.category?.slug.toLowerCase();
-  const activityMessage = activity.message.toLowerCase();
+const getActivityIcon = (activity: RecentActivityItem): string => {
+  const message = activity.message.toLowerCase();
 
-  if (categorySlug?.includes("badges")) {
-    return "badge";
-  }
-
-  if (
-    categorySlug?.includes("elite-four") &&
-    !activityMessage?.includes("champion")
-  ) {
-    return "champion";
-  }
-
-  if (
-    categorySlug?.includes("elite-four") &&
-    activityMessage?.includes("champion")
-  ) {
-    return "eliteFour";
-  }
+  if (message.includes("badge")) return "badge";
+  if (message.includes("champion")) return "champion";
+  if (message.includes("elite four")) return "eliteFour";
+  if (message.includes("team") || message.includes("caught")) return "pokemon";
 
   return "pokemon";
 };
@@ -41,33 +25,21 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
     <Link href={activity.href}>
       <div className="bg-foreground/5 hover:bg-foreground/10 flex items-start gap-3 rounded-lg p-3 transition-colors">
         <div className="flex-shrink-0">
-          {activity.type === "team_add" && activity.pokemon?.spriteUrl ? (
-            <div className="bg-foreground/10 flex h-10 w-10 items-center justify-center rounded-xl">
-              <Image
-                src={activity.pokemon.spriteUrl}
-                alt={activity.pokemon.name}
-                height={32}
-                width={32}
-                className="object-contain p-1"
-              />
-            </div>
-          ) : (
-            <div
-              className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-lg",
+          <div
+            className={cn(
+              "flex h-10 w-10 items-center justify-center rounded-lg",
+              ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]?.bg ||
+                "",
+            )}
+          >
+            <Icon
+              type={getActivityIcon(activity) as IconType}
+              className={
                 ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]
-                  ?.bg || "",
-              )}
-            >
-              <Icon
-                type={getActivityIcon(activity) as IconType}
-                className={
-                  ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]
-                    ?.icon || ""
-                }
-              />
-            </div>
-          )}
+                  ?.icon || ""
+              }
+            />
+          </div>
         </div>
 
         <div className="min-w-0 flex-1">

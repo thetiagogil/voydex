@@ -3,30 +3,38 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET PLAY REGIONAL DEX
+// GET PLAY DEX ENTRIES (from views.play_dex_detail)
 // =============================================================================
 
-export const getPlayRegionalDex = async (playId: string) => {
+export const getPlayDex = async (playId: string) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .schema("views")
-    .from("play_regional_dex")
+    .from("play_dex_detail")
     .select("*")
-    .eq("play_id", playId)
-    .order("regional_number", { ascending: true });
+    .eq("play_id", playId);
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
   const result = data.map((entry) => ({
-    regionalNumber: entry.regional_number,
+    dexEntryId: entry.dex_entry_id,
+    dexNumber: entry.dex_number,
+    dex: {
+      id: entry.dex_id,
+      slug: entry.dex_slug,
+      name: entry.dex_name,
+      kind: entry.dex_kind,
+    },
     speciesId: entry.species_id,
     formId: entry.form_id,
     species: {
       id: entry.species_id,
       slug: entry.species_slug,
       name: entry.species_name,
+      isLegendary: entry.is_legendary,
+      isMythical: entry.is_mythical,
     },
     form: {
       id: entry.form_id,
@@ -34,33 +42,31 @@ export const getPlayRegionalDex = async (playId: string) => {
       name: entry.form_name,
       spriteUrl: entry.sprite_url,
     },
-    caught: entry.is_caught,
-    isLegendary: entry.is_legendary,
-    isMythical: entry.is_mythical,
+    isSeen: entry.is_seen,
+    isCaught: entry.is_caught,
   }));
 
   return { data: result, error: null };
 };
 
 // =============================================================================
-// CHECK POKEMON CAUGHT
+// MARK DEX ENTRY AS SEEN
 // =============================================================================
 
-export const checkPokemonCaught = async (
-  playId: string,
-  speciesId: number,
-  formId: number,
-) => {
+export const markDexEntrySeen = async (playId: string, dexEntryId: number) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .schema("gameplay")
-    .from("pokemon_caught")
-    .insert({
-      play_id: playId,
-      species_id: speciesId,
-      form_id: formId,
-    })
+    .from("play_dex_entries")
+    .upsert(
+      {
+        play_id: playId,
+        dex_entry_id: dexEntryId,
+        is_seen: true,
+      },
+      { onConflict: "play_id,dex_entry_id" },
+    )
     .select()
     .single();
 
@@ -69,48 +75,74 @@ export const checkPokemonCaught = async (
 };
 
 // =============================================================================
-// UNCHECK POKEMON CAUGHT
+// MARK DEX ENTRY AS CAUGHT (also marks seen)
 // =============================================================================
 
-export const uncheckPokemonCaught = async (
+export const markDexEntryCaught = async (
   playId: string,
-  speciesId: number,
+  dexEntryId: number,
 ) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("play_dex_entries")
+    .upsert(
+      {
+        play_id: playId,
+        dex_entry_id: dexEntryId,
+        is_seen: true,
+        is_caught: true,
+      },
+      { onConflict: "play_id,dex_entry_id" },
+    )
+    .select()
+    .single();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+// =============================================================================
+// UNMARK DEX ENTRY (remove seen/caught)
+// =============================================================================
+
+export const unmarkDexEntry = async (playId: string, dexEntryId: number) => {
   const supabase = await createClient();
 
   const { error } = await supabase
     .schema("gameplay")
-    .from("pokemon_caught")
+    .from("play_dex_entries")
     .delete()
     .eq("play_id", playId)
-    .eq("species_id", speciesId);
+    .eq("dex_entry_id", dexEntryId);
 
   if (error) return { success: false, error };
   return { success: true, error: null };
 };
 
 // =============================================================================
-// BULK CHECK POKEMON CAUGHT
+// BULK MARK DEX ENTRIES AS CAUGHT
 // =============================================================================
 
-export const checkPokemonCaughtBulk = async (
+export const markDexEntriesCaughtBulk = async (
   playId: string,
-  pokemon: Array<{ speciesId: number; formId: number }>,
+  dexEntryIds: number[],
 ) => {
   const supabase = await createClient();
 
-  const records = pokemon.map((p) => ({
+  const records = dexEntryIds.map((entryId) => ({
     play_id: playId,
-    species_id: p.speciesId,
-    form_id: p.formId,
+    dex_entry_id: entryId,
+    is_seen: true,
+    is_caught: true,
   }));
 
   const { error } = await supabase
     .schema("gameplay")
-    .from("pokemon_caught")
+    .from("play_dex_entries")
     .upsert(records, {
-      onConflict: "play_id,species_id",
-      ignoreDuplicates: false,
+      onConflict: "play_id,dex_entry_id",
     });
 
   if (error) return { success: false, error };
@@ -118,21 +150,21 @@ export const checkPokemonCaughtBulk = async (
 };
 
 // =============================================================================
-// BULK UNCHECK POKEMON CAUGHT
+// BULK UNMARK DEX ENTRIES
 // =============================================================================
 
-export const uncheckPokemonCaughtBulk = async (
+export const unmarkDexEntriesBulk = async (
   playId: string,
-  speciesIds: number[],
+  dexEntryIds: number[],
 ) => {
   const supabase = await createClient();
 
   const { error } = await supabase
     .schema("gameplay")
-    .from("pokemon_caught")
+    .from("play_dex_entries")
     .delete()
     .eq("play_id", playId)
-    .in("species_id", speciesIds);
+    .in("dex_entry_id", dexEntryIds);
 
   if (error) return { success: false, error };
   return { success: true, error: null };

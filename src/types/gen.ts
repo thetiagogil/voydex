@@ -10,13 +10,12 @@ export interface Generation {
   slug: string;
   name: string;
   startYear: number;
-  endYear: number | null;
   newPokemonCount: number;
   totalPokemonCount: number;
 }
 
 // =============================================================================
-// GENERATION STATIC STATS (from generation_with_stats view)
+// GENERATION STATIC STATS
 // =============================================================================
 
 export interface GenerationStaticStats {
@@ -27,7 +26,7 @@ export interface GenerationStaticStats {
 }
 
 // =============================================================================
-// GENERATION USER STATS (from generation_user_stats view)
+// GENERATION USER STATS
 // =============================================================================
 
 export interface GenerationUserStats {
@@ -72,7 +71,6 @@ export interface GameWithPlayStats {
   name: string;
   type: GameType;
   releaseYear: number;
-  regionalDexCount: number;
   coverUrl: string | null;
   region: BaseInfo;
   stats: {

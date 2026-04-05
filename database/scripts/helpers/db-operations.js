@@ -1,42 +1,28 @@
 /**
  * Database operations — schema/table cleaning, impact analysis.
- * Absorbs view utilities from the old db-operations-extended.js.
  */
 
 import { PROTECTED_TABLES, SCHEMA_TYPES } from "../config/database.config.js";
-import { getCustomSchemas, getTablesFromSchemas, withClient } from "./db.js";
+import { getCustomSchemas, getTablesFromSchemas } from "./db.js";
 
 // ── Schema operations ────────────────────────────────
 
-export async function getSchemasByType(type, dbUrl) {
-  const all = await withClient((client) => getCustomSchemas(client), dbUrl);
-  const targets = SCHEMA_TYPES[type] || [];
-  return all.filter((s) => targets.includes(s));
-}
-
-export async function dropSchemas(schemas, dbUrl) {
+export async function dropSchemas(client, schemas) {
   if (!schemas?.length)
     return { success: false, message: "No schemas to drop" };
 
-  try {
-    const sql = schemas
-      .map((s) => `DROP SCHEMA IF EXISTS "${s}" CASCADE;`)
-      .join("\n");
-    await withClient((client) => client.query(sql), dbUrl);
-    return { success: true, message: `Dropped ${schemas.length} schema(s)` };
-  } catch (err) {
-    return { success: false, message: `Failed: ${err.message}`, error: err };
-  }
+  const sql = schemas
+    .map((s) => `DROP SCHEMA IF EXISTS "${s}" CASCADE;`)
+    .join("\n");
+  await client.query(sql);
+  return { success: true, message: `Dropped ${schemas.length} schema(s)` };
 }
 
 // ── Table operations ─────────────────────────────────
 
-export async function getFilteredTables(schemas, options, dbUrl) {
+export async function getFilteredTables(client, schemas, options) {
   const { excludeProtected = false } = options || {};
-  const tables = await withClient(
-    (client) => getTablesFromSchemas(client, schemas),
-    dbUrl,
-  );
+  const tables = await getTablesFromSchemas(client, schemas);
 
   if (!excludeProtected) return tables;
   return tables.filter(
@@ -44,23 +30,15 @@ export async function getFilteredTables(schemas, options, dbUrl) {
   );
 }
 
-export async function truncateTables(tables, dbUrl) {
+export async function truncateTables(client, tables) {
   if (!tables?.length)
     return { success: false, message: "No tables to truncate" };
 
-  try {
-    const qualified = tables.map((t) => `"${t.schemaname}"."${t.tablename}"`);
-    await withClient(
-      (client) =>
-        client.query(
-          `TRUNCATE TABLE ${qualified.join(", ")} RESTART IDENTITY CASCADE;`,
-        ),
-      dbUrl,
-    );
-    return { success: true, message: `Truncated ${tables.length} table(s)` };
-  } catch (err) {
-    return { success: false, message: `Failed: ${err.message}`, error: err };
-  }
+  const qualified = tables.map((t) => `"${t.schemaname}"."${t.tablename}"`);
+  await client.query(
+    `TRUNCATE TABLE ${qualified.join(", ")} RESTART IDENTITY CASCADE;`,
+  );
+  return { success: true, message: `Truncated ${tables.length} table(s)` };
 }
 
 // ── Analysis ─────────────────────────────────────────
@@ -74,11 +52,8 @@ export function categorizeSchemas(schemas) {
   };
 }
 
-export async function analyzeImpact(operation, dbUrl) {
-  const allSchemas = await withClient(
-    (client) => getCustomSchemas(client),
-    dbUrl,
-  );
+export async function analyzeImpact(client, operation) {
+  const allSchemas = await getCustomSchemas(client);
   const cat = categorizeSchemas(allSchemas);
 
   let affected = [];
@@ -107,9 +82,9 @@ export async function analyzeImpact(operation, dbUrl) {
       throw new Error(`Unknown operation: ${operation}`);
   }
 
-  const affectedTables = await getFilteredTables(affected, {}, dbUrl);
+  const affectedTables = await getFilteredTables(client, affected);
   const preservedTables = preserved.length
-    ? await getFilteredTables(preserved, {}, dbUrl)
+    ? await getFilteredTables(client, preserved)
     : [];
 
   return {
@@ -122,35 +97,32 @@ export async function analyzeImpact(operation, dbUrl) {
   };
 }
 
-// ── View operations (absorbed from extended) ─────────
+// ── View operations ──────────────────────────────────
 
 export async function refreshMaterializedView(
+  client,
   schemaName,
   viewName,
   concurrently = false,
-  dbUrl,
 ) {
   const clause = concurrently ? "CONCURRENTLY " : "";
   const sql = `REFRESH MATERIALIZED VIEW ${clause}"${schemaName}"."${viewName}";`;
 
-  return withClient(async (client) => {
-    const start = Date.now();
-    try {
-      await client.query(sql);
-      return { success: true, duration: Date.now() - start };
-    } catch (err) {
-      return { success: false, error: err, duration: Date.now() - start };
-    }
-  }, dbUrl);
+  const start = Date.now();
+  await client.query(sql);
+  return { success: true, duration: Date.now() - start };
 }
 
-export async function getDatabaseStats(dbUrl) {
-  return withClient(async (client) => {
-    const res = await client.query(`
-      SELECT datname AS database_name,
-             pg_size_pretty(pg_database_size(datname)) AS size
-      FROM pg_database WHERE datname = current_database();
-    `);
-    return res.rows[0];
-  }, dbUrl);
+// ── Stats ────────────────────────────────────────────
+
+export async function getDatabaseStats(client) {
+  const schemas = await getCustomSchemas(client);
+  const tables = await getTablesFromSchemas(client, schemas);
+  const totalRows = tables.reduce((sum, t) => sum + (t.row_count ?? 0), 0);
+
+  return {
+    schemaCount: schemas.length,
+    tableCount: tables.length,
+    totalRows,
+  };
 }

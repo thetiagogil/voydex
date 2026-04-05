@@ -11,14 +11,10 @@ import { loadEnvironment } from "../helpers/env.js";
 import { logger } from "../helpers/logger.js";
 
 // Verification modules
-import { verifyAvailability } from "../verify/verify-availability.js";
-import { verifyLearnsets } from "../verify/verify-learnsets.js";
 import { verifySeeds } from "../verify/verify-seeds.js";
 
 const VERIFIERS = {
   seeds: verifySeeds,
-  availability: verifyAvailability,
-  learnsets: verifyLearnsets,
 };
 
 async function main() {

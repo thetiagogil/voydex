@@ -32,11 +32,30 @@ export const logger = {
     items.forEach((item) => console.log(`${pad}${bullet} ${item}`));
   },
 
-  keyValue: (pairs, { indent = 2, separator = ": " } = {}) => {
-    if (!pairs || Object.keys(pairs).length === 0) return;
-    const pad = " ".repeat(indent);
+  keyValue: (keyOrPairs, valueOrOptions, maybeOptions) => {
+    const pad = "  ";
+    const sep = ": ";
+
+    // Single key-value: keyValue("key", "value")
+    if (
+      typeof keyOrPairs === "string" &&
+      valueOrOptions !== undefined &&
+      (typeof valueOrOptions !== "object" ||
+        valueOrOptions === null ||
+        maybeOptions !== undefined)
+    ) {
+      console.log(
+        `${pad}${C.CYAN}${keyOrPairs}${C.RESET}${sep}${valueOrOptions}`,
+      );
+      return;
+    }
+
+    // Object of pairs: keyValue({ key1: val1, key2: val2 })
+    const pairs = keyOrPairs;
+    if (!pairs || typeof pairs !== "object" || Object.keys(pairs).length === 0)
+      return;
     Object.entries(pairs).forEach(([k, v]) => {
-      console.log(`${pad}${C.CYAN}${k}${C.RESET}${separator}${v}`);
+      console.log(`${pad}${C.CYAN}${k}${C.RESET}${sep}${v}`);
     });
   },
 
@@ -91,10 +110,10 @@ export async function withTiming(operation, label) {
     const result = await operation();
     const duration = Date.now() - start;
     logger.withDuration(label, duration, "✅");
-    return { success: true, result, duration };
+    return result;
   } catch (err) {
     const duration = Date.now() - start;
     logger.withDuration(`${label} (failed)`, duration, "❌");
-    return { success: false, error: err, duration };
+    throw err;
   }
 }

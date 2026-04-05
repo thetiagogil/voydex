@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 );
 
 -- Indexes
-CREATE INDEX idx_users_created_at ON public.users (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_users_created_at ON public.users (created_at DESC);
 
 -- Trigger: auto-update updated_at
 DROP TRIGGER IF EXISTS update_users_updated_at ON public.users;

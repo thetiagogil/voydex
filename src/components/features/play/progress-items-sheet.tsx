@@ -6,16 +6,15 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { usePlayPokemonCaught } from "@/hooks/gameplay/usePlayPokemonCaught";
+import { usePlayDex } from "@/hooks/gameplay/usePlayDex";
 import { usePlayProgressItems } from "@/hooks/gameplay/usePlayProgressItems";
-import type { PlayProgressCategory } from "@/types/play";
+import type { PlayProgressCategory } from "@/types/progress";
+import { ProgressItemsDexList } from "./progress-items-dex-list";
 import { ProgressItemsList } from "./progress-items-list";
-import { ProgressItemsPokemonCaughtList } from "./progress-items-pokemon-caught-list";
 
 interface ProgressItemsSheetProps {
   open: boolean;
@@ -30,36 +29,30 @@ export const ProgressItemsSheet = ({
   playId,
   category,
 }: ProgressItemsSheetProps) => {
-  const isDexCategory =
-    category?.type === "dex" && category?.slug.includes("pokedex");
+  const isDexCategory = category?.slug?.includes("pokedex");
 
   const { data: items, isLoading: itemsLoading } = usePlayProgressItems(
     playId,
     !isDexCategory ? category?.id : undefined,
   );
-  const { data: pokemonCaught, isLoading: pokemonLoading } =
-    usePlayPokemonCaught(isDexCategory ? playId : undefined);
+  const { data: dexEntries, isLoading: dexLoading } = usePlayDex(
+    isDexCategory ? playId : undefined,
+  );
 
-  const isLoading = isDexCategory ? pokemonLoading : itemsLoading;
+  const isLoading = isDexCategory ? dexLoading : itemsLoading;
 
   return (
     <Sheet open={open} onOpenChange={setOpenSheet}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{category?.name}</SheetTitle>
-          {category?.description && (
-            <SheetDescription>{category.description}</SheetDescription>
-          )}
         </SheetHeader>
 
         <div className="flex flex-col gap-4 overflow-hidden">
           {isLoading ? (
             <Loading />
-          ) : isDexCategory && pokemonCaught && pokemonCaught.length > 0 ? (
-            <ProgressItemsPokemonCaughtList
-              pokemonCaught={pokemonCaught}
-              playId={playId}
-            />
+          ) : isDexCategory && dexEntries && dexEntries.length > 0 ? (
+            <ProgressItemsDexList dexEntries={dexEntries} playId={playId} />
           ) : items && items.length > 0 ? (
             <ProgressItemsList
               items={items}

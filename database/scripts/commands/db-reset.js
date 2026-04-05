@@ -30,8 +30,8 @@ async function main() {
   logger.header("Database Reset");
 
   await withClient(async (client) => {
-    const impact = await analyzeImpact(client);
-    showDangerWarning("Full Reset", impact.schemas);
+    const impact = await analyzeImpact(client, "drop-all");
+    showDangerWarning("Full Reset", impact.affectedSchemas);
 
     if (!isForceMode()) {
       await confirmOrExit(
@@ -45,7 +45,7 @@ async function main() {
 
       logger.section("Running migrations");
       const files = getAllMigrationFiles(MIGRATIONS_DIR);
-      const result = await runMigrations(files, { client });
+      const result = await runMigrations(client, files);
 
       if (!result.success) {
         logger.failure(`Migration failed: ${result.failed}/${result.total}`);

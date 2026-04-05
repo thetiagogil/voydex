@@ -46,10 +46,10 @@ export const usePlayProgressPrefetch = () => {
       }),
     prefetchPokemonCaught: async (playId: string) =>
       qc.prefetchQuery({
-        queryKey: ["play", playId, "pokemon-caught"],
+        queryKey: ["play", playId, "dex"],
         queryFn: async () => {
           const res = await fetch(
-            `/api/gameplay/play/${encodeURIComponent(playId)}/pokemon-caught`,
+            `/api/gameplay/play/${encodeURIComponent(playId)}/dex`,
           );
           const data = await res.json();
           if (!res.ok) return false;

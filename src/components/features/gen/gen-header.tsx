@@ -9,9 +9,7 @@ interface GenHeaderProps {
 }
 
 export const GenHeader = ({ gen }: GenHeaderProps) => {
-  const yearRange = gen.endYear
-    ? `${gen.startYear} - ${gen.endYear}`
-    : `${gen.startYear} - Present`;
+  const yearDisplay = `${gen.startYear} - Present`;
 
   return (
     <Header
@@ -25,7 +23,7 @@ export const GenHeader = ({ gen }: GenHeaderProps) => {
         <div className="flex flex-wrap items-center gap-2">
           <QuickInfo
             icon={<Icon type="calendar" />}
-            value={yearRange}
+            value={yearDisplay}
             title="Generation years"
           />
           <QuickInfo

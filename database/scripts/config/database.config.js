@@ -11,17 +11,21 @@
 
 export const SCHEMA_TYPES = {
   STATIC: ["meta"],
-  DYNAMIC: ["gameplay"],
+  DYNAMIC: ["gameplay", "progress"],
   PRESENTATION: ["views"],
-  ALL_CUSTOM: ["meta", "gameplay", "views"],
+  ALL_CUSTOM: ["meta", "gameplay", "progress", "views"],
 };
 
 export const PROTECTED_TABLES = [
   "gameplay.plays",
   "gameplay.play_optional_version_groups",
-  "gameplay.play_team_pokemon",
+  "gameplay.play_dex_entries",
+  "gameplay.play_collectible_entries",
+  "gameplay.pokemon_team",
   "gameplay.play_progress",
-  "gameplay.play_pokemon_caught",
+  "progress.play_items",
+  "progress.play_choices",
+  "progress.collectible_entries",
   "public.users",
 ];
 
@@ -46,29 +50,35 @@ export const SYSTEM_SCHEMAS = new Set([
 // =====================================================
 
 export const MIGRATION_FOLDERS = {
-  PUBLIC: "001_public_tables",
-  META: "002_meta_tables",
-  GAMEPLAY: "003_gameplay_tables",
-  VIEWS: "004_views",
+  PUBLIC: "01_public_tables",
+  META: "02_meta_tables",
+  GAMEPLAY: "03_gameplay_tables",
+  PROGRESS: "04_progress_tables",
+  VIEWS: "05_views",
 };
 
 export const MIGRATION_FOLDER_INFO = {
-  "001_public_tables": {
+  "01_public_tables": {
     name: "Public Tables",
     description: "User profiles (public schema)",
     emoji: "🔵",
   },
-  "002_meta_tables": {
+  "02_meta_tables": {
     name: "Meta Tables",
     description: "Reference data (meta schema)",
     emoji: "🟢",
   },
-  "003_gameplay_tables": {
+  "03_gameplay_tables": {
     name: "Gameplay Tables",
     description: "User gameplay data",
     emoji: "🟡",
   },
-  "004_views": {
+  "04_progress_tables": {
+    name: "Progress Tables",
+    description: "Progress tracking data",
+    emoji: "🟠",
+  },
+  "05_views": {
     name: "Views",
     description: "Presentation layer",
     emoji: "🟣",
@@ -83,7 +93,6 @@ export const REQUIRED_SCHEMAS = SCHEMA_TYPES.ALL_CUSTOM;
 
 export const SEED_CONFIG = {
   baseDir: "seeds",
-  approvedDir: "approved",
 };
 
 // =====================================================

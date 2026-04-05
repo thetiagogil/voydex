@@ -36,7 +36,7 @@ const updateItemsOptimistically = (
     itemIds.includes(item.id)
       ? {
           ...item,
-          completed,
+          isCompleted: completed,
           completedAt: completed ? new Date().toISOString() : null,
         }
       : item,

@@ -1,4 +1,4 @@
-import { checkPokemonCaughtBulk } from "@/services/gameplay/play-dex";
+import { markDexEntriesCaughtBulk } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -8,16 +8,16 @@ export async function POST(
   try {
     const { id: playId } = await context.params;
     const body = await request.json();
-    const { pokemon } = body;
+    const { dexEntryIds } = body;
 
-    if (!pokemon || !Array.isArray(pokemon)) {
+    if (!dexEntryIds || !Array.isArray(dexEntryIds)) {
       return NextResponse.json(
-        { error: "pokemon array is required" },
+        { error: "dexEntryIds array is required" },
         { status: 400 },
       );
     }
 
-    await checkPokemonCaughtBulk(playId, pokemon);
+    await markDexEntriesCaughtBulk(playId, dexEntryIds);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

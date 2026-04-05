@@ -16,12 +16,7 @@ import { logger, withTiming } from "../helpers/logger.js";
 import { listSqlFiles, runSequentialFiles } from "../helpers/sql-runner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SEEDS_DIR = path.resolve(
-  __dirname,
-  "../../",
-  SEED_CONFIG.baseDir,
-  SEED_CONFIG.approvedDir,
-);
+const SEEDS_DIR = path.resolve(__dirname, "../../", SEED_CONFIG.baseDir);
 
 function discoverSeedFiles(seedsDir) {
   if (!fs.existsSync(seedsDir)) return [];
@@ -87,8 +82,8 @@ async function main() {
   await withClient(async (client) => {
     await withTiming(async () => {
       await runSequentialFiles(
-        filtered.map((f) => f.path),
         client,
+        filtered.map((f) => f.path),
       );
     }, "Seeding");
   });

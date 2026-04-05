@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
-import type { PlayProgressCategory } from "@/types/play";
+import type { PlayProgressCategory } from "@/types/progress";
 import { ProgressCategoriesCard } from "./progress-categories-card";
 
 interface ProgressCategoriesSectionProps {

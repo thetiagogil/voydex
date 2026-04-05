@@ -15,7 +15,7 @@ VALUES
     -- #851 Tera Blast
     (851, 9, 1, 80, 100, 10, 0, 'special'),
     -- #852 Silk Trap
-    (852, 9, 12, 0, NULL, 10, 4, 'status'),
+    (852, 9, 12, NULL, NULL, 10, 4, 'status'),
     -- #853 Axe Kick
     (853, 9, 7, 120, 90, 10, 0, 'physical'),
     -- #854 Last Respects
@@ -27,7 +27,7 @@ VALUES
     -- #857 Jet Punch
     (857, 9, 3, 60, 100, 15, 1, 'physical'),
     -- #858 Spicy Extract
-    (858, 9, 5, 0, NULL, 15, 0, 'status'),
+    (858, 9, 5, NULL, NULL, 15, 0, 'status'),
     -- #859 Spin Out
     (859, 9, 17, 100, 100, 5, 0, 'physical'),
     -- #860 Population Bomb
@@ -37,7 +37,7 @@ VALUES
     -- #862 Glaive Rush
     (862, 9, 15, 120, 100, 5, 0, 'physical'),
     -- #863 Revival Blessing
-    (863, 9, 1, 0, NULL, 1, 0, 'status'),
+    (863, 9, 1, NULL, NULL, 1, 0, 'status'),
     -- #864 Salt Cure
     (864, 9, 13, 40, 100, 15, 0, 'physical'),
     -- #865 Triple Dive
@@ -45,9 +45,9 @@ VALUES
     -- #866 Mortal Spin
     (866, 9, 8, 30, 100, 15, 0, 'physical'),
     -- #867 Doodle
-    (867, 9, 1, 0, 100, 10, 0, 'status'),
+    (867, 9, 1, NULL, 100, 10, 0, 'status'),
     -- #868 Fillet Away
-    (868, 9, 1, 0, NULL, 10, 0, 'status'),
+    (868, 9, 1, NULL, NULL, 10, 0, 'status'),
     -- #869 Kowtow Cleave
     (869, 9, 16, 85, NULL, 10, 0, 'physical'),
     -- #870 Flower Trick
@@ -71,13 +71,13 @@ VALUES
     -- #879 Electro Drift
     (879, 9, 4, 100, 100, 5, 0, 'special'),
     -- #880 Shed Tail
-    (880, 9, 1, 0, NULL, 10, 0, 'status'),
+    (880, 9, 1, NULL, NULL, 10, 0, 'status'),
     -- #881 Chilly Reception
-    (881, 9, 6, 0, NULL, 10, 0, 'status'),
+    (881, 9, 6, NULL, NULL, 10, 0, 'status'),
     -- #882 Tidy Up
-    (882, 9, 1, 0, NULL, 10, 0, 'status'),
+    (882, 9, 1, NULL, NULL, 10, 0, 'status'),
     -- #883 Snowscape
-    (883, 9, 6, 0, NULL, 10, 0, 'status'),
+    (883, 9, 6, NULL, NULL, 10, 0, 'status'),
     -- #884 Pounce
     (884, 9, 12, 50, 100, 20, 0, 'physical'),
     -- #885 Trailblaze
@@ -127,17 +127,17 @@ VALUES
     -- #907 Fickle Beam
     (907, 9, 15, 80, 100, 5, 0, 'special'),
     -- #908 Burning Bulwark
-    (908, 9, 2, 0, 0, 10, 4, 'status'),
+    (908, 9, 2, NULL, NULL, 10, 4, 'status'),
     -- #909 Thunderclap
     (909, 9, 4, 70, 100, 5, 1, 'special'),
     -- #910 Mighty Cleave
     (910, 9, 13, 95, 100, 5, 0, 'physical'),
     -- #911 Tachyon Cutter
-    (911, 9, 17, 50, 0, 10, 0, 'special'),
+    (911, 9, 17, 50, NULL, 10, 0, 'special'),
     -- #912 Hard Press
-    (912, 9, 17, 0, 100, 10, 0, 'physical'),
+    (912, 9, 17, NULL, 100, 10, 0, 'physical'),
     -- #913 Dragon Cheer
-    (913, 9, 15, 0, 0, 15, 0, 'status'),
+    (913, 9, 15, NULL, NULL, 15, 0, 'status'),
     -- #914 Alluring Voice
     (914, 9, 18, 80, 100, 10, 0, 'special'),
     -- #915 Temper Flare

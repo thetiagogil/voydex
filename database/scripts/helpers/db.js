@@ -69,7 +69,26 @@ export async function getTablesFromSchemas(client, schemas) {
         `SELECT schemaname, tablename FROM pg_tables WHERE schemaname = $1 ORDER BY tablename;`,
         [schema],
       );
-      return res.rows;
+      // Fetch row counts for each table
+      const tables = [];
+      for (const row of res.rows) {
+        let row_count = 0;
+        try {
+          const countRes = await client.query(
+            `SELECT COUNT(*) AS count FROM "${row.schemaname}"."${row.tablename}";`,
+          );
+          row_count = parseInt(countRes.rows[0]?.count ?? "0", 10);
+        } catch {
+          row_count = null;
+        }
+        tables.push({
+          schemaname: row.schemaname,
+          tablename: row.tablename,
+          full_name: `${row.schemaname}.${row.tablename}`,
+          row_count,
+        });
+      }
+      return tables;
     }),
   );
   return rows.flat();

@@ -67,7 +67,7 @@ VALUES
     -- #381 Lucky Chant
     (381, 4, 1, NULL, NULL, 30, 0, 'status'),
     -- #382 Me First
-    (382, 4, 1, 0, NULL, 20, 0, 'status'),
+    (382, 4, 1, NULL, NULL, 20, 0, 'status'),
     -- #383 Copycat
     (383, 4, 1, NULL, NULL, 20, 0, 'status'),
     -- #384 Power Swap

@@ -33,12 +33,12 @@ export default function CollectionPage() {
         (pokemon.nickname?.toLowerCase().includes(search.toLowerCase()) ??
           false) ||
         pokemon.species.name.toLowerCase().includes(search.toLowerCase()) ||
-        pokemon.species.nationalNumber.toString().includes(search);
+        pokemon.species.id.toString().includes(search);
 
       // Generation filter
       const matchesGeneration =
         generationFilter === "all" ||
-        pokemon.game.generation.id.toString() === generationFilter;
+        pokemon.game?.generation.id.toString() === generationFilter;
 
       // Type filter
       const matchesType =
@@ -61,7 +61,7 @@ export default function CollectionPage() {
   // Sort by national dex number
   const sortedPokemon = useMemo(() => {
     return [...filteredPokemon].sort((a, b) => {
-      return a.species.nationalNumber - b.species.nationalNumber;
+      return a.species.id - b.species.id;
     });
   }, [filteredPokemon]);
 

@@ -7,7 +7,7 @@ import {
   useUncheckPlayProgressItem,
   useUncheckPlayProgressItemBulk,
 } from "@/hooks/gameplay/usePlayProgressMutations";
-import type { PlayProgressItem } from "@/types/play";
+import type { PlayProgressItem } from "@/types/progress";
 
 interface ProgressItemsListProps {
   items: PlayProgressItem[];
@@ -43,7 +43,7 @@ export const ProgressItemsList = ({
 
   const handleSelectAll = () => {
     const itemsToCheck = items
-      .filter((item) => !item.completed)
+      .filter((item) => !item.isCompleted)
       .map((item) => item.id);
 
     if (itemsToCheck.length > 0) {
@@ -57,7 +57,7 @@ export const ProgressItemsList = ({
 
   const handleUnselectAll = () => {
     const itemsToUncheck = items
-      .filter((item) => item.completed)
+      .filter((item) => item.isCompleted)
       .map((item) => item.id);
 
     if (itemsToUncheck.length > 0) {
@@ -83,7 +83,7 @@ export const ProgressItemsList = ({
       <ScrollArea>
         <div className="grid gap-4 px-4 sm:grid-cols-2">
           {items.map((item: PlayProgressItem) => {
-            const isCompleted = item.completed || false;
+            const isCompleted = item.isCompleted || false;
 
             return (
               <SquareCheckbox
@@ -96,7 +96,7 @@ export const ProgressItemsList = ({
                 {/* Item content */}
                 {item.description && (
                   <p className="text-muted-foreground mt-1 text-xs">
-                    {item.description} at {item.location || "unknown location"}.
+                    {item.description}
                   </p>
                 )}
 

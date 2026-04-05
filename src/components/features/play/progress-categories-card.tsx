@@ -3,7 +3,7 @@
 import { Icon } from "@/components/shared/icon";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
-import type { PlayProgressCategory } from "@/types/play";
+import type { PlayProgressCategory } from "@/types/progress";
 import { useState } from "react";
 import { ProgressItemsSheet } from "./progress-items-sheet";
 

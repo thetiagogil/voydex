@@ -6,16 +6,37 @@ import { logger } from "./logger.js";
 
 // ── Flags ────────────────────────────────────────────
 
-export function getFlag(name) {
+/**
+ * Check if a boolean flag is present (e.g. --force, -f).
+ */
+export function hasFlag(name) {
   return process.argv.slice(2).includes(name);
 }
 
+/**
+ * Get the value of a named flag (e.g. --domain meta → "meta").
+ * Supports --name value and --name=value formats.
+ * Returns null if not found.
+ */
+export function getFlag(name) {
+  const args = process.argv.slice(2);
+  const prefix = `--${name}=`;
+  const eqArg = args.find((a) => a.startsWith(prefix));
+  if (eqArg) return eqArg.slice(prefix.length);
+
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && idx + 1 < args.length && !args[idx + 1].startsWith("-")) {
+    return args[idx + 1];
+  }
+  return null;
+}
+
 export function isForceMode() {
-  return getFlag("--force") || getFlag("-f");
+  return hasFlag("--force") || hasFlag("-f");
 }
 
 export function sqlEnabled() {
-  if (getFlag("--sql")) return true;
+  if (hasFlag("--sql")) return true;
   if (process.env.SHOW_SQL && String(process.env.SHOW_SQL) !== "0") return true;
   return false;
 }

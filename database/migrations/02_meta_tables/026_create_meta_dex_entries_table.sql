@@ -11,7 +11,7 @@ CREATE TABLE
         species_id INTEGER NOT NULL REFERENCES meta.pokemon_species (id) ON DELETE CASCADE,
         form_id INTEGER NOT NULL REFERENCES meta.pokemon_forms (id) ON DELETE CASCADE,
         -- Dex data
-        dex_number INTEGER NOT NULL CHECK (dex_number > 0),
+        dex_number INTEGER NOT NULL CHECK (dex_number >= 0),
         -- Timestamps
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW ()
     );

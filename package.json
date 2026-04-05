@@ -10,15 +10,14 @@
     "lint": "eslint",
     "prettier:format": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "db:status": "node database/scripts/db-status.js",
-    "db:migrate": "node database/scripts/db-migrate.js",
-    "db:seed": "node database/scripts/db-seed.js",
-    "db:clean:all": "node database/scripts/db-clean-all.js",
-    "db:clean:static": "node database/scripts/db-clean-static.js",
-    "db:clean:all-rows": "node database/scripts/db-clean-all-rows.js",
-    "db:clean:static-rows": "node database/scripts/db-clean-static-rows.js",
-    "db:validate": "node database/scripts/db-validate.js",
-    "db:refresh-views": "node database/scripts/refresh-materialized-views.js"
+    "db:status": "node database/scripts/commands/db-status.js",
+    "db:migrate": "node database/scripts/commands/db-migrate.js",
+    "db:migrate:force": "node database/scripts/commands/db-migrate.js --force",
+    "db:seed": "node database/scripts/commands/db-seed.js",
+    "db:seed:force": "node database/scripts/commands/db-seed.js --force",
+    "db:reset": "node database/scripts/commands/db-reset.js",
+    "db:reset:force": "node database/scripts/commands/db-reset.js --force",
+    "db:verify": "node database/scripts/commands/db-verify.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

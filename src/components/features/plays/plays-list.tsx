@@ -12,8 +12,8 @@ export const PlaysList = ({ plays }: PlaysListProps) => {
         <PlayCard
           key={play.id}
           play={play}
-          genId={play.game.generation.id.toString()}
-          gameSlug={play.game.slug}
+          genId={play.game?.generation.id.toString() ?? ""}
+          gameSlug={play.game?.slug ?? ""}
         />
       ))}
     </div>

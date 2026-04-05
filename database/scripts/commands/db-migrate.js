@@ -49,7 +49,7 @@ async function main() {
 
   await withClient(async (client) => {
     const result = await withTiming(
-      () => runMigrations(files, { client }),
+      () => runMigrations(client, files),
       "Migration",
     );
 

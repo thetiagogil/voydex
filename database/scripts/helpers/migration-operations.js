@@ -8,7 +8,7 @@ import {
   MIGRATION_FOLDERS,
   MIGRATION_FOLDER_INFO,
 } from "../config/database.config.js";
-import { listSqlFiles, runSqlFile } from "./sql-runner.js";
+import { executeSqlFile, listSqlFiles } from "./sql-runner.js";
 
 // ── Order ────────────────────────────────────────────
 
@@ -16,6 +16,7 @@ export const MIGRATION_ORDER = [
   MIGRATION_FOLDERS.PUBLIC,
   MIGRATION_FOLDERS.META,
   MIGRATION_FOLDERS.GAMEPLAY,
+  MIGRATION_FOLDERS.PROGRESS,
   MIGRATION_FOLDERS.VIEWS,
 ];
 
@@ -97,7 +98,7 @@ export function validateMigrationStructure(migrationsDir) {
 
 // ── Execution ────────────────────────────────────────
 
-export async function runMigrations(migrationFiles, options = {}) {
+export async function runMigrations(client, migrationFiles, options = {}) {
   const { onProgress, stopOnError = true } = options;
   const results = [];
 
@@ -106,10 +107,14 @@ export async function runMigrations(migrationFiles, options = {}) {
     if (onProgress)
       onProgress({ current: i + 1, total: migrationFiles.length, migration });
 
-    const success = await runSqlFile(migration.fullPath, migration.displayName);
-    results.push({ migration: migration.displayName, success });
+    const result = await executeSqlFile(
+      client,
+      migration.fullPath,
+      migration.displayName,
+    );
+    results.push({ migration: migration.displayName, success: result.success });
 
-    if (!success && stopOnError) {
+    if (!result.success && stopOnError) {
       return {
         success: false,
         completed: i + 1,

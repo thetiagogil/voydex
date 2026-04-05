@@ -1,4 +1,4 @@
-import { uncheckPokemonCaughtBulk } from "@/services/gameplay/play-dex";
+import { unmarkDexEntriesBulk } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -8,16 +8,16 @@ export async function DELETE(
   try {
     const { id: playId } = await context.params;
     const body = await request.json();
-    const { speciesIds } = body;
+    const { dexEntryIds } = body;
 
-    if (!speciesIds || !Array.isArray(speciesIds)) {
+    if (!dexEntryIds || !Array.isArray(dexEntryIds)) {
       return NextResponse.json(
-        { error: "speciesIds array is required" },
+        { error: "dexEntryIds array is required" },
         { status: 400 },
       );
     }
 
-    await uncheckPokemonCaughtBulk(playId, speciesIds);
+    await unmarkDexEntriesBulk(playId, dexEntryIds);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

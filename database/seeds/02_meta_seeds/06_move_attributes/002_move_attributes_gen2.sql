@@ -29,7 +29,7 @@ VALUES
     -- #173 Snore
     (173, 2, 1, 40, 100, 15, 0, 'physical'),
     -- #174 Curse
-    (174, 2, undefined, NULL, NULL, 10, 0, 'status'),
+    (174, 2, 14, NULL, NULL, 10, 0, 'status'),
     -- #175 Flail
     (175, 2, 1, NULL, 100, 15, 0, 'physical'),
     -- #176 Conversion 2

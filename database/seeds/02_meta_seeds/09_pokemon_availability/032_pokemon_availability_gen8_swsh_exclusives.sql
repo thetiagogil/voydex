@@ -13,7 +13,7 @@ INSERT INTO
     meta.pokemon_availability (id, species_id, form_id, version_group_id, game_id, availability_context)
 VALUES
     -- #554 Darumaka
-    (7427, 554, 55400, 18, 31, 'native'),
+    (7432, 554, 55400, 18, 31, 'native'),
     -- #782 Jangmo-o
     (7428, 782, 78200, 18, 31, 'native'),
     -- #783 Hakamo-o

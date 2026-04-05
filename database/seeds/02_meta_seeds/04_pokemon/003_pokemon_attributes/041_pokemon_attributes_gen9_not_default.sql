@@ -48,6 +48,6 @@ VALUES
     -- #888 Zacian Crowned Sword — Attack nerfed 170 → 150
     (888, 88801, 9, 18, 17, 234, NULL, NULL, 15, NULL, 92, 150, 115, 80, 115, 148, NULL),
     -- #889 Zamazenta Crowned Shield — Attack 130→120, Def 145→140, SpDef 145→140
-    (889, 88901, 9, 7, 17, 235, NULL, NULL, 15, NULL, 92, 120, 140, 80, 140, 128, NULL),
-    -- #902 Basculegion Female — ab1 changed from Rattled(155) to Swift Swim(33)
-    (902, 90201, 9, 3, 14, 33, 91, 104, 3, NULL, 120, 92, 65, 100, 75, 78, NULL);
+    (889, 88901, 9, 7, 17, 235, NULL, NULL, 15, NULL, 92, 120, 140, 80, 140, 128, NULL);
+
+-- Note: #902 Basculegion Female Gen 9 change already handled in 040_pokemon_attributes_gen9_changes_gen8_pokemon.sql

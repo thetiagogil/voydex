@@ -11,12 +11,11 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
     total_plays: 0,
     active_plays: 0,
     completed_plays: 0,
-    total_unique_species: 0,
     last_activity: null,
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
       <StatsCard
         icon={<Icon type="total" size={20} />}
         value={data.total_plays}
@@ -36,12 +35,6 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
         value={data.completed_plays}
         variant="completed"
         label="Completed Playthroughs"
-      />
-
-      <StatsCard
-        icon={<Icon type="pokemonCaught" size={20} />}
-        value={data.total_unique_species}
-        label="Unique Pokémon Caught"
       />
     </div>
   );

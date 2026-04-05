@@ -87,12 +87,12 @@ export async function runSqlFile(
 
 // ── Batch runners ────────────────────────────────────
 
-export async function runSequentialFiles(filePaths, runner, options = {}) {
+export async function runSequentialFiles(client, filePaths, options = {}) {
   const { stopOnError = true } = options;
 
   for (const filePath of filePaths) {
-    const success = await runner(filePath);
-    if (!success && stopOnError) {
+    const result = await executeSqlFile(client, filePath);
+    if (!result.success && stopOnError) {
       logger.failure(`Stopped due to error in: ${filePath}`);
       return false;
     }

@@ -3,39 +3,43 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET GENERATION WITH STATS
+// GET GENERATION (direct query against meta.generations + meta.games)
 // =============================================================================
 
 export const getGeneration = async (generationId: number) => {
   const supabase = await createClient();
 
   const { data: gen, error } = await supabase
-    .schema("views")
-    .from("generation_with_stats")
-    .select("*")
-    .eq("generation_id", generationId)
+    .schema("meta")
+    .from("generations")
+    .select("id, slug, name")
+    .eq("id", generationId)
     .maybeSingle();
 
   if (error) return { data: null, error };
   if (!gen) return { data: null, error: null };
 
+  // Count games for this generation
+  const { count: gameCount } = await supabase
+    .schema("meta")
+    .from("games")
+    .select("*", { count: "exact", head: true })
+    .eq("generation_id", generationId);
+
   const result = {
-    id: gen.generation_id,
-    slug: gen.generation_slug,
-    name: gen.generation_name,
+    id: gen.id,
+    slug: gen.slug,
+    name: gen.name,
     stats: {
-      totalGames: gen.game_count,
-      totalPlays: gen.total_plays,
-      activePlays: gen.active_plays,
-      completedPlays: gen.completed_plays,
+      totalGames: gameCount ?? 0,
     },
   };
 
   const breadcrumbs = [
     { label: "Dashboard", href: "/dashboard" },
     {
-      label: gen.generation_name,
-      href: `/dashboard/gen/${gen.generation_id}`,
+      label: gen.name,
+      href: `/dashboard/gen/${gen.id}`,
       current: true,
     },
   ];
@@ -44,7 +48,7 @@ export const getGeneration = async (generationId: number) => {
 };
 
 // =============================================================================
-// GET GENERATION USER STATS
+// GET GENERATION USER STATS (direct query)
 // =============================================================================
 
 export const getGenerationUserStats = async (generationId: number) => {
@@ -55,23 +59,29 @@ export const getGenerationUserStats = async (generationId: number) => {
   } = await supabase.auth.getUser();
   if (!user) return { data: null, error: { message: "Not authenticated" } };
 
-  const { data, error } = await supabase
+  // Get plays for this generation via play_summary view
+  const { data: plays, error } = await supabase
     .schema("views")
-    .from("generation_user_stats")
-    .select("*")
-    .eq("generation_id", generationId)
+    .from("play_summary")
+    .select("play_id, status_slug, game_id")
     .eq("user_id", user.id)
-    .maybeSingle();
+    .eq("generation_id", generationId);
 
   if (error) return { data: null, error };
 
+  const totalPlays = plays?.length ?? 0;
+  const activePlays =
+    plays?.filter((p) => p.status_slug === "active").length ?? 0;
+  const completedPlays =
+    plays?.filter((p) => p.status_slug === "completed").length ?? 0;
+  const gamesPlayed = new Set(plays?.map((p) => p.game_id)).size;
+
   return {
-    data: data ?? {
-      total_plays: 0,
-      active_plays: 0,
-      completed_plays: 0,
-      games_played: 0,
-      total_pokemon_caught: 0,
+    data: {
+      total_plays: totalPlays,
+      active_plays: activePlays,
+      completed_plays: completedPlays,
+      games_played: gamesPlayed,
     },
     error: null,
   };
@@ -85,31 +95,40 @@ export const getAllGenerations = async () => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .schema("views")
-    .from("generation_with_stats")
-    .select("*")
-    .order("generation_id", { ascending: true });
+    .schema("meta")
+    .from("generations")
+    .select("id, slug, name")
+    .order("id", { ascending: true });
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
+  // Count games per generation
+  const { data: games } = await supabase
+    .schema("meta")
+    .from("games")
+    .select("id, generation_id");
+
+  const gameCountMap = new Map<number, number>();
+  for (const g of games ?? []) {
+    gameCountMap.set(
+      g.generation_id,
+      (gameCountMap.get(g.generation_id) ?? 0) + 1,
+    );
+  }
+
   const result = data.map((gen) => ({
-    id: gen.generation_id,
-    slug: gen.generation_slug,
-    name: gen.generation_name,
-    gameCount: gen.game_count,
-    stats: {
-      totalPlays: gen.total_plays,
-      activePlays: gen.active_plays,
-      completedPlays: gen.completed_plays,
-    },
+    id: gen.id,
+    slug: gen.slug,
+    name: gen.name,
+    gameCount: gameCountMap.get(gen.id) ?? 0,
   }));
 
   return { data: result, error: null };
 };
 
 // =============================================================================
-// GET USER DASHBOARD STATS
+// GET USER DASHBOARD STATS (direct queries)
 // =============================================================================
 
 export const getDashboardStats = async () => {
@@ -120,29 +139,52 @@ export const getDashboardStats = async () => {
   } = await supabase.auth.getUser();
   if (!user) return { data: null, error: { message: "Not authenticated" } };
 
-  const { data, error } = await supabase
-    .schema("views")
-    .from("user_dashboard_stats")
-    .select("*")
-    .eq("user_id", user.id)
-    .maybeSingle();
+  // Get all user plays
+  const { data: plays, error: playsError } = await supabase
+    .schema("gameplay")
+    .from("plays")
+    .select("id, status_id, updated_at")
+    .eq("user_id", user.id);
 
-  if (error) return { data: null, error };
+  if (playsError) return { data: null, error: playsError };
+
+  // Get play statuses to map status_id to slug
+  const { data: statuses } = await supabase
+    .schema("gameplay")
+    .from("play_statuses")
+    .select("id, slug");
+
+  const statusMap = new Map(statuses?.map((s) => [s.id, s.slug]) ?? []);
+
+  const totalPlays = plays?.length ?? 0;
+  const activePlays =
+    plays?.filter((p) => statusMap.get(p.status_id) === "active").length ?? 0;
+  const completedPlays =
+    plays?.filter((p) => statusMap.get(p.status_id) === "completed").length ??
+    0;
+
+  // Last activity from most recently updated play
+  const lastActivity =
+    plays && plays.length > 0
+      ? plays.sort(
+          (a, b) =>
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+        )[0].updated_at
+      : null;
 
   return {
-    data: data ?? {
-      total_plays: 0,
-      active_plays: 0,
-      completed_plays: 0,
-      total_unique_species: 0,
-      last_activity: null,
+    data: {
+      total_plays: totalPlays,
+      active_plays: activePlays,
+      completed_plays: completedPlays,
+      last_activity: lastActivity,
     },
     error: null,
   };
 };
 
 // =============================================================================
-// GET RECENT ACTIVITY
+// GET RECENT ACTIVITY (from recently updated plays)
 // =============================================================================
 
 export const getRecentActivity = async (limit = 10) => {
@@ -153,90 +195,50 @@ export const getRecentActivity = async (limit = 10) => {
   } = await supabase.auth.getUser();
   if (!user) return { data: null, error: { message: "Not authenticated" } };
 
+  // Get recent plays with game info from play_summary
   const { data, error } = await supabase
     .schema("views")
-    .from("recent_activity")
+    .from("play_summary")
     .select("*")
     .eq("user_id", user.id)
-    .order("activity_at", { ascending: false })
+    .order("updated_at", { ascending: false })
     .limit(limit);
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
-  const result = data.map((activity) => ({
-    id: `${activity.activity_type}-${activity.play_id}-${activity.activity_at}`,
-    type: activity.activity_type,
-    message: activity.activity_message,
-    activityAt: activity.activity_at,
+  const result = data.map((play) => ({
+    id: play.play_id,
+    type: "play_updated",
+    message: `Updated ${play.play_name || play.game_name} playthrough`,
+    activityAt: play.updated_at,
     play: {
-      id: activity.play_id,
-      name: activity.play_name,
+      id: play.play_id,
+      name: play.play_name,
     },
     game: {
-      slug: activity.game_slug,
-      name: activity.game_name,
+      slug: play.game_slug,
+      name: play.game_name,
     },
     generation: {
-      id: activity.generation_id,
-      slug: activity.generation_slug,
+      id: play.generation_id,
+      slug: play.generation_slug,
     },
-    // Conditional objects based on activity type
-    category: activity.category_id
-      ? {
-          id: activity.category_id,
-          slug: activity.category_slug,
-          name: activity.category_name,
-        }
-      : null,
-    pokemon: activity.species_id
-      ? {
-          speciesId: activity.species_id,
-          speciesSlug: activity.species_slug,
-          formId: activity.form_id,
-          formSlug: activity.form_slug,
-          name: activity.pokemon_name,
-          spriteUrl: activity.sprite_url,
-        }
-      : null,
-    href: `/dashboard/gen/${activity.generation_id}/game/${activity.game_slug}/play/${activity.play_id}`,
+    href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
   }));
 
   return { data: result, error: null };
 };
 
 // =============================================================================
-// GET ADVENTURE OVERVIEW
+// GET ADVENTURE OVERVIEW (combo endpoint)
 // =============================================================================
 
 export const getAdventureOverview = async () => {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { data: null, error: { message: "Not authenticated" } };
-
   const [statsResult, activityResult, generationsResult] = await Promise.all([
-    supabase
-      .schema("views")
-      .from("user_dashboard_stats")
-      .select("*")
-      .eq("user_id", user.id)
-      .maybeSingle(),
-    supabase
-      .schema("views")
-      .from("recent_activity")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("updated_at", { ascending: false })
-      .limit(5),
-    supabase
-      .schema("views")
-      .from("generation_user_stats")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("generation_id", { ascending: true }),
+    getDashboardStats(),
+    getRecentActivity(5),
+    getAllGenerations(),
   ]);
 
   if (statsResult.error) return { data: null, error: statsResult.error };
@@ -246,12 +248,7 @@ export const getAdventureOverview = async () => {
 
   return {
     data: {
-      stats: statsResult.data ?? {
-        total_plays: 0,
-        active_plays: 0,
-        completed_plays: 0,
-        total_pokemon_caught: 0,
-      },
+      stats: statsResult.data,
       recentActivity: activityResult.data ?? [],
       generationProgress: generationsResult.data ?? [],
     },

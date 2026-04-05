@@ -105,11 +105,7 @@ export const TypeDisplay = ({
 
   const variantStyles =
     variant === "solid"
-      ? cn(
-          colors.bgSolid,
-          "border-transparent text-white shadow-md",
-          colors.glow,
-        )
+      ? cn(colors.bgSolid, "border-transparent text-white shadow-md")
       : cn(colors.bg, colors.hover, "shadow-sm hover:shadow-md");
 
   // Determine badge size class

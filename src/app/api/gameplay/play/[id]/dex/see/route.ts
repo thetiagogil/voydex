@@ -1,4 +1,4 @@
-import { checkPokemonCaught } from "@/services/gameplay/play-dex";
+import { markDexEntrySeen } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -7,25 +7,24 @@ export async function POST(
 ) {
   try {
     const { id: playId } = await params;
-    const { speciesId, formId } = await request.json();
+    const { dexEntryId } = await request.json();
 
-    if (!speciesId) {
+    if (!dexEntryId) {
       return NextResponse.json(
-        { error: "Species ID is required" },
+        { error: "dexEntryId is required" },
         { status: 400 },
       );
     }
 
-    const result = await checkPokemonCaught(playId, speciesId, formId);
+    const result = await markDexEntrySeen(playId, dexEntryId);
     return NextResponse.json(result);
   } catch (error: unknown) {
-    console.error("Error checking pokemon as caught:", error);
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to check pokemon as caught",
+            : "Failed to mark dex entry as seen",
       },
       { status: 500 },
     );

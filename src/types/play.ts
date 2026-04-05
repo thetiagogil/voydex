@@ -24,6 +24,7 @@ export interface Play {
   userId: string;
   name: string;
   status: PlayStatus;
+  statusSlug: string;
   notes: string | null;
   includeUniquePokemon: boolean;
   includeRegionalDex: boolean;
@@ -36,8 +37,6 @@ export interface Play {
     slug: string;
     name: string;
     type: string;
-    regionalDexCount: number;
-    nationalDexCount: number;
     versionGroupId: number;
     generation: BaseInfo;
     region: BaseInfo;
@@ -52,7 +51,7 @@ export interface PlayStats {
   teamSize: number;
   highestLevel: number;
   shinyCount: number;
-  pokemonCaughtCount: number;
+  dexCaughtCount: number;
   completedProgressItems: number;
 }
 
@@ -77,42 +76,37 @@ export interface PlayPokemon {
 }
 
 // =============================================================================
-// PLAY PROGRESS
+// PLAY DEX ENTRY (from views.play_dex_detail)
 // =============================================================================
 
-export interface PlayProgressCategory {
-  id: number;
-  slug: string;
-  name: string;
-  type: string;
-  description: string | null;
-  sortOrder: number;
-  totalItems: number;
-  completedItems: number;
-}
-
-export interface PlayProgressItem {
-  id: number;
-  slug: string;
-  name: string;
-  description: string | null;
-  location: string | null;
-  sortOrder: number;
-  completed: boolean;
-  completedAt: string | null;
-}
-
-// =============================================================================
-// PLAY REGIONAL DEX
-// =============================================================================
-
-export interface PlayPokemonCaught {
-  regionalNumber: number;
+export interface PlayDexEntry {
+  dexEntryId: number;
+  dexNumber: number;
+  dex: {
+    id: number;
+    slug: string;
+    name: string;
+    kind: string;
+  };
   speciesId: number;
-  formId: number | null;
-  species: BaseInfo;
+  formId: number;
+  species: BaseInfo & { isLegendary: boolean; isMythical: boolean };
   form: BaseInfo & { spriteUrl: string | null };
-  caught: boolean;
-  isLegendary: boolean;
-  isMythical: boolean;
+  isSeen: boolean;
+  isCaught: boolean;
+}
+
+// =============================================================================
+// PLAY DEX SUMMARY (aggregated per dex)
+// =============================================================================
+
+export interface PlayDexSummary {
+  dexId: number;
+  dexSlug: string;
+  dexName: string;
+  dexKind: string;
+  totalEntries: number;
+  seenCount: number;
+  caughtCount: number;
+  entries: PlayDexEntry[];
 }

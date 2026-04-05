@@ -1,4 +1,4 @@
-import { getPlayRegionalDex } from "@/services/gameplay/play-dex";
+import { getPlayCollectibles } from "@/services/gameplay/play-collectibles";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const { id: playId } = await params;
 
-  const { data, error } = await getPlayRegionalDex(playId);
+  const { data, error } = await getPlayCollectibles(playId);
   if (error) {
     return NextResponse.json(
       { error: error.message ?? String(error) },

@@ -52,7 +52,7 @@ SELECT
     game_id,
     slug,
     name,
-    opponent_role,
+    opponent_role::progress.opponent_role,
     specialty_type_1_id,
     specialty_type_2_id,
     sprite_url,

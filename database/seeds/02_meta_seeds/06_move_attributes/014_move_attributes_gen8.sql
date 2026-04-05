@@ -185,7 +185,7 @@ VALUES
     -- #828 Psyshield Bash
     (828, 8, 11, 70, 90, 10, 0, 'physical'),
     -- #829 Power Shift
-    (829, 8, 1, 0, NULL, 10, 0, 'status'),
+    (829, 8, 1, NULL, NULL, 10, 0, 'status'),
     -- #830 Stone Axe
     (830, 8, 13, 65, 90, 15, 0, 'physical'),
     -- #831 Springtide Storm
@@ -201,7 +201,7 @@ VALUES
     -- #836 Mountain Gale
     (836, 8, 6, 100, 85, 10, 0, 'physical'),
     -- #837 Victory Dance
-    (837, 8, 7, 0, NULL, 10, 0, 'status'),
+    (837, 8, 7, NULL, NULL, 10, 0, 'status'),
     -- #838 Headlong Rush
     (838, 8, 9, 120, 100, 5, 0, 'physical'),
     -- #839 Barb Barrage
@@ -211,7 +211,7 @@ VALUES
     -- #841 Bitter Malice
     (841, 8, 14, 75, 100, 10, 0, 'special'),
     -- #842 Shelter
-    (842, 8, 17, 0, NULL, 10, 0, 'status'),
+    (842, 8, 17, NULL, NULL, 10, 0, 'status'),
     -- #843 Triple Arrows
     (843, 8, 7, 90, 100, 10, 0, 'physical'),
     -- #844 Infernal Parade
@@ -225,6 +225,6 @@ VALUES
     -- #848 Sandsear Storm
     (848, 8, 9, 100, 80, 10, 0, 'special'),
     -- #849 Lunar Blessing
-    (849, 8, 11, 0, NULL, 5, 0, 'status'),
+    (849, 8, 11, NULL, NULL, 5, 0, 'status'),
     -- #850 Take Heart
-    (850, 8, 11, 0, NULL, 10, 0, 'status');
+    (850, 8, 11, NULL, NULL, 10, 0, 'status');

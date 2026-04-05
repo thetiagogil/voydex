@@ -1,32 +1,30 @@
-import { uncheckPokemonCaught } from "@/services/gameplay/play-dex";
+import { markDexEntryCaught } from "@/services/gameplay/play-dex";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(
+export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: playId } = await params;
-    const { searchParams } = new URL(request.url);
-    const speciesId = searchParams.get("speciesId");
+    const { dexEntryId } = await request.json();
 
-    if (!speciesId) {
+    if (!dexEntryId) {
       return NextResponse.json(
-        { error: "Species ID is required" },
+        { error: "dexEntryId is required" },
         { status: 400 },
       );
     }
 
-    const result = await uncheckPokemonCaught(playId, parseInt(speciesId));
+    const result = await markDexEntryCaught(playId, dexEntryId);
     return NextResponse.json(result);
   } catch (error: unknown) {
-    console.error("Error unchecking Pokémon as caught:", error);
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to uncheck Pokémon as caught",
+            : "Failed to mark dex entry as caught",
       },
       { status: 500 },
     );
