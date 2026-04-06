@@ -101,7 +101,7 @@ export async function runSequentialFiles(client, filePaths, options = {}) {
 }
 
 export async function runFilesWithProgress(client, filePaths, options = {}) {
-  const { showProgress = true, stopOnError = true } = options;
+  const { showTracking = true, stopOnError = true } = options;
   const total = filePaths.length;
   let completed = 0;
   let failed = 0;

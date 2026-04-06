@@ -10,22 +10,21 @@
 // =====================================================
 
 export const SCHEMA_TYPES = {
-  STATIC: ["meta"],
-  DYNAMIC: ["gameplay", "progress"],
+  STATIC: ["reference"],
+  DYNAMIC: ["gameplay", "tracking"],
   PRESENTATION: ["views"],
-  ALL_CUSTOM: ["meta", "gameplay", "progress", "views"],
+  ALL_CUSTOM: ["reference", "gameplay", "tracking", "views"],
 };
 
 export const PROTECTED_TABLES = [
   "gameplay.plays",
   "gameplay.play_optional_version_groups",
-  "gameplay.play_dex_entries",
+  "gameplay.play_pokedex_entries",
   "gameplay.play_collectible_entries",
   "gameplay.pokemon_team",
-  "gameplay.play_progress",
-  "progress.play_items",
-  "progress.play_choices",
-  "progress.collectible_entries",
+  "gameplay.play_tracking_items",
+  "gameplay.play_tracking_decisions",
+  "tracking.collectible_entries",
   "public.users",
 ];
 
@@ -51,9 +50,9 @@ export const SYSTEM_SCHEMAS = new Set([
 
 export const MIGRATION_FOLDERS = {
   PUBLIC: "01_public_tables",
-  META: "02_meta_tables",
-  GAMEPLAY: "03_gameplay_tables",
-  PROGRESS: "04_progress_tables",
+  REFERENCE: "02_reference_tables",
+  TRACKING: "03_tracking_tables",
+  GAMEPLAY: "04_gameplay_tables",
   VIEWS: "05_views",
 };
 
@@ -63,20 +62,20 @@ export const MIGRATION_FOLDER_INFO = {
     description: "User profiles (public schema)",
     emoji: "🔵",
   },
-  "02_meta_tables": {
-    name: "Meta Tables",
-    description: "Reference data (meta schema)",
+  "02_reference_tables": {
+    name: "Reference Tables",
+    description: "Reference data (reference schema)",
     emoji: "🟢",
   },
-  "03_gameplay_tables": {
+  "03_tracking_tables": {
+    name: "Tracking Tables",
+    description: "Tracking data",
+    emoji: "�",
+  },
+  "04_gameplay_tables": {
     name: "Gameplay Tables",
     description: "User gameplay data",
-    emoji: "🟡",
-  },
-  "04_progress_tables": {
-    name: "Progress Tables",
-    description: "Progress tracking data",
-    emoji: "🟠",
+    emoji: "�",
   },
   "05_views": {
     name: "Views",

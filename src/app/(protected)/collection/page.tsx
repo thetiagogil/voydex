@@ -8,7 +8,7 @@ import { ResultsInfo } from "@/components/features/shared/results-info";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useCollection } from "@/hooks/gameplay/useCollection";
-import { useTypes } from "@/hooks/meta/useTypes";
+import { useTypes } from "@/hooks/reference/useTypes";
 import { useGenerations } from "@/hooks/useGenerations";
 import { useMemo, useState } from "react";
 

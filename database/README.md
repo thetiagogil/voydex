@@ -8,8 +8,8 @@ PostgreSQL via Supabase. 56 migrations, 563 seed files.
 
 | Layer          | Purpose                                              | Schema                                   |
 | -------------- | ---------------------------------------------------- | ---------------------------------------- |
-| **Migrations** | Schema definitions — tables, enums, indexes, RLS     | `public`, `meta`, `gameplay`, `progress` |
-| **Seeds**      | Curated static data — reference tables, Pokémon data | `meta`, `gameplay`, `progress`           |
+| **Migrations** | Schema definitions — tables, enums, indexes, RLS     | `public`, `reference`, `gameplay`, `tracking` |
+| **Seeds**      | Curated static data — reference tables, Pokémon data | `reference`, `gameplay`, `tracking`           |
 | **Views**      | Read-only presentation layer                         | `views`                                  |
 
 Migrations define **what exists**. Seeds fill **what's true**. Gameplay stores **what users do**. Views precompute **what's shown**.
@@ -20,9 +20,9 @@ Migrations define **what exists**. Seeds fill **what's true**. Gameplay stores *
 database/
 ├── migrations/
 │   ├── 01_public_tables/       Auth functions + user profiles (2)
-│   ├── 02_meta_tables/         All reference data tables (27)
-│   ├── 03_gameplay_tables/     User gameplay tables with RLS (7)
-│   ├── 04_progress_tables/     Milestone tracking system (15)
+│   ├── 02_reference_tables/         All reference data tables (27)
+│   ├── 03_tracking_tables/     User gameplay tables with RLS (7)
+│   ├── 04_gameplay_tables/     Tracking system (15)
 │   └── 05_views/               Standard views (5)
 ├── scripts/
 │   ├── config/                 Central configuration
@@ -47,21 +47,21 @@ database/
 │       └── verify-learnsets.js Learnset integrity
 └── seeds/
     ├── 01_public_seeds/              (empty)
-    ├── 02_meta_seeds/
+    ├── 02_reference_seeds/
     │   ├── 01_base/                  Generations, regions, VGs, games, types, etc.
     │   ├── 02_abilities/             Per-generation ability lists
     │   ├── 03_moves/                 Per-generation move lists
     │   ├── 04_pokemon/               Species, forms, attributes (sub-folders)
     │   ├── 05_items/                 Per-generation item lists
     │   ├── 06_move_attributes/       Move mechanics (timeline model)
-    │   ├── 07_dexes/                 Per-VG dex definitions
-    │   ├── 08_dex_entries/           Per-VG dex membership
+    │   ├── 07_pokedex/                 Per-VG pokedex definitions
+    │   ├── 08_pokedex_entries/           Per-VG pokedex membership
     │   ├── 09_pokemon_availability/  Per-VG species availability
     │   ├── 10_move_availability/     Per-VG move availability
     │   ├── 11_item_availability/     Per-VG item availability
     │   └── 12_pokemon_learnsets/     Per-VG learnsets (134 files)
     ├── 03_gameplay_seeds/            Play statuses
-    └── 04_progress_seeds/            Milestones, badges, opponents, items
+    └── 04_tracking_seeds/            Tracking milestones, badges, opponents, items
 ```
 
 ---
@@ -98,7 +98,7 @@ Abbreviated, lowercase, hyphenated for DLC:
 | Isle of Armor        | `swsh-ioa` | DLC, parent = `swsh` |
 | Crown Tundra         | `swsh-ct`  | DLC, parent = `swsh` |
 
-DLC version groups set `parent_version_group_id` to the base game VG. No fake DLC game rows in `meta.games` — games table contains real games only.
+DLC version groups set `parent_version_group_id` to the base game VG. No fake DLC game rows in `reference.games` — games table contains real games only.
 
 ### Indexes
 
@@ -115,7 +115,7 @@ Inline `REFERENCES` in `CREATE TABLE`. No explicit constraint names.
 ### Enums
 
 ```
-meta.{descriptive_name}           -- e.g. meta.stat_name, meta.flavor_name
+reference.{descriptive_name}           -- e.g. reference.stat_name, reference.flavor_name
 ```
 
 ---
@@ -133,7 +133,7 @@ One table per file. Numbered sequentially within each folder.
 Examples:
 
 - `000_create_common_functions.sql`
-- `001_create_meta_generations_table.sql`
+- `001_create_reference_generations_table.sql`
 - `002_create_gameplay_plays_table.sql`
 
 ### Header Block
@@ -156,7 +156,7 @@ Use inline section comments for clarity:
 slug VARCHAR(50) NOT NULL UNIQUE,
 
 -- Relationships
-generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
+generation_id INTEGER NOT NULL REFERENCES reference.generations(id),
 
 -- Timestamps
 created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -194,7 +194,7 @@ All seeds use direct `INSERT INTO ... VALUES` with literal integer IDs:
 
 ```sql
 INSERT INTO
-    meta.table_name (id, col1, col2)
+    reference.table_name (id, col1, col2)
 VALUES
     -- #001 Bulbasaur
     (1, 100, 'value'),

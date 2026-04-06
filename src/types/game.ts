@@ -49,7 +49,7 @@ export interface GamePlaySummary {
 }
 
 // =============================================================================
-// GAME WITH FULL DATA (from meta/game service — includes plays + user stats)
+// GAME WITH FULL DATA (from reference/game service — includes plays + user stats)
 // =============================================================================
 
 export interface GameWithFullData extends Game {

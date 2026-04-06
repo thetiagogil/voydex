@@ -61,8 +61,8 @@ interface UpdatePlayParams {
     status_id?: number;
     notes?: string;
     include_unique_pokemon?: boolean;
-    include_regional_dex?: boolean;
-    include_national_dex?: boolean;
+    include_regional_pokedex?: boolean;
+    include_national_pokedex?: boolean;
     include_mythical_pokemon?: boolean;
   };
 }

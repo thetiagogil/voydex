@@ -10,20 +10,20 @@ export async function verifySeeds(client) {
   // Verify generations exist
   checks++;
   const { rows: gens } = await client.query(
-    "SELECT COUNT(*) AS count FROM meta.generations",
+    "SELECT COUNT(*) AS count FROM reference.generations",
   );
   if (parseInt(gens[0].count) === 0) {
-    errors.push("meta.generations has no rows");
+    errors.push("reference.generations has no rows");
   }
 
   // Verify slug uniqueness across key tables
   const slugTables = [
-    "meta.generations",
-    "meta.regions",
-    "meta.version_groups",
-    "meta.games",
-    "meta.types",
-    "meta.natures",
+    "reference.generations",
+    "reference.regions",
+    "reference.version_groups",
+    "reference.games",
+    "reference.types",
+    "reference.natures",
   ];
 
   for (const table of slugTables) {
@@ -42,8 +42,8 @@ export async function verifySeeds(client) {
   // Verify FK integrity: games → generations
   checks++;
   const { rows: orphanGames } = await client.query(`
-    SELECT g.slug FROM meta.games g
-    LEFT JOIN meta.generations gen ON g.generation_id = gen.id
+    SELECT g.slug FROM reference.games g
+    LEFT JOIN reference.generations gen ON g.generation_id = gen.id
     WHERE gen.id IS NULL
   `);
   if (orphanGames.length > 0) {

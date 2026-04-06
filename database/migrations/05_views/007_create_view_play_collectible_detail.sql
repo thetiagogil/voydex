@@ -27,13 +27,13 @@ SELECT
     END AS is_collected
 FROM
     gameplay.plays p
-    JOIN meta.games g ON p.game_id = g.id
-    JOIN progress.collectibles c ON c.version_group_id = g.version_group_id
+    JOIN reference.games g ON p.game_id = g.id
+    JOIN tracking.collectibles c ON c.version_group_id = g.version_group_id
     AND (
         c.game_id IS NULL
         OR c.game_id = p.game_id
     )
-    JOIN progress.collectible_entries ce ON ce.collectible_id = c.id
+    JOIN tracking.collectible_entries ce ON ce.collectible_id = c.id
     LEFT JOIN gameplay.play_collectible_entries pce ON pce.play_id = p.id
     AND pce.collectible_entry_id = ce.id
 ORDER BY

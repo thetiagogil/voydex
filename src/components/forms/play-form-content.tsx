@@ -169,7 +169,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
               <label className="text-sm font-medium">Tracking Settings</label>
               <div className="space-y-2">
                 <Controller
-                  name="include_regional_dex"
+                  name="include_regional_pokedex"
                   control={control}
                   render={({ field }) => (
                     <label className="flex items-center gap-2 text-sm">
@@ -183,7 +183,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                   )}
                 />
                 <Controller
-                  name="include_national_dex"
+                  name="include_national_pokedex"
                   control={control}
                   render={({ field }) => (
                     <label className="flex items-center gap-2 text-sm">

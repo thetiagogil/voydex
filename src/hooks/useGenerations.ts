@@ -10,10 +10,10 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGeneration = (generationId: string) => {
   return useQuery<ServiceResponseWithBreadcrumbs<GenerationWithGames>>({
-    queryKey: ["meta", "generations", generationId],
+    queryKey: ["reference", "generations", generationId],
     queryFn: () =>
       fetcher<ServiceResponseWithBreadcrumbs<GenerationWithGames>>(
-        `/api/meta/gens/${generationId}`,
+        `/api/reference/gens/${generationId}`,
       ),
     enabled: !!generationId,
   });
@@ -25,8 +25,8 @@ export const useGeneration = (generationId: string) => {
 
 export const useGenerations = () => {
   return useQuery<BaseInfo[]>({
-    queryKey: ["meta", "generations"],
-    queryFn: () => fetcher<BaseInfo[]>("/api/meta/gens"),
+    queryKey: ["reference", "generations"],
+    queryFn: () => fetcher<BaseInfo[]>("/api/reference/gens"),
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 };

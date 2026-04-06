@@ -3,14 +3,14 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET GENERATION (direct query against meta.generations + meta.games)
+// GET GENERATION (direct query against reference.generations + reference.games)
 // =============================================================================
 
 export const getGeneration = async (generationId: number) => {
   const supabase = await createClient();
 
   const { data: gen, error } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("generations")
     .select("id, slug, name")
     .eq("id", generationId)
@@ -21,7 +21,7 @@ export const getGeneration = async (generationId: number) => {
 
   // Count games for this generation
   const { count: gameCount } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("games")
     .select("*", { count: "exact", head: true })
     .eq("generation_id", generationId);
@@ -95,7 +95,7 @@ export const getAllGenerations = async () => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("generations")
     .select("id, slug, name")
     .order("id", { ascending: true });
@@ -105,7 +105,7 @@ export const getAllGenerations = async () => {
 
   // Count games per generation
   const { data: games } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("games")
     .select("id, generation_id");
 
@@ -220,7 +220,7 @@ export const getRecentActivity = async (limit = 10) => {
   // Gather recent progress completions
   const { data: recentProgress } = await supabase
     .schema("views")
-    .from("play_progress_detail")
+    .from("play_tracking_detail")
     .select("play_id, item_name, category_name, completed_at")
     .in("play_id", playIds)
     .not("completed_at", "is", null)

@@ -5,7 +5,7 @@
  * @example
  * const { data } = useQuery({
  *   queryKey: ["abilities"],
- *   queryFn: () => fetcher<BaseInfo[]>("/api/meta/abilities"),
+ *   queryFn: () => fetcher<BaseInfo[]>("/api/reference/abilities"),
  * });
  */
 export const fetcher = async <T>(url: string): Promise<T> => {

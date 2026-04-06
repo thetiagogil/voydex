@@ -1,18 +1,18 @@
 "use client";
 
 import { CollectiblesSection } from "@/components/features/play/collectibles-section";
-import { DexSection } from "@/components/features/play/dex-section";
+import { DexSection } from "@/components/features/play/pokedex-section";
 import { PlayHeader } from "@/components/features/play/play-header";
 import { PokemonTeamSection } from "@/components/features/play/pokemon-team-section";
-import { ProgressCategoriesSection } from "@/components/features/play/progress-categories-section";
+import { ProgressCategoriesSection } from "@/components/features/play/tracking-categories-section";
 
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { usePlay } from "@/hooks/gameplay/usePlay";
 import { usePlayCollectibles } from "@/hooks/gameplay/usePlayCollectibles";
-import { usePlayDex } from "@/hooks/gameplay/usePlayDex";
+import { usePlayPokedex } from "@/hooks/gameplay/usePlayPokedex";
 import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
-import { usePlayProgressCategories } from "@/hooks/gameplay/usePlayProgressCategories";
+import { usePlayTrackingCategories } from "@/hooks/gameplay/usePlayTrackingCategories";
 import { use } from "react";
 
 interface PlayPageProps {
@@ -33,8 +33,8 @@ export default function PlayPage({ params }: PlayPageProps) {
   const { data: pokemonTeamData, isLoading: pokemonTeamLoading } =
     usePlayPokemonTeam(playId);
   const { data: progressCategoriesData, isLoading: progressCategoriesLoading } =
-    usePlayProgressCategories(playId);
-  const { data: dexData, isLoading: dexLoading } = usePlayDex(playId);
+    usePlayTrackingCategories(playId);
+  const { data: dexData, isLoading: dexLoading } = usePlayPokedex(playId);
   const { data: collectiblesData, isLoading: collectiblesLoading } =
     usePlayCollectibles(playId);
 
@@ -76,7 +76,7 @@ export default function PlayPage({ params }: PlayPageProps) {
           playId={playId}
           progressCategories={progressCategoriesData}
         />
-        <DexSection playId={playId} dexEntries={dexData} />
+        <DexSection playId={playId} pokedexEntries={dexData} />
         <CollectiblesSection playId={playId} collectibles={collectiblesData} />
       </div>
     </PageLayout>

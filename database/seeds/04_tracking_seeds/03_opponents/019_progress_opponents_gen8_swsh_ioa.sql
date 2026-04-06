@@ -1,0 +1,50 @@
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
+-- Table: tracking.opponents
+-- Scope: version-group-specific (swsh-ioa, VG 19)
+WITH
+    seed_data (
+        version_group_id,
+        game_id,
+        slug,
+        name,
+        opponent_role,
+        specialty_type_1_id,
+        specialty_type_2_id,
+        sprite_url,
+        sort_order
+    ) AS (
+        VALUES
+            (19, NULL::INTEGER, 'mustard', 'Mustard', 'story_boss', 7, NULL::INTEGER, NULL::TEXT, 1),
+            (19, 31, 'klara', 'Klara', 'story_boss', 8, NULL, NULL, 2),
+            (19, 32, 'avery', 'Avery', 'story_boss', 11, NULL, NULL, 2)
+    )
+INSERT INTO
+    tracking.opponents (
+        version_group_id,
+        game_id,
+        slug,
+        name,
+        opponent_role,
+        specialty_type_1_id,
+        specialty_type_2_id,
+        sprite_url,
+        sort_order
+    )
+SELECT
+    version_group_id,
+    game_id,
+    slug,
+    name,
+    opponent_role::tracking.opponent_role,
+    specialty_type_1_id,
+    specialty_type_2_id,
+    sprite_url,
+    sort_order
+FROM
+    seed_data;

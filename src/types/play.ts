@@ -31,8 +31,8 @@ export interface Play {
   };
   notes: string | null;
   includeUniquePokemon: boolean;
-  includeRegionalDex: boolean;
-  includeNationalDex: boolean;
+  includeRegionalPokedex: boolean;
+  includeNationalPokedex: boolean;
   includeMythicalPokemon: boolean;
   createdAt: string;
   updatedAt: string;
@@ -55,8 +55,8 @@ export interface PlayStats {
   teamSize: number;
   highestLevel: number;
   shinyCount: number;
-  dexCaughtCount: number;
-  completedProgressItems: number;
+  pokedexCaughtCount: number;
+  completedTrackingItems: number;
 }
 
 // =============================================================================
@@ -80,11 +80,11 @@ export interface PlayPokemon {
 }
 
 // =============================================================================
-// PLAY DEX ENTRY (from views.play_dex_detail)
+// PLAY POKEDEX ENTRY (from views.play_dex_detail)
 // =============================================================================
 
-export interface PlayDexEntry {
-  dexEntryId: number;
+export interface PlayPokedexEntry {
+  pokedexEntryId: number;
   dexNumber: number;
   dex: {
     id: number;
@@ -101,10 +101,10 @@ export interface PlayDexEntry {
 }
 
 // =============================================================================
-// PLAY DEX SUMMARY (aggregated per dex)
+// PLAY POKEDEX SUMMARY (aggregated per dex)
 // =============================================================================
 
-export interface PlayDexSummary {
+export interface PlayPokedexSummary {
   dexId: number;
   dexSlug: string;
   dexName: string;
@@ -112,5 +112,5 @@ export interface PlayDexSummary {
   totalEntries: number;
   seenCount: number;
   caughtCount: number;
-  entries: PlayDexEntry[];
+  entries: PlayPokedexEntry[];
 }

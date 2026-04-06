@@ -1,4 +1,4 @@
-import type { PlayCollectible } from "@/types/progress";
+import type { PlayCollectible } from "@/types/tracking";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const usePlayCollectibles = (playId?: string) => {

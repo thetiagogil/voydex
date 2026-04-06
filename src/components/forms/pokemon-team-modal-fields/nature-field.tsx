@@ -2,7 +2,7 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import type { NatureWithStats } from "@/hooks/meta/usePokemonGame";
+import type { NatureWithStats } from "@/hooks/reference/usePokemonGame";
 import type { FieldError } from "react-hook-form";
 
 const STAT_ABBREVIATIONS: Record<string, string> = {

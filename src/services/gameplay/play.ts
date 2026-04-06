@@ -31,8 +31,8 @@ export const getPlay = async (id: string) => {
     },
     notes: play.notes,
     includeUniquePokemon: play.include_unique_pokemon,
-    includeRegionalDex: play.include_regional_dex,
-    includeNationalDex: play.include_national_dex,
+    includeRegionalPokedex: play.include_regional_pokedex,
+    includeNationalPokedex: play.include_national_pokedex,
     includeMythicalPokemon: play.include_mythical_pokemon,
     createdAt: play.created_at,
     updatedAt: play.updated_at,
@@ -92,16 +92,16 @@ export const getPlayStats = async (playId: string) => {
   // Dex stats
   const { data: dexData } = await supabase
     .schema("gameplay")
-    .from("play_dex_entries")
+    .from("play_pokedex_entries")
     .select("is_caught")
     .eq("play_id", playId)
     .eq("is_caught", true);
 
   // Progress stats
-  const { data: progressData } = await supabase
-    .schema("progress")
-    .from("play_items")
-    .select("progress_item_id")
+  const { data: trackingData } = await supabase
+    .schema("gameplay")
+    .from("play_tracking_items")
+    .select("tracking_item_id")
     .eq("play_id", playId);
 
   const teamSize = teamData?.length ?? 0;
@@ -116,8 +116,8 @@ export const getPlayStats = async (playId: string) => {
       teamSize,
       highestLevel,
       shinyCount,
-      dexCaughtCount: dexData?.length ?? 0,
-      completedProgressItems: progressData?.length ?? 0,
+      pokedexCaughtCount: dexData?.length ?? 0,
+      completedTrackingItems: trackingData?.length ?? 0,
     },
     error: null,
   };
@@ -162,8 +162,8 @@ export const updatePlay = async (
     status_id?: number;
     notes?: string;
     include_unique_pokemon?: boolean;
-    include_regional_dex?: boolean;
-    include_national_dex?: boolean;
+    include_regional_pokedex?: boolean;
+    include_national_pokedex?: boolean;
     include_mythical_pokemon?: boolean;
   },
 ) => {

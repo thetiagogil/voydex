@@ -14,7 +14,7 @@ export function hasFlag(name) {
 }
 
 /**
- * Get the value of a named flag (e.g. --domain meta → "meta").
+ * Get the value of a named flag (e.g. --domain reference → "reference").
  * Supports --name value and --name=value formats.
  * Returns null if not found.
  */

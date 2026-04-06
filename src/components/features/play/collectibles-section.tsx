@@ -8,7 +8,7 @@ import {
   useUncollectEntry,
 } from "@/hooks/gameplay/usePlayCollectibles";
 import { cn } from "@/lib/utils/cn";
-import type { PlayCollectible } from "@/types/progress";
+import type { PlayCollectible } from "@/types/tracking";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 

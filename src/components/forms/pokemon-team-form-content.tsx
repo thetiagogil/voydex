@@ -10,13 +10,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { usePokemonForms } from "@/hooks/meta/usePokemon";
+import { usePokemonForms } from "@/hooks/reference/usePokemon";
 import {
   useAvailablePokemon,
   useNaturesWithStats,
   usePokemonAbilities,
   usePokemonLearnset,
-} from "@/hooks/meta/usePokemonGame";
+} from "@/hooks/reference/usePokemonGame";
 import { getPokemonSpriteUrl } from "@/lib/utils/common";
 import type { PlayPokemon } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";

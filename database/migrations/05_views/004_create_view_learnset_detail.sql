@@ -24,11 +24,11 @@ SELECT
     lm.name AS learn_method_name,
     ls.level_learned_at
 FROM
-    meta.pokemon_learnsets ls
-    JOIN meta.pokemon_species sp ON ls.species_id = sp.id
-    JOIN meta.pokemon_forms pf ON ls.form_id = pf.id
-    JOIN meta.moves m ON ls.move_id = m.id
-    JOIN meta.version_groups vg ON ls.version_group_id = vg.id
-    JOIN meta.learn_methods lm ON ls.learn_method_id = lm.id;
+    reference.pokemon_learnsets ls
+    JOIN reference.pokemon_species sp ON ls.species_id = sp.id
+    JOIN reference.pokemon_forms pf ON ls.form_id = pf.id
+    JOIN reference.moves m ON ls.move_id = m.id
+    JOIN reference.version_groups vg ON ls.version_group_id = vg.id
+    JOIN reference.learn_methods lm ON ls.learn_method_id = lm.id;
 
 COMMENT ON VIEW views.learnset_detail IS 'Learnsets with species, form, move, version group, and learn method names resolved. Filter by version_group_id and species_id for typical app queries.';

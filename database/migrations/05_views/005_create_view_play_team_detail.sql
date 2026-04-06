@@ -55,18 +55,18 @@ SELECT
     pt.updated_at
 FROM
     gameplay.pokemon_team pt
-    JOIN meta.pokemon_species sp ON pt.species_id = sp.id
-    JOIN meta.pokemon_forms pf ON pt.form_id = pf.id
+    JOIN reference.pokemon_species sp ON pt.species_id = sp.id
+    JOIN reference.pokemon_forms pf ON pt.form_id = pf.id
     -- Get the play's game to determine generation for type lookup
     JOIN gameplay.plays p ON pt.play_id = p.id
-    JOIN meta.games g ON p.game_id = g.id
+    JOIN reference.games g ON p.game_id = g.id
     -- Get pokemon attributes for the correct generation (latest <= game's gen)
     LEFT JOIN LATERAL (
         SELECT
             pa2.type1_id,
             pa2.type2_id
         FROM
-            meta.pokemon_attributes pa2
+            reference.pokemon_attributes pa2
         WHERE
             pa2.species_id = pt.species_id
             AND pa2.form_id = pt.form_id
@@ -76,13 +76,13 @@ FROM
         LIMIT
             1
     ) pa ON TRUE
-    LEFT JOIN meta.types t1 ON pa.type1_id = t1.id
-    LEFT JOIN meta.types t2 ON pa.type2_id = t2.id
-    LEFT JOIN meta.natures n ON pt.nature_id = n.id
-    LEFT JOIN meta.abilities ab ON pt.ability_id = ab.id
-    LEFT JOIN meta.moves m1 ON pt.move1_id = m1.id
-    LEFT JOIN meta.moves m2 ON pt.move2_id = m2.id
-    LEFT JOIN meta.moves m3 ON pt.move3_id = m3.id
-    LEFT JOIN meta.moves m4 ON pt.move4_id = m4.id;
+    LEFT JOIN reference.types t1 ON pa.type1_id = t1.id
+    LEFT JOIN reference.types t2 ON pa.type2_id = t2.id
+    LEFT JOIN reference.natures n ON pt.nature_id = n.id
+    LEFT JOIN reference.abilities ab ON pt.ability_id = ab.id
+    LEFT JOIN reference.moves m1 ON pt.move1_id = m1.id
+    LEFT JOIN reference.moves m2 ON pt.move2_id = m2.id
+    LEFT JOIN reference.moves m3 ON pt.move3_id = m3.id
+    LEFT JOIN reference.moves m4 ON pt.move4_id = m4.id;
 
 COMMENT ON VIEW views.play_team_detail IS 'Team Pokémon with species, form, type, nature, ability, and move names resolved. Types use generation-aware lookup via pokemon_attributes timeline. Inherits RLS from gameplay.pokemon_team.';

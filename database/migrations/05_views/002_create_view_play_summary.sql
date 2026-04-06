@@ -36,11 +36,11 @@ SELECT
     p.updated_at
 FROM
     gameplay.plays p
-    JOIN meta.games g ON p.game_id = g.id
-    JOIN meta.version_groups vg ON g.version_group_id = vg.id
-    JOIN meta.generations gen ON g.generation_id = gen.id
-    JOIN meta.regions r ON g.region_id = r.id
-    JOIN meta.game_types gt ON g.type_id = gt.id
+    JOIN reference.games g ON p.game_id = g.id
+    JOIN reference.version_groups vg ON g.version_group_id = vg.id
+    JOIN reference.generations gen ON g.generation_id = gen.id
+    JOIN reference.regions r ON g.region_id = r.id
+    JOIN reference.game_types gt ON g.type_id = gt.id
     JOIN gameplay.play_statuses ps ON p.status_id = ps.id;
 
 COMMENT ON VIEW views.play_summary IS 'Play overview with game, generation, region, status, and version group names resolved. Inherits RLS from gameplay.plays.';

@@ -1,7 +1,7 @@
 "use client";
 
 import { PageLayout } from "@/components/layout/page-layout";
-import { useAllPokemonForms } from "@/hooks/meta/usePokemon";
+import { useAllPokemonForms } from "@/hooks/reference/usePokemon";
 import { getPokemonSpriteUrl } from "@/lib/utils/common";
 
 export default function PokédexPage() {

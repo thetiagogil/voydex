@@ -10,13 +10,13 @@ Conventions for the Poketracker database layer. All 619 SQL files follow these r
 database/
 ├── migrations/           Schema definitions (56 files)
 │   ├── 01_public_tables/
-│   ├── 02_meta_tables/
-│   ├── 03_gameplay_tables/
-│   ├── 04_progress_tables/
+│   ├── 02_reference_tables/
+│   ├── 03_tracking_tables/
+│   ├── 04_gameplay_tables/
 │   └── 05_views/
 ├── seeds/                Static curated data (563 files)
 │   ├── 01_public_seeds/
-│   ├── 02_meta_seeds/
+│   ├── 02_reference_seeds/
 │   │   ├── 01_base/
 │   │   ├── 02_abilities/
 │   │   ├── 03_moves/
@@ -26,21 +26,21 @@ database/
 │   │   │   └── 003_pokemon_attributes/
 │   │   ├── 05_items/
 │   │   ├── 06_move_attributes/
-│   │   ├── 07_dexes/
-│   │   ├── 08_dex_entries/
+│   │   ├── 07_pokedex/
+│   │   ├── 08_pokedex_entries/
 │   │   ├── 09_pokemon_availability/
 │   │   ├── 10_move_availability/
 │   │   ├── 11_item_availability/
 │   │   └── 12_pokemon_learnsets/
 │   ├── 03_gameplay_seeds/
-│   └── 04_progress_seeds/
+│   └── 04_tracking_seeds/
 │       ├── 01_categories/
 │       ├── 02_item_types/
 │       ├── 03_opponents/
 │       ├── 04_badges/
 │       ├── 05_collectibles/
 │       ├── 06_items/
-│       ├── 07_item_choice_options/
+│       ├── 07_item_decision_options/
 │       ├── 08_item_opponent_refs/
 │       ├── 09_item_badge_refs/
 │       ├── 10_item_collectible_refs/
@@ -122,7 +122,7 @@ Two-section boxed format. Every seed file starts with:
 -- File Scope
 -- ============================================================================
 -- Generation: 1
--- Table: meta.pokemon_availability
+-- Table: reference.pokemon_availability
 -- Scope: version-group-specific (rb)
 -- Pokemon: 129 (VG-wide)
 ```
@@ -168,7 +168,7 @@ Used in move_attributes and similar move-indexed data:
 slug VARCHAR(50) NOT NULL UNIQUE,
 
 -- Relationships
-generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
+generation_id INTEGER NOT NULL REFERENCES reference.generations(id),
 ```
 
 ### Comment Style
@@ -184,9 +184,9 @@ generation_id INTEGER NOT NULL REFERENCES meta.generations(id),
 | Schema     | Purpose                       | RLS |
 | ---------- | ----------------------------- | --- |
 | `public`   | Auth functions, user profiles | No  |
-| `meta`     | All canonical reference data  | No  |
+| `reference`     | All canonical reference data  | No  |
 | `gameplay` | User-owned gameplay data      | Yes |
-| `progress` | Milestone tracking system     | No  |
+| `tracking` | Tracking system     | No  |
 | `views`    | Read-only presentation layer  | No  |
 
 ---
@@ -199,7 +199,7 @@ All seeds use direct `INSERT INTO ... VALUES` with literal integer IDs:
 
 ```sql
 INSERT INTO
-    meta.table_name (col1, col2, col3)
+    reference.table_name (col1, col2, col3)
 VALUES
     (1, 100, 'value'),
     (2, 200, 'value');
@@ -275,7 +275,7 @@ DLC expansions are modeled as version groups, not games:
 - Base game VG: `swsh` (parent = NULL)
 - DLC VG: `swsh-ioa` (parent via `parent_version_group_id`)
 - Availability and learnset files for DLC VGs contain **only additions** over the base
-- No fake DLC game rows — `meta.games` contains real games only
+- No fake DLC game rows — `reference.games` contains real games only
 
 ---
 

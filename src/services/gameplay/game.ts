@@ -4,14 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { getGameCoverUrl } from "@/lib/supabase/storage";
 
 // =============================================================================
-// GET GAME (direct query against meta.games)
+// GET GAME (direct query against reference.games)
 // =============================================================================
 
 export const getGame = async (slug: string) => {
   const supabase = await createClient();
 
   const { data: game, error } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("games")
     .select(
       `
@@ -150,7 +150,7 @@ export const getGamesByGeneration = async (generationId: number) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .schema("meta")
+    .schema("reference")
     .from("games")
     .select(
       `
