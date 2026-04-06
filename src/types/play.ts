@@ -72,7 +72,7 @@ export interface PlayPokemon {
   gender: string | null;
   isShiny: boolean;
   species: BaseInfo;
-  form: BaseInfo & { spriteUrl: string | null };
+  form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   types: BaseInfo[];
   nature: BaseInfo | null;
   ability: BaseInfo | null;
@@ -95,7 +95,7 @@ export interface PlayDexEntry {
   speciesId: number;
   formId: number;
   species: BaseInfo & { isLegendary: boolean; isMythical: boolean };
-  form: BaseInfo & { spriteUrl: string | null };
+  form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   isSeen: boolean;
   isCaught: boolean;
 }

@@ -51,7 +51,7 @@ SELECT
             'slug', sp.slug,
             'name', sp.name
           ),
-          'sprite_url', pf.sprite_url
+          'sprite_url', pf.pokemondb_sprite_slug
         )
         ORDER BY t.position
       )

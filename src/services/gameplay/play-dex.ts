@@ -40,7 +40,7 @@ export const getPlayDex = async (playId: string) => {
       id: entry.form_id,
       slug: entry.form_slug,
       name: entry.form_name,
-      spriteUrl: entry.sprite_url,
+      pokemonDbSpriteSlug: entry.pokemondb_sprite_slug,
     },
     isSeen: entry.is_seen,
     isCaught: entry.is_caught,

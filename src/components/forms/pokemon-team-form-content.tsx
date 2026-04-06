@@ -17,6 +17,7 @@ import {
   usePokemonAbilities,
   usePokemonLearnset,
 } from "@/hooks/meta/usePokemonGame";
+import { getPokemonSpriteUrl } from "@/lib/utils/common";
 import type { PlayPokemon } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -276,12 +277,14 @@ export const PlayTeamFormContent = ({
                     <div className="flex h-full w-full items-center justify-center">
                       <Spinner className="text-muted size-8" />
                     </div>
-                  ) : selectedForm?.spriteUrl || selectedFormId ? (
+                  ) : selectedForm?.pokemonDbSpriteSlug || selectedFormId ? (
                     <div className="flex flex-col items-center gap-2">
                       <Image
                         src={
-                          selectedForm?.spriteUrl ||
-                          `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedFormId}.png`
+                          getPokemonSpriteUrl(
+                            watch("is_shiny"),
+                            selectedForm?.pokemonDbSpriteSlug || "unknown",
+                          ) || ""
                         }
                         alt={selectedSpecies?.name || "Pokemon"}
                         width={112}

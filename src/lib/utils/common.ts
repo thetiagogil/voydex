@@ -25,3 +25,11 @@ export const formatTime = (dateString: string): string => {
     return `${Math.floor(diffInSeconds / 86400)}d ago`;
   return date.toLocaleDateString();
 };
+
+export const getPokemonSpriteUrl = (
+  isShiny: boolean,
+  speciesSlug: string,
+): string => {
+  const SPRITE_BASE_URL = "https://img.pokemondb.net/sprites/home/";
+  return `${SPRITE_BASE_URL}${isShiny ? "shiny" : "normal"}/${speciesSlug}.png`;
+};

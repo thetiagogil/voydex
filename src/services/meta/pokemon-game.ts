@@ -24,7 +24,7 @@ export const getAvailablePokemon = async (
       form_id,
       availability_context,
       pokemon_species!inner(id, slug, name, national_number),
-      pokemon_forms!inner(id, slug, name, sprite_url, is_default)
+      pokemon_forms!inner(id, slug, name, pokemondb_sprite_slug, is_default)
     `,
     )
     .eq("version_group_id", versionGroupId);
@@ -36,7 +36,12 @@ export const getAvailablePokemon = async (
 
   const { data, error } = await query.order("species_id");
 
-  if (error) return { data: null, error };
+  if (error) {
+    const message =
+      error?.message ||
+      (typeof error === "object" ? JSON.stringify(error) : String(error));
+    return { data: null, error: new Error(message) };
+  }
 
   // Deduplicate by species_id+form_id (a form may appear in both VG-wide and game-specific)
   const seen = new Set<string>();
@@ -61,7 +66,7 @@ export const getAvailablePokemon = async (
       id: entry.pokemon_forms.id,
       slug: entry.pokemon_forms.slug,
       name: entry.pokemon_forms.name,
-      spriteUrl: entry.pokemon_forms.sprite_url,
+      pokemonDbSpriteSlug: entry.pokemon_forms.pokemondb_sprite_slug,
       isDefault: entry.pokemon_forms.is_default,
     },
   }));

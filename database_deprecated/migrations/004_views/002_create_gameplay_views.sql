@@ -255,7 +255,7 @@ SELECT
   pf.id AS form_id,
   pf.slug AS form_slug,
   pf.name AS form_name,
-  pf.sprite_url,
+  pf.pokemondb_sprite_slug,
   -- Types from attributes
   t1.id AS type1_id,
   t1.slug AS type1_slug,
@@ -531,7 +531,7 @@ SELECT
   pf.id AS form_id,
   pf.slug AS form_slug,
   pf.name AS pokemon_name,
-  pf.sprite_url,
+  pf.pokemondb_sprite_slug,
   t.created_at AS activity_at
 FROM gameplay.play_team_pokemon t
 JOIN gameplay.plays p ON t.play_id = p.id

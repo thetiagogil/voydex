@@ -22,7 +22,7 @@ SELECT
     de.form_id,
     pf.slug AS form_slug,
     pf.name AS form_name,
-    pf.sprite_url,
+    pf.pokemondb_sprite_slug,
     COALESCE(pde.is_seen, FALSE) AS is_seen,
     COALESCE(pde.is_caught, FALSE) AS is_caught
 FROM

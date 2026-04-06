@@ -32,7 +32,7 @@ export interface CollectionPokemon {
     id: number;
     slug: string;
     name: string;
-    spriteUrl: string | null;
+    pokemonDbSpriteSlug: string | null;
   };
   types: Array<{
     id: number;

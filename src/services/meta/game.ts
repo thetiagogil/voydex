@@ -91,7 +91,7 @@ export const getGame = async (id: number | string) => {
             slug: pokemon.species_slug,
             name: pokemon.species_name,
           },
-          spriteUrl: pokemon.sprite_url,
+          pokemonDbSpriteSlug: pokemon.pokemondb_sprite_slug,
         })),
       };
     });

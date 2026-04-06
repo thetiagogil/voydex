@@ -76,7 +76,7 @@ export const getUserPokemonCollection = async () => {
         id: pokemon.form_id,
         slug: pokemon.form_slug,
         name: pokemon.form_name,
-        spriteUrl: pokemon.sprite_url,
+        pokemonDbSpriteSlug: pokemon.pokemondb_sprite_slug,
       },
       types: [
         pokemon.type1_id

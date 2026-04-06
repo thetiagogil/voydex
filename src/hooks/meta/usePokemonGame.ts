@@ -18,7 +18,7 @@ export interface AvailablePokemon {
     id: number;
     slug: string;
     name: string;
-    spriteUrl: string | null;
+    pokemonDbSpriteSlug: string | null;
     isDefault: boolean;
   };
 }

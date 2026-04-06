@@ -23,7 +23,7 @@ export const getPokemonForms = async (speciesId: number) => {
   const { data, error } = await supabase
     .schema("meta")
     .from("pokemon_forms")
-    .select("id, slug, name, sprite_url, species_id, is_default")
+    .select("id, slug, name, pokemondb_sprite_slug, species_id, is_default")
     .eq("species_id", speciesId)
     .order("is_default", { ascending: false });
 
@@ -33,7 +33,42 @@ export const getPokemonForms = async (speciesId: number) => {
     id: form.id,
     slug: form.slug,
     name: form.name,
-    spriteUrl: form.sprite_url,
+    pokemonDbSpriteSlug: form.pokemondb_sprite_slug,
+    speciesId: form.species_id,
+    isDefault: form.is_default,
+  }));
+
+  return { data: transformed, error: null };
+};
+
+export const getAllPokemonForms = async () => {
+  const supabase = await createClient();
+  const batchSize = 1000;
+  let from = 0;
+  let allData: any[] = [];
+
+  while (true) {
+    const { data, error } = await supabase
+      .schema("meta")
+      .from("pokemon_forms")
+      .select("id, slug, name, pokemondb_sprite_slug, species_id, is_default")
+      .order("species_id")
+      .order("is_default", { ascending: false })
+      .range(from, from + batchSize - 1);
+
+    if (error) return { data: null, error };
+    if (!data || data.length === 0) break;
+
+    allData = allData.concat(data);
+    if (data.length < batchSize) break;
+    from += batchSize;
+  }
+
+  const transformed = allData.map((form) => ({
+    id: form.id,
+    slug: form.slug,
+    name: form.name,
+    pokemonDbSpriteSlug: form.pokemondb_sprite_slug,
     speciesId: form.species_id,
     isDefault: form.is_default,
   }));

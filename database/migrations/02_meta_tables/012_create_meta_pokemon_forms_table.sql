@@ -12,7 +12,7 @@ CREATE TABLE
         height INTEGER,
         weight INTEGER,
         is_default BOOLEAN NOT NULL DEFAULT TRUE,
-        sprite_url VARCHAR(255),
+        pokemondb_sprite_slug VARCHAR(100),
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
         CHECK (
             height IS NULL

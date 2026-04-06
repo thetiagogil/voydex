@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils/cn";
+import { getPokemonSpriteUrl } from "@/lib/utils/common";
 import type { PokemonType } from "@/types/common";
 import type { PlayPokemon } from "@/types/play";
 import { Pencil, Sparkles } from "lucide-react";
@@ -55,8 +56,7 @@ export const PokemonTeamTable = ({
         {pokemon.map((p) => {
           const displayName = p.nickname || p.species?.name || "Unknown";
           const spriteUrl =
-            p.form?.spriteUrl ||
-            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.form?.id}.png`;
+            getPokemonSpriteUrl(p.isShiny, p.form?.slug || "unknown") || "";
           const genderSymbol =
             p.gender === "male" ? "♂" : p.gender === "female" ? "♀" : "—";
           const genderColor =

@@ -21,7 +21,7 @@ SELECT
     pt.form_id,
     pf.slug AS form_slug,
     pf.name AS form_name,
-    pf.sprite_url,
+    pf.pokemondb_sprite_slug,
     -- Types (from pokemon_attributes for the play's generation)
     pa.type1_id,
     t1.slug AS type1_slug,

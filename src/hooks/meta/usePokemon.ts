@@ -8,7 +8,7 @@ interface PokemonSpecies extends BaseInfo {
 interface PokemonForm extends BaseInfo {
   speciesId: number;
   isDefault: boolean;
-  spriteUrl: string | null;
+  pokemonDbSpriteSlug: string | null;
 }
 
 export const usePokemonSpecies = (generationId?: number, enabled = true) => {
@@ -39,6 +39,19 @@ export const usePokemonForms = (speciesId?: number) => {
       return data;
     },
     enabled,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+export const useAllPokemonForms = () => {
+  return useQuery<PokemonForm[]>({
+    queryKey: ["pokemon", "forms", "all"],
+    queryFn: async () => {
+      const res = await fetch(`/api/meta/pokemon/forms`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to fetch all forms");
+      return data;
+    },
     staleTime: 1000 * 60 * 5,
   });
 };
