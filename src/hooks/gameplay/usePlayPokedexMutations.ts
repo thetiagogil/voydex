@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // TYPES
 // =============================================================================
 
-interface MarkDexEntryParams {
+interface MarkPokedexEntryParams {
   playId: string;
   pokedexEntryId: number;
 }
@@ -20,10 +20,10 @@ interface MarkPokedexEntriesBulkParams {
 // =============================================================================
 
 const getQueryKeys = (playId: string) => ({
-  dex: ["play", playId, "pokedex"],
+  pokedex: ["play", playId, "pokedex"],
 });
 
-const updateDexOptimistically = (
+const updatePokedexOptimistically = (
   old: any[],
   pokedexEntryIds: number[],
   isCaught: boolean,
@@ -44,7 +44,7 @@ export const useMarkPokedexEntryCaught = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, pokedexEntryId }: MarkDexEntryParams) => {
+    mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return postFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/pokedex/catch`,
         { pokedexEntryId },
@@ -52,19 +52,22 @@ export const useMarkPokedexEntryCaught = () => {
     },
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
-      await qc.cancelQueries({ queryKey: keys.dex });
-      const previousDex = qc.getQueryData(keys.dex);
+      await qc.cancelQueries({ queryKey: keys.pokedex });
+      const previousPokedex = qc.getQueryData(keys.pokedex);
 
-      qc.setQueryData(keys.dex, (old: any) =>
-        updateDexOptimistically(old, [pokedexEntryId], true),
+      qc.setQueryData(keys.pokedex, (old: any) =>
+        updatePokedexOptimistically(old, [pokedexEntryId], true),
       );
 
-      return { previousDex, keys };
+      return { previousPokedex, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.dex, context.previousDex);
+        qc.setQueryData(context.keys.pokedex, context.previousPokedex);
       }
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
     },
   });
 };
@@ -77,7 +80,7 @@ export const useMarkPokedexEntrySeen = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, pokedexEntryId }: MarkDexEntryParams) => {
+    mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return postFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/pokedex/see`,
         { pokedexEntryId },
@@ -85,22 +88,27 @@ export const useMarkPokedexEntrySeen = () => {
     },
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
-      await qc.cancelQueries({ queryKey: keys.dex });
-      const previousDex = qc.getQueryData(keys.dex);
+      await qc.cancelQueries({ queryKey: keys.pokedex });
+      const previousPokedex = qc.getQueryData(keys.pokedex);
 
-      qc.setQueryData(keys.dex, (old: any) => {
+      qc.setQueryData(keys.pokedex, (old: any) => {
         if (!old) return old;
         return old.map((entry: any) =>
-          entry.pokedexEntryId === pokedexEntryId ? { ...entry, isSeen: true } : entry,
+          entry.pokedexEntryId === pokedexEntryId
+            ? { ...entry, isSeen: true }
+            : entry,
         );
       });
 
-      return { previousDex, keys };
+      return { previousPokedex, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.dex, context.previousDex);
+        qc.setQueryData(context.keys.pokedex, context.previousPokedex);
       }
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
     },
   });
 };
@@ -113,17 +121,17 @@ export const useUnmarkPokedexEntry = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, pokedexEntryId }: MarkDexEntryParams) => {
+    mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return deleteFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/pokedex/unmark?pokedexEntryId=${pokedexEntryId}`,
       );
     },
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
-      await qc.cancelQueries({ queryKey: keys.dex });
-      const previousDex = qc.getQueryData(keys.dex);
+      await qc.cancelQueries({ queryKey: keys.pokedex });
+      const previousPokedex = qc.getQueryData(keys.pokedex);
 
-      qc.setQueryData(keys.dex, (old: any) => {
+      qc.setQueryData(keys.pokedex, (old: any) => {
         if (!old) return old;
         return old.map((entry: any) =>
           entry.pokedexEntryId === pokedexEntryId
@@ -132,12 +140,15 @@ export const useUnmarkPokedexEntry = () => {
         );
       });
 
-      return { previousDex, keys };
+      return { previousPokedex, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.dex, context.previousDex);
+        qc.setQueryData(context.keys.pokedex, context.previousPokedex);
       }
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
     },
   });
 };
@@ -150,7 +161,10 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, pokedexEntryIds }: MarkPokedexEntriesBulkParams) => {
+    mutationFn: async ({
+      playId,
+      pokedexEntryIds,
+    }: MarkPokedexEntriesBulkParams) => {
       return postFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/pokedex/bulk-catch`,
         { pokedexEntryIds },
@@ -158,18 +172,18 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
     },
     onMutate: async ({ playId, pokedexEntryIds }) => {
       const keys = getQueryKeys(playId);
-      await qc.cancelQueries({ queryKey: keys.dex });
-      const previousDex = qc.getQueryData(keys.dex);
+      await qc.cancelQueries({ queryKey: keys.pokedex });
+      const previousPokedex = qc.getQueryData(keys.pokedex);
 
-      qc.setQueryData(keys.dex, (old: any) =>
-        updateDexOptimistically(old, pokedexEntryIds, true),
+      qc.setQueryData(keys.pokedex, (old: any) =>
+        updatePokedexOptimistically(old, pokedexEntryIds, true),
       );
 
-      return { previousDex, keys };
+      return { previousPokedex, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.dex, context.previousDex);
+        qc.setQueryData(context.keys.pokedex, context.previousPokedex);
       }
     },
     onSettled: (_data, _error, { playId }) => {
@@ -186,7 +200,10 @@ export const useUnmarkPokedexEntriesBulk = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, pokedexEntryIds }: MarkPokedexEntriesBulkParams) => {
+    mutationFn: async ({
+      playId,
+      pokedexEntryIds,
+    }: MarkPokedexEntriesBulkParams) => {
       return deleteFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/pokedex/bulk-unmark`,
         { pokedexEntryIds },
@@ -194,10 +211,10 @@ export const useUnmarkPokedexEntriesBulk = () => {
     },
     onMutate: async ({ playId, pokedexEntryIds }) => {
       const keys = getQueryKeys(playId);
-      await qc.cancelQueries({ queryKey: keys.dex });
-      const previousDex = qc.getQueryData(keys.dex);
+      await qc.cancelQueries({ queryKey: keys.pokedex });
+      const previousPokedex = qc.getQueryData(keys.pokedex);
 
-      qc.setQueryData(keys.dex, (old: any) => {
+      qc.setQueryData(keys.pokedex, (old: any) => {
         if (!old) return old;
         return old.map((entry: any) =>
           pokedexEntryIds.includes(entry.pokedexEntryId)
@@ -206,11 +223,11 @@ export const useUnmarkPokedexEntriesBulk = () => {
         );
       });
 
-      return { previousDex, keys };
+      return { previousPokedex, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.dex, context.previousDex);
+        qc.setQueryData(context.keys.pokedex, context.previousPokedex);
       }
     },
     onSettled: (_data, _error, { playId }) => {

@@ -58,7 +58,7 @@ export default function CollectionPage() {
     });
   }, [collection, search, generationFilter, typeFilter, shinyFilter]);
 
-  // Sort by national dex number
+  // Sort by national Pokédex number
   const sortedPokemon = useMemo(() => {
     return [...filteredPokemon].sort((a, b) => {
       return a.species.id - b.species.id;

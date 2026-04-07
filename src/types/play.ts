@@ -80,13 +80,13 @@ export interface PlayPokemon {
 }
 
 // =============================================================================
-// PLAY POKEDEX ENTRY (from views.play_dex_detail)
+// PLAY POKEDEX ENTRY (from views.play_pokedex_detail)
 // =============================================================================
 
 export interface PlayPokedexEntry {
   pokedexEntryId: number;
-  dexNumber: number;
-  dex: {
+  pokedexNumber: number;
+  pokedex: {
     id: number;
     slug: string;
     name: string;
@@ -101,14 +101,14 @@ export interface PlayPokedexEntry {
 }
 
 // =============================================================================
-// PLAY POKEDEX SUMMARY (aggregated per dex)
+// PLAY POKEDEX SUMMARY (aggregated per pokedex)
 // =============================================================================
 
 export interface PlayPokedexSummary {
-  dexId: number;
-  dexSlug: string;
-  dexName: string;
-  dexKind: string;
+  pokedexId: number;
+  pokedexSlug: string;
+  pokedexName: string;
+  pokedexKind: string;
   totalEntries: number;
   seenCount: number;
   caughtCount: number;

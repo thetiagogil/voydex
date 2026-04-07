@@ -20,8 +20,8 @@ export const getPlayPokedex = async (playId: string) => {
 
   const result = data.map((entry) => ({
     pokedexEntryId: entry.pokedex_entry_id,
-    dexNumber: entry.dex_number,
-    dex: {
+    pokedexNumber: entry.dex_number,
+    pokedex: {
       id: entry.dex_id,
       slug: entry.dex_slug,
       name: entry.dex_name,
@@ -53,7 +53,10 @@ export const getPlayPokedex = async (playId: string) => {
 // MARK POKEDEX ENTRY AS SEEN
 // =============================================================================
 
-export const markPokedexEntrySeen = async (playId: string, pokedexEntryId: number) => {
+export const markPokedexEntrySeen = async (
+  playId: string,
+  pokedexEntryId: number,
+) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -107,7 +110,10 @@ export const markPokedexEntryCaught = async (
 // UNMARK POKEDEX ENTRY (remove seen/caught)
 // =============================================================================
 
-export const unmarkPokedexEntry = async (playId: string, pokedexEntryId: number) => {
+export const unmarkPokedexEntry = async (
+  playId: string,
+  pokedexEntryId: number,
+) => {
   const supabase = await createClient();
 
   const { error } = await supabase

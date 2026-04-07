@@ -131,6 +131,8 @@ export interface PlayTrackingItem {
   slug: string;
   name: string;
   description: string | null;
+  itemTypeSlug: string | null;
+  itemTypeName: string | null;
   sortOrder: number;
   isCompleted: boolean;
   completedAt: string | null;

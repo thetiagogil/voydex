@@ -17,7 +17,7 @@ const getActivityIcon = (activity: RecentActivityItem): string => {
       return "completed";
     case "pokemon_added":
       return "pokemon";
-    case "progress_completed":
+    case "tracking_completed":
       return "badge";
     default:
       return "pokemon";

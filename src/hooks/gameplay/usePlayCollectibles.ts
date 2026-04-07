@@ -44,10 +44,30 @@ export const useCollectEntry = () => {
       }
       return res.json();
     },
-    onSuccess: (_data, { playId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "collectibles"],
-      });
+    onMutate: async ({ playId, collectibleEntryId }) => {
+      const key = ["play", playId, "collectibles"];
+      await qc.cancelQueries({ queryKey: key });
+      const previous = qc.getQueryData<PlayCollectible[]>(key);
+      qc.setQueryData<PlayCollectible[]>(key, (old) =>
+        old?.map((c) => ({
+          ...c,
+          collectedCount: c.entries.some(
+            (e) => e.id === collectibleEntryId && !e.isCollected,
+          )
+            ? c.collectedCount + 1
+            : c.collectedCount,
+          entries: c.entries.map((e) =>
+            e.id === collectibleEntryId ? { ...e, isCollected: true } : e,
+          ),
+        })),
+      );
+      return { previous, key };
+    },
+    onError: (_err, _vars, context) => {
+      if (context) qc.setQueryData(context.key, context.previous);
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
     },
   });
 };
@@ -73,10 +93,30 @@ export const useUncollectEntry = () => {
       }
       return res.json();
     },
-    onSuccess: (_data, { playId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "collectibles"],
-      });
+    onMutate: async ({ playId, collectibleEntryId }) => {
+      const key = ["play", playId, "collectibles"];
+      await qc.cancelQueries({ queryKey: key });
+      const previous = qc.getQueryData<PlayCollectible[]>(key);
+      qc.setQueryData<PlayCollectible[]>(key, (old) =>
+        old?.map((c) => ({
+          ...c,
+          collectedCount: c.entries.some(
+            (e) => e.id === collectibleEntryId && e.isCollected,
+          )
+            ? c.collectedCount - 1
+            : c.collectedCount,
+          entries: c.entries.map((e) =>
+            e.id === collectibleEntryId ? { ...e, isCollected: false } : e,
+          ),
+        })),
+      );
+      return { previous, key };
+    },
+    onError: (_err, _vars, context) => {
+      if (context) qc.setQueryData(context.key, context.previous);
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
     },
   });
 };

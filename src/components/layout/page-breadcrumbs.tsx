@@ -74,12 +74,12 @@ export const PageBreadcrumbs = () => {
                   current: segments.length === playIndex + 2,
                 });
 
-                // Add sub-routes (team, progress, etc.)
+                // Add sub-routes (team, tracking, etc.)
                 const subRoute = segments[playIndex + 2];
                 if (subRoute) {
                   const subRouteNames: Record<string, string> = {
                     team: "Team Builder",
-                    progress: "Progress",
+                    tracking: "Story",
                     pokedex: "Pokédex",
                   };
 

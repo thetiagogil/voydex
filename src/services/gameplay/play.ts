@@ -89,7 +89,7 @@ export const getPlayStats = async (playId: string) => {
     .select("level, is_shiny")
     .eq("play_id", playId);
 
-  // Dex stats
+  // Pokédex stats
   const { data: dexData } = await supabase
     .schema("gameplay")
     .from("play_pokedex_entries")
@@ -97,7 +97,7 @@ export const getPlayStats = async (playId: string) => {
     .eq("play_id", playId)
     .eq("is_caught", true);
 
-  // Progress stats
+  // Tracking stats
   const { data: trackingData } = await supabase
     .schema("gameplay")
     .from("play_tracking_items")

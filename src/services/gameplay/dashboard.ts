@@ -217,8 +217,8 @@ export const getRecentActivity = async (limit = 10) => {
     .order("updated_at", { ascending: false })
     .limit(limit);
 
-  // Gather recent progress completions
-  const { data: recentProgress } = await supabase
+  // Gather recent tracking completions
+  const { data: recentTracking } = await supabase
     .schema("views")
     .from("play_tracking_detail")
     .select("play_id, item_name, category_name, completed_at")
@@ -305,13 +305,13 @@ export const getRecentActivity = async (limit = 10) => {
     });
   }
 
-  // Add progress activities
-  for (const p of recentProgress || []) {
+  // Add tracking activities
+  for (const p of recentTracking || []) {
     const info = playMap.get(p.play_id);
     if (!info) continue;
     activities.push({
-      id: `progress-${p.play_id}-${p.item_name}-${p.completed_at}`,
-      type: "progress_completed",
+      id: `tracking-${p.play_id}-${p.item_name}-${p.completed_at}`,
+      type: "tracking_completed",
       message: `Completed "${p.item_name}" (${p.category_name})`,
       activityAt: p.completed_at,
       play: { id: p.play_id, name: info.playName },

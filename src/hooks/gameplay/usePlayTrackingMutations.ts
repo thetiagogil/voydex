@@ -5,13 +5,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // TYPES
 // =============================================================================
 
-interface CheckProgressParams {
+interface CheckTrackingParams {
   playId: string;
   trackingItemId: number;
   categoryId: number;
 }
 
-interface CheckProgressBulkParams {
+interface CheckTrackingBulkParams {
   playId: string;
   trackingItemIds: number[];
   categoryId: number;
@@ -68,7 +68,7 @@ export const useCheckPlayTrackingItem = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, trackingItemId }: CheckProgressParams) => {
+    mutationFn: async ({ playId, trackingItemId }: CheckTrackingParams) => {
       return postFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/check`,
         { trackingItemId },
@@ -102,6 +102,9 @@ export const useCheckPlayTrackingItem = () => {
       qc.invalidateQueries({
         queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
       });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "tracking", "categories"],
+      });
     },
   });
 };
@@ -114,7 +117,7 @@ export const useUncheckPlayTrackingItem = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ playId, trackingItemId }: CheckProgressParams) => {
+    mutationFn: async ({ playId, trackingItemId }: CheckTrackingParams) => {
       return deleteFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/uncheck?trackingItemId=${trackingItemId}`,
       );
@@ -147,6 +150,9 @@ export const useUncheckPlayTrackingItem = () => {
       qc.invalidateQueries({
         queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
       });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "tracking", "categories"],
+      });
     },
   });
 };
@@ -163,7 +169,7 @@ export const useCheckPlayTrackingItemBulk = () => {
       playId,
       trackingItemIds,
       categoryId,
-    }: CheckProgressBulkParams) => {
+    }: CheckTrackingBulkParams) => {
       return postFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/bulk-check`,
         { trackingItemIds, categoryId },
@@ -197,6 +203,9 @@ export const useCheckPlayTrackingItemBulk = () => {
       qc.invalidateQueries({
         queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
       });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "tracking", "categories"],
+      });
     },
   });
 };
@@ -213,7 +222,7 @@ export const useUncheckPlayTrackingItemBulk = () => {
       playId,
       trackingItemIds,
       categoryId,
-    }: CheckProgressBulkParams) => {
+    }: CheckTrackingBulkParams) => {
       return deleteFetcher(
         `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/bulk-uncheck`,
         { trackingItemIds, categoryId },
@@ -250,6 +259,9 @@ export const useUncheckPlayTrackingItemBulk = () => {
     onSettled: (_data, _error, { playId, categoryId }) => {
       qc.invalidateQueries({
         queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
+      });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "tracking", "categories"],
       });
     },
   });

@@ -24,7 +24,7 @@ export async function POST(
         error:
           error instanceof Error
             ? error.message
-            : "Failed to mark dex entry as seen",
+            : "Failed to mark Pok\u00e9dex entry as seen",
       },
       { status: 500 },
     );

@@ -88,6 +88,11 @@ const ICON_MAP = {
   eliteFour: Trophy,
   champion: Trophy,
 
+  // Story item types
+  battle: Swords,
+  checkpoint: ClipboardCheck,
+  decision: Compass,
+
   // Actions
   login: LogIn,
   signup: UserPlus,

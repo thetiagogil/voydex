@@ -23,7 +23,9 @@ export async function DELETE(
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Failed to unmark dex entry",
+          error instanceof Error
+            ? error.message
+            : "Failed to unmark Pokédex entry",
       },
       { status: 500 },
     );

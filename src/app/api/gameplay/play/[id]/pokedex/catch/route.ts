@@ -24,7 +24,7 @@ export async function POST(
         error:
           error instanceof Error
             ? error.message
-            : "Failed to mark dex entry as caught",
+            : "Failed to mark Pok\u00e9dex entry as caught",
       },
       { status: 500 },
     );
