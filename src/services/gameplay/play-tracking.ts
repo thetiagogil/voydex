@@ -13,16 +13,16 @@ export const getPlayTrackingCategories = async (playId: string) => {
     .schema("views")
     .from("play_tracking_detail")
     .select(
-      "category_id, category_slug, category_name, category_sort_order, is_completed",
+      "category_id, category_slug, category_name, category_sort_order, is_completed, version_group_id, version_group_name, parent_version_group_id",
     )
     .eq("play_id", playId);
 
   if (error) return { data: null, error };
   if (!data || data.length === 0) return { data: [], error: null };
 
-  // Aggregate per category
+  // Aggregate per category + version group
   const categoryMap = new Map<
-    number,
+    string,
     {
       id: number;
       slug: string;
@@ -30,28 +30,35 @@ export const getPlayTrackingCategories = async (playId: string) => {
       sortOrder: number;
       totalItems: number;
       completedItems: number;
+      versionGroupId: number;
+      versionGroupName: string;
+      isDlc: boolean;
     }
   >();
 
   for (const row of data) {
-    const existing = categoryMap.get(row.category_id);
+    const key = `${row.category_id}-${row.version_group_id}`;
+    const existing = categoryMap.get(key);
     if (existing) {
       existing.totalItems++;
       if (row.is_completed) existing.completedItems++;
     } else {
-      categoryMap.set(row.category_id, {
+      categoryMap.set(key, {
         id: row.category_id,
         slug: row.category_slug,
         name: row.category_name,
         sortOrder: row.category_sort_order,
         totalItems: 1,
         completedItems: row.is_completed ? 1 : 0,
+        versionGroupId: row.version_group_id,
+        versionGroupName: row.version_group_name,
+        isDlc: row.parent_version_group_id !== null,
       });
     }
   }
 
   const result = Array.from(categoryMap.values()).sort(
-    (a, b) => a.sortOrder - b.sortOrder,
+    (a, b) => a.versionGroupId - b.versionGroupId || a.sortOrder - b.sortOrder,
   );
 
   return { data: result, error: null };
@@ -64,16 +71,23 @@ export const getPlayTrackingCategories = async (playId: string) => {
 export const getPlayTrackingItems = async (
   playId: string,
   categoryId: number,
+  versionGroupId?: number,
 ) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .schema("views")
     .from("play_tracking_detail")
     .select("*")
     .eq("play_id", playId)
     .eq("category_id", categoryId)
     .order("sort_order", { ascending: true });
+
+  if (versionGroupId !== undefined) {
+    query = query.eq("version_group_id", versionGroupId);
+  }
+
+  const { data, error } = await query;
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
@@ -209,7 +223,7 @@ export const getDecisionOptions = async (trackingItemId: number) => {
     .map((o) => o.pokemon_form_id)
     .filter((id): id is number => id !== null);
 
-  let spriteMap = new Map<number, string | null>();
+  const spriteMap = new Map<number, string | null>();
   if (formIds.length > 0) {
     const { data: forms } = await supabase
       .schema("reference")

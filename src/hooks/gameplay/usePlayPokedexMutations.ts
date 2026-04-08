@@ -68,6 +68,8 @@ export const useMarkPokedexEntryCaught = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -109,6 +111,8 @@ export const useMarkPokedexEntrySeen = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -149,6 +153,8 @@ export const useUnmarkPokedexEntry = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -188,6 +194,8 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -232,6 +240,8 @@ export const useUnmarkPokedexEntriesBulk = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

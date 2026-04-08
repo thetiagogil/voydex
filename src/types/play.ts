@@ -30,9 +30,8 @@ export interface Play {
     isTerminal: boolean;
   };
   notes: string | null;
-  includeUniquePokemon: boolean;
-  includeRegionalPokedex: boolean;
-  includeNationalPokedex: boolean;
+  includePokedex: boolean;
+  includeOtherPokedex: boolean;
   includeMythicalPokemon: boolean;
   createdAt: string;
   updatedAt: string;
@@ -98,6 +97,9 @@ export interface PlayPokedexEntry {
   form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   isSeen: boolean;
   isCaught: boolean;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
 }
 
 // =============================================================================
@@ -113,4 +115,7 @@ export interface PlayPokedexSummary {
   seenCount: number;
   caughtCount: number;
   entries: PlayPokedexEntry[];
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
 }

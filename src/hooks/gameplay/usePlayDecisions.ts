@@ -104,6 +104,7 @@ export const useSaveDecision = () => {
       qc.invalidateQueries({
         queryKey: ["play", playId, "tracking", "category"],
       });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

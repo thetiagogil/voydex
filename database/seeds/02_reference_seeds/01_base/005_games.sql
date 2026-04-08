@@ -71,4 +71,4 @@ VALUES
     (36, 'scarlet', 'Pokémon Scarlet', 9, 9, 23, 1, 2022),
     (37, 'violet', 'Pokémon Violet', 9, 9, 23, 1, 2022),
     -- Legends: Z-A — other, Gen 9, Kalos (region 6)
-    (38, 'legends-za', 'Pokémon Legends: Z-A', 9, 6, 27, 5, 2025);
+    (38, 'legends-za', 'Pokémon Legends: Z-A', 9, 6, 26, 5, 2025);

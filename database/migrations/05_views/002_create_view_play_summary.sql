@@ -28,9 +28,8 @@ SELECT
     ps.slug AS status_slug,
     ps.name AS status_name,
     ps.is_terminal AS status_is_terminal,
-    p.include_unique_pokemon,
-    p.include_regional_dex,
-    p.include_national_dex,
+    p.include_pokedex,
+    p.include_other_pokedex,
     p.include_mythical_pokemon,
     p.created_at,
     p.updated_at

@@ -20,12 +20,12 @@ export const getPlayPokedex = async (playId: string) => {
 
   const result = data.map((entry) => ({
     pokedexEntryId: entry.pokedex_entry_id,
-    pokedexNumber: entry.dex_number,
+    pokedexNumber: entry.pokedex_number,
     pokedex: {
-      id: entry.dex_id,
-      slug: entry.dex_slug,
-      name: entry.dex_name,
-      kind: entry.dex_kind,
+      id: entry.pokedex_id,
+      slug: entry.pokedex_slug,
+      name: entry.pokedex_name,
+      kind: entry.pokedex_kind,
     },
     speciesId: entry.species_id,
     formId: entry.form_id,
@@ -44,6 +44,9 @@ export const getPlayPokedex = async (playId: string) => {
     },
     isSeen: entry.is_seen,
     isCaught: entry.is_caught,
+    versionGroupId: entry.version_group_id,
+    versionGroupName: entry.version_group_name,
+    isDlc: entry.parent_version_group_id !== null,
   }));
 
   return { data: result, error: null };

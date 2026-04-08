@@ -26,10 +26,10 @@ export const Header = ({
           {/* Icon */}
           {icon && <div>{icon}</div>}
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-1 flex-col gap-2">
             {/* Title + Badge */}
             <div className="flex flex-wrap items-center gap-4">
-              <h1 className="text-3xl font-bold">{title}</h1>
+              <h1 className="text-xl font-bold md:text-3xl">{title}</h1>
               {badge && <div>{badge}</div>}
             </div>
 
@@ -40,12 +40,12 @@ export const Header = ({
           </div>
         </div>
 
-        <div>
+        <div className="flex flex-1 justify-end gap-2">
           {/* Info */}
-          {info && <div>{info}</div>}
+          {info && info}
 
           {/* Actions */}
-          {actions && <div>{actions}</div>}
+          {actions && actions}
         </div>
       </div>
     </Card>

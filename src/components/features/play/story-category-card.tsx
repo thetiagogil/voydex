@@ -27,7 +27,7 @@ export const StoryCategoryCard = ({
 
   const categoryPercentage =
     category.totalItems > 0
-      ? Math.round((category.completedItems / category.totalItems) * 100)
+      ? Math.floor((category.completedItems / category.totalItems) * 100)
       : 0;
   const isComplete = categoryPercentage === 100;
 

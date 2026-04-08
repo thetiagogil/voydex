@@ -124,6 +124,9 @@ export interface PlayTrackingCategory {
   sortOrder: number;
   totalItems: number;
   completedItems: number;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
 }
 
 export interface PlayTrackingItem {
@@ -163,6 +166,9 @@ export interface PlayCollectible {
   spriteUrl: string | null;
   entries: PlayCollectibleEntry[];
   collectedCount: number;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
 }
 
 export interface PlayCollectibleEntry {

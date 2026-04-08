@@ -68,6 +68,8 @@ export const useCollectEntry = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -117,6 +119,122 @@ export const useUncollectEntry = () => {
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+};
+
+export const useCollectEntriesBulk = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      collectibleEntryIds,
+    }: {
+      playId: string;
+      collectibleEntryIds: number[];
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/collectibles/collect-bulk`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ collectibleEntryIds }),
+        },
+      );
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to bulk collect entries");
+      }
+      return res.json();
+    },
+    onMutate: async ({ playId, collectibleEntryIds }) => {
+      const key = ["play", playId, "collectibles"];
+      await qc.cancelQueries({ queryKey: key });
+      const previous = qc.getQueryData<PlayCollectible[]>(key);
+      const idSet = new Set(collectibleEntryIds);
+      qc.setQueryData<PlayCollectible[]>(key, (old) =>
+        old?.map((c) => {
+          const newlyCollected = c.entries.filter(
+            (e) => idSet.has(e.id) && !e.isCollected,
+          ).length;
+          return {
+            ...c,
+            collectedCount: c.collectedCount + newlyCollected,
+            entries: c.entries.map((e) =>
+              idSet.has(e.id) ? { ...e, isCollected: true } : e,
+            ),
+          };
+        }),
+      );
+      return { previous, key };
+    },
+    onError: (_err, _vars, context) => {
+      if (context) qc.setQueryData(context.key, context.previous);
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+  });
+};
+
+export const useUncollectEntriesBulk = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      collectibleEntryIds,
+    }: {
+      playId: string;
+      collectibleEntryIds: number[];
+    }) => {
+      const res = await fetch(
+        `/api/gameplay/play/${encodeURIComponent(playId)}/collectibles/uncollect-bulk`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ collectibleEntryIds }),
+        },
+      );
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Failed to bulk uncollect entries");
+      }
+      return res.json();
+    },
+    onMutate: async ({ playId, collectibleEntryIds }) => {
+      const key = ["play", playId, "collectibles"];
+      await qc.cancelQueries({ queryKey: key });
+      const previous = qc.getQueryData<PlayCollectible[]>(key);
+      const idSet = new Set(collectibleEntryIds);
+      qc.setQueryData<PlayCollectible[]>(key, (old) =>
+        old?.map((c) => {
+          const newlyUncollected = c.entries.filter(
+            (e) => idSet.has(e.id) && e.isCollected,
+          ).length;
+          return {
+            ...c,
+            collectedCount: c.collectedCount - newlyUncollected,
+            entries: c.entries.map((e) =>
+              idSet.has(e.id) ? { ...e, isCollected: false } : e,
+            ),
+          };
+        }),
+      );
+      return { previous, key };
+    },
+    onError: (_err, _vars, context) => {
+      if (context) qc.setQueryData(context.key, context.previous);
+    },
+    onSettled: (_data, _error, { playId }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId, "collectibles"] });
+      qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

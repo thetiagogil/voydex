@@ -24,18 +24,29 @@ SELECT
     CASE
         WHEN pp.play_id IS NOT NULL THEN TRUE
         ELSE FALSE
-    END AS is_completed
+    END AS is_completed,
+    pi.version_group_id,
+    vg.name AS version_group_name,
+    vg.parent_version_group_id
 FROM
     gameplay.plays p
-    JOIN reference.games g ON p.game_id = g.id
-    JOIN tracking.items pi ON pi.version_group_id = g.version_group_id
+    JOIN tracking.items pi ON pi.version_group_id IN (
+        SELECT
+            gameplay.get_effective_version_group_ids (p.id)
+    )
+    AND (
+        pi.game_id IS NULL
+        OR pi.game_id = p.game_id
+    )
     JOIN tracking.categories pc ON pi.category_id = pc.id
     JOIN tracking.item_types pit ON pi.item_type_id = pit.id
+    JOIN reference.version_groups vg ON pi.version_group_id = vg.id
     LEFT JOIN gameplay.play_tracking_items pp ON pp.play_id = p.id
     AND pp.tracking_item_id = pi.id
 ORDER BY
     p.id,
+    vg.id,
     pc.sort_order,
     pi.sort_order;
 
-COMMENT ON VIEW views.play_tracking_detail IS 'Per-play tracking checklist showing all base-VG milestones with completion state. Inherits RLS from gameplay.plays. Does not include DLC milestones — filter by effective VGs at the app layer.';
+COMMENT ON VIEW views.play_tracking_detail IS 'Per-play tracking checklist showing all milestones (base + DLC) with completion state. Uses get_effective_version_group_ids() for DLC awareness. Inherits RLS from gameplay.plays.';

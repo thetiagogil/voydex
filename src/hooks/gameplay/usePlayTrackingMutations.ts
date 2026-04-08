@@ -22,26 +22,11 @@ interface CheckTrackingBulkParams {
 // =============================================================================
 
 const getQueryKeys = (playId: string, categoryId: number) => ({
-  items: ["play", playId, "tracking", "category", categoryId, "items"],
+  // Use prefix that matches all VG variants of this category's items
+  itemsPrefix: ["play", playId, "tracking", "category", categoryId],
   categories: ["play", playId, "tracking", "categories"],
+  completion: ["play", playId, "completion"],
 });
-
-const updateItemsOptimistically = (
-  old: any[],
-  itemIds: number[],
-  completed: boolean,
-) => {
-  if (!old) return old;
-  return old.map((item: any) =>
-    itemIds.includes(item.id)
-      ? {
-          ...item,
-          isCompleted: completed,
-          completedAt: completed ? new Date().toISOString() : null,
-        }
-      : item,
-  );
-};
 
 const updateCategoriesOptimistically = (
   old: any[],
@@ -74,37 +59,31 @@ export const useCheckPlayTrackingItem = () => {
         { trackingItemId },
       );
     },
-    onMutate: async ({ playId, trackingItemId, categoryId }) => {
+    onMutate: async ({ playId, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
 
-      await qc.cancelQueries({ queryKey: keys.items });
+      await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
 
-      const previousItems = qc.getQueryData(keys.items);
       const previousCategories = qc.getQueryData(keys.categories);
 
-      qc.setQueryData(keys.items, (old: any) =>
-        updateItemsOptimistically(old, [trackingItemId], true),
-      );
       qc.setQueryData(keys.categories, (old: any) =>
         updateCategoriesOptimistically(old, categoryId, 1),
       );
 
-      return { previousItems, previousCategories, keys };
+      return { previousCategories, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.items, context.previousItems);
         qc.setQueryData(context.keys.categories, context.previousCategories);
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
-      });
+      const keys = getQueryKeys(playId, categoryId);
+      qc.invalidateQueries({ queryKey: keys.itemsPrefix });
+      qc.invalidateQueries({ queryKey: keys.categories });
+      qc.invalidateQueries({ queryKey: keys.completion });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -122,37 +101,31 @@ export const useUncheckPlayTrackingItem = () => {
         `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/uncheck?trackingItemId=${trackingItemId}`,
       );
     },
-    onMutate: async ({ playId, trackingItemId, categoryId }) => {
+    onMutate: async ({ playId, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
 
-      await qc.cancelQueries({ queryKey: keys.items });
+      await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
 
-      const previousItems = qc.getQueryData(keys.items);
       const previousCategories = qc.getQueryData(keys.categories);
 
-      qc.setQueryData(keys.items, (old: any) =>
-        updateItemsOptimistically(old, [trackingItemId], false),
-      );
       qc.setQueryData(keys.categories, (old: any) =>
         updateCategoriesOptimistically(old, categoryId, -1),
       );
 
-      return { previousItems, previousCategories, keys };
+      return { previousCategories, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.items, context.previousItems);
         qc.setQueryData(context.keys.categories, context.previousCategories);
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
-      });
+      const keys = getQueryKeys(playId, categoryId);
+      qc.invalidateQueries({ queryKey: keys.itemsPrefix });
+      qc.invalidateQueries({ queryKey: keys.categories });
+      qc.invalidateQueries({ queryKey: keys.completion });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -178,34 +151,28 @@ export const useCheckPlayTrackingItemBulk = () => {
     onMutate: async ({ playId, trackingItemIds, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
 
-      await qc.cancelQueries({ queryKey: keys.items });
+      await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
 
-      const previousItems = qc.getQueryData(keys.items);
       const previousCategories = qc.getQueryData(keys.categories);
 
-      qc.setQueryData(keys.items, (old: any) =>
-        updateItemsOptimistically(old, trackingItemIds, true),
-      );
       qc.setQueryData(keys.categories, (old: any) =>
         updateCategoriesOptimistically(old, categoryId, trackingItemIds.length),
       );
 
-      return { previousItems, previousCategories, keys };
+      return { previousCategories, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.items, context.previousItems);
         qc.setQueryData(context.keys.categories, context.previousCategories);
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
-      });
+      const keys = getQueryKeys(playId, categoryId);
+      qc.invalidateQueries({ queryKey: keys.itemsPrefix });
+      qc.invalidateQueries({ queryKey: keys.categories });
+      qc.invalidateQueries({ queryKey: keys.completion });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -231,15 +198,11 @@ export const useUncheckPlayTrackingItemBulk = () => {
     onMutate: async ({ playId, trackingItemIds, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
 
-      await qc.cancelQueries({ queryKey: keys.items });
+      await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
 
-      const previousItems = qc.getQueryData(keys.items);
       const previousCategories = qc.getQueryData(keys.categories);
 
-      qc.setQueryData(keys.items, (old: any) =>
-        updateItemsOptimistically(old, trackingItemIds, false),
-      );
       qc.setQueryData(keys.categories, (old: any) =>
         updateCategoriesOptimistically(
           old,
@@ -248,21 +211,19 @@ export const useUncheckPlayTrackingItemBulk = () => {
         ),
       );
 
-      return { previousItems, previousCategories, keys };
+      return { previousCategories, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
-        qc.setQueryData(context.keys.items, context.previousItems);
         qc.setQueryData(context.keys.categories, context.previousCategories);
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
-      });
+      const keys = getQueryKeys(playId, categoryId);
+      qc.invalidateQueries({ queryKey: keys.itemsPrefix });
+      qc.invalidateQueries({ queryKey: keys.categories });
+      qc.invalidateQueries({ queryKey: keys.completion });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

@@ -24,20 +24,27 @@ SELECT
     CASE
         WHEN pce.play_id IS NOT NULL THEN TRUE
         ELSE FALSE
-    END AS is_collected
+    END AS is_collected,
+    c.version_group_id,
+    vg.name AS version_group_name,
+    vg.parent_version_group_id
 FROM
     gameplay.plays p
-    JOIN reference.games g ON p.game_id = g.id
-    JOIN tracking.collectibles c ON c.version_group_id = g.version_group_id
+    JOIN tracking.collectibles c ON c.version_group_id IN (
+        SELECT
+            gameplay.get_effective_version_group_ids (p.id)
+    )
     AND (
         c.game_id IS NULL
         OR c.game_id = p.game_id
     )
     JOIN tracking.collectible_entries ce ON ce.collectible_id = c.id
+    JOIN reference.version_groups vg ON c.version_group_id = vg.id
     LEFT JOIN gameplay.play_collectible_entries pce ON pce.play_id = p.id
     AND pce.collectible_entry_id = ce.id
 ORDER BY
+    vg.id,
     c.id,
     ce.sort_order;
 
-COMMENT ON VIEW views.play_collectible_detail IS 'Collectible entries for a play with collected state. Shows entries for all collectibles in the play''s version group. Inherits RLS from gameplay.plays.';
+COMMENT ON VIEW views.play_collectible_detail IS 'Collectible entries for a play with collected state. DLC-aware via get_effective_version_group_ids(). Inherits RLS from gameplay.plays.';

@@ -11,14 +11,14 @@ CREATE TABLE
     name VARCHAR(200) NOT NULL,
     notes TEXT,
     include_pokedex BOOLEAN NOT NULL DEFAULT TRUE,
-    include_national_pokedex BOOLEAN NOT NULL DEFAULT TRUE,
+    include_other_pokedex BOOLEAN NOT NULL DEFAULT TRUE,
     include_mythical_pokemon BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW (),
     UNIQUE (user_id, name),
     CHECK (
       include_pokedex = TRUE
-      OR include_national_pokedex = FALSE
+      OR include_other_pokedex = FALSE
     )
   );
 

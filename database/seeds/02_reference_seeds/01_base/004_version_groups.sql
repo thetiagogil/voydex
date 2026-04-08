@@ -46,5 +46,4 @@ VALUES
     (23, 'sv', 'Scarlet / Violet', 9, NULL),
     (24, 'sv-tm', 'The Teal Mask', 9, 23),
     (25, 'sv-id', 'The Indigo Disk', 9, 23),
-    (26, 'sv-hd', 'Pokémon HOME Data', 9, 23),
-    (27, 'za', 'Pokémon Legends: Z-A', 9, NULL);
+    (26, 'za', 'Pokémon Legends: Z-A', 9, NULL);

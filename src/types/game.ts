@@ -34,6 +34,7 @@ export interface GamePlaySummary {
     slug: PlayStatus;
     name: string;
     isTerminal: boolean;
+    description: string;
   };
   createdAt: string;
   updatedAt: string;

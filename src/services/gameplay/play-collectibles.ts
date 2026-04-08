@@ -39,6 +39,9 @@ export const getPlayCollectibles = async (playId: string) => {
         isCollected: boolean;
       }>;
       collectedCount: number;
+      versionGroupId: number;
+      versionGroupName: string;
+      isDlc: boolean;
     }
   >();
 
@@ -68,6 +71,9 @@ export const getPlayCollectibles = async (playId: string) => {
         spriteUrl: row.collectible_sprite_url,
         entries: [entry],
         collectedCount: row.is_collected ? 1 : 0,
+        versionGroupId: row.version_group_id,
+        versionGroupName: row.version_group_name,
+        isDlc: row.parent_version_group_id !== null,
       });
     }
   }
@@ -120,6 +126,52 @@ export const uncollectEntry = async (
     .delete()
     .eq("play_id", playId)
     .eq("collectible_entry_id", collectibleEntryId);
+
+  if (error) return { success: false, error };
+  return { success: true, error: null };
+};
+
+// =============================================================================
+// BULK COLLECT ENTRIES
+// =============================================================================
+
+export const collectEntriesBulk = async (
+  playId: string,
+  collectibleEntryIds: number[],
+) => {
+  const supabase = await createClient();
+
+  const rows = collectibleEntryIds.map((id) => ({
+    play_id: playId,
+    collectible_entry_id: id,
+  }));
+
+  const { data, error } = await supabase
+    .schema("gameplay")
+    .from("play_collectible_entries")
+    .upsert(rows, { onConflict: "play_id,collectible_entry_id" })
+    .select();
+
+  if (error) return { data: null, error };
+  return { data, error: null };
+};
+
+// =============================================================================
+// BULK UNCOLLECT ENTRIES
+// =============================================================================
+
+export const uncollectEntriesBulk = async (
+  playId: string,
+  collectibleEntryIds: number[],
+) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .schema("gameplay")
+    .from("play_collectible_entries")
+    .delete()
+    .eq("play_id", playId)
+    .in("collectible_entry_id", collectibleEntryIds);
 
   if (error) return { success: false, error };
   return { success: true, error: null };

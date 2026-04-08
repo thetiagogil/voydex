@@ -1,8 +1,10 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
 import type { PlayTrackingCategory } from "@/types/tracking";
+import { useMemo } from "react";
 import { StoryCategoryCard } from "./story-category-card";
 
 interface StorySectionProps {
@@ -24,6 +26,35 @@ export const StorySection = ({
       (cat.completedItems ?? 0) >= (cat.totalItems ?? 0),
   ).length;
 
+  // Group categories by version group for DLC separation
+  const vgGroups = useMemo(() => {
+    const groups: {
+      vgId: number;
+      vgName: string;
+      isDlc: boolean;
+      categories: PlayTrackingCategory[];
+    }[] = [];
+    const map = new Map<number, (typeof groups)[0]>();
+    for (const cat of categories) {
+      const existing = map.get(cat.versionGroupId);
+      if (existing) {
+        existing.categories.push(cat);
+      } else {
+        const group = {
+          vgId: cat.versionGroupId,
+          vgName: cat.versionGroupName,
+          isDlc: cat.isDlc,
+          categories: [cat],
+        };
+        map.set(cat.versionGroupId, group);
+        groups.push(group);
+      }
+    }
+    return groups;
+  }, [categories]);
+
+  const hasDlc = vgGroups.some((g) => g.isDlc);
+
   if (categories.length === 0) {
     return null;
   }
@@ -43,11 +74,26 @@ export const StorySection = ({
       </div>
 
       <div className="flex flex-col gap-4 p-4">
-        {categories.map((category: PlayTrackingCategory, i: number) => {
-          return (
-            <StoryCategoryCard key={i} playId={playId} category={category} />
-          );
-        })}
+        {vgGroups.map((group) => (
+          <div key={group.vgId} className="flex flex-col gap-4">
+            {hasDlc && (
+              <div className="flex items-center gap-2">
+                <Badge variant={group.isDlc ? "secondary" : "outline"}>
+                  {group.isDlc ? group.vgName : "Base Game"}
+                </Badge>
+              </div>
+            )}
+            {group.categories.map(
+              (category: PlayTrackingCategory, i: number) => (
+                <StoryCategoryCard
+                  key={i}
+                  playId={playId}
+                  category={category}
+                />
+              ),
+            )}
+          </div>
+        ))}
       </div>
     </Card>
   );

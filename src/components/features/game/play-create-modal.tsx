@@ -9,6 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  useAvailableDlcs,
+  useUpdatePlayDlcs,
+} from "@/hooks/gameplay/usePlayDlc";
 import { useCreatePlay } from "@/hooks/gameplay/usePlays";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import type { GameWithFullData } from "@/types/game";
@@ -27,6 +31,8 @@ export const PlayCreateModal = ({
 }: PlayCreateModalProps) => {
   const router = useRouter();
   const createPlay = useCreatePlay();
+  const updatePlayDlcs = useUpdatePlayDlcs();
+  const { data: availableDlcs } = useAvailableDlcs(game.versionGroupId);
 
   const handleSubmit = async (data: PlayCreateFormValues) => {
     try {
@@ -41,6 +47,14 @@ export const PlayCreateModal = ({
           error: (err) => err?.message || "Failed to create playthrough",
         },
       );
+
+      // Set DLCs if any selected
+      if (result?.id && data.dlc_version_group_ids?.length) {
+        await updatePlayDlcs.mutateAsync({
+          playId: result.id,
+          versionGroupIds: data.dlc_version_group_ids,
+        });
+      }
 
       setOpen(false);
 
@@ -72,6 +86,7 @@ export const PlayCreateModal = ({
         <PlayFormContent
           mode="create"
           game={game}
+          availableDlcs={availableDlcs}
           isPending={createPlay.isPending}
           onSubmit={handleSubmit}
           onCancel={handleClose}

@@ -32,13 +32,31 @@ export const usePlayTrackingPrefetch = () => {
           return data;
         },
       }),
-    prefetchItems: async (playId: string, categoryId: number) =>
+    prefetchItems: async (
+      playId: string,
+      categoryId: number,
+      versionGroupId?: number,
+    ) =>
       qc.prefetchQuery({
-        queryKey: ["play", playId, "tracking", "category", categoryId, "items"],
+        queryKey: [
+          "play",
+          playId,
+          "tracking",
+          "category",
+          categoryId,
+          "vg",
+          versionGroupId,
+          "items",
+        ],
         queryFn: async () => {
-          const res = await fetch(
+          const url = new URL(
             `/api/gameplay/play/${encodeURIComponent(playId)}/tracking/category/${categoryId}/items`,
+            window.location.origin,
           );
+          if (versionGroupId !== undefined) {
+            url.searchParams.set("versionGroupId", String(versionGroupId));
+          }
+          const res = await fetch(url.toString());
           const data = await res.json();
           if (!res.ok) return false;
           return data;

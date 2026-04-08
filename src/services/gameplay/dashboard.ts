@@ -221,7 +221,9 @@ export const getRecentActivity = async (limit = 10) => {
   const { data: recentTracking } = await supabase
     .schema("views")
     .from("play_tracking_detail")
-    .select("play_id, item_name, category_name, completed_at")
+    .select(
+      "play_id, tracking_item_name, category_name, item_type_slug, completed_at",
+    )
     .in("play_id", playIds)
     .not("completed_at", "is", null)
     .order("completed_at", { ascending: false })
@@ -256,36 +258,46 @@ export const getRecentActivity = async (limit = 10) => {
 
   const activities: ActivityItem[] = [];
 
-  // Add play status activities (created/status updates)
+  // Add play creation activities (always based on created_at)
   for (const play of plays) {
-    const isNew =
-      new Date(play.updated_at).getTime() -
-        new Date(play.created_at).getTime() <
-      60000; // within 1 min = likely just created
-    const message = isNew
-      ? `Started a new ${play.game_name} playthrough`
-      : play.status_slug === "completed"
-        ? `Completed ${play.play_name || play.game_name} playthrough`
-        : play.status_slug === "dropped"
-          ? `Dropped ${play.play_name || play.game_name} playthrough`
-          : play.status_slug === "paused"
-            ? `Paused ${play.play_name || play.game_name} playthrough`
-            : `Updated ${play.play_name || play.game_name} playthrough`;
+    const href = `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`;
 
+    // Always add a "started" activity based on created_at
     activities.push({
-      id: `play-${play.play_id}`,
-      type: isNew
-        ? "play_created"
-        : play.status_slug === "completed"
-          ? "play_completed"
-          : "play_updated",
-      message,
-      activityAt: play.updated_at,
+      id: `play-created-${play.play_id}`,
+      type: "play_created",
+      message: `Started a new ${play.game_name} playthrough`,
+      activityAt: play.created_at,
       play: { id: play.play_id, name: play.play_name },
       game: { slug: play.game_slug, name: play.game_name },
       generation: { id: play.generation_id, slug: play.generation_slug },
-      href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
+      href,
     });
+
+    // Add a status-based activity if play has a terminal status
+    if (
+      play.status_slug === "completed" ||
+      play.status_slug === "dropped" ||
+      play.status_slug === "paused"
+    ) {
+      const statusLabel =
+        play.status_slug === "completed"
+          ? "Completed"
+          : play.status_slug === "dropped"
+            ? "Dropped"
+            : "Paused";
+      activities.push({
+        id: `play-status-${play.play_id}`,
+        type:
+          play.status_slug === "completed" ? "play_completed" : "play_updated",
+        message: `${statusLabel} ${play.play_name || play.game_name} playthrough`,
+        activityAt: play.updated_at,
+        play: { id: play.play_id, name: play.play_name },
+        game: { slug: play.game_slug, name: play.game_name },
+        generation: { id: play.generation_id, slug: play.generation_slug },
+        href,
+      });
+    }
   }
 
   // Add team activities
@@ -305,14 +317,21 @@ export const getRecentActivity = async (limit = 10) => {
     });
   }
 
-  // Add tracking activities
+  // Add tracking activities with type-specific messages
   for (const p of recentTracking || []) {
     const info = playMap.get(p.play_id);
     if (!info) continue;
+
+    const message = getTrackingMessage(
+      p.item_type_slug,
+      p.tracking_item_name,
+      p.category_name,
+    );
+
     activities.push({
-      id: `tracking-${p.play_id}-${p.item_name}-${p.completed_at}`,
+      id: `tracking-${p.play_id}-${p.tracking_item_name}-${p.completed_at}`,
       type: "tracking_completed",
-      message: `Completed "${p.item_name}" (${p.category_name})`,
+      message,
       activityAt: p.completed_at,
       play: { id: p.play_id, name: info.playName },
       game: { slug: info.gameSlug, name: info.gameName },
@@ -329,6 +348,23 @@ export const getRecentActivity = async (limit = 10) => {
 
   return { data: activities.slice(0, limit), error: null };
 };
+
+function getTrackingMessage(
+  itemTypeSlug: string,
+  itemName: string,
+  categoryName: string,
+): string {
+  switch (itemTypeSlug) {
+    case "battle":
+      return `Defeated ${itemName}`;
+    case "decision":
+      return `Chose ${itemName}`;
+    case "checkpoint":
+      return `Reached ${itemName}`;
+    default:
+      return `Completed "${itemName}" (${categoryName})`;
+  }
+}
 
 // =============================================================================
 // GET ADVENTURE OVERVIEW (combo endpoint)

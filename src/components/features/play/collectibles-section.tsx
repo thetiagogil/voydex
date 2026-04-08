@@ -10,12 +10,15 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
 import {
+  useCollectEntriesBulk,
   useCollectEntry,
+  useUncollectEntriesBulk,
   useUncollectEntry,
 } from "@/hooks/gameplay/usePlayCollectibles";
 import { cn } from "@/lib/utils/cn";
@@ -34,7 +37,7 @@ interface CollectibleCardProps {
 const CollectibleCard = ({ collectible, onClick }: CollectibleCardProps) => {
   const percentage =
     collectible.entries.length > 0
-      ? Math.round(
+      ? Math.floor(
           (collectible.collectedCount / collectible.entries.length) * 100,
         )
       : 0;
@@ -103,6 +106,8 @@ const CollectibleDrawer = ({
 }: CollectibleDrawerProps) => {
   const collectEntry = useCollectEntry();
   const uncollectEntry = useUncollectEntry();
+  const collectBulk = useCollectEntriesBulk();
+  const uncollectBulk = useUncollectEntriesBulk();
   const [excludedLocations, setExcludedLocations] = useState<Set<string>>(
     new Set(),
   );
@@ -146,6 +151,22 @@ const CollectibleDrawer = ({
     (loc) => !excludedLocations.has(loc),
   );
 
+  const visibleEntries = useMemo(() => {
+    return visibleLocations.flatMap((loc) => groupedEntries.get(loc) || []);
+  }, [visibleLocations, groupedEntries]);
+
+  const handleBulkCollect = () => {
+    const ids = visibleEntries.map((e) => e.id);
+    if (ids.length > 0)
+      collectBulk.mutate({ playId, collectibleEntryIds: ids });
+  };
+
+  const handleBulkUncollect = () => {
+    const ids = visibleEntries.map((e) => e.id);
+    if (ids.length > 0)
+      uncollectBulk.mutate({ playId, collectibleEntryIds: ids });
+  };
+
   const handleToggle = (entryId: number, collected: boolean) => {
     if (collected) {
       collectEntry.mutate({ playId, collectibleEntryId: entryId });
@@ -159,6 +180,9 @@ const CollectibleDrawer = ({
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{collectible?.name}</SheetTitle>
+          <SheetDescription className="sr-only">
+            Track collected items in {collectible?.name}
+          </SheetDescription>
         </SheetHeader>
 
         <div className="flex flex-col gap-4 overflow-hidden">
@@ -177,6 +201,16 @@ const CollectibleDrawer = ({
               ))}
             </div>
           )}
+
+          {/* Bulk actions */}
+          <div className="flex gap-2 px-4">
+            <Button variant="secondary" size="sm" onClick={handleBulkCollect}>
+              Collect all visible
+            </Button>
+            <Button variant="secondary" size="sm" onClick={handleBulkUncollect}>
+              Uncollect all visible
+            </Button>
+          </div>
 
           {/* Entries grouped by location */}
           <ScrollArea>
@@ -266,13 +300,44 @@ export const CollectiblesSection = ({
   const selectedCollectible =
     items.find((c) => c.id === selectedCollectibleId) ?? null;
 
+  // Group by version group for DLC separation
+  const vgGroups = useMemo(() => {
+    const groups: {
+      vgId: number;
+      vgName: string;
+      isDlc: boolean;
+      collectibles: PlayCollectible[];
+    }[] = [];
+    const map = new Map<number, (typeof groups)[0]>();
+    for (const col of items) {
+      const existing = map.get(col.versionGroupId);
+      if (existing) {
+        existing.collectibles.push(col);
+      } else {
+        const group = {
+          vgId: col.versionGroupId,
+          vgName: col.versionGroupName,
+          isDlc: col.isDlc,
+          collectibles: [col],
+        };
+        map.set(col.versionGroupId, group);
+        groups.push(group);
+      }
+    }
+    return groups;
+  }, [items]);
+
+  const hasDlc = vgGroups.some((g) => g.isDlc);
+
   if (items.length === 0) {
     return null;
   }
 
-  const totalCollected = items.reduce((sum, c) => sum + c.collectedCount, 0);
-  const totalEntries = items.reduce((sum, c) => sum + c.entries.length, 0);
-  const isComplete = totalCollected === totalEntries && totalEntries > 0;
+  const completedSets = items.filter(
+    (c) => c.entries.length > 0 && c.collectedCount === c.entries.length,
+  ).length;
+  const totalSets = items.length;
+  const isComplete = completedSets === totalSets && totalSets > 0;
 
   return (
     <Card className="gap-0 p-0">
@@ -284,20 +349,31 @@ export const CollectiblesSection = ({
             isComplete ? "text-green-600" : "",
           )}
         >
-          {totalCollected}/{totalEntries} collected
+          {completedSets}/{totalSets} completed
         </p>
       </div>
 
       <div className="flex flex-col gap-4 p-4">
-        {items.map((collectible) => (
-          <CollectibleCard
-            key={collectible.id}
-            collectible={collectible}
-            onClick={() => {
-              setSelectedCollectibleId(collectible.id);
-              setDrawerOpen(true);
-            }}
-          />
+        {vgGroups.map((group) => (
+          <div key={group.vgId} className="flex flex-col gap-4">
+            {hasDlc && (
+              <div className="flex items-center gap-2">
+                <Badge variant={group.isDlc ? "secondary" : "outline"}>
+                  {group.isDlc ? group.vgName : "Base Game"}
+                </Badge>
+              </div>
+            )}
+            {group.collectibles.map((collectible) => (
+              <CollectibleCard
+                key={collectible.id}
+                collectible={collectible}
+                onClick={() => {
+                  setSelectedCollectibleId(collectible.id);
+                  setDrawerOpen(true);
+                }}
+              />
+            ))}
+          </div>
         ))}
       </div>
 

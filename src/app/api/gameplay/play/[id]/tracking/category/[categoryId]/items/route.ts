@@ -1,8 +1,8 @@
 import { getPlayTrackingItems } from "@/services/gameplay/play-tracking";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  _req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string; categoryId: string }> },
 ) {
   const { id: playId, categoryId } = await params;
@@ -11,9 +11,13 @@ export async function GET(
     return NextResponse.json({ error: "Invalid category id" }, { status: 400 });
   }
 
+  const vgParam = req.nextUrl.searchParams.get("versionGroupId");
+  const versionGroupId = vgParam ? Number(vgParam) : undefined;
+
   const { data, error } = await getPlayTrackingItems(
     playId,
     Number(categoryId),
+    versionGroupId,
   );
   if (error) {
     return NextResponse.json(

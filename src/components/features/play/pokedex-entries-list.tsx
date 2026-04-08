@@ -31,11 +31,13 @@ type PokedexMode = "caught" | "seen" | "advanced";
 interface PokedexEntriesListProps {
   playId: string;
   pokedexEntries: PlayPokedexEntry[];
+  includeMythicalPokemon: boolean;
 }
 
 export const PokedexEntriesList = ({
   playId,
   pokedexEntries,
+  includeMythicalPokemon,
 }: PokedexEntriesListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [mode, setMode] = useState<PokedexMode>("caught");
@@ -87,24 +89,14 @@ export const PokedexEntriesList = ({
     }
   };
 
-  const handleMarkAllCaught = () => {
-    const entriesToMark = filteredEntries
-      .filter((entry) => !entry.isCaught)
-      .map((entry) => entry.pokedexEntryId);
-
-    if (entriesToMark.length > 0) {
-      markBulk.mutate({ playId, pokedexEntryIds: entriesToMark });
-    }
+  const handleBulkMarkCaught = () => {
+    const ids = filteredEntries.map((e) => e.pokedexEntryId);
+    if (ids.length > 0) markBulk.mutate({ playId, pokedexEntryIds: ids });
   };
 
-  const handleUnmarkAll = () => {
-    const entriesToUnmark = filteredEntries
-      .filter((entry) => entry.isCaught || entry.isSeen)
-      .map((entry) => entry.pokedexEntryId);
-
-    if (entriesToUnmark.length > 0) {
-      unmarkBulk.mutate({ playId, pokedexEntryIds: entriesToUnmark });
-    }
+  const handleBulkUnmark = () => {
+    const ids = filteredEntries.map((e) => e.pokedexEntryId);
+    if (ids.length > 0) unmarkBulk.mutate({ playId, pokedexEntryIds: ids });
   };
 
   const getEntryState = (entry: PlayPokedexEntry) => {
@@ -164,10 +156,10 @@ export const PokedexEntriesList = ({
 
       {/* Bulk actions */}
       <div className="flex gap-2 px-4">
-        <Button variant="secondary" onClick={handleMarkAllCaught}>
+        <Button variant="secondary" size="sm" onClick={handleBulkMarkCaught}>
           Mark all caught
         </Button>
-        <Button variant="secondary" onClick={handleUnmarkAll}>
+        <Button variant="secondary" size="sm" onClick={handleBulkUnmark}>
           Unmark all
         </Button>
       </div>
@@ -194,8 +186,15 @@ export const PokedexEntriesList = ({
               >
                 {/* Number */}
                 <div className="flex w-full items-baseline justify-between">
-                  <span className="text-muted-foreground text-xs font-medium">
+                  <span className="text-muted-foreground flex items-center gap-1 text-xs font-medium">
                     #{entry.pokedexNumber?.toString().padStart(3, "0")}
+                    {!includeMythicalPokemon && entry.species.isMythical && (
+                      <Icon
+                        type="mythical"
+                        size={12}
+                        className="text-purple-400"
+                      />
+                    )}
                   </span>
                   {state === "caught" && (
                     <span className="text-primary text-xs font-medium">

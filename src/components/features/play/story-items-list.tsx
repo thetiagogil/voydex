@@ -99,31 +99,9 @@ export const StoryItemsList = ({
     }
   };
 
-  const handleSelectAll = () => {
-    const nonDecisionItems = filteredItems.filter(
-      (item) => !item.isCompleted && item.itemTypeSlug !== "decision",
-    );
-    if (nonDecisionItems.length > 0) {
-      checkBulk.mutate({
-        playId,
-        trackingItemIds: nonDecisionItems.map((item) => item.id),
-        categoryId,
-      });
-    }
-  };
-
-  const handleUnselectAll = () => {
-    const completedNonDecision = filteredItems.filter(
-      (item) => item.isCompleted && item.itemTypeSlug !== "decision",
-    );
-    if (completedNonDecision.length > 0) {
-      uncheckBulk.mutate({
-        playId,
-        trackingItemIds: completedNonDecision.map((item) => item.id),
-        categoryId,
-      });
-    }
-  };
+  const selectableIds = filteredItems
+    .filter((item) => item.itemTypeSlug !== "decision")
+    .map((item) => item.id);
 
   return (
     <>
@@ -154,11 +132,33 @@ export const StoryItemsList = ({
 
       {/* Bulk actions */}
       <div className="flex gap-2 px-4">
-        <Button variant="secondary" onClick={handleSelectAll}>
-          Select All
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => {
+            if (selectableIds.length > 0)
+              checkBulk.mutate({
+                playId,
+                trackingItemIds: selectableIds,
+                categoryId,
+              });
+          }}
+        >
+          Mark all
         </Button>
-        <Button variant="secondary" onClick={handleUnselectAll}>
-          Unselect All
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => {
+            if (selectableIds.length > 0)
+              uncheckBulk.mutate({
+                playId,
+                trackingItemIds: selectableIds,
+                categoryId,
+              });
+          }}
+        >
+          Unmark all
         </Button>
       </div>
 
@@ -242,7 +242,9 @@ export const StoryItemsList = ({
                 }
                 id={`item-${item.id}`}
                 checked={item.isCompleted || false}
-                onCheckedChange={(checked) => handleToggle(item, checked)}
+                onCheckedChange={(checked) => {
+                  handleToggle(item, checked);
+                }}
                 className="min-h-0"
               >
                 {item.description && (

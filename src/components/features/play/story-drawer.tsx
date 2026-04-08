@@ -6,6 +6,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -27,13 +28,20 @@ export const StoryDrawer = ({
   playId,
   category,
 }: StoryDrawerProps) => {
-  const { data: items, isLoading } = usePlayTrackingItems(playId, category?.id);
+  const { data: items, isLoading } = usePlayTrackingItems(
+    playId,
+    category?.id,
+    category?.versionGroupId,
+  );
 
   return (
     <Sheet open={open} onOpenChange={setOpenSheet}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{category?.name}</SheetTitle>
+          <SheetDescription className="sr-only">
+            Track story progress in {category?.name}
+          </SheetDescription>
         </SheetHeader>
 
         <div className="flex flex-col gap-4 overflow-hidden">

@@ -30,9 +30,8 @@ export const getPlay = async (id: string) => {
       isTerminal: play.status_is_terminal,
     },
     notes: play.notes,
-    includeUniquePokemon: play.include_unique_pokemon,
-    includeRegionalPokedex: play.include_regional_pokedex,
-    includeNationalPokedex: play.include_national_pokedex,
+    includePokedex: play.include_pokedex,
+    includeOtherPokedex: play.include_other_pokedex,
     includeMythicalPokemon: play.include_mythical_pokemon,
     createdAt: play.created_at,
     updatedAt: play.updated_at,
@@ -161,9 +160,8 @@ export const updatePlay = async (
     name?: string;
     status_id?: number;
     notes?: string;
-    include_unique_pokemon?: boolean;
-    include_regional_pokedex?: boolean;
-    include_national_pokedex?: boolean;
+    include_pokedex?: boolean;
+    include_other_pokedex?: boolean;
     include_mythical_pokemon?: boolean;
   },
 ) => {
