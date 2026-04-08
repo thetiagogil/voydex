@@ -50,6 +50,7 @@ export const useCreatePlay = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plays"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -60,9 +61,8 @@ interface UpdatePlayParams {
     name?: string;
     status_id?: number;
     notes?: string;
-    include_unique_pokemon?: boolean;
-    include_regional_dex?: boolean;
-    include_national_dex?: boolean;
+    include_pokedex?: boolean;
+    include_other_pokedex?: boolean;
     include_mythical_pokemon?: boolean;
   };
 }
@@ -87,6 +87,7 @@ export const useUpdatePlay = () => {
     onSuccess: (_, { playId }) => {
       queryClient.invalidateQueries({ queryKey: ["plays"] });
       queryClient.invalidateQueries({ queryKey: ["play", playId] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };
@@ -108,6 +109,7 @@ export const useDeletePlay = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plays"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

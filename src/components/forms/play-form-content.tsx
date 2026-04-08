@@ -8,6 +8,7 @@ import {
 } from "@/components/forms/schemas/play-schemas";
 import { FieldWrapper } from "@/components/shared/field-wrapper";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { STATUS_COLORS } from "@/lib/constants/styles";
+import { cn } from "@/lib/utils/cn";
 import type { GameWithFullData } from "@/types/game";
 import type { PlayStatusInfo } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +28,13 @@ import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Icon } from "../shared/icon";
 
+import type { DlcVersionGroup } from "@/hooks/gameplay/usePlayDlc";
+
 interface PlayFormContentCreateProps {
   mode: "create";
   game: GameWithFullData;
   statuses?: never;
+  availableDlcs?: DlcVersionGroup[];
   initialValues?: Partial<PlayCreateFormValues>;
   isPending: boolean;
   onSubmit: (data: PlayCreateFormValues) => Promise<void>;
@@ -40,6 +45,8 @@ interface PlayFormContentEditProps {
   mode: "edit";
   game: GameWithFullData;
   statuses: PlayStatusInfo[];
+  availableDlcs?: DlcVersionGroup[];
+  completion?: number;
   initialValues: PlayEditFormValues;
   isPending: boolean;
   onSubmit: (data: PlayEditFormValues) => Promise<void>;
@@ -53,12 +60,17 @@ type PlayFormContentProps =
 export const PlayFormContent = (props: PlayFormContentProps) => {
   const { mode, game, isPending, onSubmit, onCancel } = props;
   const isEditMode = mode === "edit";
+  const availableDlcs = props.availableDlcs ?? [];
+  const completion = isEditMode ? (props.completion ?? 0) : 0;
+  const isCompleted = completion === 100;
 
   const {
     register,
     handleSubmit,
     reset,
     control,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<PlayCreateFormValues | PlayEditFormValues>({
     resolver: zodResolver(isEditMode ? playEditSchema : playCreateSchema),
@@ -82,6 +94,14 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
       reset(props.initialValues);
     }
   }, [isEditMode, props.initialValues, reset]);
+
+  // Cascade: when include_pokedex is unchecked, auto-uncheck include_other_pokedex
+  const includePokedex = watch("include_pokedex" as any);
+  useEffect(() => {
+    if (isEditMode && includePokedex === false) {
+      setValue("include_other_pokedex" as any, false);
+    }
+  }, [isEditMode, includePokedex, setValue]);
 
   return (
     <form
@@ -111,6 +131,44 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             )}
           </div>
 
+          {availableDlcs.length > 0 && (
+            <div className="space-y-3">
+              <label className="text-sm font-medium">DLC Content</label>
+              <p className="text-muted-foreground text-xs">
+                Select which DLC expansions to include in this playthrough.
+              </p>
+              <Controller
+                name="dlc_version_group_ids"
+                control={control}
+                render={({ field }) => {
+                  const selected: number[] = field.value ?? [];
+                  return (
+                    <div className="space-y-2">
+                      {availableDlcs.map((dlc) => (
+                        <label
+                          key={dlc.id}
+                          className="flex items-center gap-2 text-sm"
+                        >
+                          <Checkbox
+                            checked={selected.includes(dlc.id)}
+                            onCheckedChange={(checked) => {
+                              const next = checked
+                                ? [...selected, dlc.id]
+                                : selected.filter((id) => id !== dlc.id);
+                              field.onChange(next);
+                            }}
+                            disabled={isPending}
+                          />
+                          {dlc.name}
+                        </label>
+                      ))}
+                    </div>
+                  );
+                }}
+              />
+            </div>
+          )}
+
           {isEditMode && props.statuses && (
             <FieldWrapper
               id="status"
@@ -124,23 +182,29 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                   <Select
                     value={field.value}
                     onValueChange={field.onChange}
-                    disabled={isPending}
+                    disabled={isPending || isCompleted}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      {props.statuses.map((status) => (
-                        <SelectItem key={status.id} value={status.slug}>
-                          <span className="flex items-center gap-2">
-                            <Icon
-                              type={status.slug}
-                              className={STATUS_COLORS[status.slug]?.icon}
-                            />
-                            {status.name}
-                          </span>
-                        </SelectItem>
-                      ))}
+                      {props.statuses.map((status) => {
+                        const isCompleted =
+                          status.slug === "completed" && completion < 100;
+                        return (
+                          !isCompleted && (
+                            <SelectItem key={status.id} value={status.slug}>
+                              <span className="flex items-center gap-2">
+                                <Icon
+                                  type={status.slug}
+                                  className={STATUS_COLORS[status.slug]?.icon}
+                                />
+                                {status.name}
+                              </span>
+                            </SelectItem>
+                          )
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 )}
@@ -161,6 +225,67 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                 {...register("notes")}
               />
             </FieldWrapper>
+          )}
+
+          {isEditMode && (
+            <div className="space-y-3">
+              <label className="text-sm font-medium">
+                Pokédex Completion Settings
+              </label>
+              <p className="text-muted-foreground text-xs">
+                Toggle which pokédex types count toward play completion. All
+                dexes remain visible regardless.
+              </p>
+              <div className="space-y-2">
+                <Controller
+                  name="include_pokedex"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Include Regional Pokédex in completion
+                    </label>
+                  )}
+                />
+                <Controller
+                  name="include_other_pokedex"
+                  control={control}
+                  render={({ field }) => (
+                    <label
+                      className={cn(
+                        "flex items-center gap-2 text-sm",
+                        !includePokedex && "text-muted-foreground opacity-50",
+                      )}
+                    >
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending || !includePokedex}
+                      />
+                      Include Other Pokédex (National, Special) in completion
+                    </label>
+                  )}
+                />
+                <Controller
+                  name="include_mythical_pokemon"
+                  control={control}
+                  render={({ field }) => (
+                    <label className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        disabled={isPending}
+                      />
+                      Include Mythical Pokémon in completion
+                    </label>
+                  )}
+                />
+              </div>
+            </div>
           )}
         </FieldGroup>
       </FieldSet>

@@ -43,6 +43,14 @@ export const ACTIVITY_COLORS = {
     icon: "text-orange-500",
     bg: "bg-orange-500/10",
   },
+  play: {
+    icon: "text-blue-500",
+    bg: "bg-blue-500/10",
+  },
+  completed: {
+    icon: "text-green-500",
+    bg: "bg-green-500/10",
+  },
 } as const;
 
 export type StatusType = keyof typeof STATUS_COLORS;

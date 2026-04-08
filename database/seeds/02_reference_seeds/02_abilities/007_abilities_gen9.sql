@@ -1,0 +1,56 @@
+-- ============================================================================
+-- Source
+-- ============================================================================
+-- Primary: Bulbapedia
+-- ============================================================================
+-- File Scope
+-- ============================================================================
+-- Generation: 9
+-- Table: reference.abilities
+-- Scope: base generation seed (IDs 268–310, includes DLC)
+INSERT INTO
+    reference.abilities (id, slug, name, external_id, introduced_generation_id, effect)
+VALUES
+    (268, 'lingering-aroma', 'Lingering Aroma', 268, 9, NULL),
+    (269, 'seed-sower', 'Seed Sower', 269, 9, NULL),
+    (270, 'thermal-exchange', 'Thermal Exchange', 270, 9, NULL),
+    (271, 'anger-shell', 'Anger Shell', 271, 9, NULL),
+    (272, 'purifying-salt', 'Purifying Salt', 272, 9, NULL),
+    (273, 'well-baked-body', 'Well-Baked Body', 273, 9, NULL),
+    (274, 'wind-rider', 'Wind Rider', 274, 9, NULL),
+    (275, 'guard-dog', 'Guard Dog', 275, 9, NULL),
+    (276, 'rocky-payload', 'Rocky Payload', 276, 9, NULL),
+    (277, 'wind-power', 'Wind Power', 277, 9, NULL),
+    (278, 'zero-to-hero', 'Zero to Hero', 278, 9, NULL),
+    (279, 'commander', 'Commander', 279, 9, NULL),
+    (280, 'electromorphosis', 'Electromorphosis', 280, 9, NULL),
+    (281, 'protosynthesis', 'Protosynthesis', 281, 9, NULL),
+    (282, 'quark-drive', 'Quark Drive', 282, 9, NULL),
+    (283, 'good-as-gold', 'Good as Gold', 283, 9, NULL),
+    (284, 'vessel-of-ruin', 'Vessel of Ruin', 284, 9, NULL),
+    (285, 'sword-of-ruin', 'Sword of Ruin', 285, 9, NULL),
+    (286, 'tablets-of-ruin', 'Tablets of Ruin', 286, 9, NULL),
+    (287, 'beads-of-ruin', 'Beads of Ruin', 287, 9, NULL),
+    (288, 'orichalcum-pulse', 'Orichalcum Pulse', 288, 9, NULL),
+    (289, 'hadron-engine', 'Hadron Engine', 289, 9, NULL),
+    (290, 'opportunist', 'Opportunist', 290, 9, NULL),
+    (291, 'cud-chew', 'Cud Chew', 291, 9, NULL),
+    (292, 'sharpness', 'Sharpness', 292, 9, NULL),
+    (293, 'supreme-overlord', 'Supreme Overlord', 293, 9, NULL),
+    (294, 'costar', 'Costar', 294, 9, NULL),
+    (295, 'toxic-debris', 'Toxic Debris', 295, 9, NULL),
+    (296, 'armor-tail', 'Armor Tail', 296, 9, NULL),
+    (297, 'earth-eater', 'Earth Eater', 297, 9, NULL),
+    (298, 'mycelium-might', 'Mycelium Might', 298, 9, NULL),
+    (299, 'hospitality', 'Hospitality', 299, 9, NULL),
+    (300, 'minds-eye', 'Mind''s Eye', 300, 9, NULL),
+    (301, 'embody-aspect-teal-mask', 'Embody Aspect (Teal Mask)', 301, 9, NULL),
+    (302, 'embody-aspect-wellspring-mask', 'Embody Aspect (Wellspring Mask)', 302, 9, NULL),
+    (303, 'embody-aspect-hearthflame-mask', 'Embody Aspect (Hearthflame Mask)', 303, 9, NULL),
+    (304, 'embody-aspect-cornerstone-mask', 'Embody Aspect (Cornerstone Mask)', 304, 9, NULL),
+    (305, 'toxic-chain', 'Toxic Chain', 305, 9, NULL),
+    (306, 'supersweet-syrup', 'Supersweet Syrup', 306, 9, NULL),
+    (307, 'tera-shift', 'Tera Shift', 307, 9, NULL),
+    (308, 'tera-shell', 'Tera Shell', 308, 9, NULL),
+    (309, 'teraform-zero', 'Teraform Zero', 309, 9, NULL),
+    (310, 'poison-puppeteer', 'Poison Puppeteer', 310, 9, NULL);

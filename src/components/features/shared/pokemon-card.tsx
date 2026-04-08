@@ -5,6 +5,7 @@ import { TypeDisplay } from "@/components/shared/type-display";
 import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card";
 import { TYPE_COLORS, type PokemonTypeKey } from "@/lib/constants/type-styles";
 import { cn } from "@/lib/utils/cn";
+import { getPokemonSpriteUrl } from "@/lib/utils/common";
 import type { CollectionPokemon } from "@/types/collection";
 import type { PlayPokemon } from "@/types/play";
 import Image from "next/image";
@@ -27,7 +28,8 @@ export const PokemonCard = ({
   hasCardHover,
 }: PokemonCardProps) => {
   const displayName = pokemon.nickname || pokemon.species?.name || "Unknown";
-  const spriteUrl = pokemon.form?.spriteUrl;
+  const spriteUrl =
+    getPokemonSpriteUrl(pokemon.isShiny, pokemon.form?.slug || "unknown") || "";
 
   const primaryType = pokemon.types[0]?.name?.toLowerCase() as PokemonTypeKey;
   const typeColors = TYPE_COLORS[primaryType] || TYPE_COLORS.normal;

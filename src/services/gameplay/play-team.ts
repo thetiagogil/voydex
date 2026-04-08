@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET PLAY TEAM
+// GET PLAY TEAM (from views.play_team_detail)
 // =============================================================================
 
 export const getPlayTeam = async (playId: string) => {
@@ -11,7 +11,7 @@ export const getPlayTeam = async (playId: string) => {
 
   const { data, error } = await supabase
     .schema("views")
-    .from("play_team_pokemon")
+    .from("play_team_detail")
     .select("*")
     .eq("play_id", playId)
     .order("position", { ascending: true });
@@ -36,7 +36,7 @@ export const getPlayTeam = async (playId: string) => {
       id: row.form_id,
       slug: row.form_slug,
       name: row.form_name,
-      spriteUrl: row.sprite_url,
+      pokemonDbSpriteSlug: row.pokemondb_sprite_slug,
     },
     types: [
       row.type1_id && {

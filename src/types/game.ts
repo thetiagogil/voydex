@@ -15,72 +15,49 @@ export interface Game {
   id: number;
   slug: string;
   name: string;
-  type: GameType | null;
-  typeId: number;
-  generationId: number;
-  regionId: number;
+  type: GameType | string | null;
   versionGroupId: number;
-  regionalDexCount: number;
-  nationalDexCount: number;
   releaseYear: number;
-  createdAt: string;
   coverUrl: string | null;
   generation: BaseInfo;
   region: BaseInfo;
 }
 
 // =============================================================================
-// GAME WITH PLAYS (from getGame service)
+// GAME PLAY SUMMARY (from play_summary view)
 // =============================================================================
-
-export interface GameWithPlays extends Game {
-  plays: GamePlaySummary[];
-  stats: {
-    totalPlaythroughs: number;
-    activePlaythroughs: number;
-    completedPlaythroughs: number;
-    totalPokemonCaught: number;
-  };
-}
 
 export interface GamePlaySummary {
   id: string;
   name: string;
-  status: PlayStatus;
+  status: {
+    slug: PlayStatus;
+    name: string;
+    isTerminal: boolean;
+    description: string;
+  };
   createdAt: string;
   updatedAt: string;
-  teamSize: number;
-  highestLevel: number;
-  pokemonCaughtCount: number;
-  completedProgressItems: number;
-  totalProgressItems: number;
-  regionalDexCount: number;
-  pokemonTeam: {
-    id: string;
-    nickname: string | null;
-    level: number;
-    speciesId: number;
-    species: BaseInfo | null;
-    spriteUrl: string | null;
-  }[];
-  game: Game;
+  game?: {
+    id: number;
+    slug: string;
+    name: string;
+    type: string;
+    versionGroupId: number;
+    generation: BaseInfo;
+    region: BaseInfo;
+  };
 }
 
 // =============================================================================
-// GAME WITH FULL DATA (for game page)
+// GAME WITH FULL DATA (from reference/game service — includes plays + user stats)
 // =============================================================================
 
 export interface GameWithFullData extends Game {
-  type: GameType;
   plays: GamePlaySummary[];
-  staticStats: {
-    progressCategoryCount: number;
-    progressItemCount: number;
-  };
   userStats: {
     totalPlaythroughs: number;
     activePlaythroughs: number;
     completedPlaythroughs: number;
-    totalPokemonCaught: number;
   };
 }

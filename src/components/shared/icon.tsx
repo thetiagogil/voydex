@@ -12,6 +12,7 @@ import {
   Clock,
   Compass,
   Edit2,
+  EyeOff,
   Gamepad2,
   Info,
   Layers,
@@ -28,6 +29,7 @@ import {
   Search,
   Settings,
   Shield,
+  Sparkle,
   Sparkles,
   Star,
   Swords,
@@ -62,6 +64,8 @@ const ICON_MAP = {
   move: Swords,
   shiny: Sparkles,
   level: ArrowUp,
+  mythical: Sparkle,
+  excluded: EyeOff,
 
   // Entities
   user: User,
@@ -87,6 +91,11 @@ const ICON_MAP = {
   legendary: Pokeball,
   eliteFour: Trophy,
   champion: Trophy,
+
+  // Story item types
+  battle: Swords,
+  checkpoint: ClipboardCheck,
+  decision: Compass,
 
   // Actions
   login: LogIn,

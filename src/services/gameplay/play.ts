@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET PLAY DETAILS
+// GET PLAY DETAILS (from views.play_summary)
 // =============================================================================
 
 export const getPlay = async (id: string) => {
@@ -11,7 +11,7 @@ export const getPlay = async (id: string) => {
 
   const { data: play, error } = await supabase
     .schema("views")
-    .from("play_details")
+    .from("play_summary")
     .select("*")
     .eq("play_id", id)
     .maybeSingle();
@@ -23,11 +23,15 @@ export const getPlay = async (id: string) => {
     id: play.play_id,
     userId: play.user_id,
     name: play.play_name,
-    status: play.status,
+    status: {
+      id: play.status_id,
+      slug: play.status_slug,
+      name: play.status_name,
+      isTerminal: play.status_is_terminal,
+    },
     notes: play.notes,
-    includeUniquePokemon: play.include_unique_pokemon,
-    includeRegionalDex: play.include_regional_dex,
-    includeNationalDex: play.include_national_dex,
+    includePokedex: play.include_pokedex,
+    includeOtherPokedex: play.include_other_pokedex,
     includeMythicalPokemon: play.include_mythical_pokemon,
     createdAt: play.created_at,
     updatedAt: play.updated_at,
@@ -35,9 +39,7 @@ export const getPlay = async (id: string) => {
       id: play.game_id,
       slug: play.game_slug,
       name: play.game_name,
-      type: play.game_type,
-      regionalDexCount: play.regional_dex_count,
-      nationalDexCount: play.national_dex_count,
+      type: play.game_type_slug,
       versionGroupId: play.version_group_id,
       generation: {
         id: play.generation_id,
@@ -73,28 +75,48 @@ export const getPlay = async (id: string) => {
 };
 
 // =============================================================================
-// GET PLAY STATS
+// GET PLAY STATS (direct queries against actual tables)
 // =============================================================================
 
 export const getPlayStats = async (playId: string) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .schema("views")
-    .from("play_stats")
-    .select("*")
-    .eq("play_id", playId)
-    .maybeSingle();
+  // Team stats
+  const { data: teamData } = await supabase
+    .schema("gameplay")
+    .from("pokemon_team")
+    .select("level, is_shiny")
+    .eq("play_id", playId);
 
-  if (error) return { data: null, error };
+  // Pokédex stats
+  const { data: dexData } = await supabase
+    .schema("gameplay")
+    .from("play_pokedex_entries")
+    .select("is_caught")
+    .eq("play_id", playId)
+    .eq("is_caught", true);
+
+  // Tracking stats
+  const { data: trackingData } = await supabase
+    .schema("gameplay")
+    .from("play_tracking_items")
+    .select("tracking_item_id")
+    .eq("play_id", playId);
+
+  const teamSize = teamData?.length ?? 0;
+  const highestLevel =
+    teamData && teamData.length > 0
+      ? Math.max(...teamData.map((t) => t.level))
+      : 0;
+  const shinyCount = teamData?.filter((t) => t.is_shiny).length ?? 0;
 
   return {
     data: {
-      teamSize: data?.team_size ?? 0,
-      highestLevel: data?.highest_level ?? 0,
-      shinyCount: data?.shiny_count ?? 0,
-      pokemonCaughtCount: data?.pokemon_caught_count ?? 0,
-      completedProgressItems: data?.completed_progress_items ?? 0,
+      teamSize,
+      highestLevel,
+      shinyCount,
+      pokedexCaughtCount: dexData?.length ?? 0,
+      completedTrackingItems: trackingData?.length ?? 0,
     },
     error: null,
   };
@@ -138,9 +160,8 @@ export const updatePlay = async (
     name?: string;
     status_id?: number;
     notes?: string;
-    include_unique_pokemon?: boolean;
-    include_regional_dex?: boolean;
-    include_national_dex?: boolean;
+    include_pokedex?: boolean;
+    include_other_pokedex?: boolean;
     include_mythical_pokemon?: boolean;
   },
 ) => {
@@ -193,7 +214,7 @@ export const getPlayStatuses = async () => {
 };
 
 // =============================================================================
-// GET ALL USER PLAYS
+// GET ALL USER PLAYS (from views.play_summary)
 // =============================================================================
 
 export const getAllUserPlays = async () => {
@@ -206,7 +227,7 @@ export const getAllUserPlays = async () => {
 
   const { data, error } = await supabase
     .schema("views")
-    .from("all_user_plays")
+    .from("play_summary")
     .select("*")
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false });
@@ -217,16 +238,19 @@ export const getAllUserPlays = async () => {
   const result = data.map((play) => ({
     id: play.play_id,
     name: play.play_name,
-    status: play.status,
+    status: {
+      slug: play.status_slug,
+      name: play.status_name,
+      isTerminal: play.status_is_terminal,
+    },
     createdAt: play.created_at,
     updatedAt: play.updated_at,
     game: {
       id: play.game_id,
       slug: play.game_slug,
       name: play.game_name,
-      type: play.game_type,
-      regionalDexCount: play.regional_dex_count,
-      nationalDexCount: play.national_dex_count,
+      type: play.game_type_slug,
+      versionGroupId: play.version_group_id,
       generation: {
         id: play.generation_id,
         slug: play.generation_slug,
@@ -238,26 +262,6 @@ export const getAllUserPlays = async () => {
         name: play.region_name,
       },
     },
-    teamSize: play.team_size,
-    highestLevel: play.highest_level,
-    pokemonCaughtCount: play.pokemon_caught_count,
-    completedProgressItems: play.completed_progress_items,
-    totalProgressItems: play.total_progress_items,
-    regionalDexCount: play.regional_dex_count,
-    pokemonTeam: (play.pokemon_team || []).map((pokemon: any) => ({
-      id: pokemon.id,
-      nickname: pokemon.nickname,
-      level: pokemon.level,
-      speciesId: pokemon.species_id,
-      species: pokemon.species
-        ? {
-            id: pokemon.species.id,
-            slug: pokemon.species.slug,
-            name: pokemon.species.name,
-          }
-        : null,
-      spriteUrl: pokemon.sprite_url,
-    })),
   }));
 
   return { data: result, error: null };

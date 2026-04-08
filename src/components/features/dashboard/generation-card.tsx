@@ -35,21 +35,11 @@ export const GenerationCard = ({ generation }: GenerationCardsProps) => {
                     {generation.name}
                   </h3>
                   <QuickInfo
-                    icon={<Icon type="pokemon" size={12} />}
-                    value={generation.totalPokemonCount}
-                    title="Total pokémon"
-                  />
-                  <QuickInfo
                     icon={<Icon type="game" size={12} />}
                     value={generation.gameCount}
                     title="Total games"
                   />
                 </div>
-
-                <p className="text-muted-foreground text-sm font-medium">
-                  {generation.startYear}
-                  {generation.endYear ? ` - ${generation.endYear}` : "+"}
-                </p>
               </div>
 
               <div className="flex items-start">

@@ -2,11 +2,18 @@
 
 import { Combobox } from "@/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import type { BaseInfo } from "@/types/common";
 import type { FieldError } from "react-hook-form";
 
+interface MoveOption {
+  id: number;
+  slug: string;
+  name: string;
+  learnMethod?: string;
+  levelLearnedAt?: number | null;
+}
+
 interface MoveFieldProps {
-  moves: BaseInfo[];
+  moves: MoveOption[];
   value?: number;
   onChange: (value: number | undefined) => void;
   label: string;
@@ -37,7 +44,9 @@ export function MoveField({
         options={options}
         value={value?.toString() || ""}
         onValueChange={(val) => onChange(val ? Number(val) : undefined)}
-        placeholder="Select move..."
+        placeholder={
+          moves.length === 0 ? "Select a Pokémon first..." : "Select move..."
+        }
         searchPlaceholder="Search moves..."
         disabled={disabled}
         aria-invalid={!!error}

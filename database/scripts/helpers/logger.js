@@ -1,10 +1,8 @@
 /**
- * Logger Utility
- *
- * Consistent, professional logging across all database scripts
+ * Logger — consistent colored output for all database scripts.
  */
 
-const COLORS = {
+const C = {
   RESET: "\x1b[0m",
   BRIGHT: "\x1b[1m",
   DIM: "\x1b[2m",
@@ -15,138 +13,86 @@ const COLORS = {
   CYAN: "\x1b[36m",
 };
 
-/**
- * Main logger object with consistent formatting
- */
 export const logger = {
-  /**
-   * Print major section header
-   */
   header: (title, emoji = "🚀") => {
     console.log("\n" + "=".repeat(60));
-    console.log(`${emoji}  ${COLORS.BRIGHT}${title}${COLORS.RESET}`);
+    console.log(`${emoji}  ${C.BRIGHT}${title}${C.RESET}`);
     console.log("=".repeat(60) + "\n");
   },
 
-  /**
-   * Print subsection header
-   */
   section: (title, emoji = "📋") => {
     console.log("\n" + "-".repeat(60));
     console.log(`${emoji}  ${title}`);
     console.log("-".repeat(60) + "\n");
   },
 
-  /**
-   * Print bulleted list
-   */
-  list: (items, options = {}) => {
-    if (!items || items.length === 0) return;
-    const { bullet = "•", indent = 2 } = options;
-    const prefix = " ".repeat(indent);
-    items.forEach((item) => console.log(`${prefix}${bullet} ${item}`));
+  list: (items, { bullet = "•", indent = 2 } = {}) => {
+    if (!items?.length) return;
+    const pad = " ".repeat(indent);
+    items.forEach((item) => console.log(`${pad}${bullet} ${item}`));
   },
 
-  /**
-   * Print key-value pairs
-   */
-  keyValue: (pairs, options = {}) => {
-    if (!pairs || Object.keys(pairs).length === 0) return;
-    const { indent = 2, separator = ": " } = options;
-    const prefix = " ".repeat(indent);
-    Object.entries(pairs).forEach(([key, value]) => {
+  keyValue: (keyOrPairs, valueOrOptions, maybeOptions) => {
+    const pad = "  ";
+    const sep = ": ";
+
+    // Single key-value: keyValue("key", "value")
+    if (
+      typeof keyOrPairs === "string" &&
+      valueOrOptions !== undefined &&
+      (typeof valueOrOptions !== "object" ||
+        valueOrOptions === null ||
+        maybeOptions !== undefined)
+    ) {
       console.log(
-        `${prefix}${COLORS.CYAN}${key}${COLORS.RESET}${separator}${value}`,
+        `${pad}${C.CYAN}${keyOrPairs}${C.RESET}${sep}${valueOrOptions}`,
       );
+      return;
+    }
+
+    // Object of pairs: keyValue({ key1: val1, key2: val2 })
+    const pairs = keyOrPairs;
+    if (!pairs || typeof pairs !== "object" || Object.keys(pairs).length === 0)
+      return;
+    Object.entries(pairs).forEach(([k, v]) => {
+      console.log(`${pad}${C.CYAN}${k}${C.RESET}${sep}${v}`);
     });
   },
 
-  /**
-   * Print SQL block (with syntax highlighting hint)
-   */
   sqlBlock: (sql) => {
-    console.log(`\n${COLORS.DIM}-- SQL Statement --${COLORS.RESET}\n`);
-    console.log(COLORS.BLUE + sql + COLORS.RESET);
-    console.log(`\n${COLORS.DIM}-- End SQL --${COLORS.RESET}\n`);
+    console.log(`\n${C.DIM}-- SQL --${C.RESET}\n${C.BLUE}${sql}${C.RESET}\n`);
   },
 
-  /**
-   * Print success message
-   */
-  success: (msg) => {
-    console.log(`${COLORS.GREEN}✅ ${msg}${COLORS.RESET}`);
-  },
+  success: (msg) => console.log(`${C.GREEN}✅ ${msg}${C.RESET}`),
+  failure: (msg) => console.error(`${C.RED}❌ ${msg}${C.RESET}`),
+  warning: (msg) => console.log(`${C.YELLOW}⚠️  ${msg}${C.RESET}`),
+  info: (msg) => console.log(`${C.CYAN}ℹ️  ${msg}${C.RESET}`),
 
-  /**
-   * Print failure/error message
-   */
-  failure: (msg) => {
-    console.error(`${COLORS.RED}❌ ${msg}${COLORS.RESET}`);
-  },
-
-  /**
-   * Print warning message
-   */
-  warning: (msg) => {
-    console.log(`${COLORS.YELLOW}⚠️  ${msg}${COLORS.RESET}`);
-  },
-
-  /**
-   * Print info message
-   */
-  info: (msg) => {
-    console.log(`${COLORS.CYAN}ℹ️  ${msg}${COLORS.RESET}`);
-  },
-
-  /**
-   * Print progress indicator
-   */
   progress: (current, total, item = "") => {
-    const percentage = Math.round((current / total) * 100);
-    const bar =
-      "█".repeat(Math.floor(percentage / 5)) +
-      "░".repeat(20 - Math.floor(percentage / 5));
-    const status = item ? ` ${item}` : "";
-    console.log(`  [${bar}] ${percentage}% (${current}/${total})${status}`);
+    const pct = Math.round((current / total) * 100);
+    const filled = Math.floor(pct / 5);
+    const bar = "█".repeat(filled) + "░".repeat(20 - filled);
+    console.log(
+      `  [${bar}] ${pct}% (${current}/${total})${item ? ` ${item}` : ""}`,
+    );
   },
 
-  /**
-   * Print blank line(s)
-   */
-  blank: (lines = 1) => {
-    for (let i = 0; i < lines; i++) console.log("");
+  blank: (n = 1) => {
+    for (let i = 0; i < n; i++) console.log("");
   },
+  separator: (char = "-", width = 60) => console.log(char.repeat(width)),
 
-  /**
-   * Print separator line
-   */
-  separator: (char = "-", width = 60) => {
-    console.log(char.repeat(width));
-  },
-
-  /**
-   * Print with timestamp
-   */
   timestamped: (msg, emoji = "🕐") => {
-    const timestamp = new Date().toISOString().replace("T", " ").split(".")[0];
-    console.log(`${emoji} [${COLORS.DIM}${timestamp}${COLORS.RESET}] ${msg}`);
+    const ts = new Date().toISOString().replace("T", " ").split(".")[0];
+    console.log(`${emoji} [${C.DIM}${ts}${C.RESET}] ${msg}`);
   },
 
-  /**
-   * Print with duration
-   */
-  withDuration: (msg, durationMs, emoji = "⏱️") => {
-    const duration =
-      durationMs < 1000
-        ? `${durationMs}ms`
-        : `${(durationMs / 1000).toFixed(2)}s`;
-    console.log(`${emoji} ${msg} ${COLORS.DIM}(${duration})${COLORS.RESET}`);
+  withDuration: (msg, ms, emoji = "⏱️") => {
+    const dur = ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(2)}s`;
+    console.log(`${emoji} ${msg} ${C.DIM}(${dur})${C.RESET}`);
   },
 };
 
-/**
- * Create a progress reporter function
- */
 export function createProgressReporter(total) {
   let current = 0;
   return {
@@ -154,25 +100,20 @@ export function createProgressReporter(total) {
       current++;
       logger.progress(current, total, item);
     },
-    complete: () => {
-      logger.success(`Completed ${total} items`);
-    },
+    complete: () => logger.success(`Completed ${total} items`),
   };
 }
 
-/**
- * Wrapper for timing operations
- */
 export async function withTiming(operation, label) {
   const start = Date.now();
   try {
     const result = await operation();
     const duration = Date.now() - start;
     logger.withDuration(label, duration, "✅");
-    return { success: true, result, duration };
+    return result;
   } catch (err) {
     const duration = Date.now() - start;
     logger.withDuration(`${label} (failed)`, duration, "❌");
-    return { success: false, error: err, duration };
+    throw err;
   }
 }

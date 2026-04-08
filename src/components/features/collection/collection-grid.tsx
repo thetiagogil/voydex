@@ -12,7 +12,7 @@ export const CollectionGrid = ({ pokemon }: CollectionGridProps) => {
         <PokemonCard
           key={p.id}
           pokemon={p}
-          href={`/dashboard/gen/${p.game.generation.id}/game/${p.game.slug}/play/${p.playId}`}
+          href={`/dashboard/gen/${p.game?.generation.id}/game/${p.game?.slug}/play/${p.playId}`}
         />
       ))}
     </div>

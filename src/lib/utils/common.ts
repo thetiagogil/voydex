@@ -1,6 +1,6 @@
-import type { Play } from "@/types/play";
+import type { PlayStatus } from "@/types/play";
 
-export const getStatusColor = (status: Play["status"]) => {
+export const getStatusColor = (status: PlayStatus) => {
   switch (status) {
     case "active":
       return "bg-green-500/20 text-green-500";
@@ -24,4 +24,12 @@ export const formatTime = (dateString: string): string => {
   if (diffInSeconds < 604800)
     return `${Math.floor(diffInSeconds / 86400)}d ago`;
   return date.toLocaleDateString();
+};
+
+export const getPokemonSpriteUrl = (
+  isShiny: boolean,
+  speciesSlug: string,
+): string => {
+  const SPRITE_BASE_URL = "https://img.pokemondb.net/sprites/home/";
+  return `${SPRITE_BASE_URL}${isShiny ? "shiny" : "normal"}/${speciesSlug}.png`;
 };

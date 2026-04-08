@@ -7,7 +7,7 @@ import type { BaseInfo } from "@/types/common";
 interface PokemonForm extends BaseInfo {
   speciesId: number;
   isDefault: boolean;
-  spriteUrl: string | null;
+  pokemonDbSpriteSlug: string | null;
 }
 
 interface FormFieldProps {

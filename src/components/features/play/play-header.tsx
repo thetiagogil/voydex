@@ -5,11 +5,17 @@ import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import type { Play } from "@/types/play";
 import { useState } from "react";
 import { PlayEditModal } from "./play-edit-modal";
 
-export const PlayHeader = ({ play }: { play: Play }) => {
+interface PlayHeaderProps {
+  play: Play;
+  completion?: number;
+}
+
+export const PlayHeader = ({ play, completion = 0 }: PlayHeaderProps) => {
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -21,32 +27,51 @@ export const PlayHeader = ({ play }: { play: Play }) => {
           </div>
         }
         title={play.name}
-        badge={<StatusInfo status={play.status} value={play.status} isBadge />}
+        badge={
+          <StatusInfo
+            status={play.status.slug}
+            value={play.status.name}
+            isBadge
+          />
+        }
         actions={
           <Button variant="outline" onClick={() => setEditOpen(true)}>
-            <Icon type="settings" />
-            Settings
+            <Icon type="edit" />
+            Edit
           </Button>
         }
         metadata={
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <QuickInfo
-              icon={<Icon type="game" />}
-              value={play.game.name}
-              title="Current play game"
-              variant="primary"
-            />
-            <span>•</span>
-            <QuickInfo
-              icon={<Icon type="calendar" />}
-              value={`Started on ${new Date(play.createdAt).toLocaleDateString()}`}
-              title="Start date of the play"
-            />
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <QuickInfo
+                icon={<Icon type="game" />}
+                value={play.game.name}
+                title="Current play game"
+                variant="primary"
+              />
+              <span>•</span>
+              <QuickInfo
+                icon={<Icon type="calendar" />}
+                value={`Started on ${new Date(play.createdAt).toLocaleDateString()}`}
+                title="Start date of the play"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <Progress value={completion} className="h-2 flex-1" />
+              <span className="text-muted-foreground text-xs font-medium">
+                {completion}%
+              </span>
+            </div>
           </div>
         }
       />
 
-      <PlayEditModal play={play} open={editOpen} setOpen={setEditOpen} />
+      <PlayEditModal
+        play={play}
+        completion={completion}
+        open={editOpen}
+        setOpen={setEditOpen}
+      />
     </>
   );
 };

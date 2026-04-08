@@ -4,7 +4,6 @@ import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatTime } from "@/lib/utils/common";
 import type { GamePlaySummary } from "@/types/game";
-import Image from "next/image";
 import Link from "next/link";
 
 interface PlayCardProps {
@@ -33,7 +32,7 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                     >
                       {play.name}
                     </h3>
-                    <StatusInfo status={play.status} />
+                    <StatusInfo status={play.status.slug} />
                   </div>
                   <div className="text-muted-foreground">
                     <QuickInfo
@@ -43,44 +42,9 @@ export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
                     />
                   </div>
                 </div>
-                <Icon
-                  type="rightArrow"
-                  className="group-hover:text-primary md:hidden"
-                />
+                <Icon type="rightArrow" className="group-hover:text-primary" />
               </div>
             </div>
-
-            <div className="flex items-center gap-2">
-              {play?.pokemonTeam?.map((pokemon) => {
-                return (
-                  <div
-                    key={pokemon.id}
-                    className="bg-muted border-border flex h-12 w-12 items-center justify-center rounded-lg border"
-                  >
-                    <Image
-                      src={pokemon.spriteUrl!}
-                      alt={pokemon.species?.name || "Pokemon Sprite"}
-                      height={32}
-                      width={32}
-                      title={pokemon.species?.name || "Unknown Species"}
-                    />
-                  </div>
-                );
-              })}
-              {Array.from({ length: 6 - (play?.pokemonTeam?.length || 0) }).map(
-                (_, i) => (
-                  <div
-                    key={`empty-${i}`}
-                    className="bg-muted/20 border-border flex h-12 w-12 items-center justify-center rounded-lg border border-dashed"
-                  />
-                ),
-              )}
-            </div>
-
-            <Icon
-              type="rightArrow"
-              className="group-hover:text-primary hidden md:inline-block"
-            />
           </div>
         </CardContent>
       </Card>

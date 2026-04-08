@@ -6,6 +6,7 @@ export const playCreateSchema = z.object({
     .max(50, "Name cannot exceed 50 characters")
     .optional()
     .or(z.literal("")),
+  dlc_version_group_ids: z.array(z.number()).optional(),
 });
 
 export const playEditSchema = z.object({
@@ -20,6 +21,10 @@ export const playEditSchema = z.object({
     .optional()
     .or(z.literal("")),
   status_slug: z.string().min(1, "Status is required"),
+  include_pokedex: z.boolean(),
+  include_other_pokedex: z.boolean(),
+  include_mythical_pokemon: z.boolean(),
+  dlc_version_group_ids: z.array(z.number()).optional(),
 });
 
 export type PlayCreateFormValues = z.infer<typeof playCreateSchema>;

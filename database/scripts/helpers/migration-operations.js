@@ -1,8 +1,5 @@
 /**
- * Migration Operations Helper
- *
- * Centralized logic for running database migrations.
- * Handles folder structure, ordering, and execution.
+ * Migration operations — folder discovery, ordering, execution.
  */
 
 import fs from "fs";
@@ -11,151 +8,113 @@ import {
   MIGRATION_FOLDERS,
   MIGRATION_FOLDER_INFO,
 } from "../config/database.config.js";
-import { listSqlFiles, runSqlFile } from "./sql-runner.js";
+import { executeSqlFile, listSqlFiles } from "./sql-runner.js";
 
-// =====================================================
-// Migration Folder Structure
-// =====================================================
+// ── Order ────────────────────────────────────────────
 
 export const MIGRATION_ORDER = [
   MIGRATION_FOLDERS.PUBLIC,
-  MIGRATION_FOLDERS.STATIC,
-  MIGRATION_FOLDERS.DYNAMIC,
+  MIGRATION_FOLDERS.REFERENCE,
+  MIGRATION_FOLDERS.TRACKING,
+  MIGRATION_FOLDERS.GAMEPLAY,
   MIGRATION_FOLDERS.VIEWS,
 ];
 
-// =====================================================
-// Migration Discovery
-// =====================================================
+// ── Discovery ────────────────────────────────────────
 
-/**
- * Get all migration files from all folders
- */
 export function getAllMigrationFiles(migrationsDir) {
-  const allFiles = [];
+  const all = [];
 
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-
     if (!fs.existsSync(folderPath)) {
-      console.warn(`⚠️  Warning: Migration folder not found: ${folder}`);
+      console.warn(`⚠️  Missing: ${folder}`);
       continue;
     }
 
-    const files = listSqlFiles(folderPath);
-
-    files.forEach((file) => {
-      allFiles.push({
+    for (const file of listSqlFiles(folderPath)) {
+      all.push({
         folder,
         filename: file,
         fullPath: path.join(folderPath, file),
         displayName: `${folder}/${file}`,
       });
-    });
+    }
   }
 
-  return allFiles;
+  return all;
 }
 
-/**
- * Get migration files from specific folders
- */
 export function getMigrationFilesFromFolders(migrationsDir, folderNames) {
-  const allFiles = [];
+  const all = [];
 
   for (const folder of folderNames) {
     if (!MIGRATION_ORDER.includes(folder)) {
-      console.warn(`⚠️  Warning: Unknown folder name: ${folder}`);
+      console.warn(`⚠️  Unknown: ${folder}`);
       continue;
     }
-
     const folderPath = path.join(migrationsDir, folder);
-
     if (!fs.existsSync(folderPath)) {
-      console.warn(`⚠️  Warning: Migration folder not found: ${folder}`);
+      console.warn(`⚠️  Missing: ${folder}`);
       continue;
     }
 
-    const files = listSqlFiles(folderPath);
-
-    files.forEach((file) => {
-      allFiles.push({
+    for (const file of listSqlFiles(folderPath)) {
+      all.push({
         folder,
         filename: file,
         fullPath: path.join(folderPath, file),
         displayName: `${folder}/${file}`,
       });
-    });
+    }
   }
 
-  return allFiles;
+  return all;
 }
 
-/**
- * Validate migration folder structure
- */
+// ── Validation ───────────────────────────────────────
+
 export function validateMigrationStructure(migrationsDir) {
   const issues = [];
   const warnings = [];
 
-  // Check if migrations directory exists
   if (!fs.existsSync(migrationsDir)) {
     issues.push(`Migrations directory not found: ${migrationsDir}`);
     return { valid: false, issues, warnings };
   }
 
-  // Check each expected folder
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-
     if (!fs.existsSync(folderPath)) {
-      warnings.push(`Missing migration folder: ${folder}`);
+      warnings.push(`Missing folder: ${folder}`);
       continue;
     }
-
-    const files = listSqlFiles(folderPath);
-    if (files.length === 0) {
-      warnings.push(`Empty migration folder: ${folder}`);
-    }
+    if (listSqlFiles(folderPath).length === 0)
+      warnings.push(`Empty folder: ${folder}`);
   }
 
-  return {
-    valid: issues.length === 0,
-    issues,
-    warnings,
-  };
+  return { valid: issues.length === 0, issues, warnings };
 }
 
-// =====================================================
-// Migration Execution
-// =====================================================
+// ── Execution ────────────────────────────────────────
 
-/**
- * Run migrations sequentially with progress tracking
- */
-export async function runMigrations(migrationFiles, options = {}) {
+export async function runMigrations(client, migrationFiles, options = {}) {
   const { onProgress, stopOnError = true } = options;
   const results = [];
 
   for (let i = 0; i < migrationFiles.length; i++) {
     const migration = migrationFiles[i];
+    if (onProgress)
+      onProgress({ current: i + 1, total: migrationFiles.length, migration });
 
-    if (onProgress) {
-      onProgress({
-        current: i + 1,
-        total: migrationFiles.length,
-        migration,
-      });
-    }
+    const result = await executeSqlFile(
+      client,
+      migration.fullPath,
+      migration.displayName,
+    );
+    results.push({ migration: migration.displayName, success: result.success });
 
-    const success = await runSqlFile(migration.fullPath, migration.displayName);
-
-    results.push({
-      migration: migration.displayName,
-      success,
-    });
-
-    if (!success && stopOnError) {
+    if (!result.success && stopOnError) {
       return {
         success: false,
         completed: i + 1,
@@ -166,31 +125,24 @@ export async function runMigrations(migrationFiles, options = {}) {
     }
   }
 
-  const failedCount = results.filter((r) => !r.success).length;
-
+  const failed = results.filter((r) => !r.success).length;
   return {
-    success: failedCount === 0,
+    success: failed === 0,
     completed: migrationFiles.length,
     total: migrationFiles.length,
     results,
-    failed: failedCount,
+    failed,
   };
 }
 
-// =====================================================
-// Analysis & Reporting
-// =====================================================
+// ── Reporting ────────────────────────────────────────
 
-/**
- * Get migration summary by folder
- */
 export function getMigrationSummary(migrationsDir) {
   const summary = {};
   let totalFiles = 0;
 
   for (const folder of MIGRATION_ORDER) {
     const folderPath = path.join(migrationsDir, folder);
-
     if (!fs.existsSync(folderPath)) {
       summary[folder] = { count: 0, exists: false };
       continue;
@@ -200,23 +152,14 @@ export function getMigrationSummary(migrationsDir) {
     summary[folder] = {
       count: files.length,
       exists: true,
-      files: files.map((f) => ({
-        name: f,
-        path: path.join(folderPath, f),
-      })),
+      files: files.map((f) => ({ name: f, path: path.join(folderPath, f) })),
     };
     totalFiles += files.length;
   }
 
-  return {
-    folders: summary,
-    totalFiles,
-  };
+  return { folders: summary, totalFiles };
 }
 
-/**
- * Get folder display info
- */
 export function getFolderInfo(folderName) {
   return (
     MIGRATION_FOLDER_INFO[folderName] || {

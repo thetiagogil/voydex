@@ -8,7 +8,7 @@ import { ResultsInfo } from "@/components/features/shared/results-info";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { useCollection } from "@/hooks/gameplay/useCollection";
-import { useTypes } from "@/hooks/meta/useTypes";
+import { useTypes } from "@/hooks/reference/useTypes";
 import { useGenerations } from "@/hooks/useGenerations";
 import { useMemo, useState } from "react";
 
@@ -33,12 +33,12 @@ export default function CollectionPage() {
         (pokemon.nickname?.toLowerCase().includes(search.toLowerCase()) ??
           false) ||
         pokemon.species.name.toLowerCase().includes(search.toLowerCase()) ||
-        pokemon.species.nationalNumber.toString().includes(search);
+        pokemon.species.id.toString().includes(search);
 
       // Generation filter
       const matchesGeneration =
         generationFilter === "all" ||
-        pokemon.game.generation.id.toString() === generationFilter;
+        pokemon.game?.generation.id.toString() === generationFilter;
 
       // Type filter
       const matchesType =
@@ -58,10 +58,10 @@ export default function CollectionPage() {
     });
   }, [collection, search, generationFilter, typeFilter, shinyFilter]);
 
-  // Sort by national dex number
+  // Sort by national Pokédex number
   const sortedPokemon = useMemo(() => {
     return [...filteredPokemon].sort((a, b) => {
-      return a.species.nationalNumber - b.species.nationalNumber;
+      return a.species.id - b.species.id;
     });
   }, [filteredPokemon]);
 

@@ -23,11 +23,15 @@ export interface Play {
   id: string;
   userId: string;
   name: string;
-  status: PlayStatus;
+  status: {
+    id: number;
+    slug: PlayStatus;
+    name: string;
+    isTerminal: boolean;
+  };
   notes: string | null;
-  includeUniquePokemon: boolean;
-  includeRegionalDex: boolean;
-  includeNationalDex: boolean;
+  includePokedex: boolean;
+  includeOtherPokedex: boolean;
   includeMythicalPokemon: boolean;
   createdAt: string;
   updatedAt: string;
@@ -36,8 +40,6 @@ export interface Play {
     slug: string;
     name: string;
     type: string;
-    regionalDexCount: number;
-    nationalDexCount: number;
     versionGroupId: number;
     generation: BaseInfo;
     region: BaseInfo;
@@ -52,8 +54,8 @@ export interface PlayStats {
   teamSize: number;
   highestLevel: number;
   shinyCount: number;
-  pokemonCaughtCount: number;
-  completedProgressItems: number;
+  pokedexCaughtCount: number;
+  completedTrackingItems: number;
 }
 
 // =============================================================================
@@ -69,7 +71,7 @@ export interface PlayPokemon {
   gender: string | null;
   isShiny: boolean;
   species: BaseInfo;
-  form: BaseInfo & { spriteUrl: string | null };
+  form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   types: BaseInfo[];
   nature: BaseInfo | null;
   ability: BaseInfo | null;
@@ -77,42 +79,43 @@ export interface PlayPokemon {
 }
 
 // =============================================================================
-// PLAY PROGRESS
+// PLAY POKEDEX ENTRY (from views.play_pokedex_detail)
 // =============================================================================
 
-export interface PlayProgressCategory {
-  id: number;
-  slug: string;
-  name: string;
-  type: string;
-  description: string | null;
-  sortOrder: number;
-  totalItems: number;
-  completedItems: number;
-}
-
-export interface PlayProgressItem {
-  id: number;
-  slug: string;
-  name: string;
-  description: string | null;
-  location: string | null;
-  sortOrder: number;
-  completed: boolean;
-  completedAt: string | null;
-}
-
-// =============================================================================
-// PLAY REGIONAL DEX
-// =============================================================================
-
-export interface PlayPokemonCaught {
-  regionalNumber: number;
+export interface PlayPokedexEntry {
+  pokedexEntryId: number;
+  pokedexNumber: number;
+  pokedex: {
+    id: number;
+    slug: string;
+    name: string;
+    kind: string;
+  };
   speciesId: number;
-  formId: number | null;
-  species: BaseInfo;
-  form: BaseInfo & { spriteUrl: string | null };
-  caught: boolean;
-  isLegendary: boolean;
-  isMythical: boolean;
+  formId: number;
+  species: BaseInfo & { isLegendary: boolean; isMythical: boolean };
+  form: BaseInfo & { pokemonDbSpriteSlug: string | null };
+  isSeen: boolean;
+  isCaught: boolean;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
+}
+
+// =============================================================================
+// PLAY POKEDEX SUMMARY (aggregated per pokedex)
+// =============================================================================
+
+export interface PlayPokedexSummary {
+  pokedexId: number;
+  pokedexSlug: string;
+  pokedexName: string;
+  pokedexKind: string;
+  totalEntries: number;
+  seenCount: number;
+  caughtCount: number;
+  entries: PlayPokedexEntry[];
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
 }
