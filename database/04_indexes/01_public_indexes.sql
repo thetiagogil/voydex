@@ -3,5 +3,5 @@
 -- Performance indexes applied AFTER seeding. Not required for data integrity.
 -- Run: db:index or db:index:public | Drop: db:index:drop or db:index:drop:public
 -- ============================================================================
--- users
-CREATE INDEX IF NOT EXISTS idx_users_created_at ON public.users (created_at DESC);
+-- No secondary indexes currently required for public schema.
+-- Keep this file for consistency and future additions.
