@@ -1,6 +1,6 @@
 # Database Conventions
 
-Conventions for the Poketracker database layer. All 619 SQL files follow these rules.
+Conventions for the Poketracker database layer. All SQL files follow these rules.
 
 ---
 
@@ -8,22 +8,24 @@ Conventions for the Poketracker database layer. All 619 SQL files follow these r
 
 ```
 database/
-├── migrations/           Schema definitions (56 files)
+├── 01_scripts/               Tooling layer
+│   ├── commands/             Entry points (thin wrappers)
+│   ├── config/               Central configuration
+│   ├── helpers/              Reusable logic (never run directly)
+│   └── verify/               Data validation scripts
+├── 02_migrations/            Schema definitions
 │   ├── 01_public_tables/
 │   ├── 02_reference_tables/
 │   ├── 03_tracking_tables/
 │   ├── 04_gameplay_tables/
 │   └── 05_views/
-├── seeds/                Static curated data (563 files)
+├── 03_seeds/                 Static curated data
 │   ├── 01_public_seeds/
 │   ├── 02_reference_seeds/
 │   │   ├── 01_base/
 │   │   ├── 02_abilities/
 │   │   ├── 03_moves/
 │   │   ├── 04_pokemon/
-│   │   │   ├── 001_pokemon_species/
-│   │   │   ├── 002_pokemon_forms/
-│   │   │   └── 003_pokemon_attributes/
 │   │   ├── 05_items/
 │   │   ├── 06_move_attributes/
 │   │   ├── 07_pokedex/
@@ -32,25 +34,13 @@ database/
 │   │   ├── 10_move_availability/
 │   │   ├── 11_item_availability/
 │   │   └── 12_pokemon_learnsets/
-│   ├── 03_gameplay_seeds/
-│   └── 04_tracking_seeds/
-│       ├── 01_categories/
-│       ├── 02_item_types/
-│       ├── 03_opponents/
-│       ├── 04_badges/
-│       ├── 05_collectibles/
-│       ├── 06_items/
-│       ├── 07_item_decision_options/
-│       ├── 08_item_opponent_refs/
-│       ├── 09_item_badge_refs/
-│       ├── 10_item_collectible_refs/
-│       ├── 11_item_pokemon_refs/
-│       └── 12_collectible_entries/
-└── scripts/
-    ├── commands/         Entry points (thin wrappers)
-    ├── config/           Central configuration
-    ├── helpers/          Reusable logic (never run directly)
-    └── verify/           Data validation scripts
+│   ├── 03_tracking_seeds/
+│   └── 04_gameplay_seeds/
+└── 04_indexes/               Secondary performance indexes
+    ├── 01_public_indexes.sql
+    ├── 02_reference_indexes.sql
+    ├── 03_tracking_indexes.sql
+    └── 04_gameplay_indexes.sql
 ```
 
 ---
@@ -181,13 +171,13 @@ generation_id INTEGER NOT NULL REFERENCES reference.generations(id),
 
 ## Schemas
 
-| Schema     | Purpose                       | RLS |
-| ---------- | ----------------------------- | --- |
-| `public`   | Auth functions, user profiles | No  |
-| `reference`     | All canonical reference data  | No  |
-| `gameplay` | User-owned gameplay data      | Yes |
-| `tracking` | Tracking system     | No  |
-| `views`    | Read-only presentation layer  | No  |
+| Schema      | Purpose                       | RLS |
+| ----------- | ----------------------------- | --- |
+| `public`    | Auth functions, user profiles | No  |
+| `reference` | All canonical reference data  | No  |
+| `gameplay`  | User-owned gameplay data      | Yes |
+| `tracking`  | Tracking system               | No  |
+| `views`     | Read-only presentation layer  | No  |
 
 ---
 
@@ -290,3 +280,51 @@ DLC expansions are modeled as version groups, not games:
 - `TIMESTAMPTZ NOT NULL DEFAULT NOW()` for all timestamps
 - Booleans: `NOT NULL DEFAULT FALSE`
 - Inline `REFERENCES` for foreign keys (no explicit constraint names)
+
+---
+
+## Index Strategy
+
+### Integrity Indexes (in migrations)
+
+Stay in migration files — required for correct data:
+
+- `CREATE UNIQUE INDEX uq_*` that enforce business rules
+- Examples: `uq_pokemon_forms_one_default_per_species`, `uq_pokemon_avail_vg_wide`
+
+Naming: `uq_{table}_{description}`
+
+### Secondary Indexes (in `04_indexes/`)
+
+Performance indexes that improve query speed but aren't needed for correctness:
+
+- FK lookup indexes, composite sort indexes, partial filter indexes
+- Created **after** seeding via `db:index`
+- Use `CREATE INDEX IF NOT EXISTS` for idempotent re-runs
+- One file per category: `01_public`, `02_reference`, `03_tracking`, `04_gameplay`
+
+Naming: `idx_{table}_{column}` or `idx_{table}_{col1}_{col2}`
+
+### Dropped Indexes (not created anywhere)
+
+- Slug indexes on `UNIQUE` columns — PostgreSQL auto-indexes `UNIQUE` constraints
+- Indexes on tiny tables (< 50 rows) — full table scans are faster
+- Indexes on low-cardinality columns (enums with < 5 values) — no selectivity benefit
+
+---
+
+## Category System
+
+Three categories with dependency ordering:
+
+| Category    | Schema      | Depends On              | Description                      |
+| ----------- | ----------- | ----------------------- | -------------------------------- |
+| `reference` | `reference` | —                       | Canonical Pokémon data           |
+| `tracking`  | `tracking`  | `reference`             | Game-specific tracking structure |
+| `gameplay`  | `gameplay`  | `reference`, `tracking` | User-owned play data             |
+
+**Cascade rule**: resetting a category also resets all downstream categories.
+
+- `db:reset:reference` → drops reference + tracking + gameplay + views
+- `db:reset:tracking` → drops tracking + gameplay + views
+- `db:reset:gameplay` → drops gameplay + views
