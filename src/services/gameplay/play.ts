@@ -206,7 +206,7 @@ export const getPlayStatuses = async () => {
   const { data, error } = await supabase
     .schema("gameplay")
     .from("play_statuses")
-    .select("id, slug, name, description, is_terminal, sort_order")
+    .select("id, slug, name, is_terminal, sort_order")
     .order("sort_order", { ascending: true });
 
   if (error) return { data: null, error };

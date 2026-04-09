@@ -10,7 +10,6 @@ export interface PlayStatusInfo {
   id: number;
   slug: PlayStatus;
   name: string;
-  description: string | null;
   isTerminal: boolean;
   sortOrder: number;
 }
