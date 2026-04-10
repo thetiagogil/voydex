@@ -1,3 +1,4 @@
+import { COLOR_VARIANTS } from "@/shared/ui/colors";
 import { type ReactNode } from "react";
 import { Badge } from "../ui/badge";
 
@@ -12,10 +13,10 @@ interface QuickInfoProps {
 const styles = {
   default: "text-muted-foreground",
   primary: "text-primary",
-  blue: "text-blue-600 dark:text-blue-400",
-  orange: "text-orange-600 dark:text-orange-400",
-  green: "text-green-600 dark:text-green-400",
-  yellow: "text-yellow-600 dark:text-yellow-400",
+  blue: COLOR_VARIANTS.blue.text,
+  orange: COLOR_VARIANTS.orange.text,
+  green: COLOR_VARIANTS.green.text,
+  yellow: COLOR_VARIANTS.yellow.text,
 };
 
 export const QuickInfo = ({

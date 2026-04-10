@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { RecentActivityItem } from "@/types/dashboard";
+import type { DashboardActivity } from "../types";
 import { ActivityCard } from "./activity-card";
 import { ActivityEmpty } from "./activity-empty";
 
-interface ActivitySectionProps {
-  activities: RecentActivityItem[];
-}
+type ActivitySectionProps = {
+  activities: DashboardActivity[];
+};
 
 export const ActivitySection = ({ activities }: ActivitySectionProps) => {
   return (

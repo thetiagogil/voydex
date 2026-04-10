@@ -1,11 +1,14 @@
 import { Card } from "@/components/ui/card";
-import { STATUS_COLORS, StatusType } from "@/lib/constants/styles";
 import { cn } from "@/lib/utils/cn";
+import {
+  STATUS_VARIANT_META,
+  type StatusVariant,
+} from "@/shared/constants/play-statuses";
 
 interface StatCardProps {
   title: number;
   description: string;
-  variant: StatusType;
+  variant: StatusVariant;
 }
 
 export const StatCard = ({ title, description, variant }: StatCardProps) => {
@@ -14,7 +17,7 @@ export const StatCard = ({ title, description, variant }: StatCardProps) => {
       <div
         className={cn(
           "font-display text-foreground text-xl font-bold",
-          STATUS_COLORS[variant]?.text,
+          STATUS_VARIANT_META[variant].colors.text,
         )}
       >
         {title}

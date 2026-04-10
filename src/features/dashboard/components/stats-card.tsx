@@ -1,30 +1,30 @@
 import { Card } from "@/components/ui/card";
-import { STATUS_COLORS, type StatusType } from "@/lib/constants/styles";
-
 import { cn } from "@/lib/utils/cn";
+import {
+  STATUS_VARIANT_META,
+  type StatusVariant,
+} from "@/shared/constants/play-statuses";
 
-interface QuickStatProps {
+type StatsCardProps = {
   icon: React.ReactNode;
   value: string | number;
   label?: string;
-  variant?: StatusType | "default";
-}
+  variant?: StatusVariant | "default";
+};
 
 export const StatsCard = ({
   icon,
   value,
   label,
   variant = "default",
-}: QuickStatProps) => {
+}: StatsCardProps) => {
   const defaultColors = {
     icon: "text-foreground",
     bg: "bg-foreground/10",
     text: "text-foreground",
   };
   const styles =
-    variant === "default" || !(variant in STATUS_COLORS)
-      ? defaultColors
-      : STATUS_COLORS[variant as keyof typeof STATUS_COLORS];
+    variant === "default" ? defaultColors : STATUS_VARIANT_META[variant].colors;
 
   return (
     <Card>

@@ -19,7 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
-import { STATUS_COLORS } from "@/lib/constants/styles";
 import { cn } from "@/lib/utils/cn";
 import type { GameWithFullData } from "@/types/game";
 import type { PlayStatusInfo } from "@/types/play";
@@ -29,6 +28,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Icon } from "../shared/icon";
 
 import type { DlcVersionGroup } from "@/hooks/gameplay/usePlayDlc";
+import { STATUS_VARIANT_META } from "@/shared/constants/play-statuses";
 
 interface PlayFormContentCreateProps {
   mode: "create";
@@ -197,7 +197,9 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                               <span className="flex items-center gap-2">
                                 <Icon
                                   type={status.slug}
-                                  className={STATUS_COLORS[status.slug]?.icon}
+                                  className={
+                                    STATUS_VARIANT_META[status.slug].colors.icon
+                                  }
                                 />
                                 {status.name}
                               </span>

@@ -1,30 +1,16 @@
-import { Icon, IconType } from "@/components/shared/icon";
-import { ACTIVITY_COLORS, type ActivityType } from "@/lib/constants/styles";
+import { Icon } from "@/components/shared/icon";
 import { cn } from "@/lib/utils/cn";
 import { formatTime } from "@/lib/utils/common";
-import type { RecentActivityItem } from "@/types/dashboard";
 import Link from "next/link";
+import { DASHBOARD_ACTIVITY_VARIANT_META } from "../constants";
+import type { DashboardActivity } from "../types";
 
-interface ActivityCardProps {
-  activity: RecentActivityItem;
-}
-
-const getActivityIcon = (activity: RecentActivityItem): string => {
-  switch (activity.type) {
-    case "play_created":
-      return "play";
-    case "play_completed":
-      return "completed";
-    case "pokemon_added":
-      return "pokemon";
-    case "tracking_completed":
-      return "badge";
-    default:
-      return "pokemon";
-  }
+type ActivityCardProps = {
+  activity: DashboardActivity;
 };
 
 export const ActivityCard = ({ activity }: ActivityCardProps) => {
+  const meta = DASHBOARD_ACTIVITY_VARIANT_META[activity.variant];
   return (
     <Link href={activity.href}>
       <div className="bg-foreground/5 hover:bg-foreground/10 flex items-start gap-3 rounded-lg p-3 transition-colors">
@@ -32,17 +18,10 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
           <div
             className={cn(
               "flex h-10 w-10 items-center justify-center rounded-lg",
-              ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]?.bg ||
-                "",
+              meta.colors.bg,
             )}
           >
-            <Icon
-              type={getActivityIcon(activity) as IconType}
-              className={
-                ACTIVITY_COLORS[getActivityIcon(activity) as ActivityType]
-                  ?.icon || ""
-              }
-            />
+            <Icon type={meta.icon} className={meta.colors.icon} />
           </div>
         </div>
 

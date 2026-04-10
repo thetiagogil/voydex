@@ -3,14 +3,14 @@ import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
-import type { GenerationWithUserStats } from "@/types/dashboard";
 import Link from "next/link";
+import type { DashboardGeneration } from "../types";
 
-interface GenerationCardsProps {
-  generation: GenerationWithUserStats;
-}
+type GenerationCardProps = {
+  generation: DashboardGeneration;
+};
 
-export const GenerationCard = ({ generation }: GenerationCardsProps) => {
+export const GenerationCard = ({ generation }: GenerationCardProps) => {
   return (
     <Link key={generation.slug} href={`/dashboard/gen/${generation.id}`}>
       <Card

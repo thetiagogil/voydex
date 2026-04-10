@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { STATUS_COLORS } from "@/lib/constants/styles";
+import { STATUS_VARIANT_META } from "@/shared/constants/play-statuses";
 
 interface PlaysFiltersProps {
   search: string;
@@ -105,13 +105,19 @@ export const PlaysFilters = ({
           <SelectContent>
             <SelectItem value="all">
               <span className="flex items-center gap-2">
-                <Icon type="total" className={STATUS_COLORS.total.icon} />
+                <Icon
+                  type="total"
+                  className={STATUS_VARIANT_META.total.colors.icon}
+                />
                 All ({statusCounts.all})
               </span>
             </SelectItem>
             <SelectItem value="active">
               <span className="flex items-center gap-2">
-                <Icon type="active" className={STATUS_COLORS.active.icon} />
+                <Icon
+                  type="active"
+                  className={STATUS_VARIANT_META.active.colors.icon}
+                />
                 Active ({statusCounts.active})
               </span>
             </SelectItem>
@@ -119,20 +125,26 @@ export const PlaysFilters = ({
               <span className="flex items-center gap-2">
                 <Icon
                   type="completed"
-                  className={STATUS_COLORS.completed.icon}
+                  className={STATUS_VARIANT_META.completed.colors.icon}
                 />
                 Completed ({statusCounts.completed})
               </span>
             </SelectItem>
             <SelectItem value="paused">
               <span className="flex items-center gap-2">
-                <Icon type="paused" className={STATUS_COLORS.paused.icon} />
+                <Icon
+                  type="paused"
+                  className={STATUS_VARIANT_META.paused.colors.icon}
+                />
                 Paused ({statusCounts.paused})
               </span>
             </SelectItem>
             <SelectItem value="dropped">
               <span className="flex items-center gap-2">
-                <Icon type="dropped" className={STATUS_COLORS.dropped.icon} />
+                <Icon
+                  type="dropped"
+                  className={STATUS_VARIANT_META.dropped.colors.icon}
+                />
                 Dropped ({statusCounts.dropped})
               </span>
             </SelectItem>

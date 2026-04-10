@@ -2,12 +2,12 @@
 
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { GenerationWithUserStats } from "@/types/dashboard";
+import type { DashboardGeneration } from "../types";
 import { GenerationCard } from "./generation-card";
 
-interface GenerationSectionProps {
-  generations: GenerationWithUserStats[];
-}
+type GenerationSectionProps = {
+  generations: DashboardGeneration[];
+};
 
 export const GenerationSection = ({ generations }: GenerationSectionProps) => {
   return (

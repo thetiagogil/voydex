@@ -1,56 +1,37 @@
-import { STATUS_COLORS } from "@/lib/constants/styles";
 import { cn } from "@/lib/utils/cn";
-import type { PlayStatus } from "@/types/play";
+import {
+  STATUS_VARIANT_META,
+  type StatusVariant,
+} from "@/shared/constants/play-statuses";
 import { Badge } from "../ui/badge";
 import { Icon } from "./icon";
 
 interface StatusInfoProps {
-  status: "total" | PlayStatus;
+  status: StatusVariant;
   value?: string | number;
   isBadge?: boolean;
 }
 
-const STATUS_TITLES: Record<string, string> = {
-  total: "Total",
-  active: "Active",
-  completed: "Completed",
-  paused: "Paused",
-  dropped: "Dropped",
-};
-
-const getStatusVariant = (props: StatusInfoProps) => {
-  const { status, value, isBadge } = props;
-  const size = value ? 12 : 16;
-  const colors = STATUS_COLORS[status as keyof typeof STATUS_COLORS];
-
-  return {
-    icon: <Icon type={status as any} size={size} />,
-    title: STATUS_TITLES[status],
-    className: cn(colors.icon, isBadge && colors.bg),
-  };
-};
-
 export const StatusInfo = ({ status, value, isBadge }: StatusInfoProps) => {
-  const { icon, title, className } = getStatusVariant({
-    status,
-    value,
-    isBadge,
-  });
+  const meta = STATUS_VARIANT_META[status];
+  const size = value ? 12 : 16;
+  const className = cn(meta.colors.icon, isBadge && meta.colors.bg);
+
   return isBadge ? (
     <Badge
       variant="outline"
       className={cn("gap-1 border-0 py-1", className)}
-      title={title}
+      title={meta.label}
     >
-      {icon}
+      <Icon type={meta.icon} size={size} />
       {value !== undefined && <p>{value}</p>}
     </Badge>
   ) : (
     <div
       className={cn("flex items-center gap-1 text-sm", className)}
-      title={title}
+      title={meta.label}
     >
-      {icon}
+      <Icon type={meta.icon} size={size} />
       {value !== undefined && <p>{value}</p>}
     </div>
   );

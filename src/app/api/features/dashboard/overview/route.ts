@@ -1,14 +1,11 @@
-import { getAdventureOverview } from "@/services/gameplay/dashboard";
+import { getDashboardOverview } from "@/features/dashboard/server/dashboard";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const { data, error } = await getAdventureOverview();
-
-    if (error) {
+    const { data, error } = await getDashboardOverview();
+    if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
     return NextResponse.json({ data });
   } catch (error: unknown) {
     return NextResponse.json(
