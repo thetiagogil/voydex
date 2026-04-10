@@ -2,8 +2,8 @@
 
 import { FieldWrapper } from "@/components/shared/field-wrapper";
 import { Button } from "@/components/ui/button";
-import { useLogin } from "@/hooks/useAuth";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import { useLogin } from "@/shared/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

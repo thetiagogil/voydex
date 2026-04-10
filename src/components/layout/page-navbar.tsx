@@ -1,11 +1,11 @@
 "use client";
 
-import { useClaims, useLogout } from "@/hooks/useAuth";
 import {
   PAGE_CONTAINER_WIDTH,
   PageContainerWidth,
 } from "@/lib/constants/layout";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import { useClaims, useLogout } from "@/shared/hooks/useAuth";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "../shared/logo";

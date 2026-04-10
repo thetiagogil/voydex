@@ -11,28 +11,26 @@ import {
   type ReactNode,
 } from "react";
 
+const RETRY_INTERVAL_MS = 30_000;
+
 interface DatabaseStatusContextValue {
   isDbAvailable: boolean;
   isChecking: boolean;
-  recheckHealth: () => Promise<boolean>;
 }
 
 const DatabaseStatusContext = createContext<DatabaseStatusContextValue>({
   isDbAvailable: true,
   isChecking: true,
-  recheckHealth: async () => true,
 });
 
-const RETRY_INTERVAL_MS = 30_000;
-
-function clearSupabaseAuthCookies() {
+const clearSupabaseAuthCookies = () => {
   document.cookie.split(";").forEach((c) => {
     const name = c.split("=")[0].trim();
     if (name.startsWith("sb-") || name.includes("supabase")) {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
     }
   });
-}
+};
 
 export const DatabaseStatusProvider = ({
   children,
@@ -59,6 +57,7 @@ export const DatabaseStatusProvider = ({
     }
   }, []);
 
+  // Initial check on mount
   useEffect(() => {
     checkHealth();
   }, [checkHealth]);
@@ -79,9 +78,7 @@ export const DatabaseStatusProvider = ({
   }, [isDbAvailable, isChecking, checkHealth]);
 
   return (
-    <DatabaseStatusContext.Provider
-      value={{ isDbAvailable, isChecking, recheckHealth: checkHealth }}
-    >
+    <DatabaseStatusContext.Provider value={{ isDbAvailable, isChecking }}>
       {children}
     </DatabaseStatusContext.Provider>
   );

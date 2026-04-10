@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useDatabaseStatus } from "@/contexts/database-status";
-import { useClaims } from "@/hooks/useAuth";
+import { useDatabaseStatus } from "@/contexts/database-status.context";
 import { cn } from "@/lib/utils/cn";
+import { useClaims } from "@/shared/hooks/useAuth";
 import { TriangleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
