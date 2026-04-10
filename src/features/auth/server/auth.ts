@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { AuthCredentials } from "@/types/api";
+import { AuthCredentials } from "../types";
 
 export const getClaims = async () => {
   const supabase = await createClient();

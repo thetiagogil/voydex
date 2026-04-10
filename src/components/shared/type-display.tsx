@@ -1,6 +1,6 @@
-import { TYPE_COLORS, type PokemonTypeKey } from "@/lib/constants/type-styles";
 import { cn } from "@/lib/utils/cn";
-import type { PokemonType } from "@/types/common";
+import { TYPE_COLOR_VARIANTS } from "@/shared/constants/color-variants";
+import { PokemonType } from "@/shared/constants/reference";
 
 interface TypeIconProps {
   iconPath: string;
@@ -49,8 +49,8 @@ export const TypeDisplay = ({
   size = "md",
   className,
 }: TypeDisplayProps) => {
-  const key = String(type).toLowerCase() as PokemonTypeKey;
-  const colors = TYPE_COLORS[key];
+  const key = String(type).toLowerCase() as PokemonType;
+  const colors = TYPE_COLOR_VARIANTS[key];
   const iconPath = `/icons/${key}.svg`;
   const displayName = String(type).toUpperCase();
 

@@ -1,6 +1,6 @@
 import { Icon } from "@/components/shared/icon";
 import { cn } from "@/lib/utils/cn";
-import { formatTime } from "@/lib/utils/common";
+import { formatTime } from "@/shared/utils";
 import Link from "next/link";
 import { DASHBOARD_ACTIVITY_VARIANT_META } from "../constants";
 import type { DashboardActivity } from "../types";

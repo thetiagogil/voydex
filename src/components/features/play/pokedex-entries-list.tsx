@@ -13,7 +13,7 @@ import {
   useUnmarkPokedexEntry,
 } from "@/hooks/gameplay/usePlayPokedexMutations";
 import { cn } from "@/lib/utils/cn";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 import type { PlayPokedexEntry } from "@/types/play";
 import Image from "next/image";
 import { useMemo, useState } from "react";

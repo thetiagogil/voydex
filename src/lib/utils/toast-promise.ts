@@ -1,10 +1,10 @@
 import { toast } from "sonner";
 
-interface ToastPromiseOptions<T = unknown> {
+type ToastPromiseOptions<T = unknown> = {
   loading: string;
   success: string | ((data?: T) => string);
   error: string | ((err?: Error) => string);
-}
+};
 
 // Enhanced toast.promise that works like Supabase's loading states
 // Shows loading → success/error transition in the same toast

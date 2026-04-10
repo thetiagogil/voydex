@@ -2,7 +2,7 @@
 
 import { PageLayout } from "@/components/layout/page-layout";
 import { useAllPokemonForms } from "@/hooks/reference/usePokemon";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 
 export default function PokédexPage() {
   const { data, isLoading, error } = useAllPokemonForms();

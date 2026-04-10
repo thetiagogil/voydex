@@ -1,4 +1,4 @@
-import { COLOR_VARIANTS } from "@/shared/ui/colors";
+import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import { type ReactNode } from "react";
 import { Badge } from "../ui/badge";
 

@@ -1,4 +1,4 @@
-import { getClaims } from "@/services/auth";
+import { getClaims } from "@/features/auth/server/auth";
 import { NextResponse } from "next/server";
 
 export async function GET() {

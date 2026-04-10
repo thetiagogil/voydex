@@ -17,7 +17,7 @@ import {
   usePokemonAbilities,
   usePokemonLearnset,
 } from "@/hooks/reference/usePokemonGame";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 import type { PlayPokemon } from "@/types/play";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";

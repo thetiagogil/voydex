@@ -3,9 +3,11 @@
 import { Icon } from "@/components/shared/icon";
 import { TypeDisplay } from "@/components/shared/type-display";
 import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card";
-import { TYPE_COLORS, type PokemonTypeKey } from "@/lib/constants/type-styles";
 import { cn } from "@/lib/utils/cn";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+
+import { TYPE_COLOR_VARIANTS } from "@/shared/constants/color-variants";
+import { PokemonType } from "@/shared/constants/reference";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 import type { CollectionPokemon } from "@/types/collection";
 import type { PlayPokemon } from "@/types/play";
 import Image from "next/image";
@@ -31,8 +33,9 @@ export const PokemonCard = ({
   const spriteUrl =
     getPokemonSpriteUrl(pokemon.isShiny, pokemon.form?.slug || "unknown") || "";
 
-  const primaryType = pokemon.types[0]?.name?.toLowerCase() as PokemonTypeKey;
-  const typeColors = TYPE_COLORS[primaryType] || TYPE_COLORS.normal;
+  const primaryType = pokemon.types[0]?.name?.toLowerCase() as PokemonType;
+  const typeColors =
+    TYPE_COLOR_VARIANTS[primaryType] || TYPE_COLOR_VARIANTS.normal;
 
   const cardContent = (
     <>

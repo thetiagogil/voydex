@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils/cn";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 import type { PokemonType } from "@/types/common";
 import type { PlayPokemon } from "@/types/play";
 import { Pencil, Sparkles } from "lucide-react";

@@ -1,5 +1,5 @@
 import { PageBreadcrumbs } from "@/components/layout/page-breadcrumbs";
-import { type PageContainerWidth } from "@/lib/constants/layout";
+import { type PageContainerWidth } from "@/shared/constants/layout";
 import { ReactNode } from "react";
 import { BgImage } from "../shared/bg-image";
 import { Loading } from "../shared/loading";
@@ -12,6 +12,7 @@ interface PageLayoutProps {
   width?: PageContainerWidth;
   showNavigation?: boolean;
   isLoading?: boolean;
+  isAuthPage?: boolean;
 }
 
 export const PageLayout = ({
@@ -20,6 +21,7 @@ export const PageLayout = ({
   width = "xl",
   showNavigation = true,
   isLoading = false,
+  isAuthPage = false,
 }: PageLayoutProps) => {
   return (
     <div className="relative min-h-screen">
@@ -32,7 +34,10 @@ export const PageLayout = ({
           </header>
         )}
         <main>
-          <PageContainer className={className} width={width}>
+          <PageContainer
+            className={`${className} ${isAuthPage ? "flex items-center justify-center sm:mt-10" : ""}`}
+            width={width}
+          >
             {isLoading ? (
               <Loading />
             ) : (

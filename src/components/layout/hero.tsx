@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useDatabaseStatus } from "@/contexts/database-status.context";
+import { useClaims } from "@/features/auth/hooks/useAuth";
 import { cn } from "@/lib/utils/cn";
-import { useClaims } from "@/shared/hooks/useAuth";
 import { TriangleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";

@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { ENV_VARS } from "../constants/env";
+import { ENV_VARS } from "./env";
 
 const SUPABASE_URL = ENV_VARS.SUPABASE_URL;
 const SUPABASE_KEY = ENV_VARS.SUPABASE_PUBLISHABLE_KEY;

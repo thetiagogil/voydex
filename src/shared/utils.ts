@@ -1,18 +1,3 @@
-import type { PlayStatus } from "@/types/play";
-
-export const getStatusColor = (status: PlayStatus) => {
-  switch (status) {
-    case "active":
-      return "bg-green-500/20 text-green-500";
-    case "completed":
-      return "bg-blue-500/20 text-blue-500";
-    case "paused":
-      return "bg-yellow-500/20 text-yellow-500";
-    default:
-      return "bg-gray-500/20 text-gray-500";
-  }
-};
-
 export const formatTime = (dateString: string): string => {
   const date = new Date(dateString);
   const now = new Date();

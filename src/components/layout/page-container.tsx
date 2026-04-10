@@ -1,7 +1,7 @@
 import {
   type PageContainerWidth,
   PAGE_CONTAINER_WIDTH,
-} from "@/lib/constants/layout";
+} from "@/shared/constants/layout";
 import { ReactNode } from "react";
 
 interface PageContainerProps {

@@ -1,4 +1,4 @@
-import { ENV_VARS } from "@/lib/constants/env";
+import { ENV_VARS } from "@/lib/supabase/env";
 import { NextResponse } from "next/server";
 
 export async function GET() {

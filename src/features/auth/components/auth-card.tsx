@@ -7,20 +7,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PAGE_CONTAINER_WIDTH } from "@/lib/constants/layout";
-import { LoginFormContent } from "./login-form-content";
-import { SignupFormContent } from "./signup-form-content";
+import { PAGE_CONTAINER_WIDTH } from "@/shared/constants/layout";
+import { LoginForm } from "../forms/login-form";
+import { SignupForm } from "../forms/signup-form";
 
 type AuthFormProps = {
   mode: "login" | "signup";
 };
 
-export const AuthForm = ({ mode }: AuthFormProps) => {
+export const AuthCard = ({ mode }: AuthFormProps) => {
   const isSignup = mode === "signup";
 
   return (
-    <Card className={PAGE_CONTAINER_WIDTH.xs}>
-      <CardHeader>
+    <Card className={`${PAGE_CONTAINER_WIDTH.xs} w-full p-6 md:p-8`}>
+      <CardHeader className="p-0">
         <CardTitle>{isSignup ? "Create Account" : "Log In"}</CardTitle>
         <CardDescription>
           {isSignup
@@ -29,8 +29,8 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        {isSignup ? <SignupFormContent /> : <LoginFormContent />}
+      <CardContent className="p-0">
+        {isSignup ? <SignupForm /> : <LoginForm />}
       </CardContent>
     </Card>
   );

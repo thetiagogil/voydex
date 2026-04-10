@@ -2,7 +2,7 @@ import { Icon } from "@/components/shared/icon";
 import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatTime } from "@/lib/utils/common";
+import { formatTime } from "@/shared/utils";
 import type { GamePlaySummary } from "@/types/game";
 import Link from "next/link";
 

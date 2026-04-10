@@ -15,7 +15,7 @@ import {
   useSaveDecision,
 } from "@/hooks/gameplay/usePlayDecisions";
 import { cn } from "@/lib/utils/cn";
-import { getPokemonSpriteUrl } from "@/lib/utils/common";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 

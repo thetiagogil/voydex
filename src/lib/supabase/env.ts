@@ -7,3 +7,7 @@ export const ENV_VARS = {
   SUPABASE_DB_URL: process.env.SUPABASE_DB_URL ?? "",
   SUPABASE_DB_PASSWORD: process.env.SUPABASE_DB_PASSWORD ?? "",
 };
+
+export const hasEnvVars =
+  ENV_VARS.SUPABASE_URL! &&
+  (ENV_VARS.SUPABASE_PUBLISHABLE_KEY! || ENV_VARS.SUPABASE_SERVICE_ROLE_KEY!);

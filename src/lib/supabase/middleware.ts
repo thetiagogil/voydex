@@ -1,7 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { ENV_VARS } from "../constants/env";
-import { hasEnvVars } from "../utils/env";
+import { ENV_VARS, hasEnvVars } from "./env";
 
 const SUPABASE_URL = ENV_VARS.SUPABASE_URL;
 const SUPABASE_KEY = ENV_VARS.SUPABASE_PUBLISHABLE_KEY;

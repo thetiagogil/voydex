@@ -1,6 +1,6 @@
 import { useDatabaseStatus } from "@/contexts/database-status.context";
-import type { AuthCredentials } from "@/types/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { AuthCredentials } from "../types";
 
 export const useClaims = () => {
   const { isDbAvailable, isChecking } = useDatabaseStatus();

@@ -1,8 +1,15 @@
 import type { IconType } from "@/components/shared/icon";
-import { COLOR_VARIANTS } from "@/shared/ui/colors";
+import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
+import type { ColorVariant } from "../types";
+
+type StatusVariantMeta = {
+  label: string;
+  icon: IconType;
+  colors: ColorVariant;
+};
 
 // =============================================================================
-// PLAY STATUSES — real domain values
+// PLAY STATUSES
 // =============================================================================
 
 export const PLAY_STATUSES = [
@@ -25,16 +32,6 @@ export type StatusVariant = (typeof STATUS_VARIANTS)[number];
 // =============================================================================
 // STATUS VARIANT META — single source of truth for status visual treatment
 // =============================================================================
-
-type StatusVariantMeta = {
-  label: string;
-  icon: IconType;
-  colors: {
-    icon: string;
-    bg: string;
-    text: string;
-  };
-};
 
 export const STATUS_VARIANT_META: Record<StatusVariant, StatusVariantMeta> = {
   total: {

@@ -1,10 +1,10 @@
 import type { IconType } from "@/components/shared/icon";
+import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import {
   STATUS_VARIANTS,
   STATUS_VARIANT_META,
   type StatusVariant,
 } from "@/shared/constants/play-statuses";
-import { COLOR_VARIANTS } from "@/shared/ui/colors";
 
 // =============================================================================
 // DASHBOARD ACTIVITY TYPES

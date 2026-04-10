@@ -2,18 +2,18 @@
 
 import { FieldWrapper } from "@/components/shared/field-wrapper";
 import { Button } from "@/components/ui/button";
+import { FieldGroup, FieldSet } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useLogin } from "@/features/auth/hooks/useAuth";
 import { toastPromise } from "@/lib/utils/toast-promise";
-import { useSignup } from "@/shared/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { FieldGroup, FieldSet } from "../ui/field";
-import { Input } from "../ui/input";
-import { signupSchema, type SignupFormValues } from "./schemas/auth-schemas";
+import { LoginFormValues, loginSchema } from "./schemas";
 
-export const SignupFormContent = () => {
+export const LoginForm = () => {
   const router = useRouter();
-  const { mutateAsync: signup, isPending } = useSignup();
+  const { mutateAsync: login, isPending } = useLogin();
 
   const {
     register,
@@ -21,20 +21,19 @@ export const SignupFormContent = () => {
     reset,
     setError,
     formState: { errors },
-  } = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: { email: "", password: "", confirmPassword: "" },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
   });
 
-  const onSubmit = async (data: SignupFormValues) => {
+  const onSubmit = async (data: LoginFormValues) => {
     try {
-      const authData = { email: data.email, password: data.password };
-
-      await toastPromise(signup(authData), {
+      await toastPromise(login(data), {
         loading: "Logging you in…",
-        success: "Sign in successful!",
+        success: "Log in successful!",
         error: (err) => err?.message || "Login failed",
       });
+
       reset();
       router.push("/dashboard");
     } catch (err) {
@@ -65,40 +64,27 @@ export const SignupFormContent = () => {
             <Input
               id="password"
               type="password"
-              placeholder="********"
+              placeholder="••••••"
               {...register("password")}
-            />
-          </FieldWrapper>
-
-          <FieldWrapper
-            id="confirmPassword"
-            label="Confirm Password"
-            error={errors.confirmPassword?.message}
-          >
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="********"
-              {...register("confirmPassword")}
             />
           </FieldWrapper>
         </FieldGroup>
       </FieldSet>
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Creating account..." : "Create Account"}
+        {isPending ? "Logging in..." : "Log In"}
       </Button>
 
       <div className="text-center text-sm">
         <span>
-          Already have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Button
             type="button"
             variant="link"
             className="h-auto p-0 font-normal"
-            onClick={() => router.push("/auth/login")}
+            onClick={() => router.push("/auth/signup")}
           >
-            Log in
+            Sign up
           </Button>
         </span>
       </div>
