@@ -291,7 +291,7 @@ export const getDashboardActivity = async (
 };
 
 // =============================================================================
-// GET DASHBOARD OVERVIEW (composed loader)
+// GET DASHBOARD OVERVIEW
 // =============================================================================
 
 export const getDashboardOverview = async () => {

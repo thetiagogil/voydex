@@ -3,7 +3,7 @@
 import { PageLayout } from "@/components/layout/page-layout";
 import { Loading } from "@/components/shared/loading";
 import { ActivitySection } from "@/features/dashboard/components/activity-section";
-import { GenerationSection } from "@/features/dashboard/components/generation-section";
+import { GenerationsSection } from "@/features/dashboard/components/generations-section";
 import { StatsSection } from "@/features/dashboard/components/stats-section";
 import { useDashboardOverview } from "@/features/dashboard/hooks/useDashboard";
 
@@ -28,7 +28,7 @@ export default function DashboardPage() {
         <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-3">
           {/* Generations Column */}
           <div className="min-h-0 lg:col-span-2">
-            <GenerationSection generations={overview?.generations ?? []} />
+            <GenerationsSection generations={overview?.generations ?? []} />
           </div>
 
           {/* Activity Column */}

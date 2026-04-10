@@ -5,11 +5,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import type { DashboardGeneration } from "../types";
 import { GenerationCard } from "./generation-card";
 
-type GenerationSectionProps = {
+type GenerationsSectionProps = {
   generations: DashboardGeneration[];
 };
 
-export const GenerationSection = ({ generations }: GenerationSectionProps) => {
+export const GenerationsSection = ({
+  generations,
+}: GenerationsSectionProps) => {
   return (
     <Card className="h-full gap-0 p-0">
       <div className="border-border flex items-center gap-2 border-b p-4">

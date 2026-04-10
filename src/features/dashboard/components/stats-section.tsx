@@ -1,6 +1,6 @@
 import { Icon } from "@/components/shared/icon";
 import type { DashboardStats } from "../types";
-import { StatsCard } from "./stats-card";
+import { StatCard } from "./stat-card";
 
 type StatsSectionProps = {
   stats: DashboardStats | null;
@@ -15,21 +15,21 @@ export const StatsSection = ({ stats }: StatsSectionProps) => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      <StatsCard
+      <StatCard
         icon={<Icon type="total" size={20} />}
         value={data.total_plays}
         label="Total playthroughs"
         variant="total"
       />
 
-      <StatsCard
+      <StatCard
         icon={<Icon type="active" size={20} />}
         value={data.active_plays}
         variant="active"
         label="Active playthroughs"
       />
 
-      <StatsCard
+      <StatCard
         icon={<Icon type="completed" size={20} />}
         value={data.completed_plays}
         variant="completed"

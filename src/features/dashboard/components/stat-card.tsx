@@ -5,19 +5,19 @@ import {
   type StatusVariant,
 } from "@/shared/constants/play-statuses";
 
-type StatsCardProps = {
+type StatCardProps = {
   icon: React.ReactNode;
   value: string | number;
   label?: string;
   variant?: StatusVariant | "default";
 };
 
-export const StatsCard = ({
+export const StatCard = ({
   icon,
   value,
   label,
   variant = "default",
-}: StatsCardProps) => {
+}: StatCardProps) => {
   const defaultColors = {
     icon: "text-foreground",
     bg: "bg-foreground/10",

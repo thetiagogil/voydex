@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { DashboardActivity, DashboardOverview } from "../types";
 
 // =============================================================================
-// Dashboard Overview Hook (primary entrypoint for the dashboard page)
+// Dashboard Overview Hook
 // =============================================================================
 
 export const useDashboardOverview = () => {
@@ -18,7 +18,7 @@ export const useDashboardOverview = () => {
 };
 
 // =============================================================================
-// Dashboard Activity Hook (for standalone load-more behavior)
+// Dashboard Activity Hook
 // =============================================================================
 
 export const useDashboardActivity = (limit: number = 10) => {
