@@ -7,7 +7,7 @@
 -- ============================================================================
 -- Generation: 7
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 2 Pokémon (#152–251)
+-- Scope: changes to Generation 2 Pokémon (#152–251)
 -- Stat increases for 6 species. Raikou/Entei/Suicune HA changed from type-specific to Inner Focus.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)

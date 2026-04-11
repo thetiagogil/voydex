@@ -58,15 +58,15 @@ export const getPlay = async (id: string) => {
     { label: "Dashboard", href: "/dashboard" },
     {
       label: play.generation_name,
-      href: `/dashboard/gen/${play.generation_id}`,
+      href: `/dashboard/generation/${play.generation_id}`,
     },
     {
       label: play.game_name,
-      href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}`,
+      href: `/dashboard/generation/${play.generation_id}/game/${play.game_slug}`,
     },
     {
       label: play.play_name || "My Playthrough",
-      href: `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
+      href: `/dashboard/generation/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
       current: true,
     },
   ];

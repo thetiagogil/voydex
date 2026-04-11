@@ -7,8 +7,8 @@
 -- ============================================================================
 -- Generation: 3
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 1 Pokémon (#001–151) — ability assignment
--- Assigns Gen 3-era abilities (IDs 1–76) to Gen 1 Pokémon. Gen IV+ slots are NULL here.
+-- Scope: changes to Generation 1 Pokémon (#001–151) — ability assignment
+-- Assigns Generation 3-era abilities (IDs 1–76) to Generation 1 Pokémon. Generation IV+ slots are NULL here.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

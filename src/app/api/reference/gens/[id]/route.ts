@@ -5,15 +5,18 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id: genId } = await params;
+  const { id: generationId } = await params;
 
-  if (!genId)
-    return NextResponse.json({ error: "Missing gen id" }, { status: 400 });
+  if (!generationId)
+    return NextResponse.json(
+      { error: "Missing generation id" },
+      { status: 400 },
+    );
 
-  const result = await getGeneration(genId);
+  const result = await getGeneration(generationId);
   const { data, error, breadcrumbs } = result as any;
   if (error) return NextResponse.json({ error }, { status: 500 });
   if (!data)
-    return NextResponse.json({ error: "No gen found" }, { status: 404 });
+    return NextResponse.json({ error: "No generation found" }, { status: 404 });
   return NextResponse.json({ data, breadcrumbs }, { status: 200 });
 }

@@ -62,9 +62,9 @@ export const CollectionFilters = ({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Generations</SelectItem>
-            {generations.map((gen) => (
-              <SelectItem key={gen.id} value={gen.id.toString()}>
-                {gen.name}
+            {generations.map((generation) => (
+              <SelectItem key={generation.id} value={generation.id.toString()}>
+                {generation.name}
               </SelectItem>
             ))}
           </SelectContent>

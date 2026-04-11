@@ -7,7 +7,7 @@
 -- ============================================================================
 -- Generation: 8
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 6 Pokémon (#650–721)
+-- Scope: changes to Generation 6 Pokémon (#650–721)
 -- Aegislash Shield Forme stat nerf (Def/SpD 150→140).
 -- Hawlucha, Bergmite/Avalugg, Noibat/Noivern gain second egg groups.
 INSERT INTO

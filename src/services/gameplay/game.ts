@@ -27,7 +27,7 @@ export const getGame = async (slug: string) => {
   if (error) return { data: null, error };
   if (!game) return { data: null, error: null };
 
-  const gen = game.generation as any;
+  const generation = game.generation as any;
   const region = game.region as any;
   const gameType = game.game_type as any;
 
@@ -40,9 +40,9 @@ export const getGame = async (slug: string) => {
     releaseYear: game.release_year,
     coverUrl: await getGameCoverUrl(game.slug),
     generation: {
-      id: gen.id,
-      slug: gen.slug,
-      name: gen.name,
+      id: generation.id,
+      slug: generation.slug,
+      name: generation.name,
     },
     region: {
       id: region.id,
@@ -54,12 +54,12 @@ export const getGame = async (slug: string) => {
   const breadcrumbs = [
     { label: "Dashboard", href: "/dashboard" },
     {
-      label: gen.name,
-      href: `/dashboard/gen/${gen.id}`,
+      label: generation.name,
+      href: `/dashboard/generation/${generation.id}`,
     },
     {
       label: game.name,
-      href: `/dashboard/gen/${gen.id}/game/${game.slug}`,
+      href: `/dashboard/generation/${generation.id}/game/${game.slug}`,
       current: true,
     },
   ];

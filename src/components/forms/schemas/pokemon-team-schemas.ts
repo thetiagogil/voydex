@@ -30,7 +30,7 @@ const basePokemonTeamSchema = z.object({
   move4_id: z.number().optional(),
 });
 
-// Schema for Gen 3+ (with nature and ability required)
+// Schema for Generation 3+ (with nature and ability required)
 export const pokemonTeamSchema = basePokemonTeamSchema
   .extend({
     nature_id: z.number({ message: "Nature is required" }),
@@ -52,7 +52,7 @@ export const pokemonTeamSchema = basePokemonTeamSchema
     },
   );
 
-// Schema for Gen 1-2 (nature and ability optional/not shown)
+// Schema for Generation 1-2 (nature and ability optional/not shown)
 export const pokemonTeamSchemaGen1And2 = basePokemonTeamSchema.refine(
   (data) => {
     // If move2 is filled, move1 must be filled

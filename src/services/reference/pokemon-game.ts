@@ -75,7 +75,7 @@ export const getAvailablePokemon = async (
 };
 
 // =============================================================================
-// GET POKEMON FORM ABILITIES (gen-aware from pokemon_attributes timeline)
+// GET POKEMON FORM ABILITIES (generation-aware from pokemon_attributes timeline)
 // =============================================================================
 
 export const getPokemonAbilities = async (

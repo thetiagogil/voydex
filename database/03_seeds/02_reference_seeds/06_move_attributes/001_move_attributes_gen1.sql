@@ -9,10 +9,10 @@
 -- Generation: 1
 -- Table: reference.move_attributes
 -- Scope: base generation seed
--- Gen 1 had no physical/special split per move. Damage class is determined by
+-- Generation 1 had no physical/special split per move. Damage class is determined by
 -- type: Normal, Fighting, Poison, Ground, Flying, Bug, Rock, Ghost = physical.
 -- Fire, Water, Electric, Grass, Ice, Psychic, Dragon = special.
--- Gen 1 "Special" stat covered both Sp.Atk and Sp.Def but is not tracked here.
+-- Generation 1 "Special" stat covered both Sp.Atk and Sp.Def but is not tracked here.
 INSERT INTO
     reference.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class)
 VALUES

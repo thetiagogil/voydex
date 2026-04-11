@@ -9,7 +9,7 @@
 -- Generation: 2
 -- Table: reference.move_attributes
 -- Scope: generation changes
--- Four Gen 1 moves had their type corrected in Gen 2:
+-- Four Generation 1 moves had their type corrected in Generation 2:
 -- Karate Chop (Normal -> Fighting), Gust (Normal -> Flying),
 -- Sand Attack (Normal -> Ground), Bite (Normal -> Dark).
 INSERT INTO

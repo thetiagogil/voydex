@@ -23,14 +23,14 @@ import { use, useCallback, useEffect, useRef } from "react";
 
 interface PlayPageProps {
   params: Promise<{
-    genId: string;
+    generationId: string;
     gameSlug: string;
     playId: string;
   }>;
 }
 
 export default function PlayPage({ params }: PlayPageProps) {
-  const { genId, gameSlug, playId } = use(params);
+  const { generationId, gameSlug, playId } = use(params);
   const {
     data: play,
     isLoading: playLoading,
@@ -123,7 +123,7 @@ export default function PlayPage({ params }: PlayPageProps) {
         <PlayHeader play={play.data} completion={currentCompletion} />
         <PokemonTeamSection
           play={play.data}
-          genId={genId}
+          generationId={generationId}
           gameSlug={gameSlug}
           pokemonTeam={pokemonTeamData}
         />

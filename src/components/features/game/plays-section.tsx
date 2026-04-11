@@ -5,7 +5,7 @@ import { PlayCard } from "../shared/play-card";
 interface PlaysSectionProps {
   plays: GamePlaySummary[];
   game: GameWithFullData;
-  genId: string;
+  generationId: string;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -13,7 +13,7 @@ interface PlaysSectionProps {
 export const PlaysSection = ({
   plays,
   game,
-  genId,
+  generationId,
   setOpen,
 }: PlaysSectionProps) => {
   return (
@@ -29,7 +29,7 @@ export const PlaysSection = ({
           <PlayCard
             key={play.id}
             play={play}
-            genId={genId}
+            generationId={generationId}
             gameSlug={game.slug}
           />
         ))}

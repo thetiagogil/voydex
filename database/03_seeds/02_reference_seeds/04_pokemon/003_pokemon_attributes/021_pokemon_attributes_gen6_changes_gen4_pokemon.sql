@@ -7,9 +7,9 @@
 -- ============================================================================
 -- Generation: 6
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 4 Pokémon (#387–493)
+-- Scope: changes to Generation 4 Pokémon (#387–493)
 -- Togekiss gains Fairy as type1. Mime Jr. gains Fairy as type2.
--- Starly and Dusknoir gain HAs (were NULL in Gen 5).
+-- Starly and Dusknoir gain HAs (were NULL in Generation 5).
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

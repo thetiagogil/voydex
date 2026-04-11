@@ -43,8 +43,8 @@ export async function verifySeeds(client) {
   checks++;
   const { rows: orphanGames } = await client.query(`
     SELECT g.slug FROM reference.games g
-    LEFT JOIN reference.generations gen ON g.generation_id = gen.id
-    WHERE gen.id IS NULL
+    LEFT JOIN reference.generations generation ON g.generation_id = generation.id
+    WHERE generation.id IS NULL
   `);
   if (orphanGames.length > 0) {
     errors.push(

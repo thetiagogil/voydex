@@ -12,7 +12,7 @@ export const PlaysList = ({ plays }: PlaysListProps) => {
         <PlayCard
           key={play.id}
           play={play}
-          genId={play.game?.generation.id.toString() ?? ""}
+          generationId={play.game?.generation.id.toString() ?? ""}
           gameSlug={play.game?.slug ?? ""}
         />
       ))}

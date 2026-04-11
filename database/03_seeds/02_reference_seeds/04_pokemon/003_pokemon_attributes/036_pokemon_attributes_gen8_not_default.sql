@@ -7,11 +7,11 @@
 -- ============================================================================
 -- Generation: 8
 -- Table: reference.pokemon_attributes
--- Scope: non-default forms introduced in Gen 8
+-- Scope: non-default forms introduced in Generation 8
 -- Galarian birds (Articuno/Zapdos/Moltres) have no Hidden Abilities.
--- Hisuian forms received HA assignments when introduced to Gen 9 (HOME/SV).
--- Basculegion Female ab1=Rattled(155) in Gen 8; changed to Swift Swim(33) in Gen 9 (see gen9_not_default).
--- Zacian/Zamazenta Crowned: Gen 8 stats used here; Gen 9 nerfs in gen9_not_default.
+-- Hisuian forms received HA assignments when introduced to Generation 9 (HOME/SV).
+-- Basculegion Female ab1=Rattled(155) in Generation 8; changed to Swift Swim(33) in Generation 9 (see gen9_not_default).
+-- Zacian/Zamazenta Crowned: Generation 8 stats used here; Generation 9 nerfs in gen9_not_default.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
@@ -87,16 +87,16 @@ VALUES
     (713, 71301, 8, 6, 13, 173, 115, 5, 1, 11, 95, 127, 184, 34, 36, 38, NULL),
     -- #724 Hisuian Decidueye (Overgrow / HA: Scrappy)
     (724, 72401, 8, 5, 7, 65, NULL, 113, 6, NULL, 88, 112, 80, 95, 95, 60, NULL),
-    -- === Other Gen 8 Non-Default Forms ===
+    -- === Other Generation 8 Non-Default Forms ===
     -- #550 Basculin White-Striped (Rattled / Adaptability / HA: Mold Breaker)
     (550, 55002, 8, 3, NULL, 155, 91, 104, 3, NULL, 70, 92, 65, 80, 55, 98, NULL),
     -- #849 Toxtricity Low Key (Punk Rock / Minus / HA: Technician)
     (849, 84901, 8, 4, 8, 244, 58, 101, 10, NULL, 75, 98, 70, 114, 70, 75, NULL),
     -- #876 Indeedee Female (Own Tempo / Synchronize / HA: Psychic Surge)
     (876, 87601, 8, 11, 1, 20, 28, 227, 8, NULL, 70, 55, 65, 95, 105, 85, NULL),
-    -- #888 Zacian Crowned Sword (Intrepid Sword, no HA) — Gen 8 stats
+    -- #888 Zacian Crowned Sword (Intrepid Sword, no HA) — Generation 8 stats
     (888, 88801, 8, 18, 17, 234, NULL, NULL, 15, NULL, 92, 170, 115, 80, 115, 148, NULL),
-    -- #889 Zamazenta Crowned Shield (Dauntless Shield, no HA) — Gen 8 stats
+    -- #889 Zamazenta Crowned Shield (Dauntless Shield, no HA) — Generation 8 stats
     (889, 88901, 8, 7, 17, 235, NULL, NULL, 15, NULL, 92, 130, 145, 80, 145, 128, NULL),
     -- #892 Urshifu Rapid Strike (Unseen Fist, no HA)
     (892, 89201, 8, 7, 3, 260, NULL, NULL, 15, NULL, 100, 130, 100, 63, 60, 97, NULL),

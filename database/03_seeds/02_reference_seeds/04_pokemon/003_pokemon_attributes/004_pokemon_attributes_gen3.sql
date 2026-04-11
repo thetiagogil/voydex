@@ -8,8 +8,8 @@
 -- Generation: 3
 -- Table: reference.pokemon_attributes
 -- Scope: new species (#252–386)
--- Gen 3-era abilities only (IDs 1–76); Gen IV+ slots are NULL.
--- Pokémon gaining Fairy typing in Gen 6 are seeded with their Gen 3 types.
+-- Generation 3-era abilities only (IDs 1–76); Generation IV+ slots are NULL.
+-- Pokémon gaining Fairy typing in Generation 6 are seeded with their Generation 3 types.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

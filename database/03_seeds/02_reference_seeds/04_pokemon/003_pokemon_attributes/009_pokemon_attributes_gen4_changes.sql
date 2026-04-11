@@ -7,8 +7,8 @@
 -- ============================================================================
 -- Generation: 4
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 1–3 Pokémon — ability2 additions
--- Adds ability slot 2 for Gen 1–3 Pokémon that gained a second ability in Gen 4.
+-- Scope: changes to Generation 1–3 Pokémon — ability2 additions
+-- Adds ability slot 2 for Generation 1–3 Pokémon that gained a second ability in Generation 4.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

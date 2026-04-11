@@ -9,7 +9,7 @@
 -- Table: reference.pokemon_attributes
 -- Scope: new species (#387–493)
 -- Togekiss (#480) is Normal/Flying here; becomes Fairy/Flying in gen6_changes_gen4.
--- Hidden abilities (Gen 5+) are NULL.
+-- Hidden abilities (Generation 5+) are NULL.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

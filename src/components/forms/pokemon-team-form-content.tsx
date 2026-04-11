@@ -85,7 +85,7 @@ export const PlayTeamFormContent = ({
     );
   }, [availablePokemon]);
 
-  // Determine if nature and ability are available (Gen 3+)
+  // Determine if nature and ability are available (Generation 3+)
   const hasNatureAndAbility = generationId >= 3;
 
   // Calculate default position for new pokemon (last available position)

@@ -7,8 +7,8 @@
 -- ============================================================================
 -- Generation: 8
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 1 Pokémon (#001–151)
--- Koffing and Weezing gain ab2=Neutralizing Gas and HA=Stench in Gen 8.
+-- Scope: changes to Generation 1 Pokémon (#001–151)
+-- Koffing and Weezing gain ab2=Neutralizing Gas and HA=Stench in Generation 8.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

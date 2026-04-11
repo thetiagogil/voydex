@@ -8,8 +8,8 @@
 -- Generation: 2
 -- Table: reference.pokemon_attributes
 -- Scope: new species (#152–251)
--- Abilities did not exist until Gen 3 (all ability slots are NULL).
--- Pokémon that will gain Fairy typing in Gen 6 are seeded with their Gen 2 types here.
+-- Abilities did not exist until Generation 3 (all ability slots are NULL).
+-- Pokémon that will gain Fairy typing in Generation 6 are seeded with their Generation 2 types here.
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

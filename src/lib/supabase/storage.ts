@@ -1,8 +1,8 @@
 import { createClient } from "./server";
 
-export async function getGameCoverUrl(
+export const getGameCoverUrl = async (
   gameSlug: string,
-): Promise<string | null> {
+): Promise<string | null> => {
   const supabase = await createClient();
 
   const extensions = ["png", "jpg"];
@@ -23,11 +23,11 @@ export async function getGameCoverUrl(
   }
 
   return null;
-}
+};
 
-export async function getGameCoverUrls(
+export const getGameCoverUrls = async (
   gameSlugs: string[],
-): Promise<Record<string, string | null>> {
+): Promise<Record<string, string | null>> => {
   const urls: Record<string, string | null> = {};
 
   for (const slug of gameSlugs) {
@@ -35,4 +35,4 @@ export async function getGameCoverUrls(
   }
 
   return urls;
-}
+};

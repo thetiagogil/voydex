@@ -9,7 +9,7 @@
 -- Generation: 8
 -- Table: reference.move_availability
 -- Scope: version-group-specific (bdsp)
--- BDSP move pool approximated as union of Sword/Shield moves + all Gen 1-4 moves.
+-- BDSP move pool approximated as union of Sword/Shield moves + all Generation 1-4 moves.
 -- Requires manual review against Bulbapedia BDSP move list.
 -- Moves: 700
 INSERT INTO

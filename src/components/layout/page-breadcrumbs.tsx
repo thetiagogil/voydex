@@ -22,27 +22,27 @@ export const PageBreadcrumbs = () => {
     if (
       segments.includes("protected") ||
       pathname.startsWith("/dashboard") ||
-      pathname.startsWith("/gen")
+      pathname.startsWith("/generation")
     ) {
       breadcrumbs.push({ label: "Dashboard", href: "/dashboard" });
     }
 
     // Handle generation routes
-    if (segments.includes("gen")) {
-      const genIndex = segments.indexOf("gen");
-      const genSlug = segments[genIndex + 1];
+    if (segments.includes("generation")) {
+      const generationIndex = segments.indexOf("generation");
+      const generationSlug = segments[generationIndex + 1];
 
-      if (genSlug) {
-        // Convert numeric gen to Roman numerals: 1 to "Gen I", 2 to "Gen II", etc.
-        const genNumber = parseInt(genSlug);
-        const genRoman =
+      if (generationSlug) {
+        // Convert numeric generation to Roman numerals: 1 to "Generation I", 2 to "Generation II", etc.
+        const generationNumber = parseInt(generationSlug);
+        const generationRoman =
           ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"][
-            genNumber - 1
-          ] || genSlug;
+            generationNumber - 1
+          ] || generationSlug;
 
         breadcrumbs.push({
-          label: `Generation ${genRoman}`,
-          href: `/dashboard/gen/${genSlug}`,
+          label: `Generation ${generationRoman}`,
+          href: `/dashboard/generation/${generationSlug}`,
         });
 
         // Handle game routes
@@ -59,7 +59,7 @@ export const PageBreadcrumbs = () => {
 
             breadcrumbs.push({
               label: gameName,
-              href: `/dashboard/gen/${genSlug}/game/${gameSlug}`,
+              href: `/dashboard/generation/${generationSlug}/game/${gameSlug}`,
             });
 
             // Handle play routes
@@ -70,7 +70,7 @@ export const PageBreadcrumbs = () => {
               if (playId && playId !== "create") {
                 breadcrumbs.push({
                   label: "My Playthrough", // TODO: Get real play title from API
-                  href: `/dashboard/gen/${genSlug}/game/${gameSlug}/play/${playId}`,
+                  href: `/dashboard/generation/${generationSlug}/game/${gameSlug}/play/${playId}`,
                   current: segments.length === playIndex + 2,
                 });
 

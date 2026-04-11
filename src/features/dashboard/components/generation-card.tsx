@@ -12,7 +12,7 @@ type GenerationCardProps = {
 
 export const GenerationCard = ({ generation }: GenerationCardProps) => {
   return (
-    <Link key={generation.slug} href={`/dashboard/gen/${generation.id}`}>
+    <Link key={generation.slug} href={`/dashboard/generation/${generation.id}`}>
       <Card
         className={cn(
           "group hover:border-primary/50 cursor-pointer p-5 hover:shadow-2xl",

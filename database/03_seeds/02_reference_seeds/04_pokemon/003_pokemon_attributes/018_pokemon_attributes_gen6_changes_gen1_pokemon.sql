@@ -7,7 +7,7 @@
 -- ============================================================================
 -- Generation: 6
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 1 Pokémon (#001–151)
+-- Scope: changes to Generation 1 Pokémon (#001–151)
 -- Fairy type added to Clefairy/Clefable (pure Fairy), Jigglypuff/Wigglytuff, Mr. Mime.
 -- Minor stat increases for 14 species. Zapdos HA changed from Lightning Rod to Static.
 INSERT INTO

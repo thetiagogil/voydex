@@ -19,7 +19,7 @@ VALUES
     (12803, 'paldea-tauros-aqua', 'Paldean Tauros (Aqua Breed)', 128, 9, NULL, NULL, FALSE, 'tauros-paldean-aqua'),
     -- Wooper: Kantonian is default (19400). Paldean has different type (Poison/Ground).
     (19401, 'paldea-wooper', 'Paldean Wooper', 194, 9, NULL, NULL, FALSE, 'wooper-paldean'),
-    -- === Other Gen 9 Non-Default Forms ===
+    -- === Other Generation 9 Non-Default Forms ===
     -- Ursaluna Bloodmoon: distinct variant from The Teal Mask DLC, different stats/type.
     (90101, 'ursaluna-bloodmoon', 'Ursaluna (Bloodmoon)', 901, 9, NULL, NULL, FALSE, 'ursaluna-bloodmoon'),
     -- Oinkologne Female: different stats from male.

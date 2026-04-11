@@ -8,8 +8,8 @@
 -- Generation: 1
 -- Table: reference.pokemon_attributes
 -- Scope: base generation seed (#001–151)
--- Gen 1 uses the single 'special' stat column (special_attack and special_defense are NULL).
--- Abilities did not exist in Gen 1 (all ability slots are NULL).
+-- Generation 1 uses the single 'special' stat column (special_attack and special_defense are NULL).
+-- Abilities did not exist in Generation 1 (all ability slots are NULL).
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

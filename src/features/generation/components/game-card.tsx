@@ -3,18 +3,18 @@ import { QuickInfo } from "@/components/shared/quick-info";
 import { StatusInfo } from "@/components/shared/status-info";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import type { GameWithPlayStats } from "@/types/gen";
 import Image from "next/image";
 import Link from "next/link";
+import type { GenerationGame } from "../types";
 
-interface GameCardProps {
-  game: GameWithPlayStats;
-  genId: string;
-}
+type GameCardProps = {
+  game: GenerationGame;
+  generationId: string;
+};
 
-export const GameCard = ({ game, genId }: GameCardProps) => {
+export const GameCard = ({ game, generationId }: GameCardProps) => {
   return (
-    <Link href={`/dashboard/gen/${genId}/game/${game.slug}`}>
+    <Link href={`/dashboard/generation/${generationId}/game/${game.slug}`}>
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex gap-4">

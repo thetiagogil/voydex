@@ -12,13 +12,13 @@ import { use, useState } from "react";
 
 interface GamePageProps {
   params: Promise<{
-    genId: string;
+    generationId: string;
     gameSlug: string;
   }>;
 }
 
 export default function GamePage({ params }: GamePageProps) {
-  const { genId, gameSlug } = use(params);
+  const { generationId, gameSlug } = use(params);
   const [open, setOpen] = useState<boolean>(false);
 
   const {
@@ -59,7 +59,7 @@ export default function GamePage({ params }: GamePageProps) {
             <PlaysSection
               plays={gameData.plays}
               game={gameData}
-              genId={genId}
+              generationId={generationId}
               open={open}
               setOpen={setOpen}
             />

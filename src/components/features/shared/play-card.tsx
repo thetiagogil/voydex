@@ -8,13 +8,15 @@ import Link from "next/link";
 
 interface PlayCardProps {
   play: GamePlaySummary;
-  genId: string | number;
+  generationId: string | number;
   gameSlug: string;
 }
 
-export const PlayCard = ({ play, genId, gameSlug }: PlayCardProps) => {
+export const PlayCard = ({ play, generationId, gameSlug }: PlayCardProps) => {
   return (
-    <Link href={`/dashboard/gen/${genId}/game/${gameSlug}/play/${play.id}`}>
+    <Link
+      href={`/dashboard/generation/${generationId}/game/${gameSlug}/play/${play.id}`}
+    >
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">

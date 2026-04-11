@@ -7,10 +7,10 @@
 -- ============================================================================
 -- Generation: 5
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 2 Pokémon (#152–251) — hidden ability introduction
--- Adds hidden_ability_id for Gen 2 Pokémon that gained a HA in Gen 5.
--- 7 excluded (no Gen 5 HA): Misdreavus, Unown, Raikou, Entei, Suicune, Pupitar, Celebi.
--- Raikou/Entei/Suicune gained Inner Focus as HA in Gen 7 (tracked in gen7_changes).
+-- Scope: changes to Generation 2 Pokémon (#152–251) — hidden ability introduction
+-- Adds hidden_ability_id for Generation 2 Pokémon that gained a HA in Generation 5.
+-- 7 excluded (no Generation 5 HA): Misdreavus, Unown, Raikou, Entei, Suicune, Pupitar, Celebi.
+-- Raikou/Entei/Suicune gained Inner Focus as HA in Generation 7 (tracked in gen7_changes).
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

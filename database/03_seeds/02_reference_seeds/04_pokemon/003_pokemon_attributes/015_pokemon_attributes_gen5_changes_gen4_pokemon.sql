@@ -7,12 +7,12 @@
 -- ============================================================================
 -- Generation: 5
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 4 Pokémon (#387–493) — hidden ability introduction
--- Adds hidden_ability_id for Gen 4 Pokémon that gained a HA in Gen 5.
--- 18 excluded (no Gen 5 HA): Starly, Cherubi, Cherrim, Mismagius, Chingling, Carnivine,
+-- Scope: changes to Generation 4 Pokémon (#387–493) — hidden ability introduction
+-- Adds hidden_ability_id for Generation 4 Pokémon that gained a HA in Generation 5.
+-- 18 excluded (no Generation 5 HA): Starly, Cherubi, Cherrim, Mismagius, Chingling, Carnivine,
 --   Dusknoir, Rotom, Uxie, Mesprit, Azelf, Regigigas, Cresselia, Phione, Manaphy, Darkrai,
---   Shaymin, Arceus. Starly/Dusknoir gained HAs in Gen 6 (tracked in gen6_changes).
--- Piplup line HA = Defiant here; changed to Competitive in Gen 9 (tracked in gen9_changes).
+--   Shaymin, Arceus. Starly/Dusknoir gained HAs in Generation 6 (tracked in gen6_changes).
+-- Piplup line HA = Defiant here; changed to Competitive in Generation 9 (tracked in gen9_changes).
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

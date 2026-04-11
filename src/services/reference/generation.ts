@@ -6,7 +6,7 @@ import type {
   GameWithPlayStats,
   GenerationUserStats,
   GenerationWithGames,
-} from "@/types/gen";
+} from "@/types/generation";
 
 // =============================================================================
 // GET SINGLE GENERATION WITH GAMES
@@ -31,7 +31,7 @@ export const getGeneration = async (id: string) => {
   if (genError) return { data: null, error: genError };
   if (!genData) return { data: null, error: null };
 
-  // Get games for this gen
+  // Get games for this generation
   const { data: games, error: gamesError } = await supabase
     .schema("reference")
     .from("games")
@@ -144,7 +144,7 @@ export const getGeneration = async (id: string) => {
     { label: "Dashboard", href: "/dashboard" },
     {
       label: generation.name,
-      href: `/dashboard/gen/${generation.id}`,
+      href: `/dashboard/generation/${generation.id}`,
       current: true,
     },
   ];

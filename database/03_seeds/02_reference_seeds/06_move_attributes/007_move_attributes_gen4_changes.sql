@@ -9,9 +9,9 @@
 -- Generation: 4
 -- Table: reference.move_attributes
 -- Scope: generation changes
--- Gen 4 introduced the physical/special split. Each move now has its own damage
--- class independent of type. Many pre-Gen 4 moves changed damage class here.
--- This file also includes power/accuracy/pp changes that took effect in Gen 4.
+-- Generation 4 introduced the physical/special split. Each move now has its own damage
+-- class independent of type. Many pre-Generation 4 moves changed damage class here.
+-- This file also includes power/accuracy/pp changes that took effect in Generation 4.
 INSERT INTO
     reference.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class)
 VALUES

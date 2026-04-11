@@ -198,7 +198,7 @@ export const getDashboardActivity = async (
 
   // Play creation / status activities
   recentPlays.forEach((play) => {
-    const href = `/dashboard/gen/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`;
+    const href = `/dashboard/generation/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`;
 
     activities.push({
       id: `play-created-${play.play_id}`,
@@ -250,7 +250,7 @@ export const getDashboardActivity = async (
         id: playContext.generationId,
         slug: playContext.generationSlug,
       },
-      href: `/dashboard/gen/${playContext.generationId}/game/${playContext.gameSlug}/play/${teamEntry.play_id}`,
+      href: `/dashboard/generation/${playContext.generationId}/game/${playContext.gameSlug}/play/${teamEntry.play_id}`,
     });
   });
 
@@ -277,7 +277,7 @@ export const getDashboardActivity = async (
         id: playContext.generationId,
         slug: playContext.generationSlug,
       },
-      href: `/dashboard/gen/${playContext.generationId}/game/${playContext.gameSlug}/play/${trackingEntry.play_id}`,
+      href: `/dashboard/generation/${playContext.generationId}/game/${playContext.gameSlug}/play/${trackingEntry.play_id}`,
     });
   });
 

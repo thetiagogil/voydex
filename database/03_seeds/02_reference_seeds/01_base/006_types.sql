@@ -8,7 +8,7 @@
 -- Generation: 1
 -- Table: reference.types
 -- Scope: base generation seed
--- Gen 1 introduced 15 types. The ??? type is excluded (removed in Gen 5).
+-- Generation 1 introduced 15 types. The ??? type is excluded (removed in Generation 5).
 INSERT INTO
     reference.types (id, slug, name, introduced_generation_id)
 VALUES

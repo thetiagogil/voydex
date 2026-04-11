@@ -54,7 +54,7 @@ CREATE TABLE
             special IS NULL
             OR special > 0
         ),
-        -- Gen 1 uses special; Gen 2+ uses special_attack/special_defense
+        -- Generation 1 uses special; Generation 2+ uses special_attack/special_defense
         CHECK (
             (
                 special IS NOT NULL

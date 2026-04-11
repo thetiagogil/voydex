@@ -13,14 +13,14 @@ import { PokemonTeamModal } from "./pokemon-team-modal";
 
 interface PokemonTeamSectionProps {
   play: Play;
-  genId: string;
+  generationId: string;
   gameSlug: string;
   pokemonTeam?: PlayPokemon[];
 }
 
 export const PokemonTeamSection = ({
   play,
-  genId,
+  generationId,
   gameSlug,
   pokemonTeam,
 }: PokemonTeamSectionProps) => {
@@ -96,7 +96,7 @@ export const PokemonTeamSection = ({
 
             <Button variant="outline" asChild>
               <Link
-                href={`/dashboard/gen/${genId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
+                href={`/dashboard/generation/${generationId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
               >
                 <Icon type="edit" />
                 <span className="hidden sm:inline-block">Manage</span>

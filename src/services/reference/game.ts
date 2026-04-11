@@ -27,7 +27,7 @@ export const getGame = async (id: number | string) => {
   if (gameError) return { data: null, error: gameError };
   if (!gameData) return { data: null, error: null };
 
-  const gen = gameData.generation as any;
+  const generation = gameData.generation as any;
   const region = gameData.region as any;
   const gameType = gameData.game_type as any;
 
@@ -98,8 +98,9 @@ export const getGame = async (id: number | string) => {
 
     userStats = {
       totalPlaythroughs: plays.length,
-      activePlaythroughs: plays.filter((p) => p.status === "active").length,
-      completedPlaythroughs: plays.filter((p) => p.status === "completed")
+      activePlaythroughs: plays.filter((p) => p.status.slug === "active")
+        .length,
+      completedPlaythroughs: plays.filter((p) => p.status.slug === "completed")
         .length,
     };
   }
@@ -113,9 +114,9 @@ export const getGame = async (id: number | string) => {
     releaseYear: gameData.release_year,
     coverUrl: await getGameCoverUrl(gameData.slug),
     generation: {
-      id: gen.id,
-      slug: gen.slug,
-      name: gen.name,
+      id: generation.id,
+      slug: generation.slug,
+      name: generation.name,
     },
     region: {
       id: region.id,
@@ -129,12 +130,12 @@ export const getGame = async (id: number | string) => {
   const breadcrumbs = [
     { label: "Dashboard", href: "/dashboard" },
     {
-      label: gen.name,
-      href: `/dashboard/gen/${gen.id}`,
+      label: generation.name,
+      href: `/dashboard/generation/${generation.id}`,
     },
     {
       label: gameData.name,
-      href: `/dashboard/gen/${gen.id}/game/${gameData.slug}`,
+      href: `/dashboard/generation/${generation.id}/game/${gameData.slug}`,
       current: true,
     },
   ];

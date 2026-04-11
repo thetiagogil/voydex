@@ -7,14 +7,14 @@
 -- ============================================================================
 -- Generation: 5
 -- Table: reference.pokemon_attributes
--- Scope: non-default forms introduced in Gen 5 + Gen 5 changes to Gen 4 non-default forms
--- Section 1: New non-default forms introduced in Gen 5.
--- Section 2: Gen 5 changes to Gen 4 non-default forms:
+-- Scope: non-default forms introduced in Generation 5 + Generation 5 changes to Generation 4 non-default forms
+-- Section 1: New non-default forms introduced in Generation 5.
+-- Section 2: Generation 5 changes to Generation 4 non-default forms:
 --   - Wormadam Sandy/Trash: added HA (Overcoat).
 --   - Rotom appliance forms: type2 changed from Ghost to form-specific type; stats boosted (BST 440 → 520).
 -- Keldeo Resolute excluded (cosmetic only — same stats, abilities, and type as default).
 -- ==========================================================================
--- Section 1: Gen 5 Non-Default Form Introductions
+-- Section 1: Generation 5 Non-Default Form Introductions
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
@@ -32,7 +32,7 @@ VALUES
     (646, 64602, 5, 15, 6, 164, NULL, NULL, 15, NULL, 125, 170, 100, 120, 90, 95, NULL);
 
 -- ==========================================================================
--- Section 2: Gen 5 Changes to Gen 4 Non-Default Forms
+-- Section 2: Generation 5 Changes to Generation 4 Non-Default Forms
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES

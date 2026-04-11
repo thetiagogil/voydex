@@ -11,7 +11,7 @@ import { use } from "react";
 
 interface PlayPokemonTeamPageProps {
   params: Promise<{
-    genId: string;
+    generationId: string;
     gameSlug: string;
     playId: string;
   }>;
@@ -20,7 +20,7 @@ interface PlayPokemonTeamPageProps {
 export default function PlayPokemonTeamPage({
   params,
 }: PlayPokemonTeamPageProps) {
-  const { genId, gameSlug, playId } = use(params);
+  const { generationId, gameSlug, playId } = use(params);
   const { data: play, isLoading: playLoading } = usePlay(playId);
   const { data: pokemonTeamData, isLoading: pokemonTeamLoading } =
     usePlayPokemonTeam(playId);
@@ -52,7 +52,7 @@ export default function PlayPokemonTeamPage({
     .sort((a, b) => a.position - b.position);
 
   const shinyCount = allPokemon.filter((p) => p.isShiny).length;
-  const backUrl = `/dashboard/gen/${genId}/game/${gameSlug}/play/${playId}`;
+  const backUrl = `/dashboard/generation/${generationId}/game/${gameSlug}/play/${playId}`;
 
   return (
     <PageLayout>

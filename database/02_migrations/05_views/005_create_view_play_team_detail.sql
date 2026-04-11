@@ -60,7 +60,7 @@ FROM
     -- Get the play's game to determine generation for type lookup
     JOIN gameplay.plays p ON pt.play_id = p.id
     JOIN reference.games g ON p.game_id = g.id
-    -- Get pokemon attributes for the correct generation (latest <= game's gen)
+    -- Get pokemon attributes for the correct generation (latest <= game's generation)
     LEFT JOIN LATERAL (
         SELECT
             pa2.type1_id,

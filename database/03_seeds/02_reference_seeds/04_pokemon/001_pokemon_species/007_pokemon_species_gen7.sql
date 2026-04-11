@@ -8,7 +8,7 @@
 -- Generation: 7
 -- Table: reference.pokemon_species
 -- Scope: base generation seed (#722–809)
--- Meltan and Melmetal (#808–809) classified as Gen 7 mythicals per Bulbapedia (introduced via Pokémon GO).
+-- Meltan and Melmetal (#808–809) classified as Generation 7 mythicals per Bulbapedia (introduced via Pokémon GO).
 INSERT INTO
     reference.pokemon_species (id, slug, name, introduced_generation_id, national_number, color, is_baby, is_legendary, is_mythical)
 VALUES

@@ -41,7 +41,7 @@ VALUES
     -- Midday is default (74500). Midnight and Dusk are evolution-locked.
     (74501, 'lycanroc-midnight', 'Lycanroc (Midnight)', 745, 7, NULL, NULL, FALSE, 'lycanroc-midnight'),
     (74502, 'lycanroc-dusk', 'Lycanroc (Dusk)', 745, 7, NULL, NULL, FALSE, 'lycanroc-dusk'),
-    -- === Zygarde Forms (species from Gen 6, forms introduced in Gen 7) ===
+    -- === Zygarde Forms (species from Generation 6, forms introduced in Generation 7) ===
     -- 50% Forme is default (71800). 10% has different stats. Complete excluded (battle-only).
     (71801, 'zygarde-10-percent', 'Zygarde (10% Forme)', 718, 7, NULL, NULL, FALSE, 'zygarde-10'),
     -- === Necrozma Fusions ===

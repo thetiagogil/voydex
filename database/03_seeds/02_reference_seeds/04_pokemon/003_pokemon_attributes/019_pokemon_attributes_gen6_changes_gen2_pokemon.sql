@@ -7,7 +7,7 @@
 -- ============================================================================
 -- Generation: 6
 -- Table: reference.pokemon_attributes
--- Scope: changes to Gen 2 Pokémon (#152–251)
+-- Scope: changes to Generation 2 Pokémon (#152–251)
 -- Fairy type applied to Cleffa, Togepi/Togetic, Igglybuff, Snubbull/Granbull, Marill/Azumarill.
 -- Minor stat increases (Ampharos, Bellossom, Azumarill, Jumpluff). Igglybuff gains Competitive (ab2).
 INSERT INTO

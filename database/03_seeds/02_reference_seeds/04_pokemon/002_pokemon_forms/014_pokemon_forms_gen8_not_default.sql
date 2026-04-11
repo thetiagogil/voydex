@@ -49,8 +49,8 @@ VALUES
     (70601, 'hisuian-goodra', 'Hisuian Goodra', 706, 8, NULL, NULL, FALSE, 'goodra-hisuian'),
     (71301, 'hisuian-avalugg', 'Hisuian Avalugg', 713, 8, NULL, NULL, FALSE, 'avalugg-hisuian'),
     (72401, 'hisuian-decidueye', 'Hisuian Decidueye', 724, 8, NULL, NULL, FALSE, 'decidueye-hisuian'),
-    -- === Other Gen 8 Non-Default Forms ===
-    -- Basculin White-Striped: introduced in Legends Arceus. Blue-Striped is offset 1 (Gen 5).
+    -- === Other Generation 8 Non-Default Forms ===
+    -- Basculin White-Striped: introduced in Legends Arceus. Blue-Striped is offset 1 (Generation 5).
     (55002, 'basculin-white-striped', 'Basculin (White-Striped)', 550, 8, NULL, NULL, FALSE, 'basculin-white-striped'),
     -- Toxtricity Low Key: nature-determined at evolution, different moves. Amped is default.
     (84901, 'toxtricity-low-key', 'Toxtricity (Low Key)', 849, 8, NULL, NULL, FALSE, 'toxtricity-low-key'),

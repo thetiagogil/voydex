@@ -7,14 +7,14 @@
 -- ============================================================================
 -- Generation: 9
 -- Table: reference.pokemon_attributes
--- Scope: non-default forms introduced in Gen 9 + Gen 9 changes to Gen 8 non-default forms
--- Section 1: New non-default forms introduced in Gen 9.
--- Section 2: Gen 9 changes to Gen 8 non-default forms:
+-- Scope: non-default forms introduced in Generation 9 + Generation 9 changes to Generation 8 non-default forms
+-- Section 1: New non-default forms introduced in Generation 9.
+-- Section 2: Generation 9 changes to Generation 8 non-default forms:
 --   - Basculegion Female: ab1 changed from Rattled(155) to Swift Swim(33).
 --   - Zacian Crowned Sword: Attack nerfed 170 → 150.
 --   - Zamazenta Crowned Shield: Attack 130 → 120, Defense 145 → 140, SpDef 145 → 140.
 -- ==========================================================================
--- Section 1: Gen 9 Non-Default Form Introductions
+-- Section 1: Generation 9 Non-Default Form Introductions
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
@@ -27,7 +27,7 @@ VALUES
     (128, 12803, 9, 7, 3, 22, 83, 291, 7, NULL, 75, 110, 105, 30, 70, 100, NULL),
     -- #194 Paldean Wooper (Poison Point / Water Absorb / HA: Unaware)
     (194, 19401, 9, 8, 9, 38, 11, 109, 2, 7, 55, 45, 45, 25, 25, 15, NULL),
-    -- === Other Gen 9 Non-Default Forms ===
+    -- === Other Generation 9 Non-Default Forms ===
     -- #901 Ursaluna Bloodmoon (Mind's Eye, no HA)
     (901, 90101, 9, 9, 1, 299, NULL, NULL, 7, NULL, 113, 70, 120, 135, 65, 52, NULL),
     -- #916 Oinkologne Female (Aroma Veil / Gluttony / HA: Thick Fat)
@@ -41,7 +41,7 @@ VALUES
     (1017, 101703, 9, 5, 13, 5, NULL, NULL, 15, NULL, 80, 120, 84, 60, 96, 110, NULL);
 
 -- ==========================================================================
--- Section 2: Gen 9 Changes to Gen 8 Non-Default Forms
+-- Section 2: Generation 9 Changes to Generation 8 Non-Default Forms
 INSERT INTO
     reference.pokemon_attributes (species_id, form_id, generation_start_id, type1_id, type2_id, ability1_id, ability2_id, hidden_ability_id, egg_group1_id, egg_group2_id, hp, attack, defense, special_attack, special_defense, speed, special)
 VALUES
@@ -50,4 +50,4 @@ VALUES
     -- #889 Zamazenta Crowned Shield — Attack 130→120, Def 145→140, SpDef 145→140
     (889, 88901, 9, 7, 17, 235, NULL, NULL, 15, NULL, 92, 120, 140, 80, 140, 128, NULL);
 
--- Note: #902 Basculegion Female Gen 9 change already handled in 040_pokemon_attributes_gen9_changes_gen8_pokemon.sql
+-- Note: #902 Basculegion Female Generation 9 change already handled in 040_pokemon_attributes_gen9_changes_gen8_pokemon.sql

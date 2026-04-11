@@ -254,7 +254,7 @@ Tables with composite primary keys need no manual IDs:
 
 - Keyed by `generation_start_id` (not one row per generation)
 - Query: `WHERE generation_start_id <= target ORDER BY generation_start_id DESC LIMIT 1`
-- Example: Tackle has 2 rows — power 35 in Gen 1, power 50 from Gen 5
+- Example: Tackle has 2 rows — power 35 in Generation 1, power 50 from Generation 5
 
 ---
 
