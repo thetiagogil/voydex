@@ -27,10 +27,10 @@ type UpdatePlayParams = {
 export const usePlay = (playId?: string) => {
   return useQuery<{
     data: Play;
-    breadcrumbs: { label: string; href: string; current?: boolean }[];
   }>({
     queryKey: ["play", playId],
-    queryFn: () => fetcher(`/api/features/play/${encodeURIComponent(playId!)}`),
+    queryFn: () =>
+      fetcher(`/api/features/plays/${encodeURIComponent(playId!)}`),
     enabled: Boolean(playId),
     staleTime: 1000 * 30,
   });
@@ -44,7 +44,7 @@ export const usePlayStatuses = () => {
   return useQuery<PlayStatusInfo[]>({
     queryKey: ["playStatuses"],
     queryFn: async () => {
-      const res = await fetch("/api/features/play/statuses");
+      const res = await fetch("/api/features/plays/statuses");
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to fetch play statuses");
@@ -63,7 +63,7 @@ export const useCreatePlay = () => {
 
   return useMutation({
     mutationFn: async ({ gameId, name }: CreatePlayProps) => {
-      const res = await fetch("/api/features/play", {
+      const res = await fetch("/api/features/plays", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ gameId, name }),
@@ -89,7 +89,7 @@ export const useUpdatePlay = () => {
   return useMutation({
     mutationFn: async ({ playId, updates }: UpdatePlayParams) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}`,
+        `/api/features/plays/${encodeURIComponent(playId)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -117,7 +117,7 @@ export const useDeletePlay = () => {
 
   return useMutation({
     mutationFn: async (playId: string) => {
-      return deleteFetcher(`/api/features/play/${encodeURIComponent(playId)}`);
+      return deleteFetcher(`/api/features/plays/${encodeURIComponent(playId)}`);
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["plays"] });

@@ -5,17 +5,11 @@ import type { GameData, GamePlay } from "../types";
 type PlaysSectionProps = {
   plays: GamePlay[];
   game: GameData;
-  generationId: string;
   open: boolean;
   setOpen: (open: boolean) => void;
 };
 
-export const PlaysSection = ({
-  plays,
-  game,
-  generationId,
-  setOpen,
-}: PlaysSectionProps) => {
+export const PlaysSection = ({ plays, game, setOpen }: PlaysSectionProps) => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
@@ -27,12 +21,7 @@ export const PlaysSection = ({
 
       <div className="flex flex-col gap-4">
         {plays.map((play) => (
-          <PlayCard
-            key={play.id}
-            play={play}
-            generationId={generationId}
-            gameSlug={game.slug}
-          />
+          <PlayCard key={play.id} play={play} />
         ))}
       </div>
     </div>

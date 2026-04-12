@@ -4,7 +4,7 @@ export const useGameOverview = (gameSlug: string) => {
   return useQuery({
     queryKey: ["reference", "games", "slug", gameSlug],
     queryFn: async () => {
-      const res = await fetch(`/api/features/game/${gameSlug}/overview`);
+      const res = await fetch(`/api/features/games/${gameSlug}/overview`);
       if (!res.ok) throw new Error("Failed to fetch game");
       return await res.json();
     },

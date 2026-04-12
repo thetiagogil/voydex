@@ -118,19 +118,8 @@ export const getGenerationOverview = async (id: string) => {
     games: gamesWithStats,
   };
 
-  // Build breadcrumbs
-  const breadcrumbs = [
-    { label: "Dashboard", href: "/dashboard" },
-    {
-      label: generation.name,
-      href: `/dashboard/generation/${generation.id}`,
-      current: true,
-    },
-  ];
-
   return {
     data: generation,
     error: null,
-    breadcrumbs,
   };
 };

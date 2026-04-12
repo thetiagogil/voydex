@@ -11,6 +11,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
+import { getPlaysPokemonTeamRoute } from "@/shared/constants/routes";
 import Link from "next/link";
 import { useState } from "react";
 import { PokemonEmpty } from "./pokemon-empty";
@@ -18,15 +19,11 @@ import { PokemonTeamModal } from "./pokemon-team-modal";
 
 interface PokemonTeamSectionProps {
   play: Play;
-  generationId: string;
-  gameSlug: string;
   pokemonTeam?: PlayPokemon[];
 }
 
 export const PokemonTeamSection = ({
   play,
-  generationId,
-  gameSlug,
   pokemonTeam,
 }: PokemonTeamSectionProps) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -99,9 +96,7 @@ export const PokemonTeamSection = ({
             </Button>
 
             <Button variant="outline" asChild>
-              <Link
-                href={`/dashboard/generation/${generationId}/game/${gameSlug}/play/${play?.id}/pokemon-team`}
-              >
+              <Link href={getPlaysPokemonTeamRoute(play?.id)}>
                 <Icon type="edit" />
                 <span className="hidden sm:inline-block">Manage</span>
               </Link>

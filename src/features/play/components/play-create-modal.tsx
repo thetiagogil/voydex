@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
+import { getPlaysRoute } from "@/shared/constants/routes";
 import { useRouter } from "next/navigation";
 import type { GameData } from "../../game/types";
 import { PlayCreateFormValues } from "../forms/schemas";
@@ -60,9 +61,7 @@ export const PlayCreateModal = ({
 
       // Navigate to the new play page
       if (result?.id) {
-        router.push(
-          `/dashboard/generation/${game.generation?.id}/game/${game.slug}/play/${result.id}`,
-        );
+        router.push(getPlaysRoute(result.id));
       }
     } catch (error) {
       console.log(error);

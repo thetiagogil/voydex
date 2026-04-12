@@ -11,7 +11,7 @@ export const useGenerationOverview = (generationId: string) => {
     queryKey: ["generation", "overview", generationId],
     queryFn: () =>
       fetcher<GenerationOverview>(
-        `/api/features/generation/${generationId}/overview`,
+        `/api/features/generations/${generationId}/overview`,
       ),
     enabled: !!generationId,
   });

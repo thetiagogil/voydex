@@ -21,7 +21,7 @@ export const usePlayTrackingItems = (
     ],
     queryFn: async () => {
       const url = new URL(
-        `/api/features/play/${encodeURIComponent(playId!)}/tracking/category/${categoryId}/items`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/tracking/category/${categoryId}/items`,
         window.location.origin,
       );
       if (versionGroupId !== undefined) {

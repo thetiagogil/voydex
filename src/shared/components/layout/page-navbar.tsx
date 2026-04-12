@@ -7,6 +7,11 @@ import {
   PAGE_CONTAINER_WIDTH,
   PageContainerWidth,
 } from "@/shared/constants/layout";
+import {
+  getAdventuresRoute,
+  getCollectionRoute,
+  getDashboardRoute,
+} from "@/shared/constants/routes";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { PageNavbarMenu } from "./page-navbar-menu";
@@ -37,14 +42,35 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
   };
 
   const links = [
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Plays", href: "/plays" },
-    { name: "Collection", href: "/collection" },
+    { name: "Dashboard", href: getDashboardRoute() },
+    { name: "Adventures", href: getAdventuresRoute() },
+    { name: "Collection", href: getCollectionRoute() },
   ];
 
-  const detectedPage = links.find((link) =>
-    link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
-  )?.name;
+  const detectedPage = links.find((link) => {
+    const href = link.href;
+
+    // Exact root match
+    if (href === "/") return pathname === "/";
+
+    // Direct prefix match
+    if (pathname.startsWith(href)) return true;
+
+    // Dashboard should be active for related feature routes
+    if (link.name === "Dashboard") {
+      return (
+        pathname.startsWith(getDashboardRoute()) ||
+        pathname.startsWith("/generations") ||
+        pathname.startsWith("/generation") ||
+        pathname.startsWith("/games") ||
+        pathname.startsWith("/game") ||
+        pathname.startsWith("/plays") ||
+        pathname.startsWith("/play")
+      );
+    }
+
+    return false;
+  })?.name;
 
   return (
     <nav>

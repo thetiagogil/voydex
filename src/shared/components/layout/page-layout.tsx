@@ -2,6 +2,7 @@ import { BgImage } from "@/shared/components/bg-image";
 import { PageBreadcrumbs } from "@/shared/components/layout/page-breadcrumbs";
 import { Loading } from "@/shared/components/loading";
 import { type PageContainerWidth } from "@/shared/constants/layout";
+import type { Breadcrumb } from "@/shared/types";
 import { ReactNode } from "react";
 import { PageContainer } from "./page-container";
 import { PageNavbar } from "./page-navbar";
@@ -13,6 +14,7 @@ interface PageLayoutProps {
   showNavigation?: boolean;
   isLoading?: boolean;
   isAuthPage?: boolean;
+  breadcrumbs?: Breadcrumb[];
 }
 
 export const PageLayout = ({
@@ -22,6 +24,7 @@ export const PageLayout = ({
   showNavigation = true,
   isLoading = false,
   isAuthPage = false,
+  breadcrumbs,
 }: PageLayoutProps) => {
   return (
     <div className="relative min-h-screen">
@@ -42,7 +45,7 @@ export const PageLayout = ({
               <Loading />
             ) : (
               <>
-                <PageBreadcrumbs />
+                <PageBreadcrumbs items={breadcrumbs} />
                 {children}
               </>
             )}

@@ -226,7 +226,7 @@
 
 /* track */
 ::-webkit-scrollbar-track {
-  background: color-mix(in srgb, var(--input) 8%, transparent);
+  background: color-mix(in srgb, var(--input) 10%, transparent);
 }
 
 /* thumb */

@@ -6,7 +6,7 @@ export const usePlayCompletion = (playId?: string) => {
     queryKey: ["play", playId, "completion"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId!)}/completion`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/completion`,
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch completion");

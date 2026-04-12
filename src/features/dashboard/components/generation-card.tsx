@@ -3,6 +3,7 @@ import { Icon } from "@/shared/components/icon";
 import { QuickInfo } from "@/shared/components/quick-info";
 import { StatusInfo } from "@/shared/components/status-info";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { getGenerationsRoute } from "@/shared/constants/routes";
 import Link from "next/link";
 import type { DashboardGeneration } from "../types";
 
@@ -12,7 +13,7 @@ type GenerationCardProps = {
 
 export const GenerationCard = ({ generation }: GenerationCardProps) => {
   return (
-    <Link key={generation.slug} href={`/dashboard/generation/${generation.id}`}>
+    <Link key={generation.slug} href={getGenerationsRoute(generation.id)}>
       <Card
         className={cn(
           "group hover:border-primary/50 cursor-pointer p-5 hover:shadow-2xl",

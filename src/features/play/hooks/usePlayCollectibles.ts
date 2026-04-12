@@ -10,7 +10,7 @@ export const usePlayCollectibles = (playId?: string) => {
     queryKey: ["play", playId, "collectibles"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId!)}/collectibles`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/collectibles`,
       );
       const data = await res.json();
       if (!res.ok)
@@ -38,7 +38,7 @@ export const useCollectEntry = () => {
       collectibleEntryId: number;
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/collectibles/collect`,
+        `/api/features/plays/${encodeURIComponent(playId)}/collectibles/collect`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -93,7 +93,7 @@ export const useUncollectEntry = () => {
       collectibleEntryId: number;
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/collectibles/uncollect`,
+        `/api/features/plays/${encodeURIComponent(playId)}/collectibles/uncollect`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -152,7 +152,7 @@ export const useCollectEntriesBulk = () => {
       collectibleEntryIds: number[];
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/collectibles/collect-bulk`,
+        `/api/features/plays/${encodeURIComponent(playId)}/collectibles/collect-bulk`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -209,7 +209,7 @@ export const useUncollectEntriesBulk = () => {
       collectibleEntryIds: number[];
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/collectibles/uncollect-bulk`,
+        `/api/features/plays/${encodeURIComponent(playId)}/collectibles/uncollect-bulk`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

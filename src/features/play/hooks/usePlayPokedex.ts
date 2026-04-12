@@ -6,7 +6,7 @@ export const usePlayPokedex = (playId?: string) => {
     queryKey: ["play", playId, "pokedex"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId!)}/pokedex`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/pokedex`,
       );
       const data = await res.json();
       if (!res.ok)

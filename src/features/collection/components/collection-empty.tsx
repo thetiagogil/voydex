@@ -9,6 +9,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
+import { getDashboardRoute } from "@/shared/constants/routes";
 
 interface CollectionEmptyProps {
   hasFilters: boolean;
@@ -43,7 +44,7 @@ export const CollectionEmpty = ({
               </Button>
             ) : (
               <Button asChild variant="secondary">
-                <a href="/dashboard">Dashboard</a>
+                <a href={getDashboardRoute()}>Dashboard</a>
               </Button>
             )}
           </EmptyContent>

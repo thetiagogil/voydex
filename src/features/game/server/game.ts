@@ -129,23 +129,9 @@ export const getGame = async (id: number | string) => {
     userStats,
   };
 
-  const breadcrumbs = [
-    { label: "Dashboard", href: "/dashboard" },
-    {
-      label: generation.name,
-      href: `/dashboard/generation/${generation.id}`,
-    },
-    {
-      label: gameData.name,
-      href: `/dashboard/generation/${generation.id}/game/${gameData.slug}`,
-      current: true,
-    },
-  ];
-
   return {
     data: game,
     error: null,
-    breadcrumbs,
   };
 };
 

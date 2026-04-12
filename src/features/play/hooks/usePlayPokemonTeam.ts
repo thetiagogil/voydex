@@ -10,7 +10,9 @@ export const usePlayPokemonTeam = (playId?: string) => {
   return useQuery<PlayPokemon[]>({
     queryKey: ["play", playId, "pokemon-team"],
     queryFn: () =>
-      fetcher(`/api/features/play/${encodeURIComponent(playId!)}/pokemon-team`),
+      fetcher(
+        `/api/features/plays/${encodeURIComponent(playId!)}/pokemon-team`,
+      ),
     enabled: Boolean(playId),
     staleTime: 1000 * 30,
   });
@@ -32,7 +34,7 @@ export const useAddPokemonToTeam = () => {
       pokemon: Record<string, unknown>;
     }) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokemon-team`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team`,
         pokemon,
       );
     },
@@ -66,7 +68,7 @@ export const useUpdatePokemonInTeam = () => {
       updates: Record<string, unknown>;
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -102,7 +104,7 @@ export const useRemovePokemonFromTeam = () => {
       pokemonId: string;
     }) => {
       return deleteFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
       );
     },
     onSuccess: (_, { playId }) => {

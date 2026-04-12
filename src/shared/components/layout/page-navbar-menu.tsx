@@ -1,4 +1,9 @@
 import { Icon } from "@/shared/components/icon";
+import {
+  getAdventuresRoute,
+  getCollectionRoute,
+  getDashboardRoute,
+} from "@/shared/constants/routes";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -21,21 +26,21 @@ export const PageNavbarMenu = () => {
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/dashboard">
+            <Link href={getDashboardRoute()}>
               <Icon type="adventure" />
               Dashboard
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link href="/plays">
+            <Link href={getAdventuresRoute()}>
               <Icon type="play" />
-              Plays
+              Adventures
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link href="/collection">
+            <Link href={getCollectionRoute()}>
               <Icon type="collection" />
               Collection
             </Link>

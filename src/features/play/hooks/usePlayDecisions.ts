@@ -6,7 +6,7 @@ export const useDecisionOptions = (trackingItemId?: number) => {
     queryKey: ["tracking", "decision", trackingItemId, "options"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/_/tracking/decision/${trackingItemId}/options`,
+        `/api/features/plays/_/tracking/decision/${trackingItemId}/options`,
       );
       const data = await res.json();
       if (!res.ok)
@@ -23,7 +23,7 @@ export const usePlayDecision = (playId?: string, trackingItemId?: number) => {
     queryKey: ["play", playId, "tracking", "decision", trackingItemId],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId!)}/tracking/decision/${trackingItemId}`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/tracking/decision/${trackingItemId}`,
       );
       const data = await res.json();
       if (!res.ok)
@@ -49,7 +49,7 @@ export const useSaveDecision = () => {
       decisionOptionId: number | null;
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/tracking/decision/${trackingItemId}`,
+        `/api/features/plays/${encodeURIComponent(playId)}/tracking/decision/${trackingItemId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -3,6 +3,7 @@ import { QuickInfo } from "@/shared/components/quick-info";
 import { StatusInfo } from "@/shared/components/status-info";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { toStatusVariant } from "@/shared/constants/play-statuses";
+import { getPlaysRoute } from "@/shared/constants/routes";
 import type { PlayStatusInfo } from "@/shared/types";
 import { formatTime } from "@/shared/utils";
 import Link from "next/link";
@@ -16,15 +17,11 @@ interface PlayCardPlay {
 
 interface PlayCardProps {
   play: PlayCardPlay;
-  generationId: string | number;
-  gameSlug: string;
 }
 
-export const PlayCard = ({ play, generationId, gameSlug }: PlayCardProps) => {
+export const PlayCard = ({ play }: PlayCardProps) => {
   return (
-    <Link
-      href={`/dashboard/generation/${generationId}/game/${gameSlug}/play/${play.id}`}
-    >
+    <Link href={getPlaysRoute(play.id)}>
       <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
         <CardContent className="flex flex-col">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">

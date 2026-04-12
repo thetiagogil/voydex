@@ -6,7 +6,7 @@ export const usePlayTrackingCategories = (playId?: string) => {
     queryKey: ["play", playId, "tracking", "categories"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId!)}/tracking/categories`,
+        `/api/features/plays/${encodeURIComponent(playId!)}/tracking/categories`,
       );
       const data = await res.json();
       if (!res.ok) return false;
@@ -25,7 +25,7 @@ export const usePlayTrackingPrefetch = () => {
         queryKey: ["play", playId, "tracking", "categories"],
         queryFn: async () => {
           const res = await fetch(
-            `/api/features/play/${encodeURIComponent(playId)}/tracking/categories`,
+            `/api/features/plays/${encodeURIComponent(playId)}/tracking/categories`,
           );
           const data = await res.json();
           if (!res.ok) return false;
@@ -50,7 +50,7 @@ export const usePlayTrackingPrefetch = () => {
         ],
         queryFn: async () => {
           const url = new URL(
-            `/api/features/play/${encodeURIComponent(playId)}/tracking/category/${categoryId}/items`,
+            `/api/features/plays/${encodeURIComponent(playId)}/tracking/category/${categoryId}/items`,
             window.location.origin,
           );
           if (versionGroupId !== undefined) {
@@ -67,7 +67,7 @@ export const usePlayTrackingPrefetch = () => {
         queryKey: ["play", playId, "pokedex"],
         queryFn: async () => {
           const res = await fetch(
-            `/api/features/play/${encodeURIComponent(playId)}/pokedex`,
+            `/api/features/plays/${encodeURIComponent(playId)}/pokedex`,
           );
           const data = await res.json();
           if (!res.ok) return false;

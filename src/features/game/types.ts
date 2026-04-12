@@ -1,9 +1,4 @@
-import type {
-  BaseInfo,
-  Breadcrumb,
-  PlayStatusInfo,
-  UserStats,
-} from "@/shared/types";
+import type { BaseInfo, PlayStatusInfo, UserStats } from "@/shared/types";
 
 export type GameType = "main" | "remake" | "enhanced" | "dlc" | "spin-off";
 
@@ -43,6 +38,5 @@ export interface GameData extends Game {
 }
 
 export interface GameOverview {
-  breadcrumbs: Breadcrumb[];
   data: GameData;
 }

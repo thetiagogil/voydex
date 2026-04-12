@@ -1,4 +1,4 @@
-import { Breadcrumb, UserStats } from "@/shared/types";
+import { UserStats } from "@/shared/types";
 
 export interface Generation {
   id: number;
@@ -35,6 +35,5 @@ export interface GenerationData extends Generation {
 }
 
 export interface GenerationOverview {
-  breadcrumbs: Breadcrumb[];
   data: GenerationData;
 }

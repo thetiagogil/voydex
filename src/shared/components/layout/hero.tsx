@@ -5,6 +5,7 @@ import { useClaims } from "@/features/auth/hooks/useAuth";
 import { cn } from "@/lib/utils/cn";
 import { BgImage } from "@/shared/components/bg-image";
 import { Button } from "@/shared/components/ui/button";
+import { getDashboardRoute } from "@/shared/constants/routes";
 import { TriangleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -89,7 +90,7 @@ export const Hero = () => {
                 <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                   <Button asChild size="lg" className="w-full sm:w-auto">
                     {isAuthenticated ? (
-                      <Link href="/dashboard">Dashboard</Link>
+                      <Link href={getDashboardRoute()}>Dashboard</Link>
                     ) : (
                       <Link href="/auth/login">Get Started</Link>
                     )}

@@ -6,6 +6,7 @@ import { FieldWrapper } from "@/shared/components/field-wrapper";
 import { Button } from "@/shared/components/ui/button";
 import { FieldGroup, FieldSet } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
+import { getDashboardRoute } from "@/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -35,7 +36,7 @@ export const LoginForm = () => {
       });
 
       reset();
-      router.push("/dashboard");
+      router.push(getDashboardRoute());
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";

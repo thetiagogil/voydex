@@ -57,7 +57,7 @@ export const useCheckPlayTrackingItem = () => {
   return useMutation({
     mutationFn: async ({ playId, trackingItemId }: CheckTrackingParams) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/tracking/check`,
+        `/api/features/plays/${encodeURIComponent(playId)}/tracking/check`,
         { trackingItemId },
       );
     },
@@ -96,7 +96,7 @@ export const useUncheckPlayTrackingItem = () => {
   return useMutation({
     mutationFn: async ({ playId, trackingItemId }: CheckTrackingParams) => {
       return deleteFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/tracking/uncheck?trackingItemId=${trackingItemId}`,
+        `/api/features/plays/${encodeURIComponent(playId)}/tracking/uncheck?trackingItemId=${trackingItemId}`,
       );
     },
     onMutate: async ({ playId, categoryId }) => {
@@ -138,7 +138,7 @@ export const useCheckPlayTrackingItemBulk = () => {
       categoryId,
     }: CheckTrackingBulkParams) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/tracking/bulk-check`,
+        `/api/features/plays/${encodeURIComponent(playId)}/tracking/bulk-check`,
         { trackingItemIds, categoryId },
       );
     },
@@ -181,7 +181,7 @@ export const useUncheckPlayTrackingItemBulk = () => {
       categoryId,
     }: CheckTrackingBulkParams) => {
       return deleteFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/tracking/bulk-uncheck`,
+        `/api/features/plays/${encodeURIComponent(playId)}/tracking/bulk-uncheck`,
         { trackingItemIds, categoryId },
       );
     },

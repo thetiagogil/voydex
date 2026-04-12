@@ -55,24 +55,7 @@ export const getPlay = async (id: string) => {
     },
   };
 
-  const breadcrumbs = [
-    { label: "Dashboard", href: "/dashboard" },
-    {
-      label: play.generation_name,
-      href: `/dashboard/generation/${play.generation_id}`,
-    },
-    {
-      label: play.game_name,
-      href: `/dashboard/generation/${play.generation_id}/game/${play.game_slug}`,
-    },
-    {
-      label: play.play_name || "My Playthrough",
-      href: `/dashboard/generation/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`,
-      current: true,
-    },
-  ];
-
-  return { data: result, error: null, breadcrumbs };
+  return { data: result, error: null };
 };
 
 // =============================================================================

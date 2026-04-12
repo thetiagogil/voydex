@@ -47,7 +47,7 @@ export const useMarkPokedexEntryCaught = () => {
   return useMutation({
     mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokedex/catch`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokedex/catch`,
         { pokedexEntryId },
       );
     },
@@ -85,7 +85,7 @@ export const useMarkPokedexEntrySeen = () => {
   return useMutation({
     mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokedex/see`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokedex/see`,
         { pokedexEntryId },
       );
     },
@@ -128,7 +128,7 @@ export const useUnmarkPokedexEntry = () => {
   return useMutation({
     mutationFn: async ({ playId, pokedexEntryId }: MarkPokedexEntryParams) => {
       return deleteFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokedex/unmark?pokedexEntryId=${pokedexEntryId}`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokedex/unmark?pokedexEntryId=${pokedexEntryId}`,
       );
     },
     onMutate: async ({ playId, pokedexEntryId }) => {
@@ -173,7 +173,7 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
       pokedexEntryIds,
     }: MarkPokedexEntriesBulkParams) => {
       return postFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokedex/bulk-catch`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokedex/bulk-catch`,
         { pokedexEntryIds },
       );
     },
@@ -214,7 +214,7 @@ export const useUnmarkPokedexEntriesBulk = () => {
       pokedexEntryIds,
     }: MarkPokedexEntriesBulkParams) => {
       return deleteFetcher(
-        `/api/features/play/${encodeURIComponent(playId)}/pokedex/bulk-unmark`,
+        `/api/features/plays/${encodeURIComponent(playId)}/pokedex/bulk-unmark`,
         { pokedexEntryIds },
       );
     },

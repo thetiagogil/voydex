@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getDashboardRoute } from "@/shared/constants/routes";
 import { redirect } from "next/navigation";
 import { type ReactNode } from "react";
 
@@ -11,7 +12,7 @@ export default async function AuthLayout({
   const { data: isAuth, error } = await supabase.auth.getClaims();
 
   if (isAuth || error) {
-    redirect("/dashboard");
+    redirect(getDashboardRoute());
   }
 
   return <>{children}</>;

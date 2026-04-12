@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getPlaysRoute } from "@/shared/constants/routes";
 import type {
   DashboardActivity,
   DashboardGeneration,
@@ -198,7 +199,7 @@ export const getDashboardActivity = async (
 
   // Play creation / status activities
   recentPlays.forEach((play) => {
-    const href = `/dashboard/generation/${play.generation_id}/game/${play.game_slug}/play/${play.play_id}`;
+    const href = getPlaysRoute(play.play_id);
 
     activities.push({
       id: `play-created-${play.play_id}`,
@@ -250,7 +251,7 @@ export const getDashboardActivity = async (
         id: playContext.generationId,
         slug: playContext.generationSlug,
       },
-      href: `/dashboard/generation/${playContext.generationId}/game/${playContext.gameSlug}/play/${teamEntry.play_id}`,
+      href: getPlaysRoute(teamEntry.play_id),
     });
   });
 
@@ -277,7 +278,7 @@ export const getDashboardActivity = async (
         id: playContext.generationId,
         slug: playContext.generationSlug,
       },
-      href: `/dashboard/generation/${playContext.generationId}/game/${playContext.gameSlug}/play/${trackingEntry.play_id}`,
+      href: getPlaysRoute(trackingEntry.play_id),
     });
   });
 

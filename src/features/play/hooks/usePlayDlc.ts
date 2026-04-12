@@ -11,7 +11,7 @@ export const useAvailableDlcs = (versionGroupId?: number) => {
   return useQuery<DlcVersionGroup[]>({
     queryKey: ["dlc", "available", versionGroupId],
     queryFn: async () => {
-      const res = await fetch(`/api/features/play/dlc/${versionGroupId}`);
+      const res = await fetch(`/api/features/plays/dlc/${versionGroupId}`);
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to fetch available DLCs");
@@ -28,7 +28,7 @@ export const usePlayDlcs = (playId?: string) => {
     queryKey: ["play", playId, "dlc"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId || "")}/dlc`,
+        `/api/features/plays/${encodeURIComponent(playId || "")}/dlc`,
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch play DLCs");
@@ -51,7 +51,7 @@ export const useUpdatePlayDlcs = () => {
       versionGroupIds: number[];
     }) => {
       const res = await fetch(
-        `/api/features/play/${encodeURIComponent(playId)}/dlc`,
+        `/api/features/plays/${encodeURIComponent(playId)}/dlc`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
