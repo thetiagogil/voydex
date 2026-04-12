@@ -1,6 +1,7 @@
 "use client";
 
 import type { GameData } from "@/features/game/types";
+import type { DlcVersionGroup } from "@/features/play/hooks/usePlayDlc";
 import { cn } from "@/lib/utils/cn";
 import { FieldWrapper } from "@/shared/components/field-wrapper";
 import { Icon, IconType } from "@/shared/components/icon";
@@ -17,7 +18,6 @@ import {
 } from "@/shared/components/ui/select";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { STATUS_VARIANT_META } from "@/shared/constants/play-statuses";
-import type { DlcVersionGroup } from "@/shared/hooks/usePlayDlc";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";

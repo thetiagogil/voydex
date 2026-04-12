@@ -1,6 +1,10 @@
 "use client";
 
 import { PlayFormContent } from "@/features/play/forms/play-form-content";
+import {
+  useAvailableDlcs,
+  useUpdatePlayDlcs,
+} from "@/features/play/hooks/usePlayDlc";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import {
   Dialog,
@@ -9,11 +13,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
-import { useAvailableDlcs, useUpdatePlayDlcs } from "@/shared/hooks/usePlayDlc";
 import { useRouter } from "next/navigation";
-import { useCreatePlay } from "../../game/hooks/usePlay";
 import type { GameData } from "../../game/types";
 import { PlayCreateFormValues } from "../forms/schemas";
+import { useCreatePlay } from "../hooks/usePlay";
 
 type PlayCreateModalProps = {
   game: GameData;

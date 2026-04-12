@@ -41,11 +41,21 @@ export async function PUT(
     const body = await request.json();
     const { data, error } = await updatePlay(id, body);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) {
+      if (
+        error.message.includes("duplicate key value violates unique constraint")
+      ) {
+        return NextResponse.json(
+          { error: "A play with this name already exists" },
+          { status: 409 },
+        );
+      } else {
+        return NextResponse.json(
+          { error: "message" in error ? error.message : String(error) },
+          { status: 500 },
+        );
+      }
+    }
 
     return NextResponse.json(data);
   } catch (error: unknown) {

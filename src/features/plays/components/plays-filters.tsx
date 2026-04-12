@@ -12,7 +12,7 @@ import {
   type StatusVariant,
 } from "@/shared/constants/play-statuses";
 
-interface PlaysFiltersProps {
+type PlaysFiltersProps = {
   search: string;
   statusFilter: string;
   generationFilter: string;
@@ -26,7 +26,7 @@ interface PlaysFiltersProps {
   onGenerationFilterChange: (value: string) => void;
   onGameFilterChange: (value: string) => void;
   onSortByChange: (value: string) => void;
-}
+};
 
 const STATUS_OPTIONS: { value: string; variant: StatusVariant }[] = [
   { value: "all", variant: "total" },

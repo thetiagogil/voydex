@@ -1,9 +1,9 @@
-import { getAllPokemonForms } from "@/features/collection/server/pokemon-forms";
+import { getPokemonForms } from "@/features/collection/server/pokemon-forms";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const { data, error } = await getAllPokemonForms();
+    const { data, error } = await getPokemonForms();
 
     if (error)
       return NextResponse.json(

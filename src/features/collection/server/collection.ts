@@ -3,10 +3,10 @@
 import { createClient } from "@/lib/supabase/server";
 
 // =============================================================================
-// GET USER POKEMON COLLECTION (from views.play_team_detail + play_summary)
+// GET COLLECTION (from views.play_team_detail + play_summary)
 // =============================================================================
 
-export const getUserPokemonCollection = async () => {
+export const getCollection = async () => {
   const supabase = await createClient();
 
   const {

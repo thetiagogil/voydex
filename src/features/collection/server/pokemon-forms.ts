@@ -2,16 +2,16 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-interface PokemonFormRow {
+type PokemonFormRow = {
   id: number;
   slug: string;
   name: string;
   pokemondb_sprite_slug: string | null;
   species_id: number;
   is_default: boolean;
-}
+};
 
-export const getAllPokemonForms = async () => {
+export const getPokemonForms = async () => {
   const supabase = await createClient();
   const batchSize = 1000;
   let from = 0;

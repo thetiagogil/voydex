@@ -6,13 +6,14 @@ import { PokedexSection } from "@/features/play/components/pokedex-section";
 import { PokemonTeamSection } from "@/features/play/components/pokemon-team-section";
 import { StorySection } from "@/features/play/components/story-section";
 
-import { usePlay } from "@/features/play/hooks/usePlay";
-import { usePlayCollectibles } from "@/features/play/hooks/usePlayCollectibles";
-import { usePlayCompletion } from "@/features/play/hooks/usePlayCompletion";
 import {
+  usePlay,
   usePlayStatuses,
   useUpdatePlay,
-} from "@/features/play/hooks/usePlayMutations";
+} from "@/features/play/hooks/usePlay";
+import { usePlayCollectibles } from "@/features/play/hooks/usePlayCollectibles";
+import { usePlayCompletion } from "@/features/play/hooks/usePlayCompletion";
+
 import { usePlayPokedex } from "@/features/play/hooks/usePlayPokedex";
 import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
 import { usePlayTrackingCategories } from "@/features/play/hooks/usePlayTrackingCategories";

@@ -1,9 +1,9 @@
 import { PokemonCard } from "@/shared/components/pokemon-card";
 import type { CollectionPokemon } from "../types";
 
-interface CollectionGridProps {
+type CollectionGridProps = {
   pokemon: CollectionPokemon[];
-}
+};
 
 export const CollectionGrid = ({ pokemon }: CollectionGridProps) => {
   return (

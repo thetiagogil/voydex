@@ -10,15 +10,15 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 
-import { toastPromise } from "@/lib/utils/toast-promise";
 import {
   useAvailableDlcs,
   usePlayDlcs,
   useUpdatePlayDlcs,
-} from "@/shared/hooks/usePlayDlc";
+} from "@/features/play/hooks/usePlayDlc";
+import { toastPromise } from "@/lib/utils/toast-promise";
 import { useMemo } from "react";
 import { PlayEditFormValues } from "../forms/schemas";
-import { usePlayStatuses, useUpdatePlay } from "../hooks/usePlayMutations";
+import { usePlayStatuses, useUpdatePlay } from "../hooks/usePlay";
 import { Play } from "../types";
 
 interface PlayEditModalProps {

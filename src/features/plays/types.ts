@@ -1,10 +1,6 @@
 import type { BaseInfo, PlayStatusInfo } from "@/shared/types";
 
-// =============================================================================
-// PLAYS LIST ITEM (summary returned by /api/features/plays)
-// =============================================================================
-
-export interface PlaySummary {
+export interface PlaysPlay {
   id: string;
   name: string;
   status: PlayStatusInfo;
@@ -16,11 +12,9 @@ export interface PlaySummary {
   completedProgressItems: number;
   totalProgressItems: number;
   regionalDexCount: number;
-  pokemonTeam: PlaySummaryTeamMember[];
-  game: PlaySummaryGame;
 }
 
-export interface PlaySummaryTeamMember {
+export interface PlaysPlayTeamMember {
   id: string;
   nickname: string | null;
   level: number;
@@ -29,10 +23,15 @@ export interface PlaySummaryTeamMember {
   spriteUrl: string | null;
 }
 
-export interface PlaySummaryGame {
+export interface PlaysPlayGame {
   id: number;
   slug: string;
   name: string;
   generation: BaseInfo;
   region: BaseInfo;
+}
+
+export interface PlaysPlayOverview extends PlaysPlay {
+  pokemonTeam: PlaysPlayTeamMember[];
+  game: PlaysPlayGame;
 }

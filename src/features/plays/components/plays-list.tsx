@@ -1,9 +1,9 @@
 import { PlayCard } from "@/shared/components/play-card";
-import type { PlaySummary } from "../types";
+import type { PlaysPlayOverview } from "../types";
 
-interface PlaysListProps {
-  plays: PlaySummary[];
-}
+type PlaysListProps = {
+  plays: PlaysPlayOverview[];
+};
 
 export const PlaysList = ({ plays }: PlaysListProps) => {
   return (

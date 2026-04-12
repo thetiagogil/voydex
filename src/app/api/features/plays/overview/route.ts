@@ -1,9 +1,9 @@
-import { getUserPokemonCollection } from "@/features/collection/server/collection";
+import { getUserPlays } from "@/features/plays/server/plays";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const { data, error } = await getUserPokemonCollection();
+    const { data, error } = await getUserPlays();
 
     if (error)
       return NextResponse.json(

@@ -1,6 +1,6 @@
-interface PlaysHeaderProps {
+type PlaysHeaderProps = {
   totalCount: number;
-}
+};
 
 export const PlaysHeader = ({ totalCount }: PlaysHeaderProps) => {
   return (

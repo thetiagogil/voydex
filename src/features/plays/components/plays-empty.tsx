@@ -1,10 +1,10 @@
 import { Icon } from "@/shared/components/icon";
 import { Button } from "@/shared/components/ui/button";
 
-interface PlaysEmptyProps {
+type PlaysEmptyProps = {
   hasFilters: boolean;
   onClearFilters: () => void;
-}
+};
 
 export const PlaysEmpty = ({ hasFilters, onClearFilters }: PlaysEmptyProps) => {
   return (

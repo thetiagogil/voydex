@@ -1,8 +1,8 @@
-interface CollectionHeaderProps {
+type CollectionHeaderProps = {
   totalCount: number;
   uniqueSpecies: number;
   shinyCount: number;
-}
+};
 
 export const CollectionHeader = ({
   totalCount,

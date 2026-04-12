@@ -15,12 +15,7 @@ export interface CollectionPokemon {
   createdAt: string;
   updatedAt: string;
   play: { id: string; name: string; status: string } | null;
-  game: {
-    id: number;
-    slug: string;
-    name: string;
-    generation: BaseInfo;
-  } | null;
+  game: (BaseInfo & { generation: BaseInfo }) | null;
   species: BaseInfo;
   form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   types: BaseInfo[];

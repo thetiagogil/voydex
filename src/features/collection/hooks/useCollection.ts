@@ -5,7 +5,7 @@ export const useCollection = () => {
   return useQuery<CollectionPokemon[]>({
     queryKey: ["collection"],
     queryFn: async () => {
-      const res = await fetch("/api/features/collection");
+      const res = await fetch("/api/features/collection/overview");
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch collection");
       return data;
