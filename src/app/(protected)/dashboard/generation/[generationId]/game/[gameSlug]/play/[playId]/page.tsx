@@ -1,20 +1,23 @@
 "use client";
 
-import { CollectiblesSection } from "@/components/features/play/collectibles-section";
-import { PlayHeader } from "@/components/features/play/play-header";
-import { PokedexSection } from "@/components/features/play/pokedex-section";
-import { PokemonTeamSection } from "@/components/features/play/pokemon-team-section";
-import { StorySection } from "@/components/features/play/story-section";
+import { CollectiblesSection } from "@/features/play/components/collectibles-section";
+import { PlayHeader } from "@/features/play/components/play-header";
+import { PokedexSection } from "@/features/play/components/pokedex-section";
+import { PokemonTeamSection } from "@/features/play/components/pokemon-team-section";
+import { StorySection } from "@/features/play/components/story-section";
 
-import { PageLayout } from "@/components/layout/page-layout";
-import { Loading } from "@/components/shared/loading";
-import { usePlay } from "@/hooks/gameplay/usePlay";
-import { usePlayCollectibles } from "@/hooks/gameplay/usePlayCollectibles";
-import { usePlayCompletion } from "@/hooks/gameplay/usePlayCompletion";
-import { usePlayPokedex } from "@/hooks/gameplay/usePlayPokedex";
-import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
-import { usePlayTrackingCategories } from "@/hooks/gameplay/usePlayTrackingCategories";
-import { usePlayStatuses, useUpdatePlay } from "@/hooks/gameplay/usePlays";
+import { usePlay } from "@/features/play/hooks/usePlay";
+import { usePlayCollectibles } from "@/features/play/hooks/usePlayCollectibles";
+import { usePlayCompletion } from "@/features/play/hooks/usePlayCompletion";
+import {
+  usePlayStatuses,
+  useUpdatePlay,
+} from "@/features/play/hooks/usePlayMutations";
+import { usePlayPokedex } from "@/features/play/hooks/usePlayPokedex";
+import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
+import { usePlayTrackingCategories } from "@/features/play/hooks/usePlayTrackingCategories";
+import { PageLayout } from "@/shared/components/layout/page-layout";
+import { Loading } from "@/shared/components/loading";
 import { use, useCallback, useEffect, useRef } from "react";
 
 // =============================================================================

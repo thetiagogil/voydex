@@ -1,5 +1,5 @@
-import { Icon } from "@/components/shared/icon";
 import { cn } from "@/lib/utils/cn";
+import { Icon } from "@/shared/components/icon";
 import { formatTime } from "@/shared/utils";
 import Link from "next/link";
 import { DASHBOARD_ACTIVITY_VARIANT_META } from "../constants";

@@ -15,7 +15,7 @@ export const getGenerationOverview = async (id: string) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Get the generation
+  // Get generation by ID
   const { data: generationData, error: genError } = await supabase
     .schema("reference")
     .from("generations")

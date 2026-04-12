@@ -1,5 +1,5 @@
-import { PageLayout } from "@/components/layout/page-layout";
 import { AuthCard } from "@/features/auth/components/auth-card";
+import { PageLayout } from "@/shared/components/layout/page-layout";
 
 export default function Page() {
   return (

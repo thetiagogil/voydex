@@ -1,4 +1,4 @@
-import { Icon } from "@/components/shared/icon";
+import { Icon } from "@/shared/components/icon";
 import type { DashboardStats } from "../types";
 import { StatCard } from "./stat-card";
 

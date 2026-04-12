@@ -13,9 +13,9 @@ export interface Breadcrumb {
 // =============================================================================
 
 export interface BaseInfo {
-  id?: number;
-  slug?: string;
-  name?: string;
+  id: number;
+  slug: string;
+  name: string;
 }
 
 // =============================================================================
@@ -40,3 +40,18 @@ export interface ColorVariant {
   border?: string;
   hover?: string;
 }
+
+// =============================================================================
+// PLAY STATUS
+// =============================================================================
+
+export interface PlayStatusInfo extends BaseInfo {
+  isTerminal: boolean;
+  sortOrder: number;
+}
+
+// =============================================================================
+// PLAY CATEGORY TYPES
+// =============================================================================
+
+export type PlayCategorySlug = "main-story" | "post-game" | "side-content";

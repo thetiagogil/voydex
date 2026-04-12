@@ -1,13 +1,13 @@
 "use client";
 
-import { PlaysEmpty } from "@/components/features/plays/plays-empty";
-import { PlaysFilters } from "@/components/features/plays/plays-filters";
-import { PlaysHeader } from "@/components/features/plays/plays-header";
-import { PlaysList } from "@/components/features/plays/plays-list";
-import { ResultsInfo } from "@/components/features/shared/results-info";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Loading } from "@/components/shared/loading";
-import { usePlays } from "@/hooks/gameplay/usePlays";
+import { PlaysEmpty } from "@/features/plays/components/plays-empty";
+import { PlaysFilters } from "@/features/plays/components/plays-filters";
+import { PlaysHeader } from "@/features/plays/components/plays-header";
+import { PlaysList } from "@/features/plays/components/plays-list";
+import { usePlays } from "@/features/plays/hooks/usePlays";
+import { PageLayout } from "@/shared/components/layout/page-layout";
+import { Loading } from "@/shared/components/loading";
+import { ResultsInfo } from "@/shared/components/results-info";
 import { useMemo, useState } from "react";
 
 export default function PlaysPage() {

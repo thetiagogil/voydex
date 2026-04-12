@@ -1,12 +1,12 @@
 "use client";
 
-import { PokemonTeamContent } from "@/components/features/pokemon-team/pokemon-team-content";
-import { PokemonTeamHeader } from "@/components/features/pokemon-team/pokemon-team-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Loading } from "@/components/shared/loading";
-import { usePlay } from "@/hooks/gameplay/usePlay";
-import { usePlayPokemonTeam } from "@/hooks/gameplay/usePlayPokemonTeam";
-import type { PlayPokemon } from "@/types/play";
+import { PokemonTeamContent } from "@/features/play/components/pokemon-team-content";
+import { PokemonTeamHeader } from "@/features/play/components/pokemon-team-header";
+import { usePlay } from "@/features/play/hooks/usePlay";
+import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
+import type { PlayPokemon } from "@/features/play/types";
+import { PageLayout } from "@/shared/components/layout/page-layout";
+import { Loading } from "@/shared/components/loading";
 import { use } from "react";
 
 interface PlayPokemonTeamPageProps {

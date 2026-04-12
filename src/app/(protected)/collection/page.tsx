@@ -1,15 +1,15 @@
 "use client";
 
-import { CollectionEmpty } from "@/components/features/collection/collection-empty";
-import { CollectionFilters } from "@/components/features/collection/collection-filters";
-import { CollectionGrid } from "@/components/features/collection/collection-grid";
-import { CollectionHeader } from "@/components/features/collection/collection-header";
-import { ResultsInfo } from "@/components/features/shared/results-info";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Loading } from "@/components/shared/loading";
-import { useCollection } from "@/hooks/gameplay/useCollection";
-import { useTypes } from "@/hooks/reference/useTypes";
-import { useGenerations } from "@/hooks/useGenerations";
+import { CollectionEmpty } from "@/features/collection/components/collection-empty";
+import { CollectionFilters } from "@/features/collection/components/collection-filters";
+import { CollectionGrid } from "@/features/collection/components/collection-grid";
+import { CollectionHeader } from "@/features/collection/components/collection-header";
+import { useCollection } from "@/features/collection/hooks/useCollection";
+import { useGenerations } from "@/features/collection/hooks/useGenerations";
+import { useTypes } from "@/features/collection/hooks/useTypes";
+import { PageLayout } from "@/shared/components/layout/page-layout";
+import { Loading } from "@/shared/components/loading";
+import { ResultsInfo } from "@/shared/components/results-info";
 import { useMemo, useState } from "react";
 
 export default function CollectionPage() {

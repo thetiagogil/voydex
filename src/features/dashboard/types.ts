@@ -1,4 +1,4 @@
-import type { BaseInfo, UserStats } from "@/shared/types";
+import type { UserStats } from "@/shared/types";
 import type {
   DashboardActivityType,
   DashboardActivityVariant,
@@ -24,9 +24,18 @@ export interface DashboardActivity {
   variant: DashboardActivityVariant;
   message: string;
   activityAt: string;
-  play: BaseInfo;
-  game: BaseInfo;
-  generation: BaseInfo;
+  play: {
+    id: string;
+    name: string;
+  };
+  game: {
+    slug: string;
+    name: string;
+  };
+  generation: {
+    id: number;
+    slug: string;
+  };
   href: string;
 }
 

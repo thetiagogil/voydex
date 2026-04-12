@@ -1,7 +1,7 @@
 "use client";
 
-import { Toaster } from "@/components/ui/sonner";
 import { DatabaseStatusProvider } from "@/contexts/database-status.context";
+import { Toaster } from "@/shared/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";

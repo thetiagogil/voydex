@@ -1,5 +1,5 @@
-import type { IconType } from "@/components/shared/icon";
 import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
+import { type IconType } from "../components/icon";
 import type { ColorVariant } from "../types";
 
 type StatusVariantMeta = {
@@ -28,6 +28,12 @@ export type PlayStatus = (typeof PLAY_STATUSES)[number];
 export const STATUS_VARIANTS = ["total", ...PLAY_STATUSES] as const;
 
 export type StatusVariant = (typeof STATUS_VARIANTS)[number];
+
+export const toStatusVariant = (value: string): StatusVariant => {
+  return STATUS_VARIANTS.includes(value as StatusVariant)
+    ? (value as StatusVariant)
+    : "total";
+};
 
 // =============================================================================
 // STATUS VARIANT META — single source of truth for status visual treatment

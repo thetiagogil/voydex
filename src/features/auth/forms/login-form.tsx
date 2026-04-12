@@ -1,11 +1,11 @@
 "use client";
 
-import { FieldWrapper } from "@/components/shared/field-wrapper";
-import { Button } from "@/components/ui/button";
-import { FieldGroup, FieldSet } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useLogin } from "@/features/auth/hooks/useAuth";
 import { toastPromise } from "@/lib/utils/toast-promise";
+import { FieldWrapper } from "@/shared/components/field-wrapper";
+import { Button } from "@/shared/components/ui/button";
+import { FieldGroup, FieldSet } from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

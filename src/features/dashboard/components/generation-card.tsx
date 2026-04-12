@@ -1,8 +1,8 @@
-import { Icon } from "@/components/shared/icon";
-import { QuickInfo } from "@/components/shared/quick-info";
-import { StatusInfo } from "@/components/shared/status-info";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils/cn";
+import { Icon } from "@/shared/components/icon";
+import { QuickInfo } from "@/shared/components/quick-info";
+import { StatusInfo } from "@/shared/components/status-info";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import Link from "next/link";
 import type { DashboardGeneration } from "../types";
 

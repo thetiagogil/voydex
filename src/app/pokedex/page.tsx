@@ -1,8 +1,29 @@
 "use client";
 
-import { PageLayout } from "@/components/layout/page-layout";
-import { useAllPokemonForms } from "@/hooks/reference/usePokemon";
+import { PageLayout } from "@/shared/components/layout/page-layout";
 import { getPokemonSpriteUrl } from "@/shared/utils";
+import { useQuery } from "@tanstack/react-query";
+
+interface PokemonForm {
+  id: number;
+  slug: string;
+  name: string;
+  speciesId: number;
+  isDefault: boolean;
+  pokemonDbSpriteSlug: string | null;
+}
+
+const useAllPokemonForms = () =>
+  useQuery<PokemonForm[]>({
+    queryKey: ["pokemon", "forms", "all"],
+    queryFn: async () => {
+      const res = await fetch("/api/features/reference/pokemon/forms");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to fetch all forms");
+      return data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 
 export default function PokédexPage() {
   const { data, isLoading, error } = useAllPokemonForms();

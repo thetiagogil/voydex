@@ -1,4 +1,4 @@
-import type { IconType } from "@/components/shared/icon";
+import type { IconType } from "@/shared/components/icon";
 import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import {
   STATUS_VARIANTS,

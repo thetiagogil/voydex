@@ -1,28 +1,28 @@
 "use client";
 
-import { PageLayout } from "@/components/layout/page-layout";
-import { Loading } from "@/components/shared/loading";
 import { GamesSection } from "@/features/generation/components/games-section";
 import { GenerationHeader } from "@/features/generation/components/generation-header";
 import { useGenerationOverview } from "@/features/generation/hooks/useGeneration";
+import { PageLayout } from "@/shared/components/layout/page-layout";
+import { Loading } from "@/shared/components/loading";
 import { notFound } from "next/navigation";
 import { use } from "react";
 
-interface GenPageProps {
+type GenerationPageProps = {
   params: Promise<{
     generationId: string;
   }>;
-}
+};
 
-export default function GenPage({ params }: GenPageProps) {
+export default function GenerationPage({ params }: GenerationPageProps) {
   const { generationId } = use(params);
   const {
     data: generation,
-    isLoading: generationLoading,
-    error: generationError,
+    isLoading,
+    error,
   } = useGenerationOverview(generationId);
 
-  if (generationLoading) {
+  if (isLoading) {
     return (
       <PageLayout isLoading>
         <Loading />
@@ -30,7 +30,7 @@ export default function GenPage({ params }: GenPageProps) {
     );
   }
 
-  if (generationError || !generation?.data) {
+  if (error || !generation?.data) {
     notFound();
   }
 

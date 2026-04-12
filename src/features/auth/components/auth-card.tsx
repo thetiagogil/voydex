@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/shared/components/ui/card";
 import { PAGE_CONTAINER_WIDTH } from "@/shared/constants/layout";
 import { LoginForm } from "../forms/login-form";
 import { SignupForm } from "../forms/signup-form";

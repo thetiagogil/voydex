@@ -1,5 +1,5 @@
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/shared/components/ui/card";
+import { ScrollArea } from "@/shared/components/ui/scroll-area";
 import type { DashboardActivity } from "../types";
 import { ActivityCard } from "./activity-card";
 import { ActivityEmpty } from "./activity-empty";

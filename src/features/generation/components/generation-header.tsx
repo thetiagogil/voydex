@@ -1,7 +1,7 @@
-import { Header } from "@/components/shared/header";
-import { Icon } from "@/components/shared/icon";
-import { QuickInfo } from "@/components/shared/quick-info";
-import { StatCard } from "@/components/shared/stat-card";
+import { Header } from "@/shared/components/header";
+import { Icon } from "@/shared/components/icon";
+import { QuickInfo } from "@/shared/components/quick-info";
+import { StatCard } from "@/shared/components/stat-card";
 import type { GenerationData } from "../types";
 
 type GenerationHeaderProps = {

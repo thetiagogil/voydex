@@ -1,8 +1,8 @@
-import { Icon } from "@/components/shared/icon";
-import { QuickInfo } from "@/components/shared/quick-info";
-import { StatusInfo } from "@/components/shared/status-info";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Icon } from "@/shared/components/icon";
+import { QuickInfo } from "@/shared/components/quick-info";
+import { StatusInfo } from "@/shared/components/status-info";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { Separator } from "@/shared/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 import type { GenerationGame } from "../types";

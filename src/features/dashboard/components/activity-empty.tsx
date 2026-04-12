@@ -3,7 +3,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-} from "@/components/ui/empty";
+} from "@/shared/components/ui/empty";
 
 export const ActivityEmpty = () => {
   return (
