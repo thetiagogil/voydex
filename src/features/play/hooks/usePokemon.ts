@@ -14,7 +14,7 @@ export const usePokemonForms = (speciesId?: number) => {
     queryKey: ["pokemon", "species", speciesId, "forms"],
     queryFn: async () => {
       const res = await fetch(
-        `/api/features/reference/pokemon/species/${speciesId}/forms`,
+        `/api/reference/pokemon/species/${speciesId}/forms`,
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch forms");

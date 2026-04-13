@@ -12,6 +12,7 @@ export interface PlayGame {
   versionGroupId: number;
   generation: BaseInfo;
   region: BaseInfo;
+  availableDlcs?: DlcVersionGroup[];
 }
 
 // =============================================================================
@@ -30,20 +31,11 @@ export interface Play {
   createdAt: string;
   updatedAt: string;
   game: PlayGame;
+  selectedDlcs?: number[];
 }
 
 // =============================================================================
 // PLAY STATS
-// =============================================================================
-
-export interface PlayStats {
-  teamSize: number;
-  highestLevel: number;
-  shinyCount: number;
-  pokedexCaughtCount: number;
-  completedTrackingItems: number;
-}
-
 // =============================================================================
 // PLAY POKEMON (Team Member)
 // =============================================================================
@@ -161,6 +153,24 @@ export interface PlayCollectibleEntry {
 }
 
 // =============================================================================
+// COLLECTIBLE SUMMARY (without entries — used in overview)
+// =============================================================================
+
+export interface PlayCollectibleSummary {
+  id: number;
+  slug: string;
+  name: string;
+  collectibleType: string;
+  totalCount: number | null;
+  spriteUrl: string | null;
+  collectedCount: number;
+  totalEntries: number;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
+}
+
+// =============================================================================
 // POKEDEX TYPES
 // =============================================================================
 
@@ -205,6 +215,28 @@ export interface PlayPokedexSummary {
 export interface PlayCompletionData {
   percentage: number;
   isFullyComplete: boolean;
+}
+
+// =============================================================================
+// DLC
+// =============================================================================
+
+export interface DlcVersionGroup {
+  id: number;
+  slug: string;
+  name: string;
+}
+
+// =============================================================================
+// PLAY OVERVIEW — single response for the Play page
+// =============================================================================
+
+export interface PlayOverview {
+  play: Play;
+  pokemonTeam: PlayPokemon[];
+  trackingCategories: PlayTrackingCategory[];
+  collectiblesSummary: PlayCollectibleSummary[];
+  completion: PlayCompletionData;
 }
 
 // =============================================================================

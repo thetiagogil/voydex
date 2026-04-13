@@ -61,9 +61,7 @@ export const useAvailablePokemon = (
       const params = new URLSearchParams();
       params.set("versionGroupId", String(versionGroupId));
       if (gameId) params.set("gameId", String(gameId));
-      const res = await fetch(
-        `/api/features/reference/pokemon/available?${params}`,
-      );
+      const res = await fetch(`/api/reference/pokemon/available?${params}`);
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to fetch available pokemon");
@@ -87,9 +85,7 @@ export const usePokemonAbilities = (
         formId: String(formId),
         generationId: String(generationId),
       });
-      const res = await fetch(
-        `/api/features/reference/pokemon/abilities?${params}`,
-      );
+      const res = await fetch(`/api/reference/pokemon/abilities?${params}`);
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to fetch pokemon abilities");
@@ -113,9 +109,7 @@ export const usePokemonLearnset = (
         formId: String(formId),
         versionGroupId: String(versionGroupId),
       });
-      const res = await fetch(
-        `/api/features/reference/pokemon/learnset?${params}`,
-      );
+      const res = await fetch(`/api/reference/pokemon/learnset?${params}`);
       const data = await res.json();
       if (!res.ok)
         throw new Error(data.error || "Failed to fetch pokemon learnset");
@@ -130,7 +124,7 @@ export const useNaturesWithStats = () => {
   return useQuery<NatureWithStats[]>({
     queryKey: ["natures", "withStats"],
     queryFn: async () => {
-      const res = await fetch("/api/features/reference/natures");
+      const res = await fetch("/api/reference/natures");
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch natures");
       return data;

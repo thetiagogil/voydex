@@ -1,5 +1,7 @@
 "use client";
 
+import { PokemonCardHover } from "@/features/play/components/pokemon-card-hover";
+import { type PlayPokemon } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { TypeDisplay } from "@/shared/components/type-display";
@@ -8,28 +10,16 @@ import {
   TYPE_COLORS,
   type PokemonTypeKey,
 } from "@/shared/constants/type-styles";
-import type { BaseInfo } from "@/shared/types";
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
-
-interface PokemonLike {
-  nickname: string | null;
-  level: number;
-  gender: string | null;
-  isShiny: boolean;
-  species: BaseInfo;
-  form: BaseInfo & { pokemonDbSpriteSlug: string | null };
-  types: BaseInfo[];
-}
 
 interface PokemonCardProps {
-  pokemon: PokemonLike;
+  pokemon: PlayPokemon;
   href?: string;
   onClick?: () => void;
   hasCardHover?: boolean;
-  hoverContent?: ReactNode;
+  hasNatureAndAbility?: boolean;
 }
 
 export const PokemonCard = ({
@@ -37,7 +27,7 @@ export const PokemonCard = ({
   href,
   onClick,
   hasCardHover,
-  hoverContent,
+  hasNatureAndAbility,
 }: PokemonCardProps) => {
   const displayName = pokemon.nickname || pokemon.species?.name || "Unknown";
   const spriteUrl =
@@ -112,7 +102,7 @@ export const PokemonCard = ({
     );
   }
 
-  if (hasCardHover && hoverContent) {
+  if (hasCardHover) {
     return (
       <HoverCard openDelay={200} closeDelay={100}>
         <HoverCardTrigger asChild>
@@ -120,7 +110,10 @@ export const PokemonCard = ({
             {cardContent}
           </div>
         </HoverCardTrigger>
-        {hoverContent}
+        <PokemonCardHover
+          pokemon={pokemon}
+          hasNatureAndAbility={hasNatureAndAbility}
+        />
       </HoverCard>
     );
   }

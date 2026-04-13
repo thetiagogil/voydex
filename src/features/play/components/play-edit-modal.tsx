@@ -10,15 +10,11 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 
-import {
-  useAvailableDlcs,
-  usePlayDlcs,
-  useUpdatePlayDlcs,
-} from "@/features/play/hooks/usePlayDlc";
+import { useUpdatePlayDlcs } from "@/features/play/hooks/usePlayDlc";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { useMemo } from "react";
 import { PlayEditFormValues } from "../forms/schemas";
-import { usePlayStatuses, useUpdatePlay } from "../hooks/usePlay";
+import { useUpdatePlay } from "../hooks/usePlay";
 import { Play } from "../types";
 
 interface PlayEditModalProps {
@@ -36,9 +32,6 @@ export const PlayEditModal = ({
 }: PlayEditModalProps) => {
   const updatePlay = useUpdatePlay();
   const updatePlayDlcs = useUpdatePlayDlcs();
-  const { data: statuses = [] } = usePlayStatuses();
-  const { data: availableDlcs } = useAvailableDlcs(play.game.versionGroupId);
-  const { data: enabledDlcIds } = usePlayDlcs(play.id);
 
   const initialValues: PlayEditFormValues = useMemo(
     () => ({
@@ -48,14 +41,12 @@ export const PlayEditModal = ({
       include_pokedex: play.includePokedex,
       include_other_pokedex: play.includeOtherPokedex,
       include_mythical_pokemon: play.includeMythicalPokemon,
-      dlc_version_group_ids: enabledDlcIds ?? [],
+      dlc_version_group_ids: play.selectedDlcs ?? [],
     }),
-    [play, enabledDlcIds],
+    [play],
   );
 
   const handleSubmit = async (data: PlayEditFormValues) => {
-    const selectedStatus = statuses.find((s) => s.slug === data.status_slug);
-
     try {
       await toastPromise(
         (async () => {
@@ -64,7 +55,7 @@ export const PlayEditModal = ({
             updates: {
               name: data.name?.trim() || undefined,
               notes: data.notes?.trim() || undefined,
-              status_id: selectedStatus?.id,
+              status_slug: data.status_slug,
               include_pokedex: data.include_pokedex,
               include_other_pokedex: data.include_other_pokedex,
               include_mythical_pokemon: data.include_mythical_pokemon,
@@ -72,6 +63,7 @@ export const PlayEditModal = ({
           });
 
           // Update DLCs if available
+          const availableDlcs = play.game.availableDlcs;
           if (availableDlcs && availableDlcs.length > 0) {
             await updatePlayDlcs.mutateAsync({
               playId: play.id,
@@ -107,8 +99,7 @@ export const PlayEditModal = ({
         <PlayFormContent
           mode="edit"
           game={play.game as GameData}
-          statuses={statuses}
-          availableDlcs={availableDlcs}
+          availableDlcs={play.game.availableDlcs}
           completion={completion}
           initialValues={initialValues}
           isPending={updatePlay.isPending || updatePlayDlcs.isPending}

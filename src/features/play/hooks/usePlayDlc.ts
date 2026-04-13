@@ -1,10 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-export interface DlcVersionGroup {
-  id: number;
-  slug: string;
-  name: string;
-}
+import type { DlcVersionGroup } from "../types";
 
 export const useAvailableDlcs = (versionGroupId?: number) => {
   const enabled = Boolean(versionGroupId);
@@ -19,23 +14,6 @@ export const useAvailableDlcs = (versionGroupId?: number) => {
     },
     enabled,
     staleTime: 1000 * 60 * 60, // 1 hour — DLC list rarely changes
-  });
-};
-
-export const usePlayDlcs = (playId?: string) => {
-  const enabled = Boolean(playId);
-  return useQuery<number[]>({
-    queryKey: ["play", playId, "dlc"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId || "")}/dlc`,
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch play DLCs");
-      return data;
-    },
-    enabled,
-    staleTime: 1000 * 30,
   });
 };
 
@@ -64,6 +42,19 @@ export const useUpdatePlayDlcs = () => {
     },
     onSuccess: (_, { playId }) => {
       queryClient.invalidateQueries({ queryKey: ["play", playId] });
+      queryClient.invalidateQueries({
+        queryKey: ["play", playId, "overview"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["play", playId, "tracking", "categories"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["play", playId, "collectibles"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      queryClient.invalidateQueries({
+        queryKey: ["play", playId, "completion"],
+      });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
