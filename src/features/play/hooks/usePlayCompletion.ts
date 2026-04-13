@@ -13,6 +13,6 @@ export const usePlayCompletion = (playId?: string) => {
       return data;
     },
     enabled: Boolean(playId),
-    staleTime: 0,
+    staleTime: Infinity,
   });
 };

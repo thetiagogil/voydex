@@ -1,5 +1,6 @@
 import { deleteFetcher, postFetcher } from "@/lib/utils/fetcher";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { PlayTrackingItem } from "../types";
 
 // =============================================================================
 // TYPES
@@ -47,6 +48,25 @@ const updateCategoriesOptimistically = (
   });
 };
 
+const updateItemsOptimistically = (
+  old: PlayTrackingItem[] | undefined,
+  itemIds: number[],
+  isCompleted: boolean,
+) => {
+  if (!old) return old;
+  const idSet = new Set(itemIds);
+  return old.map((item) => {
+    if (idSet.has(item.id)) {
+      return {
+        ...item,
+        isCompleted,
+        completedAt: isCompleted ? new Date().toISOString() : null,
+      };
+    }
+    return item;
+  });
+};
+
 // =============================================================================
 // CHECK SINGLE TRACKING ITEM
 // =============================================================================
@@ -61,19 +81,31 @@ export const useCheckPlayTrackingItem = () => {
         { trackingItemId },
       );
     },
-    onMutate: async ({ playId, categoryId }) => {
+    onMutate: async ({ playId, trackingItemId, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
+      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
+        [];
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, 1),
       );
-      return { previousCategories, keys };
+      qc.setQueriesData<PlayTrackingItem[]>(
+        { queryKey: keys.itemsPrefix },
+        (old) => {
+          previousItemsCaches.push([keys.itemsPrefix, old]);
+          return updateItemsOptimistically(old, [trackingItemId], true);
+        },
+      );
+      return { previousCategories, previousItemsCaches, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
+        for (const [key, data] of context.previousItemsCaches) {
+          qc.setQueryData(key as string[], data);
+        }
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
@@ -99,19 +131,31 @@ export const useUncheckPlayTrackingItem = () => {
         `/api/features/plays/${encodeURIComponent(playId)}/tracking/uncheck?trackingItemId=${trackingItemId}`,
       );
     },
-    onMutate: async ({ playId, categoryId }) => {
+    onMutate: async ({ playId, trackingItemId, categoryId }) => {
       const keys = getQueryKeys(playId, categoryId);
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
+      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
+        [];
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, -1),
       );
-      return { previousCategories, keys };
+      qc.setQueriesData<PlayTrackingItem[]>(
+        { queryKey: keys.itemsPrefix },
+        (old) => {
+          previousItemsCaches.push([keys.itemsPrefix, old]);
+          return updateItemsOptimistically(old, [trackingItemId], false);
+        },
+      );
+      return { previousCategories, previousItemsCaches, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
+        for (const [key, data] of context.previousItemsCaches) {
+          qc.setQueryData(key as string[], data);
+        }
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
@@ -147,14 +191,26 @@ export const useCheckPlayTrackingItemBulk = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
+      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
+        [];
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, trackingItemIds.length),
       );
-      return { previousCategories, keys };
+      qc.setQueriesData<PlayTrackingItem[]>(
+        { queryKey: keys.itemsPrefix },
+        (old) => {
+          previousItemsCaches.push([keys.itemsPrefix, old]);
+          return updateItemsOptimistically(old, trackingItemIds, true);
+        },
+      );
+      return { previousCategories, previousItemsCaches, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
+        for (const [key, data] of context.previousItemsCaches) {
+          qc.setQueryData(key as string[], data);
+        }
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {
@@ -190,6 +246,8 @@ export const useUncheckPlayTrackingItemBulk = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
+      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
+        [];
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(
           old,
@@ -197,11 +255,21 @@ export const useUncheckPlayTrackingItemBulk = () => {
           -trackingItemIds.length,
         ),
       );
-      return { previousCategories, keys };
+      qc.setQueriesData<PlayTrackingItem[]>(
+        { queryKey: keys.itemsPrefix },
+        (old) => {
+          previousItemsCaches.push([keys.itemsPrefix, old]);
+          return updateItemsOptimistically(old, trackingItemIds, false);
+        },
+      );
+      return { previousCategories, previousItemsCaches, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
+        for (const [key, data] of context.previousItemsCaches) {
+          qc.setQueryData(key as string[], data);
+        }
       }
     },
     onSettled: (_data, _error, { playId, categoryId }) => {

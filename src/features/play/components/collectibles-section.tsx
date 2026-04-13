@@ -3,6 +3,7 @@
 import {
   useCollectEntriesBulk,
   useCollectEntry,
+  usePlayCollectibles,
   useUncollectEntriesBulk,
   useUncollectEntry,
 } from "@/features/play/hooks/usePlayCollectibles";
@@ -23,24 +24,31 @@ import {
   SheetTitle,
 } from "@/shared/components/ui/sheet";
 import { useMemo, useState } from "react";
-import type { PlayCollectible, PlayCollectibleEntry } from "../types";
+import type {
+  PlayCollectible,
+  PlayCollectibleEntry,
+  PlayCollectibleSummary,
+} from "../types";
 
 // =============================================================================
-// COLLECTIBLE CARD
+// COLLECTIBLE CARD (works with both summary and full data)
 // =============================================================================
 
 interface CollectibleCardProps {
-  collectible: PlayCollectible;
+  name: string;
+  collectedCount: number;
+  totalEntries: number;
   onClick: () => void;
 }
 
-const CollectibleCard = ({ collectible, onClick }: CollectibleCardProps) => {
+const CollectibleCard = ({
+  name,
+  collectedCount,
+  totalEntries,
+  onClick,
+}: CollectibleCardProps) => {
   const percentage =
-    collectible.entries.length > 0
-      ? Math.floor(
-          (collectible.collectedCount / collectible.entries.length) * 100,
-        )
-      : 0;
+    totalEntries > 0 ? Math.floor((collectedCount / totalEntries) * 100) : 0;
   const isDone = percentage === 100;
 
   return (
@@ -59,10 +67,10 @@ const CollectibleCard = ({ collectible, onClick }: CollectibleCardProps) => {
 
       <div className="min-w-0 flex-1">
         <h3 className="text-foreground truncate text-sm font-semibold">
-          {collectible.name}
+          {name}
         </h3>
         <p className="text-muted-foreground text-xs">
-          {collectible.collectedCount}/{collectible.entries.length}
+          {collectedCount}/{totalEntries}
         </p>
       </div>
 
@@ -88,7 +96,7 @@ const CollectibleCard = ({ collectible, onClick }: CollectibleCardProps) => {
 };
 
 // =============================================================================
-// COLLECTIBLE DRAWER
+// COLLECTIBLE DRAWER (uses full data)
 // =============================================================================
 
 interface CollectibleDrawerProps {
@@ -96,6 +104,7 @@ interface CollectibleDrawerProps {
   onOpenChange: (open: boolean) => void;
   playId: string;
   collectible: PlayCollectible | null;
+  isLoading: boolean;
 }
 
 const CollectibleDrawer = ({
@@ -103,6 +112,7 @@ const CollectibleDrawer = ({
   onOpenChange,
   playId,
   collectible,
+  isLoading,
 }: CollectibleDrawerProps) => {
   const collectEntry = useCollectEntry();
   const uncollectEntry = useUncollectEntry();
@@ -155,14 +165,15 @@ const CollectibleDrawer = ({
     return visibleLocations.flatMap((loc) => groupedEntries.get(loc) || []);
   }, [visibleLocations, groupedEntries]);
 
+  // Delta-only: only send entries that actually change
   const handleBulkCollect = () => {
-    const ids = visibleEntries.map((e) => e.id);
+    const ids = visibleEntries.filter((e) => !e.isCollected).map((e) => e.id);
     if (ids.length > 0)
       collectBulk.mutate({ playId, collectibleEntryIds: ids });
   };
 
   const handleBulkUncollect = () => {
-    const ids = visibleEntries.map((e) => e.id);
+    const ids = visibleEntries.filter((e) => e.isCollected).map((e) => e.id);
     if (ids.length > 0)
       uncollectBulk.mutate({ playId, collectibleEntryIds: ids });
   };
@@ -186,86 +197,104 @@ const CollectibleDrawer = ({
         </SheetHeader>
 
         <div className="flex flex-col gap-4 overflow-hidden">
-          {/* Location filter */}
-          {locations.length > 1 && (
-            <div className="flex flex-wrap gap-1.5 px-4">
-              {locations.map((loc) => (
-                <Badge
-                  key={loc}
-                  variant={excludedLocations.has(loc) ? "outline" : "default"}
-                  className="cursor-pointer"
-                  onClick={() => toggleLocation(loc)}
+          {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <p className="text-muted-foreground text-sm">Loading...</p>
+            </div>
+          ) : (
+            <>
+              {/* Location filter */}
+              {locations.length > 1 && (
+                <div className="flex flex-wrap gap-1.5 px-4">
+                  {locations.map((loc) => (
+                    <Badge
+                      key={loc}
+                      variant={
+                        excludedLocations.has(loc) ? "outline" : "default"
+                      }
+                      className="cursor-pointer"
+                      onClick={() => toggleLocation(loc)}
+                    >
+                      {loc}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+
+              {/* Bulk actions */}
+              <div className="flex gap-2 px-4">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleBulkCollect}
                 >
-                  {loc}
-                </Badge>
-              ))}
-            </div>
-          )}
+                  Collect all visible
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleBulkUncollect}
+                >
+                  Uncollect all visible
+                </Button>
+              </div>
 
-          {/* Bulk actions */}
-          <div className="flex gap-2 px-4">
-            <Button variant="secondary" size="sm" onClick={handleBulkCollect}>
-              Collect all visible
-            </Button>
-            <Button variant="secondary" size="sm" onClick={handleBulkUncollect}>
-              Uncollect all visible
-            </Button>
-          </div>
-
-          {/* Entries grouped by location */}
-          <ScrollArea>
-            <div className="flex flex-col gap-4 px-4">
-              {visibleLocations.map((loc) => {
-                const entries = groupedEntries.get(loc) || [];
-                return (
-                  <div key={loc}>
-                    {locations.length > 1 && (
-                      <h4 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
-                        {loc}
-                      </h4>
-                    )}
-                    <div className="flex flex-col gap-1">
-                      {entries.map((entry) => (
-                        <div
-                          key={entry.id}
-                          onClick={() =>
-                            handleToggle(entry.id, !entry.isCollected)
-                          }
-                          className={cn(
-                            "flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors",
-                            entry.isCollected
-                              ? "border-primary bg-primary/10"
-                              : "border-border hover:bg-foreground/5",
-                          )}
-                        >
-                          <Checkbox
-                            id={`collectible-${entry.id}`}
-                            checked={entry.isCollected}
-                            className="pointer-events-none"
-                          />
-                          <div className="min-w-0 flex-1">
-                            <span className="text-sm font-medium">
-                              {entry.name}
-                            </span>
-                            {entry.subLocationName && (
-                              <p className="text-muted-foreground text-xs">
-                                {entry.subLocationName}
-                              </p>
-                            )}
-                            {entry.description && (
-                              <p className="text-muted-foreground text-xs">
-                                {entry.description}
-                              </p>
-                            )}
-                          </div>
+              {/* Entries grouped by location */}
+              <ScrollArea>
+                <div className="flex flex-col gap-4 px-4">
+                  {visibleLocations.map((loc) => {
+                    const entries = groupedEntries.get(loc) || [];
+                    return (
+                      <div key={loc}>
+                        {locations.length > 1 && (
+                          <h4 className="text-muted-foreground mb-2 text-xs font-semibold tracking-wide uppercase">
+                            {loc}
+                          </h4>
+                        )}
+                        <div className="flex flex-col gap-1">
+                          {entries.map((entry) => (
+                            <div
+                              key={entry.id}
+                              onClick={() =>
+                                handleToggle(entry.id, !entry.isCollected)
+                              }
+                              className={cn(
+                                "flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors",
+                                entry.isCollected
+                                  ? "border-primary bg-primary/10"
+                                  : "border-border hover:bg-foreground/5",
+                              )}
+                            >
+                              <Checkbox
+                                id={`collectible-${entry.id}`}
+                                checked={entry.isCollected}
+                                className="pointer-events-none"
+                              />
+                              <div className="min-w-0 flex-1">
+                                <span className="text-sm font-medium">
+                                  {entry.name}
+                                </span>
+                                {entry.subLocationName && (
+                                  <p className="text-muted-foreground text-xs">
+                                    {entry.subLocationName}
+                                  </p>
+                                )}
+                                {entry.description && (
+                                  <p className="text-muted-foreground text-xs">
+                                    {entry.description}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </ScrollArea>
+                      </div>
+                    );
+                  })}
+                </div>
+              </ScrollArea>
+            </>
+          )}
         </div>
 
         <SheetFooter>
@@ -279,26 +308,56 @@ const CollectibleDrawer = ({
 };
 
 // =============================================================================
-// COLLECTIBLES SECTION
+// COLLECTIBLES SECTION — cards from summary, drawer from lazy full data
 // =============================================================================
 
 interface CollectiblesSectionProps {
   playId: string;
-  collectibles?: PlayCollectible[];
+  summaries: PlayCollectibleSummary[];
 }
 
 export const CollectiblesSection = ({
   playId,
-  collectibles,
+  summaries,
 }: CollectiblesSectionProps) => {
-  const items = collectibles || [];
   const [selectedCollectibleId, setSelectedCollectibleId] = useState<
     number | null
   >(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [fetchEnabled, setFetchEnabled] = useState(false);
+
+  // Lazy: only fetch full data when a drawer opens for the first time
+  const { data: fullCollectibles, isLoading: isLoadingFull } =
+    usePlayCollectibles(fetchEnabled ? playId : undefined);
+
+  // Card data: use full data counts if available (post-mutation), else overview summary
+  const cardData: PlayCollectibleSummary[] = useMemo(() => {
+    if (fullCollectibles) {
+      return fullCollectibles.map((c) => ({
+        id: c.id,
+        slug: c.slug,
+        name: c.name,
+        collectibleType: c.collectibleType,
+        totalCount: c.totalCount,
+        spriteUrl: c.spriteUrl,
+        collectedCount: c.collectedCount,
+        totalEntries: c.entries.length,
+        versionGroupId: c.versionGroupId,
+        versionGroupName: c.versionGroupName,
+        isDlc: c.isDlc,
+      }));
+    }
+    return summaries;
+  }, [fullCollectibles, summaries]);
 
   const selectedCollectible =
-    items.find((c) => c.id === selectedCollectibleId) ?? null;
+    fullCollectibles?.find((c) => c.id === selectedCollectibleId) ?? null;
+
+  const handleCardClick = (id: number) => {
+    setSelectedCollectibleId(id);
+    setFetchEnabled(true);
+    setDrawerOpen(true);
+  };
 
   // Group by version group for DLC separation
   const vgGroups = useMemo(() => {
@@ -306,37 +365,37 @@ export const CollectiblesSection = ({
       vgId: number;
       vgName: string;
       isDlc: boolean;
-      collectibles: PlayCollectible[];
+      items: PlayCollectibleSummary[];
     }[] = [];
     const map = new Map<number, (typeof groups)[0]>();
-    for (const col of items) {
+    for (const col of cardData) {
       const existing = map.get(col.versionGroupId);
       if (existing) {
-        existing.collectibles.push(col);
+        existing.items.push(col);
       } else {
         const group = {
           vgId: col.versionGroupId,
           vgName: col.versionGroupName,
           isDlc: col.isDlc,
-          collectibles: [col],
+          items: [col],
         };
         map.set(col.versionGroupId, group);
         groups.push(group);
       }
     }
     return groups;
-  }, [items]);
+  }, [cardData]);
 
   const hasDlc = vgGroups.some((g) => g.isDlc);
 
-  if (items.length === 0) {
+  if (cardData.length === 0) {
     return null;
   }
 
-  const completedSets = items.filter(
-    (c) => c.entries.length > 0 && c.collectedCount === c.entries.length,
+  const completedSets = cardData.filter(
+    (c) => c.totalEntries > 0 && c.collectedCount === c.totalEntries,
   ).length;
-  const totalSets = items.length;
+  const totalSets = cardData.length;
   const isComplete = completedSets === totalSets && totalSets > 0;
 
   return (
@@ -363,14 +422,13 @@ export const CollectiblesSection = ({
                 </Badge>
               </div>
             )}
-            {group.collectibles.map((collectible) => (
+            {group.items.map((item) => (
               <CollectibleCard
-                key={collectible.id}
-                collectible={collectible}
-                onClick={() => {
-                  setSelectedCollectibleId(collectible.id);
-                  setDrawerOpen(true);
-                }}
+                key={item.id}
+                name={item.name}
+                collectedCount={item.collectedCount}
+                totalEntries={item.totalEntries}
+                onClick={() => handleCardClick(item.id)}
               />
             ))}
           </div>
@@ -382,6 +440,7 @@ export const CollectiblesSection = ({
         onOpenChange={setDrawerOpen}
         playId={playId}
         collectible={selectedCollectible}
+        isLoading={isLoadingFull && !fullCollectibles}
       />
     </Card>
   );

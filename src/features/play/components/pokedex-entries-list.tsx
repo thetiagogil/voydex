@@ -90,12 +90,16 @@ export const PokedexEntriesList = ({
   };
 
   const handleBulkMarkCaught = () => {
-    const ids = filteredEntries.map((e) => e.pokedexEntryId);
+    const ids = filteredEntries
+      .filter((e) => !e.isCaught)
+      .map((e) => e.pokedexEntryId);
     if (ids.length > 0) markBulk.mutate({ playId, pokedexEntryIds: ids });
   };
 
   const handleBulkUnmark = () => {
-    const ids = filteredEntries.map((e) => e.pokedexEntryId);
+    const ids = filteredEntries
+      .filter((e) => e.isCaught || e.isSeen)
+      .map((e) => e.pokedexEntryId);
     if (ids.length > 0) unmarkBulk.mutate({ playId, pokedexEntryIds: ids });
   };
 

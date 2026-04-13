@@ -1,5 +1,6 @@
 "use client";
 
+import { usePlayPokedex } from "@/features/play/hooks/usePlayPokedex";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Badge } from "@/shared/components/ui/badge";
@@ -15,40 +16,72 @@ import {
   SheetTitle,
 } from "@/shared/components/ui/sheet";
 import { useMemo, useState } from "react";
-import type { Play, PlayPokedexEntry, PlayPokedexSummary } from "../types";
+import type {
+  Play,
+  PlayPokedexEntry,
+  PlayPokedexOverviewSummary,
+  PlayPokedexSummary,
+} from "../types";
 import { PokedexEntriesList } from "./pokedex-entries-list";
 
 // =============================================================================
 // HELPERS
 // =============================================================================
 
+/** Works with both PlayPokedexOverviewSummary and PlayPokedexSummary */
 function computeEffectiveCounts(
-  summary: PlayPokedexSummary,
+  summary: {
+    totalEntries: number;
+    seenCount: number;
+    caughtCount: number;
+    mythicalCount: number;
+    mythicalSeenCount: number;
+    mythicalCaughtCount: number;
+  },
   includeMythical: boolean,
 ) {
-  const mythicalCount = summary.entries.filter(
-    (e) => e.species.isMythical,
-  ).length;
-  const mythicalCaught = summary.entries.filter(
-    (e) => e.species.isMythical && e.isCaught,
-  ).length;
-  const mythicalSeen = summary.entries.filter(
-    (e) => e.species.isMythical && e.isSeen,
-  ).length;
-  const excludeMythical = !includeMythical && mythicalCount > 0;
+  const excludeMythical = !includeMythical && summary.mythicalCount > 0;
 
   return {
     total: excludeMythical
-      ? summary.totalEntries - mythicalCount
+      ? summary.totalEntries - summary.mythicalCount
       : summary.totalEntries,
     caught: excludeMythical
-      ? summary.caughtCount - mythicalCaught
+      ? summary.caughtCount - summary.mythicalCaughtCount
       : summary.caughtCount,
     seen: excludeMythical
-      ? summary.seenCount - mythicalSeen
+      ? summary.seenCount - summary.mythicalSeenCount
       : summary.seenCount,
-    mythicalCount,
+    mythicalCount: summary.mythicalCount,
     excludeMythical,
+  };
+}
+
+/** Build summary-compatible object from PlayPokedexSummary (full data) */
+function fullSummaryToOverview(
+  s: PlayPokedexSummary,
+): PlayPokedexOverviewSummary {
+  const mythicalCount = s.entries.filter((e) => e.species.isMythical).length;
+  const mythicalSeen = s.entries.filter(
+    (e) => e.species.isMythical && e.isSeen,
+  ).length;
+  const mythicalCaught = s.entries.filter(
+    (e) => e.species.isMythical && e.isCaught,
+  ).length;
+  return {
+    pokedexId: s.pokedexId,
+    pokedexSlug: s.pokedexSlug,
+    pokedexName: s.pokedexName,
+    pokedexKind: s.pokedexKind,
+    totalEntries: s.totalEntries,
+    seenCount: s.seenCount,
+    caughtCount: s.caughtCount,
+    mythicalCount,
+    mythicalSeenCount: mythicalSeen,
+    mythicalCaughtCount: mythicalCaught,
+    versionGroupId: s.versionGroupId,
+    versionGroupName: s.versionGroupName,
+    isDlc: s.isDlc,
   };
 }
 
@@ -57,7 +90,7 @@ function computeEffectiveCounts(
 // =============================================================================
 
 interface PokedexCardProps {
-  summary: PlayPokedexSummary;
+  summary: PlayPokedexOverviewSummary;
   includeMythicalPokemon: boolean;
   isExcludedFromCompletion?: boolean;
   onClick: () => void;
@@ -148,31 +181,37 @@ const PokedexCard = ({
 };
 
 // =============================================================================
-// POKEDEX SECTION
+// POKEDEX SECTION — cards from overview summary, drawer lazy-loads full data
 // =============================================================================
 
 interface PokedexSectionProps {
   playId: string;
-  pokedexEntries?: PlayPokedexEntry[];
+  pokedexSummary: PlayPokedexOverviewSummary[];
   play: Play;
 }
 
 export const PokedexSection = ({
   playId,
-  pokedexEntries,
+  pokedexSummary,
   play,
 }: PokedexSectionProps) => {
   const includeMythicalPokemon = play.includeMythicalPokemon;
-  const entries = useMemo(() => pokedexEntries || [], [pokedexEntries]);
   const [selectedPokedexId, setSelectedPokedexId] = useState<number | null>(
     null,
   );
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [fetchEnabled, setFetchEnabled] = useState(false);
 
-  // Group entries by pokedex
-  const pokedexSummaries: PlayPokedexSummary[] = useMemo(() => {
+  // Lazy: only fetch full pokedex entries when drawer opens
+  const { data: fullEntries, isLoading: isLoadingFull } = usePlayPokedex(
+    fetchEnabled ? playId : undefined,
+  );
+
+  // Build full summaries from flat entries (when available)
+  const fullSummaries: PlayPokedexSummary[] | null = useMemo(() => {
+    if (!fullEntries) return null;
     const pokedexMap = new Map<number, PlayPokedexSummary>();
-    for (const entry of entries) {
+    for (const entry of fullEntries) {
       const pokedexId = entry.pokedex.id;
       if (!pokedexMap.has(pokedexId)) {
         pokedexMap.set(pokedexId, {
@@ -196,10 +235,31 @@ export const PokedexSection = ({
       summary.entries.push(entry);
     }
     return Array.from(pokedexMap.values());
-  }, [entries]);
+  }, [fullEntries]);
 
-  const selectedSummary =
-    pokedexSummaries.find((s) => s.pokedexId === selectedPokedexId) ?? null;
+  // Card data: use full data counts if available (post-mutation), else overview summary
+  const cardData: PlayPokedexOverviewSummary[] = useMemo(() => {
+    if (fullSummaries) {
+      return fullSummaries.map(fullSummaryToOverview);
+    }
+    return pokedexSummary;
+  }, [fullSummaries, pokedexSummary]);
+
+  // Drawer gets its entries from full summaries
+  const selectedDrawerEntries: PlayPokedexEntry[] = useMemo(() => {
+    if (!fullSummaries || selectedPokedexId === null) return [];
+    const match = fullSummaries.find((s) => s.pokedexId === selectedPokedexId);
+    return match?.entries ?? [];
+  }, [fullSummaries, selectedPokedexId]);
+
+  const selectedName =
+    cardData.find((s) => s.pokedexId === selectedPokedexId)?.pokedexName ?? "";
+
+  const handleCardClick = (pokedexId: number) => {
+    setSelectedPokedexId(pokedexId);
+    setFetchEnabled(true);
+    setDrawerOpen(true);
+  };
 
   // Group summaries by version group for DLC separation
   const vgGroups = useMemo(() => {
@@ -207,10 +267,10 @@ export const PokedexSection = ({
       vgId: number;
       vgName: string;
       isDlc: boolean;
-      summaries: PlayPokedexSummary[];
+      summaries: PlayPokedexOverviewSummary[];
     }[] = [];
     const map = new Map<number, (typeof groups)[0]>();
-    for (const s of pokedexSummaries) {
+    for (const s of cardData) {
       const existing = map.get(s.versionGroupId);
       if (existing) {
         existing.summaries.push(s);
@@ -226,11 +286,11 @@ export const PokedexSection = ({
       }
     }
     return groups;
-  }, [pokedexSummaries]);
+  }, [cardData]);
 
   const hasDlc = vgGroups.some((g) => g.isDlc);
 
-  if (entries.length === 0) {
+  if (cardData.length === 0) {
     return null;
   }
 
@@ -242,13 +302,13 @@ export const PokedexSection = ({
     return false;
   };
 
-  const completedDexes = pokedexSummaries.filter((s) => {
+  const completedDexes = cardData.filter((s) => {
     if (s.totalEntries === 0) return false;
     if (isPokedexExcluded(s.pokedexKind)) return false;
     const { total, caught } = computeEffectiveCounts(s, includeMythicalPokemon);
     return total > 0 && caught === total;
   }).length;
-  const totalDexes = pokedexSummaries.filter(
+  const totalDexes = cardData.filter(
     (s) => !isPokedexExcluded(s.pokedexKind),
   ).length;
   const isComplete = completedDexes === totalDexes && totalDexes > 0;
@@ -277,50 +337,51 @@ export const PokedexSection = ({
                 </Badge>
               </div>
             )}
-            {group.summaries.map((summary, index) => (
+            {group.summaries.map((summary) => (
               <PokedexCard
-                key={index}
+                key={summary.pokedexId}
                 summary={summary}
                 includeMythicalPokemon={includeMythicalPokemon}
                 isExcludedFromCompletion={isPokedexExcluded(
                   summary.pokedexKind,
                 )}
-                onClick={() => {
-                  setSelectedPokedexId(summary.pokedexId);
-                  setDrawerOpen(true);
-                }}
+                onClick={() => handleCardClick(summary.pokedexId)}
               />
             ))}
           </div>
         ))}
       </div>
 
-      {selectedSummary && (
-        <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>{selectedSummary.pokedexName}</SheetTitle>
-              <SheetDescription className="sr-only">
-                Track caught and seen Pokémon in {selectedSummary.pokedexName}
-              </SheetDescription>
-            </SheetHeader>
+      <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>{selectedName}</SheetTitle>
+            <SheetDescription className="sr-only">
+              Track caught and seen Pokémon in {selectedName}
+            </SheetDescription>
+          </SheetHeader>
 
-            <div className="flex flex-col gap-4 overflow-hidden">
+          <div className="flex flex-col gap-4 overflow-hidden">
+            {isLoadingFull && !fullEntries ? (
+              <div className="flex items-center justify-center py-8">
+                <p className="text-muted-foreground text-sm">Loading...</p>
+              </div>
+            ) : (
               <PokedexEntriesList
                 playId={playId}
-                pokedexEntries={selectedSummary.entries}
+                pokedexEntries={selectedDrawerEntries}
                 includeMythicalPokemon={includeMythicalPokemon}
               />
-            </div>
+            )}
+          </div>
 
-            <SheetFooter>
-              <SheetClose asChild>
-                <Button variant="secondary">Close</Button>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
-      )}
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button variant="secondary">Close</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </Card>
   );
 };

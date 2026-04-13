@@ -18,7 +18,7 @@ export const usePlayCollectibles = (playId?: string) => {
       return data;
     },
     enabled: Boolean(playId),
-    staleTime: 1000 * 30,
+    staleTime: Infinity,
   });
 };
 

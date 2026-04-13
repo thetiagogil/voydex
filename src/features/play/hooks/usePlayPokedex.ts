@@ -14,6 +14,6 @@ export const usePlayPokedex = (playId?: string) => {
       return data;
     },
     enabled: Boolean(playId),
-    staleTime: 1000 * 30,
+    staleTime: Infinity,
   });
 };

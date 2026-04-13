@@ -178,3 +178,73 @@ export const unmarkPokedexEntriesBulk = async (
   if (error) return { success: false, error };
   return { success: true, error: null };
 };
+
+// =============================================================================
+// LIGHTWEIGHT POKEDEX SUMMARY (for overview — no entry-level data)
+// =============================================================================
+
+export const getPlayPokedexSummary = async (playId: string) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("play_pokedex_detail")
+    .select(
+      "pokedex_id, pokedex_slug, pokedex_name, pokedex_kind, is_seen, is_caught, is_mythical, version_group_id, version_group_name, parent_version_group_id",
+    )
+    .eq("play_id", playId);
+
+  if (error) return { data: null, error };
+  if (!data) return { data: [], error: null };
+
+  const pokedexMap = new Map<
+    number,
+    {
+      pokedexId: number;
+      pokedexSlug: string;
+      pokedexName: string;
+      pokedexKind: string;
+      totalEntries: number;
+      seenCount: number;
+      caughtCount: number;
+      mythicalCount: number;
+      mythicalSeenCount: number;
+      mythicalCaughtCount: number;
+      versionGroupId: number;
+      versionGroupName: string;
+      isDlc: boolean;
+    }
+  >();
+
+  for (const row of data) {
+    const id = row.pokedex_id as number;
+    if (!pokedexMap.has(id)) {
+      pokedexMap.set(id, {
+        pokedexId: row.pokedex_id as number,
+        pokedexSlug: row.pokedex_slug as string,
+        pokedexName: row.pokedex_name as string,
+        pokedexKind: row.pokedex_kind as string,
+        totalEntries: 0,
+        seenCount: 0,
+        caughtCount: 0,
+        mythicalCount: 0,
+        mythicalSeenCount: 0,
+        mythicalCaughtCount: 0,
+        versionGroupId: row.version_group_id as number,
+        versionGroupName: row.version_group_name as string,
+        isDlc: row.parent_version_group_id !== null,
+      });
+    }
+    const summary = pokedexMap.get(id)!;
+    summary.totalEntries++;
+    if (row.is_seen) summary.seenCount++;
+    if (row.is_caught) summary.caughtCount++;
+    if (row.is_mythical) {
+      summary.mythicalCount++;
+      if (row.is_seen) summary.mythicalSeenCount++;
+      if (row.is_caught) summary.mythicalCaughtCount++;
+    }
+  }
+
+  return { data: Array.from(pokedexMap.values()), error: null };
+};
