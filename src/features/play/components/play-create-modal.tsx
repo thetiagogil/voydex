@@ -1,10 +1,7 @@
 "use client";
 
 import { PlayFormContent } from "@/features/play/forms/play-form-content";
-import {
-  useAvailableDlcs,
-  useUpdatePlayDlcs,
-} from "@/features/play/hooks/usePlayDlc";
+import { useUpdatePlayDlcs } from "@/features/play/hooks/usePlayDlc";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import {
   Dialog,
@@ -33,7 +30,6 @@ export const PlayCreateModal = ({
   const router = useRouter();
   const createPlay = useCreatePlay();
   const updatePlayDlcs = useUpdatePlayDlcs();
-  const { data: availableDlcs } = useAvailableDlcs(game.versionGroupId);
 
   const handleSubmit = async (data: PlayCreateFormValues) => {
     try {
@@ -85,7 +81,7 @@ export const PlayCreateModal = ({
         <PlayFormContent
           mode="create"
           game={game}
-          availableDlcs={availableDlcs}
+          availableDlcs={game.availableDlcs}
           isPending={createPlay.isPending}
           onSubmit={handleSubmit}
           onCancel={handleClose}

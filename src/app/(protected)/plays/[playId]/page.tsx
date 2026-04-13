@@ -7,19 +7,18 @@ import { PokemonTeamSection } from "@/features/play/components/pokemon-team-sect
 import { StorySection } from "@/features/play/components/story-section";
 
 import { usePlay, useUpdatePlay } from "@/features/play/hooks/usePlay";
-import { usePlayCollectibles } from "@/features/play/hooks/usePlayCollectibles";
 import { usePlayCompletion } from "@/features/play/hooks/usePlayCompletion";
 import { usePlayOverview } from "@/features/play/hooks/usePlayOverview";
-import { usePlayPokedex } from "@/features/play/hooks/usePlayPokedex";
 import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
 import { usePlayTrackingCategories } from "@/features/play/hooks/usePlayTrackingCategories";
+import type { PlayOverview } from "@/features/play/types";
 import { buildPlayBreadcrumbs } from "@/features/play/utils/build-play-breadcrumbs";
 import { PageLayout } from "@/shared/components/layout/page-layout";
 import { Loading } from "@/shared/components/loading";
 import { use, useEffect, useRef } from "react";
 
 // =============================================================================
-// PLAY PAGE
+// PLAY PAGE — overview wrapper (loading gate)
 // =============================================================================
 
 interface PlayPageProps {
@@ -31,36 +30,71 @@ interface PlayPageProps {
 export default function PlayPage({ params }: PlayPageProps) {
   const { playId } = use(params);
 
-  // Overview fetches once and seeds all individual slice caches
-  const { isLoading: overviewLoading, error: overviewError } =
-    usePlayOverview(playId);
+  // Overview is the ONLY API call on initial load
+  // It seeds individual slice caches before PlayPageContent mounts
+  const { data: overview, isLoading, error } = usePlayOverview(playId);
 
-  // Read live data from individual slice hooks (seeded by overview, refetchable by mutations)
+  if (isLoading) {
+    return (
+      <PageLayout isLoading>
+        <Loading />
+      </PageLayout>
+    );
+  }
+
+  if (error || !overview) {
+    return (
+      <PageLayout>
+        <div className="flex items-center justify-center py-12">
+          <p className="text-muted-foreground">Play not found</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  return <PlayPageContent playId={playId} overview={overview} />;
+}
+
+// =============================================================================
+// PLAY PAGE CONTENT — mounts after overview has seeded caches
+// Slice hooks read from seeded caches (staleTime: Infinity → no auto-refetch)
+// Mutations invalidate slice keys → hooks refetch → UI updates
+// =============================================================================
+
+function PlayPageContent({
+  playId,
+  overview,
+}: {
+  playId: string;
+  overview: PlayOverview;
+}) {
+  // Slice hooks read from seeded caches — NO extra API calls
   const { data: playData } = usePlay(playId);
   const { data: pokemonTeam } = usePlayPokemonTeam(playId);
   const { data: trackingCategories } = usePlayTrackingCategories(playId);
-  const { data: collectibles } = usePlayCollectibles(playId);
-  const { data: pokedexEntries } = usePlayPokedex(playId);
-  const { data: completionData } = usePlayCompletion(playId);
+  const { data: completion } = usePlayCompletion(playId);
 
-  const play = playData?.data;
+  // Fall back to overview data for first render (before setQueryData runs)
+  const play = playData?.data ?? overview.play;
+  const team = pokemonTeam ?? overview.pokemonTeam;
+  const stories = trackingCategories ?? overview.storySummary;
+  const comp = completion ?? overview.completion;
 
   const updatePlay = useUpdatePlay();
   const updatePlayRef = useRef(updatePlay);
   updatePlayRef.current = updatePlay;
   const autoStatusRef = useRef(false);
 
-  const completion = completionData;
-  const currentCompletion = completion?.percentage ?? 0;
+  const currentCompletion = comp?.percentage ?? 0;
 
   // Auto-complete at 100% / auto-revert if drops below 100%
   useEffect(() => {
-    if (!completion || !play) return;
+    if (!comp || !play) return;
 
     const currentStatus = play.status.slug;
     const pid = play.id;
 
-    if (completion.isFullyComplete && currentStatus !== "completed") {
+    if (comp.isFullyComplete && currentStatus !== "completed") {
       if (!autoStatusRef.current) {
         autoStatusRef.current = true;
         updatePlayRef.current
@@ -72,7 +106,7 @@ export default function PlayPage({ params }: PlayPageProps) {
             autoStatusRef.current = false;
           });
       }
-    } else if (!completion.isFullyComplete && currentStatus === "completed") {
+    } else if (!comp.isFullyComplete && currentStatus === "completed") {
       if (!autoStatusRef.current) {
         autoStatusRef.current = true;
         updatePlayRef.current
@@ -85,25 +119,7 @@ export default function PlayPage({ params }: PlayPageProps) {
           });
       }
     }
-  }, [completion, play]);
-
-  if (overviewLoading) {
-    return (
-      <PageLayout isLoading>
-        <Loading />
-      </PageLayout>
-    );
-  }
-
-  if (overviewError || !play) {
-    return (
-      <PageLayout>
-        <div className="flex items-center justify-center py-12">
-          <p className="text-muted-foreground">Play not found</p>
-        </div>
-      </PageLayout>
-    );
-  }
+  }, [comp, play]);
 
   const breadcrumbs = buildPlayBreadcrumbs(
     play.game.generation,
@@ -115,12 +131,15 @@ export default function PlayPage({ params }: PlayPageProps) {
     <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-8">
         <PlayHeader play={play} completion={currentCompletion} />
-        <PokemonTeamSection play={play} pokemonTeam={pokemonTeam} />
-        <StorySection playId={playId} trackingCategories={trackingCategories} />
-        <CollectiblesSection playId={playId} collectibles={collectibles} />
+        <PokemonTeamSection play={play} pokemonTeam={team} />
+        <StorySection playId={playId} trackingCategories={stories} />
+        <CollectiblesSection
+          playId={playId}
+          summaries={overview.collectiblesSummary}
+        />
         <PokedexSection
           playId={playId}
-          pokedexEntries={pokedexEntries}
+          pokedexSummary={overview.pokedexSummary}
           play={play}
         />
       </div>

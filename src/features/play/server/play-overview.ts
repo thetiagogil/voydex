@@ -4,6 +4,7 @@ import { getPlay } from "./play";
 import { getPlayCollectibles } from "./play-collectibles";
 import { getPlayCompletion } from "./play-completion";
 import { getAvailableDlcs, getPlayDlcs } from "./play-dlc";
+import { getPlayPokedexSummary } from "./play-pokedex";
 import { getPlayTeam } from "./play-team";
 import { getPlayTrackingCategories } from "./play-tracking";
 
@@ -29,6 +30,7 @@ export const getPlayOverview = async (playId: string) => {
     completionResult,
     playDlcsResult,
     availableDlcsResult,
+    pokedexSummaryResult,
   ] = await Promise.all([
     getPlayTeam(playId),
     getPlayTrackingCategories(playId),
@@ -36,6 +38,7 @@ export const getPlayOverview = async (playId: string) => {
     getPlayCompletion(playId),
     getPlayDlcs(playId),
     getAvailableDlcs(versionGroupId),
+    getPlayPokedexSummary(playId),
   ]);
 
   // Build collectibles summary (without entries)
@@ -67,8 +70,9 @@ export const getPlayOverview = async (playId: string) => {
     data: {
       play: playWithDlcs,
       pokemonTeam: teamResult.data ?? [],
-      trackingCategories: trackingResult.data ?? [],
+      storySummary: trackingResult.data ?? [],
       collectiblesSummary,
+      pokedexSummary: pokedexSummaryResult.data ?? [],
       completion: completionResult.data ?? {
         percentage: 0,
         isFullyComplete: false,

@@ -1,3 +1,4 @@
+import type { DlcVersionGroup } from "@/features/play/types";
 import type { BaseInfo, PlayStatusInfo, UserStats } from "@/shared/types";
 
 export type GameType = "main" | "remake" | "enhanced" | "dlc" | "spin-off";
@@ -35,6 +36,7 @@ export interface GamePlay {
 export interface GameData extends Game {
   plays: GamePlay[];
   userStats: UserStats;
+  availableDlcs: DlcVersionGroup[];
 }
 
 export interface GameOverview {

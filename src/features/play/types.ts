@@ -209,6 +209,26 @@ export interface PlayPokedexSummary {
 }
 
 // =============================================================================
+// POKEDEX OVERVIEW SUMMARY (without entries — used in overview)
+// =============================================================================
+
+export interface PlayPokedexOverviewSummary {
+  pokedexId: number;
+  pokedexSlug: string;
+  pokedexName: string;
+  pokedexKind: string;
+  totalEntries: number;
+  seenCount: number;
+  caughtCount: number;
+  mythicalCount: number;
+  mythicalSeenCount: number;
+  mythicalCaughtCount: number;
+  versionGroupId: number;
+  versionGroupName: string;
+  isDlc: boolean;
+}
+
+// =============================================================================
 // COMPLETION
 // =============================================================================
 
@@ -234,8 +254,9 @@ export interface DlcVersionGroup {
 export interface PlayOverview {
   play: Play;
   pokemonTeam: PlayPokemon[];
-  trackingCategories: PlayTrackingCategory[];
+  storySummary: PlayTrackingCategory[];
   collectiblesSummary: PlayCollectibleSummary[];
+  pokedexSummary: PlayPokedexOverviewSummary[];
   completion: PlayCompletionData;
 }
 

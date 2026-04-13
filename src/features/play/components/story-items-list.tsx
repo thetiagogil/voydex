@@ -99,10 +99,6 @@ export const StoryItemsList = ({
     }
   };
 
-  const selectableIds = filteredItems
-    .filter((item) => item.itemTypeSlug !== "decision")
-    .map((item) => item.id);
-
   return (
     <>
       {/* Type filter */}
@@ -136,10 +132,15 @@ export const StoryItemsList = ({
           variant="secondary"
           size="sm"
           onClick={() => {
-            if (selectableIds.length > 0)
+            const uncheckedIds = filteredItems
+              .filter(
+                (item) => item.itemTypeSlug !== "decision" && !item.isCompleted,
+              )
+              .map((item) => item.id);
+            if (uncheckedIds.length > 0)
               checkBulk.mutate({
                 playId,
-                trackingItemIds: selectableIds,
+                trackingItemIds: uncheckedIds,
                 categoryId,
               });
           }}
@@ -150,10 +151,15 @@ export const StoryItemsList = ({
           variant="secondary"
           size="sm"
           onClick={() => {
-            if (selectableIds.length > 0)
+            const checkedIds = filteredItems
+              .filter(
+                (item) => item.itemTypeSlug !== "decision" && item.isCompleted,
+              )
+              .map((item) => item.id);
+            if (checkedIds.length > 0)
               uncheckBulk.mutate({
                 playId,
-                trackingItemIds: selectableIds,
+                trackingItemIds: checkedIds,
                 categoryId,
               });
           }}

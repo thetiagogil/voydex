@@ -14,7 +14,7 @@ export const usePlayPokemonTeam = (playId?: string) => {
         `/api/features/plays/${encodeURIComponent(playId!)}/pokemon-team`,
       ),
     enabled: Boolean(playId),
-    staleTime: 1000 * 30,
+    staleTime: Infinity,
   });
 };
 

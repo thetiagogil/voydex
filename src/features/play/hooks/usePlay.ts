@@ -31,7 +31,7 @@ export const usePlay = (playId?: string) => {
     queryFn: () =>
       fetcher(`/api/features/plays/${encodeURIComponent(playId!)}`),
     enabled: Boolean(playId),
-    staleTime: 1000 * 30,
+    staleTime: Infinity,
   });
 };
 

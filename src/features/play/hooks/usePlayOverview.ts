@@ -23,14 +23,14 @@ export const usePlayOverview = (playId?: string) => {
   useEffect(() => {
     if (!query.data || !playId) return;
 
-    const { play, pokemonTeam, trackingCategories, completion } = query.data;
+    const { play, pokemonTeam, storySummary, completion } = query.data;
 
     // Seed play with { data: play } to match the shape from GET /plays/[id]
     queryClient.setQueryData(["play", playId], { data: play });
     queryClient.setQueryData(["play", playId, "pokemon-team"], pokemonTeam);
     queryClient.setQueryData(
       ["play", playId, "tracking", "categories"],
-      trackingCategories,
+      storySummary,
     );
     queryClient.setQueryData(["play", playId, "completion"], completion);
   }, [query.data, playId, queryClient]);

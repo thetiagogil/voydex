@@ -1,5 +1,6 @@
 "use server";
 
+import { getAvailableDlcs } from "@/features/play/server/play-dlc";
 import { createClient } from "@/lib/supabase/server";
 import { getGameCoverUrl } from "@/lib/supabase/storage";
 import { UserStats } from "@/shared/types";
@@ -107,6 +108,10 @@ export const getGame = async (id: number | string) => {
     };
   }
 
+  const { data: availableDlcs } = await getAvailableDlcs(
+    gameData.version_group_id,
+  );
+
   const game = {
     id: gameData.id,
     slug: gameData.slug,
@@ -127,6 +132,7 @@ export const getGame = async (id: number | string) => {
     },
     plays,
     userStats,
+    availableDlcs: availableDlcs ?? [],
   };
 
   return {
