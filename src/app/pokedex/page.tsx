@@ -17,7 +17,7 @@ const useAllPokemonForms = () =>
   useQuery<PokemonForm[]>({
     queryKey: ["pokemon", "forms", "all"],
     queryFn: async () => {
-      const res = await fetch("/api/features/reference/pokemon/forms");
+      const res = await fetch("/api/reference/pokemon/forms");
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch all forms");
       return data;

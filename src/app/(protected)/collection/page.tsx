@@ -5,11 +5,10 @@ import { CollectionFilters } from "@/features/collection/components/collection-f
 import { CollectionGrid } from "@/features/collection/components/collection-grid";
 import { CollectionHeader } from "@/features/collection/components/collection-header";
 import { useCollection } from "@/features/collection/hooks/useCollection";
-import { useGenerations } from "@/features/collection/hooks/useGenerations";
-import { useTypes } from "@/features/collection/hooks/useTypes";
 import { PageLayout } from "@/shared/components/layout/page-layout";
 import { Loading } from "@/shared/components/loading";
 import { ResultsInfo } from "@/shared/components/results-info";
+import { useGenerations, useTypes } from "@/shared/hooks/useReference";
 import { useMemo, useState } from "react";
 
 export default function CollectionPage() {

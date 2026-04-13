@@ -59,51 +59,6 @@ export const getPlay = async (id: string) => {
 };
 
 // =============================================================================
-// GET PLAY STATS
-// =============================================================================
-
-export const getPlayStats = async (playId: string) => {
-  const supabase = await createClient();
-
-  const { data: teamData } = await supabase
-    .schema("gameplay")
-    .from("pokemon_team")
-    .select("level, is_shiny")
-    .eq("play_id", playId);
-
-  const { data: dexData } = await supabase
-    .schema("gameplay")
-    .from("play_pokedex_entries")
-    .select("is_caught")
-    .eq("play_id", playId)
-    .eq("is_caught", true);
-
-  const { data: trackingData } = await supabase
-    .schema("gameplay")
-    .from("play_tracking_items")
-    .select("tracking_item_id")
-    .eq("play_id", playId);
-
-  const teamSize = teamData?.length ?? 0;
-  const highestLevel =
-    teamData && teamData.length > 0
-      ? Math.max(...teamData.map((t) => t.level))
-      : 0;
-  const shinyCount = teamData?.filter((t) => t.is_shiny).length ?? 0;
-
-  return {
-    data: {
-      teamSize,
-      highestLevel,
-      shinyCount,
-      pokedexCaughtCount: dexData?.length ?? 0,
-      completedTrackingItems: trackingData?.length ?? 0,
-    },
-    error: null,
-  };
-};
-
-// =============================================================================
 // CREATE PLAY
 // =============================================================================
 
@@ -139,7 +94,7 @@ export const updatePlay = async (
   playId: string,
   updates: {
     name?: string;
-    status_id?: number;
+    status_slug?: string;
     notes?: string;
     include_pokedex?: boolean;
     include_other_pokedex?: boolean;
@@ -148,10 +103,27 @@ export const updatePlay = async (
 ) => {
   const supabase = await createClient();
 
+  // Resolve status_slug to status_id if provided
+  const { status_slug, ...rest } = updates;
+  const dbUpdates: Record<string, unknown> = { ...rest };
+
+  if (status_slug) {
+    const { data: status } = await supabase
+      .schema("gameplay")
+      .from("play_statuses")
+      .select("id")
+      .eq("slug", status_slug)
+      .single();
+
+    if (status) {
+      dbUpdates.status_id = status.id;
+    }
+  }
+
   const { data, error } = await supabase
     .schema("gameplay")
     .from("plays")
-    .update(updates)
+    .update(dbUpdates)
     .eq("id", playId)
     .select()
     .single();
@@ -175,30 +147,4 @@ export const deletePlay = async (playId: string) => {
 
   if (error) return { success: false, error };
   return { success: true, error: null };
-};
-
-// =============================================================================
-// GET PLAY STATUSES (lookup table)
-// =============================================================================
-
-export const getPlayStatuses = async () => {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .schema("gameplay")
-    .from("play_statuses")
-    .select("id, slug, name, is_terminal, sort_order")
-    .order("sort_order", { ascending: true });
-
-  if (error) return { data: null, error };
-
-  const result = (data ?? []).map((s) => ({
-    id: s.id,
-    slug: s.slug,
-    name: s.name,
-    isTerminal: s.is_terminal,
-    sortOrder: s.sort_order,
-  }));
-
-  return { data: result, error: null };
 };

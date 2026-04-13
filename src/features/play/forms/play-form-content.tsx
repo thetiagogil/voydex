@@ -1,7 +1,7 @@
 "use client";
 
 import type { GameData } from "@/features/game/types";
-import type { DlcVersionGroup } from "@/features/play/hooks/usePlayDlc";
+import type { DlcVersionGroup } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { FieldWrapper } from "@/shared/components/field-wrapper";
 import { Icon, IconType } from "@/shared/components/icon";
@@ -17,11 +17,13 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { Spinner } from "@/shared/components/ui/spinner";
-import { STATUS_VARIANT_META } from "@/shared/constants/play-statuses";
+import {
+  PLAY_STATUSES,
+  STATUS_VARIANT_META,
+} from "@/shared/constants/play-statuses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { PlayStatusInfo } from "../../../shared/types";
 import {
   playCreateSchema,
   playEditSchema,
@@ -32,7 +34,6 @@ import {
 type PlayFormContentCreateProps = {
   mode: "create";
   game: GameData;
-  statuses?: never;
   availableDlcs?: DlcVersionGroup[];
   initialValues?: Partial<PlayCreateFormValues>;
   isPending: boolean;
@@ -43,7 +44,6 @@ type PlayFormContentCreateProps = {
 type PlayFormContentEditProps = {
   mode: "edit";
   game: GameData;
-  statuses: PlayStatusInfo[];
   availableDlcs?: DlcVersionGroup[];
   completion?: number;
   initialValues: PlayEditFormValues;
@@ -168,7 +168,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             </div>
           )}
 
-          {isEditMode && props.statuses && (
+          {isEditMode && (
             <FieldWrapper
               id="status"
               label="Status"
@@ -187,22 +187,19 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      {props.statuses.map((status) => {
-                        const isCompleted =
-                          status.slug === "completed" && completion < 100;
+                      {PLAY_STATUSES.map((slug) => {
+                        const meta = STATUS_VARIANT_META[slug];
+                        const isCompletedOption =
+                          slug === "completed" && completion < 100;
                         return (
-                          !isCompleted && (
-                            <SelectItem key={status.id} value={status.slug}>
+                          !isCompletedOption && (
+                            <SelectItem key={slug} value={slug}>
                               <span className="flex items-center gap-2">
                                 <Icon
-                                  type={status.slug as IconType}
-                                  className={
-                                    STATUS_VARIANT_META[
-                                      status.slug as keyof typeof STATUS_VARIANT_META
-                                    ].colors.icon
-                                  }
+                                  type={slug as IconType}
+                                  className={meta.colors.icon}
                                 />
-                                {status.name}
+                                {meta.label}
                               </span>
                             </SelectItem>
                           )
