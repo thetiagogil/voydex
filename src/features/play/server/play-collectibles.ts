@@ -86,6 +86,67 @@ export const getPlayCollectibles = async (playId: string) => {
 };
 
 // =============================================================================
+// GET PLAY COLLECTIBLES SUMMARY (lightweight — no entries, just counts)
+// Used by overview to avoid fetching all entry-level data
+// =============================================================================
+
+export const getPlayCollectiblesSummary = async (playId: string) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("play_collectible_detail")
+    .select(
+      "collectible_id, collectible_slug, collectible_name, collectible_type, total_count, collectible_sprite_url, is_collected, version_group_id, version_group_name, parent_version_group_id",
+    )
+    .eq("play_id", playId);
+
+  if (error) return { data: null, error };
+  if (!data) return { data: [], error: null };
+
+  const collectibleMap = new Map<
+    number,
+    {
+      id: number;
+      slug: string;
+      name: string;
+      collectibleType: string;
+      totalCount: number | null;
+      spriteUrl: string | null;
+      collectedCount: number;
+      totalEntries: number;
+      versionGroupId: number;
+      versionGroupName: string;
+      isDlc: boolean;
+    }
+  >();
+
+  for (const row of data) {
+    const existing = collectibleMap.get(row.collectible_id);
+    if (existing) {
+      existing.totalEntries++;
+      if (row.is_collected) existing.collectedCount++;
+    } else {
+      collectibleMap.set(row.collectible_id, {
+        id: row.collectible_id,
+        slug: row.collectible_slug,
+        name: row.collectible_name,
+        collectibleType: row.collectible_type,
+        totalCount: row.total_count,
+        spriteUrl: row.collectible_sprite_url,
+        collectedCount: row.is_collected ? 1 : 0,
+        totalEntries: 1,
+        versionGroupId: row.version_group_id,
+        versionGroupName: row.version_group_name,
+        isDlc: row.parent_version_group_id !== null,
+      });
+    }
+  }
+
+  return { data: Array.from(collectibleMap.values()), error: null };
+};
+
+// =============================================================================
 // COLLECT ENTRY
 // =============================================================================
 

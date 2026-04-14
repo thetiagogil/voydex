@@ -56,9 +56,9 @@ export default function PlayPage({ params }: PlayPageProps) {
 }
 
 // =============================================================================
-// PLAY PAGE CONTENT — mounts after overview has seeded caches
-// Slice hooks read from seeded caches (staleTime: Infinity → no auto-refetch)
-// Mutations invalidate slice keys → hooks refetch → UI updates
+// PLAY PAGE CONTENT — overview provides initialData to slice hooks
+// Slice hooks start with overview data (no auto-fetch on mount).
+// Mutations invalidate slice keys → hooks refetch → UI updates.
 // =============================================================================
 
 function PlayPageContent({
@@ -68,13 +68,20 @@ function PlayPageContent({
   playId: string;
   overview: PlayOverview;
 }) {
-  // Slice hooks read from seeded caches — NO extra API calls
-  const { data: playData } = usePlay(playId);
-  const { data: pokemonTeam } = usePlayPokemonTeam(playId);
-  const { data: trackingCategories } = usePlayTrackingCategories(playId);
-  const { data: completion } = usePlayCompletion(playId);
+  // Slice hooks receive overview data as initialData — no extra API calls
+  const { data: playData } = usePlay(playId, {
+    initialData: { data: overview.play },
+  });
+  const { data: pokemonTeam } = usePlayPokemonTeam(playId, {
+    initialData: overview.pokemonTeam,
+  });
+  const { data: trackingCategories } = usePlayTrackingCategories(playId, {
+    initialData: overview.storySummary,
+  });
+  const { data: completion } = usePlayCompletion(playId, {
+    initialData: overview.completion,
+  });
 
-  // Fall back to overview data for first render (before setQueryData runs)
   const play = playData?.data ?? overview.play;
   const team = pokemonTeam ?? overview.pokemonTeam;
   const stories = trackingCategories ?? overview.storySummary;

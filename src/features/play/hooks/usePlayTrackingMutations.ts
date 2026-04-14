@@ -86,17 +86,16 @@ export const useCheckPlayTrackingItem = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
-      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
-        [];
+      // Snapshot all matching item caches with their real query keys
+      const previousItemsCaches = qc.getQueriesData<PlayTrackingItem[]>({
+        queryKey: keys.itemsPrefix,
+      });
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, 1),
       );
       qc.setQueriesData<PlayTrackingItem[]>(
         { queryKey: keys.itemsPrefix },
-        (old) => {
-          previousItemsCaches.push([keys.itemsPrefix, old]);
-          return updateItemsOptimistically(old, [trackingItemId], true);
-        },
+        (old) => updateItemsOptimistically(old, [trackingItemId], true),
       );
       return { previousCategories, previousItemsCaches, keys };
     },
@@ -104,7 +103,7 @@ export const useCheckPlayTrackingItem = () => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
         for (const [key, data] of context.previousItemsCaches) {
-          qc.setQueryData(key as string[], data);
+          qc.setQueryData(key, data);
         }
       }
     },
@@ -136,17 +135,15 @@ export const useUncheckPlayTrackingItem = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
-      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
-        [];
+      const previousItemsCaches = qc.getQueriesData<PlayTrackingItem[]>({
+        queryKey: keys.itemsPrefix,
+      });
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, -1),
       );
       qc.setQueriesData<PlayTrackingItem[]>(
         { queryKey: keys.itemsPrefix },
-        (old) => {
-          previousItemsCaches.push([keys.itemsPrefix, old]);
-          return updateItemsOptimistically(old, [trackingItemId], false);
-        },
+        (old) => updateItemsOptimistically(old, [trackingItemId], false),
       );
       return { previousCategories, previousItemsCaches, keys };
     },
@@ -154,7 +151,7 @@ export const useUncheckPlayTrackingItem = () => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
         for (const [key, data] of context.previousItemsCaches) {
-          qc.setQueryData(key as string[], data);
+          qc.setQueryData(key, data);
         }
       }
     },
@@ -191,17 +188,15 @@ export const useCheckPlayTrackingItemBulk = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
-      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
-        [];
+      const previousItemsCaches = qc.getQueriesData<PlayTrackingItem[]>({
+        queryKey: keys.itemsPrefix,
+      });
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(old, categoryId, trackingItemIds.length),
       );
       qc.setQueriesData<PlayTrackingItem[]>(
         { queryKey: keys.itemsPrefix },
-        (old) => {
-          previousItemsCaches.push([keys.itemsPrefix, old]);
-          return updateItemsOptimistically(old, trackingItemIds, true);
-        },
+        (old) => updateItemsOptimistically(old, trackingItemIds, true),
       );
       return { previousCategories, previousItemsCaches, keys };
     },
@@ -209,7 +204,7 @@ export const useCheckPlayTrackingItemBulk = () => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
         for (const [key, data] of context.previousItemsCaches) {
-          qc.setQueryData(key as string[], data);
+          qc.setQueryData(key, data);
         }
       }
     },
@@ -246,8 +241,9 @@ export const useUncheckPlayTrackingItemBulk = () => {
       await qc.cancelQueries({ queryKey: keys.itemsPrefix });
       await qc.cancelQueries({ queryKey: keys.categories });
       const previousCategories = qc.getQueryData(keys.categories);
-      const previousItemsCaches: [unknown, PlayTrackingItem[] | undefined][] =
-        [];
+      const previousItemsCaches = qc.getQueriesData<PlayTrackingItem[]>({
+        queryKey: keys.itemsPrefix,
+      });
       qc.setQueryData(keys.categories, (old: Record<string, unknown>[]) =>
         updateCategoriesOptimistically(
           old,
@@ -257,10 +253,7 @@ export const useUncheckPlayTrackingItemBulk = () => {
       );
       qc.setQueriesData<PlayTrackingItem[]>(
         { queryKey: keys.itemsPrefix },
-        (old) => {
-          previousItemsCaches.push([keys.itemsPrefix, old]);
-          return updateItemsOptimistically(old, trackingItemIds, false);
-        },
+        (old) => updateItemsOptimistically(old, trackingItemIds, false),
       );
       return { previousCategories, previousItemsCaches, keys };
     },
@@ -268,7 +261,7 @@ export const useUncheckPlayTrackingItemBulk = () => {
       if (context) {
         qc.setQueryData(context.keys.categories, context.previousCategories);
         for (const [key, data] of context.previousItemsCaches) {
-          qc.setQueryData(key as string[], data);
+          qc.setQueryData(key, data);
         }
       }
     },

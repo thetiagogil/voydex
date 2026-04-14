@@ -1,21 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { DlcVersionGroup } from "../types";
-
-export const useAvailableDlcs = (versionGroupId?: number) => {
-  const enabled = Boolean(versionGroupId);
-  return useQuery<DlcVersionGroup[]>({
-    queryKey: ["dlc", "available", versionGroupId],
-    queryFn: async () => {
-      const res = await fetch(`/api/features/plays/dlc/${versionGroupId}`);
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch available DLCs");
-      return data;
-    },
-    enabled,
-    staleTime: 1000 * 60 * 60, // 1 hour — DLC list rarely changes
-  });
-};
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdatePlayDlcs = () => {
   const queryClient = useQueryClient();
@@ -41,12 +24,12 @@ export const useUpdatePlayDlcs = () => {
       return data;
     },
     onSuccess: (_, { playId }) => {
-      queryClient.invalidateQueries({ queryKey: ["play", playId] });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId, "overview"],
+        queryKey: ["play", playId],
+        exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
+        queryKey: ["play", playId, "tracking"],
       });
       queryClient.invalidateQueries({
         queryKey: ["play", playId, "collectibles"],
@@ -55,7 +38,6 @@ export const useUpdatePlayDlcs = () => {
       queryClient.invalidateQueries({
         queryKey: ["play", playId, "completion"],
       });
-      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
   });
 };

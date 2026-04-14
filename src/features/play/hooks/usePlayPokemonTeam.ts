@@ -6,15 +6,22 @@ import type { PlayPokemon } from "../types";
 // GET PLAY POKEMON TEAM
 // =============================================================================
 
-export const usePlayPokemonTeam = (playId?: string) => {
+export const usePlayPokemonTeam = (
+  playId?: string,
+  options?: {
+    initialData?: PlayPokemon[];
+    enabled?: boolean;
+  },
+) => {
   return useQuery<PlayPokemon[]>({
     queryKey: ["play", playId, "pokemon-team"],
     queryFn: () =>
       fetcher(
         `/api/features/plays/${encodeURIComponent(playId!)}/pokemon-team`,
       ),
-    enabled: Boolean(playId),
+    enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
+    initialData: options?.initialData,
   });
 };
 
@@ -41,9 +48,6 @@ export const useAddPokemonToTeam = () => {
     onSuccess: (_, { playId }) => {
       queryClient.invalidateQueries({
         queryKey: ["play", playId, "pokemon-team"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["play", playId, "completion"],
       });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -110,9 +114,6 @@ export const useRemovePokemonFromTeam = () => {
     onSuccess: (_, { playId }) => {
       queryClient.invalidateQueries({
         queryKey: ["play", playId, "pokemon-team"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["play", playId, "completion"],
       });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
     },

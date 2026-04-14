@@ -29,7 +29,8 @@ export const usePlayTrackingItems = (
       }
       const res = await fetch(url.toString());
       const data = await res.json();
-      if (!res.ok) return false;
+      if (!res.ok)
+        throw new Error(data.error || "Failed to fetch tracking items");
       return data;
     },
     enabled,
