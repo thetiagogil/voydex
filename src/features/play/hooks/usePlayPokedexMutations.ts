@@ -1,6 +1,6 @@
 import { deleteFetcher, postFetcher } from "@/lib/utils/fetcher";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { PlayPokedexEntry } from "../types";
+import type { PlayPokedexEntry, PlayPokedexOverviewSummary } from "../types";
 
 // =============================================================================
 // TYPES
@@ -22,19 +22,71 @@ interface MarkPokedexEntriesBulkParams {
 
 const getQueryKeys = (playId: string) => ({
   pokedex: ["play", playId, "pokedex"],
+  pokedexSummary: ["play", playId, "pokedex", "summary"],
 });
 
 const updatePokedexOptimistically = (
   old: PlayPokedexEntry[] | undefined,
   pokedexEntryIds: number[],
-  isCaught: boolean,
+  update: Partial<Pick<PlayPokedexEntry, "isCaught" | "isSeen">>,
 ) => {
   if (!old) return old;
+  const idSet = new Set(pokedexEntryIds);
   return old.map((entry) =>
-    pokedexEntryIds.includes(entry.pokedexEntryId)
-      ? { ...entry, isCaught, isSeen: isCaught ? true : entry.isSeen }
+    idSet.has(entry.pokedexEntryId)
+      ? {
+          ...entry,
+          ...update,
+          // catching always implies seen
+          ...(update.isCaught ? { isSeen: true } : {}),
+        }
       : entry,
   );
+};
+
+/** Derive updated summary counts from the optimistically-updated entries cache */
+const deriveSummaryFromEntries = (
+  entries: PlayPokedexEntry[] | undefined,
+  oldSummary: PlayPokedexOverviewSummary[] | undefined,
+): PlayPokedexOverviewSummary[] | undefined => {
+  if (!entries || !oldSummary) return oldSummary;
+  const pokedexMap = new Map<
+    number,
+    {
+      totalEntries: number;
+      seenCount: number;
+      caughtCount: number;
+      mythicalCount: number;
+      mythicalSeenCount: number;
+      mythicalCaughtCount: number;
+    }
+  >();
+  for (const entry of entries) {
+    const id = entry.pokedex.id;
+    if (!pokedexMap.has(id)) {
+      pokedexMap.set(id, {
+        totalEntries: 0,
+        seenCount: 0,
+        caughtCount: 0,
+        mythicalCount: 0,
+        mythicalSeenCount: 0,
+        mythicalCaughtCount: 0,
+      });
+    }
+    const s = pokedexMap.get(id)!;
+    s.totalEntries++;
+    if (entry.isSeen) s.seenCount++;
+    if (entry.isCaught) s.caughtCount++;
+    if (entry.species.isMythical) {
+      s.mythicalCount++;
+      if (entry.isSeen) s.mythicalSeenCount++;
+      if (entry.isCaught) s.mythicalCaughtCount++;
+    }
+  }
+  return oldSummary.map((sum) => {
+    const counts = pokedexMap.get(sum.pokedexId);
+    return counts ? { ...sum, ...counts } : sum;
+  });
 };
 
 // =============================================================================
@@ -54,21 +106,36 @@ export const useMarkPokedexEntryCaught = () => {
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
       await qc.cancelQueries({ queryKey: keys.pokedex });
+      await qc.cancelQueries({ queryKey: keys.pokedexSummary });
       const previousPokedex = qc.getQueryData<PlayPokedexEntry[]>(keys.pokedex);
-
-      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, (old) =>
-        updatePokedexOptimistically(old, [pokedexEntryId], true),
+      const previousSummary = qc.getQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
       );
 
-      return { previousPokedex, keys };
+      const updatedEntries = updatePokedexOptimistically(
+        previousPokedex,
+        [pokedexEntryId],
+        { isCaught: true },
+      );
+      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, updatedEntries);
+      qc.setQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+        (old) => deriveSummaryFromEntries(updatedEntries, old),
+      );
+
+      return { previousPokedex, previousSummary, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.pokedex, context.previousPokedex);
+        qc.setQueryData(context.keys.pokedexSummary, context.previousSummary);
       }
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokedex", "summary"],
+      });
       qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -92,26 +159,36 @@ export const useMarkPokedexEntrySeen = () => {
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
       await qc.cancelQueries({ queryKey: keys.pokedex });
+      await qc.cancelQueries({ queryKey: keys.pokedexSummary });
       const previousPokedex = qc.getQueryData<PlayPokedexEntry[]>(keys.pokedex);
+      const previousSummary = qc.getQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+      );
 
-      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, (old) => {
-        if (!old) return old;
-        return old.map((entry) =>
-          entry.pokedexEntryId === pokedexEntryId
-            ? { ...entry, isSeen: true }
-            : entry,
-        );
-      });
+      const updatedEntries = updatePokedexOptimistically(
+        previousPokedex,
+        [pokedexEntryId],
+        { isSeen: true },
+      );
+      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, updatedEntries);
+      qc.setQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+        (old) => deriveSummaryFromEntries(updatedEntries, old),
+      );
 
-      return { previousPokedex, keys };
+      return { previousPokedex, previousSummary, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.pokedex, context.previousPokedex);
+        qc.setQueryData(context.keys.pokedexSummary, context.previousSummary);
       }
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokedex", "summary"],
+      });
       qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -134,26 +211,36 @@ export const useUnmarkPokedexEntry = () => {
     onMutate: async ({ playId, pokedexEntryId }) => {
       const keys = getQueryKeys(playId);
       await qc.cancelQueries({ queryKey: keys.pokedex });
+      await qc.cancelQueries({ queryKey: keys.pokedexSummary });
       const previousPokedex = qc.getQueryData<PlayPokedexEntry[]>(keys.pokedex);
+      const previousSummary = qc.getQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+      );
 
-      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, (old) => {
-        if (!old) return old;
-        return old.map((entry) =>
-          entry.pokedexEntryId === pokedexEntryId
-            ? { ...entry, isSeen: false, isCaught: false }
-            : entry,
-        );
-      });
+      const updatedEntries = updatePokedexOptimistically(
+        previousPokedex,
+        [pokedexEntryId],
+        { isSeen: false, isCaught: false },
+      );
+      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, updatedEntries);
+      qc.setQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+        (old) => deriveSummaryFromEntries(updatedEntries, old),
+      );
 
-      return { previousPokedex, keys };
+      return { previousPokedex, previousSummary, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.pokedex, context.previousPokedex);
+        qc.setQueryData(context.keys.pokedexSummary, context.previousSummary);
       }
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokedex", "summary"],
+      });
       qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -180,21 +267,36 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
     onMutate: async ({ playId, pokedexEntryIds }) => {
       const keys = getQueryKeys(playId);
       await qc.cancelQueries({ queryKey: keys.pokedex });
+      await qc.cancelQueries({ queryKey: keys.pokedexSummary });
       const previousPokedex = qc.getQueryData<PlayPokedexEntry[]>(keys.pokedex);
-
-      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, (old) =>
-        updatePokedexOptimistically(old, pokedexEntryIds, true),
+      const previousSummary = qc.getQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
       );
 
-      return { previousPokedex, keys };
+      const updatedEntries = updatePokedexOptimistically(
+        previousPokedex,
+        pokedexEntryIds,
+        { isCaught: true },
+      );
+      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, updatedEntries);
+      qc.setQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+        (old) => deriveSummaryFromEntries(updatedEntries, old),
+      );
+
+      return { previousPokedex, previousSummary, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.pokedex, context.previousPokedex);
+        qc.setQueryData(context.keys.pokedexSummary, context.previousSummary);
       }
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokedex", "summary"],
+      });
       qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
     },
@@ -221,26 +323,36 @@ export const useUnmarkPokedexEntriesBulk = () => {
     onMutate: async ({ playId, pokedexEntryIds }) => {
       const keys = getQueryKeys(playId);
       await qc.cancelQueries({ queryKey: keys.pokedex });
+      await qc.cancelQueries({ queryKey: keys.pokedexSummary });
       const previousPokedex = qc.getQueryData<PlayPokedexEntry[]>(keys.pokedex);
+      const previousSummary = qc.getQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+      );
 
-      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, (old) => {
-        if (!old) return old;
-        return old.map((entry) =>
-          pokedexEntryIds.includes(entry.pokedexEntryId)
-            ? { ...entry, isSeen: false, isCaught: false }
-            : entry,
-        );
-      });
+      const updatedEntries = updatePokedexOptimistically(
+        previousPokedex,
+        pokedexEntryIds,
+        { isSeen: false, isCaught: false },
+      );
+      qc.setQueryData<PlayPokedexEntry[]>(keys.pokedex, updatedEntries);
+      qc.setQueryData<PlayPokedexOverviewSummary[]>(
+        keys.pokedexSummary,
+        (old) => deriveSummaryFromEntries(updatedEntries, old),
+      );
 
-      return { previousPokedex, keys };
+      return { previousPokedex, previousSummary, keys };
     },
     onError: (_err, _vars, context) => {
       if (context) {
         qc.setQueryData(context.keys.pokedex, context.previousPokedex);
+        qc.setQueryData(context.keys.pokedexSummary, context.previousSummary);
       }
     },
     onSettled: (_data, _error, { playId }) => {
       qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+      qc.invalidateQueries({
+        queryKey: ["play", playId, "pokedex", "summary"],
+      });
       qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
     },

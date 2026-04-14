@@ -1,7 +1,7 @@
 "use server";
 
 import { getPlay } from "./play";
-import { getPlayCollectibles } from "./play-collectibles";
+import { getPlayCollectiblesSummary } from "./play-collectibles";
 import { getPlayCompletion } from "./play-completion";
 import { getAvailableDlcs, getPlayDlcs } from "./play-dlc";
 import { getPlayPokedexSummary } from "./play-pokedex";
@@ -26,7 +26,7 @@ export const getPlayOverview = async (playId: string) => {
   const [
     teamResult,
     trackingResult,
-    collectiblesResult,
+    collectiblesSummaryResult,
     completionResult,
     playDlcsResult,
     availableDlcsResult,
@@ -34,27 +34,12 @@ export const getPlayOverview = async (playId: string) => {
   ] = await Promise.all([
     getPlayTeam(playId),
     getPlayTrackingCategories(playId),
-    getPlayCollectibles(playId),
+    getPlayCollectiblesSummary(playId),
     getPlayCompletion(playId),
     getPlayDlcs(playId),
     getAvailableDlcs(versionGroupId),
     getPlayPokedexSummary(playId),
   ]);
-
-  // Build collectibles summary (without entries)
-  const collectiblesSummary = (collectiblesResult.data ?? []).map((c) => ({
-    id: c.id,
-    slug: c.slug,
-    name: c.name,
-    collectibleType: c.collectibleType,
-    totalCount: c.totalCount,
-    spriteUrl: c.spriteUrl,
-    collectedCount: c.collectedCount,
-    totalEntries: c.entries.length,
-    versionGroupId: c.versionGroupId,
-    versionGroupName: c.versionGroupName,
-    isDlc: c.isDlc,
-  }));
 
   // Attach DLC data to the play object
   const playWithDlcs = {
@@ -71,7 +56,7 @@ export const getPlayOverview = async (playId: string) => {
       play: playWithDlcs,
       pokemonTeam: teamResult.data ?? [],
       storySummary: trackingResult.data ?? [],
-      collectiblesSummary,
+      collectiblesSummary: collectiblesSummaryResult.data ?? [],
       pokedexSummary: pokedexSummaryResult.data ?? [],
       completion: completionResult.data ?? {
         percentage: 0,

@@ -4,6 +4,7 @@ import {
   useCollectEntriesBulk,
   useCollectEntry,
   usePlayCollectibles,
+  usePlayCollectiblesSummary,
   useUncollectEntriesBulk,
   useUncollectEntry,
 } from "@/features/play/hooks/usePlayCollectibles";
@@ -326,11 +327,16 @@ export const CollectiblesSection = ({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [fetchEnabled, setFetchEnabled] = useState(false);
 
+  // Summary hook — owns the summary cache, seeded from overview
+  const { data: summaryData } = usePlayCollectiblesSummary(playId, {
+    initialData: summaries,
+  });
+
   // Lazy: only fetch full data when a drawer opens for the first time
   const { data: fullCollectibles, isLoading: isLoadingFull } =
     usePlayCollectibles(fetchEnabled ? playId : undefined);
 
-  // Card data: use full data counts if available (post-mutation), else overview summary
+  // Card data: use full data counts if available (post-mutation), else summary hook
   const cardData: PlayCollectibleSummary[] = useMemo(() => {
     if (fullCollectibles) {
       return fullCollectibles.map((c) => ({
@@ -347,8 +353,8 @@ export const CollectiblesSection = ({
         isDlc: c.isDlc,
       }));
     }
-    return summaries;
-  }, [fullCollectibles, summaries]);
+    return summaryData ?? summaries;
+  }, [fullCollectibles, summaryData, summaries]);
 
   const selectedCollectible =
     fullCollectibles?.find((c) => c.id === selectedCollectibleId) ?? null;

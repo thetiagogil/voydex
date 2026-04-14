@@ -1,5 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { PlayCollectible } from "../types";
+import type { PlayCollectible, PlayCollectibleSummary } from "../types";
+
+// =============================================================================
+// GET PLAY COLLECTIBLES SUMMARY
+// =============================================================================
+
+export const usePlayCollectiblesSummary = (
+  playId?: string,
+  options?: {
+    initialData?: PlayCollectibleSummary[];
+    enabled?: boolean;
+  },
+) => {
+  return useQuery<PlayCollectibleSummary[]>({
+    queryKey: ["play", playId, "collectibles", "summary"],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/features/plays/${encodeURIComponent(playId!)}/collectibles/summary`,
+      );
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.error || "Failed to fetch collectibles summary");
+      return data;
+    },
+    enabled: options?.enabled ?? Boolean(playId),
+    staleTime: Infinity,
+    initialData: options?.initialData,
+  });
+};
 
 // =============================================================================
 // GET PLAY COLLECTIBLES

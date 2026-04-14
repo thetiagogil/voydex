@@ -1,6 +1,9 @@
 "use client";
 
-import { usePlayPokedex } from "@/features/play/hooks/usePlayPokedex";
+import {
+  usePlayPokedex,
+  usePlayPokedexSummary,
+} from "@/features/play/hooks/usePlayPokedex";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Badge } from "@/shared/components/ui/badge";
@@ -202,6 +205,11 @@ export const PokedexSection = ({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [fetchEnabled, setFetchEnabled] = useState(false);
 
+  // Summary slice: owns the card data, seeded from overview via initialData
+  const { data: summaryData } = usePlayPokedexSummary(playId, {
+    initialData: pokedexSummary,
+  });
+
   // Lazy: only fetch full pokedex entries when drawer opens
   const { data: fullEntries, isLoading: isLoadingFull } = usePlayPokedex(
     fetchEnabled ? playId : undefined,
@@ -237,13 +245,13 @@ export const PokedexSection = ({
     return Array.from(pokedexMap.values());
   }, [fullEntries]);
 
-  // Card data: use full data counts if available (post-mutation), else overview summary
+  // Card data: use full data counts if available (post-mutation), else summary hook
   const cardData: PlayPokedexOverviewSummary[] = useMemo(() => {
     if (fullSummaries) {
       return fullSummaries.map(fullSummaryToOverview);
     }
-    return pokedexSummary;
-  }, [fullSummaries, pokedexSummary]);
+    return summaryData ?? pokedexSummary;
+  }, [fullSummaries, summaryData, pokedexSummary]);
 
   // Drawer gets its entries from full summaries
   const selectedDrawerEntries: PlayPokedexEntry[] = useMemo(() => {

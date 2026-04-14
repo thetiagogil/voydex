@@ -23,15 +23,22 @@ type UpdatePlayParams = {
 // PLAY
 // =============================================================================
 
-export const usePlay = (playId?: string) => {
+export const usePlay = (
+  playId?: string,
+  options?: {
+    initialData?: { data: Play };
+    enabled?: boolean;
+  },
+) => {
   return useQuery<{
     data: Play;
   }>({
     queryKey: ["play", playId],
     queryFn: () =>
       fetcher(`/api/features/plays/${encodeURIComponent(playId!)}`),
-    enabled: Boolean(playId),
+    enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
+    initialData: options?.initialData,
   });
 };
 
@@ -81,11 +88,23 @@ export const useUpdatePlay = () => {
       if (!res.ok) throw new Error(data.error || "Failed to update play");
       return data;
     },
-    onSuccess: (_, { playId }) => {
-      qc.invalidateQueries({ queryKey: ["play", playId, "overview"] });
-      qc.invalidateQueries({ queryKey: ["play", playId] });
+    onSuccess: (_, { playId, updates }) => {
+      qc.invalidateQueries({ queryKey: ["play", playId], exact: true });
       qc.invalidateQueries({ queryKey: ["plays"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
+
+      // Pokedex settings affect pokedex/completion data
+      if (
+        updates.include_pokedex !== undefined ||
+        updates.include_other_pokedex !== undefined ||
+        updates.include_mythical_pokemon !== undefined
+      ) {
+        qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
+        qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
+        qc.invalidateQueries({
+          queryKey: ["play", playId, "pokedex", "summary"],
+        });
+      }
     },
   });
 };

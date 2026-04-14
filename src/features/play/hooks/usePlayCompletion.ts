@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import type { PlayCompletionData } from "../types";
 
-export const usePlayCompletion = (playId?: string) => {
+export const usePlayCompletion = (
+  playId?: string,
+  options?: {
+    initialData?: PlayCompletionData;
+    enabled?: boolean;
+  },
+) => {
   return useQuery<PlayCompletionData>({
     queryKey: ["play", playId, "completion"],
     queryFn: async () => {
@@ -12,7 +18,8 @@ export const usePlayCompletion = (playId?: string) => {
       if (!res.ok) throw new Error(data.error || "Failed to fetch completion");
       return data;
     },
-    enabled: Boolean(playId),
+    enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
+    initialData: options?.initialData,
   });
 };
