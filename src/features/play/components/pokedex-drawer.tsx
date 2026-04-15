@@ -1,5 +1,6 @@
 "use client";
 
+import { Loading } from "@/shared/components/loading";
 import { Button } from "@/shared/components/ui/button";
 import {
   Sheet,
@@ -44,9 +45,7 @@ export const PokedexDrawer = ({
 
         <div className="flex flex-col gap-4 overflow-hidden">
           {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <p className="text-muted-foreground text-sm">Loading...</p>
-            </div>
+            <Loading />
           ) : (
             <PokedexEntriesList
               playId={playId}

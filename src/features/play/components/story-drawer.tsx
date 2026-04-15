@@ -20,7 +20,7 @@ type StoryDrawerProps = {
   setOpenSheet: (open: boolean) => void;
   playId: string;
   category: PlayTrackingCategory;
-}
+};
 
 export const StoryDrawer = ({
   open,

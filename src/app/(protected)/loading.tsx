@@ -5,7 +5,6 @@ export default function ProtectedLoading() {
     <PageLayout
       className="flex min-h-[80vh] items-center justify-center"
       isLoading
-      loadingLabel="Loading page..."
     >
       <div />
     </PageLayout>

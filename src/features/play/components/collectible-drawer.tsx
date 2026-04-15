@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
-import { useMemo, useState } from "react";
+import { Loading } from "@/shared/components/loading";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
@@ -15,6 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/shared/components/ui/sheet";
+import { useMemo, useState } from "react";
 import {
   useCollectEntriesBulk,
   useCollectEntry,
@@ -139,9 +140,7 @@ export const CollectibleDrawer = ({
 
         <div className="flex flex-col gap-4 overflow-hidden">
           {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <p className="text-muted-foreground text-sm">Loading...</p>
-            </div>
+            <Loading />
           ) : (
             <>
               {locations.length > 1 && (
