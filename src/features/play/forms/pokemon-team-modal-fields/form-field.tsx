@@ -1,5 +1,4 @@
 "use client";
-
 import { Combobox } from "@/shared/components/ui/combobox";
 import {
   Field,
@@ -7,35 +6,31 @@ import {
   FieldLabel,
 } from "@/shared/components/ui/field";
 import type { BaseInfo } from "@/shared/types";
-
-interface PokemonForm extends BaseInfo {
+type PokemonForm = BaseInfo & {
   speciesId: number;
   isDefault: boolean;
   pokemonDbSpriteSlug: string | null;
-}
-
-interface FormFieldProps {
+};
+type FormFieldProps = {
   forms: PokemonForm[];
   value?: number;
   onChange: (value: number | undefined) => void;
   disabled?: boolean;
   loading?: boolean;
   error?: string;
-}
-
-export function FormField({
+};
+export const FormField = ({
   forms,
   value,
   onChange,
   disabled,
   loading,
   error,
-}: FormFieldProps) {
+}: FormFieldProps) => {
   const options = forms.map((f) => ({
     value: f.id.toString(),
     label: f.name,
   }));
-
   return (
     <Field>
       <FieldLabel htmlFor="form_id">
@@ -62,4 +57,4 @@ export function FormField({
       )}
     </Field>
   );
-}
+};

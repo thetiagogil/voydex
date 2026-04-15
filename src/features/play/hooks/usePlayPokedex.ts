@@ -1,18 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { playApi } from "../api/client";
 import type { PlayPokedexEntry, PlayPokedexOverviewSummary } from "../types";
+import { playKeys } from "../api/query-keys";
 
 export const usePlayPokedex = (playId?: string) => {
   return useQuery<PlayPokedexEntry[]>({
-    queryKey: ["play", playId, "pokedex"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId!)}/pokedex`,
-      );
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch pokedex entries");
-      return data;
-    },
+    queryKey: playId ? playKeys.pokedex(playId) : [...playKeys.all, "pokedex"],
+    queryFn: () => playApi.getPokedex(playId!),
     enabled: Boolean(playId),
     staleTime: Infinity,
   });
@@ -26,16 +20,10 @@ export const usePlayPokedexSummary = (
   },
 ) => {
   return useQuery<PlayPokedexOverviewSummary[]>({
-    queryKey: ["play", playId, "pokedex", "summary"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId!)}/pokedex/summary`,
-      );
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch pokedex summary");
-      return data;
-    },
+    queryKey: playId
+      ? playKeys.pokedexSummary(playId)
+      : [...playKeys.all, "pokedex", "summary"],
+    queryFn: () => playApi.getPokedexSummary(playId!),
     enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
     initialData: options?.initialData,

@@ -8,14 +8,14 @@ import type { PlayStatusInfo } from "@/shared/types";
 import { formatTime } from "@/shared/utils";
 import Link from "next/link";
 
-interface PlayCardPlay {
+type PlayCardPlay = {
   id: string;
   name: string;
   status: PlayStatusInfo;
   updatedAt: string;
 }
 
-interface PlayCardProps {
+type PlayCardProps = {
   play: PlayCardPlay;
 }
 

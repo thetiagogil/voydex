@@ -1,5 +1,6 @@
 "use client";
 
+import { healthApi } from "@/shared/api/health";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
@@ -13,7 +14,7 @@ import {
 
 const RETRY_INTERVAL_MS = 30_000;
 
-interface DatabaseStatusContextValue {
+type DatabaseStatusContextValue = {
   isDbAvailable: boolean;
   isChecking: boolean;
 }
@@ -44,8 +45,7 @@ export const DatabaseStatusProvider = ({
 
   const checkHealth = useCallback(async () => {
     try {
-      const res = await fetch("/api/health", { cache: "no-store" });
-      const ok = res.ok;
+      const ok = await healthApi.check();
       setIsDbAvailable(ok);
       if (ok) hasLoggedOut.current = false;
       return ok;

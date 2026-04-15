@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import type { Play } from "../types";
+import { getAvailableDlcs, getPlayDlcs } from "./play-dlc";
 
 // =============================================================================
 // GET PLAY DETAILS (from views.play_summary)
@@ -19,7 +21,7 @@ export const getPlay = async (id: string) => {
   if (error) return { data: null, error };
   if (!play) return { data: null, error: null };
 
-  const result = {
+  const basePlay = {
     id: play.play_id,
     userId: play.user_id,
     name: play.play_name,
@@ -52,6 +54,28 @@ export const getPlay = async (id: string) => {
         slug: play.region_slug,
         name: play.region_name,
       },
+    },
+  };
+
+  const [selectedDlcsResult, availableDlcsResult] = await Promise.all([
+    getPlayDlcs(id),
+    getAvailableDlcs(play.version_group_id),
+  ]);
+
+  if (selectedDlcsResult.error) {
+    return { data: null, error: selectedDlcsResult.error };
+  }
+
+  if (availableDlcsResult.error) {
+    return { data: null, error: availableDlcsResult.error };
+  }
+
+  const result: Play = {
+    ...basePlay,
+    selectedDlcs: selectedDlcsResult.data ?? [],
+    game: {
+      ...basePlay.game,
+      availableDlcs: availableDlcsResult.data ?? [],
     },
   };
 
@@ -108,16 +132,19 @@ export const updatePlay = async (
   const dbUpdates: Record<string, unknown> = { ...rest };
 
   if (status_slug) {
-    const { data: status } = await supabase
+    const { data: status, error: statusError } = await supabase
       .schema("gameplay")
       .from("play_statuses")
       .select("id")
       .eq("slug", status_slug)
       .single();
 
-    if (status) {
-      dbUpdates.status_id = status.id;
+    if (statusError) return { data: null, error: statusError };
+    if (!status) {
+      return { data: null, error: { message: "Invalid play status" } };
     }
+
+    dbUpdates.status_id = status.id;
   }
 
   const { data, error } = await supabase

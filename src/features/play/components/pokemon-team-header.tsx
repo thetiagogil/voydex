@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Play } from "../types";
 
-interface PokemonTeamHeaderProps {
+type PokemonTeamHeaderProps = {
   play: Play;
   backUrl: string;
   teamCount: number;

@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { PlayTrackingCategory } from "../types";
 import { StoryDrawer } from "./story-drawer";
 
-interface StoryCategoryCardProps {
+type StoryCategoryCardProps = {
   playId: string;
   category: PlayTrackingCategory;
 }
@@ -17,13 +17,6 @@ export const StoryCategoryCard = ({
   category,
 }: StoryCategoryCardProps) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] =
-    useState<PlayTrackingCategory | null>(null);
-
-  const handleCategoryClick = (category: PlayTrackingCategory) => {
-    setSelectedCategory(category);
-    setOpenSheet(true);
-  };
 
   const categoryPercentage =
     category.totalItems > 0
@@ -35,7 +28,7 @@ export const StoryCategoryCard = ({
     <>
       <Card
         key={category.id}
-        onClick={() => handleCategoryClick(category)}
+        onClick={() => setOpenSheet(true)}
         className={cn(
           "group flex flex-row items-center",
           isComplete && "border-green-800 hover:border-green-600",
@@ -75,12 +68,12 @@ export const StoryCategoryCard = ({
         </div>
       </Card>
 
-      {selectedCategory && (
+      {openSheet && (
         <StoryDrawer
           open={openSheet}
           setOpenSheet={setOpenSheet}
           playId={playId}
-          category={selectedCategory}
+          category={category}
         />
       )}
     </>

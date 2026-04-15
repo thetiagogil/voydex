@@ -6,7 +6,7 @@ import { HoverCardContent } from "@/shared/components/ui/hover-card";
 import { Separator } from "@/shared/components/ui/separator";
 import type { PlayPokemon } from "../types";
 
-interface PokemonCardHoverProps {
+type PokemonCardHoverProps = {
   pokemon: PlayPokemon;
   hasNatureAndAbility?: boolean;
 }

@@ -1,36 +1,39 @@
+import {
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
 import { getPokemonAbilities } from "@/shared/server/reference/pokemon-abilities";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const speciesId = searchParams.get("speciesId");
-    const formId = searchParams.get("formId");
-    const generationId = searchParams.get("generationId");
+    const speciesId = parseRequiredInt(
+      searchParams.get("speciesId"),
+      "species id",
+    );
+    if (speciesId.error) return speciesId.error;
 
-    if (!speciesId || !formId || !generationId)
-      return NextResponse.json(
-        { error: "speciesId, formId, and generationId are required" },
-        { status: 400 },
-      );
+    const formId = parseRequiredInt(searchParams.get("formId"), "form id");
+    if (formId.error) return formId.error;
+
+    const generationId = parseRequiredInt(
+      searchParams.get("generationId"),
+      "generation id",
+    );
+    if (generationId.error) return generationId.error;
 
     const { data, error } = await getPokemonAbilities(
-      parseInt(speciesId),
-      parseInt(formId),
-      parseInt(generationId),
+      speciesId.data,
+      formId.data,
+      generationId.data,
     );
 
-    if (error)
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

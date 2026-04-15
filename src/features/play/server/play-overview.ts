@@ -1,9 +1,9 @@
 "use server";
 
+import type { PlayOverview } from "../types";
 import { getPlay } from "./play";
 import { getPlayCollectiblesSummary } from "./play-collectibles";
 import { getPlayCompletion } from "./play-completion";
-import { getAvailableDlcs, getPlayDlcs } from "./play-dlc";
 import { getPlayPokedexSummary } from "./play-pokedex";
 import { getPlayTeam } from "./play-team";
 import { getPlayTrackingCategories } from "./play-tracking";
@@ -13,56 +13,45 @@ import { getPlayTrackingCategories } from "./play-tracking";
 // =============================================================================
 
 export const getPlayOverview = async (playId: string) => {
-  // First fetch the play to get versionGroupId for available DLCs
   const playResult = await getPlay(playId);
   if (playResult.error || !playResult.data) {
     return { data: null, error: playResult.error ?? "Play not found" };
   }
 
-  const play = playResult.data;
-  const versionGroupId = play.game.versionGroupId;
-
-  // Fetch all remaining slices in parallel
   const [
     teamResult,
     trackingResult,
     collectiblesSummaryResult,
     completionResult,
-    playDlcsResult,
-    availableDlcsResult,
     pokedexSummaryResult,
   ] = await Promise.all([
     getPlayTeam(playId),
     getPlayTrackingCategories(playId),
     getPlayCollectiblesSummary(playId),
     getPlayCompletion(playId),
-    getPlayDlcs(playId),
-    getAvailableDlcs(versionGroupId),
     getPlayPokedexSummary(playId),
   ]);
 
-  // Attach DLC data to the play object
-  const playWithDlcs = {
-    ...play,
-    selectedDlcs: playDlcsResult.data ?? [],
-    game: {
-      ...play.game,
-      availableDlcs: availableDlcsResult.data ?? [],
-    },
-  };
+  const firstError =
+    teamResult.error ||
+    trackingResult.error ||
+    collectiblesSummaryResult.error ||
+    completionResult.error ||
+    pokedexSummaryResult.error;
+
+  if (firstError) {
+    return { data: null, error: firstError };
+  }
 
   return {
     data: {
-      play: playWithDlcs,
+      play: playResult.data,
       pokemonTeam: teamResult.data ?? [],
       storySummary: trackingResult.data ?? [],
       collectiblesSummary: collectiblesSummaryResult.data ?? [],
       pokedexSummary: pokedexSummaryResult.data ?? [],
-      completion: completionResult.data ?? {
-        percentage: 0,
-        isFullyComplete: false,
-      },
-    },
+      completion: completionResult.data,
+    } as PlayOverview,
     error: null,
   };
 };

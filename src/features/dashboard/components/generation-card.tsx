@@ -24,7 +24,7 @@ export const GenerationCard = ({ generation }: GenerationCardProps) => {
         )}
       >
         <CardContent className="relative">
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <div className="text-md bg-primary/10 border-primary/30 text-primary flex h-13 w-13 shrink-0 items-center justify-center rounded-xl border font-bold">
               {generation.name.replace("Generation ", "")}
             </div>

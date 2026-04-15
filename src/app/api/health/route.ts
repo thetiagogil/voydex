@@ -1,11 +1,11 @@
 import { ENV_VARS } from "@/lib/supabase/env";
-import { NextResponse } from "next/server";
+import { jsonResponse } from "@/lib/api/route";
 
 export async function GET() {
   const supabaseUrl = ENV_VARS.SUPABASE_URL;
 
   if (!supabaseUrl) {
-    return NextResponse.json(
+    return jsonResponse(
       { status: "unhealthy", reason: "missing_config" },
       { status: 503 },
     );
@@ -26,15 +26,15 @@ export async function GET() {
     // Any sub-500 response means the server is reachable — only 5xx or a
     // network failure (caught below) indicates the project is truly down.
     if (res.status < 500) {
-      return NextResponse.json({ status: "healthy" }, { status: 200 });
+      return jsonResponse({ status: "healthy" }, { status: 200 });
     }
 
-    return NextResponse.json(
+    return jsonResponse(
       { status: "unhealthy", reason: "server_error" },
       { status: 503 },
     );
   } catch {
-    return NextResponse.json(
+    return jsonResponse(
       { status: "unhealthy", reason: "unreachable" },
       { status: 503 },
     );

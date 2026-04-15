@@ -1,5 +1,11 @@
 import { unmarkPokedexEntry } from "@/features/play/server/play-pokedex";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
@@ -7,35 +13,20 @@ export async function DELETE(
 ) {
   try {
     const { id: playId } = await params;
-    const pokedexEntryId = parseInt(
-      request.nextUrl.searchParams.get("pokedexEntryId") ?? "",
-      10,
+    if (!playId) return badRequestResponse("Missing play id");
+
+    const pokedexEntryId = parseRequiredInt(
+      request.nextUrl.searchParams.get("pokedexEntryId"),
+      "pokedex entry id",
     );
+    if (pokedexEntryId.error) return pokedexEntryId.error;
 
-    if (!playId || isNaN(pokedexEntryId))
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
+    const result = await unmarkPokedexEntry(playId, pokedexEntryId.data);
 
-    const result = await unmarkPokedexEntry(playId, pokedexEntryId);
+    if (result.error) return errorResponse(result.error);
 
-    if ("error" in result && result.error)
-      return NextResponse.json(
-        {
-          error:
-            "message" in result.error
-              ? result.error.message
-              : String(result.error),
-        },
-        { status: 500 },
-      );
-
-    return NextResponse.json({ success: true });
+    return jsonResponse({ success: true });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

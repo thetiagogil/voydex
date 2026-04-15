@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import type { BaseInfo } from "@/shared/types";
 
 // =============================================================================
 // GET COLLECTION (from views.play_team_detail + play_summary)
@@ -91,7 +92,7 @@ export const getCollection = async () => {
               name: pokemon.type2_name,
             }
           : null,
-      ].filter(Boolean),
+      ].filter((type): type is BaseInfo => Boolean(type)),
       ability: pokemon.ability_id
         ? {
             id: pokemon.ability_id,

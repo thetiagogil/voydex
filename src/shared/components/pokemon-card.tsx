@@ -10,12 +10,22 @@ import {
   TYPE_COLORS,
   type PokemonTypeKey,
 } from "@/shared/constants/type-styles";
+import type { BaseInfo } from "@/shared/types";
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-interface PokemonCardProps {
-  pokemon: PlayPokemon;
+type PokemonCardPokemon = {
+  nickname: string | null;
+  species: BaseInfo;
+  form: BaseInfo & { pokemonDbSpriteSlug?: string | null };
+  gender: string | null;
+  isShiny: boolean;
+  types: BaseInfo[];
+}
+
+type PokemonCardProps = {
+  pokemon: PokemonCardPokemon;
   href?: string;
   onClick?: () => void;
   hasCardHover?: boolean;
@@ -111,7 +121,7 @@ export const PokemonCard = ({
           </div>
         </HoverCardTrigger>
         <PokemonCardHover
-          pokemon={pokemon}
+          pokemon={pokemon as PlayPokemon}
           hasNatureAndAbility={hasNatureAndAbility}
         />
       </HoverCard>

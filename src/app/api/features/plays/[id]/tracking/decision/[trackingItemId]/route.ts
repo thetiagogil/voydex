@@ -1,8 +1,16 @@
+import { decisionBodySchema } from "@/features/play/api/schemas";
 import {
   getPlayDecision,
   savePlayDecision,
 } from "@/features/play/server/play-tracking";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+  parseRequiredInt,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _req: NextRequest,
@@ -10,25 +18,18 @@ export async function GET(
 ) {
   try {
     const { id: playId, trackingItemId: idStr } = await params;
-    const trackingItemId = parseInt(idStr, 10);
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || isNaN(trackingItemId))
-      return NextResponse.json(
-        { error: "Missing required params" },
-        { status: 400 },
-      );
+    const trackingItemId = parseRequiredInt(idStr, "tracking item id");
+    if (trackingItemId.error) return trackingItemId.error;
 
-    const { data, error } = await getPlayDecision(playId, trackingItemId);
+    const { data, error } = await getPlayDecision(playId, trackingItemId.data);
 
-    if (error)
-      return NextResponse.json({ error: String(error) }, { status: 500 });
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }
 
@@ -38,29 +39,24 @@ export async function POST(
 ) {
   try {
     const { id: playId, trackingItemId: idStr } = await params;
-    const trackingItemId = parseInt(idStr, 10);
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || isNaN(trackingItemId))
-      return NextResponse.json(
-        { error: "Missing required params" },
-        { status: 400 },
-      );
+    const trackingItemId = parseRequiredInt(idStr, "tracking item id");
+    if (trackingItemId.error) return trackingItemId.error;
 
-    const body = await request.json();
+    const parsed = await parseJsonBody(request, decisionBodySchema);
+    if (parsed.error) return parsed.error;
+
     const { success, error } = await savePlayDecision(
       playId,
-      trackingItemId,
-      body.decisionOptionId,
+      trackingItemId.data,
+      parsed.data.decisionOptionId,
     );
 
-    if (error)
-      return NextResponse.json({ error: String(error) }, { status: 500 });
+    if (error) return errorResponse(error);
 
-    return NextResponse.json({ success });
+    return jsonResponse({ success });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

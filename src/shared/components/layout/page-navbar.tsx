@@ -17,7 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { PageNavbarMenu } from "./page-navbar-menu";
 import { PageNavbarProfile } from "./page-navbar-profile";
 
-interface PageNavbarProps {
+type PageNavbarProps = {
   width?: PageContainerWidth;
 }
 
@@ -26,6 +26,7 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
   const router = useRouter();
   const { data: isAuth, isFetching } = useClaims();
   const { mutateAsync: logout } = useLogout();
+  const isAuthenticated = isAuth ?? false;
 
   const handleLogout = async () => {
     try {
@@ -85,7 +86,7 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
 
         <div className="hidden md:flex md:items-center md:justify-center md:gap-4">
           {!isFetching &&
-            isAuth &&
+            isAuthenticated &&
             links.map((link) => (
               <Link
                 key={link.name}
@@ -102,14 +103,14 @@ export const PageNavbar = ({ width = "xl" }: PageNavbarProps) => {
         </div>
 
         <div className="flex items-center justify-end gap-2">
-          {!isFetching && isAuth && (
+          {!isFetching && isAuthenticated && (
             <span className="md:hidden">
               <PageNavbarMenu />
             </span>
           )}
           <PageNavbarProfile
             isFetching={isFetching}
-            isAuth={isAuth}
+            isAuth={isAuth ?? null}
             handleLogout={handleLogout}
           />
         </div>

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils/cn";
 
-interface LogoProps {
+type LogoProps = {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
   showText?: boolean;

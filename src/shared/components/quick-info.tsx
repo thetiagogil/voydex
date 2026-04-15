@@ -2,7 +2,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import { type ReactNode } from "react";
 
-interface QuickInfoProps {
+type QuickInfoProps = {
   value: string | number;
   title: string;
   icon?: ReactNode;

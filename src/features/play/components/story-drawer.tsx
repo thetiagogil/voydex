@@ -15,7 +15,7 @@ import {
 import type { PlayTrackingCategory } from "../types";
 import { StoryItemsList } from "./story-items-list";
 
-interface StoryDrawerProps {
+type StoryDrawerProps = {
   open: boolean;
   setOpenSheet: (open: boolean) => void;
   playId: string;

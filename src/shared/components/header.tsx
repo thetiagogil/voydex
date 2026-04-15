@@ -1,7 +1,7 @@
 import { Card } from "@/shared/components/ui/card";
 import { ReactNode } from "react";
 
-interface HeaderProps {
+type HeaderProps = {
   icon?: ReactNode;
   title: string;
   badge?: ReactNode;

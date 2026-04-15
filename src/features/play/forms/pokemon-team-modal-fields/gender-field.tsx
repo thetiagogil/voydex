@@ -1,5 +1,4 @@
 "use client";
-
 import { Combobox } from "@/shared/components/ui/combobox";
 import {
   Field,
@@ -7,20 +6,17 @@ import {
   FieldLabel,
 } from "@/shared/components/ui/field";
 import type { FieldError } from "react-hook-form";
-
-interface GenderFieldProps {
+type GenderFieldProps = {
   value?: string;
   onChange: (value: string) => void;
   error?: FieldError;
-}
-
+};
 const genderOptions = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
   { value: "genderless", label: "Genderless" },
 ];
-
-export function GenderField({ value, onChange, error }: GenderFieldProps) {
+export const GenderField = ({ value, onChange, error }: GenderFieldProps) => {
   return (
     <Field>
       <FieldLabel htmlFor="gender">Gender</FieldLabel>
@@ -38,4 +34,4 @@ export function GenderField({ value, onChange, error }: GenderFieldProps) {
       )}
     </Field>
   );
-}
+};

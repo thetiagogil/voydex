@@ -1,5 +1,4 @@
 "use client";
-
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -18,13 +17,11 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 import { Spinner } from "./spinner";
-
-export interface ComboboxOption {
+export type ComboboxOption = {
   value: string;
   label: string;
-}
-
-export interface ComboboxProps {
+};
+export type ComboboxProps = {
   options: ComboboxOption[];
   value?: string;
   onValueChange?: (value: string) => void;
@@ -36,9 +33,8 @@ export interface ComboboxProps {
   className?: string;
   id?: string;
   "aria-invalid"?: boolean;
-}
-
-export function Combobox({
+};
+export const Combobox = ({
   options,
   value,
   onValueChange,
@@ -50,11 +46,9 @@ export function Combobox({
   className,
   id,
   "aria-invalid": ariaInvalid,
-}: ComboboxProps) {
+}: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
-
   const selectedOption = options.find((option) => option.value === value);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -112,4 +106,4 @@ export function Combobox({
       </PopoverContent>
     </Popover>
   );
-}
+};

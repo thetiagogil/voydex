@@ -1,6 +1,14 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import type { BaseInfo } from "@/shared/types";
+import type { PlayPokemon } from "../types";
+
+const TEAM_POSITION_MIN = 1;
+const TEAM_POSITION_MAX = 12;
+
+const isValidTeamPosition = (position: number) =>
+  position >= TEAM_POSITION_MIN && position <= TEAM_POSITION_MAX;
 
 // =============================================================================
 // GET PLAY TEAM (from views.play_team_detail)
@@ -19,8 +27,8 @@ export const getPlayTeam = async (playId: string) => {
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
 
-  const result = data.map((row: Record<string, unknown>) => ({
-    id: row.team_pokemon_id,
+  const result: PlayPokemon[] = data.map((row: any) => ({
+    id: String(row.team_pokemon_id),
     playId: playId,
     position: row.position,
     nickname: row.nickname,
@@ -49,7 +57,7 @@ export const getPlayTeam = async (playId: string) => {
         slug: row.type2_slug,
         name: row.type2_name,
       },
-    ].filter(Boolean),
+    ].filter((type): type is BaseInfo => Boolean(type)),
     nature: row.nature_id
       ? { id: row.nature_id, slug: row.nature_slug, name: row.nature_name }
       : null,
@@ -77,7 +85,7 @@ export const getPlayTeam = async (playId: string) => {
         slug: row.move4_slug,
         name: row.move4_name,
       },
-    ].filter(Boolean),
+    ].filter((move): move is BaseInfo => Boolean(move)),
   }));
 
   return { data: result, error: null };
@@ -106,6 +114,15 @@ export const addPokemonToTeam = async (
   },
 ) => {
   const supabase = await createClient();
+
+  if (!isValidTeamPosition(pokemon.position)) {
+    return {
+      data: null,
+      error: {
+        message: `Position must be between ${TEAM_POSITION_MIN} and ${TEAM_POSITION_MAX}.`,
+      },
+    };
+  }
 
   const { count } = await supabase
     .schema("gameplay")
@@ -162,6 +179,8 @@ export const addPokemonToTeam = async (
 export const updateTeamPokemon = async (
   pokemonId: string,
   updates: {
+    species_id?: number;
+    form_id?: number;
     position?: number;
     nickname?: string;
     level?: number;
@@ -178,6 +197,15 @@ export const updateTeamPokemon = async (
   const supabase = await createClient();
 
   if (updates.position !== undefined) {
+    if (!isValidTeamPosition(updates.position)) {
+      return {
+        data: null,
+        error: {
+          message: `Position must be between ${TEAM_POSITION_MIN} and ${TEAM_POSITION_MAX}.`,
+        },
+      };
+    }
+
     const { data: currentPokemon, error: currentError } = await supabase
       .schema("gameplay")
       .from("pokemon_team")
@@ -201,19 +229,31 @@ export const updateTeamPokemon = async (
         .maybeSingle();
 
       if (occupyingPokemon) {
-        const tempPosition = 999;
+        const tempPosition = TEAM_POSITION_MAX + 1;
 
-        await supabase
+        const { error: moveCurrentError } = await supabase
           .schema("gameplay")
           .from("pokemon_team")
           .update({ position: tempPosition })
           .eq("id", pokemonId);
 
-        await supabase
+        if (moveCurrentError) return { data: null, error: moveCurrentError };
+
+        const { error: moveOccupyingError } = await supabase
           .schema("gameplay")
           .from("pokemon_team")
           .update({ position: oldPosition })
           .eq("id", occupyingPokemon.id);
+
+        if (moveOccupyingError) {
+          await supabase
+            .schema("gameplay")
+            .from("pokemon_team")
+            .update({ position: oldPosition })
+            .eq("id", pokemonId);
+
+          return { data: null, error: moveOccupyingError };
+        }
 
         updates.position = newPosition;
       }
@@ -276,11 +316,13 @@ export const removeTeamPokemon = async (pokemonId: string) => {
 
   if (remainingTeam && remainingTeam.length > 0) {
     for (const pokemon of remainingTeam) {
-      await supabase
+      const { error: reorderError } = await supabase
         .schema("gameplay")
         .from("pokemon_team")
         .update({ position: pokemon.position - 1 })
         .eq("id", pokemon.id);
+
+      if (reorderError) return { data: null, error: reorderError };
     }
   }
 

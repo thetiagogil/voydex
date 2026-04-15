@@ -7,12 +7,13 @@ import { ReactNode } from "react";
 import { PageContainer } from "./page-container";
 import { PageNavbar } from "./page-navbar";
 
-interface PageLayoutProps {
+type PageLayoutProps = {
   children: ReactNode;
   className?: string;
   width?: PageContainerWidth;
   showNavigation?: boolean;
   isLoading?: boolean;
+  loadingLabel?: string;
   isAuthPage?: boolean;
   breadcrumbs?: Breadcrumb[];
 }
@@ -23,6 +24,7 @@ export const PageLayout = ({
   width = "xl",
   showNavigation = true,
   isLoading = false,
+  loadingLabel,
   isAuthPage = false,
   breadcrumbs,
 }: PageLayoutProps) => {
@@ -42,7 +44,7 @@ export const PageLayout = ({
             width={width}
           >
             {isLoading ? (
-              <Loading />
+              <Loading label={loadingLabel} />
             ) : (
               <>
                 <PageBreadcrumbs items={breadcrumbs} />

@@ -28,9 +28,11 @@ export const getUserPlays = async () => {
     id: play.play_id,
     name: play.play_name,
     status: {
+      id: play.status_id,
       slug: play.status_slug,
       name: play.status_name,
       isTerminal: play.status_is_terminal,
+      sortOrder: play.status_sort_order ?? 0,
     },
     createdAt: play.created_at,
     updatedAt: play.updated_at,

@@ -1,51 +1,52 @@
-export const fetcher = async <T>(url: string): Promise<T> => {
-  const res = await fetch(url);
-  const data = await res.json();
+type JsonRequestOptions<B = unknown> = {
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  body?: B;
+};
+
+const requestJson = async <T, B = unknown>(
+  url: string,
+  options?: JsonRequestOptions<B>,
+): Promise<T> => {
+  const res = await fetch(url, {
+    method: options?.method ?? "GET",
+    headers:
+      options?.body === undefined
+        ? undefined
+        : { "Content-Type": "application/json" },
+    body:
+      options?.body === undefined ? undefined : JSON.stringify(options.body),
+  });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
-    throw new Error(data.error || "Request failed");
+    throw new Error(data?.error || data?.message || "Request failed");
   }
 
-  return data;
+  return data as T;
+};
+
+export const fetcher = async <T>(url: string): Promise<T> => {
+  return requestJson<T>(url);
 };
 
 export const postFetcher = async <T, B = unknown>(
   url: string,
-  body: B,
+  body?: B,
 ): Promise<T> => {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await res.json();
+  return requestJson<T, B>(url, { method: "POST", body });
+};
 
-  if (!res.ok) {
-    throw new Error(data.error || "Request failed");
-  }
-
-  return data;
+export const putFetcher = async <T, B = unknown>(
+  url: string,
+  body?: B,
+): Promise<T> => {
+  return requestJson<T, B>(url, { method: "PUT", body });
 };
 
 export const deleteFetcher = async <T>(
   url: string,
   body?: unknown,
 ): Promise<T> => {
-  const options: RequestInit = {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  };
-
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-
-  const res = await fetch(url, options);
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || "Request failed");
-  }
-
-  return data;
+  return requestJson<T>(url, { method: "DELETE", body });
 };

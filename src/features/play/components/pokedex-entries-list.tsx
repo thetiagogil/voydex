@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  useMarkPokedexEntriesCaughtBulk,
-  useMarkPokedexEntryCaught,
-  useMarkPokedexEntrySeen,
-  useUnmarkPokedexEntriesBulk,
-  useUnmarkPokedexEntry,
-} from "@/features/play/hooks/usePlayPokedexMutations";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Badge } from "@/shared/components/ui/badge";
@@ -16,6 +9,15 @@ import { ScrollArea } from "@/shared/components/ui/scroll-area";
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import {
+  useMarkPokedexEntriesCaughtBulk,
+  useUnmarkPokedexEntriesBulk,
+} from "../hooks/usePlayPokedexBulkMutations";
+import {
+  useMarkPokedexEntryCaught,
+  useMarkPokedexEntrySeen,
+  useUnmarkPokedexEntry,
+} from "../hooks/usePlayPokedexMutations";
 import type { PlayPokedexEntry } from "../types";
 
 // =============================================================================
@@ -28,11 +30,11 @@ type PokedexMode = "caught" | "seen" | "advanced";
 // COMPONENT
 // =============================================================================
 
-interface PokedexEntriesListProps {
+type PokedexEntriesListProps = {
   playId: string;
   pokedexEntries: PlayPokedexEntry[];
   includeMythicalPokemon: boolean;
-}
+};
 
 export const PokedexEntriesList = ({
   playId,

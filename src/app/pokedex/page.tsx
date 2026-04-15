@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { referenceApi } from "@/shared/api/reference";
 import { PageLayout } from "@/shared/components/layout/page-layout";
 import { getPokemonSpriteUrl } from "@/shared/utils";
-import { useQuery } from "@tanstack/react-query";
 
-interface PokemonForm {
+type PokemonForm = {
   id: number;
   slug: string;
   name: string;
@@ -16,21 +18,16 @@ interface PokemonForm {
 const useAllPokemonForms = () =>
   useQuery<PokemonForm[]>({
     queryKey: ["pokemon", "forms", "all"],
-    queryFn: async () => {
-      const res = await fetch("/api/reference/pokemon/forms");
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch all forms");
-      return data;
-    },
+    queryFn: () => referenceApi.getAllPokemonForms<PokemonForm[]>(),
     staleTime: 1000 * 60 * 5,
   });
 
-export default function PokédexPage() {
+export default function PokedexPage() {
   const { data, isLoading, error } = useAllPokemonForms();
 
   return (
     <PageLayout>
-      {isLoading && <p>Loading Pokémon forms…</p>}
+      {isLoading && <p>Loading Pokemon forms...</p>}
       {error && <p>Error loading forms: {String(error)}</p>}
       <div
         style={{
@@ -42,7 +39,7 @@ export default function PokédexPage() {
         {data?.map((pokemon) => (
           <div key={pokemon.id} style={{ textAlign: "center" }}>
             {pokemon.pokemonDbSpriteSlug ? (
-              <img
+              <Image
                 src={getPokemonSpriteUrl(false, pokemon.pokemonDbSpriteSlug)}
                 alt={pokemon.name}
                 width={80}

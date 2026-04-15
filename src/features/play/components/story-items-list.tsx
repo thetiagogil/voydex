@@ -1,11 +1,5 @@
 "use client";
 
-import {
-  useCheckPlayTrackingItem,
-  useCheckPlayTrackingItemBulk,
-  useUncheckPlayTrackingItem,
-  useUncheckPlayTrackingItemBulk,
-} from "@/features/play/hooks/usePlayTrackingMutations";
 import { cn } from "@/lib/utils/cn";
 import { Icon, type IconType } from "@/shared/components/icon";
 import { SquareCheckbox } from "@/shared/components/square-checkbox";
@@ -13,6 +7,14 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { ScrollArea } from "@/shared/components/ui/scroll-area";
 import { useMemo, useState } from "react";
+import {
+  useCheckPlayTrackingItemBulk,
+  useUncheckPlayTrackingItemBulk,
+} from "../hooks/usePlayTrackingBulkMutations";
+import {
+  useCheckPlayTrackingItem,
+  useUncheckPlayTrackingItem,
+} from "../hooks/usePlayTrackingMutations";
 import type { PlayTrackingItem } from "../types";
 import { DecisionModal } from "./decision-modal";
 
@@ -49,11 +51,11 @@ const FILTER_OPTIONS = [
 // COMPONENT
 // =============================================================================
 
-interface StoryItemsListProps {
+type StoryItemsListProps = {
   items: PlayTrackingItem[];
   playId: string;
   categoryId: number;
-}
+};
 
 export const StoryItemsList = ({
   items,

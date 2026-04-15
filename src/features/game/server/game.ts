@@ -119,7 +119,7 @@ export const getGame = async (id: number | string) => {
     type: gameType.slug,
     versionGroupId: gameData.version_group_id,
     releaseYear: gameData.release_year,
-    coverUrl: await getGameCoverUrl(gameData.slug),
+    coverUrl: (await getGameCoverUrl(gameData.slug)) || "",
     generation: {
       id: generation.id,
       slug: generation.slug,

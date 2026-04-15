@@ -11,7 +11,7 @@ import { useState } from "react";
 import type { Play } from "../types";
 import { PlayEditModal } from "./play-edit-modal";
 
-interface PlayHeaderProps {
+type PlayHeaderProps = {
   play: Play;
   completion?: number;
 }

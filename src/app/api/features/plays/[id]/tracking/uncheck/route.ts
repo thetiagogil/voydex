@@ -1,5 +1,11 @@
 import { uncheckTrackingItem } from "@/features/play/server/play-tracking";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
@@ -7,35 +13,20 @@ export async function DELETE(
 ) {
   try {
     const { id: playId } = await params;
-    const trackingItemId = parseInt(
-      request.nextUrl.searchParams.get("trackingItemId") ?? "",
-      10,
+    if (!playId) return badRequestResponse("Missing play id");
+
+    const trackingItemId = parseRequiredInt(
+      request.nextUrl.searchParams.get("trackingItemId"),
+      "tracking item id",
     );
+    if (trackingItemId.error) return trackingItemId.error;
 
-    if (!playId || isNaN(trackingItemId))
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
+    const result = await uncheckTrackingItem(playId, trackingItemId.data);
 
-    const result = await uncheckTrackingItem(playId, trackingItemId);
+    if (result.error) return errorResponse(result.error);
 
-    if ("error" in result && result.error)
-      return NextResponse.json(
-        {
-          error:
-            "message" in result.error
-              ? result.error.message
-              : String(result.error),
-        },
-        { status: 500 },
-      );
-
-    return NextResponse.json({ success: true });
+    return jsonResponse({ success: true });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

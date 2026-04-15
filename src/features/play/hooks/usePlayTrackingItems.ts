@@ -1,4 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { playApi } from "../api/client";
+import type { PlayTrackingItem } from "../types";
+import { playKeys } from "../api/query-keys";
 
 export const usePlayTrackingItems = (
   playId?: string,
@@ -8,31 +11,12 @@ export const usePlayTrackingItems = (
   const enabled = Boolean(
     playId && categoryId !== undefined && categoryId !== null,
   );
-  return useQuery({
-    queryKey: [
-      "play",
-      playId,
-      "tracking",
-      "category",
-      categoryId,
-      "vg",
-      versionGroupId,
-      "items",
-    ],
-    queryFn: async () => {
-      const url = new URL(
-        `/api/features/plays/${encodeURIComponent(playId!)}/tracking/category/${categoryId}/items`,
-        window.location.origin,
-      );
-      if (versionGroupId !== undefined) {
-        url.searchParams.set("versionGroupId", String(versionGroupId));
-      }
-      const res = await fetch(url.toString());
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch tracking items");
-      return data;
-    },
+  return useQuery<PlayTrackingItem[]>({
+    queryKey:
+      playId && categoryId !== undefined && categoryId !== null
+        ? playKeys.trackingItems(playId, categoryId, versionGroupId)
+        : [...playKeys.all, "tracking", "items"],
+    queryFn: () => playApi.getTrackingItems(playId!, categoryId!, versionGroupId),
     enabled,
     staleTime: 1000 * 30,
   });

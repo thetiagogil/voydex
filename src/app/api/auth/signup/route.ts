@@ -1,17 +1,22 @@
+import { loginSchema } from "@/features/auth/forms/schemas";
 import { signUp } from "@/features/auth/server/auth";
-import { type NextRequest, NextResponse } from "next/server";
+import {
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
-    const { data, error } = await signUp({ email, password });
-    if (error)
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    return NextResponse.json({ user: data }, { status: 200 });
-  } catch {
-    return NextResponse.json(
-      { message: "Service unavailable" },
-      { status: 503 },
-    );
+    const parsed = await parseJsonBody(req, loginSchema);
+    if (parsed.error) return parsed.error;
+
+    const { data, error } = await signUp(parsed.data);
+    if (error) return errorResponse(error, 400);
+
+    return jsonResponse(data);
+  } catch (error: unknown) {
+    return errorResponse(error, 503);
   }
 }

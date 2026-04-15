@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
 
-interface BgImageProps {
+type BgImageProps = {
   isHero?: boolean;
 }
 

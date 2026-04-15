@@ -1,21 +1,14 @@
+import { errorResponse, jsonResponse } from "@/lib/api/route";
 import { getTypes } from "@/shared/server/reference/types";
-import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const { data, error } = await getTypes();
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

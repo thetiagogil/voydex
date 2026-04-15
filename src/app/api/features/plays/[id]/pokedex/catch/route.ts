@@ -1,5 +1,12 @@
+import { pokedexEntryBodySchema } from "@/features/play/api/schemas";
 import { markPokedexEntryCaught } from "@/features/play/server/play-pokedex";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function POST(
   request: NextRequest,
@@ -7,30 +14,20 @@ export async function POST(
 ) {
   try {
     const { id: playId } = await params;
-    const { pokedexEntryId } = await request.json();
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || !pokedexEntryId)
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
+    const parsed = await parseJsonBody(request, pokedexEntryBodySchema);
+    if (parsed.error) return parsed.error;
 
     const { data, error } = await markPokedexEntryCaught(
       playId,
-      pokedexEntryId,
+      parsed.data.pokedexEntryId,
     );
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

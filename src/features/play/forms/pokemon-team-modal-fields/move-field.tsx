@@ -1,5 +1,4 @@
 "use client";
-
 import { Combobox } from "@/shared/components/ui/combobox";
 import {
   Field,
@@ -7,16 +6,14 @@ import {
   FieldLabel,
 } from "@/shared/components/ui/field";
 import type { FieldError } from "react-hook-form";
-
-interface MoveOption {
+type MoveOption = {
   id: number;
   slug: string;
   name: string;
   learnMethod?: string;
   levelLearnedAt?: number | null;
-}
-
-interface MoveFieldProps {
+};
+type MoveFieldProps = {
   moves: MoveOption[];
   value?: number;
   onChange: (value: number | undefined) => void;
@@ -24,9 +21,8 @@ interface MoveFieldProps {
   id: string;
   error?: FieldError;
   disabled?: boolean;
-}
-
-export function MoveField({
+};
+export const MoveField = ({
   moves,
   value,
   onChange,
@@ -34,12 +30,11 @@ export function MoveField({
   id,
   error,
   disabled = false,
-}: MoveFieldProps) {
+}: MoveFieldProps) => {
   const options = moves.map((m) => ({
     value: m.id.toString(),
     label: m.name,
   }));
-
   return (
     <Field>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
@@ -62,4 +57,4 @@ export function MoveField({
       )}
     </Field>
   );
-}
+};

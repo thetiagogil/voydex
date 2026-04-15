@@ -5,14 +5,14 @@ import {
   type PokemonTypeKey,
 } from "@/shared/constants/type-styles";
 
-interface TypeIconProps {
+type TypeIconProps = {
   iconPath: string;
   size?: number;
   className?: string;
   alt: string;
 }
 
-interface TypeDisplayProps {
+type TypeDisplayProps = {
   type: PokemonType | string;
   variant?: "solid" | "outline";
   iconOnly?: boolean;

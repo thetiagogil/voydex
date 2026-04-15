@@ -19,7 +19,7 @@ import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface DecisionModalProps {
+type DecisionModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   playId: string;

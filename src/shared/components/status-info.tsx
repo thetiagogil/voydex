@@ -6,7 +6,7 @@ import {
 } from "@/shared/constants/play-statuses";
 import { Icon } from "./icon";
 
-interface StatusInfoProps {
+type StatusInfoProps = {
   status: StatusVariant;
   value?: string | number;
   isBadge?: boolean;

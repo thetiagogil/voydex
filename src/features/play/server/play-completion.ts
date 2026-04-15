@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 // PLAY COMPLETION CALCULATION
 // =============================================================================
 
-export interface PlayCompletionResult {
+export type PlayCompletionResult = {
   percentage: number;
   isFullyComplete: boolean;
 }

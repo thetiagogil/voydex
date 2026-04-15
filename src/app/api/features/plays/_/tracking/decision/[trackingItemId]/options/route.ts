@@ -1,5 +1,10 @@
 import { getDecisionOptions } from "@/features/play/server/play-tracking";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _req: NextRequest,
@@ -7,27 +12,15 @@ export async function GET(
 ) {
   try {
     const { trackingItemId: idStr } = await params;
-    const trackingItemId = parseInt(idStr, 10);
+    const trackingItemId = parseRequiredInt(idStr, "tracking item id");
+    if (trackingItemId.error) return trackingItemId.error;
 
-    if (isNaN(trackingItemId))
-      return NextResponse.json(
-        { error: "Missing tracking item id" },
-        { status: 400 },
-      );
+    const { data, error } = await getDecisionOptions(trackingItemId.data);
 
-    const { data, error } = await getDecisionOptions(trackingItemId);
+    if (error) return errorResponse(error);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
-
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

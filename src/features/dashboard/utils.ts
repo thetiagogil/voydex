@@ -1,8 +1,8 @@
-export function getTrackingMessage(
+export const getTrackingMessage = (
   itemTypeSlug: string,
   itemName: string,
   categoryName: string,
-): string {
+): string => {
   switch (itemTypeSlug) {
     case "battle":
       return `Defeated ${itemName}`;
@@ -13,4 +13,4 @@ export function getTrackingMessage(
     default:
       return `Completed "${itemName}" (${categoryName})`;
   }
-}
+};

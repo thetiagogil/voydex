@@ -1,4 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { playApi } from "../api/client";
+import { playKeys } from "../api/query-keys";
+import type { Play } from "../types";
 
 export const useUpdatePlayDlcs = () => {
   const queryClient = useQueryClient();
@@ -11,33 +14,37 @@ export const useUpdatePlayDlcs = () => {
       playId: string;
       versionGroupIds: number[];
     }) => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId)}/dlc`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ versionGroupIds }),
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to update play DLCs");
-      return data;
+      return playApi.updateDlcs(playId, versionGroupIds);
     },
-    onSuccess: (_, { playId }) => {
+    onSuccess: (
+      result: {
+        success: boolean;
+        data: Play;
+      },
+      { playId },
+    ) => {
+      queryClient.setQueryData(playKeys.detail(playId), {
+        data: result.data,
+      });
+      queryClient.invalidateQueries({ queryKey: playKeys.trackingCategoryRoot(playId) });
+      queryClient.invalidateQueries({ queryKey: playKeys.trackingCategories(playId) });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId],
+        queryKey: playKeys.collectibles(playId),
         exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId, "tracking"],
+        queryKey: playKeys.collectiblesSummary(playId),
+        exact: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId, "collectibles"],
+        queryKey: playKeys.pokedex(playId),
+        exact: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
       queryClient.invalidateQueries({
-        queryKey: ["play", playId, "completion"],
+        queryKey: playKeys.pokedexSummary(playId),
+        exact: true,
       });
+      queryClient.invalidateQueries({ queryKey: playKeys.completion(playId) });
     },
   });
 };

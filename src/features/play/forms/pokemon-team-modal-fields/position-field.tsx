@@ -1,5 +1,4 @@
 "use client";
-
 import type { PlayPokemon } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/shared/components/ui/button";
@@ -25,46 +24,39 @@ import {
 } from "@/shared/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
-
-interface PositionFieldProps {
+type PositionFieldProps = {
   value?: number;
   onChange: (value: number) => void;
   team?: PlayPokemon[];
   currentPokemonId?: string;
   error?: string;
   isEditing?: boolean;
-}
-
-export function PositionField({
+};
+export const PositionField = ({
   value,
   onChange,
   team = [],
   currentPokemonId,
   error,
   isEditing = false,
-}: PositionFieldProps) {
+}: PositionFieldProps) => {
   const activeTeamPokemon = team.filter(
     (p) => p.position <= 6 && p.id !== currentPokemonId,
   );
   const boxPokemon = team.filter(
     (p) => p.position > 6 && p.id !== currentPokemonId,
   );
-
   const activeTeamFull = activeTeamPokemon.length >= 6;
   const boxFull = boxPokemon.length >= 6;
-
   // Determine current team location
   const isInActiveTeam = value && value <= 6;
   const currentTeam = isInActiveTeam ? "active" : "box";
-
   // Local state for team selection (only for adding)
   const [selectedTeam, setSelectedTeam] = useState<"active" | "box">(
     currentTeam,
   );
-
   // Popover open state (must be top-level hook to avoid conditional hooks)
   const [open, setOpen] = useState(false);
-
   // For editing: show only occupied positions (to swap) + next available positions
   if (isEditing) {
     // Get the current Pokemon being edited
@@ -72,7 +64,6 @@ export function PositionField({
     const currentPokemonName = currentPokemon
       ? currentPokemon.species.name
       : "";
-
     // Build Active Team options: only occupied positions + next available (if not full)
     const activeTeamOptions = activeTeamPokemon.map((p) => {
       const name = p.species.name;
@@ -81,7 +72,6 @@ export function PositionField({
         label: `Position ${p.position} - ${name}`,
       };
     });
-
     // Add current Pokemon's position if it's in Active Team range and not already in the list
     if (
       value &&
@@ -93,7 +83,6 @@ export function PositionField({
         label: `Position ${value} - ${currentPokemonName}`,
       });
     }
-
     // Add next available active position if not full and not duplicate of current position
     if (!activeTeamFull) {
       const nextPos = activeTeamPokemon.length + 1;
@@ -105,10 +94,8 @@ export function PositionField({
         });
       }
     }
-
     // Sort after all items are added
     activeTeamOptions.sort((a, b) => Number(a.value) - Number(b.value));
-
     // Build Box options: only occupied positions + next available (if not full)
     const boxOptions = boxPokemon.map((p) => {
       const name = p.species.name;
@@ -117,7 +104,6 @@ export function PositionField({
         label: `Position ${p.position} - ${name}`,
       };
     });
-
     // Add current Pokemon's position if it's in Box range and not already in the list
     if (
       value &&
@@ -129,7 +115,6 @@ export function PositionField({
         label: `Position ${value} - ${currentPokemonName}`,
       });
     }
-
     // Add next available box position if not full and not duplicate of current position
     if (!boxFull) {
       const nextPos = boxPokemon.length + 7;
@@ -141,14 +126,11 @@ export function PositionField({
         });
       }
     }
-
     // Sort after all items are added
     boxOptions.sort((a, b) => Number(a.value) - Number(b.value));
-
     const selectedOption = [...activeTeamOptions, ...boxOptions].find(
       (opt) => opt.value === value?.toString(),
     );
-
     return (
       <Field>
         <FieldLabel htmlFor="position">Position</FieldLabel>
@@ -236,11 +218,9 @@ export function PositionField({
       </Field>
     );
   }
-
   // For adding: choose team first, then auto-assign position
   const nextActivePosition = activeTeamPokemon.length + 1;
   const nextBoxPosition = boxPokemon.length + 1;
-
   const teamOptions = [
     {
       value: "active",
@@ -253,7 +233,6 @@ export function PositionField({
       disabled: boxFull,
     },
   ].filter((opt) => !opt.disabled);
-
   return (
     <Field>
       <FieldLabel htmlFor="position">Position</FieldLabel>
@@ -281,4 +260,4 @@ export function PositionField({
       )}
     </Field>
   );
-}
+};

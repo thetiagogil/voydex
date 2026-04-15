@@ -1,5 +1,15 @@
+import { updatePlayBodySchema } from "@/features/play/api/schemas";
 import { deletePlay, getPlay, updatePlay } from "@/features/play/server/play";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  conflictResponse,
+  errorResponse,
+  isDuplicateKeyError,
+  jsonResponse,
+  notFoundResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _req: NextRequest,
@@ -7,25 +17,16 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    if (!id)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!id) return badRequestResponse("Missing play id");
 
     const { data, error } = await getPlay(id);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
-    if (!data)
-      return NextResponse.json({ error: "Play not found" }, { status: 404 });
+    if (error) return errorResponse(error);
+    if (!data) return notFoundResponse("Play not found");
 
-    return NextResponse.json({ data });
+    return jsonResponse({ data });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }
 
@@ -35,34 +36,28 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    if (!id)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!id) return badRequestResponse("Missing play id");
 
-    const body = await request.json();
-    const { data, error } = await updatePlay(id, body);
+    const parsed = await parseJsonBody(request, updatePlayBodySchema);
+    if (parsed.error) return parsed.error;
+
+    const { error } = await updatePlay(id, parsed.data);
 
     if (error) {
-      if (
-        error.message.includes("duplicate key value violates unique constraint")
-      ) {
-        return NextResponse.json(
-          { error: "A play with this name already exists" },
-          { status: 409 },
-        );
-      } else {
-        return NextResponse.json(
-          { error: "message" in error ? error.message : String(error) },
-          { status: 500 },
-        );
+      if (isDuplicateKeyError(error)) {
+        return conflictResponse("A play with this name already exists");
       }
+
+      return errorResponse(error);
     }
 
-    return NextResponse.json(data);
+    const playResult = await getPlay(id);
+    if (playResult.error) return errorResponse(playResult.error);
+    if (!playResult.data) return notFoundResponse("Play not found");
+
+    return jsonResponse({ data: playResult.data });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }
 
@@ -72,22 +67,14 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    if (!id)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!id) return badRequestResponse("Missing play id");
 
     const { error } = await deletePlay(id);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json({ success: true });
+    return jsonResponse({ success: true });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

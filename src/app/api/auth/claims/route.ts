@@ -1,12 +1,12 @@
+import { errorResponse, jsonResponse } from "@/lib/api/route";
 import { getClaims } from "@/features/auth/server/auth";
-import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const { data, error } = await getClaims();
-    if (error) return NextResponse.json(error.message, { status: 400 });
-    return NextResponse.json(data ? true : false, { status: 200 });
-  } catch {
-    return NextResponse.json("Service unavailable", { status: 503 });
+    if (error) return errorResponse(error, 400);
+    return jsonResponse(Boolean(data));
+  } catch (error: unknown) {
+    return errorResponse(error, 503);
   }
 }

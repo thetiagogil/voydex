@@ -1,10 +1,11 @@
+import { referenceApi } from "@/shared/api/reference";
 import { useQuery } from "@tanstack/react-query";
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export interface AvailablePokemon {
+export type AvailablePokemon = {
   speciesId: number;
   formId: number;
   context: "native" | "transfer" | "event";
@@ -23,14 +24,14 @@ export interface AvailablePokemon {
   };
 }
 
-export interface PokemonAbility {
+export type PokemonAbility = {
   id: number;
   slug: string;
   name: string;
   slot: "primary" | "secondary" | "hidden";
 }
 
-export interface LearnsetMove {
+export type LearnsetMove = {
   moveId: number;
   moveName: string;
   moveSlug: string;
@@ -39,7 +40,7 @@ export interface LearnsetMove {
   levelLearnedAt: number | null;
 }
 
-export interface NatureWithStats {
+export type NatureWithStats = {
   id: number;
   slug: string;
   name: string;
@@ -57,16 +58,11 @@ export const useAvailablePokemon = (
 ) => {
   return useQuery<AvailablePokemon[]>({
     queryKey: ["pokemon", "available", versionGroupId, gameId],
-    queryFn: async () => {
-      const params = new URLSearchParams();
-      params.set("versionGroupId", String(versionGroupId));
-      if (gameId) params.set("gameId", String(gameId));
-      const res = await fetch(`/api/reference/pokemon/available?${params}`);
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch available pokemon");
-      return data;
-    },
+    queryFn: () =>
+      referenceApi.getAvailablePokemon<AvailablePokemon[]>(
+        versionGroupId!,
+        gameId,
+      ),
     enabled: !!versionGroupId,
     staleTime: 1000 * 60 * 5,
   });
@@ -79,18 +75,12 @@ export const usePokemonAbilities = (
 ) => {
   return useQuery<PokemonAbility[]>({
     queryKey: ["pokemon", "abilities", speciesId, formId, generationId],
-    queryFn: async () => {
-      const params = new URLSearchParams({
-        speciesId: String(speciesId),
-        formId: String(formId),
-        generationId: String(generationId),
-      });
-      const res = await fetch(`/api/reference/pokemon/abilities?${params}`);
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch pokemon abilities");
-      return data;
-    },
+    queryFn: () =>
+      referenceApi.getPokemonAbilities<PokemonAbility[]>(
+        speciesId!,
+        formId!,
+        generationId!,
+      ),
     enabled: !!speciesId && !!formId && !!generationId,
     staleTime: 1000 * 60 * 5,
   });
@@ -103,18 +93,12 @@ export const usePokemonLearnset = (
 ) => {
   return useQuery<LearnsetMove[]>({
     queryKey: ["pokemon", "learnset", speciesId, formId, versionGroupId],
-    queryFn: async () => {
-      const params = new URLSearchParams({
-        speciesId: String(speciesId),
-        formId: String(formId),
-        versionGroupId: String(versionGroupId),
-      });
-      const res = await fetch(`/api/reference/pokemon/learnset?${params}`);
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch pokemon learnset");
-      return data;
-    },
+    queryFn: () =>
+      referenceApi.getPokemonLearnset<LearnsetMove[]>(
+        speciesId!,
+        formId!,
+        versionGroupId!,
+      ),
     enabled: !!speciesId && !!formId && !!versionGroupId,
     staleTime: 1000 * 60 * 5,
   });
@@ -123,12 +107,7 @@ export const usePokemonLearnset = (
 export const useNaturesWithStats = () => {
   return useQuery<NatureWithStats[]>({
     queryKey: ["natures", "withStats"],
-    queryFn: async () => {
-      const res = await fetch("/api/reference/natures");
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch natures");
-      return data;
-    },
+    queryFn: () => referenceApi.getNatures<NatureWithStats[]>(),
     staleTime: 1000 * 60 * 60,
   });
 };

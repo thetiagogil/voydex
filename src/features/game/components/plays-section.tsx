@@ -1,19 +1,18 @@
 import { PlayCard } from "@/shared/components/play-card";
 import { Button } from "@/shared/components/ui/button";
-import type { GameData, GamePlay } from "../types";
+import type { GamePlay } from "../types";
 
 type PlaysSectionProps = {
   plays: GamePlay[];
-  game: GameData;
   open: boolean;
   setOpen: (open: boolean) => void;
 };
 
-export const PlaysSection = ({ plays, game, setOpen }: PlaysSectionProps) => {
+export const PlaysSection = ({ plays, setOpen }: PlaysSectionProps) => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold">Games</h2>
+        <h2 className="text-2xl font-semibold">Plays</h2>
         <Button variant="outline" onClick={() => setOpen(true)}>
           New Play
         </Button>

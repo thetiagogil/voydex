@@ -1,5 +1,12 @@
+import { collectibleEntryBulkBodySchema } from "@/features/play/api/schemas";
 import { uncollectEntriesBulk } from "@/features/play/server/play-collectibles";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
@@ -7,32 +14,20 @@ export async function DELETE(
 ) {
   try {
     const { id: playId } = await params;
-    const { collectibleEntryIds } = await request.json();
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || !Array.isArray(collectibleEntryIds))
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
+    const parsed = await parseJsonBody(request, collectibleEntryBulkBodySchema);
+    if (parsed.error) return parsed.error;
 
-    const result = await uncollectEntriesBulk(playId, collectibleEntryIds);
-
-    if ("error" in result && result.error)
-      return NextResponse.json(
-        {
-          error:
-            "message" in result.error
-              ? result.error.message
-              : String(result.error),
-        },
-        { status: 500 },
-      );
-
-    return NextResponse.json({ success: true });
-  } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
+    const result = await uncollectEntriesBulk(
+      playId,
+      parsed.data.collectibleEntryIds,
     );
+
+    if (result.error) return errorResponse(result.error);
+
+    return jsonResponse({ success: true });
+  } catch (error: unknown) {
+    return errorResponse(error);
   }
 }

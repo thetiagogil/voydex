@@ -1,5 +1,14 @@
+import { playDlcBodySchema } from "@/features/play/api/schemas";
+import { getPlay } from "@/features/play/server/play";
 import { setPlayDlcs } from "@/features/play/server/play-dlc";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  notFoundResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function PUT(
   request: NextRequest,
@@ -7,30 +16,24 @@ export async function PUT(
 ) {
   try {
     const { id: playId } = await params;
-    if (!playId)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!playId) return badRequestResponse("Missing play id");
 
-    const { versionGroupIds } = await request.json();
+    const parsed = await parseJsonBody(request, playDlcBodySchema);
+    if (parsed.error) return parsed.error;
 
-    if (!Array.isArray(versionGroupIds))
-      return NextResponse.json(
-        { error: "versionGroupIds must be an array" },
-        { status: 400 },
-      );
-
-    const { success, error } = await setPlayDlcs(playId, versionGroupIds);
-
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
-
-    return NextResponse.json({ success });
-  } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
+    const { success, error } = await setPlayDlcs(
+      playId,
+      parsed.data.versionGroupIds,
     );
+
+    if (error) return errorResponse(error);
+
+    const playResult = await getPlay(playId);
+    if (playResult.error) return errorResponse(playResult.error);
+    if (!playResult.data) return notFoundResponse("Play not found");
+
+    return jsonResponse({ success, data: playResult.data });
+  } catch (error: unknown) {
+    return errorResponse(error);
   }
 }

@@ -37,7 +37,7 @@ import {
   type PokemonTeamFormValues,
 } from "./pokemon-team-schemas";
 
-interface PlayTeamFormContentProps {
+type PlayTeamFormContentProps = {
   generationId: number;
   versionGroupId?: number;
   gameId?: number;

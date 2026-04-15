@@ -5,7 +5,7 @@ import {
   type StatusVariant,
 } from "@/shared/constants/play-statuses";
 
-interface StatCardProps {
+type StatCardProps = {
   title: number;
   description: string;
   variant: StatusVariant;

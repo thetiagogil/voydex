@@ -1,5 +1,11 @@
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
 import { getAvailableDlcs } from "@/features/play/server/play-dlc";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _req: NextRequest,
@@ -7,27 +13,17 @@ export async function GET(
 ) {
   try {
     const { versionGroupId: idStr } = await params;
-    const versionGroupId = parseInt(idStr, 10);
+    if (!idStr) return badRequestResponse("Missing version group id");
 
-    if (isNaN(versionGroupId))
-      return NextResponse.json(
-        { error: "Invalid version group id" },
-        { status: 400 },
-      );
+    const versionGroupId = parseRequiredInt(idStr, "version group id");
+    if (versionGroupId.error) return versionGroupId.error;
 
-    const { data, error } = await getAvailableDlcs(versionGroupId);
+    const { data, error } = await getAvailableDlcs(versionGroupId.data);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

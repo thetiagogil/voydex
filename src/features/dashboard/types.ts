@@ -40,7 +40,7 @@ export interface DashboardActivity {
 }
 
 export interface DashboardOverview {
-  stats: DashboardStats;
+  stats: DashboardStats | null;
   generations: DashboardGeneration[];
   activity: DashboardActivity[];
 }

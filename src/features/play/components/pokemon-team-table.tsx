@@ -18,7 +18,7 @@ import { Pencil, Sparkles } from "lucide-react";
 import Image from "next/image";
 import type { PlayPokemon } from "../types";
 
-interface PokemonTeamTableProps {
+type PokemonTeamTableProps = {
   pokemon: PlayPokemon[];
   onEdit: (pokemon: PlayPokemon) => void;
   emptyMessage?: string;

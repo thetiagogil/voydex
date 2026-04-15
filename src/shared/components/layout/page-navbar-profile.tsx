@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-interface PageNavbarProfileProps {
+type PageNavbarProfileProps = {
   isFetching: boolean;
   isAuth: boolean | null;
   handleLogout: () => void;

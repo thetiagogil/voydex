@@ -33,7 +33,3 @@ export interface GenerationData extends Generation {
   games: GenerationGame[];
   userStats: UserStats | null;
 }
-
-export interface GenerationOverview {
-  data: GenerationData;
-}

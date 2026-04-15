@@ -116,7 +116,7 @@ const ICON_MAP = {
 
 export type IconType = keyof typeof ICON_MAP;
 
-interface IconProps {
+type IconProps = {
   type: IconType;
   size?: number;
   className?: string;

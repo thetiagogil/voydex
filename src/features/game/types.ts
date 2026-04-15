@@ -38,7 +38,3 @@ export interface GameData extends Game {
   userStats: UserStats;
   availableDlcs: DlcVersionGroup[];
 }
-
-export interface GameOverview {
-  data: GameData;
-}

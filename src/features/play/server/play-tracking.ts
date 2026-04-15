@@ -265,7 +265,10 @@ export const getPlayDecision = async (
     .maybeSingle();
 
   if (error) return { data: null, error };
-  return { data: data?.decision_option_id ?? null, error: null };
+  return {
+    data: { selectedOptionId: data?.decision_option_id ?? null },
+    error: null,
+  };
 };
 
 // =============================================================================
@@ -289,14 +292,32 @@ export const savePlayDecision = async (
 
     if (deleteError) return { success: false, error: deleteError };
 
-    await supabase
+    const { error: uncheckError } = await supabase
       .schema("gameplay")
       .from("play_tracking_items")
       .delete()
       .eq("play_id", playId)
       .eq("tracking_item_id", trackingItemId);
 
+    if (uncheckError) return { success: false, error: uncheckError };
+
     return { success: true, error: null };
+  }
+
+  const { data: decisionOption, error: decisionOptionError } = await supabase
+    .schema("tracking")
+    .from("item_decision_options")
+    .select("id")
+    .eq("id", decisionOptionId)
+    .eq("tracking_item_id", trackingItemId)
+    .maybeSingle();
+
+  if (decisionOptionError) return { success: false, error: decisionOptionError };
+  if (!decisionOption) {
+    return {
+      success: false,
+      error: { message: "Invalid decision option for tracking item" },
+    };
   }
 
   const { error: decisionError } = await supabase
@@ -313,14 +334,19 @@ export const savePlayDecision = async (
 
   if (decisionError) return { success: false, error: decisionError };
 
-  await supabase.schema("gameplay").from("play_tracking_items").upsert(
-    {
-      play_id: playId,
-      tracking_item_id: trackingItemId,
-      completed_at: new Date().toISOString(),
-    },
-    { onConflict: "play_id,tracking_item_id" },
-  );
+  const { error: checkError } = await supabase
+    .schema("gameplay")
+    .from("play_tracking_items")
+    .upsert(
+      {
+        play_id: playId,
+        tracking_item_id: trackingItemId,
+        completed_at: new Date().toISOString(),
+      },
+      { onConflict: "play_id,tracking_item_id" },
+    );
+
+  if (checkError) return { success: false, error: checkError };
 
   return { success: true, error: null };
 };

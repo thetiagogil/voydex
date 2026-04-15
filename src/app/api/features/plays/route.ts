@@ -1,31 +1,31 @@
+import { createPlayBodySchema } from "@/features/play/api/schemas";
 import { createPlay } from "@/features/play/server/play";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  conflictResponse,
+  createdResponse,
+  errorResponse,
+  isDuplicateKeyError,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const { gameId, name } = body;
+  try {
+    const parsed = await parseJsonBody(request, createPlayBodySchema);
+    if (parsed.error) return parsed.error;
 
-  if (!gameId) {
-    return NextResponse.json({ error: "gameId is required" }, { status: 400 });
-  }
+    const { data, error } = await createPlay(parsed.data.gameId, parsed.data.name);
 
-  const { data, error } = await createPlay(gameId, name);
+    if (error) {
+      if (isDuplicateKeyError(error)) {
+        return conflictResponse("A play with this name already exists");
+      }
 
-  if (error) {
-    if (
-      error.message.includes("duplicate key value violates unique constraint")
-    ) {
-      return NextResponse.json(
-        { error: "A play with this name already exists" },
-        { status: 409 },
-      );
-    } else {
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+      return errorResponse(error);
     }
-  }
 
-  return NextResponse.json(data, { status: 201 });
+    return createdResponse(data);
+  } catch (error: unknown) {
+    return errorResponse(error);
+  }
 }

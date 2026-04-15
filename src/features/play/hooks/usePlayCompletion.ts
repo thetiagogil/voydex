@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { playApi } from "../api/client";
 import type { PlayCompletionData } from "../types";
+import { playKeys } from "../api/query-keys";
 
 export const usePlayCompletion = (
   playId?: string,
@@ -9,15 +11,10 @@ export const usePlayCompletion = (
   },
 ) => {
   return useQuery<PlayCompletionData>({
-    queryKey: ["play", playId, "completion"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId!)}/completion`,
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch completion");
-      return data;
-    },
+    queryKey: playId
+      ? playKeys.completion(playId)
+      : [...playKeys.all, "completion"],
+    queryFn: () => playApi.getCompletion(playId!),
     enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
     initialData: options?.initialData,

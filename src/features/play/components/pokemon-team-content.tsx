@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 import { PokemonTeamTable } from "./pokemon-team-table";
 
-interface PokemonTeamContentProps {
+type PokemonTeamContentProps = {
   play: Play;
   allPokemon: PlayPokemon[];
   teamPokemon: PlayPokemon[];

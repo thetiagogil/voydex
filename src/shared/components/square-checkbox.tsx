@@ -1,7 +1,7 @@
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { type ReactNode } from "react";
 
-interface SquareCheckboxProps {
+type SquareCheckboxProps = {
   title?: string | ReactNode;
   id: string;
   checked: boolean;

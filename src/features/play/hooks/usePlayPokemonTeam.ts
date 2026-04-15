@@ -1,6 +1,7 @@
-import { deleteFetcher, fetcher, postFetcher } from "@/lib/utils/fetcher";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { playApi } from "../api/client";
 import type { PlayPokemon } from "../types";
+import { playKeys } from "../api/query-keys";
 
 // =============================================================================
 // GET PLAY POKEMON TEAM
@@ -14,11 +15,10 @@ export const usePlayPokemonTeam = (
   },
 ) => {
   return useQuery<PlayPokemon[]>({
-    queryKey: ["play", playId, "pokemon-team"],
-    queryFn: () =>
-      fetcher(
-        `/api/features/plays/${encodeURIComponent(playId!)}/pokemon-team`,
-      ),
+    queryKey: playId
+      ? playKeys.pokemonTeam(playId)
+      : [...playKeys.all, "pokemon-team"],
+    queryFn: () => playApi.getPokemonTeam(playId!),
     enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
     initialData: options?.initialData,
@@ -40,16 +40,10 @@ export const useAddPokemonToTeam = () => {
       playId: string;
       pokemon: Record<string, unknown>;
     }) => {
-      return postFetcher(
-        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team`,
-        pokemon,
-      );
+      return playApi.addPokemonToTeam(playId, pokemon);
     },
     onSuccess: (_, { playId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["play", playId, "pokemon-team"],
-      });
-      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: playKeys.pokemonTeam(playId) });
     },
   });
 };
@@ -71,23 +65,10 @@ export const useUpdatePokemonInTeam = () => {
       pokemonId: string;
       updates: Record<string, unknown>;
     }) => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updates),
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to update pokemon");
-      return data;
+      return playApi.updatePokemonTeam(playId, pokemonId, updates);
     },
     onSuccess: (_, { playId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["play", playId, "pokemon-team"],
-      });
-      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: playKeys.pokemonTeam(playId) });
     },
   });
 };
@@ -107,15 +88,10 @@ export const useRemovePokemonFromTeam = () => {
       playId: string;
       pokemonId: string;
     }) => {
-      return deleteFetcher(
-        `/api/features/plays/${encodeURIComponent(playId)}/pokemon-team/${encodeURIComponent(pokemonId)}`,
-      );
+      return playApi.removePokemonFromTeam(playId, pokemonId);
     },
     onSuccess: (_, { playId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["play", playId, "pokemon-team"],
-      });
-      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      queryClient.invalidateQueries({ queryKey: playKeys.pokemonTeam(playId) });
     },
   });
 };

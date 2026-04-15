@@ -1,8 +1,16 @@
+import { playTeamBodySchema } from "@/features/play/api/schemas";
 import {
   addPokemonToTeam,
   getPlayTeam,
 } from "@/features/play/server/play-team";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  createdResponse,
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _req: NextRequest,
@@ -10,23 +18,15 @@ export async function GET(
 ) {
   try {
     const { id: playId } = await params;
-    if (!playId)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!playId) return badRequestResponse("Missing play id");
 
     const { data, error } = await getPlayTeam(playId);
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }
 
@@ -36,23 +36,17 @@ export async function POST(
 ) {
   try {
     const { id: playId } = await params;
-    if (!playId)
-      return NextResponse.json({ error: "Missing play id" }, { status: 400 });
+    if (!playId) return badRequestResponse("Missing play id");
 
-    const body = await request.json();
-    const { data, error } = await addPokemonToTeam(playId, body);
+    const parsed = await parseJsonBody(request, playTeamBodySchema);
+    if (parsed.error) return parsed.error;
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    const { data, error } = await addPokemonToTeam(playId, parsed.data);
 
-    return NextResponse.json(data, { status: 201 });
+    if (error) return errorResponse(error);
+
+    return createdResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

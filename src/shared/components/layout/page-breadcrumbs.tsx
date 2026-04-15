@@ -5,7 +5,7 @@ import type { Breadcrumb } from "@/shared/types";
 import Link from "next/link";
 import { Fragment } from "react";
 
-interface PageBreadcrumbsProps {
+type PageBreadcrumbsProps = {
   items?: Breadcrumb[];
 }
 

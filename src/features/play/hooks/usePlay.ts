@@ -1,6 +1,7 @@
-import { deleteFetcher, fetcher } from "@/lib/utils/fetcher";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { playApi } from "../api/client";
 import type { Play } from "../types";
+import { playKeys } from "../api/query-keys";
 
 type CreatePlayProps = {
   gameId: number;
@@ -33,9 +34,8 @@ export const usePlay = (
   return useQuery<{
     data: Play;
   }>({
-    queryKey: ["play", playId],
-    queryFn: () =>
-      fetcher(`/api/features/plays/${encodeURIComponent(playId!)}`),
+    queryKey: playId ? playKeys.detail(playId) : [...playKeys.all, "detail"],
+    queryFn: () => playApi.getPlay(playId!),
     enabled: options?.enabled ?? Boolean(playId),
     staleTime: Infinity,
     initialData: options?.initialData,
@@ -47,22 +47,9 @@ export const usePlay = (
 // ============================================================================
 
 export const useCreatePlay = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({ gameId, name }: CreatePlayProps) => {
-      const res = await fetch("/api/features/plays", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId, name }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to create play");
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["plays"] });
-      queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+      return playApi.createPlay(gameId, name);
     },
   });
 };
@@ -76,34 +63,17 @@ export const useUpdatePlay = () => {
 
   return useMutation({
     mutationFn: async ({ playId, updates }: UpdatePlayParams) => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId)}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updates),
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to update play");
-      return data;
+      return playApi.updatePlay(playId, updates);
     },
-    onSuccess: (_, { playId, updates }) => {
-      qc.invalidateQueries({ queryKey: ["play", playId], exact: true });
-      qc.invalidateQueries({ queryKey: ["plays"] });
-      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    onSuccess: (data, { playId, updates }) => {
+      qc.setQueryData(playKeys.detail(playId), data);
 
-      // Pokedex settings affect pokedex/completion data
       if (
         updates.include_pokedex !== undefined ||
         updates.include_other_pokedex !== undefined ||
         updates.include_mythical_pokemon !== undefined
       ) {
-        qc.invalidateQueries({ queryKey: ["play", playId, "completion"] });
-        qc.invalidateQueries({ queryKey: ["play", playId, "pokedex"] });
-        qc.invalidateQueries({
-          queryKey: ["play", playId, "pokedex", "summary"],
-        });
+        qc.invalidateQueries({ queryKey: playKeys.completion(playId) });
       }
     },
   });
@@ -114,15 +84,9 @@ export const useUpdatePlay = () => {
 // =============================================================================
 
 export const useDeletePlay = () => {
-  const qc = useQueryClient();
-
   return useMutation({
     mutationFn: async (playId: string) => {
-      return deleteFetcher(`/api/features/plays/${encodeURIComponent(playId)}`);
-    },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["plays"] });
-      qc.invalidateQueries({ queryKey: ["dashboard"] });
+      return playApi.deletePlay(playId);
     },
   });
 };

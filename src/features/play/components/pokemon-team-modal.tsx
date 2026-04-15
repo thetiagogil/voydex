@@ -16,7 +16,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import type { Play, PlayPokemon } from "../types";
 
-interface PokemonTeamModalProps {
+type PokemonTeamModalProps = {
   openDialog: boolean;
   setOpenDialog: (open: boolean) => void;
   play: Play;

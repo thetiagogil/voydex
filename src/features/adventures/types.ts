@@ -6,12 +6,12 @@ export interface AdventuresPlay {
   status: PlayStatusInfo;
   createdAt: string;
   updatedAt: string;
-  teamSize: number;
-  highestLevel: number;
-  pokemonCaughtCount: number;
-  completedProgressItems: number;
-  totalProgressItems: number;
-  regionalDexCount: number;
+  teamSize?: number;
+  highestLevel?: number;
+  pokemonCaughtCount?: number;
+  completedProgressItems?: number;
+  totalProgressItems?: number;
+  regionalDexCount?: number;
 }
 
 export interface AdventuresPlayTeamMember {
@@ -32,6 +32,6 @@ export interface AdventuresPlayGame {
 }
 
 export interface AdventuresPlayOverview extends AdventuresPlay {
-  pokemonTeam: AdventuresPlayTeamMember[];
+  pokemonTeam?: AdventuresPlayTeamMember[];
   game: AdventuresPlayGame;
 }

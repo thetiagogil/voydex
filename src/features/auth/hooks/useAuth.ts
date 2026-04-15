@@ -1,18 +1,16 @@
 import { useDatabaseStatus } from "@/contexts/database-status.context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { authApi } from "../api";
 import type { AuthCredentials } from "../types";
+
+const authClaimsKey = ["auth", "claims"] as const;
 
 export const useClaims = () => {
   const { isDbAvailable, isChecking } = useDatabaseStatus();
 
   return useQuery({
-    queryKey: ["auth", "claims"],
-    queryFn: async () => {
-      const res = await fetch("/api/auth/claims");
-      const data = await res.json();
-      if (!res.ok) return false;
-      return data;
-    },
+    queryKey: authClaimsKey,
+    queryFn: authApi.getClaims,
     enabled: isDbAvailable && !isChecking,
     retry: false,
     placeholderData: false,
@@ -23,22 +21,9 @@ export const useClaims = () => {
 export const useLogin = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (auth: AuthCredentials) => {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(auth),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => null);
-        throw new Error(errorData?.message || "Failed to authenticate user");
-      }
-
-      return await res.json();
-    },
+    mutationFn: (auth: AuthCredentials) => authApi.login(auth),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
+      await queryClient.invalidateQueries({ queryKey: authClaimsKey });
     },
   });
 };
@@ -46,22 +31,9 @@ export const useLogin = () => {
 export const useSignup = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (auth: AuthCredentials) => {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(auth),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => null);
-        throw new Error(errorData?.message || "Failed to create account");
-      }
-
-      return await res.json();
-    },
+    mutationFn: (auth: AuthCredentials) => authApi.signup(auth),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
+      await queryClient.invalidateQueries({ queryKey: authClaimsKey });
     },
   });
 };
@@ -69,20 +41,9 @@ export const useSignup = () => {
 export const useLogout = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () => {
-      const res = await fetch("/api/auth/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to logout user");
-      }
-
-      return await res.json();
-    },
+    mutationFn: authApi.logout,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["auth", "claims"] });
+      await queryClient.invalidateQueries({ queryKey: authClaimsKey });
     },
   });
 };

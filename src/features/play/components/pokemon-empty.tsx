@@ -1,6 +1,6 @@
 import { Card } from "@/shared/components/ui/card";
 
-interface PokemonEmptyProps {
+type PokemonEmptyProps = {
   index: number;
   isBox?: boolean;
 }

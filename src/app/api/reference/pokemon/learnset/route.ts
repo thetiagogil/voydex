@@ -1,36 +1,39 @@
+import {
+  errorResponse,
+  jsonResponse,
+  parseRequiredInt,
+} from "@/lib/api/route";
 import { getPokemonLearnset } from "@/shared/server/reference/pokemon-learnset";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const speciesId = searchParams.get("speciesId");
-    const formId = searchParams.get("formId");
-    const versionGroupId = searchParams.get("versionGroupId");
+    const speciesId = parseRequiredInt(
+      searchParams.get("speciesId"),
+      "species id",
+    );
+    if (speciesId.error) return speciesId.error;
 
-    if (!speciesId || !formId || !versionGroupId)
-      return NextResponse.json(
-        { error: "speciesId, formId, and versionGroupId are required" },
-        { status: 400 },
-      );
+    const formId = parseRequiredInt(searchParams.get("formId"), "form id");
+    if (formId.error) return formId.error;
+
+    const versionGroupId = parseRequiredInt(
+      searchParams.get("versionGroupId"),
+      "version group id",
+    );
+    if (versionGroupId.error) return versionGroupId.error;
 
     const { data, error } = await getPokemonLearnset(
-      parseInt(speciesId),
-      parseInt(formId),
-      parseInt(versionGroupId),
+      speciesId.data,
+      formId.data,
+      versionGroupId.data,
     );
 
-    if (error)
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

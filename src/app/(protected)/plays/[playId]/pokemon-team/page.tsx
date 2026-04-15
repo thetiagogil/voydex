@@ -11,7 +11,7 @@ import { Loading } from "@/shared/components/loading";
 import { getPlaysRoute } from "@/shared/constants/routes";
 import { use } from "react";
 
-interface PlayPokemonTeamPageProps {
+type PlayPokemonTeamPageProps = {
   params: Promise<{
     playId: string;
   }>;

@@ -11,7 +11,7 @@ import {
 } from "@/shared/components/ui/empty";
 import { getDashboardRoute } from "@/shared/constants/routes";
 
-interface CollectionEmptyProps {
+type CollectionEmptyProps = {
   hasFilters: boolean;
   onClearFilters: () => void;
 }

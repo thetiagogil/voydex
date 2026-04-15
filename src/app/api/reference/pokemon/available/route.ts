@@ -1,34 +1,33 @@
+import {
+  errorResponse,
+  jsonResponse,
+  parseOptionalInt,
+  parseRequiredInt,
+} from "@/lib/api/route";
 import { getAvailablePokemon } from "@/shared/server/reference/pokemon-available";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const versionGroupId = searchParams.get("versionGroupId");
-    const gameId = searchParams.get("gameId");
+    const versionGroupId = parseRequiredInt(
+      searchParams.get("versionGroupId"),
+      "version group id",
+    );
+    if (versionGroupId.error) return versionGroupId.error;
 
-    if (!versionGroupId)
-      return NextResponse.json(
-        { error: "versionGroupId is required" },
-        { status: 400 },
-      );
+    const gameId = parseOptionalInt(searchParams.get("gameId"), "game id");
+    if (gameId.error) return gameId.error;
 
     const { data, error } = await getAvailablePokemon(
-      parseInt(versionGroupId),
-      gameId ? parseInt(gameId) : undefined,
+      versionGroupId.data,
+      gameId.data,
     );
 
-    if (error)
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

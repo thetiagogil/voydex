@@ -1,6 +1,7 @@
+import { referenceApi } from "@/shared/api/reference";
 import { useQuery } from "@tanstack/react-query";
 
-interface PokemonForm {
+type PokemonForm = {
   id: number;
   slug: string;
   name: string;
@@ -12,14 +13,7 @@ interface PokemonForm {
 export const usePokemonForms = (speciesId?: number) => {
   return useQuery<PokemonForm[]>({
     queryKey: ["pokemon", "species", speciesId, "forms"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/reference/pokemon/species/${speciesId}/forms`,
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch forms");
-      return data;
-    },
+    queryFn: () => referenceApi.getPokemonForms<PokemonForm[]>(speciesId!),
     enabled: Boolean(speciesId),
     staleTime: 1000 * 60 * 5,
   });

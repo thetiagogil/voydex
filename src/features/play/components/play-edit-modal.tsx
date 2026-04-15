@@ -17,7 +17,16 @@ import { PlayEditFormValues } from "../forms/schemas";
 import { useUpdatePlay } from "../hooks/usePlay";
 import { Play } from "../types";
 
-interface PlayEditModalProps {
+const arraysEqual = (left: number[], right: number[]) => {
+  if (left.length !== right.length) return false;
+
+  const sortedLeft = [...left].sort((a, b) => a - b);
+  const sortedRight = [...right].sort((a, b) => a - b);
+
+  return sortedLeft.every((value, index) => value === sortedRight[index]);
+};
+
+type PlayEditModalProps = {
   play: Play;
   completion?: number;
   open: boolean;
@@ -48,26 +57,54 @@ export const PlayEditModal = ({
 
   const handleSubmit = async (data: PlayEditFormValues) => {
     try {
+      const trimmedName = data.name?.trim() || undefined;
+      const trimmedNotes = data.notes?.trim() || undefined;
+      const nextDlcs = data.dlc_version_group_ids ?? [];
+      const currentDlcs = play.selectedDlcs ?? [];
+
+      const changedUpdates = {
+        ...(trimmedName !== (play.name || undefined)
+          ? { name: trimmedName }
+          : {}),
+        ...(trimmedNotes !== (play.notes || undefined)
+          ? { notes: trimmedNotes }
+          : {}),
+        ...(data.status_slug !== play.status.slug
+          ? { status_slug: data.status_slug }
+          : {}),
+        ...(data.include_pokedex !== play.includePokedex
+          ? { include_pokedex: data.include_pokedex }
+          : {}),
+        ...(data.include_other_pokedex !== play.includeOtherPokedex
+          ? { include_other_pokedex: data.include_other_pokedex }
+          : {}),
+        ...(data.include_mythical_pokemon !== play.includeMythicalPokemon
+          ? { include_mythical_pokemon: data.include_mythical_pokemon }
+          : {}),
+      };
+
+      const dlcsChanged = !arraysEqual(nextDlcs, currentDlcs);
+      const hasPlayChanges = Object.keys(changedUpdates).length > 0;
+
+      if (!hasPlayChanges && !dlcsChanged) {
+        setOpen(false);
+        return;
+      }
+
       await toastPromise(
         (async () => {
-          await updatePlay.mutateAsync({
-            playId: play.id,
-            updates: {
-              name: data.name?.trim() || undefined,
-              notes: data.notes?.trim() || undefined,
-              status_slug: data.status_slug,
-              include_pokedex: data.include_pokedex,
-              include_other_pokedex: data.include_other_pokedex,
-              include_mythical_pokemon: data.include_mythical_pokemon,
-            },
-          });
+          if (hasPlayChanges) {
+            await updatePlay.mutateAsync({
+              playId: play.id,
+              updates: changedUpdates,
+            });
+          }
 
-          // Update DLCs if available
           const availableDlcs = play.game.availableDlcs;
-          if (availableDlcs && availableDlcs.length > 0) {
+          if (dlcsChanged && availableDlcs && availableDlcs.length > 0) {
             await updatePlayDlcs.mutateAsync({
               playId: play.id,
-              versionGroupIds: data.dlc_version_group_ids ?? [],
+              versionGroupIds: nextDlcs,
             });
           }
         })(),

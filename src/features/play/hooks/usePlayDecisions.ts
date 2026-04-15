@@ -1,18 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { playApi } from "../api/client";
 import type { DecisionOption } from "../types";
+import { playKeys } from "../api/query-keys";
 
 export const useDecisionOptions = (trackingItemId?: number) => {
   return useQuery<DecisionOption[]>({
-    queryKey: ["tracking", "decision", trackingItemId, "options"],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/_/tracking/decision/${trackingItemId}/options`,
-      );
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch decision options");
-      return data;
-    },
+    queryKey: trackingItemId
+      ? playKeys.decisionOptions(trackingItemId)
+      : ["tracking", "decision", "options"],
+    queryFn: () => playApi.getDecisionOptions(trackingItemId!),
     enabled: Boolean(trackingItemId),
     staleTime: 1000 * 60 * 5,
   });
@@ -20,16 +16,11 @@ export const useDecisionOptions = (trackingItemId?: number) => {
 
 export const usePlayDecision = (playId?: string, trackingItemId?: number) => {
   return useQuery<{ selectedOptionId: number | null }>({
-    queryKey: ["play", playId, "tracking", "decision", trackingItemId],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId!)}/tracking/decision/${trackingItemId}`,
-      );
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Failed to fetch play decision");
-      return data;
-    },
+    queryKey:
+      playId && trackingItemId
+        ? playKeys.decision(playId, trackingItemId)
+        : [...playKeys.all, "tracking", "decision"],
+    queryFn: () => playApi.getDecision(playId!, trackingItemId!),
     enabled: Boolean(playId && trackingItemId),
     staleTime: 1000 * 30,
   });
@@ -48,28 +39,10 @@ export const useSaveDecision = () => {
       trackingItemId: number;
       decisionOptionId: number | null;
     }) => {
-      const res = await fetch(
-        `/api/features/plays/${encodeURIComponent(playId)}/tracking/decision/${trackingItemId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ decisionOptionId }),
-        },
-      );
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => null);
-        throw new Error(errorData?.error || "Failed to save decision");
-      }
-      return res.json();
+      return playApi.saveDecision(playId, trackingItemId, decisionOptionId);
     },
     onMutate: async ({ playId, trackingItemId, decisionOptionId }) => {
-      const decisionKey = [
-        "play",
-        playId,
-        "tracking",
-        "decision",
-        trackingItemId,
-      ];
+      const decisionKey = playKeys.decision(playId, trackingItemId);
       await qc.cancelQueries({ queryKey: decisionKey });
       const previousDecision = qc.getQueryData(decisionKey);
       qc.setQueryData(decisionKey, {
@@ -83,16 +56,10 @@ export const useSaveDecision = () => {
       }
     },
     onSettled: (_data, _error, { playId, trackingItemId }) => {
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "decision", trackingItemId],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "categories"],
-      });
-      qc.invalidateQueries({
-        queryKey: ["play", playId, "tracking", "category"],
-      });
-      qc.invalidateQueries({ queryKey: ["dashboard"] });
+      qc.invalidateQueries({ queryKey: playKeys.decision(playId, trackingItemId) });
+      qc.invalidateQueries({ queryKey: playKeys.trackingCategories(playId) });
+      qc.invalidateQueries({ queryKey: playKeys.trackingCategoryRoot(playId) });
+      qc.invalidateQueries({ queryKey: playKeys.completion(playId) });
     },
   });
 };

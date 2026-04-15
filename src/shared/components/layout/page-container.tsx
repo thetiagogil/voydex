@@ -4,7 +4,7 @@ import {
 } from "@/shared/constants/layout";
 import { ReactNode } from "react";
 
-interface PageContainerProps {
+type PageContainerProps = {
   children: ReactNode;
   width?: PageContainerWidth;
   className?: string;

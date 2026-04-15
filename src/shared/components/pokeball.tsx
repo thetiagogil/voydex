@@ -1,6 +1,6 @@
 import React from "react";
 
-interface PokeballProps extends Omit<React.SVGProps<SVGSVGElement>, "ref"> {
+type PokeballProps = Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
   size?: number;
 }
 

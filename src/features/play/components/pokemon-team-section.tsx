@@ -17,7 +17,7 @@ import { useState } from "react";
 import { PokemonEmpty } from "./pokemon-empty";
 import { PokemonTeamModal } from "./pokemon-team-modal";
 
-interface PokemonTeamSectionProps {
+type PokemonTeamSectionProps = {
   play: Play;
   pokemonTeam?: PlayPokemon[];
 }

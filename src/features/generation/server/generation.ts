@@ -49,7 +49,7 @@ export const getGenerationOverview = async (id: string) => {
 
   // Get user-specific stats if logged in
   let userStats: UserStats | null = null;
-  let gameUserStats: Record<
+  const gameUserStats: Record<
     number,
     { total: number; active: number; completed: number }
   > = {};

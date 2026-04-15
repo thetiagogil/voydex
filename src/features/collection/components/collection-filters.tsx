@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 
-interface CollectionFiltersProps {
+type CollectionFiltersProps = {
   search: string;
   generationFilter: string;
   typeFilter: string;

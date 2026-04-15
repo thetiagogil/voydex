@@ -1,6 +1,6 @@
 import { Button } from "@/shared/components/ui/button";
 
-interface ResultsInfoProps {
+type ResultsInfoProps = {
   count: number;
   hasFilters: boolean;
   onClearFilters: () => void;

@@ -1,5 +1,12 @@
+import { trackingItemBulkBodySchema } from "@/features/play/api/schemas";
 import { checkTrackingItemBulk } from "@/features/play/server/play-tracking";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseJsonBody,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function POST(
   request: NextRequest,
@@ -7,32 +14,17 @@ export async function POST(
 ) {
   try {
     const { id: playId } = await params;
-    const { trackingItemIds } = await request.json();
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || !Array.isArray(trackingItemIds))
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
+    const parsed = await parseJsonBody(request, trackingItemBulkBodySchema);
+    if (parsed.error) return parsed.error;
 
-    const result = await checkTrackingItemBulk(playId, trackingItemIds);
+    const result = await checkTrackingItemBulk(playId, parsed.data.trackingItemIds);
 
-    if ("error" in result && result.error)
-      return NextResponse.json(
-        {
-          error:
-            "message" in result.error
-              ? result.error.message
-              : String(result.error),
-        },
-        { status: 500 },
-      );
+    if (result.error) return errorResponse(result.error);
 
-    return NextResponse.json({ success: true });
+    return jsonResponse({ success: true });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }

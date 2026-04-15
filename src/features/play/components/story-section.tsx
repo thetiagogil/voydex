@@ -3,11 +3,10 @@
 import { cn } from "@/lib/utils/cn";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
-import { useMemo } from "react";
 import type { PlayTrackingCategory } from "../types";
 import { StoryCategoryCard } from "./story-category-card";
 
-interface StorySectionProps {
+type StorySectionProps = {
   playId: string;
   trackingCategories?: PlayTrackingCategory[];
 }
@@ -16,7 +15,7 @@ export const StorySection = ({
   playId,
   trackingCategories,
 }: StorySectionProps) => {
-  const categories: PlayTrackingCategory[] = trackingCategories || [];
+  const categories: PlayTrackingCategory[] = trackingCategories ?? [];
 
   const totalCategories = categories.length;
 
@@ -27,31 +26,32 @@ export const StorySection = ({
   ).length;
 
   // Group categories by version group for DLC separation
-  const vgGroups = useMemo(() => {
-    const groups: {
-      vgId: number;
-      vgName: string;
-      isDlc: boolean;
-      categories: PlayTrackingCategory[];
-    }[] = [];
-    const map = new Map<number, (typeof groups)[0]>();
-    for (const cat of categories) {
-      const existing = map.get(cat.versionGroupId);
-      if (existing) {
-        existing.categories.push(cat);
-      } else {
-        const group = {
-          vgId: cat.versionGroupId,
-          vgName: cat.versionGroupName,
-          isDlc: cat.isDlc,
-          categories: [cat],
-        };
-        map.set(cat.versionGroupId, group);
-        groups.push(group);
-      }
+  const vgGroups: {
+    vgId: number;
+    vgName: string;
+    isDlc: boolean;
+    categories: PlayTrackingCategory[];
+  }[] = [];
+  const groupMap = new Map<number, (typeof vgGroups)[0]>();
+
+  for (const category of categories) {
+    const existing = groupMap.get(category.versionGroupId);
+
+    if (existing) {
+      existing.categories.push(category);
+      continue;
     }
-    return groups;
-  }, [categories]);
+
+    const group = {
+      vgId: category.versionGroupId,
+      vgName: category.versionGroupName,
+      isDlc: category.isDlc,
+      categories: [category],
+    };
+
+    groupMap.set(category.versionGroupId, group);
+    vgGroups.push(group);
+  }
 
   const hasDlc = vgGroups.some((g) => g.isDlc);
 

@@ -1,37 +1,32 @@
 "use client";
-
 import { Combobox } from "@/shared/components/ui/combobox";
 import {
   Field,
   FieldDescription,
   FieldLabel,
 } from "@/shared/components/ui/field";
-
-interface SpeciesOption {
+type SpeciesOption = {
   id: number;
   slug: string;
   name: string;
   nationalNumber?: number;
-}
-
-interface SpeciesFieldProps {
+};
+type SpeciesFieldProps = {
   species: SpeciesOption[];
   value?: number;
   onChange: (value: number | undefined) => void;
   error?: string;
-}
-
-export function SpeciesField({
+};
+export const SpeciesField = ({
   species,
   value,
   onChange,
   error,
-}: SpeciesFieldProps) {
+}: SpeciesFieldProps) => {
   const options = species.map((s) => ({
     value: s.id.toString(),
     label: s.nationalNumber ? `#${s.nationalNumber} ${s.name}` : s.name,
   }));
-
   return (
     <Field>
       <FieldLabel htmlFor="species_id">
@@ -56,4 +51,4 @@ export function SpeciesField({
       )}
     </Field>
   );
-}
+};

@@ -1,5 +1,12 @@
 import { getPlayTrackingItems } from "@/features/play/server/play-tracking";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  badRequestResponse,
+  errorResponse,
+  jsonResponse,
+  parseOptionalInt,
+  parseRequiredInt,
+} from "@/lib/api/route";
+import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
@@ -7,37 +14,27 @@ export async function GET(
 ) {
   try {
     const { id: playId, categoryId: categoryIdStr } = await params;
-    const categoryId = parseInt(categoryIdStr, 10);
+    if (!playId) return badRequestResponse("Missing play id");
 
-    if (!playId || isNaN(categoryId))
-      return NextResponse.json(
-        { error: "Missing required params" },
-        { status: 400 },
-      );
+    const categoryId = parseRequiredInt(categoryIdStr, "category id");
+    if (categoryId.error) return categoryId.error;
 
-    const versionGroupIdStr =
-      request.nextUrl.searchParams.get("versionGroupId");
-    const versionGroupId = versionGroupIdStr
-      ? parseInt(versionGroupIdStr, 10)
-      : undefined;
+    const versionGroupId = parseOptionalInt(
+      request.nextUrl.searchParams.get("versionGroupId"),
+      "version group id",
+    );
+    if (versionGroupId.error) return versionGroupId.error;
 
     const { data, error } = await getPlayTrackingItems(
       playId,
-      categoryId,
-      versionGroupId,
+      categoryId.data,
+      versionGroupId.data,
     );
 
-    if (error)
-      return NextResponse.json(
-        { error: "message" in error ? error.message : String(error) },
-        { status: 500 },
-      );
+    if (error) return errorResponse(error);
 
-    return NextResponse.json(data);
+    return jsonResponse(data);
   } catch (error: unknown) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
-    );
+    return errorResponse(error);
   }
 }
