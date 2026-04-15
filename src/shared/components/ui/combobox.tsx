@@ -33,7 +33,12 @@ export type ComboboxProps = {
   className?: string;
   id?: string;
   "aria-invalid"?: boolean;
+  portalContainer?: HTMLElement | null;
 };
+
+const LAYER_CONTAINER_SELECTOR =
+  "[data-slot='dialog-content'], [data-slot='sheet-content'], [data-slot='drawer-content']";
+
 export const Combobox = ({
   options,
   value,
@@ -46,11 +51,35 @@ export const Combobox = ({
   className,
   id,
   "aria-invalid": ariaInvalid,
+  portalContainer,
 }: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
+  const [resolvedPortalContainer, setResolvedPortalContainer] =
+    React.useState<HTMLElement | null>(null);
   const selectedOption = options.find((option) => option.value === value);
+
+  const resolvePortalContainer = (element: HTMLElement | null) => {
+    if (portalContainer) {
+      setResolvedPortalContainer(portalContainer);
+      return;
+    }
+
+    setResolvedPortalContainer(
+      element?.closest(LAYER_CONTAINER_SELECTOR) as HTMLElement | null,
+    );
+  };
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+
+        if (!nextOpen) {
+          setResolvedPortalContainer(null);
+        }
+      }}
+    >
       <PopoverTrigger asChild>
         <Button
           id={id}
@@ -61,6 +90,8 @@ export const Combobox = ({
           disabled={disabled}
           aria-busy={loading}
           className={cn("w-full justify-between", className)}
+          onPointerDown={(event) => resolvePortalContainer(event.currentTarget)}
+          onFocus={(event) => resolvePortalContainer(event.currentTarget)}
         >
           <span className="truncate">
             {loading ? (
@@ -75,7 +106,10 @@ export const Combobox = ({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+      <PopoverContent
+        container={resolvedPortalContainer}
+        className="w-[--radix-popover-trigger-width] p-0"
+      >
         <Command>
           <CommandInput placeholder={searchPlaceholder} />
           <CommandList>
