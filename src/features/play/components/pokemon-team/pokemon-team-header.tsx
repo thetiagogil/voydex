@@ -6,7 +6,7 @@ import { QuickInfo } from "@/shared/components/quick-info";
 import { Button } from "@/shared/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import type { Play } from "../types";
+import type { Play } from "../../types";
 
 type PokemonTeamHeaderProps = {
   play: Play;
@@ -14,7 +14,7 @@ type PokemonTeamHeaderProps = {
   teamCount: number;
   boxCount: number;
   shinyCount: number;
-}
+};
 
 export const PokemonTeamHeader = ({
   play,

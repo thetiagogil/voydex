@@ -18,22 +18,23 @@ import {
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { PLAY_POKEMON_SPRITE_SIZE } from "../../utils/pokemon-sprites";
 
-type DecisionModalProps = {
+type StoryDecisionModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   playId: string;
   trackingItemId: number;
   itemName: string;
-}
+};
 
-export const DecisionModal = ({
+export const StoryDecisionModal = ({
   open,
   onOpenChange,
   playId,
   trackingItemId,
   itemName,
-}: DecisionModalProps) => {
+}: StoryDecisionModalProps) => {
   const { data: options, isLoading: optionsLoading } =
     useDecisionOptions(trackingItemId);
   const { data: currentDecision, isLoading: decisionLoading } = usePlayDecision(
@@ -104,16 +105,13 @@ export const DecisionModal = ({
                     <div className="h-2 w-2 rounded-full bg-white" />
                   )}
                 </div>
-                {option.pokemondb_sprite_slug && (
+                {option.pokemonDbSpriteSlug && (
                   <Image
-                    src={getPokemonSpriteUrl(
-                      false,
-                      option.pokemondb_sprite_slug,
-                    )}
+                    src={getPokemonSpriteUrl(false, option.pokemonDbSpriteSlug)}
                     alt={option.name}
-                    width={48}
-                    height={48}
-                    className="h-12 w-12 object-contain"
+                    width={PLAY_POKEMON_SPRITE_SIZE}
+                    height={PLAY_POKEMON_SPRITE_SIZE}
+                    className="h-[72px] w-[72px] object-contain"
                   />
                 )}
                 <span className="text-sm font-medium">{option.name}</span>

@@ -1,15 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
-import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 import { useMemo, useState } from "react";
 import {
   usePlayCollectibles,
   usePlayCollectiblesSummary,
-} from "../hooks/usePlayCollectibles";
-import type { PlayCollectible, PlayCollectibleSummary } from "../types";
-import { toCollectiblesSummary } from "../utils/collectibles-summary";
+} from "../../hooks/usePlayCollectibles";
+import type { PlayCollectible, PlayCollectibleSummary } from "../../types";
+import { toCollectiblesSummary } from "../../utils/collectibles-summary";
 import { CollectibleCard } from "./collectible-card";
 import { CollectibleDrawer } from "./collectible-drawer";
 
@@ -119,9 +118,9 @@ export const CollectiblesSection = ({
           <div key={group.vgId} className="flex flex-col gap-4">
             {hasDlc && (
               <div className="flex items-center gap-2">
-                <Badge variant={group.isDlc ? "secondary" : "outline"}>
+                <p className="text-muted-foreground text-xs">
                   {group.isDlc ? group.vgName : "Base Game"}
-                </Badge>
+                </p>
               </div>
             )}
             {group.items.map((item) => (

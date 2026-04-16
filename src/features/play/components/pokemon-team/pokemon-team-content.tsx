@@ -1,6 +1,6 @@
 "use client";
 
-import { PokemonTeamModal } from "@/features/play/components/pokemon-team-modal";
+import { PokemonTeamModal } from "@/features/play/components/pokemon-team/pokemon-team-modal";
 import type { Play, PlayPokemon } from "@/features/play/types";
 import { Icon } from "@/shared/components/icon";
 import { Button } from "@/shared/components/ui/button";
@@ -19,7 +19,7 @@ type PokemonTeamContentProps = {
   allPokemon: PlayPokemon[];
   teamPokemon: PlayPokemon[];
   boxPokemon: PlayPokemon[];
-}
+};
 
 export const PokemonTeamContent = ({
   play,

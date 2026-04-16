@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Card } from "@/shared/components/ui/card";
+import { CARD_HOVER_EFFECT } from "@/shared/constants/styles";
 
 type CollectibleCardProps = {
   name: string;
@@ -27,6 +28,7 @@ export const CollectibleCard = ({
       className={cn(
         "group flex flex-row items-center",
         isDone && "border-green-800 hover:border-green-600",
+        CARD_HOVER_EFFECT,
       )}
     >
       {isDone ? (

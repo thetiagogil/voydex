@@ -5,7 +5,6 @@ import {
   putFetcher,
 } from "@/lib/utils/fetcher";
 import type {
-  DecisionOption,
   Play,
   PlayCollectible,
   PlayCollectibleSummary,
@@ -15,6 +14,7 @@ import type {
   PlayPokemon,
   PlayTrackingCategory,
   PlayTrackingItem,
+  TrackingDecisionOption,
 } from "../types";
 
 type UpdatePlayRequest = {
@@ -120,8 +120,8 @@ export const playApi = {
     });
   },
   getDecisionOptions: (trackingItemId: number) => {
-    return fetcher<DecisionOption[]>(
-      `/api/features/plays/_/tracking/decision/${trackingItemId}/options`,
+    return fetcher<TrackingDecisionOption[]>(
+      `/api/features/plays/tracking/decision/${trackingItemId}/options`,
     );
   },
   getDecision: (playId: string, trackingItemId: number) => {
@@ -198,6 +198,11 @@ export const playApi = {
   },
   markPokedexEntriesCaughtBulk: (playId: string, pokedexEntryIds: number[]) => {
     return postFetcher(`${playRoute(playId)}/pokedex/bulk-catch`, {
+      pokedexEntryIds,
+    });
+  },
+  markPokedexEntriesSeenBulk: (playId: string, pokedexEntryIds: number[]) => {
+    return postFetcher(`${playRoute(playId)}/pokedex/bulk-see`, {
       pokedexEntryIds,
     });
   },

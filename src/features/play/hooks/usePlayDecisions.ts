@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { playApi } from "../api/client";
-import type { DecisionOption } from "../types";
+import type { TrackingDecisionOption } from "../types";
 import { playKeys } from "../api/query-keys";
 
 export const useDecisionOptions = (trackingItemId?: number) => {
-  return useQuery<DecisionOption[]>({
+  return useQuery<TrackingDecisionOption[]>({
     queryKey: trackingItemId
       ? playKeys.decisionOptions(trackingItemId)
       : ["tracking", "decision", "options"],

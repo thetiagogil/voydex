@@ -4,12 +4,12 @@ import { Icon } from "@/shared/components/icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { HoverCardContent } from "@/shared/components/ui/hover-card";
 import { Separator } from "@/shared/components/ui/separator";
-import type { PlayPokemon } from "../types";
+import type { PlayPokemon } from "../../types";
 
 type PokemonCardHoverProps = {
   pokemon: PlayPokemon;
   hasNatureAndAbility?: boolean;
-}
+};
 
 export const PokemonCardHover = ({
   pokemon,
@@ -31,7 +31,9 @@ export const PokemonCardHover = ({
                 <span className="truncate">({pokemon.nickname})</span>
               )}
             </div>
-            <span className="truncate">Lv. {pokemon.level}</span>
+            <span className="text-muted-foreground truncate text-xs">
+              Lv. {pokemon.level}
+            </span>
           </div>
         </div>
 

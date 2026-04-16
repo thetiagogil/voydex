@@ -1,0 +1,1 @@
+export const PLAY_POKEMON_SPRITE_SIZE = 72;

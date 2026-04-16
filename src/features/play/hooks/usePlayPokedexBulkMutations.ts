@@ -49,6 +49,41 @@ export const useMarkPokedexEntriesCaughtBulk = () => {
   });
 };
 
+export const useMarkPokedexEntriesSeenBulk = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      playId,
+      pokedexEntryIds,
+    }: PokedexEntriesBulkMutationParams) => {
+      return playApi.markPokedexEntriesSeenBulk(playId, pokedexEntryIds);
+    },
+    onMutate: async ({ playId, pokedexEntryIds }) => {
+      const context = await getPokedexMutationContext(queryClient, playId);
+      const updatedEntries = updatePokedexEntries(
+        context.previousPokedex,
+        pokedexEntryIds,
+        { isSeen: true },
+      );
+
+      queryClient.setQueryData<PlayPokedexEntry[]>(
+        context.keys.pokedex,
+        updatedEntries,
+      );
+      syncPokedexSummaryCache(queryClient, context, updatedEntries);
+
+      return context;
+    },
+    onError: (_error, _vars, context) => {
+      restorePokedexMutationContext(queryClient, context);
+    },
+    onSettled: (_data, _error, { playId }) => {
+      invalidatePokedexQueries(queryClient, playId);
+    },
+  });
+};
+
 export const useUnmarkPokedexEntriesBulk = () => {
   const queryClient = useQueryClient();
 

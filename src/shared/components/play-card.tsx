@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { QuickInfo } from "@/shared/components/quick-info";
 import { StatusInfo } from "@/shared/components/status-info";
@@ -7,22 +8,28 @@ import { getPlaysRoute } from "@/shared/constants/routes";
 import type { PlayStatusInfo } from "@/shared/types";
 import { formatTime } from "@/shared/utils";
 import Link from "next/link";
+import { CARD_HOVER_EFFECT } from "../constants/styles";
 
 type PlayCardPlay = {
   id: string;
   name: string;
   status: PlayStatusInfo;
   updatedAt: string;
-}
+};
 
 type PlayCardProps = {
   play: PlayCardPlay;
-}
+};
 
 export const PlayCard = ({ play }: PlayCardProps) => {
   return (
     <Link href={getPlaysRoute(play.id)}>
-      <Card className="group hover:border-primary/50 flex h-full cursor-pointer flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl">
+      <Card
+        className={cn(
+          "group hover:border-primary/50 flex h-full cursor-pointer flex-col",
+          CARD_HOVER_EFFECT,
+        )}
+      >
         <CardContent className="flex flex-col">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="flex w-full flex-1 gap-4">

@@ -1,7 +1,7 @@
 "use client";
 
-import { PokemonTeamContent } from "@/features/play/components/pokemon-team-content";
-import { PokemonTeamHeader } from "@/features/play/components/pokemon-team-header";
+import { PokemonTeamContent } from "@/features/play/components/pokemon-team/pokemon-team-content";
+import { PokemonTeamHeader } from "@/features/play/components/pokemon-team/pokemon-team-header";
 import { usePlay } from "@/features/play/hooks/usePlay";
 import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
 import type { PlayPokemon } from "@/features/play/types";
@@ -15,7 +15,7 @@ type PlayPokemonTeamPageProps = {
   params: Promise<{
     playId: string;
   }>;
-}
+};
 
 export default function PlayPokemonTeamPage({
   params,

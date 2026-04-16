@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils/cn";
 import type { PokemonType } from "@/shared/constants/reference";
 import {
-  TYPE_COLORS,
   type PokemonTypeKey,
-} from "@/shared/constants/type-styles";
+  TYPE_COLOR_VARIANTS,
+} from "../constants/color-variants";
 
 type TypeIconProps = {
   iconPath: string;
   size?: number;
   className?: string;
   alt: string;
-}
+};
 
 type TypeDisplayProps = {
   type: PokemonType | string;
@@ -19,7 +19,7 @@ type TypeDisplayProps = {
   nameOnly?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
-}
+};
 
 const TypeIcon = ({ iconPath, size = 16, className, alt }: TypeIconProps) => (
   <div
@@ -53,7 +53,7 @@ export const TypeDisplay = ({
   className,
 }: TypeDisplayProps) => {
   const key = String(type).toLowerCase() as PokemonTypeKey;
-  const colors = TYPE_COLORS[key];
+  const colors = TYPE_COLOR_VARIANTS[key];
   const iconPath = `/icons/${key}.svg`;
   const displayName = String(type).toUpperCase();
 

@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
-import type { Play, PlayPokemon } from "../types";
+import type { Play, PlayPokemon } from "../../types";
 
 type PokemonTeamModalProps = {
   openDialog: boolean;
@@ -24,7 +24,7 @@ type PokemonTeamModalProps = {
   position: number | null;
   team?: PlayPokemon[];
   onClose: () => void;
-}
+};
 
 export const PokemonTeamModal = ({
   openDialog,

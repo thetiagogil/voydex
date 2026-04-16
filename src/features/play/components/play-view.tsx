@@ -7,16 +7,16 @@ import { usePlayPokemonTeam } from "../hooks/usePlayPokemonTeam";
 import { usePlayTrackingCategories } from "../hooks/usePlayTrackingCategories";
 import type { PlayOverview } from "../types";
 import { buildPlayBreadcrumbs } from "../utils/build-play-breadcrumbs";
-import { CollectiblesSection } from "./collectibles-section";
+import { CollectiblesSection } from "./collectible/collectibles-section";
 import { PlayHeader } from "./play-header";
-import { PokedexSection } from "./pokedex-section";
-import { PokemonTeamSection } from "./pokemon-team-section";
-import { StorySection } from "./story-section";
+import { PokedexSection } from "./pokedex/pokedex-section";
+import { PokemonTeamSection } from "./pokemon-team/pokemon-team-section";
+import { StorySection } from "./story/story-section";
 
 type PlayViewProps = {
   playId: string;
   initialOverview: PlayOverview;
-}
+};
 
 export const PlayView = ({ playId, initialOverview }: PlayViewProps) => {
   const { data: playData } = usePlay(playId, {
@@ -42,7 +42,6 @@ export const PlayView = ({ playId, initialOverview }: PlayViewProps) => {
     play.game,
     play,
   );
-
   return (
     <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-8">

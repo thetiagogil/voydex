@@ -3,14 +3,15 @@
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Card } from "@/shared/components/ui/card";
+import { CARD_HOVER_EFFECT } from "@/shared/constants/styles";
 import { useState } from "react";
-import type { PlayTrackingCategory } from "../types";
+import type { PlayTrackingCategory } from "../../types";
 import { StoryDrawer } from "./story-drawer";
 
 type StoryCategoryCardProps = {
   playId: string;
   category: PlayTrackingCategory;
-}
+};
 
 export const StoryCategoryCard = ({
   playId,
@@ -32,6 +33,7 @@ export const StoryCategoryCard = ({
         className={cn(
           "group flex flex-row items-center",
           isComplete && "border-green-800 hover:border-green-600",
+          CARD_HOVER_EFFECT,
         )}
       >
         {isComplete ? (

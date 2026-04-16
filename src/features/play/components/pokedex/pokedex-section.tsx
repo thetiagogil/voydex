@@ -5,7 +5,6 @@ import {
   usePlayPokedexSummary,
 } from "@/features/play/hooks/usePlayPokedex";
 import { cn } from "@/lib/utils/cn";
-import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 import { useMemo, useState } from "react";
 import type {
@@ -13,11 +12,11 @@ import type {
   PlayPokedexEntry,
   PlayPokedexOverviewSummary,
   PlayPokedexSummary,
-} from "../types";
+} from "../../types";
 import {
   computeEffectivePokedexCounts,
   toPokedexOverviewSummary,
-} from "../utils/pokedex-summary";
+} from "../../utils/pokedex-summary";
 import { PokedexCard } from "./pokedex-card";
 import { PokedexDrawer } from "./pokedex-drawer";
 
@@ -182,7 +181,7 @@ export const PokedexSection = ({
   return (
     <Card className="gap-0 p-0">
       <div className="border-border gap-2 border-b p-4">
-        <h2 className="text-foreground text-xl font-bold">Pokédex</h2>
+        <h2 className="text-foreground text-xl font-bold">Pokedex</h2>
         <p
           className={cn(
             "text-muted-foreground text-xs",
@@ -198,9 +197,9 @@ export const PokedexSection = ({
           <div key={group.vgId} className="flex flex-col gap-4">
             {hasDlc && (
               <div className="flex items-center gap-2">
-                <Badge variant={group.isDlc ? "secondary" : "outline"}>
+                <p className="text-muted-foreground text-xs">
                   {group.isDlc ? group.vgName : "Base Game"}
-                </Badge>
+                </p>
               </div>
             )}
             {group.summaries.map((summary) => (

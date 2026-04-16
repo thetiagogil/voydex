@@ -120,6 +120,7 @@ export interface TrackingDecisionOption {
   name: string;
   pokemonSpeciesId: number | null;
   pokemonFormId: number | null;
+  pokemonDbSpriteSlug: string | null;
   sortOrder: number;
 }
 
@@ -260,16 +261,3 @@ export interface PlayOverview {
   completion: PlayCompletionData;
 }
 
-// =============================================================================
-// DECISION
-// =============================================================================
-
-export interface DecisionOption {
-  id: number;
-  slug: string;
-  name: string;
-  pokemon_species_id: number | null;
-  pokemon_form_id: number | null;
-  pokemondb_sprite_slug: string | null;
-  sort_order: number;
-}

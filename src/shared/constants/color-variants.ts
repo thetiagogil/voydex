@@ -170,3 +170,5 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     hover: "hover:bg-type-fairy/25",
   },
 } as const;
+
+export type PokemonTypeKey = keyof typeof TYPE_COLOR_VARIANTS;

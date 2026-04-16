@@ -159,6 +159,33 @@ export const markPokedexEntriesCaughtBulk = async (
 };
 
 // =============================================================================
+// BULK MARK POKEDEX ENTRIES AS SEEN
+// =============================================================================
+
+export const markPokedexEntriesSeenBulk = async (
+  playId: string,
+  pokedexEntryIds: number[],
+) => {
+  const supabase = await createClient();
+
+  const records = pokedexEntryIds.map((entryId) => ({
+    play_id: playId,
+    pokedex_entry_id: entryId,
+    is_seen: true,
+  }));
+
+  const { error } = await supabase
+    .schema("gameplay")
+    .from("play_pokedex_entries")
+    .upsert(records, {
+      onConflict: "play_id,pokedex_entry_id",
+    });
+
+  if (error) return { success: false, error };
+  return { success: true, error: null };
+};
+
+// =============================================================================
 // BULK UNMARK POKEDEX ENTRIES
 // =============================================================================
 

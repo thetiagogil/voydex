@@ -1,15 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
-import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
-import type { PlayTrackingCategory } from "../types";
+import type { PlayTrackingCategory } from "../../types";
 import { StoryCategoryCard } from "./story-category-card";
 
 type StorySectionProps = {
   playId: string;
   trackingCategories?: PlayTrackingCategory[];
-}
+};
 
 export const StorySection = ({
   playId,
@@ -78,20 +77,18 @@ export const StorySection = ({
           <div key={group.vgId} className="flex flex-col gap-4">
             {hasDlc && (
               <div className="flex items-center gap-2">
-                <Badge variant={group.isDlc ? "secondary" : "outline"}>
+                <p className="text-muted-foreground text-xs">
                   {group.isDlc ? group.vgName : "Base Game"}
-                </Badge>
+                </p>
               </div>
             )}
-            {group.categories.map(
-              (category: PlayTrackingCategory, i: number) => (
-                <StoryCategoryCard
-                  key={i}
-                  playId={playId}
-                  category={category}
-                />
-              ),
-            )}
+            {group.categories.map((category: PlayTrackingCategory) => (
+              <StoryCategoryCard
+                key={category.id}
+                playId={playId}
+                category={category}
+              />
+            ))}
           </div>
         ))}
       </div>

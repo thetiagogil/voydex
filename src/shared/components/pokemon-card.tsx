@@ -1,19 +1,20 @@
 "use client";
 
-import { PokemonCardHover } from "@/features/play/components/pokemon-card-hover";
+import { PokemonCardHover } from "@/features/play/components/pokemon-team/pokemon-card-hover";
 import { type PlayPokemon } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { TypeDisplay } from "@/shared/components/type-display";
 import { HoverCard, HoverCardTrigger } from "@/shared/components/ui/hover-card";
-import {
-  TYPE_COLORS,
-  type PokemonTypeKey,
-} from "@/shared/constants/type-styles";
 import type { BaseInfo } from "@/shared/types";
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  type PokemonTypeKey,
+  TYPE_COLOR_VARIANTS,
+} from "../constants/color-variants";
+import { CARD_HOVER_EFFECT } from "../constants/styles";
 
 type PokemonCardPokemon = {
   nickname: string | null;
@@ -22,7 +23,7 @@ type PokemonCardPokemon = {
   gender: string | null;
   isShiny: boolean;
   types: BaseInfo[];
-}
+};
 
 type PokemonCardProps = {
   pokemon: PokemonCardPokemon;
@@ -30,7 +31,7 @@ type PokemonCardProps = {
   onClick?: () => void;
   hasCardHover?: boolean;
   hasNatureAndAbility?: boolean;
-}
+};
 
 export const PokemonCard = ({
   pokemon,
@@ -44,7 +45,8 @@ export const PokemonCard = ({
     getPokemonSpriteUrl(pokemon.isShiny, pokemon.form?.slug || "unknown") || "";
 
   const primaryType = pokemon.types[0]?.name?.toLowerCase() as PokemonTypeKey;
-  const typeColors = TYPE_COLORS[primaryType] || TYPE_COLORS.normal;
+  const typeColors =
+    TYPE_COLOR_VARIANTS[primaryType] || TYPE_COLOR_VARIANTS.normal;
 
   const cardContent = (
     <>
@@ -75,19 +77,19 @@ export const PokemonCard = ({
       <div
         className={cn(
           "mx-1 mb-3 flex items-center justify-center",
-          "min-h-[180px] rounded-lg",
+          "min-h-[140px] rounded-lg",
         )}
       >
         {spriteUrl ? (
           <Image
             src={spriteUrl}
             alt={displayName}
-            width={96}
-            height={96}
-            className="h-24 w-24 object-contain"
+            width={800}
+            height={800}
+            className="h-32 w-32 object-contain"
           />
         ) : (
-          <div className="bg-muted/50 flex h-24 w-24 items-center justify-center rounded-full">
+          <div className="bg-muted/50 flex h-32 w-32 items-center justify-center rounded-full">
             <span className="text-muted-foreground text-3xl font-bold">?</span>
           </div>
         )}
@@ -96,10 +98,10 @@ export const PokemonCard = ({
   );
 
   const cardClassName = cn(
-    "relative min-h-[260px] overflow-hidden",
+    "relative min-h-[220px] overflow-hidden",
     "flex cursor-pointer flex-col gap-1 rounded-xl border p-4",
-    "shadow-xl hover:shadow-2xl",
-    "transition-all duration-300 hover:translate-y-[-4px]",
+    "shadow-xl",
+    CARD_HOVER_EFFECT,
     typeColors.bg,
     typeColors.border,
   );

@@ -3,8 +3,9 @@
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { Card } from "@/shared/components/ui/card";
-import type { PlayPokedexOverviewSummary } from "../types";
-import { computeEffectivePokedexCounts } from "../utils/pokedex-summary";
+import { CARD_HOVER_EFFECT } from "@/shared/constants/styles";
+import type { PlayPokedexOverviewSummary } from "../../types";
+import { computeEffectivePokedexCounts } from "../../utils/pokedex-summary";
 
 type PokedexCardProps = {
   summary: PlayPokedexOverviewSummary;
@@ -19,10 +20,8 @@ export const PokedexCard = ({
   isExcludedFromCompletion,
   onClick,
 }: PokedexCardProps) => {
-  const { total, caught, seen, excludeMythical } = computeEffectivePokedexCounts(
-    summary,
-    includeMythicalPokemon,
-  );
+  const { total, caught, seen, excludeMythical } =
+    computeEffectivePokedexCounts(summary, includeMythicalPokemon);
 
   const caughtPct = total > 0 ? Math.floor((caught / total) * 100) : 0;
   const isCaughtComplete = caughtPct === 100;
@@ -36,6 +35,7 @@ export const PokedexCard = ({
         "group flex flex-row items-center",
         isComplete && "border-green-800 hover:border-green-600",
         isExcludedFromCompletion && "opacity-70",
+        CARD_HOVER_EFFECT,
       )}
     >
       {isComplete ? (
@@ -67,7 +67,7 @@ export const PokedexCard = ({
           )}
         </div>
         <p className="text-muted-foreground text-xs">
-          {caught} caught · {seen} seen / {total}
+          {total} total - {seen} seen - {caught} caught
           {excludeMythical && "*"}
         </p>
       </div>

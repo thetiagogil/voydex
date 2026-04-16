@@ -4,6 +4,7 @@ import { QuickInfo } from "@/shared/components/quick-info";
 import { StatusInfo } from "@/shared/components/status-info";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { getGenerationsRoute } from "@/shared/constants/routes";
+import { CARD_HOVER_EFFECT } from "@/shared/constants/styles";
 import Link from "next/link";
 import type { DashboardGeneration } from "../types";
 
@@ -16,8 +17,8 @@ export const GenerationCard = ({ generation }: GenerationCardProps) => {
     <Link key={generation.slug} href={getGenerationsRoute(generation.id)}>
       <Card
         className={cn(
-          "group hover:border-primary/50 cursor-pointer p-5 hover:shadow-2xl",
-          "transition-all duration-300 hover:translate-y-[-4px]",
+          "group hover:border-primary/50 cursor-pointer p-5",
+          CARD_HOVER_EFFECT,
           generation.userStats.totalPlays === 0
             ? "opacity-40 hover:opacity-100"
             : "shadow-xl",
