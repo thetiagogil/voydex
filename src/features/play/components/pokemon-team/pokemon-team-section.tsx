@@ -14,6 +14,7 @@ import {
 import { getPlaysPokemonTeamRoute } from "@/shared/constants/routes";
 import Link from "next/link";
 import { useState } from "react";
+import { PokemonTeamAnalysisDialog } from "./pokemon-team-analysis-dialog";
 import { PokemonEmpty } from "./pokemon-empty";
 import { PokemonTeamModal } from "./pokemon-team-modal";
 
@@ -27,6 +28,7 @@ export const PokemonTeamSection = ({
   pokemonTeam,
 }: PokemonTeamSectionProps) => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAnalysisDialog, setOpenAnalysisDialog] = useState(false);
   const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(null);
 
   const allPokemon: PlayPokemon[] = pokemonTeam || [];
@@ -94,13 +96,21 @@ export const PokemonTeamSection = ({
               disabled={isRosterFull}
             >
               <Icon type="add" />
-              <span className="hidden sm:inline-block">Add Pokemon</span>
+              <span className="hidden sm:inline-block">Add</span>
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => setOpenAnalysisDialog(true)}
+            >
+              <Icon type="details" />
+              <span className="hidden sm:inline-block">Analysis</span>
             </Button>
 
             <Button variant="outline" asChild>
               <Link href={getPlaysPokemonTeamRoute(play.id)}>
                 <Icon type="edit" />
-                <span className="hidden sm:inline-block">Manage</span>
+                <span className="hidden sm:inline-block">Edit</span>
               </Link>
             </Button>
           </div>
@@ -149,6 +159,14 @@ export const PokemonTeamSection = ({
         position={null}
         team={allPokemon}
         onClose={handleCloseEdit}
+      />
+
+      <PokemonTeamAnalysisDialog
+        open={openAnalysisDialog}
+        onOpenChange={setOpenAnalysisDialog}
+        generationId={play.game.generation.id}
+        pokemon={allPokemon}
+        description="Inspect offensive coverage, defensive weaknesses, and the full type chart without leaving the play page."
       />
     </Card>
   );

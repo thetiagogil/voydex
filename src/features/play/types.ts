@@ -53,7 +53,12 @@ export interface PlayPokemon {
   types: BaseInfo[];
   nature: BaseInfo | null;
   ability: BaseInfo | null;
-  moves: (BaseInfo | null)[];
+  moves: PlayPokemonMove[];
+}
+
+export interface PlayPokemonMove extends BaseInfo {
+  type: BaseInfo | null;
+  damageClass: "physical" | "special" | "status" | null;
 }
 
 // =============================================================================

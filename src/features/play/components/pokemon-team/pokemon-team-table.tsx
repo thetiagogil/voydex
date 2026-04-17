@@ -13,11 +13,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import type { PokemonType } from "@/shared/constants/reference";
 import { getPokemonSpriteUrl } from "@/shared/utils";
-import { Pencil } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  Pencil,
+} from "lucide-react";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import type { PlayPokemon } from "../../types";
+import {
+  getPlayPokemonDisplayName,
+  getPlayPokemonPositionLabel,
+} from "../../utils/pokemon-team-display";
 
 type PokemonTeamTableProps = {
   pokemon: PlayPokemon[];
@@ -25,15 +34,142 @@ type PokemonTeamTableProps = {
   emptyMessage?: string;
 };
 
+type SortColumn =
+  | "name"
+  | "position"
+  | "types"
+  | "level"
+  | "gender"
+  | "ability"
+  | "nature";
+
+type SortDirection = "asc" | "desc";
+
+const GENDER_ORDER: Record<string, number> = {
+  male: 0,
+  female: 1,
+  genderless: 2,
+  unknown: 3,
+};
+
+const SORTABLE_COLUMNS: Array<{ key: SortColumn; label: string }> = [
+  { key: "name", label: "Pokemon" },
+  { key: "position", label: "Position" },
+  { key: "types", label: "Types" },
+  { key: "level", label: "Level" },
+  { key: "gender", label: "Gender" },
+  { key: "ability", label: "Ability" },
+  { key: "nature", label: "Nature" },
+];
+
+const compareStrings = (left: string, right: string) => {
+  return left.localeCompare(right, undefined, { sensitivity: "base" });
+};
+
+const comparePokemon = (
+  left: PlayPokemon,
+  right: PlayPokemon,
+  column: SortColumn,
+) => {
+  switch (column) {
+    case "name":
+      return compareStrings(
+        getPlayPokemonDisplayName(left),
+        getPlayPokemonDisplayName(right),
+      );
+    case "position":
+      return left.position - right.position;
+    case "types":
+      return compareStrings(
+        left.types.map((type) => type.name).join(", "),
+        right.types.map((type) => type.name).join(", "),
+      );
+    case "level":
+      return left.level - right.level;
+    case "gender":
+      return (
+        (GENDER_ORDER[left.gender ?? "unknown"] ?? 99) -
+        (GENDER_ORDER[right.gender ?? "unknown"] ?? 99)
+      );
+    case "ability":
+      return compareStrings(left.ability?.name || "", right.ability?.name || "");
+    case "nature":
+      return compareStrings(left.nature?.name || "", right.nature?.name || "");
+    default:
+      return 0;
+  }
+};
+
+const SortHeader = ({
+  column,
+  label,
+  activeColumn,
+  direction,
+  onSort,
+}: {
+  column: SortColumn;
+  label: string;
+  activeColumn: SortColumn;
+  direction: SortDirection;
+  onSort: (column: SortColumn) => void;
+}) => {
+  const isActive = activeColumn === column;
+  const icon = !isActive ? (
+    <ArrowUpDown className="h-3.5 w-3.5" />
+  ) : direction === "asc" ? (
+    <ArrowUp className="h-3.5 w-3.5" />
+  ) : (
+    <ArrowDown className="h-3.5 w-3.5" />
+  );
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="sm"
+      onClick={() => onSort(column)}
+      className="text-foreground hover:text-foreground h-auto px-0 py-0 font-medium"
+    >
+      <span>{label}</span>
+      {icon}
+    </Button>
+  );
+};
+
 export const PokemonTeamTable = ({
   pokemon,
   onEdit,
-  emptyMessage = "No Pokémon found",
+  emptyMessage = "No Pokemon found",
 }: PokemonTeamTableProps) => {
+  const [sortColumn, setSortColumn] = useState<SortColumn>("position");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  const sortedPokemon = useMemo(() => {
+    return [...pokemon].sort((left, right) => {
+      const result = comparePokemon(left, right, sortColumn);
+
+      if (result === 0) {
+        return left.position - right.position;
+      }
+
+      return sortDirection === "asc" ? result : result * -1;
+    });
+  }, [pokemon, sortColumn, sortDirection]);
+
+  const handleSort = (column: SortColumn) => {
+    if (sortColumn === column) {
+      setSortDirection((direction) => (direction === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortColumn(column);
+    setSortDirection("asc");
+  };
+
   if (pokemon.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-muted-foreground mb-4">{emptyMessage}</p>
+      <div className="flex min-h-[280px] items-center justify-center p-6 text-center">
+        <p className="text-muted-foreground max-w-sm text-sm">{emptyMessage}</p>
       </div>
     );
   }
@@ -42,112 +178,121 @@ export const PokemonTeamTable = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-20"></TableHead>
-          <TableHead className="w-20">Pokémon</TableHead>
-          <TableHead className="text-center">Position</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead className="text-center">Level</TableHead>
-          <TableHead className="text-center">Gender</TableHead>
-          <TableHead>Ability</TableHead>
-          <TableHead>Nature</TableHead>
+          <TableHead className="w-[88px]">Sprite</TableHead>
+          {SORTABLE_COLUMNS.map((column) => (
+            <TableHead
+              key={column.key}
+              className={cn(
+                column.key === "position" || column.key === "level" || column.key === "gender"
+                  ? "text-center"
+                  : undefined,
+              )}
+            >
+              <SortHeader
+                column={column.key}
+                label={column.label}
+                activeColumn={sortColumn}
+                direction={sortDirection}
+                onSort={handleSort}
+              />
+            </TableHead>
+          ))}
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
 
       <TableBody>
-        {pokemon.map((p) => {
-          const displayName = p.nickname || p.species?.name || "Unknown";
+        {sortedPokemon.map((member) => {
+          const displayName = getPlayPokemonDisplayName(member);
           const spriteUrl =
-            getPokemonSpriteUrl(p.isShiny, p.form?.slug || "unknown") || "";
-          const genderSymbol =
-            p.gender === "male" ? "♂" : p.gender === "female" ? "♀" : "—";
-          const genderColor =
-            p.gender === "male"
-              ? "text-blue-500"
-              : p.gender === "female"
-                ? "text-pink-400"
-                : "text-muted-foreground";
-          const isInTeam = p.position <= 6;
+            getPokemonSpriteUrl(
+              member.isShiny,
+              member.form?.pokemonDbSpriteSlug || member.form?.slug || "unknown",
+            ) || "";
 
           return (
-            <TableRow key={p.id}>
-              <TableCell className="flex items-center justify-center">
-                {spriteUrl ? (
-                  <Image
-                    src={spriteUrl}
-                    alt={displayName}
-                    width={40}
-                    height={40}
-                    className={cn("object-contain")}
-                  />
-                ) : (
-                  <span className="text-muted-foreground text-lg">?</span>
-                )}
+            <TableRow key={member.id}>
+              <TableCell>
+                <div className="bg-muted/20 flex h-14 w-14 items-center justify-center rounded-xl border border-white/5">
+                  {spriteUrl ? (
+                    <Image
+                      src={spriteUrl}
+                      alt={displayName}
+                      width={56}
+                      height={56}
+                      className="h-12 w-12 object-contain"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground text-lg font-semibold">?</span>
+                  )}
+                </div>
               </TableCell>
 
               <TableCell>
-                <div>
+                <div className="min-w-[180px]">
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground font-semibold">
-                      {displayName}
-                    </span>
-                    {p.nickname && (
-                      <span className="text-muted-foreground text-xs">
-                        ({p.species?.name})
-                      </span>
-                    )}
-
-                    {p.isShiny && <Icon type="shiny" size={12} />}
+                    <span className="font-semibold">{displayName}</span>
+                    {member.isShiny ? <Icon type="shiny" size={12} /> : null}
                   </div>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {member.nickname ? member.species.name : member.form.name}
+                  </p>
                 </div>
               </TableCell>
 
               <TableCell className="text-center">
-                <Badge variant={isInTeam ? "default" : "secondary"}>
-                  {isInTeam ? `Team #${p.position}` : `Box #${p.position - 6}`}
+                <Badge variant={member.position <= 6 ? "default" : "secondary"}>
+                  {getPlayPokemonPositionLabel(member.position)}
                 </Badge>
               </TableCell>
 
               <TableCell>
-                <div className="flex gap-1">
-                  {p.types.map((type) => (
-                    <TypeDisplay
-                      key={type.id}
-                      type={type.name as PokemonType}
-                      size="sm"
-                    />
+                <div className="flex min-w-[120px] flex-wrap gap-1">
+                  {member.types.map((type) => (
+                    <TypeDisplay key={type.id} type={type.name} size="sm" />
                   ))}
                 </div>
               </TableCell>
 
               <TableCell className="text-center">
-                <Badge variant="outline">{p.level}</Badge>
+                <Badge variant="outline">Lv. {member.level}</Badge>
               </TableCell>
 
               <TableCell className="text-center">
-                <span className={cn("text-lg font-semibold", genderColor)}>
-                  {genderSymbol}
+                <div className="flex items-center justify-center gap-1">
+                  {member.gender === "male" ? (
+                    <>
+                      <Icon type="male" size={14} className="text-blue-400" />
+                      <span className="text-xs font-medium">Male</span>
+                    </>
+                  ) : member.gender === "female" ? (
+                    <>
+                      <Icon type="female" size={14} className="text-pink-400" />
+                      <span className="text-xs font-medium">Female</span>
+                    </>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">Unknown</span>
+                  )}
+                </div>
+              </TableCell>
+
+              <TableCell>
+                <span className="text-muted-foreground text-sm">
+                  {member.ability?.name || "Not set"}
                 </span>
               </TableCell>
 
               <TableCell>
                 <span className="text-muted-foreground text-sm">
-                  {p.ability?.name || "—"}
-                </span>
-              </TableCell>
-
-              <TableCell>
-                <span className="text-muted-foreground text-sm">
-                  {p.nature?.name || "—"}
+                  {member.nature?.name || "Not set"}
                 </span>
               </TableCell>
 
               <TableCell className="text-right">
                 <Button
                   variant="ghost"
-                  size="icon"
-                  onClick={() => onEdit(p)}
-                  className="h-8 w-8"
+                  size="icon-sm"
+                  onClick={() => onEdit(member)}
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>

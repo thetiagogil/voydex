@@ -2,13 +2,128 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { BaseInfo } from "@/shared/types";
-import type { PlayPokemon } from "../types";
+import type { PlayPokemon, PlayPokemonMove } from "../types";
 
 const TEAM_POSITION_MIN = 1;
 const TEAM_POSITION_MAX = 12;
 
 const isValidTeamPosition = (position: number) =>
   position >= TEAM_POSITION_MIN && position <= TEAM_POSITION_MAX;
+
+type MoveMetadata = {
+  type: BaseInfo | null;
+  damageClass: PlayPokemonMove["damageClass"];
+};
+
+const getPlayGenerationId = async (playId: string) => {
+  const supabase = await createClient();
+
+  const { data: playRow, error: playError } = await supabase
+    .schema("gameplay")
+    .from("plays")
+    .select("game_id")
+    .eq("id", playId)
+    .single();
+
+  if (playError || !playRow?.game_id) {
+    return null;
+  }
+
+  const { data: gameRow, error: gameError } = await supabase
+    .schema("reference")
+    .from("games")
+    .select("generation_id")
+    .eq("id", playRow.game_id)
+    .single();
+
+  if (gameError || !gameRow?.generation_id) {
+    return null;
+  }
+
+  return gameRow.generation_id as number;
+};
+
+const getMoveMetadata = async (
+  moveIds: number[],
+  generationId: number,
+): Promise<Map<number, MoveMetadata>> => {
+  const supabase = await createClient();
+
+  if (moveIds.length === 0) {
+    return new Map();
+  }
+
+  const { data: moveAttributes, error: attributesError } = await supabase
+    .schema("reference")
+    .from("move_attributes")
+    .select("move_id, type_id, damage_class, generation_start_id")
+    .in("move_id", moveIds)
+    .lte("generation_start_id", generationId)
+    .order("move_id", { ascending: true })
+    .order("generation_start_id", { ascending: false });
+
+  if (attributesError || !moveAttributes) {
+    return new Map();
+  }
+
+  const latestAttributes = new Map<
+    number,
+    { typeId: number; damageClass: PlayPokemonMove["damageClass"] }
+  >();
+
+  for (const attribute of moveAttributes) {
+    if (!latestAttributes.has(attribute.move_id)) {
+      latestAttributes.set(attribute.move_id, {
+        typeId: attribute.type_id,
+        damageClass: attribute.damage_class,
+      });
+    }
+  }
+
+  const typeIds = Array.from(
+    new Set(
+      Array.from(latestAttributes.values())
+        .map((attribute) => attribute.typeId)
+        .filter(Boolean),
+    ),
+  );
+
+  if (typeIds.length === 0) {
+    return new Map();
+  }
+
+  const { data: types, error: typesError } = await supabase
+    .schema("reference")
+    .from("types")
+    .select("id, slug, name")
+    .in("id", typeIds);
+
+  if (typesError || !types) {
+    return new Map();
+  }
+
+  const typeMap = new Map<number, BaseInfo>(
+    types.map((type) => [
+      type.id,
+      {
+        id: type.id,
+        slug: type.slug,
+        name: type.name,
+      },
+    ]),
+  );
+
+  const metadata = new Map<number, MoveMetadata>();
+
+  for (const [moveId, attribute] of latestAttributes) {
+    metadata.set(moveId, {
+      type: typeMap.get(attribute.typeId) ?? null,
+      damageClass: attribute.damageClass,
+    });
+  }
+
+  return metadata;
+};
 
 // =============================================================================
 // GET PLAY TEAM (from views.play_team_detail)
@@ -26,6 +141,22 @@ export const getPlayTeam = async (playId: string) => {
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
+
+  const generationId = await getPlayGenerationId(playId);
+  const moveIds = Array.from(
+    new Set(
+      data.flatMap((row: any) =>
+        [row.move1_id, row.move2_id, row.move3_id, row.move4_id].filter(
+          (moveId): moveId is number => typeof moveId === "number",
+        ),
+      ),
+    ),
+  );
+
+  const moveMetadataById =
+    generationId !== null
+      ? await getMoveMetadata(moveIds, generationId)
+      : new Map<number, MoveMetadata>();
 
   const result: PlayPokemon[] = data.map((row: any) => ({
     id: String(row.team_pokemon_id),
@@ -69,23 +200,31 @@ export const getPlayTeam = async (playId: string) => {
         id: row.move1_id,
         slug: row.move1_slug,
         name: row.move1_name,
+        type: moveMetadataById.get(row.move1_id)?.type ?? null,
+        damageClass: moveMetadataById.get(row.move1_id)?.damageClass ?? null,
       },
       row.move2_id && {
         id: row.move2_id,
         slug: row.move2_slug,
         name: row.move2_name,
+        type: moveMetadataById.get(row.move2_id)?.type ?? null,
+        damageClass: moveMetadataById.get(row.move2_id)?.damageClass ?? null,
       },
       row.move3_id && {
         id: row.move3_id,
         slug: row.move3_slug,
         name: row.move3_name,
+        type: moveMetadataById.get(row.move3_id)?.type ?? null,
+        damageClass: moveMetadataById.get(row.move3_id)?.damageClass ?? null,
       },
       row.move4_id && {
         id: row.move4_id,
         slug: row.move4_slug,
         name: row.move4_name,
+        type: moveMetadataById.get(row.move4_id)?.type ?? null,
+        damageClass: moveMetadataById.get(row.move4_id)?.damageClass ?? null,
       },
-    ].filter((move): move is BaseInfo => Boolean(move)),
+    ].filter((move): move is PlayPokemonMove => Boolean(move)),
   }));
 
   return { data: result, error: null };
