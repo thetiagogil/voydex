@@ -223,47 +223,7 @@ export const StoryItemsList = ({
                           ) : null}
                         </div>
 
-                        {isDecision ? (
-                          <div className="flex items-center gap-2">
-                            {selectedDecision?.pokemonDbSpriteSlug ? (
-                              <Image
-                                src={getPokemonSpriteUrl(
-                                  false,
-                                  selectedDecision.pokemonDbSpriteSlug,
-                                )}
-                                alt={selectedDecision.name}
-                                width={PLAY_POKEMON_SPRITE_SIZE}
-                                height={PLAY_POKEMON_SPRITE_SIZE}
-                                className="h-[72px] w-[72px] object-contain"
-                              />
-                            ) : null}
-                            <div className="text-right">
-                              <p
-                                className={cn(
-                                  "text-xs font-medium",
-                                  item.isCompleted
-                                    ? "text-primary"
-                                    : "text-muted-foreground",
-                                )}
-                              >
-                                {selectedDecision
-                                  ? selectedDecision.name
-                                  : item.isCompleted
-                                    ? "Choice saved"
-                                    : "Choose"}
-                              </p>
-                              {selectedDecision ? (
-                                <p className="text-muted-foreground mt-1 text-[11px]">
-                                  Selected option
-                                </p>
-                              ) : null}
-                            </div>
-                            <Icon
-                              type="rightArrow"
-                              className="text-muted-foreground size-4"
-                            />
-                          </div>
-                        ) : (
+                        {isDecision ? null : (
                           <Checkbox
                             id={`tracking-item-${item.id}`}
                             checked={item.isCompleted}
@@ -276,6 +236,50 @@ export const StoryItemsList = ({
                         <p className="text-muted-foreground mt-2 text-xs">
                           {item.description}
                         </p>
+                      ) : null}
+
+                      {isDecision ? (
+                        <div className="bg-background/50 mt-3 flex items-center justify-between gap-3 rounded-lg border px-3 py-2">
+                          <div className="flex min-w-0 items-center gap-3">
+                            {selectedDecision?.pokemonDbSpriteSlug ? (
+                              <Image
+                                src={getPokemonSpriteUrl(
+                                  false,
+                                  selectedDecision.pokemonDbSpriteSlug,
+                                )}
+                                alt={selectedDecision.name}
+                                width={PLAY_POKEMON_SPRITE_SIZE}
+                                height={PLAY_POKEMON_SPRITE_SIZE}
+                                className="h-14 w-14 shrink-0 object-contain"
+                              />
+                            ) : null}
+
+                            <div className="min-w-0">
+                              <p
+                                className={cn(
+                                  "truncate text-xs font-medium",
+                                  item.isCompleted
+                                    ? "text-primary"
+                                    : "text-muted-foreground",
+                                )}
+                              >
+                                {selectedDecision
+                                  ? selectedDecision.name
+                                  : "Choose an option"}
+                              </p>
+                              <p className="text-muted-foreground mt-1 text-[11px]">
+                                {selectedDecision
+                                  ? "Selected option"
+                                  : "Tap to choose"}
+                              </p>
+                            </div>
+                          </div>
+
+                          <Icon
+                            type="rightArrow"
+                            className="text-muted-foreground size-4 shrink-0"
+                          />
+                        </div>
                       ) : null}
 
                       {item.isCompleted && item.completedAt ? (

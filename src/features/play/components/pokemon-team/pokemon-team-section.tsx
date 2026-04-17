@@ -20,29 +20,27 @@ import { PokemonTeamModal } from "./pokemon-team-modal";
 type PokemonTeamSectionProps = {
   play: Play;
   pokemonTeam?: PlayPokemon[];
-}
+};
 
 export const PokemonTeamSection = ({
   play,
   pokemonTeam,
 }: PokemonTeamSectionProps) => {
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
-    null,
-  );
+  const [openDialog, setOpenDialog] = useState(false);
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(null);
 
   const allPokemon: PlayPokemon[] = pokemonTeam || [];
-
   const teamPokemon = allPokemon
-    .filter((p) => p.position <= 6)
-    .sort((a, b) => a.position - b.position);
+    .filter((pokemon) => pokemon.position <= 6)
+    .sort((left, right) => left.position - right.position);
   const boxPokemon = allPokemon
-    .filter((p) => p.position > 6)
-    .sort((a, b) => a.position - b.position);
+    .filter((pokemon) => pokemon.position > 6)
+    .sort((left, right) => left.position - right.position);
 
-  const shinyCount = allPokemon.filter((p) => p.isShiny).length;
-  const teamSlots = Array.from({ length: 6 }, (_, i) => teamPokemon[i] || null);
-  const boxSlots = Array.from({ length: 6 }, (_, i) => boxPokemon[i] || null);
+  const shinyCount = allPokemon.filter((pokemon) => pokemon.isShiny).length;
+  const teamSlots = Array.from({ length: 6 }, (_, index) => teamPokemon[index] || null);
+  const boxSlots = Array.from({ length: 6 }, (_, index) => boxPokemon[index] || null);
+  const isRosterFull = allPokemon.length >= 12;
 
   const handleEditClick = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);
@@ -64,17 +62,17 @@ export const PokemonTeamSection = ({
       <Tabs defaultValue="team">
         <div className="border-border flex justify-between gap-2 border-b p-4 sm:items-center">
           <div>
-            <h2 className="text-foreground text-xl font-bold">Pokémon</h2>
+            <h2 className="text-foreground text-xl font-bold">Pokemon</h2>
             <p className="text-muted-foreground flex gap-1 text-xs">
-              <span>{teamPokemon.length}/6 team </span>
+              <span>{teamPokemon.length}/6 team</span>
               <span>•</span>
               <span>{boxPokemon.length} in box</span>
-              {shinyCount > 0 && (
+              {shinyCount > 0 ? (
                 <>
                   <span>•</span>
                   <span>{shinyCount} shiny</span>
                 </>
-              )}
+              ) : null}
             </p>
           </div>
 
@@ -90,13 +88,17 @@ export const PokemonTeamSection = ({
               </TabsTrigger>
             </TabsList>
 
-            <Button variant="outline" onClick={handleAddClick}>
+            <Button
+              variant="outline"
+              onClick={handleAddClick}
+              disabled={isRosterFull}
+            >
               <Icon type="add" />
-              <span className="hidden sm:inline-block">Add pokémon</span>
+              <span className="hidden sm:inline-block">Add Pokemon</span>
             </Button>
 
             <Button variant="outline" asChild>
-              <Link href={getPlaysPokemonTeamRoute(play?.id)}>
+              <Link href={getPlaysPokemonTeamRoute(play.id)}>
                 <Icon type="edit" />
                 <span className="hidden sm:inline-block">Manage</span>
               </Link>
@@ -106,16 +108,16 @@ export const PokemonTeamSection = ({
 
         <TabsContent value="team" className="p-4">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-            {teamSlots.map((pokemon, i) =>
+            {teamSlots.map((pokemon, index) =>
               pokemon ? (
                 <PokemonCard
-                  key={i}
+                  key={index}
                   pokemon={pokemon}
                   onClick={() => handleEditClick(pokemon)}
                   hasCardHover
                 />
               ) : (
-                <PokemonEmpty key={i} index={i} />
+                <PokemonEmpty key={index} index={index} />
               ),
             )}
           </div>
@@ -123,16 +125,16 @@ export const PokemonTeamSection = ({
 
         <TabsContent value="box" className="p-4">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-            {boxSlots.map((pokemon, i) =>
+            {boxSlots.map((pokemon, index) =>
               pokemon ? (
                 <PokemonCard
-                  key={i}
+                  key={index}
                   pokemon={pokemon}
                   onClick={() => handleEditClick(pokemon)}
                   hasCardHover
                 />
               ) : (
-                <PokemonEmpty key={i} index={i} isBox />
+                <PokemonEmpty key={index} index={index} isBox />
               ),
             )}
           </div>

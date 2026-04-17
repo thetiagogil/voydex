@@ -24,6 +24,16 @@ export async function PUT(
 
     const { data, error } = await updateTeamPokemon(pokemonId, parsed.data);
 
+    if (
+      error &&
+      typeof error === "object" &&
+      "message" in error &&
+      typeof error.message === "string" &&
+      error.message.includes("Position must be between")
+    ) {
+      return badRequestResponse(error.message, { position: error.message });
+    }
+
     if (error) return errorResponse(error);
 
     return jsonResponse(data);

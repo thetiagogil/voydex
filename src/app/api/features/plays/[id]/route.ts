@@ -45,7 +45,9 @@ export async function PUT(
 
     if (error) {
       if (isDuplicateKeyError(error)) {
-        return conflictResponse("A play with this name already exists");
+        return conflictResponse("A play with this name already exists", {
+          name: "This play name is already in use.",
+        });
       }
 
       return errorResponse(error);

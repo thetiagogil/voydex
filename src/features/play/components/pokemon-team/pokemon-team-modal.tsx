@@ -39,79 +39,83 @@ export const PokemonTeamModal = ({
   const updatePokemon = useUpdatePokemonInTeam();
   const isEditing = !!pokemon;
 
-  const handleSubmit = async (data: PokemonTeamFormValues) => {
-    try {
-      if (isEditing && pokemon) {
-        await toastPromise(
-          updatePokemon.mutateAsync({
-            playId: play.id,
-            pokemonId: pokemon.id,
-            updates: {
-              species_id: data.species_id,
-              form_id: data.form_id,
-              nickname: data.nickname || undefined,
-              level: data.level || 5,
-              position: data.position,
-              gender: data.gender,
-              is_shiny: data.is_shiny,
-              nature_id: data.nature_id,
-              ability_id: data.ability_id,
-              move1_id: data.move1_id,
-              move2_id: data.move2_id,
-              move3_id: data.move3_id,
-              move4_id: data.move4_id,
-            },
-          }),
-          {
-            loading: "Updating Pokémon...",
-            success: "Pokémon updated successfully!",
-            error: (err) => err?.message || "Failed to update Pokémon",
-          },
-        );
-      } else {
-        await toastPromise(
-          addPokemon.mutateAsync({
-            playId: play.id,
-            pokemon: {
-              species_id: data.species_id,
-              form_id: data.form_id,
-              nickname: data.nickname || undefined,
-              level: data.level || 5,
-              position: data.position,
-              gender: data.gender,
-              is_shiny: data.is_shiny,
-              nature_id: data.nature_id,
-              ability_id: data.ability_id,
-              move1_id: data.move1_id,
-              move2_id: data.move2_id,
-              move3_id: data.move3_id,
-              move4_id: data.move4_id,
-            },
-          }),
-          {
-            loading: "Adding Pokémon...",
-            success: "Pokémon added successfully!",
-            error: (err) => err?.message || "Failed to add Pokémon",
-          },
-        );
-      }
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
       onClose();
-    } catch (error) {
-      console.error("Failed to save pokemon:", error);
+      return;
     }
+
+    setOpenDialog(nextOpen);
+  };
+
+  const handleSubmit = async (data: PokemonTeamFormValues) => {
+    if (isEditing && pokemon) {
+      await toastPromise(
+        updatePokemon.mutateAsync({
+          playId: play.id,
+          pokemonId: pokemon.id,
+          updates: {
+            species_id: data.species_id,
+            form_id: data.form_id,
+            nickname: data.nickname || undefined,
+            level: data.level || 5,
+            position: data.position,
+            gender: data.gender,
+            is_shiny: data.is_shiny,
+            nature_id: data.nature_id,
+            ability_id: data.ability_id,
+            move1_id: data.move1_id,
+            move2_id: data.move2_id,
+            move3_id: data.move3_id,
+            move4_id: data.move4_id,
+          },
+        }),
+        {
+          loading: "Updating Pokemon...",
+          success: "Pokemon updated successfully!",
+          error: (err) => err?.message || "Failed to update Pokemon",
+        },
+      );
+    } else {
+      await toastPromise(
+        addPokemon.mutateAsync({
+          playId: play.id,
+          pokemon: {
+            species_id: data.species_id,
+            form_id: data.form_id,
+            nickname: data.nickname || undefined,
+            level: data.level || 5,
+            position: data.position,
+            gender: data.gender,
+            is_shiny: data.is_shiny,
+            nature_id: data.nature_id,
+            ability_id: data.ability_id,
+            move1_id: data.move1_id,
+            move2_id: data.move2_id,
+            move3_id: data.move3_id,
+            move4_id: data.move4_id,
+          },
+        }),
+        {
+          loading: "Adding Pokemon...",
+          success: "Pokemon added successfully!",
+          error: (err) => err?.message || "Failed to add Pokemon",
+        },
+      );
+    }
+
+    onClose();
   };
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+    <Dialog open={openDialog} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-3xl gap-0 p-0">
         <DialogHeader className="border-border border-b p-6">
-          <DialogTitle>
-            {isEditing ? "Edit Pokémon" : "Add Pokémon"}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? "Edit Pokemon" : "Add Pokemon"}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the details of your Pokémon"
-              : "Add a new Pokémon to your team"}
+              ? "Update the details of your Pokemon"
+              : "Add a new Pokemon to your team"}
           </DialogDescription>
         </DialogHeader>
 

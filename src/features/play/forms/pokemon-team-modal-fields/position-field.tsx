@@ -1,4 +1,5 @@
 "use client";
+
 import type { PlayPokemon } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/shared/components/ui/button";
@@ -23,7 +24,8 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 type PositionFieldProps = {
   value?: number;
   onChange: (value: number) => void;
@@ -32,6 +34,7 @@ type PositionFieldProps = {
   error?: string;
   isEditing?: boolean;
 };
+
 export const PositionField = ({
   value,
   onChange,
@@ -41,99 +44,98 @@ export const PositionField = ({
   isEditing = false,
 }: PositionFieldProps) => {
   const activeTeamPokemon = team.filter(
-    (p) => p.position <= 6 && p.id !== currentPokemonId,
+    (pokemon) => pokemon.position <= 6 && pokemon.id !== currentPokemonId,
   );
   const boxPokemon = team.filter(
-    (p) => p.position > 6 && p.id !== currentPokemonId,
+    (pokemon) => pokemon.position > 6 && pokemon.id !== currentPokemonId,
   );
   const activeTeamFull = activeTeamPokemon.length >= 6;
   const boxFull = boxPokemon.length >= 6;
-  // Determine current team location
-  const isInActiveTeam = value && value <= 6;
+  const isInActiveTeam = value !== undefined && value <= 6;
   const currentTeam = isInActiveTeam ? "active" : "box";
-  // Local state for team selection (only for adding)
+
   const [selectedTeam, setSelectedTeam] = useState<"active" | "box">(
     currentTeam,
   );
-  // Popover open state (must be top-level hook to avoid conditional hooks)
   const [open, setOpen] = useState(false);
-  // For editing: show only occupied positions (to swap) + next available positions
+
+  useEffect(() => {
+    setSelectedTeam(currentTeam);
+  }, [currentTeam]);
+
   if (isEditing) {
-    // Get the current Pokemon being edited
-    const currentPokemon = team.find((p) => p.id === currentPokemonId);
-    const currentPokemonName = currentPokemon
-      ? currentPokemon.species.name
-      : "";
-    // Build Active Team options: only occupied positions + next available (if not full)
-    const activeTeamOptions = activeTeamPokemon.map((p) => {
-      const name = p.species.name;
-      return {
-        value: p.position.toString(),
-        label: `Position ${p.position} - ${name}`,
-      };
-    });
-    // Add current Pokemon's position if it's in Active Team range and not already in the list
+    const currentPokemon = team.find((pokemon) => pokemon.id === currentPokemonId);
+    const currentPokemonName = currentPokemon ? currentPokemon.species.name : "";
+
+    const activeTeamOptions = activeTeamPokemon.map((pokemon) => ({
+      value: pokemon.position.toString(),
+      label: `Team slot ${pokemon.position} - ${pokemon.species.name}`,
+    }));
+
     if (
       value &&
       value <= 6 &&
-      !activeTeamOptions.find((opt) => opt.value === value.toString())
+      !activeTeamOptions.find((option) => option.value === value.toString())
     ) {
       activeTeamOptions.push({
         value: value.toString(),
-        label: `Position ${value} - ${currentPokemonName}`,
+        label: `Team slot ${value} - ${currentPokemonName}`,
       });
     }
-    // Add next available active position if not full and not duplicate of current position
+
     if (!activeTeamFull) {
-      const nextPos = activeTeamPokemon.length + 1;
-      // Only add if this position isn't already in the list (avoid duplicate when current = next)
-      if (!activeTeamOptions.find((opt) => opt.value === nextPos.toString())) {
+      const nextPosition = activeTeamPokemon.length + 1;
+
+      if (
+        !activeTeamOptions.find((option) => option.value === nextPosition.toString())
+      ) {
         activeTeamOptions.push({
-          value: nextPos.toString(),
-          label: `Position ${nextPos} - Empty`,
+          value: nextPosition.toString(),
+          label: `Team slot ${nextPosition} - Empty`,
         });
       }
     }
-    // Sort after all items are added
-    activeTeamOptions.sort((a, b) => Number(a.value) - Number(b.value));
-    // Build Box options: only occupied positions + next available (if not full)
-    const boxOptions = boxPokemon.map((p) => {
-      const name = p.species.name;
-      return {
-        value: p.position.toString(),
-        label: `Position ${p.position} - ${name}`,
-      };
-    });
-    // Add current Pokemon's position if it's in Box range and not already in the list
+
+    activeTeamOptions.sort((left, right) => Number(left.value) - Number(right.value));
+
+    const boxOptions = boxPokemon.map((pokemon) => ({
+      value: pokemon.position.toString(),
+      label: `Box slot ${pokemon.position - 6} - ${pokemon.species.name}`,
+    }));
+
     if (
       value &&
       value > 6 &&
-      !boxOptions.find((opt) => opt.value === value.toString())
+      !boxOptions.find((option) => option.value === value.toString())
     ) {
       boxOptions.push({
         value: value.toString(),
-        label: `Position ${value} - ${currentPokemonName}`,
+        label: `Box slot ${value - 6} - ${currentPokemonName}`,
       });
     }
-    // Add next available box position if not full and not duplicate of current position
+
     if (!boxFull) {
-      const nextPos = boxPokemon.length + 7;
-      // Only add if this position isn't already in the list (avoid duplicate when current = next)
-      if (!boxOptions.find((opt) => opt.value === nextPos.toString())) {
+      const nextPosition = boxPokemon.length + 7;
+
+      if (!boxOptions.find((option) => option.value === nextPosition.toString())) {
         boxOptions.push({
-          value: nextPos.toString(),
-          label: `Position ${nextPos} - Empty`,
+          value: nextPosition.toString(),
+          label: `Box slot ${nextPosition - 6} - Empty`,
         });
       }
     }
-    // Sort after all items are added
-    boxOptions.sort((a, b) => Number(a.value) - Number(b.value));
+
+    boxOptions.sort((left, right) => Number(left.value) - Number(right.value));
+
     const selectedOption = [...activeTeamOptions, ...boxOptions].find(
-      (opt) => opt.value === value?.toString(),
+      (option) => option.value === value?.toString(),
     );
+
     return (
       <Field>
-        <FieldLabel htmlFor="position">Position</FieldLabel>
+        <FieldLabel htmlFor="position">
+          Position<span className="text-destructive ml-1">*</span>
+        </FieldLabel>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -210,54 +212,53 @@ export const PositionField = ({
             </Command>
           </PopoverContent>
         </Popover>
-        {error && (
-          <FieldDescription className="text-destructive">
-            {error}
-          </FieldDescription>
-        )}
+        {error ? (
+          <FieldDescription className="text-destructive">{error}</FieldDescription>
+        ) : null}
       </Field>
     );
   }
-  // For adding: choose team first, then auto-assign position
+
   const nextActivePosition = activeTeamPokemon.length + 1;
   const nextBoxPosition = boxPokemon.length + 1;
   const teamOptions = [
     {
       value: "active",
-      label: `Active Team (${activeTeamPokemon.length}/6)${!activeTeamFull ? ` - Position ${nextActivePosition}` : " - Full"}`,
+      label: `Active Team (${activeTeamPokemon.length}/6) - Slot ${nextActivePosition}`,
       disabled: activeTeamFull,
     },
     {
       value: "box",
-      label: `Box (${boxPokemon.length}/6)${!boxFull ? ` - Position ${nextBoxPosition}` : " - Full"}`,
+      label: `Box (${boxPokemon.length}/6) - Slot ${nextBoxPosition}`,
       disabled: boxFull,
     },
-  ].filter((opt) => !opt.disabled);
+  ].filter((option) => !option.disabled);
+
   return (
     <Field>
-      <FieldLabel htmlFor="position">Position</FieldLabel>
+      <FieldLabel htmlFor="position">
+        Position<span className="text-destructive ml-1">*</span>
+      </FieldLabel>
       <Combobox
         id="position"
         options={teamOptions}
-        value={selectedTeam}
-        onValueChange={(val: string) => {
-          const team = val as "active" | "box";
-          setSelectedTeam(team);
-          if (team === "active") {
-            onChange(nextActivePosition); // DB: 1-6
-          } else {
-            onChange(nextBoxPosition + 6); // DB: 7-12
-          }
+        value={teamOptions.some((option) => option.value === selectedTeam) ? selectedTeam : ""}
+        onValueChange={(nextValue: string) => {
+          const nextTeam = nextValue as "active" | "box";
+
+          setSelectedTeam(nextTeam);
+          onChange(nextTeam === "active" ? nextActivePosition : nextBoxPosition + 6);
         }}
-        placeholder="Select team..."
+        placeholder={
+          teamOptions.length === 0 ? "No positions available" : "Select team..."
+        }
         searchPlaceholder="Search teams..."
+        disabled={teamOptions.length === 0}
         aria-invalid={!!error}
       />
-      {error && (
-        <FieldDescription className="text-destructive">
-          {error}
-        </FieldDescription>
-      )}
+      {error ? (
+        <FieldDescription className="text-destructive">{error}</FieldDescription>
+      ) : null}
     </Field>
   );
 };

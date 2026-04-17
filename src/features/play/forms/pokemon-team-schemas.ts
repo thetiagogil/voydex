@@ -1,8 +1,7 @@
 import { z } from "zod";
 
-// Base schema for all generations
 const basePokemonTeamSchema = z.object({
-  species_id: z.number({ message: "Please select a Pokémon species" }),
+  species_id: z.number({ message: "Please select a Pokemon species" }),
   form_id: z.number({ message: "Please select a form" }),
   nickname: z
     .string()
@@ -10,11 +9,10 @@ const basePokemonTeamSchema = z.object({
     .optional()
     .or(z.literal("")),
   level: z
-    .number({ message: "Level must be a number" })
+    .number({ message: "Level is required" })
     .int("Level must be a whole number")
     .min(1, "Level must be at least 1")
-    .max(100, "Level cannot exceed 100")
-    .optional(),
+    .max(100, "Level cannot exceed 100"),
   position: z
     .number({ message: "Position is required" })
     .int()
@@ -30,7 +28,6 @@ const basePokemonTeamSchema = z.object({
   move4_id: z.number().optional(),
 });
 
-// Schema for Generation 3+ (with nature and ability required)
 export const pokemonTeamSchema = basePokemonTeamSchema
   .extend({
     nature_id: z.number({ message: "Nature is required" }),
@@ -38,11 +35,8 @@ export const pokemonTeamSchema = basePokemonTeamSchema
   })
   .refine(
     (data) => {
-      // If move2 is filled, move1 must be filled
       if (data.move2_id && !data.move1_id) return false;
-      // If move3 is filled, move2 must be filled
       if (data.move3_id && !data.move2_id) return false;
-      // If move4 is filled, move3 must be filled
       if (data.move4_id && !data.move3_id) return false;
       return true;
     },
@@ -52,14 +46,10 @@ export const pokemonTeamSchema = basePokemonTeamSchema
     },
   );
 
-// Schema for Generation 1-2 (nature and ability optional/not shown)
 export const pokemonTeamSchemaGen1And2 = basePokemonTeamSchema.refine(
   (data) => {
-    // If move2 is filled, move1 must be filled
     if (data.move2_id && !data.move1_id) return false;
-    // If move3 is filled, move2 must be filled
     if (data.move3_id && !data.move2_id) return false;
-    // If move4 is filled, move3 must be filled
     if (data.move4_id && !data.move3_id) return false;
     return true;
   },
@@ -69,4 +59,4 @@ export const pokemonTeamSchemaGen1And2 = basePokemonTeamSchema.refine(
   },
 );
 
-export type PokemonTeamFormValues = z.infer<typeof pokemonTeamSchema>;
+export type PokemonTeamFormValues = z.infer<typeof basePokemonTeamSchema>;

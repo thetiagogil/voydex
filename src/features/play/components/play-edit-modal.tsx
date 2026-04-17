@@ -11,11 +11,13 @@ import {
 } from "@/shared/components/ui/dialog";
 
 import { useUpdatePlayDlcs } from "@/features/play/hooks/usePlayDlc";
+import { usePlayPokedexSummary } from "@/features/play/hooks/usePlayPokedex";
 import { toastPromise } from "@/lib/utils/toast-promise";
 import { useMemo } from "react";
 import { PlayEditFormValues } from "../forms/schemas";
 import { useUpdatePlay } from "../hooks/usePlay";
-import { Play } from "../types";
+import { Play, PlayPokedexOverviewSummary } from "../types";
+import { getPlayPokedexSettingsAvailability } from "../utils/pokedex-settings";
 
 const arraysEqual = (left: number[], right: number[]) => {
   if (left.length !== right.length) return false;
@@ -29,18 +31,26 @@ const arraysEqual = (left: number[], right: number[]) => {
 type PlayEditModalProps = {
   play: Play;
   completion?: number;
+  initialPokedexSummary: PlayPokedexOverviewSummary[];
   open: boolean;
   setOpen: (open: boolean) => void;
-}
+};
 
 export const PlayEditModal = ({
   play,
   completion = 0,
+  initialPokedexSummary,
   open,
   setOpen,
 }: PlayEditModalProps) => {
   const updatePlay = useUpdatePlay();
   const updatePlayDlcs = useUpdatePlayDlcs();
+  const { data: pokedexSummary = initialPokedexSummary } = usePlayPokedexSummary(
+    play.id,
+    {
+      initialData: initialPokedexSummary,
+    },
+  );
 
   const initialValues: PlayEditFormValues = useMemo(
     () => ({
@@ -55,70 +65,69 @@ export const PlayEditModal = ({
     [play],
   );
 
+  const pokedexSettingsAvailability = useMemo(
+    () => getPlayPokedexSettingsAvailability(pokedexSummary),
+    [pokedexSummary],
+  );
+
   const handleSubmit = async (data: PlayEditFormValues) => {
-    try {
-      const trimmedName = data.name?.trim() || undefined;
-      const trimmedNotes = data.notes?.trim() || undefined;
-      const nextDlcs = data.dlc_version_group_ids ?? [];
-      const currentDlcs = play.selectedDlcs ?? [];
+    const trimmedName = data.name?.trim() || undefined;
+    const trimmedNotes = data.notes?.trim() || undefined;
+    const nextDlcs = data.dlc_version_group_ids ?? [];
+    const currentDlcs = play.selectedDlcs ?? [];
 
-      const changedUpdates = {
-        ...(trimmedName !== (play.name || undefined)
-          ? { name: trimmedName }
-          : {}),
-        ...(trimmedNotes !== (play.notes || undefined)
-          ? { notes: trimmedNotes }
-          : {}),
-        ...(data.status_slug !== play.status.slug
-          ? { status_slug: data.status_slug }
-          : {}),
-        ...(data.include_pokedex !== play.includePokedex
-          ? { include_pokedex: data.include_pokedex }
-          : {}),
-        ...(data.include_other_pokedex !== play.includeOtherPokedex
-          ? { include_other_pokedex: data.include_other_pokedex }
-          : {}),
-        ...(data.include_mythical_pokemon !== play.includeMythicalPokemon
-          ? { include_mythical_pokemon: data.include_mythical_pokemon }
-          : {}),
-      };
+    const changedUpdates = {
+      ...(trimmedName !== (play.name || undefined) ? { name: trimmedName } : {}),
+      ...(trimmedNotes !== (play.notes || undefined)
+        ? { notes: trimmedNotes }
+        : {}),
+      ...(data.status_slug !== play.status.slug
+        ? { status_slug: data.status_slug }
+        : {}),
+      ...(data.include_pokedex !== play.includePokedex
+        ? { include_pokedex: data.include_pokedex }
+        : {}),
+      ...(data.include_other_pokedex !== play.includeOtherPokedex
+        ? { include_other_pokedex: data.include_other_pokedex }
+        : {}),
+      ...(data.include_mythical_pokemon !== play.includeMythicalPokemon
+        ? { include_mythical_pokemon: data.include_mythical_pokemon }
+        : {}),
+    };
 
-      const dlcsChanged = !arraysEqual(nextDlcs, currentDlcs);
-      const hasPlayChanges = Object.keys(changedUpdates).length > 0;
+    const dlcsChanged = !arraysEqual(nextDlcs, currentDlcs);
+    const hasPlayChanges = Object.keys(changedUpdates).length > 0;
 
-      if (!hasPlayChanges && !dlcsChanged) {
-        setOpen(false);
-        return;
-      }
-
-      await toastPromise(
-        (async () => {
-          if (hasPlayChanges) {
-            await updatePlay.mutateAsync({
-              playId: play.id,
-              updates: changedUpdates,
-            });
-          }
-
-          const availableDlcs = play.game.availableDlcs;
-          if (dlcsChanged && availableDlcs && availableDlcs.length > 0) {
-            await updatePlayDlcs.mutateAsync({
-              playId: play.id,
-              versionGroupIds: nextDlcs,
-            });
-          }
-        })(),
-        {
-          loading: "Updating playthrough...",
-          success: "Playthrough updated!",
-          error: (err) => err?.message || "Failed to update playthrough",
-        },
-      );
-
+    if (!hasPlayChanges && !dlcsChanged) {
       setOpen(false);
-    } catch (error) {
-      console.log(error);
+      return;
     }
+
+    await toastPromise(
+      (async () => {
+        if (hasPlayChanges) {
+          await updatePlay.mutateAsync({
+            playId: play.id,
+            updates: changedUpdates,
+          });
+        }
+
+        const availableDlcs = play.game.availableDlcs;
+        if (dlcsChanged && availableDlcs && availableDlcs.length > 0) {
+          await updatePlayDlcs.mutateAsync({
+            playId: play.id,
+            versionGroupIds: nextDlcs,
+          });
+        }
+      })(),
+      {
+        loading: "Updating playthrough...",
+        success: "Playthrough updated!",
+        error: (err) => err?.message || "Failed to update playthrough",
+      },
+    );
+
+    setOpen(false);
   };
 
   const handleClose = () => {
@@ -139,6 +148,7 @@ export const PlayEditModal = ({
           availableDlcs={play.game.availableDlcs}
           completion={completion}
           initialValues={initialValues}
+          pokedexSettingsAvailability={pokedexSettingsAvailability}
           isPending={updatePlay.isPending || updatePlayDlcs.isPending}
           onSubmit={handleSubmit}
           onCancel={handleClose}

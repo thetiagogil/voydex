@@ -36,16 +36,29 @@ export const createdResponse = <T>(data: T) => {
   return jsonResponse(data, 201);
 };
 
-export const badRequestResponse = (message: string) => {
-  return jsonResponse({ error: message }, 400);
+const withFieldErrors = (
+  message: string,
+  fieldErrors?: Record<string, string>,
+) => {
+  return fieldErrors ? { error: message, fieldErrors } : { error: message };
+};
+
+export const badRequestResponse = (
+  message: string,
+  fieldErrors?: Record<string, string>,
+) => {
+  return jsonResponse(withFieldErrors(message, fieldErrors), 400);
 };
 
 export const notFoundResponse = (message: string) => {
   return jsonResponse({ error: message }, 404);
 };
 
-export const conflictResponse = (message: string) => {
-  return jsonResponse({ error: message }, 409);
+export const conflictResponse = (
+  message: string,
+  fieldErrors?: Record<string, string>,
+) => {
+  return jsonResponse(withFieldErrors(message, fieldErrors), 409);
 };
 
 export const errorResponse = (error: unknown, status = 500) => {

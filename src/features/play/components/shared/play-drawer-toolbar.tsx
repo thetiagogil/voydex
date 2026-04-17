@@ -32,13 +32,13 @@ export const PlayDrawerToolbar = ({
       {search ? <div className="min-w-0">{search}</div> : null}
 
       {controls || actions ? (
-        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-start gap-2 sm:items-center">
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
             {controls}
           </div>
 
           {actions ? (
-            <div className="flex shrink-0 items-center justify-end">{actions}</div>
+            <div className="ml-auto flex shrink-0 items-center">{actions}</div>
           ) : null}
         </div>
       ) : null}

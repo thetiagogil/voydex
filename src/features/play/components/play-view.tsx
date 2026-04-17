@@ -45,7 +45,11 @@ export const PlayView = ({ playId, initialOverview }: PlayViewProps) => {
   return (
     <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-8">
-        <PlayHeader play={play} completion={comp?.percentage ?? 0} />
+        <PlayHeader
+          play={play}
+          completion={comp?.percentage ?? 0}
+          initialPokedexSummary={initialOverview.pokedexSummary}
+        />
         <PokemonTeamSection play={play} pokemonTeam={team} />
         <StorySection playId={playId} trackingCategories={stories} />
         <CollectiblesSection

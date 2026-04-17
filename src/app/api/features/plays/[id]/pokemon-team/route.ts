@@ -5,6 +5,7 @@ import {
 } from "@/features/play/server/play-team";
 import {
   badRequestResponse,
+  conflictResponse,
   createdResponse,
   errorResponse,
   jsonResponse,
@@ -43,7 +44,29 @@ export async function POST(
 
     const { data, error } = await addPokemonToTeam(playId, parsed.data);
 
-    if (error) return errorResponse(error);
+    if (error) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        error.code === "POSITION_OCCUPIED" &&
+        typeof error.message === "string"
+      ) {
+        return conflictResponse(error.message, { position: error.message });
+      }
+
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        error.code === "TEAM_FULL" &&
+        typeof error.message === "string"
+      ) {
+        return badRequestResponse(error.message);
+      }
+
+      return errorResponse(error);
+    }
 
     return createdResponse(data);
   } catch (error: unknown) {

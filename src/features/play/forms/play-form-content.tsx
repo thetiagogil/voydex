@@ -2,7 +2,8 @@
 
 import type { GameData } from "@/features/game/types";
 import type { DlcVersionGroup } from "@/features/play/types";
-import { cn } from "@/lib/utils/cn";
+import type { PlayPokedexSettingsAvailability } from "@/features/play/utils/pokedex-settings";
+import { ApiRequestError } from "@/lib/utils/fetcher";
 import { FieldWrapper } from "@/shared/components/field-wrapper";
 import { Icon, IconType } from "@/shared/components/icon";
 import { Button } from "@/shared/components/ui/button";
@@ -23,13 +24,63 @@ import {
 } from "@/shared/constants/play-statuses";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, type FieldErrors, useForm } from "react-hook-form";
 import {
   playCreateSchema,
   playEditSchema,
   type PlayCreateFormValues,
   type PlayEditFormValues,
 } from "./schemas";
+
+type PlayFormFieldName =
+  | keyof PlayCreateFormValues
+  | keyof PlayEditFormValues;
+
+const PLAY_FIELD_IDS: Partial<Record<PlayFormFieldName, string>> = {
+  name: "playName",
+  notes: "notes",
+  status_slug: "status",
+};
+
+const PLAY_FIELD_ORDER: PlayFormFieldName[] = ["name", "status_slug", "notes"];
+
+const focusFieldElement = (id?: string) => {
+  if (!id || typeof document === "undefined") {
+    return;
+  }
+
+  window.requestAnimationFrame(() => {
+    const element = document.getElementById(id);
+
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+
+    element.focus();
+    element.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
+};
+
+const getFirstPlayErrorField = (
+  errors: FieldErrors<PlayCreateFormValues | PlayEditFormValues>,
+) => {
+  const errorRecord = errors as Partial<Record<PlayFormFieldName, unknown>>;
+
+  return PLAY_FIELD_ORDER.find((field) => Boolean(errorRecord[field]));
+};
+
+const getNameFieldError = (error: unknown) => {
+  if (error instanceof ApiRequestError && error.fieldErrors?.name) {
+    return error.fieldErrors.name;
+  }
+
+  const message =
+    error instanceof Error ? error.message.toLowerCase() : String(error).toLowerCase();
+
+  return message.includes("already exists")
+    ? "This play name is already in use."
+    : null;
+};
 
 type PlayFormContentCreateProps = {
   mode: "create";
@@ -47,6 +98,7 @@ type PlayFormContentEditProps = {
   availableDlcs?: DlcVersionGroup[];
   completion?: number;
   initialValues: PlayEditFormValues;
+  pokedexSettingsAvailability: PlayPokedexSettingsAvailability;
   isPending: boolean;
   onSubmit: (data: PlayEditFormValues) => Promise<void>;
   onCancel: () => void;
@@ -62,33 +114,38 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
   const availableDlcs = props.availableDlcs ?? [];
   const completion = isEditMode ? (props.completion ?? 0) : 0;
   const isCompleted = completion === 100;
+  const pokedexSettingsAvailability = isEditMode
+    ? props.pokedexSettingsAvailability
+    : {
+        hasRegionalPokedex: false,
+        hasOtherPokedex: false,
+        hasMythicalPokemon: false,
+      };
 
   const {
     register,
     handleSubmit,
     reset,
     control,
-    watch,
-    setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<PlayCreateFormValues | PlayEditFormValues>({
     resolver: zodResolver(isEditMode ? playEditSchema : playCreateSchema),
+    shouldFocusError: false,
     defaultValues: isEditMode
       ? props.initialValues
       : { name: props.initialValues?.name || "" },
   });
 
-  const includePokedex = watch("include_pokedex" as any);
-
-  const handleFormSubmit = async (
-    data: PlayCreateFormValues | PlayEditFormValues,
-  ) => {
-    if (isEditMode) {
-      await onSubmit(data as PlayEditFormValues);
-    } else {
-      await onSubmit(data as PlayCreateFormValues);
-    }
-  };
+  const editErrors = errors as FieldErrors<PlayEditFormValues>;
+  const nameRegistration = register("name", {
+    onChange: () => {
+      if (errors.name?.type === "server") {
+        clearErrors("name");
+      }
+    },
+  });
 
   useEffect(() => {
     if (isEditMode) {
@@ -96,15 +153,51 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
     }
   }, [isEditMode, props.initialValues, reset]);
 
-  useEffect(() => {
-    if (isEditMode && includePokedex === false) {
-      setValue("include_other_pokedex" as keyof PlayEditFormValues, false);
+  const handleFormSubmit = async (
+    data: PlayCreateFormValues | PlayEditFormValues,
+  ) => {
+    clearErrors("root");
+
+    try {
+      if (isEditMode) {
+        await onSubmit(data as PlayEditFormValues);
+      } else {
+        await onSubmit(data as PlayCreateFormValues);
+      }
+    } catch (error) {
+      const nameError = getNameFieldError(error);
+
+      if (nameError) {
+        setError("name", {
+          type: "server",
+          message: nameError,
+        });
+        focusFieldElement(PLAY_FIELD_IDS.name);
+        return;
+      }
+
+      setError("root", {
+        type: "server",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to save the playthrough.",
+      });
     }
-  }, [isEditMode, includePokedex, setValue]);
+  };
+
+  const handleFormError = (
+    formErrors: FieldErrors<PlayCreateFormValues | PlayEditFormValues>,
+  ) => {
+    const firstErrorField = getFirstPlayErrorField(formErrors);
+    focusFieldElement(
+      firstErrorField ? PLAY_FIELD_IDS[firstErrorField] : undefined,
+    );
+  };
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)}
+      onSubmit={handleSubmit(handleFormSubmit, handleFormError)}
       className="flex flex-col gap-4"
     >
       <FieldSet>
@@ -119,7 +212,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                 id="playName"
                 placeholder={`My ${game.name} Adventure`}
                 disabled={isPending}
-                {...register("name")}
+                {...nameRegistration}
               />
             </FieldWrapper>
             {!isEditMode && (
@@ -141,6 +234,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                 control={control}
                 render={({ field }) => {
                   const selected: number[] = field.value ?? [];
+
                   return (
                     <div className="space-y-2">
                       {availableDlcs.map((dlc) => (
@@ -172,7 +266,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             <FieldWrapper
               id="status"
               label="Status"
-              error={(errors as any).status_slug?.message}
+              error={editErrors.status_slug?.message}
             >
               <Controller
                 name="status_slug"
@@ -183,7 +277,13 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
                     onValueChange={field.onChange}
                     disabled={isPending || isCompleted}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger
+                      id="status"
+                      aria-invalid={!!editErrors.status_slug}
+                      aria-describedby={
+                        editErrors.status_slug ? "status-error" : undefined
+                      }
+                    >
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -216,7 +316,7 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             <FieldWrapper
               id="notes"
               label="Notes"
-              error={(errors as any).notes?.message}
+              error={editErrors.notes?.message}
             >
               <Input
                 id="notes"
@@ -227,68 +327,87 @@ export const PlayFormContent = (props: PlayFormContentProps) => {
             </FieldWrapper>
           )}
 
-          {isEditMode && (
-            <div className="space-y-3">
-              <label className="text-sm font-medium">
-                Pokédex Completion Settings
-              </label>
-              <p className="text-muted-foreground text-xs">
-                Toggle which pokédex types count toward play completion. All
-                dexes remain visible regardless.
-              </p>
-              <div className="space-y-2">
-                <Controller
-                  name="include_pokedex"
-                  control={control}
-                  render={({ field }) => (
-                    <label className="flex items-center gap-2 text-sm">
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        disabled={isPending}
-                      />
-                      Include Regional Pokédex in completion
-                    </label>
-                  )}
-                />
-                <Controller
-                  name="include_other_pokedex"
-                  control={control}
-                  render={({ field }) => (
-                    <label
-                      className={cn(
-                        "flex items-center gap-2 text-sm",
-                        !includePokedex && "text-muted-foreground opacity-50",
+          {isEditMode &&
+            (pokedexSettingsAvailability.hasRegionalPokedex ||
+              pokedexSettingsAvailability.hasOtherPokedex ||
+              pokedexSettingsAvailability.hasMythicalPokemon) && (
+              <div className="space-y-3">
+                <label className="text-sm font-medium">
+                  Pokedex Completion Settings
+                </label>
+                <p className="text-muted-foreground text-xs">
+                  Toggle which pokedex types count toward play completion. All
+                  dexes remain visible regardless.
+                </p>
+                <div className="space-y-2">
+                  {pokedexSettingsAvailability.hasRegionalPokedex && (
+                    <Controller
+                      name="include_pokedex"
+                      control={control}
+                      render={({ field }) => (
+                        <label className="flex items-center gap-2 text-sm">
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked === true);
+                            }}
+                            disabled={isPending}
+                          />
+                          Include Regional Pokedex in completion
+                        </label>
                       )}
-                    >
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        disabled={isPending || !includePokedex}
-                      />
-                      Include Other Pokédex (National, Special) in completion
-                    </label>
+                    />
                   )}
-                />
-                <Controller
-                  name="include_mythical_pokemon"
-                  control={control}
-                  render={({ field }) => (
-                    <label className="flex items-center gap-2 text-sm">
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        disabled={isPending}
-                      />
-                      Include Mythical Pokémon in completion
-                    </label>
+
+                  {pokedexSettingsAvailability.hasOtherPokedex && (
+                    <Controller
+                      name="include_other_pokedex"
+                      control={control}
+                      render={({ field }) => (
+                        <label className="flex items-center gap-2 text-sm">
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked === true);
+                            }}
+                            disabled={isPending}
+                          />
+                          Include Other Pokedex (National, Special) in
+                          completion
+                        </label>
+                      )}
+                    />
                   )}
-                />
+
+                  {pokedexSettingsAvailability.hasMythicalPokemon && (
+                    <Controller
+                      name="include_mythical_pokemon"
+                      control={control}
+                      render={({ field }) => (
+                        <label className="flex items-center gap-2 text-sm">
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked === true);
+                            }}
+                            disabled={isPending}
+                          />
+                          Include Mythical Pokemon in completion
+                        </label>
+                      )}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </FieldGroup>
       </FieldSet>
+
+      {errors.root?.message ? (
+        <p role="alert" className="text-destructive text-sm">
+          {errors.root.message}
+        </p>
+      ) : null}
 
       <div className="flex gap-2">
         <Button

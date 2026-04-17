@@ -28,11 +28,11 @@ export const PokemonTeamContent = ({
   boxPokemon,
 }: PokemonTeamContentProps) => {
   const [activeTab, setActiveTab] = useState("all");
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
-    null,
-  );
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [addPosition, setAddPosition] = useState<number | null>(null);
+
+  const isRosterFull = allPokemon.length >= 12;
 
   const handleEditClick = (pokemon: PlayPokemon) => {
     setEditingPokemon(pokemon);
@@ -42,16 +42,18 @@ export const PokemonTeamContent = ({
 
   const handleAddClick = (toTeam: boolean) => {
     setEditingPokemon(null);
+
     if (toTeam) {
       const nextPosition = teamPokemon.length + 1;
       setAddPosition(nextPosition <= 6 ? nextPosition : 7);
     } else {
       const maxBoxPosition =
         boxPokemon.length > 0
-          ? Math.max(...boxPokemon.map((p) => p.position))
+          ? Math.max(...boxPokemon.map((pokemon) => pokemon.position))
           : 6;
       setAddPosition(maxBoxPosition + 1);
     }
+
     setOpenEditDialog(true);
   };
 
@@ -75,10 +77,10 @@ export const PokemonTeamContent = ({
           <div className="border-border flex items-center justify-between gap-4 border-b p-4">
             <div>
               <h2 className="text-foreground text-xl font-bold">
-                Pokémon Management
+                Pokemon Management
               </h2>
               <p className="text-muted-foreground text-sm">
-                View and manage all your caught Pokémon
+                View and manage all your caught Pokemon
               </p>
             </div>
 
@@ -104,10 +106,13 @@ export const PokemonTeamContent = ({
               <Button
                 size="sm"
                 onClick={() => handleAddClick(activeTab !== "box")}
-                disabled={activeTab === "team" && teamPokemon.length >= 6}
+                disabled={
+                  isRosterFull ||
+                  (activeTab === "team" && teamPokemon.length >= 6)
+                }
               >
                 <Icon type="add" />
-                <span className="hidden sm:inline-block">Add Pokémon</span>
+                <span className="hidden sm:inline-block">Add Pokemon</span>
               </Button>
             </div>
           </div>
@@ -116,7 +121,7 @@ export const PokemonTeamContent = ({
             <PokemonTeamTable
               pokemon={displayPokemon}
               onEdit={handleEditClick}
-              emptyMessage="No Pokémon caught yet. Add your first one!"
+              emptyMessage="No Pokemon caught yet. Add your first one."
             />
           </TabsContent>
 
@@ -124,7 +129,7 @@ export const PokemonTeamContent = ({
             <PokemonTeamTable
               pokemon={displayPokemon}
               onEdit={handleEditClick}
-              emptyMessage="No Pokémon in your team yet."
+              emptyMessage="No Pokemon in your team yet."
             />
           </TabsContent>
 
@@ -132,7 +137,7 @@ export const PokemonTeamContent = ({
             <PokemonTeamTable
               pokemon={displayPokemon}
               onEdit={handleEditClick}
-              emptyMessage="No Pokémon in your box yet."
+              emptyMessage="No Pokemon in your box yet."
             />
           </TabsContent>
         </Tabs>

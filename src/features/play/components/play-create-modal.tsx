@@ -32,35 +32,29 @@ export const PlayCreateModal = ({
   const updatePlayDlcs = useUpdatePlayDlcs();
 
   const handleSubmit = async (data: PlayCreateFormValues) => {
-    try {
-      const result = await toastPromise(
-        createPlay.mutateAsync({
-          gameId: game.id,
-          name: data.name?.trim() || `My ${game.name} Adventure`,
-        }),
-        {
-          loading: "Creating playthrough...",
-          success: "Playthrough created!",
-          error: (err) => err?.message || "Failed to create playthrough",
-        },
-      );
+    const result = await toastPromise(
+      createPlay.mutateAsync({
+        gameId: game.id,
+        name: data.name?.trim() || `My ${game.name} Adventure`,
+      }),
+      {
+        loading: "Creating playthrough...",
+        success: "Playthrough created!",
+        error: (err) => err?.message || "Failed to create playthrough",
+      },
+    );
 
-      // Set DLCs if any selected
-      if (result?.id && data.dlc_version_group_ids?.length) {
-        await updatePlayDlcs.mutateAsync({
-          playId: result.id,
-          versionGroupIds: data.dlc_version_group_ids,
-        });
-      }
+    if (result?.id && data.dlc_version_group_ids?.length) {
+      await updatePlayDlcs.mutateAsync({
+        playId: result.id,
+        versionGroupIds: data.dlc_version_group_ids,
+      });
+    }
 
-      setOpen(false);
+    setOpen(false);
 
-      // Navigate to the new play page
-      if (result?.id) {
-        router.push(getPlaysRoute(result.id));
-      }
-    } catch (error) {
-      console.log(error);
+    if (result?.id) {
+      router.push(getPlaysRoute(result.id));
     }
   };
 

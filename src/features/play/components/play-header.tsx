@@ -8,15 +8,20 @@ import { Button } from "@/shared/components/ui/button";
 import { Progress } from "@/shared/components/ui/progress";
 import { toStatusVariant } from "@/shared/constants/play-statuses";
 import { useState } from "react";
-import type { Play } from "../types";
+import type { Play, PlayPokedexOverviewSummary } from "../types";
 import { PlayEditModal } from "./play-edit-modal";
 
 type PlayHeaderProps = {
   play: Play;
   completion?: number;
-}
+  initialPokedexSummary: PlayPokedexOverviewSummary[];
+};
 
-export const PlayHeader = ({ play, completion = 0 }: PlayHeaderProps) => {
+export const PlayHeader = ({
+  play,
+  completion = 0,
+  initialPokedexSummary,
+}: PlayHeaderProps) => {
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -70,6 +75,7 @@ export const PlayHeader = ({ play, completion = 0 }: PlayHeaderProps) => {
       <PlayEditModal
         play={play}
         completion={completion}
+        initialPokedexSummary={initialPokedexSummary}
         open={editOpen}
         setOpen={setEditOpen}
       />
