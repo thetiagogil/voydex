@@ -13,7 +13,7 @@ type PokemonForm = {
   speciesId: number;
   isDefault: boolean;
   pokemonDbSpriteSlug: string | null;
-}
+};
 
 const useAllPokemonForms = () =>
   useQuery<PokemonForm[]>({
@@ -27,30 +27,51 @@ export default function PokedexPage() {
 
   return (
     <PageLayout>
-      {isLoading && <p>Loading Pokemon forms...</p>}
-      {error && <p>Error loading forms: {String(error)}</p>}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, 96px)",
-          gap: 12,
-        }}
-      >
-        {data?.map((pokemon) => (
-          <div key={pokemon.id} style={{ textAlign: "center" }}>
-            {pokemon.pokemonDbSpriteSlug ? (
-              <Image
-                src={getPokemonSpriteUrl(false, pokemon.pokemonDbSpriteSlug)}
-                alt={pokemon.name}
-                width={80}
-                height={80}
-              />
-            ) : (
-              <div style={{ width: 80, height: 80, background: "#eee" }} />
-            )}
-            <div>{pokemon.name}</div>
-          </div>
-        ))}
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-[0.12em] uppercase">
+            Pokedex
+          </h1>
+          <p className="text-muted-foreground mt-2 text-sm">
+            Browse every available form using the shared dark theme tokens.
+          </p>
+        </div>
+
+        {isLoading ? (
+          <p className="text-muted-foreground text-sm">
+            Loading Pokemon forms...
+          </p>
+        ) : null}
+
+        {error ? (
+          <p className="text-destructive text-sm">
+            Error loading forms: {String(error)}
+          </p>
+        ) : null}
+
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-3">
+          {data?.map((pokemon) => (
+            <div
+              key={pokemon.id}
+              className="border-border bg-card hover:border-primary/35 hover:bg-accent/30 flex flex-col items-center gap-2 rounded-2xl border p-3 text-center transition-colors"
+            >
+              {pokemon.pokemonDbSpriteSlug ? (
+                <Image
+                  src={getPokemonSpriteUrl(false, pokemon.pokemonDbSpriteSlug)}
+                  alt={pokemon.name}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 object-contain"
+                />
+              ) : (
+                <div className="bg-muted border-border h-20 w-20 rounded-2xl border" />
+              )}
+              <div className="text-xs leading-tight font-medium">
+                {pokemon.name}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </PageLayout>
   );

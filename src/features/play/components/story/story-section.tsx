@@ -65,7 +65,7 @@ export const StorySection = ({
         <p
           className={cn(
             "text-muted-foreground text-xs",
-            completedCategories === totalCategories ? "text-green-600" : "",
+            completedCategories === totalCategories ? "text-success" : "",
           )}
         >
           {completedCategories}/{totalCategories} completed

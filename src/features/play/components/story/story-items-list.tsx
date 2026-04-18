@@ -27,18 +27,18 @@ const ITEM_TYPE_CONFIG: Record<
   string,
   { icon: IconType; label: string; color: string }
 > = {
-  battle: { icon: "battle", label: "Battle", color: "text-red-500" },
+  battle: { icon: "battle", label: "Battle", color: "text-battle" },
   checkpoint: {
     icon: "checkpoint",
     label: "Checkpoint",
-    color: "text-blue-500",
+    color: "text-checkpoint",
   },
   "pokemon-milestone": {
     icon: "pokemon",
     label: "Pokemon",
-    color: "text-orange-500",
+    color: "text-milestone",
   },
-  decision: { icon: "decision", label: "Decision", color: "text-purple-500" },
+  decision: { icon: "decision", label: "Decision", color: "text-decision" },
 };
 
 const FILTER_OPTIONS = [

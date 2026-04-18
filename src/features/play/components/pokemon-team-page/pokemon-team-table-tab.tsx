@@ -268,12 +268,12 @@ export const PokemonTeamTableTab = ({
                 <div className="flex items-center justify-center gap-1">
                   {member.gender === "male" ? (
                     <>
-                      <Icon type="male" size={14} className="text-blue-400" />
+                      <Icon type="male" size={14} className="text-male" />
                       <span className="text-xs font-medium">Male</span>
                     </>
                   ) : member.gender === "female" ? (
                     <>
-                      <Icon type="female" size={14} className="text-pink-400" />
+                      <Icon type="female" size={14} className="text-female" />
                       <span className="text-xs font-medium">Female</span>
                     </>
                   ) : (

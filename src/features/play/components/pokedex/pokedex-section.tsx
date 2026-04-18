@@ -185,7 +185,7 @@ export const PokedexSection = ({
         <p
           className={cn(
             "text-muted-foreground text-xs",
-            isComplete ? "text-green-600" : "",
+            isComplete ? "text-success" : "",
           )}
         >
           {completedDexes}/{totalDexes} completed

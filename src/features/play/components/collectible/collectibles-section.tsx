@@ -106,7 +106,7 @@ export const CollectiblesSection = ({
         <p
           className={cn(
             "text-muted-foreground text-xs",
-            isComplete ? "text-green-600" : "",
+            isComplete ? "text-success" : "",
           )}
         >
           {completedSets}/{totalSets} completed

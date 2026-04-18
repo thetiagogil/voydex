@@ -32,12 +32,12 @@ export const StoryCategoryCard = ({
         onClick={() => setOpenSheet(true)}
         className={cn(
           "group flex flex-row items-center",
-          isComplete && "border-green-800 hover:border-green-600",
+          isComplete && "border-success/40 hover:border-success",
           CARD_HOVER_EFFECT,
         )}
       >
         {isComplete ? (
-          <Icon type="completed" size={20} className="text-green-600" />
+          <Icon type="completed" size={20} className="text-success" />
         ) : (
           <Icon type="circle" size={20} />
         )}
@@ -55,7 +55,7 @@ export const StoryCategoryCard = ({
           <span
             className={cn(
               "text-sm font-medium",
-              isComplete ? "text-green-600" : "text-muted-foreground",
+              isComplete ? "text-success" : "text-muted-foreground",
             )}
           >
             {categoryPercentage}%
@@ -64,7 +64,7 @@ export const StoryCategoryCard = ({
             type="rightArrow"
             className={cn(
               "text-muted-foreground group-hover:text-primary h-4 w-4 transition-colors",
-              isComplete && "group-hover:text-green-600",
+              isComplete && "group-hover:text-success",
             )}
           />
         </div>

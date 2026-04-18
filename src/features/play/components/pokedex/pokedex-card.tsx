@@ -33,15 +33,15 @@ export const PokedexCard = ({
       onClick={onClick}
       className={cn(
         "group flex flex-row items-center",
-        isComplete && "border-green-800 hover:border-green-600",
+        isComplete && "border-success/40 hover:border-success",
         isExcludedFromCompletion && "opacity-70",
         CARD_HOVER_EFFECT,
       )}
     >
       {isComplete ? (
-        <Icon type="completed" size={20} className="text-green-600" />
+        <Icon type="completed" size={20} className="text-success" />
       ) : isSeenComplete ? (
-        <Icon type="completed" size={20} className="text-blue-500" />
+        <Icon type="completed" size={20} className="text-seen" />
       ) : (
         <Icon type="circle" size={20} />
       )}
@@ -52,11 +52,7 @@ export const PokedexCard = ({
             {summary.pokedexName}
           </h3>
           {excludeMythical && (
-            <Icon
-              type="mythical"
-              size={14}
-              className="shrink-0 text-purple-400"
-            />
+            <Icon type="mythical" size={14} className="text-mythic shrink-0" />
           )}
           {isExcludedFromCompletion && (
             <Icon
@@ -77,9 +73,9 @@ export const PokedexCard = ({
           className={cn(
             "text-sm font-medium",
             isComplete
-              ? "text-green-600"
+              ? "text-success"
               : isSeenComplete
-                ? "text-blue-500"
+                ? "text-seen"
                 : "text-muted-foreground",
           )}
         >
@@ -89,7 +85,7 @@ export const PokedexCard = ({
           type="rightArrow"
           className={cn(
             "text-muted-foreground group-hover:text-primary h-4 w-4 transition-colors",
-            isComplete && "group-hover:text-green-600",
+            isComplete && "group-hover:text-success",
           )}
         />
       </div>

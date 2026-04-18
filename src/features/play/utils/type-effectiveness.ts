@@ -1,7 +1,4 @@
-import {
-  POKEMON_TYPES,
-  type PokemonType,
-} from "@/shared/constants/reference";
+import { POKEMON_TYPES, type PokemonType } from "@/shared/constants/reference";
 
 type AttackChartEntry = {
   superEffective: PokemonType[];
@@ -136,11 +133,7 @@ const GEN_1_TYPES: PokemonType[] = [
   "dragon",
 ];
 
-const GEN_2_TO_5_TYPES: PokemonType[] = [
-  ...GEN_1_TYPES,
-  "dark",
-  "steel",
-];
+const GEN_2_TO_5_TYPES: PokemonType[] = [...GEN_1_TYPES, "dark", "steel"];
 
 const createMatrix = (types: PokemonType[]) => {
   const matrix = Object.fromEntries(
@@ -219,7 +212,10 @@ export const getTypeEffectiveness = (
   const matrix = getTypeEffectivenessMatrix(generationId);
   const availableTypes = getPokemonTypesForGeneration(generationId);
 
-  if (!availableTypes.includes(attackingType) || !availableTypes.includes(defendingType)) {
+  if (
+    !availableTypes.includes(attackingType) ||
+    !availableTypes.includes(defendingType)
+  ) {
     return 1;
   }
 
@@ -233,7 +229,8 @@ export const getDefensiveMultiplier = (
 ) => {
   return defendingTypes.reduce(
     (multiplier, defendingType) =>
-      multiplier * getTypeEffectiveness(attackingType, defendingType, generationId),
+      multiplier *
+      getTypeEffectiveness(attackingType, defendingType, generationId),
     1,
   );
 };
@@ -264,7 +261,7 @@ export const getEffectivenessLabel = (multiplier: number) => {
 
 export const getEffectivenessTone = (multiplier: number) => {
   if (multiplier === 0) {
-    return "text-sky-400";
+    return "text-immune";
   }
 
   if (multiplier > 1) {
@@ -272,7 +269,7 @@ export const getEffectivenessTone = (multiplier: number) => {
   }
 
   if (multiplier < 1) {
-    return "text-emerald-400";
+    return "text-success";
   }
 
   return "text-muted-foreground";

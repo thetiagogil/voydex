@@ -255,7 +255,7 @@ export const PokedexEntriesList = ({
                     state === "caught" &&
                       "border-primary bg-primary/10 hover:bg-primary/15",
                     state === "seen" &&
-                      "border-slate-400/40 bg-slate-500/10 hover:bg-slate-500/15",
+                      "border-seen/40 bg-seen/10 hover:bg-seen/15",
                     state === "unmarked" &&
                       "border-border hover:bg-accent/30 bg-transparent",
                   )}
@@ -268,7 +268,7 @@ export const PokedexEntriesList = ({
                           <Icon
                             type="mythical"
                             size={12}
-                            className="text-purple-400"
+                            className="text-mythic"
                           />
                         ) : null}
                       </span>
@@ -278,7 +278,7 @@ export const PokedexEntriesList = ({
                           state === "caught"
                             ? "text-primary"
                             : state === "seen"
-                              ? "text-slate-300"
+                              ? "text-seen"
                               : "text-muted-foreground",
                         )}
                       >

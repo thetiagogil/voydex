@@ -102,7 +102,7 @@ export const StoryDecisionModal = ({
                   )}
                 >
                   {selectedOptionId === option.id && (
-                    <div className="h-2 w-2 rounded-full bg-white" />
+                    <div className="bg-primary-foreground h-2 w-2 rounded-full" />
                   )}
                 </div>
                 {option.pokemonDbSpriteSlug && (

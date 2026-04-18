@@ -48,11 +48,11 @@ const CountBadge = ({
 }) => {
   const toneClassName =
     tone === "positive"
-      ? "border-emerald-500/30 bg-emerald-500/12 text-emerald-300"
+      ? "border-success/30 bg-success/12 text-success"
       : tone === "warning"
-        ? "border-amber-500/30 bg-amber-500/12 text-amber-300"
+        ? "border-warning/30 bg-warning/12 text-warning"
         : tone === "danger"
-          ? "border-rose-500/30 bg-rose-500/12 text-rose-300"
+          ? "border-destructive/30 bg-destructive/12 text-destructive"
           : "border-border bg-muted/20 text-foreground";
 
   return (
@@ -95,7 +95,9 @@ const renderTypeBadges = (
   const visibleTypes = limit ? types.slice(0, limit) : types;
 
   if (visibleTypes.length === 0) {
-    return <span className="text-muted-foreground text-sm">{emptyMessage}</span>;
+    return (
+      <span className="text-muted-foreground text-sm">{emptyMessage}</span>
+    );
   }
 
   return (
@@ -115,7 +117,9 @@ const renderMoveCoverageBadges = (
   emptyMessage: string,
 ) => {
   if (coverage.length === 0) {
-    return <span className="text-muted-foreground text-sm">{emptyMessage}</span>;
+    return (
+      <span className="text-muted-foreground text-sm">{emptyMessage}</span>
+    );
   }
 
   const coverageByPokemon = new Map<
@@ -160,7 +164,9 @@ const renderStabCoverageBadges = (
   emptyMessage: string,
 ) => {
   if (coverage.length === 0) {
-    return <span className="text-muted-foreground text-sm">{emptyMessage}</span>;
+    return (
+      <span className="text-muted-foreground text-sm">{emptyMessage}</span>
+    );
   }
 
   return (
@@ -180,7 +186,9 @@ const renderDefensiveExposure = (
   emptyMessage: string,
 ) => {
   if (pokemon.length === 0) {
-    return <span className="text-muted-foreground text-sm">{emptyMessage}</span>;
+    return (
+      <span className="text-muted-foreground text-sm">{emptyMessage}</span>
+    );
   }
 
   return (
@@ -197,23 +205,23 @@ const renderDefensiveExposure = (
 
 const multiplierCellClassName = (multiplier: number) => {
   if (multiplier >= 4) {
-    return "border-emerald-500/35 bg-emerald-500/18 text-emerald-200";
+    return "border-success/35 bg-success/18 text-success";
   }
 
   if (multiplier > 1) {
-    return "border-emerald-500/30 bg-emerald-500/12 text-emerald-300";
+    return "border-success/30 bg-success/12 text-success";
   }
 
   if (multiplier === 0) {
-    return "border-slate-400/30 bg-slate-400/12 text-slate-200";
+    return "border-immune/30 bg-immune/12 text-immune";
   }
 
   if (multiplier <= 0.25) {
-    return "border-rose-500/35 bg-rose-500/18 text-rose-200";
+    return "border-destructive/35 bg-destructive/18 text-destructive";
   }
 
   if (multiplier < 1) {
-    return "border-rose-500/30 bg-rose-500/12 text-rose-300";
+    return "border-destructive/30 bg-destructive/12 text-destructive";
   }
 
   return "border-border bg-muted/20 text-muted-foreground";
@@ -247,14 +255,16 @@ export const PokemonTeamAnalysisPanel = ({
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="coverage">Coverage</TabsTrigger>
-          {!isSummary ? <TabsTrigger value="chart">Type Chart</TabsTrigger> : null}
+          {!isSummary ? (
+            <TabsTrigger value="chart">Type Chart</TabsTrigger>
+          ) : null}
         </TabsList>
       </div>
 
       <TabsContent value="overview" className="m-0 flex-1 space-y-6 p-4 md:p-6">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+            <p className="text-muted-foreground text-xs tracking-[0.18em] uppercase">
               Types covered by selected moves
             </p>
             <p className="text-2xl font-bold">
@@ -270,7 +280,7 @@ export const PokemonTeamAnalysisPanel = ({
           </Card>
 
           <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+            <p className="text-muted-foreground text-xs tracking-[0.18em] uppercase">
               Types covered by STAB
             </p>
             <p className="text-2xl font-bold">
@@ -285,17 +295,19 @@ export const PokemonTeamAnalysisPanel = ({
           </Card>
 
           <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+            <p className="text-muted-foreground text-xs tracking-[0.18em] uppercase">
               Missing from selected moves
             </p>
-            <p className="text-2xl font-bold">{analysis.offensiveGaps.length}</p>
+            <p className="text-2xl font-bold">
+              {analysis.offensiveGaps.length}
+            </p>
             <p className="text-muted-foreground text-xs">
               Defending types that no selected move currently covers.
             </p>
           </Card>
 
           <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+            <p className="text-muted-foreground text-xs tracking-[0.18em] uppercase">
               Missing from STAB
             </p>
             <p className="text-2xl font-bold">{analysis.stabGaps.length}</p>
@@ -362,7 +374,8 @@ export const PokemonTeamAnalysisPanel = ({
                 <div>
                   <h3 className="font-semibold">Move types selected</h3>
                   <p className="text-muted-foreground mt-1 text-sm">
-                    These are the different move types currently set on this group.
+                    These are the different move types currently set on this
+                    group.
                   </p>
                 </div>
                 {renderTypeBadges(
@@ -389,9 +402,9 @@ export const PokemonTeamAnalysisPanel = ({
             <div>
               <h3 className="font-semibold">Offensive coverage</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                Move Count is how many selected moves hit that type
-                super effectively. STAB Count is how many Pokemon do the same
-                with one of their own types.
+                Move Count is how many selected moves hit that type super
+                effectively. STAB Count is how many Pokemon do the same with one
+                of their own types.
               </p>
             </div>
 
@@ -414,13 +427,17 @@ export const PokemonTeamAnalysisPanel = ({
                     <TableCell className="text-center">
                       <CountBadge
                         value={row.moveCoverage.length}
-                        tone={row.moveCoverage.length > 0 ? "positive" : "neutral"}
+                        tone={
+                          row.moveCoverage.length > 0 ? "positive" : "neutral"
+                        }
                       />
                     </TableCell>
                     <TableCell className="text-center">
                       <CountBadge
                         value={row.stabCoverage.length}
-                        tone={row.stabCoverage.length > 0 ? "warning" : "neutral"}
+                        tone={
+                          row.stabCoverage.length > 0 ? "warning" : "neutral"
+                        }
                       />
                     </TableCell>
                     <TableCell>
@@ -445,8 +462,8 @@ export const PokemonTeamAnalysisPanel = ({
             <div>
               <h3 className="font-semibold">Defensive coverage</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                These counts show how many Pokemon are weak, resistant, or immune
-                to each incoming type.
+                These counts show how many Pokemon are weak, resistant, or
+                immune to each incoming type.
               </p>
             </div>
 
@@ -475,13 +492,17 @@ export const PokemonTeamAnalysisPanel = ({
                     <TableCell className="text-center">
                       <CountBadge
                         value={row.resistPokemon.length}
-                        tone={row.resistPokemon.length > 0 ? "positive" : "neutral"}
+                        tone={
+                          row.resistPokemon.length > 0 ? "positive" : "neutral"
+                        }
                       />
                     </TableCell>
                     <TableCell className="text-center">
                       <CountBadge
                         value={row.immunePokemon.length}
-                        tone={row.immunePokemon.length > 0 ? "warning" : "neutral"}
+                        tone={
+                          row.immunePokemon.length > 0 ? "warning" : "neutral"
+                        }
                       />
                     </TableCell>
                     <TableCell>

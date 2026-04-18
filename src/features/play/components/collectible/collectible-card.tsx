@@ -27,12 +27,12 @@ export const CollectibleCard = ({
       onClick={onClick}
       className={cn(
         "group flex flex-row items-center",
-        isDone && "border-green-800 hover:border-green-600",
+        isDone && "border-success/40 hover:border-success",
         CARD_HOVER_EFFECT,
       )}
     >
       {isDone ? (
-        <Icon type="completed" size={20} className="text-green-600" />
+        <Icon type="completed" size={20} className="text-success" />
       ) : (
         <Icon type="circle" size={20} />
       )}
@@ -50,7 +50,7 @@ export const CollectibleCard = ({
         <span
           className={cn(
             "text-sm font-medium",
-            isDone ? "text-green-600" : "text-muted-foreground",
+            isDone ? "text-success" : "text-muted-foreground",
           )}
         >
           {percentage}%
@@ -59,7 +59,7 @@ export const CollectibleCard = ({
           type="rightArrow"
           className={cn(
             "text-muted-foreground group-hover:text-primary h-4 w-4 transition-colors",
-            isDone && "group-hover:text-green-600",
+            isDone && "group-hover:text-success",
           )}
         />
       </div>
