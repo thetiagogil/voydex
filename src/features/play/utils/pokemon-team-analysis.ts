@@ -40,7 +40,7 @@ export type PokemonTeamAnalysisSummary = {
   uniqueTypes: PokemonType[];
   uniqueMoveTypes: PokemonType[];
   offensiveGaps: PokemonType[];
-  defensivePressureTypes: PokemonType[];
+  stabGaps: PokemonType[];
   duplicateTypes: Array<{ type: PokemonType; count: number }>;
   rows: PokemonTeamAnalysisRow[];
 };
@@ -205,12 +205,8 @@ export const buildPokemonTeamAnalysis = (
     offensiveGaps: rows
       .filter((row) => row.moveCoverage.length === 0)
       .map((row) => row.type),
-    defensivePressureTypes: rows
-      .filter(
-        (row) =>
-          row.weakPokemon.length >
-          row.resistPokemon.length + row.immunePokemon.length,
-      )
+    stabGaps: rows
+      .filter((row) => row.stabCoverage.length === 0)
       .map((row) => row.type),
     duplicateTypes: Array.from(rosterTypeCounts.entries())
       .filter(([, count]) => count > 1)

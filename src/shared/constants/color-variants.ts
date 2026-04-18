@@ -48,6 +48,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-normal/3",
     bgSolid: "bg-type-normal/90",
     border: "border-type-normal/25",
+    borderSolid: "border-type-normal/90",
     hover: "hover:bg-type-normal/25",
   },
   fire: {
@@ -55,6 +56,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-fire/3",
     bgSolid: "bg-type-fire/90",
     border: "border-type-fire/25",
+    borderSolid: "border-type-fire/90",
     hover: "hover:bg-type-fire/25",
   },
   water: {
@@ -62,6 +64,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-water/3",
     bgSolid: "bg-type-water/90",
     border: "border-type-water/25",
+    borderSolid: "border-type-water/90",
     hover: "hover:bg-type-water/25",
   },
   electric: {
@@ -69,6 +72,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-electric/3",
     bgSolid: "bg-type-electric/90",
     border: "border-type-electric/25",
+    borderSolid: "border-type-electric/90",
     hover: "hover:bg-type-electric/25",
   },
   grass: {
@@ -76,6 +80,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-grass/3",
     bgSolid: "bg-type-grass/90",
     border: "border-type-grass/25",
+    borderSolid: "border-type-grass/90",
     hover: "hover:bg-type-grass/25",
   },
   ice: {
@@ -83,6 +88,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-ice/3",
     bgSolid: "bg-type-ice/90",
     border: "border-type-ice/25",
+    borderSolid: "border-type-ice/90",
     hover: "hover:bg-type-ice/25",
   },
   fighting: {
@@ -90,6 +96,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-fighting/3",
     bgSolid: "bg-type-fighting/90",
     border: "border-type-fighting/25",
+    borderSolid: "border-type-fighting/90",
     hover: "hover:bg-type-fighting/25",
   },
   poison: {
@@ -97,6 +104,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-poison/3",
     bgSolid: "bg-type-poison/90",
     border: "border-type-poison/25",
+    borderSolid: "border-type-poison/90",
     hover: "hover:bg-type-poison/25",
   },
   ground: {
@@ -104,6 +112,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-ground/3",
     bgSolid: "bg-type-ground/90",
     border: "border-type-ground/25",
+    borderSolid: "border-type-ground/90",
     hover: "hover:bg-type-ground/25",
   },
   flying: {
@@ -111,6 +120,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-flying/3",
     bgSolid: "bg-type-flying/90",
     border: "border-type-flying/25",
+    borderSolid: "border-type-flying/90",
     hover: "hover:bg-type-flying/25",
   },
   psychic: {
@@ -118,6 +128,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-psychic/3",
     bgSolid: "bg-type-psychic/90",
     border: "border-type-psychic/25",
+    borderSolid: "border-type-psychic/90",
     hover: "hover:bg-type-psychic/25",
   },
   bug: {
@@ -125,6 +136,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-bug/3",
     bgSolid: "bg-type-bug/90",
     border: "border-type-bug/25",
+    borderSolid: "border-type-bug/90",
     hover: "hover:bg-type-bug/25",
   },
   rock: {
@@ -132,6 +144,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-rock/3",
     bgSolid: "bg-type-rock/90",
     border: "border-type-rock/25",
+    borderSolid: "border-type-rock/90",
     hover: "hover:bg-type-rock/25",
   },
   ghost: {
@@ -139,6 +152,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-ghost/3",
     bgSolid: "bg-type-ghost/90",
     border: "border-type-ghost/25",
+    borderSolid: "border-type-ghost/90",
     hover: "hover:bg-type-ghost/25",
   },
   dragon: {
@@ -146,6 +160,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-dragon/3",
     bgSolid: "bg-type-dragon/90",
     border: "border-type-dragon/25",
+    borderSolid: "border-type-dragon/90",
     hover: "hover:bg-type-dragon/25",
   },
   dark: {
@@ -153,6 +168,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-dark/3",
     bgSolid: "bg-type-dark/90",
     border: "border-type-dark/25",
+    borderSolid: "border-type-dark/90",
     hover: "hover:bg-type-dark/25",
   },
   steel: {
@@ -160,6 +176,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-steel/3",
     bgSolid: "bg-type-steel/90",
     border: "border-type-steel/25",
+    borderSolid: "border-type-steel/90",
     hover: "hover:bg-type-steel/25",
   },
   fairy: {
@@ -167,6 +184,7 @@ export const TYPE_COLOR_VARIANTS: Record<PokemonType, ColorVariant> = {
     bg: "bg-type-fairy/3",
     bgSolid: "bg-type-fairy/90",
     border: "border-type-fairy/25",
+    borderSolid: "border-type-fairy/90",
     hover: "hover:bg-type-fairy/25",
   },
 } as const;

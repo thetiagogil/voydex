@@ -62,7 +62,7 @@ export const PlayHeader = ({
                 title="Start date of the play"
               />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex max-w-[800px] items-center gap-3">
               <Progress value={completion} className="h-2 flex-1" />
               <span className="text-muted-foreground text-xs font-medium">
                 {completion}%

@@ -13,6 +13,12 @@ const isValidTeamPosition = (position: number) =>
 type MoveMetadata = {
   type: BaseInfo | null;
   damageClass: PlayPokemonMove["damageClass"];
+  pp: number | null;
+};
+
+type NatureMetadata = {
+  increasedStat: string | null;
+  decreasedStat: string | null;
 };
 
 const getPlayGenerationId = async (playId: string) => {
@@ -56,7 +62,7 @@ const getMoveMetadata = async (
   const { data: moveAttributes, error: attributesError } = await supabase
     .schema("reference")
     .from("move_attributes")
-    .select("move_id, type_id, damage_class, generation_start_id")
+    .select("move_id, type_id, damage_class, pp, generation_start_id")
     .in("move_id", moveIds)
     .lte("generation_start_id", generationId)
     .order("move_id", { ascending: true })
@@ -68,7 +74,11 @@ const getMoveMetadata = async (
 
   const latestAttributes = new Map<
     number,
-    { typeId: number; damageClass: PlayPokemonMove["damageClass"] }
+    {
+      typeId: number;
+      damageClass: PlayPokemonMove["damageClass"];
+      pp: number | null;
+    }
   >();
 
   for (const attribute of moveAttributes) {
@@ -76,6 +86,7 @@ const getMoveMetadata = async (
       latestAttributes.set(attribute.move_id, {
         typeId: attribute.type_id,
         damageClass: attribute.damage_class,
+        pp: attribute.pp,
       });
     }
   }
@@ -119,10 +130,39 @@ const getMoveMetadata = async (
     metadata.set(moveId, {
       type: typeMap.get(attribute.typeId) ?? null,
       damageClass: attribute.damageClass,
+      pp: attribute.pp,
     });
   }
 
   return metadata;
+};
+
+const getNatureMetadata = async (natureIds: number[]) => {
+  const supabase = await createClient();
+
+  if (natureIds.length === 0) {
+    return new Map<number, NatureMetadata>();
+  }
+
+  const { data: natures, error } = await supabase
+    .schema("reference")
+    .from("natures")
+    .select("id, increased_stat, decreased_stat")
+    .in("id", natureIds);
+
+  if (error || !natures) {
+    return new Map<number, NatureMetadata>();
+  }
+
+  return new Map<number, NatureMetadata>(
+    natures.map((nature) => [
+      nature.id,
+      {
+        increasedStat: nature.increased_stat,
+        decreasedStat: nature.decreased_stat,
+      },
+    ]),
+  );
 };
 
 // =============================================================================
@@ -157,6 +197,14 @@ export const getPlayTeam = async (playId: string) => {
     generationId !== null
       ? await getMoveMetadata(moveIds, generationId)
       : new Map<number, MoveMetadata>();
+  const natureIds = Array.from(
+    new Set(
+      data
+        .map((row: any) => row.nature_id)
+        .filter((natureId): natureId is number => typeof natureId === "number"),
+    ),
+  );
+  const natureMetadataById = await getNatureMetadata(natureIds);
 
   const result: PlayPokemon[] = data.map((row: any) => ({
     id: String(row.team_pokemon_id),
@@ -190,7 +238,15 @@ export const getPlayTeam = async (playId: string) => {
       },
     ].filter((type): type is BaseInfo => Boolean(type)),
     nature: row.nature_id
-      ? { id: row.nature_id, slug: row.nature_slug, name: row.nature_name }
+      ? {
+          id: row.nature_id,
+          slug: row.nature_slug,
+          name: row.nature_name,
+          increasedStat:
+            natureMetadataById.get(row.nature_id)?.increasedStat ?? null,
+          decreasedStat:
+            natureMetadataById.get(row.nature_id)?.decreasedStat ?? null,
+        }
       : null,
     ability: row.ability_id
       ? { id: row.ability_id, slug: row.ability_slug, name: row.ability_name }
@@ -202,6 +258,7 @@ export const getPlayTeam = async (playId: string) => {
         name: row.move1_name,
         type: moveMetadataById.get(row.move1_id)?.type ?? null,
         damageClass: moveMetadataById.get(row.move1_id)?.damageClass ?? null,
+        pp: moveMetadataById.get(row.move1_id)?.pp ?? null,
       },
       row.move2_id && {
         id: row.move2_id,
@@ -209,6 +266,7 @@ export const getPlayTeam = async (playId: string) => {
         name: row.move2_name,
         type: moveMetadataById.get(row.move2_id)?.type ?? null,
         damageClass: moveMetadataById.get(row.move2_id)?.damageClass ?? null,
+        pp: moveMetadataById.get(row.move2_id)?.pp ?? null,
       },
       row.move3_id && {
         id: row.move3_id,
@@ -216,6 +274,7 @@ export const getPlayTeam = async (playId: string) => {
         name: row.move3_name,
         type: moveMetadataById.get(row.move3_id)?.type ?? null,
         damageClass: moveMetadataById.get(row.move3_id)?.damageClass ?? null,
+        pp: moveMetadataById.get(row.move3_id)?.pp ?? null,
       },
       row.move4_id && {
         id: row.move4_id,
@@ -223,6 +282,7 @@ export const getPlayTeam = async (playId: string) => {
         name: row.move4_name,
         type: moveMetadataById.get(row.move4_id)?.type ?? null,
         damageClass: moveMetadataById.get(row.move4_id)?.damageClass ?? null,
+        pp: moveMetadataById.get(row.move4_id)?.pp ?? null,
       },
     ].filter((move): move is PlayPokemonMove => Boolean(move)),
   }));

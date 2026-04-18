@@ -21,7 +21,8 @@ export interface GamePlayPokemonTeamMember {
   level: number;
   speciesId: number;
   species: BaseInfo;
-  pokemonDbSpriteSlug: string;
+  pokemonDbSpriteSlug: string | null;
+  isShiny: boolean;
 }
 
 export interface GamePlay {

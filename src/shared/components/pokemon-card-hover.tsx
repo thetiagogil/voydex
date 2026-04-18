@@ -4,7 +4,7 @@ import { Icon } from "@/shared/components/icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { HoverCardContent } from "@/shared/components/ui/hover-card";
 import { Separator } from "@/shared/components/ui/separator";
-import type { PlayPokemon } from "../../types";
+import type { PlayPokemon } from "../../features/play/types";
 
 type PokemonCardHoverProps = {
   pokemon: PlayPokemon;

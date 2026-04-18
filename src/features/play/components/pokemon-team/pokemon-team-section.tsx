@@ -14,9 +14,8 @@ import {
 import { getPlaysPokemonTeamRoute } from "@/shared/constants/routes";
 import Link from "next/link";
 import { useState } from "react";
-import { PokemonTeamAnalysisDialog } from "./pokemon-team-analysis-dialog";
+import { PokemonTeamModal } from "../shared/pokemon-team-modal";
 import { PokemonEmpty } from "./pokemon-empty";
-import { PokemonTeamModal } from "./pokemon-team-modal";
 
 type PokemonTeamSectionProps = {
   play: Play;
@@ -28,8 +27,9 @@ export const PokemonTeamSection = ({
   pokemonTeam,
 }: PokemonTeamSectionProps) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [openAnalysisDialog, setOpenAnalysisDialog] = useState(false);
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(null);
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
+    null,
+  );
 
   const allPokemon: PlayPokemon[] = pokemonTeam || [];
   const teamPokemon = allPokemon
@@ -40,8 +40,14 @@ export const PokemonTeamSection = ({
     .sort((left, right) => left.position - right.position);
 
   const shinyCount = allPokemon.filter((pokemon) => pokemon.isShiny).length;
-  const teamSlots = Array.from({ length: 6 }, (_, index) => teamPokemon[index] || null);
-  const boxSlots = Array.from({ length: 6 }, (_, index) => boxPokemon[index] || null);
+  const teamSlots = Array.from(
+    { length: 6 },
+    (_, index) => teamPokemon[index] || null,
+  );
+  const boxSlots = Array.from(
+    { length: 6 },
+    (_, index) => boxPokemon[index] || null,
+  );
   const isRosterFull = allPokemon.length >= 12;
 
   const handleEditClick = (pokemon: PlayPokemon) => {
@@ -90,6 +96,13 @@ export const PokemonTeamSection = ({
               </TabsTrigger>
             </TabsList>
 
+            <Button variant="outline" asChild>
+              <Link href={getPlaysPokemonTeamRoute(play.id)}>
+                <Icon type="details" />
+                <span className="hidden sm:inline-block">Manage</span>
+              </Link>
+            </Button>
+
             <Button
               variant="outline"
               onClick={handleAddClick}
@@ -97,21 +110,6 @@ export const PokemonTeamSection = ({
             >
               <Icon type="add" />
               <span className="hidden sm:inline-block">Add</span>
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={() => setOpenAnalysisDialog(true)}
-            >
-              <Icon type="details" />
-              <span className="hidden sm:inline-block">Analysis</span>
-            </Button>
-
-            <Button variant="outline" asChild>
-              <Link href={getPlaysPokemonTeamRoute(play.id)}>
-                <Icon type="edit" />
-                <span className="hidden sm:inline-block">Edit</span>
-              </Link>
             </Button>
           </div>
         </div>
@@ -159,14 +157,6 @@ export const PokemonTeamSection = ({
         position={null}
         team={allPokemon}
         onClose={handleCloseEdit}
-      />
-
-      <PokemonTeamAnalysisDialog
-        open={openAnalysisDialog}
-        onOpenChange={setOpenAnalysisDialog}
-        generationId={play.game.generation.id}
-        pokemon={allPokemon}
-        description="Inspect offensive coverage, defensive weaknesses, and the full type chart without leaving the play page."
       />
     </Card>
   );

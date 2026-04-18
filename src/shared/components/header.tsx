@@ -9,7 +9,7 @@ type HeaderProps = {
   description?: string;
   info?: ReactNode;
   actions?: ReactNode;
-}
+};
 
 export const Header = ({
   icon,
@@ -40,7 +40,7 @@ export const Header = ({
           </div>
         </div>
 
-        <div className="flex flex-1 justify-end gap-2">
+        <div className="flex justify-end gap-2">
           {/* Info */}
           {info && info}
 

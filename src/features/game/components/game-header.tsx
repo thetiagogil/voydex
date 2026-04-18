@@ -19,7 +19,7 @@ export const GameHeader = ({ game }: GameHeaderProps) => {
             alt={game.name}
             height={72}
             width={72}
-            className="rounded-lg"
+            className="h-auto w-auto rounded-lg"
           />
         </div>
       }

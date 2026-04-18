@@ -38,6 +38,7 @@ export interface ColorVariant {
   bg?: string;
   bgSolid?: string;
   border?: string;
+  borderSolid?: string;
   hover?: string;
 }
 

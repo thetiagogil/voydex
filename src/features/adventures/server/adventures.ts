@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getPokemonSpriteUrl } from "@/shared/utils";
 
 // =============================================================================
 // GET USER PLAYS (from views.play_summary)
@@ -23,6 +24,29 @@ export const getUserPlays = async () => {
 
   if (error) return { data: null, error };
   if (!data) return { data: [], error: null };
+
+  const playIds = data.map((play) => play.play_id);
+  let teamsByPlayId: Record<string, any[]> = {};
+
+  if (playIds.length > 0) {
+    const { data: teamData, error: teamError } = await supabase
+      .schema("views")
+      .from("play_team_detail")
+      .select("*")
+      .in("play_id", playIds)
+      .order("position", { ascending: true });
+
+    if (teamError) return { data: null, error: teamError };
+
+    teamsByPlayId = (teamData || []).reduce(
+      (acc: Record<string, any[]>, pokemon: any) => {
+        if (!acc[pokemon.play_id]) acc[pokemon.play_id] = [];
+        acc[pokemon.play_id].push(pokemon);
+        return acc;
+      },
+      {},
+    );
+  }
 
   const result = data.map((play) => ({
     id: play.play_id,
@@ -53,6 +77,22 @@ export const getUserPlays = async () => {
         name: play.region_name,
       },
     },
+    pokemonTeam: (teamsByPlayId[play.play_id] || []).map((pokemon) => ({
+      id: pokemon.team_pokemon_id,
+      nickname: pokemon.nickname,
+      level: pokemon.level,
+      speciesId: pokemon.species_id,
+      species: {
+        id: pokemon.species_id,
+        slug: pokemon.species_slug,
+        name: pokemon.species_name,
+      },
+      spriteUrl: pokemon.pokemondb_sprite_slug
+        ? getPokemonSpriteUrl(pokemon.is_shiny, pokemon.pokemondb_sprite_slug)
+        : null,
+      pokemonDbSpriteSlug: pokemon.pokemondb_sprite_slug,
+      isShiny: pokemon.is_shiny,
+    })),
   }));
 
   return { data: result, error: null };

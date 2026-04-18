@@ -31,7 +31,7 @@ export const GameCard = ({ game }: GameCardProps) => {
                 alt={game.name}
                 height={72}
                 width={72}
-                className="rounded-lg"
+                className="h-auto w-auto rounded-lg"
               />
             </div>
 

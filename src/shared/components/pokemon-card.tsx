@@ -1,9 +1,9 @@
 "use client";
 
-import { PokemonCardHover } from "@/features/play/components/pokemon-team/pokemon-card-hover";
 import { type PlayPokemon } from "@/features/play/types";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
+import { PokemonCardHover } from "@/shared/components/pokemon-card-hover";
 import { TypeDisplay } from "@/shared/components/type-display";
 import { HoverCard, HoverCardTrigger } from "@/shared/components/ui/hover-card";
 import type { BaseInfo } from "@/shared/types";

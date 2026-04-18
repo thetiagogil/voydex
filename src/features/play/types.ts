@@ -51,7 +51,12 @@ export interface PlayPokemon {
   species: BaseInfo;
   form: BaseInfo & { pokemonDbSpriteSlug: string | null };
   types: BaseInfo[];
-  nature: BaseInfo | null;
+  nature:
+    | (BaseInfo & {
+        increasedStat: string | null;
+        decreasedStat: string | null;
+      })
+    | null;
   ability: BaseInfo | null;
   moves: PlayPokemonMove[];
 }
@@ -59,6 +64,7 @@ export interface PlayPokemon {
 export interface PlayPokemonMove extends BaseInfo {
   type: BaseInfo | null;
   damageClass: "physical" | "special" | "status" | null;
+  pp: number | null;
 }
 
 // =============================================================================

@@ -1,13 +1,11 @@
 "use client";
 
-import { PokemonTeamAnalysisPanel } from "@/features/play/components/pokemon-team/pokemon-team-analysis-panel";
-import { PokemonTeamGameView } from "@/features/play/components/pokemon-team/pokemon-team-game-view";
-import { PokemonTeamModal } from "@/features/play/components/pokemon-team/pokemon-team-modal";
-import { PokemonTeamScopeTabs } from "@/features/play/components/pokemon-team/pokemon-team-scope-tabs";
+import { PokemonTeamAnalysisPanel } from "@/features/play/components/pokemon-team-page/pokemon-team-analysis-panel";
 import {
   PokemonTeamViewTabs,
   type PokemonTeamViewMode,
-} from "@/features/play/components/pokemon-team/pokemon-team-view-tabs";
+} from "@/features/play/components/pokemon-team-page/pokemon-team-view-tabs";
+import { PokemonTeamModal } from "@/features/play/components/shared/pokemon-team-modal";
 import type { Play, PlayPokemon } from "@/features/play/types";
 import {
   filterPokemonByScope,
@@ -18,7 +16,9 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Tabs } from "@/shared/components/ui/tabs";
 import { useEffect, useMemo, useState } from "react";
-import { PokemonTeamTable } from "./pokemon-team-table";
+import { PokemonTeamGameTab } from "./pokemon-team-game-tab";
+import { PokemonTeamScopeTabs } from "./pokemon-team-scope-tabs";
+import { PokemonTeamTableTab } from "./pokemon-team-table-tab";
 
 type PokemonTeamContentProps = {
   play: Play;
@@ -35,7 +35,9 @@ export const PokemonTeamContent = ({
 }: PokemonTeamContentProps) => {
   const [activeScope, setActiveScope] = useState<PokemonTeamScope>("team");
   const [viewMode, setViewMode] = useState<PokemonTeamViewMode>("party");
-  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(null);
+  const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
+    null,
+  );
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [addPosition, setAddPosition] = useState<number | null>(null);
   const [selectedPokemonId, setSelectedPokemonId] = useState<string | null>(
@@ -54,7 +56,10 @@ export const PokemonTeamContent = ({
       return;
     }
 
-    if (!selectedPokemonId || !displayPokemon.some((member) => member.id === selectedPokemonId)) {
+    if (
+      !selectedPokemonId ||
+      !displayPokemon.some((member) => member.id === selectedPokemonId)
+    ) {
       setSelectedPokemonId(displayPokemon[0].id);
     }
   }, [displayPokemon, selectedPokemonId]);
@@ -106,7 +111,9 @@ export const PokemonTeamContent = ({
             <div className="flex flex-wrap items-center justify-end gap-2">
               <Tabs
                 value={activeScope}
-                onValueChange={(value) => setActiveScope(value as PokemonTeamScope)}
+                onValueChange={(value) =>
+                  setActiveScope(value as PokemonTeamScope)
+                }
                 className="gap-0"
               >
                 <PokemonTeamScopeTabs
@@ -144,17 +151,18 @@ export const PokemonTeamContent = ({
         </div>
 
         {viewMode === "party" ? (
-          <PokemonTeamGameView
+          <PokemonTeamGameTab
             pokemon={displayPokemon}
-            slotCount={activeScope === "all" ? Math.max(6, displayPokemon.length) : 6}
-            slotOffset={activeScope === "box" ? 6 : 0}
+            slotCount={
+              activeScope === "all" ? Math.max(6, displayPokemon.length) : 6
+            }
             selectedPokemonId={selectedPokemonId}
             onSelect={setSelectedPokemonId}
             onEdit={handleEditClick}
             emptyMessage="No Pokemon in this group yet."
           />
         ) : (
-          <PokemonTeamTable
+          <PokemonTeamTableTab
             pokemon={displayPokemon}
             onEdit={handleEditClick}
             emptyMessage="No Pokemon in this group yet."

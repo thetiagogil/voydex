@@ -14,12 +14,7 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { getPokemonSpriteUrl } from "@/shared/utils";
-import {
-  ArrowDown,
-  ArrowUp,
-  ArrowUpDown,
-  Pencil,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Pencil } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { PlayPokemon } from "../../types";
@@ -28,7 +23,7 @@ import {
   getPlayPokemonPositionLabel,
 } from "../../utils/pokemon-team-display";
 
-type PokemonTeamTableProps = {
+type PokemonTeamTableTabProps = {
   pokemon: PlayPokemon[];
   onEdit: (pokemon: PlayPokemon) => void;
   emptyMessage?: string;
@@ -92,7 +87,10 @@ const comparePokemon = (
         (GENDER_ORDER[right.gender ?? "unknown"] ?? 99)
       );
     case "ability":
-      return compareStrings(left.ability?.name || "", right.ability?.name || "");
+      return compareStrings(
+        left.ability?.name || "",
+        right.ability?.name || "",
+      );
     case "nature":
       return compareStrings(left.nature?.name || "", right.nature?.name || "");
     default:
@@ -106,12 +104,14 @@ const SortHeader = ({
   activeColumn,
   direction,
   onSort,
+  align = "left",
 }: {
   column: SortColumn;
   label: string;
   activeColumn: SortColumn;
   direction: SortDirection;
   onSort: (column: SortColumn) => void;
+  align?: "left" | "center";
 }) => {
   const isActive = activeColumn === column;
   const icon = !isActive ? (
@@ -128,7 +128,10 @@ const SortHeader = ({
       variant="ghost"
       size="sm"
       onClick={() => onSort(column)}
-      className="text-foreground hover:text-foreground h-auto px-0 py-0 font-medium"
+      className={cn(
+        "text-foreground hover:text-foreground h-auto px-0 py-0 font-medium",
+        align === "center" && "mx-auto",
+      )}
     >
       <span>{label}</span>
       {icon}
@@ -136,11 +139,11 @@ const SortHeader = ({
   );
 };
 
-export const PokemonTeamTable = ({
+export const PokemonTeamTableTab = ({
   pokemon,
   onEdit,
   emptyMessage = "No Pokemon found",
-}: PokemonTeamTableProps) => {
+}: PokemonTeamTableTabProps) => {
   const [sortColumn, setSortColumn] = useState<SortColumn>("position");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
@@ -178,15 +181,11 @@ export const PokemonTeamTable = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[88px]">Sprite</TableHead>
+          <TableHead className="w-[88px] text-center">Sprite</TableHead>
           {SORTABLE_COLUMNS.map((column) => (
             <TableHead
               key={column.key}
-              className={cn(
-                column.key === "position" || column.key === "level" || column.key === "gender"
-                  ? "text-center"
-                  : undefined,
-              )}
+              className={cn(column.key !== "name" && "text-center")}
             >
               <SortHeader
                 column={column.key}
@@ -194,10 +193,11 @@ export const PokemonTeamTable = ({
                 activeColumn={sortColumn}
                 direction={sortDirection}
                 onSort={handleSort}
+                align={column.key !== "name" ? "center" : "left"}
               />
             </TableHead>
           ))}
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead className="text-center">Actions</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -207,13 +207,15 @@ export const PokemonTeamTable = ({
           const spriteUrl =
             getPokemonSpriteUrl(
               member.isShiny,
-              member.form?.pokemonDbSpriteSlug || member.form?.slug || "unknown",
+              member.form?.pokemonDbSpriteSlug ||
+                member.form?.slug ||
+                "unknown",
             ) || "";
 
           return (
-            <TableRow key={member.id}>
-              <TableCell>
-                <div className="bg-muted/20 flex h-14 w-14 items-center justify-center rounded-xl border border-white/5">
+            <TableRow key={member.id} className="hover:bg-transparent">
+              <TableCell className="text-center">
+                <div className="bg-muted/20 flex h-14 w-full items-center justify-center rounded-xl">
                   {spriteUrl ? (
                     <Image
                       src={spriteUrl}
@@ -223,7 +225,9 @@ export const PokemonTeamTable = ({
                       className="h-12 w-12 object-contain"
                     />
                   ) : (
-                    <span className="text-muted-foreground text-lg font-semibold">?</span>
+                    <span className="text-muted-foreground text-lg font-semibold">
+                      ?
+                    </span>
                   )}
                 </div>
               </TableCell>
@@ -234,20 +238,22 @@ export const PokemonTeamTable = ({
                     <span className="font-semibold">{displayName}</span>
                     {member.isShiny ? <Icon type="shiny" size={12} /> : null}
                   </div>
-                  <p className="text-muted-foreground mt-1 text-xs">
-                    {member.nickname ? member.species.name : member.form.name}
-                  </p>
+                  {member.nickname ? (
+                    <p className="text-muted-foreground mt-1 text-xs">
+                      {member.species.name}
+                    </p>
+                  ) : null}
                 </div>
               </TableCell>
 
               <TableCell className="text-center">
-                <Badge variant={member.position <= 6 ? "default" : "secondary"}>
+                <Badge variant="outline">
                   {getPlayPokemonPositionLabel(member.position)}
                 </Badge>
               </TableCell>
 
               <TableCell>
-                <div className="flex min-w-[120px] flex-wrap gap-1">
+                <div className="flex min-w-[120px] flex-wrap justify-center gap-1">
                   {member.types.map((type) => (
                     <TypeDisplay key={type.id} type={type.name} size="sm" />
                   ))}
@@ -271,24 +277,26 @@ export const PokemonTeamTable = ({
                       <span className="text-xs font-medium">Female</span>
                     </>
                   ) : (
-                    <span className="text-muted-foreground text-xs">Unknown</span>
+                    <span className="text-muted-foreground text-xs">
+                      Unknown
+                    </span>
                   )}
                 </div>
               </TableCell>
 
-              <TableCell>
+              <TableCell className="text-center">
                 <span className="text-muted-foreground text-sm">
                   {member.ability?.name || "Not set"}
                 </span>
               </TableCell>
 
-              <TableCell>
+              <TableCell className="text-center">
                 <span className="text-muted-foreground text-sm">
                   {member.nature?.name || "Not set"}
                 </span>
               </TableCell>
 
-              <TableCell className="text-right">
+              <TableCell className="text-center">
                 <Button
                   variant="ghost"
                   size="icon-sm"

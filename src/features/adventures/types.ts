@@ -21,6 +21,8 @@ export interface AdventuresPlayTeamMember {
   speciesId: number;
   species: BaseInfo | null;
   spriteUrl: string | null;
+  pokemonDbSpriteSlug?: string | null;
+  isShiny?: boolean;
 }
 
 export interface AdventuresPlayGame {

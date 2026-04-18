@@ -18,6 +18,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
+import { TYPE_COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import type { PokemonType } from "@/shared/constants/reference";
 import { useMemo } from "react";
 import type { PlayPokemon } from "../../types";
@@ -26,12 +27,16 @@ import {
   type PokemonTeamCoverageMove,
   type PokemonTeamCoverageStab,
 } from "../../utils/pokemon-team-analysis";
-import { getPlayPokemonDisplayName } from "../../utils/pokemon-team-display";
+import {
+  getPlayPokemonDisplayName,
+  getPlayPokemonTypeKeys,
+} from "../../utils/pokemon-team-display";
 import { getTypeEffectiveness } from "../../utils/type-effectiveness";
 
 type PokemonTeamAnalysisPanelProps = {
   pokemon: PlayPokemon[];
   generationId: number;
+  variant?: "full" | "summary";
 };
 
 const CountBadge = ({
@@ -51,8 +56,33 @@ const CountBadge = ({
           : "border-border bg-muted/20 text-foreground";
 
   return (
-    <Badge variant="outline" className={cn("min-w-9 justify-center", toneClassName)}>
+    <Badge
+      variant="outline"
+      className={cn("min-w-9 justify-center", toneClassName)}
+    >
       {value}
+    </Badge>
+  );
+};
+
+const PokemonSourceBadge = ({
+  pokemon,
+  count,
+}: {
+  pokemon: PlayPokemon;
+  count?: number;
+}) => {
+  const primaryType = getPlayPokemonTypeKeys(pokemon)[0] ?? "normal";
+  const colors = TYPE_COLOR_VARIANTS[primaryType];
+
+  return (
+    <Badge
+      variant="outline"
+      className={cn("gap-1.5", colors.bg, colors.border, colors.text)}
+    >
+      <TypeDisplay type={primaryType} iconOnly size="sm" />
+      <span>{getPlayPokemonDisplayName(pokemon)}</span>
+      {typeof count === "number" ? <span>({count})</span> : null}
     </Badge>
   );
 };
@@ -88,15 +118,38 @@ const renderMoveCoverageBadges = (
     return <span className="text-muted-foreground text-sm">{emptyMessage}</span>;
   }
 
+  const coverageByPokemon = new Map<
+    string,
+    { pokemon: PlayPokemon; count: number }
+  >();
+
+  for (const entry of coverage) {
+    const current = coverageByPokemon.get(entry.pokemon.id);
+
+    if (current) {
+      current.count += 1;
+      continue;
+    }
+
+    coverageByPokemon.set(entry.pokemon.id, {
+      pokemon: entry.pokemon,
+      count: 1,
+    });
+  }
+
+  const entries = Array.from(coverageByPokemon.values());
+
   return (
     <div className="flex flex-wrap gap-2">
-      {coverage.slice(0, 3).map((entry, index) => (
-        <Badge key={`${entry.pokemon.id}-${entry.moveName}-${index}`} variant="outline">
-          {entry.moveName} · {getPlayPokemonDisplayName(entry.pokemon)}
-        </Badge>
+      {entries.slice(0, 3).map((entry) => (
+        <PokemonSourceBadge
+          key={entry.pokemon.id}
+          pokemon={entry.pokemon}
+          count={entry.count}
+        />
       ))}
-      {coverage.length > 3 ? (
-        <Badge variant="secondary">+{coverage.length - 3} more</Badge>
+      {entries.length > 3 ? (
+        <Badge variant="secondary">+{entries.length - 3} more</Badge>
       ) : null}
     </div>
   );
@@ -112,11 +165,8 @@ const renderStabCoverageBadges = (
 
   return (
     <div className="flex flex-wrap gap-2">
-      {coverage.slice(0, 3).map((entry, index) => (
-        <Badge key={`${entry.pokemon.id}-${entry.type}-${index}`} variant="outline">
-          {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)} ·{" "}
-          {getPlayPokemonDisplayName(entry.pokemon)}
-        </Badge>
+      {coverage.slice(0, 3).map((entry) => (
+        <PokemonSourceBadge key={entry.pokemon.id} pokemon={entry.pokemon} />
       ))}
       {coverage.length > 3 ? (
         <Badge variant="secondary">+{coverage.length - 3} more</Badge>
@@ -135,10 +185,8 @@ const renderDefensiveExposure = (
 
   return (
     <div className="flex flex-wrap gap-2">
-      {pokemon.slice(0, 3).map(({ pokemon: member, multiplier }) => (
-        <Badge key={member.id} variant="outline">
-          {getPlayPokemonDisplayName(member)} · {multiplier}x
-        </Badge>
+      {pokemon.slice(0, 3).map(({ pokemon: member }) => (
+        <PokemonSourceBadge key={member.id} pokemon={member} />
       ))}
       {pokemon.length > 3 ? (
         <Badge variant="secondary">+{pokemon.length - 3} more</Badge>
@@ -174,18 +222,20 @@ const multiplierCellClassName = (multiplier: number) => {
 export const PokemonTeamAnalysisPanel = ({
   pokemon,
   generationId,
+  variant = "full",
 }: PokemonTeamAnalysisPanelProps) => {
   const analysis = useMemo(
     () => buildPokemonTeamAnalysis(pokemon, generationId),
     [generationId, pokemon],
   );
 
+  const isSummary = variant === "summary";
+
   if (pokemon.length === 0) {
     return (
       <div className="flex min-h-[560px] items-center justify-center p-6 text-center">
         <p className="text-muted-foreground max-w-md text-sm">
-          Add Pokemon to this view to see move coverage, defensive weaknesses,
-          and the type chart.
+          Add Pokemon to this view to see coverage and weaknesses.
         </p>
       </div>
     );
@@ -193,11 +243,11 @@ export const PokemonTeamAnalysisPanel = ({
 
   return (
     <Tabs defaultValue="overview" className="flex min-h-[560px] flex-col gap-0">
-      <div className="border-border border-b px-4 py-3 md:px-6">
+      <div className="border-border flex items-center justify-center border-b py-3">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="coverage">Coverage</TabsTrigger>
-          <TabsTrigger value="chart">Type Chart</TabsTrigger>
+          {!isSummary ? <TabsTrigger value="chart">Type Chart</TabsTrigger> : null}
         </TabsList>
       </div>
 
@@ -205,27 +255,7 @@ export const PokemonTeamAnalysisPanel = ({
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Card className="gap-2 p-4">
             <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
-              Pokemon in this view
-            </p>
-            <p className="text-2xl font-bold">{analysis.rosterCount}</p>
-            <p className="text-muted-foreground text-xs">
-              How many Pokemon are included in this analysis right now.
-            </p>
-          </Card>
-
-          <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
-              Pokemon types in this view
-            </p>
-            <p className="text-2xl font-bold">{analysis.uniqueTypes.length}</p>
-            <p className="text-muted-foreground text-xs">
-              Different Pokemon types used by the current Pokemon.
-            </p>
-          </Card>
-
-          <Card className="gap-2 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
-              Enemy types covered by moves
+              Types covered by selected moves
             </p>
             <p className="text-2xl font-bold">
               {analysis.availableTypes.length - analysis.offensiveGaps.length}
@@ -234,19 +264,43 @@ export const PokemonTeamAnalysisPanel = ({
               </span>
             </p>
             <p className="text-muted-foreground text-xs">
-              Defending types hit super effectively by at least one selected move.
+              Defending types hit super effectively by at least one selected
+              move.
             </p>
           </Card>
 
           <Card className="gap-2 p-4">
             <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
-              Enemy attack types to watch
+              Types covered by STAB
             </p>
             <p className="text-2xl font-bold">
-              {analysis.defensivePressureTypes.length}
+              {analysis.availableTypes.length - analysis.stabGaps.length}
+              <span className="text-muted-foreground ml-1 text-sm font-medium">
+                / {analysis.availableTypes.length}
+              </span>
             </p>
             <p className="text-muted-foreground text-xs">
-              Attack types that pressure more of your Pokemon than your team covers.
+              Defending types covered by a Pokemon using one of its own types.
+            </p>
+          </Card>
+
+          <Card className="gap-2 p-4">
+            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+              Missing from selected moves
+            </p>
+            <p className="text-2xl font-bold">{analysis.offensiveGaps.length}</p>
+            <p className="text-muted-foreground text-xs">
+              Defending types that no selected move currently covers.
+            </p>
+          </Card>
+
+          <Card className="gap-2 p-4">
+            <p className="text-muted-foreground text-xs uppercase tracking-[0.18em]">
+              Missing from STAB
+            </p>
+            <p className="text-2xl font-bold">{analysis.stabGaps.length}</p>
+            <p className="text-muted-foreground text-xs">
+              Defending types that none of your Pokemon cover with STAB.
             </p>
           </Card>
         </div>
@@ -254,68 +308,71 @@ export const PokemonTeamAnalysisPanel = ({
         <div className="grid gap-4 xl:grid-cols-2">
           <Card className="gap-4 p-4">
             <div>
-              <h3 className="font-semibold">Enemy types not covered by moves</h3>
+              <h3 className="font-semibold">Missing from selected moves</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                These defending types are not hit super effectively by any selected
-                move in this view.
+                These defending types are not hit super effectively by any move.
               </p>
             </div>
             {renderTypeBadges(
               analysis.offensiveGaps,
-              "Every defending type is covered by at least one selected move.",
+              "Every defending type is covered by at least one move.",
             )}
           </Card>
 
           <Card className="gap-4 p-4">
             <div>
-              <h3 className="font-semibold">Attack types that pressure this view</h3>
+              <h3 className="font-semibold">Missing from STAB</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                These attacking types hit more of your Pokemon than your team resists
-                or blocks.
+                These defending types are not covered by any same-type attack
+                source in your current Pokemon group.
               </p>
             </div>
             {renderTypeBadges(
-              analysis.defensivePressureTypes,
-              "No attack type currently stands out as a major pressure point.",
+              analysis.stabGaps,
+              "Your current Pokemon typings cover every defending type with STAB.",
             )}
           </Card>
 
-          <Card className="gap-4 p-4">
-            <div>
-              <h3 className="font-semibold">Pokemon types repeated in this view</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                Useful for spotting duplicated typing across the current group.
-              </p>
-            </div>
-            {analysis.duplicateTypes.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {analysis.duplicateTypes.map(({ type, count }) => (
-                  <Badge key={type} variant="outline" className="gap-2">
-                    <TypeDisplay type={type} size="sm" />
-                    <span>{count}</span>
-                  </Badge>
-                ))}
-              </div>
-            ) : (
-              <span className="text-muted-foreground text-sm">
-                No Pokemon type is repeated in this view.
-              </span>
-            )}
-          </Card>
+          {!isSummary ? (
+            <>
+              <Card className="gap-4 p-4">
+                <div>
+                  <h3 className="font-semibold">Repeated Pokemon types</h3>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    Useful for spotting duplicated typing in this view.
+                  </p>
+                </div>
+                {analysis.duplicateTypes.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {analysis.duplicateTypes.map(({ type, count }) => (
+                      <Badge key={type} variant="outline" className="gap-2">
+                        <TypeDisplay type={type} size="sm" />
+                        <span>{count}</span>
+                      </Badge>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground text-sm">
+                    No Pokemon type is repeated in this view.
+                  </span>
+                )}
+              </Card>
 
-          <Card className="gap-4 p-4">
-            <div>
-              <h3 className="font-semibold">Move types selected in this view</h3>
-              <p className="text-muted-foreground mt-1 text-sm">
-                These are the different move types currently set on this group.
-              </p>
-            </div>
-            {renderTypeBadges(
-              analysis.uniqueMoveTypes,
-              "No moves are set yet in this view.",
-              10,
-            )}
-          </Card>
+              <Card className="gap-4 p-4">
+                <div>
+                  <h3 className="font-semibold">Move types selected</h3>
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    These are the different move types currently set on this group.
+                  </p>
+                </div>
+                {renderTypeBadges(
+                  analysis.uniqueMoveTypes,
+                  "No moves are set yet in this view.",
+                  10,
+                )}
+              </Card>
+            </>
+          ) : null}
         </div>
       </TabsContent>
 
@@ -330,21 +387,21 @@ export const PokemonTeamAnalysisPanel = ({
 
           <TabsContent value="offense" className="m-0 flex-1 space-y-4 py-4">
             <div>
-              <h3 className="font-semibold">Offensive coverage by target type</h3>
+              <h3 className="font-semibold">Offensive coverage</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                Move count is the number of selected moves that hit that type super
-                effectively. STAB count is the number of same-type attack sources in
-                the team that do the same.
+                Move Count is how many selected moves hit that type
+                super effectively. STAB Count is how many Pokemon do the same
+                with one of their own types.
               </p>
             </div>
 
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Target Type</TableHead>
-                  <TableHead className="text-center">Move Count</TableHead>
-                  <TableHead className="text-center">STAB Count</TableHead>
-                  <TableHead>Moves</TableHead>
+                  <TableHead className="w-36">Target Type</TableHead>
+                  <TableHead className="w-24 text-center">Move Count</TableHead>
+                  <TableHead className="w-24 text-center">STAB Count</TableHead>
+                  <TableHead>Pokemon</TableHead>
                   <TableHead>STAB Sources</TableHead>
                 </TableRow>
               </TableHeader>
@@ -369,13 +426,13 @@ export const PokemonTeamAnalysisPanel = ({
                     <TableCell>
                       {renderMoveCoverageBadges(
                         row.moveCoverage,
-                        "No selected move currently covers this type.",
+                        "No Pokemon in this view covers this type with a move.",
                       )}
                     </TableCell>
                     <TableCell>
                       {renderStabCoverageBadges(
                         row.stabCoverage,
-                        "No STAB source currently covers this type.",
+                        "No Pokemon in this view covers this type with STAB.",
                       )}
                     </TableCell>
                   </TableRow>
@@ -386,20 +443,20 @@ export const PokemonTeamAnalysisPanel = ({
 
           <TabsContent value="defense" className="m-0 flex-1 space-y-4 py-4">
             <div>
-              <h3 className="font-semibold">Defensive coverage by incoming type</h3>
+              <h3 className="font-semibold">Defensive coverage</h3>
               <p className="text-muted-foreground mt-1 text-sm">
-                Weak, resist, and immune counts all use the same rules and the same
-                count styling so the comparison is easier to scan.
+                These counts show how many Pokemon are weak, resistant, or immune
+                to each incoming type.
               </p>
             </div>
 
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Incoming Type</TableHead>
-                  <TableHead className="text-center">Weak</TableHead>
-                  <TableHead className="text-center">Resist</TableHead>
-                  <TableHead className="text-center">Immune</TableHead>
+                  <TableHead className="w-36">Incoming Type</TableHead>
+                  <TableHead className="w-24 text-center">Weak</TableHead>
+                  <TableHead className="w-24 text-center">Resist</TableHead>
+                  <TableHead className="w-24 text-center">Immune</TableHead>
                   <TableHead>Most Exposed Pokemon</TableHead>
                 </TableRow>
               </TableHeader>
@@ -441,70 +498,72 @@ export const PokemonTeamAnalysisPanel = ({
         </Tabs>
       </TabsContent>
 
-      <TabsContent value="chart" className="m-0 flex-1 space-y-4 p-4 md:p-6">
-        <div>
-          <h3 className="font-semibold">Type effectiveness chart</h3>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Green means super effective, red means resisted, and gray means no
-            effect. This chart follows the current play generation.
-          </p>
-        </div>
+      {!isSummary ? (
+        <TabsContent value="chart" className="m-0 flex-1 space-y-4 p-4 md:p-6">
+          <div>
+            <h3 className="font-semibold">Type effectiveness chart</h3>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Green means super effective, red means resisted, and gray means no
+              effect. This chart follows the current play generation.
+            </p>
+          </div>
 
-        <Table className="min-w-[920px]">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-28">Atk \ Def</TableHead>
-              {analysis.availableTypes.map((defendingType) => (
-                <TableHead
-                  key={`defender-${defendingType}`}
-                  className="px-1 text-center"
-                >
-                  <div className="flex justify-center">
-                    <TypeDisplay type={defendingType} iconOnly size="sm" />
-                  </div>
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {analysis.availableTypes.map((attackingType) => (
-              <TableRow key={`chart-${attackingType}`}>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <TypeDisplay type={attackingType} iconOnly size="sm" />
-                    <span className="text-sm font-medium capitalize">
-                      {attackingType}
-                    </span>
-                  </div>
-                </TableCell>
-                {analysis.availableTypes.map((defendingType) => {
-                  const multiplier = getTypeEffectiveness(
-                    attackingType,
-                    defendingType,
-                    generationId,
-                  );
-
-                  return (
-                    <TableCell
-                      key={`${attackingType}-${defendingType}`}
-                      className="px-1 py-2"
-                    >
-                      <div
-                        className={cn(
-                          "rounded-md border px-2 py-1 text-center text-xs font-semibold",
-                          multiplierCellClassName(multiplier),
-                        )}
-                      >
-                        {multiplier}x
-                      </div>
-                    </TableCell>
-                  );
-                })}
+          <Table className="min-w-[1040px] table-fixed">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-28">Atk \ Def</TableHead>
+                {analysis.availableTypes.map((defendingType) => (
+                  <TableHead
+                    key={`defender-${defendingType}`}
+                    className="w-16 px-1 text-center"
+                  >
+                    <div className="flex justify-center">
+                      <TypeDisplay type={defendingType} iconOnly size="sm" />
+                    </div>
+                  </TableHead>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TabsContent>
+            </TableHeader>
+            <TableBody>
+              {analysis.availableTypes.map((attackingType) => (
+                <TableRow key={`chart-${attackingType}`}>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <TypeDisplay type={attackingType} iconOnly size="sm" />
+                      <span className="text-sm font-medium capitalize">
+                        {attackingType}
+                      </span>
+                    </div>
+                  </TableCell>
+                  {analysis.availableTypes.map((defendingType) => {
+                    const multiplier = getTypeEffectiveness(
+                      attackingType,
+                      defendingType,
+                      generationId,
+                    );
+
+                    return (
+                      <TableCell
+                        key={`${attackingType}-${defendingType}`}
+                        className="w-16 px-1 py-2"
+                      >
+                        <div
+                          className={cn(
+                            "rounded-md border px-2 py-1 text-center text-xs font-semibold",
+                            multiplierCellClassName(multiplier),
+                          )}
+                        >
+                          {multiplier}x
+                        </div>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
+      ) : null}
     </Tabs>
   );
 };

@@ -90,6 +90,7 @@ export const getGame = async (id: number | string) => {
           id: pokemon.team_pokemon_id,
           nickname: pokemon.nickname,
           level: pokemon.level,
+          isShiny: pokemon.is_shiny,
           speciesId: pokemon.species_id,
           species: {
             id: pokemon.species_id,
