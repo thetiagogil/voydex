@@ -4,8 +4,12 @@ import { PokemonTeamManagementScopeTabs } from "@/features/play/components/pokem
 import type { Play, PlayPokemon } from "@/features/play/types";
 import { Icon } from "@/shared/components/icon";
 import { PokemonCard } from "@/shared/components/pokemon-card";
+import {
+  SectionCard,
+  SectionCardContent,
+  SectionCardHeader,
+} from "@/shared/components/section-card";
 import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
 import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
 import { getPlaysPokemonTeamRoute } from "@/shared/constants/routes";
 import Link from "next/link";
@@ -62,12 +66,12 @@ export const PokemonTeamSection = ({
   };
 
   return (
-    <Card className="gap-0 p-0">
+    <SectionCard>
       <Tabs defaultValue="team">
-        <div className="border-border flex justify-between gap-2 border-b p-4 sm:items-center">
-          <div>
-            <h2 className="text-foreground text-xl font-bold">Pokemon</h2>
-            <p className="text-muted-foreground flex gap-1 text-xs">
+        <SectionCardHeader
+          title="Pokémon"
+          description={
+            <>
               <span>{teamPokemon.length}/6 team</span>
               <span>&middot;</span>
               <span>{boxPokemon.length} in box</span>
@@ -77,69 +81,75 @@ export const PokemonTeamSection = ({
                   <span>{shinyCount} shiny</span>
                 </>
               ) : null}
-            </p>
-          </div>
+            </>
+          }
+          descriptionClassName="flex flex-wrap gap-1"
+          actions={
+            <>
+              <PokemonTeamManagementScopeTabs
+                counts={{
+                  all: allPokemon.length,
+                  team: teamPokemon.length,
+                  box: boxPokemon.length,
+                }}
+                includeAll={false}
+              />
 
-          <div className="flex items-center gap-2">
-            <PokemonTeamManagementScopeTabs
-              counts={{
-                all: allPokemon.length,
-                team: teamPokemon.length,
-                box: boxPokemon.length,
-              }}
-              includeAll={false}
-            />
+              <Button variant="outline" asChild>
+                <Link href={getPlaysPokemonTeamRoute(play.id)}>
+                  <Icon type="details" />
+                  <span className="hidden sm:inline-block">Manage</span>
+                </Link>
+              </Button>
 
-            <Button variant="outline" asChild>
-              <Link href={getPlaysPokemonTeamRoute(play.id)}>
-                <Icon type="details" />
-                <span className="hidden sm:inline-block">Manage</span>
-              </Link>
-            </Button>
+              <Button
+                variant="outline"
+                onClick={handleAddClick}
+                disabled={isRosterFull}
+              >
+                <Icon type="add" />
+                <span className="hidden sm:inline-block">Add</span>
+              </Button>
+            </>
+          }
+        />
 
-            <Button
-              variant="outline"
-              onClick={handleAddClick}
-              disabled={isRosterFull}
-            >
-              <Icon type="add" />
-              <span className="hidden sm:inline-block">Add</span>
-            </Button>
-          </div>
-        </div>
-
-        <TabsContent value="team" className="p-4">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-            {teamSlots.map((pokemon, index) =>
-              pokemon ? (
-                <PokemonCard
-                  key={index}
-                  pokemon={pokemon}
-                  onClick={() => handleEditClick(pokemon)}
-                  hasCardHover
-                />
-              ) : (
-                <PokemonEmpty key={index} index={index} />
-              ),
-            )}
-          </div>
+        <TabsContent value="team" className="m-0">
+          <SectionCardContent>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+              {teamSlots.map((pokemon, index) =>
+                pokemon ? (
+                  <PokemonCard
+                    key={index}
+                    pokemon={pokemon}
+                    onClick={() => handleEditClick(pokemon)}
+                    hasCardHover
+                  />
+                ) : (
+                  <PokemonEmpty key={index} index={index} />
+                ),
+              )}
+            </div>
+          </SectionCardContent>
         </TabsContent>
 
-        <TabsContent value="box" className="p-4">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-            {boxSlots.map((pokemon, index) =>
-              pokemon ? (
-                <PokemonCard
-                  key={index}
-                  pokemon={pokemon}
-                  onClick={() => handleEditClick(pokemon)}
-                  hasCardHover
-                />
-              ) : (
-                <PokemonEmpty key={index} index={index} isBox />
-              ),
-            )}
-          </div>
+        <TabsContent value="box" className="m-0">
+          <SectionCardContent>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+              {boxSlots.map((pokemon, index) =>
+                pokemon ? (
+                  <PokemonCard
+                    key={index}
+                    pokemon={pokemon}
+                    onClick={() => handleEditClick(pokemon)}
+                    hasCardHover
+                  />
+                ) : (
+                  <PokemonEmpty key={index} index={index} isBox />
+                ),
+              )}
+            </div>
+          </SectionCardContent>
         </TabsContent>
       </Tabs>
 
@@ -152,6 +162,6 @@ export const PokemonTeamSection = ({
         team={allPokemon}
         onClose={handleCloseEdit}
       />
-    </Card>
+    </SectionCard>
   );
 };

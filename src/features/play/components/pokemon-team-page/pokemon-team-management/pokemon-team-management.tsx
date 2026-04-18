@@ -8,8 +8,11 @@ import {
   type PokemonTeamScope,
 } from "@/features/play/utils/pokemon-team-display";
 import { Icon } from "@/shared/components/icon";
+import {
+  SectionCard,
+  SectionCardHeader,
+} from "@/shared/components/section-card";
 import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
 import { Tabs } from "@/shared/components/ui/tabs";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -108,20 +111,12 @@ export const PokemonTeamManagement = ({
 
   return (
     <>
-      <Card className="gap-0 overflow-hidden p-0">
-        <div className="border-border flex flex-col gap-4 border-b p-4">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-            <div>
-              <h2 className="text-foreground text-xl font-bold">
-                Pokemon Team Management
-              </h2>
-              <p className="text-muted-foreground mt-1 text-sm">
-                Switch between party and table views while filtering your active
-                team, box, or full roster.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-end gap-2">
+      <SectionCard className="overflow-hidden">
+        <SectionCardHeader
+          title="Pokemon Team Management"
+          description="Switch between party and table views while filtering your active team, box, or full roster."
+          actions={
+            <>
               <Tabs
                 value={viewMode}
                 onValueChange={(value) =>
@@ -159,9 +154,9 @@ export const PokemonTeamManagement = ({
                 <Icon type="add" />
                 Add
               </Button>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {viewMode === "party" ? (
           <PokemonTeamPartyTab
@@ -182,23 +177,19 @@ export const PokemonTeamManagement = ({
             emptyMessage="No Pokemon in this group yet."
           />
         )}
-      </Card>
+      </SectionCard>
 
-      <Card className="gap-0 overflow-hidden p-0">
-        <div className="border-border flex flex-col gap-4 border-b p-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <h2 className="text-foreground text-xl font-bold">Team Analysis</h2>
-            <p className="text-muted-foreground mt-1 text-sm">
-              This section follows the current Pokemon Team Management filter.
-            </p>
-          </div>
-        </div>
+      <SectionCard className="overflow-hidden">
+        <SectionCardHeader
+          title="Team Analysis"
+          description="This section follows the current Pokemon Team Management filter."
+        />
 
         <PokemonTeamAnalysis
           pokemon={displayPokemon}
           generationId={play.game.generation.id}
         />
-      </Card>
+      </SectionCard>
 
       <PokemonTeamModal
         openDialog={openEditDialog}
