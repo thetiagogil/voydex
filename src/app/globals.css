@@ -1,94 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../lib/themes/palettes/blue.css";
 
-/* Default theme tokens */
-:root {
-  --background: oklch(0.965 0.004 90);
-  --foreground: oklch(0.24 0.01 85);
-  --card: oklch(0.99 0.002 90);
-  --card-foreground: oklch(0.24 0.01 85);
-  --popover: oklch(0.99 0.002 90);
-  --popover-foreground: oklch(0.24 0.01 85);
-  --primary: oklch(0.82 0.165 88);
-  --primary-foreground: oklch(0.24 0.01 80);
-  --secondary: oklch(0.95 0.005 90);
-  --secondary-foreground: oklch(0.32 0.01 80);
-  --muted: oklch(0.96 0.004 90);
-  --muted-foreground: oklch(0.54 0.01 80);
-  --accent: oklch(0.9 0.015 85);
-  --accent-foreground: oklch(0.28 0.012 80);
-  --destructive: oklch(0.6368 0.2078 25.3313);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.88 0.006 85);
-  --input: oklch(0.92 0.005 85);
-  --ring: oklch(0.82 0.165 88);
-  --chart-1: oklch(0.82 0.165 88);
-  --chart-2: oklch(0.68 0.145 36);
-  --chart-3: oklch(0.59 0.102 239);
-  --chart-4: oklch(0.61 0.132 149);
-  --chart-5: oklch(0.62 0.128 325);
-  --sidebar: oklch(0.95 0.004 90);
-  --sidebar-foreground: oklch(0.24 0.01 85);
-  --sidebar-primary: oklch(0.82 0.165 88);
-  --sidebar-primary-foreground: oklch(0.24 0.01 80);
-  --sidebar-accent: oklch(0.92 0.01 85);
-  --sidebar-accent-foreground: oklch(0.3 0.01 80);
-  --sidebar-border: oklch(0.89 0.006 85);
-  --sidebar-ring: oklch(0.82 0.165 88);
-  --font-sans: Inter, sans-serif;
-  --font-serif: Source Serif 4, serif;
-  --font-mono: JetBrains Mono, monospace;
-  --radius: 0.75rem;
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
-}
-
-.dark {
-  --background: oklch(0.16 0.006 85);
-  --foreground: oklch(0.95 0.008 90);
-  --card: oklch(0.2 0.008 85);
-  --card-foreground: oklch(0.95 0.008 90);
-  --popover: oklch(0.19 0.008 85);
-  --popover-foreground: oklch(0.95 0.008 90);
-  --primary: oklch(0.84 0.17 88);
-  --primary-foreground: oklch(0.18 0.006 80);
-  --secondary: oklch(0.25 0.009 85);
-  --secondary-foreground: oklch(0.93 0.007 90);
-  --muted: oklch(0.23 0.008 85);
-  --muted-foreground: oklch(0.69 0.01 85);
-  --accent: oklch(0.28 0.012 80);
-  --accent-foreground: oklch(0.95 0.008 90);
-  --destructive: oklch(0.6368 0.2078 25.3313);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.31 0.008 80);
-  --input: oklch(0.27 0.009 82);
-  --ring: oklch(0.84 0.17 88);
-  --chart-1: oklch(0.84 0.17 88);
-  --chart-2: oklch(0.74 0.15 36);
-  --chart-3: oklch(0.78 0.118 239);
-  --chart-4: oklch(0.8 0.142 149);
-  --chart-5: oklch(0.79 0.14 325);
-  --sidebar: oklch(0.18 0.007 85);
-  --sidebar-foreground: oklch(0.95 0.008 90);
-  --sidebar-primary: oklch(0.84 0.17 88);
-  --sidebar-primary-foreground: oklch(0.18 0.006 80);
-  --sidebar-accent: oklch(0.24 0.009 82);
-  --sidebar-accent-foreground: oklch(0.95 0.008 90);
-  --sidebar-border: oklch(0.29 0.008 82);
-  --sidebar-ring: oklch(0.84 0.17 88);
-  --font-sans: Inter, sans-serif;
-  --font-serif: Source Serif 4, serif;
-  --font-mono: JetBrains Mono, monospace;
-  --radius: 0.75rem;
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
-}
+/* Swap `amber.css` above for `red.css`, `green.css`, `blue.css`, or `purple.css`. */
+@custom-variant dark (&:is(.dark *));
 
 /* App semantic colors */
 :root {
   --app-success: oklch(0.57 0.13 149);
   --app-info: oklch(0.57 0.12 239);
-  --app-warning: oklch(0.64 0.14 91);
+  --app-warning: oklch(0.7 0.15 92);
   --app-rare: oklch(0.62 0.128 325);
   --app-legendary: oklch(0.67 0.14 56);
   --app-neutral-strong: oklch(0.46 0.008 85);
@@ -106,7 +27,7 @@
 .dark {
   --app-success: oklch(0.81 0.167 149);
   --app-info: oklch(0.78 0.133 239);
-  --app-warning: oklch(0.86 0.176 91);
+  --app-warning: oklch(0.84 0.17 92);
   --app-rare: oklch(0.79 0.153 325);
   --app-legendary: oklch(0.81 0.168 56);
   --app-neutral-strong: oklch(0.76 0.01 85);
@@ -119,49 +40,6 @@
   --app-milestone: oklch(0.83 0.176 63);
   --app-decision: oklch(0.76 0.159 302);
   --app-immune: oklch(0.84 0.089 228);
-}
-
-/* App shadows */
-:root {
-  --app-shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.04);
-  --app-shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.05);
-  --app-shadow-sm:
-    0px 1px 2px 0px hsl(0 0% 0% / 0.05), 0px 1px 1px -1px hsl(0 0% 0% / 0.05);
-  --app-shadow:
-    0px 2px 4px -2px hsl(0 0% 0% / 0.06), 0px 3px 8px -4px hsl(0 0% 0% / 0.06);
-  --app-shadow-md:
-    0px 4px 10px -4px hsl(0 0% 0% / 0.08),
-    0px 8px 18px -10px hsl(0 0% 0% / 0.08);
-  --app-shadow-lg:
-    0px 8px 16px -8px hsl(0 0% 0% / 0.1), 0px 14px 28px -16px hsl(0 0% 0% / 0.1);
-  --app-shadow-xl:
-    0px 12px 24px -12px hsl(0 0% 0% / 0.12),
-    0px 20px 40px -24px hsl(0 0% 0% / 0.12);
-  --app-shadow-2xl:
-    0px 16px 32px -16px hsl(0 0% 0% / 0.14),
-    0px 24px 48px -28px hsl(0 0% 0% / 0.14);
-}
-
-.dark {
-  --app-shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.24);
-  --app-shadow-xs: 0px 2px 4px -2px hsl(0 0% 0% / 0.28);
-  --app-shadow-sm:
-    0px 4px 10px -6px hsl(0 0% 0% / 0.35), 0px 2px 4px -3px hsl(0 0% 0% / 0.32);
-  --app-shadow:
-    0px 8px 18px -12px hsl(0 0% 0% / 0.38),
-    0px 4px 10px -8px hsl(0 0% 0% / 0.34);
-  --app-shadow-md:
-    0px 12px 24px -16px hsl(0 0% 0% / 0.42),
-    0px 6px 14px -10px hsl(0 0% 0% / 0.38);
-  --app-shadow-lg:
-    0px 16px 32px -18px hsl(0 0% 0% / 0.48),
-    0px 8px 18px -12px hsl(0 0% 0% / 0.42);
-  --app-shadow-xl:
-    0px 22px 42px -24px hsl(0 0% 0% / 0.52),
-    0px 10px 24px -16px hsl(0 0% 0% / 0.46);
-  --app-shadow-2xl:
-    0px 28px 56px -28px hsl(0 0% 0% / 0.58),
-    0px 14px 30px -20px hsl(0 0% 0% / 0.5);
 }
 
 /* Pokemon type colors */
@@ -244,14 +122,21 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --shadow-2xs: var(--app-shadow-2xs);
-  --shadow-xs: var(--app-shadow-xs);
-  --shadow-sm: var(--app-shadow-sm);
-  --shadow: var(--app-shadow);
-  --shadow-md: var(--app-shadow-md);
-  --shadow-lg: var(--app-shadow-lg);
-  --shadow-xl: var(--app-shadow-xl);
-  --shadow-2xl: var(--app-shadow-2xl);
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
 
   --color-type-normal: var(--type-normal);
   --color-type-fire: var(--type-fire);
@@ -274,6 +159,10 @@
 }
 
 @layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
   html {
     background: var(--background);
     color-scheme: light;
@@ -288,6 +177,7 @@
     position: relative;
     min-height: 100vh;
     isolation: isolate;
+    letter-spacing: var(--tracking-normal);
     background-image: linear-gradient(
       180deg,
       color-mix(in srgb, var(--background) 92%, black) 0%,
@@ -339,5 +229,5 @@
 }
 
 .box-shadow {
-  box-shadow: var(--app-shadow-md);
+  box-shadow: var(--shadow-md);
 }

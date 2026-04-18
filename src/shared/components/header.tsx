@@ -20,7 +20,7 @@ export const Header = ({
   actions,
 }: HeaderProps) => {
   return (
-    <Card className="min-h-[136px] justify-center p-6">
+    <Card className="min-h-[144px] justify-center p-6">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex flex-1 items-center gap-4">
           {/* Icon */}

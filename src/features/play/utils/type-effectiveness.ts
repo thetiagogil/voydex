@@ -192,7 +192,7 @@ export const getPokemonTypesForGeneration = (generationId: number) => {
   return [...POKEMON_TYPES];
 };
 
-export const getTypeEffectivenessMatrix = (generationId: number) => {
+const getTypeEffectivenessMatrix = (generationId: number) => {
   if (generationId <= 1) {
     return TYPE_MATRIX_GEN1;
   }
@@ -233,44 +233,4 @@ export const getDefensiveMultiplier = (
       getTypeEffectiveness(attackingType, defendingType, generationId),
     1,
   );
-};
-
-export const getEffectivenessLabel = (multiplier: number) => {
-  if (multiplier === 0) {
-    return "Immune";
-  }
-
-  if (multiplier >= 4) {
-    return "4x weak";
-  }
-
-  if (multiplier > 1) {
-    return "Weak";
-  }
-
-  if (multiplier <= 0.25) {
-    return "4x resist";
-  }
-
-  if (multiplier < 1) {
-    return "Resists";
-  }
-
-  return "Neutral";
-};
-
-export const getEffectivenessTone = (multiplier: number) => {
-  if (multiplier === 0) {
-    return "text-immune";
-  }
-
-  if (multiplier > 1) {
-    return "text-destructive";
-  }
-
-  if (multiplier < 1) {
-    return "text-success";
-  }
-
-  return "text-muted-foreground";
 };

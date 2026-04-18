@@ -1,10 +1,6 @@
 "use client";
 
-import { PokemonTeamAnalysisPanel } from "@/features/play/components/pokemon-team-page/pokemon-team-analysis-panel";
-import {
-  PokemonTeamViewTabs,
-  type PokemonTeamViewMode,
-} from "@/features/play/components/pokemon-team-page/pokemon-team-view-tabs";
+import { PokemonTeamAnalysis } from "@/features/play/components/pokemon-team-page/pokemon-team-analysis/pokemon-team-analysis";
 import { PokemonTeamModal } from "@/features/play/components/shared/pokemon-team-modal";
 import type { Play, PlayPokemon } from "@/features/play/types";
 import {
@@ -16,25 +12,42 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Tabs } from "@/shared/components/ui/tabs";
 import { useEffect, useMemo, useState } from "react";
-import { PokemonTeamGameTab } from "./pokemon-team-game-tab";
-import { PokemonTeamScopeTabs } from "./pokemon-team-scope-tabs";
+import {
+  PokemonTeamManagementScopeTabs,
+  PokemonTeamManagementViewTabs,
+  type PokemonTeamManagementViewMode,
+} from "./pokemon-team-management-tabs";
+import { PokemonTeamPartyTab } from "./pokemon-team-party-tab";
 import { PokemonTeamTableTab } from "./pokemon-team-table-tab";
 
-type PokemonTeamContentProps = {
+type PokemonTeamManagementProps = {
   play: Play;
   allPokemon: PlayPokemon[];
   teamPokemon: PlayPokemon[];
   boxPokemon: PlayPokemon[];
 };
 
-export const PokemonTeamContent = ({
+const getScopeTitle = (scope: PokemonTeamScope) => {
+  if (scope === "team") {
+    return "Team";
+  }
+
+  if (scope === "box") {
+    return "Box";
+  }
+
+  return "All Pokemon";
+};
+
+export const PokemonTeamManagement = ({
   play,
   allPokemon,
   teamPokemon,
   boxPokemon,
-}: PokemonTeamContentProps) => {
+}: PokemonTeamManagementProps) => {
   const [activeScope, setActiveScope] = useState<PokemonTeamScope>("team");
-  const [viewMode, setViewMode] = useState<PokemonTeamViewMode>("party");
+  const [viewMode, setViewMode] =
+    useState<PokemonTeamManagementViewMode>("party");
   const [editingPokemon, setEditingPokemon] = useState<PlayPokemon | null>(
     null,
   );
@@ -100,15 +113,25 @@ export const PokemonTeamContent = ({
           <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
             <div>
               <h2 className="text-foreground text-xl font-bold">
-                Pokemon Management
+                Pokemon Team Management
               </h2>
               <p className="text-muted-foreground mt-1 text-sm">
-                Review your roster in a game-style party view or switch to the
-                sortable management table.
+                Switch between party and table views while filtering your active
+                team, box, or full roster.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center justify-end gap-2">
+              <Tabs
+                value={viewMode}
+                onValueChange={(value) =>
+                  setViewMode(value as PokemonTeamManagementViewMode)
+                }
+                className="gap-0"
+              >
+                <PokemonTeamManagementViewTabs />
+              </Tabs>
+
               <Tabs
                 value={activeScope}
                 onValueChange={(value) =>
@@ -116,7 +139,7 @@ export const PokemonTeamContent = ({
                 }
                 className="gap-0"
               >
-                <PokemonTeamScopeTabs
+                <PokemonTeamManagementScopeTabs
                   counts={{
                     all: allPokemon.length,
                     team: teamPokemon.length,
@@ -125,18 +148,8 @@ export const PokemonTeamContent = ({
                 />
               </Tabs>
 
-              <Tabs
-                value={viewMode}
-                onValueChange={(value) =>
-                  setViewMode(value as PokemonTeamViewMode)
-                }
-                className="gap-0"
-              >
-                <PokemonTeamViewTabs />
-              </Tabs>
-
               <Button
-                size="sm"
+                variant="outline"
                 onClick={() => handleAddClick(activeScope !== "box")}
                 disabled={
                   isRosterFull ||
@@ -151,8 +164,9 @@ export const PokemonTeamContent = ({
         </div>
 
         {viewMode === "party" ? (
-          <PokemonTeamGameTab
+          <PokemonTeamPartyTab
             pokemon={displayPokemon}
+            scopeTitle={getScopeTitle(activeScope)}
             slotCount={
               activeScope === "all" ? Math.max(6, displayPokemon.length) : 6
             }
@@ -175,12 +189,12 @@ export const PokemonTeamContent = ({
           <div>
             <h2 className="text-foreground text-xl font-bold">Team Analysis</h2>
             <p className="text-muted-foreground mt-1 text-sm">
-              This section follows the current Pokemon Management filter.
+              This section follows the current Pokemon Team Management filter.
             </p>
           </div>
         </div>
 
-        <PokemonTeamAnalysisPanel
+        <PokemonTeamAnalysis
           pokemon={displayPokemon}
           generationId={play.game.generation.id}
         />

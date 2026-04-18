@@ -1,5 +1,10 @@
 "use client";
 
+import type { PlayPokemon } from "@/features/play/types";
+import {
+  getPlayPokemonDisplayName,
+  getPlayPokemonPositionLabel,
+} from "@/features/play/utils/pokemon-team-display";
 import { cn } from "@/lib/utils/cn";
 import { Icon } from "@/shared/components/icon";
 import { TypeDisplay } from "@/shared/components/type-display";
@@ -17,11 +22,6 @@ import { getPokemonSpriteUrl } from "@/shared/utils";
 import { ArrowDown, ArrowUp, ArrowUpDown, Pencil } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import type { PlayPokemon } from "../../types";
-import {
-  getPlayPokemonDisplayName,
-  getPlayPokemonPositionLabel,
-} from "../../utils/pokemon-team-display";
 
 type PokemonTeamTableTabProps = {
   pokemon: PlayPokemon[];

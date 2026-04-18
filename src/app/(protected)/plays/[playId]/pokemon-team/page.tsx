@@ -1,7 +1,7 @@
 "use client";
 
-import { PokemonTeamContent } from "@/features/play/components/pokemon-team-page/pokemon-team-content";
 import { PokemonTeamHeader } from "@/features/play/components/pokemon-team-page/pokemon-team-header";
+import { PokemonTeamManagement } from "@/features/play/components/pokemon-team-page/pokemon-team-management/pokemon-team-management";
 import { usePlay } from "@/features/play/hooks/usePlay";
 import { usePlayPokemonTeam } from "@/features/play/hooks/usePlayPokemonTeam";
 import type { PlayPokemon } from "@/features/play/types";
@@ -45,13 +45,13 @@ export default function PlayPokemonTeamPage({
 
   const allPokemon: PlayPokemon[] = pokemonTeamData || [];
   const teamPokemon = allPokemon
-    .filter((p) => p.position <= 6)
-    .sort((a, b) => a.position - b.position);
+    .filter((pokemon) => pokemon.position <= 6)
+    .sort((left, right) => left.position - right.position);
   const boxPokemon = allPokemon
-    .filter((p) => p.position > 6)
-    .sort((a, b) => a.position - b.position);
+    .filter((pokemon) => pokemon.position > 6)
+    .sort((left, right) => left.position - right.position);
 
-  const shinyCount = allPokemon.filter((p) => p.isShiny).length;
+  const shinyCount = allPokemon.filter((pokemon) => pokemon.isShiny).length;
   const backUrl = getPlaysRoute(playId);
 
   const breadcrumbs = buildPlayPokemonTeamBreadcrumbs(
@@ -70,7 +70,7 @@ export default function PlayPokemonTeamPage({
           boxCount={boxPokemon.length}
           shinyCount={shinyCount}
         />
-        <PokemonTeamContent
+        <PokemonTeamManagement
           play={play.data}
           allPokemon={allPokemon}
           teamPokemon={teamPokemon}

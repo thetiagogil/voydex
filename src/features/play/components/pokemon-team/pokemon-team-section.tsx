@@ -1,16 +1,12 @@
 "use client";
 
+import { PokemonTeamManagementScopeTabs } from "@/features/play/components/pokemon-team-page/pokemon-team-management/pokemon-team-management-tabs";
 import type { Play, PlayPokemon } from "@/features/play/types";
 import { Icon } from "@/shared/components/icon";
 import { PokemonCard } from "@/shared/components/pokemon-card";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
+import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
 import { getPlaysPokemonTeamRoute } from "@/shared/constants/routes";
 import Link from "next/link";
 import { useState } from "react";
@@ -73,11 +69,11 @@ export const PokemonTeamSection = ({
             <h2 className="text-foreground text-xl font-bold">Pokemon</h2>
             <p className="text-muted-foreground flex gap-1 text-xs">
               <span>{teamPokemon.length}/6 team</span>
-              <span>•</span>
+              <span>&middot;</span>
               <span>{boxPokemon.length} in box</span>
               {shinyCount > 0 ? (
                 <>
-                  <span>•</span>
+                  <span>&middot;</span>
                   <span>{shinyCount} shiny</span>
                 </>
               ) : null}
@@ -85,16 +81,14 @@ export const PokemonTeamSection = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <TabsList>
-              <TabsTrigger value="team">
-                <Icon type="user" />
-                <span className="hidden sm:inline-block">Team</span>
-              </TabsTrigger>
-              <TabsTrigger value="box">
-                <Icon type="box" />
-                <span className="hidden sm:inline-block">Box</span>
-              </TabsTrigger>
-            </TabsList>
+            <PokemonTeamManagementScopeTabs
+              counts={{
+                all: allPokemon.length,
+                team: teamPokemon.length,
+                box: boxPokemon.length,
+              }}
+              includeAll={false}
+            />
 
             <Button variant="outline" asChild>
               <Link href={getPlaysPokemonTeamRoute(play.id)}>

@@ -30,14 +30,6 @@ export const getPlayPokemonDisplayName = (pokemon: PlayPokemon) => {
   return pokemon.nickname || pokemon.species?.name || "Unknown";
 };
 
-export const getPlayPokemonSpeciesLabel = (pokemon: PlayPokemon) => {
-  if (!pokemon.nickname) {
-    return pokemon.form?.name || pokemon.species?.name || "Unknown";
-  }
-
-  return pokemon.form?.name || pokemon.species?.name || "Unknown";
-};
-
 export const getPlayPokemonPositionLabel = (position: number) => {
   return position <= 6 ? `Team #${position}` : `Box #${position - 6}`;
 };

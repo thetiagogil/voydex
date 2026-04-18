@@ -1,5 +1,12 @@
 "use client";
 
+import type { PlayPokemon } from "@/features/play/types";
+import {
+  buildPokemonSlots,
+  getPlayPokemonDisplayName,
+  getPlayPokemonPositionLabel,
+  getPlayPokemonTypeKeys,
+} from "@/features/play/utils/pokemon-team-display";
 import { cn } from "@/lib/utils/cn";
 import { Icon, type IconType } from "@/shared/components/icon";
 import { TypeDisplay } from "@/shared/components/type-display";
@@ -9,16 +16,10 @@ import { TYPE_COLOR_VARIANTS } from "@/shared/constants/color-variants";
 import { CARD_HOVER_EFFECT } from "@/shared/constants/styles";
 import { getPokemonSpriteUrl } from "@/shared/utils";
 import Image from "next/image";
-import type { PlayPokemon } from "../../types";
-import {
-  buildPokemonSlots,
-  getPlayPokemonDisplayName,
-  getPlayPokemonPositionLabel,
-  getPlayPokemonTypeKeys,
-} from "../../utils/pokemon-team-display";
 
-type PokemonTeamGameTabProps = {
+type PokemonTeamPartyTabProps = {
   pokemon: PlayPokemon[];
+  scopeTitle: string;
   slotCount?: number;
   selectedPokemonId: string | null;
   onSelect: (pokemonId: string) => void;
@@ -118,13 +119,15 @@ const InfoItem = ({
   );
 };
 
-export const PokemonTeamGameTab = ({
+export const PokemonTeamPartyTab = ({
   pokemon,
+  scopeTitle,
   slotCount = 6,
   selectedPokemonId,
   onSelect,
   onEdit,
-}: PokemonTeamGameTabProps) => {
+  emptyMessage = "No Pokemon available yet.",
+}: PokemonTeamPartyTabProps) => {
   const selectedPokemon =
     pokemon.find((member) => member.id === selectedPokemonId) ??
     pokemon[0] ??
@@ -148,7 +151,7 @@ export const PokemonTeamGameTab = ({
       <div className="border-border border-b lg:border-r lg:border-b-0">
         <div className="border-border flex items-center justify-between border-b px-4 py-3">
           <div>
-            <p className="text-sm font-semibold">Your Party</p>
+            <p className="text-sm font-semibold">{scopeTitle}</p>
             <p className="text-muted-foreground text-xs">
               Select a Pokemon to view its details.
             </p>
@@ -280,7 +283,6 @@ export const PokemonTeamGameTab = ({
                 {onEdit ? (
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => onEdit(selectedPokemon)}
                   >
                     <Icon type="edit" />
@@ -442,9 +444,7 @@ export const PokemonTeamGameTab = ({
               <h3 className="text-lg font-semibold">
                 No Pokemon available yet.
               </h3>
-              <p className="text-muted-foreground text-sm">
-                Add some Pokemon to your team to get started.
-              </p>
+              <p className="text-muted-foreground text-sm">{emptyMessage}</p>
             </div>
           </div>
         )}
