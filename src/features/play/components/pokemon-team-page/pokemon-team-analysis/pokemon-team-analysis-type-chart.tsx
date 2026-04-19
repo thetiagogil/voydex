@@ -36,7 +36,7 @@ export const PokemonTeamAnalysisTypeChart = ({
       <Table className="min-w-[1040px] table-fixed">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-28">Atk / Def</TableHead>
+            <TableHead className="w-28">Atk \ Def</TableHead>
             {analysis.availableTypes.map((defendingType) => (
               <TableHead
                 key={`defender-${defendingType}`}
