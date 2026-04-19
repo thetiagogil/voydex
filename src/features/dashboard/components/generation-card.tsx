@@ -44,15 +44,15 @@ export const GenerationCard = ({ generation }: GenerationCardProps) => {
                 </div>
               </div>
 
-              <div className="flex items-start">
-                {generation.userStats.totalPlays > 0 && (
-                  <div className="flex items-center gap-2">
-                    <StatusInfo
-                      status="total"
-                      value={generation.userStats.totalPlays}
-                      isBadge
-                    />
-                    <span className="hidden gap-2 sm:inline-flex">
+              <div className="flex items-center">
+                <div className="flex items-center gap-2">
+                  {generation.userStats.totalPlays > 0 && (
+                    <>
+                      <StatusInfo
+                        status="total"
+                        value={generation.userStats.totalPlays}
+                        isBadge
+                      />
                       <StatusInfo
                         status="active"
                         value={generation.userStats.activePlays}
@@ -63,14 +63,14 @@ export const GenerationCard = ({ generation }: GenerationCardProps) => {
                         value={generation.userStats.completedPlays}
                         isBadge
                       />
-                    </span>
+                    </>
+                  )}
 
-                    <Icon
-                      type="rightArrow"
-                      className="group-hover:text-primary"
-                    />
-                  </div>
-                )}
+                  <Icon
+                    type="rightArrow"
+                    className="group-hover:text-primary"
+                  />
+                </div>
               </div>
             </div>
           </div>
