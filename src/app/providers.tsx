@@ -3,7 +3,6 @@
 import { DatabaseStatusProvider } from "@/contexts/database-status.context";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import { useState, type ReactNode } from "react";
 
@@ -30,7 +29,6 @@ export const Providers = ({ children }: { children: ReactNode }) => {
         <DatabaseStatusProvider>{children}</DatabaseStatusProvider>
         <Toaster />
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
