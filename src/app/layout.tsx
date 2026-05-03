@@ -10,7 +10,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Poketracker",
+  title: "Voydex",
   description: "Pokemon Tracker App",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],

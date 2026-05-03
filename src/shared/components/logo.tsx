@@ -4,7 +4,7 @@ type LogoProps = {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
   showText?: boolean;
-}
+};
 
 export const Logo = ({
   className,
@@ -90,8 +90,8 @@ export const Logo = ({
       {/* App name */}
       {showText && (
         <span className={cn("font-bold tracking-tight", textSizeClasses[size])}>
-          <span className="text-primary">Poke</span>
-          <span className="text-foreground">tracker</span>
+          <span className="text-primary">Voy</span>
+          <span className="text-foreground">dex</span>
         </span>
       )}
     </div>

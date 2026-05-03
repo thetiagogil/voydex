@@ -49,8 +49,8 @@ export const Hero = () => {
               : "translate-y-0 opacity-100",
           )}
         >
-          <span className="text-primary">Poke</span>
-          <span className="text-foreground">tracker</span>
+          <span className="text-primary">Voy</span>
+          <span className="text-foreground">dex</span>
         </h1>
 
         {/* Subtitle */}

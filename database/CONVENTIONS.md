@@ -1,6 +1,6 @@
 # Database Conventions
 
-Conventions for the Poketracker database layer. All SQL files follow these rules.
+Conventions for the Voydex database layer. All SQL files follow these rules.
 
 ---
 
