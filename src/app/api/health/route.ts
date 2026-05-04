@@ -1,10 +1,10 @@
-import { ENV_VARS } from "@/lib/supabase/env";
+import { ENV_VARS, hasSupabaseClientEnv } from "@/lib/supabase/env";
 import { jsonResponse } from "@/lib/api/route";
 
 export async function GET() {
   const supabaseUrl = ENV_VARS.SUPABASE_URL;
 
-  if (!supabaseUrl) {
+  if (!hasSupabaseClientEnv) {
     return jsonResponse(
       { status: "unhealthy", reason: "missing_config" },
       { status: 503 },
