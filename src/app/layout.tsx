@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { type ReactNode } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -44,6 +45,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
