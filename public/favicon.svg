@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Voydex favicon concept">
-  <circle cx="32" cy="32" r="30" fill="#1a1d23"/>
-  <g id="mark" transform="translate(0 0)">
-    <g id="compass-points" transform="translate(0 0)">
-      <path d="M32 13l5 13H27zM51 32l-13 5V27zM32 51l-5-13h10zM13 32l13-5v10z" fill="#10b981"/>
-    </g>
-    <g id="center-dot" transform="translate(0 0)">
-      <path d="M32 29l3 3-3 3-3-3z" fill="#10b981"/>
-    </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Voydex compass favicon">
+  <rect width="64" height="64" rx="16" fill="#0f1f18"/>
+  <path d="M32 7l4 10h-8zM32 57l-4-10h8zM57 32l-10 4v-8zM7 32l10-4v8z" fill="#34d399"/>
+  <path d="M24 40l7-19 9-5-7 19z" fill="#f8fafc"/>
+  <path d="M40 24l-7 19-9 5 7-19z" fill="#10b981"/>
+  <circle cx="32" cy="32" r="4" fill="#0f1f18"/>
 </svg>
