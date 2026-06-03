@@ -10,6 +10,20 @@ A user-owned Pokemon playthrough/adventure.
 
 A play records the user's game, status, metadata, team, story progress, collectibles, Pokedex progress, selected optional content, and timeline.
 
+### Play Status
+
+The lifecycle state of a play.
+
+Statuses are `not_started`, `playing`, `paused`, `completed`, and `abandoned`.
+
+Archive is separate from play status so a play can keep its real lifecycle state while being hidden from primary lists.
+
+### Play Settings
+
+Play-specific choices for tracking and completion behavior.
+
+Examples include Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, mythical inclusion, and selected optional content such as DLC.
+
 ### Play Hub
 
 The central page for a play.
@@ -22,17 +36,23 @@ A user-owned team plan that can exist before a play.
 
 A plan usually targets final/evolved Pokemon and can later be linked to a play. Creating a play from a plan does not automatically fill the active team.
 
+Plans can include optional content scope, such as DLC availability, before a play exists.
+
 ### Planned Member
 
 One Pokemon target in a team plan.
 
 A planned member can be pending, linked, reached, or skipped.
 
+When a plan is linked to a play, the member status belongs to that play/plan relationship.
+
 ### Play Pokemon
 
 An individual Pokemon recorded in a user's play.
 
 This is not only a species reference. It can include personal fields such as nickname, level, nature, ability, moves, notes, met location, MVP flag, and lifecycle state.
+
+The current Play Pokemon row represents the current state. Recorded timeline references preserve event-time identities so past species/forms are not lost after evolution or form changes.
 
 ### Current Roster
 
@@ -45,6 +65,8 @@ The current roster is capped to prevent unbounded team growth. Retired or replac
 The user's Pokemon usage history across plays.
 
 Collection is derived from actual play Pokemon and meaningful recorded history, not only current team slots.
+
+Collection includes current Pokemon identity, recorded event-time identities, and relevant team snapshots.
 
 ### Pokedex
 
@@ -76,6 +98,8 @@ User-facing adventure history for a play.
 
 Timeline entries should represent meaningful events such as story milestones, team changes, evolutions, Hall of Fame/final team, and manual journal notes.
 
+Timeline entries can be ordered without exact timestamps, which is important for imported historical plays.
+
 ### Snapshot
 
 A historical copy of team or Pokemon state at a meaningful moment.
@@ -91,6 +115,26 @@ A special timeline event and team snapshot representing a completed run or final
 Structured or custom constraints attached to a play or plan.
 
 Examples include Nuzlocke, monotype, no repeated species, no repeated forms, shiny-only, and no legendaries.
+
+### Pokemon Reuse Policy
+
+The rule used to detect whether a Pokemon has already been used by the user.
+
+The policy applies both when planning teams and when adding Pokemon to an actual play team.
+
+Reuse scope is cascading and mutually exclusive:
+
+- `none`: do not warn, filter, or block reused Pokemon.
+- `form`: only the exact species/form counts as reused.
+- `species`: any form of the same species counts as reused.
+- `evolution_family`: any Pokemon in the same evolution family counts as reused.
+
+The scope should not be modeled as independent booleans. `evolution_family` is broader than `species`, and `species` is broader than `form`.
+
+Reuse checks should support:
+
+- Real usage warnings for the Pokemon being selected, added, replaced, or evolved now.
+- Preemptive warnings for planned targets, preferred starting Pokemon, and future evolution destinations.
 
 ### Tags
 

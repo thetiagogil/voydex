@@ -31,6 +31,44 @@ The Plays area should support:
 
 The user should not be forced through `Generations -> Games -> Plays` to create or continue a play.
 
+### Play Core
+
+A play is a concrete adventure record for one user and one mainline game.
+
+Play lifecycle statuses:
+
+- `not_started`: created as a future or imported play, but not actively underway.
+- `playing`: currently in progress.
+- `paused`: temporarily stopped.
+- `completed`: the user considers the main playthrough complete.
+- `abandoned`: stopped with no intent to continue.
+
+Archive should be separate from lifecycle status. A completed or abandoned play can be archived without changing what happened in the play.
+
+Plays should support:
+
+- User-owned name.
+- Game.
+- Lifecycle status.
+- Trainer name.
+- Platform or console.
+- Started date.
+- Completed date.
+- Playtime.
+- Notes and save notes.
+
+Play names should be required in stored data. If the user does not provide one, the app should generate a clear default name during create flow.
+
+Play-specific settings should control optional completion behavior:
+
+- Whether Pokedex tracking is enabled for the play.
+- Whether Pokedex progress counts toward completion.
+- Whether collectibles count toward completion.
+- Whether mythical Pokemon count toward Pokedex completion.
+- Which optional content scopes, such as DLC, are enabled for the play.
+
+Story progress is part of the base play. Completion percentages should be derived from play settings, selected optional content, and recorded progress instead of stored as source-of-truth values.
+
 ### Play Hub
 
 The Play Hub is the central workspace for a play.
@@ -52,7 +90,7 @@ The Play Hub should link to deeper play-specific routes instead of trying to exp
 
 Each play has a managed Pokemon roster.
 
-The current active/reserve roster should be capped to prevent unbounded team growth. The working product limit is 12 current Pokemon: active party plus reserves.
+The current active/reserve roster should be capped to prevent unbounded team growth. The working product limit is 6 active Pokemon plus 6 reserve Pokemon.
 
 The Team page should support:
 
@@ -61,8 +99,19 @@ The Team page should support:
 - Team strengths and weaknesses.
 - Pokemon lifecycle actions: add, evolve, retire, replace.
 - Correction-only edits versus in-game recorded changes.
+- Real-time Pokemon reuse validation when adding, replacing, or evolving a Pokemon.
 
-Retired/replaced Pokemon should be preserved as history when the user records the change as an in-game event, but they should not count toward the current 12-slot roster limit.
+Retired/replaced Pokemon should be preserved as history when the user records the change as an in-game event, but they should not count toward the current roster limit.
+
+Roster slots:
+
+- Active Pokemon use slots 1 to 6.
+- Reserve Pokemon use slots 1 to 6.
+- Retired and replaced Pokemon have no current roster slot.
+
+Recorded in-game team changes should create timeline events with enough Pokemon identity data to preserve usage history. For example, if Squirtle evolves into Wartortle and then Blastoise, Collection and reuse checks should still know that Squirtle, Wartortle, and Blastoise were used.
+
+Correction-only edits should update the current Pokemon record without creating timeline history.
 
 ### Story Progression
 
@@ -79,6 +128,10 @@ Important milestones can optionally support team snapshots:
 
 Snapshots must be optional. Users logging already-completed games should be able to bulk-complete milestones without being forced to attach snapshots.
 
+Story progress rows should track milestone completion. If a milestone has a player decision, such as a starter choice or fossil choice, the selected option should be stored separately from simple completion.
+
+Absence of a progress row should mean incomplete by default. The app should not need to pre-create every possible progress row for every play.
+
 ### Play Timeline And Journal
 
 The Play Timeline is a user-facing adventure history, not a technical audit log.
@@ -93,6 +146,20 @@ Timeline entries should focus on meaningful events:
 
 Normal Pokedex and collectible progress should not automatically create timeline noise.
 
+Timeline Pokemon references should snapshot the relevant species/form at the event time. They should not rely only on the current Pokemon row, because that row can later evolve, change form, retire, or be corrected.
+
+Timeline events can be created from:
+
+- User-written journal notes.
+- Recorded in-game team actions.
+- Important story milestone completions when the user chooses to record them.
+- Hall of Fame/final team moments.
+- Imported historical events for already-completed plays.
+
+Timeline ordering should support old imported plays where exact timestamps are unknown. The UI should be able to show manually ordered or milestone-ordered entries without forcing exact dates.
+
+Team snapshots are attached to timeline events. A snapshot should freeze the visible team state at that moment, including position, species/form, nickname, level, shiny state, gender, nature, ability, held item, moves, and notes.
+
 ### Pokedex Progress
 
 Pokedex progress is tracked per play.
@@ -104,13 +171,17 @@ Product rules:
 - Optional DLC Pokedex scopes are controlled by play settings.
 - Mythical inclusion is controlled by play settings.
 
-Pokedex progress is gameplay state joined with reference Pokedex definitions and entries.
+Pokedex progress is stored per play and species. Reference Pokedex definitions and entries decide which species count for each game/version group and optional DLC scope.
+
+Absence of a Pokedex progress row means the species is neither seen nor caught for that play.
 
 ### Collectibles
 
 Collectibles are game-specific checklist groups.
 
 They support manual collected/uncollected tracking. They should not automatically create timeline events by default.
+
+Absence of a collectible progress row should mean uncollected by default. Collectible completion is derived from selected game/optional-content scopes and play settings.
 
 ### Plans
 
@@ -120,6 +191,7 @@ Plans should support:
 
 - Planning a team before a play exists.
 - Planning target/final Pokemon.
+- Planning optional content scope such as DLC availability.
 - Optional preferred forms, roles, notes, abilities, natures, and moves.
 - Creating a play from a plan.
 - Keeping the plan as a persistent reference after a play is created.
@@ -134,6 +206,14 @@ Plan member statuses:
 - `skipped`: user decided not to use the planned member.
 
 When adding a planned target to a play, the app should suggest the earliest or first obtainable evolution-stage Pokemon when possible.
+
+Plans should show preemptive Pokemon reuse warnings. If a planned target, preferred starting Pokemon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokemon.
+
+Plan member slots should support a core team plus alternates/reserves. Core planned Pokemon use slots 1 to 6. Alternate/reserve planned Pokemon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
+
+When a plan is linked to a play, member status is tracked for that play/plan relationship. A plan can remain reusable for another play.
+
+A play can link multiple plans. One linked plan can be marked primary so the UI can stay focused while still supporting variants.
 
 ### Pokedex Search
 
@@ -162,7 +242,7 @@ Pokemon detail pages can show:
 
 Collection is the user's used Pokemon history across plays.
 
-It is derived from actual play Pokemon and meaningful play history, not only from current active team slots.
+It is derived from actual play Pokemon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 
 It should support filters by:
 
@@ -177,6 +257,8 @@ It should support filters by:
 
 Collection also supports users who want to avoid reusing a species or form across playthroughs.
 
+Collection should expose used-before identity at form, species, and evolution-family levels so it can power both browsing filters and reuse warnings.
+
 ### Stats
 
 Stats are derived from user data.
@@ -190,6 +272,8 @@ Stats may include:
 - Challenge/rule stats.
 - Pokedex and collectible completion.
 - Team composition trends.
+
+Stats should remain read-model/query output. User-facing stats should not become manually maintained source-of-truth tables unless a later performance need requires cached aggregates.
 
 ### Browse
 
@@ -210,7 +294,7 @@ Settings should include:
 - Preferences.
 - Account.
 
-Preferences should support product defaults such as DLC behavior, mythical inclusion, completion defaults, and planning rules.
+Preferences should support global user behavior such as Pokemon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex, and mythical inclusion are decided per play.
 
 ## Personalization Features
 
@@ -235,11 +319,16 @@ Examples:
 - Monotype.
 - No repeated species.
 - No repeated forms.
+- No repeated evolution families.
 - Shiny-only.
 - No legendary Pokemon.
 - Custom rules.
 
-Rules should be modeled flexibly. The app should support predefined rules and user-authored custom rules.
+Rules should be modeled flexibly. The app should support predefined rules and user-authored custom rules. Pokemon reuse rules apply both when planning teams and when adding Pokemon to a play team.
+
+Pokemon reuse checks should support both real usage warnings and preemptive warnings. Real usage warnings validate the Pokemon being selected now. Preemptive warnings validate planned targets and future evolution destinations so the user is not surprised later in a play.
+
+Predefined rules should be structured where they affect app behavior. User-authored descriptive rules should also be supported for personal challenges that the app cannot validate yet.
 
 ### Tags
 
@@ -262,6 +351,8 @@ Users should be able to track game-level intent:
 - Skipped.
 
 This is separate from a play. A user may want to play a game before creating a concrete playthrough.
+
+Creating or completing a play can suggest updates to backlog/wishlist status, but the game intent row remains independent user intent rather than a strict mirror of play status.
 
 ### Pokemon Biography
 
