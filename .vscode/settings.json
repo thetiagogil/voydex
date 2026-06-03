@@ -1,22 +1,9 @@
 {
+  "css.customData": [".vscode/tailwind-v4.css-data.json"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always",
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "css.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore",
-  "scss.lint.unknownAtRules": "ignore",
-  "[sql]": {
-    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
-  },
-  "Prettier-SQL.keywordCase": "preserve",
-  "Prettier-SQL.linesBetweenQueries": 1,
-  "Prettier-SQL.expressionWidth": 300,
-  "Prettier-SQL.denseOperators": false,
-  "Prettier-SQL.commaPosition": "after"
+  }
 }

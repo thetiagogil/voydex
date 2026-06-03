@@ -1,0 +1,41 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4 theme token directive."
+    },
+    {
+      "name": "@source",
+      "description": "Tailwind CSS v4 source detection directive."
+    },
+    {
+      "name": "@utility",
+      "description": "Tailwind CSS v4 custom utility directive."
+    },
+    {
+      "name": "@variant",
+      "description": "Tailwind CSS variant directive."
+    },
+    {
+      "name": "@custom-variant",
+      "description": "Tailwind CSS custom variant directive."
+    },
+    {
+      "name": "@reference",
+      "description": "Tailwind CSS v4 reference directive."
+    },
+    {
+      "name": "@plugin",
+      "description": "Tailwind CSS plugin directive."
+    },
+    {
+      "name": "@config",
+      "description": "Tailwind CSS config directive."
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS apply directive."
+    }
+  ]
+}
