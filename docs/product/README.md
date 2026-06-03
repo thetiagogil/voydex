@@ -9,6 +9,8 @@ The current root app is the active implementation. The old prototype is preserve
 - [Feature Contract](./feature-contract.md)
 - [Navigation And Routes](./navigation-and-routes.md)
 - [Data Ownership](./data-ownership.md)
+- [Glossary](./glossary.md)
+- [Decision Log](./decision-log.md)
 - [Backlog](./backlog.md)
 
 ## Product Summary
