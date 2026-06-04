@@ -367,6 +367,21 @@ Play Pokemon should support optional personal biography fields:
 
 These fields enrich Collection and timeline features.
 
+### Pokemon-Relevant Items
+
+Voydex should not become an item encyclopedia.
+
+The item catalog should only include items that are held by Pokemon or are essential to Pokemon biography/mechanics:
+
+- Poke Balls for caught-ball history.
+- Held items for team display and planning.
+- Evolution items where they explain evolution history or availability.
+- Fossils where they explain Pokemon origin/availability.
+- Form-change items where they affect selectable/displayed Pokemon forms.
+- Berries, Mega Stones, and Z-Crystals as held item subgroups.
+
+General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items should stay out unless a future feature needs them.
+
 ## Current Backlog Features
 
 These are accepted product directions but not immediate build targets:

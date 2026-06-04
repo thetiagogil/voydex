@@ -10,7 +10,7 @@ The app should store user intent and meaningful user state. It should derive sum
 
 | Feature                          | Source of truth                                               |
 | -------------------------------- | ------------------------------------------------------------- |
-| User profile                     | `public` profile/user tables                                  |
+| User profile                     | `public.profiles`                                             |
 | Static Pokemon/game data         | `reference` schema                                            |
 | Story/collectible definitions    | `tracking` schema                                             |
 | Plays                            | `gameplay.plays`                                              |

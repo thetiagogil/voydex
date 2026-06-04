@@ -175,6 +175,14 @@ Pokemon availability answers how a Pokemon can be obtained or used in a game/con
 
 Availability methods should be curated carefully as stable lookup data because they power Pokedex search, team planning, DLC behavior, and preemptive warnings.
 
+### Item Catalog Is Pokemon-Relevant Only
+
+Voydex should not include a full item encyclopedia.
+
+The reference item catalog should include only Pokemon-held items or items essential to Pokemon biography/mechanics, such as Poke Balls, held items, evolution items, fossils, form-change items, berries, Mega Stones, and Z-Crystals.
+
+General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items are out of scope unless a future feature requires them.
+
 ### UUID Strategy Depends On New Project Postgres Version
 
 For a new Supabase project, use native UUIDv7 defaults if the project is on Postgres 18 or newer.
