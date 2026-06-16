@@ -1,7 +1,10 @@
-# Ignore artifacts:
-build
-coverage
-.next
-out
 node_modules
+dist
+build
+.next
+coverage
+.turbo
+.vercel
+package-lock.json
+src/types/database.types.ts
 legacy
