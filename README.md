@@ -8,8 +8,10 @@ This repository now contains the clean active Next.js app. The previous prototyp
 
 - Clean Next.js app with TypeScript and Tailwind CSS.
 - Prettier is configured.
+- Supabase SSR foundation is configured for typed server, browser, and proxy clients.
+- Generated Voydex database types are committed in `src/types/database.types.ts`.
 - Legacy prototype is isolated in `legacy/`.
-- Product and database design are being reworked before rebuilding the app features.
+- Product and database design docs are available in `docs/product`.
 
 ## Development
 
@@ -21,3 +23,5 @@ npm run dev
 npm run lint
 npm run build
 ```
+
+Create `.env.local` from `.env.example` before running authenticated routes.
