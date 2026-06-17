@@ -54,20 +54,20 @@ export default function IntroPage() {
             href="/"
             className={cn(buttonVariants({ variant: "outline" }), "bg-card")}
           >
-            <ArrowLeftIcon data-icon="inline-start" />
+            <ArrowLeftIcon className="size-4" aria-hidden />
             Home
           </Link>
         </header>
 
-        <section className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-[1fr_0.92fr] lg:py-20">
+        <section className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-2 lg:py-20">
           <div>
-            <p className="text-primary text-sm font-semibold tracking-[0.18em] uppercase">
+            <p className="text-primary text-sm font-semibold tracking-widest uppercase">
               Adventure companion
             </p>
-            <h1 className="mt-4 max-w-3xl text-4xl leading-tight font-bold tracking-tight text-balance text-zinc-950 sm:text-5xl dark:text-zinc-50">
+            <h1 className="text-foreground mt-4 max-w-3xl text-4xl leading-tight font-bold tracking-tight text-balance sm:text-5xl">
               A central record for every Pokemon playthrough.
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-600 sm:text-lg dark:text-zinc-300">
+            <p className="text-muted-foreground mt-5 max-w-2xl text-base leading-7 sm:text-lg">
               Voydex is being built as the place to track plays, teams, story
               progress, collectibles, Pokedex completion, and future team plans
               without reopening every console.
@@ -78,7 +78,7 @@ export default function IntroPage() {
                 className={cn(buttonVariants({ size: "lg" }), "h-11")}
               >
                 Enter App
-                <ArrowRightIcon data-icon="inline-end" />
+                <ArrowRightIcon className="size-4" aria-hidden />
               </Link>
             </div>
           </div>

@@ -3,16 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { mainNavItems } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
-
-export const navItems = [{ href: "/dashboard", label: "Dashboard" }];
 
 export function MainNav() {
   const pathname = usePathname();
 
   return (
     <nav className="flex items-center gap-1">
-      {navItems.map((item) => {
+      {mainNavItems.map((item) => {
         const isActive =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
 

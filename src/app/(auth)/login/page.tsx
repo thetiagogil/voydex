@@ -34,7 +34,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             "bg-card/88 w-fit backdrop-blur-md",
           )}
         >
-          <ArrowLeftIcon data-icon="inline-start" />
+          <ArrowLeftIcon className="size-4" aria-hidden />
           Back to home
         </Link>
         <DatabaseHealthBanner />

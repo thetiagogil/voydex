@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Logo } from "@/components/app/logo";
-import { navItems } from "@/components/app/main-nav";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { mainNavItems } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 
 export function MobileNav() {
@@ -23,7 +23,7 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger render={<Button variant="ghost" size="icon" />}>
-        <MenuIcon aria-hidden />
+        <MenuIcon className="size-5" aria-hidden />
         <span className="sr-only">Open navigation</span>
       </SheetTrigger>
       <SheetContent side="left" className="w-80">
@@ -34,7 +34,7 @@ export function MobileNav() {
           <SheetDescription>Voydex navigation</SheetDescription>
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4">
-          {navItems.map((item) => {
+          {mainNavItems.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
 

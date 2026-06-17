@@ -228,3 +228,15 @@
     background-clip: padding-box;
   }
 }
+
+@layer utilities {
+  .app-background-fade {
+    background: linear-gradient(
+      90deg,
+      var(--background) 0%,
+      transparent 18%,
+      transparent 82%,
+      var(--background) 100%
+    );
+  }
+}

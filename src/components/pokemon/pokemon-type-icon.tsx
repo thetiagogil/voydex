@@ -1,31 +1,8 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
+import type { PokemonTypeSlug } from "@/constants/pokemon";
 import { cn } from "@/lib/utils";
-
-export const pokemonTypeSlugs = [
-  "normal",
-  "fire",
-  "water",
-  "electric",
-  "grass",
-  "ice",
-  "fighting",
-  "poison",
-  "ground",
-  "flying",
-  "psychic",
-  "bug",
-  "rock",
-  "ghost",
-  "dragon",
-  "dark",
-  "steel",
-  "fairy",
-] as const;
-
-export type PokemonTypeSlug = (typeof pokemonTypeSlugs)[number];
 
 type PokemonTypeIconProps = {
   className?: string;
@@ -55,18 +32,7 @@ export function PokemonTypeBadge({
   type,
 }: PokemonTypeBadgeProps) {
   return (
-    <Badge
-      variant="secondary"
-      className={cn(
-        "text-foreground border-[color-mix(in_oklch,var(--type-color),transparent_58%)] bg-[color-mix(in_oklch,var(--type-color),transparent_86%)]",
-        className,
-      )}
-      style={
-        {
-          "--type-color": `var(--type-${type})`,
-        } as CSSProperties
-      }
-    >
+    <Badge variant="secondary" className={cn("capitalize", className)}>
       <PokemonTypeIcon type={type} />
       {label ?? type}
     </Badge>

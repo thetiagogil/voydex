@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -34,14 +35,17 @@ export function UserMenu({ email }: UserMenuProps) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <form action={signOut}>
           <DropdownMenuItem
             variant="destructive"
+            nativeButton
             render={<button type="submit" className="w-full" />}
           >
-            <LogOutIcon />
+            <LogOutIcon className="size-4" />
             Sign out
           </DropdownMenuItem>
         </form>

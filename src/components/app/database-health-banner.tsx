@@ -42,13 +42,17 @@ export function DatabaseHealthBanner() {
 
   return (
     <Alert variant="destructive">
-      <WifiOffIcon />
-      <AlertTitle>Database unavailable</AlertTitle>
-      <AlertDescription>
-        Voydex cannot reach Supabase right now. Read-only screens may still
-        render, but sign-in and saved changes can fail until the connection
-        recovers.
-      </AlertDescription>
+      <div className="flex gap-3">
+        <WifiOffIcon className="mt-0.5 size-4 shrink-0" aria-hidden />
+        <div>
+          <AlertTitle>Database unavailable</AlertTitle>
+          <AlertDescription>
+            Voydex cannot reach Supabase right now. Read-only screens may still
+            render, but sign-in and saved changes can fail until the connection
+            recovers.
+          </AlertDescription>
+        </div>
+      </div>
     </Alert>
   );
 }

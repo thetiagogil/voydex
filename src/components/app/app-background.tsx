@@ -14,7 +14,7 @@ export function AppBackground({ variant = "app" }: AppBackgroundProps) {
       aria-hidden
       className={cn(
         "pointer-events-none fixed inset-0 z-0",
-        isHome ? "bg-[#bdebf5]" : null,
+        isHome ? "bg-secondary" : null,
       )}
     >
       <Image
@@ -28,12 +28,10 @@ export function AppBackground({ variant = "app" }: AppBackgroundProps) {
           "object-cover",
           isHome
             ? "object-center opacity-100"
-            : "opacity-8 contrast-105 saturate-[0.82] dark:opacity-10",
+            : "opacity-10 contrast-105 saturate-75 dark:opacity-10",
         )}
       />
-      {isHome ? null : (
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,color-mix(in_oklch,var(--background),transparent_10%)_18%,color-mix(in_oklch,var(--background),transparent_8%)_82%,var(--background)_100%)]" />
-      )}
+      {isHome ? null : <div className="app-background-fade absolute inset-0" />}
     </div>
   );
 }

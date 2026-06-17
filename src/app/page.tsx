@@ -25,10 +25,10 @@ const homeActions = [
 
 export default function Home() {
   return (
-    <main className="relative isolate min-h-screen overflow-hidden text-[#064e5a]">
+    <main className="text-foreground relative isolate min-h-screen overflow-hidden">
       <AppBackground variant="home" />
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-400 flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <section className="flex flex-1 items-start justify-center pt-[12vh] pb-14 text-center sm:pt-[13vh] lg:pt-[14vh] xl:pt-[15vh]">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
+        <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-28 lg:pt-32">
           <div className="flex w-full max-w-5xl flex-col items-center">
             <h1 className="sr-only">Voydex</h1>
 
@@ -39,7 +39,7 @@ export default function Home() {
               height={1026}
               priority
               unoptimized
-              className="h-auto w-[clamp(5.5rem,10vw,8.75rem)]"
+              className="h-auto w-24 sm:w-32 lg:w-36"
             />
             <Image
               src="/brand/voydex-title.png"
@@ -48,7 +48,7 @@ export default function Home() {
               height={1203}
               priority
               unoptimized
-              className="-mt-4 h-auto w-[min(80vw,43rem)] sm:-mt-8"
+              className="-mt-4 h-auto w-full max-w-2xl sm:-mt-8"
             />
 
             <div className="mt-7 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
@@ -66,15 +66,15 @@ export default function Home() {
                         variant: isPrimary ? "default" : "outline",
                         size: "lg",
                       }),
-                      "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-[0_10px_24px_rgba(5,70,79,0.14)] backdrop-blur-md transition-transform hover:-translate-y-0.5 active:translate-y-0 sm:min-w-48 [&_svg:not([class*='size-'])]:size-6",
-                      isPrimary
-                        ? "border-transparent bg-[#006b77] text-white hover:bg-[#005f6a] hover:text-white"
-                        : "border-[#064e5a]/24 bg-white/88 text-[#064e5a] hover:bg-white hover:text-[#064e5a]",
+                      "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-lg backdrop-blur-md sm:min-w-48",
+                      !isPrimary && "bg-card/90",
                     )}
                   >
-                    <Icon data-icon="inline-start" />
+                    <Icon className="size-5" aria-hidden />
                     {action.label}
-                    {EndIcon ? <EndIcon data-icon="inline-end" /> : null}
+                    {EndIcon ? (
+                      <EndIcon className="size-5" aria-hidden />
+                    ) : null}
                   </Link>
                 );
               })}
