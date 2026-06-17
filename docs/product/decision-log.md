@@ -1,6 +1,6 @@
 # Decision Log
 
-This log captures accepted product decisions before database schema design starts.
+This log captures accepted product and app-contract decisions for the clean Voydex rebuild.
 
 ## Accepted Decisions
 
@@ -9,6 +9,24 @@ This log captures accepted product decisions before database schema design start
 Voydex is a Pokemon companion for tracking, remembering, and planning playthroughs.
 
 It should not become only a generic Pokemon wiki. Reference search exists to support play tracking, planning, and user history.
+
+### App Modules
+
+Voydex is organized by product modules, not by forcing every Pokemon game family into one play model.
+
+Accepted module names:
+
+- `core`
+- `dungeon`
+- `pokopia`
+- `go`
+- `home`
+- `ranger`
+- `sleep`
+
+The active module is `core`. It covers mainline-style Pokemon RPG playthrough companion behavior, including core RPG and Legends-style entries where team, story, Pokedex, collectibles, and planning apply.
+
+Future modules can share profile, shell, reference, and design foundations, but they should get module-specific tables and flows when their mechanics differ.
 
 ### Primary Navigation
 
@@ -47,7 +65,7 @@ Play statuses are:
 
 Archive is separate from play lifecycle status.
 
-Play-specific completion settings belong to the play, not global preferences. Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, mythical inclusion, and optional content such as DLC are selected per play.
+Play-specific completion settings belong to the play, not global preferences. Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, optional Pokedex-scope inclusion, optional Pokedex-entry inclusion, and optional content such as DLC are selected per play.
 
 Completion values are derived from settings and progress rows, not stored as source-of-truth percentages.
 
@@ -125,13 +143,26 @@ Play Pokedex completion should match common online Pokedex completion behavior a
 
 Form-level dex completion is not part of the current product contract.
 
-Gameplay Pokedex progress should be stored per play and species. Reference Pokedex entries decide which species count for each game, version group, and optional DLC scope.
+Gameplay Pokedex progress should be stored per play and species. Reference Pokedex entries decide which species count for each game/content scope, including optional DLC, National, and special Pokedex scopes.
+
+### Optional Pokedexes Are Supported
+
+Regional Pokedexes are the baseline tracking scope.
+
+National and special post-game Pokedexes are supported optional scopes. They are trackable/browsable when seeded and count toward completion only when the play enables optional Pokedex scopes.
+
+Optional Pokedex scopes and optional Pokedex entries are separate settings:
+
+- Optional scopes decide whether whole National/special Pokedexes count.
+- Optional entries decide whether source-visible but optional species inside an included Pokedex count.
 
 ### DLC Is Optional Completion
 
 DLC is modeled as optional content per play.
 
 Not every user owns or wants to include DLC for a game.
+
+DLC/reference rows should be modeled as cumulative content-scope deltas where practical. Base scopes seed base facts; child scopes seed additions, source-backed overrides, or source-backed removals.
 
 ### Collection Is Derived
 
@@ -175,6 +206,8 @@ Pokemon availability answers how a Pokemon can be obtained or used in a game/con
 
 Availability methods should be curated carefully as stable lookup data because they power Pokedex search, team planning, DLC behavior, and preemptive warnings.
 
+Curated source logic should favor historically accurate sources such as Bulbapedia, Serebii, and PokemonDB over treating PokeAPI as the curated source of truth. PokeAPI can still be useful for automated checks and consistency detection.
+
 ### Item Catalog Is Pokemon-Relevant Only
 
 Voydex should not include a full item encyclopedia.
@@ -182,6 +215,18 @@ Voydex should not include a full item encyclopedia.
 The reference item catalog should include only Pokemon-held items or items essential to Pokemon biography/mechanics, such as Poke Balls, held items, evolution items, fossils, form-change items, berries, Mega Stones, and Z-Crystals.
 
 General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items are out of scope unless a future feature requires them.
+
+Source names or external source labels should stay in comments/docs, not stored as product database values.
+
+### Green Is Out Of Scope For Now
+
+Pokemon Red/Blue are the initial Generation I paired-game scope. Pokemon Green is not included for now because the app is targeting the localized/core playthrough scope first, and Green would need careful source handling for differences and naming.
+
+### Local Supabase Is A Verification Gate
+
+The primary audit target is the schema/seed files, but local Supabase is useful as an execution/load verification gate.
+
+App work should treat `00-databases/projects/voydex` as the database source of truth and consume generated types from that project.
 
 ### UUID Strategy Depends On New Project Postgres Version
 
@@ -197,12 +242,18 @@ These are accepted future directions but not immediate implementation targets:
 - Progression-aware planning.
 - Achievements.
 
-## Schema Decisions
+## Database Decisions
 
-The database design decisions for moves, tags, preferences, backlog/wishlist, rules, item scope, availability depth, snapshots, IDs, and roster limits are resolved in:
+The database design decisions for moves, tags, preferences, backlog/wishlist, rules, item scope, availability depth, snapshots, IDs, roster limits, app modules, tracking, gameplay, planning, and views are resolved in:
 
 ```txt
 00-databases/projects/voydex/docs/schema-design-decisions.md
 ```
 
-Those decisions should be reviewed before clean SQL files are written.
+The app-facing database handoff lives in:
+
+```txt
+00-databases/projects/voydex/docs/app-handoff.md
+```
+
+This app should use those docs and `src/types/database.types.ts` as the implementation contract.

@@ -8,6 +8,8 @@ Voydex should have independent top-level workspaces and dependent context routes
 
 The app should not force a single linear flow. `Generations -> Games -> Plays` remains a browse path, but the user can create and reach plays directly.
 
+This document describes the target navigation contract. The current app has placeholder protected pages for the top-level workspaces while the data-backed feature screens are being built.
+
 ## Main Navbar
 
 Primary links:
@@ -24,6 +26,8 @@ Primary links:
 
 - Generations
 - Games
+
+Current implementation note: Generations and Games may temporarily appear as direct navbar links until the final Browse dropdown is implemented.
 
 ## Profile Menu
 
@@ -187,3 +191,4 @@ Pokedex -> Pokemon Detail -> Add To Plan
 - Browse routes should provide context and discovery, not be required funnels.
 - Plan routes should not be nested under plays because plans can exist before plays.
 - Collection and Stats should be derived from user data rather than manually maintained.
+- Future app modules may introduce their own module-specific route trees, but the `core` module routes above are the first build target.

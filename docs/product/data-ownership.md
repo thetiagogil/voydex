@@ -13,17 +13,17 @@ The app should store user intent and meaningful user state. It should derive sum
 | User profile                     | `public.profiles`                                             |
 | Static Pokemon/game data         | `reference` schema                                            |
 | Story/collectible definitions    | `tracking` schema                                             |
-| Plays                            | `gameplay.plays`                                              |
-| Play metadata/settings           | `gameplay` play-owned tables or columns                       |
+| Plays                            | `gameplay.core_plays`                                         |
+| Play metadata/settings           | `gameplay.core_play_settings` and play-owned columns/tables   |
 | Current play roster              | User-owned play Pokemon rows with active/reserve state        |
 | Retired/replaced Pokemon history | Play Pokemon lifecycle state plus play events                 |
 | Play Pokedex progress            | Gameplay species progress joined to reference Pokedex entries |
 | Play collectibles                | Gameplay collectible progress joined to tracking definitions  |
 | Story progress                   | Gameplay tracking progress joined to tracking definitions     |
-| Timeline/journal                 | Gameplay play events and snapshots                            |
-| Team snapshots                   | Gameplay event snapshot tables                                |
-| Team plans                       | `planning` schema                                             |
-| Plan-to-play links               | Planning/gameplay bridge tables                               |
+| Timeline/journal                 | `gameplay.core_play_events` and snapshot tables               |
+| Team snapshots                   | `gameplay.core_play_event_team_snapshots`                     |
+| Team plans                       | `planning.core_team_plans`                                    |
+| Plan-to-play links               | `planning.core_play_plan_links` and member links              |
 | Tags                             | User-owned tag tables and join tables                         |
 | Backlog/wishlist                 | User-owned game intent tables                                 |
 | Preferences                      | User-owned preference tables                                  |
@@ -47,7 +47,7 @@ Some derived values may be cached later for performance, but caching should not 
 
 ## Plays
 
-`play` is the central gameplay entity.
+`core_play` is the central gameplay entity for the active `core` module.
 
 A play owns:
 
@@ -123,14 +123,18 @@ Collection should not have a primary mutable table. It should be a read model ov
 Completion percentage is derived from:
 
 - Play settings.
-- Selected optional version groups.
+- Selected optional content scopes.
 - Story progress.
 - Collectibles.
 - Pokedex progress.
 
-Completion rules should be explicit and testable. Optional DLC and mythical inclusion must be controlled by play settings.
+Completion rules should be explicit and testable. Optional content, optional Pokedex scopes, and optional Pokedex entries must be controlled by play settings.
 
 Progress tables should generally be sparse. Missing story, collectible, or Pokedex progress rows represent default incomplete/uncollected/unseen state unless a table explicitly documents otherwise.
+
+## Module Scope
+
+These ownership rules describe the active `core` module. Future modules may reuse shared reference/profile concepts, but they should not be forced into `core_plays`, `core_team_plans`, or core story progress if their product behavior differs.
 
 ## Audit And History
 

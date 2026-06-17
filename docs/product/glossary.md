@@ -4,6 +4,18 @@ This glossary standardizes product language for the Voydex rebuild.
 
 ## Core Terms
 
+### App Module
+
+A product behavior family under the Voydex umbrella.
+
+Current modules are `core`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; modules describe product behavior.
+
+### Core Module
+
+The active Voydex module for mainline-style Pokemon RPG playthroughs.
+
+Core includes the play/team/story/Pokedex/planning companion experience. Database tables with `core_` prefixes belong to this module.
+
 ### Play
 
 A user-owned Pokemon playthrough/adventure.
@@ -22,7 +34,7 @@ Archive is separate from play status so a play can keep its real lifecycle state
 
 Play-specific choices for tracking and completion behavior.
 
-Examples include Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, mythical inclusion, and selected optional content such as DLC.
+Examples include Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, optional Pokedex scopes, optional Pokedex entries, and selected optional content such as DLC.
 
 ### Play Hub
 
@@ -74,6 +86,8 @@ The global reference/search/planning surface.
 
 The Pokedex helps users search Pokemon by generation, game, availability, type, and used-before state.
 
+Global Pokedex search is not the same as Play Pokedex Progress. It is a reference and planning surface.
+
 ### Play Pokedex Progress
 
 The user's seen/caught progress for a specific play.
@@ -85,6 +99,12 @@ Completion is species-level.
 Game/version-group-specific milestones that represent progress through a play.
 
 Important story milestones can optionally support team snapshots.
+
+### Core Milestone
+
+The database term for a core-module story/progression step.
+
+The UI can call these Story Steps. Badges are represented as story milestones when that is how they occur in the game.
 
 ### Collectibles
 
@@ -180,7 +200,15 @@ DLC is modeled as an optional child version group of a base game version group.
 
 ### Optional Version Group
 
-An optional content scope selected per play, usually DLC.
+Legacy wording for optional content scope, usually DLC.
+
+Prefer "optional content scope" in product/app docs because the app-facing concept is content inclusion, not the database implementation detail.
+
+### Optional Content Scope
+
+An optional game content scope selected per play or plan, usually DLC.
+
+Optional content controls which story steps, collectibles, Pokedexes, availability, moves, items, and completion rules should apply.
 
 ### Availability
 

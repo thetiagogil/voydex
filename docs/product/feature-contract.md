@@ -2,6 +2,12 @@
 
 This document defines the agreed feature set for the Voydex rebuild.
 
+## Product Scope
+
+The active build target is the `core` app module: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
+
+Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `core` play/team/story model. They can share account, reference, style, and high-level shell concepts while using module-specific data models where needed.
+
 ## Primary App Areas
 
 ### Dashboard
@@ -33,7 +39,7 @@ The user should not be forced through `Generations -> Games -> Plays` to create 
 
 ### Play Core
 
-A play is a concrete adventure record for one user and one mainline game.
+A play is a concrete adventure record for one user and one `core` module game.
 
 Play lifecycle statuses:
 
@@ -64,7 +70,8 @@ Play-specific settings should control optional completion behavior:
 - Whether Pokedex tracking is enabled for the play.
 - Whether Pokedex progress counts toward completion.
 - Whether collectibles count toward completion.
-- Whether mythical Pokemon count toward Pokedex completion.
+- Whether optional Pokedex entries count toward completion.
+- Whether optional Pokedex scopes such as National or special Pokedexes count toward completion.
 - Which optional content scopes, such as DLC, are enabled for the play.
 
 Story progress is part of the base play. Completion percentages should be derived from play settings, selected optional content, and recorded progress instead of stored as source-of-truth values.
@@ -169,9 +176,10 @@ Product rules:
 - Completion is species-level.
 - Seen/caught states are supported.
 - Optional DLC Pokedex scopes are controlled by play settings.
-- Mythical inclusion is controlled by play settings.
+- Optional Pokedex scopes are controlled by play settings.
+- Optional Pokedex entries are controlled by play settings.
 
-Pokedex progress is stored per play and species. Reference Pokedex definitions and entries decide which species count for each game/version group and optional DLC scope.
+Pokedex progress is stored per play and species. Reference Pokedex definitions and entries decide which species count for each game/content scope, including optional DLC, National, and special Pokedex scopes.
 
 Absence of a Pokedex progress row means the species is neither seen nor caught for that play.
 
@@ -294,7 +302,7 @@ Settings should include:
 - Preferences.
 - Account.
 
-Preferences should support global user behavior such as Pokemon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex, and mythical inclusion are decided per play.
+Preferences should support global user behavior such as Pokemon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex tracking, optional Pokedex scopes, and optional Pokedex entries are decided per play.
 
 ## Personalization Features
 
