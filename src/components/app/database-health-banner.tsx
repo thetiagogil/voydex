@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { WifiOffIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type HealthState = "unknown" | "healthy" | "unhealthy";
+
+type DatabaseHealthBannerProps = {
+  className?: string;
+};
 
 const HEALTH_INTERVAL_MS = 60_000;
 
@@ -14,7 +18,7 @@ async function checkHealth() {
   return response.ok;
 }
 
-export function DatabaseHealthBanner() {
+export function DatabaseHealthBanner({ className }: DatabaseHealthBannerProps) {
   const [state, setState] = useState<HealthState>("unknown");
 
   useEffect(() => {
@@ -41,15 +45,14 @@ export function DatabaseHealthBanner() {
   if (state !== "unhealthy") return null;
 
   return (
-    <Alert variant="destructive">
+    <Alert variant="destructive" className={className}>
       <div className="flex gap-3">
         <WifiOffIcon className="mt-0.5 size-4 shrink-0" aria-hidden />
         <div>
           <AlertTitle>Database unavailable</AlertTitle>
           <AlertDescription>
-            Voydex cannot reach Supabase right now. Read-only screens may still
-            render, but sign-in and saved changes can fail until the connection
-            recovers.
+            The database is currently unavailable. Some features may not work as
+            expected.
           </AlertDescription>
         </div>
       </div>

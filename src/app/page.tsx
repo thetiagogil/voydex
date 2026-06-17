@@ -78,7 +78,7 @@ export default function Home() {
         </section>
 
         <div className="pb-6">
-          <DatabaseHealthBanner />
+          <DatabaseHealthBanner className="mx-auto max-w-3xl" />
         </div>
       </div>
     </main>

@@ -28,10 +28,9 @@ export function AppBackground({ variant = "app" }: AppBackgroundProps) {
           "object-cover",
           isHome
             ? "object-center opacity-100"
-            : "opacity-10 contrast-105 saturate-75 dark:opacity-10",
+            : "opacity-20 contrast-105 saturate-75 dark:opacity-20",
         )}
       />
-      {isHome ? null : <div className="app-background-fade absolute inset-0" />}
     </div>
   );
 }
