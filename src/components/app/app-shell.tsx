@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { AppBackground } from "@/components/app/app-background";
-import { DatabaseHealthBanner } from "@/components/app/database-health-banner";
 import { Logo } from "@/components/app/logo";
 import { MainNav } from "@/components/app/main-nav";
 import { MobileNav } from "@/components/app/mobile-nav";
@@ -37,7 +36,6 @@ export function AppShell({ children, userEmail }: AppShellProps) {
         </div>
       </header>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-        <DatabaseHealthBanner />
         {children}
       </main>
     </div>

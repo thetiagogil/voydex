@@ -1,9 +1,7 @@
 import { BackpackIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 
-import { AppBackground } from "@/components/app/app-background";
 import { BrandImage } from "@/components/app/brand-image";
-import { DatabaseHealthBanner } from "@/components/app/database-health-banner";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -24,9 +22,8 @@ const homeActions = [
 
 export default function Home() {
   return (
-    <main className="text-foreground relative isolate min-h-screen overflow-hidden">
-      <AppBackground variant="home" />
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
+    <main className="text-foreground min-h-screen">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
         <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-28 lg:pt-32">
           <div className="flex w-full max-w-5xl flex-col items-center">
             <h1 className="sr-only">Voydex</h1>
@@ -84,10 +81,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        <div className="pb-6">
-          <DatabaseHealthBanner className="mx-auto max-w-3xl" />
-        </div>
       </div>
     </main>
   );

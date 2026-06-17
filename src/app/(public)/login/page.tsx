@@ -1,8 +1,6 @@
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
-import { AppBackground } from "@/components/app/app-background";
-import { DatabaseHealthBanner } from "@/components/app/database-health-banner";
 import { buttonVariants } from "@/components/ui/button";
 import {
   AuthPanel,
@@ -24,9 +22,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
 
   return (
-    <main className="relative isolate flex min-h-screen items-center justify-center px-4 py-12">
-      <AppBackground variant="home" />
-      <div className="relative z-10 flex w-full max-w-md flex-col gap-5">
+    <main className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="flex w-full max-w-md flex-col gap-5">
         <Link
           href="/"
           className={cn(
@@ -37,7 +34,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <ArrowLeftIcon className="size-4" aria-hidden />
           Back to home
         </Link>
-        <DatabaseHealthBanner />
         <AuthPanel error={params?.error} mode={mode} next={next} />
       </div>
     </main>

@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 
+import {
+  DatabaseHealthProvider,
+  DatabaseHealthStatus,
+} from "@/components/app/database-health-status";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +24,11 @@ export default function RootLayout({
         className="flex min-h-full flex-col antialiased"
         suppressHydrationWarning
       >
-        {children}
+        <DatabaseHealthProvider />
+        <TooltipProvider>
+          {children}
+          <DatabaseHealthStatus />
+        </TooltipProvider>
       </body>
     </html>
   );

@@ -52,7 +52,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 
   return (
-    <Card className="border-border/50 bg-card/42 shadow-primary/10 overflow-hidden shadow-xl backdrop-blur-xl">
+    <Card className="bg-card/30 shadow-primary/10 overflow-hidden border-0 shadow-xl backdrop-blur-xl">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
