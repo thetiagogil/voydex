@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { getSupabasePublicConfig } from "@/lib/env";
+import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import type { Database } from "@/types/database.types";
 
 const protectedRoutePrefixes = [
@@ -21,7 +22,16 @@ function isProtectedRoute(pathname: string) {
 }
 
 export async function updateSession(request: NextRequest) {
+  if (request.nextUrl.pathname === "/api/health") {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
+
+  if (!isProtectedRoute(request.nextUrl.pathname)) {
+    return response;
+  }
+
   const { key, url } = getSupabasePublicConfig();
 
   const supabase = createServerClient<Database>(url, key, {
@@ -47,22 +57,16 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const claimsResult = await getClaimsWithTimeout(supabase);
+  const isAuthenticated = claimsResult
+    ? !claimsResult.error && Boolean(claimsResult.data?.claims?.sub)
+    : false;
 
-  if (!user && isProtectedRoute(request.nextUrl.pathname)) {
+  if (!isAuthenticated && isProtectedRoute(request.nextUrl.pathname)) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     loginUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
-  }
-
-  if (user && request.nextUrl.pathname === "/login") {
-    const dashboardUrl = request.nextUrl.clone();
-    dashboardUrl.pathname = "/dashboard";
-    dashboardUrl.search = "";
-    return NextResponse.redirect(dashboardUrl);
   }
 
   return response;

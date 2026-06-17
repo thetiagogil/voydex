@@ -1,3 +1,18 @@
+import { AppBackground } from "@/components/app/app-background";
+import { DatabaseHealthBanner } from "@/components/app/database-health-banner";
+import { Logo } from "@/components/app/logo";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   signInWithPassword,
   signUpWithPassword,
@@ -15,72 +30,63 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const next = params?.next ?? "/dashboard";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-4 py-12 text-zinc-50">
-      <div className="w-full max-w-md">
-        <div className="mb-8">
-          <p className="text-sm font-medium text-emerald-300">Voydex</p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-            Sign in to your Pokemon companion.
-          </h1>
-        </div>
+    <main className="relative isolate flex min-h-screen items-center justify-center px-4 py-12">
+      <AppBackground variant="hero" />
+      <div className="relative z-10 flex w-full max-w-md flex-col gap-5">
+        <Logo />
+        <DatabaseHealthBanner />
+        <Card className="bg-card/85 shadow-sm backdrop-blur-md">
+          <CardHeader>
+            <CardTitle>Sign in to Voydex</CardTitle>
+            <CardDescription>
+              Access your playthroughs, teams, plans, and Pokemon archive.
+            </CardDescription>
+          </CardHeader>
+          <form>
+            <CardContent className="flex flex-col gap-4">
+              <input type="hidden" name="next" value={next} />
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  minLength={6}
+                />
+              </div>
 
-        <form className="space-y-4 rounded-lg border border-zinc-800 bg-zinc-900 p-6">
-          <input type="hidden" name="next" value={next} />
-          <div>
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-zinc-200"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="mt-2 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 transition-colors outline-none focus:border-emerald-400"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-zinc-200"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              minLength={6}
-              className="mt-2 w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 transition-colors outline-none focus:border-emerald-400"
-            />
-          </div>
-
-          {params?.error ? (
-            <p className="rounded-md border border-red-900 bg-red-950 px-3 py-2 text-sm text-red-100">
-              {params.error}
-            </p>
-          ) : null}
-
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <button
-              formAction={signInWithPassword}
-              className="rounded-md bg-emerald-400 px-4 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-emerald-300"
-            >
-              Sign in
-            </button>
-            <button
-              formAction={signUpWithPassword}
-              className="rounded-md border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-100 transition-colors hover:border-zinc-500"
-            >
-              Create account
-            </button>
-          </div>
-        </form>
+              {params?.error ? (
+                <Alert variant="destructive">
+                  <AlertDescription>{params.error}</AlertDescription>
+                </Alert>
+              ) : null}
+            </CardContent>
+            <CardFooter className="grid grid-cols-2 gap-3 bg-transparent">
+              <Button type="submit" formAction={signInWithPassword}>
+                Sign in
+              </Button>
+              <Button
+                type="submit"
+                variant="outline"
+                formAction={signUpWithPassword}
+              >
+                Create account
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
       </div>
     </main>
   );

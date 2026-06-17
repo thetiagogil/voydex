@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AppShell } from "@/components/app/app-shell";
+import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export default async function ProtectedLayout({
@@ -9,13 +10,16 @@ export default async function ProtectedLayout({
   children: React.ReactNode;
 }>) {
   const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const claimsResult = await getClaimsWithTimeout(supabase);
 
-  if (!user) {
+  if (!claimsResult || claimsResult.error || !claimsResult.data?.claims?.sub) {
     redirect("/login");
   }
 
-  return <AppShell user={user}>{children}</AppShell>;
+  const email =
+    typeof claimsResult.data.claims.email === "string"
+      ? claimsResult.data.claims.email
+      : "Account";
+
+  return <AppShell userEmail={email}>{children}</AppShell>;
 }
