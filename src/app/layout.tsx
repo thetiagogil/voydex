@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AppBackground } from "@/components/app/app-background";
 import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
@@ -24,9 +25,12 @@ export default function RootLayout({
         className="flex min-h-full flex-col antialiased"
         suppressHydrationWarning
       >
+        <AppBackground />
         <DatabaseHealthProvider />
         <TooltipProvider>
-          {children}
+          <div className="relative z-10 flex min-h-full flex-col">
+            {children}
+          </div>
           <DatabaseHealthStatus />
         </TooltipProvider>
       </body>

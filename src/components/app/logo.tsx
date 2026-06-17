@@ -11,20 +11,14 @@ type LogoProps = {
 export function Logo({ className, markClassName, showText = true }: LogoProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <span
-        className={cn(
-          "bg-background/80 flex size-8 items-center justify-center rounded-lg border shadow-sm",
-          markClassName,
-        )}
-      >
-        <Image
-          src="/icons/types/pokeball.svg"
-          alt=""
-          width={18}
-          height={18}
-          aria-hidden
-        />
-      </span>
+      <Image
+        src="/icon.png"
+        alt=""
+        width={32}
+        height={32}
+        className={cn("size-8 rounded-lg", markClassName)}
+        aria-hidden
+      />
       {showText ? (
         <span className="text-base font-semibold tracking-tight">
           <span className="text-primary">Voy</span>dex

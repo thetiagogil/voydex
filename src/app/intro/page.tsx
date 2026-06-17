@@ -1,76 +1,72 @@
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
   BackpackIcon,
   BookOpenCheckIcon,
+  CheckCircle2Icon,
   Clock3Icon,
+  CompassIcon,
   MapIcon,
 } from "lucide-react";
 import Link from "next/link";
 
-import { AppBackground } from "@/components/app/app-background";
 import { Logo } from "@/components/app/logo";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const introHighlights = [
+const introFeatures = [
   {
-    title: "Play hub",
+    title: "Plays",
     description:
-      "Keep each run centered around its team, story progress, collectibles, and completion goals.",
+      "Keep each adventure centered around its game, team, story progress, and completion goals.",
     icon: BackpackIcon,
   },
   {
-    title: "Pokedex support",
+    title: "Pokedex",
     description:
-      "Browse game-aware Pokemon data so future planning can start before a play begins.",
+      "Browse game-aware Pokemon data so planning can happen before a run begins.",
     icon: BookOpenCheckIcon,
   },
   {
-    title: "Progress history",
+    title: "Planning",
     description:
-      "Preserve the important moments of a play, including team changes and major story beats.",
-    icon: Clock3Icon,
-  },
-  {
-    title: "Team planning",
-    description:
-      "Plan possible teams by generation and game, then bring those plans into real plays.",
+      "Draft possible teams by generation and game, then turn those ideas into real plays.",
     icon: MapIcon,
   },
 ] as const;
 
+const workflowSteps = [
+  "Choose the game or module you want to track.",
+  "Build the play record around its team, story beats, and collectibles.",
+  "Review progress later without reopening old notes or consoles.",
+] as const;
+
 export default function IntroPage() {
   return (
-    <main className="relative isolate min-h-screen overflow-hidden">
-      <AppBackground />
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 py-5 sm:px-6 lg:px-8">
+    <main className="text-foreground min-h-screen">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
         <header className="flex items-center justify-between gap-4">
           <Link href="/" aria-label="Voydex home">
             <Logo />
           </Link>
           <Link
-            href="/"
-            className={cn(buttonVariants({ variant: "outline" }), "bg-card")}
+            href="/dashboard"
+            className={cn(buttonVariants({ variant: "outline" }), "bg-card/80")}
           >
-            <ArrowLeftIcon className="size-4" aria-hidden />
-            Home
+            Enter App
           </Link>
         </header>
 
-        <section className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-2 lg:py-20">
-          <div>
-            <p className="text-primary text-sm font-semibold tracking-widest uppercase">
+        <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-2 lg:py-16">
+          <div className="max-w-2xl">
+            <div className="text-primary flex items-center gap-2 text-sm font-semibold tracking-wider uppercase">
+              <CompassIcon className="size-4" aria-hidden />
               Adventure companion
-            </p>
-            <h1 className="text-foreground mt-4 max-w-3xl text-4xl leading-tight font-bold tracking-tight text-balance sm:text-5xl">
-              A central record for every Pokemon playthrough.
+            </div>
+            <h1 className="mt-4 text-4xl leading-tight font-bold tracking-tight sm:text-5xl">
+              One place for every Pokemon playthrough.
             </h1>
-            <p className="text-muted-foreground mt-5 max-w-2xl text-base leading-7 sm:text-lg">
-              Voydex is being built as the place to track plays, teams, story
-              progress, collectibles, Pokedex completion, and future team plans
-              without reopening every console.
+            <p className="text-muted-foreground mt-5 text-base leading-7 sm:text-lg">
+              Voydex is being shaped as a calm record for runs, teams, story
+              progress, collectibles, Pokedex completion, and future team plans.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -78,30 +74,69 @@ export default function IntroPage() {
                 className={cn(buttonVariants({ size: "lg" }), "h-11")}
               >
                 Enter App
-                <ArrowRightIcon className="size-4" aria-hidden />
+              </Link>
+              <Link
+                href="/"
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "lg" }),
+                  "h-11",
+                )}
+              >
+                Back home
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            {introHighlights.map((highlight) => {
-              const Icon = highlight.icon;
+          <div className="bg-card/70 rounded-lg border p-5 shadow-sm backdrop-blur-md sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
+                <Clock3Icon className="size-5" aria-hidden />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold">Built around history</h2>
+                <p className="text-muted-foreground mt-2 leading-6">
+                  The app treats each play as a timeline of decisions,
+                  milestones, and team changes, so a finished run stays useful
+                  after the credits.
+                </p>
+              </div>
+            </div>
 
-              return (
-                <Card key={highlight.title}>
-                  <CardHeader>
-                    <div className="bg-primary/10 text-primary mb-3 flex size-9 items-center justify-center rounded-lg">
-                      <Icon className="size-5" />
-                    </div>
-                    <CardTitle>{highlight.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-muted-foreground leading-6">
-                    {highlight.description}
-                  </CardContent>
-                </Card>
-              );
-            })}
+            <div className="mt-6 grid gap-1">
+              {workflowSteps.map((step) => (
+                <div
+                  key={step}
+                  className="flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
+                >
+                  <CheckCircle2Icon
+                    className="text-primary mt-0.5 size-5 shrink-0"
+                    aria-hidden
+                  />
+                  <p className="text-sm leading-6">{step}</p>
+                </div>
+              ))}
+            </div>
           </div>
+        </section>
+
+        <section className="grid gap-4 border-t py-8 md:grid-cols-3">
+          {introFeatures.map((feature) => {
+            const Icon = feature.icon;
+
+            return (
+              <article key={feature.title} className="flex gap-3">
+                <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
+                  <Icon className="size-5" aria-hidden />
+                </div>
+                <div>
+                  <h2 className="font-semibold">{feature.title}</h2>
+                  <p className="text-muted-foreground mt-1 text-sm leading-6">
+                    {feature.description}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </section>
       </div>
     </main>
