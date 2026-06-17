@@ -114,8 +114,8 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Placeholder protected pages exist.
-- Landing hero is being rebuilt with real image layers.
+- Protected route surface is intentionally limited to Dashboard until each feature page is implemented.
+- Home page hero uses real image layers.
 
 ## Working Style Preferences
 
@@ -123,7 +123,7 @@ Current app status:
 - Ask for human opinion on naming or risky product decisions.
 - Recommend reasoning effort for the next task.
 - In `00-databases`, commit messages should use `type(voydex): message`.
-- In `13-voydex`, commit scopes should be feature-specific, such as `feat(hero): ...` or `docs(product): ...`.
+- In `13-voydex`, commit scopes should be feature-specific, such as `feat(home): ...` or `docs(product): ...`.
 
 ## Useful Commands
 

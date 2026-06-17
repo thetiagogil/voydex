@@ -5,16 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-export const navItems = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/plays", label: "Plays" },
-  { href: "/plans", label: "Plans" },
-  { href: "/pokedex", label: "Pokedex" },
-  { href: "/collection", label: "Collection" },
-  { href: "/stats", label: "Stats" },
-  { href: "/generations", label: "Generations" },
-  { href: "/games", label: "Games" },
-];
+export const navItems = [{ href: "/dashboard", label: "Dashboard" }];
 
 export function MainNav() {
   const pathname = usePathname();

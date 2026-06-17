@@ -55,7 +55,7 @@ export default function IntroPage() {
             className={cn(buttonVariants({ variant: "outline" }), "bg-card")}
           >
             <ArrowLeftIcon data-icon="inline-start" />
-            Hero
+            Home
           </Link>
         </header>
 
@@ -77,17 +77,8 @@ export default function IntroPage() {
                 href="/dashboard"
                 className={cn(buttonVariants({ size: "lg" }), "h-11")}
               >
-                Open app
+                Enter App
                 <ArrowRightIcon data-icon="inline-end" />
-              </Link>
-              <Link
-                href="/pokedex"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg" }),
-                  "bg-card h-11",
-                )}
-              >
-                Browse Pokedex
               </Link>
             </div>
           </div>

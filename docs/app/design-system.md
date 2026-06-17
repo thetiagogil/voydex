@@ -42,9 +42,9 @@ Existing token groups:
 - Avoid nested cards unless the inner card is a true repeated item or modal.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 
-## Hero Direction
+## Home Page Hero Direction
 
-The hero should use layered assets:
+The home page hero should use layered assets:
 
 - Clean scenic background image.
 - Separate brand mark image.
@@ -52,7 +52,7 @@ The hero should use layered assets:
 - Native text subtitle.
 - Native buttons.
 
-This keeps the hero close to the selected visual reference while preserving responsive layout, accessibility, and clickable controls.
+This keeps the home page close to the selected visual reference while preserving responsive layout, accessibility, and clickable controls.
 
 ## Buttons And Controls
 

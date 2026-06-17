@@ -1,20 +1,18 @@
 "use client";
 
-import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
-import Link from "next/link";
+import { LogOutIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut } from "@/features/auth/actions";
+import { signOut } from "@/features/auth/server/actions";
 
 type UserMenuProps = {
   email: string;
@@ -36,29 +34,17 @@ export function UserMenu({ email }: UserMenuProps) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
-          <DropdownMenuItem render={<Link href="/settings/profile" />}>
-            <UserIcon />
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem render={<Link href="/settings/preferences" />}>
-            <SettingsIcon />
-            Preferences
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <form action={signOut}>
-            <DropdownMenuItem
-              variant="destructive"
-              render={<button type="submit" className="w-full" />}
-            >
-              <LogOutIcon />
-              Sign out
-            </DropdownMenuItem>
-          </form>
-        </DropdownMenuGroup>
+        <form action={signOut}>
+          <DropdownMenuItem
+            variant="destructive"
+            render={<button type="submit" className="w-full" />}
+          >
+            <LogOutIcon />
+            Sign out
+          </DropdownMenuItem>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );

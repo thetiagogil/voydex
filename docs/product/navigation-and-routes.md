@@ -8,11 +8,11 @@ Voydex should have independent top-level workspaces and dependent context routes
 
 The app should not force a single linear flow. `Generations -> Games -> Plays` remains a browse path, but the user can create and reach plays directly.
 
-This document describes the target navigation contract. The current app has placeholder protected pages for the top-level workspaces while the data-backed feature screens are being built.
+This document describes the target navigation contract. The current app intentionally mounts only the implemented protected workspace, `/dashboard`, while the data-backed feature screens are being built.
 
 ## Main Navbar
 
-Primary links:
+Planned primary links:
 
 - Dashboard
 - Plays
@@ -27,16 +27,18 @@ Primary links:
 - Generations
 - Games
 
-Current implementation note: Generations and Games may temporarily appear as direct navbar links until the final Browse dropdown is implemented.
+Current implementation note: the live navbar currently shows Dashboard only. Add the remaining links only when their pages are implemented.
 
 ## Profile Menu
 
-Profile menu links:
+Planned profile menu links:
 
 - Profile
 - Preferences
 - Account
 - Sign out
+
+Current implementation note: the live profile menu shows the current user and Sign out only. Add profile, preferences, and account routes when those pages are implemented.
 
 ## Route Tree
 

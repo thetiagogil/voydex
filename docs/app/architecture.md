@@ -21,6 +21,8 @@ src/
     ui/
   features/
     auth/
+  modules/
+    core/
   lib/
     supabase/
     env.ts
@@ -46,18 +48,8 @@ The landing page should remain accessible even when signed in. It is a brand/hom
 Protected routes live under `src/app/(protected)` and are guarded by the proxy auth flow:
 
 - `/dashboard`
-- `/plays`
-- `/plans`
-- `/pokedex`
-- `/collection`
-- `/stats`
-- `/generations`
-- `/games`
-- `/settings/profile`
-- `/settings/preferences`
-- `/settings/account`
 
-The current protected pages are foundation placeholders. They should be replaced feature-by-feature as database-backed views are wired.
+Only Dashboard is mounted for now. Planned workspaces such as Plays, Plans, Pokedex, Collection, Stats, Browse, and Settings should be added route-by-route when their product slice is implemented.
 
 ## Supabase Boundary
 
@@ -101,14 +93,20 @@ Application shell, navigation, layout helpers, health banner, and app-specific s
 
 Pokemon-specific shared visual components such as type icons. Keep product-specific Pokemon display logic here only when it is reusable across features.
 
-## Feature Code
+## Modules
 
-`src/features` should hold feature-specific behavior as it grows.
+`src/modules` holds product module code. A module is a product area with its own behavior, not a database schema boundary.
 
-Recommended pattern:
+Current module:
 
 ```txt
-src/features/plays/
+src/modules/core/
+```
+
+The `core` module covers mainline-style Pokemon RPG playthrough behavior. Feature code inside it should follow this shape:
+
+```txt
+src/modules/core/features/dashboard/
   components/
   data/
   actions.ts
@@ -116,7 +114,21 @@ src/features/plays/
   types.ts
 ```
 
-Keep business logic and data shaping out of route files when it becomes nontrivial.
+Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can use the same module pattern when they become active.
+
+## Feature Code
+
+`src/features` should hold cross-module application features such as auth.
+
+Recommended pattern:
+
+```txt
+src/features/auth/
+  components/
+  server/
+```
+
+Keep business logic and data shaping out of route files when it becomes nontrivial. Route files should usually compose module or feature components.
 
 ## Assets
 
