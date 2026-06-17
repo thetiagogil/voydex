@@ -1,14 +1,15 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border bg-card px-3 py-2 text-left text-sm text-card-foreground",
+  "relative w-full rounded-lg px-3 py-2 text-left text-sm text-card-foreground",
   {
     variants: {
       variant: {
-        default: "",
+        default: surfaceClassNames.solid,
         destructive: "border-destructive/30 text-destructive",
       },
     },

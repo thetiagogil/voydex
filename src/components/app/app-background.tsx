@@ -35,7 +35,7 @@ export function AppBackground() {
           "absolute inset-0 transition-colors duration-300",
           tone === "hero" && "bg-secondary/5",
           tone === "intro" && "bg-background/55 dark:bg-background/75",
-          tone === "app" && "bg-background/90",
+          tone === "app" && "bg-background/55 dark:bg-background/75",
         )}
       />
     </div>

@@ -4,10 +4,11 @@ import * as React from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 const menuContentClasses =
-  "z-50 max-h-96 min-w-32 overflow-y-auto rounded-lg border bg-popover p-1 text-popover-foreground shadow-md outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95";
+  "z-50 max-h-96 min-w-32 overflow-y-auto rounded-lg p-1 text-popover-foreground outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95";
 
 const menuItemClasses =
   "relative flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8";
@@ -47,7 +48,11 @@ function DropdownMenuContent({
       >
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
-          className={cn(menuContentClasses, className)}
+          className={cn(
+            menuContentClasses,
+            surfaceClassNames.popover,
+            className,
+          )}
           {...props}
         />
       </MenuPrimitive.Positioner>

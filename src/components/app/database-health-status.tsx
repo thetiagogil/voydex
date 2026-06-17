@@ -9,6 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 type HealthState = "unknown" | "healthy" | "unhealthy";
@@ -102,7 +103,8 @@ export function DatabaseHealthStatus() {
           aria-label="Database unavailable"
           className={cn(
             buttonVariants({ variant: "outline", size: "icon" }),
-            "bg-background/70 relative rounded-full shadow-lg backdrop-blur-xl",
+            surfaceClassNames.control,
+            "relative rounded-full shadow-lg",
           )}
         >
           <WifiOffIcon className="text-destructive size-5" aria-hidden />

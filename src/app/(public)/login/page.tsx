@@ -2,6 +2,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
+import { surfaceClassNames } from "@/components/ui/surface";
 import {
   AuthPanel,
   type AuthMode,
@@ -28,7 +29,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           href="/"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "bg-background/25 w-fit backdrop-blur-md",
+            surfaceClassNames.control,
+            "w-fit",
           )}
         >
           <ArrowLeftIcon className="size-4" aria-hidden />

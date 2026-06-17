@@ -5,6 +5,7 @@ import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { surfaceClassNames } from "@/components/ui/surface";
 import { XIcon } from "lucide-react";
 
 const sheetSideClasses = {
@@ -62,7 +63,8 @@ function SheetContent({
         data-slot="sheet-content"
         data-side={side}
         className={cn(
-          "bg-popover text-popover-foreground fixed z-50 flex flex-col gap-4 text-sm shadow-lg transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0",
+          "text-popover-foreground fixed z-50 flex flex-col gap-4 text-sm shadow-lg transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0",
+          surfaceClassNames.popover,
           sheetSideClasses[side],
           className,
         )}

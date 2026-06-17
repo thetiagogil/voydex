@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { BrandImage } from "@/components/app/brand-image";
 import { buttonVariants } from "@/components/ui/button";
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 const homeActions = [
@@ -70,7 +71,7 @@ export default function Home() {
                         size: "lg",
                       }),
                       "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-lg backdrop-blur-md sm:min-w-48",
-                      !isPrimary && "bg-card/90",
+                      !isPrimary && surfaceClassNames.control,
                     )}
                   >
                     <Icon className="size-5" aria-hidden />

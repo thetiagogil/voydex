@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
@@ -7,7 +8,8 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 text-sm shadow-sm",
+        "text-card-foreground flex flex-col gap-6 rounded-xl py-6 text-sm",
+        surfaceClassNames.panel,
         className,
       )}
       {...props}

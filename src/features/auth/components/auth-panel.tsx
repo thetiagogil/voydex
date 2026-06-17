@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { surfaceClassNames } from "@/components/ui/surface";
 import {
   logInWithPassword,
   signUpWithPassword,
@@ -52,7 +53,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 
   return (
-    <Card className="bg-card/30 shadow-primary/10 overflow-hidden border-0 shadow-xl backdrop-blur-xl">
+    <Card className={cn(surfaceClassNames.glass, "overflow-hidden")}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -67,7 +68,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
               name="email"
               type="email"
               autoComplete="email"
-              className="bg-background/25 h-11 backdrop-blur-md"
+              className={cn(surfaceClassNames.field, "h-11")}
               required
             />
           </div>
@@ -78,7 +79,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
               name="password"
               type="password"
               autoComplete={isSignUp ? "new-password" : "current-password"}
-              className="bg-background/25 h-11 backdrop-blur-md"
+              className={cn(surfaceClassNames.field, "h-11")}
               required
               minLength={6}
             />
@@ -91,7 +92,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
                 name="confirmPassword"
                 type="password"
                 autoComplete="new-password"
-                className="bg-background/25 h-11 backdrop-blur-md"
+                className={cn(surfaceClassNames.field, "h-11")}
                 required
                 minLength={6}
               />
@@ -104,7 +105,12 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
             </Alert>
           ) : null}
         </CardContent>
-        <CardFooter className="bg-background/5 flex flex-col items-stretch gap-5 pt-6 pb-0">
+        <CardFooter
+          className={cn(
+            surfaceClassNames.subtle,
+            "flex flex-col items-stretch gap-5 pt-6 pb-0",
+          )}
+        >
           <Button type="submit" className="h-11 text-base">
             {title}
           </Button>

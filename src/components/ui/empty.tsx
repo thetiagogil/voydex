@@ -1,3 +1,4 @@
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 function Empty({ className, ...props }: React.ComponentProps<"div">) {
@@ -5,7 +6,8 @@ function Empty({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="empty"
       className={cn(
-        "bg-card flex min-w-0 flex-col items-center justify-center rounded-lg border border-dashed px-6 py-10 text-center",
+        "flex min-w-0 flex-col items-center justify-center rounded-lg border-dashed px-6 py-10 text-center",
+        surfaceClassNames.panel,
         className,
       )}
       {...props}

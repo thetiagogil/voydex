@@ -2,6 +2,7 @@
 
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 
+import { surfaceClassNames } from "@/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 function TooltipProvider({
@@ -51,7 +52,8 @@ function TooltipContent({
         <TooltipPrimitive.Popup
           data-slot="tooltip-content"
           className={cn(
-            "bg-popover text-popover-foreground z-50 max-w-xs rounded-lg border px-3 py-2 text-sm shadow-md outline-none",
+            "text-popover-foreground z-50 max-w-xs rounded-lg px-3 py-2 text-sm outline-none",
+            surfaceClassNames.popover,
             "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
             className,
           )}
