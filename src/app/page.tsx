@@ -1,8 +1,8 @@
 import { BackpackIcon, CompassIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 import { AppBackground } from "@/components/app/app-background";
+import { BrandImage } from "@/components/app/brand-image";
 import { DatabaseHealthBanner } from "@/components/app/database-health-banner";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -31,23 +31,31 @@ export default function Home() {
           <div className="flex w-full max-w-5xl flex-col items-center">
             <h1 className="sr-only">Voydex</h1>
 
-            <Image
-              src="/brand/voydex-mark.png"
-              alt=""
+            <BrandImage
               width={1886}
               height={1026}
-              priority
-              unoptimized
-              className="h-auto w-24 sm:w-32 lg:w-36"
+              className="w-24 sm:w-32 lg:w-36"
+              layers={[
+                {
+                  src: "/brand/voydex-mark-primary-mask.png",
+                  className: "bg-primary",
+                },
+                {
+                  src: "/brand/voydex-mark-accent-mask.png",
+                  className: "bg-accent",
+                },
+              ]}
             />
-            <Image
-              src="/brand/voydex-title.png"
-              alt=""
+            <BrandImage
               width={3564}
               height={1203}
-              priority
-              unoptimized
-              className="-mt-4 h-auto w-full max-w-2xl sm:-mt-8"
+              className="-mt-4 w-full max-w-2xl sm:-mt-8"
+              layers={[
+                {
+                  src: "/brand/voydex-title-primary-mask.png",
+                  className: "bg-primary",
+                },
+              ]}
             />
 
             <div className="mt-7 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
