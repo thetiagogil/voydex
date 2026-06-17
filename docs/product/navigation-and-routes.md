@@ -193,4 +193,4 @@ Pokedex -> Pokemon Detail -> Add To Plan
 - Browse routes should provide context and discovery, not be required funnels.
 - Plan routes should not be nested under plays because plans can exist before plays.
 - Collection and Stats should be derived from user data rather than manually maintained.
-- Future app modules may introduce their own module-specific route trees, but the `core` module routes above are the first build target.
+- Future app modules may introduce their own module-specific route trees, but the `mainline` module routes above are the first build target.

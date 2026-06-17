@@ -2,7 +2,7 @@
 
 This document defines source-of-truth and derived-data rules for Voydex.
 
-## Core Rule
+## Ownership Rule
 
 The app should store user intent and meaningful user state. It should derive summaries, stats, completion, and collection views whenever practical.
 
@@ -47,7 +47,7 @@ Some derived values may be cached later for performance, but caching should not 
 
 ## Plays
 
-`core_play` is the central gameplay entity for the active `core` module.
+`core_play` is the current database naming for the central gameplay entity in the active `mainline` module.
 
 A play owns:
 
@@ -134,7 +134,7 @@ Progress tables should generally be sparse. Missing story, collectible, or Poked
 
 ## Module Scope
 
-These ownership rules describe the active `core` module. Future modules may reuse shared reference/profile concepts, but they should not be forced into `core_plays`, `core_team_plans`, or core story progress if their product behavior differs.
+These ownership rules describe the active `mainline` module. Future modules may reuse shared reference/profile concepts, but they should not be forced into `core_plays`, `core_team_plans`, or mainline story progress if their product behavior differs.
 
 ## Audit And History
 

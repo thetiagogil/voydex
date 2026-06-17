@@ -1,7 +1,7 @@
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 
-export function CoreDashboardHome() {
+export function MainlineDashboardHome() {
   return (
     <>
       <PageHeader

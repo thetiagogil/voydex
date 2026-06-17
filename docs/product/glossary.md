@@ -2,19 +2,19 @@
 
 This glossary standardizes product language for the Voydex rebuild.
 
-## Core Terms
+## Product Terms
 
 ### App Module
 
 A product behavior family under the Voydex umbrella.
 
-Current modules are `core`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; modules describe product behavior.
+Current modules are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; modules describe product behavior.
 
-### Core Module
+### Mainline Module
 
 The active Voydex module for mainline-style Pokemon RPG playthroughs.
 
-Core includes the play/team/story/Pokedex/planning companion experience. Database tables with `core_` prefixes belong to this module.
+Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables with `core_` prefixes currently belong to this module.
 
 ### Play
 
@@ -100,9 +100,9 @@ Game/version-group-specific milestones that represent progress through a play.
 
 Important story milestones can optionally support team snapshots.
 
-### Core Milestone
+### Mainline Milestone
 
-The database term for a core-module story/progression step.
+The product term for a mainline-module story/progression step. Current database objects still use the `core_` prefix for these records.
 
 The UI can call these Story Steps. Badges are represented as story milestones when that is how they occur in the game.
 

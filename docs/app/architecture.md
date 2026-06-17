@@ -22,7 +22,7 @@ src/
   features/
     auth/
   modules/
-    core/
+    mainline/
   lib/
     supabase/
     env.ts
@@ -100,13 +100,13 @@ Pokemon-specific shared visual components such as type icons. Keep product-speci
 Current module:
 
 ```txt
-src/modules/core/
+src/modules/mainline/
 ```
 
-The `core` module covers mainline-style Pokemon RPG playthrough behavior. Feature code inside it should follow this shape:
+The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label can be Adventures. Feature code inside it should follow this shape:
 
 ```txt
-src/modules/core/features/dashboard/
+src/modules/mainline/features/dashboard/
   components/
   data/
   actions.ts

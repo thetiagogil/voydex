@@ -15,7 +15,7 @@ The desired mix:
 - Clear data surfaces for repeated use.
 - Subtle personality through assets, icons, color, and state.
 
-## Core UI Stack
+## UI Stack
 
 - Tailwind CSS.
 - shadcn-style primitives in `src/components/ui`.

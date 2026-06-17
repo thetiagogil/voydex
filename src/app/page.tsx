@@ -50,9 +50,6 @@ export default function Home() {
               unoptimized
               className="-mt-4 h-auto w-[min(80vw,43rem)] sm:-mt-8"
             />
-            <p className="-mt-4 text-[clamp(1.05rem,1.8vw,1.55rem)] leading-tight font-bold text-[#064e5a] sm:-mt-6">
-              Your adventure companion
-            </p>
 
             <div className="mt-7 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               {homeActions.map((action) => {

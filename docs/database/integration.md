@@ -44,7 +44,7 @@ Reference is client-readable and service/admin writable only.
 
 Static curated tracking definitions:
 
-- Core story categories and milestones.
+- Mainline story categories and milestones.
 - Snapshot policy.
 - Opponents, badges, decisions.
 - Collectibles and collectible entries.
@@ -149,7 +149,7 @@ npm run build
 
 ## Important Product/Data Notes
 
-- Current active app module is `core`.
+- Current active app module is `mainline`.
 - Future modules are `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`.
 - Pokedex completion is species-level.
 - DLC and other optional content are per-play scope choices.

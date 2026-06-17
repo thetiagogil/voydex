@@ -23,9 +23,9 @@ Initial direction:
 - No direct Pokemon HOME account connection.
 - Help users plan and track living-dex completion.
 - Support species/form targets where useful.
-- Connect to user history when helpful, but do not force HOME tracking into core playthrough tables.
+- Connect to user history when helpful, but do not force HOME tracking into mainline playthrough tables.
 
-This should likely be a V2 module after the core playthrough companion is usable.
+This should likely be a V2 module after the mainline playthrough companion is usable.
 
 ## Other App Modules
 
@@ -37,7 +37,7 @@ Future modules:
 - `ranger`
 - `sleep`
 
-Each module needs its own product design before schema work. Do not force these games into the `core` play/team/story model if their mechanics differ.
+Each module needs its own product design before schema work. Do not force these games into the `mainline` play/team/story model if their mechanics differ.
 
 ## Progression-Aware Planning
 

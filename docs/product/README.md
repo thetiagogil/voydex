@@ -21,7 +21,7 @@ Database table-level details live in `00-databases/projects/voydex/docs`. Produc
 
 Voydex is a Pokemon companion app for tracking, remembering, and planning playthroughs across games.
 
-The core product pillars are:
+The product pillars are:
 
 - Track a playthrough.
 - Remember the user's Pokemon history.
@@ -30,4 +30,4 @@ The core product pillars are:
 
 The database and app should be designed for the full product direction, not only the first release.
 
-The active module is `core`. Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella.
+The active module is `mainline`, with Adventures as the likely user-facing label. Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella.

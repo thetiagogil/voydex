@@ -16,7 +16,7 @@ Voydex is organized by product modules, not by forcing every Pokemon game family
 
 Accepted module names:
 
-- `core`
+- `mainline`
 - `dungeon`
 - `pokopia`
 - `go`
@@ -24,7 +24,7 @@ Accepted module names:
 - `ranger`
 - `sleep`
 
-The active module is `core`. It covers mainline-style Pokemon RPG playthrough companion behavior, including core RPG and Legends-style entries where team, story, Pokedex, collectibles, and planning apply.
+The active module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label can be Adventures.
 
 Future modules can share profile, shell, reference, and design foundations, but they should get module-specific tables and flows when their mechanics differ.
 
@@ -53,7 +53,7 @@ A play is the central user-owned adventure.
 
 The user can create or continue a play without navigating through Generation and Game pages.
 
-### Play Core Lifecycle
+### Play Lifecycle
 
 Play statuses are:
 
@@ -220,7 +220,7 @@ Source names or external source labels should stay in comments/docs, not stored 
 
 ### Green Is Out Of Scope For Now
 
-Pokemon Red/Blue are the initial Generation I paired-game scope. Pokemon Green is not included for now because the app is targeting the localized/core playthrough scope first, and Green would need careful source handling for differences and naming.
+Pokemon Red/Blue are the initial Generation I paired-game scope. Pokemon Green is not included for now because the app is targeting the localized mainline playthrough scope first, and Green would need careful source handling for differences and naming.
 
 ### Local Supabase Is A Verification Gate
 

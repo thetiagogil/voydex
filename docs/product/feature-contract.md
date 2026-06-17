@@ -4,9 +4,9 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 ## Product Scope
 
-The active build target is the `core` app module: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
+The active build target is the `mainline` app module: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats. The user-facing label for this module can be Adventures.
 
-Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `core` play/team/story model. They can share account, reference, style, and high-level shell concepts while using module-specific data models where needed.
+Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using module-specific data models where needed.
 
 ## Primary App Areas
 
@@ -37,9 +37,9 @@ The Plays area should support:
 
 The user should not be forced through `Generations -> Games -> Plays` to create or continue a play.
 
-### Play Core
+### Play Model
 
-A play is a concrete adventure record for one user and one `core` module game.
+A play is a concrete adventure record for one user and one `mainline` module game.
 
 Play lifecycle statuses:
 
@@ -217,7 +217,7 @@ When adding a planned target to a play, the app should suggest the earliest or f
 
 Plans should show preemptive Pokemon reuse warnings. If a planned target, preferred starting Pokemon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokemon.
 
-Plan member slots should support a core team plus alternates/reserves. Core planned Pokemon use slots 1 to 6. Alternate/reserve planned Pokemon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
+Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokemon use slots 1 to 6. Alternate/reserve planned Pokemon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
 
 When a plan is linked to a play, member status is tracked for that play/plan relationship. A plan can remain reusable for another play.
 

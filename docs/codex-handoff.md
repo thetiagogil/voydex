@@ -19,7 +19,7 @@ Both repos have `legacy/` folders. Legacy content is reference only.
 
 Voydex is a Pokemon companion app for tracking, remembering, and planning playthroughs.
 
-Core areas:
+Main app areas:
 
 - Dashboard.
 - Plays.
@@ -42,7 +42,7 @@ The app should not force `Generations -> Games -> Plays` as the only flow. Users
 
 Active module:
 
-- `core`: mainline-style Pokemon RPG playthrough companion.
+- `mainline`: mainline-style Pokemon RPG playthrough companion. User-facing label: Adventures.
 
 Future modules:
 
@@ -74,7 +74,7 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 - Reuse scopes are mutually exclusive and cascading: `none`, `form`, `species`, `evolution_family`.
 - Rules support both structured predefined behavior and custom descriptive text.
 - The item catalog is Pokemon-relevant only.
-- Other Pokemon game families should be separate modules later, not forced into the core play model now.
+- Other Pokemon game families should be separate modules later, not forced into the mainline play model now.
 
 ## Database Contract
 

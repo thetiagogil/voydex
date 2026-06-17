@@ -4,7 +4,7 @@ Voydex is a Pokemon companion for tracking, remembering, and planning Pokemon pl
 
 The product is not trying to replace Bulbapedia, Serebii, PokemonDB, or Pokemon HOME. Those tools are encyclopedias or official storage services. Voydex should be a personal adventure hub: a place where the user records what they played, which Pokemon they used, what happened in the play, what they completed, and what they want to play next.
 
-## Core Problem
+## Main Problem
 
 Pokemon players often have many saves across many games and consoles. Remembering progress requires opening each game, checking boxes manually, or keeping scattered notes.
 
