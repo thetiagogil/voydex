@@ -1,4 +1,4 @@
-import { ArrowRightIcon, BackpackIcon, CompassIcon } from "lucide-react";
+import { BackpackIcon, CompassIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,7 +12,6 @@ const homeActions = [
     href: "/dashboard",
     label: "Enter App",
     icon: BackpackIcon,
-    endIcon: ArrowRightIcon,
     variant: "primary",
   },
   {
@@ -54,7 +53,6 @@ export default function Home() {
             <div className="mt-7 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               {homeActions.map((action) => {
                 const Icon = action.icon;
-                const EndIcon = "endIcon" in action ? action.endIcon : null;
                 const isPrimary = action.variant === "primary";
 
                 return (
@@ -72,9 +70,6 @@ export default function Home() {
                   >
                     <Icon className="size-5" aria-hidden />
                     {action.label}
-                    {EndIcon ? (
-                      <EndIcon className="size-5" aria-hidden />
-                    ) : null}
                   </Link>
                 );
               })}

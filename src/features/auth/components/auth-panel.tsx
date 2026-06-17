@@ -52,13 +52,13 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 
   return (
-    <Card className="bg-card/88 shadow-sm backdrop-blur-md">
+    <Card className="border-border/50 bg-card/42 shadow-primary/10 overflow-hidden shadow-xl backdrop-blur-xl">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <form action={action}>
-        <CardContent className="flex flex-col gap-4">
+      <form action={action} className="flex flex-col">
+        <CardContent className="flex flex-col gap-4 pb-8">
           <input type="hidden" name="next" value={next} />
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">Email</Label>
@@ -67,6 +67,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
               name="email"
               type="email"
               autoComplete="email"
+              className="bg-background/25 h-11 backdrop-blur-md"
               required
             />
           </div>
@@ -77,6 +78,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
               name="password"
               type="password"
               autoComplete={isSignUp ? "new-password" : "current-password"}
+              className="bg-background/25 h-11 backdrop-blur-md"
               required
               minLength={6}
             />
@@ -89,6 +91,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
                 name="confirmPassword"
                 type="password"
                 autoComplete="new-password"
+                className="bg-background/25 h-11 backdrop-blur-md"
                 required
                 minLength={6}
               />
@@ -101,8 +104,8 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
             </Alert>
           ) : null}
         </CardContent>
-        <CardFooter className="flex flex-col items-stretch gap-3 bg-transparent">
-          <Button type="submit" className="h-10">
+        <CardFooter className="bg-background/5 flex flex-col items-stretch gap-5 pt-6 pb-0">
+          <Button type="submit" className="h-11 text-base">
             {title}
           </Button>
           <p className="text-muted-foreground text-center text-sm">

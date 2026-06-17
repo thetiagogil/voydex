@@ -30,8 +30,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <Link
           href="/"
           className={cn(
-            buttonVariants({ variant: "outline" }),
-            "bg-card/88 w-fit backdrop-blur-md",
+            buttonVariants({ variant: "ghost" }),
+            "bg-background/25 w-fit backdrop-blur-md",
           )}
         >
           <ArrowLeftIcon className="size-4" aria-hidden />
