@@ -26,7 +26,6 @@ export function AppBackground() {
         alt=""
         fill
         priority={tone === "hero"}
-        quality={80}
         sizes="100vw"
         className="object-cover object-center"
       />

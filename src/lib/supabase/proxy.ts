@@ -11,6 +11,16 @@ function isProtectedRoute(pathname: string) {
   return protectedRoutePrefixes.some((prefix) => pathname.startsWith(prefix));
 }
 
+function redirectWithSessionCookies(url: URL, sessionResponse: NextResponse) {
+  const redirectResponse = NextResponse.redirect(url);
+
+  sessionResponse.cookies.getAll().forEach((cookie) => {
+    redirectResponse.cookies.set(cookie);
+  });
+
+  return redirectResponse;
+}
+
 export async function updateSession(request: NextRequest) {
   if (request.nextUrl.pathname === "/api/health") {
     return NextResponse.next({ request });
@@ -29,7 +39,7 @@ export async function updateSession(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setAll(cookiesToSet, headersToSet) {
+      setAll(cookiesToSet, headersToSet = {}) {
         cookiesToSet.forEach(({ name, value }) => {
           request.cookies.set(name, value);
         });
@@ -55,8 +65,11 @@ export async function updateSession(request: NextRequest) {
   if (!isAuthenticated && isProtectedRoute(request.nextUrl.pathname)) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
-    loginUrl.searchParams.set("next", request.nextUrl.pathname);
-    return NextResponse.redirect(loginUrl);
+    loginUrl.searchParams.set(
+      "next",
+      `${request.nextUrl.pathname}${request.nextUrl.search}`,
+    );
+    return redirectWithSessionCookies(loginUrl, response);
   }
 
   return response;

@@ -12,8 +12,6 @@ export function AppShell({ children, userEmail }: AppShellProps) {
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
-        sticky
-        surface
         center={
           <div className="hidden lg:flex">
             <MainNav />

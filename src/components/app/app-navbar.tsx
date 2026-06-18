@@ -9,8 +9,6 @@ type AppNavbarProps = {
   className?: string;
   contentClassName?: string;
   end?: React.ReactNode;
-  sticky?: boolean;
-  surface?: boolean;
 };
 
 export function AppNavbar({
@@ -18,16 +16,14 @@ export function AppNavbar({
   className,
   contentClassName,
   end,
-  sticky = false,
-  surface = false,
 }: AppNavbarProps) {
   return (
     <header
       className={cn(
         "z-40",
-        sticky && "sticky top-0",
-        surface && "border-b",
-        surface && surfaceClassNames.chrome,
+        "sticky top-0",
+        "border-b",
+        surfaceClassNames.glass,
         className,
       )}
     >

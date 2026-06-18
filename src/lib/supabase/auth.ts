@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { isAuthError, type SupabaseClient } from "@supabase/supabase-js";
 
 import type { Database } from "@/types/database.types";
 
@@ -10,10 +10,18 @@ export async function getClaimsWithTimeout(
   supabase: SupabaseClient<Database>,
   timeoutMs = 5_000,
 ): Promise<ClaimsResult | null> {
-  return Promise.race([
-    supabase.auth.getClaims(),
-    new Promise<null>((resolve) => {
-      setTimeout(() => resolve(null), timeoutMs);
-    }),
-  ]);
+  try {
+    return await Promise.race([
+      supabase.auth.getClaims(),
+      new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), timeoutMs);
+      }),
+    ]);
+  } catch (error) {
+    if (isAuthError(error)) {
+      return { data: null, error };
+    }
+
+    throw error;
+  }
 }
