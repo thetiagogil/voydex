@@ -1,9 +1,10 @@
 import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
+import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
-import { cn } from "@/lib/utils";
 
 export default function NotFound() {
   return (
@@ -25,14 +26,14 @@ export default function NotFound() {
         </p>
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
           <Link
-            href="/dashboard"
+            href={appRoutes.dashboard}
             className={cn(buttonVariants({ size: "lg" }), "font-bold")}
           >
             <CompassIcon className="size-5" aria-hidden />
             Enter the app
           </Link>
           <Link
-            href="/"
+            href={appRoutes.home}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
               surfaceClassNames.control,

@@ -9,6 +9,7 @@ The app should stay boring in its architecture and rich in its product behavior.
 ```txt
 src/
   app/
+    (app)/
     (protected)/
     (public)/
     api/
@@ -19,9 +20,9 @@ src/
     env.ts
     utils.ts
   modules/
+    codex/
     mainline/
       features/
-      shared/
   shared/
     auth/
     components/
@@ -58,17 +59,33 @@ Do not reintroduce root `components`, `constants`, `features`, or `types` folder
 
 The landing page should remain accessible even when signed in. It is a brand/home surface, not only a pre-auth gate.
 
+### App Routes
+
+Routes under `src/app/(app)` use the normal app shell but are not necessarily auth-required:
+
+- `/codex`
+- `/codex/pokemon`
+- `/codex/pokemon/[speciesSlug]`
+- `/codex/games`
+- `/codex/games/[gameSlug]`
+- `/codex/generations`
+- `/codex/generations/[generationId]`
+
+Codex is public-readable but can still show authenticated shell behavior when a session exists.
+
 ### Protected Routes
 
 Protected routes live under `src/app/(protected)` and are guarded by the proxy auth flow:
 
 - `/dashboard`
+- `/settings`
 
-Only Dashboard and Settings are mounted for now. Planned workspaces such as Plays, Plans, Pokedex, Collection, Stats, and Browse should be added route-by-route when their product slice is implemented.
+Planned workspaces such as Plays, Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
 
 ### Route Organization
 
 - Public UI routes should live under `src/app/(public)`.
+- Public-readable app-shell routes should live under `src/app/(app)`.
 - Protected app routes should live under `src/app/(protected)`.
 - Root-level special files such as `layout.tsx`, `not-found.tsx`, `icon.png`, and `apple-icon.png` stay at `src/app`.
 - API route handlers stay under `src/app/api`.
@@ -126,19 +143,22 @@ Generated and shared app-wide types, including the Supabase `Database` type.
 
 ### `src/config`
 
-Static app contracts such as routes, navigation, and app module metadata. These are not runtime helpers and should not live in `lib`.
+Static app contracts such as routes, navigation, app module metadata, and product family metadata. These are not runtime helpers and should not live in `lib`.
 
 ## Modules
 
 `src/modules` holds product module code. A module is a product area with its own behavior, not a database schema boundary.
 
-Current module:
+Current modules:
 
 ```txt
+src/modules/codex/
 src/modules/mainline/
 ```
 
-The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label can be Adventures. Feature code inside it should follow this shape:
+The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label can be Adventures.
+
+Feature code inside a module should follow this shape:
 
 ```txt
 src/modules/mainline/features/dashboard/
@@ -149,7 +169,7 @@ src/modules/mainline/features/dashboard/
   types.ts
 ```
 
-Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can use the same module pattern when they become active.
+Future app modules can use the same module pattern when they become active. Pokemon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should not automatically become app modules until they have distinct frontend behavior.
 
 ## Feature Code
 

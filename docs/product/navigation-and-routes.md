@@ -8,37 +8,43 @@ Voydex should have independent top-level workspaces and dependent context routes
 
 The app should not force a single linear flow. `Generations -> Games -> Plays` remains a browse path, but the user can create and reach plays directly.
 
-This document describes the target navigation contract. The current app intentionally mounts only the implemented protected workspace, `/dashboard`, while the data-backed feature screens are being built.
+This document describes the target navigation contract. The current app mounts only implemented routes. New workspaces should be added route-by-route when their product slice is real.
 
 ## Main Navbar
 
-Planned primary links:
+Current primary links:
 
 - Dashboard
+- Codex
+
+Planned primary links for the Adventures workspace:
+
 - Plays
 - Plans
-- Pokedex
 - Collection
 - Stats
-- Browse
 
-`Browse` is a dropdown containing:
+Codex contains its own local navigation:
 
-- Generations
+- Pokedex
 - Games
+- Generations
 
-Current implementation note: the live navbar currently shows Dashboard only. Add the remaining links only when their pages are implemented.
+Add additional primary links only when their pages are implemented.
 
 ## Profile Menu
+
+Current profile menu links:
+
+- Settings
+- Sign out
 
 Planned profile menu links:
 
 - Profile
-- Preferences
 - Account
-- Sign out
 
-Current implementation note: the live profile menu shows the current user and Sign out only. Add profile, preferences, and account routes when those pages are implemented.
+Add profile and account routes when those pages are implemented.
 
 ## Route Tree
 
@@ -49,6 +55,22 @@ Current implementation note: the live profile menu shows the current user and Si
 ```
 
 Home after login. Shows recent plays, quick actions, recent activity, and summary stats.
+
+### Codex
+
+```txt
+/codex
+/codex/pokemon
+/codex/pokemon/[speciesSlug]
+/codex/games
+/codex/games/[gameSlug]
+/codex/generations
+/codex/generations/[generationId]
+```
+
+Codex is the public-readable reference/search/planning surface. It is a frontend app module, not a database product family.
+
+Old public browse routes such as `/pokedex`, `/games`, and `/generations` should redirect into `/codex/...` while those redirects are useful.
 
 ### Plays
 
@@ -78,15 +100,6 @@ Deep routes manage one focused play concern at a time.
 
 Plans are separate from plays. A plan can later create or link to a play.
 
-### Pokedex
-
-```txt
-/pokedex
-/pokedex/[speciesSlug]
-```
-
-Global reference/search/planning surface.
-
 ### Collection
 
 ```txt
@@ -106,16 +119,7 @@ The detail route is optional and may be deferred, but the model should support a
 
 Derived user analytics.
 
-### Browse
-
-```txt
-/generations
-/generations/[generationId]
-/games
-/games/[gameSlug]
-```
-
-Browse pages are contextual discovery pages.
+### Codex Browse Context
 
 Generation page can show:
 
@@ -135,9 +139,7 @@ Game page can show:
 ### Settings
 
 ```txt
-/settings/profile
-/settings/preferences
-/settings/account
+/settings
 ```
 
 ## Entry Flows
@@ -183,14 +185,14 @@ Play Team -> Planned Pokemon Panel -> Add To Team -> Suggested Starting Stage ->
 ### Search For Pokemon
 
 ```txt
-Pokedex -> Pokemon Detail -> Add To Plan
+Codex -> Pokedex -> Pokemon Detail -> Add To Plan
 ```
 
 ## Routing Principles
 
 - Top-level routes should represent user workspaces.
 - Nested play routes should represent play-specific tasks.
-- Browse routes should provide context and discovery, not be required funnels.
+- Codex routes should provide context and discovery, not be required funnels.
 - Plan routes should not be nested under plays because plans can exist before plays.
 - Collection and Stats should be derived from user data rather than manually maintained.
-- Future app modules may introduce their own module-specific route trees, but the `mainline` module routes above are the first build target.
+- Future app modules may introduce their own route trees, but the `mainline` product family and Adventures workspace are the first build target.

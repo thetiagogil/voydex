@@ -11,7 +11,7 @@ Database table-level details live in `00-databases/projects/voydex/docs`. Produc
 - [Product Vision](./vision.md)
 - [Feature Contract](./feature-contract.md)
 - [Navigation And Routes](./navigation-and-routes.md)
-- [App Modules](./app-modules.md)
+- [App Modules And Product Families](./app-modules.md)
 - [Data Ownership](./data-ownership.md)
 - [Glossary](./glossary.md)
 - [Decision Log](./decision-log.md)
@@ -30,4 +30,4 @@ The product pillars are:
 
 The database and app should be designed for the full product direction, not only the first release.
 
-The active module is `mainline`, with Adventures as the likely user-facing label. Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella.
+The active product family is `mainline`, with Adventures as the likely user-facing app workspace label. Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella. `Codex` is the shared reference browser module.

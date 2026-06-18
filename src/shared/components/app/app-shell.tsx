@@ -1,11 +1,15 @@
+import Link from "next/link";
+
+import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { MainNav } from "@/shared/components/app/main-nav";
 import { MobileNav } from "@/shared/components/app/mobile-nav";
 import { UserMenu } from "@/shared/components/app/user-menu";
+import { buttonVariants } from "@/shared/components/ui/button";
 
 type AppShellProps = {
   children: React.ReactNode;
-  userEmail: string;
+  userEmail?: string | null;
 };
 
 export function AppShell({ children, userEmail }: AppShellProps) {
@@ -22,7 +26,16 @@ export function AppShell({ children, userEmail }: AppShellProps) {
             <div className="lg:hidden">
               <MobileNav />
             </div>
-            <UserMenu email={userEmail} />
+            {userEmail ? (
+              <UserMenu email={userEmail} />
+            ) : (
+              <Link
+                href={appRoutes.login}
+                className={buttonVariants({ variant: "outline", size: "sm" })}
+              >
+                Log in
+              </Link>
+            )}
           </>
         }
       />

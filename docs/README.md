@@ -24,7 +24,7 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 - [Product Vision](./product/vision.md)
 - [Feature Contract](./product/feature-contract.md)
 - [Navigation And Routes](./product/navigation-and-routes.md)
-- [App Modules](./product/app-modules.md)
+- [App Modules And Product Families](./product/app-modules.md)
 - [Data Ownership](./product/data-ownership.md)
 - [Glossary](./product/glossary.md)
 - [Decision Log](./product/decision-log.md)
@@ -48,6 +48,6 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 
 Voydex is a Pokemon companion app. It should help a user track, remember, and plan Pokemon playthroughs without needing to open every cartridge, console, or save file.
 
-The active product module is `mainline`, covering mainline-style Pokemon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing label for this experience can be Adventures. Other modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior.
+The active product family is `mainline`, covering mainline-style Pokemon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience can be Adventures. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
 
 The current implementation is a clean Next.js app connected to a clean Supabase database project. The old prototype remains under `legacy/` only for reference.

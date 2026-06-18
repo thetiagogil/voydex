@@ -244,7 +244,7 @@ These are accepted future directions but not immediate implementation targets:
 
 ## Database Decisions
 
-The database design decisions for moves, tags, preferences, backlog/wishlist, rules, item scope, availability depth, snapshots, IDs, roster limits, app modules, tracking, gameplay, planning, and views are resolved in:
+The database design decisions for moves, tags, preferences, backlog/wishlist, rules, item scope, availability depth, snapshots, IDs, roster limits, product families, tracking, gameplay, planning, and views are resolved in:
 
 ```txt
 00-databases/projects/voydex/docs/schema-design-decisions.md

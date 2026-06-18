@@ -6,15 +6,27 @@ This glossary standardizes product language for the Voydex rebuild.
 
 ### App Module
 
-A product behavior family under the Voydex umbrella.
+A frontend product workspace inside the Voydex app.
 
-Current modules are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; modules describe product behavior.
+Current app modules include `dashboard`, `codex`, `mainline`, and `settings`.
+
+### Product Family
+
+A Pokemon content or game family stored in reference data.
+
+Current product families are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; product families describe Pokemon content scope.
+
+### Codex Module
+
+The frontend reference browser for Pokemon, games, generations, and future reference data.
+
+Codex is not a database product family. It can read reference data across product families as Voydex grows.
 
 ### Mainline Module
 
-The active Voydex module for mainline-style Pokemon RPG playthroughs.
+The active Voydex app module for mainline-style Pokemon RPG playthroughs.
 
-Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables and functions for this module use the `mainline_` prefix.
+Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables and functions for this product family use the `mainline_` prefix.
 
 ### Play
 
@@ -102,7 +114,7 @@ Important story milestones can optionally support team snapshots.
 
 ### Mainline Milestone
 
-The product term for a mainline-module story/progression step. Database objects use the `mainline_` prefix for these records.
+The product term for a mainline story/progression step. Database objects use the `mainline_` prefix for these records.
 
 The UI can call these Story Steps. Badges are represented as story milestones when that is how they occur in the game.
 

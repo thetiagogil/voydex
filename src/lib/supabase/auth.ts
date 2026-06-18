@@ -25,3 +25,17 @@ export async function getClaimsWithTimeout(
     throw error;
   }
 }
+
+export async function getOptionalUserEmail(
+  supabase: SupabaseClient<Database>,
+): Promise<string | null> {
+  const claimsResult = await getClaimsWithTimeout(supabase);
+
+  if (!claimsResult || claimsResult.error || !claimsResult.data?.claims?.sub) {
+    return null;
+  }
+
+  return typeof claimsResult.data.claims.email === "string"
+    ? claimsResult.data.claims.email
+    : "Account";
+}

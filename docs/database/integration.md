@@ -149,8 +149,8 @@ npm run build
 
 ## Important Product/Data Notes
 
-- Current active app module is `mainline`.
-- Future modules are `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`.
+- Current active database product family is `mainline`.
+- Future product families are `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`.
 - Pokedex completion is species-level.
 - DLC and other optional content are per-play scope choices.
 - National/special Pokedex scopes are supported as optional completion scopes when seeded.

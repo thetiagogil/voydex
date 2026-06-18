@@ -1,8 +1,8 @@
 import Link from "next/link";
 
+import { cn } from "@/lib/utils";
 import { Logo } from "@/shared/components/app/logo";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
-import { cn } from "@/lib/utils";
 
 type AppNavbarProps = {
   center?: React.ReactNode;
@@ -33,7 +33,7 @@ export function AppNavbar({
           contentClassName,
         )}
       >
-        <Link href="/" aria-label="Voydex home">
+        <Link href="/" aria-label="Voydex home" className="flex items-center">
           <Logo />
         </Link>
         {center ? (

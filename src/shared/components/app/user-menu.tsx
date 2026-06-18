@@ -3,6 +3,8 @@
 import { LogOutIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
+import { signOut } from "@/shared/auth/server/actions";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -14,7 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { signOut } from "@/shared/auth/server/actions";
 
 type UserMenuProps = {
   email: string;
@@ -40,7 +41,7 @@ export function UserMenu({ email }: UserMenuProps) {
           <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href="/settings" />}>
+        <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
           <SettingsIcon className="size-4" />
           Settings
         </DropdownMenuItem>

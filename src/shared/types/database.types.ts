@@ -1838,36 +1838,6 @@ export type Database = {
           },
         ];
       };
-      app_modules: {
-        Row: {
-          created_at: string;
-          description: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-          support_status: string;
-        };
-        Insert: {
-          created_at?: string;
-          description: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-          support_status: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string;
-          id?: number;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-          support_status?: string;
-        };
-        Relationships: [];
-      };
       availability_methods: {
         Row: {
           created_at: string;
@@ -2127,12 +2097,12 @@ export type Database = {
       };
       games: {
         Row: {
-          app_module_id: number;
           created_at: string;
           game_type_id: number;
           generation_id: number;
           id: number;
           name: string;
+          product_family_id: number;
           region_id: number;
           release_year: number;
           slug: string;
@@ -2140,12 +2110,12 @@ export type Database = {
           version_group_id: number;
         };
         Insert: {
-          app_module_id: number;
           created_at?: string;
           game_type_id: number;
           generation_id: number;
           id: number;
           name: string;
+          product_family_id: number;
           region_id: number;
           release_year: number;
           slug: string;
@@ -2153,12 +2123,12 @@ export type Database = {
           version_group_id: number;
         };
         Update: {
-          app_module_id?: number;
           created_at?: string;
           game_type_id?: number;
           generation_id?: number;
           id?: number;
           name?: string;
+          product_family_id?: number;
           region_id?: number;
           release_year?: number;
           slug?: string;
@@ -2167,10 +2137,10 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "games_app_module_id_fkey";
-            columns: ["app_module_id"];
+            foreignKeyName: "games_product_family_id_fkey";
+            columns: ["product_family_id"];
             isOneToOne: false;
-            referencedRelation: "app_modules";
+            referencedRelation: "product_families";
             referencedColumns: ["id"];
           },
           {
@@ -2284,6 +2254,36 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      product_families: {
+        Row: {
+          created_at: string;
+          description: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          support_status: string;
+        };
+        Insert: {
+          created_at?: string;
+          description: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          support_status: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string;
+          id?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+          support_status?: string;
+        };
+        Relationships: [];
       };
       item_categories: {
         Row: {

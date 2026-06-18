@@ -4,9 +4,9 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 ## Product Scope
 
-The active build target is the `mainline` app module: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats. The user-facing label for this module can be Adventures.
+The active build target is the `mainline` product family and its Adventures app workspace: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
 
-Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using module-specific data models where needed.
+Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using product-family-specific data models where needed.
 
 ## Primary App Areas
 
@@ -39,7 +39,7 @@ The user should not be forced through `Generations -> Games -> Plays` to create 
 
 ### Play Model
 
-A play is a concrete adventure record for one user and one `mainline` module game.
+A play is a concrete adventure record for one user and one `mainline` product-family game.
 
 Play lifecycle statuses:
 

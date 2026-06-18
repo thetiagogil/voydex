@@ -1,6 +1,13 @@
-# App Modules
+# App Modules And Product Families
 
-App modules describe product behavior families. They do not replace database schemas.
+Voydex uses two related but different concepts:
+
+- App modules are frontend product workspaces inside the Voydex app.
+- Product families are Pokemon content/game families stored in the database.
+
+They should not be treated as the same layer. A frontend module can read from one or more product families, and a product family can later support multiple app surfaces.
+
+## Database Schemas
 
 Schemas describe data responsibility:
 
@@ -11,40 +18,49 @@ Schemas describe data responsibility:
 - `views`
 - `public`
 
-Modules describe which type of Pokemon experience the app is supporting.
+Schemas are not feature modules. Voydex keeps schemas by data responsibility and uses explicit prefixes where table behavior is product-family-specific, such as `mainline_`.
 
-## Current Module Set
+## App Modules
 
-| Module     | Status  | Meaning                                                                                                                                                                                                                                             |
-| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mainline` | Active  | Mainline-style Pokemon RPG playthrough companion, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. User-facing label: Adventures. |
-| `dungeon`  | Future  | Mystery Dungeon-style games with different team, recruitment, dungeon, and story tracking needs.                                                                                                                                                    |
-| `pokopia`  | Future  | Pokopia-style life/simulation module. Exact feature model should be defined after official scope is stable.                                                                                                                                         |
-| `go`       | Future  | Pokemon GO companion module, likely focused on collection, living inventory, events, and goals rather than playthroughs.                                                                                                                            |
-| `home`     | Future  | Pokemon HOME/living-dex planning and completion support inside Voydex, without direct HOME account integration at first.                                                                                                                            |
-| `ranger`   | Backlog | Ranger-style games. Likely separate progress and capture mechanics.                                                                                                                                                                                 |
-| `sleep`    | Backlog | Pokemon Sleep tracking ideas. Not part of the initial app scope.                                                                                                                                                                                    |
+App modules describe the Voydex UI workspaces and product surfaces.
 
-## Why Not One Schema Per Module
+| Module      | Status | Meaning                                                                |
+| ----------- | ------ | ---------------------------------------------------------------------- |
+| `dashboard` | Active | Logged-in home, summary, and recent activity surface.                  |
+| `codex`     | Active | Public-readable reference browser for Pokemon, games, and generations. |
+| `mainline`  | Active | Mainline playthrough workspace. User-facing label: Adventures.         |
+| `settings`  | Active | User settings and preferences.                                         |
 
-One schema per module would make shared concepts harder to maintain and would duplicate access/RLS patterns.
+The app can eventually have a module selector or module-aware dashboard. Entering a module should feel like entering a focused app area under the Voydex umbrella.
 
-Voydex keeps schemas by data responsibility and uses module prefixes where table behavior is module-specific. Mainline-specific tables and functions use the `mainline_` prefix, for example `gameplay.mainline_plays`. Future module tables can use their own prefixes if their behavior diverges.
+## Product Families
 
-## What Modules Share
+Product families describe Pokemon game/content families in reference data.
 
-Most modules can share:
+| Product family | Status  | Meaning                                                                                                                                                                                                                                        |
+| -------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mainline`     | Active  | Mainline-style Pokemon RPG content, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. The app-facing workspace is Adventures. |
+| `dungeon`      | Planned | Mystery Dungeon-style games with different team, recruitment, dungeon, and story tracking needs.                                                                                                                                               |
+| `pokopia`      | Planned | Pokopia-style life/simulation content. Exact feature model should be defined after official scope is stable.                                                                                                                                   |
+| `go`           | Planned | Pokemon GO companion data, likely focused on collection, living inventory, events, and goals rather than playthroughs.                                                                                                                         |
+| `home`         | Planned | Pokemon HOME/living-dex planning and completion support inside Voydex, without direct HOME account integration at first.                                                                                                                       |
+| `ranger`       | Backlog | Ranger-style games. Likely separate progress and capture mechanics.                                                                                                                                                                            |
+| `sleep`        | Backlog | Pokemon Sleep tracking ideas. Not part of the initial app scope.                                                                                                                                                                               |
+
+`codex` is not a product family. It is a frontend module that can browse reference data across product families as the database grows.
+
+## Shared Boundaries
+
+Most app modules can share:
 
 - User account and profile.
 - Visual shell and design language.
 - Tags and preferences where the semantics are global.
-- Some reference Pokemon identity data.
-- Some item, type, move, ability, and species data if relevant.
+- Pokemon identity reference data.
+- Item, type, move, ability, and species data if relevant.
 - High-level navigation patterns.
 
-## What Modules Should Not Force Share
-
-Different modules should not be forced to share:
+Different product families should not be forced to share:
 
 - Play/team data models.
 - Pokedex completion rules.
@@ -53,10 +69,10 @@ Different modules should not be forced to share:
 - Completion calculations.
 - Timeline semantics.
 
-For example, a Mystery Dungeon module probably should not reuse the exact `mainline_plays` team model if recruitment, dungeons, and parties behave differently.
+For example, a Mystery Dungeon product family probably should not reuse the exact `mainline_plays` team model if recruitment, dungeons, and parties behave differently.
 
-## UI Implication
+## Implementation Direction
 
-The app can eventually have a module selector or module-aware dashboard. Entering a module should feel like entering a focused app area under the Voydex umbrella.
+The first build target is the mainline product family and the Adventures workspace, plus the Codex reference browser needed to support planning and browsing.
 
-The `mainline` module is the first priority. Other modules should be added after the mainline database and Adventures UI are useful, unless a future feature requires shared foundations now.
+Future product families should be added after the mainline database and Adventures UI are useful, unless a future feature requires shared foundations now.
