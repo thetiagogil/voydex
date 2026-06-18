@@ -29,7 +29,7 @@ export default function NotFound() {
             className={cn(buttonVariants({ size: "lg" }), "font-bold")}
           >
             <CompassIcon className="size-5" aria-hidden />
-            Enter App
+            Enter the app
           </Link>
           <Link
             href="/"

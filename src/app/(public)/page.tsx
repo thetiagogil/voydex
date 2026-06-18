@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils";
 const homeActions = [
   {
     href: "/dashboard",
-    label: "Enter App",
+    label: "Enter the app",
     icon: BackpackIcon,
     variant: "primary",
   },
   {
     href: "/intro",
-    label: "Learn More",
+    label: "Learn more",
     icon: CompassIcon,
     variant: "secondary",
   },
@@ -36,11 +36,11 @@ export default function Home() {
               layers={[
                 {
                   src: "/brand/voydex-mark-primary-mask.png",
-                  className: "bg-primary",
+                  className: "bg-main-title",
                 },
                 {
                   src: "/brand/voydex-mark-accent-mask.png",
-                  className: "bg-primary",
+                  className: "bg-main-title",
                 },
               ]}
             />
@@ -51,7 +51,7 @@ export default function Home() {
               layers={[
                 {
                   src: "/brand/voydex-title-primary-mask.png",
-                  className: "bg-primary",
+                  className: "bg-main-title",
                 },
               ]}
             />
@@ -67,7 +67,7 @@ export default function Home() {
                     href={action.href}
                     className={cn(
                       buttonVariants({
-                        variant: isPrimary ? "default" : "outline",
+                        variant: isPrimary ? "main-title" : "secondary",
                         size: "lg",
                       }),
                       "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-lg backdrop-blur-md sm:min-w-48",

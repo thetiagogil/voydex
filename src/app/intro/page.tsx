@@ -58,7 +58,7 @@ export default function IntroPage() {
                 href="/dashboard"
                 className={cn(buttonVariants({ size: "lg" }), "h-11")}
               >
-                Enter App
+                Enter the app
               </Link>
               <Link
                 href="/"
