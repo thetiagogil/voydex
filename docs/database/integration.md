@@ -55,7 +55,7 @@ Tracking defines what can be tracked. It is not user progress.
 
 User-owned play state:
 
-- `core_plays`
+- `mainline_plays`
 - play settings and optional content scopes
 - current roster and Pokemon lifecycle
 - story, collectible, and Pokedex progress
@@ -66,7 +66,7 @@ User-owned play state:
 
 User-owned team planning state:
 
-- `core_team_plans`
+- `mainline_team_plans`
 - planned members and moves
 - optional content scopes
 - plan-to-play links
@@ -83,20 +83,20 @@ Views are read targets, not mutation targets.
 
 Prefer database helper functions for multi-table behavior:
 
-- `gameplay.add_core_play_pokemon`
-- `gameplay.evolve_core_play_pokemon`
-- `gameplay.change_core_play_pokemon_form`
-- `gameplay.retire_core_play_pokemon`
-- `gameplay.replace_core_play_pokemon`
-- `gameplay.complete_core_play_milestone`
-- `gameplay.set_core_play_collectible_entry_progress`
-- `gameplay.set_core_play_pokedex_species_progress`
-- `planning.link_core_team_plan_to_play`
-- `planning.initialize_core_play_plan_member_links`
-- `planning.link_core_play_pokemon_to_plan_member`
-- `planning.realize_core_team_plan_member`
-- `planning.skip_core_team_plan_member`
-- `planning.refresh_core_play_plan_member_link_status`
+- `gameplay.add_mainline_play_pokemon`
+- `gameplay.evolve_mainline_play_pokemon`
+- `gameplay.change_mainline_play_pokemon_form`
+- `gameplay.retire_mainline_play_pokemon`
+- `gameplay.replace_mainline_play_pokemon`
+- `gameplay.complete_mainline_play_milestone`
+- `gameplay.set_mainline_play_collectible_entry_progress`
+- `gameplay.set_mainline_play_pokedex_species_progress`
+- `planning.link_mainline_team_plan_to_play`
+- `planning.initialize_mainline_play_plan_member_links`
+- `planning.link_mainline_play_pokemon_to_plan_member`
+- `planning.realize_mainline_team_plan_member`
+- `planning.skip_mainline_team_plan_member`
+- `planning.refresh_mainline_play_plan_member_link_status`
 
 Direct CRUD is acceptable for simpler user-owned surfaces where RLS and constraints already enforce ownership and validity, such as tags, rule links, and user game library rows.
 

@@ -4,13 +4,12 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getSafeAuthRedirectPath } from "@/lib/navigation";
 
 type AuthMode = "log-in" | "sign-up";
 
 function getSafeNext(formData: FormData) {
-  const next = formData.get("next");
-
-  return typeof next === "string" && next.startsWith("/") ? next : "/dashboard";
+  return getSafeAuthRedirectPath(formData.get("next"));
 }
 
 function redirectWithAuthError(

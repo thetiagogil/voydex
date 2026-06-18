@@ -14,7 +14,7 @@ Current modules are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, an
 
 The active Voydex module for mainline-style Pokemon RPG playthroughs.
 
-Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables with `core_` prefixes currently belong to this module.
+Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables and functions for this module use the `mainline_` prefix.
 
 ### Play
 
@@ -102,7 +102,7 @@ Important story milestones can optionally support team snapshots.
 
 ### Mainline Milestone
 
-The product term for a mainline-module story/progression step. Current database objects still use the `core_` prefix for these records.
+The product term for a mainline-module story/progression step. Database objects use the `mainline_` prefix for these records.
 
 The UI can call these Story Steps. Badges are represented as story milestones when that is how they occur in the game.
 

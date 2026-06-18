@@ -8,25 +8,25 @@ The app should store user intent and meaningful user state. It should derive sum
 
 ## Source Of Truth
 
-| Feature                          | Source of truth                                               |
-| -------------------------------- | ------------------------------------------------------------- |
-| User profile                     | `public.profiles`                                             |
-| Static Pokemon/game data         | `reference` schema                                            |
-| Story/collectible definitions    | `tracking` schema                                             |
-| Plays                            | `gameplay.core_plays`                                         |
-| Play metadata/settings           | `gameplay.core_play_settings` and play-owned columns/tables   |
-| Current play roster              | User-owned play Pokemon rows with active/reserve state        |
-| Retired/replaced Pokemon history | Play Pokemon lifecycle state plus play events                 |
-| Play Pokedex progress            | Gameplay species progress joined to reference Pokedex entries |
-| Play collectibles                | Gameplay collectible progress joined to tracking definitions  |
-| Story progress                   | Gameplay tracking progress joined to tracking definitions     |
-| Timeline/journal                 | `gameplay.core_play_events` and snapshot tables               |
-| Team snapshots                   | `gameplay.core_play_event_team_snapshots`                     |
-| Team plans                       | `planning.core_team_plans`                                    |
-| Plan-to-play links               | `planning.core_play_plan_links` and member links              |
-| Tags                             | User-owned tag tables and join tables                         |
-| Backlog/wishlist                 | User-owned game intent tables                                 |
-| Preferences                      | User-owned preference tables                                  |
+| Feature                          | Source of truth                                                 |
+| -------------------------------- | --------------------------------------------------------------- |
+| User profile                     | `public.profiles`                                               |
+| Static Pokemon/game data         | `reference` schema                                              |
+| Story/collectible definitions    | `tracking` schema                                               |
+| Plays                            | `gameplay.mainline_plays`                                       |
+| Play metadata/settings           | `gameplay.mainline_play_settings` and play-owned columns/tables |
+| Current play roster              | User-owned play Pokemon rows with active/reserve state          |
+| Retired/replaced Pokemon history | Play Pokemon lifecycle state plus play events                   |
+| Play Pokedex progress            | Gameplay species progress joined to reference Pokedex entries   |
+| Play collectibles                | Gameplay collectible progress joined to tracking definitions    |
+| Story progress                   | Gameplay tracking progress joined to tracking definitions       |
+| Timeline/journal                 | `gameplay.mainline_play_events` and snapshot tables             |
+| Team snapshots                   | `gameplay.mainline_play_event_team_snapshots`                   |
+| Team plans                       | `planning.mainline_team_plans`                                  |
+| Plan-to-play links               | `planning.mainline_play_plan_links` and member links            |
+| Tags                             | User-owned tag tables and join tables                           |
+| Backlog/wishlist                 | User-owned game intent tables                                   |
+| Preferences                      | User-owned preference tables                                    |
 
 ## Derived Data
 
@@ -47,7 +47,7 @@ Some derived values may be cached later for performance, but caching should not 
 
 ## Plays
 
-`core_play` is the current database naming for the central gameplay entity in the active `mainline` module.
+`mainline_play` is the database naming for the central gameplay entity in the active `mainline` module.
 
 A play owns:
 
@@ -134,7 +134,7 @@ Progress tables should generally be sparse. Missing story, collectible, or Poked
 
 ## Module Scope
 
-These ownership rules describe the active `mainline` module. Future modules may reuse shared reference/profile concepts, but they should not be forced into `core_plays`, `core_team_plans`, or mainline story progress if their product behavior differs.
+These ownership rules describe the active `mainline` module. Future modules may reuse shared reference/profile concepts, but they should not be forced into `mainline_plays`, `mainline_team_plans`, or mainline story progress if their product behavior differs.
 
 ## Audit And History
 

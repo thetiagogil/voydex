@@ -29,7 +29,7 @@ Modules describe which type of Pokemon experience the app is supporting.
 
 One schema per module would make shared concepts harder to maintain and would duplicate access/RLS patterns.
 
-Voydex keeps schemas by data responsibility and uses module prefixes where table behavior is module-specific. Existing database tables and functions currently retain the `core_` prefix for the `mainline` module, for example `gameplay.core_plays`. Future module tables can use their own prefixes if their behavior diverges.
+Voydex keeps schemas by data responsibility and uses module prefixes where table behavior is module-specific. Mainline-specific tables and functions use the `mainline_` prefix, for example `gameplay.mainline_plays`. Future module tables can use their own prefixes if their behavior diverges.
 
 ## What Modules Share
 
@@ -53,7 +53,7 @@ Different modules should not be forced to share:
 - Completion calculations.
 - Timeline semantics.
 
-For example, a Mystery Dungeon module probably should not reuse the exact `core_plays` team model if recruitment, dungeons, and parties behave differently.
+For example, a Mystery Dungeon module probably should not reuse the exact `mainline_plays` team model if recruitment, dungeons, and parties behave differently.
 
 ## UI Implication
 

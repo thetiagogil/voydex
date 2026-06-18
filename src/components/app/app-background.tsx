@@ -22,11 +22,11 @@ export function AppBackground() {
       className="bg-secondary pointer-events-none fixed inset-0 z-0"
     >
       <Image
-        src="/backgrounds/bg.png"
+        src="/backgrounds/bg.webp"
         alt=""
         fill
-        priority
-        unoptimized
+        priority={tone === "hero"}
+        quality={80}
         sizes="100vw"
         className="object-cover object-center"
       />

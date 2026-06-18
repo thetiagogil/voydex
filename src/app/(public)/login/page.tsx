@@ -7,6 +7,7 @@ import {
   AuthPanel,
   type AuthMode,
 } from "@/features/auth/components/auth-panel";
+import { getSafeAuthRedirectPath } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
 type LoginPageProps = {
@@ -19,7 +20,7 @@ type LoginPageProps = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const next = params?.next?.startsWith("/") ? params.next : "/dashboard";
+  const next = getSafeAuthRedirectPath(params?.next);
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
 
   return (
