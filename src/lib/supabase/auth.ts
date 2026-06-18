@@ -1,6 +1,6 @@
 import { isAuthError, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { Database } from "@/types/database.types";
+import type { Database } from "@/shared/types/database.types";
 
 type ClaimsResult = Awaited<
   ReturnType<SupabaseClient<Database>["auth"]["getClaims"]>

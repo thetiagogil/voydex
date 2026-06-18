@@ -1,9 +1,9 @@
 import { BackpackIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 
-import { BrandImage } from "@/components/app/brand-image";
-import { buttonVariants } from "@/components/ui/button";
-import { surfaceClassNames } from "@/components/ui/surface";
+import { BrandImage } from "@/shared/components/app/brand-image";
+import { buttonVariants } from "@/shared/components/ui/button";
+import { surfaceClassNames } from "@/shared/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 const homeActions = [

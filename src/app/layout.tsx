@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
-import { AppBackground } from "@/components/app/app-background";
+import { AppBackground } from "@/shared/components/app/app-background";
 import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
-} from "@/components/app/database-health-status";
-import { ThemeInitScript } from "@/components/theme/theme-init-script";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
+} from "@/shared/components/app/database-health-status";
+import { ThemeInitScript } from "@/shared/theme/theme-init-script";
+import { ThemeProvider } from "@/shared/theme/theme-provider";
+import { TooltipProvider } from "@/shared/components/ui/tooltip";
 
 import "./globals.css";
 

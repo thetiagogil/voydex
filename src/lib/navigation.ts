@@ -1,4 +1,4 @@
-import { appRoutes, isProtectedRoute } from "@/constants/routes";
+import { appRoutes, isProtectedRoute } from "@/config/routes";
 
 const DEFAULT_AUTH_REDIRECT_PATH = appRoutes.dashboard;
 const AUTH_REDIRECT_BASE_URL = "https://voydex.local";

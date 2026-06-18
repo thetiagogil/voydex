@@ -256,4 +256,4 @@ The app-facing database handoff lives in:
 00-databases/projects/voydex/docs/app-handoff.md
 ```
 
-This app should use those docs and `src/types/database.types.ts` as the implementation contract.
+This app should use those docs and `src/shared/types/database.types.ts` as the implementation contract.

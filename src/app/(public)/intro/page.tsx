@@ -6,9 +6,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { AppNavbar } from "@/components/app/app-navbar";
-import { buttonVariants } from "@/components/ui/button";
-import { surfaceClassNames } from "@/components/ui/surface";
+import { AppNavbar } from "@/shared/components/app/app-navbar";
+import { buttonVariants } from "@/shared/components/ui/button";
+import { surfaceClassNames } from "@/shared/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 const introFeatures = [

@@ -1,7 +1,7 @@
-import { EmptyState } from "@/components/app/empty-state";
-import { PageHeader } from "@/components/app/page-header";
-import { PageSection } from "@/components/app/page-section";
-import { appModules } from "@/constants/app-modules";
+import { EmptyState } from "@/shared/components/app/empty-state";
+import { PageHeader } from "@/shared/components/app/page-header";
+import { PageSection } from "@/shared/components/app/page-section";
+import { appModules } from "@/config/app-modules";
 
 const mainlineModule = appModules.mainline;
 

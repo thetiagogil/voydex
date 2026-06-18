@@ -13,21 +13,38 @@ src/
     (public)/
     api/
     page.tsx
-  components/
-    app/
-    pokemon/
-    ui/
-  features/
-    auth/
-  modules/
-    mainline/
+  config/
   lib/
     supabase/
     env.ts
     utils.ts
-  types/
-    database.types.ts
+  modules/
+    mainline/
+      features/
+      shared/
+  shared/
+    auth/
+    components/
+      app/
+      pokemon/
+      ui/
+    pokemon/
+    settings/
+    theme/
+    types/
+  proxy.ts
 ```
+
+Root-level source folders should stay limited to:
+
+- `app`
+- `config`
+- `lib`
+- `modules`
+- `shared`
+- `proxy.ts`
+
+Do not reintroduce root `components`, `constants`, `features`, or `types` folders.
 
 ## Route Layers
 
@@ -69,7 +86,7 @@ Supabase client creation is centralized:
 Rules:
 
 - Do not create ad hoc Supabase clients in UI components.
-- Use generated `Database` types from `src/types/database.types.ts`.
+- Use generated `Database` types from `src/shared/types/database.types.ts`.
 - Server Components and Server Actions should prefer server-side Supabase clients.
 - Client Components should only use browser clients where interactivity needs it.
 - App writes should follow the database handoff: use helper functions for multi-table gameplay/planning mutations instead of manually writing fragile sequences.
@@ -87,17 +104,29 @@ The proxy:
 
 ## Components
 
-### `components/ui`
+### `src/shared/components/ui`
 
 Reusable UI primitives. These should remain generic and shadcn-compatible.
 
-### `components/app`
+### `src/shared/components/app`
 
 Application shell, navigation, layout helpers, health banner, and app-specific shared components.
 
-### `components/pokemon`
+### `src/shared/components/pokemon`
 
 Pokemon-specific shared visual components such as type icons. Keep product-specific Pokemon display logic here only when it is reusable across features.
+
+### `src/shared/theme`
+
+Theme provider and theme bootstrapping code.
+
+### `src/shared/types`
+
+Generated and shared app-wide types, including the Supabase `Database` type.
+
+### `src/config`
+
+Static app contracts such as routes, navigation, and app module metadata. These are not runtime helpers and should not live in `lib`.
 
 ## Modules
 
@@ -124,12 +153,12 @@ Future modules such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`
 
 ## Feature Code
 
-`src/features` should hold cross-module application features such as auth.
+Cross-app features such as auth and settings live in `src/shared`.
 
 Recommended pattern:
 
 ```txt
-src/features/auth/
+src/shared/auth/
   components/
   server/
 ```

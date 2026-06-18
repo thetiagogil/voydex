@@ -1,10 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { isProtectedRoute } from "@/constants/routes";
+import { isProtectedRoute } from "@/config/routes";
 import { getSupabasePublicConfig } from "@/lib/env";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
-import type { Database } from "@/types/database.types";
+import type { Database } from "@/shared/types/database.types";
 
 function redirectWithSessionCookies(url: URL, sessionResponse: NextResponse) {
   const redirectResponse = NextResponse.redirect(url);

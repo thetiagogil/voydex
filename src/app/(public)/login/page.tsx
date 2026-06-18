@@ -1,12 +1,9 @@
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
-import { buttonVariants } from "@/components/ui/button";
-import { surfaceClassNames } from "@/components/ui/surface";
-import {
-  AuthPanel,
-  type AuthMode,
-} from "@/features/auth/components/auth-panel";
+import { buttonVariants } from "@/shared/components/ui/button";
+import { surfaceClassNames } from "@/shared/components/ui/surface";
+import { AuthPanel, type AuthMode } from "@/shared/auth/components/auth-panel";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 

@@ -46,7 +46,7 @@ npm run build
 Generated database types are committed at:
 
 ```txt
-src/types/database.types.ts
+src/shared/types/database.types.ts
 ```
 
 The canonical generated type file comes from:

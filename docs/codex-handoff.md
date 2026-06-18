@@ -93,7 +93,7 @@ Most important handoff doc:
 App-consumed types:
 
 ```txt
-13-voydex/src/types/database.types.ts
+13-voydex/src/shared/types/database.types.ts
 ```
 
 When database types change, copy the generated database type file from `00-databases/projects/voydex/types/database.types.ts` into the app. Do not add an app-side type generation script unless the user asks for one again.

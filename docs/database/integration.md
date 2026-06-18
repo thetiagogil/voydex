@@ -18,7 +18,7 @@ This app repo consumes the database contract; it does not own schema or seed sou
 | Generated local schema wrapper | `00-databases/projects/voydex/supabase/migrations/00000000000000_voydex_current_schema.sql` |
 | Generated local seed wrapper   | `00-databases/projects/voydex/supabase/seed.sql`                                            |
 | Generated TypeScript types     | `00-databases/projects/voydex/types/database.types.ts`                                      |
-| App-consumed TypeScript types  | `13-voydex/src/types/database.types.ts`                                                     |
+| App-consumed TypeScript types  | `13-voydex/src/shared/types/database.types.ts`                                              |
 
 Edit schema and seed source files in `00-databases`, not generated wrappers.
 
@@ -116,7 +116,7 @@ Database types are generated in `00-databases` and copied into the app:
 
 ```txt
 00-databases/projects/voydex/types/database.types.ts
-13-voydex/src/types/database.types.ts
+13-voydex/src/shared/types/database.types.ts
 ```
 
 When database schema changes:

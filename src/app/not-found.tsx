@@ -1,8 +1,8 @@
 import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 
-import { buttonVariants } from "@/components/ui/button";
-import { surfaceClassNames } from "@/components/ui/surface";
+import { buttonVariants } from "@/shared/components/ui/button";
+import { surfaceClassNames } from "@/shared/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 export default function NotFound() {

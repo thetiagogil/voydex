@@ -2,9 +2,9 @@
 
 import { AlertTriangleIcon, RotateCcwIcon } from "lucide-react";
 
-import { PageHeader } from "@/components/app/page-header";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { PageHeader } from "@/shared/components/app/page-header";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 type ProtectedErrorProps = {
   error: Error & { digest?: string };

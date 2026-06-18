@@ -18,7 +18,7 @@ The desired mix:
 ## UI Stack
 
 - Tailwind CSS.
-- shadcn-style primitives in `src/components/ui`.
+- shadcn-style primitives in `src/shared/components/ui`.
 - Lucide icons for interface actions.
 - Custom visual assets for hero/background/brand moments.
 
