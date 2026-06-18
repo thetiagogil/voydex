@@ -1,7 +1,9 @@
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { PageSection } from "@/components/app/page-section";
-import { mainlineModule } from "@/modules/mainline/constants";
+import { appModules } from "@/constants/app-modules";
+
+const mainlineModule = appModules.mainline;
 
 export function MainlineDashboardHome() {
   return (
