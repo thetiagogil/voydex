@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
+import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGenerationDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -38,7 +39,7 @@ export async function GenerationDetailPage({
           href={appRoutes.codexGenerations}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon className="size-4" aria-hidden />
+          <ArrowLeftIcon aria-hidden />
           Back to generations
         </Link>
       </div>
@@ -52,12 +53,17 @@ export async function GenerationDetailPage({
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
-            {data.games.map(({ game, region, versionGroup }) => (
+            {data.games.map(({ coverImageUrl, game, region, versionGroup }) => (
               <Link
                 key={game.id}
                 href={appRoutes.codexGame(game.slug)}
-                className="group rounded-lg border p-4"
+                className="group flex flex-col gap-3 rounded-lg border p-3"
               >
+                <GameCoverArt
+                  imageUrl={coverImageUrl}
+                  name={game.name}
+                  className="rounded-lg"
+                />
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="font-medium">{game.name}</div>

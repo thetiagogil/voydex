@@ -5,6 +5,7 @@ import { appRoutes } from "@/config/routes";
 import { getGamesPageData } from "@/modules/codex/data/queries";
 import type { GameCard } from "@/modules/codex/types";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
+import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { Badge } from "@/shared/components/ui/badge";
 import {
   Card,
@@ -18,11 +19,14 @@ function GameSummaryCard({ card }: { card: GameCard }) {
   return (
     <Link href={appRoutes.codexGame(card.game.slug)} className="group">
       <Card className="group-hover:border-primary/40 group-hover:bg-card/90 h-full transition-colors">
+        <div className="px-6 pt-6">
+          <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
+        </div>
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>
               <CardDescription>
-                {card.generation?.name ?? "Unknown generation"} ·{" "}
+                {card.generation?.name ?? "Unknown generation"} /{" "}
                 {card.game.release_year}
               </CardDescription>
               <CardTitle>{card.game.name}</CardTitle>

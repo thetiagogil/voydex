@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
+import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGameDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -36,13 +37,16 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
           href={appRoutes.codexGames}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon className="size-4" aria-hidden />
+          <ArrowLeftIcon aria-hidden />
           Back to games
         </Link>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         <Card>
+          <div className="px-6 pt-6">
+            <GameCoverArt imageUrl={data.coverImageUrl} name={data.game.name} />
+          </div>
           <CardHeader>
             <CardTitle>Game overview</CardTitle>
             <CardDescription>

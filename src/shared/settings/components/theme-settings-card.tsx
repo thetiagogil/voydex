@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  CheckIcon,
-  MonitorIcon,
-  MoonIcon,
-  SunIcon,
-  type LucideIcon,
-} from "lucide-react";
+import { MonitorIcon, MoonIcon, SunIcon, type LucideIcon } from "lucide-react";
 
 import {
   Card,
@@ -15,8 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/shared/components/ui/toggle-group";
 import { useTheme, type ThemePreference } from "@/shared/theme/theme-provider";
-import { cn } from "@/lib/utils";
 
 type ThemeOption = {
   description: string;
@@ -59,35 +56,29 @@ export function ThemeSettingsCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div
-          role="radiogroup"
+        <ToggleGroup
           aria-label="Theme preference"
           className="grid gap-3 sm:grid-cols-3"
+          value={[theme]}
+          onValueChange={(value) => {
+            const nextTheme = value[0];
+
+            if (nextTheme) {
+              setTheme(nextTheme as ThemePreference);
+            }
+          }}
         >
           {themeOptions.map((option) => {
             const Icon = option.icon;
-            const isSelected = theme === option.value;
 
             return (
-              <button
+              <ToggleGroupItem
                 key={option.value}
-                type="button"
-                role="radio"
-                aria-checked={isSelected}
-                className={cn(
-                  "border-border bg-card/60 hover:bg-muted/60 focus-visible:ring-ring flex flex-col gap-3 rounded-xl border p-4 text-left transition-colors outline-none focus-visible:ring-2",
-                  isSelected &&
-                    "border-primary bg-primary/10 text-primary shadow-primary/10 shadow-sm",
-                )}
-                onClick={() => {
-                  setTheme(option.value);
-                }}
+                value={option.value}
+                variant="card"
               >
                 <span className="flex items-center justify-between gap-3">
-                  <Icon className="size-5" aria-hidden />
-                  {isSelected ? (
-                    <CheckIcon className="size-4" aria-hidden />
-                  ) : null}
+                  <Icon aria-hidden />
                 </span>
                 <span>
                   <span className="block text-sm font-semibold">
@@ -97,10 +88,10 @@ export function ThemeSettingsCard() {
                     {option.description}
                   </span>
                 </span>
-              </button>
+              </ToggleGroupItem>
             );
           })}
-        </div>
+        </ToggleGroup>
       </CardContent>
     </Card>
   );

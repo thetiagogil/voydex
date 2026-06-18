@@ -31,7 +31,7 @@ export default function ProtectedError({ error, reset }: ProtectedErrorProps) {
             </p>
           </div>
           <Button type="button" onClick={reset}>
-            <RotateCcwIcon className="size-4" aria-hidden />
+            <RotateCcwIcon aria-hidden />
             Try again
           </Button>
         </CardContent>

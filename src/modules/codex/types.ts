@@ -76,6 +76,7 @@ export type GenerationsPageData = {
 export type GenerationDetailData = {
   generation: Generation;
   games: Array<{
+    coverImageUrl: string | null;
     game: Game;
     region: Region | null;
     versionGroup: VersionGroup | null;
@@ -85,6 +86,7 @@ export type GenerationDetailData = {
 };
 
 export type GameCard = {
+  coverImageUrl: string | null;
   game: Game;
   generation: Generation | null;
   region: Region | null;

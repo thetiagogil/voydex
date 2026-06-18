@@ -31,6 +31,7 @@ export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
           <Link
             key={item.href}
             href={item.href}
+            aria-current={isActive ? "page" : undefined}
             className={cn(
               "text-muted-foreground hover:bg-muted hover:text-foreground rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
               isActive

@@ -107,7 +107,7 @@ export function DatabaseHealthStatus() {
             "relative rounded-full shadow-lg",
           )}
         >
-          <WifiOffIcon className="text-destructive size-5" aria-hidden />
+          <WifiOffIcon className="text-destructive" aria-hidden />
           <span
             className="bg-destructive ring-background absolute -top-0.5 -right-0.5 size-3 rounded-full ring-2"
             aria-hidden

@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getGameCoverImageUrl } from "@/modules/codex/media/game-images";
 import type {
   Game,
   GameCard,
@@ -114,6 +115,7 @@ function buildGameCards(params: {
 
   return params.games.map((game) => ({
     game,
+    coverImageUrl: getGameCoverImageUrl(game),
     generation: generationById.get(game.generation_id) ?? null,
     region: regionById.get(game.region_id) ?? null,
     versionGroup: versionGroupById.get(game.version_group_id) ?? null,
@@ -531,6 +533,7 @@ export async function getGenerationDetailData(
   return {
     generation,
     games: (gamesResult.data ?? []).map((game) => ({
+      coverImageUrl: getGameCoverImageUrl(game),
       game,
       region: regionById.get(game.region_id) ?? null,
       versionGroup: versionGroupById.get(game.version_group_id) ?? null,

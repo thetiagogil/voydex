@@ -10,8 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
 import {
   logInWithPassword,
@@ -62,42 +62,36 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
       <form action={action} className="flex flex-col">
         <CardContent className="flex flex-col gap-4 pb-8">
           <input type="hidden" name="next" value={next} />
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+          <Field name="email">
+            <FieldLabel>Email</FieldLabel>
             <Input
-              id="email"
-              name="email"
               type="email"
               autoComplete="email"
               className={cn(surfaceClassNames.field, "h-11")}
               required
             />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Password</Label>
+          </Field>
+          <Field name="password">
+            <FieldLabel>Password</FieldLabel>
             <Input
-              id="password"
-              name="password"
               type="password"
               autoComplete={isSignUp ? "new-password" : "current-password"}
               className={cn(surfaceClassNames.field, "h-11")}
               required
               minLength={6}
             />
-          </div>
+          </Field>
           {isSignUp ? (
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="confirmPassword">Confirm password</Label>
+            <Field name="confirmPassword">
+              <FieldLabel>Confirm password</FieldLabel>
               <Input
-                id="confirmPassword"
-                name="confirmPassword"
                 type="password"
                 autoComplete="new-password"
                 className={cn(surfaceClassNames.field, "h-11")}
                 required
                 minLength={6}
               />
-            </div>
+            </Field>
           ) : null}
 
           {error ? (

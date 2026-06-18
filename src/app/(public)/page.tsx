@@ -43,11 +43,11 @@ export default async function Home() {
               layers={[
                 {
                   src: "/brand/voydex-mark-primary-mask.png",
-                  className: "bg-main-title",
+                  className: "bg-primary",
                 },
                 {
                   src: "/brand/voydex-mark-accent-mask.png",
-                  className: "bg-main-title",
+                  className: "bg-primary",
                 },
               ]}
             />
@@ -58,7 +58,7 @@ export default async function Home() {
               layers={[
                 {
                   src: "/brand/voydex-title-primary-mask.png",
-                  className: "bg-main-title",
+                  className: "bg-primary",
                 },
               ]}
             />
@@ -74,14 +74,14 @@ export default async function Home() {
                     href={action.href}
                     className={cn(
                       buttonVariants({
-                        variant: isPrimary ? "main-title" : "secondary",
+                        variant: isPrimary ? "default" : "secondary",
                         size: "lg",
                       }),
                       "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-lg backdrop-blur-md sm:min-w-48",
                       !isPrimary && surfaceClassNames.control,
                     )}
                   >
-                    <Icon className="size-5" aria-hidden />
+                    <Icon aria-hidden />
                     {action.label}
                   </Link>
                 );

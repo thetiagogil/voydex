@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 type PageLoadingStateProps = {
   className?: string;
@@ -11,18 +11,14 @@ export function PageLoadingState({
   lines = 3,
 }: PageLoadingStateProps) {
   return (
-    <Card className={cn("animate-pulse", className)}>
+    <Card className={className}>
       <CardHeader>
-        <div className="bg-muted h-5 w-48 rounded" />
-        <div className="bg-muted h-4 w-full max-w-xl rounded" />
+        <Skeleton className="h-5 w-48" />
+        <Skeleton className="h-4 w-full max-w-xl" />
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="flex flex-col gap-3">
         {Array.from({ length: lines }, (_, index) => (
-          <div
-            key={index}
-            className="bg-muted h-10 rounded"
-            aria-hidden="true"
-          />
+          <Skeleton key={index} className="h-10" aria-hidden="true" />
         ))}
       </CardContent>
     </Card>

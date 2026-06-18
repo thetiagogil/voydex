@@ -1,6 +1,8 @@
 import { ACTIVE_MODULE_COOKIE_NAME, type ModuleKey } from "@/config/modules";
 
 export function setActiveModuleCookie(moduleKey: ModuleKey) {
+  document.documentElement.dataset.activeModule = moduleKey;
+
   document.cookie = [
     `${ACTIVE_MODULE_COOKIE_NAME}=${encodeURIComponent(moduleKey)}`,
     "path=/",

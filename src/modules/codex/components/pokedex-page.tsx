@@ -6,8 +6,9 @@ import { PokemonTypeList } from "@/modules/codex/components/pokemon-type-list";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { getPokedexPageData } from "@/modules/codex/data/queries";
 import type { PokedexPokemonCard } from "@/modules/codex/types";
+import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
-import { buttonVariants } from "@/shared/components/ui/button";
+import { Button, buttonVariants } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,7 +23,16 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
-import { Input } from "@/shared/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/shared/components/ui/input-group";
+import {
+  getPokemonFormImageAlt,
+  getPokemonFormImageUrl,
+} from "@/shared/pokemon/pokemon-images";
+import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
 import { cn } from "@/lib/utils";
 
 type PokedexPageProps = {
@@ -34,12 +44,25 @@ function formatNationalNumber(number: number) {
 }
 
 function PokemonCard({ pokemon }: { pokemon: PokedexPokemonCard }) {
+  const primaryTypeSlug = pokemon.typePair.primaryType?.slug;
+  const portraitType =
+    primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
+      ? primaryTypeSlug
+      : null;
+
   return (
     <Link
       href={appRoutes.codexPokemonSpecies(pokemon.species.slug)}
       className="group"
     >
       <Card className="group-hover:border-primary/40 group-hover:bg-card/90 h-full transition-colors">
+        <div className="px-6 pt-6">
+          <PokemonPortrait
+            alt={getPokemonFormImageAlt(pokemon.defaultForm)}
+            imageUrl={getPokemonFormImageUrl(pokemon.defaultForm)}
+            type={portraitType}
+          />
+        </div>
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -91,21 +114,17 @@ export async function PokedexPage({ query }: PokedexPageProps) {
         className="flex w-full flex-col gap-3 sm:max-w-xl sm:flex-row"
         action={appRoutes.codexPokemon}
       >
-        <div className="relative flex-1">
-          <SearchIcon
-            className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
-            aria-hidden
-          />
-          <Input
+        <InputGroup className="h-10 flex-1">
+          <InputGroupAddon>
+            <SearchIcon aria-hidden />
+          </InputGroupAddon>
+          <InputGroupInput
             name="q"
             defaultValue={data.searchQuery}
             placeholder="Search by name or National number"
-            className="pl-9"
           />
-        </div>
-        <button className={buttonVariants()} type="submit">
-          Search
-        </button>
+        </InputGroup>
+        <Button type="submit">Search</Button>
         {data.searchQuery ? (
           <Link
             href={appRoutes.codexPokemon}

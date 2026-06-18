@@ -31,7 +31,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             "w-fit",
           )}
         >
-          <ArrowLeftIcon className="size-4" aria-hidden />
+          <ArrowLeftIcon aria-hidden />
           Back to home
         </Link>
         <AuthPanel error={params?.error} mode={mode} next={next} />

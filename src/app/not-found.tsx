@@ -29,7 +29,7 @@ export default function NotFound() {
             href={appRoutes.appEntry}
             className={cn(buttonVariants({ size: "lg" }), "font-bold")}
           >
-            <CompassIcon className="size-5" aria-hidden />
+            <CompassIcon aria-hidden />
             Enter the app
           </Link>
           <Link
@@ -40,7 +40,7 @@ export default function NotFound() {
               "font-bold",
             )}
           >
-            <HomeIcon className="size-5" aria-hidden />
+            <HomeIcon aria-hidden />
             Home
           </Link>
         </div>

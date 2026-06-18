@@ -10,6 +10,7 @@ import type {
   PokemonAvailabilitySummary,
   PokemonFormSummary,
 } from "@/modules/codex/types";
+import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
@@ -19,6 +20,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
+import {
+  getPokemonFormImageAlt,
+  getPokemonFormImageUrl,
+} from "@/shared/pokemon/pokemon-images";
 
 type PokemonDetailPageProps = {
   speciesSlug: string;
@@ -38,8 +44,21 @@ function formatNationalNumber(number: number) {
 }
 
 function PokemonFormCard({ form }: { form: PokemonFormSummary }) {
+  const primaryTypeSlug = form.typePair.primaryType?.slug;
+  const portraitType =
+    primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
+      ? primaryTypeSlug
+      : null;
+
   return (
     <Card>
+      <div className="px-6 pt-6">
+        <PokemonPortrait
+          alt={getPokemonFormImageAlt(form.form)}
+          imageUrl={getPokemonFormImageUrl(form.form)}
+          type={portraitType}
+        />
+      </div>
       <CardHeader>
         <CardDescription>
           {form.introducedGeneration?.name ?? "Unknown generation"}
@@ -119,7 +138,7 @@ export async function PokemonDetailPage({
           href={appRoutes.codexPokemon}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon className="size-4" aria-hidden />
+          <ArrowLeftIcon aria-hidden />
           Back to Pokedex
         </Link>
       </div>

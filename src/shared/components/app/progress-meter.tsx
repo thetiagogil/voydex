@@ -1,3 +1,4 @@
+import { Progress } from "@/shared/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 type ProgressMeterProps = {
@@ -18,26 +19,18 @@ export function ProgressMeter({
   const percentage = Math.round((safeValue / safeMax) * 100);
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("flex flex-col gap-2", className)}>
       {label ? (
         <div className="flex items-center justify-between gap-3 text-sm">
           <span className="text-foreground font-medium">{label}</span>
           <span className="text-muted-foreground">{percentage}%</span>
         </div>
       ) : null}
-      <div
-        className="bg-muted h-2 overflow-hidden rounded-full"
-        role="progressbar"
-        aria-valuemin={0}
-        aria-valuemax={safeMax}
-        aria-valuenow={safeValue}
+      <Progress
+        value={safeValue}
+        max={safeMax}
         aria-label={label ?? "Progress"}
-      >
-        <div
-          className="bg-primary h-full rounded-full transition-[width]"
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
+      />
     </div>
   );
 }
