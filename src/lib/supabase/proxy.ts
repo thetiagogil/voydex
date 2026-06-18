@@ -5,7 +5,7 @@ import { getSupabasePublicConfig } from "@/lib/env";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import type { Database } from "@/types/database.types";
 
-const protectedRoutePrefixes = ["/dashboard"];
+const protectedRoutePrefixes = ["/dashboard", "/settings"];
 
 function isProtectedRoute(pathname: string) {
   return protectedRoutePrefixes.some((prefix) => pathname.startsWith(prefix));

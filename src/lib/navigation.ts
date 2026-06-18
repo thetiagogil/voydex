@@ -1,5 +1,12 @@
 const DEFAULT_AUTH_REDIRECT_PATH = "/dashboard";
 const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
+const SAFE_AUTH_REDIRECT_PREFIXES = ["/dashboard", "/settings"] as const;
+
+function isSafeAuthRedirectPath(pathname: string) {
+  return SAFE_AUTH_REDIRECT_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
 
 export function getSafeAuthRedirectPath(
   value: unknown,
@@ -22,10 +29,7 @@ export function getSafeAuthRedirectPath(
       return fallback;
     }
 
-    if (
-      url.pathname !== DEFAULT_AUTH_REDIRECT_PATH &&
-      !url.pathname.startsWith(`${DEFAULT_AUTH_REDIRECT_PATH}/`)
-    ) {
+    if (!isSafeAuthRedirectPath(url.pathname)) {
       return fallback;
     }
 

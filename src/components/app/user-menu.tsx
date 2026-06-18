@@ -1,6 +1,7 @@
 "use client";
 
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, SettingsIcon } from "lucide-react";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,11 @@ export function UserMenu({ email }: UserMenuProps) {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem render={<Link href="/settings" />}>
+          <SettingsIcon className="size-4" />
+          Settings
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <form action={signOut}>
           <DropdownMenuItem

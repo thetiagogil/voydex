@@ -40,7 +40,7 @@ export default function Home() {
                 },
                 {
                   src: "/brand/voydex-mark-accent-mask.png",
-                  className: "bg-accent",
+                  className: "bg-primary",
                 },
               ]}
             />
