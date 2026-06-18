@@ -1,29 +1,36 @@
 import { BackpackIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
 import { BrandImage } from "@/shared/components/app/brand-image";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
+import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { cn } from "@/lib/utils";
 
 const homeActions = [
   {
-    href: "/dashboard",
+    href: appRoutes.appEntry,
     label: "Enter the app",
     icon: BackpackIcon,
     variant: "primary",
   },
   {
-    href: "/intro",
+    href: appRoutes.intro,
     label: "Learn more",
     icon: CompassIcon,
     variant: "secondary",
   },
 ] as const;
 
-export default function Home() {
+export default async function Home() {
+  const activeModuleKey = await getActiveModuleKeyFromCookies();
+
   return (
-    <main className="text-foreground min-h-screen">
+    <main
+      data-active-module={activeModuleKey}
+      className="text-foreground min-h-screen"
+    >
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
         <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-28 lg:pt-32">
           <div className="flex w-full max-w-5xl flex-col items-center">

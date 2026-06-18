@@ -4,7 +4,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getSafeAuthRedirectPath } from "@/lib/navigation";
+import {
+  DEFAULT_AUTH_REDIRECT_PATH,
+  getSafeAuthRedirectPath,
+} from "@/lib/navigation";
 
 type AuthMode = "log-in" | "sign-up";
 
@@ -23,7 +26,7 @@ function redirectWithAuthError(
     params.set("mode", mode);
   }
 
-  if (next !== "/dashboard") {
+  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
     params.set("next", next);
   }
 

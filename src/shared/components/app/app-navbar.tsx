@@ -5,6 +5,7 @@ import { Logo } from "@/shared/components/app/logo";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
 
 type AppNavbarProps = {
+  afterLogo?: React.ReactNode;
   center?: React.ReactNode;
   className?: string;
   contentClassName?: string;
@@ -12,6 +13,7 @@ type AppNavbarProps = {
 };
 
 export function AppNavbar({
+  afterLogo,
   center,
   className,
   contentClassName,
@@ -33,9 +35,12 @@ export function AppNavbar({
           contentClassName,
         )}
       >
-        <Link href="/" aria-label="Voydex home" className="flex items-center">
-          <Logo />
-        </Link>
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/" aria-label="Voydex home" className="flex items-center">
+            <Logo showText={false} />
+          </Link>
+          {afterLogo}
+        </div>
         {center ? (
           <div className="flex min-w-0 flex-1 justify-center">{center}</div>
         ) : null}

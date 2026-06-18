@@ -1,6 +1,6 @@
 import { appRoutes, isProtectedRoute } from "@/config/routes";
 
-const DEFAULT_AUTH_REDIRECT_PATH = appRoutes.dashboard;
+export const DEFAULT_AUTH_REDIRECT_PATH = appRoutes.appEntry;
 const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
 
 export function getSafeAuthRedirectPath(
@@ -24,7 +24,10 @@ export function getSafeAuthRedirectPath(
       return fallback;
     }
 
-    if (!isProtectedRoute(url.pathname)) {
+    if (
+      url.pathname !== appRoutes.appEntry &&
+      !isProtectedRoute(url.pathname)
+    ) {
       return fallback;
     }
 

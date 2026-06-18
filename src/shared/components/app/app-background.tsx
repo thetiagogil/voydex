@@ -33,8 +33,8 @@ export function AppBackground() {
         className={cn(
           "absolute inset-0 transition-colors duration-300",
           tone === "hero" && "bg-secondary/5",
-          tone === "intro" && "bg-background/50 dark:bg-background/75",
-          tone === "app" && "bg-background/50 dark:bg-background/75",
+          tone === "intro" && "bg-background/60 dark:bg-background/75",
+          tone === "app" && "bg-background/60 dark:bg-background/75",
         )}
       />
     </div>

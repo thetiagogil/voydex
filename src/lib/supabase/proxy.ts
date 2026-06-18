@@ -1,6 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import {
+  ACTIVE_MODULE_COOKIE_NAME,
+  getModuleKeyForPathname,
+} from "@/config/modules";
 import { isProtectedRoute } from "@/config/routes";
 import { getSupabasePublicConfig } from "@/lib/env";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
@@ -16,15 +20,38 @@ function redirectWithSessionCookies(url: URL, sessionResponse: NextResponse) {
   return redirectResponse;
 }
 
+function syncActiveModuleCookie(
+  response: NextResponse,
+  moduleKey: string | null,
+) {
+  if (!moduleKey) {
+    return response;
+  }
+
+  response.cookies.set(ACTIVE_MODULE_COOKIE_NAME, moduleKey, {
+    maxAge: 60 * 60 * 24 * 365,
+    path: "/",
+    sameSite: "lax",
+  });
+
+  return response;
+}
+
 export async function updateSession(request: NextRequest) {
   if (request.nextUrl.pathname === "/api/health") {
     return NextResponse.next({ request });
   }
 
+  const routeModuleKey = getModuleKeyForPathname(request.nextUrl.pathname);
+
+  if (routeModuleKey) {
+    request.cookies.set(ACTIVE_MODULE_COOKIE_NAME, routeModuleKey);
+  }
+
   let response = NextResponse.next({ request });
 
   if (!isProtectedRoute(request.nextUrl.pathname)) {
-    return response;
+    return syncActiveModuleCookie(response, routeModuleKey);
   }
 
   const { key, url } = getSupabasePublicConfig();
@@ -64,8 +91,11 @@ export async function updateSession(request: NextRequest) {
       "next",
       `${request.nextUrl.pathname}${request.nextUrl.search}`,
     );
-    return redirectWithSessionCookies(loginUrl, response);
+    return syncActiveModuleCookie(
+      redirectWithSessionCookies(loginUrl, response),
+      routeModuleKey,
+    );
   }
 
-  return response;
+  return syncActiveModuleCookie(response, routeModuleKey);
 }

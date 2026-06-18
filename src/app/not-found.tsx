@@ -26,7 +26,7 @@ export default function NotFound() {
         </p>
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
           <Link
-            href={appRoutes.dashboard}
+            href={appRoutes.appEntry}
             className={cn(buttonVariants({ size: "lg" }), "font-bold")}
           >
             <CompassIcon className="size-5" aria-hidden />

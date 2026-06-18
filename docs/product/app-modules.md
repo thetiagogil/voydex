@@ -24,14 +24,14 @@ Schemas are not feature modules. Voydex keeps schemas by data responsibility and
 
 App modules describe the Voydex UI workspaces and product surfaces.
 
-| Module      | Status | Meaning                                                                |
-| ----------- | ------ | ---------------------------------------------------------------------- |
-| `dashboard` | Active | Logged-in home, summary, and recent activity surface.                  |
-| `codex`     | Active | Public-readable reference browser for Pokemon, games, and generations. |
-| `mainline`  | Active | Mainline playthrough workspace. User-facing label: Adventures.         |
-| `settings`  | Active | User settings and preferences.                                         |
+| Module     | Status | Meaning                                                                |
+| ---------- | ------ | ---------------------------------------------------------------------- |
+| `mainline` | Active | Mainline playthrough workspace. User-facing label: Adventures.         |
+| `codex`    | Active | Public-readable reference browser for Pokemon, games, and generations. |
 
-The app can eventually have a module selector or module-aware dashboard. Entering a module should feel like entering a focused app area under the Voydex umbrella.
+Dashboard is a view inside the `mainline` module. Settings is a global account/app preference area, not a product module.
+
+The navbar uses a module switcher backed by the `voydex-active-module` cookie. Entering a module should feel like entering a focused app area under the Voydex umbrella.
 
 ## Product Families
 
@@ -73,6 +73,6 @@ For example, a Mystery Dungeon product family probably should not reuse the exac
 
 ## Implementation Direction
 
-The first build target is the mainline product family and the Adventures workspace, plus the Codex reference browser needed to support planning and browsing.
+The first build target is the mainline product family and the Adventures module, plus the Codex reference browser needed to support planning and browsing.
 
 Future product families should be added after the mainline database and Adventures UI are useful, unless a future feature requires shared foundations now.

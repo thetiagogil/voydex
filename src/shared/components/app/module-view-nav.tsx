@@ -3,15 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { mainNavItems } from "@/config/navigation";
+import { getActiveModuleKey, modules, type ModuleKey } from "@/config/modules";
 import { cn } from "@/lib/utils";
 
-export function MainNav() {
+type ModuleViewNavProps = {
+  activeModuleKey: ModuleKey;
+};
+
+export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
   const pathname = usePathname();
+  const currentModuleKey = getActiveModuleKey({
+    cookieValue: activeModuleKey,
+    pathname,
+  });
+  const currentModule = modules[currentModuleKey];
 
   return (
-    <nav className="flex items-center gap-1">
-      {mainNavItems.map((item) => {
+    <nav
+      aria-label={`${currentModule.label} navigation`}
+      className="flex items-center gap-1"
+    >
+      {currentModule.views.map((item) => {
         const isActive =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
 

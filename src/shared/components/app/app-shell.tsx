@@ -1,30 +1,41 @@
 import Link from "next/link";
 
+import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
-import { MainNav } from "@/shared/components/app/main-nav";
 import { MobileNav } from "@/shared/components/app/mobile-nav";
+import { ModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu";
+import { ModuleViewNav } from "@/shared/components/app/module-view-nav";
 import { UserMenu } from "@/shared/components/app/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type AppShellProps = {
+  activeModuleKey: ModuleKey;
   children: React.ReactNode;
   userEmail?: string | null;
 };
 
-export function AppShell({ children, userEmail }: AppShellProps) {
+export function AppShell({
+  activeModuleKey,
+  children,
+  userEmail,
+}: AppShellProps) {
   return (
-    <div className="relative isolate flex min-h-screen flex-col">
+    <div
+      data-active-module={activeModuleKey}
+      className="relative isolate flex min-h-screen flex-col"
+    >
       <AppNavbar
+        afterLogo={<ModuleNavigationMenu activeModuleKey={activeModuleKey} />}
         center={
           <div className="hidden lg:flex">
-            <MainNav />
+            <ModuleViewNav activeModuleKey={activeModuleKey} />
           </div>
         }
         end={
           <>
             <div className="lg:hidden">
-              <MobileNav />
+              <MobileNav activeModuleKey={activeModuleKey} />
             </div>
             {userEmail ? (
               <UserMenu email={userEmail} />

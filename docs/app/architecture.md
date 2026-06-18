@@ -52,12 +52,15 @@ Do not reintroduce root `components`, `constants`, `features`, or `types` folder
 ### Public Routes
 
 - `/`
+- `/app`
 - `/intro`
 - `/login`
 - `/auth/callback`
 - `/api/health`
 
 The landing page should remain accessible even when signed in. It is a brand/home surface, not only a pre-auth gate.
+
+`/app` is the generic app entry route. It reads the `voydex-active-module` cookie and redirects to the active module default route.
 
 ### App Routes
 
@@ -77,7 +80,8 @@ Codex is public-readable but can still show authenticated shell behavior when a 
 
 Protected routes live under `src/app/(protected)` and are guarded by the proxy auth flow:
 
-- `/dashboard`
+- `/adventures`
+- `/adventures/dashboard`
 - `/settings`
 
 Planned workspaces such as Plays, Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
@@ -116,6 +120,7 @@ The proxy:
 
 - Skips `/api/health`.
 - Lets public routes through.
+- Syncs the `voydex-active-module` cookie when the request is for a known module route.
 - Refreshes Supabase cookies for protected routes.
 - Redirects unauthenticated users to `/login?next=...`.
 
@@ -145,6 +150,14 @@ Generated and shared app-wide types, including the Supabase `Database` type.
 
 Static app contracts such as routes, navigation, app module metadata, and product family metadata. These are not runtime helpers and should not live in `lib`.
 
+Module configuration lives in `src/config/modules.ts`. It defines:
+
+- Active modules.
+- Module default routes.
+- Module view links.
+- The active-module cookie name.
+- Path-to-module resolution helpers.
+
 ## Modules
 
 `src/modules` holds product module code. A module is a product area with its own behavior, not a database schema boundary.
@@ -156,7 +169,9 @@ src/modules/codex/
 src/modules/mainline/
 ```
 
-The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label can be Adventures.
+The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label is Adventures.
+
+Dashboard is a view inside the `mainline` module, not its own module.
 
 Feature code inside a module should follow this shape:
 
@@ -169,7 +184,7 @@ src/modules/mainline/features/dashboard/
   types.ts
 ```
 
-Future app modules can use the same module pattern when they become active. Pokemon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should not automatically become app modules until they have distinct frontend behavior.
+Future app modules can use the same module pattern when they become active. Pokemon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can become modules when they have distinct frontend behavior.
 
 ## Feature Code
 

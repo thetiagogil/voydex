@@ -42,7 +42,7 @@ export function UserMenu({ email }: UserMenuProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
-          <SettingsIcon className="size-4" />
+          <SettingsIcon />
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -52,7 +52,7 @@ export function UserMenu({ email }: UserMenuProps) {
             nativeButton
             render={<button type="submit" className="w-full" />}
           >
-            <LogOutIcon className="size-4" />
+            <LogOutIcon />
             Sign out
           </DropdownMenuItem>
         </form>

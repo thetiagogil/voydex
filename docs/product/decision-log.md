@@ -14,9 +14,13 @@ It should not become only a generic Pokemon wiki. Reference search exists to sup
 
 Voydex is organized by product modules, not by forcing every Pokemon game family into one play model.
 
-Accepted module names:
+Active module names:
 
 - `mainline`
+- `codex`
+
+Accepted future module names:
+
 - `dungeon`
 - `pokopia`
 - `go`
@@ -24,28 +28,22 @@ Accepted module names:
 - `ranger`
 - `sleep`
 
-The active module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label can be Adventures.
+The active playthrough module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label is Adventures.
+
+`codex` is the active reference-browsing module. It is not a database product family.
 
 Future modules can share profile, shell, reference, and design foundations, but they should get module-specific tables and flows when their mechanics differ.
 
 ### Primary Navigation
 
-Main navbar:
+The main navbar is module-aware. It shows a module switcher plus the active module's view links.
 
-- Dashboard
-- Plays
-- Plans
-- Pokedex
-- Collection
-- Stats
-- Browse
+Current module views:
 
-Browse contains:
+- Adventures: Dashboard.
+- Codex: Pokemon, Games, Generations.
 
-- Generations
-- Games
-
-Generations and Games are contextual browse routes, not the required product funnel.
+Generations and Games are Codex browse routes, not the required product funnel.
 
 ### Play Is The Central Gameplay Entity
 

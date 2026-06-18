@@ -1,4 +1,5 @@
 export const appRoutes = {
+  appEntry: "/app",
   authCallback: "/auth/callback",
   collection: "/collection",
   collectionEntry: (playPokemonId: string) => `/collection/${playPokemonId}`,
@@ -10,10 +11,11 @@ export const appRoutes = {
   codexGenerations: "/codex/generations",
   codexPokemon: "/codex/pokemon",
   codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
-  dashboard: "/dashboard",
   home: "/",
   intro: "/intro",
   login: "/login",
+  mainline: "/adventures",
+  mainlineDashboard: "/adventures/dashboard",
   newPlan: "/plans/new",
   newPlay: "/plays/new",
   plan: (planId: string) => `/plans/${planId}`,
@@ -32,7 +34,7 @@ export const appRoutes = {
 
 export const protectedRoutePrefixes = [
   appRoutes.collection,
-  appRoutes.dashboard,
+  appRoutes.mainline,
   appRoutes.plans,
   appRoutes.plays,
   appRoutes.settings,

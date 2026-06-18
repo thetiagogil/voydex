@@ -8,7 +8,9 @@ This glossary standardizes product language for the Voydex rebuild.
 
 A frontend product workspace inside the Voydex app.
 
-Current app modules include `dashboard`, `codex`, `mainline`, and `settings`.
+Current app modules include `mainline` and `codex`.
+
+Dashboard is a view inside `mainline`. Settings is a global app/account area.
 
 ### Product Family
 

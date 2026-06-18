@@ -4,7 +4,7 @@ This document defines the app navigation model and route contract.
 
 ## Navigation Model
 
-Voydex should have independent top-level workspaces and dependent context routes.
+Voydex should have independent top-level modules and dependent module views.
 
 The app should not force a single linear flow. `Generations -> Games -> Plays` remains a browse path, but the user can create and reach plays directly.
 
@@ -12,25 +12,38 @@ This document describes the target navigation contract. The current app mounts o
 
 ## Main Navbar
 
-Current primary links:
+The navbar is module-aware:
+
+- Voydex logo.
+- Module switcher.
+- Active module view links.
+- User menu.
+
+The active module is stored in the `voydex-active-module` cookie. Explicit module URLs override the cookie for the rendered navigation and refresh the cookie through the proxy.
+
+Current modules:
+
+- Adventures, internal module key `mainline`.
+- Codex, internal module key `codex`.
+
+Current Adventures views:
 
 - Dashboard
-- Codex
 
-Planned primary links for the Adventures workspace:
+Planned Adventures views:
 
 - Plays
 - Plans
 - Collection
 - Stats
 
-Codex contains its own local navigation:
+Current Codex views:
 
-- Pokedex
+- Pokemon
 - Games
 - Generations
 
-Add additional primary links only when their pages are implemented.
+Add additional module view links only when their pages are implemented.
 
 ## Profile Menu
 
@@ -48,13 +61,19 @@ Add profile and account routes when those pages are implemented.
 
 ## Route Tree
 
-### Dashboard
+### Adventures
 
 ```txt
-/dashboard
+/app
+/adventures
+/adventures/dashboard
 ```
 
-Home after login. Shows recent plays, quick actions, recent activity, and summary stats.
+`/app` reads the `voydex-active-module` cookie and redirects to the active module's default route.
+
+`/adventures` redirects to `/adventures/dashboard`.
+
+Dashboard is a Mainline/Adventures view, not a top-level app module. It shows recent plays, quick actions, recent activity, and summary stats.
 
 ### Codex
 
@@ -159,13 +178,13 @@ Dashboard or Plays -> New Play -> Select Game -> Play Hub
 ### Browse To Create Play
 
 ```txt
-Browse -> Generations -> Generation -> Game -> Create Play
+Codex -> Generations -> Generation -> Game -> Create Play
 ```
 
 ### Create Plan
 
 ```txt
-Dashboard or Plans -> New Plan -> Select Game -> Plan Detail
+Adventures Dashboard or Plans -> New Plan -> Select Game -> Plan Detail
 ```
 
 ### Create Play From Plan
@@ -190,7 +209,8 @@ Codex -> Pokedex -> Pokemon Detail -> Add To Plan
 
 ## Routing Principles
 
-- Top-level routes should represent user workspaces.
+- Top-level routes should represent modules.
+- Module views should belong to their active module instead of appearing as global navbar peers.
 - Nested play routes should represent play-specific tasks.
 - Codex routes should provide context and discovery, not be required funnels.
 - Plan routes should not be nested under plays because plans can exist before plays.

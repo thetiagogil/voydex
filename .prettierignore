@@ -5,6 +5,7 @@ build
 coverage
 .turbo
 .vercel
+.agents
 package-lock.json
 src/types/database.types.ts
 legacy

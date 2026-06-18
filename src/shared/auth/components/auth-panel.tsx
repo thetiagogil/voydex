@@ -17,6 +17,7 @@ import {
   logInWithPassword,
   signUpWithPassword,
 } from "@/shared/auth/server/actions";
+import { DEFAULT_AUTH_REDIRECT_PATH } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
 export type AuthMode = "log-in" | "sign-up";
@@ -34,7 +35,7 @@ function buildModeHref(mode: AuthMode, next: string) {
     params.set("mode", mode);
   }
 
-  if (next !== "/dashboard") {
+  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
     params.set("next", next);
   }
 

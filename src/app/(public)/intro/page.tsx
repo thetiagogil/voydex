@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { surfaceClassNames } from "@/shared/components/ui/surface";
@@ -55,13 +56,13 @@ export default function IntroPage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/dashboard"
+                href={appRoutes.appEntry}
                 className={cn(buttonVariants({ size: "lg" }), "h-11")}
               >
                 Enter the app
               </Link>
               <Link
-                href="/"
+                href={appRoutes.home}
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "lg" }),
                   "h-11",

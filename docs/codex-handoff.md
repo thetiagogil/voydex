@@ -21,7 +21,7 @@ Voydex is a Pokemon companion app for tracking, remembering, and planning playth
 
 Main app areas:
 
-- Dashboard.
+- Adventures Dashboard.
 - Plays.
 - Play Hub.
 - Team Management.
@@ -30,19 +30,20 @@ Main app areas:
 - Pokedex Progress.
 - Collectibles.
 - Plans.
-- Pokedex Search.
+- Codex Pokemon Search.
 - Collection.
 - Stats.
-- Browse: Generations and Games.
+- Codex Browse: Generations and Games.
 - Settings.
 
 The app should not force `Generations -> Games -> Plays` as the only flow. Users should be able to create and continue plays directly.
 
 ## Current Module Scope
 
-Active module:
+Active modules:
 
 - `mainline`: mainline-style Pokemon RPG playthrough companion. User-facing label: Adventures.
+- `codex`: public-readable reference browser for Pokemon, games, and generations.
 
 Future modules:
 
@@ -75,6 +76,8 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 - Rules support both structured predefined behavior and custom descriptive text.
 - The item catalog is Pokemon-relevant only.
 - Other Pokemon game families should be separate modules later, not forced into the mainline play model now.
+- Dashboard is a `mainline` module view, not a top-level module.
+- Active module preference is stored in the `voydex-active-module` cookie.
 
 ## Database Contract
 
@@ -114,7 +117,8 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Protected route surface is intentionally limited to Dashboard until each feature page is implemented.
+- Protected Mainline route surface is intentionally limited to `/adventures/dashboard` until each feature page is implemented.
+- Codex routes are mounted under `/codex`.
 - Home page hero uses real image layers.
 
 ## Working Style Preferences

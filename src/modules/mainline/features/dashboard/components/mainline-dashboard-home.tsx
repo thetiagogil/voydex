@@ -1,9 +1,9 @@
 import { EmptyState } from "@/shared/components/app/empty-state";
 import { PageHeader } from "@/shared/components/app/page-header";
 import { PageSection } from "@/shared/components/app/page-section";
-import { appModules } from "@/config/app-modules";
+import { modules } from "@/config/modules";
 
-const mainlineModule = appModules.mainline;
+const mainlineModule = modules.mainline;
 
 export function MainlineDashboardHome() {
   return (

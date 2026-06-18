@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AppShell } from "@/shared/components/app/app-shell";
+import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -20,6 +21,11 @@ export default async function ProtectedLayout({
     typeof claimsResult.data.claims.email === "string"
       ? claimsResult.data.claims.email
       : "Account";
+  const activeModuleKey = await getActiveModuleKeyFromCookies();
 
-  return <AppShell userEmail={email}>{children}</AppShell>;
+  return (
+    <AppShell activeModuleKey={activeModuleKey} userEmail={email}>
+      {children}
+    </AppShell>
+  );
 }
