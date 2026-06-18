@@ -1,12 +1,7 @@
-const DEFAULT_AUTH_REDIRECT_PATH = "/dashboard";
-const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
-const SAFE_AUTH_REDIRECT_PREFIXES = ["/dashboard", "/settings"] as const;
+import { appRoutes, isProtectedRoute } from "@/constants/routes";
 
-function isSafeAuthRedirectPath(pathname: string) {
-  return SAFE_AUTH_REDIRECT_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
-}
+const DEFAULT_AUTH_REDIRECT_PATH = appRoutes.dashboard;
+const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
 
 export function getSafeAuthRedirectPath(
   value: unknown,
@@ -29,7 +24,7 @@ export function getSafeAuthRedirectPath(
       return fallback;
     }
 
-    if (!isSafeAuthRedirectPath(url.pathname)) {
+    if (!isProtectedRoute(url.pathname)) {
       return fallback;
     }
 
@@ -38,3 +33,5 @@ export function getSafeAuthRedirectPath(
     return fallback;
   }
 }
+
+export { appRoutes };

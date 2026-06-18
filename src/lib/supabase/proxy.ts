@@ -1,15 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { isProtectedRoute } from "@/constants/routes";
 import { getSupabasePublicConfig } from "@/lib/env";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import type { Database } from "@/types/database.types";
-
-const protectedRoutePrefixes = ["/dashboard", "/settings"];
-
-function isProtectedRoute(pathname: string) {
-  return protectedRoutePrefixes.some((prefix) => pathname.startsWith(prefix));
-}
 
 function redirectWithSessionCookies(url: URL, sessionResponse: NextResponse) {
   const redirectResponse = NextResponse.redirect(url);

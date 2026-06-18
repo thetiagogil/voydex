@@ -9,11 +9,9 @@ The app should stay boring in its architecture and rich in its product behavior.
 ```txt
 src/
   app/
-    (auth)/
     (protected)/
+    (public)/
     api/
-    auth/
-    intro/
     page.tsx
   components/
     app/
@@ -49,7 +47,15 @@ Protected routes live under `src/app/(protected)` and are guarded by the proxy a
 
 - `/dashboard`
 
-Only Dashboard is mounted for now. Planned workspaces such as Plays, Plans, Pokedex, Collection, Stats, Browse, and Settings should be added route-by-route when their product slice is implemented.
+Only Dashboard and Settings are mounted for now. Planned workspaces such as Plays, Plans, Pokedex, Collection, Stats, and Browse should be added route-by-route when their product slice is implemented.
+
+### Route Organization
+
+- Public UI routes should live under `src/app/(public)`.
+- Protected app routes should live under `src/app/(protected)`.
+- Root-level special files such as `layout.tsx`, `not-found.tsx`, `icon.png`, and `apple-icon.png` stay at `src/app`.
+- API route handlers stay under `src/app/api`.
+- Public auth callback handlers may live under `src/app/(public)/auth` because they are public infrastructure routes.
 
 ## Supabase Boundary
 
