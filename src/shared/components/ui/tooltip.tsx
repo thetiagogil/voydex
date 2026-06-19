@@ -1,65 +1,55 @@
 "use client";
 
-import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
+import * as React from "react";
 
-import { surfaceClassNames } from "@/shared/components/ui/surface";
 import { cn } from "@/lib/utils";
 
 function TooltipProvider({
-  delay = 300,
-  closeDelay = 100,
+  delayDuration = 0,
   ...props
-}: TooltipPrimitive.Provider.Props) {
+}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
   return (
     <TooltipPrimitive.Provider
       data-slot="tooltip-provider"
-      delay={delay}
-      closeDelay={closeDelay}
+      delayDuration={delayDuration}
       {...props}
     />
   );
 }
 
-function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
+function Tooltip({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
 }
 
-function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
+function TooltipTrigger({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
 
 function TooltipContent({
   className,
-  side = "top",
-  align = "center",
-  sideOffset = 6,
-  alignOffset = 0,
+  sideOffset = 0,
+  children,
   ...props
-}: TooltipPrimitive.Popup.Props &
-  Pick<
-    TooltipPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  >) {
+}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   return (
     <TooltipPrimitive.Portal>
-      <TooltipPrimitive.Positioner
-        side={side}
-        align={align}
+      <TooltipPrimitive.Content
+        data-slot="tooltip-content"
         sideOffset={sideOffset}
-        alignOffset={alignOffset}
-        className="z-50"
+        className={cn(
+          "bg-foreground text-background data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 inline-flex w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) items-center gap-1.5 rounded-md px-3 py-1.5 text-xs has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
+          className,
+        )}
+        {...props}
       >
-        <TooltipPrimitive.Popup
-          data-slot="tooltip-content"
-          className={cn(
-            "text-popover-foreground z-50 max-w-xs rounded-lg px-3 py-2 text-sm outline-none",
-            surfaceClassNames.popover,
-            "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-            className,
-          )}
-          {...props}
-        />
-      </TooltipPrimitive.Positioner>
+        {children}
+        <TooltipPrimitive.Arrow className="bg-foreground fill-foreground z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
+      </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );
 }
