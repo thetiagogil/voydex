@@ -9,7 +9,13 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { surfaceClassNames } from "@/shared/components/ui/surface";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const introFeatures = [
@@ -73,17 +79,17 @@ export default function IntroPage() {
             </div>
           </div>
 
-          <div className={cn(surfaceClassNames.panel, "rounded-lg p-5 sm:p-6")}>
-            <div>
-              <h2 className="text-lg font-semibold">Built around history</h2>
-              <p className="text-muted-foreground mt-2 leading-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Built around history</CardTitle>
+              <CardDescription className="leading-6">
                 The app treats each play as a timeline of decisions, milestones,
                 and team changes, so a finished run stays useful after the
                 credits.
-              </p>
-            </div>
+              </CardDescription>
+            </CardHeader>
 
-            <div className="mt-6 grid gap-1">
+            <CardContent className="grid gap-1">
               {workflowSteps.map((step) => (
                 <div
                   key={step}
@@ -96,8 +102,8 @@ export default function IntroPage() {
                   <p className="text-sm leading-6">{step}</p>
                 </div>
               ))}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </section>
 
         <section className="grid gap-4 py-8 md:grid-cols-3">
@@ -105,23 +111,17 @@ export default function IntroPage() {
             const Icon = feature.icon;
 
             return (
-              <article
-                key={feature.title}
-                className={cn(
-                  surfaceClassNames.panel,
-                  "flex gap-3 rounded-lg p-4",
-                )}
-              >
-                <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
-                  <Icon className="size-5" aria-hidden />
-                </div>
-                <div>
-                  <h2 className="font-semibold">{feature.title}</h2>
-                  <p className="text-muted-foreground mt-1 text-sm leading-6">
+              <Card key={feature.title} size="sm">
+                <CardHeader className="grid-cols-[auto_1fr] gap-x-3">
+                  <div className="bg-primary/10 text-primary row-span-2 flex size-10 shrink-0 items-center justify-center rounded-lg">
+                    <Icon className="size-5" aria-hidden />
+                  </div>
+                  <CardTitle>{feature.title}</CardTitle>
+                  <CardDescription className="leading-6">
                     {feature.description}
-                  </p>
-                </div>
-              </article>
+                  </CardDescription>
+                </CardHeader>
+              </Card>
             );
           })}
         </section>

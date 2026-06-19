@@ -10,9 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { Field, FieldLabel } from "@/shared/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { surfaceClassNames } from "@/shared/components/ui/surface";
 import {
   logInWithPassword,
   signUpWithPassword,
@@ -54,7 +53,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 
   return (
-    <Card className={cn(surfaceClassNames.glass, "overflow-hidden")}>
+    <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -62,37 +61,44 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
       <form action={action} className="flex flex-col">
         <CardContent className="flex flex-col gap-4 pb-8">
           <input type="hidden" name="next" value={next} />
-          <Field name="email">
-            <FieldLabel>Email</FieldLabel>
-            <Input
-              type="email"
-              autoComplete="email"
-              className={cn(surfaceClassNames.field, "h-11")}
-              required
-            />
-          </Field>
-          <Field name="password">
-            <FieldLabel>Password</FieldLabel>
-            <Input
-              type="password"
-              autoComplete={isSignUp ? "new-password" : "current-password"}
-              className={cn(surfaceClassNames.field, "h-11")}
-              required
-              minLength={6}
-            />
-          </Field>
-          {isSignUp ? (
-            <Field name="confirmPassword">
-              <FieldLabel>Confirm password</FieldLabel>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Input
+                id="password"
+                name="password"
                 type="password"
-                autoComplete="new-password"
-                className={cn(surfaceClassNames.field, "h-11")}
+                autoComplete={isSignUp ? "new-password" : "current-password"}
                 required
                 minLength={6}
               />
             </Field>
-          ) : null}
+            {isSignUp ? (
+              <Field>
+                <FieldLabel htmlFor="confirmPassword">
+                  Confirm password
+                </FieldLabel>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  minLength={6}
+                />
+              </Field>
+            ) : null}
+          </FieldGroup>
 
           {error ? (
             <Alert variant="destructive">
@@ -100,12 +106,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
             </Alert>
           ) : null}
         </CardContent>
-        <CardFooter
-          className={cn(
-            surfaceClassNames.subtle,
-            "flex flex-col items-stretch gap-5 pt-6 pb-0",
-          )}
-        >
+        <CardFooter className="flex flex-col items-stretch gap-5 pt-6">
           <Button type="submit" className="h-11 text-base">
             {title}
           </Button>

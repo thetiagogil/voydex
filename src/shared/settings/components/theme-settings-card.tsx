@@ -57,12 +57,12 @@ export function ThemeSettingsCard() {
       </CardHeader>
       <CardContent>
         <ToggleGroup
+          type="single"
           aria-label="Theme preference"
-          className="grid gap-3 sm:grid-cols-3"
-          value={[theme]}
-          onValueChange={(value) => {
-            const nextTheme = value[0];
-
+          variant="outline"
+          className="grid w-full gap-3 sm:grid-cols-3"
+          value={theme}
+          onValueChange={(nextTheme) => {
             if (nextTheme) {
               setTheme(nextTheme as ThemePreference);
             }
@@ -75,7 +75,7 @@ export function ThemeSettingsCard() {
               <ToggleGroupItem
                 key={option.value}
                 value={option.value}
-                variant="card"
+                className="h-auto flex-col items-start justify-start gap-3 p-4 text-left whitespace-normal"
               >
                 <span className="flex items-center justify-between gap-3">
                   <Icon aria-hidden />

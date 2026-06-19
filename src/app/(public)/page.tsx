@@ -2,11 +2,9 @@ import { BackpackIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { cn } from "@/lib/utils";
 import { BrandImage } from "@/shared/components/app/brand-image";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { surfaceClassNames } from "@/shared/components/ui/surface";
-import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
-import { cn } from "@/lib/utils";
 
 const homeActions = [
   {
@@ -23,16 +21,11 @@ const homeActions = [
   },
 ] as const;
 
-export default async function Home() {
-  const activeModuleKey = await getActiveModuleKeyFromCookies();
-
+export default function Home() {
   return (
-    <main
-      data-active-module={activeModuleKey}
-      className="text-foreground min-h-screen"
-    >
+    <main className="text-foreground min-h-screen">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-28 lg:pt-32">
+        <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-36 lg:pt-40">
           <div className="flex w-full max-w-5xl flex-col items-center">
             <h1 className="sr-only">Voydex</h1>
 
@@ -74,14 +67,13 @@ export default async function Home() {
                     href={action.href}
                     className={cn(
                       buttonVariants({
-                        variant: isPrimary ? "default" : "secondary",
+                        variant: isPrimary ? "default" : "outline",
                         size: "lg",
                       }),
-                      "h-14 min-w-0 rounded-xl px-6 text-base font-bold shadow-lg backdrop-blur-md sm:min-w-48",
-                      !isPrimary && surfaceClassNames.control,
+                      "min-w-0 sm:min-w-48",
                     )}
                   >
-                    <Icon aria-hidden />
+                    <Icon data-icon="inline-start" aria-hidden />
                     {action.label}
                   </Link>
                 );

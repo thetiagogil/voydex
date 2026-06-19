@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import { ActiveModuleThemeScope } from "@/shared/components/app/active-module-theme-scope";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { MobileNav } from "@/shared/components/app/mobile-nav";
 import { ModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu";
@@ -22,11 +21,7 @@ export function AppShell({
   userEmail,
 }: AppShellProps) {
   return (
-    <div
-      data-active-module={activeModuleKey}
-      className="relative isolate flex min-h-screen flex-col"
-    >
-      <ActiveModuleThemeScope activeModuleKey={activeModuleKey} />
+    <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
         afterLogo={<ModuleNavigationMenu activeModuleKey={activeModuleKey} />}
         center={

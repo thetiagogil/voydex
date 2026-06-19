@@ -12,6 +12,7 @@ import {
 } from "@/config/modules";
 import { cn } from "@/lib/utils";
 import { setActiveModuleCookie } from "@/shared/components/app/module-cookie";
+import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +23,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { Button } from "@/shared/components/ui/button";
 
 type ModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
@@ -44,16 +44,14 @@ export function ModuleNavigationMenu({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="ghost"
-            className="text-primary hover:bg-primary/10 hover:text-primary aria-expanded:bg-primary/10 aria-expanded:text-primary h-9 rounded-lg px-2 text-sm font-semibold"
-          />
-        }
-      >
-        <span>{currentModule.label}</span>
-        <ChevronDownIcon className="opacity-75" aria-hidden />
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className={cn("px-2.5 py-2 text-sm font-medium")}
+        >
+          <span>{currentModule.label}</span>
+          <ChevronDownIcon aria-hidden />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" sideOffset={8} className="w-72 p-1.5">
         <DropdownMenuGroup>
@@ -67,7 +65,7 @@ export function ModuleNavigationMenu({
                   <DropdownMenuSubTrigger
                     className={cn(
                       "items-start py-2.5",
-                      isActiveModule && "bg-primary/10 text-primary",
+                      isActiveModule && "bg-accent text-accent-foreground",
                     )}
                   >
                     <span className="flex min-w-0 flex-1 flex-col gap-0.5 pr-2">
@@ -78,7 +76,7 @@ export function ModuleNavigationMenu({
                         className={cn(
                           "line-clamp-2 text-xs leading-5",
                           isActiveModule
-                            ? "text-primary/75"
+                            ? "opacity-80"
                             : "text-muted-foreground",
                         )}
                       >
@@ -95,20 +93,21 @@ export function ModuleNavigationMenu({
                           <DropdownMenuItem
                             key={view.href}
                             className={cn(
-                              isActiveView && "bg-primary/10 text-primary",
+                              isActiveView &&
+                                "bg-accent text-accent-foreground",
                             )}
-                            render={
-                              <Link
-                                href={view.href}
-                                onClick={() => setActiveModuleCookie(moduleKey)}
-                                aria-current={isActiveView ? "page" : undefined}
-                              />
-                            }
+                            asChild
                           >
-                            <span className="min-w-0 flex-1 truncate">
-                              {view.label}
-                            </span>
-                            {isActiveView ? <CheckIcon /> : null}
+                            <Link
+                              href={view.href}
+                              onClick={() => setActiveModuleCookie(moduleKey)}
+                              aria-current={isActiveView ? "page" : undefined}
+                            >
+                              <span className="min-w-0 flex-1 truncate">
+                                {view.label}
+                              </span>
+                              {isActiveView ? <CheckIcon aria-hidden /> : null}
+                            </Link>
                           </DropdownMenuItem>
                         );
                       })}
@@ -123,32 +122,32 @@ export function ModuleNavigationMenu({
                 key={moduleKey}
                 className={cn(
                   "items-start py-2.5",
-                  isActiveModule && "bg-primary/10 text-primary",
+                  isActiveModule && "bg-accent text-accent-foreground",
                 )}
-                render={
-                  <Link
-                    href={moduleConfig.defaultHref}
-                    onClick={() => setActiveModuleCookie(moduleKey)}
-                    aria-current={isActiveModule ? "page" : undefined}
-                  />
-                }
+                asChild
               >
-                <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                  <span className="text-sm font-semibold">
-                    {moduleConfig.label}
+                <Link
+                  href={moduleConfig.defaultHref}
+                  onClick={() => setActiveModuleCookie(moduleKey)}
+                  aria-current={isActiveModule ? "page" : undefined}
+                >
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="text-sm font-semibold">
+                      {moduleConfig.label}
+                    </span>
+                    <span
+                      className={cn(
+                        "line-clamp-2 text-xs leading-5",
+                        isActiveModule ? "opacity-80" : "text-muted-foreground",
+                      )}
+                    >
+                      {moduleConfig.description}
+                    </span>
                   </span>
-                  <span
-                    className={cn(
-                      "line-clamp-2 text-xs leading-5",
-                      isActiveModule
-                        ? "text-primary/75"
-                        : "text-muted-foreground",
-                    )}
-                  >
-                    {moduleConfig.description}
-                  </span>
-                </span>
-                {isActiveModule ? <CheckIcon className="mt-0.5" /> : null}
+                  {isActiveModule ? (
+                    <CheckIcon className="mt-0.5" aria-hidden />
+                  ) : null}
+                </Link>
               </DropdownMenuItem>
             );
           })}

@@ -1,5 +1,5 @@
-import { appRoutes } from "@/config/routes";
 import { productFamilies } from "@/config/product-families";
+import { appRoutes } from "@/config/routes";
 
 export const ACTIVE_MODULE_COOKIE_NAME = "voydex-active-module";
 export const DEFAULT_MODULE_KEY = "mainline";

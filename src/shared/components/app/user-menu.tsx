@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOutIcon, SettingsIcon } from "lucide-react";
+import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
@@ -10,7 +10,6 @@ import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -29,31 +28,38 @@ function getInitials(email: string) {
 export function UserMenu({ email }: UserMenuProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={<Button variant="ghost" size="icon" className="rounded-full" />}
-      >
-        <Avatar className="size-8">
-          <AvatarFallback>{getInitials(email)}</AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <Avatar className="size-8">
+            <AvatarFallback>{getInitials(email)}</AvatarFallback>
+          </Avatar>
+        </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
-          <SettingsIcon />
-          Settings
+        <DropdownMenuItem asChild disabled>
+          <DropdownMenuLabel className="truncate">
+            <UserIcon /> {email}
+          </DropdownMenuLabel>
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
+
+        <DropdownMenuItem asChild>
+          <Link href={appRoutes.settings}>
+            <SettingsIcon />
+            Settings
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
         <form action={signOut}>
-          <DropdownMenuItem
-            variant="destructive"
-            nativeButton
-            render={<button type="submit" className="w-full" />}
-          >
-            <LogOutIcon />
-            Sign out
+          <DropdownMenuItem variant="destructive" asChild>
+            <button type="submit" className="w-full">
+              <LogOutIcon />
+              Sign out
+            </button>
           </DropdownMenuItem>
         </form>
       </DropdownMenuContent>

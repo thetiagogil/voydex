@@ -2,7 +2,6 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
 import { buttonVariants } from "@/shared/components/ui/button";
-import { surfaceClassNames } from "@/shared/components/ui/surface";
 import { AuthPanel, type AuthMode } from "@/shared/auth/components/auth-panel";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
@@ -25,13 +24,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <div className="flex w-full max-w-md flex-col gap-5">
         <Link
           href="/"
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            surfaceClassNames.control,
-            "w-fit",
-          )}
+          className={cn(buttonVariants({ variant: "ghost" }), "w-fit")}
         >
-          <ArrowLeftIcon aria-hidden />
+          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
           Back to home
         </Link>
         <AuthPanel error={params?.error} mode={mode} next={next} />

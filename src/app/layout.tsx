@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { AppBackground } from "@/shared/components/app/app-background";
 import {
   DatabaseHealthProvider,
@@ -17,20 +16,13 @@ export const metadata: Metadata = {
   description: "A Pokemon companion for tracking and planning playthroughs.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const activeModuleKey = await getActiveModuleKeyFromCookies();
-
   return (
-    <html
-      lang="en"
-      data-active-module={activeModuleKey}
-      className="h-full"
-      suppressHydrationWarning
-    >
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
         <ThemeInitScript />
       </head>

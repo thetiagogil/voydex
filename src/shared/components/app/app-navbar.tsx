@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/shared/components/app/logo";
-import { surfaceClassNames } from "@/shared/components/ui/surface";
 
 type AppNavbarProps = {
   afterLogo?: React.ReactNode;
@@ -21,13 +20,7 @@ export function AppNavbar({
 }: AppNavbarProps) {
   return (
     <header
-      className={cn(
-        "z-40",
-        "sticky top-0",
-        "border-b",
-        surfaceClassNames.glass,
-        className,
-      )}
+      className={cn("bg-background sticky top-0 z-40 border-b", className)}
     >
       <div
         className={cn(
