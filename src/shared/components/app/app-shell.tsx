@@ -39,7 +39,7 @@ export function AppShell({
             ) : (
               <Link
                 href={appRoutes.login}
-                className={buttonVariants({ variant: "outline", size: "sm" })}
+                className={buttonVariants({ variant: "outline", size: "lg" })}
               >
                 Log in
               </Link>

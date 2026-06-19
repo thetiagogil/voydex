@@ -29,8 +29,8 @@ export function UserMenu({ email }: UserMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Avatar className="size-8">
+        <Button variant="ghost" size="icon-lg" className="rounded-full">
+          <Avatar>
             <AvatarFallback>{getInitials(email)}</AvatarFallback>
           </Avatar>
         </Button>

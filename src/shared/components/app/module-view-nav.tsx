@@ -21,7 +21,7 @@ export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
   return (
     <nav
       aria-label={`${currentModule.label} navigation`}
-      className="flex items-center gap-1"
+      className="flex h-9 items-stretch gap-1"
     >
       {currentModule.views.map((item) => {
         const isActive =
@@ -33,7 +33,7 @@ export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "text-muted-foreground hover:bg-muted hover:text-foreground rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
+              "text-muted-foreground hover:bg-muted hover:text-foreground inline-flex h-9 items-center rounded-lg px-3 text-sm font-medium transition-colors",
               isActive
                 ? "bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary"
                 : null,

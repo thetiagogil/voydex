@@ -8,7 +8,6 @@ export const modules = {
   mainline: {
     basePath: appRoutes.mainline,
     defaultHref: appRoutes.mainlineDashboard,
-    description: "Track, plan, and remember mainline Pokemon adventures.",
     label: productFamilies.mainline.workspaceLabel,
     productFamily: productFamilies.mainline,
     slug: "mainline",
@@ -23,7 +22,6 @@ export const modules = {
   codex: {
     basePath: appRoutes.codex,
     defaultHref: appRoutes.codexPokemon,
-    description: "Browse Pokemon, games, generations, and reference data.",
     label: "Codex",
     slug: "codex",
     views: [

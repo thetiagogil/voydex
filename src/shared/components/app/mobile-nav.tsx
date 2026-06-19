@@ -38,7 +38,7 @@ export function MobileNav({ activeModuleKey }: MobileNavProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon-lg">
           <MenuIcon aria-hidden />
           <span className="sr-only">Open navigation</span>
         </Button>

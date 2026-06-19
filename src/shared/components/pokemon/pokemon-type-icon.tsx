@@ -1,9 +1,9 @@
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
 import { Badge } from "@/shared/components/ui/badge";
 import type { PokemonTypeSlug } from "@/shared/pokemon/constants";
 import { pokemonTypeClassNames } from "@/shared/pokemon/type-styles";
-import { cn } from "@/lib/utils";
 
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";
 
@@ -17,8 +17,8 @@ export function PokemonTypeIcon({ className, type }: PokemonTypeIconProps) {
     <Image
       src={`/icons/types/${type}.svg`}
       alt=""
-      width={18}
-      height={18}
+      width={12}
+      height={12}
       aria-hidden
       className={className}
     />
@@ -52,7 +52,7 @@ export function PokemonTypeBadge({
           pokemonTypeClassNames[type].solidBackground,
         )}
       >
-        <PokemonTypeIcon type={type} className="size-3.5" />
+        <PokemonTypeIcon type={type} />
       </span>
       {label ?? type}
     </Badge>

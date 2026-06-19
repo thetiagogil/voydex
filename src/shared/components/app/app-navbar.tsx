@@ -28,16 +28,22 @@ export function AppNavbar({
           contentClassName,
         )}
       >
-        <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" aria-label="Voydex home" className="flex items-center">
+        <div className="flex h-9 min-w-0 items-stretch gap-2">
+          <Link
+            href="/"
+            aria-label="Voydex home"
+            className="inline-flex h-9 shrink-0 items-center rounded-lg"
+          >
             <Logo showText={false} />
           </Link>
           {afterLogo}
         </div>
         {center ? (
-          <div className="flex min-w-0 flex-1 justify-center">{center}</div>
+          <div className="flex h-9 min-w-0 flex-1 items-stretch justify-center">
+            {center}
+          </div>
         ) : null}
-        {end ? <div className="flex items-center gap-1">{end}</div> : null}
+        {end ? <div className="flex h-9 items-stretch gap-1">{end}</div> : null}
       </div>
     </header>
   );
