@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
-import { MobileNav } from "@/shared/components/app/mobile-nav";
 import { ModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu";
 import { ModuleViewNav } from "@/shared/components/app/module-view-nav";
 import { UserMenu } from "@/shared/components/app/user-menu";
@@ -31,9 +30,6 @@ export function AppShell({
         }
         end={
           <>
-            <div className="lg:hidden">
-              <MobileNav activeModuleKey={activeModuleKey} />
-            </div>
             {userEmail ? (
               <UserMenu email={userEmail} />
             ) : (
