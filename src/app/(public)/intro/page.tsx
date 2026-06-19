@@ -22,7 +22,7 @@ const introFeatures = [
   {
     title: "Plays",
     description:
-      "Keep each adventure centered around its game, team, and progress.",
+      "Keep each mainline play centered around its game, team, and progress.",
     icon: BackpackIcon,
   },
   {

@@ -28,11 +28,11 @@ Codex is not a database product family. It can read reference data across produc
 
 The active Voydex app module for mainline-style Pokemon RPG playthroughs.
 
-Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label can be Adventures. Database tables and functions for this product family use the `mainline_` prefix.
+Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label is Mainline. Database tables and functions for this product family use the `mainline_` prefix.
 
 ### Play
 
-A user-owned Pokemon playthrough/adventure.
+A user-owned Pokemon playthrough.
 
 A play records the user's game, status, metadata, team, story progress, collectibles, Pokedex progress, selected optional content, and timeline.
 
@@ -128,7 +128,7 @@ Collectibles are tracked manually and do not automatically create timeline event
 
 ### Timeline
 
-User-facing adventure history for a play.
+User-facing play history for a play.
 
 Timeline entries should represent meaningful events such as story milestones, team changes, evolutions, Hall of Fame/final team, and manual journal notes.
 

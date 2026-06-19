@@ -30,4 +30,4 @@ The product pillars are:
 
 The database and app should be designed for the full product direction, not only the first release.
 
-The active product family is `mainline`, with Adventures as the likely user-facing app workspace label. Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella. `Codex` is the shared reference browser module.
+The active product family is `mainline`, with Mainline as the user-facing app workspace label. Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` should be designed as separate product behavior areas under the Voydex umbrella. `Codex` is the shared reference browser module.

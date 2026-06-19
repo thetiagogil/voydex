@@ -21,7 +21,7 @@ Voydex is a Pokemon companion app for tracking, remembering, and planning playth
 
 Main app areas:
 
-- Adventures Dashboard.
+- Mainline Dashboard.
 - Plays.
 - Play Hub.
 - Team Management.
@@ -42,7 +42,7 @@ The app should not force `Generations -> Games -> Plays` as the only flow. Users
 
 Active modules:
 
-- `mainline`: mainline-style Pokemon RPG playthrough companion. User-facing label: Adventures.
+- `mainline`: mainline-style Pokemon RPG playthrough companion. User-facing label: Mainline.
 - `codex`: public-readable reference browser for Pokemon, games, and generations.
 
 Future modules:
@@ -58,14 +58,14 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 
 ## Key Product Decisions
 
-- Plays are central user-owned adventure records.
+- Plays are central user-owned playthrough records.
 - Plans are separate from plays and can exist before a play.
 - A play can link multiple plans, with one primary plan.
 - Creating a play from a plan does not auto-fill the active team.
 - Current roster limit is 6 active plus 6 reserve.
 - Retired/replaced Pokemon remain in history but do not count toward the current roster limit.
 - Team edits distinguish correction-only edits from recorded in-game changes.
-- Timeline is user-facing adventure history, not a technical audit log.
+- Timeline is user-facing play history, not a technical audit log.
 - Story snapshots are optional.
 - Pokedex completion is species-level.
 - DLC is optional per play.
@@ -117,7 +117,7 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Protected Mainline route surface is intentionally limited to `/adventures/dashboard` until each feature page is implemented.
+- Protected Mainline route surface is intentionally limited to `/mainline/dashboard` until each feature page is implemented.
 - Codex routes are mounted under `/codex`.
 - Home page hero uses real image layers.
 

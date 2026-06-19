@@ -2,7 +2,7 @@ export const productFamilies = {
   mainline: {
     label: "Mainline",
     slug: "mainline",
-    workspaceLabel: "Adventures",
+    workspaceLabel: "Mainline",
   },
 } as const;
 

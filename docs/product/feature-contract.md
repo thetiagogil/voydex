@@ -4,7 +4,7 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 ## Product Scope
 
-The active build target is the `mainline` product family and its Adventures app workspace: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
+The active build target is the `mainline` product family and its Mainline app workspace: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
 
 Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using product-family-specific data models where needed.
 
@@ -26,7 +26,7 @@ The Dashboard is derived from user-owned gameplay, planning, timeline, and stats
 
 ### Plays
 
-Plays are user-owned playthroughs/adventures.
+Plays are user-owned playthroughs.
 
 The Plays area should support:
 
@@ -39,7 +39,7 @@ The user should not be forced through `Generations -> Games -> Plays` to create 
 
 ### Play Model
 
-A play is a concrete adventure record for one user and one `mainline` product-family game.
+A play is a concrete playthrough record for one user and one `mainline` product-family game.
 
 Play lifecycle statuses:
 
@@ -141,7 +141,7 @@ Absence of a progress row should mean incomplete by default. The app should not 
 
 ### Play Timeline And Journal
 
-The Play Timeline is a user-facing adventure history, not a technical audit log.
+The Play Timeline is a user-facing play history, not a technical audit log.
 
 Timeline entries should focus on meaningful events:
 

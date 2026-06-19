@@ -80,8 +80,8 @@ Codex is public-readable but can still show authenticated shell behavior when a 
 
 Protected routes live under `src/app/(protected)` and are guarded by the proxy auth flow:
 
-- `/adventures`
-- `/adventures/dashboard`
+- `/mainline`
+- `/mainline/dashboard`
 - `/settings`
 
 Planned workspaces such as Plays, Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
@@ -169,7 +169,7 @@ src/modules/codex/
 src/modules/mainline/
 ```
 
-The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label is Adventures.
+The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label is Mainline.
 
 Dashboard is a view inside the `mainline` module, not its own module.
 

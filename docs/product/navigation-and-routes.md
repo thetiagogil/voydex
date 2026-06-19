@@ -23,14 +23,14 @@ The active module is stored in the `voydex-active-module` cookie. Explicit modul
 
 Current modules:
 
-- Adventures, internal module key `mainline`.
+- Mainline, internal module key `mainline`.
 - Codex, internal module key `codex`.
 
-Current Adventures views:
+Current Mainline views:
 
 - Dashboard
 
-Planned Adventures views:
+Planned Mainline views:
 
 - Plays
 - Plans
@@ -61,19 +61,19 @@ Add profile and account routes when those pages are implemented.
 
 ## Route Tree
 
-### Adventures
+### Mainline
 
 ```txt
 /app
-/adventures
-/adventures/dashboard
+/mainline
+/mainline/dashboard
 ```
 
 `/app` reads the `voydex-active-module` cookie and redirects to the active module's default route.
 
-`/adventures` redirects to `/adventures/dashboard`.
+`/mainline` redirects to `/mainline/dashboard`.
 
-Dashboard is a Mainline/Adventures view, not a top-level app module. It shows recent plays, quick actions, recent activity, and summary stats.
+Dashboard is a Mainline view, not a top-level app module. It shows recent plays, quick actions, recent activity, and summary stats.
 
 ### Codex
 
@@ -184,7 +184,7 @@ Codex -> Generations -> Generation -> Game -> Create Play
 ### Create Plan
 
 ```txt
-Adventures Dashboard or Plans -> New Plan -> Select Game -> Plan Detail
+Mainline Dashboard or Plans -> New Plan -> Select Game -> Plan Detail
 ```
 
 ### Create Play From Plan
@@ -215,4 +215,4 @@ Codex -> Pokedex -> Pokemon Detail -> Add To Plan
 - Codex routes should provide context and discovery, not be required funnels.
 - Plan routes should not be nested under plays because plans can exist before plays.
 - Collection and Stats should be derived from user data rather than manually maintained.
-- Future app modules may introduce their own route trees, but the `mainline` product family and Adventures workspace are the first build target.
+- Future app modules may introduce their own route trees, but the `mainline` product family and Mainline workspace are the first build target.

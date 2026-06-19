@@ -48,6 +48,6 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 
 Voydex is a Pokemon companion app. It should help a user track, remember, and plan Pokemon playthroughs without needing to open every cartridge, console, or save file.
 
-The active product family is `mainline`, covering mainline-style Pokemon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience can be Adventures. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
+The active product family is `mainline`, covering mainline-style Pokemon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience is Mainline. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
 
 The current implementation is a clean Next.js app connected to a clean Supabase database project. The old prototype remains under `legacy/` only for reference.

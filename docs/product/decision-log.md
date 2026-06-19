@@ -28,7 +28,7 @@ Accepted future module names:
 - `ranger`
 - `sleep`
 
-The active playthrough module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label is Adventures.
+The active playthrough module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label is Mainline.
 
 `codex` is the active reference-browsing module. It is not a database product family.
 
@@ -40,14 +40,14 @@ The main navbar is module-aware. It shows a module switcher plus the active modu
 
 Current module views:
 
-- Adventures: Dashboard.
+- Mainline: Dashboard.
 - Codex: Pokemon, Games, Generations.
 
 Generations and Games are Codex browse routes, not the required product funnel.
 
 ### Play Is The Central Gameplay Entity
 
-A play is the central user-owned adventure.
+A play is the central user-owned playthrough record.
 
 The user can create or continue a play without navigating through Generation and Game pages.
 
@@ -121,7 +121,7 @@ Bulk logging completed plays should remain fast and should not force snapshots.
 
 Timeline is not a technical audit log.
 
-It should focus on meaningful adventure events:
+It should focus on meaningful play events:
 
 - Story milestone completion.
 - Important fight snapshots.

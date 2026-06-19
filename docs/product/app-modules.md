@@ -26,7 +26,7 @@ App modules describe the Voydex UI workspaces and product surfaces.
 
 | Module     | Status | Meaning                                                                |
 | ---------- | ------ | ---------------------------------------------------------------------- |
-| `mainline` | Active | Mainline playthrough workspace. User-facing label: Adventures.         |
+| `mainline` | Active | Mainline playthrough workspace. User-facing label: Mainline.           |
 | `codex`    | Active | Public-readable reference browser for Pokemon, games, and generations. |
 
 Dashboard is a view inside the `mainline` module. Settings is a global account/app preference area, not a product module.
@@ -37,15 +37,15 @@ The navbar uses a module switcher backed by the `voydex-active-module` cookie. E
 
 Product families describe Pokemon game/content families in reference data.
 
-| Product family | Status  | Meaning                                                                                                                                                                                                                                        |
-| -------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mainline`     | Active  | Mainline-style Pokemon RPG content, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. The app-facing workspace is Adventures. |
-| `dungeon`      | Planned | Mystery Dungeon-style games with different team, recruitment, dungeon, and story tracking needs.                                                                                                                                               |
-| `pokopia`      | Planned | Pokopia-style life/simulation content. Exact feature model should be defined after official scope is stable.                                                                                                                                   |
-| `go`           | Planned | Pokemon GO companion data, likely focused on collection, living inventory, events, and goals rather than playthroughs.                                                                                                                         |
-| `home`         | Planned | Pokemon HOME/living-dex planning and completion support inside Voydex, without direct HOME account integration at first.                                                                                                                       |
-| `ranger`       | Backlog | Ranger-style games. Likely separate progress and capture mechanics.                                                                                                                                                                            |
-| `sleep`        | Backlog | Pokemon Sleep tracking ideas. Not part of the initial app scope.                                                                                                                                                                               |
+| Product family | Status  | Meaning                                                                                                                                                                                                                                      |
+| -------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mainline`     | Active  | Mainline-style Pokemon RPG content, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. The app-facing workspace is Mainline. |
+| `dungeon`      | Planned | Mystery Dungeon-style games with different team, recruitment, dungeon, and story tracking needs.                                                                                                                                             |
+| `pokopia`      | Planned | Pokopia-style life/simulation content. Exact feature model should be defined after official scope is stable.                                                                                                                                 |
+| `go`           | Planned | Pokemon GO companion data, likely focused on collection, living inventory, events, and goals rather than playthroughs.                                                                                                                       |
+| `home`         | Planned | Pokemon HOME/living-dex planning and completion support inside Voydex, without direct HOME account integration at first.                                                                                                                     |
+| `ranger`       | Backlog | Ranger-style games. Likely separate progress and capture mechanics.                                                                                                                                                                          |
+| `sleep`        | Backlog | Pokemon Sleep tracking ideas. Not part of the initial app scope.                                                                                                                                                                             |
 
 `codex` is not a product family. It is a frontend module that can browse reference data across product families as the database grows.
 
@@ -73,6 +73,6 @@ For example, a Mystery Dungeon product family probably should not reuse the exac
 
 ## Implementation Direction
 
-The first build target is the mainline product family and the Adventures module, plus the Codex reference browser needed to support planning and browsing.
+The first build target is the mainline product family and the Mainline module, plus the Codex reference browser needed to support planning and browsing.
 
-Future product families should be added after the mainline database and Adventures UI are useful, unless a future feature requires shared foundations now.
+Future product families should be added after the mainline database and Mainline UI are useful, unless a future feature requires shared foundations now.

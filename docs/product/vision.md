@@ -2,7 +2,7 @@
 
 Voydex is a Pokemon companion for tracking, remembering, and planning Pokemon playthroughs.
 
-The product is not trying to replace Bulbapedia, Serebii, PokemonDB, or Pokemon HOME. Those tools are encyclopedias or official storage services. Voydex should be a personal adventure hub: a place where the user records what they played, which Pokemon they used, what happened in the play, what they completed, and what they want to play next.
+The product is not trying to replace Bulbapedia, Serebii, PokemonDB, or Pokemon HOME. Those tools are encyclopedias or official storage services. Voydex should be a personal playthrough hub: a place where the user records what they played, which Pokemon they used, what happened in the play, what they completed, and what they want to play next.
 
 ## Main Problem
 
@@ -22,7 +22,7 @@ Voydex should provide one central place to answer questions like:
 
 ### Track Plays
 
-A play is the central adventure record. It stores the game, lifecycle status, metadata, settings, selected optional content, team, story progress, collectibles, Pokedex progress, rules, tags, and timeline.
+A play is the central playthrough record. It stores the game, lifecycle status, metadata, settings, selected optional content, team, story progress, collectibles, Pokedex progress, rules, tags, and timeline.
 
 The app must support both active plays and historical imports. A user can log an old completed game without being forced through every detailed snapshot.
 
