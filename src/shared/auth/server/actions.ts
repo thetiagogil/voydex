@@ -3,6 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { modules } from "@/config/modules";
+import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
@@ -13,6 +15,16 @@ type AuthMode = "log-in" | "sign-up";
 
 function getSafeNext(formData: FormData) {
   return getSafeAuthRedirectPath(formData.get("next"));
+}
+
+async function resolveAuthRedirectPath(next: string) {
+  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
+    return next;
+  }
+
+  const activeModuleKey = await getActiveModuleKeyFromCookies();
+
+  return modules[activeModuleKey].defaultHref;
 }
 
 function redirectWithAuthError(
@@ -70,7 +82,7 @@ export async function logInWithPassword(formData: FormData) {
     redirectWithAuthError(error.message, "log-in", next);
   }
 
-  redirect(next);
+  redirect(await resolveAuthRedirectPath(next));
 }
 
 export async function signUpWithPassword(formData: FormData) {
@@ -111,7 +123,7 @@ export async function signUpWithPassword(formData: FormData) {
     redirectWithAuthError(error.message, "sign-up", next);
   }
 
-  redirect(next);
+  redirect(await resolveAuthRedirectPath(next));
 }
 
 export async function signOut() {

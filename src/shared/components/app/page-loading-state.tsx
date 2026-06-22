@@ -1,26 +1,23 @@
-import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
-import { Skeleton } from "@/shared/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { Spinner } from "@/shared/components/ui/spinner";
 
 type PageLoadingStateProps = {
   className?: string;
-  lines?: number;
+  label?: string;
 };
 
 export function PageLoadingState({
   className,
-  lines = 3,
+  label = "Loading",
 }: PageLoadingStateProps) {
   return (
-    <Card className={className}>
-      <CardHeader>
-        <Skeleton className="h-5 w-48" />
-        <Skeleton className="h-4 w-full max-w-xl" />
-      </CardHeader>
-      <CardContent className="flex flex-col gap-3">
-        {Array.from({ length: lines }, (_, index) => (
-          <Skeleton key={index} className="h-10" aria-hidden="true" />
-        ))}
-      </CardContent>
-    </Card>
+    <div
+      className={cn(
+        "flex min-h-[50vh] items-center justify-center p-6",
+        className,
+      )}
+    >
+      <Spinner aria-label={label} className="text-primary size-6" />
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { buttonVariants } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,6 +16,7 @@ import {
   logInWithPassword,
   signUpWithPassword,
 } from "@/shared/auth/server/actions";
+import { AuthSubmitButton } from "@/shared/auth/components/auth-submit-button";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
@@ -107,9 +108,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
           ) : null}
         </CardContent>
         <CardFooter className="flex flex-col items-stretch gap-5 pt-6">
-          <Button type="submit" className="h-11 text-base">
-            {title}
-          </Button>
+          <AuthSubmitButton mode={mode} />
           <p className="text-muted-foreground text-center text-sm">
             {isSignUp ? "Already have an account?" : "Need an account?"}{" "}
             <Link
