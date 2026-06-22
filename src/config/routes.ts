@@ -16,6 +16,20 @@ export const appRoutes = {
   login: "/login",
   mainline: "/mainline",
   mainlineDashboard: "/mainline/dashboard",
+  mainlineNewPlay: "/mainline/plays/new",
+  mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
+  mainlinePlayCollectibles: (playId: string) =>
+    `/mainline/plays/${playId}/collectibles`,
+  mainlinePlayPokedex: (playId: string) => `/mainline/plays/${playId}/pokedex`,
+  mainlinePlayProgress: (playId: string) =>
+    `/mainline/plays/${playId}/progress`,
+  mainlinePlaySettings: (playId: string) =>
+    `/mainline/plays/${playId}/settings`,
+  mainlinePlayStory: (playId: string) => `/mainline/plays/${playId}/story`,
+  mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
+  mainlinePlayTimeline: (playId: string) =>
+    `/mainline/plays/${playId}/timeline`,
+  mainlinePlays: "/mainline/plays",
   newPlan: "/plans/new",
   newPlay: "/plays/new",
   plan: (planId: string) => `/plans/${planId}`,

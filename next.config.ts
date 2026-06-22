@@ -17,6 +17,7 @@ function getSupabaseHost() {
 const supabaseHost = getSupabaseHost();
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],
   images: {
     remotePatterns: [
       {

@@ -51,18 +51,19 @@ export function DesktopModuleNavigationMenu({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="lg" className="px-3 text-sm font-medium">
-          <span>{currentModule.label}</span>
-          <ChevronDownIcon data-icon="inline-end" aria-hidden />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        sideOffset={8}
-        collisionPadding={16}
-        className="w-48 p-1.5"
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="lg"
+            className="px-3 text-sm font-medium"
+          />
+        }
       >
+        <span>{currentModule.label}</span>
+        <ChevronDownIcon data-icon="inline-end" aria-hidden />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" sideOffset={8} className="w-48 p-1.5">
         <DropdownMenuGroup className="flex flex-col gap-1">
           {moduleKeys.map((moduleKey) => {
             const moduleConfig = modules[moduleKey];
@@ -87,7 +88,7 @@ export function DesktopModuleNavigationMenu({
                   </span>
                   {isActiveModule ? <CheckIcon aria-hidden /> : null}
                 </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent collisionPadding={16} className="w-44">
+                <DropdownMenuSubContent className="w-44">
                   <DropdownMenuGroup className="flex flex-col gap-1">
                     {moduleConfig.views.map((view) => {
                       const isActiveView = isActiveHref(view.href);
@@ -99,18 +100,14 @@ export function DesktopModuleNavigationMenu({
                             "min-h-9 py-2",
                             isActiveView && "bg-accent text-accent-foreground",
                           )}
-                          asChild
+                          render={<Link href={view.href} />}
+                          onClick={() => setActiveModuleCookie(moduleKey)}
+                          aria-current={isActiveView ? "page" : undefined}
                         >
-                          <Link
-                            href={view.href}
-                            onClick={() => setActiveModuleCookie(moduleKey)}
-                            aria-current={isActiveView ? "page" : undefined}
-                          >
-                            <span className="min-w-0 flex-1 truncate font-medium">
-                              {view.label}
-                            </span>
-                            {isActiveView ? <CheckIcon aria-hidden /> : null}
-                          </Link>
+                          <span className="min-w-0 flex-1 truncate font-medium">
+                            {view.label}
+                          </span>
+                          {isActiveView ? <CheckIcon aria-hidden /> : null}
                         </DropdownMenuItem>
                       );
                     })}

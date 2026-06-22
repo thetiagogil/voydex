@@ -97,20 +97,22 @@ export function DatabaseHealthStatus() {
   return (
     <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            aria-label="Database unavailable"
-            className="relative rounded-full shadow-lg"
-          >
-            <WifiOffIcon className="text-destructive" aria-hidden />
-            <span
-              className="bg-destructive ring-background absolute -top-0.5 -right-0.5 size-3 rounded-full ring-2"
-              aria-hidden
+        <TooltipTrigger
+          render={
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              aria-label="Database unavailable"
+              className="relative rounded-full shadow-lg"
             />
-          </Button>
+          }
+        >
+          <WifiOffIcon className="text-destructive" aria-hidden />
+          <span
+            className="bg-destructive ring-background absolute -top-0.5 -right-0.5 size-3 rounded-full ring-2"
+            aria-hidden
+          />
         </TooltipTrigger>
         <TooltipContent side="top" align="end" className="w-64">
           <span className="block font-medium">Database unavailable</span>

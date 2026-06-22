@@ -19,6 +19,9 @@ export type TrackingRow<TTable extends TrackingTableName> =
 export type GameplayRow<TTable extends GameplayTableName> =
   Database["gameplay"]["Tables"][TTable]["Row"];
 
+export type GameplayInsert<TTable extends GameplayTableName> =
+  Database["gameplay"]["Tables"][TTable]["Insert"];
+
 export type PlanningRow<TTable extends PlanningTableName> =
   Database["planning"]["Tables"][TTable]["Row"];
 

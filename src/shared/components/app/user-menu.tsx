@@ -10,6 +10,7 @@ import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -28,40 +29,46 @@ function getInitials(email: string) {
 export function UserMenu({ email }: UserMenuProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-lg" className="rounded-full">
-          <Avatar>
-            <AvatarFallback>{getInitials(email)}</AvatarFallback>
-          </Avatar>
-        </Button>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="ghost" size="icon-lg" className="rounded-full" />
+        }
+      >
+        <Avatar>
+          <AvatarFallback>{getInitials(email)}</AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem asChild disabled>
+        <DropdownMenuGroup>
           <DropdownMenuLabel className="truncate">
             <UserIcon /> {email}
           </DropdownMenuLabel>
-        </DropdownMenuItem>
+        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild>
-          <Link href={appRoutes.settings}>
+        <DropdownMenuGroup>
+          <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
             <SettingsIcon />
             Settings
-          </Link>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 
-        <form action={signOut}>
-          <DropdownMenuItem variant="destructive" asChild>
-            <button type="submit" className="w-full">
+        <DropdownMenuGroup>
+          <form action={signOut}>
+            <DropdownMenuItem
+              variant="destructive"
+              render={<button type="submit" className="w-full" />}
+              nativeButton
+            >
               <LogOutIcon />
               Sign out
-            </button>
-          </DropdownMenuItem>
-        </form>
+            </DropdownMenuItem>
+          </form>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

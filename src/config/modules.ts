@@ -17,6 +17,11 @@ export const modules = {
         label: "Dashboard",
         slug: "dashboard",
       },
+      {
+        href: appRoutes.mainlinePlays,
+        label: "Plays",
+        slug: "plays",
+      },
     ],
   },
   codex: {

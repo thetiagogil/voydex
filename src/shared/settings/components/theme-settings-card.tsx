@@ -57,14 +57,15 @@ export function ThemeSettingsCard() {
       </CardHeader>
       <CardContent>
         <ToggleGroup
-          type="single"
           aria-label="Theme preference"
           variant="outline"
           className="grid w-full gap-3 sm:grid-cols-3"
-          value={theme}
+          value={[theme]}
           onValueChange={(nextTheme) => {
-            if (nextTheme) {
-              setTheme(nextTheme as ThemePreference);
+            const nextThemePreference = nextTheme[0];
+
+            if (nextThemePreference) {
+              setTheme(nextThemePreference as ThemePreference);
             }
           }}
         >

@@ -1,8 +1,11 @@
 import { modules } from "@/config/modules";
+import { appRoutes } from "@/config/routes";
 import { EmptyState } from "@/shared/components/app/empty-state";
 import { PageHeader } from "@/shared/components/app/page-header";
 import { PageSection } from "@/shared/components/app/page-section";
+import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import Link from "next/link";
 
 const mainlineModule = modules.mainline;
 
@@ -20,8 +23,16 @@ export function MainlineDashboardHome() {
             description="Mainline playthrough tools will appear here as each data-backed slice is added."
           >
             <EmptyState
-              title="Dashboard foundation is ready"
-              description="The authenticated app shell is in place. The next slices can connect this page to real play summaries, plans, activity, and quick actions."
+              title="Start with your play library"
+              description="Create a play to begin tracking a mainline save file. Dashboard summaries will become more useful as plays, teams, progress, and history are connected."
+              action={
+                <Button
+                  render={<Link href={appRoutes.mainlineNewPlay} />}
+                  nativeButton={false}
+                >
+                  Create a play
+                </Button>
+              }
             />
           </PageSection>
         </CardContent>

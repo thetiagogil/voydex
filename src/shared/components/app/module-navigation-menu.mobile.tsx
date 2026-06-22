@@ -48,15 +48,17 @@ export function MobileModuleNavigationMenu({
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="lg"
-          className="max-w-[calc(100vw-9rem)] px-3 text-sm font-medium"
-        >
-          <span className="truncate">{currentModule.label}</span>
-          <ChevronDownIcon data-icon="inline-end" aria-hidden />
-        </Button>
+      <SheetTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="lg"
+            className="max-w-[calc(100vw-9rem)] px-3 text-sm font-medium"
+          />
+        }
+      >
+        <span className="truncate">{currentModule.label}</span>
+        <ChevronDownIcon data-icon="inline-end" aria-hidden />
       </SheetTrigger>
       <SheetContent
         side="top"
@@ -68,9 +70,7 @@ export function MobileModuleNavigationMenu({
         </SheetHeader>
         <nav className="flex-1 overflow-y-auto p-4" aria-label="App modules">
           <Accordion
-            type="single"
-            collapsible
-            defaultValue={currentModuleKey}
+            defaultValue={[currentModuleKey]}
             className="flex flex-col gap-2"
           >
             {moduleKeys.map((moduleKey) => {
@@ -91,25 +91,31 @@ export function MobileModuleNavigationMenu({
                         const isActiveView = isActiveHref(view.href);
 
                         return (
-                          <SheetClose key={view.href} asChild>
-                            <Link
-                              href={view.href}
-                              onClick={() => setActiveModuleCookie(moduleKey)}
-                              aria-current={isActiveView ? "page" : undefined}
-                              className={cn(
-                                buttonVariants({
-                                  variant: isActiveView ? "secondary" : "ghost",
-                                  size: "lg",
-                                }),
-                                "justify-start",
-                                isActiveView && "text-primary",
-                              )}
-                            >
-                              <span className="min-w-0 flex-1 truncate">
-                                {view.label}
-                              </span>
-                              {isActiveView ? <CheckIcon aria-hidden /> : null}
-                            </Link>
+                          <SheetClose
+                            key={view.href}
+                            render={
+                              <Link
+                                href={view.href}
+                                className={cn(
+                                  buttonVariants({
+                                    variant: isActiveView
+                                      ? "secondary"
+                                      : "ghost",
+                                    size: "lg",
+                                  }),
+                                  "justify-start",
+                                  isActiveView && "text-primary",
+                                )}
+                              />
+                            }
+                            nativeButton={false}
+                            onClick={() => setActiveModuleCookie(moduleKey)}
+                            aria-current={isActiveView ? "page" : undefined}
+                          >
+                            <span className="min-w-0 flex-1 truncate">
+                              {view.label}
+                            </span>
+                            {isActiveView ? <CheckIcon aria-hidden /> : null}
                           </SheetClose>
                         );
                       })}
