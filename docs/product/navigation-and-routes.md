@@ -29,10 +29,10 @@ Current modules:
 Current Mainline views:
 
 - Dashboard
+- Plays
 
 Planned Mainline views:
 
-- Plays
 - Plans
 - Collection
 - Stats
@@ -67,6 +67,14 @@ Add profile and account routes when those pages are implemented.
 /app
 /mainline
 /mainline/dashboard
+/mainline/plays
+/mainline/plays/new
+/mainline/plays/[playId]
+/mainline/plays/[playId]/team
+/mainline/plays/[playId]/progress
+/mainline/plays/[playId]/story
+/mainline/plays/[playId]/pokedex
+/mainline/plays/[playId]/collectibles
 ```
 
 `/app` reads the `voydex-active-module` cookie and redirects to the active module's default route.
@@ -94,30 +102,29 @@ Old public browse routes such as `/pokedex`, `/games`, and `/generations` should
 ### Plays
 
 ```txt
-/plays
-/plays/new
-/plays/[playId]
-/plays/[playId]/team
-/plays/[playId]/story
-/plays/[playId]/collectibles
-/plays/[playId]/pokedex
-/plays/[playId]/timeline
-/plays/[playId]/settings
+/mainline/plays
+/mainline/plays/new
+/mainline/plays/[playId]
+/mainline/plays/[playId]/team
+/mainline/plays/[playId]/progress
+/mainline/plays/[playId]/story
+/mainline/plays/[playId]/pokedex
+/mainline/plays/[playId]/collectibles
 ```
 
-`/plays/[playId]` is the Play Hub.
+`/mainline/plays/[playId]` is the Play Hub.
 
 Deep routes manage one focused play concern at a time.
 
 ### Plans
 
 ```txt
-/plans
-/plans/new
-/plans/[planId]
+/mainline/plans
+/mainline/plans/new
+/mainline/plans/[planId]
 ```
 
-Plans are separate from plays. A plan can later create or link to a play.
+Plans are separate from plays when they exist before a play. A play itself has one focused linked Team Plan rather than several competing linked plans.
 
 ### Collection
 
@@ -198,7 +205,7 @@ The play starts with an empty current team. Planned Pokemon remain available as 
 ### Add Planned Pokemon To Play
 
 ```txt
-Play Team -> Planned Pokemon Panel -> Add To Team -> Suggested Starting Stage -> Current Team
+Play Team -> Team Plan -> Add To Team -> Suggested Starting Stage -> Current Team
 ```
 
 ### Search For Pokemon

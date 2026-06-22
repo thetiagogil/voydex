@@ -36,6 +36,10 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 - [Setup And Development](./app/setup.md)
 - [Design System](./app/design-system.md)
 
+### Design
+
+- [Design References](./design/README.md)
+
 ### Database Integration
 
 - [Database Integration](./database/integration.md)

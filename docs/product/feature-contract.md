@@ -219,9 +219,9 @@ Plans should show preemptive Pokemon reuse warnings. If a planned target, prefer
 
 Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokemon use slots 1 to 6. Alternate/reserve planned Pokemon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
 
-When a plan is linked to a play, member status is tracked for that play/plan relationship. A plan can remain reusable for another play.
+When a plan is linked to a play, member status is tracked for that play's Team Plan relationship.
 
-A play can link multiple plans. One linked plan can be marked primary so the UI can stay focused while still supporting variants.
+A play has one focused linked Team Plan. The UI should not support multiple competing plans inside the same play. If the user wants variants, they should be represented as alternates, notes, skipped members, or future standalone planning concepts instead of multiple linked team plans for one play.
 
 ### Pokedex Search
 

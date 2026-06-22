@@ -60,7 +60,7 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 
 - Plays are central user-owned playthrough records.
 - Plans are separate from plays and can exist before a play.
-- A play can link multiple plans, with one primary plan.
+- A play has one focused linked Team Plan. Use alternates and notes inside that plan instead of multiple competing plans per play.
 - Creating a play from a plan does not auto-fill the active team.
 - Current roster limit is 6 active plus 6 reserve.
 - Retired/replaced Pokemon remain in history but do not count toward the current roster limit.
@@ -117,9 +117,11 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Protected Mainline route surface is intentionally limited to `/mainline/dashboard` until each feature page is implemented.
+- Protected Mainline routes include dashboard, play list, play create, and the current play detail slices under `/mainline/plays`.
 - Codex routes are mounted under `/codex`.
 - Home page hero uses real image layers.
+- UI primitives use shadcn Base UI components. Base UI uses `render`, not Radix `asChild`.
+- The generated play-view screenshots in the project discussion are design references, but implementations should use real data, shadcn primitives, reusable feature components, and the current `src/modules` structure.
 
 ## Working Style Preferences
 

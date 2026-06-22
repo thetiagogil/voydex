@@ -22,8 +22,8 @@ The app should store user intent and meaningful user state. It should derive sum
 | Story progress                   | Gameplay tracking progress joined to tracking definitions       |
 | Timeline/journal                 | `gameplay.mainline_play_events` and snapshot tables             |
 | Team snapshots                   | `gameplay.mainline_play_event_team_snapshots`                   |
-| Team plans                       | `planning.mainline_team_plans`                                  |
-| Plan-to-play links               | `planning.mainline_play_plan_links` and member links            |
+| Team plan                        | `planning.mainline_team_plans`                                  |
+| Play plan link/status            | `planning.mainline_play_plan_links` and member links            |
 | Tags                             | User-owned tag tables and join tables                           |
 | Backlog/wishlist                 | User-owned game intent tables                                   |
 | Preferences                      | User-owned preference tables                                    |
@@ -92,21 +92,23 @@ Snapshot rows are owned by the timeline event that created them. They are not th
 
 Timeline ordering should not require exact timestamps. Old imported plays can use manual order or milestone order when exact dates are unknown.
 
-## Plans
+## Team Plan
 
-Plans are separate from plays.
+A Team Plan is separate from a play's current team.
 
-A plan owns planned target Pokemon, notes, roles, and preferences.
+The product contract is one focused linked Team Plan per play. The database can still represent this through play plan link and member link tables, but the user-facing play workflow should not encourage multiple competing team plans inside one play.
 
-Plans can also own optional content scope such as DLC availability before a play exists.
+A Team Plan owns planned target Pokemon, notes, roles, and preferences.
 
-When a play is created from a plan:
+A Team Plan can also own optional content scope such as DLC availability before a play exists.
 
-- The plan remains.
+When a play is created from a Team Plan:
+
+- The Team Plan remains.
 - The play starts with an empty current team.
 - Planned members can be linked to actual play Pokemon later.
 
-Plan-to-play member status belongs to the relationship between one linked play and one linked plan. The same plan may remain reusable elsewhere.
+Plan-to-play member status belongs to the relationship between one linked play and its linked Team Plan. Alternate team ideas should live as member notes, alternate targets, skipped targets, or future standalone planning concepts rather than multiple active plans for the same play.
 
 ## Collection
 

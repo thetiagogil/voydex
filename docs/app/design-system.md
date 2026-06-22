@@ -19,8 +19,18 @@ The desired mix:
 
 - Tailwind CSS.
 - shadcn-style primitives in `src/shared/components/ui`.
+- Base UI-backed shadcn primitives where installed.
 - Lucide icons for interface actions.
 - Custom visual assets for hero/background/brand moments.
+
+## Component Rules
+
+- Use `src/shared/components/ui` primitives for buttons, inputs, selects, sheets, dialogs, dropdowns, tabs, accordions, fields, and similar controls.
+- Use Base UI `render` composition when a primitive supports custom rendering. Do not use Radix `asChild` unless the local primitive explicitly supports it.
+- Keep `src/app` route files thin. Put real UI in `src/modules` or `src/shared` components.
+- Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokemon cards, type badges, and empty states.
+- Generated screenshots are design references, not exact code specs. Implement the intent with real data, responsive behavior, accessibility, and existing app primitives.
+- Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
 
 ## Color Tokens
 

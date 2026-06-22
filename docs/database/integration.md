@@ -69,9 +69,11 @@ User-owned team planning state:
 - `mainline_team_plans`
 - planned members and moves
 - optional content scopes
-- plan-to-play links
+- play-to-plan link for the play's focused Team Plan
 - plan member statuses
 - plan tags and challenge rules
+
+The current product contract is one focused linked Team Plan per play, even though the database uses link/member-link tables to preserve clean relationship and status modeling.
 
 ### `views`
 

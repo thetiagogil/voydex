@@ -82,9 +82,17 @@ Protected routes live under `src/app/(protected)` and are guarded by the proxy a
 
 - `/mainline`
 - `/mainline/dashboard`
+- `/mainline/plays`
+- `/mainline/plays/new`
+- `/mainline/plays/[playId]`
+- `/mainline/plays/[playId]/team`
+- `/mainline/plays/[playId]/progress`
+- `/mainline/plays/[playId]/story`
+- `/mainline/plays/[playId]/pokedex`
+- `/mainline/plays/[playId]/collectibles`
 - `/settings`
 
-Planned workspaces such as Plays, Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
+Planned workspaces such as Mainline-level Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
 
 ### Route Organization
 
@@ -129,6 +137,8 @@ The proxy:
 ### `src/shared/components/ui`
 
 Reusable UI primitives. These should remain generic and shadcn-compatible.
+
+Voydex currently uses shadcn components backed by Base UI. Base UI primitives use `render` for custom rendered elements, not Radix `asChild`. Do not mix Radix-only composition assumptions into Base UI components.
 
 ### `src/shared/components/app`
 

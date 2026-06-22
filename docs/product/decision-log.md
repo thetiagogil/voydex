@@ -40,7 +40,7 @@ The main navbar is module-aware. It shows a module switcher plus the active modu
 
 Current module views:
 
-- Mainline: Dashboard.
+- Mainline: Dashboard, Plays.
 - Codex: Pokemon, Games, Generations.
 
 Generations and Games are Codex browse routes, not the required product funnel.
@@ -75,9 +75,9 @@ Creating a play from a plan does not auto-fill the active team.
 
 Plans can include optional content scope such as DLC availability before a play exists.
 
-Plan-to-play member status belongs to the relationship between a specific linked play and linked plan, not to the reusable plan itself.
+Plan-to-play member status belongs to the relationship between a specific linked play and its linked Team Plan, not to the standalone pre-play plan definition.
 
-A play can link multiple plans, with one primary plan for focused UI display.
+A play has one focused linked Team Plan. Voydex should not support multiple competing team plans inside a single play; variants should live as alternates, notes, skipped members, or future standalone planning concepts.
 
 ### Plan Member Statuses
 
