@@ -60,7 +60,7 @@ export function MainlinePlayProgressPage({
               nativeButton={false}
             >
               <BookOpen data-icon="inline-start" />
-              Log milestone
+              Open Story
             </Button>
             <Button
               render={<Link href={appRoutes.mainlinePlayPokedex(playId)} />}
@@ -68,7 +68,7 @@ export function MainlinePlayProgressPage({
               variant="outline"
             >
               <ListChecks data-icon="inline-start" />
-              Update Pokedex
+              Open Pokedex
             </Button>
             <Button
               render={
@@ -78,7 +78,7 @@ export function MainlinePlayProgressPage({
               variant="outline"
             >
               <Star data-icon="inline-start" />
-              Mark collectible
+              Open Collectibles
             </Button>
           </div>
         </div>

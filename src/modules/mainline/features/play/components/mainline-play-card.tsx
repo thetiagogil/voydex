@@ -1,9 +1,26 @@
 import Link from "next/link";
-import { CalendarDays, Clock3, ListChecks, UsersRound } from "lucide-react";
+import {
+  ArrowRightIcon,
+  CalendarDaysIcon,
+  Clock3Icon,
+  ListChecksIcon,
+  PackageCheckIcon,
+  UsersRoundIcon,
+} from "lucide-react";
 
 import { appRoutes } from "@/config/routes";
+import {
+  formatMainlineDate,
+  formatMainlinePlaytime,
+  formatMainlineShortDate,
+  getMainlinePlayGameLine,
+  getMainlinePlayPokedexLine,
+  getMainlinePlayTeamCount,
+  getMainlinePlayTitle,
+  getMainlinePlayTrainerLine,
+} from "@/modules/mainline/features/play/components/mainline-play-summary";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
-import { Badge } from "@/shared/components/ui/badge";
+import { StatusBadge } from "@/shared/components/app/status-badge";
 import {
   Card,
   CardContent,
@@ -17,105 +34,95 @@ type MainlinePlayCardProps = {
   play: MainlinePlayCardData;
 };
 
-function formatDate(value: string | null) {
-  if (!value) {
-    return "No start date";
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(`${value}T00:00:00`));
-}
-
-function formatPlaytime(minutes: number | null) {
-  if (!minutes) {
-    return "No playtime";
-  }
-
-  const hours = Math.floor(minutes / 60);
-  const remainder = minutes % 60;
-
-  if (!hours) {
-    return `${remainder}m`;
-  }
-
-  return remainder ? `${hours}h ${remainder}m` : `${hours}h`;
-}
-
-function getPlayTitle(play: MainlinePlayCardData) {
-  return play.play_name ?? "Untitled play";
+function PlayMetric({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
+      <dt className="text-muted-foreground flex items-center gap-1.5 text-xs [&_svg]:size-3.5">
+        {icon}
+        {label}
+      </dt>
+      <dd className="mt-1 font-medium">{value}</dd>
+    </div>
+  );
 }
 
 export function MainlinePlayCard({ play }: MainlinePlayCardProps) {
-  const teamCount =
-    (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0);
+  const href = play.play_id
+    ? appRoutes.mainlinePlay(String(play.play_id))
+    : appRoutes.mainlinePlays;
 
   return (
-    <Card className="bg-card/88 min-h-full">
+    <Card className="bg-card/82">
       <CardHeader>
-        <div className="flex items-start justify-between gap-3">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
           <div className="min-w-0">
-            <CardTitle className="truncate">{getPlayTitle(play)}</CardTitle>
+            <div className="flex flex-wrap items-center gap-2">
+              <CardTitle className="truncate">
+                {getMainlinePlayTitle(play)}
+              </CardTitle>
+              {play.status_name ? (
+                <StatusBadge tone="neutral">{play.status_name}</StatusBadge>
+              ) : null}
+            </div>
             <p className="text-muted-foreground mt-1 truncate text-sm">
-              {play.game_name ?? "Unknown game"}
-              {play.generation_name ? ` - ${play.generation_name}` : ""}
+              {getMainlinePlayGameLine(play)}
             </p>
           </div>
-          {play.status_name ? (
-            <Badge variant="secondary">{play.status_name}</Badge>
-          ) : null}
+          <Button
+            render={<Link href={href} />}
+            nativeButton={false}
+            variant={play.status_slug === "completed" ? "outline" : "default"}
+            size="sm"
+          >
+            {play.status_slug === "completed" ? "Open record" : "Continue"}
+            <ArrowRightIcon data-icon="inline-end" />
+          </Button>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        <dl className="grid grid-cols-2 gap-3 text-sm">
-          <div className="bg-muted/40 rounded-lg p-3">
-            <dt className="text-muted-foreground flex items-center gap-1.5 text-xs">
-              <CalendarDays className="size-3.5" />
-              Started
-            </dt>
-            <dd className="mt-1 font-medium">{formatDate(play.started_on)}</dd>
-          </div>
-          <div className="bg-muted/40 rounded-lg p-3">
-            <dt className="text-muted-foreground flex items-center gap-1.5 text-xs">
-              <Clock3 className="size-3.5" />
-              Playtime
-            </dt>
-            <dd className="mt-1 font-medium">
-              {formatPlaytime(play.playtime_minutes)}
-            </dd>
-          </div>
-          <div className="bg-muted/40 rounded-lg p-3">
-            <dt className="text-muted-foreground flex items-center gap-1.5 text-xs">
-              <UsersRound className="size-3.5" />
-              Team
-            </dt>
-            <dd className="mt-1 font-medium">{teamCount} Pokemon</dd>
-          </div>
-          <div className="bg-muted/40 rounded-lg p-3">
-            <dt className="text-muted-foreground flex items-center gap-1.5 text-xs">
-              <ListChecks className="size-3.5" />
-              Progress
-            </dt>
-            <dd className="mt-1 font-medium">
-              {play.completed_milestone_count ?? 0} milestones
-            </dd>
-          </div>
+      <CardContent>
+        <dl className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-5">
+          <PlayMetric
+            icon={<CalendarDaysIcon aria-hidden />}
+            label="Started"
+            value={formatMainlineDate(play.started_on, "No start date")}
+          />
+          <PlayMetric
+            icon={<Clock3Icon aria-hidden />}
+            label="Updated"
+            value={formatMainlineShortDate(play.updated_at)}
+          />
+          <PlayMetric
+            icon={<UsersRoundIcon aria-hidden />}
+            label="Team"
+            value={`${getMainlinePlayTeamCount(play)} Pokemon`}
+          />
+          <PlayMetric
+            icon={<ListChecksIcon aria-hidden />}
+            label="Milestones"
+            value={`${play.completed_milestone_count ?? 0} complete`}
+          />
+          <PlayMetric
+            icon={<PackageCheckIcon aria-hidden />}
+            label="Pokedex"
+            value={getMainlinePlayPokedexLine(play)}
+          />
         </dl>
       </CardContent>
       <CardFooter className="justify-between gap-3">
         <span className="text-muted-foreground text-xs">
-          {play.trainer_name ? `Trainer: ${play.trainer_name}` : "No trainer"}
+          {getMainlinePlayTrainerLine(play)}
         </span>
-        <Button
-          render={<Link href={appRoutes.mainlinePlay(String(play.play_id))} />}
-          nativeButton={false}
-          variant="outline"
-          size="sm"
-        >
-          Open
-        </Button>
+        <span className="text-muted-foreground text-xs">
+          {formatMainlinePlaytime(play.playtime_minutes)}
+        </span>
       </CardFooter>
     </Card>
   );

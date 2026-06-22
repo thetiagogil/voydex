@@ -20,7 +20,6 @@ import { MainlinePlayShell } from "@/modules/mainline/features/play/components/d
 import { ProgressMeter } from "@/shared/components/app/progress-meter";
 import { StatusBadge } from "@/shared/components/app/status-badge";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
-import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
@@ -28,6 +27,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/shared/components/ui/empty";
 import {
   InputGroup,
   InputGroupAddon,
@@ -81,6 +87,10 @@ const pokedexSortItems = [
 
 function isRequiredEntry(entry: MainlinePlayPokedexEntry) {
   return Boolean(entry.is_source_required_for_completion);
+}
+
+function isPokedexFilter(value: string): value is PokedexFilter {
+  return filters.some((filter) => filter.value === value);
 }
 
 function filterPokedexEntries(
@@ -162,17 +172,13 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
     <Card>
       <CardContent className="grid gap-4 lg:grid-cols-[16rem_1fr_auto] lg:items-center">
         <div className="rounded-lg border p-3">
-          <p className="text-muted-foreground text-xs font-medium uppercase">
-            Active Pokedex
-          </p>
+          <p className="text-muted-foreground text-sm">Active Pokedex</p>
           <p className="mt-1 font-medium">{pokedexName}</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <p className="text-muted-foreground text-xs font-medium uppercase">
-              Caught
-            </p>
+            <p className="text-muted-foreground text-sm">Caught</p>
             <p className="text-2xl font-semibold">
               {formatNumber(caughtCount)}{" "}
               <span className="text-muted-foreground text-lg">
@@ -181,15 +187,11 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
             </p>
           </div>
           <div>
-            <p className="text-muted-foreground text-xs font-medium uppercase">
-              Seen
-            </p>
+            <p className="text-muted-foreground text-sm">Seen</p>
             <p className="text-2xl font-semibold">{formatNumber(seenCount)}</p>
           </div>
           <div>
-            <p className="text-muted-foreground text-xs font-medium uppercase">
-              Completion
-            </p>
+            <p className="text-muted-foreground text-sm">Completion</p>
             <div className="mt-1 flex items-center gap-3">
               <span className="text-2xl font-semibold">
                 {formatPercent(completionPercent)}
@@ -282,59 +284,53 @@ function PokedexList({
   playId: string;
 }) {
   return (
-    <Card>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Number</TableHead>
-              <TableHead>Pokemon</TableHead>
-              <TableHead>Types</TableHead>
-              <TableHead>Completion</TableHead>
-              <TableHead className="text-right">Progress</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {entries.map((entry) => (
-              <TableRow key={`${entry.pokedex_id}-${entry.species_id}`}>
-                <TableCell>{formatDexNumber(entry.pokedex_number)}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                    <PokemonPortrait
-                      alt={getPokedexDisplayName(entry)}
-                      imageUrl={entry.display.imageUrl}
-                      type={getPokemonPrimaryTypeSlug(entry)}
-                      className="size-12 rounded-lg"
-                    />
-                    <span className="font-medium">
-                      {getPokedexDisplayName(entry)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <PokemonTypeBadges pokemon={entry} />
-                </TableCell>
-                <TableCell>
-                  <StatusBadge
-                    tone={isRequiredEntry(entry) ? "warning" : "info"}
-                  >
-                    {isRequiredEntry(entry) ? "Required" : "Optional"}
-                  </StatusBadge>
-                </TableCell>
-                <TableCell className="min-w-40">
-                  <PokedexProgressButtons
-                    isCaught={entry.is_caught}
-                    isSeen={entry.is_seen}
-                    playId={playId}
-                    speciesId={entry.species_id}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Number</TableHead>
+          <TableHead>Pokemon</TableHead>
+          <TableHead>Types</TableHead>
+          <TableHead>Completion</TableHead>
+          <TableHead className="text-right">Progress</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {entries.map((entry) => (
+          <TableRow key={`${entry.pokedex_id}-${entry.species_id}`}>
+            <TableCell>{formatDexNumber(entry.pokedex_number)}</TableCell>
+            <TableCell>
+              <div className="flex items-center gap-3">
+                <PokemonPortrait
+                  alt={getPokedexDisplayName(entry)}
+                  imageUrl={entry.display.imageUrl}
+                  type={getPokemonPrimaryTypeSlug(entry)}
+                  className="size-12 rounded-lg"
+                />
+                <span className="font-medium">
+                  {getPokedexDisplayName(entry)}
+                </span>
+              </div>
+            </TableCell>
+            <TableCell>
+              <PokemonTypeBadges pokemon={entry} />
+            </TableCell>
+            <TableCell>
+              <StatusBadge tone={isRequiredEntry(entry) ? "warning" : "info"}>
+                {isRequiredEntry(entry) ? "Required" : "Optional"}
+              </StatusBadge>
+            </TableCell>
+            <TableCell className="min-w-40">
+              <PokedexProgressButtons
+                isCaught={entry.is_caught}
+                isSeen={entry.is_seen}
+                playId={playId}
+                speciesId={entry.species_id}
+              />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
@@ -377,96 +373,120 @@ export function MainlinePlayPokedexPage({
 
         <PokedexSummary data={data} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Entries</CardTitle>
-            <CardDescription>
-              {formatNumber(visibleEntries.length)} visible of{" "}
-              {formatNumber(data.pokedexEntries.length)} seeded entries.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <div className="grid gap-3 xl:grid-cols-[minmax(16rem,1fr)_auto_auto] xl:items-center">
-              <InputGroup>
-                <InputGroupAddon>
-                  <Search className="size-4" />
-                </InputGroupAddon>
-                <InputGroupInput
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Search by name or number"
-                />
-              </InputGroup>
+        <section className="flex flex-col gap-4">
+          <Card size="sm">
+            <CardHeader>
+              <CardTitle>Entries</CardTitle>
+              <CardDescription>
+                {formatNumber(visibleEntries.length)} visible of{" "}
+                {formatNumber(data.pokedexEntries.length)} seeded entries.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 xl:grid-cols-[minmax(16rem,1fr)_auto_auto] xl:items-center">
+                <InputGroup>
+                  <InputGroupAddon>
+                    <Search className="size-4" />
+                  </InputGroupAddon>
+                  <InputGroupInput
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder="Search by name or number"
+                  />
+                </InputGroup>
 
-              <div className="flex flex-wrap gap-2">
-                {filters.map((item) => (
-                  <Button
-                    key={item.value}
-                    type="button"
-                    size="sm"
-                    variant={filter === item.value ? "default" : "outline"}
-                    onClick={() => setFilter(item.value)}
-                  >
-                    {item.label}
-                  </Button>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-2 xl:justify-end">
-                <NativeSelect
-                  aria-label="Sort Pokedex entries"
-                  value={sort}
-                  onChange={(event) =>
-                    setSort(event.target.value as PokedexSort)
-                  }
-                >
-                  {pokedexSortItems.map((item) => (
-                    <NativeSelectOption key={item.value} value={item.value}>
-                      {item.label}
-                    </NativeSelectOption>
-                  ))}
-                </NativeSelect>
                 <ToggleGroup
-                  value={[viewMode]}
+                  value={[filter]}
                   onValueChange={(value) => {
-                    const nextViewMode = value[0];
+                    const nextFilter = value[0];
 
-                    if (nextViewMode === "grid" || nextViewMode === "list") {
-                      setViewMode(nextViewMode);
+                    if (nextFilter && isPokedexFilter(nextFilter)) {
+                      setFilter(nextFilter);
                     }
                   }}
                   spacing={0}
                   variant="outline"
+                  className="flex-wrap"
                 >
-                  <ToggleGroupItem value="grid" aria-label="Show grid">
-                    <Grid2X2 data-icon="inline-start" />
-                    Grid
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="list" aria-label="Show list">
-                    <List data-icon="inline-start" />
-                    List
-                  </ToggleGroupItem>
+                  {filters.map((item) => (
+                    <ToggleGroupItem
+                      key={item.value}
+                      value={item.value}
+                      aria-label={`Show ${item.label.toLowerCase()} Pokedex entries`}
+                    >
+                      {item.label}
+                    </ToggleGroupItem>
+                  ))}
                 </ToggleGroup>
-              </div>
-            </div>
 
-            {visibleEntries.length ? (
-              viewMode === "grid" ? (
-                <PokedexGrid entries={visibleEntries} playId={playId} />
-              ) : (
-                <PokedexList entries={visibleEntries} playId={playId} />
-              )
+                <div className="flex flex-wrap gap-2 xl:justify-end">
+                  <NativeSelect
+                    aria-label="Sort Pokedex entries"
+                    value={sort}
+                    onChange={(event) =>
+                      setSort(event.target.value as PokedexSort)
+                    }
+                  >
+                    {pokedexSortItems.map((item) => (
+                      <NativeSelectOption key={item.value} value={item.value}>
+                        {item.label}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelect>
+                  <ToggleGroup
+                    value={[viewMode]}
+                    onValueChange={(value) => {
+                      const nextViewMode = value[0];
+
+                      if (nextViewMode === "grid" || nextViewMode === "list") {
+                        setViewMode(nextViewMode);
+                      }
+                    }}
+                    spacing={0}
+                    variant="outline"
+                  >
+                    <ToggleGroupItem value="grid" aria-label="Show grid">
+                      <Grid2X2 data-icon="inline-start" />
+                      Grid
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="list" aria-label="Show list">
+                      <List data-icon="inline-start" />
+                      List
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {visibleEntries.length ? (
+            viewMode === "grid" ? (
+              <PokedexGrid entries={visibleEntries} playId={playId} />
             ) : (
-              <div className="text-muted-foreground rounded-lg border border-dashed p-8 text-center">
-                No Pokedex entries match the current filters.
-              </div>
-            )}
+              <Card>
+                <CardContent>
+                  <PokedexList entries={visibleEntries} playId={playId} />
+                </CardContent>
+              </Card>
+            )
+          ) : (
+            <Empty className="min-h-48 border">
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Search />
+                </EmptyMedia>
+                <EmptyTitle>No entries found</EmptyTitle>
+                <EmptyDescription>
+                  No Pokedex entries match the current search and filters.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          )}
 
-            <p className="text-muted-foreground text-sm">
-              Caught automatically marks seen.
-            </p>
-          </CardContent>
-        </Card>
+          <p className="text-muted-foreground text-sm">
+            Caught automatically marks seen.
+          </p>
+        </section>
       </div>
     </MainlinePlayShell>
   );

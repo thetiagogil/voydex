@@ -15,6 +15,7 @@ export function AppBackground() {
   const pathname = usePathname();
   const tone = getBackgroundTone(pathname);
   const isHero = tone === "hero";
+  const isIntro = tone === "intro";
 
   return (
     <div
@@ -27,8 +28,10 @@ export function AppBackground() {
         className={cn(
           "absolute inset-0 transition-colors duration-300",
           isHero
-            ? "bg-background-overlay-hero"
-            : "bg-background-overlay-page backdrop-blur-[2px]",
+            ? "app-background-hero-overlay"
+            : isIntro
+              ? "app-background-intro-overlay"
+              : "app-background-page-overlay",
         )}
       />
     </div>

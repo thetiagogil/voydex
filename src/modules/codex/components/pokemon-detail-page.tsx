@@ -1,8 +1,14 @@
-import { ArrowLeftIcon } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
+import {
+  CodexBackLink,
+  CodexDetailHero,
+  CodexInfoGrid,
+  CodexInfoTile,
+  CodexInlineEmpty,
+  CodexSectionCard,
+} from "@/modules/codex/components/codex-detail";
 import { PokemonTypeList } from "@/modules/codex/components/pokemon-type-list";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { getPokemonDetailData } from "@/modules/codex/data/queries";
@@ -12,14 +18,6 @@ import type {
 } from "@/modules/codex/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
-import { buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
 import {
   getPokemonFormImageAlt,
@@ -51,50 +49,44 @@ function PokemonFormCard({ form }: { form: PokemonFormSummary }) {
       : null;
 
   return (
-    <Card>
-      <div className="px-6 pt-6">
+    <CodexSectionCard
+      title={form.form.name}
+      description={form.introducedGeneration?.name ?? "Unknown generation"}
+      media={
         <PokemonPortrait
           alt={getPokemonFormImageAlt(form.form)}
           imageUrl={getPokemonFormImageUrl(form.form)}
           type={portraitType}
+          className="mx-auto"
         />
-      </div>
-      <CardHeader>
-        <CardDescription>
-          {form.introducedGeneration?.name ?? "Unknown generation"}
-        </CardDescription>
-        <CardTitle>{form.form.name}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <PokemonTypeList
-          primaryType={form.typePair.primaryType}
-          secondaryType={form.typePair.secondaryType}
-        />
+      }
+      contentClassName="flex flex-col gap-4"
+    >
+      <PokemonTypeList
+        primaryType={form.typePair.primaryType}
+        secondaryType={form.typePair.secondaryType}
+      />
 
-        {form.latestAttributes ? (
-          <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
-            {statLabels.map(([key, label]) => (
-              <div key={key} className="bg-background/60 rounded-lg border p-3">
-                <div className="text-muted-foreground text-xs">{label}</div>
-                <div className="font-semibold">
-                  {form.latestAttributes?.[key]}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground text-sm">
-            No battle attributes are seeded yet.
-          </p>
-        )}
-      </CardContent>
-    </Card>
+      {form.latestAttributes ? (
+        <CodexInfoGrid className="grid-cols-2 sm:grid-cols-3">
+          {statLabels.map(([key, label]) => (
+            <CodexInfoTile key={key} label={label}>
+              {form.latestAttributes?.[key]}
+            </CodexInfoTile>
+          ))}
+        </CodexInfoGrid>
+      ) : (
+        <CodexInlineEmpty>
+          No battle attributes are seeded yet.
+        </CodexInlineEmpty>
+      )}
+    </CodexSectionCard>
   );
 }
 
 function AvailabilityRow({ row }: { row: PokemonAvailabilitySummary }) {
   return (
-    <div className="grid gap-2 border-b py-3 last:border-b-0 sm:grid-cols-[1fr_1fr_auto]">
+    <div className="border-app-surface-border grid gap-2 border-b py-3 last:border-b-0 sm:grid-cols-[1fr_1fr_auto]">
       <div>
         <div className="font-medium">{row.game?.name ?? "Unknown game"}</div>
         <div className="text-muted-foreground text-sm">
@@ -141,19 +133,13 @@ export async function PokemonDetailPage({
       title={data.species.name}
       description={`${formatNationalNumber(data.species.national_number)} in the National Pokedex.`}
     >
-      <div>
-        <Link
-          href={appRoutes.codexPokemon}
-          className={buttonVariants({ variant: "ghost", size: "sm" })}
-        >
-          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
-          Back to Pokedex
-        </Link>
-      </div>
+      <CodexBackLink href={appRoutes.codexPokemon}>
+        Back to Pokedex
+      </CodexBackLink>
 
-      <Card className="bg-card/88">
-        <CardContent className="grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-center">
-          {defaultForm ? (
+      <CodexDetailHero
+        media={
+          defaultForm ? (
             <PokemonPortrait
               alt={getPokemonFormImageAlt(defaultForm.form)}
               imageUrl={getPokemonFormImageUrl(defaultForm.form)}
@@ -161,37 +147,38 @@ export async function PokemonDetailPage({
               className="mx-auto w-full max-w-56"
               priority
             />
-          ) : null}
-          <div className="flex flex-col gap-4">
-            <div>
-              <p className="text-muted-foreground text-sm">
-                {formatNationalNumber(data.species.national_number)}
-              </p>
-              <h2 className="mt-1 text-3xl font-semibold tracking-normal">
-                {data.species.name}
-              </h2>
-            </div>
-            {defaultForm ? (
-              <PokemonTypeList
-                primaryType={defaultForm.typePair.primaryType}
-                secondaryType={defaultForm.typePair.secondaryType}
-              />
-            ) : null}
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">{data.forms.length} forms</Badge>
-              <Badge variant="outline">
-                {data.availability.length} availability rows
-              </Badge>
-              {data.species.is_legendary ? (
-                <Badge variant="secondary">Legendary</Badge>
-              ) : null}
-              {data.species.is_mythical ? (
-                <Badge variant="secondary">Mythical</Badge>
-              ) : null}
-            </div>
+          ) : null
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="text-muted-foreground text-sm">
+              {formatNationalNumber(data.species.national_number)}
+            </p>
+            <h2 className="mt-1 text-3xl font-semibold tracking-normal">
+              {data.species.name}
+            </h2>
           </div>
-        </CardContent>
-      </Card>
+          {defaultForm ? (
+            <PokemonTypeList
+              primaryType={defaultForm.typePair.primaryType}
+              secondaryType={defaultForm.typePair.secondaryType}
+            />
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="secondary">{data.forms.length} forms</Badge>
+            <Badge variant="outline">
+              {data.availability.length} availability rows
+            </Badge>
+            {data.species.is_legendary ? (
+              <Badge variant="secondary">Legendary</Badge>
+            ) : null}
+            {data.species.is_mythical ? (
+              <Badge variant="secondary">Mythical</Badge>
+            ) : null}
+          </div>
+        </div>
+      </CodexDetailHero>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-4">
@@ -201,61 +188,47 @@ export async function PokemonDetailPage({
             ))}
           </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Game availability</CardTitle>
-              <CardDescription>
-                First entries from the resolved availability view.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {data.availability.length ? (
-                <div>
-                  {data.availability.map((row) => (
-                    <AvailabilityRow
-                      key={`${row.availability.game_id}-${row.availability.form_id}-${row.availability.availability_method_id}-${row.availability.target_version_group_id}`}
-                      row={row}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-sm">
-                  No availability rows are seeded for this Pokemon yet.
-                </p>
-              )}
-            </CardContent>
-          </Card>
+          <CodexSectionCard
+            title="Game availability"
+            description="First entries from the resolved availability view."
+          >
+            {data.availability.length ? (
+              <div>
+                {data.availability.map((row) => (
+                  <AvailabilityRow
+                    key={`${row.availability.game_id}-${row.availability.form_id}-${row.availability.availability_method_id}-${row.availability.target_version_group_id}`}
+                    row={row}
+                  />
+                ))}
+              </div>
+            ) : (
+              <CodexInlineEmpty>
+                No availability rows are seeded for this Pokemon yet.
+              </CodexInlineEmpty>
+            )}
+          </CodexSectionCard>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Pokedex entries</CardTitle>
-            <CardDescription>
-              Seeded dex appearances for this species.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            {data.pokedexEntries.length ? (
-              data.pokedexEntries.map(({ entry, pokedex }) => (
-                <div
-                  key={`${entry.pokedex_id}-${entry.species_id}`}
-                  className="rounded-lg border p-3"
-                >
-                  <div className="font-medium">
-                    {pokedex?.name ?? "Unknown Pokedex"}
-                  </div>
-                  <div className="text-muted-foreground text-sm">
-                    Number {entry.pokedex_number}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No Pokedex entries are seeded for this Pokemon yet.
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <CodexSectionCard
+          title="Pokedex entries"
+          description="Seeded dex appearances for this species."
+          contentClassName="flex flex-col gap-3"
+        >
+          {data.pokedexEntries.length ? (
+            data.pokedexEntries.map(({ entry, pokedex }) => (
+              <CodexInfoTile
+                key={`${entry.pokedex_id}-${entry.species_id}`}
+                label={pokedex?.name ?? "Unknown Pokedex"}
+              >
+                Number {entry.pokedex_number}
+              </CodexInfoTile>
+            ))
+          ) : (
+            <CodexInlineEmpty>
+              No Pokedex entries are seeded for this Pokemon yet.
+            </CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
       </div>
     </CodexPageShell>
   );

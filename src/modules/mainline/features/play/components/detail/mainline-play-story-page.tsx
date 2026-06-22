@@ -1,4 +1,4 @@
-import { BookOpen, CheckCircle2, ListChecks } from "lucide-react";
+import { BookOpen, ListChecks } from "lucide-react";
 
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayMilestoneDetail } from "@/modules/mainline/shared/types/mainline.types";
@@ -64,9 +64,7 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
     <Card>
       <CardContent className="grid gap-5 lg:grid-cols-3">
         <div>
-          <p className="text-muted-foreground text-xs font-medium uppercase">
-            Last completed
-          </p>
+          <p className="text-muted-foreground text-sm">Last completed</p>
           <p className="mt-1 font-medium">
             {lastCompleted?.milestone_name ?? "No milestone completed"}
           </p>
@@ -80,7 +78,7 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
           </p>
         </div>
         <div>
-          <p className="text-warning text-xs font-medium uppercase">Next up</p>
+          <p className="text-warning text-sm font-medium">Next up</p>
           <p className="mt-1 font-medium">
             {nextMilestone?.milestone_name ?? "No next milestone"}
           </p>
@@ -89,9 +87,7 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
           </p>
         </div>
         <div>
-          <p className="text-success text-xs font-medium uppercase">
-            Story path
-          </p>
+          <p className="text-success text-sm font-medium">Story path</p>
           <p className="mt-1 text-2xl font-semibold">
             {formatNumber(completed)} / {formatNumber(total)}
           </p>
@@ -102,20 +98,22 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
   );
 }
 
-function SelectedMilestonePanel({
+function MilestoneFocusPanel({
   playId,
   milestone,
 }: {
   milestone: MainlinePlayMilestoneDetail | null;
   playId: string;
 }) {
+  const isNextMilestone = milestone ? !milestone.is_completed : false;
+
   return (
     <Card>
       <CardHeader>
-        <CardDescription>Selected milestone</CardDescription>
-        <CardTitle>
-          {milestone?.milestone_name ?? "No milestone selected"}
-        </CardTitle>
+        <CardDescription>
+          {isNextMilestone ? "Next milestone" : "Latest milestone"}
+        </CardDescription>
+        <CardTitle>{milestone?.milestone_name ?? "No milestone"}</CardTitle>
         {milestone ? (
           <StatusBadge tone={getMilestoneTone(milestone)}>
             {milestone.category_name ??
@@ -126,36 +124,32 @@ function SelectedMilestonePanel({
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div>
-          <p className="text-muted-foreground text-xs font-medium uppercase">
-            Requires
-          </p>
+          <p className="text-muted-foreground text-sm">Requires</p>
           <p className="mt-1 text-sm">
             {milestone?.prerequisites ? "Prerequisites available" : "None"}
           </p>
         </div>
         <Separator />
         <div>
-          <p className="text-muted-foreground text-xs font-medium uppercase">
-            Snapshot
-          </p>
+          <p className="text-muted-foreground text-sm">Snapshot</p>
           <p className="mt-1 text-sm">
             {milestone?.snapshot_policy_name ?? "Optional"}
           </p>
         </div>
         <Separator />
         <div>
-          <p className="text-muted-foreground text-xs font-medium uppercase">
-            Description
-          </p>
+          <p className="text-muted-foreground text-sm">Description</p>
           <p className="mt-1 text-sm">
             {milestone?.description ?? "No description available."}
           </p>
         </div>
-        {!milestone?.is_completed ? (
+        {isNextMilestone ? (
           <CompleteMilestoneButton
             milestoneId={milestone?.milestone_id ?? null}
             playId={playId}
           />
+        ) : milestone ? (
+          <StatusBadge tone="success">Completed</StatusBadge>
         ) : null}
       </CardContent>
     </Card>
@@ -164,8 +158,11 @@ function SelectedMilestonePanel({
 
 export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
   const nextMilestone = getFirstIncompleteMilestone(data.milestones);
-  const selectedMilestone = nextMilestone ?? data.milestones[0] ?? null;
+  const focusMilestone =
+    nextMilestone ?? getLastCompletedMilestone(data.milestones) ?? null;
   const playId = String(data.overview.play_id);
+  const completedMilestones = data.overview.completed_required_milestone_count;
+  const requiredMilestones = data.overview.required_milestone_count;
 
   return (
     <MainlinePlayShell
@@ -202,6 +199,13 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
           <StoryStatus data={data} />
 
           <Card>
+            <CardHeader>
+              <CardTitle>Milestones</CardTitle>
+              <CardDescription>
+                {formatNumber(completedMilestones)} /{" "}
+                {formatNumber(requiredMilestones)} required milestones complete.
+              </CardDescription>
+            </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
@@ -214,39 +218,52 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.milestones.map((milestone) => (
-                    <TableRow
-                      key={milestone.milestone_id}
-                      className={
-                        milestone.milestone_id ===
-                        selectedMilestone?.milestone_id
-                          ? "bg-primary/5"
-                          : undefined
-                      }
-                    >
-                      <TableCell>
-                        {milestone.is_completed ? (
-                          <CheckCircle2 className="text-primary size-5" />
-                        ) : (
-                          <span className="block size-5 rounded-full border" />
-                        )}
-                      </TableCell>
-                      <TableCell>{milestone.sort_order ?? "-"}</TableCell>
-                      <TableCell className="font-medium">
-                        {milestone.milestone_name}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {milestone.milestone_game_name ?? "-"}
-                      </TableCell>
-                      <TableCell>
-                        <StatusBadge tone={getMilestoneTone(milestone)}>
-                          {milestone.category_name ??
-                            milestone.milestone_type_name ??
-                            "Milestone"}
-                        </StatusBadge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {data.milestones.map((milestone) => {
+                    const isNext =
+                      milestone.milestone_id === nextMilestone?.milestone_id;
+                    const statusTone = milestone.is_completed
+                      ? "success"
+                      : isNext
+                        ? "warning"
+                        : "neutral";
+                    const statusLabel = milestone.is_completed
+                      ? "Done"
+                      : isNext
+                        ? "Next"
+                        : "Pending";
+
+                    return (
+                      <TableRow
+                        key={milestone.milestone_id}
+                        className={
+                          milestone.milestone_id ===
+                          focusMilestone?.milestone_id
+                            ? "bg-primary/5"
+                            : undefined
+                        }
+                      >
+                        <TableCell>
+                          <StatusBadge tone={statusTone}>
+                            {statusLabel}
+                          </StatusBadge>
+                        </TableCell>
+                        <TableCell>{milestone.sort_order ?? "-"}</TableCell>
+                        <TableCell className="font-medium">
+                          {milestone.milestone_name}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {milestone.milestone_game_name ?? "-"}
+                        </TableCell>
+                        <TableCell>
+                          <StatusBadge tone={getMilestoneTone(milestone)}>
+                            {milestone.category_name ??
+                              milestone.milestone_type_name ??
+                              "Milestone"}
+                          </StatusBadge>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>
@@ -254,18 +271,15 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
         </div>
 
         <div className="flex flex-col gap-5">
-          <SelectedMilestonePanel
-            milestone={selectedMilestone}
-            playId={playId}
-          />
+          <MilestoneFocusPanel milestone={focusMilestone} playId={playId} />
           <Card>
             <CardContent className="flex items-center gap-3">
               <ListChecks className="text-primary size-8" />
               <div>
                 <p className="font-medium">Logging an old save?</p>
                 <p className="text-muted-foreground text-sm">
-                  Complete milestones one by one for now. Bulk catch-up is
-                  deferred to a later slice.
+                  Complete milestones in order and the next target updates
+                  automatically.
                 </p>
               </div>
             </CardContent>

@@ -5,6 +5,7 @@ import type {
   MainlinePlayTeamPokemon,
 } from "@/modules/mainline/features/play/types";
 import {
+  formatNumber,
   getActiveTeam,
   getPokemonDisplayName,
   getPokemonPrimaryTypeSlug,
@@ -73,7 +74,7 @@ function TeamRoster({ data }: MainlinePlayTeamPageProps) {
             reserveCount={reserveTeam.length}
           />
           {selectedPokemon ? (
-            <span>Selected: {getPokemonDisplayName(selectedPokemon)}</span>
+            <span>Spotlight: {getPokemonDisplayName(selectedPokemon)}</span>
           ) : null}
         </CardDescription>
       </CardHeader>
@@ -119,9 +120,8 @@ function TeamRoster({ data }: MainlinePlayTeamPageProps) {
         </div>
 
         <div className="bg-muted/50 text-muted-foreground rounded-lg border p-3 text-sm">
-          Team changes are intentionally read-only in this pass. Add, evolve,
-          replace, retire, and reorder actions will be handled as a focused Team
-          lifecycle slice.
+          Team actions are coming next. This view focuses on the current roster,
+          moves, and logged details for now.
         </div>
       </CardContent>
     </Card>
@@ -136,8 +136,8 @@ function PokemonDetail({
   if (!pokemon) {
     return (
       <EmptyPanel
-        title="No Pokemon selected"
-        description="Add Pokemon to this play to see team details here."
+        title="No roster entries yet"
+        description="Team details appear here when this play has roster entries."
       />
     );
   }
@@ -263,35 +263,54 @@ function PokemonDetail({
   );
 }
 
-function TeamAnalysisPreview() {
+function TeamRosterSnapshot({ data }: MainlinePlayTeamPageProps) {
+  const activeTeam = getActiveTeam(data.team);
+  const reserveTeam = getReserveTeam(data.team);
+  const speciesCount = new Set(
+    data.team.map((pokemon) => pokemon.species_id).filter(Boolean),
+  ).size;
+  const movesLoggedCount = data.team.reduce(
+    (total, pokemon) => total + getMoves(pokemon).length,
+    0,
+  );
+  const heldItemCount = data.team.filter((pokemon) =>
+    Boolean(pokemon.held_item_name),
+  ).length;
   const items = [
     {
-      description: "Balanced bulk with good physical and special walls.",
+      description: `${formatNumber(activeTeam.length)} active, ${formatNumber(reserveTeam.length)} reserve`,
       icon: <Shield className="text-primary size-7" />,
-      label: "Defense",
+      label: "Rostered Pokemon",
+      value: formatNumber(data.team.length),
     },
     {
-      description: "Review type coverage before major fights.",
+      description: "Unique species currently present in the roster.",
       icon: <BarChart3 className="text-warning size-7" />,
-      label: "Coverage",
+      label: "Species",
+      value: formatNumber(speciesCount),
     },
     {
-      description: "Warnings will appear as rules and team data improve.",
-      icon: <ClipboardList className="text-destructive size-7" />,
-      label: "Warnings",
+      description: `${formatNumber(movesLoggedCount)} moves, ${formatNumber(heldItemCount)} held items`,
+      icon: <ClipboardList className="text-info size-7" />,
+      label: "Logged Details",
+      value: formatNumber(movesLoggedCount + heldItemCount),
     },
   ];
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Team Analysis</CardTitle>
+        <CardTitle>Roster Snapshot</CardTitle>
+        <CardDescription>
+          Snapshot from the current roster data.
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3 md:grid-cols-3">
         {items.map((item) => (
           <div key={item.label} className="flex gap-3 rounded-lg border p-3">
             {item.icon}
             <div>
+              <p className="text-2xl font-semibold">{item.value}</p>
               <p className="font-medium">{item.label}</p>
               <p className="text-muted-foreground text-sm">
                 {item.description}
@@ -321,8 +340,8 @@ export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            <StatusBadge tone="neutral">Read-only roster</StatusBadge>
-            <StatusBadge tone="info">Team lifecycle next</StatusBadge>
+            <StatusBadge tone="neutral">Roster overview</StatusBadge>
+            <StatusBadge tone="info">Team actions next</StatusBadge>
           </div>
         </div>
 
@@ -330,7 +349,7 @@ export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
           <TeamRoster data={data} />
           <div className="flex flex-col gap-5">
             <PokemonDetail pokemon={selectedPokemon} />
-            <TeamAnalysisPreview />
+            <TeamRosterSnapshot data={data} />
             <Card>
               <CardHeader>
                 <CardTitle>Recent Team Events</CardTitle>

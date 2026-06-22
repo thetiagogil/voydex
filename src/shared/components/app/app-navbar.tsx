@@ -19,12 +19,7 @@ export function AppNavbar({
   end,
 }: AppNavbarProps) {
   return (
-    <header
-      className={cn(
-        "bg-background/82 supports-[backdrop-filter]:bg-background/68 border-border/70 sticky top-0 z-40 border-b backdrop-blur-xl",
-        className,
-      )}
-    >
+    <header className={cn("app-nav-surface sticky top-0 z-40", className)}>
       <div
         className={cn(
           "mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8",

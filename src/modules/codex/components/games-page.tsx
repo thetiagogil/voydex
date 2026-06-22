@@ -1,27 +1,20 @@
-import { ArrowRightIcon, Gamepad2Icon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { getGamesPageData } from "@/modules/codex/data/queries";
 import type { GameCard } from "@/modules/codex/types";
+import {
+  CodexBrowseMeta,
+  CodexEmptyState,
+  CodexFilterPanel,
+  CodexResourceCard,
+  CodexResourceGrid,
+} from "@/modules/codex/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/shared/components/ui/empty";
 import {
   NativeSelect,
   NativeSelectOption,
@@ -37,43 +30,30 @@ type GamesPageProps = {
 
 function GameSummaryCard({ card }: { card: GameCard }) {
   return (
-    <Link href={appRoutes.codexGame(card.game.slug)} className="group">
-      <Card className="bg-card/88 group-hover:border-primary/50 group-hover:bg-card/95 h-full transition-colors">
-        <div className="px-5 pt-5">
-          <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
-        </div>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <CardDescription>
-                {card.generation?.name ?? "Unknown generation"} /{" "}
-                {card.game.release_year}
-              </CardDescription>
-              <CardTitle>{card.game.name}</CardTitle>
-            </div>
-            <ArrowRightIcon
-              className="text-muted-foreground size-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          <div className="flex flex-wrap gap-2">
-            {card.region ? (
-              <Badge variant="outline">{card.region.name}</Badge>
-            ) : null}
-            {card.gameType ? (
-              <Badge variant="secondary">{card.gameType.name}</Badge>
-            ) : null}
-          </div>
-          {card.platforms.length ? (
-            <p className="text-muted-foreground text-sm">
-              {card.platforms.map((platform) => platform.name).join(", ")}
-            </p>
-          ) : null}
-        </CardContent>
-      </Card>
-    </Link>
+    <CodexResourceCard
+      href={appRoutes.codexGame(card.game.slug)}
+      description={`${card.generation?.name ?? "Unknown generation"} / ${
+        card.game.release_year
+      }`}
+      title={card.game.name}
+      media={
+        <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
+      }
+    >
+      <div className="flex flex-wrap gap-2">
+        {card.region ? (
+          <Badge variant="outline">{card.region.name}</Badge>
+        ) : null}
+        {card.gameType ? (
+          <Badge variant="secondary">{card.gameType.name}</Badge>
+        ) : null}
+      </div>
+      {card.platforms.length ? (
+        <p className="text-muted-foreground text-sm">
+          {card.platforms.map((platform) => platform.name).join(", ")}
+        </p>
+      ) : null}
+    </CodexResourceCard>
   );
 }
 
@@ -86,9 +66,9 @@ export async function GamesPage({ params }: GamesPageProps) {
       title="Games"
       description="Browse the mainline and Legends games currently supported by Voydex data."
     >
-      <form
+      <CodexFilterPanel
         action={appRoutes.codexGames}
-        className="bg-card/82 grid gap-3 rounded-xl border p-3 backdrop-blur-sm sm:grid-cols-[1fr_1fr_auto_auto]"
+        className="sm:grid-cols-[1fr_1fr_auto_auto]"
       >
         <NativeSelect
           name="generation"
@@ -128,37 +108,30 @@ export async function GamesPage({ params }: GamesPageProps) {
             Clear
           </Link>
         ) : null}
-      </form>
+      </CodexFilterPanel>
 
       {data.games.length ? (
         <>
-          <div className="text-muted-foreground flex items-center gap-2 text-sm">
-            <Gamepad2Icon aria-hidden />
-            {data.games.length} games visible
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <CodexBrowseMeta>{data.games.length} games visible</CodexBrowseMeta>
+          <CodexResourceGrid>
             {data.games.map((game) => (
               <GameSummaryCard key={game.game.id} card={game} />
             ))}
-          </div>
+          </CodexResourceGrid>
         </>
       ) : (
-        <Empty>
-          <EmptyHeader>
-            <EmptyTitle>No games found</EmptyTitle>
-            <EmptyDescription>
-              Try a different generation or region filter.
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
+        <CodexEmptyState
+          title="No games found"
+          description="Try a different generation or region filter."
+          action={
             <Link
               href={appRoutes.codexGames}
               className={buttonVariants({ variant: "outline" })}
             >
               Reset filters
             </Link>
-          </EmptyContent>
-        </Empty>
+          }
+        />
       )}
     </CodexPageShell>
   );

@@ -1,20 +1,19 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
+import {
+  CodexBackLink,
+  CodexDetailHero,
+  CodexInfoGrid,
+  CodexInfoTile,
+  CodexInlineEmpty,
+  CodexLinkedPanel,
+  CodexSectionCard,
+} from "@/modules/codex/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGenerationDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
-import { buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 
 type GenerationDetailPageProps = {
   generationId: string;
@@ -34,47 +33,56 @@ export async function GenerationDetailPage({
       title={data.generation.name}
       description={`Mainline Pokemon data seeded for games that started in ${data.generation.start_year}.`}
     >
-      <div>
-        <Link
-          href={appRoutes.codexGenerations}
-          className={buttonVariants({ variant: "ghost", size: "sm" })}
-        >
-          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
-          Back to generations
-        </Link>
-      </div>
+      <CodexBackLink href={appRoutes.codexGenerations}>
+        Back to generations
+      </CodexBackLink>
+
+      <CodexDetailHero>
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="text-muted-foreground text-sm">
+              Started in {data.generation.start_year}
+            </p>
+            <h2 className="mt-1 text-3xl font-semibold tracking-normal">
+              {data.generation.name}
+            </h2>
+          </div>
+          <CodexInfoGrid className="sm:grid-cols-3">
+            <CodexInfoTile label="Games">{data.games.length}</CodexInfoTile>
+            <CodexInfoTile label="Version groups">
+              {data.versionGroups.length}
+            </CodexInfoTile>
+            <CodexInfoTile label="Pokemon introduced">
+              {data.introducedSpecies.length}
+            </CodexInfoTile>
+          </CodexInfoGrid>
+        </div>
+      </CodexDetailHero>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-        <Card className="bg-card/88">
-          <CardHeader>
-            <CardTitle>Games</CardTitle>
-            <CardDescription>
-              Games and version groups in this generation.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3 sm:grid-cols-2">
-            {data.games.map(({ coverImageUrl, game, region, versionGroup }) => (
-              <Link
+        <CodexSectionCard
+          title="Games"
+          description="Games and version groups in this generation."
+          contentClassName="grid gap-3 sm:grid-cols-2"
+        >
+          {data.games.length ? (
+            data.games.map(({ coverImageUrl, game, region, versionGroup }) => (
+              <CodexLinkedPanel
                 key={game.id}
                 href={appRoutes.codexGame(game.slug)}
-                className="group flex flex-col gap-3 rounded-lg border p-3"
+                className="flex-col"
+                showArrow={false}
               >
                 <GameCoverArt
                   imageUrl={coverImageUrl}
                   name={game.name}
                   className="rounded-lg"
                 />
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="font-medium">{game.name}</div>
-                    <div className="text-muted-foreground text-sm">
-                      {versionGroup?.name ?? "Unknown version group"}
-                    </div>
+                <div>
+                  <div className="font-medium">{game.name}</div>
+                  <div className="text-muted-foreground text-sm">
+                    {versionGroup?.name ?? "Unknown version group"}
                   </div>
-                  <ArrowRightIcon
-                    className="text-muted-foreground size-4 transition-transform group-hover:translate-x-0.5"
-                    aria-hidden
-                  />
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {region ? (
@@ -82,51 +90,56 @@ export async function GenerationDetailPage({
                   ) : null}
                   <Badge variant="secondary">{game.release_year}</Badge>
                 </div>
-              </Link>
-            ))}
-          </CardContent>
-        </Card>
+              </CodexLinkedPanel>
+            ))
+          ) : (
+            <CodexInlineEmpty>
+              No games are seeded for this generation.
+            </CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
 
-        <Card className="bg-card/88">
-          <CardHeader>
-            <CardTitle>Version groups</CardTitle>
-            <CardDescription>
-              Reference grouping used for mechanics and data.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {data.versionGroups.map((versionGroup) => (
-              <div
-                key={versionGroup.id}
-                className="rounded-lg border px-3 py-2 text-sm"
-              >
+        <CodexSectionCard
+          title="Version groups"
+          description="Reference grouping used for mechanics and data."
+          contentClassName="flex flex-col gap-2"
+        >
+          {data.versionGroups.length ? (
+            data.versionGroups.map((versionGroup) => (
+              <CodexInfoTile key={versionGroup.id} label="Version group">
                 {versionGroup.name}
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+              </CodexInfoTile>
+            ))
+          ) : (
+            <CodexInlineEmpty>No version groups are seeded.</CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
       </div>
 
-      <Card className="bg-card/88">
-        <CardHeader>
-          <CardTitle>Introduced Pokemon</CardTitle>
-          <CardDescription>
-            Species first introduced in this generation.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {data.introducedSpecies.map((species) => (
-            <Link
+      <CodexSectionCard
+        title="Introduced Pokemon"
+        description="Species first introduced in this generation."
+        contentClassName="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        {data.introducedSpecies.length ? (
+          data.introducedSpecies.map((species) => (
+            <CodexLinkedPanel
               key={species.id}
               href={appRoutes.codexPokemonSpecies(species.slug)}
-              className="hover:bg-muted rounded-lg border px-3 py-2 text-sm transition-colors"
+              className="items-start py-2"
             >
-              #{species.national_number.toString().padStart(4, "0")}{" "}
-              {species.name}
-            </Link>
-          ))}
-        </CardContent>
-      </Card>
+              <span>
+                #{species.national_number.toString().padStart(4, "0")}{" "}
+                {species.name}
+              </span>
+            </CodexLinkedPanel>
+          ))
+        ) : (
+          <CodexInlineEmpty>
+            No introduced Pokemon are seeded for this generation.
+          </CodexInlineEmpty>
+        )}
+      </CodexSectionCard>
     </CodexPageShell>
   );
 }

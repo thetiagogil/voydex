@@ -76,18 +76,14 @@ export function ThemeSettingsCard() {
               <ToggleGroupItem
                 key={option.value}
                 value={option.value}
-                className="h-auto flex-col items-start justify-start gap-3 p-4 text-left whitespace-normal"
+                className="data-[state=on]:border-primary/50 data-[state=on]:bg-primary/10 h-auto min-h-28 flex-col items-start justify-start gap-3 p-4 text-left whitespace-normal"
               >
-                <span className="flex items-center justify-between gap-3">
+                <span className="flex w-full items-center gap-2">
                   <Icon aria-hidden />
+                  <span className="text-sm font-semibold">{option.label}</span>
                 </span>
-                <span>
-                  <span className="block text-sm font-semibold">
-                    {option.label}
-                  </span>
-                  <span className="text-muted-foreground mt-1 block text-xs leading-5">
-                    {option.description}
-                  </span>
+                <span className="text-muted-foreground block text-xs leading-5">
+                  {option.description}
                 </span>
               </ToggleGroupItem>
             );

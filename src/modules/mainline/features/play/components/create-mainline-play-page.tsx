@@ -10,7 +10,7 @@ type CreateMainlinePlayPageProps = {
 
 export function CreateMainlinePlayPage({ data }: CreateMainlinePlayPageProps) {
   return (
-    <>
+    <div className="flex w-full flex-col gap-6">
       <PageHeader
         title="New play"
         description="Create a mainline playthrough record for one game save."
@@ -28,6 +28,6 @@ export function CreateMainlinePlayPage({ data }: CreateMainlinePlayPageProps) {
           </CardContent>
         </Card>
       )}
-    </>
+    </div>
   );
 }

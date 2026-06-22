@@ -1,20 +1,18 @@
-import { ArrowLeftIcon } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
+import {
+  CodexBackLink,
+  CodexDetailHero,
+  CodexInfoGrid,
+  CodexInfoTile,
+  CodexInlineEmpty,
+  CodexSectionCard,
+} from "@/modules/codex/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGameDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
-import { buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 
 type GameDetailPageProps = {
   gameSlug: string;
@@ -32,131 +30,113 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
       title={data.game.name}
       description={`${data.generation?.name ?? "Unknown generation"} reference data for ${data.game.release_year}.`}
     >
-      <div>
-        <Link
-          href={appRoutes.codexGames}
-          className={buttonVariants({ variant: "ghost", size: "sm" })}
-        >
-          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
-          Back to games
-        </Link>
-      </div>
+      <CodexBackLink href={appRoutes.codexGames}>Back to games</CodexBackLink>
+
+      <CodexDetailHero
+        media={
+          <GameCoverArt imageUrl={data.coverImageUrl} name={data.game.name} />
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="text-muted-foreground text-sm">
+              {data.generation?.name ?? "Unknown generation"} /{" "}
+              {data.game.release_year}
+            </p>
+            <h2 className="mt-1 text-3xl font-semibold tracking-normal">
+              {data.game.name}
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {data.region ? (
+              <Badge variant="outline">{data.region.name}</Badge>
+            ) : null}
+            {data.gameType ? (
+              <Badge variant="secondary">{data.gameType.name}</Badge>
+            ) : null}
+            {data.versionGroup ? (
+              <Badge variant="outline">{data.versionGroup.name}</Badge>
+            ) : null}
+          </div>
+        </div>
+      </CodexDetailHero>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-        <Card className="bg-card/88">
-          <div className="px-6 pt-6">
-            <GameCoverArt imageUrl={data.coverImageUrl} name={data.game.name} />
-          </div>
-          <CardHeader>
-            <CardTitle>Game overview</CardTitle>
-            <CardDescription>
-              Core reference metadata for this game.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border p-3">
-              <div className="text-muted-foreground text-sm">Version group</div>
-              <div className="font-medium">
-                {data.versionGroup?.name ?? "Unknown"}
-              </div>
-            </div>
-            <div className="rounded-lg border p-3">
-              <div className="text-muted-foreground text-sm">Region</div>
-              <div className="font-medium">
-                {data.region?.name ?? "Unknown"}
-              </div>
-            </div>
-            <div className="rounded-lg border p-3">
-              <div className="text-muted-foreground text-sm">Game type</div>
-              <div className="font-medium">
-                {data.gameType?.name ?? "Unknown"}
-              </div>
-            </div>
-            <div className="rounded-lg border p-3">
-              <div className="text-muted-foreground text-sm">
-                Available Pokemon rows
-              </div>
-              <div className="font-medium">{data.availablePokemonCount}</div>
-            </div>
-          </CardContent>
-        </Card>
+        <CodexSectionCard
+          title="Game overview"
+          description="Core reference metadata for this game."
+        >
+          <CodexInfoGrid>
+            <CodexInfoTile label="Version group">
+              {data.versionGroup?.name ?? "Unknown"}
+            </CodexInfoTile>
+            <CodexInfoTile label="Region">
+              {data.region?.name ?? "Unknown"}
+            </CodexInfoTile>
+            <CodexInfoTile label="Game type">
+              {data.gameType?.name ?? "Unknown"}
+            </CodexInfoTile>
+            <CodexInfoTile label="Available Pokemon rows">
+              {data.availablePokemonCount}
+            </CodexInfoTile>
+          </CodexInfoGrid>
+        </CodexSectionCard>
 
-        <Card className="bg-card/88">
-          <CardHeader>
-            <CardTitle>Platforms</CardTitle>
-            <CardDescription>
-              Native and enhanced platform support.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
-            {data.platforms.length ? (
-              data.platforms.map((platform) => (
-                <Badge key={platform.id} variant="secondary">
-                  {platform.name}
-                </Badge>
-              ))
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No platform rows are seeded.
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <CodexSectionCard
+          title="Platforms"
+          description="Native and enhanced platform support."
+          contentClassName="flex flex-wrap gap-2"
+        >
+          {data.platforms.length ? (
+            data.platforms.map((platform) => (
+              <Badge key={platform.id} variant="secondary">
+                {platform.name}
+              </Badge>
+            ))
+          ) : (
+            <CodexInlineEmpty>No platform rows are seeded.</CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="bg-card/88">
-          <CardHeader>
-            <CardTitle>Pokedexes</CardTitle>
-            <CardDescription>
-              Dex definitions attached to this version group.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {data.pokedexes.length ? (
-              data.pokedexes.map((pokedex) => (
-                <div
-                  key={pokedex.id}
-                  className="rounded-lg border px-3 py-2 text-sm"
-                >
-                  {pokedex.name}
-                </div>
-              ))
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No Pokedex rows are seeded.
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <CodexSectionCard
+          title="Pokedexes"
+          description="Dex definitions attached to this version group."
+          contentClassName="flex flex-col gap-2"
+        >
+          {data.pokedexes.length ? (
+            data.pokedexes.map((pokedex) => (
+              <CodexInfoTile key={pokedex.id} label="Pokedex">
+                {pokedex.name}
+              </CodexInfoTile>
+            ))
+          ) : (
+            <CodexInlineEmpty>No Pokedex rows are seeded.</CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
 
-        <Card className="bg-card/88">
-          <CardHeader>
-            <CardTitle>Content scopes</CardTitle>
-            <CardDescription>
-              Base game and optional content scope definitions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {data.contentScopes.length ? (
-              data.contentScopes.map((scope) => (
-                <div
-                  key={`${scope.game?.id}-${scope.versionGroup?.id}`}
-                  className="flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm"
-                >
-                  <span>{scope.versionGroup?.name ?? "Unknown scope"}</span>
-                  <Badge variant={scope.isBaseScope ? "default" : "outline"}>
-                    {scope.isBaseScope ? "Base" : "Optional"}
-                  </Badge>
-                </div>
-              ))
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No content scopes are seeded.
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <CodexSectionCard
+          title="Content scopes"
+          description="Base game and optional content scope definitions."
+          contentClassName="flex flex-col gap-2"
+        >
+          {data.contentScopes.length ? (
+            data.contentScopes.map((scope) => (
+              <div
+                key={`${scope.game?.id}-${scope.versionGroup?.id}`}
+                className="bg-background/45 ring-app-surface-border flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm ring-1"
+              >
+                <span>{scope.versionGroup?.name ?? "Unknown scope"}</span>
+                <Badge variant={scope.isBaseScope ? "default" : "outline"}>
+                  {scope.isBaseScope ? "Base" : "Optional"}
+                </Badge>
+              </div>
+            ))
+          ) : (
+            <CodexInlineEmpty>No content scopes are seeded.</CodexInlineEmpty>
+          )}
+        </CodexSectionCard>
       </div>
     </CodexPageShell>
   );

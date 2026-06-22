@@ -41,7 +41,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { Separator } from "@/shared/components/ui/separator";
 
 type MainlinePlayOverviewPageProps = {
   data: MainlinePlayDetailData;
@@ -78,9 +77,7 @@ function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
           <div className="flex gap-3">
             <CircleCheck className="text-success mt-1 size-5" />
             <div>
-              <p className="text-muted-foreground text-xs font-medium uppercase">
-                Last completed
-              </p>
+              <p className="text-muted-foreground text-sm">Last completed</p>
               <p className="font-medium">
                 {lastCompleted?.milestone_name ?? "No milestone completed"}
               </p>
@@ -98,9 +95,7 @@ function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
           <div className="flex gap-3">
             <Star className="text-warning mt-1 size-5" />
             <div>
-              <p className="text-muted-foreground text-xs font-medium uppercase">
-                Next up
-              </p>
+              <p className="text-muted-foreground text-sm">Next up</p>
               <p className="font-medium">
                 {nextMilestone?.milestone_name ?? "No next milestone"}
               </p>
@@ -113,9 +108,7 @@ function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
           <div className="flex flex-col gap-2">
             <div className="flex items-end justify-between gap-3">
               <div>
-                <p className="text-muted-foreground text-xs font-medium uppercase">
-                  Story path
-                </p>
+                <p className="text-muted-foreground text-sm">Story path</p>
                 <p className="text-primary text-2xl font-semibold">
                   {formatNumber(completed)} / {formatNumber(total)}
                 </p>
@@ -151,7 +144,7 @@ function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
           nativeButton={false}
           variant="outline"
         >
-          Log milestone
+          Open Story
           <ChevronRight data-icon="inline-end" />
         </Button>
       </CardContent>
@@ -167,7 +160,7 @@ function CurrentTeamCard({ data }: MainlinePlayOverviewPageProps) {
     return (
       <EmptyPanel
         title="No active team yet"
-        description="Add Pokemon to this play to start building the current team."
+        description="Pokemon will appear here when this play has active roster entries."
       />
     );
   }
@@ -289,6 +282,7 @@ function ProgressSummaryCard({ data }: MainlinePlayOverviewPageProps) {
 function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
+  const openActiveSlots = Math.max(6 - activeTeam.length, 0);
 
   return (
     <Card>
@@ -302,9 +296,9 @@ function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
         <div className="flex gap-3 rounded-lg border p-3">
           <ShieldAlert className="text-warning size-6" />
           <div>
-            <p className="font-medium">Coverage preview</p>
+            <p className="font-medium">Active roster</p>
             <p className="text-muted-foreground text-sm">
-              {activeTeam.length ? "Analysis coming next" : "Add Pokemon first"}
+              {formatNumber(activeTeam.length)} / 6 slots filled
             </p>
           </div>
         </div>
@@ -313,7 +307,7 @@ function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
           <div>
             <p className="font-medium">{reserveTeam.length} reserves</p>
             <p className="text-muted-foreground text-sm">
-              {Math.max(12 - data.team.length, 0)} slots available
+              {formatNumber(openActiveSlots)} active slots open
             </p>
           </div>
         </div>
@@ -362,7 +356,6 @@ export function MainlinePlayOverviewPage({
           <ProgressSummaryCard data={data} />
         </div>
       </div>
-      <Separator />
     </MainlinePlayShell>
   );
 }

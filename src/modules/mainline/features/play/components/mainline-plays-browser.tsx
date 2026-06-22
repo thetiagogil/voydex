@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { SearchIcon, SlidersHorizontalIcon } from "lucide-react";
+import { useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { SearchIcon, SlidersHorizontalIcon, XIcon } from "lucide-react";
 
 import { MainlinePlayCard } from "@/modules/mainline/features/play/components/mainline-play-card";
+import { hasMainlinePlayProgress } from "@/modules/mainline/features/play/components/mainline-play-summary";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
 import { EmptyState } from "@/shared/components/app/empty-state";
+import { Button } from "@/shared/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -25,12 +28,58 @@ type Option = {
   value: string;
 };
 
-const completionOptions: Option[] = [
+type CompletionFilter = "active" | "all" | "completed" | "has-progress";
+
+type MainlinePlayFilters = {
+  completion: CompletionFilter;
+  game: string;
+  generation: string;
+  q: string;
+  status: string;
+};
+
+const completionOptions: Array<Option & { value: CompletionFilter }> = [
   { label: "All completion", value: "all" },
   { label: "Active library", value: "active" },
   { label: "Completed", value: "completed" },
   { label: "Has progress", value: "has-progress" },
 ];
+
+const defaultFilters: MainlinePlayFilters = {
+  completion: "all",
+  game: "",
+  generation: "",
+  q: "",
+  status: "",
+};
+
+function parseCompletion(value: string | null): CompletionFilter {
+  return completionOptions.some((option) => option.value === value)
+    ? (value as CompletionFilter)
+    : "all";
+}
+
+function parseFilters(
+  searchParams: ReturnType<typeof useSearchParams>,
+): MainlinePlayFilters {
+  return {
+    completion: parseCompletion(searchParams.get("completion")),
+    game: searchParams.get("game") ?? "",
+    generation: searchParams.get("generation") ?? "",
+    q: searchParams.get("q") ?? "",
+    status: searchParams.get("status") ?? "",
+  };
+}
+
+function hasActiveFilters(filters: MainlinePlayFilters) {
+  return (
+    filters.completion !== defaultFilters.completion ||
+    filters.game !== defaultFilters.game ||
+    filters.generation !== defaultFilters.generation ||
+    filters.q !== defaultFilters.q ||
+    filters.status !== defaultFilters.status
+  );
+}
 
 function uniqueOptions(
   plays: MainlinePlayCardData[],
@@ -73,11 +122,10 @@ function matchesSearch(play: MainlinePlayCardData, search: string) {
 }
 
 export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
-  const [completion, setCompletion] = useState("all");
-  const [game, setGame] = useState("");
-  const [generation, setGeneration] = useState("");
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const filters = useMemo(() => parseFilters(searchParams), [searchParams]);
 
   const statusOptions = useMemo(
     () => uniqueOptions(plays, "status_slug", "status_name"),
@@ -91,7 +139,7 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
     () => uniqueOptions(plays, "game_slug", "game_name"),
     [plays],
   );
-  const normalizedSearch = search.trim().toLowerCase();
+  const normalizedSearch = filters.q.trim().toLowerCase();
   const visiblePlays = useMemo(
     () =>
       plays.filter((play) => {
@@ -99,41 +147,64 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
           return false;
         }
 
-        if (status && play.status_slug !== status) {
+        if (filters.status && play.status_slug !== filters.status) {
           return false;
         }
 
-        if (generation && play.generation_slug !== generation) {
+        if (filters.generation && play.generation_slug !== filters.generation) {
           return false;
         }
 
-        if (game && play.game_slug !== game) {
-          return false;
-        }
-
-        if (completion === "active" && play.status_slug === "completed") {
-          return false;
-        }
-
-        if (completion === "completed" && play.status_slug !== "completed") {
+        if (filters.game && play.game_slug !== filters.game) {
           return false;
         }
 
         if (
-          completion === "has-progress" &&
-          !(
-            (play.completed_milestone_count ?? 0) > 0 ||
-            (play.pokedex_caught_count ?? 0) > 0 ||
-            (play.collected_entry_count ?? 0) > 0
-          )
+          filters.completion === "active" &&
+          play.status_slug === "completed"
+        ) {
+          return false;
+        }
+
+        if (
+          filters.completion === "completed" &&
+          play.status_slug !== "completed"
+        ) {
+          return false;
+        }
+
+        if (
+          filters.completion === "has-progress" &&
+          !hasMainlinePlayProgress(play)
         ) {
           return false;
         }
 
         return true;
       }),
-    [completion, game, generation, normalizedSearch, plays, status],
+    [filters, normalizedSearch, plays],
   );
+  const activeFilters = hasActiveFilters(filters);
+
+  function updateFilter(key: keyof MainlinePlayFilters, value: string) {
+    const nextParams = new URLSearchParams(searchParams.toString());
+    const defaultValue = defaultFilters[key];
+
+    if (!value || value === defaultValue) {
+      nextParams.delete(key);
+    } else {
+      nextParams.set(key, value);
+    }
+
+    const query = nextParams.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, {
+      scroll: false,
+    });
+  }
+
+  function clearFilters() {
+    router.replace(pathname, { scroll: false });
+  }
 
   if (!plays.length) {
     return null;
@@ -141,21 +212,21 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-card/82 grid gap-3 rounded-xl border p-3 backdrop-blur-sm xl:grid-cols-[minmax(16rem,1fr)_repeat(4,minmax(9rem,auto))]">
+      <div className="bg-card/78 ring-app-surface-border grid gap-3 rounded-xl p-3 ring-1 backdrop-blur-md xl:grid-cols-[minmax(16rem,1fr)_repeat(4,minmax(9rem,auto))_auto]">
         <InputGroup>
           <InputGroupAddon>
             <SearchIcon aria-hidden />
           </InputGroupAddon>
           <InputGroupInput
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            value={filters.q}
+            onChange={(event) => updateFilter("q", event.target.value)}
             placeholder="Search plays, games, or trainer"
           />
         </InputGroup>
         <NativeSelect
           aria-label="Filter by status"
-          value={status}
-          onChange={(event) => setStatus(event.target.value)}
+          value={filters.status}
+          onChange={(event) => updateFilter("status", event.target.value)}
           className="w-full"
         >
           <NativeSelectOption value="">All statuses</NativeSelectOption>
@@ -167,8 +238,8 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
         </NativeSelect>
         <NativeSelect
           aria-label="Filter by generation"
-          value={generation}
-          onChange={(event) => setGeneration(event.target.value)}
+          value={filters.generation}
+          onChange={(event) => updateFilter("generation", event.target.value)}
           className="w-full"
         >
           <NativeSelectOption value="">All generations</NativeSelectOption>
@@ -180,8 +251,8 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
         </NativeSelect>
         <NativeSelect
           aria-label="Filter by game"
-          value={game}
-          onChange={(event) => setGame(event.target.value)}
+          value={filters.game}
+          onChange={(event) => updateFilter("game", event.target.value)}
           className="w-full"
         >
           <NativeSelectOption value="">All games</NativeSelectOption>
@@ -193,8 +264,8 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
         </NativeSelect>
         <NativeSelect
           aria-label="Filter by completion"
-          value={completion}
-          onChange={(event) => setCompletion(event.target.value)}
+          value={filters.completion}
+          onChange={(event) => updateFilter("completion", event.target.value)}
           className="w-full"
         >
           {completionOptions.map((option) => (
@@ -203,15 +274,24 @@ export function MainlinePlaysBrowser({ plays }: MainlinePlaysBrowserProps) {
             </NativeSelectOption>
           ))}
         </NativeSelect>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={!activeFilters}
+          onClick={clearFilters}
+        >
+          <XIcon data-icon="inline-start" />
+          Clear
+        </Button>
       </div>
 
-      <div className="text-muted-foreground flex items-center gap-2 text-sm">
+      <div className="text-muted-foreground flex items-center gap-2 text-sm [&_svg]:size-4">
         <SlidersHorizontalIcon aria-hidden />
         {visiblePlays.length} of {plays.length} plays visible
       </div>
 
       {visiblePlays.length ? (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3">
           {visiblePlays.map((play) => (
             <MainlinePlayCard
               key={play.play_id ?? `${play.game_id}-${play.created_at}`}

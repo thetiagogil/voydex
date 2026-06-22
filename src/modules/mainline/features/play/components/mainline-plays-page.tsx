@@ -20,7 +20,7 @@ export function MainlinePlaysPage({ data }: MainlinePlaysPageProps) {
     <>
       <PageHeader
         title="Plays"
-        description="Create, filter, and reopen your mainline Pokemon playthrough records."
+        description="Search, filter, and reopen the records in your Mainline library."
         action={
           <Button
             render={<Link href={appRoutes.mainlineNewPlay} />}

@@ -56,8 +56,8 @@ export default async function Home() {
             />
 
             <p className="text-foreground/78 -mt-1 max-w-xl text-base leading-7 sm:text-lg">
-              Keep every playthrough close: teams, milestones, notes, and
-              reference data in one quiet place.
+              Keep each Pokemon journey close: active plays, reference data,
+              milestones, and memories in one quiet place.
             </p>
 
             <div className="mt-8 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">

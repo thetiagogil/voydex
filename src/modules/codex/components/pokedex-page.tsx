@@ -1,11 +1,14 @@
-import {
-  ArrowRightIcon,
-  SearchIcon,
-  SlidersHorizontalIcon,
-} from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import {
+  CodexBrowseMeta,
+  CodexEmptyState,
+  CodexFilterPanel,
+  CodexResourceCard,
+  CodexResourceGrid,
+} from "@/modules/codex/components/codex-browse";
 import { PokemonTypeList } from "@/modules/codex/components/pokemon-type-list";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { getPokedexPageData } from "@/modules/codex/data/queries";
@@ -16,20 +19,6 @@ import type {
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/shared/components/ui/empty";
 import {
   InputGroup,
   InputGroupAddon,
@@ -81,56 +70,38 @@ function PokemonCard({
       : null;
 
   return (
-    <Link
+    <CodexResourceCard
       href={appRoutes.codexPokemonSpecies(pokemon.species.slug)}
-      className="group"
+      description={formatNationalNumber(pokemon.species.national_number)}
+      title={pokemon.species.name}
+      media={
+        <PokemonPortrait
+          alt={getPokemonFormImageAlt(pokemon.defaultForm)}
+          imageUrl={getPokemonFormImageUrl(pokemon.defaultForm)}
+          priority={priority}
+          type={portraitType}
+          className="mx-auto aspect-square max-w-44"
+        />
+      }
+      contentClassName="gap-4"
     >
-      <Card className="bg-card/88 group-hover:border-primary/50 group-hover:bg-card/95 h-full transition-colors">
-        <div className="px-5 pt-5">
-          <PokemonPortrait
-            alt={getPokemonFormImageAlt(pokemon.defaultForm)}
-            imageUrl={getPokemonFormImageUrl(pokemon.defaultForm)}
-            priority={priority}
-            type={portraitType}
-            className="mx-auto aspect-square max-w-44"
-          />
-        </div>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <CardDescription>
-                {formatNationalNumber(pokemon.species.national_number)}
-              </CardDescription>
-              <CardTitle>{pokemon.species.name}</CardTitle>
-            </div>
-            <ArrowRightIcon
-              className="text-muted-foreground size-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <PokemonTypeList
-            primaryType={pokemon.typePair.primaryType}
-            secondaryType={pokemon.typePair.secondaryType}
-          />
+      <PokemonTypeList
+        primaryType={pokemon.typePair.primaryType}
+        secondaryType={pokemon.typePair.secondaryType}
+      />
 
-          <div className="flex flex-wrap gap-2">
-            {pokemon.introducedGeneration ? (
-              <Badge variant="outline">
-                {pokemon.introducedGeneration.name}
-              </Badge>
-            ) : null}
-            {pokemon.species.is_legendary ? (
-              <Badge variant="secondary">Legendary</Badge>
-            ) : null}
-            {pokemon.species.is_mythical ? (
-              <Badge variant="secondary">Mythical</Badge>
-            ) : null}
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
+      <div className="flex flex-wrap gap-2">
+        {pokemon.introducedGeneration ? (
+          <Badge variant="outline">{pokemon.introducedGeneration.name}</Badge>
+        ) : null}
+        {pokemon.species.is_legendary ? (
+          <Badge variant="secondary">Legendary</Badge>
+        ) : null}
+        {pokemon.species.is_mythical ? (
+          <Badge variant="secondary">Mythical</Badge>
+        ) : null}
+      </div>
+    </CodexResourceCard>
   );
 }
 
@@ -191,8 +162,8 @@ export async function PokedexPage({ params }: PokedexPageProps) {
       title="Pokedex"
       description="Search and filter the Pokemon reference data seeded for Voydex."
     >
-      <form
-        className="bg-card/82 grid gap-3 rounded-xl border p-3 backdrop-blur-sm lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto_auto]"
+      <CodexFilterPanel
+        className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto_auto]"
         action={appRoutes.codexPokemon}
       >
         <InputGroup className="h-10 flex-1">
@@ -259,21 +230,17 @@ export async function PokedexPage({ params }: PokedexPageProps) {
             </Link>
           ) : null}
         </div>
-      </form>
+      </CodexFilterPanel>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-muted-foreground text-sm">
+      <CodexBrowseMeta>
+        <span>
           Showing {firstResult}-{lastResult} of {data.pagination.totalCount}{" "}
           Pokemon
-        </p>
-        <div className="text-muted-foreground flex items-center gap-2 text-sm">
-          <SlidersHorizontalIcon aria-hidden />
-          Reference browser
-        </div>
-      </div>
+        </span>
+      </CodexBrowseMeta>
 
       {data.pokemon.length ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <CodexResourceGrid columns="four">
           {data.pokemon.map((pokemon, index) => (
             <PokemonCard
               key={pokemon.species.id}
@@ -281,24 +248,20 @@ export async function PokedexPage({ params }: PokedexPageProps) {
               priority={index < 4}
             />
           ))}
-        </div>
+        </CodexResourceGrid>
       ) : (
-        <Empty>
-          <EmptyHeader>
-            <EmptyTitle>No Pokemon found</EmptyTitle>
-            <EmptyDescription>
-              Try a different name or National Pokedex number.
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
+        <CodexEmptyState
+          title="No Pokemon found"
+          description="Try a different name or National Pokedex number."
+          action={
             <Link
               href={appRoutes.codexPokemon}
               className={buttonVariants({ variant: "outline" })}
             >
               Reset search
             </Link>
-          </EmptyContent>
-        </Empty>
+          }
+        />
       )}
 
       {data.pagination.totalPages > 1 ? (

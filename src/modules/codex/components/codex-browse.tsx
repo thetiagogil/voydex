@@ -1,0 +1,148 @@
+import type { ComponentProps, ReactNode } from "react";
+import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
+
+import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/shared/components/ui/empty";
+
+const resourceGridColumns = {
+  three: "sm:grid-cols-2 lg:grid-cols-3",
+  four: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+} as const;
+
+type CodexBrowseMetaProps = {
+  children: ReactNode;
+};
+
+export function CodexBrowseMeta({ children }: CodexBrowseMetaProps) {
+  return (
+    <div className="text-muted-foreground text-sm leading-6">{children}</div>
+  );
+}
+
+export function CodexFilterPanel({
+  className,
+  ...props
+}: ComponentProps<"form">) {
+  return (
+    <form
+      className={cn(
+        "bg-card/78 ring-app-surface-border grid gap-3 rounded-xl p-3 ring-1 backdrop-blur-md",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+type CodexResourceGridProps = ComponentProps<"div"> & {
+  columns?: keyof typeof resourceGridColumns;
+};
+
+export function CodexResourceGrid({
+  children,
+  className,
+  columns = "three",
+  ...props
+}: CodexResourceGridProps) {
+  return (
+    <div
+      className={cn("grid gap-4", resourceGridColumns[columns], className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+type CodexResourceCardProps = {
+  children?: ReactNode;
+  className?: string;
+  contentClassName?: string;
+  description?: ReactNode;
+  href: string;
+  media?: ReactNode;
+  title: ReactNode;
+};
+
+export function CodexResourceCard({
+  children,
+  className,
+  contentClassName,
+  description,
+  href,
+  media,
+  title,
+}: CodexResourceCardProps) {
+  return (
+    <Link
+      href={href}
+      className="group focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+    >
+      <Card
+        className={cn(
+          "bg-card/82 group-hover:bg-card/94 group-hover:ring-primary/45 h-full transition-colors",
+          className,
+        )}
+      >
+        {media ? <div className="px-(--card-spacing)">{media}</div> : null}
+        <CardHeader>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              {description ? (
+                <CardDescription className="truncate">
+                  {description}
+                </CardDescription>
+              ) : null}
+              <CardTitle className="truncate">{title}</CardTitle>
+            </div>
+            <CardAction className="text-muted-foreground transition-transform group-hover:translate-x-0.5 [&_svg]:size-4">
+              <ArrowRightIcon aria-hidden />
+            </CardAction>
+          </div>
+        </CardHeader>
+        {children ? (
+          <CardContent className={cn("flex flex-col gap-3", contentClassName)}>
+            {children}
+          </CardContent>
+        ) : null}
+      </Card>
+    </Link>
+  );
+}
+
+type CodexEmptyStateProps = {
+  action?: ReactNode;
+  description: ReactNode;
+  title: ReactNode;
+};
+
+export function CodexEmptyState({
+  action,
+  description,
+  title,
+}: CodexEmptyStateProps) {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+      {action ? <EmptyContent>{action}</EmptyContent> : null}
+    </Empty>
+  );
+}

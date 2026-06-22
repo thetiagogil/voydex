@@ -12,11 +12,11 @@ export function CodexPageShell({
   title,
 }: CodexPageShellProps) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-7">
       <PageHeader
         title={title}
         description={description}
-        className="border-border/70 border-b pb-5"
+        className="border-app-surface-border border-b pb-5"
       />
       {children}
     </div>

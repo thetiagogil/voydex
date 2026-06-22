@@ -184,7 +184,14 @@
 
 :root {
   --app-background-overlay-hero: oklch(0.955 0.018 250 / 0.1);
-  --app-background-overlay-page: oklch(0.9 0.032 252 / 0.34);
+  --app-background-overlay-intro: oklch(0.91 0.03 252 / 0.24);
+  --app-background-overlay-page: oklch(0.88 0.038 253 / 0.4);
+  --app-nav-surface: oklch(0.985 0.01 248 / 0.72);
+  --app-nav-border: oklch(0.82 0.038 250 / 0.56);
+  --app-surface-border: oklch(0.82 0.036 251 / 0.64);
+  --app-surface-shadow:
+    0 18px 48px -32px oklch(0.25 0.075 258 / 0.32),
+    0 1px 0 oklch(1 0 0 / 0.42) inset;
   --app-scrollbar-thumb: color-mix(
     in oklch,
     var(--primary),
@@ -228,7 +235,14 @@
 
 .dark {
   --app-background-overlay-hero: oklch(0.145 0.047 264 / 0.16);
-  --app-background-overlay-page: oklch(0.145 0.047 264 / 0.52);
+  --app-background-overlay-intro: oklch(0.13 0.047 264 / 0.34);
+  --app-background-overlay-page: oklch(0.13 0.047 264 / 0.46);
+  --app-nav-surface: oklch(0.18 0.045 264 / 0.72);
+  --app-nav-border: oklch(0.47 0.065 250 / 0.36);
+  --app-surface-border: oklch(0.54 0.06 252 / 0.3);
+  --app-surface-shadow:
+    0 18px 48px -32px oklch(0.02 0.02 264 / 0.82),
+    0 1px 0 oklch(1 0 0 / 0.06) inset;
   --app-scrollbar-thumb: color-mix(
     in oklch,
     var(--primary),
@@ -253,7 +267,9 @@
 
 @theme inline {
   --color-background-overlay-hero: var(--app-background-overlay-hero);
+  --color-background-overlay-intro: var(--app-background-overlay-intro);
   --color-background-overlay-page: var(--app-background-overlay-page);
+  --color-app-surface-border: var(--app-surface-border);
   --color-success: var(--app-success);
   --color-info: var(--app-info);
   --color-warning: var(--app-warning);
@@ -320,6 +336,45 @@
 }
 
 @layer utilities {
+  .app-background-hero-overlay {
+    background: var(--app-background-overlay-hero);
+  }
+
+  .app-background-intro-overlay {
+    background: linear-gradient(
+      180deg,
+      var(--app-background-overlay-hero) 0%,
+      var(--app-background-overlay-intro) 42%,
+      var(--app-background-overlay-page) 100%
+    );
+    backdrop-filter: blur(1px) saturate(1.06);
+    -webkit-backdrop-filter: blur(1px) saturate(1.06);
+  }
+
+  .app-background-page-overlay {
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--app-background-overlay-page), transparent 24%)
+        0%,
+      var(--app-background-overlay-page) 44%,
+      color-mix(
+          in oklch,
+          var(--app-background-overlay-page),
+          var(--background) 8%
+        )
+        100%
+    );
+    backdrop-filter: blur(1.5px) saturate(1.08);
+    -webkit-backdrop-filter: blur(1.5px) saturate(1.08);
+  }
+
+  .app-nav-surface {
+    background: var(--app-nav-surface);
+    border-bottom: 1px solid var(--app-nav-border);
+    backdrop-filter: blur(18px) saturate(1.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  }
+
   .app-background-fade {
     background: linear-gradient(
       90deg,

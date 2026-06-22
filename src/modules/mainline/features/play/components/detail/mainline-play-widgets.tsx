@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
@@ -61,7 +62,7 @@ export function CompactProgressRow({
       <ProgressMeter value={percent ?? 0} />
       {href && actionLabel ? (
         <Button
-          render={<a href={href} />}
+          render={<Link href={href} />}
           nativeButton={false}
           variant="ghost"
           size="sm"

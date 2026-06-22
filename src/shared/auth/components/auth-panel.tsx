@@ -49,7 +49,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const title = isSignUp ? "Sign up" : "Log in";
   const description = isSignUp
     ? "Create your Voydex account to start tracking plays."
-    : "Access your playthroughs, teams, plans, and Pokemon archive.";
+    : "Access your playthroughs, teams, and Pokemon reference archive.";
   const switchHref = buildModeHref(isSignUp ? "log-in" : "sign-up", next);
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 

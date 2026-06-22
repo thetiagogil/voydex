@@ -15,12 +15,12 @@ import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -28,6 +28,7 @@ import {
   FieldSet,
 } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
+import { Spinner } from "@/shared/components/ui/spinner";
 import { Textarea } from "@/shared/components/ui/textarea";
 
 type CreateMainlinePlayFormProps = {
@@ -39,7 +40,11 @@ function SubmitButton() {
 
   return (
     <Button type="submit" disabled={pending}>
-      <Plus data-icon="inline-start" />
+      {pending ? (
+        <Spinner data-icon="inline-start" />
+      ) : (
+        <Plus data-icon="inline-start" />
+      )}
       {pending ? "Creating..." : "Create play"}
     </Button>
   );
@@ -62,6 +67,9 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
       <Card>
         <CardHeader>
           <CardTitle>Play details</CardTitle>
+          <CardDescription>
+            Name the save and add the optional context you want to remember.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <FieldGroup>
@@ -106,7 +114,7 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
                         defaultChecked={status.id === data.defaultStatusId}
                         className="peer sr-only"
                       />
-                      <span className="border-input bg-background peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:ring-ring/50 flex min-h-11 items-center justify-between rounded-lg border px-3 text-sm font-medium transition-colors peer-focus-visible:ring-3">
+                      <span className="border-app-surface-border bg-card/55 hover:bg-accent/35 peer-checked:border-primary/60 peer-checked:bg-primary/10 peer-focus-visible:ring-ring/50 flex min-h-11 items-center justify-between rounded-lg border px-3 text-sm font-medium transition-colors peer-focus-visible:ring-3">
                         {status.name}
                         {status.is_terminal ? (
                           <Badge variant="outline">Terminal</Badge>
@@ -134,14 +142,14 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
       <Card>
         <CardHeader>
           <CardTitle>Choose a game</CardTitle>
+          <CardDescription>
+            The game sets the story, Pokedex, collectible, and reference scopes
+            for this play.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <FieldSet>
             <FieldLegend className="sr-only">Game</FieldLegend>
-            <FieldDescription>
-              The selected game decides the version group, story definitions,
-              Pokedex scope, and available reference data for this play.
-            </FieldDescription>
             <div className="grid max-h-[34rem] gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
               {data.games.map((option) => (
                 <label key={option.game.id} className="cursor-pointer">
@@ -152,8 +160,8 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
                     className="peer sr-only"
                     required
                   />
-                  <span className="border-input bg-background hover:bg-muted/50 peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:ring-ring/50 flex min-h-28 gap-3 rounded-xl border p-3 transition-colors peer-focus-visible:ring-3">
-                    <span className="bg-muted text-muted-foreground flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+                  <span className="border-app-surface-border bg-card/55 hover:bg-accent/35 peer-checked:border-primary/60 peer-checked:bg-primary/10 peer-focus-visible:ring-ring/50 flex min-h-28 gap-3 rounded-xl border p-3 transition-colors peer-focus-visible:ring-3">
+                    <span className="bg-muted/70 text-muted-foreground flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
                       {option.coverImageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -181,7 +189,7 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
                           : "Platform not set"}
                       </span>
                       <span className="text-muted-foreground mt-auto flex items-center gap-1 text-xs">
-                        <CalendarDays className="size-3" />
+                        <CalendarDays aria-hidden />
                         {option.game.release_year}
                       </span>
                     </span>

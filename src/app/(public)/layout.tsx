@@ -4,6 +4,6 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative min-h-screen overflow-hidden">{children}</div>
+    <div className="relative min-h-screen overflow-x-hidden">{children}</div>
   );
 }
