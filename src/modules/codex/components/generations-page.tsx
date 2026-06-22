@@ -20,7 +20,7 @@ function GenerationSummaryCard({ card }: { card: GenerationCard }) {
       href={appRoutes.codexGeneration(card.generation.id)}
       className="group"
     >
-      <Card className="group-hover:border-primary/40 group-hover:bg-card/90 h-full transition-colors">
+      <Card className="bg-card/88 group-hover:border-primary/50 group-hover:bg-card/95 h-full transition-colors">
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>

@@ -20,7 +20,10 @@ export function AppNavbar({
 }: AppNavbarProps) {
   return (
     <header
-      className={cn("bg-background sticky top-0 z-40 border-b", className)}
+      className={cn(
+        "bg-background/82 supports-[backdrop-filter]:bg-background/68 border-border/70 sticky top-0 z-40 border-b backdrop-blur-xl",
+        className,
+      )}
     >
       <div
         className={cn(

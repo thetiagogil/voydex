@@ -21,7 +21,9 @@ export function PageSection({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
             {title ? (
-              <h2 className="text-foreground text-lg font-semibold">{title}</h2>
+              <h2 className="text-foreground text-xl leading-tight font-semibold tracking-normal">
+                {title}
+              </h2>
             ) : null}
             {description ? (
               <p className="text-muted-foreground mt-1 text-sm leading-6">

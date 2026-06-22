@@ -4,7 +4,6 @@ import {
   ChevronRight,
   Gem,
   ListChecks,
-  Settings,
   Sparkles,
   Star,
 } from "lucide-react";
@@ -23,7 +22,6 @@ import { StatusBadge } from "@/shared/components/app/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -51,7 +49,7 @@ export function MainlinePlayProgressPage({
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="cn-font-heading text-2xl font-semibold">Progress</h2>
+            <h2 className="text-2xl font-semibold tracking-normal">Progress</h2>
             <p className="text-muted-foreground text-sm">
               Track story, Pokedex, and collectibles for this play.
             </p>
@@ -131,10 +129,11 @@ export function MainlinePlayProgressPage({
                   {!data.overview.include_optional_pokedexes_in_completion ? (
                     <StatusBadge tone="neutral">Optional Pokedexes</StatusBadge>
                   ) : null}
-                  <Button variant="outline" size="sm" disabled>
-                    <Settings data-icon="inline-start" />
-                    Settings
-                  </Button>
+                  {data.overview
+                    .include_optional_pokedex_entries_in_completion &&
+                  data.overview.include_optional_pokedexes_in_completion ? (
+                    <StatusBadge tone="neutral">No exclusions</StatusBadge>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -202,11 +201,9 @@ export function MainlinePlayProgressPage({
           <Card>
             <CardHeader>
               <CardTitle>Completion rules</CardTitle>
-              <CardAction>
-                <Button variant="ghost" size="sm" disabled>
-                  Settings
-                </Button>
-              </CardAction>
+              <CardDescription>
+                Rules are read from the seeded play configuration.
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-2 text-sm">
               <div className="flex items-center justify-between gap-3">
@@ -233,22 +230,28 @@ export function MainlinePlayProgressPage({
               <CardTitle>Recent progress activity</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
-              {data.timelineEvents.slice(0, 3).map((event) => (
-                <div
-                  key={event.event_id}
-                  className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border p-3"
-                >
-                  <Sparkles className="text-primary size-5" />
-                  <div className="min-w-0">
-                    <p className="truncate font-medium">
-                      {event.title ?? event.event_type_name ?? "Play event"}
-                    </p>
-                    <p className="text-muted-foreground truncate text-sm">
-                      {event.body ?? "No details logged"}
-                    </p>
+              {data.timelineEvents.length ? (
+                data.timelineEvents.slice(0, 3).map((event) => (
+                  <div
+                    key={event.event_id}
+                    className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border p-3"
+                  >
+                    <Sparkles className="text-primary size-5" />
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">
+                        {event.title ?? event.event_type_name ?? "Play event"}
+                      </p>
+                      <p className="text-muted-foreground truncate text-sm">
+                        {event.body ?? "No details logged"}
+                      </p>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="text-muted-foreground rounded-lg border border-dashed p-4 text-sm">
+                  No progress activity has been logged yet.
                 </div>
-              ))}
+              )}
             </CardContent>
           </Card>
         </div>

@@ -1,15 +1,4 @@
-import {
-  BarChart3,
-  ClipboardList,
-  Dices,
-  History,
-  Plus,
-  RefreshCcw,
-  Shield,
-  Sparkles,
-  Trash2,
-  WandSparkles,
-} from "lucide-react";
+import { BarChart3, ClipboardList, Shield } from "lucide-react";
 
 import type {
   MainlinePlayDetailData,
@@ -31,10 +20,8 @@ import {
 } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
 import { StatusBadge } from "@/shared/components/app/status-badge";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
-import { Button } from "@/shared/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -131,9 +118,10 @@ function TeamRoster({ data }: MainlinePlayTeamPageProps) {
           </div>
         </div>
 
-        <div className="bg-muted/50 text-muted-foreground flex items-center justify-center gap-2 rounded-lg border p-3 text-sm">
-          <RefreshCcw className="size-4" />
-          Drag to reorder or move between active and reserve.
+        <div className="bg-muted/50 text-muted-foreground rounded-lg border p-3 text-sm">
+          Team changes are intentionally read-only in this pass. Add, evolve,
+          replace, retire, and reorder actions will be handled as a focused Team
+          lifecycle slice.
         </div>
       </CardContent>
     </Card>
@@ -172,16 +160,9 @@ function PokemonDetail({
             <div className="flex flex-col gap-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="cn-font-heading text-2xl font-semibold">
+                  <h2 className="text-2xl font-semibold tracking-normal">
                     {getPokemonDisplayName(pokemon)}
                   </h2>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label="Edit Pokemon"
-                  >
-                    <WandSparkles />
-                  </Button>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <StatusBadge tone="success">
@@ -246,7 +227,7 @@ function PokemonDetail({
 
         <Separator />
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_16rem]">
+        <div>
           <div>
             <h3 className="mb-3 font-medium">Moveset</h3>
             <div className="flex flex-col gap-2">
@@ -275,25 +256,6 @@ function PokemonDetail({
                 </div>
               )}
             </div>
-          </div>
-
-          <div className="grid content-start gap-2">
-            <Button variant="outline" disabled>
-              <Sparkles data-icon="inline-start" />
-              Evolve
-            </Button>
-            <Button variant="outline" disabled>
-              <Dices data-icon="inline-start" />
-              Change form
-            </Button>
-            <Button variant="outline" disabled>
-              <RefreshCcw data-icon="inline-start" />
-              Replace
-            </Button>
-            <Button variant="destructive" disabled>
-              <Trash2 data-icon="inline-start" />
-              Retire
-            </Button>
           </div>
         </div>
       </CardContent>
@@ -324,11 +286,6 @@ function TeamAnalysisPreview() {
     <Card>
       <CardHeader>
         <CardTitle>Team Analysis</CardTitle>
-        <CardAction>
-          <Button variant="ghost" size="sm" disabled>
-            Open full analysis
-          </Button>
-        </CardAction>
       </CardHeader>
       <CardContent className="grid gap-3 md:grid-cols-3">
         {items.map((item) => (
@@ -357,29 +314,15 @@ export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="cn-font-heading text-2xl font-semibold">Team</h2>
+            <h2 className="text-2xl font-semibold tracking-normal">Team</h2>
             <TeamCountBadge
               activeCount={activeTeam.length}
               reserveCount={reserveTeam.length}
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button disabled>
-              <Plus data-icon="inline-start" />
-              Add Pokemon
-            </Button>
-            <Button variant="outline" disabled>
-              <ClipboardList data-icon="inline-start" />
-              Team Plans
-            </Button>
-            <Button variant="outline" disabled>
-              <BarChart3 data-icon="inline-start" />
-              Team Analysis
-            </Button>
-            <Button variant="outline" disabled>
-              <History data-icon="inline-start" />
-              Team History
-            </Button>
+            <StatusBadge tone="neutral">Read-only roster</StatusBadge>
+            <StatusBadge tone="info">Team lifecycle next</StatusBadge>
           </div>
         </div>
 
@@ -391,11 +334,6 @@ export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Recent Team Events</CardTitle>
-                <CardAction>
-                  <Button variant="ghost" size="sm" disabled>
-                    View team history
-                  </Button>
-                </CardAction>
               </CardHeader>
               <CardContent>
                 <TimelineRows events={data.timelineEvents} limit={3} />

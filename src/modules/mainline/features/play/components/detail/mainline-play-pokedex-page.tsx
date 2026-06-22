@@ -1,15 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  CheckCircle2,
-  Grid2X2,
-  List,
-  Search,
-  Settings,
-  UsersRound,
-  X,
-} from "lucide-react";
+import { Grid2X2, List, Search } from "lucide-react";
 
 import type {
   MainlinePlayDetailData,
@@ -22,10 +14,8 @@ import {
   getPokedexDisplayName,
   getPokemonPrimaryTypeSlug,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import {
-  PokemonStatusControls,
-  PokemonTypeBadges,
-} from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
+import { PokedexProgressButtons } from "@/modules/mainline/features/play/components/detail/mainline-play-actions";
+import { PokemonTypeBadges } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
 import { ProgressMeter } from "@/shared/components/app/progress-meter";
 import { StatusBadge } from "@/shared/components/app/status-badge";
@@ -38,30 +28,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { Checkbox } from "@/shared/components/ui/checkbox";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { Separator } from "@/shared/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/shared/components/ui/sheet";
+  NativeSelect,
+  NativeSelectOption,
+} from "@/shared/components/ui/native-select";
 import {
   Table,
   TableBody,
@@ -88,6 +63,7 @@ type PokedexFilter =
   | "seen";
 
 type PokedexViewMode = "grid" | "list";
+type PokedexSort = (typeof pokedexSortItems)[number]["value"];
 
 const filters: Array<{ label: string; value: PokedexFilter }> = [
   { label: "All", value: "all" },
@@ -152,9 +128,27 @@ function filterPokedexEntries(
   });
 }
 
+function getSortableDexNumber(entry: MainlinePlayPokedexEntry) {
+  return (
+    entry.pokedex_number ?? entry.national_number ?? Number.MAX_SAFE_INTEGER
+  );
+}
+
+function sortPokedexEntries(
+  entries: MainlinePlayPokedexEntry[],
+  sort: PokedexSort,
+) {
+  return [...entries].sort((a, b) => {
+    if (sort === "name") {
+      return getPokedexDisplayName(a).localeCompare(getPokedexDisplayName(b));
+    }
+
+    return getSortableDexNumber(a) - getSortableDexNumber(b);
+  });
+}
+
 function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
   const pokedexName = data.pokedexEntries[0]?.pokedex_name ?? "Pokedex";
-  const pokedexItems = [{ label: pokedexName, value: pokedexName }];
   const caughtCount = data.overview.pokedex_caught_count ?? 0;
   const seenCount = data.overview.pokedex_seen_count ?? 0;
   const totalCount = data.pokedexEntries.length;
@@ -167,16 +161,12 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
   return (
     <Card>
       <CardContent className="grid gap-4 lg:grid-cols-[16rem_1fr_auto] lg:items-center">
-        <Select items={pokedexItems} defaultValue={pokedexName}>
-          <SelectTrigger className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value={pokedexName}>{pokedexName}</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div className="rounded-lg border p-3">
+          <p className="text-muted-foreground text-xs font-medium uppercase">
+            Active Pokedex
+          </p>
+          <p className="mt-1 font-medium">{pokedexName}</p>
+        </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
@@ -218,7 +208,13 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
   );
 }
 
-function PokedexCard({ entry }: { entry: MainlinePlayPokedexEntry }) {
+function PokedexCard({
+  entry,
+  playId,
+}: {
+  entry: MainlinePlayPokedexEntry;
+  playId: string;
+}) {
   return (
     <Card size="sm" className="min-h-full">
       <CardContent className="flex min-h-full flex-col gap-3">
@@ -246,9 +242,11 @@ function PokedexCard({ entry }: { entry: MainlinePlayPokedexEntry }) {
         </div>
 
         <div className="mt-auto">
-          <PokemonStatusControls
+          <PokedexProgressButtons
             isCaught={entry.is_caught}
             isSeen={entry.is_seen}
+            playId={playId}
+            speciesId={entry.species_id}
           />
         </div>
       </CardContent>
@@ -256,20 +254,33 @@ function PokedexCard({ entry }: { entry: MainlinePlayPokedexEntry }) {
   );
 }
 
-function PokedexGrid({ entries }: { entries: MainlinePlayPokedexEntry[] }) {
+function PokedexGrid({
+  entries,
+  playId,
+}: {
+  entries: MainlinePlayPokedexEntry[];
+  playId: string;
+}) {
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
       {entries.map((entry) => (
         <PokedexCard
           key={`${entry.pokedex_id}-${entry.species_id}`}
           entry={entry}
+          playId={playId}
         />
       ))}
     </div>
   );
 }
 
-function PokedexList({ entries }: { entries: MainlinePlayPokedexEntry[] }) {
+function PokedexList({
+  entries,
+  playId,
+}: {
+  entries: MainlinePlayPokedexEntry[];
+  playId: string;
+}) {
   return (
     <Card>
       <CardContent>
@@ -311,9 +322,11 @@ function PokedexList({ entries }: { entries: MainlinePlayPokedexEntry[] }) {
                   </StatusBadge>
                 </TableCell>
                 <TableCell className="min-w-40">
-                  <PokemonStatusControls
+                  <PokedexProgressButtons
                     isCaught={entry.is_caught}
                     isSeen={entry.is_seen}
+                    playId={playId}
+                    speciesId={entry.species_id}
                   />
                 </TableCell>
               </TableRow>
@@ -325,122 +338,22 @@ function PokedexList({ entries }: { entries: MainlinePlayPokedexEntry[] }) {
   );
 }
 
-function MarkMultipleSheet({
-  entries,
-}: {
-  entries: MainlinePlayPokedexEntry[];
-}) {
-  const selectedEntries = entries
-    .filter((entry) => isRequiredEntry(entry) && !entry.is_caught)
-    .slice(0, 4);
-
-  return (
-    <Sheet>
-      <SheetTrigger render={<Button />}>
-        <UsersRound data-icon="inline-start" />
-        Mark multiple
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-xl">
-        <SheetHeader>
-          <SheetTitle>Mark multiple</SheetTitle>
-          <SheetDescription>
-            Update seen or caught status for several species at once.
-          </SheetDescription>
-        </SheetHeader>
-
-        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4">
-          <section className="flex flex-col gap-3">
-            <h3 className="font-medium">1. Select operation</h3>
-            <div className="grid grid-cols-3 gap-2">
-              <Button variant="outline" className="h-20 flex-col" disabled>
-                <Search className="size-5" />
-                Mark as seen
-              </Button>
-              <Button variant="outline" className="h-20 flex-col" disabled>
-                <CheckCircle2 className="size-5" />
-                Mark as caught
-              </Button>
-              <Button variant="outline" className="h-20 flex-col" disabled>
-                <X className="size-5" />
-                Clear progress
-              </Button>
-            </div>
-            <p className="text-muted-foreground text-sm">
-              Caught automatically marks seen.
-            </p>
-          </section>
-
-          <Separator />
-
-          <section className="flex flex-col gap-3">
-            <h3 className="font-medium">2. Choose species</h3>
-            <InputGroup>
-              <InputGroupAddon>
-                <Search className="size-4" />
-              </InputGroupAddon>
-              <InputGroupInput placeholder="Search by name or number" />
-            </InputGroup>
-            <div className="flex flex-col gap-2">
-              {selectedEntries.map((entry) => (
-                <label
-                  key={`${entry.pokedex_id}-${entry.species_id}`}
-                  className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border p-3"
-                >
-                  <Checkbox defaultChecked />
-                  <div className="flex min-w-0 items-center gap-3">
-                    <PokemonPortrait
-                      alt={getPokedexDisplayName(entry)}
-                      imageUrl={entry.display.imageUrl}
-                      type={getPokemonPrimaryTypeSlug(entry)}
-                      className="size-10 rounded-lg"
-                    />
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">
-                        {getPokedexDisplayName(entry)}
-                      </p>
-                      <p className="text-muted-foreground text-xs">
-                        {formatDexNumber(entry.pokedex_number)}
-                      </p>
-                    </div>
-                  </div>
-                  <StatusBadge tone="warning">Required</StatusBadge>
-                </label>
-              ))}
-            </div>
-          </section>
-
-          <Separator />
-
-          <section className="flex flex-col gap-3">
-            <h3 className="font-medium">3. Preview changes</h3>
-            <div className="rounded-lg border p-3 text-sm">
-              {formatNumber(selectedEntries.length)} species will be marked
-              caught.
-            </div>
-          </section>
-        </div>
-
-        <SheetFooter className="border-t">
-          <Button variant="outline">Cancel</Button>
-          <Button disabled>
-            Mark {formatNumber(selectedEntries.length)} caught
-          </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  );
-}
-
 export function MainlinePlayPokedexPage({
   data,
 }: MainlinePlayPokedexPageProps) {
   const [filter, setFilter] = useState<PokedexFilter>("all");
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<PokedexSort>("dex-number");
   const [viewMode, setViewMode] = useState<PokedexViewMode>("grid");
+  const playId = String(data.overview.play_id);
 
   const visibleEntries = useMemo(
-    () => filterPokedexEntries(data.pokedexEntries, filter, search),
-    [data.pokedexEntries, filter, search],
+    () =>
+      sortPokedexEntries(
+        filterPokedexEntries(data.pokedexEntries, filter, search),
+        sort,
+      ),
+    [data.pokedexEntries, filter, search, sort],
   );
 
   return (
@@ -452,20 +365,13 @@ export function MainlinePlayPokedexPage({
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h2 className="cn-font-heading flex items-center gap-2 text-2xl font-semibold">
+            <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-normal">
               <List className="text-primary size-6" />
               Pokedex Progress
             </h2>
             <p className="text-muted-foreground text-sm">
               Mark seen and caught species for this play.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <MarkMultipleSheet entries={data.pokedexEntries} />
-            <Button variant="outline" disabled>
-              <Settings data-icon="inline-start" />
-              Settings
-            </Button>
           </div>
         </div>
 
@@ -507,17 +413,19 @@ export function MainlinePlayPokedexPage({
               </div>
 
               <div className="flex flex-wrap gap-2 xl:justify-end">
-                <Select items={pokedexSortItems} defaultValue="dex-number">
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="dex-number">Dex number</SelectItem>
-                      <SelectItem value="name">Name</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <NativeSelect
+                  aria-label="Sort Pokedex entries"
+                  value={sort}
+                  onChange={(event) =>
+                    setSort(event.target.value as PokedexSort)
+                  }
+                >
+                  {pokedexSortItems.map((item) => (
+                    <NativeSelectOption key={item.value} value={item.value}>
+                      {item.label}
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
                 <ToggleGroup
                   value={[viewMode]}
                   onValueChange={(value) => {
@@ -544,9 +452,9 @@ export function MainlinePlayPokedexPage({
 
             {visibleEntries.length ? (
               viewMode === "grid" ? (
-                <PokedexGrid entries={visibleEntries} />
+                <PokedexGrid entries={visibleEntries} playId={playId} />
               ) : (
-                <PokedexList entries={visibleEntries} />
+                <PokedexList entries={visibleEntries} playId={playId} />
               )
             ) : (
               <div className="text-muted-foreground rounded-lg border border-dashed p-8 text-center">

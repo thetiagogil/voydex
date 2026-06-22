@@ -2,11 +2,12 @@ import {
   BackpackIcon,
   BookOpenCheckIcon,
   CheckCircle2Icon,
-  MapIcon,
+  SparklesIcon,
 } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { cn } from "@/lib/utils";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
@@ -16,33 +17,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { cn } from "@/lib/utils";
 
-const introFeatures = [
+const companionAreas = [
   {
     title: "Plays",
-    description:
-      "Keep each mainline play centered around its game, team, and progress.",
+    description: "A focused record for saves, teams, progress, and memories.",
     icon: BackpackIcon,
   },
   {
-    title: "Pokedex",
-    description:
-      "Browse game-aware Pokemon data so planning can happen before a run begins.",
+    title: "Codex",
+    description: "A fast reference layer for Pokemon, games, and generations.",
     icon: BookOpenCheckIcon,
   },
   {
-    title: "Planning",
+    title: "Future modules",
     description:
-      "Draft possible teams by generation and game, then turn those ideas into real plays.",
-    icon: MapIcon,
+      "A home that can grow beyond Mainline without bending every module into the same shape.",
+    icon: SparklesIcon,
   },
 ] as const;
 
 const workflowSteps = [
-  "Choose the game or module you want to track.",
-  "Build the play record around its team, story beats, and collectibles.",
-  "Review progress later without reopening old notes or consoles.",
+  "Start with the module that matches what you are playing.",
+  "Keep the important records close to the game, not scattered across notes.",
+  "Return later to understand the journey without reopening old saves.",
 ] as const;
 
 export default function IntroPage() {
@@ -51,14 +49,15 @@ export default function IntroPage() {
       <AppNavbar />
 
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-7xl flex-col px-4 sm:px-6 lg:px-8">
-        <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-2 lg:py-16">
+        <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(22rem,0.75fr)] lg:py-16">
           <div className="max-w-2xl">
-            <h1 className="mt-4 text-4xl leading-tight font-bold tracking-tight sm:text-5xl">
-              One place for every Pokemon playthrough.
+            <h1 className="text-4xl leading-tight font-bold tracking-normal sm:text-5xl">
+              A quieter home for Pokemon playthroughs.
             </h1>
             <p className="text-foreground/75 mt-5 text-base leading-7 sm:text-lg">
-              Voydex is being shaped as a calm record for runs, teams, story
-              progress, collectibles, Pokedex completion, and future team plans.
+              Voydex keeps the useful parts of a journey together: current
+              plays, reference data, story progress, collections, and room for
+              future modules that deserve their own shape.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -79,13 +78,12 @@ export default function IntroPage() {
             </div>
           </div>
 
-          <Card>
+          <Card className="bg-card/88">
             <CardHeader>
-              <CardTitle>Built around history</CardTitle>
+              <CardTitle>Built around memory</CardTitle>
               <CardDescription className="leading-6">
-                The app treats each play as a timeline of decisions, milestones,
-                and team changes, so a finished run stays useful after the
-                credits.
+                A play should become more useful over time: a clean record of
+                what happened, what changed, and what is still left to finish.
               </CardDescription>
             </CardHeader>
 
@@ -106,22 +104,25 @@ export default function IntroPage() {
           </Card>
         </section>
 
-        <section className="grid gap-4 py-8 md:grid-cols-3">
-          {introFeatures.map((feature) => {
+        <section className="grid gap-3 pb-10 md:grid-cols-3">
+          {companionAreas.map((feature) => {
             const Icon = feature.icon;
 
             return (
-              <Card key={feature.title} size="sm">
-                <CardHeader className="grid-cols-[auto_1fr] gap-x-3">
-                  <div className="bg-primary/10 text-primary row-span-2 flex size-10 shrink-0 items-center justify-center rounded-lg">
-                    <Icon className="size-5" aria-hidden />
-                  </div>
-                  <CardTitle>{feature.title}</CardTitle>
-                  <CardDescription className="leading-6">
+              <div
+                key={feature.title}
+                className="bg-card/72 grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border p-4 backdrop-blur-sm"
+              >
+                <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
+                  <Icon aria-hidden />
+                </div>
+                <div>
+                  <h2 className="font-medium">{feature.title}</h2>
+                  <p className="text-muted-foreground mt-1 text-sm leading-6">
                     {feature.description}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+                  </p>
+                </div>
+              </div>
             );
           })}
         </section>

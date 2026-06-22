@@ -1,12 +1,4 @@
-import {
-  BookOpen,
-  Camera,
-  CheckCircle2,
-  ChevronRight,
-  Filter,
-  Layers3,
-  ListChecks,
-} from "lucide-react";
+import { BookOpen, CheckCircle2, ListChecks } from "lucide-react";
 
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayMilestoneDetail } from "@/modules/mainline/shared/types/mainline.types";
@@ -16,9 +8,9 @@ import {
   getFirstIncompleteMilestone,
   getLastCompletedMilestone,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
+import { CompleteMilestoneButton } from "@/modules/mainline/features/play/components/detail/mainline-play-actions";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
 import { StatusBadge } from "@/shared/components/app/status-badge";
-import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
@@ -26,17 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Separator } from "@/shared/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/shared/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -45,7 +27,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { cn } from "@/lib/utils";
 
 type MainlinePlayStoryPageProps = {
   data: MainlinePlayDetailData;
@@ -121,125 +102,12 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
   );
 }
 
-function BulkCompleteSheet({ data }: MainlinePlayStoryPageProps) {
-  const target = getFirstIncompleteMilestone(data.milestones);
-  const previewMilestones = target
-    ? data.milestones.filter(
-        (milestone) =>
-          milestone.is_completed ||
-          (milestone.sort_order ?? 0) <= (target.sort_order ?? 0),
-      )
-    : data.milestones.slice(0, 6);
-  const willCompleteCount = previewMilestones.filter(
-    (milestone) => !milestone.is_completed,
-  ).length;
-
-  return (
-    <Sheet>
-      <SheetTrigger render={<Button variant="outline" />}>
-        <Layers3 data-icon="inline-start" />
-        Bulk complete
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-xl">
-        <SheetHeader>
-          <SheetTitle>Bulk complete story</SheetTitle>
-          <SheetDescription>
-            Useful when logging an existing save or catching up story progress.
-          </SheetDescription>
-        </SheetHeader>
-
-        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4">
-          <section className="flex flex-col gap-2">
-            <h3 className="font-medium">1. Target</h3>
-            <div className="rounded-lg border p-3 font-medium">
-              {target?.milestone_name ?? "No pending milestone"}
-            </div>
-            <p className="text-muted-foreground text-sm">
-              {formatNumber(willCompleteCount)} required milestones will be
-              completed.
-            </p>
-          </section>
-
-          <Separator />
-
-          <section className="flex flex-col gap-3">
-            <h3 className="font-medium">2. Preview</h3>
-            <div className="flex flex-col gap-2">
-              {previewMilestones.map((milestone) => (
-                <div
-                  key={milestone.milestone_id}
-                  className={cn(
-                    "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border p-3",
-                    !milestone.is_completed &&
-                      milestone.milestone_id === target?.milestone_id &&
-                      "bg-primary/5",
-                  )}
-                >
-                  {milestone.is_completed ? (
-                    <CheckCircle2 className="text-primary size-5" />
-                  ) : (
-                    <span className="size-5 rounded-full border" />
-                  )}
-                  <div className="min-w-0">
-                    <p className="truncate font-medium">
-                      {milestone.milestone_name}
-                    </p>
-                    <p className="text-muted-foreground truncate text-sm">
-                      {milestone.milestone_game_name ?? "No location"}
-                    </p>
-                  </div>
-                  <StatusBadge
-                    tone={milestone.is_completed ? "success" : "neutral"}
-                  >
-                    {milestone.is_completed
-                      ? "Already completed"
-                      : "Will complete"}
-                  </StatusBadge>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <Separator />
-
-          <section className="flex flex-col gap-3">
-            <h3 className="font-medium">3. Options</h3>
-            <label className="flex items-start gap-3 rounded-lg border p-3">
-              <Checkbox />
-              <span>
-                <span className="block font-medium">
-                  Include optional milestones
-                </span>
-                <span className="text-muted-foreground text-sm">
-                  Also complete optional and decision milestones.
-                </span>
-              </span>
-            </label>
-            <label className="flex items-start gap-3 rounded-lg border p-3">
-              <Checkbox defaultChecked />
-              <span>
-                <span className="block font-medium">Skip snapshots</span>
-                <span className="text-muted-foreground text-sm">
-                  Do not take team snapshots for these milestones.
-                </span>
-              </span>
-            </label>
-          </section>
-        </div>
-
-        <SheetFooter className="border-t">
-          <Button variant="outline">Cancel</Button>
-          <Button disabled>Complete {formatNumber(willCompleteCount)}</Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  );
-}
-
 function SelectedMilestonePanel({
+  playId,
   milestone,
 }: {
   milestone: MainlinePlayMilestoneDetail | null;
+  playId: string;
 }) {
   return (
     <Card>
@@ -283,22 +151,21 @@ function SelectedMilestonePanel({
             {milestone?.description ?? "No description available."}
           </p>
         </div>
-        <Button disabled>
-          <CheckCircle2 data-icon="inline-start" />
-          Mark complete
-        </Button>
-        <Button variant="outline" disabled>
-          <Camera data-icon="inline-start" />
-          Add team snapshot
-        </Button>
+        {!milestone?.is_completed ? (
+          <CompleteMilestoneButton
+            milestoneId={milestone?.milestone_id ?? null}
+            playId={playId}
+          />
+        ) : null}
       </CardContent>
     </Card>
   );
 }
 
 export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
-  const selectedMilestone =
-    getFirstIncompleteMilestone(data.milestones) ?? data.milestones[0] ?? null;
+  const nextMilestone = getFirstIncompleteMilestone(data.milestones);
+  const selectedMilestone = nextMilestone ?? data.milestones[0] ?? null;
+  const playId = String(data.overview.play_id);
 
   return (
     <MainlinePlayShell
@@ -310,7 +177,7 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="cn-font-heading flex items-center gap-2 text-2xl font-semibold">
+              <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-normal">
                 <BookOpen className="text-primary size-6" />
                 Story Progress
               </h2>
@@ -320,15 +187,15 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button disabled>
-                <CheckCircle2 data-icon="inline-start" />
-                Complete next
-              </Button>
-              <BulkCompleteSheet data={data} />
-              <Button variant="outline" disabled>
-                <Filter data-icon="inline-start" />
-                Filter
-              </Button>
+              {nextMilestone ? (
+                <CompleteMilestoneButton
+                  label="Complete next"
+                  milestoneId={nextMilestone.milestone_id}
+                  playId={playId}
+                />
+              ) : (
+                <StatusBadge tone="success">Story complete</StatusBadge>
+              )}
             </div>
           </div>
 
@@ -344,7 +211,6 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
                     <TableHead>Milestone</TableHead>
                     <TableHead>Location</TableHead>
                     <TableHead>Category</TableHead>
-                    <TableHead className="text-right">Open</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -379,12 +245,6 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
                             "Milestone"}
                         </StatusBadge>
                       </TableCell>
-                      <TableCell className="text-right">
-                        <Button variant="ghost" size="icon-sm" disabled>
-                          <ChevronRight />
-                          <span className="sr-only">Open milestone</span>
-                        </Button>
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -394,14 +254,18 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
         </div>
 
         <div className="flex flex-col gap-5">
-          <SelectedMilestonePanel milestone={selectedMilestone} />
+          <SelectedMilestonePanel
+            milestone={selectedMilestone}
+            playId={playId}
+          />
           <Card>
             <CardContent className="flex items-center gap-3">
               <ListChecks className="text-primary size-8" />
               <div>
                 <p className="font-medium">Logging an old save?</p>
                 <p className="text-muted-foreground text-sm">
-                  Use bulk complete to catch up without snapshots.
+                  Complete milestones one by one for now. Bulk catch-up is
+                  deferred to a later slice.
                 </p>
               </div>
             </CardContent>

@@ -128,6 +128,14 @@ export async function PokemonDetailPage({
     notFound();
   }
 
+  const defaultForm =
+    data.forms.find((form) => form.form.is_default) ?? data.forms[0] ?? null;
+  const defaultPrimaryTypeSlug = defaultForm?.typePair.primaryType?.slug;
+  const portraitType =
+    defaultPrimaryTypeSlug && isPokemonTypeSlug(defaultPrimaryTypeSlug)
+      ? defaultPrimaryTypeSlug
+      : null;
+
   return (
     <CodexPageShell
       title={data.species.name}
@@ -138,10 +146,52 @@ export async function PokemonDetailPage({
           href={appRoutes.codexPokemon}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon aria-hidden />
+          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
           Back to Pokedex
         </Link>
       </div>
+
+      <Card className="bg-card/88">
+        <CardContent className="grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-center">
+          {defaultForm ? (
+            <PokemonPortrait
+              alt={getPokemonFormImageAlt(defaultForm.form)}
+              imageUrl={getPokemonFormImageUrl(defaultForm.form)}
+              type={portraitType}
+              className="mx-auto w-full max-w-56"
+              priority
+            />
+          ) : null}
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-muted-foreground text-sm">
+                {formatNationalNumber(data.species.national_number)}
+              </p>
+              <h2 className="mt-1 text-3xl font-semibold tracking-normal">
+                {data.species.name}
+              </h2>
+            </div>
+            {defaultForm ? (
+              <PokemonTypeList
+                primaryType={defaultForm.typePair.primaryType}
+                secondaryType={defaultForm.typePair.secondaryType}
+              />
+            ) : null}
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary">{data.forms.length} forms</Badge>
+              <Badge variant="outline">
+                {data.availability.length} availability rows
+              </Badge>
+              {data.species.is_legendary ? (
+                <Badge variant="secondary">Legendary</Badge>
+              ) : null}
+              {data.species.is_mythical ? (
+                <Badge variant="secondary">Mythical</Badge>
+              ) : null}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-4">

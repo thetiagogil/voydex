@@ -31,9 +31,28 @@ export type PokedexPokemonCard = {
   introducedGeneration: Generation | null;
 };
 
+export type PokedexRarityFilter = "all" | "legendary" | "mythical" | "standard";
+
+export type PokedexPageFilters = {
+  generation: string;
+  page: number;
+  query: string;
+  rarity: PokedexRarityFilter;
+  type: string;
+};
+
 export type PokedexPageData = {
+  filters: PokedexPageFilters;
+  generations: Generation[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+  };
   pokemon: PokedexPokemonCard[];
   searchQuery: string;
+  types: Type[];
 };
 
 export type PokemonFormSummary = {
@@ -96,7 +115,13 @@ export type GameCard = {
 };
 
 export type GamesPageData = {
+  filters: {
+    generation: string;
+    region: string;
+  };
   games: GameCard[];
+  generations: Generation[];
+  regions: Region[];
 };
 
 export type GameDetailData = GameCard & {

@@ -6,7 +6,6 @@ import {
   Clock3,
   ClipboardList,
   Layers3,
-  Settings,
   ShieldCheck,
   Sparkles,
   UsersRound,
@@ -22,7 +21,6 @@ import {
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { StatusBadge } from "@/shared/components/app/status-badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -187,12 +185,9 @@ export function MainlinePlayShell({
 
           <div className="flex min-w-0 flex-col gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="cn-font-heading text-3xl font-semibold tracking-tight">
+              <h1 className="text-3xl font-semibold tracking-normal">
                 {title}
               </h1>
-              <Button variant="ghost" size="icon-sm" aria-label="Edit play">
-                <Settings />
-              </Button>
             </div>
 
             <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -257,28 +252,26 @@ export function MainlinePlayShell({
         </div>
       </section>
 
-      <Card className="overflow-visible">
-        <CardContent className="flex flex-col gap-5">
-          <div className="flex flex-col gap-4">
-            <PlayRouteNav
-              activeValue={activeTab}
-              items={mainTabs}
-              playId={playId}
-            />
-            {activeTab === "progress" ? (
-              <>
-                <Separator />
-                <PlayRouteNav
-                  activeValue={activeProgressTab ?? "summary"}
-                  items={progressTabs}
-                  playId={playId}
-                />
-              </>
-            ) : null}
-          </div>
-          {children}
-        </CardContent>
-      </Card>
+      <section className="bg-card/68 flex flex-col gap-5 rounded-xl border p-4 backdrop-blur-sm sm:p-5">
+        <div className="flex flex-col gap-4">
+          <PlayRouteNav
+            activeValue={activeTab}
+            items={mainTabs}
+            playId={playId}
+          />
+          {activeTab === "progress" ? (
+            <>
+              <Separator />
+              <PlayRouteNav
+                activeValue={activeProgressTab ?? "summary"}
+                items={progressTabs}
+                playId={playId}
+              />
+            </>
+          ) : null}
+        </div>
+        {children}
+      </section>
     </div>
   );
 }

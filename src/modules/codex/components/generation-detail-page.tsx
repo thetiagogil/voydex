@@ -39,13 +39,13 @@ export async function GenerationDetailPage({
           href={appRoutes.codexGenerations}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon aria-hidden />
+          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
           Back to generations
         </Link>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-        <Card>
+        <Card className="bg-card/88">
           <CardHeader>
             <CardTitle>Games</CardTitle>
             <CardDescription>
@@ -87,7 +87,7 @@ export async function GenerationDetailPage({
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/88">
           <CardHeader>
             <CardTitle>Version groups</CardTitle>
             <CardDescription>
@@ -107,7 +107,7 @@ export async function GenerationDetailPage({
         </Card>
       </div>
 
-      <Card>
+      <Card className="bg-card/88">
         <CardHeader>
           <CardTitle>Introduced Pokemon</CardTitle>
           <CardDescription>

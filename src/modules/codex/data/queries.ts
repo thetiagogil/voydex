@@ -12,7 +12,9 @@ import type {
   GenerationsPageData,
   GamesPageData,
   Pokedex,
+  PokedexPageFilters,
   PokedexPageData,
+  PokedexRarityFilter,
   Platform,
   PokemonAttributes,
   PokemonDetailData,
@@ -24,7 +26,9 @@ import type {
   VersionGroup,
 } from "@/modules/codex/types";
 
-const POKEDEX_PAGE_SIZE = 72;
+const POKEDEX_PAGE_SIZE = 48;
+
+const rarityFilters = ["all", "legendary", "mythical", "standard"] as const;
 
 function byId<T extends { id: number }>(rows: T[]): Map<number, T> {
   return new Map(rows.map((row) => [row.id, row]));
@@ -36,6 +40,29 @@ function byNullableId<T extends { id: number }>(rows: T[]): Map<number, T> {
 
 function normalizeSearchQuery(query?: string | null): string {
   return query?.trim() ?? "";
+}
+
+function normalizePage(page?: string | number | null): number {
+  const value = Number(page);
+
+  return Number.isInteger(value) && value > 0 ? value : 1;
+}
+
+function normalizeSlug(value?: string | null): string {
+  return value?.trim().toLowerCase() ?? "";
+}
+
+function normalizeRarityFilter(value?: string | null): PokedexRarityFilter {
+  return rarityFilters.includes(value as PokedexRarityFilter)
+    ? (value as PokedexRarityFilter)
+    : "all";
+}
+
+function resolveReferenceFilter<T extends { id: number; slug: string }>(
+  rows: T[],
+  value: string,
+) {
+  return rows.find((row) => row.slug === value || String(row.id) === value);
 }
 
 function isNumber(value: number | null | undefined): value is number {
@@ -124,29 +151,22 @@ function buildGameCards(params: {
   }));
 }
 
-export async function getPokedexPageData(
-  query?: string | null,
-): Promise<PokedexPageData> {
+export async function getPokedexPageData(params?: {
+  generation?: string | null;
+  page?: string | number | null;
+  q?: string | null;
+  rarity?: string | null;
+  type?: string | null;
+}): Promise<PokedexPageData> {
   const supabase = await createServerSupabaseClient();
-  const searchQuery = normalizeSearchQuery(query);
+  const searchQuery = normalizeSearchQuery(params?.q);
+  const requestedGeneration = normalizeSlug(params?.generation);
+  const requestedType = normalizeSlug(params?.type);
+  const rarity = normalizeRarityFilter(params?.rarity);
+  const page = normalizePage(params?.page);
+  const offset = (page - 1) * POKEDEX_PAGE_SIZE;
 
-  let speciesQuery = supabase
-    .schema("reference")
-    .from("pokemon_species")
-    .select("*")
-    .order("national_number", { ascending: true })
-    .limit(POKEDEX_PAGE_SIZE);
-
-  const nationalNumber = Number(searchQuery);
-
-  if (searchQuery && Number.isInteger(nationalNumber)) {
-    speciesQuery = speciesQuery.eq("national_number", nationalNumber);
-  } else if (searchQuery) {
-    speciesQuery = speciesQuery.ilike("name", `%${searchQuery}%`);
-  }
-
-  const [speciesResult, typesResult, generationsResult] = await Promise.all([
-    speciesQuery,
+  const [typesResult, generationsResult] = await Promise.all([
     supabase
       .schema("reference")
       .from("types")
@@ -159,16 +179,116 @@ export async function getPokedexPageData(
       .order("sort_order", { ascending: true }),
   ]);
 
-  if (speciesResult.error) {
-    throw new Error("Unable to load Pokedex species.");
-  }
-
   if (typesResult.error) {
     throw new Error("Unable to load Pokemon types.");
   }
 
   if (generationsResult.error) {
     throw new Error("Unable to load generations.");
+  }
+
+  const types = typesResult.data ?? [];
+  const generations = generationsResult.data ?? [];
+  const selectedGeneration = resolveReferenceFilter(
+    generations,
+    requestedGeneration,
+  );
+  const selectedType = resolveReferenceFilter(types, requestedType);
+
+  let typeSpeciesIds: number[] | null = null;
+
+  if (requestedType) {
+    if (!selectedType) {
+      typeSpeciesIds = [];
+    } else {
+      const typeAttributesResult = await supabase
+        .schema("reference")
+        .from("pokemon_attributes")
+        .select("species_id")
+        .or(
+          `primary_type_id.eq.${selectedType.id},secondary_type_id.eq.${selectedType.id}`,
+        );
+
+      if (typeAttributesResult.error) {
+        throw new Error("Unable to filter Pokemon by type.");
+      }
+
+      typeSpeciesIds = Array.from(
+        new Set(
+          (typeAttributesResult.data ?? [])
+            .map((row) => row.species_id)
+            .filter(isNumber),
+        ),
+      );
+    }
+  }
+
+  const filters: PokedexPageFilters = {
+    generation: selectedGeneration?.slug ?? "",
+    page,
+    query: searchQuery,
+    rarity,
+    type: selectedType?.slug ?? "",
+  };
+
+  if (typeSpeciesIds && !typeSpeciesIds.length) {
+    return {
+      filters,
+      generations,
+      pagination: {
+        page,
+        pageSize: POKEDEX_PAGE_SIZE,
+        totalCount: 0,
+        totalPages: 1,
+      },
+      pokemon: [],
+      searchQuery,
+      types,
+    };
+  }
+
+  let speciesQuery = supabase
+    .schema("reference")
+    .from("pokemon_species")
+    .select("*", { count: "exact" })
+    .order("national_number", { ascending: true });
+
+  const nationalNumber = Number(searchQuery);
+
+  if (searchQuery && Number.isInteger(nationalNumber)) {
+    speciesQuery = speciesQuery.eq("national_number", nationalNumber);
+  } else if (searchQuery) {
+    speciesQuery = speciesQuery.ilike("name", `%${searchQuery}%`);
+  }
+
+  if (selectedGeneration) {
+    speciesQuery = speciesQuery.eq(
+      "introduced_generation_id",
+      selectedGeneration.id,
+    );
+  }
+
+  if (rarity === "legendary") {
+    speciesQuery = speciesQuery.eq("is_legendary", true);
+  } else if (rarity === "mythical") {
+    speciesQuery = speciesQuery.eq("is_mythical", true);
+  } else if (rarity === "standard") {
+    speciesQuery = speciesQuery
+      .eq("is_legendary", false)
+      .eq("is_mythical", false);
+  }
+
+  if (typeSpeciesIds) {
+    speciesQuery = speciesQuery.in("id", typeSpeciesIds);
+  }
+
+  const speciesResult = await speciesQuery.range(
+    offset,
+    offset + POKEDEX_PAGE_SIZE - 1,
+  );
+
+  if (speciesResult.error) {
+    throw new Error("Unable to load Pokedex species.");
   }
 
   const species = speciesResult.data ?? [];
@@ -203,8 +323,8 @@ export async function getPokedexPageData(
     throw new Error("Unable to load Pokemon attributes.");
   }
 
-  const typeById = byId(typesResult.data ?? []);
-  const generationById = byId(generationsResult.data ?? []);
+  const typeById = byId(types);
+  const generationById = byId(generations);
   const defaultFormBySpeciesId = new Map<number, PokemonForm>();
   const latestAttributesByFormId = selectLatestAttributes(
     attributesResult.data ?? [],
@@ -217,6 +337,17 @@ export async function getPokedexPageData(
   }
 
   return {
+    filters,
+    generations,
+    pagination: {
+      page,
+      pageSize: POKEDEX_PAGE_SIZE,
+      totalCount: speciesResult.count ?? 0,
+      totalPages: Math.max(
+        Math.ceil((speciesResult.count ?? 0) / POKEDEX_PAGE_SIZE),
+        1,
+      ),
+    },
     searchQuery,
     pokemon: species.map((pokemonSpecies) => {
       const defaultForm = defaultFormBySpeciesId.get(pokemonSpecies.id) ?? null;
@@ -233,6 +364,7 @@ export async function getPokedexPageData(
           generationById.get(pokemonSpecies.introduced_generation_id) ?? null,
       };
     }),
+    types,
   };
 }
 
@@ -543,8 +675,13 @@ export async function getGenerationDetailData(
   };
 }
 
-export async function getGamesPageData(): Promise<GamesPageData> {
+export async function getGamesPageData(params?: {
+  generation?: string | null;
+  region?: string | null;
+}): Promise<GamesPageData> {
   const supabase = await createServerSupabaseClient();
+  const requestedGeneration = normalizeSlug(params?.generation);
+  const requestedRegion = normalizeSlug(params?.region);
 
   const [
     gamesResult,
@@ -604,16 +741,41 @@ export async function getGamesPageData(): Promise<GamesPageData> {
     throw new Error("Unable to load games.");
   }
 
+  const generations = generationsResult.data ?? [];
+  const regions = regionsResult.data ?? [];
+  const selectedGeneration = resolveReferenceFilter(
+    generations,
+    requestedGeneration,
+  );
+  const selectedRegion = resolveReferenceFilter(regions, requestedRegion);
+  const filteredGames = (gamesResult.data ?? []).filter((game) => {
+    if (selectedGeneration && game.generation_id !== selectedGeneration.id) {
+      return false;
+    }
+
+    if (selectedRegion && game.region_id !== selectedRegion.id) {
+      return false;
+    }
+
+    return true;
+  });
+
   return {
+    filters: {
+      generation: selectedGeneration?.slug ?? "",
+      region: selectedRegion?.slug ?? "",
+    },
     games: buildGameCards({
-      games: gamesResult.data ?? [],
-      generations: generationsResult.data ?? [],
-      regions: regionsResult.data ?? [],
+      games: filteredGames,
+      generations,
+      regions,
       versionGroups: versionGroupsResult.data ?? [],
       gameTypes: gameTypesResult.data ?? [],
       gamePlatforms: gamePlatformsResult.data ?? [],
       platforms: platformsResult.data ?? [],
     }),
+    generations,
+    regions,
   };
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, Eye, Filter, Gem, MapPin, Search } from "lucide-react";
+import { Gem, MapPin, Search } from "lucide-react";
 
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayCollectibleDetail } from "@/modules/mainline/shared/types/mainline.types";
@@ -10,6 +10,7 @@ import {
   groupCollectiblesByCollectible,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { EmptyPanel } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
+import { CollectibleProgressButton } from "@/modules/mainline/features/play/components/detail/mainline-play-actions";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
 import { ProgressMeter } from "@/shared/components/app/progress-meter";
 import { StatusBadge } from "@/shared/components/app/status-badge";
@@ -27,13 +28,9 @@ import {
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
+  NativeSelect,
+  NativeSelectOption,
+} from "@/shared/components/ui/native-select";
 import {
   Table,
   TableBody,
@@ -93,6 +90,14 @@ function getGroupPercent(group: CollectibleGroup) {
 function getEntryNumber(entry: MainlinePlayCollectibleDetail) {
   return (
     entry.collectible_entry_sort_order ?? entry.collectible_entry_id ?? "-"
+  );
+}
+
+function getSortableEntryNumber(entry: MainlinePlayCollectibleDetail) {
+  return (
+    entry.collectible_entry_sort_order ??
+    entry.collectible_entry_id ??
+    Number.MAX_SAFE_INTEGER
   );
 }
 
@@ -218,16 +223,16 @@ function CollectibleLocationSummary({
 
 function CollectibleEntryTable({
   entries,
+  playId,
 }: {
   entries: MainlinePlayCollectibleDetail[];
+  playId: string;
 }) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>
-            <span className="sr-only">Collected</span>
-          </TableHead>
+          <TableHead>Progress</TableHead>
           <TableHead>#</TableHead>
           <TableHead>Entry</TableHead>
           <TableHead>Location</TableHead>
@@ -238,12 +243,12 @@ function CollectibleEntryTable({
       <TableBody>
         {entries.map((entry) => (
           <TableRow key={entry.collectible_entry_id}>
-            <TableCell>
-              {entry.is_collected ? (
-                <CheckCircle2 className="text-primary size-5" />
-              ) : (
-                <span className="border-muted-foreground/50 block size-5 rounded-full border" />
-              )}
+            <TableCell className="min-w-32">
+              <CollectibleProgressButton
+                collectibleEntryId={entry.collectible_entry_id}
+                isCollected={entry.is_collected}
+                playId={playId}
+              />
             </TableCell>
             <TableCell>{getEntryNumber(entry)}</TableCell>
             <TableCell className="font-medium">
@@ -269,8 +274,56 @@ function CollectibleEntryTable({
   );
 }
 
-function CollectibleDetail({ group }: { group: CollectibleGroup }) {
+function CollectibleDetail({
+  group,
+  playId,
+}: {
+  group: CollectibleGroup;
+  playId: string;
+}) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "collected" | "missing"
+  >("all");
+  const [sort, setSort] = useState("number");
   const missingCount = group.totalCount - group.collectedCount;
+  const visibleEntries = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    return [...group.entries]
+      .filter((entry) => {
+        if (statusFilter === "collected" && !entry.is_collected) {
+          return false;
+        }
+
+        if (statusFilter === "missing" && entry.is_collected) {
+          return false;
+        }
+
+        if (!normalizedSearch) {
+          return true;
+        }
+
+        return [
+          entry.collectible_entry_name,
+          entry.collectible_name,
+          entry.description,
+          entry.location_label,
+          entry.sub_location_label,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(normalizedSearch);
+      })
+      .sort((a, b) => {
+        if (sort === "location") {
+          return getEntryLocation(a).localeCompare(getEntryLocation(b));
+        }
+
+        return getSortableEntryNumber(a) - getSortableEntryNumber(b);
+      });
+  }, [group.entries, search, sort, statusFilter]);
 
   return (
     <Card className="min-h-full">
@@ -292,46 +345,67 @@ function CollectibleDetail({ group }: { group: CollectibleGroup }) {
               ) : null}
             </CardDescription>
           </div>
-          <Select items={collectibleSortItems} defaultValue="number">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="number">Sort: Number</SelectItem>
-                <SelectItem value="location">Sort: Location</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <NativeSelect
+            aria-label="Sort collectibles"
+            value={sort}
+            onChange={(event) => setSort(event.target.value)}
+          >
+            {collectibleSortItems.map((item) => (
+              <NativeSelectOption key={item.value} value={item.value}>
+                {item.label}
+              </NativeSelectOption>
+            ))}
+          </NativeSelect>
         </div>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        <div className="grid gap-3 xl:grid-cols-[minmax(12rem,1fr)_auto_auto] xl:items-center">
+        <div className="grid gap-3 xl:grid-cols-[minmax(12rem,1fr)_auto] xl:items-center">
           <InputGroup>
             <InputGroupAddon>
               <Search className="size-4" />
             </InputGroupAddon>
-            <InputGroupInput placeholder="Search collectibles" />
+            <InputGroupInput
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search collectibles"
+            />
           </InputGroup>
           <div className="grid grid-cols-3 overflow-hidden rounded-lg border">
-            <Button variant="ghost" className="rounded-none">
+            <Button
+              type="button"
+              variant={statusFilter === "all" ? "default" : "ghost"}
+              className="rounded-none"
+              onClick={() => setStatusFilter("all")}
+            >
               All
             </Button>
-            <Button variant="ghost" className="rounded-none border-l">
+            <Button
+              type="button"
+              variant={statusFilter === "missing" ? "default" : "ghost"}
+              className="rounded-none border-l"
+              onClick={() => setStatusFilter("missing")}
+            >
               Missing
             </Button>
-            <Button variant="ghost" className="rounded-none border-l">
+            <Button
+              type="button"
+              variant={statusFilter === "collected" ? "default" : "ghost"}
+              className="rounded-none border-l"
+              onClick={() => setStatusFilter("collected")}
+            >
               Collected
             </Button>
           </div>
-          <Button variant="outline" disabled>
-            <Filter data-icon="inline-start" />
-            Filter
-          </Button>
         </div>
 
-        <CollectibleEntryTable entries={group.entries} />
+        {visibleEntries.length ? (
+          <CollectibleEntryTable entries={visibleEntries} playId={playId} />
+        ) : (
+          <div className="text-muted-foreground rounded-lg border border-dashed p-8 text-center text-sm">
+            No collectible entries match the current filters.
+          </div>
+        )}
 
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_22rem]">
           <CollectibleLocationSummary entries={group.entries} />
@@ -357,6 +431,7 @@ function CollectibleDetail({ group }: { group: CollectibleGroup }) {
 export function MainlinePlayCollectiblesPage({
   data,
 }: MainlinePlayCollectiblesPageProps) {
+  const playId = String(data.overview.play_id);
   const groups = useMemo(
     () => buildCollectibleGroups(data.collectibleEntries),
     [data.collectibleEntries],
@@ -386,7 +461,7 @@ export function MainlinePlayCollectiblesPage({
               <Gem className="size-7" />
             </div>
             <div>
-              <h2 className="cn-font-heading text-2xl font-semibold">
+              <h2 className="text-2xl font-semibold tracking-normal">
                 Collectibles
               </h2>
               <p className="text-muted-foreground text-sm">
@@ -394,16 +469,6 @@ export function MainlinePlayCollectiblesPage({
                 collected across {formatNumber(groups.length)} groups.
               </p>
             </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" disabled>
-              <Search data-icon="inline-start" />
-              Search
-            </Button>
-            <Button disabled>
-              <Eye data-icon="inline-start" />
-              Mark visible collected
-            </Button>
           </div>
         </div>
 
@@ -414,7 +479,7 @@ export function MainlinePlayCollectiblesPage({
               selectedGroupId={selectedGroup.id}
               onSelectGroup={setSelectedGroupId}
             />
-            <CollectibleDetail group={selectedGroup} />
+            <CollectibleDetail group={selectedGroup} playId={playId} />
           </div>
         ) : (
           <EmptyPanel

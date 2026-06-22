@@ -14,7 +14,7 @@ type EmptyStateProps = {
 
 export function EmptyState({ action, description, title }: EmptyStateProps) {
   return (
-    <Empty className="border border-dashed">
+    <Empty className="bg-card/80 border border-dashed">
       <EmptyHeader>
         <EmptyTitle>{title}</EmptyTitle>
         <EmptyDescription>{description}</EmptyDescription>

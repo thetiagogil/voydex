@@ -2,12 +2,16 @@ import { PokedexPage } from "@/modules/codex/components/pokedex-page";
 
 type PageProps = {
   searchParams: Promise<{
+    generation?: string;
+    page?: string;
     q?: string;
+    rarity?: string;
+    type?: string;
   }>;
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const { q } = await searchParams;
+  const params = await searchParams;
 
-  return <PokedexPage query={q} />;
+  return <PokedexPage params={params} />;
 }

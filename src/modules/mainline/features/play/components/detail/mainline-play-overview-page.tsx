@@ -304,7 +304,7 @@ function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
           <div>
             <p className="font-medium">Coverage preview</p>
             <p className="text-muted-foreground text-sm">
-              {activeTeam.length ? "Ready for analysis" : "Add Pokemon first"}
+              {activeTeam.length ? "Analysis coming next" : "Add Pokemon first"}
             </p>
           </div>
         </div>
@@ -327,7 +327,7 @@ function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
           variant="outline"
           className="h-auto justify-between p-3"
         >
-          Open team analysis
+          Review team
           <ChevronRight data-icon="inline-end" />
         </Button>
       </CardContent>
@@ -346,12 +346,9 @@ export function MainlinePlayOverviewPage({
           <Card>
             <CardHeader>
               <CardTitle>Recent History</CardTitle>
-              <CardAction>
-                <Button variant="ghost" size="sm" disabled>
-                  View full history
-                  <ChevronRight data-icon="inline-end" />
-                </Button>
-              </CardAction>
+              <CardDescription>
+                Latest timeline events for this play.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <TimelineRows events={data.timelineEvents} />

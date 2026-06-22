@@ -53,14 +53,14 @@ export function MainlinePlayCard({ play }: MainlinePlayCardProps) {
     (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0);
 
   return (
-    <Card className="min-h-full">
+    <Card className="bg-card/88 min-h-full">
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <CardTitle className="truncate">{getPlayTitle(play)}</CardTitle>
             <p className="text-muted-foreground mt-1 truncate text-sm">
               {play.game_name ?? "Unknown game"}
-              {play.generation_name ? ` · ${play.generation_name}` : ""}
+              {play.generation_name ? ` - ${play.generation_name}` : ""}
             </p>
           </div>
           {play.status_name ? (

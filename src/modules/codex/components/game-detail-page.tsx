@@ -37,13 +37,13 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
           href={appRoutes.codexGames}
           className={buttonVariants({ variant: "ghost", size: "sm" })}
         >
-          <ArrowLeftIcon aria-hidden />
+          <ArrowLeftIcon data-icon="inline-start" aria-hidden />
           Back to games
         </Link>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
-        <Card>
+        <Card className="bg-card/88">
           <div className="px-6 pt-6">
             <GameCoverArt imageUrl={data.coverImageUrl} name={data.game.name} />
           </div>
@@ -81,7 +81,7 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/88">
           <CardHeader>
             <CardTitle>Platforms</CardTitle>
             <CardDescription>
@@ -105,7 +105,7 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card>
+        <Card className="bg-card/88">
           <CardHeader>
             <CardTitle>Pokedexes</CardTitle>
             <CardDescription>
@@ -130,7 +130,7 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/88">
           <CardHeader>
             <CardTitle>Content scopes</CardTitle>
             <CardDescription>
