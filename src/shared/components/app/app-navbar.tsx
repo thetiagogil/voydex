@@ -9,6 +9,7 @@ type AppNavbarProps = {
   className?: string;
   contentClassName?: string;
   end?: React.ReactNode;
+  showLogoText?: boolean;
 };
 
 export function AppNavbar({
@@ -17,6 +18,7 @@ export function AppNavbar({
   className,
   contentClassName,
   end,
+  showLogoText = false,
 }: AppNavbarProps) {
   return (
     <header className={cn("app-nav-surface sticky top-0 z-40", className)}>
@@ -32,7 +34,7 @@ export function AppNavbar({
             aria-label="Voydex home"
             className="inline-flex h-9 shrink-0 items-center rounded-lg"
           >
-            <Logo showText={false} />
+            <Logo showText={showLogoText} />
           </Link>
           {afterLogo}
         </div>

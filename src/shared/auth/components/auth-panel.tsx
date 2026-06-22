@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 export type AuthMode = "log-in" | "sign-up";
 
 type AuthPanelProps = {
+  className?: string;
   error?: string;
   mode: AuthMode;
   next: string;
@@ -44,7 +45,7 @@ function buildModeHref(mode: AuthMode, next: string) {
   return query ? `/login?${query}` : "/login";
 }
 
-export function AuthPanel({ error, mode, next }: AuthPanelProps) {
+export function AuthPanel({ className, error, mode, next }: AuthPanelProps) {
   const isSignUp = mode === "sign-up";
   const title = isSignUp ? "Sign up" : "Log in";
   const description = isSignUp
@@ -54,9 +55,11 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+    <Card className={cn("bg-card/82 w-full max-w-full", className)}>
+      <CardHeader className="gap-2">
+        <CardTitle className="text-2xl leading-tight font-semibold tracking-normal">
+          {title}
+        </CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <form action={action} className="flex flex-col">
@@ -70,6 +73,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
                 name="email"
                 type="email"
                 autoComplete="email"
+                className="bg-background/30 h-10"
                 required
               />
             </Field>
@@ -80,6 +84,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
                 name="password"
                 type="password"
                 autoComplete={isSignUp ? "new-password" : "current-password"}
+                className="bg-background/30 h-10"
                 required
                 minLength={6}
               />
@@ -94,6 +99,7 @@ export function AuthPanel({ error, mode, next }: AuthPanelProps) {
                   name="confirmPassword"
                   type="password"
                   autoComplete="new-password"
+                  className="bg-background/30 h-10"
                   required
                   minLength={6}
                 />

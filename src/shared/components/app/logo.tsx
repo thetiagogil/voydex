@@ -12,7 +12,7 @@ export function Logo({ className, markClassName, showText = true }: LogoProps) {
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark className={cn("text-primary size-8 shrink-0", markClassName)} />
       {showText ? (
-        <span className="text-base font-semibold tracking-tight">
+        <span className="text-base font-semibold tracking-normal">
           <span className="text-primary">Voydex</span>
         </span>
       ) : null}

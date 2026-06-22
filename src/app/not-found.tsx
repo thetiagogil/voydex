@@ -2,51 +2,41 @@ import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { cn } from "@/lib/utils";
+import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-xl text-center">
-        <CardHeader>
-          <p className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
-            404
-          </p>
-          <CardTitle className="text-3xl font-black tracking-tight sm:text-4xl">
+    <main className="text-foreground min-h-screen">
+      <AppNavbar showLogoText />
+
+      <section className="mx-auto flex min-h-[calc(100svh-4rem-1px)] w-full max-w-7xl items-center justify-center px-4 py-12 text-center sm:px-6 lg:px-8">
+        <div className="w-full max-w-xl">
+          <p className="text-primary text-sm font-semibold">404</p>
+          <h1 className="mt-3 text-3xl leading-tight font-bold tracking-normal sm:text-4xl">
             Page not found
-          </CardTitle>
-          <CardDescription className="mx-auto max-w-md text-sm leading-6 sm:text-base">
+          </h1>
+          <p className="text-muted-foreground mx-auto mt-3 max-w-md text-sm leading-6 sm:text-base">
             This route is not part of the current Voydex app.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col justify-center gap-3 sm:flex-row">
-          <Link
-            href={appRoutes.appEntry}
-            className={cn(buttonVariants({ size: "lg" }), "font-bold")}
-          >
-            <CompassIcon data-icon="inline-start" aria-hidden />
-            Enter the app
-          </Link>
-          <Link
-            href={appRoutes.home}
-            className={cn(
-              buttonVariants({ variant: "outline", size: "lg" }),
-              "font-bold",
-            )}
-          >
-            <HomeIcon data-icon="inline-start" aria-hidden />
-            Home
-          </Link>
-        </CardContent>
-      </Card>
+          </p>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href={appRoutes.appEntry}
+              className={buttonVariants({ size: "lg" })}
+            >
+              <CompassIcon data-icon="inline-start" aria-hidden />
+              Enter the app
+            </Link>
+            <Link
+              href={appRoutes.home}
+              className={buttonVariants({ variant: "outline", size: "lg" })}
+            >
+              <HomeIcon data-icon="inline-start" aria-hidden />
+              Home
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

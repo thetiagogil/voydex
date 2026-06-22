@@ -24,8 +24,8 @@ export default async function Home() {
   return (
     <main className="text-foreground min-h-screen">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <section className="flex flex-1 items-start justify-center pt-24 pb-14 text-center sm:pt-36 lg:pt-40">
-          <div className="flex w-full max-w-5xl flex-col items-center">
+        <section className="flex w-full min-w-0 flex-1 items-start justify-center overflow-hidden pt-24 pb-14 text-center sm:pt-36 lg:pt-40">
+          <div className="flex w-full max-w-[calc(100vw-2rem)] flex-col items-center sm:max-w-5xl">
             <h1 className="sr-only">Voydex</h1>
 
             <BrandImage
@@ -46,7 +46,7 @@ export default async function Home() {
             <BrandImage
               width={3564}
               height={1203}
-              className="-mt-4 w-full max-w-2xl sm:-mt-8"
+              className="-mt-4 w-full max-w-72 sm:-mt-8 sm:max-w-2xl"
               layers={[
                 {
                   src: "/brand/voydex-title-primary-mask.png",
@@ -55,12 +55,12 @@ export default async function Home() {
               ]}
             />
 
-            <p className="text-foreground/78 -mt-1 max-w-xl text-base leading-7 sm:text-lg">
-              Keep each Pokemon journey close: active plays, reference data,
-              milestones, and memories in one quiet place.
+            <p className="text-foreground/78 -mt-1 w-full max-w-[22rem] text-base leading-7 sm:max-w-xl sm:text-lg">
+              A quiet blue home for the runs you are playing, the Codex you keep
+              checking, and the memories worth returning to.
             </p>
 
-            <div className="mt-8 flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <div className="mt-8 flex w-full max-w-[22rem] flex-col items-stretch justify-center gap-3 sm:max-w-2xl sm:flex-row sm:items-center">
               <HomeAppEntryButton isAuthenticated={isAuthenticated} />
               {homeActions.map((action) => {
                 const Icon = action.icon;
