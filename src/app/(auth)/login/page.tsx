@@ -1,5 +1,6 @@
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { AuthPanel, type AuthMode } from "@/shared/auth/components/auth-panel";
+import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 
 type LoginPageProps = {
@@ -12,7 +13,8 @@ type LoginPageProps = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const next = getSafeAuthRedirectPath(params?.next);
+  const defaultNext = await getActiveModuleDefaultHrefFromCookies();
+  const next = getSafeAuthRedirectPath(params?.next, defaultNext);
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
 
   return (

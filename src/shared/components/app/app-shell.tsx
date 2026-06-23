@@ -9,7 +9,7 @@ import { UserMenu } from "@/shared/components/app/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type AppShellProps = {
-  activeModuleKey: ModuleKey;
+  activeModuleKey?: ModuleKey;
   children: React.ReactNode;
   userEmail?: string | null;
 };
@@ -22,11 +22,18 @@ export function AppShell({
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
-        afterLogo={<ModuleNavigationMenu activeModuleKey={activeModuleKey} />}
+        showLogoText={!activeModuleKey}
+        afterLogo={
+          activeModuleKey ? (
+            <ModuleNavigationMenu activeModuleKey={activeModuleKey} />
+          ) : null
+        }
         center={
-          <div className="hidden lg:flex">
-            <ModuleViewNav activeModuleKey={activeModuleKey} />
-          </div>
+          activeModuleKey ? (
+            <div className="hidden lg:flex">
+              <ModuleViewNav activeModuleKey={activeModuleKey} />
+            </div>
+          ) : null
         }
         end={
           <>

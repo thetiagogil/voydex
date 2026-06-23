@@ -9,11 +9,12 @@ The app should stay boring in its architecture and rich in its product behavior.
 ```txt
 src/
   app/
-    (app)/
-    (protected)/
-    (public)/
+    (app-protected)/
+    (app-public)/
+    (auth)/
+    (site)/
+    (system)/
     api/
-    page.tsx
   config/
   lib/
     supabase/
@@ -49,22 +50,31 @@ Do not reintroduce root `components`, `constants`, `features`, or `types` folder
 
 ## Route Layers
 
-### Public Routes
+### Site Routes
 
 - `/`
-- `/app`
 - `/intro`
-- `/login`
-- `/auth/callback`
-- `/api/health`
+
+Site routes live outside the app shell. They are public brand/product pages, not protected workspace pages.
 
 The landing page should remain accessible even when signed in. It is a brand/home surface, not only a pre-auth gate.
 
+### Auth Routes
+
+- `/login`
+- `/auth/callback`
+
+Auth routes are public auth pages and auth infrastructure callbacks.
+
+### System Routes
+
+- `/app`
+
 `/app` is the generic app entry route. It reads the `voydex-active-module` cookie and redirects to the active module default route.
 
-### App Routes
+### Public App Routes
 
-Routes under `src/app/(app)` use the normal app shell but are not necessarily auth-required:
+Routes under `src/app/(app-public)` use the normal app shell but are not auth-required:
 
 - `/codex`
 - `/codex/pokemon`
@@ -76,9 +86,9 @@ Routes under `src/app/(app)` use the normal app shell but are not necessarily au
 
 Codex is public-readable but can still show authenticated shell behavior when a session exists.
 
-### Protected Routes
+### Protected App Routes
 
-Protected routes live under `src/app/(protected)` and are guarded by the proxy auth flow:
+Protected app routes live under `src/app/(app-protected)` and are guarded by the proxy auth flow:
 
 - `/mainline`
 - `/mainline/dashboard`
@@ -94,14 +104,19 @@ Protected routes live under `src/app/(protected)` and are guarded by the proxy a
 
 Planned workspaces such as Mainline-level Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
 
+### API Routes
+
+- `/api/health`
+
 ### Route Organization
 
-- Public UI routes should live under `src/app/(public)`.
-- Public-readable app-shell routes should live under `src/app/(app)`.
-- Protected app routes should live under `src/app/(protected)`.
+- Public site/product pages should live under `src/app/(site)`.
+- Auth pages and auth callbacks should live under `src/app/(auth)`.
+- Technical redirect/system routes should live under `src/app/(system)`.
+- Public-readable app-shell feature routes should live under `src/app/(app-public)`.
+- Protected app-shell feature routes should live under `src/app/(app-protected)`.
 - Root-level special files such as `layout.tsx`, `not-found.tsx`, `icon.png`, and `apple-icon.png` stay at `src/app`.
 - API route handlers stay under `src/app/api`.
-- Public auth callback handlers may live under `src/app/(public)/auth` because they are public infrastructure routes.
 
 ## Supabase Boundary
 

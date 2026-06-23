@@ -3,8 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { modules } from "@/config/modules";
-import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
+import { appRoutes } from "@/config/routes";
+import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
@@ -13,8 +13,11 @@ import {
 
 type AuthMode = "log-in" | "sign-up";
 
-function getSafeNext(formData: FormData) {
-  return getSafeAuthRedirectPath(formData.get("next"));
+async function getSafeNext(formData: FormData) {
+  return getSafeAuthRedirectPath(
+    formData.get("next"),
+    await getActiveModuleDefaultHrefFromCookies(),
+  );
 }
 
 async function resolveAuthRedirectPath(next: string) {
@@ -22,9 +25,21 @@ async function resolveAuthRedirectPath(next: string) {
     return next;
   }
 
-  const activeModuleKey = await getActiveModuleKeyFromCookies();
+  return getActiveModuleDefaultHrefFromCookies();
+}
 
-  return modules[activeModuleKey].defaultHref;
+function buildEmailRedirectTo(origin: string | null, next: string) {
+  if (!origin) {
+    return undefined;
+  }
+
+  const callbackUrl = new URL(appRoutes.authCallback, origin);
+
+  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
+    callbackUrl.searchParams.set("next", next);
+  }
+
+  return callbackUrl.toString();
 }
 
 function redirectWithAuthError(
@@ -62,7 +77,7 @@ function getRequiredString(
 }
 
 export async function logInWithPassword(formData: FormData) {
-  const next = getSafeNext(formData);
+  const next = await getSafeNext(formData);
   const email = getRequiredString(formData, "email", "Email", "log-in", next);
   const password = getRequiredString(
     formData,
@@ -86,7 +101,7 @@ export async function logInWithPassword(formData: FormData) {
 }
 
 export async function signUpWithPassword(formData: FormData) {
-  const next = getSafeNext(formData);
+  const next = await getSafeNext(formData);
   const email = getRequiredString(formData, "email", "Email", "sign-up", next);
   const password = getRequiredString(
     formData,
@@ -115,7 +130,7 @@ export async function signUpWithPassword(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: origin ? `${origin}/auth/callback` : undefined,
+      emailRedirectTo: buildEmailRedirectTo(origin, next),
     },
   });
 

@@ -97,7 +97,7 @@ Dashboard is a Mainline view, not a top-level app module. It shows recent plays,
 
 Codex is the public-readable reference/search/planning surface. It is a frontend app module, not a database product family.
 
-Old public browse routes such as `/pokedex`, `/games`, and `/generations` should redirect into `/codex/...` while those redirects are useful.
+Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/generations`. Add routes only under `/codex/...` unless a new product decision explicitly introduces another public route.
 
 ### Plays
 
@@ -129,8 +129,8 @@ Plans are separate from plays when they exist before a play. A play itself has o
 ### Collection
 
 ```txt
-/collection
-/collection/[playPokemonId]
+/mainline/collection
+/mainline/collection/[playPokemonId]
 ```
 
 Collection is based on Pokemon the user has used in plays.
@@ -140,7 +140,7 @@ The detail route is optional and may be deferred, but the model should support a
 ### Stats
 
 ```txt
-/stats
+/mainline/stats
 ```
 
 Derived user analytics.

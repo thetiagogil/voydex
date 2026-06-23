@@ -52,7 +52,7 @@ export function HomeAppEntryButton({
         render={<Link href={appRoutes.login} />}
         nativeButton={false}
         size="lg"
-        className="min-w-0 sm:min-w-48"
+        className="min-w-0 sm:min-w-40"
       >
         <BackpackIcon data-icon="inline-start" aria-hidden />
         Enter the app
@@ -64,7 +64,7 @@ export function HomeAppEntryButton({
     <Button
       type="button"
       size="lg"
-      className="min-w-0 sm:min-w-48"
+      className="min-w-0 sm:min-w-40"
       disabled={isPending}
       aria-busy={isPending}
       onClick={() => {

@@ -1,12 +1,17 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const next = getSafeAuthRedirectPath(requestUrl.searchParams.get("next"));
+  const defaultNext = await getActiveModuleDefaultHrefFromCookies();
+  const next = getSafeAuthRedirectPath(
+    requestUrl.searchParams.get("next"),
+    defaultNext,
+  );
 
   if (code) {
     const supabase = await createServerSupabaseClient();

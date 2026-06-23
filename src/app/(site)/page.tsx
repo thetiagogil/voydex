@@ -1,14 +1,19 @@
-import { CompassIcon } from "lucide-react";
+import { BookOpenCheckIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOptionalUserEmail } from "@/lib/supabase/auth";
-import { HomeAppEntryButton } from "@/app/(public)/home-app-entry-button";
 import { BrandImage } from "@/shared/components/app/brand-image";
+import { HomeAppEntryButton } from "@/shared/components/app/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 const homeActions = [
+  {
+    href: appRoutes.codexPokemon,
+    label: "Browse Codex",
+    icon: BookOpenCheckIcon,
+  },
   {
     href: appRoutes.intro,
     label: "Learn more",
@@ -31,7 +36,7 @@ export default async function Home() {
             <BrandImage
               width={1886}
               height={1026}
-              className="w-24 sm:w-32 lg:w-36"
+              className="w-24 sm:w-28 lg:w-32"
               layers={[
                 {
                   src: "/brand/voydex-mark-primary-mask.png",
@@ -46,7 +51,7 @@ export default async function Home() {
             <BrandImage
               width={3564}
               height={1203}
-              className="-mt-4 w-full max-w-72 sm:-mt-8 sm:max-w-2xl"
+              className="-mt-4 w-full max-w-72 sm:-mt-7 sm:max-w-xl"
               layers={[
                 {
                   src: "/brand/voydex-title-primary-mask.png",
@@ -56,11 +61,10 @@ export default async function Home() {
             />
 
             <p className="text-foreground/78 -mt-1 w-full max-w-[22rem] text-base leading-7 sm:max-w-xl sm:text-lg">
-              A quiet blue home for the runs you are playing, the Codex you keep
-              checking, and the memories worth returning to.
+              Keep the story behind every playthrough.
             </p>
 
-            <div className="mt-8 flex w-full max-w-[22rem] flex-col items-stretch justify-center gap-3 sm:max-w-2xl sm:flex-row sm:items-center">
+            <div className="mt-8 flex w-full max-w-[22rem] flex-col items-stretch justify-center gap-3 sm:max-w-3xl sm:flex-row sm:items-center">
               <HomeAppEntryButton isAuthenticated={isAuthenticated} />
               {homeActions.map((action) => {
                 const Icon = action.icon;
@@ -72,7 +76,7 @@ export default async function Home() {
                     className={buttonVariants({
                       variant: "outline",
                       size: "lg",
-                      className: "min-w-0 sm:min-w-48",
+                      className: "min-w-0 sm:min-w-40",
                     })}
                   >
                     <Icon data-icon="inline-start" aria-hidden />
