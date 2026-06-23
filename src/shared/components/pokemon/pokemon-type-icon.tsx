@@ -1,18 +1,14 @@
 import Image from "next/image";
-
 import { cn } from "@/lib/utils";
 import { Badge } from "@/shared/components/ui/badge";
 import type { PokemonTypeSlug } from "@/shared/pokemon/constants";
 import { pokemonTypeClassNames } from "@/shared/pokemon/type-styles";
-
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";
-
 type PokemonTypeIconProps = {
   className?: string;
   type: PokemonIconSlug;
 };
-
-export function PokemonTypeIcon({ className, type }: PokemonTypeIconProps) {
+export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
   return (
     <Image
       src={`/icons/types/${type}.svg`}
@@ -23,18 +19,16 @@ export function PokemonTypeIcon({ className, type }: PokemonTypeIconProps) {
       className={className}
     />
   );
-}
-
+};
 type PokemonTypeBadgeProps = PokemonTypeIconProps & {
   label?: string;
   type: PokemonTypeSlug;
 };
-
-export function PokemonTypeBadge({
+export const PokemonTypeBadge = ({
   className,
   label,
   type,
-}: PokemonTypeBadgeProps) {
+}: PokemonTypeBadgeProps) => {
   return (
     <Badge
       variant="outline"
@@ -57,4 +51,4 @@ export function PokemonTypeBadge({
       {label ?? type}
     </Badge>
   );
-}
+};

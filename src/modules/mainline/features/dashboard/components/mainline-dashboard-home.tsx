@@ -9,7 +9,6 @@ import {
   TrophyIcon,
   type LucideIcon,
 } from "lucide-react";
-
 import { modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/data/queries";
@@ -35,14 +34,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-
 type MainlineDashboardHomeProps = {
   data: MainlineDashboardData;
 };
-
 const mainlineModule = modules.mainline;
-
-function DashboardMetric({
+const DashboardMetric = ({
   description,
   icon: Icon,
   label,
@@ -52,7 +48,7 @@ function DashboardMetric({
   icon: LucideIcon;
   label: string;
   value: string;
-}) {
+}) => {
   return (
     <Card className="bg-card/82">
       <CardHeader className="grid-cols-[auto_1fr] gap-x-3">
@@ -67,14 +63,12 @@ function DashboardMetric({
       </CardContent>
     </Card>
   );
-}
-
-function ContinuePlayPanel({ play }: { play: MainlinePlayCardData }) {
+};
+const ContinuePlayPanel = ({ play }: { play: MainlinePlayCardData }) => {
   const playId = play.play_id ? String(play.play_id) : "";
   const href = playId
     ? appRoutes.mainlinePlay(playId)
     : appRoutes.mainlinePlays;
-
   return (
     <Card className="bg-card/82">
       <CardContent className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
@@ -119,11 +113,9 @@ function ContinuePlayPanel({ play }: { play: MainlinePlayCardData }) {
       </CardContent>
     </Card>
   );
-}
-
-function RecentPlayRow({ play }: { play: MainlinePlayCardData }) {
+};
+const RecentPlayRow = ({ play }: { play: MainlinePlayCardData }) => {
   const playId = play.play_id ? String(play.play_id) : "";
-
   return (
     <Link
       href={playId ? appRoutes.mainlinePlay(playId) : appRoutes.mainlinePlays}
@@ -147,9 +139,8 @@ function RecentPlayRow({ play }: { play: MainlinePlayCardData }) {
       </div>
     </Link>
   );
-}
-
-function QuickAction({
+};
+const QuickAction = ({
   children,
   href,
   icon: Icon,
@@ -159,7 +150,7 @@ function QuickAction({
   href: string;
   icon: LucideIcon;
   variant?: "default" | "outline";
-}) {
+}) => {
   return (
     <Button
       render={<Link href={href} />}
@@ -171,9 +162,8 @@ function QuickAction({
       {children}
     </Button>
   );
-}
-
-export function MainlineDashboardHome({ data }: MainlineDashboardHomeProps) {
+};
+export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
   const hasPlays = data.recentPlays.length > 0;
   const continuePlay =
     data.recentPlays.find((play) => play.status_slug !== "completed") ??
@@ -183,7 +173,6 @@ export function MainlineDashboardHome({ data }: MainlineDashboardHomeProps) {
     data.summary?.active_library_play_count ??
     data.recentPlays.filter((play) => play.status_slug === "in_progress")
       .length;
-
   return (
     <>
       <PageHeader
@@ -246,9 +235,7 @@ export function MainlineDashboardHome({ data }: MainlineDashboardHomeProps) {
         <DashboardMetric
           icon={Clock3Icon}
           label="Playtime"
-          value={`${formatMainlineNumber(
-            Math.floor((data.statsSummary?.total_playtime_minutes ?? 0) / 60),
-          )}h`}
+          value={`${formatMainlineNumber(Math.floor((data.statsSummary?.total_playtime_minutes ?? 0) / 60))}h`}
           description="Total playtime from plays where time has been recorded."
         />
       </div>
@@ -317,4 +304,4 @@ export function MainlineDashboardHome({ data }: MainlineDashboardHomeProps) {
       </div>
     </>
   );
-}
+};

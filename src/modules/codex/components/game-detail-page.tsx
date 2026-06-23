@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { appRoutes } from "@/config/routes";
 import {
   CodexBackLink,
@@ -13,18 +12,14 @@ import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGameDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
-
 type GameDetailPageProps = {
   gameSlug: string;
 };
-
-export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
+export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
   const data = await getGameDetailData(gameSlug);
-
   if (!data) {
     notFound();
   }
-
   return (
     <CodexPageShell
       title={data.game.name}
@@ -140,4 +135,4 @@ export async function GameDetailPage({ gameSlug }: GameDetailPageProps) {
       </div>
     </CodexPageShell>
   );
-}
+};

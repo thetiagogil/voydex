@@ -7,7 +7,6 @@ import {
   PackageCheckIcon,
   UsersRoundIcon,
 } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import {
   formatMainlineDate,
@@ -29,12 +28,10 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
-
 type MainlinePlayCardProps = {
   play: MainlinePlayCardData;
 };
-
-function PlayMetric({
+const PlayMetric = ({
   icon,
   label,
   value,
@@ -42,7 +39,7 @@ function PlayMetric({
   icon: React.ReactNode;
   label: string;
   value: string;
-}) {
+}) => {
   return (
     <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
       <dt className="text-muted-foreground flex items-center gap-1.5 text-xs [&_svg]:size-3.5">
@@ -52,13 +49,11 @@ function PlayMetric({
       <dd className="mt-1 font-medium">{value}</dd>
     </div>
   );
-}
-
-export function MainlinePlayCard({ play }: MainlinePlayCardProps) {
+};
+export const MainlinePlayCard = ({ play }: MainlinePlayCardProps) => {
   const href = play.play_id
     ? appRoutes.mainlinePlay(String(play.play_id))
     : appRoutes.mainlinePlays;
-
   return (
     <Card className="bg-card/82">
       <CardHeader>
@@ -126,4 +121,4 @@ export function MainlinePlayCard({ play }: MainlinePlayCardProps) {
       </CardFooter>
     </Card>
   );
-}
+};

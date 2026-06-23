@@ -1,35 +1,31 @@
 import Image from "next/image";
-
 import { cn } from "@/lib/utils";
-
 type GameCoverArtProps = {
   className?: string;
   imageUrl: string | null;
   name: string;
 };
-
-function getGameCoverInitials(name: string) {
+const getGameCoverInitials = (name: string) => {
   const displayName = name.replace(/^Pokemon\s+/i, "");
   const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
-
   if (!words.length) {
     return name.slice(0, 1).toUpperCase();
   }
-
   if (words.length === 1) {
     return words[0].slice(0, 1).toUpperCase();
   }
-
   return words
     .slice(0, 2)
     .map((word) => word.slice(0, 1))
     .join("")
     .toUpperCase();
-}
-
-export function GameCoverArt({ className, imageUrl, name }: GameCoverArtProps) {
+};
+export const GameCoverArt = ({
+  className,
+  imageUrl,
+  name,
+}: GameCoverArtProps) => {
   const initials = getGameCoverInitials(name);
-
   return (
     <div
       className={cn(
@@ -59,4 +55,4 @@ export function GameCoverArt({ className, imageUrl, name }: GameCoverArtProps) {
       )}
     </div>
   );
-}
+};

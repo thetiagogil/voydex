@@ -2,7 +2,6 @@ import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { AuthPanel, type AuthMode } from "@/shared/auth/components/auth-panel";
 import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
-
 type LoginPageProps = {
   searchParams?: Promise<{
     error?: string;
@@ -10,13 +9,11 @@ type LoginPageProps = {
     next?: string;
   }>;
 };
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+const LoginPage = async ({ searchParams }: LoginPageProps) => {
   const params = await searchParams;
   const defaultNext = await getActiveModuleDefaultHrefFromCookies();
   const next = getSafeAuthRedirectPath(params?.next, defaultNext);
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
-
   return (
     <main className="text-foreground min-h-screen">
       <AppNavbar showLogoText />
@@ -38,4 +35,5 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       </div>
     </main>
   );
-}
+};
+export default LoginPage;

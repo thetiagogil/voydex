@@ -1,5 +1,5 @@
 const themeInitScript = `
-(function () {
+(() => {
   try {
     var storageKey = "voydex-theme";
     var storedTheme = window.localStorage.getItem(storageKey);
@@ -19,7 +19,6 @@ const themeInitScript = `
   } catch {}
 })();
 `;
-
-export function ThemeInitScript() {
+export const ThemeInitScript = () => {
   return <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />;
-}
+};

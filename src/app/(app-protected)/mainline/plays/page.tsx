@@ -1,8 +1,7 @@
 import { MainlinePlaysPage } from "@/modules/mainline/features/play/components/mainline-plays-page";
 import { getMainlinePlaysPageData } from "@/modules/mainline/features/play/data/queries";
-
-export default async function PlaysPage() {
+const PlaysPage = async () => {
   const data = await getMainlinePlaysPageData();
-
   return <MainlinePlaysPage data={data} />;
-}
+};
+export default PlaysPage;

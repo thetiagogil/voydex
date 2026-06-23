@@ -7,7 +7,6 @@ import {
   Sparkles,
   Star,
 } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
@@ -27,19 +26,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-
 type MainlinePlayProgressPageProps = {
   data: MainlinePlayDetailData;
 };
-
-export function MainlinePlayProgressPage({
+export const MainlinePlayProgressPage = ({
   data,
-}: MainlinePlayProgressPageProps) {
+}: MainlinePlayProgressPageProps) => {
   const playId = String(data.overview.play_id);
   const nextMilestone = getFirstIncompleteMilestone(data.milestones);
   const completedUnits = data.overview.completed_completion_unit_count ?? 0;
   const totalUnits = data.overview.total_completion_unit_count ?? 0;
-
   return (
     <MainlinePlayShell
       activeProgressTab="summary"
@@ -96,9 +92,7 @@ export function MainlinePlayProgressPage({
               </div>
               <ProgressMeter
                 value={data.overview.overall_completion_percent ?? 0}
-                label={`${formatNumber(completedUnits)} / ${formatNumber(
-                  totalUnits,
-                )} completed`}
+                label={`${formatNumber(completedUnits)} / ${formatNumber(totalUnits)} completed`}
               />
             </div>
 
@@ -258,4 +252,4 @@ export function MainlinePlayProgressPage({
       </div>
     </MainlinePlayShell>
   );
-}
+};

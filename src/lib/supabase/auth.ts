@@ -1,15 +1,12 @@
 import { isAuthError, type SupabaseClient } from "@supabase/supabase-js";
-
 import type { Database } from "@/shared/types/database.types";
-
 type ClaimsResult = Awaited<
   ReturnType<SupabaseClient<Database>["auth"]["getClaims"]>
 >;
-
-export async function getClaimsWithTimeout(
+export const getClaimsWithTimeout = async (
   supabase: SupabaseClient<Database>,
-  timeoutMs = 5_000,
-): Promise<ClaimsResult | null> {
+  timeoutMs = 5000,
+): Promise<ClaimsResult | null> => {
   try {
     return await Promise.race([
       supabase.auth.getClaims(),
@@ -21,21 +18,17 @@ export async function getClaimsWithTimeout(
     if (isAuthError(error)) {
       return { data: null, error };
     }
-
     throw error;
   }
-}
-
-export async function getOptionalUserEmail(
+};
+export const getOptionalUserEmail = async (
   supabase: SupabaseClient<Database>,
-): Promise<string | null> {
+): Promise<string | null> => {
   const claimsResult = await getClaimsWithTimeout(supabase);
-
   if (!claimsResult || claimsResult.error || !claimsResult.data?.claims?.sub) {
     return null;
   }
-
   return typeof claimsResult.data.claims.email === "string"
     ? claimsResult.data.claims.email
     : "Account";
-}
+};

@@ -1,7 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -18,26 +17,22 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
-
 const resourceGridColumns = {
   three: "sm:grid-cols-2 lg:grid-cols-3",
   four: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 } as const;
-
 type CodexBrowseMetaProps = {
   children: ReactNode;
 };
-
-export function CodexBrowseMeta({ children }: CodexBrowseMetaProps) {
+export const CodexBrowseMeta = ({ children }: CodexBrowseMetaProps) => {
   return (
     <div className="text-muted-foreground text-sm leading-6">{children}</div>
   );
-}
-
-export function CodexFilterPanel({
+};
+export const CodexFilterPanel = ({
   className,
   ...props
-}: ComponentProps<"form">) {
+}: ComponentProps<"form">) => {
   return (
     <form
       className={cn(
@@ -47,18 +42,16 @@ export function CodexFilterPanel({
       {...props}
     />
   );
-}
-
+};
 type CodexResourceGridProps = ComponentProps<"div"> & {
   columns?: keyof typeof resourceGridColumns;
 };
-
-export function CodexResourceGrid({
+export const CodexResourceGrid = ({
   children,
   className,
   columns = "three",
   ...props
-}: CodexResourceGridProps) {
+}: CodexResourceGridProps) => {
   return (
     <div
       className={cn("grid gap-4", resourceGridColumns[columns], className)}
@@ -67,8 +60,7 @@ export function CodexResourceGrid({
       {children}
     </div>
   );
-}
-
+};
 type CodexResourceCardProps = {
   children?: ReactNode;
   className?: string;
@@ -78,8 +70,7 @@ type CodexResourceCardProps = {
   media?: ReactNode;
   title: ReactNode;
 };
-
-export function CodexResourceCard({
+export const CodexResourceCard = ({
   children,
   className,
   contentClassName,
@@ -87,7 +78,7 @@ export function CodexResourceCard({
   href,
   media,
   title,
-}: CodexResourceCardProps) {
+}: CodexResourceCardProps) => {
   return (
     <Link
       href={href}
@@ -123,19 +114,17 @@ export function CodexResourceCard({
       </Card>
     </Link>
   );
-}
-
+};
 type CodexEmptyStateProps = {
   action?: ReactNode;
   description: ReactNode;
   title: ReactNode;
 };
-
-export function CodexEmptyState({
+export const CodexEmptyState = ({
   action,
   description,
   title,
-}: CodexEmptyStateProps) {
+}: CodexEmptyStateProps) => {
   return (
     <Empty>
       <EmptyHeader>
@@ -145,4 +134,4 @@ export function CodexEmptyState({
       {action ? <EmptyContent>{action}</EmptyContent> : null}
     </Empty>
   );
-}
+};

@@ -1,18 +1,16 @@
 import { cn } from "@/lib/utils";
-
 type PageHeaderProps = {
   action?: React.ReactNode;
   className?: string;
   description?: string;
   title: string;
 };
-
-export function PageHeader({
+export const PageHeader = ({
   action,
   className,
   description,
   title,
-}: PageHeaderProps) {
+}: PageHeaderProps) => {
   return (
     <div
       className={cn(
@@ -33,4 +31,4 @@ export function PageHeader({
       {action ? <div className="shrink-0">{action}</div> : null}
     </div>
   );
-}
+};

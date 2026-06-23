@@ -1,8 +1,6 @@
 "use client";
-
 import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { signOut } from "@/shared/auth/server/actions";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
@@ -16,17 +14,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-
 type UserMenuProps = {
   email: string;
 };
-
-function getInitials(email: string) {
+const getInitials = (email: string) => {
   const name = email.split("@")[0] ?? "U";
   return name.slice(0, 2).toUpperCase();
-}
-
-export function UserMenu({ email }: UserMenuProps) {
+};
+export const UserMenu = ({ email }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -72,4 +67,4 @@ export function UserMenu({ email }: UserMenuProps) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

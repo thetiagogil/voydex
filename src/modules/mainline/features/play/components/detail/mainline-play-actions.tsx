@@ -1,9 +1,7 @@
 "use client";
-
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Circle, Eye } from "lucide-react";
-
 import {
   completeMainlinePlayMilestone,
   setMainlineCollectibleEntryProgress,
@@ -11,35 +9,29 @@ import {
 } from "@/modules/mainline/features/play/server/actions";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
-
 type ActionErrorProps = {
   error: string | null;
 };
-
 type PokedexOptimisticProgress = {
   caught: boolean;
   serverKey: string;
   seen: boolean;
 };
-
 type CollectibleOptimisticProgress = {
   collected: boolean;
   serverKey: string;
 };
-
-function ActionError({ error }: ActionErrorProps) {
+const ActionError = ({ error }: ActionErrorProps) => {
   if (!error) {
     return null;
   }
-
   return (
     <p role="alert" className="text-destructive text-xs">
       {error}
     </p>
   );
-}
-
-export function CompleteMilestoneButton({
+};
+export const CompleteMilestoneButton = ({
   disabled = false,
   label = "Mark complete",
   milestoneId,
@@ -49,11 +41,10 @@ export function CompleteMilestoneButton({
   label?: string;
   milestoneId: number | null;
   playId: string;
-}) {
+}) => {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
   return (
     <div className="flex flex-col gap-2">
       <Button
@@ -63,19 +54,16 @@ export function CompleteMilestoneButton({
           if (!milestoneId) {
             return;
           }
-
           setError(null);
           startTransition(async () => {
             const result = await completeMainlinePlayMilestone({
               milestoneId,
               playId,
             });
-
             if (!result.ok) {
               setError(result.error);
               return;
             }
-
             router.refresh();
           });
         }}
@@ -90,9 +78,8 @@ export function CompleteMilestoneButton({
       <ActionError error={error} />
     </div>
   );
-}
-
-export function PokedexProgressButtons({
+};
+export const PokedexProgressButtons = ({
   isCaught,
   isSeen,
   playId,
@@ -102,7 +89,7 @@ export function PokedexProgressButtons({
   isSeen: boolean | null;
   playId: string;
   speciesId: number | null;
-}) {
+}) => {
   const serverCaught = Boolean(isCaught);
   const serverSeen = Boolean(isSeen);
   const serverKey = `${serverSeen}:${serverCaught}`;
@@ -121,16 +108,14 @@ export function PokedexProgressButtons({
           caught: serverCaught,
           seen: serverSeen,
         };
-
-  function updateProgress(
+  const updateProgress = (
     control: "seen" | "caught",
     nextSeen: boolean,
     nextCaught: boolean,
-  ) {
+  ) => {
     if (!speciesId) {
       return;
     }
-
     setError(null);
     setPendingControl(control);
     setOptimisticProgress({
@@ -146,23 +131,19 @@ export function PokedexProgressButtons({
           playId,
           speciesId,
         });
-
         if (!result.ok) {
           setError(result.error);
           setOptimisticProgress(null);
           return;
         }
-
         router.refresh();
       } finally {
         setPendingControl(null);
       }
     });
-  }
-
+  };
   const isSeenPending = isPending && pendingControl === "seen";
   const isCaughtPending = isPending && pendingControl === "caught";
-
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-2 overflow-hidden rounded-lg border">
@@ -218,9 +199,8 @@ export function PokedexProgressButtons({
       <ActionError error={error} />
     </div>
   );
-}
-
-export function CollectibleProgressButton({
+};
+export const CollectibleProgressButton = ({
   collectibleEntryId,
   isCollected,
   playId,
@@ -228,7 +208,7 @@ export function CollectibleProgressButton({
   collectibleEntryId: number | null;
   isCollected: boolean | null;
   playId: string;
-}) {
+}) => {
   const serverCollected = Boolean(isCollected);
   const serverKey = String(serverCollected);
   const [error, setError] = useState<string | null>(null);
@@ -240,7 +220,6 @@ export function CollectibleProgressButton({
     optimisticProgress?.serverKey === serverKey
       ? optimisticProgress.collected
       : serverCollected;
-
   return (
     <div className="flex flex-col gap-2">
       <Button
@@ -254,7 +233,6 @@ export function CollectibleProgressButton({
           if (!collectibleEntryId) {
             return;
           }
-
           const nextCollected = !optimisticCollected;
           setError(null);
           setOptimisticProgress({
@@ -267,13 +245,11 @@ export function CollectibleProgressButton({
               isCollected: nextCollected,
               playId,
             });
-
             if (!result.ok) {
               setError(result.error);
               setOptimisticProgress(null);
               return;
             }
-
             router.refresh();
           });
         }}
@@ -294,4 +270,4 @@ export function CollectibleProgressButton({
       <ActionError error={error} />
     </div>
   );
-}
+};

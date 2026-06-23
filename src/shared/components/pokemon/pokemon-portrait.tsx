@@ -1,10 +1,8 @@
 import Image from "next/image";
-
 import { PokemonTypeIcon } from "@/shared/components/pokemon/pokemon-type-icon";
 import type { PokemonTypeSlug } from "@/shared/pokemon/constants";
 import { pokemonTypeClassNames } from "@/shared/pokemon/type-styles";
 import { cn } from "@/lib/utils";
-
 type PokemonPortraitProps = {
   alt: string;
   className?: string;
@@ -12,16 +10,14 @@ type PokemonPortraitProps = {
   priority?: boolean;
   type?: PokemonTypeSlug | null;
 };
-
-export function PokemonPortrait({
+export const PokemonPortrait = ({
   alt,
   className,
   imageUrl,
   priority = false,
   type,
-}: PokemonPortraitProps) {
+}: PokemonPortraitProps) => {
   const typeClassNames = type ? pokemonTypeClassNames[type] : null;
-
   return (
     <div
       className={cn(
@@ -64,4 +60,4 @@ export function PokemonPortrait({
       )}
     </div>
   );
-}
+};

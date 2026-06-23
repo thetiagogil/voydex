@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { appRoutes } from "@/config/routes";
 import {
   CodexBackLink,
@@ -14,20 +13,16 @@ import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGenerationDetailData } from "@/modules/codex/data/queries";
 import { Badge } from "@/shared/components/ui/badge";
-
 type GenerationDetailPageProps = {
   generationId: string;
 };
-
-export async function GenerationDetailPage({
+export const GenerationDetailPage = async ({
   generationId,
-}: GenerationDetailPageProps) {
+}: GenerationDetailPageProps) => {
   const data = await getGenerationDetailData(generationId);
-
   if (!data) {
     notFound();
   }
-
   return (
     <CodexPageShell
       title={data.generation.name}
@@ -142,4 +137,4 @@ export async function GenerationDetailPage({
       </CodexSectionCard>
     </CodexPageShell>
   );
-}
+};

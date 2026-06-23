@@ -8,7 +8,6 @@ import {
   Eye,
   UsersRound,
 } from "lucide-react";
-
 import type {
   MainlinePlayPokedexEntry,
   MainlinePlayTeamPokemon,
@@ -30,8 +29,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
-
-export function CompactProgressRow({
+export const CompactProgressRow = ({
   actionLabel,
   count,
   href,
@@ -47,7 +45,7 @@ export function CompactProgressRow({
   label: string;
   percent: number | null;
   tone?: "battle" | "info" | "milestone" | "neutral" | "success" | "warning";
-}) {
+}) => {
   return (
     <div className="grid gap-3 rounded-lg border p-3 sm:grid-cols-[minmax(0,1fr)_11rem_auto] sm:items-center">
       <div className="flex min-w-0 items-center gap-3">
@@ -75,15 +73,14 @@ export function CompactProgressRow({
       )}
     </div>
   );
-}
-
-export function EmptyPanel({
+};
+export const EmptyPanel = ({
   description,
   title,
 }: {
   description: string;
   title: string;
-}) {
+}) => {
   return (
     <Card>
       <CardContent className="flex min-h-40 flex-col items-center justify-center gap-2 text-center">
@@ -93,15 +90,14 @@ export function EmptyPanel({
       </CardContent>
     </Card>
   );
-}
-
-export function PokemonStatusControls({
+};
+export const PokemonStatusControls = ({
   isCaught,
   isSeen,
 }: {
   isCaught: boolean | null;
   isSeen: boolean | null;
-}) {
+}) => {
   return (
     <div className="grid grid-cols-2 overflow-hidden rounded-lg border">
       <div
@@ -128,31 +124,28 @@ export function PokemonStatusControls({
       </div>
     </div>
   );
-}
-
-export function PokemonTypeBadges({
+};
+export const PokemonTypeBadges = ({
   pokemon,
 }: {
   pokemon: MainlinePlayPokedexEntry | MainlinePlayTeamPokemon;
-}) {
+}) => {
   const primaryType = getPokemonTypeSlug(pokemon.display.primaryType);
   const secondaryType = getPokemonTypeSlug(pokemon.display.secondaryType);
-
   return (
     <div className="flex flex-wrap justify-center gap-1.5">
       {primaryType ? <PokemonTypeBadge type={primaryType} /> : null}
       {secondaryType ? <PokemonTypeBadge type={secondaryType} /> : null}
     </div>
   );
-}
-
-export function SmallPokemonSprite({
+};
+export const SmallPokemonSprite = ({
   className,
   pokemon,
 }: {
   className?: string;
   pokemon: MainlinePlayTeamPokemon;
-}) {
+}) => {
   return (
     <PokemonPortrait
       alt={getPokemonDisplayName(pokemon)}
@@ -161,15 +154,14 @@ export function SmallPokemonSprite({
       type={getPokemonPrimaryTypeSlug(pokemon)}
     />
   );
-}
-
-export function TeamMemberRow({
+};
+export const TeamMemberRow = ({
   isSelected = false,
   pokemon,
 }: {
   isSelected?: boolean;
   pokemon: MainlinePlayTeamPokemon;
-}) {
+}) => {
   return (
     <div
       className={cn(
@@ -189,17 +181,15 @@ export function TeamMemberRow({
       </div>
     </div>
   );
-}
-
-export function TimelineRows({
+};
+export const TimelineRows = ({
   events,
   limit = 4,
 }: {
   events: MainlinePlayTimelineDetail[];
   limit?: number;
-}) {
+}) => {
   const visibleEvents = events.slice(0, limit);
-
   if (!visibleEvents.length) {
     return (
       <div className="text-muted-foreground rounded-lg border border-dashed p-4 text-sm">
@@ -207,7 +197,6 @@ export function TimelineRows({
       </div>
     );
   }
-
   return (
     <div className="flex flex-col gap-2">
       {visibleEvents.map((event) => (
@@ -236,15 +225,14 @@ export function TimelineRows({
       ))}
     </div>
   );
-}
-
-export function TeamCountBadge({
+};
+export const TeamCountBadge = ({
   activeCount,
   reserveCount,
 }: {
   activeCount: number;
   reserveCount: number;
-}) {
+}) => {
   return (
     <Badge variant="secondary" className="gap-1.5">
       <UsersRound className="size-3" />
@@ -253,4 +241,4 @@ export function TeamCountBadge({
       {formatNumber(reserveCount)} reserve
     </Badge>
   );
-}
+};

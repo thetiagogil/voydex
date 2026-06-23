@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-
 type PageSectionProps = {
   action?: React.ReactNode;
   children: React.ReactNode;
@@ -7,14 +6,13 @@ type PageSectionProps = {
   description?: string;
   title?: string;
 };
-
-export function PageSection({
+export const PageSection = ({
   action,
   children,
   className,
   description,
   title,
-}: PageSectionProps) {
+}: PageSectionProps) => {
   return (
     <section className={cn("flex flex-col gap-4", className)}>
       {title || description || action ? (
@@ -37,4 +35,4 @@ export function PageSection({
       {children}
     </section>
   );
-}
+};

@@ -1,13 +1,11 @@
 import { BookOpenCheckIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOptionalUserEmail } from "@/lib/supabase/auth";
 import { BrandImage } from "@/shared/components/app/brand-image";
 import { HomeAppEntryButton } from "@/shared/components/app/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
-
 const homeActions = [
   {
     href: appRoutes.codexPokemon,
@@ -20,12 +18,10 @@ const homeActions = [
     icon: CompassIcon,
   },
 ] as const;
-
-export default async function Home() {
+const Home = async () => {
   const supabase = await createServerSupabaseClient();
   const userEmail = await getOptionalUserEmail(supabase);
   const isAuthenticated = Boolean(userEmail);
-
   return (
     <main className="text-foreground min-h-screen">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
@@ -68,7 +64,6 @@ export default async function Home() {
               <HomeAppEntryButton isAuthenticated={isAuthenticated} />
               {homeActions.map((action) => {
                 const Icon = action.icon;
-
                 return (
                   <Link
                     key={action.href}
@@ -90,4 +85,5 @@ export default async function Home() {
       </div>
     </main>
   );
-}
+};
+export default Home;

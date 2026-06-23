@@ -1,41 +1,30 @@
 "use client";
-
 import { WifiOffIcon } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
-
 import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-
 type HealthState = "unknown" | "healthy" | "unhealthy";
 type HealthListener = () => void;
-
-const HEALTH_INTERVAL_MS = 60_000;
-
+const HEALTH_INTERVAL_MS = 60000;
 const healthListeners = new Set<HealthListener>();
-
 let healthState: HealthState = "unknown";
 let healthMonitorStarted = false;
 let healthCheckPromise: Promise<void> | null = null;
-
-async function requestHealth() {
+const requestHealth = async () => {
   const response = await fetch("/api/health", { cache: "no-store" });
   return response.ok;
-}
-
-function setHealthState(nextState: HealthState) {
+};
+const setHealthState = (nextState: HealthState) => {
   if (healthState === nextState) return;
-
   healthState = nextState;
   healthListeners.forEach((listener) => listener());
-}
-
-function runHealthCheck() {
+};
+const runHealthCheck = () => {
   if (healthCheckPromise) return healthCheckPromise;
-
   healthCheckPromise = (async () => {
     try {
       const isHealthy = await requestHealth();
@@ -46,54 +35,41 @@ function runHealthCheck() {
   })().finally(() => {
     healthCheckPromise = null;
   });
-
   return healthCheckPromise;
-}
-
-function startDatabaseHealthMonitor() {
+};
+const startDatabaseHealthMonitor = () => {
   if (healthMonitorStarted || typeof window === "undefined") return;
-
   healthMonitorStarted = true;
   void runHealthCheck();
-
   window.setInterval(() => {
     void runHealthCheck();
   }, HEALTH_INTERVAL_MS);
-}
-
-function subscribeToHealth(listener: HealthListener) {
+};
+const subscribeToHealth = (listener: HealthListener) => {
   healthListeners.add(listener);
-
   return () => {
     healthListeners.delete(listener);
   };
-}
-
-function getHealthSnapshot() {
+};
+const getHealthSnapshot = () => {
   return healthState;
-}
-
-function useDatabaseHealth() {
+};
+const useDatabaseHealth = () => {
   return useSyncExternalStore(
     subscribeToHealth,
     getHealthSnapshot,
     getHealthSnapshot,
   );
-}
-
-export function DatabaseHealthProvider() {
+};
+export const DatabaseHealthProvider = () => {
   useEffect(() => {
     startDatabaseHealthMonitor();
   }, []);
-
   return null;
-}
-
-export function DatabaseHealthStatus() {
+};
+export const DatabaseHealthStatus = () => {
   const state = useDatabaseHealth();
-
   if (state !== "unhealthy") return null;
-
   return (
     <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
       <Tooltip>
@@ -123,4 +99,4 @@ export function DatabaseHealthStatus() {
       </Tooltip>
     </div>
   );
-}
+};

@@ -8,8 +8,7 @@ import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { getGenerationsPageData } from "@/modules/codex/data/queries";
 import type { GenerationCard } from "@/modules/codex/types";
 import { Badge } from "@/shared/components/ui/badge";
-
-function GenerationSummaryCard({ card }: { card: GenerationCard }) {
+const GenerationSummaryCard = ({ card }: { card: GenerationCard }) => {
   return (
     <CodexResourceCard
       href={appRoutes.codexGeneration(card.generation.id)}
@@ -21,11 +20,9 @@ function GenerationSummaryCard({ card }: { card: GenerationCard }) {
       <Badge variant="outline">{card.speciesCount} Pokemon introduced</Badge>
     </CodexResourceCard>
   );
-}
-
-export async function GenerationsPage() {
+};
+export const GenerationsPage = async () => {
   const data = await getGenerationsPageData();
-
   return (
     <CodexPageShell
       title="Generations"
@@ -44,4 +41,4 @@ export async function GenerationsPage() {
       </CodexResourceGrid>
     </CodexPageShell>
   );
-}
+};

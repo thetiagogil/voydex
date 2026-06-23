@@ -1,23 +1,18 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import { getActiveModuleKey, modules, type ModuleKey } from "@/config/modules";
 import { cn } from "@/lib/utils";
-
 type ModuleViewNavProps = {
   activeModuleKey: ModuleKey;
 };
-
-export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
+export const ModuleViewNav = ({ activeModuleKey }: ModuleViewNavProps) => {
   const pathname = usePathname();
   const currentModuleKey = getActiveModuleKey({
     cookieValue: activeModuleKey,
     pathname,
   });
   const currentModule = modules[currentModuleKey];
-
   return (
     <nav
       aria-label={`${currentModule.label} navigation`}
@@ -26,7 +21,6 @@ export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
       {currentModule.views.map((item) => {
         const isActive =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
-
         return (
           <Link
             key={item.href}
@@ -45,4 +39,4 @@ export function ModuleViewNav({ activeModuleKey }: ModuleViewNavProps) {
       })}
     </nav>
   );
-}
+};

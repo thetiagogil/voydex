@@ -1,9 +1,7 @@
 "use client";
-
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
 import {
   getActiveModuleKey,
   moduleKeys,
@@ -23,14 +21,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-
 type DesktopModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
 };
-
-export function DesktopModuleNavigationMenu({
+export const DesktopModuleNavigationMenu = ({
   activeModuleKey,
-}: DesktopModuleNavigationMenuProps) {
+}: DesktopModuleNavigationMenuProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const currentModuleKey = getActiveModuleKey({
@@ -38,17 +34,13 @@ export function DesktopModuleNavigationMenu({
     pathname,
   });
   const currentModule = modules[currentModuleKey];
-
-  function isActiveHref(href: string) {
+  const isActiveHref = (href: string) => {
     return pathname === href || pathname.startsWith(`${href}/`);
-  }
-
-  function getModuleHref(moduleKey: ModuleKey) {
+  };
+  const getModuleHref = (moduleKey: ModuleKey) => {
     const moduleConfig = modules[moduleKey];
-
     return moduleConfig.views[0]?.href ?? moduleConfig.defaultHref;
-  }
-
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -69,7 +61,6 @@ export function DesktopModuleNavigationMenu({
             const moduleConfig = modules[moduleKey];
             const isActiveModule = moduleKey === currentModuleKey;
             const moduleHref = getModuleHref(moduleKey);
-
             return (
               <DropdownMenuSub key={moduleKey}>
                 <DropdownMenuSubTrigger
@@ -92,7 +83,6 @@ export function DesktopModuleNavigationMenu({
                   <DropdownMenuGroup className="flex flex-col gap-1">
                     {moduleConfig.views.map((view) => {
                       const isActiveView = isActiveHref(view.href);
-
                       return (
                         <DropdownMenuItem
                           key={view.href}
@@ -120,4 +110,4 @@ export function DesktopModuleNavigationMenu({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

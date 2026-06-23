@@ -3,12 +3,12 @@ import { PageHeader } from "@/shared/components/app/page-header";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import type { CreateMainlinePlayPageData } from "@/modules/mainline/features/play/types";
 import { CreateMainlinePlayForm } from "@/modules/mainline/features/play/components/create-mainline-play-form";
-
 type CreateMainlinePlayPageProps = {
   data: CreateMainlinePlayPageData;
 };
-
-export function CreateMainlinePlayPage({ data }: CreateMainlinePlayPageProps) {
+export const CreateMainlinePlayPage = ({
+  data,
+}: CreateMainlinePlayPageProps) => {
   return (
     <div className="flex w-full flex-col gap-6">
       <PageHeader
@@ -30,4 +30,4 @@ export function CreateMainlinePlayPage({ data }: CreateMainlinePlayPageProps) {
       )}
     </div>
   );
-}
+};

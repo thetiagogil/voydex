@@ -1,7 +1,5 @@
 "use client";
-
 import { MonitorIcon, MoonIcon, SunIcon, type LucideIcon } from "lucide-react";
-
 import {
   Card,
   CardContent,
@@ -14,14 +12,12 @@ import {
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
 import { useTheme, type ThemePreference } from "@/shared/theme/theme-provider";
-
 type ThemeOption = {
   description: string;
   icon: LucideIcon;
   label: string;
   value: ThemePreference;
 };
-
 const themeOptions: ThemeOption[] = [
   {
     description: "Follow your device appearance.",
@@ -42,10 +38,8 @@ const themeOptions: ThemeOption[] = [
     value: "dark",
   },
 ];
-
-export function ThemeSettingsCard() {
+export const ThemeSettingsCard = () => {
   const { resolvedTheme, setTheme, theme } = useTheme();
-
   return (
     <Card>
       <CardHeader>
@@ -63,7 +57,6 @@ export function ThemeSettingsCard() {
           value={[theme]}
           onValueChange={(nextTheme) => {
             const nextThemePreference = nextTheme[0];
-
             if (nextThemePreference) {
               setTheme(nextThemePreference as ThemePreference);
             }
@@ -71,7 +64,6 @@ export function ThemeSettingsCard() {
         >
           {themeOptions.map((option) => {
             const Icon = option.icon;
-
             return (
               <ToggleGroupItem
                 key={option.value}
@@ -92,4 +84,4 @@ export function ThemeSettingsCard() {
       </CardContent>
     </Card>
   );
-}
+};

@@ -1,10 +1,8 @@
 "use client";
-
 import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { ArrowLeft, CalendarDays, Gamepad2, Plus } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { initialCreateMainlinePlayState } from "@/modules/mainline/features/play/create-mainline-play-action-state";
 import type { CreateMainlinePlayPageData } from "@/modules/mainline/features/play/types";
@@ -30,14 +28,11 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { Textarea } from "@/shared/components/ui/textarea";
-
 type CreateMainlinePlayFormProps = {
   data: CreateMainlinePlayPageData;
 };
-
-function SubmitButton() {
+const SubmitButton = () => {
   const { pending } = useFormStatus();
-
   return (
     <Button type="submit" disabled={pending}>
       {pending ? (
@@ -48,14 +43,14 @@ function SubmitButton() {
       {pending ? "Creating..." : "Create play"}
     </Button>
   );
-}
-
-export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
+};
+export const CreateMainlinePlayForm = ({
+  data,
+}: CreateMainlinePlayFormProps) => {
   const [state, formAction] = useActionState(
     createMainlinePlay,
     initialCreateMainlinePlayState,
   );
-
   return (
     <form action={formAction} className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
       {state.formError ? (
@@ -215,4 +210,4 @@ export function CreateMainlinePlayForm({ data }: CreateMainlinePlayFormProps) {
       </div>
     </form>
   );
-}
+};

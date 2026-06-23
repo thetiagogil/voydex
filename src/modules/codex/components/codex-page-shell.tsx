@@ -1,16 +1,14 @@
 import { PageHeader } from "@/shared/components/app/page-header";
-
 type CodexPageShellProps = {
   children: React.ReactNode;
   description?: string;
   title: string;
 };
-
-export function CodexPageShell({
+export const CodexPageShell = ({
   children,
   description,
   title,
-}: CodexPageShellProps) {
+}: CodexPageShellProps) => {
   return (
     <div className="flex flex-col gap-7">
       <PageHeader
@@ -21,4 +19,4 @@ export function CodexPageShell({
       {children}
     </div>
   );
-}
+};

@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import {
   DayPicker,
@@ -7,7 +6,6 @@ import {
   type DayButton,
   type Locale,
 } from "react-day-picker";
-
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import {
@@ -15,8 +13,7 @@ import {
   ChevronRightIcon,
   ChevronDownIcon,
 } from "lucide-react";
-
-function Calendar({
+const Calendar = ({
   className,
   classNames,
   showOutsideDays = true,
@@ -28,9 +25,8 @@ function Calendar({
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
-}) {
+}) => {
   const defaultClassNames = getDefaultClassNames();
-
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -154,7 +150,6 @@ function Calendar({
               <ChevronLeftIcon className={cn("size-4", className)} {...props} />
             );
           }
-
           if (orientation === "right") {
             return (
               <ChevronRightIcon
@@ -163,7 +158,6 @@ function Calendar({
               />
             );
           }
-
           return (
             <ChevronDownIcon className={cn("size-4", className)} {...props} />
           );
@@ -185,22 +179,21 @@ function Calendar({
       {...props}
     />
   );
-}
-
-function CalendarDayButton({
+};
+const CalendarDayButton = ({
   className,
   day,
   modifiers,
   locale,
   ...props
-}: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
+}: React.ComponentProps<typeof DayButton> & {
+  locale?: Partial<Locale>;
+}) => {
   const defaultClassNames = getDefaultClassNames();
-
   const ref = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
   }, [modifiers.focused]);
-
   return (
     <Button
       variant="ghost"
@@ -223,6 +216,5 @@ function CalendarDayButton({
       {...props}
     />
   );
-}
-
+};
 export { Calendar, CalendarDayButton };

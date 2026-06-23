@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { appRoutes } from "@/config/routes";
 import {
   CodexBackLink,
@@ -23,11 +22,9 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/shared/pokemon/pokemon-images";
-
 type PokemonDetailPageProps = {
   speciesSlug: string;
 };
-
 const statLabels = [
   ["base_hp", "HP"],
   ["base_attack", "Attack"],
@@ -36,18 +33,15 @@ const statLabels = [
   ["base_special_defense", "Sp. Def"],
   ["base_speed", "Speed"],
 ] as const;
-
-function formatNationalNumber(number: number) {
+const formatNationalNumber = (number: number) => {
   return `#${number.toString().padStart(4, "0")}`;
-}
-
-function PokemonFormCard({ form }: { form: PokemonFormSummary }) {
+};
+const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
   const primaryTypeSlug = form.typePair.primaryType?.slug;
   const portraitType =
     primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
       ? primaryTypeSlug
       : null;
-
   return (
     <CodexSectionCard
       title={form.form.name}
@@ -82,9 +76,8 @@ function PokemonFormCard({ form }: { form: PokemonFormSummary }) {
       )}
     </CodexSectionCard>
   );
-}
-
-function AvailabilityRow({ row }: { row: PokemonAvailabilitySummary }) {
+};
+const AvailabilityRow = ({ row }: { row: PokemonAvailabilitySummary }) => {
   return (
     <div className="border-app-surface-border grid gap-2 border-b py-3 last:border-b-0 sm:grid-cols-[1fr_1fr_auto]">
       <div>
@@ -109,17 +102,14 @@ function AvailabilityRow({ row }: { row: PokemonAvailabilitySummary }) {
       ) : null}
     </div>
   );
-}
-
-export async function PokemonDetailPage({
+};
+export const PokemonDetailPage = async ({
   speciesSlug,
-}: PokemonDetailPageProps) {
+}: PokemonDetailPageProps) => {
   const data = await getPokemonDetailData(speciesSlug);
-
   if (!data) {
     notFound();
   }
-
   const defaultForm =
     data.forms.find((form) => form.form.is_default) ?? data.forms[0] ?? null;
   const defaultPrimaryTypeSlug = defaultForm?.typePair.primaryType?.slug;
@@ -127,7 +117,6 @@ export async function PokemonDetailPage({
     defaultPrimaryTypeSlug && isPokemonTypeSlug(defaultPrimaryTypeSlug)
       ? defaultPrimaryTypeSlug
       : null;
-
   return (
     <CodexPageShell
       title={data.species.name}
@@ -232,4 +221,4 @@ export async function PokemonDetailPage({
       </div>
     </CodexPageShell>
   );
-}
+};

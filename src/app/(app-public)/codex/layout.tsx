@@ -1,9 +1,8 @@
 import { PublicAppShell } from "@/shared/components/app/public-app-shell";
-
 type LayoutProps = {
   children: React.ReactNode;
 };
-
-export default function Layout({ children }: LayoutProps) {
+const Layout = ({ children }: LayoutProps) => {
   return <PublicAppShell activeModuleKey="codex">{children}</PublicAppShell>;
-}
+};
+export default Layout;

@@ -1,5 +1,4 @@
 import { BarChart3, ClipboardList, Shield } from "lucide-react";
-
 import type {
   MainlinePlayDetailData,
   MainlinePlayTeamPokemon,
@@ -29,11 +28,9 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
-
 type MainlinePlayTeamPageProps = {
   data: MainlinePlayDetailData;
 };
-
 type DisplayMove = {
   current_pp?: number | null;
   move_name?: string | null;
@@ -41,12 +38,10 @@ type DisplayMove = {
   pp?: number | null;
   type_name?: string | null;
 };
-
-function getMoves(pokemon: MainlinePlayTeamPokemon): DisplayMove[] {
+const getMoves = (pokemon: MainlinePlayTeamPokemon): DisplayMove[] => {
   return Array.isArray(pokemon.moves) ? (pokemon.moves as DisplayMove[]) : [];
-}
-
-function EmptyRosterSlot({ index }: { index: number }) {
+};
+const EmptyRosterSlot = ({ index }: { index: number }) => {
   return (
     <div className="text-muted-foreground grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-dashed p-3 text-sm">
       <span className="flex size-7 items-center justify-center rounded-full border border-dashed">
@@ -56,14 +51,12 @@ function EmptyRosterSlot({ index }: { index: number }) {
       <span>Reserve</span>
     </div>
   );
-}
-
-function TeamRoster({ data }: MainlinePlayTeamPageProps) {
+};
+const TeamRoster = ({ data }: MainlinePlayTeamPageProps) => {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
   const selectedPokemon = activeTeam[0] ?? reserveTeam[0] ?? null;
   const emptyReserveSlots = Math.max(6 - reserveTeam.length, 0);
-
   return (
     <Card>
       <CardHeader>
@@ -126,13 +119,12 @@ function TeamRoster({ data }: MainlinePlayTeamPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function PokemonDetail({
+};
+const PokemonDetail = ({
   pokemon,
 }: {
   pokemon: MainlinePlayTeamPokemon | null;
-}) {
+}) => {
   if (!pokemon) {
     return (
       <EmptyPanel
@@ -141,9 +133,7 @@ function PokemonDetail({
       />
     );
   }
-
   const moves = getMoves(pokemon);
-
   return (
     <Card>
       <CardContent className="flex flex-col gap-5">
@@ -261,9 +251,8 @@ function PokemonDetail({
       </CardContent>
     </Card>
   );
-}
-
-function TeamRosterSnapshot({ data }: MainlinePlayTeamPageProps) {
+};
+const TeamRosterSnapshot = ({ data }: MainlinePlayTeamPageProps) => {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
   const speciesCount = new Set(
@@ -296,7 +285,6 @@ function TeamRosterSnapshot({ data }: MainlinePlayTeamPageProps) {
       value: formatNumber(movesLoggedCount + heldItemCount),
     },
   ];
-
   return (
     <Card>
       <CardHeader>
@@ -321,13 +309,11 @@ function TeamRosterSnapshot({ data }: MainlinePlayTeamPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
+};
+export const MainlinePlayTeamPage = ({ data }: MainlinePlayTeamPageProps) => {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
   const selectedPokemon = activeTeam[0] ?? reserveTeam[0] ?? null;
-
   return (
     <MainlinePlayShell activeTab="team" data={data}>
       <div className="flex flex-col gap-5">
@@ -363,4 +349,4 @@ export function MainlinePlayTeamPage({ data }: MainlinePlayTeamPageProps) {
       </div>
     </MainlinePlayShell>
   );
-}
+};

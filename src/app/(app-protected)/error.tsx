@@ -1,17 +1,15 @@
 "use client";
-
 import { AlertTriangleIcon, RotateCcwIcon } from "lucide-react";
-
 import { PageHeader } from "@/shared/components/app/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
-
 type ProtectedErrorProps = {
-  error: Error & { digest?: string };
+  error: Error & {
+    digest?: string;
+  };
   reset: () => void;
 };
-
-export default function ProtectedError({ error, reset }: ProtectedErrorProps) {
+const ProtectedError = ({ error, reset }: ProtectedErrorProps) => {
   return (
     <>
       <PageHeader
@@ -38,4 +36,5 @@ export default function ProtectedError({ error, reset }: ProtectedErrorProps) {
       </Card>
     </>
   );
-}
+};
+export default ProtectedError;

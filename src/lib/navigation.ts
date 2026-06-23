@@ -1,53 +1,41 @@
 import { getModuleKeyForPathname } from "@/config/modules";
 import { appRoutes, isProtectedRoute } from "@/config/routes";
-
 export const DEFAULT_AUTH_REDIRECT_PATH: string = appRoutes.appEntry;
 const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
-
-function isAllowedAuthRedirectPath(pathname: string) {
+const isAllowedAuthRedirectPath = (pathname: string) => {
   return (
     pathname === appRoutes.appEntry ||
     isProtectedRoute(pathname) ||
     Boolean(getModuleKeyForPathname(pathname))
   );
-}
-
-function parseSafeAuthRedirectPath(value: string) {
+};
+const parseSafeAuthRedirectPath = (value: string) => {
   const candidate = value.trim();
-
   if (!candidate.startsWith("/") || candidate.startsWith("//")) {
     return null;
   }
-
   try {
     const url = new URL(candidate, AUTH_REDIRECT_BASE_URL);
-
     if (url.origin !== AUTH_REDIRECT_BASE_URL) {
       return null;
     }
-
     if (!isAllowedAuthRedirectPath(url.pathname)) {
       return null;
     }
-
     return `${url.pathname}${url.search}${url.hash}`;
   } catch {
     return null;
   }
-}
-
-export function getSafeAuthRedirectPath(
+};
+export const getSafeAuthRedirectPath = (
   value: unknown,
   fallback: string = DEFAULT_AUTH_REDIRECT_PATH,
-) {
+) => {
   const safeFallback =
     parseSafeAuthRedirectPath(fallback) ?? DEFAULT_AUTH_REDIRECT_PATH;
-
   if (typeof value !== "string") {
     return safeFallback;
   }
-
   return parseSafeAuthRedirectPath(value) ?? safeFallback;
-}
-
+};
 export { appRoutes };

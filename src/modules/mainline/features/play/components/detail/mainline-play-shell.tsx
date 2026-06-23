@@ -14,7 +14,6 @@ import {
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
@@ -38,20 +37,17 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-
 type MainlinePlayTab = "overview" | "team" | "progress";
 type MainlinePlayProgressTab = "summary" | "story" | "pokedex" | "collectibles";
 type MainlinePlaySurface =
   | Exclude<MainlinePlayTab, "progress">
   | MainlinePlayProgressTab;
-
 type MainlinePlayShellProps = {
   activeProgressTab?: MainlinePlayProgressTab;
   activeTab: MainlinePlayTab;
   children: React.ReactNode;
   data: MainlinePlayDetailData;
 };
-
 const playHubNavItems: Array<{
   description: string;
   href: (playId: string) => string;
@@ -102,25 +98,22 @@ const playHubNavItems: Array<{
     value: "collectibles",
   },
 ];
-
-function getActiveSurface(
+const getActiveSurface = (
   activeTab: MainlinePlayTab,
   activeProgressTab?: MainlinePlayProgressTab,
-): MainlinePlaySurface {
+): MainlinePlaySurface => {
   if (activeTab === "progress") {
     return activeProgressTab ?? "summary";
   }
-
   return activeTab;
-}
-
-function PlayHubNavigation({
+};
+const PlayHubNavigation = ({
   activeSurface,
   playId,
 }: {
   activeSurface: MainlinePlaySurface;
   playId: string;
-}) {
+}) => {
   return (
     <nav
       aria-label="Play sections"
@@ -129,7 +122,6 @@ function PlayHubNavigation({
       {playHubNavItems.map((item) => {
         const Icon = item.icon;
         const isActive = activeSurface === item.value;
-
         return (
           <Link
             key={item.value}
@@ -155,9 +147,8 @@ function PlayHubNavigation({
       })}
     </nav>
   );
-}
-
-function PlayQuickActions({ playId }: { playId: string }) {
+};
+const PlayQuickActions = ({ playId }: { playId: string }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -194,14 +185,13 @@ function PlayQuickActions({ playId }: { playId: string }) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
-
-export function MainlinePlayShell({
+};
+export const MainlinePlayShell = ({
   activeProgressTab,
   activeTab,
   children,
   data,
-}: MainlinePlayShellProps) {
+}: MainlinePlayShellProps) => {
   const play = data.overview;
   const playId = String(play.play_id);
   const title = getPlayTitle(play);
@@ -209,7 +199,6 @@ export function MainlinePlayShell({
   const activeTeamCount = getActiveTeam(data.team).length;
   const reserveTeamCount = getReserveTeam(data.team).length;
   const overallCompletion = play.overall_completion_percent ?? 0;
-
   return (
     <div className="flex flex-col gap-5">
       <section className="ring-app-surface-border bg-card/78 rounded-xl p-4 ring-1 backdrop-blur-md sm:p-5">
@@ -313,4 +302,4 @@ export function MainlinePlayShell({
       <div className="flex flex-col gap-5">{children}</div>
     </div>
   );
-}
+};

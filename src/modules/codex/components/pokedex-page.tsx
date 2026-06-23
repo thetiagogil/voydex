@@ -1,6 +1,5 @@
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import {
   CodexBrowseMeta,
@@ -34,7 +33,6 @@ import {
 } from "@/shared/pokemon/pokemon-images";
 import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
 import { cn } from "@/lib/utils";
-
 type PokedexPageProps = {
   params?: {
     generation?: string | null;
@@ -44,31 +42,30 @@ type PokedexPageProps = {
     type?: string | null;
   };
 };
-
-const rarityOptions: Array<{ label: string; value: PokedexRarityFilter }> = [
+const rarityOptions: Array<{
+  label: string;
+  value: PokedexRarityFilter;
+}> = [
   { label: "All rarity", value: "all" },
   { label: "Standard", value: "standard" },
   { label: "Legendary", value: "legendary" },
   { label: "Mythical", value: "mythical" },
 ];
-
-function formatNationalNumber(number: number) {
+const formatNationalNumber = (number: number) => {
   return `#${number.toString().padStart(4, "0")}`;
-}
-
-function PokemonCard({
+};
+const PokemonCard = ({
   pokemon,
   priority = false,
 }: {
   pokemon: PokedexPokemonCard;
   priority?: boolean;
-}) {
+}) => {
   const primaryTypeSlug = pokemon.typePair.primaryType?.slug;
   const portraitType =
     primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
       ? primaryTypeSlug
       : null;
-
   return (
     <CodexResourceCard
       href={appRoutes.codexPokemonSpecies(pokemon.species.slug)}
@@ -103,9 +100,8 @@ function PokemonCard({
       </div>
     </CodexResourceCard>
   );
-}
-
-function buildPokedexHref(
+};
+const buildPokedexHref = (
   filters: {
     generation: string;
     query: string;
@@ -113,35 +109,27 @@ function buildPokedexHref(
     type: string;
   },
   page: number,
-) {
+) => {
   const params = new URLSearchParams();
-
   if (filters.query) {
     params.set("q", filters.query);
   }
-
   if (filters.generation) {
     params.set("generation", filters.generation);
   }
-
   if (filters.type) {
     params.set("type", filters.type);
   }
-
   if (filters.rarity !== "all") {
     params.set("rarity", filters.rarity);
   }
-
   if (page > 1) {
     params.set("page", String(page));
   }
-
   const query = params.toString();
-
   return query ? `${appRoutes.codexPokemon}?${query}` : appRoutes.codexPokemon;
-}
-
-export async function PokedexPage({ params }: PokedexPageProps) {
+};
+export const PokedexPage = async ({ params }: PokedexPageProps) => {
   const data = await getPokedexPageData(params);
   const hasActiveFilters =
     data.filters.query ||
@@ -156,7 +144,6 @@ export async function PokedexPage({ params }: PokedexPageProps) {
     data.pagination.page * data.pagination.pageSize,
     data.pagination.totalCount,
   );
-
   return (
     <CodexPageShell
       title="Pokedex"
@@ -303,4 +290,4 @@ export async function PokedexPage({ params }: PokedexPageProps) {
       ) : null}
     </CodexPageShell>
   );
-}
+};

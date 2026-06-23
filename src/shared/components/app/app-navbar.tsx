@@ -1,8 +1,6 @@
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { Logo } from "@/shared/components/app/logo";
-
 type AppNavbarProps = {
   afterLogo?: React.ReactNode;
   center?: React.ReactNode;
@@ -11,15 +9,14 @@ type AppNavbarProps = {
   end?: React.ReactNode;
   showLogoText?: boolean;
 };
-
-export function AppNavbar({
+export const AppNavbar = ({
   afterLogo,
   center,
   className,
   contentClassName,
   end,
   showLogoText = false,
-}: AppNavbarProps) {
+}: AppNavbarProps) => {
   return (
     <header className={cn("app-nav-surface sticky top-0 z-40", className)}>
       <div
@@ -47,4 +44,4 @@ export function AppNavbar({
       </div>
     </header>
   );
-}
+};

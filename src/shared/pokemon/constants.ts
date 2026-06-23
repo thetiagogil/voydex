@@ -18,11 +18,8 @@ export const pokemonTypeSlugs = [
   "steel",
   "fairy",
 ] as const;
-
 export type PokemonTypeSlug = (typeof pokemonTypeSlugs)[number];
-
 const pokemonTypeSlugSet = new Set<string>(pokemonTypeSlugs);
-
-export function isPokemonTypeSlug(slug: string): slug is PokemonTypeSlug {
+export const isPokemonTypeSlug = (slug: string): slug is PokemonTypeSlug => {
   return pokemonTypeSlugSet.has(slug);
-}
+};

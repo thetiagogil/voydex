@@ -1,7 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
@@ -11,13 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-
 type CodexBackLinkProps = {
   children: ReactNode;
   href: string;
 };
-
-export function CodexBackLink({ children, href }: CodexBackLinkProps) {
+export const CodexBackLink = ({ children, href }: CodexBackLinkProps) => {
   return (
     <div>
       <Link
@@ -29,8 +26,7 @@ export function CodexBackLink({ children, href }: CodexBackLinkProps) {
       </Link>
     </div>
   );
-}
-
+};
 type CodexDetailHeroProps = {
   children: ReactNode;
   className?: string;
@@ -38,14 +34,13 @@ type CodexDetailHeroProps = {
   media?: ReactNode;
   mediaClassName?: string;
 };
-
-export function CodexDetailHero({
+export const CodexDetailHero = ({
   children,
   className,
   contentClassName,
   media,
   mediaClassName,
-}: CodexDetailHeroProps) {
+}: CodexDetailHeroProps) => {
   return (
     <Card className={cn("bg-card/82", className)}>
       <CardContent
@@ -62,8 +57,7 @@ export function CodexDetailHero({
       </CardContent>
     </Card>
   );
-}
-
+};
 type CodexSectionCardProps = {
   children: ReactNode;
   className?: string;
@@ -72,15 +66,14 @@ type CodexSectionCardProps = {
   media?: ReactNode;
   title: ReactNode;
 };
-
-export function CodexSectionCard({
+export const CodexSectionCard = ({
   children,
   className,
   contentClassName,
   description,
   media,
   title,
-}: CodexSectionCardProps) {
+}: CodexSectionCardProps) => {
   return (
     <Card className={cn("bg-card/82", className)}>
       {media ? <div className="px-(--card-spacing)">{media}</div> : null}
@@ -91,25 +84,25 @@ export function CodexSectionCard({
       <CardContent className={contentClassName}>{children}</CardContent>
     </Card>
   );
-}
-
-export function CodexInfoGrid({ className, ...props }: ComponentProps<"div">) {
+};
+export const CodexInfoGrid = ({
+  className,
+  ...props
+}: ComponentProps<"div">) => {
   return (
     <div className={cn("grid gap-3 sm:grid-cols-2", className)} {...props} />
   );
-}
-
+};
 type CodexInfoTileProps = {
   children: ReactNode;
   className?: string;
   label: ReactNode;
 };
-
-export function CodexInfoTile({
+export const CodexInfoTile = ({
   children,
   className,
   label,
-}: CodexInfoTileProps) {
+}: CodexInfoTileProps) => {
   return (
     <div
       className={cn(
@@ -121,25 +114,22 @@ export function CodexInfoTile({
       <div className="mt-1 font-medium">{children}</div>
     </div>
   );
-}
-
-export function CodexInlineEmpty({ children }: { children: ReactNode }) {
+};
+export const CodexInlineEmpty = ({ children }: { children: ReactNode }) => {
   return <p className="text-muted-foreground text-sm">{children}</p>;
-}
-
+};
 type CodexLinkedPanelProps = {
   children: ReactNode;
   className?: string;
   href: string;
   showArrow?: boolean;
 };
-
-export function CodexLinkedPanel({
+export const CodexLinkedPanel = ({
   children,
   className,
   href,
   showArrow = true,
-}: CodexLinkedPanelProps) {
+}: CodexLinkedPanelProps) => {
   return (
     <Link
       href={href}
@@ -157,4 +147,4 @@ export function CodexLinkedPanel({
       ) : null}
     </Link>
   );
-}
+};

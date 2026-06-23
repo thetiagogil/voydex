@@ -1,23 +1,20 @@
 import { Progress } from "@/shared/components/ui/progress";
 import { cn } from "@/lib/utils";
-
 type ProgressMeterProps = {
   className?: string;
   label?: string;
   max?: number;
   value: number;
 };
-
-export function ProgressMeter({
+export const ProgressMeter = ({
   className,
   label,
   max = 100,
   value,
-}: ProgressMeterProps) {
+}: ProgressMeterProps) => {
   const safeMax = max > 0 ? max : 100;
   const safeValue = Math.min(Math.max(value, 0), safeMax);
   const percentage = Math.round((safeValue / safeMax) * 100);
-
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       {label ? (
@@ -33,4 +30,4 @@ export function ProgressMeter({
       />
     </div>
   );
-}
+};

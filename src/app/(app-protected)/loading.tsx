@@ -1,5 +1,5 @@
 import { PageLoadingState } from "@/shared/components/app/page-loading-state";
-
-export default function ProtectedLoading() {
+const ProtectedLoading = () => {
   return <PageLoadingState />;
-}
+};
+export default ProtectedLoading;

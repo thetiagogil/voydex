@@ -1,22 +1,16 @@
 "use client";
-
 import { usePathname } from "next/navigation";
-
 import { cn } from "@/lib/utils";
-
-function getBackgroundTone(pathname: string) {
+const getBackgroundTone = (pathname: string) => {
   if (pathname === "/" || pathname === "/login") return "hero";
   if (pathname === "/intro") return "intro";
-
   return "app";
-}
-
-export function AppBackground() {
+};
+export const AppBackground = () => {
   const pathname = usePathname();
   const tone = getBackgroundTone(pathname);
   const isHero = tone === "hero";
   const isIntro = tone === "intro";
-
   return (
     <div
       aria-hidden
@@ -36,4 +30,4 @@ export function AppBackground() {
       />
     </div>
   );
-}
+};

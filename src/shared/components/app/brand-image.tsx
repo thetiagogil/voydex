@@ -1,20 +1,16 @@
 import type * as React from "react";
-
 import { cn } from "@/lib/utils";
-
 type BrandImageLayer = {
   src: string;
   className: string;
 };
-
 type BrandImageProps = {
   className?: string;
   height: number;
   layers: BrandImageLayer[];
   width: number;
 };
-
-function getMaskStyle(src: string): React.CSSProperties {
+const getMaskStyle = (src: string): React.CSSProperties => {
   return {
     WebkitMaskImage: `url(${src})`,
     WebkitMaskPosition: "center",
@@ -25,14 +21,13 @@ function getMaskStyle(src: string): React.CSSProperties {
     maskRepeat: "no-repeat",
     maskSize: "contain",
   };
-}
-
-export function BrandImage({
+};
+export const BrandImage = ({
   className,
   height,
   layers,
   width,
-}: BrandImageProps) {
+}: BrandImageProps) => {
   return (
     <span
       aria-hidden
@@ -48,4 +43,4 @@ export function BrandImage({
       ))}
     </span>
   );
-}
+};

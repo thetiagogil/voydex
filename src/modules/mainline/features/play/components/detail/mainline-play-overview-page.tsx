@@ -9,7 +9,6 @@ import {
   Star,
   UsersRound,
 } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
@@ -41,18 +40,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-
 type MainlinePlayOverviewPageProps = {
   data: MainlinePlayDetailData;
 };
-
-function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
+const JourneyStatusCard = ({ data }: MainlinePlayOverviewPageProps) => {
   const lastCompleted = getLastCompletedMilestone(data.milestones);
   const nextMilestone = getFirstIncompleteMilestone(data.milestones);
   const completed = data.overview.completed_required_milestone_count ?? 0;
   const total = data.overview.required_milestone_count ?? 0;
   const progressDots = Array.from({ length: Math.min(Math.max(total, 1), 12) });
-
   return (
     <Card>
       <CardHeader>
@@ -150,12 +146,10 @@ function JourneyStatusCard({ data }: MainlinePlayOverviewPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function CurrentTeamCard({ data }: MainlinePlayOverviewPageProps) {
+};
+const CurrentTeamCard = ({ data }: MainlinePlayOverviewPageProps) => {
   const activeTeam = getActiveTeam(data.team).slice(0, 6);
   const reserveTeam = getReserveTeam(data.team);
-
   if (!activeTeam.length) {
     return (
       <EmptyPanel
@@ -164,7 +158,6 @@ function CurrentTeamCard({ data }: MainlinePlayOverviewPageProps) {
       />
     );
   }
-
   return (
     <Card>
       <CardHeader>
@@ -219,9 +212,8 @@ function CurrentTeamCard({ data }: MainlinePlayOverviewPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function ProgressSummaryCard({ data }: MainlinePlayOverviewPageProps) {
+};
+const ProgressSummaryCard = ({ data }: MainlinePlayOverviewPageProps) => {
   const playId = String(data.overview.play_id);
   const rows = [
     {
@@ -240,7 +232,6 @@ function ProgressSummaryCard({ data }: MainlinePlayOverviewPageProps) {
       value: data.overview.collectible_completion_percent,
     },
   ];
-
   return (
     <Card>
       <CardHeader>
@@ -277,13 +268,11 @@ function ProgressSummaryCard({ data }: MainlinePlayOverviewPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
+};
+const TeamHealthCard = ({ data }: MainlinePlayOverviewPageProps) => {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
   const openActiveSlots = Math.max(6 - activeTeam.length, 0);
-
   return (
     <Card>
       <CardHeader>
@@ -327,11 +316,10 @@ function TeamHealthCard({ data }: MainlinePlayOverviewPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-export function MainlinePlayOverviewPage({
+};
+export const MainlinePlayOverviewPage = ({
   data,
-}: MainlinePlayOverviewPageProps) {
+}: MainlinePlayOverviewPageProps) => {
   return (
     <MainlinePlayShell activeTab="overview" data={data}>
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_27rem]">
@@ -358,4 +346,4 @@ export function MainlinePlayOverviewPage({
       </div>
     </MainlinePlayShell>
   );
-}
+};

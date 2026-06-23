@@ -1,5 +1,5 @@
 import { GenerationsPage } from "@/modules/codex/components/generations-page";
-
-export default function Page() {
+const Page = () => {
   return <GenerationsPage />;
-}
+};
+export default Page;

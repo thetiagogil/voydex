@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { MainlinePlaysBrowser } from "@/modules/mainline/features/play/components/mainline-plays-browser";
 import type { MainlinePlaysPageData } from "@/modules/mainline/features/play/types";
@@ -8,14 +7,11 @@ import { EmptyState } from "@/shared/components/app/empty-state";
 import { PageHeader } from "@/shared/components/app/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
-
 type MainlinePlaysPageProps = {
   data: MainlinePlaysPageData;
 };
-
-export function MainlinePlaysPage({ data }: MainlinePlaysPageProps) {
+export const MainlinePlaysPage = ({ data }: MainlinePlaysPageProps) => {
   const hasPlays = data.plays.length > 0;
-
   return (
     <>
       <PageHeader
@@ -55,4 +51,4 @@ export function MainlinePlaysPage({ data }: MainlinePlaysPageProps) {
       )}
     </>
   );
-}
+};

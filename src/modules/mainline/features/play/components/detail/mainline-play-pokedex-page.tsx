@@ -1,8 +1,6 @@
 "use client";
-
 import { useMemo, useState } from "react";
 import { Grid2X2, List, Search } from "lucide-react";
-
 import type {
   MainlinePlayDetailData,
   MainlinePlayPokedexEntry,
@@ -55,11 +53,9 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
-
 type MainlinePlayPokedexPageProps = {
   data: MainlinePlayDetailData;
 };
-
 type PokedexFilter =
   | "all"
   | "caught"
@@ -67,11 +63,12 @@ type PokedexFilter =
   | "optional"
   | "required"
   | "seen";
-
 type PokedexViewMode = "grid" | "list";
 type PokedexSort = (typeof pokedexSortItems)[number]["value"];
-
-const filters: Array<{ label: string; value: PokedexFilter }> = [
+const filters: Array<{
+  label: string;
+  value: PokedexFilter;
+}> = [
   { label: "All", value: "all" },
   { label: "Missing", value: "missing" },
   { label: "Seen", value: "seen" },
@@ -79,27 +76,22 @@ const filters: Array<{ label: string; value: PokedexFilter }> = [
   { label: "Required", value: "required" },
   { label: "Optional", value: "optional" },
 ];
-
 const pokedexSortItems = [
   { label: "Dex number", value: "dex-number" },
   { label: "Name", value: "name" },
 ] as const;
-
-function isRequiredEntry(entry: MainlinePlayPokedexEntry) {
+const isRequiredEntry = (entry: MainlinePlayPokedexEntry) => {
   return Boolean(entry.is_source_required_for_completion);
-}
-
-function isPokedexFilter(value: string): value is PokedexFilter {
+};
+const isPokedexFilter = (value: string): value is PokedexFilter => {
   return filters.some((filter) => filter.value === value);
-}
-
-function filterPokedexEntries(
+};
+const filterPokedexEntries = (
   entries: MainlinePlayPokedexEntry[],
   filter: PokedexFilter,
   search: string,
-) {
+) => {
   const normalizedSearch = search.trim().toLowerCase();
-
   return entries.filter((entry) => {
     const name = getPokedexDisplayName(entry).toLowerCase();
     const dexNumber = String(entry.pokedex_number ?? "");
@@ -109,55 +101,44 @@ function filterPokedexEntries(
       name.includes(normalizedSearch) ||
       dexNumber.includes(normalizedSearch) ||
       nationalNumber.includes(normalizedSearch);
-
     if (!matchesSearch) {
       return false;
     }
-
     if (filter === "caught") {
       return Boolean(entry.is_caught);
     }
-
     if (filter === "missing") {
       return !entry.is_caught;
     }
-
     if (filter === "seen") {
       return Boolean(entry.is_seen) && !entry.is_caught;
     }
-
     if (filter === "required") {
       return isRequiredEntry(entry);
     }
-
     if (filter === "optional") {
       return !isRequiredEntry(entry);
     }
-
     return true;
   });
-}
-
-function getSortableDexNumber(entry: MainlinePlayPokedexEntry) {
+};
+const getSortableDexNumber = (entry: MainlinePlayPokedexEntry) => {
   return (
     entry.pokedex_number ?? entry.national_number ?? Number.MAX_SAFE_INTEGER
   );
-}
-
-function sortPokedexEntries(
+};
+const sortPokedexEntries = (
   entries: MainlinePlayPokedexEntry[],
   sort: PokedexSort,
-) {
+) => {
   return [...entries].sort((a, b) => {
     if (sort === "name") {
       return getPokedexDisplayName(a).localeCompare(getPokedexDisplayName(b));
     }
-
     return getSortableDexNumber(a) - getSortableDexNumber(b);
   });
-}
-
-function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
+};
+const PokedexSummary = ({ data }: MainlinePlayPokedexPageProps) => {
   const pokedexName = data.pokedexEntries[0]?.pokedex_name ?? "Pokedex";
   const caughtCount = data.overview.pokedex_caught_count ?? 0;
   const seenCount = data.overview.pokedex_seen_count ?? 0;
@@ -167,7 +148,6 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
     .include_optional_pokedex_entries_in_completion
     ? "Optional entries included"
     : "Optional entries excluded";
-
   return (
     <Card>
       <CardContent className="grid gap-4 lg:grid-cols-[16rem_1fr_auto] lg:items-center">
@@ -208,15 +188,14 @@ function PokedexSummary({ data }: MainlinePlayPokedexPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function PokedexCard({
+};
+const PokedexCard = ({
   entry,
   playId,
 }: {
   entry: MainlinePlayPokedexEntry;
   playId: string;
-}) {
+}) => {
   return (
     <Card size="sm" className="min-h-full">
       <CardContent className="flex min-h-full flex-col gap-3">
@@ -254,15 +233,14 @@ function PokedexCard({
       </CardContent>
     </Card>
   );
-}
-
-function PokedexGrid({
+};
+const PokedexGrid = ({
   entries,
   playId,
 }: {
   entries: MainlinePlayPokedexEntry[];
   playId: string;
-}) {
+}) => {
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
       {entries.map((entry) => (
@@ -274,15 +252,14 @@ function PokedexGrid({
       ))}
     </div>
   );
-}
-
-function PokedexList({
+};
+const PokedexList = ({
   entries,
   playId,
 }: {
   entries: MainlinePlayPokedexEntry[];
   playId: string;
-}) {
+}) => {
   return (
     <Table>
       <TableHeader>
@@ -332,17 +309,15 @@ function PokedexList({
       </TableBody>
     </Table>
   );
-}
-
-export function MainlinePlayPokedexPage({
+};
+export const MainlinePlayPokedexPage = ({
   data,
-}: MainlinePlayPokedexPageProps) {
+}: MainlinePlayPokedexPageProps) => {
   const [filter, setFilter] = useState<PokedexFilter>("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<PokedexSort>("dex-number");
   const [viewMode, setViewMode] = useState<PokedexViewMode>("grid");
   const playId = String(data.overview.play_id);
-
   const visibleEntries = useMemo(
     () =>
       sortPokedexEntries(
@@ -351,7 +326,6 @@ export function MainlinePlayPokedexPage({
       ),
     [data.pokedexEntries, filter, search, sort],
   );
-
   return (
     <MainlinePlayShell
       activeProgressTab="pokedex"
@@ -399,7 +373,6 @@ export function MainlinePlayPokedexPage({
                   value={[filter]}
                   onValueChange={(value) => {
                     const nextFilter = value[0];
-
                     if (nextFilter && isPokedexFilter(nextFilter)) {
                       setFilter(nextFilter);
                     }
@@ -437,7 +410,6 @@ export function MainlinePlayPokedexPage({
                     value={[viewMode]}
                     onValueChange={(value) => {
                       const nextViewMode = value[0];
-
                       if (nextViewMode === "grid" || nextViewMode === "list") {
                         setViewMode(nextViewMode);
                       }
@@ -490,4 +462,4 @@ export function MainlinePlayPokedexPage({
       </div>
     </MainlinePlayShell>
   );
-}
+};

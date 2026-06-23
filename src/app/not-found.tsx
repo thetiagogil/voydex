@@ -1,11 +1,9 @@
 import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
-
-export default function NotFound() {
+const NotFound = () => {
   return (
     <main className="text-foreground min-h-screen">
       <AppNavbar showLogoText />
@@ -39,4 +37,5 @@ export default function NotFound() {
       </section>
     </main>
   );
-}
+};
+export default NotFound;

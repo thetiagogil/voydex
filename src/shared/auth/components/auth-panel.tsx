@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
@@ -19,33 +18,25 @@ import {
 import { AuthSubmitButton } from "@/shared/auth/components/auth-submit-button";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
-
 export type AuthMode = "log-in" | "sign-up";
-
 type AuthPanelProps = {
   className?: string;
   error?: string;
   mode: AuthMode;
   next: string;
 };
-
-function buildModeHref(mode: AuthMode, next: string) {
+const buildModeHref = (mode: AuthMode, next: string) => {
   const params = new URLSearchParams();
-
   if (mode === "sign-up") {
     params.set("mode", mode);
   }
-
   if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
     params.set("next", next);
   }
-
   const query = params.toString();
-
   return query ? `/login?${query}` : "/login";
-}
-
-export function AuthPanel({ className, error, mode, next }: AuthPanelProps) {
+};
+export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
   const title = isSignUp ? "Sign up" : "Log in";
   const description = isSignUp
@@ -53,7 +44,6 @@ export function AuthPanel({ className, error, mode, next }: AuthPanelProps) {
     : "Access your playthroughs, teams, and Pokemon reference archive.";
   const switchHref = buildModeHref(isSignUp ? "log-in" : "sign-up", next);
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
-
   return (
     <Card className={cn("bg-card/82 w-full max-w-full", className)}>
       <CardHeader className="gap-2">
@@ -131,4 +121,4 @@ export function AuthPanel({ className, error, mode, next }: AuthPanelProps) {
       </form>
     </Card>
   );
-}
+};

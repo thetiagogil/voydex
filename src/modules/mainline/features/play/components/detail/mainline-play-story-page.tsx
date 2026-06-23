@@ -1,5 +1,4 @@
 import { BookOpen, ListChecks } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayMilestoneDetail } from "@/modules/mainline/shared/types/mainline.types";
 import {
@@ -27,39 +26,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-
 type MainlinePlayStoryPageProps = {
   data: MainlinePlayDetailData;
 };
-
-function getMilestoneTone(
+const getMilestoneTone = (
   milestone: MainlinePlayMilestoneDetail,
-): "battle" | "decision" | "info" | "milestone" | "neutral" | "warning" {
+): "battle" | "decision" | "info" | "milestone" | "neutral" | "warning" => {
   if (milestone.milestone_type_slug === "decision") {
     return "decision";
   }
-
   if (milestone.category_slug?.includes("gym")) {
     return "warning";
   }
-
   if (milestone.category_slug?.includes("battle")) {
     return "battle";
   }
-
   if (milestone.category_slug?.includes("story")) {
     return "info";
   }
-
   return "milestone";
-}
-
-function StoryStatus({ data }: MainlinePlayStoryPageProps) {
+};
+const StoryStatus = ({ data }: MainlinePlayStoryPageProps) => {
   const lastCompleted = getLastCompletedMilestone(data.milestones);
   const nextMilestone = getFirstIncompleteMilestone(data.milestones);
   const completed = data.overview.completed_required_milestone_count ?? 0;
   const total = data.overview.required_milestone_count ?? 0;
-
   return (
     <Card>
       <CardContent className="grid gap-5 lg:grid-cols-3">
@@ -96,17 +87,15 @@ function StoryStatus({ data }: MainlinePlayStoryPageProps) {
       </CardContent>
     </Card>
   );
-}
-
-function MilestoneFocusPanel({
+};
+const MilestoneFocusPanel = ({
   playId,
   milestone,
 }: {
   milestone: MainlinePlayMilestoneDetail | null;
   playId: string;
-}) {
+}) => {
   const isNextMilestone = milestone ? !milestone.is_completed : false;
-
   return (
     <Card>
       <CardHeader>
@@ -154,16 +143,14 @@ function MilestoneFocusPanel({
       </CardContent>
     </Card>
   );
-}
-
-export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
+};
+export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
   const nextMilestone = getFirstIncompleteMilestone(data.milestones);
   const focusMilestone =
     nextMilestone ?? getLastCompletedMilestone(data.milestones) ?? null;
   const playId = String(data.overview.play_id);
   const completedMilestones = data.overview.completed_required_milestone_count;
   const requiredMilestones = data.overview.required_milestone_count;
-
   return (
     <MainlinePlayShell
       activeProgressTab="story"
@@ -231,7 +218,6 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
                       : isNext
                         ? "Next"
                         : "Pending";
-
                     return (
                       <TableRow
                         key={milestone.milestone_id}
@@ -288,4 +274,4 @@ export function MainlinePlayStoryPage({ data }: MainlinePlayStoryPageProps) {
       </div>
     </MainlinePlayShell>
   );
-}
+};

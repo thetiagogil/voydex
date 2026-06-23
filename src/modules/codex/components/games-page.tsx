@@ -1,6 +1,5 @@
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { getGamesPageData } from "@/modules/codex/data/queries";
 import type { GameCard } from "@/modules/codex/types";
@@ -20,21 +19,17 @@ import {
   NativeSelectOption,
 } from "@/shared/components/ui/native-select";
 import { cn } from "@/lib/utils";
-
 type GamesPageProps = {
   params?: {
     generation?: string | null;
     region?: string | null;
   };
 };
-
-function GameSummaryCard({ card }: { card: GameCard }) {
+const GameSummaryCard = ({ card }: { card: GameCard }) => {
   return (
     <CodexResourceCard
       href={appRoutes.codexGame(card.game.slug)}
-      description={`${card.generation?.name ?? "Unknown generation"} / ${
-        card.game.release_year
-      }`}
+      description={`${card.generation?.name ?? "Unknown generation"} / ${card.game.release_year}`}
       title={card.game.name}
       media={
         <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
@@ -55,12 +50,10 @@ function GameSummaryCard({ card }: { card: GameCard }) {
       ) : null}
     </CodexResourceCard>
   );
-}
-
-export async function GamesPage({ params }: GamesPageProps) {
+};
+export const GamesPage = async ({ params }: GamesPageProps) => {
   const data = await getGamesPageData(params);
   const hasActiveFilters = data.filters.generation || data.filters.region;
-
   return (
     <CodexPageShell
       title="Games"
@@ -135,4 +128,4 @@ export async function GamesPage({ params }: GamesPageProps) {
       )}
     </CodexPageShell>
   );
-}
+};

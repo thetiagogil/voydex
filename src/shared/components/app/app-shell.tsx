@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app/app-navbar";
@@ -7,18 +6,16 @@ import { ModuleNavigationMenu } from "@/shared/components/app/module-navigation-
 import { ModuleViewNav } from "@/shared/components/app/module-view-nav";
 import { UserMenu } from "@/shared/components/app/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
-
 type AppShellProps = {
   activeModuleKey?: ModuleKey;
   children: React.ReactNode;
   userEmail?: string | null;
 };
-
-export function AppShell({
+export const AppShell = ({
   activeModuleKey,
   children,
   userEmail,
-}: AppShellProps) {
+}: AppShellProps) => {
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
@@ -55,4 +52,4 @@ export function AppShell({
       </main>
     </div>
   );
-}
+};

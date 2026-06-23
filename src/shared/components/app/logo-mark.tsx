@@ -1,6 +1,5 @@
 import type { SVGProps } from "react";
-
-export function LogoMark(props: SVGProps<SVGSVGElement>) {
+export const LogoMark = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg viewBox="0 0 512 512" aria-hidden {...props}>
       <rect width="512" height="512" rx="116" fill="currentColor" />
@@ -11,4 +10,4 @@ export function LogoMark(props: SVGProps<SVGSVGElement>) {
       />
     </svg>
   );
-}
+};

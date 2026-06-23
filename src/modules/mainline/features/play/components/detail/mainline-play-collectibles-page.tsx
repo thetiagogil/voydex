@@ -1,8 +1,6 @@
 "use client";
-
 import { useMemo, useState } from "react";
 import { Gem, MapPin, Search } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayCollectibleDetail } from "@/modules/mainline/shared/types/mainline.types";
 import {
@@ -50,11 +48,9 @@ import {
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-
 type MainlinePlayCollectiblesPageProps = {
   data: MainlinePlayDetailData;
 };
-
 type CollectibleGroup = {
   collectedCount: number;
   entries: MainlinePlayCollectibleDetail[];
@@ -64,27 +60,22 @@ type CollectibleGroup = {
   totalCount: number;
   typeName: string;
 };
-
 const collectibleSortItems = [
   { label: "Number", value: "number" },
   { label: "Location", value: "location" },
 ] as const;
-
 const collectibleStatusFilters = [
   { label: "All", value: "all" },
   { label: "Missing", value: "missing" },
   { label: "Collected", value: "collected" },
 ] as const;
-
 type CollectibleStatusFilter =
   (typeof collectibleStatusFilters)[number]["value"];
-
-function buildCollectibleGroups(
+const buildCollectibleGroups = (
   entries: MainlinePlayCollectibleDetail[],
-): CollectibleGroup[] {
+): CollectibleGroup[] => {
   return groupCollectiblesByCollectible(entries).map((group) => {
     const firstEntry = group[0];
-
     return {
       collectedCount: group.filter((entry) => entry.is_collected).length,
       entries: group,
@@ -96,41 +87,34 @@ function buildCollectibleGroups(
       typeName: firstEntry?.collectible_type_name ?? "Collectible",
     };
   });
-}
-
-function getGroupPercent(group: CollectibleGroup) {
+};
+const getGroupPercent = (group: CollectibleGroup) => {
   if (!group.totalCount) {
     return 0;
   }
-
   return Math.round((group.collectedCount / group.totalCount) * 100);
-}
-
-function getEntryNumber(entry: MainlinePlayCollectibleDetail) {
+};
+const getEntryNumber = (entry: MainlinePlayCollectibleDetail) => {
   return (
     entry.collectible_entry_sort_order ?? entry.collectible_entry_id ?? "-"
   );
-}
-
-function getSortableEntryNumber(entry: MainlinePlayCollectibleDetail) {
+};
+const getSortableEntryNumber = (entry: MainlinePlayCollectibleDetail) => {
   return (
     entry.collectible_entry_sort_order ??
     entry.collectible_entry_id ??
     Number.MAX_SAFE_INTEGER
   );
-}
-
-function getEntryLocation(entry: MainlinePlayCollectibleDetail) {
+};
+const getEntryLocation = (entry: MainlinePlayCollectibleDetail) => {
   return entry.sub_location_label ?? entry.location_label ?? "-";
-}
-
-function isCollectibleStatusFilter(
+};
+const isCollectibleStatusFilter = (
   value: string,
-): value is CollectibleStatusFilter {
+): value is CollectibleStatusFilter => {
   return collectibleStatusFilters.some((filter) => filter.value === value);
-}
-
-function CollectibleGroupList({
+};
+const CollectibleGroupList = ({
   groups,
   selectedGroupId,
   onSelectGroup,
@@ -138,7 +122,7 @@ function CollectibleGroupList({
   groups: CollectibleGroup[];
   onSelectGroup: (groupId: number) => void;
   selectedGroupId: number;
-}) {
+}) => {
   const totalCollected = groups.reduce(
     (total, group) => total + group.collectedCount,
     0,
@@ -147,7 +131,6 @@ function CollectibleGroupList({
     (total, group) => total + group.totalCount,
     0,
   );
-
   return (
     <Card className="min-h-full">
       <CardHeader>
@@ -160,7 +143,6 @@ function CollectibleGroupList({
       <CardContent className="flex max-h-[34rem] flex-col gap-2 overflow-y-auto">
         {groups.map((group) => {
           const isSelected = group.id === selectedGroupId;
-
           return (
             <button
               key={group.id}
@@ -195,35 +177,34 @@ function CollectibleGroupList({
       </CardContent>
     </Card>
   );
-}
-
-function CollectibleLocationSummary({
+};
+const CollectibleLocationSummary = ({
   entries,
 }: {
   entries: MainlinePlayCollectibleDetail[];
-}) {
+}) => {
   const locationSummaries = useMemo(() => {
-    const summaries = new Map<string, { collected: number; total: number }>();
-
+    const summaries = new Map<
+      string,
+      {
+        collected: number;
+        total: number;
+      }
+    >();
     for (const entry of entries) {
       const location = getEntryLocation(entry);
       const current = summaries.get(location) ?? { collected: 0, total: 0 };
       current.total += 1;
-
       if (entry.is_collected) {
         current.collected += 1;
       }
-
       summaries.set(location, current);
     }
-
     return Array.from(summaries.entries()).slice(0, 6);
   }, [entries]);
-
   if (!locationSummaries.length) {
     return null;
   }
-
   return (
     <Card size="sm">
       <CardHeader>
@@ -244,15 +225,14 @@ function CollectibleLocationSummary({
       </CardContent>
     </Card>
   );
-}
-
-function CollectibleEntryTable({
+};
+const CollectibleEntryTable = ({
   entries,
   playId,
 }: {
   entries: MainlinePlayCollectibleDetail[];
   playId: string;
-}) {
+}) => {
   return (
     <Table>
       <TableHeader>
@@ -297,15 +277,14 @@ function CollectibleEntryTable({
       </TableBody>
     </Table>
   );
-}
-
-function CollectibleDetail({
+};
+const CollectibleDetail = ({
   group,
   playId,
 }: {
   group: CollectibleGroup;
   playId: string;
-}) {
+}) => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] =
     useState<CollectibleStatusFilter>("all");
@@ -313,21 +292,17 @@ function CollectibleDetail({
   const missingCount = group.totalCount - group.collectedCount;
   const visibleEntries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
-
     return [...group.entries]
       .filter((entry) => {
         if (statusFilter === "collected" && !entry.is_collected) {
           return false;
         }
-
         if (statusFilter === "missing" && entry.is_collected) {
           return false;
         }
-
         if (!normalizedSearch) {
           return true;
         }
-
         return [
           entry.collectible_entry_name,
           entry.collectible_name,
@@ -344,11 +319,9 @@ function CollectibleDetail({
         if (sort === "location") {
           return getEntryLocation(a).localeCompare(getEntryLocation(b));
         }
-
         return getSortableEntryNumber(a) - getSortableEntryNumber(b);
       });
   }, [group.entries, search, sort, statusFilter]);
-
   return (
     <section className="flex min-h-full flex-col gap-4">
       <Card size="sm">
@@ -400,7 +373,6 @@ function CollectibleDetail({
               value={[statusFilter]}
               onValueChange={(value) => {
                 const nextFilter = value[0];
-
                 if (nextFilter && isCollectibleStatusFilter(nextFilter)) {
                   setStatusFilter(nextFilter);
                 }
@@ -464,11 +436,10 @@ function CollectibleDetail({
       </div>
     </section>
   );
-}
-
-export function MainlinePlayCollectiblesPage({
+};
+export const MainlinePlayCollectiblesPage = ({
   data,
-}: MainlinePlayCollectiblesPageProps) {
+}: MainlinePlayCollectiblesPageProps) => {
   const playId = String(data.overview.play_id);
   const groups = useMemo(
     () => buildCollectibleGroups(data.collectibleEntries),
@@ -485,7 +456,6 @@ export function MainlinePlayCollectiblesPage({
     (total, group) => total + group.totalCount,
     0,
   );
-
   return (
     <MainlinePlayShell
       activeProgressTab="collectibles"
@@ -528,4 +498,4 @@ export function MainlinePlayCollectiblesPage({
       </div>
     </MainlinePlayShell>
   );
-}
+};

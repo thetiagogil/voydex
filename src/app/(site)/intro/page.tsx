@@ -6,11 +6,9 @@ import {
   SparklesIcon,
 } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { PublicAppShell } from "@/shared/components/app/public-app-shell";
 import { buttonVariants } from "@/shared/components/ui/button";
-
 const companionAreas = [
   {
     title: "Mainline",
@@ -31,8 +29,7 @@ const companionAreas = [
     icon: SparklesIcon,
   },
 ] as const;
-
-export default function IntroPage() {
+const IntroPage = () => {
   return (
     <PublicAppShell>
       <section className="grid w-full min-w-0 flex-1 items-center gap-10 overflow-hidden py-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(22rem,0.72fr)] lg:py-12">
@@ -71,7 +68,6 @@ export default function IntroPage() {
           <div className="flex flex-col">
             {companionAreas.map((area) => {
               const Icon = area.icon;
-
               return (
                 <div
                   key={area.title}
@@ -94,4 +90,5 @@ export default function IntroPage() {
       </section>
     </PublicAppShell>
   );
-}
+};
+export default IntroPage;

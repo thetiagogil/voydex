@@ -1,9 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 import { BackpackIcon } from "lucide-react";
-
 import {
   ACTIVE_MODULE_COOKIE_NAME,
   DEFAULT_MODULE_KEY,
@@ -13,39 +11,31 @@ import {
 import { appRoutes } from "@/config/routes";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
-
 type HomeAppEntryButtonProps = {
   isAuthenticated: boolean;
 };
-
-function getCookieValue(name: string) {
+const getCookieValue = (name: string) => {
   const cookie = document.cookie
     .split("; ")
     .find((item) => item.startsWith(`${name}=`));
-
   if (!cookie) {
     return "";
   }
-
   try {
     return decodeURIComponent(cookie.split("=").slice(1).join("="));
   } catch {
     return "";
   }
-}
-
-function getActiveModuleHref() {
+};
+const getActiveModuleHref = () => {
   const cookieValue = getCookieValue(ACTIVE_MODULE_COOKIE_NAME);
   const moduleKey = isModuleKey(cookieValue) ? cookieValue : DEFAULT_MODULE_KEY;
-
   return modules[moduleKey].defaultHref;
-}
-
-export function HomeAppEntryButton({
+};
+export const HomeAppEntryButton = ({
   isAuthenticated,
-}: HomeAppEntryButtonProps) {
+}: HomeAppEntryButtonProps) => {
   const [isPending, setIsPending] = useState(false);
-
   if (!isAuthenticated) {
     return (
       <Button
@@ -59,7 +49,6 @@ export function HomeAppEntryButton({
       </Button>
     );
   }
-
   return (
     <Button
       type="button"
@@ -80,4 +69,4 @@ export function HomeAppEntryButton({
       {isPending ? "Entering..." : "Enter the app"}
     </Button>
   );
-}
+};

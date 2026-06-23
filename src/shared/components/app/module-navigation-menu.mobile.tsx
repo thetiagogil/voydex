@@ -1,9 +1,7 @@
 "use client";
-
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import {
   getActiveModuleKey,
   moduleKeys,
@@ -27,25 +25,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet";
-
 type MobileModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
 };
-
-export function MobileModuleNavigationMenu({
+export const MobileModuleNavigationMenu = ({
   activeModuleKey,
-}: MobileModuleNavigationMenuProps) {
+}: MobileModuleNavigationMenuProps) => {
   const pathname = usePathname();
   const currentModuleKey = getActiveModuleKey({
     cookieValue: activeModuleKey,
     pathname,
   });
   const currentModule = modules[currentModuleKey];
-
-  function isActiveHref(href: string) {
+  const isActiveHref = (href: string) => {
     return pathname === href || pathname.startsWith(`${href}/`);
-  }
-
+  };
   return (
     <Sheet>
       <SheetTrigger
@@ -75,7 +69,6 @@ export function MobileModuleNavigationMenu({
           >
             {moduleKeys.map((moduleKey) => {
               const moduleConfig = modules[moduleKey];
-
               return (
                 <AccordionItem
                   key={moduleKey}
@@ -89,7 +82,6 @@ export function MobileModuleNavigationMenu({
                     <div className="flex flex-col gap-1">
                       {moduleConfig.views.map((view) => {
                         const isActiveView = isActiveHref(view.href);
-
                         return (
                           <SheetClose
                             key={view.href}
@@ -129,4 +121,4 @@ export function MobileModuleNavigationMenu({
       </SheetContent>
     </Sheet>
   );
-}
+};
