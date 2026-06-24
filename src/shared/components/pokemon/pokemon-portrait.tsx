@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { PokemonTypeIcon } from "@/shared/components/pokemon/pokemon-type-icon";
-import type { PokemonTypeSlug } from "@/shared/pokemon/constants";
-import { pokemonTypeClassNames } from "@/shared/pokemon/type-styles";
+import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
 import { cn } from "@/lib/utils";
+
 type PokemonPortraitProps = {
   alt: string;
   className?: string;
@@ -10,6 +11,7 @@ type PokemonPortraitProps = {
   priority?: boolean;
   type?: PokemonTypeSlug | null;
 };
+
 export const PokemonPortrait = ({
   alt,
   className,

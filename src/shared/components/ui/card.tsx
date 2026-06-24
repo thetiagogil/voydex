@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+
 const Card = ({
   className,
   size = "default",
@@ -19,6 +20,7 @@ const Card = ({
     />
   );
 };
+
 const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -31,6 +33,7 @@ const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -43,6 +46,7 @@ const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const CardDescription = ({
   className,
   ...props
@@ -55,6 +59,7 @@ const CardDescription = ({
     />
   );
 };
+
 const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -67,6 +72,7 @@ const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -76,6 +82,7 @@ const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -88,6 +95,7 @@ const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 export {
   Card,
   CardHeader,

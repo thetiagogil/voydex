@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ import {
   InputGroupAddon,
 } from "@/shared/components/ui/input-group";
 import { SearchIcon, CheckIcon } from "lucide-react";
+
 const Command = ({
   className,
   ...props
@@ -29,6 +31,7 @@ const Command = ({
     />
   );
 };
+
 const CommandDialog = ({
   title = "Command Palette",
   description = "Search for a command to run...",
@@ -61,6 +64,7 @@ const CommandDialog = ({
     </Dialog>
   );
 };
+
 const CommandInput = ({
   className,
   ...props
@@ -83,6 +87,7 @@ const CommandInput = ({
     </div>
   );
 };
+
 const CommandList = ({
   className,
   ...props
@@ -98,6 +103,7 @@ const CommandList = ({
     />
   );
 };
+
 const CommandEmpty = ({
   className,
   ...props
@@ -110,6 +116,7 @@ const CommandEmpty = ({
     />
   );
 };
+
 const CommandGroup = ({
   className,
   ...props
@@ -125,6 +132,7 @@ const CommandGroup = ({
     />
   );
 };
+
 const CommandSeparator = ({
   className,
   ...props
@@ -137,6 +145,7 @@ const CommandSeparator = ({
     />
   );
 };
+
 const CommandItem = ({
   className,
   children,
@@ -156,6 +165,7 @@ const CommandItem = ({
     </CommandPrimitive.Item>
   );
 };
+
 const CommandShortcut = ({
   className,
   ...props
@@ -171,6 +181,7 @@ const CommandShortcut = ({
     />
   );
 };
+
 export {
   Command,
   CommandDialog,

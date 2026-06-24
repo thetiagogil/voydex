@@ -1,11 +1,14 @@
 "use client";
+
 import * as React from "react";
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
 import { cn } from "@/lib/utils";
 import { Button } from "@/shared/components/ui/button";
+
 const AlertDialog = ({ ...props }: AlertDialogPrimitive.Root.Props) => {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 };
+
 const AlertDialogTrigger = ({
   ...props
 }: AlertDialogPrimitive.Trigger.Props) => {
@@ -13,11 +16,13 @@ const AlertDialogTrigger = ({
     <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
   );
 };
+
 const AlertDialogPortal = ({ ...props }: AlertDialogPrimitive.Portal.Props) => {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
   );
 };
+
 const AlertDialogOverlay = ({
   className,
   ...props
@@ -33,6 +38,7 @@ const AlertDialogOverlay = ({
     />
   );
 };
+
 const AlertDialogContent = ({
   className,
   size = "default",
@@ -55,6 +61,7 @@ const AlertDialogContent = ({
     </AlertDialogPortal>
   );
 };
+
 const AlertDialogHeader = ({
   className,
   ...props
@@ -70,6 +77,7 @@ const AlertDialogHeader = ({
     />
   );
 };
+
 const AlertDialogFooter = ({
   className,
   ...props
@@ -85,6 +93,7 @@ const AlertDialogFooter = ({
     />
   );
 };
+
 const AlertDialogMedia = ({
   className,
   ...props
@@ -100,6 +109,7 @@ const AlertDialogMedia = ({
     />
   );
 };
+
 const AlertDialogTitle = ({
   className,
   ...props
@@ -115,6 +125,7 @@ const AlertDialogTitle = ({
     />
   );
 };
+
 const AlertDialogDescription = ({
   className,
   ...props
@@ -130,6 +141,7 @@ const AlertDialogDescription = ({
     />
   );
 };
+
 const AlertDialogAction = ({
   className,
   ...props
@@ -142,6 +154,7 @@ const AlertDialogAction = ({
     />
   );
 };
+
 const AlertDialogCancel = ({
   className,
   variant = "outline",
@@ -158,6 +171,7 @@ const AlertDialogCancel = ({
     />
   );
 };
+
 export {
   AlertDialog,
   AlertDialogAction,

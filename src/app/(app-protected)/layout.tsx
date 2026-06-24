@@ -3,11 +3,12 @@ import { AppShell } from "@/shared/components/app/app-shell";
 import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-const ProtectedLayout = async ({
+
+export default async function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const supabase = await createServerSupabaseClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
   if (!claimsResult || claimsResult.error || !claimsResult.data?.claims?.sub) {
@@ -23,5 +24,4 @@ const ProtectedLayout = async ({
       {children}
     </AppShell>
   );
-};
-export default ProtectedLayout;
+}

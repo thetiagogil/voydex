@@ -1,6 +1,7 @@
 import { PageHeader } from "@/shared/components/app/page-header";
-import { ThemeSettingsCard } from "@/shared/settings/components/theme-settings-card";
-const SettingsPage = () => {
+import { ThemeSettingsCard } from "@/modules/settings/components/theme-settings-card";
+
+export default function SettingsPage() {
   return (
     <div className="flex w-full max-w-3xl flex-col gap-6">
       <PageHeader
@@ -10,5 +11,4 @@ const SettingsPage = () => {
       <ThemeSettingsCard />
     </div>
   );
-};
-export default SettingsPage;
+}

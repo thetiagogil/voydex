@@ -1,16 +1,20 @@
 "use client";
+
 import * as React from "react";
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon, CheckIcon } from "lucide-react";
+
 const ContextMenu = ({ ...props }: ContextMenuPrimitive.Root.Props) => {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 };
+
 const ContextMenuPortal = ({ ...props }: ContextMenuPrimitive.Portal.Props) => {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
   );
 };
+
 const ContextMenuTrigger = ({
   className,
   ...props
@@ -23,6 +27,7 @@ const ContextMenuTrigger = ({
     />
   );
 };
+
 const ContextMenuContent = ({
   className,
   align = "start",
@@ -56,11 +61,13 @@ const ContextMenuContent = ({
     </ContextMenuPrimitive.Portal>
   );
 };
+
 const ContextMenuGroup = ({ ...props }: ContextMenuPrimitive.Group.Props) => {
   return (
     <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
   );
 };
+
 const ContextMenuLabel = ({
   className,
   inset,
@@ -80,6 +87,7 @@ const ContextMenuLabel = ({
     />
   );
 };
+
 const ContextMenuItem = ({
   className,
   inset,
@@ -102,6 +110,7 @@ const ContextMenuItem = ({
     />
   );
 };
+
 const ContextMenuSub = ({
   ...props
 }: ContextMenuPrimitive.SubmenuRoot.Props) => {
@@ -109,6 +118,7 @@ const ContextMenuSub = ({
     <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
   );
 };
+
 const ContextMenuSubTrigger = ({
   className,
   inset,
@@ -132,6 +142,7 @@ const ContextMenuSubTrigger = ({
     </ContextMenuPrimitive.SubmenuTrigger>
   );
 };
+
 const ContextMenuSubContent = ({
   ...props
 }: React.ComponentProps<typeof ContextMenuContent>) => {
@@ -144,6 +155,7 @@ const ContextMenuSubContent = ({
     />
   );
 };
+
 const ContextMenuCheckboxItem = ({
   className,
   children,
@@ -173,6 +185,7 @@ const ContextMenuCheckboxItem = ({
     </ContextMenuPrimitive.CheckboxItem>
   );
 };
+
 const ContextMenuRadioGroup = ({
   ...props
 }: ContextMenuPrimitive.RadioGroup.Props) => {
@@ -183,6 +196,7 @@ const ContextMenuRadioGroup = ({
     />
   );
 };
+
 const ContextMenuRadioItem = ({
   className,
   children,
@@ -210,6 +224,7 @@ const ContextMenuRadioItem = ({
     </ContextMenuPrimitive.RadioItem>
   );
 };
+
 const ContextMenuSeparator = ({
   className,
   ...props
@@ -222,6 +237,7 @@ const ContextMenuSeparator = ({
     />
   );
 };
+
 const ContextMenuShortcut = ({
   className,
   ...props
@@ -237,6 +253,7 @@ const ContextMenuShortcut = ({
     />
   );
 };
+
 export {
   ContextMenu,
   ContextMenuTrigger,

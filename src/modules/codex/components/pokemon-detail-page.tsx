@@ -10,21 +10,23 @@ import {
 } from "@/modules/codex/components/codex-detail";
 import { PokemonTypeList } from "@/modules/codex/components/pokemon-type-list";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
-import { getPokemonDetailData } from "@/modules/codex/data/queries";
+import { getPokemonDetailData } from "@/modules/codex/data/pokemon-detail-query";
 import type {
   PokemonAvailabilitySummary,
   PokemonFormSummary,
 } from "@/modules/codex/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
-import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
+import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
-} from "@/shared/pokemon/pokemon-images";
+} from "@/shared/domain/pokemon/pokemon-images";
+
 type PokemonDetailPageProps = {
   speciesSlug: string;
 };
+
 const statLabels = [
   ["base_hp", "HP"],
   ["base_attack", "Attack"],
@@ -33,9 +35,11 @@ const statLabels = [
   ["base_special_defense", "Sp. Def"],
   ["base_speed", "Speed"],
 ] as const;
+
 const formatNationalNumber = (number: number) => {
   return `#${number.toString().padStart(4, "0")}`;
 };
+
 const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
   const primaryTypeSlug = form.typePair.primaryType?.slug;
   const portraitType =
@@ -77,6 +81,7 @@ const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
     </CodexSectionCard>
   );
 };
+
 const AvailabilityRow = ({ row }: { row: PokemonAvailabilitySummary }) => {
   return (
     <div className="border-app-surface-border grid gap-2 border-b py-3 last:border-b-0 sm:grid-cols-[1fr_1fr_auto]">
@@ -103,6 +108,7 @@ const AvailabilityRow = ({ row }: { row: PokemonAvailabilitySummary }) => {
     </div>
   );
 };
+
 export const PokemonDetailPage = async ({
   speciesSlug,
 }: PokemonDetailPageProps) => {

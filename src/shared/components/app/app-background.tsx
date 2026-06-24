@@ -1,11 +1,14 @@
 "use client";
+
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+
 const getBackgroundTone = (pathname: string) => {
   if (pathname === "/" || pathname === "/login") return "hero";
   if (pathname === "/intro") return "intro";
   return "app";
 };
+
 export const AppBackground = () => {
   const pathname = usePathname();
   const tone = getBackgroundTone(pathname);

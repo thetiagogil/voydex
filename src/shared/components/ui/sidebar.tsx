@@ -1,4 +1,5 @@
 "use client";
+
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -21,12 +22,14 @@ import {
 } from "@/shared/components/ui/tooltip";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 import { PanelLeftIcon } from "lucide-react";
+
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+
 type SidebarContextProps = {
   state: "expanded" | "collapsed";
   open: boolean;
@@ -36,7 +39,9 @@ type SidebarContextProps = {
   isMobile: boolean;
   toggleSidebar: () => void;
 };
+
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
+
 const useSidebar = () => {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -44,6 +49,7 @@ const useSidebar = () => {
   }
   return context;
 };
+
 const SidebarProvider = ({
   defaultOpen = true,
   open: openProp,
@@ -131,6 +137,7 @@ const SidebarProvider = ({
     </SidebarContext.Provider>
   );
 };
+
 const Sidebar = ({
   side = "left",
   variant = "sidebar",
@@ -229,6 +236,7 @@ const Sidebar = ({
     </div>
   );
 };
+
 const SidebarTrigger = ({
   className,
   onClick,
@@ -253,6 +261,7 @@ const SidebarTrigger = ({
     </Button>
   );
 };
+
 const SidebarRail = ({
   className,
   ...props
@@ -279,6 +288,7 @@ const SidebarRail = ({
     />
   );
 };
+
 const SidebarInset = ({
   className,
   ...props
@@ -294,6 +304,7 @@ const SidebarInset = ({
     />
   );
 };
+
 const SidebarInput = ({
   className,
   ...props
@@ -307,6 +318,7 @@ const SidebarInput = ({
     />
   );
 };
+
 const SidebarHeader = ({
   className,
   ...props
@@ -320,6 +332,7 @@ const SidebarHeader = ({
     />
   );
 };
+
 const SidebarFooter = ({
   className,
   ...props
@@ -333,6 +346,7 @@ const SidebarFooter = ({
     />
   );
 };
+
 const SidebarSeparator = ({
   className,
   ...props
@@ -346,6 +360,7 @@ const SidebarSeparator = ({
     />
   );
 };
+
 const SidebarContent = ({
   className,
   ...props
@@ -362,6 +377,7 @@ const SidebarContent = ({
     />
   );
 };
+
 const SidebarGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -372,6 +388,7 @@ const SidebarGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const SidebarGroupLabel = ({
   className,
   render,
@@ -395,6 +412,7 @@ const SidebarGroupLabel = ({
     },
   });
 };
+
 const SidebarGroupAction = ({
   className,
   render,
@@ -418,6 +436,7 @@ const SidebarGroupAction = ({
     },
   });
 };
+
 const SidebarGroupContent = ({
   className,
   ...props
@@ -431,6 +450,7 @@ const SidebarGroupContent = ({
     />
   );
 };
+
 const SidebarMenu = ({ className, ...props }: React.ComponentProps<"ul">) => {
   return (
     <ul
@@ -441,6 +461,7 @@ const SidebarMenu = ({ className, ...props }: React.ComponentProps<"ul">) => {
     />
   );
 };
+
 const SidebarMenuItem = ({
   className,
   ...props
@@ -454,6 +475,7 @@ const SidebarMenuItem = ({
     />
   );
 };
+
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:font-medium data-active:text-sidebar-accent-foreground [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate",
   {
@@ -475,6 +497,7 @@ const sidebarMenuButtonVariants = cva(
     },
   },
 );
+
 const SidebarMenuButton = ({
   render,
   isActive = false,
@@ -525,6 +548,7 @@ const SidebarMenuButton = ({
     </Tooltip>
   );
 };
+
 const SidebarMenuAction = ({
   className,
   render,
@@ -554,6 +578,7 @@ const SidebarMenuAction = ({
     },
   });
 };
+
 const SidebarMenuBadge = ({
   className,
   ...props
@@ -570,6 +595,7 @@ const SidebarMenuBadge = ({
     />
   );
 };
+
 const SidebarMenuSub = ({
   className,
   ...props
@@ -586,6 +612,7 @@ const SidebarMenuSub = ({
     />
   );
 };
+
 const SidebarMenuSubItem = ({
   className,
   ...props
@@ -599,6 +626,7 @@ const SidebarMenuSubItem = ({
     />
   );
 };
+
 const SidebarMenuSubButton = ({
   render,
   size = "md",
@@ -630,6 +658,7 @@ const SidebarMenuSubButton = ({
     },
   });
 };
+
 export {
   Sidebar,
   SidebarContent,

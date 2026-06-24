@@ -1,5 +1,6 @@
 import type * as React from "react";
 import { cn } from "@/lib/utils";
+
 type BrandImageLayer = {
   src: string;
   className: string;
@@ -10,6 +11,7 @@ type BrandImageProps = {
   layers: BrandImageLayer[];
   width: number;
 };
+
 const getMaskStyle = (src: string): React.CSSProperties => {
   return {
     WebkitMaskImage: `url(${src})`,
@@ -22,6 +24,7 @@ const getMaskStyle = (src: string): React.CSSProperties => {
     maskSize: "contain",
   };
 };
+
 export const BrandImage = ({
   className,
   height,

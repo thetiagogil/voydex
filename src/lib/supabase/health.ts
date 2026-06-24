@@ -1,4 +1,5 @@
 import { getSupabasePublicConfig } from "@/lib/env";
+
 export type SupabaseHealth =
   | {
       status: "healthy";
@@ -7,6 +8,7 @@ export type SupabaseHealth =
       reason: "missing_config" | "server_error" | "unreachable";
       status: "unhealthy";
     };
+
 export const checkSupabaseHealth = async (): Promise<SupabaseHealth> => {
   let config: ReturnType<typeof getSupabasePublicConfig>;
   try {

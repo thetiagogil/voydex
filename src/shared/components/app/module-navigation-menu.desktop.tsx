@@ -1,4 +1,5 @@
 "use client";
+
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import {
   type ModuleKey,
 } from "@/config/modules";
 import { cn } from "@/lib/utils";
-import { setActiveModuleCookie } from "@/shared/components/app/module-cookie";
+import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
 import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
@@ -21,9 +22,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+
 type DesktopModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
 };
+
 export const DesktopModuleNavigationMenu = ({
   activeModuleKey,
 }: DesktopModuleNavigationMenuProps) => {

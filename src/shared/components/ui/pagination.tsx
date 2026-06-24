@@ -6,6 +6,7 @@ import {
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
+
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => {
   return (
     <nav
@@ -17,6 +18,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => {
     />
   );
 };
+
 const PaginationContent = ({
   className,
   ...props
@@ -29,13 +31,16 @@ const PaginationContent = ({
     />
   );
 };
+
 const PaginationItem = ({ ...props }: React.ComponentProps<"li">) => {
   return <li data-slot="pagination-item" {...props} />;
 };
+
 type PaginationLinkProps = {
   isActive?: boolean;
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">;
+
 const PaginationLink = ({
   className,
   isActive,
@@ -59,6 +64,7 @@ const PaginationLink = ({
     />
   );
 };
+
 const PaginationPrevious = ({
   className,
   text = "Previous",
@@ -78,6 +84,7 @@ const PaginationPrevious = ({
     </PaginationLink>
   );
 };
+
 const PaginationNext = ({
   className,
   text = "Next",
@@ -97,6 +104,7 @@ const PaginationNext = ({
     </PaginationLink>
   );
 };
+
 const PaginationEllipsis = ({
   className,
   ...props
@@ -116,6 +124,7 @@ const PaginationEllipsis = ({
     </span>
   );
 };
+
 export {
   Pagination,
   PaginationContent,

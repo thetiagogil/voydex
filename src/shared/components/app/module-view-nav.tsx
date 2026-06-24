@@ -1,11 +1,14 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getActiveModuleKey, modules, type ModuleKey } from "@/config/modules";
 import { cn } from "@/lib/utils";
+
 type ModuleViewNavProps = {
   activeModuleKey: ModuleKey;
 };
+
 export const ModuleViewNav = ({ activeModuleKey }: ModuleViewNavProps) => {
   const pathname = usePathname();
   const currentModuleKey = getActiveModuleKey({

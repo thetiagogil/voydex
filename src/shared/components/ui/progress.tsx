@@ -1,6 +1,8 @@
 "use client";
+
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 import { cn } from "@/lib/utils";
+
 const Progress = ({
   className,
   children,
@@ -21,6 +23,7 @@ const Progress = ({
     </ProgressPrimitive.Root>
   );
 };
+
 const ProgressTrack = ({
   className,
   ...props
@@ -36,6 +39,7 @@ const ProgressTrack = ({
     />
   );
 };
+
 const ProgressIndicator = ({
   className,
   ...props
@@ -48,6 +52,7 @@ const ProgressIndicator = ({
     />
   );
 };
+
 const ProgressLabel = ({
   className,
   ...props
@@ -60,6 +65,7 @@ const ProgressLabel = ({
     />
   );
 };
+
 const ProgressValue = ({
   className,
   ...props
@@ -75,6 +81,7 @@ const ProgressValue = ({
     />
   );
 };
+
 export {
   Progress,
   ProgressTrack,

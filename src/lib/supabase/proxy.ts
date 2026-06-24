@@ -8,6 +8,7 @@ import { isProtectedRoute } from "@/config/routes";
 import { getSupabasePublicConfig } from "@/lib/env";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import type { Database } from "@/shared/types/database.types";
+
 const redirectWithSessionCookies = (
   url: URL,
   sessionResponse: NextResponse,
@@ -18,6 +19,7 @@ const redirectWithSessionCookies = (
   });
   return redirectResponse;
 };
+
 const syncActiveModuleCookie = (
   response: NextResponse,
   moduleKey: string | null,
@@ -32,6 +34,7 @@ const syncActiveModuleCookie = (
   });
   return response;
 };
+
 export const updateSession = async (request: NextRequest) => {
   if (request.nextUrl.pathname === "/api/health") {
     return NextResponse.next({ request });

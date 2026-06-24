@@ -4,19 +4,21 @@ import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
 } from "@/shared/components/app/database-health-status";
-import { ThemeInitScript } from "@/shared/theme/theme-init-script";
-import { ThemeProvider } from "@/shared/theme/theme-provider";
+import { ThemeInitScript } from "@/shared/providers/theme-init-script";
+import { ThemeProvider } from "@/shared/providers/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import "./globals.css";
+
 export const metadata: Metadata = {
   title: "Voydex",
   description: "A Pokemon companion for tracking and planning playthroughs.",
 };
-const RootLayout = ({
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
@@ -39,5 +41,4 @@ const RootLayout = ({
       </body>
     </html>
   );
-};
-export default RootLayout;
+}

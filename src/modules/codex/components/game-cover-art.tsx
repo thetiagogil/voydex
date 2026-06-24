@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+
 type GameCoverArtProps = {
   className?: string;
   imageUrl: string | null;
   name: string;
 };
+
 const getGameCoverInitials = (name: string) => {
   const displayName = name.replace(/^Pokemon\s+/i, "");
   const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
@@ -20,6 +22,7 @@ const getGameCoverInitials = (name: string) => {
     .join("")
     .toUpperCase();
 };
+
 export const GameCoverArt = ({
   className,
   imageUrl,

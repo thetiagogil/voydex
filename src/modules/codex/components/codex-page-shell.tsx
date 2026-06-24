@@ -1,9 +1,11 @@
 import { PageHeader } from "@/shared/components/app/page-header";
+
 type CodexPageShellProps = {
   children: React.ReactNode;
   description?: string;
   title: string;
 };
+
 export const CodexPageShell = ({
   children,
   description,

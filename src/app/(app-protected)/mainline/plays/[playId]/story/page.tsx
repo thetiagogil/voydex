@@ -1,19 +1,20 @@
 import { notFound } from "next/navigation";
 import { MainlinePlayStoryPage } from "@/modules/mainline/features/play/components/detail/mainline-play-story-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/queries";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/play-detail-query";
+
 type MainlinePlayStoryRouteProps = {
   params: Promise<{
     playId: string;
   }>;
 };
-const MainlinePlayStoryRoute = async ({
+
+export default async function MainlinePlayStoryRoute({
   params,
-}: MainlinePlayStoryRouteProps) => {
+}: MainlinePlayStoryRouteProps) {
   const { playId } = await params;
   const data = await getMainlinePlayDetailData(playId);
   if (!data) {
     notFound();
   }
   return <MainlinePlayStoryPage data={data} />;
-};
-export default MainlinePlayStoryRoute;
+}

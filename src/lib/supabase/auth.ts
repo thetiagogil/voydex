@@ -1,8 +1,10 @@
 import { isAuthError, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/shared/types/database.types";
+
 type ClaimsResult = Awaited<
   ReturnType<SupabaseClient<Database>["auth"]["getClaims"]>
 >;
+
 export const getClaimsWithTimeout = async (
   supabase: SupabaseClient<Database>,
   timeoutMs = 5000,
@@ -21,6 +23,7 @@ export const getClaimsWithTimeout = async (
     throw error;
   }
 };
+
 export const getOptionalUserEmail = async (
   supabase: SupabaseClient<Database>,
 ): Promise<string | null> => {

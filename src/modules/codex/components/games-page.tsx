@@ -1,7 +1,7 @@
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { getGamesPageData } from "@/modules/codex/data/queries";
+import { getGamesPageData } from "@/modules/codex/data/game-queries";
 import type { GameCard } from "@/modules/codex/types";
 import {
   CodexBrowseMeta,
@@ -12,19 +12,18 @@ import {
 } from "@/modules/codex/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
+import { SelectControl } from "@/shared/components/app/select-control";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/shared/components/ui/native-select";
 import { cn } from "@/lib/utils";
+
 type GamesPageProps = {
   params?: {
     generation?: string | null;
     region?: string | null;
   };
 };
+
 const GameSummaryCard = ({ card }: { card: GameCard }) => {
   return (
     <CodexResourceCard
@@ -51,9 +50,25 @@ const GameSummaryCard = ({ card }: { card: GameCard }) => {
     </CodexResourceCard>
   );
 };
+
 export const GamesPage = async ({ params }: GamesPageProps) => {
   const data = await getGamesPageData(params);
   const hasActiveFilters = data.filters.generation || data.filters.region;
+  const generationOptions = [
+    { label: "All generations", value: "" },
+    ...data.generations.map((generation) => ({
+      label: generation.name,
+      value: generation.slug,
+    })),
+  ];
+  const regionOptions = [
+    { label: "All regions", value: "" },
+    ...data.regions.map((region) => ({
+      label: region.name,
+      value: region.slug,
+    })),
+  ];
+
   return (
     <CodexPageShell
       title="Games"
@@ -63,32 +78,22 @@ export const GamesPage = async ({ params }: GamesPageProps) => {
         action={appRoutes.codexGames}
         className="sm:grid-cols-[1fr_1fr_auto_auto]"
       >
-        <NativeSelect
+        <SelectControl
           name="generation"
-          aria-label="Filter games by generation"
+          ariaLabel="Filter games by generation"
           defaultValue={data.filters.generation}
+          options={generationOptions}
+          placeholder="All generations"
           className="w-full"
-        >
-          <NativeSelectOption value="">All generations</NativeSelectOption>
-          {data.generations.map((generation) => (
-            <NativeSelectOption key={generation.id} value={generation.slug}>
-              {generation.name}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
-        <NativeSelect
+        />
+        <SelectControl
           name="region"
-          aria-label="Filter games by region"
+          ariaLabel="Filter games by region"
           defaultValue={data.filters.region}
+          options={regionOptions}
+          placeholder="All regions"
           className="w-full"
-        >
-          <NativeSelectOption value="">All regions</NativeSelectOption>
-          {data.regions.map((region) => (
-            <NativeSelectOption key={region.id} value={region.slug}>
-              {region.name}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
+        />
         <Button type="submit">
           <SearchIcon data-icon="inline-start" />
           Filter

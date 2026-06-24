@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+
 export const GET = async (request: NextRequest) => {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");

@@ -3,6 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+
 const Breadcrumb = ({ className, ...props }: React.ComponentProps<"nav">) => {
   return (
     <nav
@@ -13,6 +14,7 @@ const Breadcrumb = ({ className, ...props }: React.ComponentProps<"nav">) => {
     />
   );
 };
+
 const BreadcrumbList = ({
   className,
   ...props
@@ -28,6 +30,7 @@ const BreadcrumbList = ({
     />
   );
 };
+
 const BreadcrumbItem = ({
   className,
   ...props
@@ -40,6 +43,7 @@ const BreadcrumbItem = ({
     />
   );
 };
+
 const BreadcrumbLink = ({
   className,
   render,
@@ -59,6 +63,7 @@ const BreadcrumbLink = ({
     },
   });
 };
+
 const BreadcrumbPage = ({
   className,
   ...props
@@ -74,6 +79,7 @@ const BreadcrumbPage = ({
     />
   );
 };
+
 const BreadcrumbSeparator = ({
   children,
   className,
@@ -91,6 +97,7 @@ const BreadcrumbSeparator = ({
     </li>
   );
 };
+
 const BreadcrumbEllipsis = ({
   className,
   ...props
@@ -111,6 +118,7 @@ const BreadcrumbEllipsis = ({
     </span>
   );
 };
+
 export {
   Breadcrumb,
   BreadcrumbList,

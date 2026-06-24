@@ -1,4 +1,5 @@
 "use client";
+
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
@@ -10,10 +11,13 @@ import {
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
+
 const Combobox = ComboboxPrimitive.Root;
+
 const ComboboxValue = ({ ...props }: ComboboxPrimitive.Value.Props) => {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />;
 };
+
 const ComboboxTrigger = ({
   className,
   children,
@@ -30,6 +34,7 @@ const ComboboxTrigger = ({
     </ComboboxPrimitive.Trigger>
   );
 };
+
 const ComboboxClear = ({
   className,
   ...props
@@ -45,6 +50,7 @@ const ComboboxClear = ({
     </ComboboxPrimitive.Clear>
   );
 };
+
 const ComboboxInput = ({
   className,
   children,
@@ -79,6 +85,7 @@ const ComboboxInput = ({
     </InputGroup>
   );
 };
+
 const ComboboxContent = ({
   className,
   side = "bottom",
@@ -115,6 +122,7 @@ const ComboboxContent = ({
     </ComboboxPrimitive.Portal>
   );
 };
+
 const ComboboxList = ({
   className,
   ...props
@@ -130,6 +138,7 @@ const ComboboxList = ({
     />
   );
 };
+
 const ComboboxItem = ({
   className,
   children,
@@ -155,6 +164,7 @@ const ComboboxItem = ({
     </ComboboxPrimitive.Item>
   );
 };
+
 const ComboboxGroup = ({
   className,
   ...props
@@ -167,6 +177,7 @@ const ComboboxGroup = ({
     />
   );
 };
+
 const ComboboxLabel = ({
   className,
   ...props
@@ -179,6 +190,7 @@ const ComboboxLabel = ({
     />
   );
 };
+
 const ComboboxCollection = ({
   ...props
 }: ComboboxPrimitive.Collection.Props) => {
@@ -186,6 +198,7 @@ const ComboboxCollection = ({
     <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />
   );
 };
+
 const ComboboxEmpty = ({
   className,
   ...props
@@ -201,6 +214,7 @@ const ComboboxEmpty = ({
     />
   );
 };
+
 const ComboboxSeparator = ({
   className,
   ...props
@@ -213,6 +227,7 @@ const ComboboxSeparator = ({
     />
   );
 };
+
 const ComboboxChips = ({
   className,
   ...props
@@ -229,6 +244,7 @@ const ComboboxChips = ({
     />
   );
 };
+
 const ComboboxChip = ({
   className,
   children,
@@ -259,6 +275,7 @@ const ComboboxChip = ({
     </ComboboxPrimitive.Chip>
   );
 };
+
 const ComboboxChipsInput = ({
   className,
   ...props
@@ -271,9 +288,11 @@ const ComboboxChipsInput = ({
     />
   );
 };
+
 const useComboboxAnchor = () => {
   return React.useRef<HTMLDivElement | null>(null);
 };
+
 export {
   Combobox,
   ComboboxChip,

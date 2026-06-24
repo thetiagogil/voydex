@@ -1,23 +1,24 @@
 "use client";
+
 import { useMemo, useState } from "react";
 import { Grid2X2, List, Search } from "lucide-react";
-import type {
-  MainlinePlayDetailData,
-  MainlinePlayPokedexEntry,
-} from "@/modules/mainline/features/play/types";
+
+import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
-  formatDexNumber,
-  formatNumber,
-  formatPercent,
-  getPokedexDisplayName,
-  getPokemonPrimaryTypeSlug,
-} from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { PokedexProgressButtons } from "@/modules/mainline/features/play/components/detail/mainline-play-actions";
-import { PokemonTypeBadges } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
+  filterPokedexEntries,
+  isPokedexFilter,
+  pokedexFilters,
+  pokedexSortItems,
+  sortPokedexEntries,
+  type PokedexFilter,
+  type PokedexSort,
+  type PokedexViewMode,
+} from "@/modules/mainline/features/play/components/detail/pokedex/pokedex-filters";
+import { PokedexGrid } from "@/modules/mainline/features/play/components/detail/pokedex/pokedex-grid";
+import { PokedexList } from "@/modules/mainline/features/play/components/detail/pokedex/pokedex-list";
+import { PokedexSummary } from "@/modules/mainline/features/play/components/detail/pokedex/pokedex-summary";
+import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
-import { StatusBadge } from "@/shared/components/app/status-badge";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import {
   Card,
   CardContent,
@@ -37,279 +38,16 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/shared/components/ui/native-select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/shared/components/ui/table";
+import { SelectControl } from "@/shared/components/app/select-control";
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
+
 type MainlinePlayPokedexPageProps = {
   data: MainlinePlayDetailData;
 };
-type PokedexFilter =
-  | "all"
-  | "caught"
-  | "missing"
-  | "optional"
-  | "required"
-  | "seen";
-type PokedexViewMode = "grid" | "list";
-type PokedexSort = (typeof pokedexSortItems)[number]["value"];
-const filters: Array<{
-  label: string;
-  value: PokedexFilter;
-}> = [
-  { label: "All", value: "all" },
-  { label: "Missing", value: "missing" },
-  { label: "Seen", value: "seen" },
-  { label: "Caught", value: "caught" },
-  { label: "Required", value: "required" },
-  { label: "Optional", value: "optional" },
-];
-const pokedexSortItems = [
-  { label: "Dex number", value: "dex-number" },
-  { label: "Name", value: "name" },
-] as const;
-const isRequiredEntry = (entry: MainlinePlayPokedexEntry) => {
-  return Boolean(entry.is_source_required_for_completion);
-};
-const isPokedexFilter = (value: string): value is PokedexFilter => {
-  return filters.some((filter) => filter.value === value);
-};
-const filterPokedexEntries = (
-  entries: MainlinePlayPokedexEntry[],
-  filter: PokedexFilter,
-  search: string,
-) => {
-  const normalizedSearch = search.trim().toLowerCase();
-  return entries.filter((entry) => {
-    const name = getPokedexDisplayName(entry).toLowerCase();
-    const dexNumber = String(entry.pokedex_number ?? "");
-    const nationalNumber = String(entry.national_number ?? "");
-    const matchesSearch =
-      !normalizedSearch ||
-      name.includes(normalizedSearch) ||
-      dexNumber.includes(normalizedSearch) ||
-      nationalNumber.includes(normalizedSearch);
-    if (!matchesSearch) {
-      return false;
-    }
-    if (filter === "caught") {
-      return Boolean(entry.is_caught);
-    }
-    if (filter === "missing") {
-      return !entry.is_caught;
-    }
-    if (filter === "seen") {
-      return Boolean(entry.is_seen) && !entry.is_caught;
-    }
-    if (filter === "required") {
-      return isRequiredEntry(entry);
-    }
-    if (filter === "optional") {
-      return !isRequiredEntry(entry);
-    }
-    return true;
-  });
-};
-const getSortableDexNumber = (entry: MainlinePlayPokedexEntry) => {
-  return (
-    entry.pokedex_number ?? entry.national_number ?? Number.MAX_SAFE_INTEGER
-  );
-};
-const sortPokedexEntries = (
-  entries: MainlinePlayPokedexEntry[],
-  sort: PokedexSort,
-) => {
-  return [...entries].sort((a, b) => {
-    if (sort === "name") {
-      return getPokedexDisplayName(a).localeCompare(getPokedexDisplayName(b));
-    }
-    return getSortableDexNumber(a) - getSortableDexNumber(b);
-  });
-};
-const PokedexSummary = ({ data }: MainlinePlayPokedexPageProps) => {
-  const pokedexName = data.pokedexEntries[0]?.pokedex_name ?? "Pokedex";
-  const caughtCount = data.overview.pokedex_caught_count ?? 0;
-  const seenCount = data.overview.pokedex_seen_count ?? 0;
-  const totalCount = data.pokedexEntries.length;
-  const completionPercent = data.overview.pokedex_completion_percent ?? 0;
-  const optionalStatus = data.overview
-    .include_optional_pokedex_entries_in_completion
-    ? "Optional entries included"
-    : "Optional entries excluded";
-  return (
-    <Card>
-      <CardContent className="grid gap-4 lg:grid-cols-[16rem_1fr_auto] lg:items-center">
-        <div className="rounded-lg border p-3">
-          <p className="text-muted-foreground text-sm">Active Pokedex</p>
-          <p className="mt-1 font-medium">{pokedexName}</p>
-        </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div>
-            <p className="text-muted-foreground text-sm">Caught</p>
-            <p className="text-2xl font-semibold">
-              {formatNumber(caughtCount)}{" "}
-              <span className="text-muted-foreground text-lg">
-                / {formatNumber(totalCount)}
-              </span>
-            </p>
-          </div>
-          <div>
-            <p className="text-muted-foreground text-sm">Seen</p>
-            <p className="text-2xl font-semibold">{formatNumber(seenCount)}</p>
-          </div>
-          <div>
-            <p className="text-muted-foreground text-sm">Completion</p>
-            <div className="mt-1 flex items-center gap-3">
-              <span className="text-2xl font-semibold">
-                {formatPercent(completionPercent)}
-              </span>
-              <ProgressMeter value={completionPercent} />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-2 lg:justify-end">
-          <StatusBadge tone="info">{optionalStatus}</StatusBadge>
-          <StatusBadge tone="success">Species-level</StatusBadge>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-const PokedexCard = ({
-  entry,
-  playId,
-}: {
-  entry: MainlinePlayPokedexEntry;
-  playId: string;
-}) => {
-  return (
-    <Card size="sm" className="min-h-full">
-      <CardContent className="flex min-h-full flex-col gap-3">
-        <div className="flex items-start justify-between gap-2">
-          <span className="text-muted-foreground text-sm font-medium">
-            {formatDexNumber(entry.pokedex_number)}
-          </span>
-          <StatusBadge tone={isRequiredEntry(entry) ? "warning" : "info"}>
-            {isRequiredEntry(entry) ? "Required" : "Optional"}
-          </StatusBadge>
-        </div>
-
-        <PokemonPortrait
-          alt={getPokedexDisplayName(entry)}
-          imageUrl={entry.display.imageUrl}
-          type={getPokemonPrimaryTypeSlug(entry)}
-          className="mx-auto w-full max-w-36"
-        />
-
-        <div className="text-center">
-          <p className="font-medium">{getPokedexDisplayName(entry)}</p>
-          <div className="mt-2">
-            <PokemonTypeBadges pokemon={entry} />
-          </div>
-        </div>
-
-        <div className="mt-auto">
-          <PokedexProgressButtons
-            isCaught={entry.is_caught}
-            isSeen={entry.is_seen}
-            playId={playId}
-            speciesId={entry.species_id}
-          />
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-const PokedexGrid = ({
-  entries,
-  playId,
-}: {
-  entries: MainlinePlayPokedexEntry[];
-  playId: string;
-}) => {
-  return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5">
-      {entries.map((entry) => (
-        <PokedexCard
-          key={`${entry.pokedex_id}-${entry.species_id}`}
-          entry={entry}
-          playId={playId}
-        />
-      ))}
-    </div>
-  );
-};
-const PokedexList = ({
-  entries,
-  playId,
-}: {
-  entries: MainlinePlayPokedexEntry[];
-  playId: string;
-}) => {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Number</TableHead>
-          <TableHead>Pokemon</TableHead>
-          <TableHead>Types</TableHead>
-          <TableHead>Completion</TableHead>
-          <TableHead className="text-right">Progress</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {entries.map((entry) => (
-          <TableRow key={`${entry.pokedex_id}-${entry.species_id}`}>
-            <TableCell>{formatDexNumber(entry.pokedex_number)}</TableCell>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <PokemonPortrait
-                  alt={getPokedexDisplayName(entry)}
-                  imageUrl={entry.display.imageUrl}
-                  type={getPokemonPrimaryTypeSlug(entry)}
-                  className="size-12 rounded-lg"
-                />
-                <span className="font-medium">
-                  {getPokedexDisplayName(entry)}
-                </span>
-              </div>
-            </TableCell>
-            <TableCell>
-              <PokemonTypeBadges pokemon={entry} />
-            </TableCell>
-            <TableCell>
-              <StatusBadge tone={isRequiredEntry(entry) ? "warning" : "info"}>
-                {isRequiredEntry(entry) ? "Required" : "Optional"}
-              </StatusBadge>
-            </TableCell>
-            <TableCell className="min-w-40">
-              <PokedexProgressButtons
-                isCaught={entry.is_caught}
-                isSeen={entry.is_seen}
-                playId={playId}
-                speciesId={entry.species_id}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-};
 export const MainlinePlayPokedexPage = ({
   data,
 }: MainlinePlayPokedexPageProps) => {
@@ -317,6 +55,7 @@ export const MainlinePlayPokedexPage = ({
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<PokedexSort>("dex-number");
   const [viewMode, setViewMode] = useState<PokedexViewMode>("grid");
+
   const playId = String(data.overview.play_id);
   const visibleEntries = useMemo(
     () =>
@@ -326,6 +65,7 @@ export const MainlinePlayPokedexPage = ({
       ),
     [data.pokedexEntries, filter, search, sort],
   );
+
   return (
     <MainlinePlayShell
       activeProgressTab="pokedex"
@@ -373,6 +113,7 @@ export const MainlinePlayPokedexPage = ({
                   value={[filter]}
                   onValueChange={(value) => {
                     const nextFilter = value[0];
+
                     if (nextFilter && isPokedexFilter(nextFilter)) {
                       setFilter(nextFilter);
                     }
@@ -381,7 +122,7 @@ export const MainlinePlayPokedexPage = ({
                   variant="outline"
                   className="flex-wrap"
                 >
-                  {filters.map((item) => (
+                  {pokedexFilters.map((item) => (
                     <ToggleGroupItem
                       key={item.value}
                       value={item.value}
@@ -393,23 +134,20 @@ export const MainlinePlayPokedexPage = ({
                 </ToggleGroup>
 
                 <div className="flex flex-wrap gap-2 xl:justify-end">
-                  <NativeSelect
-                    aria-label="Sort Pokedex entries"
+                  <SelectControl
+                    ariaLabel="Sort Pokedex entries"
                     value={sort}
-                    onChange={(event) =>
-                      setSort(event.target.value as PokedexSort)
+                    onValueChange={(nextSort) =>
+                      setSort(nextSort as PokedexSort)
                     }
-                  >
-                    {pokedexSortItems.map((item) => (
-                      <NativeSelectOption key={item.value} value={item.value}>
-                        {item.label}
-                      </NativeSelectOption>
-                    ))}
-                  </NativeSelect>
+                    options={pokedexSortItems}
+                    placeholder="Sort entries"
+                  />
                   <ToggleGroup
                     value={[viewMode]}
                     onValueChange={(value) => {
                       const nextViewMode = value[0];
+
                       if (nextViewMode === "grid" || nextViewMode === "list") {
                         setViewMode(nextViewMode);
                       }

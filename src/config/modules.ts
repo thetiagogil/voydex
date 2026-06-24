@@ -1,7 +1,10 @@
 import { productFamilies } from "@/config/product-families";
 import { appRoutes } from "@/config/routes";
+
 export const ACTIVE_MODULE_COOKIE_NAME = "voydex-active-module";
+
 export const DEFAULT_MODULE_KEY = "mainline";
+
 export const modules = {
   mainline: {
     basePath: appRoutes.mainline,
@@ -46,12 +49,16 @@ export const modules = {
     ],
   },
 } as const;
+
 export type ModuleKey = keyof typeof modules;
 export type AppModule = (typeof modules)[ModuleKey];
+
 export const moduleKeys = Object.keys(modules) as ModuleKey[];
+
 export const isModuleKey = (value: unknown): value is ModuleKey => {
   return typeof value === "string" && moduleKeys.includes(value as ModuleKey);
 };
+
 export const getModuleKeyForPathname = (pathname: string) => {
   return (
     moduleKeys.find((moduleKey) => {
@@ -60,6 +67,7 @@ export const getModuleKeyForPathname = (pathname: string) => {
     }) ?? null
   );
 };
+
 export const getActiveModuleKey = ({
   cookieValue,
   pathname,

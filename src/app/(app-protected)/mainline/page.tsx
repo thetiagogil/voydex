@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { appRoutes } from "@/config/routes";
-const Page = () => {
+
+export default function Page() {
   redirect(appRoutes.mainlineDashboard);
-};
-export default Page;
+}

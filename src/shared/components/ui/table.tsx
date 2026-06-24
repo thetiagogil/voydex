@@ -1,6 +1,8 @@
 "use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
+
 const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
   return (
     <div
@@ -15,6 +17,7 @@ const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
     </div>
   );
 };
+
 const TableHeader = ({
   className,
   ...props
@@ -27,6 +30,7 @@ const TableHeader = ({
     />
   );
 };
+
 const TableBody = ({ className, ...props }: React.ComponentProps<"tbody">) => {
   return (
     <tbody
@@ -36,6 +40,7 @@ const TableBody = ({ className, ...props }: React.ComponentProps<"tbody">) => {
     />
   );
 };
+
 const TableFooter = ({
   className,
   ...props
@@ -51,6 +56,7 @@ const TableFooter = ({
     />
   );
 };
+
 const TableRow = ({ className, ...props }: React.ComponentProps<"tr">) => {
   return (
     <tr
@@ -63,6 +69,7 @@ const TableRow = ({ className, ...props }: React.ComponentProps<"tr">) => {
     />
   );
 };
+
 const TableHead = ({ className, ...props }: React.ComponentProps<"th">) => {
   return (
     <th
@@ -75,6 +82,7 @@ const TableHead = ({ className, ...props }: React.ComponentProps<"th">) => {
     />
   );
 };
+
 const TableCell = ({ className, ...props }: React.ComponentProps<"td">) => {
   return (
     <td
@@ -87,6 +95,7 @@ const TableCell = ({ className, ...props }: React.ComponentProps<"td">) => {
     />
   );
 };
+
 const TableCaption = ({
   className,
   ...props
@@ -99,6 +108,7 @@ const TableCaption = ({
     />
   );
 };
+
 export {
   Table,
   TableBody,

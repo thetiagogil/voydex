@@ -5,11 +5,13 @@ import type {
   MainlinePlaySummary,
   MainlineStatsSummary,
 } from "@/modules/mainline/shared/types/mainline.types";
+
 export type MainlineDashboardData = {
   recentPlays: MainlinePlaySummary[];
   statsSummary: MainlineStatsSummary | null;
   summary: MainlineDashboardSummary | null;
 };
+
 export const getMainlineDashboardData =
   async (): Promise<MainlineDashboardData> => {
     const supabase = await createServerSupabaseClient();

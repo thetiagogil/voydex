@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import {
   DayPicker,
@@ -13,6 +14,7 @@ import {
   ChevronRightIcon,
   ChevronDownIcon,
 } from "lucide-react";
+
 const Calendar = ({
   className,
   classNames,
@@ -180,6 +182,7 @@ const Calendar = ({
     />
   );
 };
+
 const CalendarDayButton = ({
   className,
   day,
@@ -217,4 +220,5 @@ const CalendarDayButton = ({
     />
   );
 };
+
 export { Calendar, CalendarDayButton };

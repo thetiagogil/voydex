@@ -1,11 +1,13 @@
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import type { Type } from "@/modules/codex/types";
-import { isPokemonTypeSlug } from "@/shared/pokemon/constants";
+import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+
 type PokemonTypeListProps = {
   primaryType: Type | null;
   secondaryType: Type | null;
 };
+
 const TypeBadge = ({ type }: { type: Type | null }) => {
   if (!type) {
     return <Badge variant="outline">Unknown</Badge>;
@@ -15,6 +17,7 @@ const TypeBadge = ({ type }: { type: Type | null }) => {
   }
   return <PokemonTypeBadge type={type.slug} label={type.name} />;
 };
+
 export const PokemonTypeList = ({
   primaryType,
   secondaryType,

@@ -11,11 +11,13 @@ import {
 } from "@/modules/codex/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
-import { getGenerationDetailData } from "@/modules/codex/data/queries";
+import { getGenerationDetailData } from "@/modules/codex/data/generation-queries";
 import { Badge } from "@/shared/components/ui/badge";
+
 type GenerationDetailPageProps = {
   generationId: string;
 };
+
 export const GenerationDetailPage = async ({
   generationId,
 }: GenerationDetailPageProps) => {

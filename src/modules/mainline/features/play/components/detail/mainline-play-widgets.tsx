@@ -29,6 +29,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
+
 export const CompactProgressRow = ({
   actionLabel,
   count,
@@ -74,6 +75,7 @@ export const CompactProgressRow = ({
     </div>
   );
 };
+
 export const EmptyPanel = ({
   description,
   title,
@@ -91,6 +93,7 @@ export const EmptyPanel = ({
     </Card>
   );
 };
+
 export const PokemonStatusControls = ({
   isCaught,
   isSeen,
@@ -125,6 +128,7 @@ export const PokemonStatusControls = ({
     </div>
   );
 };
+
 export const PokemonTypeBadges = ({
   pokemon,
 }: {
@@ -139,6 +143,7 @@ export const PokemonTypeBadges = ({
     </div>
   );
 };
+
 export const SmallPokemonSprite = ({
   className,
   pokemon,
@@ -155,6 +160,7 @@ export const SmallPokemonSprite = ({
     />
   );
 };
+
 export const TeamMemberRow = ({
   isSelected = false,
   pokemon,
@@ -182,6 +188,7 @@ export const TeamMemberRow = ({
     </div>
   );
 };
+
 export const TimelineRows = ({
   events,
   limit = 4,
@@ -226,6 +233,7 @@ export const TimelineRows = ({
     </div>
   );
 };
+
 export const TeamCountBadge = ({
   activeCount,
   reserveCount,

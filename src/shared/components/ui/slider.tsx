@@ -1,5 +1,6 @@
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 import { cn } from "@/lib/utils";
+
 const Slider = ({
   className,
   defaultValue,
@@ -45,4 +46,5 @@ const Slider = ({
     </SliderPrimitive.Root>
   );
 };
+
 export { Slider };

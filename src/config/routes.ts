@@ -30,10 +30,12 @@ export const appRoutes = {
   mainlinePlays: "/mainline/plays",
   settings: "/settings",
 } as const;
+
 export const protectedRoutePrefixes = [
   appRoutes.mainline,
   appRoutes.settings,
 ] as const;
+
 export const isProtectedRoute = (pathname: string) => {
   return protectedRoutePrefixes.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),

@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { getSupabasePublicConfig } from "@/lib/env";
 import type { Database } from "@/shared/types/database.types";
+
 export const createServerSupabaseClient = async () => {
   const cookieStore = await cookies();
   const { key, url } = getSupabasePublicConfig();

@@ -1,11 +1,13 @@
 import { Progress } from "@/shared/components/ui/progress";
 import { cn } from "@/lib/utils";
+
 type ProgressMeterProps = {
   className?: string;
   label?: string;
   max?: number;
   value: number;
 };
+
 export const ProgressMeter = ({
   className,
   label,

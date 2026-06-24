@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useState } from "react";
 import { BackpackIcon } from "lucide-react";
@@ -11,9 +12,11 @@ import {
 import { appRoutes } from "@/config/routes";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
+
 type HomeAppEntryButtonProps = {
   isAuthenticated: boolean;
 };
+
 const getCookieValue = (name: string) => {
   const cookie = document.cookie
     .split("; ")
@@ -27,11 +30,13 @@ const getCookieValue = (name: string) => {
     return "";
   }
 };
+
 const getActiveModuleHref = () => {
   const cookieValue = getCookieValue(ACTIVE_MODULE_COOKIE_NAME);
   const moduleKey = isModuleKey(cookieValue) ? cookieValue : DEFAULT_MODULE_KEY;
   return modules[moduleKey].defaultHref;
 };
+
 export const HomeAppEntryButton = ({
   isAuthenticated,
 }: HomeAppEntryButtonProps) => {

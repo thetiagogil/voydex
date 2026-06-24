@@ -1,4 +1,5 @@
 import { PokedexPage } from "@/modules/codex/components/pokedex-page";
+
 type PageProps = {
   searchParams: Promise<{
     generation?: string;
@@ -8,8 +9,8 @@ type PageProps = {
     type?: string;
   }>;
 };
-const Page = async ({ searchParams }: PageProps) => {
+
+export default async function Page({ searchParams }: PageProps) {
   const params = await searchParams;
   return <PokedexPage params={params} />;
-};
-export default Page;
+}

@@ -1,4 +1,5 @@
 "use client";
+
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,7 +10,7 @@ import {
   type ModuleKey,
 } from "@/config/modules";
 import { cn } from "@/lib/utils";
-import { setActiveModuleCookie } from "@/shared/components/app/module-cookie";
+import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
 import {
   Accordion,
   AccordionContent,
@@ -25,9 +26,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet";
+
 type MobileModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
 };
+
 export const MobileModuleNavigationMenu = ({
   activeModuleKey,
 }: MobileModuleNavigationMenuProps) => {

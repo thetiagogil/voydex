@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+
 const AspectRatio = ({
   ratio,
   className,
@@ -19,4 +20,5 @@ const AspectRatio = ({
     />
   );
 };
+
 export { AspectRatio };

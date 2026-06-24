@@ -3,9 +3,11 @@ import { PageHeader } from "@/shared/components/app/page-header";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import type { CreateMainlinePlayPageData } from "@/modules/mainline/features/play/types";
 import { CreateMainlinePlayForm } from "@/modules/mainline/features/play/components/create-mainline-play-form";
+
 type CreateMainlinePlayPageProps = {
   data: CreateMainlinePlayPageData;
 };
+
 export const CreateMainlinePlayPage = ({
   data,
 }: CreateMainlinePlayPageProps) => {

@@ -2,6 +2,7 @@ type SupabasePublicConfig = {
   key: string;
   url: string;
 };
+
 export const getSupabasePublicConfig = (): SupabasePublicConfig => {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =

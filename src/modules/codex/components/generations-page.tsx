@@ -5,9 +5,10 @@ import {
   CodexResourceGrid,
 } from "@/modules/codex/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
-import { getGenerationsPageData } from "@/modules/codex/data/queries";
+import { getGenerationsPageData } from "@/modules/codex/data/generation-queries";
 import type { GenerationCard } from "@/modules/codex/types";
 import { Badge } from "@/shared/components/ui/badge";
+
 const GenerationSummaryCard = ({ card }: { card: GenerationCard }) => {
   return (
     <CodexResourceCard
@@ -21,6 +22,7 @@ const GenerationSummaryCard = ({ card }: { card: GenerationCard }) => {
     </CodexResourceCard>
   );
 };
+
 export const GenerationsPage = async () => {
   const data = await getGenerationsPageData();
   return (

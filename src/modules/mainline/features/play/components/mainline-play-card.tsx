@@ -28,9 +28,11 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
+
 type MainlinePlayCardProps = {
   play: MainlinePlayCardData;
 };
+
 const PlayMetric = ({
   icon,
   label,
@@ -50,6 +52,7 @@ const PlayMetric = ({
     </div>
   );
 };
+
 export const MainlinePlayCard = ({ play }: MainlinePlayCardProps) => {
   const href = play.play_id
     ? appRoutes.mainlinePlay(String(play.play_id))

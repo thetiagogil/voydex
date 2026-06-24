@@ -1,5 +1,6 @@
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/lib/utils";
+
 type StatusBadgeTone =
   | "battle"
   | "decision"
@@ -14,6 +15,7 @@ type StatusBadgeProps = {
   className?: string;
   tone?: StatusBadgeTone;
 };
+
 const toneClassNames: Record<StatusBadgeTone, string> = {
   battle: "bg-battle/10 text-battle border-battle/20",
   decision: "bg-decision/10 text-decision border-decision/20",
@@ -24,6 +26,7 @@ const toneClassNames: Record<StatusBadgeTone, string> = {
   success: "bg-success/10 text-success border-success/20",
   warning: "bg-warning/10 text-warning border-warning/20",
 };
+
 export const StatusBadge = ({
   children,
   className,

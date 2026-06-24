@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+
 type PageSectionProps = {
   action?: React.ReactNode;
   children: React.ReactNode;
@@ -6,6 +7,7 @@ type PageSectionProps = {
   description?: string;
   title?: string;
 };
+
 export const PageSection = ({
   action,
   children,

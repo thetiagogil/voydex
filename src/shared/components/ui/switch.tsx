@@ -1,6 +1,8 @@
 "use client";
+
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 import { cn } from "@/lib/utils";
+
 const Switch = ({
   className,
   size = "default",
@@ -25,4 +27,5 @@ const Switch = ({
     </SwitchPrimitive.Root>
   );
 };
+
 export { Switch };

@@ -5,11 +5,13 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
+
 type EmptyStateProps = {
   action?: React.ReactNode;
   description: string;
   title: string;
 };
+
 export const EmptyState = ({ action, description, title }: EmptyStateProps) => {
   return (
     <Empty className="bg-card/80 border border-dashed">

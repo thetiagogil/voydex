@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
@@ -6,6 +7,7 @@ import useEmblaCarousel, {
 import { cn } from "@/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
@@ -24,7 +26,9 @@ type CarouselContextProps = {
   canScrollPrev: boolean;
   canScrollNext: boolean;
 } & CarouselProps;
+
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
+
 const useCarousel = () => {
   const context = React.useContext(CarouselContext);
   if (!context) {
@@ -32,9 +36,11 @@ const useCarousel = () => {
   }
   return context;
 };
+
 const getCarouselScrollSnapshot = (api: CarouselApi) => {
   return `${api?.canScrollPrev() ? "1" : "0"}:${api?.canScrollNext() ? "1" : "0"}`;
 };
+
 const useCarouselScrollState = (api: CarouselApi) => {
   const subscribe = React.useCallback(
     (onStoreChange: () => void) => {
@@ -62,6 +68,7 @@ const useCarouselScrollState = (api: CarouselApi) => {
     canScrollNext: scrollState.endsWith("1"),
   };
 };
+
 const Carousel = ({
   orientation = "horizontal",
   opts,
@@ -128,6 +135,7 @@ const Carousel = ({
     </CarouselContext.Provider>
   );
 };
+
 const CarouselContent = ({
   className,
   ...props
@@ -150,6 +158,7 @@ const CarouselContent = ({
     </div>
   );
 };
+
 const CarouselItem = ({ className, ...props }: React.ComponentProps<"div">) => {
   const { orientation } = useCarousel();
   return (
@@ -166,6 +175,7 @@ const CarouselItem = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const CarouselPrevious = ({
   className,
   variant = "outline",
@@ -194,6 +204,7 @@ const CarouselPrevious = ({
     </Button>
   );
 };
+
 const CarouselNext = ({
   className,
   variant = "outline",
@@ -222,6 +233,7 @@ const CarouselNext = ({
     </Button>
   );
 };
+
 export {
   type CarouselApi,
   Carousel,

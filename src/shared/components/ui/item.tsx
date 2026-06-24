@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/shared/components/ui/separator";
+
 const ItemGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -17,6 +18,7 @@ const ItemGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const ItemSeparator = ({
   className,
   ...props
@@ -30,6 +32,7 @@ const ItemSeparator = ({
     />
   );
 };
+
 const itemVariants = cva(
   "group/item flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted",
   {
@@ -51,6 +54,7 @@ const itemVariants = cva(
     },
   },
 );
+
 const Item = ({
   className,
   variant = "default",
@@ -74,6 +78,7 @@ const Item = ({
     },
   });
 };
+
 const itemMediaVariants = cva(
   "flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none",
   {
@@ -90,6 +95,7 @@ const itemMediaVariants = cva(
     },
   },
 );
+
 const ItemMedia = ({
   className,
   variant = "default",
@@ -104,6 +110,7 @@ const ItemMedia = ({
     />
   );
 };
+
 const ItemContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -116,6 +123,7 @@ const ItemContent = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const ItemTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -128,6 +136,7 @@ const ItemTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const ItemDescription = ({
   className,
   ...props
@@ -143,6 +152,7 @@ const ItemDescription = ({
     />
   );
 };
+
 const ItemActions = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -152,6 +162,7 @@ const ItemActions = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const ItemHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -164,6 +175,7 @@ const ItemHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const ItemFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -176,6 +188,7 @@ const ItemFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 export {
   Item,
   ItemMedia,

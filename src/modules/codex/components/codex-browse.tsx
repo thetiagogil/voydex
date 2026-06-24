@@ -17,18 +17,22 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
+
 const resourceGridColumns = {
   three: "sm:grid-cols-2 lg:grid-cols-3",
   four: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 } as const;
+
 type CodexBrowseMetaProps = {
   children: ReactNode;
 };
+
 export const CodexBrowseMeta = ({ children }: CodexBrowseMetaProps) => {
   return (
     <div className="text-muted-foreground text-sm leading-6">{children}</div>
   );
 };
+
 export const CodexFilterPanel = ({
   className,
   ...props
@@ -43,9 +47,11 @@ export const CodexFilterPanel = ({
     />
   );
 };
+
 type CodexResourceGridProps = ComponentProps<"div"> & {
   columns?: keyof typeof resourceGridColumns;
 };
+
 export const CodexResourceGrid = ({
   children,
   className,
@@ -61,6 +67,7 @@ export const CodexResourceGrid = ({
     </div>
   );
 };
+
 type CodexResourceCardProps = {
   children?: ReactNode;
   className?: string;
@@ -70,6 +77,7 @@ type CodexResourceCardProps = {
   media?: ReactNode;
   title: ReactNode;
 };
+
 export const CodexResourceCard = ({
   children,
   className,
@@ -115,11 +123,13 @@ export const CodexResourceCard = ({
     </Link>
   );
 };
+
 type CodexEmptyStateProps = {
   action?: ReactNode;
   description: ReactNode;
   title: ReactNode;
 };
+
 export const CodexEmptyState = ({
   action,
   description,

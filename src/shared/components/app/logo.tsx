@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
 import { LogoMark } from "@/shared/components/app/logo-mark";
+
 type LogoProps = {
   className?: string;
   markClassName?: string;
   showText?: boolean;
 };
+
 export const Logo = ({
   className,
   markClassName,

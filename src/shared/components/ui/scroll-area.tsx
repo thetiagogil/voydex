@@ -1,7 +1,9 @@
 "use client";
+
 import * as React from "react";
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 import { cn } from "@/lib/utils";
+
 const ScrollArea = ({
   className,
   children,
@@ -24,6 +26,7 @@ const ScrollArea = ({
     </ScrollAreaPrimitive.Root>
   );
 };
+
 const ScrollBar = ({
   className,
   orientation = "vertical",
@@ -47,4 +50,5 @@ const ScrollBar = ({
     </ScrollAreaPrimitive.Scrollbar>
   );
 };
+
 export { ScrollArea, ScrollBar };

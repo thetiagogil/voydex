@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/shared/components/ui/badge";
-import type { PokemonTypeSlug } from "@/shared/pokemon/constants";
-import { pokemonTypeClassNames } from "@/shared/pokemon/type-styles";
+import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
+
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";
 type PokemonTypeIconProps = {
   className?: string;
   type: PokemonIconSlug;
 };
+
 export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
   return (
     <Image
@@ -20,10 +22,12 @@ export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
     />
   );
 };
+
 type PokemonTypeBadgeProps = PokemonTypeIconProps & {
   label?: string;
   type: PokemonTypeSlug;
 };
+
 export const PokemonTypeBadge = ({
   className,
   label,

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/shared/components/app/logo";
+
 type AppNavbarProps = {
   afterLogo?: React.ReactNode;
   center?: React.ReactNode;
@@ -9,6 +10,7 @@ type AppNavbarProps = {
   end?: React.ReactNode;
   showLogoText?: boolean;
 };
+
 export const AppNavbar = ({
   afterLogo,
   center,

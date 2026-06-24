@@ -5,11 +5,13 @@ import {
   isModuleKey,
   modules,
 } from "@/config/modules";
+
 export const getActiveModuleKeyFromCookies = async () => {
   const cookieStore = await cookies();
   const cookieValue = cookieStore.get(ACTIVE_MODULE_COOKIE_NAME)?.value;
   return isModuleKey(cookieValue) ? cookieValue : DEFAULT_MODULE_KEY;
 };
+
 export const getActiveModuleDefaultHrefFromCookies = async () => {
   const activeModuleKey = await getActiveModuleKeyFromCookies();
   return modules[activeModuleKey].defaultHref;

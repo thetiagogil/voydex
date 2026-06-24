@@ -1,9 +1,12 @@
 "use client";
+
 import * as React from "react";
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react";
+
 const Select = SelectPrimitive.Root;
+
 const SelectGroup = ({ className, ...props }: SelectPrimitive.Group.Props) => {
   return (
     <SelectPrimitive.Group
@@ -13,6 +16,7 @@ const SelectGroup = ({ className, ...props }: SelectPrimitive.Group.Props) => {
     />
   );
 };
+
 const SelectValue = ({ className, ...props }: SelectPrimitive.Value.Props) => {
   return (
     <SelectPrimitive.Value
@@ -22,6 +26,7 @@ const SelectValue = ({ className, ...props }: SelectPrimitive.Value.Props) => {
     />
   );
 };
+
 const SelectTrigger = ({
   className,
   size = "default",
@@ -49,6 +54,7 @@ const SelectTrigger = ({
     </SelectPrimitive.Trigger>
   );
 };
+
 const SelectContent = ({
   className,
   children,
@@ -90,6 +96,7 @@ const SelectContent = ({
     </SelectPrimitive.Portal>
   );
 };
+
 const SelectLabel = ({
   className,
   ...props
@@ -102,6 +109,7 @@ const SelectLabel = ({
     />
   );
 };
+
 const SelectItem = ({
   className,
   children,
@@ -129,6 +137,7 @@ const SelectItem = ({
     </SelectPrimitive.Item>
   );
 };
+
 const SelectSeparator = ({
   className,
   ...props
@@ -141,6 +150,7 @@ const SelectSeparator = ({
     />
   );
 };
+
 const SelectScrollUpButton = ({
   className,
   ...props
@@ -158,6 +168,7 @@ const SelectScrollUpButton = ({
     </SelectPrimitive.ScrollUpArrow>
   );
 };
+
 const SelectScrollDownButton = ({
   className,
   ...props
@@ -175,6 +186,7 @@ const SelectScrollDownButton = ({
     </SelectPrimitive.ScrollDownArrow>
   );
 };
+
 export {
   Select,
   SelectContent,

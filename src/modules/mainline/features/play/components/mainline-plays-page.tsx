@@ -7,9 +7,11 @@ import { EmptyState } from "@/shared/components/app/empty-state";
 import { PageHeader } from "@/shared/components/app/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+
 type MainlinePlaysPageProps = {
   data: MainlinePlaysPageData;
 };
+
 export const MainlinePlaysPage = ({ data }: MainlinePlaysPageProps) => {
   const hasPlays = data.plays.length > 0;
   return (

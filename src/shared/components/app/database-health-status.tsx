@@ -1,4 +1,5 @@
 "use client";
+
 import { WifiOffIcon } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
 import { Button } from "@/shared/components/ui/button";
@@ -7,22 +8,27 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+
 type HealthState = "unknown" | "healthy" | "unhealthy";
 type HealthListener = () => void;
+
 const HEALTH_INTERVAL_MS = 60000;
 const healthListeners = new Set<HealthListener>();
 let healthState: HealthState = "unknown";
 let healthMonitorStarted = false;
 let healthCheckPromise: Promise<void> | null = null;
+
 const requestHealth = async () => {
   const response = await fetch("/api/health", { cache: "no-store" });
   return response.ok;
 };
+
 const setHealthState = (nextState: HealthState) => {
   if (healthState === nextState) return;
   healthState = nextState;
   healthListeners.forEach((listener) => listener());
 };
+
 const runHealthCheck = () => {
   if (healthCheckPromise) return healthCheckPromise;
   healthCheckPromise = (async () => {
@@ -37,6 +43,7 @@ const runHealthCheck = () => {
   });
   return healthCheckPromise;
 };
+
 const startDatabaseHealthMonitor = () => {
   if (healthMonitorStarted || typeof window === "undefined") return;
   healthMonitorStarted = true;
@@ -45,15 +52,18 @@ const startDatabaseHealthMonitor = () => {
     void runHealthCheck();
   }, HEALTH_INTERVAL_MS);
 };
+
 const subscribeToHealth = (listener: HealthListener) => {
   healthListeners.add(listener);
   return () => {
     healthListeners.delete(listener);
   };
 };
+
 const getHealthSnapshot = () => {
   return healthState;
 };
+
 const useDatabaseHealth = () => {
   return useSyncExternalStore(
     subscribeToHealth,
@@ -61,12 +71,14 @@ const useDatabaseHealth = () => {
     getHealthSnapshot,
   );
 };
+
 export const DatabaseHealthProvider = () => {
   useEffect(() => {
     startDatabaseHealthMonitor();
   }, []);
   return null;
 };
+
 export const DatabaseHealthStatus = () => {
   const state = useDatabaseHealth();
   if (state !== "unhealthy") return null;

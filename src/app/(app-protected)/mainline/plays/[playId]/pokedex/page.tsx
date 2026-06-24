@@ -1,19 +1,20 @@
 import { notFound } from "next/navigation";
 import { MainlinePlayPokedexPage } from "@/modules/mainline/features/play/components/detail/mainline-play-pokedex-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/queries";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/play-detail-query";
+
 type MainlinePlayPokedexRouteProps = {
   params: Promise<{
     playId: string;
   }>;
 };
-const MainlinePlayPokedexRoute = async ({
+
+export default async function MainlinePlayPokedexRoute({
   params,
-}: MainlinePlayPokedexRouteProps) => {
+}: MainlinePlayPokedexRouteProps) {
   const { playId } = await params;
   const data = await getMainlinePlayDetailData(playId);
   if (!data) {
     notFound();
   }
   return <MainlinePlayPokedexPage data={data} />;
-};
-export default MainlinePlayPokedexRoute;
+}

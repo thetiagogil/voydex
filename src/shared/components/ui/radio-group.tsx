@@ -1,7 +1,9 @@
 "use client";
+
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
 import { cn } from "@/lib/utils";
+
 const RadioGroup = ({ className, ...props }: RadioGroupPrimitive.Props) => {
   return (
     <RadioGroupPrimitive
@@ -11,6 +13,7 @@ const RadioGroup = ({ className, ...props }: RadioGroupPrimitive.Props) => {
     />
   );
 };
+
 const RadioGroupItem = ({ className, ...props }: RadioPrimitive.Root.Props) => {
   return (
     <RadioPrimitive.Root
@@ -30,4 +33,5 @@ const RadioGroupItem = ({ className, ...props }: RadioPrimitive.Root.Props) => {
     </RadioPrimitive.Root>
   );
 };
+
 export { RadioGroup, RadioGroupItem };

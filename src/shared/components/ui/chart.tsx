@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 import type { TooltipValueType } from "recharts";
@@ -6,6 +7,7 @@ import { cn } from "@/lib/utils";
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
 const INITIAL_DIMENSION = { width: 320, height: 200 } as const;
+
 type TooltipNameType = number | string;
 export type ChartConfig = Record<
   string,
@@ -26,7 +28,9 @@ export type ChartConfig = Record<
 type ChartContextProps = {
   config: ChartConfig;
 };
+
 const ChartContext = React.createContext<ChartContextProps | null>(null);
+
 const useChart = () => {
   const context = React.useContext(ChartContext);
   if (!context) {
@@ -34,6 +38,7 @@ const useChart = () => {
   }
   return context;
 };
+
 const ChartContainer = ({
   id,
   className,
@@ -74,6 +79,7 @@ const ChartContainer = ({
     </ChartContext.Provider>
   );
 };
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme ?? config.color,
@@ -104,7 +110,9 @@ ${colorConfig
     />
   );
 };
+
 const ChartTooltip = RechartsPrimitive.Tooltip;
+
 const ChartTooltipContent = ({
   active,
   payload,
@@ -249,7 +257,9 @@ const ChartTooltipContent = ({
     </div>
   );
 };
+
 const ChartLegend = RechartsPrimitive.Legend;
+
 const ChartLegendContent = ({
   className,
   hideIcon = false,
@@ -301,6 +311,7 @@ const ChartLegendContent = ({
     </div>
   );
 };
+
 const getPayloadConfigFromPayload = (
   config: ChartConfig,
   payload: unknown,
@@ -332,6 +343,7 @@ const getPayloadConfigFromPayload = (
   }
   return configLabelKey in config ? config[configLabelKey] : config[key];
 };
+
 export {
   ChartContainer,
   ChartTooltip,

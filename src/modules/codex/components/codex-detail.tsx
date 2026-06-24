@@ -10,10 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+
 type CodexBackLinkProps = {
   children: ReactNode;
   href: string;
 };
+
 export const CodexBackLink = ({ children, href }: CodexBackLinkProps) => {
   return (
     <div>
@@ -27,6 +29,7 @@ export const CodexBackLink = ({ children, href }: CodexBackLinkProps) => {
     </div>
   );
 };
+
 type CodexDetailHeroProps = {
   children: ReactNode;
   className?: string;
@@ -34,6 +37,7 @@ type CodexDetailHeroProps = {
   media?: ReactNode;
   mediaClassName?: string;
 };
+
 export const CodexDetailHero = ({
   children,
   className,
@@ -58,6 +62,7 @@ export const CodexDetailHero = ({
     </Card>
   );
 };
+
 type CodexSectionCardProps = {
   children: ReactNode;
   className?: string;
@@ -66,6 +71,7 @@ type CodexSectionCardProps = {
   media?: ReactNode;
   title: ReactNode;
 };
+
 export const CodexSectionCard = ({
   children,
   className,
@@ -85,6 +91,7 @@ export const CodexSectionCard = ({
     </Card>
   );
 };
+
 export const CodexInfoGrid = ({
   className,
   ...props
@@ -93,11 +100,13 @@ export const CodexInfoGrid = ({
     <div className={cn("grid gap-3 sm:grid-cols-2", className)} {...props} />
   );
 };
+
 type CodexInfoTileProps = {
   children: ReactNode;
   className?: string;
   label: ReactNode;
 };
+
 export const CodexInfoTile = ({
   children,
   className,
@@ -115,15 +124,18 @@ export const CodexInfoTile = ({
     </div>
   );
 };
+
 export const CodexInlineEmpty = ({ children }: { children: ReactNode }) => {
   return <p className="text-muted-foreground text-sm">{children}</p>;
 };
+
 type CodexLinkedPanelProps = {
   children: ReactNode;
   className?: string;
   href: string;
   showArrow?: boolean;
 };
+
 export const CodexLinkedPanel = ({
   children,
   className,

@@ -10,11 +10,13 @@ import {
 } from "@/modules/codex/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
-import { getGameDetailData } from "@/modules/codex/data/queries";
+import { getGameDetailData } from "@/modules/codex/data/game-queries";
 import { Badge } from "@/shared/components/ui/badge";
+
 type GameDetailPageProps = {
   gameSlug: string;
 };
+
 export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
   const data = await getGameDetailData(gameSlug);
   if (!data) {

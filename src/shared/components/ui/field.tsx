@@ -1,9 +1,11 @@
 "use client";
+
 import { useMemo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Label } from "@/shared/components/ui/label";
 import { Separator } from "@/shared/components/ui/separator";
+
 const FieldSet = ({
   className,
   ...props
@@ -19,6 +21,7 @@ const FieldSet = ({
     />
   );
 };
+
 const FieldLegend = ({
   className,
   variant = "legend",
@@ -38,6 +41,7 @@ const FieldLegend = ({
     />
   );
 };
+
 const FieldGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -50,6 +54,7 @@ const FieldGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const fieldVariants = cva(
   "group/field flex w-full gap-2 data-[invalid=true]:text-destructive",
   {
@@ -67,6 +72,7 @@ const fieldVariants = cva(
     },
   },
 );
+
 const Field = ({
   className,
   orientation = "vertical",
@@ -82,6 +88,7 @@ const Field = ({
     />
   );
 };
+
 const FieldContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -94,6 +101,7 @@ const FieldContent = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const FieldLabel = ({
   className,
   ...props
@@ -110,6 +118,7 @@ const FieldLabel = ({
     />
   );
 };
+
 const FieldTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -122,6 +131,7 @@ const FieldTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
     />
   );
 };
+
 const FieldDescription = ({
   className,
   ...props
@@ -139,6 +149,7 @@ const FieldDescription = ({
     />
   );
 };
+
 const FieldSeparator = ({
   children,
   className,
@@ -168,6 +179,7 @@ const FieldSeparator = ({
     </div>
   );
 };
+
 const FieldError = ({
   className,
   children,
@@ -217,6 +229,7 @@ const FieldError = ({
     </div>
   );
 };
+
 export {
   Field,
   FieldLabel,

@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/shared/components/ui/spinner";
+
 type PageLoadingStateProps = {
   className?: string;
   label?: string;
 };
+
 export const PageLoadingState = ({
   className,
   label = "Loading",
