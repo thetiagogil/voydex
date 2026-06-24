@@ -6,18 +6,26 @@ import { MobileModuleNavigationMenu } from "@/shared/components/app-shell/module
 
 type ModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
+  isAuthenticated: boolean;
 };
 
 export const ModuleNavigationMenu = ({
   activeModuleKey,
+  isAuthenticated,
 }: ModuleNavigationMenuProps) => {
   return (
     <>
       <div className="lg:hidden">
-        <MobileModuleNavigationMenu activeModuleKey={activeModuleKey} />
+        <MobileModuleNavigationMenu
+          activeModuleKey={activeModuleKey}
+          isAuthenticated={isAuthenticated}
+        />
       </div>
       <div className="hidden lg:block">
-        <DesktopModuleNavigationMenu activeModuleKey={activeModuleKey} />
+        <DesktopModuleNavigationMenu
+          activeModuleKey={activeModuleKey}
+          isAuthenticated={isAuthenticated}
+        />
       </div>
     </>
   );

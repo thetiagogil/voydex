@@ -1,0 +1,50 @@
+@layer utilities {
+  .app-background-hero-overlay {
+    background: var(--app-background-overlay-hero);
+  }
+
+  .app-background-intro-overlay {
+    background: linear-gradient(
+      180deg,
+      var(--app-background-overlay-hero) 0%,
+      var(--app-background-overlay-intro) 42%,
+      var(--app-background-overlay-page) 100%
+    );
+    backdrop-filter: blur(1px) saturate(1.06);
+    -webkit-backdrop-filter: blur(1px) saturate(1.06);
+  }
+
+  .app-background-page-overlay {
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--app-background-overlay-page), transparent 24%)
+        0%,
+      var(--app-background-overlay-page) 44%,
+      color-mix(
+          in oklch,
+          var(--app-background-overlay-page),
+          var(--background) 8%
+        )
+        100%
+    );
+    backdrop-filter: blur(1.5px) saturate(1.08);
+    -webkit-backdrop-filter: blur(1.5px) saturate(1.08);
+  }
+
+  .app-nav-surface {
+    background: var(--app-nav-surface);
+    border-bottom: 1px solid var(--app-nav-border);
+    backdrop-filter: blur(18px) saturate(1.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  }
+
+  .app-background-fade {
+    background: linear-gradient(
+      90deg,
+      var(--background) 0%,
+      transparent 18%,
+      transparent 82%,
+      var(--background) 100%
+    );
+  }
+}

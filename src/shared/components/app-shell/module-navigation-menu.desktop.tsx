@@ -8,7 +8,12 @@ import {
   type ModuleKey,
 } from "@/config/modules";
 import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
+import {
+  getModuleNavigationHref,
+  moduleRequiresLogin,
+} from "@/lib/modules/module-navigation";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,12 +22,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/shared/components/ui/navigation-menu";
-import { BookOpen, CheckIcon, Map, type LucideIcon } from "lucide-react";
+import {
+  BookOpen,
+  CheckIcon,
+  LockIcon,
+  Map,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type DesktopModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
+  isAuthenticated: boolean;
 };
 
 const moduleIcons: Record<ModuleIconKey, LucideIcon> = {
@@ -37,6 +49,7 @@ const getModuleHref = (moduleKey: ModuleKey) => {
 
 export const DesktopModuleNavigationMenu = ({
   activeModuleKey,
+  isAuthenticated,
 }: DesktopModuleNavigationMenuProps) => {
   const pathname = usePathname();
   const currentModuleKey = getActiveModuleKey({
@@ -58,18 +71,38 @@ export const DesktopModuleNavigationMenu = ({
                 const moduleConfig = modules[moduleKey];
                 const Icon = moduleIcons[moduleConfig.iconKey];
                 const isActiveModule = moduleKey === currentModuleKey;
+                const isLocked = moduleRequiresLogin(
+                  moduleKey,
+                  isAuthenticated,
+                );
 
                 return (
                   <NavigationMenuLink
                     key={moduleKey}
-                    render={<Link href={getModuleHref(moduleKey)} />}
+                    render={
+                      <Link
+                        href={getModuleNavigationHref({
+                          isAuthenticated,
+                          moduleKey,
+                          targetHref: getModuleHref(moduleKey),
+                        })}
+                      />
+                    }
                     className={cn(
                       "min-h-16 items-center gap-3 p-3",
                       isActiveModule && "bg-accent text-accent-foreground",
+                      isLocked && "opacity-65 hover:opacity-100",
                     )}
                     onClick={() => {
-                      setActiveModuleCookie(moduleKey);
+                      if (!isLocked) {
+                        setActiveModuleCookie(moduleKey);
+                      }
                     }}
+                    aria-label={
+                      isLocked
+                        ? `${moduleConfig.label}, log in required`
+                        : undefined
+                    }
                     active={isActiveModule}
                     aria-current={isActiveModule ? "page" : undefined}
                   >
@@ -78,13 +111,24 @@ export const DesktopModuleNavigationMenu = ({
                         "bg-muted text-muted-foreground mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg border",
                         isActiveModule &&
                           "bg-primary/10 text-primary border-primary",
+                        isLocked && "border-dashed",
                       )}
                     >
                       <Icon aria-hidden className="size-5" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-medium">
-                        {moduleConfig.label}
+                      <span className="flex min-w-0 items-center gap-2">
+                        <span className="truncate font-medium">
+                          {moduleConfig.label}
+                        </span>
+                        {isLocked ? (
+                          <Badge
+                            variant="outline"
+                            className="border-primary/30 bg-primary/10 text-primary h-5 px-1.5 text-[0.68rem]"
+                          >
+                            Log in
+                          </Badge>
+                        ) : null}
                       </span>
                       <span className="text-muted-foreground mt-0.5 block truncate text-xs">
                         {moduleConfig.description}
@@ -92,6 +136,11 @@ export const DesktopModuleNavigationMenu = ({
                     </span>
                     {isActiveModule ? (
                       <CheckIcon aria-hidden className="text-primary mt-1" />
+                    ) : isLocked ? (
+                      <LockIcon
+                        aria-hidden
+                        className="text-muted-foreground mt-1 size-4"
+                      />
                     ) : null}
                   </NavigationMenuLink>
                 );

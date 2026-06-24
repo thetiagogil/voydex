@@ -10,21 +10,30 @@ import { buttonVariants } from "@/shared/components/ui/button";
 type AppShellProps = {
   activeModuleKey?: ModuleKey;
   children: React.ReactNode;
+  moduleSelectorKey?: ModuleKey;
+  showAuthAction?: boolean;
   userEmail?: string | null;
 };
 
 export const AppShell = ({
   activeModuleKey,
   children,
+  moduleSelectorKey = activeModuleKey,
+  showAuthAction = true,
   userEmail,
 }: AppShellProps) => {
+  const isAuthenticated = Boolean(userEmail);
+
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
-        showLogoText={!activeModuleKey}
+        showLogoText={!moduleSelectorKey}
         afterLogo={
-          activeModuleKey ? (
-            <ModuleNavigationMenu activeModuleKey={activeModuleKey} />
+          moduleSelectorKey ? (
+            <ModuleNavigationMenu
+              activeModuleKey={moduleSelectorKey}
+              isAuthenticated={isAuthenticated}
+            />
           ) : null
         }
         center={
@@ -38,14 +47,14 @@ export const AppShell = ({
           <>
             {userEmail ? (
               <UserMenu email={userEmail} />
-            ) : (
+            ) : showAuthAction ? (
               <Link
                 href={appRoutes.login}
                 className={buttonVariants({ variant: "outline", size: "lg" })}
               >
                 Log in
               </Link>
-            )}
+            ) : null}
           </>
         }
       />

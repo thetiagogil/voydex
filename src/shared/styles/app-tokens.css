@@ -1,0 +1,81 @@
+:root {
+  --app-background-overlay-hero: oklch(0.955 0.018 250 / 0.1);
+  --app-background-overlay-intro: oklch(0.91 0.03 252 / 0.24);
+  --app-background-overlay-page: oklch(0.88 0.038 253 / 0.4);
+  --app-nav-surface: oklch(0.985 0.01 248 / 0.72);
+  --app-nav-border: oklch(0.82 0.038 250 / 0.56);
+  --app-surface-border: oklch(0.82 0.036 251 / 0.64);
+  --app-surface-shadow:
+    0 18px 48px -32px oklch(0.25 0.075 258 / 0.32),
+    0 1px 0 oklch(1 0 0 / 0.42) inset;
+  --app-scrollbar-thumb: color-mix(
+    in oklch,
+    var(--primary),
+    var(--background) 42%
+  );
+  --app-scrollbar-thumb-hover: color-mix(
+    in oklch,
+    var(--primary),
+    var(--foreground) 8%
+  );
+  --app-scrollbar-track: transparent;
+  --app-success: oklch(0.57 0.13 149);
+  --app-info: oklch(0.56 0.16 242);
+  --app-warning: oklch(0.7 0.15 92);
+  --app-rare: oklch(0.62 0.128 325);
+  --app-legendary: oklch(0.67 0.14 56);
+  --app-mythic: oklch(0.61 0.145 311);
+  --app-seen: oklch(0.54 0.09 252);
+  --app-battle: oklch(0.6 0.16 30);
+  --app-milestone: oklch(0.66 0.16 63);
+  --app-decision: oklch(0.62 0.14 302);
+}
+
+.dark {
+  --app-background-overlay-hero: oklch(0.145 0.047 264 / 0.16);
+  --app-background-overlay-intro: oklch(0.13 0.047 264 / 0.34);
+  --app-background-overlay-page: oklch(0.13 0.047 264 / 0.46);
+  --app-nav-surface: oklch(0.18 0.045 264 / 0.72);
+  --app-nav-border: oklch(0.47 0.065 250 / 0.36);
+  --app-surface-border: oklch(0.54 0.06 252 / 0.3);
+  --app-surface-shadow:
+    0 18px 48px -32px oklch(0.02 0.02 264 / 0.82),
+    0 1px 0 oklch(1 0 0 / 0.06) inset;
+  --app-scrollbar-thumb: color-mix(
+    in oklch,
+    var(--primary),
+    var(--background) 48%
+  );
+  --app-scrollbar-thumb-hover: color-mix(
+    in oklch,
+    var(--primary),
+    var(--foreground) 12%
+  );
+  --app-success: oklch(0.81 0.167 149);
+  --app-info: oklch(0.78 0.14 242);
+  --app-warning: oklch(0.84 0.17 92);
+  --app-rare: oklch(0.79 0.153 325);
+  --app-legendary: oklch(0.81 0.168 56);
+  --app-mythic: oklch(0.78 0.161 311);
+  --app-seen: oklch(0.8 0.09 252);
+  --app-battle: oklch(0.74 0.181 30);
+  --app-milestone: oklch(0.83 0.176 63);
+  --app-decision: oklch(0.76 0.159 302);
+}
+
+@theme inline {
+  --color-background-overlay-hero: var(--app-background-overlay-hero);
+  --color-background-overlay-intro: var(--app-background-overlay-intro);
+  --color-background-overlay-page: var(--app-background-overlay-page);
+  --color-app-surface-border: var(--app-surface-border);
+  --color-success: var(--app-success);
+  --color-info: var(--app-info);
+  --color-warning: var(--app-warning);
+  --color-rare: var(--app-rare);
+  --color-legendary: var(--app-legendary);
+  --color-mythic: var(--app-mythic);
+  --color-seen: var(--app-seen);
+  --color-battle: var(--app-battle);
+  --color-milestone: var(--app-milestone);
+  --color-decision: var(--app-decision);
+}
