@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 type GameCoverArtProps = {
   className?: string;
@@ -8,10 +9,13 @@ type GameCoverArtProps = {
 };
 
 const getGameCoverInitials = (name: string) => {
-  const displayName = name.replace(/^Pokemon\s+/i, "");
+  const displayName = formatPokemonDisplayText(name).replace(
+    /^Pokémon\s+/i,
+    "",
+  );
   const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
   if (!words.length) {
-    return name.slice(0, 1).toUpperCase();
+    return displayName.slice(0, 1).toUpperCase();
   }
   if (words.length === 1) {
     return words[0].slice(0, 1).toUpperCase();
@@ -28,7 +32,9 @@ export const GameCoverArt = ({
   imageUrl,
   name,
 }: GameCoverArtProps) => {
+  const displayName = formatPokemonDisplayText(name);
   const initials = getGameCoverInitials(name);
+
   return (
     <div
       className={cn(
@@ -43,7 +49,7 @@ export const GameCoverArt = ({
       {imageUrl ? (
         <Image
           src={imageUrl}
-          alt={`${name} cover art`}
+          alt={`${displayName} cover art`}
           fill
           sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
           className="object-cover"
@@ -53,7 +59,7 @@ export const GameCoverArt = ({
           <div className="bg-primary/15 text-primary flex size-12 items-center justify-center rounded-xl text-lg font-black">
             {initials}
           </div>
-          <p className="text-primary text-sm font-semibold">{name}</p>
+          <p className="text-primary text-sm font-semibold">{displayName}</p>
         </div>
       )}
     </div>

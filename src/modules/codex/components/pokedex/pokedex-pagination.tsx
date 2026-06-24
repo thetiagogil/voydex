@@ -61,7 +61,7 @@ export const PokedexPagination = ({
 
   return (
     <nav
-      aria-label="Pokemon pagination"
+      aria-label="Pokémon pagination"
       className="flex items-center justify-between gap-3"
     >
       <Link

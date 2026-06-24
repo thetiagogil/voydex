@@ -9,6 +9,7 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/shared/domain/pokemon/pokemon-images";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonCardData;
@@ -23,6 +24,7 @@ export const PokedexPokemonCard = ({
   pokemon,
   priority = false,
 }: PokedexPokemonCardProps) => {
+  const speciesName = formatPokemonDisplayText(pokemon.species.name);
   const primaryTypeSlug = pokemon.typePair.primaryType?.slug;
   const portraitType =
     primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
@@ -33,7 +35,7 @@ export const PokedexPokemonCard = ({
     <CodexResourceCard
       href={appRoutes.codexPokemonSpecies(pokemon.species.slug)}
       description={formatNationalNumber(pokemon.species.national_number)}
-      title={pokemon.species.name}
+      title={speciesName}
       media={
         <PokemonPortrait
           alt={getPokemonFormImageAlt(pokemon.defaultForm)}

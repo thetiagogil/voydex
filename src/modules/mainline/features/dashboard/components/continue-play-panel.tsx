@@ -52,7 +52,7 @@ export const ContinuePlayPanel = ({ play }: ContinuePlayPanelProps) => {
             <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
               <div className="text-muted-foreground text-xs">Team</div>
               <div className="mt-1 font-medium">
-                {formatMainlineNumber(getMainlinePlayTeamCount(play))} Pokemon
+                {formatMainlineNumber(getMainlinePlayTeamCount(play))} Pokémon
               </div>
             </div>
             <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">

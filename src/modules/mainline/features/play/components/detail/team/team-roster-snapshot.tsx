@@ -36,7 +36,7 @@ export const TeamRosterSnapshot = ({ data }: TeamRosterSnapshotProps) => {
     {
       description: `${formatNumber(activeTeam.length)} active, ${formatNumber(reserveTeam.length)} reserve`,
       icon: <Shield className="text-primary size-7" />,
-      label: "Rostered Pokemon",
+      label: "Rostered Pokémon",
       value: formatNumber(data.team.length),
     },
     {

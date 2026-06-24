@@ -1,4 +1,5 @@
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -59,7 +60,10 @@ export const getMainlinePlayTitle = (play: MainlinePlayCardData) => {
 };
 
 export const getMainlinePlayGameLine = (play: MainlinePlayCardData) => {
-  return [play.game_name ?? "Unknown game", play.generation_name]
+  return [
+    formatPokemonDisplayText(play.game_name ?? "Unknown game"),
+    play.generation_name,
+  ]
     .filter(Boolean)
     .join(" - ");
 };

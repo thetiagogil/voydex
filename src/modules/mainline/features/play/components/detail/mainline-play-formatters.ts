@@ -14,6 +14,7 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/shared/domain/pokemon/constants";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 export const formatDate = (value: string | null) => {
   if (!value) {
@@ -91,14 +92,16 @@ export const getLatestTimelineEvents = (
 };
 
 export const getPokedexDisplayName = (entry: MainlinePlayPokedexEntry) => {
-  return entry.species_name ?? entry.display_form_name ?? "Pokemon";
+  return formatPokemonDisplayText(
+    entry.species_name ?? entry.display_form_name ?? "Pokémon",
+  );
 };
 
 export const getPokemonDisplayName = (
   pokemon: MainlinePlayTeamPokemon | MainlinePlayTeamDetail,
 ) => {
-  return (
-    pokemon.nickname ?? pokemon.species_name ?? pokemon.form_name ?? "Pokemon"
+  return formatPokemonDisplayText(
+    pokemon.nickname ?? pokemon.species_name ?? pokemon.form_name ?? "Pokémon",
   );
 };
 

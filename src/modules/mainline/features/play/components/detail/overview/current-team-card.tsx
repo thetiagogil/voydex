@@ -36,7 +36,7 @@ export const CurrentTeamCard = ({ data }: CurrentTeamCardProps) => {
     return (
       <EmptyPanel
         title="No active team yet"
-        description="Pokemon will appear here when this play has active roster entries."
+        description="Pokémon will appear here when this play has active roster entries."
       />
     );
   }

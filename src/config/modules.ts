@@ -13,7 +13,7 @@ export const modules = {
   codex: {
     basePath: appRoutes.codex,
     defaultHref: appRoutes.codexPokemon,
-    description: "Browse Pokemon, games, and generations.",
+    description: "Browse Pokémon, games, and generations.",
     iconKey: "book-open",
     label: "Codex",
     requiresAuthentication: false,
@@ -21,7 +21,7 @@ export const modules = {
     views: [
       {
         href: appRoutes.codexPokemon,
-        label: "Pokemon",
+        label: "Pokémon",
         slug: "pokemon",
       },
       {

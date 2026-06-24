@@ -29,6 +29,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 type CreateMainlinePlayFormProps = {
   data: CreateMainlinePlayPageData;
@@ -150,51 +151,57 @@ export const CreateMainlinePlayForm = ({
           <FieldSet>
             <FieldLegend className="sr-only">Game</FieldLegend>
             <div className="grid max-h-[34rem] gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
-              {data.games.map((option) => (
-                <label key={option.game.id} className="cursor-pointer">
-                  <input
-                    type="radio"
-                    name="gameId"
-                    value={option.game.id}
-                    className="peer sr-only"
-                    required
-                  />
-                  <span className="border-app-surface-border bg-card/55 hover:bg-accent/35 peer-checked:border-primary/60 peer-checked:bg-primary/10 peer-focus-visible:ring-ring/50 flex min-h-28 gap-3 rounded-xl border p-3 transition-colors peer-focus-visible:ring-3">
-                    <span className="bg-muted/70 text-muted-foreground flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
-                      {option.coverImageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={option.coverImageUrl}
-                          alt=""
-                          className="size-full object-cover"
-                        />
-                      ) : (
-                        <Gamepad2 className="size-5" />
-                      )}
+              {data.games.map((option) => {
+                const gameName = formatPokemonDisplayText(option.game.name);
+
+                return (
+                  <label key={option.game.id} className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gameId"
+                      value={option.game.id}
+                      className="peer sr-only"
+                      required
+                    />
+                    <span className="border-app-surface-border bg-card/55 hover:bg-accent/35 peer-checked:border-primary/60 peer-checked:bg-primary/10 peer-focus-visible:ring-ring/50 flex min-h-28 gap-3 rounded-xl border p-3 transition-colors peer-focus-visible:ring-3">
+                      <span className="bg-muted/70 text-muted-foreground flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+                        {option.coverImageUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={option.coverImageUrl}
+                            alt=""
+                            className="size-full object-cover"
+                          />
+                        ) : (
+                          <Gamepad2 className="size-5" />
+                        )}
+                      </span>
+                      <span className="flex min-w-0 flex-1 flex-col gap-1">
+                        <span className="truncate font-medium">{gameName}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {option.generation?.name ?? "Unknown generation"}
+                          {option.region
+                            ? ` - ${formatPokemonDisplayText(option.region.name)}`
+                            : ""}
+                        </span>
+                        <span className="text-muted-foreground text-xs">
+                          {option.platforms.length
+                            ? option.platforms
+                                .map((platform) =>
+                                  formatPokemonDisplayText(platform.name),
+                                )
+                                .join(", ")
+                            : "Platform not set"}
+                        </span>
+                        <span className="text-muted-foreground mt-auto flex items-center gap-1 text-xs">
+                          <CalendarDays aria-hidden />
+                          {option.game.release_year}
+                        </span>
+                      </span>
                     </span>
-                    <span className="flex min-w-0 flex-1 flex-col gap-1">
-                      <span className="truncate font-medium">
-                        {option.game.name}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {option.generation?.name ?? "Unknown generation"}
-                        {option.region ? ` - ${option.region.name}` : ""}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {option.platforms.length
-                          ? option.platforms
-                              .map((platform) => platform.name)
-                              .join(", ")
-                          : "Platform not set"}
-                      </span>
-                      <span className="text-muted-foreground mt-auto flex items-center gap-1 text-xs">
-                        <CalendarDays aria-hidden />
-                        {option.game.release_year}
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              ))}
+                  </label>
+                );
+              })}
             </div>
             <FieldError>{state.fieldErrors?.gameId}</FieldError>
           </FieldSet>

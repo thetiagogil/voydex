@@ -20,7 +20,7 @@ const companionAreas = [
   {
     title: "Codex",
     description:
-      "A fast read-only reference for Pokemon, games, and generations when you need an answer.",
+      "A fast read-only reference for Pokémon, games, and generations when you need an answer.",
     icon: BookOpenCheckIcon,
   },
   {

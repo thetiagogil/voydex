@@ -11,7 +11,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Voydex",
-  description: "A Pokemon companion for tracking and planning playthroughs.",
+  description: "A Pokémon companion for tracking and planning playthroughs.",
 };
 
 export default function RootLayout({

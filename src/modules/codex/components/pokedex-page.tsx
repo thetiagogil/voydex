@@ -42,7 +42,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
   return (
     <CodexPageShell
       title="Pokedex"
-      description="Search and filter the Pokemon reference data seeded for Voydex."
+      description="Search and filter the Pokémon reference data seeded for Voydex."
     >
       <PokedexFilterForm
         filters={data.filters}
@@ -55,7 +55,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
       <CodexBrowseMeta>
         <span>
           Showing {firstResult}-{lastResult} of {data.pagination.totalCount}{" "}
-          Pokemon
+          Pokémon
         </span>
       </CodexBrowseMeta>
 
@@ -71,7 +71,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
         </CodexResourceGrid>
       ) : (
         <CodexEmptyState
-          title="No Pokemon found"
+          title="No Pokémon found"
           description="Try a different name or National Pokedex number."
           action={
             <Link

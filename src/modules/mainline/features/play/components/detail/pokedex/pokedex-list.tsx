@@ -29,7 +29,7 @@ export const PokedexList = ({ entries, playId }: PokedexListProps) => {
       <TableHeader>
         <TableRow>
           <TableHead>Number</TableHead>
-          <TableHead>Pokemon</TableHead>
+          <TableHead>Pokémon</TableHead>
           <TableHead>Types</TableHead>
           <TableHead>Completion</TableHead>
           <TableHead className="text-right">Progress</TableHead>

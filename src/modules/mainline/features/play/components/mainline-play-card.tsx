@@ -100,7 +100,7 @@ export const MainlinePlayCard = ({ play }: MainlinePlayCardProps) => {
           <PlayMetric
             icon={<UsersRoundIcon aria-hidden />}
             label="Team"
-            value={`${getMainlinePlayTeamCount(play)} Pokemon`}
+            value={`${getMainlinePlayTeamCount(play)} Pokémon`}
           />
           <PlayMetric
             icon={<ListChecksIcon aria-hidden />}

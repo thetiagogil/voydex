@@ -18,7 +18,7 @@ const GenerationSummaryCard = ({ card }: { card: GenerationCard }) => {
       contentClassName="flex-row flex-wrap"
     >
       <Badge variant="secondary">{card.gameCount} games</Badge>
-      <Badge variant="outline">{card.speciesCount} Pokemon introduced</Badge>
+      <Badge variant="outline">{card.speciesCount} Pokémon introduced</Badge>
     </CodexResourceCard>
   );
 };
@@ -28,7 +28,7 @@ export const GenerationsPage = async () => {
   return (
     <CodexPageShell
       title="Generations"
-      description="Browse mainline Pokemon generations and the games seeded for each era."
+      description="Browse mainline Pokémon generations and the games seeded for each era."
     >
       <CodexBrowseMeta>
         {data.generations.length} generations visible

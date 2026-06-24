@@ -68,7 +68,7 @@ export const TeamRoster = ({ data }: TeamRosterProps) => {
               ))
             ) : (
               <div className="text-muted-foreground rounded-lg border border-dashed p-4 text-sm">
-                No active Pokemon yet.
+                No active Pokémon yet.
               </div>
             )}
           </div>

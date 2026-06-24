@@ -15,6 +15,7 @@ import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { SelectControl } from "@/shared/components/select-control";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 import { cn } from "@/lib/utils";
 
 type GamesPageProps = {
@@ -25,26 +26,32 @@ type GamesPageProps = {
 };
 
 const GameSummaryCard = ({ card }: { card: GameCard }) => {
+  const gameName = formatPokemonDisplayText(card.game.name);
+
   return (
     <CodexResourceCard
       href={appRoutes.codexGame(card.game.slug)}
       description={`${card.generation?.name ?? "Unknown generation"} / ${card.game.release_year}`}
-      title={card.game.name}
-      media={
-        <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
-      }
+      title={gameName}
+      media={<GameCoverArt imageUrl={card.coverImageUrl} name={gameName} />}
     >
       <div className="flex flex-wrap gap-2">
         {card.region ? (
-          <Badge variant="outline">{card.region.name}</Badge>
+          <Badge variant="outline">
+            {formatPokemonDisplayText(card.region.name)}
+          </Badge>
         ) : null}
         {card.gameType ? (
-          <Badge variant="secondary">{card.gameType.name}</Badge>
+          <Badge variant="secondary">
+            {formatPokemonDisplayText(card.gameType.name)}
+          </Badge>
         ) : null}
       </div>
       {card.platforms.length ? (
         <p className="text-muted-foreground text-sm">
-          {card.platforms.map((platform) => platform.name).join(", ")}
+          {card.platforms
+            .map((platform) => formatPokemonDisplayText(platform.name))
+            .join(", ")}
         </p>
       ) : null}
     </CodexResourceCard>
