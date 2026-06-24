@@ -1,6 +1,5 @@
 "use client";
 
-import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { signOut } from "@/lib/auth/server/actions";
@@ -15,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type UserMenuProps = {
   email: string;
@@ -41,7 +41,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="truncate">
-            <UserIcon /> {email}
+            <AppIcon icon={appIcons.account.user} /> {email}
           </DropdownMenuLabel>
         </DropdownMenuGroup>
 
@@ -49,7 +49,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
-            <SettingsIcon />
+            <AppIcon icon={appIcons.actions.settings} />
             Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -63,7 +63,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
               render={<button type="submit" className="w-full" />}
               nativeButton
             >
-              <LogOutIcon />
+              <AppIcon icon={appIcons.actions.signOut} />
               Sign out
             </DropdownMenuItem>
           </form>

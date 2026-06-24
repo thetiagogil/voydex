@@ -161,7 +161,7 @@ Application shell, navigation, layout helpers, health banner, and app-specific s
 
 ### `src/shared/components/pokemon`
 
-Pokemon-specific shared visual components such as type icons. Keep product-specific Pokemon display logic here only when it is reusable across features.
+Pokémon-specific shared visual components such as type icons. Keep product-specific Pokémon display logic here only when it is reusable across features.
 
 ### `src/shared/theme`
 
@@ -194,7 +194,7 @@ src/modules/codex/
 src/modules/mainline/
 ```
 
-The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokemon RPG playthrough behavior. Its user-facing label is Mainline.
+The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokémon RPG playthrough behavior. Its user-facing label is Mainline.
 
 Dashboard is a view inside the `mainline` module, not its own module.
 
@@ -209,7 +209,7 @@ src/modules/mainline/features/dashboard/
   types.ts
 ```
 
-Future app modules can use the same module pattern when they become active. Pokemon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can become modules when they have distinct frontend behavior.
+Future app modules can use the same module pattern when they become active. Pokémon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can become modules when they have distinct frontend behavior.
 
 ## Feature Code
 

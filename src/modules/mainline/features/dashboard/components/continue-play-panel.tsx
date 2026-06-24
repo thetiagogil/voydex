@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import {
   formatMainlineNumber,
@@ -15,6 +13,7 @@ import type { MainlinePlayCardData } from "@/modules/mainline/features/play/type
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type ContinuePlayPanelProps = {
   play: MainlinePlayCardData;
@@ -25,7 +24,6 @@ export const ContinuePlayPanel = ({ play }: ContinuePlayPanelProps) => {
   const href = playId
     ? appRoutes.mainlinePlay(playId)
     : appRoutes.mainlinePlays;
-
   return (
     <Card className="bg-card/82">
       <CardContent className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
@@ -65,7 +63,7 @@ export const ContinuePlayPanel = ({ play }: ContinuePlayPanelProps) => {
         </div>
         <Button render={<Link href={href} />} nativeButton={false}>
           Open play
-          <ArrowRightIcon data-icon="inline-end" />
+          <AppIcon icon={appIcons.actions.continue} inline="end" />
         </Button>
       </CardContent>
     </Card>

@@ -41,7 +41,7 @@ export const OverallCompletionCard = ({
             <div className="flex flex-wrap gap-2">
               <StatusBadge tone="success">Story</StatusBadge>
               {overview.include_pokedex_in_completion ? (
-                <StatusBadge tone="success">Pokedex</StatusBadge>
+                <StatusBadge tone="success">Pokédex</StatusBadge>
               ) : null}
               {overview.include_collectibles_in_completion ? (
                 <StatusBadge tone="success">Collectibles</StatusBadge>
@@ -58,7 +58,7 @@ export const OverallCompletionCard = ({
                 <StatusBadge tone="neutral">Optional entries</StatusBadge>
               ) : null}
               {!overview.include_optional_pokedexes_in_completion ? (
-                <StatusBadge tone="neutral">Optional Pokedexes</StatusBadge>
+                <StatusBadge tone="neutral">Optional Pokédexes</StatusBadge>
               ) : null}
               {overview.include_optional_pokedex_entries_in_completion &&
               overview.include_optional_pokedexes_in_completion ? (

@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { BookOpen, ChevronRight } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import { formatPercent } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
@@ -13,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type ProgressSummaryCardProps = {
   data: MainlinePlayDetailData;
@@ -28,7 +27,7 @@ export const ProgressSummaryCard = ({ data }: ProgressSummaryCardProps) => {
     },
     {
       href: appRoutes.mainlinePlayPokedex(playId),
-      label: "Pokedex",
+      label: "Pokédex",
       value: data.overview.pokedex_completion_percent,
     },
     {
@@ -42,7 +41,10 @@ export const ProgressSummaryCard = ({ data }: ProgressSummaryCardProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <BookOpen className="text-primary size-5" />
+          <AppIcon
+            icon={appIcons.views.mainline.progress}
+            className="text-primary size-5"
+          />
           Progress Summary
         </CardTitle>
         <CardAction>
@@ -53,7 +55,7 @@ export const ProgressSummaryCard = ({ data }: ProgressSummaryCardProps) => {
             size="sm"
           >
             View all
-            <ChevronRight data-icon="inline-end" />
+            <AppIcon icon={appIcons.actions.continue} inline="end" />
           </Button>
         </CardAction>
       </CardHeader>

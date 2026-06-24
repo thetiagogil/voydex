@@ -1,8 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Gem } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import { CollectibleDetail } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-detail";
 import { CollectibleGroupList } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-group-list";
@@ -10,6 +8,7 @@ import { buildCollectibleGroups } from "@/modules/mainline/features/play/compone
 import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
 import { EmptyPanel } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlayCollectiblesPageProps = {
   data: MainlinePlayDetailData;
@@ -35,7 +34,6 @@ export const MainlinePlayCollectiblesPage = ({
     (total, group) => total + group.totalCount,
     0,
   );
-
   return (
     <MainlinePlayShell
       activeProgressTab="collectibles"
@@ -46,7 +44,10 @@ export const MainlinePlayCollectiblesPage = ({
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
             <div className="bg-primary/10 text-primary flex size-14 items-center justify-center rounded-xl">
-              <Gem className="size-7" />
+              <AppIcon
+                icon={appIcons.views.mainline.collectibles}
+                className="size-7"
+              />
             </div>
             <div>
               <h2 className="text-2xl font-semibold tracking-normal">

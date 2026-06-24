@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactNode } from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CodexBackLinkProps = {
   children: ReactNode;
@@ -23,7 +23,7 @@ export const CodexBackLink = ({ children, href }: CodexBackLinkProps) => {
         href={href}
         className={buttonVariants({ variant: "ghost", size: "sm" })}
       >
-        <ArrowLeftIcon data-icon="inline-start" aria-hidden />
+        <AppIcon icon={appIcons.actions.back} inline="start" aria-hidden />
         {children}
       </Link>
     </div>
@@ -152,7 +152,8 @@ export const CodexLinkedPanel = ({
     >
       <div className="min-w-0 flex-1">{children}</div>
       {showArrow ? (
-        <ArrowRightIcon
+        <AppIcon
+          icon={appIcons.actions.continue}
           className="text-muted-foreground mt-0.5 size-4 shrink-0 transition-transform group-hover:translate-x-0.5"
           aria-hidden
         />

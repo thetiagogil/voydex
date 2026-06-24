@@ -1,13 +1,4 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Circle,
-  CircleHelp,
-  Clock3,
-  Eye,
-  UsersRound,
-} from "lucide-react";
 import type {
   MainlinePlayPokedexEntry,
   MainlinePlayTeamPokemon,
@@ -29,6 +20,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 export const CompactProgressRow = ({
   actionLabel,
@@ -67,7 +59,7 @@ export const CompactProgressRow = ({
           size="sm"
         >
           {actionLabel}
-          <ArrowRight data-icon="inline-end" />
+          <AppIcon icon={appIcons.actions.continue} inline="end" />
         </Button>
       ) : (
         <StatusBadge tone={tone}>{Math.round(percent ?? 0)}%</StatusBadge>
@@ -86,7 +78,10 @@ export const EmptyPanel = ({
   return (
     <Card>
       <CardContent className="flex min-h-40 flex-col items-center justify-center gap-2 text-center">
-        <CircleHelp className="text-muted-foreground size-8" />
+        <AppIcon
+          icon={appIcons.status.unknown}
+          className="text-muted-foreground size-8"
+        />
         <p className="font-medium">{title}</p>
         <p className="text-muted-foreground max-w-sm text-sm">{description}</p>
       </CardContent>
@@ -111,7 +106,7 @@ export const PokemonStatusControls = ({
             : "text-muted-foreground",
         )}
       >
-        <Eye className="size-3.5" />
+        <AppIcon icon={appIcons.product.seen} className="size-3.5" />
         Seen
       </div>
       <div
@@ -122,7 +117,7 @@ export const PokemonStatusControls = ({
             : "text-muted-foreground",
         )}
       >
-        <CheckCircle2 className="size-3.5" />
+        <AppIcon icon={appIcons.product.caught} className="size-3.5" />
         Caught
       </div>
     </div>
@@ -212,7 +207,10 @@ export const TimelineRows = ({
           className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border p-3"
         >
           <div className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-full">
-            <Circle className="size-3 fill-current" />
+            <AppIcon
+              icon={appIcons.product.event}
+              className="size-3 fill-current"
+            />
           </div>
           <div className="min-w-0">
             <p className="truncate font-medium">
@@ -225,7 +223,7 @@ export const TimelineRows = ({
             ) : null}
           </div>
           <span className="text-muted-foreground hidden items-center gap-1.5 text-xs sm:inline-flex">
-            <Clock3 className="size-3.5" />
+            <AppIcon icon={appIcons.product.recent} className="size-3.5" />
             {formatDateTime(event.happened_at)}
           </span>
         </div>
@@ -243,7 +241,7 @@ export const TeamCountBadge = ({
 }) => {
   return (
     <Badge variant="secondary" className="gap-1.5">
-      <UsersRound className="size-3" />
+      <AppIcon icon={appIcons.product.team} className="size-3" />
       {formatNumber(activeCount)} active
       <span className="text-muted-foreground">/</span>
       {formatNumber(reserveCount)} reserve

@@ -12,10 +12,6 @@ import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGameDetailData } from "@/modules/codex/data/game-queries";
 import { Badge } from "@/shared/components/ui/badge";
-import {
-  formatOptionalPokemonDisplayText,
-  formatPokemonDisplayText,
-} from "@/shared/domain/pokemon/display-text";
 
 type GameDetailPageProps = {
   gameSlug: string;
@@ -27,21 +23,17 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
     notFound();
   }
 
-  const gameName = formatPokemonDisplayText(data.game.name);
-  const versionGroupName = formatOptionalPokemonDisplayText(
-    data.versionGroup?.name,
-    "Unknown",
-  );
-
   return (
     <CodexPageShell
-      title={gameName}
+      title={data.game.name}
       description={`${data.generation?.name ?? "Unknown generation"} reference data for ${data.game.release_year}.`}
     >
       <CodexBackLink href={appRoutes.codexGames}>Back to games</CodexBackLink>
 
       <CodexDetailHero
-        media={<GameCoverArt imageUrl={data.coverImageUrl} name={gameName} />}
+        media={
+          <GameCoverArt imageUrl={data.coverImageUrl} name={data.game.name} />
+        }
       >
         <div className="flex flex-col gap-4">
           <div>
@@ -50,22 +42,18 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
               {data.game.release_year}
             </p>
             <h2 className="mt-1 text-3xl font-semibold tracking-normal">
-              {gameName}
+              {data.game.name}
             </h2>
           </div>
           <div className="flex flex-wrap gap-2">
             {data.region ? (
-              <Badge variant="outline">
-                {formatPokemonDisplayText(data.region.name)}
-              </Badge>
+              <Badge variant="outline">{data.region.name}</Badge>
             ) : null}
             {data.gameType ? (
-              <Badge variant="secondary">
-                {formatPokemonDisplayText(data.gameType.name)}
-              </Badge>
+              <Badge variant="secondary">{data.gameType.name}</Badge>
             ) : null}
             {data.versionGroup ? (
-              <Badge variant="outline">{versionGroupName}</Badge>
+              <Badge variant="outline">{data.versionGroup.name}</Badge>
             ) : null}
           </div>
         </div>
@@ -78,13 +66,13 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
         >
           <CodexInfoGrid>
             <CodexInfoTile label="Version group">
-              {versionGroupName}
+              {data.versionGroup?.name ?? "Unknown"}
             </CodexInfoTile>
             <CodexInfoTile label="Region">
-              {formatOptionalPokemonDisplayText(data.region?.name, "Unknown")}
+              {data.region?.name ?? "Unknown"}
             </CodexInfoTile>
             <CodexInfoTile label="Game type">
-              {formatOptionalPokemonDisplayText(data.gameType?.name, "Unknown")}
+              {data.gameType?.name ?? "Unknown"}
             </CodexInfoTile>
             <CodexInfoTile label="Available Pokémon rows">
               {data.availablePokemonCount}
@@ -100,7 +88,7 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
           {data.platforms.length ? (
             data.platforms.map((platform) => (
               <Badge key={platform.id} variant="secondary">
-                {formatPokemonDisplayText(platform.name)}
+                {platform.name}
               </Badge>
             ))
           ) : (
@@ -111,18 +99,18 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <CodexSectionCard
-          title="Pokedexes"
+          title="Pokédexes"
           description="Dex definitions attached to this version group."
           contentClassName="flex flex-col gap-2"
         >
           {data.pokedexes.length ? (
             data.pokedexes.map((pokedex) => (
-              <CodexInfoTile key={pokedex.id} label="Pokedex">
-                {formatPokemonDisplayText(pokedex.name)}
+              <CodexInfoTile key={pokedex.id} label="Pokédex">
+                {pokedex.name}
               </CodexInfoTile>
             ))
           ) : (
-            <CodexInlineEmpty>No Pokedex rows are seeded.</CodexInlineEmpty>
+            <CodexInlineEmpty>No Pokédex rows are seeded.</CodexInlineEmpty>
           )}
         </CodexSectionCard>
 
@@ -137,12 +125,7 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
                 key={`${scope.game?.id}-${scope.versionGroup?.id}`}
                 className="bg-background/45 ring-app-surface-border flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm ring-1"
               >
-                <span>
-                  {formatOptionalPokemonDisplayText(
-                    scope.versionGroup?.name,
-                    "Unknown scope",
-                  )}
-                </span>
+                <span>{scope.versionGroup?.name ?? "Unknown scope"}</span>
                 <Badge variant={scope.isBaseScope ? "default" : "outline"}>
                   {scope.isBaseScope ? "Base" : "Optional"}
                 </Badge>

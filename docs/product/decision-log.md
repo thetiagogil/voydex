@@ -6,13 +6,13 @@ This log captures accepted product and app-contract decisions for the clean Voyd
 
 ### Product Identity
 
-Voydex is a Pokemon companion for tracking, remembering, and planning playthroughs.
+Voydex is a Pokémon companion for tracking, remembering, and planning playthroughs.
 
-It should not become only a generic Pokemon wiki. Reference search exists to support play tracking, planning, and user history.
+It should not become only a generic Pokémon wiki. Reference search exists to support play tracking, planning, and user history.
 
 ### App Modules
 
-Voydex is organized by product modules, not by forcing every Pokemon game family into one play model.
+Voydex is organized by product modules, not by forcing every Pokémon game family into one play model.
 
 Active module names:
 
@@ -28,7 +28,7 @@ Accepted future module names:
 - `ranger`
 - `sleep`
 
-The active playthrough module is `mainline`. It covers mainline-style Pokemon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label is Mainline.
+The active playthrough module is `mainline`. It covers mainline-style Pokémon RPG playthrough companion behavior, including traditional mainline games, remakes, Let's Go-style entries, and Legends-style RPG entries where team, story, Pokedex, collectibles, and planning apply. Its user-facing label is Mainline.
 
 `codex` is the active reference-browsing module. It is not a database product family.
 
@@ -41,7 +41,7 @@ The main navbar is module-aware. It shows a module switcher plus the active modu
 Current module views:
 
 - Mainline: Dashboard, Plays.
-- Codex: Pokemon, Games, Generations.
+- Codex: Pokémon, Games, Generations.
 
 Generations and Games are Codex browse routes, not the required product funnel.
 
@@ -88,17 +88,17 @@ Plan members use these statuses:
 - `reached`
 - `skipped`
 
-Reached target is derived when possible from the linked play Pokemon reaching the target species/form.
+Reached target is derived when possible from the linked play Pokémon reaching the target species/form.
 
 ### Current Roster Limit
 
 The current active/reserve roster for a play is capped.
 
-The working limit is 6 active Pokemon plus 6 reserve Pokemon.
+The working limit is 6 active Pokémon plus 6 reserve Pokémon.
 
-Retired/replaced Pokemon can remain in play history without counting toward the current roster limit.
+Retired/replaced Pokémon can remain in play history without counting toward the current roster limit.
 
-Roster state and slot are explicit. Active Pokemon use slots 1 to 6, reserve Pokemon use slots 1 to 6, and retired/replaced Pokemon have no current slot.
+Roster state and slot are explicit. Active Pokémon use slots 1 to 6, reserve Pokémon use slots 1 to 6, and retired/replaced Pokémon have no current slot.
 
 ### Team Edit Intent
 
@@ -109,7 +109,7 @@ Team edits can be:
 
 Only recorded in-game changes should create timeline history.
 
-Recorded Pokemon lifecycle events should preserve event-time species/form identity. This keeps Collection and reuse checks accurate after evolutions or form changes mutate the current team row.
+Recorded Pokémon lifecycle events should preserve event-time species/form identity. This keeps Collection and reuse checks accurate after evolutions or form changes mutate the current team row.
 
 ### Story Snapshots Are Optional
 
@@ -125,7 +125,7 @@ It should focus on meaningful play events:
 
 - Story milestone completion.
 - Important fight snapshots.
-- Pokemon added, evolved, retired, or replaced.
+- Pokémon added, evolved, retired, or replaced.
 - Hall of Fame/final team.
 - Manual notes.
 
@@ -164,11 +164,11 @@ DLC/reference rows should be modeled as cumulative content-scope deltas where pr
 
 ### Collection Is Derived
 
-Collection is derived from actual play Pokemon and meaningful recorded history.
+Collection is derived from actual play Pokémon and meaningful recorded history.
 
 It is not sourced only from current team slots and should not be manually maintained as a separate primary collection.
 
-Collection should consider current play Pokemon, event-time Pokemon references, and relevant team snapshots.
+Collection should consider current play Pokémon, event-time Pokémon references, and relevant team snapshots.
 
 ### Backlog Is Independent User Intent
 
@@ -176,9 +176,9 @@ Game backlog/wishlist state is separate from concrete plays.
 
 Creating or completing a play can suggest changing backlog status, but it should not force a strict one-to-one mirror of play lifecycle.
 
-### Pokemon Reuse Applies Beyond Planning
+### Pokémon Reuse Applies Beyond Planning
 
-Pokemon reuse rules apply to both team planning and adding Pokemon to an actual play team.
+Pokémon reuse rules apply to both team planning and adding Pokémon to an actual play team.
 
 The product should use one reuse policy concept instead of a planning-only setting.
 
@@ -190,7 +190,7 @@ Reuse scopes cascade:
 
 These are mutually exclusive scopes, not independent flags.
 
-Reuse validation should include both real usage checks and preemptive checks. The app should validate the current selected Pokemon, planned targets, preferred starting Pokemon, and future evolution destinations so conflicts are visible before a user reaches a blocked evolution.
+Reuse validation should include both real usage checks and preemptive checks. The app should validate the current selected Pokémon, planned targets, preferred starting Pokémon, and future evolution destinations so conflicts are visible before a user reaches a blocked evolution.
 
 ### Rules Support Structure And Description
 
@@ -200,17 +200,17 @@ Structured rules can affect app validation, warnings, filters, stats, and planni
 
 ### Availability Is Curated Reference Data
 
-Pokemon availability answers how a Pokemon can be obtained or used in a game/content scope.
+Pokémon availability answers how a Pokémon can be obtained or used in a game/content scope.
 
 Availability methods should be curated carefully as stable lookup data because they power Pokedex search, team planning, DLC behavior, and preemptive warnings.
 
 Curated source logic should favor historically accurate sources such as Bulbapedia, Serebii, and PokemonDB over treating PokeAPI as the curated source of truth. PokeAPI can still be useful for automated checks and consistency detection.
 
-### Item Catalog Is Pokemon-Relevant Only
+### Item Catalog Is Pokémon-Relevant Only
 
 Voydex should not include a full item encyclopedia.
 
-The reference item catalog should include only Pokemon-held items or items essential to Pokemon biography/mechanics, such as Poke Balls, held items, evolution items, fossils, form-change items, berries, Mega Stones, and Z-Crystals.
+The reference item catalog should include only Pokémon-held items or items essential to Pokémon biography/mechanics, such as Poke Balls, held items, evolution items, fossils, form-change items, berries, Mega Stones, and Z-Crystals.
 
 General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items are out of scope unless a future feature requires them.
 
@@ -218,7 +218,7 @@ Source names or external source labels should stay in comments/docs, not stored 
 
 ### Green Is Out Of Scope For Now
 
-Pokemon Red/Blue are the initial Generation I paired-game scope. Pokemon Green is not included for now because the app is targeting the localized mainline playthrough scope first, and Green would need careful source handling for differences and naming.
+Pokémon Red/Blue are the initial Generation I paired-game scope. Pokémon Green is not included for now because the app is targeting the localized mainline playthrough scope first, and Green would need careful source handling for differences and naming.
 
 ### Local Supabase Is A Verification Gate
 

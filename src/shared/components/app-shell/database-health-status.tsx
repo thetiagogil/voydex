@@ -1,6 +1,5 @@
 "use client";
 
-import { WifiOffIcon } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -8,6 +7,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type HealthState = "unknown" | "healthy" | "unhealthy";
 type HealthListener = () => void;
@@ -96,7 +96,11 @@ export const DatabaseHealthStatus = () => {
             />
           }
         >
-          <WifiOffIcon className="text-destructive" aria-hidden />
+          <AppIcon
+            icon={appIcons.status.offline}
+            className="text-destructive"
+            aria-hidden
+          />
           <span
             className="bg-destructive ring-background absolute -top-0.5 -right-0.5 size-3 rounded-full ring-2"
             aria-hidden

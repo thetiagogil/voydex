@@ -1,19 +1,19 @@
 # Product Vision
 
-Voydex is a Pokemon companion for tracking, remembering, and planning Pokemon playthroughs.
+Voydex is a Pokémon companion for tracking, remembering, and planning Pokémon playthroughs.
 
-The product is not trying to replace Bulbapedia, Serebii, PokemonDB, or Pokemon HOME. Those tools are encyclopedias or official storage services. Voydex should be a personal playthrough hub: a place where the user records what they played, which Pokemon they used, what happened in the play, what they completed, and what they want to play next.
+The product is not trying to replace Bulbapedia, Serebii, PokemonDB, or Pokémon HOME. Those tools are encyclopedias or official storage services. Voydex should be a personal playthrough hub: a place where the user records what they played, which Pokémon they used, what happened in the play, what they completed, and what they want to play next.
 
 ## Main Problem
 
-Pokemon players often have many saves across many games and consoles. Remembering progress requires opening each game, checking boxes manually, or keeping scattered notes.
+Pokémon players often have many saves across many games and consoles. Remembering progress requires opening each game, checking boxes manually, or keeping scattered notes.
 
 Voydex should provide one central place to answer questions like:
 
 - Which games have I played?
 - Where am I in this playthrough?
 - What team did I use?
-- Which Pokemon have I already used across my plays?
+- Which Pokémon have I already used across my plays?
 - What did my team look like when I beat this major fight?
 - Which collectibles, story steps, and Pokedex entries are still missing?
 - What team should I plan for the next run?
@@ -26,15 +26,15 @@ A play is the central playthrough record. It stores the game, lifecycle status, 
 
 The app must support both active plays and historical imports. A user can log an old completed game without being forced through every detailed snapshot.
 
-### Remember Pokemon History
+### Remember Pokémon History
 
-Voydex should preserve the user's Pokemon history across plays.
+Voydex should preserve the user's Pokémon history across plays.
 
-Collection is not just the current team. It must include Pokemon that were used earlier, evolved, retired, replaced, or recorded in important snapshots. If a Charmander became Charizard, the app should understand that the user used Charmander, Charmeleon, and Charizard.
+Collection is not just the current team. It must include Pokémon that were used earlier, evolved, retired, replaced, or recorded in important snapshots. If a Charmander became Charizard, the app should understand that the user used Charmander, Charmeleon, and Charizard.
 
 ### Plan Future Runs
 
-Plans can exist before a play. Users usually plan final evolutions but start in-game with earlier stages, so Voydex should connect planned targets to actual obtained Pokemon over time.
+Plans can exist before a play. Users usually plan final evolutions but start in-game with earlier stages, so Voydex should connect planned targets to actual obtained Pokémon over time.
 
 Planning should include reuse warnings, availability context, optional content scope, and future evolution conflicts before the user reaches a blocked state.
 
@@ -52,7 +52,7 @@ Reference data must be curated and historically accurate, especially for older g
 4. Complete story steps, collectibles, and Pokedex progress.
 5. Record meaningful timeline moments.
 6. Plan a future team and create a play from it later.
-7. Search Pokemon availability and history before choosing a team member.
+7. Search Pokémon availability and history before choosing a team member.
 
 ## Scope Philosophy
 

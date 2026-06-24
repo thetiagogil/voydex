@@ -1,12 +1,4 @@
 import Link from "next/link";
-import {
-  ArrowRightIcon,
-  CalendarDaysIcon,
-  Clock3Icon,
-  ListChecksIcon,
-  PackageCheckIcon,
-  UsersRoundIcon,
-} from "lucide-react";
 import { appRoutes } from "@/config/routes";
 import {
   formatMainlineDate,
@@ -28,6 +20,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlayCardProps = {
   play: MainlinePlayCardData;
@@ -81,35 +74,37 @@ export const MainlinePlayCard = ({ play }: MainlinePlayCardProps) => {
             size="sm"
           >
             {play.status_slug === "completed" ? "Open record" : "Continue"}
-            <ArrowRightIcon data-icon="inline-end" />
+            <AppIcon icon={appIcons.actions.continue} inline="end" />
           </Button>
         </div>
       </CardHeader>
       <CardContent>
         <dl className="grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-5">
           <PlayMetric
-            icon={<CalendarDaysIcon aria-hidden />}
+            icon={<AppIcon icon={appIcons.product.date} aria-hidden />}
             label="Started"
             value={formatMainlineDate(play.started_on, "No start date")}
           />
           <PlayMetric
-            icon={<Clock3Icon aria-hidden />}
+            icon={<AppIcon icon={appIcons.product.playtime} aria-hidden />}
             label="Updated"
             value={formatMainlineShortDate(play.updated_at)}
           />
           <PlayMetric
-            icon={<UsersRoundIcon aria-hidden />}
+            icon={<AppIcon icon={appIcons.product.team} aria-hidden />}
             label="Team"
             value={`${getMainlinePlayTeamCount(play)} Pokémon`}
           />
           <PlayMetric
-            icon={<ListChecksIcon aria-hidden />}
+            icon={<AppIcon icon={appIcons.product.milestone} aria-hidden />}
             label="Milestones"
             value={`${play.completed_milestone_count ?? 0} complete`}
           />
           <PlayMetric
-            icon={<PackageCheckIcon aria-hidden />}
-            label="Pokedex"
+            icon={
+              <AppIcon icon={appIcons.views.mainline.pokedex} aria-hidden />
+            }
+            label="Pokédex"
             value={getMainlinePlayPokedexLine(play)}
           />
         </dl>

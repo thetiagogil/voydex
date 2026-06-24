@@ -11,12 +11,12 @@ The app should store user intent and meaningful user state. It should derive sum
 | Feature                          | Source of truth                                                 |
 | -------------------------------- | --------------------------------------------------------------- |
 | User profile                     | `public.profiles`                                               |
-| Static Pokemon/game data         | `reference` schema                                              |
+| Static Pokémon/game data         | `reference` schema                                              |
 | Story/collectible definitions    | `tracking` schema                                               |
 | Plays                            | `gameplay.mainline_plays`                                       |
 | Play metadata/settings           | `gameplay.mainline_play_settings` and play-owned columns/tables |
-| Current play roster              | User-owned play Pokemon rows with active/reserve state          |
-| Retired/replaced Pokemon history | Play Pokemon lifecycle state plus play events                   |
+| Current play roster              | User-owned play Pokémon rows with active/reserve state          |
+| Retired/replaced Pokémon history | Play Pokémon lifecycle state plus play events                   |
 | Play Pokedex progress            | Gameplay species progress joined to reference Pokedex entries   |
 | Play collectibles                | Gameplay collectible progress joined to tracking definitions    |
 | Story progress                   | Gameplay tracking progress joined to tracking definitions       |
@@ -40,7 +40,7 @@ These should be calculated through queries, views, or app services:
 - Recent activity.
 - Play overview summaries.
 - Team strengths and weaknesses.
-- Plan target reached state when it can be derived from linked play Pokemon.
+- Plan target reached state when it can be derived from linked play Pokémon.
 - Collection used-before state at form, species, and evolution-family levels.
 
 Some derived values may be cached later for performance, but caching should not redefine the source of truth.
@@ -60,15 +60,15 @@ A play owns:
 - Progress state.
 - Timeline/journal.
 
-Plays should not own static reference data. They should reference games, Pokemon, moves, forms, Pokedex entries, and tracking definitions.
+Plays should not own static reference data. They should reference games, Pokémon, moves, forms, Pokedex entries, and tracking definitions.
 
-## Team And Pokemon History
+## Team And Pokémon History
 
-The current roster should be limited to active/reserve Pokemon.
+The current roster should be limited to active/reserve Pokémon.
 
-Retired or replaced Pokemon can remain associated with the play as history, but they should not count toward the current team limit.
+Retired or replaced Pokémon can remain associated with the play as history, but they should not count toward the current team limit.
 
-Current roster ordering uses explicit roster state plus slot. Active and reserve groups each have slots 1 to 6. Retired and replaced Pokemon have no current slot.
+Current roster ordering uses explicit roster state plus slot. Active and reserve groups each have slots 1 to 6. Retired and replaced Pokémon have no current slot.
 
 Important team actions can create timeline events:
 
@@ -78,7 +78,7 @@ Important team actions can create timeline events:
 - Replaced.
 - Final team/Hall of Fame.
 
-Timeline event Pokemon references should store event-time Pokemon identity. This preserves usage history when the current Pokemon row later changes species/form through evolution, form change, replacement, or correction.
+Timeline event Pokémon references should store event-time Pokémon identity. This preserves usage history when the current Pokémon row later changes species/form through evolution, form change, replacement, or correction.
 
 Simple correction edits should not create timeline history.
 
@@ -86,7 +86,7 @@ Simple correction edits should not create timeline history.
 
 Story milestone snapshots are optional.
 
-When a snapshot is created, it must store a historical copy of the relevant team state. It must not rely only on current team rows because Pokemon can later evolve, move, retire, or be edited.
+When a snapshot is created, it must store a historical copy of the relevant team state. It must not rely only on current team rows because Pokémon can later evolve, move, retire, or be edited.
 
 Snapshot rows are owned by the timeline event that created them. They are not the source of truth for current roster state.
 
@@ -98,7 +98,7 @@ A Team Plan is separate from a play's current team.
 
 The product contract is one focused linked Team Plan per play. The database can still represent this through play plan link and member link tables, but the user-facing play workflow should not encourage multiple competing team plans inside one play.
 
-A Team Plan owns planned target Pokemon, notes, roles, and preferences.
+A Team Plan owns planned target Pokémon, notes, roles, and preferences.
 
 A Team Plan can also own optional content scope such as DLC availability before a play exists.
 
@@ -106,19 +106,19 @@ When a play is created from a Team Plan:
 
 - The Team Plan remains.
 - The play starts with an empty current team.
-- Planned members can be linked to actual play Pokemon later.
+- Planned members can be linked to actual play Pokémon later.
 
 Plan-to-play member status belongs to the relationship between one linked play and its linked Team Plan. Alternate team ideas should live as member notes, alternate targets, skipped targets, or future standalone planning concepts rather than multiple active plans for the same play.
 
 ## Collection
 
-Collection is derived from actual Pokemon used in plays and recorded play history.
+Collection is derived from actual Pokémon used in plays and recorded play history.
 
-Collection should not be sourced only from current active team slots. Removing a Pokemon from the current team should not erase the user's history with that Pokemon.
+Collection should not be sourced only from current active team slots. Removing a Pokémon from the current team should not erase the user's history with that Pokémon.
 
-Collection should also consider recorded team-history events. A Pokemon that was used before evolving should remain part of the user's usage history.
+Collection should also consider recorded team-history events. A Pokémon that was used before evolving should remain part of the user's usage history.
 
-Collection should not have a primary mutable table. It should be a read model over current Pokemon rows, event Pokemon references, and team snapshots.
+Collection should not have a primary mutable table. It should be a read model over current Pokémon rows, event Pokémon references, and team snapshots.
 
 ## Completion
 

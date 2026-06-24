@@ -1,12 +1,4 @@
 import Link from "next/link";
-import {
-  BookOpenCheckIcon,
-  Clock3Icon,
-  CompassIcon,
-  PlusIcon,
-  TrophyIcon,
-} from "lucide-react";
-
 import { modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/data/queries";
@@ -19,6 +11,7 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlineDashboardHomeProps = {
   data: MainlineDashboardData;
@@ -35,7 +28,6 @@ export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
     data.summary?.active_library_play_count ??
     data.recentPlays.filter((play) => play.status_slug === "in_progress")
       .length;
-
   return (
     <>
       <PageHeader
@@ -46,7 +38,7 @@ export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
             render={<Link href={appRoutes.mainlineNewPlay} />}
             nativeButton={false}
           >
-            <PlusIcon data-icon="inline-start" />
+            <AppIcon icon={appIcons.actions.create} inline="start" />
             New play
           </Button>
         }
@@ -65,7 +57,7 @@ export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
                   render={<Link href={appRoutes.mainlineNewPlay} />}
                   nativeButton={false}
                 >
-                  <PlusIcon data-icon="inline-start" />
+                  <AppIcon icon={appIcons.actions.create} inline="start" />
                   Create a play
                 </Button>
               }
@@ -76,19 +68,19 @@ export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <DashboardMetric
-          icon={CompassIcon}
+          icon={appIcons.product.journey}
           label="Active plays"
           value={formatMainlineNumber(activePlayCount)}
           description="Open, paused, or in-progress records in your current library."
         />
         <DashboardMetric
-          icon={TrophyIcon}
+          icon={appIcons.product.completedPlay}
           label="Completed"
           value={formatMainlineNumber(data.summary?.completed_play_count)}
           description="Finished plays kept as part of your long-term record."
         />
         <DashboardMetric
-          icon={BookOpenCheckIcon}
+          icon={appIcons.product.milestone}
           label="Milestones"
           value={formatMainlineNumber(
             data.statsSummary?.completed_milestone_count,
@@ -96,7 +88,7 @@ export const MainlineDashboardHome = ({ data }: MainlineDashboardHomeProps) => {
           description="Story progress logged across your Mainline records."
         />
         <DashboardMetric
-          icon={Clock3Icon}
+          icon={appIcons.product.playtime}
           label="Playtime"
           value={`${formatMainlineNumber(Math.floor((data.statsSummary?.total_playtime_minutes ?? 0) / 60))}h`}
           description="Total playtime from plays where time has been recorded."

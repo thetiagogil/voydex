@@ -1,8 +1,8 @@
-import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { PublicAppShell } from "@/shared/components/app-shell/public-app-shell";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 export const PublicNotFoundPage = () => {
   return (
@@ -21,14 +21,22 @@ export const PublicNotFoundPage = () => {
               href={appRoutes.appEntry}
               className={buttonVariants({ size: "lg" })}
             >
-              <CompassIcon data-icon="inline-start" aria-hidden />
+              <AppIcon
+                icon={appIcons.actions.enterApp}
+                inline="start"
+                aria-hidden
+              />
               Enter the app
             </Link>
             <Link
               href={appRoutes.home}
               className={buttonVariants({ variant: "outline", size: "lg" })}
             >
-              <HomeIcon data-icon="inline-start" aria-hidden />
+              <AppIcon
+                icon={appIcons.actions.home}
+                inline="start"
+                aria-hidden
+              />
               Home
             </Link>
           </div>

@@ -17,7 +17,7 @@ Both repos have `legacy/` folders. Legacy content is reference only.
 
 ## Current Product Summary
 
-Voydex is a Pokemon companion app for tracking, remembering, and planning playthroughs.
+Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs.
 
 Main app areas:
 
@@ -30,7 +30,7 @@ Main app areas:
 - Pokedex Progress.
 - Collectibles.
 - Plans.
-- Codex Pokemon Search.
+- Codex Pokémon Search.
 - Collection.
 - Stats.
 - Codex Browse: Generations and Games.
@@ -42,8 +42,8 @@ The app should not force `Generations -> Games -> Plays` as the only flow. Users
 
 Active modules:
 
-- `mainline`: mainline-style Pokemon RPG playthrough companion. User-facing label: Mainline.
-- `codex`: public-readable reference browser for Pokemon, games, and generations.
+- `mainline`: mainline-style Pokémon RPG playthrough companion. User-facing label: Mainline.
+- `codex`: public-readable reference browser for Pokémon, games, and generations.
 
 Future modules:
 
@@ -63,19 +63,19 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 - A play has one focused linked Team Plan. Use alternates and notes inside that plan instead of multiple competing plans per play.
 - Creating a play from a plan does not auto-fill the active team.
 - Current roster limit is 6 active plus 6 reserve.
-- Retired/replaced Pokemon remain in history but do not count toward the current roster limit.
+- Retired/replaced Pokémon remain in history but do not count toward the current roster limit.
 - Team edits distinguish correction-only edits from recorded in-game changes.
 - Timeline is user-facing play history, not a technical audit log.
 - Story snapshots are optional.
 - Pokedex completion is species-level.
 - DLC is optional per play.
 - National/special Pokedex scopes are optional completion scopes.
-- Collection is derived from play Pokemon and meaningful history, not only current team slots.
-- Pokemon reuse policy applies to planning and actual team actions.
+- Collection is derived from play Pokémon and meaningful history, not only current team slots.
+- Pokémon reuse policy applies to planning and actual team actions.
 - Reuse scopes are mutually exclusive and cascading: `none`, `form`, `species`, `evolution_family`.
 - Rules support both structured predefined behavior and custom descriptive text.
-- The item catalog is Pokemon-relevant only.
-- Other Pokemon game families should be separate modules later, not forced into the mainline play model now.
+- The item catalog is Pokémon-relevant only.
+- Other Pokémon game families should be separate modules later, not forced into the mainline play model now.
 - Dashboard is a `mainline` module view, not a top-level module.
 - Active module preference is stored in the `voydex-active-module` cookie.
 

@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { BookOpen, ListChecks, Star } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { Button } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type ProgressHeaderProps = {
   playId: string;
@@ -14,7 +13,7 @@ export const ProgressHeader = ({ playId }: ProgressHeaderProps) => {
       <div>
         <h2 className="text-2xl font-semibold tracking-normal">Progress</h2>
         <p className="text-muted-foreground text-sm">
-          Track story, Pokedex, and collectibles for this play.
+          Track story, Pokédex, and collectibles for this play.
         </p>
       </div>
 
@@ -23,7 +22,7 @@ export const ProgressHeader = ({ playId }: ProgressHeaderProps) => {
           render={<Link href={appRoutes.mainlinePlayStory(playId)} />}
           nativeButton={false}
         >
-          <BookOpen data-icon="inline-start" />
+          <AppIcon icon={appIcons.views.mainline.story} inline="start" />
           Open Story
         </Button>
         <Button
@@ -31,15 +30,15 @@ export const ProgressHeader = ({ playId }: ProgressHeaderProps) => {
           nativeButton={false}
           variant="outline"
         >
-          <ListChecks data-icon="inline-start" />
-          Open Pokedex
+          <AppIcon icon={appIcons.views.mainline.pokedex} inline="start" />
+          Open Pokédex
         </Button>
         <Button
           render={<Link href={appRoutes.mainlinePlayCollectibles(playId)} />}
           nativeButton={false}
           variant="outline"
         >
-          <Star data-icon="inline-start" />
+          <AppIcon icon={appIcons.views.mainline.collectibles} inline="start" />
           Open Collectibles
         </Button>
       </div>

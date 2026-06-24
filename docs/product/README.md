@@ -19,14 +19,14 @@ Database table-level details live in `00-databases/projects/voydex/docs`. Produc
 
 ## Product Summary
 
-Voydex is a Pokemon companion app for tracking, remembering, and planning playthroughs across games.
+Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs across games.
 
 The product pillars are:
 
 - Track a playthrough.
-- Remember the user's Pokemon history.
+- Remember the user's Pokémon history.
 - Plan the next run.
-- Search reference Pokemon/game data.
+- Search reference Pokémon/game data.
 
 The database and app should be designed for the full product direction, not only the first release.
 

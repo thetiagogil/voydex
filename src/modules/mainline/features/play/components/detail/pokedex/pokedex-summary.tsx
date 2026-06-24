@@ -12,7 +12,7 @@ type PokedexSummaryProps = {
 };
 
 export const PokedexSummary = ({ data }: PokedexSummaryProps) => {
-  const pokedexName = data.pokedexEntries[0]?.pokedex_name ?? "Pokedex";
+  const pokedexName = data.pokedexEntries[0]?.pokedex_name ?? "Pokédex";
   const caughtCount = data.overview.pokedex_caught_count ?? 0;
   const seenCount = data.overview.pokedex_seen_count ?? 0;
   const totalCount = data.pokedexEntries.length;
@@ -26,7 +26,7 @@ export const PokedexSummary = ({ data }: PokedexSummaryProps) => {
     <Card>
       <CardContent className="grid gap-4 lg:grid-cols-[16rem_1fr_auto] lg:items-center">
         <div className="rounded-lg border p-3">
-          <p className="text-muted-foreground text-sm">Active Pokedex</p>
+          <p className="text-muted-foreground text-sm">Active Pokédex</p>
           <p className="mt-1 font-medium">{pokedexName}</p>
         </div>
 

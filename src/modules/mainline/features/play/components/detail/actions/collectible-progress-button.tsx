@@ -2,12 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle } from "lucide-react";
-
 import { setMainlineCollectibleEntryProgress } from "@/modules/mainline/features/play/server/progress-actions";
 import { ActionError } from "@/modules/mainline/features/play/components/detail/actions/action-error";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CollectibleOptimisticProgress = {
   collected: boolean;
@@ -38,7 +37,6 @@ export const CollectibleProgressButton = ({
     optimisticProgress?.serverKey === serverKey
       ? optimisticProgress.collected
       : serverCollected;
-
   return (
     <div className="flex flex-col gap-2">
       <Button
@@ -81,9 +79,9 @@ export const CollectibleProgressButton = ({
         {isPending ? (
           <Spinner data-icon="inline-start" />
         ) : optimisticCollected ? (
-          <CheckCircle2 data-icon="inline-start" />
+          <AppIcon icon={appIcons.product.collected} inline="start" />
         ) : (
-          <Circle data-icon="inline-start" />
+          <AppIcon icon={appIcons.product.uncollected} inline="start" />
         )}
         {isPending
           ? "Updating..."

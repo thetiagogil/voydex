@@ -41,7 +41,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
 
   return (
     <CodexPageShell
-      title="Pokedex"
+      title="Pokédex"
       description="Search and filter the Pokémon reference data seeded for Voydex."
     >
       <PokedexFilterForm
@@ -72,7 +72,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
       ) : (
         <CodexEmptyState
           title="No Pokémon found"
-          description="Try a different name or National Pokedex number."
+          description="Try a different name or National Pokédex number."
           action={
             <Link
               href={appRoutes.codexPokemon}

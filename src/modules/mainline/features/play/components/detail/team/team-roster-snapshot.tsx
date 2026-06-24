@@ -1,5 +1,3 @@
-import { BarChart3, ClipboardList, Shield } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
   formatNumber,
@@ -14,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type TeamRosterSnapshotProps = {
   data: MainlinePlayDetailData;
@@ -35,19 +34,31 @@ export const TeamRosterSnapshot = ({ data }: TeamRosterSnapshotProps) => {
   const items = [
     {
       description: `${formatNumber(activeTeam.length)} active, ${formatNumber(reserveTeam.length)} reserve`,
-      icon: <Shield className="text-primary size-7" />,
+      icon: (
+        <AppIcon
+          icon={appIcons.product.roster}
+          className="text-primary size-7"
+        />
+      ),
       label: "Rostered Pokémon",
       value: formatNumber(data.team.length),
     },
     {
       description: "Unique species currently present in the roster.",
-      icon: <BarChart3 className="text-warning size-7" />,
+      icon: (
+        <AppIcon
+          icon={appIcons.product.stats}
+          className="text-warning size-7"
+        />
+      ),
       label: "Species",
       value: formatNumber(speciesCount),
     },
     {
       description: `${formatNumber(movesLoggedCount)} moves, ${formatNumber(heldItemCount)} held items`,
-      icon: <ClipboardList className="text-info size-7" />,
+      icon: (
+        <AppIcon icon={appIcons.product.details} className="text-info size-7" />
+      ),
       label: "Logged Details",
       value: formatNumber(movesLoggedCount + heldItemCount),
     },

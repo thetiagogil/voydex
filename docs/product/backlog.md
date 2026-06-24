@@ -10,17 +10,17 @@ Generate a shareable play recap from:
 - Timeline.
 - Final team/Hall of Fame snapshot.
 - Completion stats.
-- Favorite or MVP Pokemon.
+- Favorite or MVP Pokémon.
 
 The current schema should make this possible through play events and snapshots, but no public sharing surface is required yet.
 
 ## HOME / Living Dex
 
-Add a `home` module for Pokemon HOME-style living-dex support inside Voydex.
+Add a `home` module for Pokémon HOME-style living-dex support inside Voydex.
 
 Initial direction:
 
-- No direct Pokemon HOME account connection.
+- No direct Pokémon HOME account connection.
 - Help users plan and track living-dex completion.
 - Support species/form targets where useful.
 - Connect to user history when helpful, but do not force HOME tracking into mainline playthrough tables.
@@ -45,7 +45,7 @@ Support planning by story point, location, or progression gate.
 
 Example questions:
 
-- Which Pokemon are available before the third badge?
+- Which Pokémon are available before the third badge?
 - Which planned team members can I catch before the Elite Four?
 - Which moves/items are available before a given story milestone?
 

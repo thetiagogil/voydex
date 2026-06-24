@@ -47,7 +47,7 @@ export const getPokedexPageData = async (params?: {
   ]);
 
   if (typesResult.error) {
-    throw new Error("Unable to load Pokemon types.");
+    throw new Error("Unable to load Pokémon types.");
   }
 
   if (generationsResult.error) {
@@ -76,7 +76,7 @@ export const getPokedexPageData = async (params?: {
         );
 
       if (typeAttributesResult.error) {
-        throw new Error("Unable to filter Pokemon by type.");
+        throw new Error("Unable to filter Pokémon by type.");
       }
 
       typeSpeciesIds = Array.from(
@@ -153,7 +153,7 @@ export const getPokedexPageData = async (params?: {
   );
 
   if (speciesResult.error) {
-    throw new Error("Unable to load Pokedex species.");
+    throw new Error("Unable to load Pokédex species.");
   }
 
   const species = speciesResult.data ?? [];
@@ -180,11 +180,11 @@ export const getPokedexPageData = async (params?: {
       ];
 
   if (formsResult.error) {
-    throw new Error("Unable to load Pokemon forms.");
+    throw new Error("Unable to load Pokémon forms.");
   }
 
   if (attributesResult.error) {
-    throw new Error("Unable to load Pokemon attributes.");
+    throw new Error("Unable to load Pokémon attributes.");
   }
 
   const typeById = byId(types);

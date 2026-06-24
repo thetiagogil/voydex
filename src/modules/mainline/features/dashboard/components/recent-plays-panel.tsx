@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ArrowRightIcon, Clock3Icon } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import {
   formatMainlineShortDate,
@@ -20,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type RecentPlaysPanelProps = {
   plays: MainlinePlayCardData[];
@@ -27,7 +26,6 @@ type RecentPlaysPanelProps = {
 
 const RecentPlayRow = ({ play }: { play: MainlinePlayCardData }) => {
   const playId = play.play_id ? String(play.play_id) : "";
-
   return (
     <Link
       href={playId ? appRoutes.mainlinePlay(playId) : appRoutes.mainlinePlays}
@@ -46,7 +44,7 @@ const RecentPlayRow = ({ play }: { play: MainlinePlayCardData }) => {
         </p>
       </div>
       <div className="text-muted-foreground flex items-center gap-2 text-sm [&_svg]:size-4">
-        <Clock3Icon aria-hidden />
+        <AppIcon icon={appIcons.product.recent} aria-hidden />
         {formatMainlineShortDate(play.updated_at)}
       </div>
     </Link>
@@ -69,7 +67,7 @@ export const RecentPlaysPanel = ({ plays }: RecentPlaysPanelProps) => {
             size="sm"
           >
             View all
-            <ArrowRightIcon data-icon="inline-end" />
+            <AppIcon icon={appIcons.actions.continue} inline="end" />
           </Button>
         </CardAction>
       </CardHeader>

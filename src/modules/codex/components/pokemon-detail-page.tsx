@@ -22,10 +22,6 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/shared/domain/pokemon/pokemon-images";
-import {
-  formatOptionalPokemonDisplayText,
-  formatPokemonDisplayText,
-} from "@/shared/domain/pokemon/display-text";
 
 type PokemonDetailPageProps = {
   speciesSlug: string;
@@ -45,7 +41,6 @@ const formatNationalNumber = (number: number) => {
 };
 
 const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
-  const formName = formatPokemonDisplayText(form.form.name);
   const primaryTypeSlug = form.typePair.primaryType?.slug;
   const portraitType =
     primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
@@ -53,7 +48,7 @@ const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
       : null;
   return (
     <CodexSectionCard
-      title={formName}
+      title={form.form.name}
       description={form.introducedGeneration?.name ?? "Unknown generation"}
       media={
         <PokemonPortrait
@@ -91,32 +86,23 @@ const AvailabilityRow = ({ row }: { row: PokemonAvailabilitySummary }) => {
   return (
     <div className="border-app-surface-border grid gap-2 border-b py-3 last:border-b-0 sm:grid-cols-[1fr_1fr_auto]">
       <div>
-        <div className="font-medium">
-          {formatOptionalPokemonDisplayText(row.game?.name, "Unknown game")}
-        </div>
+        <div className="font-medium">{row.game?.name ?? "Unknown game"}</div>
         <div className="text-muted-foreground text-sm">
-          {formatOptionalPokemonDisplayText(
-            row.targetVersionGroup?.name,
-            "Unknown version group",
-          )}
+          {row.targetVersionGroup?.name ?? "Unknown version group"}
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2">
         {row.method ? (
-          <Badge variant="secondary">
-            {formatPokemonDisplayText(row.method.name)}
-          </Badge>
+          <Badge variant="secondary">{row.method.name}</Badge>
         ) : null}
         {row.sourceVersionGroup &&
         row.sourceVersionGroup.id !== row.targetVersionGroup?.id ? (
-          <Badge variant="outline">
-            From {formatPokemonDisplayText(row.sourceVersionGroup.name)}
-          </Badge>
+          <Badge variant="outline">From {row.sourceVersionGroup.name}</Badge>
         ) : null}
       </div>
       {row.availability.notes ? (
         <div className="text-muted-foreground text-sm">
-          {formatPokemonDisplayText(row.availability.notes)}
+          {row.availability.notes}
         </div>
       ) : null}
     </div>
@@ -137,15 +123,13 @@ export const PokemonDetailPage = async ({
     defaultPrimaryTypeSlug && isPokemonTypeSlug(defaultPrimaryTypeSlug)
       ? defaultPrimaryTypeSlug
       : null;
-  const speciesName = formatPokemonDisplayText(data.species.name);
-
   return (
     <CodexPageShell
-      title={speciesName}
-      description={`${formatNationalNumber(data.species.national_number)} in the National Pokedex.`}
+      title={data.species.name}
+      description={`${formatNationalNumber(data.species.national_number)} in the National Pokédex.`}
     >
       <CodexBackLink href={appRoutes.codexPokemon}>
-        Back to Pokedex
+        Back to Pokédex
       </CodexBackLink>
 
       <CodexDetailHero
@@ -167,7 +151,7 @@ export const PokemonDetailPage = async ({
               {formatNationalNumber(data.species.national_number)}
             </p>
             <h2 className="mt-1 text-3xl font-semibold tracking-normal">
-              {speciesName}
+              {data.species.name}
             </h2>
           </div>
           {defaultForm ? (
@@ -221,7 +205,7 @@ export const PokemonDetailPage = async ({
         </div>
 
         <CodexSectionCard
-          title="Pokedex entries"
+          title="Pokédex entries"
           description="Seeded dex appearances for this species."
           contentClassName="flex flex-col gap-3"
         >
@@ -229,17 +213,14 @@ export const PokemonDetailPage = async ({
             data.pokedexEntries.map(({ entry, pokedex }) => (
               <CodexInfoTile
                 key={`${entry.pokedex_id}-${entry.species_id}`}
-                label={formatOptionalPokemonDisplayText(
-                  pokedex?.name,
-                  "Unknown Pokedex",
-                )}
+                label={pokedex?.name ?? "Unknown Pokédex"}
               >
                 Number {entry.pokedex_number}
               </CodexInfoTile>
             ))
           ) : (
             <CodexInlineEmpty>
-              No Pokedex entries are seeded for this Pokémon yet.
+              No Pokédex entries are seeded for this Pokémon yet.
             </CodexInlineEmpty>
           )}
         </CodexSectionCard>

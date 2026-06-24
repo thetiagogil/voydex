@@ -1,11 +1,4 @@
 import Link from "next/link";
-import {
-  BookOpenCheckIcon,
-  PlusIcon,
-  RouteIcon,
-  type LucideIcon,
-} from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -15,11 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import {
+  AppIcon,
+  appIcons,
+  type AppIconComponent,
+} from "@/shared/components/app-icon";
 
 type QuickActionProps = {
   children: React.ReactNode;
   href: string;
-  icon: LucideIcon;
+  icon: AppIconComponent;
   variant?: "default" | "outline";
 };
 
@@ -36,7 +34,7 @@ const QuickAction = ({
       variant={variant}
       className="justify-start"
     >
-      <Icon data-icon="inline-start" />
+      <AppIcon icon={Icon} inline="start" />
       {children}
     </Button>
   );
@@ -54,15 +52,21 @@ export const DashboardQuickActions = () => {
       <CardContent className="grid gap-3">
         <QuickAction
           href={appRoutes.mainlineNewPlay}
-          icon={PlusIcon}
+          icon={appIcons.actions.create}
           variant="default"
         >
           Create a play
         </QuickAction>
-        <QuickAction href={appRoutes.mainlinePlays} icon={RouteIcon}>
+        <QuickAction
+          href={appRoutes.mainlinePlays}
+          icon={appIcons.views.mainline.plays}
+        >
           Open plays
         </QuickAction>
-        <QuickAction href={appRoutes.codexPokemon} icon={BookOpenCheckIcon}>
+        <QuickAction
+          href={appRoutes.codexPokemon}
+          icon={appIcons.actions.browseCodex}
+        >
           Browse Codex
         </QuickAction>
       </CardContent>

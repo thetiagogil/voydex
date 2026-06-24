@@ -1,11 +1,4 @@
 import Link from "next/link";
-import {
-  ChevronRight,
-  HeartPulse,
-  ShieldAlert,
-  UsersRound,
-} from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
@@ -20,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type TeamHealthCardProps = {
   data: MainlinePlayDetailData;
@@ -29,18 +23,23 @@ export const TeamHealthCard = ({ data }: TeamHealthCardProps) => {
   const activeTeam = getActiveTeam(data.team);
   const reserveTeam = getReserveTeam(data.team);
   const openActiveSlots = Math.max(6 - activeTeam.length, 0);
-
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <HeartPulse className="text-primary size-5" />
+          <AppIcon
+            icon={appIcons.product.health}
+            className="text-primary size-5"
+          />
           Team Health
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-3 sm:grid-cols-3">
         <div className="flex gap-3 rounded-lg border p-3">
-          <ShieldAlert className="text-warning size-6" />
+          <AppIcon
+            icon={appIcons.product.roster}
+            className="text-warning size-6"
+          />
           <div>
             <p className="font-medium">Active roster</p>
             <p className="text-muted-foreground text-sm">
@@ -49,7 +48,10 @@ export const TeamHealthCard = ({ data }: TeamHealthCardProps) => {
           </div>
         </div>
         <div className="flex gap-3 rounded-lg border p-3">
-          <UsersRound className="text-primary size-6" />
+          <AppIcon
+            icon={appIcons.product.reserve}
+            className="text-primary size-6"
+          />
           <div>
             <p className="font-medium">{reserveTeam.length} reserves</p>
             <p className="text-muted-foreground text-sm">
@@ -68,7 +70,7 @@ export const TeamHealthCard = ({ data }: TeamHealthCardProps) => {
           className="h-auto justify-between p-3"
         >
           Review team
-          <ChevronRight data-icon="inline-end" />
+          <AppIcon icon={appIcons.actions.continue} inline="end" />
         </Button>
       </CardContent>
     </Card>

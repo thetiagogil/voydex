@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ChevronRight, CircleCheck, Compass, Star } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
@@ -17,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type JourneyStatusCardProps = {
   data: MainlinePlayDetailData;
@@ -28,12 +27,14 @@ export const JourneyStatusCard = ({ data }: JourneyStatusCardProps) => {
   const completed = data.overview.completed_required_milestone_count ?? 0;
   const total = data.overview.required_milestone_count ?? 0;
   const progressDots = Array.from({ length: Math.min(Math.max(total, 1), 12) });
-
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Compass className="text-primary size-5" />
+          <AppIcon
+            icon={appIcons.product.journey}
+            className="text-primary size-5"
+          />
           Journey Status
         </CardTitle>
       </CardHeader>
@@ -51,7 +52,10 @@ export const JourneyStatusCard = ({ data }: JourneyStatusCardProps) => {
 
         <div className="grid gap-4 lg:grid-cols-[1fr_1fr_1.2fr]">
           <div className="flex gap-3">
-            <CircleCheck className="text-success mt-1 size-5" />
+            <AppIcon
+              icon={appIcons.product.completion}
+              className="text-success mt-1 size-5"
+            />
             <div>
               <p className="text-muted-foreground text-sm">Last completed</p>
               <p className="font-medium">
@@ -69,7 +73,10 @@ export const JourneyStatusCard = ({ data }: JourneyStatusCardProps) => {
           </div>
 
           <div className="flex gap-3">
-            <Star className="text-warning mt-1 size-5" />
+            <AppIcon
+              icon={appIcons.product.nextMilestone}
+              className="text-warning mt-1 size-5"
+            />
             <div>
               <p className="text-muted-foreground text-sm">Next up</p>
               <p className="font-medium">
@@ -122,7 +129,7 @@ export const JourneyStatusCard = ({ data }: JourneyStatusCardProps) => {
           variant="outline"
         >
           Open Story
-          <ChevronRight data-icon="inline-end" />
+          <AppIcon icon={appIcons.actions.continue} inline="end" />
         </Button>
       </CardContent>
     </Card>

@@ -1,95 +1,170 @@
-import {
-  BackpackIcon,
-  BookOpenCheckIcon,
-  CompassIcon,
-  HomeIcon,
-  SparklesIcon,
-} from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { PublicAppShell } from "@/shared/components/app-shell/public-app-shell";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 const companionAreas = [
   {
-    title: "Mainline",
+    title: "Keep the run alive",
     description:
-      "The place for active play records, teams, milestones, Pokedex progress, and collectibles.",
-    icon: BackpackIcon,
+      "Track the team, milestones, Pokédex progress, collectibles, and story beats that make each playthrough yours.",
+    icon: appIcons.product.play,
   },
   {
-    title: "Codex",
+    title: "Find the reference fast",
     description:
-      "A fast read-only reference for Pokémon, games, and generations when you need an answer.",
-    icon: BookOpenCheckIcon,
+      "Browse Pokémon, games, generations, availability, forms, and related data without leaving the same app.",
+    icon: appIcons.product.reference,
   },
   {
-    title: "Future modules",
+    title: "Let the world expand",
     description:
-      "New tools can join the same shell without turning Voydex into a Mainline-only app.",
-    icon: SparklesIcon,
+      "Voydex is built as a companion system, so new modules can join later without making the app feel stitched together.",
+    icon: appIcons.actions.learnMore,
+  },
+] as const;
+
+const flowSteps = [
+  {
+    title: "Start with the adventure",
+    description:
+      "Create a play record around a game, trainer, team, and the progress that matters for that run.",
+    icon: appIcons.product.journey,
+  },
+  {
+    title: "Update it as you go",
+    description:
+      "Mark milestones, seen and caught species, collectible progress, and the details you would otherwise lose.",
+    icon: appIcons.product.milestone,
+  },
+  {
+    title: "Return with context",
+    description:
+      "Open old runs with enough history to remember what happened, what changed, and where to continue.",
+    icon: appIcons.actions.search,
   },
 ] as const;
 
 export const IntroPage = () => {
   return (
     <PublicAppShell>
-      <section className="grid w-full min-w-0 flex-1 items-center gap-10 overflow-hidden py-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(22rem,0.72fr)] lg:py-12">
-        <div className="w-full max-w-[calc(100vw-2rem)] min-w-0 sm:max-w-2xl">
-          <h1 className="text-3xl leading-tight font-bold tracking-normal sm:text-5xl">
-            A home base for every journey you decide to keep.
-          </h1>
-          <p className="text-foreground/75 mt-5 w-full text-base leading-7 sm:text-lg">
-            Voydex starts with Mainline and Codex, but the shape is bigger than
-            one module. It keeps play records, reference data, and future
-            companion tools close without making the home page noisy.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href={appRoutes.appEntry}
-              className={buttonVariants({ size: "lg", className: "h-11" })}
-            >
-              <CompassIcon data-icon="inline-start" aria-hidden />
-              Enter the app
-            </Link>
-            <Link
-              href={appRoutes.home}
-              className={buttonVariants({
-                variant: "ghost",
-                size: "lg",
-                className: "h-11",
-              })}
-            >
-              <HomeIcon data-icon="inline-start" aria-hidden />
-              Back home
-            </Link>
+      <div className="flex w-full min-w-0 flex-1 flex-col gap-14 overflow-hidden py-8 lg:py-12">
+        <section className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(22rem,0.74fr)]">
+          <div className="w-full max-w-[22rem] min-w-0 sm:max-w-3xl">
+            <h1 className="max-w-[22rem] text-3xl leading-tight font-bold tracking-normal sm:max-w-3xl sm:text-5xl">
+              Remember the adventure behind every Pokémon run.
+            </h1>
+            <div className="text-foreground/76 mt-5 grid max-w-[22rem] gap-4 text-base leading-7 sm:max-w-2xl sm:text-lg">
+              <p>
+                Voydex is a companion for playthroughs worth keeping: the team
+                you built, the milestones you cleared, the Pokédex you filled,
+                and the little decisions that made the journey feel like yours.
+              </p>
+              <p>
+                It starts with a public Codex and a private Mainline workspace,
+                with room for future modules to grow inside the same clean
+                space.
+              </p>
+            </div>
+            <div className="mt-8 flex w-full max-w-[22rem] flex-col gap-3 sm:max-w-none sm:flex-row">
+              <Link
+                href={appRoutes.appEntry}
+                className={buttonVariants({
+                  size: "lg",
+                  className: "h-11 w-full sm:w-auto",
+                })}
+              >
+                <AppIcon
+                  icon={appIcons.actions.enterApp}
+                  inline="start"
+                  aria-hidden
+                />
+                Enter the app
+              </Link>
+              <Link
+                href={appRoutes.codexPokemon}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "lg",
+                  className: "h-11 w-full sm:w-auto",
+                })}
+              >
+                <AppIcon
+                  icon={appIcons.actions.browseCodex}
+                  inline="start"
+                  aria-hidden
+                />
+                Browse Codex
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <aside className="ring-app-surface-border bg-card/70 w-full max-w-[calc(100vw-2rem)] min-w-0 overflow-hidden rounded-lg p-4 shadow-[var(--app-surface-shadow)] ring-1 backdrop-blur-md lg:max-w-full lg:justify-self-end">
-          <div className="flex flex-col">
-            {companionAreas.map((area) => {
-              const Icon = area.icon;
-              return (
-                <div
-                  key={area.title}
-                  className="border-app-surface-border/70 flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
-                >
-                  <span className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
-                    <Icon className="size-4" aria-hidden />
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="text-sm font-medium">{area.title}</h2>
-                    <p className="text-muted-foreground mt-1 text-sm leading-6">
-                      {area.description}
-                    </p>
+          <aside className="ring-app-surface-border bg-card/70 w-full max-w-[22rem] min-w-0 overflow-hidden rounded-xl p-4 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
+            <div className="flex flex-col">
+              {companionAreas.map((area) => {
+                return (
+                  <div
+                    key={area.title}
+                    className="border-app-surface-border/70 flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
+                  >
+                    <span className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
+                      <AppIcon
+                        icon={area.icon}
+                        className="size-4"
+                        aria-hidden
+                      />
+                    </span>
+                    <div className="min-w-0">
+                      <h2 className="text-sm font-medium">{area.title}</h2>
+                      <p className="text-muted-foreground mt-1 text-sm leading-6">
+                        {area.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </aside>
+        </section>
+
+        <section className="ring-app-surface-border bg-card/50 w-full max-w-[22rem] overflow-hidden rounded-xl p-5 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start">
+            <div className="max-w-xl">
+              <h2 className="text-2xl leading-tight font-semibold tracking-normal sm:text-3xl">
+                Built for the moment you play and the memory you return to.
+              </h2>
+              <p className="text-muted-foreground mt-4 text-sm leading-6 sm:text-base">
+                Voydex keeps the practical pieces close enough to use during a
+                session, then preserves the shape of the run after the credits.
+                It should feel like a living archive, not a spreadsheet you have
+                to maintain.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {flowSteps.map((step) => {
+                return (
+                  <article
+                    key={step.title}
+                    className="border-app-surface-border/70 bg-background/28 rounded-lg border p-4"
+                  >
+                    <AppIcon
+                      icon={step.icon}
+                      className="text-primary size-4"
+                      aria-hidden
+                    />
+                    <h3 className="mt-4 text-sm font-medium">{step.title}</h3>
+                    <p className="text-muted-foreground mt-2 text-sm leading-6">
+                      {step.description}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </aside>
-      </section>
+        </section>
+      </div>
     </PublicAppShell>
   );
 };

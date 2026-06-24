@@ -1,6 +1,5 @@
 "use client";
 
-import { MonitorIcon, MoonIcon, SunIcon, type LucideIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -16,10 +15,15 @@ import {
   useTheme,
   type ThemePreference,
 } from "@/shared/providers/theme-provider";
+import {
+  AppIcon,
+  appIcons,
+  type AppIconComponent,
+} from "@/shared/components/app-icon";
 
 type ThemeOption = {
   description: string;
-  icon: LucideIcon;
+  icon: AppIconComponent;
   label: string;
   value: ThemePreference;
 };
@@ -27,19 +31,19 @@ type ThemeOption = {
 const themeOptions: ThemeOption[] = [
   {
     description: "Follow your device appearance.",
-    icon: MonitorIcon,
+    icon: appIcons.theme.system,
     label: "System",
     value: "system",
   },
   {
     description: "Use the brighter Voydex interface.",
-    icon: SunIcon,
+    icon: appIcons.theme.light,
     label: "Light",
     value: "light",
   },
   {
     description: "Use the darker Voydex interface.",
-    icon: MoonIcon,
+    icon: appIcons.theme.dark,
     label: "Dark",
     value: "dark",
   },
@@ -70,7 +74,6 @@ export const ThemeSettingsCard = () => {
           }}
         >
           {themeOptions.map((option) => {
-            const Icon = option.icon;
             return (
               <ToggleGroupItem
                 key={option.value}
@@ -78,7 +81,7 @@ export const ThemeSettingsCard = () => {
                 className="data-[state=on]:border-primary/50 data-[state=on]:bg-primary/10 h-auto min-h-28 flex-col items-start justify-start gap-3 p-4 text-left whitespace-normal"
               >
                 <span className="flex w-full items-center gap-2">
-                  <Icon aria-hidden />
+                  <AppIcon icon={option.icon} aria-hidden />
                   <span className="text-sm font-semibold">{option.label}</span>
                 </span>
                 <span className="text-muted-foreground block text-xs leading-5">

@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ChevronRight, Sparkles } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import { StatusBadge } from "@/shared/components/status-badge";
@@ -11,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type ProgressDetailGridProps = {
   data: MainlinePlayDetailData;
@@ -42,7 +41,10 @@ export const ProgressDetailGrid = ({
                 {nextMilestone?.milestone_game_name ?? "Story complete"}
               </span>
             </span>
-            <ChevronRight className="text-muted-foreground size-4" />
+            <AppIcon
+              icon={appIcons.actions.continue}
+              className="text-muted-foreground size-4"
+            />
           </Link>
         </CardContent>
       </Card>
@@ -56,7 +58,7 @@ export const ProgressDetailGrid = ({
         </CardHeader>
         <CardContent className="flex flex-col gap-2 text-sm">
           <div className="flex items-center justify-between gap-3">
-            <span>Pokedex counts</span>
+            <span>Pokédex counts</span>
             <StatusBadge tone="neutral">Caught species</StatusBadge>
           </div>
           <div className="flex items-center justify-between gap-3">
@@ -85,7 +87,10 @@ export const ProgressDetailGrid = ({
                 key={event.event_id}
                 className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border p-3"
               >
-                <Sparkles className="text-primary size-5" />
+                <AppIcon
+                  icon={appIcons.product.activity}
+                  className="text-primary size-5"
+                />
                 <div className="min-w-0">
                   <p className="truncate font-medium">
                     {event.title ?? event.event_type_name ?? "Play event"}

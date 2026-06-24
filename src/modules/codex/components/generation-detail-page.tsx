@@ -13,10 +13,6 @@ import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { getGenerationDetailData } from "@/modules/codex/data/generation-queries";
 import { Badge } from "@/shared/components/ui/badge";
-import {
-  formatOptionalPokemonDisplayText,
-  formatPokemonDisplayText,
-} from "@/shared/domain/pokemon/display-text";
 
 type GenerationDetailPageProps = {
   generationId: string;
@@ -67,39 +63,32 @@ export const GenerationDetailPage = async ({
           contentClassName="grid gap-3 sm:grid-cols-2"
         >
           {data.games.length ? (
-            data.games.map(({ coverImageUrl, game, region, versionGroup }) => {
-              const gameName = formatPokemonDisplayText(game.name);
-
-              return (
-                <CodexLinkedPanel
-                  key={game.id}
-                  href={appRoutes.codexGame(game.slug)}
-                  className="flex-col"
-                  showArrow={false}
-                >
-                  <GameCoverArt
-                    imageUrl={coverImageUrl}
-                    name={gameName}
-                    className="rounded-lg"
-                  />
-                  <div>
-                    <div className="font-medium">{gameName}</div>
-                    <div className="text-muted-foreground text-sm">
-                      {formatOptionalPokemonDisplayText(
-                        versionGroup?.name,
-                        "Unknown version group",
-                      )}
-                    </div>
+            data.games.map(({ coverImageUrl, game, region, versionGroup }) => (
+              <CodexLinkedPanel
+                key={game.id}
+                href={appRoutes.codexGame(game.slug)}
+                className="flex-col"
+                showArrow={false}
+              >
+                <GameCoverArt
+                  imageUrl={coverImageUrl}
+                  name={game.name}
+                  className="rounded-lg"
+                />
+                <div>
+                  <div className="font-medium">{game.name}</div>
+                  <div className="text-muted-foreground text-sm">
+                    {versionGroup?.name ?? "Unknown version group"}
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {region ? (
-                      <Badge variant="outline">{region.name}</Badge>
-                    ) : null}
-                    <Badge variant="secondary">{game.release_year}</Badge>
-                  </div>
-                </CodexLinkedPanel>
-              );
-            })
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {region ? (
+                    <Badge variant="outline">{region.name}</Badge>
+                  ) : null}
+                  <Badge variant="secondary">{game.release_year}</Badge>
+                </div>
+              </CodexLinkedPanel>
+            ))
           ) : (
             <CodexInlineEmpty>
               No games are seeded for this generation.
@@ -115,7 +104,7 @@ export const GenerationDetailPage = async ({
           {data.versionGroups.length ? (
             data.versionGroups.map((versionGroup) => (
               <CodexInfoTile key={versionGroup.id} label="Version group">
-                {formatPokemonDisplayText(versionGroup.name)}
+                {versionGroup.name}
               </CodexInfoTile>
             ))
           ) : (

@@ -5,7 +5,6 @@ import {
 } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { CollectibleProgressButton } from "@/modules/mainline/features/play/components/detail/actions/collectible-progress-button";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 import {
   Table,
   TableBody,
@@ -41,17 +40,13 @@ export const CollectibleEntryTable = ({
           <TableRow key={entry.collectible_entry_id}>
             <TableCell>{getEntryNumber(entry)}</TableCell>
             <TableCell className="font-medium">
-              {formatPokemonDisplayText(
-                entry.collectible_entry_name ?? "Collectible entry",
-              )}
+              {entry.collectible_entry_name ?? "Collectible entry"}
             </TableCell>
             <TableCell>
               <StatusBadge tone="info">{getEntryLocation(entry)}</StatusBadge>
             </TableCell>
             <TableCell className="text-muted-foreground max-w-72 whitespace-normal">
-              {formatPokemonDisplayText(
-                entry.description ?? "No hint available.",
-              )}
+              {entry.description ?? "No hint available."}
             </TableCell>
             <TableCell>
               <StatusBadge

@@ -30,7 +30,7 @@ Auth-linked profiles, preferences, and user-owned shared metadata such as tags.
 
 ### `reference`
 
-Static curated Pokemon/game data:
+Static curated Pokémon/game data:
 
 - Generations, regions, games, version groups, content scopes, platforms.
 - Species, forms, form rules, attributes, evolutions.
@@ -57,7 +57,7 @@ User-owned play state:
 
 - `mainline_plays`
 - play settings and optional content scopes
-- current roster and Pokemon lifecycle
+- current roster and Pokémon lifecycle
 - story, collectible, and Pokedex progress
 - timeline events and snapshots
 - play tags, challenge rules, and game library entries
@@ -157,6 +157,6 @@ npm run build
 - DLC and other optional content are per-play scope choices.
 - National/special Pokedex scopes are supported as optional completion scopes when seeded.
 - Reference data should be curated from historically accurate sources; PokeAPI can be useful for automated checks but should not be treated as the curated source of truth.
-- Item data is Pokemon-relevant only, not a full item encyclopedia.
+- Item data is Pokémon-relevant only, not a full item encyclopedia.
 - Availability and learnsets use cumulative content-scope delta rows.
 - Battle-only and cosmetic forms are excluded from team-selectable scope unless a future feature explicitly expands them.

@@ -1,8 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { MapPin } from "lucide-react";
-
 import type { MainlinePlayCollectibleDetail } from "@/modules/mainline/shared/types/mainline.types";
 import { getEntryLocation } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
@@ -12,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CollectibleLocationSummaryProps = {
   entries: MainlinePlayCollectibleDetail[];
@@ -53,7 +52,10 @@ export const CollectibleLocationSummary = ({
     <Card size="sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <MapPin className="text-primary size-4" />
+          <AppIcon
+            icon={appIcons.product.location}
+            className="text-primary size-4"
+          />
           By location
         </CardTitle>
       </CardHeader>

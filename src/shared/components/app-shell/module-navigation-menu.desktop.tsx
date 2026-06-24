@@ -4,7 +4,6 @@ import {
   getActiveModuleKey,
   moduleKeys,
   modules,
-  type ModuleIconKey,
   type ModuleKey,
 } from "@/config/modules";
 import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
@@ -22,24 +21,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/shared/components/ui/navigation-menu";
-import {
-  BookOpen,
-  CheckIcon,
-  LockIcon,
-  Map,
-  type LucideIcon,
-} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AppIcon, appIcons, getModuleIcon } from "@/shared/components/app-icon";
 
 type DesktopModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
   isAuthenticated: boolean;
-};
-
-const moduleIcons: Record<ModuleIconKey, LucideIcon> = {
-  "book-open": BookOpen,
-  map: Map,
 };
 
 const getModuleHref = (moduleKey: ModuleKey) => {
@@ -57,7 +45,6 @@ export const DesktopModuleNavigationMenu = ({
     pathname,
   });
   const currentModule = modules[currentModuleKey];
-
   return (
     <NavigationMenu align="start">
       <NavigationMenuList>
@@ -69,7 +56,6 @@ export const DesktopModuleNavigationMenu = ({
             <div className="grid gap-1">
               {moduleKeys.map((moduleKey) => {
                 const moduleConfig = modules[moduleKey];
-                const Icon = moduleIcons[moduleConfig.iconKey];
                 const isActiveModule = moduleKey === currentModuleKey;
                 const isLocked = moduleRequiresLogin(
                   moduleKey,
@@ -114,7 +100,11 @@ export const DesktopModuleNavigationMenu = ({
                         isLocked && "border-dashed",
                       )}
                     >
-                      <Icon aria-hidden className="size-5" />
+                      <AppIcon
+                        icon={getModuleIcon(moduleKey)}
+                        aria-hidden
+                        className="size-5"
+                      />
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="flex min-w-0 items-center gap-2">
@@ -135,9 +125,14 @@ export const DesktopModuleNavigationMenu = ({
                       </span>
                     </span>
                     {isActiveModule ? (
-                      <CheckIcon aria-hidden className="text-primary mt-1" />
+                      <AppIcon
+                        icon={appIcons.status.active}
+                        aria-hidden
+                        className="text-primary mt-1"
+                      />
                     ) : isLocked ? (
-                      <LockIcon
+                      <AppIcon
+                        icon={appIcons.status.locked}
                         aria-hidden
                         className="text-muted-foreground mt-1 size-4"
                       />

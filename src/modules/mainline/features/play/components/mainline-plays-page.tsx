@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
 import { appRoutes } from "@/config/routes";
 import { MainlinePlaysBrowser } from "@/modules/mainline/features/play/components/mainline-plays-browser";
 import type { MainlinePlaysPageData } from "@/modules/mainline/features/play/types";
@@ -7,6 +6,7 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlaysPageProps = {
   data: MainlinePlaysPageData;
@@ -24,7 +24,7 @@ export const MainlinePlaysPage = ({ data }: MainlinePlaysPageProps) => {
             render={<Link href={appRoutes.mainlineNewPlay} />}
             nativeButton={false}
           >
-            <Plus data-icon="inline-start" />
+            <AppIcon icon={appIcons.actions.create} inline="start" />
             New play
           </Button>
         }
@@ -37,13 +37,13 @@ export const MainlinePlaysPage = ({ data }: MainlinePlaysPageProps) => {
           <CardContent>
             <EmptyState
               title="No plays yet"
-              description="Start by creating a play for one mainline game. The play hub will connect team, story, Pokedex, collectibles, and history from there."
+              description="Start by creating a play for one mainline game. The play hub will connect team, story, Pokédex, collectibles, and history from there."
               action={
                 <Button
                   render={<Link href={appRoutes.mainlineNewPlay} />}
                   nativeButton={false}
                 >
-                  <Plus data-icon="inline-start" />
+                  <AppIcon icon={appIcons.actions.create} inline="start" />
                   Create your first play
                 </Button>
               }

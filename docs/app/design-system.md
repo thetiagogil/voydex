@@ -1,6 +1,6 @@
 # Design System
 
-Voydex should feel like a clean adventure companion: warm, playful, polished, and Pokemon-adjacent without becoming loud or toy-like.
+Voydex should feel like a clean adventure companion: warm, playful, polished, and Pokémon-adjacent without becoming loud or toy-like.
 
 Avoid a corporate SaaS hero, a generic wiki look, and overly game-ish UI chrome.
 
@@ -10,7 +10,7 @@ The desired mix:
 
 - Adventure.
 - Clean companion app.
-- Pokemon-related, but not a direct Pokemon brand copy.
+- Pokémon-related, but not a direct Pokémon brand copy.
 - Soft illustrated scenic imagery.
 - Clear data surfaces for repeated use.
 - Subtle personality through assets, icons, color, and state.
@@ -28,7 +28,7 @@ The desired mix:
 - Use `src/shared/components/ui` primitives for buttons, inputs, selects, sheets, dialogs, dropdowns, tabs, accordions, fields, and similar controls.
 - Use Base UI `render` composition when a primitive supports custom rendering. Do not use Radix `asChild` unless the local primitive explicitly supports it.
 - Keep `src/app` route files thin. Put real UI in `src/modules` or `src/shared` components.
-- Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokemon cards, type badges, and empty states.
+- Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
 - Generated screenshots are design references, not exact code specs. Implement the intent with real data, responsive behavior, accessibility, and existing app primitives.
 - Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
 
@@ -36,13 +36,13 @@ The desired mix:
 
 Global tokens live in `src/app/globals.css`.
 
-The palette should keep teal as the primary Voydex identity while using supporting colors for state and Pokemon-related semantics. Avoid turning the whole app into one flat teal theme.
+The palette should keep teal as the primary Voydex identity while using supporting colors for state and Pokémon-related semantics. Avoid turning the whole app into one flat teal theme.
 
 Existing token groups:
 
 - Base UI tokens: background, foreground, card, primary, secondary, muted, accent, destructive, border, input, ring.
 - App semantic tokens: success, info, warning, rare, legendary, mythic, seen, battle, milestone, decision.
-- Pokemon type tokens: normal, fire, water, electric, grass, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy.
+- Pokémon type tokens: normal, fire, water, electric, grass, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy.
 
 ## Layout Rules
 
@@ -71,15 +71,15 @@ This keeps the home page close to the selected visual reference while preserving
 - Keep button styling cleaner than the generated mockup. The button shape can be slightly curved, but avoid heavy decorative borders.
 - Primary buttons should not use a mismatched border color.
 
-## Icons And Pokemon Type Assets
+## Icons And Pokémon Type Assets
 
-Pokemon type SVGs live under:
+Pokémon type SVGs live under:
 
 ```txt
 public/icons/types
 ```
 
-Use them for Pokemon-specific surfaces where type identity matters. Use Lucide icons for general app actions and navigation.
+Use them for Pokémon-specific surfaces where type identity matters. Use Lucide icons for general app actions and navigation.
 
 ## Accessibility
 

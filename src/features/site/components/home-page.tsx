@@ -1,4 +1,3 @@
-import { BookOpenCheckIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -6,17 +5,18 @@ import { getOptionalUserEmail } from "@/lib/supabase/auth";
 import { BrandImage } from "@/shared/components/brand/brand-image";
 import { HomeAppEntryButton } from "@/shared/components/app-shell/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 const homeActions = [
   {
     href: appRoutes.codexPokemon,
     label: "Browse Codex",
-    icon: BookOpenCheckIcon,
+    icon: appIcons.actions.browseCodex,
   },
   {
     href: appRoutes.intro,
     label: "Learn more",
-    icon: CompassIcon,
+    icon: appIcons.actions.learnMore,
   },
 ] as const;
 
@@ -66,7 +66,6 @@ export const HomePage = async () => {
             <div className="mt-8 flex w-full max-w-[22rem] flex-col items-stretch justify-center gap-3 sm:max-w-3xl sm:flex-row sm:items-center">
               <HomeAppEntryButton isAuthenticated={isAuthenticated} />
               {homeActions.map((action) => {
-                const Icon = action.icon;
                 return (
                   <Link
                     key={action.href}
@@ -77,7 +76,7 @@ export const HomePage = async () => {
                       className: "min-w-0 sm:min-w-40",
                     })}
                   >
-                    <Icon data-icon="inline-start" aria-hidden />
+                    <AppIcon icon={action.icon} inline="start" aria-hidden />
                     {action.label}
                   </Link>
                 );

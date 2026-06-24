@@ -1,5 +1,3 @@
-import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
-
 const POKEMONDB_HOME_SPRITE_BASE_URL =
   "https://img.pokemondb.net/sprites/home/normal";
 
@@ -21,5 +19,5 @@ export const getPokemonFormImageUrl = (form: PokemonImageForm | null) => {
 };
 
 export const getPokemonFormImageAlt = (form: PokemonImageForm | null) => {
-  return form ? `${formatPokemonDisplayText(form.name)} artwork` : "";
+  return form ? `${form.name} artwork` : "";
 };

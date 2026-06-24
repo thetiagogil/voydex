@@ -1,9 +1,9 @@
-import { ArrowLeftIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 export const ProtectedNotFoundPage = () => {
   return (
@@ -23,14 +23,22 @@ export const ProtectedNotFoundPage = () => {
               nativeButton={false}
               variant="outline"
             >
-              <ArrowLeftIcon data-icon="inline-start" aria-hidden />
+              <AppIcon
+                icon={appIcons.actions.back}
+                inline="start"
+                aria-hidden
+              />
               Plays
             </Button>
             <Button
               render={<Link href={appRoutes.appEntry} />}
               nativeButton={false}
             >
-              <CompassIcon data-icon="inline-start" aria-hidden />
+              <AppIcon
+                icon={appIcons.actions.enterApp}
+                inline="start"
+                aria-hidden
+              />
               Enter the app
             </Button>
           </div>

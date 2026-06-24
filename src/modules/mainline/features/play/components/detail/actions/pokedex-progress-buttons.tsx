@@ -2,12 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, Eye } from "lucide-react";
-
 import { setMainlinePokedexSpeciesProgress } from "@/modules/mainline/features/play/server/progress-actions";
 import { ActionError } from "@/modules/mainline/features/play/components/detail/actions/action-error";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type PokedexOptimisticProgress = {
   caught: boolean;
@@ -90,7 +89,6 @@ export const PokedexProgressButtons = ({
 
   const isSeenPending = isPending && pendingControl === "seen";
   const isCaughtPending = isPending && pendingControl === "caught";
-
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-2 overflow-hidden rounded-lg border">
@@ -111,7 +109,7 @@ export const PokedexProgressButtons = ({
           {isSeenPending ? (
             <Spinner data-icon="inline-start" />
           ) : (
-            <Eye data-icon="inline-start" />
+            <AppIcon icon={appIcons.product.seen} inline="start" />
           )}
           {isSeenPending
             ? "Updating..."
@@ -132,9 +130,9 @@ export const PokedexProgressButtons = ({
           {isCaughtPending ? (
             <Spinner data-icon="inline-start" />
           ) : currentProgress.caught ? (
-            <CheckCircle2 data-icon="inline-start" />
+            <AppIcon icon={appIcons.product.caught} inline="start" />
           ) : (
-            <Circle data-icon="inline-start" />
+            <AppIcon icon={appIcons.product.uncaught} inline="start" />
           )}
           {isCaughtPending
             ? "Updating..."

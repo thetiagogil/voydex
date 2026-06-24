@@ -1,5 +1,4 @@
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
-import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -60,10 +59,7 @@ export const getMainlinePlayTitle = (play: MainlinePlayCardData) => {
 };
 
 export const getMainlinePlayGameLine = (play: MainlinePlayCardData) => {
-  return [
-    formatPokemonDisplayText(play.game_name ?? "Unknown game"),
-    play.generation_name,
-  ]
+  return [play.game_name ?? "Unknown game", play.generation_name]
     .filter(Boolean)
     .join(" - ");
 };
@@ -88,7 +84,7 @@ export const getMainlinePlayPokedexLine = (play: MainlinePlayCardData) => {
   const caught = play.pokedex_caught_count ?? 0;
   const seen = play.pokedex_seen_count ?? 0;
   if (!caught && !seen) {
-    return "No Pokedex progress";
+    return "No Pokédex progress";
   }
   return `${caught} caught / ${seen} seen`;
 };

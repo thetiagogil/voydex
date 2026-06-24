@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckIcon, ChevronDownIcon, LockIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -31,6 +30,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MobileModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;
@@ -62,7 +62,7 @@ export const MobileModuleNavigationMenu = ({
         }
       >
         <span className="truncate">{currentModule.label}</span>
-        <ChevronDownIcon data-icon="inline-end" aria-hidden />
+        <AppIcon icon={appIcons.actions.expand} inline="end" aria-hidden />
       </SheetTrigger>
       <SheetContent
         side="top"
@@ -103,7 +103,8 @@ export const MobileModuleNavigationMenu = ({
                       ) : null}
                     </span>
                     {isLocked ? (
-                      <LockIcon
+                      <AppIcon
+                        icon={appIcons.status.locked}
                         aria-hidden
                         className="text-muted-foreground mr-2 size-3.5 shrink-0"
                       />
@@ -130,7 +131,11 @@ export const MobileModuleNavigationMenu = ({
                           }
                           nativeButton={false}
                         >
-                          <LockIcon data-icon="inline-start" aria-hidden />
+                          <AppIcon
+                            icon={appIcons.status.locked}
+                            inline="start"
+                            aria-hidden
+                          />
                           <span className="min-w-0 flex-1 truncate">
                             Log in to access
                           </span>
@@ -163,7 +168,12 @@ export const MobileModuleNavigationMenu = ({
                               <span className="min-w-0 flex-1 truncate">
                                 {view.label}
                               </span>
-                              {isActiveView ? <CheckIcon aria-hidden /> : null}
+                              {isActiveView ? (
+                                <AppIcon
+                                  icon={appIcons.status.active}
+                                  aria-hidden
+                                />
+                              ) : null}
                             </SheetClose>
                           );
                         })

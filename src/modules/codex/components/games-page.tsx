@@ -1,4 +1,3 @@
-import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { getGamesPageData } from "@/modules/codex/data/game-queries";
@@ -15,8 +14,8 @@ import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import { SelectControl } from "@/shared/components/select-control";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 import { cn } from "@/lib/utils";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type GamesPageProps = {
   params?: {
@@ -26,32 +25,26 @@ type GamesPageProps = {
 };
 
 const GameSummaryCard = ({ card }: { card: GameCard }) => {
-  const gameName = formatPokemonDisplayText(card.game.name);
-
   return (
     <CodexResourceCard
       href={appRoutes.codexGame(card.game.slug)}
       description={`${card.generation?.name ?? "Unknown generation"} / ${card.game.release_year}`}
-      title={gameName}
-      media={<GameCoverArt imageUrl={card.coverImageUrl} name={gameName} />}
+      title={card.game.name}
+      media={
+        <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
+      }
     >
       <div className="flex flex-wrap gap-2">
         {card.region ? (
-          <Badge variant="outline">
-            {formatPokemonDisplayText(card.region.name)}
-          </Badge>
+          <Badge variant="outline">{card.region.name}</Badge>
         ) : null}
         {card.gameType ? (
-          <Badge variant="secondary">
-            {formatPokemonDisplayText(card.gameType.name)}
-          </Badge>
+          <Badge variant="secondary">{card.gameType.name}</Badge>
         ) : null}
       </div>
       {card.platforms.length ? (
         <p className="text-muted-foreground text-sm">
-          {card.platforms
-            .map((platform) => formatPokemonDisplayText(platform.name))
-            .join(", ")}
+          {card.platforms.map((platform) => platform.name).join(", ")}
         </p>
       ) : null}
     </CodexResourceCard>
@@ -102,7 +95,7 @@ export const GamesPage = async ({ params }: GamesPageProps) => {
           className="w-full"
         />
         <Button type="submit">
-          <SearchIcon data-icon="inline-start" />
+          <AppIcon icon={appIcons.actions.search} inline="start" />
           Filter
         </Button>
         {hasActiveFilters ? (

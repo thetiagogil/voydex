@@ -1,8 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Grid2X2, List, Search } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
   filterPokedexEntries,
@@ -43,6 +41,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlayPokedexPageProps = {
   data: MainlinePlayDetailData;
@@ -76,8 +75,11 @@ export const MainlinePlayPokedexPage = ({
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-normal">
-              <List className="text-primary size-6" />
-              Pokedex Progress
+              <AppIcon
+                icon={appIcons.views.mainline.pokedex}
+                className="text-primary size-6"
+              />
+              Pokédex Progress
             </h2>
             <p className="text-muted-foreground text-sm">
               Mark seen and caught species for this play.
@@ -100,7 +102,10 @@ export const MainlinePlayPokedexPage = ({
               <div className="grid gap-3 xl:grid-cols-[minmax(16rem,1fr)_auto_auto] xl:items-center">
                 <InputGroup>
                   <InputGroupAddon>
-                    <Search className="size-4" />
+                    <AppIcon
+                      icon={appIcons.actions.search}
+                      className="size-4"
+                    />
                   </InputGroupAddon>
                   <InputGroupInput
                     value={search}
@@ -126,7 +131,7 @@ export const MainlinePlayPokedexPage = ({
                     <ToggleGroupItem
                       key={item.value}
                       value={item.value}
-                      aria-label={`Show ${item.label.toLowerCase()} Pokedex entries`}
+                      aria-label={`Show ${item.label.toLowerCase()} Pokédex entries`}
                     >
                       {item.label}
                     </ToggleGroupItem>
@@ -135,7 +140,7 @@ export const MainlinePlayPokedexPage = ({
 
                 <div className="flex flex-wrap gap-2 xl:justify-end">
                   <SelectControl
-                    ariaLabel="Sort Pokedex entries"
+                    ariaLabel="Sort Pokédex entries"
                     value={sort}
                     onValueChange={(nextSort) =>
                       setSort(nextSort as PokedexSort)
@@ -156,11 +161,17 @@ export const MainlinePlayPokedexPage = ({
                     variant="outline"
                   >
                     <ToggleGroupItem value="grid" aria-label="Show grid">
-                      <Grid2X2 data-icon="inline-start" />
+                      <AppIcon
+                        icon={appIcons.views.display.grid}
+                        inline="start"
+                      />
                       Grid
                     </ToggleGroupItem>
                     <ToggleGroupItem value="list" aria-label="Show list">
-                      <List data-icon="inline-start" />
+                      <AppIcon
+                        icon={appIcons.views.display.list}
+                        inline="start"
+                      />
                       List
                     </ToggleGroupItem>
                   </ToggleGroup>
@@ -183,11 +194,11 @@ export const MainlinePlayPokedexPage = ({
             <Empty className="min-h-48 border">
               <EmptyHeader>
                 <EmptyMedia variant="icon">
-                  <Search />
+                  <AppIcon icon={appIcons.actions.search} />
                 </EmptyMedia>
                 <EmptyTitle>No entries found</EmptyTitle>
                 <EmptyDescription>
-                  No Pokedex entries match the current search and filters.
+                  No Pokédex entries match the current search and filters.
                 </EmptyDescription>
               </EmptyHeader>
             </Empty>

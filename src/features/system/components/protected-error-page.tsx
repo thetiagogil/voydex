@@ -1,10 +1,9 @@
 "use client";
 
-import { AlertTriangleIcon, RotateCcwIcon } from "lucide-react";
-
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 export type ProtectedErrorPageProps = {
   error: Error & {
@@ -26,7 +25,8 @@ export const ProtectedErrorPage = ({
       <Card>
         <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-start gap-3">
-            <AlertTriangleIcon
+            <AppIcon
+              icon={appIcons.status.error}
               className="text-destructive mt-0.5 size-5 shrink-0"
               aria-hidden
             />
@@ -36,7 +36,7 @@ export const ProtectedErrorPage = ({
             </p>
           </div>
           <Button type="button" onClick={reset}>
-            <RotateCcwIcon aria-hidden />
+            <AppIcon icon={appIcons.actions.retry} aria-hidden />
             Try again
           </Button>
         </CardContent>

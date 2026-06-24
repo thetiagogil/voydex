@@ -52,7 +52,7 @@ export const getPokemonDetailData = async (
   ]);
 
   if (speciesResult.error) {
-    throw new Error("Unable to load Pokemon species.");
+    throw new Error("Unable to load Pokémon species.");
   }
 
   if (!speciesResult.data) {
@@ -64,7 +64,7 @@ export const getPokemonDetailData = async (
     generationsResult.error ||
     availabilityMethodsResult.error
   ) {
-    throw new Error("Unable to load Pokemon reference data.");
+    throw new Error("Unable to load Pokémon reference data.");
   }
 
   if (versionGroupsResult.error) {
@@ -106,11 +106,11 @@ export const getPokemonDetailData = async (
   ]);
 
   if (formsResult.error || attributesResult.error || availabilityResult.error) {
-    throw new Error("Unable to load Pokemon detail data.");
+    throw new Error("Unable to load Pokémon detail data.");
   }
 
   if (pokedexEntriesResult.error) {
-    throw new Error("Unable to load Pokemon Pokedex entries.");
+    throw new Error("Unable to load Pokémon Pokédex entries.");
   }
 
   const availabilityRows = availabilityResult.data ?? [];
@@ -138,11 +138,11 @@ export const getPokemonDetailData = async (
   ]);
 
   if (gamesResult.error) {
-    throw new Error("Unable to load Pokemon game availability.");
+    throw new Error("Unable to load Pokémon game availability.");
   }
 
   if (pokedexResult.error) {
-    throw new Error("Unable to load Pokemon Pokedex definitions.");
+    throw new Error("Unable to load Pokémon Pokédex definitions.");
   }
 
   const typeById = byId(typesResult.data ?? []);

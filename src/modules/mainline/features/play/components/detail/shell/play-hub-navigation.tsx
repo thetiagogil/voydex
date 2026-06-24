@@ -1,65 +1,60 @@
 import Link from "next/link";
-import {
-  BookOpen,
-  ClipboardList,
-  Gauge,
-  Gem,
-  LayoutDashboard,
-  UsersRound,
-  type LucideIcon,
-} from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlaySurface } from "@/modules/mainline/features/play/components/detail/shell/play-shell-types";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  AppIcon,
+  appIcons,
+  type AppIconComponent,
+} from "@/shared/components/app-icon";
 
 const playHubNavItems: Array<{
   description: string;
   href: (playId: string) => string;
-  icon: LucideIcon;
+  icon: AppIconComponent;
   label: string;
   value: MainlinePlaySurface;
 }> = [
   {
     description: "Run summary",
     href: appRoutes.mainlinePlay,
-    icon: LayoutDashboard,
+    icon: appIcons.views.mainline.overview,
     label: "Overview",
     value: "overview",
   },
   {
     description: "Roster",
     href: appRoutes.mainlinePlayTeam,
-    icon: UsersRound,
+    icon: appIcons.views.mainline.team,
     label: "Team",
     value: "team",
   },
   {
     description: "Completion",
     href: appRoutes.mainlinePlayProgress,
-    icon: Gauge,
+    icon: appIcons.views.mainline.progress,
     label: "Progress",
     value: "summary",
   },
   {
     description: "Milestones",
     href: appRoutes.mainlinePlayStory,
-    icon: BookOpen,
+    icon: appIcons.views.mainline.story,
     label: "Story",
     value: "story",
   },
   {
     description: "Seen and caught",
     href: appRoutes.mainlinePlayPokedex,
-    icon: ClipboardList,
-    label: "Pokedex",
+    icon: appIcons.views.mainline.pokedex,
+    label: "Pokédex",
     value: "pokedex",
   },
   {
     description: "Collected items",
     href: appRoutes.mainlinePlayCollectibles,
-    icon: Gem,
+    icon: appIcons.views.mainline.collectibles,
     label: "Collectibles",
     value: "collectibles",
   },
@@ -80,7 +75,6 @@ export const PlayHubNavigation = ({
       className="ring-app-surface-border bg-card/72 flex gap-2 overflow-x-auto rounded-xl p-2 ring-1 backdrop-blur-md"
     >
       {playHubNavItems.map((item) => {
-        const Icon = item.icon;
         const isActive = activeSurface === item.value;
 
         return (
@@ -96,7 +90,7 @@ export const PlayHubNavigation = ({
                 : "text-muted-foreground",
             )}
           >
-            <Icon className="size-4" />
+            <AppIcon icon={item.icon} className="size-4" />
             <span className="flex min-w-0 flex-col items-start">
               <span className="truncate leading-tight">{item.label}</span>
               <span className="text-muted-foreground text-xs leading-tight font-normal">

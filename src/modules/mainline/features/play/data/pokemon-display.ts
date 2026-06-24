@@ -56,7 +56,7 @@ export const loadPokemonDisplayMetadata = async (
   ]);
 
   if (formsResult.error || attributesResult.error || typesResult.error) {
-    throw new Error("Unable to load Pokemon display metadata.");
+    throw new Error("Unable to load Pokémon display metadata.");
   }
 
   const formById = byId((formsResult.data ?? []) as PokemonForm[]);

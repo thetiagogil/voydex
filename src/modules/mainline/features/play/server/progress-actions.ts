@@ -51,7 +51,7 @@ export const setMainlinePokedexSpeciesProgress = async ({
   speciesId,
 }: SetMainlinePokedexSpeciesProgressInput): Promise<MainlineActionResult> => {
   if (!isValidUuid(playId) || !isValidPositiveInteger(speciesId)) {
-    return { error: "Choose a valid Pokedex entry.", ok: false };
+    return { error: "Choose a valid Pokédex entry.", ok: false };
   }
 
   const { error: authError, supabase } = await getAuthedSupabaseActionClient();
@@ -71,7 +71,7 @@ export const setMainlinePokedexSpeciesProgress = async ({
     });
 
   if (result.error) {
-    return { error: "Unable to update this Pokedex entry.", ok: false };
+    return { error: "Unable to update this Pokédex entry.", ok: false };
   }
 
   revalidateMainlinePlay(playId);

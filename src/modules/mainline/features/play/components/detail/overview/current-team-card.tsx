@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ChevronRight, UsersRound } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
@@ -23,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CurrentTeamCardProps = {
   data: MainlinePlayDetailData;
@@ -31,7 +30,6 @@ type CurrentTeamCardProps = {
 export const CurrentTeamCard = ({ data }: CurrentTeamCardProps) => {
   const activeTeam = getActiveTeam(data.team).slice(0, 6);
   const reserveTeam = getReserveTeam(data.team);
-
   if (!activeTeam.length) {
     return (
       <EmptyPanel
@@ -45,7 +43,10 @@ export const CurrentTeamCard = ({ data }: CurrentTeamCardProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <UsersRound className="text-primary size-5" />
+          <AppIcon
+            icon={appIcons.product.team}
+            className="text-primary size-5"
+          />
           Current Team
         </CardTitle>
         <CardAction>
@@ -60,7 +61,7 @@ export const CurrentTeamCard = ({ data }: CurrentTeamCardProps) => {
             size="sm"
           >
             View full team
-            <ChevronRight data-icon="inline-end" />
+            <AppIcon icon={appIcons.actions.continue} inline="end" />
           </Button>
         </CardAction>
         <CardDescription>

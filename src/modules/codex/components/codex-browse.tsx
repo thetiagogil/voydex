@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactNode } from "react";
-import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +16,7 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/shared/components/ui/empty";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 const resourceGridColumns = {
   three: "sm:grid-cols-2 lg:grid-cols-3",
@@ -110,7 +110,7 @@ export const CodexResourceCard = ({
               <CardTitle className="truncate">{title}</CardTitle>
             </div>
             <CardAction className="text-muted-foreground transition-transform group-hover:translate-x-0.5 [&_svg]:size-4">
-              <ArrowRightIcon aria-hidden />
+              <AppIcon icon={appIcons.actions.continue} aria-hidden />
             </CardAction>
           </div>
         </CardHeader>

@@ -1,5 +1,3 @@
-import { BookOpen, Gem, ListChecks } from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
@@ -11,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type TrackingCategoriesCardProps = {
   overview: MainlinePlayDetailData["overview"];
@@ -34,23 +33,35 @@ export const TrackingCategoriesCard = ({
           actionLabel="Open Story"
           count={`${formatNumber(overview.completed_required_milestone_count)} / ${formatNumber(overview.required_milestone_count)} milestones`}
           href={appRoutes.mainlinePlayStory(playId)}
-          icon={<BookOpen className="size-5" />}
+          icon={
+            <AppIcon icon={appIcons.views.mainline.story} className="size-5" />
+          }
           label="Story Progress"
           percent={overview.milestone_completion_percent}
         />
         <CompactProgressRow
-          actionLabel="Open Pokedex"
+          actionLabel="Open Pokédex"
           count={`${formatNumber(overview.caught_required_pokedex_species_count)} / ${formatNumber(overview.required_pokedex_species_count)} caught`}
           href={appRoutes.mainlinePlayPokedex(playId)}
-          icon={<ListChecks className="size-5" />}
-          label="Pokedex"
+          icon={
+            <AppIcon
+              icon={appIcons.views.mainline.pokedex}
+              className="size-5"
+            />
+          }
+          label="Pokédex"
           percent={overview.pokedex_completion_percent}
         />
         <CompactProgressRow
           actionLabel="Open Collectibles"
           count={`${formatNumber(overview.collected_required_collectible_entry_count)} / ${formatNumber(overview.required_collectible_entry_count)} collected`}
           href={appRoutes.mainlinePlayCollectibles(playId)}
-          icon={<Gem className="size-5" />}
+          icon={
+            <AppIcon
+              icon={appIcons.views.mainline.collectibles}
+              className="size-5"
+            />
+          }
           label="Collectibles"
           percent={overview.collectible_completion_percent}
         />

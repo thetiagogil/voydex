@@ -4,7 +4,7 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 ## Product Scope
 
-The active build target is the `mainline` product family and its Mainline app workspace: mainline-style Pokemon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
+The active build target is the `mainline` product family and its Mainline app workspace: mainline-style Pokémon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
 
 Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using product-family-specific data models where needed.
 
@@ -83,7 +83,7 @@ The Play Hub is the central workspace for a play.
 It should summarize:
 
 - Play metadata and status.
-- Pokemon team preview.
+- Pokémon team preview.
 - Story progression.
 - Collectibles.
 - Pokedex progress.
@@ -95,30 +95,30 @@ The Play Hub should link to deeper play-specific routes instead of trying to exp
 
 ### Team Management
 
-Each play has a managed Pokemon roster.
+Each play has a managed Pokémon roster.
 
-The current active/reserve roster should be capped to prevent unbounded team growth. The working product limit is 6 active Pokemon plus 6 reserve Pokemon.
+The current active/reserve roster should be capped to prevent unbounded team growth. The working product limit is 6 active Pokémon plus 6 reserve Pokémon.
 
 The Team page should support:
 
-- Active and reserve Pokemon.
+- Active and reserve Pokémon.
 - Levels, forms, abilities, natures, gender, shiny state, moves, and notes.
 - Team strengths and weaknesses.
-- Pokemon lifecycle actions: add, evolve, retire, replace.
+- Pokémon lifecycle actions: add, evolve, retire, replace.
 - Correction-only edits versus in-game recorded changes.
-- Real-time Pokemon reuse validation when adding, replacing, or evolving a Pokemon.
+- Real-time Pokémon reuse validation when adding, replacing, or evolving a Pokémon.
 
-Retired/replaced Pokemon should be preserved as history when the user records the change as an in-game event, but they should not count toward the current roster limit.
+Retired/replaced Pokémon should be preserved as history when the user records the change as an in-game event, but they should not count toward the current roster limit.
 
 Roster slots:
 
-- Active Pokemon use slots 1 to 6.
-- Reserve Pokemon use slots 1 to 6.
-- Retired and replaced Pokemon have no current roster slot.
+- Active Pokémon use slots 1 to 6.
+- Reserve Pokémon use slots 1 to 6.
+- Retired and replaced Pokémon have no current roster slot.
 
-Recorded in-game team changes should create timeline events with enough Pokemon identity data to preserve usage history. For example, if Squirtle evolves into Wartortle and then Blastoise, Collection and reuse checks should still know that Squirtle, Wartortle, and Blastoise were used.
+Recorded in-game team changes should create timeline events with enough Pokémon identity data to preserve usage history. For example, if Squirtle evolves into Wartortle and then Blastoise, Collection and reuse checks should still know that Squirtle, Wartortle, and Blastoise were used.
 
-Correction-only edits should update the current Pokemon record without creating timeline history.
+Correction-only edits should update the current Pokémon record without creating timeline history.
 
 ### Story Progression
 
@@ -147,13 +147,13 @@ Timeline entries should focus on meaningful events:
 
 - Important story milestones.
 - Team snapshots for key fights.
-- Pokemon added, evolved, retired, or replaced.
+- Pokémon added, evolved, retired, or replaced.
 - Hall of Fame/final team.
 - Manual journal notes.
 
 Normal Pokedex and collectible progress should not automatically create timeline noise.
 
-Timeline Pokemon references should snapshot the relevant species/form at the event time. They should not rely only on the current Pokemon row, because that row can later evolve, change form, retire, or be corrected.
+Timeline Pokémon references should snapshot the relevant species/form at the event time. They should not rely only on the current Pokémon row, because that row can later evolve, change form, retire, or be corrected.
 
 Timeline events can be created from:
 
@@ -198,26 +198,26 @@ Team plans are separate from plays.
 Plans should support:
 
 - Planning a team before a play exists.
-- Planning target/final Pokemon.
+- Planning target/final Pokémon.
 - Planning optional content scope such as DLC availability.
 - Optional preferred forms, roles, notes, abilities, natures, and moves.
 - Creating a play from a plan.
 - Keeping the plan as a persistent reference after a play is created.
 
-Creating a play from a plan should not auto-fill the active team. The play starts with an empty current team, and the user can add planned Pokemon into the play when they are actually obtained.
+Creating a play from a plan should not auto-fill the active team. The play starts with an empty current team, and the user can add planned Pokémon into the play when they are actually obtained.
 
 Plan member statuses:
 
-- `pending`: planned but not linked to a play Pokemon.
-- `linked`: linked to an actual play Pokemon but target not reached.
-- `reached`: linked play Pokemon reached the planned target species/form.
+- `pending`: planned but not linked to a play Pokémon.
+- `linked`: linked to an actual play Pokémon but target not reached.
+- `reached`: linked play Pokémon reached the planned target species/form.
 - `skipped`: user decided not to use the planned member.
 
-When adding a planned target to a play, the app should suggest the earliest or first obtainable evolution-stage Pokemon when possible.
+When adding a planned target to a play, the app should suggest the earliest or first obtainable evolution-stage Pokémon when possible.
 
-Plans should show preemptive Pokemon reuse warnings. If a planned target, preferred starting Pokemon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokemon.
+Plans should show preemptive Pokémon reuse warnings. If a planned target, preferred starting Pokémon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokémon.
 
-Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokemon use slots 1 to 6. Alternate/reserve planned Pokemon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
+Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokémon use slots 1 to 6. Alternate/reserve planned Pokémon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
 
 When a plan is linked to a play, member status is tracked for that play's Team Plan relationship.
 
@@ -236,7 +236,7 @@ It should support filters for:
 - Used/not used.
 - Species/form.
 
-Pokemon detail pages can show:
+Pokémon detail pages can show:
 
 - Forms.
 - Stats by generation.
@@ -244,13 +244,13 @@ Pokemon detail pages can show:
 - Learnsets.
 - Evolutions.
 - Availability by game.
-- User history with that Pokemon.
+- User history with that Pokémon.
 
 ### Collection
 
-Collection is the user's used Pokemon history across plays.
+Collection is the user's used Pokémon history across plays.
 
-It is derived from actual play Pokemon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
+It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 
 It should support filters by:
 
@@ -275,7 +275,7 @@ Stats may include:
 
 - Plays by generation and game.
 - Completed plays.
-- Favorite or most-used Pokemon.
+- Favorite or most-used Pokémon.
 - Favorite types.
 - Challenge/rule stats.
 - Pokedex and collectible completion.
@@ -302,7 +302,7 @@ Settings should include:
 - Preferences.
 - Account.
 
-Preferences should support global user behavior such as Pokemon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex tracking, optional Pokedex scopes, and optional Pokedex entries are decided per play.
+Preferences should support global user behavior such as Pokémon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex tracking, optional Pokedex scopes, and optional Pokedex entries are decided per play.
 
 ## Personalization Features
 
@@ -329,12 +329,12 @@ Examples:
 - No repeated forms.
 - No repeated evolution families.
 - Shiny-only.
-- No legendary Pokemon.
+- No legendary Pokémon.
 - Custom rules.
 
-Rules should be modeled flexibly. The app should support predefined rules and user-authored custom rules. Pokemon reuse rules apply both when planning teams and when adding Pokemon to a play team.
+Rules should be modeled flexibly. The app should support predefined rules and user-authored custom rules. Pokémon reuse rules apply both when planning teams and when adding Pokémon to a play team.
 
-Pokemon reuse checks should support both real usage warnings and preemptive warnings. Real usage warnings validate the Pokemon being selected now. Preemptive warnings validate planned targets and future evolution destinations so the user is not surprised later in a play.
+Pokémon reuse checks should support both real usage warnings and preemptive warnings. Real usage warnings validate the Pokémon being selected now. Preemptive warnings validate planned targets and future evolution destinations so the user is not surprised later in a play.
 
 Predefined rules should be structured where they affect app behavior. User-authored descriptive rules should also be supported for personal challenges that the app cannot validate yet.
 
@@ -344,7 +344,7 @@ Tags should be user-owned and attachable to:
 
 - Plays.
 - Plans.
-- Play Pokemon.
+- Play Pokémon.
 
 Tags should support filtering and personal organization.
 
@@ -362,9 +362,9 @@ This is separate from a play. A user may want to play a game before creating a c
 
 Creating or completing a play can suggest updates to backlog/wishlist status, but the game intent row remains independent user intent rather than a strict mirror of play status.
 
-### Pokemon Biography
+### Pokémon Biography
 
-Play Pokemon should support optional personal biography fields:
+Play Pokémon should support optional personal biography fields:
 
 - Met/caught location.
 - Met level.
@@ -375,17 +375,17 @@ Play Pokemon should support optional personal biography fields:
 
 These fields enrich Collection and timeline features.
 
-### Pokemon-Relevant Items
+### Pokémon-Relevant Items
 
 Voydex should not become an item encyclopedia.
 
-The item catalog should only include items that are held by Pokemon or are essential to Pokemon biography/mechanics:
+The item catalog should only include items that are held by Pokémon or are essential to Pokémon biography/mechanics:
 
 - Poke Balls for caught-ball history.
 - Held items for team display and planning.
 - Evolution items where they explain evolution history or availability.
-- Fossils where they explain Pokemon origin/availability.
-- Form-change items where they affect selectable/displayed Pokemon forms.
+- Fossils where they explain Pokémon origin/availability.
+- Form-change items where they affect selectable/displayed Pokémon forms.
 - Berries, Mega Stones, and Z-Crystals as held item subgroups.
 
 General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items should stay out unless a future feature needs them.

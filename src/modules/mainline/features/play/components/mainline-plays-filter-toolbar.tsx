@@ -1,5 +1,3 @@
-import { SearchIcon, XIcon } from "lucide-react";
-
 import {
   completionOptions,
   type MainlinePlayFilters,
@@ -12,6 +10,7 @@ import {
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import { SelectControl } from "@/shared/components/select-control";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlaysFilterToolbarProps = {
   activeFilters: boolean;
@@ -36,7 +35,7 @@ export const MainlinePlaysFilterToolbar = ({
     <div className="bg-card/78 ring-app-surface-border grid gap-3 rounded-xl p-3 ring-1 backdrop-blur-md xl:grid-cols-[minmax(16rem,1fr)_repeat(4,minmax(9rem,auto))_auto]">
       <InputGroup>
         <InputGroupAddon>
-          <SearchIcon aria-hidden />
+          <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
         <InputGroupInput
           value={filters.q}
@@ -85,7 +84,7 @@ export const MainlinePlaysFilterToolbar = ({
         disabled={!activeFilters}
         onClick={onClearFilters}
       >
-        <XIcon data-icon="inline-start" />
+        <AppIcon icon={appIcons.actions.clear} inline="start" />
         Clear
       </Button>
     </div>

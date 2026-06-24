@@ -1,6 +1,5 @@
 import type { MainlinePlayCollectibleDetail } from "@/modules/mainline/shared/types/mainline.types";
 import { groupCollectiblesByCollectible } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { formatPokemonDisplayText } from "@/shared/domain/pokemon/display-text";
 
 export type CollectibleGroup = {
   collectedCount: number;
@@ -38,13 +37,9 @@ export const buildCollectibleGroups = (
       id: firstEntry?.collectible_id ?? 0,
       includedCount: group.filter((entry) => entry.is_included_in_completion)
         .length,
-      name: formatPokemonDisplayText(
-        firstEntry?.collectible_name ?? "Collectible",
-      ),
+      name: firstEntry?.collectible_name ?? "Collectible",
       totalCount: group.length,
-      typeName: formatPokemonDisplayText(
-        firstEntry?.collectible_type_name ?? "Collectible",
-      ),
+      typeName: firstEntry?.collectible_type_name ?? "Collectible",
     };
   });
 };
@@ -74,9 +69,7 @@ export const getSortableEntryNumber = (
 };
 
 export const getEntryLocation = (entry: MainlinePlayCollectibleDetail) => {
-  return formatPokemonDisplayText(
-    entry.sub_location_label ?? entry.location_label ?? "-",
-  );
+  return entry.sub_location_label ?? entry.location_label ?? "-";
 };
 
 export const isCollectibleStatusFilter = (

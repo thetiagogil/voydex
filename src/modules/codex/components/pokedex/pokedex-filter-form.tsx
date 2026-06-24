@@ -1,6 +1,4 @@
-import { SearchIcon } from "lucide-react";
 import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import { CodexFilterPanel } from "@/modules/codex/components/codex-browse";
 import type {
@@ -17,6 +15,7 @@ import {
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import { cn } from "@/lib/utils";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type PokedexFilterFormProps = {
   filters: PokedexPageFilters;
@@ -57,7 +56,6 @@ export const PokedexFilterForm = ({
       value: type.slug,
     })),
   ];
-
   return (
     <CodexFilterPanel
       className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto_auto]"
@@ -65,7 +63,7 @@ export const PokedexFilterForm = ({
     >
       <InputGroup className="h-10 flex-1">
         <InputGroupAddon>
-          <SearchIcon aria-hidden />
+          <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
         <InputGroupInput
           name="q"

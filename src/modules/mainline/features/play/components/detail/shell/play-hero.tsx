@@ -1,14 +1,4 @@
 import Link from "next/link";
-import {
-  ArrowLeft,
-  CalendarDays,
-  Clock3,
-  ClipboardList,
-  ShieldCheck,
-  Sparkles,
-  UsersRound,
-} from "lucide-react";
-
 import { appRoutes } from "@/config/routes";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
@@ -25,6 +15,7 @@ import { PlayQuickActions } from "@/modules/mainline/features/play/components/de
 import { ProgressMeter } from "@/shared/components/progress-meter";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type PlayHeroProps = {
   data: MainlinePlayDetailData;
@@ -37,7 +28,6 @@ export const PlayHero = ({ data }: PlayHeroProps) => {
   const activeTeamCount = getActiveTeam(data.team).length;
   const reserveTeamCount = getReserveTeam(data.team).length;
   const overallCompletion = play.overall_completion_percent ?? 0;
-
   return (
     <section className="ring-app-surface-border bg-card/78 rounded-xl p-4 ring-1 backdrop-blur-md sm:p-5">
       <div className="grid gap-5 xl:grid-cols-[auto_minmax(0,1fr)_18rem] xl:items-center">
@@ -73,30 +63,36 @@ export const PlayHero = ({ data }: PlayHeroProps) => {
 
           <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
             <span className="inline-flex items-center gap-1.5">
-              <CalendarDays className="size-4" />
+              <AppIcon icon={appIcons.product.date} className="size-4" />
               Started {formatDate(play.started_on)}
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Clock3 className="size-4" />
+              <AppIcon icon={appIcons.product.playtime} className="size-4" />
               {formatPlaytime(play.playtime_minutes)}
             </span>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <StatusBadge tone="neutral">
-              <UsersRound className="size-3" />
+              <AppIcon icon={appIcons.product.team} className="size-3" />
               {formatNumber(activeTeamCount)} active
             </StatusBadge>
             <StatusBadge tone="neutral">
-              <Sparkles className="size-3" />
+              <AppIcon icon={appIcons.product.reserve} className="size-3" />
               {formatNumber(reserveTeamCount)} reserve
             </StatusBadge>
             <StatusBadge tone="neutral">
-              <ClipboardList className="size-3" />
-              Pokedex {play.pokedex_tracking_enabled ? "enabled" : "off"}
+              <AppIcon
+                icon={appIcons.views.mainline.pokedex}
+                className="size-3"
+              />
+              Pokédex {play.pokedex_tracking_enabled ? "enabled" : "off"}
             </StatusBadge>
             <StatusBadge tone="neutral">
-              <ShieldCheck className="size-3" />
+              <AppIcon
+                icon={appIcons.product.optionalEntries}
+                className="size-3"
+              />
               Optional entries{" "}
               {play.include_optional_pokedex_entries_in_completion
                 ? "count"
@@ -124,7 +120,7 @@ export const PlayHero = ({ data }: PlayHeroProps) => {
               render={<Link href={appRoutes.mainlinePlays} />}
               nativeButton={false}
             >
-              <ArrowLeft data-icon="inline-start" />
+              <AppIcon icon={appIcons.actions.back} inline="start" />
               Plays
             </Button>
             <PlayQuickActions playId={playId} />

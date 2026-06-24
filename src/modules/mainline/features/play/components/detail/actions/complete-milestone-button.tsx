@@ -2,12 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2 } from "lucide-react";
-
 import { completeMainlinePlayMilestone } from "@/modules/mainline/features/play/server/progress-actions";
 import { ActionError } from "@/modules/mainline/features/play/components/detail/actions/action-error";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CompleteMilestoneButtonProps = {
   disabled?: boolean;
@@ -25,7 +24,6 @@ export const CompleteMilestoneButton = ({
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
   return (
     <div className="flex flex-col gap-2">
       <Button
@@ -55,7 +53,7 @@ export const CompleteMilestoneButton = ({
         {isPending ? (
           <Spinner data-icon="inline-start" />
         ) : (
-          <CheckCircle2 data-icon="inline-start" />
+          <AppIcon icon={appIcons.product.completion} inline="start" />
         )}
         {isPending ? "Updating..." : label}
       </Button>

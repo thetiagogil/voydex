@@ -1,7 +1,5 @@
 "use client";
 
-import { Gem } from "lucide-react";
-
 import type { CollectibleGroup } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { getGroupPercent } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
@@ -14,6 +12,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CollectibleGroupListProps = {
   groups: CollectibleGroup[];
@@ -34,7 +33,6 @@ export const CollectibleGroupList = ({
     (total, group) => total + group.totalCount,
     0,
   );
-
   return (
     <Card className="min-h-full">
       <CardHeader>
@@ -61,7 +59,10 @@ export const CollectibleGroupList = ({
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
                   <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
-                    <Gem className="size-5" />
+                    <AppIcon
+                      icon={appIcons.product.collectible}
+                      className="size-5"
+                    />
                   </div>
                   <div className="min-w-0">
                     <p className="truncate font-medium">{group.name}</p>

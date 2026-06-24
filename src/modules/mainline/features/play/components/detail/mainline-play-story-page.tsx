@@ -1,5 +1,3 @@
-import { BookOpen, ListChecks } from "lucide-react";
-
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import {
   formatNumber,
@@ -19,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlayStoryPageProps = {
   data: MainlinePlayDetailData;
@@ -31,7 +30,6 @@ export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
   const playId = String(data.overview.play_id);
   const completedMilestones = data.overview.completed_required_milestone_count;
   const requiredMilestones = data.overview.required_milestone_count;
-
   return (
     <MainlinePlayShell
       activeProgressTab="story"
@@ -43,7 +41,10 @@ export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-normal">
-                <BookOpen className="text-primary size-6" />
+                <AppIcon
+                  icon={appIcons.views.mainline.story}
+                  className="text-primary size-6"
+                />
                 Story Progress
               </h2>
               <p className="text-muted-foreground text-sm">
@@ -88,7 +89,10 @@ export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
           <MilestoneFocusPanel milestone={focusMilestone} playId={playId} />
           <Card>
             <CardContent className="flex items-center gap-3">
-              <ListChecks className="text-primary size-8" />
+              <AppIcon
+                icon={appIcons.product.milestone}
+                className="text-primary size-8"
+              />
               <div>
                 <p className="font-medium">Logging an old save?</p>
                 <p className="text-muted-foreground text-sm">

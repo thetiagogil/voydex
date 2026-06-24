@@ -14,25 +14,25 @@ Dashboard is a view inside `mainline`. Settings is a global app/account area.
 
 ### Product Family
 
-A Pokemon content or game family stored in reference data.
+A Pokémon content or game family stored in reference data.
 
-Current product families are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; product families describe Pokemon content scope.
+Current product families are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep`. Schemas describe data responsibility; product families describe Pokémon content scope.
 
 ### Codex Module
 
-The frontend reference browser for Pokemon, games, generations, and future reference data.
+The frontend reference browser for Pokémon, games, generations, and future reference data.
 
 Codex is not a database product family. It can read reference data across product families as Voydex grows.
 
 ### Mainline Module
 
-The active Voydex app module for mainline-style Pokemon RPG playthroughs.
+The active Voydex app module for mainline-style Pokémon RPG playthroughs.
 
 Mainline includes the play/team/story/Pokedex/planning companion experience. Its user-facing label is Mainline. Database tables and functions for this product family use the `mainline_` prefix.
 
 ### Play
 
-A user-owned Pokemon playthrough.
+A user-owned Pokémon playthrough.
 
 A play records the user's game, status, metadata, team, story progress, collectibles, Pokedex progress, selected optional content, and timeline.
 
@@ -60,45 +60,45 @@ It summarizes team, story, collectibles, Pokedex progress, completion, and timel
 
 A user-owned team plan that can exist before a play.
 
-A plan usually targets final/evolved Pokemon and can later be linked to a play. Creating a play from a plan does not automatically fill the active team.
+A plan usually targets final/evolved Pokémon and can later be linked to a play. Creating a play from a plan does not automatically fill the active team.
 
 Plans can include optional content scope, such as DLC availability, before a play exists.
 
 ### Planned Member
 
-One Pokemon target in a team plan.
+One Pokémon target in a team plan.
 
 A planned member can be pending, linked, reached, or skipped.
 
 When a plan is linked to a play, the member status belongs to that play/plan relationship.
 
-### Play Pokemon
+### Play Pokémon
 
-An individual Pokemon recorded in a user's play.
+An individual Pokémon recorded in a user's play.
 
 This is not only a species reference. It can include personal fields such as nickname, level, nature, ability, moves, notes, met location, MVP flag, and lifecycle state.
 
-The current Play Pokemon row represents the current state. Recorded timeline references preserve event-time identities so past species/forms are not lost after evolution or form changes.
+The current Play Pokémon row represents the current state. Recorded timeline references preserve event-time identities so past species/forms are not lost after evolution or form changes.
 
 ### Current Roster
 
-The active/reserve Pokemon currently managed for a play.
+The active/reserve Pokémon currently managed for a play.
 
-The current roster is capped to prevent unbounded team growth. Retired or replaced Pokemon can remain in history but do not count toward the current roster limit.
+The current roster is capped to prevent unbounded team growth. Retired or replaced Pokémon can remain in history but do not count toward the current roster limit.
 
 ### Collection
 
-The user's Pokemon usage history across plays.
+The user's Pokémon usage history across plays.
 
-Collection is derived from actual play Pokemon and meaningful recorded history, not only current team slots.
+Collection is derived from actual play Pokémon and meaningful recorded history, not only current team slots.
 
-Collection includes current Pokemon identity, recorded event-time identities, and relevant team snapshots.
+Collection includes current Pokémon identity, recorded event-time identities, and relevant team snapshots.
 
 ### Pokedex
 
 The global reference/search/planning surface.
 
-The Pokedex helps users search Pokemon by generation, game, availability, type, and used-before state.
+The Pokedex helps users search Pokémon by generation, game, availability, type, and used-before state.
 
 Global Pokedex search is not the same as Play Pokedex Progress. It is a reference and planning surface.
 
@@ -136,7 +136,7 @@ Timeline entries can be ordered without exact timestamps, which is important for
 
 ### Snapshot
 
-A historical copy of team or Pokemon state at a meaningful moment.
+A historical copy of team or Pokémon state at a meaningful moment.
 
 Snapshots should not depend on current team rows because the team can later change.
 
@@ -150,29 +150,29 @@ Structured or custom constraints attached to a play or plan.
 
 Examples include Nuzlocke, monotype, no repeated species, no repeated forms, shiny-only, and no legendaries.
 
-### Pokemon Reuse Policy
+### Pokémon Reuse Policy
 
-The rule used to detect whether a Pokemon has already been used by the user.
+The rule used to detect whether a Pokémon has already been used by the user.
 
-The policy applies both when planning teams and when adding Pokemon to an actual play team.
+The policy applies both when planning teams and when adding Pokémon to an actual play team.
 
 Reuse scope is cascading and mutually exclusive:
 
-- `none`: do not warn, filter, or block reused Pokemon.
+- `none`: do not warn, filter, or block reused Pokémon.
 - `form`: only the exact species/form counts as reused.
 - `species`: any form of the same species counts as reused.
-- `evolution_family`: any Pokemon in the same evolution family counts as reused.
+- `evolution_family`: any Pokémon in the same evolution family counts as reused.
 
 The scope should not be modeled as independent booleans. `evolution_family` is broader than `species`, and `species` is broader than `form`.
 
 Reuse checks should support:
 
-- Real usage warnings for the Pokemon being selected, added, replaced, or evolved now.
-- Preemptive warnings for planned targets, preferred starting Pokemon, and future evolution destinations.
+- Real usage warnings for the Pokémon being selected, added, replaced, or evolved now.
+- Preemptive warnings for planned targets, preferred starting Pokémon, and future evolution destinations.
 
 ### Tags
 
-User-owned labels attachable to plays, plans, or play Pokemon.
+User-owned labels attachable to plays, plans, or play Pokémon.
 
 Tags are for filtering and personal organization.
 
@@ -186,13 +186,13 @@ This records whether a user wants to play, planned, is playing, completed, or sk
 
 ### Species
 
-The National Dex identity of a Pokemon.
+The National Dex identity of a Pokémon.
 
 Pokedex completion uses species-level identity.
 
 ### Form
 
-A concrete Pokemon form identity.
+A concrete Pokémon form identity.
 
 Forms can be default, regional, alternate, cosmetic, battle-only, held-item-driven, evolution-locked, or otherwise special.
 
@@ -226,6 +226,6 @@ Optional content controls which story steps, collectibles, Pokedexes, availabili
 
 ### Availability
 
-Reference data describing whether and how Pokemon, moves, or items are available in a game/version group.
+Reference data describing whether and how Pokémon, moves, or items are available in a game/version group.
 
 Initial availability should support planning by game and DLC. More detailed location/story-gate availability is backlog.

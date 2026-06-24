@@ -17,12 +17,12 @@ Before meaningful implementation, read:
 
 ## Product Summary
 
-Voydex is a Pokemon companion app for tracking, remembering, and planning playthroughs.
+Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs.
 
 Active frontend modules:
 
 - `mainline`: user-facing label is Mainline. This is the playthrough workspace.
-- `codex`: public-readable reference browser for Pokemon, games, and generations.
+- `codex`: public-readable reference browser for Pokémon, games, and generations.
 
 Do not call the Mainline module "Adventures" in code or UI. Plays are the user-owned playthrough records inside Mainline.
 
@@ -74,6 +74,10 @@ Voydex uses shadcn UI primitives in `src/shared/components/ui`.
 - Use Base UI `render` composition, not Radix `asChild`, unless a local primitive explicitly supports `asChild`.
 - Use Lucide icons for interface actions.
 - Keep Tailwind simple and consistent.
+- Keep Tailwind classes canonical. When Tailwind IntelliSense suggests
+  `suggestCanonicalClasses`, update touched classes to the canonical Tailwind v4
+  form, for example `shadow-(--app-surface-shadow)` instead of
+  `shadow-[var(--app-surface-shadow)]`.
 - Build reusable components when a route starts getting large.
 - Preserve accessibility: labels, focus states, keyboard behavior, and non-color status signals.
 
@@ -100,12 +104,12 @@ If a database contract changes, update `00-databases` first, regenerate/copy typ
 ## Product Rules To Preserve
 
 - A play has one focused linked Team Plan.
-- The play current roster is 6 active Pokemon plus up to 6 reserve Pokemon.
-- Retired/replaced Pokemon belong to history, not the current roster.
+- The play current roster is 6 active Pokémon plus up to 6 reserve Pokémon.
+- Retired/replaced Pokémon belong to history, not the current roster.
 - Pokedex completion is species-level.
 - DLC and optional content are per-play choices.
 - Story snapshots are optional.
-- Collection is derived from used Pokemon/history, not only current team.
+- Collection is derived from used Pokémon/history, not only current team.
 
 ## Verification
 
@@ -116,5 +120,10 @@ npm.cmd run format:check
 npm.cmd run lint
 npm.cmd run build
 ```
+
+For Tailwind-backed UI changes, also check touched files for Tailwind
+IntelliSense warnings such as `suggestCanonicalClasses`; at minimum, scan for
+simple CSS-variable arbitrary utilities like `shadow-[var(--token)]` and replace
+them with canonical forms like `shadow-(--token)` when equivalent.
 
 For visual work, also test in the browser at desktop and mobile widths.

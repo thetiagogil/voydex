@@ -1,8 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Gem, Search } from "lucide-react";
-
 import type { CollectibleGroup } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import {
   collectibleSortItems,
@@ -40,6 +38,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/shared/components/ui/toggle-group";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type CollectibleDetailProps = {
   group: CollectibleGroup;
@@ -93,7 +92,6 @@ export const CollectibleDetail = ({
         return getSortableEntryNumber(a) - getSortableEntryNumber(b);
       });
   }, [group.entries, search, sort, statusFilter]);
-
   return (
     <section className="flex min-h-full flex-col gap-4">
       <Card size="sm">
@@ -101,7 +99,10 @@ export const CollectibleDetail = ({
           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <CardTitle className="flex items-center gap-3 text-2xl">
-                <Gem className="text-primary size-6" />
+                <AppIcon
+                  icon={appIcons.product.collectible}
+                  className="text-primary size-6"
+                />
                 {group.name}
               </CardTitle>
               <CardDescription>
@@ -129,7 +130,7 @@ export const CollectibleDetail = ({
           <div className="grid gap-3 xl:grid-cols-[minmax(12rem,1fr)_auto] xl:items-center">
             <InputGroup>
               <InputGroupAddon>
-                <Search className="size-4" />
+                <AppIcon icon={appIcons.actions.search} className="size-4" />
               </InputGroupAddon>
               <InputGroupInput
                 value={search}
@@ -174,7 +175,7 @@ export const CollectibleDetail = ({
         <Empty className="min-h-48 border">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Search />
+              <AppIcon icon={appIcons.actions.search} />
             </EmptyMedia>
             <EmptyTitle>No entries found</EmptyTitle>
             <EmptyDescription>

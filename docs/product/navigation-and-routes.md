@@ -39,7 +39,7 @@ Planned Mainline views:
 
 Current Codex views:
 
-- Pokemon
+- Pokémon
 - Games
 - Generations
 
@@ -133,9 +133,9 @@ Plans are separate from plays when they exist before a play. A play itself has o
 /mainline/collection/[playPokemonId]
 ```
 
-Collection is based on Pokemon the user has used in plays.
+Collection is based on Pokémon the user has used in plays.
 
-The detail route is optional and may be deferred, but the model should support a user-owned Pokemon history detail page.
+The detail route is optional and may be deferred, but the model should support a user-owned Pokémon history detail page.
 
 ### Stats
 
@@ -200,18 +200,18 @@ Mainline Dashboard or Plans -> New Plan -> Select Game -> Plan Detail
 Plan Detail -> Create Play From Plan -> Play Hub
 ```
 
-The play starts with an empty current team. Planned Pokemon remain available as a reference.
+The play starts with an empty current team. Planned Pokémon remain available as a reference.
 
-### Add Planned Pokemon To Play
+### Add Planned Pokémon To Play
 
 ```txt
 Play Team -> Team Plan -> Add To Team -> Suggested Starting Stage -> Current Team
 ```
 
-### Search For Pokemon
+### Search For Pokémon
 
 ```txt
-Codex -> Pokedex -> Pokemon Detail -> Add To Plan
+Codex -> Pokedex -> Pokémon Detail -> Add To Plan
 ```
 
 ## Routing Principles

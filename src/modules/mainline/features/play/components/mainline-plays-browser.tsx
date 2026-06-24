@@ -2,8 +2,6 @@
 
 import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontalIcon } from "lucide-react";
-
 import { MainlinePlayCard } from "@/modules/mainline/features/play/components/mainline-play-card";
 import {
   defaultFilters,
@@ -16,6 +14,7 @@ import {
 import { MainlinePlaysFilterToolbar } from "@/modules/mainline/features/play/components/mainline-plays-filter-toolbar";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
 import { EmptyState } from "@/shared/components/empty-state";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlinePlaysBrowserProps = {
   plays: MainlinePlayCardData[];
@@ -82,7 +81,7 @@ export const MainlinePlaysBrowser = ({ plays }: MainlinePlaysBrowserProps) => {
       />
 
       <div className="text-muted-foreground flex items-center gap-2 text-sm [&_svg]:size-4">
-        <SlidersHorizontalIcon aria-hidden />
+        <AppIcon icon={appIcons.actions.filter} aria-hidden />
         {visiblePlays.length} of {plays.length} plays visible
       </div>
 
