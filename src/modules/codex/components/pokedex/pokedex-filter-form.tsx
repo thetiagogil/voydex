@@ -4,7 +4,6 @@ import { CodexFilterPanel } from "@/modules/codex/components/codex-browse";
 import type {
   Generation,
   PokedexPageFilters,
-  PokedexRarityFilter,
   Type,
 } from "@/modules/codex/types";
 import { SelectControl } from "@/shared/components/select-control";
@@ -27,9 +26,9 @@ type PokedexFilterFormProps = {
 
 const rarityOptions: Array<{
   label: string;
-  value: PokedexRarityFilter;
+  value: string;
 }> = [
-  { label: "All rarity", value: "all" },
+  { label: "All rarity", value: "" },
   { label: "Standard", value: "standard" },
   { label: "Legendary", value: "legendary" },
   { label: "Mythical", value: "mythical" },
@@ -90,7 +89,7 @@ export const PokedexFilterForm = ({
       <SelectControl
         name="rarity"
         ariaLabel="Filter by rarity"
-        defaultValue={filters.rarity}
+        defaultValue={filters.rarity === "all" ? "" : filters.rarity}
         options={rarityOptions}
         placeholder="All rarity"
         className="w-full lg:w-40"

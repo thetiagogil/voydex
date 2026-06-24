@@ -19,6 +19,7 @@ import {
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 const resourceGridColumns = {
+  five: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
   three: "sm:grid-cols-2 lg:grid-cols-3",
   four: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 } as const;

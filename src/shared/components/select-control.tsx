@@ -9,6 +9,8 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 
+const EMPTY_SELECT_VALUE = "";
+
 export type SelectControlOption = {
   label: string;
   value: string;
@@ -26,6 +28,10 @@ type SelectControlProps = {
   value?: string;
 };
 
+const normalizeSelectValue = (nextValue?: string) => {
+  return nextValue ?? EMPTY_SELECT_VALUE;
+};
+
 export const SelectControl = ({
   ariaLabel,
   className,
@@ -37,13 +43,26 @@ export const SelectControl = ({
   size,
   value,
 }: SelectControlProps) => {
+  const isControlled = value !== undefined;
+  const normalizedDefaultValue = normalizeSelectValue(defaultValue);
+  const selectValueProps = isControlled
+    ? { value: normalizeSelectValue(value) }
+    : { defaultValue: normalizedDefaultValue };
+
   return (
     <Select
-      defaultValue={defaultValue}
+      key={
+        isControlled
+          ? undefined
+          : `${name ?? ariaLabel}:${normalizedDefaultValue}`
+      }
       name={name}
-      value={value}
+      {...selectValueProps}
       onValueChange={(nextValue) => {
-        onValueChange?.(typeof nextValue === "string" ? nextValue : "");
+        const normalizedValue =
+          typeof nextValue === "string" ? nextValue : EMPTY_SELECT_VALUE;
+
+        onValueChange?.(normalizedValue);
       }}
     >
       <SelectTrigger aria-label={ariaLabel} className={className} size={size}>

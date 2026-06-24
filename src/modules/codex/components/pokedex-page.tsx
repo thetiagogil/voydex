@@ -41,8 +41,8 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
 
   return (
     <CodexPageShell
-      title="Pokédex"
-      description="Search and filter the Pokémon reference data seeded for Voydex."
+      title="Pokémon"
+      description="Search the Pokémon reference data seeded for Voydex."
     >
       <PokedexFilterForm
         filters={data.filters}
@@ -60,7 +60,7 @@ export const PokedexPage = async ({ params }: PokedexPageProps) => {
       </CodexBrowseMeta>
 
       {data.pokemon.length ? (
-        <CodexResourceGrid columns="four">
+        <CodexResourceGrid columns="five">
           {data.pokemon.map((pokemon, index) => (
             <PokedexPokemonCard
               key={pokemon.species.id}
