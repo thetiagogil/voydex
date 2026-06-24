@@ -10,7 +10,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
@@ -30,7 +29,12 @@ export const UserMenu = ({ email }: UserMenuProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="ghost" size="icon-lg" className="rounded-full" />
+          <Button
+            variant="ghost"
+            size="icon-lg"
+            className="rounded-full"
+            aria-label="Open account menu"
+          />
         }
       >
         <Avatar>
@@ -38,15 +42,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel className="truncate">
-            <AppIcon icon={appIcons.account.user} /> {email}
-          </DropdownMenuLabel>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-
+      <DropdownMenuContent align="end" className="w-44">
         <DropdownMenuGroup>
           <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
             <AppIcon icon={appIcons.actions.settings} />

@@ -1,14 +1,10 @@
-import { PageHeader } from "@/shared/components/page-header";
-import { ThemeSettingsCard } from "@/features/settings/components/theme-settings-card";
+import { SettingsPage as SettingsPageView } from "@/features/settings/components/settings-page";
+import { getOptionalUserEmail } from "@/lib/supabase/auth";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-export default function SettingsPage() {
-  return (
-    <div className="flex w-full max-w-3xl flex-col gap-6">
-      <PageHeader
-        title="Settings"
-        description="Manage your Voydex preferences. More settings will be added as the app grows."
-      />
-      <ThemeSettingsCard />
-    </div>
-  );
+export default async function SettingsPage() {
+  const supabase = await createServerSupabaseClient();
+  const userEmail = (await getOptionalUserEmail(supabase)) ?? "Account";
+
+  return <SettingsPageView userEmail={userEmail} />;
 }

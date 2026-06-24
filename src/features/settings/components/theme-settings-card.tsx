@@ -22,7 +22,6 @@ import {
 } from "@/shared/components/app-icon";
 
 type ThemeOption = {
-  description: string;
   icon: AppIconComponent;
   label: string;
   value: ThemePreference;
@@ -30,19 +29,16 @@ type ThemeOption = {
 
 const themeOptions: ThemeOption[] = [
   {
-    description: "Follow your device appearance.",
     icon: appIcons.theme.system,
     label: "System",
     value: "system",
   },
   {
-    description: "Use the brighter Voydex interface.",
     icon: appIcons.theme.light,
     label: "Light",
     value: "light",
   },
   {
-    description: "Use the darker Voydex interface.",
     icon: appIcons.theme.dark,
     label: "Dark",
     value: "dark",
@@ -51,20 +47,23 @@ const themeOptions: ThemeOption[] = [
 
 export const ThemeSettingsCard = () => {
   const { resolvedTheme, setTheme, theme } = useTheme();
+  const resolvedThemeLabel = resolvedTheme === "dark" ? "Dark" : "Light";
+
   return (
-    <Card>
+    <Card size="sm">
       <CardHeader>
         <CardTitle>Appearance</CardTitle>
         <CardDescription>
-          Choose how Voydex looks on this device. System currently resolves to{" "}
-          {resolvedTheme}.
+          System currently resolves to {resolvedThemeLabel}.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ToggleGroup
           aria-label="Theme preference"
           variant="outline"
-          className="grid w-full gap-3 sm:grid-cols-3"
+          size="sm"
+          spacing={0}
+          className="w-full sm:w-fit"
           value={[theme]}
           onValueChange={(nextTheme) => {
             const nextThemePreference = nextTheme[0];
@@ -78,15 +77,10 @@ export const ThemeSettingsCard = () => {
               <ToggleGroupItem
                 key={option.value}
                 value={option.value}
-                className="data-[state=on]:border-primary/50 data-[state=on]:bg-primary/10 h-auto min-h-28 flex-col items-start justify-start gap-3 p-4 text-left whitespace-normal"
+                className="aria-pressed:bg-primary/10 aria-pressed:text-primary flex-1 sm:min-w-24 sm:flex-none"
               >
-                <span className="flex w-full items-center gap-2">
-                  <AppIcon icon={option.icon} aria-hidden />
-                  <span className="text-sm font-semibold">{option.label}</span>
-                </span>
-                <span className="text-muted-foreground block text-xs leading-5">
-                  {option.description}
-                </span>
+                <AppIcon icon={option.icon} inline="start" aria-hidden />
+                {option.label}
               </ToggleGroupItem>
             );
           })}
