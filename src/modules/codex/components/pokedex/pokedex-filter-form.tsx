@@ -9,7 +9,7 @@ import type {
   PokedexRarityFilter,
   Type,
 } from "@/modules/codex/types";
-import { SelectControl } from "@/shared/components/app/select-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import {
   InputGroup,

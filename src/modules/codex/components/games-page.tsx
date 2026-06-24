@@ -12,7 +12,7 @@ import {
 } from "@/modules/codex/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/components/game-cover-art";
-import { SelectControl } from "@/shared/components/app/select-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/lib/utils";

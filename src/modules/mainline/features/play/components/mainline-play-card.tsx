@@ -19,7 +19,7 @@ import {
   getMainlinePlayTrainerLine,
 } from "@/modules/mainline/features/play/components/mainline-play-summary";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,

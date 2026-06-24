@@ -3,7 +3,7 @@ import { ChevronRight, Sparkles } from "lucide-react";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,

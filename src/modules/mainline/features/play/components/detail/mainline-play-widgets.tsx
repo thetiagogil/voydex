@@ -21,8 +21,8 @@ import {
   getPokemonTypeSlug,
   getTimelineEventTitle,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { ProgressMeter } from "@/shared/components/progress-meter";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";

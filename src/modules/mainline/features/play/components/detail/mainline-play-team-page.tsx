@@ -11,7 +11,7 @@ import {
   TeamCountBadge,
   TimelineRows,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,

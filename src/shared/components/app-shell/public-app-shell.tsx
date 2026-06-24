@@ -1,4 +1,4 @@
-import { AppShell } from "@/shared/components/app/app-shell";
+import { AppShell } from "@/shared/components/app-shell/app-shell";
 import type { ModuleKey } from "@/config/modules";
 import { getOptionalUserEmail } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";

@@ -15,7 +15,7 @@ import {
   logInWithPassword,
   signUpWithPassword,
 } from "@/lib/auth/server/actions";
-import { AuthSubmitButton } from "@/modules/auth/components/auth-submit-button";
+import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 

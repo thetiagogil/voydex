@@ -1,7 +1,7 @@
 import { CompassIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { AppNavbar } from "@/shared/components/app/app-navbar";
+import { AppNavbar } from "@/shared/components/app-shell/app-navbar";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 export const PublicNotFoundPage = () => {

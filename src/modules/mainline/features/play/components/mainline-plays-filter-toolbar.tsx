@@ -11,7 +11,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { SelectControl } from "@/shared/components/app/select-control";
+import { SelectControl } from "@/shared/components/select-control";
 
 type MainlinePlaysFilterToolbarProps = {
   activeFilters: boolean;

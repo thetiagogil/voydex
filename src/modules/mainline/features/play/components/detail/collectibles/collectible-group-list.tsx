@@ -5,7 +5,7 @@ import { Gem } from "lucide-react";
 import type { CollectibleGroup } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { getGroupPercent } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { formatNumber } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
+import { ProgressMeter } from "@/shared/components/progress-meter";
 import {
   Card,
   CardContent,

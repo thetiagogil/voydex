@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import { AppNavbar } from "@/shared/components/app/app-navbar";
-import { ModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu";
-import { ModuleViewNav } from "@/shared/components/app/module-view-nav";
-import { UserMenu } from "@/shared/components/app/user-menu";
+import { AppNavbar } from "@/shared/components/app-shell/app-navbar";
+import { ModuleNavigationMenu } from "@/shared/components/app-shell/module-navigation-menu";
+import { ModuleViewNav } from "@/shared/components/app-shell/module-view-nav";
+import { UserMenu } from "@/shared/components/app-shell/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type AppShellProps = {

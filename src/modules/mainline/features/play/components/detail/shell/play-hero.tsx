@@ -22,8 +22,8 @@ import {
   getReserveTeam,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { PlayQuickActions } from "@/modules/mainline/features/play/components/detail/shell/play-quick-actions";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { ProgressMeter } from "@/shared/components/progress-meter";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 
 type PlayHeroProps = {

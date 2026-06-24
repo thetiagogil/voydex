@@ -3,8 +3,8 @@ import { Plus } from "lucide-react";
 import { appRoutes } from "@/config/routes";
 import { MainlinePlaysBrowser } from "@/modules/mainline/features/play/components/mainline-plays-browser";
 import type { MainlinePlaysPageData } from "@/modules/mainline/features/play/types";
-import { EmptyState } from "@/shared/components/app/empty-state";
-import { PageHeader } from "@/shared/components/app/page-header";
+import { EmptyState } from "@/shared/components/empty-state";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 

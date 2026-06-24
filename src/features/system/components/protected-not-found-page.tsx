@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, CompassIcon } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { PageHeader } from "@/shared/components/app/page-header";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 

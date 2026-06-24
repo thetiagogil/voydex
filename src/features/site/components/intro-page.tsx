@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { PublicAppShell } from "@/shared/components/app/public-app-shell";
+import { PublicAppShell } from "@/shared/components/app-shell/public-app-shell";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 const companionAreas = [

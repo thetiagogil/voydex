@@ -1,7 +1,7 @@
 import type { MainlinePlayMilestoneDetail } from "@/modules/mainline/shared/types/mainline.types";
 import { CompleteMilestoneButton } from "@/modules/mainline/features/play/components/detail/actions/complete-milestone-button";
 import { getMilestoneTone } from "@/modules/mainline/features/play/components/detail/story/milestone-style";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,

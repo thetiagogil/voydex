@@ -2,7 +2,7 @@
 
 import { AlertTriangleIcon, RotateCcwIcon } from "lucide-react";
 
-import { PageHeader } from "@/shared/components/app/page-header";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 

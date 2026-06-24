@@ -3,8 +3,8 @@ import {
   formatNumber,
   formatPercent,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { ProgressMeter } from "@/shared/components/progress-meter";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 type PokedexSummaryProps = {

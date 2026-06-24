@@ -1,5 +1,8 @@
-import { AppNavbar } from "@/shared/components/app/app-navbar";
-import { AuthPanel, type AuthMode } from "@/modules/auth/components/auth-panel";
+import { AppNavbar } from "@/shared/components/app-shell/app-navbar";
+import {
+  AuthPanel,
+  type AuthMode,
+} from "@/features/auth/components/auth-panel";
 import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
 import { getSafeAuthRedirectPath } from "@/lib/navigation";
 

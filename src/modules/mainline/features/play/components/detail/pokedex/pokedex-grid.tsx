@@ -7,7 +7,7 @@ import {
   getPokemonPrimaryTypeSlug,
 } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
 import { PokemonTypeBadges } from "@/modules/mainline/features/play/components/detail/mainline-play-widgets";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Card, CardContent } from "@/shared/components/ui/card";
 

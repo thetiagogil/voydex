@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { LogoMark } from "@/shared/components/app/logo-mark";
+import { LogoMark } from "@/shared/components/brand/logo-mark";
 
 type LogoProps = {
   className?: string;

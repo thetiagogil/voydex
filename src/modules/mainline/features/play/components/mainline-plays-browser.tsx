@@ -15,7 +15,7 @@ import {
 } from "@/modules/mainline/features/play/components/mainline-plays-browser-filters";
 import { MainlinePlaysFilterToolbar } from "@/modules/mainline/features/play/components/mainline-plays-filter-toolbar";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
-import { EmptyState } from "@/shared/components/app/empty-state";
+import { EmptyState } from "@/shared/components/empty-state";
 
 type MainlinePlaysBrowserProps = {
   plays: MainlinePlayCardData[];

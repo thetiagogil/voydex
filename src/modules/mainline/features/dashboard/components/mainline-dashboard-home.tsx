@@ -15,8 +15,8 @@ import { DashboardMetric } from "@/modules/mainline/features/dashboard/component
 import { DashboardQuickActions } from "@/modules/mainline/features/dashboard/components/dashboard-quick-actions";
 import { RecentPlaysPanel } from "@/modules/mainline/features/dashboard/components/recent-plays-panel";
 import { formatMainlineNumber } from "@/modules/mainline/features/play/components/mainline-play-summary";
-import { EmptyState } from "@/shared/components/app/empty-state";
-import { PageHeader } from "@/shared/components/app/page-header";
+import { EmptyState } from "@/shared/components/empty-state";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 

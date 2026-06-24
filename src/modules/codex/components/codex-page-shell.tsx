@@ -1,4 +1,4 @@
-import { PageHeader } from "@/shared/components/app/page-header";
+import { PageHeader } from "@/shared/components/page-header";
 
 type CodexPageShellProps = {
   children: React.ReactNode;

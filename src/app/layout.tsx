@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { AppBackground } from "@/shared/components/app/app-background";
+import { AppBackground } from "@/shared/components/app-shell/app-background";
 import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
-} from "@/shared/components/app/database-health-status";
+} from "@/shared/components/app-shell/database-health-status";
 import { ThemeInitScript } from "@/shared/providers/theme-init-script";
 import { ThemeProvider } from "@/shared/providers/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";

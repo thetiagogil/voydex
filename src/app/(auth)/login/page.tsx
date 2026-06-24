@@ -1,4 +1,4 @@
-import { LoginPage } from "@/modules/auth/components/login-page";
+import { LoginPage } from "@/features/auth/components/login-page";
 
 type LoginRouteProps = {
   searchParams?: Promise<{

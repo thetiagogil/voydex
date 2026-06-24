@@ -1,4 +1,4 @@
-import { IntroPage } from "@/modules/site/components/intro-page";
+import { IntroPage } from "@/features/site/components/intro-page";
 
 export default function Page() {
   return <IntroPage />;

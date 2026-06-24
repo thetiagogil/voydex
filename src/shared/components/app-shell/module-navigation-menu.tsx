@@ -1,8 +1,8 @@
 "use client";
 
 import type { ModuleKey } from "@/config/modules";
-import { DesktopModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu.desktop";
-import { MobileModuleNavigationMenu } from "@/shared/components/app/module-navigation-menu.mobile";
+import { DesktopModuleNavigationMenu } from "@/shared/components/app-shell/module-navigation-menu.desktop";
+import { MobileModuleNavigationMenu } from "@/shared/components/app-shell/module-navigation-menu.mobile";
 
 type ModuleNavigationMenuProps = {
   activeModuleKey: ModuleKey;

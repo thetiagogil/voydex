@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import type { AuthMode } from "@/modules/auth/components/auth-panel";
+import type { AuthMode } from "@/features/auth/components/auth-panel";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 

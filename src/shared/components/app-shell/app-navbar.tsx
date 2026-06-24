@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Logo } from "@/shared/components/app/logo";
+import { Logo } from "@/shared/components/brand/logo";
 
 type AppNavbarProps = {
   afterLogo?: React.ReactNode;

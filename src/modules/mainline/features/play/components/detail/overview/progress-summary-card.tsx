@@ -4,7 +4,7 @@ import { BookOpen, ChevronRight } from "lucide-react";
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import { formatPercent } from "@/modules/mainline/features/play/components/detail/mainline-play-formatters";
-import { ProgressMeter } from "@/shared/components/app/progress-meter";
+import { ProgressMeter } from "@/shared/components/progress-meter";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,

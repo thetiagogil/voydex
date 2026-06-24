@@ -4,7 +4,7 @@ import {
   getEntryNumber,
 } from "@/modules/mainline/features/play/components/detail/collectibles/collectible-groups";
 import { CollectibleProgressButton } from "@/modules/mainline/features/play/components/detail/actions/collectible-progress-button";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Table,
   TableBody,

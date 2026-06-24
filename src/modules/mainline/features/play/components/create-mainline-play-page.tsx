@@ -1,5 +1,5 @@
-import { EmptyState } from "@/shared/components/app/empty-state";
-import { PageHeader } from "@/shared/components/app/page-header";
+import { EmptyState } from "@/shared/components/empty-state";
+import { PageHeader } from "@/shared/components/page-header";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import type { CreateMainlinePlayPageData } from "@/modules/mainline/features/play/types";
 import { CreateMainlinePlayForm } from "@/modules/mainline/features/play/components/create-mainline-play-form";

@@ -11,7 +11,7 @@ import { MilestoneFocusPanel } from "@/modules/mainline/features/play/components
 import { MilestonesTable } from "@/modules/mainline/features/play/components/detail/story/milestones-table";
 import { StoryStatus } from "@/modules/mainline/features/play/components/detail/story/story-status";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/components/detail/mainline-play-shell";
-import { StatusBadge } from "@/shared/components/app/status-badge";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,

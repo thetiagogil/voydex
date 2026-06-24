@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { AppShell } from "@/shared/components/app/app-shell";
+import { AppShell } from "@/shared/components/app-shell/app-shell";
 import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";

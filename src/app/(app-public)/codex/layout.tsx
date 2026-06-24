@@ -1,4 +1,4 @@
-import { PublicAppShell } from "@/shared/components/app/public-app-shell";
+import { PublicAppShell } from "@/shared/components/app-shell/public-app-shell";
 
 type LayoutProps = {
   children: React.ReactNode;

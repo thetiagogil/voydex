@@ -3,8 +3,8 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOptionalUserEmail } from "@/lib/supabase/auth";
-import { BrandImage } from "@/shared/components/app/brand-image";
-import { HomeAppEntryButton } from "@/shared/components/app/home-app-entry-button";
+import { BrandImage } from "@/shared/components/brand/brand-image";
+import { HomeAppEntryButton } from "@/shared/components/app-shell/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 const homeActions = [
