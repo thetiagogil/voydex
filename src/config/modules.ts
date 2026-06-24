@@ -5,10 +5,16 @@ export const ACTIVE_MODULE_COOKIE_NAME = "voydex-active-module";
 
 export const DEFAULT_MODULE_KEY = "mainline";
 
+export const moduleIconKeys = ["book-open", "map"] as const;
+
+export type ModuleIconKey = (typeof moduleIconKeys)[number];
+
 export const modules = {
   mainline: {
     basePath: appRoutes.mainline,
     defaultHref: appRoutes.mainlineDashboard,
+    description: "Track teams, progress, and memories across each run.",
+    iconKey: "map",
     label: productFamilies.mainline.workspaceLabel,
     productFamily: productFamilies.mainline,
     slug: "mainline",
@@ -28,6 +34,8 @@ export const modules = {
   codex: {
     basePath: appRoutes.codex,
     defaultHref: appRoutes.codexPokemon,
+    description: "Browse Pokemon, games, and generations.",
+    iconKey: "book-open",
     label: "Codex",
     slug: "codex",
     views: [

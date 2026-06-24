@@ -23,11 +23,11 @@ export const AppNavbar = ({
     <header className={cn("app-nav-surface sticky top-0 z-40", className)}>
       <div
         className={cn(
-          "mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8",
+          "mx-auto grid h-16 w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,2fr)_minmax(0,1fr)] lg:gap-4 lg:px-8",
           contentClassName,
         )}
       >
-        <div className="flex h-9 min-w-0 items-stretch gap-2">
+        <div className="flex h-9 min-w-0 items-stretch justify-start gap-2">
           <Link
             href="/"
             aria-label="Voydex home"
@@ -37,12 +37,10 @@ export const AppNavbar = ({
           </Link>
           {afterLogo}
         </div>
-        {center ? (
-          <div className="flex h-9 min-w-0 flex-1 items-stretch justify-center">
-            {center}
-          </div>
-        ) : null}
-        {end ? <div className="flex h-9 items-stretch gap-1">{end}</div> : null}
+        <div className="hidden h-9 min-w-0 items-stretch justify-center lg:flex">
+          {center}
+        </div>
+        <div className="flex h-9 items-stretch justify-end gap-1">{end}</div>
       </div>
     </header>
   );

@@ -81,7 +81,7 @@ export const MobileModuleNavigationMenu = ({
                   <AccordionTrigger className="px-3 py-3 text-sm font-medium">
                     {moduleConfig.label}
                   </AccordionTrigger>
-                  <AccordionContent className="px-2 pb-2">
+                  <AccordionContent className="px-2 pb-2 [&_a]:no-underline [&_a]:hover:no-underline">
                     <div className="flex flex-col gap-1">
                       {moduleConfig.views.map((view) => {
                         const isActiveView = isActiveHref(view.href);
