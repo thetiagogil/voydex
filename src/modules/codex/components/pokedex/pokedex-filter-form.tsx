@@ -82,7 +82,7 @@ export const PokedexFilterForm = ({
         event.preventDefault();
       }}
     >
-      <InputGroup className="h-10 flex-1">
+      <InputGroup className="flex-1">
         <InputGroupAddon>
           <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
@@ -102,7 +102,6 @@ export const PokedexFilterForm = ({
         onValueChange={onGenerationChange}
         options={generationOptions}
         placeholder="All generations"
-        size="lg"
         className="w-full lg:w-44"
       />
       <SelectControl
@@ -112,7 +111,6 @@ export const PokedexFilterForm = ({
         onValueChange={onTypeChange}
         options={typeOptions}
         placeholder="All types"
-        size="lg"
         className="w-full lg:w-40"
       />
       <SelectControl
@@ -124,7 +122,6 @@ export const PokedexFilterForm = ({
         }}
         options={categoryFilterOptions}
         placeholder="All categories"
-        size="lg"
         className="w-full lg:w-40"
       />
     </CodexFilterPanel>
