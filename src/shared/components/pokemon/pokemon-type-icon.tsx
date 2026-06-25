@@ -23,6 +23,33 @@ export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
   );
 };
 
+type PokemonTypeMarkProps = {
+  className?: string;
+  iconClassName?: string;
+  type: PokemonTypeSlug;
+};
+
+export const PokemonTypeMark = ({
+  className,
+  iconClassName,
+  type,
+}: PokemonTypeMarkProps) => {
+  const typeClassNames = pokemonTypeClassNames[type];
+
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "flex items-center justify-center rounded-full",
+        typeClassNames.solidBackground,
+        className,
+      )}
+    >
+      <PokemonTypeIcon type={type} className={iconClassName} />
+    </span>
+  );
+};
+
 const pokemonTypeBadgeSizeClassNames = {
   sm: {
     badge: "h-6 gap-1.5 px-2 text-xs",
@@ -82,16 +109,11 @@ export const PokemonTypeBadge = ({
       )}
     >
       {showIcon ? (
-        <span
-          aria-hidden
-          className={cn(
-            "flex items-center justify-center rounded-full",
-            sizeClassNames.iconFrame,
-            typeClassNames.solidBackground,
-          )}
-        >
-          <PokemonTypeIcon type={type} className={sizeClassNames.icon} />
-        </span>
+        <PokemonTypeMark
+          type={type}
+          className={sizeClassNames.iconFrame}
+          iconClassName={sizeClassNames.icon}
+        />
       ) : null}
       {showLabel ? (
         displayLabel

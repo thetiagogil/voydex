@@ -10,6 +10,7 @@ import {
   resolveTypePair,
   selectLatestAttributes,
 } from "@/modules/codex/data/query-utils";
+import { defaultPokedexPageFilters } from "@/modules/codex/utils/pokedex-filters";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
@@ -121,12 +122,7 @@ export const getPokedexPageData = async (): Promise<PokedexPageData> => {
   }
 
   return {
-    filters: {
-      category: "all",
-      generation: "",
-      query: "",
-      type: "",
-    },
+    filters: defaultPokedexPageFilters,
     generations,
     pokemon: species.map((pokemonSpecies) => {
       const defaultForm = defaultFormBySpeciesId.get(pokemonSpecies.id) ?? null;

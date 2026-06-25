@@ -1,4 +1,5 @@
 import type { ReferenceRow, ViewRow } from "@/shared/types/database-helpers";
+import type { PokemonCategoryFilterValue } from "@/shared/domain/pokemon/pokemon-categories";
 
 export type AvailabilityMethod = ReferenceRow<"availability_methods">;
 export type Game = ReferenceRow<"games">;
@@ -44,12 +45,7 @@ export type PokedexPokemonBrowseCard = {
   slug: string;
 };
 
-export type PokedexCategoryFilter =
-  | "all"
-  | "baby"
-  | "legendary"
-  | "mythical"
-  | "standard";
+export type PokedexCategoryFilter = PokemonCategoryFilterValue;
 
 export type PokedexPageFilters = {
   category: PokedexCategoryFilter;

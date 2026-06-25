@@ -3,41 +3,37 @@
 import { CodexFilterPanel } from "@/modules/codex/components/codex-browse";
 import type {
   Generation,
-  PokedexCategoryFilter,
   PokedexPageFilters,
   Type,
 } from "@/modules/codex/types";
-import { cn } from "@/lib/utils";
-import { PokemonTypeIcon } from "@/shared/components/pokemon/pokemon-type-icon";
-import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PokemonTypeMark } from "@/shared/components/pokemon/pokemon-type-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import {
+  pokemonCategoryOptions,
+  toPokemonCategoryFilterValue,
+  type PokemonCategoryFilterValue,
+} from "@/shared/domain/pokemon/pokemon-categories";
 
 type PokedexFilterFormProps = {
   filters: PokedexPageFilters;
   generations: Generation[];
-  onCategoryChange: (category: PokedexCategoryFilter) => void;
+  onCategoryChange: (category: PokemonCategoryFilterValue) => void;
   onGenerationChange: (generation: string) => void;
   onQueryChange: (query: string) => void;
   onTypeChange: (type: string) => void;
   types: Type[];
 };
 
-const categoryOptions: Array<{
-  label: string;
-  value: string;
-}> = [
+const categoryFilterOptions = [
   { label: "All categories", value: "" },
-  { label: "Standard", value: "standard" },
-  { label: "Baby", value: "baby" },
-  { label: "Legendary", value: "legendary" },
-  { label: "Mythical", value: "mythical" },
+  ...pokemonCategoryOptions,
 ];
 
 const getTypeOptionIcon = (type: Type) => {
@@ -45,17 +41,12 @@ const getTypeOptionIcon = (type: Type) => {
     return null;
   }
 
-  const typeClassNames = pokemonTypeClassNames[type.slug];
-
   return (
-    <span
-      className={cn(
-        "flex size-5 items-center justify-center rounded-full",
-        typeClassNames.solidBackground,
-      )}
-    >
-      <PokemonTypeIcon type={type.slug} className="size-3" />
-    </span>
+    <PokemonTypeMark
+      type={type.slug}
+      className="size-5"
+      iconClassName="size-3"
+    />
   );
 };
 
@@ -129,9 +120,9 @@ export const PokedexFilterForm = ({
         ariaLabel="Filter by category"
         value={filters.category === "all" ? "" : filters.category}
         onValueChange={(value) => {
-          onCategoryChange(value ? (value as PokedexCategoryFilter) : "all");
+          onCategoryChange(toPokemonCategoryFilterValue(value));
         }}
-        options={categoryOptions}
+        options={categoryFilterOptions}
         placeholder="All categories"
         size="lg"
         className="w-full lg:w-40"

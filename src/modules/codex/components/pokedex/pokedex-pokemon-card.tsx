@@ -11,6 +11,8 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/shared/domain/pokemon/constants";
+import { getPokemonCategoryLabel } from "@/shared/domain/pokemon/pokemon-categories";
+import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonBrowseCard;
@@ -37,28 +39,8 @@ const getPokemonCardStyle = (
   };
 };
 
-const formatNationalNumber = (number: number) => {
-  return `#${number.toString().padStart(4, "0")}`;
-};
-
-const getPokemonCategoryLabel = (pokemon: PokedexPokemonBrowseCard) => {
-  if (pokemon.isMythical) {
-    return "Mythical";
-  }
-
-  if (pokemon.isLegendary) {
-    return "Legendary";
-  }
-
-  if (pokemon.isBaby) {
-    return "Baby";
-  }
-
-  return null;
-};
-
 const getPokemonMetadata = (pokemon: PokedexPokemonBrowseCard) => {
-  const nationalNumber = formatNationalNumber(pokemon.nationalNumber);
+  const nationalNumber = formatPokemonNationalNumber(pokemon.nationalNumber);
 
   if (!pokemon.introducedGeneration) {
     return nationalNumber;

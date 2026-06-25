@@ -17,123 +17,26 @@ import {
 import { PokedexFilterForm } from "@/modules/codex/components/pokedex/pokedex-filter-form";
 import { PokedexPokemonCard } from "@/modules/codex/components/pokedex/pokedex-pokemon-card";
 import type {
-  PokedexCategoryFilter,
   PokedexPageData,
   PokedexPageFilters,
-  PokedexPokemonBrowseCard,
 } from "@/modules/codex/types";
+import {
+  filterPokedexPokemon,
+  getSearchablePokedexPokemon,
+} from "@/modules/codex/utils/pokedex-browse";
+import {
+  defaultPokedexPageFilters,
+  hasActivePokedexFilters,
+} from "@/modules/codex/utils/pokedex-filters";
 import { Button } from "@/shared/components/ui/button";
 
 type PokedexBrowserProps = {
   data: PokedexPageData;
 };
 
-type SearchablePokedexPokemon = PokedexPokemonBrowseCard & {
-  searchText: string;
-};
-
 const INITIAL_VISIBLE_POKEMON = 96;
 const VISIBLE_POKEMON_INCREMENT = 96;
 const PRELOAD_REMAINING_POKEMON = 48;
-
-const formatNationalNumber = (number: number) => {
-  return number.toString().padStart(4, "0");
-};
-
-const getPokemonSearchText = (pokemon: PokedexPokemonBrowseCard) => {
-  const paddedNationalNumber = formatNationalNumber(pokemon.nationalNumber);
-
-  return [
-    pokemon.name,
-    String(pokemon.nationalNumber),
-    paddedNationalNumber,
-    `#${paddedNationalNumber}`,
-  ]
-    .join(" ")
-    .toLowerCase();
-};
-
-const matchesSearchQuery = (
-  pokemon: SearchablePokedexPokemon,
-  normalizedQuery: string,
-) => {
-  if (!normalizedQuery) {
-    return true;
-  }
-
-  return pokemon.searchText.includes(normalizedQuery);
-};
-
-const matchesCategory = (
-  pokemon: PokedexPokemonBrowseCard,
-  category: PokedexCategoryFilter,
-) => {
-  if (category === "baby") {
-    return pokemon.isBaby;
-  }
-
-  if (category === "legendary") {
-    return pokemon.isLegendary;
-  }
-
-  if (category === "mythical") {
-    return pokemon.isMythical;
-  }
-
-  if (category === "standard") {
-    return !pokemon.isBaby && !pokemon.isLegendary && !pokemon.isMythical;
-  }
-
-  return true;
-};
-
-const filterPokemon = (
-  pokemon: SearchablePokedexPokemon[],
-  filters: PokedexPageFilters,
-) => {
-  const normalizedQuery = filters.query.trim().toLowerCase();
-  const filteredPokemon: SearchablePokedexPokemon[] = [];
-
-  for (const entry of pokemon) {
-    const matchesGeneration =
-      !filters.generation ||
-      entry.introducedGeneration?.slug === filters.generation;
-
-    if (!matchesGeneration) {
-      continue;
-    }
-
-    const matchesType =
-      !filters.type ||
-      entry.primaryType?.slug === filters.type ||
-      entry.secondaryType?.slug === filters.type;
-
-    if (!matchesType) {
-      continue;
-    }
-
-    if (!matchesSearchQuery(entry, normalizedQuery)) {
-      continue;
-    }
-
-    if (!matchesCategory(entry, filters.category)) {
-      continue;
-    }
-
-    filteredPokemon.push(entry);
-  }
-
-  return filteredPokemon;
-};
-
-const hasActivePokedexFilters = (filters: PokedexPageFilters) => {
-  return Boolean(
-    filters.query.trim() ||
-    filters.category !== "all" ||
-    filters.generation ||
-    filters.type,
-  );
-};
 
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -143,16 +46,12 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const deferredFilters = useDeferredValue(filters);
 
   const searchablePokemon = useMemo(
-    () =>
-      data.pokemon.map((pokemon) => ({
-        ...pokemon,
-        searchText: getPokemonSearchText(pokemon),
-      })),
+    () => getSearchablePokedexPokemon(data.pokemon),
     [data.pokemon],
   );
 
   const filteredPokemon = useMemo(
-    () => filterPokemon(searchablePokemon, deferredFilters),
+    () => filterPokedexPokemon(searchablePokemon, deferredFilters),
     [searchablePokemon, deferredFilters],
   );
 
@@ -218,12 +117,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   const clearFilters = () => {
     setVisibleCount(INITIAL_VISIBLE_POKEMON);
-    setFilters({
-      category: "all",
-      generation: "",
-      query: "",
-      type: "",
-    });
+    setFilters(defaultPokedexPageFilters);
   };
 
   return (

@@ -18,6 +18,8 @@ import type {
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { getPokemonCategoryLabel } from "@/shared/domain/pokemon/pokemon-categories";
+import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
@@ -35,10 +37,6 @@ const statLabels = [
   ["base_special_defense", "Sp. Def"],
   ["base_speed", "Speed"],
 ] as const;
-
-const formatNationalNumber = (number: number) => {
-  return `#${number.toString().padStart(4, "0")}`;
-};
 
 const PokemonFormCard = ({ form }: { form: PokemonFormSummary }) => {
   const primaryTypeSlug = form.typePair.primaryType?.slug;
@@ -123,10 +121,16 @@ export const PokemonDetailPage = async ({
     defaultPrimaryTypeSlug && isPokemonTypeSlug(defaultPrimaryTypeSlug)
       ? defaultPrimaryTypeSlug
       : null;
+  const categoryLabel = getPokemonCategoryLabel({
+    isBaby: data.species.is_baby,
+    isLegendary: data.species.is_legendary,
+    isMythical: data.species.is_mythical,
+  });
+
   return (
     <CodexPageShell
       title={data.species.name}
-      description={`${formatNationalNumber(data.species.national_number)} in the National Pokédex.`}
+      description={`${formatPokemonNationalNumber(data.species.national_number)} in the National Pokédex.`}
     >
       <CodexBackLink href={appRoutes.codexPokemon}>
         Back to Pokédex
@@ -148,7 +152,7 @@ export const PokemonDetailPage = async ({
         <div className="flex flex-col gap-4">
           <div>
             <p className="text-muted-foreground text-sm">
-              {formatNationalNumber(data.species.national_number)}
+              {formatPokemonNationalNumber(data.species.national_number)}
             </p>
             <h2 className="mt-1 text-3xl font-semibold tracking-normal">
               {data.species.name}
@@ -165,11 +169,8 @@ export const PokemonDetailPage = async ({
             <Badge variant="outline">
               {data.availability.length} availability rows
             </Badge>
-            {data.species.is_legendary ? (
-              <Badge variant="secondary">Legendary</Badge>
-            ) : null}
-            {data.species.is_mythical ? (
-              <Badge variant="secondary">Mythical</Badge>
+            {categoryLabel ? (
+              <Badge variant="secondary">{categoryLabel}</Badge>
             ) : null}
           </div>
         </div>
