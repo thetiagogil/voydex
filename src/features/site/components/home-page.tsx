@@ -59,11 +59,11 @@ export const HomePage = async () => {
               ]}
             />
 
-            <p className="text-foreground/78 -mt-1 w-full max-w-[22rem] text-base leading-7 sm:max-w-xl sm:text-lg">
+            <p className="text-foreground/78 -mt-1 w-full max-w-88 text-base leading-7 sm:max-w-xl sm:text-lg">
               Keep the story behind every playthrough.
             </p>
 
-            <div className="mt-8 flex w-full max-w-[22rem] flex-col items-stretch justify-center gap-3 sm:max-w-3xl sm:flex-row sm:items-center">
+            <div className="mt-8 flex w-full max-w-88 flex-col items-stretch justify-center gap-3 sm:max-w-3xl sm:flex-row sm:items-center">
               <HomeAppEntryButton isAuthenticated={isAuthenticated} />
               {homeActions.map((action) => {
                 return (

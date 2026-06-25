@@ -51,11 +51,11 @@ export const IntroPage = () => {
     <PublicAppShell>
       <div className="flex w-full min-w-0 flex-1 flex-col gap-14 overflow-hidden py-8 lg:py-12">
         <section className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(22rem,0.74fr)]">
-          <div className="w-full max-w-[22rem] min-w-0 sm:max-w-3xl">
-            <h1 className="max-w-[22rem] text-3xl leading-tight font-bold tracking-normal sm:max-w-3xl sm:text-5xl">
+          <div className="w-full max-w-88 min-w-0 sm:max-w-3xl">
+            <h1 className="max-w-88 text-3xl leading-tight font-bold tracking-normal sm:max-w-3xl sm:text-5xl">
               Remember the adventure behind every Pokémon run.
             </h1>
-            <div className="text-foreground/76 mt-5 grid max-w-[22rem] gap-4 text-base leading-7 sm:max-w-2xl sm:text-lg">
+            <div className="text-foreground/76 mt-5 grid max-w-88 gap-4 text-base leading-7 sm:max-w-2xl sm:text-lg">
               <p>
                 Voydex is a companion for playthroughs worth keeping: the team
                 you built, the milestones you cleared, the Pokédex you filled,
@@ -67,7 +67,7 @@ export const IntroPage = () => {
                 space.
               </p>
             </div>
-            <div className="mt-8 flex w-full max-w-[22rem] flex-col gap-3 sm:max-w-none sm:flex-row">
+            <div className="mt-8 flex w-full max-w-88 flex-col gap-3 sm:max-w-none sm:flex-row">
               <Link
                 href={appRoutes.appEntry}
                 className={buttonVariants({
@@ -100,7 +100,7 @@ export const IntroPage = () => {
             </div>
           </div>
 
-          <aside className="ring-app-surface-border bg-card/70 w-full max-w-[22rem] min-w-0 overflow-hidden rounded-xl p-4 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
+          <aside className="ring-app-surface-border bg-card/70 w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
             <div className="flex flex-col">
               {companionAreas.map((area) => {
                 return (
@@ -128,7 +128,7 @@ export const IntroPage = () => {
           </aside>
         </section>
 
-        <section className="ring-app-surface-border bg-card/50 w-full max-w-[22rem] overflow-hidden rounded-xl p-5 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
+        <section className="ring-app-surface-border bg-card/50 w-full max-w-88 overflow-hidden rounded-xl p-5 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start">
             <div className="max-w-xl">
               <h2 className="text-2xl leading-tight font-semibold tracking-normal sm:text-3xl">

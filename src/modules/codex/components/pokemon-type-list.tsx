@@ -6,22 +6,28 @@ import {
   type PokemonTypeBadgeVariant,
 } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
-import type { Type } from "@/modules/codex/types";
+import type {
+  PokedexPokemonBrowseReference,
+  Type,
+} from "@/modules/codex/types";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+
+type PokemonTypeDisplay = Pick<Type, "name" | "slug"> &
+  Partial<Pick<PokedexPokemonBrowseReference, "id">>;
 
 type PokemonTypeListProps = {
   badgeDisplay?: PokemonTypeBadgeDisplay;
   badgeSize?: PokemonTypeBadgeSize;
   badgeVariant?: PokemonTypeBadgeVariant;
   className?: string;
-  primaryType: Type | null;
-  secondaryType: Type | null;
+  primaryType: PokemonTypeDisplay | null;
+  secondaryType: PokemonTypeDisplay | null;
 };
 
 type TypeBadgeProps = {
   display: PokemonTypeBadgeDisplay;
   size: PokemonTypeBadgeSize;
-  type: Type | null;
+  type: PokemonTypeDisplay | null;
   variant: PokemonTypeBadgeVariant;
 };
 

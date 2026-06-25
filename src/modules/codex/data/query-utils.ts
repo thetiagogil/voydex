@@ -11,12 +11,7 @@ import type {
   Region,
   Type,
   VersionGroup,
-  PokedexRarityFilter,
 } from "@/modules/codex/types";
-
-export const POKEDEX_PAGE_SIZE = 48;
-
-const rarityFilters = ["all", "legendary", "mythical", "standard"] as const;
 
 export const byId = <
   T extends {
@@ -42,22 +37,8 @@ export const normalizeSearchQuery = (query?: string | null): string => {
   return query?.trim() ?? "";
 };
 
-export const normalizePage = (page?: string | number | null): number => {
-  const value = Number(page);
-
-  return Number.isInteger(value) && value > 0 ? value : 1;
-};
-
 export const normalizeSlug = (value?: string | null): string => {
   return value?.trim().toLowerCase() ?? "";
-};
-
-export const normalizeRarityFilter = (
-  value?: string | null,
-): PokedexRarityFilter => {
-  return rarityFilters.includes(value as PokedexRarityFilter)
-    ? (value as PokedexRarityFilter)
-    : "all";
 };
 
 export const resolveReferenceFilter = <

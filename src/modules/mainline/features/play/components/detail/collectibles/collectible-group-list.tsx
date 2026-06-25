@@ -42,7 +42,7 @@ export const CollectibleGroupList = ({
           collected
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex max-h-[34rem] flex-col gap-2 overflow-y-auto">
+      <CardContent className="flex max-h-136 flex-col gap-2 overflow-y-auto">
         {groups.map((group) => {
           const isSelected = group.id === selectedGroupId;
 

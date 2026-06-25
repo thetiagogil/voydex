@@ -1,44 +1,71 @@
-import Link from "next/link";
-import { appRoutes } from "@/config/routes";
+"use client";
+
 import { CodexFilterPanel } from "@/modules/codex/components/codex-browse";
 import type {
   Generation,
+  PokedexCategoryFilter,
   PokedexPageFilters,
   Type,
 } from "@/modules/codex/types";
+import { cn } from "@/lib/utils";
+import { PokemonTypeIcon } from "@/shared/components/pokemon/pokemon-type-icon";
+import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
 import { SelectControl } from "@/shared/components/select-control";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { cn } from "@/lib/utils";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 
 type PokedexFilterFormProps = {
   filters: PokedexPageFilters;
   generations: Generation[];
-  hasActiveFilters: boolean;
-  searchQuery: string;
+  onCategoryChange: (category: PokedexCategoryFilter) => void;
+  onGenerationChange: (generation: string) => void;
+  onQueryChange: (query: string) => void;
+  onTypeChange: (type: string) => void;
   types: Type[];
 };
 
-const rarityOptions: Array<{
+const categoryOptions: Array<{
   label: string;
   value: string;
 }> = [
-  { label: "All rarity", value: "" },
+  { label: "All categories", value: "" },
   { label: "Standard", value: "standard" },
+  { label: "Baby", value: "baby" },
   { label: "Legendary", value: "legendary" },
   { label: "Mythical", value: "mythical" },
 ];
 
+const getTypeOptionIcon = (type: Type) => {
+  if (!isPokemonTypeSlug(type.slug)) {
+    return null;
+  }
+
+  const typeClassNames = pokemonTypeClassNames[type.slug];
+
+  return (
+    <span
+      className={cn(
+        "flex size-5 items-center justify-center rounded-full",
+        typeClassNames.solidBackground,
+      )}
+    >
+      <PokemonTypeIcon type={type.slug} className="size-3" />
+    </span>
+  );
+};
+
 export const PokedexFilterForm = ({
   filters,
   generations,
-  hasActiveFilters,
-  searchQuery,
+  onCategoryChange,
+  onGenerationChange,
+  onQueryChange,
+  onTypeChange,
   types,
 }: PokedexFilterFormProps) => {
   const generationOptions = [
@@ -51,14 +78,18 @@ export const PokedexFilterForm = ({
   const typeOptions = [
     { label: "All types", value: "" },
     ...types.map((type) => ({
+      icon: getTypeOptionIcon(type),
       label: type.name,
       value: type.slug,
     })),
   ];
+
   return (
     <CodexFilterPanel
-      className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto_auto]"
-      action={appRoutes.codexPokemon}
+      className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto]"
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
     >
       <InputGroup className="h-10 flex-1">
         <InputGroupAddon>
@@ -66,50 +97,45 @@ export const PokedexFilterForm = ({
         </InputGroupAddon>
         <InputGroupInput
           name="q"
-          defaultValue={searchQuery}
+          value={filters.query}
+          onChange={(event) => {
+            onQueryChange(event.currentTarget.value);
+          }}
           placeholder="Search by name or National number"
         />
       </InputGroup>
       <SelectControl
         name="generation"
         ariaLabel="Filter by generation"
-        defaultValue={filters.generation}
+        value={filters.generation}
+        onValueChange={onGenerationChange}
         options={generationOptions}
         placeholder="All generations"
+        size="lg"
         className="w-full lg:w-44"
       />
       <SelectControl
         name="type"
         ariaLabel="Filter by type"
-        defaultValue={filters.type}
+        value={filters.type}
+        onValueChange={onTypeChange}
         options={typeOptions}
         placeholder="All types"
+        size="lg"
         className="w-full lg:w-40"
       />
       <SelectControl
-        name="rarity"
-        ariaLabel="Filter by rarity"
-        defaultValue={filters.rarity === "all" ? "" : filters.rarity}
-        options={rarityOptions}
-        placeholder="All rarity"
+        name="category"
+        ariaLabel="Filter by category"
+        value={filters.category === "all" ? "" : filters.category}
+        onValueChange={(value) => {
+          onCategoryChange(value ? (value as PokedexCategoryFilter) : "all");
+        }}
+        options={categoryOptions}
+        placeholder="All categories"
+        size="lg"
         className="w-full lg:w-40"
       />
-      <div className="flex gap-2">
-        <Button type="submit" className="flex-1 sm:flex-none">
-          Search
-        </Button>
-        {hasActiveFilters ? (
-          <Link
-            href={appRoutes.codexPokemon}
-            className={cn(
-              buttonVariants({ variant: "outline" }),
-              "flex-1 sm:flex-none",
-            )}
-          >
-            Clear
-          </Link>
-        ) : null}
-      </div>
     </CodexFilterPanel>
   );
 };

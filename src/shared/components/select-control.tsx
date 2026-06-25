@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import {
   Select,
   SelectContent,
@@ -12,6 +14,7 @@ import {
 const EMPTY_SELECT_VALUE = "";
 
 export type SelectControlOption = {
+  icon?: ReactNode;
   label: string;
   value: string;
 };
@@ -24,12 +27,29 @@ type SelectControlProps = {
   onValueChange?: (value: string) => void;
   options: readonly SelectControlOption[];
   placeholder: string;
-  size?: "default" | "sm";
+  size?: "default" | "sm" | "lg";
   value?: string;
 };
 
 const normalizeSelectValue = (nextValue?: string) => {
   return nextValue ?? EMPTY_SELECT_VALUE;
+};
+
+const SelectControlOptionContent = ({
+  option,
+}: {
+  option: SelectControlOption;
+}) => {
+  return (
+    <span className="flex min-w-0 items-center gap-2">
+      {option.icon ? (
+        <span aria-hidden className="shrink-0">
+          {option.icon}
+        </span>
+      ) : null}
+      <span className="truncate">{option.label}</span>
+    </span>
+  );
 };
 
 export const SelectControl = ({
@@ -48,6 +68,11 @@ export const SelectControl = ({
   const selectValueProps = isControlled
     ? { value: normalizeSelectValue(value) }
     : { defaultValue: normalizedDefaultValue };
+  const getOptionByValue = (nextValue: unknown) => {
+    return typeof nextValue === "string"
+      ? options.find((option) => option.value === nextValue)
+      : undefined;
+  };
 
   return (
     <Select
@@ -66,13 +91,23 @@ export const SelectControl = ({
       }}
     >
       <SelectTrigger aria-label={ariaLabel} className={className} size={size}>
-        <SelectValue placeholder={placeholder} />
+        <SelectValue placeholder={placeholder}>
+          {(selectedValue) => {
+            const selectedOption = getOptionByValue(selectedValue);
+
+            return selectedOption ? (
+              <SelectControlOptionContent option={selectedOption} />
+            ) : (
+              placeholder
+            );
+          }}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           {options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              {option.label}
+              <SelectControlOptionContent option={option} />
             </SelectItem>
           ))}
         </SelectGroup>

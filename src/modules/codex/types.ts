@@ -23,35 +23,45 @@ export type PokemonTypePair = {
   secondaryType: Type | null;
 };
 
-export type PokedexPokemonCard = {
-  species: PokemonSpecies;
-  defaultForm: PokemonForm | null;
-  latestAttributes: PokemonAttributes | null;
-  typePair: PokemonTypePair;
-  introducedGeneration: Generation | null;
+export type PokedexPokemonBrowseReference = {
+  id: number;
+  name: string;
+  slug: string;
 };
 
-export type PokedexRarityFilter = "all" | "legendary" | "mythical" | "standard";
+export type PokedexPokemonBrowseCard = {
+  id: number;
+  imageAlt: string;
+  imageUrl: string | null;
+  introducedGeneration: PokedexPokemonBrowseReference | null;
+  isBaby: boolean;
+  isLegendary: boolean;
+  isMythical: boolean;
+  name: string;
+  nationalNumber: number;
+  primaryType: PokedexPokemonBrowseReference | null;
+  secondaryType: PokedexPokemonBrowseReference | null;
+  slug: string;
+};
+
+export type PokedexCategoryFilter =
+  | "all"
+  | "baby"
+  | "legendary"
+  | "mythical"
+  | "standard";
 
 export type PokedexPageFilters = {
+  category: PokedexCategoryFilter;
   generation: string;
-  page: number;
   query: string;
-  rarity: PokedexRarityFilter;
   type: string;
 };
 
 export type PokedexPageData = {
   filters: PokedexPageFilters;
   generations: Generation[];
-  pagination: {
-    page: number;
-    pageSize: number;
-    totalCount: number;
-    totalPages: number;
-  };
-  pokemon: PokedexPokemonCard[];
-  searchQuery: string;
+  pokemon: PokedexPokemonBrowseCard[];
   types: Type[];
 };
 

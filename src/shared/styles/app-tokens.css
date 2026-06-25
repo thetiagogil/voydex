@@ -2,8 +2,8 @@
   --app-background-overlay-hero: oklch(0.955 0.018 250 / 0.1);
   --app-background-overlay-intro: oklch(0.91 0.03 252 / 0.24);
   --app-background-overlay-page: oklch(0.88 0.038 253 / 0.4);
-  --app-nav-surface: oklch(0.985 0.01 248 / 0.72);
-  --app-nav-border: oklch(0.82 0.038 250 / 0.56);
+  --app-nav-surface: oklch(0.985 0.01 248 / 0.94);
+  --app-nav-border: oklch(0.82 0.038 250 / 0.72);
   --app-surface-border: oklch(0.82 0.036 251 / 0.64);
   --app-surface-shadow:
     0 18px 48px -32px oklch(0.25 0.075 258 / 0.32),
@@ -35,8 +35,8 @@
   --app-background-overlay-hero: oklch(0.145 0.047 264 / 0.16);
   --app-background-overlay-intro: oklch(0.13 0.047 264 / 0.34);
   --app-background-overlay-page: oklch(0.13 0.047 264 / 0.46);
-  --app-nav-surface: oklch(0.18 0.045 264 / 0.72);
-  --app-nav-border: oklch(0.47 0.065 250 / 0.36);
+  --app-nav-surface: oklch(0.16 0.045 264 / 0.96);
+  --app-nav-border: oklch(0.47 0.065 250 / 0.58);
   --app-surface-border: oklch(0.54 0.06 252 / 0.3);
   --app-surface-shadow:
     0 18px 48px -32px oklch(0.02 0.02 264 / 0.82),

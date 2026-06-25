@@ -149,7 +149,7 @@ export const CreateMainlinePlayForm = ({
         <CardContent>
           <FieldSet>
             <FieldLegend className="sr-only">Game</FieldLegend>
-            <div className="grid max-h-[34rem] gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
+            <div className="grid max-h-136 gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
               {data.games.map((option) => (
                 <label key={option.game.id} className="cursor-pointer">
                   <input

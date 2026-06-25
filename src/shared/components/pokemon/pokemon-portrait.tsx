@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 type PokemonPortraitProps = {
   alt: string;
   className?: string;
+  glowClassName?: string;
+  imageClassName?: string;
   imageUrl: string | null;
   priority?: boolean;
   type?: PokemonTypeSlug | null;
@@ -15,6 +17,8 @@ type PokemonPortraitProps = {
 export const PokemonPortrait = ({
   alt,
   className,
+  glowClassName,
+  imageClassName,
   imageUrl,
   priority = false,
   type,
@@ -35,6 +39,7 @@ export const PokemonPortrait = ({
           "absolute inset-5 rounded-full blur-2xl",
           typeClassNames?.solidBackground ?? "bg-primary",
           "opacity-15",
+          glowClassName,
         )}
       />
       {imageUrl ? (
@@ -44,7 +49,7 @@ export const PokemonPortrait = ({
           fill
           priority={priority}
           sizes="(min-width: 1280px) 180px, (min-width: 768px) 25vw, 45vw"
-          className="object-contain p-4 drop-shadow-lg"
+          className={cn("object-contain p-4 drop-shadow-lg", imageClassName)}
         />
       ) : type ? (
         <div
