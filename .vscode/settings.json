@@ -2,8 +2,13 @@
   "css.customData": [".vscode/tailwind-v4.css-data.json"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
-  }
+  },
+  "tailwindCSS.classAttributes": ["class", "className", ".*ClassName"],
+  "tailwindCSS.classFunctions": ["cn", "clsx", "cva"]
 }

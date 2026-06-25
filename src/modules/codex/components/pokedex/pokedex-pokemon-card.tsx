@@ -65,11 +65,11 @@ export const PokedexPokemonCard = memo(
       >
         <Card
           style={getPokemonCardStyle(portraitType)}
-          className="bg-card/82 group-hover:bg-card/94 group-focus-visible:bg-card/94 relative isolate h-full border border-transparent py-0 transition-[background-color,box-shadow] duration-300 ease-out group-hover:shadow-(--pokemon-card-hover-shadow) group-hover:ring-(color:--pokemon-card-hover-ring) group-focus-visible:shadow-(--pokemon-card-hover-shadow) group-focus-visible:ring-(color:--pokemon-card-hover-ring)"
+          className="bg-card/82 group-hover:bg-card/94 group-focus-visible:bg-card/94 relative isolate h-full border border-transparent py-0 transition-[background-color,box-shadow] duration-300 ease-out group-hover:shadow-(--pokemon-card-hover-shadow) group-hover:ring-(--pokemon-card-hover-ring) group-focus-visible:shadow-(--pokemon-card-hover-shadow) group-focus-visible:ring-(--pokemon-card-hover-ring)"
         >
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 z-20 rounded-xl border border-transparent transition-colors duration-300 group-hover:border-(color:--pokemon-card-hover-border) group-focus-visible:border-(color:--pokemon-card-hover-border)"
+            className="pointer-events-none absolute inset-0 z-20 rounded-xl border border-transparent transition-colors duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border)"
           />
 
           <div
@@ -82,7 +82,7 @@ export const PokedexPokemonCard = memo(
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}
-            className="relative z-10 aspect-[4/3] w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0 transition-[background-color,border-color] duration-300 group-hover:border-(color:--pokemon-card-hover-border) group-focus-visible:border-(color:--pokemon-card-hover-border) [&_img]:p-3"
+            className="relative z-10 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0 transition-[background-color,border-color] duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border) [&_img]:p-3"
             glowClassName="transition-opacity duration-300 group-hover:opacity-30 group-focus-visible:opacity-30"
             imageClassName="transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-105 motion-safe:group-focus-visible:-translate-y-1 motion-safe:group-focus-visible:scale-105"
           />
