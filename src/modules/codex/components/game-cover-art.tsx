@@ -33,7 +33,7 @@ export const GameCoverArt = ({
   return (
     <div
       className={cn(
-        "bg-primary/10 border-primary/20 relative isolate flex aspect-[16/9] items-center justify-center overflow-hidden rounded-xl border",
+        "bg-primary/10 border-primary/20 relative isolate flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border",
         className,
       )}
     >
@@ -47,7 +47,7 @@ export const GameCoverArt = ({
           alt={`${name} cover art`}
           fill
           sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          className="object-contain p-3 drop-shadow-xl"
         />
       ) : (
         <div className="relative flex flex-col items-center gap-2 px-6 text-center">
