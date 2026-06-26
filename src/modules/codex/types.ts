@@ -1,7 +1,11 @@
 import type { ReferenceRow, ViewRow } from "@/shared/types/database-helpers";
 import type { PokemonCategoryFilterValue } from "@/shared/domain/pokemon/pokemon-categories";
 
+export type Ability = ReferenceRow<"abilities">;
+export type AbilityAttribute = ReferenceRow<"ability_attributes">;
 export type AvailabilityMethod = ReferenceRow<"availability_methods">;
+export type EggGroup = ReferenceRow<"egg_groups">;
+export type EvolutionMethod = ReferenceRow<"evolution_methods">;
 export type Game = ReferenceRow<"games">;
 export type GamePlatform = ReferenceRow<"game_platforms">;
 export type GameType = ReferenceRow<"game_types">;
@@ -10,6 +14,7 @@ export type Platform = ReferenceRow<"platforms">;
 export type Pokedex = ReferenceRow<"pokedex">;
 export type PokedexEntry = ReferenceRow<"pokedex_entries">;
 export type PokemonAttributes = ReferenceRow<"pokemon_attributes">;
+export type PokemonEvolutionEdge = ReferenceRow<"pokemon_evolution_edges">;
 export type PokemonForm = ReferenceRow<"pokemon_forms">;
 export type PokemonSpecies = ReferenceRow<"pokemon_species">;
 export type Region = ReferenceRow<"regions">;
@@ -62,8 +67,16 @@ export type PokedexPageData = {
 };
 
 export type PokemonFormSummary = {
+  attributesByGeneration: PokemonAttributes[];
   form: PokemonForm;
   latestAttributes: PokemonAttributes | null;
+  typePair: PokemonTypePair;
+  introducedGeneration: Generation | null;
+};
+
+export type PokemonGenerationFormSummary = {
+  attributes: PokemonAttributes | null;
+  form: PokemonForm;
   typePair: PokemonTypePair;
   introducedGeneration: Generation | null;
 };
@@ -81,9 +94,45 @@ export type PokemonPokedexSummary = {
   pokedex: Pokedex | null;
 };
 
+export type PokemonGenerationDetail = {
+  availability: PokemonAvailabilitySummary[];
+  forms: PokemonGenerationFormSummary[];
+  games: Game[];
+  generation: Generation;
+  pokedexEntries: PokemonPokedexSummary[];
+  versionGroups: VersionGroup[];
+};
+
+export type PokemonEvolutionSpeciesSummary = {
+  defaultForm: PokemonForm | null;
+  introducedGeneration: Generation | null;
+  latestAttributes: PokemonAttributes | null;
+  species: PokemonSpecies;
+  typePair: PokemonTypePair;
+};
+
+export type PokemonEvolutionEdgeSummary = {
+  edge: PokemonEvolutionEdge;
+  fromSpecies: PokemonSpecies | null;
+  introducedGeneration: Generation | null;
+  method: EvolutionMethod | null;
+  toSpecies: PokemonSpecies | null;
+};
+
+export type PokemonEvolutionFamilySummary = {
+  edges: PokemonEvolutionEdgeSummary[];
+  species: PokemonEvolutionSpeciesSummary[];
+};
+
 export type PokemonDetailData = {
+  abilities: Ability[];
+  abilityAttributes: AbilityAttribute[];
+  defaultForm: PokemonFormSummary | null;
+  eggGroups: EggGroup[];
+  evolutionFamily: PokemonEvolutionFamilySummary;
   species: PokemonSpecies;
   forms: PokemonFormSummary[];
+  generationDetails: PokemonGenerationDetail[];
   availability: PokemonAvailabilitySummary[];
   pokedexEntries: PokemonPokedexSummary[];
 };
