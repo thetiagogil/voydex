@@ -36,6 +36,7 @@ export type PokedexPokemonBrowseReference = {
 };
 
 export type PokedexPokemonBrowseCard = {
+  detailGameSlug: string;
   id: number;
   imageAlt: string;
   imageUrl: string | null;
@@ -48,6 +49,31 @@ export type PokedexPokemonBrowseCard = {
   primaryType: PokedexPokemonBrowseReference | null;
   secondaryType: PokedexPokemonBrowseReference | null;
   slug: string;
+};
+
+export type PokemonDetailMenuGroup = {
+  key: string;
+  kind: string;
+  name: string;
+};
+
+export type PokemonDetailMenuPokemon = {
+  id: number;
+  imageAlt: string;
+  imageUrl: string | null;
+  name: string;
+  nationalNumber: number;
+  pokedexGroup: PokemonDetailMenuGroup | null;
+  pokedexNumber: number | null;
+  primaryType: PokedexPokemonBrowseReference | null;
+  secondaryType: PokedexPokemonBrowseReference | null;
+  slug: string;
+};
+
+export type PokemonDetailMenuPage = {
+  nextOffset: number | null;
+  pokemon: PokemonDetailMenuPokemon[];
+  total: number;
 };
 
 export type PokedexCategoryFilter = PokemonCategoryFilterValue;

@@ -2,20 +2,20 @@ import { PokemonDetailPage } from "@/modules/codex/components/pokemon-detail-pag
 
 type PageProps = {
   params: Promise<{
+    gameSlug: string;
     speciesSlug: string;
   }>;
   searchParams: Promise<{
     form?: string | string[];
-    game?: string | string[];
-    generation?: string | string[];
-    versionGroup?: string | string[];
   }>;
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { speciesSlug } = await params;
+  const { gameSlug, speciesSlug } = await params;
+
   return (
     <PokemonDetailPage
+      gameSlug={gameSlug}
       searchParams={await searchParams}
       speciesSlug={speciesSlug}
     />

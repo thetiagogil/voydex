@@ -114,6 +114,39 @@ const dedupePokedexEntries = (
   });
 };
 
+const getVersionGroupSortOrder = (
+  versionGroupId: number,
+  versionGroupById: Map<number, VersionGroup>,
+) => {
+  return versionGroupById.get(versionGroupId)?.sort_order ?? versionGroupId;
+};
+
+const sortVersionGroupsBySortOrder = (versionGroups: VersionGroup[]) => {
+  return [...versionGroups].sort((firstVersionGroup, secondVersionGroup) => {
+    return (
+      firstVersionGroup.sort_order - secondVersionGroup.sort_order ||
+      firstVersionGroup.name.localeCompare(secondVersionGroup.name)
+    );
+  });
+};
+
+const sortGamesByVersionGroupAndSortOrder = (
+  games: Game[],
+  versionGroupById: Map<number, VersionGroup>,
+) => {
+  return [...games].sort((firstGame, secondGame) => {
+    return (
+      getVersionGroupSortOrder(firstGame.version_group_id, versionGroupById) -
+        getVersionGroupSortOrder(
+          secondGame.version_group_id,
+          versionGroupById,
+        ) ||
+      firstGame.sort_order - secondGame.sort_order ||
+      firstGame.name.localeCompare(secondGame.name)
+    );
+  });
+};
+
 export const buildPokemonFormSummaries = ({
   attributes,
   forms,
@@ -193,10 +226,10 @@ export const buildPokemonGenerationDetails = ({
 
         return versionGroup?.generation_id === generation.id;
       });
-      const generationVersionGroups = [...versionGroupById.values()].filter(
-        (versionGroup) => {
+      const generationVersionGroups = sortVersionGroupsBySortOrder(
+        [...versionGroupById.values()].filter((versionGroup) => {
           return versionGroup.generation_id === generation.id;
-        },
+        }),
       );
       const generationGames = games.filter((game) => {
         return game.generation_id === generation.id;
@@ -217,7 +250,10 @@ export const buildPokemonGenerationDetails = ({
       return {
         availability: generationAvailability,
         forms: generationForms,
-        games: generationGames,
+        games: sortGamesByVersionGroupAndSortOrder(
+          generationGames,
+          versionGroupById,
+        ),
         generation,
         pokedexEntries: generationPokedexEntries,
         versionGroups: generationVersionGroups,

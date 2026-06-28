@@ -44,6 +44,47 @@ const getDefaultGeneration = (data: PokemonDetailData) => {
   );
 };
 
+const getGenerationFromParams = (
+  data: PokemonDetailData,
+  params: PokemonDetailScopeParams,
+) => {
+  if (params.game) {
+    const generationByGame = data.generationDetails.find((generationDetail) => {
+      return generationDetail.games.some((game) => {
+        return matchesSlugOrId(game, params.game);
+      });
+    });
+
+    if (generationByGame) {
+      return generationByGame;
+    }
+  }
+
+  const generationByParam = data.generationDetails.find((generationDetail) => {
+    return matchesSlugOrId(generationDetail.generation, params.generation);
+  });
+
+  if (generationByParam) {
+    return generationByParam;
+  }
+
+  if (params.versionGroup) {
+    const generationByVersionGroup = data.generationDetails.find(
+      (generationDetail) => {
+        return generationDetail.versionGroups.some((versionGroup) => {
+          return matchesSlugOrId(versionGroup, params.versionGroup);
+        });
+      },
+    );
+
+    if (generationByVersionGroup) {
+      return generationByVersionGroup;
+    }
+  }
+
+  return getDefaultGeneration(data);
+};
+
 export const buildPokemonDetailVersionGroupScopes = (
   generation: PokemonGenerationDetail,
 ): PokemonDetailVersionGroupScope[] => {
@@ -69,6 +110,23 @@ const getDefaultVersionGroup = (
     }) ??
     versionGroups[0] ??
     null
+  );
+};
+
+const getVersionGroupFromGame = (
+  gameParam: string | undefined,
+  versionGroups: PokemonDetailVersionGroupScope[],
+) => {
+  if (!gameParam) {
+    return null;
+  }
+
+  return (
+    versionGroups.find((scope) => {
+      return scope.games.some((game) => {
+        return matchesSlugOrId(game, gameParam);
+      });
+    }) ?? null
   );
 };
 
@@ -152,9 +210,7 @@ const getScopedPokedexEntries = (
     : generation.pokedexEntries;
   const scopedEntries = versionGroupEntries.filter(({ entry }) => {
     return (
-      !form ||
-      !entry.display_form_id ||
-      entry.display_form_id === form.form.id
+      !form || !entry.display_form_id || entry.display_form_id === form.form.id
     );
   });
 
@@ -203,10 +259,7 @@ export const resolvePokemonDetailScope = (
   data: PokemonDetailData,
   params: PokemonDetailScopeParams,
 ): ResolvedPokemonDetailScope | null => {
-  const generation =
-    data.generationDetails.find((generationDetail) => {
-      return matchesSlugOrId(generationDetail.generation, params.generation);
-    }) ?? getDefaultGeneration(data);
+  const generation = getGenerationFromParams(data, params);
 
   if (!generation) {
     return null;
@@ -214,9 +267,11 @@ export const resolvePokemonDetailScope = (
 
   const versionGroups = buildPokemonDetailVersionGroupScopes(generation);
   const versionGroup =
+    getVersionGroupFromGame(params.game, versionGroups) ??
     versionGroups.find((scope) => {
       return matchesSlugOrId(scope.versionGroup, params.versionGroup);
-    }) ?? getDefaultVersionGroup(generation, versionGroups);
+    }) ??
+    getDefaultVersionGroup(generation, versionGroups);
   const game =
     versionGroup?.games.find((availableGame) => {
       return matchesSlugOrId(availableGame, params.game);

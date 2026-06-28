@@ -7,16 +7,12 @@ export const getPokemonDetailScopeHref = (
 ) => {
   const searchParams = new URLSearchParams();
 
-  if (params.generation) {
+  if (!params.game && params.generation) {
     searchParams.set("generation", params.generation);
   }
 
-  if (params.versionGroup) {
+  if (!params.game && params.versionGroup) {
     searchParams.set("versionGroup", params.versionGroup);
-  }
-
-  if (params.game) {
-    searchParams.set("game", params.game);
   }
 
   if (params.form) {
@@ -24,7 +20,9 @@ export const getPokemonDetailScopeHref = (
   }
 
   const queryString = searchParams.toString();
-  const baseHref = appRoutes.codexPokemonSpecies(speciesSlug);
+  const baseHref = params.game
+    ? appRoutes.codexPokemonGameSpecies(params.game, speciesSlug)
+    : appRoutes.codexPokemonSpecies(speciesSlug);
 
   return queryString ? `${baseHref}?${queryString}` : baseHref;
 };

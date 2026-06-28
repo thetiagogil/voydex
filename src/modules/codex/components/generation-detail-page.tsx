@@ -25,6 +25,8 @@ export const GenerationDetailPage = async ({
   if (!data) {
     notFound();
   }
+  const defaultGameSlug = data.games[0]?.game.slug ?? null;
+
   return (
     <CodexPageShell
       title={data.generation.name}
@@ -122,7 +124,14 @@ export const GenerationDetailPage = async ({
           data.introducedSpecies.map((species) => (
             <CodexLinkedPanel
               key={species.id}
-              href={appRoutes.codexPokemonSpecies(species.slug)}
+              href={
+                defaultGameSlug
+                  ? appRoutes.codexPokemonGameSpecies(
+                      defaultGameSlug,
+                      species.slug,
+                    )
+                  : appRoutes.codexPokemonSpecies(species.slug)
+              }
               className="items-start py-2"
             >
               <span>

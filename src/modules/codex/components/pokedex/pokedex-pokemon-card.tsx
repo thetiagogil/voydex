@@ -60,7 +60,10 @@ export const PokedexPokemonCard = memo(
 
     return (
       <Link
-        href={appRoutes.codexPokemonSpecies(pokemon.slug)}
+        href={appRoutes.codexPokemonGameSpecies(
+          pokemon.detailGameSlug,
+          pokemon.slug,
+        )}
         className="group focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl [contain-intrinsic-size:22rem] [content-visibility:auto] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         <Card
@@ -82,7 +85,7 @@ export const PokedexPokemonCard = memo(
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}
-            className="relative z-10 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0 transition-[background-color,border-color] duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border) [&_img]:p-3"
+            className="relative z-10 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0 border-transparent transition-[background-color,border-color] duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border) [&_img]:p-3"
             glowClassName="transition-opacity duration-300 group-hover:opacity-30 group-focus-visible:opacity-30"
             imageClassName="transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-105 motion-safe:group-focus-visible:-translate-y-1 motion-safe:group-focus-visible:scale-105"
           />

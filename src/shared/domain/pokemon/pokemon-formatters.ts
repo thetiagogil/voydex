@@ -6,6 +6,10 @@ export const formatPokemonNationalNumber = (number: number) => {
   return `#${formatPokemonNationalNumberDigits(number)}`;
 };
 
+export const formatPokedexName = (name: string) => {
+  return name.replace(/\bPokedex\b/g, "Pokédex");
+};
+
 export const formatPokemonHeight = (heightDecimeters: number | null) => {
   if (!heightDecimeters) {
     return "Unknown";

@@ -1,5 +1,6 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type {
+  Game,
   PokedexPageData,
   PokemonAttributes,
   PokemonForm,
@@ -47,10 +48,22 @@ const loadPagedReferenceRows = async <T>(
   }
 };
 
+const getDefaultDetailGameSlugByGenerationId = (games: Game[]) => {
+  const slugByGenerationId = new Map<number, string>();
+
+  for (const game of games) {
+    if (!slugByGenerationId.has(game.generation_id)) {
+      slugByGenerationId.set(game.generation_id, game.slug);
+    }
+  }
+
+  return slugByGenerationId;
+};
+
 export const getPokedexPageData = async (): Promise<PokedexPageData> => {
   const supabase = await createServerSupabaseClient();
 
-  const [typesResult, generationsResult] = await Promise.all([
+  const [typesResult, generationsResult, gamesResult] = await Promise.all([
     supabase
       .schema("reference")
       .from("types")
@@ -61,18 +74,30 @@ export const getPokedexPageData = async (): Promise<PokedexPageData> => {
       .from("generations")
       .select("*")
       .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("games")
+      .select("*")
+      .order("generation_id", { ascending: true })
+      .order("sort_order", { ascending: true }),
   ]);
 
   if (typesResult.error) {
-    throw new Error("Unable to load Pokemon types.");
+    throw new Error("Unable to load Pokémon types.");
   }
 
   if (generationsResult.error) {
     throw new Error("Unable to load generations.");
   }
 
+  if (gamesResult.error) {
+    throw new Error("Unable to load games.");
+  }
+
   const types = typesResult.data ?? [];
   const generations = generationsResult.data ?? [];
+  const defaultDetailGameSlugByGenerationId =
+    getDefaultDetailGameSlugByGenerationId(gamesResult.data ?? []);
 
   const [species, forms, attributes] = await Promise.all([
     loadPagedReferenceRows<PokemonSpecies>(
@@ -132,8 +157,16 @@ export const getPokedexPageData = async (): Promise<PokedexPageData> => {
       const typePair = resolveTypePair(latestAttributes, typeById);
       const introducedGeneration =
         generationById.get(pokemonSpecies.introduced_generation_id) ?? null;
+      const detailGameSlug = defaultDetailGameSlugByGenerationId.get(
+        pokemonSpecies.introduced_generation_id,
+      );
+
+      if (!detailGameSlug) {
+        throw new Error("Unable to resolve default Pokémon detail game.");
+      }
 
       return {
+        detailGameSlug,
         id: pokemonSpecies.id,
         imageAlt: getPokemonFormImageAlt(defaultForm),
         imageUrl: getPokemonFormImageUrl(defaultForm),

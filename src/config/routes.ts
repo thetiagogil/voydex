@@ -8,6 +8,8 @@ export const appRoutes = {
     `/codex/generations/${generationId}`,
   codexGenerations: "/codex/generations",
   codexPokemon: "/codex/pokemon",
+  codexPokemonGameSpecies: (gameSlug: string, speciesSlug: string) =>
+    `/codex/pokemon/${gameSlug}/${speciesSlug}`,
   codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
   home: "/",
   intro: "/intro",

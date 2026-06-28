@@ -8,6 +8,7 @@ import {
 } from "@/modules/codex/data/pokemon-detail-scope";
 
 type PokemonDetailPageProps = {
+  gameSlug?: string;
   searchParams?: PokemonDetailPageSearchParams;
   speciesSlug: string;
 };
@@ -35,6 +36,7 @@ const normalizePokemonDetailSearchParams = (
 };
 
 export const PokemonDetailPage = async ({
+  gameSlug,
   searchParams,
   speciesSlug,
 }: PokemonDetailPageProps) => {
@@ -44,10 +46,10 @@ export const PokemonDetailPage = async ({
     notFound();
   }
 
-  const scope = resolvePokemonDetailScope(
-    data,
-    normalizePokemonDetailSearchParams(searchParams),
-  );
+  const scope = resolvePokemonDetailScope(data, {
+    ...normalizePokemonDetailSearchParams(searchParams),
+    game: gameSlug ?? getSingleSearchParam(searchParams?.game),
+  });
 
   if (!scope) {
     notFound();
