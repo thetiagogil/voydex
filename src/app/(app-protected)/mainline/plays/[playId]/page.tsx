@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { MainlinePlayOverviewPage } from "@/modules/mainline/features/play/components/detail/mainline-play-overview-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/play-detail-query";
+import { MainlinePlayOverviewPage } from "@/modules/mainline/features/play/detail/overview/mainline-play-overview-page";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/data/play-detail-query";
 
 type MainlinePlayOverviewRouteProps = {
   params: Promise<{

@@ -6,7 +6,7 @@ import type {
   Region,
   Type,
   VersionGroup,
-} from "@/modules/codex/types";
+} from "@/modules/codex/shared/types";
 import type {
   MainlinePlayCollectibleDetail,
   MainlinePlayCompletionSummary,

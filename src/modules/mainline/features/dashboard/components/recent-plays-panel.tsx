@@ -5,7 +5,7 @@ import {
   getMainlinePlayGameLine,
   getMainlinePlayTitle,
   getMainlinePlayTrainerLine,
-} from "@/modules/mainline/features/play/components/mainline-play-summary";
+} from "@/modules/mainline/features/play/browse/components/mainline-play-summary";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import { StatusBadge } from "@/shared/components/status-badge";

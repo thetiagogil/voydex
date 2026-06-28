@@ -1,4 +1,4 @@
-import { GamesPage } from "@/modules/codex/components/games-page";
+import { GamesPage } from "@/modules/codex/features/games/browse/games-page";
 
 type PageProps = {
   searchParams: Promise<{

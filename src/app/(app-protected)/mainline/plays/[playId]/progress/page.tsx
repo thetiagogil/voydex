@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { MainlinePlayProgressPage } from "@/modules/mainline/features/play/components/detail/mainline-play-progress-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/play-detail-query";
+import { MainlinePlayProgressPage } from "@/modules/mainline/features/play/detail/progress/mainline-play-progress-page";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/data/play-detail-query";
 
 type MainlinePlayProgressRouteProps = {
   params: Promise<{

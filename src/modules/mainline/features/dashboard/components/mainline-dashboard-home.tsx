@@ -6,7 +6,7 @@ import { ContinuePlayPanel } from "@/modules/mainline/features/dashboard/compone
 import { DashboardMetric } from "@/modules/mainline/features/dashboard/components/dashboard-metric";
 import { DashboardQuickActions } from "@/modules/mainline/features/dashboard/components/dashboard-quick-actions";
 import { RecentPlaysPanel } from "@/modules/mainline/features/dashboard/components/recent-plays-panel";
-import { formatMainlineNumber } from "@/modules/mainline/features/play/components/mainline-play-summary";
+import { formatMainlineNumber } from "@/modules/mainline/features/play/browse/components/mainline-play-summary";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";

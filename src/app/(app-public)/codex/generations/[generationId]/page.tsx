@@ -1,4 +1,4 @@
-import { GenerationDetailPage } from "@/modules/codex/components/generation-detail-page";
+import { GenerationDetailPage } from "@/modules/codex/features/generations/detail/generation-detail-page";
 
 type PageProps = {
   params: Promise<{

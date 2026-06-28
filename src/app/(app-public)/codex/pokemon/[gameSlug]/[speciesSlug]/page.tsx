@@ -1,4 +1,4 @@
-import { PokemonDetailPage } from "@/modules/codex/components/pokemon-detail-page";
+import { PokemonDetailPage } from "@/modules/codex/features/pokemon/detail/pokemon-detail-page";
 
 type PageProps = {
   params: Promise<{

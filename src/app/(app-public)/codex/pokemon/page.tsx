@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
-import { PokedexPage } from "@/modules/codex/components/pokedex-page";
+import { PokedexPage } from "@/modules/codex/features/pokemon/browse/pokedex-page";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

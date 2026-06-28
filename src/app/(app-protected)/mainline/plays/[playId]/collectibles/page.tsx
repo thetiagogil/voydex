@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { MainlinePlayCollectiblesPage } from "@/modules/mainline/features/play/components/detail/mainline-play-collectibles-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/data/play-detail-query";
+import { MainlinePlayCollectiblesPage } from "@/modules/mainline/features/play/detail/collectibles/mainline-play-collectibles-page";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/data/play-detail-query";
 
 type MainlinePlayCollectiblesRouteProps = {
   params: Promise<{

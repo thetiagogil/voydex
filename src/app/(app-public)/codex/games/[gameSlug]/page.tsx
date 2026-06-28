@@ -1,4 +1,4 @@
-import { GameDetailPage } from "@/modules/codex/components/game-detail-page";
+import { GameDetailPage } from "@/modules/codex/features/games/detail/game-detail-page";
 
 type PageProps = {
   params: Promise<{
