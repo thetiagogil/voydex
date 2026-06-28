@@ -46,6 +46,8 @@ Important current routes:
 - `/mainline/plays/[playId]/pokedex`
 - `/mainline/plays/[playId]/collectibles`
 - `/codex/pokemon`
+- `/codex/pokemon/[gameSlug]`
+- `/codex/pokemon/[gameSlug]/[speciesSlug]`
 - `/codex/games`
 - `/codex/generations`
 
@@ -57,14 +59,30 @@ Root `src` folders should stay limited to:
 
 - `app`
 - `config`
+- `features`
 - `lib`
 - `modules`
 - `shared`
 - `proxy.ts`
 
-Do not reintroduce root-level `components`, `constants`, `features`, or `types`.
+Do not reintroduce root-level `components`, `constants`, or `types`.
 
-Module feature code belongs under `src/modules`. Shared app primitives and reusable app shell pieces belong under `src/shared`.
+Module feature code belongs under `src/modules`. Cross-app route features such as site, auth, settings, and system pages belong under `src/features`. Shared app primitives and reusable app shell pieces belong under `src/shared`.
+
+## File And Component Hygiene
+
+Prefer boring, searchable names over short local names:
+
+- Route files in `src/app` should stay thin and import page-level components.
+- Page-level components that directly back a route may live at the feature root, for example `pokemon-detail-page.tsx` or `mainline-plays-page.tsx`.
+- Component filenames should usually match the exported component name in kebab/Pascal form, for example `pokemon-detail-species-selector.tsx` exports `PokemonDetailSpeciesSelector`.
+- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files.
+- Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
+- Split browse and detail loaders when they serve different views. Do not keep unrelated browse/detail data loaders in one shared query file just because they touch the same table.
+- Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
+- If a helper is used by more than one feature, move it to the nearest stable shared boundary, for example `src/modules/mainline/shared`.
+- Large files are not automatically wrong. Config/type maps and generated or primitive wrapper files can be large. Split files when they mix responsibilities, hide data flow, or make route work hard to review.
+- For unfinished screens, prefer small generic shells over elaborate placeholder UI. Rebuild section by section once the product direction is clear.
 
 ## UI Rules
 

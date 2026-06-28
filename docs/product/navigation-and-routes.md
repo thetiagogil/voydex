@@ -88,7 +88,8 @@ Dashboard is a Mainline view, not a top-level app module. It shows recent plays,
 ```txt
 /codex
 /codex/pokemon
-/codex/pokemon/[speciesSlug]
+/codex/pokemon/[gameSlug]
+/codex/pokemon/[gameSlug]/[speciesSlug]
 /codex/games
 /codex/games/[gameSlug]
 /codex/generations
