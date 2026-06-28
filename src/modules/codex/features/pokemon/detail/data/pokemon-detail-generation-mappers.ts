@@ -1,13 +1,10 @@
+import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-utils";
+import { byId, resolveTypePair } from "@/modules/codex/shared/data/query-utils";
 import type {
-  EvolutionMethod,
   Game,
   Generation,
   PokemonAttributes,
   PokemonAvailabilitySummary,
-  PokemonDetailData,
-  PokemonEvolutionEdge,
-  PokemonEvolutionFamilySummary,
-  PokemonForm,
   PokemonFormSummary,
   PokemonGenerationDetail,
   PokemonPokedexSummary,
@@ -15,18 +12,6 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-import {
-  byId,
-  resolveTypePair,
-  selectLatestAttributes,
-} from "@/modules/codex/shared/data/query-utils";
-
-type PokemonFormSummaryParams = {
-  attributes: PokemonAttributes[];
-  forms: PokemonForm[];
-  generationById: Map<number, Generation>;
-  typeById: Map<number, Type>;
-};
 
 type PokemonGenerationDetailsParams = {
   availability: PokemonAvailabilitySummary[];
@@ -37,36 +22,6 @@ type PokemonGenerationDetailsParams = {
   species: PokemonSpecies;
   typeById: Map<number, Type>;
   versionGroupById: Map<number, VersionGroup>;
-};
-
-type PokemonEvolutionFamilyParams = {
-  attributes: PokemonAttributes[];
-  edges: PokemonEvolutionEdge[];
-  forms: PokemonForm[];
-  generationById: Map<number, Generation>;
-  methods: EvolutionMethod[];
-  species: PokemonSpecies[];
-  typeById: Map<number, Type>;
-};
-
-const getGenerationSortOrder = (
-  generationId: number,
-  generationById: Map<number, Generation>,
-) => {
-  return generationById.get(generationId)?.sort_order ?? generationId;
-};
-
-const groupAttributesByFormId = (attributes: PokemonAttributes[]) => {
-  const attributesByFormId = new Map<number, PokemonAttributes[]>();
-
-  for (const attribute of attributes) {
-    const current = attributesByFormId.get(attribute.form_id) ?? [];
-
-    current.push(attribute);
-    attributesByFormId.set(attribute.form_id, current);
-  }
-
-  return attributesByFormId;
 };
 
 const getEffectiveAttributes = (
@@ -144,35 +99,6 @@ const sortGamesByVersionGroupAndSortOrder = (
       firstGame.sort_order - secondGame.sort_order ||
       firstGame.name.localeCompare(secondGame.name)
     );
-  });
-};
-
-export const buildPokemonFormSummaries = ({
-  attributes,
-  forms,
-  generationById,
-  typeById,
-}: PokemonFormSummaryParams): PokemonFormSummary[] => {
-  const latestAttributesByFormId = selectLatestAttributes(attributes);
-  const attributesByFormId = groupAttributesByFormId(attributes);
-
-  return forms.map((form) => {
-    const latestAttributes = latestAttributesByFormId.get(form.id) ?? null;
-    const formAttributes = attributesByFormId.get(form.id) ?? [];
-
-    return {
-      attributesByGeneration: [...formAttributes].sort((a, b) => {
-        return (
-          getGenerationSortOrder(a.generation_start_id, generationById) -
-          getGenerationSortOrder(b.generation_start_id, generationById)
-        );
-      }),
-      form,
-      latestAttributes,
-      typePair: resolveTypePair(latestAttributes, typeById),
-      introducedGeneration:
-        generationById.get(form.introduced_generation_id) ?? null,
-    };
   });
 };
 
@@ -259,63 +185,4 @@ export const buildPokemonGenerationDetails = ({
         versionGroups: generationVersionGroups,
       };
     });
-};
-
-export const buildPokemonEvolutionFamily = ({
-  attributes,
-  edges,
-  forms,
-  generationById,
-  methods,
-  species,
-  typeById,
-}: PokemonEvolutionFamilyParams): PokemonEvolutionFamilySummary => {
-  const defaultFormBySpeciesId = new Map<number, PokemonForm>();
-  const latestAttributesByFormId = selectLatestAttributes(attributes);
-  const methodById = byId(methods);
-  const speciesById = byId(species);
-
-  for (const form of forms) {
-    if (form.is_default || !defaultFormBySpeciesId.has(form.species_id)) {
-      defaultFormBySpeciesId.set(form.species_id, form);
-    }
-  }
-
-  return {
-    edges: edges.map((edge) => ({
-      edge,
-      fromSpecies: speciesById.get(edge.from_species_id) ?? null,
-      introducedGeneration:
-        generationById.get(edge.introduced_generation_id) ?? null,
-      method: methodById.get(edge.evolution_method_id) ?? null,
-      toSpecies: speciesById.get(edge.to_species_id) ?? null,
-    })),
-    species: species.map((pokemonSpecies) => {
-      const defaultForm = defaultFormBySpeciesId.get(pokemonSpecies.id) ?? null;
-      const latestAttributes = defaultForm
-        ? (latestAttributesByFormId.get(defaultForm.id) ?? null)
-        : null;
-
-      return {
-        defaultForm,
-        introducedGeneration:
-          generationById.get(pokemonSpecies.introduced_generation_id) ?? null,
-        latestAttributes,
-        species: pokemonSpecies,
-        typePair: resolveTypePair(latestAttributes, typeById),
-      };
-    }),
-  };
-};
-
-export const resolveDefaultPokemonForm = (
-  data: Pick<PokemonDetailData, "forms">,
-) => {
-  return (
-    data.forms.find((form) => {
-      return form.form.is_default;
-    }) ??
-    data.forms[0] ??
-    null
-  );
 };

@@ -1,5 +1,5 @@
 import { appRoutes } from "@/config/routes";
-import type { PokemonDetailScopeParams } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
+import type { PokemonDetailScopeParams } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
 export const getPokemonDetailScopeHref = (
   speciesSlug: string,

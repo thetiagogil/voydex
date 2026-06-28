@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import { getDefaultPokemonDetailGameSlug } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-query";
+import { getDefaultPokemonDetailGameSlug } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-default-game";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 
 type PageProps = {

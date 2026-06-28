@@ -2,10 +2,8 @@ import { notFound } from "next/navigation";
 
 import { PokemonDetailReference } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-reference";
 import { getPokemonDetailData } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-query";
-import {
-  resolvePokemonDetailScope,
-  type PokemonDetailScopeParams,
-} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
+import { resolvePokemonDetailScope } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
+import type { PokemonDetailScopeParams } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
 type PokemonDetailPageProps = {
   gameSlug?: string;

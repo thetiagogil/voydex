@@ -5,39 +5,47 @@ import {
   createPokemonMenuState,
   fetchPokemonMenuPage,
   getPokemonMenuGroupHeaderBySlug,
-  mergePokemonMenuItems,
   normalizePokemonMenuQuery,
   POKEMON_MENU_PAGE_SIZE,
   PRELOAD_REMAINING_POKEMON,
   type PokemonMenuLoadMode,
   type PokemonMenuState,
-} from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-pokemon-picker-utils";
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+import {
+  getActivePokemonMenuState,
+  getFailedPokemonMenuState,
+  getPendingPokemonMenuState,
+  getPokemonMenuPreloadTriggerIndex,
+  getResolvedPokemonMenuState,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu-state";
 
-type UsePokemonDetailMenuParams = {
+type UsePokemonDetailSpeciesMenuParams = {
   activeGameSlug: string | null;
   activePokemonSlug: string;
 };
 
-export const usePokemonDetailMenu = ({
+export const usePokemonDetailSpeciesMenu = ({
   activeGameSlug,
   activePokemonSlug,
-}: UsePokemonDetailMenuParams) => {
+}: UsePokemonDetailSpeciesMenuParams) => {
   const [inputValue, setInputValue] = useState("");
   const [menuState, setMenuState] = useState<PokemonMenuState>(() => {
     return createPokemonMenuState(activeGameSlug);
   });
   const activeQuery = normalizePokemonMenuQuery(inputValue);
-  const activeMenuState =
-    menuState.gameSlug === activeGameSlug && menuState.query === activeQuery
-      ? menuState
-      : createPokemonMenuState(activeGameSlug, activeQuery);
+  const activeMenuState = getActivePokemonMenuState({
+    activeGameSlug,
+    activeQuery,
+    menuState,
+  });
   const pokemonItems = activeMenuState.items;
   const loadState = activeMenuState.loadState;
   const loadingMore = activeMenuState.loadingMore;
   const canLoadMorePokemon = activeMenuState.nextOffset !== null;
-  const preloadTriggerIndex = canLoadMorePokemon
-    ? Math.max(0, pokemonItems.length - PRELOAD_REMAINING_POKEMON - 1)
-    : -1;
+  const preloadTriggerIndex = getPokemonMenuPreloadTriggerIndex({
+    canLoadMorePokemon,
+    itemCount: pokemonItems.length,
+  });
   const activePokemonItem = useMemo(() => {
     return (
       pokemonItems.find((pokemonItem) => {
@@ -67,20 +75,12 @@ export const usePokemonDetailMenu = ({
       const requestedQuery = normalizePokemonMenuQuery(query);
 
       setMenuState((currentMenuState) => {
-        const shouldAppend =
-          mode === "append" &&
-          currentMenuState.gameSlug === requestedGameSlug &&
-          currentMenuState.query === requestedQuery;
-
-        return {
-          gameSlug: requestedGameSlug,
-          items: shouldAppend ? currentMenuState.items : [],
-          loadState: shouldAppend ? "loaded" : "loading",
-          loadingMore: shouldAppend,
-          nextOffset: shouldAppend ? currentMenuState.nextOffset : null,
-          query: requestedQuery,
-          total: shouldAppend ? currentMenuState.total : 0,
-        };
+        return getPendingPokemonMenuState({
+          currentMenuState,
+          mode,
+          requestedGameSlug,
+          requestedQuery,
+        });
       });
 
       void fetchPokemonMenuPage({
@@ -91,44 +91,22 @@ export const usePokemonDetailMenu = ({
       })
         .then((nextPage) => {
           setMenuState((currentMenuState) => {
-            if (
-              currentMenuState.gameSlug !== requestedGameSlug ||
-              currentMenuState.query !== requestedQuery
-            ) {
-              return currentMenuState;
-            }
-
-            return {
-              gameSlug: requestedGameSlug,
-              items:
-                mode === "append"
-                  ? mergePokemonMenuItems(
-                      currentMenuState.items,
-                      nextPage.pokemon,
-                    )
-                  : nextPage.pokemon,
-              loadState: "loaded",
-              loadingMore: false,
-              nextOffset: nextPage.nextOffset,
-              query: requestedQuery,
-              total: nextPage.total,
-            };
+            return getResolvedPokemonMenuState({
+              currentMenuState,
+              mode,
+              nextPage,
+              requestedGameSlug,
+              requestedQuery,
+            });
           });
         })
         .catch(() => {
           setMenuState((currentMenuState) => {
-            if (
-              currentMenuState.gameSlug !== requestedGameSlug ||
-              currentMenuState.query !== requestedQuery
-            ) {
-              return currentMenuState;
-            }
-
-            return {
-              ...currentMenuState,
-              loadState: "error",
-              loadingMore: false,
-            };
+            return getFailedPokemonMenuState({
+              currentMenuState,
+              requestedGameSlug,
+              requestedQuery,
+            });
           });
         });
     },

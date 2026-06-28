@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/data/queries";
+import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/data/dashboard-page-query";
 import { ContinuePlayPanel } from "@/modules/mainline/features/dashboard/components/continue-play-panel";
 import { DashboardMetric } from "@/modules/mainline/features/dashboard/components/dashboard-metric";
 import { DashboardQuickActions } from "@/modules/mainline/features/dashboard/components/dashboard-quick-actions";
 import { RecentPlaysPanel } from "@/modules/mainline/features/dashboard/components/recent-plays-panel";
-import { formatMainlineNumber } from "@/modules/mainline/features/play/browse/components/mainline-play-summary";
+import { formatMainlineNumber } from "@/modules/mainline/shared/display/mainline-play-display";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";

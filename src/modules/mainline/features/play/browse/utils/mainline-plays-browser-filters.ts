@@ -1,4 +1,4 @@
-import { hasMainlinePlayProgress } from "@/modules/mainline/features/play/browse/components/mainline-play-summary";
+import { hasMainlinePlayProgress } from "@/modules/mainline/shared/display/mainline-play-display";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
 
 export type SelectOption = {

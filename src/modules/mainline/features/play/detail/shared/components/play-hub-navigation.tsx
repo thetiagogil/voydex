@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import type { MainlinePlaySurface } from "@/modules/mainline/features/play/detail/shared/components/play-shell-types";
+import type { MainlinePlaySurface } from "@/modules/mainline/features/play/detail/shared/utils/play-detail-navigation";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/lib/utils";
 import {

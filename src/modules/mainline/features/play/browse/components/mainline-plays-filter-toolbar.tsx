@@ -2,7 +2,7 @@ import {
   completionOptions,
   type MainlinePlayFilters,
   type SelectOption,
-} from "@/modules/mainline/features/play/browse/components/mainline-plays-browser-filters";
+} from "@/modules/mainline/features/play/browse/utils/mainline-plays-browser-filters";
 import { Button } from "@/shared/components/ui/button";
 import {
   InputGroup,

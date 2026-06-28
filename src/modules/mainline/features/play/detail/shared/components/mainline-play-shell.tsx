@@ -5,7 +5,7 @@ import {
   getActiveSurface,
   type MainlinePlayProgressTab,
   type MainlinePlayTab,
-} from "@/modules/mainline/features/play/detail/shared/components/play-shell-types";
+} from "@/modules/mainline/features/play/detail/shared/utils/play-detail-navigation";
 
 type MainlinePlayShellProps = {
   activeProgressTab?: MainlinePlayProgressTab;

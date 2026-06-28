@@ -1,27 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
 
-import { cn } from "@/lib/utils";
-import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
+import { PokemonDetailSpeciesOption } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-species-option";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
-import { usePokemonDetailMenu } from "@/modules/codex/features/pokemon/detail/components/use-pokemon-detail-menu";
+import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/hooks/use-pokemon-detail-species-menu";
 import {
   getPokemonHref,
   getPokemonMenuEmptyLabel,
-  getPokemonPortraitType,
   getPokemonSearchValue,
   isPokemonItemEqual,
-} from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-pokemon-picker-utils";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
 import { Button } from "@/shared/components/ui/button";
 import {
   Combobox,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxInput,
-  ComboboxItem,
   ComboboxList,
   ComboboxTrigger,
   ComboboxValue,
@@ -29,7 +24,7 @@ import {
 import { Spinner } from "@/shared/components/ui/spinner";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
-type PokemonDetailPokemonPickerProps = {
+type PokemonDetailSpeciesSelectorProps = {
   activeGameSlug: string | null;
   activePokemon: {
     name: string;
@@ -38,10 +33,10 @@ type PokemonDetailPokemonPickerProps = {
   };
 };
 
-export const PokemonDetailPokemonPicker = ({
+export const PokemonDetailSpeciesSelector = ({
   activeGameSlug,
   activePokemon,
-}: PokemonDetailPokemonPickerProps) => {
+}: PokemonDetailSpeciesSelectorProps) => {
   const router = useRouter();
   const {
     activePokemonItem,
@@ -54,7 +49,7 @@ export const PokemonDetailPokemonPicker = ({
     loadState,
     pokemonItems,
     updateInputValue,
-  } = usePokemonDetailMenu({
+  } = usePokemonDetailSpeciesMenu({
     activeGameSlug,
     activePokemonSlug: activePokemon.slug,
   });
@@ -78,6 +73,7 @@ export const PokemonDetailPokemonPicker = ({
       isItemEqualToValue={isPokemonItemEqual}
       onInputValueChange={updateInputValue}
       onItemHighlighted={handlePokemonHighlighted}
+      onValueChange={navigateToPokemon}
       onOpenChange={(open) => {
         if (open) {
           loadInitialPokemonItems();
@@ -133,49 +129,14 @@ export const PokemonDetailPokemonPicker = ({
           {(pokemonItem: PokemonDetailMenuPokemon) => {
             const isActive = pokemonItem.slug === activePokemon.slug;
             const groupHeader = groupHeaderBySlug.get(pokemonItem.slug);
-            const displayNumber =
-              pokemonItem.pokedexNumber ?? pokemonItem.nationalNumber;
 
             return (
-              <Fragment key={pokemonItem.id}>
-                {groupHeader ? (
-                  <div className="bg-popover text-muted-foreground border-border/40 sticky top-0 z-30 border-b px-2 py-1.5 text-xs font-semibold tracking-wide">
-                    {groupHeader}
-                  </div>
-                ) : null}
-                <ComboboxItem
-                  value={pokemonItem}
-                  aria-current={isActive ? "page" : undefined}
-                  onClick={() => navigateToPokemon(pokemonItem)}
-                  className={cn(
-                    "min-h-14 gap-3",
-                    isActive && "bg-accent text-accent-foreground",
-                  )}
-                >
-                  <PokemonPortrait
-                    alt={pokemonItem.imageAlt}
-                    imageUrl={pokemonItem.imageUrl}
-                    type={getPokemonPortraitType(pokemonItem)}
-                    className="size-11 shrink-0 rounded-lg"
-                    imageClassName="p-1"
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="text-muted-foreground block text-xs tabular-nums">
-                      {formatPokemonNationalNumber(displayNumber)}
-                    </span>
-                    <span className="block truncate font-medium">
-                      {pokemonItem.name}
-                    </span>
-                  </span>
-                  <PokemonTypeList
-                    primaryType={pokemonItem.primaryType}
-                    secondaryType={pokemonItem.secondaryType}
-                    badgeDisplay="icon"
-                    badgeSize="sm"
-                    className="ml-auto shrink-0 gap-1"
-                  />
-                </ComboboxItem>
-              </Fragment>
+              <PokemonDetailSpeciesOption
+                key={pokemonItem.id}
+                groupHeader={groupHeader}
+                isActive={isActive}
+                pokemonItem={pokemonItem}
+              />
             );
           }}
         </ComboboxList>
