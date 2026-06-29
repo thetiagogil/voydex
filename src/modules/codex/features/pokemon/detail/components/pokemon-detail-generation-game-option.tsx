@@ -24,7 +24,19 @@ type PokemonDetailGenerationGameSheetOptionProps =
     onSelect?: () => void;
   };
 
-const UnavailableGameTooltip = () => {
+type GameAvailabilityTooltipProps = {
+  description: string;
+  label: string;
+  tone: "muted" | "warning";
+};
+
+const GameAvailabilityTooltip = ({
+  description,
+  label,
+  tone,
+}: GameAvailabilityTooltipProps) => {
+  const isWarning = tone === "warning";
+
   return (
     <Tooltip>
       <TooltipTrigger
@@ -32,15 +44,24 @@ const UnavailableGameTooltip = () => {
           <span
             tabIndex={0}
             role="img"
-            aria-label="Unavailable game"
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2"
+            aria-label={label}
+            className={cn(
+              "focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2",
+              isWarning
+                ? "text-warning hover:text-warning/90"
+                : "text-muted-foreground hover:text-foreground",
+            )}
           />
         }
       >
-        <AppIcon icon={appIcons.status.unknown} size="sm" aria-hidden />
+        <AppIcon
+          icon={isWarning ? appIcons.status.warning : appIcons.status.unknown}
+          size="sm"
+          aria-hidden
+        />
       </TooltipTrigger>
       <TooltipContent side="left" align="center" className="w-64">
-        This Pokémon does not appear in this game.
+        {description}
       </TooltipContent>
     </Tooltip>
   );
@@ -50,8 +71,31 @@ const getGameOptionLeading = (game: PokemonDetailGameNavigationItem) => {
   return <PokemonDetailGameArtwork imageUrl={game.imageUrl} name={game.name} />;
 };
 
-const getUnavailableGameTrailing = (game: PokemonDetailGameNavigationItem) => {
-  return game.isActive ? undefined : <UnavailableGameTooltip />;
+const getGameOptionTrailing = (game: PokemonDetailGameNavigationItem) => {
+  if (game.availabilityKind === "dlc") {
+    return (
+      <GameAvailabilityTooltip
+        description={
+          game.availabilityDescription ??
+          "This Pokémon is only available through DLC for this game."
+        }
+        label="DLC-only availability"
+        tone="warning"
+      />
+    );
+  }
+
+  if (game.availabilityKind === "unavailable" && !game.isActive) {
+    return (
+      <GameAvailabilityTooltip
+        description="This Pokémon does not appear in this game."
+        label="Unavailable game"
+        tone="muted"
+      />
+    );
+  }
+
+  return undefined;
 };
 
 export const PokemonDetailGenerationGameOption = ({
@@ -66,6 +110,7 @@ export const PokemonDetailGenerationGameOption = ({
         active={game.isActive}
         leading={leading}
         title={game.name}
+        trailing={getGameOptionTrailing(game)}
       />
     );
   }
@@ -76,7 +121,7 @@ export const PokemonDetailGenerationGameOption = ({
       disabled
       leading={leading}
       title={game.name}
-      trailing={getUnavailableGameTrailing(game)}
+      trailing={getGameOptionTrailing(game)}
     />
   );
 };
@@ -99,9 +144,7 @@ export const PokemonDetailGenerationGameSheetOption = ({
       leading={getGameOptionLeading(game)}
       muted={isMuted}
       title={game.name}
-      trailing={
-        !game.isAvailable ? getUnavailableGameTrailing(game) : undefined
-      }
+      trailing={getGameOptionTrailing(game)}
     />
   );
 

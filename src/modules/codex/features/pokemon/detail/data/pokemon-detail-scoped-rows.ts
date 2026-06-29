@@ -1,3 +1,7 @@
+import {
+  doesPokemonAvailabilityMatchGame,
+  isPokemonAvailabilityInVersionGroupScope,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import type {
   Game,
   PokemonGenerationDetail,
@@ -14,12 +18,12 @@ export const getScopedAvailability = (
   const scopedRows = generation.availability.filter((row) => {
     if (
       versionGroup &&
-      row.targetVersionGroup?.id !== versionGroup.versionGroup.id
+      !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
     ) {
       return false;
     }
 
-    if (game && row.game && row.game.id !== game.id) {
+    if (game && !doesPokemonAvailabilityMatchGame(row, game)) {
       return false;
     }
 
@@ -41,12 +45,12 @@ export const getScopedAvailability = (
   return generation.availability.filter((row) => {
     if (
       versionGroup &&
-      row.targetVersionGroup?.id !== versionGroup.versionGroup.id
+      !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
     ) {
       return false;
     }
 
-    return !game || !row.game || row.game.id === game.id;
+    return !game || doesPokemonAvailabilityMatchGame(row, game);
   });
 };
 

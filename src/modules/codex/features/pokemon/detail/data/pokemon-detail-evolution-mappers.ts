@@ -8,6 +8,7 @@ import type {
   Generation,
   PokemonAttributes,
   PokemonEvolutionEdge,
+  PokemonEvolutionFormSummary,
   PokemonEvolutionFamilySummary,
   PokemonForm,
   PokemonSpecies,
@@ -24,6 +25,39 @@ type PokemonEvolutionFamilyParams = {
   typeById: Map<number, Type>;
 };
 
+const groupFormsBySpeciesId = (forms: PokemonForm[]) => {
+  const formsBySpeciesId = new Map<number, PokemonForm[]>();
+
+  for (const form of forms) {
+    const currentForms = formsBySpeciesId.get(form.species_id) ?? [];
+
+    currentForms.push(form);
+    formsBySpeciesId.set(form.species_id, currentForms);
+  }
+
+  return formsBySpeciesId;
+};
+
+const buildEvolutionFormSummaries = ({
+  forms,
+  latestAttributesByFormId,
+  typeById,
+}: {
+  forms: PokemonForm[];
+  latestAttributesByFormId: Map<number, PokemonAttributes>;
+  typeById: Map<number, Type>;
+}): PokemonEvolutionFormSummary[] => {
+  return forms.map((form) => {
+    const latestAttributes = latestAttributesByFormId.get(form.id) ?? null;
+
+    return {
+      form,
+      latestAttributes,
+      typePair: resolveTypePair(latestAttributes, typeById),
+    };
+  });
+};
+
 export const buildPokemonEvolutionFamily = ({
   attributes,
   edges,
@@ -36,6 +70,7 @@ export const buildPokemonEvolutionFamily = ({
   const defaultFormBySpeciesId = new Map<number, PokemonForm>();
   const latestAttributesByFormId = selectLatestAttributes(attributes);
   const formById = byId(forms);
+  const formsBySpeciesId = groupFormsBySpeciesId(forms);
   const methodById = byId(methods);
   const speciesById = byId(species);
 
@@ -58,12 +93,18 @@ export const buildPokemonEvolutionFamily = ({
     })),
     species: species.map((pokemonSpecies) => {
       const defaultForm = defaultFormBySpeciesId.get(pokemonSpecies.id) ?? null;
+      const pokemonForms = formsBySpeciesId.get(pokemonSpecies.id) ?? [];
       const latestAttributes = defaultForm
         ? (latestAttributesByFormId.get(defaultForm.id) ?? null)
         : null;
 
       return {
         defaultForm,
+        forms: buildEvolutionFormSummaries({
+          forms: pokemonForms,
+          latestAttributesByFormId,
+          typeById,
+        }),
         introducedGeneration:
           generationById.get(pokemonSpecies.introduced_generation_id) ?? null,
         latestAttributes,

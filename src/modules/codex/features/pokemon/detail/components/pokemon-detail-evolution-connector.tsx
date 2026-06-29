@@ -26,19 +26,17 @@ const EvolutionCondition = ({
   edge: PokemonEvolutionEdgeSummary;
 }) => {
   const condition = getPokemonDetailEvolutionConditionDisplay(edge);
+  const conditionClassName =
+    "text-foreground inline-flex h-4 min-w-5 items-center justify-center rounded-full text-xs leading-none font-semibold";
+
+  if (condition.kind === "level") {
+    return <span className={conditionClassName}>{condition.label}</span>;
+  }
 
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={
-          <span className="text-foreground inline-flex h-4 min-w-5 items-center justify-center rounded-full text-xs leading-none font-semibold" />
-        }
-      >
-        {condition.kind === "level" ? (
-          condition.label
-        ) : (
-          <AppIcon icon={condition.icon} size="xs" aria-hidden />
-        )}
+      <TooltipTrigger render={<span className={conditionClassName} />}>
+        <AppIcon icon={condition.icon} size="xs" aria-hidden />
       </TooltipTrigger>
       <TooltipContent className="max-w-56 text-center">
         {getPokemonDetailEvolutionConditionDescription(edge)}

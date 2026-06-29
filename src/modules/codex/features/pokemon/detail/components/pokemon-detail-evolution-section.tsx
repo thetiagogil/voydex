@@ -62,6 +62,16 @@ export const PokemonDetailEvolutionSection = ({
     return null;
   }
 
+  const evolutionSpeciesCount = new Set(
+    stages.flatMap((stage) =>
+      stage.species.map((pokemon) => pokemon.species.id),
+    ),
+  ).size;
+
+  if (evolutionSpeciesCount <= 1) {
+    return null;
+  }
+
   const firstStage = stages[0];
   const secondStage = stages[1];
   const isTwoStagePath =

@@ -6,6 +6,8 @@ import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/deta
 import type {
   PokemonEvolutionEdgeSummary,
   PokemonEvolutionSpeciesSummary,
+  PokemonForm,
+  PokemonTypePair,
 } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
@@ -27,15 +29,27 @@ type PokemonDetailEvolutionNodeProps = {
   scopedEdges: PokemonEvolutionEdgeSummary[];
 };
 
-const getEvolutionNodeTypeSlug = (pokemon: PokemonEvolutionSpeciesSummary) => {
-  const typeSlug = pokemon.typePair.primaryType?.slug;
+type EvolutionNodeTypeSlug = string | null;
+
+const getEvolutionNodeDisplayTypeSlug = ({
+  displayForm,
+  pokemon,
+}: {
+  displayForm: PokemonForm | null;
+  pokemon: PokemonEvolutionSpeciesSummary;
+}) => {
+  const displayFormTypePair =
+    displayForm &&
+    pokemon.forms.find((formSummary) => {
+      return formSummary.form.id === displayForm.id;
+    })?.typePair;
+  const typePair: PokemonTypePair = displayFormTypePair ?? pokemon.typePair;
+  const typeSlug = typePair.primaryType?.slug;
 
   return typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null;
 };
 
-const getEvolutionNodeStyle = (
-  typeSlug: ReturnType<typeof getEvolutionNodeTypeSlug>,
-) => {
+const getEvolutionNodeStyle = (typeSlug: EvolutionNodeTypeSlug) => {
   const colorValue = typeSlug ? `var(--type-${typeSlug})` : "var(--primary)";
 
   return {
@@ -57,7 +71,10 @@ export const PokemonDetailEvolutionNode = ({
   const imageAlt =
     getPokemonFormImageAlt(displayForm) || `${pokemon.species.name} artwork`;
   const imageUrl = getPokemonFormImageUrl(displayForm);
-  const typeSlug = getEvolutionNodeTypeSlug(pokemon);
+  const typeSlug = getEvolutionNodeDisplayTypeSlug({
+    displayForm,
+    pokemon,
+  });
   const style = getEvolutionNodeStyle(typeSlug);
   const nationalNumber = formatPokemonNationalNumber(
     pokemon.species.national_number,

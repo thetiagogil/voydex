@@ -122,6 +122,7 @@ export const appIcons = {
     locked: Lock,
     offline: WifiOff,
     unknown: CircleHelp,
+    warning: AlertTriangle,
   },
   theme: {
     dark: Moon,

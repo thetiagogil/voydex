@@ -129,8 +129,15 @@ export type PokemonGenerationDetail = {
   versionGroups: VersionGroup[];
 };
 
+export type PokemonEvolutionFormSummary = {
+  form: PokemonForm;
+  latestAttributes: PokemonAttributes | null;
+  typePair: PokemonTypePair;
+};
+
 export type PokemonEvolutionSpeciesSummary = {
   defaultForm: PokemonForm | null;
+  forms: PokemonEvolutionFormSummary[];
   introducedGeneration: Generation | null;
   latestAttributes: PokemonAttributes | null;
   species: PokemonSpecies;

@@ -1,4 +1,11 @@
+export type PokemonDetailGameAvailabilityKind =
+  | "available"
+  | "dlc"
+  | "unavailable";
+
 export type PokemonDetailGameNavigationItem = {
+  availabilityDescription?: string;
+  availabilityKind: PokemonDetailGameAvailabilityKind;
   href: string;
   id: number;
   imageUrl: string | null;
