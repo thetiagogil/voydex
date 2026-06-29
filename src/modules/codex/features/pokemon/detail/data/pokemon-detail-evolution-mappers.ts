@@ -35,6 +35,7 @@ export const buildPokemonEvolutionFamily = ({
 }: PokemonEvolutionFamilyParams): PokemonEvolutionFamilySummary => {
   const defaultFormBySpeciesId = new Map<number, PokemonForm>();
   const latestAttributesByFormId = selectLatestAttributes(attributes);
+  const formById = byId(forms);
   const methodById = byId(methods);
   const speciesById = byId(species);
 
@@ -47,10 +48,12 @@ export const buildPokemonEvolutionFamily = ({
   return {
     edges: edges.map((edge) => ({
       edge,
+      fromForm: formById.get(edge.from_form_id) ?? null,
       fromSpecies: speciesById.get(edge.from_species_id) ?? null,
       introducedGeneration:
         generationById.get(edge.introduced_generation_id) ?? null,
       method: methodById.get(edge.evolution_method_id) ?? null,
+      toForm: formById.get(edge.to_form_id) ?? null,
       toSpecies: speciesById.get(edge.to_species_id) ?? null,
     })),
     species: species.map((pokemonSpecies) => {

@@ -46,7 +46,7 @@ export const PokemonDetailPortraitSection = ({
   return (
     <section
       className={cn(
-        "bg-card/76 overflow-hidden rounded-xl border shadow-(--app-surface-shadow) backdrop-blur-xl",
+        "overflow-hidden rounded-lg border",
         typeClassNames?.background,
         typeClassNames?.border ?? "border-app-surface-border",
       )}
@@ -66,7 +66,7 @@ export const PokemonDetailPortraitSection = ({
         <div className="flex min-w-0 items-center gap-2">
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="sm"
             aria-pressed={isShowingShiny}
             disabled={!hasShinyImage}

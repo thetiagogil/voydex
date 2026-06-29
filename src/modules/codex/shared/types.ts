@@ -139,9 +139,11 @@ export type PokemonEvolutionSpeciesSummary = {
 
 export type PokemonEvolutionEdgeSummary = {
   edge: PokemonEvolutionEdge;
+  fromForm: PokemonForm | null;
   fromSpecies: PokemonSpecies | null;
   introducedGeneration: Generation | null;
   method: EvolutionMethod | null;
+  toForm: PokemonForm | null;
   toSpecies: PokemonSpecies | null;
 };
 
