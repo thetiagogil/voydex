@@ -1,12 +1,14 @@
 import Image from "next/image";
-import { PokemonTypeIcon } from "@/shared/components/pokemon/pokemon-type-icon";
 import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
 import { cn } from "@/lib/utils";
+import { PokemonPortraitFallbackImage } from "@/shared/components/pokemon/pokemon-portrait-fallback-image";
+import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
 
 type PokemonPortraitProps = {
   alt: string;
   className?: string;
+  fallbackOnError?: boolean;
   glowClassName?: string;
   imageClassName?: string;
   imageUrl: string | null;
@@ -17,6 +19,7 @@ type PokemonPortraitProps = {
 export const PokemonPortrait = ({
   alt,
   className,
+  fallbackOnError = false,
   glowClassName,
   imageClassName,
   imageUrl,
@@ -42,7 +45,14 @@ export const PokemonPortrait = ({
           glowClassName,
         )}
       />
-      {imageUrl ? (
+      {imageUrl && fallbackOnError ? (
+        <PokemonPortraitFallbackImage
+          alt={alt}
+          imageUrl={imageUrl}
+          priority={priority}
+          className={imageClassName}
+        />
+      ) : imageUrl ? (
         <Image
           src={imageUrl}
           alt={alt}
@@ -53,19 +63,8 @@ export const PokemonPortrait = ({
           sizes="(min-width: 1280px) 180px, (min-width: 768px) 25vw, 45vw"
           className={cn("object-contain p-4 drop-shadow-lg", imageClassName)}
         />
-      ) : type ? (
-        <div
-          className={cn(
-            "relative flex size-16 items-center justify-center rounded-full",
-            typeClassNames?.solidBackground,
-          )}
-        >
-          <PokemonTypeIcon type={type} className="size-9" />
-        </div>
       ) : (
-        <div className="bg-primary/10 text-primary relative flex size-16 items-center justify-center rounded-full">
-          <PokemonTypeIcon type="pokeball" className="size-9" />
-        </div>
+        <PokemonPortraitPlaceholder alt={alt} />
       )}
     </div>
   );

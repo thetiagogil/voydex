@@ -12,8 +12,8 @@ import {
   ChevronDown,
   Circle,
   CircleHelp,
-  Clock3,
   ClipboardList,
+  Clock3,
   Compass,
   Eye,
   Gamepad2,
@@ -54,6 +54,7 @@ import {
 } from "lucide-react";
 
 import type { ModuleKey } from "@/config/modules";
+import { PokeballIcon } from "@/shared/domain/icons/pokeball-icon";
 
 export type AppIconComponent = LucideIcon;
 
@@ -93,6 +94,7 @@ export const appIcons = {
     date: CalendarDays,
     details: ClipboardList,
     event: Circle,
+    form: PokeballIcon,
     game: Gamepad2,
     health: HeartPulse,
     journey: Compass,
@@ -102,6 +104,7 @@ export const appIcons = {
     optionalEntries: ShieldCheck,
     play: Backpack,
     playtime: Clock3,
+    pokeball: PokeballIcon,
     pokedex: ClipboardList,
     recent: Clock3,
     reference: BookOpenCheck,

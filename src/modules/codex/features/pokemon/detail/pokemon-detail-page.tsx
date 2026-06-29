@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { PokemonDetailReference } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-reference";
+import { PokemonDetailShell } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-shell";
 import { getPokemonDetailData } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-query";
 import { resolvePokemonDetailScope } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
 import type { PokemonDetailScopeParams } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
@@ -53,5 +53,5 @@ export const PokemonDetailPage = async ({
     notFound();
   }
 
-  return <PokemonDetailReference data={data} scope={scope} />;
+  return <PokemonDetailShell data={data} scope={scope} />;
 };
