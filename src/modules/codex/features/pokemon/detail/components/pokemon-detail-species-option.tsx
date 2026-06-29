@@ -14,20 +14,67 @@ type PokemonDetailSpeciesOptionProps = {
   pokemonItem: PokemonDetailMenuPokemon;
 };
 
+type PokemonDetailSpeciesOptionContentProps = {
+  pokemonItem: PokemonDetailMenuPokemon;
+};
+
+type PokemonDetailSpeciesGroupHeaderProps = {
+  groupHeader?: string;
+};
+
+export const PokemonDetailSpeciesGroupHeader = ({
+  groupHeader,
+}: PokemonDetailSpeciesGroupHeaderProps) => {
+  if (!groupHeader) {
+    return null;
+  }
+
+  return (
+    <div className="bg-popover text-muted-foreground border-border/40 sticky top-0 z-30 border-b px-2 py-1.5 text-xs font-semibold tracking-wide">
+      {groupHeader}
+    </div>
+  );
+};
+
+export const PokemonDetailSpeciesOptionContent = ({
+  pokemonItem,
+}: PokemonDetailSpeciesOptionContentProps) => {
+  const displayNumber = pokemonItem.pokedexNumber ?? pokemonItem.nationalNumber;
+
+  return (
+    <>
+      <PokemonPortrait
+        alt={pokemonItem.imageAlt}
+        imageUrl={pokemonItem.imageUrl}
+        type={getPokemonPortraitType(pokemonItem)}
+        className="size-11 shrink-0 rounded-lg"
+        imageClassName="p-1"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="text-muted-foreground block text-xs tabular-nums">
+          {formatPokemonNationalNumber(displayNumber)}
+        </span>
+        <span className="block truncate font-medium">{pokemonItem.name}</span>
+      </span>
+      <PokemonTypeList
+        primaryType={pokemonItem.primaryType}
+        secondaryType={pokemonItem.secondaryType}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="ml-auto shrink-0 gap-1"
+      />
+    </>
+  );
+};
+
 export const PokemonDetailSpeciesOption = ({
   groupHeader,
   isActive,
   pokemonItem,
 }: PokemonDetailSpeciesOptionProps) => {
-  const displayNumber = pokemonItem.pokedexNumber ?? pokemonItem.nationalNumber;
-
   return (
     <Fragment>
-      {groupHeader ? (
-        <div className="bg-popover text-muted-foreground border-border/40 sticky top-0 z-30 border-b px-2 py-1.5 text-xs font-semibold tracking-wide">
-          {groupHeader}
-        </div>
-      ) : null}
+      <PokemonDetailSpeciesGroupHeader groupHeader={groupHeader} />
       <ComboboxItem
         value={pokemonItem}
         aria-current={isActive ? "page" : undefined}
@@ -36,26 +83,7 @@ export const PokemonDetailSpeciesOption = ({
           isActive && "bg-accent text-accent-foreground",
         )}
       >
-        <PokemonPortrait
-          alt={pokemonItem.imageAlt}
-          imageUrl={pokemonItem.imageUrl}
-          type={getPokemonPortraitType(pokemonItem)}
-          className="size-11 shrink-0 rounded-lg"
-          imageClassName="p-1"
-        />
-        <span className="min-w-0 flex-1">
-          <span className="text-muted-foreground block text-xs tabular-nums">
-            {formatPokemonNationalNumber(displayNumber)}
-          </span>
-          <span className="block truncate font-medium">{pokemonItem.name}</span>
-        </span>
-        <PokemonTypeList
-          primaryType={pokemonItem.primaryType}
-          secondaryType={pokemonItem.secondaryType}
-          badgeDisplay="icon"
-          badgeSize="sm"
-          className="ml-auto shrink-0 gap-1"
-        />
+        <PokemonDetailSpeciesOptionContent pokemonItem={pokemonItem} />
       </ComboboxItem>
     </Fragment>
   );

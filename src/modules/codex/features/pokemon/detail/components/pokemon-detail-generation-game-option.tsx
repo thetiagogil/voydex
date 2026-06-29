@@ -1,9 +1,14 @@
 import Link from "next/link";
 
+import { cn } from "@/lib/utils";
 import { PokemonDetailGameArtwork } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-game-artwork";
 import type { PokemonDetailGameNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { NavigationMenuOption } from "@/shared/components/navigation-menu-option";
+import {
+  getNavigationMenuOptionClassName,
+  NavigationMenuOption,
+} from "@/shared/components/navigation-menu-option";
+import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu-option-content";
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +18,11 @@ import {
 type PokemonDetailGenerationGameOptionProps = {
   game: PokemonDetailGameNavigationItem;
 };
+
+type PokemonDetailGenerationGameSheetOptionProps =
+  PokemonDetailGenerationGameOptionProps & {
+    onSelect?: () => void;
+  };
 
 const UnavailableGameTooltip = () => {
   return (
@@ -36,12 +46,18 @@ const UnavailableGameTooltip = () => {
   );
 };
 
+const getGameOptionLeading = (game: PokemonDetailGameNavigationItem) => {
+  return <PokemonDetailGameArtwork imageUrl={game.imageUrl} name={game.name} />;
+};
+
+const getUnavailableGameTrailing = (game: PokemonDetailGameNavigationItem) => {
+  return game.isActive ? undefined : <UnavailableGameTooltip />;
+};
+
 export const PokemonDetailGenerationGameOption = ({
   game,
 }: PokemonDetailGenerationGameOptionProps) => {
-  const leading = (
-    <PokemonDetailGameArtwork imageUrl={game.imageUrl} name={game.name} />
-  );
+  const leading = getGameOptionLeading(game);
 
   if (game.isAvailable) {
     return (
@@ -60,7 +76,57 @@ export const PokemonDetailGenerationGameOption = ({
       disabled
       leading={leading}
       title={game.name}
-      trailing={game.isActive ? undefined : <UnavailableGameTooltip />}
+      trailing={getUnavailableGameTrailing(game)}
     />
+  );
+};
+
+export const PokemonDetailGenerationGameSheetOption = ({
+  game,
+  onSelect,
+}: PokemonDetailGenerationGameSheetOptionProps) => {
+  const isMuted = !game.isAvailable;
+  const optionClassName = cn(
+    "flex rounded-md text-sm transition-all",
+    getNavigationMenuOptionClassName({
+      active: game.isActive,
+      muted: isMuted,
+    }),
+  );
+  const content = (
+    <NavigationMenuOptionContent
+      active={game.isActive}
+      leading={getGameOptionLeading(game)}
+      muted={isMuted}
+      title={game.name}
+      trailing={
+        !game.isAvailable ? getUnavailableGameTrailing(game) : undefined
+      }
+    />
+  );
+
+  if (game.isAvailable) {
+    return (
+      <Link
+        href={game.href}
+        aria-current={game.isActive ? "page" : undefined}
+        className={optionClassName}
+        onClick={onSelect}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div
+      aria-current={game.isActive ? "page" : undefined}
+      aria-disabled
+      data-active={game.isActive ? "true" : undefined}
+      data-disabled="true"
+      className={optionClassName}
+    >
+      {content}
+    </div>
   );
 };

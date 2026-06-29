@@ -47,7 +47,7 @@ const getAriaCurrent = ({
   return current;
 };
 
-const getNavigationMenuOptionClassName = ({
+export const getNavigationMenuOptionClassName = ({
   active,
   className,
   muted,

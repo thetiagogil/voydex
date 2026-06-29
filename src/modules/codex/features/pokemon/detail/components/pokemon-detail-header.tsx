@@ -18,8 +18,8 @@ export const PokemonDetailHeader = ({
   generations,
 }: PokemonDetailHeaderProps) => {
   return (
-    <section className="ring-app-surface-border bg-card/76 rounded-xl p-4 shadow-(--app-surface-shadow) ring-1 backdrop-blur-xl sm:p-5">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <section className="ring-app-surface-border bg-card/76 rounded-xl p-3 shadow-(--app-surface-shadow) ring-1 backdrop-blur-xl sm:p-5">
+      <div className="flex min-w-0 flex-col items-start gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
         <PokemonDetailSpeciesSelector
           activeGameSlug={activeGameSlug}
           activePokemon={activePokemon}
