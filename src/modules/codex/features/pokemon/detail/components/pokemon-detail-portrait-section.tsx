@@ -62,7 +62,7 @@ export const PokemonDetailPortraitSection = ({
         imageClassName="p-8 sm:p-10"
       />
 
-      <div className="border-app-surface-border/70 bg-card/30 border-t p-2 backdrop-blur-md">
+      <div className="bg-card/30 p-2 backdrop-blur-sm">
         <div className="flex min-w-0 items-center gap-2">
           <Button
             type="button"

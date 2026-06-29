@@ -25,9 +25,12 @@ export const PokemonDetailLeftSection = ({
 
       <PokemonDetailEvolutionSection
         activeFormId={scope.form?.form.id ?? null}
+        activeGameSlug={scope.game?.slug ?? null}
+        activeGenerationSlug={scope.generation.generation.slug}
         activeGenerationSortOrder={scope.generation.generation.sort_order}
         activeSpeciesId={data.species.id}
         activeVersionGroupId={scope.versionGroup?.versionGroup.id ?? null}
+        activeVersionGroupSlug={scope.versionGroup?.versionGroup.slug ?? null}
         family={data.evolutionFamily}
       />
     </section>

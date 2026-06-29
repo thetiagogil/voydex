@@ -3,7 +3,9 @@ import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-connector";
 import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
+import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
 import {
+  getPokemonDetailEvolutionBranchRows,
   getPokemonDetailEvolutionEdgesBetweenStages,
   getPokemonDetailEvolutionGridTemplateColumns,
   getPokemonDetailEvolutionStages,
@@ -13,9 +15,12 @@ import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types
 
 type PokemonDetailEvolutionSectionProps = {
   activeFormId: number | null;
+  activeGameSlug: string | null;
+  activeGenerationSlug: string;
   activeGenerationSortOrder: number;
   activeSpeciesId: number;
   activeVersionGroupId: number | null;
+  activeVersionGroupSlug: string | null;
   family: PokemonEvolutionFamilySummary;
 };
 
@@ -33,9 +38,12 @@ const getEvolutionStageClassName = (speciesCount: number, isMobile = false) => {
 
 export const PokemonDetailEvolutionSection = ({
   activeFormId,
+  activeGameSlug,
+  activeGenerationSlug,
   activeGenerationSortOrder,
   activeSpeciesId,
   activeVersionGroupId,
+  activeVersionGroupSlug,
   family,
 }: PokemonDetailEvolutionSectionProps) => {
   const scopedEdges = getPokemonDetailScopedEvolutionEdges({
@@ -54,8 +62,24 @@ export const PokemonDetailEvolutionSection = ({
     return null;
   }
 
-  const isBranchingEvolution =
-    stages.length === 2 && stages[1]?.species.length > 3;
+  const firstStage = stages[0];
+  const secondStage = stages[1];
+  const isTwoStagePath =
+    stages.length === 2 && firstStage?.species.length === 1;
+  const pathRows =
+    isTwoStagePath && firstStage && secondStage
+      ? getPokemonDetailEvolutionBranchRows({
+          fromStage: firstStage,
+          scopedEdges,
+          toStage: secondStage,
+        })
+      : [];
+  const shouldRenderPathRows = pathRows.length > 0;
+  const nodeLinkScope = {
+    activeGameSlug,
+    activeGenerationSlug,
+    activeVersionGroupSlug,
+  } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
     <section className="pt-3">
@@ -65,36 +89,35 @@ export const PokemonDetailEvolutionSection = ({
         </h2>
       </div>
 
-      {isBranchingEvolution ? (
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex flex-wrap justify-center gap-2">
-            {stages[0].species.map((pokemon) => (
+      {shouldRenderPathRows ? (
+        <div className="grid gap-2">
+          {pathRows.map((row) => (
+            <div
+              key={row.key}
+              className="grid items-center gap-2"
+              style={{
+                gridTemplateColumns: "auto minmax(4rem, 1fr) auto",
+              }}
+            >
               <PokemonDetailEvolutionNode
-                key={pokemon.species.id}
-                pokemon={pokemon}
-                scopedEdges={scopedEdges}
+                linkScope={nodeLinkScope}
+                pokemon={row.fromPokemon}
+                scopedEdges={row.edges}
               />
-            ))}
-          </div>
 
-          <PokemonDetailEvolutionConnector
-            direction="vertical"
-            edges={getPokemonDetailEvolutionEdgesBetweenStages({
-              fromStage: stages[0],
-              scopedEdges,
-              toStage: stages[1],
-            })}
-          />
+              <PokemonDetailEvolutionConnector
+                direction="horizontal"
+                edges={row.edges}
+                length="stretched"
+              />
 
-          <div className="grid w-full grid-cols-3 place-items-center gap-2">
-            {stages[1].species.map((pokemon) => (
               <PokemonDetailEvolutionNode
-                key={pokemon.species.id}
-                pokemon={pokemon}
-                scopedEdges={scopedEdges}
+                linkScope={nodeLinkScope}
+                pokemon={row.toPokemon}
+                scopedEdges={row.edges}
               />
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       ) : (
         <>
@@ -124,6 +147,7 @@ export const PokemonDetailEvolutionSection = ({
                     {stage.species.map((pokemon) => (
                       <PokemonDetailEvolutionNode
                         key={pokemon.species.id}
+                        linkScope={nodeLinkScope}
                         pokemon={pokemon}
                         scopedEdges={scopedEdges}
                       />
@@ -163,6 +187,7 @@ export const PokemonDetailEvolutionSection = ({
                     {stage.species.map((pokemon) => (
                       <PokemonDetailEvolutionNode
                         key={pokemon.species.id}
+                        linkScope={nodeLinkScope}
                         pokemon={pokemon}
                         scopedEdges={scopedEdges}
                       />

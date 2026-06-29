@@ -12,6 +12,13 @@ export type PokemonDetailEvolutionStage = {
   species: PokemonEvolutionSpeciesSummary[];
 };
 
+export type PokemonDetailEvolutionBranchRow = {
+  edges: PokemonEvolutionEdgeSummary[];
+  fromPokemon: PokemonEvolutionSpeciesSummary;
+  key: string;
+  toPokemon: PokemonEvolutionSpeciesSummary;
+};
+
 const compareEvolutionSpecies = (
   firstSpecies: PokemonEvolutionSpeciesSummary,
   secondSpecies: PokemonEvolutionSpeciesSummary,
@@ -270,6 +277,77 @@ export const getPokemonDetailEvolutionEdgesBetweenStages = ({
     return (
       fromSpeciesIds.has(edge.edge.from_species_id) &&
       toSpeciesIds.has(edge.edge.to_species_id)
+    );
+  });
+};
+
+export const getPokemonDetailEvolutionBranchRows = ({
+  fromStage,
+  scopedEdges,
+  toStage,
+}: {
+  fromStage: PokemonDetailEvolutionStage;
+  scopedEdges: PokemonEvolutionEdgeSummary[];
+  toStage: PokemonDetailEvolutionStage;
+}): PokemonDetailEvolutionBranchRow[] => {
+  const fromSpeciesById = new Map(
+    fromStage.species.map((pokemon) => [pokemon.species.id, pokemon]),
+  );
+  const toSpeciesById = new Map(
+    toStage.species.map((pokemon) => [pokemon.species.id, pokemon]),
+  );
+  const rowsByKey = new Map<string, PokemonDetailEvolutionBranchRow>();
+
+  for (const edge of scopedEdges) {
+    const fromPokemon = fromSpeciesById.get(edge.edge.from_species_id);
+    const toPokemon = toSpeciesById.get(edge.edge.to_species_id);
+
+    if (!fromPokemon || !toPokemon) {
+      continue;
+    }
+
+    const key = [
+      edge.edge.from_species_id,
+      edge.edge.from_form_id,
+      edge.edge.to_species_id,
+      edge.edge.to_form_id,
+    ].join(":");
+    const existingRow = rowsByKey.get(key);
+
+    if (existingRow) {
+      existingRow.edges.push(edge);
+      continue;
+    }
+
+    rowsByKey.set(key, {
+      edges: [edge],
+      fromPokemon,
+      key,
+      toPokemon,
+    });
+  }
+
+  return [...rowsByKey.values()].sort((firstRow, secondRow) => {
+    const fromComparison = compareEvolutionSpecies(
+      firstRow.fromPokemon,
+      secondRow.fromPokemon,
+    );
+
+    if (fromComparison !== 0) {
+      return fromComparison;
+    }
+
+    const toComparison = compareEvolutionSpecies(
+      firstRow.toPokemon,
+      secondRow.toPokemon,
+    );
+
+    if (toComparison !== 0) {
+      return toComparison;
+    }
+
+    return (
+      firstRow.edges[0].edge.sort_order - secondRow.edges[0].edge.sort_order
     );
   });
 };

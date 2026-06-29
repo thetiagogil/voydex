@@ -118,12 +118,7 @@ export const PokemonDetailFormCombobox = ({
     >
       <ComboboxTrigger
         render={
-          <Button
-            variant="outline"
-            size="sm"
-            className="max-w-full min-w-0 flex-1 justify-between"
-            aria-label="Choose Pokémon form"
-          />
+          <Button variant="ghost" size="sm" aria-label="Choose Pokémon form" />
         }
       >
         <ComboboxValue>

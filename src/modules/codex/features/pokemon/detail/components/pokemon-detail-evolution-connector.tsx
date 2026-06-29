@@ -15,6 +15,7 @@ import {
 type PokemonDetailEvolutionConnectorProps = {
   direction: "horizontal" | "vertical";
   edges: PokemonEvolutionEdgeSummary[];
+  length?: "normal" | "stretched";
 };
 
 const MAX_VISIBLE_CONDITIONS = 3;
@@ -48,8 +49,10 @@ const EvolutionCondition = ({
 
 const EvolutionArrowLine = ({
   direction,
+  length = "normal",
 }: {
   direction: PokemonDetailEvolutionConnectorProps["direction"];
+  length?: PokemonDetailEvolutionConnectorProps["length"];
 }) => {
   if (direction === "vertical") {
     return (
@@ -80,35 +83,36 @@ const EvolutionArrowLine = ({
   }
 
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 72 12"
-      preserveAspectRatio="none"
-      className="text-primary h-3 w-full overflow-hidden"
+    <div
+      className={cn(
+        "text-primary flex h-3 items-center",
+        length === "stretched" ? "w-full" : "w-14 max-w-full",
+      )}
     >
-      <path
-        d="M1 6H66"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="1.25"
-        opacity="0.76"
-      />
-      <path
-        d="M61 2.5L68 6L61 9.5"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.25"
-        opacity="0.86"
-      />
-    </svg>
+      <span className="from-primary/25 via-primary/80 to-primary/70 h-px min-w-8 flex-1 rounded-full bg-linear-to-r" />
+      <svg
+        aria-hidden
+        viewBox="0 0 10 12"
+        className="-ml-1 size-3 shrink-0 overflow-visible"
+      >
+        <path
+          d="M1.5 2.75L8.5 6L1.5 9.25"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.25"
+          opacity="0.86"
+        />
+      </svg>
+    </div>
   );
 };
 
 export const PokemonDetailEvolutionConnector = ({
   direction,
   edges,
+  length = "normal",
 }: PokemonDetailEvolutionConnectorProps) => {
   const distinctEdges = getPokemonDetailDistinctEvolutionEdges(edges);
   const visibleEdges = distinctEdges.slice(0, MAX_VISIBLE_CONDITIONS);
@@ -121,13 +125,13 @@ export const PokemonDetailEvolutionConnector = ({
     <div
       className={cn(
         "text-muted-foreground flex min-w-0 items-center justify-center",
-        direction === "horizontal" && "w-full",
+        direction === "horizontal" && length === "stretched" && "w-full",
       )}
     >
       <div
         className={cn(
           "flex min-w-0 flex-col items-center gap-0.5",
-          direction === "horizontal" && "w-full",
+          direction === "horizontal" && length === "stretched" && "w-full",
         )}
       >
         {visibleEdges.length ? (
@@ -144,7 +148,7 @@ export const PokemonDetailEvolutionConnector = ({
           </div>
         ) : null}
 
-        <EvolutionArrowLine direction={direction} />
+        <EvolutionArrowLine direction={direction} length={length} />
       </div>
     </div>
   );
