@@ -9,6 +9,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import {
   getScopedAvailability,
+  getScopedForms,
   getScopedPokedexEntries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scoped-rows";
 import type {
@@ -66,11 +67,14 @@ export const resolvePokemonDetailScope = (
     versionGroup?.games.find((availableGame) => {
       return matchesSlugOrId(availableGame, params.game);
     }) ?? getDefaultGame(generation, versionGroup);
-  const form = getDefaultForm(generation, params.form);
+  const scopedForms = getScopedForms(generation, versionGroup, game);
+  const forms = scopedForms.length ? scopedForms : generation.forms;
+  const form = getDefaultForm(forms, params.form);
 
   return {
     availability: getScopedAvailability(generation, versionGroup, game, form),
     form,
+    forms,
     game,
     generation,
     pokedexEntries: getScopedPokedexEntries(generation, versionGroup, form),

@@ -1,13 +1,44 @@
 import {
+  doesPokemonAvailabilityMatchForm,
   doesPokemonAvailabilityMatchGame,
   isPokemonAvailabilityInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import type {
   Game,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
 } from "@/modules/codex/shared/types";
-import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+
+const isAvailabilityInScope = (
+  row: PokemonGenerationDetail["availability"][number],
+  versionGroup: PokemonDetailVersionGroupScope | null,
+  game: Game | null,
+) => {
+  if (
+    versionGroup &&
+    !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
+  ) {
+    return false;
+  }
+
+  return !game || doesPokemonAvailabilityMatchGame(row, game);
+};
+
+export const getScopedForms = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope | null,
+  game: Game | null,
+) => {
+  return generation.forms.filter((form) => {
+    return generation.availability.some((row) => {
+      return (
+        isAvailabilityInScope(row, versionGroup, game) &&
+        doesPokemonAvailabilityMatchForm(row, form)
+      );
+    });
+  });
+};
 
 export const getScopedAvailability = (
   generation: PokemonGenerationDetail,
@@ -16,26 +47,10 @@ export const getScopedAvailability = (
   form: PokemonGenerationFormSummary | null,
 ) => {
   const scopedRows = generation.availability.filter((row) => {
-    if (
-      versionGroup &&
-      !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
-    ) {
-      return false;
-    }
-
-    if (game && !doesPokemonAvailabilityMatchGame(row, game)) {
-      return false;
-    }
-
-    if (
-      form &&
-      row.availability.form_id &&
-      row.availability.form_id !== form.form.id
-    ) {
-      return false;
-    }
-
-    return true;
+    return (
+      isAvailabilityInScope(row, versionGroup, game) &&
+      doesPokemonAvailabilityMatchForm(row, form)
+    );
   });
 
   if (scopedRows.length || !form) {
@@ -43,14 +58,7 @@ export const getScopedAvailability = (
   }
 
   return generation.availability.filter((row) => {
-    if (
-      versionGroup &&
-      !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
-    ) {
-      return false;
-    }
-
-    return !game || doesPokemonAvailabilityMatchGame(row, game);
+    return isAvailabilityInScope(row, versionGroup, game);
   });
 };
 

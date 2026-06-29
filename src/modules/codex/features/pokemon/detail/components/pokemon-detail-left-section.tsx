@@ -18,7 +18,7 @@ export const PokemonDetailLeftSection = ({
         activeForm={scope.form}
         activeGameSlug={scope.game?.slug ?? null}
         activeGenerationSlug={scope.generation.generation.slug}
-        forms={scope.generation.forms}
+        forms={scope.forms}
         speciesName={data.species.name}
         speciesSlug={data.species.slug}
       />

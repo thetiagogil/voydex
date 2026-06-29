@@ -2,8 +2,8 @@ import { Fragment } from "react";
 
 import { cn } from "@/lib/utils";
 import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-connector";
-import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
 import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
+import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
 import {
   getPokemonDetailEvolutionBranchRows,
   getPokemonDetailEvolutionEdgesBetweenStages,
@@ -94,7 +94,7 @@ export const PokemonDetailEvolutionSection = ({
   return (
     <section className="pt-3">
       <div className="mb-3">
-        <h2 className="text-foreground text-sm font-semibold">
+        <h2 className="text-muted-foreground text-sm font-light">
           Evolution line
         </h2>
       </div>

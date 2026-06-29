@@ -22,6 +22,7 @@ export type PokemonDetailVersionGroupScope = {
 export type ResolvedPokemonDetailScope = {
   availability: PokemonAvailabilitySummary[];
   form: PokemonGenerationFormSummary | null;
+  forms: PokemonGenerationFormSummary[];
   game: Game | null;
   generation: PokemonGenerationDetail;
   pokedexEntries: PokemonPokedexSummary[];

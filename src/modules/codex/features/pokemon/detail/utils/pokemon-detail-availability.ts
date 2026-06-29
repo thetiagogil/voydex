@@ -40,11 +40,15 @@ export const doesPokemonAvailabilityMatchForm = (
   row: PokemonAvailabilitySummary,
   form: PokemonGenerationFormSummary | null,
 ) => {
-  return (
-    !form ||
-    !row.availability.form_id ||
-    row.availability.form_id === form.form.id
-  );
+  if (!form) {
+    return true;
+  }
+
+  if (!row.availability.form_id) {
+    return form.form.is_default;
+  }
+
+  return row.availability.form_id === form.form.id;
 };
 
 export const doesPokemonAvailabilityMatchGame = (

@@ -1,6 +1,7 @@
 import type {
   PokemonDetailData,
   PokemonGenerationDetail,
+  PokemonGenerationFormSummary,
 } from "@/modules/codex/shared/types";
 import type {
   PokemonDetailScopeParams,
@@ -134,17 +135,17 @@ export const getDefaultGame = (
 };
 
 export const getDefaultForm = (
-  generation: PokemonGenerationDetail,
+  forms: PokemonGenerationFormSummary[],
   formParam?: string,
 ) => {
   return (
-    generation.forms.find((form) => {
+    forms.find((form) => {
       return matchesSlugOrId(form.form, formParam);
     }) ??
-    generation.forms.find((form) => {
+    forms.find((form) => {
       return form.form.is_default;
     }) ??
-    generation.forms[0] ??
+    forms[0] ??
     null
   );
 };
