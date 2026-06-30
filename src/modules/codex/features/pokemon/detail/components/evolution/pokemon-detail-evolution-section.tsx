@@ -1,14 +1,11 @@
 import { Fragment } from "react";
 
-import { cn } from "@/lib/utils";
 import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-connector";
 import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import {
-  getPokemonDetailEvolutionBranchRows,
-  getPokemonDetailEvolutionEdgesBetweenStages,
-  getPokemonDetailEvolutionGridTemplateColumns,
-  getPokemonDetailEvolutionStages,
+  getPokemonDetailEvolutionPathGridTemplateColumns,
+  getPokemonDetailEvolutionPaths,
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
@@ -25,16 +22,12 @@ type PokemonDetailEvolutionSectionProps = {
   family: PokemonEvolutionFamilySummary;
 };
 
-const getEvolutionStageClassName = (speciesCount: number, isMobile = false) => {
-  if (speciesCount === 1) {
-    return cn("grid min-w-0 place-items-center", isMobile && "w-full");
-  }
+const getEvolutionPathNodeColumn = (stepIndex: number) => {
+  return stepIndex * 2 + 1;
+};
 
-  return cn(
-    "grid min-w-0 place-items-center gap-2",
-    isMobile && "w-full",
-    speciesCount > 2 ? "grid-cols-3" : "grid-cols-2",
-  );
+const getEvolutionPathConnectorColumn = (stepIndex: number) => {
+  return stepIndex * 2 + 2;
 };
 
 export const PokemonDetailEvolutionSection = ({
@@ -49,23 +42,24 @@ export const PokemonDetailEvolutionSection = ({
 }: PokemonDetailEvolutionSectionProps) => {
   const scopedEdges = getPokemonDetailScopedEvolutionEdges({
     activeFormId,
+    activeSpeciesId,
     activeVersionGroupId,
     family,
     generationSortOrder: activeGenerationSortOrder,
   });
-  const stages = getPokemonDetailEvolutionStages({
+  const evolutionPaths = getPokemonDetailEvolutionPaths({
     activeSpeciesId,
     edges: scopedEdges,
     family,
   });
 
-  if (!stages.length) {
+  if (!evolutionPaths.length) {
     return null;
   }
 
   const evolutionSpeciesCount = new Set(
-    stages.flatMap((stage) =>
-      stage.species.map((pokemon) => pokemon.species.id),
+    evolutionPaths.flatMap((path) =>
+      path.steps.map((step) => step.pokemon.species.id),
     ),
   ).size;
 
@@ -73,19 +67,10 @@ export const PokemonDetailEvolutionSection = ({
     return null;
   }
 
-  const firstStage = stages[0];
-  const secondStage = stages[1];
-  const isTwoStagePath =
-    stages.length === 2 && firstStage?.species.length === 1;
-  const pathRows =
-    isTwoStagePath && firstStage && secondStage
-      ? getPokemonDetailEvolutionBranchRows({
-          fromStage: firstStage,
-          scopedEdges,
-          toStage: secondStage,
-        })
-      : [];
-  const shouldRenderPathRows = pathRows.length > 0;
+  const maxPathStepCount = Math.max(
+    1,
+    ...evolutionPaths.map((path) => path.steps.length),
+  );
   const nodeLinkScope = {
     activeGameSlug,
     activeGenerationSlug,
@@ -102,123 +87,52 @@ export const PokemonDetailEvolutionSection = ({
         </h2>
       </div>
 
-      {shouldRenderPathRows ? (
-        <div className="grid gap-2">
-          {pathRows.map((row) => (
-            <div
-              key={row.key}
-              className="grid items-center gap-2"
-              style={{
-                gridTemplateColumns: "auto minmax(4rem, 1fr) auto",
-              }}
-            >
-              <PokemonDetailEvolutionNode
-                linkScope={nodeLinkScope}
-                pokemon={row.fromPokemon}
-                scopedEdges={row.edges}
-              />
-
-              <PokemonDetailEvolutionConnector
-                direction="horizontal"
-                edges={row.edges}
-                length="stretched"
-              />
-
-              <PokemonDetailEvolutionNode
-                linkScope={nodeLinkScope}
-                pokemon={row.toPokemon}
-                scopedEdges={row.edges}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <>
+      <div className="grid gap-2">
+        {evolutionPaths.map((path) => (
           <div
-            className="hidden items-center gap-2 sm:grid"
+            key={path.key}
+            className="grid min-w-full items-center gap-2"
             style={{
-              gridTemplateColumns: getPokemonDetailEvolutionGridTemplateColumns(
-                stages.length,
-              ),
+              gridTemplateColumns:
+                getPokemonDetailEvolutionPathGridTemplateColumns(
+                  maxPathStepCount,
+                ),
             }}
           >
-            {stages.map((stage, index) => {
-              const nextStage = stages[index + 1];
-              const connectorEdges = nextStage
-                ? getPokemonDetailEvolutionEdgesBetweenStages({
-                    fromStage: stage,
-                    scopedEdges,
-                    toStage: nextStage,
-                  })
-                : [];
+            {path.steps.map((step, stepIndex) => (
+              <Fragment key={`${path.key}:${step.key}:${stepIndex}`}>
+                <div
+                  className="justify-self-center"
+                  style={{
+                    gridColumn: getEvolutionPathNodeColumn(stepIndex),
+                  }}
+                >
+                  <PokemonDetailEvolutionNode
+                    linkScope={nodeLinkScope}
+                    pokemon={step.pokemon}
+                    scopedEdges={path.edges}
+                  />
+                </div>
 
-              return (
-                <Fragment key={stage.key}>
+                {step.edgesToNext.length ? (
                   <div
-                    className={getEvolutionStageClassName(stage.species.length)}
+                    className="min-w-0"
+                    style={{
+                      gridColumn: getEvolutionPathConnectorColumn(stepIndex),
+                    }}
                   >
-                    {stage.species.map((pokemon) => (
-                      <PokemonDetailEvolutionNode
-                        key={pokemon.species.id}
-                        linkScope={nodeLinkScope}
-                        pokemon={pokemon}
-                        scopedEdges={scopedEdges}
-                      />
-                    ))}
-                  </div>
-
-                  {nextStage ? (
                     <PokemonDetailEvolutionConnector
                       direction="horizontal"
-                      edges={connectorEdges}
+                      edges={step.edgesToNext}
+                      length="stretched"
                     />
-                  ) : null}
-                </Fragment>
-              );
-            })}
-          </div>
-
-          <div className="flex flex-col items-center gap-2 sm:hidden">
-            {stages.map((stage, index) => {
-              const nextStage = stages[index + 1];
-              const connectorEdges = nextStage
-                ? getPokemonDetailEvolutionEdgesBetweenStages({
-                    fromStage: stage,
-                    scopedEdges,
-                    toStage: nextStage,
-                  })
-                : [];
-
-              return (
-                <Fragment key={stage.key}>
-                  <div
-                    className={getEvolutionStageClassName(
-                      stage.species.length,
-                      true,
-                    )}
-                  >
-                    {stage.species.map((pokemon) => (
-                      <PokemonDetailEvolutionNode
-                        key={pokemon.species.id}
-                        linkScope={nodeLinkScope}
-                        pokemon={pokemon}
-                        scopedEdges={scopedEdges}
-                      />
-                    ))}
                   </div>
-
-                  {nextStage ? (
-                    <PokemonDetailEvolutionConnector
-                      direction="vertical"
-                      edges={connectorEdges}
-                    />
-                  ) : null}
-                </Fragment>
-              );
-            })}
+                ) : null}
+              </Fragment>
+            ))}
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </section>
   );
 };

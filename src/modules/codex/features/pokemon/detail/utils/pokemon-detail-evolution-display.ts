@@ -7,16 +7,30 @@ import type {
   PokemonForm,
 } from "@/modules/codex/shared/types";
 
-export type PokemonDetailEvolutionStage = {
+export type PokemonDetailEvolutionPathStep = {
+  edgesToNext: PokemonEvolutionEdgeSummary[];
   key: string;
-  species: PokemonEvolutionSpeciesSummary[];
+  pokemon: PokemonEvolutionSpeciesSummary;
 };
 
-export type PokemonDetailEvolutionBranchRow = {
+export type PokemonDetailEvolutionPath = {
   edges: PokemonEvolutionEdgeSummary[];
+  key: string;
+  steps: PokemonDetailEvolutionPathStep[];
+};
+
+type PokemonDetailEvolutionTransition = {
+  edges: PokemonEvolutionEdgeSummary[];
+  fromFormId: number;
   fromPokemon: PokemonEvolutionSpeciesSummary;
   key: string;
+  toFormId: number;
   toPokemon: PokemonEvolutionSpeciesSummary;
+};
+
+type PokemonDetailEvolutionPathNode = {
+  formId: number;
+  pokemon: PokemonEvolutionSpeciesSummary;
 };
 
 const compareEvolutionSpecies = (
@@ -26,15 +40,6 @@ const compareEvolutionSpecies = (
   return (
     firstSpecies.species.national_number - secondSpecies.species.national_number
   );
-};
-
-const getOutgoingEvolutionEdges = (
-  edges: PokemonEvolutionEdgeSummary[],
-  speciesId: number,
-) => {
-  return edges.filter((edge) => {
-    return edge.edge.from_species_id === speciesId;
-  });
 };
 
 const getEvolutionEdgeGenerationSortOrder = (
@@ -49,6 +54,88 @@ const getPokemonDetailEvolutionFormPairKey = (
   edge: PokemonEvolutionEdgeSummary,
 ) => {
   return `${edge.edge.from_form_id}:${edge.edge.to_form_id}`;
+};
+
+const getPokemonDetailEvolutionTransitionKey = (
+  edge: PokemonEvolutionEdgeSummary,
+) => {
+  return [
+    edge.edge.from_species_id,
+    edge.edge.from_form_id,
+    edge.edge.to_species_id,
+    edge.edge.to_form_id,
+  ].join(":");
+};
+
+const comparePokemonDetailEvolutionTransitions = (
+  firstTransition: PokemonDetailEvolutionTransition,
+  secondTransition: PokemonDetailEvolutionTransition,
+) => {
+  const fromComparison = compareEvolutionSpecies(
+    firstTransition.fromPokemon,
+    secondTransition.fromPokemon,
+  );
+
+  if (fromComparison !== 0) {
+    return fromComparison;
+  }
+
+  const toComparison = compareEvolutionSpecies(
+    firstTransition.toPokemon,
+    secondTransition.toPokemon,
+  );
+
+  if (toComparison !== 0) {
+    return toComparison;
+  }
+
+  return (
+    firstTransition.edges[0].edge.sort_order -
+    secondTransition.edges[0].edge.sort_order
+  );
+};
+
+const comparePokemonDetailEvolutionPaths = (
+  firstPath: PokemonDetailEvolutionPath,
+  secondPath: PokemonDetailEvolutionPath,
+) => {
+  const maxStepCount = Math.max(
+    firstPath.steps.length,
+    secondPath.steps.length,
+  );
+
+  for (let stepIndex = 0; stepIndex < maxStepCount; stepIndex++) {
+    const firstStep = firstPath.steps[stepIndex];
+    const secondStep = secondPath.steps[stepIndex];
+
+    if (!firstStep) {
+      return -1;
+    }
+
+    if (!secondStep) {
+      return 1;
+    }
+
+    const speciesComparison = compareEvolutionSpecies(
+      firstStep.pokemon,
+      secondStep.pokemon,
+    );
+
+    if (speciesComparison !== 0) {
+      return speciesComparison;
+    }
+
+    const firstSortOrder =
+      firstStep.edgesToNext[0]?.edge.sort_order ?? Number.MAX_SAFE_INTEGER;
+    const secondSortOrder =
+      secondStep.edgesToNext[0]?.edge.sort_order ?? Number.MAX_SAFE_INTEGER;
+
+    if (firstSortOrder !== secondSortOrder) {
+      return firstSortOrder - secondSortOrder;
+    }
+  }
+
+  return firstPath.key.localeCompare(secondPath.key);
 };
 
 const getPokemonDetailVersionGroupScopedEvolutionEdges = ({
@@ -85,6 +172,40 @@ const getPokemonDetailVersionGroupScopedEvolutionEdges = ({
   });
 };
 
+const getPokemonDetailDefaultFormIdsBySpeciesId = (
+  family: PokemonEvolutionFamilySummary,
+) => {
+  return new Map(
+    family.species
+      .map((pokemonSpecies) => {
+        return pokemonSpecies.defaultForm
+          ? ([
+              pokemonSpecies.species.id,
+              pokemonSpecies.defaultForm.id,
+            ] as const)
+          : null;
+      })
+      .filter((entry): entry is readonly [number, number] => Boolean(entry)),
+  );
+};
+
+const hasPokemonDetailFormSpecificEvolutionEdges = ({
+  defaultFormIdsBySpeciesId,
+  edges,
+}: {
+  defaultFormIdsBySpeciesId: Map<number, number>;
+  edges: PokemonEvolutionEdgeSummary[];
+}) => {
+  return edges.some((edge) => {
+    return (
+      edge.edge.from_form_id !==
+        defaultFormIdsBySpeciesId.get(edge.edge.from_species_id) ||
+      edge.edge.to_form_id !==
+        defaultFormIdsBySpeciesId.get(edge.edge.to_species_id)
+    );
+  });
+};
+
 const getPokemonDetailConnectedEvolutionFormIds = ({
   activeFormId,
   edges,
@@ -93,38 +214,89 @@ const getPokemonDetailConnectedEvolutionFormIds = ({
   edges: PokemonEvolutionEdgeSummary[];
 }) => {
   const connectedFormIds = new Set<number>([activeFormId]);
-  let didChange = true;
+  let didAddFormId = true;
 
-  while (didChange) {
-    didChange = false;
+  while (didAddFormId) {
+    didAddFormId = false;
 
     for (const edge of edges) {
-      const isConnected =
-        connectedFormIds.has(edge.edge.from_form_id) ||
-        connectedFormIds.has(edge.edge.to_form_id);
+      const isConnectedFromEdge = connectedFormIds.has(edge.edge.from_form_id);
+      const isConnectedToEdge = connectedFormIds.has(edge.edge.to_form_id);
 
-      if (!isConnected) {
+      if (!isConnectedFromEdge && !isConnectedToEdge) {
         continue;
       }
 
-      const previousSize = connectedFormIds.size;
+      const currentSize = connectedFormIds.size;
 
       connectedFormIds.add(edge.edge.from_form_id);
       connectedFormIds.add(edge.edge.to_form_id);
-      didChange = connectedFormIds.size !== previousSize;
+
+      if (connectedFormIds.size !== currentSize) {
+        didAddFormId = true;
+      }
     }
   }
 
   return connectedFormIds;
 };
 
+const getPokemonDetailFormBranchScopedEvolutionEdges = ({
+  activeFormId,
+  activeSpeciesId,
+  edges,
+  family,
+}: {
+  activeFormId: number | null;
+  activeSpeciesId: number;
+  edges: PokemonEvolutionEdgeSummary[];
+  family: PokemonEvolutionFamilySummary;
+}) => {
+  if (!activeFormId) {
+    return edges;
+  }
+
+  const defaultFormIdsBySpeciesId =
+    getPokemonDetailDefaultFormIdsBySpeciesId(family);
+  const hasFormSpecificEdges = hasPokemonDetailFormSpecificEvolutionEdges({
+    defaultFormIdsBySpeciesId,
+    edges,
+  });
+
+  if (!hasFormSpecificEdges) {
+    return edges;
+  }
+
+  const connectedFormIds = getPokemonDetailConnectedEvolutionFormIds({
+    activeFormId,
+    edges,
+  });
+
+  return edges.filter((edge) => {
+    return (
+      connectedFormIds.has(edge.edge.from_form_id) &&
+      connectedFormIds.has(edge.edge.to_form_id) &&
+      !(
+        edge.edge.from_species_id === activeSpeciesId &&
+        edge.edge.from_form_id !== activeFormId
+      ) &&
+      !(
+        edge.edge.to_species_id === activeSpeciesId &&
+        edge.edge.to_form_id !== activeFormId
+      )
+    );
+  });
+};
+
 export const getPokemonDetailScopedEvolutionEdges = ({
   activeFormId,
+  activeSpeciesId,
   activeVersionGroupId,
   family,
   generationSortOrder,
 }: {
   activeFormId: number | null;
+  activeSpeciesId: number;
   activeVersionGroupId: number | null;
   family: PokemonEvolutionFamilySummary;
   generationSortOrder: number;
@@ -137,28 +309,15 @@ export const getPokemonDetailScopedEvolutionEdges = ({
     edges: generationEdges,
   });
 
-  if (!activeFormId) {
-    return versionGroupEdges;
-  }
-
-  const connectedFormIds = getPokemonDetailConnectedEvolutionFormIds({
+  return getPokemonDetailFormBranchScopedEvolutionEdges({
     activeFormId,
+    activeSpeciesId,
     edges: versionGroupEdges,
-  });
-
-  if (connectedFormIds.size <= 1) {
-    return versionGroupEdges;
-  }
-
-  return versionGroupEdges.filter((edge) => {
-    return (
-      connectedFormIds.has(edge.edge.from_form_id) &&
-      connectedFormIds.has(edge.edge.to_form_id)
-    );
+    family,
   });
 };
 
-export const getPokemonDetailEvolutionStages = ({
+export const getPokemonDetailEvolutionPaths = ({
   activeSpeciesId,
   edges,
   family,
@@ -166,7 +325,7 @@ export const getPokemonDetailEvolutionStages = ({
   activeSpeciesId: number;
   edges: PokemonEvolutionEdgeSummary[];
   family: PokemonEvolutionFamilySummary;
-}): PokemonDetailEvolutionStage[] => {
+}): PokemonDetailEvolutionPath[] => {
   const evolutionSpeciesIds = new Set<number>([activeSpeciesId]);
 
   for (const edge of edges) {
@@ -177,179 +336,163 @@ export const getPokemonDetailEvolutionStages = ({
   const evolutionSpecies = family.species.filter((pokemonSpecies) => {
     return evolutionSpeciesIds.has(pokemonSpecies.species.id);
   });
-  const targetSpeciesIds = new Set(
-    edges.map((edge) => edge.edge.to_species_id),
-  );
   const speciesById = new Map(
     evolutionSpecies.map((pokemonSpecies) => [
       pokemonSpecies.species.id,
       pokemonSpecies,
     ]),
   );
-  const roots = evolutionSpecies.filter((pokemonSpecies) => {
-    return !targetSpeciesIds.has(pokemonSpecies.species.id);
-  });
-  const rootSpecies = roots.length
-    ? roots
-    : evolutionSpecies.filter((pokemonSpecies) => {
-        return pokemonSpecies.species.id === activeSpeciesId;
-      });
-  const depthBySpeciesId = new Map<number, number>();
-  const queue = rootSpecies.map((pokemonSpecies) => ({
-    depth: 0,
-    speciesId: pokemonSpecies.species.id,
-  }));
+  const transitionsByKey = new Map<string, PokemonDetailEvolutionTransition>();
 
-  for (const pokemonSpecies of rootSpecies) {
-    depthBySpeciesId.set(pokemonSpecies.species.id, 0);
-  }
-
-  while (queue.length) {
-    const current = queue.shift();
-
-    if (!current) {
-      continue;
-    }
-
-    for (const edge of getOutgoingEvolutionEdges(edges, current.speciesId)) {
-      const targetSpecies = speciesById.get(edge.edge.to_species_id);
-
-      if (!targetSpecies) {
-        continue;
-      }
-
-      const nextDepth = current.depth + 1;
-      const existingDepth = depthBySpeciesId.get(targetSpecies.species.id);
-
-      if (existingDepth !== undefined && existingDepth <= nextDepth) {
-        continue;
-      }
-
-      depthBySpeciesId.set(targetSpecies.species.id, nextDepth);
-      queue.push({
-        depth: nextDepth,
-        speciesId: targetSpecies.species.id,
-      });
-    }
-  }
-
-  for (const pokemonSpecies of evolutionSpecies) {
-    if (!depthBySpeciesId.has(pokemonSpecies.species.id)) {
-      depthBySpeciesId.set(pokemonSpecies.species.id, 0);
-    }
-  }
-
-  const speciesByDepth = new Map<number, PokemonEvolutionSpeciesSummary[]>();
-
-  for (const pokemonSpecies of evolutionSpecies) {
-    const depth = depthBySpeciesId.get(pokemonSpecies.species.id) ?? 0;
-    const currentSpecies = speciesByDepth.get(depth) ?? [];
-
-    currentSpecies.push(pokemonSpecies);
-    speciesByDepth.set(depth, currentSpecies);
-  }
-
-  return [...speciesByDepth.entries()]
-    .sort(([firstDepth], [secondDepth]) => firstDepth - secondDepth)
-    .map(([depth, species]) => ({
-      key: `stage-${depth}`,
-      species: species.sort(compareEvolutionSpecies),
-    }));
-};
-
-export const getPokemonDetailEvolutionEdgesBetweenStages = ({
-  fromStage,
-  scopedEdges,
-  toStage,
-}: {
-  fromStage: PokemonDetailEvolutionStage;
-  scopedEdges: PokemonEvolutionEdgeSummary[];
-  toStage: PokemonDetailEvolutionStage;
-}) => {
-  const fromSpeciesIds = new Set(
-    fromStage.species.map((pokemonSpecies) => pokemonSpecies.species.id),
-  );
-  const toSpeciesIds = new Set(
-    toStage.species.map((pokemonSpecies) => pokemonSpecies.species.id),
-  );
-
-  return scopedEdges.filter((edge) => {
-    return (
-      fromSpeciesIds.has(edge.edge.from_species_id) &&
-      toSpeciesIds.has(edge.edge.to_species_id)
-    );
-  });
-};
-
-export const getPokemonDetailEvolutionBranchRows = ({
-  fromStage,
-  scopedEdges,
-  toStage,
-}: {
-  fromStage: PokemonDetailEvolutionStage;
-  scopedEdges: PokemonEvolutionEdgeSummary[];
-  toStage: PokemonDetailEvolutionStage;
-}): PokemonDetailEvolutionBranchRow[] => {
-  const fromSpeciesById = new Map(
-    fromStage.species.map((pokemon) => [pokemon.species.id, pokemon]),
-  );
-  const toSpeciesById = new Map(
-    toStage.species.map((pokemon) => [pokemon.species.id, pokemon]),
-  );
-  const rowsByKey = new Map<string, PokemonDetailEvolutionBranchRow>();
-
-  for (const edge of scopedEdges) {
-    const fromPokemon = fromSpeciesById.get(edge.edge.from_species_id);
-    const toPokemon = toSpeciesById.get(edge.edge.to_species_id);
+  for (const edge of edges) {
+    const fromPokemon = speciesById.get(edge.edge.from_species_id);
+    const toPokemon = speciesById.get(edge.edge.to_species_id);
 
     if (!fromPokemon || !toPokemon) {
       continue;
     }
 
-    const key = [
-      edge.edge.from_species_id,
-      edge.edge.from_form_id,
-      edge.edge.to_species_id,
-      edge.edge.to_form_id,
-    ].join(":");
-    const existingRow = rowsByKey.get(key);
+    const key = getPokemonDetailEvolutionTransitionKey(edge);
+    const existingTransition = transitionsByKey.get(key);
 
-    if (existingRow) {
-      existingRow.edges.push(edge);
+    if (existingTransition) {
+      existingTransition.edges.push(edge);
       continue;
     }
 
-    rowsByKey.set(key, {
+    transitionsByKey.set(key, {
       edges: [edge],
+      fromFormId: edge.edge.from_form_id,
       fromPokemon,
       key,
+      toFormId: edge.edge.to_form_id,
       toPokemon,
     });
   }
 
-  return [...rowsByKey.values()].sort((firstRow, secondRow) => {
-    const fromComparison = compareEvolutionSpecies(
-      firstRow.fromPokemon,
-      secondRow.fromPokemon,
-    );
+  const transitions = [...transitionsByKey.values()].sort(
+    comparePokemonDetailEvolutionTransitions,
+  );
+  const transitionsByFromFormId = new Map<
+    number,
+    PokemonDetailEvolutionTransition[]
+  >();
 
-    if (fromComparison !== 0) {
-      return fromComparison;
+  for (const transition of transitions) {
+    const currentTransitions =
+      transitionsByFromFormId.get(transition.fromFormId) ?? [];
+
+    currentTransitions.push(transition);
+    transitionsByFromFormId.set(transition.fromFormId, currentTransitions);
+  }
+
+  const targetFormIds = new Set(
+    transitions.map((transition) => transition.toFormId),
+  );
+  const rootNodesByFormId = new Map<number, PokemonDetailEvolutionPathNode>();
+
+  for (const transition of transitions) {
+    if (targetFormIds.has(transition.fromFormId)) {
+      continue;
     }
 
-    const toComparison = compareEvolutionSpecies(
-      firstRow.toPokemon,
-      secondRow.toPokemon,
+    if (!rootNodesByFormId.has(transition.fromFormId)) {
+      rootNodesByFormId.set(transition.fromFormId, {
+        formId: transition.fromFormId,
+        pokemon: transition.fromPokemon,
+      });
+    }
+  }
+
+  if (!rootNodesByFormId.size) {
+    const activePokemon = speciesById.get(activeSpeciesId);
+    const fallbackTransition = transitions[0];
+    const fallbackFormId =
+      activePokemon?.defaultForm?.id ?? fallbackTransition?.fromFormId;
+    const fallbackPokemon = activePokemon ?? fallbackTransition?.fromPokemon;
+
+    if (fallbackPokemon && fallbackFormId) {
+      rootNodesByFormId.set(fallbackFormId, {
+        formId: fallbackFormId,
+        pokemon: fallbackPokemon,
+      });
+    }
+  }
+
+  const rootNodes = [...rootNodesByFormId.values()].sort((first, second) => {
+    const speciesComparison = compareEvolutionSpecies(
+      first.pokemon,
+      second.pokemon,
     );
 
-    if (toComparison !== 0) {
-      return toComparison;
+    if (speciesComparison !== 0) {
+      return speciesComparison;
     }
 
-    return (
-      firstRow.edges[0].edge.sort_order - secondRow.edges[0].edge.sort_order
-    );
+    return first.formId - second.formId;
   });
+
+  const buildPathStepsFromNode = (
+    node: PokemonDetailEvolutionPathNode,
+    visitedFormIds: Set<number>,
+  ): PokemonDetailEvolutionPathStep[][] => {
+    const outgoingTransitions = transitionsByFromFormId.get(node.formId) ?? [];
+    const validTransitions = outgoingTransitions.filter((transition) => {
+      return !visitedFormIds.has(transition.toFormId);
+    });
+
+    if (!validTransitions.length) {
+      return [
+        [
+          {
+            edgesToNext: [],
+            key: `${node.formId}:leaf`,
+            pokemon: node.pokemon,
+          },
+        ],
+      ];
+    }
+
+    return validTransitions.flatMap((transition) => {
+      const nextVisitedFormIds = new Set(visitedFormIds);
+
+      nextVisitedFormIds.add(transition.toFormId);
+
+      return buildPathStepsFromNode(
+        {
+          formId: transition.toFormId,
+          pokemon: transition.toPokemon,
+        },
+        nextVisitedFormIds,
+      ).map((childPathSteps) => [
+        {
+          edgesToNext: transition.edges,
+          key: transition.key,
+          pokemon: node.pokemon,
+        },
+        ...childPathSteps,
+      ]);
+    });
+  };
+
+  return rootNodes
+    .flatMap((node) => {
+      return buildPathStepsFromNode(node, new Set([node.formId]));
+    })
+    .map((steps, index) => {
+      const key = steps
+        .map((step) => {
+          return step.key;
+        })
+        .join("|");
+
+      return {
+        edges: steps.flatMap((step) => step.edgesToNext),
+        key: `${key}:${index}`,
+        steps,
+      };
+    })
+    .sort(comparePokemonDetailEvolutionPaths);
 };
 
 export const getPokemonDetailEvolutionDisplayForm = ({
@@ -530,10 +673,10 @@ export const getPokemonDetailEvolutionConditionDescription = (
   return "Evolution condition is not available in the seeded data.";
 };
 
-export const getPokemonDetailEvolutionGridTemplateColumns = (
-  stageCount: number,
+export const getPokemonDetailEvolutionPathGridTemplateColumns = (
+  stepCount: number,
 ) => {
-  return Array.from({ length: Math.max(1, stageCount * 2 - 1) }, (_, index) => {
-    return index % 2 === 0 ? "minmax(0, 1fr)" : "minmax(3.5rem, 0.5fr)";
+  return Array.from({ length: Math.max(1, stepCount * 2 - 1) }, (_, index) => {
+    return index % 2 === 0 ? "4.5rem" : "minmax(2rem, 1fr)";
   }).join(" ");
 };
