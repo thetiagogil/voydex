@@ -73,6 +73,7 @@ export const PokemonDetailPortraitSection = ({
           <PokemonDetailActionPortrait
             alt={toggleImageAlt}
             imageUrl={toggleImageUrl}
+            size="compact"
             type={typeSlug}
           />
         </button>
