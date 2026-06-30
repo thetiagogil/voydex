@@ -23,6 +23,13 @@ These images are not pixel-perfect implementation contracts. They document the i
 
 ## Current References
 
+### Codex Pokemon Detail
+
+- [Codex Pokemon Detail Direction](./codex-pokemon-detail.md): current
+  product/design direction for the game-scoped Pokemon detail page, including
+  form-selection decisions, evolution-line treatment, and known unresolved
+  issues.
+
 ### Mainline Play
 
 Location:

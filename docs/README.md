@@ -39,6 +39,7 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 ### Design
 
 - [Design References](./design/README.md)
+- [Codex Pokemon Detail Direction](./design/codex-pokemon-detail.md)
 
 ### Database Integration
 

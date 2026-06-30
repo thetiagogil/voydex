@@ -119,6 +119,12 @@ Planned workspaces such as Mainline-level Plans, Collection, and Stats should be
 ### API Routes
 
 - `/api/health`
+- `/api/codex/pokemon-menu`
+
+`/api/codex/pokemon-menu` supports the client-side Pokemon species selector on
+game-scoped Pokemon detail pages. Prefer server-rendered data for normal browse
+views. Use API routes only when a client island needs incremental or interactive
+data that should not be serialized with the initial route payload.
 
 ### Route Organization
 

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/shared/components/app-shell/app-navbar";
@@ -6,6 +5,7 @@ import { ModuleNavigationMenu } from "@/shared/components/app-shell/module-navig
 import { ModuleViewNav } from "@/shared/components/app-shell/module-view-nav";
 import { UserMenu } from "@/shared/components/app-shell/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
+import Link from "next/link";
 
 type AppShellProps = {
   activeModuleKey?: ModuleKey;
@@ -58,7 +58,7 @@ export const AppShell = ({
           </>
         }
       />
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-2 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         {children}
       </main>
     </div>

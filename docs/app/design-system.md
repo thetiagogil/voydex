@@ -70,6 +70,11 @@ This keeps the home page close to the selected visual reference while preserving
 - Use text buttons for primary commands where labels matter.
 - Keep button styling cleaner than the generated mockup. The button shape can be slightly curved, but avoid heavy decorative borders.
 - Primary buttons should not use a mismatched border color.
+- Treat selectors as real selectors when the underlying choice changes data,
+  scope, availability, or stats. For example, Pokemon forms should use a
+  popover/command selector on desktop and a sheet on mobile rather than a tiny
+  rail of thumbnails inside the portrait. Shiny can remain a direct toggle
+  because it is only a visual alternate of the selected form.
 
 ## Icons And Pokémon Type Assets
 

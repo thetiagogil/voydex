@@ -206,6 +206,43 @@ Availability methods should be curated carefully as stable lookup data because t
 
 Curated source logic should favor historically accurate sources such as Bulbapedia, Serebii, and PokemonDB over treating PokeAPI as the curated source of truth. PokeAPI can still be useful for automated checks and consistency detection.
 
+### Codex Pokemon Detail Is Game-Scoped
+
+Pokemon detail URLs are scoped by selected game and species:
+
+```txt
+/codex/pokemon/[gameSlug]/[speciesSlug]
+```
+
+The selected game determines the generation, so the route should not add a
+separate generation segment.
+
+Generation controls on the detail page should open game choices for that
+generation. Games are enabled when the selected Pokemon/form has seeded
+availability for that game. DLC-only availability counts as available for the
+game, but the UI must communicate the DLC requirement instead of treating the
+Pokemon as unavailable.
+
+Forms must be validated against the selected game, not only against the
+generation. A form available somewhere in a generation must not be selectable
+inside a game where that form has no seeded availability.
+
+### Pokemon Forms Need A Real Selector
+
+Shiny state is a visual alternate and can stay as a small direct toggle.
+
+Pokemon form selection changes meaningful reference data such as typing,
+stats, abilities, availability, and sometimes game validity. It should be
+represented as a proper selector rather than a tiny portrait rail.
+
+Preferred UI:
+
+- Desktop: compact form trigger that opens a searchable popover/command
+  selector.
+- Mobile: compact form trigger that opens a sheet.
+- Selector options should include image, form name, type identity, and disabled
+  or warning states where availability requires it.
+
 ### Item Catalog Is Pokémon-Relevant Only
 
 Voydex should not include a full item encyclopedia.

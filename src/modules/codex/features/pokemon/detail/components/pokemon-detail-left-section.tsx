@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-section";
-import { PokemonDetailFormSections } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-form-sections";
 import { PokemonDetailPortraitSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-portrait-section";
+import { PokemonDetailVariantFormsSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-variant-forms-section";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import {
   getPokemonDetailFormImageUrl,
@@ -33,21 +33,21 @@ export const PokemonDetailLeftSection = ({
     <section className="border-app-surface-border bg-card/76 flex min-w-0 flex-col gap-3 rounded-xl border p-3 shadow-(--app-surface-shadow) backdrop-blur-xl sm:p-5">
       <PokemonDetailPortraitSection
         activeForm={scope.form}
-        formControls={
-          <PokemonDetailFormSections
-            activeForm={scope.form}
-            activeGameSlug={scope.game?.slug ?? null}
-            activeGenerationSlug={scope.generation.generation.slug}
-            forms={scope.forms}
-            isShowingShiny={isShowingShiny}
-            onShinyChange={setShowShiny}
-            speciesName={data.species.name}
-            speciesSlug={data.species.slug}
-          />
-        }
         imageUrl={imageUrl}
         isShowingShiny={isShowingShiny}
         speciesName={data.species.name}
+      />
+
+      <PokemonDetailVariantFormsSection
+        activeForm={scope.form}
+        activeGameSlug={scope.game?.slug ?? null}
+        activeGenerationSlug={scope.generation.generation.slug}
+        forms={scope.forms}
+        hasShinyImage={hasShinyImage}
+        isShowingShiny={isShowingShiny}
+        onShinyChange={setShowShiny}
+        speciesNationalNumber={data.species.national_number}
+        speciesSlug={data.species.slug}
       />
 
       <PokemonDetailEvolutionSection

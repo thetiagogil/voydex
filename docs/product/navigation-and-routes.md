@@ -98,6 +98,17 @@ Dashboard is a Mainline view, not a top-level app module. It shows recent plays,
 
 Codex is the public-readable reference/search/planning surface. It is a frontend app module, not a database product family.
 
+Pokemon detail pages are game-scoped. The selected game determines the selected
+generation, so the URL should stay `/codex/pokemon/[gameSlug]/[speciesSlug]`
+instead of adding a generation segment.
+
+When linking from Pokemon browse to a detail page, default to the first
+supported game in the first generation where the Pokemon appears. Detail-page
+generation menus should show games ordered by seeded sort order and disable
+games where the selected Pokemon/form has no seeded availability. DLC-only
+availability counts as available for that game, but the UI should make the DLC
+requirement explicit.
+
 Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/generations`. Add routes only under `/codex/...` unless a new product decision explicitly introduces another public route.
 
 ### Plays

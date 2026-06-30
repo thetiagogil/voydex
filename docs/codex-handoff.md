@@ -38,6 +38,48 @@ Main app areas:
 
 The app should not force `Generations -> Games -> Plays` as the only flow. Users should be able to create and continue plays directly.
 
+## Current Frontend Focus
+
+As of 2026-06-30, the active design/implementation focus is the Codex Pokemon
+detail page:
+
+```txt
+/codex/pokemon/[gameSlug]/[speciesSlug]
+```
+
+Current status:
+
+- `/codex/pokemon` browse is in a good direction and should be treated as
+  stable for now.
+- The Pokemon detail page top reference section is the active foundation:
+  species selector, generation/game controls, and game-scoped URL behavior.
+- The page body is being rebuilt section by section.
+- The left column portrait/evolution work exists but is still being iterated.
+- The current tiny vertical form-thumbnail rail is not considered the final
+  direction.
+
+Read this before continuing detail-page work:
+
+```txt
+docs/design/codex-pokemon-detail.md
+```
+
+Important current direction:
+
+- Keep Shiny as a direct toggle.
+- Treat Pokemon form as a real selector because form changes can affect typing,
+  stats, abilities, availability, and game validity.
+- Prefer a compact `Form: ...` trigger that opens a desktop popover/command
+  selector and a mobile sheet.
+- Validate forms against the selected game, not only the selected generation.
+- DLC-only availability counts as game availability but must show a warning/info
+  state explaining the required DLC scope.
+
+The latest unresolved visual issue was a square-looking artifact around some
+small form thumbnails. It persisted after removing the `Link` wrapper and using
+button-based routing, so the problem is probably image-source/image-rendering or
+the overly constrained thumbnail-rail pattern rather than only parent layout.
+
 ## Current Module Scope
 
 Active modules:
@@ -119,6 +161,8 @@ Current app status:
 - Health check banner exists.
 - Protected Mainline routes include dashboard, play list, play create, and the current play detail slices under `/mainline/plays`.
 - Codex routes are mounted under `/codex`.
+- The Codex Pokemon detail route is game-scoped:
+  `/codex/pokemon/[gameSlug]/[speciesSlug]`.
 - Home page hero uses real image layers.
 - UI primitives use shadcn Base UI components. Base UI uses `render`, not Radix `asChild`.
 - The generated play-view screenshots in the project discussion are design references, but implementations should use real data, shadcn primitives, reusable feature components, and the current `src/modules` structure.

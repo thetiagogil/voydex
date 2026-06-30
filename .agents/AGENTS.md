@@ -9,6 +9,7 @@ Before meaningful implementation, read:
 - `docs/codex-handoff.md`
 - `docs/app/architecture.md`
 - `docs/app/design-system.md`
+- `docs/design/codex-pokemon-detail.md` when working on Codex Pokemon detail
 - `docs/product/feature-contract.md`
 - `docs/product/navigation-and-routes.md`
 - `docs/product/data-ownership.md`
@@ -100,6 +101,27 @@ Voydex uses shadcn UI primitives in `src/shared/components/ui`.
 - Preserve accessibility: labels, focus states, keyboard behavior, and non-color status signals.
 
 The design direction is clean adventure companion, not corporate dashboard and not overly game-like. Generated screenshots are references for layout and tone, not exact implementation contracts.
+
+## Current Codex Pokemon Detail Direction
+
+The active detailed Codex work is `/codex/pokemon/[gameSlug]/[speciesSlug]`.
+Before changing that route, read `docs/design/codex-pokemon-detail.md`.
+
+Preserve these current decisions:
+
+- The route is game-scoped; `gameSlug` determines generation.
+- Pokemon browse can link to the first supported game in the first generation
+  where the species appears.
+- Generation controls should list games by seeded sort order.
+- A game is enabled for a Pokemon/form when seeded availability exists for that
+  game. DLC-only availability counts, but the UI needs an explicit warning/info
+  state for the DLC scope.
+- Form validity must be checked against the selected game, not only the selected
+  generation.
+- Shiny is a direct visual toggle.
+- Pokemon form should be a real selector, not a tiny vertical thumbnail rail
+  inside the portrait. Prefer a popover/command selector on desktop and a sheet
+  on mobile.
 
 ## Database Boundary
 
