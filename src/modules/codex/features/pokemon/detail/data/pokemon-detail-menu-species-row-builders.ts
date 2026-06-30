@@ -4,6 +4,7 @@ import type {
   PokedexEntry,
   PokemonDetailMenuGroup,
   PokemonSpecies,
+  VersionGroup,
 } from "@/modules/codex/shared/types";
 import { formatPokedexName } from "@/shared/domain/pokemon/pokemon-formatters";
 
@@ -20,8 +21,28 @@ export const comparePokemonSpeciesByNationalNumber = (
   return firstSpecies.national_number - secondSpecies.national_number;
 };
 
-const comparePokedexes = (firstPokedex: Pokedex, secondPokedex: Pokedex) => {
+const getVersionGroupSortOrderById = (versionGroups: VersionGroup[]) => {
+  return new Map(
+    versionGroups.map((versionGroup) => {
+      return [versionGroup.id, versionGroup.sort_order];
+    }),
+  );
+};
+
+const comparePokedexes = (
+  firstPokedex: Pokedex,
+  secondPokedex: Pokedex,
+  versionGroupSortOrderById: Map<number, number>,
+) => {
+  const firstVersionGroupSortOrder =
+    versionGroupSortOrderById.get(firstPokedex.version_group_id) ??
+    Number.MAX_SAFE_INTEGER;
+  const secondVersionGroupSortOrder =
+    versionGroupSortOrderById.get(secondPokedex.version_group_id) ??
+    Number.MAX_SAFE_INTEGER;
+
   return (
+    firstVersionGroupSortOrder - secondVersionGroupSortOrder ||
     firstPokedex.sort_order - secondPokedex.sort_order ||
     firstPokedex.name.localeCompare(secondPokedex.name)
   );
@@ -53,7 +74,23 @@ const getOtherAvailablePokemonGroup = (): PokemonDetailMenuGroup => {
   };
 };
 
-const getPrimaryMenuPokedexes = (pokedexes: Pokedex[]) => {
+const getPrimaryMenuPokedexes = ({
+  pokedexes,
+  versionGroups,
+}: {
+  pokedexes: Pokedex[];
+  versionGroups: VersionGroup[];
+}) => {
+  const versionGroupSortOrderById = getVersionGroupSortOrderById(versionGroups);
+  const sortPokedexes = (items: Pokedex[]) => {
+    return items.sort((firstPokedex, secondPokedex) => {
+      return comparePokedexes(
+        firstPokedex,
+        secondPokedex,
+        versionGroupSortOrderById,
+      );
+    });
+  };
   const completionRelevantLocalPokedexes = pokedexes.filter((pokedex) => {
     return (
       pokedex.is_completion_relevant && pokedex.pokedex_kind !== "national"
@@ -61,23 +98,37 @@ const getPrimaryMenuPokedexes = (pokedexes: Pokedex[]) => {
   });
 
   if (completionRelevantLocalPokedexes.length) {
-    return completionRelevantLocalPokedexes.sort(comparePokedexes);
+    return sortPokedexes(completionRelevantLocalPokedexes);
   }
 
-  return pokedexes
-    .filter((pokedex) => {
+  return sortPokedexes(
+    pokedexes.filter((pokedex) => {
       return pokedex.pokedex_kind !== "national";
-    })
-    .sort(comparePokedexes);
+    }),
+  );
 };
 
-const getNationalMenuPokedex = (pokedexes: Pokedex[]) => {
+const getNationalMenuPokedex = ({
+  pokedexes,
+  versionGroups,
+}: {
+  pokedexes: Pokedex[];
+  versionGroups: VersionGroup[];
+}) => {
+  const versionGroupSortOrderById = getVersionGroupSortOrderById(versionGroups);
+
   return (
     pokedexes
       .filter((pokedex) => {
         return pokedex.pokedex_kind === "national";
       })
-      .sort(comparePokedexes)[0] ?? null
+      .sort((firstPokedex, secondPokedex) => {
+        return comparePokedexes(
+          firstPokedex,
+          secondPokedex,
+          versionGroupSortOrderById,
+        );
+      })[0] ?? null
   );
 };
 
@@ -130,17 +181,25 @@ export const buildPokemonMenuSpeciesRows = ({
   pokedexEntries,
   pokedexes,
   species,
+  versionGroups,
 }: {
   pokedexEntries: PokedexEntry[];
   pokedexes: Pokedex[];
   species: PokemonSpecies[];
+  versionGroups: VersionGroup[];
 }) => {
   const rows: PokemonMenuSpeciesRow[] = [];
   const seenSpeciesIds = new Set<number>();
   const speciesById = byId(species);
   const entriesByPokedexId = getPokedexEntriesByPokedexId(pokedexEntries);
-  const primaryPokedexes = getPrimaryMenuPokedexes(pokedexes);
-  const nationalPokedex = getNationalMenuPokedex(pokedexes);
+  const primaryPokedexes = getPrimaryMenuPokedexes({
+    pokedexes,
+    versionGroups,
+  });
+  const nationalPokedex = getNationalMenuPokedex({
+    pokedexes,
+    versionGroups,
+  });
   const orderedPokedexes = nationalPokedex
     ? [...primaryPokedexes, nationalPokedex]
     : primaryPokedexes;

@@ -13,6 +13,7 @@ import type {
   PokedexEntry,
   PokemonSpecies,
   ResolvedPokemonAvailability,
+  VersionGroup,
 } from "@/modules/codex/shared/types";
 
 export type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
@@ -25,6 +26,7 @@ type PagedPokemonMenuSpeciesRowsParams = {
   query: string;
   speciesIds: number[];
   supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>;
+  versionGroups: VersionGroup[];
 };
 
 export const getSpeciesIdsForGame = (
@@ -43,15 +45,50 @@ export const getSpeciesIdsForGame = (
   ];
 };
 
-export const loadPokedexRowsForVersionGroup = async (
+export const loadPokemonMenuVersionGroupsForGameScope = async (
   supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
-  versionGroupId: number,
+  game: Game,
 ) => {
+  const versionGroupsResult = await supabase
+    .schema("reference")
+    .from("version_groups")
+    .select("*")
+    .eq("generation_id", game.generation_id)
+    .order("sort_order", { ascending: true });
+
+  if (versionGroupsResult.error) {
+    throw new Error("Unable to load game version groups.");
+  }
+
+  const versionGroups = versionGroupsResult.data ?? [];
+
+  return versionGroups.filter((versionGroup) => {
+    return (
+      versionGroup.id === game.version_group_id ||
+      versionGroup.parent_version_group_id === game.version_group_id
+    );
+  });
+};
+
+export const loadPokedexRowsForVersionGroups = async (
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  versionGroups: VersionGroup[],
+) => {
+  const versionGroupIds = versionGroups.map((versionGroup) => versionGroup.id);
+
+  if (!versionGroupIds.length) {
+    return {
+      pokedexEntries: [],
+      pokedexes: [],
+    };
+  }
+
   const pokedexResult = await supabase
     .schema("reference")
     .from("pokedex")
     .select("*")
-    .eq("version_group_id", versionGroupId)
+    .in("version_group_id", versionGroupIds)
+    .order("version_group_id", { ascending: true })
     .order("sort_order", { ascending: true });
 
   if (pokedexResult.error) {
@@ -90,6 +127,7 @@ export const getPagedPokemonMenuSpeciesRows = async ({
   query,
   speciesIds,
   supabase,
+  versionGroups,
 }: PagedPokemonMenuSpeciesRowsParams) => {
   if (!speciesIds.length) {
     return {
@@ -114,6 +152,7 @@ export const getPagedPokemonMenuSpeciesRows = async ({
     pokedexEntries,
     pokedexes,
     species: species.sort(comparePokemonSpeciesByNationalNumber),
+    versionGroups,
   });
   const filteredRows = rows.filter((row) => {
     return matchesPokemonMenuQuery(row.species, query, row.pokedexNumber);

@@ -3,7 +3,8 @@ import { buildPokemonDetailMenuPage } from "@/modules/codex/features/pokemon/det
 import {
   getPagedPokemonMenuSpeciesRows,
   getSpeciesIdsForGame,
-  loadPokedexRowsForVersionGroup,
+  loadPokedexRowsForVersionGroups,
+  loadPokemonMenuVersionGroupsForGameScope,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-rows";
 import { loadPagedReferenceRows } from "@/modules/codex/features/pokemon/detail/data/reference-row-loaders";
 import type {
@@ -58,17 +59,7 @@ export const getPokemonDetailGamePokemonMenu = async (
   }
 
   const supabase = await createServerSupabaseClient();
-  const [availabilityRows, typesResult, generationsResult] = await Promise.all([
-    loadPagedReferenceRows<ResolvedPokemonAvailability>(
-      (from, to) =>
-        supabase
-          .schema("views")
-          .from("reference_resolved_pokemon_availability")
-          .select("*")
-          .eq("target_version_group_id", game.version_group_id)
-          .range(from, to),
-      "Unable to load game Pokémon availability.",
-    ),
+  const [typesResult, generationsResult, versionGroups] = await Promise.all([
     supabase
       .schema("reference")
       .from("types")
@@ -79,16 +70,36 @@ export const getPokemonDetailGamePokemonMenu = async (
       .from("generations")
       .select("*")
       .order("sort_order", { ascending: true }),
+    loadPokemonMenuVersionGroupsForGameScope(supabase, game),
   ]);
 
   if (typesResult.error || generationsResult.error) {
-    throw new Error("Unable to load game Pokémon reference data.");
+    throw new Error("Unable to load game Pokemon reference data.");
   }
 
-  const pokedexRows = await loadPokedexRowsForVersionGroup(
-    supabase,
-    game.version_group_id,
-  );
+  const versionGroupIds = versionGroups.map((versionGroup) => versionGroup.id);
+
+  if (!versionGroupIds.length) {
+    return {
+      nextOffset: null,
+      pokemon: [],
+      total: 0,
+    };
+  }
+
+  const [availabilityRows, pokedexRows] = await Promise.all([
+    loadPagedReferenceRows<ResolvedPokemonAvailability>(
+      (from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_availability")
+          .select("*")
+          .in("target_version_group_id", versionGroupIds)
+          .range(from, to),
+      "Unable to load game Pokemon availability.",
+    ),
+    loadPokedexRowsForVersionGroups(supabase, versionGroups),
+  ]);
   const speciesIds = getSpeciesIdsForGame(availabilityRows, game);
 
   if (!speciesIds.length) {
@@ -107,6 +118,7 @@ export const getPokemonDetailGamePokemonMenu = async (
     query,
     speciesIds,
     supabase,
+    versionGroups,
   });
   const types = typesResult.data ?? [];
   const generations = generationsResult.data ?? [];
@@ -135,7 +147,7 @@ export const getPokemonDetailGamePokemonMenuBySlug = async (
     .maybeSingle();
 
   if (gameResult.error) {
-    throw new Error("Unable to load Pokémon menu game.");
+    throw new Error("Unable to load Pokemon menu game.");
   }
 
   if (!gameResult.data) {
