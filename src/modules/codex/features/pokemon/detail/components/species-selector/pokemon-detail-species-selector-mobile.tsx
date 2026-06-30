@@ -4,9 +4,9 @@ import type { UIEventHandler } from "react";
 
 import { cn } from "@/lib/utils";
 import {
-  PokemonDetailSpeciesGroupHeader,
-  PokemonDetailSpeciesOptionContent,
-} from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-option";
+  PokemonDetailSpeciesSelectorGroupHeader,
+  PokemonDetailSpeciesSelectorOptionContent,
+} from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
 import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
 import {
   getPokemonMenuEmptyLabel,
@@ -26,7 +26,7 @@ import {
 } from "@/shared/components/ui/sheet";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-type PokemonDetailSpeciesSheetProps = {
+type PokemonDetailSpeciesSelectorMobileProps = {
   activeGameSlug: string | null;
   activePokemon: {
     name: string;
@@ -46,7 +46,7 @@ type PokemonDetailSpeciesSheetProps = {
   updateInputValue: (nextInputValue: string) => void;
 };
 
-export const PokemonDetailSpeciesSheet = ({
+export const PokemonDetailSpeciesSelectorMobile = ({
   activeGameSlug,
   activePokemon,
   groupHeaderBySlug,
@@ -60,7 +60,7 @@ export const PokemonDetailSpeciesSheet = ({
   open,
   pokemonItems,
   updateInputValue,
-}: PokemonDetailSpeciesSheetProps) => {
+}: PokemonDetailSpeciesSelectorMobileProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger
@@ -117,7 +117,7 @@ export const PokemonDetailSpeciesSheet = ({
 
                 return (
                   <div key={pokemonItem.id}>
-                    <PokemonDetailSpeciesGroupHeader
+                    <PokemonDetailSpeciesSelectorGroupHeader
                       groupHeader={groupHeader}
                     />
                     <Button
@@ -132,7 +132,7 @@ export const PokemonDetailSpeciesSheet = ({
                         onOpenChange(false);
                       }}
                     >
-                      <PokemonDetailSpeciesOptionContent
+                      <PokemonDetailSpeciesSelectorOptionContent
                         pokemonItem={pokemonItem}
                       />
                     </Button>

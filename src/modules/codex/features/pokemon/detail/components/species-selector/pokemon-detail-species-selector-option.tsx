@@ -8,23 +8,23 @@ import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
-type PokemonDetailSpeciesOptionProps = {
+type PokemonDetailSpeciesSelectorOptionProps = {
   groupHeader?: string;
   isActive: boolean;
   pokemonItem: PokemonDetailMenuPokemon;
 };
 
-type PokemonDetailSpeciesOptionContentProps = {
+type PokemonDetailSpeciesSelectorOptionContentProps = {
   pokemonItem: PokemonDetailMenuPokemon;
 };
 
-type PokemonDetailSpeciesGroupHeaderProps = {
+type PokemonDetailSpeciesSelectorGroupHeaderProps = {
   groupHeader?: string;
 };
 
-export const PokemonDetailSpeciesGroupHeader = ({
+export const PokemonDetailSpeciesSelectorGroupHeader = ({
   groupHeader,
-}: PokemonDetailSpeciesGroupHeaderProps) => {
+}: PokemonDetailSpeciesSelectorGroupHeaderProps) => {
   if (!groupHeader) {
     return null;
   }
@@ -36,9 +36,9 @@ export const PokemonDetailSpeciesGroupHeader = ({
   );
 };
 
-export const PokemonDetailSpeciesOptionContent = ({
+export const PokemonDetailSpeciesSelectorOptionContent = ({
   pokemonItem,
-}: PokemonDetailSpeciesOptionContentProps) => {
+}: PokemonDetailSpeciesSelectorOptionContentProps) => {
   const displayNumber = pokemonItem.pokedexNumber ?? pokemonItem.nationalNumber;
 
   return (
@@ -68,14 +68,14 @@ export const PokemonDetailSpeciesOptionContent = ({
   );
 };
 
-export const PokemonDetailSpeciesOption = ({
+export const PokemonDetailSpeciesSelectorOption = ({
   groupHeader,
   isActive,
   pokemonItem,
-}: PokemonDetailSpeciesOptionProps) => {
+}: PokemonDetailSpeciesSelectorOptionProps) => {
   return (
     <Fragment>
-      <PokemonDetailSpeciesGroupHeader groupHeader={groupHeader} />
+      <PokemonDetailSpeciesSelectorGroupHeader groupHeader={groupHeader} />
       <ComboboxItem
         value={pokemonItem}
         aria-current={isActive ? "page" : undefined}
@@ -84,7 +84,7 @@ export const PokemonDetailSpeciesOption = ({
           isActive && "bg-accent text-accent-foreground",
         )}
       >
-        <PokemonDetailSpeciesOptionContent pokemonItem={pokemonItem} />
+        <PokemonDetailSpeciesSelectorOptionContent pokemonItem={pokemonItem} />
       </ComboboxItem>
     </Fragment>
   );

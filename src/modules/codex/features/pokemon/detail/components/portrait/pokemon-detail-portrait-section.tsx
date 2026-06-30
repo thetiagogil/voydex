@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import {
-  getPokemonDetailInteractivePortraitStyle,
-  PokemonDetailInteractivePortrait,
-} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-interactive-portrait";
+  getPokemonDetailActionPortraitStyle,
+  PokemonDetailActionPortrait,
+} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormTypeSlug,
@@ -64,13 +64,13 @@ export const PokemonDetailPortraitSection = ({
           aria-label={
             isShowingShiny ? "Show base variant" : "Show shiny variant"
           }
-          style={getPokemonDetailInteractivePortraitStyle(typeSlug)}
+          style={getPokemonDetailActionPortraitStyle(typeSlug)}
           className="group focus-visible:ring-primary focus-visible:ring-offset-background absolute top-3 right-3 rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
           onClick={() => {
             onShinyChange(!isShowingShiny);
           }}
         >
-          <PokemonDetailInteractivePortrait
+          <PokemonDetailActionPortrait
             alt={toggleImageAlt}
             imageUrl={toggleImageUrl}
             type={typeSlug}

@@ -19,7 +19,7 @@ type PokemonDetailGenerationGameOptionProps = {
   game: PokemonDetailGameNavigationItem;
 };
 
-type PokemonDetailGenerationGameSheetOptionProps =
+type PokemonDetailGenerationGameMobileOptionProps =
   PokemonDetailGenerationGameOptionProps & {
     onSelect?: () => void;
   };
@@ -126,10 +126,10 @@ export const PokemonDetailGenerationGameOption = ({
   );
 };
 
-export const PokemonDetailGenerationGameSheetOption = ({
+export const PokemonDetailGenerationGameMobileOption = ({
   game,
   onSelect,
-}: PokemonDetailGenerationGameSheetOptionProps) => {
+}: PokemonDetailGenerationGameMobileOptionProps) => {
   const isMuted = !game.isAvailable;
   const optionClassName = cn(
     "flex rounded-md text-sm transition-all",

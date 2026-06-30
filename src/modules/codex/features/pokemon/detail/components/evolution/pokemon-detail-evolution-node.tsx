@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import {
-  getPokemonDetailInteractivePortraitStyle,
-  PokemonDetailInteractivePortrait,
-} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-interactive-portrait";
+  getPokemonDetailActionPortraitStyle,
+  PokemonDetailActionPortrait,
+} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import { getPokemonDetailEvolutionDisplayForm } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type {
@@ -70,7 +70,7 @@ export const PokemonDetailEvolutionNode = ({
     displayForm,
     pokemon,
   });
-  const style = getPokemonDetailInteractivePortraitStyle(typeSlug);
+  const style = getPokemonDetailActionPortraitStyle(typeSlug);
   const nationalNumber = formatPokemonNationalNumber(
     pokemon.species.national_number,
   );
@@ -92,7 +92,7 @@ export const PokemonDetailEvolutionNode = ({
         style={style}
         className="group focus-visible:ring-primary focus-visible:ring-offset-background block rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        <PokemonDetailInteractivePortrait
+        <PokemonDetailActionPortrait
           alt={imageAlt}
           imageUrl={imageUrl}
           type={typeSlug}

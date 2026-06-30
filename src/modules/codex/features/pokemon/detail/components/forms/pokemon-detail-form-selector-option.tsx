@@ -9,17 +9,17 @@ import {
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
-type PokemonDetailFormOptionContentProps = {
+type PokemonDetailFormSelectorOptionContentProps = {
   className?: string;
   form: PokemonGenerationFormSummary;
   nationalNumber: number;
 };
 
-export const PokemonDetailFormOptionContent = ({
+export const PokemonDetailFormSelectorOptionContent = ({
   className,
   form,
   nationalNumber,
-}: PokemonDetailFormOptionContentProps) => {
+}: PokemonDetailFormSelectorOptionContentProps) => {
   return (
     <span className={cn("flex w-full min-w-0 items-center gap-3", className)}>
       <PokemonPortrait

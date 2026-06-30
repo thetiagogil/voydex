@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { PokemonDetailSpeciesCombobox } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-combobox";
-import { PokemonDetailSpeciesSheet } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-sheet";
+import { PokemonDetailSpeciesSelectorDesktop } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-desktop";
+import { PokemonDetailSpeciesSelectorMobile } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-mobile";
 import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/hooks/use-pokemon-detail-species-menu";
 import { getPokemonHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
@@ -58,25 +58,23 @@ export const PokemonDetailSpeciesSelector = ({
 
   return (
     <>
-      <div className="hidden md:block">
-        <PokemonDetailSpeciesCombobox
-          activeGameSlug={activeGameSlug}
-          activePokemon={activePokemon}
-          activePokemonItem={activePokemonItem}
-          groupHeaderBySlug={groupHeaderBySlug}
-          handleListScroll={handleListScroll}
-          handlePokemonHighlighted={handlePokemonHighlighted}
-          inputValue={inputValue}
-          loadInitialPokemonItems={loadInitialPokemonItems}
-          loadingMore={loadingMore}
-          loadState={loadState}
-          navigateToPokemon={navigateToPokemon}
-          pokemonItems={pokemonItems}
-          updateInputValue={updateInputValue}
-        />
-      </div>
+      <PokemonDetailSpeciesSelectorDesktop
+        activeGameSlug={activeGameSlug}
+        activePokemon={activePokemon}
+        activePokemonItem={activePokemonItem}
+        groupHeaderBySlug={groupHeaderBySlug}
+        handleListScroll={handleListScroll}
+        handlePokemonHighlighted={handlePokemonHighlighted}
+        inputValue={inputValue}
+        loadInitialPokemonItems={loadInitialPokemonItems}
+        loadingMore={loadingMore}
+        loadState={loadState}
+        navigateToPokemon={navigateToPokemon}
+        pokemonItems={pokemonItems}
+        updateInputValue={updateInputValue}
+      />
 
-      <PokemonDetailSpeciesSheet
+      <PokemonDetailSpeciesSelectorMobile
         activeGameSlug={activeGameSlug}
         activePokemon={activePokemon}
         groupHeaderBySlug={groupHeaderBySlug}
