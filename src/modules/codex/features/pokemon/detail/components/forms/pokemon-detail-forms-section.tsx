@@ -1,13 +1,20 @@
 "use client";
 
+import { ChevronDownIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { PokemonDetailFormOptionContent } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-form-option";
-import { isPokemonDetailFormEqual } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
+import { PokemonDetailFormOptionContent } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-option";
+import {
+  getPokemonDetailFormImageAlt,
+  getPokemonDetailFormImageUrl,
+  getPokemonDetailFormTypeSlug,
+  isPokemonDetailFormEqual,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
+import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { Button } from "@/shared/components/ui/button";
 import {
   Combobox,
@@ -29,14 +36,12 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui/sheet";
 
-type PokemonDetailVariantFormsSectionProps = {
+type PokemonDetailFormsSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
   activeGameSlug: string | null;
   activeGenerationSlug: string;
   forms: PokemonGenerationFormSummary[];
-  hasShinyImage: boolean;
-  isShowingShiny: boolean;
-  onShinyChange: (isShowingShiny: boolean) => void;
+  onSelectForm: () => void;
   speciesNationalNumber: number;
   speciesSlug: string;
 };
@@ -94,17 +99,38 @@ const getPokemonDetailFormHref = ({
   });
 };
 
-const PokemonDetailSelectedFormTriggerLabel = ({
+const PokemonDetailSelectedFormTriggerContent = ({
   activeForm,
   forms,
-}: Pick<PokemonDetailVariantFormsSectionProps, "activeForm" | "forms">) => {
+}: Pick<PokemonDetailFormsSectionProps, "activeForm" | "forms">) => {
   const selectedForm = activeForm ?? forms[0] ?? null;
 
   if (!selectedForm) {
-    return <span className="text-muted-foreground text-sm">Choose form</span>;
+    return (
+      <span className="text-muted-foreground min-w-0 truncate text-sm">
+        Choose form
+      </span>
+    );
   }
 
-  return <span className="min-w-0 truncate">{selectedForm.form.name}</span>;
+  return (
+    <span className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
+      <PokemonPortrait
+        alt={getPokemonDetailFormImageAlt(selectedForm)}
+        imageUrl={getPokemonDetailFormImageUrl(selectedForm)}
+        type={getPokemonDetailFormTypeSlug(selectedForm)}
+        fallbackOnError
+        loading="eager"
+        sizes="36px"
+        className="border-app-surface-border/70 bg-background/30 size-9 shrink-0 rounded-full"
+        glowClassName="opacity-20"
+        imageClassName="p-1.5"
+      />
+      <span className="block min-w-0 flex-1 truncate font-medium">
+        {selectedForm.form.name}
+      </span>
+    </span>
+  );
 };
 
 const PokemonDetailFormCombobox = ({
@@ -116,7 +142,7 @@ const PokemonDetailFormCombobox = ({
   speciesNationalNumber,
   speciesSlug,
 }: Pick<
-  PokemonDetailVariantFormsSectionProps,
+  PokemonDetailFormsSectionProps,
   | "activeForm"
   | "activeGameSlug"
   | "activeGenerationSlug"
@@ -174,18 +200,20 @@ const PokemonDetailFormCombobox = ({
             variant="outline"
             size="sm"
             aria-label="Choose Pokemon form"
-            className="h-auto min-h-11 w-full min-w-0 justify-start px-2 py-1.5 text-left"
+            className="h-auto min-h-12 w-full min-w-0 justify-between gap-2 overflow-hidden px-2 py-1.5 text-left"
           />
         }
       >
-        <ComboboxValue>
-          {(selectedForm: PokemonGenerationFormSummary | null) => (
-            <PokemonDetailSelectedFormTriggerLabel
-              activeForm={selectedForm ?? activeForm}
-              forms={forms}
-            />
-          )}
-        </ComboboxValue>
+        <span className="flex min-w-0 flex-1 overflow-hidden">
+          <ComboboxValue>
+            {(selectedForm: PokemonGenerationFormSummary | null) => (
+              <PokemonDetailSelectedFormTriggerContent
+                activeForm={selectedForm ?? activeForm}
+                forms={forms}
+              />
+            )}
+          </ComboboxValue>
+        </span>
       </ComboboxTrigger>
       <ComboboxContent className="w-96 max-w-[calc(100vw-2rem)]">
         <ComboboxInput showTrigger={false} placeholder="Search forms" />
@@ -225,7 +253,7 @@ const PokemonDetailFormSheet = ({
   speciesNationalNumber,
   speciesSlug,
 }: Pick<
-  PokemonDetailVariantFormsSectionProps,
+  PokemonDetailFormsSectionProps,
   | "activeForm"
   | "activeGameSlug"
   | "activeGenerationSlug"
@@ -281,13 +309,17 @@ const PokemonDetailFormSheet = ({
             variant="outline"
             size="sm"
             aria-label="Choose Pokemon form"
-            className="h-auto min-h-11 w-full min-w-0 justify-start px-2 py-1.5 text-left"
+            className="h-auto min-h-12 w-full min-w-0 justify-between gap-2 overflow-hidden px-2 py-1.5 text-left"
           />
         }
       >
-        <PokemonDetailSelectedFormTriggerLabel
+        <PokemonDetailSelectedFormTriggerContent
           activeForm={activeForm}
           forms={forms}
+        />
+        <ChevronDownIcon
+          data-icon="inline-end"
+          className="text-muted-foreground"
         />
       </SheetTrigger>
       <SheetContent
@@ -351,64 +383,24 @@ const PokemonDetailFormSheet = ({
   );
 };
 
-const PokemonDetailVariantTrigger = ({
-  hasShinyImage,
-  isShowingShiny,
-  onShinyChange,
-}: Pick<
-  PokemonDetailVariantFormsSectionProps,
-  "hasShinyImage" | "isShowingShiny" | "onShinyChange"
->) => {
-  const selectedVariantLabel = isShowingShiny ? "Shiny" : "Base";
-  const nextVariantLabel = isShowingShiny ? "Base" : "Shiny";
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="sm"
-      aria-pressed={isShowingShiny}
-      disabled={!hasShinyImage}
-      aria-label={
-        hasShinyImage
-          ? `Showing ${selectedVariantLabel} variant. Switch to ${nextVariantLabel}.`
-          : "Base variant selected. Shiny artwork unavailable."
-      }
-      className="h-11 w-full min-w-0 justify-between px-3 text-left"
-      onClick={() => {
-        onShinyChange(!isShowingShiny);
-      }}
-    >
-      <span className="min-w-0 truncate">{selectedVariantLabel}</span>
-      <span className="text-muted-foreground ml-2 shrink-0 text-xs">
-        {hasShinyImage ? "Switch" : "Only base"}
-      </span>
-    </Button>
-  );
-};
-
 const PokemonDetailFormsControl = ({
   activeForm,
   activeGameSlug,
   activeGenerationSlug,
   forms,
-  onShinyChange,
+  onSelectForm,
   speciesNationalNumber,
   speciesSlug,
 }: Pick<
-  PokemonDetailVariantFormsSectionProps,
+  PokemonDetailFormsSectionProps,
   | "activeForm"
   | "activeGameSlug"
   | "activeGenerationSlug"
   | "forms"
-  | "onShinyChange"
+  | "onSelectForm"
   | "speciesNationalNumber"
   | "speciesSlug"
 >) => {
-  const handleSelectForm = () => {
-    onShinyChange(false);
-  };
-
   return (
     <>
       <div className="hidden md:block">
@@ -417,7 +409,7 @@ const PokemonDetailFormsControl = ({
           activeGenerationSlug={activeGenerationSlug}
           activeForm={activeForm}
           forms={forms}
-          onSelectForm={handleSelectForm}
+          onSelectForm={onSelectForm}
           speciesNationalNumber={speciesNationalNumber}
           speciesSlug={speciesSlug}
         />
@@ -428,7 +420,7 @@ const PokemonDetailFormsControl = ({
           activeGameSlug={activeGameSlug}
           activeGenerationSlug={activeGenerationSlug}
           forms={forms}
-          onSelectForm={handleSelectForm}
+          onSelectForm={onSelectForm}
           speciesNationalNumber={speciesNationalNumber}
           speciesSlug={speciesSlug}
         />
@@ -437,46 +429,33 @@ const PokemonDetailFormsControl = ({
   );
 };
 
-export const PokemonDetailVariantFormsSection = ({
+export const PokemonDetailFormsSection = ({
   activeForm,
   activeGameSlug,
   activeGenerationSlug,
   forms,
-  hasShinyImage,
-  isShowingShiny,
-  onShinyChange,
+  onSelectForm,
   speciesNationalNumber,
   speciesSlug,
-}: PokemonDetailVariantFormsSectionProps) => {
-  const hasMultipleForms = forms.length > 1;
+}: PokemonDetailFormsSectionProps) => {
+  const hasAdditionalForms = forms.length > 1;
+
+  if (!hasAdditionalForms) {
+    return null;
+  }
 
   return (
-    <section className="border-app-surface-border/60 grid gap-3 border-b pb-3">
-      <div className={cn("grid gap-3", hasMultipleForms && "sm:grid-cols-3")}>
-        <div className="grid min-w-0 gap-2">
-          <h2 className="text-muted-foreground text-sm font-light">Variant</h2>
-          <PokemonDetailVariantTrigger
-            hasShinyImage={hasShinyImage}
-            isShowingShiny={isShowingShiny}
-            onShinyChange={onShinyChange}
-          />
-        </div>
-
-        {hasMultipleForms ? (
-          <div className="grid min-w-0 gap-2 sm:col-span-2">
-            <h2 className="text-muted-foreground text-sm font-light">Forms</h2>
-            <PokemonDetailFormsControl
-              activeForm={activeForm}
-              activeGameSlug={activeGameSlug}
-              activeGenerationSlug={activeGenerationSlug}
-              forms={forms}
-              onShinyChange={onShinyChange}
-              speciesNationalNumber={speciesNationalNumber}
-              speciesSlug={speciesSlug}
-            />
-          </div>
-        ) : null}
-      </div>
+    <section className="grid min-w-0 gap-2">
+      <h2 className="text-muted-foreground text-sm font-light">Forms</h2>
+      <PokemonDetailFormsControl
+        activeForm={activeForm}
+        activeGameSlug={activeGameSlug}
+        activeGenerationSlug={activeGenerationSlug}
+        forms={forms}
+        onSelectForm={onSelectForm}
+        speciesNationalNumber={speciesNationalNumber}
+        speciesSlug={speciesSlug}
+      />
     </section>
   );
 };

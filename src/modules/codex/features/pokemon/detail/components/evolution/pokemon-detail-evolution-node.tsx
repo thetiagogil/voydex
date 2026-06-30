@@ -1,6 +1,9 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
 
+import {
+  getPokemonDetailInteractivePortraitStyle,
+  PokemonDetailInteractivePortrait,
+} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-interactive-portrait";
 import { getPokemonDetailEvolutionDisplayForm } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type {
@@ -9,8 +12,10 @@ import type {
   PokemonForm,
   PokemonTypePair,
 } from "@/modules/codex/shared/types";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/shared/domain/pokemon/constants";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
@@ -29,7 +34,7 @@ type PokemonDetailEvolutionNodeProps = {
   scopedEdges: PokemonEvolutionEdgeSummary[];
 };
 
-type EvolutionNodeTypeSlug = string | null;
+type EvolutionNodeTypeSlug = PokemonTypeSlug | null;
 
 const getEvolutionNodeDisplayTypeSlug = ({
   displayForm,
@@ -37,7 +42,7 @@ const getEvolutionNodeDisplayTypeSlug = ({
 }: {
   displayForm: PokemonForm | null;
   pokemon: PokemonEvolutionSpeciesSummary;
-}) => {
+}): EvolutionNodeTypeSlug => {
   const displayFormTypePair =
     displayForm &&
     pokemon.forms.find((formSummary) => {
@@ -47,16 +52,6 @@ const getEvolutionNodeDisplayTypeSlug = ({
   const typeSlug = typePair.primaryType?.slug;
 
   return typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null;
-};
-
-const getEvolutionNodeStyle = (typeSlug: EvolutionNodeTypeSlug) => {
-  const colorValue = typeSlug ? `var(--type-${typeSlug})` : "var(--primary)";
-
-  return {
-    "--pokemon-evolution-node-color": colorValue,
-    "--pokemon-evolution-node-background": `color-mix(in oklch, ${colorValue}, transparent 82%)`,
-    "--pokemon-evolution-node-shadow": `0 0 20px color-mix(in oklch, ${colorValue}, transparent 68%)`,
-  } as CSSProperties;
 };
 
 export const PokemonDetailEvolutionNode = ({
@@ -75,7 +70,7 @@ export const PokemonDetailEvolutionNode = ({
     displayForm,
     pokemon,
   });
-  const style = getEvolutionNodeStyle(typeSlug);
+  const style = getPokemonDetailInteractivePortraitStyle(typeSlug);
   const nationalNumber = formatPokemonNationalNumber(
     pokemon.species.national_number,
   );
@@ -97,14 +92,10 @@ export const PokemonDetailEvolutionNode = ({
         style={style}
         className="group focus-visible:ring-primary focus-visible:ring-offset-background block rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
-        <PokemonPortrait
+        <PokemonDetailInteractivePortrait
           alt={imageAlt}
           imageUrl={imageUrl}
           type={typeSlug}
-          fallbackOnError
-          className="border-app-surface-border/70 bg-background/30 size-16 rounded-full transition-all duration-200 group-hover:border-(--pokemon-evolution-node-color) group-hover:bg-(--pokemon-evolution-node-background) group-hover:shadow-(--pokemon-evolution-node-shadow) group-focus-visible:border-(--pokemon-evolution-node-color) group-focus-visible:bg-(--pokemon-evolution-node-background) group-focus-visible:shadow-(--pokemon-evolution-node-shadow) sm:size-18"
-          glowClassName="opacity-20 transition-opacity duration-200 group-hover:opacity-35 group-focus-visible:opacity-35"
-          imageClassName="p-2"
         />
       </Link>
     </article>

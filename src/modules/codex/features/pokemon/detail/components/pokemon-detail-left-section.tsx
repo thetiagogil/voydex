@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-section";
-import { PokemonDetailPortraitSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-portrait-section";
-import { PokemonDetailVariantFormsSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-variant-forms-section";
+import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-section";
+import { PokemonDetailFormsSection } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-forms-section";
+import { PokemonDetailPortraitSection } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-portrait-section";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import {
   getPokemonDetailFormImageUrl,
@@ -24,28 +24,28 @@ export const PokemonDetailLeftSection = ({
   const [showShiny, setShowShiny] = useState(false);
   const defaultImageUrl = getPokemonDetailFormImageUrl(scope.form);
   const shinyImageUrl = getPokemonDetailFormShinyImageUrl(scope.form);
-  const hasShinyImage = Boolean(shinyImageUrl);
-  const isShowingShiny = showShiny && hasShinyImage;
-  const imageUrl =
-    isShowingShiny && shinyImageUrl ? shinyImageUrl : defaultImageUrl;
+  const isShowingShiny = showShiny && Boolean(shinyImageUrl);
+  const resetShinyVariant = () => {
+    setShowShiny(false);
+  };
 
   return (
     <section className="border-app-surface-border bg-card/76 flex min-w-0 flex-col gap-3 rounded-xl border p-3 shadow-(--app-surface-shadow) backdrop-blur-xl sm:p-5">
       <PokemonDetailPortraitSection
         activeForm={scope.form}
-        imageUrl={imageUrl}
+        defaultImageUrl={defaultImageUrl}
         isShowingShiny={isShowingShiny}
+        onShinyChange={setShowShiny}
+        shinyImageUrl={shinyImageUrl}
         speciesName={data.species.name}
       />
 
-      <PokemonDetailVariantFormsSection
+      <PokemonDetailFormsSection
         activeForm={scope.form}
         activeGameSlug={scope.game?.slug ?? null}
         activeGenerationSlug={scope.generation.generation.slug}
         forms={scope.forms}
-        hasShinyImage={hasShinyImage}
-        isShowingShiny={isShowingShiny}
-        onShinyChange={setShowShiny}
+        onSelectForm={resetShinyVariant}
         speciesNationalNumber={data.species.national_number}
         speciesSlug={data.species.slug}
       />

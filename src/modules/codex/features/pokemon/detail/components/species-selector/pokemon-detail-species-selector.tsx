@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { PokemonDetailSpeciesCombobox } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-species-combobox";
-import { PokemonDetailSpeciesSheet } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-species-sheet";
+import { PokemonDetailSpeciesCombobox } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-combobox";
+import { PokemonDetailSpeciesSheet } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-sheet";
 import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/hooks/use-pokemon-detail-species-menu";
 import { getPokemonHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";

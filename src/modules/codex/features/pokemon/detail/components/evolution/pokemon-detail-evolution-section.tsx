@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 
 import { cn } from "@/lib/utils";
-import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-connector";
-import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
-import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-evolution-node";
+import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-connector";
+import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
+import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import {
   getPokemonDetailEvolutionBranchRows,
   getPokemonDetailEvolutionEdgesBetweenStages,
@@ -12,6 +12,7 @@ import {
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
+import { Separator } from "@/shared/components/ui/separator";
 
 type PokemonDetailEvolutionSectionProps = {
   activeFormId: number | null;
@@ -92,8 +93,10 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
-    <section className="pt-3">
-      <div className="mb-3">
+    <section className="grid gap-3">
+      <Separator className="bg-app-surface-border/60" />
+
+      <div>
         <h2 className="text-muted-foreground text-sm font-light">
           Evolution line
         </h2>

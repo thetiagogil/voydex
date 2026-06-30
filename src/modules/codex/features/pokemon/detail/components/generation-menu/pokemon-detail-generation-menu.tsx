@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   PokemonDetailGenerationGameOption,
   PokemonDetailGenerationGameSheetOption,
-} from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-generation-game-option";
+} from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-game-option";
 import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";

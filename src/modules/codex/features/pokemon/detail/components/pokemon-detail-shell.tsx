@@ -1,6 +1,6 @@
 import { PokemonDetailContent } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-content";
-import { PokemonDetailHeader } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-header";
 import { PokemonDetailLeftSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-left-section";
+import { PokemonDetailTopSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-top-section";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { getPokemonDetailGenerationNavigationItems } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
 import type { PokemonDetailData } from "@/modules/codex/shared/types";
@@ -16,7 +16,7 @@ export const PokemonDetailShell = ({
 }: PokemonDetailShellProps) => {
   return (
     <>
-      <PokemonDetailHeader
+      <PokemonDetailTopSection
         activeGameSlug={scope.game?.slug ?? null}
         activePokemon={{
           name: data.species.name,

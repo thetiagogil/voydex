@@ -9,15 +9,21 @@ import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-
 type PokemonPortraitFallbackImageProps = {
   alt: string;
   className?: string;
+  fetchPriority?: "high" | "low" | "auto";
   imageUrl: string;
-  priority: boolean;
+  loading?: "eager" | "lazy";
+  preload?: boolean;
+  sizes: string;
 };
 
 export const PokemonPortraitFallbackImage = ({
   alt,
   className,
+  fetchPriority,
   imageUrl,
-  priority,
+  loading,
+  preload,
+  sizes,
 }: PokemonPortraitFallbackImageProps) => {
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
   const hasFailed = failedImageUrl === imageUrl;
@@ -31,10 +37,10 @@ export const PokemonPortraitFallbackImage = ({
       src={imageUrl}
       alt={alt}
       fill
-      priority={priority}
-      loading={priority ? "eager" : undefined}
-      fetchPriority={priority ? "high" : undefined}
-      sizes="(min-width: 1280px) 180px, (min-width: 768px) 25vw, 45vw"
+      preload={preload}
+      loading={loading}
+      fetchPriority={fetchPriority}
+      sizes={sizes}
       className={cn("object-contain p-4 drop-shadow-lg", className)}
       onError={() => {
         setFailedImageUrl(imageUrl);

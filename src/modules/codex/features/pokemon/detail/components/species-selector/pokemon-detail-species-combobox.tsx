@@ -2,8 +2,8 @@
 
 import type { UIEventHandler } from "react";
 
-import { PokemonDetailSpeciesOption } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-species-option";
-import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-species-selector-label";
+import { PokemonDetailSpeciesOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-option";
+import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
 import {
   getPokemonMenuEmptyLabel,
   getPokemonSearchValue,

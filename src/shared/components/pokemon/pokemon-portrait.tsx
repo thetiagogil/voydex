@@ -9,24 +9,40 @@ type PokemonPortraitProps = {
   alt: string;
   className?: string;
   fallbackOnError?: boolean;
+  fetchPriority?: "high" | "low" | "auto";
   glowClassName?: string;
   imageClassName?: string;
   imageUrl: string | null;
+  loading?: "eager" | "lazy";
+  preload?: boolean;
   priority?: boolean;
+  sizes?: string;
   type?: PokemonTypeSlug | null;
 };
+
+const defaultPokemonPortraitSizes =
+  "(min-width: 1280px) 180px, (min-width: 768px) 25vw, 45vw";
 
 export const PokemonPortrait = ({
   alt,
   className,
   fallbackOnError = false,
+  fetchPriority,
   glowClassName,
   imageClassName,
   imageUrl,
+  loading,
+  preload,
   priority = false,
+  sizes = defaultPokemonPortraitSizes,
   type,
 }: PokemonPortraitProps) => {
   const typeClassNames = type ? pokemonTypeClassNames[type] : null;
+  const shouldPreload = preload ?? priority;
+  const imageLoading = shouldPreload ? "eager" : loading;
+  const resolvedFetchPriority =
+    fetchPriority ?? (shouldPreload ? "high" : undefined);
+
   return (
     <div
       className={cn(
@@ -49,7 +65,10 @@ export const PokemonPortrait = ({
         <PokemonPortraitFallbackImage
           alt={alt}
           imageUrl={imageUrl}
-          priority={priority}
+          loading={imageLoading}
+          preload={shouldPreload}
+          fetchPriority={resolvedFetchPriority}
+          sizes={sizes}
           className={imageClassName}
         />
       ) : imageUrl ? (
@@ -57,10 +76,10 @@ export const PokemonPortrait = ({
           src={imageUrl}
           alt={alt}
           fill
-          priority={priority}
-          loading={priority ? "eager" : undefined}
-          fetchPriority={priority ? "high" : undefined}
-          sizes="(min-width: 1280px) 180px, (min-width: 768px) 25vw, 45vw"
+          preload={shouldPreload}
+          loading={imageLoading}
+          fetchPriority={resolvedFetchPriority}
+          sizes={sizes}
           className={cn("object-contain p-4 drop-shadow-lg", imageClassName)}
         />
       ) : (

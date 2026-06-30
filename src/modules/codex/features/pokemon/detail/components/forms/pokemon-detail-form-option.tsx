@@ -27,6 +27,7 @@ export const PokemonDetailFormOptionContent = ({
         imageUrl={getPokemonDetailFormImageUrl(form)}
         type={getPokemonDetailFormTypeSlug(form)}
         fallbackOnError
+        sizes="44px"
         className="size-11 shrink-0 rounded-lg"
         imageClassName="p-1"
       />

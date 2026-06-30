@@ -47,6 +47,7 @@ export const PokemonDetailSpeciesOptionContent = ({
         alt={pokemonItem.imageAlt}
         imageUrl={pokemonItem.imageUrl}
         type={getPokemonPortraitType(pokemonItem)}
+        sizes="44px"
         className="size-11 shrink-0 rounded-lg"
         imageClassName="p-1"
       />

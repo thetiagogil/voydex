@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { PokemonDetailGameArtwork } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-game-artwork";
+import { PokemonDetailGameArtwork } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-game-artwork";
 import type { PokemonDetailGameNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
