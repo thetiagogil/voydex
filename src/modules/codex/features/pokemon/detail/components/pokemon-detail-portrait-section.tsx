@@ -1,58 +1,44 @@
-"use client";
-
-import { useState } from "react";
-
 import { cn } from "@/lib/utils";
-import { PokemonDetailFormCombobox } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-form-combobox";
 import {
   getPokemonDetailFormImageAlt,
-  getPokemonDetailFormImageUrl,
-  getPokemonDetailFormShinyImageUrl,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
-import { Button } from "@/shared/components/ui/button";
+import type { ReactNode } from "react";
 
 type PokemonDetailPortraitSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
-  activeGameSlug: string | null;
-  activeGenerationSlug: string;
-  forms: PokemonGenerationFormSummary[];
+  formControls?: ReactNode;
+  imageUrl: string | null;
+  isShowingShiny: boolean;
   speciesName: string;
-  speciesSlug: string;
 };
 
 export const PokemonDetailPortraitSection = ({
   activeForm,
-  activeGameSlug,
-  activeGenerationSlug,
-  forms,
+  formControls,
+  imageUrl,
+  isShowingShiny,
   speciesName,
-  speciesSlug,
 }: PokemonDetailPortraitSectionProps) => {
-  const [showShiny, setShowShiny] = useState(false);
   const typeSlug = getPokemonDetailFormTypeSlug(activeForm);
   const typeClassNames = typeSlug ? pokemonTypeClassNames[typeSlug] : null;
-  const defaultImageUrl = getPokemonDetailFormImageUrl(activeForm);
-  const shinyImageUrl = getPokemonDetailFormShinyImageUrl(activeForm);
-  const hasShinyImage = Boolean(shinyImageUrl);
-  const isShowingShiny = showShiny && hasShinyImage;
-  const imageUrl =
-    isShowingShiny && shinyImageUrl ? shinyImageUrl : defaultImageUrl;
 
   return (
     <section
       className={cn(
-        "overflow-hidden rounded-lg border",
+        "relative overflow-hidden rounded-lg border",
         typeClassNames?.background,
         typeClassNames?.border ?? "border-app-surface-border",
       )}
     >
       <PokemonPortrait
-        alt={getPokemonDetailFormImageAlt(activeForm, speciesName)}
+        alt={`${isShowingShiny ? "Shiny " : ""}${getPokemonDetailFormImageAlt(
+          activeForm,
+          speciesName,
+        )}`}
         imageUrl={imageUrl}
         type={typeSlug}
         fallbackOnError
@@ -62,35 +48,11 @@ export const PokemonDetailPortraitSection = ({
         imageClassName="p-8 sm:p-10"
       />
 
-      <div className="bg-card/30 p-2 backdrop-blur-sm">
-        <div className="flex min-w-0 items-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            aria-pressed={isShowingShiny}
-            disabled={!hasShinyImage}
-            className={cn(
-              "shrink-0",
-              isShowingShiny && "border-primary bg-primary/10 text-primary",
-            )}
-            onClick={() => {
-              setShowShiny((current) => !current);
-            }}
-          >
-            <AppIcon icon={appIcons.product.activity} inline="start" />
-            Shiny
-          </Button>
-
-          <PokemonDetailFormCombobox
-            activeForm={activeForm}
-            activeGameSlug={activeGameSlug}
-            activeGenerationSlug={activeGenerationSlug}
-            forms={forms}
-            speciesSlug={speciesSlug}
-          />
+      {formControls ? (
+        <div className="absolute inset-y-3 left-3 z-10 flex items-start">
+          {formControls}
         </div>
-      </div>
+      ) : null}
     </section>
   );
 };
