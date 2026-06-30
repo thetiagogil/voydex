@@ -9,6 +9,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
 import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
 
 type PokemonDetailPortraitSectionProps = {
@@ -35,6 +36,7 @@ export const PokemonDetailPortraitSection = ({
     isShowingShiny && shinyImageUrl ? shinyImageUrl : defaultImageUrl;
   const toggleImageUrl = isShowingShiny ? defaultImageUrl : shinyImageUrl;
   const toggleImageAlt = isShowingShiny ? imageAlt : `Shiny ${imageAlt}`;
+  const backgroundImageUrl = getPokemonTypeBackgroundImageUrl(typeSlug);
 
   return (
     <section
@@ -46,6 +48,9 @@ export const PokemonDetailPortraitSection = ({
     >
       <PokemonPortrait
         alt={`${isShowingShiny ? "Shiny " : ""}${imageAlt}`}
+        backgroundImageClassName="scale-105 opacity-65 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
+        backgroundImageUrl={backgroundImageUrl}
+        backgroundOverlayClassName="bg-background/30"
         imageUrl={imageUrl}
         type={typeSlug}
         fallbackOnError
@@ -54,7 +59,7 @@ export const PokemonDetailPortraitSection = ({
         sizes="(min-width: 1024px) 346px, (min-width: 640px) 346px, calc(100vw - 4rem)"
         className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
         glowClassName="opacity-25"
-        imageClassName="p-8 sm:p-10"
+        imageClassName="p-2 sm:p-4"
       />
 
       {shinyImageUrl && toggleImageUrl ? (

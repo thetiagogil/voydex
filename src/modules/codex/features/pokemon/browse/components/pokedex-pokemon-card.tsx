@@ -5,6 +5,7 @@ import { appRoutes } from "@/config/routes";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import type { PokedexPokemonBrowseCard } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import {
@@ -56,6 +57,8 @@ export const PokedexPokemonCard = memo(
       primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
         ? primaryTypeSlug
         : null;
+    const portraitBackgroundImageUrl =
+      getPokemonTypeBackgroundImageUrl(portraitType);
     const categoryLabel = getPokemonCategoryLabel(pokemon);
 
     return (
@@ -82,6 +85,9 @@ export const PokedexPokemonCard = memo(
 
           <PokemonPortrait
             alt={pokemon.imageAlt}
+            backgroundImageClassName="scale-105 opacity-55 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
+            backgroundImageUrl={portraitBackgroundImageUrl}
+            backgroundOverlayClassName="bg-card/30"
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}

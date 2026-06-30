@@ -7,6 +7,9 @@ import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-
 
 type PokemonPortraitProps = {
   alt: string;
+  backgroundImageClassName?: string;
+  backgroundImageUrl?: string | null;
+  backgroundOverlayClassName?: string;
   className?: string;
   fallbackOnError?: boolean;
   fetchPriority?: "high" | "low" | "auto";
@@ -25,6 +28,9 @@ const defaultPokemonPortraitSizes =
 
 export const PokemonPortrait = ({
   alt,
+  backgroundImageClassName,
+  backgroundImageUrl,
+  backgroundOverlayClassName,
   className,
   fallbackOnError = false,
   fetchPriority,
@@ -52,6 +58,28 @@ export const PokemonPortrait = ({
         className,
       )}
     >
+      {backgroundImageUrl ? (
+        <>
+          <div
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-0 bg-cover bg-center",
+              backgroundImageClassName,
+            )}
+            style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+          />
+          {backgroundOverlayClassName ? (
+            <div
+              aria-hidden
+              className={cn(
+                "pointer-events-none absolute inset-0",
+                backgroundOverlayClassName,
+              )}
+            />
+          ) : null}
+        </>
+      ) : null}
+
       <div
         aria-hidden
         className={cn(
