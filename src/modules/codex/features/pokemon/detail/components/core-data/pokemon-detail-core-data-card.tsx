@@ -55,7 +55,7 @@ export const PokemonDetailCoreDataCard = ({
     >
       <PokemonDetailCoreDataField label="Types" className="md:flex-[1.35]">
         <PokemonTypeList
-          badgeSize="lg"
+          badgeSize="md"
           className="flex-nowrap"
           primaryType={form?.typePair.primaryType ?? null}
           secondaryType={form?.typePair.secondaryType ?? null}
