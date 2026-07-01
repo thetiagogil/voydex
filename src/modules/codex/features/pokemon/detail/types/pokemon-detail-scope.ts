@@ -3,6 +3,7 @@ import type {
   PokemonAvailabilitySummary,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
+  PokemonLearnsetSummary,
   PokemonPokedexSummary,
   VersionGroup,
 } from "@/modules/codex/shared/types";
@@ -25,6 +26,7 @@ export type ResolvedPokemonDetailScope = {
   forms: PokemonGenerationFormSummary[];
   game: Game | null;
   generation: PokemonGenerationDetail;
+  learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
   versionGroup: PokemonDetailVersionGroupScope | null;
   versionGroups: PokemonDetailVersionGroupScope[];

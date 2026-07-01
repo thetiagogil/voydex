@@ -5,10 +5,13 @@ import type {
   AbilityAttribute,
   EggGroup,
   EvolutionMethod,
+  Move,
+  MoveAttribute,
   Pokedex,
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
+  ResolvedPokemonLearnset,
 } from "@/modules/codex/shared/types";
 
 type ServerSupabaseClient = Awaited<
@@ -30,6 +33,11 @@ export type PokemonDetailRelatedRows = {
   familyAttributes: PokemonAttributes[];
   familyForms: PokemonForm[];
   pokedexes: Pokedex[];
+};
+
+export type PokemonDetailLearnsetMoveRows = {
+  moveAttributes: MoveAttribute[];
+  moves: Move[];
 };
 
 const getPokemonAbilityIds = (attributes: PokemonAttributes[]) => {
@@ -184,4 +192,44 @@ export const loadPokemonDetailEvolutionMethods = async (
   }
 
   return evolutionMethodsResult.data ?? [];
+};
+
+export const loadPokemonDetailLearnsetMoveRows = async (
+  supabase: ServerSupabaseClient,
+  learnsetRows: ResolvedPokemonLearnset[],
+): Promise<PokemonDetailLearnsetMoveRows> => {
+  const moveIds = [
+    ...new Set(learnsetRows.map((row) => row.move_id).filter(isNumber)),
+  ];
+
+  if (!moveIds.length) {
+    return {
+      moveAttributes: [],
+      moves: [],
+    };
+  }
+
+  const [movesResult, moveAttributesResult] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("moves")
+      .select("*")
+      .in("id", moveIds)
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("move_attributes")
+      .select("*")
+      .in("move_id", moveIds)
+      .order("generation_start_id", { ascending: false }),
+  ]);
+
+  if (movesResult.error || moveAttributesResult.error) {
+    throw new Error("Unable to load PokÃ©mon learnset move data.");
+  }
+
+  return {
+    moveAttributes: moveAttributesResult.data ?? [],
+    moves: movesResult.data ?? [],
+  };
 };

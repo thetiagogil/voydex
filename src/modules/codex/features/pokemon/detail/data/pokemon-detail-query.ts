@@ -9,8 +9,10 @@ import {
   resolveDefaultPokemonForm,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-form-mappers";
 import { buildPokemonGenerationDetails } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-mappers";
+import { buildPokemonLearnsetSummaries } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-learnset-mappers";
 import {
   loadPokemonDetailEvolutionMethods,
+  loadPokemonDetailLearnsetMoveRows,
   loadPokemonDetailRelatedRows,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-related-loaders";
 import { byId, isNumber } from "@/modules/codex/shared/data/query-utils";
@@ -92,12 +94,15 @@ export const getPokemonDetailData = async (
   const familySpeciesIds = speciesRows.familySpecies.map((pokemonSpecies) => {
     return pokemonSpecies.id;
   });
-  const relatedRows = await loadPokemonDetailRelatedRows({
-    attributes: speciesRows.attributes,
-    familySpeciesIds,
-    pokedexIds: getPokedexIds(speciesRows.pokedexEntries),
-    supabase,
-  });
+  const [relatedRows, learnsetMoveRows] = await Promise.all([
+    loadPokemonDetailRelatedRows({
+      attributes: speciesRows.attributes,
+      familySpeciesIds,
+      pokedexIds: getPokedexIds(speciesRows.pokedexEntries),
+      supabase,
+    }),
+    loadPokemonDetailLearnsetMoveRows(supabase, speciesRows.learnsetRows),
+  ]);
   const evolutionMethods = await loadPokemonDetailEvolutionMethods(
     supabase,
     relatedRows.evolutionEdges,
@@ -115,6 +120,16 @@ export const getPokemonDetailData = async (
     availabilityRows: speciesRows.availabilityRows,
     games: baseRows.games,
     methods: baseRows.availabilityMethods,
+    versionGroups: baseRows.versionGroups,
+  });
+  const learnsets = buildPokemonLearnsetSummaries({
+    games: baseRows.games,
+    generations: baseRows.generations,
+    learnMethods: baseRows.learnMethods,
+    learnsetRows: speciesRows.learnsetRows,
+    moveAttributes: learnsetMoveRows.moveAttributes,
+    moves: learnsetMoveRows.moves,
+    typeById,
     versionGroups: baseRows.versionGroups,
   });
   const pokedexEntries = buildPokedexSummaries({
@@ -142,11 +157,13 @@ export const getPokemonDetailData = async (
       forms,
       games: baseRows.games,
       generations: baseRows.generations,
+      learnsets,
       pokedexEntries,
       species: baseRows.species,
       typeById,
       versionGroupById,
     }),
+    learnsets,
     pokedexEntries,
     species: baseRows.species,
   } satisfies PokemonDetailData;

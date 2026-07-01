@@ -10,6 +10,9 @@ export type Game = ReferenceRow<"games">;
 export type GamePlatform = ReferenceRow<"game_platforms">;
 export type GameType = ReferenceRow<"game_types">;
 export type Generation = ReferenceRow<"generations">;
+export type LearnMethod = ReferenceRow<"learn_methods">;
+export type Move = ReferenceRow<"moves">;
+export type MoveAttribute = ReferenceRow<"move_attributes">;
 export type Platform = ReferenceRow<"platforms">;
 export type Pokedex = ReferenceRow<"pokedex">;
 export type PokedexEntry = ReferenceRow<"pokedex_entries">;
@@ -23,6 +26,8 @@ export type VersionGroup = ReferenceRow<"version_groups">;
 
 export type ResolvedPokemonAvailability =
   ViewRow<"reference_resolved_pokemon_availability">;
+export type ResolvedPokemonLearnset =
+  ViewRow<"reference_resolved_pokemon_learnsets">;
 
 export type PokemonTypePair = {
   primaryType: Type | null;
@@ -120,11 +125,23 @@ export type PokemonPokedexSummary = {
   pokedex: Pokedex | null;
 };
 
+export type PokemonLearnsetSummary = {
+  attributes: MoveAttribute | null;
+  game: Game | null;
+  learnset: ResolvedPokemonLearnset;
+  method: LearnMethod | null;
+  move: Move;
+  sourceVersionGroup: VersionGroup | null;
+  targetVersionGroup: VersionGroup | null;
+  type: Type | null;
+};
+
 export type PokemonGenerationDetail = {
   availability: PokemonAvailabilitySummary[];
   forms: PokemonGenerationFormSummary[];
   games: Game[];
   generation: Generation;
+  learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
   versionGroups: VersionGroup[];
 };
@@ -169,6 +186,7 @@ export type PokemonDetailData = {
   forms: PokemonFormSummary[];
   generationDetails: PokemonGenerationDetail[];
   availability: PokemonAvailabilitySummary[];
+  learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
 };
 

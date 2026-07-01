@@ -10,6 +10,7 @@ import {
 import {
   getScopedAvailability,
   getScopedForms,
+  getScopedLearnsets,
   getScopedPokedexEntries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scoped-rows";
 import type {
@@ -77,6 +78,7 @@ export const resolvePokemonDetailScope = (
     forms,
     game,
     generation,
+    learnsets: getScopedLearnsets(generation, versionGroup, game, form),
     pokedexEntries: getScopedPokedexEntries(generation, versionGroup, form),
     versionGroup,
     versionGroups,

@@ -7,6 +7,7 @@ import type {
   PokemonAvailabilitySummary,
   PokemonFormSummary,
   PokemonGenerationDetail,
+  PokemonLearnsetSummary,
   PokemonPokedexSummary,
   PokemonSpecies,
   Type,
@@ -18,6 +19,7 @@ type PokemonGenerationDetailsParams = {
   forms: PokemonFormSummary[];
   games: Game[];
   generations: Generation[];
+  learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
   species: PokemonSpecies;
   typeById: Map<number, Type>;
@@ -107,6 +109,7 @@ export const buildPokemonGenerationDetails = ({
   forms,
   games,
   generations,
+  learnsets,
   pokedexEntries,
   species,
   typeById,
@@ -152,6 +155,13 @@ export const buildPokemonGenerationDetails = ({
 
         return versionGroup?.generation_id === generation.id;
       });
+      const generationLearnsets = learnsets.filter((row) => {
+        const versionGroup = row.targetVersionGroup
+          ? versionGroupById.get(row.targetVersionGroup.id)
+          : null;
+
+        return versionGroup?.generation_id === generation.id;
+      });
       const generationVersionGroups = sortVersionGroupsBySortOrder(
         [...versionGroupById.values()].filter((versionGroup) => {
           return versionGroup.generation_id === generation.id;
@@ -181,6 +191,7 @@ export const buildPokemonGenerationDetails = ({
           versionGroupById,
         ),
         generation,
+        learnsets: generationLearnsets,
         pokedexEntries: generationPokedexEntries,
         versionGroups: generationVersionGroups,
       };

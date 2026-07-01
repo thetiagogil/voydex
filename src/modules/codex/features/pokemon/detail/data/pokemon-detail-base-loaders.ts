@@ -3,11 +3,13 @@ import type {
   AvailabilityMethod,
   Game,
   Generation,
+  LearnMethod,
   PokedexEntry,
   PokemonAttributes,
   PokemonForm,
   PokemonSpecies,
   ResolvedPokemonAvailability,
+  ResolvedPokemonLearnset,
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
@@ -20,6 +22,7 @@ export type PokemonDetailBaseRows = {
   availabilityMethods: AvailabilityMethod[];
   games: Game[];
   generations: Generation[];
+  learnMethods: LearnMethod[];
   species: PokemonSpecies;
   types: Type[];
   versionGroups: VersionGroup[];
@@ -30,6 +33,7 @@ export type PokemonDetailSpeciesRows = {
   availabilityRows: ResolvedPokemonAvailability[];
   familySpecies: PokemonSpecies[];
   forms: PokemonForm[];
+  learnsetRows: ResolvedPokemonLearnset[];
   pokedexEntries: PokedexEntry[];
 };
 
@@ -43,6 +47,7 @@ export const loadPokemonDetailBaseRows = async (
     generationsResult,
     gamesResult,
     availabilityMethodsResult,
+    learnMethodsResult,
     versionGroupsResult,
   ] = await Promise.all([
     supabase
@@ -73,6 +78,11 @@ export const loadPokemonDetailBaseRows = async (
       .order("sort_order", { ascending: true }),
     supabase
       .schema("reference")
+      .from("learn_methods")
+      .select("*")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
       .from("version_groups")
       .select("*")
       .order("sort_order", { ascending: true }),
@@ -90,7 +100,8 @@ export const loadPokemonDetailBaseRows = async (
     typesResult.error ||
     generationsResult.error ||
     gamesResult.error ||
-    availabilityMethodsResult.error
+    availabilityMethodsResult.error ||
+    learnMethodsResult.error
   ) {
     throw new Error("Unable to load Pokémon reference data.");
   }
@@ -103,6 +114,7 @@ export const loadPokemonDetailBaseRows = async (
     availabilityMethods: availabilityMethodsResult.data ?? [],
     games: gamesResult.data ?? [],
     generations: generationsResult.data ?? [],
+    learnMethods: learnMethodsResult.data ?? [],
     species: speciesResult.data,
     types: typesResult.data ?? [],
     versionGroups: versionGroupsResult.data ?? [],
@@ -117,6 +129,7 @@ export const loadPokemonDetailSpeciesRows = async (
     formsResult,
     attributesResult,
     availabilityResult,
+    learnsetResult,
     pokedexEntriesResult,
     familySpeciesResult,
   ] = await Promise.all([
@@ -139,6 +152,13 @@ export const loadPokemonDetailSpeciesRows = async (
       .eq("species_id", species.id)
       .order("target_version_group_id", { ascending: true }),
     supabase
+      .schema("views")
+      .from("reference_resolved_pokemon_learnsets")
+      .select("*")
+      .eq("species_id", species.id)
+      .order("target_version_group_id", { ascending: true })
+      .order("sort_order", { ascending: true }),
+    supabase
       .schema("reference")
       .from("pokedex_entries")
       .select("*")
@@ -156,6 +176,7 @@ export const loadPokemonDetailSpeciesRows = async (
     formsResult.error ||
     attributesResult.error ||
     availabilityResult.error ||
+    learnsetResult.error ||
     familySpeciesResult.error
   ) {
     throw new Error("Unable to load Pokémon detail data.");
@@ -172,6 +193,7 @@ export const loadPokemonDetailSpeciesRows = async (
       ? familySpeciesResult.data
       : [species],
     forms: formsResult.data ?? [],
+    learnsetRows: learnsetResult.data ?? [],
     pokedexEntries: pokedexEntriesResult.data ?? [],
   };
 };

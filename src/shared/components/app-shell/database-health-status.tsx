@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { useEffect, useSyncExternalStore } from "react";
 
 type HealthState = "unknown" | "healthy" | "unhealthy";
 type HealthListener = () => void;
@@ -107,10 +107,12 @@ export const DatabaseHealthStatus = () => {
           />
         </TooltipTrigger>
         <TooltipContent side="top" align="end" className="w-64">
-          <span className="block font-medium">Database unavailable</span>
-          <span className="text-muted-foreground mt-0.5 block">
-            Some features may not work as expected.
-          </span>
+          <div>
+            <span className="block font-medium">Database unavailable</span>
+            <span className="text-muted-foreground mt-0.5 block">
+              Some features may not work as expected.
+            </span>
+          </div>
         </TooltipContent>
       </Tooltip>
     </div>
