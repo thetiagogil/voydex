@@ -24,7 +24,7 @@ export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
       width={12}
       height={12}
       aria-hidden
-      className={className}
+      className={cn("drop-shadow-[0_1px_1px_rgb(0_0_0/0.75)]", className)}
     />
   );
 };

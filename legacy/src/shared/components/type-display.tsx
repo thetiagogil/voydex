@@ -25,7 +25,7 @@ const TypeIcon = ({ iconPath, size = 16, className, alt }: TypeIconProps) => (
   <div
     className={cn(
       "bg-current",
-      "[mask-size:contain] [mask-position:center] [mask-repeat:no-repeat]",
+      "mask-contain mask-center mask-no-repeat",
       "[-webkit-mask-position:center] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:contain]",
       className,
     )}
@@ -121,7 +121,7 @@ export const TypeDisplay = ({
         <TypeIcon
           iconPath={iconPath}
           size={config.icon}
-          className="flex-shrink-0"
+          className="shrink-0"
           alt={displayName}
         />
       )}
