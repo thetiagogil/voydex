@@ -1,8 +1,5 @@
 import { cn } from "@/lib/utils";
-import {
-  getPokemonDetailActionPortraitStyle,
-  PokemonDetailActionPortrait,
-} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
+import { PokemonDetailActionPortrait } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormTypeSlug,
@@ -10,7 +7,11 @@ import {
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
-import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
+import {
+  getPokemonTypeCssVariables,
+  pokemonTypeSoftBackgroundClassName,
+  pokemonTypeSoftBorderClassName,
+} from "@/shared/components/pokemon/pokemon-type-styles";
 
 type PokemonDetailPortraitSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
@@ -30,7 +31,7 @@ export const PokemonDetailPortraitSection = ({
   speciesName,
 }: PokemonDetailPortraitSectionProps) => {
   const typeSlug = getPokemonDetailFormTypeSlug(activeForm);
-  const typeClassNames = typeSlug ? pokemonTypeClassNames[typeSlug] : null;
+  const typeStyle = typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined;
   const imageAlt = getPokemonDetailFormImageAlt(activeForm, speciesName);
   const imageUrl =
     isShowingShiny && shinyImageUrl ? shinyImageUrl : defaultImageUrl;
@@ -40,10 +41,11 @@ export const PokemonDetailPortraitSection = ({
 
   return (
     <section
+      style={typeStyle}
       className={cn(
         "relative overflow-hidden rounded-lg border",
-        typeClassNames?.background,
-        typeClassNames?.border ?? "border-app-surface-border",
+        typeSlug && pokemonTypeSoftBackgroundClassName,
+        typeSlug ? pokemonTypeSoftBorderClassName : "border-app-surface-border",
       )}
     >
       <PokemonPortrait
@@ -69,7 +71,7 @@ export const PokemonDetailPortraitSection = ({
           aria-label={
             isShowingShiny ? "Show base variant" : "Show shiny variant"
           }
-          style={getPokemonDetailActionPortraitStyle(typeSlug)}
+          style={getPokemonTypeCssVariables(typeSlug)}
           className="group focus-visible:ring-primary focus-visible:ring-offset-background absolute top-3 right-3 rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
           onClick={() => {
             onShinyChange(!isShowingShiny);

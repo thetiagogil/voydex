@@ -1,9 +1,6 @@
 import Link from "next/link";
 
-import {
-  getPokemonDetailActionPortraitStyle,
-  PokemonDetailActionPortrait,
-} from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
+import { PokemonDetailActionPortrait } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import { getPokemonDetailEvolutionDisplayForm } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type {
@@ -12,6 +9,7 @@ import type {
   PokemonForm,
   PokemonTypePair,
 } from "@/modules/codex/shared/types";
+import { getPokemonTypeCssVariables } from "@/shared/components/pokemon/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -74,7 +72,7 @@ export const PokemonDetailEvolutionNode = ({
     displayForm,
     pokemon,
   });
-  const style = getPokemonDetailActionPortraitStyle(typeSlug);
+  const style = getPokemonTypeCssVariables(typeSlug);
   const nationalNumber = formatPokemonNationalNumber(
     pokemon.species.national_number,
   );

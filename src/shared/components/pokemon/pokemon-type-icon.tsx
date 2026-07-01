@@ -1,5 +1,11 @@
 import { cn } from "@/lib/utils";
-import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
+import {
+  getPokemonTypeCssVariables,
+  pokemonTypeSoftBackgroundClassName,
+  pokemonTypeSoftBorderClassName,
+  pokemonTypeSolidBackgroundClassName,
+  pokemonTypeTextClassName,
+} from "@/shared/components/pokemon/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import Image from "next/image";
 
@@ -34,14 +40,13 @@ export const PokemonTypeMark = ({
   iconClassName,
   type,
 }: PokemonTypeMarkProps) => {
-  const typeClassNames = pokemonTypeClassNames[type];
-
   return (
     <span
+      style={getPokemonTypeCssVariables(type)}
       aria-hidden
       className={cn(
         "flex items-center justify-center rounded-full",
-        typeClassNames.solidBackground,
+        pokemonTypeSolidBackgroundClassName,
         className,
       )}
     >
@@ -92,19 +97,19 @@ export const PokemonTypeBadge = ({
   variant = "soft",
 }: PokemonTypeBadgeProps) => {
   const displayLabel = label ?? type;
-  const typeClassNames = pokemonTypeClassNames[type];
   const sizeClassNames = pokemonTypeBadgeSizeClassNames[size];
   const showIcon = display !== "label";
   const showLabel = display !== "icon";
 
   return (
     <span
+      style={getPokemonTypeCssVariables(type)}
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full border leading-none font-medium whitespace-nowrap capitalize",
         display === "icon" ? sizeClassNames.iconOnly : sizeClassNames.badge,
-        typeClassNames.border,
-        typeClassNames.foreground,
-        variant === "soft" && typeClassNames.background,
+        pokemonTypeSoftBorderClassName,
+        pokemonTypeTextClassName,
+        variant === "soft" && pokemonTypeSoftBackgroundClassName,
         className,
       )}
     >

@@ -1,43 +1,25 @@
 import Link from "next/link";
-import { memo, type CSSProperties } from "react";
+import { memo } from "react";
 
 import { appRoutes } from "@/config/routes";
+import { cn } from "@/lib/utils";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import type { PokedexPokemonBrowseCard } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
+import {
+  getPokemonTypeCssVariables,
+  pokemonTypeCardSurfaceClassName,
+} from "@/shared/components/pokemon/pokemon-type-styles";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import { getPokemonCategoryLabel } from "@/shared/domain/pokemon/pokemon-categories";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonBrowseCard;
   priority?: boolean;
-};
-
-type PokemonCardStyle = CSSProperties & {
-  "--pokemon-card-hover-border": string;
-  "--pokemon-card-hover-ring": string;
-  "--pokemon-card-hover-shadow": string;
-  "--pokemon-card-hover-wash": string;
-};
-
-const getPokemonCardStyle = (
-  type: PokemonTypeSlug | null,
-): PokemonCardStyle => {
-  const accent = type ? `var(--type-${type})` : "var(--primary)";
-
-  return {
-    "--pokemon-card-hover-border": `color-mix(in oklch, ${accent}, transparent 30%)`,
-    "--pokemon-card-hover-ring": `color-mix(in oklch, ${accent}, transparent 55%)`,
-    "--pokemon-card-hover-shadow": `0 22px 56px -32px color-mix(in oklch, ${accent}, transparent 20%)`,
-    "--pokemon-card-hover-wash": `color-mix(in oklch, ${accent}, transparent 88%)`,
-  };
 };
 
 const getPokemonMetadata = (pokemon: PokedexPokemonBrowseCard) => {
@@ -67,22 +49,13 @@ export const PokedexPokemonCard = memo(
           pokemon.detailGameSlug,
           pokemon.slug,
         )}
-        className="group focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl [contain-intrinsic-size:22rem] [content-visibility:auto] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        style={getPokemonTypeCssVariables(portraitType)}
+        className={cn(
+          "border-app-surface-border/70 focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+          pokemonTypeCardSurfaceClassName,
+        )}
       >
-        <Card
-          style={getPokemonCardStyle(portraitType)}
-          className="bg-card/82 group-hover:bg-card/94 group-focus-visible:bg-card/94 relative isolate h-full border border-transparent py-0 transition-[background-color,box-shadow] duration-300 ease-out group-hover:shadow-(--pokemon-card-hover-shadow) group-hover:ring-(--pokemon-card-hover-ring) group-focus-visible:shadow-(--pokemon-card-hover-shadow) group-focus-visible:ring-(--pokemon-card-hover-ring)"
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-20 rounded-xl border border-transparent transition-colors duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border)"
-          />
-
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 bg-(--pokemon-card-hover-wash) opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-          />
-
+        <Card className="h-full border-0 bg-transparent py-0 shadow-none ring-0 backdrop-blur-none [contain-intrinsic-size:22rem] [content-visibility:auto]">
           <PokemonPortrait
             alt={pokemon.imageAlt}
             backgroundImageClassName="scale-105 opacity-55 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
@@ -91,9 +64,8 @@ export const PokedexPokemonCard = memo(
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}
-            className="relative z-10 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0 border-transparent transition-[background-color,border-color] duration-300 group-hover:border-(--pokemon-card-hover-border) group-focus-visible:border-(--pokemon-card-hover-border) [&_img]:p-3"
-            glowClassName="transition-opacity duration-300 group-hover:opacity-30 group-focus-visible:opacity-30"
-            imageClassName="transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-105 motion-safe:group-focus-visible:-translate-y-1 motion-safe:group-focus-visible:scale-105"
+            className="border-app-surface-border/50 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0"
+            imageClassName="p-3"
           />
 
           <CardContent className="relative z-10 flex flex-col gap-3 p-3">

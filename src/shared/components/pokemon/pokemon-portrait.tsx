@@ -1,9 +1,14 @@
-import Image from "next/image";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
-import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
 import { cn } from "@/lib/utils";
 import { PokemonPortraitFallbackImage } from "@/shared/components/pokemon/pokemon-portrait-fallback-image";
 import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
+import {
+  getPokemonTypeCssVariables,
+  pokemonTypeSoftBackgroundClassName,
+  pokemonTypeSoftBorderClassName,
+  pokemonTypeSolidBackgroundClassName,
+} from "@/shared/components/pokemon/pokemon-type-styles";
+import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import Image from "next/image";
 
 type PokemonPortraitProps = {
   alt: string;
@@ -43,7 +48,7 @@ export const PokemonPortrait = ({
   sizes = defaultPokemonPortraitSizes,
   type,
 }: PokemonPortraitProps) => {
-  const typeClassNames = type ? pokemonTypeClassNames[type] : null;
+  const typeStyle = type ? getPokemonTypeCssVariables(type) : undefined;
   const shouldPreload = preload ?? priority;
   const imageLoading = shouldPreload ? "eager" : loading;
   const resolvedFetchPriority =
@@ -51,10 +56,11 @@ export const PokemonPortrait = ({
 
   return (
     <div
+      style={typeStyle}
       className={cn(
         "bg-muted/60 relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-xl border",
-        typeClassNames?.background,
-        typeClassNames?.border,
+        type && pokemonTypeSoftBackgroundClassName,
+        type && pokemonTypeSoftBorderClassName,
         className,
       )}
     >
@@ -84,7 +90,7 @@ export const PokemonPortrait = ({
         aria-hidden
         className={cn(
           "absolute inset-5 rounded-full blur-2xl",
-          typeClassNames?.solidBackground ?? "bg-primary",
+          type ? pokemonTypeSolidBackgroundClassName : "bg-primary",
           "opacity-15",
           glowClassName,
         )}
