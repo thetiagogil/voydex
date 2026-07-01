@@ -6,6 +6,7 @@ import { PokemonDetailStatRow } from "@/modules/codex/features/pokemon/detail/co
 import {
   getPokemonDetailStatDefinitions,
   getPokemonDetailStatsTotal,
+  type PokemonDetailStatDefinition,
 } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-utils";
 import { Separator } from "@/shared/components/ui/separator";
 
@@ -14,21 +15,17 @@ type PokemonDetailStatsTableProps = {
   generation: Generation;
 };
 
-export const PokemonDetailStatsTable = ({
+type PokemonDetailStatsColumnProps = {
+  attributes: PokemonAttributes;
+  stats: PokemonDetailStatDefinition[];
+};
+
+const PokemonDetailStatsColumn = ({
   attributes,
-  generation,
-}: PokemonDetailStatsTableProps) => {
-  const stats = getPokemonDetailStatDefinitions(generation);
-  const total = getPokemonDetailStatsTotal(attributes, stats);
-
+  stats,
+}: PokemonDetailStatsColumnProps) => {
   return (
-    <div className="grid gap-2.5">
-      <div className="text-muted-foreground grid grid-cols-[4.75rem_3rem_minmax(0,1fr)] items-center gap-3 text-xs">
-        <div>Stat</div>
-        <div className="text-right">Base</div>
-        <div />
-      </div>
-
+    <div className="grid min-w-0 content-start gap-2.5">
       {stats.map((stat) => (
         <PokemonDetailStatRow
           key={stat.key}
@@ -36,16 +33,55 @@ export const PokemonDetailStatsTable = ({
           value={attributes[stat.key]}
         />
       ))}
+    </div>
+  );
+};
 
-      <Separator className="bg-app-surface-border/60 my-1" />
-
-      <div className="grid grid-cols-[4.75rem_3rem_minmax(0,1fr)] items-center gap-3">
-        <div className="text-foreground text-sm font-medium">Total</div>
-        <div className="text-foreground text-right text-sm font-semibold tabular-nums">
-          {total}
-        </div>
-        <div />
+const PokemonDetailStatsTotal = ({ total }: { total: number }) => {
+  return (
+    <div className="flex min-w-0 flex-col justify-center gap-1 md:px-4">
+      <div className="text-muted-foreground text-xs">Stats Total</div>
+      <div className="text-foreground text-base font-semibold tabular-nums">
+        {total}
       </div>
+    </div>
+  );
+};
+
+const PokemonDetailStatsSeparator = () => {
+  return (
+    <>
+      <Separator className="bg-app-surface-border/60 md:hidden" />
+      <Separator
+        orientation="vertical"
+        className="bg-app-surface-border/60 hidden md:block"
+      />
+    </>
+  );
+};
+
+export const PokemonDetailStatsTable = ({
+  attributes,
+  generation,
+}: PokemonDetailStatsTableProps) => {
+  const stats = getPokemonDetailStatDefinitions(generation);
+  const total = getPokemonDetailStatsTotal(attributes, stats);
+  const firstColumnStats = stats.slice(0, 3);
+  const secondColumnStats = stats.slice(3);
+
+  return (
+    <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_7.5rem] md:items-stretch">
+      <PokemonDetailStatsColumn
+        attributes={attributes}
+        stats={firstColumnStats}
+      />
+      <PokemonDetailStatsSeparator />
+      <PokemonDetailStatsColumn
+        attributes={attributes}
+        stats={secondColumnStats}
+      />
+      <PokemonDetailStatsSeparator />
+      <PokemonDetailStatsTotal total={total} />
     </div>
   );
 };

@@ -102,6 +102,8 @@ export const PokemonDetailEvolutionSection = ({
                 }}
               >
                 <PokemonDetailEvolutionNode
+                  activeFormId={activeFormId}
+                  activeSpeciesId={activeSpeciesId}
                   linkScope={nodeLinkScope}
                   pokemon={step.pokemon}
                   scopedEdges={path.edges}

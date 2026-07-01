@@ -29,6 +29,8 @@ export type PokemonDetailEvolutionNodeLinkScope = {
 };
 
 type PokemonDetailEvolutionNodeProps = {
+  activeFormId: number | null;
+  activeSpeciesId: number;
   linkScope: PokemonDetailEvolutionNodeLinkScope;
   pokemon: PokemonEvolutionSpeciesSummary;
   scopedEdges: PokemonEvolutionEdgeSummary[];
@@ -55,6 +57,8 @@ const getEvolutionNodeDisplayTypeSlug = ({
 };
 
 export const PokemonDetailEvolutionNode = ({
+  activeFormId,
+  activeSpeciesId,
   linkScope,
   pokemon,
   scopedEdges,
@@ -80,6 +84,9 @@ export const PokemonDetailEvolutionNode = ({
     generation: linkScope.activeGenerationSlug,
     versionGroup: linkScope.activeVersionGroupSlug ?? undefined,
   });
+  const isActive =
+    pokemon.species.id === activeSpeciesId &&
+    (!activeFormId || !displayForm || displayForm.id === activeFormId);
 
   return (
     <article
@@ -95,6 +102,7 @@ export const PokemonDetailEvolutionNode = ({
         <PokemonDetailActionPortrait
           alt={imageAlt}
           imageUrl={imageUrl}
+          isActive={isActive}
           type={typeSlug}
         />
       </Link>

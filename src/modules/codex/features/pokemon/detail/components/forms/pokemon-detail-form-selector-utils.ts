@@ -11,41 +11,6 @@ type PokemonDetailFormHrefParams = PokemonDetailFormSelectorScope & {
   form: PokemonGenerationFormSummary;
 };
 
-export const getPokemonDetailFormSearchValue = (
-  form: PokemonGenerationFormSummary,
-) => {
-  return [
-    form.form.name,
-    form.typePair.primaryType?.name,
-    form.typePair.secondaryType?.name,
-  ]
-    .filter(Boolean)
-    .join(" ");
-};
-
-export const getPokemonDetailFormItemValue = (
-  form: PokemonGenerationFormSummary,
-) => {
-  return form.form.slug;
-};
-
-export const getFilteredPokemonDetailForms = (
-  forms: PokemonGenerationFormSummary[],
-  inputValue: string,
-) => {
-  const normalizedInputValue = inputValue.trim().toLowerCase();
-
-  if (!normalizedInputValue) {
-    return forms;
-  }
-
-  return forms.filter((form) => {
-    return getPokemonDetailFormSearchValue(form)
-      .toLowerCase()
-      .includes(normalizedInputValue);
-  });
-};
-
 export const getPokemonDetailFormHref = ({
   activeGameSlug,
   activeGenerationSlug,
