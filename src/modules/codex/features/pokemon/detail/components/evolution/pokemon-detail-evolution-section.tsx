@@ -3,19 +3,14 @@ import { Fragment } from "react";
 import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-connector";
 import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import {
   getPokemonDetailEvolutionPathGridTemplateColumns,
   getPokemonDetailEvolutionPaths,
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
-import { Separator } from "@/shared/components/ui/separator";
+import { appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailEvolutionSectionProps = {
   activeFormId: number | null;
@@ -84,60 +79,55 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
-    <Card size="sm" className="bg-card/76 gap-0 py-0 backdrop-blur-xl">
-      <CardHeader className="px-4 py-3">
-        <CardTitle className="text-muted-foreground text-sm font-light">
-          Evolution line
-        </CardTitle>
-      </CardHeader>
-      <Separator className="bg-app-surface-border/60" />
+    <PokemonDetailSectionCard
+      icon={appIcons.product.journey}
+      title="Evolution line"
+      contentClassName="grid gap-2"
+    >
+      {evolutionPaths.map((path) => (
+        <div
+          key={path.key}
+          className="grid min-w-full items-center gap-2"
+          style={{
+            gridTemplateColumns:
+              getPokemonDetailEvolutionPathGridTemplateColumns(
+                maxPathStepCount,
+              ),
+          }}
+        >
+          {path.steps.map((step, stepIndex) => (
+            <Fragment key={`${path.key}:${step.key}:${stepIndex}`}>
+              <div
+                className="justify-self-center"
+                style={{
+                  gridColumn: getEvolutionPathNodeColumn(stepIndex),
+                }}
+              >
+                <PokemonDetailEvolutionNode
+                  linkScope={nodeLinkScope}
+                  pokemon={step.pokemon}
+                  scopedEdges={path.edges}
+                />
+              </div>
 
-      <CardContent className="grid gap-2 px-4 py-4">
-        {evolutionPaths.map((path) => (
-          <div
-            key={path.key}
-            className="grid min-w-full items-center gap-2"
-            style={{
-              gridTemplateColumns:
-                getPokemonDetailEvolutionPathGridTemplateColumns(
-                  maxPathStepCount,
-                ),
-            }}
-          >
-            {path.steps.map((step, stepIndex) => (
-              <Fragment key={`${path.key}:${step.key}:${stepIndex}`}>
+              {step.edgesToNext.length ? (
                 <div
-                  className="justify-self-center"
+                  className="min-w-0"
                   style={{
-                    gridColumn: getEvolutionPathNodeColumn(stepIndex),
+                    gridColumn: getEvolutionPathConnectorColumn(stepIndex),
                   }}
                 >
-                  <PokemonDetailEvolutionNode
-                    linkScope={nodeLinkScope}
-                    pokemon={step.pokemon}
-                    scopedEdges={path.edges}
+                  <PokemonDetailEvolutionConnector
+                    direction="horizontal"
+                    edges={step.edgesToNext}
+                    length="stretched"
                   />
                 </div>
-
-                {step.edgesToNext.length ? (
-                  <div
-                    className="min-w-0"
-                    style={{
-                      gridColumn: getEvolutionPathConnectorColumn(stepIndex),
-                    }}
-                  >
-                    <PokemonDetailEvolutionConnector
-                      direction="horizontal"
-                      edges={step.edgesToNext}
-                      length="stretched"
-                    />
-                  </div>
-                ) : null}
-              </Fragment>
-            ))}
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+              ) : null}
+            </Fragment>
+          ))}
+        </div>
+      ))}
+    </PokemonDetailSectionCard>
   );
 };

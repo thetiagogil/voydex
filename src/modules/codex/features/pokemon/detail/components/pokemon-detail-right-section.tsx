@@ -1,4 +1,6 @@
 import { PokemonDetailCoreDataCard } from "@/modules/codex/features/pokemon/detail/components/core-data/pokemon-detail-core-data-card";
+import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
+import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
 type PokemonDetailRightSectionProps = {
@@ -11,6 +13,16 @@ export const PokemonDetailRightSection = ({
   return (
     <section className="flex min-w-0 flex-col gap-2">
       <PokemonDetailCoreDataCard form={scope.form} />
+      <div className="grid items-stretch gap-2 xl:grid-cols-2">
+        <PokemonDetailStatsCard
+          attributes={scope.form?.attributes ?? null}
+          generation={scope.generation.generation}
+        />
+        <PokemonDetailTypeMatchupsCard
+          generation={scope.generation.generation}
+          typePair={scope.form?.typePair ?? null}
+        />
+      </div>
     </section>
   );
 };

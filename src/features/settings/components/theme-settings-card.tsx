@@ -50,7 +50,7 @@ export const ThemeSettingsCard = () => {
   const resolvedThemeLabel = resolvedTheme === "dark" ? "Dark" : "Light";
 
   return (
-    <Card size="sm">
+    <Card>
       <CardHeader>
         <CardTitle>Appearance</CardTitle>
         <CardDescription>

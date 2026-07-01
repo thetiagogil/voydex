@@ -14,7 +14,7 @@ type AccountSettingsCardProps = {
 
 export const AccountSettingsCard = ({ email }: AccountSettingsCardProps) => {
   return (
-    <Card size="sm">
+    <Card>
       <CardHeader>
         <CardTitle>Account</CardTitle>
         <CardDescription>Your signed-in credentials.</CardDescription>

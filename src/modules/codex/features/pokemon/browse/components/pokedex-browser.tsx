@@ -9,17 +9,8 @@ import {
   useState,
 } from "react";
 
-import {
-  CodexBrowseMeta,
-  CodexEmptyState,
-  CodexResourceGrid,
-} from "@/modules/codex/shared/components/codex-browse";
 import { PokedexFilterForm } from "@/modules/codex/features/pokemon/browse/components/pokedex-filter-form";
 import { PokedexPokemonCard } from "@/modules/codex/features/pokemon/browse/components/pokedex-pokemon-card";
-import type {
-  PokedexPageData,
-  PokedexPageFilters,
-} from "@/modules/codex/shared/types";
 import {
   filterPokedexPokemon,
   getSearchablePokedexPokemon,
@@ -28,6 +19,15 @@ import {
   defaultPokedexPageFilters,
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
+import {
+  CodexBrowseMeta,
+  CodexEmptyState,
+  CodexResourceGrid,
+} from "@/modules/codex/shared/components/codex-browse";
+import type {
+  PokedexPageData,
+  PokedexPageFilters,
+} from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 
 type PokedexBrowserProps = {
@@ -146,6 +146,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
             Showing {visiblePokemon.length} of {filteredPokemon.length} Pokémon
           </span>
         </CodexBrowseMeta>
+
         {hasActiveFilters ? (
           <Button
             type="button"

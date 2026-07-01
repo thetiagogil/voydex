@@ -16,7 +16,7 @@ export const PokemonDetailShell = ({
   scope,
 }: PokemonDetailShellProps) => {
   return (
-    <div className="flex flex-col gap-2">
+    <>
       <PokemonDetailTopSection
         activeGameSlug={scope.game?.slug ?? null}
         activePokemon={{
@@ -31,6 +31,6 @@ export const PokemonDetailShell = ({
         left={<PokemonDetailLeftSection data={data} scope={scope} />}
         right={<PokemonDetailRightSection scope={scope} />}
       />
-    </div>
+    </>
   );
 };

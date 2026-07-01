@@ -12,12 +12,8 @@ export const CodexPageShell = ({
   title,
 }: CodexPageShellProps) => {
   return (
-    <div className="flex flex-col gap-7">
-      <PageHeader
-        title={title}
-        description={description}
-        className="border-app-surface-border border-b pb-5"
-      />
+    <div className="flex flex-col gap-4">
+      <PageHeader title={title} description={description} />
       {children}
     </div>
   );
