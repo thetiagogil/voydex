@@ -1,4 +1,5 @@
 import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
+import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
 import { PokemonDetailCoreDataCard } from "@/modules/codex/features/pokemon/detail/components/core-data/pokemon-detail-core-data-card";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
@@ -35,6 +36,11 @@ export const PokemonDetailRightSection = ({
         attributes={scope.form?.attributes ?? null}
         currentVersionGroup={scope.versionGroup?.versionGroup ?? null}
         versionGroups={versionGroups}
+      />
+      <PokemonDetailAvailabilityCard
+        activeGame={scope.game}
+        activeVersionGroup={scope.versionGroup?.versionGroup ?? null}
+        availability={scope.availability}
       />
     </section>
   );
