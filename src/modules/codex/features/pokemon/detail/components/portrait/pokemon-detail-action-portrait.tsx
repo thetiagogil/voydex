@@ -35,7 +35,7 @@ export const PokemonDetailActionPortrait = ({
         "border-app-surface-border/70 bg-background/30 rounded-full",
         pokemonTypeGroupHoverSurfaceClassName,
         isActive && pokemonTypeSelectedSurfaceClassName,
-        isCompact ? "size-9" : "size-16 sm:size-18",
+        isCompact ? "size-12" : "size-16 sm:size-18",
       )}
       glowClassName="opacity-20 transition-opacity duration-200 group-hover:opacity-35 group-focus-visible:opacity-35"
       imageClassName={isCompact ? "p-1.5" : "p-2"}

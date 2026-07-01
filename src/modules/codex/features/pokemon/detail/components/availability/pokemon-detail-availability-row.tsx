@@ -6,14 +6,12 @@ import {
   getPokemonDetailAvailabilityDetails,
   getPokemonDetailAvailabilityMethodLabel,
 } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-utils";
+import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import type {
   Game,
   PokemonAvailabilitySummary,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-
-export const pokemonDetailAvailabilityGridClassName =
-  "grid min-w-[42rem] grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,2fr)] items-center gap-4";
 
 type PokemonDetailAvailabilityRowProps = {
   activeGame: Game | null;
@@ -63,7 +61,7 @@ export const PokemonDetailAvailabilityRow = ({
 
   return (
     <article
-      className={`${pokemonDetailAvailabilityGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
+      className={`${pokemonDetailSectionTableGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
     >
       <div className="flex min-w-0 items-center gap-3">
         <PokemonDetailAvailabilityMedia
@@ -73,6 +71,7 @@ export const PokemonDetailAvailabilityRow = ({
         />
         <div className="truncate text-sm font-medium">
           {getPokemonDetailAvailabilityContentLabel({
+            activeGame,
             activeVersionGroup,
             availability,
           })}

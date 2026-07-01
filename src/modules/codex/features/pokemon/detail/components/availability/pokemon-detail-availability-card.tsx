@@ -1,8 +1,6 @@
-import {
-  PokemonDetailAvailabilityRow,
-  pokemonDetailAvailabilityGridClassName,
-} from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-row";
+import { PokemonDetailAvailabilityRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-row";
 import { getPokemonDetailAvailabilityKey } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-utils";
+import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type {
   Game,
@@ -26,7 +24,7 @@ export const PokemonDetailAvailabilityCard = ({
       {availability.length ? (
         <div className="overflow-x-auto">
           <div
-            className={`${pokemonDetailAvailabilityGridClassName} text-muted-foreground px-4 py-2 text-xs`}
+            className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground px-4 py-2 text-xs`}
           >
             <div>Content</div>
             <div>Method</div>

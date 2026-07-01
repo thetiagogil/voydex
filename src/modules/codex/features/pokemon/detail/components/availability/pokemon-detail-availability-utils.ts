@@ -30,9 +30,11 @@ const getAvailabilityMediaInitials = (label: string) => {
 };
 
 export const getPokemonDetailAvailabilityContentLabel = ({
+  activeGame,
   availability,
   activeVersionGroup,
 }: {
+  activeGame: Game | null;
   availability: PokemonAvailabilitySummary;
   activeVersionGroup: VersionGroup | null;
 }) => {
@@ -47,7 +49,9 @@ export const getPokemonDetailAvailabilityContentLabel = ({
     contentVersionGroup.id === activeVersionGroup.id &&
     !activeVersionGroup.parent_version_group_id
   ) {
-    return "Base game";
+    return (
+      availability.game?.name ?? activeGame?.name ?? contentVersionGroup.name
+    );
   }
 
   return contentVersionGroup.name;
