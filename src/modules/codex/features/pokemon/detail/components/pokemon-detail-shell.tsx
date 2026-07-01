@@ -29,7 +29,7 @@ export const PokemonDetailShell = ({
 
       <PokemonDetailContent
         left={<PokemonDetailLeftSection data={data} scope={scope} />}
-        right={<PokemonDetailRightSection scope={scope} />}
+        right={<PokemonDetailRightSection data={data} scope={scope} />}
       />
     </>
   );
