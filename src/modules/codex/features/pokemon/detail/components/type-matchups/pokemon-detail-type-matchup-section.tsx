@@ -1,10 +1,10 @@
 import { Fragment } from "react";
 
-import { PokemonDetailTypeMatchupBadge } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchup-badge";
 import type {
   PokemonDetailTypeMatchupGroupData,
   PokemonDetailTypeMatchupSectionData,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-utils";
+import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Separator } from "@/shared/components/ui/separator";
 
 type PokemonDetailTypeMatchupSectionProps = {
@@ -34,7 +34,13 @@ const PokemonDetailTypeMatchupGroup = ({
     <div className="min-w-0">
       <ul className="flex min-h-0 flex-wrap gap-2">
         {group.matchups.map((matchup) => (
-          <PokemonDetailTypeMatchupBadge key={matchup.type} matchup={matchup} />
+          <PokemonTypeBadge
+            key={matchup.type}
+            type={matchup.type}
+            label={matchup.type}
+            size="sm"
+            variant="soft"
+          />
         ))}
       </ul>
     </div>
@@ -44,14 +50,7 @@ const PokemonDetailTypeMatchupGroup = ({
 export const PokemonDetailTypeMatchupSection = ({
   section,
 }: PokemonDetailTypeMatchupSectionProps) => {
-  if (!section.groups.length) {
-    return (
-      <div className="flex min-h-0 flex-1 flex-col justify-center gap-2 px-4 py-3">
-        <div className="text-muted-foreground text-xs">{section.title}</div>
-        <div className="text-muted-foreground text-sm">None</div>
-      </div>
-    );
-  }
+  if (!section.groups.length) return;
 
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-center gap-2 px-4 py-3">

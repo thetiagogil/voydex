@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { PokemonDetailTypeMatchupSection } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchup-section";
 import {
@@ -35,15 +33,15 @@ export const PokemonDetailTypeMatchupsCard = ({
     <PokemonDetailSectionCard
       title="Type Matchups"
       className="h-full"
-      contentClassName="flex flex-1 flex-col p-0"
+      contentClassName="p-0"
     >
       {sections.map((section, index) => (
-        <Fragment key={section.id}>
+        <div key={section.id}>
           <PokemonDetailTypeMatchupSection section={section} />
           {index < sections.length - 1 ? (
             <Separator className="bg-app-surface-border/60" />
           ) : null}
-        </Fragment>
+        </div>
       ))}
     </PokemonDetailSectionCard>
   );

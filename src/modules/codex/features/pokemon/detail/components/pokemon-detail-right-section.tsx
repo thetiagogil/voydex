@@ -21,16 +21,14 @@ export const PokemonDetailRightSection = ({
   return (
     <section className="flex min-w-0 flex-col gap-2">
       <PokemonDetailCoreDataCard form={scope.form} />
-      <div className="grid items-stretch gap-2 xl:grid-cols-2">
-        <PokemonDetailStatsCard
-          attributes={scope.form?.attributes ?? null}
-          generation={scope.generation.generation}
-        />
-        <PokemonDetailTypeMatchupsCard
-          generation={scope.generation.generation}
-          typePair={scope.form?.typePair ?? null}
-        />
-      </div>
+      <PokemonDetailStatsCard
+        attributes={scope.form?.attributes ?? null}
+        generation={scope.generation.generation}
+      />
+      <PokemonDetailTypeMatchupsCard
+        generation={scope.generation.generation}
+        typePair={scope.form?.typePair ?? null}
+      />
       <PokemonDetailAbilitiesCard
         abilities={data.abilities}
         abilityAttributes={data.abilityAttributes}

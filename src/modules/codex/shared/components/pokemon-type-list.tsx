@@ -45,7 +45,6 @@ const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
       display={display}
       size={size}
       variant={variant}
-      className="py-4"
     />
   );
 };
@@ -59,7 +58,7 @@ export const PokemonTypeList = ({
   secondaryType,
 }: PokemonTypeListProps) => {
   return (
-    <div className={cn("grid grid-cols-2 gap-2", className)}>
+    <div className={cn("flex gap-2", className)}>
       <TypeBadge
         type={primaryType}
         display={badgeDisplay}
