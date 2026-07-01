@@ -7,7 +7,6 @@ import {
   getPokemonDetailTypeMatchupSections,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-utils";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
-import { appIcons } from "@/shared/components/app-icon";
 import { Separator } from "@/shared/components/ui/separator";
 import { getDefensivePokemonTypeMatchups } from "@/shared/domain/pokemon/type-effectiveness";
 
@@ -34,7 +33,6 @@ export const PokemonDetailTypeMatchupsCard = ({
 
   return (
     <PokemonDetailSectionCard
-      icon={appIcons.product.battle}
       title="Type Matchups"
       className="h-full"
       contentClassName="flex flex-1 flex-col p-0"

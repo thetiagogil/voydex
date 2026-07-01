@@ -7,7 +7,6 @@ import type {
   PokemonAttributes,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-import { appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailAbilitiesCardProps = {
   abilities: Ability[];
@@ -37,10 +36,7 @@ export const PokemonDetailAbilitiesCard = ({
   }
 
   return (
-    <PokemonDetailSectionCard
-      icon={appIcons.product.activity}
-      title="Abilities"
-    >
+    <PokemonDetailSectionCard title="Abilities">
       <div className="grid gap-2">
         {abilitySlots.map((abilitySlot) => (
           <PokemonDetailAbilityItem

@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import { pokemonTypeClassNames } from "@/shared/components/pokemon/type-styles";
+import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import Image from "next/image";
 
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";
 

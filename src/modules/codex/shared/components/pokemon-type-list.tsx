@@ -1,4 +1,8 @@
 import { cn } from "@/lib/utils";
+import type {
+  PokedexPokemonBrowseReference,
+  Type,
+} from "@/modules/codex/shared/types";
 import {
   PokemonTypeBadge,
   type PokemonTypeBadgeDisplay,
@@ -6,10 +10,6 @@ import {
   type PokemonTypeBadgeVariant,
 } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
-import type {
-  PokedexPokemonBrowseReference,
-  Type,
-} from "@/modules/codex/shared/types";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 
 type PokemonTypeDisplay = Pick<Type, "name" | "slug"> &
@@ -45,6 +45,7 @@ const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
       display={display}
       size={size}
       variant={variant}
+      className="py-4"
     />
   );
 };
@@ -58,7 +59,7 @@ export const PokemonTypeList = ({
   secondaryType,
 }: PokemonTypeListProps) => {
   return (
-    <div className={cn("flex flex-wrap items-center gap-2", className)}>
+    <div className={cn("grid grid-cols-2 gap-2", className)}>
       <TypeBadge
         type={primaryType}
         display={badgeDisplay}

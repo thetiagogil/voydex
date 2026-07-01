@@ -1,4 +1,5 @@
 import {
+  getPokemonDetailStatBarColorClassName,
   getPokemonDetailStatBarWidth,
   MAX_POKEMON_BASE_STAT,
   type PokemonDetailStatDefinition,
@@ -28,7 +29,7 @@ export const PokemonDetailStatRow = ({
         role="meter"
       >
         <div
-          className={`${stat.colorClassName} h-full rounded-full`}
+          className={`${getPokemonDetailStatBarColorClassName(value)} h-full rounded-full`}
           style={{
             width: getPokemonDetailStatBarWidth(value, MAX_POKEMON_BASE_STAT),
           }}

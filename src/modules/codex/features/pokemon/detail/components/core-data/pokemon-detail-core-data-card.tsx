@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
-import { appIcons } from "@/shared/components/app-icon";
 import { Separator } from "@/shared/components/ui/separator";
 import {
   formatPokemonHeight,
@@ -51,7 +50,6 @@ export const PokemonDetailCoreDataCard = ({
 }: PokemonDetailCoreDataCardProps) => {
   return (
     <PokemonDetailSectionCard
-      icon={appIcons.product.details}
       title="Core Data"
       contentClassName="flex flex-col gap-4 md:flex-row md:items-stretch"
     >
@@ -63,15 +61,21 @@ export const PokemonDetailCoreDataCard = ({
           secondaryType={form?.typePair.secondaryType ?? null}
         />
       </PokemonDetailCoreDataField>
+
       <PokemonDetailCoreDataSeparator />
+
       <PokemonDetailCoreDataField label="Height">
         {formatPokemonHeight(form?.form.height_decimeters ?? null)}
       </PokemonDetailCoreDataField>
+
       <PokemonDetailCoreDataSeparator />
+
       <PokemonDetailCoreDataField label="Weight">
         {formatPokemonWeight(form?.form.weight_hectograms ?? null)}
       </PokemonDetailCoreDataField>
+
       <PokemonDetailCoreDataSeparator />
+
       <PokemonDetailCoreDataField label="Introduced">
         {form?.introducedGeneration?.name ?? "Unknown"}
       </PokemonDetailCoreDataField>

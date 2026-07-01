@@ -10,7 +10,6 @@ import {
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
-import { appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailEvolutionSectionProps = {
   activeFormId: number | null;
@@ -80,7 +79,6 @@ export const PokemonDetailEvolutionSection = ({
 
   return (
     <PokemonDetailSectionCard
-      icon={appIcons.product.journey}
       title="Evolution line"
       contentClassName="grid gap-2"
     >

@@ -4,7 +4,6 @@ import type {
   Generation,
   PokemonAttributes,
 } from "@/modules/codex/shared/types";
-import { appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailStatsCardProps = {
   attributes: PokemonAttributes | null;
@@ -20,11 +19,7 @@ export const PokemonDetailStatsCard = ({
   }
 
   return (
-    <PokemonDetailSectionCard
-      icon={appIcons.product.stats}
-      title="Battle Stats"
-      className="h-full"
-    >
+    <PokemonDetailSectionCard title="Battle Stats" className="h-full">
       <PokemonDetailStatsTable
         attributes={attributes}
         generation={generation}

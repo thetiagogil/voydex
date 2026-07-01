@@ -2,7 +2,6 @@ import { PokemonDetailFormSelectorDesktop } from "@/modules/codex/features/pokem
 import { PokemonDetailFormSelectorMobile } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-selector-mobile";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
-import { appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailFormsSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
@@ -31,7 +30,6 @@ export const PokemonDetailFormsSection = ({
 
   return (
     <PokemonDetailSectionCard
-      icon={appIcons.product.form}
       title="Forms"
       contentClassName="grid min-w-0 gap-2"
     >

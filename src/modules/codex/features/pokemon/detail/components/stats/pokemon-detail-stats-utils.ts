@@ -12,7 +12,6 @@ export type PokemonDetailStatKey =
   | "base_speed";
 
 export type PokemonDetailStatDefinition = {
-  colorClassName: string;
   key: PokemonDetailStatKey;
   label: string;
 };
@@ -21,32 +20,26 @@ export const MAX_POKEMON_BASE_STAT = 255;
 
 const modernStatDefinitions = [
   {
-    colorClassName: "bg-emerald-400",
     key: "base_hp",
     label: "HP",
   },
   {
-    colorClassName: "bg-cyan-400",
     key: "base_attack",
     label: "Attack",
   },
   {
-    colorClassName: "bg-amber-400",
     key: "base_defense",
     label: "Defense",
   },
   {
-    colorClassName: "bg-sky-400",
     key: "base_special_attack",
     label: "Sp. Atk",
   },
   {
-    colorClassName: "bg-violet-400",
     key: "base_special_defense",
     label: "Sp. Def",
   },
   {
-    colorClassName: "bg-pink-500",
     key: "base_speed",
     label: "Speed",
   },
@@ -54,27 +47,22 @@ const modernStatDefinitions = [
 
 const generationOneStatDefinitions = [
   {
-    colorClassName: "bg-emerald-400",
     key: "base_hp",
     label: "HP",
   },
   {
-    colorClassName: "bg-cyan-400",
     key: "base_attack",
     label: "Attack",
   },
   {
-    colorClassName: "bg-amber-400",
     key: "base_defense",
     label: "Defense",
   },
   {
-    colorClassName: "bg-indigo-400",
     key: "base_special_attack",
     label: "Special",
   },
   {
-    colorClassName: "bg-pink-500",
     key: "base_speed",
     label: "Speed",
   },
@@ -88,6 +76,30 @@ export const getPokemonDetailStatDefinitions = (generation: Generation) => {
 
 export const getPokemonDetailStatBarWidth = (value: number, max: number) => {
   return `${Math.round((Math.min(Math.max(value, 0), max) / max) * 100)}%`;
+};
+
+export const getPokemonDetailStatBarColorClassName = (value: number) => {
+  if (value < 40) {
+    return "bg-red-500";
+  }
+
+  if (value < 60) {
+    return "bg-orange-400";
+  }
+
+  if (value < 80) {
+    return "bg-yellow-400";
+  }
+
+  if (value < 100) {
+    return "bg-lime-400";
+  }
+
+  if (value < 120) {
+    return "bg-green-400";
+  }
+
+  return "bg-emerald-400";
 };
 
 export const getPokemonDetailStatsTotal = (
