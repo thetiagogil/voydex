@@ -9,6 +9,12 @@ import {
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 
 type PokemonDetailEvolutionSectionProps = {
@@ -78,16 +84,15 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
-    <section className="grid gap-3">
+    <Card size="sm" className="bg-card/76 gap-0 py-0 backdrop-blur-xl">
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-muted-foreground text-sm font-light">
+          Evolution line
+        </CardTitle>
+      </CardHeader>
       <Separator className="bg-app-surface-border/60" />
 
-      <div>
-        <h2 className="text-muted-foreground text-sm font-light">
-          Evolution line
-        </h2>
-      </div>
-
-      <div className="grid gap-2">
+      <CardContent className="grid gap-2 px-4 py-4">
         {evolutionPaths.map((path) => (
           <div
             key={path.key}
@@ -132,7 +137,7 @@ export const PokemonDetailEvolutionSection = ({
             ))}
           </div>
         ))}
-      </div>
-    </section>
+      </CardContent>
+    </Card>
   );
 };

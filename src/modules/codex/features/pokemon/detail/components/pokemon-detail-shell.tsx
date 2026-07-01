@@ -1,5 +1,6 @@
 import { PokemonDetailContent } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-content";
 import { PokemonDetailLeftSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-left-section";
+import { PokemonDetailRightSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-right-section";
 import { PokemonDetailTopSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-top-section";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { getPokemonDetailGenerationNavigationItems } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
@@ -15,7 +16,7 @@ export const PokemonDetailShell = ({
   scope,
 }: PokemonDetailShellProps) => {
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <PokemonDetailTopSection
         activeGameSlug={scope.game?.slug ?? null}
         activePokemon={{
@@ -28,7 +29,8 @@ export const PokemonDetailShell = ({
 
       <PokemonDetailContent
         left={<PokemonDetailLeftSection data={data} scope={scope} />}
+        right={<PokemonDetailRightSection scope={scope} />}
       />
-    </>
+    </div>
   );
 };

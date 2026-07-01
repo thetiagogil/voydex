@@ -93,7 +93,6 @@ export const PokemonDetailFormSelectorDesktop = ({
           render={
             <Button
               variant="outline"
-              size="sm"
               aria-label="Choose Pokemon form"
               className={pokemonDetailFormSelectorTriggerClassName}
             />

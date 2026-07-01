@@ -30,7 +30,7 @@ export const PokemonDetailLeftSection = ({
   };
 
   return (
-    <section className="border-app-surface-border bg-card/76 flex min-w-0 flex-col gap-3 rounded-xl border p-3 shadow-(--app-surface-shadow) backdrop-blur-xl sm:p-5">
+    <section className="flex min-w-0 flex-col gap-4">
       <PokemonDetailPortraitSection
         activeForm={scope.form}
         defaultImageUrl={defaultImageUrl}
