@@ -5,7 +5,7 @@ import {
   formatPokemonDetailLearnsetValue,
   getPokemonDetailLearnsetAddedContentLabel,
   getPokemonDetailLearnsetMethodDetail,
-} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-utils";
+} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";

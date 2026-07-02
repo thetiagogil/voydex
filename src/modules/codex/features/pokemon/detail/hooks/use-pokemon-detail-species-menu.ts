@@ -3,21 +3,23 @@ import { type UIEvent, useCallback, useMemo, useState } from "react";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import {
   createPokemonMenuState,
-  fetchPokemonMenuPage,
   getPokemonMenuGroupHeaderBySlug,
   normalizePokemonMenuQuery,
-  POKEMON_MENU_PAGE_SIZE,
   PRELOAD_REMAINING_POKEMON,
   type PokemonMenuLoadMode,
   type PokemonMenuState,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
+import {
+  fetchPokemonMenuPage,
+  POKEMON_MENU_PAGE_SIZE,
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-api";
 import {
   getActivePokemonMenuState,
   getFailedPokemonMenuState,
   getPendingPokemonMenuState,
   getPokemonMenuPreloadTriggerIndex,
   getResolvedPokemonMenuState,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu-state";
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-state";
 
 type UsePokemonDetailSpeciesMenuParams = {
   activeGameSlug: string | null;

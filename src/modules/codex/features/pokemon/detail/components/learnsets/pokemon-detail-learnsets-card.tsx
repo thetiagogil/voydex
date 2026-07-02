@@ -13,7 +13,7 @@ import {
   getPokemonDetailLearnsetMethodOptions,
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
-} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-utils";
+} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";

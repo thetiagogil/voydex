@@ -1,6 +1,6 @@
 import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
 import { PokedexBrowser } from "@/modules/codex/features/pokemon/browse/components/pokedex-browser";
-import { getPokedexPageData } from "@/modules/codex/features/pokemon/browse/data/pokemon-queries";
+import { getPokedexPageData } from "@/modules/codex/features/pokemon/browse/server/pokedex-page-query";
 
 export const PokedexPage = async () => {
   const data = await getPokedexPageData();

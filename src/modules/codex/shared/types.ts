@@ -7,6 +7,7 @@ export type AvailabilityMethod = ReferenceRow<"availability_methods">;
 export type EggGroup = ReferenceRow<"egg_groups">;
 export type EvolutionMethod = ReferenceRow<"evolution_methods">;
 export type Game = ReferenceRow<"games">;
+export type GameContentScope = ReferenceRow<"game_content_scopes">;
 export type GamePlatform = ReferenceRow<"game_platforms">;
 export type GameType = ReferenceRow<"game_types">;
 export type Generation = ReferenceRow<"generations">;

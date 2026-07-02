@@ -5,7 +5,7 @@ import {
   CodexResourceGrid,
 } from "@/modules/codex/shared/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
-import { getGenerationsPageData } from "@/modules/codex/features/generations/browse/data/generations-page-query";
+import { getGenerationsPageData } from "@/modules/codex/features/generations/browse/server/generations-page-query";
 import type { GenerationCard } from "@/modules/codex/shared/types";
 import { Badge } from "@/shared/components/ui/badge";
 

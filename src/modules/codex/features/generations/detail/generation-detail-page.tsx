@@ -11,7 +11,7 @@ import {
 } from "@/modules/codex/shared/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/shared/components/game-cover-art";
-import { getGenerationDetailData } from "@/modules/codex/features/generations/detail/data/generation-detail-query";
+import { getGenerationDetailData } from "@/modules/codex/features/generations/detail/server/generation-detail-query";
 import { Badge } from "@/shared/components/ui/badge";
 
 type GenerationDetailPageProps = {

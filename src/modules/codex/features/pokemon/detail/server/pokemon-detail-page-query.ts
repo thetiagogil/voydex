@@ -2,7 +2,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import {
   loadPokemonDetailBaseRows,
   loadPokemonDetailSpeciesRows,
-} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-base-loaders";
+} from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-base-loaders";
 import { buildPokemonEvolutionFamily } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-evolution-mappers";
 import {
   buildPokemonFormSummaries,
@@ -11,70 +11,19 @@ import {
 import { buildPokemonGenerationDetails } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-mappers";
 import { buildPokemonLearnsetSummaries } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-learnset-mappers";
 import {
+  buildPokemonAvailabilitySummaries,
+  buildPokemonPokedexSummaries,
+} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-summary-mappers";
+import {
   loadPokemonDetailEvolutionMethods,
   loadPokemonDetailLearnsetMoveRows,
   loadPokemonDetailRelatedRows,
-} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-related-loaders";
+} from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-related-loaders";
 import { byId, isNumber } from "@/modules/codex/shared/data/query-utils";
-import type {
-  AvailabilityMethod,
-  Game,
-  Pokedex,
-  PokedexEntry,
-  PokemonDetailData,
-  ResolvedPokemonAvailability,
-  VersionGroup,
-} from "@/modules/codex/shared/types";
+import type { PokedexEntry, PokemonDetailData } from "@/modules/codex/shared/types";
 
 const getPokedexIds = (entries: PokedexEntry[]) => {
   return [...new Set(entries.map((row) => row.pokedex_id).filter(isNumber))];
-};
-
-const buildAvailabilitySummaries = ({
-  availabilityRows,
-  games,
-  methods,
-  versionGroups,
-}: {
-  availabilityRows: ResolvedPokemonAvailability[];
-  games: Game[];
-  methods: AvailabilityMethod[];
-  versionGroups: VersionGroup[];
-}): PokemonDetailData["availability"] => {
-  const gameById = byId(games);
-  const methodById = byId(methods);
-  const versionGroupById = byId(versionGroups);
-
-  return availabilityRows.map((availabilityRow) => ({
-    availability: availabilityRow,
-    game: availabilityRow.game_id
-      ? (gameById.get(availabilityRow.game_id) ?? null)
-      : null,
-    method: availabilityRow.availability_method_id
-      ? (methodById.get(availabilityRow.availability_method_id) ?? null)
-      : null,
-    sourceVersionGroup: availabilityRow.source_version_group_id
-      ? (versionGroupById.get(availabilityRow.source_version_group_id) ?? null)
-      : null,
-    targetVersionGroup: availabilityRow.target_version_group_id
-      ? (versionGroupById.get(availabilityRow.target_version_group_id) ?? null)
-      : null,
-  }));
-};
-
-const buildPokedexSummaries = ({
-  entries,
-  pokedexes,
-}: {
-  entries: PokedexEntry[];
-  pokedexes: Pokedex[];
-}): PokemonDetailData["pokedexEntries"] => {
-  const pokedexById = byId(pokedexes);
-
-  return entries.map((entry) => ({
-    entry,
-    pokedex: pokedexById.get(entry.pokedex_id) ?? null,
-  }));
 };
 
 export const getPokemonDetailData = async (
@@ -116,7 +65,7 @@ export const getPokemonDetailData = async (
     generationById,
     typeById,
   });
-  const availability = buildAvailabilitySummaries({
+  const availability = buildPokemonAvailabilitySummaries({
     availabilityRows: speciesRows.availabilityRows,
     games: baseRows.games,
     methods: baseRows.availabilityMethods,
@@ -132,7 +81,7 @@ export const getPokemonDetailData = async (
     typeById,
     versionGroups: baseRows.versionGroups,
   });
-  const pokedexEntries = buildPokedexSummaries({
+  const pokedexEntries = buildPokemonPokedexSummaries({
     entries: speciesRows.pokedexEntries,
     pokedexes: relatedRows.pokedexes,
   });

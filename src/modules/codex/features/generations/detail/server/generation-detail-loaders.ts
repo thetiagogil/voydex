@@ -1,12 +1,28 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { byId } from "@/modules/codex/shared/data/query-utils";
-import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
-import type { GenerationDetailData } from "@/modules/codex/shared/types";
+import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type {
+  Game,
+  Generation,
+  PokemonSpecies,
+  Region,
+  VersionGroup,
+} from "@/modules/codex/shared/types";
 
-export const getGenerationDetailData = async (
+type ServerSupabaseClient = Awaited<
+  ReturnType<typeof createServerSupabaseClient>
+>;
+
+export type GenerationDetailRows = {
+  games: Game[];
+  generation: Generation;
+  introducedSpecies: PokemonSpecies[];
+  regions: Region[];
+  versionGroups: VersionGroup[];
+};
+
+export const loadGenerationDetailRows = async (
+  supabase: ServerSupabaseClient,
   identifier: string,
-): Promise<GenerationDetailData | null> => {
-  const supabase = await createServerSupabaseClient();
+): Promise<GenerationDetailRows | null> => {
   const numericId = Number(identifier);
   const generationQuery = supabase
     .schema("reference")
@@ -61,18 +77,11 @@ export const getGenerationDetailData = async (
     throw new Error("Unable to load generation detail data.");
   }
 
-  const regionById = byId(regionsResult.data ?? []);
-  const versionGroupById = byId(versionGroupsResult.data ?? []);
-
   return {
+    games: gamesResult.data ?? [],
     generation,
-    games: (gamesResult.data ?? []).map((game) => ({
-      coverImageUrl: getGameCoverImageUrl(game),
-      game,
-      region: regionById.get(game.region_id) ?? null,
-      versionGroup: versionGroupById.get(game.version_group_id) ?? null,
-    })),
-    versionGroups: versionGroupsResult.data ?? [],
     introducedSpecies: speciesResult.data ?? [],
+    regions: regionsResult.data ?? [],
+    versionGroups: versionGroupsResult.data ?? [],
   };
 };

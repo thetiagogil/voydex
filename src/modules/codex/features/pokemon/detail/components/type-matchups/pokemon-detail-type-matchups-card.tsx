@@ -3,7 +3,7 @@ import { PokemonDetailTypeMatchupSection } from "@/modules/codex/features/pokemo
 import {
   getPokemonDetailDefendingTypes,
   getPokemonDetailTypeMatchupSections,
-} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-utils";
+} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
 import { Separator } from "@/shared/components/ui/separator";
 import { getDefensivePokemonTypeMatchups } from "@/shared/domain/pokemon/type-effectiveness";

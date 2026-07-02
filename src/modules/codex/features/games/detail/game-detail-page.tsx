@@ -10,7 +10,7 @@ import {
 } from "@/modules/codex/shared/components/codex-detail";
 import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
 import { GameCoverArt } from "@/modules/codex/shared/components/game-cover-art";
-import { getGameDetailData } from "@/modules/codex/features/games/detail/data/game-detail-query";
+import { getGameDetailData } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { Badge } from "@/shared/components/ui/badge";
 
 type GameDetailPageProps = {

@@ -7,7 +7,7 @@ import {
   getPokemonDetailStatDefinitions,
   getPokemonDetailStatsTotal,
   type PokemonDetailStatDefinition,
-} from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-utils";
+} from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
 import { Separator } from "@/shared/components/ui/separator";
 
 type PokemonDetailStatsTableProps = {

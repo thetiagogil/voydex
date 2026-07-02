@@ -9,7 +9,7 @@ import {
   getPokemonSearchValue,
   isPokemonItemEqual,
   type PokemonMenuLoadState,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 import {

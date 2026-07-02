@@ -5,7 +5,7 @@ import {
   getPokemonDetailAvailabilityContentLabel,
   getPokemonDetailAvailabilityDetails,
   getPokemonDetailAvailabilityMethodLabel,
-} from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-utils";
+} from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import type {
   Game,

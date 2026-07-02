@@ -1,0 +1,14 @@
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { buildGamesPageData } from "@/modules/codex/features/games/browse/data/games-page-mappers";
+import { loadGamesPageRows } from "@/modules/codex/features/games/browse/server/games-page-loaders";
+import type { GamesPageData } from "@/modules/codex/shared/types";
+
+export const getGamesPageData = async (params?: {
+  generation?: string | null;
+  region?: string | null;
+}): Promise<GamesPageData> => {
+  const supabase = await createServerSupabaseClient();
+  const rows = await loadGamesPageRows(supabase);
+
+  return buildGamesPageData(rows, params);
+};

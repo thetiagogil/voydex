@@ -1,8 +1,5 @@
 import { appRoutes } from "@/config/routes";
-import type {
-  PokemonDetailMenuPage,
-  PokemonDetailMenuPokemon,
-} from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
@@ -20,17 +17,7 @@ export type PokemonMenuState = {
   total: number;
 };
 
-export type PokemonMenuPageRequest = {
-  gameSlug: string;
-  limit: number;
-  offset: number;
-  query: string;
-};
-
-export const POKEMON_MENU_PAGE_SIZE = 96;
 export const PRELOAD_REMAINING_POKEMON = 48;
-
-const pokemonMenuRequests = new Map<string, Promise<PokemonDetailMenuPage>>();
 
 export const createPokemonMenuState = (
   gameSlug: string | null,
@@ -49,64 +36,6 @@ export const createPokemonMenuState = (
 
 export const normalizePokemonMenuQuery = (query: string) => {
   return query.trim();
-};
-
-export const getPokemonMenuRequestKey = ({
-  gameSlug,
-  limit,
-  offset,
-  query,
-}: PokemonMenuPageRequest) => {
-  return `${gameSlug}:${query}:${offset}:${limit}`;
-};
-
-export const getPokemonMenuApiHref = ({
-  gameSlug,
-  limit,
-  offset,
-  query,
-}: PokemonMenuPageRequest) => {
-  const searchParams = new URLSearchParams({
-    game: gameSlug,
-    limit: String(limit),
-    offset: String(offset),
-  });
-
-  if (query) {
-    searchParams.set("q", query);
-  }
-
-  return `/api/codex/pokemon-menu?${searchParams}`;
-};
-
-export const fetchPokemonMenuPage = (requestParams: PokemonMenuPageRequest) => {
-  const requestKey = getPokemonMenuRequestKey(requestParams);
-  const cachedRequest = pokemonMenuRequests.get(requestKey);
-
-  if (cachedRequest) {
-    return cachedRequest;
-  }
-
-  const request = fetch(getPokemonMenuApiHref(requestParams), {
-    headers: { Accept: "application/json" },
-  })
-    .then(async (response) => {
-      if (!response.ok) {
-        throw new Error("Unable to load Pokémon menu.");
-      }
-
-      const data = (await response.json()) as PokemonDetailMenuPage;
-
-      return data;
-    })
-    .catch((error: unknown) => {
-      pokemonMenuRequests.delete(requestKey);
-      throw error;
-    });
-
-  pokemonMenuRequests.set(requestKey, request);
-
-  return request;
 };
 
 export const mergePokemonMenuItems = (

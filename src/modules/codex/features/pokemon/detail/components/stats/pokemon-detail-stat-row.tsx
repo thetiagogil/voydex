@@ -3,7 +3,7 @@ import {
   getPokemonDetailStatBarWidth,
   MAX_POKEMON_BASE_STAT,
   type PokemonDetailStatDefinition,
-} from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-utils";
+} from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
 
 type PokemonDetailStatRowProps = {
   stat: PokemonDetailStatDefinition;

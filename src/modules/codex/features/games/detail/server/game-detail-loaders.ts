@@ -1,15 +1,37 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import {
-  buildGameCards,
-  byId,
-  byNullableId,
-} from "@/modules/codex/shared/data/query-utils";
-import type { Game, GameDetailData } from "@/modules/codex/shared/types";
+import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type {
+  Game,
+  GameContentScope,
+  GamePlatform,
+  GameType,
+  Generation,
+  Platform,
+  Pokedex,
+  Region,
+  VersionGroup,
+} from "@/modules/codex/shared/types";
 
-export const getGameDetailData = async (
+type ServerSupabaseClient = Awaited<
+  ReturnType<typeof createServerSupabaseClient>
+>;
+
+export type GameDetailRows = {
+  availabilityCount: number;
+  contentScopes: GameContentScope[];
+  game: Game;
+  gamePlatforms: GamePlatform[];
+  gameTypes: GameType[];
+  generations: Generation[];
+  platforms: Platform[];
+  pokedexes: Pokedex[];
+  regions: Region[];
+  versionGroups: VersionGroup[];
+};
+
+export const loadGameDetailRows = async (
+  supabase: ServerSupabaseClient,
   slug: string,
-): Promise<GameDetailData | null> => {
-  const supabase = await createServerSupabaseClient();
+): Promise<GameDetailRows | null> => {
   const gameResult = await supabase
     .schema("reference")
     .from("games")
@@ -85,26 +107,16 @@ export const getGameDetailData = async (
     throw new Error("Unable to load game detail data.");
   }
 
-  const [card] = buildGameCards({
-    games: [game],
+  return {
+    availabilityCount: availabilityCountResult.count ?? 0,
+    contentScopes: contentScopesResult.data ?? [],
+    game,
+    gamePlatforms: gamePlatformsResult.data ?? [],
+    gameTypes: gameTypesResult.data ?? [],
     generations: generationsResult.data ?? [],
+    platforms: platformsResult.data ?? [],
+    pokedexes: pokedexResult.data ?? [],
     regions: regionsResult.data ?? [],
     versionGroups: versionGroupsResult.data ?? [],
-    gameTypes: gameTypesResult.data ?? [],
-    gamePlatforms: gamePlatformsResult.data ?? [],
-    platforms: platformsResult.data ?? [],
-  });
-  const gameById = byNullableId([game as Game]);
-  const versionGroupById = byId(versionGroupsResult.data ?? []);
-
-  return {
-    ...card,
-    pokedexes: pokedexResult.data ?? [],
-    contentScopes: (contentScopesResult.data ?? []).map((scope) => ({
-      game: gameById.get(scope.game_id) ?? null,
-      versionGroup: versionGroupById.get(scope.version_group_id) ?? null,
-      isBaseScope: scope.is_base_scope,
-    })),
-    availablePokemonCount: availabilityCountResult.count ?? 0,
   };
 };

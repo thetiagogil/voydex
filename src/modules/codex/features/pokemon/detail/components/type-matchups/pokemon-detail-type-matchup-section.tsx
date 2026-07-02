@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import type {
   PokemonDetailTypeMatchupGroupData,
   PokemonDetailTypeMatchupSectionData,
-} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-utils";
+} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Separator } from "@/shared/components/ui/separator";
 

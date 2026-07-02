@@ -11,7 +11,7 @@ import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/poke
 import {
   getPokemonMenuEmptyLabel,
   type PokemonMenuLoadState,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";

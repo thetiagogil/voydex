@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { getGamesPageData } from "@/modules/codex/features/games/browse/data/games-page-query";
+import { getGamesPageData } from "@/modules/codex/features/games/browse/server/games-page-query";
 import type { GameCard } from "@/modules/codex/shared/types";
 import {
   CodexBrowseMeta,

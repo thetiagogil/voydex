@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getPokemonDetailGamePokemonMenuBySlug } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-query";
+import { getPokemonDetailGamePokemonMenuBySlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-query";
 
 export const dynamic = "force-dynamic";
 

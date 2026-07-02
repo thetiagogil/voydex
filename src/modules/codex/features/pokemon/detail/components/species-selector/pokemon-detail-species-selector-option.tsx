@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
-import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";

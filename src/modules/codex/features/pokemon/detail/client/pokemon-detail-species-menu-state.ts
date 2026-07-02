@@ -5,7 +5,7 @@ import {
   PRELOAD_REMAINING_POKEMON,
   type PokemonMenuLoadMode,
   type PokemonMenuState,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-species-menu";
+} from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 
 type PokemonMenuStateIdentity = {
   requestedGameSlug: string;
