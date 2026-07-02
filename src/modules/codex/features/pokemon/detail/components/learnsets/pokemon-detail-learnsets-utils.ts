@@ -183,6 +183,10 @@ export const getPokemonDetailLearnsetMethodDetail = (
       return "Evolution";
     }
 
+    if (learnset.learnset.level_learned_at === 1) {
+      return "-";
+    }
+
     return `Lv. ${learnset.learnset.level_learned_at}`;
   }
 

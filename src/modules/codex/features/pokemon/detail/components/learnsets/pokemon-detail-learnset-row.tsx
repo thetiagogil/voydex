@@ -36,6 +36,25 @@ type PokemonDetailLearnsetRowProps = {
   learnset: PokemonLearnsetSummary;
 };
 
+const PokemonDetailLearnsetInfoTooltip = ({ label }: { label: string }) => {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <span
+            tabIndex={0}
+            aria-label={label}
+            className="text-muted-foreground focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2"
+          />
+        }
+      >
+        <InfoIcon aria-hidden className="size-3.5" />
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+};
+
 const PokemonDetailLearnsetType = ({
   learnset,
 }: PokemonDetailLearnsetRowProps) => {
@@ -137,20 +156,7 @@ export const PokemonDetailLearnsetRow = ({
       <div className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
         <span className="truncate">{learnset.move.name}</span>
         {addedContentLabel ? (
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <span
-                  tabIndex={0}
-                  aria-label={addedContentLabel}
-                  className="text-muted-foreground focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2"
-                />
-              }
-            >
-              <InfoIcon aria-hidden className="size-3.5" />
-            </TooltipTrigger>
-            <TooltipContent>{addedContentLabel}</TooltipContent>
-          </Tooltip>
+          <PokemonDetailLearnsetInfoTooltip label={addedContentLabel} />
         ) : null}
       </div>
 
