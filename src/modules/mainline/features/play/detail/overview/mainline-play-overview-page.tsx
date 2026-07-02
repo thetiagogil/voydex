@@ -1,4 +1,4 @@
-import { MainlinePlayGenericPanel } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+import { MainlinePlaySectionCard } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatDate,
@@ -9,7 +9,7 @@ import {
   getLatestTimelineEvents,
   getPlayTitle,
   getTimelineEventTitle,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 
 type MainlinePlayOverviewPageProps = {
@@ -25,7 +25,7 @@ export const MainlinePlayOverviewPage = ({
   return (
     <MainlinePlayShell activeTab="overview" data={data}>
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title={getPlayTitle(play)}
           description="A compact read-only overview while the play hub sections are rebuilt."
           metrics={[
@@ -56,7 +56,7 @@ export const MainlinePlayOverviewPage = ({
           ]}
         />
 
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Recent activity"
           description={`${formatNumber(
             play.timeline_event_count,
@@ -88,7 +88,7 @@ export const MainlinePlayOverviewPage = ({
               No timeline events are available yet.
             </p>
           )}
-        </MainlinePlayGenericPanel>
+        </MainlinePlaySectionCard>
       </div>
     </MainlinePlayShell>
   );

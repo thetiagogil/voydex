@@ -1,9 +1,3 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-
-export type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
-
 export const byId = <
   T extends {
     id: number;
@@ -19,11 +13,5 @@ export const uniqueNumberIds = (values: Array<number | null>): number[] => {
     new Set(
       values.filter((value): value is number => typeof value === "number"),
     ),
-  );
-};
-
-export const isUuid = (value: string): boolean => {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-    value,
   );
 };

@@ -1,5 +1,5 @@
 import type { GenerationDetailRows } from "@/modules/codex/features/generations/detail/server/generation-detail-loaders";
-import { byId } from "@/modules/codex/shared/data/query-utils";
+import { byId } from "@/modules/codex/shared/data/reference-data-utils";
 import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
 import type { GenerationDetailData } from "@/modules/codex/shared/types";
 

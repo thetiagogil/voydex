@@ -1,7 +1,7 @@
 import {
-  MainlinePlayGenericPanel,
-  MainlinePlaySimpleList,
-} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+  MainlinePlaySectionCard,
+  MainlinePlaySectionList,
+} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatDexNumber,
@@ -9,7 +9,7 @@ import {
   getActiveTeam,
   getPokemonDisplayName,
   getReserveTeam,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type {
   MainlinePlayDetailData,
   MainlinePlayTeamPokemon,
@@ -49,7 +49,7 @@ export const MainlinePlayTeamPage = ({ data }: MainlinePlayTeamPageProps) => {
   return (
     <MainlinePlayShell activeTab="team" data={data}>
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Team"
           description="Read-only roster surface. Add, evolve, replace, and retire actions are intentionally out of this reset."
           metrics={[
@@ -64,23 +64,23 @@ export const MainlinePlayTeamPage = ({ data }: MainlinePlayTeamPageProps) => {
         />
 
         <div className="grid gap-5 lg:grid-cols-2">
-          <MainlinePlayGenericPanel title="Active roster">
-            <MainlinePlaySimpleList
+          <MainlinePlaySectionCard title="Active roster">
+            <MainlinePlaySectionList
               emptyLabel="No active team members are available yet."
               getKey={getRosterKey}
               items={activeTeam.slice(0, 6)}
               renderItem={renderRosterPokemon}
             />
-          </MainlinePlayGenericPanel>
+          </MainlinePlaySectionCard>
 
-          <MainlinePlayGenericPanel title="Reserve roster">
-            <MainlinePlaySimpleList
+          <MainlinePlaySectionCard title="Reserve roster">
+            <MainlinePlaySectionList
               emptyLabel="No reserve team members are available yet."
               getKey={getRosterKey}
               items={reserveTeam.slice(0, 6)}
               renderItem={renderRosterPokemon}
             />
-          </MainlinePlayGenericPanel>
+          </MainlinePlaySectionCard>
         </div>
       </div>
     </MainlinePlayShell>

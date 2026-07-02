@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { CreateMainlinePlayState } from "@/modules/mainline/features/play/create/create-mainline-play-action-state";
 import type { CreateMainlinePlayPageData } from "@/modules/mainline/features/play/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -46,13 +48,14 @@ export const CreateMainlinePlayGameCard = ({
                   required
                 />
                 <span className="border-app-surface-border bg-card/55 hover:bg-accent/35 peer-checked:border-primary/60 peer-checked:bg-primary/10 peer-focus-visible:ring-ring/50 flex min-h-28 gap-3 rounded-xl border p-3 transition-colors peer-focus-visible:ring-3">
-                  <span className="bg-muted/70 text-muted-foreground flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+                  <span className="bg-muted/70 text-muted-foreground relative flex aspect-[3/4] h-20 shrink-0 items-center justify-center overflow-hidden rounded-lg">
                     {option.coverImageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={option.coverImageUrl}
                         alt=""
-                        className="size-full object-cover"
+                        fill
+                        sizes="3.75rem"
+                        className="object-cover"
                       />
                     ) : (
                       <AppIcon

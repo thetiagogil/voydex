@@ -1,4 +1,4 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 import { loadPagedReferenceRows } from "@/modules/codex/shared/server/reference-row-loaders";
 import type {
   Game,
@@ -8,10 +8,6 @@ import type {
   PokemonSpecies,
   Type,
 } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 export type PokedexPageRows = {
   attributes: PokemonAttributes[];

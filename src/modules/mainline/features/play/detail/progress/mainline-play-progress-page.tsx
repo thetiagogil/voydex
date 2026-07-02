@@ -1,12 +1,12 @@
 import {
-  MainlinePlayGenericPanel,
-  MainlinePlaySimpleList,
-} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+  MainlinePlaySectionCard,
+  MainlinePlaySectionList,
+} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatNumber,
   formatPercent,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayMilestoneCategorySummary } from "@/modules/mainline/shared/types/mainline.types";
 
@@ -52,7 +52,7 @@ export const MainlinePlayProgressPage = ({
       data={data}
     >
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Progress"
           description="Read-only completion summary while the detailed tracking surfaces are rebuilt."
           metrics={[
@@ -87,17 +87,17 @@ export const MainlinePlayProgressPage = ({
           ]}
         />
 
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Milestone categories"
           description="Seeded category summaries for the selected play."
         >
-          <MainlinePlaySimpleList
+          <MainlinePlaySectionList
             emptyLabel="No milestone categories are available yet."
             getKey={getCategoryKey}
             items={data.milestoneCategories}
             renderItem={renderCategory}
           />
-        </MainlinePlayGenericPanel>
+        </MainlinePlaySectionCard>
       </div>
     </MainlinePlayShell>
   );

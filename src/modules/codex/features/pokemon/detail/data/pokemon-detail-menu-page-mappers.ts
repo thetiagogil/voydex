@@ -6,7 +6,10 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-attribute-selectors";
 import { getPokemonMenuRowBySpeciesId } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
-import { byId, resolveTypePair } from "@/modules/codex/shared/data/query-utils";
+import {
+  byId,
+  resolveTypePair,
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Game,
   Generation,

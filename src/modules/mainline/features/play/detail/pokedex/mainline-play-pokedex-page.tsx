@@ -1,14 +1,14 @@
 import {
-  MainlinePlayGenericPanel,
-  MainlinePlaySimpleList,
-} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+  MainlinePlaySectionCard,
+  MainlinePlaySectionList,
+} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatDexNumber,
   formatNumber,
   formatPercent,
   getPokedexDisplayName,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type {
   MainlinePlayDetailData,
   MainlinePlayPokedexEntry,
@@ -58,7 +58,7 @@ export const MainlinePlayPokedexPage = ({
       data={data}
     >
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Pokédex"
           description="Read-only Pokédex progress while seen/caught actions are rebuilt."
           metrics={[
@@ -75,19 +75,19 @@ export const MainlinePlayPokedexPage = ({
           ]}
         />
 
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Entries"
           description={`${formatNumber(
             data.pokedexEntries.length,
           )} seeded entries are loaded for this play.`}
         >
-          <MainlinePlaySimpleList
+          <MainlinePlaySectionList
             emptyLabel="No Pokédex entries are available yet."
             getKey={getPokedexEntryKey}
             items={data.pokedexEntries.slice(0, 24)}
             renderItem={renderPokedexEntry}
           />
-        </MainlinePlayGenericPanel>
+        </MainlinePlaySectionCard>
       </div>
     </MainlinePlayShell>
   );

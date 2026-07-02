@@ -12,16 +12,9 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
+import { byId } from "@/shared/utils/collections";
 
-export const byId = <
-  T extends {
-    id: number;
-  },
->(
-  rows: T[],
-): Map<number, T> => {
-  return new Map(rows.map((row) => [row.id, row]));
-};
+export { byId };
 
 export const byNullableId = <
   T extends {

@@ -1,4 +1,4 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 import { getDefaultFormsBySpeciesId } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-attribute-selectors";
 import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import {
@@ -17,10 +17,6 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 export type PokemonMenuReferenceRows = {
   generations: Generation[];
@@ -233,8 +229,9 @@ export const loadPokemonMenuPageRows = async ({
         .range(from, to),
     "Unable to load game Pokemon form data.",
   );
-  const defaultFormIds = [...getDefaultFormsBySpeciesId(defaultForms).values()]
-    .map((form) => form.id);
+  const defaultFormIds = [
+    ...getDefaultFormsBySpeciesId(defaultForms).values(),
+  ].map((form) => form.id);
   const attributes = defaultFormIds.length
     ? await loadChunkedReferenceRows<PokemonAttributes>(
         defaultFormIds,

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/data/dashboard-page-query";
+import type { MainlineDashboardData } from "@/modules/mainline/features/dashboard/types";
 import { ContinuePlayPanel } from "@/modules/mainline/features/dashboard/components/continue-play-panel";
 import { DashboardMetric } from "@/modules/mainline/features/dashboard/components/dashboard-metric";
 import { DashboardQuickActions } from "@/modules/mainline/features/dashboard/components/dashboard-quick-actions";

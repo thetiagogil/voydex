@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { MainlinePlayTeamPage } from "@/modules/mainline/features/play/detail/team/mainline-play-team-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/data/play-detail-query";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/server/play-detail-query";
 
 type MainlinePlayTeamRouteProps = {
   params: Promise<{

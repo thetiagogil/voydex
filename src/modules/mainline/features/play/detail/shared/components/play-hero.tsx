@@ -10,7 +10,7 @@ import {
   getActiveTeam,
   getPlayTitle,
   getReserveTeam,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import { PlayQuickActions } from "@/modules/mainline/features/play/detail/shared/components/play-quick-actions";
 import { ProgressMeter } from "@/shared/components/progress-meter";
 import { StatusBadge } from "@/shared/components/status-badge";

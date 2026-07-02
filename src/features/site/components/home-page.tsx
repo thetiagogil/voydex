@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getOptionalUserEmail } from "@/lib/supabase/auth";
 import { BrandImage } from "@/shared/components/brand/brand-image";
 import { HomeAppEntryButton } from "@/shared/components/app-shell/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { getHomePageData } from "@/features/site/server/home-page-query";
 
 const homeActions = [
   {
@@ -21,9 +20,7 @@ const homeActions = [
 ] as const;
 
 export const HomePage = async () => {
-  const supabase = await createServerSupabaseClient();
-  const userEmail = await getOptionalUserEmail(supabase);
-  const isAuthenticated = Boolean(userEmail);
+  const { isAuthenticated } = await getHomePageData();
 
   return (
     <main className="text-foreground min-h-screen">

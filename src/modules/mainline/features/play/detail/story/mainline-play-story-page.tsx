@@ -1,13 +1,13 @@
 import {
-  MainlinePlayGenericPanel,
-  MainlinePlaySimpleList,
-} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+  MainlinePlaySectionCard,
+  MainlinePlaySectionList,
+} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatNumber,
   getFirstIncompleteMilestone,
   getLastCompletedMilestone,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayMilestoneDetail } from "@/modules/mainline/shared/types/mainline.types";
 import { StatusBadge } from "@/shared/components/status-badge";
@@ -59,7 +59,7 @@ export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
       data={data}
     >
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Story"
           description="Read-only milestone tracking. Completing milestones will be rebuilt as its own focused slice."
           metrics={[
@@ -86,14 +86,14 @@ export const MainlinePlayStoryPage = ({ data }: MainlinePlayStoryPageProps) => {
           ]}
         />
 
-        <MainlinePlayGenericPanel title="Milestones">
-          <MainlinePlaySimpleList
+        <MainlinePlaySectionCard title="Milestones">
+          <MainlinePlaySectionList
             emptyLabel="No milestones are available yet."
             getKey={getMilestoneKey}
             items={data.milestones}
             renderItem={renderMilestone}
           />
-        </MainlinePlayGenericPanel>
+        </MainlinePlaySectionCard>
       </div>
     </MainlinePlayShell>
   );

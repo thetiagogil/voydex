@@ -10,6 +10,7 @@ import {
   getMainlinePlayTrainerLine,
 } from "@/modules/mainline/shared/display/mainline-play-display";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
+import { InfoTile } from "@/shared/components/info-tile";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -41,24 +42,17 @@ export const ContinuePlayPanel = ({ play }: ContinuePlayPanelProps) => {
             {play.trainer_name ? ` - ${getMainlinePlayTrainerLine(play)}` : ""}
           </p>
           <div className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
-            <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
-              <div className="text-muted-foreground text-xs">Updated</div>
-              <div className="mt-1 font-medium">
-                {formatMainlineShortDate(play.updated_at)}
-              </div>
-            </div>
-            <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
-              <div className="text-muted-foreground text-xs">Team</div>
-              <div className="mt-1 font-medium">
+            <InfoTile label="Updated">
+              {formatMainlineShortDate(play.updated_at)}
+            </InfoTile>
+            <InfoTile label="Team">
+              <span>
                 {formatMainlineNumber(getMainlinePlayTeamCount(play))} Pokémon
-              </div>
-            </div>
-            <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
-              <div className="text-muted-foreground text-xs">Playtime</div>
-              <div className="mt-1 font-medium">
-                {formatMainlinePlaytime(play.playtime_minutes)}
-              </div>
-            </div>
+              </span>
+            </InfoTile>
+            <InfoTile label="Playtime">
+              {formatMainlinePlaytime(play.playtime_minutes)}
+            </InfoTile>
           </div>
         </div>
         <Button render={<Link href={href} />} nativeButton={false}>

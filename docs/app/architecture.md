@@ -42,8 +42,10 @@ src/
       pokemon/
     hooks/
     providers/
+    server/
     styles/
     types/
+    utils/
   proxy.ts
 ```
 
@@ -153,6 +155,18 @@ Rules:
 - Client Components should only use browser clients where interactivity needs it.
 - App writes should follow the database handoff: use helper functions for multi-table gameplay/planning mutations instead of manually writing fragile sequences.
 
+Feature data access follows a loader/mapper/query split:
+
+- `server/*-query.ts` creates the server client, resolves auth or route scope,
+  calls loaders, calls pure mappers, and returns page data.
+- `server/*-loaders.ts` performs raw Supabase reads. Loaders accept a
+  `ServerSupabaseClient` and return database rows or row groups.
+- `data/*-mappers.ts` and `data/*-selectors.ts` are pure transforms over rows
+  already loaded by the server layer.
+- `components/*` render UI and should not contain raw Supabase reads.
+- API routes are for client islands that need incremental/interactive data, not
+  for normal server-rendered route payloads.
+
 ## Auth And Session Refresh
 
 `src/proxy.ts` routes requests through `updateSession`.
@@ -230,7 +244,10 @@ Feature code inside a module should follow this shape:
 ```txt
 src/modules/mainline/features/dashboard/
   components/
-  data/
+  server/
+    dashboard-page-loaders.ts
+    dashboard-page-query.ts
+  types.ts
   dashboard-page.tsx
 ```
 
@@ -253,7 +270,7 @@ Feature workflows should be organized by what the view does:
 src/modules/mainline/features/play/
   browse/
     components/
-    data/
+    server/
     utils/
     mainline-plays-page.tsx
   create/
@@ -273,6 +290,16 @@ src/modules/mainline/features/play/
 
 Keep business logic and data shaping out of route files when it becomes nontrivial. Route files should usually compose module or feature components.
 
+Use feature subfolders by responsibility:
+
+- `components`: UI only.
+- `server`: server queries, loaders, and Server Actions.
+- `data`: pure mappers/selectors, no Supabase client.
+- `client`: browser-only helpers for client islands.
+- `display`: formatters and presentation selectors.
+- `utils`: cross-cutting helpers that are not data access or display-only.
+- `types`: type contracts only.
+
 ## File And Component Conventions
 
 Names should optimize for searchability, import clarity, and reviewability.
@@ -282,7 +309,9 @@ Names should optimize for searchability, import clarity, and reviewability.
 - Component filenames should usually match the exported component name in kebab/Pascal form. For example, `pokemon-detail-species-selector.tsx` should export `PokemonDetailSpeciesSelector`.
 - Keep explicit feature prefixes for components used across a feature. `PokemonDetailGenerationMenu` is preferable to a generic `GenerationMenu` when imported from multiple files.
 - Avoid generic data filenames like `queries.ts` once a feature has more than one data concern. Prefer names that describe the view or workflow, such as `dashboard-page-query.ts`, `games-page-query.ts`, `game-detail-query.ts`, or `create-play-page-query.ts`.
-- Split browse and detail loaders when they feed different routes. A `browse/data/*page-query.ts` file should not also export detail-page loaders.
+- Keep `*-query.ts` files in `server/`, not `data/`.
+- Keep raw Supabase reads in `server/*-loaders.ts`, not inside components or pure mappers.
+- Split browse and detail loaders when they feed different routes. A `browse/server/*page-query.ts` file should not also export detail-page loaders.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-oriented folder.
 - Move helpers to the nearest stable shared boundary when they are used by multiple features. For example, Mainline play display helpers belong under `src/modules/mainline/shared`, not under a single browse component folder.
 - Large files are acceptable when they are mostly definitions, configuration, or generated/primitive wrapper code. Split large files when they mix responsibilities, obscure data flow, or make a feature hard to review.

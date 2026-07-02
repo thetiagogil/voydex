@@ -1,32 +1,12 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import type { Game } from "@/modules/codex/shared/types";
-import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
-import {
-  getEmptyPokemonDisplay,
-  loadPokemonDisplayMetadata,
-} from "@/modules/mainline/features/play/detail/shared/data/pokemon-display";
-import {
-  isUuid,
-  uniqueNumberIds,
-} from "@/modules/mainline/features/play/shared/data/query-utils";
-import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
-import { getClaimsWithTimeout } from "@/lib/supabase/auth";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { MainlinePlayDetailRows } from "@/modules/mainline/features/play/types";
+import type { MainlinePlayOverview } from "@/modules/mainline/shared/types/mainline.types";
 
-export const getMainlinePlayDetailData = async (
+export const loadMainlinePlayOverview = async (
+  supabase: ServerSupabaseClient,
   playId: string,
-): Promise<MainlinePlayDetailData | null> => {
-  if (!isUuid(playId)) {
-    return null;
-  }
-
-  const supabase = await createServerSupabaseClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
-  const userId = claimsResult?.data?.claims?.sub;
-
-  if (!userId) {
-    throw new Error("Unable to load the current account.");
-  }
-
+  userId: string,
+): Promise<MainlinePlayOverview | null> => {
   const overviewResult = await supabase
     .schema("views")
     .from("mainline_play_overview")
@@ -39,11 +19,15 @@ export const getMainlinePlayDetailData = async (
     throw new Error("Unable to load Mainline play.");
   }
 
-  if (!overviewResult.data) {
-    return null;
-  }
+  return overviewResult.data ?? null;
+};
 
-  const overview = overviewResult.data;
+export const loadMainlinePlayDetailRows = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+  userId: string,
+  gameId: number | null,
+): Promise<MainlinePlayDetailRows> => {
   const [
     completionSummaryResult,
     milestoneCategoriesResult,
@@ -103,12 +87,12 @@ export const getMainlinePlayDetailData = async (
       .select("*")
       .eq("play_id", playId)
       .order("timeline_order", { ascending: false }),
-    overview.game_id
+    gameId
       ? supabase
           .schema("reference")
           .from("games")
           .select("*")
-          .eq("id", overview.game_id)
+          .eq("id", gameId)
           .maybeSingle()
       : Promise.resolve({ data: null, error: null }),
   ]);
@@ -126,42 +110,14 @@ export const getMainlinePlayDetailData = async (
     throw new Error("Unable to load Mainline play details.");
   }
 
-  const teamRows = teamResult.data ?? [];
-  const pokedexRows = pokedexEntriesResult.data ?? [];
-  const formIds = uniqueNumberIds([
-    ...teamRows.map((pokemon) => pokemon.form_id),
-    ...pokedexRows.map((entry) => entry.display_form_id),
-  ]);
-  const displayByFormId = await loadPokemonDisplayMetadata(
-    supabase,
-    formIds,
-    overview.generation_id,
-  );
-
   return {
     collectibleEntries: collectibleEntriesResult.data ?? [],
     completionSummary: completionSummaryResult.data ?? null,
-    gameCoverImageUrl: gameResult.data
-      ? getGameCoverImageUrl(gameResult.data as Game)
-      : null,
+    game: gameResult.data ?? null,
     milestoneCategories: milestoneCategoriesResult.data ?? [],
     milestones: milestonesResult.data ?? [],
-    overview,
-    pokedexEntries: pokedexRows.map((entry) => ({
-      ...entry,
-      display: entry.display_form_id
-        ? (displayByFormId.get(entry.display_form_id) ??
-          getEmptyPokemonDisplay())
-        : getEmptyPokemonDisplay(),
-    })),
-    team: teamRows.map((pokemon) => ({
-      ...pokemon,
-      display: pokemon.form_id
-        ? (displayByFormId.get(pokemon.form_id) ?? getEmptyPokemonDisplay())
-        : getEmptyPokemonDisplay(),
-    })),
-    teamPlanDetails: [],
-    teamPlanSummary: null,
+    pokedexEntries: pokedexEntriesResult.data ?? [],
+    team: teamResult.data ?? [],
     timelineEvents: timelineEventsResult.data ?? [],
   };
 };

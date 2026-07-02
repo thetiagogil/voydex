@@ -1,4 +1,4 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 import type {
   Game,
   GamePlatform,
@@ -8,10 +8,6 @@ import type {
   Region,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 export type GamesPageRows = {
   gamePlatforms: GamePlatform[];

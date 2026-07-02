@@ -1,8 +1,4 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 
 type PokemonDetailDefaultGameSpeciesRow = {
   introduced_generation_id: number | null;

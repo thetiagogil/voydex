@@ -1,4 +1,7 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import {
+  createServerSupabaseClient,
+  type ServerSupabaseClient,
+} from "@/lib/supabase/server";
 import { buildPokemonDetailMenuPage } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-page-mappers";
 import {
   getPagedPokemonMenuSpeciesRows,
@@ -16,10 +19,6 @@ import type { Game, PokemonDetailMenuPage } from "@/modules/codex/shared/types";
 
 const DEFAULT_POKEMON_MENU_LIMIT = 96;
 const MAX_POKEMON_MENU_LIMIT = 96;
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 type PokemonDetailGamePokemonMenuOptions = {
   limit?: number;

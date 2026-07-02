@@ -1,4 +1,4 @@
-import { byId } from "@/modules/codex/shared/data/query-utils";
+import { byId } from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Pokedex,
   PokedexEntry,

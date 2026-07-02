@@ -4,7 +4,7 @@ import {
   byId,
   resolveTypePair,
   selectLatestAttributes,
-} from "@/modules/codex/shared/data/query-utils";
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Game,
   PokedexPageData,

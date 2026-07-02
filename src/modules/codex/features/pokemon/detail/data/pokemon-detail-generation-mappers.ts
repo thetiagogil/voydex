@@ -1,5 +1,8 @@
 import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-utils";
-import { byId, resolveTypePair } from "@/modules/codex/shared/data/query-utils";
+import {
+  byId,
+  resolveTypePair,
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Game,
   Generation,

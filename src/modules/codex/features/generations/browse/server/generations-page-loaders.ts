@@ -1,9 +1,5 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 import type { Generation } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 type GenerationGameCountRow = {
   generation_id: number;

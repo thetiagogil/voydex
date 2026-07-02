@@ -1,5 +1,5 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
-import { isNumber } from "@/modules/codex/shared/data/query-utils";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import { isNumber } from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Ability,
   AbilityAttribute,
@@ -13,10 +13,6 @@ import type {
   PokemonForm,
   ResolvedPokemonLearnset,
 } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 type PokemonDetailRelatedRowsParams = {
   attributes: PokemonAttributes[];

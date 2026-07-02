@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { MainlinePlayPokedexPage } from "@/modules/mainline/features/play/detail/pokedex/mainline-play-pokedex-page";
-import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/data/play-detail-query";
+import { getMainlinePlayDetailData } from "@/modules/mainline/features/play/detail/shared/server/play-detail-query";
 
 type MainlinePlayPokedexRouteProps = {
   params: Promise<{

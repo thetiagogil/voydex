@@ -3,7 +3,7 @@ import {
   buildGameCards,
   normalizeSlug,
   resolveReferenceFilter,
-} from "@/modules/codex/shared/data/query-utils";
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type { GamesPageData } from "@/modules/codex/shared/types";
 
 type GamesPageMapperParams = {

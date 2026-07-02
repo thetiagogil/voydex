@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { InfoTile } from "@/shared/components/info-tile";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
   Card,
@@ -113,15 +114,9 @@ export const CodexInfoTile = ({
   label,
 }: CodexInfoTileProps) => {
   return (
-    <div
-      className={cn(
-        "bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1",
-        className,
-      )}
-    >
-      <div className="text-muted-foreground text-xs">{label}</div>
-      <div className="mt-1 font-medium">{children}</div>
-    </div>
+    <InfoTile className={className} label={label}>
+      {children}
+    </InfoTile>
   );
 };
 

@@ -11,6 +11,7 @@ import {
   getMainlinePlayTrainerLine,
 } from "@/modules/mainline/shared/display/mainline-play-display";
 import type { MainlinePlayCardData } from "@/modules/mainline/features/play/types";
+import { InfoTile } from "@/shared/components/info-tile";
 import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
@@ -36,13 +37,9 @@ const PlayMetric = ({
   value: string;
 }) => {
   return (
-    <div className="bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1">
-      <dt className="text-muted-foreground flex items-center gap-1.5 text-xs [&_svg]:size-3.5">
-        {icon}
-        {label}
-      </dt>
-      <dd className="mt-1 font-medium">{value}</dd>
-    </div>
+    <InfoTile icon={icon} label={label} semantic="definition">
+      {value}
+    </InfoTile>
   );
 };
 

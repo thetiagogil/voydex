@@ -1,4 +1,5 @@
 import type {
+  Game,
   GameCard,
   GamePlatform,
   Generation,
@@ -48,6 +49,17 @@ export type MainlinePokemonDisplayMetadata = {
   imageUrl: string | null;
   primaryType: Type | null;
   secondaryType: Type | null;
+};
+
+export type MainlinePlayDetailRows = {
+  collectibleEntries: MainlinePlayCollectibleDetail[];
+  completionSummary: MainlinePlayCompletionSummary | null;
+  game: Game | null;
+  milestoneCategories: MainlinePlayMilestoneCategorySummary[];
+  milestones: MainlinePlayMilestoneDetail[];
+  pokedexEntries: MainlinePlayPokedexDetail[];
+  team: MainlinePlayTeamDetail[];
+  timelineEvents: MainlinePlayTimelineDetail[];
 };
 
 export type MainlinePlayTeamPokemon = MainlinePlayTeamDetail & {

@@ -4,7 +4,7 @@ import {
   matchesPokemonMenuQuery,
   type PokemonMenuSpeciesRow,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
-import { isNumber } from "@/modules/codex/shared/data/query-utils";
+import { isNumber } from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Game,
   Pokedex,

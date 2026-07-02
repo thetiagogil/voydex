@@ -1,4 +1,4 @@
-import type { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/lib/supabase/server";
 import type {
   AvailabilityMethod,
   Game,
@@ -13,10 +13,6 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
-
-type ServerSupabaseClient = Awaited<
-  ReturnType<typeof createServerSupabaseClient>
->;
 
 const POKEMON_DETAIL_LEARNSET_PAGE_SIZE = 1000;
 

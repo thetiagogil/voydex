@@ -167,6 +167,18 @@ Current app status:
 - UI primitives use shadcn Base UI components. Base UI uses `render`, not Radix `asChild`.
 - The generated play-view screenshots in the project discussion are design references, but implementations should use real data, shadcn primitives, reusable feature components, and the current `src/modules` structure.
 
+Current feature data pattern:
+
+- `server/*-query.ts` orchestrates server client creation, auth/scope, loaders,
+  and mappers.
+- `server/*-loaders.ts` performs raw Supabase reads.
+- `data/*-mappers.ts` and `data/*-selectors.ts` are pure transforms only.
+- `components/*` should not create Supabase clients or call `.schema(...)`.
+- `client/*` is reserved for browser-only client island helpers.
+
+When adding the next Codex or Mainline section, keep route files thin and add
+new data access through this loader/mapper/query split.
+
 ## Working Style Preferences
 
 - Prefer high-quality, maintainable implementation over quick hacks.

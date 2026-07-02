@@ -23,3 +23,7 @@ export const createServerSupabaseClient = async () => {
     },
   });
 };
+
+export type ServerSupabaseClient = Awaited<
+  ReturnType<typeof createServerSupabaseClient>
+>;

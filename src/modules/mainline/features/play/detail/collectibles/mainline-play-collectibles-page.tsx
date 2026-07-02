@@ -1,12 +1,12 @@
 import {
-  MainlinePlayGenericPanel,
-  MainlinePlaySimpleList,
-} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-generic-panel";
+  MainlinePlaySectionCard,
+  MainlinePlaySectionList,
+} from "@/modules/mainline/features/play/detail/shared/components/mainline-play-section-card";
 import { MainlinePlayShell } from "@/modules/mainline/features/play/detail/shared/components/mainline-play-shell";
 import {
   formatNumber,
   formatPercent,
-} from "@/modules/mainline/features/play/detail/shared/data/mainline-play-formatters";
+} from "@/modules/mainline/features/play/detail/shared/display/play-detail-display";
 import type { MainlinePlayDetailData } from "@/modules/mainline/features/play/types";
 import type { MainlinePlayCollectibleDetail } from "@/modules/mainline/shared/types/mainline.types";
 import { StatusBadge } from "@/shared/components/status-badge";
@@ -55,7 +55,7 @@ export const MainlinePlayCollectiblesPage = ({
       data={data}
     >
       <div className="grid gap-5">
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Collectibles"
           description="Read-only collectible progress while collection toggles are rebuilt."
           metrics={[
@@ -80,19 +80,19 @@ export const MainlinePlayCollectiblesPage = ({
           ]}
         />
 
-        <MainlinePlayGenericPanel
+        <MainlinePlaySectionCard
           title="Entries"
           description={`${formatNumber(
             data.collectibleEntries.length,
           )} seeded collectible entries are loaded for this play.`}
         >
-          <MainlinePlaySimpleList
+          <MainlinePlaySectionList
             emptyLabel="No collectible entries are available yet."
             getKey={getCollectibleKey}
             items={data.collectibleEntries.slice(0, 24)}
             renderItem={renderCollectible}
           />
-        </MainlinePlayGenericPanel>
+        </MainlinePlaySectionCard>
       </div>
     </MainlinePlayShell>
   );

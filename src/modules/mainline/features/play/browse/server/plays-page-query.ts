@@ -1,6 +1,7 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import type { MainlinePlaysPageData } from "@/modules/mainline/features/play/types";
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { loadMainlinePlaysPageData } from "@/modules/mainline/features/play/browse/server/plays-page-loaders";
+import type { MainlinePlaysPageData } from "@/modules/mainline/features/play/types";
 
 export const getMainlinePlaysPageData =
   async (): Promise<MainlinePlaysPageData> => {
@@ -12,19 +13,5 @@ export const getMainlinePlaysPageData =
       throw new Error("Unable to load plays for the current account.");
     }
 
-    const playsResult = await supabase
-      .schema("views")
-      .from("mainline_play_summary")
-      .select("*")
-      .eq("user_id", userId)
-      .is("archived_at", null)
-      .order("updated_at", { ascending: false });
-
-    if (playsResult.error) {
-      throw new Error("Unable to load Mainline plays.");
-    }
-
-    return {
-      plays: playsResult.data ?? [],
-    };
+    return loadMainlinePlaysPageData(supabase, userId);
   };

@@ -3,12 +3,10 @@ import {
   buildGameCards,
   byId,
   byNullableId,
-} from "@/modules/codex/shared/data/query-utils";
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type { Game, GameDetailData } from "@/modules/codex/shared/types";
 
-export const buildGameDetailData = (
-  rows: GameDetailRows,
-): GameDetailData => {
+export const buildGameDetailData = (rows: GameDetailRows): GameDetailData => {
   const [card] = buildGameCards({
     gamePlatforms: rows.gamePlatforms,
     games: [rows.game],

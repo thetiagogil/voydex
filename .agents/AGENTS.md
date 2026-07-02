@@ -85,6 +85,25 @@ Prefer boring, searchable names over short local names:
 - Large files are not automatically wrong. Config/type maps and generated or primitive wrapper files can be large. Split files when they mix responsibilities, hide data flow, or make route work hard to review.
 - For unfinished screens, prefer small generic shells over elaborate placeholder UI. Rebuild section by section once the product direction is clear.
 
+## Feature Folder Standard
+
+Use this boundary for feature internals:
+
+- `components/*`: UI composition only. Components can hold local interaction state, but should not create Supabase clients or perform raw data reads.
+- `server/*-query.ts`: server orchestration only. Create the server client, resolve auth/scope, call loaders, call mappers, and return page/action data.
+- `server/*-loaders.ts`: raw Supabase reads only. Loaders accept a `ServerSupabaseClient` and return database rows or row groups.
+- `server/*-action.ts`: Server Actions and mutations. Keep validation explicit and prefer shared loaders/helpers for repeated reads.
+- `data/*-mappers.ts`: pure row-to-view-model transforms. No Supabase client, no React hooks, no browser APIs.
+- `data/*-selectors.ts`: pure selectors over already-loaded rows or view models.
+- `client/*`: browser-only API/state/model helpers for client islands.
+- `display/*`: formatting and presentation selectors used by UI.
+- `utils/*`: small cross-cutting helpers that are not data access, not display-only, and not tied to React.
+- `types/*` or `types.ts`: type contracts only.
+
+Do not place files named `*-query.ts`, `*-loaders.ts`, or direct `.schema(...)`
+reads under `data/` or `components/`. Client Components may import Server
+Actions, but should not import server query/loaders.
+
 ## UI Rules
 
 Voydex uses shadcn UI primitives in `src/shared/components/ui`.

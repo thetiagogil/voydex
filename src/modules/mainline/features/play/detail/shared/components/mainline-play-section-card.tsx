@@ -7,25 +7,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { InfoTile } from "@/shared/components/info-tile";
 
 type MainlinePlayMetric = {
   label: string;
   value: ReactNode;
 };
 
-type MainlinePlayGenericPanelProps = {
+type MainlinePlaySectionCardProps = {
   children?: ReactNode;
   description?: ReactNode;
   metrics?: MainlinePlayMetric[];
   title: ReactNode;
 };
 
-export const MainlinePlayGenericPanel = ({
+export const MainlinePlaySectionCard = ({
   children,
   description,
   metrics = [],
   title,
-}: MainlinePlayGenericPanelProps) => {
+}: MainlinePlaySectionCardProps) => {
   return (
     <Card className="bg-card/82">
       <CardHeader>
@@ -36,15 +37,13 @@ export const MainlinePlayGenericPanel = ({
         {metrics.length ? (
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {metrics.map((metric) => (
-              <div
+              <InfoTile
                 key={String(metric.label)}
-                className="bg-background/42 ring-app-surface-border rounded-lg p-3 ring-1"
+                className="bg-background/42"
+                label={metric.label}
               >
-                <div className="text-muted-foreground text-xs">
-                  {metric.label}
-                </div>
-                <div className="mt-1 font-medium">{metric.value}</div>
-              </div>
+                {metric.value}
+              </InfoTile>
             ))}
           </div>
         ) : null}
@@ -54,19 +53,19 @@ export const MainlinePlayGenericPanel = ({
   );
 };
 
-type MainlinePlaySimpleListProps<TItem> = {
+type MainlinePlaySectionListProps<TItem> = {
   emptyLabel: ReactNode;
   getKey: (item: TItem, index: number) => string;
   items: TItem[];
   renderItem: (item: TItem) => ReactNode;
 };
 
-export const MainlinePlaySimpleList = <TItem,>({
+export const MainlinePlaySectionList = <TItem,>({
   emptyLabel,
   getKey,
   items,
   renderItem,
-}: MainlinePlaySimpleListProps<TItem>) => {
+}: MainlinePlaySectionListProps<TItem>) => {
   if (!items.length) {
     return <p className="text-muted-foreground text-sm">{emptyLabel}</p>;
   }

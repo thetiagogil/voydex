@@ -1,13 +1,9 @@
 import type { Game, GameCard } from "@/modules/codex/shared/types";
 import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
-import {
-  byId,
-  type ServerSupabaseClient,
-} from "@/modules/mainline/features/play/shared/data/query-utils";
 import type { MainlineReferenceRows } from "@/modules/mainline/features/play/types";
-import type { ProductFamily } from "@/modules/mainline/shared/types/mainline.types";
+import { byId } from "@/shared/utils/collections";
 
-export const buildGameOptions = (
+export const buildCreatePlayGameOptions = (
   games: Game[],
   referenceRows: MainlineReferenceRows,
 ): GameCard[] => {
@@ -39,21 +35,4 @@ export const buildGameOptions = (
     region: regionById.get(game.region_id) ?? null,
     versionGroup: versionGroupById.get(game.version_group_id) ?? null,
   }));
-};
-
-export const getMainlineProductFamily = async (
-  supabase: ServerSupabaseClient,
-): Promise<ProductFamily | null> => {
-  const productFamilyResult = await supabase
-    .schema("reference")
-    .from("product_families")
-    .select("*")
-    .eq("slug", "mainline")
-    .maybeSingle();
-
-  if (productFamilyResult.error) {
-    throw new Error("Unable to load Mainline product family.");
-  }
-
-  return productFamilyResult.data ?? null;
 };

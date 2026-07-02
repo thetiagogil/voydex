@@ -2,7 +2,7 @@ import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/
 import {
   resolveTypePair,
   selectLatestAttributes,
-} from "@/modules/codex/shared/data/query-utils";
+} from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Generation,
   PokemonAttributes,
