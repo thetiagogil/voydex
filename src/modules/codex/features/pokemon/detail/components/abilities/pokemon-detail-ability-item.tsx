@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-ability-selectors";
+import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 
 type PokemonDetailAbilityItemProps = {
