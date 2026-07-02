@@ -12,6 +12,28 @@ export type PokemonDetailLearnsetMethodOption = {
   value: PokemonDetailLearnsetMethodFilter;
 };
 
+const pokemonDetailLearnsetFilterLabels = {
+  egg: "Egg",
+  hm: "HM",
+  level_up: "Lv.",
+  tm: "TM",
+  tutor: "Tutor",
+} as const;
+
+const getPokemonDetailLearnsetFilterLabel = (
+  learnset: PokemonLearnsetSummary,
+) => {
+  const methodSlug = learnset.method?.slug;
+
+  if (methodSlug && methodSlug in pokemonDetailLearnsetFilterLabels) {
+    return pokemonDetailLearnsetFilterLabels[
+      methodSlug as keyof typeof pokemonDetailLearnsetFilterLabels
+    ];
+  }
+
+  return learnset.method?.name ?? "Unknown";
+};
+
 const normalizeSearchValue = (value: string) => {
   return value.trim().toLowerCase();
 };
@@ -42,7 +64,7 @@ export const getPokemonDetailLearnsetMethodOptions = (
 
     methodsBySlug.set(methodSlug, {
       count: (method?.count ?? 0) + 1,
-      label: learnset.method?.name ?? "Unknown",
+      label: getPokemonDetailLearnsetFilterLabel(learnset),
       sortOrder: Math.min(
         method?.sortOrder ?? Number.MAX_SAFE_INTEGER,
         getMethodSortOrder(learnset),
@@ -170,9 +192,15 @@ export const getPokemonDetailLearnsetMethodDetail = (
     return machineLabel;
   }
 
-  return (
-    learnset.learnset.condition_summary ??
-    learnset.method?.name ??
-    "Unknown"
-  );
+  return learnset.method?.name ?? "Unknown";
+};
+
+export const getPokemonDetailLearnsetAddedContentLabel = (
+  learnset: PokemonLearnsetSummary,
+) => {
+  if (!learnset.sourceVersionGroup?.parent_version_group_id) {
+    return null;
+  }
+
+  return `Added in ${learnset.sourceVersionGroup.name}.`;
 };

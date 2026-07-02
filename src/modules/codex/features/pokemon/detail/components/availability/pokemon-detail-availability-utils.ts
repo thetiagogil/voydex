@@ -8,7 +8,7 @@ import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
 const getAvailabilityContentVersionGroup = (
   availability: PokemonAvailabilitySummary,
 ) => {
-  return availability.targetVersionGroup ?? availability.sourceVersionGroup;
+  return availability.sourceVersionGroup ?? availability.targetVersionGroup;
 };
 
 const getAvailabilityMediaInitials = (label: string) => {
@@ -44,14 +44,16 @@ export const getPokemonDetailAvailabilityContentLabel = ({
     return "Current scope";
   }
 
+  if (activeGame && contentVersionGroup.id === activeGame.version_group_id) {
+    return availability.game?.name ?? activeGame.name;
+  }
+
   if (
     activeVersionGroup &&
     contentVersionGroup.id === activeVersionGroup.id &&
     !activeVersionGroup.parent_version_group_id
   ) {
-    return (
-      availability.game?.name ?? activeGame?.name ?? contentVersionGroup.name
-    );
+    return availability.game?.name ?? contentVersionGroup.name;
   }
 
   return contentVersionGroup.name;

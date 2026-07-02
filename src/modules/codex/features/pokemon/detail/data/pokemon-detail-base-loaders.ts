@@ -18,6 +18,8 @@ type ServerSupabaseClient = Awaited<
   ReturnType<typeof createServerSupabaseClient>
 >;
 
+const POKEMON_DETAIL_LEARNSET_PAGE_SIZE = 1000;
+
 export type PokemonDetailBaseRows = {
   availabilityMethods: AvailabilityMethod[];
   games: Game[];
@@ -35,6 +37,40 @@ export type PokemonDetailSpeciesRows = {
   forms: PokemonForm[];
   learnsetRows: ResolvedPokemonLearnset[];
   pokedexEntries: PokedexEntry[];
+};
+
+const loadPokemonDetailLearnsetRows = async (
+  supabase: ServerSupabaseClient,
+  speciesId: number,
+) => {
+  const rows: ResolvedPokemonLearnset[] = [];
+  let from = 0;
+
+  while (true) {
+    const to = from + POKEMON_DETAIL_LEARNSET_PAGE_SIZE - 1;
+    const result = await supabase
+      .schema("views")
+      .from("reference_resolved_pokemon_learnsets")
+      .select("*")
+      .eq("species_id", speciesId)
+      .order("target_version_group_id", { ascending: true })
+      .order("sort_order", { ascending: true })
+      .range(from, to);
+
+    if (result.error) {
+      throw new Error("Unable to load Pokemon learnset data.");
+    }
+
+    const pageRows = result.data ?? [];
+
+    rows.push(...pageRows);
+
+    if (pageRows.length < POKEMON_DETAIL_LEARNSET_PAGE_SIZE) {
+      return rows;
+    }
+
+    from += POKEMON_DETAIL_LEARNSET_PAGE_SIZE;
+  }
 };
 
 export const loadPokemonDetailBaseRows = async (
@@ -129,7 +165,7 @@ export const loadPokemonDetailSpeciesRows = async (
     formsResult,
     attributesResult,
     availabilityResult,
-    learnsetResult,
+    learnsetRows,
     pokedexEntriesResult,
     familySpeciesResult,
   ] = await Promise.all([
@@ -151,13 +187,7 @@ export const loadPokemonDetailSpeciesRows = async (
       .select("*")
       .eq("species_id", species.id)
       .order("target_version_group_id", { ascending: true }),
-    supabase
-      .schema("views")
-      .from("reference_resolved_pokemon_learnsets")
-      .select("*")
-      .eq("species_id", species.id)
-      .order("target_version_group_id", { ascending: true })
-      .order("sort_order", { ascending: true }),
+    loadPokemonDetailLearnsetRows(supabase, species.id),
     supabase
       .schema("reference")
       .from("pokedex_entries")
@@ -176,7 +206,6 @@ export const loadPokemonDetailSpeciesRows = async (
     formsResult.error ||
     attributesResult.error ||
     availabilityResult.error ||
-    learnsetResult.error ||
     familySpeciesResult.error
   ) {
     throw new Error("Unable to load Pokémon detail data.");
@@ -193,7 +222,7 @@ export const loadPokemonDetailSpeciesRows = async (
       ? familySpeciesResult.data
       : [species],
     forms: formsResult.data ?? [],
-    learnsetRows: learnsetResult.data ?? [],
+    learnsetRows,
     pokedexEntries: pokedexEntriesResult.data ?? [],
   };
 };

@@ -1,10 +1,12 @@
 import Image from "next/image";
+import { InfoIcon } from "lucide-react";
 
-import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import {
   formatPokemonDetailLearnsetValue,
+  getPokemonDetailLearnsetAddedContentLabel,
   getPokemonDetailLearnsetMethodDetail,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-utils";
+import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
@@ -124,6 +126,7 @@ export const PokemonDetailLearnsetRow = ({
   learnset,
 }: PokemonDetailLearnsetRowProps) => {
   const methodDetail = getPokemonDetailLearnsetMethodDetail(learnset);
+  const addedContentLabel = getPokemonDetailLearnsetAddedContentLabel(learnset);
 
   return (
     <article
@@ -131,12 +134,23 @@ export const PokemonDetailLearnsetRow = ({
     >
       <div className="truncate text-sm font-medium">{methodDetail}</div>
 
-      <div className="min-w-0">
-        <div className="truncate text-sm font-medium">{learnset.move.name}</div>
-        {learnset.learnset.condition_summary ? (
-          <div className="text-muted-foreground truncate text-xs">
-            {learnset.learnset.condition_summary}
-          </div>
+      <div className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
+        <span className="truncate">{learnset.move.name}</span>
+        {addedContentLabel ? (
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <span
+                  tabIndex={0}
+                  aria-label={addedContentLabel}
+                  className="text-muted-foreground focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2"
+                />
+              }
+            >
+              <InfoIcon aria-hidden className="size-3.5" />
+            </TooltipTrigger>
+            <TooltipContent>{addedContentLabel}</TooltipContent>
+          </Tooltip>
         ) : null}
       </div>
 
@@ -147,10 +161,7 @@ export const PokemonDetailLearnsetRow = ({
           {formatPokemonDetailLearnsetValue(learnset.attributes?.power)}
         </div>
         <div className="text-center text-sm tabular-nums">
-          {formatPokemonDetailLearnsetValue(
-            learnset.attributes?.accuracy,
-            "%",
-          )}
+          {formatPokemonDetailLearnsetValue(learnset.attributes?.accuracy, "%")}
         </div>
         <div className="text-center text-sm tabular-nums">
           {formatPokemonDetailLearnsetValue(learnset.attributes?.pp)}

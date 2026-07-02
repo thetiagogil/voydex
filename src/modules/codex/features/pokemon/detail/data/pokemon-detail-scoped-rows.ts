@@ -13,10 +13,15 @@ import type {
   Game,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
+  VersionGroup,
 } from "@/modules/codex/shared/types";
 
+type PokemonDetailAvailabilityRow =
+  PokemonGenerationDetail["availability"][number];
+type PokemonDetailLearnsetRow = PokemonGenerationDetail["learnsets"][number];
+
 const isAvailabilityInScope = (
-  row: PokemonGenerationDetail["availability"][number],
+  row: PokemonDetailAvailabilityRow,
   versionGroup: PokemonDetailVersionGroupScope | null,
   game: Game | null,
 ) => {
@@ -31,15 +36,98 @@ const isAvailabilityInScope = (
 };
 
 const isLearnsetInScope = (
-  row: PokemonGenerationDetail["learnsets"][number],
+  row: PokemonDetailLearnsetRow,
   versionGroup: PokemonDetailVersionGroupScope | null,
   game: Game | null,
 ) => {
-  if (versionGroup && !isPokemonLearnsetInVersionGroupScope(row, versionGroup)) {
+  if (
+    versionGroup &&
+    !isPokemonLearnsetInVersionGroupScope(row, versionGroup)
+  ) {
     return false;
   }
 
   return !game || doesPokemonLearnsetMatchGame(row, game);
+};
+
+const getVersionGroupSortOrder = (versionGroup: VersionGroup | null) => {
+  return versionGroup?.sort_order ?? 0;
+};
+
+const getAvailabilityDeduplicationKey = (row: PokemonDetailAvailabilityRow) => {
+  if (row.availability.id !== null) {
+    return `id:${row.availability.id}`;
+  }
+
+  return [
+    row.availability.source_version_group_id,
+    row.availability.species_id,
+    row.availability.form_id ?? 0,
+    row.availability.game_id ?? 0,
+    row.availability.availability_method_id,
+    row.availability.notes ?? "",
+  ].join(":");
+};
+
+const dedupeAvailabilityRows = (rows: PokemonDetailAvailabilityRow[]) => {
+  const seenKeys = new Set<string>();
+
+  return rows.filter((row) => {
+    const key = getAvailabilityDeduplicationKey(row);
+
+    if (seenKeys.has(key)) {
+      return false;
+    }
+
+    seenKeys.add(key);
+    return true;
+  });
+};
+
+const getLearnsetDeduplicationKey = (row: PokemonDetailLearnsetRow) => {
+  return [
+    row.learnset.species_id,
+    row.learnset.form_id ?? 0,
+    row.learnset.move_id,
+    row.learnset.game_id ?? 0,
+    row.learnset.learn_method_id,
+    row.learnset.level_learned_at ?? -1,
+    row.learnset.source_item_id ?? 0,
+    row.learnset.move_machine_id ?? 0,
+    row.learnset.machine_label ?? "",
+    row.learnset.condition_summary ?? "",
+  ].join(":");
+};
+
+const shouldPreferLearnsetRow = (
+  candidate: PokemonDetailLearnsetRow,
+  current: PokemonDetailLearnsetRow,
+) => {
+  return (
+    getVersionGroupSortOrder(candidate.sourceVersionGroup) >
+      getVersionGroupSortOrder(current.sourceVersionGroup) ||
+    (getVersionGroupSortOrder(candidate.sourceVersionGroup) ===
+      getVersionGroupSortOrder(current.sourceVersionGroup) &&
+      getVersionGroupSortOrder(candidate.targetVersionGroup) >
+        getVersionGroupSortOrder(current.targetVersionGroup))
+  );
+};
+
+const dedupeLearnsetRows = (rows: PokemonDetailLearnsetRow[]) => {
+  const preferredRowsByKey = new Map<string, PokemonDetailLearnsetRow>();
+
+  for (const row of rows) {
+    const key = getLearnsetDeduplicationKey(row);
+    const current = preferredRowsByKey.get(key);
+
+    if (!current || shouldPreferLearnsetRow(row, current)) {
+      preferredRowsByKey.set(key, row);
+    }
+  }
+
+  return rows.filter((row) => {
+    return preferredRowsByKey.get(getLearnsetDeduplicationKey(row)) === row;
+  });
 };
 
 export const getScopedForms = (
@@ -71,12 +159,14 @@ export const getScopedAvailability = (
   });
 
   if (scopedRows.length || !form) {
-    return scopedRows;
+    return dedupeAvailabilityRows(scopedRows);
   }
 
-  return generation.availability.filter((row) => {
-    return isAvailabilityInScope(row, versionGroup, game);
-  });
+  return dedupeAvailabilityRows(
+    generation.availability.filter((row) => {
+      return isAvailabilityInScope(row, versionGroup, game);
+    }),
+  );
 };
 
 export const getScopedLearnsets = (
@@ -93,12 +183,14 @@ export const getScopedLearnsets = (
   });
 
   if (scopedRows.length || !form) {
-    return scopedRows;
+    return dedupeLearnsetRows(scopedRows);
   }
 
-  return generation.learnsets.filter((row) => {
-    return isLearnsetInScope(row, versionGroup, game);
-  });
+  return dedupeLearnsetRows(
+    generation.learnsets.filter((row) => {
+      return isLearnsetInScope(row, versionGroup, game);
+    }),
+  );
 };
 
 export const getScopedPokedexEntries = (
