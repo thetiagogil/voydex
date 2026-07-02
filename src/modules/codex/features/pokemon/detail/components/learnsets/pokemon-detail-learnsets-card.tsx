@@ -76,6 +76,7 @@ export const PokemonDetailLearnsetsCard = ({
                       type="button"
                       variant={isActive ? "default" : "outline"}
                       size="sm"
+                      className="h-8"
                       aria-pressed={isActive}
                       onClick={() => {
                         setMethod(option.value);
