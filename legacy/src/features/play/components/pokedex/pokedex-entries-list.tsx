@@ -296,10 +296,10 @@ export const PokedexEntriesList = ({
                           alt={entry.species.name}
                           width={PLAY_POKEMON_SPRITE_SIZE}
                           height={PLAY_POKEMON_SPRITE_SIZE}
-                          className="h-[72px] object-contain"
+                          className="h-18 object-contain"
                         />
                       ) : (
-                        <div className="bg-muted border-border flex h-[72px] w-[72px] items-center justify-center rounded-full border" />
+                        <div className="bg-muted border-border flex h-18 w-18 items-center justify-center rounded-full border" />
                       )}
                     </div>
 
