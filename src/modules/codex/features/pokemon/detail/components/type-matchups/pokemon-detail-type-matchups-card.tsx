@@ -118,7 +118,7 @@ export const PokemonDetailTypeMatchupsCard = ({
       contentClassName="p-0"
     >
       <div className="overflow-x-auto">
-        <div className="min-w-[36rem]">
+        <div className="min-w-xl">
           <div
             className="border-app-surface-border/60 grid items-center gap-1 border-b px-4 py-3"
             style={chartGridStyle}

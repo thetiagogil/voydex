@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 import {
-  getPokemonDetailAvailabilityContentMedia,
   getPokemonDetailAvailabilityContentLabel,
+  getPokemonDetailAvailabilityContentMedia,
   getPokemonDetailAvailabilityDetails,
   getPokemonDetailAvailabilityMethodLabel,
 } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
-import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
+import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
 import type {
   Game,
   PokemonAvailabilitySummary,

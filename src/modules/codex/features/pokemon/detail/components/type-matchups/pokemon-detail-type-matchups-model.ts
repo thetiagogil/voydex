@@ -30,10 +30,6 @@ const formatPokemonDetailTypeMatchupValue = (multiplier: number) => {
   return String(multiplier);
 };
 
-const formatPokemonDetailTypeMatchupDamageMultiplier = (multiplier: number) => {
-  return `x${formatPokemonDetailTypeMatchupValue(multiplier)}`;
-};
-
 const getPokemonDetailTypePairSlugs = (typePair: PokemonTypePair | null) => {
   const typeSlugs = [
     typePair?.primaryType?.slug,
@@ -103,12 +99,9 @@ export const getPokemonDetailTypeMatchupChart = ({
       generationOrder,
     );
     const typeLabel = formatPokemonDetailTypeName(attackingType);
-    const effectivenessLabel =
-      getPokemonDetailTypeMatchupEffectivenessLabel(multiplier);
     const tooltipTitle = `${typeLabel} against ${defendingTypesLabel}`;
-    const tooltipDescription = `${formatPokemonDetailTypeMatchupDamageMultiplier(
-      multiplier,
-    )} damage - ${effectivenessLabel}`;
+    const tooltipDescription =
+      getPokemonDetailTypeMatchupEffectivenessLabel(multiplier);
 
     return {
       attackingType,

@@ -1,12 +1,12 @@
-import Image from "next/image";
 import { InfoIcon } from "lucide-react";
+import Image from "next/image";
 
 import {
   formatPokemonDetailLearnsetValue,
   getPokemonDetailLearnsetAddedContentLabel,
   getPokemonDetailLearnsetMethodDetail,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
-import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
+import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
