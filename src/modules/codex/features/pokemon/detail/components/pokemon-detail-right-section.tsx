@@ -2,6 +2,8 @@ import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/det
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
 import { PokemonDetailCoreDataCard } from "@/modules/codex/features/pokemon/detail/components/core-data/pokemon-detail-core-data-card";
 import { PokemonDetailLearnsetsCard } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-card";
+import { PokemonDetailPokedexNumbersCard } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-card";
+import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
@@ -18,6 +20,10 @@ export const PokemonDetailRightSection = ({
 }: PokemonDetailRightSectionProps) => {
   const versionGroups = data.generationDetails.flatMap((detail) => {
     return detail.versionGroups;
+  });
+  const pokedexNumbers = getPokemonDetailPokedexNumbers({
+    allPokedexEntries: data.pokedexEntries,
+    scopedPokedexEntries: scope.pokedexEntries,
   });
 
   return (
@@ -38,6 +44,7 @@ export const PokemonDetailRightSection = ({
         currentVersionGroup={scope.versionGroup?.versionGroup ?? null}
         versionGroups={versionGroups}
       />
+      <PokemonDetailPokedexNumbersCard numbers={pokedexNumbers} />
       <PokemonDetailAvailabilityCard
         activeGame={scope.game}
         activeVersionGroup={scope.versionGroup?.versionGroup ?? null}
