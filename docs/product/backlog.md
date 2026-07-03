@@ -69,6 +69,26 @@ Future work:
 - Decide UI treatment for multiple Pokedexes in one play.
 - Decide how optional Pokedex scopes affect dashboard and stats summaries.
 
+## Codex Pokemon Detail Follow-Ups
+
+The Pokemon detail page has its V1 section foundation in place. Keep these
+items out of the immediate path unless they become necessary for the next
+workflow.
+
+Future work:
+
+- Add Pokedex entry text once the database has game/version scoped entry data.
+- Add a richer breeding/training section once the database has more than egg
+  groups, such as gender ratio, hatch cycles, catch rate, growth rate, base
+  friendship, and base EXP.
+- Improve evolution requirement presentation after item/method images are
+  available. The current hover label is acceptable for now.
+- Use form rules and item requirements for team-building behavior, not as a
+  primary Pokemon detail section for now.
+- Keep species flags and color primarily as browse/filter metadata unless a
+  detail-page use case becomes clear.
+- Improve Availability after structured encounter/location/source data exists.
+
 ## Platform-Specific Rerelease Differences
 
 Reference availability currently models original historical game behavior.

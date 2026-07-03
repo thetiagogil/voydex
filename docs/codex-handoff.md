@@ -67,7 +67,7 @@ Current status:
 - The Evolution Line card is hidden when there is no real evolution line.
   Branching evolutions render as readable path rows.
 - The right section currently includes Core Data, Battle Stats, Type Matchups,
-  Abilities, Availability, and Learnsets cards.
+  Abilities, Pokedex, Availability, and Learnsets cards.
 - Learnsets are a first implementation and are expected to keep iterating.
 
 Read this before continuing detail-page work:

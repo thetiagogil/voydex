@@ -15,7 +15,7 @@ history.
 - The left section has the portrait, optional Forms card, and optional
   Evolution Line card.
 - The right section currently has Core Data, Battle Stats, Type Matchups,
-  Abilities, Availability, and Learnsets cards.
+  Abilities, Pokedex, Availability, and Learnsets cards.
 - Learnsets are the newest section and can continue to iterate.
 
 ## Route And Scope Model
@@ -59,8 +59,8 @@ Body:
 
 - Left column: portrait, forms when applicable, and evolution line when
   applicable.
-- Right column: cards for core data, stats, type matchups, abilities,
-  availability, learnsets, and later Pokedex/breeding/entry sections.
+- Right column: cards for core data, stats, type matchups, abilities, Pokedex,
+  availability, learnsets, and later breeding/entry sections.
 
 ## Left Section Direction
 
@@ -137,13 +137,13 @@ Current cards:
 - Battle Stats: generation-aware stat rows, including Gen I Special handling.
 - Type Matchups: weaknesses, resistances, and immunities with type icons.
 - Abilities: slot, ability, and effect rows.
+- Pokedex: dex name, number, and future entry text.
 - Availability: content, method, and notes rows for the selected game/scope.
 - Learnsets: searchable/filterable move table with method, move, type,
   category, power, accuracy, and PP.
 
 Known next areas:
 
-- Pokedex numbers.
 - Pokedex entries.
 - Breeding data.
 - Further learnset filtering and presentation polish.
