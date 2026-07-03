@@ -94,6 +94,99 @@ Important current direction:
 - For right-section data, prefer adding one section at a time and keep data
   access in the loader/mapper/query split.
 
+## Next Frontend Focus: Codex Games Timeline
+
+As of 2026-07-03, the next intended Codex work is the Games browse page:
+
+```txt
+/codex/games
+```
+
+Current implementation:
+
+- `/codex/games` exists and works as a simple filtered game-card grid.
+- It supports `generation` and `region` query filters.
+- It already follows the current data boundary:
+  - `src/modules/codex/features/games/browse/server/games-page-query.ts`
+  - `src/modules/codex/features/games/browse/server/games-page-loaders.ts`
+  - `src/modules/codex/features/games/browse/data/games-page-mappers.ts`
+  - `src/modules/codex/features/games/browse/games-page.tsx`
+- `/codex/games/[gameSlug]` also exists, but it is still a basic detail page
+  with overview metadata, platforms, Pokedexes, content scopes, and available
+  Pokemon count.
+
+Target direction for `/codex/games`:
+
+- Replace the generic game-card grid with a chronological release timeline.
+- The main grouping should be Generation.
+- Inside each Generation, group entries by `release_year`.
+- Each release-year marker should show grouped game/version entries beside it.
+- Group by `version_group_id` first, then show the games in that version group.
+  For example, Scarlet and Violet should read as one release group, not two
+  unrelated cards.
+- Use game cover art thumbnails through the existing `GameCoverArt` component.
+- Keep the page in Voydex's clean adventure companion style:
+  - dark scenic background inherited from the app shell
+  - quiet navy/glass surfaces
+  - compact cards or grouped rows
+  - restrained blue accents
+  - no marketing hero
+  - no dense encyclopedia table
+  - no decorative overwork
+
+Suggested V1 layout:
+
+```txt
+Games
+Search / Generation / Region controls
+
+Generation I
+  1996 marker -> Red / Green grouped release card
+  1998 marker -> Yellow grouped release card
+
+Generation II
+  1999 marker -> Gold / Silver grouped release card
+  2000 marker -> Crystal grouped release card
+
+Generation III
+  2002 marker -> Ruby / Sapphire grouped release card
+  2004 marker -> FireRed / LeafGreen grouped release card
+  2004 marker -> Emerald grouped release card
+```
+
+Data constraints:
+
+- The current `reference.games` table only has `release_year`, not exact release
+  dates.
+- Do not fake exact dates in the UI.
+- For V1, use only years that have seeded releases. Do not render every empty
+  year in between unless a later design decision asks for a strict year scale.
+- DLC/content-scope releases do not currently have release years/dates or
+  images, so do not place DLC entries on the Games timeline yet unless the
+  database is extended first.
+
+Implementation notes:
+
+- Add a Games-specific timeline view model in
+  `src/modules/codex/features/games/browse/data/games-page-mappers.ts` or a
+  focused adjacent mapper if the file becomes hard to read.
+- Keep Supabase reads in `games-page-loaders.ts`; the current loader likely
+  already has enough rows for V1.
+- Extend `GamesPageData` in `src/modules/codex/shared/types.ts` only with data
+  the UI actually needs.
+- Consider extracting local UI pieces under
+  `src/modules/codex/features/games/browse/components/` if the page gets large,
+  for example:
+  - `games-release-timeline.tsx`
+  - `games-release-generation-section.tsx`
+  - `games-release-year-group.tsx`
+  - `games-release-version-group-card.tsx`
+- Keep filters functional. The timeline should respect generation and region
+  filters.
+- A new Product Design visual can be generated in a fresh thread if needed, but
+  the old crowded thread produced unreliable image output. The written
+  direction above should be enough to start the implementation.
+
 ## Current Module Scope
 
 Active modules:
