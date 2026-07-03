@@ -163,7 +163,10 @@ Feature data access follows a loader/mapper/query split:
   `ServerSupabaseClient` and return database rows or row groups.
 - `data/*-mappers.ts` and `data/*-selectors.ts` are pure transforms over rows
   already loaded by the server layer.
-- `components/*` render UI and should not contain raw Supabase reads.
+- `components/*` render UI and may include local component-group view models,
+  such as `components/<section>/*-model.ts`, when the logic derives UI-facing
+  rows from already-loaded props. Components should not contain raw Supabase
+  reads.
 - API routes are for client islands that need incremental/interactive data, not
   for normal server-rendered route payloads.
 
@@ -292,7 +295,8 @@ Keep business logic and data shaping out of route files when it becomes nontrivi
 
 Use feature subfolders by responsibility:
 
-- `components`: UI only.
+- `components`: UI and local component-group view models only. No raw data
+  access.
 - `server`: server queries, loaders, and Server Actions.
 - `data`: pure mappers/selectors, no Supabase client.
 - `client`: browser-only helpers for client islands.

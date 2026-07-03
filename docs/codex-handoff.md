@@ -40,8 +40,8 @@ The app should not force `Generations -> Games -> Plays` as the only flow. Users
 
 ## Current Frontend Focus
 
-As of 2026-06-30, the active design/implementation focus is the Codex Pokemon
-detail page:
+As of 2026-07-02, the active Codex Pokemon detail foundation is in a good
+section-by-section state:
 
 ```txt
 /codex/pokemon/[gameSlug]/[speciesSlug]
@@ -51,12 +51,24 @@ Current status:
 
 - `/codex/pokemon` browse is in a good direction and should be treated as
   stable for now.
-- The Pokemon detail page top reference section is the active foundation:
-  species selector, generation/game controls, and game-scoped URL behavior.
-- The page body is being rebuilt section by section.
-- The left column portrait/evolution work exists but is still being iterated.
-- The current tiny vertical form-thumbnail rail is not considered the final
-  direction.
+- The Pokemon detail page is game-scoped. Species-only routes redirect to the
+  default supported game route.
+- The top section is a compact selector surface. It shows the Pokemon species
+  selector on the left and generation/game controls on the right. The selected
+  generation trigger includes the selected game name, for example
+  `VIII - Pokemon Sword`.
+- The left section currently contains the portrait, optional Forms card, and
+  optional Evolution Line card.
+- The portrait uses type-themed backgrounds and a small top-right shiny toggle.
+  Shiny only changes the selected form artwork and resets when the form changes.
+- The Forms card renders only when additional forms exist. Form rows show the
+  form image, National number, form name, and type identity; selecting a form
+  updates the `form` query parameter.
+- The Evolution Line card is hidden when there is no real evolution line.
+  Branching evolutions render as readable path rows.
+- The right section currently includes Core Data, Battle Stats, Type Matchups,
+  Abilities, Availability, and Learnsets cards.
+- Learnsets are a first implementation and are expected to keep iterating.
 
 Read this before continuing detail-page work:
 
@@ -66,19 +78,18 @@ docs/design/codex-pokemon-detail.md
 
 Important current direction:
 
-- Keep Shiny as a direct toggle.
-- Treat Pokemon form as a real selector because form changes can affect typing,
-  stats, abilities, availability, and game validity.
-- Prefer a compact `Form: ...` trigger that opens a desktop popover/command
-  selector and a mobile sheet.
+- Keep Shiny as a direct visual toggle inside the portrait.
+- Treat Pokemon forms as real data-affecting choices because form changes can
+  affect typing, stats, abilities, availability, and game validity.
+- Keep forms outside the portrait. The current pattern is a dedicated Forms card
+  with list-style form options, not a tiny thumbnail rail and not a select.
 - Validate forms against the selected game, not only the selected generation.
 - DLC-only availability counts as game availability but must show a warning/info
   state explaining the required DLC scope.
-
-The latest unresolved visual issue was a square-looking artifact around some
-small form thumbnails. It persisted after removing the `Link` wrapper and using
-button-based routing, so the problem is probably image-source/image-rendering or
-the overly constrained thumbnail-rail pattern rather than only parent layout.
+- Keep card sections simple, with shared Pokemon detail card styling and no
+  decorative title icons.
+- For right-section data, prefer adding one section at a time and keep data
+  access in the loader/mapper/query split.
 
 ## Current Module Scope
 
@@ -173,6 +184,8 @@ Current feature data pattern:
   and mappers.
 - `server/*-loaders.ts` performs raw Supabase reads.
 - `data/*-mappers.ts` and `data/*-selectors.ts` are pure transforms only.
+- `components/*-model.ts` can hold local view-model helpers for one component
+  group when the logic is UI-adjacent and not a database mapper.
 - `components/*` should not create Supabase clients or call `.schema(...)`.
 - `client/*` is reserved for browser-only client island helpers.
 

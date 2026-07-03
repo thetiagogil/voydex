@@ -27,8 +27,8 @@ These images are not pixel-perfect implementation contracts. They document the i
 
 - [Codex Pokemon Detail Direction](./codex-pokemon-detail.md): current
   product/design direction for the game-scoped Pokemon detail page, including
-  form-selection decisions, evolution-line treatment, and known unresolved
-  issues.
+  form-selection decisions, evolution-line treatment, and right-section card
+  direction.
 
 ### Mainline Play
 

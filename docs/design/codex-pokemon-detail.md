@@ -8,12 +8,15 @@ history.
 
 - `codex/pokemon/browse` is considered the stable completed Codex browse view
   for now.
-- `codex/pokemon/[gameSlug]/[speciesSlug]` is ongoing work.
-- The top reference section is the most mature part of the detail page:
-  species selector, generation/game navigation, and game-scoped URL state.
-- The lower detail content is being rebuilt section by section.
-- The left section currently has a portrait area and evolution-line work, but
-  the form selector treatment is not settled.
+- `codex/pokemon/[gameSlug]/[speciesSlug]` has its section foundation in place
+  and should be iterated section by section.
+- The top section is a compact selector surface with species selection and
+  generation/game navigation.
+- The left section has the portrait, optional Forms card, and optional
+  Evolution Line card.
+- The right section currently has Core Data, Battle Stats, Type Matchups,
+  Abilities, Availability, and Learnsets cards.
+- Learnsets are the newest section and can continue to iterate.
 
 ## Route And Scope Model
 
@@ -46,22 +49,23 @@ Use a compact header/reference section followed by a two-column detail body.
 Header/reference section:
 
 - Left: `#0001 Bulbasaur` style species selector.
-- Right: compact generation buttons.
+- Right: compact generation/game buttons. The selected generation trigger should
+  include the selected game name, for example `VIII - Pokemon Sword`.
 - Generation menus open game options for that generation.
 - Species selector should support search because generation/game Pokemon lists
   can be large.
 
 Body:
 
-- Left column: portrait and evolution line.
-- Right column: core data, stats, abilities, game availability, Pokedex entries,
-  breeding data, and later moves.
-
-The right column should be built after the left column stabilizes.
+- Left column: portrait, forms when applicable, and evolution line when
+  applicable.
+- Right column: cards for core data, stats, type matchups, abilities,
+  availability, learnsets, and later Pokedex/breeding/entry sections.
 
 ## Left Section Direction
 
-The left side should feel like one coherent surface, not disconnected cards.
+The left side should be a simple vertical stack of cards. The portrait is its
+own card. Forms and evolution line use normal Pokemon detail section cards.
 
 Current intended parts:
 
@@ -70,79 +74,82 @@ Current intended parts:
 - Form selection.
 - Evolution line.
 
+Portrait:
+
+- Use the active form image over the type-themed background.
+- Render the shiny toggle in the top-right corner of the portrait.
+- The shiny toggle swaps only the active form artwork and resets when the
+  selected form changes.
+
+Forms:
+
+- Do not render a Forms section when the Pokemon has no additional forms.
+- When forms exist, render a dedicated Forms card below the portrait.
+- Show each form as a list option with image, National number, form name, and
+  type identity.
+- Selection should be represented by the route/query state and a visible
+  selected row style.
+
 Evolution line:
 
 - Hide the section when the evolution line has only one Pokemon.
-- Keep simple level evolutions readable without tooltips.
-- Use compact labels/icons for non-level requirements, with tooltips only when
-  the method is not obvious.
-- For branching evolutions, repeat the source Pokemon per row for now. This is
-  more readable than one compressed tree for cases like Eevee and Slowpoke.
-- Use only two arrow treatments:
-  - Normal compact arrow for three-stage lines.
-  - Longer stretched arrow for two-stage lines.
+- Keep simple level evolutions readable.
+- Use compact labels/icons for non-level requirements.
+- Resolve every evolution family into readable path rows. This handles mixed
+  branch lengths such as Applin -> Flapple/Appletun/Dipplin -> Hydrapple.
+- Highlight the selected node with the Pokemon type-colored selected/hover
+  treatment used across detail links.
 
 ## Form Selection Decision
 
-Do not keep a vertical rail of many tiny form thumbnails inside the portrait as
-the final pattern.
+Do not keep a vertical rail of many tiny form thumbnails inside the portrait.
 
 Reason:
 
 - Forms are not only visual variants. They can change typing, stats, abilities,
   availability, and game validity.
-- Pokemon like Arceus can have many forms, so a tiny portrait rail becomes
-  cramped, hard to scan, and visually fragile.
-- The thumbnail rail caused visual artifacts and layout problems that were not
-  resolved by changing from links to buttons.
+- Pokemon like Arceus can have many forms, so form selection needs a readable
+  option surface.
+- Keeping forms outside the portrait keeps the portrait focused on artwork.
 
-Recommended pattern:
+Current pattern:
 
-- Keep Shiny as a small direct toggle because shiny is only a visual alternate
-  of the current selected form.
-- Treat form as a real selector, not a tiny inline rail.
-- Portrait footer should use a compact pair of controls:
+- Shiny remains a small direct toggle because shiny is only a visual alternate
+  of the selected form.
+- Forms render in a dedicated Forms card when additional forms exist.
+- Each form row shows enough context to understand the selection:
+  - form image
+  - National number
+  - form name
+  - type identity
+- The route query parameter stores selected form state.
+- For many-form Pokemon, keep the list readable first. Add search or grouping
+  only when the concrete UI need appears.
 
-```txt
-[Shiny]  [Form: Normal]
-```
+## Right Section Direction
 
-- On desktop, the form control should open a popover or command-style selector.
-- On mobile, the form control should open a sheet.
-- The selector should show enough context per form:
-  - Form image.
-  - Form name.
-  - Type icons/badges.
-  - Availability/disabled state for the selected game when needed.
+The right section should stay card-based and readable. Use one card per section
+and keep each card focused.
 
-For many-form Pokemon such as Arceus, the selector can use a searchable compact
-grid or grouped list. Avoid scrollbars inside the portrait itself.
+Current cards:
 
-## Known Current Issue
+- Core Data: type, height, weight, introduced generation.
+- Battle Stats: generation-aware stat rows, including Gen I Special handling.
+- Type Matchups: weaknesses, resistances, and immunities with type icons.
+- Abilities: slot, ability, and effect rows.
+- Availability: content, method, and notes rows for the selected game/scope.
+- Learnsets: searchable/filterable move table with method, move, type,
+  category, power, accuracy, and PP.
 
-The current experimental form option thumbnail still shows a square-looking
-artifact around some form images. This persisted after removing the `Link`
-wrapper and using button-based routing.
+Known next areas:
 
-Likely causes:
-
-- Sprite/image source artifacts.
-- Image optimization/downsampling of tiny external sprites.
-- The current visual pattern being too constrained for many-form Pokemon.
-
-Best next diagnostic if the thumbnail pattern is still being considered:
-
-1. Render the same image in both the Shiny control and the other-form control.
-2. If the artifact follows the image, the source image or image pipeline is the
-   cause.
-3. If it follows the container, inspect parent/overflow/background styling.
-
-The stronger product recommendation is to move to the form selector pattern
-above rather than continuing to perfect the tiny rail.
+- Pokedex numbers.
+- Pokedex entries.
+- Breeding data.
+- Further learnset filtering and presentation polish.
 
 ## Product Design Note
 
-A Product Design image generation attempt was started for the Arceus many-form
-selector, but the generated results did not follow the UI brief. Do not treat
-those generated images as selected design references unless the user explicitly
-adds a usable image to `docs/design`.
+Product Design image generation helped explore the page direction, but generated
+mockups are references only. The implemented app should follow the durable
+decisions in this document, real data behavior, and existing app primitives.

@@ -227,21 +227,24 @@ Forms must be validated against the selected game, not only against the
 generation. A form available somewhere in a generation must not be selectable
 inside a game where that form has no seeded availability.
 
-### Pokemon Forms Need A Real Selector
+### Pokemon Forms Need A Clear Selection Surface
 
 Shiny state is a visual alternate and can stay as a small direct toggle.
 
 Pokemon form selection changes meaningful reference data such as typing,
 stats, abilities, availability, and sometimes game validity. It should be
-represented as a proper selector rather than a tiny portrait rail.
+represented as a proper selection surface rather than a tiny portrait rail.
 
-Preferred UI:
+Current accepted UI:
 
-- Desktop: compact form trigger that opens a searchable popover/command
-  selector.
-- Mobile: compact form trigger that opens a sheet.
-- Selector options should include image, form name, type identity, and disabled
-  or warning states where availability requires it.
+- Keep the portrait focused on the selected form artwork.
+- Keep shiny as a direct in-portrait toggle because it does not change data.
+- Render a dedicated Forms card when additional forms exist.
+- Form options should include image, National number, form name, type identity,
+  and disabled or warning states where availability requires it.
+- Do not render a Forms section when no additional forms exist.
+- Add search, grouping, popovers, or mobile sheets only when the concrete option
+  count or viewport makes the inline list less usable.
 
 ### Item Catalog Is Pokémon-Relevant Only
 

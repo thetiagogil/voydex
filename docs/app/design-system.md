@@ -71,10 +71,12 @@ This keeps the home page close to the selected visual reference while preserving
 - Keep button styling cleaner than the generated mockup. The button shape can be slightly curved, but avoid heavy decorative borders.
 - Primary buttons should not use a mismatched border color.
 - Treat selectors as real selectors when the underlying choice changes data,
-  scope, availability, or stats. For example, Pokemon forms should use a
-  popover/command selector on desktop and a sheet on mobile rather than a tiny
-  rail of thumbnails inside the portrait. Shiny can remain a direct toggle
-  because it is only a visual alternate of the selected form.
+  scope, availability, or stats. For example, Pokemon forms should not live as a
+  tiny thumbnail rail inside the portrait. The current Pokemon detail pattern is
+  a dedicated Forms card with image, number, name, and type identity per option.
+  Use popovers, command menus, sheets, search, or grouping only when the option
+  count and viewport make that clearer. Shiny can remain a direct toggle because
+  it is only a visual alternate of the selected form.
 
 ## Icons And Pokémon Type Assets
 

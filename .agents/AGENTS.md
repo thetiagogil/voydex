@@ -50,7 +50,9 @@ Important current routes:
 - `/codex/pokemon/[gameSlug]`
 - `/codex/pokemon/[gameSlug]/[speciesSlug]`
 - `/codex/games`
+- `/codex/games/[gameSlug]`
 - `/codex/generations`
+- `/codex/generations/[generationId]`
 
 Keep route files in `src/app` thin. Compose module or shared components from them.
 
@@ -89,12 +91,12 @@ Prefer boring, searchable names over short local names:
 
 Use this boundary for feature internals:
 
-- `components/*`: UI composition only. Components can hold local interaction state, but should not create Supabase clients or perform raw data reads.
+- `components/*`: UI composition and local component-group view models only. Components can hold local interaction state, and files such as `components/<section>/*-model.ts` may derive UI-facing rows from already-loaded props. Components must not create Supabase clients or perform raw data reads.
 - `server/*-query.ts`: server orchestration only. Create the server client, resolve auth/scope, call loaders, call mappers, and return page/action data.
 - `server/*-loaders.ts`: raw Supabase reads only. Loaders accept a `ServerSupabaseClient` and return database rows or row groups.
 - `server/*-action.ts`: Server Actions and mutations. Keep validation explicit and prefer shared loaders/helpers for repeated reads.
 - `data/*-mappers.ts`: pure row-to-view-model transforms. No Supabase client, no React hooks, no browser APIs.
-- `data/*-selectors.ts`: pure selectors over already-loaded rows or view models.
+- `data/*-selectors.ts`: pure selectors over already-loaded rows or view models when the selector is shared by the feature data layer. Keep one-section UI-adjacent selectors beside their component group as `components/<section>/*-model.ts`.
 - `client/*`: browser-only API/state/model helpers for client islands.
 - `display/*`: formatting and presentation selectors used by UI.
 - `utils/*`: small cross-cutting helpers that are not data access, not display-only, and not tied to React.
@@ -131,16 +133,27 @@ Preserve these current decisions:
 - The route is game-scoped; `gameSlug` determines generation.
 - Pokemon browse can link to the first supported game in the first generation
   where the species appears.
+- The top section is a compact selector surface: species selector on the left
+  and generation/game menu on the right. The active generation trigger should
+  include the selected game name.
 - Generation controls should list games by seeded sort order.
 - A game is enabled for a Pokemon/form when seeded availability exists for that
   game. DLC-only availability counts, but the UI needs an explicit warning/info
   state for the DLC scope.
 - Form validity must be checked against the selected game, not only the selected
   generation.
-- Shiny is a direct visual toggle.
-- Pokemon form should be a real selector, not a tiny vertical thumbnail rail
-  inside the portrait. Prefer a popover/command selector on desktop and a sheet
-  on mobile.
+- Shiny is a direct visual toggle rendered inside the portrait. It should switch
+  only the current form artwork and should reset when the selected form changes.
+- Pokemon forms are data-affecting choices. When additional forms exist, render
+  a dedicated Forms card in the left section; each option should show the form
+  image, National number, form name, and type identity. Do not render the Forms
+  section for Pokemon with no additional forms.
+- The evolution line is a left-section card. Hide it when there is no real
+  evolution line. Branching lines should render as readable path rows instead of
+  a compressed tree.
+- The current right-section cards are Core Data, Battle Stats, Type Matchups,
+  Abilities, Availability, and Learnsets. Keep building future sections as
+  small cards using the existing Pokemon detail section-card pattern.
 
 ## Database Boundary
 
