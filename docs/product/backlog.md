@@ -89,6 +89,36 @@ Future work:
   detail-page use case becomes clear.
 - Improve Availability after structured encounter/location/source data exists.
 
+## Codex Action Surfaces
+
+Codex should eventually connect reference browsing to authenticated app
+workflows without becoming owned by Mainline.
+
+Future Codex actions:
+
+- Add to plan.
+- Add to play team.
+- Start a plan with the current Pokemon.
+- Check availability in one of the user's plays.
+- Compare with a planned team.
+- Mark as target.
+- Find where this Pokemon fits.
+
+The `Mark as target` flow is useful when a user wants to remember a Pokemon for
+a future run without committing to a concrete team plan yet.
+
+Future Pokemon browse overlays:
+
+- Already used.
+- Used as this form.
+- Planned.
+- Targeted.
+- Never used.
+
+Codex should pass selected context to module-owned workflows rather than owning
+the mutation. For Mainline, that context can include species, form, selected
+game, version group, availability scope, and DLC/transfer requirements.
+
 ## Platform-Specific Rerelease Differences
 
 Reference availability currently models original historical game behavior.

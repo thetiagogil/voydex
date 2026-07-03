@@ -29,6 +29,10 @@ Do not call the Mainline module "Adventures" in code or UI. Plays are the user-o
 
 `codex` is a frontend module, not a database product family.
 
+Codex remains a shared reference module, not a child of Mainline. It can later
+expose authenticated contextual actions, but the owning module must validate
+and mutate durable state.
+
 ## Current Route Shape
 
 Important current routes:
@@ -152,8 +156,14 @@ Preserve these current decisions:
   evolution line. Branching lines should render as readable path rows instead of
   a compressed tree.
 - The current right-section cards are Core Data, Battle Stats, Type Matchups,
-  Abilities, Availability, and Learnsets. Keep building future sections as
-  small cards using the existing Pokemon detail section-card pattern.
+  Abilities, Pokedex, Availability, and Learnsets. Keep building future sections
+  as small cards using the existing Pokemon detail section-card pattern.
+- Type Matchups currently uses a compact all-type effectiveness grid with type
+  icon tooltips and effectiveness-value tooltips.
+- Future authenticated Codex actions can include Add to plan, Add to play team,
+  Start a plan with this Pokemon, Check availability in my play, Compare with
+  planned team, Mark as target, and Find where this fits. Codex should pass
+  selected context to the owning module instead of owning those mutations.
 
 ## Database Boundary
 

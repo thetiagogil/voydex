@@ -135,7 +135,9 @@ Current cards:
 
 - Core Data: type, height, weight, introduced generation.
 - Battle Stats: generation-aware stat rows, including Gen I Special handling.
-- Type Matchups: weaknesses, resistances, and immunities with type icons.
+- Type Matchups: compact all-type effectiveness grid. The top row shows type
+  icons, the value row shows effectiveness values, and tooltips explain the
+  attacking type against the current Pokemon typing.
 - Abilities: slot, ability, and effect rows.
 - Pokedex: dex name, number, and future entry text.
 - Availability: content, method, and notes rows for the selected game/scope.
@@ -147,6 +149,31 @@ Known next areas:
 - Pokedex entries.
 - Breeding data.
 - Further learnset filtering and presentation polish.
+- Richer evolution requirement visuals once item/method images are available.
+
+## Future Authenticated Actions
+
+The detail page can later expose authenticated actions that connect reference
+context to the rest of Voydex.
+
+Accepted future actions:
+
+- Add to plan.
+- Add to play team.
+- Start a plan with this Pokemon.
+- Check availability in my play.
+- Compare with planned team.
+- Mark as target.
+- Find where this fits.
+
+Codex should not own those mutations. The page should pass selected reference
+context to the owning module, such as Mainline, and that module should validate
+and execute the action. Useful context includes species, form, selected game,
+version group, availability scope, and DLC or transfer requirements.
+
+`Mark as target` is intentionally lighter than adding a planned member. It lets
+the user remember a Pokemon for a future play or team idea before committing to
+a concrete plan.
 
 ## Product Design Note
 

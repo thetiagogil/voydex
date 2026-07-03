@@ -68,6 +68,9 @@ Current status:
   Branching evolutions render as readable path rows.
 - The right section currently includes Core Data, Battle Stats, Type Matchups,
   Abilities, Pokedex, Availability, and Learnsets cards.
+- Type Matchups currently uses a compact all-type effectiveness grid with type
+  icon tooltips and effectiveness-value tooltips, not grouped
+  weakness/resistance sections.
 - Learnsets are a first implementation and are expected to keep iterating.
 
 Read this before continuing detail-page work:
@@ -131,6 +134,14 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 - Other Pokémon game families should be separate modules later, not forced into the mainline play model now.
 - Dashboard is a `mainline` module view, not a top-level module.
 - Active module preference is stored in the `voydex-active-module` cookie.
+- Codex remains its own shared reference module, not a child of Mainline. It can
+  later expose authenticated contextual actions, but the owning module validates
+  and mutates state.
+- Future Codex contextual actions can include Add to plan, Add to play team,
+  Start a plan with this Pokemon, Check availability in my play, Compare with
+  planned team, Mark as target, and Find where this fits.
+- `Mark as target` is a lightweight future planning action for remembering a
+  Pokemon without committing it to a concrete team plan yet.
 
 ## Database Contract
 

@@ -234,6 +234,7 @@ It should support filters for:
 - Availability.
 - Type.
 - Used/not used.
+- Planned/targeted state.
 - Species/form.
 
 Pokémon detail pages can show:
@@ -245,6 +246,28 @@ Pokémon detail pages can show:
 - Evolutions.
 - Availability by game.
 - User history with that Pokémon.
+
+Authenticated Codex surfaces can expose module-aware actions when enough
+context is known.
+
+Accepted future actions:
+
+- Add to plan.
+- Add to play team.
+- Start a plan with this Pokemon.
+- Check availability in my play.
+- Compare with planned team.
+- Mark as target.
+- Find where this fits.
+
+These actions should use the current Codex context, such as species, form, game,
+version group, and availability scope. Codex should not execute Mainline
+mutations directly. It should pass intent to the owning module, where validation
+for team size, reuse policy, DLC settings, availability, form validity, and
+plan/play state happens.
+
+Anonymous users can browse Codex normally. Authenticated-only actions should be
+hidden, disabled, or represented as sign-in prompts depending on the surface.
 
 ### Collection
 

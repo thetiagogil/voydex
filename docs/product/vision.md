@@ -42,6 +42,12 @@ Planning should include reuse warnings, availability context, optional content s
 
 The Pokedex/search experience exists to support planning and tracking. It should be filtered by game, generation, availability, type, forms, and used-before state.
 
+Reference pages should be able to become action entry points when the user is
+authenticated. For example, a Pokemon detail page can later help the user add a
+Pokemon to a plan, add it to a play team, mark it as a future target, or compare
+it with a planned team. Codex provides the reference context; the owning module
+validates and stores the user state.
+
 Reference data must be curated and historically accurate, especially for older generations.
 
 ## First-Class User Loops

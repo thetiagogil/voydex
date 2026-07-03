@@ -98,6 +98,12 @@ Dashboard is a Mainline view, not a top-level app module. It shows recent plays,
 
 Codex is the public-readable reference/search/planning surface. It is a frontend app module, not a database product family.
 
+Codex can expose authenticated contextual actions into other modules, but those
+actions should route into the owning module's workflow. For example, a Pokemon
+detail page can offer Mainline actions such as adding to a plan, adding to a
+play team, starting a plan from the current Pokemon/game context, or marking a
+Pokemon as a target.
+
 Pokemon detail pages are game-scoped. The selected game determines the selected
 generation, so the URL should stay `/codex/pokemon/[gameSlug]/[speciesSlug]`
 instead of adding a generation segment.
@@ -226,12 +232,24 @@ Play Team -> Team Plan -> Add To Team -> Suggested Starting Stage -> Current Tea
 Codex -> Pokedex -> Pokémon Detail -> Add To Plan
 ```
 
+Future authenticated Codex actions can include:
+
+```txt
+Codex Pokemon Detail -> Add To Plan -> Mainline Plan
+Codex Pokemon Detail -> Add To Play Team -> Mainline Play Team
+Codex Pokemon Detail -> Start Plan With This Pokemon -> New Mainline Plan
+Codex Pokemon Detail -> Mark As Target -> Mainline target state
+Codex Pokemon Detail -> Check Availability In My Play -> Mainline play context
+```
+
 ## Routing Principles
 
 - Top-level routes should represent modules.
 - Module views should belong to their active module instead of appearing as global navbar peers.
 - Nested play routes should represent play-specific tasks.
 - Codex routes should provide context and discovery, not be required funnels.
+- Codex contextual actions should hand off to the owning module for validation
+  and mutation.
 - Plan routes should not be nested under plays because plans can exist before plays.
 - Collection and Stats should be derived from user data rather than manually maintained.
 - Future app modules may introduce their own route trees, but the `mainline` product family and Mainline workspace are the first build target.

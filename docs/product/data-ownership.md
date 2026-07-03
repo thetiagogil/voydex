@@ -102,6 +102,11 @@ A Team Plan owns planned target Pokémon, notes, roles, and preferences.
 
 A Team Plan can also own optional content scope such as DLC availability before a play exists.
 
+Codex can initiate plan-related actions, but it should not own planning state.
+When a user marks a Pokemon as a target, starts a plan from a Pokemon detail
+page, or adds a Pokemon to a plan, the durable state belongs to the planning
+model and any linked Mainline play/plan relationship.
+
 When a play is created from a Team Plan:
 
 - The Team Plan remains.

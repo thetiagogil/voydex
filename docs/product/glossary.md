@@ -24,6 +24,16 @@ The frontend reference browser for Pokémon, games, generations, and future refe
 
 Codex is not a database product family. It can read reference data across product families as Voydex grows.
 
+Codex can expose module-aware authenticated actions, but the destination module
+owns validation and mutation.
+
+### Codex Action Context
+
+The selected reference context passed from Codex into another module's workflow.
+
+For Pokemon detail, this can include species, form, selected game, version
+group, availability scope, and DLC/transfer requirements.
+
 ### Mainline Module
 
 The active Voydex app module for mainline-style Pokémon RPG playthroughs.
@@ -71,6 +81,14 @@ One Pokémon target in a team plan.
 A planned member can be pending, linked, reached, or skipped.
 
 When a plan is linked to a play, the member status belongs to that play/plan relationship.
+
+### Target Pokemon
+
+A Pokemon the user wants to remember for a future play, plan, or team idea.
+
+Targeting is lighter than adding a full planned member. It is useful when the
+user wants to keep a Pokemon in mind but has not committed to a concrete plan
+yet.
 
 ### Play Pokémon
 

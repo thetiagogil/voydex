@@ -49,6 +49,33 @@ Product families describe Pokémon game/content families in reference data.
 
 `codex` is not a product family. It is a frontend module that can browse reference data across product families as the database grows.
 
+## Codex Role
+
+Codex is the shared reference layer for Voydex.
+
+It should stay useful as a public-readable browsing surface, but it should also
+be able to expose authenticated, module-aware actions when those actions help
+users move from reference context into real app workflows.
+
+Examples:
+
+- Add a Pokemon to a Mainline team plan.
+- Add a Pokemon to an active Mainline play team.
+- Start a Mainline plan from the current Pokemon/game context.
+- Mark a Pokemon as a target for a future play.
+- Check availability against one of the user's plays.
+- Compare a Pokemon with a planned team.
+- Show used/planned/targeted indicators in Pokemon browse.
+
+Codex should not own those mutations. Codex pages should provide reference
+context and action entry points; the target module should validate and execute
+the action. For example, Mainline owns team size, reuse policy, DLC settings,
+availability validation, and plan/play updates.
+
+Future modules can provide their own Codex actions later, such as HOME living
+dex targets or Mystery Dungeon recruitment checks, without turning Codex into a
+mainline-only module.
+
 ## Shared Boundaries
 
 Most app modules can share:

@@ -34,6 +34,23 @@ The active playthrough module is `mainline`. It covers mainline-style Pokémon R
 
 Future modules can share profile, shell, reference, and design foundations, but they should get module-specific tables and flows when their mechanics differ.
 
+### Codex Is A Shared Reference Module
+
+Codex should remain its own module, not a child of Mainline.
+
+Codex can be mainline-heavy while mainline is the active seeded product family,
+but its long-term role is shared reference browsing across product families.
+
+Codex pages may expose authenticated module-aware actions such as adding a
+Pokemon to a Mainline plan, adding a Pokemon to a play team, starting a plan
+from the current Pokemon/game context, marking a Pokemon as a target, checking
+availability in a play, comparing against a planned team, or showing
+used/planned/targeted indicators.
+
+Codex does not own those mutations. It should pass the selected reference
+context to the target module, and the target module should validate and execute
+the action.
+
 ### Primary Navigation
 
 The main navbar is module-aware. It shows a module switcher plus the active module's view links.
