@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-grid";
 
@@ -14,13 +13,7 @@ export const PokemonDetailAbilityItem = ({
       className={`${pokemonDetailSectionTableGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
     >
       <div className="flex min-w-0 items-center gap-3">
-        <div
-          className={cn(
-            "border-primary/45 bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold tabular-nums",
-            abilitySlot.isHidden &&
-              "border-amber-400/45 bg-amber-400/10 text-amber-300",
-          )}
-        >
+        <div className="border-primary/45 bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold tabular-nums">
           {abilitySlot.token}
         </div>
 

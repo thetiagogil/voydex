@@ -9,17 +9,6 @@ type TypeAttackChartEntry = {
   superEffective: PokemonTypeSlug[];
 };
 
-export type PokemonTypeMatchup = {
-  multiplier: number;
-  type: PokemonTypeSlug;
-};
-
-export type PokemonDefensiveTypeMatchups = {
-  immunities: PokemonTypeMatchup[];
-  resistances: PokemonTypeMatchup[];
-  weaknesses: PokemonTypeMatchup[];
-};
-
 const typeAttackChart: Record<PokemonTypeSlug, TypeAttackChartEntry> = {
   normal: {
     noEffect: ["ghost"],
@@ -240,28 +229,4 @@ export const getDefensiveTypeMultiplier = (
       getTypeEffectiveness(attackingType, defendingType, generationOrder),
     1,
   );
-};
-
-export const getDefensivePokemonTypeMatchups = (
-  defendingTypes: PokemonTypeSlug[],
-  generationOrder: number,
-): PokemonDefensiveTypeMatchups => {
-  const uniqueDefendingTypes = [...new Set(defendingTypes)];
-  const availableTypes = getPokemonTypesForGeneration(generationOrder);
-  const matchups = availableTypes.map((type) => ({
-    multiplier: getDefensiveTypeMultiplier(
-      type,
-      uniqueDefendingTypes,
-      generationOrder,
-    ),
-    type,
-  }));
-
-  return {
-    immunities: matchups.filter((matchup) => matchup.multiplier === 0),
-    resistances: matchups.filter(
-      (matchup) => matchup.multiplier > 0 && matchup.multiplier < 1,
-    ),
-    weaknesses: matchups.filter((matchup) => matchup.multiplier > 1),
-  };
 };

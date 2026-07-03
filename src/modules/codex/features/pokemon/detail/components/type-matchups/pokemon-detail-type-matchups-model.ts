@@ -3,35 +3,35 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/shared/domain/pokemon/constants";
-import type {
-  PokemonDefensiveTypeMatchups,
-  PokemonTypeMatchup,
+import {
+  getDefensiveTypeMultiplier,
+  getPokemonTypesForGeneration,
 } from "@/shared/domain/pokemon/type-effectiveness";
 
-export type PokemonDetailTypeMatchupSectionData = {
-  groups: PokemonDetailTypeMatchupGroupData[];
-  id: keyof PokemonDefensiveTypeMatchups;
-  title: string;
-};
-
-export type PokemonDetailTypeMatchupGroupData = {
-  id: string;
-  matchups: PokemonTypeMatchup[];
+export type PokemonDetailTypeMatchupChartColumn = {
+  attackingType: PokemonTypeSlug;
+  multiplier: number;
   multiplierLabel: string;
+  tooltipDescription: string;
+  tooltipLabel: string;
+  tooltipTitle: string;
+  typeLabel: string;
 };
 
-export const formatPokemonDetailTypeMatchupMultiplier = (
-  multiplier: number,
-) => {
+const formatPokemonDetailTypeMatchupValue = (multiplier: number) => {
   if (multiplier === 0.25) {
-    return "x1/4";
+    return "1/4";
   }
 
   if (multiplier === 0.5) {
-    return "x1/2";
+    return "1/2";
   }
 
-  return `x${multiplier}`;
+  return String(multiplier);
+};
+
+const formatPokemonDetailTypeMatchupDamageMultiplier = (multiplier: number) => {
+  return `x${formatPokemonDetailTypeMatchupValue(multiplier)}`;
 };
 
 const getPokemonDetailTypePairSlugs = (typePair: PokemonTypePair | null) => {
@@ -45,21 +45,38 @@ const getPokemonDetailTypePairSlugs = (typePair: PokemonTypePair | null) => {
   );
 };
 
-const getPokemonDetailTypeMatchupGroups = (
-  matchups: PokemonTypeMatchup[],
-  multipliers: number[],
-) => {
-  return multipliers
-    .map((multiplier) => ({
-      id: String(multiplier),
-      matchups: matchups.filter((matchup) => matchup.multiplier === multiplier),
-      multiplierLabel: formatPokemonDetailTypeMatchupMultiplier(multiplier),
-    }))
-    .filter((group) => group.matchups.length > 0);
-};
-
 export const formatPokemonDetailTypeName = (type: PokemonTypeSlug) => {
   return type.charAt(0).toUpperCase() + type.slice(1);
+};
+
+const getPokemonDetailTypeMatchupEffectivenessLabel = (multiplier: number) => {
+  if (multiplier === 0) {
+    return "No effect";
+  }
+
+  if (multiplier === 0.25) {
+    return "Double resisted";
+  }
+
+  if (multiplier === 0.5) {
+    return "Not very effective";
+  }
+
+  if (multiplier === 2) {
+    return "Super effective";
+  }
+
+  if (multiplier === 4) {
+    return "Double super effective";
+  }
+
+  return "Normal damage";
+};
+
+const getPokemonDetailDefendingTypesLabel = (
+  defendingTypes: PokemonTypeSlug[],
+) => {
+  return defendingTypes.map(formatPokemonDetailTypeName).join("/");
 };
 
 export const getPokemonDetailDefendingTypes = (
@@ -68,29 +85,39 @@ export const getPokemonDetailDefendingTypes = (
   return getPokemonDetailTypePairSlugs(typePair).filter(isPokemonTypeSlug);
 };
 
-export const getPokemonDetailTypeMatchupSections = (
-  matchups: PokemonDefensiveTypeMatchups,
-) => {
-  const sections = [
-    {
-      groups: getPokemonDetailTypeMatchupGroups(matchups.weaknesses, [2, 4]),
-      id: "weaknesses",
-      title: "Weaknesses",
-    },
-    {
-      groups: getPokemonDetailTypeMatchupGroups(
-        matchups.resistances,
-        [0.5, 0.25],
-      ),
-      id: "resistances",
-      title: "Resistances",
-    },
-    {
-      groups: getPokemonDetailTypeMatchupGroups(matchups.immunities, [0]),
-      id: "immunities",
-      title: "Immunities",
-    },
-  ] satisfies PokemonDetailTypeMatchupSectionData[];
+export const getPokemonDetailTypeMatchupChart = ({
+  defendingTypes,
+  generationOrder,
+}: {
+  defendingTypes: PokemonTypeSlug[];
+  generationOrder: number;
+}) => {
+  const uniqueDefendingTypes = [...new Set(defendingTypes)];
+  const defendingTypesLabel =
+    getPokemonDetailDefendingTypesLabel(uniqueDefendingTypes);
 
-  return sections;
+  return getPokemonTypesForGeneration(generationOrder).map((attackingType) => {
+    const multiplier = getDefensiveTypeMultiplier(
+      attackingType,
+      uniqueDefendingTypes,
+      generationOrder,
+    );
+    const typeLabel = formatPokemonDetailTypeName(attackingType);
+    const effectivenessLabel =
+      getPokemonDetailTypeMatchupEffectivenessLabel(multiplier);
+    const tooltipTitle = `${typeLabel} against ${defendingTypesLabel}`;
+    const tooltipDescription = `${formatPokemonDetailTypeMatchupDamageMultiplier(
+      multiplier,
+    )} damage - ${effectivenessLabel}`;
+
+    return {
+      attackingType,
+      multiplier,
+      multiplierLabel: formatPokemonDetailTypeMatchupValue(multiplier),
+      tooltipDescription,
+      tooltipLabel: `${tooltipTitle}. ${tooltipDescription}`,
+      tooltipTitle,
+      typeLabel,
+    } satisfies PokemonDetailTypeMatchupChartColumn;
+  });
 };

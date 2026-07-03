@@ -1,16 +1,96 @@
+import type { CSSProperties } from "react";
+
+import { cn } from "@/lib/utils";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
-import { PokemonDetailTypeMatchupSection } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchup-section";
 import {
   getPokemonDetailDefendingTypes,
-  getPokemonDetailTypeMatchupSections,
+  getPokemonDetailTypeMatchupChart,
+  type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
-import { Separator } from "@/shared/components/ui/separator";
-import { getDefensivePokemonTypeMatchups } from "@/shared/domain/pokemon/type-effectiveness";
+import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 type PokemonDetailTypeMatchupsCardProps = {
   generation: Generation;
   typePair: PokemonTypePair | null;
+};
+
+const getPokemonDetailTypeMatchupValueClassName = (multiplier: number) => {
+  return cn(
+    "focus-visible:ring-ring/50 inline-flex h-7 min-w-7 items-center justify-center rounded-md px-1 text-xs font-semibold tabular-nums outline-none focus-visible:ring-2",
+    multiplier === 0 && "text-emerald-400",
+    multiplier === 0.25 && "text-emerald-400",
+    multiplier === 0.5 && "text-lime-400",
+    multiplier === 1 && "text-muted-foreground/70 font-medium",
+    multiplier === 2 && "text-orange-400",
+    multiplier === 4 && "text-red-400",
+  );
+};
+
+const PokemonDetailTypeMatchupTypeCell = ({
+  column,
+}: {
+  column: PokemonDetailTypeMatchupChartColumn;
+}) => {
+  return (
+    <div className="flex min-w-0 justify-center">
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <span
+              tabIndex={0}
+              role="img"
+              aria-label={column.typeLabel}
+              className="focus-visible:ring-ring/50 inline-flex rounded-full outline-none focus-visible:ring-2"
+            />
+          }
+        >
+          <PokemonTypeBadge
+            type={column.attackingType}
+            label={column.typeLabel}
+            display="icon"
+            size="sm"
+          />
+        </TooltipTrigger>
+        <TooltipContent>{column.typeLabel}</TooltipContent>
+      </Tooltip>
+    </div>
+  );
+};
+
+const PokemonDetailTypeMatchupEffectivenessCell = ({
+  column,
+}: {
+  column: PokemonDetailTypeMatchupChartColumn;
+}) => {
+  return (
+    <div className="flex min-w-0 justify-center">
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <span
+              tabIndex={0}
+              aria-label={column.tooltipLabel}
+              className={getPokemonDetailTypeMatchupValueClassName(
+                column.multiplier,
+              )}
+            />
+          }
+        >
+          {column.multiplierLabel}
+        </TooltipTrigger>
+        <TooltipContent className="flex-col items-start text-left">
+          <span className="font-medium">{column.tooltipTitle}</span>
+          <span className="opacity-80">{column.tooltipDescription}</span>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  );
 };
 
 export const PokemonDetailTypeMatchupsCard = ({
@@ -23,11 +103,13 @@ export const PokemonDetailTypeMatchupsCard = ({
     return null;
   }
 
-  const matchups = getDefensivePokemonTypeMatchups(
+  const chartColumns = getPokemonDetailTypeMatchupChart({
     defendingTypes,
-    generation.sort_order,
-  );
-  const sections = getPokemonDetailTypeMatchupSections(matchups);
+    generationOrder: generation.sort_order,
+  });
+  const chartGridStyle = {
+    gridTemplateColumns: `repeat(${chartColumns.length}, minmax(2rem, 1fr))`,
+  } satisfies CSSProperties;
 
   return (
     <PokemonDetailSectionCard
@@ -35,14 +117,33 @@ export const PokemonDetailTypeMatchupsCard = ({
       className="h-full"
       contentClassName="p-0"
     >
-      {sections.map((section, index) => (
-        <div key={section.id}>
-          <PokemonDetailTypeMatchupSection section={section} />
-          {index < sections.length - 1 ? (
-            <Separator className="bg-app-surface-border/60" />
-          ) : null}
+      <div className="overflow-x-auto">
+        <div className="min-w-[36rem]">
+          <div
+            className="border-app-surface-border/60 grid items-center gap-1 border-b px-4 py-3"
+            style={chartGridStyle}
+          >
+            {chartColumns.map((column) => (
+              <PokemonDetailTypeMatchupTypeCell
+                key={column.attackingType}
+                column={column}
+              />
+            ))}
+          </div>
+
+          <div
+            className="grid items-center gap-1 px-4 py-3"
+            style={chartGridStyle}
+          >
+            {chartColumns.map((column) => (
+              <PokemonDetailTypeMatchupEffectivenessCell
+                key={column.attackingType}
+                column={column}
+              />
+            ))}
+          </div>
         </div>
-      ))}
+      </div>
     </PokemonDetailSectionCard>
   );
 };
