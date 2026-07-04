@@ -3,9 +3,11 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/lib/utils";
-import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-browse";
+import {
+  CodexGenerationSection,
+  CodexResourceGrid,
+} from "@/modules/codex/shared/components/codex-browse";
 import type { GameCard } from "@/modules/codex/shared/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   getPokemonGameColorCssVariables,
   pokemonGameCardSurfaceClassName,
@@ -13,6 +15,12 @@ import {
 
 type GamesGridProps = {
   games: GameCard[];
+};
+
+type GamesGenerationGroup = {
+  games: GameCard[];
+  key: string;
+  label: string;
 };
 
 const getGameInitials = (name: string) => {
@@ -30,6 +38,30 @@ const getGameMetadata = (card: GameCard) => {
   return [card.game.release_year, card.region?.name]
     .filter(Boolean)
     .join(" · ");
+};
+
+const groupGamesByGeneration = (games: GameCard[]) => {
+  const groups: GamesGenerationGroup[] = [];
+  const groupByKey = new Map<string, GamesGenerationGroup>();
+
+  for (const card of games) {
+    const key = card.generation?.slug ?? "unknown";
+    let group = groupByKey.get(key);
+
+    if (!group) {
+      group = {
+        games: [],
+        key,
+        label: card.generation?.name ?? "Unknown generation",
+      };
+      groupByKey.set(key, group);
+      groups.push(group);
+    }
+
+    group.games.push(card);
+  }
+
+  return groups;
 };
 
 const GamesGridCard = ({ card }: { card: GameCard }) => {
@@ -63,7 +95,7 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
           className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/84 via-black/38 to-transparent"
         />
         <div className="relative z-10 flex h-full flex-col justify-end p-4">
-          <div className="min-w-0 pr-8">
+          <div className="min-w-0">
             {!card.coverImageUrl ? (
               <div className="bg-(--pokemon-game-color)/15 text-(--pokemon-game-color) mb-3 flex size-10 items-center justify-center rounded-lg text-sm font-black">
                 {getGameInitials(card.game.name)}
@@ -76,11 +108,6 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
               {getGameMetadata(card)}
             </p>
           </div>
-          <AppIcon
-            icon={appIcons.actions.continue}
-            className="text-foreground/90 absolute right-4 bottom-4 size-4"
-            aria-hidden
-          />
         </div>
       </article>
     </Link>
@@ -88,11 +115,19 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
 };
 
 export const GamesGrid = ({ games }: GamesGridProps) => {
+  const groups = groupGamesByGeneration(games);
+
   return (
-    <CodexResourceGrid columns="four">
-      {games.map((card) => (
-        <GamesGridCard key={card.game.id} card={card} />
+    <div className="space-y-10">
+      {groups.map((group) => (
+        <CodexGenerationSection key={group.key} title={group.label}>
+          <CodexResourceGrid columns="five">
+            {group.games.map((card) => (
+              <GamesGridCard key={card.game.id} card={card} />
+            ))}
+          </CodexResourceGrid>
+        </CodexGenerationSection>
       ))}
-    </CodexResourceGrid>
+    </div>
   );
 };

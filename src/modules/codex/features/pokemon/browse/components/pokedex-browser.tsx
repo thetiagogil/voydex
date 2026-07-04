@@ -22,11 +22,14 @@ import {
 import {
   CodexBrowseMeta,
   CodexEmptyState,
+  CodexGenerationSection,
   CodexResourceGrid,
 } from "@/modules/codex/shared/components/codex-browse";
 import type {
+  Generation,
   PokedexPageData,
   PokedexPageFilters,
+  PokedexPokemonBrowseCard,
 } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 
@@ -36,7 +39,76 @@ type PokedexBrowserProps = {
 
 const INITIAL_VISIBLE_POKEMON = 96;
 const VISIBLE_POKEMON_INCREMENT = 96;
-const PRELOAD_REMAINING_POKEMON = 48;
+
+type PokedexPokemonGenerationGroup = {
+  key: string;
+  label: string;
+  pokemon: PokedexPokemonBrowseCard[];
+};
+
+const groupPokemonByGeneration = (
+  pokemon: PokedexPokemonBrowseCard[],
+  generations: Generation[],
+) => {
+  const generationSlugSet = new Set(
+    generations.map((generation) => generation.slug),
+  );
+  const pokemonByGenerationSlug = new Map<string, PokedexPokemonBrowseCard[]>();
+  const unknownGenerationPokemon: PokedexPokemonBrowseCard[] = [];
+
+  for (const entry of pokemon) {
+    const generationSlug = entry.introducedGeneration?.slug;
+
+    if (!generationSlug) {
+      unknownGenerationPokemon.push(entry);
+      continue;
+    }
+
+    const generationPokemon = pokemonByGenerationSlug.get(generationSlug) ?? [];
+    generationPokemon.push(entry);
+    pokemonByGenerationSlug.set(generationSlug, generationPokemon);
+  }
+
+  const groups: PokedexPokemonGenerationGroup[] = generations.flatMap(
+    (generation) => {
+      const generationPokemon = pokemonByGenerationSlug.get(generation.slug);
+
+      return generationPokemon?.length
+        ? [
+            {
+              key: generation.slug,
+              label: generation.name,
+              pokemon: generationPokemon,
+            },
+          ]
+        : [];
+    },
+  );
+
+  for (const [generationSlug, generationPokemon] of pokemonByGenerationSlug) {
+    if (generationSlugSet.has(generationSlug)) {
+      continue;
+    }
+
+    groups.push({
+      key: generationSlug,
+      label:
+        generationPokemon[0]?.introducedGeneration?.name ??
+        "Unknown generation",
+      pokemon: generationPokemon,
+    });
+  }
+
+  if (unknownGenerationPokemon.length) {
+    groups.push({
+      key: "unknown",
+      label: "Unknown generation",
+      pokemon: unknownGenerationPokemon,
+    });
+  }
+
+  return groups;
+};
 
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -60,11 +132,21 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     [filteredPokemon, visibleCount],
   );
 
+  const visiblePokemonGenerationGroups = useMemo(
+    () => groupPokemonByGeneration(visiblePokemon, data.generations),
+    [data.generations, visiblePokemon],
+  );
+
+  const visiblePokemonIndexById = useMemo(
+    () =>
+      new Map(
+        visiblePokemon.map((pokemon, index) => [pokemon.id, index] as const),
+      ),
+    [visiblePokemon],
+  );
+
   const hasActiveFilters = hasActivePokedexFilters(filters);
   const canLoadMore = visiblePokemon.length < filteredPokemon.length;
-  const preloadTriggerIndex = canLoadMore
-    ? Math.max(0, visiblePokemon.length - PRELOAD_REMAINING_POKEMON - 1)
-    : -1;
 
   const loadMorePokemon = useCallback(() => {
     setVisibleCount((currentCount) =>
@@ -93,6 +175,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         }
       },
       {
+        rootMargin: "720px 0px",
         threshold: 0,
       },
     );
@@ -102,7 +185,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     return () => {
       observer.disconnect();
     };
-  }, [canLoadMore, loadMorePokemon, preloadTriggerIndex]);
+  }, [canLoadMore, loadMorePokemon]);
 
   const updateFilter = <FilterKey extends keyof PokedexPageFilters>(
     key: FilterKey,
@@ -161,19 +244,29 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
       {filteredPokemon.length ? (
         <>
-          <CodexResourceGrid columns="four">
-            {visiblePokemon.map((pokemon, index) => (
-              <div
-                key={pokemon.id}
-                ref={
-                  index === preloadTriggerIndex ? preloadTriggerRef : undefined
-                }
-                className="h-full"
-              >
-                <PokedexPokemonCard pokemon={pokemon} priority={index < 4} />
-              </div>
+          <div className="space-y-10">
+            {visiblePokemonGenerationGroups.map((group) => (
+              <CodexGenerationSection key={group.key} title={group.label}>
+                <CodexResourceGrid columns="five">
+                  {group.pokemon.map((pokemon) => {
+                    const index = visiblePokemonIndexById.get(pokemon.id) ?? -1;
+
+                    return (
+                      <div key={pokemon.id} className="h-full">
+                        <PokedexPokemonCard
+                          pokemon={pokemon}
+                          priority={index > -1 && index < 4}
+                        />
+                      </div>
+                    );
+                  })}
+                </CodexResourceGrid>
+              </CodexGenerationSection>
             ))}
-          </CodexResourceGrid>
+            {canLoadMore ? (
+              <div ref={preloadTriggerRef} className="h-px" aria-hidden />
+            ) : null}
+          </div>
         </>
       ) : (
         <CodexEmptyState
