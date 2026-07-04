@@ -4,9 +4,6 @@ export const appRoutes = {
   codex: "/codex",
   codexGame: (gameSlug: string) => `/codex/games/${gameSlug}`,
   codexGames: "/codex/games",
-  codexGeneration: (generationId: number | string) =>
-    `/codex/generations/${generationId}`,
-  codexGenerations: "/codex/generations",
   codexPokemon: "/codex/pokemon",
   codexPokemonGameSpecies: (gameSlug: string, speciesSlug: string) =>
     `/codex/pokemon/${gameSlug}/${speciesSlug}`,

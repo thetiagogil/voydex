@@ -191,28 +191,6 @@ export type PokemonDetailData = {
   pokedexEntries: PokemonPokedexSummary[];
 };
 
-export type GenerationCard = {
-  generation: Generation;
-  gameCount: number;
-  speciesCount: number;
-};
-
-export type GenerationsPageData = {
-  generations: GenerationCard[];
-};
-
-export type GenerationDetailData = {
-  generation: Generation;
-  games: Array<{
-    coverImageUrl: string | null;
-    game: Game;
-    region: Region | null;
-    versionGroup: VersionGroup | null;
-  }>;
-  versionGroups: VersionGroup[];
-  introducedSpecies: PokemonSpecies[];
-};
-
 export type GameCard = {
   coverImageUrl: string | null;
   game: Game;

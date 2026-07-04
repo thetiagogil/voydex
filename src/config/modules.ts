@@ -9,7 +9,7 @@ export const modules = {
   codex: {
     basePath: appRoutes.codex,
     defaultHref: appRoutes.codexPokemon,
-    description: "Browse Pokémon, games, and generations.",
+    description: "Browse Pokémon and games.",
     label: "Codex",
     requiresAuthentication: false,
     slug: "codex",
@@ -23,11 +23,6 @@ export const modules = {
         href: appRoutes.codexGames,
         label: "Games",
         slug: "games",
-      },
-      {
-        href: appRoutes.codexGenerations,
-        label: "Generations",
-        slug: "generations",
       },
     ],
   },
