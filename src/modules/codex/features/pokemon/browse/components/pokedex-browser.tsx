@@ -247,7 +247,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           <div className="space-y-10">
             {visiblePokemonGenerationGroups.map((group) => (
               <CodexGenerationSection key={group.key} title={group.label}>
-                <CodexResourceGrid columns="five">
+                <CodexResourceGrid columns="four">
                   {group.pokemon.map((pokemon) => {
                     const index = visiblePokemonIndexById.get(pokemon.id) ?? -1;
 

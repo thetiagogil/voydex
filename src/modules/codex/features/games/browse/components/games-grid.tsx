@@ -74,7 +74,7 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
         pokemonGameCardSurfaceClassName,
       )}
     >
-      <article className="bg-card/76 relative isolate aspect-[6/5] w-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:15rem] [content-visibility:auto]">
+      <article className="bg-card/76 relative isolate aspect-square w-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:18rem] [content-visibility:auto]">
         {card.coverImageUrl ? (
           <Image
             src={card.coverImageUrl}
@@ -121,7 +121,7 @@ export const GamesGrid = ({ games }: GamesGridProps) => {
     <div className="space-y-10">
       {groups.map((group) => (
         <CodexGenerationSection key={group.key} title={group.label}>
-          <CodexResourceGrid columns="five">
+          <CodexResourceGrid columns="four">
             {group.games.map((card) => (
               <GamesGridCard key={card.game.id} card={card} />
             ))}

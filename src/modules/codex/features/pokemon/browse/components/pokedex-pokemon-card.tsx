@@ -11,25 +11,12 @@ import {
   getPokemonTypeCssVariables,
   pokemonTypeCardSurfaceClassName,
 } from "@/shared/components/pokemon/pokemon-type-styles";
-import { Badge } from "@/shared/components/ui/badge";
-import { Card, CardContent } from "@/shared/components/ui/card";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
-import { getPokemonCategoryLabel } from "@/shared/domain/pokemon/pokemon-categories";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonBrowseCard;
   priority?: boolean;
-};
-
-const getPokemonMetadata = (pokemon: PokedexPokemonBrowseCard) => {
-  const nationalNumber = formatPokemonNationalNumber(pokemon.nationalNumber);
-
-  if (!pokemon.introducedGeneration) {
-    return nationalNumber;
-  }
-
-  return `${nationalNumber} \u00b7 ${pokemon.introducedGeneration.name}`;
 };
 
 export const PokedexPokemonCard = memo(
@@ -41,7 +28,6 @@ export const PokedexPokemonCard = memo(
         : null;
     const portraitBackgroundImageUrl =
       getPokemonTypeBackgroundImageUrl(portraitType);
-    const categoryLabel = getPokemonCategoryLabel(pokemon);
 
     return (
       <Link
@@ -55,44 +41,48 @@ export const PokedexPokemonCard = memo(
           pokemonTypeCardSurfaceClassName,
         )}
       >
-        <Card className="h-full border-0 bg-transparent py-0 shadow-none ring-0 backdrop-blur-none [contain-intrinsic-size:22rem] [content-visibility:auto]">
+        <article className="relative isolate aspect-square h-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:18rem] [content-visibility:auto]">
           <PokemonPortrait
             alt={pokemon.imageAlt}
-            backgroundImageClassName="scale-105 opacity-55 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
+            backgroundImageClassName="scale-110 opacity-60 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
             backgroundImageUrl={portraitBackgroundImageUrl}
-            backgroundOverlayClassName="bg-card/30"
+            backgroundOverlayClassName="bg-card/18"
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}
-            className="border-app-surface-border/50 aspect-4/3 w-full max-w-none rounded-t-xl rounded-b-none border-x-0 border-t-0"
-            imageClassName="p-3"
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="absolute inset-0 aspect-auto h-full w-full max-w-none rounded-[inherit] border-0 bg-transparent"
+            imageClassName="object-contain p-5 pb-16"
           />
 
-          <CardContent className="relative z-10 flex flex-col gap-3 p-3">
-            <div className="flex min-w-0 items-start justify-between gap-2">
-              <div className="min-w-0">
-                <div className="text-muted-foreground truncate text-xs leading-5 font-medium">
-                  {getPokemonMetadata(pokemon)}
-                </div>
-                <h2 className="text-card-foreground truncate text-base leading-6 font-semibold">
-                  {pokemon.name}
-                </h2>
-              </div>
-              {categoryLabel ? (
-                <Badge variant="secondary" className="mt-0.5">
-                  {categoryLabel}
-                </Badge>
-              ) : null}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-linear-to-b from-transparent via-background/0 to-background/92"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/84 via-black/38 to-transparent"
+          />
+
+          <div className="relative z-10 flex h-full items-end justify-between gap-3 p-4">
+            <div className="min-w-0">
+              <p className="text-foreground/86 truncate text-xs leading-5 font-medium drop-shadow">
+                {formatPokemonNationalNumber(pokemon.nationalNumber)}
+              </p>
+              <h2 className="text-foreground truncate text-base leading-snug font-semibold drop-shadow">
+                {pokemon.name}
+              </h2>
             </div>
 
             <PokemonTypeList
               primaryType={pokemon.primaryType}
               secondaryType={pokemon.secondaryType}
+              badgeDisplay="icon-label"
               badgeSize="sm"
-              className="gap-1.5"
+              className="shrink-0 justify-end gap-1.5"
             />
-          </CardContent>
-        </Card>
+          </div>
+        </article>
       </Link>
     );
   },
