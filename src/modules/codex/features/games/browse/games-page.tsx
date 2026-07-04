@@ -1,18 +1,14 @@
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { getGamesPageData } from "@/modules/codex/features/games/browse/server/games-page-query";
-import type { GameCard } from "@/modules/codex/shared/types";
+import { GamesGrid } from "@/modules/codex/features/games/browse/components/games-grid";
 import {
   CodexBrowseMeta,
   CodexEmptyState,
   CodexFilterPanel,
-  CodexResourceCard,
-  CodexResourceGrid,
 } from "@/modules/codex/shared/components/codex-browse";
 import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
-import { GameCoverArt } from "@/modules/codex/shared/components/game-cover-art";
 import { SelectControl } from "@/shared/components/select-control";
-import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -22,33 +18,6 @@ type GamesPageProps = {
     generation?: string | null;
     region?: string | null;
   };
-};
-
-const GameSummaryCard = ({ card }: { card: GameCard }) => {
-  return (
-    <CodexResourceCard
-      href={appRoutes.codexGame(card.game.slug)}
-      description={`${card.generation?.name ?? "Unknown generation"} / ${card.game.release_year}`}
-      title={card.game.name}
-      media={
-        <GameCoverArt imageUrl={card.coverImageUrl} name={card.game.name} />
-      }
-    >
-      <div className="flex flex-wrap gap-2">
-        {card.region ? (
-          <Badge variant="outline">{card.region.name}</Badge>
-        ) : null}
-        {card.gameType ? (
-          <Badge variant="secondary">{card.gameType.name}</Badge>
-        ) : null}
-      </div>
-      {card.platforms.length ? (
-        <p className="text-muted-foreground text-sm">
-          {card.platforms.map((platform) => platform.name).join(", ")}
-        </p>
-      ) : null}
-    </CodexResourceCard>
-  );
 };
 
 export const GamesPage = async ({ params }: GamesPageProps) => {
@@ -111,11 +80,7 @@ export const GamesPage = async ({ params }: GamesPageProps) => {
       {data.games.length ? (
         <>
           <CodexBrowseMeta>{data.games.length} games visible</CodexBrowseMeta>
-          <CodexResourceGrid>
-            {data.games.map((game) => (
-              <GameSummaryCard key={game.game.id} card={game} />
-            ))}
-          </CodexResourceGrid>
+          <GamesGrid games={data.games} />
         </>
       ) : (
         <CodexEmptyState
