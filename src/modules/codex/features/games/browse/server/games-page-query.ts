@@ -4,6 +4,8 @@ import { loadGamesPageRows } from "@/modules/codex/features/games/browse/server/
 import type { GamesPageData } from "@/modules/codex/shared/types";
 
 export const getGamesPageData = async (params?: {
+  q?: string | null;
+  type?: string | null;
   generation?: string | null;
   region?: string | null;
 }): Promise<GamesPageData> => {

@@ -2,12 +2,15 @@ import type { GamesPageRows } from "@/modules/codex/features/games/browse/server
 import {
   byId,
   buildGameCards,
+  normalizeSearchQuery,
   normalizeSlug,
   resolveReferenceFilter,
 } from "@/modules/codex/shared/data/reference-data-utils";
 import type { GamesPageData } from "@/modules/codex/shared/types";
 
 type GamesPageMapperParams = {
+  q?: string | null;
+  type?: string | null;
   generation?: string | null;
   region?: string | null;
 };
@@ -18,35 +21,33 @@ export const buildGamesPageData = (
   rows: GamesPageRows,
   params?: GamesPageMapperParams,
 ): GamesPageData => {
+  const requestedQuery = normalizeSearchQuery(params?.q);
   const requestedGeneration = normalizeSlug(params?.generation);
   const requestedRegion = normalizeSlug(params?.region);
+  const requestedGameType = normalizeSlug(params?.type);
   const selectedGeneration = resolveReferenceFilter(
     rows.generations,
     requestedGeneration,
   );
   const selectedRegion = resolveReferenceFilter(rows.regions, requestedRegion);
-  const filteredGames = rows.games.filter((game) => {
-    if (selectedGeneration && game.generation_id !== selectedGeneration.id) {
-      return false;
-    }
-
-    if (selectedRegion && game.region_id !== selectedRegion.id) {
-      return false;
-    }
-
-    return true;
-  });
+  const selectedGameType = resolveReferenceFilter(
+    rows.gameTypes,
+    requestedGameType,
+  );
   const generationById = byId(rows.generations);
   const versionGroupById = byId(rows.versionGroups);
 
   return {
     filters: {
+      gameType: selectedGameType?.slug ?? "",
       generation: selectedGeneration?.slug ?? "",
+      query: requestedQuery,
       region: selectedRegion?.slug ?? "",
     },
+    gameTypes: rows.gameTypes,
     games: buildGameCards({
       gamePlatforms: rows.gamePlatforms,
-      games: filteredGames,
+      games: rows.games,
       gameTypes: rows.gameTypes,
       generations: rows.generations,
       platforms: rows.platforms,

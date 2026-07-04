@@ -223,11 +223,16 @@ export type GameCard = {
   platforms: Platform[];
 };
 
+export type GamesPageFilters = {
+  gameType: string;
+  generation: string;
+  query: string;
+  region: string;
+};
+
 export type GamesPageData = {
-  filters: {
-    generation: string;
-    region: string;
-  };
+  filters: GamesPageFilters;
+  gameTypes: GameType[];
   games: GameCard[];
   generations: Generation[];
   regions: Region[];
