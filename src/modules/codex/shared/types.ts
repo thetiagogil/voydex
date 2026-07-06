@@ -201,6 +201,11 @@ export type GameCard = {
   platforms: Platform[];
 };
 
+export type GamePokedexSummary = {
+  pokedex: Pokedex;
+  pokemonCount: number;
+};
+
 export type GamesPageFilters = {
   gameType: string;
   generation: string;
@@ -217,11 +222,7 @@ export type GamesPageData = {
 };
 
 export type GameDetailData = GameCard & {
-  pokedexes: Pokedex[];
-  contentScopes: Array<{
-    game: Game | null;
-    versionGroup: VersionGroup | null;
-    isBaseScope: boolean;
-  }>;
   availablePokemonCount: number;
+  pokedexes: GamePokedexSummary[];
+  relatedGames: GameCard[];
 };

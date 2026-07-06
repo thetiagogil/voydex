@@ -1,25 +1,26 @@
 import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import { loadChunkedReferenceRows } from "@/modules/codex/shared/server/reference-row-loaders";
 import type {
   Game,
-  GameContentScope,
   GamePlatform,
   GameType,
   Generation,
   Platform,
   Pokedex,
+  PokedexEntry,
   Region,
   VersionGroup,
 } from "@/modules/codex/shared/types";
 
 export type GameDetailRows = {
-  availabilityCount: number;
-  contentScopes: GameContentScope[];
   game: Game;
   gamePlatforms: GamePlatform[];
   gameTypes: GameType[];
   generations: Generation[];
   platforms: Platform[];
+  pokedexEntries: PokedexEntry[];
   pokedexes: Pokedex[];
+  relatedGames: Game[];
   regions: Region[];
   versionGroups: VersionGroup[];
 };
@@ -52,8 +53,7 @@ export const loadGameDetailRows = async (
     gamePlatformsResult,
     platformsResult,
     pokedexResult,
-    contentScopesResult,
-    availabilityCountResult,
+    relatedGamesResult,
   ] = await Promise.all([
     supabase.schema("reference").from("generations").select("*"),
     supabase.schema("reference").from("regions").select("*"),
@@ -63,7 +63,6 @@ export const loadGameDetailRows = async (
       .schema("reference")
       .from("game_platforms")
       .select("*")
-      .eq("game_id", game.id)
       .order("sort_order", { ascending: true }),
     supabase
       .schema("reference")
@@ -78,15 +77,13 @@ export const loadGameDetailRows = async (
       .order("sort_order", { ascending: true }),
     supabase
       .schema("reference")
-      .from("game_content_scopes")
+      .from("games")
       .select("*")
-      .eq("game_id", game.id)
+      .neq("id", game.id)
+      .or(
+        `generation_id.eq.${game.generation_id},region_id.eq.${game.region_id}`,
+      )
       .order("sort_order", { ascending: true }),
-    supabase
-      .schema("views")
-      .from("reference_resolved_pokemon_availability")
-      .select("species_id", { count: "exact", head: true })
-      .eq("game_id", game.id),
   ]);
 
   if (
@@ -97,21 +94,38 @@ export const loadGameDetailRows = async (
     gamePlatformsResult.error ||
     platformsResult.error ||
     pokedexResult.error ||
-    contentScopesResult.error ||
-    availabilityCountResult.error
+    relatedGamesResult.error
   ) {
     throw new Error("Unable to load game detail data.");
   }
 
+  const pokedexes = pokedexResult.data ?? [];
+  const pokedexIds = pokedexes.map((pokedex) => pokedex.id);
+  const pokedexEntries = pokedexIds.length
+    ? await loadChunkedReferenceRows<PokedexEntry>(
+        pokedexIds,
+        (ids, from, to) =>
+          supabase
+            .schema("reference")
+            .from("pokedex_entries")
+            .select("*")
+            .in("pokedex_id", ids)
+            .order("pokedex_id", { ascending: true })
+            .order("pokedex_number", { ascending: true })
+            .range(from, to),
+        "Unable to load game Pokédex entries.",
+      )
+    : [];
+
   return {
-    availabilityCount: availabilityCountResult.count ?? 0,
-    contentScopes: contentScopesResult.data ?? [],
     game,
     gamePlatforms: gamePlatformsResult.data ?? [],
     gameTypes: gameTypesResult.data ?? [],
     generations: generationsResult.data ?? [],
     platforms: platformsResult.data ?? [],
-    pokedexes: pokedexResult.data ?? [],
+    pokedexEntries,
+    pokedexes,
+    relatedGames: relatedGamesResult.data ?? [],
     regions: regionsResult.data ?? [],
     versionGroups: versionGroupsResult.data ?? [],
   };
