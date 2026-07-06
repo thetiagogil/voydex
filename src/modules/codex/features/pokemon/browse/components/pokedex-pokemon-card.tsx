@@ -57,7 +57,7 @@ export const PokedexPokemonCard = memo(
 
           <div
             aria-hidden
-            className="absolute inset-0 bg-linear-to-b from-transparent via-background/0 to-background/92"
+            className="via-background/0 to-background/92 absolute inset-0 bg-linear-to-b from-transparent"
           />
           <div
             aria-hidden

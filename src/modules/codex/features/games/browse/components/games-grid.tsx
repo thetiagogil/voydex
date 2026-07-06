@@ -84,11 +84,11 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
             className="object-cover"
           />
         ) : (
-          <div className="from-(--pokemon-game-color)/40 via-card to-secondary/35 absolute inset-0 bg-linear-to-br" />
+          <div className="via-card to-secondary/35 absolute inset-0 bg-linear-to-br from-(--pokemon-game-color)/40" />
         )}
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-b from-transparent via-background/0 to-background/92"
+          className="via-background/0 to-background/92 absolute inset-0 bg-linear-to-b from-transparent"
         />
         <div
           aria-hidden
@@ -97,7 +97,7 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
         <div className="relative z-10 flex h-full flex-col justify-end p-4">
           <div className="min-w-0">
             {!card.coverImageUrl ? (
-              <div className="bg-(--pokemon-game-color)/15 text-(--pokemon-game-color) mb-3 flex size-10 items-center justify-center rounded-lg text-sm font-black">
+              <div className="mb-3 flex size-10 items-center justify-center rounded-lg bg-(--pokemon-game-color)/15 text-sm font-black text-(--pokemon-game-color)">
                 {getGameInitials(card.game.name)}
               </div>
             ) : null}
@@ -118,7 +118,7 @@ export const GamesGrid = ({ games }: GamesGridProps) => {
   const groups = groupGamesByGeneration(games);
 
   return (
-    <div className="space-y-10">
+    <div className="flex flex-col gap-10">
       {groups.map((group) => (
         <CodexGenerationSection key={group.key} title={group.label}>
           <CodexResourceGrid columns="four">

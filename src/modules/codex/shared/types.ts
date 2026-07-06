@@ -226,3 +226,28 @@ export type GameDetailData = GameCard & {
   pokedexes: GamePokedexSummary[];
   relatedGames: GameCard[];
 };
+
+export type GamePokedexPokemonAbility = {
+  ability: Ability;
+  slot: "primary" | "secondary" | "hidden";
+};
+
+export type GamePokedexPokemon = {
+  abilities: GamePokedexPokemonAbility[];
+  attributes: PokemonAttributes | null;
+  form: PokemonForm | null;
+  imageAlt: string;
+  imageUrl: string | null;
+  entry: PokedexEntry;
+  species: PokemonSpecies;
+  typePair: PokemonTypePair;
+};
+
+export type GamePokedexData = {
+  entries: GamePokedexPokemon[];
+  game: Game;
+  generation: Generation;
+  pokedex: Pokedex;
+  pokedexes: Pokedex[];
+  types: Type[];
+};

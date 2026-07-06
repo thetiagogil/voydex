@@ -33,11 +33,9 @@ const getPokemonDetailPokedexNumberId = ({
     return `${NATIONAL_POKEDEX_KIND}:${entry.pokedex_number}`;
   }
 
-  return [
-    pokedexId,
-    entry.pokedex_number,
-    entry.display_form_id ?? 0,
-  ].join(":");
+  return [pokedexId, entry.pokedex_number, entry.display_form_id ?? 0].join(
+    ":",
+  );
 };
 
 const formatPokemonDetailPokedexNumber = ({

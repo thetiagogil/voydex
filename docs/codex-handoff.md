@@ -132,8 +132,15 @@ Current implementation:
   - `src/modules/codex/features/games/browse/data/games-page-mappers.ts`
   - `src/modules/codex/features/games/browse/games-page.tsx`
   - `src/modules/codex/features/games/detail/server/game-detail-query.ts`
+  - `src/modules/codex/features/games/detail/components/game-detail-hero.tsx`
   - `src/modules/codex/features/games/detail/components/game-detail-panels.tsx`
+  - `src/modules/codex/features/games/detail/components/game-detail-pokedexes-section.tsx`
+  - `src/modules/codex/features/games/detail/components/game-detail-related-games-section.tsx`
+  - `src/modules/codex/features/games/detail/components/game-detail-section.tsx`
   - `src/modules/codex/features/games/pokedex/server/game-pokedex-query.ts`
+  - `src/modules/codex/features/games/pokedex/server/game-pokedex-loaders.ts`
+  - `src/modules/codex/features/games/pokedex/data/game-pokedex-mappers.ts`
+  - `src/modules/codex/features/games/pokedex/data/game-pokedex-selectors.ts`
   - `src/modules/codex/features/games/pokedex/game-pokedex-page.tsx`
 
 Near-term follow-ups:

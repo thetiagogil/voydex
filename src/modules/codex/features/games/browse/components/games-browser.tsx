@@ -62,8 +62,7 @@ const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
     }
 
     return (
-      !normalizedQuery ||
-      getSearchableGameText(card).includes(normalizedQuery)
+      !normalizedQuery || getSearchableGameText(card).includes(normalizedQuery)
     );
   });
 };

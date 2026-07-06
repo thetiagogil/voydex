@@ -24,10 +24,10 @@ Schemas are not feature modules. Voydex keeps schemas by data responsibility and
 
 App modules describe the Voydex UI workspaces and product surfaces.
 
-| Module     | Status | Meaning                                                                |
-| ---------- | ------ | ---------------------------------------------------------------------- |
-| `mainline` | Active | Mainline playthrough workspace. User-facing label: Mainline.           |
-| `codex`    | Active | Public-readable reference browser for Pokémon and games.               |
+| Module     | Status | Meaning                                                      |
+| ---------- | ------ | ------------------------------------------------------------ |
+| `mainline` | Active | Mainline playthrough workspace. User-facing label: Mainline. |
+| `codex`    | Active | Public-readable reference browser for Pokémon and games.     |
 
 Dashboard is a view inside the `mainline` module. Settings is a global account/app preference area, not a product module.
 
