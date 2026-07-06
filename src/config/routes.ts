@@ -3,6 +3,8 @@ export const appRoutes = {
   authCallback: "/auth/callback",
   codex: "/codex",
   codexGame: (gameSlug: string) => `/codex/games/${gameSlug}`,
+  codexGamePokedex: (gameSlug: string, pokedexSlug: string) =>
+    `/codex/games/${gameSlug}/pokedexes/${pokedexSlug}`,
   codexGames: "/codex/games",
   codexPokemon: "/codex/pokemon",
   codexPokemonGameSpecies: (gameSlug: string, speciesSlug: string) =>
