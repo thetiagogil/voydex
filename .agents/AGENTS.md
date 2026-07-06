@@ -23,7 +23,10 @@ Voydex is a Pokémon companion app for tracking, remembering, and planning playt
 Active frontend modules:
 
 - `mainline`: user-facing label is Mainline. This is the playthrough workspace.
-- `codex`: public-readable reference browser for Pokémon, games, and generations.
+- `codex`: public-readable reference browser for Pokémon and games.
+
+Generations are still important reference data for grouping, filtering, and
+future detail routes. They are not a current Codex navbar view.
 
 Do not call the Mainline module "Adventures" in code or UI. Plays are the user-owned playthrough records inside Mainline.
 
@@ -55,8 +58,7 @@ Important current routes:
 - `/codex/pokemon/[gameSlug]/[speciesSlug]`
 - `/codex/games`
 - `/codex/games/[gameSlug]`
-- `/codex/generations`
-- `/codex/generations/[generationId]`
+- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`
 
 Keep route files in `src/app` thin. Compose module or shared components from them.
 
@@ -165,12 +167,40 @@ Preserve these current decisions:
   planned team, Mark as target, and Find where this fits. Codex should pass
   selected context to the owning module instead of owning those mutations.
 
+## Current Codex Games Direction
+
+The active Games surfaces are:
+
+- `/codex/games`: grouped card browse by Generation, with search, generation,
+  region, and game type filters.
+- `/codex/games/[gameSlug]`: cover-art-led game detail page with Browse Pokemon,
+  platforms, available Pokemon count, game type, game Pokedex links, and related
+  games.
+- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`: game Pokedex browser with a
+  control bar and clickable Pokemon table rows.
+
+Preserve these current decisions:
+
+- Do not reintroduce the Games timeline unless the user explicitly asks to
+  revisit that direction.
+- Keep Codex nav to Pokemon and Games for now. A future generation-detail route
+  can be added later without bringing back a top-level Generations view.
+- Game cards and game detail accents use Pokemon game color tokens from
+  `src/shared/styles/game-tokens.css`.
+- Game detail Pokedex cards link to the game Pokedex page. The Pokedex section
+  scrolls only when it sits beside Related games; stacked layouts show all
+  Pokedexes without a max-height scroll.
+- Game Pokedex rows link to `/codex/pokemon/[gameSlug]/[speciesSlug]`.
+- Hide the Abilities column when a game Pokedex has no ability data.
+- Generation I Pokedex tables use `Special` instead of separate `SpA` and
+  `SpD` columns.
+
 ## Database Boundary
 
 The database source of truth is outside this repo:
 
 ```txt
-C:\Users\talme\Documents\Dev\Tiago\00-databases\projects\voydex
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex
 ```
 
 Do not change database schema, seeds, or Supabase configuration from this repo unless the user explicitly asks.
@@ -197,10 +227,10 @@ If a database contract changes, update `00-databases` first, regenerate/copy typ
 
 For normal frontend changes, run:
 
-```powershell
-npm.cmd run format:check
-npm.cmd run lint
-npm.cmd run build
+```bash
+npm run format:check
+npm run lint
+npm run build
 ```
 
 For Tailwind-backed UI changes, also check touched files for Tailwind
@@ -209,3 +239,7 @@ simple CSS-variable arbitrary utilities like `shadow-[var(--token)]` and replace
 them with canonical forms like `shadow-(--token)` when equivalent.
 
 For visual work, also test in the browser at desktop and mobile widths.
+
+In sandboxed Codex runs, `npm run build` can fail when Turbopack cannot bind a
+local port. If lint and typecheck pass but build hits a sandbox port error, rerun
+build outside the sandbox or ask for escalated execution.

@@ -20,12 +20,15 @@ Current product families are `mainline`, `dungeon`, `pokopia`, `go`, `home`, `ra
 
 ### Codex Module
 
-The frontend reference browser for Pokémon, games, generations, and future reference data.
+The frontend reference browser for Pokémon, games, and future reference data.
 
 Codex is not a database product family. It can read reference data across product families as Voydex grows.
 
 Codex can expose module-aware authenticated actions, but the destination module
 owns validation and mutation.
+
+Generations are still reference data inside Codex, but they are currently used
+as filters/grouping context rather than as a standalone navbar view.
 
 ### Codex Action Context
 

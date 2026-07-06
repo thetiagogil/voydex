@@ -43,6 +43,10 @@ Existing token groups:
 - Base UI tokens: background, foreground, card, primary, secondary, muted, accent, destructive, border, input, ring.
 - App semantic tokens: success, info, warning, rare, legendary, mythic, seen, battle, milestone, decision.
 - Pokémon type tokens: normal, fire, water, electric, grass, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy.
+- Pokémon game tokens: cover/accent colors for seeded games such as red, blue,
+  yellow, emerald, scarlet, violet, and Legends entries. These live in
+  `src/shared/styles/game-tokens.css` and are used by Codex game cards and game
+  detail accents.
 
 ## Layout Rules
 

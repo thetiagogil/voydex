@@ -6,7 +6,8 @@ This document defines the app navigation model and route contract.
 
 Voydex should have independent top-level modules and dependent module views.
 
-The app should not force a single linear flow. `Generations -> Games -> Plays` remains a browse path, but the user can create and reach plays directly.
+The app should not force a single linear flow. Codex browsing can help users
+find a game or Pokemon, but the user can create and reach plays directly.
 
 This document describes the target navigation contract. The current app mounts only implemented routes. New workspaces should be added route-by-route when their product slice is real.
 
@@ -41,7 +42,6 @@ Current Codex views:
 
 - Pokémon
 - Games
-- Generations
 
 Add additional module view links only when their pages are implemented.
 
@@ -92,8 +92,7 @@ Dashboard is a Mainline view, not a top-level app module. It shows recent plays,
 /codex/pokemon/[gameSlug]/[speciesSlug]
 /codex/games
 /codex/games/[gameSlug]
-/codex/generations
-/codex/generations/[generationId]
+/codex/games/[gameSlug]/pokedexes/[pokedexSlug]
 ```
 
 Codex is the public-readable reference/search/planning surface. It is a frontend app module, not a database product family.
@@ -114,6 +113,14 @@ generation menus should show games ordered by seeded sort order and disable
 games where the selected Pokemon/form has no seeded availability. DLC-only
 availability counts as available for that game, but the UI should make the DLC
 requirement explicit.
+
+Game detail pages are game-scoped and should surface game Pokedexes as links.
+The game Pokedex route browses the Pokemon available in a selected game Pokedex
+and links rows back into the game-scoped Pokemon detail route.
+
+Generations remain reference data for filtering and grouping. A future
+generation-detail route can be added later, but there is no current standalone
+Generations navbar view.
 
 Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/generations`. Add routes only under `/codex/...` unless a new product decision explicitly introduces another public route.
 
@@ -165,20 +172,25 @@ Derived user analytics.
 
 ### Codex Browse Context
 
-Generation page can show:
-
-- Games in that generation.
-- User plays/plans for that generation.
-- Generation-level stats.
-
 Game page can show:
 
 - Game details.
-- Available Pokedexes and optional content.
+- Available Pokedexes.
+- Related games from the same generation or region.
 - User plays for that game.
 - User plans for that game.
 - Create play action.
 - Create plan action.
+
+Game Pokedex page can show:
+
+- Pokemon listed in that Pokedex.
+- Dex number, National number, sprite, types, abilities where applicable, and
+  stats.
+- A switcher for other Pokedexes attached to the same game.
+
+Generation context can still appear as a filter, grouping label, or future
+detail page. Do not treat it as the required path to games or plays.
 
 ### Settings
 
@@ -203,7 +215,7 @@ Dashboard or Plays -> New Play -> Select Game -> Play Hub
 ### Browse To Create Play
 
 ```txt
-Codex -> Generations -> Generation -> Game -> Create Play
+Codex -> Games -> Game -> Create Play
 ```
 
 ### Create Plan

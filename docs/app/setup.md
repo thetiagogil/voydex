@@ -64,15 +64,15 @@ Local Supabase is optional for pure UI work but recommended before database-heav
 Run these commands from:
 
 ```txt
-C:\Users\talme\Documents\Dev\Tiago\00-databases
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases
 ```
 
-```powershell
-npm.cmd run db:start:voydex
-npm.cmd run db:reset:voydex
-npm.cmd run db:types:voydex -- --local
-node projects\voydex\scripts\audit-seed-files.mjs
-node scripts\supabase-target.mjs voydex db lint --local --fail-on error
+```bash
+npm run db:start:voydex
+npm run db:reset:voydex
+npm run db:types:voydex -- --local
+node projects/voydex/scripts/audit-seed-files.mjs
+node scripts/supabase-target.mjs voydex db lint --local --fail-on error
 ```
 
 `db:reset:voydex` rebuilds generated local schema and seed wrappers before loading them.

@@ -27,7 +27,7 @@ App modules describe the Voydex UI workspaces and product surfaces.
 | Module     | Status | Meaning                                                                |
 | ---------- | ------ | ---------------------------------------------------------------------- |
 | `mainline` | Active | Mainline playthrough workspace. User-facing label: Mainline.           |
-| `codex`    | Active | Public-readable reference browser for Pokémon, games, and generations. |
+| `codex`    | Active | Public-readable reference browser for Pokémon and games.               |
 
 Dashboard is a view inside the `mainline` module. Settings is a global account/app preference area, not a product module.
 
@@ -56,6 +56,9 @@ Codex is the shared reference layer for Voydex.
 It should stay useful as a public-readable browsing surface, but it should also
 be able to expose authenticated, module-aware actions when those actions help
 users move from reference context into real app workflows.
+
+Generations are reference data used for grouping, filtering, and future detail
+routes. They are not a current top-level Codex navbar view.
 
 Examples:
 

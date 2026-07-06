@@ -35,7 +35,8 @@ The Plays area should support:
 - Creating a play directly through a searchable game selector.
 - Entering a play hub.
 
-The user should not be forced through `Generations -> Games -> Plays` to create or continue a play.
+The user should not be forced through Codex browsing to create or continue a
+play.
 
 ### Play Model
 
@@ -306,16 +307,19 @@ Stats may include:
 
 Stats should remain read-model/query output. User-facing stats should not become manually maintained source-of-truth tables unless a later performance need requires cached aggregates.
 
-### Browse
+### Codex Browse
 
-Browse is a top-nav dropdown, not a primary app pillar.
+Codex browse is the public-readable reference surface, not a required product
+funnel.
 
-It contains:
+Current Codex browse views:
 
-- Generations.
+- Pokémon.
 - Games.
 
-Generation and Game pages remain useful contextual pages, but they are not the required path for creating or continuing plays.
+Generations remain useful reference context for filters, grouping, and future
+detail pages, but they are not the required path for creating or continuing
+plays.
 
 ### Settings
 

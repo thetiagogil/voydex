@@ -95,8 +95,7 @@ Routes under `src/app/(app-public)` use the normal app shell but are not auth-re
 - `/codex/pokemon/[gameSlug]/[speciesSlug]`
 - `/codex/games`
 - `/codex/games/[gameSlug]`
-- `/codex/generations`
-- `/codex/generations/[generationId]`
+- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`
 
 Codex is public-readable but can still show authenticated shell behavior when a session exists.
 

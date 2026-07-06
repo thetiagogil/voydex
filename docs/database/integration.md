@@ -3,7 +3,7 @@
 Voydex uses a dedicated Supabase project. The active database source lives in:
 
 ```txt
-C:\Users\talme\Documents\Dev\Tiago\00-databases\projects\voydex
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex
 ```
 
 This app repo consumes the database contract; it does not own schema or seed source.
@@ -133,12 +133,12 @@ When database schema changes:
 
 Run from `00-databases`:
 
-```powershell
-npm.cmd run db:start:voydex
-npm.cmd run db:reset:voydex
-npm.cmd run db:types:voydex -- --local
-node projects\voydex\scripts\audit-seed-files.mjs
-node scripts\supabase-target.mjs voydex db lint --local --fail-on error
+```bash
+npm run db:start:voydex
+npm run db:reset:voydex
+npm run db:types:voydex -- --local
+node projects/voydex/scripts/audit-seed-files.mjs
+node scripts/supabase-target.mjs voydex db lint --local --fail-on error
 ```
 
 Run from `13-voydex`:

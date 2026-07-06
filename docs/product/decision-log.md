@@ -58,9 +58,11 @@ The main navbar is module-aware. It shows a module switcher plus the active modu
 Current module views:
 
 - Mainline: Dashboard, Plays.
-- Codex: Pokémon, Games, Generations.
+- Codex: Pokémon, Games.
 
-Generations and Games are Codex browse routes, not the required product funnel.
+Generations remain reference data for grouping, filtering, and future detail
+routes, but they are not a current navbar view. Games are a Codex browse route,
+not the required product funnel.
 
 ### Play Is The Central Gameplay Entity
 

@@ -5,8 +5,8 @@ Use this file when continuing Voydex in a new Codex thread or on another machine
 ## Repositories
 
 ```txt
-C:\Users\talme\Documents\Dev\Tiago\13-voydex
-C:\Users\talme\Documents\Dev\Tiago\00-databases
+/Users/thetiagogil/Documents/Dev/Tiago/13-voydex
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases
 ```
 
 `13-voydex` is the clean active Next.js app.
@@ -31,14 +31,15 @@ Main app areas:
 - Collectibles.
 - Plans.
 - Codex Pokémon Search.
+- Codex Games Browse.
 - Collection.
 - Stats.
-- Codex Browse: Generations and Games.
 - Settings.
 
-The app should not force `Generations -> Games -> Plays` as the only flow. Users should be able to create and continue plays directly.
+The app should not force Codex browsing as the only flow. Users should be able
+to create and continue plays directly.
 
-## Current Frontend Focus
+## Current Frontend Focus: Codex Pokemon Detail
 
 As of 2026-07-02, the active Codex Pokemon detail foundation is in a good
 section-by-section state:
@@ -94,105 +95,69 @@ Important current direction:
 - For right-section data, prefer adding one section at a time and keep data
   access in the loader/mapper/query split.
 
-## Next Frontend Focus: Codex Games Timeline
+## Current Frontend Focus: Codex Games And Pokedexes
 
-As of 2026-07-03, the next intended Codex work is the Games browse page:
+As of 2026-07-06, the Games direction has moved away from the timeline idea.
+Treat the current implementation as the baseline:
 
 ```txt
 /codex/games
+/codex/games/[gameSlug]
+/codex/games/[gameSlug]/pokedexes/[pokedexSlug]
 ```
 
 Current implementation:
 
-- `/codex/games` exists and works as a simple filtered game-card grid.
-- It supports `generation` and `region` query filters.
-- It already follows the current data boundary:
+- `/codex/games` is a Pokemon-browse-style card grid grouped by Generation,
+  not a timeline. It supports search, generation, region, and game type
+  filters.
+- Game cards use cover-art background cards with Pokemon game color tokens for
+  hover/border life.
+- `/codex/games/[gameSlug]` is a cover-art-led detail page. It shows the game
+  title, year, region, generation, description, Browse Pokemon action,
+  platforms, available Pokemon count, game type, game Pokedex links, and related
+  games.
+- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]` is the game Pokedex
+  browser. It uses a control bar, a dex switcher when multiple Pokedexes exist,
+  and a row-clickable Pokemon table.
+- Game Pokedex table rows link to the game-scoped Pokemon detail route:
+  `/codex/pokemon/[gameSlug]/[speciesSlug]`.
+- The Pokedex table includes sprite, dex number, name, types, conditional
+  abilities, and stats. If no listed Pokemon has abilities, the Abilities column
+  is hidden. Generation I uses `Special` instead of separate `SpA` and `SpD`
+  columns.
+- The current Games data boundary is:
   - `src/modules/codex/features/games/browse/server/games-page-query.ts`
   - `src/modules/codex/features/games/browse/server/games-page-loaders.ts`
   - `src/modules/codex/features/games/browse/data/games-page-mappers.ts`
   - `src/modules/codex/features/games/browse/games-page.tsx`
-- `/codex/games/[gameSlug]` also exists, but it is still a basic detail page
-  with overview metadata, platforms, Pokedexes, content scopes, and available
-  Pokemon count.
+  - `src/modules/codex/features/games/detail/server/game-detail-query.ts`
+  - `src/modules/codex/features/games/detail/components/game-detail-panels.tsx`
+  - `src/modules/codex/features/games/pokedex/server/game-pokedex-query.ts`
+  - `src/modules/codex/features/games/pokedex/game-pokedex-page.tsx`
 
-Target direction for `/codex/games`:
+Near-term follow-ups:
 
-- Replace the generic game-card grid with a chronological release timeline.
-- The main grouping should be Generation.
-- Inside each Generation, group entries by `release_year`.
-- Each release-year marker should show grouped game/version entries beside it.
-- Group by `version_group_id` first, then show the games in that version group.
-  For example, Scarlet and Violet should read as one release group, not two
-  unrelated cards.
-- Use game cover art thumbnails through the existing `GameCoverArt` component.
-- Keep the page in Voydex's clean adventure companion style:
-  - dark scenic background inherited from the app shell
-  - quiet navy/glass surfaces
-  - compact cards or grouped rows
-  - restrained blue accents
-  - no marketing hero
-  - no dense encyclopedia table
-  - no decorative overwork
-
-Suggested V1 layout:
-
-```txt
-Games
-Search / Generation / Region controls
-
-Generation I
-  1996 marker -> Red / Green grouped release card
-  1998 marker -> Yellow grouped release card
-
-Generation II
-  1999 marker -> Gold / Silver grouped release card
-  2000 marker -> Crystal grouped release card
-
-Generation III
-  2002 marker -> Ruby / Sapphire grouped release card
-  2004 marker -> FireRed / LeafGreen grouped release card
-  2004 marker -> Emerald grouped release card
-```
-
-Data constraints:
-
-- The current `reference.games` table only has `release_year`, not exact release
-  dates.
-- Do not fake exact dates in the UI.
-- For V1, use only years that have seeded releases. Do not render every empty
-  year in between unless a later design decision asks for a strict year scale.
-- DLC/content-scope releases do not currently have release years/dates or
-  images, so do not place DLC entries on the Games timeline yet unless the
-  database is extended first.
-
-Implementation notes:
-
-- Add a Games-specific timeline view model in
-  `src/modules/codex/features/games/browse/data/games-page-mappers.ts` or a
-  focused adjacent mapper if the file becomes hard to read.
-- Keep Supabase reads in `games-page-loaders.ts`; the current loader likely
-  already has enough rows for V1.
-- Extend `GamesPageData` in `src/modules/codex/shared/types.ts` only with data
-  the UI actually needs.
-- Consider extracting local UI pieces under
-  `src/modules/codex/features/games/browse/components/` if the page gets large,
-  for example:
-  - `games-release-timeline.tsx`
-  - `games-release-generation-section.tsx`
-  - `games-release-year-group.tsx`
-  - `games-release-version-group-card.tsx`
-- Keep filters functional. The timeline should respect generation and region
-  filters.
-- A new Product Design visual can be generated in a fresh thread if needed, but
-  the old crowded thread produced unreliable image output. The written
-  direction above should be enough to start the implementation.
+- Browser-check the game detail and game Pokedex pages at desktop, tablet, and
+  mobile widths when visual changes land.
+- Keep the game detail bottom panels stable: Pokedexes are scrollable only when
+  they sit beside Related games; stacked layouts show all Pokedexes.
+- If the Pokedex table becomes too dense, add sort/density behavior before
+  adding more decorative UI.
+- Keep URL-backed game filters as a future improvement only if the user asks for
+  shareable filtered game pages.
+- A future generation-detail route can exist later, but do not add a standalone
+  Generations navbar view until there is a concrete user workflow for it.
 
 ## Current Module Scope
 
 Active modules:
 
 - `mainline`: mainline-style Pokémon RPG playthrough companion. User-facing label: Mainline.
-- `codex`: public-readable reference browser for Pokémon, games, and generations.
+- `codex`: public-readable reference browser for Pokémon and games.
+
+Generations remain reference data for filtering, grouping, and future detail
+routes, but they are not a current Codex navbar view.
 
 Future modules:
 
@@ -241,13 +206,13 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 Canonical database docs:
 
 ```txt
-00-databases/projects/voydex/docs
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex/docs
 ```
 
 Most important handoff doc:
 
 ```txt
-00-databases/projects/voydex/docs/app-handoff.md
+/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex/docs/app-handoff.md
 ```
 
 App-consumed types:
@@ -317,12 +282,12 @@ npm run build
 
 From `00-databases`:
 
-```powershell
-npm.cmd run db:start:voydex
-npm.cmd run db:reset:voydex
-npm.cmd run db:types:voydex -- --local
-node projects\voydex\scripts\audit-seed-files.mjs
-node scripts\supabase-target.mjs voydex db lint --local --fail-on error
+```bash
+npm run db:start:voydex
+npm run db:reset:voydex
+npm run db:types:voydex -- --local
+node projects/voydex/scripts/audit-seed-files.mjs
+node scripts/supabase-target.mjs voydex db lint --local --fail-on error
 ```
 
 ## Cross-Machine Notes
