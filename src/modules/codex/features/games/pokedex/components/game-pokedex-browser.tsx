@@ -63,8 +63,8 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
       <div className="flex min-h-8 flex-row items-center justify-between gap-3">
         <CodexBrowseMeta>
           {activeFilters
-            ? `Showing ${filteredPokemon.length} of ${data.entries.length} PokÃ©mon`
-            : `Showing ${data.entries.length} PokÃ©mon`}
+            ? `Showing ${filteredPokemon.length} of ${data.entries.length} Pokémon`
+            : `Showing ${data.entries.length} Pokémon`}
         </CodexBrowseMeta>
 
         {activeFilters ? (

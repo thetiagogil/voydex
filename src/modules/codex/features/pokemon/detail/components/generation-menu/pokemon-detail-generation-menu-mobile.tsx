@@ -54,7 +54,7 @@ const PokemonDetailGenerationMenuMobileItem = ({
         <SheetHeader>
           <SheetTitle>Generation {generation.label}</SheetTitle>
           <SheetDescription>
-            Choose a game where this PokÃ©mon can be referenced.
+            Choose a game where this Pokémon can be referenced.
           </SheetDescription>
         </SheetHeader>
 

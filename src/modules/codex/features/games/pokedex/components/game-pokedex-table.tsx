@@ -47,7 +47,7 @@ const PokemonSpriteCell = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
   if (!pokemon.imageUrl) {
     return (
       <div className="bg-muted/35 flex size-12 items-center justify-center rounded-md">
-        <span className="text-muted-foreground text-xs">â€”</span>
+        <span className="text-muted-foreground text-xs">—</span>
       </div>
     );
   }
@@ -72,7 +72,7 @@ const PokemonTypeList = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
   ].filter((type): type is GamePokedexPokemonType => Boolean(type));
 
   if (!types.length) {
-    return <span className="text-muted-foreground">â€”</span>;
+    return <span className="text-muted-foreground">—</span>;
   }
 
   return (
@@ -97,7 +97,7 @@ const PokemonTypeList = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
 
 const PokemonAbilityList = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
   if (!pokemon.abilities.length) {
-    return <span className="text-muted-foreground">â€”</span>;
+    return <span className="text-muted-foreground">—</span>;
   }
 
   return (
@@ -127,7 +127,7 @@ const PokemonStatCell = ({
 }) => {
   return (
     <span className="tabular-nums">
-      {pokemon.attributes ? pokemon.attributes[stat] : "â€”"}
+      {pokemon.attributes ? pokemon.attributes[stat] : "—"}
     </span>
   );
 };
@@ -143,11 +143,11 @@ export const GamePokedexTable = ({
   if (!pokemon.length) {
     return (
       <CodexEmptyState
-        title="No PokÃ©mon found"
+        title="No Pokémon found"
         description={
           hasAbilities
-            ? "Try a different name, PokÃ©dex number, ability, or type."
-            : "Try a different name, PokÃ©dex number, or type."
+            ? "Try a different name, Pokédex number, ability, or type."
+            : "Try a different name, Pokédex number, or type."
         }
       />
     );

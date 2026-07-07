@@ -221,7 +221,7 @@ export const loadPokemonDetailLearnsetMoveRows = async (
   ]);
 
   if (movesResult.error || moveAttributesResult.error) {
-    throw new Error("Unable to load PokÃ©mon learnset move data.");
+    throw new Error("Unable to load Pokémon learnset move data.");
   }
 
   return {

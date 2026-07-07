@@ -31,7 +31,7 @@ const getHeroMetadata = (data: GameDetailData) => {
     data.generation?.name ?? "Unknown generation",
   ]
     .filter(Boolean)
-    .join(" Â· ");
+    .join(" · ");
 };
 
 const GameDetailCoverArt = ({ data }: GameDetailHeroProps) => {
@@ -127,7 +127,7 @@ const GameDetailFactList = ({ data }: GameDetailHeroProps) => {
       />
       <GameDetailFact
         icon={appIcons.product.pokedex}
-        label="Available PokÃ©mon"
+        label="Available Pokémon"
         value={data.availablePokemonCount.toLocaleString()}
       />
       <GameDetailFact
@@ -185,7 +185,7 @@ const GameDetailActions = () => {
         )}
       >
         <AppIcon icon={appIcons.product.pokedex} inline="start" aria-hidden />
-        Browse PokÃ©mon
+        Browse Pokémon
       </Link>
     </div>
   );

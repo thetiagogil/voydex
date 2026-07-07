@@ -27,7 +27,7 @@ export const GamePokedexSwitcher = ({ data }: GamePokedexSwitcherProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="outline" size="sm" aria-label="Open PokÃ©dex menu" />
+          <Button variant="outline" size="sm" aria-label="Open Pokédex menu" />
         }
       >
         <AppIcon icon={appIcons.product.pokedex} inline="start" aria-hidden />

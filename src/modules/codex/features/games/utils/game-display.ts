@@ -1,5 +1,5 @@
 export const getGameInitials = (name: string) => {
-  const displayName = name.replace(/^PokÃ©mon\s+/i, "");
+  const displayName = name.replace(/^Pokémon\s+/i, "");
   const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
 
   return (words.length ? words : [displayName])

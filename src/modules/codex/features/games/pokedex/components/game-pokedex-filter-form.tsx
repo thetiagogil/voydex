@@ -68,8 +68,8 @@ export const GamePokedexFilterForm = ({
           }}
           placeholder={
             hasAbilities
-              ? "Search by name, PokÃ©dex number, or ability"
-              : "Search by name or PokÃ©dex number"
+              ? "Search by name, Pokédex number, or ability"
+              : "Search by name or Pokédex number"
           }
         />
       </InputGroup>

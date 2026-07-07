@@ -17,7 +17,7 @@ export const GameDetailPokedexesSection = ({
   return (
     <GameDetailSection
       id="game-pokedexes"
-      title="Game PokÃ©dexes"
+      title="Game Pokédexes"
       className="h-auto lg:h-full lg:min-h-0"
       contentClassName="p-3 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-hidden"
     >
@@ -35,8 +35,8 @@ export const GameDetailPokedexesSection = ({
                 </h3>
                 <p className="text-muted-foreground truncate text-xs leading-5">
                   {pokedex.pokedex_kind === "national"
-                    ? "National PokÃ©dex"
-                    : "Regional PokÃ©dex"}
+                    ? "National Pokédex"
+                    : "Regional Pokédex"}
                 </p>
               </div>
               <div className="flex shrink-0 items-baseline gap-1 text-right">
@@ -44,7 +44,7 @@ export const GameDetailPokedexesSection = ({
                   {pokemonCount.toLocaleString()}
                 </span>
                 <span className="text-muted-foreground hidden text-xs leading-5 sm:inline">
-                  PokÃ©mon
+                  Pokémon
                 </span>
               </div>
               <AppIcon
@@ -57,7 +57,7 @@ export const GameDetailPokedexesSection = ({
           ))}
         </div>
       ) : (
-        <CodexInlineEmpty>No PokÃ©dex rows are seeded.</CodexInlineEmpty>
+        <CodexInlineEmpty>No Pokédex rows are seeded.</CodexInlineEmpty>
       )}
     </GameDetailSection>
   );
