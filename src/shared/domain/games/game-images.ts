@@ -1,8 +1,10 @@
-import type { Game } from "@/modules/codex/shared/types";
+import type { ReferenceRow } from "@/shared/types/database-helpers";
 
 const GAME_COVER_BUCKET = "reference-assets";
 const GAME_COVER_PREFIX = "games/covers";
 const GAME_COVER_EXTENSION = "webp";
+
+type Game = ReferenceRow<"games">;
 
 type GameWithOptionalArtwork = Game & {
   cover_image_path?: string | null;

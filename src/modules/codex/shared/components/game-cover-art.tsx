@@ -1,5 +1,7 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+
+import { cn } from "@/lib/utils";
+import { getGameInitials } from "@/shared/domain/games/game-display";
 
 type GameCoverArtProps = {
   className?: string;
@@ -7,28 +9,12 @@ type GameCoverArtProps = {
   name: string;
 };
 
-const getGameCoverInitials = (name: string) => {
-  const displayName = name.replace(/^Pokémon\s+/i, "");
-  const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
-  if (!words.length) {
-    return displayName.slice(0, 1).toUpperCase();
-  }
-  if (words.length === 1) {
-    return words[0].slice(0, 1).toUpperCase();
-  }
-  return words
-    .slice(0, 2)
-    .map((word) => word.slice(0, 1))
-    .join("")
-    .toUpperCase();
-};
-
 export const GameCoverArt = ({
   className,
   imageUrl,
   name,
 }: GameCoverArtProps) => {
-  const initials = getGameCoverInitials(name);
+  const initials = getGameInitials(name);
 
   return (
     <div

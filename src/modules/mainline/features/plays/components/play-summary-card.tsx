@@ -2,32 +2,16 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/lib/utils";
+import {
+  formatPlayDate,
+  formatPlayPokedexProgress,
+} from "@/modules/mainline/features/plays/display/play-formatters";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/types";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { appIcons } from "@/shared/domain/icons/app-icons";
 
 type PlaySummaryCardProps = {
   play: MainlinePlaySummary;
-};
-
-const formatDate = (value: string | null) => {
-  if (!value) {
-    return "No recent update";
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(value));
-};
-
-const formatPokedexProgress = (play: MainlinePlaySummary) => {
-  if (play.pokedex_caught_count === null && play.pokedex_seen_count === null) {
-    return "No Pokedex progress";
-  }
-
-  return `${play.pokedex_caught_count ?? 0} caught / ${play.pokedex_seen_count ?? 0} seen`;
 };
 
 const PlayCardBody = ({ play }: PlaySummaryCardProps) => {
@@ -67,13 +51,16 @@ const PlayCardBody = ({ play }: PlaySummaryCardProps) => {
           <div>
             <dt className="text-muted-foreground text-xs">Pokedex</dt>
             <dd className="text-foreground mt-1 font-medium">
-              {formatPokedexProgress(play)}
+              {formatPlayPokedexProgress({
+                caughtCount: play.pokedex_caught_count,
+                seenCount: play.pokedex_seen_count,
+              })}
             </dd>
           </div>
           <div>
             <dt className="text-muted-foreground text-xs">Updated</dt>
             <dd className="text-foreground mt-1 font-medium">
-              {formatDate(play.updated_at)}
+              {formatPlayDate(play.updated_at, "No recent update")}
             </dd>
           </div>
         </dl>

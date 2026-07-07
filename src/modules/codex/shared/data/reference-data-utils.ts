@@ -1,4 +1,3 @@
-import { getGameCoverImageUrl } from "@/modules/codex/shared/media/game-images";
 import type {
   Game,
   GameCard,
@@ -12,6 +11,7 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/codex/shared/types";
+import { getGameCoverImageUrl } from "@/shared/domain/games/game-images";
 import { byId } from "@/shared/utils/collections";
 
 export { byId };

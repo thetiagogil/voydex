@@ -10,6 +10,7 @@ import {
   getPokemonGameColorCssVariables,
   pokemonGameCardSurfaceClassName,
 } from "@/shared/components/game/pokemon-game-color-styles";
+import { getGameInitials } from "@/shared/domain/games/game-display";
 
 type GamesGridProps = {
   games: GameCard[];
@@ -21,21 +22,10 @@ type GamesGenerationGroup = {
   label: string;
 };
 
-const getGameInitials = (name: string) => {
-  const displayName = name.replace(/^Pokémon\s+/i, "");
-  const words = displayName.match(/[A-Za-z0-9]+/g) ?? [];
-
-  return (words.length ? words : [displayName])
-    .slice(0, 2)
-    .map((word) => word.slice(0, 1))
-    .join("")
-    .toUpperCase();
-};
-
 const getGameMetadata = (card: GameCard) => {
   return [card.game.release_year, card.region?.name]
     .filter(Boolean)
-    .join(" · ");
+    .join(" - ");
 };
 
 const groupGamesByGeneration = (games: GameCard[]) => {
