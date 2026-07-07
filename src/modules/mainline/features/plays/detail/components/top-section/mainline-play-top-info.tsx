@@ -3,8 +3,8 @@ import {
   formatPlayMinutes,
   formatPlayPokedexProgress,
   formatPlayTeamSummary,
-} from "@/modules/mainline/features/plays/display/play-formatters";
-import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/types";
+} from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 import {
   AppIcon,
   appIcons,

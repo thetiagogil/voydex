@@ -16,6 +16,29 @@ export const formatPlayDate = (value: string | null, fallback = "Not set") => {
   }).format(date);
 };
 
+export const formatPlayDateTime = (
+  value: string | null,
+  fallback = "Not set",
+) => {
+  if (!value) {
+    return fallback;
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return fallback;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
+
 export const formatPlayMinutes = (value: number | null) => {
   if (value === null) {
     return "Not tracked";
@@ -49,4 +72,11 @@ export const formatPlayTeamSummary = (params: {
   reserveCount: number | null;
 }) => {
   return `${params.activeCount ?? 0} active / ${params.reserveCount ?? 0} reserve`;
+};
+
+export const formatPlayCountPair = (params: {
+  completedCount: number | null | undefined;
+  totalCount: number | null | undefined;
+}) => {
+  return `${params.completedCount ?? 0} / ${params.totalCount ?? 0}`;
 };

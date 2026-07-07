@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import {
   formatPlayDate,
   formatPlayPokedexProgress,
-} from "@/modules/mainline/features/plays/display/play-formatters";
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/types";
+} from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { appIcons } from "@/shared/domain/icons/app-icons";
 

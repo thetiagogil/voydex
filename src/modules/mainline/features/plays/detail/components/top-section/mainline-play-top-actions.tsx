@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/lib/utils";
-import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/types";
+import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 

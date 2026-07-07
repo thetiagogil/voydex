@@ -1,8 +1,8 @@
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { PlaySummaryCard } from "@/modules/mainline/features/plays/components/play-summary-card";
-import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/types";
+import { PlaySummaryCard } from "@/modules/mainline/features/plays/browse/components/play-summary-card";
+import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
 
 type MainlinePlaysPageProps = {
   data: MainlinePlaysPageData;

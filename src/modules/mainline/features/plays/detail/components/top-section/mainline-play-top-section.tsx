@@ -1,4 +1,4 @@
-import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/types";
+import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 
 import { MainlinePlayTopActions } from "./mainline-play-top-actions";
 import { MainlinePlayTopCoverArt } from "./mainline-play-top-cover-art";

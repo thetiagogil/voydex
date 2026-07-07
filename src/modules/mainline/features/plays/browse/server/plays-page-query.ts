@@ -1,7 +1,7 @@
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { loadMainlinePlaysPageData } from "@/modules/mainline/features/plays/server/plays-page-loaders";
-import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/types";
+import { loadMainlinePlaysPageData } from "@/modules/mainline/features/plays/browse/server/plays-page-loaders";
+import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
 
 export const getMainlinePlaysPageData =
   async (): Promise<MainlinePlaysPageData> => {

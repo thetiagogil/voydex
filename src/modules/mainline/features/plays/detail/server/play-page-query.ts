@@ -1,7 +1,7 @@
 import { getClaimsWithTimeout } from "@/lib/supabase/auth";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { loadMainlinePlayPageData } from "@/modules/mainline/features/plays/server/play-page-loaders";
-import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/types";
+import { loadMainlinePlayPageData } from "@/modules/mainline/features/plays/detail/server/play-page-loaders";
+import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 import { isUuid } from "@/shared/utils/identifiers";
 
 export const getMainlinePlayPageData = async (
