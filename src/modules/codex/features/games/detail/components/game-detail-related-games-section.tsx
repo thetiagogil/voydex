@@ -57,7 +57,6 @@ export const GameDetailRelatedGamesSection = ({
   return (
     <CodexDetailSectionCard
       title="Related games"
-      titleVariant="eyebrow"
       headerClassName="py-3"
       className="h-auto lg:h-full lg:min-h-0"
       contentClassName="lg:overflow-hidden"
