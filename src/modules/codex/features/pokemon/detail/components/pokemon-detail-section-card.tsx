@@ -24,8 +24,8 @@ export const PokemonDetailSectionCard = ({
 }: PokemonDetailSectionCardProps) => {
   return (
     <Card className={cn("bg-card/75 gap-0 py-0 backdrop-blur-xl", className)}>
-      <CardHeader className="px-4 py-3">
-        <CardTitle className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+      <CardHeader className="px-4 py-2">
+        <CardTitle className="text-muted-foreground text-xs font-semibold">
           {title}
         </CardTitle>
       </CardHeader>
