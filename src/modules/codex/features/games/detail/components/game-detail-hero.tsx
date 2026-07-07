@@ -1,5 +1,4 @@
 import { GameDetailHeroActions } from "@/modules/codex/features/games/detail/components/hero/game-detail-hero-actions";
-import { GameDetailHeroBackdrop } from "@/modules/codex/features/games/detail/components/hero/game-detail-hero-backdrop";
 import { GameDetailHeroCoverArt } from "@/modules/codex/features/games/detail/components/hero/game-detail-hero-cover-art";
 import { GameDetailHeroFacts } from "@/modules/codex/features/games/detail/components/hero/game-detail-hero-facts";
 import type { GameDetailData } from "@/modules/codex/shared/types";
@@ -66,7 +65,6 @@ export const GameDetailHero = ({ data }: GameDetailHeroProps) => {
       style={getPokemonGameColorCssVariables(data.game.slug)}
       className="relative isolate w-full min-w-0 overflow-hidden rounded-xl p-0"
     >
-      <GameDetailHeroBackdrop data={data} />
       <div className="relative z-10 flex flex-col gap-6 p-5 sm:p-6 lg:p-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-center lg:gap-8">
           <div className="md:shrink-0">

@@ -15,10 +15,6 @@ export const GameDetailHeroCoverArt = ({
   return (
     <div className="relative flex h-72 w-full justify-center sm:h-80 md:h-84 md:justify-end lg:h-86">
       <div className="relative flex h-full max-w-full justify-center md:justify-end">
-        <div
-          aria-hidden
-          className="absolute -inset-4 rounded-2xl bg-(--pokemon-game-color)/10 blur-xl"
-        />
         {data.coverImageUrl ? (
           <Image
             src={data.coverImageUrl}
