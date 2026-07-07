@@ -62,6 +62,53 @@ Important current routes:
 
 Keep route files in `src/app` thin. Compose module or shared components from them.
 
+## Current Mainline Plays Direction
+
+The active Mainline work is the Plays feature:
+
+```txt
+src/modules/mainline/features/plays/
+  browse/
+  detail/
+  shared/
+```
+
+Preserve these current decisions:
+
+- Use `plays` as the feature folder name. Do not reintroduce singular
+  `features/play`.
+- `/mainline/plays` is a simple real-data card browse surface.
+- `/mainline/plays/[playId]` is the Play Hub.
+- The Play Hub top section is contextual page information, not a Card.
+- The Play Hub bottom surface is one Card containing tabs.
+- The tab shell includes Overview, Team, Progress, Plans, History, and Settings.
+  Only Overview is currently built/enabled.
+- Overview layout is two-column on wide screens: Journey Status and Recent
+  History on the left; Current Team and Progress Summary on the right.
+- Team Health should not be added to Overview until the Team tab has a real
+  analysis model.
+- Do not add filler cards to balance the right column. Add previews only when
+  they summarize real data or a mature tab.
+- Progress Summary hides unavailable tracks, shows progress bars plus
+  `completed / total`, and does not show visible percent labels.
+
+Mainline Play detail component folders should stay section scoped:
+
+```txt
+src/modules/mainline/features/plays/detail/components/
+  top-section/
+  overview/
+    journey-status/
+    recent-history/
+    team/
+    progress-summary/
+  team/
+  progress/
+  plans/
+  history/
+  settings/
+```
+
 ## Source Layout
 
 Root `src` folders should stay limited to:
@@ -85,7 +132,7 @@ Prefer boring, searchable names over short local names:
 - Route files in `src/app` should stay thin and import page-level components.
 - Page-level components that directly back a route may live at the feature root, for example `pokemon-detail-page.tsx` or `mainline-plays-page.tsx`.
 - Component filenames should usually match the exported component name in kebab/Pascal form, for example `pokemon-detail-species-selector.tsx` exports `PokemonDetailSpeciesSelector`.
-- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files.
+- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files. Inside already-scoped section folders, local names are acceptable; for example, `overview/team/team-panel.tsx` can export `TeamPanel` without repeating `MainlinePlay`.
 - Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
 - Split browse and detail loaders when they serve different views. Do not keep unrelated browse/detail data loaders in one shared query file just because they touch the same table.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
@@ -131,7 +178,7 @@ The design direction is clean adventure companion, not corporate dashboard and n
 
 ## Current Codex Pokemon Detail Direction
 
-The active detailed Codex work is `/codex/pokemon/[gameSlug]/[speciesSlug]`.
+The detailed Codex surface is `/codex/pokemon/[gameSlug]/[speciesSlug]`.
 Before changing that route, read `docs/design/codex-pokemon-detail.md`.
 
 Preserve these current decisions:

@@ -94,6 +94,19 @@ It should summarize:
 
 The Play Hub should link to deeper play-specific routes instead of trying to expose every control on one page.
 
+Current Overview direction:
+
+- The top play section is context, not the main workspace Card.
+- The tab card is the main Play Hub workspace.
+- Overview should show Journey Status, Current Team, Progress Summary, and
+  Recent History.
+- Team Health belongs in the Team tab until the app has a real analysis model.
+- Progress Summary should only render applicable progress tracks. For each
+  track, show the progress bar and `completed / total`; do not show a visible
+  percent label.
+- Overview previews should summarize real workflows and mature tabs. Do not add
+  placeholder cards just to fill space.
+
 ### Team Management
 
 Each play has a managed Pokémon roster.

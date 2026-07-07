@@ -141,6 +141,12 @@ Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/ge
 
 Deep routes manage one focused play concern at a time.
 
+Implementation note as of 2026-07-08: the app currently builds the Play Hub at
+`/mainline/plays/[playId]` first. Team, Progress, Plans, History, and Settings
+exist as tab shells inside the hub; add or enable deeper pages only when the
+corresponding product slice is implemented. Do not send users to a deep play
+route unless that route has a real page or a deliberate tab-equivalent flow.
+
 ### Plans
 
 ```txt

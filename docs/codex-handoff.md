@@ -39,7 +39,81 @@ Main app areas:
 The app should not force Codex browsing as the only flow. Users should be able
 to create and continue plays directly.
 
-## Current Frontend Focus: Codex Pokemon Detail
+## Current Frontend Focus: Mainline Plays And Play Hub
+
+As of 2026-07-08, active frontend work has moved to Mainline Plays.
+
+Current active routes:
+
+```txt
+/mainline/plays
+/mainline/plays/[playId]
+```
+
+Current implementation:
+
+- `/mainline/plays` is a simple real-data card list. Play cards link to the
+  play detail route.
+- `/mainline/plays/[playId]` is the Play Hub. It uses a non-card top
+  information section and a single tab card underneath.
+- The top section renders cover art, play title, status, game, region,
+  generation, playtime/start date, quick stats, and View game / Back actions.
+- The Play Hub tab shell includes Overview, Team, Progress, Plans, History, and
+  Settings. Only Overview is currently enabled; the other tab components are
+  shell files until those slices are built.
+- Overview left column: Journey Status and Recent History.
+- Overview right column: Current Team and Progress Summary.
+- Journey Status shows last completed milestone, next up milestone, Story Path,
+  and a future Log milestone action.
+- Current Team shows six compact active slots. Empty slots render as plus
+  placeholders.
+- Recent History fetches at most five rows from
+  `views.mainline_play_timeline_detail`; do not fetch extra rows just to slice
+  in the UI.
+- Progress Summary shows applicable progress tracks only. Hide rows when a play
+  has no positive total for that track. Show a progress bar and a
+  `completed / total` count; do not add a visible percent label.
+
+Current Mainline Plays code boundary:
+
+```txt
+src/modules/mainline/features/plays/browse/
+src/modules/mainline/features/plays/detail/
+src/modules/mainline/features/plays/shared/
+```
+
+Detail component layout:
+
+```txt
+src/modules/mainline/features/plays/detail/components/
+  top-section/
+  overview/
+    journey-status/
+    recent-history/
+    team/
+    progress-summary/
+  team/
+  progress/
+  plans/
+  history/
+  settings/
+```
+
+Important current direction:
+
+- Keep the Play Hub top section outside a Card. It should read as contextual
+  page information; the tab card below is the main workspace surface.
+- Do not add Team Health to Overview yet. It belongs in the Team tab once there
+  is a real analysis model.
+- Do not add filler cards to balance the right column. Add preview cards only
+  when they summarize a mature tab or real workflow.
+- Continue building section by section. Next useful slices are Team and
+  Progress, because they already have visible tab shells and Overview previews.
+- Inside already-scoped component folders, local names are acceptable. For
+  example, `overview/team/team-panel.tsx` can export `TeamPanel`; page-level and
+  tab-level files can keep `MainlinePlay...` prefixes for searchability.
+
+## Stable Frontend Area: Codex Pokemon Detail
 
 As of 2026-07-02, the active Codex Pokemon detail foundation is in a good
 section-by-section state:
@@ -90,12 +164,11 @@ Important current direction:
 - Validate forms against the selected game, not only the selected generation.
 - DLC-only availability counts as game availability but must show a warning/info
   state explaining the required DLC scope.
-- Keep card sections simple, with shared Pokemon detail card styling and no
-  decorative title icons.
+- Keep card sections simple, with the shared detail section card styling.
 - For right-section data, prefer adding one section at a time and keep data
   access in the loader/mapper/query split.
 
-## Current Frontend Focus: Codex Games And Pokedexes
+## Stable Frontend Area: Codex Games And Pokedexes
 
 As of 2026-07-06, the Games direction has moved away from the timeline idea.
 Treat the current implementation as the baseline:
@@ -247,7 +320,9 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Protected Mainline routes include dashboard, play list, play create, and the current play detail slices under `/mainline/plays`.
+- Protected Mainline routes include dashboard, play list, and the Play Hub at
+  `/mainline/plays/[playId]`. Product route helpers exist for deeper play
+  concerns, but the active route implementation is being built tab by tab.
 - Codex routes are mounted under `/codex`.
 - The Codex Pokemon detail route is game-scoped:
   `/codex/pokemon/[gameSlug]/[speciesSlug]`.

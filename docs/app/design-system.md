@@ -64,6 +64,30 @@ Existing token groups:
 - Avoid nested cards unless the inner card is a true repeated item or modal.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 
+## Mainline Play Hub Direction
+
+The Play Hub top section should be contextual page information, not a Card. It
+can sit directly on the scenic background so the user can focus on the tabbed
+workspace below.
+
+The main Play Hub workspace should be one Card containing tabs. The current tab
+set is Overview, Team, Progress, Plans, History, and Settings. Only build rich
+tab content when the underlying workflow is ready.
+
+Overview should stay high-signal and avoid filler:
+
+- Left column: Journey Status and Recent History.
+- Right column: Current Team and Progress Summary.
+- Do not add Team Health to Overview until the Team tab has a real analysis
+  model.
+- Do not add extra right-column cards just to fill vertical space.
+- Overview cards should use the shared detail section card pattern and avoid
+  feature-local card styling.
+
+Progress Summary should show applicable tracks only. Hide tracks with no
+positive total for the play, show a progress bar plus `completed / total`, and
+avoid visible percentage labels.
+
 ## Home Page Hero Direction
 
 The home page hero should use layered assets:

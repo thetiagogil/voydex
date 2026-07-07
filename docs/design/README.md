@@ -40,7 +40,10 @@ docs/design/mainline-play
 
 Files:
 
-- `01_overview.png`: Play hub overview with journey status, current team, team health, progress summary, and recent history.
+- `01_overview.png`: Play hub overview reference with journey status, current
+  team, team health, progress summary, and recent history. Current
+  implementation intentionally defers Team Health until the Team tab has a real
+  analysis model.
 - `02_team.png`: Team management view with active/reserve roster, selected Pokémon details, quick analysis, and team events.
 - `03_progress.png`: Progress summary view for story, Pokedex, collectibles, and optional content.
 - `04_progress_story.png`: Story progress view with ordered milestones and selected milestone detail.

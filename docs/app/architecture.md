@@ -115,6 +115,10 @@ Protected app routes live under `src/app/(app-protected)` and are guarded by the
 - `/mainline/plays/[playId]/collectibles`
 - `/settings`
 
+The implemented Play Hub currently lives at `/mainline/plays/[playId]` and is
+being built tab by tab. Deeper play routes are product route contracts and
+helpers; add or enable the corresponding page only when that slice is real.
+
 Planned workspaces such as Mainline-level Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
 
 ### API Routes
@@ -269,25 +273,29 @@ src/features/auth/
 Feature workflows should be organized by what the view does:
 
 ```txt
-src/modules/mainline/features/play/
+src/modules/mainline/features/plays/
   browse/
     components/
     server/
-    utils/
     mainline-plays-page.tsx
-  create/
-    components/
-    data/
-    server/
-    create-mainline-play-page.tsx
   detail/
-    overview/
-    team/
-    progress/
-    story/
-    pokedex/
-    collectibles/
-    shared/
+    components/
+      top-section/
+      overview/
+        journey-status/
+        recent-history/
+        team/
+        progress-summary/
+      team/
+      progress/
+      plans/
+      history/
+      settings/
+    server/
+    mainline-play-page.tsx
+  shared/
+    display/
+    types.ts
 ```
 
 Keep business logic and data shaping out of route files when it becomes nontrivial. Route files should usually compose module or feature components.
@@ -311,6 +319,10 @@ Names should optimize for searchability, import clarity, and reviewability.
 - Page-level components that directly back a route may live at the feature root, for example `pokedex-page.tsx`, `pokemon-detail-page.tsx`, `games-page.tsx`, or `mainline-plays-page.tsx`.
 - Component filenames should usually match the exported component name in kebab/Pascal form. For example, `pokemon-detail-species-selector.tsx` should export `PokemonDetailSpeciesSelector`.
 - Keep explicit feature prefixes for components used across a feature. `PokemonDetailGenerationMenu` is preferable to a generic `GenerationMenu` when imported from multiple files.
+- Inside already-scoped section folders, avoid redundant prefixes when they add
+  noise. For example, `overview/team/team-panel.tsx` can export `TeamPanel`;
+  route-level, page-level, and tab-level files should keep searchable feature
+  prefixes such as `MainlinePlayDetailTabs`.
 - Avoid generic data filenames like `queries.ts` once a feature has more than one data concern. Prefer names that describe the view or workflow, such as `dashboard-page-query.ts`, `games-page-query.ts`, `game-detail-query.ts`, or `create-play-page-query.ts`.
 - Keep `*-query.ts` files in `server/`, not `data/`.
 - Keep raw Supabase reads in `server/*-loaders.ts`, not inside components or pure mappers.
