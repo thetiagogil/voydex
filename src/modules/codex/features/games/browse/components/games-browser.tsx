@@ -4,10 +4,8 @@ import { useMemo, useState } from "react";
 
 import { GamesFilterForm } from "@/modules/codex/features/games/browse/components/games-filter-form";
 import { GamesGrid } from "@/modules/codex/features/games/browse/components/games-grid";
-import {
-  CodexBrowseMeta,
-  CodexEmptyState,
-} from "@/modules/codex/shared/components/codex-browse";
+import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
+import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
 import type {
   GameCard,
   GamesPageData,

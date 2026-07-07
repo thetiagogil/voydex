@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { GameDetailSection } from "@/modules/codex/features/games/detail/components/game-detail-section";
-import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-detail";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
 import type { GameDetailData } from "@/modules/codex/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { formatPokedexName } from "@/shared/domain/pokemon/pokemon-formatters";
@@ -15,9 +15,11 @@ export const GameDetailPokedexesSection = ({
   data,
 }: GameDetailPokedexesSectionProps) => {
   return (
-    <GameDetailSection
+    <CodexDetailSectionCard
       id="game-pokedexes"
       title="Game Pokédexes"
+      titleVariant="eyebrow"
+      headerClassName="py-3"
       className="h-auto lg:h-full lg:min-h-0"
       contentClassName="p-3 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-hidden"
     >
@@ -59,6 +61,6 @@ export const GameDetailPokedexesSection = ({
       ) : (
         <CodexInlineEmpty>No Pokédex rows are seeded.</CodexInlineEmpty>
       )}
-    </GameDetailSection>
+    </CodexDetailSectionCard>
   );
 };

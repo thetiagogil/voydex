@@ -4,7 +4,7 @@ import { appRoutes } from "@/config/routes";
 import { GamePokedexBrowser } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser";
 import { GamePokedexSwitcher } from "@/modules/codex/features/games/pokedex/components/game-pokedex-switcher";
 import { getGamePokedexData } from "@/modules/codex/features/games/pokedex/server/game-pokedex-query";
-import { CodexBackLink } from "@/modules/codex/shared/components/codex-detail";
+import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
 import { getPokemonGameColorCssVariables } from "@/shared/components/game/pokemon-game-color-styles";
 
 type GamePokedexPageProps = {

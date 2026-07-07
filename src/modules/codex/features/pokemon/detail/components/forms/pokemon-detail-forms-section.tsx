@@ -3,11 +3,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { PokemonDetailFormListItemContent } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-list-item-content";
 import { getPokemonDetailFormHref } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-links";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import {
   getPokemonDetailFormTypeSlug,
   isPokemonDetailFormEqual,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
 import {
   getPokemonTypeCssVariables,
@@ -41,10 +41,7 @@ export const PokemonDetailFormsSection = ({
   }
 
   return (
-    <PokemonDetailSectionCard
-      title="Forms"
-      contentClassName="grid min-w-0 gap-2"
-    >
+    <CodexDetailSectionCard title="Forms" contentClassName="grid min-w-0 gap-2">
       {forms.map((form) => {
         const isActive = isPokemonDetailFormEqual(form, activeForm);
         const typeSlug = getPokemonDetailFormTypeSlug(form);
@@ -78,6 +75,6 @@ export const PokemonDetailFormsSection = ({
           </Link>
         );
       })}
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

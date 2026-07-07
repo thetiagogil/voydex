@@ -11,7 +11,7 @@ import {
 } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser-model";
 import { GamePokedexFilterForm } from "@/modules/codex/features/games/pokedex/components/game-pokedex-filter-form";
 import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table";
-import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse";
+import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
 import type { GamePokedexData } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 

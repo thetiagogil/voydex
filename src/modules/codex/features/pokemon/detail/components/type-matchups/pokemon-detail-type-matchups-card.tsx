@@ -1,12 +1,12 @@
 import type { CSSProperties } from "react";
 
 import { cn } from "@/lib/utils";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import {
   getPokemonDetailDefendingTypes,
   getPokemonDetailTypeMatchupChart,
   type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import {
@@ -112,7 +112,7 @@ export const PokemonDetailTypeMatchupsCard = ({
   } satisfies CSSProperties;
 
   return (
-    <PokemonDetailSectionCard
+    <CodexDetailSectionCard
       title="Type Matchups"
       className="h-full"
       contentClassName="p-0"
@@ -144,6 +144,6 @@ export const PokemonDetailTypeMatchupsCard = ({
           </div>
         </div>
       </div>
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

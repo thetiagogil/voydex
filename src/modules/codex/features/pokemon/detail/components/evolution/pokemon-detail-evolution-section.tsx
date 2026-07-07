@@ -3,12 +3,12 @@ import { Fragment } from "react";
 import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-connector";
 import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import {
   getPokemonDetailEvolutionPathGridTemplateColumns,
   getPokemonDetailEvolutionPaths,
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
 
 type PokemonDetailEvolutionSectionProps = {
@@ -78,7 +78,7 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
-    <PokemonDetailSectionCard
+    <CodexDetailSectionCard
       title="Evolution line"
       contentClassName="grid gap-2"
     >
@@ -128,6 +128,6 @@ export const PokemonDetailEvolutionSection = ({
           ))}
         </div>
       ))}
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

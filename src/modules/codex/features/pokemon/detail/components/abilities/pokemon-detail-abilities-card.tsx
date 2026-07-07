@@ -1,6 +1,6 @@
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailAbilityItem } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-ability-item";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
 import type {
   Ability,
@@ -37,7 +37,7 @@ export const PokemonDetailAbilitiesCard = ({
   }
 
   return (
-    <PokemonDetailSectionCard title="Abilities" contentClassName="p-0">
+    <CodexDetailSectionCard title="Abilities" contentClassName="p-0">
       <div className="overflow-x-auto">
         <div
           className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground px-4 py-2 text-xs`}
@@ -55,6 +55,6 @@ export const PokemonDetailAbilitiesCard = ({
           ))}
         </div>
       </div>
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

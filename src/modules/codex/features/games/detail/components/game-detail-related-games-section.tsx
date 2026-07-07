@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/lib/utils";
-import { GameDetailSection } from "@/modules/codex/features/games/detail/components/game-detail-section";
-import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-detail";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
 import type { GameCard, GameDetailData } from "@/modules/codex/shared/types";
 import {
   getPokemonGameColorCssVariables,
@@ -55,8 +55,10 @@ export const GameDetailRelatedGamesSection = ({
   data,
 }: GameDetailRelatedGamesSectionProps) => {
   return (
-    <GameDetailSection
+    <CodexDetailSectionCard
       title="Related games"
+      titleVariant="eyebrow"
+      headerClassName="py-3"
       className="h-auto lg:h-full lg:min-h-0"
       contentClassName="lg:overflow-hidden"
     >
@@ -79,6 +81,6 @@ export const GameDetailRelatedGamesSection = ({
       ) : (
         <CodexInlineEmpty>No related games are seeded.</CodexInlineEmpty>
       )}
-    </GameDetailSection>
+    </CodexDetailSectionCard>
   );
 };

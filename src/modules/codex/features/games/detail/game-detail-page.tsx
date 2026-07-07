@@ -5,7 +5,7 @@ import { GameDetailHero } from "@/modules/codex/features/games/detail/components
 import { GameDetailPokedexesSection } from "@/modules/codex/features/games/detail/components/game-detail-pokedexes-section";
 import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
 import { getGameDetailData } from "@/modules/codex/features/games/detail/server/game-detail-query";
-import { CodexBackLink } from "@/modules/codex/shared/components/codex-detail";
+import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
 import { getPokemonGameColorCssVariables } from "@/shared/components/game/pokemon-game-color-styles";
 
 type GameDetailPageProps = {

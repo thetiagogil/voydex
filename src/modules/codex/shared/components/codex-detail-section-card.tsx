@@ -10,35 +10,44 @@ import {
 } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 
-type GameDetailSectionProps = {
+type CodexDetailSectionCardProps = {
   children: ReactNode;
   className?: string;
   contentClassName?: string;
-  description?: string;
+  description?: ReactNode;
+  headerClassName?: string;
   id?: string;
-  title: string;
+  title: ReactNode;
+  titleVariant?: "default" | "eyebrow";
 };
 
-export const GameDetailSection = ({
+export const CodexDetailSectionCard = ({
   children,
   className,
   contentClassName,
   description,
+  headerClassName,
   id,
   title,
-}: GameDetailSectionProps) => {
+  titleVariant = "default",
+}: CodexDetailSectionCardProps) => {
   return (
     <Card
       id={id}
       className={cn(
-        "h-full gap-0 py-0 backdrop-blur-xl",
-        "bg-card/75",
-        "w-full min-w-0",
+        "bg-card/75 w-full min-w-0 gap-0 py-0 backdrop-blur-xl",
         className,
       )}
     >
-      <CardHeader className="px-4 py-3">
-        <CardTitle className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+      <CardHeader className={cn("px-4 py-2", headerClassName)}>
+        <CardTitle
+          className={cn(
+            "text-muted-foreground text-xs",
+            titleVariant === "eyebrow"
+              ? "font-medium tracking-wider uppercase"
+              : "font-semibold",
+          )}
+        >
           {title}
         </CardTitle>
         {description ? (

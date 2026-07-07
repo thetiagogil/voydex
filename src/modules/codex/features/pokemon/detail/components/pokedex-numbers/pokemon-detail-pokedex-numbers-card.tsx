@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
   numbers: PokemonDetailPokedexNumber[];
@@ -40,7 +40,7 @@ export const PokemonDetailPokedexNumbersCard = ({
   }
 
   return (
-    <PokemonDetailSectionCard title="Pokédex" contentClassName="p-0">
+    <CodexDetailSectionCard title="Pokédex" contentClassName="p-0">
       <div className="overflow-x-auto">
         <div
           className={cn(
@@ -61,6 +61,6 @@ export const PokemonDetailPokedexNumbersCard = ({
           ))}
         </div>
       </div>
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

@@ -14,7 +14,7 @@ import {
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -47,7 +47,7 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <PokemonDetailSectionCard title="Learnsets" contentClassName="p-0">
+    <CodexDetailSectionCard title="Learnsets" contentClassName="p-0">
       {learnsets.length ? (
         <>
           <div className="grid gap-3 px-4 py-3">
@@ -140,6 +140,6 @@ export const PokemonDetailLearnsetsCard = ({
           No learnset data recorded for the selected scope.
         </p>
       )}
-    </PokemonDetailSectionCard>
+    </CodexDetailSectionCard>
   );
 };

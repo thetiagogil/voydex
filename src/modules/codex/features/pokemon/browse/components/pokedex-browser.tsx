@@ -19,12 +19,10 @@ import {
   defaultPokedexPageFilters,
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
-import {
-  CodexBrowseMeta,
-  CodexEmptyState,
-  CodexGenerationSection,
-  CodexResourceGrid,
-} from "@/modules/codex/shared/components/codex-browse";
+import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
+import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
+import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
+import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
 import type {
   Generation,
   PokedexPageData,

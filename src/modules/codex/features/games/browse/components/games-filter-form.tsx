@@ -1,6 +1,6 @@
 "use client";
 
-import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-browse";
+import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-filter-panel";
 import type {
   GameType,
   GamesPageFilters,

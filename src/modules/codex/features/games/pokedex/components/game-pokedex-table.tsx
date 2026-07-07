@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { KeyboardEvent } from "react";
 
@@ -9,15 +8,21 @@ import {
   formatLocalPokedexNumber,
   getGamePokedexStatColumns,
   getGamePokedexTableMinWidthClassName,
-  type GamePokedexStatKey,
 } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser-model";
-import { CodexEmptyState } from "@/modules/codex/shared/components/codex-browse";
+import {
+  GamePokedexPokemonAbilityList,
+  GamePokedexPokemonSpriteCell,
+  GamePokedexPokemonStatCell,
+  GamePokedexPokemonTypeList,
+  gamePokedexDexColumnClassName,
+  gamePokedexSpriteColumnClassName,
+  gamePokedexStatColumnClassName,
+} from "@/modules/codex/features/games/pokedex/components/game-pokedex-table-cells";
+import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
 import type {
   GamePokedexData,
   GamePokedexPokemon,
 } from "@/modules/codex/shared/types";
-import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
-import { Badge } from "@/shared/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -26,110 +31,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
 
 type GamePokedexTableProps = {
   data: GamePokedexData;
   hasAbilities: boolean;
   pokemon: GamePokedexPokemon[];
-};
-
-type GamePokedexPokemonType = NonNullable<
-  GamePokedexPokemon["typePair"]["primaryType"]
->;
-
-const spriteColumnClassName = "w-14 min-w-14 max-w-14";
-const dexColumnClassName = "w-16 min-w-16 max-w-16";
-const statColumnClassName = "w-12 min-w-12 max-w-12";
-
-const PokemonSpriteCell = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
-  if (!pokemon.imageUrl) {
-    return (
-      <div className="bg-muted/35 flex size-12 items-center justify-center rounded-md">
-        <span className="text-muted-foreground text-xs">—</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative size-12 overflow-hidden rounded-md">
-      <Image
-        src={pokemon.imageUrl}
-        alt={pokemon.imageAlt || `${pokemon.species.name} sprite`}
-        fill
-        sizes="3rem"
-        className="object-contain"
-      />
-    </div>
-  );
-};
-
-const PokemonTypeList = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
-  const types = [
-    pokemon.typePair.primaryType,
-    pokemon.typePair.secondaryType,
-  ].filter((type): type is GamePokedexPokemonType => Boolean(type));
-
-  if (!types.length) {
-    return <span className="text-muted-foreground">—</span>;
-  }
-
-  return (
-    <div className="flex flex-wrap gap-1.5">
-      {types.map((type) =>
-        isPokemonTypeSlug(type.slug) ? (
-          <PokemonTypeBadge
-            key={type.id}
-            type={type.slug}
-            label={type.name}
-            size="sm"
-          />
-        ) : (
-          <Badge key={type.id} variant="outline">
-            {type.name}
-          </Badge>
-        ),
-      )}
-    </div>
-  );
-};
-
-const PokemonAbilityList = ({ pokemon }: { pokemon: GamePokedexPokemon }) => {
-  if (!pokemon.abilities.length) {
-    return <span className="text-muted-foreground">—</span>;
-  }
-
-  return (
-    <div className="flex max-w-48 flex-wrap gap-1.5">
-      {pokemon.abilities.map(({ ability, slot }) => (
-        <Badge
-          key={`${ability.id}-${slot}`}
-          variant={slot === "hidden" ? "secondary" : "outline"}
-          className="max-w-full"
-        >
-          <span className="truncate">
-            {ability.name}
-            {slot === "hidden" ? " (HA)" : ""}
-          </span>
-        </Badge>
-      ))}
-    </div>
-  );
-};
-
-const PokemonStatCell = ({
-  pokemon,
-  stat,
-}: {
-  pokemon: GamePokedexPokemon;
-  stat: GamePokedexStatKey;
-}) => {
-  return (
-    <span className="tabular-nums">
-      {pokemon.attributes ? pokemon.attributes[stat] : "—"}
-    </span>
-  );
 };
 
 export const GamePokedexTable = ({
@@ -162,21 +69,25 @@ export const GamePokedexTable = ({
         )} table-fixed`}
       >
         <colgroup>
-          <col className={spriteColumnClassName} />
-          <col className={dexColumnClassName} />
+          <col className={gamePokedexSpriteColumnClassName} />
+          <col className={gamePokedexDexColumnClassName} />
           <col className="w-52" />
           <col className="w-44" />
           {hasAbilities ? <col className="w-56" /> : null}
           {statColumns.map((stat) => (
-            <col key={stat.key} className={statColumnClassName} />
+            <col key={stat.key} className={gamePokedexStatColumnClassName} />
           ))}
         </colgroup>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className={`${spriteColumnClassName} text-center`}>
+            <TableHead
+              className={`${gamePokedexSpriteColumnClassName} text-center`}
+            >
               Sprite
             </TableHead>
-            <TableHead className={`${dexColumnClassName} text-center`}>
+            <TableHead
+              className={`${gamePokedexDexColumnClassName} text-center`}
+            >
               Dex
             </TableHead>
             <TableHead className="w-52">Name</TableHead>
@@ -187,7 +98,7 @@ export const GamePokedexTable = ({
             {statColumns.map((stat) => (
               <TableHead
                 key={stat.key}
-                className={`${statColumnClassName} text-center`}
+                className={`${gamePokedexStatColumnClassName} text-center`}
               >
                 {stat.label}
               </TableHead>
@@ -230,11 +141,11 @@ export const GamePokedexTable = ({
                   router.prefetch(href);
                 }}
               >
-                <TableCell className={`${spriteColumnClassName}`}>
-                  <PokemonSpriteCell pokemon={entry} />
+                <TableCell className={gamePokedexSpriteColumnClassName}>
+                  <GamePokedexPokemonSpriteCell pokemon={entry} />
                 </TableCell>
                 <TableCell
-                  className={`${dexColumnClassName} text-center font-medium tabular-nums`}
+                  className={`${gamePokedexDexColumnClassName} text-center font-medium tabular-nums`}
                 >
                   {formatLocalPokedexNumber(entry.entry.pokedex_number)}
                 </TableCell>
@@ -247,19 +158,22 @@ export const GamePokedexTable = ({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <PokemonTypeList pokemon={entry} />
+                  <GamePokedexPokemonTypeList pokemon={entry} />
                 </TableCell>
                 {hasAbilities ? (
                   <TableCell>
-                    <PokemonAbilityList pokemon={entry} />
+                    <GamePokedexPokemonAbilityList pokemon={entry} />
                   </TableCell>
                 ) : null}
                 {statColumns.map((stat) => (
                   <TableCell
                     key={stat.key}
-                    className={`${statColumnClassName} text-center`}
+                    className={`${gamePokedexStatColumnClassName} text-center`}
                   >
-                    <PokemonStatCell pokemon={entry} stat={stat.key} />
+                    <GamePokedexPokemonStatCell
+                      pokemon={entry}
+                      stat={stat.key}
+                    />
                   </TableCell>
                 ))}
               </TableRow>

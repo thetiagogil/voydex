@@ -1,5 +1,5 @@
 import type { GamePokedexFilters } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser-model";
-import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-browse";
+import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-filter-panel";
 import type { GamePokedexData } from "@/modules/codex/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PokemonTypeMark } from "@/shared/components/pokemon/pokemon-type-icon";
