@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { getTeamSlots } from "@/modules/mainline/features/plays/detail/components/overview/team/team-model";
 import { TeamModeAction } from "@/modules/mainline/features/plays/detail/components/overview/team/team-mode-action";
+import { getTeamSlots } from "@/modules/mainline/features/plays/detail/components/overview/team/team-model";
 import { TeamSlot } from "@/modules/mainline/features/plays/detail/components/overview/team/team-slot";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -46,7 +46,7 @@ export const TeamPanel = ({ gameSlug, playId, team }: TeamPanelProps) => {
         className="w-full"
       >
         View full team
-        <AppIcon icon={appIcons.actions.continue} inline="end" aria-hidden />
+        <AppIcon icon={appIcons.actions.continue} aria-hidden />
       </Button>
     </DetailSectionCard>
   );

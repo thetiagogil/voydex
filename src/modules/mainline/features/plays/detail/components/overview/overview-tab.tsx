@@ -1,4 +1,5 @@
 import { JourneyStatusPanel } from "@/modules/mainline/features/plays/detail/components/overview/journey-status/journey-status-panel";
+import { ProgressSummaryPanel } from "@/modules/mainline/features/plays/detail/components/overview/progress-summary/progress-summary-panel";
 import { RecentHistoryPanel } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-panel";
 import { TeamPanel } from "@/modules/mainline/features/plays/detail/components/overview/team/team-panel";
 import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
@@ -15,11 +16,14 @@ export const OverviewTab = ({ data }: OverviewTabProps) => {
         <RecentHistoryPanel events={data.timelinePreview} />
       </div>
 
-      <TeamPanel
-        gameSlug={data.play.game_slug}
-        playId={data.play.play_id}
-        team={data.teamPreview}
-      />
+      <div className="grid min-w-0 auto-rows-max content-start items-start gap-4">
+        <TeamPanel
+          gameSlug={data.play.game_slug}
+          playId={data.play.play_id}
+          team={data.teamPreview}
+        />
+        <ProgressSummaryPanel overview={data.overview} />
+      </div>
     </div>
   );
 };

@@ -57,7 +57,7 @@ export const DetailSectionCard = ({
           <div className="flex min-w-0 flex-col gap-1">
             <CardTitle
               className={cn(
-                "text-foreground/80 truncate text-sm leading-none font-medium",
+                "text-foreground/80 text-sm leading-none font-medium",
                 titleClassName,
               )}
             >
