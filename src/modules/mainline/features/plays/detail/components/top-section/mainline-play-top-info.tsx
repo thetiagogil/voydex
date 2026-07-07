@@ -4,12 +4,14 @@ import {
   formatPlayPokedexProgress,
   formatPlayTeamSummary,
 } from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
 import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 import {
   AppIcon,
   appIcons,
   type AppIconComponent,
 } from "@/shared/components/app-icon";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { Badge } from "@/shared/components/ui/badge";
 
 type MainlinePlayTopInfoProps = {
@@ -82,9 +84,15 @@ const MainlinePlayMetadata = ({ data }: MainlinePlayMetadataProps) => {
   return (
     <div className="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
       {data.play.status_name ? (
-        <Badge className="h-6 rounded-md bg-emerald-500/12 px-2 text-emerald-700 hover:bg-emerald-500/12 dark:text-emerald-300">
+        <StatusBadge
+          tone={getPlayStatusBadgeTone(
+            data.play.status_slug,
+            data.play.status_name,
+          )}
+          className="h-6 rounded-md px-2"
+        >
           {data.play.status_name}
-        </Badge>
+        </StatusBadge>
       ) : null}
 
       {metadata.map((item, index) => (
@@ -141,7 +149,7 @@ export const MainlinePlayTopInfo = ({
       <div className="flex min-w-0 flex-col gap-2">
         <h1
           id={titleId}
-          className="text-foreground min-w-0 text-3xl leading-tight font-semibold tracking-normal"
+          className="text-foreground min-w-0 text-2xl leading-tight font-semibold tracking-normal sm:text-3xl"
         >
           {title}
         </h1>

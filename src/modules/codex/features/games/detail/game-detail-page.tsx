@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
-import { GameDetailHero } from "@/modules/codex/features/games/detail/components/game-detail-hero";
-import { GameDetailPokedexesSection } from "@/modules/codex/features/games/detail/components/game-detail-pokedexes-section";
-import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
+import { GameDetailPokedexesSection } from "@/modules/codex/features/games/detail/components/pokedexes/game-detail-pokedexes-section";
+import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/related-games/game-detail-related-games-section";
+import { GameDetailTopSection } from "@/modules/codex/features/games/detail/components/top-section/game-detail-top-section";
 import { getGameDetailData } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
 import { getPokemonGameColorCssVariables } from "@/shared/components/game/pokemon-game-color-styles";
@@ -22,11 +22,11 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
   return (
     <div
       style={getPokemonGameColorCssVariables(data.game.slug)}
-      className="flex w-full min-w-0 flex-col gap-4"
+      className="flex w-full min-w-0 flex-col gap-5 sm:gap-6"
     >
       <CodexBackLink href={appRoutes.codexGames}>Back to games</CodexBackLink>
 
-      <GameDetailHero data={data} />
+      <GameDetailTopSection data={data} />
 
       <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-3 lg:[--game-detail-panels-height:17rem] xl:[--game-detail-panels-height:16.5rem]">
         <div className="min-w-0 lg:h-(--game-detail-panels-height) lg:min-h-0">

@@ -12,7 +12,7 @@ export const MainlinePlayTopCoverArt = ({
   gameName,
 }: MainlinePlayTopCoverArtProps) => {
   return (
-    <div className="flex justify-center lg:justify-start">
+    <div className="flex justify-center sm:justify-start">
       {coverImageUrl ? (
         <Image
           src={coverImageUrl}

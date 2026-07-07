@@ -6,7 +6,7 @@ import type { GameDetailData } from "@/modules/codex/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 
-type GameDetailHeroActionsProps = {
+type GameDetailInfoActionsProps = {
   data: GameDetailData;
 };
 
@@ -20,7 +20,7 @@ const getBrowsePokemonHref = (data: GameDetailData) => {
   return appRoutes.codexGamePokedex(data.game.slug, firstPokedex.slug);
 };
 
-export const GameDetailHeroActions = ({ data }: GameDetailHeroActionsProps) => {
+export const GameDetailInfoActions = ({ data }: GameDetailInfoActionsProps) => {
   return (
     <div className="flex flex-wrap gap-3">
       <Link

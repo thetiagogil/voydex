@@ -3,18 +3,16 @@ import Image from "next/image";
 import type { GameDetailData } from "@/modules/codex/shared/types";
 import { getGameInitials } from "@/shared/domain/games/game-display";
 
-type GameDetailHeroCoverArtProps = {
+type GameDetailCoverArtProps = {
   data: GameDetailData;
 };
 
-export const GameDetailHeroCoverArt = ({
-  data,
-}: GameDetailHeroCoverArtProps) => {
+export const GameDetailCoverArt = ({ data }: GameDetailCoverArtProps) => {
   const initials = getGameInitials(data.game.name);
 
   return (
-    <div className="relative flex h-72 w-full justify-center sm:h-80 md:h-84 md:justify-end lg:h-86">
-      <div className="relative flex h-full max-w-full justify-center md:justify-end">
+    <div className="relative flex h-56 w-full justify-center sm:h-64 md:h-full md:w-max md:justify-start">
+      <div className="relative flex h-full max-w-full justify-center md:justify-start">
         {data.coverImageUrl ? (
           <Image
             src={data.coverImageUrl}
@@ -22,7 +20,7 @@ export const GameDetailHeroCoverArt = ({
             width={640}
             height={640}
             priority
-            sizes="(min-width: 1024px) 21.5rem, (min-width: 768px) 21rem, 90vw"
+            sizes="(min-width: 1024px) 18rem, (min-width: 768px) 18rem, 80vw"
             className="relative z-10 h-full w-auto max-w-full rounded-lg border border-(--pokemon-game-color)/70 object-contain object-right shadow-sm"
           />
         ) : (

@@ -16,14 +16,16 @@ export const MainlinePlayTopSection = ({
   return (
     <section
       aria-labelledby="mainline-play-title"
-      className="grid gap-5 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-start lg:gap-6"
+      className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start sm:gap-x-5 sm:gap-y-4 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-6"
     >
       <MainlinePlayTopCoverArt
         coverImageUrl={data.coverImageUrl}
         gameName={gameName}
       />
       <MainlinePlayTopInfo data={data} titleId="mainline-play-title" />
-      <MainlinePlayTopActions data={data} />
+      <div className="sm:col-span-2 lg:col-span-1">
+        <MainlinePlayTopActions data={data} />
+      </div>
     </section>
   );
 };

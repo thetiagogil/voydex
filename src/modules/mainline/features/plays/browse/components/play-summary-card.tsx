@@ -6,7 +6,9 @@ import {
   formatPlayDate,
   formatPlayPokedexProgress,
 } from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { appIcons } from "@/shared/domain/icons/app-icons";
 
@@ -35,9 +37,12 @@ const PlayCardBody = ({ play }: PlaySummaryCardProps) => {
           </div>
 
           {play.status_name ? (
-            <span className="bg-muted text-muted-foreground border-app-surface-border shrink-0 rounded-full border px-2 py-1 text-xs font-medium">
+            <StatusBadge
+              tone={getPlayStatusBadgeTone(play.status_slug, play.status_name)}
+              className="h-6 shrink-0 rounded-md px-2"
+            >
               {play.status_name}
-            </span>
+            </StatusBadge>
           ) : null}
         </div>
 

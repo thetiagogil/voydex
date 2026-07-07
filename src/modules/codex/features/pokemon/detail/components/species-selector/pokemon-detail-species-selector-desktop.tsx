@@ -2,14 +2,14 @@
 
 import type { UIEventHandler } from "react";
 
-import { PokemonDetailSpeciesSelectorOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
-import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
 import {
   getPokemonMenuEmptyLabel,
   getPokemonSearchValue,
   isPokemonItemEqual,
   type PokemonMenuLoadState,
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
+import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
+import { PokemonDetailSpeciesSelectorOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -105,7 +105,7 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
         </ComboboxTrigger>
         <ComboboxContent
           aria-busy={loadState === "loading" || loadingMore}
-          className="w-96 max-w-[calc(100vw-2rem)]"
+          className="w-100 max-w-[calc(100vw-2rem)]"
         >
           <ComboboxInput
             showTrigger={false}

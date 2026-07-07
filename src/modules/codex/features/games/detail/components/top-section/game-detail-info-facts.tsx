@@ -13,11 +13,11 @@ import {
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
 
-type GameDetailHeroFactsProps = {
+type GameDetailInfoFactsProps = {
   data: GameDetailData;
 };
 
-const GameDetailPlatformsValue = ({ data }: GameDetailHeroFactsProps) => {
+const GameDetailPlatformsValue = ({ data }: GameDetailInfoFactsProps) => {
   const [firstPlatform, ...extraPlatforms] = data.platforms;
 
   if (!firstPlatform) {
@@ -76,7 +76,7 @@ const GameDetailFact = ({
   );
 };
 
-export const GameDetailHeroFacts = ({ data }: GameDetailHeroFactsProps) => {
+export const GameDetailInfoFacts = ({ data }: GameDetailInfoFactsProps) => {
   return (
     <dl className="border-app-surface-border grid gap-4 border-t pt-5 sm:grid-cols-3">
       <GameDetailFact
