@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+
+import { cn } from "@/lib/utils";
 import {
   formatPlayCountPair,
   formatPlayDateTime,
@@ -26,6 +29,13 @@ type MainlinePlayMilestoneSummaryProps = {
   milestone: MainlinePlayMilestone | null;
 };
 
+type MainlinePlayJourneyStatusItemProps = {
+  children: ReactNode;
+  contentClassName?: string;
+  icon: AppIconComponent;
+  label: string;
+};
+
 type MainlinePlayStoryPathProps = {
   completedCount: number | null | undefined;
   totalCount: number | null | undefined;
@@ -38,6 +48,34 @@ const formatMilestoneDate = (milestone: MainlinePlayMilestone) => {
   );
 };
 
+const MainlinePlayJourneyStatusItem = ({
+  children,
+  contentClassName,
+  icon,
+  label,
+}: MainlinePlayJourneyStatusItemProps) => {
+  return (
+    <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-3">
+      <AppIcon
+        icon={icon}
+        size="sm"
+        aria-hidden
+        className="text-muted-foreground mt-0.5"
+      />
+      <p className="text-muted-foreground text-xs leading-5">{label}</p>
+
+      <div
+        className={cn(
+          "col-start-2 min-h-16 min-w-0 content-start",
+          contentClassName,
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const MainlinePlayMilestoneSummary = ({
   fallback,
   icon,
@@ -47,17 +85,13 @@ const MainlinePlayMilestoneSummary = ({
   const milestoneDate = milestone ? formatMilestoneDate(milestone) : "";
 
   return (
-    <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1">
-      <AppIcon
-        icon={icon}
-        size="sm"
-        aria-hidden
-        className="text-muted-foreground mt-0.5"
-      />
-      <p className="text-muted-foreground text-xs">{label}</p>
-
+    <MainlinePlayJourneyStatusItem
+      icon={icon}
+      label={label}
+      contentClassName="grid gap-1"
+    >
       {milestone ? (
-        <div className="col-start-2 grid gap-1">
+        <>
           <p className="text-foreground font-medium">
             {milestone.milestone_name ?? "Unnamed milestone"}
           </p>
@@ -69,11 +103,11 @@ const MainlinePlayMilestoneSummary = ({
           {milestoneDate ? (
             <p className="text-muted-foreground text-xs">{milestoneDate}</p>
           ) : null}
-        </div>
+        </>
       ) : (
-        <p className="text-muted-foreground col-start-2 text-sm">{fallback}</p>
+        <p className="text-muted-foreground text-sm">{fallback}</p>
       )}
-    </div>
+    </MainlinePlayJourneyStatusItem>
   );
 };
 
@@ -92,48 +126,46 @@ const MainlinePlayStoryPath = ({
     : 0;
 
   return (
-    <div className="grid content-start gap-2">
-      <div className="text-muted-foreground flex items-center gap-2 text-xs">
-        <AppIcon icon={appIcons.product.milestone} size="sm" aria-hidden />
-        <span>Story Path</span>
-      </div>
-      <div className="grid justify-items-center gap-2 text-center">
-        <p className="text-primary text-2xl leading-tight font-semibold">
-          {formatPlayCountPair({
-            completedCount,
-            totalCount,
-          })}
-        </p>
-        <p className="text-muted-foreground text-xs">milestones completed</p>
+    <MainlinePlayJourneyStatusItem
+      icon={appIcons.product.milestone}
+      label="Story Path"
+      contentClassName="grid justify-items-center gap-2 text-center"
+    >
+      <p className="text-primary text-2xl leading-tight font-semibold">
+        {formatPlayCountPair({
+          completedCount,
+          totalCount,
+        })}
+      </p>
+      <p className="text-muted-foreground text-xs">milestones completed</p>
+      <div
+        className="relative mt-1 grid w-full items-center"
+        style={{
+          gridTemplateColumns: `repeat(${markerCount}, minmax(0, 1fr))`,
+        }}
+        aria-hidden
+      >
+        <div className="bg-border absolute inset-x-1 top-1/2 h-px -translate-y-1/2" />
         <div
-          className="relative mt-1 grid w-full items-center"
-          style={{
-            gridTemplateColumns: `repeat(${markerCount}, minmax(0, 1fr))`,
-          }}
-          aria-hidden
-        >
-          <div className="bg-border absolute inset-x-1 top-1/2 h-px -translate-y-1/2" />
-          <div
-            className="bg-primary absolute inset-x-1 top-1/2 h-px origin-left -translate-y-1/2"
-            style={{ transform: `scaleX(${completedRatio})` }}
-          />
-          {Array.from({ length: markerCount }, (_, index) => (
+          className="bg-primary absolute inset-x-1 top-1/2 h-px origin-left -translate-y-1/2"
+          style={{ transform: `scaleX(${completedRatio})` }}
+        />
+        {Array.from({ length: markerCount }, (_, index) => (
+          <span
+            key={index}
+            className="border-background bg-background relative z-10 size-2.5 justify-self-center rounded-full border"
+          >
             <span
-              key={index}
-              className="border-background bg-background relative z-10 size-2.5 justify-self-center rounded-full border"
-            >
-              <span
-                className={
-                  index < completedMarkers
-                    ? "bg-primary block size-full rounded-full"
-                    : "border-border bg-card block size-full rounded-full border"
-                }
-              />
-            </span>
-          ))}
-        </div>
+              className={
+                index < completedMarkers
+                  ? "bg-primary block size-full rounded-full"
+                  : "border-border bg-card block size-full rounded-full border"
+              }
+            />
+          </span>
+        ))}
       </div>
-    </div>
+    </MainlinePlayJourneyStatusItem>
   );
 };
 
@@ -151,7 +183,7 @@ export const MainlinePlayJourneyStatusPanel = ({
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_12rem]">
+      <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_12rem]">
         <MainlinePlayMilestoneSummary
           icon={appIcons.status.active}
           label="Last completed"
