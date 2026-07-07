@@ -27,7 +27,7 @@ const RelatedGameCard = ({ card }: { card: GameCard }) => {
       <article className="min-w-0">
         <div
           className={cn(
-            "bg-card/76 relative isolate aspect-square overflow-hidden rounded-lg border",
+            "bg-card relative isolate aspect-square overflow-hidden rounded-lg border",
             pokemonGameCardSurfaceClassName,
           )}
         >

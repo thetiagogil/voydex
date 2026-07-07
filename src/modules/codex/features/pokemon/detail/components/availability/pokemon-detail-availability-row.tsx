@@ -31,7 +31,7 @@ const PokemonDetailAvailabilityMedia = ({
   label,
 }: PokemonDetailAvailabilityMediaProps) => {
   return (
-    <div className="border-app-surface-border/70 bg-background/40 relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
+    <div className="border-app-surface-border/70 bg-background relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
       {imageUrl ? (
         <Image
           src={imageUrl}

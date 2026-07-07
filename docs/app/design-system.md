@@ -31,6 +31,14 @@ The desired mix:
 - Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
 - Generated screenshots are design references, not exact code specs. Implement the intent with real data, responsive behavior, accessibility, and existing app primitives.
 - Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
+- Standard cards, panels, tables, filters, and repeated data surfaces should use
+  solid semantic surfaces such as `bg-card`, `bg-background`, and `bg-popover`.
+  Do not create feature-local glass/opacity/backdrop recipes for normal data
+  surfaces. If a surface behavior repeats across modules, put it in a shared
+  primitive, variant, or helper.
+- Reserve alpha and backdrop effects for intentional visual layers: artwork
+  overlays, hero/media treatments, modal scrims, disabled states, and semantic
+  status tints.
 
 ## Color Tokens
 

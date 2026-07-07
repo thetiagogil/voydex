@@ -52,7 +52,7 @@ export const PokemonDetailLearnsetsCard = ({
         <>
           <div className="grid gap-3 px-4 py-3">
             <div className="flex min-w-0 flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-              <InputGroup className="bg-background/30 max-w-md xl:flex-1">
+              <InputGroup className="bg-background max-w-md xl:flex-1">
                 <InputGroupAddon>
                   <SearchIcon />
                 </InputGroupAddon>

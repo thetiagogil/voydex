@@ -60,13 +60,10 @@ export const pokemonTypeGroupHoverSurfaceClassName = cn(
 
 export const pokemonTypeCardSurfaceClassName = cn(
   "border-(--pokemon-type-color)/35",
-  "bg-card/94",
-  "backdrop-blur-xl",
+  "bg-card",
   "transition-all duration-200",
   "hover:border-(--pokemon-type-color)",
-  "hover:bg-card/98",
   "hover:shadow-(--pokemon-type-hover-shadow)",
   "focus-visible:border-(--pokemon-type-color)",
-  "focus-visible:bg-card/98",
   "focus-visible:shadow-(--pokemon-type-hover-shadow)",
 );

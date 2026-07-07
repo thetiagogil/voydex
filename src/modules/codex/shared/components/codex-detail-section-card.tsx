@@ -30,13 +30,7 @@ export const CodexDetailSectionCard = ({
   title,
 }: CodexDetailSectionCardProps) => {
   return (
-    <Card
-      id={id}
-      className={cn(
-        "bg-card/75 w-full min-w-0 gap-0 py-0 backdrop-blur-xl",
-        className,
-      )}
-    >
+    <Card id={id} className={cn("w-full min-w-0 gap-0 py-0", className)}>
       <CardHeader className={cn("px-4 py-2", headerClassName)}>
         <CardTitle className="text-muted-foreground text-xs font-light">
           {title}

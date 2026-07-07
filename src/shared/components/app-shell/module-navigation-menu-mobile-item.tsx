@@ -41,7 +41,7 @@ export const MobileModuleNavigationItem = ({
     <AccordionItem
       value={moduleKey}
       className={cn(
-        "bg-card/80 rounded-lg border px-0 last:border-b",
+        "bg-card rounded-lg border px-0 last:border-b",
         isLocked && "opacity-70",
       )}
     >

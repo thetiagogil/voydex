@@ -58,7 +58,7 @@ export const PokemonDetailFormsSection = ({
             aria-current={isActive ? "true" : undefined}
             style={getPokemonTypeCssVariables(typeSlug)}
             className={cn(
-              "border-app-surface-border/70 bg-background/30 focus-visible:ring-primary focus-visible:ring-offset-background min-w-0 rounded-lg border p-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+              "border-app-surface-border/70 bg-background focus-visible:ring-primary focus-visible:ring-offset-background min-w-0 rounded-lg border p-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               pokemonTypeHoverSurfaceClassName,
               isActive && pokemonTypeSelectedSurfaceClassName,
             )}

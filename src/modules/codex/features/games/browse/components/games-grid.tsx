@@ -72,7 +72,7 @@ const GamesGridCard = ({ card }: { card: GameCard }) => {
         pokemonGameCardSurfaceClassName,
       )}
     >
-      <article className="bg-card/76 relative isolate aspect-square w-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:18rem] [content-visibility:auto]">
+      <article className="bg-card relative isolate aspect-square w-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:18rem] [content-visibility:auto]">
         {card.coverImageUrl ? (
           <Image
             src={card.coverImageUrl}

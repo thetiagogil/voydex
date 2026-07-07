@@ -36,12 +36,8 @@ const PlayCardBody = ({ play }: PlaySummaryCardProps) => {
   return (
     <Card
       size="sm"
-      className={cn(
-        "h-full transition-colors",
-        play.play_id
-          ? "group-hover:bg-card/95 group-hover:ring-primary/50"
-          : "opacity-70",
-      )}
+      variant={play.play_id ? "interactive" : "default"}
+      className={cn("h-full", !play.play_id && "opacity-70")}
     >
       <CardContent className="grid h-full gap-4">
         <div className="flex min-w-0 items-start justify-between gap-4">
@@ -108,7 +104,7 @@ export const PlaySummaryCard = ({ play }: PlaySummaryCardProps) => {
     <Link
       href={appRoutes.mainlinePlay(play.play_id)}
       aria-label={`Open ${title}`}
-      className="group focus-visible:ring-ring/50 block rounded-xl outline-none focus-visible:ring-3"
+      className="group/card-link focus-visible:ring-ring/50 block rounded-xl outline-none focus-visible:ring-3"
     >
       <PlayCardBody play={play} />
     </Link>

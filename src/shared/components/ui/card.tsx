@@ -1,21 +1,41 @@
 import * as React from "react";
+
+import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
+
+const cardVariants = cva(
+  "group/card text-card-foreground ring-app-surface-border flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-sm shadow-(--app-surface-shadow) ring-1 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+  {
+    variants: {
+      size: {
+        default: "",
+        sm: "",
+      },
+      variant: {
+        default: "bg-card",
+        interactive:
+          "bg-card transition-colors hover:bg-muted focus-visible:bg-muted group-hover/card-link:bg-muted group-focus-visible/card-link:bg-muted",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+      variant: "default",
+    },
+  },
+);
 
 const Card = ({
   className,
   size = "default",
+  variant = "default",
   ...props
-}: React.ComponentProps<"div"> & {
-  size?: "default" | "sm";
-}) => {
+}: React.ComponentProps<"div"> & VariantProps<typeof cardVariants>) => {
   return (
     <div
       data-slot="card"
       data-size={size}
-      className={cn(
-        "group/card bg-card/86 text-card-foreground ring-app-surface-border flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-sm shadow-(--app-surface-shadow) ring-1 backdrop-blur-md [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
-        className,
-      )}
+      className={cn(cardVariants({ size, variant }), className)}
       {...props}
     />
   );
@@ -88,7 +108,7 @@ const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="card-footer"
       className={cn(
-        "bg-muted/40 border-app-surface-border flex items-center rounded-b-xl border-t p-(--card-spacing)",
+        "bg-muted border-app-surface-border flex items-center rounded-b-xl border-t p-(--card-spacing)",
         className,
       )}
       {...props}
@@ -98,10 +118,11 @@ const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
 
 export {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  cardVariants,
 };

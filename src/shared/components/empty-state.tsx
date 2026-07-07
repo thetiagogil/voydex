@@ -14,7 +14,7 @@ type EmptyStateProps = {
 
 export const EmptyState = ({ action, description, title }: EmptyStateProps) => {
   return (
-    <Empty className="bg-card/80 border border-dashed">
+    <Empty className="bg-card border border-dashed">
       <EmptyHeader>
         <EmptyTitle>{title}</EmptyTitle>
         <EmptyDescription>{description}</EmptyDescription>

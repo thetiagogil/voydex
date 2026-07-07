@@ -28,7 +28,7 @@ export const GameDetailPokedexesSection = ({
             <Link
               key={pokedex.id}
               href={appRoutes.codexGamePokedex(data.game.slug, pokedex.slug)}
-              className="bg-background/28 ring-app-surface-border hover:bg-muted/35 focus-visible:ring-ring focus-visible:ring-offset-background group flex min-h-16 items-center gap-3 rounded-lg px-3 py-2.5 ring-1 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="bg-background ring-app-surface-border hover:bg-muted focus-visible:ring-ring focus-visible:ring-offset-background group flex min-h-16 items-center gap-3 rounded-lg px-3 py-2.5 ring-1 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <div className="min-w-0 flex-1">
                 <h3 className="text-foreground truncate text-sm leading-6 font-medium">

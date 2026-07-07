@@ -18,7 +18,7 @@ export const PokemonDetailTopSection = ({
   generations,
 }: PokemonDetailTopSectionProps) => {
   return (
-    <section className="ring-app-surface-border bg-card/75 rounded-xl p-3 shadow-(--app-surface-shadow) ring-1 backdrop-blur-xl sm:p-5">
+    <section className="bg-card ring-app-surface-border rounded-xl p-3 shadow-(--app-surface-shadow) ring-1 sm:p-5">
       <div className="flex min-w-0 flex-col items-start gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
         <PokemonDetailSpeciesSelector
           activeGameSlug={activeGameSlug}

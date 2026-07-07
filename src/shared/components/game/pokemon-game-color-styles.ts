@@ -40,13 +40,10 @@ export const pokemonGameSoftBorderClassName =
 
 export const pokemonGameCardSurfaceClassName = cn(
   "border-(--pokemon-game-color)/35",
-  "bg-card/94",
-  "backdrop-blur-xl",
+  "bg-card",
   "transition-all duration-200",
   "hover:border-(--pokemon-game-color)",
-  "hover:bg-card/98",
   "hover:shadow-(--pokemon-game-hover-shadow)",
   "focus-visible:border-(--pokemon-game-color)",
-  "focus-visible:bg-card/98",
   "focus-visible:shadow-(--pokemon-game-hover-shadow)",
 );

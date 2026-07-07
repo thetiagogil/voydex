@@ -10,7 +10,7 @@ export const getPokemonDetailGenerationTriggerClassName = ({
   isActive,
 }: PokemonDetailGenerationTriggerClassNameParams) => {
   return cn(
-    "border-app-surface-border bg-card/68 h-9 border px-0 backdrop-blur-md",
+    "border-app-surface-border bg-card h-9 border px-0",
     isActive && "border-primary bg-primary/10 text-primary",
     className,
   );

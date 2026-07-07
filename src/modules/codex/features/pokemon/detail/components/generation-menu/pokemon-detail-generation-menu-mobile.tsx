@@ -49,7 +49,7 @@ const PokemonDetailGenerationMenuMobileItem = ({
       </SheetTrigger>
       <SheetContent
         side="bottom"
-        className="border-app-surface-border bg-popover/96 max-h-[82dvh] gap-0 rounded-t-xl p-0 backdrop-blur-xl md:hidden"
+        className="border-app-surface-border bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0 md:hidden"
       >
         <SheetHeader>
           <SheetTitle>Generation {generation.label}</SheetTitle>

@@ -32,7 +32,7 @@ export const PokemonDetailActionPortrait = ({
       loading="eager"
       sizes={isCompact ? "36px" : "(min-width: 640px) 72px, 64px"}
       className={cn(
-        "border-app-surface-border/70 bg-background/30 rounded-full",
+        "border-app-surface-border/70 bg-background rounded-full",
         pokemonTypeGroupHoverSurfaceClassName,
         isActive && pokemonTypeSelectedSurfaceClassName,
         isCompact ? "size-12" : "size-16 sm:size-18",

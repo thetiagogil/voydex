@@ -27,7 +27,7 @@ export const InfoTile = ({
   return (
     <div
       className={cn(
-        "bg-background/45 ring-app-surface-border rounded-lg p-3 ring-1",
+        "bg-card ring-app-surface-border rounded-lg p-3 ring-1",
         className,
       )}
     >

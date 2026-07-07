@@ -9,7 +9,7 @@ export const CodexFilterPanel = ({
   return (
     <form
       className={cn(
-        "bg-card/78 ring-app-surface-border grid gap-3 rounded-xl p-3 ring-1 backdrop-blur-md",
+        "bg-card text-card-foreground ring-app-surface-border grid gap-3 rounded-xl p-3 shadow-(--app-surface-shadow) ring-1",
         className,
       )}
       {...props}

@@ -23,6 +23,7 @@ import type {
   GamePokedexData,
   GamePokedexPokemon,
 } from "@/modules/codex/shared/types";
+import { Card } from "@/shared/components/ui/card";
 import {
   Table,
   TableBody,
@@ -61,7 +62,7 @@ export const GamePokedexTable = ({
   }
 
   return (
-    <div className="bg-card/75 ring-app-surface-border overflow-hidden rounded-xl ring-1 backdrop-blur-xl">
+    <Card className="p-0">
       <Table
         className={`${getGamePokedexTableMinWidthClassName(
           hasAbilities,
@@ -181,6 +182,6 @@ export const GamePokedexTable = ({
           })}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   );
 };
