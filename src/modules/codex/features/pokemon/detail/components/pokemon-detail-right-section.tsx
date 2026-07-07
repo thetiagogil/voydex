@@ -22,7 +22,6 @@ export const PokemonDetailRightSection = ({
     return detail.versionGroups;
   });
   const pokedexNumbers = getPokemonDetailPokedexNumbers({
-    allPokedexEntries: data.pokedexEntries,
     scopedPokedexEntries: scope.pokedexEntries,
   });
 

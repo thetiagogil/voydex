@@ -130,6 +130,30 @@ const dedupeLearnsetRows = (rows: PokemonDetailLearnsetRow[]) => {
   });
 };
 
+const getPokedexVersionGroupScopeIds = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope | null,
+) => {
+  if (!versionGroup) {
+    return null;
+  }
+
+  const activeVersionGroupId = versionGroup.versionGroup.id;
+  const scopeIds = new Set([activeVersionGroupId]);
+
+  if (!versionGroup.versionGroup.parent_version_group_id) {
+    generation.versionGroups.forEach((candidateVersionGroup) => {
+      if (
+        candidateVersionGroup.parent_version_group_id === activeVersionGroupId
+      ) {
+        scopeIds.add(candidateVersionGroup.id);
+      }
+    });
+  }
+
+  return scopeIds;
+};
+
 export const getScopedForms = (
   generation: PokemonGenerationDetail,
   versionGroup: PokemonDetailVersionGroupScope | null,
@@ -198,9 +222,17 @@ export const getScopedPokedexEntries = (
   versionGroup: PokemonDetailVersionGroupScope | null,
   form: PokemonGenerationFormSummary | null,
 ) => {
-  const versionGroupEntries = versionGroup
+  const versionGroupScopeIds = getPokedexVersionGroupScopeIds(
+    generation,
+    versionGroup,
+  );
+  const versionGroupEntries = versionGroupScopeIds
     ? generation.pokedexEntries.filter(({ pokedex }) => {
-        return pokedex?.version_group_id === versionGroup.versionGroup.id;
+        return (
+          pokedex?.version_group_id !== null &&
+          pokedex?.version_group_id !== undefined &&
+          versionGroupScopeIds.has(pokedex.version_group_id)
+        );
       })
     : generation.pokedexEntries;
   const scopedEntries = versionGroupEntries.filter(({ entry }) => {

@@ -33,6 +33,7 @@ export const GameDetailSection = ({
       className={cn(
         "h-full gap-0 py-0 backdrop-blur-xl",
         "bg-card/75",
+        "w-full min-w-0",
         className,
       )}
     >

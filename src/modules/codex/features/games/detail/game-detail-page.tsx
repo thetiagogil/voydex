@@ -22,17 +22,17 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
   return (
     <div
       style={getPokemonGameColorCssVariables(data.game.slug)}
-      className="flex flex-col gap-4"
+      className="flex w-full min-w-0 flex-col gap-4"
     >
       <CodexBackLink href={appRoutes.codexGames}>Back to games</CodexBackLink>
 
       <GameDetailHero data={data} />
 
-      <div className="grid items-start gap-4 lg:grid-cols-3 lg:[--game-detail-panels-height:17rem] xl:[--game-detail-panels-height:16.5rem]">
-        <div className="lg:h-(--game-detail-panels-height) lg:min-h-0">
+      <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-3 lg:[--game-detail-panels-height:17rem] xl:[--game-detail-panels-height:16.5rem]">
+        <div className="min-w-0 lg:h-(--game-detail-panels-height) lg:min-h-0">
           <GameDetailPokedexesSection data={data} />
         </div>
-        <div className="lg:col-span-2 lg:h-(--game-detail-panels-height) lg:min-h-0">
+        <div className="min-w-0 lg:col-span-2 lg:h-(--game-detail-panels-height) lg:min-h-0">
           <GameDetailRelatedGamesSection data={data} />
         </div>
       </div>

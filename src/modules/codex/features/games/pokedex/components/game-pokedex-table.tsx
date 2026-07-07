@@ -39,7 +39,7 @@ type GamePokedexPokemonType = NonNullable<
   GamePokedexPokemon["typePair"]["primaryType"]
 >;
 
-const spriteColumnClassName = "w-18 min-w-18 max-w-18";
+const spriteColumnClassName = "w-14 min-w-14 max-w-14";
 const dexColumnClassName = "w-16 min-w-16 max-w-16";
 const statColumnClassName = "w-12 min-w-12 max-w-12";
 
@@ -173,7 +173,7 @@ export const GamePokedexTable = ({
         </colgroup>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className={`${spriteColumnClassName} px-3`}>
+            <TableHead className={`${spriteColumnClassName} text-center`}>
               Sprite
             </TableHead>
             <TableHead className={`${dexColumnClassName} text-center`}>
@@ -230,7 +230,7 @@ export const GamePokedexTable = ({
                   router.prefetch(href);
                 }}
               >
-                <TableCell className={`${spriteColumnClassName} px-3`}>
+                <TableCell className={`${spriteColumnClassName}`}>
                   <PokemonSpriteCell pokemon={entry} />
                 </TableCell>
                 <TableCell

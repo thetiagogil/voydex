@@ -22,7 +22,7 @@ export const GameDetailPokedexesSection = ({
       contentClassName="p-3 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-hidden"
     >
       {data.pokedexes.length ? (
-        <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1 lg:scrollbar-gutter-stable lg:overflow-y-auto lg:px-px lg:py-px lg:pr-2">
+        <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1 lg:scrollbar-gutter-stable lg:overflow-y-auto lg:px-px lg:py-px">
           {data.pokedexes.map(({ pokedex, pokemonCount }) => (
             <Link
               key={pokedex.id}

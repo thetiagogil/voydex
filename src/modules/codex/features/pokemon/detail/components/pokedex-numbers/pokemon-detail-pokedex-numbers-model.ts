@@ -115,10 +115,8 @@ const collectPokemonDetailPokedexNumbers = ({
 };
 
 export const getPokemonDetailPokedexNumbers = ({
-  allPokedexEntries,
   scopedPokedexEntries,
 }: {
-  allPokedexEntries: PokemonPokedexSummary[];
   scopedPokedexEntries: PokemonPokedexSummary[];
 }) => {
   const seenIds = new Set<string>();
@@ -126,7 +124,7 @@ export const getPokemonDetailPokedexNumbers = ({
   return [
     ...collectPokemonDetailPokedexNumbers({
       includeNational: true,
-      pokedexEntries: allPokedexEntries,
+      pokedexEntries: scopedPokedexEntries,
       seenIds,
     }),
     ...collectPokemonDetailPokedexNumbers({

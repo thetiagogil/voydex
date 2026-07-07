@@ -14,6 +14,7 @@ import {
 import { getPokemonGameColorCssVariables } from "@/shared/components/game/pokemon-game-color-styles";
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { Card } from "@/shared/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
@@ -174,11 +175,21 @@ const GameDetailPlatformsValue = ({ data }: GameDetailHeroProps) => {
   );
 };
 
-const GameDetailActions = () => {
+const getBrowsePokemonHref = (data: GameDetailData) => {
+  const firstPokedex = data.pokedexes[0]?.pokedex;
+
+  if (!firstPokedex) {
+    return appRoutes.codexPokemon;
+  }
+
+  return appRoutes.codexGamePokedex(data.game.slug, firstPokedex.slug);
+};
+
+const GameDetailActions = ({ data }: GameDetailHeroProps) => {
   return (
     <div className="flex flex-wrap gap-3">
       <Link
-        href={appRoutes.codexPokemon}
+        href={getBrowsePokemonHref(data)}
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
           "text-background h-10 bg-(--pokemon-game-color) px-4 hover:bg-(--pokemon-game-color)/90 has-data-[icon=inline-start]:pl-3",
@@ -212,7 +223,7 @@ const GameDetailHeroContent = ({ data }: GameDetailHeroProps) => {
         <GameDetailSummary data={data} />
       </div>
 
-      <GameDetailActions />
+      <GameDetailActions data={data} />
     </div>
   );
 };
@@ -227,9 +238,9 @@ const GameDetailFact = ({
   value: ReactNode;
 }) => {
   return (
-    <div className="flex min-w-0 items-stretch gap-3">
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-(--pokemon-game-color)/10 text-(--pokemon-game-color) ring-1 ring-(--pokemon-game-color)/24">
-        <AppIcon icon={icon} size="sm" />
+    <div className="flex min-w-0 items-center gap-3">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-(--pokemon-game-color)/10 text-(--pokemon-game-color) ring-1 ring-(--pokemon-game-color)/24">
+        <AppIcon icon={icon} size="xs" />
       </div>
       <div className="min-w-0">
         <dt className="text-muted-foreground text-xs leading-5">{label}</dt>
@@ -243,9 +254,9 @@ const GameDetailFact = ({
 
 export const GameDetailHero = ({ data }: GameDetailHeroProps) => {
   return (
-    <section
+    <Card
       style={getPokemonGameColorCssVariables(data.game.slug)}
-      className="bg-card/30 relative isolate overflow-hidden rounded-xl shadow-(--app-surface-shadow)"
+      className="relative isolate w-full min-w-0 overflow-hidden rounded-xl p-0"
     >
       <GameDetailHeroBackdrop data={data} />
       <div className="relative z-10 flex flex-col gap-6 p-5 sm:p-6 lg:p-8">
@@ -264,6 +275,6 @@ export const GameDetailHero = ({ data }: GameDetailHeroProps) => {
           <GameDetailFactList data={data} />
         </div>
       </div>
-    </section>
+    </Card>
   );
 };
