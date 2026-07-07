@@ -4,8 +4,8 @@ import { SearchIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import {
-  pokemonDetailLearnsetMetricsGridClassName,
   pokemonDetailLearnsetGridClassName,
+  pokemonDetailLearnsetMetricsGridClassName,
   PokemonDetailLearnsetRow,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-row";
 import {
@@ -14,8 +14,8 @@ import {
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { Button } from "@/shared/components/ui/button";
 import {
   InputGroup,
@@ -47,7 +47,7 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <DetailSectionCard title="Learnsets" contentClassName="p-0">
+    <DetailSectionCard title="Learnsets" contentClassName="p-0" showSeparator>
       {learnsets.length ? (
         <>
           <div className="grid gap-3 px-4 py-3">

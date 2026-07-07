@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { Separator } from "@/shared/components/ui/separator";
 import {
   formatPokemonHeight,
@@ -52,6 +52,7 @@ export const PokemonDetailCoreDataCard = ({
     <DetailSectionCard
       title="Core Data"
       contentClassName="flex flex-col gap-4 md:flex-row md:items-stretch"
+      showSeparator
     >
       <PokemonDetailCoreDataField label="Types" className="md:flex-[1.35]">
         <PokemonTypeList

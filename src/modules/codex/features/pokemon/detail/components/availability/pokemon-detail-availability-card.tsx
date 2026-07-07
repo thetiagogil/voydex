@@ -1,12 +1,12 @@
 import { getPokemonDetailAvailabilityKey } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { PokemonDetailAvailabilityRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-row";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type {
   Game,
   PokemonAvailabilitySummary,
   VersionGroup,
 } from "@/modules/codex/shared/types";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAvailabilityCardProps = {
   activeGame: Game | null;
@@ -20,7 +20,11 @@ export const PokemonDetailAvailabilityCard = ({
   availability,
 }: PokemonDetailAvailabilityCardProps) => {
   return (
-    <DetailSectionCard title="Availability" contentClassName="p-0">
+    <DetailSectionCard
+      title="Availability"
+      contentClassName="p-0"
+      showSeparator
+    >
       {availability.length ? (
         <div className="overflow-x-auto">
           <div

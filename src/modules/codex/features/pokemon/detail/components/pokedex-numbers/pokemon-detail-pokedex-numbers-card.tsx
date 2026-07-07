@@ -40,7 +40,7 @@ export const PokemonDetailPokedexNumbersCard = ({
   }
 
   return (
-    <DetailSectionCard title="Pokédex" contentClassName="p-0">
+    <DetailSectionCard title="Pokédex" contentClassName="p-0" showSeparator>
       <div className="overflow-x-auto">
         <div
           className={cn(

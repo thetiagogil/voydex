@@ -78,7 +78,7 @@ export const DetailSectionCard = ({
       </CardHeader>
 
       {showSeparator ? (
-        <Separator className="bg-app-surface-border/70" />
+        <Separator className="bg-app-surface-border/60" />
       ) : null}
 
       <CardContent

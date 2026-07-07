@@ -6,8 +6,8 @@ import {
   getPokemonDetailTypeMatchupChart,
   type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import {
   Tooltip,
@@ -116,11 +116,12 @@ export const PokemonDetailTypeMatchupsCard = ({
       title="Type Matchups"
       className="h-full"
       contentClassName="p-0"
+      showSeparator
     >
       <div className="overflow-x-auto">
         <div className="min-w-xl">
           <div
-            className="border-app-surface-border/60 grid items-center gap-1 border-b px-4 py-3"
+            className="grid items-center gap-1 px-4 py-2"
             style={chartGridStyle}
           >
             {chartColumns.map((column) => (
@@ -132,7 +133,7 @@ export const PokemonDetailTypeMatchupsCard = ({
           </div>
 
           <div
-            className="grid items-center gap-1 px-4 py-3"
+            className="grid items-center gap-1 px-4 py-2"
             style={chartGridStyle}
           >
             {chartColumns.map((column) => (
