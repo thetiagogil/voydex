@@ -9,6 +9,7 @@ import type {
   MainlinePlayRegion,
   MainlinePlayTeamMember,
   MainlinePlayTeamMemberRow,
+  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/shared/domain/games/game-images";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
@@ -280,6 +281,26 @@ const loadMainlinePlayMilestoneOverview = async (
   };
 };
 
+const loadMainlinePlayTimelinePreview = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+): Promise<MainlinePlayTimelineEvent[]> => {
+  const timelineResult = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("*")
+    .eq("play_id", playId)
+    .order("timeline_order", { ascending: false })
+    .order("happened_at", { ascending: false })
+    .limit(5);
+
+  if (timelineResult.error) {
+    throw new Error("Unable to load Mainline play timeline preview.");
+  }
+
+  return timelineResult.data ?? [];
+};
+
 export const loadMainlinePlayPageData = async (
   supabase: ServerSupabaseClient,
   userId: string,
@@ -302,7 +323,7 @@ export const loadMainlinePlayPageData = async (
     return null;
   }
 
-  const [gameData, overview, rules, teamPreview, milestones] =
+  const [gameData, overview, rules, teamPreview, milestones, timelinePreview] =
     await Promise.all([
       loadMainlinePlayGameData(supabase, playResult.data.game_id),
       loadMainlinePlayOverview(supabase, userId, playId),
@@ -313,6 +334,7 @@ export const loadMainlinePlayPageData = async (
         playResult.data.generation_id,
       ),
       loadMainlinePlayMilestoneOverview(supabase, playId),
+      loadMainlinePlayTimelinePreview(supabase, playId),
     ]);
 
   return {
@@ -322,5 +344,6 @@ export const loadMainlinePlayPageData = async (
     play: playResult.data,
     rules,
     teamPreview,
+    timelinePreview,
   };
 };

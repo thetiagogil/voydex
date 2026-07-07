@@ -12,6 +12,8 @@ export type MainlinePlayPokemonAttributes = ReferenceRow<"pokemon_attributes">;
 export type MainlinePlayPokemonType = ReferenceRow<"types">;
 export type MainlinePlayRegion = ReferenceRow<"regions">;
 export type MainlinePlayTeamMemberRow = ViewRow<"mainline_play_team_detail">;
+export type MainlinePlayTimelineEvent =
+  ViewRow<"mainline_play_timeline_detail">;
 export type MainlinePlayTeamMember = MainlinePlayTeamMemberRow & {
   primaryType: MainlinePlayPokemonType | null;
   secondaryType: MainlinePlayPokemonType | null;
@@ -29,6 +31,7 @@ export type MainlinePlayPageData = {
   region: MainlinePlayRegion | null;
   rules: MainlineChallengeRule[];
   teamPreview: MainlinePlayTeamMember[];
+  timelinePreview: MainlinePlayTimelineEvent[];
 };
 
 export type MainlinePlaysPageData = {

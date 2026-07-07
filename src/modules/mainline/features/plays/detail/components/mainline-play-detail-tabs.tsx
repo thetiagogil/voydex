@@ -1,5 +1,5 @@
 import { MainlinePlayHistoryTab } from "@/modules/mainline/features/plays/detail/components/history/mainline-play-history-tab";
-import { MainlinePlayOverviewTab } from "@/modules/mainline/features/plays/detail/components/overview/mainline-play-overview-tab";
+import { OverviewTab } from "@/modules/mainline/features/plays/detail/components/overview/overview-tab";
 import { MainlinePlayPlansTab } from "@/modules/mainline/features/plays/detail/components/plans/mainline-play-plans-tab";
 import { MainlinePlayProgressTab } from "@/modules/mainline/features/plays/detail/components/progress/mainline-play-progress-tab";
 import { MainlinePlaySettingsTab } from "@/modules/mainline/features/plays/detail/components/settings/mainline-play-settings-tab";
@@ -58,7 +58,7 @@ export const MainlinePlayDetailTabs = ({
 
         <CardContent className="pt-2">
           <TabsContent value="overview">
-            <MainlinePlayOverviewTab data={data} />
+            <OverviewTab data={data} />
           </TabsContent>
           <TabsContent value="team">
             <MainlinePlayTeamTab />
