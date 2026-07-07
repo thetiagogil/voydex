@@ -6,7 +6,7 @@ import {
   getPokemonDetailTypeMatchupChart,
   type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
-import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import {
@@ -112,7 +112,7 @@ export const PokemonDetailTypeMatchupsCard = ({
   } satisfies CSSProperties;
 
   return (
-    <CodexDetailSectionCard
+    <DetailSectionCard
       title="Type Matchups"
       className="h-full"
       contentClassName="p-0"
@@ -144,6 +144,6 @@ export const PokemonDetailTypeMatchupsCard = ({
           </div>
         </div>
       </div>
-    </CodexDetailSectionCard>
+    </DetailSectionCard>
   );
 };

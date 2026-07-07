@@ -1,7 +1,7 @@
 import { getPokemonDetailAvailabilityKey } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { PokemonDetailAvailabilityRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-row";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
-import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type {
   Game,
   PokemonAvailabilitySummary,
@@ -20,7 +20,7 @@ export const PokemonDetailAvailabilityCard = ({
   availability,
 }: PokemonDetailAvailabilityCardProps) => {
   return (
-    <CodexDetailSectionCard title="Availability" contentClassName="p-0">
+    <DetailSectionCard title="Availability" contentClassName="p-0">
       {availability.length ? (
         <div className="overflow-x-auto">
           <div
@@ -46,6 +46,6 @@ export const PokemonDetailAvailabilityCard = ({
           No availability data recorded for the selected scope.
         </p>
       )}
-    </CodexDetailSectionCard>
+    </DetailSectionCard>
   );
 };

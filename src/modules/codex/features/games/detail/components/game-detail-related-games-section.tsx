@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/lib/utils";
-import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
 import type { GameCard, GameDetailData } from "@/modules/codex/shared/types";
 import {
@@ -55,7 +55,7 @@ export const GameDetailRelatedGamesSection = ({
   data,
 }: GameDetailRelatedGamesSectionProps) => {
   return (
-    <CodexDetailSectionCard
+    <DetailSectionCard
       title="Related games"
       headerClassName="py-3"
       className="h-auto lg:h-full lg:min-h-0"
@@ -80,6 +80,6 @@ export const GameDetailRelatedGamesSection = ({
       ) : (
         <CodexInlineEmpty>No related games are seeded.</CodexInlineEmpty>
       )}
-    </CodexDetailSectionCard>
+    </DetailSectionCard>
   );
 };

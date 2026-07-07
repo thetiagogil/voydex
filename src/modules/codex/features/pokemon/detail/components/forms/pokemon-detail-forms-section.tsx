@@ -7,7 +7,7 @@ import {
   getPokemonDetailFormTypeSlug,
   isPokemonDetailFormEqual,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
 import {
   getPokemonTypeCssVariables,
@@ -41,7 +41,7 @@ export const PokemonDetailFormsSection = ({
   }
 
   return (
-    <CodexDetailSectionCard title="Forms" contentClassName="grid min-w-0 gap-2">
+    <DetailSectionCard title="Forms" contentClassName="grid min-w-0 gap-2">
       {forms.map((form) => {
         const isActive = isPokemonDetailFormEqual(form, activeForm);
         const typeSlug = getPokemonDetailFormTypeSlug(form);
@@ -75,6 +75,6 @@ export const PokemonDetailFormsSection = ({
           </Link>
         );
       })}
-    </CodexDetailSectionCard>
+    </DetailSectionCard>
   );
 };

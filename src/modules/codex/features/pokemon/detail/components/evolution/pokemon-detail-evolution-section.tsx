@@ -8,7 +8,7 @@ import {
   getPokemonDetailEvolutionPaths,
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
-import { CodexDetailSectionCard } from "@/modules/codex/shared/components/codex-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
 
 type PokemonDetailEvolutionSectionProps = {
@@ -78,10 +78,7 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionNodeLinkScope;
 
   return (
-    <CodexDetailSectionCard
-      title="Evolution line"
-      contentClassName="grid gap-2"
-    >
+    <DetailSectionCard title="Evolution line" contentClassName="grid gap-2">
       {evolutionPaths.map((path) => (
         <div
           key={path.key}
@@ -128,6 +125,6 @@ export const PokemonDetailEvolutionSection = ({
           ))}
         </div>
       ))}
-    </CodexDetailSectionCard>
+    </DetailSectionCard>
   );
 };
