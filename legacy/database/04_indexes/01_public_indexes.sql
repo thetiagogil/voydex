@@ -1,7 +1,0 @@
--- ============================================================================
--- Secondary Indexes: public schema
--- Performance indexes applied AFTER seeding. Not required for data integrity.
--- Run: db:index or db:index:public | Drop: db:index:drop or db:index:drop:public
--- ============================================================================
--- No secondary indexes currently required for public schema.
--- Keep this file for consistency and future additions.
