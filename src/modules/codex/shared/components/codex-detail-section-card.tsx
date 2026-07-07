@@ -18,7 +18,6 @@ type CodexDetailSectionCardProps = {
   headerClassName?: string;
   id?: string;
   title: ReactNode;
-  titleVariant?: "default" | "eyebrow";
 };
 
 export const CodexDetailSectionCard = ({
@@ -29,7 +28,6 @@ export const CodexDetailSectionCard = ({
   headerClassName,
   id,
   title,
-  titleVariant = "default",
 }: CodexDetailSectionCardProps) => {
   return (
     <Card
@@ -40,14 +38,7 @@ export const CodexDetailSectionCard = ({
       )}
     >
       <CardHeader className={cn("px-4 py-2", headerClassName)}>
-        <CardTitle
-          className={cn(
-            "text-muted-foreground text-xs",
-            titleVariant === "eyebrow"
-              ? "font-medium tracking-wider uppercase"
-              : "font-semibold",
-          )}
-        >
+        <CardTitle className="text-muted-foreground text-xs font-light">
           {title}
         </CardTitle>
         {description ? (

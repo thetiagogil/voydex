@@ -64,7 +64,7 @@ const GameDetailFact = ({
   return (
     <div className="flex min-w-0 items-center gap-3">
       <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-(--pokemon-game-color)/10 text-(--pokemon-game-color) ring-1 ring-(--pokemon-game-color)/24">
-        <AppIcon icon={icon} size="xs" />
+        <AppIcon icon={icon} size="md" />
       </div>
       <div className="min-w-0">
         <dt className="text-muted-foreground text-xs leading-5">{label}</dt>

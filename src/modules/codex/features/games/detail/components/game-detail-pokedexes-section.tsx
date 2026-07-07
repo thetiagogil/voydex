@@ -18,7 +18,6 @@ export const GameDetailPokedexesSection = ({
     <CodexDetailSectionCard
       id="game-pokedexes"
       title="Game Pokédexes"
-      titleVariant="eyebrow"
       headerClassName="py-3"
       className="h-auto lg:h-full lg:min-h-0"
       contentClassName="p-3 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-hidden"
