@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils";
-import { RecentHistoryMedia } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-media";
-import { getTimelineMedia } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-media-model";
+import { formatTimelineDate } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-date";
 import {
   getTimelineDescription,
   getTimelineEventDisplay,
   timelineEventToneClassNames,
 } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-display";
-import { formatTimelineDate } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-date";
+import { RecentHistoryMedia } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-media";
+import { getTimelineMedia } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-media-model";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon } from "@/shared/components/app-icon";
 
@@ -20,7 +20,7 @@ export const RecentHistoryRow = ({ event }: RecentHistoryRowProps) => {
   const media = getTimelineMedia(event);
 
   return (
-    <article className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] gap-3 py-1 sm:grid-cols-[1.5rem_4.5rem_2.75rem_minmax(0,1fr)_minmax(5rem,auto)] sm:items-center">
+    <article className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] gap-3 sm:grid-cols-[1.5rem_4.5rem_2.75rem_minmax(0,1fr)_minmax(5rem,auto)] sm:items-center">
       <div className="relative hidden h-full min-h-14 justify-items-center sm:grid">
         <span className="bg-card relative z-10 flex size-4 items-center justify-center place-self-center rounded-full">
           <span className="bg-primary size-2 rounded-full" aria-hidden />
