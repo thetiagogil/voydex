@@ -27,7 +27,7 @@ export const GameDetailHeroActions = ({ data }: GameDetailHeroActionsProps) => {
         href={getBrowsePokemonHref(data)}
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          "text-background h-10 bg-(--pokemon-game-color) px-4 hover:bg-(--pokemon-game-color)/90 has-data-[icon=inline-start]:pl-3",
+          "text-background bg-(--pokemon-game-color) hover:bg-(--pokemon-game-color)/90",
         )}
       >
         <AppIcon icon={appIcons.product.pokedex} inline="start" aria-hidden />
