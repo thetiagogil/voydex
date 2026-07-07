@@ -10,7 +10,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
-import { buttonVariants } from "@/shared/components/ui/button";
+import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { ButtonGroup } from "@/shared/components/ui/button-group";
 import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
 import {
@@ -230,17 +230,16 @@ export const MainlinePlayTeamPanel = ({
         ))}
       </div>
 
-      <Link
-        href={teamHref}
-        className={buttonVariants({
-          variant: "outline",
-          size: "sm",
-          className: "w-full",
-        })}
+      <Button
+        render={<Link href={teamHref} />}
+        nativeButton={false}
+        variant="outline"
+        size="sm"
+        className="w-full"
       >
         View full team
         <AppIcon icon={appIcons.actions.continue} inline="end" aria-hidden />
-      </Link>
+      </Button>
     </DetailSectionCard>
   );
 };
