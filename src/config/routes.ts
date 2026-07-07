@@ -14,7 +14,6 @@ export const appRoutes = {
   intro: "/intro",
   login: "/login",
   mainline: "/mainline",
-  mainlineDashboard: "/mainline/dashboard",
   mainlineNewPlay: "/mainline/plays/new",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
   mainlinePlayCollectibles: (playId: string) =>

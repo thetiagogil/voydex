@@ -28,18 +28,13 @@ export const modules = {
   },
   mainline: {
     basePath: appRoutes.mainline,
-    defaultHref: appRoutes.mainlineDashboard,
+    defaultHref: appRoutes.mainlinePlays,
     description: "Track teams, progress, and memories across each run.",
     label: productFamilies.mainline.workspaceLabel,
     productFamily: productFamilies.mainline,
     requiresAuthentication: true,
     slug: "mainline",
     views: [
-      {
-        href: appRoutes.mainlineDashboard,
-        label: "Dashboard",
-        slug: "dashboard",
-      },
       {
         href: appRoutes.mainlinePlays,
         label: "Plays",
