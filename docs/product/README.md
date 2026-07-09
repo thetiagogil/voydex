@@ -1,8 +1,8 @@
 # Voydex Product Docs
 
-These docs define the product contract for the clean Voydex rebuild.
-
-The current root app is the active implementation. The old prototype is preserved in `legacy/` for reference only and should not be imported from by new code.
+These docs define the Voydex product contract. They include both implemented
+behavior and accepted future direction; implementation-status claims should be
+checked against `docs/codex-handoff.md` and current code.
 
 Database table-level details live in `00-databases/projects/voydex/docs`. Product docs in this repo should explain user behavior, app flow, and app-facing expectations.
 

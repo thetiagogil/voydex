@@ -3,7 +3,7 @@
 Voydex uses a dedicated Supabase project. The active database source lives in:
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex
+../00-databases/projects/voydex
 ```
 
 This app repo consumes the database contract; it does not own schema or seed source.

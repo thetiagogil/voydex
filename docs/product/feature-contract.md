@@ -92,7 +92,9 @@ It should summarize:
 - Timeline highlights.
 - Selected optional content such as DLC.
 
-The Play Hub should link to deeper play-specific routes instead of trying to expose every control on one page.
+The current Play Hub is a tabbed workspace. Focused deep routes may be added when
+a real workflow benefits from its own URL; do not create or link empty routes
+for tab shells.
 
 Current Overview direction:
 

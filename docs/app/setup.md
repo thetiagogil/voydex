@@ -4,7 +4,7 @@ This document covers the app repo. Database source and Supabase reset commands l
 
 ## Requirements
 
-- Node.js compatible with the checked-in lockfile.
+- Node.js 20.9 or newer, matching the requirement of the locked Next.js version.
 - npm.
 - Access to the Voydex Supabase project or a local Supabase instance.
 
@@ -41,6 +41,11 @@ npm run lint
 npm run build
 ```
 
+There is currently no repository test script, standalone typecheck script, or
+committed browser-test configuration. `npm run build` is the available
+TypeScript/build integration gate; add focused tests when a feature introduces a
+test harness.
+
 ## Database Type Updates
 
 Generated database types are committed at:
@@ -64,7 +69,7 @@ Local Supabase is optional for pure UI work but recommended before database-heav
 Run these commands from:
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases
+../00-databases
 ```
 
 ```bash

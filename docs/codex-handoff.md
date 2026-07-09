@@ -5,15 +5,13 @@ Use this file when continuing Voydex in a new Codex thread or on another machine
 ## Repositories
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/13-voydex
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases
+./
+../00-databases
 ```
 
 `13-voydex` is the clean active Next.js app.
 
-`00-databases/projects/voydex` is the clean active Supabase database source.
-
-Both repos have `legacy/` folders. Legacy content is reference only.
+`../00-databases/projects/voydex` is the active Supabase database source.
 
 ## Current Product Summary
 
@@ -41,7 +39,7 @@ to create and continue plays directly.
 
 ## Current Frontend Focus: Mainline Plays And Play Hub
 
-As of 2026-07-08, active frontend work has moved to Mainline Plays.
+Baseline verified on 2026-07-10: the current frontend focus is Mainline Plays.
 
 Current active routes:
 
@@ -204,11 +202,13 @@ Current implementation:
   - `src/modules/codex/features/games/browse/server/games-page-loaders.ts`
   - `src/modules/codex/features/games/browse/data/games-page-mappers.ts`
   - `src/modules/codex/features/games/browse/games-page.tsx`
+  - `src/modules/codex/features/games/detail/data/game-detail-mappers.ts`
+  - `src/modules/codex/features/games/detail/server/game-detail-loaders.ts`
   - `src/modules/codex/features/games/detail/server/game-detail-query.ts`
-  - `src/modules/codex/features/games/detail/components/game-detail-hero.tsx`
-  - `src/modules/codex/features/games/detail/components/game-detail-pokedexes-section.tsx`
-  - `src/modules/codex/features/games/detail/components/game-detail-related-games-section.tsx`
-  - `src/modules/codex/features/games/detail/components/hero/*`
+  - `src/modules/codex/features/games/detail/components/top-section/*`
+  - `src/modules/codex/features/games/detail/components/pokedexes/*`
+  - `src/modules/codex/features/games/detail/components/related-games/*`
+  - `src/modules/codex/features/games/detail/game-detail-page.tsx`
   - `src/shared/components/detail-section-card.tsx`
   - `src/modules/codex/shared/components/codex-back-link.tsx`
   - `src/modules/codex/features/games/pokedex/server/game-pokedex-query.ts`
@@ -287,13 +287,13 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 Canonical database docs:
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex/docs
+../00-databases/projects/voydex/docs
 ```
 
 Most important handoff doc:
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex/docs/app-handoff.md
+../00-databases/projects/voydex/docs/app-handoff.md
 ```
 
 App-consumed types:
@@ -320,9 +320,9 @@ Current app status:
 - Auth foundation is wired.
 - Protected app shell exists.
 - Health check banner exists.
-- Protected Mainline routes include dashboard, play list, and the Play Hub at
-  `/mainline/plays/[playId]`. Product route helpers exist for deeper play
-  concerns, but the active route implementation is being built tab by tab.
+- Protected Mainline pages currently include the Plays list and the Play Hub at
+  `/mainline/plays/[playId]`; `/mainline` redirects to the Plays list. Dashboard,
+  create-play, and deeper play routes are not mounted yet.
 - Codex routes are mounted under `/codex`.
 - The Codex Pokemon detail route is game-scoped:
   `/codex/pokemon/[gameSlug]/[speciesSlug]`.
@@ -340,6 +340,20 @@ Current feature data pattern:
   group when the logic is UI-adjacent and not a database mapper.
 - `components/*` should not create Supabase clients or call `.schema(...)`.
 - `client/*` is reserved for browser-only client island helpers.
+
+Known implementation debt:
+
+- `plays/detail/server/play-page-loaders.ts` currently combines raw reads with
+  joining, enrichment, and final page-model composition. Keep the stricter
+  loader/mapper/query guidance for new work and split this file only when a
+  source refactor is explicitly in scope.
+- The species-only compatibility route behaves as
+  `/codex/pokemon/[speciesSlug]`, but its App Router folder is still named
+  `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
+  rename is explicitly in scope.
+- The repository currently has no automated test script, standalone typecheck
+  script, browser-test configuration, or CI workflow. Format, lint, build, and
+  focused browser checks are the available verification surfaces.
 
 When adding the next Codex or Mainline section, keep route files thin and add
 new data access through this loader/mapper/query split.

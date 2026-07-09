@@ -1,26 +1,26 @@
 # Voydex Agent Guide
 
-Use this file as the first local orientation point for AI work inside `13-voydex`.
+The root `AGENTS.md` is the auto-discovered entry point for AI work inside
+`13-voydex`. Use this file for detailed, stable project conventions. Keep the
+current implementation checkpoint and next-step status in
+`docs/codex-handoff.md`; when status changes, update that canonical handoff
+instead of copying volatile state into more guidance files.
 
-## Read First
+## Read By Scope
 
-Before meaningful implementation, read:
-
-- `docs/codex-handoff.md`
-- `docs/app/architecture.md`
-- `docs/app/design-system.md`
-- `docs/design/codex-pokemon-detail.md` when working on Codex Pokemon detail
-- `docs/product/feature-contract.md`
-- `docs/product/navigation-and-routes.md`
-- `docs/product/data-ownership.md`
-- `src/config/modules.ts`
-- `src/config/routes.ts`
+- Read `docs/codex-handoff.md` for continuation work or current status.
+- Read `docs/app/architecture.md`, `docs/product/data-ownership.md`, and the
+  relevant contract for architecture or ownership changes.
+- Read `docs/app/design-system.md` for UI work.
+- Read `docs/design/codex-pokemon-detail.md` only for that feature.
+- Inspect `src/config/modules.ts`, `src/config/routes.ts`, and nearby code when
+  routes or module boundaries are relevant.
 
 ## Product Summary
 
 Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs.
 
-Active frontend modules:
+Established frontend modules:
 
 - `mainline`: user-facing label is Mainline. This is the playthrough workspace.
 - `codex`: public-readable reference browser for Pokémon and games.
@@ -36,35 +36,14 @@ Codex remains a shared reference module, not a child of Mainline. It can later
 expose authenticated contextual actions, but the owning module must validate
 and mutate durable state.
 
-## Current Route Shape
+## Route And Mainline Plays Contracts
 
-Important current routes:
+Use `docs/codex-handoff.md` and the route config/code to determine which routes
+are currently mounted. Product route plans are not evidence that a route exists.
+Keep route files in `src/app` thin and compose module or shared components from
+them.
 
-- `/`
-- `/app`
-- `/login`
-- `/settings`
-- `/mainline/dashboard`
-- `/mainline/plays`
-- `/mainline/plays/new`
-- `/mainline/plays/[playId]`
-- `/mainline/plays/[playId]/team`
-- `/mainline/plays/[playId]/progress`
-- `/mainline/plays/[playId]/story`
-- `/mainline/plays/[playId]/pokedex`
-- `/mainline/plays/[playId]/collectibles`
-- `/codex/pokemon`
-- `/codex/pokemon/[gameSlug]`
-- `/codex/pokemon/[gameSlug]/[speciesSlug]`
-- `/codex/games`
-- `/codex/games/[gameSlug]`
-- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`
-
-Keep route files in `src/app` thin. Compose module or shared components from them.
-
-## Current Mainline Plays Direction
-
-The active Mainline work is the Plays feature:
+The Mainline Plays feature boundary is:
 
 ```txt
 src/modules/mainline/features/plays/
@@ -73,7 +52,7 @@ src/modules/mainline/features/plays/
   shared/
 ```
 
-Preserve these current decisions:
+Preserve these product and architecture decisions:
 
 - Use `plays` as the feature folder name. Do not reintroduce singular
   `features/play`.
@@ -81,8 +60,8 @@ Preserve these current decisions:
 - `/mainline/plays/[playId]` is the Play Hub.
 - The Play Hub top section is contextual page information, not a Card.
 - The Play Hub bottom surface is one Card containing tabs.
-- The tab shell includes Overview, Team, Progress, Plans, History, and Settings.
-  Only Overview is currently built/enabled.
+- The tab design includes Overview, Team, Progress, Plans, History, and Settings.
+  Use code and the handoff to determine which slices are enabled.
 - Overview layout is two-column on wide screens: Journey Status and Recent
   History on the left; Current Team and Progress Summary on the right.
 - Team Health should not be added to Overview until the Team tab has a real
@@ -136,7 +115,9 @@ Prefer boring, searchable names over short local names:
 - Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
 - Split browse and detail loaders when they serve different views. Do not keep unrelated browse/detail data loaders in one shared query file just because they touch the same table.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
-- If a helper is used by more than one feature, move it to the nearest stable shared boundary, for example `src/modules/mainline/shared`.
+- If a helper is shared by Mainline play browse and detail, prefer
+  `src/modules/mainline/features/plays/shared`. Create a module-wide
+  `src/modules/mainline/shared` boundary only when reuse crosses features.
 - Large files are not automatically wrong. Config/type maps and generated or primitive wrapper files can be large. Split files when they mix responsibilities, hide data flow, or make route work hard to review.
 - For unfinished screens, prefer small generic shells over elaborate placeholder UI. Rebuild section by section once the product direction is clear.
 
@@ -176,12 +157,12 @@ Voydex uses shadcn UI primitives in `src/shared/components/ui`.
 
 The design direction is clean adventure companion, not corporate dashboard and not overly game-like. Generated screenshots are references for layout and tone, not exact implementation contracts.
 
-## Current Codex Pokemon Detail Direction
+## Codex Feature Contracts
 
-The detailed Codex surface is `/codex/pokemon/[gameSlug]/[speciesSlug]`.
-Before changing that route, read `docs/design/codex-pokemon-detail.md`.
+Before changing the game-scoped Pokemon detail surface, read
+`docs/design/codex-pokemon-detail.md`.
 
-Preserve these current decisions:
+Preserve these product and data decisions:
 
 - The route is game-scoped; `gameSlug` determines generation.
 - Pokemon browse can link to the first supported game in the first generation
@@ -204,29 +185,16 @@ Preserve these current decisions:
 - The evolution line is a left-section card. Hide it when there is no real
   evolution line. Branching lines should render as readable path rows instead of
   a compressed tree.
-- The current right-section cards are Core Data, Battle Stats, Type Matchups,
-  Abilities, Pokedex, Availability, and Learnsets. Keep building future sections
-  as small cards using the existing Pokemon detail section-card pattern.
-- Type Matchups currently uses a compact all-type effectiveness grid with type
+- Keep detail sections as small cards using the existing section-card pattern.
+  Determine the currently implemented sections from code and the handoff.
+- Type Matchups uses a compact all-type effectiveness grid with type
   icon tooltips and effectiveness-value tooltips.
 - Future authenticated Codex actions can include Add to plan, Add to play team,
   Start a plan with this Pokemon, Check availability in my play, Compare with
   planned team, Mark as target, and Find where this fits. Codex should pass
   selected context to the owning module instead of owning those mutations.
 
-## Current Codex Games Direction
-
-The active Games surfaces are:
-
-- `/codex/games`: grouped card browse by Generation, with search, generation,
-  region, and game type filters.
-- `/codex/games/[gameSlug]`: cover-art-led game detail page with Browse Pokemon,
-  platforms, available Pokemon count, game type, game Pokedex links, and related
-  games.
-- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`: game Pokedex browser with a
-  control bar and clickable Pokemon table rows.
-
-Preserve these current decisions:
+For Codex Games, preserve these product decisions:
 
 - Do not reintroduce the Games timeline unless the user explicitly asks to
   revisit that direction.
@@ -244,10 +212,10 @@ Preserve these current decisions:
 
 ## Database Boundary
 
-The database source of truth is outside this repo:
+The database source of truth is the sibling repository:
 
 ```txt
-/Users/thetiagogil/Documents/Dev/Tiago/00-databases/projects/voydex
+../00-databases/projects/voydex
 ```
 
 Do not change database schema, seeds, or Supabase configuration from this repo unless the user explicitly asks.
@@ -287,6 +255,10 @@ them with canonical forms like `shadow-(--token)` when equivalent.
 
 For visual work, also test in the browser at desktop and mobile widths.
 
+There is currently no repository test script or standalone typecheck script.
+Use the available format, lint, and build gates plus focused browser checks for
+UI work until a test harness is added.
+
 In sandboxed Codex runs, `npm run build` can fail when Turbopack cannot bind a
-local port. If lint and typecheck pass but build hits a sandbox port error, rerun
-build outside the sandbox or ask for escalated execution.
+local port. If lint passes but build hits a sandbox port error, rerun build
+outside the sandbox or ask for escalated execution.

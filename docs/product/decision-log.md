@@ -55,10 +55,12 @@ the action.
 
 The main navbar is module-aware. It shows a module switcher plus the active module's view links.
 
-Current module views:
+Current mounted module views:
 
-- Mainline: Dashboard, Plays.
+- Mainline: Plays.
 - Codex: Pokémon, Games.
+
+Dashboard remains an accepted planned Mainline view.
 
 Generations remain reference data for grouping, filtering, and future detail
 routes, but they are not a current navbar view. Games are a Codex browse route,

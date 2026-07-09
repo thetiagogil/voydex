@@ -67,7 +67,9 @@ Examples include Pokedex tracking, Pokedex completion inclusion, collectible com
 
 The central page for a play.
 
-It summarizes team, story, collectibles, Pokedex progress, completion, and timeline highlights. It links to deeper play-specific routes.
+It summarizes team, story, collectibles, Pokedex progress, completion, and
+timeline highlights. The current implementation is tabbed; focused deeper routes
+can be added when the corresponding workflow is real.
 
 ### Plan
 

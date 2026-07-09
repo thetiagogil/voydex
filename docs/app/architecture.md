@@ -35,9 +35,11 @@ src/
     components/
       app-shell/
       brand/
+      game/
       pokemon/
       ui/
     domain/
+      games/
       icons/
       pokemon/
     hooks/
@@ -91,7 +93,8 @@ Routes under `src/app/(app-public)` use the normal app shell but are not auth-re
 
 - `/codex`
 - `/codex/pokemon`
-- `/codex/pokemon/[gameSlug]`
+- `/codex/pokemon/[speciesSlug]` (compatibility redirect to a default
+  game-scoped detail route)
 - `/codex/pokemon/[gameSlug]/[speciesSlug]`
 - `/codex/games`
 - `/codex/games/[gameSlug]`
@@ -101,23 +104,18 @@ Codex is public-readable but can still show authenticated shell behavior when a 
 
 ### Protected App Routes
 
-Protected app routes live under `src/app/(app-protected)` and are guarded by the proxy auth flow:
+Mounted protected app routes live under `src/app/(app-protected)` and are
+guarded by the proxy auth flow:
 
 - `/mainline`
-- `/mainline/dashboard`
 - `/mainline/plays`
-- `/mainline/plays/new`
 - `/mainline/plays/[playId]`
-- `/mainline/plays/[playId]/team`
-- `/mainline/plays/[playId]/progress`
-- `/mainline/plays/[playId]/story`
-- `/mainline/plays/[playId]/pokedex`
-- `/mainline/plays/[playId]/collectibles`
 - `/settings`
 
-The implemented Play Hub currently lives at `/mainline/plays/[playId]` and is
-being built tab by tab. Deeper play routes are product route contracts and
-helpers; add or enable the corresponding page only when that slice is real.
+`/mainline` redirects to `/mainline/plays`. The Play Hub at
+`/mainline/plays/[playId]` is being built tab by tab. Dashboard, create-play,
+and deeper play URLs remain product contracts or configured route helpers, not
+mounted pages; add or enable a page only when that slice is real.
 
 Planned workspaces such as Mainline-level Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
 
@@ -243,7 +241,8 @@ src/modules/mainline/
 
 The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokémon RPG playthrough behavior. Its user-facing label is Mainline.
 
-Dashboard is a view inside the `mainline` module, not its own module.
+Dashboard is an accepted planned view inside the `mainline` module, not its own
+module. Plays is currently the only mounted Mainline navigation view.
 
 Feature code inside a module should follow this shape:
 
@@ -328,7 +327,10 @@ Names should optimize for searchability, import clarity, and reviewability.
 - Keep raw Supabase reads in `server/*-loaders.ts`, not inside components or pure mappers.
 - Split browse and detail loaders when they feed different routes. A `browse/server/*page-query.ts` file should not also export detail-page loaders.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-oriented folder.
-- Move helpers to the nearest stable shared boundary when they are used by multiple features. For example, Mainline play display helpers belong under `src/modules/mainline/shared`, not under a single browse component folder.
+- Move helpers to the nearest stable shared boundary when they are used by
+  multiple views. Mainline play helpers shared by browse and detail belong under
+  `src/modules/mainline/features/plays/shared`; create a module-wide
+  `src/modules/mainline/shared` boundary only when reuse crosses features.
 - Large files are acceptable when they are mostly definitions, configuration, or generated/primitive wrapper code. Split large files when they mix responsibilities, obscure data flow, or make a feature hard to review.
 - During broad refactors, reset unfinished screens to simple real-data shells instead of preserving elaborate placeholder UI. Rebuild complex views section by section.
 
@@ -342,7 +344,8 @@ Current important asset groups:
 - `public/brand`
 - `public/icons/types`
 
-The `legacy/` folder is reference only. New code must not import assets from `legacy/`.
+Design references under `docs/design` are documentation only. Production code
+must use assets from `public`.
 
 ## Verification Expectations
 

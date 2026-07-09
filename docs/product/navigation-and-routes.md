@@ -29,11 +29,11 @@ Current modules:
 
 Current Mainline views:
 
-- Dashboard
 - Plays
 
 Planned Mainline views:
 
+- Dashboard
 - Plans
 - Collection
 - Stats
@@ -63,32 +63,31 @@ Add profile and account routes when those pages are implemented.
 
 ### Mainline
 
+Currently mounted Mainline routes:
+
 ```txt
-/app
 /mainline
-/mainline/dashboard
 /mainline/plays
-/mainline/plays/new
 /mainline/plays/[playId]
-/mainline/plays/[playId]/team
-/mainline/plays/[playId]/progress
-/mainline/plays/[playId]/story
-/mainline/plays/[playId]/pokedex
-/mainline/plays/[playId]/collectibles
 ```
 
 `/app` reads the `voydex-active-module` cookie and redirects to the active module's default route.
 
-`/mainline` redirects to `/mainline/dashboard`.
+`/mainline` redirects to `/mainline/plays`.
 
-Dashboard is a Mainline view, not a top-level app module. It shows recent plays, quick actions, recent activity, and summary stats.
+Accepted target routes include `/mainline/dashboard`,
+`/mainline/plays/new`, and focused routes for play concerns. Route helpers or
+product contracts do not mean that a page is mounted.
+
+Dashboard is a planned Mainline view, not a top-level app module. When built, it
+should show recent plays, quick actions, recent activity, and summary stats.
 
 ### Codex
 
 ```txt
 /codex
 /codex/pokemon
-/codex/pokemon/[gameSlug]
+/codex/pokemon/[speciesSlug]
 /codex/pokemon/[gameSlug]/[speciesSlug]
 /codex/games
 /codex/games/[gameSlug]
@@ -128,8 +127,13 @@ Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/ge
 
 ```txt
 /mainline/plays
-/mainline/plays/new
 /mainline/plays/[playId]
+```
+
+Accepted target routes include:
+
+```txt
+/mainline/plays/new
 /mainline/plays/[playId]/team
 /mainline/plays/[playId]/progress
 /mainline/plays/[playId]/story
@@ -141,7 +145,7 @@ Do not keep legacy public browse redirects such as `/pokedex`, `/games`, or `/ge
 
 Deep routes manage one focused play concern at a time.
 
-Implementation note as of 2026-07-08: the app currently builds the Play Hub at
+Implementation note as of 2026-07-10: the app currently builds the Play Hub at
 `/mainline/plays/[playId]` first. Team, Progress, Plans, History, and Settings
 exist as tab shells inside the hub; add or enable deeper pages only when the
 corresponding product slice is implemented. Do not send users to a deep play

@@ -27,7 +27,8 @@ The desired mix:
 
 - Use `src/shared/components/ui` primitives for buttons, inputs, selects, sheets, dialogs, dropdowns, tabs, accordions, fields, and similar controls.
 - Use Base UI `render` composition when a primitive supports custom rendering. Do not use Radix `asChild` unless the local primitive explicitly supports it.
-- Keep `src/app` route files thin. Put real UI in `src/modules` or `src/shared` components.
+- Keep `src/app` route files thin. Put real UI in `src/modules`, `src/features`,
+  or `src/shared` components.
 - Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
 - Generated screenshots are design references, not exact code specs. Implement the intent with real data, responsive behavior, accessibility, and existing app primitives.
 - Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
@@ -42,9 +43,13 @@ The desired mix:
 
 ## Color Tokens
 
-Global tokens live in `src/app/globals.css`.
+`src/app/globals.css` is the stylesheet entry point and owns the base shadcn
+tokens. App, Pokemon, and game token groups are split under
+`src/shared/styles` and imported from that entry point.
 
-The palette should keep teal as the primary Voydex identity while using supporting colors for state and Pokémon-related semantics. Avoid turning the whole app into one flat teal theme.
+The current primary token is blue, with supporting colors for state and
+Pokémon-related semantics. Avoid turning the whole app into one flat-color
+theme.
 
 Existing token groups:
 
@@ -58,7 +63,9 @@ Existing token groups:
 
 ## Layout Rules
 
-- App pages use the authenticated `AppShell`.
+- App pages use the shared `AppShell`. Protected routes provide an authenticated
+  account state; public Codex routes use `PublicAppShell` and can render for
+  anonymous users.
 - The main app content should feel focused and readable, usually centered with a max width.
 - The background image can remain subtly visible around the edges and behind content.
 - Avoid nested cards unless the inner card is a true repeated item or modal.
