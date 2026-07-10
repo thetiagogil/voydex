@@ -19,10 +19,12 @@ why the direction was selected or changed.
 | V1-D002 | 2026-07-11 | Work breadth-first from product overview to navigation, journeys, screens, and shared patterns before visual exploration | Accepted |
 | V1-D003 | 2026-07-11 | Record screen-derived database needs during design and resolve them in a later database audit                            | Accepted |
 | V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                       | Accepted |
+| V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                     | Accepted |
 
 ## V1-D001 — Design Before Database And Implementation
 
-**Status:** Accepted  
+**Status:** Accepted
+
 **Date:** 2026-07-11
 
 Design the complete V1 product experience first. Use the approved screens to
@@ -66,3 +68,22 @@ After the blueprint is reviewed, generate exactly three distinct visual
 directions for the shared application shell and Mainline Dashboard. Give all
 three the same content, actions, state, and viewport requirements. Select one
 direction before designing or implementing the remaining visual system.
+
+## V1-D005 — V1 Game Families And Codex Role
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+V1 primarily covers traditional mainline and Legends-style Pokémon RPGs.
+Mainline owns creating and tracking Plays, Plans, and the personal history of
+those games. Codex is the public, user-facing encyclopedia for the Pokémon and
+games represented in Voydex.
+
+The internal `reference` module remains the technical shared-data owner. Codex
+surfaces that corpus but does not become a code dependency or mutation owner for
+Mainline or future product modules.
+
+Later versions may add modules such as Mystery Dungeon, Pokopia, Pokémon HOME,
+Pokémon GO, or Pokémon Snap. These are outside V1, and their possible future
+needs should not broaden the current UI or database scope.

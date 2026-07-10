@@ -4,14 +4,21 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 ## Product Scope
 
-The active build target is the `mainline` product family and its Mainline app workspace: mainline-style Pokémon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
+The active V1 target is the `mainline` product family and its Mainline app
+workspace: traditional mainline and Legends-style Pokémon RPG playthrough
+tracking, planning, Pokédex search, Collection, and stats.
 
 Frontend modules and database product families are related but distinct. The
 active modules are Mainline, the authenticated playthrough workspace, and
 Codex, the shared public reference browser. Codex is not a database product
 family and does not own gameplay or planning mutations.
 
-Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using product-family-specific data models where needed.
+Possible later product families include Mystery Dungeon, Pokopia, Pokémon
+HOME, Pokémon GO, Pokémon Snap, Ranger, and Sleep. They are outside V1 and are
+not implementation commitments. They should not distort the `mainline`
+play/team/story model. They can share account, reference, style, and high-level
+shell concepts while using product-family-specific workflows and data models
+where needed.
 
 ## Primary App Areas
 

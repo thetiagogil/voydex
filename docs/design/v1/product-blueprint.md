@@ -6,7 +6,8 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: Provisional — product overview review**
+**Status: Product promise and V1 family scope accepted; product-area review in
+progress**
 
 The current task is to confirm the app overview before deep-diving into
 individual screens. Visual direction, detailed layouts, and production UI are
@@ -32,14 +33,32 @@ The product should help a player understand:
 
 See [Product Vision](../../product/vision.md) for the canonical contract.
 
+### V1 Scope And Future Direction
+
+**Status: Accepted**
+
+- V1 primarily covers traditional mainline and Legends-style Pokémon RPGs.
+- Mainline owns the personal workflows for Plays, Plans, progress, team
+  history, Collection, and Stats across those games.
+- Codex is the user-facing encyclopedia for the Pokémon and games represented
+  in Voydex.
+- The internal `reference` module technically supplies the shared Pokémon and
+  game corpus to Codex, Mainline, and future modules. Product modules do not
+  depend on Codex UI or feature internals.
+- Later versions may add independently modeled modules for Mystery Dungeon,
+  Pokopia, Pokémon HOME, Pokémon GO, Pokémon Snap, or other Pokémon product
+  families.
+- Future-module possibilities should inform extensible shell and reference
+  concepts, but they must not expand the V1 screen or database scope.
+
 ### Product Areas
 
 **Status: Accepted**
 
 | Area     | Role                                                        | Access          | Mutation ownership                                               |
 | -------- | ----------------------------------------------------------- | --------------- | ---------------------------------------------------------------- |
-| Mainline | Personal planning and playthrough workspace                 | Authenticated   | Owns Mainline user data and validates every mutation             |
-| Codex    | Shared Pokémon and game discovery/reference browser         | Public browsing | Supplies context but does not own gameplay or planning mutations |
+| Mainline | Personal workspace for mainline and Legends-style games     | Authenticated   | Owns Mainline user data and validates every mutation             |
+| Codex    | User-facing encyclopedia over shared Pokémon and game data  | Public browsing | Supplies context but does not own gameplay or planning mutations |
 | Global   | Entry, authentication, account, settings, and system states | Mixed           | Owned by the relevant global feature                             |
 
 The internal `reference` module supports Mainline and Codex with shared Pokémon
@@ -210,9 +229,8 @@ states, responsive behavior, and consuming screens.
 
 The product overview should be reviewed before navigation or screen detail:
 
-1. Does the product promise describe the V1 we want to design?
-2. Is the Mainline/Codex split correct and understandable to users?
-3. Is the V1 product loop complete, or is an important recurring activity
+1. Is the Mainline/Codex split correct and understandable to users?
+2. Is the V1 product loop complete, or is an important recurring activity
    missing?
-4. Are Landing and Intro genuinely different surfaces?
-5. Are any listed surfaces outside V1, or is a necessary surface missing?
+3. Are Landing and Intro genuinely different surfaces?
+4. Are any listed surfaces outside V1, or is a necessary surface missing?

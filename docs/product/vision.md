@@ -18,6 +18,26 @@ Voydex should provide one central place to answer questions like:
 - Which collectibles, story steps, and Pokedex entries are still missing?
 - What team should I plan for the next run?
 
+## V1 Scope
+
+V1 focuses on traditional mainline and Legends-style Pokémon RPGs.
+
+- Mainline is the authenticated workspace for creating and tracking Plays,
+  planning future adventures, and recording what happens throughout those game
+  families.
+- Codex is the public, user-facing encyclopedia for the Pokémon and games
+  represented in Voydex. It exposes reference context that can initiate actions
+  in Mainline and, later, other product modules.
+- The internal `reference` module remains the technical owner of the shared
+  Pokémon and game corpus consumed by Codex and product modules. Codex does not
+  become a data-access dependency of those modules.
+
+Later versions may introduce product modules for experiences such as Mystery
+Dungeon, Pokopia, Pokémon HOME, Pokémon GO, Pokémon Snap, Ranger, or Sleep.
+Those possibilities are outside V1 and should not distort the Mainline
+play/team/story model. They may share account, reference, shell, and visual
+concepts while owning workflows and data models suited to their games.
+
 ## Product Pillars
 
 ### Track Plays
