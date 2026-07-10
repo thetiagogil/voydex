@@ -1,317 +1,129 @@
-# Voydex Agent Guide
+# Voydex Engineering Guide
 
-The root `AGENTS.md` is the auto-discovered entry point for AI work inside
-`13-voydex`. Use this file for detailed, stable project conventions. Keep the
-current implementation checkpoint and next-step status in
-`docs/codex-handoff.md`; when status changes, update that canonical handoff
-instead of copying volatile state into more guidance files.
-
-## Read By Scope
-
-- Read `docs/codex-handoff.md` for continuation work or current status.
-- Read `docs/app/architecture.md`, `docs/product/data-ownership.md`, and the
-  relevant contract for architecture or ownership changes.
-- Read `docs/app/design-system.md` for UI work.
-- Read `docs/design/codex-pokemon-detail.md` only for that feature.
-- Inspect `src/config/modules.ts`, `src/config/routes.ts`, and nearby code when
-  routes or module boundaries are relevant.
-
-## Product Summary
-
-Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs.
-
-Established frontend modules:
-
-- `mainline`: user-facing label is Mainline. This is the playthrough workspace.
-- `codex`: public-readable reference browser for Pokémon and games.
-
-Generations are still important reference data for grouping, filtering, and
-future detail routes. They are not a current Codex navbar view.
-
-Do not call the Mainline module "Adventures" in code or UI. Plays are the user-owned playthrough records inside Mainline.
-
-`codex` is a frontend module, not a database product family.
-
-Codex remains a shared reference module, not a child of Mainline. It can later
-expose authenticated contextual actions, but the owning module must validate
-and mutate durable state.
-
-## Route And Mainline Plays Contracts
-
-Use `docs/codex-handoff.md` and the route config/code to determine which routes
-are currently mounted. Product route plans are not evidence that a route exists.
-Keep route files in `src/app` thin and compose module, global-feature, or shared
-entry points. Route adapters may compose the app shell around feature-owned page
-content.
-
-The Mainline Plays feature boundary is:
-
-```txt
-src/modules/mainline/features/plays/
-  browse/
-  hub/
-  shared/
-```
-
-Preserve these product and architecture decisions:
-
-- Use `plays` as the feature folder name. Do not reintroduce singular
-  `features/play`.
-- `/mainline/plays` is a simple real-data card browse surface.
-- `/mainline/plays/[playId]` is the Play Hub.
-- The Play Hub top section is contextual page information, not a Card.
-- The Play Hub bottom surface is one Card containing tabs.
-- The tab design includes Overview, Team, Progress, Plans, History, and Settings.
-  Use code and the handoff to determine which slices are enabled.
-- Overview layout is two-column on wide screens: Journey Status and Recent
-  History on the left; Current Team and Progress Summary on the right.
-- Team Health should not be added to Overview until the Team tab has a real
-  analysis model.
-- Do not add filler cards to balance the right column. Add previews only when
-  they summarize real data or a mature tab.
-- Progress Summary hides unavailable tracks, shows progress bars plus
-  `completed / total`, and does not show visible percent labels.
-
-Mainline Play Hub folders should stay view and section scoped:
-
-```txt
-src/modules/mainline/features/plays/hub/
-  data/
-  server/
-  shell/
-    mainline-play-hub-page.tsx
-    mainline-play-hub-tabs.tsx
-    top-section/
-  tabs/
-    overview/
-      data/
-      server/
-      sections/
-        journey-status/
-        recent-history/
-        team/
-        progress-summary/
-    team/
-    progress/
-    plans/
-    history/
-    settings/
-  types.ts
-  types.ts
-```
+The root [AGENTS.md](../AGENTS.md) is the entry point. This file contains only
+durable implementation conventions; product behavior and current status belong
+in the canonical [documentation index](../docs/README.md).
 
 ## Source Layout
 
-The target root `src` folders are:
+The allowed root source layout is:
 
-- `app`
-- `config`
-- `features`
-- `modules`
-- `platform`
-- `shared`
-- `proxy.ts`
+```txt
+src/
+  app/
+  config/
+  features/
+  modules/
+  platform/
+  shared/
+  proxy.ts
+```
 
-`src/lib` is retired and the architecture check rejects new source files there.
-Environment and Supabase adapters belong under `src/platform`; app-shell and
-active-module behavior belong under `src/features/app-shell`; auth workflows
-belong under `src/features/auth`; generic utilities belong under `src/shared`.
+- `app`: thin Next.js route adapters.
+- `config`: static application contracts such as routes and modules.
+- `features`: cross-app workflows such as auth, app shell, settings, site, and
+  system surfaces.
+- `modules`: product/domain ownership, currently Mainline, Codex, and the
+  internal reference context.
+- `platform`: framework and external-service integration.
+- `shared`: domain-neutral utilities, generated types, UI primitives, and the
+  narrow visual exceptions recorded in ADR 0003.
+
 Do not reintroduce root-level `lib`, `components`, `constants`, or `types`
-buckets.
+buckets. Reuse belongs at the nearest stable owner.
 
-Reusable Pokemon/game semantics belong under `src/modules/reference`.
-Cross-module consumers use `reference/types.ts`, `reference/reference-data.ts`,
-and `reference/reference-rows.ts` instead of reaching into `reference/shared`.
-Concrete catalogue components and domain utilities use explicit paths under the
-reference `games` or `pokemon` feature. Do not reintroduce root-shared game or
-Pokemon domain/component folders.
+## Modules, Features, Views, And Sections
 
-Module feature code belongs under `src/modules`. Cross-app features such as app
-shell, site, auth, settings, and system pages belong under `src/features`.
-Framework and Supabase infrastructure belongs under `src/platform`. Only
-domain-neutral primitives and the documented app-wide visual primitives belong
-under `src/shared` in the target architecture. Read `docs/app/architecture.md`
-and the accepted ADR before moving a boundary.
+- A module may own multiple features and views.
+- A feature may nest view folders when users experience them as distinct
+  surfaces, such as browse and detail/hub.
+- A complex view may nest section folders that mirror visible page concerns.
+- Use `shared` inside a feature only when behavior is reused across that
+  feature's views. Create module-wide shared code only after reuse crosses
+  features.
+- Do not create empty responsibility folders or mandatory templates.
+- Cross-module consumers use the public contracts of `src/modules/reference`.
+  Concrete catalogue components and domain utilities may use explicit feature
+  paths when those are the intended public implementation surface.
 
-## File And Component Hygiene
+## Read And Write Boundaries
 
-Prefer boring, searchable names over short local names:
+Start with the smallest cohesive boundary and split only when a responsibility
+needs independent review, reuse, or testing.
 
-- Route files in `src/app` should stay thin and import page-level components.
-- Page-level components that directly back a route may live at the feature root, for example `pokemon-detail-page.tsx` or `mainline-plays-page.tsx`.
-- Component filenames should usually match the exported component name in kebab/Pascal form, for example `pokemon-detail-species-selector.tsx` exports `PokemonDetailSpeciesSelector`.
-- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files. Inside already-scoped section folders, local names are acceptable; for example, `tabs/overview/sections/team/team-panel.tsx` can export `TeamPanel` without repeating `MainlinePlay`.
-- Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
-- Split browse and Hub readers/loaders when they serve different views. Do
-  not keep unrelated use cases together just because they touch the same table.
-- Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
-- If a helper is shared by Mainline play browse and the Hub, prefer
-  `src/modules/mainline/features/plays/shared`. Create a module-wide
-  `src/modules/mainline/shared` boundary only when reuse crosses features.
-- Large files are not automatically wrong. Config/type maps and generated or primitive wrapper files can be large. Split files when they mix responsibilities, hide data flow, or make route work hard to review.
-- For unfinished screens, prefer small generic shells over elaborate placeholder UI. Rebuild section by section once the product direction is clear.
+- `server/*-query.ts`: complex read orchestration and public server entry.
+- `server/*-reader.ts`: raw Supabase/database I/O. Existing `*-loaders.ts` may
+  retain their name.
+- `data/*-mappers.ts`: pure row-to-model transformation.
+- `data/*-selectors.ts`: pure selection over loaded data or models.
+- `server/*-action.ts`: Server Actions with explicit authentication and input
+  parsing.
+- `application`: commands/use cases that orchestrate a non-trivial mutation.
+- `domain`: pure invariants and domain types.
+- `infrastructure`: repositories and external persistence adapters.
+- `client`: browser-only state, API, and model helpers.
+- `display`: formatting and presentation selectors.
+- `types.ts` or `types/*`: type-only contracts.
 
-## Feature Folder Standard
+Components may own interaction state but never create Supabase clients or issue
+raw reads. Client Components may import Server Actions, not server queries or
+readers. Multi-table writes follow action → command/use case → domain →
+repository/RPC → database constraints and RLS.
 
-Features may nest views and sections when that mirrors the product. Add only
-the responsibility folders a slice actually needs:
+## File And Naming Hygiene
 
-- `components/*`: UI composition and local view models. Components may hold
-  interaction state but must not create Supabase clients or perform raw reads.
-- `server/*-query.ts`: the public server entry and orchestration for a complex
-  read. A simple read may remain in one cohesive server file.
-- `server/*-reader.ts`: raw Supabase reads for new complex use cases. Existing
-  `*-loaders.ts` files have this responsibility and may keep the name until their
-  feature is migrated.
-- `server/*-action.ts`: Server Actions. Keep validation and authorization
-  explicit, then call an application command/use case when the mutation is
-  nontrivial.
-- `data/*-mappers.ts`: pure row-to-model transforms. No Supabase client, React
-  hooks, or browser APIs.
-- `data/*-selectors.ts`: reusable pure selectors over loaded rows or models.
-- `client/*`: browser-only API, state, and model helpers for client islands.
-- `display/*`: presentation formatting and display selectors.
-- `utils/*`: small cross-cutting helpers that do not fit a stronger owner.
-- `types/*` or `types.ts`: type contracts only.
+- Keep route files small and import feature-owned page entry points.
+- Use explicit, searchable filenames and exports.
+- Prefer use-case names over vague files such as `queries.ts` or `helpers.ts`.
+- Keep one responsibility or a small group of tightly related responsibilities
+  per file.
+- Split when mixed concerns hide data flow, not merely because a line count was
+  crossed.
+- Roughly 150–250 lines can remain cohesive; files above 250 lines deserve a
+  responsibility review, and files above 400 lines should be exceptional
+  outside generated data, configuration, or third-party primitives.
+- Avoid tiny one-use helpers that make a workflow harder to follow.
+- Runtime helpers do not belong in type-only files.
 
-Do not create empty folders or a mandatory query/reader/mapper trio. Keep files
-for one endpoint or use case together, and split only when I/O, orchestration,
-mapping, or presentation is substantial enough to deserve independent review.
-Do not place direct `.schema(...)` reads under `data/` or `components/`. Client
-Components may import Server Actions, but not server query/reader/loader files.
+## UI And Design
 
-## UI Rules
+- Reuse project shadcn/Base UI primitives under `src/shared/components/ui`.
+- Use Base UI `render` composition unless a local primitive explicitly exposes
+  `asChild`.
+- Use Lucide for interface actions and the shared icon catalogue for branded or
+  domain icons.
+- Keep Tailwind classes canonical and preserve supported theme tokens.
+- Keep Client Components at the smallest interactive boundary.
+- Verify hierarchy, density, spacing, typography, responsive overflow, loading,
+  empty/error/disabled states, keyboard use, focus, semantics, and non-color
+  cues.
+- Preserve Voydex's clean adventure-companion character; screenshots guide
+  intent rather than fixed dimensions.
 
-Voydex uses shadcn UI primitives in `src/shared/components/ui`.
+Read [Design System](../docs/app/design-system.md) and the nearest indexed
+[design reference](../docs/design/README.md) before meaningful visual work.
 
-- Use shadcn primitives for standard controls.
-- Use Base UI `render` composition, not Radix `asChild`, unless a local primitive explicitly supports `asChild`.
-- Use Lucide icons for interface actions.
-- Keep Tailwind simple and consistent.
-- Keep Tailwind classes canonical. When Tailwind IntelliSense suggests
-  `suggestCanonicalClasses`, update touched classes to the canonical Tailwind v4
-  form, for example `shadow-(--app-surface-shadow)` instead of
-  `shadow-[var(--app-surface-shadow)]`.
-- Build reusable components when a route starts getting large.
-- Preserve accessibility: labels, focus states, keyboard behavior, and non-color status signals.
+## Database Work
 
-The design direction is clean adventure companion, not corporate dashboard and not overly game-like. Generated screenshots are references for layout and tone, not exact implementation contracts.
+- Edit authored schema/seeds, then rebuild generated artifacts through package
+  commands.
+- Keep browser/server clients under `src/platform/supabase`.
+- Keep RLS, grants, constraints, transactional functions, and generated types
+  aligned with app queries/actions.
+- Use `npm run db:verify` after database contract changes. Remote comparisons
+  require explicit authorization.
 
-## Codex Feature Contracts
+See [Database Architecture](../docs/database/architecture.md),
+[Schema Contract](../docs/database/schema-contract.md), and
+[Security](../docs/database/security.md).
 
-Before changing the game-scoped Pokemon detail surface, read
-`docs/design/codex-pokemon-detail.md`.
+## Verification And Handoff
 
-Preserve these product and data decisions:
-
-- The route is game-scoped; `gameSlug` determines generation.
-- Pokemon browse can link to the first supported game in the first generation
-  where the species appears.
-- The top section is a compact selector surface: species selector on the left
-  and generation/game menu on the right. The active generation trigger should
-  include the selected game name.
-- Generation controls should list games by seeded sort order.
-- A game is enabled for a Pokemon/form when seeded availability exists for that
-  game. DLC-only availability counts, but the UI needs an explicit warning/info
-  state for the DLC scope.
-- Form validity must be checked against the selected game, not only the selected
-  generation.
-- Shiny is a direct visual toggle rendered inside the portrait. It should switch
-  only the current form artwork and should reset when the selected form changes.
-- Pokemon forms are data-affecting choices. When additional forms exist, render
-  a dedicated Forms card in the left section; each option should show the form
-  image, National number, form name, and type identity. Do not render the Forms
-  section for Pokemon with no additional forms.
-- The evolution line is a left-section card. Hide it when there is no real
-  evolution line. Branching lines should render as readable path rows instead of
-  a compressed tree.
-- Keep detail sections as small cards using the existing section-card pattern.
-  Determine the currently implemented sections from code and the handoff.
-- Type Matchups uses a compact all-type effectiveness grid with type
-  icon tooltips and effectiveness-value tooltips.
-- Future authenticated Codex actions can include Add to plan, Add to play team,
-  Start a plan with this Pokemon, Check availability in my play, Compare with
-  planned team, Mark as target, and Find where this fits. Codex should pass
-  selected context to the owning module instead of owning those mutations.
-
-For Codex Games, preserve these product decisions:
-
-- Do not reintroduce the Games timeline unless the user explicitly asks to
-  revisit that direction.
-- Keep Codex nav to Pokemon and Games for now. A future generation-detail route
-  can be added later without bringing back a top-level Generations view.
-- Game cards and game detail accents use Pokemon game color tokens from
-  `src/modules/reference/features/games/styles/game-tokens.css`, exposed to the
-  app through the module's public `styles.css` manifest.
-- Game detail Pokedex cards link to the game Pokedex page. The Pokedex section
-  scrolls only when it sits beside Related games; stacked layouts show all
-  Pokedexes without a max-height scroll.
-- Game Pokedex rows link to `/codex/pokemon/[gameSlug]/[speciesSlug]`.
-- Hide the Abilities column when a game Pokedex has no ability data.
-- Generation I Pokedex tables use `Special` instead of separate `SpA` and
-  `SpD` columns.
-
-## Database Boundary
-
-The database source of truth is co-located in this repository:
-
-```txt
-database/
-  schema/
-  seeds/
-  supabase/
-scripts/database/
-docs/database/
-```
-
-The Supabase CLI runs from `database/`, keeping its dotenv/config boundary
-separate from the Next.js root `.env.local`. Edit human-authored schema and seed
-sources, not generated wrapper files. Keep active indexes beside the table
-schema that owns them.
-
-The app consumes generated types from:
-
-```txt
-src/shared/types/database.types.ts
-```
-
-If a database contract changes, update the co-located sources, run
-`npm run db:verify`, regenerate types directly into the app, then update app
-queries/actions and run `npm run verify`.
-
-## Product Rules To Preserve
-
-- A play has one focused linked Team Plan.
-- The play current roster is 6 active Pokémon plus up to 6 reserve Pokémon.
-- Retired/replaced Pokémon belong to history, not the current roster.
-- Pokedex completion is species-level.
-- DLC and optional content are per-play choices.
-- Story snapshots are optional.
-- Collection is derived from used Pokémon/history, not only current team.
-
-## Verification
-
-For normal frontend changes, run:
-
-```bash
-npm run verify
-```
-
-Use `format:check`, `lint`, `typecheck`, `architecture:check`, `test`, and
-`build` individually while diagnosing failures.
-
-For Tailwind-backed UI changes, also check touched files for Tailwind
-IntelliSense warnings such as `suggestCanonicalClasses`; at minimum, scan for
-simple CSS-variable arbitrary utilities like `shadow-[var(--token)]` and replace
-them with canonical forms like `shadow-(--token)` when equivalent.
-
-For visual work, also test in the browser at desktop and mobile widths.
-
-The unit-test harness remains intentionally focused. Vitest resolves the
-production `@/*` alias; add focused tests with each migrated behavior. There is
-no committed end-to-end browser suite yet; use `docs/app/verification.md` for
-focused browser checks.
-
-In sandboxed Codex runs, `npm run build` can fail when Turbopack cannot bind a
-local port. If lint passes but build hits a sandbox port error, rerun build
-outside the sandbox or ask for escalated execution.
+- Use focused tests while iterating and `npm run verify` before merging.
+- Add tests for behavior, ownership, edge cases, or parsing—not arbitrary line
+  coverage.
+- Run browser verification for meaningful UI changes.
+- Update [Project Status](../docs/project-status.md) only when the current
+  checkpoint, next slice, or known gaps change.
+- Keep final handoffs concise: outcome, exact verification, commit message, and
+  meaningful risks or next steps.
