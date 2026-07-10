@@ -20,6 +20,7 @@ why the direction was selected or changed.
 | V1-D003 | 2026-07-11 | Record screen-derived database needs during design and resolve them in a later database audit                            | Accepted |
 | V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                       | Accepted |
 | V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                     | Accepted |
+| V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                              | Accepted |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -87,3 +88,23 @@ Mainline or future product modules.
 Later versions may add modules such as Mystery Dungeon, Pokopia, Pokémon HOME,
 Pokémon GO, or Pokémon Snap. These are outside V1, and their possible future
 needs should not broaden the current UI or database scope.
+
+## V1-D006 — Last Active Module Entry
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+Normal signed-in entry should open the default landing view of the user's last
+active, currently available module. V1 falls back to Mainline Dashboard when no
+valid preference exists. Explicit URLs and validated post-login destinations
+take precedence.
+
+Remember the module rather than the last deep route. This prevents a future
+Pokopia-only user from being forced through Mainline while still giving each
+module a predictable entry view. It also avoids restoring a stale detail,
+editing, or destructive context unexpectedly.
+
+The contract is decided now, but V1 should implement only the general resolver
+and current module metadata. No future module dashboard or neutral cross-module
+dashboard is required. Cross-device persistence remains open.

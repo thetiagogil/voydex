@@ -108,14 +108,22 @@ open for review**
 - Mainline and Settings require authentication.
 - A protected action started in Codex must preserve its selected context and
   resume after login.
+- Explicit URLs and validated post-login resumption targets take precedence
+  over remembered module behavior.
+- A normal signed-in entry opens the default landing view of the last active,
+  currently available module rather than always forcing Mainline.
+- V1 falls back to Mainline Dashboard when no valid module preference exists.
+- The remembered value is a module, not an arbitrary deep route. Each future
+  module will provide its own stable default landing view.
 
 See [Navigation And Routes](../../product/navigation-and-routes.md) for the
 canonical route contract.
 
 ### Navigation Questions
 
-- **Open:** What should the product entry point show to signed-out and signed-in
-  users?
+- **Open:** Should the last active module follow the account across devices, or
+  is per-browser persistence sufficient?
+- **Open:** What content and actions should the signed-out product entry show?
 - **Open:** How should module switching and view navigation adapt between
   desktop and mobile?
 - **Open:** Which actions belong in persistent navigation versus contextual

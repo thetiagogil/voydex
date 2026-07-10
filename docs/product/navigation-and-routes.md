@@ -8,15 +8,33 @@ route configuration remain implementation evidence.
 
 Voydex uses module-aware navigation:
 
-- The Voydex logo returns to the product entry point.
+- The Voydex logo returns to the product entry point, which resolves the
+  appropriate destination instead of always opening Mainline.
 - A module switcher moves between focused workspaces.
 - View links belong to the active module.
 - Account and global settings remain outside product modules.
 
 Mainline is the playthrough workspace. Codex is the shared reference browser.
-The active module cookie may choose a default destination, but explicit URLs
-determine the rendered module and authorization still happens at server
-boundaries.
+Explicit URLs determine the rendered module, and authorization still happens at
+server boundaries. The general product entry follows this precedence:
+
+1. A validated protected destination or action-resumption target wins when the
+   user is returning from authentication.
+2. A signed-in user is sent to the default landing view of their last active,
+   currently available module.
+3. If no valid module preference exists, V1 falls back to Mainline Dashboard.
+4. A signed-out user receives the public product entry experience unless they
+   explicitly requested a public Codex URL.
+
+Remember the last module rather than an arbitrary deep route. Each present or
+future module owns a stable default landing view, so a future Pokopia-only user
+can enter Pokopia without passing through Mainline. An unavailable, retired, or
+unauthorized module preference falls back safely instead of producing a broken
+entry flow.
+
+The active module cookie can support this behavior in V1. Whether the preference
+must also follow a user across browsers or devices remains a product and data
+design question; it is not yet a confirmed database requirement.
 
 ## Module Views
 

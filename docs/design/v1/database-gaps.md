@@ -35,9 +35,9 @@ design phase.
 Add one row for each meaningful screen capability rather than one vague row per
 screen.
 
-| Requirement ID | Screen/journey | User-visible need                           | Reference reads | User-owned reads/writes | Auth and validation | Failure/conflict states | Evidence status | Gap IDs |
-| -------------- | -------------- | ------------------------------------------- | --------------- | ----------------------- | ------------------- | ----------------------- | --------------- | ------- |
-| —              | —              | No screen-derived requirements reviewed yet | —               | —                       | —                   | —                       | —               | —       |
+| Requirement ID | Screen/journey | User-visible need                                                                                            | Reference reads                              | User-owned reads/writes                                             | Auth and validation                                                                                        | Failure/conflict states                                                 | Evidence status | Gap IDs |
+| -------------- | -------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------- | ------- |
+| DR-001         | G-01, J-01     | Normal signed-in entry opens the default view of the last active available module; V1 falls back to Mainline | Available module metadata and default routes | Read and update last active module; persistence scope is still open | Explicit URLs and validated post-login targets take precedence; reject unavailable or unauthorized modules | Missing, unknown, retired, or unauthorized preference falls back safely | Unreviewed      | —       |
 
 ## Database-Gap Register
 
