@@ -1,68 +1,69 @@
-# Voydex Docs
+# Voydex Documentation
 
-This folder is the app-side knowledge base for Voydex.
+This directory is the human-readable knowledge base for Voydex. Each fact has
+one canonical owner; other documents should link to it instead of restating it.
 
-The docs here explain the product, frontend architecture, co-located Voydex
-database, and settled decisions.
+## Authority Map
 
-## Source Ownership
+| Concern                                    | Canonical source                                                      |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| Product purpose and principles             | [Product Vision](./product/vision.md)                                 |
+| User-visible behavior                      | [Feature Contract](./product/feature-contract.md)                     |
+| Navigation and user flows                  | [Navigation And Routes](./product/navigation-and-routes.md)           |
+| State ownership and derivation             | [Data Ownership](./product/data-ownership.md)                         |
+| Current implementation and next work       | [Project Status](./project-status.md)                                 |
+| Frontend boundaries                        | [Frontend Architecture](./app/architecture.md)                        |
+| Setup and verification                     | [Setup](./app/setup.md) and [Verification](./app/verification.md)     |
+| Database structure and integration         | [Database Architecture](./database/architecture.md)                   |
+| Tables, constraints, grants, and policies  | `database/schema`                                                     |
+| Seed facts                                 | `database/seeds`                                                      |
+| Durable architecture rationale             | [Architecture Decision Records](./decisions/0001-modular-monolith.md) |
+| Mounted routes and implementation behavior | `src` and its tests                                                   |
 
-| Area                                         | Source of truth                     |
-| -------------------------------------------- | ----------------------------------- |
-| Product direction, app flow, UI architecture | `docs`                              |
-| Frontend implementation                      | `src`                               |
-| Active app assets                            | `public`                            |
-| Database schema and seeds                    | `database/schema`, `database/seeds` |
-| Database architecture/table contract         | `docs/database`                     |
-
-## Documents
-
-### Product
+## Product
 
 - [Product Vision](./product/vision.md)
 - [Feature Contract](./product/feature-contract.md)
 - [Navigation And Routes](./product/navigation-and-routes.md)
-- [App Modules And Product Families](./product/app-modules.md)
 - [Data Ownership](./product/data-ownership.md)
 - [Glossary](./product/glossary.md)
-- [Decision Log](./product/decision-log.md)
 - [Backlog](./product/backlog.md)
 
-### App
+Product docs may describe accepted future direction, but every planned surface
+must be labeled as planned. Only [Project Status](./project-status.md) records
+which slices are currently implemented.
+
+## Application
 
 - [Frontend Architecture](./app/architecture.md)
-- [Mutation Slices](./app/mutation-slices.md)
-- [Representative Read Slices](./app/read-slices.md)
+- [Design System](./app/design-system.md)
 - [Setup And Development](./app/setup.md)
 - [Verification](./app/verification.md)
-- [Design System](./app/design-system.md)
 
-### Architecture Decisions
+## Database
+
+- [Database Overview](./database/README.md)
+- [Database Architecture](./database/architecture.md)
+- [Schema Contract](./database/schema-contract.md)
+- [Database Decisions](./database/decisions.md)
+- [Reference Data](./database/reference-data.md)
+- [Security And Indexing](./database/security.md)
+
+## Decisions And Design
 
 - [ADR 0001: Modular Monolith](./decisions/0001-modular-monolith.md)
 - [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
 - [ADR 0003: Shared Visual Primitives](./decisions/0003-shared-visual-primitives.md)
-
-### Design
-
 - [Design References](./design/README.md)
-- [Codex Pokemon Detail Direction](./design/codex-pokemon-detail.md)
+- [Codex Pokémon Detail Direction](./design/codex-pokemon-detail.md)
 
-### Database
+## Documentation Rules
 
-- [Database Docs](./database/README.md)
-- [Database Integration](./database/integration.md)
-
-### Collaboration
-
-- [Codex Handoff](./codex-handoff.md)
-
-## Current Build Direction
-
-Voydex is a Pokémon companion app. It should help a user track, remember, and plan Pokémon playthroughs without needing to open every cartridge, console, or save file.
-
-The active product family is `mainline`, covering mainline-style Pokémon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience is Mainline. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
-
-The current implementation is a Next.js app with its Voydex Supabase source
-co-located under `database`. Mainline Plays and the public Codex are the mounted
-product surfaces; broader product documents also describe planned work.
+- Link to the canonical owner instead of copying contracts or status.
+- Keep completed phase journals in Git history, not the active documentation
+  tree.
+- Keep volatile progress only in [Project Status](./project-status.md).
+- Prefer focused documents over monolithic table-by-table inventories.
+- Update documentation in the same change when its implementation contract
+  changes.
+- Run `npm run docs:check` to validate links, reachability, and design assets.

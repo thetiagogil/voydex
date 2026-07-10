@@ -34,6 +34,9 @@ jobs:
       - name: Audit database sources
         run: npm run db:audit
 
+      - name: Check documentation
+        run: npm run docs:check
+
       - name: Check formatting
         run: npm run format:check
 

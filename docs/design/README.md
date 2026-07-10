@@ -1,55 +1,41 @@
 # Design References
 
-This folder stores curated visual references for Voydex product screens.
-
-These images are not pixel-perfect implementation contracts. They document the intended layout, information hierarchy, interaction ideas, and visual tone. When building the app, real data, responsive behavior, accessibility, and existing shadcn UI primitives take priority over copying every pixel.
+These curated images capture layout, information hierarchy, interaction ideas,
+and Voydex's clean adventure-companion tone. They are not pixel contracts.
+Real data, responsive behavior, accessibility, current product contracts, and
+shared UI primitives take priority.
 
 ## Rules
 
-- Keep only selected reference mockups here.
-- Do not add every generated attempt.
-- Do not import these images into app code.
-- Store production app assets under `public`, not `docs`.
-- Prefer compressed PNG or WebP files when possible.
-- If design images become large enough to affect normal git usage, move them to Git LFS or keep only smaller reference exports.
+- Keep only selected references; discarded generation variants belong in Git
+  history, not this directory.
+- Link every retained asset from this index so `npm run docs:check` can detect
+  orphaned files.
+- Do not import documentation images into application code.
+- Store production assets under `public`.
+- Revisit Git LFS or compressed exports if curated references materially affect
+  normal repository use.
 
-## Implementation Guidance
+## Codex Pokémon Detail
 
-- Use `src/shared/components/ui` primitives for controls and overlays.
-- Keep route files thin and compose reusable feature components from `src/modules` and `src/shared`.
-- Treat screenshots as guidance for structure and product intent, not as fixed dimensions.
-- Preserve the Voydex design direction: clean adventure companion, readable app surfaces, Pokémon-adjacent details, and subtle scenic background presence.
-- When a mockup conflicts with the current database contract or product docs, follow the docs and update the mockup notes later.
+[Codex Pokémon Detail Direction](./codex-pokemon-detail.md) is the canonical
+design/product guidance for the implemented game-scoped detail page.
 
-## Current References
+## Mainline Play
 
-### Codex Pokemon Detail
+- [Overview](./mainline-play/01_overview.png): journey, current team, progress,
+  and recent history.
+- [Team](./mainline-play/02_team.png): active/reserve management and analysis.
+- [Progress summary](./mainline-play/03_progress.png): story, Pokedex,
+  collectibles, and optional content.
+- [Story progress](./mainline-play/04_progress_story.png): ordered milestones
+  and selected detail.
+- [Story bulk desktop](./mainline-play/05_progress_story_bulk.png)
+- [Story bulk mobile](./mainline-play/06_progress_story_bulk_mobile.png)
+- [Pokedex grid](./mainline-play/07_progress_pokedex_grid.png)
+- [Pokedex grid bulk](./mainline-play/08_progress_pokedex_grid_bulk.png)
+- [Pokedex list](./mainline-play/09_progress_pokedex_list.png)
+- [Collectibles](./mainline-play/10_progress_collectibles.png)
 
-- [Codex Pokemon Detail Direction](./codex-pokemon-detail.md): current
-  product/design direction for the game-scoped Pokemon detail page, including
-  form-selection decisions, evolution-line treatment, and right-section card
-  direction.
-
-### Mainline Play
-
-Location:
-
-```txt
-docs/design/mainline-play
-```
-
-Files:
-
-- `01_overview.png`: Play hub overview reference with journey status, current
-  team, team health, progress summary, and recent history. Current
-  implementation intentionally defers Team Health until the Team tab has a real
-  analysis model.
-- `02_team.png`: Team management view with active/reserve roster, selected Pokémon details, quick analysis, and team events.
-- `03_progress.png`: Progress summary view for story, Pokedex, collectibles, and optional content.
-- `04_progress_story.png`: Story progress view with ordered milestones and selected milestone detail.
-- `05_progress_story_bulk.png`: Desktop bulk story completion flow.
-- `06_progress_story_bulk_mobile.png`: Mobile bulk story completion flow.
-- `07_progress_pokedex_grid.png`: Pokedex progress grid view.
-- `08_progress_pokedex_grid_bulk.png`: Bulk Pokedex progress flow.
-- `09_progress_pokedex_list.png`: Pokedex progress list view.
-- `10_progress_collectibles.png`: Collectibles progress view.
+The current Overview intentionally excludes Team Health until the Team workflow
+has a real analysis model.

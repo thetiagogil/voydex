@@ -68,7 +68,7 @@ The current roster should be limited to active/reserve Pokémon.
 
 Retired or replaced Pokémon can remain associated with the play as history, but they should not count toward the current team limit.
 
-Current roster ordering uses explicit roster state plus slot. Active and reserve groups each have slots 1 to 6. Retired and replaced Pokémon have no current slot.
+Current roster ordering uses explicit roster state plus slot. Active Pokémon use slots 1 to 6; reserve Pokémon use slots 7 to 12. Retired and replaced Pokémon have no current slot.
 
 Important team actions can create timeline events:
 

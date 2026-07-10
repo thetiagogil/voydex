@@ -1,93 +1,72 @@
 # Verification
 
-Voydex uses layered checks so architecture changes can be separated from
-product regressions.
+Voydex uses layered checks so the smallest credible gate can be run while
+diagnosing, with complete gates available before merging.
 
-## Automated Local Gate
-
-Run the complete gate before merging:
+## Application Gate
 
 ```bash
 npm run verify
 ```
 
-The command runs, in order:
+The command runs documentation validation, formatting, lint, type-checking,
+architecture boundaries, Vitest, and the production build.
 
-1. `npm run format:check`
-2. `npm run lint`
-3. `npm run typecheck`
-4. `npm run architecture:check`
-5. `npm run test`
-6. `npm run build`
+Individual commands remain available:
 
-Use an individual command while diagnosing a failure. `npm run test:watch` is
-available for local unit-test development.
+```bash
+npm run docs:check
+npm run format:check
+npm run lint
+npm run typecheck
+npm run architecture:check
+npm run test
+npm run build
+```
 
-The GitHub Actions `Quality` workflow runs the same individual gates on pull
-requests and pushes to `main` with Node.js 22.
+## Database Gate
 
-## Architecture Check
+Start local Supabase before running the executable database checks:
 
-The architecture checker is intentionally transition-aware. It currently
-protects boundaries that the pre-refactor code already satisfies:
+```bash
+npm run db:start
+npm run db:verify
+```
 
-- shared and platform layers do not depend on product/application layers;
-- product modules do not depend laterally on each other, except for the
-  directed future dependency on `reference`;
-- Client Components do not import server query/reader modules;
-- component folders do not create/import database clients or issue raw
-  `.schema(...)` reads.
+`db:verify` performs a fresh reset/seed, offline source audits, SQL format check,
+database lint, pgTAP, and generated-type parity. `npm run verify:all` runs
+`db:verify` followed by the application gate.
 
-Tighten the checker after each migration phase instead of adding a permanent
-allow-list for architecture debt.
+The offline `db:audit` does not require Docker and runs in the normal Quality
+workflow. The Docker-backed Database Quality workflow runs when database-related
+paths change.
 
-## Browser Smoke Baseline
+## Browser Gate
 
-For architecture-only phases, verify that the nearest representative routes
-still load and that navigation behavior is unchanged.
+Meaningful UI work also requires a real browser check at desktop and mobile
+widths. Verify:
 
-Phase 0 baseline recorded on 2026-07-10:
+- Intended loading, empty, error, disabled, and long-content states.
+- Keyboard flow, visible focus, labels, semantics, and non-color status cues.
+- Responsive hierarchy, overflow, and supported light/dark themes.
+- Console errors, framework overlays, and failed network requests.
 
-- `/` rendered meaningful content and navigation with no console errors or
-  framework error overlay.
-- The home-page `Browse Codex` link navigated to `/codex/pokemon`; the live
-  catalogue rendered seeded results with no console errors.
-- `/codex/games` rendered seeded game cards with no console errors at desktop
-  width and remained usable at a 390 x 844 mobile viewport.
-- An unauthenticated request to `/mainline/plays` redirected to
-  `/login?next=%2Fmainline%2Fplays` and rendered the login form without console
-  errors.
-- Authenticated Mainline and Play Hub data were not exercised because this
-  baseline did not use or create test credentials.
+Representative public routes include `/`, `/codex/pokemon`, `/codex/games`, and
+game-scoped Pokémon detail. Representative authenticated routes include
+`/mainline/plays`, an owned Play Hub, and `/settings`.
 
-| Surface                    | Representative route                      | Expected access                    |
-| -------------------------- | ----------------------------------------- | ---------------------------------- |
-| Public site                | `/`                                       | public                             |
-| Public Codex browse        | `/codex/pokemon`                          | public                             |
-| Public Games browse        | `/codex/games`                            | public                             |
-| Pokemon detail             | `/codex/pokemon/[gameSlug]/[speciesSlug]` | public, valid seeded identifiers   |
-| Species-only compatibility | `/codex/pokemon/[speciesSlug]`            | public, redirects to default game  |
-| Mainline Plays             | `/mainline/plays`                         | authenticated                      |
-| Play Hub                   | `/mainline/plays/[playId]`                | authenticated, owned valid play ID |
-| Settings                   | `/settings`                               | authenticated                      |
-| Health endpoint            | `/api/health`                             | public                             |
-| Species menu endpoint      | `/api/codex/pokemon-menu?...`             | public valid query                 |
+There is not yet a committed authenticated end-to-end browser suite. If a tool
+cannot reach a host-local development server, report that as an environment
+limitation rather than claiming visual verification.
 
-For meaningful UI changes, check at least one desktop and one mobile viewport,
-keyboard focus, overflow, loading/empty/error states relevant to the change,
-and browser console/runtime errors. Authentication and database-backed routes
-require a valid `.env.local` and accessible Supabase project.
+## Current Automated Coverage
 
-Phase 10 route smoke was exercised through the local Next.js server on
-2026-07-10: `/` and `/codex/pokemon` returned `200`, and the species-only route
-returned the expected `307` redirect for a seeded species. The in-app browser
-could not reach the host-local development server in this environment, so a
-visual viewport and console-error assertion remains an environment-limited
-follow-up rather than a product failure.
+- Architecture checks enforce layer, module, client/server, and raw-database
+  boundaries.
+- Vitest covers focused domain, mapping, navigation, auth, and tooling behavior.
+- Offline database audits validate authored schema and the full deterministic
+  seed corpus.
+- pgTAP covers structural security, client access, cross-user RLS, view
+  isolation, and representative transactional mutations.
 
-## Database Phases
-
-Database relocation or contract work needs its own local Supabase checks in
-addition to the app gate. Those commands remain documented in
-[Database Integration](../database/integration.md) until the database source is
-co-located.
+Exact current counts belong in [Project Status](../project-status.md).

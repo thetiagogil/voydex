@@ -6,6 +6,11 @@ This document defines the agreed feature set for the Voydex rebuild.
 
 The active build target is the `mainline` product family and its Mainline app workspace: mainline-style Pokémon RPG playthrough tracking, planning, Pokedex search, Collection, and stats.
 
+Frontend modules and database product families are related but distinct. The
+active modules are Mainline, the authenticated playthrough workspace, and
+Codex, the shared public reference browser. Codex is not a database product
+family and does not own gameplay or planning mutations.
+
 Future product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are accepted product directions, but they should not distort the `mainline` play/team/story model. They can share account, reference, style, and high-level shell concepts while using product-family-specific data models where needed.
 
 ## Primary App Areas
@@ -129,7 +134,7 @@ Retired/replaced Pokémon should be preserved as history when the user records t
 Roster slots:
 
 - Active Pokémon use slots 1 to 6.
-- Reserve Pokémon use slots 1 to 6.
+- Reserve Pokémon use slots 7 to 12.
 - Retired and replaced Pokémon have no current roster slot.
 
 Recorded in-game team changes should create timeline events with enough Pokémon identity data to preserve usage history. For example, if Squirtle evolves into Wartortle and then Blastoise, Collection and reuse checks should still know that Squirtle, Wartortle, and Blastoise were used.
@@ -431,11 +436,3 @@ The item catalog should only include items that are held by Pokémon or are esse
 - Berries, Mega Stones, and Z-Crystals as held item subgroups.
 
 General medicine, treasures, ingredients, decorations, clothing, mail, generic key items, and unrelated bag items should stay out unless a future feature needs them.
-
-## Current Backlog Features
-
-These are accepted product directions but not immediate build targets:
-
-- Shareable recap.
-- Progression-aware planning by story point/location.
-- Achievements.

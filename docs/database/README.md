@@ -1,34 +1,17 @@
-# Voydex Database Docs
+# Database Documentation
 
-These docs define the architecture contract and current implementation status
-for the co-located Voydex database.
+The Voydex Supabase/Postgres source is co-located with the application. These
+documents explain its contracts and rationale; authored SQL remains the source
+of truth for exact objects and permissions.
 
-The active source was imported from `00-databases` commit
-`85315314f7f24e071028bb8f1f4fe8bb52946f72`. The old repository retains its
-excluded legacy tree as archive-only material; it is not an implementation
-source.
+- [Architecture](./architecture.md): schema ownership, source layout, generated
+  artifacts, app integration, and local workflow.
+- [Schema Contract](./schema-contract.md): application-facing entities and
+  invariants.
+- [Decisions](./decisions.md): rationale for non-obvious modeling choices.
+- [Reference Data](./reference-data.md): source hierarchy, curation scope,
+  audits, and known gaps.
+- [Security And Indexing](./security.md): grants, RLS, views, functions,
+  indexes, and security verification.
 
-## Documents
-
-- [Database Architecture](./database-architecture.md)
-- [Schema Contract](./schema-contract.md)
-- [Reference Data Strategy](./reference-data-strategy.md)
-- [Rebuild Plan](./rebuild-plan.md)
-- [Schema Design Readiness](./schema-design-readiness.md)
-- [Schema Design Decisions](./schema-design-decisions.md)
-- [Table Blueprint](./table-blueprint.md)
-- [Security And Index Plan](./security-and-index-plan.md)
-- [App Handoff](./app-handoff.md)
-- [Source Structure](./structure.md)
-- [Data Inconsistencies](./data-inconsistencies.md)
-
-## Current Status
-
-- Active clean schema source files include foundation, `public`, `reference`, `tracking`, `gameplay`, `planning`, and `views`.
-- Active clean seed files include foundation prerequisites, reference data, tracking definitions, gameplay lookup data, and planning lookup data.
-- Generated Supabase wrapper files are produced from the reviewed source folders for local reset/load verification.
-- The database-side app contract is ready for consumption through the generated
-  types and [App Handoff](./app-handoff.md).
-- Offline structural audits and a 13-assertion pgTAP schema/security smoke suite
-  are active. Representative cross-user mutation coverage remains a future
-  hardening task.
+For current verification results, see [Project Status](../project-status.md).

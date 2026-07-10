@@ -102,4 +102,4 @@ Recommended flow:
 1. Commit changes on one machine.
 2. Pull the branch on the other machine.
 3. Copy `.env.local` values manually.
-4. Use `docs/codex-handoff.md` to restore context in a fresh Codex thread.
+4. Use `docs/project-status.md` to restore current implementation context.

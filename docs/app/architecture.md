@@ -10,15 +10,9 @@ The accepted direction is recorded in
 [ADR 0001](../decisions/0001-modular-monolith.md). This document is the working
 architecture guide; the ADR explains why the direction was chosen.
 
-## Current Checkpoint
+## Current Topology
 
-The canonical refactor plan has implemented Phases 0 through 10. Phases 4 and 5
-were implemented together in the frontend-foundation change, and the database
-cutover documented by Phase 3 was bundled with the Phase 2 import. Phase 9
-established the first mutation boundary; Phase 10 completed the final cleanup
-and enforcement pass.
-
-Phases 4 through 10 use this root layout:
+The application uses this root layout:
 
 ```txt
 src/
@@ -41,7 +35,7 @@ src/
   proxy.ts
 ```
 
-The foundation now follows the target ownership rules:
+The active source follows these ownership rules:
 
 - `src/lib` is retired. Environment and Supabase adapters live under
   `src/platform`, auth workflows live under `src/features/auth`, app-shell and
@@ -66,26 +60,13 @@ The foundation now follows the target ownership rules:
 - existing feature reads commonly use a query/loader/mapper split. That split
   remains valid where the responsibilities are genuinely distinct, but it is
   no longer a mandatory three-file template.
-- Phase 7 records representative simple, complex public, and complex
-  authenticated reads in [Representative Read Slices](./read-slices.md).
-- Phase 8 completed the remaining Codex/Mainline read-boundary cleanup without
-  changing routes or database behavior. Feature-owned browse grouping,
-  Pokemon detail assembly, menu ordering, learnset I/O, and evolution-path
-  responsibilities now have cohesive files. The architecture check rejects the
-  retired paths; generated shared UI primitives remain the documented size
-  exceptions.
-- Phase 9 established the first mutation slice in
-  [Mutation Slices](./mutation-slices.md): authenticated Team add flows use a
-  Server Action, application command, pure domain validation, and a repository
-  around the existing database RPC. The Team tab remains a shell until its
-  Overview work is complete; this backend slice does not imply a new UI flow.
-- Phase 10 replaced the misleading route-specific dynamic segment with the
-  shared `[slug]` segment required by Next.js for the two Pokemon detail
-  depths, documented the narrow shared visual-primitives exception in
-  [ADR 0003](../decisions/0003-shared-visual-primitives.md), and added an
-  architecture check to prevent the retired route path from returning. The
-  local HTTP smoke passed; visual browser verification remains environment-
-  limited because the in-app browser could not reach the host-local server.
+- representative reads include a cohesive simple public read, a complex public
+  Games read with independent I/O and mapping, and an authenticated Play Hub
+  read with claim verification, owner-scoped readers, and pure page assembly.
+- the first non-trivial mutation uses a Server Action, application command,
+  pure domain validation, repository, and transactional database function.
+- generated shared UI primitives remain documented size exceptions; the
+  architecture checker rejects retired paths and prohibited dependencies.
 
 `src/shared` may contain the app-wide icon catalog, icon wrapper, Pokeball icon,
 and brand components as documented visual primitives. Do not use that narrow
@@ -391,14 +372,15 @@ Current route groups remain:
   `/mainline/plays/[playId]`, and `/settings`;
 - API: `/api/health` and `/api/codex/pokemon-menu`.
 
-Use code and `docs/codex-handoff.md` as the evidence for which planned routes
-are actually mounted.
+Use code and [Project Status](../project-status.md) as the evidence for which
+planned routes are actually mounted.
 
-## Migration Rules
+## Change Rules
 
-- Migrate one coherent boundary at a time.
-- Keep mechanical moves separate from behavior changes.
-- Preserve public routes and feature behavior during architecture-only phases.
+- Change one coherent boundary at a time.
+- Keep mechanical moves separate from behavior changes when that improves
+  reviewability.
+- Preserve public routes and feature behavior during architecture-only work.
 - Do not create empty target folders or long-lived compatibility layers.
 - Enable a new architecture rule only when the repository already passes it.
 
