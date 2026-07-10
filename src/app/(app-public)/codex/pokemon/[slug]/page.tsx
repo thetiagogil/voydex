@@ -5,7 +5,7 @@ import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/deta
 
 type PageProps = {
   params: Promise<{
-    gameSlug: string;
+    slug: string;
   }>;
   searchParams: Promise<{
     form?: string | string[];
@@ -16,7 +16,7 @@ type PageProps = {
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { gameSlug: speciesSlug } = await params;
+  const { slug: speciesSlug } = await params;
   const resolvedSearchParams = await searchParams;
   const requestedGameSlug = getSingleSearchParam(resolvedSearchParams.game);
   const defaultGameSlug =

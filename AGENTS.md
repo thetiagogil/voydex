@@ -28,8 +28,8 @@ that is within scope.
 - Voydex is a Pokemon companion app with `mainline` and `codex` as the active
   frontend modules.
 - Keep `src/app` routes thin. Feature implementation belongs under
-  `src/modules` or `src/features`; only domain-neutral primitives belong under
-  `src/shared` in the target architecture.
+  `src/modules` or `src/features`; `src/shared` contains domain-neutral
+  primitives plus the documented app-wide visual primitives.
 - `src/lib` is retired. Framework and Supabase adapters belong under
   `src/platform`; global workflows such as app shell and auth belong under
   `src/features`.

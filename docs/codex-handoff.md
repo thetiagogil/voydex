@@ -15,9 +15,10 @@ excluded legacy archive.
 
 ## Architecture Refactor Checkpoint
 
-The canonical plan is complete through Phase 8, with Phase 9 now in progress.
-The phase numbering below matches the project plan; some implementation commits
-intentionally combine adjacent mechanical phases.
+The canonical plan is implemented through Phase 10. The phase numbering below
+matches the project plan; some implementation commits intentionally combine
+adjacent mechanical phases. The final visual browser assertion is currently
+environment-limited.
 
 - **Phase 0 — Architecture contract and safety harness:** ADR 0001, updated
   guidance, import-boundary checks, CI quality gates, focused tests, and the
@@ -55,9 +56,19 @@ intentionally combine adjacent mechanical phases.
   form/client intent surface; this backend-first slice is documented in
   [Mutation Slices](./app/mutation-slices.md).
 
-Phase 10 (final cleanup and enforcement) has not started. The local reset,
-source/seed audit, SQL lint, pgTAP suite, type parity, and app verification
-pass at the last completed checkpoint. No remote database read or write was
+- **Phase 10 — Final cleanup and enforcement:** both Pokemon detail depths now
+  use the neutral `[slug]` segment required by Next.js, the retired
+  `[gameSlug]/page.tsx` path is rejected by `architecture:check`, and ADR 0003
+  records why app-wide icon and brand primitives remain under `src/shared`.
+  The Team tab remains intentionally untouched while Overview is still the
+  active product slice.
+
+The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, app
+verification, and local HTTP route smoke checks pass at this checkpoint. The
+in-app browser could not reach the host-local development server, so visual and
+console assertions remain environment-limited. The repository has no committed
+end-to-end browser suite; the route baselines remain documented in
+[Verification](./app/verification.md). No remote database read or write was
 performed; remote work still requires separate explicit authorization.
 
 ## Current Product Summary
@@ -410,20 +421,10 @@ complexity-driven: a simple read can remain in one cohesive server file; a
 complex read can use an orchestrator, raw reader (existing loaders have this
 role), and pure mappers.
 
-Known implementation debt:
-
-- The species-only compatibility route behaves as
-  `/codex/pokemon/[speciesSlug]`, but its App Router folder is still named
-  `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
-  rename is explicitly in scope.
-- The repository has explicit format, lint, typecheck, architecture, unit-test,
-  build, and CI gates. The unit suite currently has 23 tests across eight files,
-  and there is no committed end-to-end browser suite yet.
-
-The remaining documented architecture cleanup is narrower: review the
-product-specific app-icon and brand ownership still under root `src/shared`, and
-treat the Codex species-only compatibility folder rename as a separate
-route-safe task. Audit those scopes before assigning the next numbered phase.
+The repository has explicit format, lint, typecheck, architecture, unit-test,
+build, database, and CI gates. The unit suite count is intentionally reported
+by the current Vitest run rather than maintained as a hand-edited status claim;
+there is no committed end-to-end browser suite yet.
 
 When adding the next Codex or Mainline section after the architecture migration,
 keep route files thin and choose the smallest read structure that keeps I/O,

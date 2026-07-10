@@ -129,8 +129,9 @@ Pokemon domain/component folders.
 Module feature code belongs under `src/modules`. Cross-app features such as app
 shell, site, auth, settings, and system pages belong under `src/features`.
 Framework and Supabase infrastructure belongs under `src/platform`. Only
-domain-neutral primitives belong under `src/shared` in the target architecture.
-Read `docs/app/architecture.md` and the accepted ADR before moving a boundary.
+domain-neutral primitives and the documented app-wide visual primitives belong
+under `src/shared` in the target architecture. Read `docs/app/architecture.md`
+and the accepted ADR before moving a boundary.
 
 ## File And Component Hygiene
 

@@ -2,7 +2,7 @@ import { PokemonDetailPage } from "@/modules/codex/features/pokemon/detail/pokem
 
 type PageProps = {
   params: Promise<{
-    gameSlug: string;
+    slug: string;
     speciesSlug: string;
   }>;
   searchParams: Promise<{
@@ -11,7 +11,7 @@ type PageProps = {
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { gameSlug, speciesSlug } = await params;
+  const { slug: gameSlug, speciesSlug } = await params;
 
   return (
     <PokemonDetailPage

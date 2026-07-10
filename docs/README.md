@@ -41,6 +41,7 @@ database, and settled decisions.
 
 - [ADR 0001: Modular Monolith](./decisions/0001-modular-monolith.md)
 - [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
+- [ADR 0003: Shared Visual Primitives](./decisions/0003-shared-visual-primitives.md)
 
 ### Design
 

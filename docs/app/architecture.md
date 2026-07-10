@@ -12,12 +12,13 @@ architecture guide; the ADR explains why the direction was chosen.
 
 ## Current Checkpoint
 
-The canonical refactor plan has completed Phases 0 through 8. Phases 4 and 5
+The canonical refactor plan has implemented Phases 0 through 10. Phases 4 and 5
 were implemented together in the frontend-foundation change, and the database
-cutover documented by Phase 3 was bundled with the Phase 2 import. Phase 9 is
-the next planned change.
+cutover documented by Phase 3 was bundled with the Phase 2 import. Phase 9
+established the first mutation boundary; Phase 10 completed the final cleanup
+and enforcement pass.
 
-Phases 4 through 8 use this root layout:
+Phases 4 through 10 use this root layout:
 
 ```txt
 src/
@@ -73,14 +74,22 @@ The foundation now follows the target ownership rules:
   responsibilities now have cohesive files. The architecture check rejects the
   retired paths; generated shared UI primitives remain the documented size
   exceptions.
-- Phase 9 is establishing the first mutation slice in
+- Phase 9 established the first mutation slice in
   [Mutation Slices](./mutation-slices.md): authenticated Team add flows use a
   Server Action, application command, pure domain validation, and a repository
-  around the existing database RPC.
+  around the existing database RPC. The Team tab remains a shell until its
+  Overview work is complete; this backend slice does not imply a new UI flow.
+- Phase 10 replaced the misleading route-specific dynamic segment with the
+  shared `[slug]` segment required by Next.js for the two Pokemon detail
+  depths, documented the narrow shared visual-primitives exception in
+  [ADR 0003](../decisions/0003-shared-visual-primitives.md), and added an
+  architecture check to prevent the retired route path from returning. The
+  local HTTP smoke passed; visual browser verification remains environment-
+  limited because the in-app browser could not reach the host-local server.
 
-Product-specific app-icon and brand placement remains a later root-shared
-cleanup. Do not use those narrow exceptions as precedent for new domain code in
-`src/shared`.
+`src/shared` may contain the app-wide icon catalog, icon wrapper, Pokeball icon,
+and brand components as documented visual primitives. Do not use that narrow
+exception as precedent for product state, database access, or domain code.
 
 ## Target Topology
 
@@ -104,7 +113,7 @@ src/
       features/
     reference/                 # internal Pokemon/game catalogue capability
       features/
-  shared/                      # generic, domain-neutral building blocks
+  shared/                      # generic and app-wide visual primitives
     components/
       ui/
     hooks/
@@ -159,8 +168,9 @@ consumer.
 
 Generic, domain-neutral primitives that are safe for any layer to use. This
 includes shadcn/Base UI wrappers, generic hooks, providers, low-level styles,
-and utilities. Pokemon/game rules, route behavior, app-shell composition, and
-Supabase clients do not belong here.
+the app-wide icon and brand primitives documented in ADR 0003, and utilities.
+Pokemon/game rules, route behavior, app-shell composition, and Supabase clients
+do not belong here.
 
 ## Dependency Direction
 
@@ -184,10 +194,11 @@ features cannot depend laterally or reach into product modules; product modules
 cannot import global feature internals; the only lateral module dependency is
 the directed dependency on `reference`; consumers cannot reach into
 `reference/shared` internals; retired root-shared Pokemon/game paths are
-rejected; the retired Mainline `plays/detail` boundary is rejected; Client
-Components cannot import server queries/readers; and component folders cannot
-create database clients or perform raw schema reads. Add stricter rules only
-after the corresponding migration phase is complete.
+rejected; the retired Mainline `plays/detail` boundary and old species-only
+Pokemon compatibility route path are rejected; Client Components cannot import
+server queries/readers; and component folders cannot create database clients or
+perform raw schema reads. Add stricter rules only after the corresponding
+migration phase is complete.
 
 ## Module And Feature Organization
 

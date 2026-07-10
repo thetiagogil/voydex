@@ -60,22 +60,30 @@ Phase 0 baseline recorded on 2026-07-10:
 - Authenticated Mainline and Play Hub data were not exercised because this
   baseline did not use or create test credentials.
 
-| Surface               | Representative route                      | Expected access                    |
-| --------------------- | ----------------------------------------- | ---------------------------------- |
-| Public site           | `/`                                       | public                             |
-| Public Codex browse   | `/codex/pokemon`                          | public                             |
-| Public Games browse   | `/codex/games`                            | public                             |
-| Pokemon detail        | `/codex/pokemon/[gameSlug]/[speciesSlug]` | public, valid seeded identifiers   |
-| Mainline Plays        | `/mainline/plays`                         | authenticated                      |
-| Play Hub              | `/mainline/plays/[playId]`                | authenticated, owned valid play ID |
-| Settings              | `/settings`                               | authenticated                      |
-| Health endpoint       | `/api/health`                             | public                             |
-| Species menu endpoint | `/api/codex/pokemon-menu?...`             | public valid query                 |
+| Surface                    | Representative route                      | Expected access                    |
+| -------------------------- | ----------------------------------------- | ---------------------------------- |
+| Public site                | `/`                                       | public                             |
+| Public Codex browse        | `/codex/pokemon`                          | public                             |
+| Public Games browse        | `/codex/games`                            | public                             |
+| Pokemon detail             | `/codex/pokemon/[gameSlug]/[speciesSlug]` | public, valid seeded identifiers   |
+| Species-only compatibility | `/codex/pokemon/[speciesSlug]`            | public, redirects to default game  |
+| Mainline Plays             | `/mainline/plays`                         | authenticated                      |
+| Play Hub                   | `/mainline/plays/[playId]`                | authenticated, owned valid play ID |
+| Settings                   | `/settings`                               | authenticated                      |
+| Health endpoint            | `/api/health`                             | public                             |
+| Species menu endpoint      | `/api/codex/pokemon-menu?...`             | public valid query                 |
 
 For meaningful UI changes, check at least one desktop and one mobile viewport,
 keyboard focus, overflow, loading/empty/error states relevant to the change,
 and browser console/runtime errors. Authentication and database-backed routes
 require a valid `.env.local` and accessible Supabase project.
+
+Phase 10 route smoke was exercised through the local Next.js server on
+2026-07-10: `/` and `/codex/pokemon` returned `200`, and the species-only route
+returned the expected `307` redirect for a seeded species. The in-app browser
+could not reach the host-local development server in this environment, so a
+visual viewport and console-error assertion remains an environment-limited
+follow-up rather than a product failure.
 
 ## Database Phases
 

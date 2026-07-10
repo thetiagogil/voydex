@@ -265,6 +265,26 @@ async function checkFile(filePath) {
     );
   }
 
+  const retiredPokemonCompatibilityRoute = [
+    "app",
+    "(app-public)",
+    "codex",
+    "pokemon",
+    "[gameSlug]",
+    "page.tsx",
+  ];
+
+  if (
+    retiredPokemonCompatibilityRoute.every(
+      (segment, index) => segments[index] === segment,
+    ) &&
+    segments.length === retiredPokemonCompatibilityRoute.length
+  ) {
+    violations.push(
+      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon detail routes must use the neutral [slug] segment; do not restore src/app/(app-public)/codex/pokemon/[gameSlug]/page.tsx`,
+    );
+  }
+
   for (const specifier of collectModuleSpecifiers(sourceFile)) {
     checkImportBoundary({
       importerPath: filePath,
