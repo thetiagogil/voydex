@@ -15,7 +15,7 @@ excluded legacy archive.
 
 ## Architecture Refactor Checkpoint
 
-The canonical plan is complete through Phase 8, with Phase 9 next.
+The canonical plan is complete through Phase 8, with Phase 9 now in progress.
 The phase numbering below matches the project plan; some implementation commits
 intentionally combine adjacent mechanical phases.
 
@@ -49,11 +49,16 @@ intentionally combine adjacent mechanical phases.
   split into cohesive feature-owned files. No retired feature paths remain;
   generated shared UI primitives are the only documented size exceptions.
 
-Phases 9 (mutation architecture) and 10 (final cleanup and enforcement) have
-not started. The local reset, source/seed audit, SQL lint, pgTAP suite, type
-parity, and app verification pass at the last completed checkpoint. No remote
-database read or write was performed; remote work still requires separate
-explicit authorization.
+- **Phase 9 — Establish mutation architecture:** the first Team add path now
+  follows Server Action → application command → domain validation → repository
+  → `gameplay.add_mainline_play_pokemon`. The Team tab still needs its real
+  form/client intent surface; this backend-first slice is documented in
+  [Mutation Slices](./app/mutation-slices.md).
+
+Phase 10 (final cleanup and enforcement) has not started. The local reset,
+source/seed audit, SQL lint, pgTAP suite, type parity, and app verification
+pass at the last completed checkpoint. No remote database read or write was
+performed; remote work still requires separate explicit authorization.
 
 ## Current Product Summary
 

@@ -73,6 +73,10 @@ The foundation now follows the target ownership rules:
   responsibilities now have cohesive files. The architecture check rejects the
   retired paths; generated shared UI primitives remain the documented size
   exceptions.
+- Phase 9 is establishing the first mutation slice in
+  [Mutation Slices](./mutation-slices.md): authenticated Team add flows use a
+  Server Action, application command, pure domain validation, and a repository
+  around the existing database RPC.
 
 Product-specific app-icon and brand placement remains a later root-shared
 cleanup. Do not use those narrow exceptions as precedent for new domain code in

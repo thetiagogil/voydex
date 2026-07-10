@@ -31,6 +31,7 @@ database, and settled decisions.
 ### App
 
 - [Frontend Architecture](./app/architecture.md)
+- [Mutation Slices](./app/mutation-slices.md)
 - [Representative Read Slices](./app/read-slices.md)
 - [Setup And Development](./app/setup.md)
 - [Verification](./app/verification.md)
