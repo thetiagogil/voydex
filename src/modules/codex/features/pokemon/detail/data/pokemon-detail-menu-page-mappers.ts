@@ -6,10 +6,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-attribute-selectors";
 import { getPokemonMenuRowBySpeciesId } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
-import {
-  byId,
-  resolveTypePair,
-} from "@/modules/codex/shared/data/reference-data-utils";
+import { byId, resolveTypePair } from "@/modules/reference/reference-data";
 import type {
   Game,
   Generation,
@@ -17,11 +14,11 @@ import type {
   PokemonDetailMenuPage,
   PokemonForm,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 type BuildPokemonDetailMenuPageParams = {
   attributes: PokemonAttributes[];

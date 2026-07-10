@@ -8,12 +8,12 @@ import {
   isPokemonDetailFormEqual,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
+import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
 import {
   getPokemonTypeCssVariables,
   pokemonTypeHoverSurfaceClassName,
   pokemonTypeSelectedSurfaceClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 
 type PokemonDetailFormsSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;

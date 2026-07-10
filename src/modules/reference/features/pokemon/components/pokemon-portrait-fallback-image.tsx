@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
+import { PokemonPortraitPlaceholder } from "@/modules/reference/features/pokemon/components/pokemon-portrait-placeholder";
 
 type PokemonPortraitFallbackImageProps = {
   alt: string;

@@ -1,5 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { loadChunkedReferenceRows } from "@/modules/codex/shared/server/reference-row-loaders";
+import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
   Game,
   GamePlatform,
@@ -10,7 +10,7 @@ import type {
   PokedexEntry,
   Region,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type GameDetailRows = {
   game: Game;

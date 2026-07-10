@@ -1,10 +1,10 @@
 import { cn } from "@/shared/utils/cn";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import {
   pokemonTypeGroupHoverSurfaceClassName,
   pokemonTypeSelectedSurfaceClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type PokemonDetailActionPortraitProps = {
   alt: string;

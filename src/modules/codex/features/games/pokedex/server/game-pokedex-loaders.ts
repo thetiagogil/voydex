@@ -2,7 +2,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
-} from "@/modules/codex/shared/server/reference-row-loaders";
+} from "@/modules/reference/reference-rows";
 import type {
   Ability,
   Game,
@@ -13,7 +13,7 @@ import type {
   PokemonForm,
   PokemonSpecies,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type GamePokedexBaseRows = {
   game: Game;

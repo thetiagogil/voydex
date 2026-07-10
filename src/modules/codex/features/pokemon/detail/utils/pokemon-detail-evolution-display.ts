@@ -5,7 +5,7 @@ import type {
   PokemonEvolutionFamilySummary,
   PokemonEvolutionSpeciesSummary,
   PokemonForm,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type PokemonDetailEvolutionPathStep = {
   edgesToNext: PokemonEvolutionEdgeSummary[];

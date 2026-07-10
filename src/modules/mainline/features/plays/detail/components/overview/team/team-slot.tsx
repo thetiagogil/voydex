@@ -4,7 +4,7 @@ import { appRoutes } from "@/config/routes";
 import { TeamTypeList } from "@/modules/mainline/features/plays/detail/components/overview/team/team-type-list";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import {
   getTeamMemberImageUrl,
   getTeamMemberName,

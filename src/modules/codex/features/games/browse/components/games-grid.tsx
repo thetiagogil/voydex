@@ -5,12 +5,12 @@ import { appRoutes } from "@/config/routes";
 import { cn } from "@/shared/utils/cn";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
-import type { GameCard } from "@/modules/codex/shared/types";
+import type { GameCard } from "@/modules/reference/types";
 import {
   getPokemonGameColorCssVariables,
   pokemonGameCardSurfaceClassName,
-} from "@/shared/components/game/pokemon-game-color-styles";
-import { getGameInitials } from "@/shared/domain/games/game-display";
+} from "@/modules/reference/features/games/display/game-color-styles";
+import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 
 type GamesGridProps = {
   games: GameCard[];

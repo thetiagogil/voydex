@@ -1,7 +1,4 @@
-import type {
-  Generation,
-  PokemonAttributes,
-} from "@/modules/codex/shared/types";
+import type { Generation, PokemonAttributes } from "@/modules/reference/types";
 
 export type PokemonDetailStatKey =
   | "base_attack"

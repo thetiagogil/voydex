@@ -1,4 +1,4 @@
-import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
+import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";
 

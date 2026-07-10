@@ -2,15 +2,15 @@ import { cn } from "@/shared/utils/cn";
 import type {
   PokedexPokemonBrowseReference,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import {
   PokemonTypeBadge,
   type PokemonTypeBadgeDisplay,
   type PokemonTypeBadgeSize,
   type PokemonTypeBadgeVariant,
-} from "@/shared/components/pokemon/pokemon-type-icon";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type PokemonTypeDisplay = Pick<Type, "name" | "slug"> &
   Partial<Pick<PokedexPokemonBrowseReference, "id">>;

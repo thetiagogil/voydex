@@ -7,7 +7,7 @@ import { PokemonDetailSpeciesSelectorDesktop } from "@/modules/codex/features/po
 import { PokemonDetailSpeciesSelectorMobile } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-mobile";
 import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/hooks/use-pokemon-detail-species-menu";
 import { getPokemonHref } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
-import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 
 type PokemonDetailSpeciesSelectorProps = {
   activeGameSlug: string | null;

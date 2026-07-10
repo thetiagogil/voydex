@@ -1,13 +1,13 @@
 import { cn } from "@/shared/utils/cn";
-import { PokemonPortraitFallbackImage } from "@/shared/components/pokemon/pokemon-portrait-fallback-image";
-import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
+import { PokemonPortraitFallbackImage } from "@/modules/reference/features/pokemon/components/pokemon-portrait-fallback-image";
+import { PokemonPortraitPlaceholder } from "@/modules/reference/features/pokemon/components/pokemon-portrait-placeholder";
 import {
   getPokemonTypeCssVariables,
   pokemonTypeSoftBackgroundClassName,
   pokemonTypeSoftBorderClassName,
   pokemonTypeSolidBackgroundClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import Image from "next/image";
 
 type PokemonPortraitProps = {

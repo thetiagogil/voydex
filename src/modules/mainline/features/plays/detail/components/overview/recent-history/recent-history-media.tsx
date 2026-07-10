@@ -1,5 +1,5 @@
 import type { TimelineMediaItem } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-types";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 
 const TimelineMediaFallback = ({ name }: Pick<TimelineMediaItem, "name">) => {
   return (

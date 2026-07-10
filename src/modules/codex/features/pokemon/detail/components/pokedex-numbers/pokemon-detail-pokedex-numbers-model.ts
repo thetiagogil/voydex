@@ -1,8 +1,8 @@
-import type { PokemonPokedexSummary } from "@/modules/codex/shared/types";
+import type { PokemonPokedexSummary } from "@/modules/reference/types";
 import {
   formatPokedexName,
   formatPokemonNationalNumber,
-} from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 export type PokemonDetailPokedexNumber = {
   id: string;

@@ -1,6 +1,6 @@
 import { type UIEvent, useCallback, useMemo, useState } from "react";
 
-import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import {
   createPokemonMenuState,
   getPokemonMenuGroupHeaderBySlug,

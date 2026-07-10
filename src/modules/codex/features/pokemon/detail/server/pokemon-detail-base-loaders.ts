@@ -12,7 +12,7 @@ import type {
   ResolvedPokemonLearnset,
   Type,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 const POKEMON_DETAIL_LEARNSET_PAGE_SIZE = 1000;
 

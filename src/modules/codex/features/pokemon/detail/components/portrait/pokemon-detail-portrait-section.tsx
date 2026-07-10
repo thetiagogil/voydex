@@ -4,14 +4,14 @@ import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
-import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
+import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
+import { getPokemonTypeBackgroundImageUrl } from "@/modules/reference/features/pokemon/components/pokemon-type-backgrounds";
 import {
   getPokemonTypeCssVariables,
   pokemonTypeSoftBackgroundClassName,
   pokemonTypeSoftBorderClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 
 type PokemonDetailPortraitSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;

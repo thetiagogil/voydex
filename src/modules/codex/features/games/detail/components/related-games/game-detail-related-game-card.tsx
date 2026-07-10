@@ -3,11 +3,11 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/shared/utils/cn";
-import type { GameCard } from "@/modules/codex/shared/types";
+import type { GameCard } from "@/modules/reference/types";
 import {
   getPokemonGameColorCssVariables,
   pokemonGameCardSurfaceClassName,
-} from "@/shared/components/game/pokemon-game-color-styles";
+} from "@/modules/reference/features/games/display/game-color-styles";
 
 type GameDetailRelatedGameCardProps = {
   card: GameCard;

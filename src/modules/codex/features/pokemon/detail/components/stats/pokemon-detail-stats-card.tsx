@@ -1,8 +1,5 @@
 import { PokemonDetailStatsTable } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-table";
-import type {
-  Generation,
-  PokemonAttributes,
-} from "@/modules/codex/shared/types";
+import type { Generation, PokemonAttributes } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailStatsCardProps = {

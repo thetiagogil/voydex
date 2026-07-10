@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { getGameInitials } from "@/shared/domain/games/game-display";
+import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 
 type MainlinePlayTopCoverArtProps = {
   coverImageUrl: string | null;

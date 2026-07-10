@@ -4,7 +4,7 @@ import type {
   PokemonGenerationFormSummary,
   PokemonLearnsetSummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 const getPokemonLearnsetVersionGroups = (
   row: PokemonLearnsetSummary,

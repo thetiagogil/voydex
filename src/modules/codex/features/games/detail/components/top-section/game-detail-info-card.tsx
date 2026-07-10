@@ -1,6 +1,6 @@
 import { GameDetailInfoActions } from "@/modules/codex/features/games/detail/components/top-section/game-detail-info-actions";
 import { GameDetailInfoFacts } from "@/modules/codex/features/games/detail/components/top-section/game-detail-info-facts";
-import type { GameDetailData } from "@/modules/codex/shared/types";
+import type { GameDetailData } from "@/modules/reference/types";
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 type GameDetailInfoCardProps = {

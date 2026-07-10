@@ -4,7 +4,7 @@ import {
   getPokemonDetailEvolutionConditionDescription,
   getPokemonDetailEvolutionConditionDisplay,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
-import type { PokemonEvolutionEdgeSummary } from "@/modules/codex/shared/types";
+import type { PokemonEvolutionEdgeSummary } from "@/modules/reference/types";
 import { AppIcon } from "@/shared/components/app-icon";
 import {
   Tooltip,

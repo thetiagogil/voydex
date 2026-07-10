@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "../shared/styles/app-tokens.css";
-@import "../shared/styles/pokemon-tokens.css";
-@import "../shared/styles/game-tokens.css";
+@import "../modules/reference/styles.css";
 @import "../shared/styles/app-base.css";
 @import "../shared/styles/app-utilities.css";
 

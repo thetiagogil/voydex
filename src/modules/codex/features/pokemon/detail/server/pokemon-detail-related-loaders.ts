@@ -1,5 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isNumber } from "@/modules/codex/shared/data/reference-data-utils";
+import { isNumber } from "@/modules/reference/reference-data";
 import type {
   Ability,
   AbilityAttribute,
@@ -12,7 +12,7 @@ import type {
   PokemonEvolutionEdge,
   PokemonForm,
   ResolvedPokemonLearnset,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonDetailRelatedRowsParams = {
   attributes: PokemonAttributes[];

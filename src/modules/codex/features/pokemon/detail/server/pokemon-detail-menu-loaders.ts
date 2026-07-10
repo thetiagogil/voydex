@@ -4,7 +4,7 @@ import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/det
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
-} from "@/modules/codex/shared/server/reference-row-loaders";
+} from "@/modules/reference/reference-rows";
 import type {
   Game,
   Generation,
@@ -16,7 +16,7 @@ import type {
   ResolvedPokemonAvailability,
   Type,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type PokemonMenuReferenceRows = {
   generations: Generation[];

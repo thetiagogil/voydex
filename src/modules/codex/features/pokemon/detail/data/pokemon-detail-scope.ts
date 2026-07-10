@@ -18,7 +18,7 @@ import type {
   PokemonDetailData,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import type {
   PokemonDetailScopeParams,
   PokemonDetailVersionGroupScope,

@@ -12,7 +12,8 @@ architecture guide; the ADR explains why the direction was chosen.
 
 ## Current Checkpoint
 
-Phase 3 migrated the application foundation to this root layout:
+Phases 3 and 4 migrated the application foundation and internal reference
+capability to this root layout:
 
 ```txt
 src/
@@ -27,6 +28,7 @@ src/
   modules/
     codex/
     mainline/
+    reference/
   platform/
     env/
     supabase/
@@ -45,16 +47,18 @@ The foundation now follows the target ownership rules:
 - the proxy separates generic Supabase session refresh in `src/platform` from
   Voydex route protection and active-module cookie orchestration in the app-shell
   feature.
-- reusable Pokemon and game semantics still live under `src/shared` or
-  `src/modules/codex/shared`; the next dedicated boundary migration will move
-  them to the internal `reference` module.
+- reusable Pokemon/game contracts, domain rules, artwork/type primitives,
+  reference row loading, and catalogue tokens live under
+  `src/modules/reference`; Codex and Mainline consume that directed dependency.
+- `src/modules/codex/shared` now contains only Codex-owned shared presentation
+  such as its page shell, filter panel, generation section, and empty states.
 - existing feature reads commonly use a query/loader/mapper split. That split
   remains valid where the responsibilities are genuinely distinct, but it is
   no longer a mandatory three-file template.
 
-Do not treat the remaining reference-related transitional locations as
-precedents for new architecture. Move them phase by phase without compatibility
-shims that obscure ownership.
+Product-specific app-icon and brand placement remains a later root-shared
+cleanup. Do not use those narrow exceptions as precedent for new domain code in
+`src/shared`.
 
 ## Target Topology
 
@@ -155,11 +159,12 @@ data folders.
 `npm run architecture:check` enforces the migrated foundation: `src/lib` is
 retired; shared, platform, and config dependency direction is protected; global
 features cannot depend laterally or reach into product modules; product modules
-cannot import global feature internals; lateral product-module dependencies are
-blocked except for the directed future `reference` dependency; Client
-Components cannot import server queries/readers; and component folders cannot
-create database clients or perform raw schema reads. Add stricter rules only
-after the corresponding migration phase is complete.
+cannot import global feature internals; the only lateral module dependency is
+the directed dependency on `reference`; consumers cannot reach into
+`reference/shared` internals; retired root-shared Pokemon/game paths are
+rejected; Client Components cannot import server queries/readers; and component
+folders cannot create database clients or perform raw schema reads. Add stricter
+rules only after the corresponding migration phase is complete.
 
 ## Module And Feature Organization
 
@@ -174,6 +179,42 @@ real cross-feature responsibility exists:
 
 Do not create these folders pre-emptively. A small module containing only
 `features` is healthy.
+
+The internal reference module currently uses this responsibility-driven shape:
+
+```txt
+src/modules/reference/
+  features/
+    games/
+      components/
+      data/
+      display/
+      domain/
+      styles/
+      types.ts
+    pokemon/
+      components/
+      data/
+      display/
+      domain/
+      styles/
+      types.ts
+  shared/
+    data/
+    server/
+    database-types.ts
+  reference-data.ts
+  reference-rows.ts
+  styles.css
+  types.ts
+```
+
+The three TypeScript root files are the public contracts for cross-module
+catalogue types, data helpers, and paged/chunked reference reads. Feature-owned
+CSS stays beside Games or Pokemon and is composed through the module's public
+`styles.css` manifest. Concrete game and Pokemon components or domain utilities
+use their explicit feature paths. Codex-owned page composition remains in
+`modules/codex`; `reference` must not import Codex or Mainline.
 
 Feature folders may be nested to match the product hierarchy. Mainline Plays
 is expected to evolve toward a shape like:
@@ -312,8 +353,6 @@ are actually mounted.
 - Preserve public routes and feature behavior during architecture-only phases.
 - Do not create empty target folders or long-lived compatibility layers.
 - Enable a new architecture rule only when the repository already passes it.
-- Migrate the Pokemon detail slice late because it is the largest and most
-  interconnected current feature.
 
 The database co-location decision is recorded in
 [ADR 0002](../decisions/0002-colocate-database-source.md). The verified database

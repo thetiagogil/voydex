@@ -1,4 +1,4 @@
-import type { PokemonDetailMenuPage } from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPage } from "@/modules/reference/types";
 
 export type PokemonMenuPageRequest = {
   gameSlug: string;

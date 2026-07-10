@@ -5,21 +5,21 @@ import type {
   Generation,
   PokedexPageFilters,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PokemonTypeMark } from "@/shared/components/pokemon/pokemon-type-icon";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   pokemonCategoryOptions,
   toPokemonCategoryFilterValue,
   type PokemonCategoryFilterValue,
-} from "@/shared/domain/pokemon/pokemon-categories";
+} from "@/modules/reference/features/pokemon/domain/pokemon-categories";
 
 type PokedexFilterFormProps = {
   filters: PokedexPageFilters;

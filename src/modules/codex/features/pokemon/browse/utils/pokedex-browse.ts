@@ -1,9 +1,9 @@
 import type {
   PokedexPageFilters,
   PokedexPokemonBrowseCard,
-} from "@/modules/codex/shared/types";
-import { matchesPokemonCategory } from "@/shared/domain/pokemon/pokemon-categories";
-import { formatPokemonNationalNumberDigits } from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/types";
+import { matchesPokemonCategory } from "@/modules/reference/features/pokemon/domain/pokemon-categories";
+import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 export type SearchablePokedexPokemon = PokedexPokemonBrowseCard & {
   searchText: string;

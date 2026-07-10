@@ -108,10 +108,12 @@ belong under `src/features/auth`; generic utilities belong under `src/shared`.
 Do not reintroduce root-level `lib`, `components`, `constants`, or `types`
 buckets.
 
-Reusable Pokemon/game semantics under `src/shared` and
-`src/modules/codex/shared` remain transitional until the internal `reference`
-module migration. Do not add new catalogue behavior to those transitional
-shared locations when a clear feature owner exists.
+Reusable Pokemon/game semantics belong under `src/modules/reference`.
+Cross-module consumers use `reference/types.ts`, `reference/reference-data.ts`,
+and `reference/reference-rows.ts` instead of reaching into `reference/shared`.
+Concrete catalogue components and domain utilities use explicit paths under the
+reference `games` or `pokemon` feature. Do not reintroduce root-shared game or
+Pokemon domain/component folders.
 
 Module feature code belongs under `src/modules`. Cross-app features such as app
 shell, site, auth, settings, and system pages belong under `src/features`.
@@ -227,7 +229,8 @@ For Codex Games, preserve these product decisions:
 - Keep Codex nav to Pokemon and Games for now. A future generation-detail route
   can be added later without bringing back a top-level Generations view.
 - Game cards and game detail accents use Pokemon game color tokens from
-  `src/shared/styles/game-tokens.css`.
+  `src/modules/reference/features/games/styles/game-tokens.css`, exposed to the
+  app through the module's public `styles.css` manifest.
 - Game detail Pokedex cards link to the game Pokedex page. The Pokedex section
   scrolls only when it sits beside Related games; stacked layouts show all
   Pokedexes without a max-height scroll.

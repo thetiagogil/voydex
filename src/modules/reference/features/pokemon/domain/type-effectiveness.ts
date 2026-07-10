@@ -1,7 +1,7 @@
 import {
   pokemonTypeSlugs,
   type PokemonTypeSlug,
-} from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type TypeAttackChartEntry = {
   noEffect: PokemonTypeSlug[];

@@ -58,8 +58,9 @@ Existing token groups:
 - Pokémon type tokens: normal, fire, water, electric, grass, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy.
 - Pokémon game tokens: cover/accent colors for seeded games such as red, blue,
   yellow, emerald, scarlet, violet, and Legends entries. These live in
-  `src/shared/styles/game-tokens.css` and are used by Codex game cards and game
-  detail accents.
+  `src/modules/reference/features/games/styles/game-tokens.css`, are exposed
+  through `src/modules/reference/styles.css`, and are used by Codex game cards
+  and game detail accents.
 
 ## Layout Rules
 

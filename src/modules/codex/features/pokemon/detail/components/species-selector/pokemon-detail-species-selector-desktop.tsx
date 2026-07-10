@@ -10,7 +10,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
 import { PokemonDetailSpeciesSelectorOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
-import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 import {
   Combobox,

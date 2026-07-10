@@ -7,7 +7,7 @@ import type {
   Platform,
   Region,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type GamesPageRows = {
   gamePlatforms: GamePlatform[];

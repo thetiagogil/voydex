@@ -1,13 +1,13 @@
 import { cn } from "@/shared/utils/cn";
-import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
-import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
+import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormImageUrl,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type PokemonDetailFormListItemContentProps = {
   className?: string;

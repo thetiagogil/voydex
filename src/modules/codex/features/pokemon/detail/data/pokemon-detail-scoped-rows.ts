@@ -14,7 +14,7 @@ import type {
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonDetailAvailabilityRow =
   PokemonGenerationDetail["availability"][number];

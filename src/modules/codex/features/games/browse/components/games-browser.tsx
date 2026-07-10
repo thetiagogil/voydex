@@ -10,7 +10,7 @@ import type {
   GameCard,
   GamesPageData,
   GamesPageFilters,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 
 type GamesBrowserProps = {

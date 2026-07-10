@@ -2,13 +2,13 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { Separator } from "@/shared/components/ui/separator";
 import {
   formatPokemonHeight,
   formatPokemonWeight,
-} from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type PokemonDetailCoreDataCardProps = {
   form: ResolvedPokemonDetailScope["form"];

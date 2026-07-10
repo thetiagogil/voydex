@@ -2,7 +2,7 @@ import {
   byId,
   resolveTypePair,
   selectLatestAttributes,
-} from "@/modules/codex/shared/data/reference-data-utils";
+} from "@/modules/reference/reference-data";
 import type {
   EvolutionMethod,
   Generation,
@@ -13,7 +13,7 @@ import type {
   PokemonForm,
   PokemonSpecies,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonEvolutionFamilyParams = {
   attributes: PokemonAttributes[];

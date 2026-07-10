@@ -1,12 +1,12 @@
-import type { PokemonTypePair } from "@/modules/codex/shared/types";
+import type { PokemonTypePair } from "@/modules/reference/types";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
-} from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   getDefensiveTypeMultiplier,
   getPokemonTypesForGeneration,
-} from "@/shared/domain/pokemon/type-effectiveness";
+} from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 
 export type PokemonDetailTypeMatchupChartColumn = {
   attackingType: PokemonTypeSlug;

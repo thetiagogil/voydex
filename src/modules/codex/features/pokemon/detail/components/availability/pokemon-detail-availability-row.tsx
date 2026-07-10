@@ -11,7 +11,7 @@ import type {
   Game,
   PokemonAvailabilitySummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonDetailAvailabilityRowProps = {
   activeGame: Game | null;

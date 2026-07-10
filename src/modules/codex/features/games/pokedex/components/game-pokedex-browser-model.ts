@@ -1,8 +1,8 @@
 import type {
   GamePokedexData,
   GamePokedexPokemon,
-} from "@/modules/codex/shared/types";
-import { formatPokemonNationalNumberDigits } from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/types";
+import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 export type GamePokedexFilters = {
   query: string;

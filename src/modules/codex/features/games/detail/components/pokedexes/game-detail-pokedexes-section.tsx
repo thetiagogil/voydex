@@ -3,9 +3,9 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
-import type { GameDetailData } from "@/modules/codex/shared/types";
+import type { GameDetailData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { formatPokedexName } from "@/shared/domain/pokemon/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type GameDetailPokedexesSectionProps = {
   data: GameDetailData;

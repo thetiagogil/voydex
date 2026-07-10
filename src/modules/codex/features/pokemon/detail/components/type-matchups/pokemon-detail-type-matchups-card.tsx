@@ -6,9 +6,9 @@ import {
   getPokemonDetailTypeMatchupChart,
   type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
-import type { Generation, PokemonTypePair } from "@/modules/codex/shared/types";
+import type { Generation, PokemonTypePair } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import {
   Tooltip,
   TooltipContent,

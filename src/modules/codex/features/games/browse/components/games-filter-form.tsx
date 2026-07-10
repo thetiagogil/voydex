@@ -6,7 +6,7 @@ import type {
   GamesPageFilters,
   Generation,
   Region,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import {

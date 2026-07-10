@@ -10,7 +10,7 @@ import {
   getPokemonDetailFormImageUrl,
   getPokemonDetailFormShinyImageUrl,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import type { PokemonDetailData } from "@/modules/codex/shared/types";
+import type { PokemonDetailData } from "@/modules/reference/types";
 
 type PokemonDetailLeftSectionProps = {
   data: PokemonDetailData;

@@ -12,7 +12,7 @@ import {
   getPokemonMenuEmptyLabel,
   type PokemonMenuLoadState,
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
-import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
+import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";

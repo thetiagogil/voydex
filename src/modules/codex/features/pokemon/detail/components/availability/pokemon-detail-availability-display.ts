@@ -2,8 +2,8 @@ import type {
   Game,
   PokemonAvailabilitySummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
-import { getGameCoverImageUrl } from "@/shared/domain/games/game-images";
+} from "@/modules/reference/types";
+import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 const getAvailabilityContentVersionGroup = (
   availability: PokemonAvailabilitySummary,

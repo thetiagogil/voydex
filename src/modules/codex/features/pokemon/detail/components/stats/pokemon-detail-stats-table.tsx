@@ -1,7 +1,4 @@
-import type {
-  Generation,
-  PokemonAttributes,
-} from "@/modules/codex/shared/types";
+import type { Generation, PokemonAttributes } from "@/modules/reference/types";
 import { PokemonDetailStatRow } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stat-row";
 import {
   getPokemonDetailStatDefinitions,

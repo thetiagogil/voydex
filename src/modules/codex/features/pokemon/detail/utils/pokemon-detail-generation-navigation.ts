@@ -2,8 +2,8 @@ import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemo
 import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { getPokemonGameAvailabilityStatus } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
-import type { PokemonDetailData } from "@/modules/codex/shared/types";
-import { getGameCoverImageUrl } from "@/shared/domain/games/game-images";
+import type { PokemonDetailData } from "@/modules/reference/types";
+import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 const getShortGenerationLabel = (generationName: string) => {
   return generationName.replace("Generation ", "");

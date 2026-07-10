@@ -1,4 +1,4 @@
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 const pokemonTypeBackgroundImageUrls = {
   normal: "/backgrounds/pokemon-types/normal.webp",

@@ -1,4 +1,4 @@
-import { byId } from "@/modules/codex/shared/data/reference-data-utils";
+import { byId } from "@/modules/reference/reference-data";
 import type {
   AvailabilityMethod,
   Game,
@@ -7,7 +7,7 @@ import type {
   PokemonDetailData,
   ResolvedPokemonAvailability,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonAvailabilitySummariesParams = {
   availabilityRows: ResolvedPokemonAvailability[];

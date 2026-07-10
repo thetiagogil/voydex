@@ -1,34 +1,26 @@
-import type { ReferenceRow, ViewRow } from "@/shared/types/database-helpers";
-import type { PokemonCategoryFilterValue } from "@/shared/domain/pokemon/pokemon-categories";
-
-export type Ability = ReferenceRow<"abilities">;
-export type AbilityAttribute = ReferenceRow<"ability_attributes">;
-export type AvailabilityMethod = ReferenceRow<"availability_methods">;
-export type EggGroup = ReferenceRow<"egg_groups">;
-export type EvolutionMethod = ReferenceRow<"evolution_methods">;
-export type Game = ReferenceRow<"games">;
-export type GameContentScope = ReferenceRow<"game_content_scopes">;
-export type GamePlatform = ReferenceRow<"game_platforms">;
-export type GameType = ReferenceRow<"game_types">;
-export type Generation = ReferenceRow<"generations">;
-export type LearnMethod = ReferenceRow<"learn_methods">;
-export type Move = ReferenceRow<"moves">;
-export type MoveAttribute = ReferenceRow<"move_attributes">;
-export type Platform = ReferenceRow<"platforms">;
-export type Pokedex = ReferenceRow<"pokedex">;
-export type PokedexEntry = ReferenceRow<"pokedex_entries">;
-export type PokemonAttributes = ReferenceRow<"pokemon_attributes">;
-export type PokemonEvolutionEdge = ReferenceRow<"pokemon_evolution_edges">;
-export type PokemonForm = ReferenceRow<"pokemon_forms">;
-export type PokemonSpecies = ReferenceRow<"pokemon_species">;
-export type Region = ReferenceRow<"regions">;
-export type Type = ReferenceRow<"types">;
-export type VersionGroup = ReferenceRow<"version_groups">;
-
-export type ResolvedPokemonAvailability =
-  ViewRow<"reference_resolved_pokemon_availability">;
-export type ResolvedPokemonLearnset =
-  ViewRow<"reference_resolved_pokemon_learnsets">;
+import type { PokemonCategoryFilterValue } from "@/modules/reference/features/pokemon/domain/pokemon-categories";
+import type {
+  Ability,
+  AbilityAttribute,
+  AvailabilityMethod,
+  EggGroup,
+  EvolutionMethod,
+  Game,
+  Generation,
+  LearnMethod,
+  Move,
+  MoveAttribute,
+  Pokedex,
+  PokedexEntry,
+  PokemonAttributes,
+  PokemonEvolutionEdge,
+  PokemonForm,
+  PokemonSpecies,
+  ResolvedPokemonAvailability,
+  ResolvedPokemonLearnset,
+  Type,
+  VersionGroup,
+} from "@/modules/reference/shared/database-types";
 
 export type PokemonTypePair = {
   primaryType: Type | null;
@@ -189,65 +181,4 @@ export type PokemonDetailData = {
   availability: PokemonAvailabilitySummary[];
   learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
-};
-
-export type GameCard = {
-  coverImageUrl: string | null;
-  game: Game;
-  generation: Generation | null;
-  region: Region | null;
-  versionGroup: VersionGroup | null;
-  gameType: GameType | null;
-  platforms: Platform[];
-};
-
-export type GamePokedexSummary = {
-  pokedex: Pokedex;
-  pokemonCount: number;
-};
-
-export type GamesPageFilters = {
-  gameType: string;
-  generation: string;
-  query: string;
-  region: string;
-};
-
-export type GamesPageData = {
-  filters: GamesPageFilters;
-  gameTypes: GameType[];
-  games: GameCard[];
-  generations: Generation[];
-  regions: Region[];
-};
-
-export type GameDetailData = GameCard & {
-  availablePokemonCount: number;
-  pokedexes: GamePokedexSummary[];
-  relatedGames: GameCard[];
-};
-
-export type GamePokedexPokemonAbility = {
-  ability: Ability;
-  slot: "primary" | "secondary" | "hidden";
-};
-
-export type GamePokedexPokemon = {
-  abilities: GamePokedexPokemonAbility[];
-  attributes: PokemonAttributes | null;
-  form: PokemonForm | null;
-  imageAlt: string;
-  imageUrl: string | null;
-  entry: PokedexEntry;
-  species: PokemonSpecies;
-  typePair: PokemonTypePair;
-};
-
-export type GamePokedexData = {
-  entries: GamePokedexPokemon[];
-  game: Game;
-  generation: Generation;
-  pokedex: Pokedex;
-  pokedexes: Pokedex[];
-  types: Type[];
 };

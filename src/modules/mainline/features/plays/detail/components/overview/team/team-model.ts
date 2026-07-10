@@ -2,7 +2,7 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/s
 import {
   getPokemonFormImageUrl,
   getPokemonFormShinyImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 export const getTeamMemberName = (member: MainlinePlayTeamMember) => {
   return member.nickname ?? member.species_name ?? "Unknown Pokemon";

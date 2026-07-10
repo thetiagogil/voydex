@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-import type { GamePokedexPokemon } from "@/modules/codex/shared/types";
-import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
+import type { GamePokedexPokemon } from "@/modules/reference/types";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type GamePokedexPokemonType = NonNullable<
   GamePokedexPokemon["typePair"]["primaryType"]

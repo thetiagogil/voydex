@@ -1,10 +1,10 @@
-import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
+import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
   getPokemonFormShinyImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 export const getPokemonDetailFormTypeSlug = (
   form: PokemonGenerationFormSummary | null,

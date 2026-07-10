@@ -9,7 +9,7 @@ import {
   getPokemonDetailScopedEvolutionEdges,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import type { PokemonEvolutionFamilySummary } from "@/modules/codex/shared/types";
+import type { PokemonEvolutionFamilySummary } from "@/modules/reference/types";
 
 type PokemonDetailEvolutionSectionProps = {
   activeFormId: number | null;

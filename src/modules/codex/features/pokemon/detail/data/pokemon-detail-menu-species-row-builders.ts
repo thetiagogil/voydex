@@ -1,12 +1,12 @@
-import { byId } from "@/modules/codex/shared/data/reference-data-utils";
+import { byId } from "@/modules/reference/reference-data";
 import type {
   Pokedex,
   PokedexEntry,
   PokemonDetailMenuGroup,
   PokemonSpecies,
   VersionGroup,
-} from "@/modules/codex/shared/types";
-import { formatPokedexName } from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/types";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 export type PokemonMenuSpeciesRow = {
   species: PokemonSpecies;

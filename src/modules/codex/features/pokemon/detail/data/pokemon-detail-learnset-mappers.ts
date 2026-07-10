@@ -1,5 +1,5 @@
 import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-utils";
-import { byId } from "@/modules/codex/shared/data/reference-data-utils";
+import { byId } from "@/modules/reference/reference-data";
 import type {
   Game,
   Generation,
@@ -10,7 +10,7 @@ import type {
   ResolvedPokemonLearnset,
   Type,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonLearnsetSummariesParams = {
   games: Game[];

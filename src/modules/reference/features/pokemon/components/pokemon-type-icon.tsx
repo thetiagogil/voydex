@@ -5,8 +5,8 @@ import {
   pokemonTypeSoftBorderClassName,
   pokemonTypeSolidBackgroundClassName,
   pokemonTypeTextClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import Image from "next/image";
 
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";

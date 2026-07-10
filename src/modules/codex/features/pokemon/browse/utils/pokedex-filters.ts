@@ -1,4 +1,4 @@
-import type { PokedexPageFilters } from "@/modules/codex/shared/types";
+import type { PokedexPageFilters } from "@/modules/reference/types";
 
 export const defaultPokedexPageFilters = {
   category: "all",

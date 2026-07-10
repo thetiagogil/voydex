@@ -11,7 +11,7 @@ import type {
   MainlinePlayTeamMemberRow,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/shared/types";
-import { getGameCoverImageUrl } from "@/shared/domain/games/game-images";
+import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
 
 type MainlinePlayGameData = {

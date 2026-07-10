@@ -33,6 +33,9 @@ that is within scope.
 - `src/lib` is retired. Framework and Supabase adapters belong under
   `src/platform`; global workflows such as app shell and auth belong under
   `src/features`.
+- Reusable Pokemon/game catalogue behavior belongs to the internal
+  `src/modules/reference` module. Codex and Mainline may depend on its public
+  contracts; `reference` must not depend on either consumer.
 - Preserve separation between orchestration, database I/O, pure mapping, and UI
   when those are distinct responsibilities. Do not force a query/reader/mapper
   file trio for a simple use case.

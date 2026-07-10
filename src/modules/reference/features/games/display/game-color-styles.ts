@@ -4,7 +4,7 @@ import { cn } from "@/shared/utils/cn";
 import {
   isPokemonGameSlug,
   type PokemonGameSlug,
-} from "@/shared/domain/games/constants";
+} from "@/modules/reference/features/games/domain/game-slugs";
 
 export type PokemonGameColorCssVariables = CSSProperties & {
   "--pokemon-game-color": string;

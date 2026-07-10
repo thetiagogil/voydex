@@ -4,7 +4,7 @@ import {
   matchesPokemonMenuQuery,
   type PokemonMenuSpeciesRow,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
-import { isNumber } from "@/modules/codex/shared/data/reference-data-utils";
+import { isNumber } from "@/modules/reference/reference-data";
 import type {
   Game,
   Pokedex,
@@ -12,7 +12,7 @@ import type {
   PokemonSpecies,
   ResolvedPokemonAvailability,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PagedPokemonMenuSpeciesRowsParams = {
   limit: number;

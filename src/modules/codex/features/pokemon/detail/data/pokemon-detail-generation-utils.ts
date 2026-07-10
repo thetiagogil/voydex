@@ -1,4 +1,4 @@
-import type { Generation } from "@/modules/codex/shared/types";
+import type { Generation } from "@/modules/reference/types";
 
 export const getGenerationSortOrder = (
   generationId: number,

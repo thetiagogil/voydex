@@ -8,17 +8,17 @@ import type {
   PokemonEvolutionSpeciesSummary,
   PokemonForm,
   PokemonTypePair,
-} from "@/modules/codex/shared/types";
-import { getPokemonTypeCssVariables } from "@/shared/components/pokemon/pokemon-type-styles";
+} from "@/modules/reference/types";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
-} from "@/shared/domain/pokemon/constants";
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
-import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 export type PokemonDetailEvolutionNodeLinkScope = {
   activeGameSlug: string | null;

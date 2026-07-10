@@ -5,7 +5,7 @@ import type {
   PokemonAvailabilitySummary,
   PokemonGenerationFormSummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonGameAvailabilityStatus = {
   description?: string;

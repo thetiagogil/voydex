@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import type { PokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 export type PokemonTypeCssVariables = CSSProperties & {
   "--pokemon-type-color": string;

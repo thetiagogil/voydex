@@ -1,8 +1,5 @@
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
-import {
-  buildGameCards,
-  byId,
-} from "@/modules/codex/shared/data/reference-data-utils";
+import { buildGameCards, byId } from "@/modules/reference/reference-data";
 import type {
   Game,
   GameCard,
@@ -11,7 +8,7 @@ import type {
   Pokedex,
   PokedexEntry,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 const fallbackSortOrder = Number.MAX_SAFE_INTEGER;
 

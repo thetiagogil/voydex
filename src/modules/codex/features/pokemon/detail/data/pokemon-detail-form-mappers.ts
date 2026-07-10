@@ -2,7 +2,7 @@ import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/
 import {
   resolveTypePair,
   selectLatestAttributes,
-} from "@/modules/codex/shared/data/reference-data-utils";
+} from "@/modules/reference/reference-data";
 import type {
   Generation,
   PokemonAttributes,
@@ -10,7 +10,7 @@ import type {
   PokemonForm,
   PokemonFormSummary,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonFormSummaryParams = {
   attributes: PokemonAttributes[];

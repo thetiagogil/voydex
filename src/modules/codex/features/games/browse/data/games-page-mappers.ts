@@ -5,8 +5,8 @@ import {
   normalizeSearchQuery,
   normalizeSlug,
   resolveReferenceFilter,
-} from "@/modules/codex/shared/data/reference-data-utils";
-import type { GamesPageData } from "@/modules/codex/shared/types";
+} from "@/modules/reference/reference-data";
+import type { GamesPageData } from "@/modules/reference/types";
 
 type GamesPageMapperParams = {
   q?: string | null;

@@ -22,7 +22,7 @@ import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-s
 import type {
   GamePokedexData,
   GamePokedexPokemon,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import { Card } from "@/shared/components/ui/card";
 import {
   Table,
@@ -32,7 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type GamePokedexTableProps = {
   data: GamePokedexData;

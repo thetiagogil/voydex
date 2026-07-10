@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
-import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
+import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
-import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type PokemonDetailSpeciesSelectorOptionProps = {
   groupHeader?: string;

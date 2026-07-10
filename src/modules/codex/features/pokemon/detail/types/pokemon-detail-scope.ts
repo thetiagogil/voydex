@@ -6,7 +6,7 @@ import type {
   PokemonLearnsetSummary,
   PokemonPokedexSummary,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type PokemonDetailScopeParams = {
   form?: string;

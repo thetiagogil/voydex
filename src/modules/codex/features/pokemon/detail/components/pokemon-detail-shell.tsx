@@ -4,7 +4,7 @@ import { PokemonDetailRightSection } from "@/modules/codex/features/pokemon/deta
 import { PokemonDetailTopSection } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-top-section";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { getPokemonDetailGenerationNavigationItems } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
-import type { PokemonDetailData } from "@/modules/codex/shared/types";
+import type { PokemonDetailData } from "@/modules/reference/types";
 
 type PokemonDetailShellProps = {
   data: PokemonDetailData;

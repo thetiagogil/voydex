@@ -13,7 +13,7 @@ import {
   loadGamePokedexForms,
   loadGamePokedexSpecies,
 } from "@/modules/codex/features/games/pokedex/server/game-pokedex-loaders";
-import type { GamePokedexData } from "@/modules/codex/shared/types";
+import type { GamePokedexData } from "@/modules/reference/types";
 
 export const getGamePokedexData = async (
   gameSlug: string,

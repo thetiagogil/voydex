@@ -166,6 +166,17 @@ function checkImportBoundary({
     const targetModule = targetSegments[1];
     const importsReferenceModule =
       targetModule === "reference" && sourceModule !== "reference";
+    const importsReferenceInternals =
+      importsReferenceModule && targetSegments[2] === "shared";
+
+    if (importsReferenceInternals) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, importerPath)),
+        `module ${sourceModule} must use the public reference entry points instead of reference/shared internals`,
+        specifier,
+      );
+    }
 
     if (sourceModule !== targetModule && !importsReferenceModule) {
       addImportViolation(
@@ -216,6 +227,23 @@ async function checkFile(filePath) {
   if (segments[0] === "lib") {
     violations.push(
       `${normalizePath(path.relative(projectRoot, filePath))}: src/lib is retired; move the file to its platform, feature, module, config, or shared owner`,
+    );
+  }
+
+  const retiredReferencePaths = [
+    ["shared", "components", "game"],
+    ["shared", "components", "pokemon"],
+    ["shared", "domain", "games"],
+    ["shared", "domain", "pokemon"],
+  ];
+
+  if (
+    retiredReferencePaths.some((retiredPath) => {
+      return retiredPath.every((segment, index) => segments[index] === segment);
+    })
+  ) {
+    violations.push(
+      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon/game reference code belongs under src/modules/reference`,
     );
   }
 

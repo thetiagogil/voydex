@@ -15,7 +15,7 @@ import {
   loadPokemonMenuReferenceRows,
   loadPokemonMenuSpeciesRows,
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-loaders";
-import type { Game, PokemonDetailMenuPage } from "@/modules/codex/shared/types";
+import type { Game, PokemonDetailMenuPage } from "@/modules/reference/types";
 
 const DEFAULT_POKEMON_MENU_LIMIT = 96;
 const MAX_POKEMON_MENU_LIMIT = 96;

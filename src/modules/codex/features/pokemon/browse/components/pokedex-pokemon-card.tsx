@@ -3,16 +3,16 @@ import { memo } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/shared/utils/cn";
-import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
-import type { PokedexPokemonBrowseCard } from "@/modules/codex/shared/types";
-import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
-import { getPokemonTypeBackgroundImageUrl } from "@/shared/components/pokemon/pokemon-type-backgrounds";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
+import type { PokedexPokemonBrowseCard } from "@/modules/reference/types";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
+import { getPokemonTypeBackgroundImageUrl } from "@/modules/reference/features/pokemon/components/pokemon-type-backgrounds";
 import {
   getPokemonTypeCssVariables,
   pokemonTypeCardSurfaceClassName,
-} from "@/shared/components/pokemon/pokemon-type-styles";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
-import { formatPokemonNationalNumber } from "@/shared/domain/pokemon/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonBrowseCard;

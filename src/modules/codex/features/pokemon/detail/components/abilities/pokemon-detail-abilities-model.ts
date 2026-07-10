@@ -1,10 +1,10 @@
-import { byId } from "@/modules/codex/shared/data/reference-data-utils";
+import { byId } from "@/modules/reference/reference-data";
 import type {
   Ability,
   AbilityAttribute,
   PokemonAttributes,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 type PokemonDetailAbilitySlotDefinition = {
   abilityKey: keyof Pick<

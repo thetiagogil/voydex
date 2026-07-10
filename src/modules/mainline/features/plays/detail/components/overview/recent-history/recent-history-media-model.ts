@@ -2,7 +2,7 @@ import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/play
 import {
   getPokemonFormImageUrl,
   getPokemonFormShinyImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
 import type { Json } from "@/shared/types/database.types";
 
 import type { TimelineMediaItem } from "./recent-history-types";

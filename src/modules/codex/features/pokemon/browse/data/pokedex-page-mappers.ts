@@ -4,16 +4,16 @@ import {
   byId,
   resolveTypePair,
   selectLatestAttributes,
-} from "@/modules/codex/shared/data/reference-data-utils";
+} from "@/modules/reference/reference-data";
 import type {
   Game,
   PokedexPageData,
   PokemonForm,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
-} from "@/shared/domain/pokemon/pokemon-images";
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 const getDefaultDetailGameSlugByGenerationId = (games: Game[]) => {
   const slugByGenerationId = new Map<number, string>();

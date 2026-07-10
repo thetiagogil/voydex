@@ -7,15 +7,15 @@ import {
   getPokemonDetailLearnsetMethodDetail,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
-import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
-import { PokemonTypeBadge } from "@/shared/components/pokemon/pokemon-type-icon";
+import type { PokemonLearnsetSummary } from "@/modules/reference/types";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 export const pokemonDetailLearnsetGridClassName =
   pokemonDetailSectionTableGridClassName;

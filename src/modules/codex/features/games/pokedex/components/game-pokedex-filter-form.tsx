@@ -1,15 +1,15 @@
 import type { GamePokedexFilters } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser-model";
 import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-filter-panel";
-import type { GamePokedexData } from "@/modules/codex/shared/types";
+import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PokemonTypeMark } from "@/shared/components/pokemon/pokemon-type-icon";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { isPokemonTypeSlug } from "@/shared/domain/pokemon/constants";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type GamePokedexFilterFormProps = {
   filters: GamePokedexFilters;

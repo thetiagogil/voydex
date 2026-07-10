@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { GameDetailData } from "@/modules/codex/shared/types";
+import type { GameDetailData } from "@/modules/reference/types";
 import {
   AppIcon,
   appIcons,

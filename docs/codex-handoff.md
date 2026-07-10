@@ -69,6 +69,24 @@ Phase 3 migrated the frontend foundation without changing product behavior:
 - Vitest resolves the production `@/*` alias, and focused auth/module-navigation
   tests increase the suite to 11 tests across three files.
 
+Phase 4 migrated reusable catalogue ownership without changing routes or product
+behavior:
+
+- `src/modules/reference` is the internal Pokemon/game catalogue capability used
+  by Codex and Mainline;
+- game and Pokemon domain rules, display helpers, artwork/type components, and
+  CSS tokens moved out of root `src/shared`;
+- generic catalogue types, data helpers, and paged/chunked row loading expose
+  explicit public contracts through `reference/types.ts`,
+  `reference/reference-data.ts`, and `reference/reference-rows.ts`;
+- the mixed `reference-data-utils.ts` implementation was split into generic
+  reference value helpers, Pokemon attribute selectors, and game-card mapping;
+- `src/modules/codex/shared` now retains only Codex-owned shared presentation;
+- architecture checks reject the retired root-shared game/Pokemon paths and
+  prevent consumers from reaching into `reference/shared` internals;
+- focused reference-domain tests increase the suite to 19 tests across six
+  files.
+
 The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, and app
 verification pass at this checkpoint. No remote database read or write was
 performed; remote work still requires separate explicit authorization.
@@ -423,13 +441,13 @@ Known implementation debt:
   `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
   rename is explicitly in scope.
 - The repository has explicit format, lint, typecheck, architecture, unit-test,
-  build, and CI gates. The unit suite currently has 11 tests across three files,
+  build, and CI gates. The unit suite currently has 19 tests across six files,
   and there is no committed end-to-end browser suite yet.
 
-The next architecture boundary is the internal `reference` module for reusable
-Pokemon/game semantics currently under `src/shared` and
-`src/modules/codex/shared`. Keep the Pokemon detail slice late within that
-migration because it is the largest and most interconnected current feature.
+The next architecture boundary, Phase 5, is Mainline Plays and the Play Hub:
+migrate the current `detail` tree toward the accepted hierarchical `hub` shape
+and split `play-page-loaders.ts` by its real I/O, enrichment, and page-model
+responsibilities while preserving `/mainline/plays/[playId]` behavior.
 
 When adding the next Codex or Mainline section after the architecture migration,
 keep route files thin and choose the smallest read structure that keeps I/O,

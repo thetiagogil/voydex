@@ -1,5 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { loadPagedReferenceRows } from "@/modules/codex/shared/server/reference-row-loaders";
+import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
   Game,
   Generation,
@@ -7,7 +7,7 @@ import type {
   PokemonForm,
   PokemonSpecies,
   Type,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 export type PokedexPageRows = {
   attributes: PokemonAttributes[];

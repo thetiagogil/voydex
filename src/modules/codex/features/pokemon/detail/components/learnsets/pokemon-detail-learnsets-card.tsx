@@ -14,7 +14,7 @@ import {
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
-import type { PokemonLearnsetSummary } from "@/modules/codex/shared/types";
+import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { Button } from "@/shared/components/ui/button";
 import {

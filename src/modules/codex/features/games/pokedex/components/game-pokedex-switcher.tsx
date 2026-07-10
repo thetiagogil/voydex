@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { GamePokedexData } from "@/modules/codex/shared/types";
+import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -12,7 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { formatPokedexName } from "@/shared/domain/pokemon/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 
 type GamePokedexSwitcherProps = {
   data: GamePokedexData;

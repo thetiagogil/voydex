@@ -6,7 +6,7 @@ import type {
   AbilityAttribute,
   PokemonAttributes,
   VersionGroup,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAbilitiesCardProps = {

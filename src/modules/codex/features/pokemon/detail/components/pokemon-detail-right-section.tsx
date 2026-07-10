@@ -7,7 +7,7 @@ import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-import type { PokemonDetailData } from "@/modules/codex/shared/types";
+import type { PokemonDetailData } from "@/modules/reference/types";
 
 type PokemonDetailRightSectionProps = {
   data: PokemonDetailData;

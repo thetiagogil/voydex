@@ -19,14 +19,11 @@ import {
   loadPokemonDetailLearnsetMoveRows,
   loadPokemonDetailRelatedRows,
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-related-loaders";
-import {
-  byId,
-  isNumber,
-} from "@/modules/codex/shared/data/reference-data-utils";
+import { byId, isNumber } from "@/modules/reference/reference-data";
 import type {
   PokedexEntry,
   PokemonDetailData,
-} from "@/modules/codex/shared/types";
+} from "@/modules/reference/types";
 
 const getPokedexIds = (entries: PokedexEntry[]) => {
   return [...new Set(entries.map((row) => row.pokedex_id).filter(isNumber))];
