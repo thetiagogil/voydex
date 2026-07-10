@@ -21,6 +21,7 @@ why the direction was selected or changed.
 | V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                       | Accepted |
 | V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                     | Accepted |
 | V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                              | Accepted |
+| V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                   | Accepted |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -108,3 +109,20 @@ editing, or destructive context unexpectedly.
 The contract is decided now, but V1 should implement only the general resolver
 and current module metadata. No future module dashboard or neutral cross-module
 dashboard is required. Cross-device persistence remains open.
+
+## V1-D007 — Atmospheric Day And Night Landing
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+Keep the current Landing concept: a full-viewport adventurous landscape viewed
+from an overlook toward a distant destination, with matched day and night scenes
+selected by the resolved light or dark theme. Center the Voydex identity, one
+short product description, and a compact set of quick actions in the scene's
+visual quiet area.
+
+The exact artwork, spacing, copy, and actions may improve during detailed design.
+Preserve the emotional premise and layered composition. Do not turn the Landing
+into a long marketing page, generic dashboard, or large opaque hero card that
+hides the landscape.

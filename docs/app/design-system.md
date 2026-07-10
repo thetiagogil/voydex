@@ -100,13 +100,22 @@ avoid visible percentage labels.
 
 The home page hero should use layered assets:
 
-- Clean scenic background image.
+- A clean adventurous landscape viewed toward a distant destination such as a
+  village, with matched day and night compositions selected by the resolved
+  light or dark theme.
 - Separate brand mark image.
 - Separate Voydex title image.
 - Native text subtitle.
 - Native buttons.
 
 This keeps the home page close to the selected visual reference while preserving responsive layout, accessibility, and clickable controls.
+
+Keep the identity, concise description, and actions centered in a visually
+quiet part of the scene. Preserve the background as the emotional focus rather
+than hiding it behind a large opaque card. The current artwork may be improved,
+but the adventurous overlook and theme-aware day/night relationship are the
+accepted direction. Define intentional crops for desktop, mobile, and short
+viewports instead of assuming one `cover` crop works everywhere.
 
 ## Buttons And Controls
 

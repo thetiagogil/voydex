@@ -28,6 +28,8 @@ implemented during this phase unless the project direction explicitly changes.
 
 - [Product Blueprint](./product-blueprint.md): the review map for product
   structure, journeys, screens, states, and candidate shared patterns.
+- [Global Surfaces](./global-surfaces.md): landing, entry, authentication, and
+  other cross-module surface specifications as they are reviewed.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

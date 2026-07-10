@@ -156,13 +156,13 @@ route when it does not need an independent URL.
 
 ### Global Surfaces
 
-| ID   | Surface              | Role                                                              | Specification status |
-| ---- | -------------------- | ----------------------------------------------------------------- | -------------------- |
-| G-01 | Landing              | Public product entry                                              | Pending              |
-| G-02 | Intro                | Product introduction/onboarding                                   | Pending              |
-| G-03 | Login                | Authentication and intent resumption                              | Pending              |
-| G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending              |
-| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | Pending              |
+| ID   | Surface              | Role                                                              | Specification status                                             |
+| ---- | -------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| G-01 | Landing              | Public product entry                                              | Direction accepted; [detail](./global-surfaces.md#g-01--landing) |
+| G-02 | Intro                | Product introduction/onboarding                                   | Pending                                                          |
+| G-03 | Login                | Authentication and intent resumption                              | Pending                                                          |
+| G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending                                                          |
+| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | Pending                                                          |
 
 ### Mainline Surfaces
 
@@ -240,5 +240,6 @@ The product overview should be reviewed before navigation or screen detail:
 1. Is the Mainline/Codex split correct and understandable to users?
 2. Is the V1 product loop complete, or is an important recurring activity
    missing?
-3. Are Landing and Intro genuinely different surfaces?
+3. Does Intro remain useful as a distinct surface now that the Landing direction
+   is accepted?
 4. Are any listed surfaces outside V1, or is a necessary surface missing?
