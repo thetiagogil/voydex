@@ -1,0 +1,218 @@
+# V1 Product Blueprint
+
+This document is the breadth-first review map for the complete V1 experience.
+It links accepted product contracts, exposes open design questions, and tracks
+which screen families still need detailed specification.
+
+## Current Stage
+
+**Status: Provisional — product overview review**
+
+The current task is to confirm the app overview before deep-diving into
+individual screens. Visual direction, detailed layouts, and production UI are
+deliberately deferred.
+
+## Product Overview
+
+### Product Promise
+
+**Status: Accepted in the Product Vision**
+
+Voydex is a Pokémon companion for tracking, remembering, and planning Pokémon
+playthroughs. It is a personal playthrough hub rather than a replacement for an
+encyclopedia or official storage service.
+
+The product should help a player understand:
+
+- what they are playing and what to do next;
+- what happened during each playthrough;
+- which Pokémon they used, including earlier evolutions and retired members;
+- what remains incomplete across story, Pokédex, and collectibles;
+- what they want to play and which team they want to use next.
+
+See [Product Vision](../../product/vision.md) for the canonical contract.
+
+### Product Areas
+
+**Status: Accepted**
+
+| Area     | Role                                                        | Access          | Mutation ownership                                               |
+| -------- | ----------------------------------------------------------- | --------------- | ---------------------------------------------------------------- |
+| Mainline | Personal planning and playthrough workspace                 | Authenticated   | Owns Mainline user data and validates every mutation             |
+| Codex    | Shared Pokémon and game discovery/reference browser         | Public browsing | Supplies context but does not own gameplay or planning mutations |
+| Global   | Entry, authentication, account, settings, and system states | Mixed           | Owned by the relevant global feature                             |
+
+The internal `reference` module supports Mainline and Codex with shared Pokémon
+and game contracts. It is not a user-facing module.
+
+### V1 Product Loop
+
+**Status: Accepted**
+
+```txt
+Explore in Codex
+-> plan an adventure
+-> create or continue a play
+-> manage the team and record progress
+-> preserve meaningful history
+-> review Collection and Stats
+-> plan the next adventure
+```
+
+### V1 Design Principles
+
+**Status: Accepted**
+
+- Mainline should feel personal, task-oriented, and useful during a playthrough.
+- Codex should be information-rich, scannable, and useful as an action entry
+  point without becoming a required funnel.
+- The modules should share one coherent shell while retaining recognizable
+  character.
+- Each context should have one clear primary action.
+- Desktop and mobile behavior must be designed together.
+- Loading, empty, error, permission, disabled, conflict, destructive, success,
+  and signed-out states are part of the design rather than implementation
+  afterthoughts.
+- The complete flow should be designed before database correction and
+  production frontend implementation resume.
+
+## Navigation And Access Overview
+
+**Status: Accepted at the route-family level; detailed navigation behavior is
+open for review**
+
+- The Voydex logo returns to the product entry point.
+- A module switcher moves between Mainline and Codex.
+- View navigation belongs to the active module.
+- Account and global settings remain outside product modules.
+- Codex browsing is public.
+- Mainline and Settings require authentication.
+- A protected action started in Codex must preserve its selected context and
+  resume after login.
+
+See [Navigation And Routes](../../product/navigation-and-routes.md) for the
+canonical route contract.
+
+### Navigation Questions
+
+- **Open:** What should the product entry point show to signed-out and signed-in
+  users?
+- **Open:** How should module switching and view navigation adapt between
+  desktop and mobile?
+- **Open:** Which actions belong in persistent navigation versus contextual
+  menus?
+- **Open:** How should users understand the relationship between Plans, the
+  Game List, and Plays from the Mainline navigation?
+
+## Primary Journeys
+
+| ID   | Journey                                                   | Current status   | Detailed specification |
+| ---- | --------------------------------------------------------- | ---------------- | ---------------------- |
+| J-01 | Enter or resume Mainline                                  | Accepted outline | Pending                |
+| J-02 | Start a Play from Codex Game Detail                       | Accepted outline | Pending                |
+| J-03 | Start a Plan from Codex Game Detail                       | Accepted outline | Pending                |
+| J-04 | Add a Pokémon from Codex to a Plan or Play                | Accepted outline | Pending                |
+| J-05 | Plan a team, then create a Play                           | Accepted outline | Pending                |
+| J-06 | Record a playthrough through Team, Progress, and History  | Accepted outline | Pending                |
+| J-07 | Review Collection or Stats and return to supporting Plays | Accepted outline | Pending                |
+| J-08 | Create a Play directly from Mainline                      | Accepted outline | Pending                |
+
+Each detailed journey should capture entry points, user decisions,
+authentication, validations, conflicts, success outcomes, cancellation, and
+recovery paths.
+
+## V1 Screen Inventory
+
+The inventory records product surfaces, not evidence that each route is
+currently implemented. A nested workspace tab may remain part of its parent
+route when it does not need an independent URL.
+
+### Global Surfaces
+
+| ID   | Surface              | Role                                                              | Specification status |
+| ---- | -------------------- | ----------------------------------------------------------------- | -------------------- |
+| G-01 | Landing              | Public product entry                                              | Pending              |
+| G-02 | Intro                | Product introduction/onboarding                                   | Pending              |
+| G-03 | Login                | Authentication and intent resumption                              | Pending              |
+| G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending              |
+| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | Pending              |
+
+### Mainline Surfaces
+
+| ID   | Surface                   | Role                                                       | Specification status |
+| ---- | ------------------------- | ---------------------------------------------------------- | -------------------- |
+| M-01 | Dashboard                 | Authenticated home and next-action summary                 | Pending              |
+| M-02 | Plays                     | Browse and filter playthroughs                             | Pending              |
+| M-03 | Create Play               | Create or import a play with game context                  | Pending              |
+| M-04 | Play Overview             | High-signal summary of one play                            | Pending              |
+| M-05 | Play Team                 | Manage active, reserve, and historical Pokémon             | Pending              |
+| M-06 | Play Progress             | Summarize applicable progress tracks                       | Pending              |
+| M-07 | Story Progress            | Record milestones, decisions, and optional snapshots       | Pending              |
+| M-08 | Play Pokédex              | Record game-scoped Pokédex progress                        | Pending              |
+| M-09 | Play Collectibles         | Record game-scoped collectible progress                    | Pending              |
+| M-10 | Play Plan                 | Work with the one focused linked Team Plan                 | Pending              |
+| M-11 | Play History              | Review and record meaningful timeline events               | Pending              |
+| M-12 | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | Pending              |
+| M-13 | Plans Hub                 | Browse Team Plans and game intentions                      | Pending              |
+| M-14 | Create Plan               | Create a game-scoped Team Plan                             | Pending              |
+| M-15 | Plan Detail               | Build targets and resolve planning conflicts               | Pending              |
+| M-16 | Collection                | Review personal Pokémon usage history                      | Pending              |
+| M-17 | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending              |
+| M-18 | Stats                     | Review derived patterns with supporting records            | Pending              |
+
+### Codex Surfaces
+
+| ID   | Surface                   | Role                                                        | Specification status |
+| ---- | ------------------------- | ----------------------------------------------------------- | -------------------- |
+| C-01 | Pokémon Browse            | Search and filter game-aware Pokémon reference data         | Pending              |
+| C-02 | Pokémon Detail            | Inspect a Pokémon in a selected game context                | Pending              |
+| C-03 | Games Browse              | Discover supported games                                    | Pending              |
+| C-04 | Game Detail               | Inspect a game and initiate Mainline intents                | Pending              |
+| C-05 | Game Pokédex              | Browse one Pokédex within a game                            | Pending              |
+| C-06 | Codex-to-Mainline handoff | Select destinations, resolve conflicts, and confirm results | Pending              |
+
+## Screen Specification Template
+
+Detailed screen-family documents should use this structure:
+
+1. Purpose and primary user goal.
+2. Access, route behavior, and entry points.
+3. Information hierarchy and sections.
+4. Primary, secondary, and destructive actions.
+5. Forms, fields, controls, filters, menus, and dialogs.
+6. Data displayed, created, changed, or derived.
+7. Validation, permissions, and transactional side effects.
+8. Loading, empty, error, disabled, conflict, success, and signed-out states.
+9. Desktop, mobile, keyboard, focus, and accessibility behavior.
+10. Shared components used or new pattern candidates.
+11. Analytics or measurement needs, if any.
+12. Open questions and linked database-gap IDs.
+
+## Candidate Shared Patterns
+
+**Status: Provisional — validate through screen specifications before accepting**
+
+- Shared application shell and module navigation.
+- Standard page heading and contextual action area.
+- Browse, search, filter, sort, and view controls.
+- Detail and workspace shells.
+- Tab and section navigation.
+- Section cards and repeated-item cards.
+- Pokémon, game, team-member, progress, timeline, and stat presentations.
+- Forms, validation summaries, confirmations, and destructive-action patterns.
+- Dialog, sheet, popover, command, dropdown, and toast behavior.
+- Loading, empty, error, permission, and success patterns.
+
+The eventual component registry should record each accepted pattern, variants,
+states, responsive behavior, and consuming screens.
+
+## Current Review Questions
+
+The product overview should be reviewed before navigation or screen detail:
+
+1. Does the product promise describe the V1 we want to design?
+2. Is the Mainline/Codex split correct and understandable to users?
+3. Is the V1 product loop complete, or is an important recurring activity
+   missing?
+4. Are Landing and Intro genuinely different surfaces?
+5. Are any listed surfaces outside V1, or is a necessary surface missing?

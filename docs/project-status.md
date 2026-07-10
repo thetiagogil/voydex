@@ -46,6 +46,11 @@ The next phase is a complete V1 product-design pass before database correction
 or frontend feature implementation. The canonical continuation brief is
 [V1 Screen Flow And Design Handoff](./design/v1-screen-flow.md).
 
+The current step is the breadth-first product review organized in the
+[V1 Design Workspace](./design/v1/README.md): confirm the overview, navigation,
+journeys, screen inventory, and shared-pattern candidates before detailed
+screen specifications or visual exploration.
+
 Accepted direction:
 
 - Design the complete Mainline and Codex journey, beginning with the shared
@@ -61,9 +66,10 @@ Accepted direction:
   planned database correctness and reference-seed audit before production
   implementation resumes.
 
-No V1 visual direction has been selected. The next checkpoint is to produce
-exactly three visual directions for the shared application shell and Mainline
-Dashboard, then wait for one to be chosen before building UI.
+No V1 visual direction has been selected. After the blueprint and screen
+requirements are reviewed, the visual checkpoint is to produce exactly three
+directions for the shared application shell and Mainline Dashboard, then wait
+for one to be chosen before building UI.
 
 ## Known Gaps
 

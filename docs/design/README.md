@@ -12,6 +12,10 @@ for the next product-design phase. It defines the complete Mainline and Codex
 journey, authenticated Codex-to-Mainline actions, design order, and restart
 instructions for a new workstation or task.
 
+[V1 Design Workspace](./v1/README.md) organizes the breadth-first product
+review, screen coverage, design decisions, data requirements, and deferred
+database-gap register used throughout that phase.
+
 ## Rules
 
 - Keep only selected references; discarded generation variants belong in Git

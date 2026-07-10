@@ -9,15 +9,21 @@ implementation status remains canonical in [Project Status](../project-status.md
 ## Current Checkpoint
 
 - The next phase is product design, not frontend implementation.
+- The current step is a breadth-first review of the product overview,
+  navigation, journeys, complete screen inventory, and shared-pattern
+  candidates in the [V1 Design Workspace](./v1/README.md).
 - No V1 visual direction has been selected yet.
 - The existing implementation and images under `docs/design/mainline-play` may
   be inspected for useful ideas, but they are not constraints and may be
   replaced.
 - The durable product contracts, data ownership rules, accessibility needs,
   and Voydex's clean adventure-companion character remain constraints.
-- The next session should generate exactly three distinct visual directions
-  for the shared application shell and Mainline Dashboard, then wait for a
-  direction to be selected before implementing or expanding screens.
+- Visual exploration begins only after the product blueprint and detailed
+  design requirements are coherent enough to give every direction the same
+  content, actions, states, and responsive constraints.
+- At that point, generate exactly three distinct visual directions for the
+  shared application shell and Mainline Dashboard, then wait for a direction
+  to be selected before implementing or expanding screens.
 
 ## V1 Product Loop
 
@@ -253,9 +259,12 @@ Use this after opening the repository on another computer:
 ```txt
 Continue the Voydex V1 product-design work. Read AGENTS.md,
 docs/project-status.md, docs/design/v1-screen-flow.md,
+docs/design/v1/README.md, docs/design/v1/product-blueprint.md,
+docs/design/v1/decisions.md, docs/design/v1/database-gaps.md,
 docs/app/design-system.md, docs/product/feature-contract.md, and
 docs/product/navigation-and-routes.md. Treat the existing implementation and
-legacy design images as optional references, not constraints. Begin the next
-checkpoint by producing exactly three visual directions for the shared app
-shell and Mainline Dashboard. Do not implement UI until a direction is chosen.
+legacy design images as optional references, not constraints. Continue the
+current blueprint review before visual exploration. Record design decisions and
+screen-derived database needs as they emerge. Do not implement UI or database
+changes during this design phase.
 ```
