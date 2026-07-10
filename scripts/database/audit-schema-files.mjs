@@ -3,32 +3,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { databaseDir } from "./context.mjs";
+import { collectSqlFiles, relativePath as toRelativePath } from "./files.mjs";
 
 const schemaRoot = path.join(databaseDir, "schema");
 const retiredIndexesRoot = path.join(databaseDir, "indexes");
 
-function collectSqlFiles(directory) {
-  if (!fs.existsSync(directory)) {
-    return [];
-  }
-
-  const files = [];
-
-  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    const entryPath = path.join(directory, entry.name);
-
-    if (entry.isDirectory()) {
-      files.push(...collectSqlFiles(entryPath));
-    } else if (entry.isFile() && entry.name.endsWith(".sql")) {
-      files.push(entryPath);
-    }
-  }
-
-  return files;
-}
-
 function relativePath(filePath) {
-  return path.relative(databaseDir, filePath).replaceAll(path.sep, "/");
+  return toRelativePath(databaseDir, filePath);
 }
 
 const errors = [];

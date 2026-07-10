@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { databaseDir, rootDir, supabaseDir } from "./context.mjs";
+import { collectSqlFiles, relativePath } from "./files.mjs";
 
 const migrationsDir = path.join(supabaseDir, "migrations");
 const schemaMigrationPath = path.join(
@@ -21,29 +22,8 @@ if (process.argv.slice(2).some((argument) => argument !== "--check")) {
   process.exit(1);
 }
 
-function collectSqlFiles(directory) {
-  if (!fs.existsSync(directory)) {
-    return [];
-  }
-
-  const entries = fs.readdirSync(directory, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    const entryPath = path.join(directory, entry.name);
-
-    if (entry.isDirectory()) {
-      files.push(...collectSqlFiles(entryPath));
-    } else if (entry.isFile() && entry.name.endsWith(".sql")) {
-      files.push(entryPath);
-    }
-  }
-
-  return files;
-}
-
 function toRelativePath(filePath) {
-  return path.relative(rootDir, filePath).replaceAll(path.sep, "/");
+  return relativePath(rootDir, filePath);
 }
 
 function readSqlFile(filePath) {
