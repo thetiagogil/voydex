@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonDetailFormListItemContent } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-list-item-content";
 import { getPokemonDetailFormHref } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-links";
 import {

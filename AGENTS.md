@@ -30,6 +30,9 @@ that is within scope.
 - Keep `src/app` routes thin. Feature implementation belongs under
   `src/modules` or `src/features`; only domain-neutral primitives belong under
   `src/shared` in the target architecture.
+- `src/lib` is retired. Framework and Supabase adapters belong under
+  `src/platform`; global workflows such as app shell and auth belong under
+  `src/features`.
 - Preserve separation between orchestration, database I/O, pure mapping, and UI
   when those are distinct responsibilities. Do not force a query/reader/mapper
   file trio for a simple use case.

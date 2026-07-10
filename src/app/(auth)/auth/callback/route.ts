@@ -1,12 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
-import { getSafeAuthRedirectPath } from "@/lib/navigation";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
+import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export const GET = async (request: NextRequest) => {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const defaultNext = await getActiveModuleDefaultHrefFromCookies();
+  const defaultNext = await getAuthDefaultRouteFromCookies();
   const next = getSafeAuthRedirectPath(
     requestUrl.searchParams.get("next"),
     defaultNext,

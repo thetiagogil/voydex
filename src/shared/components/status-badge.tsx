@@ -1,5 +1,5 @@
 import { Badge } from "@/shared/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 
 export type StatusBadgeTone =
   | "battle"

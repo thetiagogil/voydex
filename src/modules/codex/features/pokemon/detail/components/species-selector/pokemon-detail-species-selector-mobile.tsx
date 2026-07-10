@@ -2,7 +2,7 @@
 
 import type { UIEventHandler } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import {
   PokemonDetailSpeciesSelectorGroupHeader,
   PokemonDetailSpeciesSelectorOptionContent,

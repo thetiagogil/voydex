@@ -12,36 +12,49 @@ architecture guide; the ADR explains why the direction was chosen.
 
 ## Current Checkpoint
 
-The application currently uses this root layout:
+Phase 3 migrated the application foundation to this root layout:
 
 ```txt
 src/
   app/
   config/
   features/
-  lib/
+    app-shell/
+    auth/
+    settings/
+    site/
+    system/
   modules/
     codex/
     mainline/
+  platform/
+    env/
+    supabase/
   shared/
   proxy.ts
 ```
 
-This is the starting point for the refactor, not the final topology. In
-particular:
+The foundation now follows the target ownership rules:
 
-- `src/lib` currently mixes infrastructure, auth, navigation, and app-shell
-  concerns that will move to explicit owners.
-- app-shell code currently lives under `src/shared` even though it is an app
+- `src/lib` is retired. Environment and Supabase adapters live under
+  `src/platform`, auth workflows live under `src/features/auth`, app-shell and
+  active-module behavior live under `src/features/app-shell`, and the generic
+  `cn` helper lives under `src/shared/utils`.
+- route adapters compose the app shell around auth, site, and system content;
+  those global features do not import each other.
+- the proxy separates generic Supabase session refresh in `src/platform` from
+  Voydex route protection and active-module cookie orchestration in the app-shell
   feature.
-- reusable Pokemon and game semantics currently live under `src/shared` or
-  `src/modules/codex/shared`; they will move to the internal `reference` module.
+- reusable Pokemon and game semantics still live under `src/shared` or
+  `src/modules/codex/shared`; the next dedicated boundary migration will move
+  them to the internal `reference` module.
 - existing feature reads commonly use a query/loader/mapper split. That split
   remains valid where the responsibilities are genuinely distinct, but it is
   no longer a mandatory three-file template.
 
-Do not treat these transitional locations as precedents for new architecture.
-Move them phase by phase and keep compatibility shims temporary.
+Do not treat the remaining reference-related transitional locations as
+precedents for new architecture. Move them phase by phase without compatibility
+shims that obscure ownership.
 
 ## Target Topology
 
@@ -139,11 +152,14 @@ Import a feature through its intended public entry point when one exists. Do
 not bypass ownership by reaching into another feature's component, server, or
 data folders.
 
-`npm run architecture:check` currently enforces the stable subset that the
-pre-refactor code already satisfies: shared and platform direction, no lateral
-product-module dependencies, no server query/loader imports in Client
-Components, and no database clients/raw schema reads in component folders. Add
-stricter rules only after the corresponding migration phase is complete.
+`npm run architecture:check` enforces the migrated foundation: `src/lib` is
+retired; shared, platform, and config dependency direction is protected; global
+features cannot depend laterally or reach into product modules; product modules
+cannot import global feature internals; lateral product-module dependencies are
+blocked except for the directed future `reference` dependency; Client
+Components cannot import server queries/readers; and component folders cannot
+create database clients or perform raw schema reads. Add stricter rules only
+after the corresponding migration phase is complete.
 
 ## Module And Feature Organization
 

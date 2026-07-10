@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";

@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { getSupabasePublicConfig } from "@/lib/env";
+import { getSupabasePublicConfig } from "@/platform/env/supabase-public-config";
 import type { Database } from "@/shared/types/database.types";
 
 export const createServerSupabaseClient = async () => {

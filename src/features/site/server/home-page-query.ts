@@ -1,5 +1,5 @@
-import { getOptionalUserEmail } from "@/lib/supabase/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getOptionalUserEmail } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type HomePageData = {
   isAuthenticated: boolean;

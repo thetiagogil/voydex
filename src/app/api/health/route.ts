@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { checkSupabaseHealth } from "@/lib/supabase/health";
+import { checkSupabaseHealth } from "@/platform/supabase/health";
 
 export const dynamic = "force-dynamic";
 

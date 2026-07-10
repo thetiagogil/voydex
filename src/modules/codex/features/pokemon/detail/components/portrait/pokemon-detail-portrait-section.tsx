@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonDetailActionPortrait } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import {
   getPokemonDetailFormImageAlt,

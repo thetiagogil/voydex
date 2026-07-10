@@ -1,3 +1,4 @@
+import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 import { LoginPage } from "@/features/auth/components/login-page";
 
 type LoginRouteProps = {
@@ -9,5 +10,9 @@ type LoginRouteProps = {
 };
 
 export default function Page({ searchParams }: LoginRouteProps) {
-  return <LoginPage searchParams={searchParams} />;
+  return (
+    <PublicAppShell showAuthAction={false}>
+      <LoginPage searchParams={searchParams} />
+    </PublicAppShell>
+  );
 }

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import type { PokemonGenerationFormSummary } from "@/modules/codex/shared/types";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";

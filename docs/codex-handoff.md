@@ -27,9 +27,8 @@ behavior:
 - `.github/workflows/quality.yml` runs the same quality gates in CI.
 - `docs/app/verification.md` records the route-level browser smoke baseline.
 
-No application feature or source architecture has been migrated in Phase 0.
-`src/lib`, the current app-shell/shared locations, and the current module feature
-paths remain transitional implementation evidence.
+No application feature or source architecture was migrated in Phase 0. The
+foundation locations remained transitional until Phase 3.
 
 Phase 1 stabilized database generation in `00-databases` before relocation:
 
@@ -52,6 +51,23 @@ Phase 2 co-located the verified database source:
   remains an explicit `db:verify` flow;
 - legacy data, generated seed output, local Supabase state, secrets, and
   unrelated multi-project tooling were not imported.
+
+Phase 3 migrated the frontend foundation without changing product behavior:
+
+- `src/lib` is retired; environment and Supabase adapters now live under
+  `src/platform`, while `cn` lives under `src/shared/utils`;
+- auth redirects and password actions live under `src/features/auth`;
+- the app shell, active-module preference, module navigation, and sign-out use
+  case live under `src/features/app-shell`;
+- home entry and database-health UI moved to their site and system owners;
+- route adapters compose the public shell around auth, site, and system content,
+  so global features do not import one another;
+- proxy responsibilities are split between generic Supabase session refresh and
+  app-shell-owned route/module-cookie orchestration;
+- architecture checks now enforce the migrated dependency direction and reject
+  new `src/lib` files;
+- Vitest resolves the production `@/*` alias, and focused auth/module-navigation
+  tests increase the suite to 11 tests across three files.
 
 The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, and app
 verification pass at this checkpoint. No remote database read or write was
@@ -366,6 +382,8 @@ Current stack:
 Current app status:
 
 - Auth foundation is wired.
+- The frontend foundation uses explicit `platform`, global-feature, and shared
+  owners; `src/lib` no longer exists as a source bucket.
 - Protected app shell exists.
 - Health check banner exists.
 - Protected Mainline pages currently include the Plays list and the Play Hub at
@@ -404,9 +422,14 @@ Known implementation debt:
   `/codex/pokemon/[speciesSlug]`, but its App Router folder is still named
   `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
   rename is explicitly in scope.
-- The Phase 0 repository has explicit format, lint, typecheck, architecture,
-  unit-test, build, and CI gates. The unit suite is intentionally small, and
-  there is no committed end-to-end browser suite yet.
+- The repository has explicit format, lint, typecheck, architecture, unit-test,
+  build, and CI gates. The unit suite currently has 11 tests across three files,
+  and there is no committed end-to-end browser suite yet.
+
+The next architecture boundary is the internal `reference` module for reusable
+Pokemon/game semantics currently under `src/shared` and
+`src/modules/codex/shared`. Keep the Pokemon detail slice late within that
+migration because it is the largest and most interconnected current feature.
 
 When adding the next Codex or Mainline section after the architecture migration,
 keep route files thin and choose the smallest read structure that keeps I/O,

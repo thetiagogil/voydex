@@ -1,4 +1,4 @@
-import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
 
 export const loadMainlinePlaysPageData = async (

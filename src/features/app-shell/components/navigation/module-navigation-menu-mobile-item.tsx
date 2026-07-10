@@ -3,12 +3,12 @@
 import Link from "next/link";
 
 import { type ModuleKey, modules } from "@/config/modules";
-import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
+import { setActiveModuleCookie } from "@/features/app-shell/client/active-module-cookie";
 import {
   getModuleNavigationHref,
   moduleRequiresLogin,
-} from "@/lib/modules/module-navigation";
-import { cn } from "@/lib/utils";
+} from "@/features/app-shell/utils/module-navigation";
+import { cn } from "@/shared/utils/cn";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   AccordionContent,

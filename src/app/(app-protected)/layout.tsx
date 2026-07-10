@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { AppShell } from "@/shared/components/app-shell/app-shell";
-import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
-import { getClaimsWithTimeout } from "@/lib/supabase/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { AppShell } from "@/features/app-shell/components/app-shell";
+import { getActiveModuleKeyFromCookies } from "@/features/app-shell/server/active-module";
+import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export default async function ProtectedLayout({
   children,

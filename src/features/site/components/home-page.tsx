@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { BrandImage } from "@/shared/components/brand/brand-image";
-import { HomeAppEntryButton } from "@/shared/components/app-shell/home-app-entry-button";
+import { HomeAppEntryButton } from "@/features/site/components/home-app-entry-button";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { getHomePageData } from "@/features/site/server/home-page-query";

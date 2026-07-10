@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   loadPokemonDetailDefaultGameRow,
   loadPokemonDetailDefaultGameSpeciesRow,

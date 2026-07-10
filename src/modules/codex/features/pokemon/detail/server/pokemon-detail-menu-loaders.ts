@@ -1,4 +1,4 @@
-import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { getDefaultFormsBySpeciesId } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-attribute-selectors";
 import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import {

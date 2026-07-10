@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { getGameInitials } from "@/shared/domain/games/game-display";
 
 type GameCoverArtProps = {

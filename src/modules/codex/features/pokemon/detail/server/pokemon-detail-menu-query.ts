@@ -1,7 +1,7 @@
 import {
   createServerSupabaseClient,
   type ServerSupabaseClient,
-} from "@/lib/supabase/server";
+} from "@/platform/supabase/server-client";
 import { buildPokemonDetailMenuPage } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-page-mappers";
 import {
   getPagedPokemonMenuSpeciesRows,

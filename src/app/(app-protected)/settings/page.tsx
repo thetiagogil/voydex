@@ -1,6 +1,6 @@
 import { SettingsPage as SettingsPageView } from "@/features/settings/components/settings-page";
-import { getOptionalUserEmail } from "@/lib/supabase/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getOptionalUserEmail } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export default async function SettingsPage() {
   const supabase = await createServerSupabaseClient();

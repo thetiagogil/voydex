@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 
 const resourceGridColumns = {
   five: "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",

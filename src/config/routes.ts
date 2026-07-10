@@ -10,6 +10,7 @@ export const appRoutes = {
   codexPokemonGameSpecies: (gameSlug: string, speciesSlug: string) =>
     `/codex/pokemon/${gameSlug}/${speciesSlug}`,
   codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
+  health: "/api/health",
   home: "/",
   intro: "/intro",
   login: "/login",

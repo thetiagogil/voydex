@@ -1,4 +1,4 @@
-import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { loadPagedReferenceRows } from "@/modules/codex/shared/server/reference-row-loaders";
 import type {
   Game,

@@ -1,4 +1,4 @@
-import { getSupabasePublicConfig } from "@/lib/env";
+import { getSupabasePublicConfig } from "@/platform/env/supabase-public-config";
 
 export type SupabaseHealth =
   | {

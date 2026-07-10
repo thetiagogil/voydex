@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonTypeList } from "@/modules/codex/shared/components/pokemon-type-list";
 import type { PokemonDetailMenuPokemon } from "@/modules/codex/shared/types";
 import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";

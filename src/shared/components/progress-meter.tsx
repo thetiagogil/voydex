@@ -1,5 +1,5 @@
 import { Progress } from "@/shared/components/ui/progress";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 
 type ProgressMeterProps = {
   className?: string;

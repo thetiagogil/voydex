@@ -1,5 +1,5 @@
-import { getClaimsWithTimeout } from "@/lib/supabase/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { loadMainlinePlayPageData } from "@/modules/mainline/features/plays/detail/server/play-page-loaders";
 import type { MainlinePlayPageData } from "@/modules/mainline/features/plays/shared/types";
 import { isUuid } from "@/shared/utils/identifiers";

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
 
 type PokemonPortraitFallbackImageProps = {

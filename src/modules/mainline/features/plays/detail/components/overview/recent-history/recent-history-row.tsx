@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { formatTimelineDate } from "@/modules/mainline/features/plays/detail/components/overview/recent-history/recent-history-date";
 import {
   getTimelineDescription,

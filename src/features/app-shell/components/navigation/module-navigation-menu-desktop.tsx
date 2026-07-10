@@ -6,11 +6,11 @@ import {
   modules,
   type ModuleKey,
 } from "@/config/modules";
-import { setActiveModuleCookie } from "@/lib/modules/active-module-cookie.client";
+import { setActiveModuleCookie } from "@/features/app-shell/client/active-module-cookie";
 import {
   getModuleNavigationHref,
   moduleRequiresLogin,
-} from "@/lib/modules/module-navigation";
+} from "@/features/app-shell/utils/module-navigation";
 import { AppIcon, appIcons, getModuleIcon } from "@/shared/components/app-icon";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu-option";
 import { Badge } from "@/shared/components/ui/badge";

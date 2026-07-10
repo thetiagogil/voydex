@@ -1,7 +1,7 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
-import { getSupabasePublicConfig } from "@/lib/env";
+import { getSupabasePublicConfig } from "@/platform/env/supabase-public-config";
 import type { Database } from "@/shared/types/database.types";
 
 export const createBrowserSupabaseClient = () => {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
 import type { GameCard } from "@/modules/codex/shared/types";

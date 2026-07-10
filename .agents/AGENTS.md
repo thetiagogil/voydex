@@ -40,8 +40,9 @@ and mutate durable state.
 
 Use `docs/codex-handoff.md` and the route config/code to determine which routes
 are currently mounted. Product route plans are not evidence that a route exists.
-Keep route files in `src/app` thin and compose module or shared components from
-them.
+Keep route files in `src/app` thin and compose module, global-feature, or shared
+entry points. Route adapters may compose the app shell around feature-owned page
+content.
 
 The Mainline Plays feature boundary is:
 
@@ -100,10 +101,17 @@ The target root `src` folders are:
 - `shared`
 - `proxy.ts`
 
-`src/lib` is a transitional current folder. Move its concerns to `platform`, a
-global feature, a product module, config, or shared utilities as their migration
-phase lands. Do not add new unrelated `lib` buckets or reintroduce root-level
-`components`, `constants`, or `types`.
+`src/lib` is retired and the architecture check rejects new source files there.
+Environment and Supabase adapters belong under `src/platform`; app-shell and
+active-module behavior belong under `src/features/app-shell`; auth workflows
+belong under `src/features/auth`; generic utilities belong under `src/shared`.
+Do not reintroduce root-level `lib`, `components`, `constants`, or `types`
+buckets.
+
+Reusable Pokemon/game semantics under `src/shared` and
+`src/modules/codex/shared` remain transitional until the internal `reference`
+module migration. Do not add new catalogue behavior to those transitional
+shared locations when a clear feature owner exists.
 
 Module feature code belongs under `src/modules`. Cross-app features such as app
 shell, site, auth, settings, and system pages belong under `src/features`.
@@ -284,9 +292,10 @@ them with canonical forms like `shadow-(--token)` when equivalent.
 
 For visual work, also test in the browser at desktop and mobile widths.
 
-The unit-test harness is intentionally small at the Phase 0 checkpoint. Add
-focused tests with each migrated behavior. There is no committed end-to-end
-browser suite yet; use `docs/app/verification.md` for focused browser checks.
+The unit-test harness remains intentionally focused. Vitest resolves the
+production `@/*` alias; add focused tests with each migrated behavior. There is
+no committed end-to-end browser suite yet; use `docs/app/verification.md` for
+focused browser checks.
 
 In sandboxed Codex runs, `npm run build` can fail when Turbopack cannot bind a
 local port. If lint passes but build hits a sandbox port error, rerun build

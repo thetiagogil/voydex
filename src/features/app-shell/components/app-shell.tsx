@@ -1,9 +1,9 @@
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import { AppNavbar } from "@/shared/components/app-shell/app-navbar";
-import { ModuleNavigationMenu } from "@/shared/components/app-shell/module-navigation-menu";
-import { ModuleViewNav } from "@/shared/components/app-shell/module-view-nav";
-import { UserMenu } from "@/shared/components/app-shell/user-menu";
+import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
+import { ModuleNavigationMenu } from "@/features/app-shell/components/navigation/module-navigation-menu";
+import { ModuleViewNav } from "@/features/app-shell/components/navigation/module-view-nav";
+import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
 import Link from "next/link";
 

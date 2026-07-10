@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { ChevronRightIcon, CheckIcon } from "lucide-react";
 
 const ContextMenu = ({ ...props }: ContextMenuPrimitive.Root.Props) => {

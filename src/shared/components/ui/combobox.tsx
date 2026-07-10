@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { Button } from "@/shared/components/ui/button";
 import {
   InputGroup,

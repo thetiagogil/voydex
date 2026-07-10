@@ -1,4 +1,4 @@
-import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 type PokemonDetailDefaultGameSpeciesRow = {
   introduced_generation_id: number | null;

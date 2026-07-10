@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getActiveModuleKey, modules, type ModuleKey } from "@/config/modules";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 
 type ModuleViewNavProps = {
   activeModuleKey: ModuleKey;

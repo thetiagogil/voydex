@@ -8,7 +8,7 @@ import {
   modules,
   type ModuleKey,
 } from "@/config/modules";
-import { MobileModuleNavigationItem } from "@/shared/components/app-shell/module-navigation-menu-mobile-item";
+import { MobileModuleNavigationItem } from "@/features/app-shell/components/navigation/module-navigation-menu-mobile-item";
 import { Accordion } from "@/shared/components/ui/accordion";
 import { Button } from "@/shared/components/ui/button";
 import {

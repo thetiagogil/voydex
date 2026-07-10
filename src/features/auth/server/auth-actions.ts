@@ -3,19 +3,19 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { appRoutes } from "@/config/routes";
-import { getActiveModuleDefaultHrefFromCookies } from "@/lib/modules/active-module";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
   getSafeAuthRedirectPath,
-} from "@/lib/navigation";
+} from "@/features/auth/auth-redirects";
+import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 type AuthMode = "log-in" | "sign-up";
 
 const getSafeNext = async (formData: FormData) => {
   return getSafeAuthRedirectPath(
     formData.get("next"),
-    await getActiveModuleDefaultHrefFromCookies(),
+    await getAuthDefaultRouteFromCookies(),
   );
 };
 
@@ -23,7 +23,7 @@ const resolveAuthRedirectPath = async (next: string) => {
   if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
     return next;
   }
-  return getActiveModuleDefaultHrefFromCookies();
+  return getAuthDefaultRouteFromCookies();
 };
 
 const buildEmailRedirectTo = (origin: string | null, next: string) => {
@@ -124,10 +124,4 @@ export const signUpWithPassword = async (formData: FormData) => {
     redirectWithAuthError(error.message, "sign-up", next);
   }
   redirect(await resolveAuthRedirectPath(next));
-};
-
-export const signOut = async () => {
-  const supabase = await createServerSupabaseClient();
-  await supabase.auth.signOut();
-  redirect("/login");
 };

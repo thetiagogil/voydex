@@ -14,10 +14,10 @@ import { Input } from "@/shared/components/ui/input";
 import {
   logInWithPassword,
   signUpWithPassword,
-} from "@/lib/auth/server/actions";
+} from "@/features/auth/server/auth-actions";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { DEFAULT_AUTH_REDIRECT_PATH } from "@/lib/navigation";
-import { cn } from "@/lib/utils";
+import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
+import { cn } from "@/shared/utils/cn";
 
 export type AuthMode = "log-in" | "sign-up";
 type AuthPanelProps = {

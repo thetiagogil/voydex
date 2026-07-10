@@ -4,7 +4,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 

@@ -53,7 +53,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import type { ModuleKey } from "@/config/modules";
 import { PokeballIcon } from "@/shared/domain/icons/pokeball-icon";
 
 export type AppIconComponent = LucideIcon;
@@ -155,8 +154,10 @@ export const appIcons = {
 const moduleIcons = {
   codex: appIcons.modules.codex,
   mainline: appIcons.modules.mainline,
-} satisfies Record<ModuleKey, AppIconComponent>;
+} satisfies Record<keyof typeof appIcons.modules, AppIconComponent>;
 
-export const getModuleIcon = (moduleKey: ModuleKey) => {
+type ModuleIconKey = keyof typeof moduleIcons;
+
+export const getModuleIcon = (moduleKey: ModuleIconKey) => {
   return moduleIcons[moduleKey];
 };

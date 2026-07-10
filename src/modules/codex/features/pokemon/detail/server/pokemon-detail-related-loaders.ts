@@ -1,4 +1,4 @@
-import type { ServerSupabaseClient } from "@/lib/supabase/server";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { isNumber } from "@/modules/codex/shared/data/reference-data-utils";
 import type {
   Ability,

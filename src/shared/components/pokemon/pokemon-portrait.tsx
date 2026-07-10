@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonPortraitFallbackImage } from "@/shared/components/pokemon/pokemon-portrait-fallback-image";
 import { PokemonPortraitPlaceholder } from "@/shared/components/pokemon/pokemon-portrait-placeholder";
 import {

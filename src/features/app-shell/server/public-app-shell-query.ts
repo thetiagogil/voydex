@@ -1,7 +1,7 @@
 import { DEFAULT_MODULE_KEY, type ModuleKey } from "@/config/modules";
-import { getActiveModuleKeyFromCookies } from "@/lib/modules/active-module";
-import { getOptionalUserEmail } from "@/lib/supabase/auth";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getActiveModuleKeyFromCookies } from "@/features/app-shell/server/active-module";
+import { getOptionalUserEmail } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type PublicAppShellData = {
   moduleSelectorKey: ModuleKey;

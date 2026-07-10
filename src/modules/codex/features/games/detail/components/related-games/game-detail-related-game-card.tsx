@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import type { GameCard } from "@/modules/codex/shared/types";
 import {
   getPokemonGameColorCssVariables,

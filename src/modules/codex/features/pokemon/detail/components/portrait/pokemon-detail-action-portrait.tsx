@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { PokemonPortrait } from "@/shared/components/pokemon/pokemon-portrait";
 import {
   pokemonTypeGroupHoverSurfaceClassName,

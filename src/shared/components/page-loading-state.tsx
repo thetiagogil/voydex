@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PageLoadingStateProps = {

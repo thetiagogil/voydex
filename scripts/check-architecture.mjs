@@ -95,7 +95,7 @@ function checkImportBoundary({
 
   if (
     sourceArea === "shared" &&
-    ["app", "features", "modules", "platform"].includes(targetArea)
+    ["app", "config", "features", "modules", "platform"].includes(targetArea)
   ) {
     addImportViolation(
       violations,
@@ -107,12 +107,44 @@ function checkImportBoundary({
 
   if (
     sourceArea === "platform" &&
-    ["app", "features", "modules"].includes(targetArea)
+    ["app", "config", "features", "modules"].includes(targetArea)
   ) {
     addImportViolation(
       violations,
       normalizePath(path.relative(projectRoot, importerPath)),
       "platform code must not depend on application or product layers",
+      specifier,
+    );
+  }
+
+  if (sourceArea === "features") {
+    const sourceFeature = importerSegments[1];
+    const targetFeature = targetSegments[1];
+
+    if (["app", "modules"].includes(targetArea)) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, importerPath)),
+        `global feature ${sourceFeature} must not depend on the application route layer or a product module`,
+        specifier,
+      );
+    }
+
+    if (targetArea === "features" && sourceFeature !== targetFeature) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, importerPath)),
+        `global feature ${sourceFeature} must not depend on global feature ${targetFeature}`,
+        specifier,
+      );
+    }
+  }
+
+  if (sourceArea === "modules" && ["app", "features"].includes(targetArea)) {
+    addImportViolation(
+      violations,
+      normalizePath(path.relative(projectRoot, importerPath)),
+      "product modules must not depend on application routes or global feature internals",
       specifier,
     );
   }
@@ -180,6 +212,12 @@ async function checkFile(filePath) {
       statement.expression.text === "use client",
   );
   const violations = [];
+
+  if (segments[0] === "lib") {
+    violations.push(
+      `${normalizePath(path.relative(projectRoot, filePath))}: src/lib is retired; move the file to its platform, feature, module, config, or shared owner`,
+    );
+  }
 
   for (const specifier of collectModuleSpecifiers(sourceFile)) {
     checkImportBoundary({

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { appRoutes } from "@/config/routes";
-import { signOut } from "@/lib/auth/server/actions";
+import { signOut } from "@/features/app-shell/server/sign-out-action";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { Button } from "@/shared/components/ui/button";
 import {

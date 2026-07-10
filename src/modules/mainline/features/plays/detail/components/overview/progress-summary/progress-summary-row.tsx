@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import type { ProgressSummaryItem } from "@/modules/mainline/features/plays/detail/components/overview/progress-summary/progress-summary-model";
 import { AppIcon } from "@/shared/components/app-icon";
 import { Progress } from "@/shared/components/ui/progress";

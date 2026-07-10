@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu-option-content";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
 

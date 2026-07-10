@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { GameDetailRelatedGameCard } from "@/modules/codex/features/games/detail/components/related-games/game-detail-related-game-card";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";

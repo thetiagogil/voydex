@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import {
   isPokemonGameSlug,
   type PokemonGameSlug,

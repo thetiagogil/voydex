@@ -1,6 +1,6 @@
-import { AppShell } from "@/shared/components/app-shell/app-shell";
+import { AppShell } from "@/features/app-shell/components/app-shell";
 import type { ModuleKey } from "@/config/modules";
-import { getPublicAppShellData } from "@/shared/server/public-app-shell-query";
+import { getPublicAppShellData } from "@/features/app-shell/server/public-app-shell-query";
 
 type PublicAppShellProps = {
   activeModuleKey?: ModuleKey;

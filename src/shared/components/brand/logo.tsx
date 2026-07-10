@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 
 type LogoProps = {

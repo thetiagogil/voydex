@@ -24,7 +24,9 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-`NEXT_PUBLIC_SUPABASE_ANON_KEY` is accepted as a fallback by `src/lib/env.ts`, but the preferred variable is `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` is accepted as a fallback by
+`src/platform/env/supabase-public-config.ts`, but the preferred variable is
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
 Do not commit `.env.local`.
 
