@@ -6,8 +6,8 @@ import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/det
 import {
   getPokemonDetailEvolutionPathGridTemplateColumns,
   getPokemonDetailEvolutionPaths,
-  getPokemonDetailScopedEvolutionEdges,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-paths";
+import { getPokemonDetailScopedEvolutionEdges } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-scope";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { PokemonEvolutionFamilySummary } from "@/modules/reference/types";
 

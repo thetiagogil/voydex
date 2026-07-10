@@ -11,10 +11,10 @@ import {
   loadPokedexRowsForVersionGroups,
   loadPokemonMenuAvailabilityRows,
   loadPokemonMenuGameBySlug,
-  loadPokemonMenuPageRows,
   loadPokemonMenuReferenceRows,
   loadPokemonMenuSpeciesRows,
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-loaders";
+import { loadPokemonMenuPageRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-page-loaders";
 import type { Game, PokemonDetailMenuPage } from "@/modules/reference/types";
 
 const DEFAULT_POKEMON_MENU_LIMIT = 96;

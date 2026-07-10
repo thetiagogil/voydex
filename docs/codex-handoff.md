@@ -15,97 +15,45 @@ excluded legacy archive.
 
 ## Architecture Refactor Checkpoint
 
-Phase 0 establishes the refactor safety foundation without changing product
-behavior:
+The canonical plan is complete through Phase 8, with Phase 9 next.
+The phase numbering below matches the project plan; some implementation commits
+intentionally combine adjacent mechanical phases.
 
-- [ADR 0001](./decisions/0001-modular-monolith.md) accepts the hierarchical
-  modular-monolith target and responsibility-based read/write boundaries.
-- [ADR 0002](./decisions/0002-colocate-database-source.md) accepts moving only
-  the active authored Voydex database source into this repository.
-- `npm run typecheck`, `npm run architecture:check`, and `npm run test` provide
-  explicit local gates; `npm run verify` runs the complete sequence.
-- `.github/workflows/quality.yml` runs the same quality gates in CI.
-- `docs/app/verification.md` records the route-level browser smoke baseline.
+- **Phase 0 — Architecture contract and safety harness:** ADR 0001, updated
+  guidance, import-boundary checks, CI quality gates, focused tests, and the
+  route-level browser baseline are in place.
+- **Phase 1 — Stabilize Voydex in `00-databases`:** index generation, local
+  reset/audit, SQL lint, generated types, and the minimal database test suite
+  were corrected before relocation.
+- **Phase 2 — Import database into `13-voydex`:** authored schema, seeds,
+  Supabase workspace, tooling, and generated app types now live here. The old
+  repository was left untouched during import.
+- **Phase 3 — Retire Voydex from `00-databases`:** ADR 0002 and the source-repo
+  relocation pointer make `13-voydex/database` authoritative; the old repo is
+  archive/provenance only. This cutover was bundled with Phase 2.
+- **Phase 4 — Introduce `platform`:** Supabase clients, environment parsing,
+  session refresh, and health adapters moved out of `src/lib`.
+- **Phase 5 — Refactor global features:** auth, app shell, settings, site, and
+  system ownership moved under `src/features`; `src/lib` is retired. Phases 4
+  and 5 were implemented together.
+- **Phase 6 — Create the reference bounded context:** Pokemon/game domain,
+  display, shared UI, and public reference readers moved under
+  `src/modules/reference`.
+- **Phase 7 — Establish reference read slices:** the simple public default-game
+  read, complex public Games browse, and complex authenticated Mainline Play
+  Hub are documented in [Representative Read Slices](./app/read-slices.md).
+- **Phase 8 — Migrate remaining Codex and Mainline slices:** Mainline Play Hub
+  ownership and the remaining Codex cleanup are complete in bounded,
+  behavior-preserving slices. Browse grouping, Pokemon detail assembly,
+  menu/Pokedex ordering, learnset I/O, and evolution-path responsibilities are
+  split into cohesive feature-owned files. No retired feature paths remain;
+  generated shared UI primitives are the only documented size exceptions.
 
-No application feature or source architecture was migrated in Phase 0. The
-foundation locations remained transitional until Phase 3.
-
-Phase 1 stabilized database generation in `00-databases` before relocation:
-
-- schema table files are now the only active index source; five stale standalone
-  index files were retired instead of being added to the generator;
-- `db:audit:voydex` verifies generated wrapper freshness, schema-owned index
-  targets/names, and the deterministic seed corpus;
-- `db:test:voydex` now runs a 13-assertion pgTAP schema/security smoke suite;
-- type generation is local by default, linked generation is explicit, and the
-  app copy is aligned with the verified local schema.
-
-Phase 2 co-located the verified database source:
-
-- human-authored schema and seeds live under `database`;
-- the Supabase CLI workdir is `database/`, isolating it from the app's root
-  `.env.local`;
-- database tooling lives under `scripts/database` and types generate directly
-  into the app contract;
-- source audits run in normal CI, while Docker-dependent database verification
-  remains an explicit `db:verify` flow;
-- legacy data, generated seed output, local Supabase state, secrets, and
-  unrelated multi-project tooling were not imported.
-
-Phase 3 migrated the frontend foundation without changing product behavior:
-
-- `src/lib` is retired; environment and Supabase adapters now live under
-  `src/platform`, while `cn` lives under `src/shared/utils`;
-- auth redirects and password actions live under `src/features/auth`;
-- the app shell, active-module preference, module navigation, and sign-out use
-  case live under `src/features/app-shell`;
-- home entry and database-health UI moved to their site and system owners;
-- route adapters compose the public shell around auth, site, and system content,
-  so global features do not import one another;
-- proxy responsibilities are split between generic Supabase session refresh and
-  app-shell-owned route/module-cookie orchestration;
-- architecture checks now enforce the migrated dependency direction and reject
-  new `src/lib` files;
-- Vitest resolves the production `@/*` alias, and focused auth/module-navigation
-  tests increase the suite to 11 tests across three files.
-
-Phase 4 migrated reusable catalogue ownership without changing routes or product
-behavior:
-
-- `src/modules/reference` is the internal Pokemon/game catalogue capability used
-  by Codex and Mainline;
-- game and Pokemon domain rules, display helpers, artwork/type components, and
-  CSS tokens moved out of root `src/shared`;
-- generic catalogue types, data helpers, and paged/chunked row loading expose
-  explicit public contracts through `reference/types.ts`,
-  `reference/reference-data.ts`, and `reference/reference-rows.ts`;
-- the mixed `reference-data-utils.ts` implementation was split into generic
-  reference value helpers, Pokemon attribute selectors, and game-card mapping;
-- `src/modules/codex/shared` now retains only Codex-owned shared presentation;
-- architecture checks reject the retired root-shared game/Pokemon paths and
-  prevent consumers from reaching into `reference/shared` internals;
-- focused reference-domain tests increase the suite to 19 tests across six
-  files.
-
-Phase 5 migrated Mainline Play Hub ownership without changing routes or product
-behavior:
-
-- `src/modules/mainline/features/plays/hub` replaces the generic `detail`
-  boundary and mirrors the Hub shell, Overview sections, and future tab slices;
-- `/mainline/plays/[playId]` remains the route and now imports the Hub page and
-  query directly;
-- the former 349-line `play-page-loaders.ts` was split into context and Overview
-  raw readers, pure team/rule/page mappers, and one authenticated orchestration
-  query;
-- Hub-only types moved out of `plays/shared`; that boundary now contains only
-  contracts genuinely shared with browse;
-- the architecture check rejects reintroducing `plays/detail`;
-- focused Play Hub mapper tests increase the suite to 23 tests across eight
-  files.
-
-The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, and app
-verification pass at this checkpoint. No remote database read or write was
-performed; remote work still requires separate explicit authorization.
+Phases 9 (mutation architecture) and 10 (final cleanup and enforcement) have
+not started. The local reset, source/seed audit, SQL lint, pgTAP suite, type
+parity, and app verification pass at the last completed checkpoint. No remote
+database read or write was performed; remote work still requires separate
+explicit authorization.
 
 ## Current Product Summary
 

@@ -12,8 +12,12 @@ architecture guide; the ADR explains why the direction was chosen.
 
 ## Current Checkpoint
 
-Phases 3 through 5 migrated the application foundation, internal reference
-capability, and Mainline Play Hub to this root layout:
+The canonical refactor plan has completed Phases 0 through 8. Phases 4 and 5
+were implemented together in the frontend-foundation change, and the database
+cutover documented by Phase 3 was bundled with the Phase 2 import. Phase 9 is
+the next planned change.
+
+Phases 4 through 8 use this root layout:
 
 ```txt
 src/
@@ -61,6 +65,14 @@ The foundation now follows the target ownership rules:
 - existing feature reads commonly use a query/loader/mapper split. That split
   remains valid where the responsibilities are genuinely distinct, but it is
   no longer a mandatory three-file template.
+- Phase 7 records representative simple, complex public, and complex
+  authenticated reads in [Representative Read Slices](./read-slices.md).
+- Phase 8 completed the remaining Codex/Mainline read-boundary cleanup without
+  changing routes or database behavior. Feature-owned browse grouping,
+  Pokemon detail assembly, menu ordering, learnset I/O, and evolution-path
+  responsibilities now have cohesive files. The architecture check rejects the
+  retired paths; generated shared UI primitives remain the documented size
+  exceptions.
 
 Product-specific app-icon and brand placement remains a later root-shared
 cleanup. Do not use those narrow exceptions as precedent for new domain code in

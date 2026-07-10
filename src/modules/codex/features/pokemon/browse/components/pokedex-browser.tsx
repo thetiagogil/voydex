@@ -11,6 +11,7 @@ import {
 
 import { PokedexFilterForm } from "@/modules/codex/features/pokemon/browse/components/pokedex-filter-form";
 import { PokedexPokemonCard } from "@/modules/codex/features/pokemon/browse/components/pokedex-pokemon-card";
+import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
   filterPokedexPokemon,
   getSearchablePokedexPokemon,
@@ -24,10 +25,8 @@ import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-s
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
 import type {
-  Generation,
   PokedexPageData,
   PokedexPageFilters,
-  PokedexPokemonBrowseCard,
 } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 
@@ -37,76 +36,6 @@ type PokedexBrowserProps = {
 
 const INITIAL_VISIBLE_POKEMON = 96;
 const VISIBLE_POKEMON_INCREMENT = 96;
-
-type PokedexPokemonGenerationGroup = {
-  key: string;
-  label: string;
-  pokemon: PokedexPokemonBrowseCard[];
-};
-
-const groupPokemonByGeneration = (
-  pokemon: PokedexPokemonBrowseCard[],
-  generations: Generation[],
-) => {
-  const generationSlugSet = new Set(
-    generations.map((generation) => generation.slug),
-  );
-  const pokemonByGenerationSlug = new Map<string, PokedexPokemonBrowseCard[]>();
-  const unknownGenerationPokemon: PokedexPokemonBrowseCard[] = [];
-
-  for (const entry of pokemon) {
-    const generationSlug = entry.introducedGeneration?.slug;
-
-    if (!generationSlug) {
-      unknownGenerationPokemon.push(entry);
-      continue;
-    }
-
-    const generationPokemon = pokemonByGenerationSlug.get(generationSlug) ?? [];
-    generationPokemon.push(entry);
-    pokemonByGenerationSlug.set(generationSlug, generationPokemon);
-  }
-
-  const groups: PokedexPokemonGenerationGroup[] = generations.flatMap(
-    (generation) => {
-      const generationPokemon = pokemonByGenerationSlug.get(generation.slug);
-
-      return generationPokemon?.length
-        ? [
-            {
-              key: generation.slug,
-              label: generation.name,
-              pokemon: generationPokemon,
-            },
-          ]
-        : [];
-    },
-  );
-
-  for (const [generationSlug, generationPokemon] of pokemonByGenerationSlug) {
-    if (generationSlugSet.has(generationSlug)) {
-      continue;
-    }
-
-    groups.push({
-      key: generationSlug,
-      label:
-        generationPokemon[0]?.introducedGeneration?.name ??
-        "Unknown generation",
-      pokemon: generationPokemon,
-    });
-  }
-
-  if (unknownGenerationPokemon.length) {
-    groups.push({
-      key: "unknown",
-      label: "Unknown generation",
-      pokemon: unknownGenerationPokemon,
-    });
-  }
-
-  return groups;
-};
 
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);

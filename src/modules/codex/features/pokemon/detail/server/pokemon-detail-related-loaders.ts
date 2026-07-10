@@ -5,13 +5,10 @@ import type {
   AbilityAttribute,
   EggGroup,
   EvolutionMethod,
-  Move,
-  MoveAttribute,
   Pokedex,
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
-  ResolvedPokemonLearnset,
 } from "@/modules/reference/types";
 
 type PokemonDetailRelatedRowsParams = {
@@ -29,11 +26,6 @@ export type PokemonDetailRelatedRows = {
   familyAttributes: PokemonAttributes[];
   familyForms: PokemonForm[];
   pokedexes: Pokedex[];
-};
-
-export type PokemonDetailLearnsetMoveRows = {
-  moveAttributes: MoveAttribute[];
-  moves: Move[];
 };
 
 const getPokemonAbilityIds = (attributes: PokemonAttributes[]) => {
@@ -140,11 +132,11 @@ export const loadPokemonDetailRelatedRows = async ({
     abilityAttributesResult.error ||
     eggGroupsResult.error
   ) {
-    throw new Error("Unable to load Pokémon attribute reference data.");
+    throw new Error("Unable to load PokÃ©mon attribute reference data.");
   }
 
   if (pokedexResult.error) {
-    throw new Error("Unable to load Pokémon Pokédex definitions.");
+    throw new Error("Unable to load PokÃ©mon PokÃ©dex definitions.");
   }
 
   if (
@@ -152,7 +144,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyAttributesResult.error ||
     evolutionEdgesResult.error
   ) {
-    throw new Error("Unable to load Pokémon evolution data.");
+    throw new Error("Unable to load PokÃ©mon evolution data.");
   }
 
   return {
@@ -184,48 +176,8 @@ export const loadPokemonDetailEvolutionMethods = async (
     : { data: [] as EvolutionMethod[], error: null };
 
   if (evolutionMethodsResult.error) {
-    throw new Error("Unable to load Pokémon evolution methods.");
+    throw new Error("Unable to load PokÃ©mon evolution methods.");
   }
 
   return evolutionMethodsResult.data ?? [];
-};
-
-export const loadPokemonDetailLearnsetMoveRows = async (
-  supabase: ServerSupabaseClient,
-  learnsetRows: ResolvedPokemonLearnset[],
-): Promise<PokemonDetailLearnsetMoveRows> => {
-  const moveIds = [
-    ...new Set(learnsetRows.map((row) => row.move_id).filter(isNumber)),
-  ];
-
-  if (!moveIds.length) {
-    return {
-      moveAttributes: [],
-      moves: [],
-    };
-  }
-
-  const [movesResult, moveAttributesResult] = await Promise.all([
-    supabase
-      .schema("reference")
-      .from("moves")
-      .select("*")
-      .in("id", moveIds)
-      .order("sort_order", { ascending: true }),
-    supabase
-      .schema("reference")
-      .from("move_attributes")
-      .select("*")
-      .in("move_id", moveIds)
-      .order("generation_start_id", { ascending: false }),
-  ]);
-
-  if (movesResult.error || moveAttributesResult.error) {
-    throw new Error("Unable to load Pokémon learnset move data.");
-  }
-
-  return {
-    moveAttributes: moveAttributesResult.data ?? [],
-    moves: movesResult.data ?? [],
-  };
 };

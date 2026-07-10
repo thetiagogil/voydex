@@ -9,12 +9,10 @@ import type {
   PokemonForm,
   PokemonSpecies,
   ResolvedPokemonAvailability,
-  ResolvedPokemonLearnset,
   Type,
   VersionGroup,
 } from "@/modules/reference/types";
-
-const POKEMON_DETAIL_LEARNSET_PAGE_SIZE = 1000;
+import { loadPokemonDetailLearnsetRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-learnset-row-loaders";
 
 export type PokemonDetailBaseRows = {
   availabilityMethods: AvailabilityMethod[];
@@ -31,42 +29,8 @@ export type PokemonDetailSpeciesRows = {
   availabilityRows: ResolvedPokemonAvailability[];
   familySpecies: PokemonSpecies[];
   forms: PokemonForm[];
-  learnsetRows: ResolvedPokemonLearnset[];
+  learnsetRows: Awaited<ReturnType<typeof loadPokemonDetailLearnsetRows>>;
   pokedexEntries: PokedexEntry[];
-};
-
-const loadPokemonDetailLearnsetRows = async (
-  supabase: ServerSupabaseClient,
-  speciesId: number,
-) => {
-  const rows: ResolvedPokemonLearnset[] = [];
-  let from = 0;
-
-  while (true) {
-    const to = from + POKEMON_DETAIL_LEARNSET_PAGE_SIZE - 1;
-    const result = await supabase
-      .schema("views")
-      .from("reference_resolved_pokemon_learnsets")
-      .select("*")
-      .eq("species_id", speciesId)
-      .order("target_version_group_id", { ascending: true })
-      .order("sort_order", { ascending: true })
-      .range(from, to);
-
-    if (result.error) {
-      throw new Error("Unable to load Pokemon learnset data.");
-    }
-
-    const pageRows = result.data ?? [];
-
-    rows.push(...pageRows);
-
-    if (pageRows.length < POKEMON_DETAIL_LEARNSET_PAGE_SIZE) {
-      return rows;
-    }
-
-    from += POKEMON_DETAIL_LEARNSET_PAGE_SIZE;
-  }
 };
 
 export const loadPokemonDetailBaseRows = async (
@@ -121,7 +85,7 @@ export const loadPokemonDetailBaseRows = async (
   ]);
 
   if (speciesResult.error) {
-    throw new Error("Unable to load Pokémon species.");
+    throw new Error("Unable to load PokÃ©mon species.");
   }
 
   if (!speciesResult.data) {
@@ -135,7 +99,7 @@ export const loadPokemonDetailBaseRows = async (
     availabilityMethodsResult.error ||
     learnMethodsResult.error
   ) {
-    throw new Error("Unable to load Pokémon reference data.");
+    throw new Error("Unable to load PokÃ©mon reference data.");
   }
 
   if (versionGroupsResult.error) {
@@ -204,11 +168,11 @@ export const loadPokemonDetailSpeciesRows = async (
     availabilityResult.error ||
     familySpeciesResult.error
   ) {
-    throw new Error("Unable to load Pokémon detail data.");
+    throw new Error("Unable to load PokÃ©mon detail data.");
   }
 
   if (pokedexEntriesResult.error) {
-    throw new Error("Unable to load Pokémon Pokédex entries.");
+    throw new Error("Unable to load PokÃ©mon PokÃ©dex entries.");
   }
 
   return {
