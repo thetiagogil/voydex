@@ -34,10 +34,12 @@ that is within scope.
   when those are distinct responsibilities. Do not force a query/reader/mapper
   file trio for a simple use case.
 - Never create Supabase clients or raw `.schema(...)` reads in UI components.
-- The current database source of truth is the sibling
-  `00-databases/projects/voydex` project. Co-location is accepted but not yet
-  complete; do not change schema, seeds, or Supabase config from this repo before
-  the verified cutover.
+- The database source of truth is co-located under `database/`. Human-authored
+  schema and seeds live under `database/schema` and `database/seeds`; the local
+  Supabase workspace lives under `database/supabase` so it does not consume the
+  app's root `.env.local`.
+- Never hand-edit generated database wrappers. Use the `db:*` package commands
+  and keep active indexes beside their owning table schema.
 - App-consumed generated types live at `src/shared/types/database.types.ts`.
 
 ## Workforce Routing
@@ -52,8 +54,8 @@ result.
 - Use the reviewer for non-trivial diffs, with special attention to architecture
   and file/folder cleanliness.
 - Use the verifier for focused checks and browser evidence.
-- Use the database guardian for cross-repository schema, seed, RLS, grant, or
-  factual-data concerns; implementation still happens in `00-databases`.
+- Use the database guardian for schema, seed, migration, RLS, grant, or
+  factual-data concerns; database implementation now happens in this repository.
 - Keep one source writer. Parallel work should be independent and usually
   read-only.
 

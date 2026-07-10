@@ -4,7 +4,8 @@ These docs define the Voydex product contract. They include both implemented
 behavior and accepted future direction; implementation-status claims should be
 checked against `docs/codex-handoff.md` and current code.
 
-Database table-level details live in `00-databases/projects/voydex/docs`. Product docs in this repo should explain user behavior, app flow, and app-facing expectations.
+Database table-level details live in `docs/database`. Product docs should explain
+user behavior, app flow, and app-facing expectations.
 
 ## Documents
 

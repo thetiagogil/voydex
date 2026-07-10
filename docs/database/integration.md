@@ -1,32 +1,28 @@
 # Database Integration
 
-Voydex uses a dedicated Supabase project. At the current checkpoint, the active
-database source lives in:
+Voydex uses a dedicated Supabase project whose active source is co-located with
+the app:
 
 ```txt
-../00-databases/projects/voydex
+database/
 ```
 
-This app repo consumes the database contract; it does not own schema or seed source.
-
-Co-locating the active source in this repository is accepted in
-[ADR 0002](../decisions/0002-colocate-database-source.md), but the cutover has
-not happened yet. Do not edit schema or seed behavior here until the relocation
-phase has imported and verified the database project.
+The verified cutover is recorded in
+[ADR 0002](../decisions/0002-colocate-database-source.md).
 
 ## Database Source Of Truth
 
-| Artifact                       | Location                                                                                    |
-| ------------------------------ | ------------------------------------------------------------------------------------------- |
-| Human-authored schema          | `00-databases/projects/voydex/schema`                                                       |
-| Human-authored seeds           | `00-databases/projects/voydex/seeds`                                                        |
-| Database docs                  | `00-databases/projects/voydex/docs`                                                         |
-| Generated local schema wrapper | `00-databases/projects/voydex/supabase/migrations/00000000000000_voydex_current_schema.sql` |
-| Generated local seed wrapper   | `00-databases/projects/voydex/supabase/seed.sql`                                            |
-| Generated TypeScript types     | `00-databases/projects/voydex/types/database.types.ts`                                      |
-| App-consumed TypeScript types  | `13-voydex/src/shared/types/database.types.ts`                                              |
+| Artifact                       | Location                                                                |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| Human-authored schema          | `database/schema`                                                       |
+| Human-authored seeds           | `database/seeds`                                                        |
+| Supabase config and tests      | `database/supabase`                                                     |
+| Generated local schema wrapper | `database/supabase/migrations/00000000000000_voydex_current_schema.sql` |
+| Generated local seed wrapper   | `database/supabase/seed.sql`                                            |
+| Generated/app TypeScript types | `src/shared/types/database.types.ts`                                    |
+| Database docs                  | `docs/database`                                                         |
 
-Edit schema and seed source files in `00-databases`, not generated wrappers.
+Edit schema and seed source files, not generated wrappers.
 
 ## Schema Responsibilities
 
@@ -120,38 +116,36 @@ Do not rely on app-side checks for ownership, team limits, play/version consiste
 
 ## Type Flow
 
-Database types are generated in `00-databases` and copied into the app:
-
-```txt
-00-databases/projects/voydex/types/database.types.ts
-13-voydex/src/shared/types/database.types.ts
-```
+Database types generate directly into `src/shared/types/database.types.ts`.
 
 When database schema changes:
 
-1. Update schema/seeds in `00-databases`.
-2. Run local reset/audit/type generation there.
-3. Copy the generated type file into `13-voydex`.
-4. Update app queries/actions to the new contract.
-5. Run app lint/build.
+1. Update the human-authored schema or seeds under `database`.
+2. Add a forward migration when changing a database that may already exist.
+3. Run `npm run db:verify`.
+4. Run `npm run db:types` when the contract intentionally changes.
+5. Update app queries/actions and run `npm run verify`.
 
 ## Local Verification Commands
 
-Run from `00-databases`:
-
 ```bash
-npm run db:start:voydex
-npm run db:reset:voydex
-npm run db:types:voydex -- --local
-node projects/voydex/scripts/audit-seed-files.mjs
-node scripts/supabase-target.mjs voydex db lint --local --fail-on error
+npm run db:start
+npm run db:verify
 ```
 
-Run from `13-voydex`:
+The individual database gates are also available:
 
 ```bash
-npm run verify
+npm run db:reset
+npm run db:audit
+npm run db:lint
+npm run db:test
+npm run db:types:check
 ```
+
+`npm run verify` remains the Docker-free app verification flow. Linked type
+generation through `db:types:linked` is a separate remote read and requires
+explicit authorization.
 
 ## Important Product/Data Notes
 

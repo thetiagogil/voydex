@@ -2,24 +2,18 @@
 
 This folder is the app-side knowledge base for Voydex.
 
-The docs here should explain what the product is, how the frontend is organized, how it connects to the Voydex database, and which decisions are already settled. Canonical SQL schema, seed, and table-level source docs live in the separate database repo.
+The docs here explain the product, frontend architecture, co-located Voydex
+database, and settled decisions.
 
 ## Source Ownership
 
-| Area                                         | Source of truth                                                                |
-| -------------------------------------------- | ------------------------------------------------------------------------------ |
-| Product direction, app flow, UI architecture | `13-voydex/docs`                                                               |
-| Frontend implementation                      | `13-voydex/src`                                                                |
-| Active app assets                            | `13-voydex/public`                                                             |
-| Database schema and seeds (current)          | `00-databases/projects/voydex/schema` and `00-databases/projects/voydex/seeds` |
-| Database architecture/table contract         | `00-databases/projects/voydex/docs`                                            |
-
-Do not duplicate full database table blueprints here. Summarize the app contract and link back to `00-databases` when table-level precision matters.
-
-The database source is planned to move into this repository under the accepted
-[database co-location ADR](./decisions/0002-colocate-database-source.md). The
-table above describes the current source of truth until that cutover is
-verified.
+| Area                                         | Source of truth                     |
+| -------------------------------------------- | ----------------------------------- |
+| Product direction, app flow, UI architecture | `docs`                              |
+| Frontend implementation                      | `src`                               |
+| Active app assets                            | `public`                            |
+| Database schema and seeds                    | `database/schema`, `database/seeds` |
+| Database architecture/table contract         | `docs/database`                     |
 
 ## Documents
 
@@ -51,8 +45,9 @@ verified.
 - [Design References](./design/README.md)
 - [Codex Pokemon Detail Direction](./design/codex-pokemon-detail.md)
 
-### Database Integration
+### Database
 
+- [Database Docs](./database/README.md)
 - [Database Integration](./database/integration.md)
 
 ### Collaboration
@@ -65,8 +60,6 @@ Voydex is a Pokémon companion app. It should help a user track, remember, and p
 
 The active product family is `mainline`, covering mainline-style Pokémon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience is Mainline. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
 
-The current implementation is a Next.js app connected to the Voydex Supabase
-database project, whose source remains in the sibling database repository until
-the accepted relocation is complete. Mainline Plays and the public Codex are
-the mounted product surfaces; broader product documents also describe planned
-work.
+The current implementation is a Next.js app with its Voydex Supabase source
+co-located under `database`. Mainline Plays and the public Codex are the mounted
+product surfaces; broader product documents also describe planned work.

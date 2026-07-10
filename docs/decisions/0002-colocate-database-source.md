@@ -1,7 +1,10 @@
 # ADR 0002: Co-Locate The Active Voydex Database Source
 
-- Status: Accepted
+- Status: Accepted and implemented
 - Date: 2026-07-10
+- Implemented: 2026-07-10
+- Source provenance: `00-databases` commit
+  `85315314f7f24e071028bb8f1f4fe8bb52946f72`
 
 ## Context
 
@@ -14,26 +17,25 @@ generated artifacts would add substantial avoidable weight.
 
 ## Decision
 
-Move the active Voydex database source into the Voydex repository in a later,
-dedicated migration phase. The target organization is:
+Move the active Voydex database source into the Voydex repository. The verified
+organization is:
 
 ```txt
 database/
   schema/
   seeds/
-  indexes/
-supabase/
-  config.toml
-  migrations/
-  tests/
-  seed.sql                 # generated and ignored
+  supabase/
+    config.toml
+    migrations/
+    tests/
+    seed.sql               # generated and ignored
 scripts/database/
 docs/database/
 ```
 
-Import the active human-authored schema, seeds, indexes, database docs, audit
-scripts, Supabase config, and migration history. Record the source repository
-commit as provenance.
+Import the active human-authored schema, seeds, schema-owned indexes, database
+docs, audit scripts, Supabase config, and migration history. The nested
+Supabase workdir prevents the CLI from consuming the Next.js root `.env.local`.
 
 Do not import:
 
@@ -43,9 +45,9 @@ Do not import:
 - shared tooling that still serves other database projects;
 - unrelated or untracked notes without an explicit ownership decision.
 
-Before the move, repair and verify database artifact generation in
-`00-databases`. The old repository remains authoritative until the imported
-copy passes the complete local database verification flow.
+Before the move, database artifact generation was repaired and verified in
+`00-databases`. The imported copy then passed the complete local database and
+app verification flows before old active ownership was retired.
 
 ## Consequences
 
@@ -67,7 +69,8 @@ copy passes the complete local database verification flow.
 
 ## Size Policy
 
-- Track active authored inputs; ignore generated wrappers and local runtime
+- Track active authored inputs and the generated current-schema migration used
+  by migration history; ignore the generated seed wrapper and local runtime
   state.
 - Keep legacy data outside the application repository.
 - Review unusually large new files and high-churn bulk rewrites before merging.
@@ -83,6 +86,6 @@ keep the database contract separate by default.
 
 ## Cutover Rule
 
-Until the relocation phase completes and passes verification,
-`../00-databases/projects/voydex` remains the source of truth. This ADR does not
-authorize schema behavior changes or remote database operations.
+The relocation passed verification in Phase 2. `13-voydex/database` is now the
+source of truth; `00-databases` retains only the excluded legacy archive and a
+provenance pointer. This ADR does not authorize remote database operations.

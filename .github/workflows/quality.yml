@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit database sources
+        run: npm run db:audit
+
       - name: Check formatting
         run: npm run format:check
 

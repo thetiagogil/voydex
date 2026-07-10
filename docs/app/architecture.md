@@ -299,10 +299,10 @@ are actually mounted.
 - Migrate the Pokemon detail slice late because it is the largest and most
   interconnected current feature.
 
-The database co-location direction is a separate decision in
-[ADR 0002](../decisions/0002-colocate-database-source.md). Until that relocation
-phase is verified, `../00-databases/projects/voydex` remains the database source
-of truth.
+The database co-location decision is recorded in
+[ADR 0002](../decisions/0002-colocate-database-source.md). The verified database
+source now lives under `database/`; the frontend continues to consume only its
+typed app-facing contract and runtime Supabase clients.
 
 ## Verification
 

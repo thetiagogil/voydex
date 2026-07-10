@@ -230,16 +230,21 @@ For Codex Games, preserve these product decisions:
 
 ## Database Boundary
 
-The current database source of truth is the sibling repository:
+The database source of truth is co-located in this repository:
 
 ```txt
-../00-databases/projects/voydex
+database/
+  schema/
+  seeds/
+  supabase/
+scripts/database/
+docs/database/
 ```
 
-Database co-location is accepted in
-`docs/decisions/0002-colocate-database-source.md`, but the cutover has not
-happened. Do not change database schema, seeds, or Supabase configuration from
-this repo before the relocation phase imports and verifies the source.
+The Supabase CLI runs from `database/`, keeping its dotenv/config boundary
+separate from the Next.js root `.env.local`. Edit human-authored schema and seed
+sources, not generated wrapper files. Keep active indexes beside the table
+schema that owns them.
 
 The app consumes generated types from:
 
@@ -247,7 +252,9 @@ The app consumes generated types from:
 src/shared/types/database.types.ts
 ```
 
-If a database contract changes, update `00-databases` first, regenerate/copy types, then update app queries/actions.
+If a database contract changes, update the co-located sources, run
+`npm run db:verify`, regenerate types directly into the app, then update app
+queries/actions and run `npm run verify`.
 
 ## Product Rules To Preserve
 

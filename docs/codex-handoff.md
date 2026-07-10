@@ -6,12 +6,12 @@ Use this file when continuing Voydex in a new Codex thread or on another machine
 
 ```txt
 ./
-../00-databases
 ```
 
-`13-voydex` is the clean active Next.js app.
-
-`../00-databases/projects/voydex` is the active Supabase database source.
+`13-voydex` owns the active Next.js app and Voydex Supabase database source.
+The source was imported from `00-databases` commit
+`85315314f7f24e071028bb8f1f4fe8bb52946f72`; that repository retains only the
+excluded legacy archive.
 
 ## Architecture Refactor Checkpoint
 
@@ -41,10 +41,21 @@ Phase 1 stabilized database generation in `00-databases` before relocation:
 - type generation is local by default, linked generation is explicit, and the
   app copy is aligned with the verified local schema.
 
-The local reset, source/seed audit, SQL lint, pgTAP suite, type generation, and
-app verification pass at this checkpoint. No remote database read or write was
-performed. The next phase is the verified source relocation into this
-repository; remote work still requires separate explicit authorization.
+Phase 2 co-located the verified database source:
+
+- human-authored schema and seeds live under `database`;
+- the Supabase CLI workdir is `database/`, isolating it from the app's root
+  `.env.local`;
+- database tooling lives under `scripts/database` and types generate directly
+  into the app contract;
+- source audits run in normal CI, while Docker-dependent database verification
+  remains an explicit `db:verify` flow;
+- legacy data, generated seed output, local Supabase state, secrets, and
+  unrelated multi-project tooling were not imported.
+
+The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, and app
+verification pass at this checkpoint. No remote database read or write was
+performed; remote work still requires separate explicit authorization.
 
 ## Current Product Summary
 
@@ -322,13 +333,13 @@ Do not create one schema per module. Schemas describe data responsibility; modul
 Canonical database docs:
 
 ```txt
-../00-databases/projects/voydex/docs
+docs/database
 ```
 
 Most important handoff doc:
 
 ```txt
-../00-databases/projects/voydex/docs/app-handoff.md
+docs/database/app-handoff.md
 ```
 
 App-consumed types:
@@ -337,10 +348,9 @@ App-consumed types:
 13-voydex/src/shared/types/database.types.ts
 ```
 
-The app type file is aligned with the locally generated database type at the
-Phase 1 checkpoint. Until relocation, regenerate in `00-databases` and copy the
-result here. Move generation into this repository only with the database source
-and its verified local workflow.
+The app type file is aligned with the locally generated database type. Use
+`npm run db:types` after an intentional contract change and
+`npm run db:types:check` to verify parity without rewriting it.
 
 ## Frontend Foundation
 
@@ -407,7 +417,8 @@ orchestration, mapping, and UI responsibilities clear.
 - Prefer high-quality, maintainable implementation over quick hacks.
 - Ask for human opinion on naming or risky product decisions.
 - Recommend reasoning effort for the next task.
-- In `00-databases`, commit messages should use `type(voydex): message`.
+- Database-focused commits in this repository should use a clear scope such as
+  `type(database): message` or `type(schema): message`.
 - In `13-voydex`, commit scopes should be feature-specific, such as `feat(home): ...` or `docs(product): ...`.
 
 ## Useful Commands
@@ -421,15 +432,10 @@ npm run lint
 npm run build
 ```
 
-From `00-databases`:
-
 ```bash
-npm run db:start:voydex
-npm run db:reset:voydex
-npm run db:audit:voydex
-node scripts/supabase-target.mjs voydex db lint --local --fail-on error
-npm run db:test:voydex
-npm run db:types:voydex
+npm run db:start
+npm run db:verify
+npm run db:types
 ```
 
 ## Cross-Machine Notes

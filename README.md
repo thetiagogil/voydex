@@ -54,18 +54,16 @@ npm run build
 
 ## Database Source
 
-The active Voydex database source is currently in the separate database
-repository:
+The active Voydex database source is co-located with the app:
 
 ```txt
-../00-databases/projects/voydex
+database/schema
+database/seeds
+database/supabase
 ```
 
-This app consumes the generated database types and app-facing database contract.
-Schema and seed changes should be made in `00-databases`, then reflected here
-through `src/shared/types/database.types.ts` and feature code.
-
-Co-locating the active database source in this repository is an accepted future
-migration. Until that cutover is verified, the sibling repository remains
-authoritative. See
-[ADR 0002](./docs/decisions/0002-colocate-database-source.md).
+Database scripts live under `scripts/database`, detailed contracts live under
+`docs/database`, and local type generation writes directly to
+`src/shared/types/database.types.ts`. See
+[ADR 0002](./docs/decisions/0002-colocate-database-source.md) and the
+[database integration guide](./docs/database/integration.md).

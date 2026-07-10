@@ -38,6 +38,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Supabase local state and generated artifacts
+/database/supabase/.branches/
+/database/supabase/.temp/
+/database/supabase/.env
+/database/supabase/.env.*
+/database/supabase/seed.sql
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

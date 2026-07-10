@@ -1,6 +1,6 @@
 # Setup And Development
 
-This document covers the app repo. Database source and Supabase reset commands live in `00-databases`.
+This repository owns both the app and its Voydex database source.
 
 ## Requirements
 
@@ -68,36 +68,22 @@ Generated database types are committed at:
 src/shared/types/database.types.ts
 ```
 
-The canonical generated type file comes from:
-
-```txt
-00-databases/projects/voydex/types/database.types.ts
-```
-
-When database types change, update this file intentionally from the database
-repo output. There is no app-side type generation script at the current
-checkpoint. The accepted database relocation will revisit this after the
-database source is co-located and locally verified.
+`npm run db:types` generates this file directly from the local database.
+`npm run db:types:check` verifies parity without rewriting it. Linked type
+generation is an explicit remote operation through `db:types:linked`.
 
 ## Local Supabase
 
 Local Supabase is optional for pure UI work but recommended before database-heavy feature work.
 
-Run these commands from:
-
-```txt
-../00-databases
-```
-
 ```bash
-npm run db:start:voydex
-npm run db:reset:voydex
-npm run db:types:voydex -- --local
-node projects/voydex/scripts/audit-seed-files.mjs
-node scripts/supabase-target.mjs voydex db lint --local --fail-on error
+npm run db:start
+npm run db:verify
 ```
 
-`db:reset:voydex` rebuilds generated local schema and seed wrappers before loading them.
+`db:verify` rebuilds and resets the local database, audits the source corpus,
+lints the live schema, runs pgTAP, and checks generated type parity. Pure UI
+work can continue to use `npm run verify` without Docker.
 
 ## Remote Supabase
 
@@ -114,6 +100,4 @@ Recommended flow:
 1. Commit changes on one machine.
 2. Pull the branch on the other machine.
 3. Copy `.env.local` values manually.
-4. Keep `00-databases` and `13-voydex` checked out next to each other until the
-   accepted database relocation is complete.
-5. Use `docs/codex-handoff.md` to restore context in a fresh Codex thread.
+4. Use `docs/codex-handoff.md` to restore context in a fresh Codex thread.

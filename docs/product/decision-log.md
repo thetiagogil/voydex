@@ -285,18 +285,18 @@ Pokémon Red/Blue are the initial Generation I paired-game scope. Pokémon Green
 
 The primary audit target is the schema/seed files, but local Supabase is useful as an execution/load verification gate.
 
-App work should treat `00-databases/projects/voydex` as the database source of truth and consume generated types from that project.
+App and database work share this repository. The human-authored database source
+lives under `database`, and generated types live under
+`src/shared/types/database.types.ts`.
 
 ### The Active Voydex Database Will Move Into The App Repository
 
-The active authored Voydex schema, seeds, indexes, migrations, local Supabase
-config, verification scripts, and database docs will be co-located in
-`13-voydex`. Legacy database trees, generated seed wrappers, temporary Supabase
-state, secrets, and unrelated multi-project tooling will not move.
+The active authored Voydex schema, seeds, schema-owned indexes, migrations,
+local Supabase config, verification scripts, and database docs are co-located
+in `13-voydex`. Legacy database trees, generated seed wrappers, temporary
+Supabase state, secrets, and unrelated multi-project tooling did not move.
 
-The relocation must follow a verified two-repository cutover. Until the import
-passes the full local database workflow, `00-databases/projects/voydex` remains
-the source of truth. See
+The relocation completed through a verified two-repository cutover. See
 `docs/decisions/0002-colocate-database-source.md` for the tradeoffs and size
 policy.
 
@@ -319,13 +319,13 @@ These are accepted future directions but not immediate implementation targets:
 The database design decisions for moves, tags, preferences, backlog/wishlist, rules, item scope, availability depth, snapshots, IDs, roster limits, product families, tracking, gameplay, planning, and views are resolved in:
 
 ```txt
-00-databases/projects/voydex/docs/schema-design-decisions.md
+docs/database/schema-design-decisions.md
 ```
 
 The app-facing database handoff lives in:
 
 ```txt
-00-databases/projects/voydex/docs/app-handoff.md
+docs/database/app-handoff.md
 ```
 
 This app should use those docs and `src/shared/types/database.types.ts` as the implementation contract.
