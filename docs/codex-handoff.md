@@ -31,10 +31,20 @@ No application feature or source architecture has been migrated in Phase 0.
 `src/lib`, the current app-shell/shared locations, and the current module feature
 paths remain transitional implementation evidence.
 
-The next phase is database generation stabilization in `00-databases` before
-any files are relocated. In particular, verify index inclusion, local reset,
-seed audits, lint, tests/RLS coverage, and generated type parity first. Remote
-database work still requires explicit authorization.
+Phase 1 stabilized database generation in `00-databases` before relocation:
+
+- schema table files are now the only active index source; five stale standalone
+  index files were retired instead of being added to the generator;
+- `db:audit:voydex` verifies generated wrapper freshness, schema-owned index
+  targets/names, and the deterministic seed corpus;
+- `db:test:voydex` now runs a 13-assertion pgTAP schema/security smoke suite;
+- type generation is local by default, linked generation is explicit, and the
+  app copy is aligned with the verified local schema.
+
+The local reset, source/seed audit, SQL lint, pgTAP suite, type generation, and
+app verification pass at this checkpoint. No remote database read or write was
+performed. The next phase is the verified source relocation into this
+repository; remote work still requires separate explicit authorization.
 
 ## Current Product Summary
 
@@ -327,10 +337,10 @@ App-consumed types:
 13-voydex/src/shared/types/database.types.ts
 ```
 
-When database types change before relocation, copy the generated database type
-file from `00-databases/projects/voydex/types/database.types.ts` into the app.
-Revisit app-local type generation only after the database source is co-located
-and its local workflow is verified.
+The app type file is aligned with the locally generated database type at the
+Phase 1 checkpoint. Until relocation, regenerate in `00-databases` and copy the
+result here. Move generation into this repository only with the database source
+and its verified local workflow.
 
 ## Frontend Foundation
 
@@ -416,9 +426,10 @@ From `00-databases`:
 ```bash
 npm run db:start:voydex
 npm run db:reset:voydex
-npm run db:types:voydex -- --local
-node projects/voydex/scripts/audit-seed-files.mjs
+npm run db:audit:voydex
 node scripts/supabase-target.mjs voydex db lint --local --fail-on error
+npm run db:test:voydex
+npm run db:types:voydex
 ```
 
 ## Cross-Machine Notes

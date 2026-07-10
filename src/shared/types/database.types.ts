@@ -7,11 +7,6 @@ export type Json =
   | Json[];
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5";
-  };
   gameplay: {
     Tables: {
       mainline_challenge_rule_types: {
@@ -1190,7 +1185,6 @@ export type Database = {
           created_from_plan: boolean;
           game_id: number;
           id: string;
-          is_primary: boolean;
           play_id: string;
           team_plan_id: string;
           user_id: string;
@@ -1201,7 +1195,6 @@ export type Database = {
           created_from_plan?: boolean;
           game_id: number;
           id?: string;
-          is_primary?: boolean;
           play_id: string;
           team_plan_id: string;
           user_id: string;
@@ -1212,7 +1205,6 @@ export type Database = {
           created_from_plan?: boolean;
           game_id?: number;
           id?: string;
-          is_primary?: boolean;
           play_id?: string;
           team_plan_id?: string;
           user_id?: string;
@@ -1573,7 +1565,6 @@ export type Database = {
         Args: {
           p_create_member_links?: boolean;
           p_created_from_plan?: boolean;
-          p_is_primary?: boolean;
           p_play_id: string;
           p_team_plan_id: string;
         };
@@ -2137,17 +2128,17 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "games_product_family_id_fkey";
-            columns: ["product_family_id"];
-            isOneToOne: false;
-            referencedRelation: "product_families";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "games_game_type_id_fkey";
             columns: ["game_type_id"];
             isOneToOne: false;
             referencedRelation: "game_types";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "games_product_family_id_fkey";
+            columns: ["product_family_id"];
+            isOneToOne: false;
+            referencedRelation: "product_families";
             referencedColumns: ["id"];
           },
           {
@@ -2254,36 +2245,6 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
-      };
-      product_families: {
-        Row: {
-          created_at: string;
-          description: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-          support_status: string;
-        };
-        Insert: {
-          created_at?: string;
-          description: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-          support_status: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string;
-          id?: number;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-          support_status?: string;
-        };
-        Relationships: [];
       };
       item_categories: {
         Row: {
@@ -3509,6 +3470,36 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      product_families: {
+        Row: {
+          created_at: string;
+          description: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          support_status: string;
+        };
+        Insert: {
+          created_at?: string;
+          description: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          support_status: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string;
+          id?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+          support_status?: string;
+        };
+        Relationships: [];
       };
       regions: {
         Row: {
@@ -4862,6 +4853,117 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "mainline_play_summary";
             referencedColumns: ["play_id"];
+          },
+        ];
+      };
+      mainline_play_team_plan_detail: {
+        Row: {
+          created_from_plan: boolean | null;
+          game_id: number | null;
+          game_name: string | null;
+          game_slug: string | null;
+          generation_id: number | null;
+          generation_name: string | null;
+          generation_slug: string | null;
+          linked_plan_at: string | null;
+          member_group: string | null;
+          member_link_notes: string | null;
+          member_link_status_id: number | null;
+          member_link_status_name: string | null;
+          member_link_status_slug: string | null;
+          member_linked_at: string | null;
+          member_reached_at: string | null;
+          member_skipped_at: string | null;
+          planned_ability_id: number | null;
+          planned_ability_name: string | null;
+          planned_held_item_id: number | null;
+          planned_held_item_name: string | null;
+          planned_moves: Json | null;
+          planned_nature_id: number | null;
+          planned_nature_name: string | null;
+          play_id: string | null;
+          play_plan_link_id: string | null;
+          play_pokemon_form_id: number | null;
+          play_pokemon_form_name: string | null;
+          play_pokemon_form_slug: string | null;
+          play_pokemon_id: string | null;
+          play_pokemon_is_shiny: boolean | null;
+          play_pokemon_level: number | null;
+          play_pokemon_nickname: string | null;
+          play_pokemon_roster_state_id: number | null;
+          play_pokemon_roster_state_name: string | null;
+          play_pokemon_roster_state_slug: string | null;
+          play_pokemon_slot: number | null;
+          play_pokemon_species_id: number | null;
+          play_pokemon_species_name: string | null;
+          play_pokemon_species_slug: string | null;
+          play_pokemon_sprite_slug: string | null;
+          preferred_start_form_id: number | null;
+          preferred_start_form_name: string | null;
+          preferred_start_form_slug: string | null;
+          preferred_start_species_id: number | null;
+          preferred_start_species_name: string | null;
+          preferred_start_species_slug: string | null;
+          role_label: string | null;
+          slot: number | null;
+          target_evolution_family_id: number | null;
+          target_form_id: number | null;
+          target_form_name: string | null;
+          target_form_slug: string | null;
+          target_national_number: number | null;
+          target_species_id: number | null;
+          target_species_name: string | null;
+          target_species_slug: string | null;
+          target_sprite_slug: string | null;
+          team_plan_id: string | null;
+          team_plan_member_id: string | null;
+          team_plan_member_notes: string | null;
+          team_plan_name: string | null;
+          team_plan_notes: string | null;
+          team_plan_status_id: number | null;
+          team_plan_status_name: string | null;
+          team_plan_status_slug: string | null;
+          user_id: string | null;
+          version_group_id: number | null;
+          version_group_name: string | null;
+          version_group_slug: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "play_plan_links_plan_scope_fkey";
+            columns: ["team_plan_id", "user_id", "game_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_team_plan_summary";
+            referencedColumns: [
+              "team_plan_id",
+              "user_id",
+              "game_id",
+              "version_group_id",
+            ];
+          },
+          {
+            foreignKeyName: "play_plan_links_play_scope_fkey";
+            columns: ["play_id", "user_id", "game_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_play_overview";
+            referencedColumns: [
+              "play_id",
+              "user_id",
+              "game_id",
+              "version_group_id",
+            ];
+          },
+          {
+            foreignKeyName: "play_plan_links_play_scope_fkey";
+            columns: ["play_id", "user_id", "game_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_play_summary";
+            referencedColumns: [
+              "play_id",
+              "user_id",
+              "game_id",
+              "version_group_id",
+            ];
           },
         ];
       };
