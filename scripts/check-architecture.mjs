@@ -247,6 +247,24 @@ async function checkFile(filePath) {
     );
   }
 
+  const retiredMainlinePlayDetailPath = [
+    "modules",
+    "mainline",
+    "features",
+    "plays",
+    "detail",
+  ];
+
+  if (
+    retiredMainlinePlayDetailPath.every(
+      (segment, index) => segments[index] === segment,
+    )
+  ) {
+    violations.push(
+      `${normalizePath(path.relative(projectRoot, filePath))}: the Mainline Play Hub belongs under src/modules/mainline/features/plays/hub`,
+    );
+  }
+
   for (const specifier of collectModuleSpecifiers(sourceFile)) {
     checkImportBoundary({
       importerPath: filePath,

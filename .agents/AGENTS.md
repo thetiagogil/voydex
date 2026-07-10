@@ -49,7 +49,7 @@ The Mainline Plays feature boundary is:
 ```txt
 src/modules/mainline/features/plays/
   browse/
-  detail/
+  hub/
   shared/
 ```
 
@@ -72,21 +72,32 @@ Preserve these product and architecture decisions:
 - Progress Summary hides unavailable tracks, shows progress bars plus
   `completed / total`, and does not show visible percent labels.
 
-Mainline Play detail component folders should stay section scoped:
+Mainline Play Hub folders should stay view and section scoped:
 
 ```txt
-src/modules/mainline/features/plays/detail/components/
-  top-section/
-  overview/
-    journey-status/
-    recent-history/
+src/modules/mainline/features/plays/hub/
+  data/
+  server/
+  shell/
+    mainline-play-hub-page.tsx
+    mainline-play-hub-tabs.tsx
+    top-section/
+  tabs/
+    overview/
+      data/
+      server/
+      sections/
+        journey-status/
+        recent-history/
+        team/
+        progress-summary/
     team/
-    progress-summary/
-  team/
-  progress/
-  plans/
-  history/
-  settings/
+    progress/
+    plans/
+    history/
+    settings/
+  types.ts
+  types.ts
 ```
 
 ## Source Layout
@@ -128,12 +139,12 @@ Prefer boring, searchable names over short local names:
 - Route files in `src/app` should stay thin and import page-level components.
 - Page-level components that directly back a route may live at the feature root, for example `pokemon-detail-page.tsx` or `mainline-plays-page.tsx`.
 - Component filenames should usually match the exported component name in kebab/Pascal form, for example `pokemon-detail-species-selector.tsx` exports `PokemonDetailSpeciesSelector`.
-- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files. Inside already-scoped section folders, local names are acceptable; for example, `overview/team/team-panel.tsx` can export `TeamPanel` without repeating `MainlinePlay`.
+- Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files. Inside already-scoped section folders, local names are acceptable; for example, `tabs/overview/sections/team/team-panel.tsx` can export `TeamPanel` without repeating `MainlinePlay`.
 - Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
-- Split browse and detail readers/loaders when they serve different views. Do
+- Split browse and Hub readers/loaders when they serve different views. Do
   not keep unrelated use cases together just because they touch the same table.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
-- If a helper is shared by Mainline play browse and detail, prefer
+- If a helper is shared by Mainline play browse and the Hub, prefer
   `src/modules/mainline/features/plays/shared`. Create a module-wide
   `src/modules/mainline/shared` boundary only when reuse crosses features.
 - Large files are not automatically wrong. Config/type maps and generated or primitive wrapper files can be large. Split files when they mix responsibilities, hide data flow, or make route work hard to review.

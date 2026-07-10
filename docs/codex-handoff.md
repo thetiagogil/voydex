@@ -87,6 +87,22 @@ behavior:
 - focused reference-domain tests increase the suite to 19 tests across six
   files.
 
+Phase 5 migrated Mainline Play Hub ownership without changing routes or product
+behavior:
+
+- `src/modules/mainline/features/plays/hub` replaces the generic `detail`
+  boundary and mirrors the Hub shell, Overview sections, and future tab slices;
+- `/mainline/plays/[playId]` remains the route and now imports the Hub page and
+  query directly;
+- the former 349-line `play-page-loaders.ts` was split into context and Overview
+  raw readers, pure team/rule/page mappers, and one authenticated orchestration
+  query;
+- Hub-only types moved out of `plays/shared`; that boundary now contains only
+  contracts genuinely shared with browse;
+- the architecture check rejects reintroducing `plays/detail`;
+- focused Play Hub mapper tests increase the suite to 23 tests across eight
+  files.
+
 The local reset, source/seed audit, SQL lint, pgTAP suite, type parity, and app
 verification pass at this checkpoint. No remote database read or write was
 performed; remote work still requires separate explicit authorization.
@@ -129,7 +145,7 @@ Current active routes:
 Current implementation:
 
 - `/mainline/plays` is a simple real-data card list. Play cards link to the
-  play detail route.
+  Play Hub route.
 - `/mainline/plays/[playId]` is the Play Hub. It uses a non-card top
   information section and a single tab card underneath.
 - The top section renders cover art, play title, status, game, region,
@@ -154,25 +170,35 @@ Current Mainline Plays code boundary:
 
 ```txt
 src/modules/mainline/features/plays/browse/
-src/modules/mainline/features/plays/detail/
+src/modules/mainline/features/plays/hub/
 src/modules/mainline/features/plays/shared/
 ```
 
-Detail component layout:
+Play Hub layout:
 
 ```txt
-src/modules/mainline/features/plays/detail/components/
-  top-section/
-  overview/
-    journey-status/
-    recent-history/
+src/modules/mainline/features/plays/hub/
+  data/
+  server/
+  shell/
+    mainline-play-hub-page.tsx
+    mainline-play-hub-tabs.tsx
+    top-section/
+  tabs/
+    overview/
+      data/
+      server/
+      sections/
+        journey-status/
+        recent-history/
+        team/
+        progress-summary/
     team/
-    progress-summary/
-  team/
-  progress/
-  plans/
-  history/
-  settings/
+    progress/
+    plans/
+    history/
+    settings/
+  types.ts
 ```
 
 Important current direction:
@@ -186,8 +212,9 @@ Important current direction:
 - Continue building section by section. Next useful slices are Team and
   Progress, because they already have visible tab shells and Overview previews.
 - Inside already-scoped component folders, local names are acceptable. For
-  example, `overview/team/team-panel.tsx` can export `TeamPanel`; page-level and
-  tab-level files can keep `MainlinePlay...` prefixes for searchability.
+  example, `tabs/overview/sections/team/team-panel.tsx` can export `TeamPanel`;
+  page-level and tab-level files can keep `MainlinePlay...` prefixes for
+  searchability.
 
 ## Stable Frontend Area: Codex Pokemon Detail
 
@@ -432,22 +459,18 @@ role), and pure mappers.
 
 Known implementation debt:
 
-- `plays/detail/server/play-page-loaders.ts` currently combines raw reads with
-  joining, enrichment, and final page-model composition. Split it by actual
-  responsibility when the Play Hub migration reaches that slice, not as an
-  isolated Phase 0 refactor.
 - The species-only compatibility route behaves as
   `/codex/pokemon/[speciesSlug]`, but its App Router folder is still named
   `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
   rename is explicitly in scope.
 - The repository has explicit format, lint, typecheck, architecture, unit-test,
-  build, and CI gates. The unit suite currently has 19 tests across six files,
+  build, and CI gates. The unit suite currently has 23 tests across eight files,
   and there is no committed end-to-end browser suite yet.
 
-The next architecture boundary, Phase 5, is Mainline Plays and the Play Hub:
-migrate the current `detail` tree toward the accepted hierarchical `hub` shape
-and split `play-page-loaders.ts` by its real I/O, enrichment, and page-model
-responsibilities while preserving `/mainline/plays/[playId]` behavior.
+The remaining documented architecture cleanup is narrower: review the
+product-specific app-icon and brand ownership still under root `src/shared`, and
+treat the Codex species-only compatibility folder rename as a separate
+route-safe task. Audit those scopes before assigning the next numbered phase.
 
 When adding the next Codex or Mainline section after the architecture migration,
 keep route files thin and choose the smallest read structure that keeps I/O,

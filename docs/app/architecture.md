@@ -12,8 +12,8 @@ architecture guide; the ADR explains why the direction was chosen.
 
 ## Current Checkpoint
 
-Phases 3 and 4 migrated the application foundation and internal reference
-capability to this root layout:
+Phases 3 through 5 migrated the application foundation, internal reference
+capability, and Mainline Play Hub to this root layout:
 
 ```txt
 src/
@@ -52,6 +52,12 @@ The foundation now follows the target ownership rules:
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
 - `src/modules/codex/shared` now contains only Codex-owned shared presentation
   such as its page shell, filter panel, generation section, and empty states.
+- Mainline Plays uses `browse`, `hub`, and `shared` view boundaries. The Hub
+  separates Hub-wide shell responsibilities from grouped tab views, while
+  Overview groups its visible areas under `sections` instead of hiding them in a
+  broad `detail/components` tree.
+- Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
+  pure enrichment, and final page-model assembly.
 - existing feature reads commonly use a query/loader/mapper split. That split
   remains valid where the responsibilities are genuinely distinct, but it is
   no longer a mandatory three-file template.
@@ -162,9 +168,10 @@ features cannot depend laterally or reach into product modules; product modules
 cannot import global feature internals; the only lateral module dependency is
 the directed dependency on `reference`; consumers cannot reach into
 `reference/shared` internals; retired root-shared Pokemon/game paths are
-rejected; Client Components cannot import server queries/readers; and component
-folders cannot create database clients or perform raw schema reads. Add stricter
-rules only after the corresponding migration phase is complete.
+rejected; the retired Mainline `plays/detail` boundary is rejected; Client
+Components cannot import server queries/readers; and component folders cannot
+create database clients or perform raw schema reads. Add stricter rules only
+after the corresponding migration phase is complete.
 
 ## Module And Feature Organization
 
@@ -223,22 +230,36 @@ is expected to evolve toward a shape like:
 src/modules/mainline/features/plays/
   browse/
   hub/
+    data/
+    server/
     shell/
-    overview/
-      journey-status/
-      recent-history/
+      mainline-play-hub-page.tsx
+      mainline-play-hub-tabs.tsx
+      top-section/
+    tabs/
+      overview/
+        data/
+        server/
+        sections/
+          journey-status/
+          recent-history/
+          team/
+          progress-summary/
       team/
-      progress-summary/
-    team/
-    progress/
-    plans/
-    history/
-    settings/
+      progress/
+      plans/
+      history/
+      settings/
+    types.ts
   shared/
 ```
 
-This nesting is intentional. A view can own sections, and a complex section can
-own smaller sections. Prefer this over a single broad `components` folder.
+This nesting is intentional. `shell` owns Hub-wide UI composition; root `data`
+and `server` own the Hub-wide read model and orchestration; `tabs` groups the
+product views; and `sections` groups the visible areas inside Overview. A
+complex section can own smaller responsibility folders when needed. Prefer this
+product-first hierarchy over a single broad `components` folder or mixing tab
+names with Hub-wide `data` and `server` folders.
 
 Within a slice, add only the responsibility folders it needs:
 

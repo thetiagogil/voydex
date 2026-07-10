@@ -11,8 +11,8 @@ and database-integration documentation lives under `docs`.
 - shadcn-style UI primitives and Lucide icons are available.
 - Supabase SSR foundation is configured for typed server, browser, and proxy clients.
 - Auth-gated app shell, public landing page, intro page, and database health banner are in place.
-- Mainline currently mounts the Plays browse and Play Hub; Codex mounts Pokemon
-  and Games browse/detail surfaces.
+- Mainline mounts the Plays browse and a feature-owned hierarchical Play Hub;
+  Codex mounts Pokemon and Games browse/detail surfaces.
 - The internal `reference` module owns reusable Pokemon/game catalogue contracts,
   domain rules, and presentation primitives consumed by Codex and Mainline.
 - Generated Voydex database types are committed in
