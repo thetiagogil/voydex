@@ -18,7 +18,7 @@
     "test:watch": "vitest --pool=threads",
     "architecture:check": "node scripts/check-architecture.mjs",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm run architecture:check && npm run test && npm run build",
-    "verify:all": "npm run db:audit && npm run verify",
+    "verify:all": "npm run db:verify && npm run verify",
     "db:cli:version": "node scripts/database/supabase.mjs --version",
     "db:start": "node scripts/database/supabase.mjs start",
     "db:stop": "node scripts/database/supabase.mjs stop",

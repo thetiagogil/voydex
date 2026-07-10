@@ -1,0 +1,55 @@
+name: Database Quality
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "database/**"
+      - "scripts/database/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/database-quality.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "database/**"
+      - "scripts/database/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/database-quality.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  database-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start local Supabase
+        run: npm run db:start
+
+      - name: Verify database
+        run: npm run db:verify
+
+      - name: Stop local Supabase
+        if: always()
+        run: npm run db:stop -- --no-backup
