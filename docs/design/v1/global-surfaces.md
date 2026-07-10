@@ -54,6 +54,17 @@ Avoid feature grids, product statistics, screenshots, or long explanatory
 sections on the hero. Deeper explanation belongs on Intro or contextual module
 surfaces.
 
+### Scope Boundary
+
+- Landing contains only the atmospheric scene, Voydex identity, one general
+  description, and a compact action group, with at most a very small amount of
+  supporting content if later usability testing proves it necessary.
+- Its first impression should be emotional and immediate: "this is beautiful"
+  followed quickly by an understandable choice.
+- Do not place onboarding, feature walkthroughs, module explanations, product
+  tours, long value propositions, or account-setup guidance on Landing.
+- Users who want explanation or onboarding can deliberately open Intro.
+
 ### Action Behavior
 
 **Status: Current behavior is provisional pending action-label review**
@@ -62,8 +73,7 @@ surfaces.
   a signed-in user it follows the accepted last-active-module resolver.
 - A public Codex action lets visitors explore useful content without creating
   an account.
-- A secondary learn-more action may open Intro if Intro remains a distinct V1
-  surface.
+- A secondary learn-more action opens Intro.
 - Actions must remain native links or buttons with visible labels and keyboard
   focus states.
 
@@ -120,7 +130,36 @@ reuse. The landing composition itself should not become a generic page template.
 
 - What exact primary and secondary action labels best communicate entry,
   public Codex access, and product explanation?
-- Does Intro remain a distinct V1 surface, or should its essential explanation
-  be available elsewhere?
 - Should the landing expose a manual theme control, or only reflect the resolved
   app theme?
+
+## G-02 — Intro
+
+**Direction status:** Accepted
+
+**Detailed specification status:** Pending
+
+### Purpose
+
+Provide the dedicated place for users who choose to understand Voydex, its
+modules, and how to begin. Intro owns explanatory and onboarding content so
+Landing can remain visually focused and instantly understandable.
+
+### Accepted Boundary
+
+- Intro is reached deliberately from Landing's learn-more action or another
+  contextual help entry.
+- Intro may explain the product promise, Mainline, Codex, the core V1 loop, and
+  the first useful actions.
+- General onboarding belongs here rather than on Landing.
+- Intro should remain concise and visual even though it can contain more detail
+  than Landing.
+- Intro is not currently defined as a mandatory first-run gate. Any mandatory
+  account setup must be justified separately by an actual user or data need.
+
+### Open Questions
+
+- What must a visitor understand before choosing to enter Mainline or browse
+  Codex?
+- Should Intro be one scrollable story or a short sequence of focused steps?
+- Which actions should conclude Intro for signed-out and signed-in users?

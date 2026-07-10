@@ -22,6 +22,7 @@ why the direction was selected or changed.
 | V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                     | Accepted |
 | V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                              | Accepted |
 | V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                   | Accepted |
+| V1-D008 | 2026-07-11 | Keep Landing extremely concise and place product explanation and onboarding only on Intro                                | Accepted |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -126,3 +127,18 @@ The exact artwork, spacing, copy, and actions may improve during detailed design
 Preserve the emotional premise and layered composition. Do not turn the Landing
 into a long marketing page, generic dashboard, or large opaque hero card that
 hides the landscape.
+
+## V1-D008 — Landing And Intro Content Boundary
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+Landing should contain the atmospheric background, Voydex identity, one short
+general description, and a compact set of quick actions, with little or no
+additional content. Its intended first response is emotional—"this is
+beautiful"—followed by immediate comprehension and action.
+
+Intro is the distinct, opt-in surface for users who want to learn more. Product
+explanation and general onboarding belong on Intro rather than Landing. Intro is
+not a mandatory first-run gate unless a later workflow demonstrates that need.

@@ -117,6 +117,11 @@ but the adventurous overlook and theme-aware day/night relationship are the
 accepted direction. Define intentional crops for desktop, mobile, and short
 viewports instead of assuming one `cover` crop works everywhere.
 
+Keep Landing extremely concise. Do not add feature grids, product tours,
+onboarding steps, module explanations, screenshots, statistics, or long copy.
+Intro owns product explanation and onboarding for users who choose to learn
+more.
+
 ## Buttons And Controls
 
 - Use icons for clear actions.
