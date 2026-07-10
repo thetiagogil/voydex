@@ -268,18 +268,26 @@ Pokémon detail pages can show:
 - Availability by game.
 - User history with that Pokémon.
 
-Authenticated Codex surfaces can expose module-aware actions when enough
+Authenticated Codex surfaces should expose V1 module-aware actions when enough
 context is known.
 
-Accepted future actions:
+From Game Detail:
 
-- Add to plan.
-- Add to play team.
-- Start a plan with this Pokemon.
-- Check availability in my play.
-- Compare with planned team.
-- Mark as target.
-- Find where this fits.
+- Start a play with the selected game prefilled.
+- Start a plan with the selected game prefilled.
+- Add the game to the user's Game List.
+
+From Pokémon Detail:
+
+- Add to an existing or new plan.
+- Start a plan with the current Pokémon prefilled.
+- Add to an eligible play team.
+- Check availability in one of the user's plays.
+- Open the user's Collection history for that Pokémon.
+
+These actions require authentication and must preserve the selected Codex
+context through login. Compare-with-team, standalone targets, and automated
+fit recommendations remain backlog.
 
 These actions should use the current Codex context, such as species, form, game,
 version group, and availability scope. Codex should not execute Mainline
@@ -287,8 +295,9 @@ mutations directly. It should pass intent to the owning module, where validation
 for team size, reuse policy, DLC settings, availability, form validity, and
 plan/play state happens.
 
-Anonymous users can browse Codex normally. Authenticated-only actions should be
-hidden, disabled, or represented as sign-in prompts depending on the surface.
+Anonymous users can browse Codex normally. Authenticated-only actions may be
+visible as sign-in prompts when that helps communicate the connected product
+journey; they must never appear usable and then silently fail.
 
 ### Collection
 

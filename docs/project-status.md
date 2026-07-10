@@ -40,16 +40,30 @@ the evidence for exact implementation details.
 - Authentication, proxy session refresh, app shell, module-aware navigation,
   settings, site pages, and health surfaces have explicit owners.
 
-## Next Product Slice
+## Current Product-Design Checkpoint
 
-The next feature milestone should complete one Mainline golden loop rather than
-expand architecture or future modules:
+The next phase is a complete V1 product-design pass before database correction
+or frontend feature implementation. The canonical continuation brief is
+[V1 Screen Flow And Design Handoff](./design/v1-screen-flow.md).
 
-1. Create or open a play.
-2. Add and manage a team member through the Team UI.
-3. Record meaningful progress.
-4. Confirm that Overview and history reflect the change.
-5. Leave and resume the play successfully.
+Accepted direction:
+
+- Design the complete Mainline and Codex journey, beginning with the shared
+  shell and Mainline Dashboard.
+- Treat the existing UI and legacy design images as optional references rather
+  than constraints.
+- Keep Codex publicly browsable.
+- Let authenticated users start a Plan or Play from Codex Game Detail.
+- Let authenticated users add a Pokémon from Codex to a compatible Plan or
+  Play, with Mainline owning destination selection, validation, and mutation.
+- Preserve the chosen Codex context and intended action through login.
+- Derive a screen-by-screen data-requirements matrix, then use it for the
+  planned database correctness and reference-seed audit before production
+  implementation resumes.
+
+No V1 visual direction has been selected. The next checkpoint is to produce
+exactly three visual directions for the shared application shell and Mainline
+Dashboard, then wait for one to be chosen before building UI.
 
 ## Known Gaps
 
@@ -58,6 +72,10 @@ expand architecture or future modules:
   deterministic local browser fixture.
 - Codex reference-query performance has not yet been profiled under realistic
   usage.
+- The V1 visual direction, responsive screen set, and state matrix have not yet
+  been selected or designed.
+- Screen-derived database requirements have not yet been reconciled against
+  the known reference-data inconsistencies.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
 

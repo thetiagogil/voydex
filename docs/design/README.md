@@ -5,6 +5,13 @@ and Voydex's clean adventure-companion tone. They are not pixel contracts.
 Real data, responsive behavior, accessibility, current product contracts, and
 shared UI primitives take priority.
 
+## Current V1 Brief
+
+[V1 Screen Flow And Design Handoff](./v1-screen-flow.md) is the canonical brief
+for the next product-design phase. It defines the complete Mainline and Codex
+journey, authenticated Codex-to-Mainline actions, design order, and restart
+instructions for a new workstation or task.
+
 ## Rules
 
 - Keep only selected references; discarded generation variants belong in Git
@@ -21,7 +28,10 @@ shared UI primitives take priority.
 [Codex Pokémon Detail Direction](./codex-pokemon-detail.md) is the canonical
 design/product guidance for the implemented game-scoped detail page.
 
-## Mainline Play
+## Legacy Mainline Play References
+
+These images are optional ideation references. The V1 design pass may reuse,
+reinterpret, or replace them; they do not constrain layout or interaction.
 
 - [Overview](./mainline-play/01_overview.png): journey, current team, progress,
   and recent history.

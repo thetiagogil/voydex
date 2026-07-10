@@ -12,6 +12,7 @@ one canonical owner; other documents should link to it instead of restating it.
 | Navigation and user flows                  | [Navigation And Routes](./product/navigation-and-routes.md)           |
 | State ownership and derivation             | [Data Ownership](./product/data-ownership.md)                         |
 | Current implementation and next work       | [Project Status](./project-status.md)                                 |
+| Current V1 screen flow and design handoff  | [V1 Screen Flow](./design/v1-screen-flow.md)                          |
 | Frontend boundaries                        | [Frontend Architecture](./app/architecture.md)                        |
 | Setup and verification                     | [Setup](./app/setup.md) and [Verification](./app/verification.md)     |
 | Database structure and integration         | [Database Architecture](./database/architecture.md)                   |
@@ -55,6 +56,7 @@ which slices are currently implemented.
 - [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
 - [ADR 0003: Shared Visual Primitives](./decisions/0003-shared-visual-primitives.md)
 - [Design References](./design/README.md)
+- [V1 Screen Flow And Design Handoff](./design/v1-screen-flow.md)
 - [Codex Pokémon Detail Direction](./design/codex-pokemon-detail.md)
 
 ## Documentation Rules

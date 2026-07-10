@@ -89,17 +89,12 @@ Future work:
   detail-page use case becomes clear.
 - Improve Availability after structured encounter/location/source data exists.
 
-## Codex Action Surfaces
+## Codex Action Follow-Ups
 
-Codex should eventually connect reference browsing to authenticated app
-workflows without becoming owned by Mainline.
+The V1 Codex-to-Mainline actions are defined in the
+[Feature Contract](./feature-contract.md). Later discovery and recommendation
+concepts include:
 
-Future Codex actions:
-
-- Add to plan.
-- Add to play team.
-- Start a plan with the current Pokemon.
-- Check availability in one of the user's plays.
 - Compare with a planned team.
 - Mark as target.
 - Find where this Pokemon fits.
@@ -115,9 +110,8 @@ Future Pokemon browse overlays:
 - Targeted.
 - Never used.
 
-Codex should pass selected context to module-owned workflows rather than owning
-the mutation. For Mainline, that context can include species, form, selected
-game, version group, availability scope, and DLC/transfer requirements.
+These follow-ups should continue to pass selected context to module-owned
+workflows rather than making Codex the owner of user mutations.
 
 ## Platform-Specific Rerelease Differences
 

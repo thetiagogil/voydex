@@ -73,15 +73,18 @@ Mainline Dashboard or Plays -> Play Hub
 
 ```txt
 Mainline Dashboard or Plays -> Select Game -> Play Hub
+Codex Game Detail -> Authenticate when needed -> Create Play with game context
+  -> Play Hub
 ```
 
-Codex may also hand game context to this flow, but browsing is never a required
-funnel.
+Codex is an optional contextual entry, never a required funnel.
 
 ### Plan A Team
 
 ```txt
 Mainline Plans -> Select Game -> Plan Detail -> Create Play Later
+Codex Game Detail -> Authenticate when needed -> Create Plan with game context
+  -> Plan Detail
 ```
 
 Creating a play keeps the plan and starts with an empty current roster.
@@ -89,12 +92,19 @@ Creating a play keeps the plan and starts with an empty current roster.
 ### Use Codex Context
 
 ```txt
-Codex Pokémon Detail -> Mainline action -> Mainline validation and mutation
+Codex Game Detail -> Start Play or Start Plan -> Mainline create flow
+Codex Pokémon Detail -> Add to Plan or Add to Play -> Mainline handoff
 ```
 
-Future actions include add to plan, add to team, start plan, mark as target,
-and check availability. Codex supplies selected reference context; it does not
-own durable gameplay/planning state.
+These actions require authentication. If login is needed, the selected game,
+Pokémon, form, content scope, and intended action must survive the redirect so
+the user can resume the flow.
+
+Codex supplies reference context; Mainline selects the destination, validates
+ownership, roster capacity, reuse policy, availability, form validity,
+optional content, and plan/play state, then owns the mutation. Planned V1
+actions are defined in the [Feature Contract](./feature-contract.md). Later
+recommendation and target concepts remain in the [Backlog](./backlog.md).
 
 ## Routing Principles
 
