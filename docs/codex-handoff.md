@@ -13,6 +13,29 @@ Use this file when continuing Voydex in a new Codex thread or on another machine
 
 `../00-databases/projects/voydex` is the active Supabase database source.
 
+## Architecture Refactor Checkpoint
+
+Phase 0 establishes the refactor safety foundation without changing product
+behavior:
+
+- [ADR 0001](./decisions/0001-modular-monolith.md) accepts the hierarchical
+  modular-monolith target and responsibility-based read/write boundaries.
+- [ADR 0002](./decisions/0002-colocate-database-source.md) accepts moving only
+  the active authored Voydex database source into this repository.
+- `npm run typecheck`, `npm run architecture:check`, and `npm run test` provide
+  explicit local gates; `npm run verify` runs the complete sequence.
+- `.github/workflows/quality.yml` runs the same quality gates in CI.
+- `docs/app/verification.md` records the route-level browser smoke baseline.
+
+No application feature or source architecture has been migrated in Phase 0.
+`src/lib`, the current app-shell/shared locations, and the current module feature
+paths remain transitional implementation evidence.
+
+The next phase is database generation stabilization in `00-databases` before
+any files are relocated. In particular, verify index inclusion, local reset,
+seed audits, lint, tests/RLS coverage, and generated type parity first. Remote
+database work still requires explicit authorization.
+
 ## Current Product Summary
 
 Voydex is a Pokémon companion app for tracking, remembering, and planning playthroughs.
@@ -164,7 +187,9 @@ Important current direction:
   state explaining the required DLC scope.
 - Keep card sections simple, with the shared detail section card styling.
 - For right-section data, prefer adding one section at a time and keep data
-  access in the loader/mapper/query split.
+  access separated by responsibility. Keep the current loader/mapper/query
+  files until Pokemon detail is migrated; do not force that exact trio on new
+  simple reads.
 
 ## Stable Frontend Area: Codex Games And Pokedexes
 
@@ -302,7 +327,10 @@ App-consumed types:
 13-voydex/src/shared/types/database.types.ts
 ```
 
-When database types change, copy the generated database type file from `00-databases/projects/voydex/types/database.types.ts` into the app. Do not add an app-side type generation script unless the user asks for one again.
+When database types change before relocation, copy the generated database type
+file from `00-databases/projects/voydex/types/database.types.ts` into the app.
+Revisit app-local type generation only after the database source is co-located
+and its local workflow is verified.
 
 ## Frontend Foundation
 
@@ -330,7 +358,7 @@ Current app status:
 - UI primitives use shadcn Base UI components. Base UI uses `render`, not Radix `asChild`.
 - The generated play-view screenshots in the project discussion are design references, but implementations should use real data, shadcn primitives, reusable feature components, and the current `src/modules` structure.
 
-Current feature data pattern:
+Current transitional feature data pattern:
 
 - `server/*-query.ts` orchestrates server client creation, auth/scope, loaders,
   and mappers.
@@ -341,22 +369,28 @@ Current feature data pattern:
 - `components/*` should not create Supabase clients or call `.schema(...)`.
 - `client/*` is reserved for browser-only client island helpers.
 
+The accepted target keeps those responsibilities but makes the split
+complexity-driven: a simple read can remain in one cohesive server file; a
+complex read can use an orchestrator, raw reader (existing loaders have this
+role), and pure mappers.
+
 Known implementation debt:
 
 - `plays/detail/server/play-page-loaders.ts` currently combines raw reads with
-  joining, enrichment, and final page-model composition. Keep the stricter
-  loader/mapper/query guidance for new work and split this file only when a
-  source refactor is explicitly in scope.
+  joining, enrichment, and final page-model composition. Split it by actual
+  responsibility when the Play Hub migration reaches that slice, not as an
+  isolated Phase 0 refactor.
 - The species-only compatibility route behaves as
   `/codex/pokemon/[speciesSlug]`, but its App Router folder is still named
   `[gameSlug]`. Treat the folder name as source naming debt until a route-safe
   rename is explicitly in scope.
-- The repository currently has no automated test script, standalone typecheck
-  script, browser-test configuration, or CI workflow. Format, lint, build, and
-  focused browser checks are the available verification surfaces.
+- The Phase 0 repository has explicit format, lint, typecheck, architecture,
+  unit-test, build, and CI gates. The unit suite is intentionally small, and
+  there is no committed end-to-end browser suite yet.
 
-When adding the next Codex or Mainline section, keep route files thin and add
-new data access through this loader/mapper/query split.
+When adding the next Codex or Mainline section after the architecture migration,
+keep route files thin and choose the smallest read structure that keeps I/O,
+orchestration, mapping, and UI responsibilities clear.
 
 ## Working Style Preferences
 

@@ -1,360 +1,317 @@
 # Frontend Architecture
 
-Voydex is a clean Next.js app using the App Router, TypeScript, Tailwind CSS, shadcn-style primitives, Lucide icons, and Supabase SSR.
+Voydex is a Next.js App Router application organized as a modular monolith with
+hierarchical, feature-owned vertical slices. The architecture should make a
+feature easy to find, keep routes and UI free from database concerns, and allow
+the project to grow without turning every module into one large components
+folder.
 
-The app should stay boring in its architecture and rich in its product behavior. Keep data ownership clear, keep mutation logic close to the database contract, and keep UI components focused.
+The accepted direction is recorded in
+[ADR 0001](../decisions/0001-modular-monolith.md). This document is the working
+architecture guide; the ADR explains why the direction was chosen.
 
-## Current Structure
+## Current Checkpoint
+
+The application currently uses this root layout:
 
 ```txt
 src/
   app/
-    (app-protected)/
-    (app-public)/
-    (auth)/
-    (site)/
-    (system)/
-    api/
   config/
   features/
+  lib/
+  modules/
+    codex/
+    mainline/
+  shared/
+  proxy.ts
+```
+
+This is the starting point for the refactor, not the final topology. In
+particular:
+
+- `src/lib` currently mixes infrastructure, auth, navigation, and app-shell
+  concerns that will move to explicit owners.
+- app-shell code currently lives under `src/shared` even though it is an app
+  feature.
+- reusable Pokemon and game semantics currently live under `src/shared` or
+  `src/modules/codex/shared`; they will move to the internal `reference` module.
+- existing feature reads commonly use a query/loader/mapper split. That split
+  remains valid where the responsibilities are genuinely distinct, but it is
+  no longer a mandatory three-file template.
+
+Do not treat these transitional locations as precedents for new architecture.
+Move them phase by phase and keep compatibility shims temporary.
+
+## Target Topology
+
+```txt
+src/
+  app/                         # thin Next.js route adapters
+  config/                      # static application contracts
+  platform/                    # framework and external-service infrastructure
+    env/
+    supabase/
+  features/                    # global application features
+    app-shell/
     auth/
     settings/
     site/
     system/
-  lib/
-    auth/
-    modules/
-    supabase/
-    env.ts
-    utils.ts
-  modules/
+  modules/                     # product modules
     codex/
+      features/
     mainline/
       features/
-  shared/
+    reference/                 # internal Pokemon/game catalogue capability
+      features/
+  shared/                      # generic, domain-neutral building blocks
     components/
-      app-shell/
-      brand/
-      game/
-      pokemon/
       ui/
-    domain/
-      games/
-      icons/
-      pokemon/
     hooks/
     providers/
-    server/
     styles/
-    types/
     utils/
   proxy.ts
 ```
 
-Root-level source folders should stay limited to:
+Root folders are responsibilities, not convenience buckets. Do not add a new
+root folder when an existing owner is appropriate.
 
-- `app`
-- `config`
-- `features`
-- `lib`
-- `modules`
-- `shared`
-- `proxy.ts`
+### `src/app`
 
-Do not reintroduce root `components`, `constants`, or `types` folders.
-
-## Route Layers
-
-### Site Routes
-
-- `/`
-- `/intro`
-
-Site routes live outside the app shell. They are public brand/product pages, not protected workspace pages.
-
-The landing page should remain accessible even when signed in. It is a brand/home surface, not only a pre-auth gate.
-
-### Auth Routes
-
-- `/login`
-- `/auth/callback`
-
-Auth routes are public auth pages and auth infrastructure callbacks.
-
-### System Routes
-
-- `/app`
-
-`/app` is the generic app entry route. It reads the `voydex-active-module` cookie and redirects to the active module default route.
-
-### Public App Routes
-
-Routes under `src/app/(app-public)` use the normal app shell but are not auth-required:
-
-- `/codex`
-- `/codex/pokemon`
-- `/codex/pokemon/[speciesSlug]` (compatibility redirect to a default
-  game-scoped detail route)
-- `/codex/pokemon/[gameSlug]/[speciesSlug]`
-- `/codex/games`
-- `/codex/games/[gameSlug]`
-- `/codex/games/[gameSlug]/pokedexes/[pokedexSlug]`
-
-Codex is public-readable but can still show authenticated shell behavior when a session exists.
-
-### Protected App Routes
-
-Mounted protected app routes live under `src/app/(app-protected)` and are
-guarded by the proxy auth flow:
-
-- `/mainline`
-- `/mainline/plays`
-- `/mainline/plays/[playId]`
-- `/settings`
-
-`/mainline` redirects to `/mainline/plays`. The Play Hub at
-`/mainline/plays/[playId]` is being built tab by tab. Dashboard, create-play,
-and deeper play URLs remain product contracts or configured route helpers, not
-mounted pages; add or enable a page only when that slice is real.
-
-Planned workspaces such as Mainline-level Plans, Collection, and Stats should be added route-by-route when their product slice is implemented.
-
-### API Routes
-
-- `/api/health`
-- `/api/codex/pokemon-menu`
-
-`/api/codex/pokemon-menu` supports the client-side Pokemon species selector on
-game-scoped Pokemon detail pages. Prefer server-rendered data for normal browse
-views. Use API routes only when a client island needs incremental or interactive
-data that should not be serialized with the initial route payload.
-
-### Route Organization
-
-- Public site/product pages should live under `src/app/(site)`.
-- Auth pages and auth callbacks should live under `src/app/(auth)`.
-- Technical redirect/system routes should live under `src/app/(system)`.
-- Public-readable app-shell feature routes should live under `src/app/(app-public)`.
-- Protected app-shell feature routes should live under `src/app/(app-protected)`.
-- Root-level special files such as `layout.tsx`, `not-found.tsx`, `icon.png`, and `apple-icon.png` stay at `src/app`.
-- API route handlers stay under `src/app/api`.
-
-## Supabase Boundary
-
-Supabase client creation is centralized:
-
-- `src/lib/supabase/server.ts`
-- `src/lib/supabase/browser.ts`
-- `src/lib/supabase/proxy.ts`
-- `src/lib/supabase/health.ts`
-
-Rules:
-
-- Do not create ad hoc Supabase clients in UI components.
-- Use generated `Database` types from `src/shared/types/database.types.ts`.
-- Server Components and Server Actions should prefer server-side Supabase clients.
-- Client Components should only use browser clients where interactivity needs it.
-- App writes should follow the database handoff: use helper functions for multi-table gameplay/planning mutations instead of manually writing fragile sequences.
-
-Feature data access follows a loader/mapper/query split:
-
-- `server/*-query.ts` creates the server client, resolves auth or route scope,
-  calls loaders, calls pure mappers, and returns page data.
-- `server/*-loaders.ts` performs raw Supabase reads. Loaders accept a
-  `ServerSupabaseClient` and return database rows or row groups.
-- `data/*-mappers.ts` and `data/*-selectors.ts` are pure transforms over rows
-  already loaded by the server layer.
-- `components/*` render UI and may include local component-group view models,
-  such as `components/<section>/*-model.ts`, when the logic derives UI-facing
-  rows from already-loaded props. Components should not contain raw Supabase
-  reads.
-- API routes are for client islands that need incremental/interactive data, not
-  for normal server-rendered route payloads.
-
-## Auth And Session Refresh
-
-`src/proxy.ts` routes requests through `updateSession`.
-
-The proxy:
-
-- Skips `/api/health`.
-- Lets public routes through.
-- Syncs the `voydex-active-module` cookie when the request is for a known module route.
-- Refreshes Supabase cookies for protected routes.
-- Redirects unauthenticated users to `/login?next=...`.
-
-## Components
-
-### `src/shared/components/ui`
-
-Reusable UI primitives. These should remain generic and shadcn-compatible.
-
-Voydex currently uses shadcn components backed by Base UI. Base UI primitives use `render` for custom rendered elements, not Radix `asChild`. Do not mix Radix-only composition assumptions into Base UI components.
-
-### `src/shared/components/app-shell`
-
-Application shell, navigation, layout helpers, health banner, and app-specific shared components.
-
-### `src/shared/components/pokemon`
-
-Pokémon-specific shared visual components such as type icons. Keep product-specific Pokémon display logic here only when it is reusable across features.
-
-### `src/shared/domain`
-
-Reusable app-wide domain helpers and constants. Domain code should be portable across modules and should not know about route structure.
-
-Examples:
-
-- `src/shared/domain/icons`
-- `src/shared/domain/pokemon`
-
-### `src/shared/providers`
-
-Theme provider and theme bootstrapping code.
-
-### `src/shared/types`
-
-Generated and shared app-wide types, including the Supabase `Database` type.
+Next.js route files, layouts, metadata, loading/error boundaries, redirects,
+and Route Handlers. Page routes should normally resolve route input and render
+one feature or module entry point. They must not become the application service
+or data-access layer.
 
 ### `src/config`
 
-Static app contracts such as routes, navigation, app module metadata, and product family metadata. These are not runtime helpers and should not live in `lib`.
+Static application contracts such as routes, module metadata, navigation, and
+product-family metadata. Config may use generic shared values, but it should not
+depend on runtime infrastructure or feature implementations.
 
-Module configuration lives in `src/config/modules.ts`. It defines:
+### `src/platform`
 
-- Active modules.
-- Module default routes.
-- Module view links.
-- The active-module cookie name.
-- Path-to-module resolution helpers.
+Infrastructure adapters owned by the application: environment parsing,
+authenticated and public Supabase clients, proxy/session helpers, and health
+integration. Platform code must not depend on product modules or application
+features.
 
-## Modules
+### `src/features`
 
-`src/modules` holds product module code. A module is a product area with its own behavior, not a database schema boundary.
+Capabilities that belong to the application as a whole rather than one product
+module. App shell, auth, settings, public site, and system states belong here.
+Global features may use config, platform, and shared code; they should not reach
+into module internals.
 
-Current modules:
+### `src/modules`
 
-```txt
-src/modules/codex/
-src/modules/mainline/
-```
+Product capabilities with their own language and behavior. `mainline` owns
+playthrough workflows. `codex` owns public catalogue browsing experiences.
+`reference` is an internal supporting module for Pokemon/game catalogue
+semantics and reusable reference-data presentation; it is not a navbar module.
 
-The `codex` module covers public-readable reference browsing. The `mainline` module covers mainline-style Pokémon RPG playthrough behavior. Its user-facing label is Mainline.
+`mainline` and `codex` must not import each other. Both may depend on the public
+surface of `reference`. The `reference` module must not depend on either
+consumer.
 
-Dashboard is an accepted planned view inside the `mainline` module, not its own
-module. Plays is currently the only mounted Mainline navigation view.
+### `src/shared`
 
-Feature code inside a module should follow this shape:
+Generic, domain-neutral primitives that are safe for any layer to use. This
+includes shadcn/Base UI wrappers, generic hooks, providers, low-level styles,
+and utilities. Pokemon/game rules, route behavior, app-shell composition, and
+Supabase clients do not belong here.
 
-```txt
-src/modules/mainline/features/dashboard/
-  components/
-  server/
-    dashboard-page-loaders.ts
-    dashboard-page-query.ts
-  types.ts
-  dashboard-page.tsx
-```
+## Dependency Direction
 
-Future app modules can use the same module pattern when they become active. Pokémon product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` can become modules when they have distinct frontend behavior.
+| Source                        | Allowed application dependencies                      |
+| ----------------------------- | ----------------------------------------------------- |
+| `app`                         | `config`, `features`, `modules`, `platform`, `shared` |
+| global `features`             | `config`, `platform`, `shared`                        |
+| `modules/mainline` or `codex` | `reference`, `config`, `platform`, `shared`           |
+| `modules/reference`           | `config`, `platform`, `shared`                        |
+| `platform`                    | `shared`                                              |
+| `config`                      | `shared`                                              |
+| `shared`                      | `shared` and external packages                        |
 
-## Feature Code
+Import a feature through its intended public entry point when one exists. Do
+not bypass ownership by reaching into another feature's component, server, or
+data folders.
 
-Cross-app route features such as auth, settings, site, and system pages live in `src/features`.
+`npm run architecture:check` currently enforces the stable subset that the
+pre-refactor code already satisfies: shared and platform direction, no lateral
+product-module dependencies, no server query/loader imports in Client
+Components, and no database clients/raw schema reads in component folders. Add
+stricter rules only after the corresponding migration phase is complete.
 
-Recommended pattern:
+## Module And Feature Organization
 
-```txt
-src/features/auth/
-  components/
-```
+`features` is the normal root inside a product module because modules contain
+multiple views and capabilities. A module can also have these folders when a
+real cross-feature responsibility exists:
 
-Feature workflows should be organized by what the view does:
+- `shared`: module-owned UI or utilities reused by multiple features;
+- `domain`: module-wide business rules and entities;
+- `application`: module-wide use cases or commands;
+- `infrastructure`: module-specific adapters or repositories.
+
+Do not create these folders pre-emptively. A small module containing only
+`features` is healthy.
+
+Feature folders may be nested to match the product hierarchy. Mainline Plays
+is expected to evolve toward a shape like:
 
 ```txt
 src/modules/mainline/features/plays/
   browse/
-    components/
-    server/
-    mainline-plays-page.tsx
-  detail/
-    components/
-      top-section/
-      overview/
-        journey-status/
-        recent-history/
-        team/
-        progress-summary/
+  hub/
+    shell/
+    overview/
+      journey-status/
+      recent-history/
       team/
-      progress/
-      plans/
-      history/
-      settings/
-    server/
-    mainline-play-page.tsx
+      progress-summary/
+    team/
+    progress/
+    plans/
+    history/
+    settings/
   shared/
-    display/
-    types.ts
 ```
 
-Keep business logic and data shaping out of route files when it becomes nontrivial. Route files should usually compose module or feature components.
+This nesting is intentional. A view can own sections, and a complex section can
+own smaller sections. Prefer this over a single broad `components` folder.
 
-Use feature subfolders by responsibility:
+Within a slice, add only the responsibility folders it needs:
 
-- `components`: UI and local component-group view models only. No raw data
-  access.
-- `server`: server queries, loaders, and Server Actions.
-- `data`: pure mappers/selectors, no Supabase client.
-- `client`: browser-only helpers for client islands.
-- `display`: formatters and presentation selectors.
-- `utils`: cross-cutting helpers that are not data access or display-only.
-- `types`: type contracts only.
+```txt
+feature-or-section/
+  components/
+  server/
+  data/
+  client/
+  display/
+  utils/
+  types/
+  <feature-entry>.tsx
+```
 
-## File And Component Conventions
+Folders are not mandatory. A cohesive two-file feature should remain a
+two-file feature.
 
-Names should optimize for searchability, import clarity, and reviewability.
+## Reads, Writes, And File Responsibilities
 
-- Route files in `src/app` should mostly handle route params, redirects, `notFound`, and calling module page components.
-- Page-level components that directly back a route may live at the feature root, for example `pokedex-page.tsx`, `pokemon-detail-page.tsx`, `games-page.tsx`, or `mainline-plays-page.tsx`.
-- Component filenames should usually match the exported component name in kebab/Pascal form. For example, `pokemon-detail-species-selector.tsx` should export `PokemonDetailSpeciesSelector`.
-- Keep explicit feature prefixes for components used across a feature. `PokemonDetailGenerationMenu` is preferable to a generic `GenerationMenu` when imported from multiple files.
-- Inside already-scoped section folders, avoid redundant prefixes when they add
-  noise. For example, `overview/team/team-panel.tsx` can export `TeamPanel`;
-  route-level, page-level, and tab-level files should keep searchable feature
-  prefixes such as `MainlinePlayDetailTabs`.
-- Avoid generic data filenames like `queries.ts` once a feature has more than one data concern. Prefer names that describe the view or workflow, such as `dashboard-page-query.ts`, `games-page-query.ts`, `game-detail-query.ts`, or `create-play-page-query.ts`.
-- Keep `*-query.ts` files in `server/`, not `data/`.
-- Keep raw Supabase reads in `server/*-loaders.ts`, not inside components or pure mappers.
-- Split browse and detail loaders when they feed different routes. A `browse/server/*page-query.ts` file should not also export detail-page loaders.
-- Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-oriented folder.
-- Move helpers to the nearest stable shared boundary when they are used by
-  multiple views. Mainline play helpers shared by browse and detail belong under
-  `src/modules/mainline/features/plays/shared`; create a module-wide
-  `src/modules/mainline/shared` boundary only when reuse crosses features.
-- Large files are acceptable when they are mostly definitions, configuration, or generated/primitive wrapper code. Split large files when they mix responsibilities, obscure data flow, or make a feature hard to review.
-- During broad refactors, reset unfinished screens to simple real-data shells instead of preserving elaborate placeholder UI. Rebuild complex views section by section.
+The design goal is separation of concerns, not a fixed filename ritual.
 
-## Assets
+### Reads
 
-Active assets live in `public`.
+For a simple read, one server file may create the appropriate client, perform
+the query, handle errors, and return a small typed result.
 
-Current important asset groups:
+For a complex read, separate the responsibilities that need independent review
+or reuse:
 
-- `public/backgrounds`
-- `public/brand`
-- `public/icons/types`
+```txt
+<use-case>-query.ts       # orchestration and public server entry
+<use-case>-reader.ts      # raw Supabase reads
+<use-case>-mappers.ts     # pure row-to-model transformation
+```
 
-Design references under `docs/design` are documentation only. Production code
-must use assets from `public`.
+Existing `*-loaders.ts` files are the same raw-read responsibility and can keep
+their names until their feature is migrated. Prefer `reader` for new code when
+it communicates database I/O more clearly.
 
-## Verification Expectations
+Keep files for one endpoint or use case together. Do not centralize all
+Supabase reads in one global service, and do not combine raw I/O, workflow
+decisions, mapping, and presentation in one large file.
 
-For normal frontend changes, run:
+### Writes
+
+Use this direction for interactive application writes:
+
+```txt
+Client Component
+  -> Server Action
+  -> validation
+  -> application command/use case
+  -> repository or database RPC
+  -> constraints, grants, and RLS
+```
+
+The exact number of files depends on complexity. Database constraints and RLS
+remain authoritative; UI checks are not authorization.
+
+### UI And Client Boundaries
+
+- Server Components are the default.
+- Add `"use client"` at the smallest interactive boundary.
+- Components render data and own local interaction state; they do not create
+  Supabase clients or issue raw schema reads.
+- Client Components may import Server Actions, but not server queries or raw
+  readers.
+- Route Handlers are for public APIs, webhooks, or client islands that need an
+  HTTP boundary. Normal server-rendered pages should call server use cases
+  directly.
+- `src/proxy.ts` may refresh sessions and perform coarse redirects, but protected
+  Server Components, Server Actions, and Route Handlers must enforce their own
+  authorization.
+
+## File Size And Naming
+
+File size is a review signal, not a hard gate:
+
+- roughly 50-150 lines is common for cohesive application files;
+- 150-250 lines can be appropriate when the responsibility is still clear;
+- above 250 lines should trigger a responsibility review;
+- above 400 lines should be exceptional outside generated types, configuration
+  maps, or third-party primitive wrappers.
+
+Split by responsibility or product section, not by arbitrary line counts. Avoid
+tiny helpers that are used once and make a workflow harder to read.
+
+Use explicit, searchable filenames and exports. A file should solve one clear
+problem or a small set of tightly related problems.
+
+## Current Routes
+
+Current route groups remain:
+
+- site: `/` and `/intro`;
+- auth: `/login` and `/auth/callback`;
+- system: `/app`;
+- public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
+  Pokedex routes;
+- protected app: `/mainline`, `/mainline/plays`,
+  `/mainline/plays/[playId]`, and `/settings`;
+- API: `/api/health` and `/api/codex/pokemon-menu`.
+
+Use code and `docs/codex-handoff.md` as the evidence for which planned routes
+are actually mounted.
+
+## Migration Rules
+
+- Migrate one coherent boundary at a time.
+- Keep mechanical moves separate from behavior changes.
+- Preserve public routes and feature behavior during architecture-only phases.
+- Do not create empty target folders or long-lived compatibility layers.
+- Enable a new architecture rule only when the repository already passes it.
+- Migrate the Pokemon detail slice late because it is the largest and most
+  interconnected current feature.
+
+The database co-location direction is a separate decision in
+[ADR 0002](../decisions/0002-colocate-database-source.md). Until that relocation
+phase is verified, `../00-databases/projects/voydex` remains the database source
+of truth.
+
+## Verification
+
+Run the complete local gate with:
 
 ```bash
-npm run format:check
-npm run lint
-npm run build
+npm run verify
 ```
 
-For visual work, also check the page in a browser at desktop and mobile widths.
+Use the individual commands and browser baseline in
+[Verification](./verification.md) when diagnosing a failure or checking a
+visual change.

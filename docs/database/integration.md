@@ -1,12 +1,18 @@
 # Database Integration
 
-Voydex uses a dedicated Supabase project. The active database source lives in:
+Voydex uses a dedicated Supabase project. At the current checkpoint, the active
+database source lives in:
 
 ```txt
 ../00-databases/projects/voydex
 ```
 
 This app repo consumes the database contract; it does not own schema or seed source.
+
+Co-locating the active source in this repository is accepted in
+[ADR 0002](../decisions/0002-colocate-database-source.md), but the cutover has
+not happened yet. Do not edit schema or seed behavior here until the relocation
+phase has imported and verified the database project.
 
 ## Database Source Of Truth
 
@@ -144,9 +150,7 @@ node scripts/supabase-target.mjs voydex db lint --local --fail-on error
 Run from `13-voydex`:
 
 ```bash
-npm run format:check
-npm run lint
-npm run build
+npm run verify
 ```
 
 ## Important Product/Data Notes

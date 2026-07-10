@@ -14,6 +14,7 @@ guide, read only what the task needs:
 - `docs/codex-handoff.md`: continuation work or questions about the current
   implementation checkpoint;
 - `docs/app/architecture.md`: boundary, ownership, or data-flow changes;
+- `docs/decisions`: accepted architecture or repository-boundary rationale;
 - `docs/app/design-system.md`: UI implementation or visual review;
 - feature product/design docs: only for the touched area;
 - nearby implementation files and their tests or verification paths: always.
@@ -27,12 +28,16 @@ that is within scope.
 - Voydex is a Pokemon companion app with `mainline` and `codex` as the active
   frontend modules.
 - Keep `src/app` routes thin. Feature implementation belongs under
-  `src/modules` or `src/features`; reusable app UI belongs under `src/shared`.
-- Preserve the query, loader, mapper, selector, and component boundaries defined
-  in `.agents/AGENTS.md`.
+  `src/modules` or `src/features`; only domain-neutral primitives belong under
+  `src/shared` in the target architecture.
+- Preserve separation between orchestration, database I/O, pure mapping, and UI
+  when those are distinct responsibilities. Do not force a query/reader/mapper
+  file trio for a simple use case.
 - Never create Supabase clients or raw `.schema(...)` reads in UI components.
-- The database source of truth is the sibling `00-databases/projects/voydex`
-  project. Do not change schema, seeds, or Supabase config from this repo.
+- The current database source of truth is the sibling
+  `00-databases/projects/voydex` project. Co-location is accepted but not yet
+  complete; do not change schema, seeds, or Supabase config from this repo before
+  the verified cutover.
 - App-consumed generated types live at `src/shared/types/database.types.ts`.
 
 ## Workforce Routing
@@ -75,7 +80,8 @@ UI quality is a first-class acceptance criterion. For meaningful visual work:
 Review concrete behavior and organization, not cosmetic preferences:
 
 - route files stay thin;
-- server orchestration, raw loading, pure mapping, and UI remain separated;
+- server orchestration, raw reads, pure mapping, and UI remain separated where
+  complexity warrants the split;
 - filenames and exports are explicit and searchable;
 - shared behavior sits at the nearest stable boundary;
 - abstractions have a real responsibility and do not hide duplicated styling;
@@ -90,8 +96,13 @@ For normal frontend changes, run the relevant subset, expanding with risk:
 ```powershell
 npm.cmd run format:check
 npm.cmd run lint
+npm.cmd run typecheck
+npm.cmd run architecture:check
+npm.cmd run test
 npm.cmd run build
 ```
+
+`npm.cmd run verify` runs the complete sequence.
 
 For UI work, also run a browser check at desktop and mobile widths and inspect
 console/runtime errors. State exact results and distinguish environment failures

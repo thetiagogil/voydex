@@ -90,19 +90,26 @@ src/modules/mainline/features/plays/detail/components/
 
 ## Source Layout
 
-Root `src` folders should stay limited to:
+The target root `src` folders are:
 
 - `app`
 - `config`
 - `features`
-- `lib`
 - `modules`
+- `platform`
 - `shared`
 - `proxy.ts`
 
-Do not reintroduce root-level `components`, `constants`, or `types`.
+`src/lib` is a transitional current folder. Move its concerns to `platform`, a
+global feature, a product module, config, or shared utilities as their migration
+phase lands. Do not add new unrelated `lib` buckets or reintroduce root-level
+`components`, `constants`, or `types`.
 
-Module feature code belongs under `src/modules`. Cross-app route features such as site, auth, settings, and system pages belong under `src/features`. Shared app primitives and reusable app shell pieces belong under `src/shared`.
+Module feature code belongs under `src/modules`. Cross-app features such as app
+shell, site, auth, settings, and system pages belong under `src/features`.
+Framework and Supabase infrastructure belongs under `src/platform`. Only
+domain-neutral primitives belong under `src/shared` in the target architecture.
+Read `docs/app/architecture.md` and the accepted ADR before moving a boundary.
 
 ## File And Component Hygiene
 
@@ -113,7 +120,8 @@ Prefer boring, searchable names over short local names:
 - Component filenames should usually match the exported component name in kebab/Pascal form, for example `pokemon-detail-species-selector.tsx` exports `PokemonDetailSpeciesSelector`.
 - Keep explicit feature prefixes for reusable or cross-file components. Avoid shortening `PokemonDetailSpeciesSelector` to `SpeciesSelector` when it will be imported across multiple files. Inside already-scoped section folders, local names are acceptable; for example, `overview/team/team-panel.tsx` can export `TeamPanel` without repeating `MainlinePlay`.
 - Avoid vague data filenames such as `queries.ts` when a clearer name exists. Prefer route/workflow names like `dashboard-page-query.ts`, `games-page-query.ts`, or `game-detail-query.ts`.
-- Split browse and detail loaders when they serve different views. Do not keep unrelated browse/detail data loaders in one shared query file just because they touch the same table.
+- Split browse and detail readers/loaders when they serve different views. Do
+  not keep unrelated use cases together just because they touch the same table.
 - Keep runtime helpers out of `types` folders. If a file exports functions, place it under `utils`, `data`, `server`, or another behavior-appropriate folder.
 - If a helper is shared by Mainline play browse and detail, prefer
   `src/modules/mainline/features/plays/shared`. Create a module-wide
@@ -123,22 +131,32 @@ Prefer boring, searchable names over short local names:
 
 ## Feature Folder Standard
 
-Use this boundary for feature internals:
+Features may nest views and sections when that mirrors the product. Add only
+the responsibility folders a slice actually needs:
 
-- `components/*`: UI composition and local component-group view models only. Components can hold local interaction state, and files such as `components/<section>/*-model.ts` may derive UI-facing rows from already-loaded props. Components must not create Supabase clients or perform raw data reads.
-- `server/*-query.ts`: server orchestration only. Create the server client, resolve auth/scope, call loaders, call mappers, and return page/action data.
-- `server/*-loaders.ts`: raw Supabase reads only. Loaders accept a `ServerSupabaseClient` and return database rows or row groups.
-- `server/*-action.ts`: Server Actions and mutations. Keep validation explicit and prefer shared loaders/helpers for repeated reads.
-- `data/*-mappers.ts`: pure row-to-view-model transforms. No Supabase client, no React hooks, no browser APIs.
-- `data/*-selectors.ts`: pure selectors over already-loaded rows or view models when the selector is shared by the feature data layer. Keep one-section UI-adjacent selectors beside their component group as `components/<section>/*-model.ts`.
-- `client/*`: browser-only API/state/model helpers for client islands.
-- `display/*`: formatting and presentation selectors used by UI.
-- `utils/*`: small cross-cutting helpers that are not data access, not display-only, and not tied to React.
+- `components/*`: UI composition and local view models. Components may hold
+  interaction state but must not create Supabase clients or perform raw reads.
+- `server/*-query.ts`: the public server entry and orchestration for a complex
+  read. A simple read may remain in one cohesive server file.
+- `server/*-reader.ts`: raw Supabase reads for new complex use cases. Existing
+  `*-loaders.ts` files have this responsibility and may keep the name until their
+  feature is migrated.
+- `server/*-action.ts`: Server Actions. Keep validation and authorization
+  explicit, then call an application command/use case when the mutation is
+  nontrivial.
+- `data/*-mappers.ts`: pure row-to-model transforms. No Supabase client, React
+  hooks, or browser APIs.
+- `data/*-selectors.ts`: reusable pure selectors over loaded rows or models.
+- `client/*`: browser-only API, state, and model helpers for client islands.
+- `display/*`: presentation formatting and display selectors.
+- `utils/*`: small cross-cutting helpers that do not fit a stronger owner.
 - `types/*` or `types.ts`: type contracts only.
 
-Do not place files named `*-query.ts`, `*-loaders.ts`, or direct `.schema(...)`
-reads under `data/` or `components/`. Client Components may import Server
-Actions, but should not import server query/loaders.
+Do not create empty folders or a mandatory query/reader/mapper trio. Keep files
+for one endpoint or use case together, and split only when I/O, orchestration,
+mapping, or presentation is substantial enough to deserve independent review.
+Do not place direct `.schema(...)` reads under `data/` or `components/`. Client
+Components may import Server Actions, but not server query/reader/loader files.
 
 ## UI Rules
 
@@ -212,13 +230,16 @@ For Codex Games, preserve these product decisions:
 
 ## Database Boundary
 
-The database source of truth is the sibling repository:
+The current database source of truth is the sibling repository:
 
 ```txt
 ../00-databases/projects/voydex
 ```
 
-Do not change database schema, seeds, or Supabase configuration from this repo unless the user explicitly asks.
+Database co-location is accepted in
+`docs/decisions/0002-colocate-database-source.md`, but the cutover has not
+happened. Do not change database schema, seeds, or Supabase configuration from
+this repo before the relocation phase imports and verifies the source.
 
 The app consumes generated types from:
 
@@ -243,10 +264,11 @@ If a database contract changes, update `00-databases` first, regenerate/copy typ
 For normal frontend changes, run:
 
 ```bash
-npm run format:check
-npm run lint
-npm run build
+npm run verify
 ```
+
+Use `format:check`, `lint`, `typecheck`, `architecture:check`, `test`, and
+`build` individually while diagnosing failures.
 
 For Tailwind-backed UI changes, also check touched files for Tailwind
 IntelliSense warnings such as `suggestCanonicalClasses`; at minimum, scan for
@@ -255,9 +277,9 @@ them with canonical forms like `shadow-(--token)` when equivalent.
 
 For visual work, also test in the browser at desktop and mobile widths.
 
-There is currently no repository test script or standalone typecheck script.
-Use the available format, lint, and build gates plus focused browser checks for
-UI work until a test harness is added.
+The unit-test harness is intentionally small at the Phase 0 checkpoint. Add
+focused tests with each migrated behavior. There is no committed end-to-end
+browser suite yet; use `docs/app/verification.md` for focused browser checks.
 
 In sandboxed Codex runs, `npm run build` can fail when Turbopack cannot bind a
 local port. If lint passes but build hits a sandbox port error, rerun build

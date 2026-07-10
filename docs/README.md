@@ -1,6 +1,6 @@
 # Voydex Docs
 
-This folder is the app-side knowledge base for the clean Voydex rebuild.
+This folder is the app-side knowledge base for Voydex.
 
 The docs here should explain what the product is, how the frontend is organized, how it connects to the Voydex database, and which decisions are already settled. Canonical SQL schema, seed, and table-level source docs live in the separate database repo.
 
@@ -11,10 +11,15 @@ The docs here should explain what the product is, how the frontend is organized,
 | Product direction, app flow, UI architecture | `13-voydex/docs`                                                               |
 | Frontend implementation                      | `13-voydex/src`                                                                |
 | Active app assets                            | `13-voydex/public`                                                             |
-| Database schema and seeds                    | `00-databases/projects/voydex/schema` and `00-databases/projects/voydex/seeds` |
+| Database schema and seeds (current)          | `00-databases/projects/voydex/schema` and `00-databases/projects/voydex/seeds` |
 | Database architecture/table contract         | `00-databases/projects/voydex/docs`                                            |
 
 Do not duplicate full database table blueprints here. Summarize the app contract and link back to `00-databases` when table-level precision matters.
+
+The database source is planned to move into this repository under the accepted
+[database co-location ADR](./decisions/0002-colocate-database-source.md). The
+table above describes the current source of truth until that cutover is
+verified.
 
 ## Documents
 
@@ -33,7 +38,13 @@ Do not duplicate full database table blueprints here. Summarize the app contract
 
 - [Frontend Architecture](./app/architecture.md)
 - [Setup And Development](./app/setup.md)
+- [Verification](./app/verification.md)
 - [Design System](./app/design-system.md)
+
+### Architecture Decisions
+
+- [ADR 0001: Modular Monolith](./decisions/0001-modular-monolith.md)
+- [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
 
 ### Design
 
@@ -54,6 +65,8 @@ Voydex is a Pokémon companion app. It should help a user track, remember, and p
 
 The active product family is `mainline`, covering mainline-style Pokémon RPG playthroughs, including Legends-style RPG entries where the same play/team/Pokedex companion model still applies. The user-facing app workspace label for this experience is Mainline. Other product families such as `dungeon`, `pokopia`, `go`, `home`, `ranger`, and `sleep` are planned as future product areas with their own behavior. `Codex` is the shared reference browser module.
 
-The current implementation is a Next.js app connected to the separate Voydex
-Supabase database project. Mainline Plays and the public Codex are the mounted
-product surfaces; broader product documents also describe planned work.
+The current implementation is a Next.js app connected to the Voydex Supabase
+database project, whose source remains in the sibling database repository until
+the accepted relocation is complete. Mainline Plays and the public Codex are
+the mounted product surfaces; broader product documents also describe planned
+work.

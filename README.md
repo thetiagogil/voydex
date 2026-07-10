@@ -27,8 +27,17 @@ npm run dev
 ```
 
 ```bash
+npm run verify
+```
+
+Or run an individual gate while diagnosing a failure:
+
+```bash
 npm run format:check
 npm run lint
+npm run typecheck
+npm run architecture:check
+npm run test
 npm run build
 ```
 
@@ -38,12 +47,15 @@ npm run build
 - [Product Vision](./docs/product/vision.md)
 - [Frontend Architecture](./docs/app/architecture.md)
 - [Setup And Development](./docs/app/setup.md)
+- [Verification](./docs/app/verification.md)
 - [Database Integration](./docs/database/integration.md)
+- [Architecture Decision Records](./docs/decisions)
 - [Codex Handoff](./docs/codex-handoff.md)
 
 ## Database Source
 
-The active Voydex database source is in the separate database repository:
+The active Voydex database source is currently in the separate database
+repository:
 
 ```txt
 ../00-databases/projects/voydex
@@ -52,3 +64,8 @@ The active Voydex database source is in the separate database repository:
 This app consumes the generated database types and app-facing database contract.
 Schema and seed changes should be made in `00-databases`, then reflected here
 through `src/shared/types/database.types.ts` and feature code.
+
+Co-locating the active database source in this repository is an accepted future
+migration. Until that cutover is verified, the sibling repository remains
+authoritative. See
+[ADR 0002](./docs/decisions/0002-colocate-database-source.md).

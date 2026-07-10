@@ -287,6 +287,19 @@ The primary audit target is the schema/seed files, but local Supabase is useful 
 
 App work should treat `00-databases/projects/voydex` as the database source of truth and consume generated types from that project.
 
+### The Active Voydex Database Will Move Into The App Repository
+
+The active authored Voydex schema, seeds, indexes, migrations, local Supabase
+config, verification scripts, and database docs will be co-located in
+`13-voydex`. Legacy database trees, generated seed wrappers, temporary Supabase
+state, secrets, and unrelated multi-project tooling will not move.
+
+The relocation must follow a verified two-repository cutover. Until the import
+passes the full local database workflow, `00-databases/projects/voydex` remains
+the source of truth. See
+`docs/decisions/0002-colocate-database-source.md` for the tradeoffs and size
+policy.
+
 ### UUID Strategy Depends On New Project Postgres Version
 
 For a new Supabase project, use native UUIDv7 defaults if the project is on Postgres 18 or newer.
