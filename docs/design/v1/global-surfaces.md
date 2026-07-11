@@ -67,13 +67,17 @@ surfaces.
 
 ### Action Behavior
 
-**Status: Current behavior is provisional pending action-label review**
+**Status: Accepted working set; wording and visual hierarchy may be refined
+later**
 
-- The primary action enters Voydex. For a signed-out user it starts login; for
-  a signed-in user it follows the accepted last-active-module resolver.
-- A public Codex action lets visitors explore useful content without creating
+- `Enter the app` is the primary action. For a signed-out user it starts login;
+  for a signed-in user it follows the accepted last-active-module resolver.
+- `Browse Codex` lets visitors explore useful public content without creating
   an account.
-- A secondary learn-more action opens Intro.
+- `Learn more` opens Intro.
+- Retain these three choices for the current V1 design pass. Exact wording,
+  ordering, and presentation can be revisited when the complete Landing and
+  Intro flow is visually designed.
 - Actions must remain native links or buttons with visible labels and keyboard
   focus states.
 
@@ -128,8 +132,6 @@ reuse. The landing composition itself should not become a generic page template.
 
 ### Open Questions
 
-- What exact primary and secondary action labels best communicate entry,
-  public Codex access, and product explanation?
 - Should the landing expose a manual theme control, or only reflect the resolved
   app theme?
 
@@ -137,7 +139,8 @@ reuse. The landing composition itself should not become a generic page template.
 
 **Direction status:** Accepted
 
-**Detailed specification status:** Pending
+**Detailed specification status:** Content architecture accepted; visual
+composition pending
 
 ### Purpose
 
@@ -157,9 +160,56 @@ Landing can remain visually focused and instantly understandable.
 - Intro is not currently defined as a mandatory first-run gate. Any mandatory
   account setup must be justified separately by an actual user or data need.
 
+### Accepted User Outcome
+
+By the end of Intro, a visitor should understand:
+
+1. **What Voydex is:** a companion for tracking, remembering, and planning
+   Pokémon playthroughs.
+2. **What problem it solves:** adventures, teams, progress, and memories become
+   scattered or disappear inside old save files and disconnected notes.
+3. **How it helps:** track a Play, preserve meaningful history, plan future
+   adventures, and use reference context while making decisions.
+4. **How the app is organized:** Mainline is the private personal workspace;
+   Codex is the public encyclopedia and contextual starting point.
+5. **Where to begin:** enter the app for personal workflows or browse Codex
+   without an account.
+
+The fifth point is the missing conclusion after explaining value: Intro should
+leave the visitor ready to take one clear next action.
+
+### Accepted Narrative
+
+**Status: Accepted**
+
+Use one concise, scrollable story rather than a carousel or mandatory stepper:
+
+1. **Promise:** a compact hero stating what Voydex is and why it matters.
+2. **Problem and value:** old saves remember data poorly; Voydex preserves the
+   useful shape and personal story of a playthrough.
+3. **Track, remember, and plan:** three concise pillars with concrete examples,
+   not a complete feature list.
+4. **Mainline and Codex:** two connected areas, with clear private/public and
+   action-ownership differences.
+5. **The journey:** a lightweight visual loop from explore to plan, play,
+   record, remember, and begin again.
+6. **Choose a starting point:** finish with actions to enter Voydex or browse
+   Codex.
+
+Keep the page easy to scan in roughly one minute. Prefer short headings, one or
+two sentences per idea, useful icons or illustrations, and generous spacing.
+Avoid repeating the same value statement in multiple cards.
+
+### Content To Exclude
+
+- Future module roadmap or extensibility messaging.
+- Technical architecture and internal module details.
+- Exhaustive feature lists or database capabilities.
+- Detailed instructions for individual screens.
+- Forced account creation before public value is visible.
+- A slide-by-slide onboarding flow that hides the overall story.
+
 ### Open Questions
 
-- What must a visitor understand before choosing to enter Mainline or browse
-  Codex?
-- Should Intro be one scrollable story or a short sequence of focused steps?
-- Which actions should conclude Intro for signed-out and signed-in users?
+- Should the final entry actions adapt their labels for signed-out and signed-in
+  users while preserving the same destinations?

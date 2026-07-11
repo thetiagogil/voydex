@@ -1,0 +1,215 @@
+# V1 Shell And Navigation
+
+This document defines the accepted desktop information architecture and open
+mobile questions for Voydex's shared shell. It separates global product identity, module switching,
+module-local navigation, contextual workflow navigation, and account controls
+before visual styling is explored.
+
+## Current Status
+
+**Status: Desktop organization and centered content canvas accepted; mobile
+module-view treatment remains open**
+
+The existing top-bar shell and centered content canvas are the accepted
+foundation. V1 should refine their visual language, state clarity, and
+responsive behavior rather than replace their organization without a clear
+usability need.
+
+## Navigation Layers
+
+Voydex has four distinct navigation layers:
+
+1. **Product level:** Voydex identity and the general product entry resolver.
+2. **Module level:** switch between Mainline, Codex, and future available
+   modules.
+3. **Module-view level:** move between the active module's primary areas.
+4. **Contextual level:** navigate within a specific Play, Plan, Pokémon, game,
+   or focused workflow.
+
+Account, settings, authentication, and global utilities sit outside product
+modules. These layers should not be collapsed into one undifferentiated menu.
+
+## Accepted Shared Shell
+
+Use one persistent, responsive top app bar for normal app surfaces:
+
+- **Start:** Voydex mark and current-module switcher.
+- **Center on desktop:** primary views belonging to the active module.
+- **End:** account/authentication controls and only genuinely global utilities.
+
+The shell remains visually stable while module identity and module-view links
+change. Mainline and Codex may have subtle character through active states,
+icons, or accent treatment, but they should still feel like parts of one app.
+
+Place normal page content inside a centered canvas of approximately 1200–1280
+pixels at large viewports. Align navbar content with the same canvas. The scenic
+background remains visible in the side gutters and may appear subtly behind
+page context, preserving Voydex's sense of place without competing with
+operational content.
+
+The canvas is a maximum working width, not a requirement for every section to
+stretch fully. Reading content, forms, and focused dialogs may use narrower
+measures; tables, browse grids, and complex workspaces can use the available
+canvas.
+
+Landing is the intentional exception: its immersive scenic composition does
+not need the persistent app shell. Intro, Login, public Codex, and authenticated
+modules can use the shared shell appropriate to their access state.
+
+## Product Identity
+
+- The Voydex mark is always recognizable and returns to the general product
+  entry resolver.
+- It should not be overloaded as a direct Mainline or Codex shortcut.
+- Full wordmark visibility may adapt to available space, but the accessible
+  name remains Voydex.
+
+## Module Switcher
+
+- Always show the current module by name, not only by icon or color.
+- Open a focused list of modules with an icon, name, and concise purpose.
+- Selecting a module opens its stable default landing view and updates the last
+  active module.
+- Signed-out users can enter public modules. Protected modules remain visible
+  with a clear login requirement and preserve the intended destination through
+  authentication.
+- Do not show speculative future modules or `Coming soon` entries in V1.
+- The switcher must remain usable when the module list eventually grows beyond
+  two entries; the persistent bar should not become a row of every module.
+
+## Module-View Navigation
+
+Each module owns a short set of primary destinations:
+
+### Mainline
+
+- Dashboard.
+- Plays.
+- Plans.
+- Collection.
+- Stats.
+
+### Codex
+
+- Pokémon.
+- Games.
+
+Only implemented destinations should appear. Creating a Play, editing a team,
+or adding a Pokémon is a contextual action rather than a permanent top-level
+navigation item.
+
+## Contextual Navigation
+
+- A Play Hub owns navigation between Overview, Team, Progress, Plan, History,
+  and Settings.
+- Progress may expose Story, Pokédex, and Collectibles as deeper navigation
+  within the active Play.
+- A Plan, Pokémon, or game detail surface owns its own local context and back
+  path.
+- Contextual navigation belongs within the page/workspace, not in the global
+  app bar.
+- Breadcrumbs should appear only where hierarchy or return context is otherwise
+  ambiguous; they are not mandatory decoration on every page.
+
+## Accepted Desktop Organization
+
+Use one compact sticky app bar:
+
+- left: Voydex mark and module switcher;
+- center: active module's primary view links;
+- right: account or login and any proven global utilities.
+
+This keeps frequent destinations one click away without turning modules into
+separate applications. Page-level primary actions such as `Create Play` belong
+near the page title or relevant content, not in the persistent app bar.
+
+The shadcn navigation-menu module switcher is the accepted interaction pattern.
+Its visual styling may evolve, but the clean trigger, descriptive module list,
+and scalable dropdown behavior should remain.
+
+## Refinements, Not Structural Changes
+
+- Align the navbar and main content to the same responsive canvas and gutters.
+- Strengthen current module and active-view cues with shape, typography, icon,
+  or indicator changes rather than color alone.
+- Preserve readable module names and comfortable hit areas as labels or the
+  number of modules grow.
+- Tune the navbar surface, borders, shadow, and background interaction as part
+  of the selected visual direction.
+- Keep profile actions concise and reserve the right side for truly global
+  controls.
+- Verify overflow, keyboard behavior, focus, long labels, and signed-out or
+  locked-module states at realistic widths.
+- Do not add global actions simply to fill visual space.
+
+## Mobile Recommendation
+
+Use a compact top bar for Voydex identity, module switching, and account access.
+Keep module switching in a sheet or similarly focused overlay with module names,
+descriptions, access state, and view links.
+
+For everyday module-view navigation, explore a faster persistent treatment than
+requiring the full module sheet for every move. The strongest candidate is a
+module-aware bottom navigation bar:
+
+- Mainline can expose Dashboard, Plays, Plans, Collection, and Stats.
+- Codex can expose Pokémon and Games.
+- Changing modules changes the module-view destinations while the top switcher
+  makes that context explicit.
+- Deep Play, Plan, Pokémon, and game navigation remains inside the page and does
+  not replace the module-level bottom destinations.
+
+The alternative is a compact sticky row of module-view links below the top bar.
+It preserves a web-like navigation model but consumes more vertical space and
+may require horizontal scrolling. Both treatments should be compared during
+visual exploration with realistic labels and small-screen widths.
+
+## Global And Contextual Actions
+
+- Account profile, Settings, and Sign out belong in the account menu.
+- Theme controls belong in Settings or the account menu unless a later design
+  demonstrates a strong need for persistent access.
+- Search belongs to the module or surface whose scope it searches; do not label
+  a control global if results are only Codex or only Mainline.
+- Create, add, edit, filter, sort, and bulk actions belong to their relevant
+  page or workspace.
+- Notifications, help, or other utilities should not enter the persistent shell
+  until V1 defines real behavior for them.
+
+## Responsive And Accessibility Requirements
+
+- Current module, active module view, and active contextual section must each
+  have a non-color cue.
+- Navigation must remain operable by keyboard and assistive technology.
+- Mobile overlays need clear titles, focus containment, close behavior, and
+  scroll support.
+- Long labels and translated text must not collide with the logo or account
+  controls.
+- The shell must handle signed-out, signed-in, loading, expired-session, and
+  unavailable-module states without layout instability.
+- Page content should not be obscured by sticky top or bottom navigation,
+  including device safe areas.
+
+## Candidate Shared Components
+
+- Shared top app bar.
+- Module switcher trigger and module option.
+- Desktop module-view navigation.
+- Mobile module-view navigation.
+- Account/authentication menu.
+- Contextual workspace navigation.
+- Optional breadcrumb/back-context pattern.
+
+## Data And Database Impact
+
+- Last-active-module behavior is already recorded as requirement `DR-001`.
+- Module labels, descriptions, access requirements, and stable default routes
+  are application configuration in V1.
+- No new database gap is identified by this shell recommendation.
+
+## Questions For Review
+
+1. Should V1 explore module-aware bottom navigation on mobile, or keep all
+   module and view navigation inside the current top sheet?
+2. Should signed-out visitors see protected modules in the switcher with a
+   login label, or only see modules they can immediately enter?

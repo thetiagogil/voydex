@@ -67,8 +67,13 @@ Existing token groups:
 - App pages use the shared `AppShell`. Protected routes provide an authenticated
   account state; public Codex routes use `PublicAppShell` and can render for
   anonymous users.
-- The main app content should feel focused and readable, usually centered with a max width.
-- The background image can remain subtly visible around the edges and behind content.
+- Align the navbar and main app content to a centered responsive canvas of
+  roughly 1200–1280 pixels at large viewports.
+- Treat that canvas as a maximum working width rather than stretching every
+  section. Reading content and forms may be narrower; browse grids, tables, and
+  workspaces can use the available width.
+- Keep the background image visible in the side gutters and, where appropriate,
+  subtly behind page context so the app retains its scenic sense of place.
 - Avoid nested cards unless the inner card is a true repeated item or modal.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 

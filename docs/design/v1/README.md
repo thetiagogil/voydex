@@ -30,6 +30,9 @@ implemented during this phase unless the project direction explicitly changes.
   structure, journeys, screens, states, and candidate shared patterns.
 - [Global Surfaces](./global-surfaces.md): landing, entry, authentication, and
   other cross-module surface specifications as they are reviewed.
+- [Shell And Navigation](./shell-navigation.md): shared shell hierarchy,
+  module switching, module views, contextual navigation, and responsive
+  behavior.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

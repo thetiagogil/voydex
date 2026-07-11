@@ -97,8 +97,8 @@ Explore in Codex
 
 ## Navigation And Access Overview
 
-**Status: Accepted at the route-family level; detailed navigation behavior is
-open for review**
+**Status: Route families, desktop shell organization, and centered content
+canvas accepted; mobile navigation behavior remains open**
 
 - The Voydex logo returns to the product entry point.
 - A module switcher moves between Mainline and Codex.
@@ -124,8 +124,9 @@ canonical route contract.
 - **Open:** Should the last active module follow the account across devices, or
   is per-browser persistence sufficient?
 - **Open:** What content and actions should the signed-out product entry show?
-- **Open:** How should module switching and view navigation adapt between
-  desktop and mobile?
+- **Accepted:** Keep the current top-bar hierarchy on desktop and compare
+  module-aware bottom navigation with a sticky module-view row on mobile. See
+  [Shell And Navigation](./shell-navigation.md).
 - **Open:** Which actions belong in persistent navigation versus contextual
   menus?
 - **Open:** How should users understand the relationship between Plans, the
@@ -159,7 +160,7 @@ route when it does not need an independent URL.
 | ID   | Surface              | Role                                                              | Specification status                                             |
 | ---- | -------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
 | G-01 | Landing              | Atmospheric public product entry                                  | Direction accepted; [detail](./global-surfaces.md#g-01--landing) |
-| G-02 | Intro                | Dedicated product explanation and onboarding                      | Role accepted; [detail](./global-surfaces.md#g-02--intro)        |
+| G-02 | Intro                | Dedicated product explanation and onboarding                      | Content accepted; [detail](./global-surfaces.md#g-02--intro)     |
 | G-03 | Login                | Authentication and intent resumption                              | Pending                                                          |
 | G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending                                                          |
 | G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | Pending                                                          |

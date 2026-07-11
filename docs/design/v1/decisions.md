@@ -23,6 +23,8 @@ why the direction was selected or changed.
 | V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                              | Accepted |
 | V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                   | Accepted |
 | V1-D008 | 2026-07-11 | Keep Landing extremely concise and place product explanation and onboarding only on Intro                                | Accepted |
+| V1-D009 | 2026-07-11 | Structure Intro as one concise narrative that explains value, organization, journey, and next action                     | Accepted |
+| V1-D010 | 2026-07-11 | Preserve the centered content canvas and current desktop navbar organization as the V1 shell foundation                  | Accepted |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -142,3 +144,35 @@ beautiful"—followed by immediate comprehension and action.
 Intro is the distinct, opt-in surface for users who want to learn more. Product
 explanation and general onboarding belong on Intro rather than Landing. Intro is
 not a mandatory first-run gate unless a later workflow demonstrates that need.
+
+## V1-D009 — Intro Content Architecture
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+Intro should be a concise, scrollable narrative that explains the product
+promise, the problem Voydex solves, the track/remember/plan value pillars, the
+Mainline/Codex mental model, the recurring product journey, and the visitor's
+next entry choice.
+
+Keep it easy to scan in roughly one minute. Detailed visual hierarchy,
+composition, imagery, and responsive treatment will be designed later from this
+accepted content architecture rather than being improvised independently.
+
+## V1-D010 — Centered Canvas And Desktop Shell
+
+**Status:** Accepted
+
+**Date:** 2026-07-11
+
+Preserve the existing desktop shell organization: a centered content canvas of
+roughly 1200–1280 pixels with the scenic background visible in the side gutters,
+plus a top navbar containing the Voydex identity and shadcn navigation-menu
+module switcher on the left, active module view links in the center, and profile
+or authentication actions on the right.
+
+Visual styling may change, but the organization is the V1 foundation. Future
+work should improve alignment, active states, responsive behavior,
+accessibility, and surface polish rather than introducing a new desktop
+navigation structure without evidence of a usability problem.
