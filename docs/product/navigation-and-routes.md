@@ -14,6 +14,11 @@ Voydex uses module-aware navigation:
 - View links belong to the active module.
 - Account and global settings remain outside product modules.
 
+The module switcher shows every released and available module. Signed-out users
+still see protected modules, but those entries have a clear locked or login
+state and preserve the intended destination through authentication. Planned or
+unreleased modules do not appear as speculative `Coming soon` entries.
+
 Mainline is the playthrough workspace. Codex is the shared reference browser.
 Explicit URLs determine the rendered module, and authorization still happens at
 server boundaries. The general product entry follows this precedence:

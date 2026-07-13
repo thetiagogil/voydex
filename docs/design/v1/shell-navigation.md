@@ -1,14 +1,13 @@
 # V1 Shell And Navigation
 
-This document defines the accepted desktop information architecture and open
-mobile questions for Voydex's shared shell. It separates global product identity, module switching,
+This document defines the accepted responsive information architecture for
+Voydex's shared shell. It separates global product identity, module switching,
 module-local navigation, contextual workflow navigation, and account controls
 before visual styling is explored.
 
 ## Current Status
 
-**Status: Desktop organization and centered content canvas accepted; mobile
-module-view treatment remains open**
+**Status: Responsive shell organization accepted; visual styling remains open**
 
 The existing top-bar shell and centered content canvas are the accepted
 foundation. V1 should refine their visual language, state clarity, and
@@ -70,9 +69,9 @@ modules can use the shared shell appropriate to their access state.
 - Open a focused list of modules with an icon, name, and concise purpose.
 - Selecting a module opens its stable default landing view and updates the last
   active module.
-- Signed-out users can enter public modules. Protected modules remain visible
-  with a clear login requirement and preserve the intended destination through
-  authentication.
+- Signed-out users can enter public modules. Every released protected module
+  remains visible with a clear locked/login state and preserves the intended
+  destination through authentication.
 - Do not show speculative future modules or `Coming soon` entries in V1.
 - The switcher must remain usable when the module list eventually grows beyond
   two entries; the persistent bar should not become a row of every module.
@@ -142,27 +141,21 @@ and scalable dropdown behavior should remain.
   locked-module states at realistic widths.
 - Do not add global actions simply to fill visual space.
 
-## Mobile Recommendation
+## Accepted Mobile Organization
 
 Use a compact top bar for Voydex identity, module switching, and account access.
-Keep module switching in a sheet or similarly focused overlay with module names,
-descriptions, access state, and view links.
+Keep the current top-sheet navigation pattern as the V1 baseline, with module
+names, descriptions, access states, and the active module's view links organized
+inside the sheet.
 
-For everyday module-view navigation, explore a faster persistent treatment than
-requiring the full module sheet for every move. The strongest candidate is a
-module-aware bottom navigation bar:
+This preserves one predictable navigation model without permanently consuming
+mobile screen space or introducing a second dynamic navigation bar. A
+module-aware bottom bar or sticky module-view row may be compared during later
+visual exploration, but it should replace the accepted baseline only if the
+prototype demonstrates a meaningful usability improvement.
 
-- Mainline can expose Dashboard, Plays, Plans, Collection, and Stats.
-- Codex can expose Pokémon and Games.
-- Changing modules changes the module-view destinations while the top switcher
-  makes that context explicit.
-- Deep Play, Plan, Pokémon, and game navigation remains inside the page and does
-  not replace the module-level bottom destinations.
-
-The alternative is a compact sticky row of module-view links below the top bar.
-It preserves a web-like navigation model but consumes more vertical space and
-may require horizontal scrolling. Both treatments should be compared during
-visual exploration with realistic labels and small-screen widths.
+Deep Play, Plan, Pokémon, and game navigation remains inside the page rather
+than being promoted into the global mobile navigation.
 
 ## Global And Contextual Actions
 
@@ -206,10 +199,3 @@ visual exploration with realistic labels and small-screen widths.
 - Module labels, descriptions, access requirements, and stable default routes
   are application configuration in V1.
 - No new database gap is identified by this shell recommendation.
-
-## Questions For Review
-
-1. Should V1 explore module-aware bottom navigation on mobile, or keep all
-   module and view navigation inside the current top sheet?
-2. Should signed-out visitors see protected modules in the switcher with a
-   login label, or only see modules they can immediately enter?

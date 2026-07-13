@@ -97,11 +97,13 @@ Explore in Codex
 
 ## Navigation And Access Overview
 
-**Status: Route families, desktop shell organization, and centered content
-canvas accepted; mobile navigation behavior remains open**
+**Status: Route families, responsive shell organization, and centered content
+canvas accepted**
 
 - The Voydex logo returns to the product entry point.
 - A module switcher moves between Mainline and Codex.
+- Every released module remains visible in the switcher. Protected modules show
+  a clear locked/login state to signed-out users; unreleased modules stay hidden.
 - View navigation belongs to the active module.
 - Account and global settings remain outside product modules.
 - Codex browsing is public.
@@ -124,8 +126,8 @@ canonical route contract.
 - **Open:** Should the last active module follow the account across devices, or
   is per-browser persistence sufficient?
 - **Open:** What content and actions should the signed-out product entry show?
-- **Accepted:** Keep the current top-bar hierarchy on desktop and compare
-  module-aware bottom navigation with a sticky module-view row on mobile. See
+- **Accepted:** Keep the current top-bar hierarchy on desktop and the current
+  top-sheet navigation as the mobile V1 baseline. See
   [Shell And Navigation](./shell-navigation.md).
 - **Open:** Which actions belong in persistent navigation versus contextual
   menus?
@@ -167,26 +169,26 @@ route when it does not need an independent URL.
 
 ### Mainline Surfaces
 
-| ID   | Surface                   | Role                                                       | Specification status |
-| ---- | ------------------------- | ---------------------------------------------------------- | -------------------- |
-| M-01 | Dashboard                 | Authenticated home and next-action summary                 | Pending              |
-| M-02 | Plays                     | Browse and filter playthroughs                             | Pending              |
-| M-03 | Create Play               | Create or import a play with game context                  | Pending              |
-| M-04 | Play Overview             | High-signal summary of one play                            | Pending              |
-| M-05 | Play Team                 | Manage active, reserve, and historical Pokémon             | Pending              |
-| M-06 | Play Progress             | Summarize applicable progress tracks                       | Pending              |
-| M-07 | Story Progress            | Record milestones, decisions, and optional snapshots       | Pending              |
-| M-08 | Play Pokédex              | Record game-scoped Pokédex progress                        | Pending              |
-| M-09 | Play Collectibles         | Record game-scoped collectible progress                    | Pending              |
-| M-10 | Play Plan                 | Work with the one focused linked Team Plan                 | Pending              |
-| M-11 | Play History              | Review and record meaningful timeline events               | Pending              |
-| M-12 | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | Pending              |
-| M-13 | Plans Hub                 | Browse Team Plans and game intentions                      | Pending              |
-| M-14 | Create Plan               | Create a game-scoped Team Plan                             | Pending              |
-| M-15 | Plan Detail               | Build targets and resolve planning conflicts               | Pending              |
-| M-16 | Collection                | Review personal Pokémon usage history                      | Pending              |
-| M-17 | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending              |
-| M-18 | Stats                     | Review derived patterns with supporting records            | Pending              |
+| ID   | Surface                   | Role                                                       | Specification status                                                             |
+| ---- | ------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| M-01 | Dashboard                 | Authenticated home and next-action summary                 | Pending                                                                          |
+| M-02 | Plays                     | Browse and filter playthroughs                             | Pending                                                                          |
+| M-03 | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)  |
+| M-04 | Play Overview             | High-signal summary of one play                            | Functional blueprint in progress; [detail](./mainline-play.md)                   |
+| M-05 | Play Team                 | Manage active, reserve, and historical Pokémon             | Functional blueprint in progress; [detail](./mainline-play.md#team-contract)     |
+| M-06 | Play Progress             | Summarize applicable progress tracks                       | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
+| M-07 | Story Progress            | Record milestones, decisions, and optional snapshots       | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
+| M-08 | Play Pokédex              | Record game-scoped Pokédex progress                        | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
+| M-09 | Play Collectibles         | Record game-scoped collectible progress                    | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
+| M-10 | Play Plan                 | Work with the one focused linked Team Plan                 | Functional blueprint in progress; [detail](./mainline-play.md#plan-contract)     |
+| M-11 | Play History              | Review and record meaningful timeline events               | Functional blueprint in progress; [detail](./mainline-play.md#history-contract)  |
+| M-12 | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | Functional blueprint in progress; [detail](./mainline-play.md#settings-contract) |
+| M-13 | Plans Hub                 | Browse Team Plans and game intentions                      | Pending                                                                          |
+| M-14 | Create Plan               | Create a game-scoped Team Plan                             | Pending                                                                          |
+| M-15 | Plan Detail               | Build targets and resolve planning conflicts               | Pending                                                                          |
+| M-16 | Collection                | Review personal Pokémon usage history                      | Pending                                                                          |
+| M-17 | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending                                                                          |
+| M-18 | Stats                     | Review derived patterns with supporting records            | Pending                                                                          |
 
 ### Codex Surfaces
 

@@ -33,6 +33,8 @@ implemented during this phase unless the project direction explicitly changes.
 - [Shell And Navigation](./shell-navigation.md): shared shell hierarchy,
   module switching, module views, contextual navigation, and responsive
   behavior.
+- [Mainline Play](./mainline-play.md): functional Play and Play Hub blueprint,
+  area responsibilities, summary outputs, states, and open questions.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

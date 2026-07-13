@@ -78,6 +78,18 @@ Plays should support:
 
 Play names should be required in stored data. If the user does not provide one, the app should generate a clear default name during create flow.
 
+Create Play should use two progressively disclosed steps:
+
+1. Play details: game, generated or edited name, and current lifecycle status.
+2. Completion goal: a concise game-aware recommendation that can be accepted
+   directly or customized using only applicable completion settings.
+
+The completion step may configure optional content, contributing Pokedex
+scopes, optional entries such as Mythical Pokemon, and Collectibles. Exact team
+members, story position, Pokedex species progress, collectible progress, and
+history belong inside the created Play rather than in the creation flow. The
+completion definition remains editable in Play Settings.
+
 Play-specific settings should control optional completion behavior:
 
 - Whether Pokedex tracking is enabled for the play.
@@ -92,6 +104,25 @@ Story progress is part of the base play. Completion percentages should be derive
 ### Play Hub
 
 The Play Hub is the central workspace for a play.
+
+The Play Header owns an adaptive, Play-wide Next Step action region. On desktop
+it sits to the right of cover art and Play identity; on smaller screens it
+stacks within the same header before the tabs. Do not repeat it as a separate
+Overview banner. It shows one primary action and no more than two secondary
+actions based on lifecycle and recorded data. An imported playing or paused
+Play begins with `Add current team`, then promotes Story position and configured
+progress as earlier actions are completed. Once enough baseline context exists,
+the region evolves into a normal Play-wide action or compact utilities. Actions
+specific to one Hub area remain inside that area.
+
+The Play Header center keeps a stable hierarchy: Play name; lifecycle and game;
+available region and generation context; conditional trainer, date, and
+playtime facts; then a concise completion goal/state and defining challenge
+rules. Do not show empty metadata placeholders. Completion may show zero for a
+genuinely new Play, but an imported Play with uninitialized progress must show
+`Progress not recorded` instead of a misleading percentage. Team counts,
+detailed Pokedex counts, general tags, notes, and platform remain in Overview or
+their owning detail and Settings surfaces.
 
 It should summarize:
 
@@ -114,10 +145,36 @@ Current Overview direction:
 - The tab card is the main Play Hub workspace.
 - Overview should show Journey Status, Current Team, Progress Summary, and
   Recent History.
+- A linked Team Plan appears as compact context inside Current Team rather than
+  as a permanent fifth Overview card. Omit that context when no Plan is linked.
+- Overview remains read-first. Section actions route to or invoke the canonical
+  owning workflow rather than implementing a second editor.
+- Journey Status shows the current or furthest known Story milestone and the
+  next applicable objective when relevant. Numeric Story completion remains in
+  Progress Summary rather than being repeated in both sections.
+- Current Team always preserves one fixed six-slot layout. Occupied,
+  confirmed-empty, and not-recorded slots use identical component geometry and
+  explicit accessible state labels; only their portrait and text content
+  change.
+- Current Team shows the active lineup only, with a compact positive reserve
+  count and linked-Plan comparison when available. It does not use an
+  Active/Reserve toggle. Recorded members open their Play-owned Team experience
+  rather than navigating directly to generic reference detail.
 - Team Health belongs in the Team tab until the app has a real analysis model.
-- Progress Summary should only render applicable progress tracks. For each
-  track, show the progress bar and `completed / total`; do not show a visible
-  percent label.
+- Progress Summary uses only the stable Story, Pokédex, and Collectibles groups.
+  Story is always present; Pokédex and Collectibles render only when applicable
+  and enabled. Each group shows a progress bar and visible normalized
+  percentage, while named child tracks and native counts remain in Progress.
+- Normalize each child track from its native units, average contributing child
+  tracks equally within a group, and average enabled goal groups equally for
+  the Play-wide completion result. Tracked-only groups do not affect overall
+  completion, and unknown required progress is never treated as zero.
+- Recent History shows only the latest three to five meaningful events. Routine
+  Pokédex or Collectible updates, corrections, settings changes, and technical
+  audit entries do not create preview noise.
+- Recent History preserves effective or manual ordering and explicitly labels
+  approximate or unknown dates. An imported Play with no Voydex history must
+  not imply that nothing happened in the original save.
 - Overview previews should summarize real workflows and mature tabs. Do not add
   placeholder cards just to fill space.
 

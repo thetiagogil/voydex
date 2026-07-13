@@ -83,23 +83,55 @@ The Play Hub top section should be contextual page information, not a Card. It
 can sit directly on the scenic background so the user can focus on the tabbed
 workspace below.
 
+Use one coherent Play Header above the tabs. At large viewports, place game
+cover art on the left, Play identity and high-value context in the center, and
+an adaptive Play-wide action region on the right. The action region holds one
+primary Next Step and at most two lower-emphasis alternatives; utility links do
+not compete with it. At smaller viewports, stack that action region within the
+same header before the tabs. Do not create a second setup banner in the Overview
+workspace.
+
+Keep the center information hierarchy consistent: title, game/lifecycle
+metadata, meaningful personal or time facts, then compact completion and
+challenge context. Omit unknown optional facts rather than showing placeholder
+labels. Do not repeat Team and detailed Pokedex summaries here; those belong to
+Overview and their owning workflows.
+
 The main Play Hub workspace should be one Card containing tabs. The current tab
-set is Overview, Team, Progress, Plans, History, and Settings. Only build rich
+set is Overview, Team, Progress, Plan, History, and Settings. Only build rich
 tab content when the underlying workflow is ready.
 
 Overview should stay high-signal and avoid filler:
 
 - Left column: Journey Status and Recent History.
 - Right column: Current Team and Progress Summary.
+- Show linked-Plan context compactly inside Current Team when present; do not
+  add a permanent fifth Plan card or a large empty state when absent.
+- Keep Journey Status qualitative: current or furthest Story position and the
+  next applicable objective. Numeric Story completion belongs in Progress
+  Summary and should not be duplicated with a second path-progress visual.
+- Keep all six Current Team slots identical in dimensions and internal layout
+  across occupied, confirmed-empty, and not-recorded states. Use the shared icon
+  system plus explicit labels for placeholders; never resize or collapse a slot
+  because no Pokémon portrait is available.
+- Show the active lineup only in Overview. Reserve is a compact positive count,
+  not a second roster or Active/Reserve toggle; linked-Plan context remains a
+  short row beneath the slots when present.
 - Do not add Team Health to Overview until the Team tab has a real analysis
   model.
+- Keep Recent History to three to five concise meaningful events with one route
+  into History. Label approximate or unknown dates explicitly and use compact,
+  distinct empty language for new versus imported Plays.
 - Do not add extra right-column cards just to fill vertical space.
 - Overview cards should use the shared detail section card pattern and avoid
   feature-local card styling.
 
-Progress Summary should show applicable tracks only. Hide tracks with no
-positive total for the play, show a progress bar plus `completed / total`, and
-avoid visible percentage labels.
+Progress Summary should preserve stable Story, Pokédex, and Collectibles rows.
+Story is always present; omit optional groups when they are disabled or do not
+apply to the game. Each visible group uses one progress bar and visible rounded
+normalized percentage, with compact `Tracked only`, `Not recorded`, or
+`Partially recorded` context when needed. Keep named child tracks and native
+counts in Progress rather than expanding the Overview card.
 
 ## Home Page Hero Direction
 

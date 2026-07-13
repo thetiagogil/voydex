@@ -150,6 +150,7 @@ Plans Hub
 -> resolve availability and reuse warnings
 -> Plan Detail
 -> Create Play
+-> confirm Play details and completion goal
 -> Play created with an empty current roster and linked plan
 ```
 
@@ -221,6 +222,10 @@ recommendations remain follow-up ideas rather than V1 requirements.
   may live in an action menu or focused handoff surface.
 
 ## Design Sequence
+
+Before visual exploration, define the Play Hub functionally and derive the Play
+summary contracts needed by Dashboard and Plays Browse. This is an information
+architecture step, not detailed Play Hub visual design.
 
 1. Shared application shell and responsive module navigation.
 2. Mainline Dashboard, Plays, and Create Play.

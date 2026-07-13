@@ -59,6 +59,8 @@ Accepted direction:
   than constraints.
 - Keep Codex publicly browsable.
 - Let authenticated users start a Plan or Play from Codex Game Detail.
+- Create Plays through concise details followed by a game-aware completion goal
+  with optional progressive customization.
 - Let authenticated users add a Pokémon from Codex to a compatible Plan or
   Play, with Mainline owning destination selection, validation, and mutation.
 - Preserve the chosen Codex context and intended action through login.
