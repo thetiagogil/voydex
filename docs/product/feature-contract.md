@@ -746,6 +746,33 @@ the group's tracking mode, and recorded progress.
 
 Team plans are separate from plays.
 
+The V1 standalone Plans family has three responsibilities:
+
+- Plans Hub contains two obvious URL-backed sibling views: Team Plans, the
+  default reusable-plan library, and Game List, the independent game-intent
+  library. Each keeps its own controls and results rather than mixing records
+  into one feed.
+- Create Plan collects only game, editable suggested name, applicable optional
+  content, and source context supplied by Codex or a Play. It creates a Draft
+  and opens Plan Detail rather than asking the user to build a team in a modal.
+- Plan Detail owns reusable target authoring, setup, checks, lifecycle, Play
+  usage, and Create Play from Plan. The Play Plan tab remains the separate
+  contextual comparison and relationship surface for one linked Play.
+
+Plans Hub summarizes game identity, lifecycle, all six stable Primary target
+positions, Primary and Alternate counts, relevant optional-content or
+organization context, updated time, and linked-Play count. Archived Plans are
+excluded from current work by default but remain readable through explicit
+status filtering. Normal results open Plan Detail and do not expose inline
+member editing, delete, lifecycle mutation, adherence, or Team scoring.
+
+Game List records one explicit intent and optional note per game. It supports
+Want to Play, Planned, Playing, Completed, and Skipped; game search; status and
+generation filtering; and recent-update, name, generation, or status sorting.
+Rows show game identity, intent, note preview, updated time, and quiet Plan/Play
+counts for navigation. They may start canonical Create Plan or Create Play
+flows without changing intent automatically.
+
 Plans should support:
 
 - Planning a team before a play exists.
@@ -756,6 +783,20 @@ Plans should support:
 - Keeping the plan as a persistent reference after a play is created.
 
 Creating a play from a plan should not auto-fill the active team. The play starts with an empty current team, and the user can add planned Pokémon into the play when they are actually obtained.
+
+Creating a Play from a Plan keeps the game and source Plan visible in the
+accepted Create Play flow. The Plan's optional-content scope prefills the
+Play's enabled content; the normal game-aware Completion Goal recommendation
+then decides how that content participates unless the user customizes it.
+Attached Plan Rules are copied as the Play's initial Rules. Plan Tags remain
+Plan organization and are not copied. These values become independently
+Play-owned after creation: later Plan edits do not silently synchronize into
+the Play, and later Play Settings edits do not rewrite the Plan.
+
+The Play, its initial settings, copied content and Rule links, focused Plan
+link, and initial member-relationship rows are created atomically. The Plan
+remains reusable, and the actual Active and Reserve Team positions remain
+empty. A failed operation must leave no partial Play or Plan link.
 
 Plan member statuses:
 
@@ -821,6 +862,33 @@ Reusable Plan edits disclose cross-Play impact when applicable. Completed and
 abandoned Plays use past-tense comparison language and do not expose a
 present-tense add action unless the Team workflow supports recording a
 remembered member.
+
+Standalone Plan Detail uses six fixed Primary rows and up to six Alternates.
+Each member may own an exact target, preferred start, role, nature, ability,
+item, four ordered moves, and notes. Empty Primary rows are intentional open
+capacity rather than unknown data. Add, edit, move, swap, move between groups,
+and remove actions are atomic and provide a keyboard alternative to drag and
+drop. Reusable edits disclose every linked Play that may be affected but never
+change an actual Team member.
+
+Plan checks warn about game/content availability, invalid persistent forms,
+directed evolution-path conflicts, reuse policy, and supported Rules. They do
+not produce a completion percentage or overall score and do not block creative
+planning unless the underlying identity or ownership is invalid. Plan notes,
+optional content, Rules, and Tags remain separate editable responsibilities.
+
+Draft means the Plan is being explored; Active means the user keeps it as a
+current or reusable Plan. Both are editable and may create a Play. Archived
+Plans remain readable with existing Play links intact but require explicit
+reactivation before editing or creating new links. Deleting a Plan is a guarded
+separate action: it never deletes linked Plays, actual Team members, Progress,
+or History, and must fail without partial detachment if those consequences
+cannot be preserved safely.
+
+Standalone Plan Detail lists every linked Play with a concise comparison
+summary and routes to that Play's Plan tab. `Link to existing Play` offers only
+owner-scoped Plays with the exact game/version and no other focused Plan.
+Linking changes no Team member and infers no member relationship.
 
 ### Pokedex Search
 
@@ -1010,6 +1078,14 @@ Users should be able to track game-level intent:
 This is separate from a play. A user may want to play a game before creating a concrete playthrough.
 
 Creating or completing a play can suggest updates to backlog/wishlist status, but the game intent row remains independent user intent rather than a strict mirror of play status.
+
+Game List lives as the second clear view inside Mainline Plans Hub. `Add game`
+defaults to Want to Play and lets the user confirm another intent and optional
+note. Codex Game Detail uses the same confirmation with the game prefilled.
+Creating a Plan, starting a Play, or completing a Play may offer an explicit
+intent update, but never changes the row silently. Removing the row deletes
+only that independent intent and note, not any Plan, Play, Team, Progress, or
+History data.
 
 ### Pokémon Biography
 

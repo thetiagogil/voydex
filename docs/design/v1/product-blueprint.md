@@ -10,13 +10,13 @@ which screen families still need detailed specification.
 screen-family review in progress**
 
 The high-level app review is complete enough to support depth-first functional
-work. Play creation, Overview, Team, Progress and its focused trackers, Play
-Plan, History, and Settings now have accepted functional direction or detailed
-contracts. Status transitions use lightweight date-aware behavior, and normal
-Reopen preserves recorded completion-date knowledge. This completes the
-inside-out V1 Play contract; Plays Browse and Dashboard can now be derived from
-it before visual composition is tested across the whole flow. Final responsive
-layouts and production UI remain deliberately deferred until those functional
+work. The complete Play family, Plays Browse, Dashboard, and standalone Plans
+family now have accepted functional direction or detailed contracts. Status
+transitions use lightweight date-aware behavior, normal Reopen preserves
+recorded completion-date knowledge, and reusable Plan authoring remains
+separate from Play-specific comparison. Collection, Stats, Codex refinement,
+and remaining global surfaces are the next functional batches. Final
+responsive layouts and production UI remain deliberately deferred until those
 contracts form one coherent system.
 
 ## Product Overview
@@ -141,8 +141,10 @@ canonical route contract.
   [Shell And Navigation](./shell-navigation.md).
 - **Open:** Which actions belong in persistent navigation versus contextual
   menus?
-- **Open:** How should users understand the relationship between Plans, the
-  Game List, and Plays from the Mainline navigation?
+- **Accepted:** Plays is the library of actual runs. Plans Hub contains two
+  clear sibling views: Team Plans for reusable intended teams and Game List for
+  independent lightweight game intent. Neither is inferred from or silently
+  synchronized with Plays. See [Mainline Plans](./mainline-plans.md).
 
 ## Primary Journeys
 
@@ -194,9 +196,9 @@ route when it does not need an independent URL.
 | M-10  | Play Plan                 | Work with the one focused linked Team Plan                 | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#plan-contract)                                  |
 | M-11  | Play History              | Review and record meaningful timeline events               | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#history-contract)                               |
 | M-12  | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#settings-contract)                               |
-| M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | Pending                                                                                                                                  |
-| M-14  | Create Plan               | Create a game-scoped Team Plan                             | Pending                                                                                                                                  |
-| M-15  | Plan Detail               | Build targets and resolve planning conflicts               | Pending                                                                                                                                  |
+| M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-13--plans-hub)                                |
+| M-14  | Create Plan               | Create a game-scoped Team Plan                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-14--create-plan)                              |
+| M-15  | Plan Detail               | Build targets and resolve planning conflicts               | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-15--standalone-plan-detail)                   |
 | M-16  | Collection                | Review personal Pokémon usage history                      | Pending                                                                                                                                  |
 | M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending                                                                                                                                  |
 | M-18  | Stats                     | Review derived patterns with supporting records            | Pending                                                                                                                                  |

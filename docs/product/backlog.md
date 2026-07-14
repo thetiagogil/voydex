@@ -192,6 +192,42 @@ This requires future reference data such as:
 
 The database should not block this future direction, but the initial clean schema does not need full encounter/location seed coverage.
 
+## Plan Duplication, Templates, Variants, And Idea Boards
+
+A later planning version may support:
+
+- duplicating a Plan as an independent starting point;
+- reusable Plan templates across compatible games or version groups;
+- named lineup variants beyond the V1 Primary and Alternate groups;
+- an unlimited Pokémon idea board before targets are promoted into one of the
+  twelve intentional Plan positions;
+- explicit comparison between two standalone Plans.
+
+V1 keeps one reusable game-scoped Plan with six Primary targets and six
+Alternates. One Play still has only one focused linked Plan, and editing an
+actual Team never rewrites that Plan. Reconsider duplication and templates when
+users repeatedly rebuild similar lineups; reconsider variants or an idea board
+when the twelve-position contract proves too restrictive for genuine planning
+rather than ordinary collection or browsing.
+
+Any later copy operation must create independent ownership, preserve exact
+game/form/content compatibility, disclose which Rules and Tags are copied, and
+never create or duplicate a Play relationship implicitly.
+
+## Plans Read Optimization
+
+A later database pass may add a dedicated Plan-library projection, materialized
+summary, or cache that precomposes six Primary target previews, Alternate
+counts, optional-content labels, Rules, Tags, linked-Play usage, and derived
+meaningful update time, plus optional Game List Plan/Play navigation counts.
+
+V1 should first compose those facts from the existing owner-scoped Plan summary
+and detail sources and measure realistic libraries. The absence of one
+convenience row is not a correctness gap. Reconsider this only when query plans
+or production evidence show unacceptable latency or load. Any later projection
+must remain derived, preserve RLS and Archive behavior, and never become the
+source of Plan targets, organization, lifecycle, or Play links.
+
 ## Optional Pokedex Expansion
 
 Regional Pokedexes are the baseline. National and special Pokedexes are supported optional scopes when seeded.

@@ -41,6 +41,9 @@ implemented during this phase unless the project direction explicitly changes.
 - [Mainline Dashboard](./mainline-dashboard.md): provisional play-led Mainline
   home hierarchy, continuation focus, recent summaries, and explicit content
   boundaries.
+- [Mainline Plans](./mainline-plans.md): accepted Team Plans and Game List Hub,
+  concise contextual creation, reusable Plan authoring, lifecycle, and
+  Play-linking contracts.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

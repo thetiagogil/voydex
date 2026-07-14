@@ -100,6 +100,19 @@ Dashboard no-Play, only-archived, partial-data, isolated-section failure,
 complete failure, and stale-focus recovery states are accepted. The Dashboard
 V1 functional contract is complete and now awaits the three-direction visual
 checkpoint.
+The standalone Plans family is now functionally accepted as one batch. Plans
+Hub separates a searchable reusable-plan library with six Primary target
+previews and explicit Archived visibility from an independent Game List for
+Want to Play, Planned, Playing, Completed, or Skipped intent. Create Plan
+remains concise and context-aware,
+creating a Draft from game, name, applicable optional content, and optional
+Codex Pokémon or Play context before opening Plan Detail. Standalone Plan
+Detail owns reusable Primary/Alternate authoring, setup, checks, lifecycle,
+cross-Play usage, guarded deletion, and Create Play from Plan; Play Plan remains
+the separate per-Play comparison and relationship workspace. Creating a Play
+from a Plan carries visible initial scope and Rule defaults, keeps later Plan
+and Play settings independent, and never fills the actual Team. Exact visual
+composition for all three surfaces remains pending.
 
 Accepted direction:
 

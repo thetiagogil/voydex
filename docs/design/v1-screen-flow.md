@@ -21,6 +21,10 @@ implementation status remains canonical in [Project Status](../project-status.md
 - Visual exploration begins only after the product blueprint and detailed
   design requirements are coherent enough to give every direction the same
   content, actions, states, and responsive constraints.
+- The complete Play family, Plays Browse, Dashboard, and standalone Plans
+  family now have accepted functional contracts with visual validation pending.
+  Collection, Collection Pokémon Detail, Stats, Codex refinement, and remaining
+  global system surfaces still need functional review before that checkpoint.
 - At that point, generate exactly three distinct visual directions for the
   shared application shell and Mainline Dashboard, then wait for a direction
   to be selected before implementing or expanding screens.
@@ -157,6 +161,11 @@ Plans Hub
 The plan persists after play creation. Actual Pokémon are added when obtained
 and linked to pending planned targets until those targets are reached or
 skipped.
+Plan optional content prefills enabled Play scope, while Create Play's normal
+game-aware recommendation owns completion contribution defaults. Plan Rules
+become the Play's visible initial Rules, and Tags remain Plan-only. After
+creation, Plan and Play settings are independent and never synchronize
+silently.
 
 ### Record A Playthrough
 
@@ -233,7 +242,8 @@ architecture step, not detailed Play Hub visual design.
 4. Progress Summary, Story, and History.
 5. Play Pokédex and Collectibles.
 6. Play Plan and Play Settings.
-7. Plans Hub, Create Plan, and Plan Detail.
+7. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
+   visual validation pending.**
 8. Collection, Collection Pokémon Detail, and Stats.
 9. Codex browse/detail refinement and every Codex-to-Mainline handoff.
 10. Responsive and state coverage across the complete journey.

@@ -75,6 +75,8 @@ reference/filter context; they are not currently a required top-level view.
         /collectibles/[collectibleGroupSlug]
       /plan
   /plans
+    /new
+    /[planId]
   /collection
   /stats
 
@@ -90,6 +92,10 @@ reference/filter context; they are not currently a required top-level view.
 
 This is the accepted route family, not evidence that every route is mounted.
 Thin route adapters compose feature-owned page entry points.
+Plans Hub keeps Team Plans and Game List as URL-backed sibling views under
+`/mainline/plans`; the exact query or nested-route representation may follow the
+established routing pattern during implementation, but it must preserve the
+active view on navigation and return.
 
 ## Primary Entry Flows
 
@@ -118,6 +124,10 @@ Codex Game Detail -> Authenticate when needed -> Create Plan with game context
 ```
 
 Creating a play keeps the plan and starts with an empty current roster.
+Create Plan may also resume with game and Pokémon/form context from Codex or
+with a fixed game and owning Play context from a Play that has no linked Plan.
+Standalone Plan Detail owns reusable authoring; a linked Play's Plan route owns
+that Play's comparison and relationship actions.
 
 ### Use Codex Context
 

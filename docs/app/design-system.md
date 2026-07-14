@@ -413,6 +413,52 @@ narrow screens, stack target, relationship, actual result, and action in that
 order instead of horizontally scrolling the list. Reordering must always have
 a non-drag keyboard path.
 
+## Mainline Standalone Plans Direction
+
+Treat Plans Hub, Create Plan, and Plan Detail as one visual family, while
+preserving their different jobs. Hub is a reusable-plan library, Create is a
+short contextual beginning, and Detail is the target-authoring workspace. Do
+not make all three look like the same dense form.
+
+Plans Hub should feel related to Plays Browse through game cover treatment,
+search/filter rhythm, explicit Archive visibility, and single-destination
+results. Give Team Plans and Game List one obvious compact local switch because
+they are sibling kinds of future intent with different controls and rows; do
+not merge them into one feed. On narrow screens the switch may adapt, but
+neither view should become hidden in an overflow menu.
+
+Each Plan summary preserves six equal Primary target positions in slot order.
+Open positions are intentional Plan capacity and need an add/open target
+treatment, not Team's unknown question mark. Alternates remain a count on the
+summary. Game List rows instead emphasize cover, explicit intent status, note,
+and quiet Plan/Play context. Avoid inline Plan editing, scores, completion
+bars, and rows of secondary actions.
+
+Create Plan uses one focused form with game, editable suggested name, and only
+applicable optional content. Context from Codex or a Play appears as retained
+source information, not as a growing set of generic selectors. A prefilled
+Pokémon target should be visually confirmable without turning the form into a
+six-member builder. Success moves into Plan Detail for real authoring.
+
+Standalone Plan Detail gives the Primary target list the strongest visual
+weight. Use six equal full-width rows, with existing Alternates below in the
+same row language and a compact empty Alternate state. Occupied rows keep
+target identity, preferred start, role, concise setup cues, warnings, and one
+clear action in stable regions. Member editing belongs in the shared focused
+Plan-member sheet; do not add Team's persistent selected-Pokémon panel.
+
+Keep actionable Plan checks near the target list and repeat concise non-color
+cues on affected rows. Notes, optional content, Rules, Tags, and Used in Plays
+are supporting sections. They should remain clearly separated and scannable
+without competing with target authoring. Used in Plays uses compact linked-Play
+rows and routes to each Play's Plan comparison; it is not another embedded
+Team or comparison table.
+
+On narrow screens, preserve the same target order and stack identity, setup,
+warning, and action. Keep lifecycle and the primary Create Play action visible
+without expanding every secondary action. Use the shared page Spinner for
+initial reads, localized pending feedback for mutations, and no Skeletons.
+
 ## Mainline Play History Tab Direction
 
 Use one full-width journey timeline with a compact toolbar for search,

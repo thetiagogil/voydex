@@ -1997,3 +1997,98 @@ being resolved, select the next eligible Play or use the appropriate empty
 state. Loading remains the separate accepted Spinner state. This completes the
 Dashboard's V1 functional contract and reuses DR-030 without creating another
 database gap.
+
+## V1-D078 — Batch The Standalone Plans Family Before Visual Validation
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Define Plans Hub, Create Plan, and standalone Plan Detail together at the
+functional level, using the accepted reusable-Plan, Play comparison, Team
+ownership, and Codex handoff contracts. Do not pause the design pass for every
+local layout choice when realistic UI is the better way to form a preference.
+
+The batch still fixes purpose, hierarchy, actions, state ownership,
+responsiveness, failure behavior, and data needs. Exact result shape, section
+placement, density, and control treatment remain visual hypotheses for the
+coherent Mainline draft. This keeps the later visuals grounded in one complete
+workflow without treating an untested composition as final.
+
+## V1-D079 — Plans Hub Separates Team Plans From Game List
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Make Plans Hub the single Mainline destination for future-game intent, with two
+obvious URL-backed sibling views that never merge their records: Team Plans is
+the default reusable-team library, while Game List is the lightweight backlog
+and wishlist. Each view owns its search, filters, sort, result count, action,
+empty state, and loading behavior.
+
+Team Plans is ordered by recent update by default. Search covers Plan name,
+game, and planned Pokémon; compact filters cover game or generation,
+Draft/Active/Archived lifecycle, Rules, and Tags. Draft and Active form the
+default current library, while Archived remains explicitly accessible and
+read-only.
+
+Every result preserves game identity, Plan name and lifecycle, six equal
+Primary target positions, Primary/Alternate counts, useful scope or
+organization context, update time, and linked-Play count. The whole result
+opens Plan Detail. Exclude inline member editing, lifecycle changes, delete,
+Create Play, adherence, completion, and Team scores so the Hub remains a
+scannable resumption surface rather than another Plan workspace.
+
+Game List records one explicit Want to Play, Planned, Playing, Completed, or
+Skipped state plus an optional note per game. Rows may route into Codex Game
+Detail, Create Plan, or Create Play, but Plans, Plays, and their lifecycle never
+rewrite game intent automatically. Contextual creation or completion may offer
+an explicit update suggestion. This resolves the Mainline relationship as:
+Plays record actual runs, Team Plans record intended teams, and Game List
+records lightweight game-level intent.
+
+## V1-D080 — Create Plan Is Concise And Context-Aware
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Create a Draft Plan from only game, an editable suggested name, applicable
+optional content, and source context supplied by Codex or an owning Play. A
+Pokémon source may atomically seed exact Primary slot 1; a Play source may
+atomically link the new Plan without touching its Team. Ordinary creation does
+not ask for the complete team, Alternates, metadata, Rules, Tags, moves, or
+actual roster members.
+
+Success opens Plan Detail, where full authoring belongs. Failure leaves no
+partial Plan, member, scope, or Play link and preserves entered values. This
+creates a fast beginning while retaining the game-aware scope necessary to
+validate planned identities truthfully.
+
+## V1-D081 — Standalone Plan Detail Owns Reusable Authoring
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Give standalone Plan Detail a header and lifecycle, actionable Plan checks, six
+fixed Primary rows, up to six Alternates, separate Notes/Optional
+Content/Rules/Tags setup, and a compact Used in Plays section. It owns target,
+preferred start, role, nature, ability, item, four ordered moves, notes,
+reordering, grouping, removal, lifecycle, and guarded delete. It does not show
+one Play's actual Pokémon beside every target or duplicate Play-specific
+relationship actions.
+
+Draft and Active remain editable and may create Plays. Archived is readable
+with existing links preserved but requires reactivation before edits or new
+links. Cross-Play edit disclosure is mandatory because reusable target changes
+may affect several comparisons; no reusable edit changes an actual Team.
+
+`Create Play from Plan` reuses the concise Create Play flow. Plan optional
+content prefills enabled Play content, while the normal game-aware Completion
+Goal recommendation owns contribution defaults. Plan Rules are copied as
+initial Play Rules, and Plan Tags remain Plan-only. The new Play owns those
+copied settings independently; later changes do not synchronize silently. The
+Play and focused link are created atomically, and Active/Reserve Team positions
+remain empty.
