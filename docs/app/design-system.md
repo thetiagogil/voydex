@@ -557,6 +557,38 @@ wide screens with labelled stacked rows on narrow screens. Test a compact
 in-page section navigator only if the complete realistic page proves difficult
 to scan; do not introduce stateful detail sub-tabs in V1.
 
+## Codex Games Direction
+
+Codex Games should reuse the information-rich Codex character while giving
+game cover art and named content scope more authority than a generic card
+directory. Games Browse uses equal cover-led cards in deterministic generation
+and release order. Keep Search, Generation, and Game style visible, move Region
+and Platform behind one secondary filter surface, and preserve every criterion
+in the URL. Target several desktop columns and two useful phone columns rather
+than near-viewport-width mobile covers.
+
+Game Detail leads with exact game identity and one primary `Start a Play`
+action. `Create a Plan` and `Add to Game List` remain visible supporting
+actions, while Browse Pokémon and named Pokédexes read as reference navigation.
+Follow identity with base and optional-content scopes, Pokédexes grouped under
+those scopes, truthful availability, and only explainable related releases.
+Avoid generic game-type paragraphs, false availability totals, and unrelated
+generation-neighbor cards.
+
+Game Pokédex gives its exact game and named Pokédex a real heading region. The
+named-Pokédex selector is a primary scope control, grouped by Base game and
+optional content, rather than a small utility menu. Keep Search and Type easy
+to reach. Use a semantic comparison table on wide screens and compact labelled
+species rows on narrow screens; never require horizontal scrolling to identify
+or open a Pokémon. Large Pokédexes use explicit `Load more`, and all initial
+loading uses the shared Spinner rather than Skeletons.
+
+Game-origin handoffs preserve the originating cover and exact game identity so
+the transition from public reference to personal Mainline work remains
+understandable. Focused confirmation may use a dialog on wide screens and a
+full-screen sheet on narrow screens, with equivalent ordering, cancellation,
+pending, validation, and focus behavior.
+
 ## Mainline Play History Tab Direction
 
 Use one full-width journey timeline with a compact toolbar for search,

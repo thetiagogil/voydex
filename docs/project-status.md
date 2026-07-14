@@ -50,9 +50,9 @@ The product overview, V1 scope, landing and intro direction, shared shell,
 navigation baseline, Play-creation direction, and detailed Play Overview, Team,
 Progress, and Plan information architecture have been reviewed in the
 [V1 Design Workspace](./design/v1/README.md). The current step is to continue
-the functional review through Codex Games, complete Codex-to-Mainline handoff
-flows, and the remaining global V1 surfaces while keeping the whole-screen
-inventory, shared patterns, and database-requirements matrix coherent. The
+the functional review through Login, Settings, and the remaining global V1
+surfaces while keeping the whole-screen inventory, shared patterns, and
+database-requirements matrix coherent. The
 Team interaction contract is
 accepted, as are the Progress Overview hierarchy and complete Story interaction
 contract; their visual composition still needs validation in the later visual
@@ -147,6 +147,22 @@ while linking to an older game context, so its mapping must be corrected during
 later frontend implementation. The reviewed reference data already supports
 the required game-aware correction, and no new database gap was added. Exact
 visual composition remains pending.
+The Codex Games family has now been reviewed against the live Games Browse,
+Game Detail, and Game Pokédex implementation on desktop and mobile. Games
+Browse keeps its strong cover-led generation catalogue while moving to
+URL-backed filters and compact two-column phone density. Game Detail becomes a
+reference-led bridge with `Start a Play` as the primary action, supporting
+Create Plan and Game List actions, content-scoped named Pokédexes, truthful
+availability, and only explainable related releases. Game Pokédex makes its
+exact game and named Pokédex prominent, includes already seeded DLC scopes,
+uses explicit `Load more`, and adapts the comparison table into compact mobile
+rows without horizontal identity navigation. Game-origin actions preserve
+their exact intent through authentication while Mainline owns every mutation.
+The current missing DLC Pokédexes and false largest-Pokédex availability total
+are application read-model issues; existing reference data supports the V1
+correction, so no new database gap was added. Contextual Draft Plan creation
+continues to use the existing atomic-creation gap. Exact visual composition
+remains pending.
 
 Accepted direction:
 

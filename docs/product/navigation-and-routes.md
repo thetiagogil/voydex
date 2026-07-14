@@ -104,6 +104,21 @@ uses the exact active context in
 `/codex/pokemon/[gameSlug]/[speciesSlug]`. Back or an explicit return to Browse
 restores criteria, result position, scroll, and useful focus.
 
+Games Browse keeps Search, Generation, Game style, Region, and Platform in
+validated URL state under `/codex/games`. Opening an exact game uses
+`/codex/games/[gameSlug]`; returning restores criteria, scroll, and useful
+focus. The catalogue keeps deterministic generation and release ordering
+rather than adding a V1 Sort route state.
+
+Game Pokédex uses
+`/codex/games/[gameSlug]/pokedexes/[pokedexSlug]` as the complete public scope.
+The selected named Pokédex is route identity, not a hidden filter. Search,
+Type, optional Sort, and loaded-result position use validated URL state.
+Switching between a game's Base or optional-content Pokédexes preserves valid
+criteria and resets only invalid position state. Returning to Game Detail or
+opening exact-game Pokémon Detail preserves the useful origin for navigation
+and focus recovery.
+
 When no exact game appears in a Pokémon route or validated Browse URL, resolve
 Codex Game Context from the last exact game selected in the current Codex
 browser session, then fall back to a deterministic latest supported seeded V1
@@ -147,13 +162,21 @@ that Play's comparison and relationship actions.
 ### Use Codex Context
 
 ```txt
-Codex Game Detail -> Start Play or Start Plan -> Mainline create flow
+Codex Game Detail -> Start Play, Create Plan, or Add to Game List
+  -> Mainline-owned flow
 Codex Pokémon Detail -> Use in Mainline -> Mainline handoff
 ```
 
 These actions require authentication. If login is needed, the selected game,
 Pokémon, form, content scope, and intended action must survive the redirect so
 the user can resume the flow.
+
+Game Detail uses `Start a Play` as the primary action. It resumes Create Play
+with fixed game context and ends at the new Play Overview. `Create a Plan`
+resumes concise Draft creation and ends at Plan Detail. `Add to Game List`
+creates or edits the one existing game-intent row and may return to the same
+Game Detail with confirmation and a Game List link. Cancellation or recoverable
+failure returns to the exact source Detail without partial user data.
 
 `Use in Mainline` may continue to Add to an existing or new Plan, Add to an
 eligible Play, Check in a selected Play without writing, or View the species in

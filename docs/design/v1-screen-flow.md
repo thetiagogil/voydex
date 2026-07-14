@@ -10,8 +10,8 @@ implementation status remains canonical in [Project Status](../project-status.md
 
 - The next phase is product design, not frontend implementation.
 - The breadth-first product map is accepted. The current step is depth-first
-  functional review of Codex Games, complete cross-module handoffs, and the
-  remaining global surfaces in the [V1 Design Workspace](./v1/README.md).
+  functional review of Login, Settings, and remaining shared system states in
+  the [V1 Design Workspace](./v1/README.md).
 - No V1 visual direction has been selected yet.
 - The existing implementation and images under `docs/design/mainline-play` may
   be inspected for useful ideas, but they are not constraints and may be
@@ -22,10 +22,10 @@ implementation status remains canonical in [Project Status](../project-status.md
   design requirements are coherent enough to give every direction the same
   content, actions, states, and responsive constraints.
 - The complete Play family, Plays Browse, Dashboard, standalone Plans,
-  Collection, Collection Pokémon Detail, Stats, Codex Pokémon Browse, and Codex
-  Pokémon Detail now have accepted functional contracts with visual validation
-  pending. Codex Games, complete handoff destination flows, and remaining global
-  system surfaces still need functional review before that checkpoint.
+  Collection, Collection Pokémon Detail, Stats, Codex Pokémon, Codex Games, and
+  Game-origin handoffs now have accepted functional contracts with visual
+  validation pending. Login, Settings, and remaining global system surfaces
+  still need functional review before that checkpoint.
 - At that point, generate exactly three distinct visual directions for the
   shared application shell and Mainline Dashboard, then wait for a direction
   to be selected before implementing or expanding screens.
@@ -115,7 +115,7 @@ is most useful now.
 
 ```txt
 Codex Game Detail
--> Start Play or Start Plan
+-> Start a Play or Create a Plan
 -> authenticate when needed
 -> Mainline create flow with the game preselected
 -> Play Hub or Plan Detail
@@ -203,7 +203,7 @@ to the records supporting them.
 | Codex origin   | Planned V1 action | Mainline destination                                                                      |
 | -------------- | ----------------- | ----------------------------------------------------------------------------------------- |
 | Game Detail    | Start Play        | Create Play with game context                                                             |
-| Game Detail    | Start Plan        | Create Plan with game context                                                             |
+| Game Detail    | Create a Plan     | Create Plan with game context                                                             |
 | Game Detail    | Add to Game List  | Plans Hub game-intent state                                                               |
 | Pokémon Detail | Use in Mainline   | Add to an existing or new Plan, add to an eligible Play, check a Play, or open Collection |
 
@@ -244,8 +244,8 @@ architecture step, not detailed Play Hub visual design.
 8. Collection, Collection Pokémon Detail, and Stats. **Functional contract
    accepted; visual validation pending.**
 9. Codex browse/detail refinement and every Codex-to-Mainline handoff.
-   **Pokémon Browse and Pokémon Detail functional contracts accepted; Games
-   and complete handoff destination flows remain.**
+   **Pokémon and Games functional contracts accepted; visual validation
+   pending.**
 10. Responsive and state coverage across the complete journey.
 
 The first visual exploration should cover the shared shell and Dashboard

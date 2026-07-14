@@ -106,6 +106,11 @@ why the direction was selected or changed.
 | V1-D088 | 2026-07-14 | Use a URL-backed species grid with explicit loading and compact responsive density for Pokémon Browse                     | Accepted   |
 | V1-D089 | 2026-07-14 | Keep Pokémon Detail reference-led, semantic, game-aware, and free of untrustworthy filler                                 | Accepted   |
 | V1-D090 | 2026-07-14 | Group Pokémon Detail cross-module actions under one Mainline-owned handoff                                                | Accepted   |
+| V1-D091 | 2026-07-14 | Use a URL-backed cover-led Games catalogue with deterministic order and compact responsive density                        | Accepted   |
+| V1-D092 | 2026-07-14 | Make Game Detail a reference-led bridge with one primary Start a Play action                                              | Accepted   |
+| V1-D093 | 2026-07-14 | Group named Pokédexes by base and optional content and expose only truthful availability                                  | Accepted   |
+| V1-D094 | 2026-07-14 | Make named Pokédex the prominent Game Pokédex scope and adapt comparison content by viewport                              | Accepted   |
+| V1-D095 | 2026-07-14 | Preserve exact game intent through Mainline-owned Play, Plan, and Game List handoffs                                      | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2275,3 +2280,82 @@ destinations, validates ownership and product rules, owns every mutation, and
 returns safely to the same Detail context on cancellation or failure. Codex
 remains a public reference source and never writes Plan, Play, Team, or
 Collection truth.
+
+## V1-D091 — Cover-Led Games Browse
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use one equal cover-led card per supported exact game, grouped in deterministic
+generation and release order. Keep Search, Generation, and Game style visible,
+place Region and Platform in `More filters`, and preserve criteria, scroll, and
+focus through URL-backed state and return behavior.
+
+The thirty-eight-game V1 catalogue needs no Sort, pagination, personal overlay,
+or inline Mainline action. Use several desktop columns and target two useful
+phone columns rather than making every cover a near-viewport-width mobile card.
+
+## V1-D092 — Game Detail Bridges Reference And Mainline
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Make exact game identity, structured facts, content scopes, named Pokédexes,
+exact-game Pokémon browsing, and trustworthy related releases the Game Detail
+reference hierarchy. `Start a Play` is the one primary action; `Create a Plan`
+and `Add to Game List` are supporting Mainline actions. Reference navigation
+remains visually and semantically distinct from personal mutations.
+
+Do not present generic game-type copy as a game-specific synopsis or fill the
+related section with games that merely share a generation or region. Richer
+editorial content and typed release relationships remain deferred.
+
+## V1-D093 — Content-Scoped Pokédexes And Availability
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Derive a game's applicable Pokédexes through Base and optional-content scopes,
+so seeded DLC Pokédexes remain visible even when they do not use the base
+version group. Group every named Pokédex under its owning content scope.
+
+Show `Available species` only as a distinct-species result from the resolved
+game/content availability model. Never relabel the largest listed Pokédex size
+as total game availability. Omit the aggregate when coverage is not trustworthy.
+
+## V1-D094 — Named-Pokédex-First Game Pokédex
+
+**Status:** Accepted; selector and responsive visual validation pending
+
+**Date:** 2026-07-14
+
+Give Game Pokédex an independent semantic heading and a prominent named-Pokédex
+selector grouped by Base and optional content. Keep the active Pokédex obvious
+without opening a menu and preserve valid URL-backed Search, Type, optional
+Sort, and loaded position when switching.
+
+Use a semantic comparison table on wide screens and compact labelled species
+rows or cards on narrow screens. Preserve exact-game identity and navigation
+without requiring horizontal scrolling merely to identify or open a species.
+Large Pokédexes use explicit `Load more` rather than rendering or preloading the
+complete result set automatically.
+
+## V1-D095 — Game-Origin Mainline Handoffs
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Preserve the exact game, intended action, and originating Detail route through
+authentication. `Start a Play` resumes concise Create Play and ends at Play
+Overview. `Create a Plan` resumes concise Draft creation and ends at Plan
+Detail. `Add to Game List` creates or edits the one independent game-intent row
+and may confirm in place with a link to Game List.
+
+Mainline owns source validation, authorization, duplicate prevention, pending
+and conflict behavior, atomic personal writes, and every success destination.
+Cancellation or failure returns safely to the exact Game Detail without a
+partial Play, Plan, optional-content selection, or duplicate Game List row.

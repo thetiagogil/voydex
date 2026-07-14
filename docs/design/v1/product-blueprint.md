@@ -15,10 +15,10 @@ Collection, Collection Pokémon Detail, Stats, Codex Pokémon Browse, and Codex
 Pokémon Detail now have accepted functional direction or detailed contracts.
 Pokémon reference facts are anchored to one explicit exact-game context, while
 Codex remains read-only and enters Mainline through one deliberate handoff.
-Codex Games, the complete handoff selection flows, and remaining global
-surfaces are the next functional batches. Final responsive layouts and
-production UI remain deliberately deferred until those contracts form one
-coherent system.
+Codex Games and the Game-origin handoffs now have accepted functional
+contracts. Login, Settings, and the remaining shared system states are the next
+functional batch. Final responsive layouts and production UI remain
+deliberately deferred until those contracts form one coherent system.
 
 ## Product Overview
 
@@ -149,16 +149,16 @@ canonical route contract.
 
 ## Primary Journeys
 
-| ID   | Journey                                                   | Current status   | Detailed specification |
-| ---- | --------------------------------------------------------- | ---------------- | ---------------------- |
-| J-01 | Enter or resume Mainline                                  | Accepted outline | Pending                |
-| J-02 | Start a Play from Codex Game Detail                       | Accepted outline | Pending                |
-| J-03 | Start a Plan from Codex Game Detail                       | Accepted outline | Pending                |
-| J-04 | Add a Pokémon from Codex to a Plan or Play                | Accepted outline | Pending                |
-| J-05 | Plan a team, then create a Play                           | Accepted outline | Pending                |
-| J-06 | Record a playthrough through Team, Progress, and History  | Accepted outline | Pending                |
-| J-07 | Review Collection or Stats and return to supporting Plays | Accepted outline | Pending                |
-| J-08 | Create a Play directly from Mainline                      | Accepted outline | Pending                |
+| ID   | Journey                                                   | Current status   | Detailed specification                              |
+| ---- | --------------------------------------------------------- | ---------------- | --------------------------------------------------- |
+| J-01 | Enter or resume Mainline                                  | Accepted outline | Pending                                             |
+| J-02 | Start a Play from Codex Game Detail                       | Accepted         | [Codex Games](./codex-games.md#start-a-play)        |
+| J-03 | Create a Plan from Codex Game Detail                      | Accepted         | [Codex Games](./codex-games.md#create-a-plan)       |
+| J-04 | Add a Pokémon from Codex to a Plan or Play                | Accepted         | [Codex Pokémon](./codex-pokemon.md#use-in-mainline) |
+| J-05 | Plan a team, then create a Play                           | Accepted outline | Pending                                             |
+| J-06 | Record a playthrough through Team, Progress, and History  | Accepted outline | Pending                                             |
+| J-07 | Review Collection or Stats and return to supporting Plays | Accepted outline | Pending                                             |
+| J-08 | Create a Play directly from Mainline                      | Accepted outline | Pending                                             |
 
 Each detailed journey should capture entry points, user decisions,
 authentication, validations, conflicts, success outcomes, cancellation, and
@@ -206,14 +206,14 @@ route when it does not need an independent URL.
 
 ### Codex Surfaces
 
-| ID   | Surface                   | Role                                                        | Specification status                                                                                          |
-| ---- | ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| C-01 | Pokémon Browse            | Search and filter game-aware Pokémon reference data         | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-01--pokémon-browse) |
-| C-02 | Pokémon Detail            | Inspect a Pokémon in a selected game context                | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-02--pokémon-detail) |
-| C-03 | Games Browse              | Discover supported games                                    | Pending                                                                                                       |
-| C-04 | Game Detail               | Inspect a game and initiate Mainline intents                | Pending                                                                                                       |
-| C-05 | Game Pokédex              | Browse one Pokédex within a game                            | Pending                                                                                                       |
-| C-06 | Codex-to-Mainline handoff | Select destinations, resolve conflicts, and confirm results | Pokémon intent defined; destination-selection and Game-origin flows pending                                   |
+| ID   | Surface                   | Role                                                        | Specification status                                                                                                                     |
+| ---- | ------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| C-01 | Pokémon Browse            | Search and filter game-aware Pokémon reference data         | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-01--pokémon-browse)                            |
+| C-02 | Pokémon Detail            | Inspect a Pokémon in a selected game context                | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-02--pokémon-detail)                            |
+| C-03 | Games Browse              | Discover supported games                                    | V1 functional contract accepted; visual validation pending; [detail](./codex-games.md#c-03--games-browse)                                |
+| C-04 | Game Detail               | Inspect a game and initiate Mainline intents                | V1 functional contract accepted; visual validation pending; [detail](./codex-games.md#c-04--game-detail)                                 |
+| C-05 | Game Pokédex              | Browse one Pokédex within a game                            | V1 functional contract accepted; visual validation pending; [detail](./codex-games.md#c-05--game-pokédex)                                |
+| C-06 | Codex-to-Mainline handoff | Select destinations, resolve conflicts, and confirm results | V1 Game and Pokémon intent contracts accepted; visual validation pending; [detail](./codex-games.md#c-06--game-origin-mainline-handoffs) |
 
 ## Screen Specification Template
 
@@ -254,13 +254,9 @@ states, responsive behavior, and consuming screens.
 
 The next functional batch should answer:
 
-1. How should Games Browse distinguish game identity, generation, platform or
-   release context, and Mainline readiness without becoming a timeline?
-2. Which reference sections and one primary action hierarchy belong on Game
-   Detail?
-3. How should Game Pokédex preserve its selected game and named Pokédex context
-   while reusing the accepted Pokémon catalogue grammar?
-4. What destination-selection, conflict, cancellation, pending, and success
-   surfaces complete every Game- and Pokémon-origin Mainline handoff?
-5. Which remaining Login, Settings, and shared system states must be accepted
-   before coherent visual exploration begins?
+1. How should Login explain and resume a protected destination or Codex action
+   without losing context?
+2. Which Profile, Preferences, Theme, and Account responsibilities belong in
+   Settings for V1?
+3. Which shared error, permission, expired-session, not-found, offline, and
+   success patterns must be accepted before coherent visual exploration begins?

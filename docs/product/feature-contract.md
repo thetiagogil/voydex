@@ -975,9 +975,56 @@ validation, optional content, plan/play state, warnings, and every mutation.
 Codex never writes Plan, Team, Play, or Collection truth directly. Cancellation
 and failure return to the same Detail context without partial user data.
 
-Game Detail separately supports starting a Play, starting a Plan, and adding
-the game to Game List. Its full V1 contract remains part of the next Codex
-Games review.
+### Games Browse, Game Detail, And Game Pokédex
+
+Codex Games is a public, cover-led catalogue of the exact traditional mainline
+and Legends-style games supported by Voydex. Games Browse keeps Search,
+Generation, and Game style visible, places Region and Platform in `More
+filters`, and preserves validated criteria in the URL. It uses one exact-game
+card with cover, name, release year, region, and a concise style cue, grouped in
+deterministic generation and release order. The thirty-eight-game V1 catalogue
+does not require Sort, pagination, personal overlays, or inline Mainline
+actions. It targets compact multi-column density on desktop and two useful
+phone columns where viewport and text scaling permit.
+
+Game Detail explains one exact game through structured identity, base and
+optional-content scopes, named Pokédexes, exact-game Pokémon browsing, and only
+trustworthy related releases. `Start a Play` is its clear primary action;
+`Create a Plan` and `Add to Game List` are supporting Mainline actions.
+Reference links remain distinct from personal mutations.
+
+Named Pokédexes are grouped under the base game or their owning optional
+content, so seeded DLC scopes are not lost merely because their Pokédex rows do
+not use the base version group. `Available species` is shown only when it is a
+distinct-species count from the resolved game/content availability model. It
+must never reuse the largest listed Pokédex size. Related releases require an
+explainable paired or otherwise reference-supported relationship; sharing only
+a generation or region is insufficient.
+
+Game Pokédex uses the canonical
+`/codex/games/[gameSlug]/pokedexes/[pokedexSlug]` route and makes the named
+Pokédex its prominent page scope. The selector groups Base game and applicable
+optional-content Pokédexes, keeps the active name obvious without opening a
+menu, and preserves valid URL-backed Search, Type, Sort, and loaded position
+when switching.
+
+Game Pokédex defaults to local Pokédex number and supports Search plus Type; an
+optional simple Sort may offer Name and National number. Wide screens use a
+semantic comparison table for local number, species, National number, types,
+abilities, and base stats. Narrow screens use compact labelled species rows or
+cards that keep identity and the exact-game Pokémon Detail destination visible
+without requiring horizontal scrolling. Large Pokédexes use explicit `Load
+more`, with full-result filtering, isolated retry, and no Skeletons.
+
+Game-origin Mainline actions preserve the exact game, intended action, and
+originating Detail route through authentication. `Start a Play` resumes the
+accepted Create Play flow with fixed game context and ends at Play Overview.
+`Create a Plan` resumes the concise Create Plan flow and ends at one new Draft
+Plan Detail. `Add to Game List` edits the existing entry when present or creates
+one focused status-and-note intent, then may remain on Game Detail with a link
+to Game List. Mainline owns authentication, validation, duplicate prevention,
+atomic personal writes, and every success destination; Codex owns no user-data
+mutation.
 
 ### Collection
 

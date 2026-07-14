@@ -65,6 +65,27 @@ authentication, eligible destinations, ownership, validation, warnings, and
 all Plan, Play, Team, or Collection mutations. A failed or cancelled handoff
 must leave reference and user-owned truth unchanged.
 
+## Codex Games
+
+Games Browse, Game Detail, and Game Pokédex are public read models over exact
+game, generation, version-group, region, platform, game-type, content-scope,
+Pokédex, membership, availability, species, form, type, ability, stat, and
+artwork facts owned by `reference`.
+
+Base and DLC Pokédex inclusion is derived through the selected game's
+applicable content scopes. A truthful available-species count is derived from
+resolved availability and never from the size of the largest Pokédex. Related
+releases appear only when current reference facts establish an explainable
+relationship; the app does not persist editorial guesses as relationship
+truth.
+
+Games and Game Pokédex URL criteria, selected named Pokédex, and loaded-result
+position are application state. They are not user-owned database truth. Codex
+may pass the exact game and an intended Start Play, Create Plan, or Add to Game
+List action. Mainline owns authentication, lifecycle and scope validation,
+atomic Play or Plan creation, the independent Game List row, and every personal
+mutation. A failed or cancelled handoff changes none of those records.
+
 ## Plays
 
 `mainline_play` is the database naming for the central gameplay entity in the active `mainline` module.

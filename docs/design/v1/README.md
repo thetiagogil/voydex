@@ -50,6 +50,9 @@ implemented during this phase unless the project direction explicitly changes.
 - [Codex Pokémon](./codex-pokemon.md): accepted exact-game Pokémon Browse and
   Pokémon Detail contracts, current implementation review, Mainline entry, and
   responsive state requirements.
+- [Codex Games](./codex-games.md): accepted Games Browse, Game Detail, Game
+  Pokédex, and Game-origin Mainline handoff contracts, including content-scope
+  and responsive requirements.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

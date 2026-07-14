@@ -327,6 +327,29 @@ Future work:
   detail-page use case becomes clear.
 - Improve Availability after structured encounter/location/source data exists.
 
+## Codex Game Follow-Ups
+
+The V1 Game surfaces stay concise and derive only relationships and summaries
+that current reference data can prove. Preserve these later improvements:
+
+- Author trustworthy game-specific synopses and feature summaries instead of
+  reusing generic game-type descriptions.
+- Add explicit typed release relationships for paired versions, remakes,
+  sequels, enhanced editions, and other lineages when those relationships need
+  to drive navigation or explanation.
+- Add richer content-scope timelines or guides only after Game Detail has a
+  clear user need beyond Pokédex and availability browsing.
+- Reconsider configurable Game Pokédex columns, stat sorting, a user-selected
+  table/card mode, virtualization, or a dedicated read projection only after
+  realistic large-Pokédex profiling.
+- Add personal Plan, Play, or Game List overlays to public game cards only if
+  users need that cross-module summary more than the current Mainline-owned
+  libraries.
+
+These improvements must not delay the V1 correction that composes already
+seeded DLC Pokédexes through game content scopes and replaces the false
+largest-Pokédex availability total with a truthful derived count or omission.
+
 ## Codex Action Follow-Ups
 
 The V1 Codex-to-Mainline actions are defined in the
