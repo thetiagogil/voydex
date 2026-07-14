@@ -9,9 +9,10 @@ implementation status remains canonical in [Project Status](../project-status.md
 ## Current Checkpoint
 
 - The next phase is product design, not frontend implementation.
-- The breadth-first product map is accepted. The current step is depth-first
-  functional review of Login, Settings, and remaining shared system states in
-  the [V1 Design Workspace](./v1/README.md).
+- The breadth-first map and depth-first V1 functional screen contracts are
+  accepted. The current step is exactly three visual directions for the shared
+  shell and Mainline Dashboard in the
+  [V1 Design Workspace](./v1/README.md).
 - No V1 visual direction has been selected yet.
 - The existing implementation and images under `docs/design/mainline-play` may
   be inspected for useful ideas, but they are not constraints and may be
@@ -22,13 +23,12 @@ implementation status remains canonical in [Project Status](../project-status.md
   design requirements are coherent enough to give every direction the same
   content, actions, states, and responsive constraints.
 - The complete Play family, Plays Browse, Dashboard, standalone Plans,
-  Collection, Collection Pokémon Detail, Stats, Codex Pokémon, Codex Games, and
-  Game-origin handoffs now have accepted functional contracts with visual
-  validation pending. Login, Settings, and remaining global system surfaces
-  still need functional review before that checkpoint.
-- At that point, generate exactly three distinct visual directions for the
-  shared application shell and Mainline Dashboard, then wait for a direction
-  to be selected before implementing or expanding screens.
+  Collection, Collection Pokémon Detail, Stats, Codex Pokémon, Codex Games,
+  cross-module handoffs, Login, Global Settings, and shared system states now
+  have accepted functional contracts with visual validation pending.
+- Generate exactly three distinct visual directions for the shared application
+  shell and Mainline Dashboard, show desktop and common phone behavior, then
+  wait for a direction to be selected before implementing or expanding screens.
 
 ## V1 Product Loop
 
@@ -57,6 +57,9 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
   action preserved.
 - After authentication, the app resumes the intended Mainline flow rather than
   dropping the user on a generic page.
+- Login shows the protected destination or Codex action that will resume,
+  rejects unsafe targets, supports recovery and expired-session states, and
+  never automatically replays a mutation.
 - Codex never bypasses Mainline validation for ownership, roster limits, reuse
   policies, availability, forms, DLC, optional content, or plan/play state.
 
@@ -246,7 +249,8 @@ architecture step, not detailed Play Hub visual design.
 9. Codex browse/detail refinement and every Codex-to-Mainline handoff.
    **Pokémon and Games functional contracts accepted; visual validation
    pending.**
-10. Responsive and state coverage across the complete journey.
+10. Login, Global Settings, and responsive shared-state coverage.
+    **Functional contracts accepted; visual validation pending.**
 
 The first visual exploration should cover the shared shell and Dashboard
 because they establish navigation, hierarchy, density, module identity, and
@@ -275,12 +279,14 @@ Use this after opening the repository on another computer:
 Continue the Voydex V1 product-design work. Read AGENTS.md,
 docs/project-status.md, docs/design/v1-screen-flow.md,
 docs/design/v1/README.md, docs/design/v1/product-blueprint.md,
-docs/design/v1/codex-pokemon.md, docs/design/v1/decisions.md,
+docs/design/v1/global-surfaces.md, docs/design/v1/codex-pokemon.md,
+docs/design/v1/codex-games.md, docs/design/v1/decisions.md,
 docs/design/v1/database-gaps.md,
 docs/app/design-system.md, docs/product/feature-contract.md, and
 docs/product/navigation-and-routes.md. Treat the existing implementation and
-legacy design images as optional references, not constraints. Continue the
-current blueprint review before visual exploration. Record design decisions and
-screen-derived database needs as they emerge. Do not implement UI or database
-changes during this design phase.
+legacy design images as optional references, not constraints. The functional
+review is complete. Generate exactly three visual directions for the shared
+shell and Mainline Dashboard using the same accepted content and realistic
+desktop/mobile states, then wait for one direction to be selected. Do not
+implement UI or database changes during this design phase.
 ```

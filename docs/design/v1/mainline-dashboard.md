@@ -48,7 +48,7 @@ latest-Play, compact-Play, or activity Skeletons. Section-level refreshes keep
 valid content in place and use a local pending Spinner or retry state without
 blocking the rest of the Dashboard.
 
-## Provisional Page Hierarchy
+## Accepted Page Hierarchy
 
 Use the shared centered application canvas and this working order:
 
@@ -211,7 +211,7 @@ section or data contract.
 
 ## Data And Database Impact
 
-Record the Dashboard read as DR-030. The provisional surface reuses the accepted
+Record the Dashboard read as DR-030. The accepted surface reuses the existing
 Play, Journey, Team-slot, Progress, History, lifecycle, Archive, and meaningful
 activity requirements already recorded for the Play Hub and Browse.
 

@@ -6,8 +6,7 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: Product promise, V1 family scope, and shared navigation accepted;
-screen-family review in progress**
+**Status: V1 functional screen contracts complete; visual exploration ready**
 
 The high-level app review is complete enough to support depth-first functional
 work. The complete Play family, Plays Browse, Dashboard, standalone Plans,
@@ -15,10 +14,12 @@ Collection, Collection Pokémon Detail, Stats, Codex Pokémon Browse, and Codex
 Pokémon Detail now have accepted functional direction or detailed contracts.
 Pokémon reference facts are anchored to one explicit exact-game context, while
 Codex remains read-only and enters Mainline through one deliberate handoff.
-Codex Games and the Game-origin handoffs now have accepted functional
-contracts. Login, Settings, and the remaining shared system states are the next
-functional batch. Final responsive layouts and production UI remain
-deliberately deferred until those contracts form one coherent system.
+Codex Games, the Game-origin handoffs, Login, Global Settings, and shared system
+states now have accepted functional contracts. The breadth-first and depth-
+first functional review is complete enough to begin exactly three visual
+directions for the shared shell and Mainline Dashboard. Production UI and
+database correction remain deliberately deferred until one direction is
+selected and expanded into a coherent responsive system.
 
 ## Product Overview
 
@@ -134,14 +135,15 @@ canonical route contract.
 
 ### Navigation Questions
 
-- **Open:** Should the last active module follow the account across devices, or
-  is per-browser persistence sufficient?
-- **Open:** What content and actions should the signed-out product entry show?
+- **Accepted:** V1 remembers the last active module per browser. Cross-device
+  persistence remains a later convenience.
+- **Accepted:** Signed-out product entry uses the concise Landing actions and
+  public Codex access defined in [Global Surfaces](./global-surfaces.md).
 - **Accepted:** Keep the current top-bar hierarchy on desktop and the current
   top-sheet navigation as the mobile V1 baseline. See
   [Shell And Navigation](./shell-navigation.md).
-- **Open:** Which actions belong in persistent navigation versus contextual
-  menus?
+- **Accepted:** Persistent navigation owns module and stable view movement;
+  task actions remain contextual to the owning surface or focused handoff.
 - **Accepted:** Plays is the library of actual runs. Plans Hub contains two
   clear sibling views: Team Plans for reusable intended teams and Game List for
   independent lightweight game intent. Neither is inferred from or silently
@@ -149,16 +151,16 @@ canonical route contract.
 
 ## Primary Journeys
 
-| ID   | Journey                                                   | Current status   | Detailed specification                              |
-| ---- | --------------------------------------------------------- | ---------------- | --------------------------------------------------- |
-| J-01 | Enter or resume Mainline                                  | Accepted outline | Pending                                             |
-| J-02 | Start a Play from Codex Game Detail                       | Accepted         | [Codex Games](./codex-games.md#start-a-play)        |
-| J-03 | Create a Plan from Codex Game Detail                      | Accepted         | [Codex Games](./codex-games.md#create-a-plan)       |
-| J-04 | Add a Pokémon from Codex to a Plan or Play                | Accepted         | [Codex Pokémon](./codex-pokemon.md#use-in-mainline) |
-| J-05 | Plan a team, then create a Play                           | Accepted outline | Pending                                             |
-| J-06 | Record a playthrough through Team, Progress, and History  | Accepted outline | Pending                                             |
-| J-07 | Review Collection or Stats and return to supporting Plays | Accepted outline | Pending                                             |
-| J-08 | Create a Play directly from Mainline                      | Accepted outline | Pending                                             |
+| ID   | Journey                                                   | Current status | Detailed specification                                                 |
+| ---- | --------------------------------------------------------- | -------------- | ---------------------------------------------------------------------- |
+| J-01 | Enter or resume Mainline                                  | Accepted       | [Global Surfaces](./global-surfaces.md#g-03--login-and-authentication) |
+| J-02 | Start a Play from Codex Game Detail                       | Accepted       | [Codex Games](./codex-games.md#start-a-play)                           |
+| J-03 | Create a Plan from Codex Game Detail                      | Accepted       | [Codex Games](./codex-games.md#create-a-plan)                          |
+| J-04 | Add a Pokémon from Codex to a Plan or Play                | Accepted       | [Codex Pokémon](./codex-pokemon.md#use-in-mainline)                    |
+| J-05 | Plan a team, then create a Play                           | Accepted       | [Mainline Plans](./mainline-plans.md#create-play-from-plan)            |
+| J-06 | Record a playthrough through Team, Progress, and History  | Accepted       | [Mainline Play](./mainline-play.md)                                    |
+| J-07 | Review Collection or Stats and return to supporting Plays | Accepted       | [Collection and Stats](./mainline-collection-stats.md)                 |
+| J-08 | Create a Play directly from Mainline                      | Accepted       | [Mainline Play](./mainline-play.md#existing-in-game-save-catch-up)     |
 
 Each detailed journey should capture entry points, user decisions,
 authentication, validations, conflicts, success outcomes, cancellation, and
@@ -172,13 +174,13 @@ route when it does not need an independent URL.
 
 ### Global Surfaces
 
-| ID   | Surface              | Role                                                              | Specification status                                             |
-| ---- | -------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
-| G-01 | Landing              | Atmospheric public product entry                                  | Direction accepted; [detail](./global-surfaces.md#g-01--landing) |
-| G-02 | Intro                | Dedicated product explanation and onboarding                      | Content accepted; [detail](./global-surfaces.md#g-02--intro)     |
-| G-03 | Login                | Authentication and intent resumption                              | Pending                                                          |
-| G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending                                                          |
-| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | V1 Spinner loading accepted; remaining shared states pending     |
+| ID   | Surface              | Role                                                              | Specification status                                                                                                      |
+| ---- | -------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| G-01 | Landing              | Atmospheric public product entry                                  | V1 functional contract accepted; visual validation pending; [detail](./global-surfaces.md#g-01--landing)                  |
+| G-02 | Intro                | Dedicated product explanation and onboarding                      | V1 functional contract accepted; visual validation pending; [detail](./global-surfaces.md#g-02--intro)                    |
+| G-03 | Login                | Authentication and intent resumption                              | V1 functional contract accepted; visual validation pending; [detail](./global-surfaces.md#g-03--login-and-authentication) |
+| G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | V1 functional contract accepted; visual validation pending; [detail](./global-surfaces.md#g-04--global-settings)          |
+| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | V1 functional contract accepted; visual validation pending; [detail](./global-surfaces.md#g-05--shared-system-states)     |
 
 ### Mainline Surfaces
 
@@ -250,13 +252,16 @@ Detailed screen-family documents should use this structure:
 The eventual component registry should record each accepted pattern, variants,
 states, responsive behavior, and consuming screens.
 
-## Current Review Questions
+## Visual Exploration Checkpoint
 
-The next functional batch should answer:
+The functional review is complete. The next design batch must:
 
-1. How should Login explain and resume a protected destination or Codex action
-   without losing context?
-2. Which Profile, Preferences, Theme, and Account responsibilities belong in
-   Settings for V1?
-3. Which shared error, permission, expired-session, not-found, offline, and
-   success patterns must be accepted before coherent visual exploration begins?
+1. generate exactly three distinct visual directions for the shared shell and
+   Mainline Dashboard using the same accepted content and realistic states;
+2. show each direction at desktop and common phone width rather than judging a
+   desktop-only hero frame;
+3. demonstrate how its hierarchy, surfaces, typography, density, scenic
+   character, and shared system-state grammar can scale to the accepted
+   Mainline and Codex families;
+4. wait for one direction to be selected before expanding or implementing the
+   remaining screens.

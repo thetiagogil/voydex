@@ -91,6 +91,64 @@ Existing token groups:
 - Avoid nested cards unless the inner card is a true repeated item or modal.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 
+## Global Authentication Direction
+
+Keep the current scenic, centered authentication composition, but simplify its
+shell to Voydex identity rather than an unrelated remembered module selector.
+Use a visible semantic heading for Log in, Sign up, Recover account, Check your
+email, or Choose a new password. The card remains focused and readable; it does
+not become an onboarding or account-profile form.
+
+When authentication interrupted a meaningful task, place one compact intent
+summary between the description and form. Identify the protected destination
+or exact Game/Pokémon Mainline action without turning the summary into a second
+hero. Provide one clear cancel/return path to the public origin.
+
+Keep persistent labels, useful autocomplete, an accessible password visibility
+control, and stable field geometry. Error states preserve Email, clear
+passwords, associate feedback with fields, and move focus deliberately.
+Pending state uses the localized Spinner already established by the button.
+The same single-column structure should fit common phone widths and short
+viewports without hiding the primary action.
+
+## Global Settings Direction
+
+Use one calm, readable vertical column for Profile, Preferences, Appearance,
+and Account. Four sections do not need local tabs, nested routes, or a side
+rail. Reuse the plain Page Header and semantic Card/surface grammar, but avoid a
+stack of visually identical boxes when a clear section heading and divider is
+enough.
+
+Profile and Pokémon Reuse preferences save independently and expose actions
+only while dirty. Appearance remains the compact System/Light/Dark segmented
+choice and applies immediately. Account separates read-only identity, password
+recovery, Sign out, and a consequence-led Danger zone. Destructive meaning
+comes from hierarchy and copy as well as color.
+
+Keep the same vertical order on mobile. Controls should not be compressed into
+horizontal tabs, and action rows must stack without reversing the meaning of
+primary, secondary, and destructive choices.
+
+## Shared System-State Direction
+
+Build one shared state grammar rather than separate decorative cards per
+feature. Initial loading keeps the shell and centers the shared labelled
+Spinner. Local pending and section errors preserve useful content. Empty,
+filtered empty, unrecorded, unavailable, permission, not-found, expired
+session, and service failure each use distinct language and recovery actions.
+
+Page errors use a real heading, concise explanation, Try again, and one
+owner-appropriate exit. Public Not Found favors Home and Codex; protected
+resource states return to the owning library without leaking inaccessible
+existence. Broad connection trouble uses a persistent banner below navigation
+with impact and retry, never a tooltip-only floating database icon.
+
+Keep status surfaces visually quiet enough to fit Voydex's scenic shell while
+remaining unmistakable. Use semantic foreground/background tokens, real text,
+visible focus, and non-color meaning. Do not add Skeletons, large error
+illustrations, or different layouts for every feature before the shared state
+geometry is validated.
+
 ## Mainline Dashboard Direction
 
 Treat Dashboard as a play-led resume surface rather than a generic analytics

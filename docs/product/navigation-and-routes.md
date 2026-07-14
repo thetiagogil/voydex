@@ -184,6 +184,31 @@ Collection. Create Plan is part of Add to Plan rather than a duplicate
 top-level action. Cancellation or failure returns to the same game-scoped
 Pokémon Detail context.
 
+### Authenticate Or Recover
+
+```txt
+Protected destination or Codex action
+-> /login with validated destination, intent, and public origin
+-> Log in or Create account
+-> email confirmation when required
+-> owning protected flow revalidates and resumes
+```
+
+`/login` owns Log in and Sign up modes plus focused recovery, Check Email, and
+new-password states. These may use validated query or callback state without
+adding separate top-level routes. A signed-in request to Login redirects to the
+validated destination or normal app entry.
+
+Login renders a human-readable intent preview but never trusts the preview as
+mutation authority. External, protocol-relative, expired, malformed, or
+unsupported continuation targets fall back safely. A cancelled interrupted
+action returns to its exact public origin when valid; direct Login returns Home.
+
+An expired session returns to Login with an explicit reason and validated read
+destination. It never automatically replays a mutation after reauthentication.
+Recovery links return through `/auth/callback` and continue to the focused
+new-password state or Settings Account after validation.
+
 Codex supplies reference context; Mainline selects the destination, validates
 ownership, roster capacity, reuse policy, availability, form validity,
 optional content, and plan/play state, then owns the mutation. Planned V1
@@ -211,6 +236,11 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Standalone Plans and their reusable authoring routes remain under the Plans
   module because they can exist independently; `/plays/[playId]/plan` is the
   linked Play's contextual comparison and relationship surface.
+- Global Settings remains one `/settings` route with Profile, Preferences,
+  Appearance, and Account sections. V1 does not add section routes or tabs.
+- Public not-found states keep the public shell. Protected resource-not-found
+  and permission states keep the authenticated shell and return to the nearest
+  owning library without exposing inaccessible resource existence.
 - Compatibility routes redirect rather than duplicate feature logic.
 - Protected destinations preserve a validated `next` path through login.
 - Route helpers and product contracts never imply implementation status.

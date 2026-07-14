@@ -50,10 +50,10 @@ The product overview, V1 scope, landing and intro direction, shared shell,
 navigation baseline, Play-creation direction, and detailed Play Overview, Team,
 Progress, and Plan information architecture have been reviewed in the
 [V1 Design Workspace](./design/v1/README.md). The current step is to continue
-the functional review through Login, Settings, and the remaining global V1
-surfaces while keeping the whole-screen inventory, shared patterns, and
-database-requirements matrix coherent. The
-Team interaction contract is
+with exactly three visual directions for the shared application shell and
+Mainline Dashboard using the same accepted content, realistic data, system
+states, and desktop/mobile constraints. The functional screen review is
+complete enough to pass this visual gate. The Team interaction contract is
 accepted, as are the Progress Overview hierarchy and complete Story interaction
 contract; their visual composition still needs validation in the later visual
 phase. The Pokédex interaction contract is accepted, including a provisional
@@ -78,7 +78,8 @@ current-form Active-Team sprite preview. Its two-level search, filter, and sort
 structure, Archive behavior, explicit loading, and context-preserving recovery
 states are also accepted. The complete Plays Browse V1 functional contract can
 now support the Dashboard derivation; exact visual composition remains pending.
-Dashboard review has started with a provisional play-led hierarchy. Dedicated
+The Dashboard functional contract is accepted with a play-led hierarchy.
+Dedicated
 quick-stat cards and a duplicated Quick Actions card are intentionally excluded
 so continuation, other recent Plays, and meaningful activity remain primary.
 The dominant summary uses the most recently updated non-archived Play with
@@ -163,6 +164,20 @@ are application read-model issues; existing reference data supports the V1
 correction, so no new database gap was added. Contextual Draft Plan creation
 continues to use the existing atomic-creation gap. Exact visual composition
 remains pending.
+The global Login, Settings, and shared system-state family is now functionally
+accepted. Login becomes an intent-aware global transition with visible mode
+identity, safe route/action resumption, focused recovery and confirmation
+states, preserved non-sensitive validation context, and explicit expired-
+session behavior. Global Settings remains one vertical Profile, Preferences,
+Appearance, and Account page: Display name, advisory warn/filter Pokémon reuse,
+browser-local theme, read-only Email, recovery, Sign out, and secure Delete
+account. Shared states use one labelled-Spinner, scoped-recovery grammar that
+distinguishes empty, partial, error, not-found, permission, expired session, and
+broad service loss without Skeletons. The current authenticated Settings view
+could not be visually captured from the anonymous audit session, so its exact
+composition remains unverified; the current implementation and schema were
+inspected instead. Secure account deletion is the one new confirmed backend gap
+from this batch because no reviewed owner-callable operation exists.
 
 Accepted direction:
 
@@ -172,6 +187,13 @@ Accepted direction:
   than constraints.
 - Keep Codex publicly browsable.
 - Let authenticated users start a Plan or Play from Codex Game Detail.
+- Make Login explain and safely resume the protected route or Codex action that
+  brought the user there; include recovery, confirmation, validation, and
+  expired-session states without replaying mutations.
+- Keep Global Settings as one vertical Profile, Preferences, Appearance, and
+  Account page with advisory reuse behavior and browser-local theme.
+- Use one shared responsive system-state grammar with labelled Spinners, scoped
+  retry, owner-appropriate exits, and no V1 Skeletons.
 - Create Plays through concise details followed by a game-aware completion goal
   with optional progressive customization.
 - Keep Team as a list-detail workspace over a fixed current roster and uncapped
@@ -252,10 +274,11 @@ Accepted direction:
 - Preserve every improvement excluded from V1 as a concrete backlog item with
   its intended outcome, deferral reason, and future reconsideration trigger.
 
-No V1 visual direction has been selected. After the blueprint and screen
-requirements are reviewed, the visual checkpoint is to produce exactly three
-directions for the shared application shell and Mainline Dashboard, then wait
-for one to be chosen before building UI.
+No V1 visual direction has been selected. The blueprint and functional screen
+requirements are now reviewed. The next checkpoint is to produce exactly three
+directions for the shared application shell and Mainline Dashboard at desktop
+and common phone width, then wait for one to be chosen before expanding or
+building UI.
 
 ## Known Gaps
 
@@ -270,12 +293,15 @@ for one to be chosen before building UI.
   built.
 - The V1 visual direction, responsive screen set, and state matrix have not yet
   been selected or designed.
+- Secure account deletion has no reviewed server-owned operation proving Auth
+  identity removal, dependent owner-data cascades, session invalidation, and
+  failure rollback without exposing administrative authority.
 - Team-derived requirements have exposed confirmed gaps in atomic roster
   placement, explicit known-empty versus not-recorded current slots, the
   distinction between selectable fixed forms and game-valid directed form
   transitions, current/past lifecycle support, and Plan-safe correction or
-  deletion. Remaining screen-derived requirements and the full reference-data
-  audit are still pending.
+  deletion. The consolidated design-derived database matrix and full
+  reference-data audit remain later phases after visual selection.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
 

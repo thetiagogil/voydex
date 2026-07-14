@@ -111,6 +111,13 @@ why the direction was selected or changed.
 | V1-D093 | 2026-07-14 | Group named Pokédexes by base and optional content and expose only truthful availability                                  | Accepted   |
 | V1-D094 | 2026-07-14 | Make named Pokédex the prominent Game Pokédex scope and adapt comparison content by viewport                              | Accepted   |
 | V1-D095 | 2026-07-14 | Preserve exact game intent through Mainline-owned Play, Plan, and Game List handoffs                                      | Accepted   |
+| V1-D096 | 2026-07-14 | Make Login an intent-aware global transition with safe resumption rather than a generic Mainline detour                   | Accepted   |
+| V1-D097 | 2026-07-14 | Complete V1 authentication with focused signup, recovery, confirmation, validation, and expired-session states            | Accepted   |
+| V1-D098 | 2026-07-14 | Keep Global Settings as one vertical Profile, Preferences, Appearance, and Account page                                   | Accepted   |
+| V1-D099 | 2026-07-14 | Make Pokémon reuse preferences advisory and keep theme browser-local in V1                                                | Accepted   |
+| V1-D100 | 2026-07-14 | Require one secure consequence-aware account-deletion workflow                                                            | Accepted   |
+| V1-D101 | 2026-07-14 | Use one responsive shared system-state grammar with labelled Spinners and scoped recovery                                 | Accepted   |
+| V1-D102 | 2026-07-14 | Mark the V1 functional contract review complete and begin exactly three visual directions                                 | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2359,3 +2366,120 @@ Mainline owns source validation, authorization, duplicate prevention, pending
 and conflict behavior, atomic personal writes, and every success destination.
 Cancellation or failure returns safely to the exact Game Detail without a
 partial Play, Plan, optional-content selection, or duplicate Game List row.
+
+## V1-D096 — Intent-Aware Login
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use Login as a focused global transition rather than a generic Mainline detour.
+When authentication interrupts a protected route or Codex action, show a
+compact human-readable summary of the exact destination or intent that will
+resume. Direct Login remains concise and follows the normal last-active-module
+resolver after success.
+
+Keep only Voydex identity in the focused Login shell rather than displaying an
+unrelated remembered module selector. Validate every internal continuation
+target, provide a safe cancel/return path, and revalidate the owning operation
+after authentication. Never perform or automatically replay a mutation from
+Login.
+
+## V1-D097 — Complete Focused Authentication States
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Keep Log in and Sign up as modes of one focused surface and add Recover account,
+Check Email, Choose a new password, and expired-session states. Sign up collects
+only Email, Password, and Confirm password; Profile, preferences, and onboarding
+remain outside account creation.
+
+Preserve Email and non-sensitive intent after recoverable errors, clear
+passwords, associate feedback with fields, translate provider errors, and move
+focus deliberately. Password recovery uses a neutral response that does not
+reveal account existence. A signed-in Login request redirects to its validated
+destination or normal app entry.
+
+## V1-D098 — One Vertical Global Settings Page
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Keep `/settings` as one authenticated, readable vertical page with Profile,
+Preferences, Appearance, and Account. Four sections do not justify V1 tabs,
+nested routes, or a permanent side rail. Each editable responsibility owns its
+save, pending, conflict, and error state.
+
+Profile edits only optional Display name. Appearance keeps System, Light, and
+Dark. Account owns read-only Email, password recovery, Sign out, and a separated
+Danger zone. Play- and Plan-specific metadata, completion, optional content,
+Rules, Tags, and lifecycle remain in their product owners.
+
+## V1-D099 — Advisory Reuse And Browser-Local Theme
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Separate Pokémon reuse scope—Off, same form, same species, or evolution
+family—from response—warn or hide/de-emphasize with a clear Show used override.
+Do not expose the stored block behavior in V1. A valid Pokémon choice must
+remain possible, and the preference never rewrites existing Teams, Plans, or
+Collection evidence.
+
+Keep System, Light, or Dark in current-browser storage so public and protected
+surfaces share one preference before authentication. Cross-device theme sync is
+a deferred convenience, not a V1 profile field.
+
+## V1-D100 — Secure Account Deletion
+
+**Status:** Accepted; backend verification required
+
+**Date:** 2026-07-14
+
+Include Delete account in the V1 Account danger zone because Voydex stores
+personal Plays, Plans, progress, and history. Require consequence disclosure,
+typed confirmation, recent authentication when necessary, one reviewed server-
+owned operation, and no partial success.
+
+The workflow removes the Auth identity and dependent owner-scoped data, clears
+the session, and returns to the public entry. The current cascades provide a
+foundation, but no reviewed owner-callable deletion operation exists; track it
+as a genuine V1 backend gap rather than deleting application rows from the
+client.
+
+## V1-D101 — Shared System-State Grammar
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use the smallest honest state: local pending/error, partial section, page state,
+then global service status. Keep the shell during initial loading and use one
+labelled Spinner; V1 uses no Skeletons. Preserve useful content during local
+work and failures.
+
+Distinguish empty, filtered empty, unrecorded, unavailable, error, not found,
+permission, expired session, disabled, and service failure. Use semantic
+headings, owner-appropriate recovery, deliberate focus, and non-color meaning.
+Broad connection trouble uses a persistent user-facing banner with impact and
+retry, not a tooltip-only floating database icon.
+
+## V1-D102 — Functional Review Complete
+
+**Status:** Accepted
+
+**Date:** 2026-07-14
+
+The V1 breadth-first map and depth-first functional screen contracts are
+complete enough to pass the visual exploration gate established by V1-D004.
+The next design batch generates exactly three distinct directions for the
+shared shell and Mainline Dashboard using the same accepted content, realistic
+data, system states, and desktop/mobile requirements.
+
+Wait for one direction to be selected before expanding it across the remaining
+screens or implementing production UI. Existing screens and legacy references
+remain grounding evidence, not designs to paste into the new directions.

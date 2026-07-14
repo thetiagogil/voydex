@@ -1135,15 +1135,97 @@ Generations remain useful reference context for filters, grouping, and future
 detail pages, but they are not the required path for creating or continuing
 plays.
 
-### Settings
+### Authentication And Resumption
 
-Settings should include:
+Login is a focused global transition with visible Log in, Sign up, Recover
+account, Check your email, or Choose a new password identity. Direct Login uses
+the normal last-active-module resolver. A user who is already authenticated is
+redirected to the validated destination or normal app entry rather than shown
+the form again.
 
-- Profile.
-- Preferences.
-- Account.
+When authentication interrupts a protected route or Codex action, Login shows
+a compact summary of what will resume. Preserve the exact internal destination,
+game, Pokémon/form, content scope, action branch, and public origin when they
+apply. Validate all continuation data, reject external or tampered targets, and
+revalidate the owning Mainline operation after authentication. Login never
+performs or automatically replays the mutation.
 
-Preferences should support global user behavior such as Pokémon reuse warnings/filtering. Play-specific completion choices such as DLC, Pokedex tracking, optional Pokedex scopes, and optional Pokedex entries are decided per play.
+Log in uses Email, Password, password visibility, recovery, and an alternate
+Create account action. Sign up uses Email, Password with visible requirements,
+Confirm password, and an alternate Log in action. Do not add Profile,
+preferences, game selection, or onboarding fields to account creation.
+
+Password recovery returns the same neutral Check Email response whether or not
+an account exists. Recovery links open a focused new-password mode and handle
+expired or reused links without losing a safe destination. When email
+confirmation is required after Sign up, show a clear Check Email state instead
+of redirecting into a protected loop.
+
+Recoverable errors preserve Email and non-sensitive intent, clear passwords,
+associate field errors, translate provider messages into stable user-facing
+copy, and move focus to the invalid field or summary. Pending state disables
+only the submitted action. An expired session explicitly asks the user to log
+in again, preserves safe read intent, and never silently replays a write.
+
+### Global Settings
+
+Global Settings is one authenticated `/settings` page outside product modules.
+Use one readable vertical sequence rather than V1 tabs or nested routes:
+Profile, Preferences, Appearance, and Account. Each editable responsibility
+owns its save and error state.
+
+Profile edits only the optional Display name in V1. Email is read-only Account
+identity, and the current initials presentation remains sufficient; avatar
+upload is deferred.
+
+Preferences supports Pokémon reuse through two explicit choices: what counts
+as reuse—Off, same form, same species, or evolution family—and how Voydex
+responds—warn, or hide/de-emphasize matches with a `Show used Pokémon`
+override. The global preference guides Mainline selectors and checks but never
+blocks a valid choice, rewrites existing data, or changes public Codex or
+Collection evidence. Do not expose the stored `block` value in V1.
+
+Appearance keeps System, Light, and Dark, applies immediately, and remains
+browser-local so public and authenticated surfaces share one resolved theme.
+It has no Save button and explicitly states that it is device/browser specific.
+
+Account shows read-only Email, password recovery, Sign out, and a separated
+Delete account danger action. Changing Email is not a V1 requirement. Account
+deletion requires recent-auth handling when necessary, a complete consequence
+summary, typed confirmation, one reviewed server-owned operation, and no
+partial success. It removes the Auth identity and dependent user-owned data,
+clears the session, and returns to the public entry.
+
+Play-specific completion choices, optional content, Pokédex and Collectible
+scope, Rules, Tags, lifecycle, and metadata remain inside the owning Play or
+Plan workflows rather than Global Settings.
+
+### Shared System States
+
+Use the smallest honest state: local pending/error for one operation,
+partial/unavailable state when the page remains useful, page state when the
+primary task cannot render, and global service status only when several
+surfaces are affected.
+
+Initial reads keep the shell and use one accessible page-level Spinner with a
+concise label. V1 uses no Skeletons. In-place work preserves content and uses a
+localized Spinner on the responsible control or section.
+
+True empty, filtered empty, unrecorded, unavailable, and zero are distinct.
+Filtered empty offers Clear filters. Partial failures retain identity,
+navigation, validated criteria, and unaffected sections with local retry.
+
+Page error uses a semantic heading, concise explanation, Try again, and one
+safe owner-appropriate destination. It does not expose provider, database, or
+stack details. Public Not Found routes to Home and Codex; protected resource
+states avoid leaking existence and route to the nearest owning library rather
+than always Mainline Plays.
+
+Permission, locked-module, expired-session, disabled, and service-unavailable
+states remain distinct. A broad connection problem uses a persistent
+user-facing status banner with impact and retry, not a small tooltip-only
+database icon. Success uses a toast, inline confirmation, or destination focus
+according to consequence and navigation.
 
 ## Personalization Features
 

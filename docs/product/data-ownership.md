@@ -45,6 +45,37 @@ These should be calculated through queries, views, or app services:
 
 Some derived values may be cached later for performance, but caching should not redefine the source of truth.
 
+## Authentication And Global Settings
+
+Supabase Auth owns account identity, email, password, confirmation, recovery,
+and authenticated session truth. `public.profiles` owns the optional Voydex
+Display name, while `public.user_preferences` owns global Pokémon reuse scope
+and warn/filter behavior.
+
+Validated authentication destination and action context are temporary
+application state. They are not a second user-owned workflow record and never
+authorize a Mainline mutation. The owning destination revalidates exact game,
+species/form, content, ownership, capacity, lifecycle, and stale state after
+authentication.
+
+The resolved System, Light, or Dark choice remains current-browser state in V1
+so public and protected surfaces share one preference before login. It is not a
+profile column or cross-device promise.
+
+Account deletion is an Auth-owned destructive workflow that must remove the
+Auth identity and allow reviewed foreign-key cascades to remove the profile and
+dependent owner-scoped data. A client must never delete application rows first
+or report success before Auth identity deletion succeeds. Sign out changes only
+the current session and must not delete user data.
+
+## Shared System States
+
+Loading, pending, empty, partial, error, not-found, permission, expired-session,
+service-status, and success presentation are application state. They do not
+create database truth. Health status is a transient observation from the
+existing health endpoint. Error references may be logged by infrastructure but
+must not become user-editable or expose private data.
+
 ## Codex Pokémon
 
 Pokémon Browse and Pokémon Detail are public read models over static

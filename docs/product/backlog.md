@@ -102,6 +102,46 @@ Any later Skeleton system should be shared, responsive, theme-aware, respectful
 of reduced-motion preferences, and visually faithful to the content it
 previews. It must never conceal an empty, partial, unavailable, or error state.
 
+## Global Account And Settings Follow-Ups
+
+V1 keeps authentication and Settings focused on email/password access,
+optional Display name, advisory Pokémon reuse, browser-local appearance,
+password recovery, Sign out, and secure account deletion. Preserve these later
+improvements:
+
+- avatar upload, crop, replacement, removal, and owned storage cleanup;
+- verified account-email change with reauthentication and safe recovery;
+- passkeys, social providers, multi-factor authentication, and active-session
+  management when the audience or threat model justifies them;
+- cross-device theme and last-active-module sync as explicit account
+  preferences;
+- user-requested personal-data export before account deletion;
+- richer account security history and recovery-code flows.
+
+Do not add these fields or workflows merely because `profiles.avatar_url` or an
+Auth provider can support them. Reconsider each when real account-management,
+support, device, or security needs appear. Secure deletion remains V1 and must
+not be deferred with these conveniences.
+
+The stored Pokémon reuse `block` value also remains outside the V1 interface.
+A later strict mode may expose it only if users deliberately request hard
+enforcement and every Team, Plan, import, correction, and historical workflow
+can explain and override conflicts safely. V1 warning and filter behavior must
+remain non-destructive.
+
+## Offline And Cached Read Experience
+
+A later version may keep selected recently viewed Plays or Codex reference data
+available during a connection outage. That requires an explicit freshness,
+privacy, invalidation, sign-out cleanup, and conflict model rather than treating
+the current service-health indicator as offline support.
+
+V1 uses honest loading, local retry, page error, and a persistent broad service-
+status banner. It does not promise cached reads or queued writes. Reconsider an
+offline read experience only when usage shows that unreliable connections
+regularly interrupt in-game companion tasks. Do not queue personal mutations
+until duplicate prevention and stale conflict handling are designed end to end.
+
 ## Team Score
 
 Explore a playful Team Score after the V1 Quick Team Analysis and full Team

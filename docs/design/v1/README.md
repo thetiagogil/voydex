@@ -4,6 +4,11 @@ This workspace organizes the complete V1 product-design pass before database
 correction or production frontend implementation resumes. It is a reviewable
 design record, not a replacement for the canonical product contracts.
 
+**Current checkpoint:** the breadth-first map and depth-first functional screen
+contracts are complete. Generate exactly three visual directions for the shared
+shell and Mainline Dashboard at desktop and common phone width, then wait for
+one direction to be selected before expanding or implementing screens.
+
 ## Working Principle
 
 Design breadth-first, then depth-first:
@@ -28,8 +33,9 @@ implemented during this phase unless the project direction explicitly changes.
 
 - [Product Blueprint](./product-blueprint.md): the review map for product
   structure, journeys, screens, states, and candidate shared patterns.
-- [Global Surfaces](./global-surfaces.md): landing, entry, authentication, and
-  other cross-module surface specifications as they are reviewed.
+- [Global Surfaces](./global-surfaces.md): accepted Landing, Intro, Login,
+  Global Settings, authentication resumption, and shared system-state
+  contracts.
 - [Shell And Navigation](./shell-navigation.md): shared shell hierarchy,
   module switching, module views, contextual navigation, and responsive
   behavior.
@@ -38,9 +44,9 @@ implemented during this phase unless the project direction explicitly changes.
 - [Mainline Plays Browse](./mainline-plays-browse.md): accepted functional
   adventure-library hierarchy, summary-row contract, filters, responsive and
   recovery behavior, and data needs derived from the Play Hub.
-- [Mainline Dashboard](./mainline-dashboard.md): provisional play-led Mainline
-  home hierarchy, continuation focus, recent summaries, and explicit content
-  boundaries.
+- [Mainline Dashboard](./mainline-dashboard.md): accepted play-led Mainline home
+  hierarchy, continuation focus, recent summaries, and explicit content
+  boundaries awaiting visual validation.
 - [Mainline Plans](./mainline-plans.md): accepted Team Plans and Game List Hub,
   concise contextual creation, reusable Plan authoring, lifecycle, and
   Play-linking contracts.
@@ -116,6 +122,8 @@ Review these artifacts in order:
 6. Shared-pattern candidates.
 7. Data-requirements coverage and open database questions.
 
-Visual exploration begins only after the structure is coherent enough that all
-three directions can use the same content, actions, realistic data, and
-responsive requirements.
+The functional structure is now coherent enough for all three visual directions
+to use the same content, actions, realistic data, and responsive requirements.
+The next checkpoint is exactly three shared-shell and Mainline Dashboard
+directions, followed by selection of one direction before screen expansion or
+production implementation.
