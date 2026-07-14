@@ -2,6 +2,96 @@
 
 These features are accepted product directions but are not immediate implementation targets.
 
+## Recording Contract
+
+Nothing leaves V1 by disappearing from the documentation. Every deferred
+product, design, application, reference-data, or database improvement must be
+preserved here before it is removed from current scope.
+
+Each entry records:
+
+- the capability or outcome being preserved;
+- why it is not required for V1;
+- the future product, administration, scale, or evidence trigger that should
+  cause it to be reconsidered;
+- any accepted V1 boundary that the later work must not accidentally change.
+
+Closely related improvements may share one entry, but every distinct preserved
+capability must still be named explicitly. Deferral changes priority, not the
+decision that the improvement is valuable.
+
+## Next Session Bookmark
+
+A later version may explore a lightweight temporary reminder about where the
+player stopped or what they intend to do next, such as `Train the team, then
+challenge the Gym`.
+
+This is not part of V1 Play Settings. It should return only after Overview or
+Journey Status proves a frequent read/write use that does not duplicate Story
+objectives, History memories, Play-wide next actions, or durable Play notes. It
+must not affect completion or automatically create History.
+
+## Reusable Rule And Tag Administration
+
+A later version may add global management for reusable custom Rules and Tags,
+including:
+
+- shared Rule rename and delete;
+- shared Tag rename and delete;
+- cross-Play, Plan, and Play-Pokémon usage summaries;
+- consequence previews before a shared change;
+- richer predefined-rule catalogue administration;
+- database-backed checkable-versus-recorded-only capability metadata;
+- generalized per-rule configuration schemas and database validation;
+- database-backed presentation ordering when application ordering no longer
+  scales;
+- convenience read projections for Rules, Tags, and their usage;
+- dedicated shared-definition mutation commands with stale-write protection.
+
+V1 keeps the existing reusable definitions and typed links. Play Settings may
+create, attach, configure, and detach local uses, while the shipped application
+catalogue identifies checkable predefined rules and treats custom rules as
+recorded only. Do not add generalized schema or convenience projections until
+shared administration or extensibility becomes a proven product need.
+
+Reconsider this group when users need to manage the same custom definitions
+across several Plays or Plans, when the predefined catalogue must be edited
+outside a normal deployment, or when application-owned capability and
+configuration contracts become difficult to maintain safely.
+
+## Team Score
+
+Explore a playful Team Score after the V1 Quick Team Analysis and full Team
+Analysis experience are implemented and validated. A later design may summarize
+defensive response and recorded move coverage, but V1 should first establish
+trustworthy inputs, partial-data behavior, and understandable analysis results.
+
+Do not freeze a formula or add score-specific persistence during the V1
+database pass. Any later score should remain explainable, distinguish data
+confidence from Team quality, and never affect Play completion, Collection, or
+progression.
+
+## Per-Edit History Recording
+
+A later version may add an optional `Record this change in History` control to
+eligible Pokémon edit flows. This would let the user preserve a personally
+meaningful update without turning every level, move, item, nickname, form, or
+roster edit into timeline noise.
+
+This later control would apply to otherwise routine edits and optional roster
+moments. It does not replace V1's named lifecycle actions: an actual evolution,
+persistent form change, replacement, retirement, or return already records its
+own coherent event, while correction remains event-free.
+
+Keep the control off by default and unavailable for correction-only edits. If
+enabled, it may collect an effective date and short note, preserve the relevant
+before-and-after identity, and save the update and event as one coherent result.
+The exact checkbox, switch, or confirmation treatment should be designed with
+the later edit form.
+
+V1 keeps routine Pokémon edits quiet and uses dedicated recorded lifecycle,
+Team-moment, and History flows instead.
+
 ## Shareable Recap
 
 Generate a shareable play recap from:

@@ -59,9 +59,26 @@ Archive is separate from play status so a play can keep its real lifecycle state
 
 ### Play Settings
 
-Play-specific choices for tracking and completion behavior.
+The low-frequency workspace for one Play's metadata, completion definition,
+tracking scope, rules, tags, notes, lifecycle, archive state, and destructive
+management.
 
-Examples include Pokedex tracking, Pokedex completion inclusion, collectible completion inclusion, optional Pokedex scopes, optional Pokedex entries, and selected optional content such as DLC.
+Its local sections are General, Completion & Tracking, Rules & Tags, and
+Play Status & Management. They are not additional Play Hub tabs. The owning
+game is read-only in V1, and durable Play notes belong inside General.
+
+Examples include Pokédex tracking, Pokédex completion inclusion, Collectible
+completion inclusion, optional Pokédex scopes, optional entries, and selected
+optional content such as DLC.
+
+### Next Session Note (Future)
+
+A proposed practical reminder about where the player stopped or what they want
+to do next.
+
+This is deferred beyond V1. It may return only if Overview or Journey Status
+becomes a useful frequent consumer without duplicating Story objectives,
+History memories, Play-wide next actions, or general Play notes.
 
 ### Play Hub
 
@@ -83,7 +100,11 @@ Plans can include optional content scope, such as DLC availability, before a pla
 
 One Pokémon target in a team plan.
 
-A planned member can be pending, linked, reached, or skipped.
+A planned member can persist as pending, linked, reached, or skipped. The Play
+Plan comparison presents those facts with clearer derived language such as
+`Not used yet`, `Not used`, `In progress`, `Reached`, `Diverged`, or `Skipped`.
+An actual Play Pokémon without an explicit planned-member relationship is
+`Off-plan`.
 
 When a plan is linked to a play, the member status belongs to that play/plan relationship.
 
@@ -153,15 +174,29 @@ Collectibles are tracked manually and do not automatically create timeline event
 
 User-facing play history for a play.
 
-Timeline entries should represent meaningful events such as story milestones, team changes, evolutions, Hall of Fame/final team, and manual journal notes.
+Timeline entries represent deliberately preserved moments such as important
+story milestones, Team lifecycle changes, evolutions, Hall of Fame/final Team,
+major achievements, and manual memories. Routine progress and technical audit
+records do not belong in this timeline.
 
-Timeline entries can be ordered without exact timestamps, which is important for imported historical plays.
+One explicit journey sequence orders exact, approximate, and undated entries.
+Database creation time does not determine user-facing recency.
+
+### Highlight
+
+A History entry the user has pinned as especially meaningful.
+
+A Highlight remains in its original journey position. It does not move,
+duplicate, or replace recency-based History previews.
 
 ### Snapshot
 
 A historical copy of team or Pokémon state at a meaningful moment.
 
-Snapshots should not depend on current team rows because the team can later change.
+Snapshots should not depend on current team rows because the team can later
+change. A Team snapshot preserves six Active positions and distinguishes a
+known Pokémon, a confirmed-empty position, and a position whose state was not
+recorded.
 
 ### Hall Of Fame / Final Team
 
@@ -172,6 +207,13 @@ A special timeline event and team snapshot representing a completed run or final
 Structured or custom constraints attached to a play or plan.
 
 Examples include Nuzlocke, monotype, no repeated species, no repeated forms, shiny-only, and no legendaries.
+
+Predefined rules are product-owned and immutable. User-authored rules are
+reusable definitions whose attachment and supported configuration remain local
+to a Play or Plan. `Voydex can check this` rules may produce explainable V1
+warnings; `Recorded only` rules are preserved without implying validation. The
+V1 app catalogue owns that capability, and shared-definition administration is
+deferred.
 
 ### Pokémon Reuse Policy
 
@@ -197,7 +239,10 @@ Reuse checks should support:
 
 User-owned labels attachable to plays, plans, or play Pokémon.
 
-Tags are for filtering and personal organization.
+Tags are reusable definitions for filtering and personal organization only.
+Detaching a Tag from one record does not delete it. Shared rename and deletion
+administration is deferred beyond V1. A text label always carries meaning even
+when the Tag also has a color token.
 
 ### Backlog / Wishlist
 
@@ -219,9 +264,20 @@ A concrete Pokémon form identity.
 
 Forms can be default, regional, alternate, cosmetic, battle-only, held-item-driven, evolution-locked, or otherwise special.
 
+A form being available or team-selectable does not mean an existing Pokémon can
+change into it. Fixed form identity and form-transition capability are separate
+concepts.
+
 ### Form Rule
 
 Metadata describing how a form should behave in team builder, planning, and display.
+
+### Form Transition
+
+A game- and content-scoped directed relationship describing whether the same
+Pokémon can move from one persistent form to another, including the required
+method or condition. Forms with no valid outgoing transition are fixed for the
+Team lifecycle even when they are valid selectable identities.
 
 ### Evolution Edge
 

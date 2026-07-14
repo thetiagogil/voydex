@@ -6,12 +6,18 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: Product promise and V1 family scope accepted; product-area review in
-progress**
+**Status: Product promise, V1 family scope, and shared navigation accepted;
+screen-family review in progress**
 
-The current task is to confirm the app overview before deep-diving into
-individual screens. Visual direction, detailed layouts, and production UI are
-deliberately deferred.
+The high-level app review is complete enough to support depth-first functional
+work. Play creation, Overview, Team, Progress and its focused trackers, Play
+Plan, History, and Settings now have accepted functional direction or detailed
+contracts. Status transitions use lightweight date-aware behavior, and normal
+Reopen preserves recorded completion-date knowledge. This completes the
+inside-out V1 Play contract; Plays Browse and Dashboard can now be derived from
+it before visual composition is tested across the whole flow. Final responsive
+layouts and production UI remain deliberately deferred until those functional
+contracts form one coherent system.
 
 ## Product Overview
 
@@ -94,6 +100,10 @@ Explore in Codex
   afterthoughts.
 - The complete flow should be designed before database correction and
   production frontend implementation resume.
+- The V1 database pass fixes only missing or correctness-critical support for
+  accepted V1 behavior; non-blocking generalization and administration belong
+  to the future backlog, where every deferred improvement remains explicitly
+  recorded rather than discarded.
 
 ## Navigation And Access Overview
 
@@ -169,26 +179,27 @@ route when it does not need an independent URL.
 
 ### Mainline Surfaces
 
-| ID   | Surface                   | Role                                                       | Specification status                                                             |
-| ---- | ------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| M-01 | Dashboard                 | Authenticated home and next-action summary                 | Pending                                                                          |
-| M-02 | Plays                     | Browse and filter playthroughs                             | Pending                                                                          |
-| M-03 | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)  |
-| M-04 | Play Overview             | High-signal summary of one play                            | Functional blueprint in progress; [detail](./mainline-play.md)                   |
-| M-05 | Play Team                 | Manage active, reserve, and historical Pokémon             | Functional blueprint in progress; [detail](./mainline-play.md#team-contract)     |
-| M-06 | Play Progress             | Summarize applicable progress tracks                       | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
-| M-07 | Story Progress            | Record milestones, decisions, and optional snapshots       | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
-| M-08 | Play Pokédex              | Record game-scoped Pokédex progress                        | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
-| M-09 | Play Collectibles         | Record game-scoped collectible progress                    | Functional blueprint in progress; [detail](./mainline-play.md#progress-contract) |
-| M-10 | Play Plan                 | Work with the one focused linked Team Plan                 | Functional blueprint in progress; [detail](./mainline-play.md#plan-contract)     |
-| M-11 | Play History              | Review and record meaningful timeline events               | Functional blueprint in progress; [detail](./mainline-play.md#history-contract)  |
-| M-12 | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | Functional blueprint in progress; [detail](./mainline-play.md#settings-contract) |
-| M-13 | Plans Hub                 | Browse Team Plans and game intentions                      | Pending                                                                          |
-| M-14 | Create Plan               | Create a game-scoped Team Plan                             | Pending                                                                          |
-| M-15 | Plan Detail               | Build targets and resolve planning conflicts               | Pending                                                                          |
-| M-16 | Collection                | Review personal Pokémon usage history                      | Pending                                                                          |
-| M-17 | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending                                                                          |
-| M-18 | Stats                     | Review derived patterns with supporting records            | Pending                                                                          |
+| ID    | Surface                   | Role                                                       | Specification status                                                                                                                     |
+| ----- | ------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| M-01  | Dashboard                 | Authenticated home and next-action summary                 | Pending                                                                                                                                  |
+| M-02  | Plays                     | Browse and filter playthroughs                             | Pending                                                                                                                                  |
+| M-03  | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)                                                          |
+| M-04  | Play Overview             | High-signal summary of one play                            | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md)                                                 |
+| M-05  | Play Team                 | Manage active, reserve, and historical Pokémon             | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#team-contract)                                  |
+| M-05A | Play Team Analysis        | Inspect defensive matchups and recorded move coverage      | Direction accepted; [detail](./mainline-play.md#full-team-analysis-view-contract)                                                        |
+| M-06  | Play Progress             | Summarize applicable progress tracks                       | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#progress-contract)                               |
+| M-07  | Story Progress            | Record milestones, decisions, and optional snapshots       | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#story-information-architecture-contract)        |
+| M-08  | Play Pokédex              | Record game-scoped Pokédex progress                        | V1 interaction contract accepted; selector visual validation pending; [detail](./mainline-play.md#pokédex-browser-and-progress-contract) |
+| M-09  | Play Collectibles         | Record game-scoped collectible progress                    | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#collectibles-workspace-contract)                |
+| M-10  | Play Plan                 | Work with the one focused linked Team Plan                 | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#plan-contract)                                  |
+| M-11  | Play History              | Review and record meaningful timeline events               | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#history-contract)                               |
+| M-12  | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#settings-contract)                               |
+| M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | Pending                                                                                                                                  |
+| M-14  | Create Plan               | Create a game-scoped Team Plan                             | Pending                                                                                                                                  |
+| M-15  | Plan Detail               | Build targets and resolve planning conflicts               | Pending                                                                                                                                  |
+| M-16  | Collection                | Review personal Pokémon usage history                      | Pending                                                                                                                                  |
+| M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending                                                                                                                                  |
+| M-18  | Stats                     | Review derived patterns with supporting records            | Pending                                                                                                                                  |
 
 ### Codex Surfaces
 

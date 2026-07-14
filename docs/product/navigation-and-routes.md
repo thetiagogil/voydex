@@ -67,6 +67,13 @@ reference/filter context; they are not currently a required top-level view.
   /plays
     /new
     /[playId]
+      /team
+        /analysis
+      /progress
+        /story
+        /pokedex/[pokedexSlug]
+        /collectibles/[collectibleGroupSlug]
+      /plan
   /plans
   /collection
   /stats
@@ -133,7 +140,23 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 
 - Top-level product routes represent modules or global account areas.
 - Play-specific tasks remain under the owning play.
-- Plans are not nested under plays because they can exist independently.
+- Team Analysis remains a focused child of Play Team and keeps Team as the
+  active Play Hub context.
+- Progress always opens Progress Overview. Story, Pokédex, and Collectibles are
+  focused child routes that keep Progress active and provide a clear return to
+  the Overview; they do not require persistent local sub-tabs or a dropdown
+  Progress tab.
+- The Play Plan route is the contextual comparison and relationship surface for
+  the one focused linked Team Plan. The reusable Plan remains independently
+  addressable from the Plans module.
+- History event details remain contextual sheets within the active Play History
+  tab in V1. They do not require a separate route or a second navigation level.
+- Settings uses local sections inside the active Play Settings tab. General,
+  Completion & Tracking, Rules & Tags, and Play Status & Management do not
+  require separate V1 routes.
+- Standalone Plans and their reusable authoring routes remain under the Plans
+  module because they can exist independently; `/plays/[playId]/plan` is the
+  linked Play's contextual comparison and relationship surface.
 - Compatibility routes redirect rather than duplicate feature logic.
 - Protected destinations preserve a validated `next` path through login.
 - Route helpers and product contracts never imply implementation status.

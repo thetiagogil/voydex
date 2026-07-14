@@ -46,10 +46,33 @@ The next phase is a complete V1 product-design pass before database correction
 or frontend feature implementation. The canonical continuation brief is
 [V1 Screen Flow And Design Handoff](./design/v1-screen-flow.md).
 
-The current step is the breadth-first product review organized in the
-[V1 Design Workspace](./design/v1/README.md): confirm the overview, navigation,
-journeys, screen inventory, and shared-pattern candidates before detailed
-screen specifications or visual exploration.
+The product overview, V1 scope, landing and intro direction, shared shell,
+navigation baseline, Play-creation direction, and detailed Play Overview, Team,
+Progress, and Plan information architecture have been reviewed in the
+[V1 Design Workspace](./design/v1/README.md). The current step is to continue
+the depth-first functional review through the remaining Play Hub and V1 screen
+families while keeping the whole-screen inventory, shared patterns, and
+database-requirements matrix coherent. The Team interaction contract is
+accepted, as are the Progress Overview hierarchy and complete Story interaction
+contract; their visual composition still needs validation in the later visual
+phase. The Pokédex interaction contract is accepted, including a provisional
+card-rail selector that must be re-evaluated through realistic desktop and
+mobile UI. The Collectibles interaction contract is also accepted, including
+exact-entry and honest count-only import paths. Progress now keeps one stable
+Overview entry without persistent area sub-tabs. The Play Plan contract is
+accepted as a full-width target-to-actual comparison list with Plan-owned
+relationship actions and no persistent Pokémon detail panel. The Play History
+contract is accepted as one meaningful full-width timeline with honest journey
+ordering and contextual event-detail sheets. Play Settings information
+architecture is accepted as one section-scoped workspace with explicit save,
+lifecycle, archive, and destructive-action behavior. Its game-aware Completion
+& Tracking hierarchy, simplified General metadata contract, and distinct
+reusable Rules & Tags behavior are also accepted. Routine status transitions
+now have lightweight date-aware behavior: Start and Mark completed suggest
+editable Exact Today values, historical completion starts as `Not recorded`,
+and normal Reopen preserves recorded completion knowledge. The inside-out V1
+Play functional contract is accepted; Plays Browse is the next design surface
+so it can expose the right Play summaries before Dashboard is derived from it.
 
 Accepted direction:
 
@@ -61,12 +84,77 @@ Accepted direction:
 - Let authenticated users start a Plan or Play from Codex Game Detail.
 - Create Plays through concise details followed by a game-aware completion goal
   with optional progressive customization.
+- Keep Team as a list-detail workspace over a fixed current roster and uncapped
+  Past Members, with named lifecycle actions, quiet atomic placement, guarded
+  correction, and read-only Plan comparison.
+- Keep Progress Overview centered on trustworthy normalized completion and
+  direct handoffs into Story, Pokédex, and Collectibles; optional content remains
+  scope rather than a fourth progress category.
+- Keep Progress as one stable Hub tab that always opens its Overview; focused
+  Story, Pokédex, and Collectibles routes use a clear return and at most an
+  optional compact sibling-area menu rather than persistent sub-tabs.
+- Keep Story as a game-aware list-detail workspace whose explicit prerequisites,
+  rather than presentation order, determine dependencies and next objectives.
+- Keep routine milestone completion quiet; reserve deliberate History and Team
+  snapshots for `Record story moment`, and handle imported Story catch-up
+  through an atomic dependency-aware preview with unknown dates by default.
+- Keep Pokédex progress species-level with responsive Grid/List browsing,
+  explicit Missing/Seen/Caught state, exact reviewed batch updates, and honest
+  imported `Not recorded` state; keep named-Pokédex selection visually
+  prominent.
+- Prototype named-Pokédex selection as a responsive card rail, preserve the
+  active scope in the route, and replace the component later if visual testing
+  shows that it competes with the species browser or does not scale cleanly.
+- Treat remaining Mainline layout choices as functional hypotheses until the
+  first coherent UI draft can validate hierarchy, density, responsiveness, and
+  shared patterns across the complete Play Hub.
+- Keep Collectibles adaptive: family-grouped list-detail for identifiable
+  entries, honest count-only imported progress when identities are unknown,
+  exact reviewed batches, and no routine History noise.
+- Keep Play Plan as a full-width target-to-actual list with six stable Primary
+  positions, compact Alternates, explicit relationship states, non-judgmental
+  off-plan context, and Plan-owned editing and relationship actions.
+- Keep Play History as a full-width meaningful timeline with compact filters,
+  exact, approximate, and unrecorded chronology, contextual detail sheets,
+  guarded event-time correction, Highlights, and no bulk importer.
+- Keep Play Settings as one locally sectioned workspace with explicit
+  section-scoped saves, read-only game identity, distinct Rules and Tags,
+  guarded lifecycle and destructive actions, and one durable Play-notes field.
+- Merge durable Play notes into General and preserve Exact, Approximate, or
+  `Not recorded` started and completed dates without inventing day precision or
+  changing lifecycle implicitly.
+- Keep Rules and Tags visually and semantically distinct, use honest checkable
+  versus recorded-only rule capability, keep V1 checks warning-only, save local
+  attachments and configuration atomically, and defer shared-definition
+  administration.
+- Keep routine status transitions in the persistent Play Header, reuse any
+  promoted adaptive Next Step instead of duplicating its CTA, and reserve Play
+  Status & Management for recorded-status correction, Archive, Restore, and
+  Delete.
+- Treat normal Reopen as continuation: preserve a recorded completion date as
+  `Previously completed on ...`; clear it only when `Correct recorded status`
+  confirms that the completion itself was a mistake.
+- Use focused date sheets for Start, Mark completed, and historical completion;
+  keep Pause, Resume, and Reopen immediate; confirm Abandon without inventing an
+  abandonment date; and never change Progress or History automatically.
+- Defer the proposed next-session bookmark beyond V1 until Overview or Journey
+  Status proves a frequent use distinct from Story, History, Play-wide next
+  actions, and durable Play notes.
+- Configure Main Story, applicable optional Story paths, named Pokédexes,
+  optional Pokédex requirements, and Collectible groups through consistent
+  completion, track-only, or not-tracked meanings while preserving recorded
+  data and previewing recalculation before save.
 - Let authenticated users add a Pokémon from Codex to a compatible Plan or
   Play, with Mainline owning destination selection, validation, and mutation.
 - Preserve the chosen Codex context and intended action through login.
 - Derive a screen-by-screen data-requirements matrix, then use it for the
   planned database correctness and reference-seed audit before production
   implementation resumes.
+- Limit that database pass to missing or correctness-critical support for
+  accepted V1 behavior; move non-blocking schema generalization, convenience
+  projections, and richer administration to the future backlog.
+- Preserve every improvement excluded from V1 as a concrete backlog item with
+  its intended outcome, deferral reason, and future reconsideration trigger.
 
 No V1 visual direction has been selected. After the blueprint and screen
 requirements are reviewed, the visual checkpoint is to produce exactly three
@@ -82,8 +170,11 @@ for one to be chosen before building UI.
   usage.
 - The V1 visual direction, responsive screen set, and state matrix have not yet
   been selected or designed.
-- Screen-derived database requirements have not yet been reconciled against
-  the known reference-data inconsistencies.
+- Team-derived requirements have exposed confirmed gaps in atomic roster
+  placement, the distinction between selectable fixed forms and game-valid
+  directed form transitions, current/past lifecycle support, and Plan-safe
+  correction or deletion. Remaining screen-derived requirements and the full
+  reference-data audit are still pending.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
 

@@ -84,22 +84,29 @@ Create Play should use two progressively disclosed steps:
 2. Completion goal: a concise game-aware recommendation that can be accepted
    directly or customized using only applicable completion settings.
 
-The completion step may configure optional content, contributing Pokedex
-scopes, optional entries such as Mythical Pokemon, and Collectibles. Exact team
-members, story position, Pokedex species progress, collectible progress, and
-history belong inside the created Play rather than in the creation flow. The
-completion definition remains editable in Play Settings.
+The completion step may configure optional content; Postgame and
+optional-content Story paths; named Pokédex scopes; optional entries such as
+Mythical Pokémon; and applicable Collectible groups. Exact Team members, Story
+position, Pokédex species progress, Collectible progress, and History belong
+inside the created Play rather than in the creation flow. The completion
+definition remains editable in Play Settings.
 
-Play-specific settings should control optional completion behavior:
+Play-specific settings should control:
 
-- Whether Pokedex tracking is enabled for the play.
-- Whether Pokedex progress counts toward completion.
-- Whether collectibles count toward completion.
-- Whether optional Pokedex entries count toward completion.
-- Whether optional Pokedex scopes such as National or special Pokedexes count toward completion.
-- Which optional content scopes, such as DLC, are enabled for the play.
+- which optional-content scopes, such as DLC, are enabled;
+- whether applicable Postgame and optional-content Story paths count, are
+  track-only, or are not tracked;
+- whether each meaningful named Pokédex counts, is track-only, or is not
+  tracked;
+- whether supported optional Pokédex entries or groups count within a tracked
+  scope;
+- whether each supported Collectible group counts, is track-only, or is not
+  tracked.
 
-Story progress is part of the base play. Completion percentages should be derived from play settings, selected optional content, and recorded progress instead of stored as source-of-truth values.
+Main Story remains part of the base Play. Completion percentages are derived
+from Play settings, selected optional content, and recorded progress instead of
+stored as source-of-truth values. Disabling a scope preserves its existing
+progress.
 
 ### Play Hub
 
@@ -114,6 +121,29 @@ Play begins with `Add current team`, then promotes Story position and configured
 progress as earlier actions are completed. Once enough baseline context exists,
 the region evolves into a normal Play-wide action or compact utilities. Actions
 specific to one Hub area remain inside that area.
+
+Routine Play status transitions also remain available from the persistent
+Header. Use contextual actions rather than a raw status dropdown: Start or
+record a historical completion from Not started; Pause, Complete, or Abandon
+from Playing; Resume, Complete, or Abandon from Paused; and Reopen from
+Completed or Abandoned. If the adaptive Next Step promotes the same status
+action, reuse or emphasize that action rather than showing a duplicate primary
+CTA. Date and confirmation behavior is shared across placements.
+
+Reopening a Completed Play is continuation, not correction. Preserve any
+recorded completion date and show it as `Previously completed on ...`; do not
+rewrite Progress, completion settings, or History. A completion recorded by
+mistake is handled through `Correct recorded status`, which explicitly clears
+the false completion date.
+
+Start and Mark completed use focused date confirmation. Start defaults the
+started date to Exact Today; Mark completed defaults the completion date to
+Exact Today. Both allow another Exact date, Approximate knowledge, or `Not
+recorded`. Historical `Record as completed` defaults to `Not recorded` rather
+than Today and accepts optional started-date knowledge. Pause, Resume, and
+Reopen are quiet immediate actions. Abandon uses a concise confirmation and
+creates no abandonment date. Every transition is atomic and leaves Progress
+and History unchanged.
 
 The Play Header center keeps a stable hierarchy: Play name; lifecycle and game;
 available region and generation context; conditional trainer, date, and
@@ -189,11 +219,16 @@ The Team page should support:
 - Active and reserve Pokémon.
 - Levels, forms, abilities, natures, gender, shiny state, moves, and notes.
 - Team strengths and weaknesses.
-- Pokémon lifecycle actions: add, evolve, retire, replace.
+- Pokémon lifecycle actions: add, evolve, change persistent form, replace,
+  retire, and return from Past Members.
+- Quiet current-roster move, swap, and reorder controls.
+- Guarded current-record correction and deletion.
 - Correction-only edits versus in-game recorded changes.
 - Real-time Pokémon reuse validation when adding, replacing, or evolving a Pokémon.
 
-Retired/replaced Pokémon should be preserved as history when the user records the change as an in-game event, but they should not count toward the current roster limit.
+Retired and replaced Pokémon remain complete Past Member records and do not
+count toward the current roster limit. The named `Retire` and replacement
+actions also preserve the change in History; a correction does not.
 
 Roster slots:
 
@@ -201,13 +236,200 @@ Roster slots:
 - Reserve Pokémon use slots 7 to 12.
 - Retired and replaced Pokémon have no current roster slot.
 
+The accepted desktop Team workspace uses a list-detail structure. One compact
+left-side roster list keeps all six Active and six Reserve positions visible,
+while selecting an occupied row updates a larger Play-owned Pokémon detail on
+the right. Roster portraits remain intentionally smaller than selected-member
+artwork so the source and result of selection are immediately distinguishable.
+Quick Team Analysis and Recent Team Events support the selected detail rather
+than competing with it, with routes to their complete owning experiences. On
+narrow screens, member selection opens a focused Team detail view or sheet with
+a clear return to the roster.
+
+All twelve roster positions use the same compact row geometry across occupied,
+selected, confirmed-empty, not-recorded, pending, and unavailable states. An
+occupied row is limited to slot, portrait, nickname or species and relevant
+form identity, level, types, and the smallest necessary state cues. Selection
+uses a visible non-color cue without displacing the row's stable overflow
+action. Confirmed-empty positions open an add flow targeted to that slot;
+not-recorded positions first let the user add a remembered Pokémon or confirm
+that the slot is empty.
+
+The row target and its sibling overflow action must both be keyboard operable.
+Explicit move and reorder controls provide the complete workflow; drag and drop
+may only supplement them. Roster counts distinguish confirmed empty capacity
+from a Team that is only partially recorded.
+
+One Move workflow covers current-roster placement. Choosing a confirmed-empty
+slot moves the selected member; choosing an occupied slot swaps the two members.
+A not-recorded slot is never available capacity. Move, swap, and reorder succeed
+atomically, remain quiet in History, and never write Plan data. The V1 path for
+preserving a meaningful lineup is `Record Team moment`.
+
+The selected-Pokémon detail is an identity-first Play member record. It leads
+with larger correct-form artwork, nickname and species identity, shiny state,
+Active or Reserve position, level, types, and recorded held item. Current
+setup, origin and personal facts, four ordered move positions, notes, and
+contextual member actions follow in progressive groups. Missing imported facts
+remain explicitly unrecorded, and fields unsupported by the game are omitted.
+
+The panel does not duplicate generic species reference, Team-wide analysis,
+complete member history, or complete Plan detail. Those route to Codex, Team
+Analysis, History, and Plan respectively. Current HP, battle status, and current
+PP are transient battle values and are not part of the V1 Play record. Routine
+detail edits update current state without timeline noise; lifecycle changes
+that affect History or Collection distinguish corrections from recorded
+in-game events. V1 does not add a generic per-edit History option.
+
+Every member has a concrete form identity, but form selection and form
+changeability are separate. Fixed identities—including regional, encounter-,
+evolution-, size-, gender-, or authenticity-derived forms that cannot transform
+in the selected game—are chosen during Add, import, or correction and expose no
+`Change form` action. Hisuian Growlithe cannot become Kantonian Growlithe.
+
+`Change form` is a dedicated recorded lifecycle flow only when the same
+individual has a game- and content-valid directed transition from its current
+form to another persistent, team-selectable form. Rotom appliance changes are
+the canonical example. Do not infer this from shared species or availability,
+and exclude battle-only transformations and cosmetic-only variants. Preserve
+the same member and personal details, resolve ability and required held-item
+consequences safely, keep moves until the user reviews them, and store
+before/after event-time identity. A wrongly entered form uses `Correct record`
+without History.
+
+`Replace` puts an incoming Pokémon into the selected current slot. When an
+Active member is displaced and Reserve has confirmed capacity, recommend moving
+the outgoing member to a chosen Reserve position; that member remains current
+and the incoming addition is the recorded event. Otherwise the outgoing member
+moves to Past Members as `Replaced`, and one event preserves both identities.
+`Retire` moves a current member to Past Members without adding a replacement.
+Neither flow discards a member, assumes unknown capacity, or changes Plan.
+
+`Past members (N)` is a secondary Team-owned roster view for uncapped retired
+and replaced Play Pokémon. It is not another Hub tab and is not the event-only
+History view. Selecting a past member reuses member detail with past-state copy,
+member History, correction, guarded deletion, and `Return to Team`. Return
+reactivates the same member in one confirmed-empty current slot and records the
+return. A full roster routes through Replace with that member preselected and
+records one compound return-and-replacement moment rather than two competing
+History entries.
+
+`Correct record` repairs a wrongly entered identity or roster placement without
+creating lifecycle History or false Collection evidence. Existing event-time
+History remains unchanged and is corrected separately in History. The
+destructive overflow action `Delete Pokémon record` is reserved for wholly
+mistaken or duplicate records. It preserves existing History evidence, and Team
+must block deletion while a Plan-owned member relationship exists rather than
+cascading an unlink outside Plan.
+
+Quick Team Analysis summarizes only the current Active lineup through three
+independently understandable signals: defensive pressure, recorded damaging
+move coverage, and a short evidence-backed watchlist. Reserve Pokémon do not
+affect the analysis until they move into an Active position. V1 does not show a
+composite Team Score.
+
+`Open full analysis` leads to a read-only, Play-owned Team Analysis view while
+keeping Team as the active Hub context. The focused view contains defensive and
+recorded-move coverage matrices, affected members and moves, the applicable
+ruleset, explainable Team notes, and explicit assumptions. Team mutations stay
+in Team and the analysis derives from the current confirmed Active state.
+
+Known smaller lineups are analyzed as the current Team and are not treated as
+missing data merely because they contain fewer than six Pokémon. Unrecorded
+Active positions and movesets remain visibly partial. Missing moves never count
+as confirmed coverage gaps, and unsupported ability, item, or special-mechanic
+effects never produce confident conclusions. The analysis does not infer team
+roles, expected damage, opponent-specific success, or competitive viability
+from typing and moves alone.
+
+Recent Team Events shows up to the latest three intentionally recorded events
+for the whole Active-and-Reserve roster. It does not change with member
+selection. Eligible events include recorded additions, evolutions,
+form changes, replacements, retirements, returns, final-Team or Hall of Fame
+moments, and deliberate Team snapshots. Routine edits, corrections, reordering,
+and Active/Reserve movement remain quiet; Team exposes no recorded-move action
+in V1.
+
+Each compact row uses event-time Pokémon identity, explicit effective-date
+certainty, and concise before-and-after context where useful. Rows open their
+owning History event, while `View Team history` opens the existing History area
+with its Team filter applied. Effective or manual timeline order controls the
+preview, so an imported event never appears recent merely because it was
+entered today.
+
+When one focused Team Plan is linked, place one compact comparison strip below
+the Team roster toolbar and above the Active group. Show the Plan name, an
+explicit reached/target summary, exceptional skipped context when useful, and
+one `Compare with Plan` route. Omit the strip when no Plan is linked. Count a
+target as reached only through an explicit Plan-member-to-Play-member link;
+matching species or forms alone never create a confirmed relationship. A
+selected Pokémon may show one compact read-only comparison row in its detail,
+while default roster rows remain uncluttered. Team exposes no Plan-link
+suggestion or relationship-management action.
+
+`Record Team moment` is a dedicated lower-emphasis action in the Recent Team
+Events footer. It opens a compact dialog or mobile sheet with a read-only
+six-position Active-Team preview, required title, exact, approximate, or unknown
+date, and optional short note. V1 snapshots the recorded Active lineup only;
+Reserve is excluded and unknown positions remain unknown. Completed or
+abandoned Plays use final or remembered language, while a Play with no recorded
+Active members routes to Team recording instead of saving an empty snapshot.
+The History event and event-time snapshot appear only after the write succeeds.
+
 Recorded in-game team changes should create timeline events with enough Pokémon identity data to preserve usage history. For example, if Squirtle evolves into Wartortle and then Blastoise, Collection and reuse checks should still know that Squirtle, Wartortle, and Blastoise were used.
 
 Correction-only edits should update the current Pokémon record without creating timeline history.
 
+### Progress Overview
+
+Progress Overview is the Play's completion workspace and the entry to Story,
+Pokédex, and Collectibles. It shows those three areas in stable order, with each
+active row owning its recording state, normalized percentage, one useful next
+step, and route to the focused tracker. Story is always present. Pokédex and
+Collectibles appear as active rows only when supported and enabled.
+
+Optional content is completion and tracking scope rather than a progress area.
+Show enabled content and the areas contributing to completion through compact
+context with one Settings route. A supported but disabled area may appear as
+`Not tracked`; an area unsupported by the game is omitted.
+
+Overall completion is derived only when every contributing area has enough
+recorded context. Do not add Story milestones, Pokédex species, and Collectible
+units into a cross-category raw count. A category row may show a clearly named
+native count from that category. Imported missing progress remains `Not
+recorded`, not zero.
+
+The Progress heading does not duplicate Story, Pokédex, and Collectible update
+buttons. Do not add a second Next-to-update list, expanded completion-rules
+card, or recent technical activity feed beneath the same category rows.
+Meaningful Story events belong in History; routine Pokédex and Collectible
+updates remain quiet. Focused trackers retain Progress as the active Play Hub
+context and provide a clear return to Progress Overview. Progress always opens
+that Overview. Do not add persistent Story, Pokédex, and Collectibles sub-tabs
+or turn the Hub tab into a dropdown. A compact sibling-area menu inside focused
+views is optional convenience only.
+
 ### Story Progression
 
 Story progression is game/version-group-specific milestone tracking.
+
+Story opens inside the Progress context as an ordered milestone list with a
+larger selected-milestone detail region. Its summary shows the current or
+furthest recorded position, the next applicable objective, and normalized Story
+completion. Games with distinct Main Story, Postgame, DLC, or parallel paths
+may expose a game-aware track switcher; games without them should retain one
+simple list.
+
+Milestone rows provide completion state, identity, concise location or context,
+type, and restrained decision or snapshot cues. The selected detail owns the
+description, prerequisites, recorded decision, snapshot availability, notes,
+and actions. Narrow screens open that detail in a focused view or sheet and
+preserve a clear return to the list.
+
+Milestone display order must not be treated as dependency order. Explicit
+prerequisite relationships determine valid dependencies, next-objective
+guidance, and historical catch-up suggestions. Nonlinear games should not
+receive a universal `Complete next` action that invents a linear path.
 
 Important milestones can optionally support team snapshots:
 
@@ -220,37 +442,190 @@ Important milestones can optionally support team snapshots:
 
 Snapshots must be optional. Users logging already-completed games should be able to bulk-complete milestones without being forced to attach snapshots.
 
+Selecting a milestone changes only its detail. `Mark complete` is the routine
+action and does not create History. When required or story-unlock prerequisites
+are missing, show the exact dependency set and recommend completing it with the
+target; suggested prerequisites remain optional, and display order never
+substitutes for dependency data. Decisions may remain `Not recorded` for
+forgotten or imported history.
+
+Important milestones may separately offer `Record story moment`. That deliberate
+path creates one History event and may include an optional current-Team
+snapshot. Ordinary completion does neither. `Edit record` and `Mark incomplete`
+must not cascade into later progress or silently remove a linked History event.
+
+Bulk completion is a separate imported-save and historical-catch-up workflow,
+not part of the routine milestone action. The player chooses the furthest known
+milestone for each applicable Story path, and the app computes the transitive
+required and story-unlock prerequisite closure. Before one atomic write, preview
+which milestones are already complete, will complete, remain excluded, or have
+an unrecorded decision. Optional and suggested milestones stay excluded by
+default, and decisions are never guessed.
+
+Bulk completion creates no History events or snapshots in V1. It records
+completion with unknown dates by default rather than stamping historical
+milestones with the current date. Any failure leaves the entire reviewed set
+unchanged.
+
 Story progress rows should track milestone completion. If a milestone has a player decision, such as a starter choice or fossil choice, the selected option should be stored separately from simple completion.
 
 Absence of a progress row should mean incomplete by default. The app should not need to pre-create every possible progress row for every play.
 
 ### Play Timeline And Journal
 
-The Play Timeline is a user-facing play history, not a technical audit log.
+The Play Timeline is a user-facing History and journal, not a technical audit
+log. Use one full-width journey timeline with a compact search, category,
+Highlights, and order toolbar. The categories are All History, Story, Team, and
+Memories filters rather than local navigation. Selecting an entry opens an
+event-detail sheet; History does not keep a permanent selected-event panel.
 
-Timeline entries should focus on meaningful events:
+Timeline entries focus on deliberately preserved events:
 
-- Important story milestones.
-- Team snapshots for key fights.
-- Pokémon added, evolved, retired, or replaced.
-- Hall of Fame/final team.
-- Manual journal notes.
+- important recorded Story moments and decisions;
+- recorded Pokémon additions, evolutions, persistent form changes,
+  retirements, replacements, and returns;
+- current, remembered, final-Team, and Hall of Fame snapshots;
+- manual memories and journal notes;
+- explicitly recorded Play completion or abandonment;
+- complete Pokédex scopes, Collectible groups, or similar major achievements
+  only when the user chooses to preserve them.
 
-Normal Pokedex and collectible progress should not automatically create timeline noise.
+Normal Pokédex and Collectible progress, ordinary Story completion, roster
+movement and reorder, Pokémon-detail edits, corrections, Settings changes,
+failed actions, and technical records never create timeline noise.
 
-Timeline Pokémon references should snapshot the relevant species/form at the event time. They should not rely only on the current Pokémon row, because that row can later evolve, change form, retire, or be corrected.
+Each entry presents its event type, title, note preview, exact, approximate, or
+unrecorded date, and event-time Pokémon context. Before/after actions preserve
+both identities. Team snapshots freeze six Active positions with known
+Pokémon, confirmed-empty, and not-recorded states plus the member details
+supported by the snapshot contract. They never rely only on current Team rows.
 
-Timeline events can be created from:
+`Add memory` asks for a title, date certainty, optional note, optional related
+Pokémon that actually belonged to the Play, and a journey position only when
+date knowledge cannot place it. It does not expose technical event types, a
+Team-snapshot checkbox, or a Highlight checkbox. Completed, abandoned, and
+imported Plays use `Add remembered event`, default away from today, and offer
+`Save and add another`; V1 has no separate bulk History importer.
 
-- User-written journal notes.
-- Recorded in-game team actions.
-- Important story milestone completions when the user chooses to record them.
-- Hall of Fame/final team moments.
-- Imported historical events for already-completed plays.
+One canonical journey sequence orders dated and undated events. Current events
+append; known historical dates propose a position; unknown dates require a
+position when other entries exist. Newest first is the default presentation,
+with oldest first available for reading the adventure from the beginning.
+`Arrange timeline` provides move-up, move-down, and keyboard ordering. Database
+creation time never determines perceived recency.
 
-Timeline ordering should support old imported plays where exact timestamps are unknown. The UI should be able to show manually ordered or milestone-ordered entries without forcing exact dates.
+Pinned entries are presented as `Highlights`. Highlighting does not move or
+duplicate an entry and does not replace effective recency in Overview.
 
-Team snapshots are attached to timeline events. A snapshot should freeze the visible team state at that moment, including position, species/form, nickname, level, shiny state, gender, nature, ability, held item, moves, and notes.
+Manual entries may edit their narrative, date certainty, related Pokémon, and
+journey position. Structured Story and Team entries may edit narrative and
+ordering fields without rewriting their owning fact. A separate guarded
+`Correct recorded details` workflow changes event-time identities or snapshot
+evidence without rewriting current Team, Story, Progress, or Plan state.
+
+Deleting History removes the event and its attached historical refs and
+snapshot after a consequence-aware confirmation. It never reverses the Team or
+Story action that originally created the event.
+
+### Play Settings
+
+Play Settings is a low-frequency configuration workspace rather than another
+dashboard. It uses General, Completion & Tracking, Rules & Tags, and Play Status
+& Management sections. Desktop presents a compact local section rail beside one
+focused section; narrow screens use an accessible section selector. These
+sections do not add more Play Hub tabs or require separate V1 routes.
+
+Save one section at a time with explicit `Cancel` and `Save changes` actions
+when it becomes dirty. Warn before leaving with unsaved changes, retain entered
+values after recoverable failure, and keep lifecycle, archive, restore, and
+delete outside a global settings save.
+
+The owning game and version scope are read-only in V1. General edits the
+required Play name, optional trainer, game-compatible or custom platform,
+started and completed date knowledge, cumulative playtime, and one durable
+Play-notes field. It does not expose a second notes field or the deferred
+next-session bookmark.
+
+Started and completed dates support Exact, Approximate, or `Not recorded`
+certainty. Approximate dates preserve a month/year or year rather than inventing
+a day. A current Completed state presents completion-date knowledge as current;
+a value preserved through normal Reopen is presented as `Previously completed`.
+Started date appears only after starting. General corrections do not change
+lifecycle, decide that completion was false, or create History.
+Rules define gameplay constraints while Tags organize Plays for filtering;
+descriptive rules must not imply automated enforcement. Applied rules show
+their category, current Play-specific configuration, and whether `Voydex can
+check this` or the rule is `Recorded only`. Checkable V1 rules produce
+explainable warnings and never hard-block Team or Plan actions.
+
+Predefined rule definitions are immutable. User-authored rules are reusable
+across Plays and Plans, but applying, configuring, or detaching one remains
+local to the current owner. V1 Play Settings does not rename or delete an
+existing shared rule definition; detaching it from a Play never deletes it.
+Rule changes do not create History. The shipped app catalogue identifies
+checkable predefined rules and validates their configuration, while custom
+rules remain `Recorded only`.
+
+Tags use searchable multi-select and wrapping text-labelled chips with optional
+accessible color tokens. Tags affect organization and filtering only. Removing
+one from a Play detaches it. Renaming or deleting reusable Tags across Plays,
+Plans, and Play Pokémon is deferred beyond the V1 Play Settings scope.
+
+Stage new custom rules or tags, attachments, and Play-specific configuration
+until the explicit section save. Save the complete Rules & Tags result
+atomically, preserve staged choices after failure, and do not leave orphan
+definitions after Cancel or a partial write.
+
+The persistent Play Header owns routine named status transitions. Play Status &
+Management does not duplicate them; it owns current-status explanation,
+`Correct recorded status`, Archive, Restore, and Delete. Status does not freeze
+the Play, and marking it completed does not mark Progress as complete. Pause and
+resume remain quiet. Completion or abandonment may hand off to final-Team or
+History recording after success, but the status change does not automatically
+create History.
+
+Normal Reopen preserves any recorded completion date as historical knowledge.
+Only the distinct consequence-aware correction route declares that completion
+was recorded by mistake and clears the false date; neither path rewrites
+Progress or creates History.
+
+Start and Mark completed use date-aware sheets with editable Exact Today
+defaults. Historical `Record as completed` defaults to `Not recorded` and never
+invents Today. Pause, Resume, and Reopen are immediate; Abandon requires concise
+confirmation but no abandonment date. When completion Progress is incomplete
+or unknown, explain that the action changes status only and do not block it.
+After success, offer at most one optional handoff: `Record final team` when
+appropriate, otherwise `Add a memory`.
+
+Archive is reversible and separate from lifecycle. Delete requires typed-name
+confirmation, removes Play-owned Team, Progress, and History data, and does not
+delete an independently reusable Team Plan.
+
+Completion & Tracking leads with a readable current-goal summary, completion
+under that definition when known, and a route back to the game-aware recommended
+goal. Optional-content scopes control available game content without silently
+making every associated tracker contribute.
+
+Main Story is always tracked and contributes. Applicable Postgame and
+optional-content Story paths, each meaningful named Pokédex, and each supported
+Collectible group use one of three explicit states:
+
+- `Counts toward completion`: visible, usable, and contributing;
+- `Track only`: visible and usable without affecting overall completion;
+- `Not tracked`: absent from normal Progress views while recorded data remains
+  preserved.
+
+Browse-only Pokédex subsections inherit their aggregate scope. Each tracked
+Pokédex can require source-required entries only or include supported optional
+entries or honest named groups such as Mythical Pokémon. Species progress
+remains shared across overlapping Pokédexes. Games without supported
+Collectibles omit that area.
+
+Before one atomic save, preview the goal before and after, visibility and
+contribution changes, optional-content dependencies, the recalculated percentage
+when knowable, and preserved data. Unknown imported progress remains `Progress
+not recorded`. Child tracks normalize inside Story, Pokédex, or Collectibles,
+then contributing top-level groups remain equally weighted.
 
 ### Pokedex Progress
 
@@ -266,15 +641,67 @@ Product rules:
 
 Pokedex progress is stored per play and species. Reference Pokedex definitions and entries decide which species count for each game/content scope, including optional DLC, National, and special Pokedex scopes.
 
-Absence of a Pokedex progress row means the species is neither seen nor caught for that play.
+The focused tracker presents one named Pokédex at a time and keeps its selector
+as a prominent orientation element. Do not merge overlapping Pokédexes into one
+raw count. Because state is stored per Play and species, changing one species
+updates every applicable Pokédex view containing it.
+
+Prototype the selector as a horizontal card rail with visible named scopes,
+clear active treatment, responsive horizontal scrolling, and route-preserved
+selection. Keep a static identity card when only one scope exists. Do not add
+an `All Pokédexes` pseudo-scope. The card rail remains subject to visual
+validation and may be replaced if another prominent pattern works better.
+
+For the active Pokédex, show a Caught-first summary, Seen context, normalized
+completion, and optional-entry inclusion. Support search, state and
+required/optional filters, Pokédex-number sorting, and responsive Grid/List
+views. Grid is the desktop default; List is the narrow-screen default. Each
+species uses one explicit `Missing`, `Seen`, or `Caught` control. Caught implies
+Seen. Selecting its identity opens the Codex reference, while the state control
+updates only Play progress.
+
+For an initialized known-zero scope, absence of a progress row means the species
+is neither Seen nor Caught. For an imported scope with unknown coverage,
+knowledge state must keep absence as `Not recorded` until the player initializes
+or deliberately reconciles the scope.
+
+`Catch up Pokédex` supports `Record what I know` and a reviewed `Completed this
+Pokédex` proposal. Normal `Mark multiple` selects an exact target state and
+exact species, previews every change, and applies the batch atomically. Do not
+accept only an overall in-game count. Pokédex progress never creates History.
 
 ### Collectibles
 
-Collectibles are game-specific checklist groups.
+Collectibles are game-specific groups with interactions determined by their
+tracking definition. The focused area uses a family-grouped list-detail
+workspace on desktop and a group-list-to-focused-detail flow on narrow screens.
+Hide a redundant group navigator when only one group applies.
 
-They support manual collected/uncollected tracking. They should not automatically create timeline events by default.
+Show normalized page-level completion across active groups. Each selected group
+owns its native collected/total and remaining counts, percentage, completion
+context, and tracker. Play settings own which supported groups contribute.
 
-Absence of a collectible progress row should mean uncollected by default. Collectible completion is derived from selected game/optional-content scopes and play settings.
+Identifiable-entry groups use searchable and location-filterable rows with a
+direct collected control. They support canonical-order and location sorting.
+Group-level inclusion is not repeated on every entry. Routine changes never
+create timeline events.
+
+Imported progress supports exact-entry recording, an honest count-only total,
+or a reviewed complete-group action. Count-only state must not assign arbitrary
+entry identities or claim which locations are missing. When exact entries are
+also known, distinguish the reported total from the identified subset and
+require reconciliation before fully exact tracking. Quantity-only definitions
+use a native count tracker without requiring fabricated entries.
+
+Normal `Mark multiple` chooses Collected or Not collected, selects exact
+entries, previews the change set, and applies it atomically. Avoid an immediate
+filter-dependent `Mark visible collected` action.
+
+Within initialized exact tracking, absence of an entry-progress row means
+uncollected. Imported uninitialized or count-only groups preserve `Not recorded`
+semantics through their group knowledge state. Collectible completion is
+derived from selected game/optional-content scopes, per-Play group selection,
+the group's tracking mode, and recorded progress.
 
 ### Plans
 
@@ -298,15 +725,63 @@ Plan member statuses:
 - `reached`: linked play Pokémon reached the planned target species/form.
 - `skipped`: user decided not to use the planned member.
 
-When adding a planned target to a play, the app should suggest the earliest or first obtainable evolution-stage Pokémon when possible.
+The authored Plan is never changed automatically to match the actual Team.
+Adding an off-plan Pokémon is always allowed after one concise warning that the
+addition will not change the linked Plan. The add flow must not prompt the user
+to update the Plan, replace a target, or infer a relationship from roster
+position. Plan targets, forms, roles, preferences, and notes change only through
+an explicit Plan-editing action; unlinking a Plan from a Play does not delete the
+standalone Plan.
+
+Plan also exclusively owns member relationship management: linking, relinking,
+unlinking, skipping, and any explicit status decision. Team may show a read-only
+comparison and route to Plan, but it exposes no Plan target selector, link
+control, or Plan mutation. An off-plan Team addition changes no Plan-member
+state. Plan presents the accepted comparison labels and lifecycle semantics
+defined below; Team does not infer them from roster composition.
+
+When the user chooses `Add to Team` from a Plan member, the Plan-owned handoff
+should suggest the earliest or first obtainable persistent species/form on a
+game-valid directed evolution path to the exact target. The user may instead
+choose another valid intermediate stage or the target itself. Plan confirms the
+explicit relationship as part of that handoff. Generic Team Add never suggests
+or creates the relationship, even when species or evolution family matches.
 
 Plans should show preemptive Pokémon reuse warnings. If a planned target, preferred starting Pokémon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokémon.
 
 Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokémon use slots 1 to 6. Alternate/reserve planned Pokémon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
 
-When a plan is linked to a play, member status is tracked for that play's Team Plan relationship.
+When a plan is linked to a play, member status is tracked and managed by that
+play's Team Plan relationship. Team mutations do not write it; Plan may derive
+read-only comparison consequences from the latest actual roster.
 
 A play has one focused linked Team Plan. The UI should not support multiple competing plans inside the same play. If the user wants variants, they should be represented as alternates, notes, skipped members, or future standalone planning concepts instead of multiple linked team plans for one play.
+
+Inside a Play, the Plan tab is a full-width comparison workspace rather than a
+second Team detail view. It shows the reusable Plan identity, a plain summary of
+Primary target outcomes, actionable Plan checks, six fixed Primary rows, a
+compact Alternate section, and actual Team members outside the Plan. Each
+occupied row compares the planned target with its explicit relationship state
+and linked actual Pokémon. It does not use an adherence percentage, completion
+bar, overall score, duplicate Team analysis, or persistent selected-Pokémon
+detail panel.
+
+Plan comparison uses lifecycle-aware `Not used yet` or `Not used`, plus `In
+progress`, `Reached`, `Diverged`, `Skipped`, and `Off-plan`. `Reached` requires
+an explicit relationship and recorded target evidence. `In progress` means the
+linked actual member remains on a valid directed path to the target. `Diverged`
+means a linked unresolved member has left that path. `Skipped` is always an
+explicit user decision. `Off-plan` describes an actual member with no Plan
+relationship and never pairs it to a target by slot or similarity.
+
+Plan owns `Add to Team`, `Link existing Pokémon`, `Relink`, `Unlink`, `Mark
+skipped`, `Restore target`, member editing, reordering, removal, and detachment.
+The Plan-owned member editor changes target, preferred start, role, planned
+nature, ability, item, moves, and notes without editing the actual Pokémon.
+Reusable Plan edits disclose cross-Play impact when applicable. Completed and
+abandoned Plays use past-tense comparison language and do not expose a
+present-tense add action unless the Team workflow supports recording a
+remembered member.
 
 ### Pokedex Search
 
@@ -452,11 +927,22 @@ Examples:
 - No legendary Pokémon.
 - Custom rules.
 
-Rules should be modeled flexibly. The app should support predefined rules and user-authored custom rules. Pokémon reuse rules apply both when planning teams and when adding Pokémon to a play team.
+Rules should be modeled flexibly. The app should support immutable predefined
+rules and reusable user-authored custom rules. A rule explicitly declares
+whether Voydex can evaluate it or only record it. Pokémon reuse rules apply
+both when planning teams and when adding Pokémon to a play team.
+
+For V1, the shipped application catalogue owns that capability and the supported
+configuration for predefined rules; custom rules are recorded only. A later
+version may move those contracts into generalized database metadata if a real
+administration or extensibility need appears.
 
 Pokémon reuse checks should support both real usage warnings and preemptive warnings. Real usage warnings validate the Pokémon being selected now. Preemptive warnings validate planned targets and future evolution destinations so the user is not surprised later in a play.
 
-Predefined rules should be structured where they affect app behavior. User-authored descriptive rules should also be supported for personal challenges that the app cannot validate yet.
+Predefined rules should be structured where they affect app behavior.
+User-authored descriptive rules should also be supported for personal
+challenges that the app cannot validate yet. V1 evaluates supported rules as
+warnings rather than hard action blockers.
 
 ### Tags
 
@@ -467,6 +953,10 @@ Tags should be user-owned and attachable to:
 - Play Pokémon.
 
 Tags should support filtering and personal organization.
+
+Tags never affect completion, gameplay validation, or History. Detaching a
+shared Tag from one record does not delete the reusable Tag. Shared rename and
+delete administration is deferred beyond V1.
 
 ### Backlog And Wishlist
 

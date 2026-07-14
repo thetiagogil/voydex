@@ -101,8 +101,18 @@ navigation item.
 
 - A Play Hub owns navigation between Overview, Team, Progress, Plan, History,
   and Settings.
-- Progress may expose Story, Pokédex, and Collectibles as deeper navigation
-  within the active Play.
+- Team may expose a focused Analysis child route while Team remains visibly
+  active and the user retains a clear return to roster management.
+- Progress opens its Overview and may expose Story, Pokédex, and Collectibles as
+  focused child views within the active Play. Keep Progress selected, provide a
+  clear return, and avoid both a persistent second tab row and a dropdown Hub
+  tab. A compact sibling-area menu is optional inside focused views.
+- History keeps one full-width timeline in the active Hub tab. Selecting an
+  entry opens a contextual detail sheet rather than a child route or persistent
+  secondary panel.
+- Settings uses a compact local section rail on desktop and an accessible
+  section selector on narrow screens. Its sections remain inside the active
+  Settings Hub tab rather than becoming more Hub tabs or child routes.
 - A Plan, Pokémon, or game detail surface owns its own local context and back
   path.
 - Contextual navigation belongs within the page/workspace, not in the global
