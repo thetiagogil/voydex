@@ -20,6 +20,14 @@ play/team/story model. They can share account, reference, style, and high-level
 shell concepts while using product-family-specific workflows and data models
 where needed.
 
+## V1 Loading Pattern
+
+Initial asynchronous page reads use one accessible page-level Spinner inside
+the persistent application shell. V1 does not use Skeleton placeholders. When
+valid page content already exists, preserve it and place pending Spinner
+feedback on the responsible control or section. Loading never substitutes for
+empty, partial, unavailable, or error behavior.
+
 ## Primary App Areas
 
 ### Dashboard
@@ -28,13 +36,44 @@ The Dashboard is the logged-in home page.
 
 It should surface:
 
-- Recent plays.
-- Continue-play shortcuts.
+- The most recently updated non-archived Play with status-aware continuation
+  language and one Next Step.
+- A compact preview of other recent Plays.
 - Quick actions for creating a play or plan.
 - Recent meaningful activity.
-- Summary stats.
 
-The Dashboard is derived from user-owned gameplay, planning, timeline, and stats data.
+The Dashboard is derived from user-owned gameplay, planning, and timeline data.
+Do not add dedicated V1 quick-stat cards merely to fill the page. Rich derived
+patterns belong to Stats; Dashboard remains focused on resuming an adventure.
+
+The featured Play shows cover and identity, lifecycle, its derived update time,
+Journey, six Active-Team sprite positions, one trustworthy overall completion
+summary, and one Play-wide Next Step. Reuse the Play Header's recommendation,
+but route lifecycle actions to their canonical Header flow and every other
+action to its owning Play area. Dashboard never owns a duplicate mutation.
+
+Other Recent Plays shows up to three compact single-column rows after the
+featured Play. It uses the same meaningful-activity order, excludes the featured
+and archived Plays, and may include Completed or Abandoned Plays when they are
+next by recency. Each row shows only cover, identity, lifecycle, one Journey
+line, and update context, then opens Play Overview. Omit the section when there
+are no other current Plays; do not duplicate Team, Progress, or Next Step.
+
+Recent Meaningful Activity shows up to four deliberately meaningful History
+events across Plays. Each compact row identifies the event, owning Play and
+game, honest effective-date certainty, and event-time Pokémon context only when
+useful, then opens the event in the owning Play History. V1 has no global
+activity route. Keep a concise explanatory state when no event exists and use a
+separate retry state when the read is unavailable; routine operational writes
+never appear as activity.
+
+A user with no Plays receives one first-adventure state with `Create first Play`
+as its only primary action. When only archived Plays exist, show `No current
+adventures` with routes to create a Play or view Archived Plays; never promote an
+archived Play automatically. Keep partial featured Plays openable with explicit
+unavailable facts and `Open Play` as the safe Next Step fallback. Supporting
+section failures retry independently, complete read failures never masquerade
+as empty accounts, and a stale focus resolves to the next eligible Play.
 
 ### Plays
 

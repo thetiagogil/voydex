@@ -35,6 +35,12 @@ implemented during this phase unless the project direction explicitly changes.
   behavior.
 - [Mainline Play](./mainline-play.md): functional Play and Play Hub blueprint,
   area responsibilities, summary outputs, states, and open questions.
+- [Mainline Plays Browse](./mainline-plays-browse.md): accepted functional
+  adventure-library hierarchy, summary-row contract, filters, responsive and
+  recovery behavior, and data needs derived from the Play Hub.
+- [Mainline Dashboard](./mainline-dashboard.md): provisional play-led Mainline
+  home hierarchy, continuation focus, recent summaries, and explicit content
+  boundaries.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

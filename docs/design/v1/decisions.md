@@ -81,6 +81,18 @@ why the direction was selected or changed.
 | V1-D063 | 2026-07-14 | Put routine Play status transitions in the persistent Header and keep correction and management in Settings               | Accepted   |
 | V1-D064 | 2026-07-14 | Preserve a recorded completion date as historical knowledge when a Completed Play is normally reopened                    | Accepted   |
 | V1-D065 | 2026-07-14 | Use lightweight date-aware status transitions and defer their final composition to whole-flow UI validation               | Accepted   |
+| V1-D066 | 2026-07-14 | Show the six-position Active Team as an equal-slot current-form sprite preview in every Play Browse result                | Accepted   |
+| V1-D067 | 2026-07-14 | Use one cover-led single-column Play library without a V1 grid/list toggle                                                | Accepted   |
+| V1-D068 | 2026-07-14 | Prioritize Play identity, then current Journey, Team, and Progress, with organization and activity as supporting context  | Accepted   |
+| V1-D069 | 2026-07-14 | Use a compact two-level Plays filter system while keeping lifecycle, completion, and archive visibility distinct          | Accepted   |
+| V1-D070 | 2026-07-14 | Keep archived Plays openable and use context-preserving explicit loading, empty, partial, and recovery states             | Accepted   |
+| V1-D071 | 2026-07-14 | Keep Dashboard play-led and omit dedicated V1 quick-stat cards                                                            | Accepted   |
+| V1-D072 | 2026-07-14 | Focus Dashboard on the most recently updated non-archived Play and defer a user-selected favorite                         | Accepted   |
+| V1-D073 | 2026-07-14 | Summarize the latest Play through identity, Journey, six Active sprites, overall Progress, and one routed Next Step       | Accepted   |
+| V1-D074 | 2026-07-14 | Show up to three compact Other Recent Play rows without duplicating Team, Progress, or Next Steps                         | Accepted   |
+| V1-D075 | 2026-07-14 | Preview four meaningful cross-Play History events with honest dates and direct owning-History routes                      | Accepted   |
+| V1-D076 | 2026-07-14 | Use one accessible page-level Spinner for V1 initial loads and defer all Skeleton loading patterns                        | Accepted   |
+| V1-D077 | 2026-07-14 | Complete Dashboard states with focused empty, partial-data, isolated retry, and stale-focus recovery                      | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -1693,3 +1705,295 @@ These choices complete the V1 functional status contract. Exact composition,
 density, and responsive presentation remain subject to the first coherent UI
 draft. The contract refines DG-017 and DG-018 without adding another V1 field,
 table, or database gap.
+
+## V1-D066 — Active-Team Sprite Preview In Plays Browse
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Show all six current Active-Team positions in every normal Play Browse result.
+An occupied position uses the Pokémon's actual current-form sprite. A
+confirmed-empty position and a not-recorded position use distinct shared
+placeholder iconography and accessible labels, while every position retains the
+same compact dimensions.
+
+The preview is read-only and excludes Reserve Pokémon, names, types, moves, and
+member actions. Its purpose is personal recognition across Plays, not roster
+management. Selecting it follows the containing Play row into the Play Hub; it
+does not introduce a separate Team link or nested control.
+
+Reuse the semantic slot states accepted by V1-D021 through a denser Browse
+variant rather than creating another Team-state vocabulary. Exact sprite size,
+slot spacing, placeholder treatment, and mobile density remain visual-validation
+questions. DG-020 owns the already-required persistence distinction between
+confirmed-empty and not-recorded current positions.
+
+## V1-D067 — Single-Column Play Library
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use one cover-led Play row per result across the shared desktop canvas. The
+single-column library gives each Play enough horizontal room for its identity,
+lifecycle, Journey, six-position Active-Team preview, trustworthy Progress,
+and organization context while preserving a clear vertical scanning rhythm.
+
+Do not add a square artwork grid, a two-column card grid, a data table, or a
+grid/list view toggle in V1. On narrow screens, the same semantic hierarchy
+becomes one stacked vertical card rather than a separate mobile composition.
+Exact row height, cover proportion, spacing, and summary density remain subject
+to realistic desktop and mobile visual validation.
+
+The chosen composition does not create a database requirement or a persisted
+view-preference setting. Browse continues to derive its facts from the accepted
+Play summary contract and the existing gaps referenced by DR-029.
+
+## V1-D068 — Play Browse Row Information Hierarchy
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Give every Play result three stable levels of information priority. Cover art,
+Play name, game/version context, and lifecycle status form the primary identity.
+Journey, the six-position Active Team, and trustworthy Progress form the main
+current-state scan. Trainer/date details, Tags, recent activity, and the open
+cue remain supporting context.
+
+The hierarchy describes emphasis and reading order rather than rigid desktop
+columns. Narrow screens may stack the same groups, and exact alignment, spacing,
+and relative size remain visual-validation questions. Missing or unrecorded
+facts retain an honest labelled position so rows do not reorganize themselves
+according to data completeness.
+
+This decision changes no database requirement. It only prioritizes facts already
+required by the accepted Browse contract and DR-029.
+
+## V1-D069 — Plays Browse Filtering And Sorting
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Keep Search, lifecycle Status, Game, Sort, and one `More filters` trigger visible
+on desktop. Search covers Play name, game name, trainer name, and Tag label.
+`More filters` owns Generation, Tags, Rules, completion state, and Current,
+Archived, or All visibility. Show applied criteria as removable chips with one
+`Clear all` action rather than a permanent row of every selector.
+
+Lifecycle, completion, and Archive remain separate concepts. Completion uses
+`Goal met`, `In progress`, and `Progress not recorded`; Archive controls library
+visibility and never becomes another lifecycle status. On narrow screens,
+Search stays visible while Filters and Sort remain distinct directly accessible
+actions, with the complete filter set in one focused sheet.
+
+Default Sort to meaningful recent activity, followed by recently created, Play
+name, Game, started date, and trustworthy completion progress. Unknown progress
+must remain explicit and group honestly rather than sorting as zero. Preserve
+the accepted search, filter, and sort state in URL query parameters.
+
+This decision adds no new V1 database gap. DR-029 already owns the complete
+owner-scoped read and meaningful-activity derivation; Rules, Tags, lifecycle,
+Archive, and completion knowledge reuse their accepted contracts. Do not add a
+persisted user filter preference for V1.
+
+## V1-D070 — Plays Browse Archive And Recovery Behavior
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Hide archived Plays from the Current library and expose them through Archived
+or All visibility. Keep an archived Play openable for reviewing its recorded
+Team, Progress, Plan, and History; Archive is organizational visibility, not an
+access lock. Mark Archive separately from lifecycle and offer `Restore Play` as
+a valid sibling control and the only mutation directly on an archived Browse
+row. Restore changes only archive visibility.
+
+Use the shared accessible page-level Spinner for the initial load and an
+explicit `Load more` control instead of endless scrolling. Do not render
+Play-row Skeletons in V1. Filtering and sorting apply to the complete
+owner-scoped library. An incremental load preserves existing rows and places
+pending feedback on its responsible control. An incremental-load failure keeps
+those rows and retries only the failed slice, while changed criteria replace
+stale results without presenting mismatched Plays.
+
+Distinguish the empty library, filtered-empty, only-archived, partial-summary,
+initial-load failure, incremental-load failure, and Restore failure states.
+Preserve the user's query and already loaded results whenever they remain valid;
+keep partial Plays openable and label unavailable facts honestly. A failed
+Restore leaves the Play archived and confirms that no data changed.
+
+This behavior adds no new V1 database gap. DR-029 already owns Browse loading,
+partial summaries, Archive visibility, and Restore recovery, while DG-017 owns
+the accepted owner-scoped Restore contract.
+
+## V1-D071 — No Dedicated Dashboard Quick-Stat Cards
+
+**Status:** Accepted
+
+**Date:** 2026-07-14
+
+Keep the Mainline Dashboard focused on continuing one useful Play, previewing
+other recent Plays, and showing recent meaningful activity. Do not add a
+permanent equal-card row for total Plays, completions, games explored, Pokémon
+companions, memories, or similar aggregates merely to fill the page.
+
+Those metrics are less actionable than the continuation flow and either repeat
+the Plays library or belong to the later Collection and Stats contracts. Recent
+meaningful activity communicates memories with more value than a raw event
+count. The page heading owns Create Play and Create Plan rather than another
+duplicated Quick Actions card.
+
+A quiet journey sentence may be tested during coherent visual exploration if
+the composition needs it, but it is not required content and creates no V1 data
+contract. This decision removes the older mandatory Dashboard summary-stats
+bullet and introduces no database gap.
+
+## V1-D072 — Latest Updated Dashboard Play
+
+**Status:** Accepted
+
+**Date:** 2026-07-14
+
+Focus the Dashboard on the most recently updated non-archived Play regardless
+of lifecycle. Reuse the same derived meaningful-activity timestamp as Plays
+Browse: accepted writes to the Play or its owning Team, Progress, linked-Plan
+relationship, History, Settings, and lifecycle data may advance it, while page
+views do not. Do not rely only on the parent Play row's `updated_at` when a child
+write is newer.
+
+Adapt the section language to the result: Continue for Playing or Paused, Start
+for Not started, and Revisit for Completed or Abandoned. If no non-archived Play
+exists, use the new-adventure starting state rather than promoting an archived
+Play. Other Recent Plays excludes the focus and follows the same activity
+ordering.
+
+Do not add last-viewed or favorite persistence to V1. A later favorite mechanic
+may let the user override automatic recency once real multi-Play behavior proves
+that useful. The V1 selection reuses DR-030 and the existing derived-activity
+read requirement without creating another database gap.
+
+## V1-D073 — Dashboard Latest-Play Summary
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Give the latest-Play summary five stable information levels: cover-led Play
+identity with lifecycle and derived update time; current or furthest Journey;
+all six equal current-form Active-Team sprite states; one trustworthy overall
+completion-goal summary; and one Play-wide Next Step. Missing Journey, Team, or
+Progress facts retain honest explicit states rather than shifting the hierarchy.
+
+Reuse the Play Header's accepted Next Step resolver. The Dashboard shows one
+short recommendation, one-sentence reason, and one primary navigation into the
+owning Play area, with at most one quiet `Open overview` alternative. It may
+invoke only the canonical destination workflow. Lifecycle recommendations route
+to the Play Header's existing Start, Resume, Reopen, date, or confirmation flow;
+the Dashboard never owns a duplicate mutation. Use `Open Play` when no strong
+recommendation exists.
+
+Exclude trainer name, lifecycle dates other than update context, Tags, Rules,
+Plan comparison, Reserve count, recent History, top-level Progress group rows,
+and utility menus. Those facts already have accepted homes and would turn the
+focus into another Play Overview. This projection reuses DR-030 and its existing
+gap references without introducing a new database requirement.
+
+## V1-D074 — Other Recent Plays Preview
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Show up to three compact single-column Play rows after the featured Play. Reuse
+the same meaningful-activity order, exclude the featured and archived Plays,
+and keep Completed or Abandoned Plays eligible when recency places them next.
+Render fewer rows without placeholders and omit the section when no other
+current Play exists.
+
+Each row contains a small cover, Play name, game/version, lifecycle badge, one
+Journey line, derived `Updated ...` context, and a quiet open cue. The full row
+opens Play Overview, while the heading owns one `View all Plays` route. Preserve
+the same compact vertical list on mobile without a carousel or horizontal
+scrolling.
+
+Do not duplicate Team sprites, Progress, Tags, Rules, trainer detail, Next Step,
+Browse filters, lifecycle mutations, or pagination. This keeps the section
+visibly subordinate to the featured Play and distinct from the complete Browse
+row. It reuses DR-030 and its existing meaningful-activity read without creating
+a new V1 database gap.
+
+## V1-D075 — Recent Meaningful Activity Preview
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Show up to four compact cross-Play History rows using the same meaningful-event
+eligibility as Play Overview and full History. Each row carries the shared event
+type, concise title, owning Play and game/version, honest effective-date
+certainty, and event-time Pokémon or Team-snapshot context only when it improves
+recognition. The complete row opens the event in its owning Play History.
+
+Preserve effective journey ordering and explicitly label approximate or
+unrecorded dates. Never present creation time as event chronology or substitute
+current Pokémon identity for event-time evidence. Exclude routine progress,
+ordinary Story completion, roster administration, detail edits, corrections,
+Settings writes, failed actions, and technical records.
+
+Do not add a global `View all activity` route while V1 has no global History
+surface. When no eligible event exists, retain the section with one concise
+explanation that recorded memories and major milestones will appear there,
+without another major action. An unavailable read receives an explicit retry
+state rather than empty copy. This preview reuses DR-030, DR-008, DG-003, and
+DG-016 without creating another V1 database gap.
+
+## V1-D076 — V1 Spinner Loading Pattern
+
+**Status:** Accepted
+
+**Date:** 2026-07-14
+
+Use one accessible page-level Spinner for initial asynchronous page reads in
+V1. Keep the persistent application shell visible and center the Spinner in the
+content region with an honest loading label. Do not implement screen-shaped,
+card-shaped, row-shaped, or field-shaped Skeleton placeholders anywhere in V1.
+
+When valid content is already visible, preserve it and use a localized pending
+Spinner on the responsible control or section. A Spinner communicates loading
+only; it never replaces an empty explanation, partial-data label, or recovery
+state. This decision updates the accepted Plays Browse loading treatment and the
+Dashboard state proposal without changing their data contracts.
+
+Preserve Skeleton loading as a future design-system improvement to reconsider
+after screen geometry is stable and real perceived-performance evidence
+supports it. The V1 choice reuses the existing shared Spinner and page-loading
+component and creates no database requirement.
+
+## V1-D077 — Dashboard Empty And Recovery States
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+When the user has no Plays, replace the normal summaries with one welcoming
+first-adventure state whose only primary action is `Create first Play`; suppress
+duplicate Create actions in the heading. When only archived Plays exist, never
+promote one automatically. Show `No current adventures` with `Create Play`
+primary and `View archived Plays` secondary.
+
+Keep a partial featured Play openable, preserve its hierarchy, and label
+unavailable Journey, Team, or Progress facts honestly. An unresolved
+recommendation falls back to `Open Play`. Isolate a failed Other Recent Plays or
+Recent Meaningful Activity read to that section while retaining valid content.
+A complete Dashboard read failure receives one focused retry and must never be
+presented as an empty account.
+
+If the focus becomes archived, deleted, or inaccessible while the Dashboard is
+being resolved, select the next eligible Play or use the appropriate empty
+state. Loading remains the separate accepted Spinner state. This completes the
+Dashboard's V1 functional contract and reuses DR-030 without creating another
+database gap.

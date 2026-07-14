@@ -71,8 +71,35 @@ reusable Rules & Tags behavior are also accepted. Routine status transitions
 now have lightweight date-aware behavior: Start and Mark completed suggest
 editable Exact Today values, historical completion starts as `Not recorded`,
 and normal Reopen preserves recorded completion knowledge. The inside-out V1
-Play functional contract is accepted; Plays Browse is the next design surface
-so it can expose the right Play summaries before Dashboard is derived from it.
+Play functional contract is accepted. Plays Browse now has an accepted
+single-column library structure, information hierarchy, and six-position
+current-form Active-Team sprite preview. Its two-level search, filter, and sort
+structure, Archive behavior, explicit loading, and context-preserving recovery
+states are also accepted. The complete Plays Browse V1 functional contract can
+now support the Dashboard derivation; exact visual composition remains pending.
+Dashboard review has started with a provisional play-led hierarchy. Dedicated
+quick-stat cards and a duplicated Quick Actions card are intentionally excluded
+so continuation, other recent Plays, and meaningful activity remain primary.
+The dominant summary uses the most recently updated non-archived Play with
+status-aware Continue, Start, or Revisit language; a user-selected favorite is
+preserved for the future backlog rather than added to V1 persistence.
+Its accepted content hierarchy is cover-led identity, Journey, six current-form
+Active-Team sprite states, one trustworthy overall Progress summary, and one
+routed Play Header Next Step without a duplicate Dashboard mutation.
+Other Recent Plays is accepted as up to three compact cover-led rows using the
+same meaningful-activity order, without duplicating Team, Progress, or another
+Next Step.
+Recent Meaningful Activity is accepted as up to four compact cross-Play History
+rows with honest effective dates, event-time identity when useful, and direct
+routes to the owning Play History. V1 has no global activity route.
+V1 initial page loading now uses the existing shared accessible page-level
+Spinner throughout the app. Skeleton loading is excluded from V1 and preserved
+in the future backlog; in-place operations keep valid content visible and use
+localized pending feedback.
+Dashboard no-Play, only-archived, partial-data, isolated-section failure,
+complete failure, and stale-focus recovery states are accepted. The Dashboard
+V1 functional contract is complete and now awaits the three-direction visual
+checkpoint.
 
 Accepted direction:
 
@@ -171,10 +198,11 @@ for one to be chosen before building UI.
 - The V1 visual direction, responsive screen set, and state matrix have not yet
   been selected or designed.
 - Team-derived requirements have exposed confirmed gaps in atomic roster
-  placement, the distinction between selectable fixed forms and game-valid
-  directed form transitions, current/past lifecycle support, and Plan-safe
-  correction or deletion. Remaining screen-derived requirements and the full
-  reference-data audit are still pending.
+  placement, explicit known-empty versus not-recorded current slots, the
+  distinction between selectable fixed forms and game-valid directed form
+  transitions, current/past lifecycle support, and Plan-safe correction or
+  deletion. Remaining screen-derived requirements and the full reference-data
+  audit are still pending.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
 

@@ -41,6 +41,20 @@ The desired mix:
   overlays, hero/media treatments, modal scrims, disabled states, and semantic
   status tints.
 
+## Loading Pattern
+
+V1 uses the shared page-level spinner for an initial asynchronous page load. Keep
+the persistent application shell visible, then center one accessible Spinner in
+the page content region with a concise loading label. Do not build screen-shaped,
+card-shaped, row-shaped, or field-shaped Skeleton placeholders in V1.
+
+When an in-place operation already has valid content to preserve, keep that
+content visible and use a localized pending Spinner on the responsible control
+or section instead of replacing the whole page. Loading, empty, partial, and
+error states remain semantically distinct. Skeleton loading may return only as
+a later design-system enhancement after the real layouts are stable and its
+perceived-performance value is validated.
+
 ## Color Tokens
 
 `src/app/globals.css` is the stylesheet entry point and owns the base shadcn
@@ -76,6 +90,44 @@ Existing token groups:
   subtly behind page context so the app retains its scenic sense of place.
 - Avoid nested cards unless the inner card is a true repeated item or modal.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
+
+## Mainline Dashboard Direction
+
+Treat Dashboard as a play-led resume surface rather than a generic analytics
+layout. Give the most recently updated non-archived Play visual priority, with
+Continue, Start, or Revisit language adapted to its lifecycle, then show lighter
+previews of other recent Plays and meaningful activity. Keep Create Play primary
+and Create Plan lower emphasis in the page heading; do not repeat them in a
+Quick Actions card.
+
+Within the featured Play, keep a stable reading order of cover-led identity,
+Journey, six equal Active-Team sprite states, one overall Progress summary, and
+one routed Next Step. Reuse the Play Header recommendation without placing
+mutation logic on Dashboard. Exclude the detailed metadata, group summaries,
+Plan comparison, and History content already owned by Play Overview.
+
+Render Other Recent Plays as no more than three compact, cover-led rows in one
+vertical list. Each row carries only identity, lifecycle, one Journey line, and
+update context, and opens Play Overview. Keep the same pattern on mobile without
+a carousel or horizontal scroll. Do not repeat Team, Progress, or another Next
+Step in these subordinate summaries.
+
+Use no more than four compact rows for Recent Meaningful Activity. Lead with the
+event type and title, keep the owning Play and honest date legible, and include
+event-time Pokémon imagery only when it aids recognition. The entire row opens
+the owning Play History event. Keep the empty explanation small, and do not add
+a global activity action or turn these moments into large cards.
+
+Let Dashboard system states reshape only the affected content. A first-adventure
+or only-archived state replaces the normal summaries and owns its actions so the
+heading does not duplicate them. Partial summaries retain the same geometry and
+use explicit unavailable labels. Supporting-section errors stay local, while a
+complete read failure uses one focused recovery state.
+
+Do not add a permanent equal-card quick-stat strip in V1. Rich personal patterns
+belong to Stats, while Recent Meaningful Activity should show actual moments
+rather than reducing them to an event count. Exact Dashboard composition remains
+pending the three-direction visual checkpoint.
 
 ## Mainline Play Hub Direction
 
@@ -135,6 +187,26 @@ Overview should stay high-signal and avoid filler:
   across occupied, confirmed-empty, and not-recorded states. Use the shared icon
   system plus explicit labels for placeholders; never resize or collapse a slot
   because no Pokémon portrait is available.
+- Plays Browse reuses this semantic component as a denser read-only variant.
+  Always render six equal Active positions: occupied slots use the Pokémon's
+  actual current-form sprite, confirmed-empty and not-recorded slots keep
+  distinct shared placeholders, and Reserve members or Team controls stay out
+  of the preview.
+- Use one full-width, cover-led Play row per result across the desktop canvas;
+  do not add a V1 grid/list switch. Preserve the same information order when
+  each result becomes a stacked vertical card on narrow screens, and avoid
+  turning the row into either a dashboard or a data table.
+- Within each Browse row, emphasize Play identity first; Journey, the six-slot
+  Active Team, and trustworthy Progress second; and Tags, activity, and other
+  metadata last. Preserve labelled space for unavailable state instead of
+  allowing incomplete Plays to produce a different reading order.
+- Keep Browse controls compact: visible Search, Status, Game, Sort, and one
+  `More filters` disclosure on desktop, followed by removable active-filter
+  chips only when needed. On narrow screens, keep Search visible and present
+  Filters and Sort as separate actions rather than one ambiguous menu.
+- Keep archived Play rows openable and show Archive independently from
+  lifecycle. Place Restore outside the row link as the only Browse mutation,
+  with separate focus and accessible naming.
 - Show the active lineup only in Overview. Reserve is a compact positive count,
   not a second roster or Active/Reserve toggle; linked-Plan context remains a
   short row beneath the slots when present.

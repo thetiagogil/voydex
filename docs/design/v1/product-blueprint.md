@@ -175,14 +175,14 @@ route when it does not need an independent URL.
 | G-02 | Intro                | Dedicated product explanation and onboarding                      | Content accepted; [detail](./global-surfaces.md#g-02--intro)     |
 | G-03 | Login                | Authentication and intent resumption                              | Pending                                                          |
 | G-04 | Settings             | Profile, preferences, reuse, theme, and account                   | Pending                                                          |
-| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | Pending                                                          |
+| G-05 | Shared system states | Loading, empty, error, permission, expired session, and not found | V1 Spinner loading accepted; remaining shared states pending     |
 
 ### Mainline Surfaces
 
 | ID    | Surface                   | Role                                                       | Specification status                                                                                                                     |
 | ----- | ------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| M-01  | Dashboard                 | Authenticated home and next-action summary                 | Pending                                                                                                                                  |
-| M-02  | Plays                     | Browse and filter playthroughs                             | Pending                                                                                                                                  |
+| M-01  | Dashboard                 | Authenticated home and next-action summary                 | V1 functional contract accepted; visual validation pending; [detail](./mainline-dashboard.md)                                            |
+| M-02  | Plays                     | Browse and filter playthroughs                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plays-browse.md)                                         |
 | M-03  | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)                                                          |
 | M-04  | Play Overview             | High-signal summary of one play                            | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md)                                                 |
 | M-05  | Play Team                 | Manage active, reserve, and historical Pokémon             | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#team-contract)                                  |

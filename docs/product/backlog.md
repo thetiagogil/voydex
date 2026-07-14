@@ -59,6 +59,49 @@ across several Plays or Plans, when the predefined catalogue must be edited
 outside a normal deployment, or when application-owned capability and
 configuration contracts become difficult to maintain safely.
 
+## Browse And Dashboard Read Optimization
+
+A later database pass may add a dedicated convenience projection, materialized
+summary, or cache for repeated Plays Browse and Dashboard reads. It could
+precompose Journey position, six-slot Active-Team previews, trustworthy
+completion state, Tags, Rules, and last meaningful activity when measuring the
+same facts from their owning tables becomes too expensive at realistic scale.
+
+This is not required merely because the current `mainline_play_summary` view is
+smaller than the accepted screen contract. V1 should first compose the facts
+from existing owner-scoped sources and profile realistic libraries. Reconsider
+the optimization only when query evidence shows unacceptable latency or load.
+Any later cache must remain derived, preserve RLS/ownership, and never replace
+Play, Team, Progress, History, Tag, or Rule sources of truth.
+
+## Favorite Dashboard Play
+
+A later version may let the user choose one non-archived Play as their favorite
+or pinned Dashboard focus, overriding automatic latest-activity selection until
+they clear it, archive it, or lose access to it. The UI should make automatic
+versus user-selected focus understandable and provide a quick route back to
+automatic recency.
+
+V1 uses the most recently updated non-archived Play and does not add last-viewed
+or favorite persistence. Reconsider the override only when users commonly keep
+several concurrent Plays and automatic recency repeatedly selects the wrong
+adventure. Any later preference must remain owner-scoped, validate that the Play
+is accessible and non-archived, and fall back safely when it becomes invalid.
+
+## Skeleton Loading States
+
+A later version may add layout-preserving Skeleton loading patterns for stable,
+data-dense surfaces such as Play Browse rows, Dashboard summaries, Team lists,
+or Codex result grids when measured perceived performance justifies the added
+design and maintenance cost.
+
+V1 deliberately uses the shared accessible page-level Spinner for initial page
+reads and localized pending Spinners when existing content remains visible. Do
+not introduce one-off Skeletons before the final component geometry is stable.
+Any later Skeleton system should be shared, responsive, theme-aware, respectful
+of reduced-motion preferences, and visually faithful to the content it
+previews. It must never conceal an empty, partial, unavailable, or error state.
+
 ## Team Score
 
 Explore a playful Team Score after the V1 Quick Team Analysis and full Team
