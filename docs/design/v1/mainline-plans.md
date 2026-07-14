@@ -40,6 +40,26 @@ compares one linked Plan with that Play's actual Team and exclusively manages
 Play-specific member relationships. Team never edits a Plan. A Plan never
 fills or rewrites a Team automatically.
 
+## Relationship To The Plays Family
+
+Plans should feel like a sibling of Plays, not a separately invented module.
+Reuse the same Mainline grammar wherever the user is performing the same kind
+of task, then change the content where Plan ownership is genuinely different.
+
+| Pattern            | Plays                                                                                               | Plans                                                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Browse shell       | Centered application canvas, plain heading, one Create action, compact controls, one-column library | Reuse the same shell and browse rhythm; switch locally between Team Plans and Game List                                        |
+| Library row        | Cover-led Play identity, lifecycle, Journey, six Active sprites, Progress, organization, recency    | Cover-led Plan identity, lifecycle, six Primary target sprites, capacity/check context, organization, usage, recency           |
+| Search and filters | Visible Search, Status, Game, Sort; lower-frequency criteria in More filters; URL-backed chips      | Reuse the same control hierarchy with Plan-specific Rule, Tag, optional-content, and Archive criteria                          |
+| Creation           | Focused contextual surface; game first; concise required decisions; success opens the new Play      | Reuse the same surface and contextual prefill behavior, but stay one concise step because Plan has no completion-goal decision |
+| Detail header      | Cover left, identity/context center, adaptive Play actions right                                    | Reuse the same responsive header structure with Plan lifecycle and Create Play from Plan actions                               |
+| Detail body        | Tabbed Hub because one Play owns six mature workflows                                               | One authoring workspace because Plan targets, setup, checks, and usage form one planning responsibility                        |
+
+This is visual and interaction consistency, not shared state. Plan lifecycle is
+not Play lifecycle, Primary targets are not Active Team members, and Plan checks
+are not Progress. Reuse shell and component grammar without forcing the two
+domains to expose identical fields or actions.
+
 ## M-13 — Plans Hub
 
 ### Purpose And Hierarchy
@@ -65,7 +85,8 @@ from the other. The final visual pass may choose a segmented control, compact
 local navigation, or an equivalent responsive pattern, but switching between
 these two sibling responsibilities must remain obvious.
 
-Use this stable hierarchy:
+Use the same shared centered application canvas as Plays Browse and this stable
+hierarchy:
 
 1. **Page heading:** `Plans`, one context-appropriate primary action, and no
    duplicate Quick Actions card. Team Plans uses `Create Plan`; Game List uses
@@ -77,18 +98,31 @@ Use this stable hierarchy:
 5. **Incremental loading:** explicit `Load more` when needed; no endless scroll
    and no Skeletons.
 
-The visual pass may choose the best responsive result composition, but it must
-remain a scannable library rather than a decorative gallery or analytics page.
+Use one compact, cover-led Plan row per result in a single responsive column,
+matching Plays Browse's library rhythm. Do not introduce a Plan grid, table, or
+V1 grid/list toggle. The exact internal density remains a visual-validation
+question, but the result must remain a scannable library rather than a
+decorative gallery or analytics page.
 
 ### Search, Filters, And Sort
 
-Search covers Plan name, game, and planned Pokémon identity. Keep immediately
-useful controls visible and place the rest in one compact filter surface:
+Search covers Plan name, game, and planned Pokémon identity. Mirror Plays
+Browse's two-level control hierarchy. Keep these primary controls visible:
 
-- game or generation;
-- lifecycle: Draft, Active, or Archived;
+- Search;
+- lifecycle Status;
+- Game;
+- Sort.
+
+Use one `More filters` popover on desktop and focused sheet on narrow screens
+for lower-frequency criteria:
+
+- Generation;
 - attached Rule;
-- attached Tag.
+- attached Tag;
+- optional-content scope;
+- Archive visibility when it is clearer to keep Archive separate from Plan
+  lifecycle.
 
 The default library shows Draft and Active Plans. Archived visibility is
 explicit through status filtering; archived Plans are not mixed silently into
@@ -101,10 +135,11 @@ Sort options are:
 - name;
 - game.
 
-Filters and sort apply to the complete owner-scoped library, not only the
-currently loaded slice. Preserve active criteria in the URL so returning from
-Plan Detail restores the same library context. V1 does not store a separate
-default-filter preference.
+Show removable active-filter chips and one `Clear all` action. Filters and sort
+apply to the complete owner-scoped library, not only the currently loaded
+slice. Preserve search, filters, sort, and active Team Plans/Game List view in
+the URL so returning from Plan Detail restores the same library context. V1
+does not store a separate default-filter preference.
 
 ### Plan Result Summary
 
@@ -118,6 +153,14 @@ Each result keeps these information levels in a stable order:
 5. optional-content, Rule, or Tag context only when it improves recognition;
 6. derived update time and quiet usage context such as `Used by 2 Plays`.
 
+Treat those facts as the same three visual levels used by Plays Browse:
+
+1. **Primary identity:** cover, Plan name, game/version, and lifecycle.
+2. **Planned state:** six Primary targets, capacity, and only the most useful
+   current check context.
+3. **Supporting context:** optional content, Rules, Tags, linked-Play usage,
+   update time, and the quiet open affordance.
+
 All six Primary positions use equal geometry. They represent intended Plan
 capacity, so empty positions use an intentional open-target treatment rather
 than Team's `Not recorded` question mark. Alternates are summarized by count;
@@ -127,6 +170,12 @@ The whole result opens Plan Detail. Do not add inline member editing,
 lifecycle mutations, delete, Create Play, comparison percentages, Team scores,
 completion bars, or adherence grades to the normal result. Archived results
 remain openable and visibly read-only; reactivation belongs to Plan Detail.
+
+On desktop, keep cover, identity, Primary preview, supporting context, and open
+cue in one stable horizontal rhythm. On narrow screens, preserve that hierarchy
+in a vertical card: identity first, the six equal Primary positions next, then
+capacity, organization, usage, and open cue. Search remains full width; Filters
+and Sort remain separate accessible actions, following Plays Browse.
 
 ### Game List View
 
@@ -194,6 +243,13 @@ Create Plan is a concise beginning, not a complete team builder or wizard. It
 creates a Draft Plan and then opens Plan Detail, where the user can make their
 actual planning decisions with enough room and game context.
 
+Reuse Create Play's focused modal/sheet grammar: contextual source retained,
+game first, concise validation, cancel back to the source, pending feedback on
+the responsible action, and success opening the newly created destination.
+Create Plan remains one step because it has no Play lifecycle or completion-goal
+decision; adding a second step merely to resemble Create Play would add no
+useful choice.
+
 The base form contains:
 
 1. **Game:** required. A contextual source may prefill and lock it.
@@ -255,8 +311,9 @@ selected Play's actual Pokémon beside every target.
 
 Use this stable order:
 
-1. **Plan header:** game identity, Plan name, lifecycle, optional-content
-   context, update time, and high-value actions.
+1. **Plan header:** reuse the responsive Play Header structure with cover at
+   left, Plan identity/lifecycle/context in the center, and high-value actions
+   at right; stack in the same order on narrow screens.
 2. **Plan checks:** only actionable game availability, persistent-form,
    evolution-path, optional-content, reuse, or Rule conflicts. Omit the section
    when there are none.
@@ -490,8 +547,8 @@ consider a convenience projection only after measured query evidence.
 
 1. Validate the clearest compact treatment for switching between Team Plans and
    Game List without making either feel like a hidden secondary feature.
-2. Validate whether Hub results should read best as dense rows or wider summary
-   cards while preserving the same information hierarchy.
+2. Validate the density of the accepted one-column Plan row while preserving
+   the same scan rhythm as Plays Browse.
 3. Validate the amount of setup detail that belongs in an occupied target row
    before the list becomes harder to scan than the member sheet.
 4. Validate whether Plan checks should appear as a compact summary strip or a

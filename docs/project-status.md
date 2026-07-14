@@ -50,9 +50,10 @@ The product overview, V1 scope, landing and intro direction, shared shell,
 navigation baseline, Play-creation direction, and detailed Play Overview, Team,
 Progress, and Plan information architecture have been reviewed in the
 [V1 Design Workspace](./design/v1/README.md). The current step is to continue
-the depth-first functional review through the remaining Play Hub and V1 screen
-families while keeping the whole-screen inventory, shared patterns, and
-database-requirements matrix coherent. The Team interaction contract is
+the functional review through Codex Games, complete Codex-to-Mainline handoff
+flows, and the remaining global V1 surfaces while keeping the whole-screen
+inventory, shared patterns, and database-requirements matrix coherent. The
+Team interaction contract is
 accepted, as are the Progress Overview hierarchy and complete Story interaction
 contract; their visual composition still needs validation in the later visual
 phase. The Pokédex interaction contract is accepted, including a provisional
@@ -113,6 +114,39 @@ the separate per-Play comparison and relationship workspace. Creating a Play
 from a Plan carries visible initial scope and Rule defaults, keeps later Plan
 and Play settings independent, and never fills the actual Team. Exact visual
 composition for all three surfaces remains pending.
+The family explicitly reuses the Plays grammar: centered shell, one-column
+cover-led browse rows, two-level URL-backed filters, focused contextual
+creation, and the responsive cover/identity/action Header. Plan-specific data
+and actions replace Play Journey, Team, Progress, and tabs rather than cloning
+them.
+The Collection and Stats family is now functionally accepted as one evidence-
+backed batch. Collection uses one species-led, image-forward grid with prominent
+Search, Game, Type, Sort, and secondary filters while keeping distinct forms,
+companions, supporting Plays, and archived history honest. Collection Pokémon
+Detail is a read-only personal-history surface with a prominent used-form scope,
+distinct companion rows, Play-grouped meaningful moments, and compact
+evolution-family context; edits route to the owning Team or History workflow.
+Stats is one vertically ordered page with a consistent All Mainline,
+Generation, or Game scope and explainable Adventures, Pokémon, Progress, and
+Challenges sections. It uses distinct companions or Plays rather than repeated
+evidence rows, exposes partial-data coverage, and excludes inferred favorites,
+scores, Rule success, and precise date ranges. Exact visual composition for all
+three surfaces remains pending.
+The Codex Pokémon family has now been reviewed against the live public Browse
+and game-scoped Detail implementation. The existing image-led catalogue,
+searchable species picker, generation-grouped game options, artwork/Shiny
+treatment, and game-aware reference sections remain the visual and interaction
+foundation. The V1 functional contract now requires one always-explicit exact
+game context across Browse cards, filters, Detail routes, and every changing
+reference fact; URL-backed Browse state with deliberate `Load more`; compact
+mobile density; semantic page and section headings; omission of unseeded
+optional filler; and one `Use in Mainline` entry. That entry groups Add to Plan,
+Add to Play, Check in my Plays, and View my history while Mainline owns all
+destination validation and mutation. Current Browse can show latest-era typing
+while linking to an older game context, so its mapping must be corrected during
+later frontend implementation. The reviewed reference data already supports
+the required game-aware correction, and no new database gap was added. Exact
+visual composition remains pending.
 
 Accepted direction:
 
@@ -186,6 +220,12 @@ Accepted direction:
   data and previewing recalculation before save.
 - Let authenticated users add a Pokémon from Codex to a compatible Plan or
   Play, with Mainline owning destination selection, validation, and mutation.
+- Keep one explicit exact Codex game context across Pokémon Browse and Detail,
+  including types, persistent forms, artwork, availability, reference sections,
+  URLs, and Mainline intent; never mix latest-era facts with an older game
+  destination.
+- Use one Pokémon Detail `Use in Mainline` entry for Plan, Play, availability,
+  and Collection branches instead of competing top-level actions.
 - Preserve the chosen Codex context and intended action through login.
 - Derive a screen-by-screen data-requirements matrix, then use it for the
   planned database correctness and reference-seed audit before production
@@ -208,6 +248,10 @@ for one to be chosen before building UI.
   deterministic local browser fixture.
 - Codex reference-query performance has not yet been profiled under realistic
   usage.
+- Pokémon Browse still maps latest available attributes to result cards before
+  opening an introductory-generation game route, so the implemented card and
+  destination can disagree until the accepted exact-game query correction is
+  built.
 - The V1 visual direction, responsive screen set, and state matrix have not yet
   been selected or designed.
 - Team-derived requirements have exposed confirmed gaps in atomic roster

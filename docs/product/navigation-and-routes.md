@@ -78,6 +78,7 @@ reference/filter context; they are not currently a required top-level view.
     /new
     /[planId]
   /collection
+    /[speciesSlug]
   /stats
 
 /codex
@@ -96,6 +97,20 @@ Plans Hub keeps Team Plans and Game List as URL-backed sibling views under
 `/mainline/plans`; the exact query or nested-route representation may follow the
 established routing pattern during implementation, but it must preserve the
 active view on navigation and return.
+
+Pokémon Browse keeps its exact game, search, filters, sort, and loaded-result
+position in validated URL state under `/codex/pokemon`. Opening a species always
+uses the exact active context in
+`/codex/pokemon/[gameSlug]/[speciesSlug]`. Back or an explicit return to Browse
+restores criteria, result position, scroll, and useful focus.
+
+When no exact game appears in a Pokémon route or validated Browse URL, resolve
+Codex Game Context from the last exact game selected in the current Codex
+browser session, then fall back to a deterministic latest supported seeded V1
+Mainline game. A species-only compatibility route redirects through the same
+resolver. The selected exact game remains visible and is never silently changed
+to make a species available. Cross-session or cross-device persistence is a
+later convenience, not a V1 routing or database requirement.
 
 ## Primary Entry Flows
 
@@ -133,12 +148,18 @@ that Play's comparison and relationship actions.
 
 ```txt
 Codex Game Detail -> Start Play or Start Plan -> Mainline create flow
-Codex Pokémon Detail -> Add to Plan or Add to Play -> Mainline handoff
+Codex Pokémon Detail -> Use in Mainline -> Mainline handoff
 ```
 
 These actions require authentication. If login is needed, the selected game,
 Pokémon, form, content scope, and intended action must survive the redirect so
 the user can resume the flow.
+
+`Use in Mainline` may continue to Add to an existing or new Plan, Add to an
+eligible Play, Check in a selected Play without writing, or View the species in
+Collection. Create Plan is part of Add to Plan rather than a duplicate
+top-level action. Cancellation or failure returns to the same game-scoped
+Pokémon Detail context.
 
 Codex supplies reference context; Mainline selects the destination, validates
 ownership, roster capacity, reuse policy, availability, form validity,

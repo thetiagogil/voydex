@@ -427,6 +427,12 @@ they are sibling kinds of future intent with different controls and rows; do
 not merge them into one feed. On narrow screens the switch may adapt, but
 neither view should become hidden in an overflow menu.
 
+Use the same one-column, cover-led library rhythm as Plays Browse rather than a
+Plan grid, table, or grid/list toggle. Keep Search, Status, Game, and Sort
+visible on desktop, put lower-frequency criteria in one More filters surface,
+and preserve active criteria through URL state and removable chips. On mobile,
+keep Search visible and expose Filters and Sort separately.
+
 Each Plan summary preserves six equal Primary target positions in slot order.
 Open positions are intentional Plan capacity and need an add/open target
 treatment, not Team's unknown question mark. Alternates remain a count on the
@@ -438,13 +444,17 @@ Create Plan uses one focused form with game, editable suggested name, and only
 applicable optional content. Context from Codex or a Play appears as retained
 source information, not as a growing set of generic selectors. A prefilled
 Pokémon target should be visually confirmable without turning the form into a
-six-member builder. Success moves into Plan Detail for real authoring.
+six-member builder. Reuse Create Play's modal/sheet, validation, pending, cancel,
+and success grammar, but keep Plan creation to one step because it has no
+Completion Goal decision. Success moves into Plan Detail for real authoring.
 
 Standalone Plan Detail gives the Primary target list the strongest visual
-weight. Use six equal full-width rows, with existing Alternates below in the
-same row language and a compact empty Alternate state. Occupied rows keep
-target identity, preferred start, role, concise setup cues, warnings, and one
-clear action in stable regions. Member editing belongs in the shared focused
+weight. Reuse the Play Header's responsive cover-left, identity-center,
+actions-right structure, but do not add Play Hub tabs to this single authoring
+workspace. Use six equal full-width rows, with existing Alternates below in the
+same row language and a compact empty Alternate state. Occupied rows keep target
+identity, preferred start, role, concise setup cues, warnings, and one clear
+action in stable regions. Member editing belongs in the shared focused
 Plan-member sheet; do not add Team's persistent selected-Pokémon panel.
 
 Keep actionable Plan checks near the target list and repeat concise non-color
@@ -458,6 +468,94 @@ On narrow screens, preserve the same target order and stack identity, setup,
 warning, and action. Keep lifecycle and the primary Create Play action visible
 without expanding every secondary action. Use the shared page Spinner for
 initial reads, localized pending feedback for mutations, and no Skeletons.
+
+## Mainline Collection Direction
+
+Use the shared centered application canvas and Mainline browse-control rhythm,
+but let Collection be an image-led responsive Pokémon grid rather than forcing
+it into the cover-led Plays/Plans list. Borrow species artwork, National number,
+and form identity language from Codex while replacing encyclopedia facts with
+personal evidence.
+
+Keep one equal-geometry card per species. Lead with artwork and identity, then
+form context, distinct companion and Play counts, honest latest-appearance
+knowledge, and explicit Shiny or MVP evidence when recorded. Do not style one
+species as Shiny merely because one of several companions was Shiny, and do not
+label repeated event or snapshot evidence as times used.
+
+Use visible Search, Game, Type, and Sort with one More filters disclosure and
+URL-backed chips. Collection has no Create action. Keep the grid responsive
+without a V1 Grid/List toggle, preserve browse context on detail return, and use
+Load more rather than endless scrolling.
+
+Collection Pokémon Detail uses a personal identity header rather than cloning
+Codex Detail. Make used-form scope prominent, then prioritize distinct
+companions, Play-grouped meaningful moments, and compact evolution-family usage
+context. Companion rows may show `Recorded as Charmander · now Charizard` when
+the same individual evolved. Historical appearances without a surviving member
+link remain explicit evidence, not invented companions.
+
+Do not add generic stats, learnsets, abilities, availability, or editable
+biography forms to Collection Detail. Route those responsibilities to Codex or
+the owning Play Team/History. On narrow screens, stack header, form scope,
+companions, moments, and family context in that order.
+
+## Mainline Stats Direction
+
+Use one vertically ordered Stats page with one shared All Mainline,
+Generation, or Game scope. Keep a compact orientation set followed by
+Adventures, Pokémon, Progress, and Challenges. Do not require category sub-tabs
+in V1; a quiet section navigator may be tested only if the visual page becomes
+difficult to scan.
+
+Prefer labelled horizontal bars, distribution rows, ranked lists, and visible
+numbers over decorative dashboards or pie-heavy chart walls. Every
+visualization must expose its denominator and supporting-record route, retain a
+textual reading order, and adapt to vertical labelled rows on narrow screens.
+Color supports Game, type, lifecycle, and progress identity but never owns the
+meaning.
+
+Stats may use compact metrics because this is their dedicated home, but only
+when the facts are trustworthy. Playtime needs recording coverage, Progress
+must distinguish unknown from zero, and Rule counts describe participation
+rather than success. Use `Most used` instead of `Favorite`; never add composite
+scores, opaque correlations, or inferred best Teams in V1.
+
+Initial reads use the shared page Spinner. Sparse or partial data keeps valid
+sections and explains unavailable analysis rather than filling the page with
+zero cards or Skeletons.
+
+## Codex Pokémon Direction
+
+Codex Pokémon should feel like the information-rich sibling of Mainline, not a
+generic wiki and not a second personal Collection. Reuse the centered shell,
+plain page-heading rhythm, semantic surfaces, Pokémon type language, and browse
+controls while giving artwork and game context more visual authority.
+
+Pokémon Browse uses a compact image-led species grid. Keep the exact active
+Game context visibly stronger than an ordinary filter because it changes card
+type, form, artwork, availability, and destination. Keep Search, Game, Type, and
+Sort visible; place secondary criteria in one `More filters` surface. Cards are
+equal, whole-card links with no inline Mainline actions. Target several columns
+on desktop and two useful columns on common phone widths instead of one
+near-viewport-height square card. Use explicit `Load more`, URL-backed state,
+and the shared initial Spinner rather than infinite preloading or Skeletons.
+
+Pokémon Detail keeps the current searchable species-switcher, generation-
+grouped game choices, artwork/Shiny treatment, and game-aware reference-section
+foundation. Add a stable semantic identity heading independent from the
+selector. Make the exact active game unambiguous on every viewport; a mobile
+control that shows only a generation numeral is insufficient. Treat persistent
+form as a real scope selector and Shiny as a visual toggle.
+
+The Detail composition should lead with identity, exact game, form, artwork,
+types, and one `Use in Mainline` entry, then organize overview, evolution and
+forms, selected-game availability, matchups, learnset, and Pokédex placement in
+a clear reading order. Omit unseeded optional facts instead of creating large
+`Unknown` cells. Use semantic section headings and a real learnset table on
+wide screens with labelled stacked rows on narrow screens. Test a compact
+in-page section navigator only if the complete realistic page proves difficult
+to scan; do not introduce stateful detail sub-tabs in V1.
 
 ## Mainline Play History Tab Direction
 

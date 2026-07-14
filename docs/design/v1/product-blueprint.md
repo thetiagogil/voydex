@@ -10,14 +10,15 @@ which screen families still need detailed specification.
 screen-family review in progress**
 
 The high-level app review is complete enough to support depth-first functional
-work. The complete Play family, Plays Browse, Dashboard, and standalone Plans
-family now have accepted functional direction or detailed contracts. Status
-transitions use lightweight date-aware behavior, normal Reopen preserves
-recorded completion-date knowledge, and reusable Plan authoring remains
-separate from Play-specific comparison. Collection, Stats, Codex refinement,
-and remaining global surfaces are the next functional batches. Final
-responsive layouts and production UI remain deliberately deferred until those
-contracts form one coherent system.
+work. The complete Play family, Plays Browse, Dashboard, standalone Plans,
+Collection, Collection Pokémon Detail, Stats, Codex Pokémon Browse, and Codex
+Pokémon Detail now have accepted functional direction or detailed contracts.
+Pokémon reference facts are anchored to one explicit exact-game context, while
+Codex remains read-only and enters Mainline through one deliberate handoff.
+Codex Games, the complete handoff selection flows, and remaining global
+surfaces are the next functional batches. Final responsive layouts and
+production UI remain deliberately deferred until those contracts form one
+coherent system.
 
 ## Product Overview
 
@@ -199,20 +200,20 @@ route when it does not need an independent URL.
 | M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-13--plans-hub)                                |
 | M-14  | Create Plan               | Create a game-scoped Team Plan                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-14--create-plan)                              |
 | M-15  | Plan Detail               | Build targets and resolve planning conflicts               | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-15--standalone-plan-detail)                   |
-| M-16  | Collection                | Review personal Pokémon usage history                      | Pending                                                                                                                                  |
-| M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | Pending                                                                                                                                  |
-| M-18  | Stats                     | Review derived patterns with supporting records            | Pending                                                                                                                                  |
+| M-16  | Collection                | Review personal Pokémon usage history                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-16--collection)                    |
+| M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-17--collection-pokémon-detail)     |
+| M-18  | Stats                     | Review derived patterns with supporting records            | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-18--stats)                         |
 
 ### Codex Surfaces
 
-| ID   | Surface                   | Role                                                        | Specification status |
-| ---- | ------------------------- | ----------------------------------------------------------- | -------------------- |
-| C-01 | Pokémon Browse            | Search and filter game-aware Pokémon reference data         | Pending              |
-| C-02 | Pokémon Detail            | Inspect a Pokémon in a selected game context                | Pending              |
-| C-03 | Games Browse              | Discover supported games                                    | Pending              |
-| C-04 | Game Detail               | Inspect a game and initiate Mainline intents                | Pending              |
-| C-05 | Game Pokédex              | Browse one Pokédex within a game                            | Pending              |
-| C-06 | Codex-to-Mainline handoff | Select destinations, resolve conflicts, and confirm results | Pending              |
+| ID   | Surface                   | Role                                                        | Specification status                                                                                          |
+| ---- | ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| C-01 | Pokémon Browse            | Search and filter game-aware Pokémon reference data         | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-01--pokémon-browse) |
+| C-02 | Pokémon Detail            | Inspect a Pokémon in a selected game context                | V1 functional contract accepted; visual validation pending; [detail](./codex-pokemon.md#c-02--pokémon-detail) |
+| C-03 | Games Browse              | Discover supported games                                    | Pending                                                                                                       |
+| C-04 | Game Detail               | Inspect a game and initiate Mainline intents                | Pending                                                                                                       |
+| C-05 | Game Pokédex              | Browse one Pokédex within a game                            | Pending                                                                                                       |
+| C-06 | Codex-to-Mainline handoff | Select destinations, resolve conflicts, and confirm results | Pokémon intent defined; destination-selection and Game-origin flows pending                                   |
 
 ## Screen Specification Template
 
@@ -251,9 +252,15 @@ states, responsive behavior, and consuming screens.
 
 ## Current Review Questions
 
-The product overview should be reviewed before navigation or screen detail:
+The next functional batch should answer:
 
-1. Is the Mainline/Codex split correct and understandable to users?
-2. Is the V1 product loop complete, or is an important recurring activity
-   missing?
-3. Are any listed surfaces outside V1, or is a necessary surface missing?
+1. How should Games Browse distinguish game identity, generation, platform or
+   release context, and Mainline readiness without becoming a timeline?
+2. Which reference sections and one primary action hierarchy belong on Game
+   Detail?
+3. How should Game Pokédex preserve its selected game and named Pokédex context
+   while reusing the accepted Pokémon catalogue grammar?
+4. What destination-selection, conflict, cancellation, pending, and success
+   surfaces complete every Game- and Pokémon-origin Mainline handoff?
+5. Which remaining Login, Settings, and shared system states must be accepted
+   before coherent visual exploration begins?

@@ -766,6 +766,15 @@ excluded from current work by default but remain readable through explicit
 status filtering. Normal results open Plan Detail and do not expose inline
 member editing, delete, lifecycle mutation, adherence, or Team scoring.
 
+Plans reuse the Plays family where the task is equivalent: the shared centered
+canvas, plain heading and one Create action, visible Search/Status/Game/Sort,
+More filters with URL-backed chips, explicit Load more, and one cover-led result
+per row in a responsive single-column library. Plan rows substitute lifecycle,
+six Primary target positions, capacity/check context, organization, usage, and
+recency for Play Journey, actual Team, and Progress. Create Plan reuses Create
+Play's focused contextual surface but remains one step. Plan Detail reuses the
+responsive cover/identity/action Header structure without adding Play Hub tabs.
+
 Game List records one explicit intent and optional note per game. It supports
 Want to Play, Planned, Playing, Completed, and Skipped; game search; status and
 generation filtering; and recent-update, name, generation, or status sorting.
@@ -890,60 +899,85 @@ summary and routes to that Play's Plan tab. `Link to existing Play` offers only
 owner-scoped Plays with the exact game/version and no other focused Plan.
 Linking changes no Team member and infers no member relationship.
 
-### Pokedex Search
+### Pokémon Browse And Detail
 
-The global Pokedex is a reference/search/planning surface.
+Codex Pokémon is a public, species-led reference surface. It uses one explicit
+exact **Codex Game Context** as the scope for every changing fact: types,
+persistent forms, artwork, availability, Pokédex placement, stats, abilities,
+evolution, matchups, learnsets, detail destination, and Mainline intent.
 
-It should support filters for:
+Resolve that context from the current route or validated browse URL first, the
+last game selected in the current Codex session second, and a deterministic
+latest supported seeded V1 Mainline game last. Keep it visible on every Pokémon
+surface. V1 does not require an account preference or database write for this
+choice.
 
-- Generation.
-- Game.
-- Availability.
-- Type.
-- Used/not used.
-- Planned/targeted state.
-- Species/form.
+Pokémon Browse must:
 
-Pokémon detail pages can show:
+- keep Search, exact Game, Type, and Sort visible;
+- place Introduced generation, ordinary/Legendary/Mythical/Baby category, and
+  selected-game availability in `More filters`;
+- search species name, National Pokédex number, and applicable persistent form
+  names;
+- default to National number, with Name and Introduced generation as useful
+  alternate sorts;
+- include species introduced no later than the active game's generation and
+  distinguish available from unavailable results honestly;
+- show one equal image-led result per species with game-context artwork,
+  National number, name, type, and only a concise form or availability cue;
+- open the exact active-game detail and expose no inline Mainline mutation;
+- preserve URL-backed criteria, loaded position, scroll, and useful focus when
+  moving between Browse and Detail;
+- use explicit `Load more` rather than endless automatic preloading;
+- target a compact multi-column grid, including two useful columns on common
+  phone widths when text scaling and viewport permit;
+- use the shared initial Spinner, filtered empty and clear actions, isolated
+  incremental retry, and per-result missing-data fallbacks without Skeletons.
 
-- Forms.
-- Stats by generation.
-- Abilities.
-- Learnsets.
-- Evolutions.
-- Availability by game.
-- User history with that Pokémon.
+Used, unused, planned, targeted, and never-used Browse filters or overlays are
+not V1 requirements. They remain personalization follow-ups; personal usage
+belongs primarily to Collection.
 
-Authenticated Codex surfaces should expose V1 module-aware actions when enough
-context is known.
+Pokémon Detail uses the canonical
+`/codex/pokemon/[gameSlug]/[speciesSlug]` route. It must:
 
-From Game Detail:
+- have an independent semantic `h1` for National number and species identity;
+- retain the active exact game while switching species and update the canonical
+  route when switching game or persistent form;
+- use a prominent exact Game selector grouped by generation without reducing
+  the active value to an ambiguous generation number;
+- retain a searchable, contextual species switcher and direct Shiny artwork
+  toggle;
+- show a form selector only for persistent forms valid or meaningful in the
+  current context, excluding temporary battle and cosmetic variants;
+- organize reference content as identity/context, overview, evolution/forms,
+  selected-game availability, type matchups, learnset, and Pokédex placement;
+- omit absent optional facts instead of filling important space with `Unknown`;
+- keep learnset mechanics game-correct and use a semantic table on wide screens
+  with labelled stacked rows on narrow screens;
+- preserve identity and unaffected sections when a secondary read fails;
+- use real heading hierarchy, keyboard-operable selectors, visible focus,
+  labelled Shiny state, and non-color type and matchup meaning.
 
-- Start a play with the selected game prefilled.
-- Start a plan with the selected game prefilled.
-- Add the game to the user's Game List.
+Authenticated Pokémon Detail exposes one `Use in Mainline` entry with four
+branches:
 
-From Pokémon Detail:
+- `Add to Plan`, choosing an eligible Plan or continuing to Create Plan;
+- `Add to Play`, choosing an eligible Play and Active or Reserve destination;
+- `Check in my Plays`, inspecting availability without writing;
+- `View my history`, opening Collection Pokémon Detail.
 
-- Add to an existing or new plan.
-- Start a plan with the current Pokémon prefilled.
-- Add to an eligible play team.
-- Check availability in one of the user's plays.
-- Open the user's Collection history for that Pokémon.
+Creating a Plan is a branch of `Add to Plan`, not a duplicate top-level action.
+The handoff preserves exact game, species, persistent form, availability or
+content context, and intent through authentication. Mainline owns destination
+selection, ownership, roster capacity, reuse policy, form and availability
+validation, optional content, plan/play state, warnings, and every mutation.
+Codex never writes Plan, Team, Play, or Collection truth directly. Cancellation
+and failure return to the same Detail context without partial user data.
 
-These actions require authentication and must preserve the selected Codex
-context through login. Compare-with-team, standalone targets, and automated
-fit recommendations remain backlog.
-
-These actions should use the current Codex context, such as species, form, game,
-version group, and availability scope. Codex should not execute Mainline
-mutations directly. It should pass intent to the owning module, where validation
-for team size, reuse policy, DLC settings, availability, form validity, and
-plan/play state happens.
-
-Anonymous users can browse Codex normally. Authenticated-only actions may be
-visible as sign-in prompts when that helps communicate the connected product
-journey; they must never appear usable and then silently fail.
+Game Detail separately supports starting a Play, starting a Plan, and adding
+the game to Game List. Its full V1 contract remains part of the next Codex
+Games review.
 
 ### Collection
 
@@ -966,6 +1000,38 @@ Collection also supports users who want to avoid reusing a species or form acros
 
 Collection should expose used-before identity at form, species, and evolution-family levels so it can power both browsing filters and reuse warnings.
 
+V1 Collection browses one result per species. A species result aggregates exact
+recorded forms, distinct actual Play-Pokémon companions, supporting Plays, and
+meaningful historical evidence without counting repeated event or snapshot
+rows as additional companions. Planned targets and Pokédex Seen/Caught state do
+not establish Collection usage.
+
+Collection reuses Mainline's URL-backed browse controls while adopting an
+image-led Pokémon grid rather than the Plays list. Visible controls are Search,
+Game, Type, and Sort; More filters may include Generation, exact Form,
+Active/Reserve/Past or historical-only evidence, Shiny knowledge, MVP,
+Play-Pokémon Tags, and supporting Play lifecycle. Archived Plays remain part of
+personal history. The default sort is most recently recorded with unknown
+chronology labelled rather than treated as recent.
+
+Each species card shows stable Pokémon identity, form context, distinct
+companion and Play counts, honest latest-appearance knowledge, and recorded
+Shiny or MVP context. It never presents raw evidence count as `times used` and
+has no inline Team mutation.
+
+Collection Pokémon Detail is species-level and uses a URL-backed `All used
+forms` or exact-form scope. It shows a personal identity header, distinct
+companions, meaningful recorded moments grouped by Play, and compact
+evolution-family usage context. A companion that evolved may appear on an
+earlier-stage detail through recorded event evidence while remaining one actual
+individual. Historical evidence without a surviving companion link remains an
+explicit historical appearance rather than an invented companion.
+
+Collection Detail is read-only. Companion rows route to the owning Play Team;
+moments route to History; generic reference facts route to Codex. Exact,
+approximate, and unrecorded dates remain honest, and events from different
+Plays are not forced into a false global chronology.
+
 ### Stats
 
 Stats are derived from user data.
@@ -981,6 +1047,32 @@ Stats may include:
 - Team composition trends.
 
 Stats should remain read-model/query output. User-facing stats should not become manually maintained source-of-truth tables unless a later performance need requires cached aggregates.
+
+V1 Stats is one vertically ordered page with one shared All Mainline,
+Generation, or Game scope. It contains no stateful category tabs and no
+arbitrary date-range filter. Its sections are Overview values, Adventures,
+Pokémon, Progress, and Challenges.
+
+Overview uses no more than four trustworthy orientation values such as total
+Plays, lifecycle Completed Plays, distinct games, and distinct recorded
+species. Playtime appears only with its recording coverage. Adventures shows
+lifecycle, game, generation, goal, and playtime distributions. Pokémon shows
+most-used species/forms/types, multi-Play reuse, Shiny companions, and explicit
+MVP companions. Progress summarizes only initialized named scopes with visible
+coverage. Challenges reports Rule participation, not unproven success or
+compliance.
+
+Stats says `Most used`, not `Favorite`, unless the user explicitly recorded a
+favorite through a future feature. It counts distinct companions and Plays
+rather than repeated evidence rows, calculates type in the relevant Play's
+generation context, treats unknown progress as unknown rather than zero, and
+exposes the denominator behind every aggregate. Every meaningful result links
+to supporting Plays, Collection, or Progress records.
+
+Stats is read-only and explainable. V1 excludes scores, percentiles, streaks,
+achievements, inferred best Teams, challenge success rates without outcome
+evidence, and opaque correlations. A cache or enlarged aggregate projection is
+a later performance choice, not a user-owned source of truth.
 
 ### Codex Browse
 

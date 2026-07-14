@@ -228,6 +228,58 @@ or production evidence show unacceptable latency or load. Any later projection
 must remain derived, preserve RLS and Archive behavior, and never become the
 source of Plan targets, organization, lifecycle, or Play links.
 
+## Advanced Collection Personalization And Comparison
+
+A later Collection version may add explicitly user-authored personal signals
+and richer comparison tools, including:
+
+- favorite species or favorite individual companions;
+- personal species-level notes that are separate from one Play biography;
+- direct comparison between species, forms, generations, or games;
+- richer evolution-family summaries and cross-Play Team-composition patterns;
+- saved Collection filters or custom personal groupings.
+
+V1 derives an explainable personal history and must not convert a usage ranking
+into `Favorite`. Companion notes and MVP remain owned by the relevant Play, and
+Collection remains read-only. Reconsider explicit favorites or Collection notes
+only after the species-led browse and companion-level detail prove that users
+need a cross-Play opinion layer. Any later persistence must be owner-scoped and
+must not alter Team, History, Plan, Pokédex, or usage evidence.
+
+## Advanced Stats And Historical Trends
+
+A later Stats version may add:
+
+- trustworthy time trends and date-range comparison after historical date
+  precision has sufficient coverage;
+- deeper Team-composition, type, Rule, and progress comparisons;
+- side-by-side game, generation, or period comparison;
+- optional streaks, percentiles, or community comparisons with clear consent,
+  denominators, and privacy boundaries.
+
+V1 excludes precise date ranges, opaque correlations, inferred favorites,
+Team scores, Rule success rates, and competitive rankings. These are not safe
+to derive from missing dates, repeated evidence rows, warning-only Rule checks,
+or partial Team setup. Reconsider them only when the owning source records and
+explanations can support the claim. Any future visualization must retain a
+textual reading order and direct routes to supporting records.
+
+## Collection And Stats Read Optimization
+
+A later database pass may add dedicated Collection browse/detail projections,
+precomputed analytical summaries, materialized views, or caches after the V1
+evidence contract is correct and realistic libraries are profiled.
+
+The current Collection read semantics do require a V1 correctness fix because
+they conflate evidence rows with usage and substitute creation time for unknown
+history. That correction is distinct from convenience optimization. Stats can
+first compose its accepted sections from owner-scoped Plays, corrected
+Collection evidence, initialized Progress, and Rules. Reconsider additional
+storage only when query plans or production evidence show unacceptable latency
+or load. Any later cache must remain derived, owner-scoped, invalidatable from
+its source changes, and never become the source of Team, History, Progress,
+Rule, or Collection truth.
+
 ## Optional Pokedex Expansion
 
 Regional Pokedexes are the baseline. National and special Pokedexes are supported optional scopes when seeded.
@@ -237,6 +289,23 @@ Future work:
 - Expand optional Pokedex seed coverage where games support meaningful National or special post-game Pokedexes.
 - Decide UI treatment for multiple Pokedexes in one play.
 - Decide how optional Pokedex scopes affect dashboard and stats summaries.
+
+## Codex Browse Performance And Context Persistence
+
+V1 should first implement exact-game, URL-backed filters and explicit
+pagination by composing existing reference facts. Do not add a server-side
+projection, materialized catalogue, cache, or account preference merely because
+the current client loads the full Pokémon catalogue.
+
+Profile realistic public traffic and catalogue interactions after the accepted
+query shape exists. Reconsider a dedicated read optimization only if evidence
+shows unacceptable latency, transfer, or server load; any cache must remain
+derived from `reference` truth and preserve deterministic game-scoped results.
+
+V1 remembers the last exact Codex game only during the current browser session.
+Reconsider cross-session or cross-device persistence when users repeatedly lose
+an intentional game context. A future preference must validate supported games
+and fall back safely without overriding an explicit route or shared URL.
 
 ## Codex Pokemon Detail Follow-Ups
 

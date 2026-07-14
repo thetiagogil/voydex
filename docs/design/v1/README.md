@@ -44,6 +44,12 @@ implemented during this phase unless the project direction explicitly changes.
 - [Mainline Plans](./mainline-plans.md): accepted Team Plans and Game List Hub,
   concise contextual creation, reusable Plan authoring, lifecycle, and
   Play-linking contracts.
+- [Mainline Collection And Stats](./mainline-collection-stats.md): accepted
+  species-led personal history, companion evidence, explainable Stats, and
+  drill-down contracts.
+- [Codex Pokémon](./codex-pokemon.md): accepted exact-game Pokémon Browse and
+  Pokémon Detail contracts, current implementation review, Mainline entry, and
+  responsive state requirements.
 - [Design Decisions](./decisions.md): dated decisions and their rationale,
   including superseded directions.
 - [Data Requirements And Database Gaps](./database-gaps.md): screen-derived

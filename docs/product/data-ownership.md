@@ -45,6 +45,26 @@ These should be calculated through queries, views, or app services:
 
 Some derived values may be cached later for performance, but caching should not redefine the source of truth.
 
+## Codex Pokémon
+
+Pokémon Browse and Pokémon Detail are public read models over static
+`reference` facts. One exact Codex Game Context determines every game-dependent
+type, persistent form, artwork, availability, Pokédex placement, stat, ability,
+evolution, matchup, learnset, and detail destination. The app must not combine a
+latest-era attribute with a different historical game merely because each fact
+is individually valid.
+
+Browse URL state and the last exact game selected during the current Codex
+browser session are application state. They are not new user-owned database
+truth in V1. A future account preference or cache requires evidence from usage
+or profiling and must not redefine reference ownership.
+
+Codex may pass exact game, species, persistent form, content or availability
+context, and an intended Mainline action. Mainline remains responsible for
+authentication, eligible destinations, ownership, validation, warnings, and
+all Plan, Play, Team, or Collection mutations. A failed or cancelled handoff
+must leave reference and user-owned truth unchanged.
+
 ## Plays
 
 `mainline_play` is the database naming for the central gameplay entity in the active `mainline` module.
@@ -289,13 +309,32 @@ edit or delete the actual Pokémon.
 
 ## Collection
 
-Collection is derived from actual Pokémon used in plays and recorded play history.
+Collection is derived from actual Pokémon used in Plays and recorded Play
+History. It is species-led for browsing, while preserving exact forms,
+distinct Play-Pokémon companions, and supporting Plays as separate facts.
 
-Collection should not be sourced only from current active team slots. Removing a Pokémon from the current team should not erase the user's history with that Pokémon.
+Collection must not be sourced only from current Active slots. Moving or
+retiring a Pokémon must not erase the user's history with it, and a Pokémon
+used before evolving must remain evidence for that earlier species and form.
+Event Pokémon references and Team snapshots may preserve historical evidence,
+but repeated references to the same companion or moment are not additional
+usage. Planned members and Pokédex Seen/Caught state do not establish use.
 
-Collection should also consider recorded team-history events. A Pokémon that was used before evolving should remain part of the user's usage history.
+Collection has no primary mutable table. It is an owner-scoped read model over
+Play Pokémon, event Pokémon references, Team snapshots, and their Play and game
+context. Corrections remain owned by Team and History.
 
-Collection should not have a primary mutable table. It should be a read model over current Pokémon rows, event Pokémon references, and team snapshots.
+## Stats
+
+Stats is a derived read model over Plays, Collection evidence, initialized
+Progress, and attached Rules. It may count distinct companions, supporting
+Plays, species, games, and trustworthy completed scopes, but must preserve
+unknown-versus-zero and expose the denominator behind partial coverage.
+
+Stats does not own a mutable aggregate. It must not infer favorites, Team
+quality, Rule success, completion, or chronology from rankings, repeated
+evidence rows, warnings, missing records, or database creation time. A future
+cache may optimize the same facts without replacing their owning sources.
 
 ## Completion
 

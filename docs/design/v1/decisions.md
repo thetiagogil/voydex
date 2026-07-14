@@ -93,6 +93,19 @@ why the direction was selected or changed.
 | V1-D075 | 2026-07-14 | Preview four meaningful cross-Play History events with honest dates and direct owning-History routes                      | Accepted   |
 | V1-D076 | 2026-07-14 | Use one accessible page-level Spinner for V1 initial loads and defer all Skeleton loading patterns                        | Accepted   |
 | V1-D077 | 2026-07-14 | Complete Dashboard states with focused empty, partial-data, isolated retry, and stale-focus recovery                      | Accepted   |
+| V1-D078 | 2026-07-14 | Batch the standalone Plans family functionally before judging its visual composition                                      | Accepted   |
+| V1-D079 | 2026-07-14 | Separate reusable Team Plans from independent Game List intent in one Plans Hub                                           | Accepted   |
+| V1-D080 | 2026-07-14 | Keep Create Plan concise and preserve game, Pokémon, or Play source context atomically                                    | Accepted   |
+| V1-D081 | 2026-07-14 | Make standalone Plan Detail the owner of reusable target authoring and cross-Play usage                                   | Accepted   |
+| V1-D082 | 2026-07-14 | Reuse the Plays product grammar for Plans without cloning Play-specific data or actions                                   | Accepted   |
+| V1-D083 | 2026-07-14 | Derive Collection and Stats from trustworthy companion and historical evidence                                            | Accepted   |
+| V1-D084 | 2026-07-14 | Use a species-led Collection grid with honest companion and Play context                                                  | Accepted   |
+| V1-D085 | 2026-07-14 | Make Collection Detail explain companions and meaningful moments across Plays                                             | Accepted   |
+| V1-D086 | 2026-07-14 | Keep Stats explainable and exclude false favorites, scores, and unsupported conclusions                                   | Accepted   |
+| V1-D087 | 2026-07-14 | Anchor every changing Codex Pokémon fact and destination to one explicit exact-game context                               | Accepted   |
+| V1-D088 | 2026-07-14 | Use a URL-backed species grid with explicit loading and compact responsive density for Pokémon Browse                     | Accepted   |
+| V1-D089 | 2026-07-14 | Keep Pokémon Detail reference-led, semantic, game-aware, and free of untrustworthy filler                                 | Accepted   |
+| V1-D090 | 2026-07-14 | Group Pokémon Detail cross-module actions under one Mainline-owned handoff                                                | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2092,3 +2105,173 @@ initial Play Rules, and Plan Tags remain Plan-only. The new Play owns those
 copied settings independently; later changes do not synchronize silently. The
 Play and focused link are created atomically, and Active/Reserve Team positions
 remain empty.
+
+## V1-D082 — Plans Reuse The Plays Product Grammar
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Make Plans feel like a sibling of Plays across the shared centered canvas,
+plain page heading, one primary Create action, URL-backed two-level browse
+controls, explicit Load more and recovery behavior, and one cover-led result per
+row in a responsive single-column library. Plan rows replace Journey, actual
+Team, and Progress with Plan lifecycle, six equal Primary target positions,
+capacity/check context, organization, linked-Play usage, and recency.
+
+Reuse Create Play's focused modal/sheet grammar, contextual game/source
+prefill, validation, cancellation, pending, and success behavior. Keep Create
+Plan to one concise step because it has no lifecycle or Completion Goal choice.
+Reuse the Play Header's desktop and mobile structure for Plan Detail: cover,
+identity/context, then high-value actions.
+
+Do not reproduce Play Hub tabs inside standalone Plan Detail. A Play needs tabs
+because it owns Team, Progress, Plan comparison, History, and Settings as
+separate workflows. A reusable Plan owns one coherent authoring workspace.
+Shared composition establishes Mainline consistency; it does not merge Plan and
+Play state or force identical actions.
+
+## V1-D083 — Collection And Stats Are Evidence-Backed Read Models
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Derive Collection and Stats from actual Play-Pokémon companions, recorded
+event-time identities, meaningful Team snapshots, Play context, and trustworthy
+initialized Progress. Planned targets, Pokédex Seen/Caught state, current
+Active slots alone, and inferred evolution-family similarity do not prove that
+a Pokémon was used.
+
+Keep both surfaces read-only. Corrections route to Team, History, Progress, or
+Settings. Never present database row creation time as in-game chronology, count
+repeated snapshots as new companions, or turn a derived result into a second
+mutable source of truth.
+
+## V1-D084 — Species-Led Collection Grid
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use one Collection browse result per species, aggregating exact recorded forms,
+distinct companions, supporting Plays, and meaningful historical evidence. Use
+an image-led responsive grid that borrows Pokémon identity language from Codex
+and browse-control grammar from Mainline; do not force Collection into the
+cover-led Plays list.
+
+Keep Search, Game, Type, and Sort visible, with Generation, exact Form,
+companion state, Shiny knowledge, MVP, Tags, and Play lifecycle in More filters.
+Sort most recently recorded by default while grouping unknown chronology
+honestly. Archived Plays remain part of Collection history. Cards distinguish
+companions from Plays and never label raw evidence-row count as `times used`.
+
+## V1-D085 — Collection Detail Explains Companions Across Plays
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Make Collection Pokémon Detail a species-level personal-history destination
+with `All used forms` or an exact used-form scope. Lead with personal identity,
+then show distinct companions, meaningful moments grouped by Play, and compact
+evolution-family usage context. Keep generic mechanics in Codex.
+
+One companion may appear on an earlier-stage species page because an event
+records that stage while the current individual has evolved. State the
+relationship instead of creating a duplicate companion. Historical event or
+snapshot evidence without a surviving companion link remains a historical
+appearance. Group moments by Play so approximate and unknown dates are not
+forced into false cross-Play chronology.
+
+## V1-D086 — Explainable Stats Without False Favorites Or Scores
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use one vertical Stats page with a shared All Mainline, Generation, or Game
+scope and four sections: Adventures, Pokémon, Progress, and Challenges. A small
+orientation set may show total Plays, lifecycle Completed Plays, distinct
+games, and distinct recorded species; playtime appears only with coverage.
+
+Use labelled distributions and ranked lists that expose their denominators and
+link to supporting Plays, Collection, or Progress. Say `Most used`, not
+`Favorite`, unless a future explicit favorite exists. Count distinct companions
+and supporting Plays, calculate types in recorded game/generation context,
+withhold unknown Progress, and report Rule participation without inventing
+challenge success.
+
+Exclude category sub-tabs, arbitrary precise date ranges, composite scores,
+percentiles, streaks, opaque correlations, inferred best Teams, and manually
+maintained aggregate truth from V1. Richer analytics and caching require later
+evidence rather than expanding the initial database scope.
+
+## V1-D087 — Exact-Game Codex Pokémon Context
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Anchor Pokémon Browse and Pokémon Detail to one explicit exact Codex Game
+Context. Use it for game-era types and attributes, persistent forms, artwork,
+availability, Pokédex placement, stats, abilities, evolution, matchups,
+learnsets, detail routes, and Mainline intent. Never combine latest-era card
+facts with an older game destination.
+
+Resolve the game from an explicit route or validated Browse URL, then the last
+game selected during the current Codex browser session, then a deterministic
+latest supported seeded V1 Mainline game. Keep it visible. Cross-session or
+cross-device persistence is a deferred convenience, not a V1 database need.
+
+## V1-D088 — Species-Led Pokémon Browse
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Use one equal image-led card per species with exact-game artwork, type, form or
+availability context, and an exact-game Detail destination. Keep Search, Game,
+Type, and Sort visible, place generation, category, and availability in `More
+filters`, and keep personal used, planned, or targeted overlays outside V1.
+
+Preserve criteria and loaded position in the URL, restore scroll and useful
+focus on return, and use deliberate `Load more` rather than endless automatic
+preloading. Target several compact desktop columns and two useful phone columns
+when viewport and text scale permit. The initial state uses the shared Spinner,
+with filtered empty, incremental retry, and per-card partial-data handling.
+
+## V1-D089 — Reference-Led Pokémon Detail
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Keep the current searchable species switching, generation-grouped game choices,
+artwork and Shiny treatment, and game-aware section foundation. Add an
+independent semantic identity heading and keep the exact game unambiguous on
+every viewport. Persistent form is reference scope; Shiny remains presentation.
+
+Organize identity and context, overview, evolution and forms, availability,
+matchups, learnset, and Pokédex placement as one readable page. Omit absent
+optional facts instead of filling important space with `Unknown`, use semantic
+headings and responsive learnset structure, and preserve unaffected sections
+when a secondary read fails. Height, weight, Pokédex prose, and richer training
+facts are not new V1 database requirements.
+
+## V1-D090 — One `Use In Mainline` Handoff
+
+**Status:** Accepted; visual validation pending
+
+**Date:** 2026-07-14
+
+Expose one Pokémon Detail `Use in Mainline` entry with Add to Plan, Add to Play,
+Check in my Plays, and View my history branches. Create Plan belongs inside Add
+to Plan instead of appearing as a second top-level action.
+
+Preserve exact game, species, persistent form, availability or content context,
+and intended branch through authentication. Mainline selects eligible
+destinations, validates ownership and product rules, owns every mutation, and
+returns safely to the same Detail context on cancellation or failure. Codex
+remains a public reference source and never writes Plan, Play, Team, or
+Collection truth.
