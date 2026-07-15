@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { cn } from "@/shared/utils/cn";
 import {
   formatPlayDate,
   formatPlayPokedexProgress,
@@ -11,6 +10,7 @@ import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shar
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { appIcons } from "@/shared/domain/icons/app-icons";
+import { cn } from "@/shared/utils/cn";
 
 type PlaySummaryCardProps = {
   play: MainlinePlaySummary;
@@ -49,7 +49,7 @@ const PlayCardBody = ({ play }: PlaySummaryCardProps) => {
         <dl className="grid gap-3 text-sm sm:grid-cols-3">
           <div>
             <dt className="text-muted-foreground text-xs">Trainer</dt>
-            <dd className="text-foreground mt-1 font-medium">
+            <dd className="text-foreground-muted mt-1 font-medium">
               {play.trainer_name ?? "Unknown"}
             </dd>
           </div>
