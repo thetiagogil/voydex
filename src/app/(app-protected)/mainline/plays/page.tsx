@@ -1,8 +1,32 @@
 import { MainlinePlaysPage } from "@/modules/mainline/features/plays/browse/mainline-plays-page";
 import { getMainlinePlaysPageData } from "@/modules/mainline/features/plays/browse/server/plays-page-query";
 
-export default async function PlaysPage() {
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+const getSearchParam = (
+  searchParams: Record<string, string | string[] | undefined>,
+  key: string,
+) => {
+  const value = searchParams[key];
+
+  return Array.isArray(value) ? value[0] : value;
+};
+
+export default async function PlaysPage({ searchParams }: PageProps) {
+  const params = await searchParams;
   const data = await getMainlinePlaysPageData();
 
-  return <MainlinePlaysPage data={data} />;
+  return (
+    <MainlinePlaysPage
+      data={data}
+      params={{
+        game: getSearchParam(params, "game"),
+        q: getSearchParam(params, "q"),
+        sort: getSearchParam(params, "sort"),
+        status: getSearchParam(params, "status"),
+      }}
+    />
+  );
 }
