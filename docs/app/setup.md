@@ -17,7 +17,7 @@ npm install
 
 ## Environment
 
-Create `.env.local` from `.env.example`.
+Create `.env.local` from `.env.local.example`.
 
 ```txt
 NEXT_PUBLIC_SUPABASE_URL=
@@ -29,6 +29,13 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
 Do not commit `.env.local`.
+
+Private database tooling uses the separate repository-root `.env.database`.
+Create it from `.env.database.example` only when an explicitly authorized
+linked or remote operation needs credentials. The database wrappers load this
+file directly; local start, reset, lint, pgTAP, and type generation do not
+require it. Never put private keys or database passwords in `NEXT_PUBLIC_*`
+variables.
 
 ## Run The App
 
@@ -101,5 +108,5 @@ Recommended flow:
 
 1. Commit changes on one machine.
 2. Pull the branch on the other machine.
-3. Copy `.env.local` values manually.
+3. Copy `.env.local` and, only when needed, `.env.database` values manually.
 4. Use `docs/project-status.md` to restore current implementation context.

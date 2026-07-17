@@ -236,8 +236,8 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Standalone Plans and their reusable authoring routes remain under the Plans
   module because they can exist independently; `/plays/[playId]/plan` is the
   linked Play's contextual comparison and relationship surface.
-- Global Settings remains one `/settings` route with Profile, Preferences,
-  Appearance, and Account sections. V1 does not add section routes or tabs.
+- Global Settings remains one `/settings` route with Profile, Preferences, and
+  Account sections. V1 does not add section routes or tabs.
 - Public not-found states keep the public shell. Protected resource-not-found
   and permission states keep the authenticated shell and return to the nearest
   owning library without exposing inaccessible resource existence.

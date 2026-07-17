@@ -11,14 +11,15 @@ remains canonical in [Project Status](../project-status.md).
 
 - The breadth-first map and depth-first V1 functional screen contracts are
   accepted in the [V1 Design Workspace](./v1/README.md).
-- The exact-three-direction gate has been superseded by
-  [V1-D104](./v1/decisions.md). The current visual grammar was selected through
-  iterative screen work, and frontend implementation has resumed one bounded
-  view at a time.
-- The shared shell, Dashboard, Plays Browse, Play Overview, and Play Team have
-  been explored in the selected direction. Only code listed in
-  [Project Status](../project-status.md) is implemented; the other screens
-  remain design direction.
+- [V1-D105](./v1/decisions.md) supersedes the previous visual grammar. The
+  light-first explorer's field-guide brief is recorded in
+  [V1 Visual Language](./v1/visual-language.md), and exactly three
+  representative shared-shell and Plays Browse directions are pending
+  selection before further production styling.
+- Existing shared-shell, Dashboard, Plays Browse, Play Overview, and Play Team
+  work remains functional and responsive evidence rather than the visual
+  target. Only code listed in [Project Status](../project-status.md) is
+  implemented; the other screens remain design direction.
 - Plays Browse is the active production slice. URL-backed primary controls and
   the compact enriched Play card are implemented and responsive; realistic
   occupied/partial data plus archive, secondary-filter, loading, recovery, and
@@ -234,24 +235,26 @@ recommendations remain follow-up ideas rather than V1 requirements.
 The Play Hub functional review and summary derivation are complete. Continue
 with one verified production slice at a time:
 
-1. Finish Plays Browse realistic-data and system-state coverage. Primary
+1. Select the new visual direction, then apply it to the shared shell and Plays
+   Browse without changing the accepted compact summary contract.
+2. Finish Plays Browse realistic-data and system-state coverage. Primary
    controls and the compact summary card are implemented.
-2. Implement Mainline Dashboard using its accepted play-led contract and the
+3. Implement Mainline Dashboard using its accepted play-led contract and the
    selected visual direction.
-3. Implement Play Overview and Team using their accepted contracts and selected
+4. Implement Play Overview and Team using their accepted contracts and selected
    visual direction.
-4. Implement Create Play.
-5. Implement Progress Summary, Story, and History.
-6. Implement Play Pokédex and Collectibles.
-7. Implement Play Plan and Play Settings.
-8. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
+5. Implement Create Play.
+6. Implement Progress Summary, Story, and History.
+7. Implement Play Pokédex and Collectibles.
+8. Implement Play Plan and Play Settings.
+9. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
    visual validation pending.**
-9. Collection, Collection Pokémon Detail, and Stats. **Functional contract
-   accepted; visual validation pending.**
-10. Codex browse/detail refinement and every Codex-to-Mainline handoff.
+10. Collection, Collection Pokémon Detail, and Stats. **Functional contract
+    accepted; visual validation pending.**
+11. Codex browse/detail refinement and every Codex-to-Mainline handoff.
     **Pokémon and Games functional contracts accepted; visual validation
     pending.**
-11. Login, Global Settings, and responsive shared-state coverage.
+12. Login, Global Settings, and responsive shared-state coverage.
     **Functional contracts accepted; visual validation pending.**
 
 ## Database Review During Implementation
@@ -280,15 +283,18 @@ Use this after opening the repository on another computer:
 Continue the Voydex V1 design-to-implementation work. Read AGENTS.md,
 .agents/AGENTS.md, docs/project-status.md,
 docs/design/v1-screen-flow.md, docs/design/v1/README.md,
+docs/design/v1/visual-language.md,
 docs/design/v1/mainline-plays-browse.md, docs/design/v1/decisions.md,
 docs/design/v1/database-gaps.md, docs/app/design-system.md, and the nearest
-screen-family document. The functional review is complete and the current
-visual grammar is selected. Continue the active Plays Browse slice through
-realistic occupied/partial data, archived visibility, secondary filters,
-loading/recovery, and incremental-load states. Then implement Dashboard, Play
-Overview, and Team in that order. Treat current code and browser-verified
-phone/tablet/desktop behavior as evidence. Do not treat conversation mockups as
-shipped UI, and do not expand database scope unless the active screen cannot be
-correct without it. Update Project Status and the canonical design reference
-whenever a selected behavior or implementation checkpoint changes.
+screen-family document. The functional review is complete, but V1-D105 resets
+the visual grammar around a light-first explorer's field guide. Exactly three
+shared-shell and Plays Browse directions must be reviewed and one selected or
+revised before production styling resumes. Preserve the implemented browse
+behavior and browser-verified responsive hierarchy as evidence, not as the
+visual target. After selection, implement the chosen system through the shared
+shell and Plays Browse, finish realistic and recovery states, then continue to
+Dashboard, Play Overview, and Team. Do not expand database scope unless the
+active screen cannot be correct without it. Update Project Status and the
+canonical design reference whenever a selected behavior or implementation
+checkpoint changes.
 ```

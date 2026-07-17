@@ -4,6 +4,11 @@ Voydex should feel like a clean adventure companion: warm, playful, polished, an
 
 Avoid a corporate SaaS hero, a generic wiki look, and overly game-ish UI chrome.
 
+The canonical V1 art-direction brief is
+[Voydex V1 Visual Language](../design/v1/visual-language.md). Exact visual
+tokens and component treatments remain provisional until one of the three
+representative shared-shell and Plays Browse directions is selected.
+
 ## Design Direction
 
 The desired mix:
@@ -61,9 +66,13 @@ perceived-performance value is validated.
 tokens. App, Pokemon, and game token groups are split under
 `src/shared/styles` and imported from that entry point.
 
-The current primary token is blue, with supporting colors for state and
-Pokémon-related semantics. Avoid turning the whole app into one flat-color
-theme.
+The current production tokens still reflect the previous blue-primary visual
+grammar and are implementation evidence, not the new target. The accepted V1
+direction uses forest/field green and leather/earth brown as the identity,
+warm beige as the working canvas, sky blue as atmosphere or information, and
+muted gold for selected discoveries and milestones. Exact values wait for the
+representative visual selection. Avoid turning the whole app into one
+flat-color theme.
 
 Existing token groups:
 
@@ -113,17 +122,18 @@ viewports without hiding the primary action.
 
 ## Global Settings Direction
 
-Use one calm, readable vertical column for Profile, Preferences, Appearance,
-and Account. Four sections do not need local tabs, nested routes, or a side
+Use one calm, readable vertical column for Profile, Preferences, and Account.
+Three sections do not need local tabs, nested routes, or a side
 rail. Reuse the plain Page Header and semantic Card/surface grammar, but avoid a
 stack of visually identical boxes when a clear section heading and divider is
 enough.
 
 Profile and Pokémon Reuse preferences save independently and expose actions
-only while dirty. Appearance remains the compact System/Light/Dark segmented
-choice and applies immediately. Account separates read-only identity, password
-recovery, Sign out, and a consequence-led Danger zone. Destructive meaning
-comes from hierarchy and copy as well as color.
+only while dirty. V1 does not expose an Appearance choice: it uses the
+canonical light-first presentation until a deliberate night-expedition theme
+is designed. Account separates read-only identity, password recovery, Sign out,
+and a consequence-led Danger zone. Destructive meaning comes from hierarchy and
+copy as well as color.
 
 Keep the same vertical order on mobile. Controls should not be compressed into
 horizontal tabs, and action rows must stack without reversing the meaning of
@@ -767,9 +777,9 @@ proves a distinct frequent use.
 
 The home page hero should use layered assets:
 
-- A clean adventurous landscape viewed toward a distant destination such as a
-  village, with matched day and night compositions selected by the resolved
-  light or dark theme.
+- A clean daylight adventure landscape viewed toward a distant destination such
+  as a village. A matched night composition may inform a later dark-theme pass,
+  but it is not part of V1.
 - Separate brand mark image.
 - Separate Voydex title image.
 - Native text subtitle.
@@ -780,8 +790,8 @@ This keeps the home page close to the selected visual reference while preserving
 Keep the identity, concise description, and actions centered in a visually
 quiet part of the scene. Preserve the background as the emotional focus rather
 than hiding it behind a large opaque card. The current artwork may be improved,
-but the adventurous overlook and theme-aware day/night relationship are the
-accepted direction. Define intentional crops for desktop, mobile, and short
+but the daylight adventurous overlook is the accepted V1 direction. Define
+intentional crops for desktop, mobile, and short
 viewports instead of assuming one `cover` crop works everywhere.
 
 Keep Landing extremely concise. Do not add feature grids, product tours,
@@ -793,7 +803,13 @@ more.
 
 - Use icons for clear actions.
 - Use text buttons for primary commands where labels matter.
-- Keep button styling cleaner than the generated mockup. The button shape can be slightly curved, but avoid heavy decorative borders.
+- Keep ordinary actions visually distinct from destination navigation. Major
+  destination links may use the restrained signpost treatment defined in the
+  V1 visual-language brief; Add, Save, Edit, Filter, Sort, Retry, Restore, and
+  destructive actions remain familiar product controls.
+- Keep button styling clean. The button shape can be slightly curved, but avoid
+  heavy decorative borders or exposing the default shadcn appearance as the
+  product identity.
 - Primary buttons should not use a mismatched border color.
 - Treat selectors as real selectors when the underlying choice changes data,
   scope, availability, or stats. For example, Pokemon forms should not live as a

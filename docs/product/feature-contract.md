@@ -1171,8 +1171,8 @@ in again, preserves safe read intent, and never silently replays a write.
 
 Global Settings is one authenticated `/settings` page outside product modules.
 Use one readable vertical sequence rather than V1 tabs or nested routes:
-Profile, Preferences, Appearance, and Account. Each editable responsibility
-owns its save and error state.
+Profile, Preferences, and Account. Each editable responsibility owns its save
+and error state.
 
 Profile edits only the optional Display name in V1. Email is read-only Account
 identity, and the current initials presentation remains sufficient; avatar
@@ -1185,9 +1185,9 @@ override. The global preference guides Mainline selectors and checks but never
 blocks a valid choice, rewrites existing data, or changes public Codex or
 Collection evidence. Do not expose the stored `block` value in V1.
 
-Appearance keeps System, Light, and Dark, applies immediately, and remains
-browser-local so public and authenticated surfaces share one resolved theme.
-It has no Save button and explicitly states that it is device/browser specific.
+V1 uses the canonical light-first presentation and exposes no Appearance
+choice. A deliberately designed night-expedition dark mode and its control
+contract are post-V1 work.
 
 Account shows read-only Email, password recovery, Sign out, and a separated
 Delete account danger action. Changing Email is not a V1 requirement. Account

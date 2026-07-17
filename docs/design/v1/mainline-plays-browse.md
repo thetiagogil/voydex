@@ -7,6 +7,12 @@ contract instead of inventing a second interpretation of Play state.
 
 ## Current Status
 
+The accepted information hierarchy, behavior, and responsive composition remain
+binding. Under [V1-D105](./decisions.md), the current production styling is no
+longer the visual target; exactly three treatments of this same contract are
+being explored through the canonical
+[V1 Visual Language](./visual-language.md) before further production styling.
+
 **Status: V1 compact card direction implemented; realistic-data validation pending**
 
 The current implementation proves the protected `/mainline/plays` route,

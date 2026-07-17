@@ -44,17 +44,17 @@ the evidence for exact implementation details.
 ## Current Product And Design Checkpoint
 
 The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). The earlier requirement to stop
-implementation until exactly three shell and Dashboard directions were produced
-has been superseded by [V1-D104](./design/v1/decisions.md): the current visual
-grammar was selected through iterative screen work, and production UI now
-advances one bounded view at a time.
+[V1 Design Workspace](./design/v1/README.md). [V1-D105](./design/v1/decisions.md)
+supersedes the previously selected visual grammar. The canonical
+[V1 Visual Language](./design/v1/visual-language.md) now defines a light-first
+explorer's field-guide direction, and exactly three shared-shell and Plays
+Browse treatments must be reviewed before further production styling.
 
-The shared shell, Dashboard, Plays Browse, Play Overview, and Play Team have
-been explored in the selected visual direction. Only surfaces listed under
-Implemented Product Surfaces are production implementation; the remaining
-screen work is still design direction until it is represented in code and
-verified.
+Existing shared-shell, Dashboard, Plays Browse, Play Overview, and Play Team
+work remains useful functional, data, and responsive evidence but is not the
+new visual target. Only surfaces listed under Implemented Product Surfaces are
+production implementation; the remaining screen work is still design direction
+until it is represented in code and verified.
 
 The active production slice is Plays Browse:
 
@@ -70,12 +70,12 @@ The active production slice is Plays Browse:
   current composition has been browser-checked at representative phone, tablet,
   and desktop widths.
 
-The next implementation slice is to finish the accepted Plays Browse contract:
-validate occupied and partial cards with realistic data, then add archived
-visibility, secondary filters, explicit loading/recovery, and incremental-load
-states. After that, apply the same selected visual system to Dashboard and then
-Play Overview and Team without treating their exploratory mockups as shipped
-screens.
+The next checkpoint is visual selection. After one representative direction is
+selected or revised, apply it to the shared shell and Plays Browse while
+preserving the accepted behavior and responsive hierarchy. Then validate
+occupied and partial cards with realistic data and add archived visibility,
+secondary filters, explicit loading/recovery, and incremental-load states.
+Dashboard, Play Overview, and Team follow in that order.
 
 Future design and implementation tasks start from the canonical screen-family
 document, accepted decisions, design system, current code, and verified
@@ -93,9 +93,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- The current visual direction is selected for the shell and first Mainline
-  views, but the complete responsive screen set and state matrix remain
-  unfinished.
+- The new visual-language brief is accepted, but the three representative
+  shared-shell and Plays Browse directions have not yet been selected or
+  revised into the production target.
 - Plays Browse still needs occupied-Team and partial-data validation, archived
   visibility, secondary filters, explicit recovery states, and incremental
   loading before its accepted V1 contract is complete.

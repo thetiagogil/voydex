@@ -105,16 +105,16 @@ previews. It must never conceal an empty, partial, unavailable, or error state.
 ## Global Account And Settings Follow-Ups
 
 V1 keeps authentication and Settings focused on email/password access,
-optional Display name, advisory Pokémon reuse, browser-local appearance,
-password recovery, Sign out, and secure account deletion. Preserve these later
-improvements:
+optional Display name, advisory Pokémon reuse, password recovery, Sign out, and
+secure account deletion. Preserve these later improvements:
 
 - avatar upload, crop, replacement, removal, and owned storage cleanup;
 - verified account-email change with reauthentication and safe recovery;
 - passkeys, social providers, multi-factor authentication, and active-session
   management when the audience or threat model justifies them;
-- cross-device theme and last-active-module sync as explicit account
-  preferences;
+- a deliberately designed night-expedition dark mode, its Appearance control,
+  and any later cross-device theme sync as an explicit account preference;
+- cross-device last-active-module sync as an explicit account preference;
 - user-requested personal-data export before account deletion;
 - richer account security history and recovery-code flows.
 

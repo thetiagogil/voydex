@@ -2,17 +2,18 @@
 
 This document derives the authenticated Mainline landing view from the accepted
 Play Hub and Plays Browse contracts. It defines what the Dashboard should help
-the user understand and constrains its selected visual direction before
-production implementation.
+the user understand while keeping its visual treatment subordinate to the
+current shared-system selection.
 
 ## Current Status
 
-**Status: V1 functional contract and visual direction selected; production implementation pending**
+**Status: V1 functional contract accepted; visual reset and production implementation pending**
 
 The current `/mainline` route redirects to Plays and does not provide an
-implemented Dashboard. Iterative design work selected the same visual grammar
-now used by the shell and Plays Browse, but the Dashboard remains design
-direction until its production components and states are implemented.
+implemented Dashboard. Earlier iterative design remains composition evidence,
+but [V1-D105](./decisions.md) resets the shared visual grammar. Dashboard waits
+for the representative shared-shell and Plays Browse selection before its
+production components and states are implemented.
 
 ## Purpose And User Goal
 

@@ -48,7 +48,7 @@ widths. Verify:
 
 - Intended loading, empty, error, disabled, and long-content states.
 - Keyboard flow, visible focus, labels, semantics, and non-color status cues.
-- Responsive hierarchy, overflow, and supported light/dark themes.
+- Responsive hierarchy, overflow, and the supported V1 light theme.
 - Console errors, framework overlays, and failed network requests.
 
 Representative public routes include `/`, `/codex/pokemon`, `/codex/games`, and

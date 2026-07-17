@@ -22,16 +22,17 @@ not a long-form marketing page or a neutral application dashboard.
 
 - Use a full-viewport scenic background with an adventurous overlook toward a
   distant destination such as a village, settlement, or landmark.
-- Provide paired day and night versions of the same scene. Light theme shows
-  day; dark theme shows night.
+- Use the daylight version of the scene for the light-first V1 experience.
+  Retain any night study only as reference material for a deliberately designed
+  post-V1 dark theme.
 - Preserve enough visual quiet near the center for the brand and actions to
   remain legible without covering the landscape with a large opaque panel.
 - Center the Voydex brand name, a short product description, and a compact
   group of quick actions.
 - Keep the composition warm, polished, and Pokémon-adjacent without copying
   Pokémon branding or becoming overly game-like.
-- The current background concept may be refined or replaced, but its emotional
-  direction and day/night relationship should remain.
+- The current background concept may be refined or replaced, but its daylight
+  adventure premise and layered composition should remain.
 
 ### Current Composition To Preserve
 
@@ -84,17 +85,16 @@ later**
 - Actions must remain native links or buttons with visible labels and keyboard
   focus states.
 
-### Theme And Background Behavior
+### Light-First Background Behavior
 
-- The initial theme follows the user's system preference.
-- Light theme selects the day scene; dark theme selects the matched night scene.
-- If Voydex later supports an explicit saved theme choice, the resolved app
-  theme should control the scene rather than system preference overriding the
-  user's selection.
-- Theme switching should not cause a disruptive flash, layout shift, or loss of
-  text contrast.
-- Day and night assets should share composition and focal points so the layout
-  remains stable across themes.
+- V1 uses one deliberate light theme and the daylight scene regardless of the
+  browser or operating-system color preference.
+- Do not expose System, Light, or Dark choices in V1.
+- A later dark mode should be designed as a coherent night expedition across
+  the full product, including a matched Landing scene, rather than produced by
+  automatically inverting the light theme.
+- If that later mode is introduced, switching must avoid disruptive flashes,
+  layout shifts, and loss of text contrast.
 
 ### Responsive Requirements
 
@@ -108,17 +108,17 @@ later**
 ### Accessibility And Quality
 
 - Keep a real text equivalent for image-based brand lettering.
-- Maintain readable contrast in both scenes through art direction and a subtle
+- Maintain readable contrast in the daylight scene through art direction and a subtle
   overlay; do not solve readability with a heavy generic panel.
 - Make every action keyboard accessible with clear focus treatment.
-- Optimize the paired hero assets so the atmospheric background does not make
+- Optimize the hero assets so the atmospheric background does not make
   first entry feel slow.
 - The landing page should remain useful if the decorative background fails to
   load.
 
 ### Candidate Shared Patterns
 
-- Theme-aware paired scenic background.
+- Light-first scenic background with a future night-theme extension point.
 - Layered brand mark and title treatment.
 - Compact centered hero action group.
 - Public-to-authenticated entry action.
@@ -130,15 +130,14 @@ reuse. The landing composition itself should not become a generic page template.
 
 - Authentication state changes the primary action behavior.
 - Last-active-module entry is covered by requirement `DR-001`.
-- Day/night scene selection is presentation behavior, not a database concern.
+- The fixed V1 daylight scene is presentation behavior, not a database concern.
 - No new database gap has been identified by this direction.
 
 ### Theme-Control Decision
 
-Landing reflects the resolved browser theme and does not add a manual V1 theme
-control. Signed-in users manage Appearance in Global Settings; a public theme
-control may be reconsidered only if visual testing shows that the system-derived
-scene prevents users from discovering or evaluating the paired artwork.
+V1 is intentionally light-only and does not expose a public or authenticated
+theme control. A future dark mode and Appearance control require their own
+night-expedition design pass before becoming part of the product contract.
 
 ## G-02 — Intro
 
@@ -421,7 +420,7 @@ validation pending
 ### Purpose
 
 Give an authenticated user one calm place to manage their Voydex identity,
-global behavior, appearance, and account. Global Settings never owns Play-
+global behavior, and account. Global Settings never owns Play-
 specific completion, content, Rules, Tags, or lifecycle choices.
 
 ### Current Implementation Review
@@ -429,8 +428,10 @@ specific completion, content, Rules, Tags, or lifecycle choices.
 The current protected Settings route could not be visually audited from the
 anonymous browser session. Code inspection confirms a simple centered page with
 an Account card showing disabled Email and an Appearance card for System,
-Light, or Dark theme. Profile editing, reuse preferences, recovery, sign-out,
-and account deletion are not present on the page.
+Light, or Dark theme. The Appearance control is implementation drift from the
+light-first V1 direction and is not a target to preserve. Profile editing, reuse
+preferences, recovery, sign-out, and account deletion are not present on the
+page.
 
 Treat the current narrow, single-column composition as a useful structural
 reference, not a validated final layout.
@@ -440,9 +441,9 @@ reference, not a validated final layout.
 - Canonical route: `/settings`.
 - Settings requires authentication and lives outside Mainline and Codex module
   navigation.
-- Use one readable vertical column with four stable sections: Profile,
-  Preferences, Appearance, and Account.
-- Four sections do not justify V1 tabs, nested routes, or a permanent side rail.
+- Use one readable vertical column with three stable sections: Profile,
+  Preferences, and Account.
+- Three sections do not justify V1 tabs, nested routes, or a permanent side rail.
   A compact in-page contents control may be tested later only if realistic
   composition becomes difficult to scan.
 - Each editable responsibility saves independently. Do not add one global Save
@@ -480,15 +481,13 @@ The preference applies to Mainline Pokémon selectors, Plan checks, and reuse
 warnings. It does not alter public Codex results, rewrite existing Teams or
 Plans, change Collection evidence, or establish a favorite.
 
-### Appearance
+### Deferred Appearance
 
-Keep the current System, Light, and Dark choices. Appearance applies
-immediately, updates the paired Landing scene, and needs no separate Save
-button. V1 keeps this preference in the current browser so public and protected
-surfaces resolve the same theme before authentication.
-
-State plainly that Appearance is device/browser specific. Cross-device theme
-sync remains a later convenience and is not a V1 profile field.
+V1 uses the canonical light-first presentation and does not show an Appearance
+section. A later dark mode should arrive with a purpose-designed night
+expedition theme, an explicit control contract, and full public/authenticated
+surface validation. The current browser-local System, Light, and Dark control
+is not part of the accepted V1 experience.
 
 ### Account
 
@@ -517,7 +516,6 @@ does not expose deleted personal data through stale navigation.
 
 - Profile and Preferences use section-scoped `Save changes` and `Cancel` only
   while dirty.
-- Appearance saves immediately and announces the new resolved theme.
 - Account actions each own their confirmation and pending state.
 - Keep valid current content visible during a save and place the Spinner on the
   responsible action.
@@ -530,7 +528,7 @@ does not expose deleted personal data through stale navigation.
 ### Responsive And Accessibility Requirements
 
 - Keep the single-column reading order on desktop and mobile.
-- Do not compress the four sections into horizontal tabs on narrow screens.
+- Do not compress the three sections into horizontal tabs on narrow screens.
 - Form controls use visible labels, help text only where behavior is not
   obvious, and error association.
 - Reuse scope and response remain understandable without color or icons.
@@ -544,7 +542,7 @@ does not expose deleted personal data through stale navigation.
 - `public.profiles.display_name` already supports the V1 Profile field.
 - `public.user_preferences` already supports reuse scope and warn/filter
   behavior. V1 deliberately does not expose `block`.
-- Theme remains browser-local application state.
+- V1 has no user-owned theme state; later Appearance behavior remains deferred.
 - Email and password remain Supabase Auth identity.
 - Current ownership policies and cascades cover profile, preferences, Tags,
   Plays, Game List, Rules, and Plans, but no reviewed owner-callable account-

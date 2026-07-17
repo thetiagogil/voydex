@@ -22,7 +22,7 @@ why the direction was selected or changed.
 | V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                        | Superseded |
 | V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                      | Accepted   |
 | V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                               | Accepted   |
-| V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                    | Accepted   |
+| V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                    | Superseded |
 | V1-D008 | 2026-07-11 | Keep Landing extremely concise and place product explanation and onboarding only on Intro                                 | Accepted   |
 | V1-D009 | 2026-07-11 | Structure Intro as one concise narrative that explains value, organization, journey, and next action                      | Accepted   |
 | V1-D010 | 2026-07-11 | Preserve the centered content canvas and current desktop navbar organization as the V1 shell foundation                   | Accepted   |
@@ -113,13 +113,14 @@ why the direction was selected or changed.
 | V1-D095 | 2026-07-14 | Preserve exact game intent through Mainline-owned Play, Plan, and Game List handoffs                                      | Accepted   |
 | V1-D096 | 2026-07-14 | Make Login an intent-aware global transition with safe resumption rather than a generic Mainline detour                   | Accepted   |
 | V1-D097 | 2026-07-14 | Complete V1 authentication with focused signup, recovery, confirmation, validation, and expired-session states            | Accepted   |
-| V1-D098 | 2026-07-14 | Keep Global Settings as one vertical Profile, Preferences, Appearance, and Account page                                   | Accepted   |
-| V1-D099 | 2026-07-14 | Make Pokémon reuse preferences advisory and keep theme browser-local in V1                                                | Accepted   |
+| V1-D098 | 2026-07-14 | Keep Global Settings as one vertical Profile, Preferences, and Account page                                               | Accepted   |
+| V1-D099 | 2026-07-14 | Make Pokémon reuse preferences advisory and defer Appearance beyond light-first V1                                        | Accepted   |
 | V1-D100 | 2026-07-14 | Require one secure consequence-aware account-deletion workflow                                                            | Accepted   |
 | V1-D101 | 2026-07-14 | Use one responsive shared system-state grammar with labelled Spinners and scoped recovery                                 | Accepted   |
 | V1-D102 | 2026-07-14 | Mark the V1 functional contract review complete and begin exactly three visual directions                                 | Superseded |
 | V1-D103 | 2026-07-17 | Reduce each Play Browse card to identity, six Active slots, overall completion, and update date                           | Accepted   |
-| V1-D104 | 2026-07-17 | Resume production UI one bounded view at a time using the selected current visual grammar                                 | Accepted   |
+| V1-D104 | 2026-07-17 | Resume production UI one bounded view at a time using the selected current visual grammar                                 | Superseded |
+| V1-D105 | 2026-07-17 | Reset V1 to a light-first explorer's field-guide language and select among three representative Plays Browse directions   | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -211,15 +212,15 @@ dashboard is required. Cross-device persistence remains open.
 
 ## V1-D007 — Atmospheric Day And Night Landing
 
-**Status:** Accepted
+**Status:** Superseded by V1-D105
 
 **Date:** 2026-07-11
 
 Keep the current Landing concept: a full-viewport adventurous landscape viewed
-from an overlook toward a distant destination, with matched day and night scenes
-selected by the resolved light or dark theme. Center the Voydex identity, one
-short product description, and a compact set of quick actions in the scene's
-visual quiet area.
+from an overlook toward a distant destination. V1-D105 preserves the daylight
+scene and layered composition while deferring the matched night scene and dark
+theme. Center the Voydex identity, one short product description, and a compact
+set of quick actions in the scene's visual quiet area.
 
 The exact artwork, spacing, copy, and actions may improve during detailed design.
 Preserve the emotional premise and layered composition. Do not turn the Landing
@@ -2412,16 +2413,16 @@ destination or normal app entry.
 **Date:** 2026-07-14
 
 Keep `/settings` as one authenticated, readable vertical page with Profile,
-Preferences, Appearance, and Account. Four sections do not justify V1 tabs,
+Preferences, and Account. Three sections do not justify V1 tabs,
 nested routes, or a permanent side rail. Each editable responsibility owns its
 save, pending, conflict, and error state.
 
-Profile edits only optional Display name. Appearance keeps System, Light, and
-Dark. Account owns read-only Email, password recovery, Sign out, and a separated
-Danger zone. Play- and Plan-specific metadata, completion, optional content,
-Rules, Tags, and lifecycle remain in their product owners.
+Profile edits only optional Display name. V1-D105 defers Appearance and keeps
+V1 light-first. Account owns read-only Email, password recovery, Sign out, and a
+separated Danger zone. Play- and Plan-specific metadata, completion, optional
+content, Rules, Tags, and lifecycle remain in their product owners.
 
-## V1-D099 — Advisory Reuse And Browser-Local Theme
+## V1-D099 — Advisory Reuse With Appearance Deferred
 
 **Status:** Accepted; visual validation pending
 
@@ -2433,9 +2434,9 @@ Do not expose the stored block behavior in V1. A valid Pokémon choice must
 remain possible, and the preference never rewrites existing Teams, Plans, or
 Collection evidence.
 
-Keep System, Light, or Dark in current-browser storage so public and protected
-surfaces share one preference before authentication. Cross-device theme sync is
-a deferred convenience, not a V1 profile field.
+V1-D105 supersedes the browser-local theme portion of this decision. V1 uses one
+light-first presentation; Appearance and a deliberately designed night-
+expedition dark mode remain post-V1 work.
 
 ## V1-D100 — Secure Account Deletion
 
@@ -2473,7 +2474,7 @@ retry, not a tooltip-only floating database icon.
 
 ## V1-D102 — Functional Review Complete
 
-**Status:** Superseded in process by V1-D104; functional review remains complete
+**Status:** Superseded in process by V1-D105; functional review remains complete
 
 **Date:** 2026-07-14
 
@@ -2519,7 +2520,7 @@ without changing the single-column library decision in V1-D067.
 
 ## V1-D104 — View-By-View Production Visual System
 
-**Status:** Accepted
+**Status:** Superseded by V1-D105
 
 **Date:** 2026-07-17
 
@@ -2544,3 +2545,40 @@ next view. This decision supersedes V1-D001's all-design-before-implementation
 ordering, V1-D004's exact-three-direction gate, and the process gate in V1-D102;
 it does not reopen the completed functional review or erase recorded database
 gaps.
+
+## V1-D105 — Light-First Explorer's Field-Guide Visual Reset
+
+**Status:** Accepted
+
+**Date:** 2026-07-17
+
+The current production interface is functionally useful but its generic
+blue-primary, default Card, Button, list, and dashboard language is no longer
+the visual target. Preserve its implemented behavior, data boundaries,
+responsive hierarchy, and accessibility evidence while replacing its styling
+with the canonical [V1 Visual Language](./visual-language.md).
+
+Anchor Voydex in green and brown as the fields, forests, earth, clothing, gear,
+and backpack identity of exploration. Use warm beige for working surfaces, sky
+blue for daylight atmosphere or information, and muted gold for sunlight,
+discoveries, and milestones. Design V1 light-first. A later dark mode should be
+a deliberately designed night expedition, not an automatic inversion.
+
+Reserve restrained wooden signposts for major destination navigation. Use
+lighter trail-marker language for tabs and contextual routes, and keep normal
+actions as clean, familiar controls. Let Codex read as a field guide and
+Mainline as an expedition journal without applying wood, parchment, leather,
+maps, texture, or decorative icons to every surface.
+
+Generate exactly three independent directions for the same authenticated
+shared-shell and Plays Browse contract at a representative desktop viewport.
+The directions may vary composition, typography, material emphasis, and
+navigation treatment, but must preserve V1-D103, all accepted Plays Browse
+behavior, realistic states, and the clean-first accessibility standard. Wait
+for a direction to be selected or revised before changing production UI.
+
+This decision supersedes V1-D104's selected visual grammar, V1-D007's V1 night
+scene, and the Appearance/theme portions of V1-D098 and V1-D099. It reopens only
+the visual system. It does not reopen the completed functional review, erase
+existing implementation, or change the view-by-view implementation discipline
+that resumes after selection.

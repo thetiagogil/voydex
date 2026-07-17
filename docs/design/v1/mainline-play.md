@@ -2,12 +2,12 @@
 
 This document defines the functional structure of a Mainline Play and Play Hub.
 It captures accepted behavior, screen responsibilities, summary outputs, and
-open questions while distinguishing selected visual direction from production
-implementation.
+open questions while distinguishing provisional visual direction from
+production implementation.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; Overview and Team visual direction selected; production implementation pending**
+**Status: V1 functional contract accepted; Overview and Team visual reset pending; production implementation pending**
 
 Use an inside-out product sequence and an outside-in visual sequence:
 

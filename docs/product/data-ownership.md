@@ -58,9 +58,10 @@ authorize a Mainline mutation. The owning destination revalidates exact game,
 species/form, content, ownership, capacity, lifecycle, and stale state after
 authentication.
 
-The resolved System, Light, or Dark choice remains current-browser state in V1
-so public and protected surfaces share one preference before login. It is not a
-profile column or cross-device promise.
+V1 has no user-owned theme state: public and protected surfaces use the
+canonical light-first presentation. Any later Appearance choice begins as a
+presentation contract and must not become a profile or cross-device promise
+without an explicit product and data decision.
 
 Account deletion is an Auth-owned destructive workflow that must remove the
 Auth identity and allow reviewed foreign-key cascades to remove the profile and

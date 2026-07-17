@@ -6,7 +6,7 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: V1 functional screen contracts complete; view implementation active**
+**Status: V1 functional screen contracts complete; visual selection active**
 
 The high-level app review is complete enough to support depth-first functional
 work. The complete Play family, Plays Browse, Dashboard, standalone Plans,
@@ -16,9 +16,10 @@ Pokémon reference facts are anchored to one explicit exact-game context, while
 Codex remains read-only and enters Mainline through one deliberate handoff.
 Codex Games, the Game-origin handoffs, Login, Global Settings, and shared system
 states now have accepted functional contracts. The breadth-first and
-depth-first review is complete. [V1-D104](./decisions.md) supersedes the earlier
-exact-three-direction gate: the current visual grammar is selected and
-production UI advances one bounded view at a time, beginning with Plays Browse.
+depth-first review is complete. [V1-D105](./decisions.md) preserves those
+contracts while resetting the art direction around the canonical
+[V1 Visual Language](./visual-language.md). Exactly three shared-shell and Plays
+Browse directions are pending selection before production styling resumes.
 
 ## Product Overview
 
@@ -253,13 +254,15 @@ states, responsive behavior, and consuming screens.
 
 ## Implementation Checkpoint
 
-The functional review is complete and the current visual grammar is selected.
-The active implementation loop must:
+The functional review is complete and the new visual brief is accepted. The
+active design-to-implementation loop must:
 
-1. finish the active Plays Browse slice before presenting adjacent screens as
-   implemented;
-2. validate realistic content, partial and recovery states, and phone, tablet,
+1. select or revise one of the three representative directions before changing
+   production styling;
+2. apply the chosen system to the shared shell and Plays Browse before
+   presenting adjacent screens as implemented;
+3. validate realistic content, partial and recovery states, and phone, tablet,
    and desktop composition rather than judging one hero frame;
-3. capture selected hierarchy, density, scenic character, and responsive
+4. capture selected hierarchy, density, scenic character, and responsive
    behavior in versioned design references;
-4. apply the resulting system to Dashboard, Play Overview, and Team in order.
+5. apply the resulting system to Dashboard, Play Overview, and Team in order.

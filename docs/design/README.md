@@ -8,11 +8,17 @@ shared UI primitives take priority.
 ## Current V1 Brief
 
 [V1 Screen Flow And Design Handoff](./v1-screen-flow.md) is the canonical brief
-for the current design-to-implementation phase. The functional review is
-complete, the current visual grammar has been selected, and production work now
-advances one bounded view at a time. The handoff defines the complete Mainline
-and Codex journey, authenticated Codex-to-Mainline actions, current
-implementation order, and restart instructions for a new workstation or task.
+for the current design-to-implementation phase. The functional review remains
+complete, while the visual language is being reset through three representative
+shared-shell and Plays Browse directions before further production styling.
+The handoff defines the complete Mainline and Codex journey, authenticated
+Codex-to-Mainline actions, current implementation order, and restart
+instructions for a new workstation or task.
+
+[V1 Visual Language](./v1/visual-language.md) is the canonical art-direction
+brief for the light-first explorer's field-guide identity, color and material
+roles, navigation metaphor, module character, anti-goals, and current visual
+selection gate.
 
 [V1 Design Workspace](./v1/README.md) organizes the breadth-first product
 review, screen coverage, design decisions, data requirements, and deferred

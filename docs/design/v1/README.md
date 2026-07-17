@@ -5,9 +5,12 @@ design-to-implementation handoff. It is a reviewable design record, not a
 replacement for the canonical product contracts or implementation status.
 
 **Current checkpoint:** the breadth-first map and depth-first functional screen
-contracts are complete. The exact-three-direction gate has been superseded by
-[V1-D104](./decisions.md); the current visual grammar is selected and production
-work now advances one bounded view at a time. Plays Browse is the active slice.
+contracts are complete. [V1-D105](./decisions.md) supersedes the previously
+selected visual grammar: the new light-first explorer's field-guide direction
+is accepted as a brief, exactly three representative shared-shell and Plays
+Browse treatments are pending selection, and further production styling waits
+for that choice. Existing Plays Browse behavior and responsive work remain
+implementation evidence.
 
 ## Working Principle
 
@@ -30,6 +33,9 @@ unless a current screen cannot be correct without it.
 
 ## Workspace Documents
 
+- [V1 Visual Language](./visual-language.md): canonical light-first art
+  direction, color and material roles, navigation metaphor, module character,
+  representative exploration contract, and visual anti-goals.
 - [Product Blueprint](./product-blueprint.md): the review map for product
   structure, journeys, screens, states, and candidate shared patterns.
 - [Global Surfaces](./global-surfaces.md): accepted Landing, Intro, Login,
@@ -44,7 +50,7 @@ unless a current screen cannot be correct without it.
   implemented adventure-library hierarchy, controls, compact summary-card
   contract, responsive behavior, remaining states, and data needs.
 - [Mainline Dashboard](./mainline-dashboard.md): accepted play-led Mainline home
-  hierarchy and selected visual direction awaiting production implementation.
+  hierarchy awaiting the shared visual selection and production implementation.
 - [Mainline Plans](./mainline-plans.md): accepted Team Plans and Game List Hub,
   concise contextual creation, reusable Plan authoring, lifecycle, and
   Play-linking contracts.
@@ -121,7 +127,8 @@ Review these artifacts in order:
 7. Nearby production code and current Project Status.
 8. Data-requirements coverage and open database questions.
 
-The functional structure is complete enough to guide implementation. Continue
-the active Plays Browse slice through realistic-data and system-state coverage,
-then apply the same selected visual grammar to Dashboard, Play Overview, and
-Team in that order.
+The functional structure is complete enough to guide implementation. Select or
+revise one of the three representative visual directions first. Then implement
+the chosen language through the shared shell and Plays Browse before continuing
+realistic-data and system-state coverage and carrying the system into Dashboard,
+Play Overview, and Team in that order.

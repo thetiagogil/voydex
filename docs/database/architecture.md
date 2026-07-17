@@ -23,6 +23,9 @@ scripts/database/
 
 The local Supabase project ID is `voydex`. The nested workspace prevents the
 CLI from treating the application root `.env.local` as database configuration.
+Database wrappers explicitly load the separate repository-root `.env.database`
+for authorized linked or remote tooling; routine local commands require no
+private remote credentials.
 
 ## Schema Responsibilities
 
