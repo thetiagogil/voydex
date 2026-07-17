@@ -1,20 +1,21 @@
 # V1 Mainline Play Functional Blueprint
 
-This document defines the functional structure of a Mainline Play and Play Hub
-before Dashboard, Plays Browse, or detailed visual composition is designed. It
-captures accepted behavior, screen responsibilities, summary outputs, and open
-questions without treating the current partial UI as a constraint.
+This document defines the functional structure of a Mainline Play and Play Hub.
+It captures accepted behavior, screen responsibilities, summary outputs, and
+open questions while distinguishing selected visual direction from production
+implementation.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; visual validation pending**
+**Status: V1 functional contract accepted; Overview and Team visual direction selected; production implementation pending**
 
 Use an inside-out product sequence and an outside-in visual sequence:
 
 1. define what a Play contains and what each Hub area does;
 2. derive the summaries needed by Plays Browse and Dashboard;
-3. visually establish the system through Dashboard and Plays Browse;
-4. apply that system to the detailed Play Hub and workflows.
+3. establish the visual system through the shared shell and Plays Browse;
+4. apply that selected system to Dashboard and the detailed Play Hub one
+   production view at a time.
 
 ## Mainline Review And Visual-Validation Rule
 
@@ -25,12 +26,12 @@ their exact visual composition as final. Each contract must still define
 ownership, hierarchy, actions, responsive behavior, states, and data needs.
 Layout directions are hypotheses for the first coherent UI draft.
 
-During the later visual phase, render the Mainline views together with realistic
-data and desktop/mobile states. Preserve accepted behavior and ownership, but
-allow composition, density, emphasis, and local navigation patterns to change
-when the whole UI reveals a better solution. Capture known visual risks and
-validation criteria rather than repeatedly blocking functional review on
-uncertainty that only a draft can resolve.
+During the current implementation pass, render related Mainline views with
+realistic data and phone, tablet, and desktop states. Preserve accepted behavior
+and ownership, but allow composition, density, emphasis, and local navigation
+patterns to change when the working UI reveals a better solution. Capture
+selected changes and validation criteria in versioned docs rather than leaving
+them only in conversation context.
 
 ## What A Play Represents
 

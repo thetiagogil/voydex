@@ -6,7 +6,7 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: V1 functional screen contracts complete; visual exploration ready**
+**Status: V1 functional screen contracts complete; view implementation active**
 
 The high-level app review is complete enough to support depth-first functional
 work. The complete Play family, Plays Browse, Dashboard, standalone Plans,
@@ -15,11 +15,10 @@ Pokémon Detail now have accepted functional direction or detailed contracts.
 Pokémon reference facts are anchored to one explicit exact-game context, while
 Codex remains read-only and enters Mainline through one deliberate handoff.
 Codex Games, the Game-origin handoffs, Login, Global Settings, and shared system
-states now have accepted functional contracts. The breadth-first and depth-
-first functional review is complete enough to begin exactly three visual
-directions for the shared shell and Mainline Dashboard. Production UI and
-database correction remain deliberately deferred until one direction is
-selected and expanded into a coherent responsive system.
+states now have accepted functional contracts. The breadth-first and
+depth-first review is complete. [V1-D104](./decisions.md) supersedes the earlier
+exact-three-direction gate: the current visual grammar is selected and
+production UI advances one bounded view at a time, beginning with Plays Browse.
 
 ## Product Overview
 
@@ -252,16 +251,15 @@ Detailed screen-family documents should use this structure:
 The eventual component registry should record each accepted pattern, variants,
 states, responsive behavior, and consuming screens.
 
-## Visual Exploration Checkpoint
+## Implementation Checkpoint
 
-The functional review is complete. The next design batch must:
+The functional review is complete and the current visual grammar is selected.
+The active implementation loop must:
 
-1. generate exactly three distinct visual directions for the shared shell and
-   Mainline Dashboard using the same accepted content and realistic states;
-2. show each direction at desktop and common phone width rather than judging a
-   desktop-only hero frame;
-3. demonstrate how its hierarchy, surfaces, typography, density, scenic
-   character, and shared system-state grammar can scale to the accepted
-   Mainline and Codex families;
-4. wait for one direction to be selected before expanding or implementing the
-   remaining screens.
+1. finish the active Plays Browse slice before presenting adjacent screens as
+   implemented;
+2. validate realistic content, partial and recovery states, and phone, tablet,
+   and desktop composition rather than judging one hero frame;
+3. capture selected hierarchy, density, scenic character, and responsive
+   behavior in versioned design references;
+4. apply the resulting system to Dashboard, Play Overview, and Team in order.

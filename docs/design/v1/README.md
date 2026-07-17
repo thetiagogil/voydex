@@ -1,33 +1,32 @@
 # V1 Design Workspace
 
-This workspace organizes the complete V1 product-design pass before database
-correction or production frontend implementation resumes. It is a reviewable
-design record, not a replacement for the canonical product contracts.
+This workspace organizes the accepted V1 functional review and the current
+design-to-implementation handoff. It is a reviewable design record, not a
+replacement for the canonical product contracts or implementation status.
 
 **Current checkpoint:** the breadth-first map and depth-first functional screen
-contracts are complete. Generate exactly three visual directions for the shared
-shell and Mainline Dashboard at desktop and common phone width, then wait for
-one direction to be selected before expanding or implementing screens.
+contracts are complete. The exact-three-direction gate has been superseded by
+[V1-D104](./decisions.md); the current visual grammar is selected and production
+work now advances one bounded view at a time. Plays Browse is the active slice.
 
 ## Working Principle
 
-Design breadth-first, then depth-first:
+The initial product review worked breadth-first, then depth-first. The current
+implementation loop is:
 
-1. Confirm the product overview and V1 boundaries.
-2. Confirm navigation, access boundaries, and primary journeys.
-3. Review the complete screen inventory.
-4. Specify each screen family, including actions and states.
-5. Identify shared page and component patterns.
-6. Record screen-derived data requirements and database gaps.
-7. Generate exactly three visual directions for the shared shell and Mainline
-   Dashboard.
-8. Select one direction and turn it into a coherent visual system.
-9. Design and verify the complete responsive V1 flow.
-10. Audit and correct the database before production UI implementation.
+1. Read the accepted screen-family contract, decisions, and data gaps.
+2. Inspect the selected design system and nearby production implementation.
+3. Implement one bounded view slice without presenting adjacent designs as
+   shipped behavior.
+4. Validate realistic content, partial and recovery states, and meaningful
+   phone, tablet, and desktop compositions.
+5. Capture selected changes in versioned docs and update Project Status.
+6. Complete the active Mainline slice before expanding database scope or moving
+   to the next view.
 
-Visual styling should not compensate for an unresolved product flow. Database
-work discovered during design is recorded for the later audit rather than
-implemented during this phase unless the project direction explicitly changes.
+Visual styling must not compensate for an unresolved product flow. Database
+work discovered during implementation remains recorded for the focused audit
+unless a current screen cannot be correct without it.
 
 ## Workspace Documents
 
@@ -41,12 +40,11 @@ implemented during this phase unless the project direction explicitly changes.
   behavior.
 - [Mainline Play](./mainline-play.md): functional Play and Play Hub blueprint,
   area responsibilities, summary outputs, states, and open questions.
-- [Mainline Plays Browse](./mainline-plays-browse.md): accepted functional
-  adventure-library hierarchy, summary-row contract, filters, responsive and
-  recovery behavior, and data needs derived from the Play Hub.
+- [Mainline Plays Browse](./mainline-plays-browse.md): accepted and partially
+  implemented adventure-library hierarchy, controls, compact summary-card
+  contract, responsive behavior, remaining states, and data needs.
 - [Mainline Dashboard](./mainline-dashboard.md): accepted play-led Mainline home
-  hierarchy, continuation focus, recent summaries, and explicit content
-  boundaries awaiting visual validation.
+  hierarchy and selected visual direction awaiting production implementation.
 - [Mainline Plans](./mainline-plans.md): accepted Team Plans and Game List Hub,
   concise contextual creation, reusable Plan authoring, lifecycle, and
   Play-linking contracts.
@@ -66,9 +64,9 @@ implemented during this phase unless the project direction explicitly changes.
 - [V1 Screen Flow And Design Handoff](../v1-screen-flow.md): the concise
   continuation brief and accepted high-level journey.
 
-Detailed screen specifications should be added by screen family when the
-blueprint reaches that phase. Do not grow one monolithic document when Mainline,
-Codex, or global surfaces need independent review.
+Extend the nearest screen-family specification when a selected behavior changes.
+Do not grow one monolithic document when Mainline, Codex, or global surfaces
+need independent review.
 
 ## Source Of Truth
 
@@ -110,7 +108,7 @@ Use these statuses consistently:
 Raw conversation transcripts do not belong in the documentation. Capture the
 decision, rationale, consequences, and unresolved questions instead.
 
-## Review Order Before Visual Exploration
+## Review Order Before A View Implementation
 
 Review these artifacts in order:
 
@@ -119,11 +117,11 @@ Review these artifacts in order:
 3. Primary user journeys.
 4. Screen inventory and ownership.
 5. Screen-family specifications and state coverage.
-6. Shared-pattern candidates.
-7. Data-requirements coverage and open database questions.
+6. Accepted decisions and shared design-system patterns.
+7. Nearby production code and current Project Status.
+8. Data-requirements coverage and open database questions.
 
-The functional structure is now coherent enough for all three visual directions
-to use the same content, actions, realistic data, and responsive requirements.
-The next checkpoint is exactly three shared-shell and Mainline Dashboard
-directions, followed by selection of one direction before screen expansion or
-production implementation.
+The functional structure is complete enough to guide implementation. Continue
+the active Plays Browse slice through realistic-data and system-state coverage,
+then apply the same selected visual grammar to Dashboard, Play Overview, and
+Team in that order.

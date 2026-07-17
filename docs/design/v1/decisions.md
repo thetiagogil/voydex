@@ -16,10 +16,10 @@ why the direction was selected or changed.
 
 | ID      | Date       | Decision                                                                                                                  | Status     |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| V1-D001 | 2026-07-11 | Complete the V1 design before database correction and production UI implementation                                        | Accepted   |
+| V1-D001 | 2026-07-11 | Complete the V1 design before database correction and production UI implementation                                        | Superseded |
 | V1-D002 | 2026-07-11 | Work breadth-first from product overview to navigation, journeys, screens, and shared patterns before visual exploration  | Accepted   |
 | V1-D003 | 2026-07-11 | Record screen-derived database needs during design and resolve them in a later database audit                             | Accepted   |
-| V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                        | Accepted   |
+| V1-D004 | 2026-07-11 | Generate exactly three shell and Dashboard directions only after the product blueprint is reviewed                        | Superseded |
 | V1-D005 | 2026-07-11 | Scope V1 to traditional mainline and Legends-style games, with Codex as the user-facing encyclopedia                      | Accepted   |
 | V1-D006 | 2026-07-11 | Resolve signed-in product entry to the last active module, with Mainline as the V1 fallback                               | Accepted   |
 | V1-D007 | 2026-07-11 | Preserve the atmospheric day/night scenic Landing concept while refining its execution                                    | Accepted   |
@@ -117,12 +117,13 @@ why the direction was selected or changed.
 | V1-D099 | 2026-07-14 | Make Pokémon reuse preferences advisory and keep theme browser-local in V1                                                | Accepted   |
 | V1-D100 | 2026-07-14 | Require one secure consequence-aware account-deletion workflow                                                            | Accepted   |
 | V1-D101 | 2026-07-14 | Use one responsive shared system-state grammar with labelled Spinners and scoped recovery                                 | Accepted   |
-| V1-D102 | 2026-07-14 | Mark the V1 functional contract review complete and begin exactly three visual directions                                 | Accepted   |
+| V1-D102 | 2026-07-14 | Mark the V1 functional contract review complete and begin exactly three visual directions                                 | Superseded |
 | V1-D103 | 2026-07-17 | Reduce each Play Browse card to identity, six Active slots, overall completion, and update date                           | Accepted   |
+| V1-D104 | 2026-07-17 | Resume production UI one bounded view at a time using the selected current visual grammar                                 | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
-**Status:** Accepted
+**Status:** Superseded by V1-D104
 
 **Date:** 2026-07-11
 
@@ -160,7 +161,8 @@ included unsupported information.
 
 ## V1-D004 — Visual Exploration Gate
 
-**Status:** Accepted  
+**Status:** Superseded by V1-D104
+
 **Date:** 2026-07-11
 
 After the blueprint is reviewed, generate exactly three distinct visual
@@ -2471,7 +2473,7 @@ retry, not a tooltip-only floating database icon.
 
 ## V1-D102 — Functional Review Complete
 
-**Status:** Accepted
+**Status:** Superseded in process by V1-D104; functional review remains complete
 
 **Date:** 2026-07-14
 
@@ -2487,7 +2489,7 @@ remain grounding evidence, not designs to paste into the new directions.
 
 ## V1-D103 — Compact Play Browse Card
 
-**Status:** Accepted; visual validation active
+**Status:** Accepted
 
 **Date:** 2026-07-17
 
@@ -2514,3 +2516,31 @@ with a smaller cover instead of stretching the phone stack across the canvas.
 Reduce the cover one further step on desktop so it remains subordinate to Play
 identity and Team. This decision supersedes V1-D068's denser row hierarchy
 without changing the single-column library decision in V1-D067.
+
+## V1-D104 — View-By-View Production Visual System
+
+**Status:** Accepted
+
+**Date:** 2026-07-17
+
+Replace the earlier process requirement to stop for exactly three parallel
+shell and Dashboard directions before production work. The accepted V1
+functional contracts remain the product constraints, while the current shell
+and iterative Dashboard, Plays Browse, Play Overview, and Play Team design work
+establish the visual grammar to apply one bounded view at a time.
+
+Production status comes only from code and verification. Plays Browse is the
+first implemented slice; the Dashboard, Overview, and Team explorations remain
+design direction until their production components and states are built. Each
+new view starts from its canonical screen-family document, accepted decisions,
+the design system, and nearby live code. Selected behavior from conversation
+images must be captured in versioned documentation rather than left as hidden
+chat context.
+
+Validate meaningful composition changes at representative phone, tablet, and
+desktop widths. Finish realistic data and required system states for the active
+view before treating it as complete, then carry the same visual system into the
+next view. This decision supersedes V1-D001's all-design-before-implementation
+ordering, V1-D004's exact-three-direction gate, and the process gate in V1-D102;
+it does not reopen the completed functional review or erase recorded database
+gaps.

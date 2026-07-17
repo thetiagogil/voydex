@@ -97,8 +97,15 @@ repository/RPC → database constraints and RLS.
 - Verify hierarchy, density, spacing, typography, responsive overflow, loading,
   empty/error/disabled states, keyboard use, focus, semantics, and non-color
   cues.
+- Treat phone, tablet, and desktop as separate validation bands when a view's
+  composition changes; do not assume a stretched phone stack is a suitable
+  tablet layout.
 - Preserve Voydex's clean adventure-companion character; screenshots guide
   intent rather than fixed dimensions.
+- Conversation screenshots and generated mockups are iteration evidence. Once
+  a direction is selected, record the durable behavior and responsive decisions
+  in the nearest versioned design reference before relying on them in future
+  tasks.
 
 Read [Design System](../docs/app/design-system.md) and the nearest indexed
 [design reference](../docs/design/README.md) before meaningful visual work.

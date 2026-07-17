@@ -3,16 +3,16 @@
 This document defines the accepted responsive information architecture for
 Voydex's shared shell. It separates global product identity, module switching,
 module-local navigation, contextual workflow navigation, and account controls
-before visual styling is explored.
+while recording the selected visual foundation used by current views.
 
 ## Current Status
 
-**Status: Responsive shell organization accepted; visual styling remains open**
+**Status: Responsive shell organization and current visual foundation selected**
 
 The existing top-bar shell and centered content canvas are the accepted
 foundation. V1 should refine their visual language, state clarity, and
-responsive behavior rather than replace their organization without a clear
-usability need.
+responsive behavior view by view rather than replace their organization
+without a clear usability need.
 
 ## Navigation Layers
 

@@ -2,16 +2,17 @@
 
 This document derives the authenticated Mainline landing view from the accepted
 Play Hub and Plays Browse contracts. It defines what the Dashboard should help
-the user understand before its exact visual composition is explored.
+the user understand and constrains its selected visual direction before
+production implementation.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; visual validation pending**
+**Status: V1 functional contract and visual direction selected; production implementation pending**
 
 The current `/mainline` route redirects to Plays and does not provide an
-implemented Dashboard or a visual reference that must be preserved. The V1
-Dashboard is therefore being specified from accepted product behavior rather
-than reverse-engineered from an existing screen.
+implemented Dashboard. Iterative design work selected the same visual grammar
+now used by the shell and Plays Browse, but the Dashboard remains design
+direction until its production components and states are implemented.
 
 ## Purpose And User Goal
 

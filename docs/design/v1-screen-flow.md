@@ -2,33 +2,32 @@
 
 This document is the canonical design handoff for the first complete Mainline
 and Codex experience. It records the accepted journey, screen families,
-cross-module actions, and next design checkpoint. Product behavior remains
-canonical in the [Feature Contract](../product/feature-contract.md), while
-implementation status remains canonical in [Project Status](../project-status.md).
+cross-module actions, and current design/implementation checkpoint. Product
+behavior remains canonical in the
+[Feature Contract](../product/feature-contract.md), while implementation status
+remains canonical in [Project Status](../project-status.md).
 
 ## Current Checkpoint
 
-- The next phase is product design, not frontend implementation.
 - The breadth-first map and depth-first V1 functional screen contracts are
-  accepted. The current step is exactly three visual directions for the shared
-  shell and Mainline Dashboard in the
-  [V1 Design Workspace](./v1/README.md).
-- No V1 visual direction has been selected yet.
-- The existing implementation and images under `docs/design/mainline-play` may
-  be inspected for useful ideas, but they are not constraints and may be
-  replaced.
+  accepted in the [V1 Design Workspace](./v1/README.md).
+- The exact-three-direction gate has been superseded by
+  [V1-D104](./v1/decisions.md). The current visual grammar was selected through
+  iterative screen work, and frontend implementation has resumed one bounded
+  view at a time.
+- The shared shell, Dashboard, Plays Browse, Play Overview, and Play Team have
+  been explored in the selected direction. Only code listed in
+  [Project Status](../project-status.md) is implemented; the other screens
+  remain design direction.
+- Plays Browse is the active production slice. URL-backed primary controls and
+  the compact enriched Play card are implemented and responsive; realistic
+  occupied/partial data plus archive, secondary-filter, loading, recovery, and
+  incremental-load states remain.
 - The durable product contracts, data ownership rules, accessibility needs,
   and Voydex's clean adventure-companion character remain constraints.
-- Visual exploration begins only after the product blueprint and detailed
-  design requirements are coherent enough to give every direction the same
-  content, actions, states, and responsive constraints.
-- The complete Play family, Plays Browse, Dashboard, standalone Plans,
-  Collection, Collection Pokémon Detail, Stats, Codex Pokémon, Codex Games,
-  cross-module handoffs, Login, Global Settings, and shared system states now
-  have accepted functional contracts with visual validation pending.
-- Generate exactly three distinct visual directions for the shared application
-  shell and Mainline Dashboard, show desktop and common phone behavior, then
-  wait for a direction to be selected before implementing or expanding screens.
+- Future view work begins with the canonical screen document, accepted
+  decisions, design system, and nearby live implementation. Conversation-only
+  mockups are not durable guidance until their selected behavior is recorded.
 
 ## V1 Product Loop
 
@@ -213,52 +212,52 @@ to the records supporting them.
 Compare-with-team, standalone targets, and automated `find where this fits`
 recommendations remain follow-up ideas rather than V1 requirements.
 
-## Design Principles For The Next Pass
+## Design Principles For The Implementation Pass
 
-- The current UI and legacy references are optional inputs, not a fidelity
-  target.
+- The selected design system and verified production UI are implementation
+  evidence. Legacy references remain optional inputs, not fidelity targets.
 - Preserve a clear adventure-companion identity instead of a generic
   dashboard or encyclopedia.
 - Keep Codex information-rich but scannable; keep Mainline task-oriented and
   personal.
 - Maintain a consistent shell while giving Codex and Mainline recognizable
   module character.
-- Design desktop and mobile together, including navigation, filters, drawers,
-  sheets, tables, and long content.
+- Design and verify phone, tablet, and desktop together, including navigation,
+  filters, drawers, sheets, tables, and long content.
 - Include realistic loading, empty, error, disabled, success, conflict,
   destructive, and signed-out states.
 - Prefer one clear primary action per context. Secondary cross-module actions
   may live in an action menu or focused handoff surface.
 
-## Design Sequence
+## Implementation Sequence
 
-Before visual exploration, define the Play Hub functionally and derive the Play
-summary contracts needed by Dashboard and Plays Browse. This is an information
-architecture step, not detailed Play Hub visual design.
+The Play Hub functional review and summary derivation are complete. Continue
+with one verified production slice at a time:
 
-1. Shared application shell and responsive module navigation.
-2. Mainline Dashboard, Plays, and Create Play.
-3. Play Overview and Team workflows.
-4. Progress Summary, Story, and History.
-5. Play Pokédex and Collectibles.
-6. Play Plan and Play Settings.
-7. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
+1. Finish Plays Browse realistic-data and system-state coverage. Primary
+   controls and the compact summary card are implemented.
+2. Implement Mainline Dashboard using its accepted play-led contract and the
+   selected visual direction.
+3. Implement Play Overview and Team using their accepted contracts and selected
+   visual direction.
+4. Implement Create Play.
+5. Implement Progress Summary, Story, and History.
+6. Implement Play Pokédex and Collectibles.
+7. Implement Play Plan and Play Settings.
+8. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
    visual validation pending.**
-8. Collection, Collection Pokémon Detail, and Stats. **Functional contract
+9. Collection, Collection Pokémon Detail, and Stats. **Functional contract
    accepted; visual validation pending.**
-9. Codex browse/detail refinement and every Codex-to-Mainline handoff.
-   **Pokémon and Games functional contracts accepted; visual validation
-   pending.**
-10. Login, Global Settings, and responsive shared-state coverage.
+10. Codex browse/detail refinement and every Codex-to-Mainline handoff.
+    **Pokémon and Games functional contracts accepted; visual validation
+    pending.**
+11. Login, Global Settings, and responsive shared-state coverage.
     **Functional contracts accepted; visual validation pending.**
 
-The first visual exploration should cover the shared shell and Dashboard
-because they establish navigation, hierarchy, density, module identity, and
-the visual grammar reused by later screens.
+## Database Review During Implementation
 
-## Database Review After Design
-
-During screen design, maintain a data-requirements matrix for each surface:
+During screen design and implementation, maintain a data-requirements matrix
+for each surface:
 
 - reference data displayed;
 - user-owned reads and writes;
@@ -267,26 +266,29 @@ During screen design, maintain a data-requirements matrix for each surface:
 - loading, empty, conflict, and failure states;
 - known seed gaps or questionable facts.
 
-After the V1 flow is designed, use that matrix to audit database correctness,
-fix inconsistent reference data, add the Pokémon information the approved
-screens actually need, and only then resume production implementation.
+Use that matrix to audit database correctness, fix inconsistent reference data,
+and add only the information required by accepted screens. Record gaps as they
+surface, but do not expand database scope merely to support an exploratory
+mockup. A current correctness blocker may be resolved with its owning view;
+the consolidated audit remains a later focused phase.
 
 ## Resume Prompt
 
 Use this after opening the repository on another computer:
 
 ```txt
-Continue the Voydex V1 product-design work. Read AGENTS.md,
-docs/project-status.md, docs/design/v1-screen-flow.md,
-docs/design/v1/README.md, docs/design/v1/product-blueprint.md,
-docs/design/v1/global-surfaces.md, docs/design/v1/codex-pokemon.md,
-docs/design/v1/codex-games.md, docs/design/v1/decisions.md,
-docs/design/v1/database-gaps.md,
-docs/app/design-system.md, docs/product/feature-contract.md, and
-docs/product/navigation-and-routes.md. Treat the existing implementation and
-legacy design images as optional references, not constraints. The functional
-review is complete. Generate exactly three visual directions for the shared
-shell and Mainline Dashboard using the same accepted content and realistic
-desktop/mobile states, then wait for one direction to be selected. Do not
-implement UI or database changes during this design phase.
+Continue the Voydex V1 design-to-implementation work. Read AGENTS.md,
+.agents/AGENTS.md, docs/project-status.md,
+docs/design/v1-screen-flow.md, docs/design/v1/README.md,
+docs/design/v1/mainline-plays-browse.md, docs/design/v1/decisions.md,
+docs/design/v1/database-gaps.md, docs/app/design-system.md, and the nearest
+screen-family document. The functional review is complete and the current
+visual grammar is selected. Continue the active Plays Browse slice through
+realistic occupied/partial data, archived visibility, secondary filters,
+loading/recovery, and incremental-load states. Then implement Dashboard, Play
+Overview, and Team in that order. Treat current code and browser-verified
+phone/tablet/desktop behavior as evidence. Do not treat conversation mockups as
+shipped UI, and do not expand database scope unless the active screen cannot be
+correct without it. Update Project Status and the canonical design reference
+whenever a selected behavior or implementation checkpoint changes.
 ```

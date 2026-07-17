@@ -8,9 +8,11 @@ shared UI primitives take priority.
 ## Current V1 Brief
 
 [V1 Screen Flow And Design Handoff](./v1-screen-flow.md) is the canonical brief
-for the next product-design phase. It defines the complete Mainline and Codex
-journey, authenticated Codex-to-Mainline actions, design order, and restart
-instructions for a new workstation or task.
+for the current design-to-implementation phase. The functional review is
+complete, the current visual grammar has been selected, and production work now
+advances one bounded view at a time. The handoff defines the complete Mainline
+and Codex journey, authenticated Codex-to-Mainline actions, current
+implementation order, and restart instructions for a new workstation or task.
 
 [V1 Design Workspace](./v1/README.md) organizes the breadth-first product
 review, screen coverage, design decisions, data requirements, and deferred
@@ -24,6 +26,8 @@ database-gap register used throughout that phase.
   orphaned files.
 - Do not import documentation images into application code.
 - Store production assets under `public`.
+- Capture selected behavior and responsive decisions in the nearest design
+  reference; conversation-only mockups are not durable project guidance.
 - Revisit Git LFS or compressed exports if curated references materially affect
   normal repository use.
 
