@@ -249,15 +249,34 @@ Overview should stay high-signal and avoid filler:
   Always render six equal Active positions: occupied slots use the Pokémon's
   actual current-form sprite, confirmed-empty and not-recorded slots keep
   distinct shared placeholders, and Reserve members or Team controls stay out
-  of the preview.
+  of the preview. Preserve an accessible group label without adding a visible
+  `Active Team` heading inside the compact row.
 - Use one full-width, cover-led Play row per result across the desktop canvas;
   do not add a V1 grid/list switch. Preserve the same information order when
   each result becomes a stacked vertical card on narrow screens, and avoid
   turning the row into either a dashboard or a data table.
-- Within each Browse row, emphasize Play identity first; Journey, the six-slot
-  Active Team, and trustworthy Progress second; and Tags, activity, and other
-  metadata last. Preserve labelled space for unavailable state instead of
-  allowing incomplete Plays to produce a different reading order.
+- On phones, keep only the cover and Play information in the top row. Move the
+  six-slot Team preview and then Overall plus the directional arrow into their
+  own full-width rows beneath that section. Reduce the cover's visual weight and
+  enlarge the Team slots so sprites remain immediately recognizable.
+- At tablet widths, use one compact horizontal row with a smaller cover instead
+  of stretching the phone stack across the canvas. Give Team the largest share
+  of the middle canvas. Reduce the cover one further step on desktop so it stays
+  subordinate to Play identity and Team while retaining the established
+  horizontal proportions.
+- Keep each Browse row deliberately compact: a proportional cover that fills
+  the padded content height and respects the row's shared outer inset, Play
+  name, exact game name, quiet update date, the six-slot Active Team, one
+  overall completion percentage, and one unlabelled directional arrow. Do not
+  put the cover inside another box. Give inset covers the same subtle radius on
+  all four corners instead of inheriting the Card's top-only edge-to-edge media
+  treatment. Do not repeat lifecycle, Journey, trainer details, Tags, or
+  category-level progress inside every result.
+- Use spacing rather than vertical separator lines between the information,
+  Team, overall progress, and arrow sections.
+- Overall completion is the normalized configured goal across required Story
+  milestones, Pokédex species, and Collectibles. Preserve concise not-recorded
+  or unavailable states instead of treating missing knowledge as zero.
 - Keep Browse controls compact: visible Search, Status, Game, Sort, and one
   `More filters` disclosure on desktop, followed by removable active-filter
   chips only when needed. On narrow screens, keep Search visible and present

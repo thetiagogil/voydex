@@ -83,7 +83,7 @@ why the direction was selected or changed.
 | V1-D065 | 2026-07-14 | Use lightweight date-aware status transitions and defer their final composition to whole-flow UI validation               | Accepted   |
 | V1-D066 | 2026-07-14 | Show the six-position Active Team as an equal-slot current-form sprite preview in every Play Browse result                | Accepted   |
 | V1-D067 | 2026-07-14 | Use one cover-led single-column Play library without a V1 grid/list toggle                                                | Accepted   |
-| V1-D068 | 2026-07-14 | Prioritize Play identity, then current Journey, Team, and Progress, with organization and activity as supporting context  | Accepted   |
+| V1-D068 | 2026-07-14 | Prioritize Play identity, then current Journey, Team, and Progress, with organization and activity as supporting context  | Superseded |
 | V1-D069 | 2026-07-14 | Use a compact two-level Plays filter system while keeping lifecycle, completion, and archive visibility distinct          | Accepted   |
 | V1-D070 | 2026-07-14 | Keep archived Plays openable and use context-preserving explicit loading, empty, partial, and recovery states             | Accepted   |
 | V1-D071 | 2026-07-14 | Keep Dashboard play-led and omit dedicated V1 quick-stat cards                                                            | Accepted   |
@@ -118,6 +118,7 @@ why the direction was selected or changed.
 | V1-D100 | 2026-07-14 | Require one secure consequence-aware account-deletion workflow                                                            | Accepted   |
 | V1-D101 | 2026-07-14 | Use one responsive shared system-state grammar with labelled Spinners and scoped recovery                                 | Accepted   |
 | V1-D102 | 2026-07-14 | Mark the V1 functional contract review complete and begin exactly three visual directions                                 | Accepted   |
+| V1-D103 | 2026-07-17 | Reduce each Play Browse card to identity, six Active slots, overall completion, and update date                           | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -1777,7 +1778,7 @@ Play summary contract and the existing gaps referenced by DR-029.
 
 ## V1-D068 — Play Browse Row Information Hierarchy
 
-**Status:** Accepted; visual validation pending
+**Status:** Superseded by V1-D103
 
 **Date:** 2026-07-14
 
@@ -2483,3 +2484,33 @@ data, system states, and desktop/mobile requirements.
 Wait for one direction to be selected before expanding it across the remaining
 screens or implementing production UI. Existing screens and legacy references
 remain grounding evidence, not designs to paste into the new directions.
+
+## V1-D103 — Compact Play Browse Card
+
+**Status:** Accepted; visual validation active
+
+**Date:** 2026-07-17
+
+Reduce every normal Play Browse result to the smallest useful recognition and
+progress summary: a proportional game cover that fills the padded content
+height and respects the row's shared outer inset, Play name, exact game name,
+last available update date, six-position Active Team preview, one overall
+completion percentage, and one unlabelled directional arrow. The whole row
+remains one accessible link to the Play Hub.
+
+Do not put the cover inside another box or repeat lifecycle, Journey, trainer
+metadata, Tags, or category-level progress inside each card. Use whitespace
+rather than vertical separator lines between sections. Overall completion uses
+the existing configured-goal calculation across required Story milestones,
+Pokédex species, and Collectibles; missing or unavailable knowledge is never
+presented as zero.
+
+Keep one horizontal scan row on desktop. On phones, the cover and Play
+information form the top row; Active Team and then overall progress plus the
+arrow move into full-width rows below it. Reduce the cover's phone-scale visual
+weight and enlarge Team slots enough for sprite recognition without allowing
+them to overgrow the card. At tablet widths, return to a compact horizontal row
+with a smaller cover instead of stretching the phone stack across the canvas.
+Reduce the cover one further step on desktop so it remains subordinate to Play
+identity and Team. This decision supersedes V1-D068's denser row hierarchy
+without changing the single-column library decision in V1-D067.

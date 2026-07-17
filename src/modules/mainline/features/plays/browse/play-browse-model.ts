@@ -186,8 +186,8 @@ const comparePlays = (
   }
 };
 
-export const filterAndSortPlays = (
-  plays: MainlinePlaySummary[],
+export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
+  plays: Play[],
   filters: PlayBrowseFilters,
 ) => {
   const normalizedQuery = filters.query.trim().toLocaleLowerCase();

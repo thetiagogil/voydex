@@ -7,21 +7,21 @@ contract instead of inventing a second interpretation of Play state.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; visual validation pending**
+**Status: V1 compact card direction implemented; realistic-data validation pending**
 
 The current implementation proves the protected `/mainline/plays` route,
-owner-scoped reads, and a simple interactive summary-card list. Its testing
-copy, raw Pokédex counts, lack of filters, and current card composition are
-implementation evidence rather than accepted V1 design.
+owner-scoped reads, URL-backed primary controls, and a compact interactive Play
+library. The remaining visual work is realistic-data validation plus the
+accepted archive, secondary-filter, and incremental-loading states.
 
 ## Purpose And User Goal
 
 Plays Browse is the user's complete adventure library. It should answer:
 
 1. Which Play am I looking for?
-2. What is its current lifecycle and journey state?
-3. How much trustworthy progress has been recorded?
-4. What does its current Active Team look like?
+2. What does its current Active Team look like?
+3. How much trustworthy overall progress has been recorded?
+4. When was it last updated?
 5. How do I open it or restore it if archived?
 
 It is not the Dashboard. It does not choose the user's one best next action,
@@ -47,7 +47,7 @@ navigation layer above the library.
 Use one compact, cover-led Play row per result rather than a square artwork
 grid, table, or V1 grid/list toggle. Plays carry too much meaningful state for
 small equal cards, while a data table would suppress the personal adventure
-identity. One column also keeps status, journey, progress, and Team summaries
+identity. One column keeps Play identity, Team, overall progress, and recency
 easy to compare in the accepted 1200–1280 pixel canvas.
 
 Every row remains openable as one accessible link to the Play Hub, including an
@@ -60,43 +60,39 @@ Header owns those actions.
 
 Keep the information hierarchy stable across every result:
 
-1. **Game identity:** compact cover art with a game-aware fallback, plus game
-   and version context.
-2. **Play identity:** Play name first; optional trainer name and dates appear
-   only when known.
-3. **Lifecycle:** one clear status badge. Lifecycle and completion remain
-   visually distinct facts.
-4. **Journey:** current or furthest known Story position, or the explicit
-   `Story position not recorded` state.
-5. **Active Team:** six equal compact slots using the shared Team-slot language
+1. **Game image:** render the cover itself at the full height of the card's
+   padded content area with proportional width and the same outer inset as the
+   remaining content. Do not place the cover inside another box. Use one subtle,
+   consistent radius on all four corners rather than the top-only media radius
+   intended for edge-to-edge Card artwork.
+2. **Play information:** the Play name is the row's only headline, followed by
+   the exact game name and one quiet `Updated ...` date.
+3. **Active Team:** six equal compact slots using the shared Team-slot language
    for occupied, confirmed-empty, and not-recorded positions. This is a
-   recognition preview, not a Team editor.
-6. **Progress:** one concise accepted completion-goal summary with a normalized
-   percentage only when contributing progress is trustworthy; otherwise show
-   `Progress not recorded`.
-7. **Organization and recency:** up to two text-labelled Tags plus `+N` when
-   useful, followed by the last meaningful activity date when known.
-8. **Open affordance:** a restrained directional cue that leaves the entire row
-   as the primary target.
+   recognition preview, not a Team editor. Keep the group labelled for
+   assistive technology without showing a visible `Active Team` heading.
+4. **Overall progress:** one normalized percentage across the Play's configured
+   required Story milestones, Pokédex species, and Collectibles. Show a concise
+   not-recorded or unavailable state when the value is not trustworthy.
+5. **Open cue:** one unlabelled directional arrow reinforces that the whole row
+   opens the Play without adding another action.
 
 Treat those facts as three levels of visual priority:
 
-1. **Primary identity:** cover art, Play name, game/version context, and the
-   lifecycle badge establish which adventure this is before anything else.
-2. **Current state:** Journey, the six-position Active Team, and trustworthy
-   Progress receive the main scanning space. They should be clearly grouped but
-   must not compete with the Play name as separate card headlines.
-3. **Supporting context:** trainer/date details, Tags, recent activity, and the
-   open cue remain quieter and may wrap or move below the current-state summary
-   at narrower widths.
+1. **Primary identity:** padded-content-height cover art plus the Play name,
+   exact game name, and update date establish the adventure immediately.
+2. **Current scan:** the six-position Active Team and one overall percentage
+   receive the remaining desktop scanning space.
+3. **Supporting context:** the update date and directional arrow stay quiet and
+   never compete with the Play name or percentage.
 
 Missing or unrecorded current-state facts keep their place and honest label
 rather than causing the row hierarchy to shift between Plays.
 
-Do not show raw Pokédex counts without their named scope, every applied rule,
-all completion groups, notes, platform, playtime, or current Team actions.
-Rules remain searchable filter criteria; defining challenge rules already have
-a better contextual home in the Play Header.
+Do not show lifecycle, Journey, trainer details, Tags, raw Pokédex counts,
+individual completion groups, rules, notes, platform, playtime, or Team actions
+inside the compact row. Use whitespace rather than vertical separator lines
+between information, Team, overall progress, and the arrow.
 
 The Active-Team preview always renders all six positions. Occupied slots use
 the actual current-form Pokémon sprite; confirmed-empty and not-recorded slots
@@ -171,16 +167,27 @@ Plan, or History data changes.
 
 ## Responsive Behavior
 
-On desktop, keep one horizontal row with cover, identity/journey, compact Team,
-progress, and open affordance in a stable scanning rhythm. Avoid stretching
-small facts into isolated dashboard columns.
+On desktop, keep one horizontal row with a cover that fills the padded content
+height, information, compact Team, overall percentage, and arrow in a stable
+scanning rhythm.
 
-On narrow screens, keep the same hierarchy in one vertical card:
+On phone-sized screens, keep the same hierarchy in one vertical card:
 
-- cover, Play identity, and Status first;
-- Journey and Progress next;
-- the six-slot Active Team preview in one equal-slot row;
-- Tags, activity, and open affordance last.
+- the inset cover and Play name, game name, and update date form the first row;
+- the six-slot Active Team preview moves into a separate full-width row below
+  that cover-and-information section;
+- the overall percentage and arrow form the final full-width row.
+
+Reduce the cover one visual step on phones so it does not dominate the card,
+while allowing the six Team slots to grow into the newly available horizontal
+space.
+
+At tablet widths, return to one compact horizontal scan row rather than
+stretching the phone stack across the canvas. Use a smaller cover than on
+phones, give Team the largest share of the middle canvas, then let identity,
+Overall, and the arrow use only the width they need. Reduce the cover one
+further step on desktop so it does not dominate the horizontal row; Desktop
+otherwise retains the established proportions.
 
 Search remains full width. Filters move into one sheet with an applied-count
 badge; Sort stays directly accessible. Long names and Tags wrap without
@@ -194,8 +201,8 @@ horizontal page scrolling.
   and offer `Clear filters`.
 - **No current Plays but archived Plays exist:** keep the empty state concise
   and provide a route to the Archived filter.
-- **Partial summary:** keep the row openable and label unavailable Journey,
-  Team, or Progress facts honestly rather than dropping the entire Play.
+- **Partial summary:** keep the row openable and label unavailable Team or
+  Progress facts honestly rather than dropping the entire Play.
 - **Load failure:** preserve filter state and offer a focused retry.
 - **Incremental-load failure:** keep loaded results and retry only the failed
   next slice.
@@ -235,18 +242,17 @@ together.
 
 ## Data And Database Impact
 
-The Browse read needs owner-scoped Play identity, game/version and cover
-context, lifecycle, started/completed date knowledge, archive state, last
-meaningful activity, Story position, six Active-slot knowledge states,
-completion goal and trustworthy progress, Tags, and Rules for filtering.
+The visible Browse row needs owner-scoped Play identity, exact game and cover
+context, six Active-slot knowledge states, trustworthy overall completion, and
+the best available update timestamp. Lifecycle, archive state, Tags, and Rules
+remain read requirements for filtering without becoming repeated row content.
 
 Most facts already exist or can be derived from current owner-scoped sources;
 explicit current-slot knowledge still depends on DG-020, and honest Progress
 knowledge depends on DG-010. The existing `mainline_play_summary` proves the
-base read but is not yet the final Browse contract: its Play-row `updated_at` is
-not necessarily the latest child activity, its raw Pokédex counts lack the
-accepted named/knowledge context, and it does not project Story, Team-slot, Tag,
-Rule, or normalized completion summaries.
+base read but its Play-row `updated_at` is not necessarily the latest child
+activity. The compact card composes Team and normalized overall completion from
+the existing owner-scoped views rather than exposing raw category counts.
 
 Record this as DR-029 and reuse DG-020 for Team-slot knowledge, DG-010 for
 progress knowledge, and DG-017/DG-018 for lifecycle, archive, and date behavior.

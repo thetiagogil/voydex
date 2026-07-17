@@ -115,10 +115,11 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
 
       {filteredPlays.length ? (
         <div className="grid gap-3">
-          {filteredPlays.map((play) => (
+          {filteredPlays.map((play, index) => (
             <PlaySummaryCard
               key={play.play_id ?? `${play.game_id}-${play.created_at}`}
               play={play}
+              priority={index < 2}
             />
           ))}
         </div>

@@ -1,28 +1,11 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
-  getPokemonFormImageUrl,
-  getPokemonFormShinyImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
 
-export const getTeamMemberName = (member: MainlinePlayTeamMember) => {
-  return member.nickname ?? member.species_name ?? "Unknown Pokemon";
-};
-
-export const getTeamMemberImageUrl = (member: MainlinePlayTeamMember) => {
-  const imageForm = {
-    name: member.form_name ?? member.species_name ?? "Pokemon",
-    sprite_slug: member.sprite_slug,
-  };
-
-  if (member.is_shiny) {
-    return (
-      getPokemonFormShinyImageUrl(imageForm) ??
-      getPokemonFormImageUrl(imageForm)
-    );
-  }
-
-  return getPokemonFormImageUrl(imageForm);
-};
+export const getTeamMemberName = getPlayTeamMemberName;
+export const getTeamMemberImageUrl = getPlayTeamMemberImageUrl;
 
 export const getTeamSlots = (team: MainlinePlayTeamMember[]) => {
   const memberBySlot = new Map(
