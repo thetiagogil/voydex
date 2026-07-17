@@ -11,6 +11,7 @@ import {
   resolveSupabaseBin,
   rootDir,
 } from "./context.mjs";
+import { buildDatabaseEnv } from "./env.mjs";
 
 const args = process.argv.slice(2);
 const sourceFlags = args.filter(
@@ -50,7 +51,7 @@ const result = spawnSync(
   ],
   {
     cwd: databaseDir,
-    env: process.env,
+    env: buildDatabaseEnv(),
     encoding: "utf8",
     shell: useShell,
   },

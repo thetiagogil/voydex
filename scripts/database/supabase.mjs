@@ -2,6 +2,7 @@
 
 import { spawn } from "node:child_process";
 import { databaseDir, resolveSupabaseBin } from "./context.mjs";
+import { buildDatabaseEnv } from "./env.mjs";
 
 const args = process.argv.slice(2);
 const supabaseBin = resolveSupabaseBin();
@@ -27,7 +28,7 @@ const useShell =
   process.platform === "win32" && supabaseBin.toLowerCase().endsWith(".cmd");
 const child = spawn(supabaseBin, args, {
   cwd: databaseDir,
-  env: process.env,
+  env: buildDatabaseEnv(),
   stdio: "inherit",
   shell: useShell,
 });

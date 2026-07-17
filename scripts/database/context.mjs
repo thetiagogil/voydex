@@ -6,6 +6,7 @@ const scriptsDir = path.dirname(fileURLToPath(import.meta.url));
 
 export const rootDir = path.resolve(scriptsDir, "..", "..");
 export const databaseDir = path.join(rootDir, "database");
+export const databaseEnvPath = path.join(rootDir, ".env.database");
 export const supabaseDir = path.join(databaseDir, "supabase");
 export const databaseTypesPath = path.join(
   rootDir,

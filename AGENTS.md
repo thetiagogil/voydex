@@ -47,6 +47,9 @@ document when correcting drift is within task scope.
   generated load artifacts, and pgTAP tests.
 - Do not hand-edit generated wrappers or
   `src/shared/types/database.types.ts`.
+- Keep browser-safe application values in `.env.local` and private database
+  tooling values in `.env.database`. Start from the corresponding tracked
+  example and do not move private credentials into `NEXT_PUBLIC_*` variables.
 - Keep active indexes beside their owning table schema.
 - Treat remote writes, linked-project operations, production mutation, and
   destructive local state as separate authority gates.
