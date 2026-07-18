@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
 import { AppBackground } from "@/features/app-shell/components/app-background";
 import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
 } from "@/features/system/components/database-health-status";
-import { ThemeInitScript } from "@/shared/providers/theme-init-script";
-import { ThemeProvider } from "@/shared/providers/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
+import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,23 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <head>
-        <ThemeInitScript />
-      </head>
       <body
         className="flex min-h-full flex-col antialiased"
         suppressHydrationWarning
       >
-        <ThemeProvider>
-          <AppBackground />
-          <DatabaseHealthProvider />
-          <TooltipProvider>
-            <div className="relative z-10 flex min-h-full flex-col">
-              {children}
-            </div>
-            <DatabaseHealthStatus />
-          </TooltipProvider>
-        </ThemeProvider>
+        <AppBackground />
+        <DatabaseHealthProvider />
+        <TooltipProvider>
+          <div className="relative z-10 flex min-h-full flex-col">
+            {children}
+          </div>
+          <DatabaseHealthStatus />
+        </TooltipProvider>
       </body>
     </html>
   );

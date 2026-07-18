@@ -19,8 +19,7 @@ export const AppBackground = () => {
       aria-hidden
       className="bg-secondary pointer-events-none fixed inset-0 z-0"
     >
-      <div className="absolute inset-0 bg-[url('/backgrounds/bg.webp')] bg-cover bg-bottom dark:hidden" />
-      <div className="absolute inset-0 hidden bg-[url('/backgrounds/bg-dark.webp')] bg-cover bg-bottom dark:block" />
+      <div className="absolute inset-0 bg-[url('/backgrounds/bg-day.webp')] bg-cover bg-bottom" />
       <div
         className={cn(
           "absolute inset-0 transition-colors duration-300",

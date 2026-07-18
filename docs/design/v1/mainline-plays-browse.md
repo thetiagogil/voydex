@@ -8,17 +8,17 @@ contract instead of inventing a second interpretation of Play state.
 ## Current Status
 
 The accepted information hierarchy, behavior, and responsive composition remain
-binding. Under [V1-D105](./decisions.md), the current production styling is no
-longer the visual target; exactly three treatments of this same contract are
-being explored through the canonical
-[V1 Visual Language](./visual-language.md) before further production styling.
+binding. [V1-D113](./decisions.md) selects and implements the explorer's refined
+leather-bound card treatment from the canonical
+[V1 Visual Language](./visual-language.md).
 
-**Status: V1 compact card direction implemented; realistic-data validation pending**
+**Status: Selected V1 journey-log treatment implemented and visually verified**
 
 The current implementation proves the protected `/mainline/plays` route,
 owner-scoped reads, URL-backed primary controls, and a compact interactive Play
-library. The remaining visual work is realistic-data validation plus the
-accepted archive, secondary-filter, and incremental-loading states.
+library. Realistic occupied and partial fixture states were checked at desktop,
+tablet, and phone widths. The remaining product work is the accepted archive,
+secondary-filter, explicit recovery, and incremental-loading states.
 
 ## Purpose And User Goal
 
@@ -39,22 +39,31 @@ owning Play.
 
 Use the shared centered application canvas and this stable order:
 
-1. plain page title, short description, and one primary `Create Play` action;
-2. search and primary filter controls;
-3. active-filter summary, result count, and sort;
-4. one responsive Play library list;
+1. one four-sided expedition clipboard with a compact page title and short
+   description on its warm backing;
+2. one lighter inset paper sheet held by two small brass clips, beginning with
+   search and primary filter controls;
+3. active-filter summary, result count, and sort separated by thin rules;
+4. one responsive Play library list continuing on the clipped sheet;
 5. explicit loading, empty, filtered-empty, error, and incremental-load states.
 
 Do not add dashboard statistics, promotional cards, or another persistent
 navigation layer above the library.
 
+The accepted `Create Play` action returns when its route and workflow are
+mounted. Until then, omit it rather than presenting a decorative or broken
+control copied from the visual reference.
+
 ## Recommended Browse Composition
 
-Use one compact, cover-led Play row per result rather than a square artwork
-grid, table, or V1 grid/list toggle. Plays carry too much meaningful state for
-small equal cards, while a data table would suppress the personal adventure
-identity. One column keeps Play identity, Team, overall progress, and recency
-easy to compare in the accepted 1200–1280 pixel canvas.
+Use one compact, cover-led journey-log row per result rather than a square
+artwork grid, table, or V1 grid/list toggle. Plays carry too much meaningful
+state for small equal cards, while a data table would suppress the personal
+adventure identity. One column keeps Play identity, Team, overall progress, and
+recency easy to compare in the accepted journal canvas, which reaches roughly
+1376 pixels at wide viewports. One clipped inset working sheet, thin journal
+rules, and whitespace provide character without nesting the controls or each
+row inside another decorative Card.
 
 Every row remains openable as one accessible link to the Play Hub, including an
 archived Play. A visible `Open Play` affordance may reinforce clickability, but
@@ -118,6 +127,10 @@ Keep the most common controls visible:
 - lifecycle Status;
 - Game;
 - Sort.
+
+Every visible control uses a persistent label above a separately framed value.
+Search, Status, Game, and Sort share one compact 40-pixel control height so the
+group scans as one system while labels and selected values never visually merge.
 
 Search updates after a short debounce and every accepted filter/sort value is
 represented in URL query parameters so refresh, browser Back, and copied local
@@ -268,9 +281,11 @@ owner-scoped sources. A dedicated convenience projection or cache should remain
 a later performance improvement unless profiling proves it necessary for
 correct V1 behavior.
 
-## Visual Validation Questions
+## Visual Validation Result
 
-1. Validate the smallest six-slot sprite size that remains recognizable without
-   making each row too tall at desktop and mobile widths.
-2. Validate the balance between atmospheric cover art and operational summary
-   density before accepting exact measurements.
+The shared-surface implementation was checked responsively at desktop, tablet,
+and phone widths. The simple bordered card, compact text-only header, and
+lighter inset paper sheet remain content-driven. The two independent
+fixed-aspect clips do not stretch, and long content does not introduce
+horizontal page overflow or a nested vertical scroller. Ephemeral comparison
+screenshots are intentionally not versioned as product documentation.

@@ -5,9 +5,9 @@ Voydex should feel like a clean adventure companion: warm, playful, polished, an
 Avoid a corporate SaaS hero, a generic wiki look, and overly game-ish UI chrome.
 
 The canonical V1 art-direction brief is
-[Voydex V1 Visual Language](../design/v1/visual-language.md). Exact visual
-tokens and component treatments remain provisional until one of the three
-representative shared-shell and Plays Browse directions is selected.
+[Voydex V1 Visual Language](../design/v1/visual-language.md). The selected
+[Shell And Plays Browse reference](../design/v1/assets/selected-shell-plays-browse.png)
+and production tokens now define the first implemented slice.
 
 ## Design Direction
 
@@ -35,7 +35,9 @@ The desired mix:
 - Keep `src/app` route files thin. Put real UI in `src/modules`, `src/features`,
   or `src/shared` components.
 - Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
-- Generated screenshots are design references, not exact code specs. Implement the intent with real data, responsive behavior, accessibility, and existing app primitives.
+- Generated screenshots are design references, not route or data contracts.
+  Implement the selected intent with real data, responsive behavior,
+  accessibility, mounted destinations, and existing app primitives.
 - Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
 - Standard cards, panels, tables, filters, and repeated data surfaces should use
   solid semantic surfaces such as `bg-card`, `bg-background`, and `bg-popover`.
@@ -66,13 +68,11 @@ perceived-performance value is validated.
 tokens. App, Pokemon, and game token groups are split under
 `src/shared/styles` and imported from that entry point.
 
-The current production tokens still reflect the previous blue-primary visual
-grammar and are implementation evidence, not the new target. The accepted V1
-direction uses forest/field green and leather/earth brown as the identity,
-warm beige as the working canvas, sky blue as atmosphere or information, and
-muted gold for selected discoveries and milestones. Exact values wait for the
-representative visual selection. Avoid turning the whole app into one
-flat-color theme.
+The production tokens implement forest/field green and leather/earth brown as
+the identity, warm beige as the working canvas, sky blue as atmosphere or
+information, and muted gold for selected discoveries and milestones. V1 uses
+one light presentation; a night-expedition palette is later design work, not a
+token inversion. Avoid turning the whole app into one flat-color theme.
 
 Existing token groups:
 
@@ -90,14 +90,43 @@ Existing token groups:
 - App pages use the shared `AppShell`. Protected routes provide an authenticated
   account state; public Codex routes use `PublicAppShell` and can render for
   anonymous users.
-- Align the navbar and main app content to a centered responsive canvas of
-  roughly 1200–1280 pixels at large viewports.
+- Keep the opening navbar in normal document flow with a transparent surface so
+  the scenic background shows through without a hard lower edge.
+  Align its content to the broad shell grid and let the whole bar scroll away
+  with the document. Do not introduce a sticky, fixed, or floating replacement.
+  Keep the main journal page on a centered responsive canvas up to roughly 1376
+  pixels at large viewports and preserve a 12–16 pixel opening gap.
 - Treat that canvas as a maximum working width rather than stretching every
   section. Reading content and forms may be narrower; browse grids, tables, and
   workspaces can use the available width.
-- Keep the background image visible in the side gutters and, where appropriate,
-  subtly behind page context so the app retains its scenic sense of place.
-- Avoid nested cards unless the inner card is a true repeated item or modal.
+- Use the refined daylight valley artwork at
+  `public/backgrounds/bg-day.webp` as the main background across
+  landing, authentication, introductory, public, and protected app routes.
+  `public/backgrounds/bg-night.webp` preserves the same composition
+  for the later night-theme design pass; it is not an active V1 theme.
+  Route-specific overlays may adjust the daylight artwork's visual weight for
+  readability, but they do not replace it. Keep the background visible in the
+  side gutters and lower page edge.
+- Treat the content surface as one warm expedition card with a simple matte
+  brown border, modest corner radius, and restrained shadow. The border should
+  suggest carried field gear without using separate rails, stitched strips,
+  corner caps, hardware, or another yellow/gold keyline. This is shared
+  `AppShell` structure, not feature-local Card decoration.
+- Keep the card content-driven and use normal document scrolling for app pages.
+  Never stretch a full-frame image to a long document, crop the card to the
+  viewport, or give the shared surface its own vertical scrollbar. A
+  purpose-built map, editor, or similarly dense workspace may own a bounded
+  inner scroller, but that decision stays inside the workspace.
+- Preserve the warm paper fill beneath the border without exposing seams. Below
+  desktop width, reduce page padding while preserving one useful paper working
+  surface.
+- Keep page introductions compact and text-led on the clipboard backing. A
+  bounded view may place its primary operational content on the shared
+  clipped-paper primitive: one lighter inset sheet, two separate fixed-aspect
+  brass clip images at its top edge, and content-driven height. Use spacing and
+  thin rules inside that sheet; do not nest repeated rows inside additional
+  framed Cards. The clipped sheet never owns a vertical scrollbar and its
+  hardware never stretches with content.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 
 ## Global Authentication Direction
@@ -803,13 +832,16 @@ more.
 
 - Use icons for clear actions.
 - Use text buttons for primary commands where labels matter.
-- Keep ordinary actions visually distinct from destination navigation. Major
-  destination links may use the restrained signpost treatment defined in the
-  V1 visual-language brief; Add, Save, Edit, Filter, Sort, Retry, Restore, and
-  destructive actions remain familiar product controls.
+- Use the shared compact button treatment for primary module-view destinations.
+  Inactive destinations use the normal outline variant; the active destination
+  uses the primary variant with `aria-current="page"`. Do not use wooden-plank
+  imagery or bespoke navigation-button textures.
 - Keep button styling clean. The button shape can be slightly curved, but avoid
   heavy decorative borders or exposing the default shadcn appearance as the
   product identity.
+- Browse controls use persistent labels above separately framed values. Controls
+  that share a row use equal heights and aligned baselines; labels never merge
+  visually with current values.
 - Primary buttons should not use a mismatched border color.
 - Treat selectors as real selectors when the underlying choice changes data,
   scope, availability, or stats. For example, Pokemon forms should not live as a

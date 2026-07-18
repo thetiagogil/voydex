@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 import { PlaySummaryCard } from "@/modules/mainline/features/plays/browse/components/play-summary-card";
 import { PlaysFilterForm } from "@/modules/mainline/features/plays/browse/components/plays-filter-form";
@@ -77,7 +77,7 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2.5">
       <PlaysFilterForm
         filters={filters}
         games={options.games}
@@ -96,7 +96,7 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
         statuses={options.statuses}
       />
 
-      <div className="flex min-h-8 items-center justify-between gap-3">
+      <div className="flex min-h-8 items-center justify-between gap-3 px-1">
         <p
           className="text-muted-foreground text-sm leading-6"
           aria-live="polite"
@@ -107,14 +107,19 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
         </p>
 
         {hasActiveFilters ? (
-          <Button type="button" variant="ghost" onClick={clearFilters}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={clearFilters}
+          >
             Clear filters
           </Button>
         ) : null}
       </div>
 
       {filteredPlays.length ? (
-        <div className="grid gap-3">
+        <div className="divide-y">
           {filteredPlays.map((play, index) => (
             <PlaySummaryCard
               key={play.play_id ?? `${play.game_id}-${play.created_at}`}
@@ -128,7 +133,12 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
           title="No plays found"
           description="Try a different search, status, or game filter."
           action={
-            <Button type="button" variant="outline" onClick={clearFilters}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={clearFilters}
+            >
               Reset filters
             </Button>
           }

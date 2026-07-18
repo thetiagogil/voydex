@@ -13,6 +13,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
+import { Field, FieldGroup, FieldLabel } from "@/shared/components/ui/field";
 
 type PlaysFilterFormProps = {
   filters: PlayBrowseFilters;
@@ -46,54 +47,83 @@ export const PlaysFilterForm = ({
 
   return (
     <BrowseFilterPanel
-      className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto]"
+      variant="journal"
+      className="pb-1"
       onSubmit={(event) => {
         event.preventDefault();
       }}
     >
-      <InputGroup className="flex-1">
-        <InputGroupAddon>
-          <AppIcon icon={appIcons.actions.search} aria-hidden />
-        </InputGroupAddon>
-        <InputGroupInput
-          name="q"
-          value={filters.query}
-          onChange={(event) => {
-            onQueryChange(event.currentTarget.value);
-          }}
-          placeholder="Search plays, games, or trainers"
-          aria-label="Search plays"
-        />
-      </InputGroup>
-      <SelectControl
-        name="status"
-        ariaLabel="Filter plays by status"
-        value={filters.status}
-        onValueChange={onStatusChange}
-        options={statusOptions}
-        placeholder="All statuses"
-        className="w-full lg:w-40"
-      />
-      <SelectControl
-        name="game"
-        ariaLabel="Filter plays by game"
-        value={filters.game}
-        onValueChange={onGameChange}
-        options={gameOptions}
-        placeholder="All games"
-        className="w-full lg:w-52"
-      />
-      <SelectControl
-        name="sort"
-        ariaLabel="Sort plays"
-        value={filters.sort}
-        onValueChange={(value) => {
-          onSortChange(value as PlayBrowseSort);
-        }}
-        options={sortOptions}
-        placeholder="Recent activity"
-        className="w-full lg:w-44"
-      />
+      <FieldGroup className="grid grid-cols-2 gap-2.5 md:grid-cols-3 md:gap-3 lg:grid-cols-[minmax(14rem,1.25fr)_minmax(8rem,0.7fr)_minmax(10rem,0.9fr)_minmax(10rem,0.9fr)] xl:grid-cols-[minmax(18rem,1.25fr)_minmax(9rem,0.7fr)_minmax(12rem,0.9fr)_minmax(12rem,0.9fr)] xl:gap-4">
+        <Field className="col-span-2 md:col-span-3 lg:col-span-1">
+          <FieldLabel htmlFor="plays-search" variant="filter">
+            Search
+          </FieldLabel>
+          <InputGroup className="h-10!">
+            <InputGroupAddon className="pl-2.5">
+              <AppIcon icon={appIcons.actions.search} aria-hidden />
+            </InputGroupAddon>
+            <InputGroupInput
+              id="plays-search"
+              name="q"
+              value={filters.query}
+              onChange={(event) => {
+                onQueryChange(event.currentTarget.value);
+              }}
+              placeholder="Play, game, or trainer"
+            />
+          </InputGroup>
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="plays-status" variant="filter">
+            Status
+          </FieldLabel>
+          <SelectControl
+            id="plays-status"
+            name="status"
+            ariaLabel="Filter plays by status"
+            value={filters.status}
+            onValueChange={onStatusChange}
+            options={statusOptions}
+            placeholder="All statuses"
+            className="h-10! w-full px-3"
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="plays-game" variant="filter">
+            Game
+          </FieldLabel>
+          <SelectControl
+            id="plays-game"
+            name="game"
+            ariaLabel="Filter plays by game"
+            value={filters.game}
+            onValueChange={onGameChange}
+            options={gameOptions}
+            placeholder="All games"
+            className="h-10! w-full px-3"
+          />
+        </Field>
+
+        <Field className="col-span-2 md:col-span-1">
+          <FieldLabel htmlFor="plays-sort" variant="filter">
+            Sort
+          </FieldLabel>
+          <SelectControl
+            id="plays-sort"
+            name="sort"
+            ariaLabel="Sort plays"
+            value={filters.sort}
+            onValueChange={(value) => {
+              onSortChange(value as PlayBrowseSort);
+            }}
+            options={sortOptions}
+            placeholder="Recent activity"
+            className="h-10! w-full px-3"
+          />
+        </Field>
+      </FieldGroup>
     </BrowseFilterPanel>
   );
 };

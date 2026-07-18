@@ -35,11 +35,11 @@ export const HomePage = async () => {
               className="w-24 sm:w-28 lg:w-32"
               layers={[
                 {
-                  src: "/brand/voydex-mark-primary-mask.png",
+                  src: "/brand/voydex-mark-primary-mask.webp",
                   className: "bg-primary",
                 },
                 {
-                  src: "/brand/voydex-mark-accent-mask.png",
+                  src: "/brand/voydex-mark-accent-mask.webp",
                   className: "bg-primary",
                 },
               ]}
@@ -50,7 +50,7 @@ export const HomePage = async () => {
               className="-mt-4 w-full max-w-72 sm:-mt-7 sm:max-w-xl"
               layers={[
                 {
-                  src: "/brand/voydex-title-primary-mask.png",
+                  src: "/brand/voydex-title-primary-mask.webp",
                   className: "bg-primary",
                 },
               ]}

@@ -5,6 +5,7 @@ import { ModuleNavigationMenu } from "@/features/app-shell/components/navigation
 import { ModuleViewNav } from "@/features/app-shell/components/navigation/module-view-nav";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
@@ -23,11 +24,9 @@ export const AppShell = ({
   userEmail,
 }: AppShellProps) => {
   const isAuthenticated = Boolean(userEmail);
-
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <AppNavbar
-        showLogoText={!moduleSelectorKey}
         afterLogo={
           moduleSelectorKey ? (
             <ModuleNavigationMenu
@@ -50,7 +49,10 @@ export const AppShell = ({
             ) : showAuthAction ? (
               <Link
                 href={appRoutes.login}
-                className={buttonVariants({ variant: "outline", size: "lg" })}
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  "app-module-trigger",
+                )}
               >
                 Log in
               </Link>
@@ -58,9 +60,11 @@ export const AppShell = ({
           </>
         }
       />
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-2 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        {children}
-      </main>
+      <div className="relative z-10 mx-auto mt-3 mb-3 flex w-[calc(100%-1rem)] max-w-344 flex-1 sm:mt-4 sm:mb-5 sm:w-[calc(100%-2rem)] lg:mb-10 lg:w-[calc(100%-4rem)]">
+        <main className="app-page-surface flex min-w-0 flex-1 flex-col overflow-hidden px-4 pb-5 sm:px-7 sm:pb-7 lg:px-10 lg:pb-10">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">{children}</div>
+        </main>
+      </div>
     </div>
   );
 };

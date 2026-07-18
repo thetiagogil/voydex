@@ -27,6 +27,11 @@ Database wrappers explicitly load the separate repository-root `.env.database`
 for authorized linked or remote tooling; routine local commands require no
 private remote credentials.
 
+The private file contains only `SUPABASE_DB_PASSWORD` and, when the CLI is not
+already authenticated, optional `SUPABASE_ACCESS_TOKEN`. Browser configuration
+uses only `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.local`.
+
 ## Schema Responsibilities
 
 | Schema      | Responsibility                                                               | Client access               |

@@ -15,7 +15,7 @@ export const JourneyStatusPanel = ({ data }: JourneyStatusPanelProps) => {
 
   return (
     <DetailSectionCard title="Journey Status" contentClassName="grid gap-4">
-      <div className="relative h-24 overflow-hidden rounded-lg bg-[url('/backgrounds/bg.webp')] bg-cover bg-bottom">
+      <div className="relative h-24 overflow-hidden rounded-lg bg-[url('/backgrounds/bg-day.webp')] bg-cover bg-bottom">
         <div
           aria-hidden
           className="bg-background/15 absolute inset-0 backdrop-saturate-150"

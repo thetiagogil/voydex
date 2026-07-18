@@ -1,5 +1,4 @@
 import { AccountSettingsCard } from "@/features/settings/components/account-settings-card";
-import { ThemeSettingsCard } from "@/features/settings/components/theme-settings-card";
 import { PageHeader } from "@/shared/components/page-header";
 
 type SettingsPageProps = {
@@ -15,7 +14,6 @@ export const SettingsPage = ({ userEmail }: SettingsPageProps) => {
       />
       <div className="flex flex-col gap-4">
         <AccountSettingsCard email={userEmail} />
-        <ThemeSettingsCard />
       </div>
     </div>
   );

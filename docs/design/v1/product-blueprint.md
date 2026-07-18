@@ -6,7 +6,7 @@ which screen families still need detailed specification.
 
 ## Current Stage
 
-**Status: V1 functional screen contracts complete; visual selection active**
+**Status: V1 functional screen contracts complete; selected visual system active**
 
 The high-level app review is complete enough to support depth-first functional
 work. The complete Play family, Plays Browse, Dashboard, standalone Plans,
@@ -16,10 +16,10 @@ Pokémon reference facts are anchored to one explicit exact-game context, while
 Codex remains read-only and enters Mainline through one deliberate handoff.
 Codex Games, the Game-origin handoffs, Login, Global Settings, and shared system
 states now have accepted functional contracts. The breadth-first and
-depth-first review is complete. [V1-D105](./decisions.md) preserves those
-contracts while resetting the art direction around the canonical
-[V1 Visual Language](./visual-language.md). Exactly three shared-shell and Plays
-Browse directions are pending selection before production styling resumes.
+depth-first review is complete. [V1-D113 and V1-D114](./decisions.md) preserve those
+contracts while selecting the canonical
+[V1 Visual Language](./visual-language.md). The shared shell and Plays Browse
+are its first implemented and responsively verified production slice.
 
 ## Product Overview
 
@@ -254,15 +254,14 @@ states, responsive behavior, and consuming screens.
 
 ## Implementation Checkpoint
 
-The functional review is complete and the new visual brief is accepted. The
-active design-to-implementation loop must:
+The functional review is complete and the selected visual system is implemented
+through the shared shell and Plays Browse. The active loop must:
 
-1. select or revise one of the three representative directions before changing
-   production styling;
-2. apply the chosen system to the shared shell and Plays Browse before
-   presenting adjacent screens as implemented;
-3. validate realistic content, partial and recovery states, and phone, tablet,
+1. preserve the selected grammar while completing the active view's system
+   states;
+2. validate realistic content, partial and recovery states, and phone, tablet,
    and desktop composition rather than judging one hero frame;
-4. capture selected hierarchy, density, scenic character, and responsive
+3. capture selected hierarchy, density, scenic character, and responsive
    behavior in versioned design references;
-5. apply the resulting system to Dashboard, Play Overview, and Team in order.
+4. apply the system to Play Overview, Team, and Codex one bounded view at a
+   time, then revisit Dashboard when its route is mounted.

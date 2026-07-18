@@ -16,6 +16,7 @@ const cardVariants = cva(
         default: "bg-card",
         interactive:
           "bg-card transition-colors hover:bg-muted focus-visible:bg-muted group-hover/card-link:bg-muted group-focus-visible/card-link:bg-muted",
+        journal: "gap-0 rounded-none bg-transparent py-0 shadow-none ring-0",
       },
     },
     defaultVariants: {

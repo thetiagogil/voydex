@@ -44,38 +44,51 @@ the evidence for exact implementation details.
 ## Current Product And Design Checkpoint
 
 The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). [V1-D105](./design/v1/decisions.md)
-supersedes the previously selected visual grammar. The canonical
-[V1 Visual Language](./design/v1/visual-language.md) now defines a light-first
-explorer's field-guide direction, and exactly three shared-shell and Plays
-Browse treatments must be reviewed before further production styling.
+[V1 Design Workspace](./design/v1/README.md). [V1-D114 through
+V1-D118](./design/v1/decisions.md) define the current light-first explorer's
+navbar, clipped-paper, simple expedition-card, and conventional destination-link
+direction within the canonical [V1 Visual Language](./design/v1/visual-language.md).
 
-Existing shared-shell, Dashboard, Plays Browse, Play Overview, and Play Team
-work remains useful functional, data, and responsive evidence but is not the
-new visual target. Only surfaces listed under Implemented Product Surfaces are
-production implementation; the remaining screen work is still design direction
-until it is represented in code and verified.
+The shared shell and Plays Browse now implement the selected system: one in-flow
+navbar that dissolves into the scenic sky, the refined daylight-valley
+background, and one warm paper expedition card with a simple matte brown border
+and dissolved mountain header. Primary route links use shared compact buttons;
+the module selector, account access, and actions remain clean controls. The Plays
+working content sits on one lighter inset paper sheet held by two small separate
+clip images. No border, clip, or paper image stretches with page width or height.
+Lora/DM Sans typography, clean labelled controls, and rule-separated Play rows
+keep the working sheet readable without repeated nested Cards. A small gap keeps
+the navbar and card visually distinct. The browser owns long-page scrolling;
+neither the shared card nor clipped sheet introduces a nested vertical scroller. Only
+surfaces listed under Implemented Product Surfaces are production implementation;
+the remaining screen work is still design direction until it is represented in
+code and verified.
 
 The active production slice is Plays Browse:
 
 - URL-backed Search, Status, Game, and Sort controls are implemented, including
-  debounced updates, result counts, filtered-empty recovery, and filter reset.
+  debounced updates, result counts, filtered-empty recovery, filter reset,
+  persistent labels, and compact equal 40-pixel control heights.
 - Each Play row now composes game cover, Play and game identity, update date,
   six Active-Team slots, honest overall completion, and one open cue from
   owner-scoped summary, reference-game, Overview, and Team reads.
 - Missing progress remains distinct from unavailable enrichment; unavailable
   Team data retains six explicit positions instead of silently disappearing.
-- Phone uses a stacked card, tablet returns to a compact horizontal row, and
-  desktop reduces the cover further so identity and Team remain dominant. The
-  current composition has been browser-checked at representative phone, tablet,
-  and desktop widths.
+- Phone and tablet use stacked journal rows, while compact and wide desktop
+  restore the horizontal comparison layout so identity and Team remain dominant.
+  The selected composition and its realistic occupied/partial fixture states
+  have been browser-checked at representative phone, tablet, and desktop widths.
+  The current card and clipped-paper composition was checked at representative
+  desktop, tablet, and phone widths. The sheet followed growing content without
+  clipping, horizontal page overflow, or a nested vertical scroller. The
+  subsequent navbar refinement kept the opening bar in document flow without a
+  hard lower edge or scroll-triggered replacement, and the mobile module sheet
+  continued to open and close normally.
 
-The next checkpoint is visual selection. After one representative direction is
-selected or revised, apply it to the shared shell and Plays Browse while
-preserving the accepted behavior and responsive hierarchy. Then validate
-occupied and partial cards with realistic data and add archived visibility,
-secondary filters, explicit loading/recovery, and incremental-load states.
-Dashboard, Play Overview, and Team follow in that order.
+The next checkpoint is to carry the selected system into Play Overview, then
+Team and Codex, one bounded view at a time. Plays Browse still needs archived
+visibility, secondary filters, explicit loading/recovery, and incremental-load
+states before its full V1 product contract is complete.
 
 Future design and implementation tasks start from the canonical screen-family
 document, accepted decisions, design system, current code, and verified
@@ -93,9 +106,8 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- The new visual-language brief is accepted, but the three representative
-  shared-shell and Plays Browse directions have not yet been selected or
-  revised into the production target.
+- Later production views have not yet been migrated to the selected journal and
+  field-guide system; their existing layouts remain functional evidence.
 - Plays Browse still needs occupied-Team and partial-data validation, archived
   visibility, secondary filters, explicit recovery states, and incremental
   loading before its accepted V1 contract is complete.
@@ -116,8 +128,9 @@ selected behavior that future work must preserve belongs in versioned docs.
 The repository currently provides:
 
 - Architecture enforcement over the active source tree.
-- The latest `npm run verify` checkpoint passes documentation, formatting,
-  lint, TypeScript, architecture, 42 Vitest tests, and the production build.
+- The latest `npm run verify` checkpoint passes documentation, repository-wide
+  formatting, lint, TypeScript, architecture enforcement, 42 Vitest tests, and
+  the production build.
 - Focused Vitest coverage for domain, mapping, navigation, authentication, and
   database-audit helpers.
 - Deterministic audits over 133 schema sources, 890 seed sources, and 638,246

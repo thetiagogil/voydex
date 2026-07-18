@@ -4,10 +4,12 @@ This document is the canonical art-direction brief for the V1 interface. It
 defines the character that should connect the shared shell, Mainline, and
 Codex without changing their accepted product responsibilities or flows.
 
-The exact visual treatment remains provisional until one of the three
-representative Plays Browse directions is selected. Functional contracts,
-responsive behavior, accessibility, and truthful data states remain binding
-throughout that exploration.
+The selected V1 treatment combines disciplined field-guide organization with
+one content-driven expedition card outlined by a simple matte brown border and
+one lighter clipped working sheet. V1-D115, V1-D116, V1-D118, and V1-D119 own
+the current shell, navbar, and Plays header behavior shown in production.
+Functional contracts, responsive behavior, accessibility, truthful data
+states, and mounted routes remain binding when applying it to later views.
 
 ## Product Expression
 
@@ -71,32 +73,30 @@ world around that identity rather than competing with it.
 | Ink, stone, white, and warm gray  | Text hierarchy, controls, borders, disabled and neutral states                      |
 | Deep navy and moonlight neutrals  | Reserved foundation for a later night theme                                         |
 
-Exact values and contrast pairs are selected only after the representative
-direction is chosen. Gold and light blue must not carry small text on light
-surfaces, and brown-on-beige combinations require explicit contrast checks.
-Pokémon type and game colors remain semantic accents rather than replacements
-for the Voydex palette.
+The production tokens in `src/app/globals.css` and
+`src/shared/styles/app-tokens.css` are the source of truth for exact values.
+Gold and light blue do not carry small text on light surfaces, and
+brown-on-beige combinations require explicit contrast checks. Pokémon type and
+game colors remain semantic accents rather than replacements for the Voydex
+palette.
 
 ## Navigation Metaphor
 
 Navigation and mutation must look meaningfully different.
 
-### Signposts
+### Destination Buttons
 
-Major destination links may use a restrained wooden-sign or trail-sign
-treatment. Appropriate uses include module destinations, a prominent route to
-another major page, or the next important place in a journey.
-
-The treatment should communicate `go there`, not `perform an operation`.
-Wood remains an accent material: keep grain, irregularity, depth, and hardware
-subtle enough that labels stay crisp and the shell stays lightweight.
+Primary module-view destinations use familiar compact buttons with an icon and
+label. Inactive destinations use the shared outline variant; the active
+destination uses the primary variant and an explicit current-page state. Do not
+use wooden-plank imagery, bespoke masks, or decorative texture in the navbar.
 
 ### Trail Markers
 
 Tabs, breadcrumbs, compact contextual links, and dense local navigation should
 use lighter route-finding cues such as path lines, marker shapes, notches,
-underlines, or simple directional icons. They should not all become wooden
-planks merely because they change the URL.
+underlines, or simple directional icons. They should not all become prominent
+buttons merely because they change the URL.
 
 ### Tools
 
@@ -145,10 +145,9 @@ to emphasize a different part of the same adventure.
 
 ## Typography And Iconography
 
-Use no more than two font families. Body copy and dense data need a highly
-readable product face. A complementary display or editorial face may add field
-guide or journal character to page titles and selected section headings, but
-must not reduce clarity or make the app feel medieval.
+Use **DM Sans** for body copy, controls, navigation, and dense data. Use **Lora**
+for page titles and selected editorial headings. Do not introduce a third
+family or extend the serif face into dense operational copy.
 
 Use familiar interface icons for ordinary actions. Use compass, trail marker,
 flag, map, pin, backpack, binocular, book, journal, sun, and route imagery for
@@ -168,27 +167,45 @@ and purposeful illustration over photorealistic imitation.
 Use real, purpose-fit assets. Do not fake visible wood, maps, compass art, or
 other signature imagery with ad hoc CSS drawings or placeholder decoration.
 
-## Representative Exploration Contract
+## Selected Composition
 
-The first visual checkpoint is the authenticated shared shell plus Mainline
-Plays Browse at a `1440 x 1024` desktop viewport. It must preserve the accepted
-screen contract:
+The shared shell and Mainline Plays Browse establish the production grammar:
 
-- Voydex identity and Mainline context;
-- Dashboard, Plays, Plans, Collection, and Stats destinations;
-- page title, concise supporting text, and one Create Play action;
-- visible Search, Status, Game, and Sort controls;
-- result count and clear-filter behavior;
-- a single-column library of compact Play results;
-- game cover, Play name, exact game name, update date, six Active-Team slots,
-  overall completion, and one open cue per result;
-- realistic occupied, partial, and not-recorded data;
-- no extra dashboard metrics or feature-advertising panels.
+- an opening navbar in normal document flow, aligned with the broad shell grid
+  and transparent over the daylight sky rather than an opaque white slab or
+  hard lower rule;
+- the opening navbar scrolls away with the document and is not replaced by a
+  sticky, fixed, or floating navigation surface;
+- the compact Voydex mark, a clear module switcher, and familiar compact
+  destination buttons whose active state remains readable without relying only
+  on color;
+- one warm expedition card surface up to approximately 1376 pixels wide,
+  outlined by a simple matte brown border with ambient daylight landscape
+  visible in the outer gutters;
+- a 12–16 pixel breathing gap between the navbar and clipcard page;
+- one shared refined daylight-valley backdrop at
+  `public/backgrounds/bg-day.webp` across the whole app, with distant
+  mountains, green terrain, village, sky, and foreground flowers; route-specific
+  overlays may quiet it behind working content without replacing the artwork;
+- a compact text-only page introduction on the warm clipboard backing, followed
+  by one lighter inset working sheet held by two fixed-aspect brass paper clips;
+  controls, count, and rows continue inside that sheet with spacing and thin
+  rules;
+- Search, Status, Game, and Sort as familiar product controls with persistent
+  labels, compact equal 40-pixel heights, and clearly separated current values;
+- compact one-column journey-log rows that use thin rules, warm paper, and
+  whitespace instead of nested Cards or heavy material frames;
+- responsive reflow at tablet and phone widths without horizontal page scroll;
+- only real, mounted destinations and actions. A design reference may show
+  future routes, but production does not expose inert navigation or a broken
+  Create Play control.
 
-The three directions should vary composition, material emphasis, navigation
-treatment, and typography while preserving that same content and user goal.
-Phone and tablet adaptation are evaluated after a desktop direction is chosen;
-the selected system must still be capable of the accepted responsive behavior.
+The framed card remains a working surface rather than a theatrical prop. Its
+single border should be visibly warm and gear-inspired but flatter and more
+cartoon-like than realistic leatherwork. The browser owns vertical scrolling,
+and both the outer card and inset working sheet grow to their true content end
+without an inner vertical scroller. Narrow screens reduce clips and paper
+padding while preserving useful working space.
 
 ## Anti-Goals
 
@@ -202,17 +219,13 @@ the selected system must still be capable of the accepted responsive behavior.
 - Texture used to hide weak hierarchy.
 - Dark mode created by simply inverting the light palette.
 
-## Selection And Implementation Gate
+## Implementation Checkpoint
 
-Generate exactly three independent directions from this brief. Do not change
-production UI until one direction is selected or a revised combination is
-approved.
-
-After selection:
-
-1. record the chosen palette, typography, material, and component rules here;
-2. translate them into semantic tokens and a small Voydex component language;
-3. implement the shared shell and Plays Browse as the first production slice;
-4. verify realistic desktop, tablet, and phone states in the browser;
-5. carry the accepted system into Dashboard, Play Overview, Team, and Codex one
-   bounded view at a time.
+The shared shell and Plays Browse are the first implemented production slice.
+The refined daylight scenery, single background-blended navbar, compact
+destination buttons, simple bordered expedition card, clipped inset working
+paper, and blended header are now production assets and shared composition
+patterns. Carry this grammar into Play Overview, Team, and Codex one bounded
+view at a time;
+preserve each view's product contract and validate it at desktop, tablet, and
+phone widths before calling that slice complete.

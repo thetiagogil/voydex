@@ -50,6 +50,9 @@ document when correcting drift is within task scope.
 - Keep browser-safe application values in `.env.local` and private database
   tooling values in `.env.database`. Start from the corresponding tracked
   example and do not move private credentials into `NEXT_PUBLIC_*` variables.
+- The app accepts only `NEXT_PUBLIC_SUPABASE_URL` and
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; do not restore legacy anon-key
+  aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
 - Treat remote writes, linked-project operations, production mutation, and
   destructive local state as separate authority gates.

@@ -37,23 +37,24 @@ const PlayCover = ({
   gameName: string;
   priority: boolean;
 }) => {
-  if (coverImageUrl) {
-    return (
-      <Image
-        src={coverImageUrl}
-        alt={`${gameName} cover art`}
-        width={180}
-        height={270}
-        priority={priority}
-        sizes="(min-width: 1024px) 5rem, (min-width: 768px) 6rem, 7rem"
-        className="col-start-1 row-start-1 h-28 w-auto max-w-none shrink-0 object-cover md:h-24 lg:h-20"
-      />
-    );
-  }
-
   return (
-    <div className="col-start-1 row-start-1 flex aspect-2/3 h-28 shrink-0 items-center justify-center rounded-md bg-(--pokemon-game-color)/15 px-2 text-center text-xl font-black text-(--pokemon-game-color) md:h-24 lg:h-20">
-      {getGameInitials(gameName)}
+    <div className="border-app-surface-border/80 bg-background/65 col-start-1 row-start-1 size-28 shrink-0 rounded-lg border p-0.5 shadow-sm md:size-24 lg:size-28">
+      {coverImageUrl ? (
+        <div className="relative size-full overflow-hidden rounded-md">
+          <Image
+            src={coverImageUrl}
+            alt={`${gameName} cover art`}
+            fill
+            priority={priority}
+            sizes="(min-width: 1024px) 7rem, (min-width: 768px) 6rem, 7rem"
+            className="object-contain"
+          />
+        </div>
+      ) : (
+        <div className="flex size-full items-center justify-center rounded-md bg-(--pokemon-game-color)/15 px-2 text-center text-xl font-black text-(--pokemon-game-color)">
+          {getGameInitials(gameName)}
+        </div>
+      )}
     </div>
   );
 };
@@ -65,22 +66,27 @@ const PlayProgressSummary = ({
 }) => {
   if (progress.state === "known") {
     return (
-      <div className="flex items-baseline gap-2 md:flex-col md:items-end md:gap-0">
-        <p className="text-foreground text-2xl font-semibold tracking-tight tabular-nums">
+      <div className="flex flex-col gap-0.5 md:items-start">
+        <p className="text-muted-foreground text-xs leading-4 font-bold tracking-[0.08em] whitespace-nowrap uppercase">
+          Completion
+        </p>
+        <p className="text-primary font-serif text-2xl font-semibold tracking-tight tabular-nums lg:text-3xl">
           {progress.percent}%
         </p>
-        <p className="text-muted-foreground text-xs">Overall</p>
+        <p className="text-muted-foreground text-xs">overall</p>
       </div>
     );
   }
 
   return (
-    <div className="flex items-baseline gap-2 md:flex-col md:items-end md:gap-0">
-      <p className="text-foreground text-xl font-semibold">—</p>
-      <p className="text-muted-foreground text-xs">
+    <div className="flex flex-col gap-1 md:items-start">
+      <p className="text-muted-foreground text-xs leading-4 font-bold tracking-[0.08em] whitespace-nowrap uppercase">
+        Completion
+      </p>
+      <p className="text-primary font-serif text-lg font-semibold">
         {progress.state === "unavailable"
           ? "Progress unavailable"
-          : "Progress not recorded"}
+          : "Not recorded"}
       </p>
     </div>
   );
@@ -93,9 +99,9 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
   return (
     <Card
       size="sm"
-      variant={play.play_id ? "interactive" : "default"}
+      variant="journal"
       className={cn(
-        "grid grid-cols-[auto_minmax(0,1fr)] gap-3 p-3 has-[>img:first-child]:pt-3 data-[size=sm]:has-data-[slot=card-footer]:pb-3 md:grid-cols-[auto_minmax(9rem,0.65fr)_minmax(18rem,1.35fr)_minmax(7rem,auto)] md:grid-rows-1 md:items-center lg:grid-cols-[auto_minmax(13rem,1fr)_minmax(17rem,0.85fr)_minmax(10rem,auto)] *:[img:first-child]:rounded-t-md *:[img:first-child]:rounded-b-md",
+        "grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-4 py-4 data-[size=sm]:has-data-[slot=card-footer]:pb-4 md:grid-cols-[auto_minmax(8rem,0.8fr)_minmax(13.5rem,1.15fr)_minmax(7.5rem,auto)] md:grid-rows-1 md:items-center md:gap-x-3 md:gap-y-0 lg:grid-cols-[auto_minmax(9rem,0.7fr)_minmax(16rem,1.25fr)_minmax(7.5rem,auto)] lg:gap-x-4 xl:grid-cols-[auto_minmax(13rem,0.8fr)_minmax(21rem,1.4fr)_minmax(10rem,auto)] xl:gap-x-5",
         !play.play_id && "opacity-70",
       )}
     >
@@ -105,26 +111,35 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
         priority={priority}
       />
 
-      <CardHeader className="col-start-2 row-start-1 flex min-w-0 flex-col gap-0 self-start rounded-none p-0 md:self-center">
-        <CardTitle className="w-full text-base font-semibold md:text-lg">
-          <h2 className="truncate">{playName}</h2>
+      <CardHeader className="col-start-2 row-start-1 flex min-w-0 flex-col gap-1 self-start rounded-none p-0 md:self-center">
+        <CardTitle className="text-primary w-full font-serif text-lg font-semibold xl:text-xl">
+          <h2 className="line-clamp-2">{playName}</h2>
         </CardTitle>
-        <CardDescription className="mt-0.5 truncate text-sm leading-4">
-          {gameName}
+        <CardDescription className="text-foreground mt-0.5 flex min-w-0 items-center gap-1.5 text-sm leading-5">
+          <AppIcon
+            icon={appIcons.product.form}
+            size="sm"
+            className="text-primary shrink-0"
+            aria-hidden
+          />
+          <span className="truncate">{gameName}</span>
         </CardDescription>
-        <p className="text-muted-foreground mt-0.5 text-xs">
-          Updated {formatPlayDate(play.updated_at, "date not recorded")}
+        <p className="text-muted-foreground mt-0.5 flex min-w-0 items-center gap-1.5 text-xs">
+          <AppIcon icon={appIcons.product.date} size="sm" aria-hidden />
+          <span className="truncate">
+            Updated {formatPlayDate(play.updated_at, "date not recorded")}
+          </span>
         </p>
       </CardHeader>
 
-      <CardContent className="col-span-2 row-start-2 min-w-0 p-0 md:col-span-1 md:col-start-3 md:row-start-1 md:pl-3">
+      <CardContent className="col-span-2 row-start-2 min-w-0 p-0 md:col-span-1 md:col-start-3 md:row-start-1">
         <PlaySummaryTeamPreview team={play.activeTeam} />
       </CardContent>
 
-      <CardFooter className="col-span-2 row-start-3 flex min-w-0 items-center justify-between gap-4 rounded-none border-0 bg-transparent p-0 md:col-span-1 md:col-start-4 md:row-start-1 md:justify-end md:pl-3 lg:gap-6">
+      <CardFooter className="col-span-2 row-start-3 flex min-w-0 items-center justify-between gap-3 rounded-none border-0 bg-transparent p-0 md:col-span-1 md:col-start-4 md:row-start-1 xl:gap-6">
         <PlayProgressSummary progress={play.progress} />
         {play.play_id ? (
-          <span className="text-muted-foreground group-hover/card-link:text-primary group-focus-visible/card-link:text-primary flex size-8 shrink-0 items-center justify-center transition-colors">
+          <span className="text-muted-foreground flex size-8 shrink-0 items-center justify-center">
             <AppIcon icon={appIcons.actions.continue} size="md" aria-hidden />
           </span>
         ) : null}
@@ -154,7 +169,7 @@ export const PlaySummaryCard = ({
       href={appRoutes.mainlinePlay(play.play_id)}
       aria-label={`Open ${title}`}
       style={gameStyles}
-      className="group/card-link focus-visible:ring-ring/50 block rounded-xl outline-none focus-visible:ring-3"
+      className="focus-visible:ring-ring/35 block rounded-none outline-none focus-visible:ring-3"
     >
       <PlayCardBody play={play} priority={priority} />
     </Link>

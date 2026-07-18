@@ -23,6 +23,7 @@ type SelectControlProps = {
   ariaLabel: string;
   className?: string;
   defaultValue?: string;
+  id?: string;
   name?: string;
   onValueChange?: (value: string) => void;
   options: readonly SelectControlOption[];
@@ -56,6 +57,7 @@ export const SelectControl = ({
   ariaLabel,
   className,
   defaultValue,
+  id,
   name,
   onValueChange,
   options,
@@ -90,7 +92,12 @@ export const SelectControl = ({
         onValueChange?.(normalizedValue);
       }}
     >
-      <SelectTrigger aria-label={ariaLabel} className={className} size={size}>
+      <SelectTrigger
+        id={id}
+        aria-label={ariaLabel}
+        className={className}
+        size={size}
+      >
         <SelectValue placeholder={placeholder}>
           {(selectedValue) => {
             const selectedOption = getOptionByValue(selectedValue);

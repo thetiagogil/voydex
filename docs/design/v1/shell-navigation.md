@@ -3,17 +3,18 @@
 This document defines the accepted responsive information architecture for
 Voydex's shared shell. It separates global product identity, module switching,
 module-local navigation, contextual workflow navigation, and account controls
-while separating the accepted organization from the visual language currently
-being reselected.
+while applying the selected explorer's field-guide visual language.
 
 ## Current Status
 
-**Status: Responsive shell organization accepted; visual treatment pending selection**
+**Status: Selected V1 shell treatment implemented and responsively verified**
 
-The existing top-bar shell and centered content canvas are the accepted
-foundation. [V1-D105](./decisions.md) resets their visual language through the
-canonical [V1 Visual Language](./visual-language.md) while preserving the
-organization unless a selected direction exposes a clear usability need.
+The top-bar shell and centered content canvas remain the accepted foundation.
+[V1-D114 and V1-D116](./decisions.md) record the clipped-paper and simplified
+expedition-card treatment, while [V1-D115 and V1-D118](./decisions.md) own the
+single background-blended navbar and destination controls. V1-D118 supersedes
+V1-D117's plank treatment with shared compact buttons. All use the
+canonical [V1 Visual Language](./visual-language.md).
 
 ## Navigation Layers
 
@@ -31,21 +32,37 @@ modules. These layers should not be collapsed into one undifferentiated menu.
 
 ## Accepted Shared Shell
 
-Use one persistent, responsive top app bar for normal app surfaces:
+Use one responsive top app bar for normal app surfaces:
 
 - **Start:** Voydex mark and current-module switcher.
 - **Center on desktop:** primary views belonging to the active module.
 - **End:** account/authentication controls and only genuinely global utilities.
 
+The opening bar remains in normal document flow and uses a transparent surface
+so the scenic sky continues through it without a border or abrupt white block.
+It scrolls away with the page and does not return as a sticky, fixed, or
+floating surface. Long pages rely on normal browser navigation rather than a
+second scroll-triggered navbar presentation.
+
 The shell remains visually stable while module identity and module-view links
 change. Mainline and Codex may have subtle character through active states,
 icons, or accent treatment, but they should still feel like parts of one app.
+Module-view destinations use shared compact buttons: outline when inactive and
+primary when current. Module switching, account access, and ordinary actions
+remain clean controls with hierarchy appropriate to their role.
 
-Place normal page content inside a centered canvas of approximately 1200–1280
-pixels at large viewports. Align navbar content with the same canvas. The scenic
+Place normal page content inside a centered canvas up to approximately 1376
+pixels at large viewports. Align navbar content with the same broad grid and
+keep 12–16 pixels of space below the bar before the clipcard page. The scenic
 background remains visible in the side gutters and may appear subtly behind
 page context, preserving Voydex's sense of place without competing with
 operational content.
+
+Use one simple matte brown border around the shared expedition card. Do not add
+separate rail, stitching, corner-cap, or outer hardware assets, and do not add a
+second yellow/gold keyline. The accepted inner working sheet owns its two small
+paper clips. Both surfaces follow long content naturally without a shell-owned
+scrollbar.
 
 The canvas is a maximum working width, not a requirement for every section to
 stretch fully. Reading content, forms, and focused dialogs may use narrower
@@ -61,8 +78,9 @@ modules can use the shared shell appropriate to their access state.
 - The Voydex mark is always recognizable and returns to the general product
   entry resolver.
 - It should not be overloaded as a direct Mainline or Codex shortcut.
-- Full wordmark visibility may adapt to available space, but the accessible
-  name remains Voydex.
+- The in-app shell keeps the mark and module selector without repeating the
+  wordmark; contexts without a module selector may show the full wordmark. The
+  accessible name remains Voydex in either composition.
 
 ## Module Switcher
 
@@ -123,7 +141,7 @@ navigation item.
 
 ## Accepted Desktop Organization
 
-Use one compact sticky app bar:
+Use one full opening app bar:
 
 - left: Voydex mark and module switcher;
 - center: active module's primary view links;
@@ -133,9 +151,13 @@ This keeps frequent destinations one click away without turning modules into
 separate applications. Page-level primary actions such as `Create Play` belong
 near the page title or relevant content, not in the persistent app bar.
 
+The opening presentation is not sticky. It leaves the viewport with the rest of
+the document and no replacement navbar appears after it clears the viewport.
+
 The shadcn navigation-menu module switcher is the accepted interaction pattern.
-Its visual styling may evolve, but the clean trigger, descriptive module list,
-and scalable dropdown behavior should remain.
+Its clean trigger, descriptive module list, and scalable dropdown behavior
+remain. It stays visually distinct from the module-view destination buttons
+because it changes module scope.
 
 ## Refinements, Not Structural Changes
 
@@ -144,8 +166,8 @@ and scalable dropdown behavior should remain.
   or indicator changes rather than color alone.
 - Preserve readable module names and comfortable hit areas as labels or the
   number of modules grow.
-- Tune the navbar surface, borders, shadow, and background interaction as part
-  of the selected visual direction.
+- Preserve forest-green identity and readable controls while letting the
+  opening bar visually dissolve into the background.
 - Keep profile actions concise and reserve the right side for truly global
   controls.
 - Verify overflow, keyboard behavior, focus, long labels, and signed-out or
@@ -154,10 +176,11 @@ and scalable dropdown behavior should remain.
 
 ## Accepted Mobile Organization
 
-Use a compact top bar for Voydex identity, module switching, and account access.
-Keep the current top-sheet navigation pattern as the V1 baseline, with module
-names, descriptions, access states, and the active module's view links organized
-inside the sheet.
+Use a compact opening bar for Voydex identity, module switching, and account
+access, then let it scroll away without a sticky or floating replacement. Keep
+the current top-sheet navigation pattern as the V1 baseline, with module names,
+descriptions, access states, and the active module's view links organized inside
+the sheet.
 
 This preserves one predictable navigation model without permanently consuming
 mobile screen space or introducing a second dynamic navigation bar. A
@@ -171,8 +194,8 @@ than being promoted into the global mobile navigation.
 ## Global And Contextual Actions
 
 - Account profile, Settings, and Sign out belong in the account menu.
-- Theme controls belong in Settings or the account menu unless a later design
-  demonstrates a strong need for persistent access.
+- V1 exposes no theme control. A later night-expedition theme requires a
+  deliberate design pass before Appearance returns to Settings.
 - Search belongs to the module or surface whose scope it searches; do not label
   a control global if results are only Codex or only Mainline.
 - Create, add, edit, filter, sort, and bulk actions belong to their relevant

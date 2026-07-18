@@ -104,14 +104,19 @@ const FieldContent = ({ className, ...props }: React.ComponentProps<"div">) => {
 
 const FieldLabel = ({
   className,
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof Label>) => {
+}: React.ComponentProps<typeof Label> & {
+  variant?: "default" | "filter";
+}) => {
   return (
     <Label
       data-slot="field-label"
+      data-variant={variant}
       className={cn(
-        "group/field-label peer/field-label has-data-checked:border-primary/30 has-data-checked:bg-primary/5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10 flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5",
+        "group/field-label peer/field-label has-data-checked:border-primary/30 has-data-checked:bg-primary/5 flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
+        "data-[variant=filter]:text-muted-foreground data-[variant=filter]:text-xs data-[variant=filter]:font-bold data-[variant=filter]:tracking-[0.12em] data-[variant=filter]:uppercase",
         className,
       )}
       {...props}

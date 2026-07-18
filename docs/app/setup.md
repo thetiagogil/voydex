@@ -24,9 +24,8 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-`NEXT_PUBLIC_SUPABASE_ANON_KEY` is accepted as a fallback by
-`src/platform/env/supabase-public-config.ts`, but the preferred variable is
-`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+Legacy anon-key aliases are not accepted. Use the publishable key for browser
+runtime configuration.
 
 Do not commit `.env.local`.
 
@@ -36,6 +35,10 @@ linked or remote operation needs credentials. The database wrappers load this
 file directly; local start, reset, lint, pgTAP, and type generation do not
 require it. Never put private keys or database passwords in `NEXT_PUBLIC_*`
 variables.
+
+Voydex private tooling accepts `SUPABASE_DB_PASSWORD` and optional
+`SUPABASE_ACCESS_TOKEN`. The token is unnecessary when the CLI is already
+authenticated with `supabase login`.
 
 ## Run The App
 

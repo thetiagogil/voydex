@@ -48,7 +48,7 @@ export const DesktopModuleNavigationMenu = ({
     <NavigationMenu align="start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="px-3 text-sm font-medium">
+          <NavigationMenuTrigger className="app-module-trigger h-9 px-3 text-sm font-semibold">
             {currentModule.label}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="w-[min(calc(100vw-2rem),34rem)] p-2">

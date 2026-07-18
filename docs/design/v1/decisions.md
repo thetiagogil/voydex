@@ -121,6 +121,20 @@ why the direction was selected or changed.
 | V1-D103 | 2026-07-17 | Reduce each Play Browse card to identity, six Active slots, overall completion, and update date                           | Accepted   |
 | V1-D104 | 2026-07-17 | Resume production UI one bounded view at a time using the selected current visual grammar                                 | Superseded |
 | V1-D105 | 2026-07-17 | Reset V1 to a light-first explorer's field-guide language and select among three representative Plays Browse directions   | Accepted   |
+| V1-D106 | 2026-07-17 | Select and implement the journal shell and Plays Browse explorer's field-guide treatment                                  | Superseded |
+| V1-D107 | 2026-07-17 | Replace the heavy book shell with a slim survey-map frame and a light route navbar                                        | Superseded |
+| V1-D108 | 2026-07-18 | Use a strapped walnut expedition frame with a two-clipped operational paper sheet                                         | Superseded |
+| V1-D109 | 2026-07-18 | Use one top-mounted hanging paper sheet with simple side and bottom edges                                                 | Superseded |
+| V1-D110 | 2026-07-18 | Keep hanging-paper hardware undistorted and repeat the deckled side edge with document height                             | Superseded |
+| V1-D111 | 2026-07-18 | Blend the opening navbar into the scenery and reveal a compact floating bar only after it scrolls away                    | Superseded |
+| V1-D112 | 2026-07-18 | Use a content-driven leather clipcard frame with independent edge and corner assets                                       | Superseded |
+| V1-D113 | 2026-07-18 | Refine the outer card as a stitched-leather binding without an inner gold keyline                                         | Superseded |
+| V1-D114 | 2026-07-18 | Place operational content on one lighter clipped working sheet inside the card                                            | Accepted   |
+| V1-D115 | 2026-07-18 | Keep only the background-blended opening navbar and let it scroll away without a replacement                              | Accepted   |
+| V1-D116 | 2026-07-18 | Replace detailed rails and corner caps with one simple matte brown expedition-card border                                 | Accepted   |
+| V1-D117 | 2026-07-18 | Present primary module-view destinations as restrained illustrated wooden signs                                           | Superseded |
+| V1-D118 | 2026-07-18 | Use shared compact product buttons for module-view destinations and retire plank imagery                                  | Accepted   |
+| V1-D119 | 2026-07-18 | Keep the Plays browse introduction compact and text-only                                                                  | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2582,3 +2596,380 @@ scene, and the Appearance/theme portions of V1-D098 and V1-D099. It reopens only
 the visual system. It does not reopen the completed functional review, erase
 existing implementation, or change the view-by-view implementation discipline
 that resumes after selection.
+
+## V1-D106 — Selected Journal Shell And Plays Browse
+
+**Status:** Superseded visually by V1-D107
+
+**Date:** 2026-07-17
+
+Select the revised direction represented by
+[Selected Shell And Plays Browse](./assets/selected-shell-plays-browse.png). It
+combines the first exploration's organization, color discipline, and cord-free
+wooden destination planks with the second exploration's illustrated journal
+character. The third direction is not carried forward.
+
+Use a deep-forest shared navbar, warm centered journal page, ambient daylight
+gutters, Lora display typography, and DM Sans operational typography. Reserve
+wood for mounted destination links. Keep module switching, account access,
+Search, Status, Game, Sort, and all mutations as familiar product controls.
+Persistent labels sit above separately framed values, and the four Browse
+controls share one 48-pixel height.
+
+On wide screens the journal remains a bounded 1200–1280 pixel working surface;
+it does not stretch a literal book texture across the viewport. Plays use a
+compact one-column journey-log rhythm with cover, identity, six Team slots,
+honest overall progress, and one open cue. Thin rules and whitespace carry the
+material language instead of nested Cards or heavy frames.
+
+Production exposes only mounted destinations and actions, even when a design
+reference includes future routes. The shared shell and Plays Browse are the
+first implementation slice and are verified at representative desktop, tablet,
+and phone widths. Apply the same system to later views one bounded screen at a
+time. This decision closes V1-D105's selection gate without changing any
+accepted product or data contract.
+
+## V1-D107 — Slim Survey-Map Frame And Light Route Navbar
+
+**Status:** Superseded by V1-D108; material language revived by V1-D112
+
+**Date:** 2026-07-17
+
+Select the revised slim survey-map frame represented by
+[Selected Shell And Plays Browse](./assets/selected-shell-plays-browse.png). The
+paper remains a continuous, content-driven working surface, but the heavy cover,
+left binding, and layered page block are removed. A thin four-sided wood, canvas,
+and brass rail now establishes the exploration-tool character without consuming
+meaningful working width.
+
+Use one warm-white sticky navbar with forest-green identity, clean module and
+account controls, and icon-plus-label module-view links. The active destination
+uses a clear underline in addition to color. Keep a small 12–16 pixel gap between
+the navbar and framed page so the two surfaces do not visually merge. Production
+continues to expose only mounted destinations even when visual references show a
+longer future route.
+
+The page header and operational content share one continuous paper surface.
+Search, Status, Game, Sort, result count, and Play rows are separated by spacing
+and thin rules rather than an inset Card. The generated survey-frame asset is a
+real scalable border image, and the illustrated mountain header remains blended
+into the paper.
+
+The browser continues to own vertical scrolling. The top and side rails remain
+visible while the bottom rail appears only at the true end of the page; long
+views therefore read as an extending field sheet instead of a viewport-locked
+book. Tablet and phone keep the same frame at reduced thickness, reflow controls
+and rows, and allow only purpose-owned horizontal overflow inside dense content.
+
+This decision supersedes V1-D106's deep-forest navbar, book cover, binding,
+layered page block, and inset operational sheet. It preserves the accepted
+light-first palette, typography, illustrated header, labelled controls, Play row
+contract, mounted-route discipline, and view-by-view implementation process.
+
+## V1-D108 — Strapped Expedition Frame And Pinned Content Sheet
+
+**Status:** Superseded visually by V1-D109
+
+**Date:** 2026-07-18
+
+Select the strapped expedition frame represented by
+[Selected Shell And Plays Browse](./assets/selected-shell-plays-browse.png).
+Retain V1-D107's warm-white route navbar and the small gap below it, but replace
+the slim survey rail with substantial warm walnut side rails and matching top
+and bottom rails that are only slightly thinner. Leather-and-brass corner
+straps establish the carried exploration-tool character. Do not add ruler
+ticks, height measurements, arrows, numbers, or survey labels to the frame.
+
+Keep the illustrated page header on the base journal paper. Place Search,
+Status, Game, Sort, result count, and Play rows on one brighter operational
+paper sheet held by two antique-brass clips. This sheet is a shared content
+surface, not a generic rounded dashboard Card, and repeated rows remain
+separated by journal rules rather than being boxed individually.
+
+The browser owns vertical scrolling and the frame grows with the document. The
+bottom straps and rail appear only at the true end of the page; the shared shell
+never introduces a nested vertical scrollbar. At narrower widths, reduce rail
+thickness and reflow controls and Play rows before they can clip. The page must
+not acquire horizontal overflow; a purpose-built dense workspace may still own
+an explicit inner horizontal scroller when its contract requires one.
+
+This decision supersedes V1-D107's thin survey frame and single uninterrupted
+operational surface. It preserves the light navbar, daylight map scenery,
+12–16 pixel gap, typography, blended header, labelled controls, mounted-route
+discipline, and view-by-view implementation process.
+
+## V1-D109 — Top-Mounted Hanging Paper Sheet
+
+**Status:** Superseded visually by V1-D112
+
+**Date:** 2026-07-18
+
+Select the top-mounted hanging paper treatment represented by
+[Selected Shell And Plays Browse](./assets/selected-shell-plays-browse.png).
+Retain the warm-white route navbar, its 12–16 pixel separation from the page,
+the daylight map scenery, and the dissolved illustrated header. Replace the
+four-sided walnut expedition frame with one warm ivory mounting strip at the
+top of the paper, accented by brass studs and two leather-and-brass clamps.
+The stitched, lightly deckled seam beneath that strip should make the page read
+as paper attached to a carried field-guide fixture rather than as a generic
+Card.
+
+Keep the side and bottom treatment deliberately simple and thin. They are the
+subtle edges of the hanging paper, not wooden rails, a ruler, or another heavy
+frame. Do not add measurements, height ticks, arrows, numbers, or survey labels.
+At narrower widths, reduce the mounting strip's height so the attachment remains
+recognizable without consuming the working area.
+
+The illustrated page introduction, Search, Status, Game, Sort, result count,
+and Play rows all share one continuous warm paper surface. Remove the separate
+pinned operational sheet and its two decorative clips. Spacing and journal
+rules separate the page regions; repeated results remain unboxed.
+
+The browser owns vertical scrolling. The top fixture appears once at the start
+of the page, the thin paper sides follow the document, and the bottom edge
+appears only at the true end. The shared shell never adds a nested vertical
+scroller. This decision supersedes V1-D108's four-sided walnut rails, corner
+straps, and clipped inner sheet while preserving the selected palette,
+typography, navbar, background, header art, controls, mounted-route discipline,
+and view-by-view implementation process.
+
+## V1-D110 — Undistorted Mount Hardware And Repeating Paper Edges
+
+**Status:** Superseded visually by V1-D112
+
+**Date:** 2026-07-18
+
+Render the top mounting rail, brass pins, and leather-and-brass clamps as
+separate raster assets. Build the rail from one repeating center texture and
+fixed left and right cap images so its outer paper corners remain organic rather
+than ending in vertical cuts. No discrete hardware or cap asset may stretch to
+fit the sheet width. Every pin and clamp keeps its intrinsic aspect ratio and
+scales uniformly between responsive bands.
+
+Place the middle pin at the exact horizontal center of the sheet. Mirror the
+outer pins from fixed edge insets, and place the two clamps symmetrically around
+the center. Their responsive size may reduce with the mounting rail, but their
+shape and relative alignment do not distort.
+
+Start the scrolling paper body just beneath the independent mount. Use the
+selected irregular paper-edge raster as a vertically repeating mask on both
+sides, and overlap its center fill so antialiasing cannot create a visible seam
+between the live paper and either edge. The deckled silhouette follows the
+content-driven document height without a fixed frame height, stretched
+full-height image, or nested vertical scroller. Keep the edge narrow enough to
+preserve working width and let the browser remain the only normal
+vertical-scroll owner.
+
+This decision refines V1-D109's implementation without changing its continuous
+hanging-paper composition, light navbar, scenic background, illustrated header,
+or view-by-view rollout.
+
+## V1-D111 — Background-Blended And Scroll-Revealed Navbar
+
+**Status:** Superseded by V1-D115
+
+**Date:** 2026-07-18
+
+Keep the opening navbar in normal document flow instead of fixing it to the
+viewport. Blend that opening state into the refined daylight scenery with a
+quiet warm translucent scrim that dissolves at its lower edge. Do not use an
+opaque white slab, hard bottom border, or strong navbar shadow before scrolling.
+The Voydex identity, module switcher, active module view, and account control
+remain readable and aligned to the broad shell grid.
+
+After the opening bar has naturally scrolled out of view, move the same navbar
+into a smaller floating field-guide presentation near the viewport top. This
+scrolled presentation may use a translucent warm surface, restrained border,
+shadow, and backdrop blur because it must remain legible over long journal
+content and intentionally acts as a separator. Reuse the same controls and
+their interaction state; do not mount a second competing navigation system or
+cause the document to jump when modes change. Return to the blended opening
+state when the user reaches the top again, and honor reduced-motion preferences.
+
+Apply the same behavior at phone, tablet, and desktop widths while preserving
+the accepted mobile top-sheet menu and mounted-destination discipline. This
+decision supersedes only the sticky, opaque-navbar portions of V1-D107 through
+V1-D110. It preserves the hanging-paper surface, refined daylight background,
+forest-green identity, route hierarchy, and browser-owned page scrolling.
+
+## V1-D112 — Content-Driven Leather Clipcard Frame
+
+**Status:** Superseded visually by V1-D113
+
+**Date:** 2026-07-18
+
+Select a thin expedition clipcard treatment. Keep
+V1-D111's background-blended opening navbar and scroll-revealed floating state,
+but replace the hanging-paper mounting bar, studs, clamps, and deckled side
+mask with one restrained four-sided leather frame and two small antique-brass
+clips resting on its top edge.
+
+Build the frame from real purpose-fit assets: fixed brass-protected leather
+corner pieces and separate seamless leather strips for the horizontal and
+vertical edges. Mirror the strip texture at its tile boundary so a repeated
+edge cannot introduce studs, knots, or bright join marks through long content.
+Never stretch one full-frame image to the page height, crop the frame at the
+viewport, or simulate the material with CSS drawings. Render each top clip from
+its own image at a fixed aspect ratio and align the pair to the same near-corner
+insets as the selected reference. Reduce frame and clip sizes at narrower
+responsive bands without removing the carried field-guide character.
+
+Keep the illustrated introduction, controls, count, and page content on one
+continuous warm paper surface inside the frame. The browser remains the normal
+vertical-scroll owner: side edges repeat for the entire document and the
+bottom edge appears only at the true content end. The shared shell does not
+introduce a nested vertical scroller; a purpose-owned workspace may still own
+explicit horizontal overflow when its contract requires it.
+
+This decision supersedes V1-D109 and V1-D110's hanging-paper material treatment
+while reviving and refining V1-D107's slim survey-map frame. It preserves the
+selected palette, typography, scenic background, V1-D111 navbar behavior,
+continuous paper hierarchy, mounted-route discipline, and view-by-view rollout.
+
+## V1-D113 — Stitched-Leather Card Binding
+
+**Status:** Superseded by V1-D116
+
+**Date:** 2026-07-18
+
+Refine V1-D112 after the first production comparison. The shared surface remains
+one content-driven warm paper card, but its frame must unmistakably read as a
+matte leather field-guide binding rather than carved wood. Use purpose-made
+raster assets with pebbled hide grain, restrained stitching, softly darkened
+edges, and muted brown/antique-bronze color. Do not carry a bright yellow or gold
+keyline beside the leather into the paper surface.
+
+Repeat separate seamless horizontal and vertical leather strips for dynamic
+page width and height. Protect the four joins with compact, fixed
+leather-and-bronze corner images whose simple triangular caps stay close to the
+rail thickness. Remove the two decorative top clips; the corners alone provide
+the restrained carried-object cue. Do not simulate the texture or hardware with
+CSS drawings, and do not stretch the corner assets with the document.
+
+Preserve V1-D112's continuous paper hierarchy, normal browser-owned vertical
+scrolling, true-end bottom edge, responsive frame reduction, scenic gutters,
+navbar gap, mounted-route discipline, and view-by-view rollout. This decision
+supersedes only V1-D112's original rail material, ornate corner treatment, inner
+gold keyline, and top-clip hardware.
+
+## V1-D114 — Clipped Working Paper Inside The Clipboard
+
+**Status:** Accepted and implemented for Plays Browse
+
+**Date:** 2026-07-18
+
+Refine the inside of V1-D113's leather-bound surface using the selected
+[Clipped Working Paper reference](./assets/selected-clipcard-paper-sheet.png).
+The outer card is the carried clipboard: its illustrated page introduction
+remains on the warm expedition backing. The operational content below it is one
+lighter inset sheet of paper held at its top edge by two small antique-brass
+paper clips. On Plays Browse, Search, Status, Game, Sort, result context, and
+the complete Play list all belong to that one sheet.
+
+Render each paper clip from its own fixed-aspect raster image so it overlaps the
+sheet edge without stretching. Let the sheet grow naturally with its content;
+do not use one full-height paper image, a repeated clip, or a nested vertical
+scroll area. The browser continues to own vertical scrolling, the outer leather
+side rails continue for the true document height, and both the inner sheet and
+outer bottom edge end only when their content ends. Reduce sheet padding, clip
+size, and clip inset at narrower breakpoints without losing the attached-paper
+reading.
+
+The four outer corners must also be compositionally independent from the edge
+rails. Each corner asset contains only one compact antique-brass triangular
+protector on transparency; it contains no leather, stitching, horizontal strip,
+or vertical strip. The seamless leather assets alone own the four edges. This
+prevents doubled material and visible rail fragments where corners meet.
+
+Keep the working sheet subtle: a slightly lighter paper texture, fine neutral
+edge, and shallow lift shadow distinguish it from the clipboard without making
+it a generic nested Card. Continue to separate controls and repeated rows with
+spacing and journal rules rather than additional decorative containers. This
+decision supersedes only V1-D113's one-continuous-paper composition and combined
+leather-and-bronze corner images; it preserves the stitched-leather rails, lack
+of an inner gold keyline, illustrated header, normal document scrolling,
+responsive canvas, scenic gutters, and view-by-view rollout.
+
+## V1-D115 — One Background-Blended Navbar
+
+**Status:** Superseded by V1-D118
+
+**Date:** 2026-07-18
+
+Keep only the background-blended opening navbar. It remains in normal document
+flow, aligns with the same responsive canvas as the main page, and scrolls away
+with the rest of the document. Do not reveal a sticky, fixed, or floating
+replacement after it leaves the viewport. Keep the navbar surface transparent
+so the scenic background shows through without a white wash or hard lower edge.
+
+This removes the observer, transition state, and floating-only visual treatment
+from the shared shell while preserving the existing Voydex identity, module
+switcher, module-view navigation, account controls, mobile top-sheet behavior,
+and scenic background blend. This decision supersedes V1-D111's
+scroll-revealed presentation without changing its opening-navbar treatment.
+
+## V1-D116 — Simple Expedition-Card Border
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-18
+
+Replace the detailed stitched-leather rails, corner caps, and edge-joining logic
+with one simple matte brown border around the shared warm-paper card. Keep a
+modest radius and restrained shadow so the surface still reads as carried field
+gear, but make the treatment flatter and more cartoon-like than realistic
+leatherwork. Do not add a second inner keyline or outer decorative hardware.
+
+The border follows the card's natural content height and normal browser
+scrolling. V1-D114's lighter clipped working sheet remains inside the card. This
+decision supersedes V1-D112 and V1-D113's outer frame assets and the outer-rail
+requirements carried into V1-D114.
+
+## V1-D117 — Wooden Module-View Destination Signs
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-18
+
+Render primary module-view destination links as restrained illustrated wooden
+signs. Use a light wood sign for inactive destinations and a forest-green sign
+for the active destination, with crisp labels, accessible focus, and subtle
+motion only. Keep the assets simplified and game-like rather than realistic.
+
+This sign treatment communicates navigation only. The module selector, account
+menu, filters, Create Play, Save, and other actions remain familiar product
+controls and do not inherit the plank treatment.
+
+## V1-D118 — Conventional Module-View Navigation Buttons
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-18
+
+Render primary module-view destinations with the shared button variants rather
+than illustrated plank assets. Use the outline variant for inactive
+destinations and the primary variant for the current destination, retaining the
+icon, label, accessible focus treatment, and `aria-current="page"` state.
+
+This removes decorative navbar noise, keeps navigation consistent with the
+product control system, and eliminates the dedicated plank assets and masking
+styles. The module selector remains visually distinct because it changes scope
+rather than choosing a view inside the current module.
+
+## V1-D119 — Text-Only Plays Page Header
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-18
+
+Keep the Plays browse introduction compact and text-only. Remove the decorative
+mountain illustration, its mobile icon fallback, the reserved illustration
+layer, and its dedicated masking styles. The page title and short description
+remain on the warm clipboard backing immediately above the clipped working
+sheet.
+
+This simplifies the working view and lets the scenic app background and content
+hierarchy provide the visual character. It supersedes the illustrated-header
+requirements carried by V1-D114 without changing the shared background,
+clipboard border, clipped working sheet, normal document scrolling, or
+responsive canvas.

@@ -11,19 +11,17 @@ remains canonical in [Project Status](../project-status.md).
 
 - The breadth-first map and depth-first V1 functional screen contracts are
   accepted in the [V1 Design Workspace](./v1/README.md).
-- [V1-D105](./v1/decisions.md) supersedes the previous visual grammar. The
-  light-first explorer's field-guide brief is recorded in
-  [V1 Visual Language](./v1/visual-language.md), and exactly three
-  representative shared-shell and Plays Browse directions are pending
-  selection before further production styling.
-- Existing shared-shell, Dashboard, Plays Browse, Play Overview, and Play Team
-  work remains functional and responsive evidence rather than the visual
-  target. Only code listed in [Project Status](../project-status.md) is
-  implemented; the other screens remain design direction.
+- [V1-D113 and V1-D114](./v1/decisions.md) select the light-first explorer's field-guide
+  system recorded in [V1 Visual Language](./v1/visual-language.md). The shared
+  shell and Plays Browse now implement that production grammar.
+- Existing Dashboard, Play Overview, and Play Team work remains functional and
+  responsive evidence until each view is migrated and verified. Only code
+  listed in [Project Status](../project-status.md) is implemented; the other
+  screens remain design direction.
 - Plays Browse is the active production slice. URL-backed primary controls and
-  the compact enriched Play card are implemented and responsive; realistic
-  occupied/partial data plus archive, secondary-filter, loading, recovery, and
-  incremental-load states remain.
+  the compact enriched journey-log row are implemented, responsive, and
+  visually checked with realistic occupied/partial fixture states. Archive,
+  secondary-filter, loading, recovery, and incremental-load states remain.
 - The durable product contracts, data ownership rules, accessibility needs,
   and Voydex's clean adventure-companion character remain constraints.
 - Future view work begins with the canonical screen document, accepted
@@ -70,7 +68,8 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Landing.
 - Intro.
 - Login.
-- Settings for profile, preferences, reuse behavior, theme, and account.
+- Settings for profile, preferences, reuse behavior, and account. Appearance is
+  deferred until a later night-expedition design pass.
 - Shared loading, empty, error, permission, expired-session, and not-found
   states.
 
@@ -235,26 +234,24 @@ recommendations remain follow-up ideas rather than V1 requirements.
 The Play Hub functional review and summary derivation are complete. Continue
 with one verified production slice at a time:
 
-1. Select the new visual direction, then apply it to the shared shell and Plays
-   Browse without changing the accepted compact summary contract.
-2. Finish Plays Browse realistic-data and system-state coverage. Primary
-   controls and the compact summary card are implemented.
-3. Implement Mainline Dashboard using its accepted play-led contract and the
-   selected visual direction.
-4. Implement Play Overview and Team using their accepted contracts and selected
-   visual direction.
-5. Implement Create Play.
-6. Implement Progress Summary, Story, and History.
-7. Implement Play Pokédex and Collectibles.
-8. Implement Play Plan and Play Settings.
-9. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
+1. Finish Plays Browse system-state coverage. Primary controls, the compact
+   journey-log row, and responsive visual system are implemented.
+2. Apply the selected system to Play Overview and Team using their accepted
+   contracts.
+3. Refine Mainline Dashboard when its route is mounted, using the accepted
+   play-led contract and selected visual direction.
+4. Implement Create Play.
+5. Implement Progress Summary, Story, and History.
+6. Implement Play Pokédex and Collectibles.
+7. Implement Play Plan and Play Settings.
+8. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
    visual validation pending.**
-10. Collection, Collection Pokémon Detail, and Stats. **Functional contract
-    accepted; visual validation pending.**
-11. Codex browse/detail refinement and every Codex-to-Mainline handoff.
+9. Collection, Collection Pokémon Detail, and Stats. **Functional contract
+   accepted; visual validation pending.**
+10. Codex browse/detail refinement and every Codex-to-Mainline handoff.
     **Pokémon and Games functional contracts accepted; visual validation
     pending.**
-12. Login, Global Settings, and responsive shared-state coverage.
+11. Login, Global Settings, and responsive shared-state coverage.
     **Functional contracts accepted; visual validation pending.**
 
 ## Database Review During Implementation
@@ -286,15 +283,12 @@ docs/design/v1-screen-flow.md, docs/design/v1/README.md,
 docs/design/v1/visual-language.md,
 docs/design/v1/mainline-plays-browse.md, docs/design/v1/decisions.md,
 docs/design/v1/database-gaps.md, docs/app/design-system.md, and the nearest
-screen-family document. The functional review is complete, but V1-D105 resets
-the visual grammar around a light-first explorer's field guide. Exactly three
-shared-shell and Plays Browse directions must be reviewed and one selected or
-revised before production styling resumes. Preserve the implemented browse
-behavior and browser-verified responsive hierarchy as evidence, not as the
-visual target. After selection, implement the chosen system through the shared
-shell and Plays Browse, finish realistic and recovery states, then continue to
-Dashboard, Play Overview, and Team. Do not expand database scope unless the
-active screen cannot be correct without it. Update Project Status and the
-canonical design reference whenever a selected behavior or implementation
-checkpoint changes.
+screen-family document. The functional review is complete, and V1-D113 selects
+the light-first explorer's field-guide grammar. The shared shell and Plays
+Browse are the first implemented slice; preserve their browser-verified
+responsive hierarchy and selected visual treatment. Finish recovery states,
+then carry the system into Play Overview, Team, and Codex one bounded view at a
+time. Do not expand database scope unless the active screen cannot be correct
+without it. Update Project Status and the canonical design reference whenever a
+selected behavior or implementation checkpoint changes.
 ```

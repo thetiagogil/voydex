@@ -74,6 +74,10 @@ repository/RPC → database constraints and RLS.
 
 - Keep route files small and import feature-owned page entry points.
 - Use explicit, searchable filenames and exports.
+- Keep `v1` and `v2` out of runtime filenames, folder names, and public asset
+  names until the app has a real multi-version requirement. Version labels may
+  remain in documentation and agent guidance where they describe product
+  phases or historical decisions.
 - Prefer use-case names over vague files such as `queries.ts` or `helpers.ts`.
 - Keep one responsibility or a small group of tightly related responsibilities
   per file.

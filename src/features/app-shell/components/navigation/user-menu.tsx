@@ -31,14 +31,16 @@ export const UserMenu = ({ email }: UserMenuProps) => {
         render={
           <Button
             variant="ghost"
-            size="icon-lg"
-            className="rounded-full"
+            size="icon"
+            className="app-nav-icon-control rounded-full"
             aria-label="Open account menu"
           />
         }
       >
-        <Avatar>
-          <AvatarFallback>{getInitials(email)}</AvatarFallback>
+        <Avatar className="size-9 ring-1 ring-[var(--app-nav-outline)]">
+          <AvatarFallback className="bg-accent text-primary font-bold">
+            {getInitials(email)}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
