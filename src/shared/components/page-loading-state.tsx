@@ -1,5 +1,5 @@
-import { cn } from "@/shared/utils/cn";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { cn } from "@/shared/utils/cn";
 
 type PageLoadingStateProps = {
   className?: string;
@@ -11,12 +11,7 @@ export const PageLoadingState = ({
   label = "Loading",
 }: PageLoadingStateProps) => {
   return (
-    <div
-      className={cn(
-        "flex min-h-[50vh] items-center justify-center p-6",
-        className,
-      )}
-    >
+    <div className={cn("flex items-center justify-center p-6", className)}>
       <Spinner aria-label={label} className="text-primary size-6" />
     </div>
   );
