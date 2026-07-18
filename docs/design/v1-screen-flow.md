@@ -274,21 +274,28 @@ the consolidated audit remains a later focused phase.
 
 ## Resume Prompt
 
-Use this after opening the repository on another computer:
+Use this after opening the repository in a clean chat or on another computer:
 
 ```txt
-Continue the Voydex V1 design-to-implementation work. Read AGENTS.md,
-.agents/AGENTS.md, docs/project-status.md,
+Continue the Voydex V1 visual refactor on branch
+`codex/explorer-field-guide-design`. Read AGENTS.md, .agents/AGENTS.md,
+docs/project-status.md, docs/app/design-system.md,
 docs/design/v1-screen-flow.md, docs/design/v1/README.md,
-docs/design/v1/visual-language.md,
-docs/design/v1/mainline-plays-browse.md, docs/design/v1/decisions.md,
-docs/design/v1/database-gaps.md, docs/app/design-system.md, and the nearest
-screen-family document. The functional review is complete, and V1-D113 selects
-the light-first explorer's field-guide grammar. The shared shell and Plays
-Browse are the first implemented slice; preserve their browser-verified
-responsive hierarchy and selected visual treatment. Finish recovery states,
-then carry the system into Play Overview, Team, and Codex one bounded view at a
-time. Do not expand database scope unless the active screen cannot be correct
-without it. Update Project Status and the canonical design reference whenever a
-selected behavior or implementation checkpoint changes.
+docs/design/v1/visual-language.md, docs/design/v1/mainline-play.md, and
+docs/design/v1/decisions.md, then inspect the nearby Play Hub code. Commit
+`497f22bf` is the pushed explorer-shell and Plays Browse baseline; preserve any
+newer working-tree changes. The selected system is a light-first explorer's
+field guide with one background-blended in-flow navbar, one simple bordered
+expedition card, warm paper surfaces, compact ordinary controls, large primary
+actions, and normal document scrolling.
+
+Start with `/mainline/plays/[playId]` and refactor only the shared Play Hub top
+section, tab workspace, and Overview tab. Reuse the established shell and Plays
+Browse grammar while preserving the current query, mappers, real data,
+authorization, routes, actions, tab contract, truthful unavailable states, and
+intentionally empty later tabs. Do not add database changes, dark mode, a new
+background, sticky replacement navigation, decorative edge systems, or a broad
+multi-page refactor. Browser-check desktop, tablet, phone, keyboard/focus,
+overflow, and console output; run `npm run verify`; then update Project Status
+and the nearest canonical design reference.
 ```

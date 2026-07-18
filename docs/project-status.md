@@ -84,11 +84,40 @@ The active production slice is Plays Browse:
   subsequent navbar refinement kept the opening bar in document flow without a
   hard lower edge or scroll-triggered replacement, and the mobile module sheet
   continued to open and close normally.
+  The next checkpoint is the authenticated Play Hub at
+  `/mainline/plays/[playId]`, beginning with its shared top section, tab workspace,
+  and Overview tab only. Carry the selected shell, typography, compact-control,
+  paper-surface, and information-density grammar into that bounded view without
+  changing its queries, mappings, routes, permissions, tab contract, or mutation
+  behavior. Team and Codex follow in later bounded slices. Plays Browse still
+  needs archived visibility, secondary filters, explicit recovery, and
+  incremental-load states before its full V1 product contract is complete.
 
-The next checkpoint is to carry the selected system into Play Overview, then
-Team and Codex, one bounded view at a time. Plays Browse still needs archived
-visibility, secondary filters, explicit loading/recovery, and incremental-load
-states before its full V1 product contract is complete.
+## Next Chat Handoff
+
+At handoff time, the active branch is `codex/explorer-field-guide-design`. Commit
+`497f22bf` is the pushed explorer-shell and Plays Browse baseline. The working
+tree contains this handoff; run `git status` before editing and preserve those
+changes.
+
+Start with the existing Play Hub and Overview implementation under
+`src/modules/mainline/features/plays/hub`. Read the shell, top-section, tab, and
+Overview files together with [Mainline Play](./design/v1/mainline-play.md) before
+changing composition. The first slice should:
+
+1. browser-review the current authenticated Play Overview against the selected
+   Plays Browse visual grammar;
+2. refactor the Play top section and tab workspace as one coherent bounded view;
+3. restyle the existing Overview sections using real data without implementing
+   the intentionally empty Team, Progress, Plans, History, or Settings tabs;
+4. preserve the current server query, mappers, authorization, routes, actions,
+   truthful unavailable states, and normal document scrolling;
+5. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
+   console output, then run `npm run verify`.
+
+Do not add database changes, another background, dark mode, sticky replacement
+navigation, Skeletons, decorative edge systems, or a broad cross-page refactor
+while this slice is active.
 
 Future design and implementation tasks start from the canonical screen-family
 document, accepted decisions, design system, current code, and verified
@@ -108,9 +137,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   built.
 - Later production views have not yet been migrated to the selected journal and
   field-guide system; their existing layouts remain functional evidence.
-- Plays Browse still needs occupied-Team and partial-data validation, archived
-  visibility, secondary filters, explicit recovery states, and incremental
-  loading before its accepted V1 contract is complete.
+- Plays Browse still needs archived visibility, secondary filters, explicit
+  recovery states, and incremental loading before its accepted V1 contract is
+  complete.
 - Secure account deletion has no reviewed server-owned operation proving Auth
   identity removal, dependent owner-data cascades, session invalidation, and
   failure rollback without exposing administrative authority.
