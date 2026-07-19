@@ -686,7 +686,7 @@ visual composition.
 Codex Games should reuse the information-rich Codex character while giving
 game cover art and named content scope more authority than a generic card
 directory. Games Browse uses equal cover-led cards in deterministic generation
-and release order. Keep Search, Generation, and Game style visible, move Region
+and release order. Keep Search, Generation, and Game type visible, move Region
 and Platform behind one secondary filter surface, and preserve every criterion
 in the URL. Target several desktop columns and two useful phone columns rather
 than near-viewport-width mobile covers.

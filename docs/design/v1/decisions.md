@@ -2310,12 +2310,12 @@ Collection truth.
 
 ## V1-D091 — Cover-Led Games Browse
 
-**Status:** Accepted; visual validation pending
+**Status:** Accepted; cover-card visual treatment selected
 
 **Date:** 2026-07-14
 
 Use one equal cover-led card per supported exact game, grouped in deterministic
-generation and release order. Keep Search, Generation, and Game style visible,
+generation and release order. Keep Search, Generation, and Game type visible,
 place Region and Platform in `More filters`, and preserve criteria, scroll, and
 focus through URL-backed state and return behavior.
 

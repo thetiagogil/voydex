@@ -60,17 +60,19 @@ export const GamesFilterForm = ({
 
   return (
     <CodexFilterPanel
-      className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto]"
+      variant="journal"
+      className="grid-cols-2 gap-2 lg:grid-cols-[minmax(18rem,1fr)_repeat(3,minmax(0,10.5rem))] lg:gap-3"
       onSubmit={(event) => {
         event.preventDefault();
       }}
     >
-      <InputGroup className="flex-1">
+      <InputGroup className="bg-card col-span-2 h-10 flex-1 lg:col-span-1">
         <InputGroupAddon>
           <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
         <InputGroupInput
           name="q"
+          aria-label="Search games"
           value={filters.query}
           onChange={(event) => {
             onQueryChange(event.currentTarget.value);
@@ -80,30 +82,33 @@ export const GamesFilterForm = ({
       </InputGroup>
       <SelectControl
         name="generation"
-        ariaLabel="Filter games by generation"
+        ariaLabel="Filter by generation"
         value={filters.generation}
         onValueChange={onGenerationChange}
         options={generationOptions}
         placeholder="All generations"
-        className="w-full lg:w-44"
-      />
-      <SelectControl
-        name="region"
-        ariaLabel="Filter games by region"
-        value={filters.region}
-        onValueChange={onRegionChange}
-        options={regionOptions}
-        placeholder="All regions"
-        className="w-full lg:w-40"
+        size="lg"
+        className="w-full"
       />
       <SelectControl
         name="type"
-        ariaLabel="Filter games by type"
+        ariaLabel="Filter by game type"
         value={filters.gameType}
         onValueChange={onGameTypeChange}
         options={gameTypeOptions}
         placeholder="All types"
-        className="w-full lg:w-40"
+        size="lg"
+        className="w-full"
+      />
+      <SelectControl
+        name="region"
+        ariaLabel="Filter by region"
+        value={filters.region}
+        onValueChange={onRegionChange}
+        options={regionOptions}
+        placeholder="All regions"
+        size="lg"
+        className="col-span-2 w-full lg:col-span-1"
       />
     </CodexFilterPanel>
   );

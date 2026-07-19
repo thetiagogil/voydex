@@ -981,9 +981,9 @@ and failure return to the same Detail context without partial user data.
 
 Codex Games is a public, cover-led catalogue of the exact traditional mainline
 and Legends-style games supported by Voydex. Games Browse keeps Search,
-Generation, and Game style visible, places Region and Platform in `More
+Generation, and Game type visible, places Region and Platform in `More
 filters`, and preserves validated criteria in the URL. It uses one exact-game
-card with cover, name, release year, region, and a concise style cue, grouped in
+card with cover, name, release year, region, and a concise type cue, grouped in
 deterministic generation and release order. The thirty-eight-game V1 catalogue
 does not require Sort, pagination, personal overlays, or inline Mainline
 actions. It targets compact multi-column density on desktop and two useful

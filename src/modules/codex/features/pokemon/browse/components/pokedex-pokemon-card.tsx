@@ -48,7 +48,7 @@ export const PokedexPokemonCard = memo(
             sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
             className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
             glowClassName="inset-8 opacity-10 transition-opacity duration-200 group-hover:opacity-16"
-            imageClassName="object-contain p-4 transition-transform duration-200 group-hover:scale-[1.025] sm:p-5"
+            imageClassName="object-contain p-4 sm:p-5"
           />
 
           <div className="flex flex-1 items-end justify-between gap-1 px-2.5 pb-2.5 sm:px-4 sm:pb-4">

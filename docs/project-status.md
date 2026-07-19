@@ -50,8 +50,8 @@ navbar, single journal page, compact introduction, and conventional
 destination-link direction within the canonical
 [V1 Visual Language](./design/v1/visual-language.md).
 
-The shared shell, Plays Browse, and Pokémon Browse now implement the selected
-system: one in-flow
+The shared shell, Plays Browse, Pokémon Browse, and Games Browse now implement
+the selected system: one in-flow
 navbar that dissolves into the scenic sky, the refined daylight-valley
 background, and one warm, lightly textured journal page with a quiet edge and
 restrained shadow. Primary route links use shared compact buttons; the module
@@ -116,19 +116,37 @@ Pokémon Detail is the current completed visual checkpoint:
   on narrow screens, removing page-level horizontal overflow without moving or
   hiding their data.
 
+Games Browse is a completed production design checkpoint:
+
+- Dark square-poster overlays have been replaced by full, uncropped cover art in
+  the same compact `4:3` field-guide card rhythm as Pokémon Browse. Release year
+  and region sit above the serif game identity, with a restrained game-type
+  marker beside it on the same warm paper card.
+- The grid presents two useful columns on common phones, three at medium widths,
+  and four on wide journal pages. Generation headings remain `h2` sections,
+  while exact game titles use nested `h3` headings inside accessible whole-card
+  links.
+- Search, Generation, Game type, and Region use the label-free journal control
+  treatment without forcing four full-width controls before phone results.
+- URL-backed filters, Platform and `More filters`, result announcements, and
+  return-focus restoration in the accepted functional contract remain outside
+  this visual slice.
+
 ## Next Chat Handoff
 
-The active branch is `codex/explorer-field-guide-design`. Run `git status` before
+The current implementation checkpoint is on `main`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Pokémon Detail slice is verified, continue with one bounded adjacent
-view rather than a broad Codex rewrite. Codex Games Browse is the closest
+After the Games Browse slice is verified, continue with one bounded adjacent
+view rather than a broad Codex rewrite. Codex Game Detail is the closest
 follow-up:
 
-1. browser-review the seeded Games route against the shared journal grammar;
-2. preserve game routes, generation grouping, filters, data ownership, and
-   Mainline handoff behavior;
-3. restyle the existing Games organization without broad Codex restructuring;
+1. browser-review representative seeded Game Detail routes against the shared
+   journal grammar;
+2. preserve exact game identity, existing section order, Pokédex navigation,
+   related-game behavior, data ownership, and Mainline handoff contracts;
+3. restyle the existing Game Detail organization without broad Codex
+   restructuring;
 4. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
    console output, then run `npm run verify`.
 
@@ -152,9 +170,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- Codex Games and later production views have not yet been migrated to the
-  selected journal and field-guide system; their existing layouts remain
-  functional evidence.
+- Codex Game Detail, Game Pokédex, and later production views have not yet been
+  migrated to the selected journal and field-guide system; their existing
+  layouts remain functional evidence.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.

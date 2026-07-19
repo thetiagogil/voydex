@@ -104,7 +104,7 @@ uses the exact active context in
 `/codex/pokemon/[gameSlug]/[speciesSlug]`. Back or an explicit return to Browse
 restores criteria, result position, scroll, and useful focus.
 
-Games Browse keeps Search, Generation, Game style, Region, and Platform in
+Games Browse keeps Search, Generation, Game type, Region, and Platform in
 validated URL state under `/codex/games`. Opening an exact game uses
 `/codex/games/[gameSlug]`; returning restores criteria, scroll, and useful
 focus. The catalogue keeps deterministic generation and release ordering

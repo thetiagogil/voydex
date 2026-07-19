@@ -73,7 +73,7 @@ omitted or isolated honestly.
 
 ## C-03 — Games Browse
 
-**Status:** V1 functional contract accepted; visual validation pending
+**Status:** V1 functional contract accepted; field-guide browse treatment selected
 
 ### Purpose
 
@@ -105,7 +105,7 @@ Keep these controls visible:
 
 - Search.
 - Generation.
-- Game style, using clear user-facing labels for the existing game-type facts.
+- Game type, using clear user-facing labels for the existing game-type facts.
 
 Place Region and Platform in `More filters`. Search matches game name and may
 also match seeded region or platform terms. Active secondary filters remain
@@ -122,10 +122,17 @@ Use one equal cover-led card per exact game. It should preserve:
 - exact game name;
 - release year;
 - region;
-- one concise game-style label when it adds useful distinction.
+- one concise game-type label when it adds useful distinction.
 
 The whole card opens Game Detail. Do not add inline Start Play, Create Plan,
 Game List, or overflow actions to catalogue cards.
+
+Use the same compact field-guide card rhythm as Pokémon Browse within the shared
+journal page. Preserve the full cover image on a transparent `4:3` artwork stage
+rather than cropping it beneath a dark poster overlay. Keep release year and
+region above the exact serif game name, with a concise game-type marker aligned
+beside that identity block. Game color is a restrained border and marker accent,
+not the card background or the only source of meaning.
 
 ### Loading, Empty, Error, And Partial States
 
@@ -146,7 +153,12 @@ Game List, or overflow actions to catalogue cards.
   correct nested heading level.
 - Every card has one clear link destination, visible keyboard focus, and an
   accessible name that does not depend on cover art.
-- Generation, region, and game style remain understandable without color.
+- Generation, region, and game type remain understandable without color.
+
+The selected responsive grid uses two cover-led cards at common phone widths,
+three at medium widths, and four within the wide journal. Card proportions,
+information placement, elevation, and interaction behavior mirror Pokémon
+Browse while preserving each cover's full aspect ratio within the artwork stage.
 
 ## C-04 — Game Detail
 
@@ -162,7 +174,7 @@ reference-led; Mainline owns every personal action.
 
 - Canonical route: `/codex/games/[gameSlug]`.
 - The page has an independent semantic `h1` for the exact game.
-- Cover, release year, generation, region, platform, and game style remain
+- Cover, release year, generation, region, platform, and game type remain
   compact identity facts.
 - Do not use generic game-type prose as if it were a game-specific synopsis.
   V1 may remain structured and concise until trustworthy editorial summaries
