@@ -42,6 +42,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
+        id: install
         run: npm ci
 
       - name: Start local Supabase
@@ -51,5 +52,5 @@ jobs:
         run: npm run db:verify
 
       - name: Stop local Supabase
-        if: always()
+        if: ${{ always() && steps.install.outcome == 'success' }}
         run: npm run db:stop -- --no-backup
