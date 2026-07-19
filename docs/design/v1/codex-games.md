@@ -162,13 +162,32 @@ Browse while preserving each cover's full aspect ratio within the artwork stage.
 
 ## C-04 — Game Detail
 
-**Status:** V1 functional contract accepted; visual validation pending
+**Status:** V1 functional contract accepted; current reference-led visual
+checkpoint implemented
 
 ### Purpose
 
 Explain one supported game, expose its base and optional reference content, and
 provide the clearest Game-origin entrance into Mainline. Detail is public and
 reference-led; Mainline owns every personal action.
+
+### Production Visual Checkpoint
+
+- Preserve the existing reading order and ownership: return navigation, exact
+  game cover and identity, structured facts and reference action, named
+  Pokédexes, then related releases.
+- Use the same light journal-card grammar as Pokémon Detail: quiet paper
+  surfaces, restrained rings, serif editorial headings, and forest-primary
+  actions. Game color remains a supporting cover or interaction accent rather
+  than the dominant surface color.
+- Present Platforms, Available Pokémon, and Game type as compact labelled facts
+  without icon tiles. Do not retain generic game-type prose as an editorial
+  game synopsis.
+- Keep named Pokédexes as flat divided destination rows in the document flow;
+  do not nest each row in another Card or introduce a section-level vertical
+  scroller.
+- Show related releases as compact field-guide cards with complete uncropped
+  cover art, a visible title, and an accessible whole-card destination.
 
 ### Route And Identity
 

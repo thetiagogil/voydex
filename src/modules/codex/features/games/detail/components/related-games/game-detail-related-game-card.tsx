@@ -2,12 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { cn } from "@/shared/utils/cn";
+import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
 import type { GameCard } from "@/modules/reference/types";
-import {
-  getPokemonGameColorCssVariables,
-  pokemonGameCardSurfaceClassName,
-} from "@/modules/reference/features/games/display/game-color-styles";
 
 type GameDetailRelatedGameCardProps = {
   card: GameCard;
@@ -20,30 +17,32 @@ export const GameDetailRelatedGameCard = ({
     <Link
       href={appRoutes.codexGame(card.game.slug)}
       style={getPokemonGameColorCssVariables(card.game.slug)}
-      className="focus-visible:ring-ring focus-visible:ring-offset-background block min-w-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+      aria-label={`Open ${card.game.name} game guide`}
+      className="group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card/80 block min-w-0 overflow-hidden rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-sm focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
     >
-      <article className="min-w-0">
-        <div
-          className={cn(
-            "bg-card relative isolate aspect-square overflow-hidden rounded-lg border",
-            pokemonGameCardSurfaceClassName,
-          )}
-        >
+      <article className="flex min-w-0 flex-col">
+        <div className="relative isolate aspect-square overflow-hidden bg-transparent">
           {card.coverImageUrl ? (
             <Image
               src={card.coverImageUrl}
               alt={`${card.game.name} cover art`}
               fill
               sizes="(min-width: 1280px) 9rem, (min-width: 1024px) 10rem, (min-width: 768px) 7rem, 5.5rem"
-              className="object-cover"
+              className="object-contain p-2 drop-shadow-sm"
             />
           ) : (
-            <div className="via-card to-secondary/35 absolute inset-0 bg-linear-to-br from-(--pokemon-game-color)/40" />
+            <div className="relative flex h-full items-center justify-center p-3">
+              <span className="flex size-10 items-center justify-center rounded-lg bg-(--pokemon-game-color)/12 text-xs font-black text-(--pokemon-game-color)">
+                {getGameInitials(card.game.name)}
+              </span>
+            </div>
           )}
         </div>
-        <h3 className="text-foreground mt-2 line-clamp-2 min-h-8 text-center text-xs leading-4 font-medium">
-          {card.game.name}
-        </h3>
+        <div className="flex min-h-12 items-start px-2.5 pb-2.5">
+          <h3 className="text-foreground line-clamp-2 font-serif text-xs leading-4 font-semibold">
+            {card.game.name}
+          </h3>
+        </div>
       </article>
     </Link>
   );

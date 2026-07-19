@@ -1,8 +1,8 @@
-import { cn } from "@/shared/utils/cn";
+import { GameDetailSectionCard } from "@/modules/codex/features/games/detail/components/game-detail-section-card";
 import { GameDetailRelatedGameCard } from "@/modules/codex/features/games/detail/components/related-games/game-detail-related-game-card";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
 import type { GameDetailData } from "@/modules/reference/types";
+import { cn } from "@/shared/utils/cn";
 
 type GameDetailRelatedGamesSectionProps = {
   data: GameDetailData;
@@ -12,11 +12,10 @@ export const GameDetailRelatedGamesSection = ({
   data,
 }: GameDetailRelatedGamesSectionProps) => {
   return (
-    <DetailSectionCard
+    <GameDetailSectionCard
       title="Related games"
-      headerClassName="py-3"
-      className="h-auto lg:h-full lg:min-h-0"
-      contentClassName="lg:overflow-hidden"
+      showSeparator
+      contentClassName="pt-3"
     >
       {data.relatedGames.length ? (
         <div className="-mx-1 overflow-x-auto pb-2 lg:mx-0 lg:overflow-visible lg:pb-0">
@@ -37,6 +36,6 @@ export const GameDetailRelatedGamesSection = ({
       ) : (
         <CodexInlineEmpty>No related games are seeded.</CodexInlineEmpty>
       )}
-    </DetailSectionCard>
+    </GameDetailSectionCard>
   );
 };

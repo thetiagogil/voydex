@@ -25,10 +25,7 @@ export const GameDetailInfoActions = ({ data }: GameDetailInfoActionsProps) => {
     <div className="flex flex-wrap gap-3">
       <Link
         href={getBrowsePokemonHref(data)}
-        className={cn(
-          buttonVariants({ variant: "default", size: "lg" }),
-          "text-background bg-(--pokemon-game-color) hover:bg-(--pokemon-game-color)/90",
-        )}
+        className={cn(buttonVariants({ variant: "default", size: "lg" }))}
       >
         <AppIcon icon={appIcons.product.pokedex} inline="start" aria-hidden />
         Browse Pokémon

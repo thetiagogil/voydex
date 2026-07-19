@@ -132,20 +132,37 @@ Games Browse is a completed production design checkpoint:
   return-focus restoration in the accepted functional contract remain outside
   this visual slice.
 
+Game Detail is a completed production design checkpoint:
+
+- The existing return, cover, identity, facts, reference action, named
+  Pokédexes, and related-games order remains unchanged. The view now uses the
+  same quiet paper cards, serif editorial hierarchy, and forest-primary action
+  treatment as Pokémon Detail and Games Browse.
+- Platforms, Available Pokémon, and Game type are compact labelled facts
+  instead of icon tiles, and the generic game-type description no longer poses
+  as a game-specific synopsis.
+- Named Pokédexes use flat divided destination rows in normal document flow
+  without nested row Cards or an inner vertical scroller. Related-game cards
+  retain complete uncropped cover art and explicit accessible destinations.
+- Representative seeded routes have been checked at desktop, tablet, and phone
+  widths without page-level horizontal overflow. The Browse Pokémon, named
+  Pokédex, related-game, and Back to games destinations retain their existing
+  behavior.
+
 ## Next Chat Handoff
 
 The current implementation checkpoint is on `main`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Games Browse slice is verified, continue with one bounded adjacent
-view rather than a broad Codex rewrite. Codex Game Detail is the closest
+After the Game Detail slice is verified, continue with one bounded adjacent
+view rather than a broad Codex rewrite. Codex Game Pokédex is the closest
 follow-up:
 
-1. browser-review representative seeded Game Detail routes against the shared
+1. browser-review representative seeded Game Pokédex routes against the shared
    journal grammar;
-2. preserve exact game identity, existing section order, Pokédex navigation,
-   related-game behavior, data ownership, and Mainline handoff contracts;
-3. restyle the existing Game Detail organization without broad Codex
+2. preserve exact game and named-Pokédex scope, URL state, semantic comparison
+   behavior, exact-game Pokémon destinations, and reference ownership;
+3. restyle the existing Game Pokédex organization without broad Codex
    restructuring;
 4. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
    console output, then run `npm run verify`.
@@ -170,9 +187,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- Codex Game Detail, Game Pokédex, and later production views have not yet been
-  migrated to the selected journal and field-guide system; their existing
-  layouts remain functional evidence.
+- Codex Game Pokédex and later production views have not yet been migrated to
+  the selected journal and field-guide system; their existing layouts remain
+  functional evidence.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.

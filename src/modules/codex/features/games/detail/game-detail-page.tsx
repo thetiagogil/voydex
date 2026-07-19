@@ -28,11 +28,11 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
 
       <GameDetailTopSection data={data} />
 
-      <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-3 lg:[--game-detail-panels-height:17rem] xl:[--game-detail-panels-height:16.5rem]">
-        <div className="min-w-0 lg:h-(--game-detail-panels-height) lg:min-h-0">
+      <div className="grid w-full min-w-0 items-start gap-4 lg:grid-cols-3">
+        <div className="min-w-0">
           <GameDetailPokedexesSection data={data} />
         </div>
-        <div className="min-w-0 lg:col-span-2 lg:h-(--game-detail-panels-height) lg:min-h-0">
+        <div className="min-w-0 lg:col-span-2">
           <GameDetailRelatedGamesSection data={data} />
         </div>
       </div>

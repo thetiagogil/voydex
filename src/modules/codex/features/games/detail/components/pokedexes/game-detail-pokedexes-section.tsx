@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { GameDetailSectionCard } from "@/modules/codex/features/games/detail/components/game-detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
-import type { GameDetailData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import type { GameDetailData } from "@/modules/reference/types";
 
 type GameDetailPokedexesSectionProps = {
   data: GameDetailData;
@@ -15,20 +15,20 @@ export const GameDetailPokedexesSection = ({
   data,
 }: GameDetailPokedexesSectionProps) => {
   return (
-    <DetailSectionCard
+    <GameDetailSectionCard
       id="game-pokedexes"
       title="Game Pokédexes"
-      headerClassName="py-3"
-      className="h-auto lg:h-full lg:min-h-0"
-      contentClassName="p-3 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col lg:overflow-hidden"
+      showSeparator
+      contentClassName="p-0"
     >
       {data.pokedexes.length ? (
-        <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1 lg:scrollbar-gutter-stable lg:overflow-y-auto lg:px-px lg:py-px">
+        <div className="divide-app-surface-border/60 flex flex-col divide-y">
           {data.pokedexes.map(({ pokedex, pokemonCount }) => (
             <Link
               key={pokedex.id}
               href={appRoutes.codexGamePokedex(data.game.slug, pokedex.slug)}
-              className="bg-background ring-app-surface-border hover:bg-muted focus-visible:ring-ring focus-visible:ring-offset-background group flex min-h-16 items-center gap-3 rounded-lg px-3 py-2.5 ring-1 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              aria-label={`Browse the ${formatPokedexName(pokedex.name)} for ${data.game.name}`}
+              className="hover:bg-muted/45 focus-visible:ring-ring focus-visible:ring-offset-background group flex min-h-16 items-center gap-3 px-4 py-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <div className="min-w-0 flex-1">
                 <h3 className="text-foreground truncate text-sm leading-6 font-medium">
@@ -58,8 +58,10 @@ export const GameDetailPokedexesSection = ({
           ))}
         </div>
       ) : (
-        <CodexInlineEmpty>No Pokédex rows are seeded.</CodexInlineEmpty>
+        <div className="p-4">
+          <CodexInlineEmpty>No Pokédex rows are seeded.</CodexInlineEmpty>
+        </div>
       )}
-    </DetailSectionCard>
+    </GameDetailSectionCard>
   );
 };
