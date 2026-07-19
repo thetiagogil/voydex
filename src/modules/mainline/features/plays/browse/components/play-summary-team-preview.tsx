@@ -42,11 +42,8 @@ export const PlaySummaryTeamPreview = ({
 
   return (
     <div className="flex min-w-0 flex-col gap-1.5">
-      <p className="text-muted-foreground text-xs leading-4 font-bold tracking-[0.08em] uppercase">
-        Active team
-      </p>
       {team.state === "unavailable" ? (
-        <p className="text-muted-foreground text-xs">Unavailable</p>
+        <p className="text-muted-foreground text-xs">Team unavailable</p>
       ) : null}
 
       <div

@@ -314,8 +314,10 @@ Overview should stay high-signal and avoid filler:
   or unavailable states instead of treating missing knowledge as zero.
 - Keep Browse controls compact: visible Search, Status, Game, Sort, and one
   `More filters` disclosure on desktop, followed by removable active-filter
-  chips only when needed. On narrow screens, keep Search visible and present
-  Filters and Sort as separate actions rather than one ambiguous menu.
+  chips only when needed. Do not stack persistent labels above this primary
+  control bar; use in-control placeholders or selected values plus explicit
+  accessible names. On narrow screens, keep Search visible and present Filters
+  and Sort as separate actions rather than one ambiguous menu.
 - Keep archived Play rows openable and show Archive independently from
   lifecycle. Place Restore outside the row link as the only Browse mutation,
   with separate focus and accessible naming.

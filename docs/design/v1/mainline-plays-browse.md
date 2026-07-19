@@ -127,9 +127,10 @@ Keep the most common controls visible:
 - Game;
 - Sort.
 
-Every visible control uses a persistent label above a separately framed value.
-Search, Status, Game, and Sort share one compact 40-pixel control height so the
-group scans as one system while labels and selected values never visually merge.
+Use each control's in-field placeholder or selected value instead of stacking a
+persistent visible label above it. Keep an explicit accessible name on every
+control. Search, Status, Game, and Sort share one compact 40-pixel control height
+so the group scans as one system.
 
 Search updates after a short debounce and every accepted filter/sort value is
 represented in URL query parameters so refresh, browser Back, and copied local

@@ -13,7 +13,6 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
-import { Field, FieldGroup, FieldLabel } from "@/shared/components/ui/field";
 
 type PlaysFilterFormProps = {
   filters: PlayBrowseFilters;
@@ -53,11 +52,8 @@ export const PlaysFilterForm = ({
         event.preventDefault();
       }}
     >
-      <FieldGroup className="grid grid-cols-2 gap-2.5 md:grid-cols-3 md:gap-3 lg:grid-cols-[minmax(14rem,1.25fr)_minmax(8rem,0.7fr)_minmax(10rem,0.9fr)_minmax(10rem,0.9fr)] xl:grid-cols-[minmax(18rem,1.25fr)_minmax(9rem,0.7fr)_minmax(12rem,0.9fr)_minmax(12rem,0.9fr)] xl:gap-4">
-        <Field className="col-span-2 md:col-span-3 lg:col-span-1">
-          <FieldLabel htmlFor="plays-search" variant="filter">
-            Search
-          </FieldLabel>
+      <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 md:gap-3 lg:grid-cols-[minmax(14rem,1.25fr)_minmax(8rem,0.7fr)_minmax(10rem,0.9fr)_minmax(10rem,0.9fr)] xl:grid-cols-[minmax(18rem,1.25fr)_minmax(9rem,0.7fr)_minmax(12rem,0.9fr)_minmax(12rem,0.9fr)] xl:gap-4">
+        <div className="col-span-2 md:col-span-3 lg:col-span-1">
           <InputGroup className="h-10!">
             <InputGroupAddon className="pl-2.5">
               <AppIcon icon={appIcons.actions.search} aria-hidden />
@@ -65,6 +61,7 @@ export const PlaysFilterForm = ({
             <InputGroupInput
               id="plays-search"
               name="q"
+              aria-label="Search plays"
               value={filters.query}
               onChange={(event) => {
                 onQueryChange(event.currentTarget.value);
@@ -72,12 +69,9 @@ export const PlaysFilterForm = ({
               placeholder="Play, game, or trainer"
             />
           </InputGroup>
-        </Field>
+        </div>
 
-        <Field>
-          <FieldLabel htmlFor="plays-status" variant="filter">
-            Status
-          </FieldLabel>
+        <div>
           <SelectControl
             id="plays-status"
             name="status"
@@ -88,12 +82,9 @@ export const PlaysFilterForm = ({
             placeholder="All statuses"
             className="h-10! w-full px-3"
           />
-        </Field>
+        </div>
 
-        <Field>
-          <FieldLabel htmlFor="plays-game" variant="filter">
-            Game
-          </FieldLabel>
+        <div>
           <SelectControl
             id="plays-game"
             name="game"
@@ -104,12 +95,9 @@ export const PlaysFilterForm = ({
             placeholder="All games"
             className="h-10! w-full px-3"
           />
-        </Field>
+        </div>
 
-        <Field className="col-span-2 md:col-span-1">
-          <FieldLabel htmlFor="plays-sort" variant="filter">
-            Sort
-          </FieldLabel>
+        <div className="col-span-2 md:col-span-1">
           <SelectControl
             id="plays-sort"
             name="sort"
@@ -122,8 +110,8 @@ export const PlaysFilterForm = ({
             placeholder="Recent activity"
             className="h-10! w-full px-3"
           />
-        </Field>
-      </FieldGroup>
+        </div>
+      </div>
     </BrowseFilterPanel>
   );
 };

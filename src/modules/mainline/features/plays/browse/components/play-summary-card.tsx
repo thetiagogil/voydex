@@ -67,26 +67,20 @@ const PlayProgressSummary = ({
   if (progress.state === "known") {
     return (
       <div className="flex flex-col gap-0.5 md:items-start">
-        <p className="text-muted-foreground text-xs leading-4 font-bold tracking-[0.08em] whitespace-nowrap uppercase">
-          Completion
-        </p>
         <p className="text-primary font-serif text-2xl font-semibold tracking-tight tabular-nums lg:text-3xl">
           {progress.percent}%
         </p>
-        <p className="text-muted-foreground text-xs">overall</p>
+        <p className="text-muted-foreground text-xs">Completion</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-1 md:items-start">
-      <p className="text-muted-foreground text-xs leading-4 font-bold tracking-[0.08em] whitespace-nowrap uppercase">
-        Completion
-      </p>
+    <div className="flex flex-col md:items-start">
       <p className="text-primary font-serif text-lg font-semibold">
         {progress.state === "unavailable"
           ? "Progress unavailable"
-          : "Not recorded"}
+          : "Progress not recorded"}
       </p>
     </div>
   );
