@@ -5,10 +5,10 @@ design-to-implementation handoff. It is a reviewable design record, not a
 replacement for the canonical product contracts or implementation status.
 
 **Current checkpoint:** the breadth-first map and depth-first functional screen
-contracts are complete. [V1-D114 through V1-D117](./decisions.md) select the
-light-first explorer's field-guide grammar, now implemented through the shared
-shell and Plays Browse. Their behavior and responsive implementation are the
-starting evidence for the next bounded view.
+contracts are complete. [V1-D115, V1-D118, V1-D119, and
+V1-D120](./decisions.md) select the light-first explorer's field-guide grammar,
+now implemented through the shared shell and Plays Browse. Their behavior and
+responsive implementation are the starting evidence for the next bounded view.
 
 ## Working Principle
 

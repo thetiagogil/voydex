@@ -8,8 +8,7 @@
   --app-nav-border: oklch(0.84 0.03 79 / 0.82);
   --app-nav-outline: oklch(0.77 0.036 78 / 0.78);
   --app-nav-hover: oklch(0.945 0.024 86);
-  --app-clipboard-surface: oklch(0.948 0.028 80);
-  --app-clipboard-border: oklch(0.52 0.055 60 / 0.72);
+  --app-journal-surface: oklch(0.975 0.018 86);
   --app-surface-border: oklch(0.79 0.045 78 / 0.76);
   --app-journal-rule: oklch(0.842 0.03 80);
   --app-surface-shadow:

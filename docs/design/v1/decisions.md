@@ -129,12 +129,13 @@ why the direction was selected or changed.
 | V1-D111 | 2026-07-18 | Blend the opening navbar into the scenery and reveal a compact floating bar only after it scrolls away                    | Superseded |
 | V1-D112 | 2026-07-18 | Use a content-driven leather clipcard frame with independent edge and corner assets                                       | Superseded |
 | V1-D113 | 2026-07-18 | Refine the outer card as a stitched-leather binding without an inner gold keyline                                         | Superseded |
-| V1-D114 | 2026-07-18 | Place operational content on one lighter clipped working sheet inside the card                                            | Accepted   |
+| V1-D114 | 2026-07-18 | Place operational content on one lighter clipped working sheet inside the card                                            | Superseded |
 | V1-D115 | 2026-07-18 | Keep only the background-blended opening navbar and let it scroll away without a replacement                              | Accepted   |
-| V1-D116 | 2026-07-18 | Replace detailed rails and corner caps with one simple matte brown expedition-card border                                 | Accepted   |
+| V1-D116 | 2026-07-18 | Replace detailed rails and corner caps with one simple matte brown expedition-card border                                 | Superseded |
 | V1-D117 | 2026-07-18 | Present primary module-view destinations as restrained illustrated wooden signs                                           | Superseded |
 | V1-D118 | 2026-07-18 | Use shared compact product buttons for module-view destinations and retire plank imagery                                  | Accepted   |
 | V1-D119 | 2026-07-18 | Keep the Plays browse introduction compact and text-only                                                                  | Accepted   |
+| V1-D120 | 2026-07-19 | Replace the clipboard and clipped inset sheet with one continuous journal page                                            | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2854,7 +2855,7 @@ gold keyline, and top-clip hardware.
 
 ## V1-D114 — Clipped Working Paper Inside The Clipboard
 
-**Status:** Accepted and implemented for Plays Browse
+**Status:** Superseded by V1-D120
 
 **Date:** 2026-07-18
 
@@ -2910,7 +2911,7 @@ scroll-revealed presentation without changing its opening-navbar treatment.
 
 ## V1-D116 — Simple Expedition-Card Border
 
-**Status:** Accepted and implemented
+**Status:** Superseded by V1-D120
 
 **Date:** 2026-07-18
 
@@ -2973,3 +2974,28 @@ hierarchy provide the visual character. It supersedes the illustrated-header
 requirements carried by V1-D114 without changing the shared background,
 clipboard border, clipped working sheet, normal document scrolling, or
 responsive canvas.
+
+## V1-D120 — One Continuous Journal Page
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-19
+
+Simplify the shared working composition after reviewing the implemented Plays
+Browse in production. Retire the literal clipboard metaphor: remove the matte
+outer frame, lighter inset sheet, brass paper clips, and the shared clip-paper
+component. Use one warm, lightly textured journal page for the compact page
+introduction, controls, result context, and repeated content.
+
+Give the page one quiet one-pixel edge, a small radius, and a restrained ambient
+shadow. Continue to show the daylight landscape in the outer gutters, keep the
+background-blended navbar in normal document flow, and let the browser own
+vertical scrolling. Use typography, spacing, thin rules, game artwork, and
+truthful journey data for hierarchy and adventure character rather than office
+stationery or layered material props.
+
+This decision supersedes V1-D114's clipped working sheet and V1-D116's framed
+expedition card. It preserves V1-D115's navbar behavior, V1-D118's conventional
+destination buttons, V1-D119's text-only Plays header, the existing product and
+data contracts, responsive row composition, mounted-route discipline, and
+view-by-view rollout.

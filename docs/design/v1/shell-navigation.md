@@ -10,11 +10,11 @@ while applying the selected explorer's field-guide visual language.
 **Status: Selected V1 shell treatment implemented and responsively verified**
 
 The top-bar shell and centered content canvas remain the accepted foundation.
-[V1-D114 and V1-D116](./decisions.md) record the clipped-paper and simplified
-expedition-card treatment, while [V1-D115 and V1-D118](./decisions.md) own the
-single background-blended navbar and destination controls. V1-D118 supersedes
-V1-D117's plank treatment with shared compact buttons. All use the
-canonical [V1 Visual Language](./visual-language.md).
+[V1-D120](./decisions.md) records the single journal-page treatment, while
+[V1-D115 and V1-D118](./decisions.md) own the background-blended navbar and
+destination controls. V1-D118 supersedes V1-D117's plank treatment with shared
+compact buttons. All use the canonical
+[V1 Visual Language](./visual-language.md).
 
 ## Navigation Layers
 
@@ -53,16 +53,16 @@ remain clean controls with hierarchy appropriate to their role.
 
 Place normal page content inside a centered canvas up to approximately 1376
 pixels at large viewports. Align navbar content with the same broad grid and
-keep 12–16 pixels of space below the bar before the clipcard page. The scenic
+keep 12–16 pixels of space below the bar before the journal page. The scenic
 background remains visible in the side gutters and may appear subtly behind
 page context, preserving Voydex's sense of place without competing with
 operational content.
 
-Use one simple matte brown border around the shared expedition card. Do not add
-separate rail, stitching, corner-cap, or outer hardware assets, and do not add a
-second yellow/gold keyline. The accepted inner working sheet owns its two small
-paper clips. Both surfaces follow long content naturally without a shell-owned
-scrollbar.
+Use one warm, lightly textured journal page with a quiet one-pixel edge, small
+radius, and restrained shadow. Page context and operational content share that
+surface. Do not add a clipboard frame, inset paper, clips, rails, stitching,
+corner caps, hardware, or a second decorative keyline. The page follows long
+content naturally without a shell-owned scrollbar.
 
 The canvas is a maximum working width, not a requirement for every section to
 stretch fully. Reading content, forms, and focused dialogs may use narrower

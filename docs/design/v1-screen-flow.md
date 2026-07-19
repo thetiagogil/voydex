@@ -11,17 +11,19 @@ remains canonical in [Project Status](../project-status.md).
 
 - The breadth-first map and depth-first V1 functional screen contracts are
   accepted in the [V1 Design Workspace](./v1/README.md).
-- [V1-D113 and V1-D114](./v1/decisions.md) select the light-first explorer's field-guide
-  system recorded in [V1 Visual Language](./v1/visual-language.md). The shared
-  shell and Plays Browse now implement that production grammar.
+- [V1-D115, V1-D118, V1-D119, and V1-D120](./v1/decisions.md) select the
+  light-first explorer's field-guide system recorded in
+  [V1 Visual Language](./v1/visual-language.md). The shared shell and Plays
+  Browse now implement that production grammar.
 - Existing Dashboard, Play Overview, and Play Team work remains functional and
   responsive evidence until each view is migrated and verified. Only code
   listed in [Project Status](../project-status.md) is implemented; the other
   screens remain design direction.
-- Plays Browse is the active production slice. URL-backed primary controls and
-  the compact enriched journey-log row are implemented, responsive, and
-  visually checked with realistic occupied/partial fixture states. Archive,
-  secondary-filter, loading, recovery, and incremental-load states remain.
+- Plays Browse is the implemented production baseline. URL-backed primary
+  controls and the compact enriched journey-log row are responsive and visually
+  checked with realistic occupied/partial fixture states. Play Hub Overview is
+  the next bounded visual slice; Plays Browse archive, secondary-filter,
+  loading, recovery, and incremental-load states remain.
 - The durable product contracts, data ownership rules, accessibility needs,
   and Voydex's clean adventure-companion character remain constraints.
 - Future view work begins with the canonical screen document, accepted
@@ -285,9 +287,10 @@ docs/design/v1/visual-language.md, docs/design/v1/mainline-play.md, and
 docs/design/v1/decisions.md, then inspect the nearby Play Hub code. Commit
 `497f22bf` is the pushed explorer-shell and Plays Browse baseline; preserve any
 newer working-tree changes. The selected system is a light-first explorer's
-field guide with one background-blended in-flow navbar, one simple bordered
-expedition card, warm paper surfaces, compact ordinary controls, large primary
-actions, and normal document scrolling.
+field guide with one background-blended in-flow navbar, one lightly textured
+journal page, compact ordinary controls, large primary actions, and normal
+document scrolling. Do not restore the retired clipboard frame, inset paper, or
+brass clips.
 
 Start with `/mainline/plays/[playId]` and refactor only the shared Play Hub top
 section, tab workspace, and Overview tab. Reuse the established shell and Plays

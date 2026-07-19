@@ -5,9 +5,9 @@ Voydex should feel like a clean adventure companion: warm, playful, polished, an
 Avoid a corporate SaaS hero, a generic wiki look, and overly game-ish UI chrome.
 
 The canonical V1 art-direction brief is
-[Voydex V1 Visual Language](../design/v1/visual-language.md). The selected
-[Shell And Plays Browse reference](../design/v1/assets/selected-shell-plays-browse.png)
-and production tokens now define the first implemented slice.
+[Voydex V1 Visual Language](../design/v1/visual-language.md). The production
+tokens and verified shared shell now define the first implemented slice;
+earlier visual references remain decision history rather than fidelity targets.
 
 ## Design Direction
 
@@ -68,7 +68,7 @@ perceived-performance value is validated.
 tokens. App, Pokemon, and game token groups are split under
 `src/shared/styles` and imported from that entry point.
 
-The production tokens implement forest/field green and leather/earth brown as
+The production tokens implement forest/field green and trail/earth brown as
 the identity, warm beige as the working canvas, sky blue as atmosphere or
 information, and muted gold for selected discoveries and milestones. V1 uses
 one light presentation; a night-expedition palette is later design work, not a
@@ -107,26 +107,22 @@ Existing token groups:
   Route-specific overlays may adjust the daylight artwork's visual weight for
   readability, but they do not replace it. Keep the background visible in the
   side gutters and lower page edge.
-- Treat the content surface as one warm expedition card with a simple matte
-  brown border, modest corner radius, and restrained shadow. The border should
-  suggest carried field gear without using separate rails, stitched strips,
-  corner caps, hardware, or another yellow/gold keyline. This is shared
-  `AppShell` structure, not feature-local Card decoration.
-- Keep the card content-driven and use normal document scrolling for app pages.
-  Never stretch a full-frame image to a long document, crop the card to the
-  viewport, or give the shared surface its own vertical scrollbar. A
+- Treat the content surface as one warm, lightly textured journal page with a
+  quiet one-pixel edge, small radius, and restrained shadow. Do not frame it as
+  a clipboard, bind it in leather, or add clips, rails, corner caps, hardware,
+  or another decorative keyline. This is shared `AppShell` structure, not
+  feature-local Card decoration.
+- Keep the journal page content-driven and use normal document scrolling for
+  app pages. Never stretch a full-frame image to a long document, crop the page
+  to the viewport, or give the shared surface its own vertical scrollbar. A
   purpose-built map, editor, or similarly dense workspace may own a bounded
   inner scroller, but that decision stays inside the workspace.
-- Preserve the warm paper fill beneath the border without exposing seams. Below
-  desktop width, reduce page padding while preserving one useful paper working
-  surface.
-- Keep page introductions compact and text-led on the clipboard backing. A
-  bounded view may place its primary operational content on the shared
-  clipped-paper primitive: one lighter inset sheet, two separate fixed-aspect
-  brass clip images at its top edge, and content-driven height. Use spacing and
-  thin rules inside that sheet; do not nest repeated rows inside additional
-  framed Cards. The clipped sheet never owns a vertical scrollbar and its
-  hardware never stretches with content.
+- Preserve one continuous warm paper fill without exposing seams. Below desktop
+  width, reduce page padding while retaining a useful working surface.
+- Keep page introductions compact and text-led on the same journal page as their
+  operational content. Use spacing, typography, and thin rules to distinguish
+  controls and repeated rows; do not insert a second paper panel or nest rows
+  inside additional framed Cards.
 - Prefer dense but clear operational surfaces for logged-in app workflows.
 
 ## Global Authentication Direction

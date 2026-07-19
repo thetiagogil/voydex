@@ -5,9 +5,9 @@ defines the character that should connect the shared shell, Mainline, and
 Codex without changing their accepted product responsibilities or flows.
 
 The selected V1 treatment combines disciplined field-guide organization with
-one content-driven expedition card outlined by a simple matte brown border and
-one lighter clipped working sheet. V1-D115, V1-D116, V1-D118, and V1-D119 own
-the current shell, navbar, and Plays header behavior shown in production.
+one warm, lightly textured journal page that holds both context and operational
+content. V1-D115, V1-D118, V1-D119, and V1-D120 own the current shell, navbar,
+surface, and Plays header behavior shown in production.
 Functional contracts, responsive behavior, accessibility, truthful data
 states, and mounted routes remain binding when applying it to later views.
 
@@ -179,18 +179,17 @@ The shared shell and Mainline Plays Browse establish the production grammar:
 - the compact Voydex mark, a clear module switcher, and familiar compact
   destination buttons whose active state remains readable without relying only
   on color;
-- one warm expedition card surface up to approximately 1376 pixels wide,
-  outlined by a simple matte brown border with ambient daylight landscape
-  visible in the outer gutters;
-- a 12–16 pixel breathing gap between the navbar and clipcard page;
+- one warm, lightly textured journal page up to approximately 1376 pixels wide,
+  with a quiet one-pixel edge, small radius, restrained shadow, and ambient
+  daylight landscape visible in the outer gutters;
+- a 12–16 pixel breathing gap between the navbar and journal page;
 - one shared refined daylight-valley backdrop at
   `public/backgrounds/bg-day.webp` across the whole app, with distant
   mountains, green terrain, village, sky, and foreground flowers; route-specific
   overlays may quiet it behind working content without replacing the artwork;
-- a compact text-only page introduction on the warm clipboard backing, followed
-  by one lighter inset working sheet held by two fixed-aspect brass paper clips;
-  controls, count, and rows continue inside that sheet with spacing and thin
-  rules;
+- a compact text-only page introduction followed by controls, result context,
+  and rows on the same continuous paper surface, separated with spacing and
+  thin rules rather than another framed panel;
 - Search, Status, Game, and Sort as familiar product controls with persistent
   labels, compact equal 40-pixel heights, and clearly separated current values;
 - compact one-column journey-log rows that use thin rules, warm paper, and
@@ -200,12 +199,13 @@ The shared shell and Mainline Plays Browse establish the production grammar:
   future routes, but production does not expose inert navigation or a broken
   Create Play control.
 
-The framed card remains a working surface rather than a theatrical prop. Its
-single border should be visibly warm and gear-inspired but flatter and more
-cartoon-like than realistic leatherwork. The browser owns vertical scrolling,
-and both the outer card and inset working sheet grow to their true content end
-without an inner vertical scroller. Narrow screens reduce clips and paper
-padding while preserving useful working space.
+The journal page is a calm working surface rather than a theatrical prop. Its
+texture, edge, and shadow stay quiet enough for scenery, typography, game art,
+and journey data to provide the adventure character. Do not restore a literal
+clipboard, leather binding, clipped inset sheet, or decorative hardware. The
+browser owns vertical scrolling, and the page grows to its true content end
+without an inner vertical scroller. Narrow screens reduce paper padding while
+preserving useful working space.
 
 ## Anti-Goals
 
@@ -213,6 +213,7 @@ padding while preserving useful working space.
 - Default shadcn Card and Button appearance as the product identity.
 - A permanent dashboard made from interchangeable metric cards.
 - Wood applied to every link, button, container, or heading.
+- Literal office stationery, clipboard hardware, or nested paper props.
 - Heavy parchment, leather, stitching, or drop shadows on every surface.
 - Medieval fantasy, survival-game, theme-park, or toy-like presentation.
 - Decorative maps or icons that compete with Pokémon, Play, or progress data.
@@ -223,9 +224,8 @@ padding while preserving useful working space.
 
 The shared shell and Plays Browse are the first implemented production slice.
 The refined daylight scenery, single background-blended navbar, compact
-destination buttons, simple bordered expedition card, clipped inset working
-paper, and blended header are now production assets and shared composition
-patterns. Carry this grammar into Play Overview, Team, and Codex one bounded
-view at a time;
-preserve each view's product contract and validate it at desktop, tablet, and
-phone widths before calling that slice complete.
+destination buttons, single journal page, and compact text-led header are now
+production assets and shared composition patterns. Carry this grammar into Play
+Overview, Team, and Codex one bounded view at a time; preserve each view's
+product contract and validate it at desktop, tablet, and phone widths before
+calling that slice complete.

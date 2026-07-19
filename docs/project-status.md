@@ -44,27 +44,26 @@ the evidence for exact implementation details.
 ## Current Product And Design Checkpoint
 
 The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). [V1-D114 through
-V1-D118](./design/v1/decisions.md) define the current light-first explorer's
-navbar, clipped-paper, simple expedition-card, and conventional destination-link
-direction within the canonical [V1 Visual Language](./design/v1/visual-language.md).
+[V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119, and
+V1-D120](./design/v1/decisions.md) define the current light-first explorer's
+navbar, single journal page, compact introduction, and conventional
+destination-link direction within the canonical
+[V1 Visual Language](./design/v1/visual-language.md).
 
 The shared shell and Plays Browse now implement the selected system: one in-flow
 navbar that dissolves into the scenic sky, the refined daylight-valley
-background, and one warm paper expedition card with a simple matte brown border
-and dissolved mountain header. Primary route links use shared compact buttons;
-the module selector, account access, and actions remain clean controls. The Plays
-working content sits on one lighter inset paper sheet held by two small separate
-clip images. No border, clip, or paper image stretches with page width or height.
-Lora/DM Sans typography, clean labelled controls, and rule-separated Play rows
-keep the working sheet readable without repeated nested Cards. A small gap keeps
-the navbar and card visually distinct. The browser owns long-page scrolling;
-neither the shared card nor clipped sheet introduces a nested vertical scroller. Only
-surfaces listed under Implemented Product Surfaces are production implementation;
-the remaining screen work is still design direction until it is represented in
-code and verified.
+background, and one warm, lightly textured journal page with a quiet edge and
+restrained shadow. Primary route links use shared compact buttons; the module
+selector, account access, and actions remain clean controls. The compact page
+introduction, labelled controls, result context, and rule-separated Play rows
+now share that single surface without a clipboard frame, inset sheet, brass
+hardware, or repeated nested Cards. A small gap keeps the navbar and journal
+page visually distinct, while the browser owns long-page scrolling without a
+nested vertical scroller. Only surfaces listed under Implemented Product
+Surfaces are production implementation; the remaining screen work is still
+design direction until it is represented in code and verified.
 
-The active production slice is Plays Browse:
+The current production baseline is Plays Browse:
 
 - URL-backed Search, Status, Game, and Sort controls are implemented, including
   debounced updates, result counts, filtered-empty recovery, filter reset,
@@ -78,9 +77,9 @@ The active production slice is Plays Browse:
   restore the horizontal comparison layout so identity and Team remain dominant.
   The selected composition and its realistic occupied/partial fixture states
   have been browser-checked at representative phone, tablet, and desktop widths.
-  The current card and clipped-paper composition was checked at representative
-  desktop, tablet, and phone widths. The sheet followed growing content without
-  clipping, horizontal page overflow, or a nested vertical scroller. The
+  The simplified single-journal composition was checked at representative
+  desktop, tablet, and phone widths. The page followed growing content without
+  clipping, horizontal overflow, or a nested vertical scroller. The
   subsequent navbar refinement kept the opening bar in document flow without a
   hard lower edge or scroll-triggered replacement, and the mobile module sheet
   continued to open and close normally.

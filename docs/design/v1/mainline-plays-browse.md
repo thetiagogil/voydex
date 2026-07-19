@@ -8,8 +8,8 @@ contract instead of inventing a second interpretation of Play state.
 ## Current Status
 
 The accepted information hierarchy, behavior, and responsive composition remain
-binding. [V1-D113](./decisions.md) selects and implements the explorer's refined
-leather-bound card treatment from the canonical
+binding. [V1-D120](./decisions.md) selects and implements the explorer's
+simplified single-journal treatment from the canonical
 [V1 Visual Language](./visual-language.md).
 
 **Status: Selected V1 journey-log treatment implemented and visually verified**
@@ -39,12 +39,11 @@ owning Play.
 
 Use the shared centered application canvas and this stable order:
 
-1. one four-sided expedition clipboard with a compact page title and short
-   description on its warm backing;
-2. one lighter inset paper sheet held by two small brass clips, beginning with
-   search and primary filter controls;
-3. active-filter summary, result count, and sort separated by thin rules;
-4. one responsive Play library list continuing on the clipped sheet;
+1. one lightly textured journal page with a compact title and short description;
+2. search and primary filter controls continuing on that same page;
+3. active-filter summary, result count, and sort separated by spacing and thin
+   rules;
+4. one responsive Play library list continuing on the same surface;
 5. explicit loading, empty, filtered-empty, error, and incremental-load states.
 
 Do not add dashboard statistics, promotional cards, or another persistent
@@ -61,7 +60,7 @@ artwork grid, table, or V1 grid/list toggle. Plays carry too much meaningful
 state for small equal cards, while a data table would suppress the personal
 adventure identity. One column keeps Play identity, Team, overall progress, and
 recency easy to compare in the accepted journal canvas, which reaches roughly
-1376 pixels at wide viewports. One clipped inset working sheet, thin journal
+1376 pixels at wide viewports. One continuous warm paper surface, thin journal
 rules, and whitespace provide character without nesting the controls or each
 row inside another decorative Card.
 
@@ -284,8 +283,8 @@ correct V1 behavior.
 ## Visual Validation Result
 
 The shared-surface implementation was checked responsively at desktop, tablet,
-and phone widths. The simple bordered card, compact text-only header, and
-lighter inset paper sheet remain content-driven. The two independent
-fixed-aspect clips do not stretch, and long content does not introduce
-horizontal page overflow or a nested vertical scroller. Ephemeral comparison
-screenshots are intentionally not versioned as product documentation.
+and phone widths. The compact text-only header, controls, count, and rows share
+one content-driven journal page with a quiet edge and restrained shadow. Long
+content introduces neither horizontal overflow nor a nested vertical scroller.
+Ephemeral comparison screenshots are intentionally not versioned as product
+documentation.

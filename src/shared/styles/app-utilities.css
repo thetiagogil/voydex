@@ -30,89 +30,16 @@
 
   .app-page-surface {
     padding-top: 1.5rem;
-    background-color: var(--app-clipboard-surface);
-    background-image:
-      linear-gradient(
-        180deg,
-        oklch(0.91 0.038 76 / 0.2),
-        oklch(0.97 0.02 86 / 0.14)
-      ),
-      url("/design/journal-paper-texture.webp");
+    background-color: var(--app-journal-surface);
+    background-image: url("/design/journal-paper-texture.webp");
     background-position: center;
     background-repeat: repeat;
-    background-size: 82rem 82rem;
-    border: 2px solid var(--app-clipboard-border);
-    border-radius: 0.5rem;
-    box-shadow: var(--app-surface-shadow);
-  }
-
-  .app-clipcard-paper {
-    --app-clipcard-paper-clip-width: 1.85rem;
-    --app-clipcard-paper-clip-inset: 0.75rem;
-
-    position: relative;
-    isolation: isolate;
-    min-width: 0;
-    margin-top: 0.25rem;
-    background-color: oklch(0.985 0.012 88);
-    background-image:
-      linear-gradient(
-        180deg,
-        oklch(1 0.008 92 / 0.62) 0%,
-        oklch(0.979 0.015 86 / 0.5) 100%
-      ),
-      url("/design/journal-paper-texture.webp");
-    background-position: center, center;
-    background-repeat: no-repeat, repeat;
-    background-size:
-      100% 100%,
-      64rem 64rem;
-    border: 1px solid oklch(0.72 0.035 76 / 0.3);
-    border-radius: 0.18rem 0.12rem 0.22rem 0.16rem;
+    background-size: 72rem 72rem;
+    border: 1px solid var(--app-surface-border);
+    border-radius: 0.375rem;
     box-shadow:
-      0 20px 38px -30px oklch(0.25 0.045 62 / 0.72),
-      0 6px 14px -12px oklch(0.27 0.04 65 / 0.48),
+      0 26px 68px -46px oklch(0.24 0.045 62 / 0.46),
       0 1px 0 oklch(1 0 0 / 0.78) inset;
-  }
-
-  .app-clipcard-paper::after {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    content: "";
-    box-shadow:
-      0.09rem 0 0 oklch(0.55 0.03 72 / 0.05),
-      -0.08rem 0 0 oklch(1 0 0 / 0.18);
-  }
-
-  .app-clipcard-paper-content {
-    min-width: 0;
-    padding: 1.65rem 0.75rem 0.8rem;
-  }
-
-  .app-clipcard-paper-hardware {
-    overflow: visible;
-  }
-
-  .app-clipcard-paper-clip {
-    position: absolute;
-    top: -0.72rem;
-    display: block;
-    width: var(--app-clipcard-paper-clip-width);
-    height: auto;
-    max-width: none;
-    opacity: 0.88;
-    filter: saturate(0.68) contrast(0.9)
-      drop-shadow(0 0.06rem 0.04rem oklch(0.25 0.04 62 / 0.12));
-  }
-
-  .app-clipcard-paper-clip-start {
-    left: var(--app-clipcard-paper-clip-inset);
-  }
-
-  .app-clipcard-paper-clip-end {
-    right: var(--app-clipcard-paper-clip-inset);
   }
 
   .app-module-trigger {
@@ -166,37 +93,11 @@
     .app-page-surface {
       padding-top: 2rem;
     }
-
-    .app-clipcard-paper {
-      --app-clipcard-paper-clip-width: 2.1rem;
-      --app-clipcard-paper-clip-inset: 1.15rem;
-    }
-
-    .app-clipcard-paper-content {
-      padding: 1.95rem 1.25rem 1.25rem;
-    }
-
-    .app-clipcard-paper-clip {
-      top: -0.83rem;
-    }
   }
 
   @media (min-width: 64rem) {
     .app-page-surface {
       padding-top: 2.25rem;
-    }
-
-    .app-clipcard-paper {
-      --app-clipcard-paper-clip-width: 2.3rem;
-      --app-clipcard-paper-clip-inset: 1.65rem;
-    }
-
-    .app-clipcard-paper-content {
-      padding: 2.15rem 1.75rem 1.75rem;
-    }
-
-    .app-clipcard-paper-clip {
-      top: -0.92rem;
     }
   }
 }
