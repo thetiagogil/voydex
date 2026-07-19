@@ -103,7 +103,7 @@ why the direction was selected or changed.
 | V1-D085 | 2026-07-14 | Make Collection Detail explain companions and meaningful moments across Plays                                             | Accepted   |
 | V1-D086 | 2026-07-14 | Keep Stats explainable and exclude false favorites, scores, and unsupported conclusions                                   | Accepted   |
 | V1-D087 | 2026-07-14 | Anchor every changing Codex Pokémon fact and destination to one explicit exact-game context                               | Accepted   |
-| V1-D088 | 2026-07-14 | Use a URL-backed species grid with explicit loading and compact responsive density for Pokémon Browse                     | Accepted   |
+| V1-D088 | 2026-07-14 | Use a URL-backed species grid with explicit loading and compact responsive density for Pokémon Browse                     | Superseded |
 | V1-D089 | 2026-07-14 | Keep Pokémon Detail reference-led, semantic, game-aware, and free of untrustworthy filler                                 | Accepted   |
 | V1-D090 | 2026-07-14 | Group Pokémon Detail cross-module actions under one Mainline-owned handoff                                                | Accepted   |
 | V1-D091 | 2026-07-14 | Use a URL-backed cover-led Games catalogue with deterministic order and compact responsive density                        | Accepted   |
@@ -136,6 +136,7 @@ why the direction was selected or changed.
 | V1-D118 | 2026-07-18 | Use shared compact product buttons for module-view destinations and retire plank imagery                                  | Accepted   |
 | V1-D119 | 2026-07-18 | Keep the Plays browse introduction compact and text-only                                                                  | Accepted   |
 | V1-D120 | 2026-07-19 | Replace the clipboard and clipped inset sheet with one continuous journal page                                            | Accepted   |
+| V1-D121 | 2026-07-19 | Continue the image-led Pokémon catalogue through automatic incremental result batches                                     | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -2257,7 +2258,7 @@ cross-device persistence is a deferred convenience, not a V1 database need.
 
 ## V1-D088 — Species-Led Pokémon Browse
 
-**Status:** Accepted; visual validation pending
+**Status:** Superseded by V1-D121
 
 **Date:** 2026-07-14
 
@@ -2999,3 +3000,23 @@ expedition card. It preserves V1-D115's navbar behavior, V1-D118's conventional
 destination buttons, V1-D119's text-only Plays header, the existing product and
 data contracts, responsive row composition, mounted-route discipline, and
 view-by-view rollout.
+
+## V1-D121 — Automatic Incremental Pokémon Browse
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-19
+
+Continue Codex Pokémon Browse automatically in small result batches shortly
+before the user reaches the current boundary. The image-led species catalogue is
+a continuous recognition-and-exploration task, so a repeated `Load more`
+decision adds interruption without useful meaning. Keep the current results in
+place while appending, retain the visible result count, and reset the rendered
+window when filters change.
+
+Use bounded batches rather than rendering the complete catalogue at once. Keep
+a manual continuation control only as a compatibility fallback when scroll
+observation is unavailable, or as recovery if future incremental I/O can fail.
+This decision supersedes only V1-D088's explicit `Load more` requirement; it
+preserves the exact-game, URL-state, return-position, responsive-density, empty,
+partial-data, and accessibility contracts.

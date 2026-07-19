@@ -6,7 +6,6 @@ import { cn } from "@/shared/utils/cn";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import type { PokedexPokemonBrowseCard } from "@/modules/reference/types";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
-import { getPokemonTypeBackgroundImageUrl } from "@/modules/reference/features/pokemon/components/pokemon-type-backgrounds";
 import {
   getPokemonTypeCssVariables,
   pokemonTypeCardSurfaceClassName,
@@ -26,8 +25,6 @@ export const PokedexPokemonCard = memo(
       primaryTypeSlug && isPokemonTypeSlug(primaryTypeSlug)
         ? primaryTypeSlug
         : null;
-    const portraitBackgroundImageUrl =
-      getPokemonTypeBackgroundImageUrl(portraitType);
 
     return (
       <Link
@@ -35,43 +32,33 @@ export const PokedexPokemonCard = memo(
           pokemon.detailGameSlug,
           pokemon.slug,
         )}
+        aria-label={`Open ${pokemon.name} field guide`}
         style={getPokemonTypeCssVariables(portraitType)}
         className={cn(
-          "border-app-surface-border/70 focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+          "group focus-visible:ring-ring focus-visible:ring-offset-background block h-full rounded-xl border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
           pokemonTypeCardSurfaceClassName,
         )}
       >
-        <article className="relative isolate aspect-square h-full overflow-hidden rounded-[inherit] [contain-intrinsic-size:18rem] [content-visibility:auto]">
+        <article className="flex h-full flex-col overflow-hidden rounded-[inherit] [contain-intrinsic-size:15rem] [content-visibility:auto]">
           <PokemonPortrait
             alt={pokemon.imageAlt}
-            backgroundImageClassName="scale-110 opacity-60 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
-            backgroundImageUrl={portraitBackgroundImageUrl}
-            backgroundOverlayClassName="bg-card/18"
             imageUrl={pokemon.imageUrl}
             priority={priority}
             type={portraitType}
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="absolute inset-0 aspect-auto h-full w-full max-w-none rounded-[inherit] border-0 bg-transparent"
-            imageClassName="object-contain p-5 pb-16"
+            sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
+            className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
+            glowClassName="inset-8 opacity-10 transition-opacity duration-200 group-hover:opacity-16"
+            imageClassName="object-contain p-4 transition-transform duration-200 group-hover:scale-[1.025] sm:p-5"
           />
 
-          <div
-            aria-hidden
-            className="via-background/0 to-background/92 absolute inset-0 bg-linear-to-b from-transparent"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/84 via-black/38 to-transparent"
-          />
-
-          <div className="relative z-10 flex h-full items-end justify-between gap-3 p-4">
+          <div className="flex flex-1 items-end justify-between gap-1 px-2.5 pb-2.5 sm:px-4 sm:pb-4">
             <div className="min-w-0">
-              <p className="text-foreground/86 truncate text-xs leading-5 font-medium drop-shadow">
+              <p className="text-muted-foreground truncate text-[0.68rem] leading-4 font-semibold tracking-[0.08em] uppercase">
                 {formatPokemonNationalNumber(pokemon.nationalNumber)}
               </p>
-              <h2 className="text-foreground truncate text-base leading-snug font-semibold drop-shadow">
+              <h3 className="text-foreground truncate font-serif text-sm leading-snug font-semibold sm:text-base lg:text-lg">
                 {pokemon.name}
-              </h2>
+              </h3>
             </div>
 
             <PokemonTypeList
@@ -79,7 +66,8 @@ export const PokedexPokemonCard = memo(
               secondaryType={pokemon.secondaryType}
               badgeDisplay="icon-label"
               badgeSize="sm"
-              className="shrink-0 justify-end gap-1.5"
+              badgeVariant="field-guide"
+              className="shrink-0 flex-col items-end gap-1 lg:flex-row lg:gap-1.5"
             />
           </div>
         </article>

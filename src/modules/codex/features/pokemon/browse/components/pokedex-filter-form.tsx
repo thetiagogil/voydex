@@ -77,17 +77,19 @@ export const PokedexFilterForm = ({
 
   return (
     <CodexFilterPanel
-      className="lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto]"
+      variant="journal"
+      className="grid-cols-2 gap-2 lg:grid-cols-[minmax(18rem,1fr)_repeat(3,minmax(0,10.5rem))] lg:gap-3"
       onSubmit={(event) => {
         event.preventDefault();
       }}
     >
-      <InputGroup className="flex-1">
+      <InputGroup className="bg-card col-span-2 h-10 flex-1 lg:col-span-1">
         <InputGroupAddon>
           <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
         <InputGroupInput
           name="q"
+          aria-label="Search Pokémon"
           value={filters.query}
           onChange={(event) => {
             onQueryChange(event.currentTarget.value);
@@ -102,7 +104,8 @@ export const PokedexFilterForm = ({
         onValueChange={onGenerationChange}
         options={generationOptions}
         placeholder="All generations"
-        className="w-full lg:w-44"
+        size="lg"
+        className="w-full"
       />
       <SelectControl
         name="type"
@@ -111,7 +114,8 @@ export const PokedexFilterForm = ({
         onValueChange={onTypeChange}
         options={typeOptions}
         placeholder="All types"
-        className="w-full lg:w-40"
+        size="lg"
+        className="w-full"
       />
       <SelectControl
         name="category"
@@ -122,7 +126,8 @@ export const PokedexFilterForm = ({
         }}
         options={categoryFilterOptions}
         placeholder="All categories"
-        className="w-full lg:w-40"
+        size="lg"
+        className="col-span-2 w-full lg:col-span-1"
       />
     </CodexFilterPanel>
   );

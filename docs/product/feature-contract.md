@@ -928,7 +928,9 @@ Pokémon Browse must:
 - open the exact active-game detail and expose no inline Mainline mutation;
 - preserve URL-backed criteria, loaded position, scroll, and useful focus when
   moving between Browse and Detail;
-- use explicit `Load more` rather than endless automatic preloading;
+- append small result batches automatically shortly before the user reaches the
+  boundary, with a manual compatibility or recovery fallback when automatic
+  continuation is unavailable;
 - target a compact multi-column grid, including two useful columns on common
   phone widths when text scaling and viewport permit;
 - use the shared initial Spinner, filtered empty and clear actions, isolated

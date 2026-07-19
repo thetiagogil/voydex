@@ -35,12 +35,14 @@ type PokedexBrowserProps = {
 };
 
 const INITIAL_VISIBLE_POKEMON = 96;
-const VISIBLE_POKEMON_INCREMENT = 96;
+const VISIBLE_POKEMON_INCREMENT = 48;
 
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
-  const preloadTriggerRef = useRef<HTMLDivElement | null>(null);
+  const [supportsAutomaticLoading, setSupportsAutomaticLoading] =
+    useState(true);
+  const automaticLoadTriggerRef = useRef<HTMLDivElement | null>(null);
 
   const deferredFilters = useDeferredValue(filters);
 
@@ -89,9 +91,19 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       return;
     }
 
-    const preloadTriggerElement = preloadTriggerRef.current;
+    if (!("IntersectionObserver" in window)) {
+      const fallbackTimer = setTimeout(() => {
+        setSupportsAutomaticLoading(false);
+      }, 0);
 
-    if (!preloadTriggerElement || !("IntersectionObserver" in window)) {
+      return () => {
+        clearTimeout(fallbackTimer);
+      };
+    }
+
+    const automaticLoadTrigger = automaticLoadTriggerRef.current;
+
+    if (!automaticLoadTrigger) {
       return;
     }
 
@@ -102,12 +114,12 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         }
       },
       {
-        rootMargin: "720px 0px",
+        rootMargin: "900px 0px",
         threshold: 0,
       },
     );
 
-    observer.observe(preloadTriggerElement);
+    observer.observe(automaticLoadTrigger);
 
     return () => {
       observer.disconnect();
@@ -171,10 +183,10 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
       {filteredPokemon.length ? (
         <>
-          <div className="space-y-10">
+          <div className="space-y-9">
             {visiblePokemonGenerationGroups.map((group) => (
               <CodexGenerationSection key={group.key} title={group.label}>
-                <CodexResourceGrid columns="four">
+                <CodexResourceGrid columns="pokemon">
                   {group.pokemon.map((pokemon) => {
                     const index = visiblePokemonIndexById.get(pokemon.id) ?? -1;
 
@@ -191,7 +203,24 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
               </CodexGenerationSection>
             ))}
             {canLoadMore ? (
-              <div ref={preloadTriggerRef} className="h-px" aria-hidden />
+              supportsAutomaticLoading ? (
+                <div
+                  ref={automaticLoadTriggerRef}
+                  className="h-px"
+                  aria-hidden
+                />
+              ) : (
+                <div className="flex justify-center pt-1">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    onClick={loadMorePokemon}
+                  >
+                    Show more Pokémon
+                  </Button>
+                </div>
+              )
             ) : null}
           </div>
         </>

@@ -1,10 +1,10 @@
 # Codex Pokémon V1 Functional Contract
 
 This document records the accepted V1 direction for Pokémon Browse and Pokémon
-Detail. It refines the implemented Codex foundation without making the current
-composition a visual constraint. Exact spacing, card styling, selector
-treatment, and responsive composition remain part of the later coherent UI
-draft.
+Detail. It refines the implemented Codex foundation without making every current
+composition a visual constraint. The Browse field-guide treatment is selected;
+Detail spacing, selector treatment, and responsive composition remain part of a
+later bounded visual pass.
 
 ## Current Implementation Review
 
@@ -79,7 +79,7 @@ never combine latest-era card facts with an older game destination.
 
 ## C-01 — Pokémon Browse
 
-**Status:** V1 functional contract accepted; visual validation pending
+**Status:** V1 functional contract accepted; field-guide browse treatment selected
 
 ### Purpose
 
@@ -145,11 +145,21 @@ Use one equal image-led card per species. It should preserve:
 The whole result opens Detail. Do not add inline Plan, Play, Collection, or
 overflow actions to the card.
 
+Use a quiet specimen-card composition within the shared journal page. Artwork
+sits on a restrained neutral field with only a soft type-colored glow; do not
+place species over realistic type environments or a dark poster gradient. Keep
+artwork, number, name, and type markers on one continuous card surface without
+a divider between portrait and identity. Place the neutral named type markers
+beside the number-and-name block; their small colored icon keeps color as an
+accent rather than the card's primary surface.
+
 ### Loading, Empty, Error, And Partial States
 
 - Initial load uses the shared page-level Spinner, never Skeletons.
-- Incremental loading is user-controlled through `Load more`; do not endlessly
-  auto-preload as the user approaches the result boundary.
+- Incremental loading continues automatically in small batches shortly before
+  the user reaches the result boundary. Keep the current results visible while
+  appending and provide a manual retry or compatibility fallback only when
+  automatic observation is unavailable or incremental work fails.
 - A filtered empty state names the active criteria in plain language and offers
   one `Clear filters` action.
 - A catalogue-level error preserves valid URL criteria and offers retry.
@@ -170,6 +180,11 @@ overflow actions to the card.
 - Result count changes should be announced after a committed filter/search
   update, not on every keystroke.
 - Type and availability remain understandable without color alone.
+
+The selected responsive grid uses two compact cards at common phone widths,
+three at medium widths, and four within the wide journal. This visual direction
+is implemented independently from the still-pending exact-game and URL-state
+corrections described above.
 
 ## C-02 — Pokémon Detail
 

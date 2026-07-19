@@ -24,7 +24,7 @@ export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
       width={12}
       height={12}
       aria-hidden
-      className={cn("drop-shadow-[0_1px_1px_rgb(0_0_0/0.75)]", className)}
+      className={cn("opacity-95", className)}
     />
   );
 };
@@ -78,7 +78,7 @@ const pokemonTypeBadgeSizeClassNames = {
 
 export type PokemonTypeBadgeDisplay = "icon" | "icon-label" | "label";
 export type PokemonTypeBadgeSize = keyof typeof pokemonTypeBadgeSizeClassNames;
-export type PokemonTypeBadgeVariant = "outline" | "soft";
+export type PokemonTypeBadgeVariant = "field-guide" | "outline" | "soft";
 
 type PokemonTypeBadgeProps = PokemonTypeIconProps & {
   display?: PokemonTypeBadgeDisplay;
@@ -107,8 +107,9 @@ export const PokemonTypeBadge = ({
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full border leading-none font-medium whitespace-nowrap capitalize",
         display === "icon" ? sizeClassNames.iconOnly : sizeClassNames.badge,
-        pokemonTypeSoftBorderClassName,
-        pokemonTypeTextClassName,
+        variant === "field-guide"
+          ? "border-app-surface-border/80 bg-background/70 text-foreground/75"
+          : [pokemonTypeSoftBorderClassName, pokemonTypeTextClassName],
         variant === "soft" && pokemonTypeSoftBackgroundClassName,
         className,
       )}

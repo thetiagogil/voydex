@@ -8,7 +8,7 @@ export const PokedexPage = async () => {
   return (
     <CodexPageShell
       title="Pokémon"
-      description="Search the Pokémon reference data seeded for Voydex."
+      description="Browse the National Pokédex and open a field guide for each species."
     >
       <PokedexBrowser data={data} />
     </CodexPageShell>

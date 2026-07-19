@@ -50,13 +50,14 @@ navbar, single journal page, compact introduction, and conventional
 destination-link direction within the canonical
 [V1 Visual Language](./design/v1/visual-language.md).
 
-The shared shell and Plays Browse now implement the selected system: one in-flow
+The shared shell, Plays Browse, and Pokémon Browse now implement the selected
+system: one in-flow
 navbar that dissolves into the scenic sky, the refined daylight-valley
 background, and one warm, lightly textured journal page with a quiet edge and
 restrained shadow. Primary route links use shared compact buttons; the module
-selector, account access, and actions remain clean controls. The compact page
-introduction, labelled controls, result context, and rule-separated Play rows
-now share that single surface without a clipboard frame, inset sheet, brass
+selector, account access, and actions remain clean controls. Compact page
+introductions, label-free accessible controls, result context, and content now
+share that single surface without a clipboard frame, inset sheet, brass
 hardware, or repeated nested Cards. A small gap keeps the navbar and journal
 page visually distinct, while the browser owns long-page scrolling without a
 nested vertical scroller. Only surfaces listed under Implemented Product
@@ -67,7 +68,7 @@ The current production baseline is Plays Browse:
 
 - URL-backed Search, Status, Game, and Sort controls are implemented, including
   debounced updates, result counts, filtered-empty recovery, filter reset,
-  persistent labels, and compact equal 40-pixel control heights.
+  accessible in-control names, and compact equal 40-pixel control heights.
 - Each Play row now composes game cover, Play and game identity, update date,
   six Active-Team slots, honest overall completion, and one open cue from
   owner-scoped summary, reference-game, Overview, and Team reads.
@@ -83,35 +84,38 @@ The current production baseline is Plays Browse:
   subsequent navbar refinement kept the opening bar in document flow without a
   hard lower edge or scroll-triggered replacement, and the mobile module sheet
   continued to open and close normally.
-  The next checkpoint is the authenticated Play Hub at
-  `/mainline/plays/[playId]`, beginning with its shared top section, tab workspace,
-  and Overview tab only. Carry the selected shell, typography, compact-control,
-  paper-surface, and information-density grammar into that bounded view without
-  changing its queries, mappings, routes, permissions, tab contract, or mutation
-  behavior. Team and Codex follow in later bounded slices. Plays Browse still
-  needs archived visibility, secondary filters, explicit recovery, and
-  incremental-load states before its full V1 product contract is complete.
+
+Pokémon Browse is the next production design checkpoint:
+
+- Result cards now use one continuous specimen surface for artwork and identity,
+  with named field-guide type markers beside the number-and-name block instead
+  of realistic type scenery, dark poster overlays, or an internal divider.
+- The grid presents two useful columns on common phones, three at medium widths,
+  and four on wide journal pages. Generation headings retain the section `h2`
+  while card species names use nested `h3` headings.
+- Browse controls use the shared label-free journal treatment with explicit
+  accessible names. Incremental results append automatically in small batches
+  before the user reaches the boundary, with a manual compatibility fallback
+  when scroll observation is unavailable.
+- The exact-game, URL-state, result announcement, and filtered-empty recovery
+  gaps in the accepted functional contract remain intentionally out of this
+  visual slice.
 
 ## Next Chat Handoff
 
-At handoff time, the active branch is `codex/explorer-field-guide-design`. Commit
-`497f22bf` is the pushed explorer-shell and Plays Browse baseline. The working
-tree contains this handoff; run `git status` before editing and preserve those
-changes.
+The active branch is `codex/explorer-field-guide-design`. Run `git status` before
+editing and preserve unrelated work.
 
-Start with the existing Play Hub and Overview implementation under
-`src/modules/mainline/features/plays/hub`. Read the shell, top-section, tab, and
-Overview files together with [Mainline Play](./design/v1/mainline-play.md) before
-changing composition. The first slice should:
+After the Pokémon Browse slice is verified, continue with one bounded adjacent
+view rather than a broad Codex rewrite. Pokémon Detail is the closest follow-up:
 
-1. browser-review the current authenticated Play Overview against the selected
-   Plays Browse visual grammar;
-2. refactor the Play top section and tab workspace as one coherent bounded view;
-3. restyle the existing Overview sections using real data without implementing
-   the intentionally empty Team, Progress, Plans, History, or Settings tabs;
-4. preserve the current server query, mappers, authorization, routes, actions,
-   truthful unavailable states, and normal document scrolling;
-5. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
+1. browser-review a seeded game/species route against the selected Browse card
+   and shared journal grammar;
+2. preserve exact game context, form selection, Shiny behavior, data ownership,
+   routes, and Mainline handoff behavior;
+3. reorganize only the identity, portrait, selector, and reference sections
+   needed to make the page coherent in light mode;
+4. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
    console output, then run `npm run verify`.
 
 Do not add database changes, another background, dark mode, sticky replacement
@@ -134,8 +138,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- Later production views have not yet been migrated to the selected journal and
-  field-guide system; their existing layouts remain functional evidence.
+- Pokémon Detail, Codex Games, and later production views have not yet been
+  migrated to the selected journal and field-guide system; their existing
+  layouts remain functional evidence.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.

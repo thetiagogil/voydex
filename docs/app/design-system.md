@@ -652,8 +652,17 @@ type, form, artwork, availability, and destination. Keep Search, Game, Type, and
 Sort visible; place secondary criteria in one `More filters` surface. Cards are
 equal, whole-card links with no inline Mainline actions. Target several columns
 on desktop and two useful columns on common phone widths instead of one
-near-viewport-height square card. Use explicit `Load more`, URL-backed state,
-and the shared initial Spinner rather than infinite preloading or Skeletons.
+near-viewport-height square card. Append small result batches automatically
+shortly before the user reaches the boundary, keep URL-backed state, and use the
+shared initial Spinner rather than Skeletons. Reserve a manual continuation
+control for compatibility or recovery when automatic loading cannot continue.
+Within the selected field-guide card, place artwork on a quiet neutral specimen
+field with only a soft semantic type glow. Do not use realistic type scenery or
+dark poster overlays. Keep artwork, National number, serif species name, and
+type badges on one continuous paper surface without a divider between portrait
+and identity. Place the named neutral type badges beside the number-and-name
+block; their small colored icon carries the semantic accent so the surface is
+understandable without color alone.
 
 Pokémon Detail keeps the current searchable species-switcher, generation-
 grouped game choices, artwork/Shiny treatment, and game-aware reference-section
@@ -837,9 +846,10 @@ more.
 - Keep button styling clean. The button shape can be slightly curved, but avoid
   heavy decorative borders or exposing the default shadcn appearance as the
   product identity.
-- Browse controls use persistent labels above separately framed values. Controls
-  that share a row use equal heights and aligned baselines; labels never merge
-  visually with current values.
+- Browse controls use selected values or placeholders in the control and an
+  explicit accessible name. Do not add redundant persistent labels above a
+  compact control bar. Controls that share a row use equal heights and aligned
+  baselines.
 - Primary buttons should not use a mismatched border color.
 - Treat selectors as real selectors when the underlying choice changes data,
   scope, availability, or stats. For example, Pokemon forms should not live as a
