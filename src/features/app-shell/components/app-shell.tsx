@@ -25,7 +25,7 @@ export const AppShell = ({
 }: AppShellProps) => {
   const isAuthenticated = Boolean(userEmail);
   return (
-    <div className="relative isolate flex min-h-screen flex-col">
+    <div className="relative isolate">
       <AppNavbar
         afterLogo={
           moduleSelectorKey ? (
@@ -60,9 +60,9 @@ export const AppShell = ({
           </>
         }
       />
-      <div className="relative z-10 mx-auto mt-3 mb-3 flex w-[calc(100%-1rem)] max-w-344 flex-1 sm:mt-4 sm:mb-5 sm:w-[calc(100%-2rem)] lg:mb-10 lg:w-[calc(100%-4rem)]">
-        <main className="app-page-surface flex min-w-0 flex-1 flex-col overflow-hidden px-4 pb-5 sm:px-7 sm:pb-7 lg:px-10 lg:pb-10">
-          <div className="flex min-w-0 flex-1 flex-col gap-2">{children}</div>
+      <div className="relative z-10 mx-auto mt-3 mb-3 w-[calc(100%-1rem)] max-w-344 sm:mt-4 sm:mb-5 sm:w-[calc(100%-2rem)] lg:mb-10 lg:w-[calc(100%-4rem)]">
+        <main className="app-page-surface w-full min-w-0 overflow-hidden px-4 pb-5 sm:px-7 sm:pb-7 lg:px-10 lg:pb-10">
+          <div className="flex min-w-0 flex-col gap-2">{children}</div>
         </main>
       </div>
     </div>
