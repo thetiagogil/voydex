@@ -75,30 +75,6 @@ export const getPokemonDetailStatBarWidth = (value: number, max: number) => {
   return `${Math.round((Math.min(Math.max(value, 0), max) / max) * 100)}%`;
 };
 
-export const getPokemonDetailStatBarColorClassName = (value: number) => {
-  if (value < 40) {
-    return "bg-red-500";
-  }
-
-  if (value < 60) {
-    return "bg-orange-400";
-  }
-
-  if (value < 80) {
-    return "bg-yellow-400";
-  }
-
-  if (value < 100) {
-    return "bg-lime-400";
-  }
-
-  if (value < 120) {
-    return "bg-green-400";
-  }
-
-  return "bg-emerald-400";
-};
-
 export const getPokemonDetailStatsTotal = (
   attributes: PokemonAttributes,
   stats: PokemonDetailStatDefinition[],

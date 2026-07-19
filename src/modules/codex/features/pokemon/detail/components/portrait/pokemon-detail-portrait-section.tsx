@@ -1,4 +1,3 @@
-import { cn } from "@/shared/utils/cn";
 import { PokemonDetailActionPortrait } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
 import {
   getPokemonDetailFormImageAlt,
@@ -6,12 +5,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
-import { getPokemonTypeBackgroundImageUrl } from "@/modules/reference/features/pokemon/components/pokemon-type-backgrounds";
-import {
-  getPokemonTypeCssVariables,
-  pokemonTypeSoftBackgroundClassName,
-  pokemonTypeSoftBorderClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 
 type PokemonDetailPortraitSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
@@ -37,31 +31,23 @@ export const PokemonDetailPortraitSection = ({
     isShowingShiny && shinyImageUrl ? shinyImageUrl : defaultImageUrl;
   const toggleImageUrl = isShowingShiny ? defaultImageUrl : shinyImageUrl;
   const toggleImageAlt = isShowingShiny ? imageAlt : `Shiny ${imageAlt}`;
-  const backgroundImageUrl = getPokemonTypeBackgroundImageUrl(typeSlug);
 
   return (
     <section
       style={typeStyle}
-      className={cn(
-        "relative overflow-hidden rounded-lg border",
-        typeSlug && pokemonTypeSoftBackgroundClassName,
-        typeSlug ? pokemonTypeSoftBorderClassName : "border-app-surface-border",
-      )}
+      className="ring-app-surface-border/80 bg-card/80 relative overflow-hidden rounded-xl shadow-none ring-1"
     >
       <PokemonPortrait
         alt={`${isShowingShiny ? "Shiny " : ""}${imageAlt}`}
-        backgroundImageClassName="scale-105 opacity-65 saturate-75 contrast-90 brightness-90 blur-[0.5px]"
-        backgroundImageUrl={backgroundImageUrl}
-        backgroundOverlayClassName="bg-background/30"
         imageUrl={imageUrl}
         type={typeSlug}
         fallbackOnError
         loading="eager"
         preload
         sizes="(min-width: 1024px) 346px, (min-width: 640px) 346px, calc(100vw - 4rem)"
-        className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
-        glowClassName="opacity-25"
-        imageClassName="p-2 sm:p-4"
+        className="aspect-4/3 w-full rounded-none border-0 bg-transparent sm:aspect-video lg:aspect-4/3"
+        glowClassName="inset-10 opacity-10"
+        imageClassName="p-5 sm:p-7"
       />
 
       {shinyImageUrl && toggleImageUrl ? (

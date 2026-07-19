@@ -1,19 +1,11 @@
 import Link from "next/link";
 
 import { cn } from "@/shared/utils/cn";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { PokemonDetailFormListItemContent } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-list-item-content";
 import { getPokemonDetailFormHref } from "@/modules/codex/features/pokemon/detail/components/forms/pokemon-detail-form-links";
-import {
-  getPokemonDetailFormTypeSlug,
-  isPokemonDetailFormEqual,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { isPokemonDetailFormEqual } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
-import {
-  getPokemonTypeCssVariables,
-  pokemonTypeHoverSurfaceClassName,
-  pokemonTypeSelectedSurfaceClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 
 type PokemonDetailFormsSectionProps = {
   activeForm: PokemonGenerationFormSummary | null;
@@ -41,11 +33,12 @@ export const PokemonDetailFormsSection = ({
   }
 
   return (
-    <DetailSectionCard title="Forms" contentClassName="grid min-w-0 gap-2">
+    <PokemonDetailSectionCard
+      title="Forms"
+      contentClassName="grid min-w-0 gap-2"
+    >
       {forms.map((form) => {
         const isActive = isPokemonDetailFormEqual(form, activeForm);
-        const typeSlug = getPokemonDetailFormTypeSlug(form);
-
         return (
           <Link
             key={form.form.id}
@@ -56,11 +49,9 @@ export const PokemonDetailFormsSection = ({
               speciesSlug,
             })}
             aria-current={isActive ? "true" : undefined}
-            style={getPokemonTypeCssVariables(typeSlug)}
             className={cn(
-              "border-app-surface-border/70 bg-background focus-visible:ring-primary focus-visible:ring-offset-background min-w-0 rounded-lg border p-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-              pokemonTypeHoverSurfaceClassName,
-              isActive && pokemonTypeSelectedSurfaceClassName,
+              "border-app-surface-border/70 bg-background/70 focus-visible:ring-primary focus-visible:ring-offset-background hover:bg-muted/60 min-w-0 rounded-lg border p-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+              isActive && "border-primary/45 bg-primary/5",
             )}
             onClick={() => {
               if (!isActive) {
@@ -75,6 +66,6 @@ export const PokemonDetailFormsSection = ({
           </Link>
         );
       })}
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

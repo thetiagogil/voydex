@@ -188,7 +188,7 @@ corrections described above.
 
 ## C-02 — Pokémon Detail
 
-**Status:** V1 functional contract accepted; visual validation pending
+**Status:** V1 functional contract accepted; current visual organization selected
 
 ### Purpose
 
@@ -227,16 +227,18 @@ because it changes presentation, not reference scope.
 
 ### Information Hierarchy
 
-Use this stable reading order while leaving exact column composition for visual
-validation:
+The selected visual implementation preserves the established composition:
 
-1. Identity, exact game, persistent form, artwork, types, and Mainline entry.
-2. Overview: game-context base stats, abilities, and only seeded core facts.
-3. Evolution and persistent forms.
-4. Availability in the selected game and applicable content.
-5. Type matchups.
-6. Learnset.
-7. Pokédex placement and numbers.
+1. Compact species selection and generation-grouped game choices remain in the
+   top reference row.
+2. Portrait, optional persistent Forms, and Evolution Line remain in the left
+   stack.
+3. Core Data, Battle Stats, Type Matchups, Abilities, Pokédex, Availability,
+   and Learnsets remain in that order in the right stack.
+
+This placement is a constraint for visual restyling. Future functional-contract
+work such as a semantic page heading or one Mainline entry must integrate
+without casually moving the reference sections.
 
 Optional facts with no trustworthy value are omitted instead of rendered as a
 large `Unknown` field. V1 does not require height, weight, Pokédex prose, or an

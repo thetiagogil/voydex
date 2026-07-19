@@ -664,21 +664,22 @@ and identity. Place the named neutral type badges beside the number-and-name
 block; their small colored icon carries the semantic accent so the surface is
 understandable without color alone.
 
-Pokémon Detail keeps the current searchable species-switcher, generation-
-grouped game choices, artwork/Shiny treatment, and game-aware reference-section
-foundation. Add a stable semantic identity heading independent from the
-selector. Make the exact active game unambiguous on every viewport; a mobile
-control that shows only a generation numeral is insufficient. Treat persistent
-form as a real scope selector and Shiny as a visual toggle.
+Pokémon Detail preserves its current information architecture: the compact
+species selector and generation-grouped game choices stay at the top; portrait,
+optional Forms, and Evolution Line stay in the left stack; Core Data, Battle
+Stats, Type Matchups, Abilities, Pokédex, Availability, and Learnsets stay in
+their existing right-stack order. Treat persistent form as a real scope
+selector and Shiny as a visual toggle. Do not move sections as part of a visual
+restyle.
 
-The Detail composition should lead with identity, exact game, form, artwork,
-types, and one `Use in Mainline` entry, then organize overview, evolution and
-forms, selected-game availability, matchups, learnset, and Pokédex placement in
-a clear reading order. Omit unseeded optional facts instead of creating large
-`Unknown` cells. Use semantic section headings and a real learnset table on
-wide screens with labelled stacked rows on narrow screens. Test a compact
-in-page section navigator only if the complete realistic page proves difficult
-to scan; do not introduce stateful detail sub-tabs in V1.
+Restyle those existing surfaces with the journal and field-guide grammar. Use a
+quiet neutral specimen field with a restrained semantic type glow instead of
+realistic type scenery, neutral paper cards with serif primary section titles,
+and field-guide type badges. Wide data sections use their comparison layout on
+wide screens and labelled stacked rows inside the same card on narrow screens;
+they must not widen the document. A semantic page heading and Mainline entry
+remain functional-contract work and do not justify reorganizing this selected
+visual composition.
 
 ## Codex Games Direction
 

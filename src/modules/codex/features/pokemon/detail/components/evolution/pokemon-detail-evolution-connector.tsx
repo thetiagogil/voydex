@@ -1,4 +1,5 @@
 import { cn } from "@/shared/utils/cn";
+import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import {
   getPokemonDetailDistinctEvolutionEdges,
   getPokemonDetailEvolutionConditionDescription,
@@ -54,55 +55,20 @@ const EvolutionArrowLine = ({
 }) => {
   if (direction === "vertical") {
     return (
-      <svg
-        aria-hidden
-        viewBox="0 0 12 48"
-        preserveAspectRatio="none"
-        className="text-primary h-11 w-3 overflow-hidden"
-      >
-        <path
-          d="M6 1V42"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth="1.25"
-          opacity="0.76"
-        />
-        <path
-          d="M2.5 38.5L6 44L9.5 38.5"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.25"
-          opacity="0.86"
-        />
-      </svg>
+      <span className="text-primary/70 flex h-8 items-center justify-center">
+        <ChevronDownIcon aria-hidden className="size-5 stroke-[1.5]" />
+      </span>
     );
   }
 
   return (
     <div
       className={cn(
-        "text-primary flex h-3 items-center",
+        "text-primary/70 flex h-5 items-center justify-center",
         length === "stretched" ? "w-full" : "w-14 max-w-full",
       )}
     >
-      <span className="from-primary/25 via-primary/80 to-primary/70 h-px min-w-8 flex-1 rounded-full bg-linear-to-r" />
-      <svg
-        aria-hidden
-        viewBox="0 0 10 12"
-        className="-ml-1 size-3 shrink-0 overflow-visible"
-      >
-        <path
-          d="M1.5 2.75L8.5 6L1.5 9.25"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.25"
-          opacity="0.86"
-        />
-      </svg>
+      <ChevronRightIcon aria-hidden className="size-5 stroke-[1.5]" />
     </div>
   );
 };

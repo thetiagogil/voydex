@@ -1,5 +1,6 @@
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailAbilityItem } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-ability-item";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
 import type {
   Ability,
@@ -7,7 +8,6 @@ import type {
   PokemonAttributes,
   VersionGroup,
 } from "@/modules/reference/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAbilitiesCardProps = {
   abilities: Ability[];
@@ -37,10 +37,14 @@ export const PokemonDetailAbilitiesCard = ({
   }
 
   return (
-    <DetailSectionCard title="Abilities" contentClassName="p-0" showSeparator>
-      <div className="overflow-x-auto">
+    <PokemonDetailSectionCard
+      title="Abilities"
+      contentClassName="p-0"
+      showSeparator
+    >
+      <div>
         <div
-          className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground px-4 py-2 text-xs`}
+          className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground hidden px-4 py-2 text-xs lg:grid`}
         >
           <div>Slot</div>
           <div>Ability</div>
@@ -55,6 +59,6 @@ export const PokemonDetailAbilitiesCard = ({
           ))}
         </div>
       </div>
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

@@ -1,12 +1,12 @@
 import { getPokemonDetailAvailabilityKey } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { PokemonDetailAvailabilityRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-row";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
 import type {
   Game,
   PokemonAvailabilitySummary,
   VersionGroup,
 } from "@/modules/reference/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAvailabilityCardProps = {
   activeGame: Game | null;
@@ -20,15 +20,15 @@ export const PokemonDetailAvailabilityCard = ({
   availability,
 }: PokemonDetailAvailabilityCardProps) => {
   return (
-    <DetailSectionCard
+    <PokemonDetailSectionCard
       title="Availability"
       contentClassName="p-0"
       showSeparator
     >
       {availability.length ? (
-        <div className="overflow-x-auto">
+        <div>
           <div
-            className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground px-4 py-2 text-xs`}
+            className={`${pokemonDetailSectionTableGridClassName} text-muted-foreground hidden px-4 py-2 text-xs lg:grid`}
           >
             <div>Content</div>
             <div>Method</div>
@@ -50,6 +50,6 @@ export const PokemonDetailAvailabilityCard = ({
           No availability data recorded for the selected scope.
         </p>
       )}
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

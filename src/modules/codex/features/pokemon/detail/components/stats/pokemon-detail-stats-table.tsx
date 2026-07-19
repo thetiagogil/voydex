@@ -36,7 +36,7 @@ const PokemonDetailStatsColumn = ({
 
 const PokemonDetailStatsTotal = ({ total }: { total: number }) => {
   return (
-    <div className="flex min-w-0 flex-col justify-center gap-1 md:px-4">
+    <div className="flex min-w-0 flex-col justify-center gap-1 xl:px-4">
       <div className="text-muted-foreground text-xs">Stats Total</div>
       <div className="text-foreground text-base font-semibold tabular-nums">
         {total}
@@ -48,10 +48,10 @@ const PokemonDetailStatsTotal = ({ total }: { total: number }) => {
 const PokemonDetailStatsSeparator = () => {
   return (
     <>
-      <Separator className="bg-app-surface-border/60 md:hidden" />
+      <Separator className="bg-app-surface-border/60 xl:hidden" />
       <Separator
         orientation="vertical"
-        className="bg-app-surface-border/60 hidden md:block"
+        className="bg-app-surface-border/60 hidden xl:block"
       />
     </>
   );
@@ -67,7 +67,7 @@ export const PokemonDetailStatsTable = ({
   const secondColumnStats = stats.slice(3);
 
   return (
-    <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_7.5rem] md:items-stretch">
+    <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_7.5rem] xl:items-stretch">
       <PokemonDetailStatsColumn
         attributes={attributes}
         stats={firstColumnStats}

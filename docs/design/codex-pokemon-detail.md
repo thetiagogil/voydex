@@ -9,7 +9,7 @@ history.
 - `codex/pokemon/browse` is considered the stable completed Codex browse view
   for now.
 - `codex/pokemon/[gameSlug]/[speciesSlug]` has its section foundation in place
-  and should be iterated section by section.
+  and should be iterated section by section without reorganizing that foundation.
 - The top section is a compact selector surface with species selection and
   generation/game navigation.
 - The left section has the portrait, optional Forms card, and optional
@@ -76,7 +76,8 @@ Current intended parts:
 
 Portrait:
 
-- Use the active form image over the type-themed background.
+- Use the active form image on a quiet neutral specimen field with only a soft
+  type-colored glow. Do not use realistic type scenery.
 - Render the shiny toggle in the top-right corner of the portrait.
 - The shiny toggle swaps only the active form artwork and resets when the
   selected form changes.
@@ -98,7 +99,7 @@ Evolution line:
 - Resolve every evolution family into readable path rows. This handles mixed
   branch lengths such as Applin -> Flapple/Appletun/Dipplin -> Hydrapple.
 - Highlight the selected node with the Pokemon type-colored selected/hover
-  treatment used across detail links.
+  treatment used across detail links, while keeping the node surface neutral.
 
 ## Form Selection Decision
 
@@ -129,7 +130,9 @@ Current pattern:
 ## Right Section Direction
 
 The right section should stay card-based and readable. Use one card per section
-and keep each card focused.
+and keep each card focused. Preserve the current section order and column
+placement; visual iterations should happen inside each card rather than moving
+cards between the left and right stacks.
 
 Current cards:
 
@@ -143,6 +146,11 @@ Current cards:
 - Availability: content, method, and notes rows for the selected game/scope.
 - Learnsets: searchable/filterable move table with method, move, type,
   category, power, accuracy, and PP.
+
+On narrow screens, wide data rows become labelled stacked rows inside the same
+card. They must not widen the document or require page-level horizontal
+scrolling. The type-matchup section may use a compact named grid on narrow
+screens while retaining the all-type comparison grid on wider screens.
 
 Known next areas:
 

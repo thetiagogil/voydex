@@ -14,15 +14,18 @@ import {
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { Button } from "@/shared/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import { Separator } from "@/shared/components/ui/separator";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/shared/components/ui/toggle-group";
 
 type PokemonDetailLearnsetsCardProps = {
   learnsets: PokemonLearnsetSummary[];
@@ -47,7 +50,11 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <DetailSectionCard title="Learnsets" contentClassName="p-0" showSeparator>
+    <PokemonDetailSectionCard
+      title="Learnsets"
+      contentClassName="p-0"
+      showSeparator
+    >
       {learnsets.length ? (
         <>
           <div className="grid gap-3 px-4 py-3">
@@ -66,30 +73,36 @@ export const PokemonDetailLearnsetsCard = ({
                 />
               </InputGroup>
 
-              <div className="flex flex-wrap gap-2 xl:justify-end">
-                {methodOptions.map((option) => {
-                  const isActive = method === option.value;
+              <ToggleGroup
+                value={[method]}
+                variant="outline"
+                size="sm"
+                spacing={2}
+                aria-label="Filter moves by learn method"
+                className="w-auto flex-wrap xl:justify-end"
+                onValueChange={(values) => {
+                  const nextMethod = values[0];
 
+                  if (nextMethod) {
+                    setMethod(nextMethod as PokemonDetailLearnsetMethodFilter);
+                  }
+                }}
+              >
+                {methodOptions.map((option) => {
                   return (
-                    <Button
+                    <ToggleGroupItem
                       key={option.value}
-                      type="button"
-                      variant={isActive ? "default" : "outline"}
-                      size="sm"
-                      className="h-8"
-                      aria-pressed={isActive}
-                      onClick={() => {
-                        setMethod(option.value);
-                      }}
+                      value={option.value}
+                      aria-label={`${option.label}, ${option.count} moves`}
                     >
                       {option.label}
                       <span className="text-xs opacity-50">
                         ({option.count})
                       </span>
-                    </Button>
+                    </ToggleGroupItem>
                   );
                 })}
-              </div>
+              </ToggleGroup>
             </div>
 
             <div className="text-muted-foreground text-sm">
@@ -99,9 +112,9 @@ export const PokemonDetailLearnsetsCard = ({
 
           <Separator className="bg-app-surface-border/60" />
 
-          <div className="overflow-x-auto">
+          <div>
             <div
-              className={`${pokemonDetailLearnsetGridClassName} text-muted-foreground px-4 py-2 text-xs`}
+              className={`${pokemonDetailLearnsetGridClassName} text-muted-foreground hidden px-4 py-2 text-xs lg:grid`}
             >
               <div>Method</div>
               <div>Move</div>
@@ -140,6 +153,6 @@ export const PokemonDetailLearnsetsCard = ({
           No learnset data recorded for the selected scope.
         </p>
       )}
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

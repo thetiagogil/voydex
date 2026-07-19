@@ -12,23 +12,26 @@ export const PokemonDetailAbilityItem = ({
     <article
       className={`${pokemonDetailSectionTableGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
     >
-      <div className="flex min-w-0 items-center gap-3">
-        <div className="border-primary/45 bg-primary/10 text-primary flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold tabular-nums">
-          {abilitySlot.token}
-        </div>
-
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Slot</div>
         <div className="text-muted-foreground truncate text-xs">
           {abilitySlot.label}
         </div>
       </div>
 
-      <div className="text-foreground truncate text-sm font-medium">
-        {abilitySlot.ability.name}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Ability</div>
+        <div className="text-foreground truncate text-sm font-medium">
+          {abilitySlot.ability.name}
+        </div>
       </div>
 
-      <p className="text-muted-foreground min-w-0 text-xs leading-relaxed">
-        {abilitySlot.effectSummary ?? "No effect summary available."}
-      </p>
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Effect</div>
+        <p className="text-muted-foreground min-w-0 text-xs leading-relaxed">
+          {abilitySlot.effectSummary ?? "No effect summary available."}
+        </p>
+      </div>
     </article>
   );
 };

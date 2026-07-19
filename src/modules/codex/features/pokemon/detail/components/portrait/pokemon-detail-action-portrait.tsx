@@ -1,9 +1,5 @@
 import { cn } from "@/shared/utils/cn";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
-import {
-  pokemonTypeGroupHoverSurfaceClassName,
-  pokemonTypeSelectedSurfaceClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type PokemonDetailActionPortraitProps = {
@@ -32,12 +28,11 @@ export const PokemonDetailActionPortrait = ({
       loading="eager"
       sizes={isCompact ? "36px" : "(min-width: 640px) 72px, 64px"}
       className={cn(
-        "border-app-surface-border/70 bg-background rounded-full",
-        pokemonTypeGroupHoverSurfaceClassName,
-        isActive && pokemonTypeSelectedSurfaceClassName,
+        "border-app-surface-border/70 bg-background/80 group-hover:border-primary/35 group-hover:bg-muted/60 group-focus-visible:border-primary/35 group-focus-visible:bg-muted/60 rounded-full transition-colors",
+        isActive && "border-primary/50 bg-primary/5 ring-primary/20 ring-2",
         isCompact ? "size-12" : "size-16 sm:size-18",
       )}
-      glowClassName="opacity-20 transition-opacity duration-200 group-hover:opacity-35 group-focus-visible:opacity-35"
+      glowClassName="inset-2 opacity-10 transition-opacity duration-200 group-hover:opacity-20 group-focus-visible:opacity-20"
       imageClassName={isCompact ? "p-1.5" : "p-2"}
     />
   );

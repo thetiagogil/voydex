@@ -85,7 +85,7 @@ The current production baseline is Plays Browse:
   hard lower edge or scroll-triggered replacement, and the mobile module sheet
   continued to open and close normally.
 
-Pokémon Browse is the next production design checkpoint:
+Pokémon Browse is a completed production design checkpoint:
 
 - Result cards now use one continuous specimen surface for artwork and identity,
   with named field-guide type markers beside the number-and-name block instead
@@ -101,20 +101,34 @@ Pokémon Browse is the next production design checkpoint:
   gaps in the accepted functional contract remain intentionally out of this
   visual slice.
 
+Pokémon Detail is the current completed visual checkpoint:
+
+- The existing information architecture is preserved: selectors remain at the
+  top, portrait/forms/evolution remain in the left stack, and the seven
+  reference sections retain their right-stack order.
+- The realistic portrait scenery has been replaced by the same neutral specimen
+  field and restrained type accent used by Browse. Existing Shiny and form
+  behavior remain unchanged.
+- Detail sections now use the light journal card grammar, serif primary titles,
+  neutral field-guide type badges, and one semantic primary treatment for stat
+  bars and effectiveness emphasis.
+- Wide reference rows become labelled stacked rows inside their existing cards
+  on narrow screens, removing page-level horizontal overflow without moving or
+  hiding their data.
+
 ## Next Chat Handoff
 
 The active branch is `codex/explorer-field-guide-design`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Pokémon Browse slice is verified, continue with one bounded adjacent
-view rather than a broad Codex rewrite. Pokémon Detail is the closest follow-up:
+After the Pokémon Detail slice is verified, continue with one bounded adjacent
+view rather than a broad Codex rewrite. Codex Games Browse is the closest
+follow-up:
 
-1. browser-review a seeded game/species route against the selected Browse card
-   and shared journal grammar;
-2. preserve exact game context, form selection, Shiny behavior, data ownership,
-   routes, and Mainline handoff behavior;
-3. reorganize only the identity, portrait, selector, and reference sections
-   needed to make the page coherent in light mode;
+1. browser-review the seeded Games route against the shared journal grammar;
+2. preserve game routes, generation grouping, filters, data ownership, and
+   Mainline handoff behavior;
+3. restyle the existing Games organization without broad Codex restructuring;
 4. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
    console output, then run `npm run verify`.
 
@@ -138,9 +152,9 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- Pokémon Detail, Codex Games, and later production views have not yet been
-  migrated to the selected journal and field-guide system; their existing
-  layouts remain functional evidence.
+- Codex Games and later production views have not yet been migrated to the
+  selected journal and field-guide system; their existing layouts remain
+  functional evidence.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.

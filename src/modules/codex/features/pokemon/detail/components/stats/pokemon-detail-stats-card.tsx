@@ -1,6 +1,6 @@
 import { PokemonDetailStatsTable } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-table";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { Generation, PokemonAttributes } from "@/modules/reference/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailStatsCardProps = {
   attributes: PokemonAttributes | null;
@@ -16,11 +16,15 @@ export const PokemonDetailStatsCard = ({
   }
 
   return (
-    <DetailSectionCard title="Battle Stats" className="h-full" showSeparator>
+    <PokemonDetailSectionCard
+      title="Battle Stats"
+      className="h-full"
+      showSeparator
+    >
       <PokemonDetailStatsTable
         attributes={attributes}
         generation={generation}
       />
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

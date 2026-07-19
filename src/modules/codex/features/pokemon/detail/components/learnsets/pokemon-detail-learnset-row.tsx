@@ -151,26 +151,46 @@ export const PokemonDetailLearnsetRow = ({
     <article
       className={`${pokemonDetailLearnsetGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
     >
-      <div className="truncate text-sm font-medium">{methodDetail}</div>
-
-      <div className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
-        <span className="truncate">{learnset.move.name}</span>
-        {addedContentLabel ? (
-          <PokemonDetailLearnsetInfoTooltip label={addedContentLabel} />
-        ) : null}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Method</div>
+        <div className="truncate text-sm font-medium">{methodDetail}</div>
       </div>
 
-      <div className={pokemonDetailLearnsetMetricsGridClassName}>
-        <PokemonDetailLearnsetType learnset={learnset} />
-        <PokemonDetailLearnsetCategoryIcon learnset={learnset} />
-        <div className="text-center text-sm tabular-nums">
-          {formatPokemonDetailLearnsetValue(learnset.attributes?.power)}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Move</div>
+        <div className="flex min-w-0 items-center gap-1.5 text-sm font-medium">
+          <span className="truncate">{learnset.move.name}</span>
+          {addedContentLabel ? (
+            <PokemonDetailLearnsetInfoTooltip label={addedContentLabel} />
+          ) : null}
         </div>
-        <div className="text-center text-sm tabular-nums">
-          {formatPokemonDetailLearnsetValue(learnset.attributes?.accuracy, "%")}
+      </div>
+
+      <div className="grid min-w-0 gap-1">
+        <div
+          className={`${pokemonDetailLearnsetMetricsGridClassName} text-muted-foreground text-[0.68rem] lg:hidden`}
+        >
+          <div className="text-center">Type</div>
+          <div className="text-center">Category</div>
+          <div className="text-center">Power</div>
+          <div className="text-center">Acc.</div>
+          <div className="text-center">PP</div>
         </div>
-        <div className="text-center text-sm tabular-nums">
-          {formatPokemonDetailLearnsetValue(learnset.attributes?.pp)}
+        <div className={pokemonDetailLearnsetMetricsGridClassName}>
+          <PokemonDetailLearnsetType learnset={learnset} />
+          <PokemonDetailLearnsetCategoryIcon learnset={learnset} />
+          <div className="text-center text-sm tabular-nums">
+            {formatPokemonDetailLearnsetValue(learnset.attributes?.power)}
+          </div>
+          <div className="text-center text-sm tabular-nums">
+            {formatPokemonDetailLearnsetValue(
+              learnset.attributes?.accuracy,
+              "%",
+            )}
+          </div>
+          <div className="text-center text-sm tabular-nums">
+            {formatPokemonDetailLearnsetValue(learnset.attributes?.pp)}
+          </div>
         </div>
       </div>
     </article>

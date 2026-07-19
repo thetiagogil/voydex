@@ -6,8 +6,8 @@ import {
   getPokemonDetailTypeMatchupChart,
   type PokemonDetailTypeMatchupChartColumn,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { Generation, PokemonTypePair } from "@/modules/reference/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import {
   Tooltip,
@@ -23,12 +23,9 @@ type PokemonDetailTypeMatchupsCardProps = {
 const getPokemonDetailTypeMatchupValueClassName = (multiplier: number) => {
   return cn(
     "focus-visible:ring-ring/50 inline-flex h-7 min-w-7 items-center justify-center rounded-md px-1 text-xs font-semibold tabular-nums outline-none focus-visible:ring-2",
-    multiplier === 0 && "text-emerald-400",
-    multiplier === 0.25 && "text-emerald-400",
-    multiplier === 0.5 && "text-lime-400",
+    multiplier < 1 && "text-primary",
     multiplier === 1 && "text-muted-foreground/70 font-medium",
-    multiplier === 2 && "text-orange-400",
-    multiplier === 4 && "text-red-400",
+    multiplier > 1 && "text-destructive",
   );
 };
 
@@ -93,6 +90,25 @@ const PokemonDetailTypeMatchupEffectivenessCell = ({
   );
 };
 
+const PokemonDetailTypeMatchupMobileCell = ({
+  column,
+}: {
+  column: PokemonDetailTypeMatchupChartColumn;
+}) => {
+  return (
+    <div className="border-app-surface-border/70 bg-background/60 flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2 py-1.5">
+      <PokemonTypeBadge
+        type={column.attackingType}
+        label={column.typeLabel}
+        display="icon-label"
+        size="sm"
+        variant="field-guide"
+      />
+      <PokemonDetailTypeMatchupEffectivenessCell column={column} />
+    </div>
+  );
+};
+
 export const PokemonDetailTypeMatchupsCard = ({
   generation,
   typePair,
@@ -112,13 +128,22 @@ export const PokemonDetailTypeMatchupsCard = ({
   } satisfies CSSProperties;
 
   return (
-    <DetailSectionCard
+    <PokemonDetailSectionCard
       title="Type Matchups"
       className="h-full"
       contentClassName="p-0"
       showSeparator
     >
-      <div className="overflow-x-auto">
+      <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 md:hidden">
+        {chartColumns.map((column) => (
+          <PokemonDetailTypeMatchupMobileCell
+            key={column.attackingType}
+            column={column}
+          />
+        ))}
+      </div>
+
+      <div className="hidden overflow-x-auto md:block">
         <div className="min-w-xl">
           <div
             className="grid items-center gap-1 px-4 py-2"
@@ -145,6 +170,6 @@ export const PokemonDetailTypeMatchupsCard = ({
           </div>
         </div>
       </div>
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

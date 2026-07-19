@@ -1,7 +1,7 @@
 import { cn } from "@/shared/utils/cn";
 import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
+import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
   numbers: PokemonDetailPokedexNumber[];
@@ -21,13 +21,22 @@ const PokemonDetailPokedexNumberRow = ({
         "border-app-surface-border/60 border-t px-4 py-3",
       )}
     >
-      <div className="text-foreground min-w-0 truncate text-sm font-medium">
-        {pokedexNumber.pokedexName}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Dex</div>
+        <div className="text-foreground min-w-0 truncate text-sm font-medium">
+          {pokedexNumber.pokedexName}
+        </div>
       </div>
-      <div className="text-foreground text-sm font-semibold tabular-nums">
-        {pokedexNumber.numberLabel}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Number</div>
+        <div className="text-foreground text-sm font-semibold tabular-nums">
+          {pokedexNumber.numberLabel}
+        </div>
       </div>
-      <div className="text-muted-foreground text-sm">-</div>
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Entry</div>
+        <div className="text-muted-foreground text-sm">-</div>
+      </div>
     </article>
   );
 };
@@ -40,12 +49,16 @@ export const PokemonDetailPokedexNumbersCard = ({
   }
 
   return (
-    <DetailSectionCard title="Pokédex" contentClassName="p-0" showSeparator>
-      <div className="overflow-x-auto">
+    <PokemonDetailSectionCard
+      title="Pokédex"
+      contentClassName="p-0"
+      showSeparator
+    >
+      <div>
         <div
           className={cn(
             pokemonDetailSectionTableGridClassName,
-            "text-muted-foreground px-4 py-2 text-xs",
+            "text-muted-foreground hidden px-4 py-2 text-xs lg:grid",
           )}
         >
           <div>Dex</div>
@@ -61,6 +74,6 @@ export const PokemonDetailPokedexNumbersCard = ({
           ))}
         </div>
       </div>
-    </DetailSectionCard>
+    </PokemonDetailSectionCard>
   );
 };

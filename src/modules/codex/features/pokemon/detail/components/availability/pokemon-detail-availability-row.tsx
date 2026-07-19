@@ -63,28 +63,37 @@ export const PokemonDetailAvailabilityRow = ({
     <article
       className={`${pokemonDetailSectionTableGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
     >
-      <div className="flex min-w-0 items-center gap-3">
-        <PokemonDetailAvailabilityMedia
-          imageUrl={media.imageUrl}
-          initials={media.initials}
-          label={media.label}
-        />
-        <div className="truncate text-sm font-medium">
-          {getPokemonDetailAvailabilityContentLabel({
-            activeGame,
-            activeVersionGroup,
-            availability,
-          })}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Content</div>
+        <div className="flex min-w-0 items-center gap-3">
+          <PokemonDetailAvailabilityMedia
+            imageUrl={media.imageUrl}
+            initials={media.initials}
+            label={media.label}
+          />
+          <div className="truncate text-sm font-medium">
+            {getPokemonDetailAvailabilityContentLabel({
+              activeGame,
+              activeVersionGroup,
+              availability,
+            })}
+          </div>
         </div>
       </div>
 
-      <div className="truncate text-sm font-medium">
-        {getPokemonDetailAvailabilityMethodLabel(availability)}
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Method</div>
+        <div className="truncate text-sm font-medium">
+          {getPokemonDetailAvailabilityMethodLabel(availability)}
+        </div>
       </div>
 
-      <p className="text-muted-foreground min-w-0 text-xs leading-relaxed">
-        {getPokemonDetailAvailabilityDetails(availability)}
-      </p>
+      <div className="grid min-w-0 gap-1">
+        <div className="text-muted-foreground text-xs lg:hidden">Notes</div>
+        <p className="text-muted-foreground min-w-0 text-xs leading-relaxed">
+          {getPokemonDetailAvailabilityDetails(availability)}
+        </p>
+      </div>
     </article>
   );
 };
