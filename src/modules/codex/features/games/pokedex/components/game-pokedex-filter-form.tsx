@@ -51,17 +51,19 @@ export const GamePokedexFilterForm = ({
 
   return (
     <CodexFilterPanel
-      className="lg:grid-cols-[minmax(18rem,1fr)_auto]"
+      variant="journal"
+      className="gap-2 lg:grid-cols-[minmax(18rem,1fr)_minmax(0,10.5rem)] lg:gap-3"
       onSubmit={(event) => {
         event.preventDefault();
       }}
     >
-      <InputGroup className="flex-1">
+      <InputGroup className="bg-card h-10 flex-1">
         <InputGroupAddon>
           <AppIcon icon={appIcons.actions.search} aria-hidden />
         </InputGroupAddon>
         <InputGroupInput
           name="q"
+          aria-label="Search Pokémon"
           value={filters.query}
           onChange={(event) => {
             onQueryChange(event.currentTarget.value);
@@ -80,7 +82,8 @@ export const GamePokedexFilterForm = ({
         onValueChange={onTypeChange}
         options={typeOptions}
         placeholder="All types"
-        className="w-full lg:w-44"
+        size="lg"
+        className="w-full"
       />
     </CodexFilterPanel>
   );

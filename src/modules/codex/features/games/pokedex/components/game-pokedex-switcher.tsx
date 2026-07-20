@@ -1,18 +1,11 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { buttonVariants } from "@/shared/components/ui/button";
+import { cn } from "@/shared/utils/cn";
 
 type GamePokedexSwitcherProps = {
   data: GamePokedexData;
@@ -24,59 +17,59 @@ export const GamePokedexSwitcher = ({ data }: GamePokedexSwitcherProps) => {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button variant="outline" size="sm" aria-label="Open Pokédex menu" />
-        }
+    <section className="border-app-surface-border/70 flex flex-col gap-3 border-y py-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <h2
+          id="game-pokedex-scope-heading"
+          className="text-foreground text-xs leading-5 font-semibold tracking-[0.08em] uppercase"
+        >
+          Pokédex scope
+        </h2>
+        <p className="text-muted-foreground text-xs leading-5">
+          Choose the field guide for {data.game.name}.
+        </p>
+      </div>
+
+      <nav
+        aria-labelledby="game-pokedex-scope-heading"
+        className="flex min-w-0 flex-wrap gap-2"
       >
-        <AppIcon icon={appIcons.product.pokedex} inline="start" aria-hidden />
-        Dexes
-        <AppIcon icon={appIcons.actions.expand} inline="end" aria-hidden />
-      </DropdownMenuTrigger>
+        {data.pokedexes.map((pokedex) => {
+          const isActive = pokedex.id === data.pokedex.id;
+          const label = formatPokedexName(pokedex.name);
+          const className = cn(
+            buttonVariants({
+              size: "sm",
+              variant: isActive ? "default" : "outline",
+            }),
+            "max-w-full",
+          );
+          const content = (
+            <>
+              <AppIcon
+                icon={appIcons.product.pokedex}
+                inline="start"
+                aria-hidden
+              />
+              <span className="truncate">{label}</span>
+            </>
+          );
 
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>{data.game.name} dexes</DropdownMenuLabel>
-          {data.pokedexes.map((pokedex) => {
-            const isActive = pokedex.id === data.pokedex.id;
-            const content = (
-              <>
-                <span className="min-w-0 flex-1 truncate">
-                  {formatPokedexName(pokedex.name)}
-                </span>
-                {isActive ? (
-                  <AppIcon
-                    icon={appIcons.status.active}
-                    className="text-(--pokemon-game-color)"
-                    aria-hidden
-                  />
-                ) : null}
-              </>
-            );
-
-            return isActive ? (
-              <DropdownMenuItem key={pokedex.id} disabled>
-                {content}
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem
-                key={pokedex.id}
-                render={
-                  <Link
-                    href={appRoutes.codexGamePokedex(
-                      data.game.slug,
-                      pokedex.slug,
-                    )}
-                  />
-                }
-              >
-                {content}
-              </DropdownMenuItem>
-            );
-          })}
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          return isActive ? (
+            <span key={pokedex.id} aria-current="page" className={className}>
+              {content}
+            </span>
+          ) : (
+            <Link
+              key={pokedex.id}
+              href={appRoutes.codexGamePokedex(data.game.slug, pokedex.slug)}
+              className={className}
+            >
+              {content}
+            </Link>
+          );
+        })}
+      </nav>
+    </section>
   );
 };

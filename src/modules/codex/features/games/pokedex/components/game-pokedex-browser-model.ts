@@ -92,10 +92,10 @@ export const getGamePokedexTableMinWidthClassName = (
   statColumns: GamePokedexStatColumn[],
 ) => {
   if (statColumns.length === generationOneStatColumns.length) {
-    return hasAbilities ? "min-w-248" : "min-w-196";
+    return hasAbilities ? "xl:min-w-248" : "xl:min-w-196";
   }
 
-  return hasAbilities ? "min-w-260" : "min-w-208";
+  return hasAbilities ? "xl:min-w-260" : "xl:min-w-208";
 };
 
 export const formatLocalPokedexNumber = (pokedexNumber: number) => {

@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
+import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 import type { GameCard } from "@/modules/reference/types";
 
 type GameDetailRelatedGameCardProps = {
@@ -38,7 +38,7 @@ export const GameDetailRelatedGameCard = ({
             </div>
           )}
         </div>
-        <div className="flex min-h-12 items-start px-2.5 pb-2.5">
+        <div className="flex items-start px-2.5 pb-2.5">
           <h3 className="text-foreground line-clamp-2 font-serif text-xs leading-4 font-semibold">
             {card.game.name}
           </h3>

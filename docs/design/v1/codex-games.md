@@ -272,8 +272,9 @@ section when no reliable relationship exists.
 
 ## C-05 — Game Pokédex
 
-**Status:** V1 functional contract accepted; selector and responsive visual
-validation pending
+**Status:** V1 functional contract accepted; production selector and responsive
+result presentation implemented. URL-backed controls, incremental loading, and
+optional-content grouping remain pending.
 
 ### Purpose
 

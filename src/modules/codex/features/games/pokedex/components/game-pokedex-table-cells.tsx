@@ -4,6 +4,7 @@ import type { GamePokedexPokemon } from "@/modules/reference/types";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { cn } from "@/shared/utils/cn";
 
 type GamePokedexPokemonType = NonNullable<
   GamePokedexPokemon["typePair"]["primaryType"]
@@ -40,8 +41,10 @@ export const GamePokedexPokemonSpriteCell = ({
 };
 
 export const GamePokedexPokemonTypeList = ({
+  className,
   pokemon,
 }: {
+  className?: string;
   pokemon: GamePokedexPokemon;
 }) => {
   const types = [
@@ -54,7 +57,7 @@ export const GamePokedexPokemonTypeList = ({
   }
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className={cn("flex flex-wrap gap-1.5", className)}>
       {types.map((type) =>
         isPokemonTypeSlug(type.slug) ? (
           <PokemonTypeBadge
@@ -62,6 +65,7 @@ export const GamePokedexPokemonTypeList = ({
             type={type.slug}
             label={type.name}
             size="sm"
+            variant="field-guide"
           />
         ) : (
           <Badge key={type.id} variant="outline">

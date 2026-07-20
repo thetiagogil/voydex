@@ -12,6 +12,8 @@ import {
 import { GamePokedexFilterForm } from "@/modules/codex/features/games/pokedex/components/game-pokedex-filter-form";
 import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table";
 import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
+import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 
@@ -35,6 +37,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
     [searchablePokemon, deferredFilters],
   );
   const activeFilters = hasActiveGamePokedexFilters(filters);
+  const pokedexName = formatPokedexName(data.pokedex.name);
 
   const updateFilter = <FilterKey extends keyof GamePokedexFilters>(
     key: FilterKey,
@@ -81,11 +84,33 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
         ) : null}
       </div>
 
-      <GamePokedexTable
-        data={data}
-        hasAbilities={hasAbilities}
-        pokemon={filteredPokemon}
-      />
+      {filteredPokemon.length ? (
+        <GamePokedexTable
+          data={data}
+          hasAbilities={hasAbilities}
+          pokemon={filteredPokemon}
+        />
+      ) : (
+        <CodexEmptyState
+          title={`No Pokémon found in the ${pokedexName}`}
+          description={
+            hasAbilities
+              ? "Try a different name, Pokédex number, ability, or type."
+              : "Try a different name, Pokédex number, or type."
+          }
+          action={
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setFilters(defaultGamePokedexFilters);
+              }}
+            >
+              Clear filters
+            </Button>
+          }
+        />
+      )}
     </>
   );
 };

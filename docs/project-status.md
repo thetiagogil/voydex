@@ -149,23 +149,44 @@ Game Detail is a completed production design checkpoint:
   Pokédex, related-game, and Back to games destinations retain their existing
   behavior.
 
+Game Pokédex is a completed production design checkpoint:
+
+- Each route now has a semantic named-Pokédex heading with exact game,
+  generation, and result-count context. Multi-Pokédex games keep the selector
+  visible as primary page scope instead of collapsing it into a secondary
+  utility menu; single-Pokédex games rely on the heading without showing a
+  redundant selector.
+- Wide journal pages retain the exact-game semantic comparison table with
+  explicit species links. Phones use compact divided field-guide rows that keep
+  local number, sprite, species, National number, and types visible; tablets
+  add labelled base-stat comparison without widening the document.
+- Search and Type retain their existing client-side behavior and now expose a
+  selected-Pokédex filtered-empty recovery. Representative Red/Kanto and
+  Sun/Alola routes have been checked at desktop, tablet, and phone widths with
+  no page-level horizontal overflow, and named-Pokédex switching plus
+  exact-game Pokémon destinations remain intact.
+- URL-backed filter/sort state, explicit incremental loading, optional-content
+  grouping, and the accepted DLC read-model expansion remain functional work
+  outside this visual slice.
+
 ## Next Chat Handoff
 
 The current implementation checkpoint is on `main`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Game Detail slice is verified, continue with one bounded adjacent
-view rather than a broad Codex rewrite. Codex Game Pokédex is the closest
-follow-up:
+After the Game Pokédex visual slice, continue with one bounded adjacent view or
+one named functional gap rather than a broad Codex rewrite. The closest
+accepted Games-family follow-up is the Game-origin Mainline handoff:
 
-1. browser-review representative seeded Game Pokédex routes against the shared
-   journal grammar;
-2. preserve exact game and named-Pokédex scope, URL state, semantic comparison
-   behavior, exact-game Pokémon destinations, and reference ownership;
-3. restyle the existing Game Pokédex organization without broad Codex
-   restructuring;
-4. verify desktop, tablet, phone, keyboard/focus behavior, overflow, and browser
-   console output, then run `npm run verify`.
+1. preserve the originating cover and exact game identity from public Codex
+   into authentication and Mainline destination selection;
+2. keep `Start a Play`, `Create a Plan`, and `Add to Game List` distinct and
+   route ownership to Mainline without adding mutations to Codex;
+3. validate cancellation, pending, validation, focus return, and narrow-screen
+   sheet behavior before treating the handoff as reusable;
+4. keep the accepted Game Pokédex URL-state, incremental-loading, and DLC gaps
+   available as separate bounded tasks rather than folding them into the
+   handoff.
 
 Do not add database changes, another background, dark mode, sticky replacement
 navigation, Skeletons, decorative edge systems, or a broad cross-page refactor
@@ -187,9 +208,10 @@ selected behavior that future work must preserve belongs in versioned docs.
   opening an introductory-generation game route, so the implemented card and
   destination can disagree until the accepted exact-game query correction is
   built.
-- Codex Game Pokédex and later production views have not yet been migrated to
-  the selected journal and field-guide system; their existing layouts remain
-  functional evidence.
+- Codex Game Pokédex search and Type state remain client-only, all matching
+  entries render at once, and optional-content Pokédexes are not yet grouped
+  into the owning game route. The selected journal visual slice is complete,
+  but those accepted functional gaps remain.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.
