@@ -43,7 +43,10 @@ export const PokemonDetailRightSection = ({
         currentVersionGroup={scope.versionGroup?.versionGroup ?? null}
         versionGroups={versionGroups}
       />
-      <PokemonDetailPokedexNumbersCard numbers={pokedexNumbers} />
+      <PokemonDetailPokedexNumbersCard
+        gameSlug={scope.game?.slug ?? null}
+        numbers={pokedexNumbers}
+      />
       <PokemonDetailAvailabilityCard
         activeGame={scope.game}
         activeVersionGroup={scope.versionGroup?.versionGroup ?? null}

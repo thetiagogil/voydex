@@ -3,30 +3,11 @@ import type {
   PokemonAvailabilitySummary,
   VersionGroup,
 } from "@/modules/reference/types";
-import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 const getAvailabilityContentVersionGroup = (
   availability: PokemonAvailabilitySummary,
 ) => {
   return availability.sourceVersionGroup ?? availability.targetVersionGroup;
-};
-
-const getAvailabilityMediaInitials = (label: string) => {
-  const words = label.match(/[A-Za-z0-9]+/g) ?? [];
-  const relevantWords = words.filter((word) => {
-    return !["pokemon", "the"].includes(word.toLowerCase());
-  });
-  const initialsSource = relevantWords.length ? relevantWords : words;
-
-  if (!initialsSource.length) {
-    return label.slice(0, 1).toUpperCase();
-  }
-
-  return initialsSource
-    .slice(0, 2)
-    .map((word) => word.slice(0, 1))
-    .join("")
-    .toUpperCase();
 };
 
 export const getPokemonDetailAvailabilityContentLabel = ({
@@ -59,6 +40,37 @@ export const getPokemonDetailAvailabilityContentLabel = ({
   return contentVersionGroup.name;
 };
 
+export const getPokemonDetailAvailabilityContentGame = ({
+  activeGame,
+  activeVersionGroup,
+  availability,
+}: {
+  activeGame: Game | null;
+  activeVersionGroup: VersionGroup | null;
+  availability: PokemonAvailabilitySummary;
+}) => {
+  const contentVersionGroup = getAvailabilityContentVersionGroup(availability);
+
+  if (!contentVersionGroup) {
+    return null;
+  }
+
+  if (activeGame && contentVersionGroup.id === activeGame.version_group_id) {
+    return availability.game ?? activeGame;
+  }
+
+  if (
+    availability.game &&
+    activeVersionGroup &&
+    contentVersionGroup.id === activeVersionGroup.id &&
+    !activeVersionGroup.parent_version_group_id
+  ) {
+    return availability.game;
+  }
+
+  return null;
+};
+
 export const getPokemonDetailAvailabilityMethodLabel = (
   availability: PokemonAvailabilitySummary,
 ) => {
@@ -73,43 +85,6 @@ export const getPokemonDetailAvailabilityDetails = (
     availability.method?.description ??
     "No additional details recorded."
   );
-};
-
-export const getPokemonDetailAvailabilityContentMedia = ({
-  activeGame,
-  availability,
-}: {
-  activeGame: Game | null;
-  availability: PokemonAvailabilitySummary;
-}) => {
-  const contentVersionGroup = getAvailabilityContentVersionGroup(availability);
-  const isDlcContent = Boolean(contentVersionGroup?.parent_version_group_id);
-
-  if (isDlcContent && contentVersionGroup) {
-    return {
-      imageUrl: null,
-      initials: getAvailabilityMediaInitials(contentVersionGroup.name),
-      label: contentVersionGroup.name,
-    };
-  }
-
-  const game = availability.game ?? activeGame;
-
-  if (game) {
-    return {
-      imageUrl: getGameCoverImageUrl(game),
-      initials: getAvailabilityMediaInitials(game.name),
-      label: game.name,
-    };
-  }
-
-  const label = contentVersionGroup?.name ?? "Current scope";
-
-  return {
-    imageUrl: null,
-    initials: getAvailabilityMediaInitials(label),
-    label,
-  };
 };
 
 export const getPokemonDetailAvailabilityKey = (

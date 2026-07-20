@@ -57,7 +57,6 @@ const GamesGridCard = ({
   eager?: boolean;
 }) => {
   const metadata = getGameMetadata(card);
-  const gameTypeLabel = card.gameType?.name.replace(/ Version$/, "");
 
   return (
     <Link
@@ -91,7 +90,7 @@ const GamesGridCard = ({
           )}
         </div>
 
-        <div className="flex flex-1 items-end justify-between gap-1 px-2.5 pb-2.5 sm:px-4 sm:pb-4">
+        <div className="flex flex-1 items-end px-2.5 pb-2.5 sm:px-4 sm:pb-4">
           <div className="min-w-0">
             {metadata ? (
               <p className="text-muted-foreground truncate text-[0.68rem] leading-4 font-semibold tracking-[0.08em] uppercase">
@@ -102,15 +101,6 @@ const GamesGridCard = ({
               {card.game.name}
             </h3>
           </div>
-
-          {card.gameType ? (
-            <span
-              title={card.gameType.name}
-              className="border-app-surface-border/80 bg-background/70 text-foreground/75 inline-flex max-w-[48%] shrink-0 truncate rounded-full border px-2 py-0.5 text-[0.62rem] leading-4 font-semibold sm:max-w-[45%] sm:text-[0.68rem]"
-            >
-              {gameTypeLabel}
-            </span>
-          ) : null}
         </div>
       </article>
     </Link>

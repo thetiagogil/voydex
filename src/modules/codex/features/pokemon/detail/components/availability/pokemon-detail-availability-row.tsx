@@ -1,8 +1,9 @@
-import Image from "next/image";
+import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
 import {
+  getPokemonDetailAvailabilityContentGame,
   getPokemonDetailAvailabilityContentLabel,
-  getPokemonDetailAvailabilityContentMedia,
   getPokemonDetailAvailabilityDetails,
   getPokemonDetailAvailabilityMethodLabel,
 } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
@@ -19,43 +20,19 @@ type PokemonDetailAvailabilityRowProps = {
   availability: PokemonAvailabilitySummary;
 };
 
-type PokemonDetailAvailabilityMediaProps = {
-  imageUrl: string | null;
-  initials: string;
-  label: string;
-};
-
-const PokemonDetailAvailabilityMedia = ({
-  imageUrl,
-  initials,
-  label,
-}: PokemonDetailAvailabilityMediaProps) => {
-  return (
-    <div className="border-app-surface-border/70 bg-background relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
-      {imageUrl ? (
-        <Image
-          src={imageUrl}
-          alt={`${label} artwork`}
-          fill
-          sizes="40px"
-          className="object-contain p-1"
-        />
-      ) : (
-        <span className="text-primary text-xs font-semibold tracking-wide">
-          {initials}
-        </span>
-      )}
-    </div>
-  );
-};
-
 export const PokemonDetailAvailabilityRow = ({
   activeGame,
   activeVersionGroup,
   availability,
 }: PokemonDetailAvailabilityRowProps) => {
-  const media = getPokemonDetailAvailabilityContentMedia({
+  const contentGame = getPokemonDetailAvailabilityContentGame({
     activeGame,
+    activeVersionGroup,
+    availability,
+  });
+  const contentLabel = getPokemonDetailAvailabilityContentLabel({
+    activeGame,
+    activeVersionGroup,
     availability,
   });
 
@@ -65,20 +42,16 @@ export const PokemonDetailAvailabilityRow = ({
     >
       <div className="grid min-w-0 gap-1">
         <div className="text-muted-foreground text-xs lg:hidden">Content</div>
-        <div className="flex min-w-0 items-center gap-3">
-          <PokemonDetailAvailabilityMedia
-            imageUrl={media.imageUrl}
-            initials={media.initials}
-            label={media.label}
-          />
-          <div className="truncate text-sm font-medium">
-            {getPokemonDetailAvailabilityContentLabel({
-              activeGame,
-              activeVersionGroup,
-              availability,
-            })}
-          </div>
-        </div>
+        {contentGame ? (
+          <Link
+            href={appRoutes.codexGame(contentGame.slug)}
+            className="text-foreground hover:text-primary focus-visible:ring-ring min-w-0 truncate rounded-sm text-sm font-medium underline-offset-4 focus-visible:ring-2 focus-visible:outline-none"
+          >
+            {contentLabel}
+          </Link>
+        ) : (
+          <div className="truncate text-sm font-medium">{contentLabel}</div>
+        )}
       </div>
 
       <div className="grid min-w-0 gap-1">

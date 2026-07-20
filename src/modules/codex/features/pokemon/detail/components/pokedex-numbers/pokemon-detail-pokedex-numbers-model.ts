@@ -11,6 +11,7 @@ export type PokemonDetailPokedexNumber = {
   number: number;
   numberLabel: string;
   pokedexName: string;
+  pokedexSlug: string;
   sortOrder: number;
 };
 
@@ -107,6 +108,7 @@ const collectPokemonDetailPokedexNumbers = ({
         number: entry.pokedex_number,
       }),
       pokedexName: formatPokedexName(pokedex.name),
+      pokedexSlug: pokedex.slug,
       sortOrder: pokedex.sort_order,
     });
   }
