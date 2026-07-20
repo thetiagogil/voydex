@@ -1,5 +1,6 @@
 import { MilestoneSummary } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/journey-status/milestone-summary";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayHubData } from "@/modules/mainline/features/plays/hub/types";
 import { appIcons } from "@/shared/components/app-icon";
 
@@ -11,6 +12,7 @@ export const JourneyStatusPanel = ({ data }: JourneyStatusPanelProps) => {
   return (
     <MainlinePlaySectionCard
       title="Journey Status"
+      action={<MainlinePlaySectionDestination label="Full story" />}
       contentClassName="p-0"
       showSeparator
     >

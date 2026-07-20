@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { RecentHistoryRow } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/recent-history/recent-history-row";
 import { RecentHistorySeparator } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/recent-history/recent-history-separator";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -21,6 +22,7 @@ export const RecentHistoryPanel = ({ events }: RecentHistoryPanelProps) => {
   return (
     <MainlinePlaySectionCard
       title="Recent History"
+      action={<MainlinePlaySectionDestination label="Full history" />}
       contentClassName="py-0"
       showSeparator
     >

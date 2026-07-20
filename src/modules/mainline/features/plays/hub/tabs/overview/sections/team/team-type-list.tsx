@@ -48,7 +48,7 @@ export const TeamTypeList = ({
   }
 
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex flex-wrap items-center justify-center gap-1">
       {types.map((type) => (
         <TeamTypeBadge key={type.id} type={type} />
       ))}

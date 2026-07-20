@@ -35,18 +35,18 @@ export const MainlinePlayHubTabs = ({ data }: MainlinePlayHubTabsProps) => {
   return (
     <Card className="bg-card/45 ring-app-surface-border/80 gap-0 py-0 shadow-none">
       <Tabs defaultValue="overview" className="gap-0">
-        <CardHeader className="border-app-surface-border/70 rounded-none border-b px-4 py-0 sm:px-5">
+        <CardHeader className="rounded-none px-3 py-0 sm:px-4">
           <CardTitle className="sr-only">Play sections</CardTitle>
           <TabsList
             variant="line"
-            className="h-auto! w-full justify-start gap-5 overflow-x-auto overflow-y-hidden p-0 sm:gap-7"
+            className="h-auto! w-full justify-start gap-3 overflow-x-auto overflow-y-hidden p-0 sm:gap-5"
           >
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
                 disabled={tab.value !== "overview"}
-                className="h-12 min-w-fit flex-none rounded-none px-1"
+                className="h-10 min-w-fit flex-none rounded-none px-1"
               >
                 {tab.label}
               </TabsTrigger>

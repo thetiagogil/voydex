@@ -2,11 +2,9 @@ import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub
 import { appIcons, type AppIconComponent } from "@/shared/components/app-icon";
 
 export type ProgressSummaryItem = {
-  completedCount: number;
   icon: AppIconComponent;
   label: string;
   percent: number;
-  totalCount: number;
 };
 
 const clampPercent = (value: number | null | undefined) => {
@@ -45,7 +43,6 @@ const createProgressSummaryItem = (params: {
   }
 
   return {
-    completedCount: params.completedCount ?? 0,
     icon: params.icon,
     label: params.label,
     percent: getProgressPercent(
@@ -53,7 +50,6 @@ const createProgressSummaryItem = (params: {
       params.completedCount,
       params.totalCount,
     ),
-    totalCount: params.totalCount,
   };
 };
 

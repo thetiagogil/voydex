@@ -18,7 +18,7 @@ export const getTimelineEventDisplay = (
 ): TimelineEventDisplay => {
   const eventTypeSlug = event.event_type_slug ?? "";
 
-  if (eventTypeSlug.includes("milestone")) {
+  if (eventTypeSlug === "story_milestone") {
     return {
       icon: appIcons.product.milestone,
       label: event.event_type_name ?? "Milestone completed",
@@ -26,35 +26,67 @@ export const getTimelineEventDisplay = (
     };
   }
 
-  if (eventTypeSlug.includes("evolution")) {
+  if (eventTypeSlug === "pokemon_added") {
     return {
-      icon: appIcons.product.activity,
-      label: event.event_type_name ?? "Evolution",
-      tone: "success",
-    };
-  }
-
-  if (eventTypeSlug.includes("team") || eventTypeSlug.includes("roster")) {
-    return {
-      icon: appIcons.product.team,
-      label: event.event_type_name ?? "Team change",
+      icon: appIcons.product.teamAdded,
+      label: event.event_type_name ?? "Pokemon added",
       tone: "info",
     };
   }
 
-  if (eventTypeSlug.includes("snapshot")) {
+  if (eventTypeSlug === "pokemon_evolved") {
     return {
-      icon: appIcons.product.details,
-      label: event.event_type_name ?? "Snapshot",
+      icon: appIcons.product.evolved,
+      label: event.event_type_name ?? "Pokemon evolved",
+      tone: "success",
+    };
+  }
+
+  if (eventTypeSlug === "pokemon_retired") {
+    return {
+      icon: appIcons.product.retired,
+      label: event.event_type_name ?? "Pokemon retired",
       tone: "neutral",
     };
   }
 
-  if (eventTypeSlug.includes("note")) {
+  if (eventTypeSlug === "pokemon_replaced") {
     return {
-      icon: appIcons.product.event,
-      label: event.event_type_name ?? "Note added",
+      icon: appIcons.product.replaced,
+      label: event.event_type_name ?? "Pokemon replaced",
+      tone: "info",
+    };
+  }
+
+  if (eventTypeSlug === "pokemon_form_changed") {
+    return {
+      icon: appIcons.product.formChanged,
+      label: event.event_type_name ?? "Form changed",
+      tone: "success",
+    };
+  }
+
+  if (eventTypeSlug === "hall_of_fame") {
+    return {
+      icon: appIcons.product.completedPlay,
+      label: event.event_type_name ?? "Hall of Fame",
+      tone: "milestone",
+    };
+  }
+
+  if (eventTypeSlug === "journal_note") {
+    return {
+      icon: appIcons.product.journal,
+      label: event.event_type_name ?? "Journal note",
       tone: "neutral",
+    };
+  }
+
+  if (eventTypeSlug === "status_change") {
+    return {
+      icon: appIcons.views.mainline.plays,
+      label: event.event_type_name ?? "Status change",
+      tone: "info",
     };
   }
 

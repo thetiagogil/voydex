@@ -237,10 +237,15 @@ same header before the tabs. Do not create a second setup banner in the Overview
 workspace.
 
 Keep the center information hierarchy consistent: title, game/lifecycle
-metadata, meaningful personal or time facts, then compact completion and
-challenge context. Omit unknown optional facts rather than showing placeholder
-labels. Do not repeat Team and detailed Pokedex summaries here; those belong to
-Overview and their owning workflows.
+metadata, then one compact facts row ordered as Trainer, playtime, start date,
+and challenge rules. Keep every game cover at the same visible height while its
+width follows the artwork's intrinsic aspect ratio; do not force differently
+shaped packaging into one fixed-width slot. Join
+challenge-rule names into one concise item beside the start date and expose the
+complete rule names and descriptions in an accessible tooltip. Omit unknown
+optional facts rather than showing placeholder labels. Do not repeat Team and
+detailed Pokedex summaries here; those belong to Overview and their owning
+workflows.
 
 Make the displayed Play status a compact, keyboard-operable control with
 contextual verb actions rather than a raw select. Start and Resume may receive
@@ -263,9 +268,10 @@ turning the interaction into a full Settings form. Pause, Resume, and Reopen
 remain immediate actions with clear success or failure feedback. Abandon uses a
 short confirmation that emphasizes preservation and reversibility.
 
-The main Play Hub workspace should be one Card containing tabs. The current tab
-set is Overview, Team, Progress, Plan, History, and Settings. Only build rich
-tab content when the underlying workflow is ready.
+The main Play Hub workspace should be one Card containing compact tabs. Keep the
+selector's vertical padding and inter-tab spacing subordinate to the content.
+The current tab set is Overview, Team, Progress, Plan, History, and Settings.
+Only build rich tab content when the underlying workflow is ready.
 
 Overview should stay high-signal and avoid filler:
 
@@ -277,9 +283,13 @@ Overview should stay high-signal and avoid filler:
   next applicable objective. Numeric Story completion belongs in Progress
   Summary and should not be duplicated with a second path-progress visual.
 - Keep all six Current Team slots identical in dimensions and internal layout
-  across occupied, confirmed-empty, and not-recorded states. Use the shared icon
-  system plus explicit labels for placeholders; never resize or collapse a slot
-  because no Pokémon portrait is available.
+  across occupied, confirmed-empty, and not-recorded states, including one shared
+  minimum card height that comfortably fits occupied content. Present them as a
+  stable three-column by two-row preview so each member retains useful space.
+  Keep the simple vertical order of larger artwork, one name-and-level row, then
+  compact type icons with accessible type names. Use the shared icon system plus
+  explicit labels for placeholders; never resize or collapse a slot because no
+  Pokémon portrait is available.
 - Plays Browse reuses this semantic component as a denser read-only variant.
   Always render six equal Active positions: occupied slots use the Pokémon's
   actual current-form sprite, confirmed-empty and not-recorded slots keep
@@ -327,11 +337,16 @@ Overview should stay high-signal and avoid filler:
 - Do not add Team Health to Overview until the Team tab has a real analysis
   model.
 - Keep Recent History to three to five concise meaningful events with one route
-  into History. Label approximate or unknown dates explicitly and use compact,
-  distinct empty language for new versus imported Plays.
+  into History. Give every known event type its own associated shared icon so
+  milestone, roster, form, journal, status, and completion changes remain
+  distinguishable without relying on text alone. Label approximate or unknown
+  dates explicitly and use compact, distinct empty language for new versus
+  imported Plays.
 - Do not add extra right-column cards just to fill vertical space.
 - Overview cards should use the shared detail section card pattern and avoid
-  feature-local card styling.
+  feature-local card styling. Keep one compact destination action at the end of
+  every card title. Render it as visibly disabled until its owning tab and route
+  are mounted, then activate the same action without changing the header rhythm.
 
 Progress Summary should preserve stable Story, Pokédex, and Collectibles rows.
 Story is always present; omit optional groups when they are disabled or do not

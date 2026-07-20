@@ -22,14 +22,12 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
       <div
         role="img"
         aria-label={`Empty team slot ${slotNumber}`}
-        className="border-app-surface-border/70 bg-background/35 flex aspect-square min-w-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed p-2"
+        className="border-app-surface-border/70 bg-background/35 flex min-h-40 min-w-0 flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-3 text-center"
       >
-        <span className="border-app-surface-border/70 bg-card/70 text-muted-foreground flex size-8 items-center justify-center rounded-full border border-dashed">
-          <AppIcon icon={appIcons.product.team} size="sm" aria-hidden />
+        <span className="border-app-surface-border/70 bg-card/70 text-muted-foreground flex size-12 items-center justify-center rounded-full border border-dashed">
+          <AppIcon icon={appIcons.product.team} size="md" aria-hidden />
         </span>
-        <span className="text-muted-foreground text-[0.65rem] font-medium">
-          Empty
-        </span>
+        <span className="text-muted-foreground text-xs font-medium">Empty</span>
       </div>
     );
   }
@@ -40,23 +38,23 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
         alt={`${getTeamMemberName(member)} portrait`}
         imageUrl={getTeamMemberImageUrl(member)}
         sizes="8rem"
-        className="size-12 rounded-md border-0 bg-transparent"
+        className="size-16 justify-self-center rounded-md border-0 bg-transparent sm:size-[4.5rem]"
         glowClassName="opacity-0"
-        imageClassName="p-1"
+        imageClassName="p-1.5"
       />
-      <div className="grid min-w-0 justify-items-center gap-1">
-        <h3 className="text-foreground truncate text-sm font-medium">
-          {getTeamMemberName(member)}
-        </h3>
-        <div className="flex min-w-0 items-center justify-center gap-1.5">
-          <p className="text-muted-foreground text-xs">
+      <div className="grid min-w-0 justify-items-center gap-1.5">
+        <div className="flex min-w-0 items-baseline justify-center gap-1.5">
+          <h3 className="text-foreground min-w-0 truncate text-sm font-medium">
+            {getTeamMemberName(member)}
+          </h3>
+          <p className="text-muted-foreground shrink-0 text-[0.6875rem]">
             {member.level ? `Lv. ${member.level}` : "Level unknown"}
           </p>
-          <TeamTypeList
-            primaryType={member.primaryType}
-            secondaryType={member.secondaryType}
-          />
         </div>
+        <TeamTypeList
+          primaryType={member.primaryType}
+          secondaryType={member.secondaryType}
+        />
       </div>
     </>
   );
@@ -65,7 +63,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
     return (
       <Link
         href={appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)}
-        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
+        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
       >
         {content}
       </Link>
@@ -73,7 +71,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
   }
 
   return (
-    <article className="border-app-surface-border/70 bg-background/35 grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center">
+    <article className="border-app-surface-border/70 bg-background/35 grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center">
       {content}
     </article>
   );

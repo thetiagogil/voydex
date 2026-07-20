@@ -1,4 +1,5 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import { getTeamSlots } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/team/team-model";
 import { TeamSlot } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/team/team-slot";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
@@ -14,10 +15,11 @@ export const TeamPanel = ({ gameSlug, team }: TeamPanelProps) => {
   return (
     <MainlinePlaySectionCard
       title="Current Team"
+      action={<MainlinePlaySectionDestination label="Full team" />}
       contentClassName="grid"
       showSeparator
     >
-      <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
+      <div className="grid w-full grid-cols-3 gap-2">
         {teamSlots.map((slot) => (
           <TeamSlot
             key={slot.slotNumber}

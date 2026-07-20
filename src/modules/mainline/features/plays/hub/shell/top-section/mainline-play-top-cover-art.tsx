@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 
 type MainlinePlayTopCoverArtProps = {
@@ -14,19 +12,17 @@ export const MainlinePlayTopCoverArt = ({
   return (
     <div className="flex justify-center sm:justify-start">
       {coverImageUrl ? (
-        <div className="border-app-surface-border/80 bg-background/55 rounded-lg border p-1 shadow-sm">
-          <Image
+        <div className="border-app-surface-border/80 bg-background/55 h-36 shrink-0 overflow-hidden rounded-lg border p-1 shadow-sm">
+          {/* Intrinsic width is required because game packaging uses different aspect ratios. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={coverImageUrl}
             alt={`${gameName} cover art`}
-            width={384}
-            height={384}
-            priority
-            sizes="(min-width: 1024px) 9rem, (min-width: 640px) 8rem, 8rem"
-            className="h-auto max-h-32 w-auto rounded-md object-contain sm:max-h-36"
+            className="h-full w-auto max-w-none rounded-md object-contain"
           />
         </div>
       ) : (
-        <div className="border-app-surface-border/80 bg-background/55 text-primary flex size-32 items-center justify-center rounded-lg border text-3xl font-semibold tracking-wide shadow-sm sm:size-36">
+        <div className="border-app-surface-border/80 bg-background/55 text-primary flex h-36 w-24 shrink-0 items-center justify-center rounded-lg border px-2 text-center text-2xl font-semibold tracking-wide shadow-sm">
           {getGameInitials(gameName)}
         </div>
       )}

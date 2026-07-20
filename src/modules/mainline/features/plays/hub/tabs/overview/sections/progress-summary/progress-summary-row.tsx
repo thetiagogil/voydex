@@ -7,8 +7,6 @@ type ProgressSummaryRowProps = {
 };
 
 export const ProgressSummaryRow = ({ item }: ProgressSummaryRowProps) => {
-  const countText = `${item.completedCount} / ${item.totalCount}`;
-
   return (
     <div className="grid min-w-0 grid-cols-[minmax(6rem,1fr)_minmax(5rem,1.25fr)_3rem] items-center gap-2 sm:gap-3">
       <div className="flex min-w-0 items-center gap-2">
@@ -31,7 +29,7 @@ export const ProgressSummaryRow = ({ item }: ProgressSummaryRowProps) => {
       />
 
       <span className="text-muted-foreground text-right text-xs tabular-nums">
-        {countText}
+        {item.percent}%
       </span>
     </div>
   );

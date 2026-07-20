@@ -1,6 +1,7 @@
 import { getProgressSummaryItems } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/progress-summary/progress-summary-model";
 import { ProgressSummaryRow } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/progress-summary/progress-summary-row";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 
 type ProgressSummaryPanelProps = {
@@ -19,6 +20,7 @@ export const ProgressSummaryPanel = ({
   return (
     <MainlinePlaySectionCard
       title="Progress Summary"
+      action={<MainlinePlaySectionDestination label="Full progress" />}
       contentClassName="grid gap-4"
       showSeparator
     >

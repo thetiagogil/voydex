@@ -10,7 +10,11 @@ import {
   type AppIconComponent,
 } from "@/shared/components/app-icon";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { Badge } from "@/shared/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 type MainlinePlayTopInfoProps = {
   data: MainlinePlayHubData;
@@ -27,12 +31,6 @@ type MainlinePlayTimelineItemProps = {
   value: string;
 };
 
-type MainlinePlayQuickInfoItem = {
-  icon: AppIconComponent;
-  key: string;
-  label: string;
-};
-
 const getPlayTitle = (data: MainlinePlayHubData) => {
   return data.play.play_name ?? `${data.play.game_name ?? "Untitled"} Play`;
 };
@@ -43,20 +41,6 @@ const getPlayMetadata = (data: MainlinePlayHubData) => {
     data.region ? `${data.region.name} Region` : null,
     data.play.generation_name,
   ].filter(Boolean);
-};
-
-const getPlayQuickInfo = (
-  data: MainlinePlayHubData,
-): MainlinePlayQuickInfoItem[] => {
-  if (data.rules.length) {
-    return data.rules.map((rule) => ({
-      icon: appIcons.product.details,
-      key: rule.id,
-      label: rule.name,
-    }));
-  }
-
-  return [];
 };
 
 const MainlinePlayMetadata = ({ data }: MainlinePlayMetadataProps) => {
@@ -100,26 +84,75 @@ const MainlinePlayTimelineItem = ({
   );
 };
 
-const MainlinePlayQuickInfo = ({ data }: { data: MainlinePlayHubData }) => {
-  const quickInfo = getPlayQuickInfo(data);
-
-  if (!quickInfo.length) {
+const MainlinePlayRules = ({ data }: { data: MainlinePlayHubData }) => {
+  if (!data.rules.length) {
     return null;
   }
 
+  const ruleSummary = data.rules.map((rule) => rule.name).join(" · ");
+
   return (
-    <div className="flex flex-wrap gap-2">
-      {quickInfo.map((item) => (
-        <Badge
-          key={item.key}
-          variant="outline"
-          className="bg-background/60 h-7 rounded-md px-2.5 text-xs"
-        >
-          <AppIcon icon={item.icon} inline="start" size="sm" aria-hidden />
-          {item.label}
-        </Badge>
-      ))}
-    </div>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <button
+            type="button"
+            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/35 flex min-w-0 items-center gap-1.5 rounded-sm text-left text-xs outline-none focus-visible:ring-2"
+            aria-label={`Challenge rules: ${ruleSummary}`}
+          />
+        }
+      >
+        <AppIcon icon={appIcons.product.details} size="sm" aria-hidden />
+        <span className="max-w-72 truncate">{ruleSummary}</span>
+      </TooltipTrigger>
+      <TooltipContent
+        side="bottom"
+        align="start"
+        className="grid max-w-sm gap-2 px-3 py-2.5"
+      >
+        <p className="font-semibold">Challenge rules</p>
+        <ul className="grid gap-2">
+          {data.rules.map((rule) => (
+            <li key={rule.id} className="grid gap-0.5">
+              <span className="font-medium">{rule.name}</span>
+              {rule.description ? (
+                <span className="text-background/75 leading-relaxed">
+                  {rule.description}
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
+const MainlinePlayFacts = ({ data }: { data: MainlinePlayHubData }) => {
+  return (
+    <dl className="flex flex-wrap gap-x-5 gap-y-2">
+      <MainlinePlayTimelineItem
+        icon={appIcons.account.user}
+        label="Trainer"
+        value={data.play.trainer_name ?? "Trainer not recorded"}
+      />
+      <MainlinePlayTimelineItem
+        icon={appIcons.product.playtime}
+        label="Playtime"
+        value={formatPlayMinutes(data.play.playtime_minutes)}
+      />
+      <MainlinePlayTimelineItem
+        icon={appIcons.product.date}
+        label="Started"
+        value={formatPlayDate(data.play.started_on, "Not started")}
+      />
+      <div className="min-w-0">
+        <dt className="sr-only">Challenge rules</dt>
+        <dd>
+          <MainlinePlayRules data={data} />
+        </dd>
+      </div>
+    </dl>
   );
 };
 
@@ -141,20 +174,7 @@ export const MainlinePlayTopInfo = ({
         <MainlinePlayMetadata data={data} />
       </div>
 
-      <dl className="flex flex-wrap gap-x-5 gap-y-2">
-        <MainlinePlayTimelineItem
-          icon={appIcons.product.playtime}
-          label="Playtime"
-          value={formatPlayMinutes(data.play.playtime_minutes)}
-        />
-        <MainlinePlayTimelineItem
-          icon={appIcons.product.date}
-          label="Started"
-          value={formatPlayDate(data.play.started_on, "Not started")}
-        />
-      </dl>
-
-      <MainlinePlayQuickInfo data={data} />
+      <MainlinePlayFacts data={data} />
     </div>
   );
 };
