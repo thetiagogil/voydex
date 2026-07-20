@@ -4,6 +4,10 @@ import type {
   MainlinePlayTeamRows,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
+import {
+  getMainlineTimelinePokemonFormIds,
+  hydrateMainlineTimelinePokemonImages,
+} from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -155,5 +159,22 @@ export const readMainlinePlayTimelinePreview = async (
     throw new Error("Unable to load Mainline play timeline preview.");
   }
 
-  return timelineResult.data ?? [];
+  const events = timelineResult.data ?? [];
+  const formIds = getMainlineTimelinePokemonFormIds(events);
+
+  if (!formIds.length) {
+    return events;
+  }
+
+  const formsResult = await supabase
+    .schema("reference")
+    .from("pokemon_forms")
+    .select("id, sprite_slug")
+    .in("id", formIds);
+
+  if (formsResult.error) {
+    throw new Error("Unable to load Mainline timeline Pokemon images.");
+  }
+
+  return hydrateMainlineTimelinePokemonImages(events, formsResult.data ?? []);
 };

@@ -64,7 +64,7 @@ const getJsonArray = (value: Json | null | undefined): Json[] => {
 const getTimelineMediaFromRecord = (
   record: JsonRecord,
   index: number,
-): TimelineMediaItem | null => {
+): TimelineMediaItem => {
   const name =
     getJsonString(record, [
       "nickname",
@@ -99,10 +99,6 @@ const getTimelineMediaFromRecord = (
     ? (getPokemonFormShinyImageUrl(imageForm) ??
       getPokemonFormImageUrl(imageForm))
     : getPokemonFormImageUrl(imageForm);
-
-  if (!imageUrl && name === "Unknown Pokemon") {
-    return null;
-  }
 
   return {
     imageUrl,

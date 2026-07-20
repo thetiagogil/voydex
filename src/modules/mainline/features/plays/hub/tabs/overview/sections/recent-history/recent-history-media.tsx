@@ -19,11 +19,7 @@ export const RecentHistoryMedia = ({
   media: TimelineMediaItem[];
 }) => {
   if (!media.length) {
-    return (
-      <div className="hidden justify-end sm:flex">
-        <TimelineMediaFallback name="Timeline event" />
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -35,7 +31,7 @@ export const RecentHistoryMedia = ({
             alt={`${item.name} portrait`}
             imageUrl={item.imageUrl}
             sizes="2.5rem"
-            className="size-10 rounded-md border-0 bg-transparent"
+            className="border-app-surface-border bg-muted/30 size-10 rounded-md"
             glowClassName="opacity-0"
             imageClassName="p-0.5"
           />

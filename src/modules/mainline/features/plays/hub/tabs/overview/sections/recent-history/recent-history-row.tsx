@@ -20,7 +20,14 @@ export const RecentHistoryRow = ({ event }: RecentHistoryRowProps) => {
   const media = getTimelineMedia(event);
 
   return (
-    <article className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] gap-3 sm:grid-cols-[1.5rem_4.5rem_2.75rem_minmax(0,1fr)_minmax(5rem,auto)] sm:items-center">
+    <article
+      className={cn(
+        "grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] gap-3 sm:items-center",
+        media.length
+          ? "sm:grid-cols-[1.5rem_4.5rem_2.75rem_minmax(0,1fr)_minmax(5rem,auto)]"
+          : "sm:grid-cols-[1.5rem_4.5rem_2.75rem_minmax(0,1fr)]",
+      )}
+    >
       <div className="relative hidden h-full min-h-14 justify-items-center sm:grid">
         <span className="bg-card relative z-10 flex size-4 items-center justify-center place-self-center rounded-full">
           <span className="bg-primary size-2 rounded-full" aria-hidden />
