@@ -10,18 +10,14 @@ type OverviewTabProps = {
 
 export const OverviewTab = ({ data }: OverviewTabProps) => {
   return (
-    <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
+    <div className="grid items-start gap-3 sm:gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(19rem,2fr)]">
       <div className="grid min-w-0 gap-4">
         <JourneyStatusPanel data={data} />
         <RecentHistoryPanel events={data.timelinePreview} />
       </div>
 
       <div className="grid min-w-0 auto-rows-max content-start items-start gap-4">
-        <TeamPanel
-          gameSlug={data.play.game_slug}
-          playId={data.play.play_id}
-          team={data.teamPreview}
-        />
+        <TeamPanel gameSlug={data.play.game_slug} team={data.teamPreview} />
         <ProgressSummaryPanel overview={data.overview} />
       </div>
     </div>

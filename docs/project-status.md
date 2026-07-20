@@ -50,8 +50,8 @@ navbar, single journal page, compact introduction, and conventional
 destination-link direction within the canonical
 [V1 Visual Language](./design/v1/visual-language.md).
 
-The shared shell, Plays Browse, Pokémon Browse, and Games Browse now implement
-the selected system: one in-flow
+The shared shell, Plays Browse, Play Hub Overview, Pokémon Browse, and Games
+Browse now implement the selected system: one in-flow
 navbar that dissolves into the scenic sky, the refined daylight-valley
 background, and one warm, lightly textured journal page with a quiet edge and
 restrained shadow. Primary route links use shared compact buttons; the module
@@ -84,6 +84,27 @@ The current production baseline is Plays Browse:
   subsequent navbar refinement kept the opening bar in document flow without a
   hard lower edge or scroll-triggered replacement, and the mobile module sheet
   continued to open and close normally.
+
+Play Hub Overview is a completed production design checkpoint:
+
+- The authenticated query, Play identity, cover, metadata, actions, tab order,
+  and four-section Overview organization remain intact. The visible planning tab
+  now uses the accepted singular `Plan` label.
+- The contextual header now uses the same serif/forest hierarchy and restrained
+  cover treatment as the other detail views without becoming another Card.
+  Duplicate Team and Pokédex counts were removed from the header so the owning
+  Overview sections remain authoritative.
+- The tab workspace is one quiet journal surface. Journey Status, Recent
+  History, Current Team, and Progress Summary use the shared detail-section
+  grammar; the realistic scenic banner, duplicate Story Path visualization,
+  inactive section actions, and Active/Reserve mini-toggle no longer compete
+  with the recorded data.
+- Desktop uses the accepted Journey/History and Team/Progress columns. Tablet
+  and phone stack those sections in the same order, retain six equal Team slots,
+  and keep the tab strip horizontally reachable without widening the page.
+  Representative authenticated routes were checked at desktop, tablet, and
+  phone widths without page overflow or nested vertical scrolling; keyboard
+  focus remained visible and the browser console stayed clear.
 
 Pokémon Browse is a completed production design checkpoint:
 
@@ -120,8 +141,7 @@ Games Browse is a completed production design checkpoint:
 
 - Dark square-poster overlays have been replaced by full, uncropped cover art in
   the same compact `4:3` field-guide card rhythm as Pokémon Browse. Release year
-  and region sit above the serif game identity, with a restrained game-type
-  marker beside it on the same warm paper card.
+  and region sit above the serif game identity on the same warm paper card.
 - The grid presents two useful columns on common phones, three at medium widths,
   and four on wide journal pages. Generation headings remain `h2` sections,
   while exact game titles use nested `h3` headings inside accessible whole-card
@@ -174,19 +194,18 @@ Game Pokédex is a completed production design checkpoint:
 The current implementation checkpoint is on `main`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Game Pokédex visual slice, continue with one bounded adjacent view or
-one named functional gap rather than a broad Codex rewrite. The closest
-accepted Games-family follow-up is the Game-origin Mainline handoff:
+After the Play Hub Overview visual slice, continue with one bounded adjacent
+view or one named functional gap rather than a broad Mainline rewrite. The
+closest accepted follow-up is the Play Hub Team tab:
 
-1. preserve the originating cover and exact game identity from public Codex
-   into authentication and Mainline destination selection;
-2. keep `Start a Play`, `Create a Plan`, and `Add to Game List` distinct and
-   route ownership to Mainline without adding mutations to Codex;
-3. validate cancellation, pending, validation, focus return, and narrow-screen
-   sheet behavior before treating the handoff as reusable;
-4. keep the accepted Game Pokédex URL-state, incremental-loading, and DLC gaps
-   available as separate bounded tasks rather than folding them into the
-   handoff.
+1. preserve the current Play header and keep Team visibly active within the
+   same six-tab workspace;
+2. implement the accepted list-detail Team hierarchy without widening the
+   current mutation or database scope;
+3. keep occupied, confirmed-empty, and not-recorded positions truthful and
+   geometrically stable across desktop, tablet, and phone;
+4. keep Progress, Plan, History, and Settings as separate later slices rather
+   than filling their current shells during Team work.
 
 Do not add database changes, another background, dark mode, sticky replacement
 navigation, Skeletons, decorative edge systems, or a broad cross-page refactor
@@ -200,8 +219,8 @@ selected behavior that future work must preserve belongs in versioned docs.
 ## Known Gaps
 
 - There is no committed authenticated end-to-end browser suite.
-- Authenticated Play Hub visual coverage still requires a stable test user or
-  deterministic local browser fixture.
+- Authenticated Play Hub verification remains session-dependent until a stable
+  test user or deterministic local browser fixture exists.
 - Codex reference-query performance has not yet been profiled under realistic
   usage.
 - Pokémon Browse still maps latest available attributes to result cards before

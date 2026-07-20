@@ -1,8 +1,7 @@
 import { getProgressSummaryItems } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/progress-summary/progress-summary-model";
 import { ProgressSummaryRow } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/progress-summary/progress-summary-row";
+import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { Button } from "@/shared/components/ui/button";
 
 type ProgressSummaryPanelProps = {
   overview: MainlinePlayOverview | null;
@@ -18,18 +17,14 @@ export const ProgressSummaryPanel = ({
   }
 
   return (
-    <DetailSectionCard
+    <MainlinePlaySectionCard
       title="Progress Summary"
-      action={
-        <Button type="button" variant="ghost" size="xs" disabled>
-          View all
-        </Button>
-      }
-      contentClassName="grid gap-3"
+      contentClassName="grid gap-4"
+      showSeparator
     >
       {progressItems.map((item) => (
         <ProgressSummaryRow key={item.label} item={item} />
       ))}
-    </DetailSectionCard>
+    </MainlinePlaySectionCard>
   );
 };

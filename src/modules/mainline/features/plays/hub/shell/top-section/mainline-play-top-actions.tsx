@@ -35,7 +35,7 @@ export const MainlinePlayTopActions = ({
       <Link
         href={appRoutes.mainlinePlays}
         className={cn(
-          buttonVariants({ variant: "outline", size: "lg" }),
+          buttonVariants({ variant: "outline", size: "default" }),
           "w-full justify-center sm:w-auto",
         )}
       >

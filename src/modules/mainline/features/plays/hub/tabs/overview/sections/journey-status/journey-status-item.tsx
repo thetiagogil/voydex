@@ -17,20 +17,16 @@ export const JourneyStatusItem = ({
   label,
 }: JourneyStatusItemProps) => {
   return (
-    <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-3">
-      <AppIcon
-        icon={icon}
-        size="sm"
-        aria-hidden
-        className="text-muted-foreground mt-0.5"
-      />
-      <p className="text-muted-foreground text-xs leading-5">{label}</p>
+    <div className="grid min-w-0 grid-cols-[2rem_minmax(0,1fr)] gap-x-3 gap-y-2">
+      <span className="border-app-surface-border/70 bg-background/55 text-primary row-span-2 flex size-8 items-center justify-center rounded-full border">
+        <AppIcon icon={icon} size="sm" aria-hidden />
+      </span>
+      <p className="text-muted-foreground self-center text-xs leading-5 font-medium tracking-wide uppercase">
+        {label}
+      </p>
 
       <div
-        className={cn(
-          "col-start-2 min-h-16 min-w-0 content-start",
-          contentClassName,
-        )}
+        className={cn("col-start-2 min-w-0 content-start", contentClassName)}
       >
         {children}
       </div>

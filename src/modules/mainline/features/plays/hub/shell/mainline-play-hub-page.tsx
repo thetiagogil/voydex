@@ -8,7 +8,7 @@ type MainlinePlayHubPageProps = {
 
 export const MainlinePlayHubPage = ({ data }: MainlinePlayHubPageProps) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full min-w-0 flex-col gap-5 sm:gap-6">
       <MainlinePlayTopSection data={data} />
       <MainlinePlayHubTabs data={data} />
     </div>

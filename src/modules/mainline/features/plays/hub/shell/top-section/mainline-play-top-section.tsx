@@ -16,7 +16,7 @@ export const MainlinePlayTopSection = ({
   return (
     <section
       aria-labelledby="mainline-play-title"
-      className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start sm:gap-x-5 sm:gap-y-4 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-6"
+      className="border-app-surface-border/60 grid gap-5 border-b pb-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:gap-x-5 sm:gap-y-4 sm:pb-6 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-6"
     >
       <MainlinePlayTopCoverArt
         coverImageUrl={data.coverImageUrl}

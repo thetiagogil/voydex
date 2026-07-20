@@ -19,16 +19,18 @@ type TeamSlotProps = {
 export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
   if (!member) {
     return (
-      <button
-        type="button"
-        disabled
+      <div
+        role="img"
         aria-label={`Empty team slot ${slotNumber}`}
-        className="border-app-surface-border bg-muted/20 flex aspect-square min-w-0 items-center justify-center rounded-lg border border-dashed p-2"
+        className="border-app-surface-border/70 bg-background/35 flex aspect-square min-w-0 flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed p-2"
       >
-        <span className="border-app-surface-border bg-card text-muted-foreground flex size-9 items-center justify-center rounded-full border border-dashed">
-          <AppIcon icon={appIcons.actions.create} size="md" aria-hidden />
+        <span className="border-app-surface-border/70 bg-card/70 text-muted-foreground flex size-8 items-center justify-center rounded-full border border-dashed">
+          <AppIcon icon={appIcons.product.team} size="sm" aria-hidden />
         </span>
-      </button>
+        <span className="text-muted-foreground text-[0.65rem] font-medium">
+          Empty
+        </span>
+      </div>
     );
   }
 
@@ -63,7 +65,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
     return (
       <Link
         href={appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)}
-        className="border-app-surface-border hover:bg-muted focus-visible:ring-ring grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
+        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
       >
         {content}
       </Link>
@@ -71,7 +73,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
   }
 
   return (
-    <article className="border-app-surface-border grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center">
+    <article className="border-app-surface-border/70 bg-background/35 grid min-w-0 content-start justify-items-center gap-1 rounded-lg border p-2 text-center">
       {content}
     </article>
   );

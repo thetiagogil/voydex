@@ -1,14 +1,11 @@
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 import { appIcons, type AppIconComponent } from "@/shared/components/app-icon";
 
-export type ProgressSummaryTone = "info" | "milestone" | "rare" | "success";
-
 export type ProgressSummaryItem = {
   completedCount: number;
   icon: AppIconComponent;
   label: string;
   percent: number;
-  tone: ProgressSummaryTone;
   totalCount: number;
 };
 
@@ -41,7 +38,6 @@ const createProgressSummaryItem = (params: {
   explicitPercent: number | null | undefined;
   icon: AppIconComponent;
   label: string;
-  tone: ProgressSummaryTone;
   totalCount: number | null | undefined;
 }): ProgressSummaryItem | null => {
   if (!params.totalCount || params.totalCount <= 0) {
@@ -57,7 +53,6 @@ const createProgressSummaryItem = (params: {
       params.completedCount,
       params.totalCount,
     ),
-    tone: params.tone,
     totalCount: params.totalCount,
   };
 };
@@ -82,7 +77,6 @@ export const getProgressSummaryItems = (
       explicitPercent: overview?.milestone_completion_percent,
       icon: appIcons.views.mainline.story,
       label: "Story",
-      tone: "success",
       totalCount: storyTotalCount,
     }),
     createProgressSummaryItem({
@@ -90,7 +84,6 @@ export const getProgressSummaryItems = (
       explicitPercent: overview?.pokedex_completion_percent,
       icon: appIcons.product.pokeball,
       label: "Pokedex",
-      tone: "milestone",
       totalCount: pokedexTotalCount,
     }),
     createProgressSummaryItem({
@@ -98,7 +91,6 @@ export const getProgressSummaryItems = (
       explicitPercent: overview?.collectible_completion_percent,
       icon: appIcons.product.collectible,
       label: "Collectibles",
-      tone: "rare",
       totalCount: collectibleTotalCount,
     }),
   ].filter((item): item is ProgressSummaryItem => Boolean(item));

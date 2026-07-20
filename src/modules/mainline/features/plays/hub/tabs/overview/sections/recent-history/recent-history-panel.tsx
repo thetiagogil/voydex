@@ -2,10 +2,9 @@ import { Fragment } from "react";
 
 import { RecentHistoryRow } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/recent-history/recent-history-row";
 import { RecentHistorySeparator } from "@/modules/mainline/features/plays/hub/tabs/overview/sections/recent-history/recent-history-separator";
+import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { Button } from "@/shared/components/ui/button";
 import {
   Empty,
   EmptyDescription,
@@ -20,14 +19,10 @@ type RecentHistoryPanelProps = {
 
 export const RecentHistoryPanel = ({ events }: RecentHistoryPanelProps) => {
   return (
-    <DetailSectionCard
+    <MainlinePlaySectionCard
       title="Recent History"
-      action={
-        <Button type="button" variant="ghost" size="xs" disabled>
-          View full history
-        </Button>
-      }
       contentClassName="py-0"
+      showSeparator
     >
       {events.length ? (
         <div className="relative grid min-w-0">
@@ -43,7 +38,7 @@ export const RecentHistoryPanel = ({ events }: RecentHistoryPanelProps) => {
           ))}
         </div>
       ) : (
-        <Empty className="border-app-surface-border bg-muted/15 p-4">
+        <Empty className="p-6 sm:p-8">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <AppIcon icon={appIcons.product.recent} aria-hidden />
@@ -56,6 +51,6 @@ export const RecentHistoryPanel = ({ events }: RecentHistoryPanelProps) => {
           </EmptyHeader>
         </Empty>
       )}
-    </DetailSectionCard>
+    </MainlinePlaySectionCard>
   );
 };

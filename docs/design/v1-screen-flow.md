@@ -13,17 +13,18 @@ remains canonical in [Project Status](../project-status.md).
   accepted in the [V1 Design Workspace](./v1/README.md).
 - [V1-D115, V1-D118, V1-D119, and V1-D120](./v1/decisions.md) select the
   light-first explorer's field-guide system recorded in
-  [V1 Visual Language](./v1/visual-language.md). The shared shell and Plays
-  Browse now implement that production grammar.
-- Existing Dashboard, Play Overview, and Play Team work remains functional and
-  responsive evidence until each view is migrated and verified. Only code
+  [V1 Visual Language](./v1/visual-language.md). The shared shell, Plays Browse,
+  and Play Hub Overview now implement that production grammar.
+- Existing Dashboard and Play Team work remains functional and responsive
+  evidence until each view is migrated and verified. Only code
   listed in [Project Status](../project-status.md) is implemented; the other
   screens remain design direction.
 - Plays Browse is the implemented production baseline. URL-backed primary
   controls and the compact enriched journey-log row are responsive and visually
-  checked with realistic occupied/partial fixture states. Play Hub Overview is
-  the next bounded visual slice; Plays Browse archive, secondary-filter,
-  loading, recovery, and incremental-load states remain.
+  checked with realistic occupied/partial fixture states. Play Hub Overview now
+  carries that system into its shared header, tab workspace, and four existing
+  summary sections; Plays Browse archive, secondary-filter, loading, recovery,
+  and incremental-load states remain.
 - The durable product contracts, data ownership rules, accessibility needs,
   and Voydex's clean adventure-companion character remain constraints.
 - Future view work begins with the canonical screen document, accepted
@@ -239,7 +240,7 @@ with one verified production slice at a time:
 1. Finish Plays Browse system-state coverage. Primary controls, the compact
    journey-log row, and responsive visual system are implemented.
 2. Apply the selected system to Play Overview and Team using their accepted
-   contracts.
+   contracts. Overview is implemented and verified; Team remains.
 3. Refine Mainline Dashboard when its route is mounted, using the accepted
    play-led contract and selected visual direction.
 4. Implement Create Play.
@@ -279,26 +280,25 @@ the consolidated audit remains a later focused phase.
 Use this after opening the repository in a clean chat or on another computer:
 
 ```txt
-Continue the Voydex V1 visual refactor on branch
-`codex/explorer-field-guide-design`. Read AGENTS.md, .agents/AGENTS.md,
+Continue the Voydex V1 visual refactor on branch `main`. Read AGENTS.md,
+.agents/AGENTS.md,
 docs/project-status.md, docs/app/design-system.md,
 docs/design/v1-screen-flow.md, docs/design/v1/README.md,
 docs/design/v1/visual-language.md, docs/design/v1/mainline-play.md, and
-docs/design/v1/decisions.md, then inspect the nearby Play Hub code. Commit
-`497f22bf` is the pushed explorer-shell and Plays Browse baseline; preserve any
-newer working-tree changes. The selected system is a light-first explorer's
-field guide with one background-blended in-flow navbar, one lightly textured
-journal page, compact ordinary controls, large primary actions, and normal
-document scrolling. Do not restore the retired clipboard frame, inset paper, or
-brass clips.
+docs/design/v1/decisions.md, then inspect the nearby Play Hub code and current
+working tree. The selected system is a light-first explorer's field guide with
+one background-blended in-flow navbar, one lightly textured journal page,
+compact ordinary controls, large primary actions, and normal document
+scrolling. Do not restore the retired clipboard frame, inset paper, or brass
+clips.
 
-Start with `/mainline/plays/[playId]` and refactor only the shared Play Hub top
-section, tab workspace, and Overview tab. Reuse the established shell and Plays
-Browse grammar while preserving the current query, mappers, real data,
-authorization, routes, actions, tab contract, truthful unavailable states, and
-intentionally empty later tabs. Do not add database changes, dark mode, a new
-background, sticky replacement navigation, decorative edge systems, or a broad
-multi-page refactor. Browser-check desktop, tablet, phone, keyboard/focus,
-overflow, and console output; run `npm run verify`; then update Project Status
-and the nearest canonical design reference.
+The `/mainline/plays/[playId]` shared header, tab workspace, and Overview tab now
+use the selected journal-detail system while preserving the authenticated query,
+mappers, real data, authorization, routes, tab contract, truthful unavailable
+states, and intentionally empty later tabs. Continue with one bounded adjacent
+slice; the closest accepted follow-up is the Team tab. Do not add database
+changes, dark mode, a new background, sticky replacement navigation,
+decorative edge systems, or a broad multi-page refactor. Browser-check desktop,
+tablet, phone, keyboard/focus, overflow, and console output; run `npm run
+verify`; then update Project Status and the nearest canonical design reference.
 ```

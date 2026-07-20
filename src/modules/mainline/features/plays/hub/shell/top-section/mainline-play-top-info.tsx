@@ -1,8 +1,6 @@
 import {
   formatPlayDate,
   formatPlayMinutes,
-  formatPlayPokedexProgress,
-  formatPlayTeamSummary,
 } from "@/modules/mainline/features/plays/shared/display/play-formatters";
 import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
 import type { MainlinePlayHubData } from "@/modules/mainline/features/plays/hub/types";
@@ -58,24 +56,7 @@ const getPlayQuickInfo = (
     }));
   }
 
-  return [
-    {
-      icon: appIcons.product.pokedex,
-      key: "pokedex",
-      label: formatPlayPokedexProgress({
-        caughtCount: data.play.pokedex_caught_count,
-        seenCount: data.play.pokedex_seen_count,
-      }),
-    },
-    {
-      icon: appIcons.product.team,
-      key: "team",
-      label: formatPlayTeamSummary({
-        activeCount: data.play.active_team_count,
-        reserveCount: data.play.reserve_team_count,
-      }),
-    },
-  ];
+  return [];
 };
 
 const MainlinePlayMetadata = ({ data }: MainlinePlayMetadataProps) => {
@@ -122,13 +103,17 @@ const MainlinePlayTimelineItem = ({
 const MainlinePlayQuickInfo = ({ data }: { data: MainlinePlayHubData }) => {
   const quickInfo = getPlayQuickInfo(data);
 
+  if (!quickInfo.length) {
+    return null;
+  }
+
   return (
     <div className="flex flex-wrap gap-2">
       {quickInfo.map((item) => (
         <Badge
           key={item.key}
           variant="outline"
-          className="bg-background h-7 rounded-md px-2.5 text-xs"
+          className="bg-background/60 h-7 rounded-md px-2.5 text-xs"
         >
           <AppIcon icon={item.icon} inline="start" size="sm" aria-hidden />
           {item.label}
@@ -145,11 +130,11 @@ export const MainlinePlayTopInfo = ({
   const title = getPlayTitle(data);
 
   return (
-    <div className="flex min-w-0 flex-col gap-3">
+    <div className="flex min-w-0 flex-col gap-3.5">
       <div className="flex min-w-0 flex-col gap-2">
         <h1
           id={titleId}
-          className="text-foreground min-w-0 text-2xl leading-tight font-semibold tracking-normal sm:text-3xl"
+          className="text-primary min-w-0 font-serif text-2xl leading-tight font-semibold tracking-tight sm:text-3xl lg:text-4xl"
         >
           {title}
         </h1>
