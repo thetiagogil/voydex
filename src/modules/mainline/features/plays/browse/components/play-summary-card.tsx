@@ -6,6 +6,7 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { PlaySummaryTeamPreview } from "@/modules/mainline/features/plays/browse/components/play-summary-team-preview";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
 import type {
   MainlinePlayBrowseItem,
   MainlinePlayBrowseProgress,
@@ -13,6 +14,7 @@ import type {
 import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
 import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { StatusBadge } from "@/shared/components/status-badge";
 import {
   Card,
   CardContent,
@@ -109,6 +111,14 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
         <CardTitle className="text-primary w-full font-serif text-lg font-semibold xl:text-xl">
           <h2 className="line-clamp-2">{playName}</h2>
         </CardTitle>
+        {play.status_name ? (
+          <StatusBadge
+            tone={getPlayStatusBadgeTone(play.status_slug, play.status_name)}
+            className="my-0.5 h-5 px-2 text-[0.6875rem]"
+          >
+            {play.status_name}
+          </StatusBadge>
+        ) : null}
         <CardDescription className="text-foreground mt-0.5 flex min-w-0 items-center gap-1.5 text-sm leading-5">
           <AppIcon
             icon={appIcons.product.form}

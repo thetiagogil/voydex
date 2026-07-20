@@ -301,12 +301,12 @@ Overview should stay high-signal and avoid filler:
   horizontal proportions.
 - Keep each Browse row deliberately compact: a proportional cover that fills
   the padded content height and respects the row's shared outer inset, Play
-  name, exact game name, quiet update date, the six-slot Active Team, one
-  overall completion percentage, and one unlabelled directional arrow. Do not
-  put the cover inside another box. Give inset covers the same subtle radius on
-  all four corners instead of inheriting the Card's top-only edge-to-edge media
-  treatment. Do not repeat lifecycle, Journey, trainer details, Tags, or
-  category-level progress inside every result.
+  name, compact lifecycle status, exact game name, quiet update date, the
+  six-slot Active Team, one overall completion percentage, and one unlabelled
+  directional arrow. Do not put the cover inside another box. Give inset covers
+  the same subtle radius on all four corners instead of inheriting the Card's
+  top-only edge-to-edge media treatment. Do not repeat Journey, trainer details,
+  Tags, or category-level progress inside every result.
 - Use spacing rather than vertical separator lines between the information,
   Team, overall progress, and arrow sections.
 - Overall completion is the normalized configured goal across required Story
