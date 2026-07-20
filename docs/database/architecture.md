@@ -81,4 +81,18 @@ npm run db:stop
 offline audits, checks SQL formatting, runs Supabase database lint and pgTAP,
 and verifies generated type parity. It never targets a linked project.
 
+Local resets also create the development account and version-group-spanning
+gameplay fixtures documented in
+`database/seeds/90_development/README.md`. The fixture matrix has exactly two
+plays for each of the 22 supported base version groups: one comprehensive play
+and one deliberately blank play. Its 22 linked plans, staged completion bands,
+game-valid teams, history, snapshots, and representative custom states cover the
+gameplay and planning surfaces without turning UI tests into manual database
+setup.
+
+The local Auth fixture must never be loaded into a linked project. When hosted
+development data is explicitly authorized, apply only gameplay seed files `002`
+through `006` to the dedicated fixture owner inside an owner-scoped transaction, then
+verify linked migration parity and hosted row counts.
+
 Use `db:types:linked` only for an explicitly authorized remote comparison.

@@ -12,6 +12,13 @@ the evidence for exact implementation details.
 - The Voydex database source is authoritative in this repository under
   `database`, with deterministic generated local load artifacts and generated
   TypeScript types.
+- Local resets now seed a login-capable development account plus 44 gameplay
+  scenarios: one comprehensive and one blank play for each of 22 supported base
+  version groups. The 22 populated plays cover staged completion, game-valid
+  teams, every roster and lifecycle state, plans, snapshots, history, rules,
+  tags, optional content, collectibles, Pokedex progress, and Game List states.
+  The dedicated linked development account was refreshed from this same source
+  on July 20, 2026.
 - The internal `reference` module owns reusable Pokémon and game contracts,
   domain rules, catalogue components, and presentation helpers.
 - Application and database boundaries are enforced by automated checks.
