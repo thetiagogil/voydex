@@ -13,10 +13,7 @@ export const GameDetailSectionCard = ({
 }: GameDetailSectionCardProps) => {
   return (
     <DetailSectionCard
-      className={cn(
-        "bg-card/80 ring-app-surface-border/80 shadow-none",
-        className,
-      )}
+      className={cn("bg-card ring-app-surface-border/80 shadow-xs", className)}
       titleClassName={cn(
         "text-primary font-serif text-base leading-none font-semibold",
         titleClassName,

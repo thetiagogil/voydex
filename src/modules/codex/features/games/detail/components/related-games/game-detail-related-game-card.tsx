@@ -18,7 +18,7 @@ export const GameDetailRelatedGameCard = ({
       href={appRoutes.codexGame(card.game.slug)}
       style={getPokemonGameColorCssVariables(card.game.slug)}
       aria-label={`Open ${card.game.name} game guide`}
-      className="group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card/80 block min-w-0 overflow-hidden rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-sm focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+      className="group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card block min-w-0 overflow-hidden rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-sm focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
     >
       <article className="flex min-w-0 flex-col">
         <div className="relative isolate aspect-square overflow-hidden bg-transparent">

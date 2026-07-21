@@ -64,7 +64,7 @@ const GamesGridCard = ({
       aria-label={`Open ${card.game.name} game guide`}
       style={getPokemonGameColorCssVariables(card.game.slug)}
       className={cn(
-        "group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card/90 block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-md focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-md focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
       )}
     >
       <article className="flex h-full flex-col overflow-hidden rounded-[inherit]">

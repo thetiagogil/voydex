@@ -31,7 +31,7 @@ const tabs = [
 
 export const MainlinePlayHubTabs = ({ data }: MainlinePlayHubTabsProps) => {
   return (
-    <Card className="bg-card/45 ring-app-surface-border/80 gap-0 py-0 shadow-none">
+    <Card className="ring-app-surface-border/80 gap-0 bg-transparent py-0 shadow-none">
       <Tabs defaultValue="overview" className="gap-0">
         <CardHeader className="rounded-none px-3 py-0 sm:px-4">
           <CardTitle className="sr-only">Play sections</CardTitle>
@@ -44,7 +44,7 @@ export const MainlinePlayHubTabs = ({ data }: MainlinePlayHubTabsProps) => {
                 key={tab.value}
                 value={tab.value}
                 disabled={tab.value !== "overview" && tab.value !== "team"}
-                className="h-10 min-w-fit flex-none rounded-none px-1"
+                className="h-10 min-w-20 flex-none rounded-none px-1"
               >
                 {tab.label}
               </TabsTrigger>

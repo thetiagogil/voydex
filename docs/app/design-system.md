@@ -44,6 +44,11 @@ The desired mix:
   Do not create feature-local glass/opacity/backdrop recipes for normal data
   surfaces. If a surface behavior repeats across modules, put it in a shared
   primitive, variant, or helper.
+- Major section and resource Cards use the brighter warm-ivory `bg-card` layer
+  so they read clearly above the textured journal page. Keep their border and
+  shadow restrained. Nested rows, slots, and list items should remain
+  transparent or use a quieter semantic tint instead of repeating the same
+  raised Card treatment at every level.
 - Reserve alpha and backdrop effects for intentional visual layers: artwork
   overlays, hero/media treatments, modal scrims, disabled states, and semantic
   status tints.

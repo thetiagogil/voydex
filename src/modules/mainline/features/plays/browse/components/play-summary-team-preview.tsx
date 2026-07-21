@@ -1,11 +1,11 @@
-import type {
-  MainlinePlayBrowseTeam,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
+import type {
+  MainlinePlayBrowseTeam,
+  MainlinePlayTeamMember,
+} from "@/modules/mainline/features/plays/shared/types";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
@@ -49,7 +49,7 @@ export const PlaySummaryTeamPreview = ({
       <div
         role="group"
         aria-label="Active Team"
-        className="grid w-full max-w-sm grid-cols-6 gap-1.5 sm:gap-2 md:max-w-[28rem] md:gap-1.5 xl:max-w-[32rem] xl:gap-2"
+        className="grid w-full max-w-sm grid-cols-6 gap-1.5 sm:gap-2 md:max-w-md md:gap-1.5 xl:max-w-lg xl:gap-2"
       >
         {slots.map((member, index) => {
           const slotNumber = index + 1;

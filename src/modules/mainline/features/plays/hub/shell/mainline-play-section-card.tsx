@@ -13,10 +13,7 @@ export const MainlinePlaySectionCard = ({
 }: MainlinePlaySectionCardProps) => {
   return (
     <DetailSectionCard
-      className={cn(
-        "bg-card/75 ring-app-surface-border/80 shadow-none",
-        className,
-      )}
+      className={cn("bg-card ring-app-surface-border/80 shadow-xs", className)}
       title={<h2>{title}</h2>}
       titleClassName={cn(
         "text-primary font-serif text-base leading-none font-semibold",
