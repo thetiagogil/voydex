@@ -1,24 +1,23 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  buildMainlinePlayTeamPreview,
-  getMainlineTimelinePokemonFormIds,
-  hydrateMainlineTimelinePokemonImages,
-} from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
+import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
 import type {
+  MainlinePlayTeamRows,
   MainlinePlayTeamMemberRow,
-  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
 import type {
+  AbilityAttribute,
+  MoveAttribute,
+  Nature,
   PokemonAttributes,
-  PokemonForm,
   Type,
 } from "@/modules/reference/types";
 
 const buildMember = (formId: number | null) => {
   return {
     form_id: formId,
-  } as MainlinePlayTeamMemberRow;
+    moves: [],
+  } as unknown as MainlinePlayTeamMemberRow;
 };
 
 const buildAttributes = (params: {
@@ -45,6 +44,7 @@ const buildType = (id: number, slug: string) => {
 describe("buildMainlinePlayTeamPreview", () => {
   it("uses the latest loaded attributes for each form", () => {
     const preview = buildMainlinePlayTeamPreview({
+      abilityAttributes: [],
       attributes: [
         buildAttributes({
           formId: 25,
@@ -59,11 +59,16 @@ describe("buildMainlinePlayTeamPreview", () => {
         }),
       ],
       members: [buildMember(25)],
+      moveAttributes: [],
+      natures: [],
       types: [
         buildType(10, "electric"),
         buildType(11, "fire"),
         buildType(12, "flying"),
       ],
+      validBallItemIds: [],
+      versionGroupId: null,
+      versionGroups: [],
     });
 
     expect(preview[0]?.primaryType?.id).toBe(11);
@@ -72,9 +77,15 @@ describe("buildMainlinePlayTeamPreview", () => {
 
   it("returns null types when a member has no resolvable form", () => {
     const preview = buildMainlinePlayTeamPreview({
+      abilityAttributes: [],
       attributes: [],
       members: [buildMember(null), buildMember(999)],
+      moveAttributes: [],
+      natures: [],
       types: [],
+      validBallItemIds: [],
+      versionGroupId: null,
+      versionGroups: [],
     });
 
     expect(
@@ -87,47 +98,104 @@ describe("buildMainlinePlayTeamPreview", () => {
       { primaryType: null, secondaryType: null },
     ]);
   });
-});
 
-describe("Mainline timeline Pokemon image hydration", () => {
-  const events = [
-    {
-      pokemon_refs: [{ form_id: 25, species_name: "Pikachu" }],
-      team_snapshots: [
-        { form_id: 6, species_name: "Charizard" },
-        { form_id: 25, species_name: "Pikachu" },
+  it("hydrates move facts and suppresses invalid capture-ball references", () => {
+    const member = {
+      ball_item_id: 4,
+      ball_item_name: "Invalid fixture item",
+      form_id: null,
+      moves: [
+        {
+          move_id: 85,
+          name: "Thunderbolt",
+          slot: 1,
+          slug: "thunderbolt",
+        },
       ],
-    } as unknown as MainlinePlayTimelineEvent,
-  ];
+    } as unknown as MainlinePlayTeamMemberRow;
+    const moveAttributes = {
+      damage_class: "special",
+      generation_start_id: 1,
+      move_id: 85,
+      power: 95,
+      pp: 15,
+      type_id: 13,
+    } as MoveAttribute;
 
-  it("collects the unique forms represented by event refs and snapshots", () => {
-    expect(getMainlineTimelinePokemonFormIds(events)).toEqual([25, 6]);
+    const [preview] = buildMainlinePlayTeamPreview({
+      abilityAttributes: [],
+      attributes: [],
+      members: [member],
+      moveAttributes: [moveAttributes],
+      natures: [],
+      types: [buildType(13, "electric")],
+      validBallItemIds: [],
+      versionGroupId: null,
+      versionGroups: [],
+    });
+
+    expect(preview?.ball_item_id).toBeNull();
+    expect(preview?.ball_item_name).toBeNull();
+    expect(preview?.moves[0]).toMatchObject({
+      attributes: moveAttributes,
+      id: 85,
+      name: "Thunderbolt",
+      slot: 1,
+      type: { id: 13 },
+    });
   });
 
-  it("adds each form sprite slug without changing the event shape", () => {
-    const hydratedEvents = hydrateMainlineTimelinePokemonImages(events, [
-      { id: 6, sprite_slug: "charizard" } as PokemonForm,
-      { id: 25, sprite_slug: "pikachu" } as PokemonForm,
-    ]);
+  it("resolves the latest ability effect and the recorded nature modifiers", () => {
+    const member = {
+      ability_id: 65,
+      form_id: null,
+      moves: [],
+      nature_id: 14,
+    } as unknown as MainlinePlayTeamMemberRow;
 
-    expect(hydratedEvents[0]?.pokemon_refs).toEqual([
-      {
-        form_id: 25,
-        species_name: "Pikachu",
-        sprite_slug: "pikachu",
-      },
-    ]);
-    expect(hydratedEvents[0]?.team_snapshots).toEqual([
-      {
-        form_id: 6,
-        species_name: "Charizard",
-        sprite_slug: "charizard",
-      },
-      {
-        form_id: 25,
-        species_name: "Pikachu",
-        sprite_slug: "pikachu",
-      },
-    ]);
+    const [preview] = buildMainlinePlayTeamPreview({
+      abilityAttributes: [
+        {
+          ability_id: 65,
+          effect_summary: "Earlier effect",
+          version_group_start_id: 1,
+        } as AbilityAttribute,
+        {
+          ability_id: 65,
+          effect_summary: "Current effect",
+          version_group_start_id: 8,
+        } as AbilityAttribute,
+        {
+          ability_id: 65,
+          effect_summary: "Future effect",
+          version_group_start_id: 60,
+        } as AbilityAttribute,
+      ],
+      attributes: [],
+      members: [member],
+      moveAttributes: [],
+      natures: [
+        {
+          decreased_stat: "special_defense",
+          id: 14,
+          increased_stat: "speed",
+        } as Nature,
+      ],
+      types: [],
+      validBallItemIds: [],
+      versionGroupId: 50,
+      versionGroups: [
+        { id: 1, sort_order: 1 },
+        { id: 8, sort_order: 8 },
+        { id: 50, sort_order: 50 },
+        { id: 60, sort_order: 60 },
+      ] as MainlinePlayTeamRows["versionGroups"],
+    });
+
+    expect(preview).toMatchObject({
+      abilityEffectSummary: "Current effect",
+      natureDecreasedStat: "special_defense",
+      natureIncreasedStat: "speed",
+    });
   });
 });

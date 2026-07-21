@@ -99,12 +99,13 @@ const getTimelineMediaFromRecord = (
     ? (getPokemonFormShinyImageUrl(imageForm) ??
       getPokemonFormImageUrl(imageForm))
     : getPokemonFormImageUrl(imageForm);
+  const identityKey =
+    getJsonString(record, ["id", "play_pokemon_id", "pokemon_id", "slug"]) ??
+    name;
 
   return {
     imageUrl,
-    key:
-      getJsonString(record, ["id", "play_pokemon_id", "pokemon_id", "slug"]) ??
-      `${name}-${index}`,
+    key: `${identityKey}-${index}`,
     name,
   };
 };

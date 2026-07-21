@@ -53,8 +53,8 @@ The active source follows these ownership rules:
   such as its page shell, filter panel, generation section, and empty states.
 - Mainline Plays uses `browse`, `hub`, and `shared` view boundaries. The Hub
   separates Hub-wide shell responsibilities from grouped tab views, while
-  Overview groups its visible areas under `sections` instead of hiding them in a
-  broad `detail/components` tree.
+  complex tabs such as Overview and Team group their visible areas under
+  `sections` instead of hiding them in a broad `detail/components` tree.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
   pure enrichment, and final page-model assembly.
 - existing feature reads commonly use a query/loader/mapper split. That split
@@ -254,6 +254,18 @@ src/modules/mainline/features/plays/
           team/
           progress-summary/
       team/
+        application/
+        client/
+        display/
+        domain/
+        infrastructure/
+        sections/
+          recent-team-events/
+          roster/
+          selected-pokemon/
+          team-analysis/
+          team-plan/
+        server/
       progress/
       plans/
       history/

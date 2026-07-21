@@ -3,13 +3,13 @@ import { Button } from "@/shared/components/ui/button";
 
 type MainlinePlaySectionDestinationProps = {
   label: string;
+  unavailableLabel?: string;
 };
 
 export const MainlinePlaySectionDestination = ({
   label,
+  unavailableLabel = `${label} destination is not available yet`,
 }: MainlinePlaySectionDestinationProps) => {
-  const unavailableLabel = `${label} is available when its Play tab is enabled`;
-
   return (
     <Button
       type="button"
@@ -21,7 +21,7 @@ export const MainlinePlaySectionDestination = ({
       className="h-auto px-0 py-0 text-xs font-medium disabled:opacity-45"
     >
       {label}
-      <AppIcon icon={appIcons.actions.continue} inline="end" size="xs" />
+      <AppIcon icon={appIcons.actions.continue} inline="end" />
     </Button>
   );
 };

@@ -7,7 +7,7 @@ production implementation.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; Overview and Team visual reset pending; production implementation pending**
+**Status: V1 functional contract accepted; Overview visually validated; initial read-only Team list-detail implemented; full Team workflows pending**
 
 Use an inside-out product sequence and an outside-in visual sequence:
 
@@ -118,13 +118,14 @@ the workspace. The Play Hub owns six primary areas.
 | Overview | Orient the user and surface the next useful action                     | Journey status, current team preview, applicable progress summaries, recent meaningful history, links into mature workflows |
 | Team     | Manage the current roster and Pokémon lifecycle                        | Active/reserve move and swap, add, edit, evolve, change form, replace, retire, Past Members, correction, and Team analysis  |
 | Progress | Understand and update completion-related tracks                        | Progress summary plus entry to Story, Pokédex, and Collectibles                                                             |
-| Plan     | Compare the current Play with its one focused linked Team Plan         | Planned targets, actual member links, reached/skipped state, availability and reuse conflicts                               |
 | History  | Preserve and review the user-facing story of the Play                  | Journal entries, meaningful events, milestones, snapshots, Hall of Fame, imported history                                   |
 | Settings | Manage Play metadata, lifecycle, rules, scope, and destructive actions | Rename, dates, platform, status, optional content, tracking/completion settings, archive, delete                            |
 
-The visible tab is named `Plan`, singular. Contextual deep routes may be added
-when a mature workflow benefits from a stable URL, while remaining visibly part
-of the same Play workspace.
+Team contains one compact read-only Team Plan section and routes to the
+canonical standalone Plan Detail with this Play retained as comparison context.
+Plan is not a second Play Hub tab. Contextual deep routes may be added when a
+mature workflow benefits from a stable URL, while remaining visibly part of the
+same Play workspace.
 
 ## Overview Contract
 
@@ -158,7 +159,7 @@ Header or the dedicated Hub areas.
 | Section              | Question answered            | Content                                                                                                                                                    | Primary section action                        | Empty or sparse state                                                                                   |
 | -------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **Journey Status**   | Where am I?                  | Current or furthest known Story milestone and the next applicable objective; numeric Story completion remains in Progress Summary                          | Open Story                                    | `Story position not recorded` with a route to set the current or furthest known position                |
-| **Current Team**     | Who is with me?              | Six fixed state-aware active slots, optional reserve count, and a compact linked-Plan comparison when one exists                                           | Manage Team                                   | Use explicit confirmed-empty or not-recorded slots; never infer an empty in-game team from missing data |
+| **Current Team**     | Who is with me?              | Six fixed state-aware active slots and optional reserve count                                                                                              | Manage Team                                   | Use explicit confirmed-empty or not-recorded slots; never infer an empty in-game team from missing data |
 | **Progress Summary** | How much have I completed?   | Stable Story, Pokédex, and Collectibles group rows with normalized percentages; no named child tracks, raw group counts, or duplicate overall header score | Open Progress or the relevant detailed area   | Distinguish `Not recorded` from known zero; omit optional groups that are disabled or not applicable    |
 | **Recent History**   | What happened most recently? | The latest three to five meaningful milestones, team changes, memories, snapshots, or journal entries in reverse chronological order                       | View History or add a memory when appropriate | Compact `No history recorded yet` state; routine Pokédex and Collectible updates do not create noise    |
 
@@ -166,11 +167,9 @@ Overview is read-first. Each section may expose one clear route or invoke the
 same canonical workflow owned by its destination, but it should not contain a
 second implementation of Team, Progress, or History editing.
 
-Do not add a permanent fifth card for Plan. When a focused Plan is linked, show
-a small comparison inside Current Team—for example, planned members reached and
-a `Compare with Plan` route. When no Plan is linked, omit that row rather than
-showing a large empty Plan card. A contextually useful `Link a Plan` action may
-still appear in the Play Header's Next Step region.
+Do not add a permanent fifth Overview card for Plan. Linked Plan context belongs
+to the Team tab's compact Team Plan Card, while canonical Plan Detail owns the
+complete comparison and relationship workflow.
 
 Do not add separate cards for Play details, rules, completion goal, quick
 actions, notes, or Team analysis. Play details, defining rules, completion
@@ -233,10 +232,7 @@ Its information hierarchy is:
    needs clarification. Types remain in Team rather than adding density here.
 3. **Reserve context:** show a small reserve count only when positive. Do not
    place an Active/Reserve toggle or the complete reserve roster in Overview.
-4. **Linked Plan context:** when one focused Team Plan is linked, show its name
-   and a compact reached/target summary with `Compare with Plan`. Planned
-   Pokémon never occupy actual Team slots. Omit the row when no Plan is linked.
-5. **Team route:** provide one lower-emphasis `Open Team` or `Manage Team`
+4. **Team route:** provide one lower-emphasis `Open Team` or `Manage Team`
    action. When no Team has been recorded, the same destination may be labelled
    `Add current team` or `Record remembered team`. Do not duplicate a
    primary-styled action already promoted by the Play Header.
@@ -400,8 +396,9 @@ The Play Header above the tabs is one coherent top section. On desktop it uses:
 The right region contains one primary action and no more than two secondary
 actions. It is contextual guidance, not a second creation form. Because the
 Play Header belongs to the shared Hub shell, its actions must remain useful
-across every tab. Actions specific to Team, Progress, Plan, History, or Settings
-remain inside their owning area.
+across every tab. Actions specific to Team, Progress, History, or Settings
+remain inside their owning area. Plan-specific work remains owned by Plan Detail
+and is reached from Team's linked-Plan section.
 
 On smaller screens, the action region stacks within the same Play Header after
 the identity and context, before the tabs. It must not become a separate banner
@@ -522,7 +519,23 @@ the contributing tracks have enough initialized data.
 
 ## Team Contract
 
-**Status: Accepted V1 interaction contract; visual validation pending**
+**Status: Accepted V1 interaction contract; initial read-only list-detail baseline implemented**
+
+The current production baseline enables Team as a read-only Hub area. The
+Roster Card header owns one canonical disabled Add action. All twelve positions
+remain visible; the first occupied member opens in selected detail beside the
+roster on desktop and in a focused sheet on tablet and phone. An absent
+current-roster record renders as `Empty slot` without placeholder media or
+explanatory copy.
+
+A compact Team Plan section appears directly below Roster when the Play has a
+focused linked Plan. It summarizes the explicit target relationships and
+off-plan current members, and owns the disabled `View plan` destination. Quick
+Team Analysis reports only current evidence completeness, and Recent Team
+Events loads the latest three qualifying Team events with hydrated historical
+media. Their full destinations remain disabled. Mutation workflows, full
+matchup and move-coverage calculations, Past Members content, and Plan Detail
+remain separate work. No linked Plan means no permanent empty Plan card.
 
 - Current roster capacity is six active plus six reserve Pokémon.
 - Active uses slots 1–6; reserve uses slots 7–12.
@@ -550,36 +563,36 @@ do with them?` while keeping the selected Pokémon meaningfully in focus.
 
 Use this hierarchy:
 
-1. **Compact roster toolbar:** show active and reserve counts plus one canonical
-   `Add Pokémon` action. If the Play Header already recommends adding the Team,
-   its route should hand the user into this workflow rather than creating two
-   competing primary actions. Do not also promote Team Analysis and Team
-   History here when their preview sections already provide clear links.
-2. **Twelve-position roster list:** keep all six Active and six Reserve
-   positions in one visible roster surface, grouped and labelled separately
-   without an Active/Reserve mode switch. Every row keeps the same height and
-   structure. An occupied row shows a portrait, slot, nickname or species,
-   level, types, and only the smallest useful status cues. Confirmed-empty and
-   not-recorded rows remain visually distinct without changing geometry.
-3. **Past Members route:** place one secondary `Past members (N)` route beneath
-   the current roster. It opens the Play's retired and replaced member records
-   inside Team without adding them to the fixed twelve positions or turning
-   History into a member database.
+1. **Roster Card header:** keep the screen free of a second Team introduction.
+   Place one canonical `Add Pokémon` action in the Roster Card header. If the
+   Play Header already recommends adding the Team, its route should hand the
+   user into this workflow rather than creating two competing primary actions.
+   Do not also promote Plan, Team Analysis, and Team History here when their
+   preview sections already provide clear links.
+2. **Twelve-position roster:** keep all six Active and six Reserve rows visible
+   under their separate headings. Do not add an Active/Reserve mode switch,
+   summary state, or disclosure control in the initial Team baseline. Every row
+   keeps the same height and structure. An occupied row shows a portrait, slot,
+   nickname or species, level, types, and only the smallest useful status cues.
+   An unoccupied row uses the same concise `Empty slot` treatment in both
+   groups.
+3. **Past Members destination:** do not place a `Past members` route inside the
+   current Roster Card. Keep the entry point deferred until its focused
+   destination is implemented; retired and replaced records still remain
+   outside the fixed twelve positions and History does not become the member
+   browser.
 4. **Selected Pokémon detail:** selecting an occupied row updates a larger
-   Play-owned detail panel beside the roster. Lead with artwork, nickname and
-   species, form and shiny identity, Active or Reserve position, level, types,
-   held item, and the most useful recorded attributes. A compact moveset and
-   the relevant member actions may follow. This is not a generic Codex page.
-5. **Quick Team Analysis:** summarize two or three trustworthy signals for the
-   current Active six, such as defensive matchups, recorded move-type coverage,
-   and notable warnings. Provide one `Open full analysis` route to a focused
-   Team Analysis destination. Label incomplete inputs or unsupported mechanics
-   rather than presenting a confident result from partial data.
-6. **Recent Team Events:** show the latest three meaningful Team-only events,
-   such as recorded additions, evolutions, replacements, retirements, and
-   saved Team moments. One `View Team history` route opens the existing History
-   experience filtered to Team activity rather than creating a competing
-   history system. Routine roster management remains outside this preview.
+   Play-owned detail panel beside the roster. Lead with a 60/40 identity and
+   caught-information row, with prominent artwork on the wider side. Follow it
+   with a 60/40 Moves and battle-characteristics row, optional Notes, and a
+   compact action footer. This is not a generic Codex page.
+5. **Team Quick Analysis:** keep the section in this supporting position while
+   its final metrics and explainable review strategy are designed. Do not
+   manufacture analysis from incomplete inputs merely to fill the surface.
+6. **Recent Team Events:** show the latest three Pokémon-specific Team changes,
+   including roster movement and member lifecycle changes. One `View Team
+history` route opens the focused Team projection; Play progress snapshots
+   and Hall of Fame entries do not belong in this preview.
 7. **Contextual additions:** when one focused Plan is linked, show a compact
    reached/target comparison near the roster. Also allow one secondary snapshot
    action—`Record Team moment` or `Save Team snapshot`—for deliberate memories
@@ -630,11 +643,12 @@ snapshot context are sufficient for this screen.
 
 **Status: Accepted**
 
-Treat every roster row as a compact selection or slot action, not as a miniature
-Pokémon card. All twelve positions use the same height, column structure,
-padding, separators, focus treatment, and action region across Active and
-Reserve. Use user-facing slots `1`–`6` for Active and `R1`–`R6` for Reserve;
-the underlying storage identity does not need to appear.
+Treat every detailed roster row as a compact selection or slot action, not as a
+miniature Pokémon card. Active and Reserve positions use the same height,
+column structure, padding, separators, focus treatment, and action region. Keep
+all twelve rows visible in the initial baseline. Use user-facing slots `1`–`6`
+for Active and `R1`–`R6` for Reserve; the underlying storage identity does not
+need to appear.
 
 | Row region                | Occupied member                                                                                                       | Confirmed-empty slot                         | Not-recorded slot                                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------- |
@@ -694,34 +708,37 @@ a Play-owned member record, not a compressed generic Pokédex page.
 
 Use this content hierarchy:
 
-1. **Identity header:** show materially larger correct-form artwork, using the
-   shiny artwork when applicable. Lead with nickname when present while keeping
-   species and non-default form visible. Show Active or Reserve position,
-   level, type badges, and an accessible shiny cue. Held item may appear here
-   as a compact current-setup fact when recorded. Keep `Open in Codex` as a
-   quiet secondary route rather than the primary action.
-2. **Current setup:** group ability, nature, gender, and held item when it is not
-   already surfaced in the identity header. Omit unsupported fields for a game.
-   When a supported value is unknown, use `Not recorded` where that distinction
-   helps the user complete or correct the record; never manufacture a default.
-3. **Origin and personal record:** group met location and level, ball, notes,
-   and optional original-trainer context. Show OT and ID only when recorded or
-   especially relevant, such as for a traded Pokémon, rather than forcing them
-   into every member's default summary. Keep notes to a short preview with a
-   clear edit route.
-4. **Moveset:** preserve four ordered positions. Show move name and type, with
-   optional category or other stable reference context when useful. A move may
-   open lightweight reference detail. Distinguish a partially recorded moveset
-   from known empty move positions. Do not persist or display current PP as
-   Play state in V1: Voydex records the member's lasting setup, not transient
-   battle state.
-5. **Member actions:** provide one clear `Edit details` action without giving it
-   the same emphasis as the Team toolbar's canonical `Add Pokémon` action.
-   Offer `Move`, `Evolve`, and `Change form` only when relevant. Keep `Replace`,
-   `Retire`, `View member history`, and `Open in Codex` secondary or in overflow.
-   Keep `Correct record` and `Delete Pokémon record` in an advanced overflow;
-   deleting is the only destructive member action, while retiring preserves the
-   record in Past Members.
+1. **Identity and caught information:** make materially larger correct-form
+   artwork the focal point, using shiny artwork when applicable, and pair it
+   with nickname/species and type badges, followed by adjacent compact Level
+   and Gender chips. The Gender chip includes the matching accessible gender
+   symbol. Use a 60/40 split between this identity and the narrower caught-data
+   section. Place held item directly below those chips. If no nickname exists,
+   show only the species name.
+   Represent shiny state with a labelled star beside the displayed name rather
+   than another fact row. Keep the second top-level section limited to compact
+   caught information: category-validated Poké Ball, met location, and met
+   level. Vertically center those intrinsic rows rather than stretching them to
+   match the portrait. Omit Trainer until a useful per-Pokémon original-trainer
+   record exists.
+2. **Battle characteristics and Moves:** divide the next row 60/40, with the
+   wider Moves column on the left and Ability-and-Nature on the right. Stack
+   Ability and Nature with a quiet rule between them; keep their labels,
+   recorded values, and supporting effects aligned without decorative icon
+   boxes. Show the version-correct ability effect and nature stat modifiers when
+   reference data exists. Preserve four ordered move positions as one compact
+   vertical list. Each occupied move uses a subtle type-colored surface, keeps
+   its icon-only type badge at the left edge, and keeps the move name optically
+   centered. Keep all four positions visible; a known empty move position shows
+   only `Empty slot` with matching geometry and a dashed treatment.
+3. **Notes:** show the Play-owned note only when recorded. Do not reserve an
+   empty section or force long-form reference copy into the member panel.
+4. **Actions:** place `Edit Pokémon` in the selected panel or sheet header as
+   the primary record action. Keep exact-game `Open in Codex`, `Move slot`,
+   `Replace`, `Evolve`, and `Retire` in one responsive footer row; expose only
+   actions whose workflow and game-valid eligibility are implemented. Keep
+   correction and deletion in a later advanced surface; deleting is the only
+   destructive member action.
 
 Routine edits to level, nickname, moves, item, or other recorded detail update
 the current record without creating History noise or requiring a
@@ -737,7 +754,8 @@ coverage analysis, complete member history, Plan alternatives, or long-form
 notes in this panel. Team-wide strengths and weaknesses belong in Team
 Analysis; meaningful events belong in History; generic species knowledge
 belongs in Codex. Transient battle values such as current HP, battle status,
-and current PP are outside the V1 Play record.
+and current PP are outside the V1 Play record. A move's reference base PP
+remains valid Moves context.
 
 Adapt the detail to lifecycle and data state:
 
@@ -760,48 +778,17 @@ moves and actions below. On narrow screens, the focused Team detail view or
 sheet preserves the same content order and provides a clear return to the
 roster.
 
-### Quick Team Analysis Contract
+### Team Quick Analysis Contract
 
 **Status: Accepted**
 
-Quick Team Analysis is a compact, explainable preview of the current Active
-lineup. It is not an evaluation of the selected member and does not change when
-the user selects another roster row. Reserve Pokémon remain outside the
-calculation until they move into an Active position.
-
-Keep the preview to one supporting section below selected-Pokémon detail. Use
-three equal summary regions and one `Open full analysis` route:
-
-1. **Defensive pressure:** surface the most relevant generation-aware shared
-   matchup in plain language, including both exposure and available answers.
-   For example, `Rock threatens 3 members; 2 resist it`. Rank pressure using
-   the number of weak members, 4× weaknesses, and the number of recorded
-   resistances or immunities; do not collapse those facts into an opaque score.
-2. **Move coverage:** summarize how many defending types the Team can hit super
-   effectively with its recorded damaging moves. Use the types and matchup
-   rules available in the Play's game or generation. Exclude status moves. If
-   moves are only partially recorded, use language such as “At least 10/17
-   types covered” and state how many Active members have recorded moves rather
-   than treating missing moves as confirmed gaps.
-3. **Watchlist:** show at most two concrete, evidence-backed concerns. Eligible
-   examples include a shared weakness with few or no recorded answers, a 4×
-   weakness, a member with no recorded same-type damaging move, or a coverage
-   gap when the relevant moveset is known to be complete. Missing or unsupported
-   data takes priority over a negative conclusion. Repeated types alone are not
-   a warning.
-
-Add one compact evidence line beneath the summaries, such as `Based on 6 Active
-members · Moves recorded for 4`. When modifiers are unavailable, say `Base
-typing · Ability and item effects not included` rather than hiding that limit.
-
-V1 does not show a composite Team Score. The three accepted signals remain the
-glanceable summary and must be independently understandable. Do not make
-unsupported claims such as `balanced bulk`, `good wall`, or `poor synergy`.
-Those judgments require build, role, stat, opponent, and battle-context data
-that Voydex does not ask the user to maintain. The preview also does not
-estimate damage, recommend a replacement Pokémon, or claim coverage against a
-particular boss merely from single-type matchups. A playful score remains a
-later-version backlog idea.
+Team Quick Analysis remains an important, compact Team-wide surface beneath the
+selected Pokémon detail. It is not selected-member context and does not change
+when the user selects another roster row. Keep the current section in the UI
+while its metrics, reliable inputs, calculation rules, evidence disclosure, and
+partial-data behavior are designed in a later slice. Until that strategy is
+accepted, do not present invented balance, matchup, coverage, role, damage, or
+competitive conclusions as real analysis.
 
 ### Full Team Analysis View Contract
 
@@ -886,31 +873,30 @@ canonical route to this focused view.
 
 **Status: Accepted**
 
-Recent Team Events is a compact, read-only preview of intentionally preserved
-Team history. It answers `What changed in this Team recently?` for the whole
+Recent Team Events is a compact, read-only preview of Pokémon-specific Team
+history. It answers `What changed in this Team recently?` for the whole
 Active-and-Reserve roster. It is not selected-member context, so choosing a
 different roster row does not change this section.
 
 Show up to the latest three qualifying Team events, ordered by effective event
 date or preserved manual timeline order rather than database creation time.
 There are no filters or pagination inside the preview. One `View Team history`
-route opens the existing Play History area with its Team filter applied; do not
-create a separate Team History page or event system.
+route opens the focused Team History projection. Play History and Team History
+may share an event store, but they keep separate eligibility and display rules.
 
-A roster change qualifies only when the user chooses a recorded-event path or
-deliberately saves a Team moment. Eligible examples are:
+A recorded Team change qualifies when it describes the roster or one of its
+Pokémon. Eligible examples are:
 
-- a Pokémon joining Active or Reserve as a recorded in-game event;
-- an evolution, persistent form change, replacement, retirement, or return
-  recorded as an event;
-- a final-Team, Hall of Fame, snapshot, or other deliberate Team memory;
+- a Pokémon added to Active or Reserve;
+- movement between Active and Reserve;
+- a Pokémon record update or removal;
+- an evolution, persistent form change, replacement, retirement, or return.
 
-Routine administration does not qualify: corrections, slot reordering,
-ordinary Active/Reserve movement, and edits to level, nickname, ability,
-nature, held item, or moveset update current truth without manufacturing
-history. Team exposes no recorded-move action in V1; use `Record Team moment` or
-History when a lineup change deserves narrative context. Failed mutations,
-picker attempts, and technical logs never appear.
+Story progress, Pokédex or Collectible progress, Team snapshots, final-Team or
+Hall of Fame moments, journal entries, status changes, failed mutations, picker
+attempts, and technical logs do not qualify. Those belong to Play History or no
+user-facing history at all. A Team event appears only after its Team mutation
+and event write succeed together.
 
 V1 does not add a generic `Record this change in History` option to Pokémon edit
 forms. That broader per-edit opt-in remains a later-version backlog direction.
@@ -923,10 +909,10 @@ Each compact event row contains:
   `Crobat returned to the Active Team`;
 - the effective date or time when known, or an explicit label such as
   `Approx. Mar 2024` or `Date not recorded`;
-- event-time visual identity: one portrait for an addition, return, or
-  retirement, a before-to-after pair for evolution, replacement, or recorded
-  form change, or a small member stack for a Team snapshot or Hall of Fame
-  moment.
+- event-time visual identity: one portrait for an addition, update, retirement,
+  removal, or return; a before-to-after pair for evolution, replacement, or
+  recorded form change; or a portrait moving toward an Active or Reserve
+  destination for roster movement.
 
 Use the nickname, species, form, and other identity preserved with the event,
 not the member's latest identity. Show event-time slot or Active/Reserve context
@@ -944,7 +930,7 @@ receive forward-looking prompts.
 Use these state rules:
 
 - A genuinely new Play shows compact `No Team events yet` copy without another
-  `Add Pokémon` action; the Team toolbar already owns roster creation.
+  `Add Pokémon` action; the Roster Card header already owns roster creation.
 - An imported, active, completed, or abandoned Play with current Team data but
   no recorded event history says `No Team history recorded in Voydex` and may
   clarify that earlier changes can still have happened in the original save.
@@ -971,16 +957,24 @@ Linked Plan context answers `How is this actual Team relating to what I
 planned?` without turning Team into a second Plan editor. Show it only when the
 Play has one focused linked Team Plan.
 
-Place one compact comparison strip inside the roster column, immediately below
-the roster toolbar and above the Active group. This keeps the relationship near
-the actual members it describes without adding a full-width banner or another
-right-side card. Its information hierarchy is:
+Place one compact Team Plan Card directly below the Roster Card in the left
+column. This keeps the relationship near the actual members it describes
+without crowding the roster header or adding a full-width banner. Its
+information hierarchy is:
 
-1. **Plan identity:** the linked Plan name with a quiet `Linked Plan` label.
-2. **Target summary:** plain language such as `4 of 6 targets reached`, plus a
-   concise skipped count only when one exists. Use target language rather than
-   completion language so it cannot be mistaken for Play completion.
-3. **Plan route:** one `Compare with Plan` action to the Play-owned Plan area.
+1. **Plan identity and following state:** lead with the linked Plan name, then
+   show one compact state label such as `Following the plan`, `Following with
+changes`, `Not following the plan`, or `Plan not started`. This state is
+   derived only from explicit relationship records and current off-plan
+   members.
+2. **Target progress:** state reached targets as `3 of 6 targets reached`, then
+   place active target context such as `1 in progress and 2 not used yet` on a
+   supporting line. Use target language rather than completion language so it
+   cannot be mistaken for Play completion.
+3. **Changes from Plan:** group skipped primary targets, skipped alternates,
+   and off-plan members under a separate label, and omit that group when there
+   are no differences to explain.
+4. **Plan route:** one `View plan` action to Plan Detail with Play context.
 
 Do not add a percentage or large progress bar. Plan-member states are not
 another completion system. Team consumes the Plan-owned comparison result as
@@ -1080,7 +1074,7 @@ must remain accessible in both the dialog and sheet presentations.
 
 `Add Pokémon` is the Team tab's canonical primary action. It creates one actual
 Play-owned roster member and never creates or changes a Plan relationship. The
-Plan tab may reuse the roster-creation surface after its own `Add to Team`
+Plan Detail may reuse the roster-creation surface after its own `Add to Team`
 action, but Plan owns that orchestration and relationship confirmation. A
 planned target never occupies a roster position by itself. The flow never adds
 a generic Codex species record. Keep it short enough for use during a Play while
@@ -1120,9 +1114,10 @@ the user can continue only if they want to add more information.
 
 #### Entry Points And Destination
 
-- The toolbar `Add Pokémon` entry has no hidden destination. Preselect the first
-  confirmed-empty Active slot, otherwise the first confirmed-empty Reserve
-  slot, and keep the destination visible and changeable.
+- The Roster Card header's `Add Pokémon` entry has no hidden destination.
+  Preselect the first confirmed-empty Active slot, otherwise the first
+  confirmed-empty Reserve slot, and keep the destination visible and
+  changeable.
 - Activating a confirmed-empty row opens the same flow already targeted to that
   exact slot.
 - Activating a not-recorded row first offers `Add remembered Pokémon` or
@@ -1174,7 +1169,7 @@ defined below, but it never changes the search or creates a relationship.
 
 ##### Plan-Owned Add To Team Handoff
 
-A pending member in the Play-owned Plan area exposes `Add to Team`. That Plan
+A pending member in Plan Detail with Play context exposes `Add to Team`. That Plan
 action opens the roster-creation surface with the Plan member retained as
 read-only source context. There is no equivalent Plan-target selector or
 `Link to <target>` action in generic Team Add.
@@ -1225,10 +1220,10 @@ or require the user to dismiss a second confirmation. The new Play Pokémon has
 no Plan-member link.
 
 No Plan relationship or member state changes merely because an off-plan member
-joined Active or Reserve. The Plan tab may later compare that actual member with
+joined Active or Reserve. Plan Detail may later compare that actual member with
 the authored targets without framing the difference as an error. Exact
-comparison labels and lifecycle semantics will be defined with the Plan-tab
-design. Editing or unlinking the Plan remains a deliberate action in Plan.
+comparison labels and lifecycle semantics remain owned by linked Plan design.
+Editing or unlinking the Plan remains a deliberate action in Plan Detail.
 
 Before confirmation, surface applicable reuse-policy conflicts at species,
 form, or evolution-family level. Reuse and unusual availability are explainable
@@ -1406,7 +1401,7 @@ show read-only comparison context:
   leaves the planned path.
 
 These messages do not create, update, unlink, or refresh a Plan relationship or
-member status. The Plan tab derives its comparison from the latest actual Team
+member status. Plan Detail derives its comparison from the latest actual Team
 state and owns any later relationship decision. Do not prompt the user to update
 the Plan or allow unavailable Plan comparison data to block a valid Team
 evolution.
@@ -1589,11 +1584,11 @@ Plan action to either confirmation.
 
 **Status: Accepted interaction baseline; visual validation pending**
 
-Place one secondary `Past members (N)` route beneath the current roster. Opening
-it stays inside Team and swaps the fixed twelve-position list for a compact list
-of the Play's `Retired` and `Replaced` Pokémon, with a clear `Back to current
-Team` action. Do not add a new Play Hub tab or hide full member records inside
-the event-only History experience.
+Do not place a `Past members` route inside the current Roster Card. When the
+focused destination is implemented, it presents a compact list of the Play's
+`Retired` and `Replaced` Pokémon with a clear `Back to current Team` action. Do
+not add a new Play Hub tab or hide full member records inside the event-only
+History experience.
 
 Past Members is uncapped because its rows occupy no current slots. Order members
 by their effective leaving event or preserved manual timeline order when
@@ -1954,12 +1949,13 @@ collected` action whose effect depends on a hidden filter. Routine updates and
 catch-up never create History. Reward thresholds or unlock guidance may be
 considered after V1 rather than expanding this tracker now.
 
-## Plan Contract
+## Linked Team Plan Contract
 
 **Status: V1 interaction contract accepted; visual validation pending**
 
-The Play Plan tab is the comparison and relationship workspace for the one
-focused Team Plan linked to the Play. It answers:
+Standalone Plan Detail is the comparison and relationship workspace for the one
+focused Team Plan linked to the Play. Team owns a compact read-only section that
+retains the Play context and routes there. Together they answer:
 
 - `What did I intend to use?`
 - `What has actually happened in this Play?`
@@ -2457,8 +2453,8 @@ must distinguish correcting recorded truth from progressing through ordinary
 Play status actions. Archive and Delete never masquerade as lifecycle
 transitions.
 
-Lifecycle status describes the Play; it does not lock Team, Progress, Plan, or
-History editing. A Completed or Abandoned Play remains fully editable, and
+Lifecycle status describes the Play; it does not lock Team, Progress, History,
+or linked Plan editing. A Completed or Abandoned Play remains fully editable, and
 marking a Play completed never marks its recorded Progress as 100 percent.
 
 #### Routine Transition Contract

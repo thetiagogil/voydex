@@ -277,16 +277,19 @@ Roster slots:
 
 The accepted desktop Team workspace uses a list-detail structure. One compact
 left-side roster list keeps all six Active and six Reserve positions visible,
-while selecting an occupied row updates a larger Play-owned Pokémon detail on
-the right. Roster portraits remain intentionally smaller than selected-member
-artwork so the source and result of selection are immediately distinguishable.
-Quick Team Analysis and Recent Team Events support the selected detail rather
-than competing with it, with routes to their complete owning experiences. On
-narrow screens, member selection opens a focused Team detail view or sheet with
-a clear return to the roster.
+including explicit `Empty slot` rows. The initial baseline has no Reserve
+summary or disclosure state. Add, move, replace, and correction workflows still
+expose exact Reserve destinations when position choice matters. Selecting an occupied row
+updates a larger Play-owned Pokémon detail on the right. Roster portraits remain
+intentionally smaller than selected-member artwork so the source and result of
+selection are immediately distinguishable. Team Quick Analysis and Recent Team
+Events support the selected detail rather than competing with it, with routes
+to their complete owning experiences. On narrow screens, member selection opens
+a focused Team detail view or sheet with a clear return to the roster.
 
-All twelve roster positions use the same compact row geometry across occupied,
-selected, confirmed-empty, not-recorded, pending, and unavailable states. An
+When a roster or slot workflow exposes a detailed position, all twelve possible
+positions use the same compact row geometry across occupied, selected,
+confirmed-empty, not-recorded, pending, and unavailable states. An
 occupied row is limited to slot, portrait, nickname or species and relevant
 form identity, level, types, and the smallest necessary state cues. Selection
 uses a visible non-color cue without displacing the row's stable overflow
@@ -361,47 +364,34 @@ mistaken or duplicate records. It preserves existing History evidence, and Team
 must block deletion while a Plan-owned member relationship exists rather than
 cascading an unlink outside Plan.
 
-Quick Team Analysis summarizes only the current Active lineup through three
-independently understandable signals: defensive pressure, recorded damaging
-move coverage, and a short evidence-backed watchlist. Reserve Pokémon do not
-affect the analysis until they move into an Active position. V1 does not show a
-composite Team Score.
+Team Quick Analysis remains an important Team-owned supporting section. Its
+final metrics, calculation strategy, evidence disclosure, and focused analysis
+experience are deliberately deferred until the product can define a reliable
+and explainable review model. Keep the section in the current UI; do not replace
+its unresolved strategy with invented matchup, balance, coverage, role, damage,
+or competitive claims.
 
-`Open full analysis` leads to a read-only, Play-owned Team Analysis view while
-keeping Team as the active Hub context. The focused view contains defensive and
-recorded-move coverage matrices, affected members and moves, the applicable
-ruleset, explainable Team notes, and explicit assumptions. Team mutations stay
-in Team and the analysis derives from the current confirmed Active state.
-
-Known smaller lineups are analyzed as the current Team and are not treated as
-missing data merely because they contain fewer than six Pokémon. Unrecorded
-Active positions and movesets remain visibly partial. Missing moves never count
-as confirmed coverage gaps, and unsupported ability, item, or special-mechanic
-effects never produce confident conclusions. The analysis does not infer team
-roles, expected damage, opponent-specific success, or competitive viability
-from typing and moves alone.
-
-Recent Team Events shows up to the latest three intentionally recorded events
-for the whole Active-and-Reserve roster. It does not change with member
-selection. Eligible events include recorded additions, evolutions,
-form changes, replacements, retirements, returns, final-Team or Hall of Fame
-moments, and deliberate Team snapshots. Routine edits, corrections, reordering,
-and Active/Reserve movement remain quiet; Team exposes no recorded-move action
-in V1.
+Recent Team Events shows up to the latest three Pokémon-specific changes for
+the whole Active-and-Reserve roster. It does not change with member selection.
+Eligible events include additions, Active/Reserve movement, updates,
+evolutions, form changes, replacements, retirements, removals, and returns.
+Progress snapshots, Story milestones, final-Team snapshots, and Hall of Fame
+moments belong to Play History and never qualify merely because they contain
+Pokémon images.
 
 Each compact row uses event-time Pokémon identity, explicit effective-date
-certainty, and concise before-and-after context where useful. Rows open their
-owning History event, while `View Team history` opens the existing History area
-with its Team filter applied. Effective or manual timeline order controls the
-preview, so an imported event never appears recent merely because it was
-entered today.
+certainty, and concise before-and-after or roster-destination context where
+useful. Play History and Team History may share an underlying event store, but
+they are separate product projections with different eligibility and display
+rules. Effective or manual timeline order controls the preview, so an imported
+event never appears recent merely because it was entered today.
 
-When one focused Team Plan is linked, place one compact comparison strip below
-the Team roster toolbar and above the Active group. Show the Plan name, an
-explicit reached/target summary, exceptional skipped context when useful, and
-one `Compare with Plan` route. Omit the strip when no Plan is linked. Count a
-target as reached only through an explicit Plan-member-to-Play-member link;
-matching species or forms alone never create a confirmed relationship. A
+When one focused Team Plan is linked, place one compact Team Plan Card directly
+below Roster in the left column. Show the Plan name, following state, an
+explicit reached/target summary, exceptional skipped or off-plan context when
+useful, and one `View plan` route. Omit the Card when no Plan is linked.
+Count a target as reached only through an explicit Plan-member-to-Play-member
+link; matching species or forms alone never create a confirmed relationship. A
 selected Pokémon may show one compact read-only comparison row in its detail,
 while default roster rows remain uncluttered. Team exposes no Plan-link
 suggestion or relationship-management action.
@@ -756,8 +746,8 @@ The V1 standalone Plans family has three responsibilities:
   content, and source context supplied by Codex or a Play. It creates a Draft
   and opens Plan Detail rather than asking the user to build a team in a modal.
 - Plan Detail owns reusable target authoring, setup, checks, lifecycle, Play
-  usage, and Create Play from Plan. The Play Plan tab remains the separate
-  contextual comparison and relationship surface for one linked Play.
+  usage, Create Play from Plan, and the contextual comparison and relationship
+  surface for one linked Play. Team provides the compact Play-level entry.
 
 Plans Hub summarizes game identity, lifecycle, all six stable Primary target
 positions, Primary and Alternate counts, relevant optional-content or
@@ -846,14 +836,16 @@ read-only comparison consequences from the latest actual roster.
 
 A play has one focused linked Team Plan. The UI should not support multiple competing plans inside the same play. If the user wants variants, they should be represented as alternates, notes, skipped members, or future standalone planning concepts instead of multiple linked team plans for one play.
 
-Inside a Play, the Plan tab is a full-width comparison workspace rather than a
-second Team detail view. It shows the reusable Plan identity, a plain summary of
-Primary target outcomes, actionable Plan checks, six fixed Primary rows, a
-compact Alternate section, and actual Team members outside the Plan. Each
-occupied row compares the planned target with its explicit relationship state
-and linked actual Pokémon. It does not use an adherence percentage, completion
-bar, overall score, duplicate Team analysis, or persistent selected-Pokémon
-detail panel.
+Inside a Play, Team shows one compact read-only Plan section with the linked
+Plan identity first, a compact following-state label, a concise reached-target
+summary, separately labelled Plan differences when relevant, and a route to
+canonical Plan Detail.
+Plan Detail retains the Play as comparison context and shows the reusable Plan
+identity, actionable Plan checks, six fixed Primary rows, a compact Alternate
+section, and actual Team members outside the Plan. Each occupied row compares
+the planned target with its explicit relationship state and linked actual
+Pokémon. It does not use an adherence percentage, completion bar, overall
+score, duplicate Team analysis, or persistent selected-Pokémon detail panel.
 
 Plan comparison uses lifecycle-aware `Not used yet` or `Not used`, plus `In
 progress`, `Reached`, `Diverged`, `Skipped`, and `Off-plan`. `Reached` requires
@@ -895,7 +887,7 @@ or History, and must fail without partial detachment if those consequences
 cannot be preserved safely.
 
 Standalone Plan Detail lists every linked Play with a concise comparison
-summary and routes to that Play's Plan tab. `Link to existing Play` offers only
+summary and can enter that Play's comparison context directly. `Link to existing Play` offers only
 owner-scoped Plays with the exact game/version and no other focused Plan.
 Linking changes no Team member and infers no member relationship.
 

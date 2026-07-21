@@ -1,9 +1,13 @@
 import type {
   MainlinePlayTeamMember,
+  MainlinePlayTeamMemberRow,
+  MainlinePlayTeamMove,
   MainlinePlayTeamRows,
-  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { PokemonAttributes, PokemonForm } from "@/modules/reference/types";
+import type {
+  MoveAttribute,
+  PokemonAttributes,
+} from "@/modules/reference/types";
 import type { Json } from "@/shared/types/database.types";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -13,64 +17,47 @@ const isJsonRecord = (value: Json): value is JsonRecord => {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 };
 
-const getTimelineJsonRecords = (
-  events: MainlinePlayTimelineEvent[],
-): JsonRecord[] => {
-  return events.flatMap((event) =>
-    [event.pokemon_refs, event.team_snapshots].flatMap((value) =>
-      Array.isArray(value) ? value.filter(isJsonRecord) : [],
-    ),
-  );
-};
+type StoredMainlinePlayMove = Pick<
+  MainlinePlayTeamMove,
+  "id" | "name" | "slot" | "slug"
+>;
 
-export const getMainlineTimelinePokemonFormIds = (
-  events: MainlinePlayTimelineEvent[],
-): number[] => {
-  return uniqueNumberIds(
-    getTimelineJsonRecords(events).map((record) =>
-      typeof record.form_id === "number" ? record.form_id : null,
-    ),
-  );
-};
-
-const addTimelineSpriteSlugs = (
+const getStoredMainlinePlayMoves = (
   value: Json | null,
-  spriteSlugByFormId: Map<number, string | null>,
-): Json | null => {
+): StoredMainlinePlayMove[] => {
   if (!Array.isArray(value)) {
-    return value;
+    return [];
   }
 
-  return value.map((item) => {
-    if (!isJsonRecord(item) || typeof item.form_id !== "number") {
-      return item;
+  return value.flatMap((move) => {
+    if (!isJsonRecord(move)) {
+      return [];
     }
 
-    const spriteSlug = spriteSlugByFormId.get(item.form_id);
+    const id = move.move_id;
+    const name = move.name;
+    const slot = move.slot;
+    const slug = move.slug;
 
-    return spriteSlug ? { ...item, sprite_slug: spriteSlug } : item;
+    return typeof id === "number" &&
+      typeof name === "string" &&
+      typeof slot === "number" &&
+      slot >= 1 &&
+      slot <= 4 &&
+      typeof slug === "string"
+      ? [{ id, name, slot, slug }]
+      : [];
   });
 };
 
-export const hydrateMainlineTimelinePokemonImages = (
-  events: MainlinePlayTimelineEvent[],
-  forms: Pick<PokemonForm, "id" | "sprite_slug">[],
-): MainlinePlayTimelineEvent[] => {
-  const spriteSlugByFormId = new Map(
-    forms.map((form) => [form.id, form.sprite_slug]),
+export const getMainlinePlayTeamMoveIds = (
+  members: MainlinePlayTeamMemberRow[],
+): number[] => {
+  return uniqueNumberIds(
+    members.flatMap((member) =>
+      getStoredMainlinePlayMoves(member.moves).map((move) => move.id),
+    ),
   );
-
-  return events.map((event) => ({
-    ...event,
-    pokemon_refs: addTimelineSpriteSlugs(
-      event.pokemon_refs,
-      spriteSlugByFormId,
-    ),
-    team_snapshots: addTimelineSpriteSlugs(
-      event.team_snapshots,
-      spriteSlugByFormId,
-    ),
-  }));
 };
 
 const resolveLatestAttributesByForm = (
@@ -92,19 +79,114 @@ const resolveLatestAttributesByForm = (
   return latestAttributesByForm;
 };
 
+const resolveLatestAttributesByMove = (
+  attributes: MoveAttribute[],
+): Map<number, MoveAttribute> => {
+  const latestAttributesByMove = new Map<number, MoveAttribute>();
+
+  for (const attribute of attributes) {
+    const currentAttribute = latestAttributesByMove.get(attribute.move_id);
+
+    if (
+      !currentAttribute ||
+      attribute.generation_start_id > currentAttribute.generation_start_id
+    ) {
+      latestAttributesByMove.set(attribute.move_id, attribute);
+    }
+  }
+
+  return latestAttributesByMove;
+};
+
+const resolveLatestAttributesByAbility = (
+  attributes: MainlinePlayTeamRows["abilityAttributes"],
+  currentVersionGroupId: number | null,
+  versionGroups: MainlinePlayTeamRows["versionGroups"],
+) => {
+  const latestAttributesByAbility = new Map<
+    number,
+    MainlinePlayTeamRows["abilityAttributes"][number]
+  >();
+  const versionGroupById = byId(versionGroups);
+  const currentSortOrder = currentVersionGroupId
+    ? (versionGroupById.get(currentVersionGroupId)?.sort_order ??
+      Number.POSITIVE_INFINITY)
+    : Number.POSITIVE_INFINITY;
+
+  for (const attribute of attributes) {
+    const attributeSortOrder =
+      versionGroupById.get(attribute.version_group_start_id)?.sort_order ??
+      attribute.version_group_start_id;
+
+    if (attributeSortOrder > currentSortOrder) {
+      continue;
+    }
+
+    const currentAttribute = latestAttributesByAbility.get(
+      attribute.ability_id,
+    );
+    const storedSortOrder = currentAttribute
+      ? (versionGroupById.get(currentAttribute.version_group_start_id)
+          ?.sort_order ?? currentAttribute.version_group_start_id)
+      : null;
+
+    if (!currentAttribute || attributeSortOrder > (storedSortOrder ?? -1)) {
+      latestAttributesByAbility.set(attribute.ability_id, attribute);
+    }
+  }
+
+  return latestAttributesByAbility;
+};
+
 export const buildMainlinePlayTeamPreview = (
   rows: MainlinePlayTeamRows,
 ): MainlinePlayTeamMember[] => {
   const latestAttributesByForm = resolveLatestAttributesByForm(rows.attributes);
+  const latestAttributesByAbility = resolveLatestAttributesByAbility(
+    rows.abilityAttributes,
+    rows.versionGroupId,
+    rows.versionGroups,
+  );
+  const latestAttributesByMove = resolveLatestAttributesByMove(
+    rows.moveAttributes,
+  );
   const typeById = byId(rows.types);
+  const natureById = byId(rows.natures);
+  const validBallItemIds = new Set(rows.validBallItemIds);
 
   return rows.members.map((member) => {
+    const abilityAttributes = member.ability_id
+      ? latestAttributesByAbility.get(member.ability_id)
+      : null;
     const attributes = member.form_id
       ? latestAttributesByForm.get(member.form_id)
+      : null;
+    const hasValidBall = member.ball_item_id
+      ? validBallItemIds.has(member.ball_item_id)
+      : false;
+    const moves = getStoredMainlinePlayMoves(member.moves).map((move) => {
+      const moveAttributes = latestAttributesByMove.get(move.id) ?? null;
+
+      return {
+        ...move,
+        attributes: moveAttributes,
+        type: moveAttributes
+          ? (typeById.get(moveAttributes.type_id) ?? null)
+          : null,
+      };
+    });
+    const nature = member.nature_id
+      ? (natureById.get(member.nature_id) ?? null)
       : null;
 
     return {
       ...member,
+      abilityEffectSummary: abilityAttributes?.effect_summary ?? null,
+      ball_item_id: hasValidBall ? member.ball_item_id : null,
+      ball_item_name: hasValidBall ? member.ball_item_name : null,
+      moves,
+      natureDecreasedStat: nature?.decreased_stat ?? null,
+      natureIncreasedStat: nature?.increased_stat ?? null,
       primaryType: attributes
         ? (typeById.get(attributes.primary_type_id) ?? null)
         : null,

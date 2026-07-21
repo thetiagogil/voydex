@@ -1,12 +1,12 @@
-import type { PokemonTypePair } from "@/modules/reference/types";
-import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   getDefensiveTypeMultiplier,
   getPokemonTypesForGeneration,
 } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
+import type { PokemonTypePair } from "@/modules/reference/types";
 
 export type PokemonDetailTypeMatchupChartColumn = {
   attackingType: PokemonTypeSlug;
@@ -47,11 +47,11 @@ export const formatPokemonDetailTypeName = (type: PokemonTypeSlug) => {
 
 const getPokemonDetailTypeMatchupEffectivenessLabel = (multiplier: number) => {
   if (multiplier === 0) {
-    return "No effect";
+    return "Has no effect";
   }
 
   if (multiplier === 0.25) {
-    return "Double resisted";
+    return "Mostly ineffective";
   }
 
   if (multiplier === 0.5) {
@@ -63,7 +63,7 @@ const getPokemonDetailTypeMatchupEffectivenessLabel = (multiplier: number) => {
   }
 
   if (multiplier === 4) {
-    return "Double super effective";
+    return "Extremely effective";
   }
 
   return "Normal damage";

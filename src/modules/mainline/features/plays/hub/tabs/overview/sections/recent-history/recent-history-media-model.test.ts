@@ -52,4 +52,27 @@ describe("getTimelineMedia", () => {
       },
     ]);
   });
+
+  it("keeps before-and-after media keys unique for the same Pokemon record", () => {
+    const event = {
+      pokemon_refs: [
+        {
+          play_pokemon_id: "member-id",
+          species_name: "Toxtricity",
+          sprite_slug: "toxtricity",
+        },
+        {
+          play_pokemon_id: "member-id",
+          species_name: "Toxtricity (Low Key)",
+          sprite_slug: "toxtricity-low-key",
+        },
+      ],
+      team_snapshots: [],
+    } as unknown as MainlinePlayTimelineEvent;
+
+    expect(getTimelineMedia(event).map((item) => item.key)).toEqual([
+      "member-id-0",
+      "member-id-1",
+    ]);
+  });
 });

@@ -270,8 +270,10 @@ short confirmation that emphasizes preservation and reversibility.
 
 The main Play Hub workspace should be one Card containing compact tabs. Keep the
 selector's vertical padding and inter-tab spacing subordinate to the content.
-The current tab set is Overview, Team, Progress, Plan, History, and Settings.
-Only build rich tab content when the underlying workflow is ready.
+The current tab set is Overview, Team, Progress, History, and Settings. Team
+owns one compact Team Plan section that routes to the canonical standalone Plan
+Detail with Play context; Plan is not a second Play Hub tab. Only build rich tab
+content when the underlying workflow is ready.
 
 Overview should stay high-signal and avoid filler:
 
@@ -360,7 +362,7 @@ counts in Progress rather than expanding the Overview card.
 Use a two-column list-detail workspace at large viewports. Keep one compact
 roster list on the left with all six Active and six Reserve positions grouped
 and labelled; use the wider right side for the selected Play Pokémon's larger
-artwork, identity, recorded detail, moves, and actions. Quick Team Analysis and
+artwork, identity, recorded detail, moves, and actions. Team Quick Analysis and
 Recent Team Events remain supporting sections beneath the selected detail.
 
 Roster rows should use small portraits, equal geometry, lightweight separators,
@@ -377,19 +379,32 @@ not replace the persistent overflow action. Empty and unknown rows retain the
 same dimensions as occupied rows and use different language and iconography so
 missing knowledge is never presented as confirmed capacity.
 
-Place one quiet `Past members (N)` route beneath the fixed current roster. The
-Past Members state replaces the twelve-slot list with a compact uncapped member
-list and a clear return to Current Team; do not mix historical rows into the
-Active or Reserve groups or turn History into the member browser.
+The current read-only baseline treats an absent current-roster record as an
+`Empty slot`. Keep its position visible, but omit placeholder media, supporting
+copy, level, types, and row actions.
 
-Within the selected-member panel, use an identity-first hierarchy: large
-correct-form artwork and concise identity lead, current setup and personal
-record form the middle layer, and the four-position moveset and contextual
-actions follow. Use grouped facts and progressive disclosure instead of one
-dense undifferentiated grid. Keep `Add Pokémon` as the screen's canonical
-primary action; `Edit details` remains clear but lower emphasis, while replace,
-retire, and Codex routes remain secondary. Do not visually promote transient
-battle values or generic reference content into this Play-owned surface.
+Do not place a `Past members` route inside the current Roster Card. Keep its
+entry point deferred until the focused Past Members destination is implemented;
+that destination must not mix historical rows into the Active or Reserve groups
+or turn History into the member browser.
+
+Within the selected-member panel, keep the artwork as the main visual focus.
+The first row uses a 60/40 split: identity on the left and compact caught
+information on the right. Identity includes nickname or species, optional
+species context, type badges, then Level and icon-labelled Gender chips; show
+Held Item below and use a labelled star beside the name for shiny Pokémon.
+Caught information contains only category-validated Poké Ball, met location,
+and met level. Omit Trainer until the application owns useful per-member
+original-trainer data.
+
+The next row also uses a 60/40 split. Keep the four ordered Moves in a compact
+vertical list on the wider left side, using an icon-only type badge, optically
+centered name, restrained type treatment, and a matching dashed `Empty slot`.
+Stack Ability and Nature on the right with quiet separation and supported
+effect context. Show Notes only when recorded. Keep `Add Pokémon` as the
+screen's canonical primary action, place `Edit Pokémon` in the selected panel
+or sheet header, and keep movement, lifecycle, and exact-game Codex actions in
+the footer. Use `Not recorded` rather than manufacturing missing facts.
 
 Use focused dialogs on wider screens and sheets on narrow screens for Move,
 Change form, Replace, Retire, Return, and Correct record. Move uses one explicit
@@ -404,34 +419,28 @@ Treat a displayed form as identity, not evidence that it is mutable. Show
 in the Play's game; fixed regional or otherwise inherent forms keep their form
 label but expose no change action.
 
-Quick Team Analysis uses three compact, equally weighted visual regions for
-defensive pressure, move coverage, and a short watchlist, followed by one
-evidence line and one canonical route to the focused analysis. Each region uses
-an icon, explicit label, plain-language evidence, and counts where useful.
-Color supports meaning but never carries warning or confidence state alone.
-Partial-data treatment must be as visually deliberate as complete analysis and
-must not resemble a negative score.
-
-The focused Team Analysis view keeps the Play shell and Team context, then uses
-full-width vertically stacked analysis sections. Do not place the defensive and
-move-coverage matrices side by side. On narrow screens, replace each wide
-matrix with type-grouped expandable rows that expose affected members, moves,
-and exact multipliers. Keep the view read-only, use one clear return to Team,
-and do not add a composite Team Score in V1.
+Keep Team Quick Analysis in the supporting hierarchy, even while its final
+metrics and review strategy are unresolved. The section must not manufacture
+matchup, coverage, balance, or confidence claims from incomplete evidence. Its
+current content may remain a clearly bounded preview while the product defines
+the reliable inputs, calculations, explanations, and partial-data treatment.
 
 Recent Team Events uses no more than three compact, consistent rows beneath
-Quick Team Analysis. Each row combines a recognizable event icon, one concise
+Team Quick Analysis. Each row combines a recognizable event icon, one concise
 Pokémon-first sentence, explicit date certainty, and restrained event-time
-artwork. Use one portrait for an addition or retirement, a small
-before-and-after pair for an evolution or replacement, and a compact member
-stack for a Team snapshot. A returned member also uses one portrait. Keep one
-`View Team history` section action; do not turn events into large cards or add
-row overflow menus.
+artwork. Use one portrait for an addition, update, retirement, removal, or
+return; use a before-and-after pair for an evolution, form change, or
+replacement; and show a portrait moving toward an Active or Reserve destination
+for roster movement. Progress snapshots, Story milestones, and Hall of Fame
+entries remain Play History and never fill this Team preview. Keep one `View
+Team history` section action; do not turn events into large cards or add row
+overflow menus.
 
-When a Team Plan is linked, use one restrained comparison strip below the
-roster toolbar rather than a separate card. Keep the Plan name, reached/target
-summary, exceptional skipped context, and `Compare with Plan` action readable
-without a large progress bar. Omit the entire strip when no Plan is linked.
+When a Team Plan is linked, use one restrained Team Plan Card directly below
+Roster in the left column. Keep the Plan name, following state, reached/target
+summary, exceptional skipped or off-plan context, and `View plan` action
+readable without a large progress bar. Omit the entire Card when no Plan is
+linked.
 
 The `Record Team moment` surface is a compact dialog on wider screens and a
 sheet on narrow screens. Lead with the read-only six-position Active-Team

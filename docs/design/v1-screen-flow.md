@@ -80,16 +80,18 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 
 - Dashboard.
 - Plays browse and Create Play.
-- Play Hub: Overview, Team, Progress, Plan, History, and Settings.
+- Play Hub: Overview, Team, Progress, History, and Settings. Team exposes the
+  linked Team Plan summary and routes to standalone Plan Detail.
 - Progress detail: Story, Pokédex, and Collectibles.
 - Plans Hub: Team Plans and Game List.
 - Create Plan and Plan Detail.
 - Collection and Collection Pokémon Detail.
 - Stats.
 
-The Play Hub's visible planning tab should be named `Plan`, singular, because a
-play has one focused linked Team Plan. Mature Play Hub sections may become
-URL-addressable while remaining visually part of one play workspace.
+One Play may still have one focused linked Team Plan. Its compact comparison
+belongs inside Team and routes to canonical Plan Detail with the Play retained
+as context. Mature Play Hub sections may become URL-addressable while remaining
+visually part of one play workspace.
 
 ### Codex
 
@@ -177,7 +179,7 @@ silently.
 
 ```txt
 Play Overview
--> Team, Progress, Plan, History, or Settings
+-> Team, Progress, History, or Settings
 -> perform one focused task
 -> Overview reflects the result
 ```

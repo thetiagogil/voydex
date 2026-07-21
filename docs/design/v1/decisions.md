@@ -43,10 +43,10 @@ why the direction was selected or changed.
 | V1-D025 | 2026-07-13 | Use a list-detail Team workspace with one twelve-position roster list and visually dominant selected-Pokémon context      | Accepted   |
 | V1-D026 | 2026-07-13 | Keep every roster row compact, equal, and explicit across occupied, selected, confirmed-empty, and not-recorded states    | Accepted   |
 | V1-D027 | 2026-07-13 | Keep selected Pokémon detail Play-owned, identity-first, and progressively grouped                                        | Accepted   |
-| V1-D028 | 2026-07-13 | Use an explainable, confidence-aware Active-Team analysis preview                                                         | Accepted   |
+| V1-D028 | 2026-07-13 | Keep Team Quick Analysis as an important surface while deferring its metric strategy                                      | Accepted   |
 | V1-D029 | 2026-07-13 | Defer a playful Team Score until after V1                                                                                 | Deferred   |
 | V1-D030 | 2026-07-13 | Add a focused Play-owned Team Analysis view beneath the Team workspace                                                    | Accepted   |
-| V1-D031 | 2026-07-13 | Keep Recent Team Events to three deliberately recorded Team moments and reuse filtered History                            | Accepted   |
+| V1-D031 | 2026-07-13 | Keep Recent Team Events to three Pokémon-specific Team changes, separate from Play History                                | Accepted   |
 | V1-D032 | 2026-07-13 | Defer a generic per-edit `Record this change in History` option until after V1                                            | Deferred   |
 | V1-D033 | 2026-07-13 | Show linked Plan context as a compact roster-adjacent comparison                                                          | Accepted   |
 | V1-D034 | 2026-07-13 | Record a Team moment through a dedicated minimal Active-lineup snapshot flow                                              | Accepted   |
@@ -663,30 +663,17 @@ repairs the current entry without an event. Completed and abandoned Plays favor
 remembered detail and correction over forward-looking actions, while partial
 and failed data states preserve honest knowledge state.
 
-## V1-D028 — Explainable Active-Team Analysis
+## V1-D028 — Preserve Team Quick Analysis While Defining Its Strategy
 
 **Status:** Accepted
 
 **Date:** 2026-07-13
 
-Keep Quick Team Analysis to three evidence-backed signals for the current
-Active lineup: defensive pressure, recorded damaging-move coverage, and a
-short watchlist. Every conclusion exposes the facts behind it and distinguishes
-known gaps from partial or unsupported data. Reserve members remain outside the
-calculation until they become Active.
-
-Do not make role, bulk, synergy, or damage claims without the user and reference
-data needed to support them. Missing moves never count as absent coverage.
-Ability, item, or special-mechanic adjustments apply only when the member fact
-is recorded and the effect can be modeled reliably; otherwise the analysis
-identifies its base-typing scope.
-
-The focused analysis expands the same model into defensive and recorded-move
-coverage matrices, explainable member and Team notes, evidence completeness,
-and explicit assumptions. Known smaller lineups are analyzed as the current
-Team, while unrecorded positions produce a clearly partially recorded result.
-Completed and abandoned Plays use Final Team and Last Known Team language
-rather than prescriptive optimization language.
+Keep Team Quick Analysis in the Team workspace as an important Team-wide
+surface. Its final metrics, reliable inputs, calculation rules, evidence
+disclosure, and partial-data behavior require a separate product slice. Until
+that strategy is accepted, do not replace the section with invented matchup,
+balance, coverage, role, damage, or competitive claims.
 
 ## V1-D029 — Defer Team Score Beyond V1
 
@@ -694,9 +681,8 @@ rather than prescriptive optimization language.
 
 **Date:** 2026-07-13
 
-Do not include a composite Team Score in V1. Use the accepted Quick Team
-Analysis signals and full analysis view to establish trustworthy defensive and
-recorded-move coverage behavior first. Preserve Team Score as a fun
+Do not include a composite Team Score in V1. Define and validate the underlying
+Team Quick Analysis strategy first. Preserve Team Score as a fun
 later-version direction, but do not freeze its formula, confidence treatment,
 or visual presentation during the V1 design and database pass.
 
@@ -711,21 +697,10 @@ Play Team experience. Keep the Play Header and Hub navigation visible, keep
 Team active, and provide a clear return to roster management. Do not add a
 seventh Play Hub tab or a global Mainline analysis destination.
 
-The view expands Quick Team Analysis into an evidence header, generation-aware
-defensive matchup matrix, recorded damaging-move coverage matrix, explainable
-Team notes, and an explicit analysis-basis disclosure. Reserve members remain
-outside V1 analysis. Team changes remain owned by Team and the analysis derives
-from the current confirmed Active state.
-
-Use full-width stacked matrices on larger screens and type-grouped expandable
-rows on narrow screens. Preserve exact multipliers, affected member and move
-identity, partial-data language, keyboard access, visible focus, and meaning
-beyond color.
-
-The exact matrix density, compact filter controls, and visual composition may
-iterate during implementation. Preserve the accepted route and Team ownership,
-Active-only derivation, evidence sections, honest partial states, and accessible
-responsive behavior while refining that presentation.
+Preserve the accepted route and Team ownership while the metrics and full-view
+information strategy are defined with Team Quick Analysis. Team changes remain
+owned by Team, and any future analysis must disclose its evidence, partial data,
+and unsupported mechanics rather than producing confident invented results.
 
 ## V1-D031 — Deliberate Recent Team Events
 
@@ -733,23 +708,21 @@ responsive behavior while refining that presentation.
 
 **Date:** 2026-07-13
 
-Keep Recent Team Events to the latest three intentionally preserved Team
-moments. Reuse the existing Play History experience with its Team filter rather
-than creating another history page or data model. The preview describes the
-whole Active-and-Reserve roster and remains unchanged when a different member
-is selected.
+Keep Recent Team Events to the latest three Pokémon-specific Team changes. The
+preview describes the whole Active-and-Reserve roster and remains unchanged
+when a different member is selected. Play History and Team History may share an
+event store, but they use separate eligibility and presentation rules.
 
-Recorded additions, evolutions, persistent form changes, replacements,
-retirements, returns, final-Team or Hall of Fame moments, and deliberate Team
-snapshots qualify. Team's V1 move, swap, and reorder controls never create
-History; a user can preserve a meaningful lineup with `Record Team moment` or
-author context in History. Corrections, routine detail and moveset edits, failed
-mutations, and technical activity remain outside the timeline. V1 does not add
-a generic per-edit History option.
+Recorded additions, Active/Reserve movements, updates, evolutions, persistent
+form changes, replacements, retirements, removals, and returns qualify. Story
+or completion progress, final-Team or Hall of Fame moments, deliberate Team
+snapshots, journal entries, status changes, failed mutations, and technical
+activity do not qualify for this Team projection.
 
 Each row uses concise Pokémon-first language, explicit effective-date certainty,
 and event-time identity. Evolution, replacement, or recorded form-change rows
-may show before-and-after portraits; snapshots may show a compact member stack.
+show before-and-after portraits; movements show the Pokémon and roster
+destination; other changes show the affected Pokémon portrait.
 The row routes to its owning History event, while event editing remains in
 History. Order by effective date or preserved manual timeline order, never by
 entry time alone, so historical imports do not masquerade as recent events.
@@ -757,7 +730,7 @@ entry time alone, so historical imports do not masquerade as recent events.
 Keep one `View Team history` header action. A lower-emphasis `Record Team
 moment` action may appear only when useful. New Plays, imported Plays with no
 Voydex event history, no-Team-event timelines, and failed reads receive distinct
-honest states without duplicating the Team toolbar's `Add Pokémon` action.
+honest states without duplicating the Roster Card header's `Add Pokémon` action.
 
 ## V1-D032 — Defer Per-Edit History Recording
 
@@ -781,11 +754,11 @@ or database pass.
 
 **Date:** 2026-07-13
 
-When a Play has one focused linked Team Plan, show a compact comparison next to
-the roster rather than adding another full Team-tab card. Surface the Plan name,
-an explicit reached/target summary, exceptional skipped context when useful,
-and one `Compare with Plan` route to the Play-owned Plan area. Omit the
-comparison when no Plan is linked.
+When a Play has one focused linked Team Plan, show a compact Team Plan Card
+directly below Roster in the left column. Surface the Plan name, following
+state, an explicit reached/target summary, exceptional skipped or off-plan
+context when useful, and one `View plan` route to canonical Plan Detail. Omit
+the Card when no Plan is linked.
 
 Count a target as reached only through the explicit Plan-member-to-Play-member
 relationship. Matching species or forms may inform Plan-owned comparison or
@@ -3020,3 +2993,26 @@ observation is unavailable, or as recovery if future incremental I/O can fail.
 This decision supersedes only V1-D088's explicit `Load more` requirement; it
 preserves the exact-game, URL-state, return-position, responsive-density, empty,
 partial-data, and accessibility contracts.
+
+## V1-D122 — Plan Context Lives Inside Team
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-20
+
+Remove Plan from the Play Hub's top-level tab set. The Hub now uses Overview,
+Team, Progress, History, and Settings. Team owns one compact read-only Team Plan
+section beside the actual roster workflow, while canonical standalone Plan
+Detail owns target authoring, checks, lifecycle, Play comparison, and member
+relationship actions.
+
+When a Plan is linked, Team may show its identity and a concise explicitly
+derived target summary with one `View plan` destination. When no Plan is linked,
+the section may offer a quiet link-or-create entry without implying that Plan
+targets occupy actual roster positions. Team never edits Plan targets or infers
+relationships from roster identity.
+
+This decision supersedes V1-D054's requirement for a dedicated Play Plan tab
+and any later navigation wording that assumes that tab. It preserves V1-D054's
+comparison language, explicit relationship ownership, non-judgmental treatment,
+and full-width Plan Detail information hierarchy.

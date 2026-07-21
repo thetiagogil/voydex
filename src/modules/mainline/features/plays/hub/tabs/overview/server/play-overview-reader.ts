@@ -2,12 +2,8 @@ import type {
   MainlinePlayMilestoneRows,
   MainlinePlayOverview,
   MainlinePlayTeamRows,
-  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
-import {
-  getMainlineTimelinePokemonFormIds,
-  hydrateMainlineTimelinePokemonImages,
-} from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
+import { getMainlinePlayTeamMoveIds } from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -35,15 +31,16 @@ export const readMainlinePlayTeamRows = async (
   supabase: ServerSupabaseClient,
   playId: string,
   generationId: number | null,
+  versionGroupId: number | null,
 ): Promise<MainlinePlayTeamRows> => {
   const teamResult = await supabase
     .schema("views")
     .from("mainline_play_team_detail")
     .select("*")
     .eq("play_id", playId)
-    .eq("roster_state_slug", "active")
+    .in("roster_state_slug", ["active", "reserve"])
     .order("slot", { ascending: true })
-    .limit(6);
+    .limit(12);
 
   if (teamResult.error) {
     throw new Error("Unable to load Mainline play team preview.");
@@ -51,40 +48,102 @@ export const readMainlinePlayTeamRows = async (
 
   const members = teamResult.data ?? [];
   const formIds = uniqueNumberIds(members.map((member) => member.form_id));
-
-  if (!formIds.length) {
-    return {
-      attributes: [],
-      members,
-      types: [],
-    };
-  }
+  const moveIds = getMainlinePlayTeamMoveIds(members);
+  const abilityIds = uniqueNumberIds(
+    members.map((member) => member.ability_id),
+  );
+  const natureIds = uniqueNumberIds(members.map((member) => member.nature_id));
+  const ballItemIds = uniqueNumberIds(
+    members.map((member) => member.ball_item_id),
+  );
 
   let attributesQuery = supabase
     .schema("reference")
     .from("pokemon_attributes")
-    .select("*")
-    .in("form_id", formIds);
+    .select("*");
 
   if (generationId) {
     attributesQuery = attributesQuery.lte("generation_start_id", generationId);
   }
 
-  const attributesResult = await attributesQuery
-    .order("form_id", { ascending: true })
-    .order("generation_start_id", { ascending: false });
+  let moveAttributesQuery = supabase
+    .schema("reference")
+    .from("move_attributes")
+    .select("*")
+    .in("move_id", moveIds.length ? moveIds : [-1]);
 
-  if (attributesResult.error) {
-    throw new Error("Unable to load Mainline play team types.");
+  if (generationId) {
+    moveAttributesQuery = moveAttributesQuery.lte(
+      "generation_start_id",
+      generationId,
+    );
+  }
+
+  const abilityAttributesQuery = supabase
+    .schema("reference")
+    .from("ability_attributes")
+    .select("*")
+    .in("ability_id", abilityIds.length ? abilityIds : [-1]);
+
+  const [
+    abilityAttributesResult,
+    attributesResult,
+    moveAttributesResult,
+    ballItemsResult,
+    pokeBallCategoryResult,
+    naturesResult,
+    versionGroupsResult,
+  ] = await Promise.all([
+    abilityAttributesQuery
+      .order("ability_id", { ascending: true })
+      .order("version_group_start_id", { ascending: false }),
+    attributesQuery
+      .in("form_id", formIds.length ? formIds : [-1])
+      .order("form_id", { ascending: true })
+      .order("generation_start_id", { ascending: false }),
+    moveAttributesQuery
+      .order("move_id", { ascending: true })
+      .order("generation_start_id", { ascending: false }),
+    supabase
+      .schema("reference")
+      .from("items")
+      .select("id, primary_category_id")
+      .in("id", ballItemIds.length ? ballItemIds : [-1]),
+    supabase
+      .schema("reference")
+      .from("item_categories")
+      .select("id")
+      .eq("slug", "poke_ball")
+      .maybeSingle(),
+    supabase
+      .schema("reference")
+      .from("natures")
+      .select("*")
+      .in("id", natureIds.length ? natureIds : [-1]),
+    supabase.schema("reference").from("version_groups").select("*"),
+  ]);
+
+  if (
+    abilityAttributesResult.error ||
+    attributesResult.error ||
+    moveAttributesResult.error ||
+    ballItemsResult.error ||
+    pokeBallCategoryResult.error ||
+    naturesResult.error ||
+    versionGroupsResult.error
+  ) {
+    throw new Error("Unable to load Mainline play team references.");
   }
 
   const attributes = attributesResult.data ?? [];
-  const typeIds = uniqueNumberIds(
-    attributes.flatMap((attribute) => [
+  const moveAttributes = moveAttributesResult.data ?? [];
+  const typeIds = uniqueNumberIds([
+    ...attributes.flatMap((attribute) => [
       attribute.primary_type_id,
       attribute.secondary_type_id,
     ]),
-  );
+    ...moveAttributes.map((attribute) => attribute.type_id),
+  ]);
 
   const typesResult = typeIds.length
     ? await supabase
@@ -99,9 +158,19 @@ export const readMainlinePlayTeamRows = async (
   }
 
   return {
+    abilityAttributes: abilityAttributesResult.data ?? [],
     attributes,
     members,
+    moveAttributes,
+    natures: naturesResult.data ?? [],
     types: typesResult?.data ?? [],
+    validBallItemIds: (ballItemsResult.data ?? [])
+      .filter(
+        (item) => item.primary_category_id === pokeBallCategoryResult.data?.id,
+      )
+      .map((item) => item.id),
+    versionGroupId,
+    versionGroups: versionGroupsResult.data ?? [],
   };
 };
 
@@ -140,41 +209,4 @@ export const readMainlinePlayMilestoneRows = async (
     lastCompletedMilestone: lastCompletedResult.data ?? null,
     nextMilestone: nextMilestoneResult.data ?? null,
   };
-};
-
-export const readMainlinePlayTimelinePreview = async (
-  supabase: ServerSupabaseClient,
-  playId: string,
-): Promise<MainlinePlayTimelineEvent[]> => {
-  const timelineResult = await supabase
-    .schema("views")
-    .from("mainline_play_timeline_detail")
-    .select("*")
-    .eq("play_id", playId)
-    .order("timeline_order", { ascending: false })
-    .order("happened_at", { ascending: false })
-    .limit(5);
-
-  if (timelineResult.error) {
-    throw new Error("Unable to load Mainline play timeline preview.");
-  }
-
-  const events = timelineResult.data ?? [];
-  const formIds = getMainlineTimelinePokemonFormIds(events);
-
-  if (!formIds.length) {
-    return events;
-  }
-
-  const formsResult = await supabase
-    .schema("reference")
-    .from("pokemon_forms")
-    .select("id, sprite_slug")
-    .in("id", formIds);
-
-  if (formsResult.error) {
-    throw new Error("Unable to load Mainline timeline Pokemon images.");
-  }
-
-  return hydrateMainlineTimelinePokemonImages(events, formsResult.data ?? []);
 };

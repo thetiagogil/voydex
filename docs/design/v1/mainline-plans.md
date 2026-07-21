@@ -300,7 +300,7 @@ action without exposing inaccessible user destinations.
 ### Purpose And Difference From Play Plan
 
 Standalone Plan Detail answers `What team do I intend to build?` It owns the
-reusable Plan. The Play Plan tab answers `What happened to that intention in
+reusable Plan. Plan Detail with Play context answers `What happened to that intention in
 this particular Play?` and owns Play-specific relationships.
 
 Do not copy the Play comparison list wholesale into standalone Detail. The
@@ -430,7 +430,7 @@ Show every owner-accessible Play linked to this Plan with:
 - Play name, game, and lifecycle;
 - a plain target summary such as `3 reached · 1 in progress` when trustworthy;
 - the time the relationship was last meaningfully updated when available;
-- a route to that Play's Plan tab.
+- a route to Plan Detail with that Play retained as comparison context.
 
 This section explains reuse and makes cross-Play edit consequences concrete. It
 does not embed full actual Team rows or let the standalone Plan page relink,
@@ -466,7 +466,7 @@ Creation is one coherent operation across Play metadata and settings, copied
 scope and Rule links, the focused Plan link, and initial Plan-member
 relationship rows. On any failure, no partial Play or link remains. Success
 opens the normal Play Overview with an empty actual roster and the existing
-Plan context available in its Plan tab.
+Plan context available from its Team Plan section and canonical Plan Detail.
 
 ### Responsive And Interaction Behavior
 

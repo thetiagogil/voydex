@@ -31,10 +31,11 @@ the evidence for exact implementation details.
   Search, Status, Game, and Sort controls plus compact enriched summary cards.
 - `/mainline/plays/[playId]` mounts the Play Hub.
 - The Overview tab loads real play, team, progress, and recent-history data.
-- Team, Progress, Plans, History, and Settings remain intentionally small tab
-  shells until their workflows are implemented.
+- Team now has an initial read-only list-detail implementation over the real
+  Active and Reserve roster. Progress, History, and Settings remain
+  intentionally small tab shells until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
-  no Team form is mounted yet.
+  the game-aware picker and mutation form are not mounted yet.
 
 ### Codex
 
@@ -51,10 +52,10 @@ the evidence for exact implementation details.
 ## Current Product And Design Checkpoint
 
 The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119, and
-V1-D120](./design/v1/decisions.md) define the current light-first explorer's
-navbar, single journal page, compact introduction, and conventional
-destination-link direction within the canonical
+[V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119,
+V1-D120, and V1-D122](./design/v1/decisions.md) define the current light-first
+explorer's navbar, single journal page, compact introduction, conventional
+destination-link direction, and Team-owned Plan entry within the canonical
 [V1 Visual Language](./design/v1/visual-language.md).
 
 The shared shell, Plays Browse, Play Hub Overview, Pokémon Browse, and Games
@@ -95,8 +96,8 @@ The current production baseline is Plays Browse:
 Play Hub Overview is a completed production design checkpoint:
 
 - The authenticated query, Play identity, cover, metadata, actions, tab order,
-  and four-section Overview organization remain intact. The visible planning tab
-  now uses the accepted singular `Plan` label.
+  and four-section Overview organization remain intact. Planning is now reached
+  contextually from Team instead of occupying a second Play Hub tab.
 - The contextual header now uses the same serif/forest hierarchy and restrained
   cover treatment as the other detail views without becoming another Card.
   Duplicate Team and Pokédex counts were removed from the header so the owning
@@ -112,6 +113,56 @@ Play Hub Overview is a completed production design checkpoint:
   Representative authenticated routes were checked at desktop, tablet, and
   phone widths without page overflow or nested vertical scrolling; keyboard
   focus remained visible and the browser console stayed clear.
+
+Play Hub Team has an initial production implementation checkpoint:
+
+- The Team tab is enabled without changing the existing Play header. The Hub
+  now has five tabs after moving Plan context into Team. Team reads the
+  Play-owned Active and Reserve roster while keeping
+  Overview limited to the Active preview.
+- Desktop uses the accepted list-detail hierarchy: all six Active and six
+  Reserve positions remain visible with the same detailed row geometry. The
+  initial baseline has no Reserve summary or disclosure state. The first recorded member opens in
+  a larger selected-Pokémon detail. The substantially larger portrait is the
+  identity area's focal point, while an inline labelled star identifies shiny
+  members. The top row uses a 60/40 identity-to-caught-information split. Type
+  badges precede the adjacent Level and icon-labelled Gender chips, and Held
+  Item follows those chips.
+  Caught information is now one compact section containing only Ball, met
+  location, and met level; Trainer is omitted until the application owns useful
+  per-member original-trainer data. The next row uses the same 60/40 hierarchy:
+  the wider Moves column sits on the left, while Ability and Nature stack on the
+  right with quiet separation, no decorative icons, and supported effect
+  context. The four move positions use a compact vertical list with a
+  left-aligned type icon, optically centered name, subtle type color, or a
+  matching `Empty slot`, followed by optional Notes and a responsive action
+  footer. Edit Pokémon now belongs to the selected panel or sheet header.
+- Missing Active and Reserve positions are labelled `Empty slot` and omit
+  placeholder media and explanatory copy. A completely blank Play keeps all six
+  Reserve positions visible without inventing a member selection.
+- Tablet and phone keep the roster primary and open occupied members in a
+  focused detail sheet. Populated and blank fixtures were browser-checked at
+  desktop, tablet, and phone widths without horizontal overflow or console
+  errors.
+- The Roster Card header now owns only the canonical disabled Add action. A
+  compact Team Plan Card appears directly below Roster for linked Plans,
+  leads with the Plan identity, reports whether the current Team is following
+  it, and separates target progress from skipped and off-plan differences. It
+  now owns the disabled View plan destination. Past Members has no
+  Roster Card link until its focused destination is implemented; selected
+  detail remains the first right-side section.
+- Team Quick Analysis remains in the supporting right-side hierarchy while its
+  final metrics and review strategy are deliberately deferred. Recent Team
+  Events loads and hydrates only Pokémon-specific roster and lifecycle changes;
+  Play progress snapshots and Hall of Fame entries no longer qualify. Both
+  full-view destinations remain explicitly disabled.
+- Decorative section-title icons and the permanent empty Plan card were
+  removed. Linked Plan context now consumes the focused Plan's real member
+  relationship rows without matching by species, form, or roster position.
+  Slot resolution, roster movement,
+  member editing, lifecycle actions, Past Members, and full analysis/history
+  routes remain outside this read-only slice. Their selected-member controls are
+  visibly disabled; only the exact-game Codex route is active.
 
 Pokémon Browse is a completed production design checkpoint:
 
@@ -201,18 +252,14 @@ Game Pokédex is a completed production design checkpoint:
 The current implementation checkpoint is on `main`. Run `git status` before
 editing and preserve unrelated work.
 
-After the Play Hub Overview visual slice, continue with one bounded adjacent
-view or one named functional gap rather than a broad Mainline rewrite. The
-closest accepted follow-up is the Play Hub Team tab:
-
-1. preserve the current Play header and keep Team visibly active within the
-   same six-tab workspace;
-2. implement the accepted list-detail Team hierarchy without widening the
-   current mutation or database scope;
-3. keep occupied, confirmed-empty, and not-recorded positions truthful and
-   geometrically stable across desktop, tablet, and phone;
-4. keep Progress, Plan, History, and Settings as separate later slices rather
-   than filling their current shells during Team work.
+After the initial Team read-only slice, continue with one bounded Team workflow
+or one named functional gap rather than a broad Mainline rewrite. The closest
+accepted follow-up is the game-aware `Add Pokémon` picker and its targeted slot
+handoff, using the existing owner-scoped mutation path without treating missing
+positions as confirmed empty. Roster movement, lifecycle actions, Past Members,
+full analysis/history routes, and Plan Detail remain separate later increments.
+Progress, History, and Settings should stay independent slices
+rather than being filled during Team work.
 
 Do not add database changes, another background, dark mode, sticky replacement
 navigation, Skeletons, decorative edge systems, or a broad cross-page refactor
@@ -250,6 +297,10 @@ selected behavior that future work must preserve belongs in versioned docs.
   transitions, current/past lifecycle support, and Plan-safe correction or
   deletion. The consolidated design-derived database matrix and full
   reference-data audit remain required before those workflows are implemented.
+- The development Team fixture still stores a non-ball reference in
+  `ball_item_id`. The Team read model now validates that reference against the
+  `poke_ball` item category and presents an invalid value as `Not recorded`;
+  fixture data still needs a real capture-ball assignment.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
 
@@ -259,7 +310,7 @@ The repository currently provides:
 
 - Architecture enforcement over the active source tree.
 - The latest `npm run verify` checkpoint passes documentation, repository-wide
-  formatting, lint, TypeScript, architecture enforcement, 42 Vitest tests, and
+  formatting, lint, TypeScript, architecture enforcement, 69 Vitest tests, and
   the production build.
 - Focused Vitest coverage for domain, mapping, navigation, authentication, and
   database-audit helpers.

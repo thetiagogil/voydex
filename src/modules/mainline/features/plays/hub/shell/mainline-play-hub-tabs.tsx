@@ -1,6 +1,5 @@
 import { MainlinePlayHistoryTab } from "@/modules/mainline/features/plays/hub/tabs/history/mainline-play-history-tab";
 import { OverviewTab } from "@/modules/mainline/features/plays/hub/tabs/overview/overview-tab";
-import { MainlinePlayPlansTab } from "@/modules/mainline/features/plays/hub/tabs/plans/mainline-play-plans-tab";
 import { MainlinePlayProgressTab } from "@/modules/mainline/features/plays/hub/tabs/progress/mainline-play-progress-tab";
 import { MainlinePlaySettingsTab } from "@/modules/mainline/features/plays/hub/tabs/settings/mainline-play-settings-tab";
 import { MainlinePlayTeamTab } from "@/modules/mainline/features/plays/hub/tabs/team/mainline-play-team-tab";
@@ -26,7 +25,6 @@ const tabs = [
   { label: "Overview", value: "overview" },
   { label: "Team", value: "team" },
   { label: "Progress", value: "progress" },
-  { label: "Plan", value: "plans" },
   { label: "History", value: "history" },
   { label: "Settings", value: "settings" },
 ] as const;
@@ -45,7 +43,7 @@ export const MainlinePlayHubTabs = ({ data }: MainlinePlayHubTabsProps) => {
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                disabled={tab.value !== "overview"}
+                disabled={tab.value !== "overview" && tab.value !== "team"}
                 className="h-10 min-w-fit flex-none rounded-none px-1"
               >
                 {tab.label}
@@ -59,13 +57,15 @@ export const MainlinePlayHubTabs = ({ data }: MainlinePlayHubTabsProps) => {
             <OverviewTab data={data} />
           </TabsContent>
           <TabsContent value="team">
-            <MainlinePlayTeamTab />
+            <MainlinePlayTeamTab
+              events={data.teamTimelinePreview}
+              gameSlug={data.play.game_slug}
+              roster={data.roster}
+              teamPlan={data.teamPlan}
+            />
           </TabsContent>
           <TabsContent value="progress">
             <MainlinePlayProgressTab />
-          </TabsContent>
-          <TabsContent value="plans">
-            <MainlinePlayPlansTab />
           </TabsContent>
           <TabsContent value="history">
             <MainlinePlayHistoryTab />

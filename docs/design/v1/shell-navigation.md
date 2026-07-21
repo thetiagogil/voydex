@@ -118,8 +118,9 @@ navigation item.
 
 ## Contextual Navigation
 
-- A Play Hub owns navigation between Overview, Team, Progress, Plan, History,
-  and Settings.
+- A Play Hub owns navigation between Overview, Team, Progress, History, and
+  Settings. Linked Team Plan context lives inside Team and routes to standalone
+  Plan Detail.
 - Team may expose a focused Analysis child route while Team remains visibly
   active and the user retains a clear return to roster management.
 - Progress opens its Overview and may expose Story, Pokédex, and Collectibles as
