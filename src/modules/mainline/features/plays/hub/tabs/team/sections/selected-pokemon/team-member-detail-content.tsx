@@ -1,7 +1,8 @@
+import { formatTeamMemberGender } from "@/modules/mainline/features/plays/hub/tabs/team/display/team-member-display";
 import { TeamMemberActions } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-actions";
+import { TeamMemberIdentity } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-identity";
 import { TeamMemberMoves } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-moves";
-import { TeamMemberProfile } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-profile";
-import { getTeamNatureEffectSummary } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-model";
+import { TeamMemberPortrait } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-portrait";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -13,29 +14,22 @@ import {
 } from "@/shared/components/ui/empty";
 import { Separator } from "@/shared/components/ui/separator";
 
-const TeamMemberBattleFact = ({
-  description,
+const TeamMemberDetailFact = ({
   label,
   value,
 }: {
-  description?: string | null;
   label: string;
   value: string | null;
 }) => {
   return (
-    <dl className="grid min-w-0 content-start gap-1">
+    <div className="grid min-w-0 gap-1">
       <dt className="text-muted-foreground text-[0.6875rem] font-medium tracking-wide uppercase">
         {label}
       </dt>
-      <dd className="text-foreground min-w-0 text-sm font-semibold break-words">
+      <dd className="text-foreground min-w-0 text-sm font-medium break-words">
         {value ?? "Not recorded"}
       </dd>
-      {description ? (
-        <dd className="text-muted-foreground line-clamp-2 text-xs leading-5">
-          {description}
-        </dd>
-      ) : null}
-    </dl>
+    </div>
   );
 };
 
@@ -66,38 +60,75 @@ export const TeamMemberDetailContent = ({
     return <TeamMemberEmptyDetail />;
   }
 
-  const natureEffectSummary = getTeamNatureEffectSummary(member);
-
   return (
     <div className="grid gap-4">
-      <TeamMemberProfile member={member} />
+      <TeamMemberIdentity member={member} />
 
       <Separator className="bg-app-surface-border/60" />
 
       <section
-        aria-label="Battle characteristics and moves"
-        className="grid gap-4 md:grid-cols-[minmax(0,3fr)_auto_minmax(0,2fr)]"
+        aria-label="Selected Pokémon details"
+        className="grid items-stretch gap-5 lg:grid-cols-3"
       >
-        <TeamMemberMoves moves={member.moves} />
-        <Separator className="bg-app-surface-border/60 md:hidden" />
-        <Separator
-          orientation="vertical"
-          className="bg-app-surface-border/60 hidden md:block"
-        />
-        <div className="grid content-start gap-4">
-          <TeamMemberBattleFact
-            label="Ability"
-            value={member.ability_name}
-            description={member.abilityEffectSummary}
-          />
-          <Separator className="bg-app-surface-border/60" />
-          <TeamMemberBattleFact
-            label="Nature"
-            value={member.nature_name}
-            description={natureEffectSummary}
-          />
+        <div className="grid min-w-0 place-items-center">
+          <TeamMemberPortrait member={member} />
         </div>
+
+        <section
+          aria-labelledby="team-member-build-heading"
+          className="border-app-surface-border/60 grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
+        >
+          <h3
+            id="team-member-build-heading"
+            className="text-primary font-serif text-base font-semibold"
+          >
+            Build
+          </h3>
+          <dl className="grid min-w-0 gap-3">
+            <TeamMemberDetailFact
+              label="Level"
+              value={member.level ? `Lv. ${member.level}` : null}
+            />
+            <TeamMemberDetailFact label="Ability" value={member.ability_name} />
+            <TeamMemberDetailFact label="Nature" value={member.nature_name} />
+            <TeamMemberDetailFact
+              label="Held item"
+              value={member.held_item_name}
+            />
+          </dl>
+        </section>
+
+        <section
+          aria-labelledby="team-member-origin-heading"
+          className="border-app-surface-border/60 grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
+        >
+          <h3
+            id="team-member-origin-heading"
+            className="text-primary font-serif text-base font-semibold"
+          >
+            Origin
+          </h3>
+          <dl className="grid min-w-0 gap-3">
+            <TeamMemberDetailFact
+              label="Gender"
+              value={formatTeamMemberGender(member.gender)}
+            />
+            <TeamMemberDetailFact label="Ball" value={member.ball_item_name} />
+            <TeamMemberDetailFact
+              label="Met location"
+              value={member.met_location_label}
+            />
+            <TeamMemberDetailFact
+              label="Met level"
+              value={member.met_level ? `Lv. ${member.met_level}` : null}
+            />
+          </dl>
+        </section>
       </section>
+
+      <Separator className="bg-app-surface-border/60" />
+
+      <TeamMemberMoves moves={member.moves} />
 
       {member.personal_notes ? (
         <>
@@ -108,7 +139,7 @@ export const TeamMemberDetailContent = ({
           >
             <h3
               id="team-member-notes-heading"
-              className="text-foreground font-serif text-base font-semibold"
+              className="text-primary font-serif text-base font-semibold"
             >
               Notes
             </h3>

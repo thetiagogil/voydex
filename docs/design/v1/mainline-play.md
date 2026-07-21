@@ -708,32 +708,26 @@ a Play-owned member record, not a compressed generic Pokédex page.
 
 Use this content hierarchy:
 
-1. **Identity and caught information:** make materially larger correct-form
-   artwork the focal point, using shiny artwork when applicable, and pair it
-   with nickname/species and type badges, followed by adjacent compact Level
-   and Gender chips. The Gender chip includes the matching accessible gender
-   symbol. Use a 60/40 split between this identity and the narrower caught-data
-   section. Place held item directly below those chips. If no nickname exists,
-   show only the species name.
-   Represent shiny state with a labelled star beside the displayed name rather
-   than another fact row. Keep the second top-level section limited to compact
-   caught information: category-validated Poké Ball, met location, and met
-   level. Vertically center those intrinsic rows rather than stretching them to
-   match the portrait. Omit Trainer until a useful per-Pokémon original-trainer
-   record exists.
-2. **Battle characteristics and Moves:** divide the next row 60/40, with the
-   wider Moves column on the left and Ability-and-Nature on the right. Stack
-   Ability and Nature with a quiet rule between them; keep their labels,
-   recorded values, and supporting effects aligned without decorative icon
-   boxes. Show the version-correct ability effect and nature stat modifiers when
-   reference data exists. Preserve four ordered move positions as one compact
-   vertical list. Each occupied move uses a subtle type-colored surface, keeps
-   its icon-only type badge at the left edge, and keeps the move name optically
+1. **Identity:** use one full-width band for nickname or species, optional
+   species context, and type badges. If no nickname exists, show only the
+   species name. Represent shiny state with a labelled star beside the displayed
+   name rather than another fact row.
+2. **Artwork, Build, and Origin:** align three equal columns below the identity
+   band and keep materially larger correct-form artwork as the focal point,
+   using shiny artwork when applicable. Build lists Level, Ability, Nature, and
+   Held Item. Origin lists Gender, category-validated Poké Ball, met location,
+   and met level. Keep both fact lists compact and top-aligned rather than
+   stretching their rows to match the artwork height. Separate the three
+   columns with quiet vertical rules. Omit Trainer until a useful per-Pokémon
+   original-trainer record exists.
+3. **Moves:** preserve four ordered move positions in one compact full-width
+   row. Each occupied move uses a subtle type-colored surface, keeps its
+   icon-only type badge at the left edge, and keeps the move name optically
    centered. Keep all four positions visible; a known empty move position shows
    only `Empty slot` with matching geometry and a dashed treatment.
-3. **Notes:** show the Play-owned note only when recorded. Do not reserve an
+4. **Notes:** show the Play-owned note only when recorded. Do not reserve an
    empty section or force long-form reference copy into the member panel.
-4. **Actions:** place `Edit Pokémon` in the selected panel or sheet header as
+5. **Actions:** place `Edit Pokémon` in the selected panel or sheet header as
    the primary record action. Keep exact-game `Open in Codex`, `Move slot`,
    `Replace`, `Evolve`, and `Retire` in one responsive footer row; expose only
    actions whose workflow and game-valid eligibility are implemented. Keep

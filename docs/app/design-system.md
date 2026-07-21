@@ -399,20 +399,23 @@ entry point deferred until the focused Past Members destination is implemented;
 that destination must not mix historical rows into the Active or Reserve groups
 or turn History into the member browser.
 
-Within the selected-member panel, keep the artwork as the main visual focus.
-The first row uses a 60/40 split: identity on the left and compact caught
-information on the right. Identity includes nickname or species, optional
-species context, type badges, then Level and icon-labelled Gender chips; show
-Held Item below and use a labelled star beside the name for shiny Pokémon.
-Caught information contains only category-validated Poké Ball, met location,
-and met level. Omit Trainer until the application owns useful per-member
-original-trainer data.
+Within the selected-member panel, keep the artwork as the main visual focus
+without letting it dictate the height of the factual columns. Use a full-width
+identity band for nickname or species, optional species context, and type
+badges in one wide-screen sequence; use a labelled star beside the name for shiny
+Pokémon. Below it, align three equal sections: artwork; Build; and Origin. Let
+the larger artwork set the height of the row while keeping the two fact lists
+compact and top-aligned rather than distributing their rows through the
+available height. Build stacks Level, Ability, Nature, and Held Item. Origin
+stacks Gender, category-validated Poké Ball, met location, and met level. Use
+subtle dividers on both sides of Build. Omit Trainer until the application owns
+useful per-member original-trainer data.
 
-The next row also uses a 60/40 split. Keep the four ordered Moves in a compact
-vertical list on the wider left side, using an icon-only type badge, optically
-centered name, restrained type treatment, and a matching dashed `Empty slot`.
-Stack Ability and Nature on the right with quiet separation and supported
-effect context. Show Notes only when recorded. Keep `Add Pokémon` as the
+Place the four ordered Moves in a full-width compact row below the three
+sections, using equal slots, icon-only type badges, optically centered names,
+restrained type treatment, and a matching dashed `Empty slot`. Reflow the
+sections and move slots on narrower surfaces without reducing the artwork to
+roster-row scale. Show Notes only when recorded. Keep `Add Pokémon` as the
 screen's canonical primary action, place `Edit Pokémon` in the selected panel
 or sheet header, and keep movement, lifecycle, and exact-game Codex actions in
 the footer. Use `Not recorded` rather than manufacturing missing facts.
