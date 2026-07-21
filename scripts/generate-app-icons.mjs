@@ -106,10 +106,13 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-function createIconSvg({ background, foreground }) {
+function createIconSvg({ primary, primaryForeground }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <rect width="512" height="512" rx="116" fill="${background}"/>
-  <path fill="${foreground}" fill-rule="evenodd" d="M256 108C283.4 185.5 326.5 228.6 404 256C326.5 283.4 283.4 326.5 256 404C228.6 326.5 185.5 283.4 108 256C185.5 228.6 228.6 185.5 256 108ZM256 226A30 30 0 1 0 256 286A30 30 0 1 0 256 226Z"/>
+  <path fill="${primary}" d="M235 48Q256 36 277 48L425 134Q446 146 446 170V342Q446 366 425 378L277 464Q256 476 235 464L87 378Q66 366 66 342V170Q66 146 87 134Z"/>
+  <g transform="rotate(60 256 256)">
+    <path fill="${primaryForeground}" d="m256 136 60 120-60-30-60 30Z"/>
+    <path fill="${primaryForeground}" fill-opacity="0.52" d="m256 376-60-120 60 30 60-30Z"/>
+  </g>
 </svg>
 `;
 }
@@ -156,8 +159,8 @@ const primaryForeground = colorTokenToHex(
   parseToken(css, "primary-foreground"),
 );
 const svg = createIconSvg({
-  background: primary,
-  foreground: primaryForeground,
+  primary,
+  primaryForeground,
 });
 
 await fs.writeFile(sourceSvgPath, svg, "utf8");
