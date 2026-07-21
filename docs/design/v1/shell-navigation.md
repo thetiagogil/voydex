@@ -9,11 +9,11 @@ while applying the selected explorer's field-guide visual language.
 
 **Status: Selected V1 shell treatment implemented and responsively verified**
 
-The top-bar shell and centered content canvas remain the accepted foundation.
+The navbar and content now form one full-height centered journal column.
 [V1-D120](./decisions.md) records the single journal-page treatment, while
-[V1-D115 and V1-D118](./decisions.md) own the background-blended navbar and
-destination controls. V1-D118 supersedes V1-D117's plank treatment with shared
-compact buttons. All use the canonical
+[V1-D123](./decisions.md) places the navbar inside that surface and removes its
+block gap. V1-D115 still owns normal-flow scrolling, and V1-D118 owns the shared
+compact destination controls. All use the canonical
 [V1 Visual Language](./visual-language.md).
 
 ## Navigation Layers
@@ -38,11 +38,13 @@ Use one responsive top app bar for normal app surfaces:
 - **Center on desktop:** primary views belonging to the active module.
 - **End:** account/authentication controls and only genuinely global utilities.
 
-The opening bar remains in normal document flow and uses a transparent surface
-so the scenic sky continues through it without a border or abrupt white block.
-It scrolls away with the page and does not return as a sticky, fixed, or
-floating surface. Long pages rely on normal browser navigation rather than a
-second scroll-triggered navbar presentation.
+The opening bar is the first section inside the journal surface. It remains in
+normal document flow and uses a transparent background so the paper continues
+behind it without creating a separate opaque block. A subtle warm bottom border
+provides separation from page content without making the navbar feel detached.
+It scrolls away with the page and does not return as a sticky, fixed, or floating
+surface. Long pages rely on normal browser navigation rather than a second
+scroll-triggered navbar presentation.
 
 The shell remains visually stable while module identity and module-view links
 change. Mainline and Codex may have subtle character through active states,
@@ -51,15 +53,17 @@ Module-view destinations use shared compact buttons: outline when inactive and
 primary when current. Module switching, account access, and ordinary actions
 remain clean controls with hierarchy appropriate to their role.
 
-Place normal page content inside a centered canvas up to approximately 1376
-pixels at large viewports. Align navbar content with the same broad grid and
-keep 12–16 pixels of space below the bar before the journal page. The scenic
-background remains visible in the side gutters and may appear subtly behind
-page context, preserving Voydex's sense of place without competing with
+Place the navbar and normal page content inside one centered canvas up to
+approximately 1376 pixels at large viewports. The canvas starts at the top of
+the viewport, fills at least its dynamic height, and grows with long content.
+It has no top or bottom margin or padding; the navbar and main content region
+own their internal spacing. The scenic background remains visible in the two
+side gutters, preserving Voydex's sense of place without competing with
 operational content.
 
-Use one warm, lightly textured journal page with a quiet one-pixel edge, small
-radius, and restrained shadow. Page context and operational content share that
+Use one warm, lightly textured journal page with quiet inline edges and a
+restrained centered shadow. The column is not a floating Card, so it has no
+rounded top or bottom edge. Page context and operational content share that
 surface. Do not add a clipboard frame, inset paper, clips, rails, stitching,
 corner caps, hardware, or a second decorative keyline. The page follows long
 content naturally without a shell-owned scrollbar.

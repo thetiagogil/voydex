@@ -137,6 +137,8 @@ why the direction was selected or changed.
 | V1-D119 | 2026-07-18 | Keep the Plays browse introduction compact and text-only                                                                  | Accepted   |
 | V1-D120 | 2026-07-19 | Replace the clipboard and clipped inset sheet with one continuous journal page                                            | Accepted   |
 | V1-D121 | 2026-07-19 | Continue the image-led Pokémon catalogue through automatic incremental result batches                                     | Accepted   |
+| V1-D122 | 2026-07-20 | Move Plan context into Team and keep standalone Plan Detail as the authoring destination                                  | Accepted   |
+| V1-D123 | 2026-07-21 | Place the navbar and all app content inside one full-height centered journal surface                                      | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -3016,3 +3018,28 @@ This decision supersedes V1-D054's requirement for a dedicated Play Plan tab
 and any later navigation wording that assumes that tab. It preserves V1-D054's
 comparison language, explicit relationship ownership, non-judgmental treatment,
 and full-width Plan Detail information hierarchy.
+
+## V1-D123 — Full-Height Journal Shell
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-21
+
+Place the navbar and all normal app page content inside one centered
+`app-page-surface`. The surface starts at the top of the viewport, fills at
+least the dynamic viewport height, and grows with long content. It owns no top
+or bottom margin or padding. Internal navbar and main-content spacing remain
+the responsibility of those regions.
+
+Keep the refined daylight landscape visible in the two side gutters. Use quiet
+inline edges and a restrained centered shadow to distinguish the journal
+column, without rounded top or bottom edges that make it read as a floating
+Card. The navbar remains transparent, in normal document flow, and scrolls away
+with the page. A subtle warm bottom border separates it from page content
+without turning it into a second surface. The browser remains the only vertical
+scroller.
+
+This decision supersedes the separate scenic placement and navbar-to-page gap
+described in V1-D115 and preserved by V1-D120. It preserves V1-D115's
+normal-flow navbar, V1-D120's continuous non-clipboard journal surface, the
+accepted maximum working width, and Landing as the intentional shell exception.

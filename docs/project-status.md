@@ -53,24 +53,25 @@ the evidence for exact implementation details.
 
 The breadth-first map and V1 functional screen contracts remain accepted in the
 [V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119,
-V1-D120, and V1-D122](./design/v1/decisions.md) define the current light-first
-explorer's navbar, single journal page, compact introduction, conventional
-destination-link direction, and Team-owned Plan entry within the canonical
+V1-D120, V1-D122, and V1-D123](./design/v1/decisions.md) define the current
+light-first explorer's navbar, single journal page, compact introduction,
+conventional destination-link direction, Team-owned Plan entry, and full-height
+shell composition within the canonical
 [V1 Visual Language](./design/v1/visual-language.md).
 
 The shared shell, Plays Browse, Play Hub Overview, Pokémon Browse, and Games
-Browse now implement the selected system: one in-flow
-navbar that dissolves into the scenic sky, the refined daylight-valley
-background, and one warm, lightly textured journal page with a quiet edge and
-restrained shadow. Primary route links use shared compact buttons; the module
-selector, account access, and actions remain clean controls. Compact page
-introductions, label-free accessible controls, result context, and content now
-share that single surface without a clipboard frame, inset sheet, brass
-hardware, or repeated nested Cards. A small gap keeps the navbar and journal
-page visually distinct, while the browser owns long-page scrolling without a
-nested vertical scroller. Only surfaces listed under Implemented Product
-Surfaces are production implementation; the remaining screen work is still
-design direction until it is represented in code and verified.
+Browse now implement the selected system: one full-height centered journal
+column over the refined daylight-valley background. The column begins at the
+top of the viewport, contains the in-flow navbar and all page content, fills at
+least the dynamic viewport height, and grows with long content. The landscape
+remains visible in the two side gutters. Primary route links use shared compact
+buttons; the module selector, account access, and actions remain clean controls.
+Compact page introductions, label-free accessible controls, result context, and
+content share the continuous surface without a clipboard frame, inset sheet,
+brass hardware, or repeated nested Cards. The browser owns long-page scrolling
+without a nested vertical scroller. Only surfaces listed under Implemented
+Product Surfaces are production implementation; the remaining screen work is
+still design direction until it is represented in code and verified.
 
 The current production baseline is Plays Browse:
 

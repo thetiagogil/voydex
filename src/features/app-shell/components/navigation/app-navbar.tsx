@@ -21,7 +21,7 @@ export const AppNavbar = ({
 }: AppNavbarProps) => (
   <header
     className={cn(
-      "app-nav-surface app-nav-surface-initial relative z-40 w-full shrink-0",
+      "app-nav-surface app-nav-surface-initial border-app-surface-border/50 relative z-40 w-full shrink-0 border-b",
       className,
     )}
   >

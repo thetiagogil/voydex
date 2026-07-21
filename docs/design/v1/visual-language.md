@@ -6,8 +6,8 @@ Codex without changing their accepted product responsibilities or flows.
 
 The selected V1 treatment combines disciplined field-guide organization with
 one warm, lightly textured journal page that holds both context and operational
-content. V1-D115, V1-D118, V1-D119, and V1-D120 own the current shell, navbar,
-surface, and Plays header behavior shown in production.
+content. V1-D115, V1-D118, V1-D119, V1-D120, and V1-D123 own the current shell,
+navbar, surface, and Plays header behavior shown in production.
 Functional contracts, responsive behavior, accessibility, truthful data
 states, and mounted routes remain binding when applying it to later views.
 
@@ -171,18 +171,20 @@ other signature imagery with ad hoc CSS drawings or placeholder decoration.
 
 The shared shell and Mainline Plays Browse establish the production grammar:
 
-- an opening navbar in normal document flow, aligned with the broad shell grid
-  and transparent over the daylight sky rather than an opaque white slab or
-  hard lower rule;
+- an opening navbar in normal document flow as the first section of the journal
+  surface, transparent over the paper rather than a separate opaque slab, with
+  only a subtle warm lower rule to distinguish navigation from page content;
 - the opening navbar scrolls away with the document and is not replaced by a
   sticky, fixed, or floating navigation surface;
 - the compact Voydex mark, a clear module switcher, and familiar compact
   destination buttons whose active state remains readable without relying only
   on color;
-- one warm, lightly textured journal page up to approximately 1376 pixels wide,
-  with a quiet one-pixel edge, small radius, restrained shadow, and ambient
-  daylight landscape visible in the outer gutters;
-- a 12–16 pixel breathing gap between the navbar and journal page;
+- one full-height, warm, lightly textured journal column up to approximately
+  1376 pixels wide, with quiet inline edges, a restrained centered shadow, and
+  ambient daylight landscape visible in the two outer gutters;
+- no top or bottom gap around the journal surface: it starts at the top of the
+  viewport, contains the navbar and page content, fills at least the dynamic
+  viewport height, and grows with long content;
 - one shared refined daylight-valley backdrop at
   `public/backgrounds/bg-day.webp` across the whole app, with distant
   mountains, green terrain, village, sky, and foreground flowers; route-specific
@@ -200,12 +202,12 @@ The shared shell and Mainline Plays Browse establish the production grammar:
   Create Play control.
 
 The journal page is a calm working surface rather than a theatrical prop. Its
-texture, edge, and shadow stay quiet enough for scenery, typography, game art,
-and journey data to provide the adventure character. Do not restore a literal
-clipboard, leather binding, clipped inset sheet, or decorative hardware. The
-browser owns vertical scrolling, and the page grows to its true content end
-without an inner vertical scroller. Narrow screens reduce paper padding while
-preserving useful working space.
+texture, inline edges, and centered shadow stay quiet enough for scenery,
+typography, game art, and journey data to provide the adventure character. Do
+not restore a literal clipboard, leather binding, clipped inset sheet, or
+decorative hardware. The browser owns vertical scrolling, and the page grows to
+its true content end without an inner vertical scroller. Narrow screens reduce
+the scenic gutters and content padding while preserving useful working space.
 
 ## Anti-Goals
 

@@ -90,12 +90,17 @@ Existing token groups:
 - App pages use the shared `AppShell`. Protected routes provide an authenticated
   account state; public Codex routes use `PublicAppShell` and can render for
   anonymous users.
-- Keep the opening navbar in normal document flow with a transparent surface so
-  the scenic background shows through without a hard lower edge.
-  Align its content to the broad shell grid and let the whole bar scroll away
-  with the document. Do not introduce a sticky, fixed, or floating replacement.
-  Keep the main journal page on a centered responsive canvas up to roughly 1376
-  pixels at large viewports and preserve a 12–16 pixel opening gap.
+- Keep the opening navbar in normal document flow as the first section of the
+  journal surface. Its background stays transparent so the paper continues
+  behind it without creating a separate bar. Use only a subtle warm bottom
+  border to distinguish navigation from page content. Let the whole navbar
+  scroll away with the document; do not introduce a sticky, fixed, or floating
+  replacement.
+- Keep the journal surface on a centered responsive canvas up to roughly 1376
+  pixels at large viewports. It starts at the top of the viewport, contains the
+  navbar and all page content, fills at least the dynamic viewport height, and
+  grows with long content. The surface owns no top or bottom margin or padding;
+  the navbar and main content region own their internal spacing.
 - Treat that canvas as a maximum working width rather than stretching every
   section. Reading content and forms may be narrower; browse grids, tables, and
   workspaces can use the available width.
@@ -106,12 +111,13 @@ Existing token groups:
   for the later night-theme design pass; it is not an active V1 theme.
   Route-specific overlays may adjust the daylight artwork's visual weight for
   readability, but they do not replace it. Keep the background visible in the
-  side gutters and lower page edge.
-- Treat the content surface as one warm, lightly textured journal page with a
-  quiet one-pixel edge, small radius, and restrained shadow. Do not frame it as
-  a clipboard, bind it in leather, or add clips, rails, corner caps, hardware,
-  or another decorative keyline. This is shared `AppShell` structure, not
-  feature-local Card decoration.
+  two side gutters around the journal surface.
+- Treat the content surface as one warm, lightly textured journal page with
+  quiet inline edges and a restrained centered shadow. It is a continuous
+  column rather than a floating Card, so it has no rounded top or bottom edge.
+  Do not frame it as a clipboard, bind it in leather, or add clips, rails,
+  corner caps, hardware, or another decorative keyline. This is shared
+  `AppShell` structure, not feature-local Card decoration.
 - Keep the journal page content-driven and use normal document scrolling for
   app pages. Never stretch a full-frame image to a long document, crop the page
   to the viewport, or give the shared surface its own vertical scrollbar. A
