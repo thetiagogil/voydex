@@ -73,7 +73,6 @@ reference/filter context; they are not currently a required top-level view.
         /story
         /pokedex/[pokedexSlug]
         /collectibles/[collectibleGroupSlug]
-      /plan
   /plans
     /new
     /[planId]
@@ -156,8 +155,9 @@ Codex Game Detail -> Authenticate when needed -> Create Plan with game context
 Creating a play keeps the plan and starts with an empty current roster.
 Create Plan may also resume with game and Pokémon/form context from Codex or
 with a fixed game and owning Play context from a Play that has no linked Plan.
-Standalone Plan Detail owns reusable authoring; a linked Play's Plan route owns
-that Play's comparison and relationship actions.
+Standalone Plan Detail owns reusable authoring. The active Team tab owns a
+linked Play's automatic read-only comparison; V1 adds no separate comparison
+route or manual association actions.
 
 ### Use Codex Context
 
@@ -225,17 +225,16 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   focused child routes that keep Progress active and provide a clear return to
   the Overview; they do not require persistent local sub-tabs or a dropdown
   Progress tab.
-- The Play Plan route is the contextual comparison and relationship surface for
-  the one focused linked Team Plan. The reusable Plan remains independently
-  addressable from the Plans module.
+- The contextual Team Plan comparison is a focused view inside the active Team
+  tab. The Play shell and primary tab selector remain visible.
 - History event details remain contextual sheets within the active Play History
   tab in V1. They do not require a separate route or a second navigation level.
 - Settings uses local sections inside the active Play Settings tab. General,
   Completion & Tracking, Rules & Tags, and Play Status & Management do not
   require separate V1 routes.
 - Standalone Plans and their reusable authoring routes remain under the Plans
-  module because they can exist independently; `/plays/[playId]/plan` is the
-  linked Play's contextual comparison and relationship surface.
+  module because they can exist independently. The contextual comparison does
+  not add another primary Play tab or V1 route.
 - Global Settings remains one `/settings` route with Profile, Preferences, and
   Account sections. V1 does not add section routes or tabs.
 - Public not-found states keep the public shell. Protected resource-not-found

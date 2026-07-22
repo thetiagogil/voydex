@@ -18,8 +18,10 @@ Codex Games, the Game-origin handoffs, Login, Global Settings, and shared system
 states now have accepted functional contracts. The breadth-first and
 depth-first review is complete. [V1-D113 and V1-D114](./decisions.md) preserve those
 contracts while selecting the canonical
-[V1 Visual Language](./visual-language.md). The shared shell and Plays Browse
-are its first implemented and responsively verified production slice.
+[V1 Visual Language](./visual-language.md). The shared shell, Plays Browse, Play
+Overview, Play Team, linked Team Plan comparison, and the implemented Codex
+views now use that visual language. Standalone Plan acquisition and authoring
+remain the next planning slice.
 
 ## Product Overview
 
@@ -184,27 +186,27 @@ route when it does not need an independent URL.
 
 ### Mainline Surfaces
 
-| ID    | Surface                   | Role                                                       | Specification status                                                                                                                     |
-| ----- | ------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| M-01  | Dashboard                 | Authenticated home and next-action summary                 | V1 functional contract accepted; visual validation pending; [detail](./mainline-dashboard.md)                                            |
-| M-02  | Plays                     | Browse and filter playthroughs                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plays-browse.md)                                         |
-| M-03  | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)                                                          |
-| M-04  | Play Overview             | High-signal summary of one play                            | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md)                                                 |
-| M-05  | Play Team                 | Manage active, reserve, and historical Pokémon             | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#team-contract)                                  |
-| M-05A | Play Team Analysis        | Inspect defensive matchups and recorded move coverage      | Direction accepted; [detail](./mainline-play.md#full-team-analysis-view-contract)                                                        |
-| M-06  | Play Progress             | Summarize applicable progress tracks                       | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#progress-contract)                               |
-| M-07  | Story Progress            | Record milestones, decisions, and optional snapshots       | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#story-information-architecture-contract)        |
-| M-08  | Play Pokédex              | Record game-scoped Pokédex progress                        | V1 interaction contract accepted; selector visual validation pending; [detail](./mainline-play.md#pokédex-browser-and-progress-contract) |
-| M-09  | Play Collectibles         | Record game-scoped collectible progress                    | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#collectibles-workspace-contract)                |
-| M-10  | Play Plan                 | Work with the one focused linked Team Plan                 | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#plan-contract)                                  |
-| M-11  | Play History              | Review and record meaningful timeline events               | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#history-contract)                               |
-| M-12  | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#settings-contract)                               |
-| M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-13--plans-hub)                                |
-| M-14  | Create Plan               | Create a game-scoped Team Plan                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-14--create-plan)                              |
-| M-15  | Plan Detail               | Build targets and resolve planning conflicts               | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-15--standalone-plan-detail)                   |
-| M-16  | Collection                | Review personal Pokémon usage history                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-16--collection)                    |
-| M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-17--collection-pokémon-detail)     |
-| M-18  | Stats                     | Review derived patterns with supporting records            | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-18--stats)                         |
+| ID    | Surface                   | Role                                                       | Specification status                                                                                                                                                                      |
+| ----- | ------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| M-01  | Dashboard                 | Authenticated home and next-action summary                 | V1 functional contract accepted; visual validation pending; [detail](./mainline-dashboard.md)                                                                                             |
+| M-02  | Plays                     | Browse and filter playthroughs                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plays-browse.md)                                                                                          |
+| M-03  | Create Play               | Create or import a play with game context                  | Direction accepted; [detail](./mainline-play.md#existing-in-game-save-catch-up)                                                                                                           |
+| M-04  | Play Overview             | High-signal summary of one play                            | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md)                                                                                                  |
+| M-05  | Play Team                 | Manage active, reserve, and historical Pokémon             | Read-only list/detail and linked Plan comparison implemented and responsively verified; mutations remain; [detail](./mainline-play.md#team-contract)                                      |
+| M-05A | Play Team Analysis        | Inspect defensive matchups and recorded move coverage      | Direction accepted; [detail](./mainline-play.md#full-team-analysis-view-contract)                                                                                                         |
+| M-06  | Play Progress             | Summarize applicable progress tracks                       | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#progress-contract)                                                                                |
+| M-07  | Story Progress            | Record milestones, decisions, and optional snapshots       | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#story-information-architecture-contract)                                                         |
+| M-08  | Play Pokédex              | Record game-scoped Pokédex progress                        | V1 interaction contract accepted; selector visual validation pending; [detail](./mainline-play.md#pokédex-browser-and-progress-contract)                                                  |
+| M-09  | Play Collectibles         | Record game-scoped collectible progress                    | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#collectibles-workspace-contract)                                                                 |
+| M-10  | Play Team Plan comparison | Compare one linked Plan with the Play roster               | Automatic comparison implemented inside Team with desktop inspector and smaller-screen sheet; Plan acquisition and editing remain; [detail](./mainline-play.md#linked-team-plan-contract) |
+| M-11  | Play History              | Review and record meaningful timeline events               | V1 interaction contract accepted; visual validation pending; [detail](./mainline-play.md#history-contract)                                                                                |
+| M-12  | Play Settings             | Configure metadata, lifecycle, rules, and completion scope | V1 functional contract accepted; visual validation pending; [detail](./mainline-play.md#settings-contract)                                                                                |
+| M-13  | Plans Hub                 | Browse Team Plans and game intentions                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-13--plans-hub)                                                                                 |
+| M-14  | Create Plan               | Create a game-scoped Team Plan                             | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-14--create-plan)                                                                               |
+| M-15  | Plan Detail               | Build targets and resolve planning conflicts               | V1 functional contract accepted; visual validation pending; [detail](./mainline-plans.md#m-15--standalone-plan-detail)                                                                    |
+| M-16  | Collection                | Review personal Pokémon usage history                      | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-16--collection)                                                                     |
+| M-17  | Collection Pokémon Detail | Review one Pokémon's history across plays                  | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-17--collection-pokémon-detail)                                                      |
+| M-18  | Stats                     | Review derived patterns with supporting records            | V1 functional contract accepted; visual validation pending; [detail](./mainline-collection-stats.md#m-18--stats)                                                                          |
 
 ### Codex Surfaces
 
@@ -255,7 +257,11 @@ states, responsive behavior, and consuming screens.
 ## Implementation Checkpoint
 
 The functional review is complete and the selected visual system is implemented
-through the shared shell and Plays Browse. The active loop must:
+through the shared shell, Plays Browse, Play Overview, Play Team, linked Team
+Plan comparison, and the current Codex views. The next product slice should add
+the no-linked-Plan acquisition entry and the smallest standalone Plans
+authoring path while preserving automatic runtime comparison. The active loop
+must:
 
 1. preserve the selected grammar while completing the active view's system
    states;
@@ -263,5 +269,5 @@ through the shared shell and Plays Browse. The active loop must:
    and desktop composition rather than judging one hero frame;
 3. capture selected hierarchy, density, scenic character, and responsive
    behavior in versioned design references;
-4. apply the system to Play Overview, Team, and Codex one bounded view at a
+4. complete Plan acquisition and standalone authoring one bounded view at a
    time, then revisit Dashboard when its route is mounted.

@@ -1,59 +1,31 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  getTeamPlanActiveTargetSummary,
-  getTeamPlanChangeSummary,
   getTeamPlanFollowingLabel,
+  getTeamPlanStatusLabel,
+  getTeamPlanStatusSummary,
   getTeamPlanTargetProgressLabel,
 } from "@/modules/mainline/features/plays/hub/tabs/team/sections/team-plan/team-plan-display";
 import type { MainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/types";
 
-const plan = {
-  alternateSkippedCount: 1,
-  followingState: "following-with-changes",
-  inProgressCount: 2,
-  notUsedCount: 2,
-  offPlanCount: 1,
-  planId: "plan-id",
-  planName: "Balanced Alola team",
-  primarySkippedCount: 1,
-  primaryTargetCount: 5,
-  reachedCount: 1,
-} satisfies MainlinePlayTeamPlanSummary;
+describe("team Plan display", () => {
+  it("describes aggregate and row statuses", () => {
+    const plan = {
+      foundCount: 4,
+      targetCount: 6,
+    } as MainlinePlayTeamPlanSummary;
 
-describe("Team Plan display", () => {
-  it("formats following state and target progress", () => {
-    expect(getTeamPlanFollowingLabel(plan.followingState)).toBe(
+    expect(getTeamPlanFollowingLabel("following-with-changes")).toBe(
       "Following with changes",
     );
-    expect(getTeamPlanTargetProgressLabel(plan)).toBe("1 of 5 targets reached");
-  });
-
-  it("summarizes active targets and plan changes", () => {
-    expect(getTeamPlanActiveTargetSummary(plan)).toBe(
-      "2 in progress and 2 not used yet",
+    expect(getTeamPlanTargetProgressLabel(plan)).toBe(
+      "4 of 6 planned Pokémon found",
     );
-    expect(getTeamPlanChangeSummary(plan)).toBe(
-      "1 target skipped, 1 off-plan member, and 1 alternate skipped",
+    expect(getTeamPlanStatusLabel("earlier-evolution")).toBe("In progress");
+    expect(getTeamPlanStatusLabel("retired")).toBe("Previously used · retired");
+    expect(getTeamPlanStatusSummary("build-differs")).toBe(
+      "Specified fields differ",
     );
-  });
-
-  it("handles plans without targets or changes", () => {
-    const emptyPlan = {
-      ...plan,
-      alternateSkippedCount: 0,
-      inProgressCount: 0,
-      notUsedCount: 0,
-      offPlanCount: 0,
-      primarySkippedCount: 0,
-      primaryTargetCount: 0,
-      reachedCount: 0,
-    };
-
-    expect(getTeamPlanTargetProgressLabel(emptyPlan)).toBe(
-      "No primary targets yet",
-    );
-    expect(getTeamPlanActiveTargetSummary(emptyPlan)).toBeNull();
-    expect(getTeamPlanChangeSummary(emptyPlan)).toBeNull();
+    expect(getTeamPlanStatusSummary("not-found")).toBe("No family match found");
   });
 });

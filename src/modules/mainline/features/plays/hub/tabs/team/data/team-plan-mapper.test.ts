@@ -5,87 +5,122 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamPlanRow,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { PokemonEvolutionEdge } from "@/modules/reference/types";
 
 const buildPlanRow = (
-  status: string,
-  options: {
-    group?: string;
-    memberId?: string | null;
-    slot?: number;
-  } = {},
-) => {
-  return {
-    member_group: options.group ?? "primary",
-    member_link_status_slug: status,
-    play_pokemon_id: options.memberId ?? null,
-    slot: options.slot ?? 1,
+  slot: number,
+  overrides: Partial<MainlinePlayTeamPlanRow> = {},
+) =>
+  ({
+    linked_play_count: 1,
+    planned_moves: [],
+    slot,
+    target_evolution_family_id: 10,
+    target_form_id: slot,
+    target_form_name: "Default",
+    target_form_slug: `form-${slot}`,
+    target_species_id: slot,
+    target_species_name: `Planned ${slot}`,
+    target_sprite_slug: `planned-${slot}`,
     team_plan_id: "plan-id",
-    team_plan_name: "Balanced Alola team",
-  } as MainlinePlayTeamPlanRow;
-};
+    team_plan_member_id: `plan-member-${slot}`,
+    team_plan_name: "Balanced team",
+    team_plan_status_name: "Active",
+    ...overrides,
+  }) as MainlinePlayTeamPlanRow;
 
-const buildRosterMember = (memberId: string) => {
-  return { play_pokemon_id: memberId } as MainlinePlayTeamMember;
-};
+const buildMember = (
+  id: string,
+  overrides: Partial<MainlinePlayTeamMember> = {},
+) =>
+  ({
+    ability_id: null,
+    created_at: "2026-01-01T00:00:00Z",
+    evolution_family_id: 10,
+    form_id: 1,
+    gender: "unknown",
+    held_item_id: null,
+    moves: [],
+    nature_id: null,
+    play_pokemon_id: id,
+    roster_state_name: "Active",
+    roster_state_slug: "active",
+    species_id: 1,
+    species_name: "Current",
+    ...overrides,
+  }) as MainlinePlayTeamMember;
 
 describe("buildMainlinePlayTeamPlanSummary", () => {
-  it("reports a directly followed plan from explicit member relationships", () => {
+  it("derives an exact match from current identity and specified build fields", () => {
     const plan = buildMainlinePlayTeamPlanSummary(
       [
-        buildPlanRow("reached", { memberId: "member-1", slot: 1 }),
-        buildPlanRow("linked", { memberId: "member-2", slot: 2 }),
-        buildPlanRow("linked", { memberId: "member-3", slot: 3 }),
-        buildPlanRow("pending", { slot: 4 }),
-        buildPlanRow("pending", { slot: 5 }),
+        buildPlanRow(1, {
+          planned_ability_name: "Blaze",
+          planned_gender: "male",
+        }),
       ],
-      [
-        buildRosterMember("member-1"),
-        buildRosterMember("member-2"),
-        buildRosterMember("member-3"),
-      ],
+      [buildMember("member-1", { ability_name: "Blaze", gender: "male" })],
     );
 
     expect(plan).toMatchObject({
+      exactMatchCount: 1,
       followingState: "following",
-      inProgressCount: 2,
-      notUsedCount: 2,
+      foundCount: 1,
       offPlanCount: 0,
-      reachedCount: 1,
     });
+    expect(plan?.comparisons[0]?.status).toBe("exact-match");
   });
 
-  it("distinguishes plan changes and alternate targets", () => {
+  it("recognizes an earlier evolution through version-aware edges", () => {
+    const edge = {
+      from_form_id: 1,
+      from_species_id: 1,
+      to_form_id: 2,
+      to_species_id: 2,
+    } as PokemonEvolutionEdge;
     const plan = buildMainlinePlayTeamPlanSummary(
-      [
-        buildPlanRow("reached", { memberId: "member-1", slot: 1 }),
-        buildPlanRow("skipped", { slot: 2 }),
-        buildPlanRow("skipped", { group: "alternate", slot: 1 }),
-      ],
-      [buildRosterMember("member-1"), buildRosterMember("off-plan-member")],
+      [buildPlanRow(1, { target_form_id: 2, target_species_id: 2 })],
+      [buildMember("member-1")],
+      [edge],
     );
 
-    expect(plan).toMatchObject({
-      alternateSkippedCount: 1,
-      followingState: "following-with-changes",
-      offPlanCount: 1,
-      primarySkippedCount: 1,
-      primaryTargetCount: 2,
+    expect(plan?.comparisons[0]).toMatchObject({
+      relation: "earlier-evolution",
+      status: "earlier-evolution",
     });
   });
 
-  it("distinguishes an off-plan roster from a plan that has not started", () => {
-    const rows = [buildPlanRow("pending")];
-
-    expect(
-      buildMainlinePlayTeamPlanSummary(rows, [buildRosterMember("member-1")])
-        ?.followingState,
-    ).toBe("not-following");
-    expect(buildMainlinePlayTeamPlanSummary(rows, [])?.followingState).toBe(
-      "not-started",
+  it("uses retired members as identity evidence without claiming build compliance", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [buildPlanRow(1)],
+      [
+        buildMember("member-1", {
+          roster_state_name: "Retired",
+          roster_state_slug: "retired",
+        }),
+      ],
     );
+
+    expect(plan?.comparisons[0]?.status).toBe("retired");
+    expect(plan?.followingState).toBe("following-with-changes");
   });
 
-  it("omits the section when no linked plan detail is available", () => {
+  it("matches each Play member once and only summarizes unplanned members", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [buildPlanRow(1), buildPlanRow(2)],
+      [
+        buildMember("member-1"),
+        buildMember("member-2", { evolution_family_id: 99 }),
+      ],
+    );
+
+    expect(plan?.foundCount).toBe(1);
+    expect(plan?.offPlanCount).toBe(1);
+    expect(plan?.offPlanMemberNames).toEqual(["Current"]);
+    expect(plan?.comparisons[1]?.status).toBe("not-found");
+  });
+
+  it("omits the section when no linked plan is available", () => {
     expect(buildMainlinePlayTeamPlanSummary([], [])).toBeNull();
   });
 });

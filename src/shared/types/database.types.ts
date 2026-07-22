@@ -1155,30 +1155,6 @@ export type Database = {
   };
   planning: {
     Tables: {
-      mainline_plan_member_link_statuses: {
-        Row: {
-          created_at: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-        };
-        Insert: {
-          created_at?: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-        };
-        Update: {
-          created_at?: string;
-          id?: number;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-        };
-        Relationships: [];
-      };
       mainline_play_plan_links: {
         Row: {
           created_at: string;
@@ -1217,73 +1193,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "mainline_team_plans";
             referencedColumns: ["id", "user_id", "game_id", "version_group_id"];
-          },
-        ];
-      };
-      mainline_play_plan_member_links: {
-        Row: {
-          created_at: string;
-          linked_at: string | null;
-          notes: string | null;
-          play_id: string;
-          play_plan_link_id: string;
-          play_pokemon_id: string | null;
-          reached_at: string | null;
-          skipped_at: string | null;
-          status_id: number;
-          team_plan_id: string;
-          team_plan_member_id: string;
-          updated_at: string;
-        };
-        Insert: {
-          created_at?: string;
-          linked_at?: string | null;
-          notes?: string | null;
-          play_id: string;
-          play_plan_link_id: string;
-          play_pokemon_id?: string | null;
-          reached_at?: string | null;
-          skipped_at?: string | null;
-          status_id?: number;
-          team_plan_id: string;
-          team_plan_member_id: string;
-          updated_at?: string;
-        };
-        Update: {
-          created_at?: string;
-          linked_at?: string | null;
-          notes?: string | null;
-          play_id?: string;
-          play_plan_link_id?: string;
-          play_pokemon_id?: string | null;
-          reached_at?: string | null;
-          skipped_at?: string | null;
-          status_id?: number;
-          team_plan_id?: string;
-          team_plan_member_id?: string;
-          updated_at?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "mainline_play_plan_member_links_status_id_fkey";
-            columns: ["status_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_plan_member_link_statuses";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "play_plan_member_links_member_plan_fkey";
-            columns: ["team_plan_member_id", "team_plan_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_team_plan_members";
-            referencedColumns: ["id", "team_plan_id"];
-          },
-          {
-            foreignKeyName: "play_plan_member_links_plan_link_fkey";
-            columns: ["play_plan_link_id", "play_id", "team_plan_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_play_plan_links";
-            referencedColumns: ["id", "play_id", "team_plan_id"];
           },
         ];
       };
@@ -1352,15 +1261,13 @@ export type Database = {
         Row: {
           ability_id: number | null;
           created_at: string;
+          gender: string | null;
           held_item_id: number | null;
           id: string;
-          member_group: string;
           nature_id: number | null;
           notes: string | null;
-          preferred_start_form_id: number | null;
-          preferred_start_species_id: number | null;
           role_label: string | null;
-          slot: number | null;
+          slot: number;
           target_form_id: number;
           target_species_id: number;
           team_plan_id: string;
@@ -1369,15 +1276,13 @@ export type Database = {
         Insert: {
           ability_id?: number | null;
           created_at?: string;
+          gender?: string | null;
           held_item_id?: number | null;
           id?: string;
-          member_group?: string;
           nature_id?: number | null;
           notes?: string | null;
-          preferred_start_form_id?: number | null;
-          preferred_start_species_id?: number | null;
           role_label?: string | null;
-          slot?: number | null;
+          slot: number;
           target_form_id: number;
           target_species_id: number;
           team_plan_id: string;
@@ -1386,15 +1291,13 @@ export type Database = {
         Update: {
           ability_id?: number | null;
           created_at?: string;
+          gender?: string | null;
           held_item_id?: number | null;
           id?: string;
-          member_group?: string;
           nature_id?: number | null;
           notes?: string | null;
-          preferred_start_form_id?: number | null;
-          preferred_start_species_id?: number | null;
           role_label?: string | null;
-          slot?: number | null;
+          slot?: number;
           target_form_id?: number;
           target_species_id?: number;
           team_plan_id?: string;
@@ -1541,98 +1444,22 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      initialize_mainline_play_plan_member_links: {
-        Args: { p_member_group?: string; p_play_plan_link_id: string };
-        Returns: number;
-      };
-      link_mainline_play_pokemon_to_plan_member: {
-        Args: {
-          p_notes?: string;
-          p_play_plan_link_id: string;
-          p_play_pokemon_id: string;
-          p_reached_at?: string;
-          p_team_plan_member_id: string;
-        };
+      clone_mainline_team_plan_for_play: {
+        Args: { p_name?: string; p_play_id: string };
         Returns: {
           result_play_plan_link_id: string;
-          result_play_pokemon_id: string;
-          result_reached_at: string;
-          result_status_id: number;
-          result_team_plan_member_id: string;
+          result_source_team_plan_id: string;
+          result_team_plan_id: string;
         }[];
       };
       link_mainline_team_plan_to_play: {
         Args: {
-          p_create_member_links?: boolean;
           p_created_from_plan?: boolean;
           p_play_id: string;
           p_team_plan_id: string;
         };
         Returns: {
-          result_created_member_link_count: number;
           result_play_plan_link_id: string;
-        }[];
-      };
-      realize_mainline_team_plan_member: {
-        Args: {
-          p_ability_id?: number;
-          p_ball_item_id?: number;
-          p_create_event?: boolean;
-          p_event_body?: string;
-          p_event_happened_at?: string;
-          p_event_title?: string;
-          p_gender?: string;
-          p_held_item_id?: number;
-          p_include_planned_moves?: boolean;
-          p_is_shiny?: boolean;
-          p_level?: number;
-          p_link_notes?: string;
-          p_met_level?: number;
-          p_met_location_label?: string;
-          p_nature_id?: number;
-          p_nickname?: string;
-          p_personal_notes?: string;
-          p_play_plan_link_id: string;
-          p_roster_state_id?: number;
-          p_slot?: number;
-          p_team_plan_member_id: string;
-          p_use_preferred_start?: boolean;
-        };
-        Returns: {
-          result_event_id: string;
-          result_play_plan_link_id: string;
-          result_play_pokemon_id: string;
-          result_reached_at: string;
-          result_status_id: number;
-          result_team_plan_member_id: string;
-        }[];
-      };
-      refresh_mainline_play_plan_member_link_status: {
-        Args: {
-          p_play_plan_link_id: string;
-          p_reached_at?: string;
-          p_team_plan_member_id: string;
-        };
-        Returns: {
-          result_play_plan_link_id: string;
-          result_play_pokemon_id: string;
-          result_reached_at: string;
-          result_status_id: number;
-          result_team_plan_member_id: string;
-        }[];
-      };
-      skip_mainline_team_plan_member: {
-        Args: {
-          p_notes?: string;
-          p_play_plan_link_id: string;
-          p_skipped_at?: string;
-          p_team_plan_member_id: string;
-        };
-        Returns: {
-          result_play_plan_link_id: string;
-          result_skipped_at: string;
-          result_status_id: number;
-          result_team_plan_member_id: string;
         }[];
       };
     };
@@ -4866,16 +4693,10 @@ export type Database = {
           generation_name: string | null;
           generation_slug: string | null;
           linked_plan_at: string | null;
-          member_group: string | null;
-          member_link_notes: string | null;
-          member_link_status_id: number | null;
-          member_link_status_name: string | null;
-          member_link_status_slug: string | null;
-          member_linked_at: string | null;
-          member_reached_at: string | null;
-          member_skipped_at: string | null;
+          linked_play_count: number | null;
           planned_ability_id: number | null;
           planned_ability_name: string | null;
+          planned_gender: string | null;
           planned_held_item_id: number | null;
           planned_held_item_name: string | null;
           planned_moves: Json | null;
@@ -4883,27 +4704,6 @@ export type Database = {
           planned_nature_name: string | null;
           play_id: string | null;
           play_plan_link_id: string | null;
-          play_pokemon_form_id: number | null;
-          play_pokemon_form_name: string | null;
-          play_pokemon_form_slug: string | null;
-          play_pokemon_id: string | null;
-          play_pokemon_is_shiny: boolean | null;
-          play_pokemon_level: number | null;
-          play_pokemon_nickname: string | null;
-          play_pokemon_roster_state_id: number | null;
-          play_pokemon_roster_state_name: string | null;
-          play_pokemon_roster_state_slug: string | null;
-          play_pokemon_slot: number | null;
-          play_pokemon_species_id: number | null;
-          play_pokemon_species_name: string | null;
-          play_pokemon_species_slug: string | null;
-          play_pokemon_sprite_slug: string | null;
-          preferred_start_form_id: number | null;
-          preferred_start_form_name: string | null;
-          preferred_start_form_slug: string | null;
-          preferred_start_species_id: number | null;
-          preferred_start_species_name: string | null;
-          preferred_start_species_slug: string | null;
           role_label: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
@@ -4923,6 +4723,7 @@ export type Database = {
           team_plan_status_id: number | null;
           team_plan_status_name: string | null;
           team_plan_status_slug: string | null;
+          team_plan_updated_at: string | null;
           user_id: string | null;
           version_group_id: number | null;
           version_group_name: string | null;
@@ -5086,19 +4887,13 @@ export type Database = {
           ability_id: number | null;
           ability_name: string | null;
           created_at: string | null;
+          gender: string | null;
           held_item_id: number | null;
           held_item_name: string | null;
-          member_group: string | null;
           moves: Json | null;
           nature_id: number | null;
           nature_name: string | null;
           notes: string | null;
-          preferred_start_form_id: number | null;
-          preferred_start_form_name: string | null;
-          preferred_start_form_slug: string | null;
-          preferred_start_species_id: number | null;
-          preferred_start_species_name: string | null;
-          preferred_start_species_slug: string | null;
           role_label: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
@@ -5141,7 +4936,6 @@ export type Database = {
       };
       mainline_team_plan_summary: {
         Row: {
-          alternate_member_count: number | null;
           created_at: string | null;
           game_id: number | null;
           game_name: string | null;
@@ -5149,9 +4943,10 @@ export type Database = {
           generation_id: number | null;
           generation_name: string | null;
           generation_slug: string | null;
+          linked_play_count: number | null;
+          member_count: number | null;
           notes: string | null;
           optional_content_scope_count: number | null;
-          primary_member_count: number | null;
           status_id: number | null;
           status_name: string | null;
           status_slug: string | null;

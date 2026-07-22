@@ -70,6 +70,12 @@ raw reads. Client Components may import Server Actions, not server queries or
 readers. Multi-table writes follow action → command/use case → domain →
 repository/RPC → database constraints and RLS.
 
+Derived comparisons remain derived. In particular, linked Team Plan statuses
+are pure application mapping over authored Plan targets, Play Pokémon, and
+reference evolution edges. Keep raw reads, matching, display selection, and UI
+separate and tested; do not persist inferred member links or status rows unless
+the product and schema contracts explicitly change.
+
 ## File And Naming Hygiene
 
 - Keep route files small and import feature-owned page entry points.
@@ -136,5 +142,9 @@ See [Database Architecture](../docs/database/architecture.md),
 - Run browser verification for meaningful UI changes.
 - Update [Project Status](../docs/project-status.md) only when the current
   checkpoint, next slice, or known gaps change.
+- For a computer-change handoff, synchronize `Next Chat Handoff` in Project
+  Status with the `Resume Prompt` in the canonical
+  [V1 Screen Flow](../docs/design/v1-screen-flow.md). Keep volatile progress out
+  of AGENTS files and do not create a second handoff document.
 - Keep final handoffs concise: outcome, exact verification, commit message, and
   meaningful risks or next steps.

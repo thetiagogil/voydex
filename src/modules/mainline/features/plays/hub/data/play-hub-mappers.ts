@@ -52,7 +52,11 @@ export const buildMainlinePlayHubData = (params: {
     teamPreview: roster.filter(
       (member) => member.roster_state_slug === "active",
     ),
-    teamPlan: buildMainlinePlayTeamPlanSummary(params.teamPlanRows, roster),
+    teamPlan: buildMainlinePlayTeamPlanSummary(
+      params.teamPlanRows,
+      roster,
+      params.teamRows.evolutionEdges ?? [],
+    ),
     teamTimelinePreview: params.teamTimelinePreview,
     timelinePreview: params.timelinePreview,
   };

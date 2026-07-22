@@ -12,7 +12,6 @@ export const readMainlinePlayTeamPlanRows = async (
     .select("*")
     .eq("user_id", userId)
     .eq("play_id", playId)
-    .order("member_group", { ascending: true })
     .order("slot", { ascending: true });
 
   if (result.error) {

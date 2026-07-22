@@ -5,10 +5,11 @@ design-to-implementation handoff. It is a reviewable design record, not a
 replacement for the canonical product contracts or implementation status.
 
 **Current checkpoint:** the breadth-first map and depth-first functional screen
-contracts are complete. [V1-D115, V1-D118, V1-D119, and
-V1-D120](./decisions.md) select the light-first explorer's field-guide grammar,
-now implemented through the shared shell and Plays Browse. Their behavior and
-responsive implementation are the starting evidence for the next bounded view.
+contracts are complete. [V1-D115, V1-D118, V1-D119, V1-D120, V1-D123, and
+V1-D124](./decisions.md) select the light-first explorer's field-guide grammar
+and automatic linked-Plan comparison. The shared shell, Plays Browse, Play Hub
+Overview, Team, and the Team-owned Plan comparison are implemented and
+responsively verified; standalone Plan acquisition and authoring are next.
 
 ## Working Principle
 
@@ -126,6 +127,7 @@ Review these artifacts in order:
 8. Data-requirements coverage and open database questions.
 
 The functional structure is complete enough to guide implementation. Preserve
-the selected language already implemented through the shared shell and Plays
-Browse, continue system-state coverage, and carry the system into Play Overview,
-Team, and Codex one bounded view at a time.
+the selected language already implemented through the shared shell, Plays
+Browse, Play Overview, Team, and Codex. Complete Plan acquisition and standalone
+Plan authoring one bounded view at a time without reintroducing the superseded
+manual member-link/status model.

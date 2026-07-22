@@ -11,15 +11,17 @@ remains canonical in [Project Status](../project-status.md).
 
 - The breadth-first map and depth-first V1 functional screen contracts are
   accepted in the [V1 Design Workspace](./v1/README.md).
-- [V1-D115, V1-D118, V1-D119, and V1-D120](./v1/decisions.md) select the
+- [V1-D115, V1-D118, V1-D119, V1-D120, V1-D123, and
+  V1-D124](./v1/decisions.md) select the
   light-first explorer's field-guide system recorded in
   [V1 Visual Language](./v1/visual-language.md). The shared shell, Plays Browse,
-  and Play Hub Overview now implement that production grammar.
-- Existing Dashboard and Play Team work remains functional and responsive
-  evidence until each view is migrated and verified. Only code
+  Play Hub Overview, Play Team, and the linked Team Plan comparison now
+  implement that production grammar.
+- Existing Dashboard work remains functional evidence until its view is
+  migrated and verified. Only code
   listed in [Project Status](../project-status.md) is implemented; the other
   screens remain design direction.
-- Plays Browse is the implemented production baseline. URL-backed primary
+- Plays Browse remains the browse production baseline. URL-backed primary
   controls and the compact enriched journey-log row are responsive and visually
   checked with realistic occupied/partial fixture states. Play Hub Overview now
   carries that system into its shared header, tab workspace, and four existing
@@ -81,7 +83,8 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Dashboard.
 - Plays browse and Create Play.
 - Play Hub: Overview, Team, Progress, History, and Settings. Team exposes the
-  linked Team Plan summary and routes to standalone Plan Detail.
+  linked Team Plan summary and opens its automatic comparison inside the active
+  Team tab. Standalone Plan Detail remains the reusable authoring owner.
 - Progress detail: Story, Pokédex, and Collectibles.
 - Plans Hub: Team Plans and Game List.
 - Create Plan and Plan Detail.
@@ -89,9 +92,10 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Stats.
 
 One Play may still have one focused linked Team Plan. Its compact comparison
-belongs inside Team and routes to canonical Plan Detail with the Play retained
-as context. Mature Play Hub sections may become URL-addressable while remaining
-visually part of one play workspace.
+belongs inside Team and keeps the Play shell and Team tab visible. Standalone
+Plan Detail owns reusable authoring. Mature Play Hub sections may become
+URL-addressable later when a real workflow benefits, but the V1 comparison does
+not require a separate route.
 
 ### Codex
 
@@ -158,7 +162,7 @@ success state and a link to the changed destination.
 Plans Hub
 -> Create Plan
 -> select game and optional content
--> build six primary and up to six alternate targets
+-> build one to six ordered targets
 -> resolve availability and reuse warnings
 -> Plan Detail
 -> Create Play
@@ -166,9 +170,9 @@ Plans Hub
 -> Play created with an empty current roster and linked plan
 ```
 
-The plan persists after play creation. Actual Pokémon are added when obtained
-and linked to pending planned targets until those targets are reached or
-skipped.
+The plan persists after play creation. Actual Pokémon are added when obtained.
+The Team tab compares existing Play Pokémon with planned targets automatically;
+it does not persist a per-member association or reached/skipped status.
 Plan optional content prefills enabled Play scope, while Create Play's normal
 game-aware recommendation owns completion contribution defaults. Plan Rules
 become the Play's visible initial Rules, and Tags remain Plan-only. After
@@ -214,8 +218,10 @@ to the records supporting them.
 | Game Detail    | Add to Game List  | Plans Hub game-intent state                                                               |
 | Pokémon Detail | Use in Mainline   | Add to an existing or new Plan, add to an eligible Play, check a Play, or open Collection |
 
-Compare-with-team, standalone targets, and automated `find where this fits`
-recommendations remain follow-up ideas rather than V1 requirements.
+Codex-origin compare-with-team, standalone targets, and automated
+`find where this fits` recommendations remain follow-up ideas rather than V1
+requirements. This does not change the implemented linked Team Plan comparison
+inside a Play.
 
 ## Design Principles For The Implementation Pass
 
@@ -242,21 +248,25 @@ with one verified production slice at a time:
 1. Finish Plays Browse system-state coverage. Primary controls, the compact
    journey-log row, and responsive visual system are implemented.
 2. Apply the selected system to Play Overview and Team using their accepted
-   contracts. Overview is implemented and verified; Team remains.
-3. Refine Mainline Dashboard when its route is mounted, using the accepted
+   contracts. Overview, Team, and the linked read-only Plan comparison are
+   implemented and verified.
+3. Complete the contextual Plan acquisition boundary: no-linked-Plan entry,
+   owner-scoped Link existing, and Create Plan for this Play.
+4. Mount the smallest Plans Hub, Create Plan, or Plan Detail authoring increment
+   required by that boundary. **Automatic comparison is implemented;
+   standalone authoring is accepted but not mounted.**
+5. Mount Team's game-aware Add Pokémon picker as an independent mutation slice.
+6. Refine Mainline Dashboard when its route is mounted, using the accepted
    play-led contract and selected visual direction.
-4. Implement Create Play.
-5. Implement Progress Summary, Story, and History.
-6. Implement Play Pokédex and Collectibles.
-7. Implement Play Plan and Play Settings.
-8. Plans Hub, Create Plan, and Plan Detail. **Functional contract accepted;
-   visual validation pending.**
-9. Collection, Collection Pokémon Detail, and Stats. **Functional contract
-   accepted; visual validation pending.**
-10. Codex browse/detail refinement and every Codex-to-Mainline handoff.
+7. Implement Create Play.
+8. Implement Progress Summary, Story, History, and Play Settings.
+9. Implement Play Pokédex and Collectibles.
+10. Collection, Collection Pokémon Detail, and Stats. **Functional contract
+    accepted; visual validation pending.**
+11. Codex browse/detail refinement and every Codex-to-Mainline handoff.
     **Pokémon and Games functional contracts accepted; visual validation
     pending.**
-11. Login, Global Settings, and responsive shared-state coverage.
+12. Login, Global Settings, and responsive shared-state coverage.
     **Functional contracts accepted; visual validation pending.**
 
 ## Database Review During Implementation
@@ -282,25 +292,37 @@ the consolidated audit remains a later focused phase.
 Use this after opening the repository in a clean chat or on another computer:
 
 ```txt
-Continue the Voydex V1 visual refactor on branch `main`. Read AGENTS.md,
+Continue Voydex on branch `main`. Read AGENTS.md,
 .agents/AGENTS.md,
 docs/project-status.md, docs/app/design-system.md,
 docs/design/v1-screen-flow.md, docs/design/v1/README.md,
 docs/design/v1/visual-language.md, docs/design/v1/mainline-play.md, and
-docs/design/v1/decisions.md, then inspect the nearby Play Hub code and current
-working tree. The selected system is a light-first explorer's field guide with
-one background-blended in-flow navbar, one lightly textured journal page,
-compact ordinary controls, large primary actions, and normal document
-scrolling. Do not restore the retired clipboard frame, inset paper, or brass
-clips.
+docs/design/v1/mainline-plans.md, docs/design/v1/decisions.md,
+docs/database/schema-contract.md, and docs/design/v1/database-gaps.md. Then run
+`git status`, `git log -1 --oneline`, install dependencies, and inspect the
+nearby Play Hub Team Plan code before editing.
 
-The `/mainline/plays/[playId]` shared header, tab workspace, and Overview tab now
-use the selected journal-detail system while preserving the authenticated query,
-mappers, real data, authorization, routes, tab contract, truthful unavailable
-states, and intentionally empty later tabs. Continue with one bounded adjacent
-slice; the closest accepted follow-up is the Team tab. Do not add database
-changes, dark mode, a new background, sticky replacement navigation,
-decorative edge systems, or a broad multi-page refactor. Browser-check desktop,
-tablet, phone, keyboard/focus, overflow, and console output; run `npm run
-verify`; then update Project Status and the nearest canonical design reference.
+The shared shell, Plays Browse, Play Hub Overview, Team list-detail workspace,
+and read-only linked Team Plan comparison are implemented. The comparison stays
+inside the active Team tab. It renders one to six planned targets, computes
+deterministic one-to-one species/form/evolution-family matches at read time,
+compares optional Ability, Nature, Held Item, Gender, and Moves for Active or
+Reserve members, treats Retired/Replaced members as identity-only evidence, and
+summarizes unplanned members without inspectable rows. Level and Ball are not
+compared. There are no alternate targets, manual member links, or stored
+comparison statuses. Desktop uses a persistent detail panel; tablet and phone
+use a sheet.
+
+Continue with one bounded planning workflow. The recommended next slice is the
+missing no-linked-Plan entry plus owner-scoped Link/Create Plan flow, followed
+by the smallest standalone Plans Hub, Create Plan, or Plan Detail authoring
+increment it requires. Keep comparison read-only. Editing inside a Play must
+clone and relink only that Play; standalone edits must disclose affected linked
+Plays. Do not reintroduce manual pairing. The game-aware Add Pokémon picker is a
+separate later Team slice. Do not restore the clipboard frame, add dark mode, a
+new background, sticky replacement navigation, decorative edge systems, or a
+broad multi-page refactor. Run `npm run verify`; database changes additionally
+require `npm run db:verify` and an explicit remote-write gate. Browser-check
+desktop, tablet, phone, keyboard/focus, overflow, and console output, then
+update Project Status and the nearest canonical contract.
 ```

@@ -23,7 +23,7 @@ The app should store user intent and meaningful user state. It should derive sum
 | Timeline/journal                 | `gameplay.mainline_play_events` and snapshot tables             |
 | Team snapshots                   | `gameplay.mainline_play_event_team_snapshots`                   |
 | Team plan                        | `planning.mainline_team_plans`                                  |
-| Play plan link/status            | `planning.mainline_play_plan_links` and member links            |
+| Play plan link                   | `planning.mainline_play_plan_links`                             |
 | Tags                             | User-owned tag tables and join tables                           |
 | Backlog/wishlist                 | User-owned game intent tables                                   |
 | Preferences                      | User-owned preference tables                                    |
@@ -182,9 +182,9 @@ Timeline event Pokémon references should store event-time Pokémon identity. Th
 `Correct record` changes current truth without creating lifecycle History.
 Existing event-time identity remains owned by History and is corrected there
 separately. Physical deletion removes a mistaken member record but must preserve
-existing event-time History unless History itself explicitly deletes it. Team
-must reject deletion while a Plan-owned member relationship exists so the Team
-mutation cannot cascade into planning data.
+existing event-time History unless History itself explicitly deletes it. Plan
+comparison has no persisted member association, so deleting the current member
+only removes that member from future comparison and never mutates Plan data.
 
 ## Story Snapshots
 
@@ -258,8 +258,8 @@ paths, scopes, entries, and groups apply to the selected game and content.
 Lifecycle status does not own or freeze Team, Progress, Plan, or History.
 Marking a Play completed is not evidence that every completion requirement is
 complete. Archive remains a reversible visibility state separate from
-lifecycle. Deleting a Play removes Play-owned records and Play-specific Plan
-relationships, but it does not delete the independently reusable Team Plan,
+lifecycle. Deleting a Play removes Play-owned records and its focused Plan link,
+but it does not delete the independently reusable Team Plan,
 shared tags, or reusable rule definitions.
 
 The persistent Play Header initiates ordinary status transitions. Play Status
@@ -303,25 +303,22 @@ rewrites an existing shared definition as a side effect of one Play's save.
 
 A Team Plan is separate from a play's current team.
 
-The product contract is one focused linked Team Plan per play. The database can still represent this through play plan link and member link tables, but the user-facing play workflow should not encourage multiple competing team plans inside one play.
+The product contract is one focused linked Team Plan per play.
 
 A Team Plan owns planned target Pokémon, notes, roles, and preferences.
 
-The Plan experience also exclusively owns explicit Plan-member-to-Play-member
-relationships and their management. Linking, relinking, unlinking, skipping,
-target changes, and Plan-status decisions happen only in Plan. Team can consume
-a derived comparison as read-only information and route the user back to Plan.
+The Plan owns one to six ordered targets. Species and form are required;
+ability, nature, held item, gender, and moves are optional preferences.
 
 Actual Team composition never owns or rewrites those authored Plan facts. An
 off-plan addition creates only the Play Pokémon and its normal Play-owned state;
-it creates no Plan-member link and changes no Plan target. Only an explicit Plan
+it creates no comparison state and changes no Plan target. Only an explicit Plan
 edit can change the intended lineup. Removing the focused relationship from a
 Play unlinks the Plan without deleting the independently owned Plan.
 
 Team lifecycle writes—including evolution, movement, replacement, and
-retirement—update only Team and applicable History data. They do not refresh or
-mutate Plan relationships or member state. Plan derives its comparison from the
-latest Team state when the Plan experience is read.
+retirement—update only Team and applicable History data. The contextual Plan
+comparison is derived from current Play Pokémon whenever it is read.
 
 A Team Plan can also own optional content scope such as DLC availability before a play exists.
 
@@ -334,31 +331,19 @@ When a play is created from a Team Plan:
 
 - The Team Plan remains.
 - The play starts with an empty current team.
-- Planned members can be linked to actual play Pokémon later.
+- Planned members are compared with actual Play Pokémon automatically.
 
-Plan-to-play member status belongs to the relationship between one linked play and its linked Team Plan. Alternate team ideas should live as member notes, alternate targets, skipped targets, or future standalone planning concepts rather than multiple active plans for the same play.
-
-Team-tab reached/target summaries must derive from those explicit member
-relationships. Species or form similarity can support suggestions but does not
-own or establish Plan progress.
-
-During an active Play, an unresolved pending target may be presented as `Not
-used yet`; after completion or abandonment it may be presented as `Not used`.
-That lifecycle-aware wording is derived comparison state, not an implicit edit
-to the reusable Team Plan or an inferred `skipped` write.
-
-The Play Plan surface may additionally derive `In progress` for an explicitly
-linked member still on the valid directed path, `Reached` for recorded exact
-target evidence, and `Diverged` for a linked unresolved member that left the
-path. `Skipped` remains an explicit Play-specific decision. An actual Pokémon
-without a relationship is `Off-plan`; it is never paired to a target by slot or
-similarity.
+Comparison status is not durable state. It is derived through deterministic,
+one-to-one species, form, and evolution-family matching. Active and Reserve
+members support exact optional-build comparison. Retired and replaced members
+contribute identity-only lifecycle evidence. Orphaned historical evidence for a
+hard-deleted member is ignored.
 
 Editing a target, preference, role, move, note, or slot changes the reusable
 Team Plan and may affect every Play linked to it. The Plan experience must
-disclose that wider impact when applicable. Linking, relinking, unlinking,
-skipping, and restoring remain specific to one Play-Plan relationship and never
-edit or delete the actual Pokémon.
+disclose that wider impact when applicable. A Plan edit initiated inside one
+Play clones the Plan and relinks only that Play before saving, preserving the
+original for every other linked Play.
 
 ## Collection
 

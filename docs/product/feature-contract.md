@@ -214,8 +214,8 @@ Current Overview direction:
 - The tab card is the main Play Hub workspace.
 - Overview should show Journey Status, Current Team, Progress Summary, and
   Recent History.
-- A linked Team Plan appears as compact context inside Current Team rather than
-  as a permanent fifth Overview card. Omit that context when no Plan is linked.
+- Linked Team Plan context belongs to the Team tab rather than Overview. Keep
+  exactly four permanent Overview sections whether or not a Plan is linked.
 - Overview remains read-first. Section actions route to or invoke the canonical
   owning workflow rather than implementing a second editor.
 - Journey Status shows the current or furthest known Story milestone and the
@@ -226,7 +226,7 @@ Current Overview direction:
   explicit accessible state labels; only their portrait and text content
   change.
 - Current Team shows the active lineup only, with a compact positive reserve
-  count and linked-Plan comparison when available. It does not use an
+  count. Linked-Plan comparison belongs to Team. It does not use an
   Active/Reserve toggle. Recorded members open their Play-owned Team experience
   rather than navigating directly to generic reference detail.
 - Team Health belongs in the Team tab until the app has a real analysis model.
@@ -360,9 +360,9 @@ History entries.
 creating lifecycle History or false Collection evidence. Existing event-time
 History remains unchanged and is corrected separately in History. The
 destructive overflow action `Delete Pokémon record` is reserved for wholly
-mistaken or duplicate records. It preserves existing History evidence, and Team
-must block deletion while a Plan-owned member relationship exists rather than
-cascading an unlink outside Plan.
+mistaken or duplicate records. It preserves existing History evidence. Because
+Plan comparison has no persisted member association, deletion simply removes
+that member from future comparison; it never rewrites the authored Plan.
 
 Team Quick Analysis remains an important Team-owned supporting section. Its
 final metrics, calculation strategy, evidence disclosure, and focused analysis
@@ -388,13 +388,10 @@ event never appears recent merely because it was entered today.
 
 When one focused Team Plan is linked, place one compact Team Plan Card directly
 below Roster in the left column. Show the Plan name, following state, an
-explicit reached/target summary, exceptional skipped or off-plan context when
-useful, and one `View plan` route. Omit the Card when no Plan is linked.
-Count a target as reached only through an explicit Plan-member-to-Play-member
-link; matching species or forms alone never create a confirmed relationship. A
-selected Pokémon may show one compact read-only comparison row in its detail,
-while default roster rows remain uncluttered. Team exposes no Plan-link
-suggestion or relationship-management action.
+explicit found/target summary, exceptional unplanned-member context when
+useful, and one `View plan` action. Omit the Card when no Plan is linked. The
+comparison is computed from current Play-owned records and never writes Plan
+progress. Default roster rows remain uncluttered.
 
 `Record Team moment` is a dedicated lower-emphasis action in the Recent Team
 Events footer. It opens a compact dialog or mobile sheet with a read-only
@@ -746,11 +743,11 @@ The V1 standalone Plans family has three responsibilities:
   content, and source context supplied by Codex or a Play. It creates a Draft
   and opens Plan Detail rather than asking the user to build a team in a modal.
 - Plan Detail owns reusable target authoring, setup, checks, lifecycle, Play
-  usage, Create Play from Plan, and the contextual comparison and relationship
-  surface for one linked Play. Team provides the compact Play-level entry.
+  usage, and Create Play from Plan. Team owns the contextual automatic
+  comparison for one linked Play and provides its compact Play-level entry.
 
-Plans Hub summarizes game identity, lifecycle, all six stable Primary target
-positions, Primary and Alternate counts, relevant optional-content or
+Plans Hub summarizes game identity, lifecycle, up to six ordered target
+positions, target count, relevant optional-content or
 organization context, updated time, and linked-Play count. Archived Plans are
 excluded from current work by default but remain readable through explicit
 status filtering. Normal results open Plan Detail and do not expose inline
@@ -760,7 +757,8 @@ Plans reuse the Plays family where the task is equivalent: the shared centered
 canvas, plain heading and one Create action, visible Search/Status/Game/Sort,
 More filters with URL-backed chips, explicit Load more, and one cover-led result
 per row in a responsive single-column library. Plan rows substitute lifecycle,
-six Primary target positions, capacity/check context, organization, usage, and
+up to six ordered target positions, capacity/check context, organization,
+usage, and
 recency for Play Journey, actual Team, and Progress. Create Plan reuses Create
 Play's focused contextual surface but remains one step. Plan Detail reuses the
 responsive cover/identity/action Header structure without adding Play Hub tabs.
@@ -777,7 +775,8 @@ Plans should support:
 - Planning a team before a play exists.
 - Planning target/final Pokémon.
 - Planning optional content scope such as DLC availability.
-- Optional preferred forms, roles, notes, abilities, natures, and moves.
+- Required target forms plus optional roles, notes, abilities, natures, held
+  items, gender, and moves.
 - Creating a play from a plan.
 - Keeping the plan as a persistent reference after a play is created.
 
@@ -792,88 +791,55 @@ Plan organization and are not copied. These values become independently
 Play-owned after creation: later Plan edits do not silently synchronize into
 the Play, and later Play Settings edits do not rewrite the Plan.
 
-The Play, its initial settings, copied content and Rule links, focused Plan
-link, and initial member-relationship rows are created atomically. The Plan
+The Play, its initial settings, copied content and Rule links, and focused Plan
+link are created atomically. The Plan
 remains reusable, and the actual Active and Reserve Team positions remain
 empty. A failed operation must leave no partial Play or Plan link.
 
-Plan member statuses:
-
-- `pending`: planned but not linked to a play Pokémon.
-- `linked`: linked to an actual play Pokémon but target not reached.
-- `reached`: linked play Pokémon reached the planned target species/form.
-- `skipped`: user decided not to use the planned member.
-
 The authored Plan is never changed automatically to match the actual Team.
-Adding an off-plan Pokémon is always allowed after one concise warning that the
-addition will not change the linked Plan. The add flow must not prompt the user
-to update the Plan, replace a target, or infer a relationship from roster
-position. Plan targets, forms, roles, preferences, and notes change only through
-an explicit Plan-editing action; unlinking a Plan from a Play does not delete the
-standalone Plan.
+Adding an unplanned Pokémon changes only Play-owned Team state. Plan targets,
+forms, roles, preferences, and notes change only through an explicit Plan edit;
+unlinking a Plan from a Play does not delete the standalone Plan.
 
-Plan also exclusively owns member relationship management: linking, relinking,
-unlinking, skipping, and any explicit status decision. Team may show a read-only
-comparison and route to Plan, but it exposes no Plan target selector, link
-control, or Plan mutation. An off-plan Team addition changes no Plan-member
-state. Plan presents the accepted comparison labels and lifecycle semantics
-defined below; Team does not infer them from roster composition.
+A Plan contains one to six ordered targets. Species and form are
+required. Ability, nature, held item, gender, and up to four moves are optional
+constraints; level and ball are not part of V1 comparison. There are no
+alternate targets or manually maintained Plan-member-to-Play-member links.
 
-When the user chooses `Add to Team` from a Plan member, the Plan-owned handoff
-should suggest the earliest or first obtainable persistent species/form on a
-game-valid directed evolution path to the exact target. The user may instead
-choose another valid intermediate stage or the target itself. Plan confirms the
-explicit relationship as part of that handoff. Generic Team Add never suggests
-or creates the relationship, even when species or evolution family matches.
-
-Plans should show preemptive Pokémon reuse warnings. If a planned target, preferred starting Pokémon, or likely future evolution conflicts with the active reuse policy, the UI should show the conflict before the user starts the play or adds the Pokémon.
-
-Plan member slots should support a primary team plus alternates/reserves. Primary planned Pokémon use slots 1 to 6. Alternate/reserve planned Pokémon use slots 1 to 6. The planning cap should match the current roster cap unless the product later introduces a separate unlimited idea board.
-
-When a plan is linked to a play, member status is tracked and managed by that
-play's Team Plan relationship. Team mutations do not write it; Plan may derive
-read-only comparison consequences from the latest actual roster.
-
-A play has one focused linked Team Plan. The UI should not support multiple competing plans inside the same play. If the user wants variants, they should be represented as alternates, notes, skipped members, or future standalone planning concepts instead of multiple linked team plans for one play.
+A play has one focused linked Team Plan. The comparison is computed at read
+time and never writes progress state. Matching is deterministic and one-to-one:
+exact species/form wins first, then alternate form, earlier or later evolution,
+and another branch in the same evolution family. Active and Reserve members
+receive full build comparison. Retired and replaced records establish only
+that the planned family was previously used; hard-deleted members are absent.
 
 Inside a Play, Team shows one compact read-only Plan section with the linked
-Plan identity first, a compact following-state label, a concise reached-target
-summary, separately labelled Plan differences when relevant, and a route to
-canonical Plan Detail.
-Plan Detail retains the Play as comparison context and shows the reusable Plan
-identity, actionable Plan checks, six fixed Primary rows, a compact Alternate
-section, and actual Team members outside the Plan. Each occupied row compares
-the planned target with its explicit relationship state and linked actual
-Pokémon. It does not use an adherence percentage, completion bar, overall
-score, duplicate Team analysis, or persistent selected-Pokémon detail panel.
+Plan identity first, a compact following-state label, a concise found-target
+summary, unplanned-member count when relevant, and `View plan`.
 
-Plan comparison uses lifecycle-aware `Not used yet` or `Not used`, plus `In
-progress`, `Reached`, `Diverged`, `Skipped`, and `Off-plan`. `Reached` requires
-an explicit relationship and recorded target evidence. `In progress` means the
-linked actual member remains on a valid directed path to the target. `Diverged`
-means a linked unresolved member has left that path. `Skipped` is always an
-explicit user decision. `Off-plan` describes an actual member with no Plan
-relationship and never pairs it to a target by slot or similarity.
+The contextual Team Plan view remains inside the active Team tab and presents a
+compact `planned Pokémon → computed status → matched Play Pokémon` list.
+On desktop, selecting a row updates a persistent comparison panel beside the
+list. Tablet and phone open the same focused comparison in a sheet. Accepted
+statuses are `Exact match`, `Build differs`, `Alternate form`, `In progress`,
+`Evolved beyond plan`, `Branched evolution`, `Previously used · retired`,
+`Previously used · replaced`, and `Not found`. Unplanned members are summarized
+only; they are not displayed as inspectable comparison rows.
 
-Plan owns `Add to Team`, `Link existing Pokémon`, `Relink`, `Unlink`, `Mark
-skipped`, `Restore target`, member editing, reordering, removal, and detachment.
-The Plan-owned member editor changes target, preferred start, role, planned
-nature, ability, item, moves, and notes without editing the actual Pokémon.
-Reusable Plan edits disclose cross-Play impact when applicable. Completed and
-abandoned Plays use past-tense comparison language and do not expose a
-present-tense add action unless the Team workflow supports recording a
-remembered member.
+Editing a reusable Plan outside a Play warns when multiple Plays are linked.
+Editing from inside a Play clones the Plan and relinks only that Play before
+applying changes. V1 comparison itself is read-only and exposes no manual
+association controls.
 
-Standalone Plan Detail uses six fixed Primary rows and up to six Alternates.
-Each member may own an exact target, preferred start, role, nature, ability,
-item, four ordered moves, and notes. Empty Primary rows are intentional open
-capacity rather than unknown data. Add, edit, move, swap, move between groups,
-and remove actions are atomic and provide a keyboard alternative to drag and
-drop. Reusable edits disclose every linked Play that may be affected but never
-change an actual Team member.
+Standalone Plan Detail uses one to six ordered target rows. Each member owns a
+required species and form plus optional role, nature, ability, held item,
+gender, four ordered moves, and notes. Add, edit, move, swap, and remove actions
+are atomic and provide a keyboard alternative to drag and drop. Reusable edits
+disclose every linked Play that may be affected but never change an actual Team
+member.
 
 Plan checks warn about game/content availability, invalid persistent forms,
-directed evolution-path conflicts, reuse policy, and supported Rules. They do
+reuse policy, and supported Rules. They do
 not produce a completion percentage or overall score and do not block creative
 planning unless the underlying identity or ownership is invalid. Plan notes,
 optional content, Rules, and Tags remain separate editable responsibilities.
@@ -889,7 +855,7 @@ cannot be preserved safely.
 Standalone Plan Detail lists every linked Play with a concise comparison
 summary and can enter that Play's comparison context directly. `Link to existing Play` offers only
 owner-scoped Plays with the exact game/version and no other focused Plan.
-Linking changes no Team member and infers no member relationship.
+Linking changes no Team member and stores no member association.
 
 ### Pokémon Browse And Detail
 

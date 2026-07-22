@@ -5,6 +5,7 @@ import type {
   MoveAttribute,
   Nature,
   PokemonAttributes,
+  PokemonEvolutionEdge,
   Region,
   Type,
   VersionGroup,
@@ -56,6 +57,7 @@ export type MainlinePlayRuleRows = {
 export type MainlinePlayTeamRows = {
   abilityAttributes: AbilityAttribute[];
   attributes: PokemonAttributes[];
+  evolutionEdges?: PokemonEvolutionEdge[];
   members: MainlinePlayTeamMemberRow[];
   moveAttributes: MoveAttribute[];
   natures: Nature[];
@@ -71,17 +73,63 @@ export type MainlinePlayTeamPlanFollowingState =
   | "not-following"
   | "not-started";
 
+export type MainlinePlayTeamPlanRelation =
+  | "exact"
+  | "alternate-form"
+  | "earlier-evolution"
+  | "later-evolution"
+  | "branched-evolution";
+
+export type MainlinePlayTeamPlanStatus =
+  | "exact-match"
+  | "build-differs"
+  | MainlinePlayTeamPlanRelation
+  | "retired"
+  | "replaced"
+  | "not-found";
+
+export type MainlinePlayTeamPlanCriterion = {
+  actual: string | null;
+  matches: boolean | null;
+  planned: string | null;
+};
+
+export type MainlinePlayTeamPlanMemberComparison = {
+  build: {
+    ability: MainlinePlayTeamPlanCriterion;
+    gender: MainlinePlayTeamPlanCriterion;
+    heldItem: MainlinePlayTeamPlanCriterion;
+    moves: MainlinePlayTeamPlanCriterion;
+    nature: MainlinePlayTeamPlanCriterion;
+  };
+  memberNotes: string | null;
+  planMemberId: string;
+  plannedFormId: number;
+  plannedFormName: string;
+  plannedFormSlug: string;
+  plannedName: string;
+  plannedSpeciesId: number;
+  plannedSpriteSlug: string | null;
+  playMember: MainlinePlayTeamMember | null;
+  relation: MainlinePlayTeamPlanRelation | null;
+  roleLabel: string | null;
+  slot: number;
+  status: MainlinePlayTeamPlanStatus;
+};
+
 export type MainlinePlayTeamPlanSummary = {
-  alternateSkippedCount: number;
+  comparisons: MainlinePlayTeamPlanMemberComparison[];
+  exactMatchCount: number;
+  foundCount: number;
   followingState: MainlinePlayTeamPlanFollowingState;
-  inProgressCount: number;
-  notUsedCount: number;
+  linkedPlayCount: number;
+  notes: string | null;
   offPlanCount: number;
+  offPlanMemberNames: string[];
   planId: string;
   planName: string;
-  primarySkippedCount: number;
-  primaryTargetCount: number;
-  reachedCount: number;
+  statusName: string;
+  targetCount: number;
 };
 
 export type MainlinePlayMilestoneRows = {

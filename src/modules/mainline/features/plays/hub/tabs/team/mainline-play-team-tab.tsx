@@ -10,6 +10,7 @@ import { TeamMemberDetailSheet } from "@/modules/mainline/features/plays/hub/tab
 import { TeamMemberDetail } from "@/modules/mainline/features/plays/hub/tabs/team/sections/selected-pokemon/team-member-detail";
 import { TeamAnalysisPanel } from "@/modules/mainline/features/plays/hub/tabs/team/sections/team-analysis/team-analysis-panel";
 import { TeamPlanPanel } from "@/modules/mainline/features/plays/hub/tabs/team/sections/team-plan/team-plan-panel";
+import { TeamPlanView } from "@/modules/mainline/features/plays/hub/tabs/team/sections/team-plan/team-plan-view";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamPlanSummary,
@@ -34,6 +35,7 @@ export const MainlinePlayTeamTab = ({
     defaultMember?.play_pokemon_id ?? null,
   );
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  const [view, setView] = useState<"team" | "plan">("team");
   const usesDetailSheet = useTeamDetailSheetLayout();
   const selectedMember =
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
@@ -59,6 +61,10 @@ export const MainlinePlayTeamTab = ({
     }
   };
 
+  if (view === "plan" && teamPlan) {
+    return <TeamPlanView plan={teamPlan} onBack={() => setView("team")} />;
+  }
+
   return (
     <>
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(19rem,4fr)_minmax(0,9fr)]">
@@ -68,7 +74,9 @@ export const MainlinePlayTeamTab = ({
             selectedMemberId={rosterSelectedMemberId}
             onSelect={selectMember}
           />
-          {teamPlan ? <TeamPlanPanel plan={teamPlan} /> : null}
+          {teamPlan ? (
+            <TeamPlanPanel plan={teamPlan} onViewPlan={() => setView("plan")} />
+          ) : null}
         </div>
 
         <div className="grid min-w-0 gap-4">

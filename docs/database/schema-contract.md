@@ -57,9 +57,12 @@ retirement, replacement, and later corrections do not erase history.
 - Team plans exist independently of plays and remain reusable.
 - A play can link to at most one focused Team Plan.
 - Creating a play from a plan does not populate the current team.
-- Planned primary members use slots 1–6; alternate/reserve planned members also
-  use group-local slots 1–6.
-- Plan-member progress belongs to the specific play-plan relationship.
+- A Plan owns one to six ordered planned targets. Species and form are required;
+  ability, nature, held item, gender, and moves are optional.
+- Plan comparison is computed at read time. No per-member status or manual
+  Plan-member-to-Play-member relationship is persisted.
+- `planning.clone_mainline_team_plan_for_play` copies a linked Plan and relinks
+  only the selected Play for future Play-scoped editing.
 
 ## App-Facing Mutations
 

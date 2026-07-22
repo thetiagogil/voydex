@@ -32,19 +32,17 @@ SELECT
             planning.mainline_team_plan_members
         WHERE
             mainline_team_plan_members.team_plan_id = mainline_team_plans.id
-            AND mainline_team_plan_members.member_group = 'primary'
-) AS primary_member_count,
+) AS member_count,
     (
         SELECT
             COUNT(
                 *
 )
         FROM
-            planning.mainline_team_plan_members
+            planning.mainline_play_plan_links
         WHERE
-            mainline_team_plan_members.team_plan_id = mainline_team_plans.id
-            AND mainline_team_plan_members.member_group = 'alternate'
-) AS alternate_member_count,
+            mainline_play_plan_links.team_plan_id = mainline_team_plans.id
+) AS linked_play_count,
     (
         SELECT
             COUNT(
@@ -62,4 +60,4 @@ FROM
     JOIN reference.version_groups ON version_groups.id = mainline_team_plans.version_group_id
     JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team plan summary rows. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker so planning RLS applies to the caller.';

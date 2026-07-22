@@ -238,16 +238,16 @@ A later planning version may support:
 
 - duplicating a Plan as an independent starting point;
 - reusable Plan templates across compatible games or version groups;
-- named lineup variants beyond the V1 Primary and Alternate groups;
+- named lineup variants beyond the V1 ordered target list;
 - an unlimited Pokémon idea board before targets are promoted into one of the
-  twelve intentional Plan positions;
+  six intentional Plan positions;
 - explicit comparison between two standalone Plans.
 
-V1 keeps one reusable game-scoped Plan with six Primary targets and six
-Alternates. One Play still has only one focused linked Plan, and editing an
-actual Team never rewrites that Plan. Reconsider duplication and templates when
-users repeatedly rebuild similar lineups; reconsider variants or an idea board
-when the twelve-position contract proves too restrictive for genuine planning
+V1 keeps one reusable game-scoped Plan with one to six ordered targets and no
+alternate group. One Play still has only one focused linked Plan, and editing
+an actual Team never rewrites that Plan. Reconsider duplication and templates
+when users repeatedly rebuild similar lineups; reconsider variants or an idea
+board when the six-position contract proves too restrictive for genuine planning
 rather than ordinary collection or browsing.
 
 Any later copy operation must create independent ownership, preserve exact
@@ -257,8 +257,8 @@ never create or duplicate a Play relationship implicitly.
 ## Plans Read Optimization
 
 A later database pass may add a dedicated Plan-library projection, materialized
-summary, or cache that precomposes six Primary target previews, Alternate
-counts, optional-content labels, Rules, Tags, linked-Play usage, and derived
+summary, or cache that precomposes six ordered target previews,
+optional-content labels, Rules, Tags, linked-Play usage, and derived
 meaningful update time, plus optional Game List Plan/Play navigation counts.
 
 V1 should first compose those facts from the existing owner-scoped Plan summary

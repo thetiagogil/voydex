@@ -6011,25 +6011,22 @@ COMMENT ON FUNCTION private.enforce_team_plan_optional_content_scope () IS 'Prev
 CREATE TABLE planning.mainline_team_plan_members (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid (),
     team_plan_id uuid NOT NULL REFERENCES planning.mainline_team_plans (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    member_group text NOT NULL DEFAULT 'primary',
-    slot integer,
+    slot integer NOT NULL,
     target_species_id integer NOT NULL REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     target_form_id integer NOT NULL,
-    preferred_start_species_id integer REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    preferred_start_form_id integer,
     role_label text,
     notes text,
+    gender text,
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     ability_id integer REFERENCES reference.abilities (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     held_item_id integer REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     updated_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT team_plan_members_target_form_fkey FOREIGN KEY (target_species_id, target_form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    CONSTRAINT team_plan_members_preferred_start_form_fkey FOREIGN KEY (preferred_start_species_id, preferred_start_form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT team_plan_members_id_plan_unique UNIQUE (id, team_plan_id),
-    CONSTRAINT team_plan_members_group_check CHECK (member_group IN ('primary', 'alternate')),
-    CONSTRAINT team_plan_members_slot_range_check CHECK (slot IS NULL OR slot BETWEEN 1 AND 6),
-    CONSTRAINT team_plan_members_preferred_start_pair_check CHECK ((preferred_start_species_id IS NULL AND preferred_start_form_id IS NULL) OR (preferred_start_species_id IS NOT NULL AND preferred_start_form_id IS NOT NULL)),
+    CONSTRAINT team_plan_members_plan_slot_unique UNIQUE (team_plan_id, slot),
+    CONSTRAINT team_plan_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
+    CONSTRAINT team_plan_members_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female', 'genderless')),
     CONSTRAINT team_plan_members_role_label_length_check CHECK (role_label IS NULL OR CHAR_LENGTH(BTRIM(role_label)) BETWEEN 1 AND 120),
     CONSTRAINT team_plan_members_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 5000)
 );
@@ -6039,15 +6036,7 @@ CREATE TRIGGER set_team_plan_members_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
 
-CREATE UNIQUE INDEX team_plan_members_plan_group_slot_unique ON planning.mainline_team_plan_members (team_plan_id, member_group, slot)
-WHERE
-    slot IS NOT NULL;
-
 CREATE INDEX team_plan_members_target_identity_idx ON planning.mainline_team_plan_members (target_species_id, target_form_id);
-
-CREATE INDEX team_plan_members_preferred_start_identity_idx ON planning.mainline_team_plan_members (preferred_start_species_id, preferred_start_form_id)
-WHERE
-    preferred_start_species_id IS NOT NULL;
 
 CREATE INDEX team_plan_members_plan_idx ON planning.mainline_team_plan_members (team_plan_id);
 
@@ -6063,9 +6052,9 @@ CREATE INDEX team_plan_members_held_item_idx ON planning.mainline_team_plan_memb
 WHERE
     held_item_id IS NOT NULL;
 
-COMMENT ON TABLE planning.mainline_team_plan_members IS 'Planned Pokémon targets. Target identity is usually the desired final form; preferred start identity supports immersive play setup.';
+COMMENT ON TABLE planning.mainline_team_plan_members IS 'Ordered planned Pokémon targets. Every member is a primary target; species and form are required while build preferences are optional.';
 
-COMMENT ON COLUMN planning.mainline_team_plan_members.member_group IS 'Plan grouping: primary for intended team members, alternate for backup or reserve ideas.';
+COMMENT ON COLUMN planning.mainline_team_plan_members.gender IS 'Optional planned gender. NULL means the plan does not constrain gender.';
 
 -- ============================================================================
 -- Source: database/schema/05_planning/01_tables/005_mainline_team_plan_member_moves.sql
@@ -6133,81 +6122,6 @@ COMMENT ON COLUMN planning.mainline_play_plan_links.game_id IS 'Duplicated from 
 COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplicated from both play and plan to enforce same-version-group play-plan integrity.';
 
 COMMENT ON COLUMN planning.mainline_play_plan_links.created_from_plan IS 'True when the play was originally created from the linked plan.';
-
--- ============================================================================
--- Source: database/schema/05_planning/01_tables/007_mainline_plan_member_link_statuses.sql
--- ============================================================================
--- ============================================================================
--- Table: planning.mainline_plan_member_link_statuses
--- Status lookup for plan member links within a play.
--- ============================================================================
-CREATE TABLE planning.mainline_plan_member_link_statuses (
-    id integer PRIMARY KEY,
-    slug text NOT NULL UNIQUE,
-    name text NOT NULL UNIQUE,
-    sort_order integer NOT NULL UNIQUE,
-    created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT plan_member_link_statuses_id_positive_check CHECK (id > 0),
-    CONSTRAINT plan_member_link_statuses_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
-    CONSTRAINT plan_member_link_statuses_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
-    CONSTRAINT plan_member_link_statuses_sort_order_positive_check CHECK (sort_order > 0)
-);
-
-COMMENT ON TABLE planning.mainline_plan_member_link_statuses IS 'Lookup for play-specific plan member statuses. Stable IDs: 1 pending, 2 linked, 3 reached, 4 skipped.';
-
--- ============================================================================
--- Source: database/schema/05_planning/01_tables/008_mainline_play_plan_member_links.sql
--- ============================================================================
--- ============================================================================
--- Table: planning.mainline_play_plan_member_links
--- Links planned team members to actual play Pokémon.
--- ============================================================================
-CREATE TABLE planning.mainline_play_plan_member_links (
-    play_plan_link_id uuid NOT NULL,
-    play_id uuid NOT NULL,
-    team_plan_id uuid NOT NULL,
-    team_plan_member_id uuid NOT NULL,
-    play_pokemon_id uuid,
-    status_id integer NOT NULL REFERENCES planning.mainline_plan_member_link_statuses (id) ON UPDATE CASCADE ON DELETE RESTRICT DEFAULT 1,
-    linked_at timestamptz,
-    reached_at timestamptz,
-    skipped_at timestamptz,
-    notes text,
-    created_at timestamptz NOT NULL DEFAULT NOW(),
-    updated_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT play_plan_member_links_primary_key PRIMARY KEY (play_plan_link_id, team_plan_member_id),
-    CONSTRAINT play_plan_member_links_plan_link_fkey FOREIGN KEY (play_plan_link_id, play_id, team_plan_id) REFERENCES planning.mainline_play_plan_links (id, play_id, team_plan_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT play_plan_member_links_member_plan_fkey FOREIGN KEY (team_plan_member_id, team_plan_id) REFERENCES planning.mainline_team_plan_members (id, team_plan_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT play_plan_member_links_play_pokemon_play_fkey FOREIGN KEY (play_pokemon_id, play_id) REFERENCES gameplay.mainline_play_pokemon (id, play_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT play_plan_member_links_status_pokemon_check CHECK ((status_id = 1 AND play_pokemon_id IS NULL) OR (status_id IN (2, 3) AND play_pokemon_id IS NOT NULL) OR status_id = 4),
-    CONSTRAINT play_plan_member_links_reached_after_linked_check CHECK (reached_at IS NULL OR linked_at IS NULL OR reached_at >= linked_at),
-    CONSTRAINT play_plan_member_links_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 5000)
-);
-
-CREATE TRIGGER set_play_plan_member_links_updated_at
-    BEFORE UPDATE ON planning.mainline_play_plan_member_links
-    FOR EACH ROW
-    EXECUTE FUNCTION private.set_updated_at ();
-
-CREATE INDEX play_plan_member_links_play_pokemon_idx ON planning.mainline_play_plan_member_links (play_pokemon_id)
-WHERE
-    play_pokemon_id IS NOT NULL;
-
-CREATE INDEX play_plan_member_links_play_pokemon_play_idx ON planning.mainline_play_plan_member_links (play_pokemon_id, play_id)
-WHERE
-    play_pokemon_id IS NOT NULL;
-
-CREATE INDEX play_plan_member_links_status_idx ON planning.mainline_play_plan_member_links (status_id);
-
-CREATE INDEX play_plan_member_links_plan_link_scope_idx ON planning.mainline_play_plan_member_links (play_plan_link_id, play_id, team_plan_id);
-
-CREATE INDEX play_plan_member_links_member_plan_idx ON planning.mainline_play_plan_member_links (team_plan_member_id, team_plan_id);
-
-COMMENT ON TABLE planning.mainline_play_plan_member_links IS 'Play-specific status and optional actual Pokémon link for a reusable plan member.';
-
-COMMENT ON COLUMN planning.mainline_play_plan_member_links.play_id IS 'Duplicated from the play-plan link to enforce same-play integrity with play Pokémon.';
-
-COMMENT ON COLUMN planning.mainline_play_plan_member_links.team_plan_id IS 'Duplicated from the play-plan link to enforce same-plan integrity with team plan members.';
 
 -- ============================================================================
 -- Source: database/schema/05_planning/01_tables/009_mainline_team_plan_tags.sql
@@ -6321,12 +6235,11 @@ COMMENT ON FUNCTION private.enforce_team_plan_challenge_rule_scope () IS 'Allows
 -- ============================================================================
 -- ============================================================================
 -- Functions: planning mainline team plan to play mutations
--- Client-callable helpers for plan-to-play realization.
+-- Client-callable helpers for linking and Play-scoped Plan cloning.
 -- ============================================================================
-CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE, p_create_member_links boolean DEFAULT TRUE)
+CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE)
     RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_created_member_link_count integer)
+        result_play_plan_link_id uuid)
     LANGUAGE plpgsql
     SECURITY INVOKER
     SET search_path = ''
@@ -6336,7 +6249,6 @@ DECLARE
     v_team_plan planning.mainline_team_plans%ROWTYPE;
     v_existing_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
     v_play_plan_link_id uuid;
-    v_created_member_link_count integer := 0;
 BEGIN
     IF p_play_id IS NULL THEN
         RAISE EXCEPTION 'play_id is required'
@@ -6409,332 +6321,31 @@ BEGIN
         INTO
             v_play_plan_link_id;
     END IF;
-    IF p_create_member_links THEN
-        INSERT INTO planning.mainline_play_plan_member_links (play_plan_link_id, play_id, team_plan_id, team_plan_member_id, status_id)
-        SELECT
-            v_play_plan_link_id,
-            v_play.id,
-            v_team_plan.id,
-            mainline_team_plan_members.id,
-            1
-        FROM
-            planning.mainline_team_plan_members
-        WHERE
-            mainline_team_plan_members.team_plan_id = v_team_plan.id
-        ON CONFLICT (play_plan_link_id,
-            team_plan_member_id)
-            DO NOTHING;
-        GET DIAGNOSTICS v_created_member_link_count = ROW_COUNT;
-    END IF;
     RETURN QUERY
     SELECT
-        v_play_plan_link_id,
-        v_created_member_link_count;
+        v_play_plan_link_id;
 END;
 $$;
 
-CREATE FUNCTION planning.initialize_mainline_play_plan_member_links (p_play_plan_link_id uuid, p_member_group text DEFAULT NULL)
-    RETURNS integer
+CREATE FUNCTION planning.clone_mainline_team_plan_for_play (p_play_id uuid, p_name text DEFAULT NULL)
+    RETURNS TABLE (
+        result_source_team_plan_id uuid,
+        result_team_plan_id uuid,
+        result_play_plan_link_id uuid)
     LANGUAGE plpgsql
     SECURITY INVOKER
     SET search_path = ''
     AS $$
 DECLARE
     v_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
-    v_member_group text;
-    v_created_member_link_count integer := 0;
+    v_source_plan planning.mainline_team_plans%ROWTYPE;
+    v_source_member planning.mainline_team_plan_members%ROWTYPE;
+    v_new_plan_id uuid;
+    v_new_member_id uuid;
+    v_name text;
 BEGIN
-    IF p_play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'play_plan_link_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    v_member_group := NULLIF (BTRIM(p_member_group), '');
-    IF v_member_group IS NOT NULL AND v_member_group NOT IN ('primary', 'alternate') THEN
-        RAISE EXCEPTION 'Unsupported plan member group %', v_member_group
-            USING ERRCODE = '23514';
-    END IF;
-    SELECT
-        mainline_play_plan_links.*
-    INTO
-        v_play_plan_link
-    FROM
-        planning.mainline_play_plan_links
-    WHERE
-        mainline_play_plan_links.id = p_play_plan_link_id
-    FOR UPDATE;
-    IF v_play_plan_link.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play_plan_link_id %', p_play_plan_link_id
-            USING ERRCODE = '23503';
-    END IF;
-    INSERT INTO planning.mainline_play_plan_member_links (play_plan_link_id, play_id, team_plan_id, team_plan_member_id, status_id)
-    SELECT
-        v_play_plan_link.id,
-        v_play_plan_link.play_id,
-        v_play_plan_link.team_plan_id,
-        mainline_team_plan_members.id,
-        1
-    FROM
-        planning.mainline_team_plan_members
-    WHERE
-        mainline_team_plan_members.team_plan_id = v_play_plan_link.team_plan_id
-        AND (v_member_group IS NULL
-            OR mainline_team_plan_members.member_group = v_member_group)
-    ON CONFLICT (play_plan_link_id,
-        team_plan_member_id)
-        DO NOTHING;
-    GET DIAGNOSTICS v_created_member_link_count = ROW_COUNT;
-    RETURN v_created_member_link_count;
-END;
-$$;
-
-CREATE FUNCTION planning.refresh_mainline_play_plan_member_link_status (p_play_plan_link_id uuid, p_team_plan_member_id uuid, p_reached_at timestamptz DEFAULT NOW())
-    RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_team_plan_member_id uuid,
-        result_play_pokemon_id uuid,
-        result_status_id integer,
-        result_reached_at timestamptz)
-    LANGUAGE plpgsql
-    SECURITY INVOKER
-    SET search_path = ''
-    AS $$
-DECLARE
-    v_member_link planning.mainline_play_plan_member_links%ROWTYPE;
-    v_plan_member planning.mainline_team_plan_members%ROWTYPE;
-    v_has_reached_target boolean := FALSE;
-BEGIN
-    IF p_play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'play_plan_link_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    IF p_team_plan_member_id IS NULL THEN
-        RAISE EXCEPTION 'team_plan_member_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    SELECT
-        mainline_play_plan_member_links.*
-    INTO
-        v_member_link
-    FROM
-        planning.mainline_play_plan_member_links
-    WHERE
-        mainline_play_plan_member_links.play_plan_link_id = p_play_plan_link_id
-        AND mainline_play_plan_member_links.team_plan_member_id = p_team_plan_member_id
-    FOR UPDATE;
-    IF v_member_link.play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play-plan member link'
-            USING ERRCODE = '23503';
-    END IF;
-    SELECT
-        mainline_team_plan_members.*
-    INTO
-        v_plan_member
-    FROM
-        planning.mainline_team_plan_members
-    WHERE
-        mainline_team_plan_members.id = v_member_link.team_plan_member_id
-        AND mainline_team_plan_members.team_plan_id = v_member_link.team_plan_id;
-    IF v_plan_member.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable team_plan_member_id %', p_team_plan_member_id
-            USING ERRCODE = '23503';
-    END IF;
-    IF v_member_link.status_id = 4 THEN
-        RETURN QUERY
-        SELECT
-            v_member_link.play_plan_link_id,
-            v_member_link.team_plan_member_id,
-            v_member_link.play_pokemon_id,
-            v_member_link.status_id,
-            v_member_link.reached_at;
-        RETURN;
-    END IF;
-    IF v_member_link.play_pokemon_id IS NULL THEN
-        UPDATE
-            planning.mainline_play_plan_member_links
-        SET
-            status_id = 1,
-            linked_at = NULL,
-            reached_at = NULL
-        WHERE
-            mainline_play_plan_member_links.play_plan_link_id = p_play_plan_link_id
-            AND mainline_play_plan_member_links.team_plan_member_id = p_team_plan_member_id
-        RETURNING
-            mainline_play_plan_member_links.*
-        INTO
-            v_member_link;
-    ELSE
-        SELECT
-            EXISTS (
-                SELECT
-                    1
-                FROM
-                    gameplay.mainline_play_pokemon
-                WHERE
-                    mainline_play_pokemon.id = v_member_link.play_pokemon_id
-                    AND mainline_play_pokemon.play_id = v_member_link.play_id
-                    AND mainline_play_pokemon.species_id = v_plan_member.target_species_id
-                    AND mainline_play_pokemon.form_id = v_plan_member.target_form_id)
-            OR EXISTS (
-                SELECT
-                    1
-                FROM
-                    gameplay.mainline_play_event_pokemon_refs
-                WHERE
-                    mainline_play_event_pokemon_refs.play_id = v_member_link.play_id
-                    AND mainline_play_event_pokemon_refs.play_pokemon_id = v_member_link.play_pokemon_id
-                    AND mainline_play_event_pokemon_refs.species_id = v_plan_member.target_species_id
-                    AND mainline_play_event_pokemon_refs.form_id = v_plan_member.target_form_id)
-        INTO
-            v_has_reached_target;
-        UPDATE
-            planning.mainline_play_plan_member_links
-        SET
-            status_id = CASE WHEN v_has_reached_target THEN
-                3
-            ELSE
-                2
-            END,
-            linked_at = COALESCE(planning.mainline_play_plan_member_links.linked_at, NOW()),
-            reached_at = CASE WHEN v_has_reached_target THEN
-                COALESCE(planning.mainline_play_plan_member_links.reached_at, p_reached_at, NOW())
-            ELSE
-                planning.mainline_play_plan_member_links.reached_at
-            END,
-            skipped_at = NULL
-        WHERE
-            mainline_play_plan_member_links.play_plan_link_id = p_play_plan_link_id
-            AND mainline_play_plan_member_links.team_plan_member_id = p_team_plan_member_id
-        RETURNING
-            mainline_play_plan_member_links.*
-        INTO
-            v_member_link;
-    END IF;
-    RETURN QUERY
-    SELECT
-        v_member_link.play_plan_link_id,
-        v_member_link.team_plan_member_id,
-        v_member_link.play_pokemon_id,
-        v_member_link.status_id,
-        v_member_link.reached_at;
-END;
-$$;
-
-CREATE FUNCTION planning.link_mainline_play_pokemon_to_plan_member (p_play_plan_link_id uuid, p_team_plan_member_id uuid, p_play_pokemon_id uuid, p_notes text DEFAULT NULL, p_reached_at timestamptz DEFAULT NOW())
-    RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_team_plan_member_id uuid,
-        result_play_pokemon_id uuid,
-        result_status_id integer,
-        result_reached_at timestamptz)
-    LANGUAGE plpgsql
-    SECURITY INVOKER
-    SET search_path = ''
-    AS $$
-DECLARE
-    v_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
-    v_plan_member planning.mainline_team_plan_members%ROWTYPE;
-    v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
-    v_notes text;
-BEGIN
-    IF p_play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'play_plan_link_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    IF p_team_plan_member_id IS NULL THEN
-        RAISE EXCEPTION 'team_plan_member_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    IF p_play_pokemon_id IS NULL THEN
-        RAISE EXCEPTION 'play_pokemon_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    v_notes := NULLIF (BTRIM(p_notes), '');
-    SELECT
-        mainline_play_plan_links.*
-    INTO
-        v_play_plan_link
-    FROM
-        planning.mainline_play_plan_links
-    WHERE
-        mainline_play_plan_links.id = p_play_plan_link_id
-    FOR UPDATE;
-    IF v_play_plan_link.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play_plan_link_id %', p_play_plan_link_id
-            USING ERRCODE = '23503';
-    END IF;
-    SELECT
-        mainline_team_plan_members.*
-    INTO
-        v_plan_member
-    FROM
-        planning.mainline_team_plan_members
-    WHERE
-        mainline_team_plan_members.id = p_team_plan_member_id
-        AND mainline_team_plan_members.team_plan_id = v_play_plan_link.team_plan_id;
-    IF v_plan_member.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable team_plan_member_id % for this play-plan link', p_team_plan_member_id
-            USING ERRCODE = '23503';
-    END IF;
-    SELECT
-        mainline_play_pokemon.*
-    INTO
-        v_play_pokemon
-    FROM
-        gameplay.mainline_play_pokemon
-    WHERE
-        mainline_play_pokemon.id = p_play_pokemon_id
-        AND mainline_play_pokemon.play_id = v_play_plan_link.play_id
-    FOR UPDATE;
-    IF v_play_pokemon.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id % for this play', p_play_pokemon_id
-            USING ERRCODE = '23503';
-    END IF;
-    INSERT INTO planning.mainline_play_plan_member_links (play_plan_link_id, play_id, team_plan_id, team_plan_member_id, play_pokemon_id, status_id, linked_at, notes)
-        VALUES (v_play_plan_link.id, v_play_plan_link.play_id, v_play_plan_link.team_plan_id, v_plan_member.id, v_play_pokemon.id, 2, NOW(), v_notes)
-    ON CONFLICT (play_plan_link_id, team_plan_member_id)
-        DO UPDATE SET
-            play_pokemon_id = EXCLUDED.play_pokemon_id,
-            status_id = 2,
-            linked_at = COALESCE(planning.mainline_play_plan_member_links.linked_at, EXCLUDED.linked_at),
-            reached_at = NULL,
-            skipped_at = NULL,
-            notes = COALESCE(EXCLUDED.notes, planning.mainline_play_plan_member_links.notes);
-    RETURN QUERY
-    SELECT
-        *
-    FROM
-        planning.refresh_mainline_play_plan_member_link_status (v_play_plan_link.id, v_plan_member.id, p_reached_at);
-END;
-$$;
-
-CREATE FUNCTION planning.realize_mainline_team_plan_member (p_play_plan_link_id uuid, p_team_plan_member_id uuid, p_use_preferred_start boolean DEFAULT TRUE, p_roster_state_id integer DEFAULT 1, p_slot integer DEFAULT NULL, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_include_planned_moves boolean DEFAULT FALSE, p_create_event boolean DEFAULT TRUE, p_event_title text DEFAULT NULL, p_event_body text DEFAULT NULL, p_event_happened_at timestamptz DEFAULT NOW(), p_link_notes text DEFAULT NULL)
-    RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_team_plan_member_id uuid,
-        result_play_pokemon_id uuid,
-        result_event_id uuid,
-        result_status_id integer,
-        result_reached_at timestamptz)
-    LANGUAGE plpgsql
-    SECURITY INVOKER
-    SET search_path = ''
-    AS $$
-DECLARE
-    v_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
-    v_plan_member planning.mainline_team_plan_members%ROWTYPE;
-    v_species_id integer;
-    v_form_id integer;
-    v_move_ids integer[] := '{}'::integer[];
-    v_play_pokemon_id uuid;
-    v_event_id uuid;
-    v_link_result RECORD;
-BEGIN
-    IF p_play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'play_plan_link_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    IF p_team_plan_member_id IS NULL THEN
-        RAISE EXCEPTION 'team_plan_member_id is required'
+    IF p_play_id IS NULL THEN
+        RAISE EXCEPTION 'play_id is required'
             USING ERRCODE = '23502';
     END IF;
     SELECT
@@ -6744,177 +6355,114 @@ BEGIN
     FROM
         planning.mainline_play_plan_links
     WHERE
-        mainline_play_plan_links.id = p_play_plan_link_id
+        mainline_play_plan_links.play_id = p_play_id
     FOR UPDATE;
     IF v_play_plan_link.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play_plan_link_id %', p_play_plan_link_id
+        RAISE EXCEPTION 'Unknown or unavailable linked Plan for play_id %', p_play_id
             USING ERRCODE = '23503';
     END IF;
     SELECT
-        mainline_team_plan_members.*
+        mainline_team_plans.*
     INTO
-        v_plan_member
+        v_source_plan
     FROM
-        planning.mainline_team_plan_members
+        planning.mainline_team_plans
     WHERE
-        mainline_team_plan_members.id = p_team_plan_member_id
-        AND mainline_team_plan_members.team_plan_id = v_play_plan_link.team_plan_id
+        mainline_team_plans.id = v_play_plan_link.team_plan_id
     FOR UPDATE;
-    IF v_plan_member.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable team_plan_member_id % for this play-plan link', p_team_plan_member_id
+    IF v_source_plan.id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable source team Plan'
             USING ERRCODE = '23503';
     END IF;
-    IF p_use_preferred_start AND v_plan_member.preferred_start_species_id IS NOT NULL THEN
-        v_species_id := v_plan_member.preferred_start_species_id;
-        v_form_id := v_plan_member.preferred_start_form_id;
-    ELSE
-        v_species_id := v_plan_member.target_species_id;
-        v_form_id := v_plan_member.target_form_id;
-    END IF;
-    IF p_include_planned_moves THEN
-        SELECT
-            COALESCE(ARRAY_AGG(mainline_team_plan_member_moves.move_id ORDER BY mainline_team_plan_member_moves.slot), '{}'::integer[])
-        INTO
-            v_move_ids
-        FROM
-            planning.mainline_team_plan_member_moves
-        WHERE
-            mainline_team_plan_member_moves.team_plan_member_id = v_plan_member.id;
-    END IF;
-    SELECT
-        added.result_play_pokemon_id,
-        added.result_event_id
-    INTO
-        v_play_pokemon_id,
-        v_event_id
-    FROM
-        gameplay.add_mainline_play_pokemon (v_play_plan_link.play_id, p_roster_state_id, p_slot, v_species_id, v_form_id, p_nickname, p_level, p_gender, p_is_shiny, COALESCE(p_nature_id, v_plan_member.nature_id), COALESCE(p_ability_id, v_plan_member.ability_id), COALESCE(p_held_item_id, v_plan_member.held_item_id), p_met_location_label, p_met_level, p_ball_item_id, p_personal_notes, v_move_ids, p_create_event, p_event_title, p_event_body, p_event_happened_at) AS added;
-    SELECT
-        *
-    INTO
-        v_link_result
-    FROM
-        planning.link_mainline_play_pokemon_to_plan_member (v_play_plan_link.id, v_plan_member.id, v_play_pokemon_id, p_link_notes, p_event_happened_at);
-    RETURN QUERY
-    SELECT
-        v_play_plan_link.id,
-        v_plan_member.id,
-        v_play_pokemon_id,
-        v_event_id,
-        v_link_result.result_status_id::integer,
-        v_link_result.result_reached_at::timestamptz;
-END;
-$$;
-
-CREATE FUNCTION planning.skip_mainline_team_plan_member (p_play_plan_link_id uuid, p_team_plan_member_id uuid, p_notes text DEFAULT NULL, p_skipped_at timestamptz DEFAULT NOW())
-    RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_team_plan_member_id uuid,
-        result_status_id integer,
-        result_skipped_at timestamptz)
-    LANGUAGE plpgsql
-    SECURITY INVOKER
-    SET search_path = ''
-    AS $$
-DECLARE
-    v_member_link planning.mainline_play_plan_member_links%ROWTYPE;
-    v_notes text;
-BEGIN
-    IF p_play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'play_plan_link_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    IF p_team_plan_member_id IS NULL THEN
-        RAISE EXCEPTION 'team_plan_member_id is required'
-            USING ERRCODE = '23502';
-    END IF;
-    v_notes := NULLIF (BTRIM(p_notes), '');
-    UPDATE
-        planning.mainline_play_plan_member_links
-    SET
-        status_id = 4,
-        skipped_at = COALESCE(p_skipped_at, NOW()),
-        notes = COALESCE(v_notes, planning.mainline_play_plan_member_links.notes)
-    WHERE
-        mainline_play_plan_member_links.play_plan_link_id = p_play_plan_link_id
-        AND mainline_play_plan_member_links.team_plan_member_id = p_team_plan_member_id
+    v_name := COALESCE(NULLIF (BTRIM(p_name), ''), v_source_plan.name);
+    INSERT INTO planning.mainline_team_plans (user_id, game_id, version_group_id, status_id, name, notes)
+        VALUES (v_source_plan.user_id, v_source_plan.game_id, v_source_plan.version_group_id, v_source_plan.status_id, v_name, v_source_plan.notes)
     RETURNING
-        mainline_play_plan_member_links.*
+        id
     INTO
-        v_member_link;
-    IF v_member_link.play_plan_link_id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable play-plan member link'
-            USING ERRCODE = '23503';
-    END IF;
-    UPDATE
-        planning.mainline_play_plan_member_links
-    SET
-        play_pokemon_id = NULL,
-        linked_at = NULL,
-        reached_at = NULL
+        v_new_plan_id;
+    INSERT INTO planning.mainline_team_plan_optional_content_scopes (team_plan_id, game_id, version_group_id)
+    SELECT
+        v_new_plan_id,
+        mainline_team_plan_optional_content_scopes.game_id,
+        mainline_team_plan_optional_content_scopes.version_group_id
+    FROM
+        planning.mainline_team_plan_optional_content_scopes
     WHERE
-        mainline_play_plan_member_links.play_plan_link_id = p_play_plan_link_id
-        AND mainline_play_plan_member_links.team_plan_member_id = p_team_plan_member_id
-    RETURNING
-        mainline_play_plan_member_links.*
-    INTO
-        v_member_link;
+        mainline_team_plan_optional_content_scopes.team_plan_id = v_source_plan.id;
+    FOR v_source_member IN
+    SELECT
+        mainline_team_plan_members.*
+    FROM
+        planning.mainline_team_plan_members
+    WHERE
+        mainline_team_plan_members.team_plan_id = v_source_plan.id
+    ORDER BY
+        mainline_team_plan_members.slot LOOP
+            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
+                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_label, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
+            RETURNING
+                id
+            INTO
+                v_new_member_id;
+            INSERT INTO planning.mainline_team_plan_member_moves (team_plan_member_id, slot, move_id)
+            SELECT
+                v_new_member_id,
+                mainline_team_plan_member_moves.slot,
+                mainline_team_plan_member_moves.move_id
+            FROM
+                planning.mainline_team_plan_member_moves
+            WHERE
+                mainline_team_plan_member_moves.team_plan_member_id = v_source_member.id;
+        END LOOP;
+    INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
+    SELECT
+        v_new_plan_id,
+        mainline_team_plan_tags.tag_id,
+        mainline_team_plan_tags.user_id
+    FROM
+        planning.mainline_team_plan_tags
+    WHERE
+        mainline_team_plan_tags.team_plan_id = v_source_plan.id;
+    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
+    SELECT
+        v_new_plan_id,
+        mainline_team_plan_challenge_rules.challenge_rule_id,
+        mainline_team_plan_challenge_rules.config_override
+    FROM
+        planning.mainline_team_plan_challenge_rules
+    WHERE
+        mainline_team_plan_challenge_rules.team_plan_id = v_source_plan.id;
+    UPDATE
+        planning.mainline_play_plan_links
+    SET
+        team_plan_id = v_new_plan_id,
+        created_from_plan = FALSE
+    WHERE
+        mainline_play_plan_links.id = v_play_plan_link.id;
     RETURN QUERY
     SELECT
-        v_member_link.play_plan_link_id,
-        v_member_link.team_plan_member_id,
-        v_member_link.status_id,
-        v_member_link.skipped_at;
+        v_source_plan.id,
+        v_new_plan_id,
+        v_play_plan_link.id;
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM anon;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION planning.initialize_mainline_play_plan_member_links (UUID, TEXT) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.initialize_mainline_play_plan_member_links (UUID, TEXT) FROM anon;
+REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.initialize_mainline_play_plan_member_links (UUID, TEXT) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION planning.refresh_mainline_play_plan_member_link_status (UUID, UUID, TIMESTAMPTZ) FROM PUBLIC;
+COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
-REVOKE ALL ON FUNCTION planning.refresh_mainline_play_plan_member_link_status (UUID, UUID, TIMESTAMPTZ) FROM anon;
-
-GRANT EXECUTE ON FUNCTION planning.refresh_mainline_play_plan_member_link_status (UUID, UUID, TIMESTAMPTZ) TO authenticated, service_role;
-
-REVOKE ALL ON FUNCTION planning.link_mainline_play_pokemon_to_plan_member (UUID, UUID, UUID, TEXT, TIMESTAMPTZ) FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION planning.link_mainline_play_pokemon_to_plan_member (UUID, UUID, UUID, TEXT, TIMESTAMPTZ) FROM anon;
-
-GRANT EXECUTE ON FUNCTION planning.link_mainline_play_pokemon_to_plan_member (UUID, UUID, UUID, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
-
-REVOKE ALL ON FUNCTION planning.realize_mainline_team_plan_member (UUID, UUID, BOOLEAN, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, BOOLEAN, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, TEXT) FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION planning.realize_mainline_team_plan_member (UUID, UUID, BOOLEAN, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, BOOLEAN, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, TEXT) FROM anon;
-
-GRANT EXECUTE ON FUNCTION planning.realize_mainline_team_plan_member (UUID, UUID, BOOLEAN, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, BOOLEAN, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, TEXT) TO authenticated, service_role;
-
-REVOKE ALL ON FUNCTION planning.skip_mainline_team_plan_member (UUID, UUID, TEXT, TIMESTAMPTZ) FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION planning.skip_mainline_team_plan_member (UUID, UUID, TEXT, TIMESTAMPTZ) FROM anon;
-
-GRANT EXECUTE ON FUNCTION planning.skip_mainline_team_plan_member (UUID, UUID, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
-
-COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team plan and optionally initializes pending plan member links. Runs as SECURITY INVOKER so gameplay and planning RLS apply.';
-
-COMMENT ON FUNCTION planning.initialize_mainline_play_plan_member_links (UUID, TEXT) IS 'Creates missing pending plan member links for a play-plan link. Runs as SECURITY INVOKER so planning RLS applies.';
-
-COMMENT ON FUNCTION planning.refresh_mainline_play_plan_member_link_status (UUID, UUID, TIMESTAMPTZ) IS 'Refreshes a play-plan member link to pending, linked, or reached by checking the linked play Pokémon current and event-time identities. Runs as SECURITY INVOKER so planning and gameplay RLS apply.';
-
-COMMENT ON FUNCTION planning.link_mainline_play_pokemon_to_plan_member (UUID, UUID, UUID, TEXT, TIMESTAMPTZ) IS 'Links an existing play Pokémon to a planned team member and refreshes linked/reached status. Runs as SECURITY INVOKER so planning and gameplay RLS apply.';
-
-COMMENT ON FUNCTION planning.realize_mainline_team_plan_member (UUID, UUID, BOOLEAN, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, BOOLEAN, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, TEXT) IS 'Creates a play Pokémon from a planned member, preserving the reusable plan while linking the realized Pokémon to that plan member. Runs as SECURITY INVOKER so planning and gameplay RLS apply.';
-
-COMMENT ON FUNCTION planning.skip_mainline_team_plan_member (UUID, UUID, TEXT, TIMESTAMPTZ) IS 'Marks a play-specific plan member link as skipped and clears any Pokémon link. Runs as SECURITY INVOKER so planning RLS applies.';
+COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';
 
 -- ============================================================================
 -- Source: database/schema/05_planning/03_policies/001_rls_and_grants.sql
@@ -6934,10 +6482,6 @@ ALTER TABLE planning.mainline_team_plan_member_moves ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_play_plan_links ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE planning.mainline_plan_member_link_statuses ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_play_plan_member_links ENABLE ROW LEVEL SECURITY;
-
 ALTER TABLE planning.mainline_team_plan_tags ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
@@ -6954,17 +6498,11 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_member_moves FROM anon, authenti
 
 REVOKE ALL ON TABLE planning.mainline_play_plan_links FROM anon, authenticated;
 
-REVOKE ALL ON TABLE planning.mainline_plan_member_link_statuses FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_play_plan_member_links FROM anon, authenticated;
-
 REVOKE ALL ON TABLE planning.mainline_team_plan_tags FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authenticated;
 
 GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
-
-GRANT SELECT ON TABLE planning.mainline_plan_member_link_statuses TO authenticated;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plans TO authenticated;
 
@@ -6975,8 +6513,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member_moves TO authenticated;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_links TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_member_links TO authenticated;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_tags TO authenticated;
 
@@ -6994,19 +6530,11 @@ GRANT ALL ON TABLE planning.mainline_team_plan_member_moves TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_play_plan_links TO service_role;
 
-GRANT ALL ON TABLE planning.mainline_plan_member_link_statuses TO service_role;
-
-GRANT ALL ON TABLE planning.mainline_play_plan_member_links TO service_role;
-
 GRANT ALL ON TABLE planning.mainline_team_plan_tags TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
 CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY plan_member_link_statuses_read_all ON planning.mainline_plan_member_link_statuses
     FOR SELECT TO authenticated
     USING (TRUE);
 
@@ -7102,25 +6630,6 @@ CREATE POLICY team_plan_member_moves_owned ON planning.mainline_team_plan_member
         WHERE
             mainline_team_plan_members.id = team_plan_member_id
             AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY play_plan_member_links_owned ON planning.mainline_play_plan_member_links
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_play_plan_links
-        WHERE
-            mainline_play_plan_links.id = play_plan_link_id
-            AND mainline_play_plan_links.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_play_plan_links
-        WHERE
-            mainline_play_plan_links.id = play_plan_link_id
-            AND mainline_play_plan_links.user_id = auth.uid ()));
 
 CREATE POLICY team_plan_tags_owned ON planning.mainline_team_plan_tags
     FOR ALL TO authenticated
@@ -8176,19 +7685,17 @@ SELECT
             planning.mainline_team_plan_members
         WHERE
             mainline_team_plan_members.team_plan_id = mainline_team_plans.id
-            AND mainline_team_plan_members.member_group = 'primary'
-) AS primary_member_count,
+) AS member_count,
     (
         SELECT
             COUNT(
                 *
 )
         FROM
-            planning.mainline_team_plan_members
+            planning.mainline_play_plan_links
         WHERE
-            mainline_team_plan_members.team_plan_id = mainline_team_plans.id
-            AND mainline_team_plan_members.member_group = 'alternate'
-) AS alternate_member_count,
+            mainline_play_plan_links.team_plan_id = mainline_team_plans.id
+) AS linked_play_count,
     (
         SELECT
             COUNT(
@@ -8206,14 +7713,14 @@ FROM
     JOIN reference.version_groups ON version_groups.id = mainline_team_plans.version_group_id
     JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team plan summary rows. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker so planning RLS applies to the caller.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/010_mainline_team_plan_detail.sql
 -- ============================================================================
 -- ============================================================================
 -- View: views.mainline_team_plan_detail
--- Planned Pokémon targets with display metadata and planned moves.
+-- Ordered planned Pokémon targets with display metadata and planned moves.
 -- ============================================================================
 CREATE VIEW views.mainline_team_plan_detail WITH ( security_invoker = TRUE
 ) AS
@@ -8221,7 +7728,6 @@ SELECT
     mainline_team_plan_members.id AS team_plan_member_id,
     mainline_team_plan_members.team_plan_id,
     mainline_team_plans.user_id,
-    mainline_team_plan_members.member_group,
     mainline_team_plan_members.slot,
     mainline_team_plan_members.target_species_id,
     target_species.slug AS target_species_slug,
@@ -8232,14 +7738,9 @@ SELECT
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
     target_forms.sprite_slug AS target_sprite_slug,
-    mainline_team_plan_members.preferred_start_species_id,
-    preferred_start_species.slug AS preferred_start_species_slug,
-    preferred_start_species.name AS preferred_start_species_name,
-    mainline_team_plan_members.preferred_start_form_id,
-    preferred_start_forms.slug AS preferred_start_form_slug,
-    preferred_start_forms.name AS preferred_start_form_name,
     mainline_team_plan_members.role_label,
     mainline_team_plan_members.notes,
+    mainline_team_plan_members.gender,
     mainline_team_plan_members.nature_id,
     natures.name AS nature_name,
     mainline_team_plan_members.ability_id,
@@ -8257,9 +7758,6 @@ FROM
     JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
     JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
         AND target_forms.id = mainline_team_plan_members.target_form_id
-    LEFT JOIN reference.pokemon_species AS preferred_start_species ON preferred_start_species.id = mainline_team_plan_members.preferred_start_species_id
-    LEFT JOIN reference.pokemon_forms AS preferred_start_forms ON preferred_start_forms.species_id = mainline_team_plan_members.preferred_start_species_id
-        AND preferred_start_forms.id = mainline_team_plan_members.preferred_start_form_id
     LEFT JOIN reference.natures ON natures.id = mainline_team_plan_members.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_team_plan_members.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_team_plan_members.held_item_id
@@ -8267,17 +7765,17 @@ FROM
         SELECT
             jsonb_agg(
                 jsonb_build_object(
-                    'slot', mainline_team_plan_member_moves.slot, 'move_id', moves.id, 'slug', moves.slug, 'name', moves.name
+                    'slot', mainline_team_plan_member_moves.slot, 'move_id', reference_moves.id, 'slug', reference_moves.slug, 'name', reference_moves.name
 ) ORDER BY mainline_team_plan_member_moves.slot
 ) AS moves
         FROM
             planning.mainline_team_plan_member_moves
-            JOIN reference.moves ON moves.id = mainline_team_plan_member_moves.move_id
+            JOIN reference.moves AS reference_moves ON reference_moves.id = mainline_team_plan_member_moves.move_id
         WHERE
             mainline_team_plan_member_moves.team_plan_member_id = mainline_team_plan_members.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_team_plan_detail IS 'Team plan member detail rows with display identity and planned moves. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_detail IS 'Ordered team Plan members with target identity, optional build preferences, and planned moves. Uses security_invoker so planning RLS applies to the caller.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/011_mainline_collection_used_identities.sql
@@ -9052,7 +8550,7 @@ COMMENT ON VIEW views.mainline_play_milestone_category_summary IS 'Per-play mile
 -- ============================================================================
 -- ============================================================================
 -- View: views.mainline_play_team_plan_detail
--- Play-scoped team plan member rows with realization status.
+-- Play-scoped reusable Plan context and ordered planned members.
 -- ============================================================================
 CREATE VIEW views.mainline_play_team_plan_detail WITH ( security_invoker = TRUE
 ) AS
@@ -9077,8 +8575,9 @@ SELECT
     team_plan_statuses.slug AS team_plan_status_slug,
     team_plan_statuses.name AS team_plan_status_name,
     mainline_team_plans.notes AS team_plan_notes,
+    mainline_team_plans.updated_at AS team_plan_updated_at,
+    linked_plays.linked_play_count,
     mainline_team_plan_members.id AS team_plan_member_id,
-    mainline_team_plan_members.member_group,
     mainline_team_plan_members.slot,
     mainline_team_plan_members.target_species_id,
     target_species.slug AS target_species_slug,
@@ -9089,44 +8588,15 @@ SELECT
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
     target_forms.sprite_slug AS target_sprite_slug,
-    mainline_team_plan_members.preferred_start_species_id,
-    preferred_start_species.slug AS preferred_start_species_slug,
-    preferred_start_species.name AS preferred_start_species_name,
-    mainline_team_plan_members.preferred_start_form_id,
-    preferred_start_forms.slug AS preferred_start_form_slug,
-    preferred_start_forms.name AS preferred_start_form_name,
     mainline_team_plan_members.role_label,
     mainline_team_plan_members.notes AS team_plan_member_notes,
+    mainline_team_plan_members.gender AS planned_gender,
     mainline_team_plan_members.nature_id AS planned_nature_id,
     planned_natures.name AS planned_nature_name,
     mainline_team_plan_members.ability_id AS planned_ability_id,
     planned_abilities.name AS planned_ability_name,
     mainline_team_plan_members.held_item_id AS planned_held_item_id,
     planned_held_items.name AS planned_held_item_name,
-    COALESCE(
-        mainline_play_plan_member_links.status_id, 1
-) AS member_link_status_id,
-    plan_member_link_statuses.slug AS member_link_status_slug,
-    plan_member_link_statuses.name AS member_link_status_name,
-    mainline_play_plan_member_links.play_pokemon_id,
-    mainline_play_plan_member_links.linked_at AS member_linked_at,
-    mainline_play_plan_member_links.reached_at AS member_reached_at,
-    mainline_play_plan_member_links.skipped_at AS member_skipped_at,
-    mainline_play_plan_member_links.notes AS member_link_notes,
-    mainline_play_pokemon.roster_state_id AS play_pokemon_roster_state_id,
-    roster_states.slug AS play_pokemon_roster_state_slug,
-    roster_states.name AS play_pokemon_roster_state_name,
-    mainline_play_pokemon.slot AS play_pokemon_slot,
-    mainline_play_pokemon.species_id AS play_pokemon_species_id,
-    play_species.slug AS play_pokemon_species_slug,
-    play_species.name AS play_pokemon_species_name,
-    mainline_play_pokemon.form_id AS play_pokemon_form_id,
-    play_forms.slug AS play_pokemon_form_slug,
-    play_forms.name AS play_pokemon_form_name,
-    play_forms.sprite_slug AS play_pokemon_sprite_slug,
-    mainline_play_pokemon.nickname AS play_pokemon_nickname,
-    mainline_play_pokemon.level AS play_pokemon_level,
-    mainline_play_pokemon.is_shiny AS play_pokemon_is_shiny,
     COALESCE(
         moves.moves, '[]'::jsonb
 ) AS planned_moves
@@ -9137,37 +8607,38 @@ FROM
     JOIN reference.games ON games.id = mainline_play_plan_links.game_id
     JOIN reference.version_groups ON version_groups.id = mainline_play_plan_links.version_group_id
     JOIN reference.generations ON generations.id = games.generation_id
-    JOIN planning.mainline_team_plan_members ON mainline_team_plan_members.team_plan_id = mainline_team_plans.id
-    JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
-    JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
+    LEFT JOIN planning.mainline_team_plan_members ON mainline_team_plan_members.team_plan_id = mainline_team_plans.id
+    LEFT JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
+    LEFT JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
         AND target_forms.id = mainline_team_plan_members.target_form_id
-    LEFT JOIN reference.pokemon_species AS preferred_start_species ON preferred_start_species.id = mainline_team_plan_members.preferred_start_species_id
-    LEFT JOIN reference.pokemon_forms AS preferred_start_forms ON preferred_start_forms.species_id = mainline_team_plan_members.preferred_start_species_id
-        AND preferred_start_forms.id = mainline_team_plan_members.preferred_start_form_id
     LEFT JOIN reference.natures AS planned_natures ON planned_natures.id = mainline_team_plan_members.nature_id
     LEFT JOIN reference.abilities AS planned_abilities ON planned_abilities.id = mainline_team_plan_members.ability_id
     LEFT JOIN reference.items AS planned_held_items ON planned_held_items.id = mainline_team_plan_members.held_item_id
-    LEFT JOIN planning.mainline_play_plan_member_links ON mainline_play_plan_member_links.play_plan_link_id = mainline_play_plan_links.id
-        AND mainline_play_plan_member_links.team_plan_member_id = mainline_team_plan_members.id
-    JOIN planning.mainline_plan_member_link_statuses AS plan_member_link_statuses ON plan_member_link_statuses.id = COALESCE(
-        mainline_play_plan_member_links.status_id, 1)
-    LEFT JOIN gameplay.mainline_play_pokemon ON mainline_play_pokemon.id = mainline_play_plan_member_links.play_pokemon_id
-        AND mainline_play_pokemon.play_id = mainline_play_plan_links.play_id
-    LEFT JOIN gameplay.mainline_play_pokemon_roster_states AS roster_states ON roster_states.id = mainline_play_pokemon.roster_state_id
-    LEFT JOIN reference.pokemon_species AS play_species ON play_species.id = mainline_play_pokemon.species_id
-    LEFT JOIN reference.pokemon_forms AS play_forms ON play_forms.species_id = mainline_play_pokemon.species_id
-        AND play_forms.id = mainline_play_pokemon.form_id
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('slot', mainline_team_plan_member_moves.slot, 'move_id', moves.id, 'slug', moves.slug, 'name', moves.name)
-            ORDER BY mainline_team_plan_member_moves.slot) AS moves
+            COUNT(
+                *
+) AS linked_play_count
+        FROM
+            planning.mainline_play_plan_links AS plan_usage
+        WHERE
+            plan_usage.team_plan_id = mainline_team_plans.id
+) AS linked_plays ON TRUE
+    LEFT JOIN LATERAL (
+        SELECT
+            jsonb_agg(
+                jsonb_build_object(
+                    'slot', mainline_team_plan_member_moves.slot, 'move_id', reference_moves.id, 'slug', reference_moves.slug, 'name', reference_moves.name
+) ORDER BY mainline_team_plan_member_moves.slot
+) AS moves
         FROM
             planning.mainline_team_plan_member_moves
-            JOIN reference.moves ON moves.id = mainline_team_plan_member_moves.move_id
+            JOIN reference.moves AS reference_moves ON reference_moves.id = mainline_team_plan_member_moves.move_id
         WHERE
-            mainline_team_plan_member_moves.team_plan_member_id = mainline_team_plan_members.id) AS moves ON TRUE;
+            mainline_team_plan_member_moves.team_plan_member_id = mainline_team_plan_members.id
+) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_team_plan_detail IS 'Play-scoped team plan detail rows with planned member identity, realization status, linked play Pokémon, and planned moves. Uses security_invoker so planning and gameplay RLS apply to the caller.';
+COMMENT ON VIEW views.mainline_play_team_plan_detail IS 'Play-scoped reusable Plan context and ordered planned members. Automatic comparison with current and historical Play Pokémon is derived by the application at read time.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/02_grants/001_views_select.sql

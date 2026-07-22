@@ -33,9 +33,9 @@ why the direction was selected or changed.
 | V1-D015 | 2026-07-13 | Place sparse-Play setup guidance in a separate Overview banner below the tabs                                             | Superseded |
 | V1-D016 | 2026-07-13 | Integrate the adaptive Play-wide Next Step action region into the Play Header                                             | Accepted   |
 | V1-D017 | 2026-07-13 | Preserve the current Play Header information rhythm while reserving it for stable Play-wide context                       | Accepted   |
-| V1-D018 | 2026-07-13 | Keep four permanent Overview sections and surface linked-Plan context inside Current Team                                 | Accepted   |
+| V1-D018 | 2026-07-13 | Keep four permanent Overview sections and surface linked-Plan context inside Current Team                                 | Superseded |
 | V1-D019 | 2026-07-13 | Make Journey Status lifecycle-aware and qualitative while Progress Summary owns numeric Story completion                  | Accepted   |
-| V1-D020 | 2026-07-13 | Keep Current Team focused on the active Play-owned lineup with compact reserve and linked-Plan context                    | Accepted   |
+| V1-D020 | 2026-07-13 | Keep Current Team focused on the active Play-owned lineup with compact reserve and linked-Plan context                    | Superseded |
 | V1-D021 | 2026-07-13 | Use one fixed-size Team slot component for occupied, confirmed-empty, and not-recorded states                             | Accepted   |
 | V1-D022 | 2026-07-13 | Show named Pokédex scopes and Collectible groups directly in the Overview Progress Summary                                | Superseded |
 | V1-D023 | 2026-07-13 | Use stable Story, Pokédex, and Collectibles groups with normalized percentages in Overview                                | Accepted   |
@@ -52,10 +52,10 @@ why the direction was selected or changed.
 | V1-D034 | 2026-07-13 | Record a Team moment through a dedicated minimal Active-lineup snapshot flow                                              | Accepted   |
 | V1-D035 | 2026-07-13 | Add actual Team Pokémon through a compact game-aware search and confirmation flow                                         | Accepted   |
 | V1-D036 | 2026-07-13 | Edit ordinary Pokémon details through one grouped contextual sheet while keeping lifecycle actions separate               | Accepted   |
-| V1-D037 | 2026-07-13 | Realize a linked Plan target as any valid current evolution stage while preserving one explicit member relationship       | Accepted   |
+| V1-D037 | 2026-07-13 | Realize a linked Plan target as any valid current evolution stage while preserving one explicit member relationship       | Superseded |
 | V1-D038 | 2026-07-13 | Record evolution through a focused game-aware lifecycle flow with read-only Plan comparison                               | Accepted   |
 | V1-D039 | 2026-07-13 | Keep the authored Plan unchanged when the actual Team deviates and treat off-plan additions as allowed comparison data    | Accepted   |
-| V1-D040 | 2026-07-13 | Keep Plan editing and member-relationship management exclusively in Plan while Team exposes read-only comparison          | Accepted   |
+| V1-D040 | 2026-07-13 | Keep Plan editing and member-relationship management exclusively in Plan while Team exposes read-only comparison          | Superseded |
 | V1-D041 | 2026-07-13 | Keep move, reorder, and swap atomic, explicit, and silent in History                                                      | Accepted   |
 | V1-D042 | 2026-07-13 | Separate fixed form identity from game-valid changeable form transitions and keep form correction separate                | Accepted   |
 | V1-D043 | 2026-07-13 | Distinguish slot replacement, Reserve displacement, and retirement without losing the displaced member                    | Accepted   |
@@ -69,7 +69,7 @@ why the direction was selected or changed.
 | V1-D051 | 2026-07-13 | Approve Mainline functional contracts before judging their visual composition through one coherent UI draft               | Accepted   |
 | V1-D052 | 2026-07-13 | Use an adaptive Collectibles list-detail workspace with exact, count-only, and reviewed batch progress paths              | Accepted   |
 | V1-D053 | 2026-07-13 | Keep Progress as a stable Hub tab and use its Overview as the entrance to focused child views without persistent sub-tabs | Accepted   |
-| V1-D054 | 2026-07-13 | Use a full-width Plan-target-to-actual comparison list without a persistent Pokémon detail panel                          | Accepted   |
+| V1-D054 | 2026-07-13 | Use a full-width Plan-target-to-actual comparison list without a persistent Pokémon detail panel                          | Superseded |
 | V1-D055 | 2026-07-13 | Use one full-width meaningful History timeline with honest journey ordering and focused event-detail sheets               | Accepted   |
 | V1-D056 | 2026-07-13 | Organize Play Settings into section-scoped editing with guarded lifecycle, scope, archive, and delete actions             | Accepted   |
 | V1-D057 | 2026-07-13 | Define completion through a game-aware goal and explicit Counts, Track only, or Not tracked states                        | Accepted   |
@@ -139,6 +139,7 @@ why the direction was selected or changed.
 | V1-D121 | 2026-07-19 | Continue the image-led Pokémon catalogue through automatic incremental result batches                                     | Accepted   |
 | V1-D122 | 2026-07-20 | Move Plan context into Team and keep standalone Plan Detail as the authoring destination                                  | Accepted   |
 | V1-D123 | 2026-07-21 | Place the navbar and all app content inside one full-height centered journal surface                                      | Accepted   |
+| V1-D124 | 2026-07-21 | Compute linked Team Plan comparison automatically and inspect selected rows responsively                                  | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -3043,3 +3044,36 @@ This decision supersedes the separate scenic placement and navbar-to-page gap
 described in V1-D115 and preserved by V1-D120. It preserves V1-D115's
 normal-flow navbar, V1-D120's continuous non-clipboard journal surface, the
 accepted maximum working width, and Landing as the intentional shell exception.
+
+## V1-D124 — Automatic Play Team Plan Comparison
+
+**Status:** Accepted and implemented
+
+**Date:** 2026-07-21
+
+Replace manual Plan-member-to-Play-member relationships and stored progress
+statuses with a deterministic, read-time comparison. A Plan contains one to six
+ordered primary targets. Species and form are required; ability, nature, held
+item, gender, and up to four moves are optional constraints. Level, ball,
+alternate targets, and per-Play member status are outside the V1 model.
+
+Match every planned target to at most one existing Play Pokémon. Prefer exact
+species and form, then alternate form, earlier or later directed evolution, and
+finally another branch in the same evolution family. Active and Reserve members
+receive full optional-build comparison. Retired and Replaced members provide
+identity-only lifecycle evidence. Hard-deleted members are absent even when
+orphaned historical evidence remains. Unplanned members are summarized but not
+shown as comparison rows.
+
+Open the focused comparison inside the active Team tab so the Play shell and
+primary tabs remain visible. On desktop, a compact list updates a persistent
+detail panel beside it; tablet and phone open the same detailed field comparison
+in a sheet. Editing inside a Play must clone the reusable Plan and relink only
+that Play; editing from the standalone Plans experience warns about every linked
+Play that may be affected.
+
+This decision supersedes V1-D018 and V1-D020's Overview placement, V1-D037's
+explicit realization link, V1-D040's member-relationship management, V1-D054's
+stored relationship/status model and no-detail-panel layout, and the
+relationship-ownership clauses preserved by V1-D122. It preserves V1-D122's
+Team-owned entry point, read-only comparison, and standalone reusable Plan.

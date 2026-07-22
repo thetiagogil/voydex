@@ -309,12 +309,6 @@ export const expectedSlugs = {
     "skipped",
   ],
   "planning.mainline_team_plan_statuses": ["draft", "active", "archived"],
-  "planning.mainline_plan_member_link_statuses": [
-    "pending",
-    "linked",
-    "reached",
-    "skipped",
-  ],
 };
 
 export const snakeSlugTables = new Set([

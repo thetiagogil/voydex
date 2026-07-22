@@ -38,9 +38,9 @@ export const readMainlinePlayTeamRows = async (
     .from("mainline_play_team_detail")
     .select("*")
     .eq("play_id", playId)
-    .in("roster_state_slug", ["active", "reserve"])
-    .order("slot", { ascending: true })
-    .limit(12);
+    .order("roster_state_id", { ascending: true })
+    .order("slot", { ascending: true, nullsFirst: false })
+    .order("created_at", { ascending: true });
 
   if (teamResult.error) {
     throw new Error("Unable to load Mainline play team preview.");
@@ -92,6 +92,7 @@ export const readMainlinePlayTeamRows = async (
     ballItemsResult,
     pokeBallCategoryResult,
     naturesResult,
+    evolutionEdgesResult,
     versionGroupsResult,
   ] = await Promise.all([
     abilityAttributesQuery
@@ -120,6 +121,17 @@ export const readMainlinePlayTeamRows = async (
       .from("natures")
       .select("*")
       .in("id", natureIds.length ? natureIds : [-1]),
+    versionGroupId
+      ? supabase
+          .schema("reference")
+          .from("pokemon_evolution_edges")
+          .select("*")
+          .or(`version_group_id.is.null,version_group_id.eq.${versionGroupId}`)
+      : supabase
+          .schema("reference")
+          .from("pokemon_evolution_edges")
+          .select("*")
+          .is("version_group_id", null),
     supabase.schema("reference").from("version_groups").select("*"),
   ]);
 
@@ -130,6 +142,7 @@ export const readMainlinePlayTeamRows = async (
     ballItemsResult.error ||
     pokeBallCategoryResult.error ||
     naturesResult.error ||
+    evolutionEdgesResult.error ||
     versionGroupsResult.error
   ) {
     throw new Error("Unable to load Mainline play team references.");
@@ -160,6 +173,7 @@ export const readMainlinePlayTeamRows = async (
   return {
     abilityAttributes: abilityAttributesResult.data ?? [],
     attributes,
+    evolutionEdges: evolutionEdgesResult.data ?? [],
     members,
     moveAttributes,
     natures: naturesResult.data ?? [],

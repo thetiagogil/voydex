@@ -10,7 +10,8 @@ shared UI primitives take priority.
 [V1 Screen Flow And Design Handoff](./v1-screen-flow.md) is the canonical brief
 for the current design-to-implementation phase. The functional review remains
 complete, and the selected light-first explorer's field-guide language is now
-implemented through the shared shell and Plays Browse. The handoff defines the
+implemented through the shared shell, Plays Browse, Play Overview, Play Team,
+linked Team Plan comparison, and the current Codex views. The handoff defines the
 complete Mainline and Codex journey, authenticated Codex-to-Mainline actions,
 current implementation order, and restart instructions for a new workstation
 or task.

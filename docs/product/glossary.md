@@ -92,21 +92,22 @@ can be added when the corresponding workflow is real.
 
 A user-owned team plan that can exist before a play.
 
-A plan usually targets final/evolved Pokémon and can later be linked to a play. Creating a play from a plan does not automatically fill the active team.
+A Plan owns one to six ordered Pokémon targets and can later be linked to a Play.
+Species and form are required for each target; other build facts are optional.
+Creating a Play from a Plan does not automatically fill the Active Team.
 
 Plans can include optional content scope, such as DLC availability, before a play exists.
 
 ### Planned Member
 
-One Pokémon target in a team plan.
+One ordered Pokémon target in a Team Plan.
 
-A planned member can persist as pending, linked, reached, or skipped. The Play
-Plan comparison presents those facts with clearer derived language such as
-`Not used yet`, `Not used`, `In progress`, `Reached`, `Diverged`, or `Skipped`.
-An actual Play Pokémon without an explicit planned-member relationship is
-`Off-plan`.
-
-When a plan is linked to a play, the member status belongs to that play/plan relationship.
+A planned member does not persist a Play-specific association or comparison
+status. When a Plan is linked to a Play, the Team view automatically matches
+each target to at most one current or past Play Pokémon. It derives identity,
+evolution, form, lifecycle, and optional-build results at read time. Play
+Pokémon not selected by the target comparison are summarized as unplanned and
+do not become extra target rows.
 
 ### Target Pokemon
 
@@ -233,7 +234,7 @@ The scope should not be modeled as independent booleans. `evolution_family` is b
 Reuse checks should support:
 
 - Real usage warnings for the Pokémon being selected, added, replaced, or evolved now.
-- Preemptive warnings for planned targets, preferred starting Pokémon, and future evolution destinations.
+- Preemptive warnings for planned targets, their forms, and related evolution destinations.
 
 ### Tags
 

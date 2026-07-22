@@ -383,16 +383,26 @@ SELECT
                 COUNT(*)
             FROM
                 planning.mainline_team_plan_members),
-            154::bigint,
-            'plans contain six primary members and one alternate each');
+            132::bigint,
+            'plans contain six ordered members each');
 SELECT
     IS ((
             SELECT
-                COUNT(DISTINCT member_group)
-            FROM
-                planning.mainline_team_plan_members),
-            2::bigint,
-            'primary and alternate plan member groups are represented');
+                COUNT(*)
+            FROM (
+                SELECT
+                    team_plan_id
+                FROM
+                    planning.mainline_team_plan_members
+                GROUP BY
+                    team_plan_id
+                HAVING
+                    COUNT(*) = 6
+                    AND COUNT(DISTINCT slot) = 6
+                    AND MIN(slot) = 1
+                    AND MAX(slot) = 6) AS complete_plans),
+            22::bigint,
+            'every fixture Plan uses one complete ordered slot set');
 SELECT
     IS ((
             SELECT
@@ -412,11 +422,11 @@ SELECT
 SELECT
     IS ((
             SELECT
-                COUNT(DISTINCT status_id)
+                COUNT(*)
             FROM
-                planning.mainline_play_plan_member_links),
-            4::bigint,
-            'pending, linked, reached, and skipped plan states are represented');
+                views.mainline_play_team_plan_detail
+            WHERE
+                team_plan_member_id IS NOT NULL), 132::bigint, 'the Play Plan read model exposes every ordered planned member');
 SELECT
     IS ((
             SELECT

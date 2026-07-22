@@ -2,12 +2,13 @@
 
 This document defines the V1 Plans Hub, Create Plan, and standalone Plan Detail
 experience. It extends the reusable Team Plan product contract and the accepted
-[Play Plan comparison](./mainline-play.md#plan-contract) without fixing the
+[Play Plan comparison](./mainline-play.md#linked-team-plan-contract) without fixing the
 final visual composition before the coherent Mainline UI pass.
 
 ## Current Status
 
-**Status: V1 functional contract accepted; visual validation pending**
+**Status: linked Play comparison implemented; standalone Plans family accepted
+but not mounted**
 
 The three surfaces are designed as one family:
 
@@ -29,16 +30,16 @@ by more than one Play, or remain a private planning exercise. It owns:
 - Draft, Active, or Archived lifecycle;
 - a name and optional notes;
 - applicable optional-content scope;
-- up to six Primary targets and six Alternates;
-- each target's preferred start, role, nature, ability, item, moves, and notes;
+- one to six ordered targets;
+- each target's required species/form and optional role, nature, ability, held
+  item, gender, moves, and notes;
 - attached Rules and Tags;
 - game-aware availability, form, evolution-path, optional-content, rule, and
   reuse checks.
 
-The standalone Plan Detail authors those reusable facts. A Play's `Plan` tab
-compares one linked Plan with that Play's actual Team and exclusively manages
-Play-specific member relationships. Team never edits a Plan. A Plan never
-fills or rewrites a Team automatically.
+The standalone Plan Detail authors those reusable facts. A focused view inside
+a Play's Team tab compares one linked Plan with that Play's Team automatically.
+Team never rewrites a Plan. A Plan never fills a Team automatically.
 
 ## Relationship To The Plays Family
 
@@ -49,14 +50,14 @@ of task, then change the content where Plan ownership is genuinely different.
 | Pattern            | Plays                                                                                               | Plans                                                                                                                          |
 | ------------------ | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Browse shell       | Centered application canvas, plain heading, one Create action, compact controls, one-column library | Reuse the same shell and browse rhythm; switch locally between Team Plans and Game List                                        |
-| Library row        | Cover-led Play identity, lifecycle, Journey, six Active sprites, Progress, organization, recency    | Cover-led Plan identity, lifecycle, six Primary target sprites, capacity/check context, organization, usage, recency           |
+| Library row        | Cover-led Play identity, lifecycle, Journey, six Active sprites, Progress, organization, recency    | Cover-led Plan identity, lifecycle, up to six ordered target sprites, capacity/check context, organization, usage, recency     |
 | Search and filters | Visible Search, Status, Game, Sort; lower-frequency criteria in More filters; URL-backed chips      | Reuse the same control hierarchy with Plan-specific Rule, Tag, optional-content, and Archive criteria                          |
 | Creation           | Focused contextual surface; game first; concise required decisions; success opens the new Play      | Reuse the same surface and contextual prefill behavior, but stay one concise step because Plan has no completion-goal decision |
 | Detail header      | Cover left, identity/context center, adaptive Play actions right                                    | Reuse the same responsive header structure with Plan lifecycle and Create Play from Plan actions                               |
 | Detail body        | Tabbed Hub because one Play owns six mature workflows                                               | One authoring workspace because Plan targets, setup, checks, and usage form one planning responsibility                        |
 
 This is visual and interaction consistency, not shared state. Plan lifecycle is
-not Play lifecycle, Primary targets are not Active Team members, and Plan checks
+not Play lifecycle, planned targets are not Active Team members, and Plan checks
 are not Progress. Reuse shell and component grammar without forcing the two
 domains to expose identical fields or actions.
 
@@ -147,33 +148,33 @@ Each result keeps these information levels in a stable order:
 
 1. game cover or other established game identity;
 2. Plan name, game/version, and lifecycle;
-3. all six Primary target positions in slot order, using the target's current
+3. all six target positions in slot order, using the target's current
    planned species/form artwork and an intentional empty state for open slots;
-4. concise capacity context such as `4 of 6 Primary · 2 Alternates`;
+4. concise capacity context such as `4 of 6 targets`;
 5. optional-content, Rule, or Tag context only when it improves recognition;
 6. derived update time and quiet usage context such as `Used by 2 Plays`.
 
 Treat those facts as the same three visual levels used by Plays Browse:
 
 1. **Primary identity:** cover, Plan name, game/version, and lifecycle.
-2. **Planned state:** six Primary targets, capacity, and only the most useful
+2. **Planned state:** up to six ordered targets, capacity, and only the most useful
    current check context.
 3. **Supporting context:** optional content, Rules, Tags, linked-Play usage,
    update time, and the quiet open affordance.
 
-All six Primary positions use equal geometry. They represent intended Plan
+All six target positions use equal geometry. They represent intended Plan
 capacity, so empty positions use an intentional open-target treatment rather
-than Team's `Not recorded` question mark. Alternates are summarized by count;
-the Hub does not need a second six-position strip.
+than Team's `Not recorded` question mark. There is no alternate-target strip or
+count in V1.
 
 The whole result opens Plan Detail. Do not add inline member editing,
 lifecycle mutations, delete, Create Play, comparison percentages, Team scores,
 completion bars, or adherence grades to the normal result. Archived results
 remain openable and visibly read-only; reactivation belongs to Plan Detail.
 
-On desktop, keep cover, identity, Primary preview, supporting context, and open
+On desktop, keep cover, identity, target preview, supporting context, and open
 cue in one stable horizontal rhythm. On narrow screens, preserve that hierarchy
-in a vertical card: identity first, the six equal Primary positions next, then
+in a vertical card: identity first, the six equal target positions next, then
 capacity, organization, usage, and open cue. Search remains full width; Filters
 and Sort remain separate accessible actions, following Plays Browse.
 
@@ -260,19 +261,19 @@ The base form contains:
 4. **Source context:** show a prefilled initial target or owning Play only when
    the entry point supplied it.
 
-Do not ask for status, full team composition, Alternates, notes, Tags, Rules,
+Do not ask for status, full team composition, notes, Tags, Rules,
 roles, nature, ability, held item, moves, completion settings, dates, or actual
 Team members during creation. Duplicate Plan names are valid. Every new Plan
 starts as Draft.
 
 ### Contextual Entry Behavior
 
-| Entry point                | Create Plan behavior                                                                                                                     |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Plans Hub or Dashboard     | Choose game, accept or edit the suggested name, and choose applicable optional content.                                                  |
-| Codex Game Detail          | Prefill and lock the selected game; preserve any selected content scope.                                                                 |
-| Codex Pokémon Detail       | Prefill game and exact selectable Pokémon species/form as Primary slot 1; preselect required optional content only after explaining why. |
-| Play without a linked Plan | Lock the Play's game/version, prefill compatible enabled content, create the Plan, and link it to that Play without changing Team.       |
+| Entry point                | Create Plan behavior                                                                                                                    |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Plans Hub or Dashboard     | Choose game, accept or edit the suggested name, and choose applicable optional content.                                                 |
+| Codex Game Detail          | Prefill and lock the selected game; preserve any selected content scope.                                                                |
+| Codex Pokémon Detail       | Prefill game and exact selectable Pokémon species/form as target slot 1; preselect required optional content only after explaining why. |
+| Play without a linked Plan | Lock the Play's game/version, prefill compatible enabled content, create the Plan, and link it to that Play without changing Team.      |
 
 `Add to Plan` from Codex may instead choose an existing compatible Plan. That
 is a focused destination handoff, not a reason to add an existing-Plan picker
@@ -281,7 +282,7 @@ to ordinary Create Plan.
 ### Save And Recovery
 
 On success, show a brief confirmation and open the new Plan Detail. A Plan from
-Pokémon context contains exactly the confirmed first Primary target. A Plan
+Pokémon context contains exactly the confirmed first target. A Plan
 from Play context is linked to that Play, but the actual Team remains exactly
 as it was.
 
@@ -300,8 +301,9 @@ action without exposing inaccessible user destinations.
 ### Purpose And Difference From Play Plan
 
 Standalone Plan Detail answers `What team do I intend to build?` It owns the
-reusable Plan. Plan Detail with Play context answers `What happened to that intention in
-this particular Play?` and owns Play-specific relationships.
+reusable Plan. The focused comparison inside a Play's Team tab answers `What
+happened to that intention in this particular Play?` without owning a second
+relationship model.
 
 Do not copy the Play comparison list wholesale into standalone Detail. The
 standalone surface shows target authoring and aggregate Play usage, not one
@@ -315,14 +317,13 @@ Use this stable order:
    left, Plan identity/lifecycle/context in the center, and high-value actions
    at right; stack in the same order on narrow screens.
 2. **Plan checks:** only actionable game availability, persistent-form,
-   evolution-path, optional-content, reuse, or Rule conflicts. Omit the section
+   optional-content, reuse, or Rule conflicts. Omit the section
    when there are none.
-3. **Primary Team:** six stable equal-height rows in slot order.
-4. **Alternates:** up to six rows using the same component; keep the empty
-   section compact with one `Add alternate` action.
-5. **Plan setup:** notes, optional content, Rules, and Tags as clearly separated
+3. **Planned Team:** one to six stable equal-height rows in slot order, with
+   intentional empty capacity up to six.
+4. **Plan setup:** notes, optional content, Rules, and Tags as clearly separated
    editable groups.
-6. **Used in Plays:** compact links to every Play currently using this Plan.
+5. **Used in Plays:** compact links to every Play currently using this Plan.
 
 Do not add an overall Plan score, Team analysis, completion percentage,
 adherence grade, recent Plan activity feed, or permanent selected-Pokémon
@@ -344,43 +345,36 @@ Lifecycle means:
   setup, and existing Play links.
 
 Draft and Active remain editable. Archived is read-only and cannot create new
-Play links, relationship actions, or normal edits until the user explicitly
+Play links or normal edits until the user explicitly
 reactivates it. Lifecycle does not measure team completion and does not require
-all six Primary slots to be filled.
+all six target slots to be filled.
 
 Archive preserves every linked Play and its readable comparison. Delete is a
 separate guarded action that names the Plan-owned targets, setup, and
-relationships that will be removed. It must make clear that Plays, actual Team
+Play links that will be removed. It must make clear that Plays, actual Team
 members, Progress, and History are not deleted. If deletion cannot safely
 preserve an understandable Play state, it fails without partial detachment.
 
-### Primary And Alternate Rows
+### Planned Member Rows
 
 Every occupied target row keeps these stable regions:
 
-- group and slot;
+- slot;
 - target species/form artwork and identity;
-- preferred starting identity when different;
 - optional role;
-- compact nature, ability, item, and planned-move cues;
+- compact nature, ability, held-item, gender, and planned-move cues;
 - concise availability, optional-content, reuse, or Rule warning when present;
 - one primary row action and a lower-frequency actions menu.
 
-Empty Primary rows keep the same dimensions and expose `Add target`. They are
-known open Plan capacity, not unknown data. Empty Alternate capacity does not
-render six large placeholder rows; show existing Alternates plus one clear add
-action and capacity context.
-
 Selecting `Add target` or `Edit member` opens the accepted Plan-member sheet.
-It owns exact target species/form, optional preferred start, role, nature,
-ability, held item, four ordered moves, and notes. Selectors are restricted by
+It owns exact target species/form, optional role, nature, ability, held item,
+gender, four ordered moves, and notes. Selectors are restricted by
 the Plan's game and content scope and preserve explicit warning context.
 
 Member actions include:
 
 - add or edit target;
 - move or swap slots;
-- move between Primary and Alternates when capacity allows;
 - remove target.
 
 Reordering has a keyboard-accessible alternative to drag and drop. A move,
@@ -393,9 +387,7 @@ change before saving; it never edits any actual Team member.
 Checks help the user notice consequences without grading or blocking creative
 planning. They may identify:
 
-- a target or preferred start unavailable in the selected game/content scope;
-- a preferred start that cannot reach the exact target through a valid directed
-  evolution path;
+- a target unavailable in the selected game/content scope;
 - a fixed, temporary, cosmetic, or otherwise invalid planned form;
 - a target requiring optional content not enabled for the Plan;
 - a species, form, or evolution-family reuse conflict;
@@ -428,18 +420,19 @@ one Plan. Global Rule and Tag administration remains deferred.
 Show every owner-accessible Play linked to this Plan with:
 
 - Play name, game, and lifecycle;
-- a plain target summary such as `3 reached · 1 in progress` when trustworthy;
-- the time the relationship was last meaningfully updated when available;
-- a route to Plan Detail with that Play retained as comparison context.
+- a plain computed summary such as `4 of 6 planned Pokémon found` when
+  trustworthy;
+- the Plan link time or Plan update time when useful;
+- a route into that Play's Team comparison context.
 
 This section explains reuse and makes cross-Play edit consequences concrete. It
-does not embed full actual Team rows or let the standalone Plan page relink,
-skip, or restore Play-specific members. When there are no links, show a compact
+does not embed full actual Team rows or expose manual pairing, skip, or restore
+actions. When there are no links, show a compact
 `Not used in a Play yet` state without another large creation card.
 
 `Link to existing Play` lists only owner-scoped Plays with the exact game and
 version group, no other focused Plan, and a compatible lifecycle. Linking
-changes no Team member and creates no inferred member relationship.
+changes no Team member and creates no inferred member association.
 
 ### Create Play From Plan
 
@@ -463,8 +456,8 @@ created Play; the persistent link supports comparison, not hidden shared
 settings.
 
 Creation is one coherent operation across Play metadata and settings, copied
-scope and Rule links, the focused Plan link, and initial Plan-member
-relationship rows. On any failure, no partial Play or link remains. Success
+scope and Rule links, and the focused Plan link. On any failure, no partial Play
+or link remains. Success
 opens the normal Play Overview with an empty actual roster and the existing
 Plan context available from its Team Plan section and canonical Plan Detail.
 
@@ -490,8 +483,8 @@ only the responsibility being saved.
 Cover these states explicitly:
 
 - new empty Draft Plan;
-- partial Primary team and no Alternates;
-- complete Primary team with or without Alternates;
+- partial planned team;
+- complete six-target planned team;
 - archived read-only Plan;
 - Plan used by no Plays, one Play, or several Plays;
 - unavailable or invalid target context;
@@ -510,9 +503,10 @@ or Play creation succeeded when only part of the intended operation completed.
 The visual pass should evaluate these reusable patterns together:
 
 - game identity and cover treatment shared with Plays Browse;
-- six-position Primary-target preview shared between Hub and Detail;
-- one Plan-member row used by Primary and Alternates;
-- Plan-member editor sheet reused by standalone and Play Plan contexts;
+- six-position target preview shared between Hub and Detail;
+- one ordered Plan-member row;
+- Plan-member editor sheet reused by standalone authoring and any future
+  clone-before-edit Play context;
 - Rule and Tag editing patterns shared with Play Settings while preserving
   different owners;
 - non-color check summary and affected-row warning;
@@ -525,12 +519,14 @@ Codex, or a Play comparison permission to mutate reusable Plan facts.
 
 ## Data And Database Impact
 
-The existing planning schema represents Plan metadata and lifecycle, optional
-content, Primary and Alternate members, ordered moves, Rules, Tags, Play links,
-and Play-member relationships. Existing security-invoker summary and detail
-views provide a useful base. The existing owner-scoped game-library table and
-seeded statuses represent the accepted independent Game List without a new V1
-schema concept.
+The planning schema represents Plan metadata and lifecycle, optional content,
+one to six ordered members, ordered moves, Rules, Tags, and one focused Plan
+link per Play. The retired alternate-member groups, preferred-start fields,
+manual Play-member links, and stored member statuses no longer exist. Existing
+security-invoker summary and detail views expose authored Plan facts; the
+application derives comparison from those facts, Play Pokémon, and evolution
+edges. The owner-scoped game-library table and seeded statuses represent the
+accepted independent Game List without a new V1 schema concept.
 
 The current schema does not yet provide the complete stale-safe and atomic V1
 commands required for creation, member-and-move authoring, safe slot swaps,
@@ -554,4 +550,4 @@ consider a convenience projection only after measured query evidence.
 4. Validate whether Plan checks should appear as a compact summary strip or a
    small dedicated section when several targets are affected.
 5. Validate the desktop placement of Plan setup and Used in Plays without
-   weakening the Primary target list or creating an overly long form page.
+   weakening the target list or creating an overly long form page.

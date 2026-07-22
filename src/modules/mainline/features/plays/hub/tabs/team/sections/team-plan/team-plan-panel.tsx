@@ -23,10 +23,11 @@ const followingStateTones = {
 } satisfies Record<MainlinePlayTeamPlanFollowingState, StatusBadgeTone>;
 
 type TeamPlanPanelProps = {
+  onViewPlan: () => void;
   plan: MainlinePlayTeamPlanSummary;
 };
 
-export const TeamPlanPanel = ({ plan }: TeamPlanPanelProps) => {
+export const TeamPlanPanel = ({ onViewPlan, plan }: TeamPlanPanelProps) => {
   const activeTargetSummary = getTeamPlanActiveTargetSummary(plan);
   const changeSummary = getTeamPlanChangeSummary(plan);
 
@@ -36,7 +37,7 @@ export const TeamPlanPanel = ({ plan }: TeamPlanPanelProps) => {
       action={
         <MainlinePlaySectionDestination
           label="View plan"
-          unavailableLabel="Plan detail is not available yet"
+          onSelect={onViewPlan}
         />
       }
       contentClassName="grid gap-3 py-3"
@@ -57,7 +58,7 @@ export const TeamPlanPanel = ({ plan }: TeamPlanPanelProps) => {
       <dl className="border-app-surface-border/60 grid gap-3 border-t pt-3">
         <div className="grid gap-0.5">
           <dt className="text-muted-foreground text-[0.6875rem] font-medium tracking-wide uppercase">
-            Target progress
+            Plan coverage
           </dt>
           <dd className="text-foreground text-sm font-medium">
             {getTeamPlanTargetProgressLabel(plan)}

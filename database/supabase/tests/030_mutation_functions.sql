@@ -8,8 +8,10 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
     VALUES ('40000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 2, 'RPC Play');
 INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('50000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 1, 'RPC Plan');
+INSERT INTO planning.mainline_team_plan_members (id, team_plan_id, slot, target_species_id, target_form_id, gender, notes)
+    VALUES ('51000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', 1, 722, 72200, 'male', 'Copied member note');
 SELECT
-    plan (18);
+    plan (23);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', TRUE);
 SET LOCAL ROLE authenticated;
@@ -89,7 +91,7 @@ SELECT
 SELECT
     lives_ok ($$
         SELECT
-            planning.link_mainline_team_plan_to_play ('40000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', FALSE, TRUE) $$, 'the owner can link a matching plan and play');
+            planning.link_mainline_team_plan_to_play ('40000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', FALSE) $$, 'the owner can link a matching plan and play');
 SELECT
     IS ((
             SELECT
@@ -98,6 +100,45 @@ SELECT
                 planning.mainline_play_plan_links
             WHERE
                 play_id = '40000000-0000-0000-0000-0000000000a1'), 1::bigint, 'plan linking creates one relationship');
+SELECT
+    lives_ok ($$
+        SELECT
+            planning.clone_mainline_team_plan_for_play ('40000000-0000-0000-0000-0000000000a1', 'RPC Plan copy') $$, 'the owner can clone the linked Plan for this Play');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                planning.mainline_team_plans),
+            2::bigint,
+            'Play-scoped Plan cloning preserves the source and creates one copy');
+SELECT
+    IS ((
+            SELECT
+                mainline_team_plans.name
+            FROM
+                planning.mainline_play_plan_links
+                JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_play_plan_links.team_plan_id
+            WHERE
+                mainline_play_plan_links.play_id = '40000000-0000-0000-0000-0000000000a1'), 'RPC Plan copy', 'Plan cloning atomically relinks only the Play to the copy');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                planning.mainline_team_plan_members
+            WHERE
+                team_plan_id = (
+                    SELECT
+                        team_plan_id
+                    FROM
+                        planning.mainline_play_plan_links
+                    WHERE
+                        play_id = '40000000-0000-0000-0000-0000000000a1')
+                    AND gender = 'male'
+                    AND notes = 'Copied member note'),
+                1::bigint,
+                'Plan cloning copies ordered member preferences');
 SELECT
     throws_ok ($$
         SELECT
@@ -125,7 +166,11 @@ SELECT
 SELECT
     throws_ok ($$
         SELECT
-            planning.link_mainline_team_plan_to_play ('40000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', FALSE, TRUE) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot link the owner plan and play');
+            planning.link_mainline_team_plan_to_play ('40000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', FALSE) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot link the owner plan and play');
+SELECT
+    throws_ok ($$
+        SELECT
+            planning.clone_mainline_team_plan_for_play ('40000000-0000-0000-0000-0000000000a1') $$, '23503', 'Unknown or unavailable linked Plan for play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot clone the owner linked Plan');
 SELECT
     IS ((
             SELECT

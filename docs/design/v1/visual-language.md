@@ -224,10 +224,11 @@ the scenic gutters and content padding while preserving useful working space.
 
 ## Implementation Checkpoint
 
-The shared shell and Plays Browse are the first implemented production slice.
-The refined daylight scenery, single background-blended navbar, compact
-destination buttons, single journal page, and compact text-led header are now
-production assets and shared composition patterns. Carry this grammar into Play
-Overview, Team, and Codex one bounded view at a time; preserve each view's
+The shared shell, Plays Browse, Play Overview, Play Team, linked Team Plan
+comparison, and current Codex views now use this production language. The
+refined daylight scenery, single background-blended navbar, compact destination
+buttons, single journal page, compact text-led header, and white-focused cards
+are shared composition patterns. Carry this grammar into Plan acquisition and
+standalone Plan authoring one bounded view at a time; preserve each view's
 product contract and validate it at desktop, tablet, and phone widths before
 calling that slice complete.

@@ -18,6 +18,10 @@ Read only the guidance needed for the task:
   contracts.
 - [Design System](./docs/app/design-system.md) and the relevant
   [design reference](./docs/design/README.md) for meaningful UI work.
+- [Mainline Play](./docs/design/v1/mainline-play.md),
+  [Mainline Plans](./docs/design/v1/mainline-plans.md), and the
+  [Schema Contract](./docs/database/schema-contract.md) for linked Team Plan
+  comparison or planning work.
 - [Database Architecture](./docs/database/architecture.md) and
   [Security](./docs/database/security.md) for database work.
 - Nearby code, generated types, tests, and configuration always.
@@ -92,5 +96,9 @@ desktop/mobile browser and console checks. Never claim a check that was not run.
 - Volatile implementation status belongs only in
   [Project Status](./docs/project-status.md).
 - Product and database facts belong in their canonical docs or source files.
+- Computer-change handoffs update the existing `Next Chat Handoff` in
+  [Project Status](./docs/project-status.md) and the `Resume Prompt` in the
+  canonical [V1 Screen Flow](./docs/design/v1-screen-flow.md); do not create a
+  competing handoff file.
 - Do not create additional AGENTS files unless a real scope-specific need
   appears.

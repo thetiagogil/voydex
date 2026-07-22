@@ -282,9 +282,9 @@ short confirmation that emphasizes preservation and reversibility.
 The main Play Hub workspace should be one Card containing compact tabs. Keep the
 selector's vertical padding and inter-tab spacing subordinate to the content.
 The current tab set is Overview, Team, Progress, History, and Settings. Team
-owns one compact Team Plan section that routes to the canonical standalone Plan
-Detail with Play context; Plan is not a second Play Hub tab. Only build rich tab
-content when the underlying workflow is ready.
+owns one compact Team Plan section that opens a focused comparison view inside
+the active Team tab; Plan is not a second Play Hub tab. The Play shell and tab
+selector remain visible.
 
 Overview should stay high-signal and avoid filler:
 
@@ -451,8 +451,8 @@ Team history` section action; do not turn events into large cards or add row
 overflow menus.
 
 When a Team Plan is linked, use one restrained Team Plan Card directly below
-Roster in the left column. Keep the Plan name, following state, reached/target
-summary, exceptional skipped or off-plan context, and `View plan` action
+Roster in the left column. Keep the Plan name, following state, found/target
+summary, exceptional unplanned context, and `View plan` action
 readable without a large progress bar. Omit the entire Card when no Plan is
 linked.
 
@@ -538,32 +538,25 @@ control and explain that identity-level missing locations are unavailable.
 Batch actions use a reviewed sheet rather than a filter-dependent one-click
 `Mark visible` action.
 
-## Mainline Play Plan Tab Direction
+## Mainline Team Plan Comparison Direction
 
-Use a full-width comparison list whose rows read `planned target → relationship
-state → actual result`. Borrow Team's compact, equal-row rhythm without reusing
-its persistent selected-Pokémon detail panel. The Plan list is the workspace;
-member editing opens a focused sheet only when requested.
+Use a full-width comparison list whose rows read `planned target → computed
+status → matched Play Pokémon`. Borrow Team's compact, equal-row rhythm
+and use a restrained master-detail workspace on desktop. Selecting a row
+updates a persistent comparison panel beside the list; tablet and phone open
+the same content in a wide comparison sheet.
 
-Lead with one restrained Plan identity area, plain Primary-target counts, and
-only actionable Plan checks. Keep six Primary rows stable and equal in height.
-Empty positions use an intentional `Add target` state rather than an unknown
-Team slot. Alternates reuse the same row but stay compact or collapsed when
-empty. When actual members have no explicit Plan relationship, show them below
-as a concise, non-judgmental `Team outside this Plan` list.
+Lead with one restrained Plan identity area and plain counts for found targets,
+exact matches, and unplanned Play members. Render only the Plan's authored one
+to six targets; do not invent empty positions or an alternate group. Unplanned
+members remain a count with a concise tooltip, not a second inspectable list.
 
-Each occupied row keeps target identity and optional role, preferred start,
-compact setup cues, explicit relationship label, linked actual identity and
-placement, and one state-appropriate action in stable regions. Do not show an
-adherence percentage, progress bar, score, duplicate Team analysis, recent
-activity feed, or expanded move and notes content in every row.
-
-Use non-color labels for `Not used yet`, `Not used`, `In progress`, `Reached`,
-`Diverged`, `Skipped`, and `Off-plan`. Never visually pair an unlinked actual
-member to a target merely because their slots or species look related. On
-narrow screens, stack target, relationship, actual result, and action in that
-order instead of horizontally scrolling the list. Reordering must always have
-a non-drag keyboard path.
+Use explicit non-color labels for `Exact match`, `Build differs`, `Alternate
+form`, `In progress`, `Evolved beyond plan`, `Branched evolution`, `Previously
+used · retired`, `Previously used · replaced`, and `Not found`. Do not show
+an adherence percentage, progress bar, overall score, duplicate Team analysis,
+or activity feed. On narrow screens stack planned identity, status, and matched
+identity rather than horizontally scrolling.
 
 ## Mainline Standalone Plans Direction
 
@@ -585,10 +578,10 @@ visible on desktop, put lower-frequency criteria in one More filters surface,
 and preserve active criteria through URL state and removable chips. On mobile,
 keep Search visible and expose Filters and Sort separately.
 
-Each Plan summary preserves six equal Primary target positions in slot order.
+Each Plan summary preserves six equal planned-target positions in slot order.
 Open positions are intentional Plan capacity and need an add/open target
-treatment, not Team's unknown question mark. Alternates remain a count on the
-summary. Game List rows instead emphasize cover, explicit intent status, note,
+treatment, not Team's unknown question mark. Game List rows instead emphasize
+cover, explicit intent status, note,
 and quiet Plan/Play context. Avoid inline Plan editing, scores, completion
 bars, and rows of secondary actions.
 
@@ -600,12 +593,11 @@ six-member builder. Reuse Create Play's modal/sheet, validation, pending, cancel
 and success grammar, but keep Plan creation to one step because it has no
 Completion Goal decision. Success moves into Plan Detail for real authoring.
 
-Standalone Plan Detail gives the Primary target list the strongest visual
+Standalone Plan Detail gives the planned-target list the strongest visual
 weight. Reuse the Play Header's responsive cover-left, identity-center,
 actions-right structure, but do not add Play Hub tabs to this single authoring
-workspace. Use six equal full-width rows, with existing Alternates below in the
-same row language and a compact empty Alternate state. Occupied rows keep target
-identity, preferred start, role, concise setup cues, warnings, and one clear
+workspace. Use one to six equal full-width rows. Occupied rows keep target
+identity, role, concise setup cues, warnings, and one clear
 action in stable regions. Member editing belongs in the shared focused
 Plan-member sheet; do not add Team's persistent selected-Pokémon panel.
 

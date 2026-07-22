@@ -31,8 +31,9 @@ the evidence for exact implementation details.
   Search, Status, Game, and Sort controls plus compact enriched summary cards.
 - `/mainline/plays/[playId]` mounts the Play Hub.
 - The Overview tab loads real play, team, progress, and recent-history data.
-- Team now has an initial read-only list-detail implementation over the real
-  Active and Reserve roster. Progress, History, and Settings remain
+- Team now has a read-only list-detail implementation over the real Active,
+  Reserve, Retired, and Replaced roster data plus the linked Team Plan's
+  automatic comparison workspace. Progress, History, and Settings remain
   intentionally small tab shells until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
@@ -57,15 +58,18 @@ V1-D120, V1-D122, and V1-D123](./design/v1/decisions.md) define the current
 light-first explorer's navbar, single journal page, compact introduction,
 conventional destination-link direction, Team-owned Plan entry, and full-height
 shell composition within the canonical
-[V1 Visual Language](./design/v1/visual-language.md).
+[V1 Visual Language](./design/v1/visual-language.md). [V1-D124](./design/v1/decisions.md#v1-d124--automatic-play-team-plan-comparison)
+defines the implemented read-time Plan comparison and supersedes the earlier
+manual member-link/status model.
 
-The shared shell, Plays Browse, Play Hub Overview, Pokémon Browse, and Games
-Browse now implement the selected system: one full-height centered journal
-column over the refined daylight-valley background. The column begins at the
-top of the viewport, contains the in-flow navbar and all page content, fills at
-least the dynamic viewport height, and grows with long content. The landscape
-remains visible in the two side gutters. Primary route links use shared compact
-buttons; the module selector, account access, and actions remain clean controls.
+The shared shell, Plays Browse, Play Hub Overview and Team, linked Team Plan
+comparison, Pokémon Browse, and Games Browse now implement the selected system:
+one full-height centered journal column over the refined daylight-valley
+background. The column begins at the top of the viewport, contains the in-flow
+navbar and all page content, fills at least the dynamic viewport height, and
+grows with long content. The landscape remains visible in the two side gutters.
+Primary route links use shared compact buttons; the module selector, account
+access, and actions remain clean controls.
 Compact page introductions, label-free accessible controls, result context, and
 content share the continuous surface without a clipboard frame, inset sheet,
 brass hardware, or repeated nested Cards. The browser owns long-page scrolling
@@ -115,7 +119,8 @@ Play Hub Overview is a completed production design checkpoint:
   phone widths without page overflow or nested vertical scrolling; keyboard
   focus remained visible and the browser console stayed clear.
 
-Play Hub Team has an initial production implementation checkpoint:
+Play Hub Team and its linked Plan comparison have a production implementation
+checkpoint:
 
 - The Team tab is enabled without changing the existing Play header. The Hub
   now has five tabs after moving Plan context into Team. Team reads the
@@ -148,22 +153,29 @@ Play Hub Team has an initial production implementation checkpoint:
 - The Roster Card header now owns only the canonical disabled Add action. A
   compact Team Plan Card appears directly below Roster for linked Plans,
   leads with the Plan identity, reports whether the current Team is following
-  it, and separates target progress from skipped and off-plan differences. It
-  now owns the disabled View plan destination. Past Members has no
-  Roster Card link until its focused destination is implemented; selected
-  detail remains the first right-side section.
+  it, and separates target coverage from unplanned-member context. Its enabled
+  View plan action opens a full-width automatic comparison inside the active
+  Team tab, preserving the Play shell and primary tabs. Compact rows compare
+  planned and matched identities; desktop keeps the selected comparison beside
+  the list while tablet and phone use a focused sheet for optional build fields.
+  Past Members has no Roster Card link until its focused destination is
+  implemented; selected detail remains the first right-side section.
 - Team Quick Analysis remains in the supporting right-side hierarchy while its
   final metrics and review strategy are deliberately deferred. Recent Team
   Events loads and hydrates only Pokémon-specific roster and lifecycle changes;
   Play progress snapshots and Hall of Fame entries no longer qualify. Both
   full-view destinations remain explicitly disabled.
 - Decorative section-title icons and the permanent empty Plan card were
-  removed. Linked Plan context now consumes the focused Plan's real member
-  relationship rows without matching by species, form, or roster position.
-  Slot resolution, roster movement,
-  member editing, lifecycle actions, Past Members, and full analysis/history
-  routes remain outside this read-only slice. Their selected-member controls are
-  visibly disabled; only the exact-game Codex route is active.
+  removed. A linked Plan now exposes one to six ordered targets and is compared
+  at read time with existing Play Pokémon. Matching is deterministic and
+  one-to-one: exact identity, alternate form, directed earlier/later evolution,
+  then another branch in the same family; Active and Reserve receive optional
+  build comparison, while Retired and Replaced provide identity-only evidence.
+  No inferred member link or comparison status is persisted. Slot resolution,
+  roster movement, member editing, lifecycle actions, Past Members, Plan
+  acquisition/authoring, and full analysis/history routes remain outside this
+  read-only slice. Their selected-member controls are visibly disabled; only
+  the exact-game Codex route is active.
 
 Pokémon Browse is a completed production design checkpoint:
 
@@ -250,21 +262,39 @@ Game Pokédex is a completed production design checkpoint:
 
 ## Next Chat Handoff
 
-The current implementation checkpoint is on `main`. Run `git status` before
-editing and preserve unrelated work.
+The current implementation checkpoint is the commit containing this handoff on
+`main`. On the next computer, run `git status`, `git log -1 --oneline`, and
+`npm install` before editing. Preserve unrelated work and confirm the linked
+Supabase migration list before any later remote database write.
 
-After the initial Team read-only slice, continue with one bounded Team workflow
-or one named functional gap rather than a broad Mainline rewrite. The closest
-accepted follow-up is the game-aware `Add Pokémon` picker and its targeted slot
-handoff, using the existing owner-scoped mutation path without treating missing
-positions as confirmed empty. Roster movement, lifecycle actions, Past Members,
-full analysis/history routes, and Plan Detail remain separate later increments.
-Progress, History, and Settings should stay independent slices
-rather than being filled during Team work.
+The completed slice is the read-only Team Plan comparison inside the active
+Team tab. It uses one to six ordered planned targets, automatic one-to-one
+species/form/evolution-family matching, exact optional-build checks for Active
+and Reserve members, identity-only lifecycle evidence for Retired and Replaced
+members, aggregate-only unplanned members, a persistent desktop inspector, and
+a tablet/phone sheet. Level and Ball are intentionally excluded. There are no
+alternate targets, manual member associations, or stored comparison statuses.
 
-Do not add database changes, another background, dark mode, sticky replacement
-navigation, Skeletons, decorative edge systems, or a broad cross-page refactor
-while this slice is active.
+Continue with one bounded planning workflow rather than another visual rewrite.
+The recommended next slice is the missing Plan acquisition/authoring boundary:
+define and implement the no-linked-Plan entry, owner-scoped `Link existing Plan`
+and `Create Plan for this Play`, then mount the smallest standalone Plans Hub,
+Create Plan, or Plan Detail increment needed to own reusable edits. Keep the
+current comparison read-only. A future edit initiated inside a Play must clone
+the reusable Plan and relink only that Play before saving; a standalone edit
+must disclose how many linked Plays may change. Do not introduce manual pairing
+as part of either workflow.
+
+The game-aware `Add Pokémon` picker and targeted slot handoff remain the next
+independent Team mutation slice after that planning boundary. Roster movement,
+lifecycle actions, Past Members, full analysis/history routes, Progress,
+History, and Settings remain separate increments.
+
+Do not add another background, dark mode, sticky replacement navigation,
+Skeletons, decorative edge systems, or a broad cross-page refactor while this
+slice is active. Database work requires a current contract gap, authored-source
+changes, local `npm run db:verify`, an explicit remote-write gate, and linked
+migration parity.
 
 Future design and implementation tasks start from the canonical screen-family
 document, accepted decisions, design system, current code, and verified
@@ -298,6 +328,10 @@ selected behavior that future work must preserve belongs in versioned docs.
   transitions, current/past lifecycle support, and Plan-safe correction or
   deletion. The consolidated design-derived database matrix and full
   reference-data audit remain required before those workflows are implemented.
+- Plays without a linked Plan currently omit the Plan entry entirely. The
+  accepted Link/Create entry, standalone Plans routes, reusable Plan authoring,
+  shared-edit impact warning, and clone-before-Play-edit workflow are not yet
+  mounted.
 - The development Team fixture still stores a non-ball reference in
   `ball_item_id`. The Team read model now validates that reference against the
   `poke_ball` item category and presents an invalid value as `Not recorded`;
@@ -311,14 +345,17 @@ The repository currently provides:
 
 - Architecture enforcement over the active source tree.
 - The latest `npm run verify` checkpoint passes documentation, repository-wide
-  formatting, lint, TypeScript, architecture enforcement, 69 Vitest tests, and
+  formatting, lint, TypeScript, architecture enforcement, 68 Vitest tests, and
   the production build.
 - Focused Vitest coverage for domain, mapping, navigation, authentication, and
   database-audit helpers.
-- Deterministic audits over 133 schema sources, 890 seed sources, and 638,246
+- Deterministic audits over 131 schema sources, 896 seed sources, and 638,242
   seed rows.
-- Four pgTAP files with 52 assertions covering structural security, reference
-  access, cross-user RLS, security-invoker views, and representative mutations.
+- Five pgTAP files with 107 assertions covering structural security, reference
+  access, cross-user RLS, security-invoker views, representative mutations, and
+  gameplay fixture coverage.
 - Local database reset, SQL formatting, lint, test, and generated-type parity.
+- The linked Supabase migration list matches local history through
+  `20260721221107_simplify_team_plan_comparison.sql` as of July 22, 2026.
 
 See [Verification](./app/verification.md) for commands and environment limits.
