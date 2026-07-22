@@ -3,7 +3,7 @@ import {
   formatPlayMinutes,
 } from "@/modules/mainline/features/plays/shared/display/play-formatters";
 import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
-import type { MainlinePlayHubData } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import {
   AppIcon,
   appIcons,
@@ -17,12 +17,12 @@ import {
 } from "@/shared/components/ui/tooltip";
 
 type MainlinePlayTopInfoProps = {
-  data: MainlinePlayHubData;
+  data: MainlinePlayShellData;
   titleId: string;
 };
 
 type MainlinePlayMetadataProps = {
-  data: MainlinePlayHubData;
+  data: MainlinePlayShellData;
 };
 
 type MainlinePlayTimelineItemProps = {
@@ -31,11 +31,11 @@ type MainlinePlayTimelineItemProps = {
   value: string;
 };
 
-const getPlayTitle = (data: MainlinePlayHubData) => {
+const getPlayTitle = (data: MainlinePlayShellData) => {
   return data.play.play_name ?? `${data.play.game_name ?? "Untitled"} Play`;
 };
 
-const getPlayMetadata = (data: MainlinePlayHubData) => {
+const getPlayMetadata = (data: MainlinePlayShellData) => {
   return [
     data.play.game_name,
     data.region ? `${data.region.name} Region` : null,
@@ -84,7 +84,7 @@ const MainlinePlayTimelineItem = ({
   );
 };
 
-const MainlinePlayRules = ({ data }: { data: MainlinePlayHubData }) => {
+const MainlinePlayRules = ({ data }: { data: MainlinePlayShellData }) => {
   if (!data.rules.length) {
     return null;
   }
@@ -128,7 +128,7 @@ const MainlinePlayRules = ({ data }: { data: MainlinePlayHubData }) => {
   );
 };
 
-const MainlinePlayFacts = ({ data }: { data: MainlinePlayHubData }) => {
+const MainlinePlayFacts = ({ data }: { data: MainlinePlayShellData }) => {
   return (
     <dl className="flex flex-wrap gap-x-5 gap-y-2">
       <MainlinePlayTimelineItem

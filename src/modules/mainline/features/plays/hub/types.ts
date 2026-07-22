@@ -137,18 +137,26 @@ export type MainlinePlayMilestoneRows = {
   nextMilestone: MainlinePlayMilestone | null;
 };
 
-export type MainlinePlayHubData = {
+export type MainlinePlayShellData = {
   coverImageUrl: string | null;
   game: Game | null;
+  play: MainlinePlaySummary;
+  region: Region | null;
+  rules: MainlineChallengeRule[];
+};
+
+export type MainlinePlayOverviewData = {
   lastCompletedMilestone: MainlinePlayMilestone | null;
   nextMilestone: MainlinePlayMilestone | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
-  region: Region | null;
-  roster: MainlinePlayTeamMember[];
-  rules: MainlineChallengeRule[];
   teamPreview: MainlinePlayTeamMember[];
+  timelinePreview: MainlinePlayTimelineEvent[];
+};
+
+export type MainlinePlayTeamData = {
+  play: MainlinePlaySummary;
+  roster: MainlinePlayTeamMember[];
   teamPlan: MainlinePlayTeamPlanSummary | null;
   teamTimelinePreview: MainlinePlayTimelineEvent[];
-  timelinePreview: MainlinePlayTimelineEvent[];
 };

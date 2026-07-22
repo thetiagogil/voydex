@@ -68,11 +68,17 @@ reference/filter context; they are not currently a required top-level view.
     /new
     /[playId]
       /team
+        /plan
         /analysis
+        /history
       /progress
         /story
+        /pokedex
         /pokedex/[pokedexSlug]
+        /collectibles
         /collectibles/[collectibleGroupSlug]
+      /history
+      /settings
   /plans
     /new
     /[planId]
@@ -220,13 +226,17 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Top-level product routes represent modules or global account areas.
 - Play-specific tasks remain under the owning play.
 - Team Analysis remains a focused child of Play Team and keeps Team as the
-  active Play Hub context.
+  active Play section.
+- Team is a compound primary destination. Its parent route opens Team Overview;
+  Plan, Analysis, and Team History are route-backed child views selected from
+  the attached Team menu while the shared Play shell remains visible.
 - Progress always opens Progress Overview. Story, Pokédex, and Collectibles are
-  focused child routes that keep Progress active and provide a clear return to
-  the Overview; they do not require persistent local sub-tabs or a dropdown
-  Progress tab.
+  route-backed child views selected from the attached Progress menu while
+  Progress remains active. Named Pokédex and Collectible-group selectors stay
+  inside their owning child views.
 - The contextual Team Plan comparison is a focused view inside the active Team
-  tab. The Play shell and primary tab selector remain visible.
+  section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
+  navigation remain visible.
 - History event details remain contextual sheets within the active Play History
   tab in V1. They do not require a separate route or a second navigation level.
 - Settings uses local sections inside the active Play Settings tab. General,
@@ -243,3 +253,7 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Compatibility routes redirect rather than duplicate feature logic.
 - Protected destinations preserve a validated `next` path through login.
 - Route helpers and product contracts never imply implementation status.
+- The Play navigation always exposes the accepted five-area hierarchy so users
+  can understand its shape before every workflow is mounted. Implemented
+  destinations are links; planned destinations remain visibly disabled until
+  their route content is ready.

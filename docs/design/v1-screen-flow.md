@@ -11,8 +11,8 @@ remains canonical in [Project Status](../project-status.md).
 
 - The breadth-first map and depth-first V1 functional screen contracts are
   accepted in the [V1 Design Workspace](./v1/README.md).
-- [V1-D115, V1-D118, V1-D119, V1-D120, V1-D123, and
-  V1-D124](./v1/decisions.md) select the
+- [V1-D115, V1-D118, V1-D119, V1-D120, V1-D123, V1-D124, and
+  V1-D125](./v1/decisions.md) select the
   light-first explorer's field-guide system recorded in
   [V1 Visual Language](./v1/visual-language.md). The shared shell, Plays Browse,
   Play Hub Overview, Play Team, and the linked Team Plan comparison now
@@ -24,7 +24,7 @@ remains canonical in [Project Status](../project-status.md).
 - Plays Browse remains the browse production baseline. URL-backed primary
   controls and the compact enriched journey-log row are responsive and visually
   checked with realistic occupied/partial fixture states. Play Hub Overview now
-  carries that system into its shared header, tab workspace, and four existing
+  carries that system into its shared header, route-backed workspace, and four existing
   summary sections; Plays Browse archive, secondary-filter, loading, recovery,
   and incremental-load states remain.
 - The durable product contracts, data ownership rules, accessibility needs,
@@ -82,9 +82,10 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 
 - Dashboard.
 - Plays browse and Create Play.
-- Play Hub: Overview, Team, Progress, History, and Settings. Team exposes the
-  linked Team Plan summary and opens its automatic comparison inside the active
-  Team tab. Standalone Plan Detail remains the reusable authoring owner.
+- Play Hub: Overview, Team, Progress, History, and Settings in one shared,
+  route-backed shell. Team exposes Overview, Plan, Analysis, and Team History;
+  Progress exposes Overview, Story, Pokédex, and Collectibles. Standalone Plan
+  Detail remains the reusable authoring owner.
 - Progress detail: Story, Pokédex, and Collectibles.
 - Plans Hub: Team Plans and Game List.
 - Create Plan and Plan Detail.
@@ -92,10 +93,10 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Stats.
 
 One Play may still have one focused linked Team Plan. Its compact comparison
-belongs inside Team and keeps the Play shell and Team tab visible. Standalone
-Plan Detail owns reusable authoring. Mature Play Hub sections may become
-URL-addressable later when a real workflow benefits, but the V1 comparison does
-not require a separate route.
+belongs at the route-backed `Team - Plan` child view and keeps the Play shell
+visible. Standalone Plan Detail owns reusable authoring. The complete Team and
+Progress child hierarchy remains visible in the navigation menu; unfinished
+destinations are disabled rather than hidden.
 
 ### Codex
 

@@ -29,12 +29,18 @@ the evidence for exact implementation details.
 
 - `/mainline/plays` is an authenticated, real-data Play browse with URL-backed
   Search, Status, Game, and Sort controls plus compact enriched summary cards.
-- `/mainline/plays/[playId]` mounts the Play Hub.
-- The Overview tab loads real play, team, progress, and recent-history data.
+- `/mainline/plays/[playId]` mounts a route-backed Play shell. The shared Play
+  header and navigation persist while nested pages replace only the workspace
+  content.
+- Play Overview loads real play, team, progress, and recent-history data.
 - Team now has a read-only list-detail implementation over the real Active,
   Reserve, Retired, and Replaced roster data plus the linked Team Plan's
-  automatic comparison workspace. Progress, History, and Settings remain
-  intentionally small tab shells until their workflows are implemented.
+  automatic comparison workspace. Team Overview lives at `/team`; the linked
+  comparison is directly addressable at `/team/plan`. The Play shell uses the
+  shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
+  the complete Overview, Team, Progress, History, and Settings hierarchy.
+  Progress, History, Settings, Team Analysis, and Team History remain unmounted
+  and visibly disabled until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 
@@ -60,7 +66,9 @@ conventional destination-link direction, Team-owned Plan entry, and full-height
 shell composition within the canonical
 [V1 Visual Language](./design/v1/visual-language.md). [V1-D124](./design/v1/decisions.md#v1-d124--automatic-play-team-plan-comparison)
 defines the implemented read-time Plan comparison and supersedes the earlier
-manual member-link/status model.
+manual member-link/status model. [V1-D125](./design/v1/decisions.md#v1-d125--route-backed-hierarchical-play-navigation)
+defines the shared route-backed Play shell and compound Team and Progress
+navigation.
 
 The shared shell, Plays Browse, Play Hub Overview and Team, linked Team Plan
 comparison, Pokémon Browse, and Games Browse now implement the selected system:
@@ -102,19 +110,19 @@ Play Hub Overview is a completed production design checkpoint:
 
 - The authenticated query, Play identity, cover, metadata, actions, tab order,
   and four-section Overview organization remain intact. Planning is now reached
-  contextually from Team instead of occupying a second Play Hub tab.
+  contextually from Team instead of occupying a sixth primary Play area.
 - The contextual header now uses the same serif/forest hierarchy and restrained
   cover treatment as the other detail views without becoming another Card.
   Duplicate Team and Pokédex counts were removed from the header so the owning
   Overview sections remain authoritative.
-- The tab workspace is one quiet journal surface. Journey Status, Recent
+- The route-backed workspace is one quiet journal surface. Journey Status, Recent
   History, Current Team, and Progress Summary use the shared detail-section
   grammar; the realistic scenic banner, duplicate Story Path visualization,
   inactive section actions, and Active/Reserve mini-toggle no longer compete
   with the recorded data.
 - Desktop uses the accepted Journey/History and Team/Progress columns. Tablet
   and phone stack those sections in the same order, retain six equal Team slots,
-  and keep the tab strip horizontally reachable without widening the page.
+  and keep the section navigation horizontally reachable without widening the page.
   Representative authenticated routes were checked at desktop, tablet, and
   phone widths without page overflow or nested vertical scrolling; keyboard
   focus remained visible and the browser console stayed clear.
@@ -122,8 +130,8 @@ Play Hub Overview is a completed production design checkpoint:
 Play Hub Team and its linked Plan comparison have a production implementation
 checkpoint:
 
-- The Team tab is enabled without changing the existing Play header. The Hub
-  now has five tabs after moving Plan context into Team. Team reads the
+- The Team route keeps the existing Play header and shares the same persistent
+  workspace shell as Overview. Team reads the
   Play-owned Active and Reserve roster while keeping
   Overview limited to the Active preview.
 - Desktop uses the accepted list-detail hierarchy: all six Active and six
@@ -154,8 +162,8 @@ checkpoint:
   compact Team Plan Card appears directly below Roster for linked Plans,
   leads with the Plan identity, reports whether the current Team is following
   it, and separates target coverage from unplanned-member context. Its enabled
-  View plan action opens a full-width automatic comparison inside the active
-  Team tab, preserving the Play shell and primary tabs. Compact rows compare
+  View plan action opens the full-width `/team/plan` comparison while keeping
+  Team active and preserving the Play shell. Compact rows compare
   planned and matched identities; desktop keeps the selected comparison beside
   the list while tablet and phone use a focused sheet for optional build fields.
   Past Members has no Roster Card link until its focused destination is

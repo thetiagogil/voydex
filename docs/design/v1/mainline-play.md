@@ -122,8 +122,8 @@ the workspace. The Play Hub owns five primary areas.
 | Settings | Manage Play metadata, lifecycle, rules, scope, and destructive actions | Rename, dates, platform, status, optional content, tracking/completion settings, archive, delete                            |
 
 Team contains one compact read-only Team Plan section and opens the comparison
-inside the active Team tab. Plan is not a second Play Hub tab. The Play shell
-and primary tab selector remain visible.
+as the route-backed `Team - Plan` child view. Plan is not a sixth primary Play
+area. The Play shell and primary navigation remain visible.
 
 ## Overview Contract
 
@@ -384,7 +384,8 @@ states above are the functional contract being reviewed.
 After Create Play succeeds, show a brief success toast and open the normal Play
 Overview. Do not open another modal or a required setup wizard.
 
-The Play Header above the tabs is one coherent top section. On desktop it uses:
+The Play Header above the section navigation is one coherent top section. On
+desktop it uses:
 
 - **left:** game cover art;
 - **center:** stable Play identity, game and lifecycle context, meaningful known
@@ -395,12 +396,12 @@ The Play Header above the tabs is one coherent top section. On desktop it uses:
 The right region contains one primary action and no more than two secondary
 actions. It is contextual guidance, not a second creation form. Because the
 Play Header belongs to the shared Hub shell, its actions must remain useful
-across every tab. Actions specific to Team, Progress, History, or Settings
+across every section. Actions specific to Team, Progress, History, or Settings
 remain inside their owning area. Plan-specific work remains owned by Plan Detail
 and is reached from Team's linked-Plan section.
 
 On smaller screens, the action region stacks within the same Play Header after
-the identity and context, before the tabs. It must not become a separate banner
+the identity and context, before the navigation. It must not become a separate banner
 inside Overview.
 
 Preserve the current center-column information rhythm while giving each layer a
@@ -1658,19 +1659,17 @@ team snapshots.
 Completion is derived from recorded progress, selected optional content, and
 Play settings. It is not manually stored as the primary truth.
 
-Opening Story, Pokédex, or Collectibles keeps Progress as the active Play Hub
-tab and enters a focused child view. Do not add a persistent second tab row for
-those areas, and do not turn the Play Hub's Progress tab into a dropdown.
-Clicking Progress always opens Progress Overview; its three tracking-area rows
-remain the primary entrances to the focused trackers.
+Opening Story, Pokédex, or Collectibles keeps Progress as the active Play
+section and enters a route-backed child view. Progress Overview remains the
+parent route and appears as `Overview` inside the attached Progress menu. The
+primary label remains simply `Progress` on that landing view and becomes a
+compound label such as `Progress - Story` on a child route. Do not add a
+persistent second tab row.
 
-Inside a focused tracker, use a plain `Back to Progress` link or compact
-breadcrumb such as `Progress / Story`. A small `Switch area` menu may appear
-beside the focused title only when realistic use shows that direct Story,
-Pokédex, and Collectibles switching is valuable. It is a convenience rather
-than the primary navigation and must not resemble another tab bar. On narrow
-screens it may use a popover or sheet. Area-specific selectors such as Story
-paths, named Pokédexes, and Collectible groups remain inside their owning view.
+The Progress parent label always returns to Progress Overview, while the
+attached menu enables direct switching between implemented sibling views.
+Area-specific selectors such as Story paths, named Pokédexes, and Collectible
+groups remain inside their owning view.
 
 State rules:
 
@@ -1903,8 +1902,9 @@ considered after V1 rather than expanding this tracker now.
 
 **Status: V1 automatic comparison implemented and browser-checked**
 
-The Team tab owns a focused comparison view for the one Team Plan linked to the
-Play. The Play shell and primary Team tab remain visible. Together they answer:
+The Team section owns a focused comparison view for the one Team Plan linked to
+the Play. The Play shell and active `Team - Plan` navigation remain visible.
+Together they answer:
 
 - `What did I intend to use?`
 - `What has actually happened in this Play?`

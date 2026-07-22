@@ -3,9 +3,9 @@
 import { useState } from "react";
 
 import { PokemonDetailGenerationGameMobileOption } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-game-option";
-import { getPokemonDetailGenerationTriggerClassName } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-menu-styles";
 import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { getNavigationMenuControlClassName } from "@/shared/components/navigation-menu-control";
 import { Button } from "@/shared/components/ui/button";
 import {
   Sheet,
@@ -36,10 +36,10 @@ const PokemonDetailGenerationMenuMobileItem = ({
           <Button
             variant="outline"
             size="sm"
-            className={getPokemonDetailGenerationTriggerClassName({
+            className={getNavigationMenuControlClassName({
+              active: generation.isActive,
               className:
                 "w-full min-w-0 justify-center has-data-[icon=inline-end]:pr-0",
-              isActive: generation.isActive,
             })}
           />
         }

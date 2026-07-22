@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
-import { MainlinePlayHubPage } from "@/modules/mainline/features/plays/hub/shell/mainline-play-hub-page";
-import { getMainlinePlayHubData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
+import { getMainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
+import { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/views/overview/mainline-play-overview";
 
 type PageProps = {
   params: Promise<{
@@ -11,11 +11,11 @@ type PageProps = {
 
 export default async function PlayPage({ params }: PageProps) {
   const { playId } = await params;
-  const data = await getMainlinePlayHubData(playId);
+  const data = await getMainlinePlayOverviewData(playId);
 
   if (!data) {
     notFound();
   }
 
-  return <MainlinePlayHubPage data={data} />;
+  return <MainlinePlayOverview data={data} playId={playId} />;
 }

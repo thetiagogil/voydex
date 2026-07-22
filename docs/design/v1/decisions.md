@@ -68,7 +68,7 @@ why the direction was selected or changed.
 | V1-D050 | 2026-07-13 | Prototype named Pokédex selection as a prominent responsive card rail and re-evaluate it through visual validation        | Accepted   |
 | V1-D051 | 2026-07-13 | Approve Mainline functional contracts before judging their visual composition through one coherent UI draft               | Accepted   |
 | V1-D052 | 2026-07-13 | Use an adaptive Collectibles list-detail workspace with exact, count-only, and reviewed batch progress paths              | Accepted   |
-| V1-D053 | 2026-07-13 | Keep Progress as a stable Hub tab and use its Overview as the entrance to focused child views without persistent sub-tabs | Accepted   |
+| V1-D053 | 2026-07-13 | Keep Progress as a stable Hub tab and use its Overview as the entrance to focused child views without persistent sub-tabs | Superseded |
 | V1-D054 | 2026-07-13 | Use a full-width Plan-target-to-actual comparison list without a persistent Pokémon detail panel                          | Superseded |
 | V1-D055 | 2026-07-13 | Use one full-width meaningful History timeline with honest journey ordering and focused event-detail sheets               | Accepted   |
 | V1-D056 | 2026-07-13 | Organize Play Settings into section-scoped editing with guarded lifecycle, scope, archive, and delete actions             | Accepted   |
@@ -140,6 +140,7 @@ why the direction was selected or changed.
 | V1-D122 | 2026-07-20 | Move Plan context into Team and keep standalone Plan Detail as the authoring destination                                  | Accepted   |
 | V1-D123 | 2026-07-21 | Place the navbar and all app content inside one full-height centered journal surface                                      | Accepted   |
 | V1-D124 | 2026-07-21 | Compute linked Team Plan comparison automatically and inspect selected rows responsively                                  | Accepted   |
+| V1-D125 | 2026-07-22 | Use one route-backed Play shell with compound Team and Progress navigation                                                | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -1326,7 +1327,7 @@ criteria so provisional ideas are easy to challenge later.
 
 ## V1-D052 — Adaptive Collectibles Workspace
 
-**Status:** Accepted; visual validation pending
+**Status:** Superseded by V1-D125
 
 **Date:** 2026-07-13
 
@@ -3077,3 +3078,59 @@ explicit realization link, V1-D040's member-relationship management, V1-D054's
 stored relationship/status model and no-detail-panel layout, and the
 relationship-ownership clauses preserved by V1-D122. It preserves V1-D122's
 Team-owned entry point, read-only comparison, and standalone reusable Plan.
+
+## V1-D125 — Route-Backed Hierarchical Play Navigation
+
+**Status:** Accepted; first route slice implemented
+
+**Date:** 2026-07-22
+
+Keep the Play identity header and section navigation in one shared
+`/mainline/plays/[playId]` shell. Route-backed child pages replace client-only
+tab panels so direct links, browser history, refresh, loading, and return paths
+represent the user's actual location. Only the content below the navigation
+changes between child routes.
+
+Preserve five primary areas: Overview, Team, Progress, History, and Settings.
+Team owns Overview, Plan, Analysis, and Team History. Progress owns Overview,
+Story, Pokédex, and Collectibles. The parent Team and Progress routes are their
+Overview pages: the primary label remains simply `Team` or `Progress` there,
+while child routes use compound labels such as `Team - Plan` and
+`Progress - Story`. The attached menu still lists `Overview` so the landing
+view is explicit and always recoverable.
+
+Render the five primary areas as distinct shadcn Navigation Menu controls,
+following the established Pokémon Generation and Game selector treatment.
+Overview is a direct link. Team and Progress are menu triggers whose menus list
+their complete child hierarchy, including `Overview`; selecting that menu item
+returns to the parent landing route. History and Settings remain leaf
+destinations. Keep Pokémon selection, sheets, event detail, filters, and other
+page-local interactions in local state.
+
+Always expose the accepted navigation hierarchy. Implemented destinations are
+links; planned destinations remain visibly disabled until their route content
+is ready. A compound section trigger uses the active child label, such as
+`Team - Plan` or `Progress - Story`, while its Overview landing uses the simple
+`Team` or `Progress` label.
+
+The accepted route family is:
+
+```txt
+/mainline/plays/[playId]
+  /team
+    /plan
+    /analysis
+    /history
+  /progress
+    /story
+    /pokedex
+    /collectibles
+  /history
+  /settings
+```
+
+This decision supersedes V1-D053's restriction against a compound Progress
+menu and any earlier wording that treats mature Play areas as client-only tab
+panels. It preserves V1-D122 and V1-D124's Team ownership of Plan comparison,
+V1-D030's Team ownership of Analysis, the single global Play History, and the
+rule against a persistent second tab row.

@@ -11,7 +11,7 @@ export const PageLoadingState = ({
   label = "Loading",
 }: PageLoadingStateProps) => {
   return (
-    <div className={cn("flex items-center justify-center p-6", className)}>
+    <div className={cn("flex items-center justify-center", className)}>
       <Spinner aria-label={label} className="text-primary size-6" />
     </div>
   );

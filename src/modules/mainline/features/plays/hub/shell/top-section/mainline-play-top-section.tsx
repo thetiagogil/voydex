@@ -1,11 +1,11 @@
-import type { MainlinePlayHubData } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 
 import { MainlinePlayTopActions } from "./mainline-play-top-actions";
 import { MainlinePlayTopCoverArt } from "./mainline-play-top-cover-art";
 import { MainlinePlayTopInfo } from "./mainline-play-top-info";
 
 type MainlinePlayTopSectionProps = {
-  data: MainlinePlayHubData;
+  data: MainlinePlayShellData;
 };
 
 export const MainlinePlayTopSection = ({

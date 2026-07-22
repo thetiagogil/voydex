@@ -1,12 +1,14 @@
-import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/tabs/overview/data/play-overview-mappers";
-import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/tabs/team/data/team-plan-mapper";
+import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/play-overview-mappers";
+import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
   MainlineChallengeRule,
   MainlinePlayGameContextRows,
-  MainlinePlayHubData,
   MainlinePlayMilestoneRows,
+  MainlinePlayOverviewData,
   MainlinePlayOverview,
   MainlinePlayRuleRows,
+  MainlinePlayShellData,
+  MainlinePlayTeamData,
   MainlinePlayTeamRows,
   MainlinePlayTeamPlanRow,
   MainlinePlayTimelineEvent,
@@ -24,40 +26,59 @@ export const buildMainlinePlayRules = (
     .filter((rule): rule is MainlineChallengeRule => Boolean(rule));
 };
 
-export const buildMainlinePlayHubData = (params: {
+export const buildMainlinePlayShellData = (params: {
   gameContext: MainlinePlayGameContextRows;
-  milestones: MainlinePlayMilestoneRows;
-  overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   ruleRows: MainlinePlayRuleRows;
-  teamRows: MainlinePlayTeamRows;
-  teamPlanRows: MainlinePlayTeamPlanRow[];
-  teamTimelinePreview: MainlinePlayTimelineEvent[];
-  timelinePreview: MainlinePlayTimelineEvent[];
-}): MainlinePlayHubData => {
-  const roster = buildMainlinePlayTeamPreview(params.teamRows);
-
+}): MainlinePlayShellData => {
   return {
     coverImageUrl: params.gameContext.game
       ? getGameCoverImageUrl(params.gameContext.game)
       : null,
     game: params.gameContext.game,
+    play: params.play,
+    region: params.gameContext.region,
+    rules: buildMainlinePlayRules(params.ruleRows),
+  };
+};
+
+export const buildMainlinePlayOverviewData = (params: {
+  milestones: MainlinePlayMilestoneRows;
+  overview: MainlinePlayOverview | null;
+  play: MainlinePlaySummary;
+  teamRows: MainlinePlayTeamRows;
+  timelinePreview: MainlinePlayTimelineEvent[];
+}): MainlinePlayOverviewData => {
+  const roster = buildMainlinePlayTeamPreview(params.teamRows);
+
+  return {
     lastCompletedMilestone: params.milestones.lastCompletedMilestone,
     nextMilestone: params.milestones.nextMilestone,
     overview: params.overview,
     play: params.play,
-    region: params.gameContext.region,
-    roster,
-    rules: buildMainlinePlayRules(params.ruleRows),
     teamPreview: roster.filter(
       (member) => member.roster_state_slug === "active",
     ),
+    timelinePreview: params.timelinePreview,
+  };
+};
+
+export const buildMainlinePlayTeamData = (params: {
+  play: MainlinePlaySummary;
+  teamPlanRows: MainlinePlayTeamPlanRow[];
+  teamRows: MainlinePlayTeamRows;
+  teamTimelinePreview: MainlinePlayTimelineEvent[];
+}): MainlinePlayTeamData => {
+  const roster = buildMainlinePlayTeamPreview(params.teamRows);
+
+  return {
+    play: params.play,
+    roster,
     teamPlan: buildMainlinePlayTeamPlanSummary(
       params.teamPlanRows,
       roster,
       params.teamRows.evolutionEdges ?? [],
     ),
     teamTimelinePreview: params.teamTimelinePreview,
-    timelinePreview: params.timelinePreview,
   };
 };

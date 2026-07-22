@@ -16,17 +16,24 @@ export const appRoutes = {
   login: "/login",
   mainline: "/mainline",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
-  mainlinePlayCollectibles: (playId: string) =>
-    `/mainline/plays/${playId}/collectibles`,
-  mainlinePlayPokedex: (playId: string) => `/mainline/plays/${playId}/pokedex`,
+  mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
   mainlinePlayProgress: (playId: string) =>
     `/mainline/plays/${playId}/progress`,
+  mainlinePlayProgressCollectibles: (playId: string) =>
+    `/mainline/plays/${playId}/progress/collectibles`,
+  mainlinePlayProgressPokedex: (playId: string) =>
+    `/mainline/plays/${playId}/progress/pokedex`,
+  mainlinePlayProgressStory: (playId: string) =>
+    `/mainline/plays/${playId}/progress/story`,
   mainlinePlaySettings: (playId: string) =>
     `/mainline/plays/${playId}/settings`,
-  mainlinePlayStory: (playId: string) => `/mainline/plays/${playId}/story`,
   mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
-  mainlinePlayTimeline: (playId: string) =>
-    `/mainline/plays/${playId}/timeline`,
+  mainlinePlayTeamAnalysis: (playId: string) =>
+    `/mainline/plays/${playId}/team/analysis`,
+  mainlinePlayTeamHistory: (playId: string) =>
+    `/mainline/plays/${playId}/team/history`,
+  mainlinePlayTeamPlan: (playId: string) =>
+    `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
   settings: "/settings",
 } as const;

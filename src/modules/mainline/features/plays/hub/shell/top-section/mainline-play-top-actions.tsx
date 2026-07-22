@@ -2,12 +2,12 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { cn } from "@/shared/utils/cn";
-import type { MainlinePlayHubData } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type MainlinePlayTopActionsProps = {
-  data: MainlinePlayHubData;
+  data: MainlinePlayShellData;
 };
 
 export const MainlinePlayTopActions = ({

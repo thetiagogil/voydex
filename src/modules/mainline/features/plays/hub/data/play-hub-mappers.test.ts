@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  buildMainlinePlayHubData,
+  buildMainlinePlayOverviewData,
   buildMainlinePlayRules,
+  buildMainlinePlayTeamData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
   MainlineChallengeRule,
@@ -43,8 +44,8 @@ describe("buildMainlinePlayRules", () => {
   });
 });
 
-describe("buildMainlinePlayHubData", () => {
-  it("keeps reserve members in Team while limiting Overview to Active", () => {
+describe("Play page data mappers", () => {
+  it("limits the Overview team preview to Active members", () => {
     const activeMember = {
       play_pokemon_id: "active-member",
       roster_state_slug: "active",
@@ -54,15 +55,13 @@ describe("buildMainlinePlayHubData", () => {
       roster_state_slug: "reserve",
     } as MainlinePlayTeamMemberRow;
 
-    const data = buildMainlinePlayHubData({
-      gameContext: { game: null, region: null },
+    const data = buildMainlinePlayOverviewData({
       milestones: {
         lastCompletedMilestone: null,
         nextMilestone: null,
       },
       overview: null,
-      play: {} as Parameters<typeof buildMainlinePlayHubData>[0]["play"],
-      ruleRows: { links: [], rules: [] },
+      play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
       teamRows: {
         abilityAttributes: [],
         attributes: [],
@@ -74,17 +73,44 @@ describe("buildMainlinePlayHubData", () => {
         versionGroupId: null,
         versionGroups: [],
       },
-      teamPlanRows: [],
-      teamTimelinePreview: [],
       timelinePreview: [],
+    });
+
+    expect(data.teamPreview.map((member) => member.play_pokemon_id)).toEqual([
+      "active-member",
+    ]);
+  });
+
+  it("keeps Active and Reserve members in Team", () => {
+    const activeMember = {
+      play_pokemon_id: "active-member",
+      roster_state_slug: "active",
+    } as MainlinePlayTeamMemberRow;
+    const reserveMember = {
+      play_pokemon_id: "reserve-member",
+      roster_state_slug: "reserve",
+    } as MainlinePlayTeamMemberRow;
+
+    const data = buildMainlinePlayTeamData({
+      play: {} as Parameters<typeof buildMainlinePlayTeamData>[0]["play"],
+      teamPlanRows: [],
+      teamRows: {
+        abilityAttributes: [],
+        attributes: [],
+        members: [activeMember, reserveMember],
+        moveAttributes: [],
+        natures: [],
+        types: [],
+        validBallItemIds: [],
+        versionGroupId: null,
+        versionGroups: [],
+      },
+      teamTimelinePreview: [],
     });
 
     expect(data.roster.map((member) => member.play_pokemon_id)).toEqual([
       "active-member",
       "reserve-member",
-    ]);
-    expect(data.teamPreview.map((member) => member.play_pokemon_id)).toEqual([
-      "active-member",
     ]);
   });
 });

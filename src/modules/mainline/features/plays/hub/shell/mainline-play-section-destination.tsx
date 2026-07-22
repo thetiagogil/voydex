@@ -1,17 +1,36 @@
+import Link from "next/link";
+
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 
 type MainlinePlaySectionDestinationProps = {
+  href?: string;
   label: string;
   onSelect?: () => void;
   unavailableLabel?: string;
 };
 
 export const MainlinePlaySectionDestination = ({
+  href,
   label,
   onSelect,
   unavailableLabel = `${label} destination is not available yet`,
 }: MainlinePlaySectionDestinationProps) => {
+  if (href) {
+    return (
+      <Button
+        render={<Link href={href} />}
+        nativeButton={false}
+        variant="link"
+        size="xs"
+        className="h-auto px-0 py-0 text-xs font-medium"
+      >
+        {label}
+        <AppIcon icon={appIcons.actions.continue} inline="end" />
+      </Button>
+    );
+  }
+
   return (
     <Button
       type="button"
