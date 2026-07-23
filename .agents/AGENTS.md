@@ -4,6 +4,108 @@ The root [AGENTS.md](../AGENTS.md) is the entry point. This file contains only
 durable implementation conventions; product behavior and current status belong
 in the canonical [documentation index](../docs/README.md).
 
+## Development Workflow
+
+The root agent owns the task from understanding through handoff. Specialists
+are optional tools for isolated judgment or independent evidence; they do not
+replace root ownership and are not mandatory stages in a pipeline.
+
+### 1. Orient And Scope
+
+- Record the initial worktree state and preserve unrelated changes.
+- Read the root guide, this guide, the current
+  [Project Status](../docs/project-status.md), and only the architecture,
+  product, design, database, code, tests, and configuration relevant to the
+  requested boundary.
+- Restate the intended outcome, acceptance criteria, important constraints, and
+  material exclusions before a consequential or ambiguous change. Resolve
+  evidence from the repository before asking the user questions that the
+  project can answer.
+- Treat remote writes, production mutations, deployments, destructive Git,
+  schema changes, new dependencies, infrastructure changes, and communication
+  to other people as separate authority gates.
+
+### 2. Inspect The Existing System
+
+- Trace the real route, ownership, data flow, types, states, and tests before
+  editing. For UI work, inspect the design system, the nearest design reference,
+  shared primitives, and comparable live surfaces.
+- Search for an established component, utility, domain rule, query, action, or
+  test pattern before creating a new one. Apply the Component Consistency Gate
+  below to recurring UI patterns.
+- Choose the smallest cohesive change that solves the root cause. Call out
+  documentation drift when implementation evidence disagrees with a canonical
+  document, and update that document when the correction is in scope.
+
+### 3. Implement With One Writer
+
+- The root agent implements normal work directly. Do not delegate routine
+  exploration, focused edits, documentation, tests, or project-native checks.
+- Keep one source writer at a time. Never run overlapping implementation agents
+  against the same worktree or split a cohesive change merely to parallelize
+  it.
+- Preserve established boundaries, strict types, relevant validation,
+  authorization, errors, async states, accessibility, responsive behavior, and
+  supported themes. Add focused tests when behavior or a stable contract
+  changes.
+
+### 4. Verify In Layers
+
+- Run the smallest relevant checks while iterating, then inspect the final diff
+  and run `git diff --check`.
+- Run `npm run verify` before merging normal application work. Database work
+  additionally requires a running local Supabase stack and
+  `npm run db:verify`.
+- Meaningful UI work also requires desktop and mobile browser checks, console
+  inspection, keyboard and focus checks, and the states relevant to the change.
+- Report exact commands and outcomes. Separate product failures, environment
+  limits, pre-existing warnings, and checks that were not run.
+
+### 5. Review And Handoff
+
+- Review the final diff for correctness, security, data integrity,
+  architecture fit, types, edge cases, accessibility, performance,
+  testability, regression risk, and file placement. Do not invent
+  preference-only findings.
+- Update Project Status only when the implementation checkpoint, next slice, or
+  known gaps materially changed. Keep volatile progress out of agent guidance.
+- For a computer-change handoff, synchronize `Next Chat Handoff` in Project
+  Status with the `Resume Prompt` in the canonical
+  [V1 Screen Flow](../docs/design/v1-screen-flow.md). Do not create a competing
+  handoff file.
+- Finish with the outcome, changed files, exact verification, unverified risks
+  or next steps, and a suggested commit message after non-trivial changes.
+
+## Specialist Routing
+
+Direct work is the default. Use zero specialists for ordinary tasks and at most
+one for an ordinary complex task. Use more than one only when the user
+explicitly requests parallel work and the scopes are independent. Specialists
+never delegate further.
+
+- `architect`: Read-only review for consequential cross-layer boundaries,
+  authentication, security, performance, or genuinely ambiguous application
+  design.
+- `database_guardian`: Read-only review for schema, SQL, migrations, RLS,
+  grants, concurrency, rollback, and data-integrity risk.
+- `product_designer`: Read-only implementation brief for significant flows,
+  responsive composition, interaction states, accessibility, or design-system
+  decisions grounded in current screens or supplied evidence.
+- `reviewer`: Independent defect review after non-trivial or high-risk changes
+  when a fresh context materially increases confidence.
+- `verifier`: Isolated execution of lengthy, noisy, or environment-sensitive
+  checks. It may write only ignored test, cache, build, or temporary artifacts
+  and must stop if tracked files change beyond the baseline.
+- `implementer`: Exceptional bounded source writer only when the user requests
+  delegated implementation or context isolation materially improves a complex
+  task. The root must stop editing the assigned files, then inspect and
+  integrate the result.
+
+Every delegated task must state its objective, exact scope, relevant context,
+constraints, required evidence or return shape, and stop condition. The root
+remains responsible for validating the specialist's evidence, resolving
+conflicts, completing verification, and answering the user.
+
 ## Source Layout
 
 The allowed root source layout is:
@@ -166,18 +268,3 @@ Read [Design System](../docs/app/design-system.md) and the nearest indexed
 See [Database Architecture](../docs/database/architecture.md),
 [Schema Contract](../docs/database/schema-contract.md), and
 [Security](../docs/database/security.md).
-
-## Verification And Handoff
-
-- Use focused tests while iterating and `npm run verify` before merging.
-- Add tests for behavior, ownership, edge cases, or parsing—not arbitrary line
-  coverage.
-- Run browser verification for meaningful UI changes.
-- Update [Project Status](../docs/project-status.md) only when the current
-  checkpoint, next slice, or known gaps change.
-- For a computer-change handoff, synchronize `Next Chat Handoff` in Project
-  Status with the `Resume Prompt` in the canonical
-  [V1 Screen Flow](../docs/design/v1-screen-flow.md). Keep volatile progress out
-  of AGENTS files and do not create a second handoff document.
-- Keep final handoffs concise: outcome, exact verification, commit message, and
-  meaningful risks or next steps.

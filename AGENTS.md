@@ -8,8 +8,12 @@ implementing changes, verifying them, and explaining the result.
 
 Read only the guidance needed for the task:
 
-- [Detailed Engineering Guide](./.agents/AGENTS.md) before implementation or
-  review.
+- [Detailed Engineering Guide and Development Workflow](./.agents/AGENTS.md)
+  before implementation or review.
+- Use the
+  [Voydex Product Engineer skill](./.agents/skills/voydex-product-engineer/SKILL.md)
+  for meaningful product, implementation, architecture, review, debugging, or
+  Pokémon-domain work.
 - [Project Status](./docs/project-status.md) for the current implementation
   checkpoint and next product slice.
 - [Frontend Architecture](./docs/app/architecture.md) for ownership, dependency,
