@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { TeamTypeList } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-type-list";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import {
   getTeamMemberImageUrl,
   getTeamMemberName,
 } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-model";
+import { TeamTypeList } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-type-list";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type TeamSlotProps = {
   gameSlug: string | null;
@@ -34,13 +34,18 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
 
   const content = (
     <>
+      <TeamTypeList
+        primaryType={member.primaryType}
+        secondaryType={member.secondaryType}
+        className="pointer-events-none absolute top-2 right-2 flex-row flex-nowrap"
+      />
       <PokemonPortrait
         alt={`${getTeamMemberName(member)} portrait`}
         imageUrl={getTeamMemberImageUrl(member)}
-        sizes="8rem"
-        className="size-16 justify-self-center rounded-md border-0 bg-transparent sm:size-[4.5rem]"
+        sizes="(min-width: 640px) 6rem, 5rem"
+        className="size-20 justify-self-center rounded-md border-0 bg-transparent sm:size-24"
         glowClassName="opacity-0"
-        imageClassName="p-1.5"
+        imageClassName="p-1"
       />
       <div className="grid min-w-0 justify-items-center gap-1.5">
         <div className="flex min-w-0 items-baseline justify-center gap-1.5">
@@ -51,10 +56,6 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
             {member.level ? `Lv. ${member.level}` : "Level unknown"}
           </p>
         </div>
-        <TeamTypeList
-          primaryType={member.primaryType}
-          secondaryType={member.secondaryType}
-        />
       </div>
     </>
   );
@@ -63,7 +64,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
     return (
       <Link
         href={appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)}
-        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
+        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring relative grid min-h-40 min-w-0 content-end justify-items-center gap-1 rounded-lg border p-3 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
       >
         {content}
       </Link>
@@ -71,7 +72,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
   }
 
   return (
-    <article className="border-app-surface-border/70 bg-background/35 grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center">
+    <article className="border-app-surface-border/70 bg-background/35 relative grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center">
       {content}
     </article>
   );

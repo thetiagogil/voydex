@@ -32,6 +32,23 @@ The desired mix:
 
 - Use `src/shared/components/ui` primitives for buttons, inputs, selects, sheets, dialogs, dropdowns, tabs, accordions, fields, and similar controls.
 - Use Base UI `render` composition when a primitive supports custom rendering. Do not use Radix `asChild` unless the local primitive explicitly supports it.
+- Before adding or materially styling a recurring interface pattern, search the
+  shared primitives, the owning product area, and comparable views across the
+  application. Choose the closest established component or screen as the
+  baseline rather than designing the new surface in isolation.
+- Compare the new use with its baseline across geometry, spacing, typography,
+  visual states, responsive behavior, focus treatment, and semantics. Cards,
+  Buttons, Navigation Menus, Dropdowns, Links, Badges, selectors, and repeated
+  rows should not acquire view-specific styling when their interaction contract
+  is the same.
+- When the same interaction contract needs different internal content, share
+  one controlled wrapper and provide the differences through children, slots,
+  or explicit props. Keep navigation, actions, persistent selection, and static
+  presentation semantically distinct even when they share the same visual
+  foundation.
+- Add a new variant only for a materially different contract. Document the
+  reason in the nearest design reference and preserve the shared foundation for
+  the states and structure that still overlap.
 - Keep `src/app` route files thin. Put real UI in `src/modules`, `src/features`,
   or `src/shared` components.
 - Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
@@ -299,10 +316,11 @@ Overview should stay high-signal and avoid filler:
   across occupied, confirmed-empty, and not-recorded states, including one shared
   minimum card height that comfortably fits occupied content. Present them as a
   stable three-column by two-row preview so each member retains useful space.
-  Keep the simple vertical order of larger artwork, one name-and-level row, then
-  compact type icons with accessible type names. Use the shared icon system plus
-  explicit labels for placeholders; never resize or collapse a slot because no
-  Pokémon portrait is available.
+  Keep larger artwork as the visual focus above one name-and-level row. Anchor
+  compact type icons with accessible type names in one inline row in the slot's
+  top-right corner so they do not consume another content row or reduce portrait scale. Use the
+  shared icon system plus explicit labels for placeholders; never resize or
+  collapse a slot because no Pokémon portrait is available.
 - Plays Browse reuses this semantic component as a denser read-only variant.
   Always render six equal Active positions: occupied slots use the Pokémon's
   actual current-form sprite, confirmed-empty and not-recorded slots keep

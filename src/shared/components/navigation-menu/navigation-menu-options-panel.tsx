@@ -16,7 +16,10 @@ export const NavigationMenuOptionsPanel = ({
   ...props
 }: NavigationMenuOptionsPanelProps) => {
   return (
-    <NavigationMenuContent className={cn("w-80 p-2", className)} {...props}>
+    <NavigationMenuContent
+      className={cn("w-96 max-w-[calc(100vw-2rem)] p-2", className)}
+      {...props}
+    >
       <div className={cn("grid gap-1", listClassName)}>{children}</div>
     </NavigationMenuContent>
   );

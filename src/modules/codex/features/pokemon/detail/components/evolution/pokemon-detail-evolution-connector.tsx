@@ -55,8 +55,12 @@ const EvolutionArrowLine = ({
 }) => {
   if (direction === "vertical") {
     return (
-      <span className="text-primary/70 flex h-8 items-center justify-center">
-        <ChevronDownIcon aria-hidden className="size-5 stroke-[1.5]" />
+      <span className="text-primary/70 flex h-8 flex-col items-center justify-center">
+        <span className="min-h-0 w-px flex-1 bg-current" />
+        <ChevronDownIcon
+          aria-hidden
+          className="-mt-1 size-5 shrink-0 stroke-[1.5]"
+        />
       </span>
     );
   }
@@ -68,7 +72,11 @@ const EvolutionArrowLine = ({
         length === "stretched" ? "w-full" : "w-14 max-w-full",
       )}
     >
-      <ChevronRightIcon aria-hidden className="size-5 stroke-[1.5]" />
+      <span className="h-px min-w-0 flex-1 bg-current" />
+      <ChevronRightIcon
+        aria-hidden
+        className="-ml-1 size-5 shrink-0 stroke-[1.5]"
+      />
     </div>
   );
 };

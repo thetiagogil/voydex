@@ -1,8 +1,8 @@
 import { PokemonDetailGenerationGameOption } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-game-option";
 import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
-import { NavigationMenuBar } from "@/shared/components/navigation-menu-bar";
-import { NavigationMenuControlTrigger } from "@/shared/components/navigation-menu-control";
-import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu-options-panel";
+import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
+import { NavigationMenuControlTrigger } from "@/shared/components/navigation-menu/navigation-menu-control";
+import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
 
 type PokemonDetailGenerationMenuDesktopProps = {

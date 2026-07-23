@@ -228,7 +228,9 @@ Its information hierarchy is:
    artwork, nickname or species identity, species when a nickname would hide
    it, and level when known. The portrait uses the correct form and shiny
    artwork, with a compact accessible indicator only when the visual difference
-   needs clarification. Types remain in Team rather than adding density here.
+   needs clarification. Keep one or two compact accessible type icons anchored
+   in one inline row in the slot's top-right corner so the portrait remains the
+   primary focus.
 3. **Reserve context:** show a small reserve count only when positive. Do not
    place an Active/Reserve toggle or the complete reserve roster in Overview.
 4. **Team route:** provide one lower-emphasis `Open Team` or `Manage Team`
@@ -421,6 +423,12 @@ stable responsibility:
    only when contributing progress is trustworthy. A new `not_started` Play may
    truthfully show zero; an imported Play with unknown progress shows the
    explicit `Progress not recorded` state instead.
+
+Keep lifecycle and reference metadata on one wrapping line. Lifecycle status
+retains its semantic status treatment; game, region, and generation use neutral
+outline chips with matching compact geometry. Separate the available personal
+and time facts with vertical dividers on wider layouts, then hide those dividers
+below the small breakpoint so the facts can wrap with spacing instead.
 
 Do not use the persistent header for current-Team counts, detailed Pokédex
 counts, general tags, notes, or platform. Team and Pokédex summaries already

@@ -5,6 +5,7 @@ import type {
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { cn } from "@/shared/utils/cn";
 
 type TeamTypeBadgeProps = {
   type: MainlinePlayPokemonType;
@@ -13,7 +14,9 @@ type TeamTypeBadgeProps = {
 type TeamTypeListProps = Pick<
   MainlinePlayTeamMember,
   "primaryType" | "secondaryType"
->;
+> & {
+  className?: string;
+};
 
 const TeamTypeBadge = ({ type }: TeamTypeBadgeProps) => {
   if (!isPokemonTypeSlug(type.slug)) {
@@ -36,6 +39,7 @@ const TeamTypeBadge = ({ type }: TeamTypeBadgeProps) => {
 };
 
 export const TeamTypeList = ({
+  className,
   primaryType,
   secondaryType,
 }: TeamTypeListProps) => {
@@ -48,7 +52,12 @@ export const TeamTypeList = ({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-1">
+    <div
+      className={cn(
+        "flex flex-wrap items-center justify-center gap-1",
+        className,
+      )}
+    >
       {types.map((type) => (
         <TeamTypeBadge key={type.id} type={type} />
       ))}

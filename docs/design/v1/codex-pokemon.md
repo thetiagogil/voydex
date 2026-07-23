@@ -236,6 +236,9 @@ The selected visual implementation preserves the established composition:
 3. Core Data, Battle Stats, Type Matchups, Abilities, Pokédex, Availability,
    and Learnsets remain in that order in the right stack.
 
+Evolution transitions use a quiet connector line ending in an arrowhead, with
+compact level or method conditions centered above the connector when present.
+
 This placement is a constraint for visual restyling. Future functional-contract
 work such as a semantic page heading or one Mainline entry must integrate
 without casually moving the reference sections.

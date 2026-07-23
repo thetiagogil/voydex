@@ -15,6 +15,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { Badge } from "@/shared/components/ui/badge";
+import { Separator } from "@/shared/components/ui/separator";
 
 type MainlinePlayTopInfoProps = {
   data: MainlinePlayShellData;
@@ -47,7 +49,7 @@ const MainlinePlayMetadata = ({ data }: MainlinePlayMetadataProps) => {
   const metadata = getPlayMetadata(data);
 
   return (
-    <div className="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+    <div className="flex flex-wrap items-center gap-2">
       {data.play.status_name ? (
         <StatusBadge
           tone={getPlayStatusBadgeTone(
@@ -60,11 +62,10 @@ const MainlinePlayMetadata = ({ data }: MainlinePlayMetadataProps) => {
         </StatusBadge>
       ) : null}
 
-      {metadata.map((item, index) => (
-        <span key={item} className="flex items-center gap-2">
-          {index ? <span aria-hidden>•</span> : null}
-          <span>{item}</span>
-        </span>
+      {metadata.map((item) => (
+        <Badge key={item} variant="outline" className="h-6 rounded-md px-2">
+          {item}
+        </Badge>
       ))}
     </div>
   );
@@ -76,11 +77,13 @@ const MainlinePlayTimelineItem = ({
   value,
 }: MainlinePlayTimelineItemProps) => {
   return (
-    <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
-      <AppIcon icon={icon} size="sm" aria-hidden />
+    <dl className="text-muted-foreground text-xs">
       <dt className="sr-only">{label}</dt>
-      <dd>{value}</dd>
-    </div>
+      <dd className="flex items-center gap-1.5">
+        <AppIcon icon={icon} size="sm" aria-hidden />
+        {value}
+      </dd>
+    </dl>
   );
 };
 
@@ -130,29 +133,36 @@ const MainlinePlayRules = ({ data }: { data: MainlinePlayShellData }) => {
 
 const MainlinePlayFacts = ({ data }: { data: MainlinePlayShellData }) => {
   return (
-    <dl className="flex flex-wrap gap-x-5 gap-y-2">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
       <MainlinePlayTimelineItem
         icon={appIcons.account.user}
         label="Trainer"
         value={data.play.trainer_name ?? "Trainer not recorded"}
       />
+      <Separator orientation="vertical" className="hidden h-4 sm:block" />
       <MainlinePlayTimelineItem
         icon={appIcons.product.playtime}
         label="Playtime"
         value={formatPlayMinutes(data.play.playtime_minutes)}
       />
+      <Separator orientation="vertical" className="hidden h-4 sm:block" />
       <MainlinePlayTimelineItem
         icon={appIcons.product.date}
         label="Started"
         value={formatPlayDate(data.play.started_on, "Not started")}
       />
-      <div className="min-w-0">
-        <dt className="sr-only">Challenge rules</dt>
-        <dd>
-          <MainlinePlayRules data={data} />
-        </dd>
-      </div>
-    </dl>
+      {data.rules.length ? (
+        <>
+          <Separator orientation="vertical" className="hidden h-4 sm:block" />
+          <dl className="min-w-0">
+            <dt className="sr-only">Challenge rules</dt>
+            <dd>
+              <MainlinePlayRules data={data} />
+            </dd>
+          </dl>
+        </>
+      ) : null}
+    </div>
   );
 };
 

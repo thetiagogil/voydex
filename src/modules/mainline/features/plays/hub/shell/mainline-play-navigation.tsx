@@ -9,14 +9,14 @@ import {
   type MainlinePlayProgressView,
   type MainlinePlayTeamView,
 } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation-model";
-import { NavigationMenuBar } from "@/shared/components/navigation-menu-bar";
+import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import {
   NavigationMenuControlDisabled,
   NavigationMenuControlLink,
   NavigationMenuControlTrigger,
-} from "@/shared/components/navigation-menu-control";
-import { NavigationMenuOption } from "@/shared/components/navigation-menu-option";
-import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu-options-panel";
+} from "@/shared/components/navigation-menu/navigation-menu-control";
+import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
+import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
 
 type MainlinePlayNavigationProps = {

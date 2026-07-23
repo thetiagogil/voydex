@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu-option-content";
+import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
 
 type NavigationMenuLinkProps = ComponentPropsWithoutRef<
@@ -108,6 +108,7 @@ export const NavigationMenuOption = (props: NavigationMenuOptionProps) => {
         aria-label={accessibilityLabel}
         active={active}
         className={optionClassName}
+        closeOnClick
         onClick={onClick}
         render={render}
       >

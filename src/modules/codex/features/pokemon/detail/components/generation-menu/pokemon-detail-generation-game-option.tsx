@@ -7,8 +7,8 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   getNavigationMenuOptionClassName,
   NavigationMenuOption,
-} from "@/shared/components/navigation-menu-option";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu-option-content";
+} from "@/shared/components/navigation-menu/navigation-menu-option";
+import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
 import {
   Tooltip,
   TooltipContent,

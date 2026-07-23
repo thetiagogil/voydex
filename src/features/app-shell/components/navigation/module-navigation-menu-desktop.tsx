@@ -12,7 +12,7 @@ import {
   moduleRequiresLogin,
 } from "@/features/app-shell/utils/module-navigation";
 import { AppIcon, appIcons, getModuleIcon } from "@/shared/components/app-icon";
-import { NavigationMenuOption } from "@/shared/components/navigation-menu-option";
+import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
 import { Badge } from "@/shared/components/ui/badge";
 import {
   NavigationMenu,

@@ -66,6 +66,9 @@ document when correcting drift is within task scope.
 - Prefer small, cohesive changes that solve the root cause.
 - Preserve strict types, relevant errors, authorization, validation,
   accessibility, responsive behavior, and supported themes.
+- Before introducing or materially styling a common UI pattern, inventory the
+  existing primitives and comparable product surfaces. Reuse the established
+  reference or extract its shared foundation before adding another variation.
 - Avoid duplicated logic, vague buckets, hidden side effects, dead code,
   needless abstraction, and unrelated refactors.
 - Keep route orchestration, external I/O, pure mapping/domain logic, and UI

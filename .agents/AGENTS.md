@@ -117,6 +117,39 @@ the product and schema contracts explicitly change.
   in the nearest versioned design reference before relying on them in future
   tasks.
 
+### Component Consistency Gate
+
+Before creating or materially styling a Card, Button, Navigation Menu,
+Dropdown, Link, Badge, selector, form control, list row, or another recurring UI
+pattern:
+
+1. Search `src/shared/components/ui`, `src/shared/components`, the owning
+   feature or module, and comparable product views for existing components,
+   variants, wrappers, and interaction patterns. Do not limit the search to the
+   current route.
+2. Identify the closest established component or screen as the implementation
+   reference. Compare structure, density, spacing, radius, borders, shadows,
+   typography, icons, responsive behavior, semantics, and default, hover,
+   focus, active, selected, open, disabled, loading, and error states as
+   applicable.
+3. Reuse that component or variant when its contract fits. When multiple
+   surfaces share the same interaction contract but have different content,
+   extract one controlled wrapper at the nearest stable owner and expose the
+   differing content through children, slots, or explicit props before adding
+   the new consumer.
+4. Keep semantics attached to behavior: navigation uses links, actions use
+   buttons, persistent selection exposes the appropriate selected or pressed
+   state, and static surfaces remain non-interactive. Use Base UI `render`
+   composition when one visual primitive needs different semantic elements,
+   and never create nested interactive controls.
+5. Create a new visual or behavioral variant only when the existing reference
+   has a materially different contract. Record the reason in the nearest
+   design reference and keep the shared foundation aligned where the contracts
+   still overlap.
+
+Review UI changes against both the target view and the chosen reference view.
+The change is not complete merely because it looks coherent in isolation.
+
 Read [Design System](../docs/app/design-system.md) and the nearest indexed
 [design reference](../docs/design/README.md) before meaningful visual work.
 

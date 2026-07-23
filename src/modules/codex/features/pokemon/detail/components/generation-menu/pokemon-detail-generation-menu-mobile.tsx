@@ -5,7 +5,7 @@ import { useState } from "react";
 import { PokemonDetailGenerationGameMobileOption } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-game-option";
 import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { getNavigationMenuControlClassName } from "@/shared/components/navigation-menu-control";
+import { getNavigationMenuControlClassName } from "@/shared/components/navigation-menu/navigation-menu-control";
 import { Button } from "@/shared/components/ui/button";
 import {
   Sheet,
