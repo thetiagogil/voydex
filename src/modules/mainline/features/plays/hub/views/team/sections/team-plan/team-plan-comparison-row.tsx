@@ -6,6 +6,7 @@ import { PokemonPortrait } from "@/modules/reference/features/pokemon/components
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { SelectableItem } from "@/shared/components/selectable-item";
 import { cn } from "@/shared/utils/cn";
 
 type TeamPlanComparisonRowProps = {
@@ -26,16 +27,11 @@ export const TeamPlanComparisonRow = ({
   });
 
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(comparison)}
-      className={cn(
-        "border-app-surface-border/70 hover:bg-accent/35 focus-visible:ring-ring/40 grid w-full min-w-0 gap-2.5 rounded-lg border px-3 py-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-inset md:grid-cols-[minmax(0,1fr)_10.5rem_minmax(0,1fr)_1.25rem] md:items-center",
-        selected &&
-          "border-primary/50 bg-primary/[0.035] ring-primary/20 ring-1",
-      )}
-      aria-label={`Compare planned ${comparison.plannedName}`}
-      aria-pressed={selected}
+    <SelectableItem
+      selected={selected}
+      onSelect={() => onSelect(comparison)}
+      ariaLabel={`Compare planned ${comparison.plannedName}`}
+      buttonClassName="grid w-full min-w-0 gap-2.5 px-3 py-2.5 md:grid-cols-[minmax(0,1fr)_10.5rem_minmax(0,1fr)_1.25rem] md:items-center"
     >
       <span className="flex min-w-0 items-center gap-3">
         <span
@@ -109,6 +105,6 @@ export const TeamPlanComparisonRow = ({
         className="text-muted-foreground hidden justify-self-end md:block"
         aria-hidden
       />
-    </button>
+    </SelectableItem>
   );
 };

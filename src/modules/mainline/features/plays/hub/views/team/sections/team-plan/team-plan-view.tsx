@@ -212,16 +212,14 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
               className="grid gap-1.5 p-2"
             >
               {plan.comparisons.map((comparison) => (
-                <div role="listitem" key={comparison.planMemberId}>
-                  <TeamPlanComparisonRow
-                    comparison={comparison}
-                    selected={
-                      selectedComparison?.planMemberId ===
-                      comparison.planMemberId
-                    }
-                    onSelect={selectComparison}
-                  />
-                </div>
+                <TeamPlanComparisonRow
+                  key={comparison.planMemberId}
+                  comparison={comparison}
+                  selected={
+                    selectedComparison?.planMemberId === comparison.planMemberId
+                  }
+                  onSelect={selectComparison}
+                />
               ))}
             </div>
           ) : (
