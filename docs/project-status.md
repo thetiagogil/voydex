@@ -20,7 +20,9 @@ the evidence for exact implementation details.
   The dedicated linked development account was refreshed from this same source
   on July 20, 2026.
 - The internal `reference` module owns reusable Pokémon and game contracts,
-  domain rules, catalogue components, and presentation helpers.
+  exact-game mechanic capabilities, domain rules, catalogue components, and
+  presentation helpers. Codex and Mainline consume one shared profile for
+  Ability, Nature, Held Item, and Pokémon Gender support.
 - Application and database boundaries are enforced by automated checks.
 
 ## Implemented Product Surfaces
@@ -142,7 +144,9 @@ checkpoint:
   members. The top row uses a 60/40 identity-to-caught-information split. Type
   badges precede the adjacent Level and icon-labelled Gender chips, and Held
   Item follows those chips.
-  Caught information is now one compact section containing only Ball, met
+  Mechanic-dependent facts are resolved from the Play's exact game profile;
+  unsupported Ability, Nature, Held Item, or Gender rows are omitted instead of
+  presented as unrecorded. Caught information is now one compact section containing only Ball, met
   location, and met level; Trainer is omitted until the application owns useful
   per-member original-trainer data. The next row uses the same 60/40 hierarchy:
   the wider Moves column sits on the left, while Ability and Nature stack on the
@@ -163,9 +167,22 @@ checkpoint:
   leads with the Plan identity, reports whether the current Team is following
   it, and separates target coverage from unplanned-member context. Its enabled
   View plan action opens the full-width `/team/plan` comparison while keeping
-  Team active and preserving the Play shell. Compact rows compare
-  planned and matched identities; desktop keeps the selected comparison beside
-  the list while tablet and phone use a focused sheet for optional build fields.
+  Team active and preserving the Play shell. That workspace now exposes three
+  explanatory-tip summary metrics and compact rows aligned to one shared slot,
+  identity, status, Tracked identity, and action grid. Metrics and build/move
+  status icons share one fast-hover, focus, and pinnable click/touch behavior.
+  It has no duplicate Open action; the Plan title remains plain text until
+  standalone Plan Detail exists and can own that link. Roles and repeated row
+  types are intentionally absent;
+  tracked species lead, with nickname in parentheses and roster placement
+  beneath. Desktop keeps the selected comparison beside the list with the match
+  explanation before centered flat build and move grids. Planned notes sit
+  directly below the list, and the shorter desktop column stretches to match
+  the taller comparison workspace. Tablet and phone keep a natural stacked flow
+  and use a focused bottom sheet capped at 82dvh with the compared identities
+  first. Build grids contain only exact-game-supported mechanics; unsupported
+  mechanics cannot affect automatic comparison status, and the Build section
+  is absent when none apply.
   Past Members has no Roster Card link until its focused destination is
   implemented; selected detail remains the first right-side section.
 - Team Quick Analysis remains in the supporting right-side hierarchy while its
@@ -179,6 +196,9 @@ checkpoint:
   one-to-one: exact identity, alternate form, directed earlier/later evolution,
   then another branch in the same family; Active and Reserve receive optional
   build comparison, while Retired and Replaced provide identity-only evidence.
+  Planned moves remain in Plan order, connect to the same recorded move
+  regardless of slot, pair remaining differences in recorded order, and append
+  additional recorded moves as neutral evidence.
   No inferred member link or comparison status is persisted. Slot resolution,
   roster movement, member editing, lifecycle actions, Past Members, Plan
   acquisition/authoring, and full analysis/history routes remain outside this
@@ -279,9 +299,15 @@ The completed slice is the read-only Team Plan comparison inside the active
 Team tab. It uses one to six ordered planned targets, automatic one-to-one
 species/form/evolution-family matching, exact optional-build checks for Active
 and Reserve members, identity-only lifecycle evidence for Retired and Replaced
-members, aggregate-only unplanned members, a persistent desktop inspector, and
-a tablet/phone sheet. Level and Ball are intentionally excluded. There are no
-alternate targets, manual member associations, or stored comparison statuses.
+members, aggregate-only unplanned members, generation-correct planned types,
+flat build and ordered move comparisons, a persistent desktop inspector, and a
+tablet/phone bottom sheet. Roles, Level, and Ball are intentionally excluded.
+Ability, Nature, Held Item, and Pokémon Gender use the reference-owned exact
+game capability profile across Codex and Mainline. Unsupported mechanics are
+omitted and excluded from Plan comparison status.
+There is no separate Open action; the title remains non-interactive until the
+standalone Plan Detail route exists. There are no alternate targets, manual
+member associations, or stored comparison statuses.
 
 Continue with one bounded planning workflow rather than another visual rewrite.
 The recommended next slice is the missing Plan acquisition/authoring boundary:

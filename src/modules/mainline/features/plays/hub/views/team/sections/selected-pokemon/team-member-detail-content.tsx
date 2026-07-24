@@ -4,6 +4,11 @@ import { TeamMemberIdentity } from "@/modules/mainline/features/plays/hub/views/
 import { TeamMemberMoves } from "@/modules/mainline/features/plays/hub/views/team/sections/selected-pokemon/team-member-moves";
 import { TeamMemberPortrait } from "@/modules/mainline/features/plays/hub/views/team/sections/selected-pokemon/team-member-portrait";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   Empty,
@@ -51,9 +56,11 @@ const TeamMemberEmptyDetail = () => {
 
 export const TeamMemberDetailContent = ({
   gameSlug,
+  mechanics,
   member,
 }: {
   gameSlug: string | null;
+  mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
 }) => {
   if (!member) {
@@ -89,12 +96,21 @@ export const TeamMemberDetailContent = ({
               label="Level"
               value={member.level ? `Lv. ${member.level}` : null}
             />
-            <TeamMemberDetailFact label="Ability" value={member.ability_name} />
-            <TeamMemberDetailFact label="Nature" value={member.nature_name} />
-            <TeamMemberDetailFact
-              label="Held item"
-              value={member.held_item_name}
-            />
+            {supportsGameMechanic(mechanics, gameMechanics.abilities) ? (
+              <TeamMemberDetailFact
+                label="Ability"
+                value={member.ability_name}
+              />
+            ) : null}
+            {supportsGameMechanic(mechanics, gameMechanics.natures) ? (
+              <TeamMemberDetailFact label="Nature" value={member.nature_name} />
+            ) : null}
+            {supportsGameMechanic(mechanics, gameMechanics.heldItems) ? (
+              <TeamMemberDetailFact
+                label="Held item"
+                value={member.held_item_name}
+              />
+            ) : null}
           </dl>
         </section>
 
@@ -109,10 +125,12 @@ export const TeamMemberDetailContent = ({
             Origin
           </h3>
           <dl className="grid min-w-0 gap-3">
-            <TeamMemberDetailFact
-              label="Gender"
-              value={formatTeamMemberGender(member.gender)}
-            />
+            {supportsGameMechanic(mechanics, gameMechanics.pokemonGender) ? (
+              <TeamMemberDetailFact
+                label="Gender"
+                value={formatTeamMemberGender(member.gender)}
+              />
+            ) : null}
             <TeamMemberDetailFact label="Ball" value={member.ball_item_name} />
             <TeamMemberDetailFact
               label="Met location"

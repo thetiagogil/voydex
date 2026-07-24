@@ -724,12 +724,13 @@ Use this content hierarchy:
    name rather than another fact row.
 2. **Artwork, Build, and Origin:** align three equal columns below the identity
    band and keep materially larger correct-form artwork as the focal point,
-   using shiny artwork when applicable. Build lists Level, Ability, Nature, and
-   Held Item. Origin lists Gender, category-validated Poké Ball, met location,
-   and met level. Keep both fact lists compact and top-aligned rather than
-   stretching their rows to match the artwork height. Separate the three
-   columns with quiet vertical rules. Omit Trainer until a useful per-Pokémon
-   original-trainer record exists.
+   using shiny artwork when applicable. Build lists Level plus the exact game's
+   supported Ability, Nature, and Held Item facts. Origin lists supported
+   Gender, category-validated Poké Ball, met location, and met level. Keep both
+   fact lists compact and top-aligned rather than stretching their rows to
+   match the artwork height. Separate the three columns with quiet vertical
+   rules. Omit Trainer until a useful per-Pokémon original-trainer record
+   exists.
 3. **Moves:** preserve four ordered move positions in one compact full-width
    row. Each occupied move uses a subtle type-colored surface, keeps its
    icon-only type badge at the left edge, and keeps the move name optically
@@ -1943,15 +1944,28 @@ comparison list:
 Use a compact responsive master-detail workspace:
 
 1. **Plan identity:** show Plan name, lifecycle state, following state, found
-   target count, exact-match count, and unplanned-member count.
+   target count, exact-match count, and unplanned-member count. Give every count
+   the same concise explanatory tip used by build and move status icons. It
+   opens quickly on hover or keyboard focus and can be pinned by click, tap, or
+   keyboard activation. Do not add a separate Open or return action. Until
+   standalone Plan Detail is mounted, keep the Plan title as plain text; once it
+   exists, make that title the Plan Detail link.
 2. **Planned team comparison:** render only the Plan's authored one to six
    ordered targets. Each row reads planned identity, computed status,
    and the automatically matched Play identity.
 3. **Focused comparison detail:** on desktop, selecting a row updates a
-   persistent panel beside the list. Tablet and phone open the same detail in a
-   sheet. It explains identity relation and every optional build field
-   specified by the Plan. Unspecified fields are neutral rather than failures.
-4. **Plan notes:** show the reusable Plan note below the comparison when present.
+   persistent panel beside the list. It leads with one comparison sentence,
+   the full match explanation, then flat Build and Moves grids and member notes.
+   Tablet and phone use a bottom sheet that preserves room above the
+   surface and leads with the two Pokémon identities before the match
+   explanation. Render and compare only mechanics supported by the exact game.
+   Unspecified supported fields are neutral rather than failures; unsupported
+   mechanics are omitted and cannot affect status.
+4. **Planned notes:** show the reusable Plan note directly beneath the
+   comparison list when present. On desktop, the left list-and-notes column and
+   the focused comparison Card share one workspace height; stretch the shorter
+   Card or notes region to match the taller column. Narrow layouts keep the
+   natural list → notes flow before opening details in the sheet.
 
 Unplanned Play members are summarized by count and a concise tooltip. They are
 not inspectable comparison rows and do not prompt the user to rewrite the Plan.
@@ -1963,12 +1977,17 @@ History feed, and actual Pokémon detail remains in Team.
 ### Planned-Member Row
 
 Each occupied row reads horizontally as `Planned target → comparison status →
-actual result` on wider screens. Preserve these stable regions:
+tracked result` on wider screens. Preserve these stable regions:
 
-- slot and target artwork, species, form, and optional role;
-- one explicit computed status label with a short explanatory tooltip;
-- the automatically matched actual Pokémon's current identity, nickname when
-  useful, and Active, Reserve, Retired, or Replaced placement;
+- slot and target artwork, species, and persistent form context; keep
+  exact-generation types in the sheet identity cards instead of repeating them
+  in every compact row, and keep authored roles out of this read-only Play
+  comparison;
+- one explicit computed status icon and label, with the full explanation in the
+  focused detail;
+- the automatically matched Pokémon's species as the primary identity,
+  optional nickname in non-bold parentheses, and Active, Reserve, Retired, or
+  Replaced placement;
 - one row action that updates the focused comparison detail.
 
 The row is scannable and has one clear selected state on desktop. V1 comparison
@@ -1979,8 +1998,8 @@ relink only this Play before changing authored intent.
 
 | Label                        | Meaning                                                                               |
 | ---------------------------- | ------------------------------------------------------------------------------------- |
-| `Exact match`                | Species, form, and every optional build field specified by the Plan match.            |
-| `Build differs`              | Species and form match, but one or more specified optional build fields differ.       |
+| `Exact match`                | Species, form, and every supported optional build field specified by the Plan match.  |
+| `Build differs`              | Species and form match, but one or more supported specified build fields differ.      |
 | `Alternate form`             | The Play uses the planned species in another persistent form.                         |
 | `In progress`                | The matched Play Pokémon is earlier on a directed evolution path to the target.       |
 | `Evolved beyond plan`        | The matched Play Pokémon evolved beyond the species authored in the Plan.             |
@@ -2005,6 +2024,11 @@ members support identity-only lifecycle messaging; build details are not
 evaluated. Hard-deleted members are absent even if orphaned event-time evidence
 remains.
 
+Moves display in authored Plan order. Match the same move in the Play regardless
+of its recorded slot, then pair remaining different moves in recorded order.
+Missing planned moves differ; additional Play moves are neutral because the
+Plan did not specify those positions.
+
 Editing a reusable Plan from the standalone Plans experience warns when other
 Plays are linked. Editing from inside a Play clones the Plan and relinks only
 that Play before applying changes.
@@ -2012,9 +2036,11 @@ that Play before applying changes.
 ### Responsive And State Behavior
 
 On narrow screens, each row stacks target, status, and actual result in that
-order rather than forcing a horizontally scrolling comparison table. Return
-focus to the originating row after the sheet closes. Status labels and roster
-placement must never rely on color alone.
+order rather than forcing a horizontally scrolling comparison table. Details
+open in the established rounded bottom sheet with an internal scroll region and
+a maximum height of `82dvh`. Return focus to the originating row after the
+sheet closes. Status labels and roster placement must never rely on color
+alone.
 
 Preserve the Plan identity and unaffected rows when comparison or actual-Team
 data fails independently. Distinguish no linked Plan, linked empty Plan,

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { useTeamDetailSheetLayout } from "@/modules/mainline/features/plays/hub/views/team/client/use-team-detail-sheet-layout";
 import { TeamPlanComparisonDetails } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-comparison-details";
+import { teamPlanComparisonGridClassName } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-comparison-layout";
 import { TeamPlanComparisonRow } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-comparison-row";
 import { TeamPlanComparisonSheet } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-comparison-sheet";
 import { getTeamPlanFollowingLabel } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-display";
@@ -18,13 +18,8 @@ import {
   StatusBadge,
   type StatusBadgeTone,
 } from "@/shared/components/status-badge";
-import { Button } from "@/shared/components/ui/button";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 const metricToneClassNames = {
@@ -35,14 +30,30 @@ const metricToneClassNames = {
 } as const;
 
 type PlanMetricProps = {
+  description: string;
   label: string;
   tone?: keyof typeof metricToneClassNames;
   value: string | number;
 };
 
-const PlanMetric = ({ label, tone = "neutral", value }: PlanMetricProps) => {
+const PlanMetric = ({
+  description,
+  label,
+  tone = "neutral",
+  value,
+}: PlanMetricProps) => {
   return (
-    <div className="border-app-surface-border/60 bg-background/35 grid min-w-0 grid-cols-[auto_1fr] items-center gap-2 rounded-lg border px-3 py-2.5">
+    <ExplanatoryTip
+      content={description}
+      contentClassName="max-w-72"
+      trigger={
+        <button
+          type="button"
+          className="border-app-surface-border/60 bg-background/35 focus-visible:ring-ring/40 grid h-full w-full min-w-0 cursor-help grid-cols-[auto_1fr] items-center gap-2 rounded-lg border px-3 py-2.5 text-left outline-none focus-visible:ring-2 xl:w-auto"
+          aria-label={description}
+        />
+      }
+    >
       <span
         className={cn(
           "font-serif text-lg leading-none font-semibold tabular-nums",
@@ -54,7 +65,7 @@ const PlanMetric = ({ label, tone = "neutral", value }: PlanMetricProps) => {
       <span className="text-muted-foreground text-[0.6875rem] leading-4">
         {label}
       </span>
-    </div>
+    </ExplanatoryTip>
   );
 };
 
@@ -70,11 +81,10 @@ const getPlanStatusTone = (statusName: string): StatusBadgeTone => {
 };
 
 type TeamPlanViewProps = {
-  backHref: string;
   plan: MainlinePlayTeamPlanSummary;
 };
 
-export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
+export const TeamPlanView = ({ plan }: TeamPlanViewProps) => {
   const usesComparisonSheet = useTeamDetailSheetLayout();
   const [selectedComparisonId, setSelectedComparisonId] = useState(
     plan.comparisons[0]?.planMemberId ?? null,
@@ -86,9 +96,6 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
     ) ??
     plan.comparisons[0] ??
     null;
-  const changedCount = plan.foundCount - plan.exactMatchCount;
-  const missingCount = plan.targetCount - plan.foundCount;
-
   const selectComparison = (
     comparison: MainlinePlayTeamPlanMemberComparison,
   ) => {
@@ -99,7 +106,7 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
   return (
     <div className="grid gap-4">
       <Card className="bg-card ring-app-surface-border/80 gap-0 py-0 shadow-xs">
-        <CardContent className="grid gap-4 p-4 2xl:grid-cols-[minmax(20rem,1fr)_auto_auto] 2xl:items-center">
+        <CardContent className="grid gap-4 p-4 xl:grid-cols-[minmax(20rem,1fr)_auto] xl:items-stretch">
           <div className="flex min-w-0 items-center gap-3">
             <span className="border-app-surface-border/60 bg-primary/8 text-primary flex size-11 shrink-0 items-center justify-center rounded-lg border">
               <AppIcon
@@ -109,9 +116,6 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
               />
             </span>
             <div className="grid min-w-0 gap-1">
-              <span className="text-muted-foreground text-[0.6875rem] font-medium uppercase">
-                Linked plan
-              </span>
               <div className="flex min-w-0 flex-wrap items-center gap-2">
                 <h2 className="text-primary font-serif text-sm leading-5 font-semibold">
                   {plan.planName}
@@ -129,58 +133,28 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
             </div>
           </div>
 
-          <Button
-            render={<Link href={backHref} />}
-            nativeButton={false}
-            variant="outline"
-            size="sm"
-          >
-            <AppIcon icon={appIcons.actions.back} inline="start" aria-hidden />
-            Back to team
-          </Button>
-
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 2xl:grid-cols-[repeat(5,6.75rem)]">
+          <div className="grid grid-cols-3 items-stretch gap-2 xl:flex xl:flex-wrap xl:justify-end">
             <PlanMetric
               value={`${plan.foundCount}/${plan.targetCount}`}
               label="Planned found"
               tone="info"
+              description={`${plan.foundCount} of ${plan.targetCount} planned Pokémon have been found in this Play.`}
             />
             <PlanMetric
               value={plan.exactMatchCount}
               label="Exact matches"
               tone="success"
+              description={`${plan.exactMatchCount} planned Pokémon exactly match their tracked Pokémon and every specified build field.`}
             />
             <PlanMetric
-              value={changedCount}
-              label="Changed"
-              tone={changedCount ? "warning" : "neutral"}
-            />
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <button
-                    type="button"
-                    className="focus-visible:ring-ring/40 rounded-lg text-left outline-none focus-visible:ring-2"
-                    aria-label={`${plan.offPlanCount} unplanned Play members`}
-                  />
-                }
-              >
-                <PlanMetric
-                  value={plan.offPlanCount}
-                  label="Unplanned"
-                  tone={plan.offPlanCount ? "warning" : "neutral"}
-                />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-72 leading-5">
-                {plan.offPlanMemberNames.length
-                  ? plan.offPlanMemberNames.join(", ")
-                  : "Every recorded Play member is represented by the Plan."}
-              </TooltipContent>
-            </Tooltip>
-            <PlanMetric
-              value={missingCount}
-              label="Missing"
-              tone={missingCount ? "warning" : "neutral"}
+              value={plan.offPlanCount}
+              label="Unplanned"
+              tone={plan.offPlanCount ? "warning" : "neutral"}
+              description={
+                plan.offPlanMemberNames.length
+                  ? `Tracked outside the Plan: ${plan.offPlanMemberNames.join(", ")}.`
+                  : "Every tracked Pokémon is represented by the Plan."
+              }
             />
           </div>
         </CardContent>
@@ -188,73 +162,96 @@ export const TeamPlanView = ({ backHref, plan }: TeamPlanViewProps) => {
 
       <div
         className={cn(
-          "grid gap-4 lg:items-start",
+          "grid gap-4",
           selectedComparison &&
             "lg:grid-cols-[minmax(0,1.7fr)_minmax(22rem,1fr)]",
         )}
       >
-        <MainlinePlaySectionCard
-          title="Planned team comparison"
-          description="Select a row to inspect identity and specified build fields."
-          contentClassName="p-0!"
-          showSeparator
-        >
-          <div className="text-muted-foreground hidden grid-cols-[minmax(0,1fr)_10.5rem_minmax(0,1fr)_1.25rem] gap-2.5 px-5 py-2 text-[0.625rem] font-medium uppercase md:grid">
-            <span>Planned Pokémon</span>
-            <span>Status</span>
-            <span>In this Play</span>
-            <span />
-          </div>
-          {plan.comparisons.length ? (
-            <div
-              role="list"
-              aria-label="Team Plan comparisons"
-              className="grid gap-1.5 p-2"
-            >
-              {plan.comparisons.map((comparison) => (
-                <TeamPlanComparisonRow
-                  key={comparison.planMemberId}
-                  comparison={comparison}
-                  selected={
-                    selectedComparison?.planMemberId === comparison.planMemberId
-                  }
-                  onSelect={selectComparison}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted-foreground px-4 py-8 text-center text-sm">
-              This Plan does not have any planned Pokémon yet.
-            </p>
+        <div
+          className={cn(
+            "grid h-full gap-4",
+            plan.notes && "lg:grid-rows-[auto_minmax(0,1fr)]",
           )}
-        </MainlinePlaySectionCard>
+        >
+          <MainlinePlaySectionCard
+            title="Planned team comparison"
+            contentClassName="p-0!"
+            className={cn(!plan.notes && "lg:h-full")}
+            showSeparator
+          >
+            <div
+              className={cn(
+                "text-muted-foreground hidden gap-2.5 px-5 py-2 text-[0.625rem] font-medium uppercase lg:grid",
+                teamPlanComparisonGridClassName,
+              )}
+            >
+              <span />
+              <span>Planned Pokémon</span>
+              <span />
+              <span>Tracked</span>
+              <span />
+            </div>
+            {plan.comparisons.length ? (
+              <div
+                role="list"
+                aria-label="Team Plan comparisons"
+                className="grid gap-1.5 p-2"
+              >
+                {plan.comparisons.map((comparison) => (
+                  <TeamPlanComparisonRow
+                    key={comparison.planMemberId}
+                    comparison={comparison}
+                    selected={
+                      selectedComparison?.planMemberId ===
+                        comparison.planMemberId &&
+                      (!usesComparisonSheet || isComparisonSheetOpen)
+                    }
+                    onSelect={selectComparison}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground px-4 py-8 text-center text-sm">
+                This Plan does not have any planned Pokémon yet.
+              </p>
+            )}
+          </MainlinePlaySectionCard>
 
-        {selectedComparison ? (
-          <aside className="sticky top-4 hidden lg:block">
+          {plan.notes ? (
             <MainlinePlaySectionCard
-              title={`Slot ${selectedComparison.slot}${selectedComparison.roleLabel ? ` · ${selectedComparison.roleLabel}` : ""}`}
+              title="Planned notes"
+              className="lg:h-full"
               showSeparator
             >
-              <TeamPlanComparisonDetails
-                comparison={selectedComparison}
-                idPrefix={`team-plan-panel-${selectedComparison.planMemberId}`}
-              />
+              <p className="text-muted-foreground text-sm leading-6">
+                {plan.notes}
+              </p>
             </MainlinePlaySectionCard>
+          ) : null}
+        </div>
+
+        {selectedComparison ? (
+          <aside className="hidden h-full lg:block">
+            <Card className="bg-card ring-app-surface-border/80 h-full gap-0 py-0 shadow-xs">
+              <CardContent className="p-4">
+                <h2 className="sr-only">
+                  Slot {selectedComparison.slot} comparison
+                </h2>
+                <TeamPlanComparisonDetails
+                  comparison={selectedComparison}
+                  idPrefix={`team-plan-panel-${selectedComparison.planMemberId}`}
+                  mechanics={plan.mechanics}
+                />
+              </CardContent>
+            </Card>
           </aside>
         ) : null}
       </div>
 
-      {plan.notes ? (
-        <MainlinePlaySectionCard title="Plan notes" showSeparator>
-          <p className="text-muted-foreground max-w-4xl text-sm leading-6">
-            {plan.notes}
-          </p>
-        </MainlinePlaySectionCard>
-      ) : null}
-
       <TeamPlanComparisonSheet
         comparison={selectedComparison}
-        open={isComparisonSheetOpen}
+        mechanics={plan.mechanics}
+        open={usesComparisonSheet && isComparisonSheetOpen}
         onOpenChange={setIsComparisonSheetOpen}
       />
     </div>

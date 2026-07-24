@@ -233,8 +233,8 @@ The selected visual implementation preserves the established composition:
    top reference row.
 2. Portrait, optional persistent Forms, and Evolution Line remain in the left
    stack.
-3. Core Data, Battle Stats, Type Matchups, Abilities, Pokédex, Availability,
-   and Learnsets remain in that order in the right stack.
+3. Core Data, Battle Stats, Type Matchups, supported Abilities, Pokédex,
+   Availability, and Learnsets remain in that order in the right stack.
 
 Evolution transitions use a quiet connector line ending in an arrowhead, with
 compact level or method conditions centered above the connector when present.
@@ -246,6 +246,12 @@ without casually moving the reference sections.
 Optional facts with no trustworthy value are omitted instead of rendered as a
 large `Unknown` field. V1 does not require height, weight, Pokédex prose, or an
 expanded breeding/training encyclopedia merely to fill space.
+
+Every game-scoped mechanic is governed by the shared exact-game capability
+profile. A mechanic unsupported by the selected game, such as Abilities in
+Generations I and II, is omitted from Detail and game Pokédex surfaces rather
+than presented as missing Pokémon data. Unknown reference support remains
+distinct from an unsupported mechanic.
 
 A compact in-page section navigator may be used if realistic mobile and
 desktop testing shows that the page is too long. Do not create stateful detail
@@ -307,6 +313,8 @@ the same Detail context. Codex never changes a Plan or Team directly.
 
 - Static game, species, form, type, stats, abilities, evolution, availability,
   Pokédex, and learnset facts remain owned by the `reference` schema.
+- The `reference` module also owns the exact-game mechanic capability profile
+  consumed by Codex and Mainline.
 - Browse and Detail are public read models over that reference truth.
 - Browse URL state and current-session game context are application state, not
   new user-owned database records.

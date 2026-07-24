@@ -23,6 +23,7 @@ export default async function MainlinePlayTeamRoute({
     <MainlinePlayTeam
       events={data.teamTimelinePreview}
       gameSlug={data.play.game_slug}
+      mechanics={data.mechanics}
       playId={playId}
       roster={data.roster}
       teamPlan={data.teamPlan}

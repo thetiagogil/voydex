@@ -178,6 +178,26 @@ reference evolution edges. Keep raw reads, matching, display selection, and UI
 separate and tested; do not persist inferred member links or status rows unless
 the product and schema contracts explicitly change.
 
+## Exact-Game Capability Gate
+
+Any game-scoped Pokémon workflow must resolve supported mechanics through the
+reference-owned exact-game capability contract before presenting, authoring,
+validating, comparing, or summarizing mechanic-dependent data.
+
+- Pass the exact game, version group, and generation context into the reference
+  resolver. Product modules and UI components must not infer support from null
+  values or add local checks such as `generationId >= 3`.
+- Omit mechanics that the resolved game does not support. Exclude them from
+  form options, mutations, comparison status, derived summaries, and empty
+  states instead of presenting them as `Any` or `Not recorded`.
+- Keep `unsupported`, `unknown`, `supported but unconstrained`, and `supported
+  but not recorded` distinct. Do not collapse these states into one falsy value.
+- `reference` owns the capability profile and exact-title exceptions. Codex,
+  Mainline, and future product modules consume it without depending on one
+  another.
+- Test the relevant generation or exact-game boundary whenever a supported
+  mechanic changes product behavior.
+
 ## File And Naming Hygiene
 
 - Keep route files small and import feature-owned page entry points.

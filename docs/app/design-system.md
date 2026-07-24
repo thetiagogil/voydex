@@ -429,6 +429,11 @@ stacks Gender, category-validated Poké Ball, met location, and met level. Use
 subtle dividers on both sides of Build. Omit Trainer until the application owns
 useful per-member original-trainer data.
 
+Resolve all mechanic-dependent facts through the exact-game capability profile.
+Omit unsupported Ability, Nature, Held Item, or Gender rows entirely rather than
+showing them as `Not recorded`. Preserve `Not recorded` only for a supported
+mechanic whose Play value is absent.
+
 Place the four ordered Moves in a full-width compact row below the three
 sections, using equal slots, icon-only type badges, optically centered names,
 restrained type treatment, and a matching dashed `Empty slot`. Reflow the
@@ -562,12 +567,54 @@ Use a full-width comparison list whose rows read `planned target → computed
 status → matched Play Pokémon`. Borrow Team's compact, equal-row rhythm
 and use a restrained master-detail workspace on desktop. Selecting a row
 updates a persistent comparison panel beside the list; tablet and phone open
-the same content in a wide comparison sheet.
+the same comparison in the established rounded bottom sheet, capped at
+`82dvh`.
 
 Lead with one restrained Plan identity area and plain counts for found targets,
 exact matches, and unplanned Play members. Render only the Plan's authored one
 to six targets; do not invent empty positions or an alternate group. Unplanned
 members remain a count with a concise tooltip, not a second inspectable list.
+Give all three counts explanatory tooltips and let their widths follow their
+content while their heights stretch together. Do not show a separate Open or
+return action inside the persistent Play shell. Until standalone Plan Detail
+exists, keep the title as plain text; once it is mounted, use the title itself
+as the Plan Detail link.
+
+Use the shared explanatory-tip behavior for Plan metrics and comparison status
+icons: open after a 200ms mouse hover, open immediately on keyboard focus, pin
+on click, tap, Enter, or Space, keep 100ms hover-close grace, and dismiss on
+focus departure, Escape, an outside press, or a second activation. Keep one
+compact tooltip treatment across every trigger so behavior and styling can be
+tuned centrally.
+
+Align header and row content through one shared grid with a dedicated but
+unlabelled slot column and a wider unlabelled status region. Use `Tracked`
+consistently for the matched Play side. Compact rows prioritize artwork,
+species, persistent form context, optional non-bold nickname, placement, and
+status; exact-generation types remain in the sheet identity cards rather than
+being repeated in every row. Authored roles remain out of this Play comparison.
+Rows keep only the status icon and label; the selected detail owns the
+explanation.
+
+The desktop detail uses a comparison sentence, the match explanation, flat
+four-column Build and Moves grids, then member notes. Center Planned, status,
+and Tracked content within those comparison columns. The bottom sheet leads with
+the two identity cards and match explanation before those grids. Planned moves
+stay in Plan order, identical Play moves connect regardless of slot, remaining
+different moves pair in recorded order, and additional Play moves remain
+neutral.
+
+Build renders only mechanics supported by the Plan and Play's exact shared game
+context. Unsupported mechanics are absent from the grid and cannot affect match
+status. `Any` means a supported mechanic that the Plan leaves unconstrained;
+`Not recorded` means a supported mechanic whose Play value is absent. If no
+build mechanics apply, omit the Build comparison section.
+
+Place Planned notes directly below the comparison list in the left desktop
+column. Treat that list-and-notes stack and the focused comparison Card as one
+stretchable workspace row: whichever column is shorter expands to match the
+taller one. On narrow layouts, preserve natural document height and stack
+Planned notes after the list.
 
 Use explicit non-color labels for `Exact match`, `Build differs`, `Alternate
 form`, `In progress`, `Evolved beyond plan`, `Branched evolution`, `Previously

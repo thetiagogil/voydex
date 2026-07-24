@@ -119,7 +119,12 @@ export const getMainlinePlayTeamData = cache(
         context.play.generation_id,
         context.play.version_group_id,
       ),
-      readMainlinePlayTeamPlanRows(context.supabase, context.userId, playId),
+      readMainlinePlayTeamPlanRows(
+        context.supabase,
+        context.userId,
+        playId,
+        context.play.generation_id,
+      ),
       readMainlinePlayTeamTimelinePreview(context.supabase, playId),
     ]);
 

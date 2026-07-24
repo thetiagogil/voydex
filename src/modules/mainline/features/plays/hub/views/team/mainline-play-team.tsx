@@ -16,10 +16,12 @@ import type {
   MainlinePlayTeamPlanSummary,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 
 type MainlinePlayTeamProps = {
   events: MainlinePlayTimelineEvent[];
   gameSlug: string | null;
+  mechanics: GameMechanicsProfile;
   playId: string;
   roster: MainlinePlayTeamMember[];
   teamPlan: MainlinePlayTeamPlanSummary | null;
@@ -28,6 +30,7 @@ type MainlinePlayTeamProps = {
 export const MainlinePlayTeam = ({
   events,
   gameSlug,
+  mechanics,
   playId,
   roster,
   teamPlan,
@@ -81,7 +84,11 @@ export const MainlinePlayTeam = ({
 
         <div className="grid min-w-0 gap-4">
           <div className="hidden min-w-0 lg:block">
-            <TeamMemberDetail gameSlug={gameSlug} member={selectedMember} />
+            <TeamMemberDetail
+              gameSlug={gameSlug}
+              mechanics={mechanics}
+              member={selectedMember}
+            />
           </div>
 
           <TeamAnalysisPanel roster={roster} />
@@ -91,6 +98,7 @@ export const MainlinePlayTeam = ({
 
       <TeamMemberDetailSheet
         gameSlug={gameSlug}
+        mechanics={mechanics}
         member={selectedMember}
         open={mobileDetailOpen}
         onOpenChange={setMobileDetailVisibility}

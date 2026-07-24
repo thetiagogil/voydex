@@ -3,30 +3,63 @@ import type {
   MainlinePlayTeamPlanCriterion,
   MainlinePlayTeamPlanFollowingState,
   MainlinePlayTeamPlanMemberComparison,
+  MainlinePlayTeamPlanMoveComparison,
+  MainlinePlayTeamPlanMoveTarget,
   MainlinePlayTeamPlanRelation,
   MainlinePlayTeamPlanRow,
   MainlinePlayTeamPlanSummary,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { PokemonEvolutionEdge } from "@/modules/reference/types";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  resolveTypePair,
+  selectLatestAttributes,
+} from "@/modules/reference/features/pokemon/data/pokemon-attribute-selectors";
+import type {
+  PokemonAttributes,
+  PokemonEvolutionEdge,
+  Type,
+} from "@/modules/reference/types";
 import type { Json } from "@/shared/types/database.types";
 
-type PlannedMove = { move_id: number; name: string };
+type PlannedReferences = {
+  attributes: PokemonAttributes[];
+  mechanics: GameMechanicsProfile;
+  types: Type[];
+};
+
+type PlannedTypePair = {
+  primaryType: Type | null;
+  secondaryType: Type | null;
+};
 
 const identityKey = (speciesId: number, formId: number) =>
   `${speciesId}:${formId}`;
 
-const parsePlannedMoves = (value: Json | null): PlannedMove[] => {
+const parsePlannedMoves = (
+  value: Json | null,
+): MainlinePlayTeamPlanMoveTarget[] => {
   if (!Array.isArray(value)) return [];
 
-  return value.flatMap((move) => {
-    if (!move || typeof move !== "object" || Array.isArray(move)) return [];
-    const moveId = move.move_id;
-    const name = move.name;
+  return value
+    .flatMap((move) => {
+      if (!move || typeof move !== "object" || Array.isArray(move)) return [];
+      const moveId = move.move_id;
+      const name = move.name;
+      const slot = move.slot;
 
-    return typeof moveId === "number" && typeof name === "string"
-      ? [{ move_id: moveId, name }]
-      : [];
-  });
+      return typeof moveId === "number" &&
+        typeof name === "string" &&
+        typeof slot === "number" &&
+        slot >= 1 &&
+        slot <= 4
+        ? [{ id: moveId, name, slot }]
+        : [];
+    })
+    .sort((left, right) => left.slot - right.slot);
 };
 
 const canReach = (
@@ -126,35 +159,109 @@ const criterion = (
   planned,
 });
 
+const compareMoves = (
+  plannedMoves: MainlinePlayTeamPlanMoveTarget[],
+  member: MainlinePlayTeamMember | null,
+): {
+  matches: boolean | null;
+  rows: MainlinePlayTeamPlanMoveComparison[];
+} => {
+  const actualMoves = [...(member?.moves ?? [])].sort(
+    (left, right) => left.slot - right.slot,
+  );
+  const usedActualIndexes = new Set<number>();
+  const exactActualIndexByPlannedIndex = new Map<number, number>();
+
+  plannedMoves.forEach((plannedMove, plannedIndex) => {
+    const actualIndex = actualMoves.findIndex(
+      (actualMove, candidateIndex) =>
+        !usedActualIndexes.has(candidateIndex) &&
+        actualMove.id === plannedMove.id,
+    );
+
+    if (actualIndex >= 0) {
+      exactActualIndexByPlannedIndex.set(plannedIndex, actualIndex);
+      usedActualIndexes.add(actualIndex);
+    }
+  });
+
+  const unmatchedActualIndexes = actualMoves
+    .map((_, index) => index)
+    .filter((index) => !usedActualIndexes.has(index));
+  let unmatchedActualCursor = 0;
+
+  const rows: MainlinePlayTeamPlanMoveComparison[] = plannedMoves.map(
+    (plannedMove, plannedIndex) => {
+      const exactActualIndex = exactActualIndexByPlannedIndex.get(plannedIndex);
+
+      if (exactActualIndex !== undefined) {
+        return {
+          actual: actualMoves[exactActualIndex] ?? null,
+          matches: true,
+          planned: plannedMove,
+        };
+      }
+
+      const nextActualIndex =
+        unmatchedActualIndexes[unmatchedActualCursor] ?? null;
+      unmatchedActualCursor += 1;
+
+      return {
+        actual:
+          nextActualIndex === null
+            ? null
+            : (actualMoves[nextActualIndex] ?? null),
+        matches: false,
+        planned: plannedMove,
+      };
+    },
+  );
+
+  for (
+    let index = unmatchedActualCursor;
+    index < unmatchedActualIndexes.length;
+    index += 1
+  ) {
+    rows.push({
+      actual: actualMoves[unmatchedActualIndexes[index] ?? -1] ?? null,
+      matches: null,
+      planned: null,
+    });
+  }
+
+  return {
+    matches: plannedMoves.length
+      ? rows.filter((row) => row.planned).every((row) => row.matches === true)
+      : null,
+    rows,
+  };
+};
+
 const getBuild = (
   planned: MainlinePlayTeamPlanRow,
   member: MainlinePlayTeamMember | null,
 ) => {
   const plannedMoves = parsePlannedMoves(planned.planned_moves);
-  const actualMoveIds = new Set(member?.moves.map((move) => move.id) ?? []);
-  const movesMatch = plannedMoves.length
-    ? plannedMoves.every((move) => actualMoveIds.has(move.move_id))
-    : null;
+  const moves = compareMoves(plannedMoves, member);
 
   return {
-    ability: criterion(
-      planned.planned_ability_name ?? null,
-      member?.ability_name ?? null,
-    ),
-    gender: criterion(planned.planned_gender ?? null, member?.gender ?? null),
-    heldItem: criterion(
-      planned.planned_held_item_name ?? null,
-      member?.held_item_name ?? null,
-    ),
-    moves: {
-      actual: member?.moves.map((move) => move.name).join(", ") || null,
-      matches: movesMatch,
-      planned: plannedMoves.map((move) => move.name).join(", ") || null,
+    build: {
+      ability: criterion(
+        planned.planned_ability_name ?? null,
+        member?.ability_name ?? null,
+      ),
+      gender: criterion(planned.planned_gender ?? null, member?.gender ?? null),
+      heldItem: criterion(
+        planned.planned_held_item_name ?? null,
+        member?.held_item_name ?? null,
+      ),
+      nature: criterion(
+        planned.planned_nature_name ?? null,
+        member?.nature_name ?? null,
+      ),
     },
-    nature: criterion(
-      planned.planned_nature_name ?? null,
-      member?.nature_name ?? null,
-    ),
+    moves: moves.rows,
+    movesMatch: moves.matches,
   };
 };
 
@@ -162,11 +269,20 @@ const buildComparison = (
   planned: MainlinePlayTeamPlanRow,
   member: MainlinePlayTeamMember | null,
   relation: MainlinePlayTeamPlanRelation | null,
+  plannedTypes: PlannedTypePair,
+  mechanics: GameMechanicsProfile,
 ): MainlinePlayTeamPlanMemberComparison => {
-  const build = getBuild(planned, member);
-  const buildMatches = Object.values(build).every(
-    (item) => item.matches !== false,
-  );
+  const { build, moves, movesMatch } = getBuild(planned, member);
+  const supportedBuildCriteria = [
+    [gameMechanics.abilities, build.ability],
+    [gameMechanics.pokemonGender, build.gender],
+    [gameMechanics.heldItems, build.heldItem],
+    [gameMechanics.natures, build.nature],
+  ] as const;
+  const buildMatches =
+    supportedBuildCriteria
+      .filter(([mechanic]) => supportsGameMechanic(mechanics, mechanic))
+      .every(([, item]) => item.matches !== false) && movesMatch !== false;
   const status = !member
     ? "not-found"
     : member.roster_state_slug === "retired"
@@ -182,11 +298,14 @@ const buildComparison = (
   return {
     build,
     memberNotes: planned.team_plan_member_notes,
+    moves,
     planMemberId: planned.team_plan_member_id ?? "",
     plannedFormId: planned.target_form_id ?? -1,
     plannedFormName: planned.target_form_name ?? "Default form",
     plannedFormSlug: planned.target_form_slug ?? "",
     plannedName: planned.target_species_name ?? "Unknown Pokémon",
+    plannedPrimaryType: plannedTypes.primaryType,
+    plannedSecondaryType: plannedTypes.secondaryType,
     plannedSpeciesId: planned.target_species_id ?? -1,
     plannedSpriteSlug: planned.target_sprite_slug,
     playMember: member,
@@ -218,7 +337,8 @@ const getFollowingState = (
 export const buildMainlinePlayTeamPlanSummary = (
   rows: MainlinePlayTeamPlanRow[],
   roster: MainlinePlayTeamMember[],
-  evolutionEdges: PokemonEvolutionEdge[] = [],
+  evolutionEdges: PokemonEvolutionEdge[],
+  plannedReferences: PlannedReferences,
 ): MainlinePlayTeamPlanSummary | null => {
   const plan = rows[0];
 
@@ -233,6 +353,12 @@ export const buildMainlinePlayTeamPlanSummary = (
         row.target_form_id,
     )
     .sort((left, right) => (left.slot ?? 0) - (right.slot ?? 0));
+  const latestAttributesByForm = selectLatestAttributes(
+    plannedReferences.attributes,
+  );
+  const typeById = new Map(
+    plannedReferences.types.map((type) => [type.id, type]),
+  );
   const edgesBySource = new Map<string, string[]>();
 
   for (const edge of evolutionEdges) {
@@ -296,6 +422,11 @@ export const buildMainlinePlayTeamPlanSummary = (
       planned,
       match?.member ?? null,
       match?.relation ?? null,
+      resolveTypePair(
+        latestAttributesByForm.get(planned.target_form_id ?? -1) ?? null,
+        typeById,
+      ),
+      plannedReferences.mechanics,
     );
   });
   const offPlanMembers = roster.filter(
@@ -311,6 +442,7 @@ export const buildMainlinePlayTeamPlanSummary = (
     foundCount: comparisons.filter((row) => row.playMember).length,
     followingState: getFollowingState(comparisons, roster.length),
     linkedPlayCount: Number(plan.linked_play_count ?? 0),
+    mechanics: plannedReferences.mechanics,
     notes: plan.team_plan_notes,
     offPlanCount: offPlanMembers.length,
     offPlanMemberNames: offPlanMembers.map(

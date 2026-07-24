@@ -7,6 +7,10 @@ import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+} from "@/modules/reference/features/games/domain/game-mechanics";
 import type { PokemonDetailData } from "@/modules/reference/types";
 
 type PokemonDetailRightSectionProps = {
@@ -36,13 +40,15 @@ export const PokemonDetailRightSection = ({
         generation={scope.generation.generation}
         typePair={scope.form?.typePair ?? null}
       />
-      <PokemonDetailAbilitiesCard
-        abilities={data.abilities}
-        abilityAttributes={data.abilityAttributes}
-        attributes={scope.form?.attributes ?? null}
-        currentVersionGroup={scope.versionGroup?.versionGroup ?? null}
-        versionGroups={versionGroups}
-      />
+      {supportsGameMechanic(scope.mechanics, gameMechanics.abilities) ? (
+        <PokemonDetailAbilitiesCard
+          abilities={data.abilities}
+          abilityAttributes={data.abilityAttributes}
+          attributes={scope.form?.attributes ?? null}
+          currentVersionGroup={scope.versionGroup?.versionGroup ?? null}
+          versionGroups={versionGroups}
+        />
+      ) : null}
       <PokemonDetailPokedexNumbersCard
         gameSlug={scope.game?.slug ?? null}
         numbers={pokedexNumbers}

@@ -139,11 +139,19 @@ into module internals.
 Product capabilities with their own language and behavior. `mainline` owns
 playthrough workflows. `codex` owns public catalogue browsing experiences.
 `reference` is an internal supporting module for Pokemon/game catalogue
-semantics and reusable reference-data presentation; it is not a navbar module.
+semantics, exact-game mechanic capabilities, and reusable reference-data
+presentation; it is not a navbar module.
 
 `mainline` and `codex` must not import each other. Both may depend on the public
 surface of `reference`. The `reference` module must not depend on either
 consumer.
+
+Game-scoped product reads resolve one reference-owned mechanics profile from
+the exact game, version group, and generation context. That profile
+distinguishes supported, unsupported, and unknown mechanics. Product modules
+use it to govern queries, presentation, authoring, validation, comparison, and
+derived status; components never infer mechanic support from absent data or
+generation checks.
 
 ### `src/shared`
 

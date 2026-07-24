@@ -9,12 +9,13 @@ import type {
   MainlinePlayRuleRows,
   MainlinePlayShellData,
   MainlinePlayTeamData,
+  MainlinePlayTeamPlanRows,
   MainlinePlayTeamRows,
-  MainlinePlayTeamPlanRow,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
+import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
@@ -65,19 +66,30 @@ export const buildMainlinePlayOverviewData = (params: {
 
 export const buildMainlinePlayTeamData = (params: {
   play: MainlinePlaySummary;
-  teamPlanRows: MainlinePlayTeamPlanRow[];
+  teamPlanRows: MainlinePlayTeamPlanRows;
   teamRows: MainlinePlayTeamRows;
   teamTimelinePreview: MainlinePlayTimelineEvent[];
 }): MainlinePlayTeamData => {
   const roster = buildMainlinePlayTeamPreview(params.teamRows);
+  const mechanics = resolveGameMechanics({
+    gameId: params.play.game_id,
+    generationId: params.play.generation_id,
+    versionGroupId: params.play.version_group_id,
+  });
 
   return {
+    mechanics,
     play: params.play,
     roster,
     teamPlan: buildMainlinePlayTeamPlanSummary(
-      params.teamPlanRows,
+      params.teamPlanRows.rows,
       roster,
       params.teamRows.evolutionEdges ?? [],
+      {
+        attributes: params.teamPlanRows.attributes,
+        mechanics,
+        types: params.teamPlanRows.types,
+      },
     ),
     teamTimelinePreview: params.teamTimelinePreview,
   };

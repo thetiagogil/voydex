@@ -71,33 +71,6 @@ export const getTeamPlanStatusDescription = (
   }
 };
 
-export const getTeamPlanStatusSummary = (
-  status: MainlinePlayTeamPlanStatus,
-) => {
-  switch (status) {
-    case "exact-match":
-      return "Build matches";
-    case "build-differs":
-      return "Specified fields differ";
-    case "alternate-form":
-      return "Different form";
-    case "earlier-evolution":
-      return "Earlier evolution";
-    case "later-evolution":
-      return "Later evolution";
-    case "branched-evolution":
-      return "Different evolution branch";
-    case "retired":
-      return "Used, then retired";
-    case "replaced":
-      return "Used, then replaced";
-    case "not-found":
-      return "No family match found";
-    case "exact":
-      return "Identity matches";
-  }
-};
-
 export const getTeamPlanTargetProgressLabel = (
   plan: MainlinePlayTeamPlanSummary,
 ) => `${plan.foundCount} of ${plan.targetCount} planned Pokémon found`;

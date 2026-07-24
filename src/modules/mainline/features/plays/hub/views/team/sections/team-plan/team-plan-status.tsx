@@ -1,9 +1,8 @@
+import type { MainlinePlayTeamPlanStatus } from "@/modules/mainline/features/plays/hub/types";
 import {
   getTeamPlanStatusDescription,
   getTeamPlanStatusLabel,
-  getTeamPlanStatusSummary,
 } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-display";
-import type { MainlinePlayTeamPlanStatus } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -25,11 +24,11 @@ const statusConfig = {
     tone: "border-info/30 bg-info/8 text-info",
   },
   exact: {
-    icon: appIcons.product.caught,
+    icon: appIcons.status.active,
     tone: "border-success/30 bg-success/8 text-success",
   },
   "exact-match": {
-    icon: appIcons.product.caught,
+    icon: appIcons.status.active,
     tone: "border-success/30 bg-success/8 text-success",
   },
   "later-evolution": {
@@ -50,7 +49,7 @@ const statusConfig = {
   },
 } satisfies Record<
   MainlinePlayTeamPlanStatus,
-  { icon: typeof appIcons.product.caught; tone: string }
+  { icon: typeof appIcons.status.active; tone: string }
 >;
 
 type TeamPlanStatusProps = {
@@ -80,11 +79,11 @@ export const TeamPlanStatus = ({
         <span className="text-foreground text-xs font-semibold">
           {getTeamPlanStatusLabel(status)}
         </span>
-        <span className="text-muted-foreground text-[0.6875rem] leading-4">
-          {detail
-            ? getTeamPlanStatusDescription(status)
-            : getTeamPlanStatusSummary(status)}
-        </span>
+        {detail ? (
+          <span className="text-muted-foreground text-[0.6875rem] leading-4">
+            {getTeamPlanStatusDescription(status)}
+          </span>
+        ) : null}
       </span>
     </div>
   );

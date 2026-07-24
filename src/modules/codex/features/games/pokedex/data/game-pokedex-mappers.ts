@@ -1,4 +1,5 @@
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
+import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
   getGamePokedexEntryKey,
   selectGamePokedexEntryForms,
@@ -180,6 +181,11 @@ export const buildGamePokedexData = ({
     }),
     game,
     generation,
+    mechanics: resolveGameMechanics({
+      gameId: game.id,
+      generationId: generation.id,
+      versionGroupId: game.version_group_id,
+    }),
     pokedex,
     pokedexes,
     types,

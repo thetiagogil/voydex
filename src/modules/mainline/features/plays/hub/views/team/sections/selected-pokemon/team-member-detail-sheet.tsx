@@ -6,6 +6,7 @@ import { getTeamMemberName } from "@/modules/mainline/features/plays/hub/views/t
 import { TeamMemberDetailContent } from "@/modules/mainline/features/plays/hub/views/team/sections/selected-pokemon/team-member-detail-content";
 import { TeamMemberEditAction } from "@/modules/mainline/features/plays/hub/views/team/sections/selected-pokemon/team-member-edit-action";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
   Sheet,
   SheetContent,
@@ -16,6 +17,7 @@ import {
 
 type TeamMemberDetailSheetProps = {
   gameSlug: string | null;
+  mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onOpenChange: (open: boolean) => void;
   open: boolean;
@@ -23,6 +25,7 @@ type TeamMemberDetailSheetProps = {
 
 export const TeamMemberDetailSheet = ({
   gameSlug,
+  mechanics,
   member,
   onOpenChange,
   open,
@@ -54,7 +57,11 @@ export const TeamMemberDetailSheet = ({
           </div>
         </SheetHeader>
         <div className="px-4 pb-6">
-          <TeamMemberDetailContent gameSlug={gameSlug} member={member} />
+          <TeamMemberDetailContent
+            gameSlug={gameSlug}
+            mechanics={mechanics}
+            member={member}
+          />
         </div>
       </SheetContent>
     </Sheet>

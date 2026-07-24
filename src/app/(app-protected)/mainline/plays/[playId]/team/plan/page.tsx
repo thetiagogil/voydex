@@ -19,5 +19,5 @@ export default async function MainlinePlayTeamPlanRoute({
     notFound();
   }
 
-  return <MainlinePlayTeamPlanPage data={data} playId={playId} />;
+  return <MainlinePlayTeamPlanPage data={data} />;
 }

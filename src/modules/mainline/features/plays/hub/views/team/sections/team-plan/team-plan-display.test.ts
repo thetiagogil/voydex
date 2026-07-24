@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import {
   getTeamPlanFollowingLabel,
   getTeamPlanStatusLabel,
-  getTeamPlanStatusSummary,
   getTeamPlanTargetProgressLabel,
 } from "@/modules/mainline/features/plays/hub/views/team/sections/team-plan/team-plan-display";
 import type { MainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/types";
@@ -23,9 +22,5 @@ describe("team Plan display", () => {
     );
     expect(getTeamPlanStatusLabel("earlier-evolution")).toBe("In progress");
     expect(getTeamPlanStatusLabel("retired")).toBe("Previously used · retired");
-    expect(getTeamPlanStatusSummary("build-differs")).toBe(
-      "Specified fields differ",
-    );
-    expect(getTeamPlanStatusSummary("not-found")).toBe("No family match found");
   });
 });

@@ -13,6 +13,7 @@ import {
   getScopedLearnsets,
   getScopedPokedexEntries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scoped-rows";
+import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
   Game,
   PokemonDetailData,
@@ -79,6 +80,11 @@ export const resolvePokemonDetailScope = (
     game,
     generation,
     learnsets: getScopedLearnsets(generation, versionGroup, game, form),
+    mechanics: resolveGameMechanics({
+      gameId: game?.id ?? null,
+      generationId: generation.generation.id,
+      versionGroupId: versionGroup?.versionGroup.id ?? null,
+    }),
     pokedexEntries: getScopedPokedexEntries(generation, versionGroup, form),
     versionGroup,
     versionGroups,

@@ -1,11 +1,43 @@
 import { describe, expect, it } from "vitest";
 
-import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
+import { buildMainlinePlayTeamPlanSummary as mapMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
   MainlinePlayTeamMember,
+  MainlinePlayTeamMove,
   MainlinePlayTeamPlanRow,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { PokemonEvolutionEdge } from "@/modules/reference/types";
+import {
+  resolveGameMechanics,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import type {
+  PokemonAttributes,
+  PokemonEvolutionEdge,
+  Type,
+} from "@/modules/reference/types";
+
+const modernMechanics = resolveGameMechanics({
+  gameId: 13,
+  generationId: 9,
+  versionGroupId: 22,
+});
+
+const buildMainlinePlayTeamPlanSummary = (
+  rows: MainlinePlayTeamPlanRow[],
+  roster: MainlinePlayTeamMember[],
+  evolutionEdges: PokemonEvolutionEdge[] = [],
+  references: {
+    attributes?: PokemonAttributes[];
+    mechanics?: GameMechanicsProfile;
+    types?: Type[];
+  } = {},
+) => {
+  return mapMainlinePlayTeamPlanSummary(rows, roster, evolutionEdges, {
+    attributes: references.attributes ?? [],
+    mechanics: references.mechanics ?? modernMechanics,
+    types: references.types ?? [],
+  });
+};
 
 const buildPlanRow = (
   slot: number,
@@ -50,6 +82,28 @@ const buildMember = (
     ...overrides,
   }) as MainlinePlayTeamMember;
 
+const buildMove = (
+  id: number,
+  slot: number,
+  name = `Move ${id}`,
+): MainlinePlayTeamMove =>
+  ({
+    id,
+    name,
+    slot,
+    slug: `move-${id}`,
+  }) as MainlinePlayTeamMove;
+
+const plannedMove = (
+  moveId: number,
+  slot: number,
+  name = `Move ${moveId}`,
+) => ({
+  move_id: moveId,
+  name,
+  slot,
+});
+
 describe("buildMainlinePlayTeamPlanSummary", () => {
   it("derives an exact match from current identity and specified build fields", () => {
     const plan = buildMainlinePlayTeamPlanSummary(
@@ -69,6 +123,58 @@ describe("buildMainlinePlayTeamPlanSummary", () => {
       offPlanCount: 0,
     });
     expect(plan?.comparisons[0]?.status).toBe("exact-match");
+  });
+
+  it("excludes mechanics unsupported by the exact game from build status", () => {
+    const generationOneMechanics = resolveGameMechanics({
+      gameId: 1,
+      generationId: 1,
+      versionGroupId: 1,
+    });
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [
+        buildPlanRow(1, {
+          planned_ability_name: "Invalid legacy ability",
+          planned_gender: "male",
+          planned_held_item_name: "Invalid legacy item",
+          planned_nature_name: "Invalid legacy nature",
+        }),
+      ],
+      [buildMember("member-1")],
+      [],
+      { mechanics: generationOneMechanics },
+    );
+
+    expect(plan?.comparisons[0]?.status).toBe("exact-match");
+    expect(plan?.mechanics).toBe(generationOneMechanics);
+  });
+
+  it("continues comparing mechanics supported by the exact game", () => {
+    const generationTwoMechanics = resolveGameMechanics({
+      gameId: 3,
+      generationId: 2,
+      versionGroupId: 2,
+    });
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [
+        buildPlanRow(1, {
+          planned_ability_name: "Invalid legacy ability",
+          planned_gender: "male",
+          planned_held_item_name: "Berry",
+          planned_nature_name: "Invalid legacy nature",
+        }),
+      ],
+      [
+        buildMember("member-1", {
+          gender: "female",
+          held_item_name: "Berry",
+        }),
+      ],
+      [],
+      { mechanics: generationTwoMechanics },
+    );
+
+    expect(plan?.comparisons[0]?.status).toBe("build-differs");
   });
 
   it("recognizes an earlier evolution through version-aware edges", () => {
@@ -103,6 +209,132 @@ describe("buildMainlinePlayTeamPlanSummary", () => {
 
     expect(plan?.comparisons[0]?.status).toBe("retired");
     expect(plan?.followingState).toBe("following-with-changes");
+  });
+
+  it("resolves planned types from the latest attributes in the Play generation", () => {
+    const fireType = { id: 10, name: "Fire", slug: "fire" } as Type;
+    const fightingType = {
+      id: 2,
+      name: "Fighting",
+      slug: "fighting",
+    } as Type;
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [buildPlanRow(1)],
+      [buildMember("member-1")],
+      [],
+      {
+        attributes: [
+          {
+            form_id: 1,
+            generation_start_id: 3,
+            primary_type_id: fireType.id,
+            secondary_type_id: null,
+          },
+          {
+            form_id: 1,
+            generation_start_id: 4,
+            primary_type_id: fireType.id,
+            secondary_type_id: fightingType.id,
+          },
+        ] as PokemonAttributes[],
+        types: [fireType, fightingType],
+      },
+    );
+
+    expect(plan?.comparisons[0]).toMatchObject({
+      plannedPrimaryType: fireType,
+      plannedSecondaryType: fightingType,
+    });
+  });
+
+  it("matches planned moves by identity while preserving Plan order", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [
+        buildPlanRow(1, {
+          planned_moves: [plannedMove(1, 1), plannedMove(2, 2)],
+        }),
+      ],
+      [
+        buildMember("member-1", {
+          moves: [buildMove(2, 1), buildMove(1, 2)],
+        }),
+      ],
+    );
+
+    expect(plan?.comparisons[0]?.status).toBe("exact-match");
+    expect(plan?.comparisons[0]?.moves).toMatchObject([
+      { actual: { id: 1 }, matches: true, planned: { id: 1, slot: 1 } },
+      { actual: { id: 2 }, matches: true, planned: { id: 2, slot: 2 } },
+    ]);
+  });
+
+  it("pairs different moves in recorded order and marks the build different", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [
+        buildPlanRow(1, {
+          planned_moves: [plannedMove(1, 1), plannedMove(2, 2)],
+        }),
+      ],
+      [
+        buildMember("member-1", {
+          moves: [buildMove(1, 1), buildMove(3, 2)],
+        }),
+      ],
+    );
+
+    expect(plan?.comparisons[0]?.status).toBe("build-differs");
+    expect(plan?.comparisons[0]?.moves).toMatchObject([
+      { actual: { id: 1 }, matches: true, planned: { id: 1 } },
+      { actual: { id: 3 }, matches: false, planned: { id: 2 } },
+    ]);
+  });
+
+  it("marks a planned move missing when no recorded move remains", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [
+        buildPlanRow(1, {
+          planned_moves: [plannedMove(1, 1), plannedMove(2, 2)],
+        }),
+      ],
+      [buildMember("member-1", { moves: [buildMove(1, 1)] })],
+    );
+
+    expect(plan?.comparisons[0]?.moves[1]).toMatchObject({
+      actual: null,
+      matches: false,
+      planned: { id: 2 },
+    });
+    expect(plan?.comparisons[0]?.status).toBe("build-differs");
+  });
+
+  it("appends additional recorded moves as neutral rows", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [buildPlanRow(1, { planned_moves: [plannedMove(1, 1)] })],
+      [
+        buildMember("member-1", {
+          moves: [buildMove(1, 1), buildMove(2, 2)],
+        }),
+      ],
+    );
+
+    expect(plan?.comparisons[0]?.moves[1]).toMatchObject({
+      actual: { id: 2 },
+      matches: null,
+      planned: null,
+    });
+    expect(plan?.comparisons[0]?.status).toBe("exact-match");
+  });
+
+  it("keeps recorded moves neutral when the Plan specifies none", () => {
+    const plan = buildMainlinePlayTeamPlanSummary(
+      [buildPlanRow(1)],
+      [buildMember("member-1", { moves: [buildMove(1, 1)] })],
+    );
+
+    expect(plan?.comparisons[0]?.moves).toMatchObject([
+      { actual: { id: 1 }, matches: null, planned: null },
+    ]);
+    expect(plan?.comparisons[0]?.status).toBe("exact-match");
   });
 
   it("matches each Play member once and only summarizes unplanned members", () => {

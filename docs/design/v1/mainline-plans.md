@@ -31,8 +31,8 @@ by more than one Play, or remain a private planning exercise. It owns:
 - a name and optional notes;
 - applicable optional-content scope;
 - one to six ordered targets;
-- each target's required species/form and optional role, nature, ability, held
-  item, gender, moves, and notes;
+- each target's required species/form and optional role, supported nature,
+  ability, held item, gender, moves, and notes;
 - attached Rules and Tags;
 - game-aware availability, form, evolution-path, optional-content, rule, and
   reuse checks.
@@ -362,13 +362,15 @@ Every occupied target row keeps these stable regions:
 - slot;
 - target species/form artwork and identity;
 - optional role;
-- compact nature, ability, held-item, gender, and planned-move cues;
+- compact cues for supported nature, ability, held-item, gender, and planned
+  moves;
 - concise availability, optional-content, reuse, or Rule warning when present;
 - one primary row action and a lower-frequency actions menu.
 
 Selecting `Add target` or `Edit member` opens the accepted Plan-member sheet.
 It owns exact target species/form, optional role, nature, ability, held item,
-gender, four ordered moves, and notes. Selectors are restricted by
+gender, four ordered moves, and notes. The exact-game capability profile omits
+unsupported mechanic fields entirely. Remaining selectors are restricted by
 the Plan's game and content scope and preserve explicit warning context.
 
 Member actions include:

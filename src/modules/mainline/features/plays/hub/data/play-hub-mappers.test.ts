@@ -93,7 +93,7 @@ describe("Play page data mappers", () => {
 
     const data = buildMainlinePlayTeamData({
       play: {} as Parameters<typeof buildMainlinePlayTeamData>[0]["play"],
-      teamPlanRows: [],
+      teamPlanRows: { attributes: [], rows: [], types: [] },
       teamRows: {
         abilityAttributes: [],
         attributes: [],

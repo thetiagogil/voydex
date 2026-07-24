@@ -10,6 +10,7 @@ import type {
   Type,
   VersionGroup,
 } from "@/modules/reference/types";
+import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -67,6 +68,12 @@ export type MainlinePlayTeamRows = {
   versionGroups: VersionGroup[];
 };
 
+export type MainlinePlayTeamPlanRows = {
+  attributes: PokemonAttributes[];
+  rows: MainlinePlayTeamPlanRow[];
+  types: Type[];
+};
+
 export type MainlinePlayTeamPlanFollowingState =
   | "following"
   | "following-with-changes"
@@ -94,20 +101,34 @@ export type MainlinePlayTeamPlanCriterion = {
   planned: string | null;
 };
 
+export type MainlinePlayTeamPlanMoveTarget = {
+  id: number;
+  name: string;
+  slot: number;
+};
+
+export type MainlinePlayTeamPlanMoveComparison = {
+  actual: MainlinePlayTeamMove | null;
+  matches: boolean | null;
+  planned: MainlinePlayTeamPlanMoveTarget | null;
+};
+
 export type MainlinePlayTeamPlanMemberComparison = {
   build: {
     ability: MainlinePlayTeamPlanCriterion;
     gender: MainlinePlayTeamPlanCriterion;
     heldItem: MainlinePlayTeamPlanCriterion;
-    moves: MainlinePlayTeamPlanCriterion;
     nature: MainlinePlayTeamPlanCriterion;
   };
   memberNotes: string | null;
+  moves: MainlinePlayTeamPlanMoveComparison[];
   planMemberId: string;
   plannedFormId: number;
   plannedFormName: string;
   plannedFormSlug: string;
   plannedName: string;
+  plannedPrimaryType: Type | null;
+  plannedSecondaryType: Type | null;
   plannedSpeciesId: number;
   plannedSpriteSlug: string | null;
   playMember: MainlinePlayTeamMember | null;
@@ -123,6 +144,7 @@ export type MainlinePlayTeamPlanSummary = {
   foundCount: number;
   followingState: MainlinePlayTeamPlanFollowingState;
   linkedPlayCount: number;
+  mechanics: GameMechanicsProfile;
   notes: string | null;
   offPlanCount: number;
   offPlanMemberNames: string[];
@@ -155,6 +177,7 @@ export type MainlinePlayOverviewData = {
 };
 
 export type MainlinePlayTeamData = {
+  mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
   teamPlan: MainlinePlayTeamPlanSummary | null;

@@ -7,6 +7,7 @@ import type {
   PokemonPokedexSummary,
   VersionGroup,
 } from "@/modules/reference/types";
+import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 
 export type PokemonDetailScopeParams = {
   form?: string;
@@ -27,6 +28,7 @@ export type ResolvedPokemonDetailScope = {
   game: Game | null;
   generation: PokemonGenerationDetail;
   learnsets: PokemonLearnsetSummary[];
+  mechanics: GameMechanicsProfile;
   pokedexEntries: PokemonPokedexSummary[];
   versionGroup: PokemonDetailVersionGroupScope | null;
   versionGroups: PokemonDetailVersionGroupScope[];

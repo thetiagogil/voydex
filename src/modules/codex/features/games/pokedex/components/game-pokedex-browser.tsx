@@ -14,6 +14,10 @@ import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/compone
 import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
 import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+} from "@/modules/reference/features/games/domain/game-mechanics";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 
@@ -25,8 +29,10 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
   const [filters, setFilters] = useState(defaultGamePokedexFilters);
   const deferredFilters = useDeferredValue(filters);
   const hasAbilities = useMemo(
-    () => data.entries.some((entry) => entry.abilities.length > 0),
-    [data.entries],
+    () =>
+      supportsGameMechanic(data.mechanics, gameMechanics.abilities) &&
+      data.entries.some((entry) => entry.abilities.length > 0),
+    [data.entries, data.mechanics],
   );
   const searchablePokemon = useMemo(
     () => getSearchableGamePokedexPokemon(data.entries),

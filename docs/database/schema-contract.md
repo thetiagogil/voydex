@@ -19,6 +19,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   forms, mechanics, moves, items, evolution, availability, learnsets, and
   Pokedex definitions.
 - Generation-aware attributes preserve mechanics that changed over time.
+- Application read models resolve mechanic support from one exact game,
+  version-group, and generation context owned by the `reference` module.
 - Optional content is modeled as content-scope deltas and dependencies instead
   of duplicating the full parent scope.
 - `tracking` stores definitions for milestones, decisions, opponents, badges,

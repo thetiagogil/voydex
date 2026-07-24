@@ -60,7 +60,8 @@ export const GamePokedexTable = ({
       >
         <TableCaption className="sr-only">
           {formatPokedexName(data.pokedex.name)} Pokémon in {data.game.name},
-          including local Pokédex number, types, abilities, and base stats.
+          including local Pokédex number, types
+          {hasAbilities ? ", abilities" : ""}, and base stats.
         </TableCaption>
 
         <colgroup className="hidden xl:table-column-group">

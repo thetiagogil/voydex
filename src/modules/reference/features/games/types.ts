@@ -1,4 +1,5 @@
 import type { PokemonTypePair } from "@/modules/reference/features/pokemon/types";
+import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
   Ability,
   Game,
@@ -71,6 +72,7 @@ export type GamePokedexData = {
   entries: GamePokedexPokemon[];
   game: Game;
   generation: Generation;
+  mechanics: GameMechanicsProfile;
   pokedex: Pokedex;
   pokedexes: Pokedex[];
   types: Type[];

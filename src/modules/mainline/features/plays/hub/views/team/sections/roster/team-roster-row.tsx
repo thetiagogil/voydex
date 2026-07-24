@@ -4,6 +4,7 @@ import {
   getTeamMemberIdentity,
   getTeamMemberName,
 } from "@/modules/mainline/features/plays/hub/views/team/display/team-member-display";
+import { TeamSlotLabel } from "@/modules/mainline/features/plays/hub/views/team/sections/team-slot-label";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -16,14 +17,6 @@ type TeamRosterRowProps = {
   label: string;
   member: MainlinePlayTeamMember | null;
   onSelect: (member: MainlinePlayTeamMember) => void;
-};
-
-const TeamRosterSlotLabel = ({ label }: { label: string }) => {
-  return (
-    <span className="text-muted-foreground w-6 shrink-0 text-center text-xs font-semibold tabular-nums">
-      {label}
-    </span>
-  );
 };
 
 export const TeamRosterRow = ({
@@ -40,7 +33,7 @@ export const TeamRosterRow = ({
         size="sm"
         className="border-app-surface-border/60 grid min-h-12 grid-cols-[1.5rem_minmax(0,1fr)_2.75rem_3.25rem_2rem] items-center gap-2 border-dashed bg-transparent px-2 py-1.5"
       >
-        <TeamRosterSlotLabel label={label} />
+        <TeamSlotLabel label={label} />
         <span className="text-muted-foreground col-span-4 truncate text-sm">
           Empty slot
         </span>
@@ -73,7 +66,7 @@ export const TeamRosterRow = ({
         </Button>
       }
     >
-      <TeamRosterSlotLabel label={label} />
+      <TeamSlotLabel label={label} />
 
       <span className="flex min-w-0 items-center gap-2">
         <PokemonPortrait
