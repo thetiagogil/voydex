@@ -1956,11 +1956,12 @@ Use a compact responsive master-detail workspace:
 3. **Focused comparison detail:** on desktop, selecting a row updates a
    persistent panel beside the list. It leads with one comparison sentence,
    the full match explanation, then flat Build and Moves grids and member notes.
-   Tablet and phone use a bottom sheet that preserves room above the
-   surface and leads with the two Pokémon identities before the match
-   explanation. Render and compare only mechanics supported by the exact game.
-   Unspecified supported fields are neutral rather than failures; unsupported
-   mechanics are omitted and cannot affect status.
+   Tablet keeps the comparison header and rows inline, while phone rows stack
+   planned identity, status, and Tracked identity. Both use a bottom sheet that
+   preserves room above the surface and leads with the two Pokémon identities
+   before the match explanation. Render and compare only mechanics supported
+   by the exact game. Unspecified supported fields are neutral rather than
+   failures; unsupported mechanics are omitted and cannot affect status.
 4. **Planned notes:** show the reusable Plan note directly beneath the
    comparison list when present. On desktop, the left list-and-notes column and
    the focused comparison Card share one workspace height; stretch the shorter
@@ -2035,12 +2036,13 @@ that Play before applying changes.
 
 ### Responsive And State Behavior
 
-On narrow screens, each row stacks target, status, and actual result in that
-order rather than forcing a horizontally scrolling comparison table. Details
-open in the established rounded bottom sheet with an internal scroll region and
-a maximum height of `82dvh`. Return focus to the originating row after the
-sheet closes. Status labels and roster placement must never rely on color
-alone.
+At tablet widths, keep the comparison header and each target, status, and
+actual result inline without mounting the persistent detail panel. On phone
+widths, stack those row fields in that order rather than forcing a horizontally
+scrolling comparison table. Details open in the established rounded bottom
+sheet with an internal scroll region and a maximum height of `82dvh`. Return
+focus to the originating row after the sheet closes. Status labels and roster
+placement must never rely on color alone.
 
 Preserve the Plan identity and unaffected rows when comparison or actual-Team
 data fails independently. Distinguish no linked Plan, linked empty Plan,

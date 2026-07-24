@@ -31,7 +31,7 @@ export const TeamPlanComparisonRow = ({
       onSelect={() => onSelect(comparison)}
       ariaLabel={`Compare slot ${comparison.slot}, planned ${comparison.plannedName}, ${statusLabel}, with ${actualName}`}
       buttonClassName={cn(
-        "grid w-full min-w-0 grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 px-3 py-2.5 lg:items-center",
+        "grid w-full min-w-0 grid-cols-[1.5rem_minmax(0,1fr)] gap-2.5 px-3 py-2.5 md:items-center",
         teamPlanComparisonGridClassName,
       )}
     >
@@ -42,11 +42,11 @@ export const TeamPlanComparisonRow = ({
         showTypes={false}
       />
 
-      <span className="col-start-2 flex lg:col-start-auto">
+      <span className="col-start-2 flex md:col-start-auto">
         <TeamPlanStatus status={comparison.status} />
       </span>
 
-      <span className="col-start-2 min-w-0 lg:col-start-auto">
+      <span className="col-start-2 min-w-0 md:col-start-auto">
         <TeamPlanPokemonIdentity
           comparison={comparison}
           side="play"
@@ -57,7 +57,7 @@ export const TeamPlanComparisonRow = ({
       <AppIcon
         icon={appIcons.actions.continue}
         size="xs"
-        className="text-muted-foreground/70 hidden justify-self-end lg:block"
+        className="text-muted-foreground/70 hidden justify-self-end md:block"
         aria-hidden
       />
     </SelectableItem>

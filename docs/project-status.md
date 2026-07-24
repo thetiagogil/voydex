@@ -182,11 +182,12 @@ checkpoint:
   beneath. Desktop keeps the selected comparison beside the list with the match
   explanation before centered flat build and move grids. Planned notes sit
   directly below the list, and the shorter desktop column stretches to match
-  the taller comparison workspace. Tablet and phone keep a natural stacked flow
-  and use a focused bottom sheet capped at 82dvh with the compared identities
-  first. Build grids contain only exact-game-supported mechanics; unsupported
-  mechanics cannot affect automatic comparison status, and the Build section
-  is absent when none apply.
+  the taller comparison workspace. Tablet keeps the comparison header and rows
+  inline while opening focused detail in a bottom sheet; phone rows stack the
+  planned identity, status, and Tracked identity. Both narrow layouts use the
+  sheet capped at 82dvh with the compared identities first. Build grids contain
+  only exact-game-supported mechanics; unsupported mechanics cannot affect
+  automatic comparison status, and the Build section is absent when none apply.
   Past Members has no Roster Card link until its focused destination is
   implemented; selected detail remains the first right-side section.
 - Team Quick Analysis remains in the supporting right-side hierarchy while its

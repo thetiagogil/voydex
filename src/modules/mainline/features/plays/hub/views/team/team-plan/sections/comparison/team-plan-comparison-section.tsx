@@ -29,7 +29,7 @@ export const TeamPlanComparisonSection = ({
     >
       <div
         className={cn(
-          "text-muted-foreground hidden gap-2.5 px-5 py-2 text-[0.625rem] font-medium uppercase lg:grid",
+          "text-muted-foreground hidden gap-2.5 px-5 py-2 text-[0.625rem] font-medium uppercase md:grid",
           teamPlanComparisonGridClassName,
         )}
       >
