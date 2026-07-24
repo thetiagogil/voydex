@@ -154,6 +154,15 @@ export type MainlinePlayTeamPlanSummary = {
   targetCount: number;
 };
 
+export type MainlinePlayTeamPlanPreview = {
+  exactMatchCount: number;
+  foundCount: number;
+  followingState: MainlinePlayTeamPlanFollowingState;
+  offPlanCount: number;
+  planName: string;
+  targetCount: number;
+};
+
 export type MainlinePlayMilestoneRows = {
   lastCompletedMilestone: MainlinePlayMilestone | null;
   nextMilestone: MainlinePlayMilestone | null;
@@ -176,10 +185,14 @@ export type MainlinePlayOverviewData = {
   timelinePreview: MainlinePlayTimelineEvent[];
 };
 
-export type MainlinePlayTeamData = {
+export type MainlinePlayTeamOverviewData = {
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
-  teamPlan: MainlinePlayTeamPlanSummary | null;
+  teamPlan: MainlinePlayTeamPlanPreview | null;
   teamTimelinePreview: MainlinePlayTimelineEvent[];
+};
+
+export type MainlinePlayTeamPlanData = {
+  teamPlan: MainlinePlayTeamPlanSummary | null;
 };

@@ -38,7 +38,9 @@ the evidence for exact implementation details.
 - Team now has a read-only list-detail implementation over the real Active,
   Reserve, Retired, and Replaced roster data plus the linked Team Plan's
   automatic comparison workspace. Team Overview lives at `/team`; the linked
-  comparison is directly addressable at `/team/plan`. The Play shell uses the
+  comparison is directly addressable at `/team/plan`. Their source ownership is
+  represented by the `team/team-overview` and `team/team-plan` view family, and
+  each route now loads a dedicated read model. The Play shell uses the
   shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
   the complete Overview, Team, Progress, History, and Settings hierarchy.
   Progress, History, Settings, Team Analysis, and Team History remain unmounted
@@ -379,7 +381,7 @@ The repository currently provides:
 
 - Architecture enforcement over the active source tree.
 - The latest `npm run verify` checkpoint passes documentation, repository-wide
-  formatting, lint, TypeScript, architecture enforcement, 68 Vitest tests, and
+  formatting, lint, TypeScript, architecture enforcement, 96 Vitest tests, and
   the production build.
 - Focused Vitest coverage for domain, mapping, navigation, authentication, and
   database-audit helpers.

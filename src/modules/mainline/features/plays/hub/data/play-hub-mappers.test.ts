@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildMainlinePlayOverviewData,
   buildMainlinePlayRules,
-  buildMainlinePlayTeamData,
+  buildMainlinePlayTeamOverviewData,
+  buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
   MainlineChallengeRule,
@@ -91,8 +92,10 @@ describe("Play page data mappers", () => {
       roster_state_slug: "reserve",
     } as MainlinePlayTeamMemberRow;
 
-    const data = buildMainlinePlayTeamData({
-      play: {} as Parameters<typeof buildMainlinePlayTeamData>[0]["play"],
+    const data = buildMainlinePlayTeamOverviewData({
+      play: {} as Parameters<
+        typeof buildMainlinePlayTeamOverviewData
+      >[0]["play"],
       teamPlanRows: { attributes: [], rows: [], types: [] },
       teamRows: {
         abilityAttributes: [],
@@ -112,5 +115,26 @@ describe("Play page data mappers", () => {
       "active-member",
       "reserve-member",
     ]);
+  });
+
+  it("builds the Team Plan route without Team Overview timeline data", () => {
+    const data = buildMainlinePlayTeamPlanData({
+      play: {} as Parameters<typeof buildMainlinePlayTeamPlanData>[0]["play"],
+      teamPlanRows: { attributes: [], rows: [], types: [] },
+      teamRows: {
+        abilityAttributes: [],
+        attributes: [],
+        members: [],
+        moveAttributes: [],
+        natures: [],
+        types: [],
+        validBallItemIds: [],
+        versionGroupId: null,
+        versionGroups: [],
+      },
+    });
+
+    expect(data).toEqual({ teamPlan: null });
+    expect(data).not.toHaveProperty("teamTimelinePreview");
   });
 });

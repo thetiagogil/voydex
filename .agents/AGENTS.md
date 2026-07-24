@@ -139,6 +139,10 @@ buckets. Reuse belongs at the nearest stable owner.
 - A module may own multiple features and views.
 - A feature may nest view folders when users experience them as distinct
   surfaces, such as browse and detail/hub.
+- When one navigation branch owns multiple route-backed surfaces, group them as
+  an explicit view family. Keep leaf-view code in named children such as
+  `team-overview` and `team-plan`; the family root may contain only contracts,
+  data, server reads, or UI foundations genuinely shared by those views.
 - A complex view may nest section folders that mirror visible page concerns.
 - Use `shared` inside a feature only when behavior is reused across that
   feature's views. Create module-wide shared code only after reuse crosses

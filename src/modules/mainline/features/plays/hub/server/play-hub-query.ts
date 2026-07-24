@@ -5,13 +5,14 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   buildMainlinePlayOverviewData,
   buildMainlinePlayShellData,
-  buildMainlinePlayTeamData,
+  buildMainlinePlayTeamOverviewData,
+  buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import {
   readMainlinePlayMilestoneRows,
   readMainlinePlayOverview,
-  readMainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-reader";
+import { readMainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/server/play-team-reader";
 import {
   readMainlinePlayGameContext,
   readMainlinePlayRuleRows,
@@ -20,7 +21,8 @@ import {
 import type {
   MainlinePlayOverviewData,
   MainlinePlayShellData,
-  MainlinePlayTeamData,
+  MainlinePlayTeamOverviewData,
+  MainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/types";
 import {
   readMainlinePlayTeamTimelinePreview,
@@ -50,6 +52,32 @@ const getMainlinePlayRequestContext = cache(async (playId: string) => {
 
   return { play, supabase, userId };
 });
+
+type MainlinePlayRequestContext = NonNullable<
+  Awaited<ReturnType<typeof getMainlinePlayRequestContext>>
+>;
+
+const readMainlinePlayTeamWorkspaceRows = async (
+  context: MainlinePlayRequestContext,
+  playId: string,
+) => {
+  const [teamRows, teamPlanRows] = await Promise.all([
+    readMainlinePlayTeamRows(
+      context.supabase,
+      playId,
+      context.play.generation_id,
+      context.play.version_group_id,
+    ),
+    readMainlinePlayTeamPlanRows(
+      context.supabase,
+      context.userId,
+      playId,
+      context.play.generation_id,
+    ),
+  ]);
+
+  return { teamPlanRows, teamRows };
+};
 
 export const getMainlinePlayShellData = cache(
   async (playId: string): Promise<MainlinePlayShellData | null> => {
@@ -104,35 +132,47 @@ export const getMainlinePlayOverviewData = cache(
   },
 );
 
-export const getMainlinePlayTeamData = cache(
-  async (playId: string): Promise<MainlinePlayTeamData | null> => {
+export const getMainlinePlayTeamOverviewData = cache(
+  async (playId: string): Promise<MainlinePlayTeamOverviewData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
       return null;
     }
 
-    const [teamRows, teamPlanRows, teamTimelinePreview] = await Promise.all([
-      readMainlinePlayTeamRows(
-        context.supabase,
-        playId,
-        context.play.generation_id,
-        context.play.version_group_id,
-      ),
-      readMainlinePlayTeamPlanRows(
-        context.supabase,
-        context.userId,
-        playId,
-        context.play.generation_id,
-      ),
-      readMainlinePlayTeamTimelinePreview(context.supabase, playId),
-    ]);
+    const [{ teamPlanRows, teamRows }, teamTimelinePreview] = await Promise.all(
+      [
+        readMainlinePlayTeamWorkspaceRows(context, playId),
+        readMainlinePlayTeamTimelinePreview(context.supabase, playId),
+      ],
+    );
 
-    return buildMainlinePlayTeamData({
+    return buildMainlinePlayTeamOverviewData({
       play: context.play,
       teamRows,
       teamPlanRows,
       teamTimelinePreview,
+    });
+  },
+);
+
+export const getMainlinePlayTeamPlanData = cache(
+  async (playId: string): Promise<MainlinePlayTeamPlanData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    const { teamPlanRows, teamRows } = await readMainlinePlayTeamWorkspaceRows(
+      context,
+      playId,
+    );
+
+    return buildMainlinePlayTeamPlanData({
+      play: context.play,
+      teamPlanRows,
+      teamRows,
     });
   },
 );

@@ -252,9 +252,8 @@ src/modules/mainline/features/plays/
       mainline-play-hub-page.tsx
       mainline-play-hub-tabs.tsx
       top-section/
-    tabs/
+    views/
       overview/
-        data/
         server/
         sections/
           journey-status/
@@ -262,18 +261,26 @@ src/modules/mainline/features/plays/
           team/
           progress-summary/
       team/
-        application/
-        client/
-        display/
-        domain/
-        infrastructure/
-        sections/
-          recent-team-events/
-          roster/
-          selected-pokemon/
-          team-analysis/
-          team-plan/
+        data/
         server/
+        shared/
+        team-overview/
+          application/
+          display/
+          domain/
+          infrastructure/
+          server/
+          sections/
+            linked-plan-summary/
+            recent-team-events/
+            roster/
+            selected-pokemon/
+            team-analysis/
+        team-plan/
+          sections/
+            comparison/
+            notes/
+            summary/
       progress/
       plans/
       history/
@@ -283,10 +290,13 @@ src/modules/mainline/features/plays/
 ```
 
 This nesting is intentional. `shell` owns Hub-wide UI composition; root `data`
-and `server` own the Hub-wide read model and orchestration; `tabs` groups the
-product views; and `sections` groups the visible areas inside Overview. A
-complex section can own smaller responsibility folders when needed. Prefer this
-product-first hierarchy over a single broad `components` folder or mixing tab
+and `server` own Hub-wide read models and orchestration; `views` groups product
+surfaces; and `sections` groups visible areas inside one surface. A navigation
+branch with multiple route-backed surfaces becomes a view family: `team` groups
+`team-overview` and `team-plan`, while its root `data`, `server`, and `shared`
+folders contain only code used by both. Each route keeps its own read contract,
+so Team Plan does not load Team Overview timeline data. Prefer this
+product-first hierarchy over a single broad `components` folder or mixing view
 names with Hub-wide `data` and `server` folders.
 
 Within a slice, add only the responsibility folders it needs:

@@ -1,4 +1,4 @@
-import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/play-overview-mappers";
+import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
   MainlineChallengeRule,
@@ -8,7 +8,9 @@ import type {
   MainlinePlayOverview,
   MainlinePlayRuleRows,
   MainlinePlayShellData,
-  MainlinePlayTeamData,
+  MainlinePlayTeamOverviewData,
+  MainlinePlayTeamPlanData,
+  MainlinePlayTeamPlanPreview,
   MainlinePlayTeamPlanRows,
   MainlinePlayTeamRows,
   MainlinePlayTimelineEvent,
@@ -64,33 +66,70 @@ export const buildMainlinePlayOverviewData = (params: {
   };
 };
 
-export const buildMainlinePlayTeamData = (params: {
+type MainlinePlayTeamContextParams = {
   play: MainlinePlaySummary;
   teamPlanRows: MainlinePlayTeamPlanRows;
   teamRows: MainlinePlayTeamRows;
-  teamTimelinePreview: MainlinePlayTimelineEvent[];
-}): MainlinePlayTeamData => {
+};
+
+const buildMainlinePlayTeamContext = (
+  params: MainlinePlayTeamContextParams,
+) => {
   const roster = buildMainlinePlayTeamPreview(params.teamRows);
   const mechanics = resolveGameMechanics({
     gameId: params.play.game_id,
     generationId: params.play.generation_id,
     versionGroupId: params.play.version_group_id,
   });
+  const teamPlan = buildMainlinePlayTeamPlanSummary(
+    params.teamPlanRows.rows,
+    roster,
+    params.teamRows.evolutionEdges ?? [],
+    {
+      attributes: params.teamPlanRows.attributes,
+      mechanics,
+      types: params.teamPlanRows.types,
+    },
+  );
+
+  return { mechanics, roster, teamPlan };
+};
+
+const buildTeamPlanPreview = (
+  plan: NonNullable<
+    ReturnType<typeof buildMainlinePlayTeamContext>["teamPlan"]
+  >,
+): MainlinePlayTeamPlanPreview => {
+  return {
+    exactMatchCount: plan.exactMatchCount,
+    foundCount: plan.foundCount,
+    followingState: plan.followingState,
+    offPlanCount: plan.offPlanCount,
+    planName: plan.planName,
+    targetCount: plan.targetCount,
+  };
+};
+
+export const buildMainlinePlayTeamOverviewData = (
+  params: MainlinePlayTeamContextParams & {
+    teamTimelinePreview: MainlinePlayTimelineEvent[];
+  },
+): MainlinePlayTeamOverviewData => {
+  const { mechanics, roster, teamPlan } = buildMainlinePlayTeamContext(params);
 
   return {
     mechanics,
     play: params.play,
     roster,
-    teamPlan: buildMainlinePlayTeamPlanSummary(
-      params.teamPlanRows.rows,
-      roster,
-      params.teamRows.evolutionEdges ?? [],
-      {
-        attributes: params.teamPlanRows.attributes,
-        mechanics,
-        types: params.teamPlanRows.types,
-      },
-    ),
+    teamPlan: teamPlan ? buildTeamPlanPreview(teamPlan) : null,
     teamTimelinePreview: params.teamTimelinePreview,
   };
+};
+
+export const buildMainlinePlayTeamPlanData = (
+  params: MainlinePlayTeamContextParams,
+): MainlinePlayTeamPlanData => {
+  const { teamPlan } = buildMainlinePlayTeamContext(params);
+
+  return { teamPlan };
 };

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
-import { getMainlinePlayTeamData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
-import { MainlinePlayTeam } from "@/modules/mainline/features/plays/hub/views/team/mainline-play-team";
+import { getMainlinePlayTeamOverviewData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
+import { MainlinePlayTeamOverview } from "@/modules/mainline/features/plays/hub/views/team/team-overview/mainline-play-team-overview";
 
 type MainlinePlayTeamRouteProps = {
   params: Promise<{
@@ -13,14 +13,14 @@ export default async function MainlinePlayTeamRoute({
   params,
 }: MainlinePlayTeamRouteProps) {
   const { playId } = await params;
-  const data = await getMainlinePlayTeamData(playId);
+  const data = await getMainlinePlayTeamOverviewData(playId);
 
   if (!data) {
     notFound();
   }
 
   return (
-    <MainlinePlayTeam
+    <MainlinePlayTeamOverview
       events={data.teamTimelinePreview}
       gameSlug={data.play.game_slug}
       mechanics={data.mechanics}
