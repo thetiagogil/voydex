@@ -40,11 +40,14 @@ the evidence for exact implementation details.
   automatic comparison workspace. Team Overview lives at `/team`; the linked
   comparison is directly addressable at `/team/plan`. Their source ownership is
   represented by the `team/team-overview` and `team/team-plan` view family, and
-  each route now loads a dedicated read model. The Play shell uses the
-  shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
-  the complete Overview, Team, Progress, History, and Settings hierarchy.
-  Progress, History, Settings, Team Analysis, and Team History remain unmounted
-  and visibly disabled until their workflows are implemented.
+  each route now loads a dedicated read model. Team Analysis is mounted at
+  `/team/analysis` with an Active-only, exact-generation read model for
+  defensive matchups, recorded damaging-move coverage, evidence completeness,
+  and responsive type-grouped mobile details. The Play shell uses the shared
+  shadcn Navigation Menu pattern established by Pokémon Detail and shows the
+  complete Overview, Team, Progress, History, and Settings hierarchy. Progress,
+  History, Settings, and Team History remain unmounted and visibly disabled
+  until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 
@@ -190,11 +193,11 @@ checkpoint:
   automatic comparison status, and the Build section is absent when none apply.
   Past Members has no Roster Card link until its focused destination is
   implemented; selected detail remains the first right-side section.
-- Team Quick Analysis remains in the supporting right-side hierarchy while its
-  final metrics and review strategy are deliberately deferred. Recent Team
-  Events loads and hydrates only Pokémon-specific roster and lifecycle changes;
-  Play progress snapshots and Hall of Fame entries no longer qualify. Both
-  full-view destinations remain explicitly disabled.
+- Team Quick Analysis remains in the supporting right-side hierarchy as a
+  compact evidence preview and now routes to the focused Team Analysis view.
+  Recent Team Events loads and hydrates only Pokémon-specific roster and
+  lifecycle changes; Play progress snapshots and Hall of Fame entries no longer
+  qualify. Team History remains explicitly unavailable.
 - Decorative section-title icons and the permanent empty Plan card were
   removed. A linked Plan now exposes one to six ordered targets and is compared
   at read time with existing Play Pokémon. Matching is deterministic and
@@ -206,9 +209,9 @@ checkpoint:
   additional recorded moves as neutral evidence.
   No inferred member link or comparison status is persisted. Slot resolution,
   roster movement, member editing, lifecycle actions, Past Members, Plan
-  acquisition/authoring, and full analysis/history routes remain outside this
-  read-only slice. Their selected-member controls are visibly disabled; only
-  the exact-game Codex route is active.
+  acquisition/authoring, and full history routes remain outside this read-only
+  slice. Their selected-member controls are visibly disabled; the exact-game
+  Codex and focused Team Analysis routes are active.
 
 Pokémon Browse is a completed production design checkpoint:
 
@@ -326,8 +329,8 @@ as part of either workflow.
 
 The game-aware `Add Pokémon` picker and targeted slot handoff remain the next
 independent Team mutation slice after that planning boundary. Roster movement,
-lifecycle actions, Past Members, full analysis/history routes, Progress,
-History, and Settings remain separate increments.
+lifecycle actions, Past Members, full Team History, Progress, History, and
+Settings remain separate increments.
 
 Do not add another background, dark mode, sticky replacement navigation,
 Skeletons, decorative edge systems, or a broad cross-page refactor while this

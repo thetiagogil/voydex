@@ -1,3 +1,4 @@
+import { appRoutes } from "@/config/routes";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
@@ -5,6 +6,7 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import { getTeamAnalysisPreview } from "./team-analysis-model";
 
 type TeamAnalysisSectionProps = {
+  playId: string;
   roster: MainlinePlayTeamMember[];
 };
 
@@ -26,7 +28,10 @@ const TeamAnalysisSignal = ({
   );
 };
 
-export const TeamAnalysisSection = ({ roster }: TeamAnalysisSectionProps) => {
+export const TeamAnalysisSection = ({
+  playId,
+  roster,
+}: TeamAnalysisSectionProps) => {
   const analysis = getTeamAnalysisPreview(roster);
   const activeEvidence = analysis.activeCount
     ? `${analysis.typedMemberCount} of ${analysis.activeCount} typed`
@@ -43,8 +48,8 @@ export const TeamAnalysisSection = ({ roster }: TeamAnalysisSectionProps) => {
       title="Team Analysis"
       action={
         <MainlinePlaySectionDestination
+          href={appRoutes.mainlinePlayTeamAnalysis(playId)}
           label="Open full analysis"
-          unavailableLabel="The full Team Analysis page is not available yet"
         />
       }
       contentClassName="py-4"
@@ -54,12 +59,12 @@ export const TeamAnalysisSection = ({ roster }: TeamAnalysisSectionProps) => {
         <TeamAnalysisSignal
           label="Defensive evidence"
           value={activeEvidence}
-          detail={`${analysis.uniqueTypeCount} distinct types represented. Full matchups are not connected yet.`}
+          detail={`${analysis.uniqueTypeCount} distinct types represented in the Active lineup.`}
         />
         <TeamAnalysisSignal
           label="Move coverage"
           value={moveEvidence}
-          detail="Generation-correct move facts are connected; full coverage analysis is not built yet."
+          detail="Recorded damaging moves are evaluated with generation-correct type rules."
         />
         <TeamAnalysisSignal
           label="Watchlist"

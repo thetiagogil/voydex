@@ -117,7 +117,7 @@ export const ExplanatoryTip = ({
         side={side}
         sideOffset={sideOffset}
         className={cn(
-          "bg-foreground text-background w-fit max-w-xs rounded-md px-3 py-1.5 text-xs leading-5 shadow-md ring-0",
+          "bg-popover text-popover-foreground border-border/70 w-fit max-w-xs rounded-md border px-3 py-2 text-xs leading-5 shadow-md ring-0",
           contentClassName,
         )}
       >

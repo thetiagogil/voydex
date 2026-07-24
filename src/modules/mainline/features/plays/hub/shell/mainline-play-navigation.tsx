@@ -90,6 +90,7 @@ export const MainlinePlayNavigation = ({
     },
     {
       description: "Review type coverage and team composition.",
+      href: appRoutes.mainlinePlayTeamAnalysis(playId),
       label: "Analysis",
       value: "analysis",
     },

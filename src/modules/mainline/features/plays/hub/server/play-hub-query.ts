@@ -30,6 +30,9 @@ import {
   readMainlinePlayTimelinePreview,
 } from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
 import { readMainlinePlayTeamPlanRows } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
+import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
+import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";
+import type { MainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { isUuid } from "@/shared/utils/identifiers";
 
 const getMainlinePlayRequestContext = cache(async (playId: string) => {
@@ -172,6 +175,28 @@ export const getMainlinePlayTeamPlanData = cache(
       play: context.play,
       teamPlanRows,
       teamRows,
+    });
+  },
+);
+
+export const getMainlinePlayTeamAnalysisData = cache(
+  async (playId: string): Promise<MainlinePlayTeamAnalysisData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    const rows = await readMainlinePlayTeamAnalysisRows(
+      context.supabase,
+      playId,
+      context.play.generation_id,
+      context.play.version_group_id,
+    );
+
+    return buildMainlinePlayTeamAnalysisData({
+      play: context.play,
+      rows,
     });
   },
 );

@@ -789,11 +789,9 @@ roster.
 
 Team Quick Analysis remains an important, compact Team-wide surface beneath the
 selected Pokémon detail. It is not selected-member context and does not change
-when the user selects another roster row. Keep the current section in the UI
-while its metrics, reliable inputs, calculation rules, evidence disclosure, and
-partial-data behavior are designed in a later slice. Until that strategy is
-accepted, do not present invented balance, matchup, coverage, role, damage, or
-competitive conclusions as real analysis.
+when the user selects another roster row. It summarizes recorded Active-member
+typing and move evidence, avoids invented competitive conclusions, and provides
+the single `Open full analysis` route to the focused view.
 
 ### Full Team Analysis View Contract
 
@@ -802,9 +800,10 @@ competitive conclusions as real analysis.
 `Open full analysis` leads to the Play-owned route
 `/mainline/plays/[playId]/team/analysis`. This is a focused child of Team, not a
 new primary Play area or a global Mainline destination. Retain the Play Header and
-Play Hub navigation, keep Team visibly active, and add a local `Team Analysis`
-heading with a clear `Back to Team` or `Manage Team` route. Direct URLs must
-load the same owner-scoped Play context and provide a stable return path.
+Play Hub navigation and keep Team visibly active. Add a local `Team Analysis`
+heading without duplicating a Back action; the active Team navigation menu is
+the stable return path to Team Overview. Direct URLs must load the same
+owner-scoped Play context.
 
 The view is read-only and derived from the current Active lineup. Team edits
 remain in Team; after a confirmed roster, form, move, ability, or item change,
@@ -813,27 +812,53 @@ or analysis snapshot. Reserve Pokémon remain excluded in V1.
 
 Use this information hierarchy:
 
-1. **Team and evidence header:** show the current Active lineup, applicable
-   game or generation rules, and a concise completeness statement for member
-   typing, moves, abilities, and items. The compact member identities may route
-   back to that selected member in Team.
-2. **Defensive matchup matrix:** show each applicable attacking type against
+1. **Team and evidence header:** show the current Active lineup identified by
+   species name without personal nicknames, exact-generation type markers, one
+   concise Active-member count, and recorded-move completeness. Do not repeat
+   the game name already established by the Play Header. Express Active members
+   against the six-position capacity. Derive move capacity only from recorded
+   Active members at four positions each, so a four-member lineup reports
+   `N/16` moves rather than treating two absent Pokémon as eight missing moves.
+   The compact member identities may route back to that selected member in Team.
+2. **Team assessment:** place one detailed four-column summary between the
+   lineup and the matrices: Team health, Threat response, Move coverage, and
+   Weakness control. Use Strong, Moderate, Weak, or Limited data with a
+   prominent metric icon, status-specific color, short evidence count, and one
+   direct sentence. Organize each visible column as metric and status followed
+   by its summary; do not reduce the result to a small status chip or expose a
+   persistent evidence footer. Put the current evidence, exact thresholds, and
+   calculation limits together in one structured hover, focus, and pinnable
+   click/touch information disclosure with short headings and bullet lists.
+   Threat response treats a threatening type as answered when another member
+   resists or is immune to it, or when a recorded damaging move is super
+   effective against that type. Weakness control considers only shared
+   weaknesses and 4× exposures, and downgrades them only when neither a
+   defensive nor recorded offensive answer exists. An isolated weakness or a
+   controlled 4× exposure must not lower that metric by itself. Team health
+   combines the other three signals and is Strong only when all three are
+   Strong. One Weak signal with no Strong counterweight, or at least two Weak
+   signals, produces Weak; other mixed results are Moderate. Threat response is
+   Strong only when every threatening type has an answer, Moderate from 75%,
+   and Weak below 75%. Move coverage is Strong from 80% of
+   generation-available types, Moderate from 50%, and Weak below 50%. It must
+   describe recorded evidence rather than promise battle outcomes.
+3. **Defensive matchup matrix:** show each applicable attacking type against
    every Active member with exact multipliers, plus weak, resistant, and immune
    counts. Base form typing is always the explainable core. Apply an ability,
    item, or special-mechanic adjustment only when the fact is recorded and its
    effect is represented reliably; otherwise label the matrix as base typing.
-3. **Recorded move coverage matrix:** show which damaging moves cover each
-   defending type, which member provides them, move type and category, and
-   whether the move receives same-type attack bonus. Keep this factual; without
-   battle stats and opponent context, do not rank moves by expected damage.
-4. **Explainable Team notes:** list the highest-signal shared weaknesses,
-   4× exposures, coverage gaps, members without a known same-type damaging move,
-   and the factual physical/special distribution of recorded attacks. Every
-   note names the affected members or moves and the evidence behind it.
-5. **Analysis basis:** disclose partial movesets, unrecorded ability or item
-   facts, unsupported effect modifiers, and any mechanic the current analysis
-   does not model. Keep this available without making it compete with the
-   primary matrices.
+4. **Recorded move coverage matrix:** show which damaging moves cover each
+   defending type, which member provides them, their type treatment, and an
+   explicit `STAB` label when the move receives same-type attack bonus.
+   Summarize each row with separate Pokémon, Moves, and STAB moves counts. Do
+   not expose Physical or Special category labels in this matrix. Keep this
+   factual; without battle stats and opponent context, do not rank moves by
+   expected damage.
+5. **Analysis information:** keep the calculation limits available from one
+   compact, labelled information disclosure in the Team and evidence header.
+   It opens on hover or keyboard focus and can be pinned by click or touch.
+   Explain partial movesets, unapplied supported modifiers, and mechanics the
+   current analysis does not model without adding a standalone page section.
 
 On desktop and tablet, stack the two matrices vertically at the full workspace
 width rather than compressing them into side-by-side cards. Use attacking or
@@ -845,6 +870,11 @@ On narrow screens, replace the wide matrices with type-grouped expandable rows.
 Each collapsed row shows the summary counts; expansion reveals the affected
 members, moves, and exact multipliers. Preserve semantic table or list
 relationships, keyboard access, visible focus, and labels in addition to color.
+
+The local analysis lens shows `Overall` as the available V1 view. Keep `Story
+matchups` visible but unavailable until Progress Story owns complete,
+game-specific opponent rosters; milestone opponent names or specialty types
+alone are not enough evidence for matchup claims.
 
 Exact matrix density, compact filtering controls, and visual composition may
 iterate during implementation. The accepted invariants are this view's route
