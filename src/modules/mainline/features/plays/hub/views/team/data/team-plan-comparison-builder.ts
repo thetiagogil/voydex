@@ -1,4 +1,4 @@
-import { buildTeamPlanMoveComparison } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-move-comparison";
+import { buildTeamPlanMoveComparison } from "./team-plan-move-comparison";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamPlanCriterion,

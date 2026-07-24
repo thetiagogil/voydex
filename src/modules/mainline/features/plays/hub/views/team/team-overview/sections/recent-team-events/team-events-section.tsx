@@ -1,6 +1,5 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
-import { TeamEventRow } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/recent-team-events/team-event-row";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import {
   Empty,
@@ -9,11 +8,13 @@ import {
   EmptyTitle,
 } from "@/shared/components/ui/empty";
 
-type TeamEventsPanelProps = {
+import { TeamEventRow } from "./team-event-row";
+
+type TeamEventsSectionProps = {
   events: MainlinePlayTimelineEvent[];
 };
 
-export const TeamEventsPanel = ({ events }: TeamEventsPanelProps) => {
+export const TeamEventsSection = ({ events }: TeamEventsSectionProps) => {
   return (
     <MainlinePlaySectionCard
       title="Recent Team Events"

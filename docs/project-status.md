@@ -137,7 +137,9 @@ checkpoint:
 - The Team route keeps the existing Play header and shares the same persistent
   workspace shell as Overview. Team reads the
   Play-owned Active and Reserve roster while keeping
-  Overview limited to the Active preview.
+  Overview limited to a dedicated Active preview read that hydrates only the
+  identity, portrait, level, slot, and exact-generation types its six summary
+  positions render.
 - Desktop uses the accepted list-detail hierarchy: all six Active and six
   Reserve positions remain visible with the same detailed row geometry. The
   initial baseline has no Reserve summary or disclosure state. The first recorded member opens in

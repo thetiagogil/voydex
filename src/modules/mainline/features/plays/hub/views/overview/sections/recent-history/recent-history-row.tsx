@@ -1,12 +1,12 @@
 import { cn } from "@/shared/utils/cn";
-import { formatTimelineDate } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-date";
+import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/display/play-timeline-date";
 import {
   getTimelineDescription,
   getTimelineEventDisplay,
   timelineEventToneClassNames,
 } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-display";
-import { RecentHistoryMedia } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-media";
-import { getTimelineMedia } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-media-model";
+import { RecentHistoryMedia } from "./recent-history-media";
+import { getTimelineMedia } from "./recent-history-media-model";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon } from "@/shared/components/app-icon";
 
@@ -16,7 +16,7 @@ type RecentHistoryRowProps = {
 
 export const RecentHistoryRow = ({ event }: RecentHistoryRowProps) => {
   const display = getTimelineEventDisplay(event);
-  const timelineDate = formatTimelineDate(event);
+  const timelineDate = formatPlayTimelineDate(event);
   const media = getTimelineMedia(event);
 
   return (

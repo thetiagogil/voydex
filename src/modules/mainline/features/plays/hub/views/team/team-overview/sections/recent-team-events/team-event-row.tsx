@@ -1,6 +1,6 @@
-import { formatTimelineDate } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-date";
-import { getTeamEventDisplay } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/recent-team-events/team-event-display";
-import { TeamEventMedia } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/recent-team-events/team-event-media";
+import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/display/play-timeline-date";
+import { getTeamEventDisplay } from "./team-event-display";
+import { TeamEventMedia } from "./team-event-media";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon } from "@/shared/components/app-icon";
 
@@ -10,7 +10,7 @@ export const TeamEventRow = ({
   event: MainlinePlayTimelineEvent;
 }) => {
   const display = getTeamEventDisplay(event);
-  const timelineDate = formatTimelineDate(event);
+  const timelineDate = formatPlayTimelineDate(event);
   const machineDate = event.happened_at ?? event.created_at ?? undefined;
 
   return (

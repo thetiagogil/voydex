@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { TeamPlanComparisonDetails } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-comparison-details";
+import { TeamPlanComparisonDetails } from "./team-plan-comparison-details";
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import {

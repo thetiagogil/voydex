@@ -1,4 +1,4 @@
-import { buildMainlinePlayTeamPlanSummary as mapMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
+import { buildMainlinePlayTeamPlanSummary as mapMainlinePlayTeamPlanSummary } from "../team-plan-mapper";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,

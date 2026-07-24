@@ -1,6 +1,6 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
-import { getTeamMemberName } from "@/modules/mainline/features/plays/hub/views/team/team-overview/display/team-member-display";
+import { getTeamMemberName } from "../../display/team-member-display";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 
 export const TeamMemberPortrait = ({

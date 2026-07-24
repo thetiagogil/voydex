@@ -1,5 +1,5 @@
-import { buildTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-comparison-builder";
-import { matchTeamPlanMembers } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-member-matching";
+import { buildTeamPlanMemberComparison } from "./team-plan-comparison-builder";
+import { matchTeamPlanMembers } from "./team-plan-member-matching";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamPlanFollowingState,

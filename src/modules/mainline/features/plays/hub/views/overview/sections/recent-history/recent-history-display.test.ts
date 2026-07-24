@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getTimelineEventDisplay } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-display";
+import { getTimelineEventDisplay } from "./recent-history-display";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 
 const eventTypeSlugs = [

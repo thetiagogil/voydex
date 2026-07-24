@@ -1,16 +1,17 @@
-import { getProgressSummaryItems } from "@/modules/mainline/features/plays/hub/views/overview/sections/progress-summary/progress-summary-model";
-import { ProgressSummaryRow } from "@/modules/mainline/features/plays/hub/views/overview/sections/progress-summary/progress-summary-row";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 
-type ProgressSummaryPanelProps = {
+import { getProgressSummaryItems } from "./progress-summary-model";
+import { ProgressSummaryRow } from "./progress-summary-row";
+
+type ProgressSummarySectionProps = {
   overview: MainlinePlayOverview | null;
 };
 
-export const ProgressSummaryPanel = ({
+export const ProgressSummarySection = ({
   overview,
-}: ProgressSummaryPanelProps) => {
+}: ProgressSummarySectionProps) => {
   const progressItems = getProgressSummaryItems(overview);
 
   if (!progressItems.length) {

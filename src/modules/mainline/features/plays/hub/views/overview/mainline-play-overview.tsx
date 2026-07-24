@@ -1,8 +1,10 @@
-import { JourneyStatusPanel } from "@/modules/mainline/features/plays/hub/views/overview/sections/journey-status/journey-status-panel";
-import { ProgressSummaryPanel } from "@/modules/mainline/features/plays/hub/views/overview/sections/progress-summary/progress-summary-panel";
-import { RecentHistoryPanel } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-panel";
-import { TeamPanel } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-panel";
+import { appRoutes } from "@/config/routes";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
+
+import { JourneyStatusSection } from "./sections/journey-status/journey-status-section";
+import { ProgressSummarySection } from "./sections/progress-summary/progress-summary-section";
+import { RecentHistorySection } from "./sections/recent-history/recent-history-section";
+import { TeamSection } from "./sections/team/team-section";
 
 type MainlinePlayOverviewProps = {
   data: MainlinePlayOverviewData;
@@ -16,19 +18,18 @@ export const MainlinePlayOverview = ({
   return (
     <div className="grid items-start gap-3 sm:gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(19rem,2fr)]">
       <div className="grid min-w-0 gap-4">
-        <JourneyStatusPanel data={data} />
-        <RecentHistoryPanel events={data.timelinePreview} />
+        <JourneyStatusSection data={data} />
+        <RecentHistorySection events={data.timelinePreview} />
       </div>
 
       <div className="grid min-w-0 auto-rows-max content-start items-start gap-4">
-        <TeamPanel
+        <TeamSection
           gameSlug={data.play.game_slug}
           href={appRoutes.mainlinePlayTeam(playId)}
           team={data.teamPreview}
         />
-        <ProgressSummaryPanel overview={data.overview} />
+        <ProgressSummarySection overview={data.overview} />
       </div>
     </div>
   );
 };
-import { appRoutes } from "@/config/routes";

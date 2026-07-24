@@ -1,18 +1,18 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getTeamMemberImageUrl,
   getTeamMemberName,
 } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-model";
-import { TeamTypeList } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-type-list";
+import { TeamTypeList } from "./team-type-list";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type TeamSlotProps = {
   gameSlug: string | null;
-  member: MainlinePlayTeamMember | null;
+  member: MainlinePlayTeamPreviewMember | null;
   slotNumber: number;
 };
 

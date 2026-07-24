@@ -45,6 +45,39 @@ export type MainlinePlayTeamMember = Omit<
   secondaryType: Type | null;
 };
 
+export type MainlinePlayTeamPreviewRow = Pick<
+  MainlinePlayTeamMemberRow,
+  | "form_id"
+  | "form_name"
+  | "is_shiny"
+  | "level"
+  | "nickname"
+  | "play_pokemon_id"
+  | "roster_state_slug"
+  | "slot"
+  | "species_name"
+  | "species_slug"
+  | "sprite_slug"
+>;
+
+export type MainlinePlayTeamPreviewAttribute = Pick<
+  PokemonAttributes,
+  "form_id" | "generation_start_id" | "primary_type_id" | "secondary_type_id"
+>;
+
+export type MainlinePlayTeamPreviewType = Pick<Type, "id" | "name" | "slug">;
+
+export type MainlinePlayTeamPreviewMember = MainlinePlayTeamPreviewRow & {
+  primaryType: MainlinePlayTeamPreviewType | null;
+  secondaryType: MainlinePlayTeamPreviewType | null;
+};
+
+export type MainlinePlayTeamPreviewRows = {
+  attributes: MainlinePlayTeamPreviewAttribute[];
+  members: MainlinePlayTeamPreviewRow[];
+  types: MainlinePlayTeamPreviewType[];
+};
+
 export type MainlinePlayGameContextRows = {
   game: Game | null;
   region: Region | null;
@@ -181,7 +214,7 @@ export type MainlinePlayOverviewData = {
   nextMilestone: MainlinePlayMilestone | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
-  teamPreview: MainlinePlayTeamMember[];
+  teamPreview: MainlinePlayTeamPreviewMember[];
   timelinePreview: MainlinePlayTimelineEvent[];
 };
 

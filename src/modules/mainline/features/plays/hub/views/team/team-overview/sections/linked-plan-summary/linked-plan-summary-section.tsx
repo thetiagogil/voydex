@@ -22,12 +22,15 @@ const followingStateTones = {
   "not-started": "neutral",
 } satisfies Record<MainlinePlayTeamPlanFollowingState, StatusBadgeTone>;
 
-type TeamPlanPanelProps = {
+type LinkedPlanSummarySectionProps = {
   href: string;
   plan: MainlinePlayTeamPlanPreview;
 };
 
-export const LinkedPlanSummaryPanel = ({ href, plan }: TeamPlanPanelProps) => {
+export const LinkedPlanSummarySection = ({
+  href,
+  plan,
+}: LinkedPlanSummarySectionProps) => {
   const activeTargetSummary = getTeamPlanActiveTargetSummary(plan);
   const changeSummary = getTeamPlanChangeSummary(plan);
 

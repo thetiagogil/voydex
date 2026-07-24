@@ -1,4 +1,5 @@
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
+import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
   MainlineChallengeRule,
@@ -12,6 +13,7 @@ import type {
   MainlinePlayTeamPlanData,
   MainlinePlayTeamPlanPreview,
   MainlinePlayTeamPlanRows,
+  MainlinePlayTeamPreviewRows,
   MainlinePlayTeamRows,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
@@ -49,19 +51,15 @@ export const buildMainlinePlayOverviewData = (params: {
   milestones: MainlinePlayMilestoneRows;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
-  teamRows: MainlinePlayTeamRows;
+  teamPreviewRows: MainlinePlayTeamPreviewRows;
   timelinePreview: MainlinePlayTimelineEvent[];
 }): MainlinePlayOverviewData => {
-  const roster = buildMainlinePlayTeamPreview(params.teamRows);
-
   return {
     lastCompletedMilestone: params.milestones.lastCompletedMilestone,
     nextMilestone: params.milestones.nextMilestone,
     overview: params.overview,
     play: params.play,
-    teamPreview: roster.filter(
-      (member) => member.roster_state_slug === "active",
-    ),
+    teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),
     timelinePreview: params.timelinePreview,
   };
 };

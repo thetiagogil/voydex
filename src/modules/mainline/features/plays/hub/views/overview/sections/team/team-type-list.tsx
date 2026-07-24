@@ -1,21 +1,17 @@
-import type {
-  MainlinePlayPokemonType,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamPreviewType } from "@/modules/mainline/features/plays/hub/types";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { cn } from "@/shared/utils/cn";
 
 type TeamTypeBadgeProps = {
-  type: MainlinePlayPokemonType;
+  type: MainlinePlayTeamPreviewType;
 };
 
-type TeamTypeListProps = Pick<
-  MainlinePlayTeamMember,
-  "primaryType" | "secondaryType"
-> & {
+type TeamTypeListProps = {
   className?: string;
+  primaryType: MainlinePlayTeamPreviewType | null;
+  secondaryType: MainlinePlayTeamPreviewType | null;
 };
 
 const TeamTypeBadge = ({ type }: TeamTypeBadgeProps) => {
@@ -44,7 +40,7 @@ export const TeamTypeList = ({
   secondaryType,
 }: TeamTypeListProps) => {
   const types = [primaryType, secondaryType].filter(
-    (type): type is MainlinePlayPokemonType => Boolean(type),
+    (type): type is MainlinePlayTeamPreviewType => Boolean(type),
   );
 
   if (!types.length) {

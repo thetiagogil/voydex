@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -7,7 +7,7 @@ import {
 export const getTeamMemberName = getPlayTeamMemberName;
 export const getTeamMemberImageUrl = getPlayTeamMemberImageUrl;
 
-export const getTeamSlots = (team: MainlinePlayTeamMember[]) => {
+export const getTeamSlots = (team: MainlinePlayTeamPreviewMember[]) => {
   const memberBySlot = new Map(
     team.map((member, index) => [member.slot ?? index + 1, member]),
   );

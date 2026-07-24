@@ -3,12 +3,12 @@
 import { revalidatePath } from "next/cache";
 
 import { appRoutes } from "@/config/routes";
-import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/hub/views/team/team-overview/application/add-team-member-command";
+import { addMainlinePlayPokemon } from "../application/add-team-member-command";
 import {
   type MainlineTeamGender,
   type AddMainlinePlayPokemonInput,
 } from "@/modules/mainline/features/plays/hub/views/team/team-overview/domain/team-member-domain";
-import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/hub/views/team/team-overview/infrastructure/team-repository";
+import { createMainlineTeamRepository } from "../infrastructure/team-repository";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 

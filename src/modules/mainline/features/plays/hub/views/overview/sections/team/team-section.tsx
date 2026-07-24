@@ -1,16 +1,17 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
-import { getTeamSlots } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-model";
-import { TeamSlot } from "@/modules/mainline/features/plays/hub/views/overview/sections/team/team-slot";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/plays/hub/types";
 
-type TeamPanelProps = {
+import { getTeamSlots } from "./team-model";
+import { TeamSlot } from "./team-slot";
+
+type TeamSectionProps = {
   gameSlug: string | null;
   href: string;
-  team: MainlinePlayTeamMember[];
+  team: MainlinePlayTeamPreviewMember[];
 };
 
-export const TeamPanel = ({ gameSlug, href, team }: TeamPanelProps) => {
+export const TeamSection = ({ gameSlug, href, team }: TeamSectionProps) => {
   const teamSlots = getTeamSlots(team);
 
   return (

@@ -3,7 +3,7 @@ import {
   type AddMainlinePlayPokemonRepository,
   type AddMainlinePlayPokemonResult,
 } from "@/modules/mainline/features/plays/hub/views/team/team-overview/application/add-team-member-command";
-import type { AddMainlinePlayPokemonInput } from "@/modules/mainline/features/plays/hub/views/team/team-overview/domain/team-member-domain";
+import type { AddMainlinePlayPokemonInput } from "../domain/team-member-domain";
 
 export const createMainlineTeamRepository = (
   supabase: ServerSupabaseClient,

@@ -1,9 +1,10 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
-import { getTeamAnalysisPreview } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/team-analysis/team-analysis-model";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
-type TeamAnalysisPanelProps = {
+import { getTeamAnalysisPreview } from "./team-analysis-model";
+
+type TeamAnalysisSectionProps = {
   roster: MainlinePlayTeamMember[];
 };
 
@@ -25,7 +26,7 @@ const TeamAnalysisSignal = ({
   );
 };
 
-export const TeamAnalysisPanel = ({ roster }: TeamAnalysisPanelProps) => {
+export const TeamAnalysisSection = ({ roster }: TeamAnalysisSectionProps) => {
   const analysis = getTeamAnalysisPreview(roster);
   const activeEvidence = analysis.activeCount
     ? `${analysis.typedMemberCount} of ${analysis.activeCount} typed`

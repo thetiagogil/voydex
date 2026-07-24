@@ -1,20 +1,21 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
-import { TeamRosterGroupSection } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/roster/team-roster-group-section";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 
-type TeamRosterCardProps = {
+import { TeamRosterGroupSection } from "./team-roster-group-section";
+
+type TeamRosterSectionProps = {
   onSelect: (member: MainlinePlayTeamMember) => void;
   roster: MainlinePlayTeamMember[];
   selectedMemberId: string | null;
 };
 
-export const TeamRosterCard = ({
+export const TeamRosterSection = ({
   onSelect,
   roster,
   selectedMemberId,
-}: TeamRosterCardProps) => {
+}: TeamRosterSectionProps) => {
   const addPokemonLabel = "Add Pokémon will be enabled with the Team picker";
 
   return (

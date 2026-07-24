@@ -1,7 +1,5 @@
 import { Fragment } from "react";
 
-import { RecentHistoryRow } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-row";
-import { RecentHistorySeparator } from "@/modules/mainline/features/plays/hub/views/overview/sections/recent-history/recent-history-separator";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
@@ -14,11 +12,14 @@ import {
   EmptyTitle,
 } from "@/shared/components/ui/empty";
 
-type RecentHistoryPanelProps = {
+import { RecentHistoryRow } from "./recent-history-row";
+import { RecentHistorySeparator } from "./recent-history-separator";
+
+type RecentHistorySectionProps = {
   events: MainlinePlayTimelineEvent[];
 };
 
-export const RecentHistoryPanel = ({ events }: RecentHistoryPanelProps) => {
+export const RecentHistorySection = ({ events }: RecentHistorySectionProps) => {
   return (
     <MainlinePlaySectionCard
       title="Recent History"

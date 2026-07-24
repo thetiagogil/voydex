@@ -1,14 +1,15 @@
-import { MilestoneSummary } from "@/modules/mainline/features/plays/hub/views/overview/sections/journey-status/milestone-summary";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
 import { appIcons } from "@/shared/components/app-icon";
 
-type JourneyStatusPanelProps = {
+import { MilestoneSummary } from "./milestone-summary";
+
+type JourneyStatusSectionProps = {
   data: MainlinePlayOverviewData;
 };
 
-export const JourneyStatusPanel = ({ data }: JourneyStatusPanelProps) => {
+export const JourneyStatusSection = ({ data }: JourneyStatusSectionProps) => {
   return (
     <MainlinePlaySectionCard
       title="Journey Status"

@@ -1,8 +1,8 @@
-import { formatTeamMemberGender } from "@/modules/mainline/features/plays/hub/views/team/team-overview/display/team-member-display";
-import { TeamMemberActions } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-actions";
-import { TeamMemberIdentity } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-identity";
-import { TeamMemberMoves } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-moves";
-import { TeamMemberPortrait } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-portrait";
+import { formatTeamMemberGender } from "../../display/team-member-display";
+import { TeamMemberActions } from "./team-member-actions";
+import { TeamMemberIdentity } from "./team-member-identity";
+import { TeamMemberMoves } from "./team-member-moves";
+import { TeamMemberPortrait } from "./team-member-portrait";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   gameMechanics,

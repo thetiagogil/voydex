@@ -42,7 +42,9 @@ export const readMainlinePlayTeamPlanRows = async (
     .order("generation_start_id", { ascending: false });
 
   if (attributesResult.error) {
-    return { attributes: [], rows, types: [] };
+    throw new Error(
+      "Unable to load the Mainline Team Plan Pokémon attributes.",
+    );
   }
 
   const attributes = attributesResult.data ?? [];
@@ -61,7 +63,7 @@ export const readMainlinePlayTeamPlanRows = async (
     : null;
 
   if (typesResult?.error) {
-    return { attributes, rows, types: [] };
+    throw new Error("Unable to load the Mainline Team Plan type references.");
   }
 
   return {

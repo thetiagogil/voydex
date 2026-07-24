@@ -7,11 +7,10 @@ import type {
   MainlinePlayTeamPlanMemberComparison,
 } from "@/modules/mainline/features/plays/hub/types";
 import { EmptyState } from "@/shared/components/empty-state";
-import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 import { useTeamDetailSheetLayout } from "../shared/use-team-detail-sheet-layout";
-import { TeamPlanComparisonDetails } from "./sections/comparison/team-plan-comparison-details";
+import { TeamPlanComparisonInspector } from "./sections/comparison/team-plan-comparison-inspector";
 import { TeamPlanComparisonSection } from "./sections/comparison/team-plan-comparison-section";
 import { TeamPlanComparisonSheet } from "./sections/comparison/team-plan-comparison-sheet";
 import { TeamPlanNotesSection } from "./sections/notes/team-plan-notes-section";
@@ -84,20 +83,10 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
         </div>
 
         {selectedComparison ? (
-          <aside className="hidden h-full lg:block">
-            <Card className="bg-card ring-app-surface-border/80 h-full gap-0 py-0 shadow-xs">
-              <CardContent className="p-4">
-                <h2 className="sr-only">
-                  Slot {selectedComparison.slot} comparison
-                </h2>
-                <TeamPlanComparisonDetails
-                  comparison={selectedComparison}
-                  idPrefix={`team-plan-panel-${selectedComparison.planMemberId}`}
-                  mechanics={plan.mechanics}
-                />
-              </CardContent>
-            </Card>
-          </aside>
+          <TeamPlanComparisonInspector
+            comparison={selectedComparison}
+            mechanics={plan.mechanics}
+          />
         ) : null}
       </div>
 

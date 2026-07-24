@@ -143,7 +143,14 @@ buckets. Reuse belongs at the nearest stable owner.
   an explicit view family. Keep leaf-view code in named children such as
   `team-overview` and `team-plan`; the family root may contain only contracts,
   data, server reads, or UI foundations genuinely shared by those views.
+- A leaf view must not import another leaf view's internals. Move a genuinely
+  shared formatter, contract, mapper, or UI foundation to the nearest Hub,
+  feature, or view-family owner; the architecture check enforces this boundary
+  for Play Hub views.
 - A complex view may nest section folders that mirror visible page concerns.
+- Name components that own a top-level visible page Card `*Section`. Reserve
+  `*Card` for reusable visual cards, `*Detail` or `*Inspector` for contextual
+  content, and `*Sheet` for responsive overlays.
 - Use `shared` inside a feature only when behavior is reused across that
   feature's views. Create module-wide shared code only after reuse crosses
   features.
@@ -170,6 +177,12 @@ needs independent review, reuse, or testing.
 - `client`: browser-only state, API, and model helpers.
 - `display`: formatting and presentation selectors.
 - `types.ts` or `types/*`: type-only contracts.
+
+Readers must distinguish an empty result from a failed read. Do not turn a
+failed required query into an empty array or `null` that the UI can mistake for
+authoritative absence. Give each route the smallest cohesive read model it
+needs; an Overview preview must not reuse a detailed workspace reader when that
+loads unrelated reference or product data.
 
 Components may own interaction state but never create Supabase clients or issue
 raw reads. Client Components may import Server Actions, not server queries or
@@ -205,7 +218,13 @@ validating, comparing, or summarizing mechanic-dependent data.
 ## File And Naming Hygiene
 
 - Keep route files small and import feature-owned page entry points.
+- Prefer passing one cohesive route model as `data` to the feature entry,
+  alongside only route-owned identifiers or callbacks. Do not make a route
+  unpack a model into a long list of view-internal props.
 - Use explicit, searchable filenames and exports.
+- Use relative imports within one leaf view or section. Use `@/` aliases when
+  crossing a view, view-family, Hub, feature, module, platform, or shared
+  ownership boundary. Do not add barrel files solely to shorten imports.
 - Keep `v1` and `v2` out of runtime filenames, folder names, and public asset
   names until the app has a real multi-version requirement. Version labels may
   remain in documentation and agent guidance where they describe product

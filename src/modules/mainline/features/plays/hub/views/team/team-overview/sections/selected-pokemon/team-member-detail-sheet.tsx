@@ -2,9 +2,9 @@
 
 import { useRef } from "react";
 
-import { getTeamMemberName } from "@/modules/mainline/features/plays/hub/views/team/team-overview/display/team-member-display";
-import { TeamMemberDetailContent } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-detail-content";
-import { TeamMemberEditAction } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-edit-action";
+import { getTeamMemberName } from "../../display/team-member-display";
+import { TeamMemberDetailContent } from "./team-member-detail-content";
+import { TeamMemberEditAction } from "./team-member-edit-action";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import {

@@ -52,8 +52,8 @@ The active source follows these ownership rules:
 - `src/modules/codex/shared` now contains only Codex-owned shared presentation
   such as its page shell, filter panel, generation section, and empty states.
 - Mainline Plays uses `browse`, `hub`, and `shared` view boundaries. The Hub
-  separates Hub-wide shell responsibilities from grouped tab views, while
-  complex tabs such as Overview and Team group their visible areas under
+  separates Hub-wide shell responsibilities from route-backed views, while
+  complex views such as Overview and Team group their visible areas under
   `sections` instead of hiding them in a broad `detail/components` tree.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
   pure enrichment, and final page-model assembly.
@@ -247,13 +247,15 @@ src/modules/mainline/features/plays/
   browse/
   hub/
     data/
+    display/
     server/
     shell/
-      mainline-play-hub-page.tsx
-      mainline-play-hub-tabs.tsx
+      mainline-play-shell.tsx
+      mainline-play-navigation.tsx
       top-section/
     views/
       overview/
+        data/
         server/
         sections/
           journey-status/
@@ -295,9 +297,19 @@ surfaces; and `sections` groups visible areas inside one surface. A navigation
 branch with multiple route-backed surfaces becomes a view family: `team` groups
 `team-overview` and `team-plan`, while its root `data`, `server`, and `shared`
 folders contain only code used by both. Each route keeps its own read contract,
-so Team Plan does not load Team Overview timeline data. Prefer this
+so Overview loads a small Active-Team preview, Team Plan does not load Team
+Overview timeline data, and detailed Team enrichment remains inside the Team
+workspace read. Leaf views never import sibling-view internals; genuinely
+shared display or domain behavior moves to the Hub or view-family owner. The
+architecture check enforces this direction. Prefer this
 product-first hierarchy over a single broad `components` folder or mixing view
 names with Hub-wide `data` and `server` folders.
+
+Within a leaf view, use relative imports for nearby sections and helpers. Use
+the `@/` alias when an import crosses an ownership boundary. Top-level visible
+Card owners use the `*Section` suffix; `*Card` identifies a reusable visual
+card, `*Detail` or `*Inspector` identifies contextual content, and `*Sheet`
+identifies a responsive overlay.
 
 Within a slice, add only the responsibility folders it needs:
 
@@ -323,7 +335,9 @@ The design goal is separation of concerns, not a fixed filename ritual.
 ### Reads
 
 For a simple read, one server file may create the appropriate client, perform
-the query, handle errors, and return a small typed result.
+the query, handle errors, and return a small typed result. A required read
+failure is not an empty product result: readers throw an explicit error or
+return a typed degraded state that the caller deliberately renders.
 
 For a complex read, separate the responsibilities that need independent review
 or reuse:
@@ -399,7 +413,8 @@ Current route groups remain:
 - public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
   Pokedex routes;
 - protected app: `/mainline`, `/mainline/plays`,
-  `/mainline/plays/[playId]`, and `/settings`;
+  `/mainline/plays/[playId]`, `/mainline/plays/[playId]/team`,
+  `/mainline/plays/[playId]/team/plan`, and `/settings`;
 - API: `/api/health` and `/api/codex/pokemon-menu`.
 
 Use code and [Project Status](../project-status.md) as the evidence for which

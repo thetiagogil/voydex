@@ -166,7 +166,7 @@ same canonical workflow owned by its destination, but it should not contain a
 second implementation of Team, Progress, or History editing.
 
 Do not add a permanent fifth Overview card for Plan. Linked Plan context belongs
-to the Team tab's compact Team Plan Card. Team owns the automatic Play-specific
+to the Team area's compact Team Plan Card. Team owns the automatic Play-specific
 comparison, while standalone Plan Detail owns reusable authoring and cross-Play
 usage.
 
@@ -434,12 +434,12 @@ Do not use the persistent header for current-Team counts, detailed Pokédex
 counts, general tags, notes, or platform. Team and Pokédex summaries already
 belong to Overview and their owning areas; tags support organization and
 filtering; notes and platform remain in Settings or detail surfaces. This keeps
-the header stable across tabs instead of turning it into another dashboard.
+the header stable across Hub views instead of turning it into another dashboard.
 
 #### Play Header Status Control
 
 The persistent Play Header owns routine status transitions so they remain
-quickly available from every Hub tab. Show the current status as a clear
+quickly available from every Hub view. Show the current status as a clear
 control with contextual verb actions rather than a raw status dropdown:
 
 | Current status | Header actions                                     |
@@ -801,7 +801,7 @@ competitive conclusions as real analysis.
 
 `Open full analysis` leads to the Play-owned route
 `/mainline/plays/[playId]/team/analysis`. This is a focused child of Team, not a
-new Play Hub tab or a global Mainline destination. Retain the Play Header and
+new primary Play area or a global Mainline destination. Retain the Play Header and
 Play Hub navigation, keep Team visibly active, and add a local `Team Analysis`
 heading with a clear `Back to Team` or `Manage Team` route. Direct URLs must
 load the same owner-scoped Play context and provide a stable return path.
@@ -976,7 +976,7 @@ changes`, `Not following the plan`, or `Plan not started`. This state is
 3. **Changes from Plan:** summarize unplanned members without turning them into
    inspectable target rows.
 4. **Comparison view:** one `View plan` action opens the focused view inside the
-   active Team tab.
+   active Team area.
 
 Do not add a percentage or large progress bar. Plan-member states are not
 another completion system. Team computes the comparison as read-only data and
@@ -1063,7 +1063,7 @@ must remain accessible in both the dialog and sheet presentations.
 
 **Status: Accepted**
 
-`Add Pokémon` is the Team tab's canonical primary action. It creates one actual
+`Add Pokémon` is the Team area's canonical primary action. It creates one actual
 Play-owned roster member and never creates or changes Plan data. Standalone Plan
 Detail may later reuse the roster-creation surface with one target prefilled,
 but the linked comparison remains automatic and stores no member association. A
@@ -1546,7 +1546,7 @@ Plan action to either confirmation.
 Do not place a `Past members` route inside the current Roster Card. When the
 focused destination is implemented, it presents a compact list of the Play's
 `Retired` and `Replaced` Pokémon with a clear `Back to current Team` action. Do
-not add a new Play Hub tab or hide full member records inside the event-only
+not add a new primary Play area or hide full member records inside the event-only
 History experience.
 
 Past Members is uncapped because its rows occupy no current slots. Order members
@@ -1673,7 +1673,7 @@ section and enters a route-backed child view. Progress Overview remains the
 parent route and appears as `Overview` inside the attached Progress menu. The
 primary label remains simply `Progress` on that landing view and becomes a
 compound label such as `Progress - Story` on a child route. Do not add a
-persistent second tab row.
+persistent second navigation row.
 
 The Progress parent label always returns to Progress Overview, while the
 attached menu enables direct switching between implemented sibling views.
@@ -1696,8 +1696,8 @@ State rules:
 
 **Status: Accepted**
 
-Story is a focused Progress workspace rather than another top-level Play Hub
-tab. Use this hierarchy:
+Story is a focused Progress workspace rather than another primary Play Hub
+area. Use this hierarchy:
 
 1. **Story summary:** show the current or furthest recorded position, the next
    applicable objective when one exists, and normalized Story completion. Do
@@ -2058,7 +2058,7 @@ audit log or another progress dashboard. It answers:
 - `What did my Pokémon and Team look like at that time?`
 
 Use one full-width journey timeline. Do not add a persistent selected-event
-panel, summary-stat cards, or local sub-tabs. The timeline remains visually
+panel, summary-stat cards, or local sub-navigation. The timeline remains visually
 dominant; filters, ordering, creation, and event detail support it.
 
 ### Information Hierarchy
@@ -2068,7 +2068,7 @@ dominant; filters, ordering, creation, and event detail support it.
 2. **Timeline controls:** provide search, one category filter, a
    Highlights-only control, and newest-first or oldest-first ordering in one
    compact toolbar. `All History`, `Story`, `Team`, and `Memories` are filters,
-   not another tab bar.
+   not another navigation bar.
 3. **Journey timeline:** render one continuous sequence of meaningful entries.
    Use incremental loading when needed without changing filters, order, focus,
    or the selected event.
@@ -2252,7 +2252,7 @@ editing controls:
 Use one Settings workspace rather than one long undifferentiated form. On
 desktop, use a compact local section rail beside one focused section. On narrow
 screens, replace the rail with an accessible section selector. These are local
-Settings sections, not additional Play Hub tabs or separate V1 routes:
+Settings sections, not additional primary Play areas or separate V1 routes:
 
 1. **General:** read-only game identity, Play name, trainer name, platform,
    started and completed dates, playtime, and durable Play notes.
@@ -2397,7 +2397,7 @@ to wrap, and never introduce horizontal page scrolling.
 **Status: V1 functional contract accepted; visual validation pending**
 
 Do not repeat routine status-transition buttons inside Settings because the
-persistent Play Header remains visible on the Settings tab. This section owns
+persistent Play Header remains visible on the Settings view. This section owns
 the lower-frequency Play-record operations:
 
 - show the current recorded status and a concise explanation of its meaning;

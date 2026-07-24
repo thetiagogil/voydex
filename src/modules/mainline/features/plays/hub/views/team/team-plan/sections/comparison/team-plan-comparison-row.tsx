@@ -1,9 +1,9 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
 import { getTeamPlanStatusLabel } from "@/modules/mainline/features/plays/hub/views/team/shared/team-plan-display";
 import { TeamSlotLabel } from "@/modules/mainline/features/plays/hub/views/team/shared/team-slot-label";
-import { teamPlanComparisonGridClassName } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-comparison-layout";
-import { TeamPlanPokemonIdentity } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-pokemon-identity";
-import { TeamPlanStatus } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-status";
+import { teamPlanComparisonGridClassName } from "./team-plan-comparison-layout";
+import { TeamPlanPokemonIdentity } from "./team-plan-pokemon-identity";
+import { TeamPlanStatus } from "./team-plan-status";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SelectableItem } from "@/shared/components/selectable-item";
 import { cn } from "@/shared/utils/cn";

@@ -1,10 +1,14 @@
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 
-import type { TimelineDateDisplay } from "./recent-history-types";
+export type PlayTimelineDateDisplay = {
+  date: string;
+  dateTime: string;
+  time: string;
+};
 
-export const formatTimelineDate = (
+export const formatPlayTimelineDate = (
   event: MainlinePlayTimelineEvent,
-): TimelineDateDisplay => {
+): PlayTimelineDateDisplay => {
   const happenedAt = event.happened_at ?? event.created_at;
   const date = happenedAt ? new Date(happenedAt) : null;
 

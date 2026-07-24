@@ -4,7 +4,7 @@ import {
   buildMember,
   buildPlanRow,
   buildTeamPlanSummary,
-} from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-test-fixtures";
+} from "@/modules/mainline/features/plays/hub/views/team/data/__tests__/team-plan-test-fixtures";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
   PokemonAttributes,

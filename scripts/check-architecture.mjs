@@ -6,8 +6,122 @@ import ts from "typescript";
 const projectRoot = process.cwd();
 const sourceRoot = path.join(projectRoot, "src");
 const sourceExtensions = new Set([".ts", ".tsx", ".mts", ".cts"]);
+const mainlinePlayHubViewsPrefix = [
+  "modules",
+  "mainline",
+  "features",
+  "plays",
+  "hub",
+  "views",
+];
+const responsibilityFolderNames = new Set([
+  "__tests__",
+  "application",
+  "client",
+  "components",
+  "data",
+  "display",
+  "domain",
+  "infrastructure",
+  "sections",
+  "server",
+  "shared",
+  "types",
+  "utils",
+]);
 
 const normalizePath = (value) => value.split(path.sep).join("/");
+const startsWithSegments = (segments, prefix) =>
+  prefix.every((segment, index) => segments[index] === segment);
+
+function getPlayHubLeafView(segments) {
+  const candidate = segments[mainlinePlayHubViewsPrefix.length + 1];
+
+  if (
+    !candidate ||
+    responsibilityFolderNames.has(candidate) ||
+    sourceExtensions.has(path.extname(candidate))
+  ) {
+    return null;
+  }
+
+  return candidate;
+}
+
+function crossesPlayHubViewBoundary(sourceSegments, targetSegments) {
+  if (
+    !startsWithSegments(sourceSegments, mainlinePlayHubViewsPrefix) ||
+    !startsWithSegments(targetSegments, mainlinePlayHubViewsPrefix)
+  ) {
+    return false;
+  }
+
+  const viewIndex = mainlinePlayHubViewsPrefix.length;
+  const sourceView = sourceSegments[viewIndex];
+  const targetView = targetSegments[viewIndex];
+
+  if (sourceView !== targetView) {
+    return true;
+  }
+
+  const sourceLeaf = getPlayHubLeafView(sourceSegments);
+  const targetLeaf = getPlayHubLeafView(targetSegments);
+
+  return Boolean(targetLeaf) && sourceLeaf !== targetLeaf;
+}
+
+function verifyPlayHubBoundaryFixtures() {
+  const fixtures = [
+    {
+      source:
+        "modules/mainline/features/plays/hub/views/team/team-overview/sections/roster.tsx",
+      target:
+        "modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison.tsx",
+      violates: true,
+    },
+    {
+      source:
+        "modules/mainline/features/plays/hub/views/progress/progress-overview/sections/summary.tsx",
+      target:
+        "modules/mainline/features/plays/hub/views/progress/story/sections/story.tsx",
+      violates: true,
+    },
+    {
+      source:
+        "modules/mainline/features/plays/hub/views/team/data/team-view-mapper.ts",
+      target:
+        "modules/mainline/features/plays/hub/views/team/team-plan/mainline-play-team-plan.tsx",
+      violates: true,
+    },
+    {
+      source:
+        "modules/mainline/features/plays/hub/views/team/team-overview/sections/roster.tsx",
+      target:
+        "modules/mainline/features/plays/hub/views/team/shared/team-slot-label.tsx",
+      violates: false,
+    },
+    {
+      source:
+        "modules/mainline/features/plays/hub/views/overview/sections/team/team-section.tsx",
+      target:
+        "modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper.ts",
+      violates: false,
+    },
+  ];
+
+  for (const fixture of fixtures) {
+    const actual = crossesPlayHubViewBoundary(
+      fixture.source.split("/"),
+      fixture.target.split("/"),
+    );
+
+    if (actual !== fixture.violates) {
+      throw new Error(
+        `Play Hub boundary fixture failed: ${fixture.source} -> ${fixture.target}`,
+      );
+    }
+  }
+}
 
 async function collectSourceFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -92,6 +206,15 @@ function checkImportBoundary({
   const targetSegments = targetRelativePath.split("/");
   const sourceArea = importerSegments[0];
   const targetArea = targetSegments[0];
+
+  if (crossesPlayHubViewBoundary(importerSegments, targetSegments)) {
+    addImportViolation(
+      violations,
+      normalizePath(path.relative(projectRoot, importerPath)),
+      "Play Hub leaf views must use Hub-owned or family-owned shared code instead of sibling view internals",
+      specifier,
+    );
+  }
 
   if (
     sourceArea === "shared" &&
@@ -316,6 +439,8 @@ async function checkFile(filePath) {
 
   return violations;
 }
+
+verifyPlayHubBoundaryFixtures();
 
 const sourceFiles = await collectSourceFiles(sourceRoot);
 const violations = (await Promise.all(sourceFiles.map(checkFile)))

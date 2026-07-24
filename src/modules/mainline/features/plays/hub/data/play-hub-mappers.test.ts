@@ -10,6 +10,7 @@ import type {
   MainlineChallengeRule,
   MainlinePlayChallengeRuleLink,
   MainlinePlayTeamMemberRow,
+  MainlinePlayTeamPreviewRow,
 } from "@/modules/mainline/features/plays/hub/types";
 
 const buildRule = (id: string, name: string) => {
@@ -46,16 +47,11 @@ describe("buildMainlinePlayRules", () => {
 });
 
 describe("Play page data mappers", () => {
-  it("limits the Overview team preview to Active members", () => {
+  it("maps the members loaded for the Overview team preview", () => {
     const activeMember = {
       play_pokemon_id: "active-member",
       roster_state_slug: "active",
-    } as MainlinePlayTeamMemberRow;
-    const reserveMember = {
-      play_pokemon_id: "reserve-member",
-      roster_state_slug: "reserve",
-    } as MainlinePlayTeamMemberRow;
-
+    } as MainlinePlayTeamPreviewRow;
     const data = buildMainlinePlayOverviewData({
       milestones: {
         lastCompletedMilestone: null,
@@ -63,16 +59,10 @@ describe("Play page data mappers", () => {
       },
       overview: null,
       play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
-      teamRows: {
-        abilityAttributes: [],
+      teamPreviewRows: {
         attributes: [],
-        members: [activeMember, reserveMember],
-        moveAttributes: [],
-        natures: [],
+        members: [activeMember],
         types: [],
-        validBallItemIds: [],
-        versionGroupId: null,
-        versionGroups: [],
       },
       timelinePreview: [],
     });

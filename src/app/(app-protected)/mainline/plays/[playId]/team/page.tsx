@@ -19,14 +19,5 @@ export default async function MainlinePlayTeamRoute({
     notFound();
   }
 
-  return (
-    <MainlinePlayTeamOverview
-      events={data.teamTimelinePreview}
-      gameSlug={data.play.game_slug}
-      mechanics={data.mechanics}
-      playId={playId}
-      roster={data.roster}
-      teamPlan={data.teamPlan}
-    />
-  );
+  return <MainlinePlayTeamOverview data={data} playId={playId} />;
 }

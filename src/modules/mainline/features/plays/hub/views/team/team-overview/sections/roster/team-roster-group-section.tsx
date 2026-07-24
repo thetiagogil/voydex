@@ -1,5 +1,5 @@
-import { getTeamRosterSlots } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/roster/team-roster-model";
-import { TeamRosterRow } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/roster/team-roster-row";
+import { getTeamRosterSlots } from "./team-roster-model";
+import { TeamRosterRow } from "./team-roster-row";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { ItemGroup } from "@/shared/components/ui/item";
 

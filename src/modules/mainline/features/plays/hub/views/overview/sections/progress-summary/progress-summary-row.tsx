@@ -1,4 +1,4 @@
-import type { ProgressSummaryItem } from "@/modules/mainline/features/plays/hub/views/overview/sections/progress-summary/progress-summary-model";
+import type { ProgressSummaryItem } from "./progress-summary-model";
 import { AppIcon } from "@/shared/components/app-icon";
 import { Progress } from "@/shared/components/ui/progress";
 

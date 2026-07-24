@@ -1,5 +1,5 @@
-import { formatMilestoneDate } from "@/modules/mainline/features/plays/hub/views/overview/sections/journey-status/journey-status-formatters";
-import { JourneyStatusItem } from "@/modules/mainline/features/plays/hub/views/overview/sections/journey-status/journey-status-item";
+import { formatMilestoneDate } from "./journey-status-formatters";
+import { JourneyStatusItem } from "./journey-status-item";
 import type { MainlinePlayMilestone } from "@/modules/mainline/features/plays/hub/types";
 import type { AppIconComponent } from "@/shared/components/app-icon";
 

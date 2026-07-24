@@ -1,7 +1,7 @@
-import { TeamPlanBuildComparison } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-build-comparison";
-import { TeamPlanMovesComparison } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-moves-comparison";
-import { TeamPlanPokemonIdentity } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-pokemon-identity";
-import { TeamPlanStatus } from "@/modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison/team-plan-status";
+import { TeamPlanBuildComparison } from "./team-plan-build-comparison";
+import { TeamPlanMovesComparison } from "./team-plan-moves-comparison";
+import { TeamPlanPokemonIdentity } from "./team-plan-pokemon-identity";
+import { TeamPlanStatus } from "./team-plan-status";
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 

@@ -3,38 +3,31 @@
 import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { useTeamDetailSheetLayout } from "@/modules/mainline/features/plays/hub/views/team/shared/use-team-detail-sheet-layout";
-import { LinkedPlanSummaryPanel } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/linked-plan-summary/linked-plan-summary-panel";
-import { TeamEventsPanel } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/recent-team-events/team-events-panel";
-import { getDefaultTeamMember } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/roster/team-roster-model";
-import { TeamRosterCard } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/roster/team-roster-card";
-import { TeamMemberDetailSheet } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-detail-sheet";
-import { TeamMemberDetail } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-detail";
-import { TeamAnalysisPanel } from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/team-analysis/team-analysis-panel";
 import type {
   MainlinePlayTeamMember,
-  MainlinePlayTeamPlanPreview,
-  MainlinePlayTimelineEvent,
+  MainlinePlayTeamOverviewData,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 
-type MainlinePlayTeamProps = {
-  events: MainlinePlayTimelineEvent[];
-  gameSlug: string | null;
-  mechanics: GameMechanicsProfile;
+import { useTeamDetailSheetLayout } from "../shared/use-team-detail-sheet-layout";
+import { LinkedPlanSummarySection } from "./sections/linked-plan-summary/linked-plan-summary-section";
+import { TeamEventsSection } from "./sections/recent-team-events/team-events-section";
+import { getDefaultTeamMember } from "./sections/roster/team-roster-model";
+import { TeamRosterSection } from "./sections/roster/team-roster-section";
+import { TeamMemberDetail } from "./sections/selected-pokemon/team-member-detail";
+import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
+import { TeamAnalysisSection } from "./sections/team-analysis/team-analysis-section";
+
+type MainlinePlayTeamOverviewProps = {
+  data: MainlinePlayTeamOverviewData;
   playId: string;
-  roster: MainlinePlayTeamMember[];
-  teamPlan: MainlinePlayTeamPlanPreview | null;
 };
 
 export const MainlinePlayTeamOverview = ({
-  events,
-  gameSlug,
-  mechanics,
+  data,
   playId,
-  roster,
-  teamPlan,
-}: MainlinePlayTeamProps) => {
+}: MainlinePlayTeamOverviewProps) => {
+  const { mechanics, roster, teamPlan, teamTimelinePreview: events } = data;
+  const gameSlug = data.play.game_slug;
   const defaultMember = getDefaultTeamMember(roster);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(
     defaultMember?.play_pokemon_id ?? null,
@@ -69,13 +62,13 @@ export const MainlinePlayTeamOverview = ({
     <>
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(19rem,4fr)_minmax(0,9fr)]">
         <div className="grid min-w-0 gap-4">
-          <TeamRosterCard
+          <TeamRosterSection
             roster={roster}
             selectedMemberId={rosterSelectedMemberId}
             onSelect={selectMember}
           />
           {teamPlan ? (
-            <LinkedPlanSummaryPanel
+            <LinkedPlanSummarySection
               href={appRoutes.mainlinePlayTeamPlan(playId)}
               plan={teamPlan}
             />
@@ -91,8 +84,8 @@ export const MainlinePlayTeamOverview = ({
             />
           </div>
 
-          <TeamAnalysisPanel roster={roster} />
-          <TeamEventsPanel events={events} />
+          <TeamAnalysisSection roster={roster} />
+          <TeamEventsSection events={events} />
         </div>
       </div>
 

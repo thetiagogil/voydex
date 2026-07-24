@@ -8,12 +8,6 @@ export type TimelineEventDisplay = {
   tone: TimelineEventTone;
 };
 
-export type TimelineDateDisplay = {
-  date: string;
-  dateTime: string;
-  time: string;
-};
-
 export type TimelineMediaItem = {
   imageUrl: string | null;
   key: string;
