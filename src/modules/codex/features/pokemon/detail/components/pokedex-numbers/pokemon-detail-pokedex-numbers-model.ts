@@ -2,7 +2,7 @@ import type { PokemonPokedexSummary } from "@/modules/reference/types";
 import {
   formatPokedexName,
   formatPokemonNationalNumber,
-} from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonDetailPokedexNumber = {
   id: string;

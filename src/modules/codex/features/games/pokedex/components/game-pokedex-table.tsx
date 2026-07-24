@@ -18,7 +18,7 @@ import {
 import {
   formatPokedexName,
   formatPokemonNationalNumber,
-} from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   GamePokedexData,
   GamePokedexPokemon,

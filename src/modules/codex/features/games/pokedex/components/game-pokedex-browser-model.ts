@@ -2,7 +2,7 @@ import type {
   GamePokedexData,
   GamePokedexPokemon,
 } from "@/modules/reference/types";
-import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type GamePokedexFilters = {
   query: string;

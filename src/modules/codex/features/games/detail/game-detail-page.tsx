@@ -6,7 +6,7 @@ import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/de
 import { GameDetailTopSection } from "@/modules/codex/features/games/detail/components/top-section/game-detail-top-section";
 import { getGameDetailData } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
+import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
 
 type GameDetailPageProps = {
   gameSlug: string;

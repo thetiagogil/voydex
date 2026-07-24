@@ -1,7 +1,7 @@
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberSpeciesName,
-} from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";

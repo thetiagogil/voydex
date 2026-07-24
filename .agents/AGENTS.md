@@ -154,6 +154,11 @@ buckets. Reuse belongs at the nearest stable owner.
 - Use `shared` inside a feature only when behavior is reused across that
   feature's views. Create module-wide shared code only after reuse crosses
   features.
+- Prefer the smallest recognizable leaf-view vocabulary: `sections` for visible
+  page areas, `server` for server-only workflows and persistence, `utils` for
+  small pure helpers, and `data` for substantial pure models or transformations.
+  Add `components` only for UI reused across sections and `client` only for
+  browser-owned state or helpers.
 - Do not create empty responsibility folders or mandatory templates.
 - Cross-module consumers use the public contracts of `src/modules/reference`.
   Concrete catalogue components and domain utilities may use explicit feature
@@ -167,16 +172,28 @@ needs independent review, reuse, or testing.
 - `server/*-query.ts`: complex read orchestration and public server entry.
 - `server/*-reader.ts`: raw Supabase/database I/O. Existing `*-loaders.ts` may
   retain their name.
+- `server/*-command.ts`: mutation orchestration when it merits a separately
+  tested use case.
+- `server/*-repository.ts`: database or external persistence adapter when it
+  merits an independently reviewable boundary.
 - `data/*-mappers.ts`: pure row-to-model transformation.
 - `data/*-selectors.ts`: pure selection over loaded data or models.
 - `server/*-action.ts`: Server Actions with explicit authentication and input
   parsing.
-- `application`: commands/use cases that orchestrate a non-trivial mutation.
-- `domain`: pure invariants and domain types.
-- `infrastructure`: repositories and external persistence adapters.
+- `utils`: small pure validation, formatting, and presentation helpers with
+  explicit filenames.
+- `components`: UI shared by multiple top-level sections in the same feature or
+  view.
 - `client`: browser-only state, API, and model helpers.
-- `display`: formatting and presentation selectors.
 - `types.ts` or `types/*`: type-only contracts.
+
+Do not create one-file `application`, `infrastructure`, or `display` folders
+inside a leaf view. Keep commands and repositories in `server`, and keep small
+pure domain validation or display helpers in `utils`. A dedicated `domain`,
+`application`, or `infrastructure` boundary remains appropriate for substantial
+module-wide rules or workflows that have independent reuse, complexity, and
+review needs; the reference-owned game mechanics and Pokémon type rules are
+examples of a real domain boundary.
 
 Readers must distinguish an empty result from a failed read. Do not turn a
 failed required query into an empty array or `null` that the UI can mistake for
@@ -186,8 +203,9 @@ loads unrelated reference or product data.
 
 Components may own interaction state but never create Supabase clients or issue
 raw reads. Client Components may import Server Actions, not server queries or
-readers. Multi-table writes follow action → command/use case → domain →
-repository/RPC → database constraints and RLS.
+readers. Multi-table writes follow action → validated command/use case →
+repository/RPC → database constraints and RLS. These responsibilities may be
+separate files in one `server` folder; they do not require a folder per layer.
 
 Derived comparisons remain derived. In particular, linked Team Plan statuses
 are pure application mapping over authored Plan targets, Play Pokémon, and

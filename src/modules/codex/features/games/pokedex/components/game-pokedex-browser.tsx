@@ -13,7 +13,7 @@ import { GamePokedexFilterForm } from "@/modules/codex/features/games/pokedex/co
 import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table";
 import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
 import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import {
   gameMechanics,
   supportsGameMechanic,

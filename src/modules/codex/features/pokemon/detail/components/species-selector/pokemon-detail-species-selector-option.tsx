@@ -6,7 +6,7 @@ import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 type PokemonDetailSpeciesSelectorOptionProps = {
   groupHeader?: string;

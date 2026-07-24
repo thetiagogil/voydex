@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { cn } from "@/shared/utils/cn";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type GameCoverArtProps = {
   className?: string;

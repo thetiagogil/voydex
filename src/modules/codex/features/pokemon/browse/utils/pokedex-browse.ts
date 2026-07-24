@@ -3,7 +3,7 @@ import type {
   PokedexPokemonBrowseCard,
 } from "@/modules/reference/types";
 import { matchesPokemonCategory } from "@/modules/reference/features/pokemon/domain/pokemon-categories";
-import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type SearchablePokedexPokemon = PokedexPokemonBrowseCard & {
   searchText: string;

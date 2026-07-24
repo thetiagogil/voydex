@@ -5,7 +5,7 @@ import { GamePokedexBrowser } from "@/modules/codex/features/games/pokedex/compo
 import { GamePokedexSwitcher } from "@/modules/codex/features/games/pokedex/components/game-pokedex-switcher";
 import { getGamePokedexData } from "@/modules/codex/features/games/pokedex/server/game-pokedex-query";
 import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { PageHeader } from "@/shared/components/page-header";
 
 type GamePokedexPageProps = {

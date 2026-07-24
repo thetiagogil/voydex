@@ -1,4 +1,4 @@
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type MainlinePlayTopCoverArtProps = {
   coverImageUrl: string | null;

@@ -8,7 +8,7 @@ import { Separator } from "@/shared/components/ui/separator";
 import {
   formatPokemonHeight,
   formatPokemonWeight,
-} from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+} from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 type PokemonDetailCoreDataCardProps = {
   form: ResolvedPokemonDetailScope["form"];

@@ -1,4 +1,4 @@
-import { formatTeamMemberGender } from "../../display/team-member-display";
+import { formatTeamMemberGender } from "../../utils/team-member-display";
 import { TeamMemberActions } from "./team-member-actions";
 import { TeamMemberIdentity } from "./team-member-identity";
 import { TeamMemberMoves } from "./team-member-moves";

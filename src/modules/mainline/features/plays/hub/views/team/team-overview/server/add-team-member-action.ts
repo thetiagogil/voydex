@@ -3,14 +3,14 @@
 import { revalidatePath } from "next/cache";
 
 import { appRoutes } from "@/config/routes";
-import { addMainlinePlayPokemon } from "../application/add-team-member-command";
 import {
   type MainlineTeamGender,
   type AddMainlinePlayPokemonInput,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/domain/team-member-domain";
-import { createMainlineTeamRepository } from "../infrastructure/team-repository";
+} from "../utils/team-member-validation";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { addMainlinePlayPokemon } from "./add-team-member-command";
+import { createMainlineTeamRepository } from "./team-repository";
 
 const getRequiredFormInteger = (formData: FormData, key: string) => {
   const value = formData.get(key);

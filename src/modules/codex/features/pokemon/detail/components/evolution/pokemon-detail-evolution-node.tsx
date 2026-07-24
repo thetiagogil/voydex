@@ -18,7 +18,7 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonDetailEvolutionNodeLinkScope = {
   activeGameSlug: string | null;

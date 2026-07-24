@@ -7,7 +7,7 @@ import {
   getPokemonDetailFormImageUrl,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 type PokemonDetailFormListItemContentProps = {
   className?: string;

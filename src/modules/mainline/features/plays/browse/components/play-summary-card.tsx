@@ -5,14 +5,14 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { PlaySummaryTeamPreview } from "@/modules/mainline/features/plays/browse/components/play-summary-team-preview";
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/display/play-formatters";
-import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
+import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/utils/play-status-display";
 import type {
   MainlinePlayBrowseItem,
   MainlinePlayBrowseProgress,
 } from "@/modules/mainline/features/plays/shared/types";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { StatusBadge } from "@/shared/components/status-badge";
 import {

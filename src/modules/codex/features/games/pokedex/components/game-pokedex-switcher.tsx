@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";

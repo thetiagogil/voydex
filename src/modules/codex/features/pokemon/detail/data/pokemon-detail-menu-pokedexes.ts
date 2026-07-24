@@ -1,4 +1,4 @@
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   Pokedex,
   PokedexEntry,

@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 import type { GameCard } from "@/modules/reference/types";
 
 type GameDetailRelatedGameCardProps = {

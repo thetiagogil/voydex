@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import type { GameDetailData } from "@/modules/reference/types";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type GameDetailCoverArtProps = {
   data: GameDetailData;

@@ -11,7 +11,7 @@ import {
   pokemonTypeCardSurfaceClassName,
 } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 type PokedexPokemonCardProps = {
   pokemon: PokedexPokemonBrowseCard;

@@ -1,7 +1,7 @@
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonMenuLoadState = "idle" | "loading" | "loaded" | "error";
 

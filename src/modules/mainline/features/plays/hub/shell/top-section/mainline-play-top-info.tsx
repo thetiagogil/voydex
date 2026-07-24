@@ -1,8 +1,8 @@
 import {
   formatPlayDate,
   formatPlayMinutes,
-} from "@/modules/mainline/features/plays/shared/display/play-formatters";
-import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/display/play-status-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { getPlayStatusBadgeTone } from "@/modules/mainline/features/plays/shared/utils/play-status-display";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import {
   AppIcon,

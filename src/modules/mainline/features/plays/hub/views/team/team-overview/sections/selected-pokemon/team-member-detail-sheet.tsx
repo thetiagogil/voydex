@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { getTeamMemberName } from "../../display/team-member-display";
+import { getTeamMemberName } from "../../utils/team-member-display";
 import { TeamMemberDetailContent } from "./team-member-detail-content";
 import { TeamMemberEditAction } from "./team-member-edit-action";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";

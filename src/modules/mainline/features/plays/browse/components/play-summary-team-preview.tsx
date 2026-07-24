@@ -1,7 +1,7 @@
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type {
   MainlinePlayBrowseTeam,
   MainlinePlayTeamMember,

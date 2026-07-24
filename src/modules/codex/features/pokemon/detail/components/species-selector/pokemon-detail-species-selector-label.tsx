@@ -1,4 +1,4 @@
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 type PokemonDetailSpeciesSelectorPokemon = {
   name: string;

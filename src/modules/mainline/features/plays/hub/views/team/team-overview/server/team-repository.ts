@@ -2,8 +2,8 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   type AddMainlinePlayPokemonRepository,
   type AddMainlinePlayPokemonResult,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/application/add-team-member-command";
-import type { AddMainlinePlayPokemonInput } from "../domain/team-member-domain";
+} from "./add-team-member-command";
+import type { AddMainlinePlayPokemonInput } from "../utils/team-member-validation";
 
 export const createMainlineTeamRepository = (
   supabase: ServerSupabaseClient,
@@ -31,7 +31,7 @@ export const createMainlineTeamRepository = (
         });
 
       if (error) {
-        throw new Error("Unable to add PokÃ©mon to the play team.");
+        throw new Error("Unable to add Pokémon to the play team.");
       }
 
       const result = data?.[0];

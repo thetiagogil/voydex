@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   MainlineTeamValidationError,
   validateAddMainlinePlayPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/domain/team-member-domain";
+} from "./team-member-validation";
 
 const validInput = {
   formId: 25,

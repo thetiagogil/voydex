@@ -1,4 +1,4 @@
-import { formatPlayDateTime } from "@/modules/mainline/features/plays/shared/display/play-formatters";
+import { formatPlayDateTime } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import type { MainlinePlayMilestone } from "@/modules/mainline/features/plays/hub/types";
 
 export const formatMilestoneDate = (milestone: MainlinePlayMilestone) => {

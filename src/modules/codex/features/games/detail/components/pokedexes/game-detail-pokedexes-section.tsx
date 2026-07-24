@@ -4,7 +4,7 @@ import { appRoutes } from "@/config/routes";
 import { GameDetailSectionCard } from "@/modules/codex/features/games/detail/components/game-detail-section-card";
 import { CodexInlineEmpty } from "@/modules/codex/shared/components/codex-inline-empty";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/display/pokemon-formatters";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GameDetailData } from "@/modules/reference/types";
 
 type GameDetailPokedexesSectionProps = {

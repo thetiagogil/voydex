@@ -63,8 +63,9 @@ The active source follows these ownership rules:
 - representative reads include a cohesive simple public read, a complex public
   Games read with independent I/O and mapping, and an authenticated Play Hub
   read with claim verification, owner-scoped readers, and pure page assembly.
-- the first non-trivial mutation uses a Server Action, application command,
-  pure domain validation, repository, and transactional database function.
+- the first non-trivial mutation uses separate Server Action, command,
+  validation, repository, and transactional database responsibilities, grouped
+  under the leaf view's `server` and `utils` folders.
 - generated shared UI primitives remain documented size exceptions; the
   architecture checker rejects retired paths and prohibited dependencies.
 
@@ -200,8 +201,10 @@ real cross-feature responsibility exists:
 - `application`: module-wide use cases or commands;
 - `infrastructure`: module-specific adapters or repositories.
 
-Do not create these folders pre-emptively. A small module containing only
-`features` is healthy.
+These module-wide layers are exceptions for substantial responsibilities with
+independent reuse and review needs. Do not reproduce them as one-file folders
+inside every feature or leaf view. A small module containing only `features` is
+healthy.
 
 The internal reference module currently uses this responsibility-driven shape:
 
@@ -211,17 +214,17 @@ src/modules/reference/
     games/
       components/
       data/
-      display/
       domain/
       styles/
       types.ts
+      utils/
     pokemon/
       components/
       data/
-      display/
       domain/
       styles/
       types.ts
+      utils/
   shared/
     data/
     server/
@@ -247,12 +250,12 @@ src/modules/mainline/features/plays/
   browse/
   hub/
     data/
-    display/
     server/
     shell/
       mainline-play-shell.tsx
       mainline-play-navigation.tsx
       top-section/
+    utils/
     views/
       overview/
         data/
@@ -267,10 +270,6 @@ src/modules/mainline/features/plays/
         server/
         shared/
         team-overview/
-          application/
-          display/
-          domain/
-          infrastructure/
           server/
           sections/
             linked-plan-summary/
@@ -278,11 +277,17 @@ src/modules/mainline/features/plays/
             roster/
             selected-pokemon/
             team-analysis/
+          utils/
         team-plan/
           sections/
             comparison/
             notes/
             summary/
+        team-analysis/
+          components/
+          data/
+          sections/
+          server/
       progress/
       plans/
       history/
@@ -295,13 +300,13 @@ This nesting is intentional. `shell` owns Hub-wide UI composition; root `data`
 and `server` own Hub-wide read models and orchestration; `views` groups product
 surfaces; and `sections` groups visible areas inside one surface. A navigation
 branch with multiple route-backed surfaces becomes a view family: `team` groups
-`team-overview` and `team-plan`, while its root `data`, `server`, and `shared`
-folders contain only code used by both. Each route keeps its own read contract,
-so Overview loads a small Active-Team preview, Team Plan does not load Team
-Overview timeline data, and detailed Team enrichment remains inside the Team
-workspace read. Leaf views never import sibling-view internals; genuinely
-shared display or domain behavior moves to the Hub or view-family owner. The
-architecture check enforces this direction. Prefer this
+`team-overview`, `team-plan`, and `team-analysis`, while its root `data`,
+`server`, and `shared` folders contain only code used by multiple Team views.
+Each route keeps its own read contract, so Overview loads a small Active-Team
+preview, Team Plan does not load Team Overview timeline data, and Team Analysis
+owns its detailed analysis enrichment. Leaf views never import sibling-view
+internals; genuinely shared helpers or domain behavior move to the Hub or
+view-family owner. The architecture check enforces this direction. Prefer this
 product-first hierarchy over a single broad `components` folder or mixing view
 names with Hub-wide `data` and `server` folders.
 
@@ -319,14 +324,19 @@ feature-or-section/
   server/
   data/
   client/
-  display/
   utils/
   types/
   <feature-entry>.tsx
 ```
 
 Folders are not mandatory. A cohesive two-file feature should remain a
-two-file feature.
+two-file feature. Use `server` for actions, readers, commands, and repositories;
+use `utils` for small pure validation, formatting, or presentation helpers; and
+use `data` for substantial pure models, mappers, or selectors. Add
+`components` only when UI is reused across visible sections. Dedicated
+`domain`, `application`, or `infrastructure` folders remain valid for
+substantial module-wide responsibilities, but are not the default leaf-view
+shape.
 
 ## Reads, Writes, And File Responsibilities
 
@@ -364,13 +374,15 @@ Use this direction for interactive application writes:
 Client Component
   -> Server Action
   -> validation
-  -> application command/use case
+  -> command/use case
   -> repository or database RPC
   -> constraints, grants, and RLS
 ```
 
-The exact number of files depends on complexity. Database constraints and RLS
-remain authoritative; UI checks are not authorization.
+The exact number of files depends on complexity. These responsibilities may be
+separate files within one `server` folder rather than separate responsibility
+folders. Database constraints and RLS remain authoritative; UI checks are not
+authorization.
 
 ### UI And Client Boundaries
 
@@ -414,7 +426,8 @@ Current route groups remain:
   Pokedex routes;
 - protected app: `/mainline`, `/mainline/plays`,
   `/mainline/plays/[playId]`, `/mainline/plays/[playId]/team`,
-  `/mainline/plays/[playId]/team/plan`, and `/settings`;
+  `/mainline/plays/[playId]/team/plan`,
+  `/mainline/plays/[playId]/team/analysis`, and `/settings`;
 - API: `/api/health` and `/api/codex/pokemon-menu`.
 
 Use code and [Project Status](../project-status.md) as the evidence for which

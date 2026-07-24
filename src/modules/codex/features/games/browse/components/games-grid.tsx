@@ -6,8 +6,8 @@ import { cn } from "@/shared/utils/cn";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
 import type { GameCard } from "@/modules/reference/types";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/display/game-color-styles";
-import { getGameInitials } from "@/modules/reference/features/games/display/game-display";
+import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type GamesGridProps = {
   games: GameCard[];

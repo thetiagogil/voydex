@@ -2,7 +2,7 @@ import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/display/play-team-member-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
 export const getTeamMemberName = getPlayTeamMemberName;
 export const getTeamMemberImageUrl = getPlayTeamMemberImageUrl;

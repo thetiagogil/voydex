@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils/cn";
-import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/display/play-timeline-date";
+import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/utils/play-timeline-date";
 import {
   getTimelineDescription,
   getTimelineEventDisplay,
