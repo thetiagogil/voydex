@@ -70,7 +70,7 @@ const MoveCoverageMatrix = ({
   return (
     <div className="hidden md:block">
       <div
-        className="border-app-surface-border/70 text-muted-foreground grid min-w-[44rem] items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
+        className="border-app-surface-border/70 text-muted-foreground grid min-w-176 items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
         style={{ gridTemplateColumns }}
       >
         <span className="text-left">Defending type</span>
@@ -94,7 +94,7 @@ const MoveCoverageMatrix = ({
         {rows.map((row) => (
           <div
             key={row.defendingType.id}
-            className="hover:bg-muted/50 grid min-w-[44rem] items-center gap-x-1 px-2 py-1 text-center transition-colors"
+            className="grid min-w-176 items-center gap-x-1 px-2 py-1 text-center"
             style={{ gridTemplateColumns }}
           >
             <div className="justify-self-start">
@@ -149,8 +149,7 @@ const MoveCoverageAccordion = ({
             <TeamAnalysisTypeLabel type={row.defendingType} />
             <span className="text-muted-foreground mr-2 ml-auto text-xs">
               {row.coveredByMemberCount} Pokémon ·{" "}
-              {formatCount(row.moveCount, "move")} ·{" "}
-              {formatCount(row.stabMoveCount, "STAB move")}
+              {formatCount(row.moveCount, "move")} · {row.stabMoveCount} STAB
             </span>
           </AccordionTrigger>
           <AccordionContent className="grid gap-2 px-1">
