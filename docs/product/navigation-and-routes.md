@@ -228,8 +228,9 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Team Analysis remains a focused child of Play Team and keeps Team as the
   active Play section.
 - Team is a compound primary destination. Its parent route opens Team Overview;
-  Plan, Analysis, and Team History are route-backed child views selected from
-  the attached Team menu while the shared Play shell remains visible.
+  Plan, Analysis, and the Team History projection are route-backed child views
+  selected as `Plan`, `Analysis`, and `History` from the attached Team menu
+  while the shared Play shell remains visible.
 - Progress always opens Progress Overview. Story, Pokédex, and Collectibles are
   route-backed child views selected from the attached Progress menu while
   Progress remains active. Named Pokédex and Collectible-group selectors stay
@@ -237,6 +238,10 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - The contextual Team Plan comparison is a focused view inside the active Team
   section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
   navigation remain visible.
+- Focused Team History lives at
+  `/mainline/plays/[playId]/team/history`. Every breakpoint keeps the full
+  read-only event record inline; the timeline does not add a contextual sheet,
+  another route, or another navigation level.
 - History event details remain contextual sheets within the active Play History
   tab in V1. They do not require a separate route or a second navigation level.
 - Settings uses local sections inside the active Play Settings tab. General,

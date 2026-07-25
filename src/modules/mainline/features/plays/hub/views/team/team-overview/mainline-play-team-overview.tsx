@@ -85,7 +85,7 @@ export const MainlinePlayTeamOverview = ({
           </div>
 
           <TeamAnalysisSection playId={playId} roster={roster} />
-          <TeamEventsSection events={events} />
+          <TeamEventsSection events={events} playId={playId} />
         </div>
       </div>
 

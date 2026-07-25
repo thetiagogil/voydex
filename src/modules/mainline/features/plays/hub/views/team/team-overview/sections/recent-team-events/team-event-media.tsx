@@ -1,4 +1,4 @@
-import type { TeamEventVisual } from "./team-event-display";
+import type { TeamEventVisual } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-display";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { AppIcon } from "@/shared/components/app-icon";
 import { appIcons } from "@/shared/domain/icons/app-icons";

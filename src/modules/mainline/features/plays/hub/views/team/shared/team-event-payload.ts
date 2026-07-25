@@ -8,10 +8,14 @@ import type { Json } from "@/shared/types/database.types";
 type JsonRecord = Record<string, Json>;
 
 export type TeamEventPokemon = {
+  formName: string | null;
   imageUrl: string | null;
   key: string;
+  level: number | null;
   name: string;
+  nickname: string | null;
   role: string | null;
+  speciesName: string | null;
 };
 
 export type TeamEventRosterDestination = "Active" | "Reserve";
@@ -34,6 +38,10 @@ const getString = (record: JsonRecord, keys: string[]): string | null => {
 
 const getBoolean = (record: JsonRecord, key: string): boolean => {
   return record[key] === true;
+};
+
+const getNumber = (record: JsonRecord, key: string): number | null => {
+  return typeof record[key] === "number" ? record[key] : null;
 };
 
 const getRosterDestination = (
@@ -97,9 +105,10 @@ export const getTeamEventPokemon = (
       return [];
     }
 
-    const name =
-      getString(value, ["nickname", "form_name", "species_name"]) ??
-      "Unknown Pokémon";
+    const nickname = getString(value, ["nickname"]);
+    const formName = getString(value, ["form_name"]);
+    const speciesName = getString(value, ["species_name"]);
+    const name = nickname ?? formName ?? speciesName ?? "Unknown Pokémon";
     const role = getString(value, ["role"]);
     const spriteSlug = getString(value, ["sprite_slug"]);
     const spriteUrl = getString(value, ["sprite_url", "image_url"]);
@@ -117,10 +126,14 @@ export const getTeamEventPokemon = (
 
     return [
       {
+        formName,
         imageUrl,
         key: `${event.event_id ?? "team-event"}-${role ?? "pokemon"}-${String(identityValue)}`,
+        level: getNumber(value, "level"),
         name,
+        nickname,
         role,
+        speciesName,
       },
     ];
   });

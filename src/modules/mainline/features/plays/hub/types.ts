@@ -229,3 +229,8 @@ export type MainlinePlayTeamOverviewData = {
 export type MainlinePlayTeamPlanData = {
   teamPlan: MainlinePlayTeamPlanSummary | null;
 };
+
+export type MainlinePlayTeamHistoryData = {
+  events: MainlinePlayTimelineEvent[];
+  play: MainlinePlaySummary;
+};

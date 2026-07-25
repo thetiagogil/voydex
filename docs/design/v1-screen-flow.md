@@ -15,8 +15,8 @@ remains canonical in [Project Status](../project-status.md).
   V1-D125](./v1/decisions.md) select the
   light-first explorer's field-guide system recorded in
   [V1 Visual Language](./v1/visual-language.md). The shared shell, Plays Browse,
-  Play Hub Overview, Play Team, and the linked Team Plan comparison now
-  implement that production grammar.
+  Play Hub Overview, Play Team, the linked Team Plan comparison, Team Analysis,
+  and focused Team History now implement that production grammar.
 - Existing Dashboard work remains functional evidence until its view is
   migrated and verified. Only code
   listed in [Project Status](../project-status.md) is implemented; the other
@@ -83,7 +83,7 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Dashboard.
 - Plays browse and Create Play.
 - Play Hub: Overview, Team, Progress, History, and Settings in one shared,
-  route-backed shell. Team exposes Overview, Plan, Analysis, and Team History;
+  route-backed shell. Team exposes Overview, Plan, Analysis, and History;
   Progress exposes Overview, Story, Pokédex, and Collectibles. Standalone Plan
   Detail remains the reusable authoring owner.
 - Progress detail: Story, Pokédex, and Collectibles.
@@ -260,7 +260,7 @@ with one verified production slice at a time:
 6. Refine Mainline Dashboard when its route is mounted, using the accepted
    play-led contract and selected visual direction.
 7. Implement Create Play.
-8. Implement Progress Summary, Story, History, and Play Settings.
+8. Implement Progress Summary, Story, primary Play History, and Play Settings.
 9. Implement Play Pokédex and Collectibles.
 10. Collection, Collection Pokémon Detail, and Stats. **Functional contract
     accepted; visual validation pending.**

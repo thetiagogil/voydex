@@ -1,5 +1,5 @@
 import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/utils/play-timeline-date";
-import { getTeamEventDisplay } from "./team-event-display";
+import { getTeamEventDisplay } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-display";
 import { TeamEventMedia } from "./team-event-media";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon } from "@/shared/components/app-icon";

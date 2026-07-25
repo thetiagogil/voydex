@@ -32,7 +32,7 @@ type TeamNavigationView = {
 
 const teamViewLabels: Record<MainlinePlayTeamView, string> = {
   analysis: "Analysis",
-  history: "Team History",
+  history: "History",
   overview: "Overview",
   plan: "Plan",
 };
@@ -96,7 +96,8 @@ export const MainlinePlayNavigation = ({
     },
     {
       description: "Follow how the team changed over time.",
-      label: "Team History",
+      href: appRoutes.mainlinePlayTeamHistory(playId),
+      label: "History",
       value: "history",
     },
   ];

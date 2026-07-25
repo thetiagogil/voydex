@@ -23,9 +23,11 @@ import type {
   MainlinePlayOverviewData,
   MainlinePlayShellData,
   MainlinePlayTeamOverviewData,
+  MainlinePlayTeamHistoryData,
   MainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/types";
 import {
+  readMainlinePlayTeamTimeline,
   readMainlinePlayTeamTimelinePreview,
   readMainlinePlayTimelinePreview,
 } from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
@@ -198,5 +200,22 @@ export const getMainlinePlayTeamAnalysisData = cache(
       play: context.play,
       rows,
     });
+  },
+);
+
+export const getMainlinePlayTeamHistoryData = cache(
+  async (playId: string): Promise<MainlinePlayTeamHistoryData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    const events = await readMainlinePlayTeamTimeline(context.supabase, playId);
+
+    return {
+      events,
+      play: context.play,
+    };
   },
 );

@@ -984,6 +984,41 @@ below the member detail and analysis while preserving concise artwork, row
 semantics, keyboard behavior, visible focus, and meaning beyond color. Do not
 expand this preview into large cards or a permanent empty filler panel.
 
+### Focused Team History Projection
+
+**Status: Implemented**
+
+The route-backed Team History projection at
+`/mainline/plays/[playId]/team/history` expands the compact Overview preview
+without becoming a second Team editor or replacing the broader Play History
+workflow. It reads the shared event store but includes only qualifying Team
+roster and lifecycle events from this contract.
+
+Use one full-width, divided timeline rather than independent event Cards or a
+persistent inspector. Desktop and tablet rows expose the effective date and
+time, event type, concise Pokémon-first summary, authored event detail, and
+event-time Pokémon artwork inline. Keep the date, event icon, content, and
+artwork rhythm visibly aligned with Overview's Recent Team Events section. Keep
+desktop and tablet rows visually static so they do not imply interaction when
+no additional action exists.
+
+The compact toolbar provides Pokémon/event search, event-type filtering, and
+canonical newest- or oldest-first order. Search includes preserved event-time
+nickname, species, and form identity. A missing effective date stays `Date not
+recorded`; never substitute database creation time. Filters do not mutate or
+reinterpret the event record.
+
+Rows remain static at every breakpoint. Phone layouts use one vertical column
+ordered as date, event type, Pokémon-first summary, authored event detail, and
+event-time artwork. Tablet and desktop keep all of those elements in one
+complete inline row; neither breakpoint drops artwork beneath a separate
+column. Team History does not open a detail sheet or introduce a selection
+model because the inline record is complete.
+
+Correction and deletion remain future primary Play History actions. Team
+History does not add edit, delete, overflow, or placeholder controls in this
+slice.
+
 ### Linked Plan Context Contract
 
 **Status: Accepted**

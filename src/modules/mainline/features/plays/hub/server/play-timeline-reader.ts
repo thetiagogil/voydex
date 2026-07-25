@@ -80,3 +80,23 @@ export const readMainlinePlayTeamTimelinePreview = async (
 
   return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
 };
+
+export const readMainlinePlayTeamTimeline = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+): Promise<MainlinePlayTimelineEvent[]> => {
+  const timelineResult = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("*")
+    .eq("play_id", playId)
+    .in("event_type_slug", [...teamEventTypeSlugs])
+    .order("timeline_order", { ascending: false })
+    .order("happened_at", { ascending: false });
+
+  if (timelineResult.error) {
+    throw new Error("Unable to load Mainline Team history.");
+  }
+
+  return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
+};

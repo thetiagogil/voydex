@@ -43,10 +43,13 @@ the evidence for exact implementation details.
   each route now loads a dedicated read model. Team Analysis is mounted at
   `/team/analysis` with an Active-only, exact-generation read model for
   defensive matchups, recorded damaging-move coverage, evidence completeness,
-  and responsive type-grouped mobile details. The Play shell uses the shared
-  shadcn Navigation Menu pattern established by Pokémon Detail and shows the
-  complete Overview, Team, Progress, History, and Settings hierarchy. Progress,
-  History, Settings, and Team History remain unmounted and visibly disabled
+  and responsive type-grouped mobile details. Team History is mounted at
+  `/team/history` as the focused, searchable Team-event projection. Its
+  timeline exposes event-time artwork and event details inline at every
+  breakpoint without a focused detail sheet. The Play shell uses the
+  shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
+  the complete Overview, Team, Progress, History, and Settings hierarchy.
+  Progress, primary History, and Settings remain unmounted and visibly disabled
   until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
@@ -197,7 +200,9 @@ checkpoint:
   compact evidence preview and now routes to the focused Team Analysis view.
   Recent Team Events loads and hydrates only Pokémon-specific roster and
   lifecycle changes; Play progress snapshots and Hall of Fame entries no longer
-  qualify. Team History remains explicitly unavailable.
+  qualify. Its full Team History destination now provides search, event-type
+  filtering, canonical newest/oldest ordering, and event-time identity detail
+  without turning the projection into an editor.
 - Decorative section-title icons and the permanent empty Plan card were
   removed. A linked Plan now exposes one to six ordered targets and is compared
   at read time with existing Play Pokémon. Matching is deterministic and
@@ -303,19 +308,16 @@ The current implementation checkpoint is the commit containing this handoff on
 `npm install` before editing. Preserve unrelated work and confirm the linked
 Supabase migration list before any later remote database write.
 
-The completed slice is the read-only Team Plan comparison inside the active
-Team tab. It uses one to six ordered planned targets, automatic one-to-one
-species/form/evolution-family matching, exact optional-build checks for Active
-and Reserve members, identity-only lifecycle evidence for Retired and Replaced
-members, aggregate-only unplanned members, generation-correct planned types,
-flat build and ordered move comparisons, a persistent desktop inspector, and a
-tablet/phone bottom sheet. Roles, Level, and Ball are intentionally excluded.
-Ability, Nature, Held Item, and Pokémon Gender use the reference-owned exact
-game capability profile across Codex and Mainline. Unsupported mechanics are
-omitted and excluded from Plan comparison status.
-There is no separate Open action; the title remains non-interactive until the
-standalone Plan Detail route exists. There are no alternate targets, manual
-member associations, or stored comparison statuses.
+The completed Team slice includes Overview, the read-only Team Plan comparison,
+Team Analysis, and the focused Team History projection. Team History reads the
+shared Play event store but admits only Team lifecycle and roster events. It
+preserves event-time Pokémon identity, does not substitute current roster
+identity, orders by canonical timeline position, and never uses database
+creation time as an unknown effective date. Desktop and tablet use the same
+flat divided timeline grammar as Overview and expose all recorded details
+inline. Phones stack the same complete record without opening a detail sheet.
+The view is read-only; correction and deletion remain owned by the future
+primary Play History workflow.
 
 Continue with one bounded planning workflow rather than another visual rewrite.
 The recommended next slice is the missing Plan acquisition/authoring boundary:
@@ -329,8 +331,8 @@ as part of either workflow.
 
 The game-aware `Add Pokémon` picker and targeted slot handoff remain the next
 independent Team mutation slice after that planning boundary. Roster movement,
-lifecycle actions, Past Members, full Team History, Progress, History, and
-Settings remain separate increments.
+lifecycle actions, Past Members, Progress, primary History, and Settings remain
+separate increments.
 
 Do not add another background, dark mode, sticky replacement navigation,
 Skeletons, decorative edge systems, or a broad cross-page refactor while this

@@ -12,16 +12,20 @@ import { TeamEventRow } from "./team-event-row";
 
 type TeamEventsSectionProps = {
   events: MainlinePlayTimelineEvent[];
+  playId: string;
 };
 
-export const TeamEventsSection = ({ events }: TeamEventsSectionProps) => {
+export const TeamEventsSection = ({
+  events,
+  playId,
+}: TeamEventsSectionProps) => {
   return (
     <MainlinePlaySectionCard
       title="Recent Team Events"
       action={
         <MainlinePlaySectionDestination
+          href={appRoutes.mainlinePlayTeamHistory(playId)}
           label="View team history"
-          unavailableLabel="The Team-filtered History view is not available yet"
         />
       }
       contentClassName="py-0"
@@ -56,3 +60,4 @@ export const TeamEventsSection = ({ events }: TeamEventsSectionProps) => {
     </MainlinePlaySectionCard>
   );
 };
+import { appRoutes } from "@/config/routes";
