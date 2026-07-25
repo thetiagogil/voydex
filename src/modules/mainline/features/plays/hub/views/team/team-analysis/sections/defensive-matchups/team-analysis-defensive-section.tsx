@@ -16,6 +16,7 @@ import {
 } from "@/shared/components/ui/accordion";
 import { Button } from "@/shared/components/ui/button";
 import { ButtonGroup } from "@/shared/components/ui/button-group";
+import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 import { cn } from "@/shared/utils/cn";
 
 import {
@@ -117,7 +118,10 @@ const DefensiveMatrix = ({
         {rows.map((row) => (
           <div
             key={row.attackingType.id}
-            className="hover:bg-muted/50 grid min-w-[36rem] items-center gap-x-1 px-2 py-1 text-center transition-colors"
+            className={cn(
+              rowInteractionVariants(),
+              "grid min-w-xl items-center gap-x-1 px-2 py-1 text-center",
+            )}
             style={{ gridTemplateColumns }}
           >
             <div className="justify-self-start">

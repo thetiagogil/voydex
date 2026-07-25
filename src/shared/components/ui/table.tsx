@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/shared/utils/cn";
+import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 
 const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
   return (
@@ -62,7 +63,8 @@ const TableRow = ({ className, ...props }: React.ComponentProps<"tr">) => {
     <tr
       data-slot="table-row"
       className={cn(
-        "hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        rowInteractionVariants(),
+        "has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted border-b",
         className,
       )}
       {...props}

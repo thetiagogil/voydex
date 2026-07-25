@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shared/components/ui/accordion";
+import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 import { cn } from "@/shared/utils/cn";
 
 import {
@@ -94,7 +95,10 @@ const MoveCoverageMatrix = ({
         {rows.map((row) => (
           <div
             key={row.defendingType.id}
-            className="grid min-w-176 items-center gap-x-1 px-2 py-1 text-center"
+            className={cn(
+              rowInteractionVariants(),
+              "grid min-w-176 items-center gap-x-1 px-2 py-1 text-center",
+            )}
             style={{ gridTemplateColumns }}
           >
             <div className="justify-self-start">

@@ -23,6 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 import { cn } from "@/shared/utils/cn";
 
 type PlaySummaryCardProps = {
@@ -143,7 +144,7 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
       <CardFooter className="col-span-2 row-start-3 flex min-w-0 items-center justify-between gap-3 rounded-none border-0 bg-transparent p-0 md:col-span-1 md:col-start-4 md:row-start-1 xl:gap-6">
         <PlayProgressSummary progress={play.progress} />
         {play.play_id ? (
-          <span className="text-muted-foreground flex size-8 shrink-0 items-center justify-center">
+          <span className="text-muted-foreground group-hover/play-summary:text-primary group-focus-visible/play-summary:text-primary flex size-8 shrink-0 items-center justify-center transition-colors">
             <AppIcon icon={appIcons.actions.continue} size="md" aria-hidden />
           </span>
         ) : null}
@@ -173,7 +174,10 @@ export const PlaySummaryCard = ({
       href={appRoutes.mainlinePlay(play.play_id)}
       aria-label={`Open ${title}`}
       style={gameStyles}
-      className="focus-visible:ring-ring/35 block rounded-none outline-none focus-visible:ring-3"
+      className={cn(
+        rowInteractionVariants({ interaction: "action" }),
+        "group/play-summary focus-visible:ring-ring/35 block rounded-none focus-visible:ring-3",
+      )}
     >
       <PlayCardBody play={play} priority={priority} />
     </Link>

@@ -46,6 +46,11 @@ The desired mix:
   or explicit props. Keep navigation, actions, persistent selection, and static
   presentation semantically distinct even when they share the same visual
   foundation.
+- Use the shared row-interaction variants for repeated data rows and row-level
+  actions. Scannable rows receive the same neutral hover; row actions add the
+  matching keyboard-focus surface. Do not add hover styling to every
+  semantic list by default: static timelines and prose lists should not imply
+  interactivity.
 - Add a new variant only for a materially different contract. Document the
   reason in the nearest design reference and preserve the shared foundation for
   the states and structure that still overlap.
@@ -331,6 +336,10 @@ Overview should stay high-signal and avoid filler:
   do not add a V1 grid/list switch. Preserve the same information order when
   each result becomes a stacked vertical card on narrow screens, and avoid
   turning the row into either a dashboard or a data table.
+- Interactive Play rows use one quiet full-row background tint on hover and
+  keyboard focus, with the directional cue adopting the primary color. Do not
+  lift or add another Card shadow; static fallback rows do not receive an
+  interactive state.
 - On phones, keep only the cover and Play information in the top row. Move the
   six-slot Team preview and then Overall plus the directional arrow into their
   own full-width rows beneath that section. Reduce the cover's visual weight and
