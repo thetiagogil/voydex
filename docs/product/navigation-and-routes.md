@@ -227,11 +227,11 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Play-specific tasks remain under the owning play.
 - Team Analysis remains a focused child of Play Team and keeps Team as the
   active Play section.
-- Team is a compound primary destination. Its parent route opens Team Overview;
+- Team is a compound primary destination. Its parent route opens Team Roster;
   Plan, Analysis, and the Team History projection are route-backed child views
   selected as `Plan`, `Analysis`, and `History` from the attached Team menu
   while the shared Play shell remains visible.
-- Progress always opens Progress Overview. Story, Pokédex, and Collectibles are
+- Progress always opens Progress Overall. Story, Pokédex, and Collectibles are
   route-backed child views selected from the attached Progress menu while
   Progress remains active. Named Pokédex and Collectible-group selectors stay
   inside their owning child views.

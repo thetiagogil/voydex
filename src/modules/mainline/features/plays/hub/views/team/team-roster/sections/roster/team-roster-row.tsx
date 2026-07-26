@@ -3,7 +3,7 @@ import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/sha
 import {
   getTeamMemberIdentity,
   getTeamMemberName,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/utils/team-member-display";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/utils/team-member-display";
 import { TeamSlotLabel } from "@/modules/mainline/features/plays/hub/views/team/shared/team-slot-label";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";

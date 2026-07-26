@@ -5,7 +5,7 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   buildMainlinePlayOverviewData,
   buildMainlinePlayShellData,
-  buildMainlinePlayTeamOverviewData,
+  buildMainlinePlayTeamRosterData,
   buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import {
@@ -22,7 +22,7 @@ import {
 import type {
   MainlinePlayOverviewData,
   MainlinePlayShellData,
-  MainlinePlayTeamOverviewData,
+  MainlinePlayTeamRosterData,
   MainlinePlayTeamHistoryData,
   MainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/types";
@@ -136,8 +136,8 @@ export const getMainlinePlayOverviewData = cache(
   },
 );
 
-export const getMainlinePlayTeamOverviewData = cache(
-  async (playId: string): Promise<MainlinePlayTeamOverviewData | null> => {
+export const getMainlinePlayTeamRosterData = cache(
+  async (playId: string): Promise<MainlinePlayTeamRosterData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
@@ -151,7 +151,7 @@ export const getMainlinePlayTeamOverviewData = cache(
       ],
     );
 
-    return buildMainlinePlayTeamOverviewData({
+    return buildMainlinePlayTeamRosterData({
       play: context.play,
       teamRows,
       teamPlanRows,

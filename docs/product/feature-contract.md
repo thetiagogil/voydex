@@ -406,9 +406,9 @@ Recorded in-game team changes should create timeline events with enough Pokémon
 
 Correction-only edits should update the current Pokémon record without creating timeline history.
 
-### Progress Overview
+### Progress Overall
 
-Progress Overview is the Play's completion workspace and the entry to Story,
+Progress Overall is the Play's completion workspace and the entry to Story,
 Pokédex, and Collectibles. It shows those three areas in stable order, with each
 active row owning its recording state, normalized percentage, one useful next
 step, and route to the focused tracker. Story is always present. Pokédex and
@@ -430,8 +430,8 @@ buttons. Do not add a second Next-to-update list, expanded completion-rules
 card, or recent technical activity feed beneath the same category rows.
 Meaningful Story events belong in History; routine Pokédex and Collectible
 updates remain quiet. Focused trackers retain Progress as the active Play Hub
-context and provide a clear return to Progress Overview. Progress always opens
-that Overview. Do not add persistent Story, Pokédex, and Collectibles sub-tabs
+context and provide a clear return to Progress Overall. Progress always opens
+that Overall view. Do not add persistent Story, Pokédex, and Collectibles sub-tabs
 or turn the Hub tab into a dropdown. A compact sibling-area menu inside focused
 views is optional convenience only.
 

@@ -33,13 +33,13 @@ type TeamNavigationView = {
 const teamViewLabels: Record<MainlinePlayTeamView, string> = {
   analysis: "Analysis",
   history: "History",
-  overview: "Overview",
   plan: "Plan",
+  roster: "Roster",
 };
 
 const progressViewLabels: Record<MainlinePlayProgressView, string> = {
   collectibles: "Collectibles",
-  overview: "Overview",
+  overall: "Overall",
   pokedex: "Pokédex",
   story: "Story",
 };
@@ -53,7 +53,7 @@ const getCompoundLabel = <TView extends string>({
   labels: Record<TView, string>;
   sectionLabel: string;
 }) => {
-  if (!activeView || activeView === "overview") {
+  if (!activeView) {
     return sectionLabel;
   }
 
@@ -79,8 +79,8 @@ export const MainlinePlayNavigation = ({
     {
       description: "Manage the team recorded in this Play.",
       href: appRoutes.mainlinePlayTeam(playId),
-      label: "Overview",
-      value: "overview",
+      label: "Roster",
+      value: "roster",
     },
     {
       description: "Compare the recorded team with its linked plan.",
@@ -104,8 +104,8 @@ export const MainlinePlayNavigation = ({
   const progressViews = [
     {
       description: "See the Play's overall completion state.",
-      label: "Overview",
-      value: "overview",
+      label: "Overall",
+      value: "overall",
     },
     {
       description: "Track story milestones and objectives.",

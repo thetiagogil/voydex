@@ -5,7 +5,7 @@ import { useState } from "react";
 import { appRoutes } from "@/config/routes";
 import type {
   MainlinePlayTeamMember,
-  MainlinePlayTeamOverviewData,
+  MainlinePlayTeamRosterData,
 } from "@/modules/mainline/features/plays/hub/types";
 
 import { useTeamDetailSheetLayout } from "../shared/use-team-detail-sheet-layout";
@@ -17,15 +17,15 @@ import { TeamMemberDetail } from "./sections/selected-pokemon/team-member-detail
 import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
 import { TeamAnalysisSection } from "./sections/team-analysis/team-analysis-section";
 
-type MainlinePlayTeamOverviewProps = {
-  data: MainlinePlayTeamOverviewData;
+type MainlinePlayTeamRosterProps = {
+  data: MainlinePlayTeamRosterData;
   playId: string;
 };
 
-export const MainlinePlayTeamOverview = ({
+export const MainlinePlayTeamRoster = ({
   data,
   playId,
-}: MainlinePlayTeamOverviewProps) => {
+}: MainlinePlayTeamRosterProps) => {
   const { mechanics, roster, teamPlan, teamTimelinePreview: events } = data;
   const gameSlug = data.play.game_slug;
   const defaultMember = getDefaultTeamMember(roster);

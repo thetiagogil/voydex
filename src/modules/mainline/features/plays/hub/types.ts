@@ -218,7 +218,7 @@ export type MainlinePlayOverviewData = {
   timelinePreview: MainlinePlayTimelineEvent[];
 };
 
-export type MainlinePlayTeamOverviewData = {
+export type MainlinePlayTeamRosterData = {
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];

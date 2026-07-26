@@ -9,7 +9,7 @@ import type {
   MainlinePlayOverview,
   MainlinePlayRuleRows,
   MainlinePlayShellData,
-  MainlinePlayTeamOverviewData,
+  MainlinePlayTeamRosterData,
   MainlinePlayTeamPlanData,
   MainlinePlayTeamPlanPreview,
   MainlinePlayTeamPlanRows,
@@ -108,11 +108,11 @@ const buildTeamPlanPreview = (
   };
 };
 
-export const buildMainlinePlayTeamOverviewData = (
+export const buildMainlinePlayTeamRosterData = (
   params: MainlinePlayTeamContextParams & {
     teamTimelinePreview: MainlinePlayTimelineEvent[];
   },
-): MainlinePlayTeamOverviewData => {
+): MainlinePlayTeamRosterData => {
   const { mechanics, roster, teamPlan } = buildMainlinePlayTeamContext(params);
 
   return {

@@ -1,7 +1,7 @@
 import {
   getTeamMemberIdentity,
   getTeamMemberName,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/utils/team-member-display";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/utils/team-member-display";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

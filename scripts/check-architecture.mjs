@@ -74,14 +74,14 @@ function verifyPlayHubBoundaryFixtures() {
   const fixtures = [
     {
       source:
-        "modules/mainline/features/plays/hub/views/team/team-overview/sections/roster.tsx",
+        "modules/mainline/features/plays/hub/views/team/team-roster/sections/roster.tsx",
       target:
         "modules/mainline/features/plays/hub/views/team/team-plan/sections/comparison.tsx",
       violates: true,
     },
     {
       source:
-        "modules/mainline/features/plays/hub/views/progress/progress-overview/sections/summary.tsx",
+        "modules/mainline/features/plays/hub/views/progress/progress-overall/sections/summary.tsx",
       target:
         "modules/mainline/features/plays/hub/views/progress/story/sections/story.tsx",
       violates: true,
@@ -95,7 +95,7 @@ function verifyPlayHubBoundaryFixtures() {
     },
     {
       source:
-        "modules/mainline/features/plays/hub/views/team/team-overview/sections/roster.tsx",
+        "modules/mainline/features/plays/hub/views/team/team-roster/sections/roster.tsx",
       target:
         "modules/mainline/features/plays/hub/views/team/shared/team-slot-label.tsx",
       violates: false,

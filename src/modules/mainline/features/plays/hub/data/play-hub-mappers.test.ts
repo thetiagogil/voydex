@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildMainlinePlayOverviewData,
   buildMainlinePlayRules,
-  buildMainlinePlayTeamOverviewData,
+  buildMainlinePlayTeamRosterData,
   buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
@@ -82,10 +82,8 @@ describe("Play page data mappers", () => {
       roster_state_slug: "reserve",
     } as MainlinePlayTeamMemberRow;
 
-    const data = buildMainlinePlayTeamOverviewData({
-      play: {} as Parameters<
-        typeof buildMainlinePlayTeamOverviewData
-      >[0]["play"],
+    const data = buildMainlinePlayTeamRosterData({
+      play: {} as Parameters<typeof buildMainlinePlayTeamRosterData>[0]["play"],
       teamPlanRows: { attributes: [], rows: [], types: [] },
       teamRows: {
         abilityAttributes: [],
@@ -107,7 +105,7 @@ describe("Play page data mappers", () => {
     ]);
   });
 
-  it("builds the Team Plan route without Team Overview timeline data", () => {
+  it("builds the Team Plan route without Team Roster timeline data", () => {
     const data = buildMainlinePlayTeamPlanData({
       play: {} as Parameters<typeof buildMainlinePlayTeamPlanData>[0]["play"],
       teamPlanRows: { attributes: [], rows: [], types: [] },

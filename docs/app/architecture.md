@@ -269,7 +269,7 @@ src/modules/mainline/features/plays/
         data/
         server/
         shared/
-        team-overview/
+        team-roster/
           server/
           sections/
             linked-plan-summary/
@@ -300,10 +300,10 @@ This nesting is intentional. `shell` owns Hub-wide UI composition; root `data`
 and `server` own Hub-wide read models and orchestration; `views` groups product
 surfaces; and `sections` groups visible areas inside one surface. A navigation
 branch with multiple route-backed surfaces becomes a view family: `team` groups
-`team-overview`, `team-plan`, and `team-analysis`, while its root `data`,
+`team-roster`, `team-plan`, and `team-analysis`, while its root `data`,
 `server`, and `shared` folders contain only code used by multiple Team views.
 Each route keeps its own read contract, so Overview loads a small Active-Team
-preview, Team Plan does not load Team Overview timeline data, and Team Analysis
+preview, Team Plan does not load Team Roster timeline data, and Team Analysis
 owns its detailed analysis enrichment. Leaf views never import sibling-view
 internals; genuinely shared helpers or domain behavior move to the Hub or
 view-family owner. The architecture check enforces this direction. Prefer this

@@ -19,7 +19,7 @@ describe("getMainlinePlayNavigationState", () => {
       {
         activeProgressView: null,
         activeSection: "team",
-        activeTeamView: "overview",
+        activeTeamView: "roster",
       },
     ],
     [
@@ -49,7 +49,7 @@ describe("getMainlinePlayNavigationState", () => {
     [
       `/mainline/plays/${playId}/progress`,
       {
-        activeProgressView: "overview",
+        activeProgressView: "overall",
         activeSection: "progress",
         activeTeamView: null,
       },

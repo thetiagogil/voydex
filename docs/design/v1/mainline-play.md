@@ -802,7 +802,7 @@ the single `Open full analysis` route to the focused view.
 new primary Play area or a global Mainline destination. Retain the Play Header and
 Play Hub navigation and keep Team visibly active. Add a local `Team Analysis`
 heading without duplicating a Back action; the active Team navigation menu is
-the stable return path to Team Overview. Direct URLs must load the same
+the stable return path to Team Roster. Direct URLs must load the same
 owner-scoped Play context.
 
 The view is read-only and derived from the current Active lineup. Team edits
@@ -1681,10 +1681,10 @@ genuinely belonged to the Play.
 
 ## Progress Contract
 
-**Status: Progress Overview, Story, Pokédex, and Collectibles interaction
+**Status: Progress Overall, Story, Pokédex, and Collectibles interaction
 contracts accepted; visual validation pending**
 
-Progress Overview answers three questions without becoming another checklist:
+Progress Overall answers three questions without becoming another checklist:
 
 - `How complete is this Play based on what I chose to track?`
 - `What is the state of Story, Pokédex, and Collectibles?`
@@ -1734,13 +1734,13 @@ Completion is derived from recorded progress, selected optional content, and
 Play settings. It is not manually stored as the primary truth.
 
 Opening Story, Pokédex, or Collectibles keeps Progress as the active Play
-section and enters a route-backed child view. Progress Overview remains the
-parent route and appears as `Overview` inside the attached Progress menu. The
-primary label remains simply `Progress` on that landing view and becomes a
-compound label such as `Progress - Story` on a child route. Do not add a
+section and enters a route-backed child view. Progress Overall remains the
+parent route and appears as `Overall` inside the attached Progress menu. The
+primary label is the compound `Progress - Overall` on that landing view and
+changes to labels such as `Progress - Story` on a child route. Do not add a
 persistent second navigation row.
 
-The Progress parent label always returns to Progress Overview, while the
+The Progress parent label always returns to Progress Overall, while the
 attached menu enables direct switching between implemented sibling views.
 Area-specific selectors such as Story paths, named Pokédexes, and Collectible
 groups remain inside their owning view.
@@ -1766,7 +1766,7 @@ area. Use this hierarchy:
 
 1. **Story summary:** show the current or furthest recorded position, the next
    applicable objective when one exists, and normalized Story completion. Do
-   not repeat the entire Progress Overview.
+   not repeat the entire Progress Overall.
 2. **Game-aware tracks:** expose Main Story, Postgame, DLC stories, or parallel
    paths only when the selected game defines them. Keep one simple list when it
    does not.
@@ -1909,7 +1909,7 @@ desktop.
 On narrow screens, use an accessible horizontally scrollable and snapping
 tablist with a partial next card visible. A Play with one applicable Pokédex
 still shows one prominent static identity card. Preserve the selection in the
-route. Do not add an `All Pokédexes` pseudo-scope because Progress Overview owns
+route. Do not add an `All Pokédexes` pseudo-scope because Progress Overall owns
 the aggregate result.
 
 This card rail is provisionally accepted for prototyping. Validate it with

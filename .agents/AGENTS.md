@@ -141,7 +141,7 @@ buckets. Reuse belongs at the nearest stable owner.
   surfaces, such as browse and detail/hub.
 - When one navigation branch owns multiple route-backed surfaces, group them as
   an explicit view family. Keep leaf-view code in named children such as
-  `team-overview` and `team-plan`; the family root may contain only contracts,
+  `team-roster` and `team-plan`; the family root may contain only contracts,
   data, server reads, or UI foundations genuinely shared by those views.
 - A leaf view must not import another leaf view's internals. Move a genuinely
   shared formatter, contract, mapper, or UI foundation to the nearest Hub,

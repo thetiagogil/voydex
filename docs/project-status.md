@@ -37,9 +37,9 @@ the evidence for exact implementation details.
 - Play Overview loads real play, team, progress, and recent-history data.
 - Team now has a read-only list-detail implementation over the real Active,
   Reserve, Retired, and Replaced roster data plus the linked Team Plan's
-  automatic comparison workspace. Team Overview lives at `/team`; the linked
+  automatic comparison workspace. Team Roster lives at `/team`; the linked
   comparison is directly addressable at `/team/plan`. Their source ownership is
-  represented by the `team/team-overview` and `team/team-plan` view family, and
+  represented by the `team/team-roster` and `team/team-plan` view family, and
   each route now loads a dedicated read model. Team Analysis is mounted at
   `/team/analysis` with an Active-only, exact-generation read model for
   defensive matchups, recorded damaging-move coverage, evidence completeness,
@@ -308,7 +308,7 @@ The current implementation checkpoint is the commit containing this handoff on
 `npm install` before editing. Preserve unrelated work and confirm the linked
 Supabase migration list before any later remote database write.
 
-The completed Team slice includes Overview, the read-only Team Plan comparison,
+The completed Team slice includes Roster, the read-only Team Plan comparison,
 Team Analysis, and the focused Team History projection. Team History reads the
 shared Play event store but admits only Team lifecycle and roster events. It
 preserves event-time Pokémon identity, does not substitute current roster

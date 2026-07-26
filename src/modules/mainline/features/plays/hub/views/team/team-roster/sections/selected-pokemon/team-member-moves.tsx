@@ -1,7 +1,7 @@
 import {
   type TeamMoveSlot,
   getTeamMoveSlots,
-} from "@/modules/mainline/features/plays/hub/views/team/team-overview/sections/selected-pokemon/team-member-model";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/selected-pokemon/team-member-model";
 import type { MainlinePlayTeamMove } from "@/modules/mainline/features/plays/hub/types";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import {

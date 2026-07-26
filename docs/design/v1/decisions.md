@@ -61,14 +61,14 @@ why the direction was selected or changed.
 | V1-D043 | 2026-07-13 | Distinguish slot replacement, Reserve displacement, and retirement without losing the displaced member                    | Accepted   |
 | V1-D044 | 2026-07-13 | Keep Past Members inside Team and return the same individual to the current roster                                        | Accepted   |
 | V1-D045 | 2026-07-13 | Separate guarded record correction and deletion from lifecycle actions, Plan ownership, and History                       | Accepted   |
-| V1-D046 | 2026-07-13 | Keep Progress Overview focused on trustworthy completion and three non-duplicated tracking-area handoffs                  | Accepted   |
+| V1-D046 | 2026-07-13 | Keep Progress Overall focused on trustworthy completion and three non-duplicated tracking-area handoffs                   | Accepted   |
 | V1-D047 | 2026-07-13 | Use a game-aware Story list-detail workspace while keeping presentation order separate from milestone dependencies        | Accepted   |
 | V1-D048 | 2026-07-13 | Keep routine milestone completion quiet and move imported Story catch-up into a separate dependency-aware bulk workflow   | Accepted   |
 | V1-D049 | 2026-07-13 | Use a species-level Pokédex browser with responsive grid/list modes, explicit states, and exact reviewed bulk updates     | Accepted   |
 | V1-D050 | 2026-07-13 | Prototype named Pokédex selection as a prominent responsive card rail and re-evaluate it through visual validation        | Accepted   |
 | V1-D051 | 2026-07-13 | Approve Mainline functional contracts before judging their visual composition through one coherent UI draft               | Accepted   |
 | V1-D052 | 2026-07-13 | Use an adaptive Collectibles list-detail workspace with exact, count-only, and reviewed batch progress paths              | Accepted   |
-| V1-D053 | 2026-07-13 | Keep Progress as a stable Hub tab and use its Overview as the entrance to focused child views without persistent sub-tabs | Superseded |
+| V1-D053 | 2026-07-13 | Use Progress Overall to enter focused child views without persistent sub-tabs                                             | Superseded |
 | V1-D054 | 2026-07-13 | Use a full-width Plan-target-to-actual comparison list without a persistent Pokémon detail panel                          | Superseded |
 | V1-D055 | 2026-07-13 | Use one full-width meaningful History timeline with honest journey ordering and focused event-detail sheets               | Accepted   |
 | V1-D056 | 2026-07-13 | Organize Play Settings into section-scoped editing with guarded lifecycle, scope, archive, and delete actions             | Accepted   |
@@ -1138,13 +1138,13 @@ relationship exists, block deletion and route to Plan to resolve that
 relationship first; Team must not remove it through a cascade. Retire remains
 the safe reversible choice when the Pokémon really belonged to the Play.
 
-## V1-D046 — Focused Progress Overview
+## V1-D046 — Focused Progress Overall
 
 **Status:** Accepted
 
 **Date:** 2026-07-13
 
-Use Progress Overview as the completion workspace and handoff into Story,
+Use Progress Overall as the completion workspace and handoff into Story,
 Pokédex, and Collectibles. Keep those three areas in stable order and let each
 row own its recording state, normalized percentage, one useful next step, and
 `Open` action. Story is always present. Pokédex and Collectibles appear as
@@ -1167,7 +1167,7 @@ card, a large Completion Rules card, or a Recent Progress Activity feed. Each
 category owns its action; meaningful Story events remain in History, while
 routine Pokédex and Collectible updates remain quiet. Opening a category keeps
 Progress as the active Play Hub tab and enters a focused local view with a clear
-return to Progress Overview.
+return to Progress Overall.
 
 ## V1-D047 — Game-Aware Story List-Detail Workspace
 
@@ -1293,7 +1293,7 @@ prominent static identity card rather than hiding scope context. Preserve the
 selected scope in the route so refresh, sharing, and browser navigation keep
 the same Pokédex.
 
-Do not add an `All Pokédexes` pseudo-scope. Progress Overview owns the aggregate
+Do not add an `All Pokédexes` pseudo-scope. Progress Overall owns the aggregate
 result; the focused browser always has one clear named scope.
 
 This decision authorizes a visual prototype, not an irreversible component
@@ -1363,26 +1363,26 @@ checkboxes are appropriate for batch selection. Routine Collectible progress
 never creates History. Reward-threshold features remain outside the V1
 Collectibles contract.
 
-## V1-D053 — Progress Overview Owns Local Navigation
+## V1-D053 — Progress Overall Owns Local Navigation
 
 **Status:** Accepted; visual validation pending
 
 **Date:** 2026-07-13
 
 Keep Progress as one normal Play Hub tab whose destination is always Progress
-Overview. Story, Pokédex, and Collectibles remain focused child views entered
-primarily through the three Overview tracking-area rows. Do not add a persistent
+Overall. Story, Pokédex, and Collectibles remain focused child views entered
+primarily through the three Overall tracking-area rows. Do not add a persistent
 second sub-tab row, and do not make the top-level Progress tab a dropdown.
 
 Focused child views keep Progress selected and expose one plain return link or
-compact breadcrumb to Progress Overview. A small `Switch area` menu may be
+compact breadcrumb to Progress Overall. A small `Switch area` menu may be
 added beside the focused title only if realistic UI testing shows that direct
 sibling movement is useful. It remains an optional shortcut, uses a popover or
 sheet on narrow screens, and must not compete with Story paths, named-Pokédex
 selection, or Collectible-group navigation inside the owning view.
 
 This keeps the navigation hierarchy legible without spending a permanent row
-on destinations already represented by the Overview.
+on destinations already represented by the Overall view.
 
 ## V1-D054 — Full-Width Plan Comparison List
 
@@ -3092,26 +3092,25 @@ represent the user's actual location. Only the content below the navigation
 changes between child routes.
 
 Preserve five primary areas: Overview, Team, Progress, History, and Settings.
-Team owns Overview, Plan, Analysis, and Team History. Progress owns Overview,
+Team owns Roster, Plan, Analysis, and Team History. Progress owns Overall,
 Story, Pokédex, and Collectibles. The parent Team and Progress routes are their
-Overview pages: the primary label remains simply `Team` or `Progress` there,
-while child routes use compound labels such as `Team - Plan` and
-`Progress - Story`. The attached menu still lists `Overview` so the landing
-view is explicit and always recoverable.
+Roster and Overall pages: their labels remain explicit as `Team - Roster` and
+`Progress - Overall`, while child routes use compound labels such as
+`Team - Plan` and `Progress - Story`. The attached menus still list `Roster`
+and `Overall` so each landing view is explicit and always recoverable.
 
 Render the five primary areas as distinct shadcn Navigation Menu controls,
 following the established Pokémon Generation and Game selector treatment.
 Overview is a direct link. Team and Progress are menu triggers whose menus list
-their complete child hierarchy, including `Overview`; selecting that menu item
-returns to the parent landing route. History and Settings remain leaf
+their complete child hierarchy, including `Roster` or `Overall`; selecting that
+menu item returns to the parent landing route. History and Settings remain leaf
 destinations. Keep Pokémon selection, sheets, event detail, filters, and other
 page-local interactions in local state.
 
 Always expose the accepted navigation hierarchy. Implemented destinations are
 links; planned destinations remain visibly disabled until their route content
 is ready. A compound section trigger uses the active child label, such as
-`Team - Plan` or `Progress - Story`, while its Overview landing uses the simple
-`Team` or `Progress` label.
+`Team - Roster`, `Team - Plan`, `Progress - Overall`, or `Progress - Story`.
 
 The accepted route family is:
 

@@ -83,8 +83,8 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Dashboard.
 - Plays browse and Create Play.
 - Play Hub: Overview, Team, Progress, History, and Settings in one shared,
-  route-backed shell. Team exposes Overview, Plan, Analysis, and History;
-  Progress exposes Overview, Story, Pokédex, and Collectibles. Standalone Plan
+  route-backed shell. Team exposes Roster, Plan, Analysis, and History;
+  Progress exposes Overall, Story, Pokédex, and Collectibles. Standalone Plan
   Detail remains the reusable authoring owner.
 - Progress detail: Story, Pokédex, and Collectibles.
 - Plans Hub: Team Plans and Game List.
