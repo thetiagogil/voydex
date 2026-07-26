@@ -231,10 +231,11 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   Plan, Analysis, and the Team History projection are route-backed child views
   selected as `Plan`, `Analysis`, and `History` from the attached Team menu
   while the shared Play shell remains visible.
-- Progress always opens Progress Overall. Story, Pokédex, and Collectibles are
-  route-backed child views selected from the attached Progress menu while
-  Progress remains active. Named Pokédex and Collectible-group selectors stay
-  inside their owning child views.
+- Progress owns only Story, Pokédex, and Collectibles. Its parent route opens
+  Story, the always-supported default destination. The attached Progress menu
+  switches directly between the three route-backed child views while Progress
+  remains active; it does not list an Overall destination. Named Pokédex and
+  Collectible-group selectors stay inside their owning child views.
 - The contextual Team Plan comparison is a focused view inside the active Team
   section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
   navigation remain visible.

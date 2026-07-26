@@ -393,7 +393,9 @@ Story is always present; omit optional groups when they are disabled or do not
 apply to the game. Each visible group uses one progress bar and visible rounded
 normalized percentage, with compact `Tracked only`, `Not recorded`, or
 `Partially recorded` context when needed. Keep named child tracks and native
-counts in Progress rather than expanding the Overview card.
+counts in Progress rather than expanding the Overview card. Each visible row
+routes directly to Story, Pokédex, or Collectibles; do not add a separate
+Progress Overall destination.
 
 ## Mainline Team Tab Direction
 

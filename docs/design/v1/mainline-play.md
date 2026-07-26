@@ -143,8 +143,8 @@ until a real analysis model exists.
 
 Progress Summary keeps one stable row for each applicable top-level group:
 Story, Pokédex, and Collectibles. Each row shows a progress bar and visible
-rounded percentage. Named child tracks and their native counts remain in the
-detailed Progress areas.
+rounded percentage and routes directly to its owning detailed Progress area.
+Named child tracks and their native counts remain in those detailed views.
 
 ### Overview Content Contract
 
@@ -158,7 +158,7 @@ Header or the dedicated Hub areas.
 | -------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **Journey Status**   | Where am I?                  | Current or furthest known Story milestone and the next applicable objective; numeric Story completion remains in Progress Summary                          | Open Story                                    | `Story position not recorded` with a route to set the current or furthest known position                |
 | **Current Team**     | Who is with me?              | Six fixed state-aware active slots and optional reserve count                                                                                              | Manage Team                                   | Use explicit confirmed-empty or not-recorded slots; never infer an empty in-game team from missing data |
-| **Progress Summary** | How much have I completed?   | Stable Story, Pokédex, and Collectibles group rows with normalized percentages; no named child tracks, raw group counts, or duplicate overall header score | Open Progress or the relevant detailed area   | Distinguish `Not recorded` from known zero; omit optional groups that are disabled or not applicable    |
+| **Progress Summary** | How much have I completed?   | Stable Story, Pokédex, and Collectibles group rows with normalized percentages; no named child tracks, raw group counts, or duplicate overall header score | Each row opens its detailed Progress area     | Distinguish `Not recorded` from known zero; omit optional groups that are disabled or not applicable    |
 | **Recent History**   | What happened most recently? | The latest three to five meaningful milestones, team changes, memories, snapshots, or journal entries in reverse chronological order                       | View History or add a memory when appropriate | Compact `No history recorded yet` state; routine Pokédex and Collectible updates do not create noise    |
 
 Overview is read-first. Each section may expose one clear route or invoke the
@@ -1681,50 +1681,22 @@ genuinely belonged to the Play.
 
 ## Progress Contract
 
-**Status: Progress Overall, Story, Pokédex, and Collectibles interaction
-contracts accepted; visual validation pending**
+**Status: Story, Pokédex, and Collectibles interaction contracts accepted;
+visual validation pending**
 
-Progress Overall answers three questions without becoming another checklist:
-
-- `How complete is this Play based on what I chose to track?`
-- `What is the state of Story, Pokédex, and Collectibles?`
-- `Where should I continue recording?`
-
-Use this hierarchy:
-
-1. **Progress heading and scope summary:** show enabled base/DLC content and the
-   groups that currently contribute to completion in one compact line or strip.
-   Provide one `Manage completion` route to Settings. Optional content changes
-   what is applicable; it is not a fourth progress category.
-2. **Overall completion:** show the derived normalized percentage only when the
-   contributing groups are sufficiently recorded. Use `Completion not fully
-recorded` when missing knowledge makes the result untrustworthy. Never show
-   one raw completed/total number that mixes milestones, species, and
-   Collectible units.
-3. **Active tracking areas:** show Story, Pokédex, and Collectibles as large,
-   consistent rows in that stable order. Every row owns its icon and label,
-   normalized percentage or honest recording state, one clearly labelled native
-   count when useful, one next step, and one `Open` action.
-4. **Not tracked:** a supported but disabled Pokédex or Collectible area may
-   appear in a quiet secondary group with a route to Settings. Omit a concept
-   entirely when the selected game does not support it.
-
-Do not add separate `Log milestone`, `Update Pokédex`, and `Mark collectible`
-buttons to the page heading. Do not repeat every row's next step in another
-`Next to update` card, or expand completion scope into a large Completion Rules
-card. Each area owns its action and detailed workflow.
-
-Do not add Recent Progress Activity in V1. Meaningful Story milestones may enter
-History deliberately; routine Pokédex and Collectible updates remain quiet. A
-technical update feed would duplicate ownership without helping the player
-understand completion.
-
-Progress contains three game-aware areas:
+Progress is a route family of three focused game-aware workspaces rather than
+another summary landing page:
 
 - **Story:** milestones, player decisions, bulk historical completion, and
   optional meaningful snapshots.
 - **Pokédex:** game- and Pokédex-scoped seen/caught or applicable progress.
 - **Collectibles:** game-scoped collectible definitions and completion.
+
+The Play Overview Progress Summary is the only cross-area landing surface. It
+shows stable Story, Pokédex, and Collectibles rows, normalized percentages or
+honest recording states, contribution context when needed, and a direct route
+from each row to its owning detailed view. Settings owns completion
+configuration and optional-content scope.
 
 Routine Pokédex and Collectible updates should not create timeline noise.
 Important Story milestones may create meaningful History events and optional
@@ -1734,16 +1706,12 @@ Completion is derived from recorded progress, selected optional content, and
 Play settings. It is not manually stored as the primary truth.
 
 Opening Story, Pokédex, or Collectibles keeps Progress as the active Play
-section and enters a route-backed child view. Progress Overall remains the
-parent route and appears as `Overall` inside the attached Progress menu. The
-primary label is the compound `Progress - Overall` on that landing view and
-changes to labels such as `Progress - Story` on a child route. Do not add a
-persistent second navigation row.
-
-The Progress parent label always returns to Progress Overall, while the
-attached menu enables direct switching between implemented sibling views.
-Area-specific selectors such as Story paths, named Pokédexes, and Collectible
-groups remain inside their owning view.
+section and uses the compound label `Progress - Story`, `Progress - Pokédex`,
+or `Progress - Collectibles`. The Progress parent route opens Story, which is
+always supported. The attached menu lists only those three sibling views;
+there is no `Overall` menu item or separate Overall route. Area-specific
+selectors such as Story paths, named Pokédexes, and Collectible groups remain
+inside their owning view.
 
 State rules:
 
@@ -1766,7 +1734,7 @@ area. Use this hierarchy:
 
 1. **Story summary:** show the current or furthest recorded position, the next
    applicable objective when one exists, and normalized Story completion. Do
-   not repeat the entire Progress Overall.
+   not repeat the Play Overview's full cross-area Progress Summary.
 2. **Game-aware tracks:** expose Main Story, Postgame, DLC stories, or parallel
    paths only when the selected game defines them. Keep one simple list when it
    does not.
@@ -1909,8 +1877,9 @@ desktop.
 On narrow screens, use an accessible horizontally scrollable and snapping
 tablist with a partial next card visible. A Play with one applicable Pokédex
 still shows one prominent static identity card. Preserve the selection in the
-route. Do not add an `All Pokédexes` pseudo-scope because Progress Overall owns
-the aggregate result.
+route. Do not add an `All Pokédexes` pseudo-scope; the Pokédex summary owns the
+aggregate across applicable named scopes while the selector remains focused on
+one real named Pokédex at a time.
 
 This card rail is provisionally accepted for prototyping. Validate it with
 realistic one-, two-, and three-scope games at desktop and mobile widths. It

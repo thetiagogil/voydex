@@ -61,7 +61,7 @@ why the direction was selected or changed.
 | V1-D043 | 2026-07-13 | Distinguish slot replacement, Reserve displacement, and retirement without losing the displaced member                    | Accepted   |
 | V1-D044 | 2026-07-13 | Keep Past Members inside Team and return the same individual to the current roster                                        | Accepted   |
 | V1-D045 | 2026-07-13 | Separate guarded record correction and deletion from lifecycle actions, Plan ownership, and History                       | Accepted   |
-| V1-D046 | 2026-07-13 | Keep Progress Overall focused on trustworthy completion and three non-duplicated tracking-area handoffs                   | Accepted   |
+| V1-D046 | 2026-07-13 | Keep Progress Overall focused on trustworthy completion and three non-duplicated tracking-area handoffs                   | Superseded |
 | V1-D047 | 2026-07-13 | Use a game-aware Story list-detail workspace while keeping presentation order separate from milestone dependencies        | Accepted   |
 | V1-D048 | 2026-07-13 | Keep routine milestone completion quiet and move imported Story catch-up into a separate dependency-aware bulk workflow   | Accepted   |
 | V1-D049 | 2026-07-13 | Use a species-level Pokédex browser with responsive grid/list modes, explicit states, and exact reviewed bulk updates     | Accepted   |
@@ -141,6 +141,7 @@ why the direction was selected or changed.
 | V1-D123 | 2026-07-21 | Place the navbar and all app content inside one full-height centered journal surface                                      | Accepted   |
 | V1-D124 | 2026-07-21 | Compute linked Team Plan comparison automatically and inspect selected rows responsively                                  | Accepted   |
 | V1-D125 | 2026-07-22 | Use one route-backed Play shell with compound Team and Progress navigation                                                | Accepted   |
+| V1-D126 | 2026-07-26 | Remove Progress Overall, default Progress to Story, and defer Overview Progress consolidation until Play views mature     | Accepted   |
 
 ## V1-D001 — Design Before Database And Implementation
 
@@ -1140,7 +1141,7 @@ the safe reversible choice when the Pokémon really belonged to the Play.
 
 ## V1-D046 — Focused Progress Overall
 
-**Status:** Accepted
+**Status:** Superseded by V1-D126
 
 **Date:** 2026-07-13
 
@@ -1293,8 +1294,9 @@ prominent static identity card rather than hiding scope context. Preserve the
 selected scope in the route so refresh, sharing, and browser navigation keep
 the same Pokédex.
 
-Do not add an `All Pokédexes` pseudo-scope. Progress Overall owns the aggregate
-result; the focused browser always has one clear named scope.
+Do not add an `All Pokédexes` pseudo-scope. The Pokédex view's own summary owns
+the aggregate across applicable named scopes; the focused browser always has
+one clear named scope.
 
 This decision authorizes a visual prototype, not an irreversible component
 choice. Re-evaluate the rail against realistic one-, two-, and three-scope
@@ -3133,3 +3135,31 @@ menu and any earlier wording that treats mature Play areas as client-only tab
 panels. It preserves V1-D122 and V1-D124's Team ownership of Plan comparison,
 V1-D030's Team ownership of Analysis, the single global Play History, and the
 rule against a persistent second tab row.
+
+## V1-D126 — Progress Opens Story And Overview Owns The Aggregate
+
+**Status:** Accepted
+
+**Date:** 2026-07-26
+
+Remove the standalone Progress Overall child view. Progress owns Story,
+Pokédex, and Collectibles; its parent route opens Story as the always-supported
+default. The attached Progress menu lists only those three siblings and uses
+compound labels such as `Progress - Story`, `Progress - Pokédex`, and
+`Progress - Collectibles`.
+
+Keep the Play Overview Progress Summary as the sole cross-area landing surface.
+It owns normalized group percentages, honest recording states, contribution
+context, and direct handoffs to the three focused views. Settings continues to
+own tracking, completion contribution, and optional-content scope. Detailed
+Progress views own native counts, next steps, records, and mutations.
+
+Do not refactor the production Overview immediately. Complete Story, Pokédex,
+Collectibles, primary Play History, and Play Settings first, then revisit
+Overview once those child contracts are mature. This avoids freezing a summary
+against temporary assumptions that later Play views may invalidate.
+
+This decision supersedes V1-D046, V1-D053, and the Progress Overall clauses of
+V1-D125. It preserves V1-D125's shared route-backed shell, compound Progress
+navigation, direct sibling switching, and absence of a persistent second
+navigation row.

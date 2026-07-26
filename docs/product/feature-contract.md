@@ -234,6 +234,8 @@ Current Overview direction:
   Story is always present; Pokédex and Collectibles render only when applicable
   and enabled. Each group shows a progress bar and visible normalized
   percentage, while named child tracks and native counts remain in Progress.
+  Each visible row routes directly to its owning Story, Pokédex, or
+  Collectibles view; Overview is the only cross-area Progress summary.
 - Normalize each child track from its native units, average contributing child
   tracks equally within a group, and average enabled goal groups equally for
   the Play-wide completion result. Tracked-only groups do not affect overall
@@ -406,34 +408,31 @@ Recorded in-game team changes should create timeline events with enough Pokémon
 
 Correction-only edits should update the current Pokémon record without creating timeline history.
 
-### Progress Overall
+### Progress Navigation And Ownership
 
-Progress Overall is the Play's completion workspace and the entry to Story,
-Pokédex, and Collectibles. It shows those three areas in stable order, with each
-active row owning its recording state, normalized percentage, one useful next
-step, and route to the focused tracker. Story is always present. Pokédex and
-Collectibles appear as active rows only when supported and enabled.
+Progress contains three focused route-backed views in stable order: Story,
+Pokédex, and Collectibles. It has no separate Overall child view. The Play
+Overview Progress Summary owns the cross-area normalized summary and routes
+each visible row directly to its detailed Progress view. Settings owns tracking,
+completion contribution, and optional-content scope.
 
-Optional content is completion and tracking scope rather than a progress area.
-Show enabled content and the areas contributing to completion through compact
-context with one Settings route. A supported but disabled area may appear as
-`Not tracked`; an area unsupported by the game is omitted.
+Story is always present and is the default Progress destination. Pokédex and
+Collectibles appear only when supported by the selected game and enabled by the
+Play's tracking configuration. A supported but disabled destination may remain
+visible as unavailable with a Settings handoff; a concept unsupported by the
+game is omitted.
 
-Overall completion is derived only when every contributing area has enough
+Every focused view owns its native summary, next step, detailed records, and
+updates. Meaningful Story events belong in History; routine Pokédex and
+Collectible updates remain quiet. Opening any child keeps Progress active and
+uses the compound label `Progress - Story`, `Progress - Pokédex`, or
+`Progress - Collectibles`. The Progress parent route opens Story, and the
+attached Progress menu switches directly between the three siblings.
+
+Overall completion remains derived only when every contributing area has enough
 recorded context. Do not add Story milestones, Pokédex species, and Collectible
-units into a cross-category raw count. A category row may show a clearly named
-native count from that category. Imported missing progress remains `Not
+units into a cross-category raw count. Imported missing progress remains `Not
 recorded`, not zero.
-
-The Progress heading does not duplicate Story, Pokédex, and Collectible update
-buttons. Do not add a second Next-to-update list, expanded completion-rules
-card, or recent technical activity feed beneath the same category rows.
-Meaningful Story events belong in History; routine Pokédex and Collectible
-updates remain quiet. Focused trackers retain Progress as the active Play Hub
-context and provide a clear return to Progress Overall. Progress always opens
-that Overall view. Do not add persistent Story, Pokédex, and Collectibles sub-tabs
-or turn the Hub tab into a dropdown. A compact sibling-area menu inside focused
-views is optional convenience only.
 
 ### Story Progression
 

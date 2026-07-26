@@ -84,8 +84,8 @@ Mainline intent, but Mainline validates and owns every user-data mutation.
 - Plays browse and Create Play.
 - Play Hub: Overview, Team, Progress, History, and Settings in one shared,
   route-backed shell. Team exposes Roster, Plan, Analysis, and History;
-  Progress exposes Overall, Story, Pokédex, and Collectibles. Standalone Plan
-  Detail remains the reusable authoring owner.
+  Progress exposes Story, Pokédex, and Collectibles and defaults to Story.
+  Standalone Plan Detail remains the reusable authoring owner.
 - Progress detail: Story, Pokédex, and Collectibles.
 - Plans Hub: Team Plans and Game List.
 - Create Plan and Plan Detail.
@@ -251,23 +251,30 @@ with one verified production slice at a time:
 2. Apply the selected system to Play Overview and Team using their accepted
    contracts. Overview, Team, and the linked read-only Plan comparison are
    implemented and verified.
-3. Complete the contextual Plan acquisition boundary: no-linked-Plan entry,
+3. Implement the route-backed `Progress - Story` workspace. **This is the next
+   production slice.**
+4. Implement Play Pokédex and Collectibles as the remaining Progress siblings.
+5. Implement primary Play History and Play Settings.
+6. After every remaining Play Hub view is complete, refactor the existing
+   Overview Progress Summary into the sole cross-area Progress landing surface
+   and connect each row directly to Story, Pokédex, or Collectibles. Do not
+   finalize that Overview refactor earlier because the child contracts may
+   still change.
+7. Complete the contextual Plan acquisition boundary: no-linked-Plan entry,
    owner-scoped Link existing, and Create Plan for this Play.
-4. Mount the smallest Plans Hub, Create Plan, or Plan Detail authoring increment
+8. Mount the smallest Plans Hub, Create Plan, or Plan Detail authoring increment
    required by that boundary. **Automatic comparison is implemented;
    standalone authoring is accepted but not mounted.**
-5. Mount Team's game-aware Add Pokémon picker as an independent mutation slice.
-6. Refine Mainline Dashboard when its route is mounted, using the accepted
-   play-led contract and selected visual direction.
-7. Implement Create Play.
-8. Implement Progress Summary, Story, primary Play History, and Play Settings.
-9. Implement Play Pokédex and Collectibles.
-10. Collection, Collection Pokémon Detail, and Stats. **Functional contract
+9. Mount Team's game-aware Add Pokémon picker as an independent mutation slice.
+10. Refine Mainline Dashboard when its route is mounted, using the accepted
+    play-led contract and selected visual direction.
+11. Implement Create Play.
+12. Collection, Collection Pokémon Detail, and Stats. **Functional contract
     accepted; visual validation pending.**
-11. Codex browse/detail refinement and every Codex-to-Mainline handoff.
+13. Codex browse/detail refinement and every Codex-to-Mainline handoff.
     **Pokémon and Games functional contracts accepted; visual validation
     pending.**
-12. Login, Global Settings, and responsive shared-state coverage.
+14. Login, Global Settings, and responsive shared-state coverage.
     **Functional contracts accepted; visual validation pending.**
 
 ## Database Review During Implementation
@@ -301,7 +308,8 @@ docs/design/v1/visual-language.md, docs/design/v1/mainline-play.md, and
 docs/design/v1/mainline-plans.md, docs/design/v1/decisions.md,
 docs/database/schema-contract.md, and docs/design/v1/database-gaps.md. Then run
 `git status`, `git log -1 --oneline`, install dependencies, and inspect the
-nearby Play Hub Team Plan code before editing.
+Play shell navigation, Overview Progress Summary, Story milestone schema and
+views, and nearby Play Hub read patterns before editing.
 
 The shared shell, Plays Browse, Play Hub Overview, Team list-detail workspace,
 and read-only linked Team Plan comparison are implemented. The comparison stays
@@ -315,15 +323,17 @@ comparison statuses. Desktop uses a persistent detail panel; tablet and phone
 use a sheet.
 
 Continue with one bounded planning workflow. The recommended next slice is the
-missing no-linked-Plan entry plus owner-scoped Link/Create Plan flow, followed
-by the smallest standalone Plans Hub, Create Plan, or Plan Detail authoring
-increment it requires. Keep comparison read-only. Editing inside a Play must
-clone and relink only that Play; standalone edits must disclose affected linked
-Plays. Do not reintroduce manual pairing. The game-aware Add Pokémon picker is a
-separate later Team slice. Do not restore the clipboard frame, add dark mode, a
-new background, sticky replacement navigation, decorative edge systems, or a
-broad multi-page refactor. Run `npm run verify`; database changes additionally
-require `npm run db:verify` and an explicit remote-write gate. Browser-check
-desktop, tablet, phone, keyboard/focus, overflow, and console output, then
-update Project Status and the nearest canonical contract.
+route-backed `Progress - Story` workspace. Progress has no Overall child view:
+the parent route opens Story and the attached menu lists Story, Pokédex, and
+Collectibles. Keep Story game-aware, preserve honest unknown and imported
+states, and derive its native summary without mixing units from other Progress
+areas. Defer the Play Overview Progress Summary refactor until Story, Pokédex,
+Collectibles, primary Play History, and Play Settings are complete; those child
+contracts may still change what Overview should summarize. Do not restore the
+clipboard frame, add dark mode, a new background, sticky replacement
+navigation, decorative edge systems, or a broad multi-page refactor. Run
+`npm run verify`; database changes additionally require `npm run db:verify` and
+an explicit remote-write gate. Browser-check desktop, tablet, phone,
+keyboard/focus, overflow, and console output, then update Project Status and the
+nearest canonical contract.
 ```

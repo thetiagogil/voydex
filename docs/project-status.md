@@ -49,8 +49,9 @@ the evidence for exact implementation details.
   breakpoint without a focused detail sheet. The Play shell uses the
   shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
   the complete Overview, Team, Progress, History, and Settings hierarchy.
-  Progress, primary History, and Settings remain unmounted and visibly disabled
-  until their workflows are implemented.
+  Progress's Story, Pokédex, and Collectibles views, primary History, and
+  Settings remain unmounted and visibly disabled until their workflows are
+  implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 
@@ -78,7 +79,10 @@ shell composition within the canonical
 defines the implemented read-time Plan comparison and supersedes the earlier
 manual member-link/status model. [V1-D125](./design/v1/decisions.md#v1-d125--route-backed-hierarchical-play-navigation)
 defines the shared route-backed Play shell and compound Team and Progress
-navigation.
+navigation. [V1-D126](./design/v1/decisions.md#v1-d126--progress-opens-story-and-overview-owns-the-aggregate)
+removes the redundant Progress Overall child, makes Story the Progress default,
+and defers final Overview Progress consolidation until the remaining Play views
+are mature.
 
 The shared shell, Plays Browse, Play Hub Overview and Team, linked Team Plan
 comparison, Pokémon Browse, and Games Browse now implement the selected system:
@@ -320,19 +324,24 @@ The view is read-only; correction and deletion remain owned by the future
 primary Play History workflow.
 
 Continue with one bounded planning workflow rather than another visual rewrite.
-The recommended next slice is the missing Plan acquisition/authoring boundary:
-define and implement the no-linked-Plan entry, owner-scoped `Link existing Plan`
-and `Create Plan for this Play`, then mount the smallest standalone Plans Hub,
-Create Plan, or Plan Detail increment needed to own reusable edits. Keep the
-current comparison read-only. A future edit initiated inside a Play must clone
-the reusable Plan and relink only that Play before saving; a standalone edit
-must disclose how many linked Plays may change. Do not introduce manual pairing
-as part of either workflow.
+The recommended next slice is the route-backed `Progress - Story` workspace.
+Progress now owns only Story, Pokédex, and Collectibles; `/progress` opens Story
+and the attached menu has no Overall item. Story remains the always-supported
+default and must preserve exact-game tracks, honest unknown/imported state, and
+native milestone completion.
 
-The game-aware `Add Pokémon` picker and targeted slot handoff remain the next
-independent Team mutation slice after that planning boundary. Roster movement,
-lifecycle actions, Past Members, Progress, primary History, and Settings remain
-separate increments.
+The existing Overview Progress Summary becomes the sole cross-area Progress
+landing surface, but its production refactor is deliberately deferred until
+Story, Pokédex, Collectibles, primary Play History, and Play Settings are all
+complete. Those child views may still change the final Overview contract. When
+that later consolidation begins, connect each Overview progress row directly
+to its owning child view and keep normalized cross-area completion, tracking
+scope, and honest recording states in Overview rather than adding another
+Overall route.
+
+The Plan acquisition/authoring boundary and game-aware `Add Pokémon` picker
+remain independent later slices. Roster movement, lifecycle actions, and Past
+Members also remain separate increments.
 
 Do not add another background, dark mode, sticky replacement navigation,
 Skeletons, decorative edge systems, or a broad cross-page refactor while this

@@ -35,6 +35,10 @@ repository architecture, reusable UI, implementation quality, and verification.
   responsive behavior, and important tradeoff.
 - Keep overview surfaces concise and route deeper actions into their owning
   workflow. Do not duplicate mature workflows merely to make a page feel full.
+- When an Overview summarizes several unfinished child workflows, establish the
+  child contracts first and defer final Overview consolidation until the owning
+  route family is mature. Record that sequencing in Project Status rather than
+  freezing temporary implementation details in agent guidance.
 - Preserve explicit distinctions between reference facts, authored user intent,
   current user state, historical evidence, and derived summaries.
 - Treat unimplemented destinations honestly. Disabled navigation may communicate
