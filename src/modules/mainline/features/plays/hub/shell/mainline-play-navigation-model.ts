@@ -7,11 +7,7 @@ export type MainlinePlaySection =
   | "settings"
   | "team";
 export type MainlinePlayTeamView = "analysis" | "history" | "plan" | "roster";
-export type MainlinePlayProgressView =
-  | "collectibles"
-  | "overall"
-  | "pokedex"
-  | "story";
+export type MainlinePlayProgressView = "collectibles" | "pokedex" | "story";
 
 export type MainlinePlayNavigationState = {
   activeProgressView: MainlinePlayProgressView | null;
@@ -77,7 +73,7 @@ export const getMainlinePlayNavigationState = (
 
   if (matchesPath(pathname, progressHref)) {
     return {
-      activeProgressView: "overall",
+      activeProgressView: "story",
       activeSection: "progress",
       activeTeamView: null,
     };
@@ -85,7 +81,7 @@ export const getMainlinePlayNavigationState = (
 
   const progressViews: Array<{
     href: string;
-    view: Exclude<MainlinePlayProgressView, "overall">;
+    view: MainlinePlayProgressView;
   }> = [
     { href: appRoutes.mainlinePlayProgressStory(playId), view: "story" },
     { href: appRoutes.mainlinePlayProgressPokedex(playId), view: "pokedex" },

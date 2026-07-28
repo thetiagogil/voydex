@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { MainlinePlayMetricIcon } from "@/modules/mainline/features/plays/hub/shell/mainline-play-metric-icon";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type {
   TeamAnalysisHealthMetric,
@@ -62,14 +63,10 @@ const TeamAnalysisHealthMetricColumn = ({
       )}
     >
       <div className="flex items-start gap-3">
-        <div
-          className={cn(
-            "flex size-12 shrink-0 items-center justify-center rounded-xl border",
-            statusIconClassNames[metric.status],
-          )}
-        >
-          <MetricIcon aria-hidden className="size-7" strokeWidth={1.8} />
-        </div>
+        <MainlinePlayMetricIcon
+          icon={MetricIcon}
+          className={statusIconClassNames[metric.status]}
+        />
 
         <div className="min-w-0 flex-1">
           <h4 className="text-sm leading-5 font-semibold">{metric.title}</h4>

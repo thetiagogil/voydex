@@ -39,7 +39,6 @@ const teamViewLabels: Record<MainlinePlayTeamView, string> = {
 
 const progressViewLabels: Record<MainlinePlayProgressView, string> = {
   collectibles: "Collectibles",
-  overall: "Overall",
   pokedex: "Pokédex",
   story: "Story",
 };
@@ -103,22 +102,20 @@ export const MainlinePlayNavigation = ({
   ];
   const progressViews = [
     {
-      description: "See the Play's overall completion state.",
-      label: "Overall",
-      value: "overall",
-    },
-    {
       description: "Track story milestones and objectives.",
+      href: appRoutes.mainlinePlayProgressStory(playId),
       label: "Story",
       value: "story",
     },
     {
       description: "Track regional Pokédex completion.",
+      href: undefined,
       label: "Pokédex",
       value: "pokedex",
     },
     {
       description: "Track optional items and discoveries.",
+      href: undefined,
       label: "Collectibles",
       value: "collectibles",
     },
@@ -128,7 +125,7 @@ export const MainlinePlayNavigation = ({
     <NavigationMenuBar
       align="start"
       aria-label="Play sections"
-      className="min-w-0 overflow-x-auto pb-1"
+      className="min-w-0 overflow-x-auto pt-4 pb-2"
       listClassName="w-max flex-nowrap"
     >
       <NavigationMenuItem>
@@ -179,7 +176,8 @@ export const MainlinePlayNavigation = ({
               key={view.value}
               active={state.activeProgressView === view.value}
               description={view.description}
-              disabled
+              disabled={!view.href}
+              render={view.href ? <Link href={view.href} /> : undefined}
               title={view.label}
             />
           ))}

@@ -49,9 +49,17 @@ the evidence for exact implementation details.
   breakpoint without a focused detail sheet. The Play shell uses the
   shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
   the complete Overview, Team, Progress, History, and Settings hierarchy.
-  Progress's Story, Pokédex, and Collectibles views, primary History, and
-  Settings remain unmounted and visibly disabled until their workflows are
-  implemented.
+  Progress Story is mounted at `/progress/story`, and `/progress` redirects to
+  it. Its read workspace joins each selected content scope into one searchable,
+  sectioned milestone list; only separately authored DLC receives a scope
+  selector. Explicit `required` and `story-unlock` relations drive visible
+  availability and are enforced by the completion function, while suggested
+  previous steps remain non-blocking. The seed audit validates prerequisite
+  references and cycles across every authored game graph. Decisions, snapshots,
+  completion state, and notes remain in the responsive list-detail workspace.
+  Pokédex,
+  Collectibles, primary History, and Settings remain unmounted and visibly
+  disabled until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 
@@ -153,7 +161,11 @@ checkpoint:
 - Desktop uses the accepted list-detail hierarchy: all six Active and six
   Reserve positions remain visible with the same detailed row geometry. The
   initial baseline has no Reserve summary or disclosure state. The first recorded member opens in
-  a larger selected-Pokémon detail. The substantially larger portrait is the
+  a larger selected-Pokémon inspector. List-detail inspectors now share one
+  restrained primary-ring Card treatment without a fixed visible Card header;
+  the changing subject leads inside the content. The selected Pokémon's Edit
+  action sits at the far right of its identity, nickname, and type row. The
+  substantially larger portrait is the
   identity area's focal point, while an inline labelled star identifies shiny
   members. The top row uses a 60/40 identity-to-caught-information split. Type
   badges precede the adjacent Level and icon-labelled Gender chips, and Held
@@ -323,12 +335,31 @@ inline. Phones stack the same complete record without opening a detail sheet.
 The view is read-only; correction and deletion remain owned by the future
 primary Play History workflow.
 
-Continue with one bounded planning workflow rather than another visual rewrite.
-The recommended next slice is the route-backed `Progress - Story` workspace.
-Progress now owns only Story, Pokédex, and Collectibles; `/progress` opens Story
-and the attached menu has no Overall item. Story remains the always-supported
-default and must preserve exact-game tracks, honest unknown/imported state, and
-native milestone completion.
+The bounded route-backed `Progress - Story` workspace is mounted:
+`/progress` opens Story, the attached menu has no Overall item, and the UI
+preserves exact-game sections, separate base/DLC scopes, explicit prerequisite
+relations, decisions, snapshot evidence, notes, and honest unrecorded state.
+Search is scoped to the selected base game or DLC. Desktop keeps list and
+selected detail side by side; narrower layouts keep the list primary and open
+details in the shared bottom-sheet pattern. Its content-only summary has no
+temporary view title; only each `Milestone N` control selects the summarized
+milestone. Milestone-type badges use stable semantic tones with visible labels.
+
+The selected detail now exposes the atomic Story workflows supported by the
+existing milestone mutation: complete an available milestone, add or update its
+note, add or update a relevant decision, deliberately record or replace the
+current Active Team snapshot when the milestone policy permits it, and mark an
+accidentally completed milestone incomplete so it can be recorded again.
+Replacing a snapshot keeps its existing History event. Marking a milestone
+incomplete now previews and atomically removes every completed transitive hard
+dependent together with its notes, decisions, milestone-linked History, and
+snapshot evidence; suggested and unrelated branches remain untouched, and a
+stale preview aborts.
+Hard prerequisites remain visible and block the completion action. The focused
+editor preserves optional context instead of placing every control in the
+inspector. Historical date correction, linked-event correction, and bulk
+completion still require their own cohesive command contracts and are not
+represented by placeholder actions.
 
 The existing Overview Progress Summary becomes the sole cross-area Progress
 landing surface, but its production refactor is deliberately deferred until
@@ -398,17 +429,17 @@ The repository currently provides:
 
 - Architecture enforcement over the active source tree.
 - The latest `npm run verify` checkpoint passes documentation, repository-wide
-  formatting, lint, TypeScript, architecture enforcement, 96 Vitest tests, and
+  formatting, lint, TypeScript, architecture enforcement, 143 Vitest tests, and
   the production build.
 - Focused Vitest coverage for domain, mapping, navigation, authentication, and
   database-audit helpers.
 - Deterministic audits over 131 schema sources, 896 seed sources, and 638,242
   seed rows.
-- Five pgTAP files with 107 assertions covering structural security, reference
+- Five pgTAP files with 124 assertions covering structural security, reference
   access, cross-user RLS, security-invoker views, representative mutations, and
   gameplay fixture coverage.
 - Local database reset, SQL formatting, lint, test, and generated-type parity.
 - The linked Supabase migration list matches local history through
-  `20260721221107_simplify_team_plan_comparison.sql` as of July 22, 2026.
+  `20260728101342_fix_milestone_column_ambiguity.sql` as of July 28, 2026.
 
 See [Verification](./app/verification.md) for commands and environment limits.

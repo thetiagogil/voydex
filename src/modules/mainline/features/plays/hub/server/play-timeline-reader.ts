@@ -100,3 +100,23 @@ export const readMainlinePlayTeamTimeline = async (
 
   return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
 };
+
+export const readMainlinePlayMilestoneTimelineSnapshots = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+): Promise<MainlinePlayTimelineEvent[]> => {
+  const timelineResult = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("*")
+    .eq("play_id", playId)
+    .not("milestone_id", "is", null)
+    .order("timeline_order", { ascending: false })
+    .order("happened_at", { ascending: false });
+
+  if (timelineResult.error) {
+    throw new Error("Unable to load Mainline milestone Team snapshots.");
+  }
+
+  return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
+};

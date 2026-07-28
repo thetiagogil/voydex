@@ -71,6 +71,14 @@ The desired mix:
   shadow restrained. Nested rows, slots, and list items should remain
   transparent or use a quieter semantic tint instead of repeating the same
   raised Card treatment at every level.
+- In list-detail workspaces, keep the stable list in a normal section Card and
+  render the changing right-side subject in the shared Play inspector Card.
+  Inspector Cards retain the same warm surface, radius, spacing, and shadow but
+  use one translucent primary ring at the same edge strength as the selected
+  source item. Their semantic Card title is visually hidden; the changing
+  Pokémon, comparison, milestone, or other subject leads inside the content
+  instead of sitting beneath a fixed `Selected ...` header. Responsive sheets
+  keep their required visible title.
 - Reserve alpha and backdrop effects for intentional visual layers: artwork
   overlays, hero/media treatments, modal scrims, disabled states, and semantic
   status tints.
@@ -531,18 +539,37 @@ Collectible-group selectors inside their focused views.
 Within Story, keep the ordered milestone list and selected milestone visually
 distinct. The list is the compact selection source; the larger detail region
 owns description, prerequisites, decision, snapshot context, notes, and
-actions. A game-aware track switcher may separate Main Story, Postgame, DLC, or
-parallel paths without becoming another global navigation layer. Milestone
-ordering communicates reading order, not dependency. On narrow screens, open
-the selected milestone in a focused view or sheet and return focus to its row
-when closing.
+actions. Join base-game Story categories into one named-section list and keep a
+single Search field before the selector. Show that selector only for separately
+authored DLC content scopes; category names and parallel paths are section
+headings, not navigation controls. Milestone ordering communicates reading
+order, not dependency; explicit hard prerequisites own availability. On narrow
+screens, open the selected milestone in a focused view or sheet and return
+focus to its row when closing. Row indicators expose only optional decision and
+snapshot actions: muted means the action is available, while primary means its
+evidence has been recorded. Do not repeat milestone-type badges with another
+badge-award icon.
 
-Keep ordinary `Mark complete` visually direct. Add a contextual sheet only when
-prerequisites, a decision, optional record details, or a deliberate `Record
-story moment` path requires attention. Treat `Bulk complete` as a separate
-review flow with a clearly grouped change preview and a sticky confirmation
-action on narrow screens. Do not use History, snapshot, date, or optional-content
-checkboxes as a wall of settings in the routine completion path.
+Keep ordinary `Mark complete` visually direct. When prerequisites, a decision,
+optional record details, or a deliberate `Record snapshot` path requires
+attention, use a compact focused Dialog on desktop and the established bottom
+Sheet on narrow Play layouts. Use a confirmation Alert Dialog for a consequential
+desktop correction such as `Mark incomplete`; use the same bottom Sheet pattern
+on narrow layouts. Actions that create an absent milestone record use the
+primary Button; once a note, decision, or snapshot exists, its corresponding
+update action uses the outline Button. A recorded snapshot remains actionable
+so the current Active Team can replace it after a mistake. Treat `Bulk complete`
+as a separate review flow with a clearly grouped change preview and a sticky
+confirmation action on narrow screens. Do not use History, snapshot, date, or
+optional-content checkboxes as a wall of settings in the routine completion
+path.
+
+When one optional boolean action needs more explanation than an inline checkbox,
+use the shared `CheckboxCard`. The whole labelled Card is the checkbox target,
+the native checkbox remains available to forms and assistive technology, and
+the selected Card uses the shared primary border, tint, and subtle shadow
+without a visible checkmark. Keep keyboard focus visually distinct from the
+selected state.
 
 Within Pokédex, keep named-scope selection visually prominent above the species
 browser. Prototype a horizontal card rail with clear active treatment and

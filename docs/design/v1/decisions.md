@@ -1207,9 +1207,10 @@ decision, snapshot, correction, and imported-save behavior.
 
 Selecting a Story milestone changes only the selected detail. Use `Mark
 complete` as the direct routine action and keep ordinary completion out of
-History. Open a focused completion sheet only when the milestone needs context
-such as missing prerequisites, a decision, an optional note or date, or a
-deliberate Story moment.
+History. When the milestone needs context such as missing prerequisites, a
+decision, an optional note or date, or a deliberate Story moment, open a compact
+focused Dialog on desktop and the established bottom Sheet on narrow Play
+layouts.
 
 When required or story-unlock prerequisites are missing, show the exact
 dependency set and recommend completing it with the selected milestone. Never
@@ -1218,12 +1219,14 @@ and a player may preserve a partial historical record rather than fabricate
 missing completion. Ask for a milestone decision when relevant, but keep `Not
 recorded` valid for forgotten or imported history.
 
-Important milestones may expose a separate `Record story moment` path. That
-action deliberately creates a History event and may include the current Active
-Team snapshot; snapshots remain optional. `Mark complete` alone does neither.
-Completed milestones expose `Edit record` and `Mark incomplete`. Correction
-does not cascade into later milestones and must not silently delete or rewrite
-a linked History event.
+Important milestones may expose a separate `Record snapshot` path. That action
+deliberately creates a History event with the current Active Team snapshot;
+recording it again replaces that snapshot in place. `Mark complete` alone does
+neither.
+Completed milestones expose `Edit record` and `Mark incomplete`. Confirm the
+latter in an Alert Dialog on desktop or the established bottom Sheet on narrow
+Play layouts. Correction does not cascade into later milestones and must not
+silently delete or rewrite a linked History event.
 
 Keep `Bulk complete` specifically for an existing save or historical catch-up.
 Let the player choose the furthest known milestone for each applicable Story

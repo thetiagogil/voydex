@@ -7,6 +7,11 @@ export type Json =
   | Json[];
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5";
+  };
   gameplay: {
     Tables: {
       mainline_challenge_rule_types: {
@@ -1040,6 +1045,8 @@ export type Database = {
           p_milestone_id: number;
           p_play_id: string;
           p_progress_notes?: string;
+          p_replace_decision?: boolean;
+          p_replace_progress_notes?: boolean;
         };
         Returns: {
           completed_milestone_ids: number[];

@@ -1,4 +1,4 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { MainlinePlayInspectorCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-inspector-card";
 import { TeamMemberDetailContent } from "./team-member-detail-content";
 import { TeamMemberEditAction } from "./team-member-edit-action";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
@@ -14,17 +14,16 @@ export const TeamMemberDetail = ({
   member: MainlinePlayTeamMember | null;
 }) => {
   return (
-    <MainlinePlaySectionCard
-      title="Selected Pokémon"
-      action={member ? <TeamMemberEditAction /> : undefined}
-      showSeparator
+    <MainlinePlayInspectorCard
+      accessibilityTitle="Selected Pokémon details"
       contentClassName="py-5"
     >
       <TeamMemberDetailContent
+        identityAction={member ? <TeamMemberEditAction /> : undefined}
         gameSlug={gameSlug}
         mechanics={mechanics}
         member={member}
       />
-    </MainlinePlaySectionCard>
+    </MainlinePlayInspectorCard>
   );
 };

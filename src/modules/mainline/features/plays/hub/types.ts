@@ -17,6 +17,8 @@ export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
 export type MainlinePlayChallengeRuleLink =
   GameplayRow<"mainline_play_challenge_rules">;
 export type MainlinePlayMilestone = ViewRow<"mainline_play_milestone_detail">;
+export type MainlinePlayMilestoneCategorySummary =
+  ViewRow<"mainline_play_milestone_category_summary">;
 export type MainlinePlayOverview = ViewRow<"mainline_play_overview">;
 export type MainlinePlayTeamMemberRow = ViewRow<"mainline_play_team_detail">;
 export type MainlinePlayTeamPlanRow = ViewRow<"mainline_play_team_plan_detail">;

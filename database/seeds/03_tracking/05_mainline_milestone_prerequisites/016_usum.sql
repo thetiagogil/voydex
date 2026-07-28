@@ -19,10 +19,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
 ) VALUES
   -- Receive Pokedex <- Choose Starter
   (160002, 160001, 16, 1, 1, NULL),
-  -- Ultra Necrozma <- Receive Pokedex
-  (160015, 160002, 16, 1, 1, NULL),
-  -- Ilima Trial <- Ultra Necrozma
-  (160003, 160015, 16, 1, 1, NULL),
+  -- Ilima Trial <- Receive Pokedex
+  (160003, 160002, 16, 1, 1, NULL),
   -- Grand Trial Hala <- Ilima Trial
   (160004, 160003, 16, 1, 1, NULL),
   -- Lana Trial <- Grand Trial Hala
@@ -39,12 +37,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (160010, 160009, 16, 1, 1, NULL),
   -- Grand Trial Nanu <- Acerola Trial
   (160011, 160010, 16, 1, 1, NULL),
-  -- Mina Trial <- Grand Trial Nanu
-  (160012, 160011, 16, 1, 1, NULL),
-  -- Vast Poni Canyon Trial <- Mina Trial
-  (160013, 160012, 16, 1, 1, NULL),
-  -- Grand Trial Hapu <- Vast Poni Canyon Trial
-  (160014, 160013, 16, 1, 1, NULL),
+  -- Vast Poni Canyon Trial <- Grand Trial Nanu
+  (160013, 160011, 16, 1, 1, NULL),
+  -- Ultra Necrozma <- Vast Poni Canyon Trial
+  (160015, 160013, 16, 1, 1, NULL),
+  -- Mina Trial <- Ultra Necrozma
+  (160012, 160015, 16, 1, 1, NULL),
+  -- Grand Trial Hapu <- Mina Trial
+  (160014, 160012, 16, 1, 1, NULL),
   -- Elite Four Molayne <- Grand Trial Hapu
   (160016, 160014, 16, 1, 1, NULL),
   -- Elite Four Olivia <- Elite Four Molayne

@@ -46,13 +46,13 @@ INSERT INTO tracking.mainline_milestones (
   -- Grand Trial Nanu
   (160011, 16, NULL, 1602, 4, 2, NULL, 'grand-trial-nanu', 'Grand Trial Nanu', 'Defeat Island Kahuna Nanu in the Ula''ula grand trial.', 9, true),
   -- Mina Trial
-  (160012, 16, NULL, 1602, 3, 2, NULL, 'mina-trial', 'Mina Trial', 'Complete Mina''s trial on Poni Island.', 10, true),
+  (160012, 16, NULL, 1602, 3, 2, NULL, 'mina-trial', 'Mina Trial', 'Complete Mina''s trial on Poni Island.', 12, true),
   -- Vast Poni Canyon Trial
-  (160013, 16, NULL, 1602, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Complete the trial in Vast Poni Canyon.', 11, true),
+  (160013, 16, NULL, 1602, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Complete the trial in Vast Poni Canyon.', 10, true),
   -- Grand Trial Hapu
-  (160014, 16, NULL, 1602, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'Defeat Island Kahuna Hapu in the Poni grand trial.', 12, true),
+  (160014, 16, NULL, 1602, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'Defeat Island Kahuna Hapu in the Poni grand trial.', 13, true),
   -- Ultra Necrozma
-  (160015, 16, NULL, 1601, 6, 3, NULL, 'ultra-necrozma', 'Ultra Necrozma', 'Defeat Ultra Necrozma at Megalo Tower.', 3, true),
+  (160015, 16, NULL, 1602, 6, 3, NULL, 'ultra-necrozma', 'Ultra Necrozma', 'Defeat Ultra Necrozma at Megalo Tower.', 11, true),
   -- Elite Four Molayne
   (160016, 16, NULL, 1603, 7, 2, NULL, 'elite-four-molayne', 'Elite Four Molayne', 'Defeat Molayne at the Pokémon League.', 1, true),
   -- Elite Four Olivia

@@ -615,6 +615,13 @@ right side. On narrow screens, show the roster first and open the selected
 member as a focused Team detail view or sheet with a clear return to the roster;
 do not squeeze both columns side by side.
 
+Use the shared Play inspector Card for the selected member. It has no fixed
+visible `Selected Pokémon` header: the Pokémon identity, nickname, types, and
+Edit action form the first content row, with Edit aligned at the far right.
+The inspector's restrained translucent primary ring distinguishes the changing
+selection target from the stable Roster section without adding another status
+color.
+
 The compact roster artwork and row treatment must read as the source of the
 selection, while the larger artwork and richer information on the right clearly
 read as the selected result. Do not replace the list with a board of large
@@ -1734,13 +1741,22 @@ area. Use this hierarchy:
 
 1. **Story summary:** show the current or furthest recorded position, the next
    applicable objective when one exists, and normalized Story completion. Do
-   not repeat the Play Overview's full cross-area Progress Summary.
-2. **Game-aware tracks:** expose Main Story, Postgame, DLC stories, or parallel
-   paths only when the selected game defines them. Keep one simple list when it
-   does not.
-3. **Milestone list:** show an ordered, selectable list with completion state,
-   name, concise location or context, milestone type, and restrained decision
-   or snapshot cues.
+   not repeat the Play Overview's full cross-area Progress Summary. Until Play
+   child views adopt one shared view-title treatment, render this as a
+   content-only summary Card with a visually hidden semantic heading. Keep the
+   summary tiles informational: only the quiet `Milestone N` control and its
+   chevron select that milestone in the inspector.
+2. **Content scope:** keep the base game in one sectioned list. Expose the
+   content-scope selector only when the Play includes separately authored DLC;
+   use `Main game` and the real DLC names rather than treating Story categories
+   or parallel paths as navigation.
+3. **Milestone list:** place Search before the optional content-scope selector,
+   search only within the selected scope, and show every matching category as a
+   named section in one ordered, selectable column. Each milestone keeps its
+   completion state, name, concise location or context, milestone type, and
+   restrained decision or snapshot cues. Give each milestone type a consistent
+   semantic tone, while retaining its visible text so color is never the only
+   identifier.
 4. **Selected milestone detail:** show description, prerequisites, recorded
    decision, snapshot availability, notes, and the actions that apply to that
    milestone.
@@ -1751,11 +1767,59 @@ detail region as the active subject. On narrow screens, keep the list primary
 and open the selected milestone in a focused view or sheet with an explicit
 return path and restored focus.
 
+The desktop milestone detail uses the shared Play inspector Card. Keep its
+semantic Card title visually hidden and lead the content with `Milestone N`,
+then the selected milestone name with its milestone type and optional badges
+inline rather than recreating a separated Card header. Organize the detail as
+Objective, Status, Prerequisites, Recorded details, and Actions. Identity and
+Objective form the quiet opening pair without a separator; place one separator
+between every remaining visible section. Omit Recorded details entirely when
+the milestone has no recorded decision, Team snapshot, or non-empty note; the
+corresponding add actions remain available in Actions. Do not add another
+separator inside Actions.
+Render Status with the same compact icon, primary line, and supporting-copy row
+component as each Prerequisite instead of nesting another bordered status
+panel. Completed Status and completed Prerequisites use the same check icon and
+treatment. When a milestone has a recorded Team snapshot, show the actual
+event-time Active Team members and their historical artwork in Recorded details;
+the saved-member count alone is not an adequate snapshot preview. Never replace
+that historical identity with the Play's current roster. Present snapshot
+members as unboxed artwork-and-name pairs rather than nested mini Cards. When a
+recorded decision identifies a Pokémon, use the same unboxed artwork-and-name
+treatment instead of showing only the decision label.
+The responsive sheet keeps the same hierarchy in its required visible title and
+content. An incomplete available milestone exposes the primary completion
+action. A completed milestone exposes focused note, decision, and snapshot
+actions in a responsive two-column grid; Note spans the available width only
+when no other action accompanies it. Keep the corrective `Mark incomplete`
+action full-width after the routine actions. After recording, the snapshot
+action reads `Snapshot recorded` and remains available so the player can replace
+a mistaken snapshot with the current Active Team. Recording the first snapshot
+deliberately creates History; replacing it updates that event's snapshot rather
+than creating another event.
+
+`Mark incomplete` is the destructive correction path. Before confirmation,
+show the selected milestone, every currently completed transitive dependent
+connected by `required` or `story-unlock`, and counts for notes, decisions,
+History events, and Team snapshots that will be removed. Suggested relations
+and unrelated branches are excluded. The confirmation submits that reviewed
+milestone set; the database recomputes it under one transaction and aborts if
+the impact changed. A successful correction atomically removes all affected
+completion rows and their milestone-owned notes, decisions, History events,
+snapshots, and snapshot moves.
+
 Milestone sort order is presentation, not dependency. Use explicit
 prerequisites to determine what a milestone depends on, what may be suggested
 next, and what a historical catch-up operation would include. Do not assume
 that every earlier row is required, and do not use a universal `Complete next`
 action for games with nonlinear or parallel paths.
+
+The prerequisite graph is authoritative across section boundaries. A
+`suggested` relation explains likely reading or catch-up order without blocking
+completion. A missing `required` or `story-unlock` relation makes the milestone
+unavailable for completion, remains visible and inspectable in the list, and
+names its blockers in the selected detail. Database writes must enforce the
+same hard-prerequisite rule as the read model.
 
 Keep `Bulk complete` as a separate imported-save and historical-catch-up flow.
 Do not place its complexity in routine milestone completion. Exact write,
@@ -1773,18 +1837,30 @@ For routine completion:
 
 1. Use `Mark complete` as the primary action. When the milestone has no missing
    dependencies or additional context, keep the action direct and quiet.
-2. Open a focused completion sheet only when needed for missing prerequisites,
-   a decision, an optional note or date, or a deliberate Story moment.
+2. Open a compact focused Dialog on desktop only when needed for missing
+   prerequisites, a decision, an optional note or date, or a deliberate Story
+   snapshot. Present that same task in the established bottom Sheet on narrow
+   Play layouts. Keep the action-surface header generic and icon-free with only
+   its action title and concise description. Give every Story action surface
+   the same desktop width and lead its content with one shared milestone context
+   Card containing a type-aware icon, `Milestone N`, milestone name, type badge,
+   and description. The context Card uses a quiet contrasting background so the
+   subject remains identifiable without turning it into the Dialog title.
 3. If required or story-unlock prerequisites are not recorded, show the exact
    dependency set and recommend completing it with the selected milestone.
    Suggested prerequisites remain optional. Never infer dependencies from
    display order or force the player to invent missing historical progress.
 4. Ask for the relevant decision when one exists, while preserving `Not
-recorded` as a valid answer for forgotten or imported history.
+recorded` as a valid answer for forgotten or imported history. Show every
+   possible decision together, including associated Pokémon artwork and names,
+   and visibly mark the selected option instead of hiding the choice set in a
+   Select.
 5. `Mark complete` updates Story progress without creating History. Important
-   milestones may also expose `Record story moment`, which deliberately creates
-   one meaningful History event and may include an optional snapshot of the
-   current Active Team.
+   milestones may also expose `Record snapshot`, which deliberately creates one
+   meaningful History event with the current Active Team. Re-recording replaces
+   that snapshot in place. The snapshot action surface previews the existing
+   event-time Team when one has been recorded and explains that updating it will
+   replace that evidence with the current Active Team.
 
 An active completion may default its exact completion time to now. Historical
 completion never defaults to now, and an unknown date remains valid. Notes are
@@ -1792,10 +1868,14 @@ optional milestone context and do not automatically become History notes.
 
 After success, keep the completed milestone selected, update its state, and
 make the next applicable objective visible without moving focus unexpectedly.
-A completed milestone exposes `Edit record` and `Mark incomplete`. Marking it
-incomplete does not automatically change later milestone rows, decisions, or
-History. If a linked Story event exists, disclose it and route to History for
-event correction rather than silently deleting or rewriting it.
+A completed milestone exposes `Edit record` and `Mark incomplete`. Confirm
+`Mark incomplete` in an Alert Dialog on desktop and the established bottom
+Sheet on narrow Play layouts. Preview every completed transitive `required` or
+`story-unlock` dependent and the milestone-owned records that will be deleted.
+One explicit confirmation atomically removes that affected progress, notes,
+decisions, History events, and Team snapshot evidence. Suggested relations and
+unrelated branches remain unchanged; a stale preview aborts instead of silently
+expanding the correction.
 
 `Bulk complete` is reserved for existing saves and historical catch-up:
 
@@ -2001,6 +2081,10 @@ Use a compact responsive master-detail workspace:
    the focused comparison Card share one workspace height; stretch the shorter
    Card or notes region to match the taller column. Narrow layouts keep the
    natural list → notes flow before opening details in the sheet.
+
+The focused comparison uses the same shared Play inspector Card as Team Roster
+and Story. Keep the semantic Card title visually hidden and let the contextual
+comparison sentence lead the content.
 
 Unplanned Play members are summarized by count and a concise tooltip. They are
 not inspectable comparison rows and do not prompt the user to rewrite the Plan.

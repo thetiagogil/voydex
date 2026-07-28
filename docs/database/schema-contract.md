@@ -71,7 +71,17 @@ retirement, replacement, and later corrections do not erase history.
 Use reviewed security-invoker functions for atomic workflows:
 
 - `gameplay.add_mainline_play_pokemon` and related lifecycle functions.
-- `gameplay.complete_mainline_play_milestone`.
+- `gameplay.complete_mainline_play_milestone` distinguishes omitted detail
+  values from explicit replacement, so a submitted `Not recorded` decision or
+  empty note clears the existing value without changing unrelated milestone
+  evidence. Snapshot replacement writes member rows before move rows so every
+  security-invoker write remains visible to the existing owner RLS policies.
+- `gameplay.mark_mainline_play_milestone_incomplete` recomputes the completed
+  transitive `required` and `story-unlock` dependent closure, validates it
+  against the user-previewed milestone IDs, and atomically deletes affected
+  progress, notes, decisions, milestone-linked History events, snapshots, and
+  snapshot moves. Suggested and unrelated branches are not part of the
+  correction.
 - `gameplay.set_mainline_play_collectible_entry_progress`.
 - `gameplay.set_mainline_play_pokedex_species_progress`.
 - `planning.link_mainline_team_plan_to_play` and plan-member realization

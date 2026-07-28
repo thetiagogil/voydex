@@ -8,8 +8,8 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import { cn } from "@/shared/utils/cn";
+import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 
-import { useTeamDetailSheetLayout } from "../shared/use-team-detail-sheet-layout";
 import { TeamPlanComparisonInspector } from "./sections/comparison/team-plan-comparison-inspector";
 import { TeamPlanComparisonSection } from "./sections/comparison/team-plan-comparison-section";
 import { TeamPlanComparisonSheet } from "./sections/comparison/team-plan-comparison-sheet";
@@ -22,7 +22,7 @@ type MainlinePlayTeamPlanProps = {
 
 export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
   const plan = data.teamPlan;
-  const usesComparisonSheet = useTeamDetailSheetLayout();
+  const usesComparisonSheet = useMainlinePlayDetailSheetLayout();
   const [selectedComparisonId, setSelectedComparisonId] = useState(
     plan?.comparisons[0]?.planMemberId ?? null,
   );

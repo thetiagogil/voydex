@@ -8,7 +8,7 @@ import type {
   MainlinePlayTeamRosterData,
 } from "@/modules/mainline/features/plays/hub/types";
 
-import { useTeamDetailSheetLayout } from "../shared/use-team-detail-sheet-layout";
+import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 import { LinkedPlanSummarySection } from "./sections/linked-plan-summary/linked-plan-summary-section";
 import { TeamEventsSection } from "./sections/recent-team-events/team-events-section";
 import { getDefaultTeamMember } from "./sections/roster/team-roster-model";
@@ -33,7 +33,7 @@ export const MainlinePlayTeamRoster = ({
     defaultMember?.play_pokemon_id ?? null,
   );
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
-  const usesDetailSheet = useTeamDetailSheetLayout();
+  const usesDetailSheet = useMainlinePlayDetailSheetLayout();
   const selectedMember =
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
     defaultMember;

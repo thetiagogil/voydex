@@ -60,7 +60,7 @@ export const AppShell = ({
           </>
         }
       />
-      <main className="relative z-10 flex w-full min-w-0 flex-1 flex-col overflow-hidden px-4 pt-6 pb-5 sm:px-7 sm:pt-8 sm:pb-7 lg:px-10 lg:pt-9 lg:pb-10">
+      <main className="relative z-10 flex w-full min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-6 pb-5 sm:px-7 sm:pt-8 sm:pb-7 lg:px-10 lg:pt-9 lg:pb-10">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           {children}
         </div>

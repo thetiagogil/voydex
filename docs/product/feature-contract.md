@@ -474,10 +474,20 @@ target; suggested prerequisites remain optional, and display order never
 substitutes for dependency data. Decisions may remain `Not recorded` for
 forgotten or imported history.
 
-Important milestones may separately offer `Record story moment`. That deliberate
-path creates one History event and may include an optional current-Team
-snapshot. Ordinary completion does neither. `Edit record` and `Mark incomplete`
-must not cascade into later progress or silently remove a linked History event.
+Important milestones may separately offer `Record snapshot`. That deliberate
+path creates one History event with the current Active Team snapshot. Recording
+it again replaces that event's snapshot rather than creating another event.
+Ordinary completion does neither. `Mark incomplete` is an explicit correction:
+derive every currently completed transitive dependent connected through
+`required` or `story-unlock`, preview the complete affected milestone and
+recorded-data set, and require one confirmation. One atomic write then removes
+those completion rows and their milestone-owned notes, decisions, History
+events, Team snapshots, and snapshot moves. Suggested dependencies and
+unrelated branches remain unchanged. The database must recompute the impact and
+abort a stale confirmation rather than delete a set the user did not review.
+Focused milestone editing uses a compact Dialog on desktop and a bottom Sheet
+on narrow Play layouts. `Mark incomplete` uses a desktop confirmation Alert
+Dialog before the correction is submitted.
 
 Bulk completion is a separate imported-save and historical-catch-up workflow,
 not part of the routine milestone action. The player chooses the furthest known

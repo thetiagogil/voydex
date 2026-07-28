@@ -408,6 +408,9 @@ export function assertTrackingCoreRows(context, tableRows) {
   for (const { row, filePath } of prerequisites) {
     const milestone = milestonesById.get(row.milestone_id)?.row;
     const prerequisite = milestonesById.get(row.prerequisite_milestone_id)?.row;
+    const prerequisiteKind = milestonePrerequisiteKindsById.get(
+      row.prerequisite_kind_id,
+    );
     if (!milestone) {
       context.errors.push(
         `${relative(filePath)}: tracking.mainline_milestone_prerequisites row ${row.milestone_id}/${row.prerequisite_milestone_id} references unseeded milestone_id ${row.milestone_id}.`,
@@ -442,11 +445,51 @@ export function assertTrackingCoreRows(context, tableRows) {
         `${relative(filePath)}: tracking.mainline_milestone_prerequisites row ${row.milestone_id}/${row.prerequisite_milestone_id} cannot reference itself.`,
       );
     }
-    if (!milestonePrerequisiteKindsById.has(row.prerequisite_kind_id)) {
+    if (!prerequisiteKind) {
       context.errors.push(
         `${relative(filePath)}: tracking.mainline_milestone_prerequisites row ${row.milestone_id}/${row.prerequisite_milestone_id} references unseeded prerequisite_kind_id ${row.prerequisite_kind_id}.`,
       );
     }
+    if (
+      milestone?.is_required_for_completion === true &&
+      prerequisite?.is_required_for_completion === false &&
+      ["required", "story-unlock"].includes(prerequisiteKind?.slug)
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: required milestone ${row.milestone_id} cannot be hard-locked by optional milestone ${row.prerequisite_milestone_id}. Use a suggested prerequisite or make the prerequisite required.`,
+      );
+    }
+  }
+  const prerequisiteIdsByMilestoneId = new Map();
+  for (const { row } of prerequisites) {
+    if (!prerequisiteIdsByMilestoneId.has(row.milestone_id)) {
+      prerequisiteIdsByMilestoneId.set(row.milestone_id, []);
+    }
+    prerequisiteIdsByMilestoneId
+      .get(row.milestone_id)
+      .push(row.prerequisite_milestone_id);
+  }
+  const visitingMilestoneIds = new Set();
+  const visitedMilestoneIds = new Set();
+  const visitMilestone = (milestoneId, pathIds = []) => {
+    if (visitingMilestoneIds.has(milestoneId)) {
+      context.errors.push(
+        `tracking.mainline_milestone_prerequisites: dependency cycle detected: ${[...pathIds, milestoneId].join(" -> ")}.`,
+      );
+      return;
+    }
+    if (visitedMilestoneIds.has(milestoneId)) return;
+    visitingMilestoneIds.add(milestoneId);
+    for (const prerequisiteMilestoneId of prerequisiteIdsByMilestoneId.get(
+      milestoneId,
+    ) ?? []) {
+      visitMilestone(prerequisiteMilestoneId, [...pathIds, milestoneId]);
+    }
+    visitingMilestoneIds.delete(milestoneId);
+    visitedMilestoneIds.add(milestoneId);
+  };
+  for (const milestoneId of prerequisiteIdsByMilestoneId.keys()) {
+    visitMilestone(milestoneId);
   }
   addCompositeDuplicateErrors(
     context,

@@ -56,10 +56,12 @@ const TeamMemberEmptyDetail = () => {
 
 export const TeamMemberDetailContent = ({
   gameSlug,
+  identityAction,
   mechanics,
   member,
 }: {
   gameSlug: string | null;
+  identityAction?: React.ReactNode;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
 }) => {
@@ -69,7 +71,7 @@ export const TeamMemberDetailContent = ({
 
   return (
     <div className="grid gap-4">
-      <TeamMemberIdentity member={member} />
+      <TeamMemberIdentity action={identityAction} member={member} />
 
       <Separator className="bg-app-surface-border/60" />
 
