@@ -8,6 +8,7 @@ one canonical owner; other documents should link to it instead of restating it.
 | Concern                                    | Canonical source                                                      |
 | ------------------------------------------ | --------------------------------------------------------------------- |
 | Product purpose and principles             | [Product Vision](./product/vision.md)                                 |
+| Business model research and direction      | [Business Model](./product/business-model.md)                         |
 | User-visible behavior                      | [Feature Contract](./product/feature-contract.md)                     |
 | Navigation and user flows                  | [Navigation And Routes](./product/navigation-and-routes.md)           |
 | State ownership and derivation             | [Data Ownership](./product/data-ownership.md)                         |
@@ -25,6 +26,7 @@ one canonical owner; other documents should link to it instead of restating it.
 ## Product
 
 - [Product Vision](./product/vision.md)
+- [Business Model](./product/business-model.md)
 - [Feature Contract](./product/feature-contract.md)
 - [Navigation And Routes](./product/navigation-and-routes.md)
 - [Data Ownership](./product/data-ownership.md)

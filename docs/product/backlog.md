@@ -20,6 +20,26 @@ Closely related improvements may share one entry, but every distinct preserved
 capability must still be named explicitly. Deferral changes priority, not the
 decision that the improvement is valuable.
 
+## Commercial Model And Entitlements
+
+A later product phase may introduce a transparent commercial model that funds
+Voydex's ongoing service without weakening its essential free Pokémon journey.
+The current market evidence, principles, candidate free and premium boundaries,
+and unresolved decisions are preserved in the
+[Business Model](./business-model.md).
+
+No pricing, subscription, purchase, advertisement, entitlement, or paywall is
+accepted or implemented in V1. Before reconsidering this work, validate that
+the free experience remains coherent; identify continuing service value worth
+paying for; complete commercial and Pokémon intellectual-property review; and
+design billing, authorization, RLS, expiry, read-only access, export, support,
+and deletion behavior end to end.
+
+Any later implementation must monetize durable personal value and advanced
+journey tools rather than basic Pokémon facts. It must not delete a user's
+existing premium records when an entitlement expires or divide normal
+exact-game support into separately purchased game or generation packs.
+
 ## Next Session Bookmark
 
 A later version may explore a lightweight temporary reminder about where the
