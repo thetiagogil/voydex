@@ -5,14 +5,9 @@ import type {
   PlayBrowseOption,
   PlayBrowseSort,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 
 type PlaysFilterFormProps = {
   filters: PlayBrowseFilters;
@@ -54,21 +49,15 @@ export const PlaysFilterForm = ({
     >
       <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 md:gap-3 lg:grid-cols-[minmax(14rem,1.25fr)_minmax(8rem,0.7fr)_minmax(10rem,0.9fr)_minmax(10rem,0.9fr)] xl:grid-cols-[minmax(18rem,1.25fr)_minmax(9rem,0.7fr)_minmax(12rem,0.9fr)_minmax(12rem,0.9fr)] xl:gap-4">
         <div className="col-span-2 md:col-span-3 lg:col-span-1">
-          <InputGroup className="h-10!">
-            <InputGroupAddon className="pl-2.5">
-              <AppIcon icon={appIcons.actions.search} aria-hidden />
-            </InputGroupAddon>
-            <InputGroupInput
-              id="plays-search"
-              name="q"
-              aria-label="Search plays"
-              value={filters.query}
-              onChange={(event) => {
-                onQueryChange(event.currentTarget.value);
-              }}
-              placeholder="Play, game, or trainer"
-            />
-          </InputGroup>
+          <SearchControl
+            id="plays-search"
+            name="q"
+            ariaLabel="Search plays"
+            value={filters.query}
+            onValueChange={onQueryChange}
+            placeholder="Play, game, or trainer"
+            className="h-10!"
+          />
         </div>
 
         <div>

@@ -6,14 +6,9 @@ import type {
   PokedexPageFilters,
   Type,
 } from "@/modules/reference/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   pokemonCategoryOptions,
@@ -83,20 +78,14 @@ export const PokedexFilterForm = ({
         event.preventDefault();
       }}
     >
-      <InputGroup className="bg-card col-span-2 h-10 flex-1 lg:col-span-1">
-        <InputGroupAddon>
-          <AppIcon icon={appIcons.actions.search} aria-hidden />
-        </InputGroupAddon>
-        <InputGroupInput
-          name="q"
-          aria-label="Search Pokémon"
-          value={filters.query}
-          onChange={(event) => {
-            onQueryChange(event.currentTarget.value);
-          }}
-          placeholder="Search by name or National number"
-        />
-      </InputGroup>
+      <SearchControl
+        name="q"
+        ariaLabel="Search Pokémon"
+        value={filters.query}
+        onValueChange={onQueryChange}
+        placeholder="Search by name or National number"
+        className="bg-card col-span-2 h-10 flex-1 lg:col-span-1"
+      />
       <SelectControl
         name="generation"
         ariaLabel="Filter by generation"

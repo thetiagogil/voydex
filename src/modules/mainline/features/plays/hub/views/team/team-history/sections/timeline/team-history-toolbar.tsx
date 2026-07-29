@@ -1,14 +1,9 @@
 "use client";
 
 import type { TeamHistorySort } from "../../data/team-history-model";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 
 type TeamHistoryToolbarProps = {
   eventCount: number;
@@ -44,21 +39,15 @@ export const TeamHistoryToolbar = ({
       }}
     >
       <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-[minmax(16rem,1fr)_minmax(10rem,0.55fr)_minmax(9rem,0.45fr)] lg:items-center">
-        <InputGroup className="h-10! sm:col-span-2 lg:col-span-1">
-          <InputGroupAddon className="pl-2.5">
-            <AppIcon icon={appIcons.actions.search} aria-hidden />
-          </InputGroupAddon>
-          <InputGroupInput
-            id="team-history-search"
-            name="q"
-            aria-label="Search Team history"
-            value={query}
-            onChange={(event) => {
-              onQueryChange(event.currentTarget.value);
-            }}
-            placeholder="Search Pokémon or event"
-          />
-        </InputGroup>
+        <SearchControl
+          id="team-history-search"
+          name="q"
+          ariaLabel="Search Team history"
+          value={query}
+          onValueChange={onQueryChange}
+          placeholder="Search Pokémon or event"
+          className="h-10! sm:col-span-2 lg:col-span-1"
+        />
 
         <SelectControl
           id="team-history-type"

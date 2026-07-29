@@ -1,14 +1,9 @@
 import type { GamePokedexFilters } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser-model";
 import { CodexFilterPanel } from "@/modules/codex/shared/components/codex-filter-panel";
 import type { GamePokedexData } from "@/modules/reference/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 type GamePokedexFilterFormProps = {
@@ -57,24 +52,18 @@ export const GamePokedexFilterForm = ({
         event.preventDefault();
       }}
     >
-      <InputGroup className="bg-card h-10 flex-1">
-        <InputGroupAddon>
-          <AppIcon icon={appIcons.actions.search} aria-hidden />
-        </InputGroupAddon>
-        <InputGroupInput
-          name="q"
-          aria-label="Search Pokémon"
-          value={filters.query}
-          onChange={(event) => {
-            onQueryChange(event.currentTarget.value);
-          }}
-          placeholder={
-            hasAbilities
-              ? "Search by name, Pokédex number, or ability"
-              : "Search by name or Pokédex number"
-          }
-        />
-      </InputGroup>
+      <SearchControl
+        name="q"
+        ariaLabel="Search Pokémon"
+        value={filters.query}
+        onValueChange={onQueryChange}
+        placeholder={
+          hasAbilities
+            ? "Search by name, Pokédex number, or ability"
+            : "Search by name or Pokédex number"
+        }
+        className="bg-card h-10 flex-1"
+      />
       <SelectControl
         name="type"
         ariaLabel="Filter by type"

@@ -28,6 +28,7 @@ import type {
   PokedexPageData,
   PokedexPageFilters,
 } from "@/modules/reference/types";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { Button } from "@/shared/components/ui/button";
 
 type PokedexBrowserProps = {
@@ -170,14 +171,10 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         </CodexBrowseMeta>
 
         {hasActiveFilters ? (
-          <Button
-            type="button"
-            variant="ghost"
+          <ClearFiltersButton
             className="self-start sm:self-auto"
             onClick={clearFilters}
-          >
-            Clear
-          </Button>
+          />
         ) : null}
       </div>
 

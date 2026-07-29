@@ -1,0 +1,165 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+
+import { appRoutes } from "@/config/routes";
+import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { isUuid } from "@/shared/utils/identifiers";
+
+import { POKEDEX_PROGRESS_SECTION_SIZE } from "../data/pokedex-progress-model";
+import type { PokedexProgressState } from "../types";
+
+export type PokedexProgressActionResult = {
+  message: string;
+  status: "error" | "success";
+};
+
+const isPokedexProgressState = (value: string): value is PokedexProgressState =>
+  value === "missing" || value === "seen" || value === "caught";
+
+const updatePokedexSpeciesProgressBatch = async ({
+  playId,
+  speciesIds,
+  state,
+}: {
+  playId: string;
+  speciesIds: number[];
+  state: string;
+}): Promise<PokedexProgressActionResult> => {
+  try {
+    if (!isUuid(playId)) {
+      throw new Error("A valid Play is required.");
+    }
+
+    const uniqueSpeciesIds = [...new Set(speciesIds)];
+
+    if (
+      uniqueSpeciesIds.length === 0 ||
+      uniqueSpeciesIds.length > POKEDEX_PROGRESS_SECTION_SIZE ||
+      uniqueSpeciesIds.some(
+        (speciesId) => !Number.isInteger(speciesId) || speciesId <= 0,
+      )
+    ) {
+      throw new Error("Between 1 and 60 valid Pokémon species are required.");
+    }
+
+    if (!isPokedexProgressState(state)) {
+      throw new Error("Unknown Pokédex progress state.");
+    }
+
+    const supabase = await createServerSupabaseClient();
+    const claimsResult = await getClaimsWithTimeout(supabase);
+
+    if (!claimsResult?.data?.claims?.sub) {
+      throw new Error("You must be signed in to update Pokédex progress.");
+    }
+
+    const speciesResult = await supabase
+      .schema("views")
+      .from("mainline_play_pokedex_detail")
+      .select("species_id")
+      .eq("play_id", playId)
+      .in("species_id", uniqueSpeciesIds);
+
+    if (speciesResult.error) {
+      throw new Error(speciesResult.error.message);
+    }
+
+    const availableSpeciesIds = new Set(
+      speciesResult.data.map((entry) => entry.species_id),
+    );
+
+    if (
+      uniqueSpeciesIds.some((speciesId) => !availableSpeciesIds.has(speciesId))
+    ) {
+      throw new Error(
+        "One or more Pokémon are not available in the Play's Pokédex.",
+      );
+    }
+
+    if (state === "missing") {
+      const deleteResult = await supabase
+        .schema("gameplay")
+        .from("mainline_play_pokedex_species_progress")
+        .delete()
+        .eq("play_id", playId)
+        .in("species_id", uniqueSpeciesIds);
+
+      if (deleteResult.error) {
+        throw new Error(deleteResult.error.message);
+      }
+    } else {
+      const recordedAt = new Date().toISOString();
+      const upsertResult = await supabase
+        .schema("gameplay")
+        .from("mainline_play_pokedex_species_progress")
+        .upsert(
+          uniqueSpeciesIds.map((speciesId) => ({
+            caught_at: state === "caught" ? recordedAt : null,
+            is_caught: state === "caught",
+            is_seen: true,
+            play_id: playId,
+            seen_at: recordedAt,
+            species_id: speciesId,
+          })),
+          {
+            onConflict: "play_id,species_id",
+          },
+        );
+
+      if (upsertResult.error) {
+        throw new Error(upsertResult.error.message);
+      }
+    }
+
+    revalidatePath(appRoutes.mainlinePlay(playId));
+    revalidatePath(appRoutes.mainlinePlayProgressPokedex(playId));
+
+    return {
+      message:
+        uniqueSpeciesIds.length === 1
+          ? "Pokédex progress updated."
+          : `${uniqueSpeciesIds.length} Pokédex entries updated.`,
+      status: "success",
+    };
+  } catch (error) {
+    return {
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to update Pokédex progress.",
+      status: "error",
+    };
+  }
+};
+
+export const updatePokedexSpeciesProgress = async ({
+  playId,
+  speciesId,
+  state,
+}: {
+  playId: string;
+  speciesId: number;
+  state: string;
+}): Promise<PokedexProgressActionResult> =>
+  updatePokedexSpeciesProgressBatch({
+    playId,
+    speciesIds: [speciesId],
+    state,
+  });
+
+export const updatePokedexSpeciesProgressBulk = async ({
+  playId,
+  speciesIds,
+  state,
+}: {
+  playId: string;
+  speciesIds: number[];
+  state: string;
+}): Promise<PokedexProgressActionResult> =>
+  updatePokedexSpeciesProgressBatch({
+    playId,
+    speciesIds,
+    state,
+  });

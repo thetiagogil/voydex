@@ -37,6 +37,8 @@ import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/pl
 import type { MainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { readMainlinePlayStoryProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/server/story-progress-reader";
 import type { MainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
+import { readMainlinePlayPokedexProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/server/pokedex-progress-reader";
+import type { MainlinePlayProgressPokedexData } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/types";
 import { isUuid } from "@/shared/utils/identifiers";
 
 const getMainlinePlayRequestContext = cache(async (playId: string) => {
@@ -231,5 +233,30 @@ export const getMainlinePlayProgressStoryData = cache(
     }
 
     return readMainlinePlayStoryProgress(context.supabase, playId);
+  },
+);
+
+export const getMainlinePlayProgressPokedexData = cache(
+  async (playId: string): Promise<MainlinePlayProgressPokedexData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    if (
+      !context.play.game_name ||
+      !context.play.game_slug ||
+      !context.play.generation_id
+    ) {
+      throw new Error("This Play does not have a complete game context.");
+    }
+
+    return readMainlinePlayPokedexProgress(context.supabase, {
+      gameName: context.play.game_name,
+      gameSlug: context.play.game_slug,
+      generationId: context.play.generation_id,
+      playId,
+    });
   },
 );

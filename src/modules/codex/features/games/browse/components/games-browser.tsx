@@ -11,7 +11,7 @@ import type {
   GamesPageData,
   GamesPageFilters,
 } from "@/modules/reference/types";
-import { Button } from "@/shared/components/ui/button";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 
 type GamesBrowserProps = {
   data: GamesPageData;
@@ -125,14 +125,10 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
         </CodexBrowseMeta>
 
         {hasActiveFilters ? (
-          <Button
-            type="button"
-            variant="ghost"
+          <ClearFiltersButton
             className="self-start sm:self-auto"
             onClick={clearFilters}
-          >
-            Clear
-          </Button>
+          />
         ) : null}
       </div>
 
@@ -143,9 +139,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           title="No games found"
           description="Try a different search, generation, region, or type filter."
           action={
-            <Button type="button" variant="outline" onClick={clearFilters}>
-              Reset filters
-            </Button>
+            <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }
         />
       )}

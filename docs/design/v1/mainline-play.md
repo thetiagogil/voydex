@@ -1747,12 +1747,13 @@ area. Use this hierarchy:
    summary tiles informational: only the quiet `Milestone N` control and its
    chevron select that milestone in the inspector.
 2. **Content scope:** keep the base game in one sectioned list. Expose the
-   content-scope selector only when the Play includes separately authored DLC;
-   use `Main game` and the real DLC names rather than treating Story categories
-   or parallel paths as navigation.
-3. **Milestone list:** place Search before the optional content-scope selector,
-   search only within the selected scope, and show every matching category as a
-   named section in one ordered, selectable column. Each milestone keeps its
+   content-scope selector as the `Story milestones` Card header action only
+   when the Play includes separately authored DLC; use `Main game` and the real
+   DLC names rather than treating Story categories or parallel paths as
+   navigation.
+3. **Milestone list:** keep Search as the only list-content control, search only
+   within the selected scope, and show every matching category as a named
+   section in one ordered, selectable column. Each milestone keeps its
    completion state, name, concise location or context, milestone type, and
    restrained decision or snapshot cues. Give each milestone type a consistent
    semantic tone, while retaining its visible text so color is never the only
@@ -1900,34 +1901,93 @@ day-to-day Story interaction.
 
 ### Pokédex Browser And Progress Contract
 
-**Status: V1 interaction contract accepted; selector visual validation pending**
+**Status: V1 interaction and selector contract accepted**
 
 Pokédex stays inside the Progress context and presents one named Pokédex scope
 at a time. Do not merge overlapping Pokédexes into one raw total. Species
 progress belongs to the Play and is shared across every applicable Pokédex that
 contains that species.
 
-Use this hierarchy after the named-Pokédex selector:
+Use this hierarchy:
 
-1. **Active Pokédex summary:** show Caught as the primary native count, Seen as
-   secondary context, normalized completion, and whether optional entries
-   contribute. Provide one route to the relevant completion settings.
+1. **Pokédex scope overview:** use a Pokédex-specific horizontal band rather
+   than the Story summary-tile composition. Keep the active named Pokédex and,
+   when independently meaningful alternatives exist, its content-sized shared
+   Navigation Menu together on the left. The menu contains only independently
+   completion-relevant scopes, closes after selection, and exposes each
+   Pokédex name, entry count, and kind without search. Browse-only local
+   Pokédexes covered by one aggregate completion scope are not peer
+   destinations; expose them as an optional Select control in the entries
+   filter row. That control narrows the active scope without changing its
+   route, summary, or completion denominator. When only one independent scope
+   applies, show its name and entry count without an inactive menu or redundant
+   kind metadata. Keep that orientation and one continuous
+   Caught-first progress sentence on the same
+   responsive row, without a decorative icon, eyebrow label, or internal
+   divider. Put one progress rail beneath the full row and keep Seen muted.
+   Order the counts as `Caught · Seen · total · percentage`; use primary
+   emphasis for Caught, the established Seen-species secondary color for Seen,
+   and normal foreground for total and percentage. Keep Caught as the only
+   bold metric; Seen, total, and percentage use regular weight. Completion-
+   relevant scopes calculate against completion-included entries and label the
+   percentage `Completed`. Local browse filters never replace or recalculate
+   that aggregate scope summary. Use a slightly
+   thicker progress rail than the default compact indicator. Do not repeat
+   these values as individual metric tiles.
 2. **Browser controls:** search by name or number, filter by progress state and
-   required/optional status, sort by Pokédex number by default, and switch
-   between Grid and List.
-3. **Species browser:** use same-sized visual cards in the desktop-default Grid
-   and compact rows in the narrow-screen-default List. Preserve the alternate
-   view as a user choice.
+   required/optional status, and filter Missing entries. Keep the compact
+   Seen/Caught Card-action mode and Grid/List switch together as actions in the
+   entries Card header rather than inside the filter row. Prefix the
+   Seen/Caught group with the non-interactive label `Mark mode`. Keep the
+   list in fixed Pokédex-number order.
+3. **Species browser:** use compact same-sized visual cards in the
+   desktop-default Grid, targeting five or six entries per row at wide Play
+   widths. Use a genuinely distinct flat, divided data list for the
+   narrow-screen-default List. It spans the entries section's full content
+   width without a nested Card border, radius, or side gutters, and shows
+   number, framed portrait, name, exact-generation types with visible names,
+   explicit Seen/Caught status, and the separate Codex action. Keep Active Team
+   membership out of the Pokédex browser because it belongs to the Team
+   workflow. Distribute those desktop columns across the available width.
+   Give Seen and Caught rows their matching translucent state background
+   without adding state border colors. Preserve the alternate view as a user
+   choice and use the shared actionable-row hover surface in both
+   presentations.
 
-Every species item uses stable regions for Pokédex number, sprite, name, types,
-required/optional status, and one explicit state control. The state is one of
-`Missing`, `Seen`, or `Caught`; Caught implies Seen. Selecting Seen from Caught
-downgrades it, while selecting Missing clears both. Do not use two independent
-checkboxes or toggles that can imply an impossible Caught-but-not-Seen state.
+Divide the browser into stable 60-number sections such as `001 – 060` and
+`061 – 120`. Keep those original Pokédex-number ranges after search or filter
+changes instead of renumbering the result set. Render the same section header
+in Grid and List, with compact `Mark all` and `Unmark all` actions at the far
+right. `Mark all` applies the active Seen/Caught mark mode to the currently
+matching entries in that range; `Unmark all` clears only those matching
+entries. Hidden entries must never change as a side effect of a filtered bulk
+action. Reveal the first section initially and use the same intersection-
+observer progressive-loading pattern as Codex Pokémon to reveal one additional
+section as the next range approaches the viewport. Provide an explicit
+`Show next 60 Pokémon` fallback when automatic observation is unavailable.
 
-Selecting the Pokémon identity opens its Codex species reference with a clear
-return to the Play's current Pokédex context. Status controls update the Play
-directly and never create History.
+Grid species items use the image-led Codex Card hierarchy at a smaller,
+tracker-appropriate density: an unframed sprite without the type glow leads,
+then one footer aligns identity and the secondary action to the bottom. Pokédex
+number and name sit at the left, the separate Codex action stays at the
+bottom-right, and the state icon sits at the top-right. Do not add a
+Card shadow or repeat types or required/optional badges on the Grid Card. A shared
+`Seen`/`Caught` Button Group in the browser controls chooses what selecting a
+species item updates in either presentation. Caught always includes Seen.
+Toggling an active Caught item in Caught mode or an active Seen item in Seen
+mode returns it directly to the
+internal `Missing` state. Otherwise, the selected mark type overrides the
+Card's current state: Seen changes Caught to Seen, and Caught changes Seen to
+Caught. Missing remains
+available as a filter but never as a Card label or update action: it uses the
+neutral base Card, Seen uses a stronger secondary border, tint, and Eye icon,
+and Caught uses the shared primary selected border, tint, and Poké Ball icon.
+Keep search as the flexible filter column and show the visible-entry count
+immediately below the filters.
+
+The dedicated Codex icon link opens the species reference with a clear return
+to the Play's current Pokédex context without changing progress. Species-item
+actions update the Play directly and never create History.
 
 For a new known-zero scope, absent species may render as Missing. For an
 imported scope whose coverage has not been initialized, render absent species
@@ -1940,33 +2000,27 @@ as `Not recorded` and offer `Catch up Pokédex`:
 - neither path accepts only an overall count or stamps invented progress.
 
 After initialization, expose `Mark multiple` as a focused batch sheet. The
-player selects Missing, Seen, or Caught as the operation, narrows and selects
-exact species, reviews every state change, and confirms one atomic write.
-Caught automatically includes Seen. Checkboxes are appropriate only for this
-temporary set selection, not as the persistent progress-state control. A stale
-selection or any failed species update leaves the whole reviewed batch
-unchanged.
+player selects Seen or Caught as the operation, narrows and selects exact
+species, reviews every state change, and confirms one atomic write. Caught
+automatically includes Seen. Clearing exact recorded progress is a separate
+reviewed correction that returns species to the internal absence state without
+adding a routine Missing option. Checkboxes are appropriate only for temporary
+set selection, not as the persistent progress-state control. A stale selection
+or any failed species update leaves the whole reviewed batch unchanged.
 
-The named-Pokédex selector is a primary orientation element. Prototype it as a
-full-width horizontal card rail directly beneath the focused Pokédex heading.
-Each scope card shows its name, region or content context, concise progress, and
-a restrained progress indicator; the active card has clear accent, border, and
-background treatment. Keep typical small scope sets visible together on
-desktop.
+The named-Pokédex Navigation Menu is a primary orientation element inside the
+active scope summary. Use the shared Navigation Menu foundation and reserve it
+for independently meaningful completion scopes. Do not repeat scope progress
+inside the menu: Caught, Seen, and completion appear once in the adjacent
+progress readout. Hide the menu when only one independent scope applies,
+preserve independent scope selection in the route, and do not add an
+`All Pokédexes` pseudo-scope. Browse-only local scopes belong to the entries
+filter row and preserve the parent scope's Pokédex numbering and summary.
 
-On narrow screens, use an accessible horizontally scrollable and snapping
-tablist with a partial next card visible. A Play with one applicable Pokédex
-still shows one prominent static identity card. Preserve the selection in the
-route. Do not add an `All Pokédexes` pseudo-scope; the Pokédex summary owns the
-aggregate across applicable named scopes while the selector remains focused on
-one real named Pokédex at a time.
-
-This card rail is provisionally accepted for prototyping. Validate it with
-realistic one-, two-, and three-scope games at desktop and mobile widths. It
-must keep the active scope obvious, reveal alternatives, avoid excessive
-vertical space, and remain subordinate to the species browser. If it fails
-those checks, replace or simplify the component while preserving the selector's
-prominence.
+Browser controls use the same shared control heights, field surfaces, and
+Button Group styling as Story, Team Analysis, and the Codex browsers. They may
+wrap at narrower widths, but no control or species card may be clipped or cause
+page-level horizontal overflow.
 
 ### Collectibles Workspace Contract
 

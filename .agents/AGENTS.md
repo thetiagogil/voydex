@@ -263,8 +263,14 @@ validating, comparing, or summarizing mechanic-dependent data.
 - Reuse project shadcn/Base UI primitives under `src/shared/components/ui`.
 - Use Base UI `render` composition unless a local primitive explicitly exposes
   `asChild`.
-- Use Lucide for interface actions and the shared icon catalogue for branded or
-  domain icons.
+- Treat `src/shared/domain/icons/app-icons.ts` as the only application icon
+  catalogue. Product, feature, route, and shared application components must
+  select icons through `appIcons` and render them with `AppIcon`; never import a
+  Lucide icon directly, define an inline SVG icon, or choose a nearby catalogue
+  entry merely because it looks similar. Register a missing semantic icon in
+  `app-icons.ts` first. Library-owned shadcn/Base UI primitive internals and the
+  custom icon implementations imported by the catalogue are the only narrow
+  exceptions.
 - Keep Tailwind classes canonical and preserve supported theme tokens.
 - Keep Client Components at the smallest interactive boundary.
 - Verify hierarchy, density, spacing, typography, responsive overflow, loading,

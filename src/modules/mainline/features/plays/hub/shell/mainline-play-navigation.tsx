@@ -109,7 +109,7 @@ export const MainlinePlayNavigation = ({
     },
     {
       description: "Track regional Pokédex completion.",
-      href: undefined,
+      href: appRoutes.mainlinePlayProgressPokedex(playId),
       label: "Pokédex",
       value: "pokedex",
     },

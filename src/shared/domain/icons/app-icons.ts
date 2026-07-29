@@ -28,6 +28,7 @@ import {
   Grid2X2,
   HeartPulse,
   Home,
+  Info,
   Layers3,
   LayoutDashboard,
   List,
@@ -141,6 +142,7 @@ export const appIcons = {
   status: {
     active: Check,
     error: AlertTriangle,
+    info: Info,
     locked: Lock,
     offline: WifiOff,
     unknown: CircleHelp,

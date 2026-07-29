@@ -57,9 +57,44 @@ the evidence for exact implementation details.
   previous steps remain non-blocking. The seed audit validates prerequisite
   references and cycles across every authored game graph. Decisions, snapshots,
   completion state, and notes remain in the responsive list-detail workspace.
-  Pokédex,
-  Collectibles, primary History, and Settings remain unmounted and visibly
-  disabled until their workflows are implemented.
+  Progress Pokédex is mounted at `/progress/pokedex` as a named-scope tracker
+  with shared species state, exact-generation identity data, a purpose-built
+  scope overview band with a content-sized shared Navigation Menu for
+  independently completion-relevant Pokédexes. Its choices expose the Pokédex
+  name, entry count, and kind without requiring search, while browse-only local
+  Pokédexes are entry filters rather than misleading peer destinations. The
+  filter preserves the aggregate route and completion summary and carries an
+  explanatory completion notice. A game with one independent scope shows
+  static identity without a redundant menu or kind. The band keeps one wrapping
+  orientation-and-progress row, and one full-width progress rail
+  plus responsive dense Grid/List browsing and a shared Seen/Caught Card-action
+  mode. Completion-relevant scopes label their included-entry percentage
+  `Completed`; local browse filters never recalculate or claim separate Play
+  completion. Wide Play
+  layouts show six species cards per row, tablet layouts show four, and phones
+  default to a flat divided data list without page-level overflow. Grid Cards
+  reuse the image-led Codex hierarchy at a denser scale and finish with one
+  bottom-aligned footer: identity at the left and the separate Codex action at
+  the right, while the Eye or Poké Ball state icon stays at the top-right.
+  List rows instead expose
+  number, framed portrait, name, exact-generation named types, explicit
+  Seen/Caught status, and a trailing Codex action in
+  one full-bleed divided list without a nested Card. Their desktop columns
+  distribute across the available width, and Seen/Caught rows reuse the matching
+  translucent state backgrounds without state-colored borders. Both
+  presentations use the shared actionable-row hover surface. Both layouts are
+  divided into stable 60-number ranges with filtered-safe `Mark all` and
+  `Unmark all` actions. The first range renders immediately and subsequent
+  ranges progressively reveal through the same intersection-observer behavior
+  used by Codex Pokémon, with a manual fallback when automatic loading is not
+  supported.
+  Toggling off an active mode returns that species directly to Missing;
+  otherwise the selected Seen or Caught mark mode overrides the Card's current
+  state. Missing is filterable but remains a neutral Card state rather than an
+  update action.
+  Collectibles,
+  primary History, and Settings remain unmounted and visibly disabled until
+  their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 

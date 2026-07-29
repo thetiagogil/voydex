@@ -2,7 +2,7 @@
 
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
-import { Button } from "@/shared/components/ui/button";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import {
   Empty,
   EmptyDescription,
@@ -93,9 +93,7 @@ export const TeamHistorySection = ({
             </EmptyDescription>
           </EmptyHeader>
           {hasFilters ? (
-            <Button type="button" variant="outline" onClick={onClearFilters}>
-              Clear filters
-            </Button>
+            <ClearFiltersButton variant="outline" onClick={onClearFilters} />
           ) : null}
         </Empty>
       )}

@@ -16,8 +16,8 @@ import {
   type PlayBrowseParams,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
-import { Button } from "@/shared/components/ui/button";
 
 type PlaysBrowserProps = {
   data: MainlinePlaysPageData;
@@ -107,14 +107,7 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
         </p>
 
         {hasActiveFilters ? (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={clearFilters}
-          >
-            Clear filters
-          </Button>
+          <ClearFiltersButton onClick={clearFilters} />
         ) : null}
       </div>
 
@@ -133,14 +126,7 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
           title="No plays found"
           description="Try a different search, status, or game filter."
           action={
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={clearFilters}
-            >
-              Reset filters
-            </Button>
+            <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }
         />
       )}

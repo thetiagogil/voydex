@@ -1,6 +1,5 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import {
@@ -16,11 +15,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
+import { SearchControl } from "@/shared/components/search-control";
 import { Separator } from "@/shared/components/ui/separator";
 import {
   ToggleGroup,
@@ -59,19 +54,13 @@ export const PokemonDetailLearnsetsCard = ({
         <>
           <div className="grid gap-3 px-4 py-3">
             <div className="flex min-w-0 flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-              <InputGroup className="bg-background max-w-md xl:flex-1">
-                <InputGroupAddon>
-                  <SearchIcon />
-                </InputGroupAddon>
-                <InputGroupInput
-                  value={query}
-                  onChange={(event) => {
-                    setQuery(event.target.value);
-                  }}
-                  placeholder="Search moves by name, type, or method"
-                  aria-label="Search moves"
-                />
-              </InputGroup>
+              <SearchControl
+                value={query}
+                onValueChange={setQuery}
+                placeholder="Search moves by name, type, or method"
+                ariaLabel="Search moves"
+                className="bg-background max-w-md xl:flex-1"
+              />
 
               <ToggleGroup
                 value={[method]}

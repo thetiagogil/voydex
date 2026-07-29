@@ -7,13 +7,8 @@ import type {
   Generation,
   Region,
 } from "@/modules/reference/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 
 type GamesFilterFormProps = {
   filters: GamesPageFilters;
@@ -66,20 +61,14 @@ export const GamesFilterForm = ({
         event.preventDefault();
       }}
     >
-      <InputGroup className="bg-card col-span-2 h-10 flex-1 lg:col-span-1">
-        <InputGroupAddon>
-          <AppIcon icon={appIcons.actions.search} aria-hidden />
-        </InputGroupAddon>
-        <InputGroupInput
-          name="q"
-          aria-label="Search games"
-          value={filters.query}
-          onChange={(event) => {
-            onQueryChange(event.currentTarget.value);
-          }}
-          placeholder="Search by game name"
-        />
-      </InputGroup>
+      <SearchControl
+        name="q"
+        ariaLabel="Search games"
+        value={filters.query}
+        onValueChange={onQueryChange}
+        placeholder="Search by game name"
+        className="bg-card col-span-2 h-10 flex-1 lg:col-span-1"
+      />
       <SelectControl
         name="generation"
         ariaLabel="Filter by generation"

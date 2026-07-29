@@ -19,7 +19,7 @@ import {
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { GamePokedexData } from "@/modules/reference/types";
-import { Button } from "@/shared/components/ui/button";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 
 type GamePokedexBrowserProps = {
   data: GamePokedexData;
@@ -77,16 +77,12 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
         </CodexBrowseMeta>
 
         {activeFilters ? (
-          <Button
-            type="button"
-            variant="ghost"
+          <ClearFiltersButton
             className="self-start sm:self-auto"
             onClick={() => {
               setFilters(defaultGamePokedexFilters);
             }}
-          >
-            Clear
-          </Button>
+          />
         ) : null}
       </div>
 
@@ -105,15 +101,12 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
               : "Try a different name, Pokédex number, or type."
           }
           action={
-            <Button
-              type="button"
+            <ClearFiltersButton
               variant="outline"
               onClick={() => {
                 setFilters(defaultGamePokedexFilters);
               }}
-            >
-              Clear filters
-            </Button>
+            />
           }
         />
       )}

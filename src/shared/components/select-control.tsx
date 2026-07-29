@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import {
   Select,
@@ -14,6 +14,7 @@ import {
 const EMPTY_SELECT_VALUE = "";
 
 export type SelectControlOption = {
+  description?: string;
   icon?: ReactNode;
   label: string;
   value: string;
@@ -30,6 +31,7 @@ type SelectControlProps = {
   placeholder: string;
   size?: "default" | "sm" | "lg";
   value?: string;
+  variant?: ComponentProps<typeof SelectTrigger>["variant"];
 };
 
 const normalizeSelectValue = (nextValue?: string) => {
@@ -38,17 +40,26 @@ const normalizeSelectValue = (nextValue?: string) => {
 
 const SelectControlOptionContent = ({
   option,
+  showDescription = false,
 }: {
   option: SelectControlOption;
+  showDescription?: boolean;
 }) => {
   return (
-    <span className="flex min-w-0 items-center gap-2">
+    <span className="flex min-w-0 items-center gap-2 text-left">
       {option.icon ? (
         <span aria-hidden className="shrink-0">
           {option.icon}
         </span>
       ) : null}
-      <span className="truncate">{option.label}</span>
+      <span className="min-w-0">
+        <span className="block truncate">{option.label}</span>
+        {showDescription && option.description ? (
+          <span className="text-muted-foreground mt-0.5 block truncate text-xs font-normal">
+            {option.description}
+          </span>
+        ) : null}
+      </span>
     </span>
   );
 };
@@ -64,6 +75,7 @@ export const SelectControl = ({
   placeholder,
   size,
   value,
+  variant,
 }: SelectControlProps) => {
   const isControlled = value !== undefined;
   const normalizedDefaultValue = normalizeSelectValue(defaultValue);
@@ -97,6 +109,7 @@ export const SelectControl = ({
         aria-label={ariaLabel}
         className={className}
         size={size}
+        variant={variant}
       >
         <SelectValue placeholder={placeholder}>
           {(selectedValue) => {
@@ -114,7 +127,7 @@ export const SelectControl = ({
         <SelectGroup>
           {options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
-              <SelectControlOptionContent option={option} />
+              <SelectControlOptionContent option={option} showDescription />
             </SelectItem>
           ))}
         </SelectGroup>

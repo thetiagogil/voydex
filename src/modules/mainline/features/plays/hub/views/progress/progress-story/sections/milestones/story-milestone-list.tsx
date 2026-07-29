@@ -4,20 +4,15 @@ import {
   ChevronRight,
   GitFork,
   LockKeyhole,
-  Search,
 } from "lucide-react";
 
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { EmptyState } from "@/shared/components/empty-state";
+import { SearchControl } from "@/shared/components/search-control";
 import { SelectableItem } from "@/shared/components/selectable-item";
 import { Button } from "@/shared/components/ui/button";
 import { ButtonGroup } from "@/shared/components/ui/button-group";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/shared/components/ui/input-group";
 import { cn } from "@/shared/utils/cn";
 
 import { StoryMilestoneTypeBadge } from "../../components/story-milestone-type-badge";
@@ -178,6 +173,34 @@ const matchesQuery = (milestone: StoryMilestone, query: string) => {
   );
 };
 
+const StoryScopeActions = ({
+  activeScopeId,
+  onScopeChange,
+  scopes,
+}: {
+  activeScopeId: number;
+  onScopeChange: (scopeId: number) => void;
+  scopes: StoryScope[];
+}) => {
+  return (
+    <ButtonGroup aria-label="Story content scope">
+      {scopes.map((scope) => (
+        <Button
+          key={scope.id}
+          className="min-w-max"
+          type="button"
+          size="xs"
+          variant="outline"
+          aria-pressed={activeScopeId === scope.id}
+          onClick={() => onScopeChange(scope.id)}
+        >
+          {scope.label}
+        </Button>
+      ))}
+    </ButtonGroup>
+  );
+};
+
 export const StoryMilestoneList = ({
   activeScope,
   onMilestoneSelect,
@@ -211,56 +234,38 @@ export const StoryMilestoneList = ({
     <MainlinePlaySectionCard
       title="Story milestones"
       description={`${activeScope.completedCount}/${activeScope.totalCount} recorded in ${activeScope.label}.`}
+      action={
+        scopes.length > 1 ? (
+          <StoryScopeActions
+            activeScopeId={activeScope.id}
+            onScopeChange={onScopeChange}
+            scopes={scopes}
+          />
+        ) : undefined
+      }
+      headerClassName={
+        scopes.length > 1
+          ? "flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+          : undefined
+      }
       contentClassName="grid gap-3 px-0 pb-0 pt-3"
       showSeparator
     >
       <BrowseFilterPanel
         variant="journal"
-        className={cn(
-          "grid-cols-1 gap-2.5 px-3 sm:items-center",
-          scopes.length > 1 && "sm:grid-cols-2",
-        )}
+        className="grid-cols-1 gap-2.5 px-3"
         onSubmit={(event) => {
           event.preventDefault();
         }}
       >
-        <InputGroup className="h-9!">
-          <InputGroupAddon className="pl-2.5">
-            <Search aria-hidden />
-          </InputGroupAddon>
-          <InputGroupInput
-            id="story-milestone-search"
-            name="storyMilestoneSearch"
-            aria-label={`Search milestones in ${activeScope.label}`}
-            value={query}
-            onChange={(event) => {
-              onQueryChange(event.currentTarget.value);
-            }}
-            placeholder="Search milestones"
-          />
-        </InputGroup>
-
-        {scopes.length > 1 ? (
-          <div className="min-w-0 overflow-x-auto pb-1">
-            <ButtonGroup
-              aria-label="Story content scope"
-              className="w-full min-w-max"
-            >
-              {scopes.map((scope) => (
-                <Button
-                  key={scope.id}
-                  className="min-w-max flex-1"
-                  type="button"
-                  variant="outline"
-                  aria-pressed={activeScope.id === scope.id}
-                  onClick={() => onScopeChange(scope.id)}
-                >
-                  {scope.label}
-                </Button>
-              ))}
-            </ButtonGroup>
-          </div>
-        ) : null}
+        <SearchControl
+          id="story-milestone-search"
+          name="storyMilestoneSearch"
+          ariaLabel={`Search milestones in ${activeScope.label}`}
+          value={query}
+          onValueChange={onQueryChange}
+          placeholder="Search milestones"
+        />
       </BrowseFilterPanel>
 
       {visibleSections.length ? (

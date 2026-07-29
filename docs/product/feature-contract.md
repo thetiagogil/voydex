@@ -442,8 +442,8 @@ Story opens inside the Progress context as an ordered milestone list with a
 larger selected-milestone detail region. Its summary shows the current or
 furthest recorded position, the next applicable objective, and normalized Story
 completion. Games with distinct Main Story, Postgame, DLC, or parallel paths
-may expose a game-aware track switcher; games without them should retain one
-simple list.
+may expose a compact game-aware content-scope switcher in the milestone Card
+header; games without separately authored scopes should retain one simple list.
 
 Milestone rows provide completion state, identity, concise location or context,
 type, and restrained decision or snapshot cues. The selected detail owns the
@@ -681,19 +681,64 @@ as a prominent orientation element. Do not merge overlapping Pokédexes into one
 raw count. Because state is stored per Play and species, changing one species
 updates every applicable Pokédex view containing it.
 
-Prototype the selector as a horizontal card rail with visible named scopes,
-clear active treatment, responsive horizontal scrolling, and route-preserved
-selection. Keep a static identity card when only one scope exists. Do not add
-an `All Pokédexes` pseudo-scope. The card rail remains subject to visual
-validation and may be replaced if another prominent pattern works better.
+Use one purpose-built scope overview band for orientation. When multiple named
+completion-relevant Pokédexes apply, use the shared Navigation Menu at content
+width, preserve selection in the route, close it after selection, and show each
+choice’s name, entry count, and Pokédex kind without adding search.
+Browse-only local Pokédexes covered by the active aggregate scope do not appear
+as peer destinations. Expose them through an optional Select control in the
+entry-filter row; filtering preserves the parent scope’s numbering, summary,
+route, and completion denominator. An adjacent information action explains
+that these local scopes do not count separately. When only one independent
+scope applies, show its name and entry count without an inactive menu or
+redundant kind metadata. Keep orientation
+and the continuous progress sentence on one responsive row, followed by one
+full-width progress rail. Do not add a decorative icon, eyebrow label, internal
+divider, or `All Pokédexes` pseudo-scope.
 
-For the active Pokédex, show a Caught-first summary, Seen context, normalized
-completion, and optional-entry inclusion. Support search, state and
-required/optional filters, Pokédex-number sorting, and responsive Grid/List
-views. Grid is the desktop default; List is the narrow-screen default. Each
-species uses one explicit `Missing`, `Seen`, or `Caught` control. Caught implies
-Seen. Selecting its identity opens the Codex reference, while the state control
-updates only Play progress.
+For the active Pokédex, show one continuous
+`Caught · Seen · total · percentage` progress readout with the normalized
+percentage inline in the same summary sentence. Completion-relevant scopes use
+only included entries as their denominator and label the percentage
+`Completed`. A browse-only local filter never replaces or recalculates the
+aggregate completion summary. Use primary emphasis for the
+Caught number, the established Seen-species secondary color for the Seen
+number, and normal foreground for the total and percentage. Caught is the only
+bold metric; Seen, total, and percentage use regular weight above a slightly
+thicker-than-default progress rail. Do not divide those values into Story-like
+metric tiles. Support search, state
+and required/optional filters, Missing filtering, fixed Pokédex-number order,
+and responsive Grid/List views using the established shared control sizes and
+Button Group treatment. Keep Search and filters in the browse-control row, and
+place the compact Seen/Caught mode and Grid/List groups together as actions in
+the entries Card header. Prefix the Seen/Caught group with the non-interactive
+label `Mark mode`.
+Grid is the desktop default and presents five or six compact species entries
+per row at wide Play widths. List is the narrow-screen default and is a
+separate flat, full-bleed divided data list rather than a horizontal Grid Card.
+It uses the entries section's full content width without a nested Card border,
+radius, or side gutters. Each row shows number, framed portrait, name,
+exact-generation types with visible names, explicit Seen/Caught status, and
+the separate Codex action. Keep Active Team membership out of this browser
+because it belongs to the Team workflow. Spread these desktop columns across
+the available width rather than clustering metadata at the right. Seen and Caught rows use their matching
+translucent state background without a state border color. Both presentations
+use the shared actionable-row hover surface. A shared
+`Seen`/`Caught` Button Group chooses the action applied by selecting a species
+Card. Selecting Caught always includes Seen. Toggling off the active Caught or
+Seen state returns the species directly to Missing. Otherwise, the selected
+mark type overrides the Card's current state: Seen changes Caught to Seen, and
+Caught changes Seen to Caught.
+Absence stays an internal `Missing` state represented by the neutral base Card;
+it may be filtered but is not a visible Card status or update action. Seen uses
+a stronger secondary surface and Eye icon, while Caught uses the established
+primary selected surface and Poké Ball icon. Each shadowless Grid Card keeps one
+bottom-aligned footer with number and name at the left and the separate Codex
+action at bottom-right, while the state icon stays at top-right; every
+List row keeps the same action in its trailing column, so navigation never
+triggers a progress update. Keep the filter toolbar stretched across the
+available width, let search absorb width changes, and show the visible-entry
+count immediately beneath it.
 
 For an initialized known-zero scope, absence of a progress row means the species
 is neither Seen nor Caught. For an imported scope with unknown coverage,
@@ -701,9 +746,11 @@ knowledge state must keep absence as `Not recorded` until the player initializes
 or deliberately reconciles the scope.
 
 `Catch up Pokédex` supports `Record what I know` and a reviewed `Completed this
-Pokédex` proposal. Normal `Mark multiple` selects an exact target state and
-exact species, previews every change, and applies the batch atomically. Do not
-accept only an overall in-game count. Pokédex progress never creates History.
+Pokédex` proposal. Normal `Mark multiple` selects Seen or Caught and exact
+species, previews every change, and applies the batch atomically. A future
+reviewed clear-progress action may return exact species to the internal absence
+state without exposing `Missing` as a routine status option. Do not accept only
+an overall in-game count. Pokédex progress never creates History.
 
 ### Collectibles
 

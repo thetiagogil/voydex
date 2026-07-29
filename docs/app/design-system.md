@@ -25,7 +25,8 @@ The desired mix:
 - Tailwind CSS.
 - shadcn-style primitives in `src/shared/components/ui`.
 - Base UI-backed shadcn primitives where installed.
-- Lucide icons for interface actions.
+- Lucide-backed interface icons selected exclusively through the shared
+  `appIcons` catalogue and rendered with `AppIcon`.
 - Custom visual assets for hero/background/brand moments.
 
 ## Component Rules
@@ -540,12 +541,13 @@ Within Story, keep the ordered milestone list and selected milestone visually
 distinct. The list is the compact selection source; the larger detail region
 owns description, prerequisites, decision, snapshot context, notes, and
 actions. Join base-game Story categories into one named-section list and keep a
-single Search field before the selector. Show that selector only for separately
-authored DLC content scopes; category names and parallel paths are section
-headings, not navigation controls. Milestone ordering communicates reading
-order, not dependency; explicit hard prerequisites own availability. On narrow
-screens, open the selected milestone in a focused view or sheet and return
-focus to its row when closing. Row indicators expose only optional decision and
+single Search field in the list content. Show a compact content-scope selector
+as the `Story milestones` Card header action only for separately authored DLC
+content scopes; category names and parallel paths are section headings, not
+navigation controls. Milestone ordering communicates reading order, not
+dependency; explicit hard prerequisites own availability. On narrow screens,
+open the selected milestone in a focused view or sheet and return focus to its
+row when closing. Row indicators expose only optional decision and
 snapshot actions: muted means the action is available, while primary means its
 evidence has been recorded. Do not repeat milestone-type badges with another
 badge-award icon.
@@ -571,20 +573,63 @@ the selected Card uses the shared primary border, tint, and subtle shadow
 without a visible checkmark. Keep keyboard focus visually distinct from the
 selected state.
 
-Within Pokédex, keep named-scope selection visually prominent above the species
-browser. Prototype a horizontal card rail with clear active treatment and
-concise progress. Show small scope sets together on desktop; use a horizontally
-scrollable and snapping tablist with a visible next-card edge on narrow screens.
-Keep one static identity card when there is no alternative. The rail is subject
-to visual validation and may change if it consumes too much space or competes
-with the results. Use a compact Caught-first active-scope summary, then stable
-search/filter/sort and Grid/List controls. Grid cards share one size; List rows
-preserve the same information order at higher density.
+Within Pokédex, use a purpose-built scope overview band rather than copying the
+Story summary-tile composition. A quiet, content-sized ghost Select chooses the
+named Pokédex when alternatives exist; when there is only one scope, render its
+name as static orientation without a redundant kind chip. When multiple scopes
+exist, keep the selected Pokédex kind in a neutral outline chip immediately
+after the selector so similarly named scopes remain distinguishable. Keep orientation and the
+continuous Caught-first
+progress sentence on one wrapping row without a decorative icon, eyebrow label,
+or internal divider. Place one progress rail beneath the full row so the band
+uses its complete width, with Seen muted. Order the inline counts as
+`Caught · Seen · total · completion`: use primary color for the Caught number,
+the same secondary-foreground color as Seen species Cards for the Seen number,
+and normal foreground for the total and completion. Only Caught uses emphasized
+font weight; Seen, total, and completion remain regular weight. Use a slightly
+stronger progress rail than the default compact indicator. Do not split Seen,
+Caught, total, or completion into repeated metric tiles. Keep Search and filters
+in the shared browse-control wrapper. Place the
+compact Seen/Caught Card-action mode and Grid/List Button Groups together as
+actions in the entries Card header, outside the filter row. Prefix the
+Seen/Caught group with the non-interactive label `Mark mode` so its effect on
+species Cards is explicit. Keep entries in
+fixed Pokédex-number order rather than adding a sort control.
+Treat the desktop Grid as a dense visual list with five or six entries per row
+at wide Play widths. List is a separate, narrow-screen-default data
+presentation rather than a horizontal version of the Grid Card: use one flat,
+full-bleed divided list inside the entries section, without a nested Card border,
+radius, or side gutters. Keep number, framed portrait, name, exact-generation
+type badges with visible names, a positive Active Team indicator only for
+species currently in use, explicit Seen/Caught status, and the separate Codex
+action. Do not label the remaining Pokédex as not on the Team. Distribute these desktop
+columns across the available width instead of leaving one oversized identity
+gap and clustering metadata at the right. Inline Team membership with the
+secondary metadata on narrow screens. Apply the same translucent Seen and
+Caught surface colors as Grid Cards to List rows, without adding state border
+colors.
+List rows and Grid Cards share the standard actionable-row hover surface even
+though their information hierarchy differs.
 
-Use one explicit three-state species control rather than unrelated Seen and
-Caught toggles. Keep the control operable and labelled in both Grid and List.
-Batch sheets may use checkboxes for temporary species selection, followed by a
-grouped state-change preview and a sticky confirmation action on narrow screens.
+Use a single Seen/Caught Button Group to choose what selecting a species Card
+updates. Selecting Caught also selects Seen. Toggling off the Card's active
+state returns it directly to Missing. The selected mark type is authoritative:
+Seen mode changes a Caught Card to Seen, while Caught mode changes a Seen Card
+to Caught. Missing may be filtered but is
+not an update action or Card label. Internally missing species use the neutral
+base Card, Seen uses a stronger secondary border, tint, and Eye icon, and
+Caught uses the shared primary selected border, tint, and Poké Ball icon.
+Grid Cards reuse the image-led Codex hierarchy at a smaller scale: an
+unframed portrait without the type glow, followed by one bottom-aligned footer.
+Keep number and name at the footer's left, place the separate Codex action at
+bottom-right, and anchor the state icon at top-right so progress remains
+immediately scannable without competing with the Pokémon identity.
+Do not add a Card shadow, type, or requirement badge. Keep the browser filters in the
+shared filter wrapper with the search field as the flexible column, keep the
+mode and display actions in the entries Card header, and place the
+visible-result count immediately below the filters. Batch sheets may use
+checkboxes for temporary species selection, followed by a grouped state-change
+preview and a sticky confirmation action on narrow screens.
 
 Within Collectibles, use a family-grouped navigator and selected-group detail
 when multiple groups apply. Keep native counts and completion context on the
@@ -972,6 +1017,9 @@ more.
 ## Buttons And Controls
 
 - Use icons for clear actions.
+- Use the shared `ClearFiltersButton` for filter-reset actions. Its visible
+  label is always `Clear filters`; use the compact ghost treatment beside
+  result metadata and the outline treatment inside a filtered-empty state.
 - Use text buttons for primary commands where labels matter.
 - Use the shared compact button treatment for primary module-view destinations.
   Inactive destinations use the normal outline variant; the active destination
@@ -984,6 +1032,11 @@ more.
   explicit accessible name. Do not add redundant persistent labels above a
   compact control bar. Controls that share a row use equal heights and aligned
   baselines.
+- Use the shared `SearchControl` for standard icon-led search fields. It owns
+  the search semantics, catalogued search icon, and Input Group composition;
+  the consuming feature owns query state, placeholder copy, accessible name,
+  and responsive layout classes. Keep combobox and command-menu searches in
+  their owning primitives because they also own option navigation.
 - Primary buttons should not use a mismatched border color.
 - Treat selectors as real selectors when the underlying choice changes data,
   scope, availability, or stats. For example, Pokemon forms should not live as a
@@ -1001,7 +1054,16 @@ Pokémon type SVGs live under:
 public/icons/types
 ```
 
-Use them for Pokémon-specific surfaces where type identity matters. Use Lucide icons for general app actions and navigation.
+Use them for Pokémon-specific surfaces where type identity matters.
+
+`src/shared/domain/icons/app-icons.ts` is the single application catalogue for
+interface, module, product, state, theme, and view icons. Application code must
+select a semantic `appIcons` entry and render it through `AppIcon`; it must not
+import Lucide components directly, define inline SVG icons, or substitute an
+unrelated catalogue icon because its shape is convenient. Add a missing semantic
+entry to the catalogue before using it. Library-owned shadcn/Base UI primitive
+internals and custom icon implementation files consumed by the catalogue are the
+only exceptions.
 
 ## Accessibility
 

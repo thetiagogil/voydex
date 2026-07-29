@@ -19,6 +19,8 @@ type ExplanatoryTipProps = Pick<
   children: ReactNode;
   content: ReactNode;
   contentClassName?: string;
+  nativeButton?: ComponentProps<typeof PopoverTrigger>["nativeButton"];
+  pinOnPress?: boolean;
   trigger: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
 };
 
@@ -28,6 +30,8 @@ export const ExplanatoryTip = ({
   children,
   content,
   contentClassName,
+  nativeButton,
+  pinOnPress = true,
   side = "top",
   sideOffset,
   trigger,
@@ -47,6 +51,10 @@ export const ExplanatoryTip = ({
     <Popover
       open={open}
       onOpenChange={(nextOpen, details) => {
+        if (details.reason === "trigger-press" && !pinOnPress) {
+          return;
+        }
+
         if (details.reason === "trigger-hover" && pinned.current) {
           return;
         }
@@ -66,6 +74,7 @@ export const ExplanatoryTip = ({
         openOnHover
         delay={hoverDelay}
         closeDelay={hoverCloseDelay}
+        nativeButton={nativeButton}
         render={trigger}
         onFocus={(event) => {
           if (
@@ -87,6 +96,10 @@ export const ExplanatoryTip = ({
           pointerFocus.current = false;
         }}
         onKeyDown={(event) => {
+          if (!pinOnPress) {
+            return;
+          }
+
           if (event.key !== "Enter" && event.key !== " ") {
             return;
           }
