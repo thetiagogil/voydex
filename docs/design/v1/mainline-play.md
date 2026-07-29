@@ -1957,11 +1957,12 @@ Use this hierarchy:
 Divide the browser into stable 60-number sections such as `001 – 060` and
 `061 – 120`. Keep those original Pokédex-number ranges after search or filter
 changes instead of renumbering the result set. Render the same section header
-in Grid and List, with compact `Mark all` and `Unmark all` actions at the far
-right. `Mark all` applies the active Seen/Caught mark mode to the currently
-matching entries in that range; `Unmark all` clears only those matching
-entries. Hidden entries must never change as a side effect of a filtered bulk
-action. Reveal the first section initially and use the same intersection-
+in Grid and List, with caught/visible-entry context followed by compact
+`Mark all` and `Unmark all` actions at the far right. `Mark all` applies the
+active Seen/Caught mark mode to the currently matching entries in that range;
+`Unmark all` clears only those matching entries. Hidden entries must never
+change as a side effect of a filtered bulk action. Reveal the first section
+initially and use the same intersection-
 observer progressive-loading pattern as Codex Pokémon to reveal one additional
 section as the next range approaches the viewport. Provide an explicit
 `Show next 60 Pokémon` fallback when automatic observation is unavailable.
@@ -1982,6 +1983,8 @@ Caught. Missing remains
 available as a filter but never as a Card label or update action: it uses the
 neutral base Card, Seen uses a stronger secondary border, tint, and Eye icon,
 and Caught uses the shared primary selected border, tint, and Poké Ball icon.
+Story Completed and Collectibles Collected share the canonical Progress
+completion icon, while Pokédex keeps its domain-specific Poké Ball.
 Keep search as the flexible filter column and show the visible-entry count
 immediately below the filters.
 
@@ -2024,34 +2027,40 @@ page-level horizontal overflow.
 
 ### Collectibles Workspace Contract
 
-**Status: V1 interaction contract accepted; visual validation pending**
+**Status: exact-entry workspace implemented; count-only and batch flows pending**
 
 Collectibles is game-aware and appears only when the selected game and enabled
 content define supported groups. Use one stable shell while allowing each group
 to use the tracking interaction its data requires.
 
-Use this hierarchy:
-
-1. **Collectibles summary:** show normalized completion across active groups,
-   the number of applicable groups, and one route to completion settings. Do
-   not combine heterogeneous native units into one raw count.
-2. **Group navigator:** on desktop, group collectible rows by their real family
-   in a left column. Each row shows icon, name, native progress, and whether it
-   contributes to completion. Hide the column when only one group applies.
-3. **Selected group tracker:** show the selected group's native collected/total
-   and remaining counts, percentage, completion context, filters, and the
-   interaction appropriate to that group.
-
-On narrow screens, show the group list first and open the selected group in a
-focused view with a clear return path and restored focus. Preserve the selected
-group in the route. Settings owns group contribution; do not place inclusion
-switches among routine progress controls.
+Most games expose only one to four applicable collectible groups, so the
+workspace uses a compact group selector followed by one full-width tracker
+rather than reserving a persistent left column. When one group applies, render
+its name as static orientation. When multiple groups apply, use the shared
+Navigation Menu foundation, show each group's type and native
+collected/total progress in the menu, and preserve the selected group in the
+route. Wide collectible rows follow the same distributed data-list grammar as
+Pokédex rows: sequence, a compact collectible identity, combined
+`location (availability detail)`, and progress state occupy inline columns.
+Collected rows show the
+explicit `Collected` state; missing rows leave that column visually empty
+instead of repeating a `Missing` label. Smaller layouts collapse the location
+and availability detail beneath the identity rather than forcing horizontal
+overflow. The active summary shows collected, remaining, total, and percentage
+once above a full-width progress rail. Settings owns group contribution; do not
+place inclusion switches among routine progress controls.
 
 For a group with identifiable entries, use a dense location-aware list rather
 than cards. Support search by name or location, `All`, `Missing`, `Collected`,
 and location filters, plus canonical-order and location sorting. Each row shows
-entry identity, location, sub-location, a useful hint, and one direct collected
-control. Do not repeat group-level inclusion state on every row.
+entry identity, location, sub-location, a useful hint when available, and one
+direct collected control. Group rows under calm location separators with
+collected/total context, followed by compact `Mark all` and `Unmark all`
+actions. Those actions update
+only the entries currently matching the active filters in that visible
+location section; hidden entries must never change. Keep the final row flush
+with the owning Card like the Story list. Do not repeat group-level inclusion
+state on every row.
 
 For an imported group with unknown coverage, offer:
 
@@ -2070,10 +2079,11 @@ entry list.
 
 After initialization, `Mark multiple` opens a focused batch sheet. Choose
 Collected or Not collected, narrow and select exact entries, preview every
-change, and confirm one atomic write. Do not add an immediate `Mark visible
-collected` action whose effect depends on a hidden filter. Routine updates and
-catch-up never create History. Reward thresholds or unlock guidance may be
-considered after V1 rather than expanding this tracker now.
+change, and confirm one atomic write across locations. The location-header
+shortcuts remain the only immediate bulk action and are explicitly limited to
+the currently matching visible section. Routine updates and catch-up never
+create History. Reward thresholds or unlock guidance may be considered after
+V1 rather than expanding this tracker now.
 
 ## Linked Team Plan Contract
 

@@ -602,9 +602,10 @@ full-bleed divided list inside the entries section, without a nested Card border
 radius, or side gutters. Keep number, framed portrait, name, exact-generation
 type badges with visible names, a positive Active Team indicator only for
 species currently in use, explicit Seen/Caught status, and the separate Codex
-action. Do not label the remaining Pokédex as not on the Team. Distribute these desktop
-columns across the available width instead of leaving one oversized identity
-gap and clustering metadata at the right. Inline Team membership with the
+action. Do not label the remaining Pokédex as not on the Team. Keep the desktop
+identity column compact so the named type badges follow the Pokémon name
+without an oversized gap, then distribute the remaining columns across the
+available width. Inline Team membership with the
 secondary metadata on narrow screens. Apply the same translucent Seen and
 Caught surface colors as Grid Cards to List rows, without adding state border
 colors.
@@ -618,7 +619,8 @@ Seen mode changes a Caught Card to Seen, while Caught mode changes a Seen Card
 to Caught. Missing may be filtered but is
 not an update action or Card label. Internally missing species use the neutral
 base Card, Seen uses a stronger secondary border, tint, and Eye icon, and
-Caught uses the shared primary selected border, tint, and Poké Ball icon.
+Caught uses the shared primary selected border, tint, and canonical Progress
+completion icon.
 Grid Cards reuse the image-led Codex hierarchy at a smaller scale: an
 unframed portrait without the type glow, followed by one bottom-aligned footer.
 Keep number and name at the footer's left, place the separate Codex action at
@@ -631,16 +633,21 @@ visible-result count immediately below the filters. Batch sheets may use
 checkboxes for temporary species selection, followed by a grouped state-change
 preview and a sticky confirmation action on narrow screens.
 
-Within Collectibles, use a family-grouped navigator and selected-group detail
-when multiple groups apply. Keep native counts and completion context on the
-group, not repeated across every entry. Collapse to a full-width tracker when
-there is only one group. Narrow screens move from group list to focused detail
-instead of compressing a two-column workspace.
+Within Collectibles, use a compact shared Navigation Menu as the group selector
+when multiple groups apply, because supported games generally expose only one
+to four groups. Keep native counts and completion context in one summary band,
+not repeated across every entry. With one group, render static orientation and
+the same full-width tracker. Do not reserve a persistent desktop rail or force
+a separate mobile group-selection step for this small option set.
 
 Identifiable entries use dense rows suited to location and hint text. Keep
 search, status/location filters, and sorting in stable regions; avoid card grids
-for long location-aware lists. Count-only groups use a clear native count
-control and explain that identity-level missing locations are unavailable.
+for long location-aware lists. Use the same full-bleed sectioned-list ending,
+row hover surface, and responsive stacking established by Story and Pokédex
+List. Keep the identity column compact and present optional availability detail
+inline after the location in parentheses. Count-only groups use a clear native
+count control and explain that identity-level missing locations are
+unavailable.
 Batch actions use a reviewed sheet rather than a filter-dependent one-click
 `Mark visible` action.
 
@@ -1064,6 +1071,11 @@ unrelated catalogue icon because its shape is convenient. Add a missing semantic
 entry to the catalogue before using it. Library-owned shadcn/Base UI primitive
 internals and custom icon implementation files consumed by the catalogue are the
 only exceptions.
+
+All finished states inside Progress use `appIcons.product.completion`: Story
+uses it for Completed milestones, Pokédex for Caught species, and Collectibles
+for Collected entries. Partial or absent states keep their own semantics, such
+as Eye for Seen and Circle for missing or unrecorded.
 
 ## Accessibility
 

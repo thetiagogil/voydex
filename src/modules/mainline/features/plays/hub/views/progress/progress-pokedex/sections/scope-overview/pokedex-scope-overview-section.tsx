@@ -85,7 +85,7 @@ export const PokedexScopeOverviewSection = ({
             aria-label={`${scope.name} ${
               progress.kind === "completion" ? "completion" : "caught progress"
             }`}
-            className="[&_[data-slot=progress-track]]:h-1.5"
+            className="**:data-[slot=progress-track]:h-1.5"
             value={progress.percentage}
           />
         </CardContent>

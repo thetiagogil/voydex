@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { ChevronRight, CircleCheck, CircleDot, Route } from "lucide-react";
+import { ChevronRight, CircleDot, Route } from "lucide-react";
 
 import { MainlinePlayMetricIcon } from "@/modules/mainline/features/plays/hub/shell/mainline-play-metric-icon";
+import { appIcons, type AppIconComponent } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -19,7 +20,7 @@ const SummaryItemContent = ({
   title,
 }: {
   footer: ReactNode;
-  icon: typeof CircleCheck;
+  icon: AppIconComponent;
   label: string;
   title: string;
 }) => {
@@ -45,7 +46,7 @@ const SummaryItem = ({
   unavailableDescription,
   unavailableTitle,
 }: {
-  icon: typeof CircleCheck;
+  icon: AppIconComponent;
   label: string;
   milestone: StoryMilestone | null;
   onSelect: (milestone: StoryMilestone) => void;
@@ -105,7 +106,7 @@ export const StoryProgressSummarySection = ({
       <CardContent className="p-0">
         <div className="divide-app-surface-border/60 grid divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <SummaryItem
-            icon={CircleCheck}
+            icon={appIcons.product.completion}
             label="Last completed"
             milestone={model.lastCompletedMilestone}
             onSelect={onMilestoneSelect}

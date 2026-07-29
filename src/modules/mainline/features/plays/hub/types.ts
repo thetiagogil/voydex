@@ -204,6 +204,7 @@ export type MainlinePlayMilestoneRows = {
 };
 
 export type MainlinePlayShellData = {
+  collectiblesAvailable: boolean;
   coverImageUrl: string | null;
   game: Game | null;
   play: MainlinePlaySummary;

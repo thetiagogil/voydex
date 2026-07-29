@@ -1,11 +1,6 @@
-import {
-  Camera,
-  CircleCheck,
-  GitFork,
-  NotebookPen,
-  RotateCcw,
-} from "lucide-react";
+import { Camera, GitFork, NotebookPen, RotateCcw } from "lucide-react";
 
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -44,7 +39,11 @@ export const StoryMilestoneActions = ({
           disabled={isLocked}
           onClick={() => onAction("complete")}
         >
-          <CircleCheck data-icon="inline-start" aria-hidden />
+          <AppIcon
+            icon={appIcons.product.completion}
+            inline="start"
+            aria-hidden
+          />
           Complete milestone
         </Button>
         {isLocked ? (

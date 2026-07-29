@@ -92,9 +92,17 @@ the evidence for exact implementation details.
   otherwise the selected Seen or Caught mark mode overrides the Card's current
   state. Missing is filterable but remains a neutral Card state rather than an
   update action.
-  Collectibles,
-  primary History, and Settings remain unmounted and visibly disabled until
-  their workflows are implemented.
+  Progress Collectibles is mounted at `/progress/collectibles` for Plays whose
+  game and enabled content expose exact-entry collectible groups. It uses a
+  compact route-preserved group selector, one native collected/remaining/total
+  summary, and a full-width location-sectioned list with shared Search,
+  progress, location, and sort controls. Rows update sparse collectible state
+  directly with optimistic feedback. Each visible location section also offers
+  filtered-safe `Mark all` and `Unmark all` shortcuts; hidden entries never
+  change. The workspace remains responsive without introducing a second
+  inspector. Count-only imports, reconciliation, and reviewed cross-location
+  batch updates remain later contract gaps. Primary History and Settings
+  remain unmounted and visibly disabled until their workflows are implemented.
 - The Team slice has a verified backend mutation path for adding a team member;
   the game-aware picker and mutation form are not mounted yet.
 

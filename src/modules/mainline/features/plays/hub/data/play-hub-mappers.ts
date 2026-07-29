@@ -32,11 +32,13 @@ export const buildMainlinePlayRules = (
 };
 
 export const buildMainlinePlayShellData = (params: {
+  collectiblesAvailable: boolean;
   gameContext: MainlinePlayGameContextRows;
   play: MainlinePlaySummary;
   ruleRows: MainlinePlayRuleRows;
 }): MainlinePlayShellData => {
   return {
+    collectiblesAvailable: params.collectiblesAvailable,
     coverImageUrl: params.gameContext.game
       ? getGameCoverImageUrl(params.gameContext.game)
       : null,

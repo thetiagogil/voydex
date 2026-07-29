@@ -39,6 +39,11 @@ import { readMainlinePlayStoryProgress } from "@/modules/mainline/features/plays
 import type { MainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import { readMainlinePlayPokedexProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/server/pokedex-progress-reader";
 import type { MainlinePlayProgressPokedexData } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/types";
+import {
+  readMainlinePlayCollectiblesAvailability,
+  readMainlinePlayCollectiblesProgress,
+} from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/server/collectibles-progress-reader";
+import type { MainlinePlayProgressCollectiblesData } from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/types";
 import { isUuid } from "@/shared/utils/identifiers";
 
 const getMainlinePlayRequestContext = cache(async (playId: string) => {
@@ -97,12 +102,14 @@ export const getMainlinePlayShellData = cache(
       return null;
     }
 
-    const [gameContext, ruleRows] = await Promise.all([
+    const [collectiblesAvailable, gameContext, ruleRows] = await Promise.all([
+      readMainlinePlayCollectiblesAvailability(context.supabase, playId),
       readMainlinePlayGameContext(context.supabase, context.play.game_id),
       readMainlinePlayRuleRows(context.supabase, playId),
     ]);
 
     return buildMainlinePlayShellData({
+      collectiblesAvailable,
       gameContext,
       play: context.play,
       ruleRows,
@@ -256,6 +263,27 @@ export const getMainlinePlayProgressPokedexData = cache(
       gameName: context.play.game_name,
       gameSlug: context.play.game_slug,
       generationId: context.play.generation_id,
+      playId,
+    });
+  },
+);
+
+export const getMainlinePlayProgressCollectiblesData = cache(
+  async (
+    playId: string,
+  ): Promise<MainlinePlayProgressCollectiblesData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    if (!context.play.game_name) {
+      throw new Error("This Play does not have a complete game context.");
+    }
+
+    return readMainlinePlayCollectiblesProgress(context.supabase, {
+      gameName: context.play.game_name,
       playId,
     });
   },

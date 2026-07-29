@@ -99,11 +99,11 @@ export const appIcons = {
   product: {
     activity: Sparkles,
     battle: Shield,
-    caught: CheckCircle2,
+    caught: PokeballIcon,
     collected: CheckCircle2,
     collectible: Gem,
     completedPlay: Trophy,
-    completion: CheckCircle2,
+    completion: Check,
     date: CalendarDays,
     details: ClipboardList,
     evolved: ChevronsUp,

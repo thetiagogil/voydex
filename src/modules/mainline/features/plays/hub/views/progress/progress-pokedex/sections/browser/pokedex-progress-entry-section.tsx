@@ -45,6 +45,9 @@ export const PokedexProgressEntrySection = ({
   const everyEntryIsMissing = section.entries.every(
     (entry) => getPokedexEntryState(entry, stateBySpeciesId) === "missing",
   );
+  const caughtCount = section.entries.filter(
+    (entry) => getPokedexEntryState(entry, stateBySpeciesId) === "caught",
+  ).length;
   const headingId = `pokedex-entry-section-${section.id}`;
 
   return (
@@ -57,27 +60,33 @@ export const PokedexProgressEntrySection = ({
           {section.label}
         </h3>
 
-        <div className="flex items-center gap-1.5">
-          <Button
-            type="button"
-            size="xs"
-            variant="outline"
-            aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
-            disabled={isPending || everyEntryIsMarked}
-            onClick={() => onBulkStateChange(speciesIds, updateMode)}
-          >
-            Mark all
-          </Button>
-          <Button
-            type="button"
-            size="xs"
-            variant="outline"
-            aria-label={`Unmark all matching entries from ${section.label}`}
-            disabled={isPending || everyEntryIsMissing}
-            onClick={() => onBulkStateChange(speciesIds, "missing")}
-          >
-            Unmark all
-          </Button>
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          <span className="text-muted-foreground text-xs tabular-nums">
+            {caughtCount}/{section.entries.length} caught
+          </span>
+
+          <div className="flex items-center gap-1.5">
+            <Button
+              type="button"
+              size="xs"
+              variant="outline"
+              aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
+              disabled={isPending || everyEntryIsMarked}
+              onClick={() => onBulkStateChange(speciesIds, updateMode)}
+            >
+              Mark all
+            </Button>
+            <Button
+              type="button"
+              size="xs"
+              variant="outline"
+              aria-label={`Unmark all matching entries from ${section.label}`}
+              disabled={isPending || everyEntryIsMissing}
+              onClick={() => onBulkStateChange(speciesIds, "missing")}
+            >
+              Unmark all
+            </Button>
+          </div>
         </div>
       </div>
 

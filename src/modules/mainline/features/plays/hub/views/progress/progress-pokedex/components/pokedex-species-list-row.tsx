@@ -41,7 +41,7 @@ export const PokedexSpeciesListRow = ({
         rowInteractionVariants({ interaction: "action" }),
       )}
     >
-      <div className="pointer-events-none relative z-10 grid min-w-0 grid-cols-[3rem_3rem_minmax(0,1fr)_2.25rem] items-center gap-x-3 px-3 py-2.5 lg:grid-cols-[3.5rem_3rem_minmax(10rem,2fr)_minmax(10rem,1.25fr)_minmax(7rem,0.75fr)_2.25rem]">
+      <div className="pointer-events-none relative z-10 grid min-w-0 grid-cols-[3rem_3rem_minmax(0,1fr)_2.25rem] items-center gap-x-3 px-3 py-2.5 lg:grid-cols-[3.5rem_3rem_minmax(9rem,1fr)_minmax(11rem,1.2fr)_minmax(7rem,0.75fr)_2.25rem]">
         <span className="text-muted-foreground text-xs font-semibold tracking-[0.05em] tabular-nums">
           {formatPokedexNumber(entry.pokedexNumber)}
         </span>

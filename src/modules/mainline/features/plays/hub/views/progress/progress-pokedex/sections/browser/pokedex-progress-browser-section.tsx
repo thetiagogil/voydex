@@ -82,7 +82,7 @@ const PokedexBrowserHeaderActions = ({
           variant="outline"
           onClick={() => onUpdateModeChange("caught")}
         >
-          <AppIcon icon={appIcons.product.pokeball} aria-hidden />
+          <AppIcon icon={appIcons.product.caught} aria-hidden />
           Caught
         </Button>
       </ButtonGroup>

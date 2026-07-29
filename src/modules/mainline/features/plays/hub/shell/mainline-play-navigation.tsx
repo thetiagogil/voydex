@@ -20,6 +20,7 @@ import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/
 import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
 
 type MainlinePlayNavigationProps = {
+  collectiblesAvailable: boolean;
   playId: string;
 };
 
@@ -60,6 +61,7 @@ const getCompoundLabel = <TView extends string>({
 };
 
 export const MainlinePlayNavigation = ({
+  collectiblesAvailable,
   playId,
 }: MainlinePlayNavigationProps) => {
   const pathname = usePathname();
@@ -113,12 +115,16 @@ export const MainlinePlayNavigation = ({
       label: "Pokédex",
       value: "pokedex",
     },
-    {
-      description: "Track optional items and discoveries.",
-      href: undefined,
-      label: "Collectibles",
-      value: "collectibles",
-    },
+    ...(collectiblesAvailable
+      ? [
+          {
+            description: "Track game-specific collectibles and discoveries.",
+            href: appRoutes.mainlinePlayProgressCollectibles(playId),
+            label: "Collectibles",
+            value: "collectibles",
+          } as const,
+        ]
+      : []),
   ] as const;
 
   return (
@@ -176,8 +182,7 @@ export const MainlinePlayNavigation = ({
               key={view.value}
               active={state.activeProgressView === view.value}
               description={view.description}
-              disabled={!view.href}
-              render={view.href ? <Link href={view.href} /> : undefined}
+              render={<Link href={view.href} />}
               title={view.label}
             />
           ))}

@@ -18,7 +18,10 @@ export const MainlinePlayShell = ({
       <MainlinePlayTopSection data={data} />
 
       <div className="flex min-w-0 flex-col gap-3">
-        <MainlinePlayNavigation playId={playId} />
+        <MainlinePlayNavigation
+          collectiblesAvailable={data.collectiblesAvailable}
+          playId={playId}
+        />
         {children}
       </div>
     </div>

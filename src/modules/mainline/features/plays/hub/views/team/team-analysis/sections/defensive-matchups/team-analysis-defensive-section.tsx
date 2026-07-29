@@ -94,7 +94,7 @@ const DefensiveMatrix = ({
   return (
     <div className="hidden md:block">
       <div
-        className="border-app-surface-border/70 text-muted-foreground grid min-w-[36rem] items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
+        className="border-app-surface-border/70 text-muted-foreground grid min-w-xl items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
         style={{ gridTemplateColumns }}
       >
         <span className="text-left">Attacking type</span>

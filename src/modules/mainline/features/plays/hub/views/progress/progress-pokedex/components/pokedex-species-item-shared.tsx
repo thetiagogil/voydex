@@ -37,7 +37,7 @@ export const PokedexStateIcon = ({
     label: string;
   } | null =
     state === "caught"
-      ? { icon: appIcons.product.pokeball, label: "Caught" }
+      ? { icon: appIcons.product.caught, label: "Caught" }
       : state === "seen"
         ? { icon: appIcons.product.seen, label: "Seen" }
         : null;
@@ -72,7 +72,7 @@ export const PokedexStateLabel = ({
   const config =
     state === "caught"
       ? {
-          icon: appIcons.product.pokeball,
+          icon: appIcons.product.caught,
           label: "Caught",
           className: "text-primary",
         }

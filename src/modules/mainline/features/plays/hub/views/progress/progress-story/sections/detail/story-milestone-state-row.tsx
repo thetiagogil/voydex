@@ -1,5 +1,6 @@
-import { Check, Circle, LockKeyhole } from "lucide-react";
+import { Circle, LockKeyhole } from "lucide-react";
 
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 type StoryMilestoneState = "blocked" | "completed" | "pending";
@@ -26,7 +27,7 @@ export const StoryMilestoneStateRow = ({
         )}
       >
         {state === "completed" ? (
-          <Check className="size-3" aria-hidden />
+          <AppIcon icon={appIcons.product.completion} size="xs" aria-hidden />
         ) : state === "blocked" ? (
           <LockKeyhole className="size-3" aria-hidden />
         ) : (

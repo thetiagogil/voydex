@@ -1,5 +1,4 @@
-import type { LucideIcon } from "lucide-react";
-
+import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 export const MainlinePlayMetricIcon = ({
@@ -7,7 +6,7 @@ export const MainlinePlayMetricIcon = ({
   icon: Icon,
 }: {
   className?: string;
-  icon: LucideIcon;
+  icon: AppIconComponent;
 }) => {
   return (
     <span
@@ -16,7 +15,7 @@ export const MainlinePlayMetricIcon = ({
         className,
       )}
     >
-      <Icon aria-hidden className="size-7" strokeWidth={1.8} />
+      <AppIcon icon={Icon} aria-hidden className="size-7" strokeWidth={1.8} />
     </span>
   );
 };

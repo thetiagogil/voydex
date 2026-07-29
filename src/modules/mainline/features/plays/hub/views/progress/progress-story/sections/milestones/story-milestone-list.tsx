@@ -1,12 +1,7 @@
-import {
-  Camera,
-  Check,
-  ChevronRight,
-  GitFork,
-  LockKeyhole,
-} from "lucide-react";
+import { Camera, ChevronRight, GitFork, LockKeyhole } from "lucide-react";
 
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
@@ -56,7 +51,7 @@ const StoryMilestoneRow = ({
         )}
       >
         {milestone.isCompleted ? (
-          <Check className="size-4" aria-hidden />
+          <AppIcon icon={appIcons.product.completion} size="md" aria-hidden />
         ) : (
           milestone.sequence
         )}
