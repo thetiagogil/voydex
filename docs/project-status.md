@@ -174,7 +174,10 @@ The current production baseline is Plays Browse:
 Play Hub Overview is a completed production design checkpoint:
 
 - The authenticated query, Play identity, cover, metadata, actions, tab order,
-  and four-section Overview organization remain intact. Planning is now reached
+  and four Overview concerns remain intact across three Cards. Journey Status
+  and Progress Summary share the first full-width Card, Current Team follows in
+  a full-width six-slot desktop row, and Recent History completes the stack.
+  Planning is now reached
   contextually from Team instead of occupying a sixth primary Play area.
 - The contextual header now uses the same serif/forest hierarchy and restrained
   cover treatment as the other detail views without becoming another Card.
@@ -185,9 +188,9 @@ Play Hub Overview is a completed production design checkpoint:
   grammar; the realistic scenic banner, duplicate Story Path visualization,
   inactive section actions, and Active/Reserve mini-toggle no longer compete
   with the recorded data.
-- Desktop uses the accepted Journey/History and Team/Progress columns. Tablet
-  and phone stack those sections in the same order, retain six equal Team slots,
-  and keep the section navigation horizontally reachable without widening the page.
+- Desktop uses the accepted full-width Journey & Progress, Current Team, and
+  Recent History stack. Team keeps all six equal slots inline on desktop, while
+  tablet and phone use three- and two-column grids without widening the page.
   Representative authenticated routes were checked at desktop, tablet, and
   phone widths without page overflow or nested vertical scrolling; keyboard
   focus remained visible and the browser console stayed clear.

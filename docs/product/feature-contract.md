@@ -213,14 +213,15 @@ Current Overview direction:
 - The top play section is context, not the main workspace Card.
 - The tab card is the main Play Hub workspace.
 - Overview should show Journey Status, Current Team, Progress Summary, and
-  Recent History.
+  Recent History in three permanent cards. Journey Status and Progress Summary
+  share one card while retaining distinct qualitative and numeric regions.
 - Linked Team Plan context belongs to the Team tab rather than Overview. Keep
-  exactly four permanent Overview sections whether or not a Plan is linked.
+  exactly three permanent Overview cards whether or not a Plan is linked.
 - Overview remains read-first. Section actions route to or invoke the canonical
   owning workflow rather than implementing a second editor.
 - Journey Status shows the current or furthest known Story milestone and the
   next applicable objective when relevant. Numeric Story completion remains in
-  Progress Summary rather than being repeated in both sections.
+  the adjacent Progress Summary region rather than being repeated in both.
 - Current Team always preserves one fixed six-slot layout. Occupied,
   confirmed-empty, and not-recorded slots use identical component geometry and
   explicit accessible state labels; only their portrait and text content

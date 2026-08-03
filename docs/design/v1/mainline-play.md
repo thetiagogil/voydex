@@ -150,9 +150,10 @@ Named child tracks and their native counts remain in those detailed views.
 
 **Status: Accepted**
 
-Keep exactly four permanent Overview sections. Together they answer the four
+Keep exactly three permanent Overview cards. Together they answer the four
 questions a returning user needs answered quickly without duplicating the Play
-Header or the dedicated Hub areas.
+Header or the dedicated Hub areas. Journey Status and Progress Summary share
+the first card while preserving separate qualitative and numeric regions.
 
 | Section              | Question answered            | Content                                                                                                                                                    | Primary section action                        | Empty or sparse state                                                                                   |
 | -------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -160,6 +161,11 @@ Header or the dedicated Hub areas.
 | **Current Team**     | Who is with me?              | Six fixed state-aware active slots and optional reserve count                                                                                              | Manage Team                                   | Use explicit confirmed-empty or not-recorded slots; never infer an empty in-game team from missing data |
 | **Progress Summary** | How much have I completed?   | Stable Story, Pokédex, and Collectibles group rows with normalized percentages; no named child tracks, raw group counts, or duplicate overall header score | Each row opens its detailed Progress area     | Distinguish `Not recorded` from known zero; omit optional groups that are disabled or not applicable    |
 | **Recent History**   | What happened most recently? | The latest three to five meaningful milestones, team changes, memories, snapshots, or journal entries in reverse chronological order                       | View History or add a memory when appropriate | Compact `No history recorded yet` state; routine Pokédex and Collectible updates do not create noise    |
+
+The Overview card order is Journey & Progress, Current Team, then Recent
+History. Current Team spans the full workspace width. Its six stable slots
+render in one row on desktop, three columns on tablet, and two columns on
+phones.
 
 Overview is read-first. Each section may expose one clear route or invoke the
 same canonical workflow owned by its destination, but it should not contain a
@@ -321,9 +327,10 @@ Use normalized hierarchical completion for V1:
    the group and withhold a trustworthy overall result until the contributing
    state is sufficiently initialized.
 
-The Progress Summary card remains one of the four permanent Overview sections.
-If no group can currently be calculated, show a compact explanation or
-unavailable state instead of removing the card and changing the page structure.
+The Progress Summary region remains permanently visible inside the merged
+Journey & Progress card. If no group can currently be calculated, show a
+compact explanation or unavailable state instead of removing the region and
+changing the page structure.
 
 Do not add named child rows, raw counts, checklists, bulk updates, trends,
 streaks, predictions, or unsupported achievements here. Those belong to the
@@ -508,11 +515,10 @@ evolve into the most useful Play-wide action or collapse to compact utility
 actions when no strong recommendation exists. Do not leave an awkward empty
 column or retain a permanent setup card.
 
-Existing utilities such as `View game` and `Back to plays` should not compete
-with the primary Next Step. Keep `View game` as a lower-emphasis action or
-overflow item. Express return navigation as a back link, breadcrumb, or other
-quiet shell navigation rather than a second prominent header button. Exact
-styling will be resolved with the selected V1 visual system.
+Do not show `View game` or `Back to plays` actions in the Play header. The
+global product navigation already provides the route back to Plays, while game
+reference browsing remains available through Codex without competing with the
+Play's contextual Next Step.
 
 Do not show every possible setup task simultaneously. Prefer the easiest useful
 action first, then replace it with the next missing high-value action after it

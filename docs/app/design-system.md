@@ -319,8 +319,11 @@ selector remain visible.
 
 Overview should stay high-signal and avoid filler:
 
-- Left column: Journey Status and Recent History.
-- Right column: Current Team and Progress Summary.
+- First: one full-width Journey & Progress Card with qualitative Story status
+  beside the compact normalized Progress rows on desktop and stacked regions on
+  narrower layouts.
+- Second: one full-width Current Team Card.
+- Third: one full-width Recent History Card.
 - Show linked-Plan context compactly inside Current Team when present; do not
   add a permanent fifth Plan card or a large empty state when absent.
 - Keep Journey Status qualitative: current or furthest Story position and the
@@ -328,8 +331,9 @@ Overview should stay high-signal and avoid filler:
   Summary and should not be duplicated with a second path-progress visual.
 - Keep all six Current Team slots identical in dimensions and internal layout
   across occupied, confirmed-empty, and not-recorded states, including one shared
-  minimum card height that comfortably fits occupied content. Present them as a
-  stable three-column by two-row preview so each member retains useful space.
+  minimum card height that comfortably fits occupied content. Present all six
+  slots in one inline row on desktop, three columns on tablet, and two columns
+  on phones.
   Keep larger artwork as the visual focus above one name-and-level row. Anchor
   compact type icons with accessible type names in one inline row in the slot's
   top-right corner so they do not consume another content row or reduce portrait scale. Use the

@@ -21,7 +21,7 @@ export const TeamSection = ({ gameSlug, href, team }: TeamSectionProps) => {
       contentClassName="grid"
       showSeparator
     >
-      <div className="grid w-full grid-cols-3 gap-2">
+      <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
         {teamSlots.map((slot) => (
           <TeamSlot
             key={slot.slotNumber}
