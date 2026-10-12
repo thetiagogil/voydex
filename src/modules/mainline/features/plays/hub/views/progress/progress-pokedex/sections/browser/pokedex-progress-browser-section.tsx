@@ -229,7 +229,10 @@ export const PokedexProgressBrowserSection = ({
   };
 
   return (
-    <section aria-label="Pokédex entries" className="grid min-w-0 gap-4">
+    <section
+      aria-label="Pokédex entries"
+      className="grid min-w-0 grid-cols-1 gap-4"
+    >
       <Card
         size="sm"
         className="flex-row flex-wrap items-center gap-x-3.5 gap-y-2.5 p-2.5"

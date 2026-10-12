@@ -37,8 +37,11 @@ export const PokedexScopeOverviewSection = ({
   const progress = getScopeProgress(scope, stateBySpeciesId);
 
   return (
-    <section aria-labelledby="pokedex-scope-heading" className="grid gap-4">
-      <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+    <section
+      aria-labelledby="pokedex-scope-heading"
+      className="grid min-w-0 grid-cols-1 gap-4"
+    >
+      <div className="flex min-w-0 flex-wrap items-end gap-x-6 gap-y-4">
         <div className="min-w-0">
           <h2
             id="pokedex-scope-heading"
@@ -59,7 +62,7 @@ export const PokedexScopeOverviewSection = ({
         {scopes.length > 1 ? (
           <SegmentedControl
             ariaLabel="Pokédex"
-            className="no-scrollbar -mx-4 flex-nowrap overflow-x-auto px-4 pb-1 sm:mx-0 sm:ml-auto sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+            className="no-scrollbar -mx-4 w-[calc(100%+2rem)] flex-nowrap overflow-x-auto px-4 pb-1 sm:mx-0 sm:ml-auto sm:w-auto sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
             onValueChange={(value) => onScopeChange(Number(value))}
             options={scopes.map((candidate) => {
               const candidateProgress = getScopeProgress(

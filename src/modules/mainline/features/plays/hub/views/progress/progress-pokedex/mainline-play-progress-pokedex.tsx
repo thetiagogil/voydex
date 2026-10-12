@@ -205,7 +205,7 @@ export const MainlinePlayProgressPokedex = ({
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-6">
       <PokedexScopeOverviewSection
         onScopeChange={selectScope}
         scope={activeScope}

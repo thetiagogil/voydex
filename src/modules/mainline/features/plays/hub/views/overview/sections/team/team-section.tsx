@@ -38,7 +38,7 @@ export const TeamSection = ({
   return (
     <section aria-labelledby="overview-team-title" className="grid gap-4">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-        <h2 id="overview-team-title" className="text-[23px]">
+        <h2 id="overview-team-title" className="text-24">
           Your team
         </h2>
         {aside ? (

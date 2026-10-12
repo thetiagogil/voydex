@@ -88,7 +88,7 @@ export const PokemonCard = ({
         {imageUrl ? (
           <span
             className={cn(
-              "relative size-[78px]",
+              "relative block size-[78px]",
               state === "missing" && "opacity-10 brightness-0",
             )}
           >

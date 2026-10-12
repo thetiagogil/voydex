@@ -55,7 +55,7 @@ export const DetailSectionCard = ({
           ) : null}
 
           <div className="flex min-w-0 flex-col gap-1">
-            <CardTitle className={cn("text-ink", titleClassName)}>
+            <CardTitle className={cn("text-ink text-24", titleClassName)}>
               {title}
             </CardTitle>
 
