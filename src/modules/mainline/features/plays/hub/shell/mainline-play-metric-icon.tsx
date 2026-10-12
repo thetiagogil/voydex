@@ -11,7 +11,7 @@ export const MainlinePlayMetricIcon = ({
   return (
     <span
       className={cn(
-        "border-line bg-muted/30 text-primary flex size-12 shrink-0 items-center justify-center rounded-xl border",
+        "flex size-12 shrink-0 items-center justify-center rounded-sm bg-surface-2 text-ink-2",
         className,
       )}
     >

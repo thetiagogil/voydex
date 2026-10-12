@@ -9,23 +9,21 @@ export const MainlinePlayTopCoverArt = ({
   coverImageUrl,
   gameName,
 }: MainlinePlayTopCoverArtProps) => {
+  if (!coverImageUrl) {
+    return (
+      <div className="bg-game font-display text-on-game shadow-cover grid aspect-[3/4] w-[54px] shrink-0 place-items-center rounded-sm border-4 border-white text-20 font-semibold sm:w-[74px] sm:text-24">
+        {getGameInitials(gameName)}
+      </div>
+    );
+  }
+
   return (
-    <div className="flex justify-center sm:justify-start">
-      {coverImageUrl ? (
-        <div className="border-line bg-surface-2 h-36 shrink-0 overflow-hidden rounded-lg border p-1 shadow-sm">
-          {/* Intrinsic width is required because game packaging uses different aspect ratios. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={coverImageUrl}
-            alt={`${gameName} cover art`}
-            className="h-full w-auto max-w-none rounded-md object-contain"
-          />
-        </div>
-      ) : (
-        <div className="border-line bg-surface-2 text-primary flex h-36 w-24 shrink-0 items-center justify-center rounded-lg border px-2 text-center text-2xl font-semibold tracking-wide shadow-sm">
-          {getGameInitials(gameName)}
-        </div>
-      )}
-    </div>
+    // Intrinsic width is required because game packaging uses different aspect ratios.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={coverImageUrl}
+      alt={`${gameName} cover art`}
+      className="shadow-cover w-[54px] shrink-0 rounded-md border-4 border-white sm:w-[74px]"
+    />
   );
 };

@@ -20,7 +20,6 @@ export const TeamHistoryPokemonIdentity = ({
         "border-line bg-muted/30 size-12 shrink-0 rounded-lg",
         className,
       )}
-      glowClassName="opacity-0"
       imageClassName="p-1"
     />
   );

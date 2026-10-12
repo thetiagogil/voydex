@@ -21,6 +21,7 @@ import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
 
 type MainlinePlayNavigationProps = {
   collectiblesAvailable: boolean;
+  label?: string;
   playId: string;
 };
 
@@ -57,11 +58,13 @@ const getCompoundLabel = <TView extends string>({
     return sectionLabel;
   }
 
-  return `${sectionLabel} - ${labels[activeView]}`;
+  return `${sectionLabel} · ${labels[activeView]}`;
 };
 
+/* A Play's tabs: cream pills, the active one in solid game colour. */
 export const MainlinePlayNavigation = ({
   collectiblesAvailable,
+  label = "Play sections",
   playId,
 }: MainlinePlayNavigationProps) => {
   const pathname = usePathname();
@@ -130,15 +133,16 @@ export const MainlinePlayNavigation = ({
   return (
     <NavigationMenuBar
       align="start"
-      aria-label="Play sections"
-      className="min-w-0 overflow-x-auto pt-4 pb-2"
-      listClassName="w-max flex-nowrap"
+      aria-label={label}
+      className="min-w-0"
+      listClassName="w-max flex-nowrap gap-1.5"
     >
       <NavigationMenuItem>
         <NavigationMenuControlLink
           active={state.activeSection === "overview"}
           render={<Link href={appRoutes.mainlinePlay(playId)} />}
-          className="min-w-24 justify-center px-3"
+          className="justify-center px-4"
+          variant="tab"
         >
           Overview
         </NavigationMenuControlLink>
@@ -147,7 +151,8 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlTrigger
           active={state.activeSection === "team"}
-          className="min-w-28 px-3"
+          className="px-4"
+          variant="tab"
         >
           <span className="max-w-48 truncate">{teamLabel}</span>
         </NavigationMenuControlTrigger>
@@ -172,7 +177,8 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlTrigger
           active={state.activeSection === "progress"}
-          className="min-w-28 px-3"
+          className="px-4"
+          variant="tab"
         >
           <span className="max-w-48 truncate">{progressLabel}</span>
         </NavigationMenuControlTrigger>
@@ -192,7 +198,8 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlDisabled
           accessibilityLabel="History is not available yet"
-          className="min-w-24 px-3"
+          className="px-4"
+          variant="tab"
         >
           History
         </NavigationMenuControlDisabled>
@@ -201,7 +208,8 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlDisabled
           accessibilityLabel="Settings is not available yet"
-          className="min-w-24 px-3"
+          className="px-4"
+          variant="tab"
         >
           Settings
         </NavigationMenuControlDisabled>

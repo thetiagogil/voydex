@@ -94,7 +94,6 @@ export const PlaySummaryTeamPreview = ({
               imageUrl={getPlayTeamMemberImageUrl(member)}
               sizes="(min-width: 1280px) 4rem, (min-width: 768px) 2.75rem, (min-width: 640px) 3.75rem, 15vw"
               className="border-line bg-surface-2 w-full rounded-lg"
-              glowClassName="opacity-0"
               imageClassName="p-1"
             />
           );

@@ -44,7 +44,6 @@ const TeamEventVisualItem = ({ visual }: { visual: TeamEventVisual }) => {
       imageUrl={visual.pokemon.imageUrl}
       sizes="2.5rem"
       className="border-line bg-muted/30 size-10 shrink-0 rounded-md"
-      glowClassName="opacity-0"
       imageClassName="p-0.5"
     />
   ) : (

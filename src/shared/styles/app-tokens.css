@@ -48,6 +48,8 @@
   --ok-soft-2: #d2eadb;
   --ok-line: #9fcdb1;
   --ball: #d04c3c;
+  --avatar: #f6d9a8;
+  --avatar-ink: #6b4a12;
 
   /* The meadow (front doors and choosing a game) */
   --sky: #fbf5e8;
@@ -150,6 +152,8 @@
   --color-ok-soft-2: var(--ok-soft-2);
   --color-ok-line: var(--ok-line);
   --color-ball: var(--ball);
+  --color-avatar: var(--avatar);
+  --color-avatar-ink: var(--avatar-ink);
   --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);

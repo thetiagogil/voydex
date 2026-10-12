@@ -20,7 +20,6 @@ export const TeamAnalysisTypeLabel = ({
       label={type.name}
       size="sm"
       type={type.slug}
-      variant="field-guide"
       className={compact ? "h-5 px-1.5 text-[0.68rem]" : undefined}
     />
   );

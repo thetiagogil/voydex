@@ -48,7 +48,7 @@ export const DesktopModuleNavigationMenu = ({
     <NavigationMenu align="start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="app-module-trigger h-9 px-3 text-sm font-semibold">
+          <NavigationMenuTrigger className="h-10 px-3.5 text-14 font-extrabold text-ink">
             {currentModule.label}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="w-[min(calc(100vw-2rem),34rem)] p-2">
@@ -97,7 +97,7 @@ export const DesktopModuleNavigationMenu = ({
                       isLocked ? (
                         <Badge
                           variant="outline"
-                          className="border-primary/30 bg-primary/10 text-primary h-5 px-1.5 text-xs"
+                          className="h-5 border-transparent bg-action-soft px-2 text-action-lip"
                         >
                           Log in
                         </Badge>
@@ -109,7 +109,7 @@ export const DesktopModuleNavigationMenu = ({
                         <AppIcon
                           icon={appIcons.status.locked}
                           aria-hidden
-                          className="text-muted-foreground"
+                          className="text-ink-3"
                         />
                       ) : undefined
                     }

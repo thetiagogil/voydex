@@ -63,7 +63,6 @@ export const TeamMemberIdentity = ({
           secondaryType={member.secondaryType}
           badgeDisplay="icon-label"
           badgeSize="md"
-          badgeVariant="field-guide"
         />
       </div>
 

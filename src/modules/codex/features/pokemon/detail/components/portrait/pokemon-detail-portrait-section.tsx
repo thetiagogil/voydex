@@ -46,7 +46,6 @@ export const PokemonDetailPortraitSection = ({
         preload
         sizes="(min-width: 1024px) 346px, (min-width: 640px) 346px, calc(100vw - 4rem)"
         className="aspect-4/3 w-full rounded-none border-0 bg-transparent sm:aspect-video lg:aspect-4/3"
-        glowClassName="inset-10 opacity-10"
         imageClassName="p-5 sm:p-7"
       />
 

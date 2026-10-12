@@ -29,7 +29,6 @@ export const PokemonDetailFormListItemContent = ({
         fallbackOnError
         sizes="44px"
         className="border-line size-11 shrink-0 rounded-lg bg-transparent"
-        glowClassName="inset-2 opacity-10"
         imageClassName="p-1"
       />
       <span className="min-w-0 flex-1">
@@ -43,7 +42,6 @@ export const PokemonDetailFormListItemContent = ({
         secondaryType={form.typePair.secondaryType}
         badgeDisplay="icon"
         badgeSize="sm"
-        badgeVariant="field-guide"
         className="ml-auto shrink-0 gap-1"
       />
     </span>

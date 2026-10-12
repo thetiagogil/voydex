@@ -23,7 +23,7 @@ export const MainlinePlaySectionDestination = ({
         nativeButton={false}
         variant="link"
         size="xs"
-        className="h-auto px-0 py-0 text-xs font-medium"
+        className="h-auto px-0 py-0 text-14 font-extrabold no-underline hover:no-underline"
       >
         {label}
         <AppIcon icon={appIcons.actions.continue} inline="end" />
@@ -40,7 +40,7 @@ export const MainlinePlaySectionDestination = ({
       aria-label={onSelect ? label : unavailableLabel}
       title={onSelect ? undefined : unavailableLabel}
       onClick={onSelect}
-      className="h-auto px-0 py-0 text-xs font-medium disabled:opacity-45"
+      className="h-auto px-0 py-0 text-14 font-extrabold no-underline hover:no-underline disabled:opacity-45"
     >
       {label}
       <AppIcon icon={appIcons.actions.continue} inline="end" />

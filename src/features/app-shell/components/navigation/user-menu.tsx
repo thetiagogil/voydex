@@ -32,13 +32,13 @@ export const UserMenu = ({ email }: UserMenuProps) => {
           <Button
             variant="ghost"
             size="icon"
-            className="app-nav-icon-control rounded-full"
+            className="rounded-full"
             aria-label="Open account menu"
           />
         }
       >
-        <Avatar className="size-9 ring-1 ring-[var(--app-nav-outline)]">
-          <AvatarFallback className="bg-accent text-primary font-bold">
+        <Avatar className="size-10">
+          <AvatarFallback className="bg-avatar font-extrabold text-avatar-ink">
             {getInitials(email)}
           </AvatarFallback>
         </Avatar>
@@ -62,7 +62,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
               nativeButton
             >
               <AppIcon icon={appIcons.actions.signOut} />
-              Sign out
+              Log out
             </DropdownMenuItem>
           </form>
         </DropdownMenuGroup>

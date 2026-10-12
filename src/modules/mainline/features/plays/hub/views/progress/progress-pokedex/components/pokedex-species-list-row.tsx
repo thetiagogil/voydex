@@ -52,7 +52,6 @@ export const PokedexSpeciesListRow = ({
           fallbackOnError
           sizes="3rem"
           className="border-line bg-muted/30 size-12 shrink-0 rounded-lg"
-          glowClassName="opacity-0"
           imageClassName="p-1"
         />
 
@@ -69,7 +68,6 @@ export const PokedexSpeciesListRow = ({
             <PokemonTypeList
               badgeDisplay="icon-label"
               badgeSize="sm"
-              badgeVariant="field-guide"
               className="flex-wrap gap-1"
               primaryType={entry.primaryType}
               secondaryType={entry.secondaryType}
@@ -81,7 +79,6 @@ export const PokedexSpeciesListRow = ({
         <PokemonTypeList
           badgeDisplay="icon-label"
           badgeSize="sm"
-          badgeVariant="field-guide"
           className="hidden flex-wrap justify-start gap-1 lg:flex"
           primaryType={entry.primaryType}
           secondaryType={entry.secondaryType}

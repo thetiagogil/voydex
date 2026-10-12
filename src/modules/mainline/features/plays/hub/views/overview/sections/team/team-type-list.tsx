@@ -29,7 +29,6 @@ const TeamTypeBadge = ({ type }: TeamTypeBadgeProps) => {
       label={type.name}
       display="icon"
       size="sm"
-      variant="soft"
     />
   );
 };

@@ -52,7 +52,6 @@ export const PokedexSpeciesGridCard = ({
           fallbackOnError
           sizes="(min-width: 1280px) 190px, (min-width: 1024px) 170px, 25vw"
           className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
-          glowClassName="hidden"
           imageClassName="p-3 sm:p-4"
         />
 

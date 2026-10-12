@@ -42,7 +42,7 @@ export const MobileModuleNavigationMenu = ({
         render={
           <Button
             variant="ghost"
-            className="app-module-trigger h-9 max-w-[calc(100vw-8rem)] px-3 text-sm font-semibold"
+            className="h-10 max-w-[calc(100vw-8rem)] px-3.5 text-14 font-extrabold text-ink"
           />
         }
       >

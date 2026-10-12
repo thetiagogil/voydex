@@ -44,7 +44,6 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
         imageUrl={getTeamMemberImageUrl(member)}
         sizes="(min-width: 640px) 6rem, 5rem"
         className="size-20 justify-self-center rounded-md border-0 bg-transparent sm:size-24"
-        glowClassName="opacity-0"
         imageClassName="p-1"
       />
       <div className="grid min-w-0 justify-items-center gap-1.5">

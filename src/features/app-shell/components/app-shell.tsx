@@ -5,7 +5,6 @@ import { ModuleNavigationMenu } from "@/features/app-shell/components/navigation
 import { ModuleViewNav } from "@/features/app-shell/components/navigation/module-view-nav";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
@@ -25,7 +24,7 @@ export const AppShell = ({
 }: AppShellProps) => {
   const isAuthenticated = Boolean(userEmail);
   return (
-    <div className="app-page-surface relative isolate mx-auto flex min-h-svh w-[calc(100%-1rem)] max-w-344 flex-col sm:w-[calc(100%-2rem)] lg:w-[calc(100%-4rem)]">
+    <div className="relative isolate flex min-h-svh w-full flex-col">
       <AppNavbar
         afterLogo={
           moduleSelectorKey ? (
@@ -49,10 +48,7 @@ export const AppShell = ({
             ) : showAuthAction ? (
               <Link
                 href={appRoutes.login}
-                className={cn(
-                  buttonVariants({ variant: "outline" }),
-                  "app-module-trigger",
-                )}
+                className={buttonVariants({ variant: "outline", size: "sm" })}
               >
                 Log in
               </Link>
@@ -60,7 +56,7 @@ export const AppShell = ({
           </>
         }
       />
-      <main className="relative z-10 flex w-full min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-6 pb-5 sm:px-7 sm:pt-8 sm:pb-7 lg:px-10 lg:pt-9 lg:pb-10">
+      <main className="relative z-10 mx-auto flex w-full max-w-320 min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-2 pb-10 sm:px-6 lg:px-8 lg:pb-16">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           {children}
         </div>

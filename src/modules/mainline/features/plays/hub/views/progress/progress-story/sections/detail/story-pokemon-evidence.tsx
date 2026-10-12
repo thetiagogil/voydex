@@ -17,7 +17,6 @@ export const StoryPokemonEvidence = ({
           imageUrl={imageUrl}
           sizes="2.75rem"
           className="size-11 shrink-0 rounded-lg"
-          glowClassName="opacity-10"
           imageClassName="p-1"
         />
       ) : (

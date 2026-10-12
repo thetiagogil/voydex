@@ -7,7 +7,6 @@ import {
   PokemonTypeBadge,
   type PokemonTypeBadgeDisplay,
   type PokemonTypeBadgeSize,
-  type PokemonTypeBadgeVariant,
 } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -18,7 +17,6 @@ type PokemonTypeDisplay = Pick<Type, "name" | "slug"> &
 type PokemonTypeListProps = {
   badgeDisplay?: PokemonTypeBadgeDisplay;
   badgeSize?: PokemonTypeBadgeSize;
-  badgeVariant?: PokemonTypeBadgeVariant;
   className?: string;
   primaryType: PokemonTypeDisplay | null;
   secondaryType: PokemonTypeDisplay | null;
@@ -28,10 +26,9 @@ type TypeBadgeProps = {
   display: PokemonTypeBadgeDisplay;
   size: PokemonTypeBadgeSize;
   type: PokemonTypeDisplay | null;
-  variant: PokemonTypeBadgeVariant;
 };
 
-const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
+const TypeBadge = ({ display, size, type }: TypeBadgeProps) => {
   if (!type) {
     return <Badge variant="outline">Unknown</Badge>;
   }
@@ -44,7 +41,6 @@ const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
       label={type.name}
       display={display}
       size={size}
-      variant={variant}
     />
   );
 };
@@ -52,25 +48,22 @@ const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
 export const PokemonTypeList = ({
   badgeDisplay = "icon-label",
   badgeSize = "md",
-  badgeVariant = "soft",
   className,
   primaryType,
   secondaryType,
 }: PokemonTypeListProps) => {
   return (
-    <div className={cn("flex gap-2", className)}>
+    <div className={cn("flex gap-1.5", className)}>
       <TypeBadge
         type={primaryType}
         display={badgeDisplay}
         size={badgeSize}
-        variant={badgeVariant}
       />
       {secondaryType ? (
         <TypeBadge
           type={secondaryType}
           display={badgeDisplay}
           size={badgeSize}
-          variant={badgeVariant}
         />
       ) : null}
     </div>

@@ -47,7 +47,6 @@ export const PokedexPokemonCard = memo(
             type={portraitType}
             sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
             className="aspect-4/3 w-full rounded-none border-0 bg-transparent"
-            glowClassName="inset-8 opacity-10 transition-opacity duration-200 group-hover:opacity-16"
             imageClassName="object-contain p-4 sm:p-5"
           />
 
@@ -66,7 +65,6 @@ export const PokedexPokemonCard = memo(
               secondaryType={pokemon.secondaryType}
               badgeDisplay="icon-label"
               badgeSize="sm"
-              badgeVariant="field-guide"
               className="shrink-0 flex-col items-end gap-1 lg:flex-row lg:gap-1.5"
             />
           </div>

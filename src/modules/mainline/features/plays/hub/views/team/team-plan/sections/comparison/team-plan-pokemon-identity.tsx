@@ -79,7 +79,6 @@ export const TeamPlanPokemonIdentity = ({
           "border-line bg-surface-2 shrink-0 rounded-lg",
           summary ? "size-14" : "size-11 rounded-md",
         )}
-        glowClassName="opacity-0"
         imageClassName={summary ? "p-1.5" : "p-1"}
       />
 

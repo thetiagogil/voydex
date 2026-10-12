@@ -32,7 +32,6 @@ export const PokemonDetailActionPortrait = ({
         isActive && "border-primary/50 bg-primary/5 ring-primary/20 ring-2",
         isCompact ? "size-12" : "size-16 sm:size-18",
       )}
-      glowClassName="inset-2 opacity-10 transition-opacity duration-200 group-hover:opacity-20 group-focus-visible:opacity-20"
       imageClassName={isCompact ? "p-1.5" : "p-2"}
     />
   );

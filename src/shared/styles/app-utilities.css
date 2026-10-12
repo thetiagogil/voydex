@@ -77,3 +77,14 @@
     }
   }
 }
+
+/*
+ * A labelled type chip: the four palest types (Electric, Ice, Ground, Steel)
+ * deepen toward L 0.7 so a white label reads; every other type keeps its
+ * official colour. Set --t.
+ */
+@utility type-chip {
+  background-color: oklch(
+    from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
+  );
+}

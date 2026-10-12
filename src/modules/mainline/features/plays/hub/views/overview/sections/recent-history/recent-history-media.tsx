@@ -32,7 +32,6 @@ export const RecentHistoryMedia = ({
             imageUrl={item.imageUrl}
             sizes="2.5rem"
             className="border-line bg-muted/30 size-10 rounded-md"
-            glowClassName="opacity-0"
             imageClassName="p-0.5"
           />
         ) : (

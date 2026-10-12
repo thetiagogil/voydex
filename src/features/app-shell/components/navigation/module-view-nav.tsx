@@ -2,7 +2,6 @@
 
 import { getActiveModuleKey, modules, type ModuleKey } from "@/config/modules";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -31,7 +30,7 @@ export const ModuleViewNav = ({ activeModuleKey }: ModuleViewNavProps) => {
   return (
     <nav
       aria-label={`${currentModule.label} navigation`}
-      className="flex h-9 items-stretch justify-center gap-1"
+      className="flex h-10 items-center justify-center gap-1"
     >
       {currentModule.views.map((item) => {
         const isActive =
@@ -43,12 +42,8 @@ export const ModuleViewNav = ({ activeModuleKey }: ModuleViewNavProps) => {
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              buttonVariants({
-                size: "default",
-                variant: isActive ? "default" : "outline",
-              }),
-              "min-w-32",
-              currentModule.views.length === 1 ? "min-w-36" : null,
+              "inline-flex h-10 items-center gap-2 rounded-full px-4 text-14 font-bold text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink [&_svg]:size-4",
+              isActive && "bg-surface font-extrabold text-ink hover:bg-surface",
             )}
           >
             <AppIcon icon={ViewIcon} inline="start" aria-hidden />

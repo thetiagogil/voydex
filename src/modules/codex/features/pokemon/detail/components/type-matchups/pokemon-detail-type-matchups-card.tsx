@@ -102,7 +102,6 @@ const PokemonDetailTypeMatchupMobileCell = ({
         label={column.typeLabel}
         display="icon-label"
         size="sm"
-        variant="field-guide"
       />
       <PokemonDetailTypeMatchupEffectivenessCell column={column} />
     </div>

@@ -75,7 +75,6 @@ export const TeamRosterRow = ({
           fallbackOnError
           sizes="2.25rem"
           className="border-line bg-surface-2 size-9 rounded-md"
-          glowClassName="opacity-0"
           imageClassName="p-1"
         />
         <span className="grid min-w-0 gap-0.5">

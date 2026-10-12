@@ -1,0 +1,79 @@
+"use client";
+
+import { useEffect, useRef, useState, type ReactNode } from "react";
+
+import { cn } from "@/shared/utils/cn";
+
+type MainlinePlayDockedBarProps = {
+  children: ReactNode;
+  coverImageUrl: string | null;
+  navigation: ReactNode;
+  title: string;
+};
+
+/*
+ * Once the Play header scrolls away, it comes back condensed and docks to the
+ * top edge: the Play's colour, its lip and rounded bottom corners, the cover,
+ * the name and the same tabs.
+ */
+export const MainlinePlayDockedBar = ({
+  children,
+  coverImageUrl,
+  navigation,
+  title,
+}: MainlinePlayDockedBarProps) => {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [isDocked, setIsDocked] = useState(false);
+
+  useEffect(() => {
+    const header = headerRef.current;
+
+    if (!header || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsDocked(!entry.isIntersecting),
+      { rootMargin: "-24px 0px 0px 0px" },
+    );
+
+    observer.observe(header);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <div
+        aria-hidden={!isDocked}
+        inert={!isDocked}
+        className={cn(
+          "fixed inset-x-0 top-0 z-30 transition-[transform,opacity,visibility] duration-200 ease-out",
+          isDocked
+            ? "visible translate-y-0 opacity-100"
+            : "invisible -translate-y-[calc(100%+16px)] opacity-0",
+        )}
+      >
+        <div className="bg-game-soft mx-auto max-w-320 rounded-b-xl shadow-[0_4px_0_var(--game-lip),var(--shadow-float-value)]">
+          <div className="flex min-w-0 items-center gap-3 px-4 pt-2 pb-2.5 sm:px-6 lg:px-8">
+            {coverImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={coverImageUrl}
+                alt=""
+                className="hidden h-10 w-[30px] shrink-0 rounded-xs border-[2.5px] border-white object-cover shadow-cover sm:block"
+              />
+            ) : null}
+            <p className="font-display hidden min-w-0 flex-1 truncate text-17 font-semibold sm:block">
+              {title}
+            </p>
+            <div className="no-scrollbar min-w-0 max-w-full overflow-x-auto">
+              {navigation}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ref={headerRef}>{children}</div>
+    </>
+  );
+};

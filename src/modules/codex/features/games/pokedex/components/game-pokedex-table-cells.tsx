@@ -65,7 +65,6 @@ export const GamePokedexPokemonTypeList = ({
             type={type.slug}
             label={type.name}
             size="sm"
-            variant="field-guide"
           />
         ) : (
           <Badge key={type.id} variant="outline">

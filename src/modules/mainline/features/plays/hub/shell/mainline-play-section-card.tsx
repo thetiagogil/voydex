@@ -1,7 +1,6 @@
 import type { ComponentProps } from "react";
 
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { cn } from "@/shared/utils/cn";
 
 type MainlinePlaySectionCardProps = ComponentProps<typeof DetailSectionCard> & {
   headingLevel?: 2 | 3;
@@ -18,12 +17,9 @@ export const MainlinePlaySectionCard = ({
 
   return (
     <DetailSectionCard
-      className={cn("bg-card ring-line shadow-xs", className)}
+      className={className}
       title={<Heading>{title}</Heading>}
-      titleClassName={cn(
-        "text-primary font-display text-base leading-none font-semibold",
-        titleClassName,
-      )}
+      titleClassName={titleClassName}
       {...props}
     />
   );

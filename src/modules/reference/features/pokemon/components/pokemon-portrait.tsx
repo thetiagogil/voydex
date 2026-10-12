@@ -4,21 +4,16 @@ import { PokemonPortraitPlaceholder } from "@/modules/reference/features/pokemon
 import {
   getPokemonTypeCssVariables,
   pokemonTypeSoftBackgroundClassName,
-  pokemonTypeSoftBorderClassName,
-  pokemonTypeSolidBackgroundClassName,
 } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import Image from "next/image";
 
+/* A Pokémon's art on its soft type-tint circle. */
 type PokemonPortraitProps = {
   alt: string;
-  backgroundImageClassName?: string;
-  backgroundImageUrl?: string | null;
-  backgroundOverlayClassName?: string;
   className?: string;
   fallbackOnError?: boolean;
   fetchPriority?: "high" | "low" | "auto";
-  glowClassName?: string;
   imageClassName?: string;
   imageUrl: string | null;
   loading?: "eager" | "lazy";
@@ -33,13 +28,9 @@ const defaultPokemonPortraitSizes =
 
 export const PokemonPortrait = ({
   alt,
-  backgroundImageClassName,
-  backgroundImageUrl,
-  backgroundOverlayClassName,
   className,
   fallbackOnError = false,
   fetchPriority,
-  glowClassName,
   imageClassName,
   imageUrl,
   loading,
@@ -58,43 +49,11 @@ export const PokemonPortrait = ({
     <div
       style={typeStyle}
       className={cn(
-        "bg-muted/60 relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-xl border",
+        "relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-full bg-surface-2",
         type && pokemonTypeSoftBackgroundClassName,
-        type && pokemonTypeSoftBorderClassName,
         className,
       )}
     >
-      {backgroundImageUrl ? (
-        <>
-          <div
-            aria-hidden
-            className={cn(
-              "pointer-events-none absolute inset-0 bg-cover bg-center",
-              backgroundImageClassName,
-            )}
-            style={{ backgroundImage: `url(${backgroundImageUrl})` }}
-          />
-          {backgroundOverlayClassName ? (
-            <div
-              aria-hidden
-              className={cn(
-                "pointer-events-none absolute inset-0",
-                backgroundOverlayClassName,
-              )}
-            />
-          ) : null}
-        </>
-      ) : null}
-
-      <div
-        aria-hidden
-        className={cn(
-          "absolute inset-5 rounded-full blur-2xl",
-          type ? pokemonTypeSolidBackgroundClassName : "bg-primary",
-          "opacity-15",
-          glowClassName,
-        )}
-      />
       {imageUrl && fallbackOnError ? (
         <PokemonPortraitFallbackImage
           alt={alt}
@@ -114,7 +73,7 @@ export const PokemonPortrait = ({
           loading={imageLoading}
           fetchPriority={resolvedFetchPriority}
           sizes={sizes}
-          className={cn("object-contain p-4 drop-shadow-lg", imageClassName)}
+          className={cn("object-contain p-3", imageClassName)}
         />
       ) : (
         <PokemonPortraitPlaceholder alt={alt} />
