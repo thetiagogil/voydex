@@ -12,7 +12,7 @@ export const MainlinePlayTopCoverArt = ({
   return (
     <div className="flex justify-center sm:justify-start">
       {coverImageUrl ? (
-        <div className="border-app-surface-border/80 bg-background/55 h-36 shrink-0 overflow-hidden rounded-lg border p-1 shadow-sm">
+        <div className="border-line bg-surface-2 h-36 shrink-0 overflow-hidden rounded-lg border p-1 shadow-sm">
           {/* Intrinsic width is required because game packaging uses different aspect ratios. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -22,7 +22,7 @@ export const MainlinePlayTopCoverArt = ({
           />
         </div>
       ) : (
-        <div className="border-app-surface-border/80 bg-background/55 text-primary flex h-36 w-24 shrink-0 items-center justify-center rounded-lg border px-2 text-center text-2xl font-semibold tracking-wide shadow-sm">
+        <div className="border-line bg-surface-2 text-primary flex h-36 w-24 shrink-0 items-center justify-center rounded-lg border px-2 text-center text-2xl font-semibold tracking-wide shadow-sm">
           {getGameInitials(gameName)}
         </div>
       )}

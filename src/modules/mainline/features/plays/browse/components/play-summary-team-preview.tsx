@@ -60,7 +60,7 @@ export const PlaySummaryTeamPreview = ({
                 key={slotNumber}
                 role="img"
                 aria-label={`Active team slot ${slotNumber} unavailable`}
-                className="border-app-surface-border/55 bg-background/25 text-muted-foreground/70 flex aspect-square min-w-0 items-center justify-center rounded-lg border border-dashed"
+                className="border-line bg-surface-2 text-muted-foreground/70 flex aspect-square min-w-0 items-center justify-center rounded-lg border border-dashed"
               >
                 <AppIcon icon={appIcons.status.warning} size="sm" aria-hidden />
               </div>
@@ -73,7 +73,7 @@ export const PlaySummaryTeamPreview = ({
                 key={slotNumber}
                 role="img"
                 aria-label={`Active team slot ${slotNumber} not recorded`}
-                className="border-app-surface-border/50 bg-background/25 text-muted-foreground/65 flex aspect-square min-w-0 items-center justify-center rounded-lg border"
+                className="border-line bg-surface-2 text-muted-foreground/65 flex aspect-square min-w-0 items-center justify-center rounded-lg border"
               >
                 <AppIcon
                   icon={appIcons.product.form}
@@ -93,7 +93,7 @@ export const PlaySummaryTeamPreview = ({
               alt={`${memberName} in active team slot ${slotNumber}`}
               imageUrl={getPlayTeamMemberImageUrl(member)}
               sizes="(min-width: 1280px) 4rem, (min-width: 768px) 2.75rem, (min-width: 640px) 3.75rem, 15vw"
-              className="border-app-surface-border/70 bg-background/40 w-full rounded-lg"
+              className="border-line bg-surface-2 w-full rounded-lg"
               glowClassName="opacity-0"
               imageClassName="p-1"
             />

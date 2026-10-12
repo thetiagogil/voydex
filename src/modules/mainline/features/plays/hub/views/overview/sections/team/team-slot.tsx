@@ -22,9 +22,9 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
       <div
         role="img"
         aria-label={`Empty team slot ${slotNumber}`}
-        className="border-app-surface-border/70 bg-background/35 flex min-h-40 min-w-0 flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-3 text-center"
+        className="border-line bg-surface-2 flex min-h-40 min-w-0 flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-3 text-center"
       >
-        <span className="border-app-surface-border/70 bg-card/70 text-muted-foreground flex size-12 items-center justify-center rounded-full border border-dashed">
+        <span className="border-line bg-surface text-muted-foreground flex size-12 items-center justify-center rounded-full border border-dashed">
           <AppIcon icon={appIcons.product.team} size="md" aria-hidden />
         </span>
         <span className="text-muted-foreground text-xs font-medium">Empty</span>
@@ -64,7 +64,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
     return (
       <Link
         href={appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)}
-        className="border-app-surface-border/70 bg-background/35 hover:bg-muted/50 focus-visible:ring-ring relative grid min-h-40 min-w-0 content-end justify-items-center gap-1 rounded-lg border p-3 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
+        className="border-line bg-surface-2 hover:bg-muted/50 focus-visible:ring-ring relative grid min-h-40 min-w-0 content-end justify-items-center gap-1 rounded-lg border p-3 text-center transition-colors focus-visible:ring-2 focus-visible:outline-none"
       >
         {content}
       </Link>
@@ -72,7 +72,7 @@ export const TeamSlot = ({ gameSlug, member, slotNumber }: TeamSlotProps) => {
   }
 
   return (
-    <article className="border-app-surface-border/70 bg-background/35 relative grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center">
+    <article className="border-line bg-surface-2 relative grid min-h-40 min-w-0 content-center justify-items-center gap-2 rounded-lg border p-3 text-center">
       {content}
     </article>
   );

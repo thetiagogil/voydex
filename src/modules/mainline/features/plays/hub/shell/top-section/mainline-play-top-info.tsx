@@ -177,7 +177,7 @@ export const MainlinePlayTopInfo = ({
       <div className="flex min-w-0 flex-col gap-2">
         <h1
           id={titleId}
-          className="text-primary min-w-0 font-serif text-2xl leading-tight font-semibold tracking-tight sm:text-3xl lg:text-4xl"
+          className="text-primary min-w-0 font-display text-2xl leading-tight font-semibold tracking-tight sm:text-3xl lg:text-4xl"
         >
           {title}
         </h1>

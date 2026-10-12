@@ -12,7 +12,7 @@ export const GameDetailCoverArt = ({ data }: GameDetailCoverArtProps) => {
 
   return (
     <div className="relative flex h-52 w-full justify-center sm:h-64 md:h-full md:w-max md:justify-start">
-      <div className="ring-app-surface-border/80 bg-card relative flex h-full max-w-full justify-center overflow-hidden rounded-xl p-4 shadow-xs ring-1 sm:p-5 md:justify-start">
+      <div className="ring-line bg-card relative flex h-full max-w-full justify-center overflow-hidden rounded-xl p-4 shadow-xs ring-1 sm:p-5 md:justify-start">
         {data.coverImageUrl ? (
           <Image
             src={data.coverImageUrl}
@@ -24,8 +24,8 @@ export const GameDetailCoverArt = ({ data }: GameDetailCoverArtProps) => {
             className="relative z-10 h-full w-auto max-w-full rounded-md object-contain object-center drop-shadow-sm md:object-left"
           />
         ) : (
-          <div className="bg-background/60 relative z-10 flex aspect-square h-full items-center justify-center rounded-md">
-            <div className="flex size-20 items-center justify-center rounded-xl bg-(--pokemon-game-color)/12 text-2xl font-black text-(--pokemon-game-color) ring-1 ring-(--pokemon-game-color)/30">
+          <div className="bg-surface-2 relative z-10 flex aspect-square h-full items-center justify-center rounded-md">
+            <div className="flex size-20 items-center justify-center rounded-xl bg-game-soft text-2xl font-black text-game ring-1 ring-game">
               {initials}
             </div>
           </div>

@@ -22,7 +22,7 @@ export const MilestoneSummary = ({
     <JourneyStatusItem icon={icon} label={label} contentClassName="grid gap-1">
       {milestone ? (
         <>
-          <p className="text-foreground font-serif text-base font-semibold">
+          <p className="text-foreground font-display text-base font-semibold">
             {milestone.milestone_name ?? "Unnamed milestone"}
           </p>
           {milestone.category_name || milestone.milestone_type_name ? (

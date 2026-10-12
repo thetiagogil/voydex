@@ -49,7 +49,7 @@ export const DetailSectionCard = ({
       >
         <div className="flex min-w-0 gap-2">
           {icon ? (
-            <span className="border-app-surface-border bg-muted/30 text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-lg border">
+            <span className="border-line bg-muted/30 text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-lg border">
               <AppIcon icon={icon} size="sm" aria-hidden />
             </span>
           ) : null}
@@ -78,7 +78,7 @@ export const DetailSectionCard = ({
       </CardHeader>
 
       {showSeparator ? (
-        <Separator className="bg-app-surface-border/60" />
+        <Separator className="bg-line" />
       ) : null}
 
       <CardContent

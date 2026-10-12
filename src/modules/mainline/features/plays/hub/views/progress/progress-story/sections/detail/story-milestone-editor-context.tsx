@@ -59,7 +59,7 @@ export const StoryMilestoneEditorContext = ({
         </span>
         <CardTitle
           id="story-milestone-editor-context-title"
-          className="flex flex-wrap items-center gap-2 font-serif"
+          className="flex flex-wrap items-center gap-2 font-display"
         >
           {milestone.name}
           <StoryMilestoneTypeBadge

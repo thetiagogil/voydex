@@ -104,7 +104,7 @@ export const StoryProgressSummarySection = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="divide-app-surface-border/60 grid divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div className="divide-line grid divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <SummaryItem
             icon={appIcons.product.completion}
             label="Last completed"

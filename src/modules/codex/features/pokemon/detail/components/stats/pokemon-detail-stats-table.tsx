@@ -48,10 +48,10 @@ const PokemonDetailStatsTotal = ({ total }: { total: number }) => {
 const PokemonDetailStatsSeparator = () => {
   return (
     <>
-      <Separator className="bg-app-surface-border/60 xl:hidden" />
+      <Separator className="bg-line xl:hidden" />
       <Separator
         orientation="vertical"
-        className="bg-app-surface-border/60 hidden xl:block"
+        className="bg-line hidden xl:block"
       />
     </>
   );

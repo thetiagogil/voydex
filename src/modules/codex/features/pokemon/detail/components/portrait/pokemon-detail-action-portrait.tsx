@@ -28,7 +28,7 @@ export const PokemonDetailActionPortrait = ({
       loading="eager"
       sizes={isCompact ? "36px" : "(min-width: 640px) 72px, 64px"}
       className={cn(
-        "border-app-surface-border/70 bg-background/80 group-hover:border-primary/35 group-hover:bg-muted/60 group-focus-visible:border-primary/35 group-focus-visible:bg-muted/60 rounded-full transition-colors",
+        "border-line bg-surface-2 group-hover:border-primary/35 group-hover:bg-muted/60 group-focus-visible:border-primary/35 group-focus-visible:bg-muted/60 rounded-full transition-colors",
         isActive && "border-primary/50 bg-primary/5 ring-primary/20 ring-2",
         isCompact ? "size-12" : "size-16 sm:size-18",
       )}

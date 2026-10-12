@@ -11,7 +11,7 @@ import type {
   MainlinePlayBrowseItem,
   MainlinePlayBrowseProgress,
 } from "@/modules/mainline/features/plays/shared/types";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { StatusBadge } from "@/shared/components/status-badge";
@@ -41,7 +41,7 @@ const PlayCover = ({
   priority: boolean;
 }) => {
   return (
-    <div className="border-app-surface-border/80 bg-background/65 col-start-1 row-start-1 size-28 shrink-0 rounded-lg border p-0.5 shadow-sm md:size-24 lg:size-28">
+    <div className="border-line bg-surface-2 col-start-1 row-start-1 size-28 shrink-0 rounded-lg border p-0.5 shadow-sm md:size-24 lg:size-28">
       {coverImageUrl ? (
         <div className="relative size-full overflow-hidden rounded-md">
           <Image
@@ -54,7 +54,7 @@ const PlayCover = ({
           />
         </div>
       ) : (
-        <div className="flex size-full items-center justify-center rounded-md bg-(--pokemon-game-color)/15 px-2 text-center text-xl font-black text-(--pokemon-game-color)">
+        <div className="flex size-full items-center justify-center rounded-md bg-game-soft px-2 text-center text-xl font-black text-game">
           {getGameInitials(gameName)}
         </div>
       )}
@@ -70,7 +70,7 @@ const PlayProgressSummary = ({
   if (progress.state === "known") {
     return (
       <div className="flex flex-col gap-0.5 md:items-start">
-        <p className="text-primary font-serif text-2xl font-semibold tracking-tight tabular-nums lg:text-3xl">
+        <p className="text-primary font-display text-2xl font-semibold tracking-tight tabular-nums lg:text-3xl">
           {progress.percent}%
         </p>
         <p className="text-muted-foreground text-xs">Completion</p>
@@ -80,7 +80,7 @@ const PlayProgressSummary = ({
 
   return (
     <div className="flex flex-col md:items-start">
-      <p className="text-primary font-serif text-lg font-semibold">
+      <p className="text-primary font-display text-lg font-semibold">
         {progress.state === "unavailable"
           ? "Progress unavailable"
           : "Progress not recorded"}
@@ -96,7 +96,7 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
   return (
     <Card
       size="sm"
-      variant="journal"
+      variant="bare"
       className={cn(
         "grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-4 py-4 data-[size=sm]:has-data-[slot=card-footer]:pb-4 md:grid-cols-[auto_minmax(8rem,0.8fr)_minmax(13.5rem,1.15fr)_minmax(7.5rem,auto)] md:grid-rows-1 md:items-center md:gap-x-3 md:gap-y-0 lg:grid-cols-[auto_minmax(9rem,0.7fr)_minmax(16rem,1.25fr)_minmax(7.5rem,auto)] lg:gap-x-4 xl:grid-cols-[auto_minmax(13rem,0.8fr)_minmax(21rem,1.4fr)_minmax(10rem,auto)] xl:gap-x-5",
         !play.play_id && "opacity-70",
@@ -109,7 +109,7 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
       />
 
       <CardHeader className="col-start-2 row-start-1 flex min-w-0 flex-col gap-1 self-start rounded-none p-0 md:self-center">
-        <CardTitle className="text-primary w-full font-serif text-lg font-semibold xl:text-xl">
+        <CardTitle className="text-primary w-full font-display text-lg font-semibold xl:text-xl">
           <h2 className="line-clamp-2">{playName}</h2>
         </CardTitle>
         {play.status_name ? (
@@ -157,11 +157,11 @@ export const PlaySummaryCard = ({
   play,
   priority = false,
 }: PlaySummaryCardProps) => {
-  const gameStyles = getPokemonGameColorCssVariables(play.game_slug);
+  const gameStyles = getGameColourStyle(play.game_slug);
 
   if (!play.play_id) {
     return (
-      <div style={gameStyles}>
+      <div className="game-scope" style={gameStyles}>
         <PlayCardBody play={play} priority={priority} />
       </div>
     );
@@ -176,7 +176,7 @@ export const PlaySummaryCard = ({
       style={gameStyles}
       className={cn(
         rowInteractionVariants({ interaction: "action" }),
-        "group/play-summary focus-visible:ring-ring/35 block rounded-none focus-visible:ring-3",
+        "group/play-summary game-scope focus-visible:ring-ring/35 block rounded-none focus-visible:ring-3",
       )}
     >
       <PlayCardBody play={play} priority={priority} />

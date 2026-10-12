@@ -45,8 +45,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
-    "@fontsource-variable/dm-sans": "^5.2.8",
-    "@fontsource-variable/lora": "^5.2.8",
     "@radix-ui/themes": "^3.3.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",

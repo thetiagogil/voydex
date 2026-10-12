@@ -97,13 +97,13 @@ export const IntroPage = () => {
           </div>
         </div>
 
-        <aside className="ring-app-surface-border bg-card/70 w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
+        <aside className="bg-surface w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 shadow-card sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
           <div className="flex flex-col">
             {companionAreas.map((area) => {
               return (
                 <div
                   key={area.title}
-                  className="border-app-surface-border/70 flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
+                  className="border-line flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
                 >
                   <span className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
                     <AppIcon icon={area.icon} className="size-4" aria-hidden />
@@ -121,7 +121,7 @@ export const IntroPage = () => {
         </aside>
       </section>
 
-      <section className="ring-app-surface-border bg-card/50 w-full max-w-88 overflow-hidden rounded-xl p-5 shadow-(--app-surface-shadow) ring-1 backdrop-blur-md sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
+      <section className="bg-surface w-full max-w-88 overflow-hidden rounded-xl p-5 shadow-card sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start">
           <div className="max-w-xl">
             <h2 className="text-2xl leading-tight font-semibold tracking-normal sm:text-3xl">
@@ -140,7 +140,7 @@ export const IntroPage = () => {
               return (
                 <article
                   key={step.title}
-                  className="border-app-surface-border/70 bg-background/28 rounded-lg border p-4"
+                  className="border-line bg-surface-2 rounded-lg border p-4"
                 >
                   <AppIcon
                     icon={step.icon}

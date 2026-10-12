@@ -118,7 +118,7 @@ export const TeamAnalysisOverviewSection = ({
         ))}
       </div>
 
-      <div className="border-app-surface-border/70 flex flex-col gap-3 border-t pt-3 sm:flex-row sm:items-center sm:justify-between xl:hidden">
+      <div className="border-line flex flex-col gap-3 border-t pt-3 sm:flex-row sm:items-center sm:justify-between xl:hidden">
         <div className="flex flex-1 flex-wrap items-center">
           <TeamAnalysisInformationTip
             abilitiesSupported={evidence.abilityRecordedCount !== null}

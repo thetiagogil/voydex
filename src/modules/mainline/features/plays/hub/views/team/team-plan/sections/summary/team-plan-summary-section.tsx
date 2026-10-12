@@ -10,10 +10,10 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 const metricToneClassNames = {
-  info: "text-info",
+  info: "text-ink-2",
   neutral: "text-foreground",
-  success: "text-success",
-  warning: "text-warning",
+  success: "text-ok",
+  warning: "text-warn-ink",
 } as const;
 
 type PlanMetricProps = {
@@ -36,14 +36,14 @@ const PlanMetric = ({
       trigger={
         <button
           type="button"
-          className="border-app-surface-border/60 bg-background/35 focus-visible:ring-ring/40 grid h-full w-full min-w-0 cursor-help grid-cols-[auto_1fr] items-center gap-2 rounded-lg border px-3 py-2.5 text-left outline-none focus-visible:ring-2 xl:w-auto"
+          className="border-line bg-surface-2 focus-visible:ring-ring/40 grid h-full w-full min-w-0 cursor-help grid-cols-[auto_1fr] items-center gap-2 rounded-lg border px-3 py-2.5 text-left outline-none focus-visible:ring-2 xl:w-auto"
           aria-label={description}
         />
       }
     >
       <span
         className={cn(
-          "font-serif text-lg leading-none font-semibold tabular-nums",
+          "font-display text-lg leading-none font-semibold tabular-nums",
           metricToneClassNames[tone],
         )}
       >
@@ -59,9 +59,9 @@ const PlanMetric = ({
 const getPlanStatusTone = (statusName: string): StatusBadgeTone => {
   switch (statusName.toLowerCase()) {
     case "active":
-      return "success";
+      return "ok";
     case "archived":
-      return "info";
+      return "neutral";
     default:
       return "neutral";
   }
@@ -73,10 +73,10 @@ export const TeamPlanSummarySection = ({
   plan: MainlinePlayTeamPlanSummary;
 }) => {
   return (
-    <Card className="bg-card ring-app-surface-border/80 gap-0 py-0 shadow-xs">
+    <Card className="bg-card ring-line gap-0 py-0 shadow-xs">
       <CardContent className="grid gap-4 p-4 xl:grid-cols-[minmax(20rem,1fr)_auto] xl:items-stretch">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="border-app-surface-border/60 bg-primary/8 text-primary flex size-11 shrink-0 items-center justify-center rounded-lg border">
+          <span className="border-line bg-primary/8 text-primary flex size-11 shrink-0 items-center justify-center rounded-lg border">
             <AppIcon
               icon={appIcons.views.mainline.team}
               size="lg"
@@ -85,7 +85,7 @@ export const TeamPlanSummarySection = ({
           </span>
           <div className="grid min-w-0 gap-1">
             <div className="flex min-w-0 flex-wrap items-center gap-2">
-              <h2 className="text-primary font-serif text-sm leading-5 font-semibold">
+              <h2 className="text-primary font-display text-sm leading-5 font-semibold">
                 {plan.planName}
               </h2>
               <StatusBadge

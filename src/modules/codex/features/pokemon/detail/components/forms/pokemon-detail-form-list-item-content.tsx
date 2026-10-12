@@ -28,7 +28,7 @@ export const PokemonDetailFormListItemContent = ({
         type={getPokemonDetailFormTypeSlug(form)}
         fallbackOnError
         sizes="44px"
-        className="border-app-surface-border/70 size-11 shrink-0 rounded-lg bg-transparent"
+        className="border-line size-11 shrink-0 rounded-lg bg-transparent"
         glowClassName="inset-2 opacity-10"
         imageClassName="p-1"
       />

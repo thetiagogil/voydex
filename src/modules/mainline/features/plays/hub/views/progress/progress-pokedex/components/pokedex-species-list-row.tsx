@@ -51,13 +51,13 @@ export const PokedexSpeciesListRow = ({
           imageUrl={entry.imageUrl}
           fallbackOnError
           sizes="3rem"
-          className="border-app-surface-border bg-muted/30 size-12 shrink-0 rounded-lg"
+          className="border-line bg-muted/30 size-12 shrink-0 rounded-lg"
           glowClassName="opacity-0"
           imageClassName="p-1"
         />
 
         <span className="grid min-w-0 gap-1">
-          <span className="truncate font-serif text-sm font-semibold">
+          <span className="truncate font-display text-sm font-semibold">
             {entry.speciesName}
           </span>
           {entry.displayFormName ? (

@@ -67,7 +67,7 @@ export const TeamPlanPokemonIdentity = ({
     <div
       className={cn(
         "flex min-w-0 items-center gap-3",
-        summary && "border-app-surface-border/60 rounded-lg border p-3",
+        summary && "border-line rounded-lg border p-3",
       )}
     >
       <PokemonPortrait
@@ -76,7 +76,7 @@ export const TeamPlanPokemonIdentity = ({
         fallbackOnError
         sizes={summary ? "3.5rem" : "2.75rem"}
         className={cn(
-          "border-app-surface-border/50 bg-background/45 shrink-0 rounded-lg",
+          "border-line bg-surface-2 shrink-0 rounded-lg",
           summary ? "size-14" : "size-11 rounded-md",
         )}
         glowClassName="opacity-0"
@@ -92,7 +92,7 @@ export const TeamPlanPokemonIdentity = ({
         <p
           className={cn(
             "text-foreground truncate font-semibold",
-            summary ? "font-serif text-base" : "text-sm",
+            summary ? "font-display text-base" : "text-sm",
           )}
         >
           {name}

@@ -8,7 +8,7 @@ import { TeamHistoryPokemonIdentity } from "./team-history-pokemon-identity";
 const TeamHistoryDestination = ({ label }: { label: "Active" | "Reserve" }) => {
   return (
     <span
-      className="border-app-surface-border bg-muted/30 text-primary flex size-12 shrink-0 items-center justify-center rounded-lg border"
+      className="border-line bg-muted/30 text-primary flex size-12 shrink-0 items-center justify-center rounded-lg border"
       aria-label={`${label} Team`}
       title={`${label} Team`}
     >

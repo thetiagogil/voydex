@@ -33,7 +33,7 @@ export const TeamHistoryToolbar = ({
 }: TeamHistoryToolbarProps) => {
   return (
     <BrowseFilterPanel
-      variant="journal"
+      variant="bare"
       onSubmit={(event) => {
         event.preventDefault();
       }}

@@ -40,7 +40,7 @@ export const TeamEventsSection = ({
           {events.map((event, index) => (
             <div
               key={event.event_id ?? `${event.title}-${index}`}
-              className="border-app-surface-border/60 not-last:border-b"
+              className="border-line not-last:border-b"
             >
               <TeamEventRow event={event} />
             </div>

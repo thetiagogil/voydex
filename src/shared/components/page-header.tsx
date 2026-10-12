@@ -21,7 +21,7 @@ export const PageHeader = ({
       )}
     >
       <div className="min-w-0">
-        <h1 className="text-primary font-serif text-3xl leading-tight font-semibold tracking-[-0.025em] sm:text-4xl lg:text-[2.75rem]">
+        <h1 className="text-primary font-display text-3xl leading-tight font-semibold tracking-[-0.025em] sm:text-4xl lg:text-[2.75rem]">
           {title}
         </h1>
         {description ? (

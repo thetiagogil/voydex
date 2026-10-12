@@ -8,8 +8,8 @@ const browseFilterPanelVariants = cva("grid gap-3", {
   variants: {
     variant: {
       default:
-        "bg-card text-card-foreground ring-app-surface-border rounded-xl p-3 shadow-(--app-surface-shadow) ring-1",
-      journal: "bg-transparent text-card-foreground",
+        "rounded-xl bg-surface p-4 text-ink shadow-card",
+      bare: "bg-transparent text-ink",
     },
   },
   defaultVariants: {

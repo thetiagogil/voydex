@@ -72,7 +72,7 @@ export const PokedexFilterForm = ({
 
   return (
     <CodexFilterPanel
-      variant="journal"
+      variant="bare"
       className="grid-cols-2 gap-2 lg:grid-cols-[minmax(18rem,1fr)_repeat(3,minmax(0,10.5rem))] lg:gap-3"
       onSubmit={(event) => {
         event.preventDefault();

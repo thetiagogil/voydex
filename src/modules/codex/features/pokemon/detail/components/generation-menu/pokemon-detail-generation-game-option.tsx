@@ -48,7 +48,7 @@ const GameAvailabilityTooltip = ({
             className={cn(
               "focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2",
               isWarning
-                ? "text-warning hover:text-warning/90"
+                ? "text-warn-ink hover:text-warn-ink/90"
                 : "text-muted-foreground hover:text-foreground",
             )}
           />

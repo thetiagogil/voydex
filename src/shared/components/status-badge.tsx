@@ -1,15 +1,9 @@
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/cn";
 
-export type StatusBadgeTone =
-  | "battle"
-  | "decision"
-  | "destructive"
-  | "info"
-  | "milestone"
-  | "neutral"
-  | "success"
-  | "warning";
+/* Meaning colours are small marks: a pill, never a filled banner. */
+export type StatusBadgeTone = "danger" | "gold" | "neutral" | "ok" | "warn";
+
 type StatusBadgeProps = {
   children: React.ReactNode;
   className?: string;
@@ -17,14 +11,11 @@ type StatusBadgeProps = {
 };
 
 const toneClassNames: Record<StatusBadgeTone, string> = {
-  battle: "bg-battle/10 text-battle border-battle/20",
-  decision: "bg-decision/10 text-decision border-decision/20",
-  destructive: "bg-destructive/10 text-destructive border-destructive/20",
-  info: "bg-info/10 text-info border-info/20",
-  milestone: "bg-milestone/10 text-milestone border-milestone/20",
-  neutral: "bg-muted text-muted-foreground border-transparent",
-  success: "bg-success/10 text-success border-success/20",
-  warning: "bg-warning/10 text-warning border-warning/20",
+  danger: "bg-danger-soft text-danger-deep",
+  gold: "bg-warn-soft text-warn-ink",
+  neutral: "bg-surface-2 text-ink-2",
+  ok: "bg-ok-soft text-ok-deep",
+  warn: "bg-warn-soft text-warn-ink",
 };
 
 export const StatusBadge = ({
@@ -35,7 +26,7 @@ export const StatusBadge = ({
   return (
     <Badge
       variant="outline"
-      className={cn("capitalize", toneClassNames[tone], className)}
+      className={cn("border-transparent", toneClassNames[tone], className)}
     >
       {children}
     </Badge>

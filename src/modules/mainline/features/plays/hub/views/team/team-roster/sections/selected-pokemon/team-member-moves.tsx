@@ -79,7 +79,7 @@ const TeamMoveRow = ({ move }: { move: TeamMoveSlot }) => {
     return (
       <li
         aria-label={`Move slot ${move.position} is empty`}
-        className="border-app-surface-border/60 bg-background/15 flex min-h-8 items-center justify-center rounded-md border border-dashed px-2.5 py-1"
+        className="border-line bg-surface-2 flex min-h-8 items-center justify-center rounded-md border border-dashed px-2.5 py-1"
       >
         <span className="text-muted-foreground text-sm">Empty slot</span>
       </li>
@@ -96,7 +96,7 @@ const TeamMoveRow = ({ move }: { move: TeamMoveSlot }) => {
         "grid min-h-8 grid-cols-[1.5rem_minmax(0,1fr)_1.5rem] items-center gap-2 rounded-md border px-2.5 py-1",
         moveTypeSlug
           ? [pokemonTypeSoftBackgroundClassName, pokemonTypeSoftBorderClassName]
-          : "border-app-surface-border/60 bg-background/20",
+          : "border-line bg-surface-2",
       )}
     >
       <div className="justify-self-start">
@@ -124,7 +124,7 @@ export const TeamMemberMoves = ({
     >
       <h3
         id="team-member-moves-heading"
-        className="text-primary font-serif text-base font-semibold"
+        className="text-primary font-display text-base font-semibold"
       >
         Moves
       </h3>

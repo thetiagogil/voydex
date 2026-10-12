@@ -16,9 +16,9 @@ import {
 } from "@/shared/components/status-badge";
 
 const followingStateTones = {
-  following: "success",
-  "following-with-changes": "warning",
-  "not-following": "destructive",
+  following: "ok",
+  "following-with-changes": "warn",
+  "not-following": "danger",
   "not-started": "neutral",
 } satisfies Record<MainlinePlayTeamPlanFollowingState, StatusBadgeTone>;
 
@@ -53,7 +53,7 @@ export const LinkedPlanSummarySection = ({
         </StatusBadge>
       </div>
 
-      <dl className="border-app-surface-border/60 grid gap-3 border-t pt-3">
+      <dl className="border-line grid gap-3 border-t pt-3">
         <div className="grid gap-0.5">
           <dt className="text-muted-foreground text-[0.6875rem] font-medium tracking-wide uppercase">
             Plan coverage

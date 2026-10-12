@@ -8,7 +8,7 @@ const TeamEventPokemonFallback = ({ name }: { name: string }) => {
     <span
       aria-label={`${name} image unavailable`}
       title={`${name} image unavailable`}
-      className="border-app-surface-border bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border text-sm font-semibold"
+      className="border-line bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border text-sm font-semibold"
     >
       ?
     </span>
@@ -20,7 +20,7 @@ const TeamEventDestination = ({ label }: { label: "Active" | "Reserve" }) => {
     <span
       aria-label={`${label} roster`}
       title={`${label} roster`}
-      className="border-app-surface-border bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border"
+      className="border-line bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border"
     >
       <AppIcon
         icon={
@@ -43,7 +43,7 @@ const TeamEventVisualItem = ({ visual }: { visual: TeamEventVisual }) => {
       alt={`${visual.pokemon.name} portrait`}
       imageUrl={visual.pokemon.imageUrl}
       sizes="2.5rem"
-      className="border-app-surface-border bg-muted/30 size-10 shrink-0 rounded-md"
+      className="border-line bg-muted/30 size-10 shrink-0 rounded-md"
       glowClassName="opacity-0"
       imageClassName="p-0.5"
     />

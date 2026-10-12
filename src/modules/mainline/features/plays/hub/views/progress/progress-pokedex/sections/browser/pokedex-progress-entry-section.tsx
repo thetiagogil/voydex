@@ -52,10 +52,10 @@ export const PokedexProgressEntrySection = ({
 
   return (
     <section aria-labelledby={headingId} aria-busy={isPending}>
-      <div className="border-app-surface-border/60 bg-muted/20 flex min-h-11 flex-wrap items-center justify-between gap-3 border-y px-3 py-2">
+      <div className="border-line bg-muted/20 flex min-h-11 flex-wrap items-center justify-between gap-3 border-y px-3 py-2">
         <h3
           id={headingId}
-          className="font-serif text-sm font-semibold tabular-nums"
+          className="font-display text-sm font-semibold tabular-nums"
         >
           {section.label}
         </h3>
@@ -95,7 +95,7 @@ export const PokedexProgressEntrySection = ({
         className={cn(
           viewMode === "grid"
             ? "grid grid-cols-2 gap-3 p-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-            : "divide-app-surface-border/60 grid min-w-0 divide-y",
+            : "divide-line grid min-w-0 divide-y",
         )}
       >
         {section.entries.map((entry) => (

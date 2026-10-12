@@ -31,7 +31,7 @@ export const TeamEventRow = ({
       </time>
 
       <span
-        className="border-app-surface-border bg-muted/30 text-primary col-start-1 row-start-2 flex size-10 items-center justify-center rounded-full border sm:col-start-3 sm:row-start-1"
+        className="border-line bg-muted/30 text-primary col-start-1 row-start-2 flex size-10 items-center justify-center rounded-full border sm:col-start-3 sm:row-start-1"
         title={event.event_type_name ?? "Team event"}
       >
         <AppIcon icon={display.icon} size="sm" aria-hidden />

@@ -32,15 +32,15 @@ const metricIcons: Record<TeamAnalysisHealthMetric["id"], LucideIcon> = {
 
 const statusIconClassNames: Record<TeamAnalysisHealthStatus, string> = {
   "limited-data": "border-muted-foreground/20 bg-muted text-muted-foreground",
-  moderate: "border-warning/25 bg-warning/10 text-warning",
-  strong: "border-success/25 bg-success/10 text-success",
+  moderate: "border-warn/50 bg-warn-soft text-warn-ink",
+  strong: "border-ok-line bg-ok-soft text-ok",
   weak: "border-destructive/25 bg-destructive/10 text-destructive",
 };
 
 const statusTextClassNames: Record<TeamAnalysisHealthStatus, string> = {
   "limited-data": "text-muted-foreground",
-  moderate: "text-warning",
-  strong: "text-success",
+  moderate: "text-warn-ink",
+  strong: "text-ok",
   weak: "text-destructive",
 };
 
@@ -56,7 +56,7 @@ const TeamAnalysisHealthMetricColumn = ({
   return (
     <article
       className={cn(
-        "border-app-surface-border/60 grid content-start px-4 py-5",
+        "border-line grid content-start px-4 py-5",
         index > 0 && "border-t sm:border-t-0 xl:border-l",
         index % 2 === 1 && "sm:border-l",
         index >= 2 && "sm:border-t xl:border-t-0",

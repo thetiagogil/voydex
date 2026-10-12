@@ -1,11 +1,11 @@
 import type { StatusBadgeTone } from "@/shared/components/status-badge";
 
 const playStatusToneBySlug: Record<string, StatusBadgeTone> = {
-  abandoned: "destructive",
-  completed: "milestone",
+  abandoned: "danger",
+  completed: "gold",
   not_started: "neutral",
-  paused: "warning",
-  playing: "success",
+  paused: "warn",
+  playing: "ok",
 };
 
 const normalizePlayStatusKey = (value: string | null | undefined) => {

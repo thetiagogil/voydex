@@ -285,7 +285,7 @@ export const PokedexProgressBrowserSection = ({
       )}
     >
       <BrowseFilterPanel
-        variant="journal"
+        variant="bare"
         className={cn(
           "grid-cols-1 gap-2.5 px-3 sm:grid-cols-2 xl:gap-3",
           browseScopes.length > 0

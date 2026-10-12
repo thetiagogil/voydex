@@ -41,7 +41,7 @@ export const RecentHistoryRow = ({ event }: RecentHistoryRowProps) => {
 
       <span
         className={cn(
-          "border-app-surface-border bg-muted/30 hidden size-10 items-center justify-center rounded-full border sm:flex",
+          "border-line bg-muted/30 hidden size-10 items-center justify-center rounded-full border sm:flex",
           timelineEventToneClassNames[display.tone],
         )}
       >

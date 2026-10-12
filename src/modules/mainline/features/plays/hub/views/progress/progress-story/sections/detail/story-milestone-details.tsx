@@ -41,7 +41,7 @@ const DetailSection = ({
   return (
     <section className="grid gap-2">
       {showSeparator ? <Separator className="mb-2" /> : null}
-      <h3 className="font-serif text-sm font-semibold">{title}</h3>
+      <h3 className="font-display text-sm font-semibold">{title}</h3>
       {children}
     </section>
   );

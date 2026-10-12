@@ -18,7 +18,7 @@ const speciesCardVariants = cva(
     variants: {
       state: {
         caught: "bg-primary/8 ring-primary/45",
-        missing: "bg-card ring-app-surface-border",
+        missing: "bg-card ring-line",
         seen: "bg-secondary/35 ring-secondary-foreground/25",
       },
     },
@@ -61,7 +61,7 @@ export const PokedexSpeciesGridCard = ({
             <span className="text-muted-foreground text-[0.68rem] leading-4 font-semibold tracking-[0.08em] uppercase tabular-nums">
               {formatPokedexNumber(entry.pokedexNumber)}
             </span>
-            <span className="truncate font-serif text-sm leading-snug font-semibold">
+            <span className="truncate font-display text-sm leading-snug font-semibold">
               {entry.speciesName}
             </span>
             {entry.displayFormName ? (

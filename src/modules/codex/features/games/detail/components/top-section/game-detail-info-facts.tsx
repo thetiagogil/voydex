@@ -31,7 +31,7 @@ const GameDetailPlatformsValue = ({ data }: GameDetailInfoFactsProps) => {
                 tabIndex={0}
                 variant="outline"
                 aria-label={`Other platforms: ${extraPlatforms.map((platform) => platform.name).join(", ")}`}
-                className="border-app-surface-border/80 bg-background/70 text-foreground/75 focus-visible:ring-primary/60 h-5 shrink-0 px-1.5 text-[0.6875rem] leading-none outline-none"
+                className="border-line bg-surface-2 text-foreground/75 focus-visible:ring-primary/60 h-5 shrink-0 px-1.5 text-[0.6875rem] leading-none outline-none"
               />
             }
           >
@@ -58,7 +58,7 @@ const GameDetailFact = ({
   value: ReactNode;
 }) => {
   return (
-    <div className={cn("border-app-surface-border/60 min-w-0", className)}>
+    <div className={cn("border-line min-w-0", className)}>
       <dt className="text-muted-foreground text-xs leading-5">{label}</dt>
       <dd className="text-foreground text-sm leading-6 font-medium sm:text-base">
         {value}
@@ -69,7 +69,7 @@ const GameDetailFact = ({
 
 export const GameDetailInfoFacts = ({ data }: GameDetailInfoFactsProps) => {
   return (
-    <dl className="border-app-surface-border/60 grid grid-cols-2 gap-y-4 border-t pt-5 sm:grid-cols-3 sm:gap-y-0">
+    <dl className="border-line grid grid-cols-2 gap-y-4 border-t pt-5 sm:grid-cols-3 sm:gap-y-0">
       <GameDetailFact
         label="Platforms"
         value={<GameDetailPlatformsValue data={data} />}

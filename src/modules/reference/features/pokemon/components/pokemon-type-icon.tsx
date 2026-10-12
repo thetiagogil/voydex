@@ -108,7 +108,7 @@ export const PokemonTypeBadge = ({
         "inline-flex shrink-0 items-center justify-center rounded-full border leading-none font-medium whitespace-nowrap capitalize",
         display === "icon" ? sizeClassNames.iconOnly : sizeClassNames.badge,
         variant === "field-guide"
-          ? "border-app-surface-border/80 bg-background/70 text-foreground/75"
+          ? "border-line bg-surface-2 text-foreground/75"
           : [pokemonTypeSoftBorderClassName, pokemonTypeTextClassName],
         variant === "soft" && pokemonTypeSoftBackgroundClassName,
         className,

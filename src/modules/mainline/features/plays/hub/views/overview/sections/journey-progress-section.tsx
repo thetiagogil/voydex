@@ -41,7 +41,7 @@ export const JourneyProgressSection = ({
               fallback="No completed milestones yet."
             />
           </div>
-          <div className="border-app-surface-border/60 border-t p-4 md:border-t-0 md:border-l">
+          <div className="border-line border-t p-4 md:border-t-0 md:border-l">
             <MilestoneSummary
               icon={appIcons.product.nextMilestone}
               label="Next up"
@@ -51,7 +51,7 @@ export const JourneyProgressSection = ({
           </div>
         </div>
 
-        <div className="border-app-surface-border/60 grid content-start gap-4 border-t p-4 lg:border-t-0 lg:border-l">
+        <div className="border-line grid content-start gap-4 border-t p-4 lg:border-t-0 lg:border-l">
           <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
             Progress summary
           </h3>

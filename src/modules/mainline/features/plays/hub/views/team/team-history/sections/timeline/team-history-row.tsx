@@ -25,7 +25,7 @@ export const TeamHistoryRow = ({ event }: TeamHistoryRowProps) => {
         <span className="bg-primary size-2 rounded-full" />
       </span>
 
-      <article className="border-app-surface-border/60 relative grid min-w-0 grid-cols-1 gap-x-3 gap-y-3 border-b px-3 py-4 md:grid-cols-[5.75rem_5.75rem_minmax(0,1fr)_auto] md:items-center md:px-4 lg:grid-cols-[6.5rem_6.25rem_minmax(16rem,1fr)_minmax(18rem,auto)] lg:gap-x-5">
+      <article className="border-line relative grid min-w-0 grid-cols-1 gap-x-3 gap-y-3 border-b px-3 py-4 md:grid-cols-[5.75rem_5.75rem_minmax(0,1fr)_auto] md:items-center md:px-4 lg:grid-cols-[6.5rem_6.25rem_minmax(16rem,1fr)_minmax(18rem,auto)] lg:gap-x-5">
         <time
           dateTime={date.dateTime}
           className="text-muted-foreground col-start-1 row-start-1 grid self-center text-xs leading-5"

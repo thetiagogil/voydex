@@ -9,7 +9,7 @@ const toneClassNames: Record<TeamEventTone, string> = {
   added: "border-primary/25 bg-primary/7 text-primary",
   evolved: "border-orange-300/60 bg-orange-50/80 text-orange-700",
   "form-changed": "border-violet-300/60 bg-violet-50/80 text-violet-700",
-  neutral: "border-app-surface-border bg-muted/35 text-muted-foreground",
+  neutral: "border-line bg-muted/35 text-muted-foreground",
   replaced: "border-blue-300/60 bg-blue-50/80 text-blue-700",
   retired: "border-red-300/60 bg-red-50/80 text-red-700",
 };

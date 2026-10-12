@@ -13,9 +13,9 @@ export const GameDetailSectionCard = ({
 }: GameDetailSectionCardProps) => {
   return (
     <DetailSectionCard
-      className={cn("bg-card ring-app-surface-border/80 shadow-xs", className)}
+      className={cn("bg-card ring-line shadow-xs", className)}
       titleClassName={cn(
-        "text-primary font-serif text-base leading-none font-semibold",
+        "text-primary font-display text-base leading-none font-semibold",
         titleClassName,
       )}
       title={<h2>{title}</h2>}

@@ -7,10 +7,10 @@ import type {
 } from "./recent-history-types";
 
 export const timelineEventToneClassNames: Record<TimelineEventTone, string> = {
-  info: "text-info",
+  info: "text-ink-2",
   milestone: "text-milestone",
   neutral: "text-muted-foreground",
-  success: "text-success",
+  success: "text-ok",
 };
 
 export const getTimelineEventDisplay = (

@@ -32,7 +32,7 @@ export const StoryMilestoneSheet = ({
     <Sheet open={open && Boolean(milestone)} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="border-app-surface-border bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0 lg:hidden"
+        className="border-line bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0 lg:hidden"
         initialFocus={titleRef}
       >
         <SheetHeader className="pr-12">
@@ -43,7 +43,7 @@ export const StoryMilestoneSheet = ({
                 <SheetTitle
                   ref={titleRef}
                   tabIndex={-1}
-                  className="font-serif text-lg font-semibold outline-none"
+                  className="font-display text-lg font-semibold outline-none"
                 >
                   {milestone.name}
                 </SheetTitle>

@@ -42,7 +42,7 @@ const MoveComparisonRow = ({
   return (
     <div
       className={cn(
-        "border-app-surface-border/50 grid items-start gap-2 border-t py-2",
+        "border-line grid items-start gap-2 border-t py-2",
         comparisonFieldGridClassName,
       )}
     >
@@ -79,7 +79,7 @@ export const TeamPlanMovesComparison = ({
     >
       <h3
         id={`${idPrefix}-moves-comparison`}
-        className="text-primary font-serif text-sm font-semibold"
+        className="text-primary font-display text-sm font-semibold"
       >
         Moves comparison
       </h3>

@@ -98,7 +98,7 @@ export const CollectibleEntriesSection = ({
       showSeparator
     >
       <BrowseFilterPanel
-        variant="journal"
+        variant="bare"
         className="grid-cols-1 gap-2.5 px-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[minmax(8rem,1fr)_11rem_13rem_12rem] xl:gap-3"
         onSubmit={(event) => event.preventDefault()}
       >

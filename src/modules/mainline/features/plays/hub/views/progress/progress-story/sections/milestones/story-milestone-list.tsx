@@ -34,7 +34,7 @@ const StoryMilestoneRow = ({
       ariaLabel={`Open ${milestone.name} details`}
       className={cn(
         "rounded-none border-x-0 border-t-0 last:border-b-0",
-        selected && "border-app-surface-border/70 bg-primary/5",
+        selected && "border-line bg-primary/5",
       )}
       buttonClassName="grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-3 py-3"
       onSelect={onSelect}
@@ -42,7 +42,7 @@ const StoryMilestoneRow = ({
     >
       <span
         className={cn(
-          "border-app-surface-border text-muted-foreground flex size-8 items-center justify-center rounded-full border text-xs font-semibold tabular-nums",
+          "border-line text-muted-foreground flex size-8 items-center justify-center rounded-full border text-xs font-semibold tabular-nums",
           milestone.isCompleted &&
             "border-primary bg-primary text-primary-foreground",
           selected &&
@@ -130,10 +130,10 @@ const StoryMilestoneSection = ({
 }) => {
   return (
     <section aria-labelledby={`story-section-${section.id}`}>
-      <div className="border-app-surface-border/60 bg-muted/20 flex items-center justify-between gap-3 border-y px-3 py-2">
+      <div className="border-line bg-muted/20 flex items-center justify-between gap-3 border-y px-3 py-2">
         <h3
           id={`story-section-${section.id}`}
-          className="font-serif text-sm font-semibold"
+          className="font-display text-sm font-semibold"
         >
           {section.name}
         </h3>
@@ -247,7 +247,7 @@ export const StoryMilestoneList = ({
       showSeparator
     >
       <BrowseFilterPanel
-        variant="journal"
+        variant="bare"
         className="grid-cols-1 gap-2.5 px-3"
         onSubmit={(event) => {
           event.preventDefault();

@@ -46,7 +46,7 @@ export const GamePokedexFilterForm = ({
 
   return (
     <CodexFilterPanel
-      variant="journal"
+      variant="bare"
       className="gap-2 lg:grid-cols-[minmax(18rem,1fr)_minmax(0,10.5rem)] lg:gap-3"
       onSubmit={(event) => {
         event.preventDefault();

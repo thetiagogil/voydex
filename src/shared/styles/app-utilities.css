@@ -1,90 +1,79 @@
-@layer utilities {
-  .app-background-hero-overlay {
-    background: var(--app-background-overlay-hero);
-  }
+/*
+ * A Play's context colour. Set --game and --gt on the element (see
+ * getGameColourStyle) and its tints are recomputed here, so everything inside
+ * wears that game.
+ */
+@utility game-scope {
+  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
+  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
+  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
+  --game-deep: color-mix(in oklab, var(--game) 72%, #000);
+  --on-game: oklch(from var(--game) clamp(0.27, (0.64 - l) * 1000, 1) 0.012 70);
+  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
+  --select-ink: color-mix(in oklab, var(--game) 62%, var(--ink));
+}
 
-  .app-background-intro-overlay {
-    background: linear-gradient(
-      180deg,
-      var(--app-background-overlay-hero) 0%,
-      var(--app-background-overlay-intro) 42%,
-      var(--app-background-overlay-page) 100%
+/* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
+@utility type-tint {
+  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+}
+
+/* The dotted texture. Only the Play header wears it. */
+@utility play-texture {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(
+      rgb(255 255 255 / 0.55) 1.6px,
+      transparent 1.7px
     );
-    backdrop-filter: blur(1px) saturate(1.06);
-    -webkit-backdrop-filter: blur(1px) saturate(1.06);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(100deg, transparent 45%, #000 90%);
+    pointer-events: none;
   }
+}
 
-  .app-background-page-overlay {
-    background: var(--app-background-overlay-page);
-  }
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
-  .app-nav-surface {
-    color: var(--app-nav-foreground);
-  }
-
-  .app-nav-surface-initial .app-module-trigger {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-  }
-
-  .app-page-surface {
-    background-color: var(--app-journal-surface);
-    background-image: url("/design/journal-paper-texture.webp");
-    background-position: top center;
-    background-repeat: repeat;
-    background-size: 72rem 72rem;
-    border-inline: 1px solid var(--app-surface-border);
-    box-shadow:
-      0 0 68px -46px oklch(0.24 0.045 62 / 0.46),
-      1px 0 0 oklch(1 0 0 / 0.68) inset,
-      -1px 0 0 oklch(1 0 0 / 0.68) inset;
-  }
-
-  .app-module-trigger {
-    color: var(--app-nav-foreground);
-    background: oklch(1 0 0 / 0.58);
-    border: 1px solid var(--app-nav-outline);
-    box-shadow: 0 3px 10px -7px oklch(0.26 0.04 67 / 0.48);
-  }
-
-  .app-module-trigger:hover,
-  .app-module-trigger:focus,
-  .app-module-trigger[data-open],
-  .app-module-trigger[data-popup-open] {
-    color: var(--app-nav-foreground);
-    background: var(--app-nav-hover);
-  }
-
-  .app-nav-icon-control {
-    color: var(--app-nav-foreground);
-    border: 1px solid transparent;
-  }
-
-  .app-nav-icon-control:hover,
-  .app-nav-icon-control:focus,
-  .app-nav-icon-control[aria-expanded="true"] {
-    color: var(--app-nav-foreground);
-    background: var(--app-nav-hover);
-    border-color: var(--app-nav-outline);
-  }
-
-  .app-background-fade {
-    background: linear-gradient(
-      90deg,
-      var(--background) 0%,
-      transparent 18%,
-      transparent 82%,
-      var(--background) 100%
-    );
-  }
-
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Motion is a reward: slap and pop play only at the moment something is recorded. */
+@theme {
+  --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+
+  @keyframes slap {
+    0% {
+      transform: scale(2) rotate(-20deg);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(0.92) rotate(6deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(var(--tilt, 0deg));
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1.12) rotate(-3deg);
+    }
+    60% {
+      transform: scale(0.97) rotate(1deg);
+    }
+    100% {
+      transform: scale(1) rotate(0);
+    }
   }
 }

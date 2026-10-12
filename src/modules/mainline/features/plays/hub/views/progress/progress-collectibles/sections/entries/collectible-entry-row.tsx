@@ -35,7 +35,7 @@ export const CollectibleEntryRow = ({
       <div className="pointer-events-none relative z-10 grid min-w-0 grid-cols-[2.25rem_minmax(0,1fr)_auto] items-center gap-x-3 px-3 py-2.5 lg:grid-cols-[2.25rem_minmax(9rem,0.85fr)_minmax(16rem,1.65fr)_auto]">
         <span
           className={cn(
-            "border-app-surface-border text-muted-foreground flex size-8 items-center justify-center rounded-full border text-xs font-semibold tabular-nums",
+            "border-line text-muted-foreground flex size-8 items-center justify-center rounded-full border text-xs font-semibold tabular-nums",
             isCollected && "border-primary bg-primary text-primary-foreground",
           )}
         >
@@ -47,7 +47,7 @@ export const CollectibleEntryRow = ({
         </span>
 
         <span className="grid min-w-0 gap-1">
-          <span className="truncate font-serif text-sm font-semibold">
+          <span className="truncate font-display text-sm font-semibold">
             {entry.name}
           </span>
           <span className="grid min-w-0 gap-0.5 lg:hidden">

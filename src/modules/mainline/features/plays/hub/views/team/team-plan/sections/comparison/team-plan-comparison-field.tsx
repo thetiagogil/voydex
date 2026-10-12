@@ -56,8 +56,8 @@ export const TeamPlanComparisonResult = ({
             matches === null
               ? "border-muted-foreground/25 text-muted-foreground"
               : matches
-                ? "border-success/30 bg-success/8 text-success"
-                : "border-warning/30 bg-warning/8 text-warning",
+                ? "border-ok-line bg-ok-soft text-ok"
+                : "border-warn/50 bg-warn-soft text-warn-ink",
           )}
           aria-label={description}
         />

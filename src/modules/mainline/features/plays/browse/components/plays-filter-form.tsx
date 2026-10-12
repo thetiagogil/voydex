@@ -41,7 +41,7 @@ export const PlaysFilterForm = ({
 
   return (
     <BrowseFilterPanel
-      variant="journal"
+      variant="bare"
       className="pb-1"
       onSubmit={(event) => {
         event.preventDefault();

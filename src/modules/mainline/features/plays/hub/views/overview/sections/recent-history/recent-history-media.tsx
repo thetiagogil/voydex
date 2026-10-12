@@ -6,7 +6,7 @@ const TimelineMediaFallback = ({ name }: Pick<TimelineMediaItem, "name">) => {
     <span
       aria-label={`${name} image unavailable`}
       title={`${name} image unavailable`}
-      className="border-app-surface-border bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border text-sm font-semibold"
+      className="border-line bg-muted/30 text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-md border text-sm font-semibold"
     >
       ?
     </span>
@@ -31,7 +31,7 @@ export const RecentHistoryMedia = ({
             alt={`${item.name} portrait`}
             imageUrl={item.imageUrl}
             sizes="2.5rem"
-            className="border-app-surface-border bg-muted/30 size-10 rounded-md"
+            className="border-line bg-muted/30 size-10 rounded-md"
             glowClassName="opacity-0"
             imageClassName="p-0.5"
           />

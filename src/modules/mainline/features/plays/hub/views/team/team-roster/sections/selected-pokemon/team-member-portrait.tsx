@@ -16,7 +16,7 @@ export const TeamMemberPortrait = ({
       imageUrl={getPlayTeamMemberImageUrl(member)}
       fallbackOnError
       sizes="(min-width: 1280px) 16rem, (min-width: 768px) 13rem, 70vw"
-      className="border-app-surface-border/70 bg-background/45 w-full max-w-64 justify-self-center rounded-lg"
+      className="border-line bg-surface-2 w-full max-w-64 justify-self-center rounded-lg"
       glowClassName="opacity-0"
       imageClassName="p-2"
     />

@@ -50,7 +50,7 @@ export const TeamHistorySection = ({
       contentClassName="grid gap-0 py-0"
       showSeparator
     >
-      <div className="border-app-surface-border/60 border-b py-3">
+      <div className="border-line border-b py-3">
         <TeamHistoryToolbar
           eventCount={events.length}
           eventType={filters.eventType}
@@ -77,7 +77,7 @@ export const TeamHistorySection = ({
           ))}
         </ol>
       ) : (
-        <Empty className="border-app-surface-border/60 min-h-52 rounded-lg border px-6 py-10">
+        <Empty className="border-line min-h-52 rounded-lg border px-6 py-10">
           <EmptyHeader>
             <EmptyTitle>
               {hasFilters

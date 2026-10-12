@@ -9,31 +9,31 @@ import { cn } from "@/shared/utils/cn";
 const statusConfig = {
   "alternate-form": {
     icon: appIcons.product.formChanged,
-    tone: "border-info/30 bg-info/8 text-info",
+    tone: "border-line bg-surface-2 text-ink-2",
   },
   "branched-evolution": {
     icon: appIcons.actions.move,
-    tone: "border-warning/30 bg-warning/8 text-warning",
+    tone: "border-warn/50 bg-warn-soft text-warn-ink",
   },
   "build-differs": {
     icon: appIcons.status.warning,
-    tone: "border-warning/30 bg-warning/8 text-warning",
+    tone: "border-warn/50 bg-warn-soft text-warn-ink",
   },
   "earlier-evolution": {
     icon: appIcons.product.evolved,
-    tone: "border-info/30 bg-info/8 text-info",
+    tone: "border-line bg-surface-2 text-ink-2",
   },
   exact: {
     icon: appIcons.status.active,
-    tone: "border-success/30 bg-success/8 text-success",
+    tone: "border-ok-line bg-ok-soft text-ok",
   },
   "exact-match": {
     icon: appIcons.status.active,
-    tone: "border-success/30 bg-success/8 text-success",
+    tone: "border-ok-line bg-ok-soft text-ok",
   },
   "later-evolution": {
     icon: appIcons.product.evolved,
-    tone: "border-info/30 bg-info/8 text-info",
+    tone: "border-line bg-surface-2 text-ink-2",
   },
   "not-found": {
     icon: appIcons.status.unknown,
@@ -41,7 +41,7 @@ const statusConfig = {
   },
   replaced: {
     icon: appIcons.product.replaced,
-    tone: "border-warning/30 bg-warning/8 text-warning",
+    tone: "border-warn/50 bg-warn-soft text-warn-ink",
   },
   retired: {
     icon: appIcons.product.retired,

@@ -51,7 +51,7 @@ export const GamePokedexTable = ({
     statColumns.length === 5 ? "grid-cols-5" : "grid-cols-6";
 
   return (
-    <Card className="bg-card ring-app-surface-border/80 gap-0 p-0 shadow-xs">
+    <Card className="bg-card ring-line gap-0 p-0 shadow-xs">
       <Table
         className={`${getGamePokedexTableMinWidthClassName(
           hasAbilities,
@@ -133,7 +133,7 @@ export const GamePokedexTable = ({
                     entry.species.slug,
                   )}
                   aria-label={`Open ${entry.species.name} in ${data.game.name}`}
-                  className="text-foreground focus-visible:ring-ring group-hover:text-primary hover:text-primary rounded-sm font-serif text-base font-semibold transition-colors after:absolute after:inset-0 after:content-[''] focus-visible:ring-2 focus-visible:outline-none xl:after:hidden"
+                  className="text-foreground focus-visible:ring-ring group-hover:text-primary hover:text-primary rounded-sm font-display text-base font-semibold transition-colors after:absolute after:inset-0 after:content-[''] focus-visible:ring-2 focus-visible:outline-none xl:after:hidden"
                 >
                   {entry.species.name}
                 </Link>

@@ -18,7 +18,7 @@ export const CodexGenerationSection = ({
         <h2 className="text-foreground shrink-0 text-lg leading-7 font-semibold">
           {title}
         </h2>
-        <div className="bg-app-surface-border/70 h-px min-w-8 flex-1" />
+        <div className="bg-line h-px min-w-8 flex-1" />
       </div>
       {children}
     </section>

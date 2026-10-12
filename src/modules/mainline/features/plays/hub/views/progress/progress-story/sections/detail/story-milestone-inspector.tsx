@@ -21,7 +21,7 @@ export const StoryMilestoneInspector = ({
           <StoryMilestoneIdentity
             milestone={milestone}
             title={
-              <h2 className="text-primary font-serif text-xl font-semibold">
+              <h2 className="text-primary font-display text-xl font-semibold">
                 {milestone.name}
               </h2>
             }

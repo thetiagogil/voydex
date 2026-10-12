@@ -39,13 +39,13 @@ export const TeamMemberDetailSheet = ({
         className="overflow-y-auto data-[side=right]:w-full sm:max-w-xl"
         initialFocus={titleRef}
       >
-        <SheetHeader className="border-app-surface-border/60 border-b pr-12">
+        <SheetHeader className="border-line border-b pr-12">
           <div className="flex items-start justify-between gap-3">
             <div className="grid min-w-0 gap-0.5">
               <SheetTitle
                 ref={titleRef}
                 tabIndex={-1}
-                className="font-serif text-lg font-semibold outline-none"
+                className="font-display text-lg font-semibold outline-none"
               >
                 {member ? getTeamMemberName(member) : "Team member"}
               </SheetTitle>

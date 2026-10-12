@@ -31,7 +31,7 @@ export const TeamRosterRow = ({
         role="listitem"
         variant="outline"
         size="sm"
-        className="border-app-surface-border/60 grid min-h-12 grid-cols-[1.5rem_minmax(0,1fr)_2.75rem_3.25rem_2rem] items-center gap-2 border-dashed bg-transparent px-2 py-1.5"
+        className="border-line grid min-h-12 grid-cols-[1.5rem_minmax(0,1fr)_2.75rem_3.25rem_2rem] items-center gap-2 border-dashed bg-transparent px-2 py-1.5"
       >
         <TeamSlotLabel label={label} />
         <span className="text-muted-foreground col-span-4 truncate text-sm">
@@ -74,7 +74,7 @@ export const TeamRosterRow = ({
           imageUrl={getPlayTeamMemberImageUrl(member)}
           fallbackOnError
           sizes="2.25rem"
-          className="border-app-surface-border/60 bg-background/50 size-9 rounded-md"
+          className="border-line bg-surface-2 size-9 rounded-md"
           glowClassName="opacity-0"
           imageClassName="p-1"
         />

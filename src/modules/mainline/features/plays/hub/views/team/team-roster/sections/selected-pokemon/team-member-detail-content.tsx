@@ -73,7 +73,7 @@ export const TeamMemberDetailContent = ({
     <div className="grid gap-4">
       <TeamMemberIdentity action={identityAction} member={member} />
 
-      <Separator className="bg-app-surface-border/60" />
+      <Separator className="bg-line" />
 
       <section
         aria-label="Selected Pokémon details"
@@ -85,11 +85,11 @@ export const TeamMemberDetailContent = ({
 
         <section
           aria-labelledby="team-member-build-heading"
-          className="border-app-surface-border/60 grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
+          className="border-line grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
         >
           <h3
             id="team-member-build-heading"
-            className="text-primary font-serif text-base font-semibold"
+            className="text-primary font-display text-base font-semibold"
           >
             Build
           </h3>
@@ -118,11 +118,11 @@ export const TeamMemberDetailContent = ({
 
         <section
           aria-labelledby="team-member-origin-heading"
-          className="border-app-surface-border/60 grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
+          className="border-line grid min-w-0 content-start gap-2 border-t pt-4 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-5"
         >
           <h3
             id="team-member-origin-heading"
-            className="text-primary font-serif text-base font-semibold"
+            className="text-primary font-display text-base font-semibold"
           >
             Origin
           </h3>
@@ -146,20 +146,20 @@ export const TeamMemberDetailContent = ({
         </section>
       </section>
 
-      <Separator className="bg-app-surface-border/60" />
+      <Separator className="bg-line" />
 
       <TeamMemberMoves moves={member.moves} />
 
       {member.personal_notes ? (
         <>
-          <Separator className="bg-app-surface-border/60" />
+          <Separator className="bg-line" />
           <section
             aria-labelledby="team-member-notes-heading"
             className="grid gap-2"
           >
             <h3
               id="team-member-notes-heading"
-              className="text-primary font-serif text-base font-semibold"
+              className="text-primary font-display text-base font-semibold"
             >
               Notes
             </h3>
@@ -170,7 +170,7 @@ export const TeamMemberDetailContent = ({
         </>
       ) : null}
 
-      <Separator className="bg-app-surface-border/60" />
+      <Separator className="bg-line" />
 
       <TeamMemberActions gameSlug={gameSlug} member={member} />
     </div>

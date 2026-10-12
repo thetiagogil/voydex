@@ -34,8 +34,8 @@ export const CollectibleLocationSection = ({
 
   return (
     <section aria-labelledby={headingId} aria-busy={isPending}>
-      <div className="border-app-surface-border/60 bg-muted/20 flex min-h-11 flex-wrap items-center justify-between gap-3 border-y px-3 py-2">
-        <h3 id={headingId} className="font-serif text-sm font-semibold">
+      <div className="border-line bg-muted/20 flex min-h-11 flex-wrap items-center justify-between gap-3 border-y px-3 py-2">
+        <h3 id={headingId} className="font-display text-sm font-semibold">
           {label}
         </h3>
 
@@ -69,7 +69,7 @@ export const CollectibleLocationSection = ({
         </div>
       </div>
 
-      <div role="list" className="divide-app-surface-border/60 grid divide-y">
+      <div role="list" className="divide-line grid divide-y">
         {entries.map((entry) => (
           <CollectibleEntryRow
             key={entry.id}

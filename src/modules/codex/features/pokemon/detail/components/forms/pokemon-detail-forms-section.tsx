@@ -50,7 +50,7 @@ export const PokemonDetailFormsSection = ({
             })}
             aria-current={isActive ? "true" : undefined}
             className={cn(
-              "border-app-surface-border/70 bg-background/70 focus-visible:ring-primary focus-visible:ring-offset-background hover:bg-muted/60 min-w-0 rounded-lg border p-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+              "border-line bg-surface-2 focus-visible:ring-primary focus-visible:ring-offset-background hover:bg-muted/60 min-w-0 rounded-lg border p-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               isActive && "border-primary/45 bg-primary/5",
             )}
             onClick={() => {

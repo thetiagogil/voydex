@@ -38,7 +38,7 @@ export const PokemonDetailAvailabilityRow = ({
 
   return (
     <article
-      className={`${pokemonDetailSectionTableGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
+      className={`${pokemonDetailSectionTableGridClassName} border-line border-t px-4 py-3`}
     >
       <div className="grid min-w-0 gap-1">
         <div className="text-muted-foreground text-xs lg:hidden">Content</div>

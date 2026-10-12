@@ -96,7 +96,7 @@ const PokemonDetailTypeMatchupMobileCell = ({
   column: PokemonDetailTypeMatchupChartColumn;
 }) => {
   return (
-    <div className="border-app-surface-border/70 bg-background/60 flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2 py-1.5">
+    <div className="border-line bg-surface-2 flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2 py-1.5">
       <PokemonTypeBadge
         type={column.attackingType}
         label={column.typeLabel}

@@ -17,7 +17,7 @@ export const TeamHistoryPokemonIdentity = ({
       imageUrl={pokemon.imageUrl}
       sizes="3rem"
       className={cn(
-        "border-app-surface-border bg-muted/30 size-12 shrink-0 rounded-lg",
+        "border-line bg-muted/30 size-12 shrink-0 rounded-lg",
         className,
       )}
       glowClassName="opacity-0"

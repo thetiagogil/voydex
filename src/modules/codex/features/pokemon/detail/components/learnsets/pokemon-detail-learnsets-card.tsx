@@ -99,7 +99,7 @@ export const PokemonDetailLearnsetsCard = ({
             </div>
           </div>
 
-          <Separator className="bg-app-surface-border/60" />
+          <Separator className="bg-line" />
 
           <div>
             <div
@@ -131,7 +131,7 @@ export const PokemonDetailLearnsetsCard = ({
                 ))}
               </div>
             ) : (
-              <div className="border-app-surface-border/60 text-muted-foreground border-t px-4 py-5 text-sm">
+              <div className="border-line text-muted-foreground border-t px-4 py-5 text-sm">
                 No moves match the current filters.
               </div>
             )}

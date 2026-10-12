@@ -6,7 +6,7 @@ import { cn } from "@/shared/utils/cn";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
 import type { GameCard } from "@/modules/reference/types";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type GamesGridProps = {
@@ -62,9 +62,9 @@ const GamesGridCard = ({
     <Link
       href={appRoutes.codexGame(card.game.slug)}
       aria-label={`Open ${card.game.name} game guide`}
-      style={getPokemonGameColorCssVariables(card.game.slug)}
+      style={getGameColourStyle(card.game.slug)}
       className={cn(
-        "group focus-visible:ring-ring focus-visible:ring-offset-background border-app-surface-border/80 bg-card block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-(--pokemon-game-color)/55 hover:shadow-md focus-visible:border-(--pokemon-game-color)/70 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "game-scope group focus-visible:ring-ring focus-visible:ring-offset-background border-line bg-card block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-game hover:shadow-md focus-visible:border-game focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
       )}
     >
       <article className="flex h-full flex-col overflow-hidden rounded-[inherit]">
@@ -80,7 +80,7 @@ const GamesGridCard = ({
             />
           ) : (
             <div className="relative flex h-full flex-col items-center justify-center gap-2 px-5 text-center">
-              <div className="flex size-11 items-center justify-center rounded-lg bg-(--pokemon-game-color)/12 text-sm font-black text-(--pokemon-game-color)">
+              <div className="flex size-11 items-center justify-center rounded-lg bg-game-soft text-sm font-black text-game">
                 {getGameInitials(card.game.name)}
               </div>
               <p className="text-muted-foreground text-xs leading-4 font-semibold">
@@ -97,7 +97,7 @@ const GamesGridCard = ({
                 {metadata}
               </p>
             ) : null}
-            <h3 className="text-foreground truncate font-serif text-sm leading-snug font-semibold sm:text-base lg:text-lg">
+            <h3 className="text-foreground truncate font-display text-sm leading-snug font-semibold sm:text-base lg:text-lg">
               {card.game.name}
             </h3>
           </div>

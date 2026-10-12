@@ -24,7 +24,7 @@ export const CollectibleScopeOverviewSection = ({
         {group.name}
       </h2>
 
-      <Card className="bg-card ring-app-surface-border/80 gap-0 py-0 shadow-xs">
+      <Card className="bg-card ring-line gap-0 py-0 shadow-xs">
         <CardContent className="grid gap-2.5 px-4 py-4 lg:px-5">
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2">
             <CollectibleGroupNavigation

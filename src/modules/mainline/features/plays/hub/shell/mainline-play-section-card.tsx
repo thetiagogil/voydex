@@ -18,10 +18,10 @@ export const MainlinePlaySectionCard = ({
 
   return (
     <DetailSectionCard
-      className={cn("bg-card ring-app-surface-border/80 shadow-xs", className)}
+      className={cn("bg-card ring-line shadow-xs", className)}
       title={<Heading>{title}</Heading>}
       titleClassName={cn(
-        "text-primary font-serif text-base leading-none font-semibold",
+        "text-primary font-display text-base leading-none font-semibold",
         titleClassName,
       )}
       {...props}

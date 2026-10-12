@@ -2,37 +2,49 @@ import { cn } from "@/shared/utils/cn";
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 
+/*
+ * Every button is Nunito. Only the main button (default) carries the green lip
+ * and presses down; secondary buttons are flat with a 1.5px line, cream on the
+ * page and the inset fill inside a card or dialog.
+ */
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding text-sm font-semibold whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/35 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] font-sans whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-150 outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:shadow-sm",
+          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-106 active:not-aria-[haspopup]:translate-y-[5px] active:not-aria-[haspopup]:shadow-none",
         outline:
-          "border-app-surface-border bg-card shadow-xs hover:bg-accent hover:text-accent-foreground aria-expanded:bg-accent aria-expanded:text-accent-foreground aria-pressed:border-primary/40 aria-pressed:bg-primary/8 aria-pressed:text-primary aria-pressed:shadow-none",
+          "border-lip bg-surface font-bold text-ink hover:bg-hover in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:hover:bg-hover in-data-[slot=dialog-content]:bg-surface-2 in-data-[slot=sheet-content]:bg-surface-2 aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "border-lip bg-surface-2 font-bold text-ink hover:bg-hover aria-expanded:bg-hover",
         ghost:
-          "border-transparent hover:bg-accent hover:text-accent-foreground aria-expanded:bg-accent aria-expanded:text-accent-foreground",
+          "border-transparent font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90 hover:shadow-sm focus-visible:border-destructive focus-visible:ring-destructive/25",
-        link: "border-transparent text-primary underline-offset-4 hover:underline",
+          "border-danger-line bg-transparent font-extrabold text-danger hover:bg-danger-soft",
+        link: "border-transparent font-bold text-link underline-offset-4 hover:underline",
       },
       size: {
         default:
-          "h-9 gap-2 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5",
-        xs: "h-7 gap-1 rounded-[min(var(--radius-md),10px)] px-2.5 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 gap-1.5 rounded-[min(var(--radius-md),12px)] px-3 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-10 gap-2 px-4 has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
-        icon: "size-9",
+          "h-11 gap-2 px-4 text-15 has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
+        xs: "h-7 gap-1 rounded-xs px-2.5 text-12 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-9 gap-1.5 rounded-sm px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-13 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
+        icon: "size-11",
         "icon-xs":
-          "size-7 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm":
-          "size-8 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-        "icon-lg": "size-10",
+          "size-7 rounded-xs [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm": "size-9 rounded-sm",
+        "icon-lg": "size-13",
       },
     },
+    compoundVariants: [
+      {
+        variant: "default",
+        size: ["xs", "sm", "icon-xs", "icon-sm"],
+        className:
+          "shadow-[0_3px_0_var(--action-lip)] active:not-aria-[haspopup]:translate-y-[3px]",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",

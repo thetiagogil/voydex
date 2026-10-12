@@ -192,7 +192,7 @@ export const StoryMilestoneEditorForm = ({
           {footerActions}
         </DialogFooter>
       ) : (
-        <SheetFooter className="border-app-surface-border/60 bg-muted/30 flex-row justify-end border-t">
+        <SheetFooter className="border-line bg-muted/30 flex-row justify-end border-t">
           {footerActions}
         </SheetFooter>
       )}

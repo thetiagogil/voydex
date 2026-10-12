@@ -36,10 +36,10 @@ const PokemonDetailCoreDataField = ({
 const PokemonDetailCoreDataSeparator = () => {
   return (
     <>
-      <Separator className="bg-app-surface-border/60 md:hidden" />
+      <Separator className="bg-line md:hidden" />
       <Separator
         orientation="vertical"
-        className="bg-app-surface-border/60 hidden md:block"
+        className="bg-line hidden md:block"
       />
     </>
   );

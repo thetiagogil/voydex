@@ -71,7 +71,7 @@ const MoveCoverageMatrix = ({
   return (
     <div className="hidden md:block">
       <div
-        className="border-app-surface-border/70 text-muted-foreground grid min-w-176 items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
+        className="border-line text-muted-foreground grid min-w-176 items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
         style={{ gridTemplateColumns }}
       >
         <span className="text-left">Defending type</span>
@@ -91,7 +91,7 @@ const MoveCoverageMatrix = ({
         <span className="leading-tight">STAB moves</span>
       </div>
 
-      <div className="divide-app-surface-border/60 divide-y">
+      <div className="divide-line divide-y">
         {rows.map((row) => (
           <div
             key={row.defendingType.id}

@@ -56,10 +56,10 @@ export const StoryMilestoneEditor = ({
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
-          className="border-app-surface-border bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0"
+          className="border-line bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0"
           initialFocus={titleRef}
         >
-          <SheetHeader className="border-app-surface-border/60 border-b pr-12">
+          <SheetHeader className="border-line border-b pr-12">
             <SheetTitle ref={titleRef} tabIndex={-1} className="outline-none">
               {copy.title}
             </SheetTitle>

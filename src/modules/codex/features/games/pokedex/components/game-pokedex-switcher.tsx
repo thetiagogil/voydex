@@ -17,7 +17,7 @@ export const GamePokedexSwitcher = ({ data }: GamePokedexSwitcherProps) => {
   }
 
   return (
-    <section className="border-app-surface-border/70 flex flex-col gap-3 border-y py-3 sm:flex-row sm:items-center sm:justify-between">
+    <section className="border-line flex flex-col gap-3 border-y py-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0">
         <h2
           id="game-pokedex-scope-heading"

@@ -6,7 +6,7 @@ import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/de
 import { GameDetailTopSection } from "@/modules/codex/features/games/detail/components/top-section/game-detail-top-section";
 import { getGameDetailData } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
-import { getPokemonGameColorCssVariables } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 
 type GameDetailPageProps = {
   gameSlug: string;
@@ -21,8 +21,8 @@ export const GameDetailPage = async ({ gameSlug }: GameDetailPageProps) => {
 
   return (
     <div
-      style={getPokemonGameColorCssVariables(data.game.slug)}
-      className="flex w-full min-w-0 flex-col gap-5 sm:gap-6"
+      style={getGameColourStyle(data.game.slug)}
+      className="game-scope flex w-full min-w-0 flex-col gap-5 sm:gap-6"
     >
       <CodexBackLink href={appRoutes.codexGames}>Back to games</CodexBackLink>
 

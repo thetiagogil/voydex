@@ -48,7 +48,7 @@ export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
   const switchHref = buildModeHref(isSignUp ? "log-in" : "sign-up", next);
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
   return (
-    <Card className={cn("bg-card/82 w-full max-w-full", className)}>
+    <Card className={cn("bg-surface w-full max-w-full", className)}>
       <CardHeader className="gap-2">
         <CardTitle className="text-2xl leading-tight font-semibold tracking-normal">
           {title}
@@ -66,7 +66,7 @@ export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                className="bg-background/30 h-10"
+                className="bg-surface-2 h-10"
                 required
               />
             </Field>
@@ -77,7 +77,7 @@ export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
                 name="password"
                 type="password"
                 autoComplete={isSignUp ? "new-password" : "current-password"}
-                className="bg-background/30 h-10"
+                className="bg-surface-2 h-10"
                 required
                 minLength={6}
               />
@@ -92,7 +92,7 @@ export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
                   name="confirmPassword"
                   type="password"
                   autoComplete="new-password"
-                  className="bg-background/30 h-10"
+                  className="bg-surface-2 h-10"
                   required
                   minLength={6}
                 />

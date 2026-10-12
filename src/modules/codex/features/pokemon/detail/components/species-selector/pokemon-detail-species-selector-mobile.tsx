@@ -78,7 +78,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
       </SheetTrigger>
       <SheetContent
         side="bottom"
-        className="border-app-surface-border bg-popover max-h-[86dvh] gap-0 rounded-t-xl p-0 md:hidden"
+        className="border-line bg-popover max-h-[86dvh] gap-0 rounded-t-xl p-0 md:hidden"
       >
         <SheetHeader>
           <SheetTitle>Choose Pokémon</SheetTitle>

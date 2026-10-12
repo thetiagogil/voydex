@@ -11,7 +11,7 @@ const MatchSummary = ({
   comparison: MainlinePlayTeamPlanMemberComparison;
 }) => {
   return (
-    <div className="border-app-surface-border/60 bg-muted/20 rounded-lg border p-3">
+    <div className="border-line bg-muted/20 rounded-lg border p-3">
       <TeamPlanStatus status={comparison.status} detail />
     </div>
   );
@@ -21,8 +21,8 @@ const MemberNotes = ({ notes }: { notes: string | null }) => {
   if (!notes) return null;
 
   return (
-    <section className="border-app-surface-border/60 grid gap-1 border-t pt-3">
-      <h3 className="font-serif text-sm font-semibold">Member notes</h3>
+    <section className="border-line grid gap-1 border-t pt-3">
+      <h3 className="font-display text-sm font-semibold">Member notes</h3>
       <p className="text-muted-foreground text-xs leading-5">{notes}</p>
     </section>
   );

@@ -149,7 +149,7 @@ export const PokemonDetailLearnsetRow = ({
 
   return (
     <article
-      className={`${pokemonDetailLearnsetGridClassName} border-app-surface-border/60 border-t px-4 py-3`}
+      className={`${pokemonDetailLearnsetGridClassName} border-line border-t px-4 py-3`}
     >
       <div className="grid min-w-0 gap-1">
         <div className="text-muted-foreground text-xs lg:hidden">Method</div>

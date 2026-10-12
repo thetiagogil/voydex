@@ -19,7 +19,7 @@ const TeamMemberShinyMark = () => {
           <span
             tabIndex={0}
             aria-label="Shiny Pokémon"
-            className="focus-visible:ring-ring/50 text-warning inline-flex shrink-0 rounded-sm outline-none focus-visible:ring-2"
+            className="focus-visible:ring-ring/50 text-warn-ink inline-flex shrink-0 rounded-sm outline-none focus-visible:ring-2"
           />
         }
       >
@@ -48,7 +48,7 @@ export const TeamMemberIdentity = ({
       <div className="flex min-w-0 flex-1 flex-col gap-2.5 lg:flex-row lg:items-center lg:gap-4">
         <div className="flex min-w-0 flex-col gap-1 lg:flex-row lg:items-center lg:gap-3">
           <div className="flex min-w-0 items-center justify-center gap-2 sm:justify-start">
-            <h3 className="text-primary min-w-0 font-serif text-2xl leading-tight font-semibold">
+            <h3 className="text-primary min-w-0 font-display text-2xl leading-tight font-semibold">
               {memberName}
             </h3>
             {member.is_shiny ? <TeamMemberShinyMark /> : null}

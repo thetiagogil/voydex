@@ -57,8 +57,8 @@ export const getNavigationMenuOptionClassName = ({
   muted: boolean;
 }) => {
   return cn(
-    "min-h-16 items-center gap-3 p-3",
-    active && "bg-accent text-accent-foreground",
+    "min-h-16 items-center gap-3 rounded-sm p-3",
+    active && "bg-select-soft text-select-ink",
     muted && "opacity-65 hover:opacity-100",
     className,
   );
@@ -129,7 +129,7 @@ export const NavigationMenuOption = (props: NavigationMenuOptionProps) => {
           ? undefined
           : (onClick as ComponentPropsWithoutRef<"div">["onClick"])
       }
-      className={cn("flex rounded-md text-sm transition-all", optionClassName)}
+      className={cn("flex text-14 transition-colors", optionClassName)}
     >
       {content}
     </div>

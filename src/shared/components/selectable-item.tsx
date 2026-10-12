@@ -31,7 +31,7 @@ export const SelectableItem = ({
       size="sm"
       data-selected={selected}
       className={cn(
-        "border-app-surface-border/70 hover:bg-accent/35 has-focus-visible:border-ring has-focus-visible:ring-ring/40 grid grid-cols-[minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 has-focus-visible:ring-2",
+        "border-line hover:bg-accent/35 has-focus-visible:border-ring has-focus-visible:ring-ring/40 grid grid-cols-[minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 has-focus-visible:ring-2",
         selected && "border-primary/50 bg-primary/[0.035]",
         className,
       )}
