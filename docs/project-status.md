@@ -120,35 +120,42 @@ the evidence for exact implementation details.
 
 ## Current Product And Design Checkpoint
 
-The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119,
-V1-D120, V1-D122, and V1-D123](./design/v1/decisions.md) define the current
-light-first explorer's navbar, single journal page, compact introduction,
-conventional destination-link direction, Team-owned Plan entry, and full-height
-shell composition within the canonical
-[V1 Visual Language](./design/v1/visual-language.md). [V1-D124](./design/v1/decisions.md#v1-d124--automatic-play-team-plan-comparison)
-defines the implemented read-time Plan comparison and supersedes the earlier
-manual member-link/status model. [V1-D125](./design/v1/decisions.md#v1-d125--route-backed-hierarchical-play-navigation)
-defines the shared route-backed Play shell and compound Team and Progress
-navigation. [V1-D126](./design/v1/decisions.md#v1-d126--progress-opens-story-and-overview-owns-the-aggregate)
-removes the redundant Progress Overall child, makes Story the Progress default,
-and defers final Overview Progress consolidation until the remaining Play views
-are mature.
+The Soft Clay redesign is in progress on the `claude/soft-clay-redesign`
+branch. [ADR 0004](./decisions/0004-soft-clay-design-system.md) records the
+decision, the [Soft Clay Brief](./design/soft-clay-brief.md) is the agreed
+direction, and the [Design System](./app/design-system.md) describes what is
+built. The journal design (the centered journal column, valley background,
+paper texture, DM-era fonts and V1 styling docs) has been removed in place;
+`npm run design:check` fails if any of it is referenced again.
 
-The shared shell, Plays Browse, Play Hub Overview and Team, linked Team Plan
-comparison, Pokémon Browse, and Games Browse now implement the selected system:
-one full-height centered journal column over the refined daylight-valley
-background. The column begins at the top of the viewport, contains the in-flow
-navbar and all page content, fills at least the dynamic viewport height, and
-grows with long content. The landscape remains visible in the two side gutters.
-Primary route links use shared compact buttons; the module selector, account
-access, and actions remain clean controls.
-Compact page introductions, label-free accessible controls, result context, and
-content share the continuous surface without a clipboard frame, inset sheet,
-brass hardware, or repeated nested Cards. The browser owns long-page scrolling
-without a nested vertical scroller. Only surfaces listed under Implemented
-Product Surfaces are production implementation; the remaining screen work is
-still design direction until it is represented in code and verified.
+The first slice is built:
+
+- Soft Clay tokens by role, Fredoka and Nunito, and the type scale.
+- Every shared primitive restyled in place under the same names, plus the new
+  shared pieces: the one Pokémon card, stickers, type chips and dots,
+  medallions and record rows, badge stamps, the segmented control, and the
+  empty state.
+- The app shell on the cream ground with the "V" placeholder logo.
+- The Play header in the game's colour with its dotted texture, cover and
+  tabs, and the docked bar that returns when the header scrolls away.
+- Play Overview: the next objective with the main Record button (it opens
+  Story ready to record that milestone), progress in the game's colour, the
+  active team as stickers, the gym badge case with League stamp, and recent
+  moments with medallions.
+- Play Pokédex: page head with Pokédex pills, a quiet toolbar (search,
+  progress filter pills with counts, marking mode, grid or list), number
+  ranges, and the one Pokémon card in its caught, seen and missing states.
+
+Still open from the brief's first slice: card edges at 3px (current) or v3's
+4px, and whether Nunito on the main button stays warm enough. Both are shown
+side by side with v3 for the owner to decide.
+
+Every other screen already wears the new tokens and primitives but still needs
+its own pass, in the brief's order: Team, Story, History, Analysis, Plan,
+Collectibles, Account settings and Plays; then the new screens (New Play,
+Start a Play, Mainline home, Play settings, the auth screens), the Codex and
+the public site; only then the parked screens. The checkpoints below describe
+their behaviour and layout, which the redesign keeps.
 
 The current production baseline is Plays Browse:
 
@@ -160,40 +167,22 @@ The current production baseline is Plays Browse:
   owner-scoped summary, reference-game, Overview, and Team reads.
 - Missing progress remains distinct from unavailable enrichment; unavailable
   Team data retains six explicit positions instead of silently disappearing.
-- Phone and tablet use stacked journal rows, while compact and wide desktop
+- Phone and tablet use stacked rows, while compact and wide desktop
   restore the horizontal comparison layout so identity and Team remain dominant.
   The selected composition and its realistic occupied/partial fixture states
   have been browser-checked at representative phone, tablet, and desktop widths.
-  The simplified single-journal composition was checked at representative
-  desktop, tablet, and phone widths. The page followed growing content without
-  clipping, horizontal overflow, or a nested vertical scroller. The
-  subsequent navbar refinement kept the opening bar in document flow without a
-  hard lower edge or scroll-triggered replacement, and the mobile module sheet
-  continued to open and close normally.
 
-Play Hub Overview is a completed production design checkpoint:
+Play Hub Overview (Soft Clay):
 
-- The authenticated query, Play identity, cover, metadata, actions, tab order,
-  and four Overview concerns remain intact across three Cards. Journey Status
-  and Progress Summary share the first full-width Card, Current Team follows in
-  a full-width six-slot desktop row, and Recent History completes the stack.
-  Planning is now reached
-  contextually from Team instead of occupying a sixth primary Play area.
-- The contextual header now uses the same serif/forest hierarchy and restrained
-  cover treatment as the other detail views without becoming another Card.
-  Duplicate Team and Pokédex counts were removed from the header so the owning
-  Overview sections remain authoritative.
-- The route-backed workspace is one quiet journal surface. Journey Status, Recent
-  History, Current Team, and Progress Summary use the shared detail-section
-  grammar; the realistic scenic banner, duplicate Story Path visualization,
-  inactive section actions, and Active/Reserve mini-toggle no longer compete
-  with the recorded data.
-- Desktop uses the accepted full-width Journey & Progress, Current Team, and
-  Recent History stack. Team keeps all six equal slots inline on desktop, while
-  tablet and phone use three- and two-column grids without widening the page.
-  Representative authenticated routes were checked at desktop, tablet, and
-  phone widths without page overflow or nested vertical scrolling; keyboard
-  focus remained visible and the browser console stayed clear.
+- Overview reads the Play overview, the active team preview, the last and next
+  milestones, the timeline preview and the badge case (the Play's gym
+  milestones and its Champion milestone with their badge types).
+- The next objective and progress sit side by side on desktop and stack on
+  phones. The team follows as six stickers with dashed open slots, then the
+  badge case beside recent moments. A game without gyms shows recent moments
+  alone.
+- Recent moments list up to three records; while there are fewer, the Play's
+  start closes the list. Gym milestones wear their badge's medallion.
 
 Play Hub Team and its linked Plan comparison have a production implementation
 checkpoint:
@@ -283,12 +272,12 @@ checkpoint:
 Pokémon Browse is a completed production design checkpoint:
 
 - Result cards now use one continuous specimen surface for artwork and identity,
-  with named field-guide type markers beside the number-and-name block instead
+  with named type markers beside the number-and-name block instead
   of realistic type scenery, dark poster overlays, or an internal divider.
 - The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide journal pages. Generation headings retain the section `h2`
+  and four on wide pages. Generation headings retain the section `h2`
   while card species names use nested `h3` headings.
-- Browse controls use the shared label-free journal treatment with explicit
+- Browse controls use the shared label-free control treatment with explicit
   accessible names. Incremental results append automatically in small batches
   before the user reaches the boundary, with a manual compatibility fallback
   when scroll observation is unavailable.
@@ -304,8 +293,8 @@ Pokémon Detail is the current completed visual checkpoint:
 - The realistic portrait scenery has been replaced by the same neutral specimen
   field and restrained type accent used by Browse. Existing Shiny and form
   behavior remain unchanged.
-- Detail sections now use the light journal card grammar, serif primary titles,
-  neutral field-guide type badges, and one semantic primary treatment for stat
+- Detail sections use the shared card grammar, heading titles, type badges,
+  and one semantic primary treatment for stat
   bars and effectiveness emphasis.
 - Wide reference rows become labelled stacked rows inside their existing cards
   on narrow screens, removing page-level horizontal overflow without moving or
@@ -314,13 +303,13 @@ Pokémon Detail is the current completed visual checkpoint:
 Games Browse is a completed production design checkpoint:
 
 - Dark square-poster overlays have been replaced by full, uncropped cover art in
-  the same compact `4:3` field-guide card rhythm as Pokémon Browse. Release year
-  and region sit above the serif game identity on the same warm paper card.
+  the same compact `4:3` card rhythm as Pokémon Browse. Release year and region
+  sit above the game identity on the same card.
 - The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide journal pages. Generation headings remain `h2` sections,
+  and four on wide pages. Generation headings remain `h2` sections,
   while exact game titles use nested `h3` headings inside accessible whole-card
   links.
-- Search, Generation, Game type, and Region use the label-free journal control
+- Search, Generation, Game type, and Region use the label-free control
   treatment without forcing four full-width controls before phone results.
 - URL-backed filters, Platform and `More filters`, result announcements, and
   return-focus restoration in the accepted functional contract remain outside
@@ -329,9 +318,8 @@ Games Browse is a completed production design checkpoint:
 Game Detail is a completed production design checkpoint:
 
 - The existing return, cover, identity, facts, reference action, named
-  Pokédexes, and related-games order remains unchanged. The view now uses the
-  same quiet paper cards, serif editorial hierarchy, and forest-primary action
-  treatment as Pokémon Detail and Games Browse.
+  Pokédexes, and related-games order remains unchanged and shares the card,
+  heading and action treatment of Pokémon Detail and Games Browse.
 - Platforms, Available Pokémon, and Game type are compact labelled facts
   instead of icon tiles, and the generic game-type description no longer poses
   as a game-specific synopsis.
@@ -350,8 +338,8 @@ Game Pokédex is a completed production design checkpoint:
   visible as primary page scope instead of collapsing it into a secondary
   utility menu; single-Pokédex games rely on the heading without showing a
   redundant selector.
-- Wide journal pages retain the exact-game semantic comparison table with
-  explicit species links. Phones use compact divided field-guide rows that keep
+- Wide pages retain the exact-game semantic comparison table with explicit
+  species links. Phones use compact divided rows that keep
   local number, sprite, species, National number, and types visible; tablets
   add labelled base-stat comparison without widening the document.
 - Search and Type retain their existing client-side behavior and now expose a
@@ -365,9 +353,10 @@ Game Pokédex is a completed production design checkpoint:
 
 ## Next Chat Handoff
 
-The current implementation checkpoint is the commit containing this handoff on
-`main`. On the next computer, run `git status`, `git log -1 --oneline`, and
-`npm install` before editing. Preserve unrelated work and confirm the linked
+The Soft Clay redesign is in progress on `claude/soft-clay-redesign`; the
+checkpoint above lists what has moved and the order of what's next. On the
+next computer, run `git status`, `git log -1 --oneline`, and `npm install`
+before editing. Preserve unrelated work and confirm the linked
 Supabase migration list before any later remote database write.
 
 The completed Team slice includes Roster, the read-only Team Plan comparison,
@@ -420,11 +409,12 @@ The Plan acquisition/authoring boundary and game-aware `Add Pokémon` picker
 remain independent later slices. Roster movement, lifecycle actions, and Past
 Members also remain separate increments.
 
-Do not add another background, dark mode, sticky replacement navigation,
-Skeletons, decorative edge systems, or a broad cross-page refactor while this
-slice is active. Database work requires a current contract gap, authored-source
-changes, local `npm run db:verify`, an explicit remote-write gate, and linked
-migration parity.
+On the Soft Clay redesign branch, broad cross-page refactors are expected: each
+screen moves to the new system and deletes its old parts. Do not add dark
+mode, Skeletons, a new logo, or screens the app doesn't have yet (Team
+Planner, Statistics) as part of the redesign. Database work requires a current
+contract gap, authored-source changes, local `npm run db:verify`, an explicit
+remote-write gate, and linked migration parity.
 
 Future design and implementation tasks start from the canonical screen-family
 document, accepted decisions, design system, current code, and verified
@@ -444,8 +434,7 @@ selected behavior that future work must preserve belongs in versioned docs.
   built.
 - Codex Game Pokédex search and Type state remain client-only, all matching
   entries render at once, and optional-content Pokédexes are not yet grouped
-  into the owning game route. The selected journal visual slice is complete,
-  but those accepted functional gaps remain.
+  into the owning game route. Those accepted functional gaps remain.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted V1 contract is
   complete.

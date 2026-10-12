@@ -16,16 +16,16 @@ export const PageHeader = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between",
+        "flex flex-col gap-4 pt-4 sm:flex-row sm:items-end sm:justify-between sm:pt-6",
         className,
       )}
     >
       <div className="min-w-0">
-        <h1 className="text-primary font-display text-3xl leading-tight font-semibold tracking-[-0.025em] sm:text-4xl lg:text-[2.75rem]">
+        <h1 className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]">
           {title}
         </h1>
         {description ? (
-          <p className="text-muted-foreground mt-2 max-w-3xl text-sm leading-6 sm:text-base">
+          <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
             {description}
           </p>
         ) : null}

@@ -9,13 +9,16 @@ diagnosing, with complete gates available before merging.
 npm run verify
 ```
 
-The command runs documentation validation, formatting, lint, type-checking,
-architecture boundaries, Vitest, and the production build.
+The command runs documentation validation, the retired-design guard,
+formatting, lint, type-checking, architecture boundaries, Vitest, and the
+production build. `design:check` fails on any reference to the journal design
+that Soft Clay replaced; see [Design System](./design-system.md).
 
 Individual commands remain available:
 
 ```bash
 npm run docs:check
+npm run design:check
 npm run format:check
 npm run lint
 npm run typecheck
