@@ -10,7 +10,7 @@ export const LogoMark = ({ className }: LogoMarkProps) => {
     <span
       aria-hidden
       className={cn(
-        "bg-action font-display inline-grid size-9 place-items-center rounded-sm text-20 leading-none font-semibold text-white",
+        "bg-action font-display text-20 inline-grid size-9 place-items-center rounded-sm leading-none font-semibold text-white",
         className,
       )}
     >

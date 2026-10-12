@@ -26,11 +26,7 @@ const statusDotClassNames: Record<string, string> = {
 };
 
 const getEyebrow = (data: MainlinePlayShellData) => {
-  return [
-    data.play.game_name,
-    data.region?.name,
-    data.play.generation_name,
-  ]
+  return [data.play.game_name, data.region?.name, data.play.generation_name]
     .filter(Boolean)
     .join(" · ");
 };
@@ -118,7 +114,7 @@ export const MainlinePlayTopInfo = ({
       >
         {getPlayTitle(data)}
       </h1>
-      <dl className="text-ink-2 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-13 font-semibold sm:text-14">
+      <dl className="text-ink-2 text-13 sm:text-14 flex flex-wrap items-center gap-x-3.5 gap-y-2 font-semibold">
         <div className="contents">
           <dt className="sr-only">Status</dt>
           <dd>

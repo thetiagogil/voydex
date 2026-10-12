@@ -7,8 +7,7 @@ import { cn } from "@/shared/utils/cn";
 const browseFilterPanelVariants = cva("grid gap-3", {
   variants: {
     variant: {
-      default:
-        "rounded-xl bg-surface p-4 text-ink shadow-card",
+      default: "rounded-xl bg-surface p-4 text-ink shadow-card",
       bare: "bg-transparent text-ink",
     },
   },

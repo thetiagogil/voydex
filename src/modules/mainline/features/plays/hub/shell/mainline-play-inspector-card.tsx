@@ -25,10 +25,7 @@ export const MainlinePlayInspectorCard = ({
   ...props
 }: MainlinePlayInspectorCardProps) => {
   return (
-    <Card
-      className={cn("gap-0 py-0", className)}
-      {...props}
-    >
+    <Card className={cn("gap-0 py-0", className)} {...props}>
       <CardHeader className="sr-only">
         <CardTitle>
           <h2>{accessibilityTitle}</h2>

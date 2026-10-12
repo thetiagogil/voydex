@@ -16,7 +16,7 @@ export const Logo = ({
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark className={cn("size-8 shrink-0", markClassName)} />
       {showText ? (
-        <span className="font-display hidden text-20 leading-none font-semibold sm:inline">
+        <span className="font-display text-20 hidden leading-none font-semibold sm:inline">
           <span className="text-ink">Voydex</span>
         </span>
       ) : null}

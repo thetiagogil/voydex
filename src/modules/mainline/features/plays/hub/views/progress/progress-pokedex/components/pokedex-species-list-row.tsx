@@ -56,7 +56,7 @@ export const PokedexSpeciesListRow = ({
         />
 
         <span className="grid min-w-0 gap-1">
-          <span className="truncate font-display text-sm font-semibold">
+          <span className="font-display truncate text-sm font-semibold">
             {entry.speciesName}
           </span>
           {entry.displayFormName ? (

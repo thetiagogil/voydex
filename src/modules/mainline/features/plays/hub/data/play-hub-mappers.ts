@@ -20,6 +20,10 @@ import type {
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  buildMainlinePlayBadgeCase,
+  type MainlinePlayBadgeCaseRows,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
@@ -50,6 +54,7 @@ export const buildMainlinePlayShellData = (params: {
 };
 
 export const buildMainlinePlayOverviewData = (params: {
+  badgeCaseRows: MainlinePlayBadgeCaseRows;
   milestones: MainlinePlayMilestoneRows;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
@@ -57,6 +62,7 @@ export const buildMainlinePlayOverviewData = (params: {
   timelinePreview: MainlinePlayTimelineEvent[];
 }): MainlinePlayOverviewData => {
   return {
+    badgeCase: buildMainlinePlayBadgeCase(params.badgeCaseRows),
     lastCompletedMilestone: params.milestones.lastCompletedMilestone,
     nextMilestone: params.milestones.nextMilestone,
     overview: params.overview,

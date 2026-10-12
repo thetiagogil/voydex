@@ -129,7 +129,7 @@ export const NavigationMenuOption = (props: NavigationMenuOptionProps) => {
           ? undefined
           : (onClick as ComponentPropsWithoutRef<"div">["onClick"])
       }
-      className={cn("flex text-14 transition-colors", optionClassName)}
+      className={cn("text-14 flex transition-colors", optionClassName)}
     >
       {content}
     </div>

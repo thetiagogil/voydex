@@ -97,7 +97,7 @@ export const IntroPage = () => {
           </div>
         </div>
 
-        <aside className="bg-surface w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 shadow-card sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
+        <aside className="bg-surface shadow-card w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
           <div className="flex flex-col">
             {companionAreas.map((area) => {
               return (
@@ -121,7 +121,7 @@ export const IntroPage = () => {
         </aside>
       </section>
 
-      <section className="bg-surface w-full max-w-88 overflow-hidden rounded-xl p-5 shadow-card sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
+      <section className="bg-surface shadow-card w-full max-w-88 overflow-hidden rounded-xl p-5 sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start">
           <div className="max-w-xl">
             <h2 className="text-2xl leading-tight font-semibold tracking-normal sm:text-3xl">

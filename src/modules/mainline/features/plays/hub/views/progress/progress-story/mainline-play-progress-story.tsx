@@ -17,32 +17,46 @@ import type { MainlinePlayProgressStoryData, StoryMilestone } from "./types";
 export const MainlinePlayProgressStory = ({
   data,
   playId,
+  recordMilestoneId = null,
 }: {
   data: MainlinePlayProgressStoryData;
   playId: string;
+  /* Opens straight into recording this milestone, as Overview's Record button asks. */
+  recordMilestoneId?: number | null;
 }) => {
   const model = useMemo(() => buildStoryProgressModel(data), [data]);
   const usesDetailSheet = useMainlinePlayDetailSheetLayout();
+  const recordMilestone =
+    model.scopes
+      .flatMap((scope) =>
+        scope.sections.flatMap((section) => section.milestones),
+      )
+      .find(
+        (milestone) =>
+          milestone.id === recordMilestoneId &&
+          milestone.isAvailable &&
+          !milestone.isCompleted,
+      ) ?? null;
+  const initialMilestoneId = recordMilestone?.id ?? model.defaultMilestoneId;
   const defaultScope =
     model.scopes.find((scope) =>
       scope.sections.some((section) =>
         section.milestones.some(
-          (milestone) => milestone.id === model.defaultMilestoneId,
+          (milestone) => milestone.id === initialMilestoneId,
         ),
       ),
     ) ?? model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
   const [query, setQuery] = useState("");
-  const [selectedMilestoneId, setSelectedMilestoneId] = useState(
-    model.defaultMilestoneId,
-  );
+  const [selectedMilestoneId, setSelectedMilestoneId] =
+    useState(initialMilestoneId);
   const [isDetailSheetOpen, setIsDetailSheetOpen] = useState(false);
   const [editorIntent, setEditorIntent] =
     useState<StoryMilestoneActionIntent>("complete");
   const [editorMilestoneId, setEditorMilestoneId] = useState<number | null>(
-    null,
+    recordMilestone?.id ?? null,
   );
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
     defaultScope ??

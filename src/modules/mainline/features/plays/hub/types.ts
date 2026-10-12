@@ -11,6 +11,7 @@ import type {
   VersionGroup,
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -213,6 +214,7 @@ export type MainlinePlayShellData = {
 };
 
 export type MainlinePlayOverviewData = {
+  badgeCase: BadgeCase | null;
   lastCompletedMilestone: MainlinePlayMilestone | null;
   nextMilestone: MainlinePlayMilestone | null;
   overview: MainlinePlayOverview | null;

@@ -1,8 +1,9 @@
+import { appRoutes } from "@/config/routes";
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
-import { appIcons, type AppIconComponent } from "@/shared/components/app-icon";
 
 export type ProgressSummaryItem = {
-  icon: AppIconComponent;
+  detail: string;
+  href: string;
   label: string;
   percent: number;
 };
@@ -33,8 +34,9 @@ const getProgressPercent = (
 
 const createProgressSummaryItem = (params: {
   completedCount: number | null | undefined;
+  detail: string;
   explicitPercent: number | null | undefined;
-  icon: AppIconComponent;
+  href: string;
   label: string;
   totalCount: number | null | undefined;
 }): ProgressSummaryItem | null => {
@@ -43,7 +45,8 @@ const createProgressSummaryItem = (params: {
   }
 
   return {
-    icon: params.icon,
+    detail: params.detail,
+    href: params.href,
     label: params.label,
     percent: getProgressPercent(
       params.explicitPercent,
@@ -55,6 +58,7 @@ const createProgressSummaryItem = (params: {
 
 export const getProgressSummaryItems = (
   overview: MainlinePlayOverview | null,
+  playId: string,
 ): ProgressSummaryItem[] => {
   const storyCompletedCount =
     overview?.completed_required_milestone_count ?? null;
@@ -70,22 +74,29 @@ export const getProgressSummaryItems = (
   return [
     createProgressSummaryItem({
       completedCount: storyCompletedCount,
+      detail: `${storyCompletedCount ?? 0} of ${storyTotalCount ?? 0} milestones`,
       explicitPercent: overview?.milestone_completion_percent,
-      icon: appIcons.views.mainline.story,
+      href: appRoutes.mainlinePlayProgressStory(playId),
       label: "Story",
       totalCount: storyTotalCount,
     }),
     createProgressSummaryItem({
       completedCount: pokedexCompletedCount,
+      detail: [
+        `${pokedexCompletedCount ?? 0} caught`,
+        `${overview?.seen_required_pokedex_species_count ?? 0} seen`,
+        `of ${pokedexTotalCount ?? 0}`,
+      ].join(" · "),
       explicitPercent: overview?.pokedex_completion_percent,
-      icon: appIcons.product.pokeball,
-      label: "Pokedex",
+      href: appRoutes.mainlinePlayProgressPokedex(playId),
+      label: "Pokédex",
       totalCount: pokedexTotalCount,
     }),
     createProgressSummaryItem({
       completedCount: collectibleCompletedCount,
+      detail: `${collectibleCompletedCount ?? 0} of ${collectibleTotalCount ?? 0} found`,
       explicitPercent: overview?.collectible_completion_percent,
-      icon: appIcons.product.collectible,
+      href: appRoutes.mainlinePlayProgressCollectibles(playId),
       label: "Collectibles",
       totalCount: collectibleTotalCount,
     }),

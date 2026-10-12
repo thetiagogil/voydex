@@ -54,7 +54,7 @@ const PlayCover = ({
           />
         </div>
       ) : (
-        <div className="flex size-full items-center justify-center rounded-md bg-game-soft px-2 text-center text-xl font-black text-game">
+        <div className="bg-game-soft text-game flex size-full items-center justify-center rounded-md px-2 text-center text-xl font-black">
           {getGameInitials(gameName)}
         </div>
       )}
@@ -109,7 +109,7 @@ const PlayCardBody = ({ play, priority = false }: PlaySummaryCardProps) => {
       />
 
       <CardHeader className="col-start-2 row-start-1 flex min-w-0 flex-col gap-1 self-start rounded-none p-0 md:self-center">
-        <CardTitle className="text-primary w-full font-display text-lg font-semibold xl:text-xl">
+        <CardTitle className="text-primary font-display w-full text-lg font-semibold xl:text-xl">
           <h2 className="line-clamp-2">{playName}</h2>
         </CardTitle>
         {play.status_name ? (

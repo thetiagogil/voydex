@@ -54,11 +54,7 @@ export const PokemonTypeList = ({
 }: PokemonTypeListProps) => {
   return (
     <div className={cn("flex gap-1.5", className)}>
-      <TypeBadge
-        type={primaryType}
-        display={badgeDisplay}
-        size={badgeSize}
-      />
+      <TypeBadge type={primaryType} display={badgeDisplay} size={badgeSize} />
       {secondaryType ? (
         <TypeBadge
           type={secondaryType}

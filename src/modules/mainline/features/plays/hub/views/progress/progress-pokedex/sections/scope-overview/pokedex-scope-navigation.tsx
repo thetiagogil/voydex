@@ -32,7 +32,7 @@ const ScopeIdentity = ({
 }) => {
   return (
     <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-left">
-      <span className="text-primary truncate font-display text-lg leading-6 font-semibold">
+      <span className="text-primary font-display truncate text-lg leading-6 font-semibold">
         {scope.name}
       </span>
       {showKind ? (

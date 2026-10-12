@@ -60,7 +60,7 @@ export const PokedexSpeciesGridCard = ({
             <span className="text-muted-foreground text-[0.68rem] leading-4 font-semibold tracking-[0.08em] uppercase tabular-nums">
               {formatPokedexNumber(entry.pokedexNumber)}
             </span>
-            <span className="truncate font-display text-sm leading-snug font-semibold">
+            <span className="font-display truncate text-sm leading-snug font-semibold">
               {entry.speciesName}
             </span>
             {entry.displayFormName ? (

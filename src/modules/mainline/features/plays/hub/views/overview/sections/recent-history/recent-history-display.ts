@@ -1,17 +1,7 @@
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { appIcons } from "@/shared/components/app-icon";
 
-import type {
-  TimelineEventDisplay,
-  TimelineEventTone,
-} from "./recent-history-types";
-
-export const timelineEventToneClassNames: Record<TimelineEventTone, string> = {
-  info: "text-ink-2",
-  milestone: "text-milestone",
-  neutral: "text-muted-foreground",
-  success: "text-ok",
-};
+import type { TimelineEventDisplay } from "./recent-history-types";
 
 export const getTimelineEventDisplay = (
   event: MainlinePlayTimelineEvent,
@@ -20,41 +10,41 @@ export const getTimelineEventDisplay = (
 
   if (eventTypeSlug === "story_milestone") {
     return {
-      icon: appIcons.product.milestone,
+      icon: appIcons.milestones.story,
       label: event.event_type_name ?? "Milestone completed",
-      tone: "milestone",
+      medallion: "milestone",
     };
   }
 
   if (eventTypeSlug === "pokemon_added") {
     return {
       icon: appIcons.product.teamAdded,
-      label: event.event_type_name ?? "Pokemon added",
-      tone: "info",
+      label: event.event_type_name ?? "Pokémon added",
+      medallion: "pokemon",
     };
   }
 
   if (eventTypeSlug === "pokemon_evolved") {
     return {
       icon: appIcons.product.evolved,
-      label: event.event_type_name ?? "Pokemon evolved",
-      tone: "success",
+      label: event.event_type_name ?? "Pokémon evolved",
+      medallion: "pokemon",
     };
   }
 
   if (eventTypeSlug === "pokemon_retired") {
     return {
       icon: appIcons.product.retired,
-      label: event.event_type_name ?? "Pokemon retired",
-      tone: "neutral",
+      label: event.event_type_name ?? "Pokémon retired",
+      medallion: "pokemon",
     };
   }
 
   if (eventTypeSlug === "pokemon_replaced") {
     return {
       icon: appIcons.product.replaced,
-      label: event.event_type_name ?? "Pokemon replaced",
-      tone: "info",
+      label: event.event_type_name ?? "Pokémon replaced",
+      medallion: "pokemon",
     };
   }
 
@@ -62,38 +52,38 @@ export const getTimelineEventDisplay = (
     return {
       icon: appIcons.product.formChanged,
       label: event.event_type_name ?? "Form changed",
-      tone: "success",
+      medallion: "pokemon",
     };
   }
 
   if (eventTypeSlug === "hall_of_fame") {
     return {
-      icon: appIcons.product.completedPlay,
+      icon: appIcons.milestones.hallOfFame,
       label: event.event_type_name ?? "Hall of Fame",
-      tone: "milestone",
+      medallion: "milestone",
     };
   }
 
   if (eventTypeSlug === "journal_note") {
     return {
-      icon: appIcons.product.journal,
-      label: event.event_type_name ?? "Journal note",
-      tone: "neutral",
+      icon: appIcons.actions.edit,
+      label: event.event_type_name ?? "Note",
+      medallion: "note",
     };
   }
 
   if (eventTypeSlug === "status_change") {
     return {
-      icon: appIcons.views.mainline.plays,
+      icon: appIcons.product.journey,
       label: event.event_type_name ?? "Status change",
-      tone: "info",
+      medallion: "status",
     };
   }
 
   return {
     icon: appIcons.product.event,
     label: event.event_type_name ?? "Timeline event",
-    tone: "neutral",
+    medallion: "status",
   };
 };
 

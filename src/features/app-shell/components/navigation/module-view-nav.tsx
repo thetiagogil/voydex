@@ -42,8 +42,8 @@ export const ModuleViewNav = ({ activeModuleKey }: ModuleViewNavProps) => {
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "inline-flex h-10 items-center gap-2 rounded-full px-4 text-14 font-bold text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink [&_svg]:size-4",
-              isActive && "bg-surface font-extrabold text-ink hover:bg-surface",
+              "text-14 text-ink-2 hover:bg-surface-2 hover:text-ink inline-flex h-10 items-center gap-2 rounded-full px-4 font-bold transition-colors [&_svg]:size-4",
+              isActive && "bg-surface text-ink hover:bg-surface font-extrabold",
             )}
           >
             <AppIcon icon={ViewIcon} inline="start" aria-hidden />

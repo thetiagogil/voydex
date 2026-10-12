@@ -47,7 +47,10 @@ const ProgressIndicator = ({
   return (
     <ProgressPrimitive.Indicator
       data-slot="progress-indicator"
-      className={cn("bg-game h-full rounded-full shadow-[inset_0_-3px_0_rgb(0_0_0_/0.12)] transition-all duration-700", className)}
+      className={cn(
+        "bg-game h-full rounded-full shadow-[inset_0_-3px_0_rgb(0_0_0_/0.12)] transition-all duration-700",
+        className,
+      )}
       {...props}
     />
   );

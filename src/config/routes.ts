@@ -25,6 +25,8 @@ export const appRoutes = {
     `/mainline/plays/${playId}/progress/pokedex`,
   mainlinePlayProgressStory: (playId: string) =>
     `/mainline/plays/${playId}/progress/story`,
+  mainlinePlayProgressStoryRecord: (playId: string, milestoneId: number) =>
+    `/mainline/plays/${playId}/progress/story?record=${milestoneId}`,
   mainlinePlaySettings: (playId: string) =>
     `/mainline/plays/${playId}/settings`,
   mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,

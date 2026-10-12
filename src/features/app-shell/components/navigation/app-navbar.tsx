@@ -19,12 +19,7 @@ export const AppNavbar = ({
   end,
   showLogoText = false,
 }: AppNavbarProps) => (
-  <header
-    className={cn(
-      "relative z-40 w-full shrink-0 text-ink",
-      className,
-    )}
-  >
+  <header className={cn("text-ink relative z-40 w-full shrink-0", className)}>
     <div
       className={cn(
         "mx-auto grid h-16 w-full max-w-320 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:h-17 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,2fr)_minmax(0,1fr)] lg:gap-5 lg:px-8",

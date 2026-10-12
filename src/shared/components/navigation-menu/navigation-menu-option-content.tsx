@@ -41,9 +41,9 @@ export const NavigationMenuOptionContent = ({
       {leading ? (
         <span
           className={cn(
-            "relative mt-0.5 flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-surface-2 text-ink-2",
+            "bg-surface-2 text-ink-2 relative mt-0.5 flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm",
             active && "bg-surface text-select-ink",
-            muted && "border-[1.5px] border-dashed border-dash",
+            muted && "border-dash border-[1.5px] border-dashed",
             leadingClassName,
           )}
         >
@@ -56,7 +56,7 @@ export const NavigationMenuOptionContent = ({
           {titleAccessory}
         </span>
         {description ? (
-          <span className="mt-0.5 block truncate text-13 font-semibold text-ink-2">
+          <span className="text-13 text-ink-2 mt-0.5 block truncate font-semibold">
             {description}
           </span>
         ) : null}

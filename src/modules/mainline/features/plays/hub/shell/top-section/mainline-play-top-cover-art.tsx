@@ -11,7 +11,7 @@ export const MainlinePlayTopCoverArt = ({
 }: MainlinePlayTopCoverArtProps) => {
   if (!coverImageUrl) {
     return (
-      <div className="bg-game font-display text-on-game shadow-cover grid aspect-[3/4] w-[54px] shrink-0 place-items-center rounded-sm border-4 border-white text-20 font-semibold sm:w-[74px] sm:text-24">
+      <div className="bg-game font-display text-on-game shadow-cover text-20 sm:text-24 grid aspect-[3/4] w-[54px] shrink-0 place-items-center rounded-sm border-4 border-white font-semibold sm:w-[74px]">
         {getGameInitials(gameName)}
       </div>
     );

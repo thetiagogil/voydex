@@ -35,6 +35,6 @@ describe("getTimelineEventDisplay", () => {
     } as MainlinePlayTimelineEvent);
 
     expect(display.label).toBe("Timeline event");
-    expect(display.tone).toBe("neutral");
+    expect(display.medallion).toBe("status");
   });
 });

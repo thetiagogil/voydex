@@ -49,25 +49,18 @@ export const DetailSectionCard = ({
       >
         <div className="flex min-w-0 gap-2">
           {icon ? (
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-sm bg-surface-2 text-ink-2">
+            <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-sm">
               <AppIcon icon={icon} size="sm" aria-hidden />
             </span>
           ) : null}
 
           <div className="flex min-w-0 flex-col gap-1">
-            <CardTitle
-              className={cn(
-                "text-ink",
-                titleClassName,
-              )}
-            >
+            <CardTitle className={cn("text-ink", titleClassName)}>
               {title}
             </CardTitle>
 
             {description ? (
-              <CardDescription>
-                {description}
-              </CardDescription>
+              <CardDescription>{description}</CardDescription>
             ) : null}
           </div>
         </div>
@@ -77,9 +70,7 @@ export const DetailSectionCard = ({
         ) : null}
       </CardHeader>
 
-      {showSeparator ? (
-        <Separator className="bg-line" />
-      ) : null}
+      {showSeparator ? <Separator className="bg-line" /> : null}
 
       <CardContent
         className={cn(

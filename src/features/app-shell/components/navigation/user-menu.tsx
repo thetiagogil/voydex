@@ -38,7 +38,7 @@ export const UserMenu = ({ email }: UserMenuProps) => {
         }
       >
         <Avatar className="size-10">
-          <AvatarFallback className="bg-avatar font-extrabold text-avatar-ink">
+          <AvatarFallback className="bg-avatar text-avatar-ink font-extrabold">
             {getInitials(email)}
           </AvatarFallback>
         </Avatar>

@@ -25,12 +25,7 @@ export const InfoTile = ({
   const Value = semantic === "definition" ? "dd" : "div";
 
   return (
-    <div
-      className={cn(
-        "bg-card ring-line rounded-lg p-3 ring-1",
-        className,
-      )}
-    >
+    <div className={cn("bg-card ring-line rounded-lg p-3 ring-1", className)}>
       <Label
         className={cn(
           "text-muted-foreground flex items-center gap-1.5 text-xs [&_svg]:size-3.5",

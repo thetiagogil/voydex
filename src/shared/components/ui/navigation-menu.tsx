@@ -115,7 +115,7 @@ const NavigationMenuPositioner = ({
         )}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) bg-popover text-popover-foreground relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg shadow-float transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
+        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) bg-popover text-popover-foreground shadow-float relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
           <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>
@@ -131,7 +131,7 @@ const NavigationMenuLink = ({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink flex items-center gap-2 rounded-full p-2 text-14 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus in-data-[slot=navigation-menu-content]:rounded-sm [&_svg:not([class*='size-'])]:size-4",
+        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 focus-visible:outline-focus flex items-center gap-2 rounded-full p-2 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 in-data-[slot=navigation-menu-content]:rounded-sm [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -152,7 +152,7 @@ const NavigationMenuIndicator = ({
       )}
       {...props}
     >
-      <div className="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-float" />
+      <div className="bg-border shadow-float relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm" />
     </NavigationMenuPrimitive.Icon>
   );
 };

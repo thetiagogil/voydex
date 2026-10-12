@@ -48,7 +48,7 @@ export const DesktopModuleNavigationMenu = ({
     <NavigationMenu align="start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="h-10 px-3.5 text-14 font-extrabold text-ink">
+          <NavigationMenuTrigger className="text-14 text-ink h-10 px-3.5 font-extrabold">
             {currentModule.label}
           </NavigationMenuTrigger>
           <NavigationMenuContent className="w-[min(calc(100vw-2rem),34rem)] p-2">
@@ -97,7 +97,7 @@ export const DesktopModuleNavigationMenu = ({
                       isLocked ? (
                         <Badge
                           variant="outline"
-                          className="h-5 border-transparent bg-action-soft px-2 text-action-lip"
+                          className="bg-action-soft text-action-lip h-5 border-transparent px-2"
                         >
                           Log in
                         </Badge>

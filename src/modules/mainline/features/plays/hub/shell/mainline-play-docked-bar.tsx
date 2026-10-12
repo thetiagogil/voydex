@@ -61,13 +61,13 @@ export const MainlinePlayDockedBar = ({
               <img
                 src={coverImageUrl}
                 alt=""
-                className="hidden h-10 w-[30px] shrink-0 rounded-xs border-[2.5px] border-white object-cover shadow-cover sm:block"
+                className="shadow-cover hidden h-10 w-[30px] shrink-0 rounded-xs border-[2.5px] border-white object-cover sm:block"
               />
             ) : null}
-            <p className="font-display hidden min-w-0 flex-1 truncate text-17 font-semibold sm:block">
+            <p className="font-display text-17 hidden min-w-0 flex-1 truncate font-semibold sm:block">
               {title}
             </p>
-            <div className="no-scrollbar min-w-0 max-w-full overflow-x-auto">
+            <div className="no-scrollbar max-w-full min-w-0 overflow-x-auto">
               {navigation}
             </div>
           </div>
