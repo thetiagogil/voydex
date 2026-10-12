@@ -79,10 +79,13 @@ const retired = [
   },
 ];
 
+/* Vendored third-party skills describe their own examples, not Voydex. */
+const ignoredDirectories = [path.join(".claude", "skills", "shadcn")];
+
 const collectFiles = (relativeDir) => {
   const absoluteDir = path.join(rootDir, relativeDir);
 
-  if (!fs.existsSync(absoluteDir)) {
+  if (!fs.existsSync(absoluteDir) || ignoredDirectories.includes(relativeDir)) {
     return [];
   }
 
