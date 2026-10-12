@@ -64,7 +64,7 @@ const GamesGridCard = ({
       aria-label={`Open ${card.game.name} game guide`}
       style={getGameColourStyle(card.game.slug)}
       className={cn(
-        "game-scope group focus-visible:ring-ring focus-visible:ring-offset-background border-line bg-card block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-game hover:shadow-md focus-visible:border-game focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "game-scope group focus-visible:ring-ring focus-visible:ring-offset-background border-line bg-card hover:border-game focus-visible:border-game block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
       )}
     >
       <article className="flex h-full flex-col overflow-hidden rounded-[inherit]">
@@ -80,7 +80,7 @@ const GamesGridCard = ({
             />
           ) : (
             <div className="relative flex h-full flex-col items-center justify-center gap-2 px-5 text-center">
-              <div className="flex size-11 items-center justify-center rounded-lg bg-game-soft text-sm font-black text-game">
+              <div className="bg-game-soft text-game flex size-11 items-center justify-center rounded-lg text-sm font-black">
                 {getGameInitials(card.game.name)}
               </div>
               <p className="text-muted-foreground text-xs leading-4 font-semibold">
@@ -97,7 +97,7 @@ const GamesGridCard = ({
                 {metadata}
               </p>
             ) : null}
-            <h3 className="text-foreground truncate font-display text-sm leading-snug font-semibold sm:text-base lg:text-lg">
+            <h3 className="text-foreground font-display truncate text-sm leading-snug font-semibold sm:text-base lg:text-lg">
               {card.game.name}
             </h3>
           </div>

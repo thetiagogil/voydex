@@ -133,7 +133,7 @@ export const GamePokedexTable = ({
                     entry.species.slug,
                   )}
                   aria-label={`Open ${entry.species.name} in ${data.game.name}`}
-                  className="text-foreground focus-visible:ring-ring group-hover:text-primary hover:text-primary rounded-sm font-display text-base font-semibold transition-colors after:absolute after:inset-0 after:content-[''] focus-visible:ring-2 focus-visible:outline-none xl:after:hidden"
+                  className="text-foreground focus-visible:ring-ring group-hover:text-primary hover:text-primary font-display rounded-sm text-base font-semibold transition-colors after:absolute after:inset-0 after:content-[''] focus-visible:ring-2 focus-visible:outline-none xl:after:hidden"
                 >
                   {entry.species.name}
                 </Link>

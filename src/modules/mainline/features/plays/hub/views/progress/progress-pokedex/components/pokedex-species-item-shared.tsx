@@ -1,11 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
@@ -25,6 +21,7 @@ export type PokedexSpeciesPresentationProps = {
 export const formatPokedexNumber = (number: number) =>
   `#${String(number).padStart(3, "0")}`;
 
+/* The state mark: a Poké Ball on white when caught, an eye when seen. */
 export const PokedexStateIcon = ({
   className,
   state,
@@ -32,30 +29,29 @@ export const PokedexStateIcon = ({
   className?: string;
   state: PokedexProgressState;
 }) => {
-  const config: {
-    icon: AppIconComponent;
-    label: string;
-  } | null =
-    state === "caught"
-      ? { icon: appIcons.product.caught, label: "Caught" }
-      : state === "seen"
-        ? { icon: appIcons.product.seen, label: "Seen" }
-        : null;
-
-  if (!config) {
+  if (state === "missing") {
     return null;
   }
 
+  const isCaught = state === "caught";
+
   return (
     <span
-      aria-label={config.label}
+      role="img"
+      aria-label={isCaught ? "Caught" : "Seen"}
       className={cn(
-        "inline-flex size-7 items-center justify-center rounded-md",
-        state === "caught" ? "text-primary" : "text-secondary-foreground/80",
+        "grid size-[26px] place-items-center rounded-full",
+        isCaught
+          ? "text-ball bg-white shadow-[0_2px_0_rgb(0_0_0/0.08)]"
+          : "bg-surface-2 text-ink-2",
         className,
       )}
     >
-      <AppIcon icon={config.icon} size="md" aria-hidden />
+      <AppIcon
+        icon={isCaught ? appIcons.product.caught : appIcons.product.seen}
+        size="md"
+        aria-hidden
+      />
     </span>
   );
 };
@@ -74,18 +70,18 @@ export const PokedexStateLabel = ({
       ? {
           icon: appIcons.product.caught,
           label: "Caught",
-          className: "text-primary",
+          className: "text-ball",
         }
       : {
           icon: appIcons.product.seen,
           label: "Seen",
-          className: "text-secondary-foreground",
+          className: "text-ink-2",
         };
 
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold",
+        "text-13 inline-flex shrink-0 items-center gap-1.5 font-extrabold",
         config.className,
       )}
     >

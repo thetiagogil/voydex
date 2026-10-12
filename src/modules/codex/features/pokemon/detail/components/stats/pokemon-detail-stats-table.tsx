@@ -49,10 +49,7 @@ const PokemonDetailStatsSeparator = () => {
   return (
     <>
       <Separator className="bg-line xl:hidden" />
-      <Separator
-        orientation="vertical"
-        className="bg-line hidden xl:block"
-      />
+      <Separator orientation="vertical" className="bg-line hidden xl:block" />
     </>
   );
 };

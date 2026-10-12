@@ -25,7 +25,7 @@ export const GameDetailCoverArt = ({ data }: GameDetailCoverArtProps) => {
           />
         ) : (
           <div className="bg-surface-2 relative z-10 flex aspect-square h-full items-center justify-center rounded-md">
-            <div className="flex size-20 items-center justify-center rounded-xl bg-game-soft text-2xl font-black text-game ring-1 ring-game">
+            <div className="bg-game-soft text-game ring-game flex size-20 items-center justify-center rounded-xl text-2xl font-black ring-1">
               {initials}
             </div>
           </div>

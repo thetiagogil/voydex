@@ -55,7 +55,7 @@ export const PokedexPokemonCard = memo(
               <p className="text-muted-foreground truncate text-[0.68rem] leading-4 font-semibold tracking-[0.08em] uppercase">
                 {formatPokemonNationalNumber(pokemon.nationalNumber)}
               </p>
-              <h3 className="text-foreground truncate font-display text-sm leading-snug font-semibold sm:text-base lg:text-lg">
+              <h3 className="text-foreground font-display truncate text-sm leading-snug font-semibold sm:text-base lg:text-lg">
                 {pokemon.name}
               </h3>
             </div>

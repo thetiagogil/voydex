@@ -2,24 +2,21 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Button } from "@/shared/components/ui/button";
-import {
-  ButtonGroup,
-  ButtonGroupText,
-} from "@/shared/components/ui/button-group";
+import { Card } from "@/shared/components/ui/card";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
-import { cn } from "@/shared/utils/cn";
 
 import {
   filterPokedexEntries,
   getPokedexEntriesForBrowseScope,
+  getPokedexEntryState,
   groupPokedexEntriesByNumberRange,
 } from "../../data/pokedex-progress-model";
 import type {
@@ -35,85 +32,37 @@ import { PokedexProgressEntrySection } from "./pokedex-progress-entry-section";
 
 const INITIAL_VISIBLE_SECTION_COUNT = 1;
 
-const progressOptions = [
-  { label: "All progress", value: "all" },
-  { label: "Missing", value: "missing" },
-  { label: "Seen", value: "seen" },
-  { label: "Caught", value: "caught" },
-] as const;
-
 const inclusionOptions = [
   { label: "All entries", value: "all" },
   { label: "Required", value: "required" },
   { label: "Optional", value: "optional" },
 ] as const;
 
-const PokedexBrowserHeaderActions = ({
-  onUpdateModeChange,
-  onViewModeChange,
-  updateMode,
-  viewMode,
-}: {
-  onUpdateModeChange: (mode: PokedexUpdateMode) => void;
-  onViewModeChange: (mode: PokedexViewMode) => void;
-  updateMode: PokedexUpdateMode;
-  viewMode: PokedexViewMode;
-}) => {
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <ButtonGroup aria-label="Pokédex Card update mode">
-        <ButtonGroupText className="text-xs whitespace-nowrap">
-          Mark mode
-        </ButtonGroupText>
-        <Button
-          type="button"
-          aria-pressed={updateMode === "seen"}
-          size="xs"
-          variant="outline"
-          onClick={() => onUpdateModeChange("seen")}
-        >
-          <AppIcon icon={appIcons.product.seen} aria-hidden />
-          Seen
-        </Button>
-        <Button
-          type="button"
-          aria-pressed={updateMode === "caught"}
-          size="xs"
-          variant="outline"
-          onClick={() => onUpdateModeChange("caught")}
-        >
-          <AppIcon icon={appIcons.product.caught} aria-hidden />
-          Caught
-        </Button>
-      </ButtonGroup>
+const updateModeOptions = [
+  {
+    icon: <AppIcon icon={appIcons.product.caught} aria-hidden />,
+    label: "Caught",
+    value: "caught",
+  },
+  {
+    icon: <AppIcon icon={appIcons.product.seen} aria-hidden />,
+    label: "Seen",
+    value: "seen",
+  },
+] as const;
 
-      <ButtonGroup aria-label="Pokédex display">
-        <Button
-          type="button"
-          aria-label="Grid view"
-          aria-pressed={viewMode === "grid"}
-          size="xs"
-          variant="outline"
-          onClick={() => onViewModeChange("grid")}
-        >
-          <AppIcon icon={appIcons.views.display.grid} aria-hidden />
-          Grid
-        </Button>
-        <Button
-          type="button"
-          aria-label="List view"
-          aria-pressed={viewMode === "list"}
-          size="xs"
-          variant="outline"
-          onClick={() => onViewModeChange("list")}
-        >
-          <AppIcon icon={appIcons.views.display.list} aria-hidden />
-          List
-        </Button>
-      </ButtonGroup>
-    </div>
-  );
-};
+const viewModeOptions = [
+  {
+    icon: <AppIcon icon={appIcons.views.display.grid} aria-hidden />,
+    label: "Grid",
+    value: "grid",
+  },
+  {
+    icon: <AppIcon icon={appIcons.views.display.list} aria-hidden />,
+    label: "List",
+    value: "list",
+  },
+] as const;
 
 export const PokedexProgressBrowserSection = ({
   browseScopes,
@@ -167,6 +116,20 @@ export const PokedexProgressBrowserSection = ({
       }),
     [browseScope, scope.entries],
   );
+  const progressCounts = useMemo(() => {
+    const counts = {
+      all: scopedEntries.length,
+      caught: 0,
+      missing: 0,
+      seen: 0,
+    };
+
+    for (const entry of scopedEntries) {
+      counts[getPokedexEntryState(entry, stateBySpeciesId)] += 1;
+    }
+
+    return counts;
+  }, [scopedEntries, stateBySpeciesId]);
   const filteredEntries = useMemo(
     () =>
       filterPokedexEntries({
@@ -266,86 +229,98 @@ export const PokedexProgressBrowserSection = ({
   };
 
   return (
-    <MainlinePlaySectionCard
-      title="Pokédex entries"
-      description={`Browse and update Pokémon in ${scope.name}.`}
-      action={
-        <PokedexBrowserHeaderActions
-          updateMode={updateMode}
-          viewMode={viewMode}
-          onUpdateModeChange={setUpdateMode}
-          onViewModeChange={setPreferredView}
-        />
-      }
-      headerClassName="flex-col items-stretch gap-3 sm:flex-row sm:items-center"
-      showSeparator
-      contentClassName={cn(
-        "grid gap-4 px-0 pt-3",
-        viewMode === "list" ? "pb-0" : "pb-3",
-      )}
-    >
-      <BrowseFilterPanel
-        variant="bare"
-        className={cn(
-          "grid-cols-1 gap-2.5 px-3 sm:grid-cols-2 xl:gap-3",
-          browseScopes.length > 0
-            ? "xl:grid-cols-[minmax(8rem,1fr)_15rem_10rem_10rem]"
-            : "xl:grid-cols-[minmax(8rem,1fr)_10rem_10rem]",
-        )}
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+    <section aria-label="Pokédex entries" className="grid min-w-0 gap-4">
+      <Card
+        size="sm"
+        className="flex-row flex-wrap items-center gap-x-3.5 gap-y-2.5 p-2.5"
       >
-        <SearchControl
-          ariaLabel={`Search ${scope.name}`}
-          value={query}
-          onValueChange={(value) => {
-            setQuery(value);
-            resetVisibleSections();
+        <BrowseFilterPanel
+          variant="bare"
+          className="contents"
+          onSubmit={(event) => {
+            event.preventDefault();
           }}
-          placeholder="Search Pokémon or number"
-          className="sm:col-span-2 xl:col-span-1"
-        />
-        {browseScopes.length > 0 ? (
-          <PokedexEntryScopeFilter
-            completionScopeName={scope.name}
+        >
+          <SearchControl
+            ariaLabel={`Search ${scope.name}`}
+            value={query}
             onValueChange={(value) => {
-              setBrowseScopeId(value);
+              setQuery(value);
               resetVisibleSections();
             }}
-            scopes={browseScopes}
-            value={browseScopeId}
+            placeholder="Search name or number"
+            className="min-w-55 flex-[1_1_220px]"
           />
-        ) : null}
-        <SelectControl
-          ariaLabel="Filter Pokédex progress"
-          className="w-full"
-          onValueChange={(value) => {
-            setProgressFilter(value as PokedexProgressFilter);
-            resetVisibleSections();
-          }}
-          options={progressOptions}
-          placeholder="All progress"
-          value={progressFilter}
+          <SegmentedControl
+            ariaLabel="Filter by progress"
+            onValueChange={(value) => {
+              setProgressFilter(value);
+              resetVisibleSections();
+            }}
+            options={[
+              { count: progressCounts.all, label: "All", value: "all" },
+              {
+                count: progressCounts.caught,
+                label: "Caught",
+                value: "caught",
+              },
+              { count: progressCounts.seen, label: "Seen", value: "seen" },
+              {
+                count: progressCounts.missing,
+                label: "Missing",
+                value: "missing",
+              },
+            ]}
+            value={progressFilter}
+          />
+          {browseScopes.length > 0 ? (
+            <PokedexEntryScopeFilter
+              completionScopeName={scope.name}
+              onValueChange={(value) => {
+                setBrowseScopeId(value);
+                resetVisibleSections();
+              }}
+              scopes={browseScopes}
+              value={browseScopeId}
+            />
+          ) : null}
+          <SelectControl
+            ariaLabel="Filter Pokédex completion requirement"
+            className="w-40"
+            onValueChange={(value) => {
+              setInclusionFilter(value as PokedexInclusionFilter);
+              resetVisibleSections();
+            }}
+            options={inclusionOptions}
+            placeholder="All entries"
+            value={inclusionFilter}
+          />
+        </BrowseFilterPanel>
+        <span
+          aria-hidden
+          className="bg-line my-2 hidden w-px self-stretch lg:block"
         />
-        <SelectControl
-          ariaLabel="Filter Pokédex completion requirement"
-          className="w-full"
-          onValueChange={(value) => {
-            setInclusionFilter(value as PokedexInclusionFilter);
-            resetVisibleSections();
-          }}
-          options={inclusionOptions}
-          placeholder="All entries"
-          value={inclusionFilter}
-        />
-      </BrowseFilterPanel>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span className="text-ink-2 text-13 font-bold">Tap marks as</span>
+          <SegmentedControl
+            ariaLabel="Marking mode"
+            onValueChange={setUpdateMode}
+            options={updateModeOptions}
+            value={updateMode}
+            variant="segment"
+          />
+          <SegmentedControl
+            ariaLabel="Pokédex display"
+            onValueChange={setPreferredView}
+            options={viewModeOptions}
+            value={viewMode}
+            variant="segment"
+          />
+        </div>
+      </Card>
 
-      <div className="flex min-h-8 items-center justify-between gap-3 px-4">
-        <p
-          className="text-muted-foreground text-sm leading-6"
-          aria-live="polite"
-        >
+      <div className="flex min-h-8 items-center justify-between gap-3">
+        <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
           Showing {visibleEntryCount} of {filteredEntries.length} entries
         </p>
 
@@ -354,7 +329,7 @@ export const PokedexProgressBrowserSection = ({
 
       {visibleSections.length ? (
         <>
-          <div className="grid min-w-0">
+          <div className="grid min-w-0 gap-8">
             {visibleSections.map((section) => (
               <PokedexProgressEntrySection
                 key={section.id}
@@ -374,7 +349,7 @@ export const PokedexProgressBrowserSection = ({
             supportsAutomaticLoading ? (
               <div ref={automaticLoadTriggerRef} className="h-px" aria-hidden />
             ) : (
-              <div className="flex justify-center px-3 pt-1 pb-3">
+              <div className="flex justify-center">
                 <Button
                   type="button"
                   variant="outline"
@@ -387,18 +362,16 @@ export const PokedexProgressBrowserSection = ({
           ) : null}
         </>
       ) : (
-        <div className="px-3 pb-3">
-          <EmptyState
-            title="No matching Pokémon"
-            description={`No entries in ${scope.name} match the current filters.`}
-            action={
-              hasFilters ? (
-                <ClearFiltersButton variant="outline" onClick={resetFilters} />
-              ) : undefined
-            }
-          />
-        </div>
+        <EmptyState
+          title="No matching Pokémon"
+          description={`No entries in ${scope.name} match the current filters.`}
+          action={
+            hasFilters ? (
+              <ClearFiltersButton variant="outline" onClick={resetFilters} />
+            ) : undefined
+          }
+        />
       )}
-    </MainlinePlaySectionCard>
+    </section>
   );
 };

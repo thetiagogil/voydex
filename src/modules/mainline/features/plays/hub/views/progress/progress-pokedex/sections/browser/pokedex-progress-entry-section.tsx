@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
+import { Card } from "@/shared/components/ui/card";
 
 import { PokedexSpeciesItem } from "../../components/pokedex-species-item";
 import {
@@ -50,69 +50,66 @@ export const PokedexProgressEntrySection = ({
   ).length;
   const headingId = `pokedex-entry-section-${section.id}`;
 
+  const seenCount = section.entries.filter(
+    (entry) => getPokedexEntryState(entry, stateBySpeciesId) === "seen",
+  ).length;
+  const entries = section.entries.map((entry) => (
+    <PokedexSpeciesItem
+      key={`${section.id}:${entry.pokedexNumber}:${entry.speciesId}`}
+      entry={entry}
+      gameSlug={gameSlug}
+      isPending={isSpeciesPending(entry.speciesId)}
+      mode={updateMode}
+      onStateChange={(state) => onSpeciesStateChange(entry.speciesId, state)}
+      state={getPokedexEntryState(entry, stateBySpeciesId)}
+      viewMode={viewMode}
+    />
+  ));
+
   return (
     <section aria-labelledby={headingId} aria-busy={isPending}>
-      <div className="border-line bg-muted/20 flex min-h-11 flex-wrap items-center justify-between gap-3 border-y px-3 py-2">
-        <h3
-          id={headingId}
-          className="font-display text-sm font-semibold tabular-nums"
-        >
+      <div className="border-line flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-b pb-3">
+        <h3 id={headingId} className="text-20 tabular-nums">
           {section.label}
         </h3>
-
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          <span className="text-muted-foreground text-xs tabular-nums">
-            {caughtCount}/{section.entries.length} caught
-          </span>
-
-          <div className="flex items-center gap-1.5">
-            <Button
-              type="button"
-              size="xs"
-              variant="outline"
-              aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
-              disabled={isPending || everyEntryIsMarked}
-              onClick={() => onBulkStateChange(speciesIds, updateMode)}
-            >
-              Mark all
-            </Button>
-            <Button
-              type="button"
-              size="xs"
-              variant="outline"
-              aria-label={`Unmark all matching entries from ${section.label}`}
-              disabled={isPending || everyEntryIsMissing}
-              onClick={() => onBulkStateChange(speciesIds, "missing")}
-            >
-              Unmark all
-            </Button>
-          </div>
+        <span className="text-ink-2 text-14 font-semibold tabular-nums">
+          {caughtCount} caught · {seenCount} seen
+        </span>
+        <div className="ml-auto flex items-center gap-1">
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
+            disabled={isPending || everyEntryIsMarked}
+            onClick={() => onBulkStateChange(speciesIds, updateMode)}
+          >
+            Mark all {updateMode}
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            aria-label={`Unmark all matching entries from ${section.label}`}
+            disabled={isPending || everyEntryIsMissing}
+            onClick={() => onBulkStateChange(speciesIds, "missing")}
+          >
+            Unmark all
+          </Button>
         </div>
       </div>
 
-      <div
-        role={viewMode === "list" ? "list" : undefined}
-        className={cn(
-          viewMode === "grid"
-            ? "grid grid-cols-2 gap-3 p-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-            : "divide-line grid min-w-0 divide-y",
-        )}
-      >
-        {section.entries.map((entry) => (
-          <PokedexSpeciesItem
-            key={`${section.id}:${entry.pokedexNumber}:${entry.speciesId}`}
-            entry={entry}
-            gameSlug={gameSlug}
-            isPending={isSpeciesPending(entry.speciesId)}
-            mode={updateMode}
-            onStateChange={(state) =>
-              onSpeciesStateChange(entry.speciesId, state)
-            }
-            state={getPokedexEntryState(entry, stateBySpeciesId)}
-            viewMode={viewMode}
-          />
-        ))}
-      </div>
+      {viewMode === "grid" ? (
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+          {entries}
+        </div>
+      ) : (
+        <Card size="sm" className="mt-4 gap-0 py-0">
+          <div role="list" className="divide-line grid min-w-0 divide-y">
+            {entries}
+          </div>
+        </Card>
+      )}
     </section>
   );
 };
