@@ -302,10 +302,6 @@ export const PokedexProgressBrowserSection = ({
             value={inclusionFilter}
           />
         </BrowseFilterPanel>
-        <span
-          aria-hidden
-          className="bg-line my-2 hidden w-px self-stretch lg:block"
-        />
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="text-ink-2 text-13 font-bold">Tap marks as</span>
           <SegmentedControl

@@ -63,8 +63,8 @@ export const getBadgeTypeIds = (
 ) => milestones.map((milestone) => getFirstBadgeTypeId(milestone.badge_refs));
 
 /*
- * The badge case: every gym badge in Story's order, then the main game's
- * Champion milestone as the League's gold stamp. A DLC's own champion never
+ * The badge case: every gym badge and the main game's Champion milestone (the
+ * League's gold stamp), in Story's order. A DLC's own champion never
  * takes that place. A Play whose game has no gyms has no badge case.
  */
 export const buildMainlinePlayBadgeCase = (
@@ -84,7 +84,11 @@ export const buildMainlinePlayBadgeCase = (
       milestone.milestone_type_slug === "champion" &&
       milestone.version_group_id === gyms[0].version_group_id,
   );
-  const ordered = league ? [...gyms, league] : gyms;
+  /* In journey order: Gold's Champion comes after Johto's gyms, before Kanto's. */
+  const ordered = rows.milestones.filter(
+    (milestone) =>
+      milestone.milestone_type_slug === "gym" || milestone === league,
+  );
   const nextMilestone = ordered.find((milestone) => !milestone.is_completed);
   const stamps = ordered.flatMap((milestone): BadgeCaseStamp[] => {
     if (milestone.milestone_id === null) {

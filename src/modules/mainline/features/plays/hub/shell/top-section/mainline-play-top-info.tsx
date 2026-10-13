@@ -133,14 +133,12 @@ export const MainlinePlayTopInfo = ({
             <dd className="tabular-nums">{playtime}</dd>
           </div>
         ) : null}
-        <div className="contents">
-          <dt className="sr-only">Started</dt>
-          <dd>
-            {data.play.started_on
-              ? `Started ${formatPlayDate(data.play.started_on)}`
-              : "Not started"}
-          </dd>
-        </div>
+        {data.play.started_on ? (
+          <div className="contents">
+            <dt className="sr-only">Started</dt>
+            <dd>Started {formatPlayDate(data.play.started_on)}</dd>
+          </div>
+        ) : null}
         {data.rules.length ? (
           <div className="contents">
             <dt className="sr-only">Challenge rules</dt>
