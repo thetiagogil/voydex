@@ -104,11 +104,12 @@ Play names should be required in stored data. If the user does not provide one, 
 
 New Play has three short steps on one card. Inside Mainline every New Play
 button opens it as a dialog over the current page (the address and the bar's
-active link don't change; its games are read once per visit to Mainline, on
-the first hover, focus or press of a New Play button, so later openings are
-immediate). From outside Mainline (the Codex's "Start a {Version} Play",
-Start a Play signed in) it is the page `/mainline/plays/new`, `?game=` to
-start on a game. Either way: the game on the cover shelf, the partner on the meadow (or
+active link don't change). Its games, first partners and expansions are
+static reference data, read once on the server through a cached reader and
+handed to Mainline with its layout, so it always opens complete. From outside
+Mainline (the Codex's "Start a {Version} Play", Start a Play signed in) a
+link to `/mainline?new=<game>` (`?new=1` for no game) opens it over Home on
+that game, and the parameter leaves the address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
 choose later), then the Play's name, trainer name and what it tracks
 (expansions you own; Story, the Pokédex mode, Collectibles and challenge rules
 show where their settings will go). Start writes the Play and opens it. The

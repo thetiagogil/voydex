@@ -108,9 +108,9 @@ reference/filter context; they are not currently a required top-level view.
 /check-email            after a sign-up that needs its email confirmed
 /auth/callback          every email link
 
-/mainline               Home: ?play= puts one of your Plays on the meadow
+/mainline               Home: ?play= puts one of your Plays on the meadow,
+                        ?new= opens New Play over it (a game slug, or 1)
   /plays                ?view=archived lists archived Plays, each with Restore
-    /new                ?game=
     /[playId]
       /team             ?pokemon=, ?add= (with ?form=)
         /plan
@@ -223,7 +223,7 @@ Team menu's `Plan` reads the automatic comparison.
 ### Use Codex Context
 
 ```txt
-Codex game page -> Start a {Version} Play -> New Play (?game=)
+Codex game page -> Start a {Version} Play -> New Play (/mainline?new=)
 Codex game page -> Your Plays (N) -> a Play of this version group
 Codex Pokémon entry -> Add to a Play -> that Play's Roster with Add Pokémon
   open on the species (?add=, ?form=)

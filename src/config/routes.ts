@@ -1,3 +1,6 @@
+/* Mainline's parameter that opens New Play: a game slug, or `1` for none. */
+export const NEW_PLAY_PARAM = "new";
+
 export const appRoutes = {
   appEntry: "/app",
   authCallback: "/auth/callback",
@@ -26,6 +29,12 @@ export const appRoutes = {
   login: "/login",
   /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
   mainline: "/mainline",
+  /*
+   * Mainline Home with New Play open over it, optionally with its game
+   * already picked. The dialog drops the parameter from the address once open.
+   */
+  mainlineNewPlay: (gameSlug?: string) =>
+    `/mainline?${NEW_PLAY_PARAM}=${gameSlug ? encodeURIComponent(gameSlug) : "1"}`,
   /* Mainline Home with one of your Plays on the meadow. */
   mainlineHomePlay: (playId: string) =>
     `/mainline?play=${encodeURIComponent(playId)}`,
@@ -46,11 +55,6 @@ export const appRoutes = {
   mainlinePlans: "/mainline/plans",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
   mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
-  /* New Play, optionally with its game already picked. */
-  mainlinePlayNew: (gameSlug?: string) =>
-    gameSlug
-      ? `/mainline/plays/new?game=${encodeURIComponent(gameSlug)}`
-      : "/mainline/plays/new",
   mainlinePlayProgress: (playId: string) =>
     `/mainline/plays/${playId}/progress`,
   mainlinePlayProgressCollectibles: (playId: string) =>

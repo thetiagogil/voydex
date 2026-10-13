@@ -11,6 +11,7 @@ describe("appRoutes query helpers", () => {
     expect(appRoutes.mainlinePlan("plan-1", "sword-shield")).toBe(
       "/mainline/plans/plan-1?vg=sword-shield",
     );
+    expect(appRoutes.mainlineNewPlay("sword")).toBe("/mainline?new=sword");
     expect(appRoutes.mainlinePlayTeamAnalysis("play-1", "story")).toBe(
       "/mainline/plays/play-1/team/analysis?reading=story",
     );
@@ -18,6 +19,7 @@ describe("appRoutes query helpers", () => {
 
   it("keeps the plain addresses without the optional values", () => {
     expect(appRoutes.mainlinePlan("plan-1")).toBe("/mainline/plans/plan-1");
+    expect(appRoutes.mainlineNewPlay()).toBe("/mainline?new=1");
     expect(appRoutes.mainlinePlayTeamAnalysis("play-1")).toBe(
       "/mainline/plays/play-1/team/analysis",
     );

@@ -2,14 +2,14 @@
 
 import { useId, useState, type ReactNode } from "react";
 
-import type { NewPlayExpansion } from "@/modules/mainline/features/plays/shared/types";
+import type { GameExpansion } from "@/modules/reference/features/games/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type NewPlayTrackingProps = {
-  expansions: NewPlayExpansion[];
+  expansions: GameExpansion[];
   onOwnedChange: (versionGroupIds: number[]) => void;
   owned: number[];
 };

@@ -17,9 +17,8 @@ type NewPlayTriggerProps = {
 
 /*
  * Every New Play button inside Mainline: it opens New Play as a dialog over
- * the page, without changing the address, and starts loading its games on
- * hover or focus so the dialog fills at once. Outside Mainline it is a plain
- * link to the New Play page.
+ * the page, without changing the address. Outside Mainline it is a plain
+ * link to Mainline that opens it there.
  */
 export const NewPlayTrigger = ({
   children,
@@ -33,7 +32,7 @@ export const NewPlayTrigger = ({
   if (!opener) {
     return (
       <Link
-        href={appRoutes.mainlinePlayNew(gameSlug)}
+        href={appRoutes.mainlineNewPlay(gameSlug)}
         aria-label={ariaLabel}
         title={title}
         className={className}
@@ -50,9 +49,6 @@ export const NewPlayTrigger = ({
       aria-label={ariaLabel}
       title={title}
       className={className}
-      onPointerEnter={opener.prepare}
-      onFocus={opener.prepare}
-      onPointerDown={opener.prepare}
       onClick={() => opener.open({ gameSlug })}
     >
       {children}

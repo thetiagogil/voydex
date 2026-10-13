@@ -87,6 +87,23 @@ export type GameStarters = {
   starters: GameStarter[];
 };
 
+/* An optional content scope (DLC) a game's Play can own. */
+export type GameExpansion = {
+  name: string;
+  versionGroupId: number;
+};
+
+/*
+ * Everything the game picker offers, read once and cached (it only changes
+ * when the reference data is reseeded): every game, its first partners and
+ * its expansions, by game slug.
+ */
+export type GameCatalogue = {
+  expansionsByGameSlug: Record<string, GameExpansion[]>;
+  games: GameShelfGame[];
+  startersByGameSlug: Record<string, GameStarters>;
+};
+
 export type GamePokedexSummary = {
   pokedex: Pokedex;
   pokemonCount: number;

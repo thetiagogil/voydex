@@ -1,37 +1,27 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 
-import { appRoutes } from "@/config/routes";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayTracking } from "@/modules/mainline/features/plays/new/components/new-play-tracking";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
-import type { NewPlayPageData } from "@/modules/mainline/features/plays/new/types";
+import type { NewPlayWizardData } from "@/modules/mainline/features/plays/new/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type NewPlayWizardProps = {
-  data: NewPlayPageData;
-  /*
-   * Set when New Play opens as a dialog (v3 opens it over the page): Close
-   * and Cancel call it instead of leading to Plays, and the card drops its
-   * clay edge since the dialog carries it.
-   */
-  onClose?: () => void;
-  /*
-   * Focuses the title on the first render too: the dialog sets it when the
-   * wizard replaces its loading state, so focus doesn't fall out of it.
-   */
-  focusTitleOnMount?: boolean;
+  data: NewPlayWizardData;
+  /* Close and Cancel: New Play is a dialog over the page (v3 `npxopen`). */
+  onClose: () => void;
 };
 
 type Step = 1 | 2 | 3;
@@ -111,11 +101,7 @@ const NewPlaySteps = ({
  * Play's name, trainer name and what it tracks. Start writes the Play and
  * opens it.
  */
-export const NewPlayWizard = ({
-  data,
-  focusTitleOnMount = false,
-  onClose,
-}: NewPlayWizardProps) => {
+export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const initialStarters = data.initial.gameSlug
     ? data.startersByGameSlug[data.initial.gameSlug]
     : undefined;
@@ -136,7 +122,7 @@ export const NewPlayWizard = ({
   const { isPending, startPlay } = useStartPlay();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
-  const isFirstRender = useRef(!focusTitleOnMount);
+  const isFirstRender = useRef(true);
 
   const game = data.games.find((candidate) => candidate.slug === gameSlug);
   const starters = gameSlug
@@ -225,8 +211,7 @@ export const NewPlayWizard = ({
       data-slot="card"
       style={game ? getGameColourStyle(game.slug) : undefined}
       className={cn(
-        "bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl",
-        onClose ? "max-sm:rounded-none" : "shadow-card",
+        "bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl max-sm:rounded-none",
         game && "game-scope",
       )}
     >
@@ -257,30 +242,16 @@ export const NewPlayWizard = ({
         }
       >
         <NewPlaySteps step={step} onStepChange={setStep} />
-        {onClose ? (
-          <Button
-            type="button"
-            size="icon"
-            variant="ghost"
-            aria-label="Close New Play"
-            onClick={onClose}
-            className={closeClassName}
-          >
-            <AppIcon icon={appIcons.actions.close} size="lg" />
-          </Button>
-        ) : (
-          <Link
-            href={appRoutes.mainlinePlays}
-            aria-label="Close New Play"
-            className={buttonVariants({
-              className: closeClassName,
-              size: "icon",
-              variant: "ghost",
-            })}
-          >
-            <AppIcon icon={appIcons.actions.close} size="lg" />
-          </Link>
-        )}
+        <Button
+          type="button"
+          size="icon"
+          variant="ghost"
+          aria-label="Close New Play"
+          onClick={onClose}
+          className={closeClassName}
+        >
+          <AppIcon icon={appIcons.actions.close} size="lg" />
+        </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
           <h1
             id={titleId}
@@ -359,18 +330,9 @@ export const NewPlayWizard = ({
           {summary}
         </p>
         {step === 1 ? (
-          onClose ? (
-            <Button type="button" size="sm" variant="outline" onClick={onClose}>
-              Cancel
-            </Button>
-          ) : (
-            <Link
-              href={appRoutes.mainlinePlays}
-              className={buttonVariants({ size: "sm", variant: "outline" })}
-            >
-              Cancel
-            </Link>
-          )
+          <Button type="button" size="sm" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
         ) : (
           <Button
             type="button"
@@ -420,27 +382,17 @@ export const NewPlayWizard = ({
   );
 };
 
-type NewPlayWizardPendingProps = {
-  onClose: () => void;
-  /* Set when the games couldn't be read: says so and offers Try again. */
-  onRetry?: () => void;
-};
-
 /*
- * The dialog's first step while its games are still on the way (only on the
- * first New Play of a visit), or when they couldn't be read: the same card,
- * so it opens at once and the shelf fills in place.
+ * New Play when Voydex couldn't read the games: the same card, saying so,
+ * with Try again (which reads Mainline again).
  */
-export const NewPlayWizardPending = ({
-  onClose,
-  onRetry,
-}: NewPlayWizardPendingProps) => {
+export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
+  const router = useRouter();
   const titleId = useId();
 
   return (
     <section
       aria-labelledby={titleId}
-      aria-busy={onRetry ? undefined : true}
       data-slot="card"
       className="bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
@@ -468,22 +420,19 @@ export const NewPlayWizardPending = ({
             Which game are you playing?
           </h1>
         </div>
-        <div className="text-ink-2 text-15 mt-2 grid min-h-56 place-items-center px-6 font-semibold sm:min-h-64">
-          {onRetry ? (
-            <div role="alert" className="flex flex-col items-center gap-3">
-              <p>Voydex couldn&apos;t load the games right now.</p>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={onRetry}
-              >
-                Try again
-              </Button>
-            </div>
-          ) : (
-            <Spinner aria-label="Loading games" className="size-6" />
-          )}
+        <div
+          role="alert"
+          className="text-ink-2 text-15 mt-2 flex min-h-56 flex-col items-center justify-center gap-3 px-6 font-semibold sm:min-h-64"
+        >
+          <p>Voydex couldn&apos;t load the games right now.</p>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => router.refresh()}
+          >
+            Try again
+          </Button>
         </div>
       </MeadowScene>
 

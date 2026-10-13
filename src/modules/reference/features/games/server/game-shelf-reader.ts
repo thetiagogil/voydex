@@ -1,19 +1,29 @@
+import { unstable_cache } from "next/cache";
+
 import {
   buildGameShelfGames,
   buildGameStarters,
   type GameStarterRows,
 } from "@/modules/reference/features/games/data/game-shelf-mappers";
 import type {
+  GameCatalogue,
+  GameExpansion,
   GameShelfGame,
   GameStarters,
 } from "@/modules/reference/features/games/types";
 import type { Game } from "@/modules/reference/shared/database-types";
 import { loadChunkedReferenceRows } from "@/modules/reference/shared/server/reference-row-loaders";
 import {
+  createPublicSupabaseClient,
+  type PublicSupabaseClient,
+} from "@/platform/supabase/public-client";
+import {
   createServerSupabaseClient,
   type ServerSupabaseClient,
 } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
+
+type ReferenceClient = PublicSupabaseClient | ServerSupabaseClient;
 
 const STARTER_METHOD_SLUG = "starter";
 
@@ -24,8 +34,9 @@ const STARTER_METHOD_SLUG = "starter";
  */
 
 /* Every game for the picker's cover shelf, in release order. */
-export const readGameShelfGames = async (): Promise<GameShelfGame[]> => {
-  const supabase = await createServerSupabaseClient();
+const readGameShelfGames = async (
+  supabase: ReferenceClient,
+): Promise<GameShelfGame[]> => {
   const reference = supabase.schema("reference");
   const [
     gamesResult,
@@ -66,7 +77,7 @@ export const readGameShelfGames = async (): Promise<GameShelfGame[]> => {
 
 /* The rows behind the first partner choice of the given games. */
 const loadGameStarterRows = async (
-  supabase: ServerSupabaseClient,
+  supabase: ReferenceClient,
   games: Game[],
 ): Promise<GameStarterRows> => {
   const reference = supabase.schema("reference");
@@ -194,14 +205,10 @@ export const readGameStarters = async (
   return buildGameStarters(gameResult.data, rows);
 };
 
-/*
- * Every game's first partner choice, by game slug, for a picker that shows
- * the partners as soon as a game is picked (Start a Play, New Play).
- */
-export const readGameStartersByGameSlug = async (): Promise<
-  Record<string, GameStarters>
-> => {
-  const supabase = await createServerSupabaseClient();
+/* Every game's first partner choice, by game slug. */
+const readGameStartersByGameSlug = async (
+  supabase: ReferenceClient,
+): Promise<Record<string, GameStarters>> => {
   const gamesResult = await supabase
     .schema("reference")
     .from("games")
@@ -218,3 +225,74 @@ export const readGameStartersByGameSlug = async (): Promise<
     gamesResult.data.map((game) => [game.slug, buildGameStarters(game, rows)]),
   );
 };
+
+/* Every game's optional content scopes (DLC), by game slug, in the game's order. */
+const readGameExpansionsByGameSlug = async (
+  supabase: ReferenceClient,
+): Promise<Record<string, GameExpansion[]>> => {
+  const reference = supabase.schema("reference");
+  const [scopesResult, gamesResult, versionGroupsResult] = await Promise.all([
+    reference
+      .from("game_content_scopes")
+      .select("game_id, sort_order, version_group_id")
+      .eq("is_base_scope", false)
+      .order("sort_order"),
+    reference.from("games").select("id, slug"),
+    reference.from("version_groups").select("id, name"),
+  ]);
+
+  if (scopesResult.error || gamesResult.error || versionGroupsResult.error) {
+    throw new Error("Unable to load the games' expansions.");
+  }
+
+  const slugByGameId = new Map(
+    gamesResult.data.map((game) => [game.id, game.slug]),
+  );
+  const nameByVersionGroupId = new Map(
+    versionGroupsResult.data.map((group) => [group.id, group.name]),
+  );
+  const expansions: Record<string, GameExpansion[]> = {};
+
+  for (const scope of scopesResult.data) {
+    const gameSlug = slugByGameId.get(scope.game_id);
+    const name = nameByVersionGroupId.get(scope.version_group_id);
+
+    if (gameSlug && name) {
+      (expansions[gameSlug] ??= []).push({
+        name,
+        versionGroupId: scope.version_group_id,
+      });
+    }
+  }
+
+  return expansions;
+};
+
+/* Reference data only changes when it is reseeded: a day is plenty. */
+const GAME_CATALOGUE_REVALIDATE_SECONDS = 60 * 60 * 24;
+
+/*
+ * Every game, its first partners and its expansions, for a picker that shows
+ * them as soon as it opens (Start a Play, New Play, Home's first Play). Read
+ * without a session and cached across requests; `reference-games` revalidates
+ * it.
+ */
+export const readGameCatalogue = unstable_cache(
+  async (): Promise<GameCatalogue> => {
+    const supabase = createPublicSupabaseClient();
+    const [games, startersByGameSlug, expansionsByGameSlug] = await Promise.all(
+      [
+        readGameShelfGames(supabase),
+        readGameStartersByGameSlug(supabase),
+        readGameExpansionsByGameSlug(supabase),
+      ],
+    );
+
+    return { expansionsByGameSlug, games, startersByGameSlug };
+  },
+  ["reference-game-catalogue"],
+  {
+    revalidate: GAME_CATALOGUE_REVALIDATE_SECONDS,
+    tags: ["reference-games"],
+  },
+);

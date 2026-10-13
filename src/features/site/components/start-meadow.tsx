@@ -59,7 +59,7 @@ const getStartHref = (
   partnerSpeciesSlug: string | undefined,
 ) => {
   if (isAuthenticated) {
-    return appRoutes.mainlinePlayNew(gameSlug);
+    return appRoutes.mainlineNewPlay(gameSlug);
   }
 
   const params = new URLSearchParams({ mode: "sign-up" });

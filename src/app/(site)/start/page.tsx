@@ -2,10 +2,7 @@ import { PublicAppShell } from "@/features/app-shell/components/public-app-shell
 import { StartPage } from "@/features/site/components/start-page";
 import type { StartPick } from "@/features/site/components/start-meadow";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
-import {
-  readGameShelfGames,
-  readGameStartersByGameSlug,
-} from "@/modules/reference/features/games/server/game-shelf-reader";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-shelf-reader";
 import { publicArt } from "@/modules/reference/public-art";
 
 import { StartGameShelf } from "@/modules/reference/features/games/components/start-game-shelf";
@@ -16,11 +13,8 @@ import { StartGameShelf } from "@/modules/reference/features/games/components/st
  * `?partner=`, `?gen=`), which the page's client parts read.
  */
 export default async function Page() {
-  const [games, startersByGame, { isAuthenticated }] = await Promise.all([
-    readGameShelfGames(),
-    readGameStartersByGameSlug(),
-    getSiteVisitor(),
-  ]);
+  const [{ games, startersByGameSlug: startersByGame }, { isAuthenticated }] =
+    await Promise.all([readGameCatalogue(), getSiteVisitor()]);
   const picks: Record<string, StartPick> = {};
 
   for (const game of games) {

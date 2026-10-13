@@ -263,7 +263,11 @@ catalogue types, data helpers, and paged/chunked reference reads. The game
 picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
 (`games/server/game-shelf-reader.ts`, `start-intent-resolver.ts`) also live in
 reference, so Start a Play, the auth pages, New Play and the Planner share
-them.
+them. `readGameCatalogue` (every game, its first partners and expansions) is
+the one cached read: static reference data read without a session through
+`createPublicSupabaseClient` and `unstable_cache` (a day, tag
+`reference-games`), so the Mainline layout can hand New Play its games on
+every load.
 `public-art.tsx` is the entry the public pages' routes inject into global
 features (which can't import a module), typed by `src/config/public-art.ts`.
 Mainline has the one matching entry, `src/modules/mainline/public-play-art.tsx`,

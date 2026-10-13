@@ -62,6 +62,13 @@ describe("GameShelfPicker", () => {
     expect(tabStops(markup)).toEqual(["blue"]);
   });
 
+  it("shows no paging arrows until it knows the shelf overflows", () => {
+    const markup = render({});
+
+    expect(markup).not.toContain("Earlier games");
+    expect(markup).not.toContain("Later games");
+  });
+
   it("opens at the asked-for generation, else the newest game", () => {
     expect(tabStops(render({ initialGeneration: 1 }))).toEqual(["red"]);
     expect(tabStops(render({}))).toEqual(["sword"]);

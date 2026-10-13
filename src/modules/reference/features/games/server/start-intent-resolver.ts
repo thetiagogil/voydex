@@ -2,10 +2,7 @@ import type {
   ResolveStartIntent,
   StartIntentPokemon,
 } from "@/config/start-intent";
-import {
-  readGameShelfGames,
-  readGameStarters,
-} from "@/modules/reference/features/games/server/game-shelf-reader";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-shelf-reader";
 import type { GameStarter } from "@/modules/reference/types";
 
 const toIntentPokemon = (starter: GameStarter): StartIntentPokemon => ({
@@ -21,11 +18,9 @@ const toIntentPokemon = (starter: GameStarter): StartIntentPokemon => ({
  * pages drop it; a failed read throws to the page's error boundary.
  */
 export const resolveStartIntent: ResolveStartIntent = async (intent) => {
-  const [games, starters] = await Promise.all([
-    readGameShelfGames(),
-    readGameStarters(intent.gameSlug),
-  ]);
+  const { games, startersByGameSlug } = await readGameCatalogue();
   const game = games.find((candidate) => candidate.slug === intent.gameSlug);
+  const starters = startersByGameSlug[intent.gameSlug];
 
   if (!game || !starters) {
     return null;

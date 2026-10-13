@@ -86,7 +86,7 @@ export const CodexAddToPlay = async ({
 
   if (!plays.length) {
     return (
-      <Link href={appRoutes.mainlinePlayNew()} className={buttonVariants()}>
+      <Link href={appRoutes.mainlineNewPlay()} className={buttonVariants()}>
         <AppIcon icon={appIcons.actions.create} inline="start" />
         Start a Play
       </Link>
@@ -99,7 +99,7 @@ export const CodexAddToPlay = async ({
       triggerLabel="Add to a Play"
       triggerVariant="default"
       items={getAddItems(plays, speciesSlug, formSlug)}
-      newPlay={{ href: appRoutes.mainlinePlayNew(), label: "Start a new Play" }}
+      newPlay={{ href: appRoutes.mainlineNewPlay(), label: "Start a new Play" }}
     />
   );
 };
@@ -142,11 +142,11 @@ export const CodexInYourPlays = async ({
       heading="Add to"
       triggerLabel="Add to a Play"
       items={getAddItems(addablePlays, speciesSlug)}
-      newPlay={{ href: appRoutes.mainlinePlayNew(), label: "Start a new Play" }}
+      newPlay={{ href: appRoutes.mainlineNewPlay(), label: "Start a new Play" }}
     />
   ) : (
     <Link
-      href={appRoutes.mainlinePlayNew()}
+      href={appRoutes.mainlineNewPlay()}
       className={buttonVariants({ size: "sm", variant: "outline" })}
     >
       Start a Play
@@ -260,7 +260,7 @@ export const CodexGamePlays = async ({
   return (
     <div className="flex flex-wrap gap-2">
       <Link
-        href={appRoutes.mainlinePlayNew(gameSlug)}
+        href={appRoutes.mainlineNewPlay(gameSlug)}
         className={buttonVariants()}
       >
         <AppIcon icon={appIcons.actions.create} inline="start" />

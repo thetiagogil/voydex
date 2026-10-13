@@ -1,7 +1,4 @@
-import type {
-  GameShelfGame,
-  GameStarters,
-} from "@/modules/reference/features/games/types";
+import type { GameCatalogue } from "@/modules/reference/features/games/types";
 import type { ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlinePlaySummary = ViewRow<"mainline_play_summary">;
@@ -48,17 +45,8 @@ export type PlayBrowseItem = MainlinePlaySummary & {
   storyPosition: PlayBrowseStoryPosition | null;
 };
 
-/* An optional content scope (DLC) a game's Play can own. */
-export type NewPlayExpansion = {
-  name: string;
-  versionGroupId: number;
-};
-
 /* What starting a Play offers, on New Play and Home's first-Play picker. */
-export type NewPlayPickerData = {
-  expansionsByGameSlug: Record<string, NewPlayExpansion[]>;
-  games: GameShelfGame[];
-  startersByGameSlug: Record<string, GameStarters>;
+export type NewPlayPickerData = GameCatalogue & {
   /* The trainer name a new Play starts with: your display name. */
   trainerName: string | null;
 };
