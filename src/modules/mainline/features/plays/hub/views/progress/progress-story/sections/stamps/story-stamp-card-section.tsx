@@ -1,7 +1,6 @@
 import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import { Card } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 import type { StoryStamp } from "../../types";
 import { getStoryMilestoneIcon } from "../../utils/story-milestone-icon";
@@ -30,8 +29,7 @@ const getStampState = (stamp: StoryStamp) => {
 
 /*
  * The stamp card: every badge and the League, tilted like stamps. The one you
- * just recorded slaps down once; nothing moves on load. The slap plays on a
- * plain wrapper, so the stamp inside keeps its own tilt throughout.
+ * just recorded slaps down once; nothing moves on load.
  */
 export const StoryStampCardSection = ({
   className,
@@ -47,53 +45,38 @@ export const StoryStampCardSection = ({
   stamps: StoryStamp[];
 }) => {
   return (
-    <Card
-      role="region"
-      aria-labelledby="story-stamps-title"
-      className={cn("px-5 sm:px-7", className)}
+    <DetailSectionCard
+      title="Stamp card"
+      aside="Badges and the League"
+      className={className}
+      headerClassName="sm:px-7"
+      contentClassName="pt-2 sm:px-7"
     >
-      <div>
-        <div className="mb-5 flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-          <h2 id="story-stamps-title" className="text-24">
-            Stamp card
-          </h2>
-          <span className="text-ink-3 text-14 font-semibold max-sm:hidden">
-            Badges and the League
-          </span>
-        </div>
-        <ul className="grid grid-cols-[repeat(4,minmax(0,72px))] justify-between gap-4 px-1 pt-1 pb-1.5">
-          {stamps.map((stamp, index) => {
-            const isSlapping =
-              stamp.state === "earned" &&
-              stamp.milestone.id === slappingMilestoneId;
+      <ul className="grid grid-cols-[repeat(4,minmax(0,72px))] justify-between gap-4 px-1 pt-1 pb-1.5">
+        {stamps.map((stamp, index) => {
+          const isSlapping =
+            stamp.state === "earned" &&
+            stamp.milestone.id === slappingMilestoneId;
 
-            return (
-              <li key={stamp.milestone.id} className="flex flex-col">
-                <span
-                  className={cn("block", isSlapping && "animate-slap")}
-                  onAnimationEnd={(event) => {
-                    if (isSlapping && event.target === event.currentTarget) {
-                      onSlapEnd();
-                    }
-                  }}
-                >
-                  <BadgeStamp
-                    label={getStampLabel(stamp)}
-                    state={getStampState(stamp)}
-                    tilt={stampTilts[index % stampTilts.length]}
-                  />
-                </span>
-                <span
-                  aria-hidden
-                  className="text-ink-3 text-12 mt-4 text-center leading-[1.2] font-bold"
-                >
-                  {stamp.label}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </Card>
+          return (
+            <li key={stamp.milestone.id} className="flex flex-col">
+              <BadgeStamp
+                label={getStampLabel(stamp)}
+                state={getStampState(stamp)}
+                tilt={stampTilts[index % stampTilts.length]}
+                slap={isSlapping}
+                onSlapEnd={onSlapEnd}
+              />
+              <span
+                aria-hidden
+                className="text-ink-3 text-12 mt-4 text-center leading-[1.2] font-bold"
+              >
+                {stamp.label}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </DetailSectionCard>
   );
 };

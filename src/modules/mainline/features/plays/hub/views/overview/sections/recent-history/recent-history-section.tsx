@@ -1,7 +1,7 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
-import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/utils/play-timeline-date";
 import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
+import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -63,15 +63,24 @@ export const RecentHistorySection = ({
     .slice(0, recentMomentLimit);
 
   return (
-    <MainlinePlaySectionCard title="Recent moments" contentClassName="pt-0">
+    <DetailSectionCard title="Recent moments" contentClassName="pt-0">
       <div className="divide-line grid divide-y">
         {moments.map((event, index) => {
           const display = getTimelineEventDisplay(event);
+          const happenedAt = event.happened_at ?? event.created_at;
 
           return (
             <RecordRow
               key={event.event_id ?? `${event.title}-${index}`}
-              kicker={`${display.label} · ${formatPlayTimelineDate(event).date}`}
+              kicker={
+                happenedAt ? (
+                  <>
+                    {display.label} · <PlayMomentTime value={happenedAt} />
+                  </>
+                ) : (
+                  display.label
+                )
+              }
               headline={event.title ?? event.milestone_name ?? display.label}
               description={
                 event.body && event.body !== event.title
@@ -94,6 +103,6 @@ export const RecentHistorySection = ({
           />
         ) : null}
       </div>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

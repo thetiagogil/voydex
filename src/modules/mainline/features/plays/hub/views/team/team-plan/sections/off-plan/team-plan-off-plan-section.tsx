@@ -1,4 +1,4 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 /*
  * v3 "Outside the Plan": what this Play recorded that isn't one of the
@@ -6,7 +6,7 @@ import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/s
  */
 export const TeamPlanOffPlanSection = ({ names }: { names: string[] }) => {
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Outside the Plan"
       description="Recorded in this Play, but not one of the Plan's targets"
     >
@@ -20,6 +20,6 @@ export const TeamPlanOffPlanSection = ({ names }: { names: string[] }) => {
           </li>
         ))}
       </ul>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

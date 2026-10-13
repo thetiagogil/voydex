@@ -1,4 +1,4 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { TeamAnalysisCoverageRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import {
   PokemonTypeBadge,
@@ -62,7 +62,7 @@ export const TeamAnalysisMoveCoverageSection = ({
   const coveredCount = rows.filter((row) => row.moveCount > 0).length;
 
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Move coverage"
       headingLevel={3}
       /* v3 hides the section aside on phones. */
@@ -83,6 +83,6 @@ export const TeamAnalysisMoveCoverageSection = ({
           </li>
         ))}
       </ul>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

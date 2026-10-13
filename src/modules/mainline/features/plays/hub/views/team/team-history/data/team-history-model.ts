@@ -2,6 +2,8 @@ import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/play
 import { getTeamEventDisplay } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-display";
 import { getTeamEventPokemon } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-payload";
 
+import type { ViewerClock } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
+
 import {
   formatTeamHistoryDate,
   type TeamHistoryDate,
@@ -184,20 +186,19 @@ export const getTeamHistoryEventTypeOptions = (
 
 /*
  * Month groups in the order the events already have, with each event's date
- * read in `timeZone` (and `today`, its current day, for "Today" and
- * "Yesterday"). Timeline order wins over dates, so a month can come back
+ * read on the viewer's clock (its time zone, and its current day for "Today"
+ * and "Yesterday"). Timeline order wins over dates, so a month can come back
  * after an older one; it then opens a new group instead of moving events out
  * of order.
  */
 export const groupTeamHistoryEventsByMonth = (
   events: MainlinePlayTimelineEvent[],
-  timeZone: string,
-  today: string | null = null,
+  clock: ViewerClock,
 ): TeamHistoryMonth[] => {
   const months: Array<TeamHistoryMonth & { monthKey: string }> = [];
 
   for (const event of events) {
-    const date = formatTeamHistoryDate(event, timeZone, today);
+    const date = formatTeamHistoryDate(event, clock);
     const currentMonth = months.at(-1);
 
     if (currentMonth?.monthKey === date.monthKey) {

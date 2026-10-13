@@ -21,6 +21,7 @@ import {
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
 import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
+import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
 import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
 import type {
@@ -28,6 +29,7 @@ import type {
   PokedexPageFilters,
 } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 
@@ -178,7 +180,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         />
       </div>
 
-      <div className="mt-3.5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+      <div className="mt-3.5">
         <CodexTypeFilter
           onValueChange={(type) => {
             updateFilter("type", type);
@@ -186,16 +188,16 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           types={data.types}
           value={filters.type}
         />
-        {hasActiveFilters ? (
-          <ClearFiltersButton onClick={clearFilters} />
-        ) : null}
       </div>
 
-      {/* Says how many match when the filters change, not as more load. */}
-      <p className="sr-only" aria-live="polite">
-        {countFormat.format(filteredPokemon.length)}{" "}
-        {filteredPokemon.length === 1 ? "Pokémon matches" : "Pokémon match"}
-      </p>
+      {/* Counts every match, not just the ones loaded so far. */}
+      <BrowseResultSummary
+        hasActiveFilters={hasActiveFilters}
+        noun="Pokémon"
+        onClearFilters={clearFilters}
+        shownCount={filteredPokemon.length}
+        totalCount={data.pokemon.length}
+      />
 
       {filteredPokemon.length ? (
         <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">
@@ -233,12 +235,16 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           ) : null}
         </div>
       ) : (
-        <div className="mt-7.5 flex flex-col items-center gap-3 py-10 text-center">
-          <p className="text-ink-3 font-semibold">Nothing matches.</p>
-          {hasActiveFilters ? (
-            <ClearFiltersButton onClick={clearFilters} />
-          ) : null}
-        </div>
+        <EmptyState
+          variant="bare"
+          className="mt-7.5"
+          title="Nothing matches."
+          action={
+            hasActiveFilters ? (
+              <ClearFiltersButton onClick={clearFilters} />
+            ) : null
+          }
+        />
       )}
     </>
   );

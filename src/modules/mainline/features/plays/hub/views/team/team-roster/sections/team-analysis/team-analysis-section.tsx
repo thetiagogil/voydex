@@ -1,5 +1,5 @@
 import { appRoutes } from "@/config/routes";
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
@@ -46,7 +46,7 @@ export const TeamAnalysisSection = ({
     : `All ${teamRosterSize} filled`;
 
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Team analysis"
       headingLevel={3}
       action={
@@ -63,6 +63,6 @@ export const TeamAnalysisSection = ({
         <TeamAnalysisSignal label="Move coverage" value={moves} />
         <TeamAnalysisSignal label="Team slots" value={slots} />
       </dl>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

@@ -61,17 +61,3 @@ export const getModuleKeyForPathname = (pathname: string) => {
     }) ?? null
   );
 };
-
-export const getActiveModuleKey = ({
-  cookieValue,
-  pathname,
-}: {
-  cookieValue?: string | null;
-  pathname?: string | null;
-}) => {
-  const pathnameModuleKey = pathname ? getModuleKeyForPathname(pathname) : null;
-  if (pathnameModuleKey) {
-    return pathnameModuleKey;
-  }
-  return isModuleKey(cookieValue) ? cookieValue : DEFAULT_MODULE_KEY;
-};

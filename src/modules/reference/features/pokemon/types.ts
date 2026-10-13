@@ -36,7 +36,6 @@ export type PokedexPokemonBrowseReference = {
 export type PokedexPokemonBrowseCard = {
   detailGameSlug: string;
   id: number;
-  imageAlt: string;
   imageUrl: string | null;
   introducedGeneration: PokedexPokemonBrowseReference | null;
   isBaby: boolean;

@@ -9,7 +9,7 @@ import {
 /*
  * A month: its heading on the page, then its moments between rules in one
  * card. Each record stays readable at every width, so its line and note wrap
- * instead of truncating; with nothing trailing, the row keeps two columns.
+ * instead of truncating.
  */
 export const TeamHistoryMonthSection = ({
   month,
@@ -35,8 +35,8 @@ export const TeamHistoryMonthSection = ({
           {month.entries.map(({ date, event }, index) => (
             <li key={getTeamHistoryEventKey(event, index)} className="min-w-0">
               <TeamEventRecordRow
-                className="grid-cols-[52px_minmax(0,1fr)] [&_p]:line-clamp-none [&_p]:whitespace-normal"
                 event={event}
+                wrap
                 when={
                   date.moment ? (
                     <time dateTime={date.moment.dateTime}>

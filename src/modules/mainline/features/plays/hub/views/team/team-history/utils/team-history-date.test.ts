@@ -2,11 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 
-import {
-  formatTeamHistoryCalendarDate,
-  formatTeamHistoryDate,
-  getTeamHistoryToday,
-} from "./team-history-date";
+import { formatTeamHistoryDate } from "./team-history-date";
+
+const utc = { timeZone: "UTC", today: null };
 
 describe("formatTeamHistoryDate", () => {
   it("keeps an unknown event date distinct from its database creation time", () => {
@@ -15,7 +13,7 @@ describe("formatTeamHistoryDate", () => {
         created_at: "2025-07-01T12:00:00Z",
         happened_at: null,
       } as MainlinePlayTimelineEvent,
-      "UTC",
+      utc,
     );
 
     expect(display).toEqual({
@@ -28,7 +26,7 @@ describe("formatTeamHistoryDate", () => {
   it("reads a recorded date month first and groups it by month", () => {
     const display = formatTeamHistoryDate(
       { happened_at: "2025-06-02T12:00:00Z" } as MainlinePlayTimelineEvent,
-      "UTC",
+      utc,
     );
 
     expect(display.moment?.dateTime).toBe("2025-06-02T12:00:00Z");
@@ -43,52 +41,17 @@ describe("formatTeamHistoryDate", () => {
       happened_at: "2025-06-30T23:30:00Z",
     } as MainlinePlayTimelineEvent;
 
-    expect(formatTeamHistoryDate(event, "UTC")).toMatchObject({
+    expect(formatTeamHistoryDate(event, utc)).toMatchObject({
       moment: { day: "Jun 30" },
       monthKey: "2025-6",
       monthLabel: "June 2025",
     });
-    expect(formatTeamHistoryDate(event, "Europe/Lisbon")).toMatchObject({
+    expect(
+      formatTeamHistoryDate(event, { timeZone: "Europe/Lisbon", today: null }),
+    ).toMatchObject({
       moment: { day: "Jul 1" },
       monthKey: "2025-7",
       monthLabel: "July 2025",
     });
-  });
-});
-
-describe("relative and calendar days", () => {
-  it("reads today and yesterday in the given time zone", () => {
-    const today = getTeamHistoryToday(
-      "Europe/Lisbon",
-      new Date("2025-07-01T00:30:00Z"),
-    );
-
-    expect(today).toBe("2025-07-01");
-    expect(
-      formatTeamHistoryDate(
-        { happened_at: "2025-06-30T23:30:00Z" } as MainlinePlayTimelineEvent,
-        "Europe/Lisbon",
-        today,
-      ).moment?.day,
-    ).toBe("Today");
-    expect(
-      formatTeamHistoryDate(
-        { happened_at: "2025-06-30T12:00:00Z" } as MainlinePlayTimelineEvent,
-        "Europe/Lisbon",
-        today,
-      ).moment?.day,
-    ).toBe("Yesterday");
-    expect(
-      formatTeamHistoryDate(
-        { happened_at: "2025-06-29T12:00:00Z" } as MainlinePlayTimelineEvent,
-        "Europe/Lisbon",
-        today,
-      ).moment?.day,
-    ).toBe("Jun 29");
-  });
-
-  it("reads a date-only value as the same calendar day everywhere", () => {
-    expect(formatTeamHistoryCalendarDate("2025-05-07")).toBe("May 7, 2025");
-    expect(formatTeamHistoryCalendarDate("not a date")).toBeNull();
   });
 });

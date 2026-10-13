@@ -30,6 +30,7 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
           <PlaysBrowser plays={data.plays} params={params} />
         ) : (
           <EmptyState
+            headingLevel="h2"
             artUrl={emptyLibraryArtUrl}
             title="Your first Play starts here"
             description="Your Plays will appear here once you start one."

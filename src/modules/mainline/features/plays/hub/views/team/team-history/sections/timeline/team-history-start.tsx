@@ -1,7 +1,6 @@
 import { Medallion } from "@/modules/mainline/features/plays/shared/components/medallion";
+import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { appIcons } from "@/shared/components/app-icon";
-
-import { formatTeamHistoryCalendarDate } from "../../utils/team-history-date";
 
 /*
  * Where the Play began: a boundary, not a record, so it has no card. Only its
@@ -13,9 +12,7 @@ export const TeamHistoryStart = ({
 }: {
   startedOn: string | null;
 }) => {
-  const startedOnLabel = startedOn
-    ? formatTeamHistoryCalendarDate(startedOn)
-    : null;
+  const startedOnLabel = formatPlayDate(startedOn, "");
 
   return (
     <div className="flex min-w-0 items-center gap-4 px-5 py-4.5 sm:px-7">

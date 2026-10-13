@@ -1,13 +1,13 @@
 import { appRoutes } from "@/config/routes";
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
-import { formatPlayTimelineDate } from "@/modules/mainline/features/plays/hub/utils/play-timeline-date";
 import { getTeamEventTypeByFormId } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-record";
 import { TeamEventRecordRow } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-record-row";
+import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 
 type TeamEventsSectionProps = {
   className?: string;
@@ -26,7 +26,7 @@ export const TeamEventsSection = ({
   const typeByFormId = getTeamEventTypeByFormId(roster);
 
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Recent team moments"
       headingLevel={3}
       action={
@@ -41,7 +41,7 @@ export const TeamEventsSection = ({
       {events.length ? (
         <div className="divide-line grid divide-y">
           {events.map((event, index) => {
-            const date = formatPlayTimelineDate(event);
+            const happenedAt = event.happened_at ?? event.created_at;
 
             return (
               <TeamEventRecordRow
@@ -49,14 +49,7 @@ export const TeamEventsSection = ({
                 event={event}
                 typeByFormId={typeByFormId}
                 when={
-                  <time
-                    dateTime={
-                      event.happened_at ?? event.created_at ?? undefined
-                    }
-                    title={date.dateTime}
-                  >
-                    {date.date}
-                  </time>
+                  happenedAt ? <PlayMomentTime value={happenedAt} /> : undefined
                 }
               />
             );
@@ -68,6 +61,6 @@ export const TeamEventsSection = ({
           will show up here.
         </p>
       )}
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

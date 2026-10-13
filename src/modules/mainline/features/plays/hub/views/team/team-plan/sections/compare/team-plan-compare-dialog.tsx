@@ -84,22 +84,18 @@ const artClassName = "size-[68px] sm:size-[92px]";
 const CompareSide = ({
   art,
   label,
-  labelClassName,
   name,
   nameClassName,
   placement,
 }: {
   art: ReactNode;
   label: string;
-  labelClassName?: string;
   name: string;
   nameClassName?: string;
   placement?: string;
 }) => (
   <div className="flex min-w-0 flex-col items-center gap-1.5 text-center">
-    <span className={cn("text-13 text-ink-tint font-bold", labelClassName)}>
-      {label}
-    </span>
+    <span className="text-13 text-ink-tint font-bold">{label}</span>
     {art}
     <b
       className={cn(
@@ -115,9 +111,6 @@ const CompareSide = ({
   </div>
 );
 
-/* On phones the dialog's close button sits over this label, so it steps aside. */
-const recordedLabelClassName = "max-sm:pr-10";
-
 const RecordedSide = ({
   comparison,
 }: {
@@ -129,7 +122,6 @@ const RecordedSide = ({
     return (
       <CompareSide
         label="In this Play"
-        labelClassName={recordedLabelClassName}
         name="Not caught yet"
         nameClassName="text-ink-tint"
         art={
@@ -155,7 +147,6 @@ const RecordedSide = ({
   return (
     <CompareSide
       label="In this Play"
-      labelClassName={recordedLabelClassName}
       name={getPlayTeamMemberName(member)}
       placement={getTeamPlanMemberPlacement(member).label}
       art={
@@ -199,7 +190,10 @@ export const TeamPlanCompareDialog = ({
   return (
     <Dialog open={open && comparison !== null} onOpenChange={onOpenChange}>
       {comparison ? (
-        <DialogContent className="flex flex-col gap-0 p-0 max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none sm:max-w-[min(45rem,calc(100%-2rem))]">
+        <DialogContent
+          fullScreenOnPhone
+          className="flex flex-col gap-0 p-0 sm:max-w-[min(45rem,calc(100%-2rem))]"
+        >
           <DialogTitle className="sr-only">
             Target {comparison.slot}, {comparison.plannedName}, compared with
             this Play

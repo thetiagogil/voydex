@@ -14,7 +14,7 @@ import {
   type GamePokedexSortKey,
   type GamePokedexView,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
-import { BrowseResultSummary } from "@/modules/codex/features/games/shared/components/browse-result-summary";
+import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
 import {
   gameMechanics,
@@ -189,11 +189,11 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
           )
         ) : (
           <EmptyState
-            title="No Pokémon match"
-            description={
+            variant="bare"
+            title={
               hasAbilities
-                ? "Try a different name, number, ability or type."
-                : "Try a different name, number or type."
+                ? "No Pokémon match that name, number, ability or type."
+                : "No Pokémon match that name, number or type."
             }
           />
         )}

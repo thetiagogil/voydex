@@ -1,10 +1,11 @@
+import { signOut } from "@/features/app-shell/server/sign-out-action";
 import { SettingsPage as SettingsPageView } from "@/features/settings/components/settings-page";
-import { getOptionalUserEmail } from "@/platform/supabase/auth";
+import { getUserEmailClaim } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export default async function SettingsPage() {
   const supabase = await createServerSupabaseClient();
-  const userEmail = (await getOptionalUserEmail(supabase)) ?? "Account";
+  const userEmail = await getUserEmailClaim(supabase);
 
-  return <SettingsPageView userEmail={userEmail} />;
+  return <SettingsPageView signOutAction={signOut} userEmail={userEmail} />;
 }

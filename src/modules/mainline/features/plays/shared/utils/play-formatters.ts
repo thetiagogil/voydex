@@ -1,3 +1,10 @@
+const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
+
+/*
+ * A date as "May 7, 2025". A date-only value ("2025-05-07", like
+ * `started_on`) is a calendar day, not an instant, so it reads the same day in
+ * every time zone; a timestamp reads in the local one.
+ */
 export const formatPlayDate = (value: string | null, fallback = "Not set") => {
   if (!value) {
     return fallback;
@@ -12,6 +19,7 @@ export const formatPlayDate = (value: string | null, fallback = "Not set") => {
   return new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "short",
+    timeZone: dateOnlyPattern.test(value) ? "UTC" : undefined,
     year: "numeric",
   }).format(date);
 };

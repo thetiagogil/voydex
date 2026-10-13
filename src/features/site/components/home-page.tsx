@@ -1,7 +1,6 @@
 import { MeadowCard } from "@/features/site/components/meadow-card";
 import { PlayStoryCard } from "@/features/site/components/play-story-card";
 import { SiteActions } from "@/features/site/components/site-actions";
-import { SiteFooter } from "@/features/site/components/site-footer";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 import type { SiteArt } from "@/features/site/types";
 
@@ -36,7 +35,6 @@ export const HomePage = async ({ art }: HomePageProps) => {
         <SiteActions isAuthenticated={isAuthenticated} />
       </MeadowCard>
       <PlayStoryCard art={art} className="mt-8 sm:mt-12" />
-      <SiteFooter isAuthenticated={isAuthenticated} />
     </div>
   );
 };

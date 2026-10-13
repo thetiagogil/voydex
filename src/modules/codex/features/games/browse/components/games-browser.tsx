@@ -13,7 +13,7 @@ import {
   type GamesGroupBy,
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
-import { BrowseResultSummary } from "@/modules/codex/features/games/shared/components/browse-result-summary";
+import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import type {
   GamesPageData,
   GamesPageFilters,
@@ -129,9 +129,9 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
         <GamesShelf sections={sections} />
       ) : (
         <EmptyState
+          variant="bare"
           className="mt-6"
-          title="No games match"
-          description="Try a different search or filter."
+          title="No games match that search or filter."
         />
       )}
     </>

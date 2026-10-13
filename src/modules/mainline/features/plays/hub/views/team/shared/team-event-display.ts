@@ -217,8 +217,3 @@ export const getTeamEventDisplay = (
       };
   }
 };
-
-/* Kept for team-history-record.ts until History draws its rows with TeamEventRecordRow. */
-export const getTeamEventOutcomePokemon = (
-  display: TeamEventDisplay,
-): TeamEventPokemon => display.outcome;

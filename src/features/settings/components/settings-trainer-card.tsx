@@ -1,15 +1,11 @@
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { cn } from "@/shared/utils/cn";
+import { getEmailInitials } from "@/shared/utils/email-initials";
 
 type SettingsTrainerCardProps = {
   /* Null when your email could not be read right now. */
   email: string | null;
-};
-
-/* Matches the nav avatar's rule in the app shell's user menu. */
-const getInitials = (email: string) => {
-  const name = email.split("@")[0] ?? "U";
-  return name.slice(0, 2).toUpperCase();
 };
 
 /* A long email wraps before its "@" on phones, not in the middle of a word. */
@@ -24,9 +20,10 @@ const nameClassName =
 /*
  * v3's trainer card (`.set-me .you-card`): who you are in Voydex, and the one
  * loud thing on Settings. A 4px white border and a lip tinted by your colour.
- * Until you can pick an icon and a name, it shows your initials on their own
+ * Until you can pick an icon and a name, it shows your initial on its own
  * white-rimmed disc, and your email. Without an email it is v3's empty card
- * (`.ob-cart.is-empty`): plain clay, a dashed circle and a quiet placeholder.
+ * (`.ob-cart.is-empty`): plain clay, the trainer glyph in a dashed circle and
+ * a quiet placeholder.
  */
 export const SettingsTrainerCard = ({ email }: SettingsTrainerCardProps) => {
   const [localPart, domain] = email ? splitEmail(email) : [];
@@ -47,14 +44,19 @@ export const SettingsTrainerCard = ({ email }: SettingsTrainerCardProps) => {
           className="size-19 border-4 border-white sm:size-26"
         >
           <AvatarFallback className="font-display text-24 sm:text-32 font-semibold">
-            {getInitials(email)}
+            {getEmailInitials(email)}
           </AvatarFallback>
         </Avatar>
       ) : (
         <span
           aria-hidden
-          className="border-dash size-19 shrink-0 rounded-full border-3 border-dashed sm:size-26"
-        />
+          className="border-dash text-ink-3 grid size-19 shrink-0 place-items-center rounded-full border-3 border-dashed sm:size-26"
+        >
+          <AppIcon
+            icon={appIcons.product.trainer}
+            className="size-8 sm:size-9"
+          />
+        </span>
       )}
       <div className="flex min-w-0 flex-col gap-0.5">
         {email ? (
