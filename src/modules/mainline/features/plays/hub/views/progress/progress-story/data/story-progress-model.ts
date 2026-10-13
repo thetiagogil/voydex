@@ -1,11 +1,14 @@
+import {
+  compareMilestoneCategories,
+  compareMilestonesInCategory,
+  isBlockingPrerequisiteKind,
+} from "@/modules/mainline/features/plays/hub/data/milestone-order";
 import type {
   MainlinePlayProgressStoryData,
-  StoryCategorySource,
   StoryDecisionOption,
   StoryMilestone,
   StoryMilestoneIncompletionImpact,
   StoryMilestonePrerequisite,
-  StoryMilestoneSource,
   StoryProgressModel,
   StoryScope,
   StorySection,
@@ -149,35 +152,8 @@ const parsePrerequisites = (
   });
 };
 
-const compareCategories = (
-  first: StoryCategorySource,
-  second: StoryCategorySource,
-) => {
-  return (
-    toFiniteNumber(first.content_scope_sort_order) -
-      toFiniteNumber(second.content_scope_sort_order) ||
-    toFiniteNumber(first.category_sort_order) -
-      toFiniteNumber(second.category_sort_order) ||
-    toFiniteNumber(first.category_id) - toFiniteNumber(second.category_id)
-  );
-};
-
-const compareMilestones = (
-  first: StoryMilestoneSource,
-  second: StoryMilestoneSource,
-) => {
-  return (
-    toFiniteNumber(first.sort_order) - toFiniteNumber(second.sort_order) ||
-    toFiniteNumber(first.milestone_id) - toFiniteNumber(second.milestone_id)
-  );
-};
-
-const isBlockingPrerequisite = (prerequisite: StoryMilestonePrerequisite) => {
-  return (
-    prerequisite.kindSlug === "required" ||
-    prerequisite.kindSlug === "story-unlock"
-  );
-};
+const isBlockingPrerequisite = (prerequisite: StoryMilestonePrerequisite) =>
+  isBlockingPrerequisiteKind(prerequisite.kindSlug);
 
 const emptyIncompletionImpact = (): StoryMilestoneIncompletionImpact => ({
   affectedMilestones: [],
@@ -285,7 +261,7 @@ export const buildStoryProgressModel = ({
 
   const sections = [...categories]
     .filter((category) => toFiniteNumber(category.milestone_count) > 0)
-    .sort(compareCategories)
+    .sort(compareMilestoneCategories)
     .map<StorySection>((category) => {
       const categoryId = toFiniteNumber(category.category_id);
       const scopeId = toFiniteNumber(category.version_group_id);
@@ -296,7 +272,7 @@ export const buildStoryProgressModel = ({
             toFiniteNumber(milestone.version_group_id) ===
               toFiniteNumber(category.version_group_id),
         )
-        .sort(compareMilestones)
+        .sort(compareMilestonesInCategory)
         .map<StoryMilestone>((milestone) => {
           const sequence = (sequenceByScopeId.get(scopeId) ?? 0) + 1;
           sequenceByScopeId.set(scopeId, sequence);

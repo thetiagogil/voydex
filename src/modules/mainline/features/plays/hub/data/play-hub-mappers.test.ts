@@ -53,11 +53,7 @@ describe("Play page data mappers", () => {
       roster_state_slug: "active",
     } as MainlinePlayTeamPreviewRow;
     const data = buildMainlinePlayOverviewData({
-      badgeCaseRows: { milestones: [], types: [] },
-      milestones: {
-        lastCompletedMilestone: null,
-        nextMilestone: null,
-      },
+      milestoneRows: { categories: [], milestones: [], types: [] },
       overview: null,
       play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
       teamPreviewRows: {

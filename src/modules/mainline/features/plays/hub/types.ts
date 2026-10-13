@@ -12,6 +12,7 @@ import type {
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -199,11 +200,6 @@ export type MainlinePlayTeamPlanPreview = {
   targetCount: number;
 };
 
-export type MainlinePlayMilestoneRows = {
-  lastCompletedMilestone: MainlinePlayMilestone | null;
-  nextMilestone: MainlinePlayMilestone | null;
-};
-
 export type MainlinePlayShellData = {
   collectiblesAvailable: boolean;
   coverImageUrl: string | null;
@@ -215,8 +211,8 @@ export type MainlinePlayShellData = {
 
 export type MainlinePlayOverviewData = {
   badgeCase: BadgeCase | null;
-  lastCompletedMilestone: MainlinePlayMilestone | null;
-  nextMilestone: MainlinePlayMilestone | null;
+  lastCompletedMilestone: OverviewMilestone | null;
+  nextMilestone: OverviewMilestone | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];

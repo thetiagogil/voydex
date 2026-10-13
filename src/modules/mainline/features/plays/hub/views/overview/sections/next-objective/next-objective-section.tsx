@@ -1,24 +1,23 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type {
-  MainlinePlayMilestone,
-  MainlinePlayOverview,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
+import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/cn";
 
 type NextObjectiveSectionProps = {
-  lastCompletedMilestone: MainlinePlayMilestone | null;
-  nextMilestone: MainlinePlayMilestone | null;
+  lastCompletedMilestone: OverviewMilestone | null;
+  nextMilestone: OverviewMilestone | null;
   overview: MainlinePlayOverview | null;
   playId: string;
 };
 
 const getPosition = (
-  milestone: MainlinePlayMilestone,
+  milestone: OverviewMilestone,
   overview: MainlinePlayOverview | null,
 ) => {
   const completed = overview?.completed_required_milestone_count;
@@ -82,7 +81,10 @@ export const NextObjectiveSection = ({
                 playId,
                 nextMilestone.milestone_id,
               )}
-              className={buttonVariants({ size: "lg" })}
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
+              )}
             >
               <AppIcon icon={appIcons.status.active} />
               Record {nextMilestone.milestone_name}

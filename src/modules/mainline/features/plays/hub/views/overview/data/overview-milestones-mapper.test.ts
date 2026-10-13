@@ -1,0 +1,95 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  getOverviewMilestoneSummary,
+  orderOverviewMilestones,
+  type OverviewMilestone,
+} from "./overview-milestones-mapper";
+
+const milestone = (
+  overrides: Partial<OverviewMilestone>,
+): OverviewMilestone => ({
+  badge_refs: [],
+  category_id: 101,
+  category_name: "Story",
+  completed_at: null,
+  description: null,
+  is_completed: false,
+  is_required_for_completion: true,
+  milestone_id: 1,
+  milestone_name: "Milestone",
+  milestone_type_slug: "story",
+  prerequisites: [],
+  sort_order: 1,
+  version_group_id: 1,
+  ...overrides,
+});
+
+const categories = [
+  { category_id: 101, category_sort_order: 1, content_scope_sort_order: 1 },
+  { category_id: 102, category_sort_order: 2, content_scope_sort_order: 1 },
+];
+
+describe("orderOverviewMilestones", () => {
+  it("orders by category before each category's own sort order", () => {
+    const ordered = orderOverviewMilestones({
+      categories,
+      milestones: [
+        milestone({ category_id: 102, milestone_id: 13, sort_order: 1 }),
+        milestone({ category_id: 101, milestone_id: 2, sort_order: 2 }),
+        milestone({ category_id: 101, milestone_id: 1, sort_order: 1 }),
+      ],
+    });
+
+    expect(ordered.map((entry) => entry.milestone_id)).toEqual([1, 2, 13]);
+  });
+});
+
+describe("getOverviewMilestoneSummary", () => {
+  it("picks the next milestone in the story, not a later category's first", () => {
+    const summary = getOverviewMilestoneSummary(
+      orderOverviewMilestones({
+        categories,
+        milestones: [
+          milestone({
+            completed_at: "2026-08-01T10:00:00Z",
+            is_completed: true,
+            milestone_id: 1,
+            milestone_name: "Choose Starter",
+          }),
+          milestone({
+            milestone_id: 2,
+            milestone_name: "Receive Pokédex",
+            sort_order: 2,
+          }),
+          milestone({
+            category_id: 102,
+            milestone_id: 13,
+            milestone_name: "Elite Four Lorelei",
+          }),
+        ],
+      }),
+    );
+
+    expect(summary.nextMilestone?.milestone_name).toBe("Receive Pokédex");
+    expect(summary.lastCompletedMilestone?.milestone_name).toBe(
+      "Choose Starter",
+    );
+  });
+
+  it("skips a milestone whose required prerequisite is still open", () => {
+    const summary = getOverviewMilestoneSummary([
+      milestone({
+        milestone_id: 1,
+        milestone_name: "Locked",
+        prerequisites: [
+          { prerequisite_kind_slug: "required", prerequisite_milestone_id: 9 },
+        ],
+      }),
+      milestone({ milestone_id: 2, milestone_name: "Open", sort_order: 2 }),
+      milestone({ milestone_id: 9, milestone_name: "Later", sort_order: 9 }),
+    ]);
+
+    expect(summary.nextMilestone?.milestone_name).toBe("Open");
+  });
+});

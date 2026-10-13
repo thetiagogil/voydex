@@ -1,8 +1,8 @@
-import type {
-  MainlinePlayMilestoneRows,
-  MainlinePlayOverview,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
+import { getBadgeTypeIds } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import type { MainlinePlayOverviewMilestoneRows } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import { uniqueNumberIds } from "@/shared/utils/collections";
 
 export const readMainlinePlayOverview = async (
   supabase: ServerSupabaseClient,
@@ -24,39 +24,51 @@ export const readMainlinePlayOverview = async (
   return overviewResult.data ?? null;
 };
 
-export const readMainlinePlayMilestoneRows = async (
+/*
+ * Every milestone of the Play with its category order and the badge types, so
+ * Overview can pick its next objective and build the badge case in Story's
+ * order.
+ */
+export const readMainlinePlayOverviewMilestoneRows = async (
   supabase: ServerSupabaseClient,
   playId: string,
-): Promise<MainlinePlayMilestoneRows> => {
-  const [lastCompletedResult, nextMilestoneResult] = await Promise.all([
+): Promise<MainlinePlayOverviewMilestoneRows> => {
+  const [categoriesResult, milestonesResult] = await Promise.all([
+    supabase
+      .schema("views")
+      .from("mainline_play_milestone_category_summary")
+      .select("category_id, category_sort_order, content_scope_sort_order")
+      .eq("play_id", playId),
     supabase
       .schema("views")
       .from("mainline_play_milestone_detail")
-      .select("*")
-      .eq("play_id", playId)
-      .eq("is_completed", true)
-      .order("completed_at", { ascending: false })
-      .order("sort_order", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
-    supabase
-      .schema("views")
-      .from("mainline_play_milestone_detail")
-      .select("*")
-      .eq("play_id", playId)
-      .eq("is_completed", false)
-      .eq("is_included_in_completion", true)
-      .order("sort_order", { ascending: true })
-      .limit(1)
-      .maybeSingle(),
+      .select(
+        "badge_refs, category_id, category_name, completed_at, description, is_completed, is_required_for_completion, milestone_id, milestone_name, milestone_type_slug, prerequisites, sort_order, version_group_id",
+      )
+      .eq("play_id", playId),
   ]);
 
-  if (lastCompletedResult.error || nextMilestoneResult.error) {
+  if (categoriesResult.error || milestonesResult.error) {
     throw new Error("Unable to load Mainline play milestone overview.");
   }
 
+  const milestones = milestonesResult.data ?? [];
+  const typeIds = uniqueNumberIds(getBadgeTypeIds(milestones));
+  const typesResult = typeIds.length
+    ? await supabase
+        .schema("reference")
+        .from("types")
+        .select("id, slug")
+        .in("id", typeIds)
+    : null;
+
+  if (typesResult?.error) {
+    throw new Error("Unable to load the Mainline Play badge types.");
+  }
+
   return {
-    lastCompletedMilestone: lastCompletedResult.data ?? null,
-    nextMilestone: nextMilestoneResult.data ?? null,
+    categories: categoriesResult.data ?? [],
+    milestones,
+    types: typesResult?.data ?? [],
   };
 };

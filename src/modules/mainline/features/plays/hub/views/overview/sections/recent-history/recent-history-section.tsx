@@ -11,7 +11,7 @@ import {
   getTimelineDescription,
   getTimelineEventDisplay,
 } from "./recent-history-display";
-import { getTimelineMedia } from "./recent-history-media-model";
+import { getTimelineEventImageUrl } from "./recent-history-media-model";
 
 type RecentHistorySectionProps = {
   badgeTypeByMilestoneId: Map<number, PokemonTypeSlug>;
@@ -39,9 +39,7 @@ const getMedallion = (
   }
 
   if (display.medallion === "pokemon") {
-    const imageUrl = getTimelineMedia(event).find(
-      (item) => item.imageUrl,
-    )?.imageUrl;
+    const imageUrl = getTimelineEventImageUrl(event);
 
     return imageUrl
       ? { imageUrl, kind: "pokemon", type: null }
