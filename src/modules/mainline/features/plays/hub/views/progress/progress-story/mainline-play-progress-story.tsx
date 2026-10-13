@@ -196,7 +196,7 @@ export const MainlinePlayProgressStory = ({
   };
 
   return (
-    <div className="grid min-w-0 gap-7">
+    <div className="grid min-w-0 grid-cols-1 gap-7">
       <StoryPageHead
         onScopeChange={selectScope}
         scope={activeScope}
@@ -207,7 +207,7 @@ export const MainlinePlayProgressStory = ({
        * The side column comes first in the DOM, so on phones the next
        * objective is read and reached before the list it sits above.
        */}
-      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
+      <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
         <div className="contents lg:sticky lg:top-[calc(var(--play-dock-offset,0px)+0.75rem)] lg:col-start-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
           <StoryMilestonePanel
             chapterName={getChapterName(activeScope, panelMilestone)}

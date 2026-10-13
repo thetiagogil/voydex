@@ -25,7 +25,7 @@ export const AppNavbar = ({
         <Link
           href={brandHref}
           aria-label="Voydex home"
-          className="inline-flex h-11 shrink-0 items-center rounded-sm"
+          className="inline-flex h-11 min-w-11 shrink-0 items-center rounded-sm"
         >
           {/* v3 drops the word on narrow phones; the tile alone is the brand. */}
           <Logo

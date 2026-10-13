@@ -3,6 +3,7 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   Generation,
   PokemonAttributes,
@@ -177,7 +178,7 @@ export const buildMainlinePlayPokedexData = ({
         id: pokedex.id,
         isCompletionRelevant: pokedex.is_completion_relevant,
         kind: pokedex.pokedex_kind,
-        name: pokedex.name,
+        name: formatPokedexName(pokedex.name),
         slug: pokedex.slug,
         sortOrder: pokedex.sort_order,
       } satisfies MainlinePlayPokedexScope,

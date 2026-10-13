@@ -1,3 +1,4 @@
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
@@ -127,7 +128,7 @@ export const readMainlinePlayPokemonChoices = async (
 
   return {
     choices,
-    pokedexName,
+    pokedexName: pokedexName ? formatPokedexName(pokedexName) : null,
     preset: preset ? resolvePreset(rows, choices, preset) : null,
   };
 };
