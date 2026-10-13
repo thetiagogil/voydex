@@ -1,12 +1,10 @@
-import Link from "next/link";
-
-import { appRoutes } from "@/config/routes";
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
 import { StatsHeroSection } from "@/modules/mainline/features/stats/sections/stats-hero-section";
 import { StatsRegionsSection } from "@/modules/mainline/features/stats/sections/stats-regions-section";
 import { StatsStyleSection } from "@/modules/mainline/features/stats/sections/stats-style-section";
 import { StatsTimeSection } from "@/modules/mainline/features/stats/sections/stats-time-section";
 import { formatWholeHours } from "@/modules/mainline/features/stats/utils/stats-format";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -71,13 +69,12 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
             : "Start a Play and this page fills in as you record: time, regions and the Pokémon that stay with you."}
         </p>
         {stats.playCount ? null : (
-          <Link
-            href={appRoutes.mainlinePlayNew()}
+          <NewPlayTrigger
             className={buttonVariants({ className: "self-start" })}
           >
             <AppIcon icon={appIcons.actions.create} inline="start" />
             Start a Play
-          </Link>
+          </NewPlayTrigger>
         )}
       </Card>
     </div>

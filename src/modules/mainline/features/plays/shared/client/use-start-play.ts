@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
+import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { createPlayAction } from "@/modules/mainline/features/plays/shared/server/create-play-action";
 import type { NewPlayInput } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { getPlayCalendarDay } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
@@ -17,6 +18,7 @@ import { getPlayCalendarDay } from "@/modules/mainline/features/plays/shared/uti
 export const useStartPlay = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const newPlayDialog = useNewPlayDialog();
 
   const startPlay = (
     input: Omit<NewPlayInput, "startedOn">,
@@ -35,6 +37,7 @@ export const useStartPlay = () => {
         return;
       }
 
+      newPlayDialog?.forgetIntent(input.gameSlug);
       toast.success(`${gameShortName}: ${result.playName} started`);
       router.push(appRoutes.mainlinePlay(result.playId));
     });

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -89,8 +90,7 @@ export const HomePlayShelf = ({ currentPlayId, plays }: HomePlayShelfProps) => (
         );
       })}
       <li className="shrink-0">
-        <Link
-          href={appRoutes.mainlinePlayNew()}
+        <NewPlayTrigger
           aria-label="Start a new Play"
           title="Start a new Play"
           className={coverLinkClassName}
@@ -98,7 +98,7 @@ export const HomePlayShelf = ({ currentPlayId, plays }: HomePlayShelfProps) => (
           <span className="empty-slot text-ink-2 group-hover/shelf-item:bg-hover group-hover/shelf-item:text-ink grid h-22.5 w-17 place-items-center rounded-sm transition-colors sm:h-31 sm:w-23">
             <AppIcon icon={appIcons.actions.create} size="xl" />
           </span>
-        </Link>
+        </NewPlayTrigger>
       </li>
     </ul>
   </nav>

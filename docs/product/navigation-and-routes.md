@@ -199,7 +199,7 @@ Mainline Home (the shelf, Continue) or Plays -> Play Hub
 
 ```txt
 Mainline Home (no Plays: the game picker) -> Start -> Play Hub
-Plays or Home -> New Play (game, partner, details) -> Play Hub
+Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play with the game picked
 Start a Play (game, partner), signed out -> Sign up or Log in
   -> Welcome -> Mainline Home offers that Play

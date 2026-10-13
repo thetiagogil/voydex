@@ -27,6 +27,11 @@ type NewPlayWizardProps = {
    * clay edge since the dialog carries it.
    */
   onClose?: () => void;
+  /*
+   * Focuses the title on the first render too: the dialog sets it when the
+   * wizard replaces its loading state, so focus doesn't fall out of it.
+   */
+  focusTitleOnMount?: boolean;
 };
 
 type Step = 1 | 2 | 3;
@@ -106,7 +111,11 @@ const NewPlaySteps = ({
  * Play's name, trainer name and what it tracks. Start writes the Play and
  * opens it.
  */
-export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
+export const NewPlayWizard = ({
+  data,
+  focusTitleOnMount = false,
+  onClose,
+}: NewPlayWizardProps) => {
   const initialStarters = data.initial.gameSlug
     ? data.startersByGameSlug[data.initial.gameSlug]
     : undefined;
@@ -127,7 +136,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const { isPending, startPlay } = useStartPlay();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
-  const isFirstRender = useRef(true);
+  const isFirstRender = useRef(!focusTitleOnMount);
 
   const game = data.games.find((candidate) => candidate.slug === gameSlug);
   const starters = gameSlug
@@ -406,6 +415,89 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               : `Start your ${game?.shortName ?? ""} Play`}
           </Button>
         )}
+      </div>
+    </section>
+  );
+};
+
+type NewPlayWizardPendingProps = {
+  onClose: () => void;
+  /* Set when the games couldn't be read: says so and offers Try again. */
+  onRetry?: () => void;
+};
+
+/*
+ * The dialog's first step while its games are still on the way (only on the
+ * first New Play of a visit), or when they couldn't be read: the same card,
+ * so it opens at once and the shelf fills in place.
+ */
+export const NewPlayWizardPending = ({
+  onClose,
+  onRetry,
+}: NewPlayWizardPendingProps) => {
+  const titleId = useId();
+
+  return (
+    <section
+      aria-labelledby={titleId}
+      aria-busy={onRetry ? undefined : true}
+      data-slot="card"
+      className="bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
+    >
+      <MeadowScene
+        form="card"
+        className="rounded-none sm:rounded-none"
+        sceneClassName="h-12 sm:h-14"
+      >
+        <NewPlaySteps step={1} onStepChange={() => undefined} />
+        <Button
+          type="button"
+          size="icon"
+          variant="ghost"
+          aria-label="Close New Play"
+          onClick={onClose}
+          className={closeClassName}
+        >
+          <AppIcon icon={appIcons.actions.close} size="lg" />
+        </Button>
+        <div className="px-6 pt-5 text-center sm:px-10">
+          <h1
+            id={titleId}
+            className="text-24 leading-tight tracking-[-0.015em] sm:text-[30px]"
+          >
+            Which game are you playing?
+          </h1>
+        </div>
+        <div className="text-ink-2 text-15 mt-2 grid min-h-56 place-items-center px-6 font-semibold sm:min-h-64">
+          {onRetry ? (
+            <div role="alert" className="flex flex-col items-center gap-3">
+              <p>Voydex couldn&apos;t load the games right now.</p>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={onRetry}
+              >
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <Spinner aria-label="Loading games" className="size-6" />
+          )}
+        </div>
+      </MeadowScene>
+
+      <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
+        <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
+          Pick a game to continue
+        </p>
+        <Button type="button" size="sm" variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="button" size="sm" disabled>
+          Next
+          <AppIcon icon={appIcons.actions.continue} inline="end" />
+        </Button>
       </div>
     </section>
   );

@@ -102,8 +102,13 @@ Plays should support:
 
 Play names should be required in stored data. If the user does not provide one, the app should generate a clear default name during create flow.
 
-New Play (`/mainline/plays/new`, `?game=` to start on a game) has three short
-steps on one card: the game on the cover shelf, the partner on the meadow (or
+New Play has three short steps on one card. Inside Mainline every New Play
+button opens it as a dialog over the current page (the address and the bar's
+active link don't change; its games are read once per visit to Mainline, on
+the first hover, focus or press of a New Play button, so later openings are
+immediate). From outside Mainline (the Codex's "Start a {Version} Play",
+Start a Play signed in) it is the page `/mainline/plays/new`, `?game=` to
+start on a game. Either way: the game on the cover shelf, the partner on the meadow (or
 choose later), then the Play's name, trainer name and what it tracks
 (expansions you own; Story, the Pokédex mode, Collectibles and challenge rules
 show where their settings will go). Start writes the Play and opens it. The

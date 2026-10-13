@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import type { HomeIntentOffer } from "@/modules/mainline/features/home/types";
+import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { dismissStartIntentAction } from "@/modules/mainline/features/plays/shared/server/create-play-action";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
@@ -25,6 +26,7 @@ export const HomeIntentOfferCard = ({
   const [isHidden, setIsHidden] = useState(false);
   const [isDismissing, startDismiss] = useTransition();
   const { isPending, startPlay } = useStartPlay();
+  const newPlayDialog = useNewPlayDialog();
 
   if (isHidden) {
     return null;
@@ -60,6 +62,7 @@ export const HomeIntentOfferCard = ({
                 return;
               }
 
+              newPlayDialog?.forgetIntent();
               setIsHidden(true);
             })
           }

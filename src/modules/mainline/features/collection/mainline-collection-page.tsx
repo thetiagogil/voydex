@@ -3,6 +3,7 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { CollectionBrowser } from "@/modules/mainline/features/collection/sections/collection-browser";
 import type { CollectionPageData } from "@/modules/mainline/features/collection/types";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -65,13 +66,10 @@ export const MainlineCollectionPage = ({
                 Add to your team
               </Link>
             ) : (
-              <Link
-                href={appRoutes.mainlinePlayNew()}
-                className={buttonVariants()}
-              >
+              <NewPlayTrigger className={buttonVariants()}>
                 <AppIcon icon={appIcons.actions.create} inline="start" />
                 Start a Play
-              </Link>
+              </NewPlayTrigger>
             )
           }
         />

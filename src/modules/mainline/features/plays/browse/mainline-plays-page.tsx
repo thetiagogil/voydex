@@ -7,6 +7,7 @@ import { PlaysPageHeader } from "@/modules/mainline/features/plays/browse/compon
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseParams } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import type { PlaysPageData } from "@/modules/mainline/features/plays/browse/types";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -81,13 +82,10 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
             description="Pick the game you're playing and meet your partner. Voydex keeps the rest as you go."
             action={
               <>
-                <Link
-                  href={appRoutes.mainlinePlayNew()}
-                  className={buttonVariants()}
-                >
+                <NewPlayTrigger className={buttonVariants()}>
                   <AppIcon icon={appIcons.actions.create} inline="start" />
                   Start a Play
-                </Link>
+                </NewPlayTrigger>
                 <Link
                   href={appRoutes.codexPokemon}
                   className={buttonVariants({ variant: "outline" })}

@@ -1,7 +1,5 @@
-import Link from "next/link";
-
-import { appRoutes } from "@/config/routes";
 import { getPlayLibraryDescription } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageHeader } from "@/shared/components/page-header";
@@ -22,10 +20,10 @@ export const PlaysPageHeader = ({ plays }: PlaysPageHeaderProps) => {
       description={getPlayLibraryDescription(plays)}
       action={
         plays.length ? (
-          <Link href={appRoutes.mainlinePlayNew()} className={buttonVariants()}>
+          <NewPlayTrigger className={buttonVariants()}>
             <AppIcon icon={appIcons.actions.create} inline="start" />
             New Play
-          </Link>
+          </NewPlayTrigger>
         ) : null
       }
     />
