@@ -6,6 +6,7 @@ import {
   getInitialPlayBrowseFilters,
   getPlayBrowseOptions,
   getPlayBrowseUrlSearchParams,
+  groupPlaysByStatus,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 
@@ -107,5 +108,49 @@ describe("play browse model", () => {
         status: "playing",
       }).toString(),
     ).toBe("q=johto&status=playing");
+  });
+
+  it("groups Plays by status in reading order and keeps their order", () => {
+    const groups = groupPlaysByStatus([
+      buildPlay({
+        play_id: "done",
+        status_name: "Completed",
+        status_slug: "completed",
+      }),
+      buildPlay({
+        play_id: "paused",
+        status_name: "Paused",
+        status_slug: "paused",
+      }),
+      buildPlay({
+        play_id: "first",
+        status_name: "Playing",
+        status_slug: "playing",
+      }),
+      buildPlay({
+        play_id: "custom",
+        status_name: "Shelved",
+        status_slug: "shelved",
+      }),
+      buildPlay({
+        play_id: "second",
+        status_name: "Playing",
+        status_slug: "playing",
+      }),
+      buildPlay({ play_id: "unknown", status_name: null, status_slug: null }),
+    ]);
+
+    expect(
+      groups.map((group) => [
+        group.name,
+        group.plays.map((play) => play.play_id),
+      ]),
+    ).toEqual([
+      ["Playing", ["first", "second"]],
+      ["Paused", ["paused"]],
+      ["Completed", ["done"]],
+      ["Shelved", ["custom"]],
+      ["Other", ["unknown"]],
+    ]);
   });
 });
