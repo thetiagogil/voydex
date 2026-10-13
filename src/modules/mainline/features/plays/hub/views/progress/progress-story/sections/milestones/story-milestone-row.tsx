@@ -1,4 +1,4 @@
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -27,7 +27,11 @@ const StoryMilestoneWhen = ({
         {milestone.completedAt ? (
           <span className="sr-only">Recorded </span>
         ) : null}
-        {formatPlayDate(milestone.completedAt, "Recorded")}
+        <PlayMomentTime
+          value={milestone.completedAt}
+          format="date"
+          fallback="Recorded"
+        />
       </>
     );
   }

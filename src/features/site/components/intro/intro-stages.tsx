@@ -1,10 +1,7 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
-import { BadgeStampStill } from "@/features/site/components/stills/badge-stamp-still";
-import { GameCover } from "@/features/site/components/stills/game-cover";
 import { MomentMedallion } from "@/features/site/components/stills/moment-medallion";
 import { PlayHeaderStill } from "@/features/site/components/stills/play-header-still";
-import { PokemonCardStill } from "@/features/site/components/stills/pokemon-card-still";
 import { PokemonRender } from "@/features/site/components/stills/pokemon-render";
 import { TeamSticker } from "@/features/site/components/stills/team-sticker";
 import {
@@ -19,7 +16,7 @@ import {
   samplePlayPokedex,
   samplePlayTeam,
 } from "@/features/site/data/sample-play";
-import type { SiteArt } from "@/features/site/types";
+import type { SiteArt, SiteBadgeStamp } from "@/features/site/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -84,7 +81,7 @@ export const StartAPlayStage = ({ art }: { art: SiteArt }) => (
                 isPicked && "-translate-y-1.5",
               )}
             >
-              <GameCover art={art} game={game} className="h-24" />
+              {art.gameCover({ className: "h-24", game })}
               {isPicked ? (
                 <span className="bg-action absolute top-1.5 right-1.5 z-2 grid size-6 place-items-center rounded-full text-white shadow-[0_0_0_2.5px_white]">
                   <AppIcon
@@ -110,7 +107,13 @@ const pokedexCaptions = {
   seen: { icon: appIcons.product.seen, label: "Seen" },
 } as const;
 
-export const RecordAsYouGoStage = ({ art }: { art: SiteArt }) => (
+export const RecordAsYouGoStage = ({
+  art,
+  badgeStamp,
+}: {
+  art: SiteArt;
+  badgeStamp: SiteBadgeStamp;
+}) => (
   <IntroStage
     label={`Team: ${samplePlayTeam.map((pokemon) => pokemon.name).join(", ")}. Gym badges: all eight stamped. Pokédex: ${samplePlayPokedex.map((entry) => `${entry.name} ${pokedexCaptions[entry.state].label.toLowerCase()}`).join(", ")}.`}
     className="grid gap-4.5 md:grid-cols-2 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.75fr)_minmax(0,1.2fr)] xl:items-start xl:gap-6.5"
@@ -125,11 +128,9 @@ export const RecordAsYouGoStage = ({ art }: { art: SiteArt }) => (
     <StageRow label="Gym badges">
       <div className="grid grid-cols-[repeat(4,42px)] gap-3 p-1">
         {samplePlayBadges.map((badge, index) => (
-          <BadgeStampStill
-            key={badge.name}
-            tilt={stampTilts[index] ?? 0}
-            type={badge.type}
-          />
+          <Fragment key={badge.name}>
+            {badgeStamp({ tilt: stampTilts[index] ?? 0, type: badge.type })}
+          </Fragment>
         ))}
       </div>
     </StageRow>
@@ -143,14 +144,14 @@ export const RecordAsYouGoStage = ({ art }: { art: SiteArt }) => (
               key={entry.sprite_slug}
               className="flex min-w-0 flex-col items-center gap-2"
             >
-              <PokemonCardStill
-                art={art}
-                className="w-full"
-                number={entry.number}
-                pokemon={entry}
-                state={entry.state}
-                types={entry.types}
-              />
+              {art.pokemonCard({
+                className: "w-full",
+                number: entry.number,
+                pokemon: entry,
+                size: "fluid",
+                state: entry.state,
+                types: entry.types,
+              })}
               <span className="text-13 text-ink-2 inline-flex items-center gap-1.5 font-semibold">
                 {caption.icon ? (
                   <AppIcon icon={caption.icon} className="size-3.5" />
@@ -248,15 +249,15 @@ export const CodexStage = ({ art }: { art: SiteArt }) => (
   >
     <div className="grid grid-cols-3 gap-2">
       {introCodexEntries.map((entry) => (
-        <PokemonCardStill
-          key={entry.sprite_slug}
-          art={art}
-          number={entry.number}
-          pokemon={entry}
-          size="sm"
-          state="plain"
-          types={entry.types}
-        />
+        <Fragment key={entry.sprite_slug}>
+          {art.pokemonCard({
+            number: entry.number,
+            pokemon: entry,
+            size: "sm",
+            state: "plain",
+            types: entry.types,
+          })}
+        </Fragment>
       ))}
     </div>
   </IntroStage>

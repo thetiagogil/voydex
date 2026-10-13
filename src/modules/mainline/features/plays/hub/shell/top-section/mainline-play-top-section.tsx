@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 
-import { MainlinePlayTopCoverArt } from "./mainline-play-top-cover-art";
 import { MainlinePlayTopInfo } from "./mainline-play-top-info";
 
 type MainlinePlayTopSectionProps = {
@@ -26,9 +26,12 @@ export const MainlinePlayTopSection = ({
       className="bg-game-soft play-texture shadow-game mt-2 rounded-xl px-[18px] pt-5 pb-[18px] sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5 lg:px-[30px] lg:pt-[26px] lg:pb-[22px]"
     >
       <div className="relative z-1 flex items-start gap-4 sm:items-center sm:gap-6">
-        <MainlinePlayTopCoverArt
+        <GameCover
+          alt={`${gameName} cover art`}
           coverImageUrl={data.coverImageUrl}
+          eager
           gameName={gameName}
+          size="header"
         />
         <MainlinePlayTopInfo data={data} titleId="mainline-play-title" />
       </div>

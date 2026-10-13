@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
 
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import {
+  formatPlayMoment,
+  type ViewerClock,
+} from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -18,11 +22,17 @@ const joinNames = (names: string[]) =>
     ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
     : (names[0] ?? "");
 
-const getStatus = (milestone: StoryMilestone, isNext: boolean) => {
+const getStatus = (
+  milestone: StoryMilestone,
+  isNext: boolean,
+  clock: ViewerClock,
+) => {
   if (milestone.isCompleted) {
+    const recordedOn = formatPlayMoment(milestone.completedAt, clock)?.date;
+
     return {
       icon: appIcons.product.completion,
-      label: `Recorded ${formatPlayDate(milestone.completedAt, "")}`.trim(),
+      label: recordedOn ? `Recorded ${recordedOn}` : "Recorded",
     };
   }
 
@@ -71,7 +81,7 @@ export const StoryMilestoneDetail = ({
   /* The milestone's name, as the heading its surface needs. */
   title: ReactNode;
 }) => {
-  const status = getStatus(milestone, isNext);
+  const status = getStatus(milestone, isNext, useViewerClock());
   const selectedDecision =
     milestone.decisionOptions.find(
       (option) => option.id === milestone.selectedDecisionId,

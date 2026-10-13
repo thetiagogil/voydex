@@ -1,9 +1,7 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { PokemonRender } from "@/features/site/components/stills/pokemon-render";
 import type { SiteArt, SiteMoment } from "@/features/site/types";
-import { getTypeIconSrc } from "@/features/site/utils/type-colour";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -64,13 +62,7 @@ export const MomentMedallion = ({
     )}
   >
     {moment.kind === "badge" ? (
-      <Image
-        src={getTypeIconSrc(moment.type)}
-        alt=""
-        width={24}
-        height={24}
-        className="size-[48%] brightness-0 invert"
-      />
+      art.typeIcon({ className: "size-[48%]", type: moment.type })
     ) : moment.kind === "note" ? (
       <AppIcon icon={appIcons.actions.edit} className="size-5" />
     ) : (

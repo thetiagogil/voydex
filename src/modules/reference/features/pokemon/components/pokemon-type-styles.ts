@@ -13,16 +13,6 @@ export const getPokemonTypeCssVariables = (
   return { "--t": type ? `var(--type-${type})` : "var(--mute)" };
 };
 
-export const pokemonTypeTextClassName =
-  "text-[color-mix(in_oklab,var(--t)_62%,var(--ink))]";
-
 export const pokemonTypeSoftBackgroundClassName = "type-tint";
 
-export const pokemonTypeSoftBorderClassName =
-  "border-[color-mix(in_oklab,var(--t)_38%,var(--lip))]";
-
 export const pokemonTypeSolidBackgroundClassName = "bg-(--t)";
-
-/* Grid items you don't own are flat, with a 1px line. */
-export const pokemonTypeCardSurfaceClassName =
-  "border border-line bg-surface transition-transform duration-150 hover:-translate-y-0.5";

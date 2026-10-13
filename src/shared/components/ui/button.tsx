@@ -13,7 +13,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-106 active:not-aria-[haspopup]:translate-y-[5px] active:not-aria-[haspopup]:shadow-none",
+          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-95 active:not-aria-[haspopup]:translate-y-[5px] active:not-aria-[haspopup]:shadow-none",
         outline:
           "border-lip bg-surface font-bold text-ink hover:bg-hover in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:hover:bg-hover in-data-[slot=dialog-content]:bg-surface-2 in-data-[slot=alert-dialog-content]:bg-surface-2 in-data-[slot=sheet-content]:bg-surface-2 aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         secondary:

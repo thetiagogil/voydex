@@ -1,4 +1,3 @@
-import { GameCover } from "@/features/site/components/stills/game-cover";
 import { MomentMedallion } from "@/features/site/components/stills/moment-medallion";
 import { samplePlay, samplePlayStory } from "@/features/site/data/sample-play";
 import type { SiteArt } from "@/features/site/types";
@@ -58,11 +57,7 @@ export const PlayStoryCard = ({
         style={art.gameColour(samplePlay.game.slug)}
         className="game-scope bg-game-wash flex items-center gap-3 rounded-md py-2 pr-4 pl-2 sm:ml-auto"
       >
-        <GameCover
-          art={art}
-          game={samplePlay.game}
-          className="h-12 rounded-xs"
-        />
+        {art.gameCover({ className: "h-12 rounded-xs", game: samplePlay.game })}
         <div className="min-w-0">
           <p className="font-display text-17 text-game-deep font-semibold">
             {samplePlay.name}

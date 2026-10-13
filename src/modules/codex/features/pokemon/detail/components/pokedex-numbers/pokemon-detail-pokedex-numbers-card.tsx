@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
   gameSlug: string | null;
@@ -32,7 +32,7 @@ export const PokemonDetailPokedexNumbersCard = ({
   numbers,
 }: PokemonDetailPokedexNumbersCardProps) => {
   return (
-    <PokemonDetailSectionCard title="Pokédex numbers">
+    <DetailSectionCard title="Pokédex numbers">
       <ul className="grid grid-cols-2 gap-x-4.5 gap-y-2">
         {numbers.map((pokedexNumber) => (
           <li key={pokedexNumber.id} className="min-w-0">
@@ -54,6 +54,6 @@ export const PokemonDetailPokedexNumbersCard = ({
           </li>
         ))}
       </ul>
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

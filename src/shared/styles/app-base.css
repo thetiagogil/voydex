@@ -9,6 +9,16 @@
     background: var(--bg);
   }
 
+  /*
+   * Below lg the signed-in tab bar is fixed to the bottom, so focus and
+   * anchors stop above it instead of landing underneath.
+   */
+  @media (width < 64rem) {
+    html:has([data-tab-bar]) {
+      scroll-padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    }
+  }
+
   body {
     background: var(--bg);
     color: var(--ink);

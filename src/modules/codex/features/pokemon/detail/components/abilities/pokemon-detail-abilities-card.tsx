@@ -1,5 +1,5 @@
 import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAbilitiesCardProps = {
   abilitySlots: PokemonDetailAbilitySlot[];
@@ -9,7 +9,7 @@ export const PokemonDetailAbilitiesCard = ({
   abilitySlots,
 }: PokemonDetailAbilitiesCardProps) => {
   return (
-    <PokemonDetailSectionCard title="Abilities">
+    <DetailSectionCard title="Abilities">
       <dl>
         {abilitySlots.map((abilitySlot) => (
           <div
@@ -30,6 +30,6 @@ export const PokemonDetailAbilitiesCard = ({
           </div>
         ))}
       </dl>
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

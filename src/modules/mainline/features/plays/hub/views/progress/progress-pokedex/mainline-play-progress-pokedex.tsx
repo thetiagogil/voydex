@@ -70,6 +70,7 @@ export const MainlinePlayProgressPokedex = ({
   if (!activeScope) {
     return (
       <EmptyState
+        headingLevel="h2"
         title="No Pokédex available"
         description="This game's Pokédex tracking data is not available yet."
       />

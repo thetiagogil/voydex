@@ -9,6 +9,8 @@ export type ViewerClock = {
 
 /* When a moment happened, read in the viewer's time zone. */
 export type PlayMoment = {
+  /* Month first with the year ("Aug 12, 2025"), never relative. */
+  date: string;
   dateTime: string;
   /*
    * "Today" or "Yesterday" when it is that recent, else month first and
@@ -20,6 +22,7 @@ export type PlayMoment = {
 
 type PlayMomentFormatters = {
   calendarDay: Intl.DateTimeFormat;
+  date: Intl.DateTimeFormat;
   day: Intl.DateTimeFormat;
   time: Intl.DateTimeFormat;
 };
@@ -37,6 +40,12 @@ const getFormatters = (timeZone: string) => {
     calendarDay: new Intl.DateTimeFormat("en", {
       day: "numeric",
       month: "numeric",
+      timeZone,
+      year: "numeric",
+    }),
+    date: new Intl.DateTimeFormat("en", {
+      day: "numeric",
+      month: "short",
       timeZone,
       year: "numeric",
     }),
@@ -102,6 +111,7 @@ export const formatPlayMoment = (
   const formatters = getFormatters(clock.timeZone);
 
   return {
+    date: formatters.date.format(date),
     dateTime: value,
     day:
       getRelativeDay(getPlayCalendarDay(clock.timeZone, date), clock.today) ??

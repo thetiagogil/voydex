@@ -1,4 +1,4 @@
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import {
   getPokemonDetailStatsTotal,
   POKEMON_DETAIL_STAT_BAR_FULL_AT,
@@ -21,7 +21,7 @@ export const PokemonDetailStatsCard = ({
   type,
 }: PokemonDetailStatsCardProps) => {
   return (
-    <PokemonDetailSectionCard
+    <DetailSectionCard
       title="Base stats"
       aside={generationName}
       style={getPokemonTypeCssVariables(type)}
@@ -52,6 +52,6 @@ export const PokemonDetailStatsCard = ({
           {getPokemonDetailStatsTotal(stats)}
         </span>
       </div>
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

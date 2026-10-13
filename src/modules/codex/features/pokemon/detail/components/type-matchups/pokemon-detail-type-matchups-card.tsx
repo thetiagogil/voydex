@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type {
   PokemonDetailTypeMatchup,
   PokemonDetailTypeMatchups,
@@ -85,7 +85,7 @@ export const PokemonDetailTypeMatchupsCard = ({
   const { immunities, neutralCount, resistances, weaknesses } = matchups;
 
   return (
-    <PokemonDetailSectionCard
+    <DetailSectionCard
       title="Type matchups"
       aside={`When ${pokemonName} is hit`}
     >
@@ -111,6 +111,6 @@ export const PokemonDetailTypeMatchupsCard = ({
           </MatchupRow>
         ) : null}
       </dl>
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

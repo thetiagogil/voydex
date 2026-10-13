@@ -19,6 +19,11 @@ import Link from "next/link";
 
 type AppShellProps = {
   children: React.ReactNode;
+  /*
+   * A full-width band between the bar and the page, such as Home's meadow.
+   * It runs edge to edge and slides up under the bar, which sits on it.
+   */
+  hero?: React.ReactNode;
   showAuthAction?: boolean;
   userEmail?: string | null;
 };
@@ -32,6 +37,7 @@ type AppShellProps = {
  */
 export const AppShell = ({
   children,
+  hero,
   showAuthAction = true,
   userEmail,
 }: AppShellProps) => {
@@ -85,6 +91,7 @@ export const AppShell = ({
           }
         />
       )}
+      {hero}
       <main className="relative z-10 mx-auto flex w-full max-w-320 min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-2 pb-12 sm:px-6 lg:px-8 lg:pb-18">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           {children}

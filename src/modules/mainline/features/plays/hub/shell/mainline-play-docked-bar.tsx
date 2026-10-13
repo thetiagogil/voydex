@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { cn } from "@/shared/utils/cn";
 
 type MainlinePlayDockedBarProps = {
   children: ReactNode;
   coverImageUrl: string | null;
+  gameName: string;
   navigation: ReactNode;
   title: string;
 };
@@ -19,6 +21,7 @@ type MainlinePlayDockedBarProps = {
 export const MainlinePlayDockedBar = ({
   children,
   coverImageUrl,
+  gameName,
   navigation,
   title,
 }: MainlinePlayDockedBarProps) => {
@@ -76,14 +79,13 @@ export const MainlinePlayDockedBar = ({
       >
         <div className="bg-game-soft mx-auto max-w-320 rounded-b-xl shadow-[0_4px_0_var(--game-lip),var(--shadow-float-value)]">
           <div className="flex min-w-0 items-center gap-3 px-4 pt-2 pb-2.5 sm:px-6 lg:px-8">
-            {coverImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={coverImageUrl}
-                alt=""
-                className="shadow-cover hidden h-10 w-[30px] shrink-0 rounded-xs border-[2.5px] border-white object-cover sm:block"
-              />
-            ) : null}
+            <GameCover
+              alt=""
+              className="max-sm:hidden"
+              coverImageUrl={coverImageUrl}
+              gameName={gameName}
+              size="dock"
+            />
             <p className="font-display text-17 hidden min-w-0 flex-1 truncate font-semibold sm:block">
               {title}
             </p>

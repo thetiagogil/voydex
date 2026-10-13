@@ -9,6 +9,7 @@ import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/p
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 
 import {
@@ -86,23 +87,25 @@ export const MainlinePlayTeamHistory = ({
       aria-labelledby="team-history-heading"
       className="grid min-w-0 grid-cols-1"
     >
-      <h2
-        id="team-history-heading"
-        className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]"
-      >
-        Team history
-      </h2>
-      <p className="text-ink-2 text-15 mt-1.5 font-semibold">
-        {totalCount ? (
-          <>
-            <b className="text-ink font-extrabold tabular-nums">{totalCount}</b>{" "}
-            {pluralizeMoments(totalCount)}
-            {startedOnLabel ? ` since ${startedOnLabel}` : null}
-          </>
-        ) : (
-          "Nothing recorded yet"
-        )}
-      </p>
+      <PageHeader
+        headingLevel="h2"
+        headingId="team-history-heading"
+        title="Team history"
+        className="pt-0 sm:pt-0"
+        description={
+          totalCount ? (
+            <>
+              <b className="text-ink font-extrabold tabular-nums">
+                {totalCount}
+              </b>{" "}
+              {pluralizeMoments(totalCount)}
+              {startedOnLabel ? ` since ${startedOnLabel}` : null}
+            </>
+          ) : (
+            "Nothing recorded yet"
+          )
+        }
+      />
 
       {totalCount ? (
         <>

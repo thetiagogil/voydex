@@ -34,10 +34,8 @@ describe("formatPlayDate", () => {
     expect(formatPlayDate("2025-05-07")).toBe("May 7, 2025");
   });
 
-  it("reads a timestamp in the viewer's time zone", () => {
-    viewFrom("America/Los_Angeles");
-
-    expect(formatPlayDate("2025-05-07T03:00:00Z")).toBe("May 6, 2025");
+  it("leaves timestamps to the viewer's clock", () => {
+    expect(formatPlayDate("2025-05-07T03:00:00Z", "")).toBe("");
   });
 
   it("falls back when there is no valid date", () => {

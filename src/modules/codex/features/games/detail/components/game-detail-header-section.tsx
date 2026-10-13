@@ -3,7 +3,7 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { GameVersionSwitch } from "@/modules/codex/features/games/detail/components/game-version-switch";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
-import { GameCover } from "@/modules/codex/features/games/shared/components/game-cover";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { formatNameList } from "@/modules/codex/features/games/shared/utils/game-names";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";

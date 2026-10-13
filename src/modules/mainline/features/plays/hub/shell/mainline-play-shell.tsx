@@ -34,6 +34,7 @@ export const MainlinePlayShell = ({
       <MainlinePlayGameColourRoot style={gameColourStyle} />
       <MainlinePlayDockedBar
         coverImageUrl={data.coverImageUrl}
+        gameName={data.play.game_name ?? "Unknown game"}
         navigation={
           <MainlinePlayNavigation
             collectiblesAvailable={data.collectiblesAvailable}

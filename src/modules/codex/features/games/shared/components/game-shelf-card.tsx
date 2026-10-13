@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { GameCover } from "@/modules/codex/features/games/shared/components/game-cover";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameShortName } from "@/modules/codex/features/games/shared/utils/game-names";
 import type { GameCard } from "@/modules/reference/types";
 import { cn } from "@/shared/utils/cn";

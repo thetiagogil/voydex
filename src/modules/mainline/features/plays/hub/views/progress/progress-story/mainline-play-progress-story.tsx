@@ -100,6 +100,7 @@ export const MainlinePlayProgressStory = ({
   if (!activeScope) {
     return (
       <EmptyState
+        headingLevel="h2"
         title="No Story milestones available"
         description="This game's Story tracking data is not available yet."
       />
