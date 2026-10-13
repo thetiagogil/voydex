@@ -18,6 +18,10 @@ describe("auth error codes", () => {
     expect(getAuthErrorCode("over_request_rate_limit")).toBe("rate-limited");
     expect(getAuthErrorCode("over_email_send_rate_limit")).toBe("rate-limited");
     expect(getAuthErrorCode("email_address_invalid")).toBe("email-invalid");
+    expect(getAuthErrorCode("same_password")).toBe("same-password");
+    expect(getAuthErrorCode("reauthentication_needed")).toBe(
+      "reauthentication-needed",
+    );
   });
 
   it("keeps a generic validation failure from blaming the email", () => {
@@ -83,7 +87,14 @@ describe("auth error codes", () => {
 
       expect(copy.title.length).toBeGreaterThan(0);
       expect(copy.description.length).toBeGreaterThan(0);
-      expect(`${copy.title} ${copy.description}`).not.toContain("—");
+      expect(
+        `${copy.title} ${copy.description} ${copy.link?.label ?? ""}`,
+      ).not.toContain("—");
     }
+  });
+
+  it("offers a reset after wrong credentials and Log in after a taken email", () => {
+    expect(authErrorCopy.credentials.link?.target).toBe("forgot-password");
+    expect(authErrorCopy["email-taken"].link?.target).toBe("log-in");
   });
 });

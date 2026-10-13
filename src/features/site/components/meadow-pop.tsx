@@ -25,9 +25,12 @@ const readSeenOnServer = () => false;
 export const MeadowPop = ({
   children,
   className,
+  label,
 }: {
   children: ReactNode;
   className?: string;
+  /* Names the row when its partners are links; without one the row is decoration. */
+  label?: string;
 }) => {
   const seen = useSyncExternalStore(
     subscribeToNothing,
@@ -44,7 +47,13 @@ export const MeadowPop = ({
   }, []);
 
   return (
-    <div data-pop={seen ? undefined : ""} className={className}>
+    <div
+      data-pop={seen ? undefined : ""}
+      role={label ? "group" : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      className={className}
+    >
       {children}
     </div>
   );

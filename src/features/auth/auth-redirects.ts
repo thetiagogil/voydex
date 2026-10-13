@@ -8,6 +8,8 @@ const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
 const isAllowedAuthRedirectPath = (pathname: string) => {
   return (
     pathname === appRoutes.appEntry ||
+    /* Where a password reset link lands, through the callback. */
+    pathname === appRoutes.resetPassword ||
     isProtectedRoute(pathname) ||
     Boolean(getModuleKeyForPathname(pathname))
   );

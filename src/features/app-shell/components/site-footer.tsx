@@ -6,12 +6,16 @@ import { LogoMark } from "@/shared/components/brand/logo-mark";
 const footerLinks = [
   { href: appRoutes.intro, label: "How it works" },
   { href: appRoutes.codexPokemon, label: "Codex" },
+  { href: appRoutes.login, label: "Log in" },
+  { href: appRoutes.privacy, label: "Privacy" },
+  { href: appRoutes.terms, label: "Terms" },
 ] as const;
 
 /*
  * The signed-out frame's quiet footer (v3 `.pub-foot`): its rule runs the full
- * width, and inside it the name, the catchphrase, a few links and the
- * fan-project notice line up with the page.
+ * width, and inside it the name, the catchphrase, a few links (How it works,
+ * Codex, Log in, Privacy, Terms) and the fan-project notice line up with the
+ * page.
  */
 export const SiteFooter = () => (
   <footer className="border-line border-t">
@@ -40,12 +44,6 @@ export const SiteFooter = () => (
               {link.label}
             </Link>
           ))}
-          <Link
-            href={appRoutes.login}
-            className="hover:text-ink rounded-xs transition-colors"
-          >
-            Log in
-          </Link>
         </nav>
       </div>
       <p className="text-ink-3 mt-4 max-w-[88ch] text-[12.5px] leading-[1.6] font-semibold">
