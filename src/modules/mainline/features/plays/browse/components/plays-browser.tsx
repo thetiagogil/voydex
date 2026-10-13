@@ -3,42 +3,54 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { PlaySummaryCard } from "@/modules/mainline/features/plays/browse/components/play-summary-card";
-import { PlaysFilterForm } from "@/modules/mainline/features/plays/browse/components/plays-filter-form";
+import { PlayStatusGroup } from "@/modules/mainline/features/plays/browse/components/play-status-group";
+import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
+import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import {
   defaultPlayBrowseFilters,
   filterAndSortPlays,
   getInitialPlayBrowseFilters,
   getPlayBrowseOptions,
   getPlayBrowseUrlSearchParams,
+  groupPlaysByStatus,
   hasActivePlayBrowseFilters,
   type PlayBrowseFilters,
   type PlayBrowseParams,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { cn } from "@/shared/utils/cn";
 
 type PlaysBrowserProps = {
-  data: MainlinePlaysPageData;
   params?: PlayBrowseParams;
+  plays: PlayBrowseItem[];
 };
 
 const URL_UPDATE_DELAY_MS = 250;
 
-export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
+export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  const options = useMemo(() => getPlayBrowseOptions(data.plays), [data.plays]);
+  const options = useMemo(() => getPlayBrowseOptions(plays), [plays]);
   const initialFilters = useMemo(
     () => getInitialPlayBrowseFilters(params, options),
     [options, params],
   );
   const [filters, setFilters] = useState(initialFilters);
   const [appliedFilters, setAppliedFilters] = useState(initialFilters);
-  const filteredPlays = useMemo(
-    () => filterAndSortPlays(data.plays, appliedFilters),
-    [appliedFilters, data.plays],
+  const groups = useMemo(
+    () => groupPlaysByStatus(filterAndSortPlays(plays, appliedFilters)),
+    [appliedFilters, plays],
+  );
+  const shownCount = groups.reduce(
+    (count, group) => count + group.plays.length,
+    0,
+  );
+  /* Counted before the URL catches up, for the phone sheet's button. */
+  const matchingCount = useMemo(
+    () => filterAndSortPlays(plays, filters).length,
+    [filters, plays],
   );
   const hasActiveFilters = hasActivePlayBrowseFilters(appliedFilters);
 
@@ -77,10 +89,11 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-2.5">
-      <PlaysFilterForm
+    <div className="flex flex-col">
+      <PlaysToolbar
         filters={filters}
         games={options.games}
+        matchingCount={matchingCount}
         onGameChange={(game) => {
           updateFilter("game", game);
         }}
@@ -96,35 +109,34 @@ export const PlaysBrowser = ({ data, params }: PlaysBrowserProps) => {
         statuses={options.statuses}
       />
 
-      <div className="flex min-h-8 items-center justify-between gap-3 px-1">
-        <p
-          className="text-muted-foreground text-sm leading-6"
-          aria-live="polite"
-        >
+      <div
+        className={cn(
+          "mt-3 flex min-h-9 items-center justify-between gap-3 px-1",
+          !hasActiveFilters && "sr-only",
+        )}
+      >
+        <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
           {hasActiveFilters
-            ? `Showing ${filteredPlays.length} of ${data.plays.length} plays`
-            : `Showing ${data.plays.length} plays`}
+            ? `Showing ${shownCount} of ${formatPlayCount(plays.length)}`
+            : `Showing all ${formatPlayCount(plays.length)}`}
         </p>
-
-        {hasActiveFilters ? (
+        {/* With no matches, the empty state below carries the recovery. */}
+        {hasActiveFilters && shownCount ? (
           <ClearFiltersButton onClick={clearFilters} />
         ) : null}
       </div>
 
-      {filteredPlays.length ? (
-        <div className="divide-y">
-          {filteredPlays.map((play, index) => (
-            <PlaySummaryCard
-              key={play.play_id ?? `${play.game_id}-${play.created_at}`}
-              play={play}
-              priority={index < 2}
-            />
+      {groups.length ? (
+        <div className="mt-6 grid gap-8 sm:mt-8">
+          {groups.map((group) => (
+            <PlayStatusGroup key={group.id} group={group} />
           ))}
         </div>
       ) : (
         <EmptyState
-          title="No plays found"
-          description="Try a different search, status, or game filter."
+          className="mt-5"
+          title="No Plays found"
+          description="Try another search, status or game."
           action={
             <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }

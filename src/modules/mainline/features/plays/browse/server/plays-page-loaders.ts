@@ -1,12 +1,54 @@
-import { buildMainlinePlayBrowseItems } from "@/modules/mainline/features/plays/browse/data/play-browse-mappers";
+import {
+  buildMainlinePlayBrowseItems,
+  type PlayBrowseRegion,
+} from "@/modules/mainline/features/plays/browse/data/play-browse-mappers";
+import type { PlaysPageData } from "@/modules/mainline/features/plays/browse/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import type { MainlinePlaysPageData } from "@/modules/mainline/features/plays/shared/types";
+import type { Game } from "@/modules/reference/types";
 import { uniqueNumberIds } from "@/shared/utils/collections";
+
+/*
+ * The games behind the Plays, for their covers, and the games' regions for
+ * each card's eyebrow. Either can fail without hiding the Plays.
+ */
+const readPlayGames = async (
+  supabase: ServerSupabaseClient,
+  gameIds: number[],
+): Promise<{ games: Game[]; regions: PlayBrowseRegion[] }> => {
+  if (!gameIds.length) {
+    return { games: [], regions: [] };
+  }
+
+  const gamesResult = await supabase
+    .schema("reference")
+    .from("games")
+    .select("*")
+    .in("id", gameIds);
+
+  if (gamesResult.error) {
+    return { games: [], regions: [] };
+  }
+
+  const games = gamesResult.data ?? [];
+  const regionIds = uniqueNumberIds(games.map((game) => game.region_id));
+  const regionsResult = regionIds.length
+    ? await supabase
+        .schema("reference")
+        .from("regions")
+        .select("id, name")
+        .in("id", regionIds)
+    : null;
+
+  return {
+    games,
+    regions: regionsResult?.error ? [] : (regionsResult?.data ?? []),
+  };
+};
 
 export const loadMainlinePlaysPageData = async (
   supabase: ServerSupabaseClient,
   userId: string,
-): Promise<MainlinePlaysPageData> => {
+): Promise<PlaysPageData> => {
   const playsResult = await supabase
     .schema("views")
     .from("mainline_play_summary")
@@ -23,10 +65,8 @@ export const loadMainlinePlaysPageData = async (
   const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
   const gameIds = uniqueNumberIds(plays.map((play) => play.game_id));
 
-  const [gamesResult, progressResult, teamResult] = await Promise.all([
-    gameIds.length
-      ? supabase.schema("reference").from("games").select("*").in("id", gameIds)
-      : null,
+  const [gameRows, progressResult, teamResult] = await Promise.all([
+    readPlayGames(supabase, gameIds),
     playIds.length
       ? supabase
           .schema("views")
@@ -52,9 +92,10 @@ export const loadMainlinePlaysPageData = async (
         progress: !progressResult?.error,
         team: !teamResult?.error,
       },
-      games: gamesResult?.error ? [] : (gamesResult?.data ?? []),
+      games: gameRows.games,
       overviews: progressResult?.error ? [] : (progressResult?.data ?? []),
       plays,
+      regions: gameRows.regions,
       teamMembers: teamResult?.error ? [] : (teamResult?.data ?? []),
     }),
   };

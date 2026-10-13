@@ -29,22 +29,36 @@ const buildItems = (
       progress: true,
       team: true,
     },
-    games: [{ id: 1, name: "Pokémon HeartGold", slug: "heartgold" } as Game],
+    games: [
+      {
+        id: 1,
+        name: "Pokémon HeartGold",
+        region_id: 2,
+        slug: "heartgold",
+      } as Game,
+    ],
     overviews: [],
     plays: [buildPlay()],
+    regions: [{ id: 2, name: "Johto" }],
     teamMembers: [],
     ...overrides,
   });
 };
 
 describe("buildMainlinePlayBrowseItems", () => {
-  it("builds normalized overall progress and an ordered team preview", () => {
+  it("builds a bar for each counted part and an ordered team preview", () => {
     const items = buildItems({
       overviews: [
         {
-          overall_completion_percent: 41.6,
+          caught_required_pokedex_species_count: 30,
+          collectible_completion_percent: 0,
+          completed_required_milestone_count: 4,
+          milestone_completion_percent: 41.6,
           play_id: "play-1",
-          total_completion_unit_count: 100,
+          pokedex_completion_percent: null,
+          required_collectible_entry_count: 0,
+          required_milestone_count: 10,
+          required_pokedex_species_count: 120,
         } as MainlinePlayOverview,
       ],
       teamMembers: [
@@ -61,10 +75,22 @@ describe("buildMainlinePlayBrowseItems", () => {
       ],
     });
 
-    expect(items[0]?.progress).toEqual({ percent: 42, state: "known" });
+    expect(items[0]?.progress).toEqual({
+      items: [
+        { label: "Story", percent: 42 },
+        { label: "Pokédex", percent: 25 },
+      ],
+      state: "available",
+    });
     expect(
       items[0]?.activeTeam.members.map((member) => member.play_pokemon_id),
     ).toEqual(["member-1", "member-2"]);
+  });
+
+  it("reads the region from the Play's game", () => {
+    expect(buildItems()[0]?.regionName).toBe("Johto");
+    expect(buildItems({ regions: [] })[0]?.regionName).toBeNull();
+    expect(buildItems({ games: [] })[0]?.regionName).toBeNull();
   });
 
   it("keeps unrecorded progress distinct from unavailable enrichment", () => {
@@ -76,7 +102,10 @@ describe("buildMainlinePlayBrowseItems", () => {
       },
     })[0];
 
-    expect(notRecordedItem?.progress).toEqual({ state: "not_recorded" });
+    expect(notRecordedItem?.progress).toEqual({
+      items: [],
+      state: "available",
+    });
     expect(notRecordedItem?.activeTeam.state).toBe("available");
 
     expect(unavailableItem?.progress).toEqual({ state: "unavailable" });

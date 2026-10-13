@@ -213,6 +213,56 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
     .map(({ play }) => play);
 };
 
+/*
+ * Status groups in the order a library reads: what you're playing first, what
+ * is finished or dropped last. Statuses the list doesn't know follow by name.
+ */
+const statusGroupOrder = [
+  "playing",
+  "not_started",
+  "paused",
+  "completed",
+  "abandoned",
+];
+
+export type PlayStatusGroup<Play extends MainlinePlaySummary> = {
+  id: string;
+  name: string;
+  plays: Play[];
+};
+
+const getStatusGroupRank = (groupId: string) => {
+  const rank = statusGroupOrder.indexOf(groupId);
+
+  return rank === -1 ? statusGroupOrder.length : rank;
+};
+
+/* Groups keep the order of the Plays they are given. */
+export const groupPlaysByStatus = <Play extends MainlinePlaySummary>(
+  plays: Play[],
+): PlayStatusGroup<Play>[] => {
+  const groups = new Map<string, PlayStatusGroup<Play>>();
+
+  for (const play of plays) {
+    const id = play.status_slug ?? "";
+    const group = groups.get(id) ?? {
+      id,
+      name: play.status_name ?? "Other",
+      plays: [],
+    };
+
+    group.plays.push(play);
+    groups.set(id, group);
+  }
+
+  return Array.from(groups.values()).sort(
+    (firstGroup, secondGroup) =>
+      getStatusGroupRank(firstGroup.id) - getStatusGroupRank(secondGroup.id) ||
+      Number(!firstGroup.id) - Number(!secondGroup.id) ||
+      compareText(firstGroup.name, secondGroup.name),
+  );
+};
+
 export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
   const searchParams = new URLSearchParams();
 
