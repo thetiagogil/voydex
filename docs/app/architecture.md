@@ -49,8 +49,10 @@ The active source follows these ownership rules:
 - reusable Pokemon/game contracts, domain rules, artwork/type primitives,
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
-- `src/modules/codex/shared` now contains only Codex-owned shared presentation
-  such as its page shell, filter panel, generation section, and empty states.
+- `src/modules/codex/shared` contains only Codex-owned shared pieces: its head
+  and section switch, generation pills, Pokémon card link and grid, type
+  filter, result summary, game-name helpers, and the version-group route read
+  every Codex address resolves through.
 - Mainline Plays uses `browse`, `hub`, and `shared` view boundaries. The Hub
   separates Hub-wide shell responsibilities from route-backed views, while
   complex views such as Overview and Team group their visible areas under
@@ -228,6 +230,7 @@ src/modules/reference/
     data/
     server/
     database-types.ts
+  public-art.tsx
   reference-data.ts
   reference-rows.ts
   styles.css
@@ -235,8 +238,13 @@ src/modules/reference/
 ```
 
 The three TypeScript root files are the public contracts for cross-module
-catalogue types, data helpers, and paged/chunked reference reads. The Pokémon
-type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
+catalogue types, data helpers, and paged/chunked reference reads.
+`public-art.tsx` is the entry the public pages' routes inject into global
+features (which can't import a module), typed by `src/config/public-art.ts`.
+Mainline has the one matching entry, `src/modules/mainline/public-play-art.tsx`,
+which fills that contract's `PublicPlayArt` with the Play's own pieces for the
+example Play on Home and Intro; routes, not global features, import either
+entry. The Pokémon type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
 are composed through the module's public `styles.css` manifest. Game colours
 are one TypeScript table in `games/utils/game-color-styles.ts`. Concrete game and Pokemon components or domain utilities
 use their explicit feature paths. Codex-owned page composition remains in
@@ -249,6 +257,7 @@ is expected to evolve toward a shape like:
 src/modules/mainline/features/plays/
   browse/
   hub/
+    components/
     data/
     server/
     shell/
@@ -269,15 +278,11 @@ src/modules/mainline/features/plays/
       team/
         data/
         server/
-        shared/
         team-roster/
           server/
           sections/
-            linked-plan-summary/
-            recent-team-events/
             roster/
             selected-pokemon/
-            team-analysis/
           utils/
         team-plan/
           sections/

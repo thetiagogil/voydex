@@ -17,8 +17,8 @@ switcher.
   Mainline's implemented sections sit centred (today only Plays). The Codex
   link and your account icon sit on the right. The Codex link is bold while
   you are anywhere under `/codex`.
-- **Account menu:** your email, Settings (`/settings`) and Log out at the
-  foot.
+- **Account menu:** your email and when you became a trainer, Settings
+  (`/settings`) and Log out at the foot.
 - **Bottom bar (phones and tablets, below `lg`):** the centred sections move
   to a fixed bar on the bottom edge: Plays, Codex and You. You opens the same
   account menu upward until a You page exists. The current item takes the
@@ -29,13 +29,16 @@ switcher.
 
 ### Signed Out
 
-- **Top bar:** the "V" tile with the Voydex name, then How it works (`/intro`)
-  and Codex centred, and Log in on the right. On phones the two links fold
-  into a menu behind one icon beside Log in.
+- **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
+  phones), then How it works (`/intro`) and Codex centred, and Log in on the
+  right. On phones the links fold into a menu behind one icon beside Log in;
+  it leads with Start a Play (`/login?mode=sign-up`), then How it works and
+  Codex.
 - The signed-out frame ends on the quiet site footer (name, catchphrase, How
   it works, Codex and the fan-project notice).
-- Protected destinations send you to Log in and keep the intended
-  destination.
+- Protected destinations send you to `/login?next=[path and query]`: the
+  proxy redirects first, and the protected layout checks again from the path
+  the proxy forwards, so you return where you were going.
 
 ### Inside A Module
 
@@ -117,10 +120,11 @@ reference/filter context; they are not currently a required top-level view.
 
 /codex
   /pokemon
-    /[gameSlug]/[speciesSlug]
+    /[speciesSlug]
+    /[versionGroupSlug]/[speciesSlug]
   /games
-    /[gameSlug]
-    /[gameSlug]/pokedexes/[pokedexSlug]
+    /[versionGroupSlug]
+    /[versionGroupSlug]/pokedexes/[pokedexSlug]
 
 /settings
 ```
@@ -132,34 +136,47 @@ Plans Hub keeps Team Plans and Game List as URL-backed sibling views under
 established routing pattern during implementation, but it must preserve the
 active view on navigation and return.
 
-Pokémon Browse keeps its exact game, search, filters, sort, and loaded-result
-position in validated URL state under `/codex/pokemon`. Opening a species always
-uses the exact active context in
-`/codex/pokemon/[gameSlug]/[speciesSlug]`. Back or an explicit return to Browse
-restores criteria, result position, scroll, and useful focus.
+The Codex reads by **version group**: a base group (Sword and Shield) with its
+expansions' child groups (The Isle of Armor, The Crown Tundra) included. Every
+version-group segment resolves through one rule
+(`resolveVersionGroupRoute` in the reference module): a base group's slug is
+canonical; a game's slug or a child group's slug redirects permanently (308)
+to its base group; an unknown slug is a 404. Route layouts settle the 404 or
+redirect before the loading state streams.
 
-Games Browse keeps Search, Generation, Game type, Region, and Platform in
-validated URL state under `/codex/games`. Opening an exact game uses
-`/codex/games/[gameSlug]`; returning restores criteria, scroll, and useful
-focus. The catalogue keeps deterministic generation and release ordering
-rather than adding a V1 Sort route state.
+Pokémon Browse lives at `/codex/pokemon` (a stray query redirects to the bare
+path). Each species card opens
+`/codex/pokemon/[versionGroupSlug]/[speciesSlug]` in the first base group of
+the generation it was introduced in. A persistent form rides as `?form=`. An
+entry in a group from before the species existed, and
+`/codex/pokemon/[speciesSlug]`, open the introduced generation's first base
+group the species can be found in (Legends: Arceus for Wyrdeer, Let's Go for
+Meltan), the same rule as the entry's generation pills. On
+`/codex/pokemon/[speciesSlug]`, a legacy `?game=` or `?versionGroup=` names
+the group instead and a legacy `?generation=` the generation, when the
+species exists there. A layout cannot read the query, so the 308 from an old
+game address opens the default form. Back or an explicit return to Browse
+should restore criteria, result position, scroll, and useful focus.
+
+Games Browse keeps Search (`q`) and the kind of game (`kind`) in URL state
+under `/codex/games`. A game opens its version group's page,
+`/codex/games/[versionGroupSlug]?version=[gameSlug]`, with that game picked in
+the version switch; an unknown `version` falls back to the group's first game.
+An old game address redirects there, keeping the game it named.
 
 Game Pokédex uses
-`/codex/games/[gameSlug]/pokedexes/[pokedexSlug]` as the complete public scope.
-The selected named Pokédex is route identity, not a hidden filter. Search,
-Type, optional Sort, and loaded-result position use validated URL state.
-Switching between a game's Base or optional-content Pokédexes preserves valid
-criteria and resets only invalid position state. Returning to Game Detail or
-opening exact-game Pokémon Detail preserves the useful origin for navigation
-and focus recovery.
+`/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` as the complete
+public scope; its expansions' Pokédexes and its own National Pokédex (386 in
+Ruby and Sapphire) appear under the base group, National last. The
+selected named Pokédex is route identity, not a hidden filter; an unknown
+Pokédex is a 404. Search, Type, optional Sort, and loaded-result position
+should use validated URL state. Switching between a group's base or
+expansion Pokédexes preserves valid criteria and resets only invalid position
+state. Returning to the version group's page or opening a Pokémon's entry in
+that group preserves the useful origin for navigation and focus recovery.
 
-When no exact game appears in a Pokémon route or validated Browse URL, resolve
-Codex Game Context from the last exact game selected in the current Codex
-browser session, then fall back to a deterministic latest supported seeded V1
-Mainline game. A species-only compatibility route redirects through the same
-resolver. The selected exact game remains visible and is never silently changed
-to make a species available. Cross-session or cross-device persistence is a
-later convenience, not a V1 routing or database requirement.
+Cross-session or cross-device persistence of a Codex context is a later
+convenience, not a V1 routing or database requirement.
 
 ## Primary Entry Flows
 
@@ -259,7 +276,10 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Team is a compound primary destination. Its parent route opens Team Roster;
   Plan, Analysis, and the Team History projection are route-backed child views
   selected as `Plan`, `Analysis`, and `History` from the attached Team menu
-  while the shared Play shell remains visible.
+  while the shared Play shell remains visible. The Roster takes
+  `?pokemon=[playPokemonId]` (`appRoutes.mainlinePlayTeamPokemon`) to open with
+  that Pokémon selected, as an Overview sticker links; on phones and tablets
+  its detail sheet opens straight away.
 - Progress owns only Story, Pokédex, and Collectibles. Its parent route opens
   Story, the always-supported default destination. The attached Progress menu
   switches directly between the three route-backed child views while Progress

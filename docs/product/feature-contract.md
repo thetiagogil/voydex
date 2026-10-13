@@ -81,8 +81,8 @@ Plays are user-owned playthroughs.
 
 The Plays area should support:
 
-- Listing all plays.
-- Filtering by generation, game, status, tags, rules, and completion state.
+- Listing all plays, with Search, Game, Generation, and Sort kept in the URL;
+  status, tags, rules, and completion-state filters are later additions.
 - Creating a play directly through a searchable game selector.
 - Entering a play hub.
 
@@ -285,10 +285,12 @@ summary or disclosure state. Add, move, replace, and correction workflows still
 expose exact Reserve destinations when position choice matters. Selecting an occupied row
 updates a larger Play-owned Pokémon detail on the right. Roster portraits remain
 intentionally smaller than selected-member artwork so the source and result of
-selection are immediately distinguishable. Team Quick Analysis and Recent Team
-Events support the selected detail rather than competing with it, with routes
-to their complete owning experiences. On narrow screens, member selection opens
-a focused Team detail view or sheet with a clear return to the roster.
+selection are immediately distinguishable. The Roster holds only the roster
+and the selected detail; Plan, Analysis and History are its sibling views in
+the Team menu. A link may name the member to open on
+(`/mainline/plays/[playId]/team?pokemon=[playPokemonId]`, as an Overview
+sticker does). On narrow screens, member selection opens a focused Team detail
+sheet with a clear return to the roster.
 
 When a roster or slot workflow exposes a detailed position, all twelve possible
 positions use the same compact row geometry across occupied, selected,
@@ -367,37 +369,33 @@ mistaken or duplicate records. It preserves existing History evidence. Because
 Plan comparison has no persisted member association, deletion simply removes
 that member from future comparison; it never rewrites the authored Plan.
 
-Team Quick Analysis remains an important Team-owned supporting section. Its
-final metrics, calculation strategy, evidence disclosure, and focused analysis
-experience are deliberately deferred until the product can define a reliable
-and explainable review model. Keep the section in the current UI; do not replace
-its unresolved strategy with invented matchup, balance, coverage, role, damage,
-or competitive claims.
+Team Analysis is the Team-owned review view. Its final metrics, calculation
+strategy and evidence disclosure are deliberately deferred until the product
+can define a reliable and explainable review model; do not replace its
+unresolved strategy with invented matchup, balance, coverage, role, damage, or
+competitive claims.
 
-Recent Team Events shows up to the latest three Pokémon-specific changes for
-the whole Active-and-Reserve roster. It does not change with member selection.
+Team History lists the Pokémon-specific changes for the whole
+Active-and-Reserve roster. It does not change with member selection.
 Eligible events include additions, Active/Reserve movement, updates,
 evolutions, form changes, replacements, retirements, removals, and returns.
 Progress snapshots, Story milestones, final-Team snapshots, and Hall of Fame
 moments belong to Play History and never qualify merely because they contain
 Pokémon images.
 
-Each compact row uses event-time Pokémon identity, explicit effective-date
+Each row uses event-time Pokémon identity, explicit effective-date
 certainty, and concise before-and-after or roster-destination context where
 useful. Play History and Team History may share an underlying event store, but
 they are separate product projections with different eligibility and display
-rules. Effective or manual timeline order controls the preview, so an imported
+rules. Effective or manual timeline order controls the list, so an imported
 event never appears recent merely because it was entered today.
 
-When one focused Team Plan is linked, place one compact Team Plan Card directly
-below Roster in the left column. Show the Plan name, following state, an
-explicit found/target summary, exceptional unplanned-member context when
-useful, and one `View plan` action. Omit the Card when no Plan is linked. The
-comparison is computed from current Play-owned records and never writes Plan
-progress. Default roster rows remain uncluttered.
+When one focused Team Plan is linked, `Plan` in the Team menu opens its
+comparison; the Roster carries no Plan card. The comparison is computed from
+current Play-owned records and never writes Plan progress. Default roster rows
+remain uncluttered.
 
-`Record Team moment` is a dedicated lower-emphasis action in the Recent Team
-Events footer. It opens a compact dialog or mobile sheet with a read-only
+`Record Team moment` is a dedicated lower-emphasis Team action. It opens a compact dialog or mobile sheet with a read-only
 six-position Active-Team preview, required title, exact, approximate, or unknown
 date, and optional short note. V1 snapshots the recorded Active lineup only;
 Reserve is excluded and unknown positions remain unknown. Completed or
@@ -916,38 +914,33 @@ Linking changes no Team member and stores no member association.
 
 ### Pokémon Browse And Detail
 
-Codex Pokémon is a public, species-led reference surface. It uses one explicit
-exact **Codex Game Context** as the scope for every changing fact: types,
-persistent forms, artwork, availability, Pokédex placement, stats, abilities,
-evolution, matchups, learnsets, detail destination, and Mainline intent.
-
-Resolve that context from the current route or validated browse URL first, the
-last game selected in the current Codex session second, and a deterministic
-latest supported seeded V1 Mainline game last. Keep it visible on every Pokémon
-surface. V1 does not require an account preference or database write for this
-choice.
+Codex Pokémon is a public, species-led reference surface. A Pokémon's entry
+reads every changing fact (types, persistent forms, artwork, availability,
+Pokédex placement, stats, abilities, evolution, matchups, learnsets, and
+Mainline intent) in one explicit **version group**: a base group such as Sword
+and Shield, its expansions (The Isle of Armor, The Crown Tundra) included. The
+route names the group and the entry keeps it visible. V1 does not require an
+account preference or database write for this choice.
 
 Pokémon Browse must:
 
-- keep Search, exact Game, Type, and Sort visible;
-- place Introduced generation, ordinary/Legendary/Mythical/Baby category, and
-  selected-game availability in `More filters`;
+- keep Search, Generation (the introduced generation, as pills), Type, and
+  Sort visible; category and version-group availability filters may follow in
+  `More filters`;
 - search species name, National Pokédex number, and applicable persistent form
   names;
-- default to National number, with Name and Introduced generation as useful
-  alternate sorts;
-- include species introduced no later than the active game's generation and
-  distinguish available from unavailable results honestly;
-- show one equal image-led result per species with game-context artwork,
-  National number, name, type, and only a concise form or availability cue;
-- open the exact active-game detail and expose no inline Mainline mutation;
+- default to National number, with Name as the alternate sort, grouped by
+  introduced generation;
+- show one equal image-led result per species with artwork, National number,
+  name, type, and only a concise form cue;
+- open the entry in the first version group of the generation the species was
+  introduced in, and expose no inline Mainline mutation;
 - preserve URL-backed criteria, loaded position, scroll, and useful focus when
   moving between Browse and Detail;
 - append small result batches automatically shortly before the user reaches the
   boundary, with a manual compatibility or recovery fallback when automatic
   continuation is unavailable;
-- target a compact multi-column grid, including two useful columns on common
-  phone widths when text scaling and viewport permit;
+- target a compact multi-column grid, three columns on common phone widths;
 - use the shared initial Spinner, filtered empty and clear actions, isolated
   incremental retry, and per-result missing-data fallbacks without Skeletons.
 
@@ -956,13 +949,21 @@ not V1 requirements. They remain personalization follow-ups; personal usage
 belongs primarily to Collection.
 
 Pokémon Detail uses the canonical
-`/codex/pokemon/[gameSlug]/[speciesSlug]` route. It must:
+`/codex/pokemon/[versionGroupSlug]/[speciesSlug]` route (a persistent form as
+`?form=`). A game's slug or an expansion's child-group slug redirects
+permanently (308) to its base group; an unknown group or species is a 404; a
+group from before the species existed redirects to the group it was
+introduced in. `/codex/pokemon/[speciesSlug]` opens the first base version
+group of the generation the species was introduced in (a legacy `?game=` names
+the group instead). It must:
 
 - have an independent semantic `h1` for National number and species identity;
-- retain the active exact game while switching species and update the canonical
-  route when switching game or persistent form;
-- use a prominent exact Game selector grouped by generation without reducing
-  the active value to an ambiguous generation number;
+- retain the active version group while switching species and update the
+  canonical route when switching group or persistent form;
+- offer one pill per generation the species exists in, each opening that
+  generation's first group the species can be found in, and, when a generation
+  has several base groups, a version-group switch that shows but disables a
+  group the species can't be found in;
 - retain a searchable, contextual species switcher and direct Shiny artwork
   toggle;
 - show a form selector only for persistent forms valid or meaningful in the
@@ -985,8 +986,8 @@ branches:
 - `View my history`, opening Collection Pokémon Detail.
 
 Creating a Plan is a branch of `Add to Plan`, not a duplicate top-level action.
-The handoff preserves exact game, species, persistent form, availability or
-content context, and intent through authentication. Mainline owns destination
+The handoff preserves the version group, species, persistent form,
+availability or content context, and intent through authentication. Mainline owns destination
 selection, ownership, roster capacity, reuse policy, form and availability
 validation, optional content, plan/play state, warnings, and every mutation.
 Codex never writes Plan, Team, Play, or Collection truth directly. Cancellation
@@ -995,32 +996,37 @@ and failure return to the same Detail context without partial user data.
 ### Games Browse, Game Detail, And Game Pokédex
 
 Codex Games is a public, cover-led catalogue of the exact traditional mainline
-and Legends-style games supported by Voydex. Games Browse keeps Search,
-Generation, and Game type visible, places Region and Platform in `More
-filters`, and preserves validated criteria in the URL. It uses one exact-game
-card with cover, name, release year, region, and a concise type cue, grouped in
-deterministic generation and release order. The thirty-eight-game V1 catalogue
-does not require Sort, pagination, personal overlays, or inline Mainline
-actions. It targets compact multi-column density on desktop and two useful
-phone columns where viewport and text scaling permit.
+and Legends-style games supported by Voydex. Games Browse keeps Search and the
+kind of game (Core series, Companions and remakes, Legends) in the URL, plus a
+newest or oldest order and grouping by generation or region. It uses one game
+card (`GameShelfCard`) with cover, short name, release year, and region,
+opening its version group's page with that game picked. The V1 catalogue does
+not require pagination, personal overlays, or inline Mainline actions. It
+targets compact multi-column density on desktop and two phone columns.
 
-Game Detail explains one exact game through structured identity, base and
-optional-content scopes, named Pokédexes, exact-game Pokémon browsing, and only
-trustworthy related releases. `Start a Play` is its clear primary action;
+Game Detail explains one base version group at
+`/codex/games/[versionGroupSlug]`, with a version switch for its games
+(`?version=[gameSlug]`; an unknown version falls back to the group's first
+game). A game's slug or an expansion's child-group slug redirects permanently
+(308) to the base group, keeping the game it named; an unknown slug is a 404.
+The page carries structured identity, base and optional-content scopes, named
+Pokédexes, the group's Pokémon, and only trustworthy related releases. `Start a Play` is its clear primary action;
 `Create a Plan` and `Add to Game List` are supporting Mainline actions.
 Reference links remain distinct from personal mutations.
 
-Named Pokédexes are grouped under the base game or their owning optional
-content, so seeded DLC scopes are not lost merely because their Pokédex rows do
-not use the base version group. `Available species` is shown only when it is a
+Named Pokédexes are listed under the base group, its own first and then its
+expansions', so seeded DLC scopes are not lost merely because their Pokédex
+rows belong to a child version group. `Available species` is shown only when it is a
 distinct-species count from the resolved game/content availability model. It
 must never reuse the largest listed Pokédex size. Related releases require an
 explainable paired or otherwise reference-supported relationship; sharing only
 a generation or region is insufficient.
 
 Game Pokédex uses the canonical
-`/codex/games/[gameSlug]/pokedexes/[pokedexSlug]` route and makes the named
-Pokédex its prominent page scope. The selector groups Base game and applicable
+`/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` route (an expansion's
+Pokédex is read under its base group; old game or child-group addresses
+redirect permanently, unknown ones are a 404) and makes the named Pokédex its
+prominent page scope. The selector groups Base game and applicable
 optional-content Pokédexes, keeps the active name obvious without opening a
 menu, and preserves valid URL-backed Search, Type, Sort, and loaded position
 when switching.
@@ -1029,11 +1035,11 @@ Game Pokédex defaults to local Pokédex number and supports Search plus Type; a
 optional simple Sort may offer Name and National number. Wide screens use a
 semantic comparison table for local number, species, National number, types,
 abilities, and base stats. Narrow screens use compact labelled species rows or
-cards that keep identity and the exact-game Pokémon Detail destination visible
+cards that keep identity and the Pokémon's entry in this version group visible
 without requiring horizontal scrolling. Large Pokédexes use explicit `Load
 more`, with full-result filtering, isolated retry, and no Skeletons.
 
-Game-origin Mainline actions preserve the exact game, intended action, and
+Game-origin Mainline actions preserve the picked game, intended action, and
 originating Detail route through authentication. `Start a Play` resumes the
 accepted Create Play flow with fixed game context and ends at Play Overview.
 `Create a Plan` resumes the concise Create Plan flow and ends at one new Draft
