@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
+import { ObjectiveEyebrow } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import {
   formatPlayMoment,
   type ViewerClock,
 } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
 import {
@@ -100,17 +100,9 @@ export const StoryMilestoneDetail = ({
 
   return (
     <div className="min-w-0">
-      <p
-        className={cn(
-          "text-game-deep text-13 flex items-center gap-2 font-extrabold",
-          eyebrowClassName,
-        )}
-      >
-        <AppIcon icon={status.icon} size="md" className="shrink-0" />
-        <span>
-          {status.label} · Milestone {milestone.sequence} of {milestoneCount}
-        </span>
-      </p>
+      <ObjectiveEyebrow icon={status.icon} className={eyebrowClassName}>
+        {status.label} · Milestone {milestone.sequence} of {milestoneCount}
+      </ObjectiveEyebrow>
       {title}
       <p className="text-ink-2 font-semibold">{meta.join(" · ")}</p>
       {milestone.description ? (

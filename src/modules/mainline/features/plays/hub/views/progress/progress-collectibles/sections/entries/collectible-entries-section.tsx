@@ -3,21 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
+import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { Toolbar } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 
 import type {
@@ -60,7 +53,7 @@ const jumpToArea = (areaId: string) => {
 
 /*
  * The checklist: a quiet toolbar, then the areas. On wide screens an Areas
- * index sticks beside them; on phones and tablets it opens as a sheet. The
+ * index sticks beside them; on phones and tablets it opens as a bottom sheet. The
  * area summaries and the sort come from the view, which shares them with
  * the hero.
  */
@@ -205,24 +198,46 @@ export const CollectibleEntriesSection = ({
       tabIndex={-1}
       className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
-      <Card
-        size="sm"
-        className="flex-row flex-wrap items-center gap-x-3 gap-y-2.5 p-2.5 sm:gap-x-3.5"
-      >
-        <BrowseFilterPanel
-          variant="bare"
-          className="contents"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
+      <Toolbar
+        aria-label={`Filter ${group.name}`}
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
+        }
+        search={
           <SearchControl
             ariaLabel={`Search ${group.name}`}
-            className="min-w-55 flex-[1_1_220px]"
             onValueChange={setQuery}
             placeholder="Search number or place"
             value={query}
           />
+        }
+        trailing={
+          <>
+            <SelectControl
+              ariaLabel="Filter by area"
+              onValueChange={setArea}
+              options={areaOptions}
+              placeholder="All areas"
+              value={area}
+              variant="ghost"
+            />
+            <SelectControl
+              ariaLabel="Sort collectibles"
+              onValueChange={(value) => onSortChange(value as CollectibleSort)}
+              options={sortOptions}
+              placeholder="Game order"
+              prefix="Sort"
+              value={sort}
+              variant="ghost"
+            />
+          </>
+        }
+      >
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-x-3 gap-y-2.5">
           <SegmentedControl
             ariaLabel="Show"
             onValueChange={setProgressFilter}
@@ -241,44 +256,53 @@ export const CollectibleEntriesSection = ({
             ]}
             value={progressFilter}
           />
-          <span
-            aria-hidden
-            className="bg-line my-2 hidden w-px self-stretch md:block"
-          />
-          <SelectControl
-            ariaLabel="Filter by area"
-            onValueChange={setArea}
-            options={areaOptions}
-            placeholder="All areas"
-            value={area}
-            variant="ghost"
-          />
-          <SelectControl
-            ariaLabel="Sort collectibles"
-            onValueChange={(value) => onSortChange(value as CollectibleSort)}
-            options={sortOptions}
-            placeholder="Game order"
-            prefix="Sort"
-            value={sort}
-            variant="ghost"
-          />
-        </BrowseFilterPanel>
-        <p className="text-ink-2 text-13 px-1 font-semibold">
-          Tap one to mark it found
-        </p>
-        {hasAreaIndex ? (
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            className="ml-auto lg:hidden"
-            onClick={() => setIsAreaSheetOpen(true)}
-          >
-            <AppIcon icon={appIcons.product.location} inline="start" />
-            Areas
-          </Button>
-        ) : null}
-      </Card>
+          <p className="text-ink-2 text-13 px-1 font-semibold">
+            Tap one to mark it found
+          </p>
+          {hasAreaIndex ? (
+            <BottomSheet
+              open={isAreaSheetOpen}
+              onOpenChange={setIsAreaSheetOpen}
+              className="lg:hidden"
+              title="Areas"
+              description={`Jump to an area of ${group.name}.`}
+              descriptionHidden
+              bodyClassName="px-2.5"
+              /* A jump moves focus itself, so the trigger doesn't take it back. */
+              finalFocus={() => sheetJumpTargetRef.current === null}
+              onOpenChangeComplete={(open) => {
+                const areaId = sheetJumpTargetRef.current;
+
+                /* Once the sheet has let go of the page, jump there. */
+                if (!open && areaId) {
+                  sheetJumpTargetRef.current = null;
+                  jumpToArea(areaId);
+                }
+              }}
+              trigger={
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="ml-auto lg:hidden"
+                >
+                  <AppIcon icon={appIcons.product.location} inline="start" />
+                  Areas
+                </Button>
+              }
+            >
+              <CollectibleAreaIndex
+                areas={areaSummaries}
+                onJump={(areaId) => {
+                  sheetJumpTargetRef.current = areaId;
+                  setIsAreaSheetOpen(false);
+                }}
+                shownAreaIds={shownAreaIds}
+              />
+            </BottomSheet>
+          ) : null}
+        </div>
+      </Toolbar>
 
       <p className="sr-only" aria-live="polite">
         {hasFilters ? showingLabel : ""}
@@ -353,44 +377,6 @@ export const CollectibleEntriesSection = ({
           />
         )}
       </div>
-
-      {hasAreaIndex ? (
-        <Sheet
-          open={isAreaSheetOpen}
-          onOpenChange={setIsAreaSheetOpen}
-          onOpenChangeComplete={(open) => {
-            const areaId = sheetJumpTargetRef.current;
-
-            if (!open && areaId) {
-              sheetJumpTargetRef.current = null;
-              jumpToArea(areaId);
-            }
-          }}
-        >
-          <SheetContent
-            side="bottom"
-            className="mx-auto max-h-[82dvh] max-w-140 gap-0 rounded-t-xl p-0 lg:hidden"
-            finalFocus={() => !sheetJumpTargetRef.current}
-          >
-            <SheetHeader className="px-5 pt-6 pr-16 pb-2">
-              <SheetTitle>Areas</SheetTitle>
-              <SheetDescription className="sr-only">
-                Jump to an area of {group.name}.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="min-h-0 flex-1 overflow-y-auto px-2.5 pb-6">
-              <CollectibleAreaIndex
-                areas={areaSummaries}
-                onJump={(areaId) => {
-                  sheetJumpTargetRef.current = areaId;
-                  setIsAreaSheetOpen(false);
-                }}
-                shownAreaIds={shownAreaIds}
-              />
-            </div>
-          </SheetContent>
-        </Sheet>
-      ) : null}
     </section>
   );
 };

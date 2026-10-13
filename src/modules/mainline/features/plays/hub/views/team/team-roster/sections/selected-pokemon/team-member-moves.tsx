@@ -31,7 +31,7 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       ) : (
         <span
           aria-hidden
-          className="border-dash size-[22px] shrink-0 rounded-full border-[1.5px] border-dashed"
+          className="empty-slot size-[22px] shrink-0 rounded-full"
         />
       )}
       <span className="min-w-0">

@@ -18,6 +18,7 @@ import {
   readMainlinePlayGameContext,
   readMainlinePlayRuleRows,
   readMainlinePlaySummary,
+  readMainlinePlayTagNames,
 } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import type {
   MainlinePlayOverviewData,
@@ -27,8 +28,8 @@ import type {
   MainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/types";
 import {
+  readMainlinePlayMilestoneTeamSnapshot,
   readMainlinePlayTeamTimeline,
-  readMainlinePlayTeamTimelinePreview,
   readMainlinePlayTimelinePreview,
 } from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
 import { readMainlinePlayTeamPlanRows } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
@@ -68,32 +69,6 @@ const getMainlinePlayRequestContext = cache(async (playId: string) => {
   return { play, supabase, userId };
 });
 
-type MainlinePlayRequestContext = NonNullable<
-  Awaited<ReturnType<typeof getMainlinePlayRequestContext>>
->;
-
-const readMainlinePlayTeamWorkspaceRows = async (
-  context: MainlinePlayRequestContext,
-  playId: string,
-) => {
-  const [teamRows, teamPlanRows] = await Promise.all([
-    readMainlinePlayTeamRows(
-      context.supabase,
-      playId,
-      context.play.generation_id,
-      context.play.version_group_id,
-    ),
-    readMainlinePlayTeamPlanRows(
-      context.supabase,
-      context.userId,
-      playId,
-      context.play.generation_id,
-    ),
-  ]);
-
-  return { teamPlanRows, teamRows };
-};
-
 export const getMainlinePlayShellData = cache(
   async (playId: string): Promise<MainlinePlayShellData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
@@ -102,17 +77,20 @@ export const getMainlinePlayShellData = cache(
       return null;
     }
 
-    const [collectiblesAvailable, gameContext, ruleRows] = await Promise.all([
-      readMainlinePlayCollectiblesAvailability(context.supabase, playId),
-      readMainlinePlayGameContext(context.supabase, context.play.game_id),
-      readMainlinePlayRuleRows(context.supabase, playId),
-    ]);
+    const [collectiblesAvailable, gameContext, ruleRows, tags] =
+      await Promise.all([
+        readMainlinePlayCollectiblesAvailability(context.supabase, playId),
+        readMainlinePlayGameContext(context.supabase, context.play.game_id),
+        readMainlinePlayRuleRows(context.supabase, playId),
+        readMainlinePlayTagNames(context.supabase, playId),
+      ]);
 
     return buildMainlinePlayShellData({
       collectiblesAvailable,
       gameContext,
       play: context.play,
       ruleRows,
+      tags,
     });
   },
 );
@@ -137,13 +115,27 @@ export const getMainlinePlayOverviewData = cache(
         readMainlinePlayTimelinePreview(context.supabase, playId),
       ]);
 
-    return buildMainlinePlayOverviewData({
+    const data = buildMainlinePlayOverviewData({
+      lastRecordedTeam: [],
       milestoneRows,
       overview,
       play: context.play,
       teamPreviewRows,
       timelinePreview,
     });
+    const lastRecordedId = data.lastCompletedMilestone?.milestone_id ?? null;
+
+    /* "Your team then" needs the last milestone, so it is read after. */
+    return lastRecordedId === null
+      ? data
+      : {
+          ...data,
+          lastRecordedTeam: await readMainlinePlayMilestoneTeamSnapshot(
+            context.supabase,
+            playId,
+            lastRecordedId,
+          ),
+        };
   },
 );
 
@@ -155,18 +147,16 @@ export const getMainlinePlayTeamRosterData = cache(
       return null;
     }
 
-    const [{ teamPlanRows, teamRows }, teamTimelinePreview] = await Promise.all(
-      [
-        readMainlinePlayTeamWorkspaceRows(context, playId),
-        readMainlinePlayTeamTimelinePreview(context.supabase, playId),
-      ],
+    const teamRows = await readMainlinePlayTeamRows(
+      context.supabase,
+      playId,
+      context.play.generation_id,
+      context.play.version_group_id,
     );
 
     return buildMainlinePlayTeamRosterData({
       play: context.play,
       teamRows,
-      teamPlanRows,
-      teamTimelinePreview,
     });
   },
 );
@@ -179,10 +169,20 @@ export const getMainlinePlayTeamPlanData = cache(
       return null;
     }
 
-    const { teamPlanRows, teamRows } = await readMainlinePlayTeamWorkspaceRows(
-      context,
-      playId,
-    );
+    const [teamRows, teamPlanRows] = await Promise.all([
+      readMainlinePlayTeamRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        context.play.version_group_id,
+      ),
+      readMainlinePlayTeamPlanRows(
+        context.supabase,
+        context.userId,
+        playId,
+        context.play.generation_id,
+      ),
+    ]);
 
     return buildMainlinePlayTeamPlanData({
       play: context.play,
@@ -253,7 +253,7 @@ export const getMainlinePlayProgressPokedexData = cache(
 
     if (
       !context.play.game_name ||
-      !context.play.game_slug ||
+      !context.play.version_group_slug ||
       !context.play.generation_id
     ) {
       throw new Error("This Play does not have a complete game context.");
@@ -261,7 +261,7 @@ export const getMainlinePlayProgressPokedexData = cache(
 
     return readMainlinePlayPokedexProgress(context.supabase, {
       gameName: context.play.game_name,
-      gameSlug: context.play.game_slug,
+      versionGroupSlug: context.play.version_group_slug,
       generationId: context.play.generation_id,
       playId,
     });

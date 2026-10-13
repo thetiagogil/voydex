@@ -22,12 +22,7 @@ export const TeamAnalysisMemberSprite = ({
 
   if (!imageUrl) {
     return (
-      <span
-        className={cn(
-          "border-dash block shrink-0 rounded-full border-[1.5px] border-dashed",
-          className,
-        )}
-      >
+      <span className={cn("empty-slot block shrink-0 rounded-full", className)}>
         {label ? <span className="sr-only">{label}</span> : null}
       </span>
     );

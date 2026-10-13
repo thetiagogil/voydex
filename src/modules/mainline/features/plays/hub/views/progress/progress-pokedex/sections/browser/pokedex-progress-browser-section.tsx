@@ -3,14 +3,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
+import { Toolbar } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 import {
@@ -66,7 +65,7 @@ const viewModeOptions = [
 
 export const PokedexProgressBrowserSection = ({
   browseScopes,
-  gameSlug,
+  versionGroupSlug,
   isSpeciesPending,
   onSpeciesBulkStateChange,
   onSpeciesStateChange,
@@ -74,7 +73,7 @@ export const PokedexProgressBrowserSection = ({
   stateBySpeciesId,
 }: {
   browseScopes: MainlinePlayPokedexScope[];
-  gameSlug: string;
+  versionGroupSlug: string;
   isSpeciesPending: (speciesId: number) => boolean;
   onSpeciesBulkStateChange: (
     speciesIds: number[],
@@ -236,17 +235,16 @@ export const PokedexProgressBrowserSection = ({
       aria-label="Pokédex entries"
       className="grid min-w-0 grid-cols-1 gap-4"
     >
-      <Card
-        size="sm"
-        className="flex-row flex-wrap items-center gap-x-3.5 gap-y-2.5 p-2.5"
-      >
-        <BrowseFilterPanel
-          variant="bare"
-          className="contents"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
+      <Toolbar
+        aria-label={`Filter ${scope.name}`}
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
+        }
+        search={
           <SearchControl
             ariaLabel={`Search ${scope.name}`}
             value={query}
@@ -255,53 +253,57 @@ export const PokedexProgressBrowserSection = ({
               resetVisibleSections();
             }}
             placeholder="Search name or number"
-            className="min-w-55 flex-[1_1_220px]"
           />
-          <SegmentedControl
-            ariaLabel="Filter by progress"
-            onValueChange={(value) => {
-              setProgressFilter(value);
-              resetVisibleSections();
-            }}
-            options={[
-              { count: progressCounts.all, label: "All", value: "all" },
-              {
-                count: progressCounts.caught,
-                label: "Caught",
-                value: "caught",
-              },
-              { count: progressCounts.seen, label: "Seen", value: "seen" },
-              {
-                count: progressCounts.missing,
-                label: "Missing",
-                value: "missing",
-              },
-            ]}
-            value={progressFilter}
-          />
-          {browseScopes.length > 0 ? (
-            <PokedexEntryScopeFilter
-              completionScopeName={scope.name}
+        }
+        trailing={
+          <>
+            <SegmentedControl
+              ariaLabel="Filter by progress"
               onValueChange={(value) => {
-                setBrowseScopeId(value);
+                setProgressFilter(value);
                 resetVisibleSections();
               }}
-              scopes={browseScopes}
-              value={browseScopeId}
+              options={[
+                { count: progressCounts.all, label: "All", value: "all" },
+                {
+                  count: progressCounts.caught,
+                  label: "Caught",
+                  value: "caught",
+                },
+                { count: progressCounts.seen, label: "Seen", value: "seen" },
+                {
+                  count: progressCounts.missing,
+                  label: "Missing",
+                  value: "missing",
+                },
+              ]}
+              value={progressFilter}
             />
-          ) : null}
-          <SelectControl
-            ariaLabel="Filter Pokédex completion requirement"
-            className="w-40"
-            onValueChange={(value) => {
-              setInclusionFilter(value as PokedexInclusionFilter);
-              resetVisibleSections();
-            }}
-            options={inclusionOptions}
-            placeholder="All entries"
-            value={inclusionFilter}
-          />
-        </BrowseFilterPanel>
+            {browseScopes.length > 0 ? (
+              <PokedexEntryScopeFilter
+                completionScopeName={scope.name}
+                onValueChange={(value) => {
+                  setBrowseScopeId(value);
+                  resetVisibleSections();
+                }}
+                scopes={browseScopes}
+                value={browseScopeId}
+              />
+            ) : null}
+            <SelectControl
+              ariaLabel="Filter Pokédex completion requirement"
+              className="w-40"
+              onValueChange={(value) => {
+                setInclusionFilter(value as PokedexInclusionFilter);
+                resetVisibleSections();
+              }}
+              options={inclusionOptions}
+              placeholder="All entries"
+              value={inclusionFilter}
+            />
+          </>
+        }
+      >
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="text-ink-2 text-13 font-bold">Tap marks as</span>
           <SegmentedControl
@@ -319,7 +321,7 @@ export const PokedexProgressBrowserSection = ({
             variant="segment"
           />
         </div>
-      </Card>
+      </Toolbar>
 
       <div className="flex min-h-8 items-center justify-between gap-3">
         <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
@@ -335,7 +337,7 @@ export const PokedexProgressBrowserSection = ({
             {visibleSections.map((section) => (
               <PokedexProgressEntrySection
                 key={section.id}
-                gameSlug={gameSlug}
+                versionGroupSlug={versionGroupSlug}
                 isSpeciesPending={isSpeciesPending}
                 onBulkStateChange={onSpeciesBulkStateChange}
                 onSpeciesStateChange={onSpeciesStateChange}

@@ -5,7 +5,7 @@ import type {
 import {
   getTeamPlanFollowingLabel,
   getTeamPlanStatusLabel,
-} from "@/modules/mainline/features/plays/hub/views/team/shared/team-plan-display";
+} from "../team-plan-display";
 import {
   AppIcon,
   appIcons,

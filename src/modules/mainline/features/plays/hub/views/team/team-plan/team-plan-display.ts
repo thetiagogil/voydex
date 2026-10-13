@@ -1,6 +1,5 @@
 import type {
   MainlinePlayTeamPlanFollowingState,
-  MainlinePlayTeamPlanPreview,
   MainlinePlayTeamPlanStatus,
 } from "@/modules/mainline/features/plays/hub/types";
 
@@ -70,19 +69,3 @@ export const getTeamPlanStatusDescription = (
       return "Species and form match.";
   }
 };
-
-export const getTeamPlanTargetProgressLabel = (
-  plan: MainlinePlayTeamPlanPreview,
-) => `${plan.foundCount} of ${plan.targetCount} planned Pokémon found`;
-
-export const getTeamPlanActiveTargetSummary = (
-  plan: MainlinePlayTeamPlanPreview,
-) =>
-  plan.exactMatchCount
-    ? `${plan.exactMatchCount} exact ${plan.exactMatchCount === 1 ? "match" : "matches"}`
-    : null;
-
-export const getTeamPlanChangeSummary = (plan: MainlinePlayTeamPlanPreview) =>
-  plan.offPlanCount
-    ? `${plan.offPlanCount} Play ${plan.offPlanCount === 1 ? "member was" : "members were"} not included in this Plan`
-    : null;

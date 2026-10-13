@@ -4,8 +4,8 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Card } from "@/shared/components/ui/card";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
-import { getTeamMemberName } from "../../utils/team-member-display";
 import { TeamMemberActions } from "./team-member-actions";
 import {
   TeamMemberProfile,
@@ -14,11 +14,11 @@ import {
 
 /* Beside the roster on wide screens: the selected Pokémon, in a quiet card. */
 export const TeamMemberDetail = ({
-  gameSlug,
+  versionGroupSlug,
   mechanics,
   member,
 }: {
-  gameSlug: string | null;
+  versionGroupSlug: string | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
 }) => {
@@ -44,11 +44,15 @@ export const TeamMemberDetail = ({
         member={member}
         title={
           <h3 id={titleId} className={teamMemberNameClassName}>
-            {getTeamMemberName(member)}
+            {getPlayTeamMemberName(member)}
           </h3>
         }
       />
-      <TeamMemberActions className="mt-5" gameSlug={gameSlug} member={member} />
+      <TeamMemberActions
+        className="mt-5"
+        versionGroupSlug={versionGroupSlug}
+        member={member}
+      />
     </Card>
   );
 };

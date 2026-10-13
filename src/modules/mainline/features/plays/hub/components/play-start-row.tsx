@@ -1,21 +1,25 @@
 import { Medallion } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { appIcons } from "@/shared/components/app-icon";
+import { cn } from "@/shared/utils/cn";
 
 /*
- * Where the Play began: a boundary, not a record, so it has no card. Only its
- * medallion and kicker wear the Play's colour. Its sides match the month cards' padding,
- * so this medallion lines up with theirs.
+ * Where the Play began (v3 `.hstart`): a boundary, not a record, so it has no
+ * card of its own. Only its medallion and kicker wear the Play's colour. It
+ * closes Overview's recent moments and the full Team history.
  */
-export const TeamHistoryStart = ({
+export const PlayStartRow = ({
+  className,
   startedOn,
 }: {
+  /* Padding that lines its medallion up with the rows around it. */
+  className?: string;
   startedOn: string | null;
 }) => {
   const startedOnLabel = formatPlayDate(startedOn, "");
 
   return (
-    <div className="flex min-w-0 items-center gap-4 px-5 py-4.5 sm:px-7">
+    <div className={cn("flex min-w-0 items-center gap-4 py-4.5", className)}>
       <Medallion content={{ icon: appIcons.milestones.story, kind: "start" }} />
       <div className="grid min-w-0 gap-0.5">
         <p className="text-game-deep text-[12.5px] font-bold">

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildMainlinePlayBadgeCase,
+  getBadgeTypeByMilestoneId,
   type MainlinePlayBadgeCaseMilestone,
 } from "./badge-case-mapper";
 
@@ -62,7 +63,11 @@ describe("buildMainlinePlayBadgeCase", () => {
       nextName: "Water Badge",
     });
     expect(
-      badgeCase?.stamps.map((stamp) => [stamp.kind, stamp.state, stamp.type]),
+      badgeCase?.stamps.map((stamp) => [
+        stamp.kind,
+        stamp.state,
+        stamp.badgeType,
+      ]),
     ).toEqual([
       ["gym", "earned", "grass"],
       ["gym", "next", "water"],
@@ -115,5 +120,27 @@ describe("buildMainlinePlayBadgeCase", () => {
       "Boulder Badge",
     ]);
     expect(badgeCase?.gymCount).toBe(2);
+  });
+});
+
+describe("getBadgeTypeByMilestoneId", () => {
+  it("maps gym milestones to their badge type and skips the rest", () => {
+    expect(
+      getBadgeTypeByMilestoneId({
+        milestones: [
+          milestone({ badge_refs: [{ type_id: 10 }], milestone_id: 1 }),
+          milestone({
+            badge_refs: [{ type_id: 10 }],
+            milestone_id: 2,
+            milestone_type_slug: "champion",
+          }),
+          milestone({ badge_refs: [{ type_id: 99 }], milestone_id: 3 }),
+        ],
+        types: [
+          { id: 10, slug: "water" },
+          { id: 99, slug: "not-a-type" },
+        ],
+      }),
+    ).toEqual(new Map([[1, "water"]]));
   });
 });

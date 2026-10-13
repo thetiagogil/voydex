@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+
 import {
   getOverviewMilestoneSummary,
-  orderOverviewMilestones,
   type OverviewMilestone,
 } from "./overview-milestones-mapper";
 
@@ -31,9 +32,9 @@ const categories = [
   { category_id: 102, category_sort_order: 2, content_scope_sort_order: 1 },
 ];
 
-describe("orderOverviewMilestones", () => {
+describe("orderPlayMilestones on Overview's rows", () => {
   it("orders by category before each category's own sort order", () => {
-    const ordered = orderOverviewMilestones({
+    const ordered = orderPlayMilestones({
       categories,
       milestones: [
         milestone({ category_id: 102, milestone_id: 13, sort_order: 1 }),
@@ -49,7 +50,7 @@ describe("orderOverviewMilestones", () => {
 describe("getOverviewMilestoneSummary", () => {
   it("picks the next milestone in the story, not a later category's first", () => {
     const summary = getOverviewMilestoneSummary(
-      orderOverviewMilestones({
+      orderPlayMilestones({
         categories,
         milestones: [
           milestone({
@@ -98,7 +99,7 @@ describe("getOverviewMilestoneSummary", () => {
 describe("getOverviewMilestoneSummary journey numbering", () => {
   it("numbers the next objective within its journey and lists what follows", () => {
     const summary = getOverviewMilestoneSummary(
-      orderOverviewMilestones({
+      orderPlayMilestones({
         categories,
         milestones: [
           milestone({ is_completed: true, milestone_id: 1, sort_order: 1 }),
@@ -118,15 +119,33 @@ describe("getOverviewMilestoneSummary journey numbering", () => {
 
     expect(summary.nextMilestonePosition).toEqual({ sequence: 2, total: 6 });
     expect(
-      summary.aheadMilestones.map(({ milestone, sequence }) => [
+      summary.aheadMilestones.map(({ milestone, sequence, state }) => [
         milestone.milestone_id,
         sequence,
+        state,
       ]),
     ).toEqual([
-      [2, 2],
-      [3, 3],
-      [4, 4],
-      [5, 5],
+      [2, 2, "next"],
+      [3, 3, "done"],
+      [4, 4, "todo"],
+      [5, 5, "todo"],
+    ]);
+  });
+});
+
+describe("getOverviewMilestoneSummary badge types", () => {
+  it("gives a recorded gym in the list ahead its badge type", () => {
+    const summary = getOverviewMilestoneSummary(
+      [
+        milestone({ milestone_id: 1, sort_order: 1 }),
+        milestone({ is_completed: true, milestone_id: 2, sort_order: 2 }),
+      ],
+      new Map([[2, "water"]]),
+    );
+
+    expect(summary.aheadMilestones.map((ahead) => ahead.badgeType)).toEqual([
+      null,
+      "water",
     ]);
   });
 });

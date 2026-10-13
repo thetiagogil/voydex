@@ -4,10 +4,11 @@ import { useRef } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
-import { Sheet, SheetContent, SheetTitle } from "@/shared/components/ui/sheet";
+import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
-import { getTeamMemberName } from "../../utils/team-member-display";
 import {
   TeamMemberActions,
   TeamMemberMoreActions,
@@ -18,7 +19,7 @@ import {
 } from "./team-member-profile";
 
 type TeamMemberDetailSheetProps = {
-  gameSlug: string | null;
+  versionGroupSlug: string | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onOpenChange: (open: boolean) => void;
@@ -31,54 +32,57 @@ type TeamMemberDetailSheetProps = {
  * button.
  */
 export const TeamMemberDetailSheet = ({
-  gameSlug,
+  versionGroupSlug,
   mechanics,
   member,
   onOpenChange,
   open,
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const name = member ? getPlayTeamMemberName(member) : "Team member";
 
   return (
-    <Sheet open={open && Boolean(member)} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="bottom"
-        initialFocus={titleRef}
-        className="mx-auto max-h-[88dvh] w-full max-w-[560px] gap-0 p-0 data-[side=bottom]:rounded-t-xl"
-      >
-        <span
-          aria-hidden
-          className="bg-line mx-auto mt-2.5 mb-0.5 h-[5px] w-11 shrink-0 rounded-full"
+    <BottomSheet
+      open={open && Boolean(member)}
+      onOpenChange={onOpenChange}
+      initialFocus={titleRef}
+      label={name}
+      bodyClassName="px-[18px] pt-1.5 sm:px-5"
+      actions={
+        member ? (
+          <TeamMemberMoreActions
+            member={member}
+            variant="ghost"
+            className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink size-10 rounded-full"
+          />
+        ) : undefined
+      }
+      footer={
+        member ? (
+          <TeamMemberActions
+            versionGroupSlug={versionGroupSlug}
+            member={member}
+            stretch
+          />
+        ) : undefined
+      }
+    >
+      {member ? (
+        <TeamMemberProfile
+          mechanics={mechanics}
+          member={member}
+          shinyTagSide="left"
+          title={
+            <SheetTitle
+              ref={titleRef}
+              tabIndex={-1}
+              className={cn(teamMemberNameClassName, "outline-none")}
+            >
+              {name}
+            </SheetTitle>
+          }
         />
-        {member ? (
-          <>
-            <TeamMemberMoreActions
-              member={member}
-              variant="ghost"
-              className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3 right-[3.75rem] z-10 size-10 rounded-full"
-            />
-            <div className="min-h-0 flex-1 overflow-y-auto px-[18px] pt-1.5 pb-5 sm:px-5">
-              <TeamMemberProfile
-                mechanics={mechanics}
-                member={member}
-                shinyTagSide="left"
-                title={
-                  <SheetTitle
-                    ref={titleRef}
-                    tabIndex={-1}
-                    className={cn(teamMemberNameClassName, "outline-none")}
-                  >
-                    {getTeamMemberName(member)}
-                  </SheetTitle>
-                }
-              />
-            </div>
-            <div className="border-line bg-surface shrink-0 border-t px-[18px] pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:px-5">
-              <TeamMemberActions gameSlug={gameSlug} member={member} stretch />
-            </div>
-          </>
-        ) : null}
-      </SheetContent>
-    </Sheet>
+      ) : null}
+    </BottomSheet>
   );
 };

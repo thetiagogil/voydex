@@ -1,26 +1,26 @@
 import {
-  getTeamEventPokemon,
-  getTeamEventRosterDestination,
-  type TeamEventPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-payload";
+  getPlayMomentPokemon,
+  getPlayMomentRosterDestination,
+  type PlayMomentPokemon,
+} from "@/modules/mainline/features/plays/hub/data/play-moment-pokemon";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import type { AppIconComponent } from "@/shared/components/app-icon";
 import { appIcons } from "@/shared/domain/icons/app-icons";
 
-export type TeamEventTextPart = {
+export type PlayMomentTextPart = {
   emphasized?: boolean;
   text: string;
 };
 
-export type TeamEventDisplay = {
+export type PlayMomentTeamLine = {
   icon: AppIconComponent;
   label: string;
   /*
    * The Pokémon a moment is drawn with: what it evolved or changed into, the
    * replacement, else the Pokémon it is about.
    */
-  outcome: TeamEventPokemon;
-  text: TeamEventTextPart[];
+  outcome: PlayMomentPokemon;
+  text: PlayMomentTextPart[];
 };
 
 const unknownPokemon = (event: MainlinePlayTimelineEvent, role: string) => ({
@@ -36,19 +36,19 @@ const unknownPokemon = (event: MainlinePlayTimelineEvent, role: string) => ({
 });
 
 const getPokemonByRole = (
-  pokemon: TeamEventPokemon[],
+  pokemon: PlayMomentPokemon[],
   role: string,
-): TeamEventPokemon | null => {
+): PlayMomentPokemon | null => {
   return pokemon.find((item) => item.role === role) ?? null;
 };
 
-const getSubjectPokemon = (pokemon: TeamEventPokemon[]) => {
+const getSubjectPokemon = (pokemon: PlayMomentPokemon[]) => {
   return getPokemonByRole(pokemon, "subject") ?? pokemon[0] ?? null;
 };
 
 const text = (
   parts: Array<[value: string, emphasized?: boolean]>,
-): TeamEventTextPart[] => {
+): PlayMomentTextPart[] => {
   return parts.map(([value, emphasized]) => ({
     emphasized,
     text: value,
@@ -62,7 +62,7 @@ const ensureSentence = (value: string): string => {
 
 const getFallbackText = (
   event: MainlinePlayTimelineEvent,
-): TeamEventTextPart[] => {
+): PlayMomentTextPart[] => {
   return text([
     [ensureSentence(event.title || event.event_type_name || "Team updated")],
   ]);
@@ -84,10 +84,10 @@ const getRosterDestinationFromCopy = (
   return null;
 };
 
-export const getTeamEventDisplay = (
+export const getPlayMomentTeamLine = (
   event: MainlinePlayTimelineEvent,
-): TeamEventDisplay => {
-  const pokemon = getTeamEventPokemon(event);
+): PlayMomentTeamLine => {
+  const pokemon = getPlayMomentPokemon(event);
   const subject = getSubjectPokemon(pokemon);
   const eventType = event.event_type_slug;
 
@@ -151,7 +151,7 @@ export const getTeamEventDisplay = (
   if (eventType === "pokemon_moved") {
     const member = subject ?? unknownPokemon(event, "subject");
     const destination =
-      getTeamEventRosterDestination(event) ??
+      getPlayMomentRosterDestination(event) ??
       getRosterDestinationFromCopy(event);
 
     return {

@@ -11,6 +11,7 @@ import {
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
   getPlayCardLinkLabel,
+  getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -58,6 +59,30 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
   );
 };
 
+/* v3 `.pos`: where the Play is in its story, under its name. */
+const PlayCardStoryPosition = ({ play }: PlayCardProps) => {
+  const position = play.storyPosition;
+
+  if (!position) {
+    return null;
+  }
+
+  return (
+    <p className="text-ink mt-2 flex min-w-0 items-center gap-1.5 text-[13.5px] font-extrabold">
+      <AppIcon
+        icon={
+          position.kind === "complete"
+            ? appIcons.milestones.champion
+            : appIcons.milestones.story
+        }
+        size="sm"
+        className="text-game-deep shrink-0"
+      />
+      <span className="truncate">{getPlayStoryPositionLabel(position)}</span>
+    </p>
+  );
+};
+
 /*
  * One Play in the list. The card is quiet; the Play's cover tile is the loud
  * part, its team stays lively and its progress bars take the game's colour.
@@ -81,6 +106,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
           {playName}
         </h3>
         <PlayCardMeta play={play} />
+        <PlayCardStoryPosition play={play} />
       </div>
 
       <PlayCardTeam team={play.activeTeam} className="hidden xl:grid" />

@@ -1,4 +1,8 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import {
+  getPlayTeamSlots,
+  playTeamSize,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 
 export type TeamRosterGroup = "active" | "reserve";
 
@@ -12,34 +16,24 @@ export type TeamRosterSummary = {
   activeCount: number;
   openSlotCount: number;
   reserveCount: number;
-  /* The reserve shows once something is in it. */
-  showsReserve: boolean;
 };
 
-export const teamRosterSize = 6;
-
+/*
+ * A group's six slots, as the Plays card and Overview place a team. The
+ * reserve's stored slots run 7 to 12 and read R1 to R6.
+ */
 export const getTeamRosterSlots = (
   roster: MainlinePlayTeamMember[],
   group: TeamRosterGroup,
-): TeamRosterSlot[] => {
-  const slotOffset = group === "active" ? 0 : teamRosterSize;
-  const memberBySlot = new Map(
-    roster
-      .filter((member) => member.roster_state_slug === group)
-      .map((member) => [member.slot, member]),
-  );
-
-  return Array.from({ length: teamRosterSize }, (_, index) => {
-    const position = index + 1;
-    const storedSlot = slotOffset + position;
-
-    return {
-      label: group === "active" ? `${position}` : `R${position}`,
-      member: memberBySlot.get(storedSlot) ?? null,
-      position,
-    };
-  });
-};
+): TeamRosterSlot[] =>
+  getPlayTeamSlots(
+    roster.filter((member) => member.roster_state_slug === group),
+    { slotOffset: group === "active" ? 0 : playTeamSize },
+  ).map(({ member, position }) => ({
+    label: group === "active" ? `${position}` : `R${position}`,
+    member,
+    position,
+  }));
 
 const countFilledSlots = (slots: TeamRosterSlot[]) =>
   slots.filter((slot) => slot.member).length;
@@ -49,16 +43,11 @@ export const getTeamRosterSummary = (
 ): TeamRosterSummary => {
   const activeCount = countFilledSlots(getTeamRosterSlots(roster, "active"));
   const reserveCount = countFilledSlots(getTeamRosterSlots(roster, "reserve"));
-  const showsReserve = reserveCount > 0;
 
   return {
     activeCount,
-    openSlotCount:
-      teamRosterSize -
-      activeCount +
-      (showsReserve ? teamRosterSize - reserveCount : 0),
+    openSlotCount: playTeamSize * 2 - activeCount - reserveCount,
     reserveCount,
-    showsReserve,
   };
 };
 
@@ -83,12 +72,23 @@ export const formatTeamRosterSummary = ({
     .join(" · ");
 };
 
+/*
+ * The Pokémon the profile opens on: the one the link named, when it is on
+ * this roster, else the first by slot.
+ */
 export const getDefaultTeamMember = (
   roster: MainlinePlayTeamMember[],
+  requestedId: string | null = null,
 ): MainlinePlayTeamMember | null => {
+  const requested = requestedId
+    ? roster.find((member) => member.play_pokemon_id === requestedId)
+    : undefined;
+
   return (
+    requested ??
     [...roster]
       .filter((member) => member.slot !== null)
-      .sort((left, right) => (left.slot ?? 13) - (right.slot ?? 13))[0] ?? null
+      .sort((left, right) => (left.slot ?? 13) - (right.slot ?? 13))[0] ??
+    null
   );
 };

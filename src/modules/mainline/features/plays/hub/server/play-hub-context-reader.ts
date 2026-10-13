@@ -112,3 +112,45 @@ export const readMainlinePlayRuleRows = async (
     rules: rulesResult.data ?? [],
   };
 };
+
+/* The Play's tags by name, for Play details. */
+export const readMainlinePlayTagNames = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+): Promise<string[]> => {
+  const linksResult = await supabase
+    .schema("gameplay")
+    .from("mainline_play_tags")
+    .select("tag_id")
+    .eq("play_id", playId)
+    .order("created_at", { ascending: true });
+
+  if (linksResult.error) {
+    throw new Error("Unable to load Mainline play tags.");
+  }
+
+  const tagIds = (linksResult.data ?? []).map((link) => link.tag_id);
+
+  if (!tagIds.length) {
+    return [];
+  }
+
+  const tagsResult = await supabase
+    .from("tags")
+    .select("id, name")
+    .in("id", tagIds);
+
+  if (tagsResult.error) {
+    throw new Error("Unable to load Mainline tags.");
+  }
+
+  const nameById = new Map(
+    (tagsResult.data ?? []).map((tag) => [tag.id, tag.name]),
+  );
+
+  return tagIds.flatMap((tagId) => {
+    const name = nameById.get(tagId);
+
+    return name ? [name] : [];
+  });
+};

@@ -1,3 +1,4 @@
+import { RangeHeading } from "@/shared/components/range-heading";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
@@ -13,7 +14,7 @@ import type {
 } from "../../types";
 
 export const PokedexProgressEntrySection = ({
-  gameSlug,
+  versionGroupSlug,
   isSpeciesPending,
   onBulkStateChange,
   onSpeciesStateChange,
@@ -22,7 +23,7 @@ export const PokedexProgressEntrySection = ({
   updateMode,
   viewMode,
 }: {
-  gameSlug: string;
+  versionGroupSlug: string;
   isSpeciesPending: (speciesId: number) => boolean;
   onBulkStateChange: (
     speciesIds: number[],
@@ -57,7 +58,7 @@ export const PokedexProgressEntrySection = ({
     <PokedexSpeciesItem
       key={`${section.id}:${entry.pokedexNumber}:${entry.speciesId}`}
       entry={entry}
-      gameSlug={gameSlug}
+      versionGroupSlug={versionGroupSlug}
       isPending={isSpeciesPending(entry.speciesId)}
       mode={updateMode}
       onStateChange={(state) => onSpeciesStateChange(entry.speciesId, state)}
@@ -68,36 +69,36 @@ export const PokedexProgressEntrySection = ({
 
   return (
     <section aria-labelledby={headingId} aria-busy={isPending}>
-      <div className="border-line flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-b pb-3">
-        <h3 id={headingId} className="text-20 tabular-nums">
-          {section.label}
-        </h3>
-        <span className="text-ink-2 text-14 font-semibold tabular-nums">
-          {caughtCount} caught · {seenCount} seen
-        </span>
-        <div className="ml-auto flex items-center gap-1">
-          <Button
-            type="button"
-            size="sm"
-            variant="ghost"
-            aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
-            disabled={isPending || everyEntryIsMarked}
-            onClick={() => onBulkStateChange(speciesIds, updateMode)}
-          >
-            Mark all {updateMode}
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="ghost"
-            aria-label={`Unmark all matching entries from ${section.label}`}
-            disabled={isPending || everyEntryIsMissing}
-            onClick={() => onBulkStateChange(speciesIds, "missing")}
-          >
-            Unmark all
-          </Button>
-        </div>
-      </div>
+      <RangeHeading
+        headingLevel={3}
+        title={<span className="tabular-nums">{section.label}</span>}
+        titleId={headingId}
+        count={`${caughtCount} caught · ${seenCount} seen`}
+        actions={
+          <>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
+              disabled={isPending || everyEntryIsMarked}
+              onClick={() => onBulkStateChange(speciesIds, updateMode)}
+            >
+              Mark all {updateMode}
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              aria-label={`Unmark all matching entries from ${section.label}`}
+              disabled={isPending || everyEntryIsMissing}
+              onClick={() => onBulkStateChange(speciesIds, "missing")}
+            >
+              Unmark all
+            </Button>
+          </>
+        }
+      />
 
       {viewMode === "grid" ? (
         <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">

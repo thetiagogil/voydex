@@ -46,12 +46,7 @@ export const TeamAnalysisDefensiveSection = ({
     <DetailSectionCard
       title="Defensive matchups"
       headingLevel={3}
-      /* v3 hides the section aside on phones. */
-      description={
-        <span className="hidden sm:inline">
-          How each attacking type lands on your {lineupLabel.toLowerCase()}
-        </span>
-      }
+      aside={`How each attacking type lands on your ${lineupLabel.toLowerCase()}`}
       /* Desktop keeps the key beside the title, as v3's section head does. */
       action={<TeamAnalysisMatchupLegend className="hidden lg:flex" />}
       contentClassName="grid grid-cols-1 gap-3 pt-2"

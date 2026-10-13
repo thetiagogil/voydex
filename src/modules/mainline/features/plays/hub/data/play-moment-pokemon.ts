@@ -7,7 +7,8 @@ import type { Json } from "@/shared/types/database.types";
 
 type JsonRecord = Record<string, Json>;
 
-export type TeamEventPokemon = {
+/* A Pokémon a moment names, as it was when the moment was recorded. */
+export type PlayMomentPokemon = {
   formId: number | null;
   formName: string | null;
   imageUrl: string | null;
@@ -19,7 +20,7 @@ export type TeamEventPokemon = {
   speciesName: string | null;
 };
 
-export type TeamEventRosterDestination = "Active" | "Reserve";
+export type PlayMomentRosterDestination = "Active" | "Reserve";
 
 const isJsonRecord = (value: Json): value is JsonRecord => {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -47,7 +48,7 @@ const getNumber = (record: JsonRecord, key: string): number | null => {
 
 const getRosterDestination = (
   value: Json | undefined,
-): TeamEventRosterDestination | null => {
+): PlayMomentRosterDestination | null => {
   if (typeof value !== "string") {
     return null;
   }
@@ -65,9 +66,9 @@ const getRosterDestination = (
   return null;
 };
 
-export const getTeamEventRosterDestination = (
+export const getPlayMomentRosterDestination = (
   event: MainlinePlayTimelineEvent,
-): TeamEventRosterDestination | null => {
+): PlayMomentRosterDestination | null => {
   if (!Array.isArray(event.pokemon_refs)) {
     return null;
   }
@@ -94,9 +95,9 @@ export const getTeamEventRosterDestination = (
   return null;
 };
 
-export const getTeamEventPokemon = (
+export const getPlayMomentPokemon = (
   event: MainlinePlayTimelineEvent,
-): TeamEventPokemon[] => {
+): PlayMomentPokemon[] => {
   if (!Array.isArray(event.pokemon_refs)) {
     return [];
   }

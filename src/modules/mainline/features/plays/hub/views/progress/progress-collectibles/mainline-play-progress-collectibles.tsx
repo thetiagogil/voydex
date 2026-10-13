@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import { CollectibleEntriesSection } from "./sections/entries/collectible-entries-section";
@@ -56,12 +57,11 @@ export const MainlinePlayProgressCollectibles = ({
     data.groups.find((group) => group.slug === initialGroupSlug) ??
     data.groups[0];
   const [activeGroupId, setActiveGroupId] = useState(initialGroup?.id ?? null);
-  const [stateByEntryId, setStateByEntryId] = useState(() =>
-    buildInitialCollectibleState(data),
-  );
-  const [pendingEntryIds, setPendingEntryIds] = useState(
-    () => new Set<number>(),
-  );
+  const {
+    isPending: isEntryPending,
+    mark,
+    valueById: stateByEntryId,
+  } = useOptimisticMarks(() => buildInitialCollectibleState(data));
   const [sort, setSort] = useState<CollectibleSort>("canonical");
   const activeGroup =
     data.groups.find((group) => group.id === activeGroupId) ??
@@ -94,90 +94,37 @@ export const MainlinePlayProgressCollectibles = ({
     });
   };
 
-  /*
-   * Shows the new states at once and saves them. On failure the previous
-   * states come back. Reads no render state, so a toast's Undo can call it
-   * after later renders.
-   */
+  /* Marks entries found or not, at once, and saves them. */
   const saveEntryStates = async ({
     entryIds,
     isCollected,
-    previousStates,
   }: {
     entryIds: number[];
     isCollected: boolean;
-    previousStates: ReadonlyMap<number, boolean>;
   }) => {
-    setStateByEntryId((current) => {
-      const next = new Map(current);
-
-      for (const entryId of entryIds) {
-        next.set(entryId, isCollected);
-      }
-
-      return next;
-    });
-    setPendingEntryIds((current) => {
-      const next = new Set(current);
-
-      for (const entryId of entryIds) {
-        next.add(entryId);
-      }
-
-      return next;
-    });
-
-    try {
-      const result =
+    const result = await mark({
+      fallbackError: "Unable to update collectible progress.",
+      next: new Map(entryIds.map((entryId) => [entryId, isCollected])),
+      previous: new Map(entryIds.map((entryId) => [entryId, !isCollected])),
+      save: () =>
         entryIds.length === 1
-          ? await updateCollectibleEntryProgress({
+          ? updateCollectibleEntryProgress({
               collectibleEntryId: entryIds[0],
               isCollected,
               playId,
             })
-          : await updateCollectibleEntryProgressBulk({
+          : updateCollectibleEntryProgressBulk({
               collectibleEntryIds: entryIds,
               isCollected,
               playId,
-            });
+            }),
+    });
 
-      if (result.status === "error") {
-        throw new Error(result.message);
-      }
-
-      return true;
-    } catch (error) {
-      setStateByEntryId((current) => {
-        const next = new Map(current);
-
-        for (const [entryId, previousState] of previousStates) {
-          next.set(entryId, previousState);
-        }
-
-        return next;
-      });
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Unable to update collectible progress.",
-      );
-
-      return false;
-    } finally {
-      setPendingEntryIds((current) => {
-        const next = new Set(current);
-
-        for (const entryId of entryIds) {
-          next.delete(entryId);
-        }
-
-        return next;
-      });
-    }
+    return result !== null;
   };
 
   const toggleEntry = async (entry: MainlinePlayCollectibleEntry) => {
-    if (pendingEntryIds.has(entry.id)) {
+    if (isEntryPending(entry.id)) {
       return;
     }
 
@@ -186,7 +133,6 @@ export const MainlinePlayProgressCollectibles = ({
     const isSaved = await saveEntryStates({
       entryIds: [entry.id],
       isCollected,
-      previousStates: new Map([[entry.id, previousState]]),
     });
 
     if (isSaved) {
@@ -199,7 +145,6 @@ export const MainlinePlayProgressCollectibles = ({
               void saveEntryStates({
                 entryIds: [entry.id],
                 isCollected: previousState,
-                previousStates: new Map([[entry.id, isCollected]]),
               });
             },
           },
@@ -216,7 +161,7 @@ export const MainlinePlayProgressCollectibles = ({
     const entryIds = entries
       .filter(
         (entry) =>
-          !pendingEntryIds.has(entry.id) &&
+          !isEntryPending(entry.id) &&
           getCollectibleEntryState(entry, stateByEntryId) !== isCollected,
       )
       .map((entry) => entry.id);
@@ -225,14 +170,7 @@ export const MainlinePlayProgressCollectibles = ({
       return;
     }
 
-    const previousStates = new Map(
-      entryIds.map((entryId) => [entryId, !isCollected] as const),
-    );
-    const isSaved = await saveEntryStates({
-      entryIds,
-      isCollected,
-      previousStates,
-    });
+    const isSaved = await saveEntryStates({ entryIds, isCollected });
 
     if (isSaved) {
       toast.success(
@@ -246,9 +184,6 @@ export const MainlinePlayProgressCollectibles = ({
               void saveEntryStates({
                 entryIds,
                 isCollected: !isCollected,
-                previousStates: new Map(
-                  entryIds.map((entryId) => [entryId, isCollected] as const),
-                ),
               });
             },
           },
@@ -294,7 +229,7 @@ export const MainlinePlayProgressCollectibles = ({
         areaLevel={areaLevel}
         areaSummaries={areaSummaries}
         group={activeGroup}
-        isEntryPending={(entryId) => pendingEntryIds.has(entryId)}
+        isEntryPending={isEntryPending}
         onAreaStateChange={(label, entries, isCollected) => {
           void updateAreaEntries(label, entries, isCollected);
         }}

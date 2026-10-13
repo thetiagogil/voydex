@@ -1,60 +1,25 @@
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
+import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/play-start-row";
+import type { PlayMomentContext } from "@/modules/mainline/features/plays/hub/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
-import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { appIcons } from "@/shared/components/app-icon";
-
-import {
-  getTimelineDescription,
-  getTimelineEventDisplay,
-} from "./recent-history-display";
-import { getTimelineEventImageUrl } from "./recent-history-media-model";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type RecentHistorySectionProps = {
-  badgeTypeByMilestoneId: Map<number, PokemonTypeSlug>;
+  context: PlayMomentContext;
   events: MainlinePlayTimelineEvent[];
   startedOn: string | null;
 };
 
 const recentMomentLimit = 3;
 
-const getMedallion = (
-  event: MainlinePlayTimelineEvent,
-  badgeTypeByMilestoneId: Map<number, PokemonTypeSlug>,
-): MedallionContent => {
-  const display = getTimelineEventDisplay(event);
-
-  if (display.medallion === "milestone") {
-    const badgeType =
-      event.milestone_id === null
-        ? undefined
-        : badgeTypeByMilestoneId.get(event.milestone_id);
-
-    return badgeType
-      ? { kind: "badge", type: badgeType }
-      : { icon: display.icon, kind: "gold" };
-  }
-
-  if (display.medallion === "pokemon") {
-    const imageUrl = getTimelineEventImageUrl(event);
-
-    return imageUrl
-      ? { imageUrl, kind: "pokemon", type: null }
-      : { icon: display.icon, kind: "status" };
-  }
-
-  return { icon: display.icon, kind: display.medallion };
-};
-
 /*
- * Recent moments: the Play's newest records, as History will draw them. While
- * there are fewer than three, where the Play began closes the list.
+ * Recent moments: the Play's newest records, drawn as Team history draws
+ * them. While there are fewer than three, where the Play began closes the
+ * list.
  */
 export const RecentHistorySection = ({
-  badgeTypeByMilestoneId,
+  context,
   events,
   startedOn,
 }: RecentHistorySectionProps) => {
@@ -66,41 +31,19 @@ export const RecentHistorySection = ({
     <DetailSectionCard title="Recent moments" contentClassName="pt-0">
       <div className="divide-line grid divide-y">
         {moments.map((event, index) => {
-          const display = getTimelineEventDisplay(event);
           const happenedAt = event.happened_at ?? event.created_at;
 
           return (
-            <RecordRow
+            <PlayMomentRow
               key={event.event_id ?? `${event.title}-${index}`}
-              kicker={
-                happenedAt ? (
-                  <>
-                    {display.label} · <PlayMomentTime value={happenedAt} />
-                  </>
-                ) : (
-                  display.label
-                )
-              }
-              headline={event.title ?? event.milestone_name ?? display.label}
-              description={
-                event.body && event.body !== event.title
-                  ? getTimelineDescription(event)
-                  : null
-              }
-              medallion={getMedallion(event, badgeTypeByMilestoneId)}
+              context={context}
+              event={event}
+              when={happenedAt ? <PlayMomentTime value={happenedAt} /> : null}
             />
           );
         })}
         {moments.length < recentMomentLimit ? (
-          <RecordRow
-            kicker={
-              startedOn
-                ? `Play started · ${formatPlayDate(startedOn)}`
-                : "Play started"
-            }
-            headline="The journey began"
-            medallion={{ icon: appIcons.milestones.story, kind: "start" }}
-          />
+          <PlayStartRow startedOn={startedOn} />
         ) : null}
       </div>
     </DetailSectionCard>

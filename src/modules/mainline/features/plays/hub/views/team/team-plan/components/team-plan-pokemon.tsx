@@ -4,7 +4,6 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { PokemonPortraitFallbackImage } from "@/modules/reference/features/pokemon/components/pokemon-portrait-fallback-image";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -65,28 +64,6 @@ export const TeamPlanArt = ({
         sizes="124px"
       />
     ) : null}
-  </span>
-);
-
-export const TeamPlanTypeDots = ({
-  className,
-  types,
-}: {
-  className?: string;
-  types: (PokemonType | null)[];
-}) => (
-  <span className={cn("flex items-center justify-center gap-1", className)}>
-    {types.map((type) =>
-      type && isPokemonTypeSlug(type.slug) ? (
-        <PokemonTypeBadge
-          key={type.slug}
-          type={type.slug}
-          label={type.name}
-          display="icon"
-          size="sm"
-        />
-      ) : null,
-    )}
   </span>
 );
 

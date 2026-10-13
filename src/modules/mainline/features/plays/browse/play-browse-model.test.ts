@@ -16,6 +16,9 @@ const buildPlay = (
   return {
     created_at: "2026-01-01T00:00:00Z",
     game_name: "Pokémon HeartGold",
+    generation_id: 4,
+    generation_name: "Generation IV",
+    generation_slug: "generation-iv",
     game_slug: "heartgold",
     play_id: "play-1",
     play_name: "Johto Adventure",
@@ -35,6 +38,9 @@ describe("play browse model", () => {
       created_at: "2026-02-01T00:00:00Z",
       game_name: "Pokémon Emerald",
       game_slug: "emerald",
+      generation_id: 3,
+      generation_name: "Generation III",
+      generation_slug: "generation-iii",
       play_id: "play-2",
       play_name: "Hoenn Return",
       status_name: "Completed",
@@ -44,15 +50,26 @@ describe("play browse model", () => {
     }),
   ];
 
-  it("derives stable game and status options from the loaded library", () => {
-    expect(getPlayBrowseOptions(plays)).toEqual({
+  it("derives game options by name and generation options in order", () => {
+    expect(
+      getPlayBrowseOptions([
+        ...plays,
+        buildPlay({
+          generation_id: 2,
+          generation_name: "Generation II",
+          generation_slug: "generation-ii",
+          play_id: "play-3",
+        }),
+      ]),
+    ).toEqual({
       games: [
         { label: "Pokémon Emerald", value: "emerald" },
         { label: "Pokémon HeartGold", value: "heartgold" },
       ],
-      statuses: [
-        { label: "Completed", value: "completed" },
-        { label: "Playing", value: "playing" },
+      generations: [
+        { label: "Generation II", value: "generation-ii" },
+        { label: "Generation III", value: "generation-iii" },
+        { label: "Generation IV", value: "generation-iv" },
       ],
     });
   });
@@ -69,9 +86,16 @@ describe("play browse model", () => {
       filterAndSortPlays(plays, {
         ...defaultPlayBrowseFilters,
         game: "heartgold",
-        status: "playing",
+        generation: "generation-iv",
       }).map((play) => play.play_id),
     ).toEqual(["play-1"]);
+
+    expect(
+      filterAndSortPlays(plays, {
+        ...defaultPlayBrowseFilters,
+        generation: "generation-iii",
+      }).map((play) => play.play_id),
+    ).toEqual(["play-2"]);
 
     expect(
       filterAndSortPlays(plays, {
@@ -88,26 +112,26 @@ describe("play browse model", () => {
       getInitialPlayBrowseFilters(
         {
           game: "missing-game",
+          generation: "generation-iv",
           q: "  johto  ",
           sort: "unsupported",
-          status: "playing",
         },
         options,
       ),
     ).toEqual({
       game: "",
+      generation: "generation-iv",
       query: "johto",
       sort: "recent",
-      status: "playing",
     });
 
     expect(
       getPlayBrowseUrlSearchParams({
         ...defaultPlayBrowseFilters,
+        generation: "generation-iv",
         query: "  johto  ",
-        status: "playing",
       }).toString(),
-    ).toBe("q=johto&status=playing");
+    ).toBe("q=johto&generation=generation-iv");
   });
 
   it("groups Plays by status in reading order and keeps their order", () => {

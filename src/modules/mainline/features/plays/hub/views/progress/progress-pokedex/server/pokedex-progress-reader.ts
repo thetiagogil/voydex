@@ -85,12 +85,12 @@ export const readMainlinePlayPokedexProgress = async (
   supabase: ServerSupabaseClient,
   {
     gameName,
-    gameSlug,
+    versionGroupSlug,
     generationId,
     playId,
   }: {
     gameName: string;
-    gameSlug: string;
+    versionGroupSlug: string;
     generationId: number;
     playId: string;
   },
@@ -141,7 +141,7 @@ export const readMainlinePlayPokedexProgress = async (
 
   return buildMainlinePlayPokedexData({
     gameName,
-    gameSlug,
+    versionGroupSlug,
     generationId,
     rows: {
       attributes,

@@ -1,26 +1,42 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import {
+  getOverviewMilestoneWhere,
+  type OverviewMilestone,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import {
+  ObjectiveCard,
+  ObjectiveEyebrow,
+  ObjectiveWhere,
+  objectiveTitleClassNames,
+} from "@/modules/mainline/features/plays/shared/components/objective-card";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
+import { PlayTeamParty } from "@/modules/mainline/features/plays/shared/components/play-team-party";
+import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 type NextObjectiveSectionProps = {
   lastCompletedMilestone: OverviewMilestone | null;
+  /* The team saved with the last milestone recorded. */
+  lastRecordedTeam: PlayTeamSnapshotMember[];
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   playId: string;
 };
 
+const titleId = "next-objective-title";
+
 /*
  * The next objective is quiet: a Fredoka title and the page's one main
- * button, which opens Story ready to record it.
+ * button, which opens Story ready to record it. Under a rule, the last thing
+ * recorded and, from `sm` up, the team you had then.
  */
 export const NextObjectiveSection = ({
   lastCompletedMilestone,
+  lastRecordedTeam,
   nextMilestone,
   nextMilestonePosition,
   playId,
@@ -29,40 +45,13 @@ export const NextObjectiveSection = ({
   const position = nextMilestonePosition
     ? `Milestone ${nextMilestonePosition.sequence} of ${nextMilestonePosition.total}`
     : null;
-  const where =
-    nextMilestone?.description ?? nextMilestone?.category_name ?? null;
+  const where = nextMilestone ? getOverviewMilestoneWhere(nextMilestone) : null;
 
   return (
-    <Card aria-labelledby="next-objective-title" className="px-5 sm:px-7">
-      <div className="flex h-full flex-col">
-        <p className="text-game-deep text-13 flex items-center gap-2 font-extrabold">
-          <AppIcon
-            icon={
-              nextMilestone ? appIcons.milestones.story : appIcons.status.active
-            }
-            size="md"
-          />
-          {nextMilestone
-            ? ["Next objective", position].filter(Boolean).join(" · ")
-            : "Main story complete"}
-        </p>
-        <h2
-          id="next-objective-title"
-          className="sm:text-44 mt-2.5 mb-2 text-[34px] leading-[1.02] tracking-[-0.025em]"
-        >
-          {nextMilestone?.milestone_name ?? "Every milestone recorded"}
-        </h2>
-        {where ? (
-          <p className="text-ink-2 flex items-start gap-1.5 font-semibold">
-            <AppIcon
-              icon={appIcons.product.location}
-              size="md"
-              className="mt-0.5 shrink-0"
-            />
-            <span className="line-clamp-2">{where}</span>
-          </p>
-        ) : null}
-        <div className="my-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+    <ObjectiveCard
+      titleId={titleId}
+      actions={
+        <>
           {nextMilestone?.milestone_id != null ? (
             <Link
               href={appRoutes.mainlinePlayProgressStoryRecord(
@@ -85,10 +74,12 @@ export const NextObjectiveSection = ({
             <AppIcon icon={appIcons.milestones.story} />
             See the Story
           </Link>
-        </div>
-        <p className="border-line text-ink-2 text-14 mt-auto border-t pt-4 font-semibold">
-          {lastCompletedMilestone ? (
-            <>
+        </>
+      }
+      footer={
+        lastCompletedMilestone ? (
+          <>
+            <span className="min-w-0">
               Last recorded{" "}
               <b className="text-ink font-extrabold">
                 {lastCompletedMilestone.milestone_name}
@@ -102,12 +93,27 @@ export const NextObjectiveSection = ({
                   />
                 </>
               ) : null}
-            </>
-          ) : (
-            "Nothing recorded yet."
-          )}
-        </p>
-      </div>
-    </Card>
+            </span>
+            <PlayTeamParty members={lastRecordedTeam} className="ml-auto" />
+          </>
+        ) : (
+          "Nothing recorded yet."
+        )
+      }
+    >
+      <ObjectiveEyebrow
+        icon={
+          nextMilestone ? appIcons.milestones.story : appIcons.status.active
+        }
+      >
+        {nextMilestone
+          ? ["Next objective", position].filter(Boolean).join(" · ")
+          : "Main story complete"}
+      </ObjectiveEyebrow>
+      <h2 id={titleId} className={objectiveTitleClassNames.lg}>
+        {nextMilestone?.milestone_name ?? "Every milestone recorded"}
+      </h2>
+      {where ? <ObjectiveWhere>{where}</ObjectiveWhere> : null}
+    </ObjectiveCard>
   );
 };

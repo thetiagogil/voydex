@@ -30,7 +30,7 @@ export const CollectiblesHeroSection = ({
       <Card className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-4 px-(--card-spacing) sm:grid-cols-[130px_minmax(0,1fr)] sm:gap-6.5">
         <span
           aria-hidden
-          className="grid size-21 place-items-center rounded-2xl border-4 border-white bg-[color-mix(in_oklab,var(--gold)_26%,var(--surface))] shadow-[0_5px_0_color-mix(in_oklab,var(--gold)_45%,var(--lip))] sm:size-32.5"
+          className="sticker grid size-21 place-items-center rounded-2xl [--t:var(--gold)] sm:size-32.5"
         >
           <AppIcon
             icon={appIcons.product.collectible}

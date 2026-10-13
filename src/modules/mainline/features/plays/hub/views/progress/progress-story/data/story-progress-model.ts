@@ -2,11 +2,14 @@ import {
   compareMilestoneCategories,
   compareMilestonesInCategory,
   isBlockingPrerequisiteKind,
-} from "@/modules/mainline/features/plays/hub/data/milestone-order";
+  pickNextMilestone,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
-  getPokemonFormImageUrl,
-  getPokemonFormShinyImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+  parsePlayTeamSnapshot,
+  type PlayTeamSnapshotMember,
+} from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -21,9 +24,7 @@ import type {
   StoryProgressModel,
   StoryScope,
   StorySection,
-  StoryTeamSnapshotMember,
 } from "../types";
-import { getStoryBadgeTypeId } from "./story-badge-type";
 import { buildStoryStamps } from "./story-stamps";
 
 type UnknownRecord = Record<string, unknown>;
@@ -39,47 +40,6 @@ const toFiniteNumber = (value: unknown, fallback = 0) => {
 
 const toStringValue = (value: unknown) => {
   return typeof value === "string" && value.trim() ? value : null;
-};
-
-const parseTeamSnapshot = (value: unknown): StoryTeamSnapshotMember[] => {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value
-    .flatMap((member) => {
-      if (!isRecord(member)) {
-        return [];
-      }
-
-      const position = toFiniteNumber(member.position, Number.NaN);
-      const speciesName = toStringValue(member.species_name);
-      const formName = toStringValue(member.form_name);
-      const spriteSlug = toStringValue(member.sprite_slug);
-      const isShiny = member.is_shiny === true;
-
-      if (!Number.isFinite(position) || !speciesName) {
-        return [];
-      }
-
-      const imageForm = {
-        name: formName ?? speciesName,
-        sprite_slug: spriteSlug,
-      };
-
-      return [
-        {
-          formName,
-          imageUrl: isShiny
-            ? getPokemonFormShinyImageUrl(imageForm)
-            : getPokemonFormImageUrl(imageForm),
-          isShiny,
-          position,
-          speciesName,
-        },
-      ];
-    })
-    .sort((first, second) => first.position - second.position);
 };
 
 const parseDecisionOptions = (
@@ -227,22 +187,9 @@ const addIncompletionImpacts = (milestones: StoryMilestone[]) => {
   }
 };
 
-/*
- * What to record next: the first required milestone you can record now, else
- * the first required one still open, else anything still open.
- */
-const findNextMilestone = (milestones: StoryMilestone[]) => {
-  const incompleteRequired = milestones.filter(
-    (milestone) => milestone.isRequired && !milestone.isCompleted,
-  );
-
-  return (
-    incompleteRequired.find((milestone) => milestone.isAvailable) ??
-    incompleteRequired[0] ??
-    milestones.find((milestone) => !milestone.isCompleted) ??
-    null
-  );
-};
+/* What to record next, by the rule Overview and Plays use too. */
+const findNextMilestone = (milestones: StoryMilestone[]) =>
+  pickNextMilestone(milestones, (milestone) => milestone);
 
 export const buildStoryProgressModel = ({
   badgeTypes,
@@ -268,7 +215,7 @@ export const buildStoryProgressModel = ({
   );
   const snapshotMembersByMilestoneId = new Map<
     number,
-    StoryTeamSnapshotMember[]
+    PlayTeamSnapshotMember[]
   >();
 
   for (const event of snapshotEvents) {
@@ -280,7 +227,7 @@ export const buildStoryProgressModel = ({
     ) {
       snapshotMembersByMilestoneId.set(
         milestoneId,
-        parseTeamSnapshot(event.team_snapshots),
+        parsePlayTeamSnapshot(event.team_snapshots),
       );
     }
   }
@@ -314,7 +261,7 @@ export const buildStoryProgressModel = ({
           return {
             badgeType:
               badgeTypeById.get(
-                getStoryBadgeTypeId(milestone.badge_refs) ?? -1,
+                getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
               ) ?? null,
             blockingPrerequisites,
             categoryId,

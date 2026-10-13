@@ -96,12 +96,12 @@ const selectDefaultForms = (forms: PokemonForm[]) => {
 
 export const buildMainlinePlayPokedexData = ({
   gameName,
-  gameSlug,
+  versionGroupSlug,
   generationId,
   rows,
 }: {
   gameName: string;
-  gameSlug: string;
+  versionGroupSlug: string;
   generationId: number;
   rows: MainlinePlayPokedexSourceRows;
 }): MainlinePlayProgressPokedexData => {
@@ -188,7 +188,7 @@ export const buildMainlinePlayPokedexData = ({
 
   return {
     gameName,
-    gameSlug,
+    versionGroupSlug,
     scopes,
   };
 };

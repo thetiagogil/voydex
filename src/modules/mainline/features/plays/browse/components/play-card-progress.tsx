@@ -7,7 +7,10 @@ type PlayCardProgressProps = {
   progress: PlayBrowseProgress;
 };
 
-/* Quiet rows: a name, a thin bar in the game's colour and the figure. */
+/*
+ * Quiet rows: a name, a thin bar in the game's colour and the figure. A part
+ * the Play doesn't track reads "Off" over an empty track.
+ */
 export const PlayCardProgress = ({
   className,
   progress,
@@ -33,14 +36,24 @@ export const PlayCardProgress = ({
         <div key={item.label} className="contents">
           <span className="text-ink-2 text-13 font-bold">{item.label}</span>
           <Progress
-            value={item.percent}
+            value={item.percent ?? 0}
             max={100}
-            aria-label={`${item.label} progress`}
+            aria-label={
+              item.percent === null
+                ? `${item.label} tracking is off`
+                : `${item.label} progress`
+            }
             className="[&_[data-slot=progress-track]]:h-[9px]"
           />
-          <span className="text-ink text-13 text-right font-bold tabular-nums">
-            {item.percent}%
-          </span>
+          {item.percent === null ? (
+            <span className="text-ink-3 text-13 text-right font-semibold">
+              Off
+            </span>
+          ) : (
+            <span className="text-ink text-13 text-right font-bold tabular-nums">
+              {item.percent}%
+            </span>
+          )}
         </div>
       ))}
     </div>

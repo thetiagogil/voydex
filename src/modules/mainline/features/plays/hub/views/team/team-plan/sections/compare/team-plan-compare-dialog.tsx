@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
-import { getTeamPlanStatusDescription } from "@/modules/mainline/features/plays/hub/views/team/shared/team-plan-display";
+import { getTeamPlanStatusDescription } from "../../team-plan-display";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -125,12 +125,7 @@ const RecordedSide = ({
         name="Not caught yet"
         nameClassName="text-ink-tint"
         art={
-          <span
-            className={cn(
-              artBoxClassName,
-              "border-dash border-[3px] border-dashed",
-            )}
-          >
+          <span className={cn(artBoxClassName, "empty-slot")}>
             <TeamPlanArt
               imageUrl={getTeamPlanPlannedImageUrl(comparison)}
               silhouette
@@ -154,9 +149,7 @@ const RecordedSide = ({
           style={getTeamPlanTypeStyle(member.primaryType)}
           className={cn(
             artBoxClassName,
-            owned
-              ? "type-tint border-4 border-white shadow-[0_4px_0_color-mix(in_oklab,var(--t)_38%,var(--lip))]"
-              : "bg-surface border-line border",
+            owned ? "sticker" : "bg-surface border-line border",
           )}
         >
           <TeamPlanArt

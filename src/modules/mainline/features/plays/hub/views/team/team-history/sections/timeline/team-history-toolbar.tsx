@@ -1,9 +1,9 @@
 "use client";
 
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { Toolbar } from "@/shared/components/toolbar";
 
 import type {
   TeamHistoryEventTypeOption,
@@ -26,9 +26,8 @@ const sortOptions = [
 ] as const;
 
 /*
- * The toolbar card: search, one pill per event type, and the order. On phones
- * the pills scroll sideways in one row. The rule and Sort wrap together, and
- * a wrapped Sort keeps to the right, so the rule never stands alone.
+ * The toolbar: search, the order after the hairline, then one pill per event
+ * type. On phones the pills scroll sideways in one row.
  */
 export const TeamHistoryToolbar = ({
   eventType,
@@ -40,36 +39,27 @@ export const TeamHistoryToolbar = ({
   sort,
 }: TeamHistoryToolbarProps) => {
   return (
-    <BrowseFilterPanel
+    <Toolbar
       aria-label="Filter Team history"
-      className="mt-5 flex flex-wrap items-center gap-x-3.5 gap-y-2.5 p-2.5"
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
-    >
-      <SearchControl
-        id="team-history-search"
-        name="q"
-        ariaLabel="Search Team history"
-        value={query}
-        onValueChange={onQueryChange}
-        placeholder="Search Pokémon or moment"
-        className="min-w-55 flex-[1_1_220px]"
-      />
-
-      <SegmentedControl
-        ariaLabel="Show"
-        className="no-scrollbar -m-1.5 w-[calc(100%+0.75rem)] max-w-none flex-nowrap overflow-x-auto p-1.5 sm:m-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:p-0"
-        onValueChange={onEventTypeChange}
-        options={eventTypeOptions}
-        value={eventType}
-      />
-
-      <div className="flex items-center gap-3.5 self-stretch sm:ml-auto">
-        <span
-          aria-hidden
-          className="bg-line my-2 hidden w-px self-stretch sm:block"
+      className="mt-5"
+      render={
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
         />
+      }
+      search={
+        <SearchControl
+          id="team-history-search"
+          name="q"
+          ariaLabel="Search Team history"
+          value={query}
+          onValueChange={onQueryChange}
+          placeholder="Search Pokémon or moment"
+        />
+      }
+      trailing={
         <SelectControl
           id="team-history-sort"
           name="sort"
@@ -83,7 +73,15 @@ export const TeamHistoryToolbar = ({
           prefix="Sort"
           variant="ghost"
         />
-      </div>
-    </BrowseFilterPanel>
+      }
+    >
+      <SegmentedControl
+        ariaLabel="Show"
+        className="no-scrollbar w-full max-w-none flex-nowrap overflow-x-auto p-0.5 sm:flex-wrap sm:overflow-visible"
+        onValueChange={onEventTypeChange}
+        options={eventTypeOptions}
+        value={eventType}
+      />
+    </Toolbar>
   );
 };

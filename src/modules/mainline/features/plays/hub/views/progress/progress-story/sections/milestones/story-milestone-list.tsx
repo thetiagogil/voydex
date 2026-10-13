@@ -3,8 +3,10 @@ import { SearchControl } from "@/shared/components/search-control";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone, StoryScope } from "../../types";
-import { getStoryMilestoneRowState } from "./story-milestone-marker";
-import { StoryMilestoneRow } from "./story-milestone-row";
+import {
+  getStoryMilestoneRowState,
+  StoryMilestoneRow,
+} from "./story-milestone-row";
 
 const matchesQuery = (milestone: StoryMilestone, query: string) => {
   const normalizedQuery = query.trim().toLocaleLowerCase();

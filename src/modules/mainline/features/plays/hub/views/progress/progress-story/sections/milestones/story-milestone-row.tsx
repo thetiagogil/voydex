@@ -1,25 +1,32 @@
+import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
+import { PlayTeamParty } from "@/modules/mainline/features/plays/shared/components/play-team-party";
+import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
-import {
-  StoryMilestoneMarker,
-  type StoryMilestoneRowState,
-} from "./story-milestone-marker";
+
+export const getStoryMilestoneRowState = (
+  milestone: StoryMilestone,
+  nextMilestoneId: number | null,
+): PlayMilestoneState =>
+  milestone.isCompleted
+    ? "done"
+    : milestone.id === nextMilestoneId
+      ? "next"
+      : "todo";
 
 /* The row's button id, so focus can come back to it when its panel closes. */
 export const getStoryMilestoneRowId = (milestoneId: number) =>
   `story-milestone-row-${milestoneId}`;
-
-const partySize = 6;
 
 const StoryMilestoneWhen = ({
   milestone,
   state,
 }: {
   milestone: StoryMilestone;
-  state: StoryMilestoneRowState;
+  state: PlayMilestoneState;
 }) => {
   if (state === "done") {
     return (
@@ -71,11 +78,8 @@ export const StoryMilestoneRow = ({
   onPopEnd: () => void;
   onSelect: () => void;
   selected: boolean;
-  state: StoryMilestoneRowState;
+  state: PlayMilestoneState;
 }) => {
-  const party =
-    state === "done" ? milestone.snapshotMembers.slice(-partySize) : [];
-
   /* The next row stands apart: 14px above it and 16px below, gap included. */
   return (
     <li className={cn(state === "next" && "mt-1.5 mb-2 first:mt-1 last:mb-0")}>
@@ -102,10 +106,12 @@ export const StoryMilestoneRow = ({
           isJustRecorded && "animate-pop",
         )}
       >
-        <StoryMilestoneMarker
-          milestone={milestone}
-          state={state}
+        <MilestoneMarker
+          badgeType={milestone.badgeType}
           className="row-span-2 sm:row-span-1"
+          sequence={milestone.sequence}
+          state={state}
+          typeSlug={milestone.typeSlug}
         />
         <span className="flex min-w-0 flex-col">
           <span
@@ -141,21 +147,13 @@ export const StoryMilestoneRow = ({
             </span>
           ) : null}
         </span>
-        {party.length ? (
-          <span aria-hidden className="hidden pl-1 sm:flex">
-            {party.map((member) =>
-              member.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={`${member.position}-${member.speciesName}`}
-                  src={member.imageUrl}
-                  alt=""
-                  loading="lazy"
-                  className="-ml-1 size-[30px] max-w-none object-contain"
-                />
-              ) : null,
-            )}
-          </span>
+        {state === "done" ? (
+          <PlayTeamParty
+            decorative
+            members={milestone.snapshotMembers}
+            size="sm"
+            className="pl-1"
+          />
         ) : null}
       </button>
     </li>
