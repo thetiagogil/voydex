@@ -6,6 +6,18 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 3000
+    },
+    {
+      "name": "redesign-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4100",
+        "--directory",
+        "../Voydex Redesign v3"
+      ],
+      "port": 4100
     }
   ]
 }
