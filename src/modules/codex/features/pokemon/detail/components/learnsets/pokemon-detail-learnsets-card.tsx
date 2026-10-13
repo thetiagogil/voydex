@@ -3,31 +3,113 @@
 import { useMemo, useState } from "react";
 
 import {
-  pokemonDetailLearnsetGridClassName,
-  pokemonDetailLearnsetMetricsGridClassName,
-  PokemonDetailLearnsetRow,
-} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-row";
-import {
+  formatPokemonDetailLearnsetDamageClass,
+  formatPokemonDetailLearnsetValue,
   getFilteredPokemonDetailLearnsets,
+  getPokemonDetailLearnsetAddedContentName,
+  getPokemonDetailLearnsetMethodDetail,
   getPokemonDetailLearnsetMethodOptions,
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
-import { Separator } from "@/shared/components/ui/separator";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/shared/components/ui/toggle-group";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/shared/components/ui/table";
 
 type PokemonDetailLearnsetsCardProps = {
   learnsets: PokemonLearnsetSummary[];
+  scopeName: string | null;
+};
+
+/* On phones a row folds into v3's card: how on the left, the figures labelled. */
+const figureCellClassName =
+  "text-right font-bold tabular-nums max-md:p-0 max-md:text-left max-md:text-13 max-md:text-ink-2 max-md:before:mr-1 max-md:before:font-semibold max-md:before:text-ink-3 max-md:before:content-[attr(data-label)]";
+
+/* What a cell shows when the move has no such value. */
+const MissingValue = () => {
+  return (
+    <>
+      <span aria-hidden>-</span>
+      <span className="sr-only">None</span>
+    </>
+  );
+};
+
+const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
+  const addedContentName = getPokemonDetailLearnsetAddedContentName(learnset);
+  const category = formatPokemonDetailLearnsetDamageClass(
+    learnset.attributes?.damage_class,
+  );
+
+  return (
+    <TableRow className="max-md:relative max-md:flex max-md:flex-wrap max-md:items-center max-md:gap-x-3 max-md:gap-y-1.5 max-md:py-2.5 max-md:pl-16.5 max-md:hover:bg-transparent">
+      <TableCell className="text-ink-2 font-extrabold tabular-nums max-md:absolute max-md:top-3 max-md:left-0 max-md:w-15 max-md:p-0 max-md:leading-tight max-md:break-words max-md:whitespace-normal">
+        {getPokemonDetailLearnsetMethodDetail(learnset)}
+      </TableCell>
+      <TableCell className="whitespace-normal max-md:basis-full max-md:p-0">
+        <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <span className="inline-flex items-center gap-2.5 font-extrabold">
+            {learnset.type && isPokemonTypeSlug(learnset.type.slug) ? (
+              <PokemonTypeBadge
+                type={learnset.type.slug}
+                label={learnset.type.name}
+                display="icon"
+                size="md"
+              />
+            ) : null}
+            {learnset.move.name}
+          </span>
+          {addedContentName ? (
+            <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2 py-0.5 font-bold">
+              <span className="sr-only">Added in </span>
+              {addedContentName}
+            </span>
+          ) : null}
+        </span>
+      </TableCell>
+      <TableCell className="max-md:p-0">
+        {category ? (
+          <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2.5 py-[3px] font-bold">
+            {category}
+          </span>
+        ) : (
+          <MissingValue />
+        )}
+      </TableCell>
+      <TableCell data-label="Power" className={figureCellClassName}>
+        {formatPokemonDetailLearnsetValue(learnset.attributes?.power) ?? (
+          <MissingValue />
+        )}
+      </TableCell>
+      <TableCell data-label="Acc." className={figureCellClassName}>
+        {formatPokemonDetailLearnsetValue(
+          learnset.attributes?.accuracy,
+          "%",
+        ) ?? <MissingValue />}
+      </TableCell>
+      <TableCell data-label="PP" className={figureCellClassName}>
+        {formatPokemonDetailLearnsetValue(learnset.attributes?.pp) ?? (
+          <MissingValue />
+        )}
+      </TableCell>
+    </TableRow>
+  );
 };
 
 export const PokemonDetailLearnsetsCard = ({
   learnsets,
+  scopeName,
 }: PokemonDetailLearnsetsCardProps) => {
   const [query, setQuery] = useState("");
   const [method, setMethod] = useState<PokemonDetailLearnsetMethodFilter>(
@@ -45,81 +127,50 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <PokemonDetailSectionCard
-      title="Learnsets"
-      contentClassName="p-0"
-      showSeparator
-    >
+    <PokemonDetailSectionCard title="Learnset" aside={scopeName}>
       {learnsets.length ? (
         <>
-          <div className="grid gap-3 px-4 py-3">
-            <div className="flex min-w-0 flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-              <SearchControl
-                value={query}
-                onValueChange={setQuery}
-                placeholder="Search moves by name, type, or method"
-                ariaLabel="Search moves"
-                className="bg-background max-w-md xl:flex-1"
-              />
-
-              <ToggleGroup
-                value={[method]}
-                variant="outline"
-                size="sm"
-                spacing={2}
-                aria-label="Filter moves by learn method"
-                className="w-auto flex-wrap xl:justify-end"
-                onValueChange={(values) => {
-                  const nextMethod = values[0];
-
-                  if (nextMethod) {
-                    setMethod(nextMethod as PokemonDetailLearnsetMethodFilter);
-                  }
-                }}
-              >
-                {methodOptions.map((option) => {
-                  return (
-                    <ToggleGroupItem
-                      key={option.value}
-                      value={option.value}
-                      aria-label={`${option.label}, ${option.count} moves`}
-                    >
-                      {option.label}
-                      <span className="text-xs opacity-50">
-                        ({option.count})
-                      </span>
-                    </ToggleGroupItem>
-                  );
-                })}
-              </ToggleGroup>
-            </div>
-
-            <div className="text-muted-foreground text-sm">
-              Showing {filteredLearnsets.length} of {learnsets.length} moves
-            </div>
+          <div className="mb-2.5 flex flex-wrap items-center justify-between gap-3">
+            <SegmentedControl
+              ariaLabel="Filter moves by how they're learned"
+              value={method}
+              onValueChange={setMethod}
+              options={methodOptions}
+              className="no-scrollbar max-sm:w-full max-sm:flex-nowrap max-sm:overflow-x-auto"
+            />
+            <SearchControl
+              value={query}
+              onValueChange={setQuery}
+              placeholder="Search moves"
+              ariaLabel="Search moves"
+              className="w-full sm:w-64"
+            />
           </div>
 
-          <Separator className="bg-line" />
-
-          <div>
-            <div
-              className={`${pokemonDetailLearnsetGridClassName} text-muted-foreground hidden px-4 py-2 text-xs lg:grid`}
+          {query ? (
+            <p
+              aria-live="polite"
+              className="text-13 text-ink-2 mb-2 font-semibold"
             >
-              <div>Method</div>
-              <div>Move</div>
-              <div className={pokemonDetailLearnsetMetricsGridClassName}>
-                <div className="text-center">Type</div>
-                <div className="text-center">Category</div>
-                <div className="text-center">Power</div>
-                <div className="text-center">Acc.</div>
-                <div className="text-center">PP</div>
-              </div>
-            </div>
+              {filteredLearnsets.length} of {learnsets.length} moves match
+            </p>
+          ) : null}
 
-            {filteredLearnsets.length ? (
-              <div>
+          {filteredLearnsets.length ? (
+            <Table className="max-md:block md:min-w-155">
+              <TableHeader className="max-md:hidden">
+                <TableRow>
+                  <TableHead>How</TableHead>
+                  <TableHead>Move</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead className="text-right">Power</TableHead>
+                  <TableHead className="text-right">Accuracy</TableHead>
+                  <TableHead className="text-right">PP</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="max-md:block">
                 {filteredLearnsets.map((learnset) => (
-                  <PokemonDetailLearnsetRow
+                  <LearnsetRow
                     key={[
                       learnset.learnset.id,
                       learnset.learnset.move_id,
@@ -129,17 +180,19 @@ export const PokemonDetailLearnsetsCard = ({
                     learnset={learnset}
                   />
                 ))}
-              </div>
-            ) : (
-              <div className="border-line text-muted-foreground border-t px-4 py-5 text-sm">
-                No moves match the current filters.
-              </div>
-            )}
-          </div>
+              </TableBody>
+            </Table>
+          ) : (
+            <p className="text-14 text-ink-2 py-4 font-semibold">
+              No moves match.
+            </p>
+          )}
         </>
       ) : (
-        <p className="text-muted-foreground px-4 py-4 text-sm">
-          No learnset data recorded for the selected scope.
+        <p className="text-14 text-ink-2 font-semibold">
+          {scopeName
+            ? `The moves it learns in ${scopeName} aren't recorded yet.`
+            : "The moves it learns aren't recorded yet."}
         </p>
       )}
     </PokemonDetailSectionCard>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { getPokemonDetailGameInitials } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-game-display";
+import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
 
 type PokemonDetailGameArtworkProps = {
   imageUrl: string | null;
@@ -24,8 +24,8 @@ export const PokemonDetailGameArtwork = ({
   }
 
   return (
-    <span className="text-primary text-xs font-semibold">
-      {getPokemonDetailGameInitials(name)}
+    <span className="text-12 text-ink-2 font-extrabold">
+      {getGameInitials(name)}
     </span>
   );
 };

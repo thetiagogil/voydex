@@ -3,6 +3,7 @@ import type {
   PokemonAvailabilitySummary,
   VersionGroup,
 } from "@/modules/reference/types";
+import { formatPokemonDetailVersionGroupName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-version-group-display";
 
 const getAvailabilityContentVersionGroup = (
   availability: PokemonAvailabilitySummary,
@@ -22,7 +23,13 @@ export const getPokemonDetailAvailabilityContentLabel = ({
   const contentVersionGroup = getAvailabilityContentVersionGroup(availability);
 
   if (!contentVersionGroup) {
-    return "Current scope";
+    return (
+      availability.game?.name ??
+      activeGame?.name ??
+      (activeVersionGroup
+        ? formatPokemonDetailVersionGroupName(activeVersionGroup.name)
+        : "This game")
+    );
   }
 
   if (activeGame && contentVersionGroup.id === activeGame.version_group_id) {
@@ -34,10 +41,13 @@ export const getPokemonDetailAvailabilityContentLabel = ({
     contentVersionGroup.id === activeVersionGroup.id &&
     !activeVersionGroup.parent_version_group_id
   ) {
-    return availability.game?.name ?? contentVersionGroup.name;
+    return (
+      availability.game?.name ??
+      formatPokemonDetailVersionGroupName(contentVersionGroup.name)
+    );
   }
 
-  return contentVersionGroup.name;
+  return formatPokemonDetailVersionGroupName(contentVersionGroup.name);
 };
 
 export const getPokemonDetailAvailabilityContentGame = ({
@@ -81,9 +91,7 @@ export const getPokemonDetailAvailabilityDetails = (
   availability: PokemonAvailabilitySummary,
 ) => {
   return (
-    availability.availability.notes ??
-    availability.method?.description ??
-    "No additional details recorded."
+    availability.availability.notes ?? availability.method?.description ?? null
   );
 };
 
