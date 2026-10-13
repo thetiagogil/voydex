@@ -1,3 +1,4 @@
+import { publicArt } from "@/modules/reference/shared/data/public-art";
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 import { LoginPage } from "@/features/auth/components/login-page";
 
@@ -12,7 +13,7 @@ type LoginRouteProps = {
 export default function Page({ searchParams }: LoginRouteProps) {
   return (
     <PublicAppShell showAuthAction={false}>
-      <LoginPage searchParams={searchParams} />
+      <LoginPage art={publicArt} searchParams={searchParams} />
     </PublicAppShell>
   );
 }

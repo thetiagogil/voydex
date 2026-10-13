@@ -1,126 +1,103 @@
-import Link from "next/link";
-import { Alert, AlertDescription } from "@/shared/components/ui/alert";
-import { buttonVariants } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
-import { Field, FieldGroup, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
+import type { AuthMode } from "@/features/auth/auth-mode";
+import { AuthModeSwitch } from "@/features/auth/components/auth-mode-switch";
+import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
+import { PasswordInput } from "@/features/auth/components/password-input";
 import {
   logInWithPassword,
   signUpWithPassword,
 } from "@/features/auth/server/auth-actions";
-import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
-import { cn } from "@/shared/utils/cn";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/shared/components/ui/alert";
+import { Card } from "@/shared/components/ui/card";
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
 
-export type AuthMode = "log-in" | "sign-up";
 type AuthPanelProps = {
-  className?: string;
   error?: string;
   mode: AuthMode;
   next: string;
 };
 
-const buildModeHref = (mode: AuthMode, next: string) => {
-  const params = new URLSearchParams();
-  if (mode === "sign-up") {
-    params.set("mode", mode);
-  }
-  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
-    params.set("next", next);
-  }
-  const query = params.toString();
-  return query ? `/login?${query}` : "/login";
+const copy: Record<AuthMode, { lede: string; title: string }> = {
+  "log-in": {
+    lede: "Your Plays are right where you left them.",
+    title: "Welcome back",
+  },
+  "sign-up": {
+    lede: "Keep every playthrough in one place.",
+    title: "Start your journey",
+  },
 };
 
-export const AuthPanel = ({ className, error, mode, next }: AuthPanelProps) => {
+/* Log in and Sign up share one quiet card; the switch at the top moves between them. */
+export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
-  const title = isSignUp ? "Sign up" : "Log in";
-  const description = isSignUp
-    ? "Create your Voydex account to start tracking plays."
-    : "Access your playthroughs, teams, and Pokémon reference archive.";
-  const switchHref = buildModeHref(isSignUp ? "log-in" : "sign-up", next);
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
-  return (
-    <Card className={cn("bg-surface w-full max-w-full", className)}>
-      <CardHeader className="gap-2">
-        <CardTitle className="text-2xl leading-tight font-semibold tracking-normal">
-          {title}
-        </CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <form action={action} className="flex flex-col">
-        <CardContent className="flex flex-col gap-4 pb-8">
-          <input type="hidden" name="next" value={next} />
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                className="bg-surface-2 h-10"
-                required
-              />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete={isSignUp ? "new-password" : "current-password"}
-                className="bg-surface-2 h-10"
-                required
-                minLength={6}
-              />
-            </Field>
-            {isSignUp ? (
-              <Field>
-                <FieldLabel htmlFor="confirmPassword">
-                  Confirm password
-                </FieldLabel>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  className="bg-surface-2 h-10"
-                  required
-                  minLength={6}
-                />
-              </Field>
-            ) : null}
-          </FieldGroup>
 
-          {error ? (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
+  return (
+    <Card className="relative z-1 gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
+      <AuthModeSwitch mode={mode} next={next} />
+      <h1 className="text-28 sm:text-32 mt-6 mb-1 tracking-[-0.015em]">
+        {copy[mode].title}
+      </h1>
+      <p className="text-ink-2 mb-5.5 font-semibold">{copy[mode].lede}</p>
+      {error ? (
+        <Alert variant="destructive" className="mb-4.5">
+          <AppIcon icon={appIcons.status.error} />
+          <AlertTitle>That didn&apos;t work</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      ) : null}
+      <form action={action} className="flex flex-col gap-4">
+        <input type="hidden" name="next" value={next} />
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            required
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <PasswordInput
+            id="password"
+            name="password"
+            autoComplete={isSignUp ? "new-password" : "current-password"}
+            aria-describedby={isSignUp ? "password-hint" : undefined}
+            required
+            minLength={6}
+          />
+          {isSignUp ? (
+            <FieldDescription id="password-hint">
+              At least 6 characters
+            </FieldDescription>
           ) : null}
-        </CardContent>
-        <CardFooter className="flex flex-col items-stretch gap-5 pt-6">
-          <AuthSubmitButton mode={mode} />
-          <p className="text-muted-foreground text-center text-sm">
-            {isSignUp ? "Already have an account?" : "Need an account?"}{" "}
-            <Link
-              href={switchHref}
-              className={cn(
-                buttonVariants({ variant: "link" }),
-                "h-auto p-0 font-semibold",
-              )}
-            >
-              {isSignUp ? "Log in" : "Sign up"}
-            </Link>
-          </p>
-        </CardFooter>
+        </Field>
+        {isSignUp ? (
+          <Field>
+            <FieldLabel htmlFor="confirmPassword">Confirm password</FieldLabel>
+            <PasswordInput
+              id="confirmPassword"
+              name="confirmPassword"
+              autoComplete="new-password"
+              required
+              minLength={6}
+            />
+          </Field>
+        ) : null}
+        <AuthSubmitButton mode={mode} />
       </form>
     </Card>
   );

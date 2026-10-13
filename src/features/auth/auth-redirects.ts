@@ -43,5 +43,3 @@ export const getSafeAuthRedirectPath = (
   }
   return parseSafeAuthRedirectPath(value) ?? safeFallback;
 };
-
-export { appRoutes };

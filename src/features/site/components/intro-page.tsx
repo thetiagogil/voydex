@@ -1,159 +1,122 @@
-import Link from "next/link";
-import { cn } from "@/shared/utils/cn";
-import { appRoutes } from "@/config/routes";
-import { buttonVariants } from "@/shared/components/ui/button";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import type { ReactNode } from "react";
 
-const companionAreas = [
-  {
-    title: "Keep the run alive",
-    description:
-      "Track the team, milestones, Pokédex progress, collectibles, and story beats that make each playthrough yours.",
-    icon: appIcons.product.play,
-  },
-  {
-    title: "Find the reference fast",
-    description:
-      "Browse Pokémon, games, generations, availability, forms, and related data without leaving the same app.",
-    icon: appIcons.product.reference,
-  },
-  {
-    title: "Let the world expand",
-    description:
-      "Voydex is built as a companion system, so new modules can join later without making the app feel stitched together.",
-    icon: appIcons.actions.learnMore,
-  },
-] as const;
+import { IntroChapter } from "@/features/site/components/intro/intro-chapter";
+import {
+  CodexStage,
+  LookBackStage,
+  PlanATeamStage,
+  RecordAsYouGoStage,
+  StartAPlayStage,
+} from "@/features/site/components/intro/intro-stages";
+import { MeadowCard } from "@/features/site/components/meadow-card";
+import { SiteActions } from "@/features/site/components/site-actions";
+import { SiteFooter } from "@/features/site/components/site-footer";
+import { introChapterPartners } from "@/features/site/data/intro-showcase";
+import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
+import type { SiteArt } from "@/features/site/types";
+import { Card } from "@/shared/components/ui/card";
 
-const flowSteps = [
-  {
-    title: "Start with the adventure",
-    description:
-      "Create a play record around a game, trainer, team, and the progress that matters for that run.",
-    icon: appIcons.product.journey,
-  },
-  {
-    title: "Update it as you go",
-    description:
-      "Mark milestones, seen and caught species, collectible progress, and the details you would otherwise lose.",
-    icon: appIcons.product.milestone,
-  },
-  {
-    title: "Return with context",
-    description:
-      "Open old runs with enough history to remember what happened, what changed, and where to continue.",
-    icon: appIcons.actions.search,
-  },
-] as const;
+type IntroPageProps = {
+  art: SiteArt;
+};
 
-export const IntroPage = () => {
+const IntroSideCard = ({
+  children,
+  text,
+  title,
+}: {
+  children: ReactNode;
+  text: string;
+  title: string;
+}) => (
+  <Card className="gap-4.5 p-5 sm:p-6">
+    <div>
+      <h2 className="text-[22px] leading-tight tracking-[-0.01em]">{title}</h2>
+      <p className="text-15 text-ink-2 mt-2 leading-[1.65] font-semibold">
+        {text}
+      </p>
+    </div>
+    {children}
+  </Card>
+);
+
+/*
+ * How it works: one Play followed over time (day one, along the way, months
+ * later), then two smaller things, and the meadow to finish.
+ */
+export const IntroPage = async ({ art }: IntroPageProps) => {
+  const { isAuthenticated } = await getSiteVisitor();
+
   return (
-    <div className="flex w-full min-w-0 flex-1 flex-col gap-14 overflow-hidden py-8 lg:py-12">
-      <section className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(22rem,0.74fr)]">
-        <div className="w-full max-w-88 min-w-0 sm:max-w-3xl">
-          <h1 className="max-w-88 text-3xl leading-tight font-bold tracking-normal sm:max-w-3xl sm:text-5xl">
-            Remember the adventure behind every Pokémon run.
-          </h1>
-          <div className="text-foreground/76 mt-5 grid max-w-88 gap-4 text-base leading-7 sm:max-w-2xl sm:text-lg">
-            <p>
-              Voydex is a companion for playthroughs worth keeping: the team you
-              built, the milestones you cleared, the Pokédex you filled, and the
-              little decisions that made the journey feel like yours.
-            </p>
-            <p>
-              It starts with a public Codex and a private Mainline workspace,
-              with room for future modules to grow inside the same clean space.
-            </p>
-          </div>
-          <div className="mt-8 flex w-full max-w-88 flex-col gap-3 sm:max-w-none sm:flex-row">
-            <Link
-              href={appRoutes.appEntry}
-              className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
-            >
-              <AppIcon
-                icon={appIcons.actions.enterApp}
-                inline="start"
-                aria-hidden
-              />
-              Enter the app
-            </Link>
-            <Link
-              href={appRoutes.codexPokemon}
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "w-full sm:w-auto",
-              )}
-            >
-              <AppIcon
-                icon={appIcons.actions.browseCodex}
-                inline="start"
-                aria-hidden
-              />
-              Browse Codex
-            </Link>
-          </div>
+    <div className="flex min-w-0 flex-col">
+      <header className="max-w-[780px] pt-7.5 pb-1.5 sm:pt-14">
+        <h1 className="text-[38px] leading-[1.02] tracking-[-0.025em] sm:text-[56px]">
+          How Voydex works
+        </h1>
+        <p className="text-16 text-ink-2 mt-4.5 max-w-[36em] leading-[1.6] font-semibold sm:text-[18px]">
+          Every playthrough gets its own Play: one run of one game, with its
+          team, its story and its Pokédex. Put the game down for months and
+          you&apos;ll still know exactly where you were.
+        </p>
+      </header>
+      <div className="mt-6.5 mb-4.5 flex flex-col gap-4.5 sm:mt-9 sm:mb-6 sm:gap-6">
+        <Card className="gap-0 px-4.5 pt-5.5 pb-0.5 sm:px-9 sm:pt-8.5 sm:pb-2">
+          <IntroChapter
+            art={art}
+            partner={introChapterPartners.dayOne}
+            when="Day one"
+            title="Start a Play"
+            text="Pick the game, name the Play and choose what to track: story, Pokédex, collectibles, challenge rules. The Play takes its game's colour, so you always know which journey you're in."
+          >
+            <StartAPlayStage art={art} />
+          </IntroChapter>
+          <IntroChapter
+            art={art}
+            partner={introChapterPartners.alongTheWay}
+            when="Along the way"
+            title="Record as you go"
+            text="Add Pokémon as they join the team, stamp each badge as you earn it, and mark the Pokédex while you play. Caught or seen, one tap each."
+          >
+            <RecordAsYouGoStage art={art} />
+          </IntroChapter>
+          <IntroChapter
+            art={art}
+            partner={introChapterPartners.monthsLater}
+            when="Months later"
+            title="Look back"
+            text="Every change becomes part of the Play's history, next to your own notes. Badges, evolutions, who joined the team and who retired, all in order."
+          >
+            <LookBackStage art={art} />
+          </IntroChapter>
+        </Card>
+        <div className="grid gap-4.5 sm:gap-6 md:grid-cols-2">
+          <IntroSideCard
+            title="Plan a team"
+            text="Try teams out before you commit. Voydex points out what's hard to get in one save, and you decide."
+          >
+            <PlanATeamStage art={art} />
+          </IntroSideCard>
+          <IntroSideCard
+            title="Look it up in the Codex"
+            text="Pokémon, games, moves and where to find them. Open to everyone, no account needed."
+          >
+            <CodexStage art={art} />
+          </IntroSideCard>
         </div>
-
-        <aside className="bg-surface shadow-card w-full max-w-88 min-w-0 overflow-hidden rounded-xl p-4 sm:max-w-[calc(100vw-3rem)] lg:max-w-full lg:justify-self-end">
-          <div className="flex flex-col">
-            {companionAreas.map((area) => {
-              return (
-                <div
-                  key={area.title}
-                  className="border-line flex items-start gap-3 border-t py-4 first:border-t-0 first:pt-0 last:pb-0"
-                >
-                  <span className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
-                    <AppIcon icon={area.icon} className="size-4" aria-hidden />
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="text-sm font-medium">{area.title}</h2>
-                    <p className="text-muted-foreground mt-1 text-sm leading-6">
-                      {area.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </aside>
-      </section>
-
-      <section className="bg-surface shadow-card w-full max-w-88 overflow-hidden rounded-xl p-5 sm:max-w-[calc(100vw-3rem)] sm:p-6 lg:max-w-none">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)] lg:items-start">
-          <div className="max-w-xl">
-            <h2 className="text-2xl leading-tight font-semibold tracking-normal sm:text-3xl">
-              Built for the moment you play and the memory you return to.
-            </h2>
-            <p className="text-muted-foreground mt-4 text-sm leading-6 sm:text-base">
-              Voydex keeps the practical pieces close enough to use during a
-              session, then preserves the shape of the run after the credits. It
-              should feel like a living archive, not a spreadsheet you have to
-              maintain.
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            {flowSteps.map((step) => {
-              return (
-                <article
-                  key={step.title}
-                  className="border-line bg-surface-2 rounded-lg border p-4"
-                >
-                  <AppIcon
-                    icon={step.icon}
-                    className="text-primary size-4"
-                    aria-hidden
-                  />
-                  <h3 className="mt-4 text-sm font-medium">{step.title}</h3>
-                  <p className="text-muted-foreground mt-2 text-sm leading-6">
-                    {step.description}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      </div>
+      <MeadowCard art={art} titleId="intro-next-title">
+        <h2
+          id="intro-next-title"
+          className="pt-7 text-[28px] tracking-[-0.02em] sm:pt-10.5 sm:text-[38px]"
+        >
+          Ready for your next Play?
+        </h2>
+        <p className="text-17 text-ink-2 mt-2.5 mb-6 font-semibold">
+          Keep every playthrough in one place.
+        </p>
+        <SiteActions isAuthenticated={isAuthenticated} />
+      </MeadowCard>
+      <SiteFooter isAuthenticated={isAuthenticated} />
     </div>
   );
 };
