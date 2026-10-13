@@ -30,50 +30,29 @@ empty, partial, unavailable, or error behavior.
 
 ## Primary App Areas
 
-### Dashboard
+### Mainline Home
 
-The Dashboard is the logged-in home page.
+Mainline Home (`/mainline`) is where a signed-in trainer lands and what the
+"V" tile opens. It is for resuming an adventure, not for figures (those belong
+to Statistics), and it owns no mutation of its own.
 
-It should surface:
+- **With Plays:** a meadow band with the greeting, the shelf of your Plays
+  (covers in recent order, each with its lead Pokémon; the dashed tile starts
+  a new Play), the current Play's team standing on the meadow in its game's
+  colour, one line on where it stands, and Continue. Picking another cover
+  (`?play=`) switches the meadow, the line and the latest moments. Latest
+  moments list the current Play's last five records as History draws them;
+  a Play with nothing recorded shows where it began.
+- **With one brand-new Play:** its first partners wait on the meadow; tapping
+  one is the Play's own partner choice, with Undo in the toast.
+- **With no Plays:** the game picker is the page. Pick a game, tap a partner
+  and Start creates the Play at once (named "New Journey" with your trainer
+  name; Play Settings change the rest).
+- A game and partner picked on Start a Play before signing up are offered
+  once, to start straight away or put aside.
 
-- The most recently updated non-archived Play with status-aware continuation
-  language and one Next Step.
-- A compact preview of other recent Plays.
-- Quick actions for creating a play or plan.
-- Recent meaningful activity.
-
-The Dashboard is derived from user-owned gameplay, planning, and timeline data.
-Do not add dedicated V1 quick-stat cards merely to fill the page. Rich derived
-patterns belong to Stats; Dashboard remains focused on resuming an adventure.
-
-The featured Play shows cover and identity, lifecycle, its derived update time,
-Journey, six Active-Team sprite positions, one trustworthy overall completion
-summary, and one Play-wide Next Step. Reuse the Play Header's recommendation,
-but route lifecycle actions to their canonical Header flow and every other
-action to its owning Play area. Dashboard never owns a duplicate mutation.
-
-Other Recent Plays shows up to three compact single-column rows after the
-featured Play. It uses the same meaningful-activity order, excludes the featured
-and archived Plays, and may include Completed or Abandoned Plays when they are
-next by recency. Each row shows only cover, identity, lifecycle, one Journey
-line, and update context, then opens Play Overview. Omit the section when there
-are no other current Plays; do not duplicate Team, Progress, or Next Step.
-
-Recent Meaningful Activity shows up to four deliberately meaningful History
-events across Plays. Each compact row identifies the event, owning Play and
-game, honest effective-date certainty, and event-time Pokémon context only when
-useful, then opens the event in the owning Play History. V1 has no global
-activity route. Keep a concise explanatory state when no event exists and use a
-separate retry state when the read is unavailable; routine operational writes
-never appear as activity.
-
-A user with no Plays receives one first-adventure state with `Create first Play`
-as its only primary action. When only archived Plays exist, show `No current
-adventures` with routes to create a Play or view Archived Plays; never promote an
-archived Play automatically. Keep partial featured Plays openable with explicit
-unavailable facts and `Open Play` as the safe Next Step fallback. Supporting
-section failures retry independently, complete read failures never masquerade
-as empty accounts, and a stale focus resolves to the next eligible Play.
+The shelf reads as "last opened first" in v3; until Plays record when they
+were last opened, it uses the latest update.
 
 ### Plays
 
@@ -83,7 +62,7 @@ The Plays area should support:
 
 - Listing all plays, with Search, Game, Generation, and Sort kept in the URL;
   status, tags, rules, and completion-state filters are later additions.
-- Creating a play directly through a searchable game selector.
+- Creating a play through New Play, from Plays, Home or a Codex game page.
 - Entering a play hub.
 
 The user should not be forced through Codex browsing to create or continue a
@@ -103,6 +82,12 @@ Play lifecycle statuses:
 
 Archive should be separate from lifecycle status. A completed or abandoned play can be archived without changing what happened in the play.
 
+As built, an archived Play is hidden from Home and the Plays list. Plays
+shows `Archived · N` when there are any, opening an Archived list where each
+Play has Restore; an archived Play still opens (from that list or
+Collection) with an "Archived" note and Restore over its pages, and its
+Settings offers Restore in place of Archive.
+
 Plays should support:
 
 - User-owned name.
@@ -117,18 +102,19 @@ Plays should support:
 
 Play names should be required in stored data. If the user does not provide one, the app should generate a clear default name during create flow.
 
-Create Play should use two progressively disclosed steps:
+New Play (`/mainline/plays/new`, `?game=` to start on a game) has three short
+steps on one card: the game on the cover shelf, the partner on the meadow (or
+choose later), then the Play's name, trainer name and what it tracks
+(expansions you own; Story, the Pokédex mode, Collectibles and challenge rules
+show where their settings will go). Start writes the Play and opens it. The
+partner must be one the game offers; it joins slot 1 and is recorded as the
+game's first partner-choice milestone. Games that hand you your partner
+(Yellow, the Let's Go games) have no such choice. Exact Team members, Story
+position, Pokédex and Collectible progress, and History belong inside the
+created Play rather than in the creation flow.
 
-1. Play details: game, generated or edited name, and current lifecycle status.
-2. Completion goal: a concise game-aware recommendation that can be accepted
-   directly or customized using only applicable completion settings.
-
-The completion step may configure optional content; Postgame and
-optional-content Story paths; named Pokédex scopes; optional entries such as
-Mythical Pokémon; and applicable Collectible groups. Exact Team members, Story
-position, Pokédex species progress, Collectible progress, and History belong
-inside the created Play rather than in the creation flow. The completion
-definition remains editable in Play Settings.
+The accepted game-aware completion-goal step (counts, track only, not
+tracked per scope) is not built yet.
 
 Play-specific settings should control:
 
@@ -250,6 +236,16 @@ Current Overview direction:
 - Overview previews should summarize real workflows and mature tabs. Do not add
   placeholder cards just to fill space.
 
+As built (v3): the next objective's main button records it in place (v3's
+Record): one tap, no form, the moment joins History, the current team is saved
+with it where the milestone keeps snapshots, the stamp slaps once and the
+toast offers Undo, which marks it incomplete again (the database refuses if
+something recorded since depends on it). A choice milestone opens Story's
+form instead. `Add a note` keeps a journal note in History. A brand-new Play
+opens on its partner choice (the pick becomes your sticker, with Undo) and
+three first steps: choose your partner, add the Pokémon you catch, mark your
+Pokédex.
+
 ### Team Management
 
 Each play has a managed Pokémon roster.
@@ -286,8 +282,8 @@ expose exact Reserve destinations when position choice matters. Selecting an occ
 updates a larger Play-owned Pokémon detail on the right. Roster portraits remain
 intentionally smaller than selected-member artwork so the source and result of
 selection are immediately distinguishable. The Roster holds only the roster
-and the selected detail; Plan, Analysis and History are its sibling views in
-the Team menu. A link may name the member to open on
+and the selected detail; Plan and Analysis are its sibling views in the Team
+menu. A link may name the member to open on
 (`/mainline/plays/[playId]/team?pokemon=[playPokemonId]`, as an Overview
 sticker does). On narrow screens, member selection opens a focused Team detail
 sheet with a clear return to the roster.
@@ -369,31 +365,39 @@ mistaken or duplicate records. It preserves existing History evidence. Because
 Plan comparison has no persisted member association, deletion simply removes
 that member from future comparison; it never rewrites the authored Plan.
 
+As built: **Add Pokémon** is a side sheet (a bottom sheet on phones), opened
+from the Roster head or `?add=` (the Codex's Add to a Play presets the
+species and form). Pick a species of the Play's Pokédexes (base game and the
+expansions it tracks) by name or number, then its nickname, level and team
+or reserve; the server takes the first open slot, the moment joins History
+and the toast offers Undo. **Edit Pokémon** is the same kind of sheet: Who,
+Where, Build and Met, then Review changes before Save, offering only what the
+game records. Evolve and Change form record their moment; Replace (picking
+the incoming Pokémon in the Add sheet), Retire and Delete record act from its
+head. Moving between team and reserve, or to another slot, waits on an atomic
+roster-placement operation.
+
 Team Analysis is the Team-owned review view. Its final metrics, calculation
 strategy and evidence disclosure are deliberately deferred until the product
 can define a reliable and explainable review model; do not replace its
 unresolved strategy with invented matchup, balance, coverage, role, damage, or
-competitive claims.
+competitive claims. Its Overall reading covers defensive matchups and recorded
+damaging-move coverage. **Story matchups** (`?reading=story`) lists the
+Play's Gym Leader and Champion battles by chapter: a battle won keeps who you
+faced and the team saved with it; a battle ahead reads your active team
+against the opponent's specialty type. The verdict, their team and the level
+comparison wait for opponent party data.
 
-Team History lists the Pokémon-specific changes for the whole
-Active-and-Reserve roster. It does not change with member selection.
-Eligible events include additions, Active/Reserve movement, updates,
-evolutions, form changes, replacements, retirements, removals, and returns.
-Progress snapshots, Story milestones, final-Team snapshots, and Hall of Fame
-moments belong to Play History and never qualify merely because they contain
-Pokémon images.
+There is no separate Team History. Team events (additions, evolutions, form
+changes, replacements, retirements, removals and returns) are History's Team
+filter, with event-time Pokémon identity.
 
-Each row uses event-time Pokémon identity, explicit effective-date
-certainty, and concise before-and-after or roster-destination context where
-useful. Play History and Team History may share an underlying event store, but
-they are separate product projections with different eligibility and display
-rules. Effective or manual timeline order controls the list, so an imported
-event never appears recent merely because it was entered today.
-
-When one focused Team Plan is linked, `Plan` in the Team menu opens its
-comparison; the Roster carries no Plan card. The comparison is computed from
-current Play-owned records and never writes Plan progress. Default roster rows
-remain uncluttered.
+`Plan` in the Team menu opens the comparison with the Plan this Play follows;
+the Roster carries no Plan card. The comparison is computed from current
+Play-owned records and never writes Plan progress. A Play with no Plan shows
+`No Plan yet` with `Plan a team` (the Team Planner on the Play's version
+group) and `Follow a Plan`, a menu of your Plans for this game; picking one
+links it (or re-points the existing link) and the comparison redraws.
 
 `Record Team moment` is a dedicated lower-emphasis Team action. It opens a compact dialog or mobile sheet with a read-only
 six-position Active-Team preview, required title, exact, approximate, or unknown
@@ -507,6 +511,14 @@ Absence of a progress row should mean incomplete by default. The app should not 
 
 ### Play Timeline And Journal
 
+As built (v3), History (`/mainline/plays/[playId]/history`) lists every
+moment the Play kept under month headings, newest or oldest first, with where
+the Play began closing the list. Filters split it into Story (milestones and
+the Hall of Fame), Team (every roster change; what Team History used to be),
+Notes and Play (status changes and the rest). `Add a note` keeps a journal
+note at the end of the timeline. Search, Highlights, editing, arranging and
+deleting entries below are accepted but not built.
+
 The Play Timeline is a user-facing History and journal, not a technical audit
 log. Use one full-width journey timeline with a compact search, category,
 Highlights, and order toolbar. The categories are All History, Story, Team, and
@@ -562,6 +574,17 @@ snapshot after a consequence-aware confirmation. It never reverses the Team or
 Story action that originally created the event.
 
 ### Play Settings
+
+As built (v3), Play Settings is one quiet form in four cards, with a side
+list of them on wide screens: General (name, trainer, start day, playtime and
+status; a status change also joins History), Tracking (expansions you own;
+Story, the Pokédex mode and Collectibles show where their settings will go),
+Challenge rules (the rules you can attach, yours and Voydex's catalogue once
+seeded) and Archive or delete (archive is reversible; delete asks first and
+removes the Play and everything recorded in it). Each card saves on its own
+from a footer that appears once it has unsaved changes. Turning an expansion
+off hides it; nothing recorded is deleted. The accepted contract below
+remains the target where it goes further.
 
 Play Settings is a low-frequency configuration workspace rather than another
 dashboard. It uses General, Completion & Tracking, Rules & Tags, and Play Status
@@ -788,6 +811,26 @@ the group's tracking mode, and recorded progress.
 
 Team plans are separate from plays.
 
+As built (v3):
+
+- **Team Planner** (`/mainline/plans/new`, a saved Plan at
+  `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
+  group on the cover shelf menu, fill six slots from its Pokédexes (one range
+  per Pokédex, search, Fully evolved only, type dots), drag to swap, Random
+  and Clear, and open a slot to set its role, note and build (ability, nature,
+  gender and held item where the version group has them, four moves it
+  learns). Team check says whether the team can be built in one save and
+  reads its defensive matchups from its types. Save writes the Plan; a new
+  Plan is kept in this browser until saved. Share puts the version group, six
+  Pokémon and roles in a link's hash; importing opens it as a new unsaved
+  Plan.
+- **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
+  Pokémon and who follows it, filtered by status and game and sorted by
+  update, name or game; New Plan opens the Planner blank.
+- A Plan is stored for one game, the version group's first, until Plans
+  store a version preference. Plan Detail, Create Play from a Plan, cloning,
+  lifecycle and the Game List below are accepted but not built.
+
 The V1 standalone Plans family has three responsibilities:
 
 - Plans Hub contains two obvious URL-backed sibling views: Team Plans, the
@@ -867,10 +910,6 @@ exact species/form wins first, then alternate form, earlier or later evolution,
 and another branch in the same evolution family. Active and Reserve members
 receive full build comparison. Retired and replaced records establish only
 that the planned family was previously used; hard-deleted members are absent.
-
-Inside a Play, Team shows one compact read-only Plan section with the linked
-Plan identity first, a compact following-state label, a concise found-target
-summary, unplanned-member count when relevant, and `View plan`.
 
 The contextual Team Plan view remains inside the active Team tab and presents a
 compact `planned Pokémon → computed status → matched Play Pokémon` list.
@@ -977,6 +1016,14 @@ the group instead). It must:
 - use real heading hierarchy, keyboard-operable selectors, visible focus,
   labelled Shiny state, and non-color type and matchup meaning.
 
+As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
+Pokédex lists this species, each opening its Roster's Add Pokémon on this
+species and form; with none, Start a Play) and an `In your Plays` card listing every one of this species on
+your rosters. The entry's Training and breeding card shows egg groups where
+the game has breeding; its other values, the Pokédex category, flavour text,
+height and weight and Favourite are pending data. The accepted handoff below
+remains the target.
+
 Authenticated Pokémon Detail exposes one `Use in Mainline` entry with four
 branches:
 
@@ -1012,7 +1059,13 @@ game). A game's slug or an expansion's child-group slug redirects permanently
 The page carries structured identity, base and optional-content scopes, named
 Pokédexes, the group's Pokémon, and only trustworthy related releases. `Start a Play` is its clear primary action;
 `Create a Plan` and `Add to Game List` are supporting Mainline actions.
-Reference links remain distinct from personal mutations.
+Reference links remain distinct from personal mutations. As built, the page
+also shows the region the picked game is set in with its first partners
+(the leaders are pending data; Legends games leave them out) and the version
+exclusives: one column per game of the pair, the picked game first, counting
+only what each game gives you itself. Signed in, its head offers `Start a
+{Version} Play` and `Your Plays (N)`, and Games Browse adds a Played filter
+and a flag on each game you've played.
 
 Named Pokédexes are listed under the base group, its own first and then its
 expansions', so seeded DLC scopes are not lost merely because their Pokédex
@@ -1052,6 +1105,13 @@ mutation.
 ### Collection
 
 Collection is the user's used Pokémon history across plays.
+
+As built (v3, `/mainline/collection`): every species that has joined one of
+your teams, as stickers, with Search, a Show choice (All, On a team now, In
+several Plays, Shiny), Sort (Recently recorded, Most used, Pokédex number)
+and the type dots. A species opens its sheet (`?species=`): every Pokémon of
+it on your Plays' rosters, each opening on its Play's roster, and the games it
+joined you in. Archived Plays count.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 
@@ -1105,6 +1165,11 @@ Plays are not forced into a false global chronology.
 ### Stats
 
 Stats are derived from user data.
+
+As built (v3, `/mainline/stats`), Statistics leads with one sentence, then
+where your time went, the regions you've travelled and your team style (types
+you pick, old friends), all read from what you recorded; a new account says
+what fills in as it records more.
 
 Stats may include:
 
@@ -1160,6 +1225,14 @@ plays.
 
 ### Authentication And Resumption
 
+Start a Play (`/start`) lets a visitor pick a game and partner before having
+an account; the pick travels through Sign up and Log in and waits on the
+account until Mainline starts the Play. Log in and Sign up share `/login`;
+Reset your password, Choose a new password and Check your email are their own
+routes ([Navigation And Routes](./navigation-and-routes.md)). Sign up has one
+password with Show and no confirmation field (v3), then Welcome (`/welcome`):
+your name on the trainer card, before your first Play.
+
 Login is a focused global transition with visible Log in, Sign up, Recover
 account, Check your email, or Choose a new password identity. Direct Login uses
 the normal last-active-module resolver. A user who is already authenticated is
@@ -1174,8 +1247,8 @@ revalidate the owning Mainline operation after authentication. Login never
 performs or automatically replays the mutation.
 
 Log in uses Email, Password, password visibility, recovery, and an alternate
-Create account action. Sign up uses Email, Password with visible requirements,
-Confirm password, and an alternate Log in action. Do not add Profile,
+Create account action. Sign up uses Email, Password with visible requirements
+and visibility, and an alternate Log in action. Do not add Profile,
 preferences, game selection, or onboarding fields to account creation.
 
 Password recovery returns the same neutral Check Email response whether or not
@@ -1192,32 +1265,28 @@ in again, preserves safe read intent, and never silently replays a write.
 
 ### Global Settings
 
-Global Settings is one authenticated `/settings` page outside product modules.
-Use one readable vertical sequence rather than V1 tabs or nested routes:
-Profile, Preferences, and Account. Each editable responsibility owns its save
-and error state.
+Global Settings is one authenticated `/settings` page outside product modules,
+one readable column: the trainer card, which is the profile form (your
+display name; the card changes as you type and Save appears once it has
+changed), Look and feel, New Play defaults, Account and Your data. On phones
+`/you` gathers the trainer card, Statistics, Collection and Settings.
 
-Profile edits only the optional Display name in V1. Email is read-only Account
-identity, and the current initials presentation remains sufficient; avatar
-upload is deferred.
+Account shows your email with Change email (confirmed by a link Supabase
+sends; the change takes effect once it is opened), Change password, and Log
+out on this device. Your data offers Download your data (`/settings/export`,
+every row you recorded as one JSON file; reference data is left out) and
+Delete your account. Account deletion requires recent-auth handling when
+necessary, a complete consequence summary, typed confirmation, one reviewed
+server-owned operation, and no partial success; it removes the Auth identity
+and dependent user-owned data, clears the session, and returns to the public
+entry. Until that operation exists the action is pending data.
 
-Preferences supports Pokémon reuse through two explicit choices: what counts
-as reuse—Off, same form, same species, or evolution family—and how Voydex
-responds—warn, or hide/de-emphasize matches with a `Show used Pokémon`
-override. The global preference guides Mainline selectors and checks but never
-blocks a valid choice, rewrites existing data, or changes public Codex or
-Collection evidence. Do not expose the stored `block` value in V1.
-
-V1 uses the canonical light-first presentation and exposes no Appearance
-choice. A deliberately designed night-expedition dark mode and its control
-contract are post-V1 work.
-
-Account shows read-only Email, password recovery, Sign out, and a separated
-Delete account danger action. Changing Email is not a V1 requirement. Account
-deletion requires recent-auth handling when necessary, a complete consequence
-summary, typed confirmation, one reviewed server-owned operation, and no
-partial success. It removes the Auth identity and dependent user-owned data,
-clears the session, and returns to the public entry.
+Look and feel (mode, colour theme, motion) and New Play defaults (Pokédex
+mode, Story and Collectibles tracking) are drawn with pending markers until
+`public.user_preferences` stores them; only the light look is designed. The
+accepted Pokémon reuse preference (what counts as reuse, and warn or hide) is
+not on the page yet. A Pokémon icon for the profile and a default trainer
+name are pending too.
 
 Play-specific completion choices, optional content, Pokédex and Collectible
 scope, Rules, Tags, lifecycle, and metadata remain inside the owning Play or
