@@ -17,6 +17,26 @@
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
 }
 
+/*
+ * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
+ * 5px lip tinted by the type. Set --t. Override --sticker-border and
+ * --sticker-lip to pick it (the Play's colour), and add a float under the lip
+ * with --sticker-shadow.
+ */
+@utility sticker {
+  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+  border: 4px solid var(--sticker-border, #fff);
+  box-shadow:
+    0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
+    var(--sticker-shadow, 0 0 transparent);
+}
+
+/* The one open slot: anything missing or not yet yours, dashed at one width. */
+@utility empty-slot {
+  border: 2.5px dashed var(--dash);
+  background-color: transparent;
+}
+
 /* The dotted texture. Only the Play header wears it. */
 @utility play-texture {
   position: relative;

@@ -1,0 +1,53 @@
+import type { ReactNode } from "react";
+
+import { cn } from "@/shared/utils/cn";
+
+type RangeHeadingProps = {
+  /* Trailing quiet actions, such as "Mark all" (v3 `.bulk`). */
+  actions?: ReactNode;
+  className?: string;
+  /* The count line beside the heading, such as "24 of 151 caught". */
+  count?: ReactNode;
+  /* `3` under a page or tab heading at level 2. */
+  headingLevel?: 2 | 3;
+  title: ReactNode;
+  /* Give the group `aria-labelledby={titleId}`. */
+  titleId?: string;
+};
+
+/*
+ * The head of a range inside a long list (v3 `.range`): a Fredoka 20 heading,
+ * a count line and trailing actions over a hairline. It wraps on phones.
+ */
+export const RangeHeading = ({
+  actions,
+  className,
+  count,
+  headingLevel = 2,
+  title,
+  titleId,
+}: RangeHeadingProps) => {
+  const Heading = headingLevel === 3 ? "h3" : "h2";
+
+  return (
+    <div
+      data-slot="range-heading"
+      className={cn(
+        "border-line flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-b pb-3",
+        className,
+      )}
+    >
+      <Heading id={titleId} className="text-20 text-ink tracking-[-0.01em]">
+        {title}
+      </Heading>
+      {count !== undefined && count !== null ? (
+        <span className="text-14 text-ink-2 font-semibold tabular-nums">
+          {count}
+        </span>
+      ) : null}
+      {actions ? (
+        <div className="ml-auto flex items-center gap-1">{actions}</div>
+      ) : null}
+    </div>
+  );
+};
