@@ -116,20 +116,23 @@ export const PokedexProgressBrowserSection = ({
       }),
     [browseScope, scope.entries],
   );
+  /* Each progress pill counts what the other filters and the search leave. */
   const progressCounts = useMemo(() => {
-    const counts = {
-      all: scopedEntries.length,
-      caught: 0,
-      missing: 0,
-      seen: 0,
-    };
+    const entries = filterPokedexEntries({
+      entries: scopedEntries,
+      inclusionFilter,
+      progressFilter: "all",
+      query,
+      stateBySpeciesId,
+    });
+    const counts = { all: entries.length, caught: 0, missing: 0, seen: 0 };
 
-    for (const entry of scopedEntries) {
+    for (const entry of entries) {
       counts[getPokedexEntryState(entry, stateBySpeciesId)] += 1;
     }
 
     return counts;
-  }, [scopedEntries, stateBySpeciesId]);
+  }, [inclusionFilter, query, scopedEntries, stateBySpeciesId]);
   const filteredEntries = useMemo(
     () =>
       filterPokedexEntries({

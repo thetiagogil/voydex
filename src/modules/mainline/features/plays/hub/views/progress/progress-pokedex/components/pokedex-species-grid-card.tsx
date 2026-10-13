@@ -29,8 +29,9 @@ export const PokedexSpeciesGridCard = ({
   const [isPopping, setIsPopping] = useState(false);
 
   return (
-    <div aria-busy={isPending} className="relative min-w-0">
+    <div aria-busy={isPending} className="group/dex relative min-w-0">
       <PokemonCard
+        className="group-hover/dex:-translate-y-[3px]"
         state={cardStateByProgress[state]}
         imageAlt={entry.imageAlt}
         imageUrl={entry.imageUrl}
