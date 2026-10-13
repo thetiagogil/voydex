@@ -30,10 +30,15 @@ export const SystemState = ({
           className="relative mb-4 grid h-40 w-48 place-items-end justify-center sm:h-47.5 sm:w-55"
         >
           <span className="bg-hill absolute bottom-1 h-8.5 w-44 rounded-[50%] sm:w-50" />
+          {/*
+           * Lazy so React doesn't preload the art on every page: the
+           * not-found boundary is rendered ahead of time with each layout.
+           */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={artUrl}
             alt=""
+            loading="lazy"
             className="relative size-36 object-contain sm:size-42.5"
           />
         </span>

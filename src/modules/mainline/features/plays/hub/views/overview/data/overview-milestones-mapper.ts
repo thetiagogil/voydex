@@ -20,6 +20,7 @@ export type OverviewMilestone = Pick<
   | "is_required_for_completion"
   | "milestone_id"
   | "milestone_name"
+  | "milestone_type_name"
   | "milestone_type_slug"
   | "prerequisites"
   | "sort_order"
@@ -117,12 +118,55 @@ export const getOverviewMilestoneSummary = (
     completed.at(-1) ??
     null;
 
+  const nextMilestone =
+    openRequired.find(isAvailable) ??
+    openRequired[0] ??
+    orderedMilestones.find((milestone) => !milestone.is_completed) ??
+    null;
+
   return {
     lastCompletedMilestone,
-    nextMilestone:
-      openRequired.find(isAvailable) ??
-      openRequired[0] ??
-      orderedMilestones.find((milestone) => !milestone.is_completed) ??
-      null,
+    nextMilestone,
+    ...getOverviewJourneyAhead(orderedMilestones, nextMilestone),
+  };
+};
+
+export type OverviewAheadMilestone = {
+  milestone: OverviewMilestone;
+  sequence: number;
+};
+
+const aheadLimit = 4;
+
+/*
+ * Story numbers milestones within their journey (the version group), so
+ * Overview does too: the next objective's place in its journey and the
+ * milestones that follow it there, recorded or not, as v3's list ahead.
+ */
+const getOverviewJourneyAhead = (
+  orderedMilestones: OverviewMilestone[],
+  nextMilestone: OverviewMilestone | null,
+) => {
+  if (!nextMilestone) {
+    return { aheadMilestones: [], nextMilestonePosition: null };
+  }
+
+  const journey = orderedMilestones.filter(
+    (milestone) =>
+      milestone.version_group_id === nextMilestone.version_group_id,
+  );
+  const nextIndex = journey.findIndex(
+    (milestone) => milestone.milestone_id === nextMilestone.milestone_id,
+  );
+  const aheadMilestones: OverviewAheadMilestone[] = journey
+    .slice(nextIndex, nextIndex + aheadLimit)
+    .map((milestone, index) => ({
+      milestone,
+      sequence: nextIndex + index + 1,
+    }));
+
+  return {
+    aheadMilestones,
+    nextMilestonePosition: { sequence: nextIndex + 1, total: journey.length },
   };
 };
