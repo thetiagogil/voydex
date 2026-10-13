@@ -1,19 +1,25 @@
 "use client";
 
 import * as React from "react";
+import { Input as InputPrimitive } from "@base-ui/react/input";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 import { Button } from "@/shared/components/ui/button";
-import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import { fieldSurfaceClassName } from "@/shared/components/ui/field-surface";
 
+/*
+ * A field with addons, such as the search field (v3 `.search`): 46px, the
+ * field look, the icon in ink-3 and the text in ink. The whole group shows
+ * the focus outline while its control has focus.
+ */
 const InputGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="input-group"
       role="group"
       className={cn(
-        "group/input-group bg-surface border-line text-ink-3 in-data-[slot=card]:bg-surface-2 has-[[data-slot=input-group-control]:focus-visible]:outline-focus has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:ring-destructive/20 relative flex h-10 w-full min-w-0 items-center rounded-md border-[1.5px] px-1.5 transition-colors outline-none in-data-[slot=card]:border-transparent in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:opacity-60 has-[[data-slot=input-group-control]:focus-visible]:outline-3 has-[[data-slot=input-group-control]:focus-visible]:outline-offset-2 has-[[data-slot=input-group-control]:focus-visible]:outline-solid has-[[data-slot][aria-invalid=true]]:ring-3 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+        fieldSurfaceClassName,
+        "group/input-group text-ink-3 has-[[data-slot=input-group-control]:focus-visible]:outline-focus has-[[data-slot][aria-invalid=true]]:border-danger relative flex h-11.5 w-full min-w-0 items-center rounded-md px-1.5 has-disabled:opacity-60 has-[[data-slot=input-group-control]:focus-visible]:outline-3 has-[[data-slot=input-group-control]:focus-visible]:outline-offset-1 has-[[data-slot=input-group-control]:focus-visible]:outline-solid has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
         className,
       )}
       {...props}
@@ -22,12 +28,12 @@ const InputGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
 };
 
 const inputGroupAddonVariants = cva(
-  "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
+  "text-14 text-ink-3 flex h-auto cursor-text items-center justify-center gap-2 py-1.5 font-bold select-none group-data-[disabled=true]/input-group:opacity-50 [&>svg:not([class*='size-'])]:size-4",
   {
     variants: {
       align: {
         "inline-start":
-          "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
+          "order-first pl-2.5 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
         "inline-end":
           "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
         "block-start":
@@ -65,23 +71,19 @@ const InputGroupAddon = ({
   );
 };
 
-const inputGroupButtonVariants = cva(
-  "flex items-center gap-2 text-sm shadow-none",
-  {
-    variants: {
-      size: {
-        xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
-        sm: "",
-        "icon-xs":
-          "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
-        "icon-sm": "size-8 p-0 has-[>svg]:p-0",
-      },
-    },
-    defaultVariants: {
-      size: "xs",
+const inputGroupButtonVariants = cva("text-14 flex items-center gap-2", {
+  variants: {
+    size: {
+      xs: "h-7 gap-1 rounded-xs px-2 [&>svg:not([class*='size-'])]:size-3.5",
+      sm: "",
+      "icon-xs": "size-7 rounded-full p-0 has-[>svg]:p-0",
+      "icon-sm": "size-8 rounded-full p-0 has-[>svg]:p-0",
     },
   },
-);
+  defaultVariants: {
+    size: "xs",
+  },
+});
 
 const InputGroupButton = ({
   className,
@@ -111,7 +113,7 @@ const InputGroupText = ({
   return (
     <span
       className={cn(
-        "text-muted-foreground flex items-center gap-2 text-sm [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+        "text-14 text-ink-3 flex items-center gap-2 font-bold [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -124,10 +126,10 @@ const InputGroupInput = ({
   ...props
 }: React.ComponentProps<"input">) => {
   return (
-    <Input
+    <InputPrimitive
       data-slot="input-group-control"
       className={cn(
-        "text-ink placeholder:text-ink-3 flex-1 rounded-none border-0 bg-transparent px-2 shadow-none ring-0 focus-visible:ring-0 focus-visible:outline-none disabled:bg-transparent aria-invalid:ring-0",
+        "text-16 sm:text-15 text-ink placeholder:text-ink-3 h-full w-full min-w-0 flex-1 bg-transparent px-2 font-semibold outline-none disabled:cursor-not-allowed",
         className,
       )}
       {...props}
@@ -140,10 +142,10 @@ const InputGroupTextarea = ({
   ...props
 }: React.ComponentProps<"textarea">) => {
   return (
-    <Textarea
+    <textarea
       data-slot="input-group-control"
       className={cn(
-        "flex-1 resize-none rounded-none border-0 bg-transparent py-2 shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0",
+        "text-16 sm:text-15 text-ink placeholder:text-ink-3 field-sizing-content min-h-16 w-full flex-1 resize-none bg-transparent px-2.5 py-2.5 font-semibold outline-none disabled:cursor-not-allowed",
         className,
       )}
       {...props}

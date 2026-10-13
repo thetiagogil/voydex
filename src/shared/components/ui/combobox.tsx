@@ -2,6 +2,7 @@
 
 import { cn } from "@/shared/utils/cn";
 import { Button } from "@/shared/components/ui/button";
+import { fieldSurfaceClassName } from "@/shared/components/ui/field-surface";
 import {
   InputGroup,
   InputGroupAddon,
@@ -30,7 +31,7 @@ const ComboboxTrigger = ({
       {...props}
     >
       {children}
-      <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4" />
+      <ChevronDownIcon className="text-ink-3 pointer-events-none size-4" />
     </ComboboxPrimitive.Trigger>
   );
 };
@@ -113,7 +114,7 @@ const ComboboxContent = ({
           data-slot="combobox-content"
           data-chips={!!anchor}
           className={cn(
-            "group/combobox-content bg-popover text-popover-foreground data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-float relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+(--spacing(7)))] origin-(--transform-origin) overflow-hidden rounded-lg p-1 duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:shadow-none",
+            "group/combobox-content bg-surface text-ink data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:bg-surface-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-float relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+(--spacing(7)))] origin-(--transform-origin) overflow-hidden rounded-lg p-1 duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-10 *:data-[slot=input-group]:border-transparent",
             className,
           )}
           {...props}
@@ -148,7 +149,7 @@ const ComboboxItem = ({
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "data-highlighted:bg-hover data-highlighted:text-ink not-data-[variant=destructive]:data-highlighted:**:text-accent-foreground text-14 relative flex w-full cursor-default items-center gap-2 rounded-sm py-2 pr-8 pl-2.5 font-semibold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-hover data-highlighted:text-ink text-14 relative flex min-h-10 w-full cursor-default items-center gap-2 rounded-sm py-2 pr-8 pl-2.5 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -185,7 +186,7 @@ const ComboboxLabel = ({
   return (
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-label"
-      className={cn("text-muted-foreground px-2 py-1.5 text-xs", className)}
+      className={cn("text-12 text-ink-3 px-2.5 py-1.5 font-bold", className)}
       {...props}
     />
   );
@@ -207,7 +208,7 @@ const ComboboxEmpty = ({
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
       className={cn(
-        "text-muted-foreground mt-2 hidden w-full justify-center py-2 text-center text-sm group-data-empty/combobox-content:flex",
+        "text-14 text-ink-2 mt-2 hidden w-full justify-center py-2 text-center font-semibold group-data-empty/combobox-content:flex",
         className,
       )}
       {...props}
@@ -222,7 +223,7 @@ const ComboboxSeparator = ({
   return (
     <ComboboxPrimitive.Separator
       data-slot="combobox-separator"
-      className={cn("bg-border -mx-1 my-1 h-px", className)}
+      className={cn("bg-line -mx-1 my-1 h-px", className)}
       {...props}
     />
   );
@@ -237,7 +238,10 @@ const ComboboxChips = ({
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
       className={cn(
-        "border-input focus-within:border-ring focus-within:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-destructive/20 dark:bg-input/30 dark:has-aria-invalid:border-destructive/50 dark:has-aria-invalid:ring-destructive/40 flex min-h-8 flex-wrap items-center gap-1 rounded-lg border bg-transparent bg-clip-padding px-2.5 py-1 text-sm transition-colors focus-within:ring-3 has-aria-invalid:ring-3 has-data-[slot=combobox-chip]:px-1",
+        cn(
+          fieldSurfaceClassName,
+          "focus-within:outline-focus text-14 flex min-h-11.5 flex-wrap items-center gap-1 rounded-md px-3 py-1.5 focus-within:outline-3 focus-within:outline-offset-1 focus-within:outline-solid has-data-[slot=combobox-chip]:px-1.5",
+        ),
         className,
       )}
       {...props}
@@ -257,7 +261,7 @@ const ComboboxChip = ({
     <ComboboxPrimitive.Chip
       data-slot="combobox-chip"
       className={cn(
-        "bg-muted text-foreground flex h-[calc(--spacing(5.25))] w-fit items-center justify-center gap-1 rounded-sm px-1.5 text-xs font-medium whitespace-nowrap has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50 has-data-[slot=combobox-chip-remove]:pr-0",
+        "bg-select-soft text-select-ink text-12 flex h-7 w-fit items-center justify-center gap-1 rounded-full px-2.5 font-bold whitespace-nowrap has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50 has-data-[slot=combobox-chip-remove]:pr-0",
         className,
       )}
       {...props}

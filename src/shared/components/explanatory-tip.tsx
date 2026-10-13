@@ -16,13 +16,20 @@ type ExplanatoryTipProps = Pick<
   ComponentProps<typeof PopoverContent>,
   "align" | "alignOffset" | "side" | "sideOffset"
 > & {
-  children: ReactNode;
+  children?: ReactNode;
   content: ReactNode;
   contentClassName?: string;
   nativeButton?: ComponentProps<typeof PopoverTrigger>["nativeButton"];
   pinOnPress?: boolean;
-  trigger: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
+  /* Without a trigger, the tip opens from v3's small "i" dot. */
+  trigger?: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
+  /* The accessible name of the default "i" dot. */
+  triggerLabel?: string;
 };
+
+/* v3 `.infotip`: an 18px dot in the inset fill, with a 40px hit area. */
+const infoDotClassName =
+  "bg-surface-2 text-ink-2 hover:text-ink focus-visible:outline-focus relative inline-grid size-4.5 shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors after:absolute after:-inset-2.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid";
 
 export const ExplanatoryTip = ({
   align,
@@ -35,6 +42,7 @@ export const ExplanatoryTip = ({
   side = "top",
   sideOffset,
   trigger,
+  triggerLabel = "More information",
 }: ExplanatoryTipProps) => {
   const [open, setOpen] = useState(false);
   const openedByKeyboardFocus = useRef(false);
@@ -75,7 +83,15 @@ export const ExplanatoryTip = ({
         delay={hoverDelay}
         closeDelay={hoverCloseDelay}
         nativeButton={nativeButton}
-        render={trigger}
+        render={
+          trigger ?? (
+            <button
+              type="button"
+              aria-label={triggerLabel}
+              className={infoDotClassName}
+            />
+          )
+        }
         onFocus={(event) => {
           if (
             !pointerFocus.current &&
@@ -122,7 +138,15 @@ export const ExplanatoryTip = ({
           close();
         }}
       >
-        {children}
+        {children ??
+          (trigger ? null : (
+            <span
+              aria-hidden
+              className="text-12 leading-none font-extrabold italic"
+            >
+              i
+            </span>
+          ))}
       </PopoverTrigger>
       <PopoverContent
         align={align}
@@ -130,7 +154,8 @@ export const ExplanatoryTip = ({
         side={side}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground border-border/70 shadow-float w-fit max-w-xs rounded-md border px-3 py-2 text-xs leading-5 ring-0",
+          /* The tip is ink, so quiet ink text inside it turns light. */
+          "bg-ink text-on-ink shadow-float text-13 [&_.text-ink-2]:text-on-ink [&_.text-ink-3]:text-on-ink [&_.text-muted-foreground]:text-on-ink w-fit max-w-[min(18.75rem,calc(100vw-2rem))] gap-1.5 rounded-md px-3.5 py-3 leading-normal font-medium [&_.text-ink]:text-white [&_b]:text-white [&_strong]:text-white",
           contentClassName,
         )}
       >

@@ -16,6 +16,10 @@ const browseFilterPanelVariants = cva("grid gap-3", {
   },
 });
 
+/*
+ * The toolbar card (v3 `.toolbar`). It counts as a card, so the fields and
+ * secondary buttons inside take the inset fill.
+ */
 export const BrowseFilterPanel = ({
   className,
   variant = "default",
@@ -23,6 +27,7 @@ export const BrowseFilterPanel = ({
 }: ComponentProps<"form"> & VariantProps<typeof browseFilterPanelVariants>) => {
   return (
     <form
+      data-slot={variant === "default" ? "card" : undefined}
       className={cn(browseFilterPanelVariants({ variant }), className)}
       {...props}
     />

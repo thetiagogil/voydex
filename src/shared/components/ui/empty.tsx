@@ -1,12 +1,17 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 
+/*
+ * An empty area inside a card or section: a Fredoka title, one sentence in
+ * ink-2, at most two actions. For a whole page or section that is empty, use
+ * `EmptyState`, which brings its own card and one Pokémon on grass.
+ */
 const Empty = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="empty"
       className={cn(
-        "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-xl border-dashed p-6 text-center text-balance",
+        "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-2xl px-6 py-10 text-center text-balance",
         className,
       )}
       {...props}
@@ -18,7 +23,7 @@ const EmptyHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="empty-header"
-      className={cn("flex max-w-sm flex-col items-center gap-2", className)}
+      className={cn("flex max-w-md flex-col items-center gap-1.5", className)}
       {...props}
     />
   );
@@ -30,7 +35,7 @@ const emptyMediaVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent",
-        icon: "flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-4",
+        icon: "bg-surface-2 text-ink-3 flex size-12 shrink-0 items-center justify-center rounded-full [&_svg:not([class*='size-'])]:size-5",
       },
     },
     defaultVariants: {
@@ -58,7 +63,10 @@ const EmptyTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       data-slot="empty-title"
-      className={cn("text-sm font-medium tracking-normal", className)}
+      className={cn(
+        "font-display text-20 text-ink leading-tight font-semibold tracking-[-0.01em]",
+        className,
+      )}
       {...props}
     />
   );
@@ -72,7 +80,7 @@ const EmptyDescription = ({
     <div
       data-slot="empty-description"
       className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
+        "text-15 text-ink-2 [&>a]:text-link leading-relaxed font-semibold [&>a]:font-extrabold [&>a]:underline [&>a]:underline-offset-4",
         className,
       )}
       {...props}
@@ -85,7 +93,7 @@ const EmptyContent = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="empty-content"
       className={cn(
-        "flex w-full max-w-sm min-w-0 flex-col items-center gap-2.5 text-sm text-balance",
+        "text-14 mt-1 flex w-full max-w-sm min-w-0 flex-col items-center gap-2.5 text-balance",
         className,
       )}
       {...props}
