@@ -6,40 +6,69 @@ route configuration remain implementation evidence.
 
 ## Navigation Model
 
-Voydex uses module-aware navigation:
+Voydex has two modules: Mainline, the playthrough workspace, and Codex, the
+shared reference browser. Account and global settings stay outside both. The
+app shell (`src/features/app-shell`) draws v3's bars; there is no module
+switcher.
 
-- The Voydex logo returns to the product entry point, which resolves the
-  appropriate destination instead of always opening Mainline.
-- A module switcher moves between focused workspaces.
-- View links belong to the active module.
-- Account and global settings remain outside product modules.
+### Signed In
 
-The module switcher shows every released and available module. Signed-out users
-still see protected modules, but those entries have a clear locked or login
-state and preserve the intended destination through authentication. Planned or
-unreleased modules do not appear as speculative `Coming soon` entries.
+- **Top bar (desktop, `lg` and up):** the "V" tile on the left links to `/`.
+  Mainline's implemented sections sit centred (today only Plays). The Codex
+  link and your account icon sit on the right. The Codex link is bold while
+  you are anywhere under `/codex`.
+- **Account menu:** your email, Settings (`/settings`) and Log out at the
+  foot.
+- **Bottom bar (phones and tablets, below `lg`):** the centred sections move
+  to a fixed bar on the bottom edge: Plays, Codex and You. You opens the same
+  account menu upward until a You page exists. The current item takes the
+  soft action tint. Toasts sit above the bar.
+- v3 also draws Home, Team Planner, Statistics and Collection in the bar.
+  Each joins only when its view ships in `src/config/modules.ts`; nothing
+  appears as a speculative `Coming soon` entry.
 
-Mainline is the playthrough workspace. Codex is the shared reference browser.
+### Signed Out
+
+- **Top bar:** the "V" tile with the Voydex name, then How it works (`/intro`)
+  and Codex centred, and Log in on the right. On phones the two links fold
+  into a menu behind one icon beside Log in.
+- The signed-out frame ends on the quiet site footer (name, catchphrase, How
+  it works, Codex and the fan-project notice).
+- Protected destinations send you to Log in and keep the intended
+  destination.
+
+### Inside A Module
+
+- **Codex pages** start with the Codex head: the book and "Codex", the
+  `[Pokémon | Games]` switch, then the path to the current page (for example
+  `Codex [Pokémon | Games] / Sword and Shield / Galar Pokédex`). The switch is
+  the Codex's own section navigation; the address decides which section is
+  current.
+- **A Play** keeps its header and tabs (Overview, Team, Progress, History,
+  Settings) under the top bar; its docked bar returns when the header scrolls
+  away.
+
+### Entry
+
 Explicit URLs determine the rendered module, and authorization still happens at
-server boundaries. The general product entry follows this precedence:
+server boundaries. Logging in and `/app` follow this precedence:
 
 1. A validated protected destination or action-resumption target wins when the
    user is returning from authentication.
 2. A signed-in user is sent to the default landing view of their last active,
-   currently available module.
-3. If no valid module preference exists, V1 falls back to Mainline Dashboard.
+   currently available module (Mainline: Plays; Codex: Pokémon).
+3. Without a valid module preference, entry falls back to the Codex.
 4. A signed-out user receives the public product entry experience unless they
    explicitly requested a public Codex URL.
 
-Remember the last module rather than an arbitrary deep route. Each present or
-future module owns a stable default landing view, so a future Pokopia-only user
-can enter Pokopia without passing through Mainline. An unavailable, retired, or
-unauthorized module preference falls back safely instead of producing a broken
-entry flow.
-
-The active module cookie can support this behavior in V1. Whether the preference
-must also follow a user across browsers or devices remains a product and data
-design question; it is not yet a confirmed database requirement.
+Remember the last module rather than an arbitrary deep route. The proxy keeps
+the active module cookie in step with the module of each visited route. Each
+present or future module owns a stable default landing view, so a future
+Pokopia-only user can enter Pokopia without passing through Mainline. An
+unavailable, retired, or unauthorized module preference falls back safely
+instead of producing a broken entry flow. Whether the preference must also
+follow a user across browsers or devices remains a product and data design
+question; it is not yet a confirmed database requirement.
 
 ## Module Views
 

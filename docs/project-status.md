@@ -115,7 +115,7 @@ the evidence for exact implementation details.
 
 ### Global Features
 
-- Authentication, proxy session refresh, app shell, module-aware navigation,
+- Authentication, proxy session refresh, app shell and its v3 bars,
   settings, site pages, and health surfaces have explicit owners.
 
 ## Current Product And Design Checkpoint
@@ -128,33 +128,21 @@ built. The journal design (the centered journal column, valley background,
 paper texture, DM-era fonts and V1 styling docs) has been removed in place;
 `npm run design:check` fails if any of it is referenced again.
 
-The first slice is built:
+Every existing view is now on Soft Clay on the branch, pending the owner's
+review (the owner reviews all views at the end rather than per slice): the app
+shell with v3's top bar and the phone and tablet bottom bar, Plays, the Play
+header, tabs and docked bar, Overview, Team (Roster, Plan, Analysis, History),
+Story, Pokédex, Collectibles, Account settings, every Codex page, Home, Intro,
+Log in, and the not-found and error pages. Each screen's old parts were deleted
+as it moved. The first slice's two open calls are settled (owner, 2026-10-13):
+section cards keep the 3px clay edge, and the main button stays in Nunito.
 
-- Soft Clay tokens by role, Fredoka and Nunito, and the type scale.
-- Every shared primitive restyled in place under the same names, plus the new
-  shared pieces: the one Pokémon card, stickers, type chips and dots,
-  medallions and record rows, badge stamps, the segmented control, and the
-  empty state.
-- The app shell on the cream ground with the "V" placeholder logo.
-- The Play header in the game's colour with its dotted texture, cover and
-  tabs, and the docked bar that returns when the header scrolls away.
-- Play Overview: the next objective with the main Record button (it opens
-  Story ready to record that milestone), progress in the game's colour, the
-  active team as stickers, the gym badge case with League stamp, and recent
-  moments with medallions.
-- Play Pokédex: page head with Pokédex pills, a quiet toolbar (search,
-  progress filter pills with counts, marking mode, grid or list), number
-  ranges, and the one Pokémon card in its caught, seen and missing states.
-
-The first slice's two open calls are settled (owner, 2026-10-13): section
-cards keep the 3px clay edge, and the main button stays in Nunito.
-
-Every other screen already wears the new tokens and primitives but still needs
-its own pass, in the brief's order: Team, Story, History, Analysis, Plan,
-Collectibles, Account settings and Plays; then the new screens (New Play,
-Start a Play, Mainline home, Play settings, the auth screens), the Codex and
-the public site; only then the parked screens. The checkpoints below describe
-their behaviour and layout, which the redesign keeps.
+Still to build, per the brief: the new screens (Mainline home, Play History
+and Play settings, New Play, Start a Play and the auth recovery screens), then
+the parked ones (Team Planner and My Plans, Statistics, Collection, Welcome,
+You on phones). The checkpoints below describe behaviour and layout, which the
+redesign keeps; their visual wording predates Soft Clay, and the
+[Design System](./app/design-system.md) wins where they disagree.
 
 The current production baseline is Plays Browse:
 
@@ -352,8 +340,9 @@ Game Pokédex is a completed production design checkpoint:
 
 ## Next Chat Handoff
 
-The Soft Clay redesign is in progress on `claude/soft-clay-redesign`; the
-checkpoint above lists what has moved and the order of what's next. On the
+All existing views are on Soft Clay on `claude/soft-clay-redesign`, pending
+the owner's review; next are the review's fixes, then the new screens listed
+in the checkpoint above. On the
 next computer, run `git status`, `git log -1 --oneline`, and `npm install`
 before editing. Preserve unrelated work and confirm the linked
 Supabase migration list before any later remote database write.
