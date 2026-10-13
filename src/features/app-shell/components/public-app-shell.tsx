@@ -3,14 +3,12 @@ import { getPublicAppShellData } from "@/features/app-shell/server/public-app-sh
 
 type PublicAppShellProps = {
   children: React.ReactNode;
-  hero?: React.ReactNode;
   showAuthAction?: boolean;
   showBrandName?: boolean;
 };
 
 export const PublicAppShell = async ({
   children,
-  hero,
   showAuthAction,
   showBrandName,
 }: PublicAppShellProps) => {
@@ -19,7 +17,6 @@ export const PublicAppShell = async ({
   return (
     <AppShell
       account={account}
-      hero={hero}
       showAuthAction={showAuthAction}
       showBrandName={showBrandName}
     >

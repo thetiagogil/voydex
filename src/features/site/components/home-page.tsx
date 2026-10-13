@@ -7,8 +7,8 @@ import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 /*
  * The front door for all of Voydex: the meadow band with the name, the
  * catchphrase, one paragraph and the first partners, each of which opens
- * Start a Play at its generation. The route hands it to the shell as its
- * hero so it runs edge to edge under the bar.
+ * Start a Play at its generation. It opens the page, so it runs edge to
+ * edge under the bar.
  */
 export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
   const { isAuthenticated } = await getSiteVisitor();

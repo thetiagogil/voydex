@@ -96,6 +96,25 @@
   --shadow-track-value: inset 0 2px 0 rgb(90 70 35 / 0.08);
   --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
 
+  /*
+   * The page frame: the column every page, bar and footer lines up in, its
+   * side gutter, the bar's height and the gap between the bar and the page.
+   * A top band (`page-band`) uses them to run edge to edge under the bar.
+   */
+  --page-width: 80rem;
+  --page-gutter: 1rem;
+  --page-top: 0.5rem;
+  --bar-h: 3.75rem;
+
+  @variant sm {
+    --page-gutter: 1.5rem;
+  }
+
+  @variant lg {
+    --page-gutter: 2rem;
+    --bar-h: 4.25rem;
+  }
+
   /* Type: two families, one scale, nothing under 12px */
   --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
   --font-body: var(--font-nunito), system-ui, sans-serif;

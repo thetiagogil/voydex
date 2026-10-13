@@ -23,11 +23,6 @@ type AppShellProps = {
   /* Who is signed in; null or left out for the signed-out frame. */
   account?: SignedInAccount | null;
   children: React.ReactNode;
-  /*
-   * A full-width band between the bar and the page, such as Home's meadow.
-   * It runs edge to edge and slides up under the bar, which sits on it.
-   */
-  hero?: React.ReactNode;
   showAuthAction?: boolean;
   /* The signed-out bar's name beside the V tile; Home leaves it to the meadow. */
   showBrandName?: boolean;
@@ -40,18 +35,19 @@ type AppShellProps = {
  * with the name, how it works and the Codex, and Log in; on phones the links
  * fold into a menu with Start a Play. Home's bar shows the tile alone: the
  * meadow carries the name. The signed-out frame ends on the site footer.
+ * The bar is transparent: a page that opens on a band (`page-band`) runs it
+ * edge to edge under the bar, which sits on the band's colour.
  */
 export const AppShell = ({
   account,
   children,
-  hero,
   showAuthAction = true,
   showBrandName = true,
 }: AppShellProps) => {
   return (
     <div
       className={cn(
-        "relative isolate flex min-h-svh w-full flex-col",
+        "relative isolate flex min-h-svh w-full flex-col overflow-x-clip",
         account
           ? "pb-[calc(4.75rem+env(safe-area-inset-bottom))] [--toast-bottom:5.75rem] lg:pb-0 lg:[--toast-bottom:1.5rem]"
           : "[--toast-bottom:1.5rem]",
@@ -100,8 +96,7 @@ export const AppShell = ({
           }
         />
       )}
-      {hero}
-      <main className="relative z-10 mx-auto flex w-full max-w-320 min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-2 pb-12 sm:px-6 lg:px-8 lg:pb-18">
+      <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           {children}
         </div>

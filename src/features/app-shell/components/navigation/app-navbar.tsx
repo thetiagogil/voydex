@@ -11,7 +11,8 @@ type AppNavbarProps = {
 
 /*
  * v3's bar: the V tile on the left, the sections centred, your utilities on
- * the right. Navigation, so no card and no edge.
+ * the right. Navigation, so no card and no edge, and no ground of its own:
+ * on a page that opens on a band it sits on the band's colour.
  */
 export const AppNavbar = ({
   brandHref,
@@ -20,7 +21,7 @@ export const AppNavbar = ({
   showName = false,
 }: AppNavbarProps) => (
   <header className="text-ink relative z-40 w-full shrink-0">
-    <div className="mx-auto grid h-15 w-full max-w-320 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 sm:px-6 lg:h-17 lg:px-8">
+    <div className="page-column grid h-(--bar-h) grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
       <div className="flex min-w-0 items-center">
         <Link
           href={brandHref}

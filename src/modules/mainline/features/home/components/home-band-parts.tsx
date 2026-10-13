@@ -1,8 +1,5 @@
 import type { ReactNode } from "react";
 
-/* The band's top, bleeding to the page edges under the bar. */
-export const homeBandClassName = "-mx-4 -mt-2 sm:-mx-6 lg:-mx-8";
-
 export const HomeBandHeading = ({
   greeting,
   id,

@@ -9,8 +9,8 @@ type MeadowCardProps = {
   art: PublicArt;
   children: ReactNode;
   /*
-   * `band` is Home's and Start a Play's: edge to edge from the top of the
-   * page, under the bar, rounded only at the bottom and ending on a strip of
+   * `band` is Home's and Start a Play's: it opens the page, edge to edge
+   * under the bar, rounded only at the bottom and ending on a strip of
    * ground. `card` is the Intro's closing meadow, a rounded card ending on
    * the front hill.
    */
@@ -62,7 +62,6 @@ export const MeadowCard = ({
         className={cn(
           "text-center transition-colors",
           gameStyle && "game-scope",
-          band && "-mt-15 pt-15 lg:-mt-17 lg:pt-17",
         )}
         sceneClassName={cn("sm:h-[206px]", band ? "h-40" : "h-[150px]")}
         cast={
@@ -78,8 +77,8 @@ export const MeadowCard = ({
       >
         <div
           className={cn(
-            "mx-auto flex w-full flex-col items-center px-4.5 sm:px-8",
-            band && "max-w-320 px-4 sm:px-6 lg:px-8",
+            "flex w-full flex-col items-center",
+            band ? "px-(--page-gutter)" : "px-4.5 sm:px-8",
           )}
         >
           {children}
