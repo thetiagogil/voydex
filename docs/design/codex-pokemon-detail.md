@@ -6,155 +6,103 @@ history.
 
 ## Current Status
 
-- `codex/pokemon/browse` is considered the stable completed Codex browse view
-  for now.
-- `codex/pokemon/[gameSlug]/[speciesSlug]` has its section foundation in place
-  and should be iterated section by section without reorganizing that foundation.
-- The top section is a compact selector surface with species selection and
-  generation/game navigation.
-- The left section has the portrait, optional Forms card, and optional
-  Evolution Line card.
-- The right section currently has Core Data, Battle Stats, Type Matchups,
-  Abilities, Pokedex, Availability, and Learnsets cards.
-- Learnsets are the newest section and can continue to iterate.
+- `/codex/pokemon` is the stable Codex browse view for now.
+- `/codex/pokemon/[versionGroupSlug]/[speciesSlug]` is on Soft Clay (v3's
+  entry): the head, the hero, then quiet section cards. Iterate section by
+  section without reorganizing that foundation.
 
 ## Route And Scope Model
 
-Pokemon detail pages should be game-scoped:
+A Pokémon's entry is read in one base version group, its expansions included:
 
 ```txt
-/codex/pokemon/[gameSlug]/[speciesSlug]
+/codex/pokemon/[versionGroupSlug]/[speciesSlug]?form=[formSlug]
 ```
 
-The `gameSlug` determines the generation. Do not add generation to the URL when
-the selected game already provides that context.
+The version group determines the generation. Do not add generation or game to
+the URL; the group already provides that context.
 
 Important rules:
 
-- Pokemon cards from `/codex/pokemon` should link to the first supported game in
-  the first generation where the species appears.
-- Generation controls should list games ordered by seeded `sort_order`.
-- Game options are enabled when the selected Pokemon/form has seeded
-  availability in that game.
-- DLC availability should count as available for the game, but it must be
-  visually distinguished with a warning/info state that explains the required
-  DLC content scope.
-- Forms must be validated against the selected game. A form that appears in the
-  generation but not in the selected game must not be selectable for that game.
+- A game's slug or an expansion's child-group slug redirects permanently (308)
+  to its base group; an unknown group or species is a 404. The route's layout
+  settles both before the loading state streams.
+- A group from before the species existed, and `/codex/pokemon/[speciesSlug]`,
+  open the introduced generation's first base group the species can be found
+  in (Legends: Arceus for Wyrdeer, Let's Go for Meltan), as its generation
+  pill does. The Pokémon list's cards still open the generation's first base
+  group: the list does not read availability.
+- Generation pills list the generations the species exists in; each opens that
+  generation's first group the species can be found in. When a generation has
+  several base groups (Ruby and Sapphire, Emerald, FireRed and LeafGreen), a
+  version-group switch sits under the pills; a group the species can't be
+  found in is shown but disabled.
+- Expansion availability counts for the group, but Where to find lists each
+  expansion separately (and says "Not in the base game" when only an
+  expansion has it).
+- Forms must be validated against the selected group. A form that appears in
+  the generation but not in the group must not be selectable there. A
+  non-default form carries over when switching generation or group.
 
-## Preferred Page Structure
+## Page Structure
 
-Use a compact header/reference section followed by a two-column detail body.
+- **Head:** the Codex crumb ending in the Pokémon's name, which opens the
+  searchable species picker, and the generation pills (with the version-group
+  switch) on the right.
+- **Hero:** the art on its type tint beside the number, the name (the page's
+  `h1`), the form switch, the types, one sentence read from the data, and the
+  Shiny toggle.
+- **Sections:** Battle stats beside Type matchups, Abilities beside Pokédex
+  numbers (one alone takes the row), then Evolution, Learnset and Where to
+  find. An absent section is left out.
 
-Header/reference section:
+## Forms And Shiny
 
-- Left: `#0001 Bulbasaur` style species selector.
-- Right: compact generation/game buttons. The selected generation trigger should
-  include the selected game name, for example `VIII - Pokemon Sword`.
-- Generation menus open game options for that generation.
-- Species selector should support search because generation/game Pokemon lists
-  can be large.
+Forms are not only visual variants: they can change typing, stats, abilities,
+availability, and game validity, and Pokémon like Arceus have many. So:
 
-Body:
+- A form switch (`SegmentedControl`) in the hero appears only when the species
+  has more than one form valid in the group. Each form is its own page
+  (`?form=`, omitted for the default form), not a thumbnail rail in the
+  portrait.
+- Shiny is a direct toggle because it is only a visual alternate of the
+  selected form. It swaps only the active form's artwork and resets when the
+  form changes.
 
-- Left column: portrait, forms when applicable, and evolution line when
-  applicable.
-- Right column: cards for core data, stats, type matchups, abilities, Pokedex,
-  availability, learnsets, and later breeding/entry sections.
-
-## Left Section Direction
-
-The left side should be a simple vertical stack of cards. The portrait is its
-own card. Forms and evolution line use normal Pokemon detail section cards.
-
-Current intended parts:
-
-- Pokemon portrait.
-- Shiny control.
-- Form selection.
-- Evolution line.
-
-Portrait:
-
-- Use the active form image on a quiet neutral specimen field with only a soft
-  type-colored glow. Do not use realistic type scenery.
-- Render the shiny toggle in the top-right corner of the portrait.
-- The shiny toggle swaps only the active form artwork and resets when the
-  selected form changes.
-
-Forms:
-
-- Do not render a Forms section when the Pokemon has no additional forms.
-- When forms exist, render a dedicated Forms card below the portrait.
-- Show each form as a list option with image, National number, form name, and
-  type identity.
-- Selection should be represented by the route/query state and a visible
-  selected row style.
-
-Evolution line:
+## Evolution Line
 
 - Hide the section when the evolution line has only one Pokemon.
-- Keep simple level evolutions readable.
-- Use compact labels/icons for non-level requirements.
-- Resolve every evolution family into readable path rows. This handles mixed
+- Keep simple level evolutions readable; use compact labels and icons for
+  non-level requirements, as an arrow over what it takes between two stages.
+- Single evolutions run on in a row; where the line branches, the branches sit
+  below, each with what it takes over its first stage. This handles mixed
   branch lengths such as Applin -> Flapple/Appletun/Dipplin -> Hydrapple.
-- Highlight the selected node with the Pokemon type-colored selected/hover
-  treatment used across detail links, while keeping the node surface neutral.
+- Every stage opens its own entry in the same group. Stages are flat on the
+  inset fill; the Pokémon you're reading sits on its type tint
+  (`aria-current="page"`).
 
-## Form Selection Decision
+## Section Direction
 
-Do not keep a vertical rail of many tiny form thumbnails inside the portrait.
+Keep each section focused and quiet; lively comes from the art and type
+colour only. Preserve the section order; visual iterations happen inside a
+section rather than moving sections around.
 
-Reason:
-
-- Forms are not only visual variants. They can change typing, stats, abilities,
-  availability, and game validity.
-- Pokemon like Arceus can have many forms, so form selection needs a readable
-  option surface.
-- Keeping forms outside the portrait keeps the portrait focused on artwork.
-
-Current pattern:
-
-- Shiny remains a small direct toggle because shiny is only a visual alternate
-  of the selected form.
-- Forms render in a dedicated Forms card when additional forms exist.
-- Each form row shows enough context to understand the selection:
-  - form image
-  - National number
-  - form name
-  - type identity
-- The route query parameter stores selected form state.
-- For many-form Pokemon, keep the list readable first. Add search or grouping
-  only when the concrete UI need appears.
-
-## Right Section Direction
-
-The right section should stay card-based and readable. Use one card per section
-and keep each card focused. Preserve the current section order and column
-placement; visual iterations should happen inside each card rather than moving
-cards between the left and right stacks.
-
-Current cards:
-
-- Core Data: type, height, weight, introduced generation.
-- Battle Stats: generation-aware stat rows, including Gen I Special handling.
-- Type Matchups: compact all-type effectiveness grid. The top row shows type
-  icons, the value row shows effectiveness values, and tooltips explain the
-  attacking type against the current Pokemon typing.
-- Abilities: slot, ability, and effect rows.
-- Pokedex: dex name, number, and future entry text.
-- Availability: content, method, and notes rows for the selected game/scope.
-- Learnsets: searchable/filterable move table with method, move, type,
-  category, power, accuracy, and PP.
+- Battle stats: generation-aware stat rows, including Gen I Special.
+- Type matchups: the all-type effectiveness grid, explained per attacking type
+  against the current typing.
+- Abilities: slot, ability and effect, only where the group has abilities.
+- Pokédex numbers: the group's Pokédexes and the Pokémon's number in each.
+- Learnset: searchable, filterable moves with method, type, category, power,
+  accuracy and PP for the group.
+- Where to find: one row per game in the group, then its expansions.
 
 On narrow screens, wide data rows become labelled stacked rows inside the same
-card. They must not widen the document or require page-level horizontal
-scrolling. The type-matchup section may use a compact named grid on narrow
-screens while retaining the all-type comparison grid on wider screens.
+section. They must not widen the document or require page-level horizontal
+scrolling.
 
 Known next areas:
 
-- Pokedex entries.
+- Pokédex entries.
 - Breeding data.
 - Further learnset filtering and presentation polish.
 - Richer evolution requirement visuals once item/method images are available.
@@ -176,8 +124,8 @@ Accepted future actions:
 
 Codex should not own those mutations. The page should pass selected reference
 context to the owning module, such as Mainline, and that module should validate
-and execute the action. Useful context includes species, form, selected game,
-version group, availability scope, and DLC or transfer requirements.
+and execute the action. Useful context includes species, form, version group,
+availability scope, and DLC or transfer requirements.
 
 `Mark as target` is intentionally lighter than adding a planned member. It lets
 the user remember a Pokemon for a future play or team idea before committing to

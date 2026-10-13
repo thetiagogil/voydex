@@ -30,7 +30,8 @@ the evidence for exact implementation details.
 ### Mainline
 
 - `/mainline/plays` is an authenticated, real-data Play browse with URL-backed
-  Search, Status, Game, and Sort controls plus compact enriched summary cards.
+  Search, Game, Generation, and Sort controls, grouped by status, plus compact
+  enriched summary cards.
 - `/mainline/plays/[playId]` mounts a route-backed Play shell. The shared Play
   header and navigation persist while nested pages replace only the workspace
   content.
@@ -47,7 +48,7 @@ the evidence for exact implementation details.
   `/team/history` as the focused, searchable Team-event projection. Its
   timeline exposes event-time artwork and event details inline at every
   breakpoint without a focused detail sheet. The Play shell uses the
-  shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
+  shared Navigation Menu pattern and shows
   the complete Overview, Team, Progress, History, and Settings hierarchy.
   Progress Story is mounted at `/progress/story`, and `/progress` redirects to
   it. Its read workspace joins each selected content scope into one searchable,
@@ -108,10 +109,15 @@ the evidence for exact implementation details.
 
 ### Codex
 
-- Pokémon browse and game-scoped Pokémon detail are implemented with seeded
-  reference data.
-- Games browse, game detail, and game Pokedex routes are implemented.
-- Species-only Pokémon detail routes redirect to a default supported game.
+- Pokémon browse and version-group-scoped Pokémon detail
+  (`/codex/pokemon/[versionGroupSlug]/[speciesSlug]`) are implemented with
+  seeded reference data.
+- Games browse, the version group page (`/codex/games/[versionGroupSlug]`,
+  `?version=` picks the game) and its Pokédex routes are implemented; an
+  expansion's Pokédexes appear under the base group.
+- Game slugs and expansion child-group slugs redirect (308) to the base group,
+  unknown slugs are a 404, and species-only Pokémon routes open the group the
+  species was introduced in.
 
 ### Global Features
 
@@ -137,6 +143,16 @@ Log in, and the not-found and error pages. Each screen's old parts were deleted
 as it moved. The first slice's two open calls are settled (owner, 2026-10-13):
 section cards keep the 3px clay edge, and the main button stays in Nunito.
 
+A behaviour and reuse pass against v3 is done: Codex routes are version-group
+scoped, the Team Roster follows v3 (head, stickers, selected Pokémon; Plan,
+Analysis and History stay in the Team menu), Overview and Story share one
+milestone order, stamp grid, objective card and marker, Pokédex and
+Collectibles share one optimistic marking flow, Home and Intro draw the real
+Mainline components, and every route group has an error page. Signed-in
+screens still need a desktop and phone browser check. Waiting on the owner's
+decision: the Play's History tab, Add Pokémon, the You page, and the password
+and email flows (Forgot password, New password, Check your email).
+
 Still to build, per the brief: the new screens (Mainline home, Play History
 and Play settings, New Play, Start a Play and the auth recovery screens), then
 the parked ones (Team Planner and My Plans, Statistics, Collection, Welcome,
@@ -146,9 +162,9 @@ redesign keeps; their visual wording predates Soft Clay, and the
 
 The current production baseline is Plays Browse:
 
-- URL-backed Search, Status, Game, and Sort controls are implemented, including
-  debounced updates, result counts, filtered-empty recovery, filter reset,
-  accessible in-control names, and compact equal 40-pixel control heights.
+- URL-backed Search, Game, Generation, and Sort controls are implemented,
+  including debounced updates, result counts, filtered-empty recovery, filter
+  reset, and accessible in-control names. Plays are grouped by status.
 - Each Play row now composes game cover, Play and game identity, update date,
   six Active-Team slots, honest overall completion, and one open cue from
   owner-scoped summary, reference-game, Overview, and Team reads.
@@ -198,11 +214,11 @@ checkpoint:
   focused detail sheet. Populated and blank fixtures were browser-checked at
   desktop, tablet, and phone widths without horizontal overflow or console
   errors.
-- A compact Team Plan Card appears directly below the roster for linked Plans,
-  leads with the Plan identity, reports whether the current Team is following
-  it, and separates target coverage from unplanned-member context. Its enabled
-  View plan action opens the full-width `/team/plan` comparison while keeping
-  Team active and preserving the Play shell. That workspace now exposes three
+- The Roster holds only the head, the stickers and the selected Pokémon;
+  `?pokemon=[playPokemonId]` opens it on one member (an Overview sticker links
+  there). The linked Plan's full-width `/team/plan` comparison is reached from
+  the Team menu while keeping Team active and preserving the Play shell. That
+  workspace exposes three
   explanatory-tip summary metrics and compact rows aligned to one shared slot,
   identity, status, Tracked identity, and action grid. Metrics and build/move
   status icons share one fast-hover, focus, and pinnable click/touch behavior.
@@ -221,13 +237,10 @@ checkpoint:
   automatic comparison status, and the Build section is absent when none apply.
   Past Members has no roster link until its focused destination is
   implemented; selected detail remains the first right-side section.
-- Team Quick Analysis remains in the supporting right-side hierarchy as a
-  compact evidence preview and now routes to the focused Team Analysis view.
-  Recent Team Events loads and hydrates only Pokémon-specific roster and
-  lifecycle changes; Play progress snapshots and Hall of Fame entries no longer
-  qualify. Its full Team History destination now provides search, event-type
-  filtering, canonical newest/oldest ordering, and event-time identity detail
-  without turning the projection into an editor.
+- Team History admits only Pokémon-specific roster and lifecycle changes;
+  Play progress snapshots and Hall of Fame entries don't qualify. It provides
+  search, event-type filtering, canonical newest/oldest ordering, and
+  event-time identity detail without turning the projection into an editor.
 - Decorative section-title icons and the permanent empty Plan card were
   removed. A linked Plan now exposes one to six ordered targets and is compared
   at read time with existing Play Pokémon. Matching is deterministic and
@@ -243,95 +256,36 @@ checkpoint:
   slice. Their selected-member controls are visibly disabled; the exact-game
   Codex and focused Team Analysis routes are active.
 
-Pokémon Browse is a completed production design checkpoint:
+Codex (Soft Clay, version-group scoped):
 
-- Result cards now use one continuous specimen surface for artwork and identity,
-  with named type markers beside the number-and-name block instead
-  of realistic type scenery, dark poster overlays, or an internal divider.
-- The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide pages. Generation headings retain the section `h2`
-  while card species names use nested `h3` headings.
-- Browse controls use the shared label-free control treatment with explicit
-  accessible names. Incremental results append automatically in small batches
-  before the user reaches the boundary, with a manual compatibility fallback
-  when scroll observation is unavailable.
-- The exact-game, URL-state, result announcement, and filtered-empty recovery
-  gaps in the accepted functional contract remain intentionally out of this
-  visual slice.
-
-Pokémon Detail is the current completed visual checkpoint:
-
-- The existing information architecture is preserved: selectors remain at the
-  top, portrait/forms/evolution remain in the left stack, and the seven
-  reference sections retain their right-stack order.
-- The realistic portrait scenery has been replaced by the same neutral specimen
-  field and restrained type accent used by Browse. Existing Shiny and form
-  behavior remain unchanged.
-- Detail sections use the shared card grammar, heading titles, type badges,
-  and one semantic primary treatment for stat
-  bars and effectiveness emphasis.
-- Wide reference rows become labelled stacked rows inside their existing cards
-  on narrow screens, removing page-level horizontal overflow without moving or
-  hiding their data.
-
-Games Browse is a completed production design checkpoint:
-
-- Dark square-poster overlays have been replaced by full, uncropped cover art in
-  the same compact `4:3` card rhythm as Pokémon Browse. Release year and region
-  sit above the game identity on the same card.
-- The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide pages. Generation headings remain `h2` sections,
-  while exact game titles use nested `h3` headings inside accessible whole-card
-  links.
-- Search, Generation, Game type, and Region use the label-free control
-  treatment without forcing four full-width controls before phone results.
-- URL-backed filters, Platform and `More filters`, result announcements, and
-  return-focus restoration in the accepted functional contract remain outside
-  this visual slice.
-
-Game Detail is a completed production design checkpoint:
-
-- The existing return, cover, identity, facts, reference action, named
-  Pokédexes, and related-games order remains unchanged and shares the card,
-  heading and action treatment of Pokémon Detail and Games Browse.
-- Platforms, Available Pokémon, and Game type are compact labelled facts
-  instead of icon tiles, and the generic game-type description no longer poses
-  as a game-specific synopsis.
-- Named Pokédexes use flat divided destination rows in normal document flow
-  without nested row Cards or an inner vertical scroller. Related-game cards
-  retain complete uncropped cover art and explicit accessible destinations.
-- Representative seeded routes have been checked at desktop, tablet, and phone
-  widths without page-level horizontal overflow. The Browse Pokémon, named
-  Pokédex, related-game, and Back to games destinations retain their existing
-  behavior.
-
-Game Pokédex is a completed production design checkpoint:
-
-- Each route now has a semantic named-Pokédex heading with exact game,
-  generation, and result-count context. Multi-Pokédex games keep the selector
-  visible as primary page scope instead of collapsing it into a secondary
-  utility menu; single-Pokédex games rely on the heading without showing a
-  redundant selector.
-- Wide pages retain the exact-game semantic comparison table with explicit
-  species links. Phones use compact divided rows that keep
-  local number, sprite, species, National number, and types visible; tablets
-  add labelled base-stat comparison without widening the document.
-- Search and Type retain their existing client-side behavior and now expose a
-  selected-Pokédex filtered-empty recovery. Representative Red/Kanto and
-  Sun/Alola routes have been checked at desktop, tablet, and phone widths with
-  no page-level horizontal overflow, and named-Pokédex switching plus
-  exact-game Pokémon destinations remain intact.
-- URL-backed filter/sort state, explicit incremental loading, optional-content
-  grouping, and the accepted DLC read-model expansion remain functional work
-  outside this visual slice.
+- Every page opens on `CodexHead`. Version-group segments resolve through one
+  rule (`resolveVersionGroupRoute`); route layouts settle the 404 or 308
+  before the loading state streams. Routes are in
+  [Navigation And Routes](./product/navigation-and-routes.md).
+- Pokémon Browse: Search, Sort (National number, Name), generation pills and
+  type dots over `CodexPokemonCardLink` cards, grouped by introduced generation
+  under its region and appended as you scroll with a manual fallback. Each
+  card opens the first base group of its introduced generation. Filters are
+  client state; a query on `/codex/pokemon` redirects to the bare path.
+- Pokémon entry: see [Codex Pokémon Detail](./design/codex-pokemon-detail.md).
+- Games Browse: Search and the kind of game in the URL (`q`, `kind`), newest
+  or oldest order, grouping by generation or region, and `GameShelfCard`
+  covers on a game-coloured stage.
+- The version group page: the cover with a version switch, facts, the group's
+  Pokédexes (its own, then its expansions', National last) and related games.
+- Game Pokédex: the named Pokédex as page scope with its switcher, Search,
+  Type, Sort (Regional number, National number, Name) and a Cards or Table
+  view; filter state is client-only.
 
 ## Next Chat Handoff
 
 All existing views are on Soft Clay on `claude/soft-clay-redesign`, pending
-the owner's review; next are the review's fixes, then the new screens listed
-in the checkpoint above. On the
-next computer, run `git status`, `git log -1 --oneline`, and `npm install`
-before editing. Preserve unrelated work and confirm the linked
+the owner's review, and the behaviour and reuse pass against v3 is done (see
+the checkpoint above). Next: browser-check the signed-in screens at desktop and
+phone widths, get the owner's decision on the Play's History tab, Add Pokémon,
+the You page and the password and email flows, then the review's fixes and
+the new screens. On the next computer, run `git status`,
+`git log -1 --oneline`, and `npm install` before editing. Preserve unrelated work and confirm the linked
 Supabase migration list before any later remote database write.
 
 The completed Team slice includes Roster, the read-only Team Plan comparison,
@@ -408,12 +362,11 @@ selected behavior that future work must preserve belongs in versioned docs.
 - Codex reference-query performance has not yet been profiled under realistic
   usage.
 - Pokémon Browse still maps latest available attributes to result cards before
-  opening an introductory-generation game route, so the implemented card and
-  destination can disagree until the accepted exact-game query correction is
-  built.
-- Codex Game Pokédex search and Type state remain client-only, all matching
-  entries render at once, and optional-content Pokédexes are not yet grouped
-  into the owning game route. Those accepted functional gaps remain.
+  opening the introduced generation's version group, so the card and the entry
+  can disagree until the accepted scoped query correction is built.
+- Codex Pokémon Browse and Game Pokédex filter state remains client-only, and
+  every matching Game Pokédex entry renders at once. Those accepted functional
+  gaps remain.
 - Plays Browse still needs archived visibility, secondary filters, explicit
   recovery states, and incremental loading before its accepted contract is
   complete.
