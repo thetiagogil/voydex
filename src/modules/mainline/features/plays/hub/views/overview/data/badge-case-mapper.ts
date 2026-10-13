@@ -1,4 +1,4 @@
-import type { MainlinePlayMilestone } from "@/modules/mainline/features/plays/hub/types";
+import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -6,17 +6,18 @@ import {
 import type { Json } from "@/shared/types/database.types";
 
 export type MainlinePlayBadgeCaseMilestone = Pick<
-  MainlinePlayMilestone,
+  OverviewMilestone,
   | "badge_refs"
   | "completed_at"
   | "is_completed"
   | "milestone_id"
   | "milestone_name"
   | "milestone_type_slug"
-  | "sort_order"
+  | "version_group_id"
 >;
 
 export type MainlinePlayBadgeCaseRows = {
+  /* In Story's order (see orderOverviewMilestones). */
   milestones: MainlinePlayBadgeCaseMilestone[];
   types: { id: number; slug: string }[];
 };
@@ -62,8 +63,9 @@ export const getBadgeTypeIds = (
 ) => milestones.map((milestone) => getFirstBadgeTypeId(milestone.badge_refs));
 
 /*
- * The badge case: every gym badge in order, then the Champion milestone as the
- * League's gold stamp. A Play whose game has no gyms has no badge case.
+ * The badge case: every gym badge in Story's order, then the main game's
+ * Champion milestone as the League's gold stamp. A DLC's own champion never
+ * takes that place. A Play whose game has no gyms has no badge case.
  */
 export const buildMainlinePlayBadgeCase = (
   rows: MainlinePlayBadgeCaseRows,
@@ -78,7 +80,9 @@ export const buildMainlinePlayBadgeCase = (
   }
 
   const league = rows.milestones.find(
-    (milestone) => milestone.milestone_type_slug === "champion",
+    (milestone) =>
+      milestone.milestone_type_slug === "champion" &&
+      milestone.version_group_id === gyms[0].version_group_id,
   );
   const ordered = league ? [...gyms, league] : gyms;
   const nextMilestone = ordered.find((milestone) => !milestone.is_completed);

@@ -26,18 +26,18 @@ export const MainlinePlayProgressStory = ({
 }) => {
   const model = useMemo(() => buildStoryProgressModel(data), [data]);
   const usesDetailSheet = useMainlinePlayDetailSheetLayout();
-  const recordMilestone =
+  const recordTarget =
     model.scopes
       .flatMap((scope) =>
         scope.sections.flatMap((section) => section.milestones),
       )
-      .find(
-        (milestone) =>
-          milestone.id === recordMilestoneId &&
-          milestone.isAvailable &&
-          !milestone.isCompleted,
-      ) ?? null;
-  const initialMilestoneId = recordMilestone?.id ?? model.defaultMilestoneId;
+      .find((milestone) => milestone.id === recordMilestoneId) ?? null;
+  /* A locked or already recorded target is selected so its state shows, but not opened for recording. */
+  const recordMilestone =
+    recordTarget?.isAvailable && !recordTarget.isCompleted
+      ? recordTarget
+      : null;
+  const initialMilestoneId = recordTarget?.id ?? model.defaultMilestoneId;
   const defaultScope =
     model.scopes.find((scope) =>
       scope.sections.some((section) =>

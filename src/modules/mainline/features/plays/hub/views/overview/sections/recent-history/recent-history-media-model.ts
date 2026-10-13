@@ -5,17 +5,16 @@ import {
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import type { Json } from "@/shared/types/database.types";
 
-import type { TimelineMediaItem } from "./recent-history-types";
-
 type JsonRecord = Record<string, Json | undefined>;
 
-const timelineMediaLimit = 6;
+/* The Pokémon a moment is about after it happened: what it evolved or changed into, or what replaced it. */
+const outcomeRoles = ["to", "replacement", "subject"];
 
-const isJsonRecord = (value: Json | null | undefined): value is JsonRecord => {
+const isJsonRecord = (value: Json | undefined): value is JsonRecord => {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 };
 
-const getJsonString = (record: JsonRecord, keys: string[]): string | null => {
+const getString = (record: JsonRecord, keys: string[]) => {
   for (const key of keys) {
     const value = record[key];
 
@@ -27,101 +26,44 @@ const getJsonString = (record: JsonRecord, keys: string[]): string | null => {
   return null;
 };
 
-const getJsonBoolean = (record: JsonRecord, keys: string[]): boolean | null => {
-  for (const key of keys) {
-    const value = record[key];
-
-    if (typeof value === "boolean") {
-      return value;
-    }
-  }
-
-  return null;
-};
-
-const getJsonArray = (value: Json | null | undefined): Json[] => {
-  if (Array.isArray(value)) {
-    return value;
-  }
-
-  if (!isJsonRecord(value)) {
-    return [];
-  }
-
-  const nestedArrays = ["items", "members", "pokemon", "refs", "snapshots"];
-
-  for (const key of nestedArrays) {
-    const nestedValue = value[key];
-
-    if (Array.isArray(nestedValue)) {
-      return nestedValue;
-    }
-  }
-
-  return [value];
-};
-
-const getTimelineMediaFromRecord = (
-  record: JsonRecord,
-  index: number,
-): TimelineMediaItem => {
-  const name =
-    getJsonString(record, [
-      "nickname",
-      "display_name",
-      "pokemon_name",
-      "species_name",
-      "form_name",
-      "target_species_name",
-      "source_species_name",
-      "name",
-    ]) ?? "Unknown Pokemon";
-  const spriteSlug = getJsonString(record, [
-    "sprite_slug",
-    "form_sprite_slug",
-    "target_sprite_slug",
-    "source_sprite_slug",
-  ]);
-  const spriteUrl = getJsonString(record, [
-    "sprite_url",
-    "image_url",
-    "artwork_url",
-    "target_sprite_url",
-    "source_sprite_url",
-  ]);
-  const isShiny = getJsonBoolean(record, ["is_shiny", "shiny"]);
+const getImageUrl = (record: JsonRecord) => {
   const imageForm = {
-    name,
-    sprite_slug: spriteSlug,
-    sprite_url: spriteUrl,
+    name:
+      getString(record, ["nickname", "species_name", "form_name", "name"]) ??
+      "Pokémon",
+    sprite_slug: getString(record, ["sprite_slug", "form_sprite_slug"]),
+    sprite_url: getString(record, ["sprite_url", "image_url", "artwork_url"]),
   };
-  const imageUrl = isShiny
-    ? (getPokemonFormShinyImageUrl(imageForm) ??
-      getPokemonFormImageUrl(imageForm))
-    : getPokemonFormImageUrl(imageForm);
-  const identityKey =
-    getJsonString(record, ["id", "play_pokemon_id", "pokemon_id", "slug"]) ??
-    name;
 
-  return {
-    imageUrl,
-    key: `${identityKey}-${index}`,
-    name,
-  };
+  return record.is_shiny === true || record.shiny === true
+    ? (getPokemonFormShinyImageUrl(imageForm) ??
+        getPokemonFormImageUrl(imageForm))
+    : getPokemonFormImageUrl(imageForm);
 };
 
-export const getTimelineMedia = (
+/*
+ * The art for a moment's medallion: the outcome Pokémon of an evolution, form
+ * change or replacement, else the first Pokémon with an image.
+ */
+export const getTimelineEventImageUrl = (
   event: MainlinePlayTimelineEvent,
-): TimelineMediaItem[] => {
-  const mediaRecords = [
-    ...getJsonArray(event.pokemon_refs),
-    ...getJsonArray(event.team_snapshots),
-  ];
+): string | null => {
+  const refs = Array.isArray(event.pokemon_refs)
+    ? event.pokemon_refs.filter(isJsonRecord)
+    : [];
+  const withImages = refs
+    .map((record) => ({ imageUrl: getImageUrl(record), record }))
+    .filter((ref): ref is { imageUrl: string; record: JsonRecord } =>
+      Boolean(ref.imageUrl),
+    );
 
-  return mediaRecords
-    .map((record, index) =>
-      isJsonRecord(record) ? getTimelineMediaFromRecord(record, index) : null,
-    )
-    .filter((item): item is TimelineMediaItem => Boolean(item))
-    .slice(0, timelineMediaLimit);
+  for (const role of outcomeRoles) {
+    const match = withImages.find((ref) => ref.record.role === role);
+
+    if (match) {
+      return match.imageUrl;
+    }
+  }
+
+  return withImages[0]?.imageUrl ?? null;
 };

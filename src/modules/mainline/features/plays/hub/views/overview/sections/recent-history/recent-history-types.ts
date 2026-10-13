@@ -12,9 +12,3 @@ export type TimelineEventDisplay = {
   label: string;
   medallion: TimelineEventMedallion;
 };
-
-export type TimelineMediaItem = {
-  imageUrl: string | null;
-  key: string;
-  name: string;
-};

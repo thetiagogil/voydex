@@ -4,7 +4,6 @@ import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/pl
 import type {
   MainlineChallengeRule,
   MainlinePlayGameContextRows,
-  MainlinePlayMilestoneRows,
   MainlinePlayOverviewData,
   MainlinePlayOverview,
   MainlinePlayRuleRows,
@@ -20,10 +19,12 @@ import type {
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import { buildMainlinePlayBadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import {
-  buildMainlinePlayBadgeCase,
-  type MainlinePlayBadgeCaseRows,
-} from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+  getOverviewMilestoneSummary,
+  orderOverviewMilestones,
+  type MainlinePlayOverviewMilestoneRows,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
@@ -54,17 +55,20 @@ export const buildMainlinePlayShellData = (params: {
 };
 
 export const buildMainlinePlayOverviewData = (params: {
-  badgeCaseRows: MainlinePlayBadgeCaseRows;
-  milestones: MainlinePlayMilestoneRows;
+  milestoneRows: MainlinePlayOverviewMilestoneRows;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreviewRows: MainlinePlayTeamPreviewRows;
   timelinePreview: MainlinePlayTimelineEvent[];
 }): MainlinePlayOverviewData => {
+  const orderedMilestones = orderOverviewMilestones(params.milestoneRows);
+
   return {
-    badgeCase: buildMainlinePlayBadgeCase(params.badgeCaseRows),
-    lastCompletedMilestone: params.milestones.lastCompletedMilestone,
-    nextMilestone: params.milestones.nextMilestone,
+    badgeCase: buildMainlinePlayBadgeCase({
+      milestones: orderedMilestones,
+      types: params.milestoneRows.types,
+    }),
+    ...getOverviewMilestoneSummary(orderedMilestones),
     overview: params.overview,
     play: params.play,
     teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),

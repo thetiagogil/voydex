@@ -14,7 +14,7 @@ const milestone = (
   milestone_id: 1,
   milestone_name: "Milestone",
   milestone_type_slug: "gym",
-  sort_order: 1,
+  version_group_id: 1,
   ...overrides,
 });
 
@@ -42,13 +42,11 @@ describe("buildMainlinePlayBadgeCase", () => {
           badge_refs: [{ type_id: 10 }],
           milestone_id: 2,
           milestone_name: "Water Badge",
-          sort_order: 2,
         }),
         milestone({
           milestone_id: 3,
           milestone_name: "Become Champion",
           milestone_type_slug: "champion",
-          sort_order: 3,
         }),
       ],
       types: [
@@ -69,6 +67,31 @@ describe("buildMainlinePlayBadgeCase", () => {
       ["gym", "earned", "grass"],
       ["gym", "next", "water"],
       ["league", "todo", null],
+    ]);
+  });
+
+  it("keeps a DLC champion out of the League stamp", () => {
+    const badgeCase = buildMainlinePlayBadgeCase({
+      milestones: [
+        milestone({ milestone_id: 1, milestone_name: "Grass Badge" }),
+        milestone({
+          milestone_id: 2,
+          milestone_name: "Become Champion",
+          milestone_type_slug: "champion",
+        }),
+        milestone({
+          milestone_id: 3,
+          milestone_name: "DLC Champion",
+          milestone_type_slug: "champion",
+          version_group_id: 2,
+        }),
+      ],
+      types: [],
+    });
+
+    expect(badgeCase?.stamps.map((stamp) => stamp.name)).toEqual([
+      "Grass Badge",
+      "Become Champion",
     ]);
   });
 });
