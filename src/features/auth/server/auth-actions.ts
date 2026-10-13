@@ -3,14 +3,13 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { appRoutes } from "@/config/routes";
+import { type AuthMode, getAuthPageHref } from "@/features/auth/auth-mode";
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
   getSafeAuthRedirectPath,
 } from "@/features/auth/auth-redirects";
 import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-
-type AuthMode = "log-in" | "sign-up";
 
 const getSafeNext = async (formData: FormData) => {
   return getSafeAuthRedirectPath(
@@ -42,14 +41,7 @@ const redirectWithAuthError = (
   mode: AuthMode,
   next: string,
 ): never => {
-  const params = new URLSearchParams({ error: message });
-  if (mode === "sign-up") {
-    params.set("mode", mode);
-  }
-  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
-    params.set("next", next);
-  }
-  redirect(`/login?${params.toString()}`);
+  redirect(getAuthPageHref({ error: message, mode, next }));
 };
 
 const getRequiredString = (

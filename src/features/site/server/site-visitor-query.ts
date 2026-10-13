@@ -1,11 +1,12 @@
 import { getOptionalUserEmail } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
-export type HomePageData = {
+export type SiteVisitor = {
   isAuthenticated: boolean;
 };
 
-export const getHomePageData = async (): Promise<HomePageData> => {
+/* Whether the visitor is signed in, so a front door offers Continue instead of Sign up. */
+export const getSiteVisitor = async (): Promise<SiteVisitor> => {
   const supabase = await createServerSupabaseClient();
   const userEmail = await getOptionalUserEmail(supabase);
 

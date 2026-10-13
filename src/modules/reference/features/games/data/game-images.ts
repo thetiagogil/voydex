@@ -50,3 +50,7 @@ export const getGameCoverImageUrl = (game: Game): string | null => {
 
   return getSupabasePublicStorageUrl(getDefaultGameCoverStoragePath(game.slug));
 };
+
+/* A game's default cover, by slug, for pages that only know the game's slug. */
+export const getGameCoverImageUrlBySlug = (gameSlug: string): string | null =>
+  getSupabasePublicStorageUrl(getDefaultGameCoverStoragePath(gameSlug));
