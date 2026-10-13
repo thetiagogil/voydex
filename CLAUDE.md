@@ -172,6 +172,9 @@ Report exact commands and outcomes; never claim a check that was not run.
 - Volatile implementation status belongs only in
   [Project Status](./docs/project-status.md).
 - Product and database facts belong in their canonical docs or source files.
+- Commits, pull requests and releases follow
+  [Workflow](./docs/app/workflow.md): short, plain, written as the owner, and
+  never mention AI (no co-author, generated-by or session lines).
 - Work is tracked as GitHub Issues with `type:` and `area:` labels; explain
   any GitHub, Vercel or Supabase feature in plain words when switching it on.
 - Computer-change handoffs update only the existing `Next Chat Handoff` in
