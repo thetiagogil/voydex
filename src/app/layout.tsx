@@ -5,7 +5,7 @@ import {
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 import type { Metadata } from "next";
-import { fredoka, nunito } from "./fonts";
+import { nunito } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", fredoka.variable, nunito.variable)}
+      className={cn("h-full", nunito.variable)}
       suppressHydrationWarning
     >
       <body
