@@ -30,7 +30,9 @@ the chrome.
 
 - Screens not yet moved inherit the new tokens and primitives immediately, so
   they look partly new until their own pass.
-- The V1 styling docs and the journal design system document are removed;
-  [Design System](../app/design-system.md) and the
-  [Soft Clay Brief](../design/soft-clay-brief.md) replace them. Their history
-  stays in Git.
+- The whole V1 design workspace (`docs/design/v1`, including its functional
+  screen-family contracts) and the journal design system document are removed;
+  [Design System](../app/design-system.md), the
+  [Soft Clay Brief](../design/soft-clay-brief.md) and the product docs replace
+  them. They remain in Git history at `65ed2535`, the last commit before the
+  redesign.

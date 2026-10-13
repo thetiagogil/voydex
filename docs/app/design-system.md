@@ -34,17 +34,17 @@ Use the role tokens as Tailwind colours (`bg-surface`, `text-ink-2`,
 `bg-primary`) are aliases of the same values so the primitives keep working;
 new code prefers the role names.
 
-| Group          | Tokens                                                                                                                     |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2`, `ink-3`, `on-ink`                           |
-| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                   |
-| Action         | `action #3B8360` and `action-lip`, `action-soft`, `link`, `focus`                                                          |
-| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `ball`                               |
-| Meadow         | `sky`, `hill`, `hill-2`                                                                                                    |
-| Context        | `game`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `on-game`, `select-soft`, `select-ink`                          |
-| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                     |
-| Shadows        | `shadow-card` (clay edge), `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-action`, `shadow-game` |
-| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 44 60`; nothing under 12px                                                             |
+| Group          | Tokens                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2`, `ink-3`, `on-ink`, `ink-tint` (secondary text on type or game tints) |
+| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                            |
+| Action         | `action #3B8360` and `action-lip`, `action-soft`, `link`, `focus`                                                                                   |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `ball`                                                        |
+| Meadow         | `sky`, `hill`, `hill-2`                                                                                                                             |
+| Context        | `game`, `game-strong`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `select-soft`, `select-ink`                                               |
+| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                              |
+| Shadows        | `shadow-card` (clay edge), `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-action`, `shadow-game`                          |
+| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 44 60`; nothing under 12px                                                                                      |
 
 The action green holds 4.5:1 with white. Focus is always the action green
 outline, inside a Play too.
@@ -76,7 +76,13 @@ outline, inside a Play too.
 
 - **Game colour is a Play's identity, never a theme.** A Play's shell wraps its
   content in `game-scope` with `getGameColourStyle(gameSlug)`; inside it,
-  `game-*` tokens follow that game. Pages without a Play wear Voydex green.
+  `game-*` tokens follow that game. The shell also sets the same values on the
+  document root while the Play is open, so portalled menus, sheets and dialogs
+  wear it too. Pages without a Play wear Voydex green.
+- **Labelled fills use `game-strong`:** the game colour darkened only as far as
+  a white label needs for 4.5:1 (computed per game in TypeScript). The active
+  Play tab and the start medallion use it; `game-deep` and `select-ink` are
+  mixed deep enough to hold 4.5:1 on their tints for every game.
 - **Fill** only on the Play header and docked bar, the active Play tab, and
   places where one Play or game is the subject (cover tiles, the start
   medallion). **Accent** elsewhere in a Play: progress bars, the
@@ -128,21 +134,21 @@ secondaries; `destructive` is the danger outline), `Card` (`default` clay edge,
 
 Voydex components:
 
-| Component                            | Where                                                                        | Notes                                                      |
-| ------------------------------------ | ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Play header and docked bar           | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx` | Game fill, dotted texture, Fredoka name, cover, game lip   |
-| Play tabs                            | `mainline-play-navigation.tsx`                                               | `NavigationMenuControl*` with `variant="tab"`              |
-| `PokemonCard`                        | `modules/reference/features/pokemon/components/pokemon-card.tsx`             | The one Pokémon card: `plain`, `caught`, `seen`, `missing` |
-| `PokemonSticker`, `PokemonEmptySlot` | `.../pokemon/components/pokemon-sticker.tsx`                                 | Owned Pokémon only; empty slots are dashed                 |
-| `PokemonTypeBadge`                   | `.../pokemon/components/pokemon-type-icon.tsx`                               | TypeChip (`icon-label`, `label`) and TypeDot (`icon`)      |
-| `PokemonPortrait`                    | `.../pokemon/components/pokemon-portrait.tsx`                                | Art on its soft type-tint circle                           |
-| `Medallion`, `RecordRow`             | `modules/mainline/features/plays/shared/components`                          | Moments: badge, gold, Pokémon, note, status, start         |
-| `BadgeStamp`                         | `modules/mainline/features/plays/shared/components/badge-stamp.tsx`          | The only thing that tilts at rest                          |
-| `SegmentedControl`                   | `src/shared/components/segmented-control.tsx`                                | `pills` for filters, `segment` for modes                   |
-| `StatusBadge`                        | `src/shared/components/status-badge.tsx`                                     | Small meaning marks                                        |
-| `EmptyState`                         | `src/shared/components/empty-state.tsx`                                      | One Pokémon on grass, one sentence, at most two actions    |
-| `PageHeader`, `DetailSectionCard`    | `src/shared/components`                                                      | Fredoka heading, quiet card                                |
-| `LogoMark`                           | `src/shared/components/brand/logo-mark.tsx`                                  | The "V" tile, a placeholder until the logo is designed     |
+| Component                            | Where                                                                        | Notes                                                                          |
+| ------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Play header and docked bar           | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx` | Game fill, dotted texture, Fredoka name, cover, game lip                       |
+| Play tabs                            | `mainline-play-navigation.tsx`                                               | `NavigationMenuControl*` with `variant="tab"`                                  |
+| `PokemonCard`                        | `modules/reference/features/pokemon/components/pokemon-card.tsx`             | The one Pokémon card: `plain`, `caught`, `seen`, `missing`                     |
+| `PokemonSticker`, `PokemonEmptySlot` | `.../pokemon/components/pokemon-sticker.tsx`                                 | Owned Pokémon only; empty slots are dashed                                     |
+| `PokemonTypeBadge`                   | `.../pokemon/components/pokemon-type-icon.tsx`                               | TypeChip (`icon-label`, `label`) and TypeDot (`icon`)                          |
+| `PokemonPortrait`                    | `.../pokemon/components/pokemon-portrait.tsx`                                | Art on its soft type-tint circle                                               |
+| `Medallion`, `RecordRow`             | `modules/mainline/features/plays/shared/components`                          | Moments: badge, gold, Pokémon, note, status, start                             |
+| `BadgeStamp`                         | `modules/mainline/features/plays/shared/components/badge-stamp.tsx`          | The only thing that tilts at rest                                              |
+| `SegmentedControl`                   | `src/shared/components/segmented-control.tsx`                                | `pills` for filters, `segment` for modes                                       |
+| `StatusBadge`                        | `src/shared/components/status-badge.tsx`                                     | Small meaning marks                                                            |
+| `EmptyState`                         | `src/shared/components/empty-state.tsx`                                      | One sentence, at most two actions; one Pokémon on grass when `artUrl` is given |
+| `PageHeader`, `DetailSectionCard`    | `src/shared/components`                                                      | Fredoka heading, quiet card                                                    |
+| `LogoMark`                           | `src/shared/components/brand/logo-mark.tsx`                                  | The "V" tile, a placeholder until the logo is designed                         |
 
 Section grammar: a section that is a grid of cards keeps its heading on the
 page; a section of content (text, rows, stamps) is one card with the heading

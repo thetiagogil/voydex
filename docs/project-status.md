@@ -416,9 +416,13 @@ Planner, Statistics) as part of the redesign. Database work requires a current
 contract gap, authored-source changes, local `npm run db:verify`, an explicit
 remote-write gate, and linked migration parity.
 
-Future design and implementation tasks start from the canonical screen-family
-document, accepted decisions, design system, current code, and verified
-responsive behavior. Conversation images remain iteration evidence; any
+Future design and implementation tasks start from the
+[Soft Clay Brief](./design/soft-clay-brief.md), the
+[Design System](./app/design-system.md), the product contracts in
+[docs/product](./product/feature-contract.md), current code, and verified
+responsive behavior. The V1 screen-family contracts were retired with the
+journal design; they remain in Git history before ADR 0004 if a past decision
+needs checking. Conversation images remain iteration evidence; any
 selected behavior that future work must preserve belongs in versioned docs.
 
 ## Known Gaps
@@ -436,7 +440,7 @@ selected behavior that future work must preserve belongs in versioned docs.
   entries render at once, and optional-content Pokédexes are not yet grouped
   into the owning game route. Those accepted functional gaps remain.
 - Plays Browse still needs archived visibility, secondary filters, explicit
-  recovery states, and incremental loading before its accepted V1 contract is
+  recovery states, and incremental loading before its accepted contract is
   complete.
 - Secure account deletion has no reviewed server-owned operation proving Auth
   identity removal, dependent owner-data cascades, session invalidation, and
