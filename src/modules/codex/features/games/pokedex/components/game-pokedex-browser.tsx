@@ -2,10 +2,11 @@
 
 import { useDeferredValue, useMemo, useState } from "react";
 
-import { GamePokedexGrid } from "@/modules/codex/features/games/pokedex/components/game-pokedex-grid";
 import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table";
+import { appRoutes } from "@/config/routes";
 import {
   defaultGamePokedexFilters,
+  formatLocalPokedexNumber,
   filterGamePokedexPokemon,
   getSearchableGamePokedexPokemon,
   hasActiveGamePokedexFilters,
@@ -15,20 +16,27 @@ import {
   type GamePokedexView,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
 import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
+import {
+  CodexPokemonCardLink,
+  CodexPokemonGrid,
+} from "@/modules/codex/shared/components/codex-pokemon-card-link";
 import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
+import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
   gameMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import {
+  formatPokedexName,
+  formatPokemonNationalNumber,
+} from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Card } from "@/shared/components/ui/card";
+import { Toolbar } from "@/shared/components/toolbar";
 
 const sortOptions = [
   { label: "Regional number", value: "regional" },
@@ -82,6 +90,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
   );
   const activeFilters = hasActiveGamePokedexFilters(filters);
   const pokedexName = formatPokedexName(data.pokedex.name);
+  const versionGroupName = getVersionGroupShortName(data.versionGroup.name);
 
   const updateFilter = <FilterKey extends keyof GamePokedexFilters>(
     key: FilterKey,
@@ -99,17 +108,15 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
 
   return (
     <section aria-label={`${pokedexName} entries`} className="mt-5">
-      <Card
-        size="sm"
-        className="flex-row flex-wrap items-center gap-x-3.5 gap-y-2.5 p-2.5"
-      >
-        <BrowseFilterPanel
-          variant="bare"
-          className="contents"
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        >
+      <Toolbar
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
+        }
+        search={
           <SearchControl
             name="q"
             ariaLabel={`Search the ${pokedexName}`}
@@ -122,37 +129,34 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
                 ? "Search by name, number or ability"
                 : "Search by name or number"
             }
-            className="min-w-55 flex-[1_1_220px]"
           />
-        </BrowseFilterPanel>
-        <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-2">
-          <span
-            aria-hidden
-            className="bg-line my-2 hidden w-px self-stretch sm:block"
-          />
-          <SelectControl
-            ariaLabel="Sort Pokémon"
-            variant="ghost"
-            size="sm"
-            prefix="Sort"
-            value={sortKey}
-            onValueChange={(value) => {
-              if (isGamePokedexSortKey(value)) {
-                setSortKey(value);
-              }
-            }}
-            options={sortOptions}
-            placeholder="Regional number"
-          />
-          <SegmentedControl
-            ariaLabel="Pokédex display"
-            onValueChange={setView}
-            options={viewOptions}
-            value={view}
-            variant="segment"
-          />
-        </div>
-      </Card>
+        }
+        trailing={
+          <>
+            <SelectControl
+              ariaLabel="Sort Pokémon"
+              variant="ghost"
+              size="sm"
+              prefix="Sort"
+              value={sortKey}
+              onValueChange={(value) => {
+                if (isGamePokedexSortKey(value)) {
+                  setSortKey(value);
+                }
+              }}
+              options={sortOptions}
+              placeholder="Regional number"
+            />
+            <SegmentedControl
+              ariaLabel="Pokédex display"
+              onValueChange={setView}
+              options={viewOptions}
+              value={view}
+              variant="segment"
+            />
+          </>
+        }
+      />
 
       <div className="mt-3">
         <CodexTypeFilter
@@ -175,11 +179,26 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
       <div className="mt-4">
         {visiblePokemon.length ? (
           view === "grid" ? (
-            <GamePokedexGrid
-              gameName={data.game.name}
-              gameSlug={data.game.slug}
-              pokemon={visiblePokemon}
-            />
+            <CodexPokemonGrid>
+              {visiblePokemon.map((entry) => (
+                <CodexPokemonCardLink
+                  key={`${entry.entry.pokedex_id}-${entry.entry.pokedex_number}-${entry.entry.species_id}`}
+                  ariaLabel={`Open ${entry.species.name} in ${versionGroupName}`}
+                  href={appRoutes.codexPokemonEntry(
+                    data.versionGroup.slug,
+                    entry.species.slug,
+                  )}
+                  imageUrl={entry.imageUrl}
+                  name={entry.species.name}
+                  number={`#${formatLocalPokedexNumber(entry.entry.pokedex_number)}`}
+                  title={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
+                  types={[
+                    entry.typePair.primaryType,
+                    entry.typePair.secondaryType,
+                  ]}
+                />
+              ))}
+            </CodexPokemonGrid>
           ) : (
             <GamePokedexTable
               data={data}

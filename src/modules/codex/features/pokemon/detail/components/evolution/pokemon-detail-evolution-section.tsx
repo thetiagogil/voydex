@@ -130,8 +130,6 @@ const EvolutionBranch = ({
 
 export const PokemonDetailEvolutionSection = ({
   activeFormId,
-  activeGameSlug,
-  activeGenerationSlug,
   activeGenerationSortOrder,
   activeSpeciesId,
   activeVersionGroupId,
@@ -162,8 +160,6 @@ export const PokemonDetailEvolutionSection = ({
 
   const linkScope = {
     activeFormId,
-    activeGameSlug,
-    activeGenerationSlug,
     activeSpeciesId,
     activeVersionGroupSlug,
   } satisfies PokemonDetailEvolutionLinkScope;

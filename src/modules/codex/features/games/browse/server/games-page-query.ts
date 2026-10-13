@@ -4,10 +4,8 @@ import { loadGamesPageRows } from "@/modules/codex/features/games/browse/server/
 import type { GamesPageData } from "@/modules/reference/types";
 
 export const getGamesPageData = async (params?: {
+  kind?: string | null;
   q?: string | null;
-  type?: string | null;
-  generation?: string | null;
-  region?: string | null;
 }): Promise<GamesPageData> => {
   const supabase = await createServerSupabaseClient();
   const rows = await loadGamesPageRows(supabase);

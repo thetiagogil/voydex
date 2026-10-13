@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  countGamesByKind,
   emptyGamesPageFilters,
   filterGames,
   groupGamesIntoSections,
@@ -30,22 +31,24 @@ const buildCard = (
   year: number,
   generation: Generation,
   region: Region,
+  kind: GameCard["kind"] = "core",
 ): GameCard =>
   ({
     coverImageUrl: null,
     game: { name: `Pokémon ${slug}`, release_year: year, slug },
     gameType: null,
     generation,
+    kind,
     platforms: [],
     region,
-    versionGroup: null,
+    versionGroup: { name: slug, slug },
   }) as unknown as GameCard;
 
 const games = [
   buildCard("red", 1996, generationOne, kanto),
-  buildCard("yellow", 1998, generationOne, kanto),
+  buildCard("yellow", 1998, generationOne, kanto, "companion"),
   buildCard("gold", 1999, generationTwo, johto),
-  buildCard("firered", 2004, generationThree, kanto),
+  buildCard("firered", 2004, generationThree, kanto, "companion"),
 ];
 
 describe("groupGamesIntoSections", () => {
@@ -118,5 +121,24 @@ describe("filterGames", () => {
         (card) => card.game.slug,
       ),
     ).toEqual(["firered"]);
+  });
+});
+
+describe("filterGames by kind", () => {
+  it("keeps only the picked kind", () => {
+    expect(
+      filterGames(games, { ...emptyGamesPageFilters, kind: "companion" }).map(
+        (card) => card.game.slug,
+      ),
+    ).toEqual(["yellow", "firered"]);
+  });
+
+  it("counts each kind", () => {
+    expect(countGamesByKind(games)).toEqual(
+      new Map([
+        ["core", 2],
+        ["companion", 2],
+      ]),
+    );
   });
 });

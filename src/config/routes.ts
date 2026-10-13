@@ -2,14 +2,20 @@ export const appRoutes = {
   appEntry: "/app",
   authCallback: "/auth/callback",
   codex: "/codex",
-  codexGame: (gameSlug: string) => `/codex/games/${gameSlug}`,
-  codexGamePokedex: (gameSlug: string, pokedexSlug: string) =>
-    `/codex/games/${gameSlug}/pokedexes/${pokedexSlug}`,
   codexGames: "/codex/games",
   codexPokemon: "/codex/pokemon",
-  codexPokemonGameSpecies: (gameSlug: string, speciesSlug: string) =>
-    `/codex/pokemon/${gameSlug}/${speciesSlug}`,
+  /* A Pokémon's entry read in one version group, such as `/codex/pokemon/swsh/arcanine`. */
+  codexPokemonEntry: (versionGroupSlug: string, speciesSlug: string) =>
+    `/codex/pokemon/${versionGroupSlug}/${speciesSlug}`,
+  /* A Pokémon's entry in the version group it was introduced in. */
   codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
+  /* A version group's page, with one of its games picked in the version switch. */
+  codexVersionGroup: (versionGroupSlug: string, gameSlug?: string) =>
+    gameSlug
+      ? `/codex/games/${versionGroupSlug}?version=${encodeURIComponent(gameSlug)}`
+      : `/codex/games/${versionGroupSlug}`,
+  codexVersionGroupPokedex: (versionGroupSlug: string, pokedexSlug: string) =>
+    `/codex/games/${versionGroupSlug}/pokedexes/${pokedexSlug}`,
   health: "/api/health",
   home: "/",
   intro: "/intro",
@@ -30,6 +36,9 @@ export const appRoutes = {
   mainlinePlaySettings: (playId: string) =>
     `/mainline/plays/${playId}/settings`,
   mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
+  /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
+  mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
+    `/mainline/plays/${playId}/team?pokemon=${encodeURIComponent(playPokemonId)}`,
   mainlinePlayTeamAnalysis: (playId: string) =>
     `/mainline/plays/${playId}/team/analysis`,
   mainlinePlayTeamHistory: (playId: string) =>

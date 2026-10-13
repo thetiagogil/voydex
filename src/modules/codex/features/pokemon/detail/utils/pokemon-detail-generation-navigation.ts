@@ -1,49 +1,82 @@
+import {
+  buildPokemonDetailVersionGroupScopes,
+  getDefaultVersionGroup,
+  isPokemonInVersionGroupScope,
+} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
-import { getPokemonGameAvailabilityStatus } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
+import {
+  getGenerationNumeral,
+  getVersionGroupShortName,
+} from "@/modules/codex/shared/utils/game-names";
 import type { PokemonDetailData } from "@/modules/reference/types";
-import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
+import type { SegmentedControlOption } from "@/shared/components/segmented-control";
 
-const getShortGenerationLabel = (generationName: string) => {
-  return generationName.replace("Generation ", "");
-};
-
+/* A form other than the default carries over between pages. */
 const getScopedFormSlug = (scope: ResolvedPokemonDetailScope) => {
   return scope.form && !scope.form.form.is_default
     ? scope.form.form.slug
     : undefined;
 };
 
-export const getPokemonDetailGenerationNavigationItems = (
+/*
+ * The generation pills: each opens the entry in that generation's first
+ * group the Pokémon can be found in.
+ */
+export const getPokemonDetailGenerationOptions = (
   data: PokemonDetailData,
   scope: ResolvedPokemonDetailScope,
-): PokemonDetailGenerationNavigationItem[] => {
-  return data.generationDetails.map((generationDetail) => ({
-    games: generationDetail.games.map((game) => {
-      const availabilityStatus = getPokemonGameAvailabilityStatus({
-        availability: generationDetail.availability,
-        form: scope.form,
-        game,
-      });
+): SegmentedControlOption<string>[] => {
+  return data.generationDetails.flatMap((generation) => {
+    const versionGroup = getDefaultVersionGroup(
+      generation,
+      buildPokemonDetailVersionGroupScopes(generation),
+    );
 
-      return {
-        availabilityDescription: availabilityStatus.description,
-        availabilityKind: availabilityStatus.kind,
+    if (!versionGroup) {
+      return [];
+    }
+
+    return [
+      {
         href: getPokemonDetailScopeHref(data.species.slug, {
           form: getScopedFormSlug(scope),
-          game: game.slug,
+          versionGroup: versionGroup.versionGroup.slug,
         }),
-        id: game.id,
-        imageUrl: getGameCoverImageUrl(game),
-        isActive: game.id === scope.game?.id,
-        isAvailable: availabilityStatus.kind !== "unavailable",
-        name: game.name,
-        slug: game.slug,
-      };
-    }),
-    id: generationDetail.generation.id,
-    isActive: generationDetail.generation.id === scope.generation.generation.id,
-    label: getShortGenerationLabel(generationDetail.generation.name),
-  }));
+        label: getGenerationNumeral(generation.generation.name),
+        value: generation.generation.slug,
+      },
+    ];
+  });
+};
+
+/*
+ * The version group switch, when a generation has several (Ruby and
+ * Sapphire, FireRed and LeafGreen, Emerald). A group the Pokémon can't be
+ * found in is shown but not offered.
+ */
+export const getPokemonDetailVersionGroupOptions = (
+  data: PokemonDetailData,
+  scope: ResolvedPokemonDetailScope,
+): SegmentedControlOption<string>[] => {
+  if (scope.versionGroups.length <= 1) {
+    return [];
+  }
+
+  return scope.versionGroups.map((versionGroup) => {
+    const isCurrent =
+      versionGroup.versionGroup.id === scope.versionGroup.versionGroup.id;
+
+    return {
+      disabled:
+        !isCurrent &&
+        !isPokemonInVersionGroupScope(scope.generation, versionGroup),
+      href: getPokemonDetailScopeHref(data.species.slug, {
+        form: getScopedFormSlug(scope),
+        versionGroup: versionGroup.versionGroup.slug,
+      }),
+      label: getVersionGroupShortName(versionGroup.versionGroup.name),
+      value: versionGroup.versionGroup.slug,
+    };
+  });
 };

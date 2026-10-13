@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import { getDefaultPokemonDetailGameSlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-default-game-query";
+import { getDefaultPokemonDetailVersionGroupSlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-route-query";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 
 type PageProps = {
@@ -15,25 +15,31 @@ type PageProps = {
   }>;
 };
 
+const getSingleSearchParam = (value?: string | string[]) => {
+  return Array.isArray(value) ? value[0] : value;
+};
+
+/* A species alone opens its entry in a version group; old query addresses keep their group. */
 export default async function Page({ params, searchParams }: PageProps) {
   const { slug: speciesSlug } = await params;
-  const resolvedSearchParams = await searchParams;
-  const requestedGameSlug = getSingleSearchParam(resolvedSearchParams.game);
-  const defaultGameSlug =
-    requestedGameSlug ?? (await getDefaultPokemonDetailGameSlug(speciesSlug));
+  const { form, game, generation, versionGroup } = await searchParams;
+  const versionGroupSlug = await getDefaultPokemonDetailVersionGroupSlug(
+    speciesSlug,
+    {
+      game: getSingleSearchParam(game),
+      generation: getSingleSearchParam(generation),
+      versionGroup: getSingleSearchParam(versionGroup),
+    },
+  );
 
-  if (!defaultGameSlug) {
+  if (!versionGroupSlug) {
     notFound();
   }
 
   redirect(
     getPokemonDetailScopeHref(speciesSlug, {
-      form: getSingleSearchParam(resolvedSearchParams.form),
-      game: defaultGameSlug,
+      form: getSingleSearchParam(form),
+      versionGroup: versionGroupSlug,
     }),
   );
 }
-
-const getSingleSearchParam = (value?: string | string[]) => {
-  return Array.isArray(value) ? value[0] : value;
-};

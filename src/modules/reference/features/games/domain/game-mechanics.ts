@@ -94,3 +94,46 @@ export const supportsGameMechanic = (
 ): boolean => {
   return getGameMechanicSupport(profile, mechanic) === "supported";
 };
+
+/**
+ * Resolves mechanics for a whole version group, such as a Codex entry read in
+ * Sword and Shield. Each game in the group is resolved exactly; a mechanic is
+ * supported or unsupported only when every game agrees, and unknown otherwise
+ * or when the group has no games.
+ */
+export const resolveVersionGroupMechanics = ({
+  gameIds,
+  generationId,
+  versionGroupId,
+}: {
+  gameIds: number[];
+  generationId: number | null;
+  versionGroupId: number | null;
+}): GameMechanicsProfile => {
+  const profiles = gameIds.map((gameId) => {
+    return resolveGameMechanics({ gameId, generationId, versionGroupId });
+  });
+  const resolveAgreedSupport = (
+    mechanic: GameMechanic,
+  ): GameMechanicSupport => {
+    const [first, ...rest] = profiles.map((profile) => {
+      return profile.support[mechanic];
+    });
+
+    return first && rest.every((support) => support === first)
+      ? first
+      : "unknown";
+  };
+
+  return {
+    context: { gameId: null, generationId, versionGroupId },
+    support: {
+      [gameMechanics.abilities]: resolveAgreedSupport(gameMechanics.abilities),
+      [gameMechanics.heldItems]: resolveAgreedSupport(gameMechanics.heldItems),
+      [gameMechanics.natures]: resolveAgreedSupport(gameMechanics.natures),
+      [gameMechanics.pokemonGender]: resolveAgreedSupport(
+        gameMechanics.pokemonGender,
+      ),
+    },
+  };
+};

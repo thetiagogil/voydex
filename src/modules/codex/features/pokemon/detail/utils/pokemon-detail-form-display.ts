@@ -6,6 +6,7 @@ import {
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
+import type { SegmentedControlOption } from "@/shared/components/segmented-control";
 
 export const getPokemonDetailFormTypeSlug = (
   form: PokemonGenerationFormSummary | null,
@@ -51,30 +52,24 @@ export const getPokemonDetailFormSwitchLabel = (
     : formName;
 };
 
-/* Each form of the generation, linked in the game and generation you're reading. */
-export const getPokemonDetailFormSwitchItems = ({
-  activeForm,
-  activeGameSlug,
-  activeGenerationSlug,
+/* Each form of the generation, linked in the version group you're reading. */
+export const getPokemonDetailFormSwitchOptions = ({
   forms,
   speciesName,
   speciesSlug,
+  versionGroupSlug,
 }: {
-  activeForm: PokemonGenerationFormSummary | null;
-  activeGameSlug: string | null;
-  activeGenerationSlug: string;
   forms: PokemonGenerationFormSummary[];
   speciesName: string;
   speciesSlug: string;
-}) => {
+  versionGroupSlug: string;
+}): SegmentedControlOption<string>[] => {
   return forms.map((form) => ({
     href: getPokemonDetailScopeHref(speciesSlug, {
       form: form.form.is_default ? undefined : form.form.slug,
-      game: activeGameSlug ?? undefined,
-      generation: activeGenerationSlug,
+      versionGroup: versionGroupSlug,
     }),
-    id: form.form.id,
-    isActive: form.form.id === activeForm?.form.id,
     label: getPokemonDetailFormSwitchLabel(form.form.name, speciesName),
+    value: form.form.slug,
   }));
 };

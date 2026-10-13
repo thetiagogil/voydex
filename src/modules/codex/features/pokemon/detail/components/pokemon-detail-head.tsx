@@ -1,25 +1,33 @@
-import { PokemonDetailGenerationMenu } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-generation-menu";
 import { PokemonDetailSpeciesSelector } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector";
-import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
+import { CodexGenerationPills } from "@/modules/codex/shared/components/codex-generation-pills";
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
+import {
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/shared/components/segmented-control";
 
 type PokemonDetailHeadProps = {
-  activeGameSlug: string | null;
   activePokemon: {
     name: string;
     slug: string;
   };
-  generations: PokemonDetailGenerationNavigationItem[];
+  activeVersionGroupSlug: string;
+  generationOptions: SegmentedControlOption<string>[];
+  generationSlug: string;
+  versionGroupOptions: SegmentedControlOption<string>[];
 };
 
 /*
  * v3's Codex head: the crumb, ending in the Pokémon's name (it opens the
- * picker), and the generation pills on the right.
+ * picker), and the generation pills on the right. When the generation has
+ * several version groups, their switch sits under the pills.
  */
 export const PokemonDetailHead = ({
-  activeGameSlug,
   activePokemon,
-  generations,
+  activeVersionGroupSlug,
+  generationOptions,
+  generationSlug,
+  versionGroupOptions,
 }: PokemonDetailHeadProps) => {
   return (
     <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3">
@@ -27,14 +35,27 @@ export const PokemonDetailHead = ({
         <CodexHead
           trailEnd={
             <PokemonDetailSpeciesSelector
-              activeGameSlug={activeGameSlug}
               activePokemon={activePokemon}
+              activeVersionGroupSlug={activeVersionGroupSlug}
             />
           }
         />
       </div>
-      <div className="w-full min-w-0 md:ml-auto md:w-auto">
-        <PokemonDetailGenerationMenu generations={generations} />
+      <div className="flex w-full min-w-0 flex-col gap-2.5 md:ml-auto md:w-auto md:items-end">
+        <CodexGenerationPills
+          options={generationOptions}
+          value={generationSlug}
+        />
+        {versionGroupOptions.length ? (
+          <SegmentedControl
+            ariaLabel="Version group"
+            size="sm"
+            variant="segment"
+            className="no-scrollbar max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
+            options={versionGroupOptions}
+            value={activeVersionGroupSlug}
+          />
+        ) : null}
       </div>
     </div>
   );

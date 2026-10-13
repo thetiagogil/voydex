@@ -111,11 +111,9 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
 
       <GamesToolbar
         filters={filters}
-        gameTypes={data.gameTypes}
-        generations={data.generations}
+        games={data.games}
         onFilterChange={updateFilter}
         onSortOrderChange={setSortOrder}
-        regions={data.regions}
         sortOrder={sortOrder}
       />
 

@@ -1,3 +1,4 @@
+import { getGameShortName } from "@/modules/codex/shared/utils/game-names";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";
@@ -205,11 +206,16 @@ export const getPokemonDetailLearnsetMethodDetail = (
     : getPokemonDetailLearnsetFilterLabel(learnset);
 };
 
-/* The expansion a move was added in, when it isn't the base game. */
+/*
+ * What narrows a move inside the group: the expansion that added it, or the
+ * one game it is learned in ("Sword only").
+ */
 export const getPokemonDetailLearnsetAddedContentName = (
   learnset: PokemonLearnsetSummary,
 ) => {
-  return learnset.sourceVersionGroup?.parent_version_group_id
-    ? learnset.sourceVersionGroup.name
-    : null;
+  if (learnset.sourceVersionGroup?.parent_version_group_id) {
+    return learnset.sourceVersionGroup.name;
+  }
+
+  return learnset.game ? `${getGameShortName(learnset.game.name)} only` : null;
 };

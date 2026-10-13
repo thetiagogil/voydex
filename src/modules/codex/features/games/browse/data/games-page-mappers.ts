@@ -1,80 +1,57 @@
 import type { GamesPageRows } from "@/modules/codex/features/games/browse/server/games-page-loaders";
+import { isGameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import {
   byId,
   buildGameCards,
   normalizeSearchQuery,
   normalizeSlug,
-  resolveReferenceFilter,
 } from "@/modules/reference/reference-data";
-import type { GamesPageData } from "@/modules/reference/types";
+import type { GameCard, GamesPageData } from "@/modules/reference/types";
 
 type GamesPageMapperParams = {
+  kind?: string | null;
   q?: string | null;
-  type?: string | null;
-  generation?: string | null;
-  region?: string | null;
 };
 
 const fallbackSortOrder = Number.MAX_SAFE_INTEGER;
+
+/* Release order: by generation, then by year within it, then the series' own order. */
+export const compareGamesByRelease = (
+  rows: Pick<GamesPageRows, "generations" | "versionGroups">,
+) => {
+  const generationById = byId(rows.generations);
+  const versionGroupById = byId(rows.versionGroups);
+
+  return (first: GameCard, second: GameCard) => {
+    const getGenerationOrder = (card: GameCard) =>
+      generationById.get(card.game.generation_id)?.sort_order ??
+      fallbackSortOrder;
+    const getVersionGroupOrder = (card: GameCard) =>
+      versionGroupById.get(card.game.version_group_id)?.sort_order ??
+      fallbackSortOrder;
+
+    return (
+      getGenerationOrder(first) - getGenerationOrder(second) ||
+      first.game.release_year - second.game.release_year ||
+      getVersionGroupOrder(first) - getVersionGroupOrder(second) ||
+      first.game.sort_order - second.game.sort_order ||
+      first.game.name.localeCompare(second.game.name)
+    );
+  };
+};
 
 export const buildGamesPageData = (
   rows: GamesPageRows,
   params?: GamesPageMapperParams,
 ): GamesPageData => {
-  const requestedQuery = normalizeSearchQuery(params?.q);
-  const requestedGeneration = normalizeSlug(params?.generation);
-  const requestedRegion = normalizeSlug(params?.region);
-  const requestedGameType = normalizeSlug(params?.type);
-  const selectedGeneration = resolveReferenceFilter(
-    rows.generations,
-    requestedGeneration,
-  );
-  const selectedRegion = resolveReferenceFilter(rows.regions, requestedRegion);
-  const selectedGameType = resolveReferenceFilter(
-    rows.gameTypes,
-    requestedGameType,
-  );
-  const generationById = byId(rows.generations);
-  const versionGroupById = byId(rows.versionGroups);
+  const requestedKind = normalizeSlug(params?.kind);
 
   return {
     filters: {
-      gameType: selectedGameType?.slug ?? "",
-      generation: selectedGeneration?.slug ?? "",
-      query: requestedQuery,
-      region: selectedRegion?.slug ?? "",
+      kind: isGameKind(requestedKind) ? requestedKind : "",
+      query: normalizeSearchQuery(params?.q),
     },
-    gameTypes: rows.gameTypes,
-    games: buildGameCards({
-      gamePlatforms: rows.gamePlatforms,
-      games: rows.games,
-      gameTypes: rows.gameTypes,
-      generations: rows.generations,
-      platforms: rows.platforms,
-      regions: rows.regions,
-      versionGroups: rows.versionGroups,
-    }).sort((firstCard, secondCard) => {
-      const firstGenerationSortOrder =
-        generationById.get(firstCard.game.generation_id)?.sort_order ??
-        fallbackSortOrder;
-      const secondGenerationSortOrder =
-        generationById.get(secondCard.game.generation_id)?.sort_order ??
-        fallbackSortOrder;
-      const firstVersionGroupSortOrder =
-        versionGroupById.get(firstCard.game.version_group_id)?.sort_order ??
-        fallbackSortOrder;
-      const secondVersionGroupSortOrder =
-        versionGroupById.get(secondCard.game.version_group_id)?.sort_order ??
-        fallbackSortOrder;
-
-      return (
-        firstGenerationSortOrder - secondGenerationSortOrder ||
-        firstVersionGroupSortOrder - secondVersionGroupSortOrder ||
-        firstCard.game.sort_order - secondCard.game.sort_order ||
-        firstCard.game.name.localeCompare(secondCard.game.name)
-      );
-    }),
-    generations: rows.generations,
+    games: buildGameCards(rows).sort(compareGamesByRelease(rows)),
     regions: rows.regions,
   };
 };

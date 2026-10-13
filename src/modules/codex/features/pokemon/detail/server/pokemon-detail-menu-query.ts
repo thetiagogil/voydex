@@ -5,22 +5,29 @@ import {
 import { buildPokemonDetailMenuPage } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-page-mappers";
 import {
   getPagedPokemonMenuSpeciesRows,
-  getSpeciesIdsForGame,
+  getSpeciesIdsForVersionGroups,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-mappers";
 import {
   loadPokedexRowsForVersionGroups,
   loadPokemonMenuAvailabilityRows,
-  loadPokemonMenuGameBySlug,
   loadPokemonMenuReferenceRows,
   loadPokemonMenuSpeciesRows,
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-loaders";
 import { loadPokemonMenuPageRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-page-loaders";
-import type { Game, PokemonDetailMenuPage } from "@/modules/reference/types";
+import { loadVersionGroupRouteRows } from "@/modules/codex/shared/server/version-group-route-query";
+import {
+  getChildVersionGroups,
+  resolveVersionGroupRoute,
+} from "@/modules/reference/features/games/domain/version-groups";
+import type {
+  PokemonDetailMenuPage,
+  VersionGroup,
+} from "@/modules/reference/types";
 
 const DEFAULT_POKEMON_MENU_LIMIT = 96;
 const MAX_POKEMON_MENU_LIMIT = 96;
 
-type PokemonDetailGamePokemonMenuOptions = {
+type PokemonDetailPokemonMenuOptions = {
   limit?: number;
   offset?: number;
   query?: string;
@@ -46,46 +53,37 @@ const normalizePokemonMenuQuery = (query?: string) => {
   return query?.trim().toLowerCase() ?? "";
 };
 
-const getPokemonDetailGamePokemonMenuWithClient = async (
+const emptyPokemonMenuPage: PokemonDetailMenuPage = {
+  nextOffset: null,
+  pokemon: [],
+  total: 0,
+};
+
+/* The Pokémon of a base version group and its expansions, a page at a time. */
+const getPokemonDetailPokemonMenuWithClient = async (
   supabase: ServerSupabaseClient,
-  game: Game | null,
-  options: PokemonDetailGamePokemonMenuOptions = {},
+  versionGroups: VersionGroup[],
+  options: PokemonDetailPokemonMenuOptions = {},
 ): Promise<PokemonDetailMenuPage> => {
   const limit = normalizePokemonMenuLimit(options.limit);
   const offset = normalizePokemonMenuOffset(options.offset);
   const query = normalizePokemonMenuQuery(options.query);
+  const [baseVersionGroup] = versionGroups;
 
-  if (!game) {
-    return {
-      nextOffset: null,
-      pokemon: [],
-      total: 0,
-    };
+  if (!baseVersionGroup) {
+    return emptyPokemonMenuPage;
   }
 
-  const { generations, types, versionGroups } =
-    await loadPokemonMenuReferenceRows(supabase, game);
-
-  if (!versionGroups.length) {
-    return {
-      nextOffset: null,
-      pokemon: [],
-      total: 0,
-    };
-  }
-
-  const [availabilityRows, pokedexRows] = await Promise.all([
-    loadPokemonMenuAvailabilityRows(supabase, versionGroups),
-    loadPokedexRowsForVersionGroups(supabase, versionGroups),
-  ]);
-  const speciesIds = getSpeciesIdsForGame(availabilityRows, game);
+  const [{ generations, types }, availabilityRows, pokedexRows] =
+    await Promise.all([
+      loadPokemonMenuReferenceRows(supabase),
+      loadPokemonMenuAvailabilityRows(supabase, versionGroups),
+      loadPokedexRowsForVersionGroups(supabase, versionGroups),
+    ]);
+  const speciesIds = getSpeciesIdsForVersionGroups(availabilityRows);
 
   if (!speciesIds.length) {
-    return {
-      nextOffset: null,
-      pokemon: [],
-      total: 0,
-    };
+    return emptyPokemonMenuPage;
   }
 
   const species = await loadPokemonMenuSpeciesRows(supabase, speciesIds);
@@ -106,7 +104,7 @@ const getPokemonDetailGamePokemonMenuWithClient = async (
   return buildPokemonDetailMenuPage({
     attributes,
     defaultForms,
-    game,
+    generationId: baseVersionGroup.generation_id,
     generations,
     offset,
     speciesRows,
@@ -115,16 +113,28 @@ const getPokemonDetailGamePokemonMenuWithClient = async (
   });
 };
 
-export const getPokemonDetailGamePokemonMenuBySlug = async (
-  gameSlug: string,
-  options: PokemonDetailGamePokemonMenuOptions = {},
+/*
+ * The species picker's Pokémon for one version group. A game's or an
+ * expansion's slug reads its base group. Null for an unknown slug.
+ */
+export const getPokemonDetailPokemonMenuBySlug = async (
+  versionGroupSlug: string,
+  options: PokemonDetailPokemonMenuOptions = {},
 ): Promise<PokemonDetailMenuPage | null> => {
   const supabase = await createServerSupabaseClient();
-  const game = await loadPokemonMenuGameBySlug(supabase, gameSlug);
+  const routeRows = await loadVersionGroupRouteRows(supabase);
+  const route = resolveVersionGroupRoute(versionGroupSlug, routeRows);
 
-  if (!game) {
+  if (!route) {
     return null;
   }
 
-  return getPokemonDetailGamePokemonMenuWithClient(supabase, game, options);
+  return getPokemonDetailPokemonMenuWithClient(
+    supabase,
+    [
+      route.versionGroup,
+      ...getChildVersionGroups(route.versionGroup, routeRows.versionGroups),
+    ],
+    options,
+  );
 };

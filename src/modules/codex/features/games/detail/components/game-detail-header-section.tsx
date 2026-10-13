@@ -1,11 +1,16 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { GameVersionSwitch } from "@/modules/codex/features/games/detail/components/game-version-switch";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
+import {
+  formatNameList,
+  getGameShortName,
+  getVersionGroupTitle,
+} from "@/modules/codex/shared/utils/game-names";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { formatNameList } from "@/modules/codex/features/games/shared/utils/game-names";
+import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -13,21 +18,28 @@ type GameDetailHeaderSectionProps = {
   data: CodexGameDetailData;
 };
 
+/*
+ * The group's first Pokédex: a regional one, or its National Pokédex when
+ * that is all it has (they are sorted National last).
+ */
 const getBrowsePokemonHref = (data: CodexGameDetailData) => {
   const firstPokedex = data.pokedexes[0]?.pokedex;
 
   return firstPokedex
-    ? appRoutes.codexGamePokedex(data.game.slug, firstPokedex.slug)
+    ? appRoutes.codexVersionGroupPokedex(
+        data.versionGroup.slug,
+        firstPokedex.slug,
+      )
     : appRoutes.codexPokemon;
 };
 
-const getGameEyebrow = (data: CodexGameDetailData) => {
+const getGameEyebrow = ({ version }: CodexGameDetailData) => {
   return [
-    data.generation?.name,
-    data.game.release_year,
-    data.region?.name,
-    data.platforms.length
-      ? formatNameList(data.platforms.map((platform) => platform.name))
+    version.generation?.name,
+    version.game.release_year,
+    version.region?.name,
+    version.platforms.length
+      ? formatNameList(version.platforms.map((platform) => platform.name))
       : null,
   ]
     .filter(Boolean)
@@ -44,12 +56,15 @@ const GameDetailFact = ({ label, value }: { label: string; value: string }) => {
 };
 
 /*
- * v3's game header, kept cream and flat in the Codex: the cover carries the
- * game, with the version switch under it.
+ * v3's version group header, kept cream and flat in the Codex: the picked
+ * game's cover with the version switch under it, then the eyebrow, the
+ * group's title, its facts and the way into its Pokémon.
  */
 export const GameDetailHeaderSection = ({
   data,
 }: GameDetailHeaderSectionProps) => {
+  const { version, versionGroup, versions } = data;
+
   return (
     <section
       aria-labelledby="game-detail-title"
@@ -57,17 +72,24 @@ export const GameDetailHeaderSection = ({
     >
       <div className="flex min-w-0 flex-col items-center gap-3.5">
         <GameCover
-          alt={`${data.game.name} cover art`}
-          coverImageUrl={data.coverImageUrl}
+          alt={`${version.game.name} cover art`}
+          coverImageUrl={version.coverImageUrl}
           eager
-          gameName={data.game.name}
-          gameSlug={data.game.slug}
+          gameName={version.game.name}
+          gameSlug={version.game.slug}
           size="hero"
         />
-        {data.versions.length > 1 ? (
-          <GameVersionSwitch
-            currentGameSlug={data.game.slug}
-            versions={data.versions}
+        {versions.length > 1 ? (
+          <SegmentedControl
+            ariaLabel="Version"
+            variant="segment"
+            value={version.game.slug}
+            options={versions.map(({ game }) => ({
+              dot: getGameColourStyle(game.slug),
+              href: appRoutes.codexVersionGroup(versionGroup.slug, game.slug),
+              label: getGameShortName(game.name),
+              value: game.slug,
+            }))}
           />
         ) : null}
       </div>
@@ -78,11 +100,11 @@ export const GameDetailHeaderSection = ({
           id="game-detail-title"
           className="text-32 sm:text-44 mt-1.5 mb-4 leading-[1.05] tracking-[-0.02em]"
         >
-          {data.game.name}
+          {getVersionGroupTitle(versionGroup.name)}
         </h1>
         <dl className="flex flex-wrap gap-x-8 gap-y-3">
-          {data.gameType ? (
-            <GameDetailFact label="Game type" value={data.gameType.name} />
+          {version.gameType ? (
+            <GameDetailFact label="Game type" value={version.gameType.name} />
           ) : null}
           {data.availablePokemonCount ? (
             <GameDetailFact

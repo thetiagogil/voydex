@@ -8,7 +8,6 @@ import { getPokemonMenuRowBySpeciesId } from "@/modules/codex/features/pokemon/d
 import type { PokemonMenuSpeciesRow } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
 import type {
-  Game,
   Generation,
   PokemonAttributes,
   PokemonDetailMenuPage,
@@ -23,7 +22,7 @@ import {
 type BuildPokemonDetailMenuPageParams = {
   attributes: PokemonAttributes[];
   defaultForms: PokemonForm[];
-  game: Game;
+  generationId: number;
   generations: Generation[];
   offset: number;
   speciesRows: PokemonMenuSpeciesRow[];
@@ -34,7 +33,7 @@ type BuildPokemonDetailMenuPageParams = {
 export const buildPokemonDetailMenuPage = ({
   attributes,
   defaultForms,
-  game,
+  generationId,
   generations,
   offset,
   speciesRows,
@@ -44,7 +43,7 @@ export const buildPokemonDetailMenuPage = ({
   const rowBySpeciesId = getPokemonMenuRowBySpeciesId(speciesRows);
   const defaultFormBySpeciesId = getDefaultFormsBySpeciesId(defaultForms);
   const { generation: selectedGeneration, generationById } =
-    getSelectedGenerationForGame(generations, game.generation_id);
+    getSelectedGenerationForGame(generations, generationId);
   const attributesByFormId = groupAttributesByFormId(attributes);
   const typeById = byId(types);
   const pokemon = speciesRows.map(({ species }) => {

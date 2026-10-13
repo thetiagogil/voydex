@@ -3,7 +3,7 @@ import {
   type GamePokedexTileLayout,
 } from "@/modules/codex/features/games/detail/components/game-pokedex-tile";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
-import { cardVariants } from "@/shared/components/ui/card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";
 
 type GameDetailPokedexesSectionProps = {
@@ -27,6 +27,10 @@ const getTileLayout = (pokedexCount: number): GamePokedexTileLayout => {
   return pokedexCount >= 4 ? "compact" : "tile";
 };
 
+/*
+ * The group's Pokédexes as one content card, its expansions' included (the
+ * Isle of Armor and the Crown Tundra beside Galar).
+ */
 export const GameDetailPokedexesSection = ({
   data,
 }: GameDetailPokedexesSectionProps) => {
@@ -34,17 +38,10 @@ export const GameDetailPokedexesSection = ({
   const layout = getTileLayout(pokedexCount);
 
   return (
-    <section
-      aria-labelledby="game-pokedexes-title"
-      data-slot="card"
-      className={cn(
-        cardVariants(),
-        "mt-8 gap-4 px-5 py-5 sm:mt-10 sm:px-7 sm:py-6.5",
-      )}
+    <DetailSectionCard
+      className="mt-8 sm:mt-10"
+      title={pokedexCount === 1 ? "Pokédex" : "Pokédexes"}
     >
-      <h2 id="game-pokedexes-title" className="text-24">
-        {pokedexCount === 1 ? "Pokédex" : "Pokédexes"}
-      </h2>
       {pokedexCount ? (
         <div
           className={cn(
@@ -55,9 +52,9 @@ export const GameDetailPokedexesSection = ({
           {data.pokedexes.map((summary) => (
             <GamePokedexTile
               key={summary.pokedex.id}
-              gameSlug={data.game.slug}
               layout={layout}
               summary={summary}
+              versionGroupSlug={data.versionGroup.slug}
             />
           ))}
         </div>
@@ -66,6 +63,6 @@ export const GameDetailPokedexesSection = ({
           This game has no Pokédex in the Codex yet.
         </p>
       )}
-    </section>
+    </DetailSectionCard>
   );
 };

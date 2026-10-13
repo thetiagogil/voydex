@@ -11,10 +11,8 @@ import { cn } from "@/shared/utils/cn";
 
 export type PokemonDetailEvolutionLinkScope = {
   activeFormId: number | null;
-  activeGameSlug: string | null;
-  activeGenerationSlug: string;
   activeSpeciesId: number;
-  activeVersionGroupSlug: string | null;
+  activeVersionGroupSlug: string;
 };
 
 type PokemonDetailEvolutionNodeProps = {
@@ -56,9 +54,7 @@ export const PokemonDetailEvolutionNode = ({
       displayForm.id === linkScope.activeFormId);
   const href = getPokemonDetailScopeHref(pokemon.species.slug, {
     form: displayForm?.is_default ? undefined : displayForm?.slug,
-    game: linkScope.activeGameSlug ?? undefined,
-    generation: linkScope.activeGenerationSlug,
-    versionGroup: linkScope.activeVersionGroupSlug ?? undefined,
+    versionGroup: linkScope.activeVersionGroupSlug,
   });
 
   return (

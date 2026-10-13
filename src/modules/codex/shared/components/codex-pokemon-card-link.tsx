@@ -1,0 +1,77 @@
+import Link from "next/link";
+import { memo, type ReactNode } from "react";
+
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { cn } from "@/shared/utils/cn";
+
+type CodexPokemonCardType = { name: string; slug: string };
+
+type CodexPokemonCardLinkProps = {
+  /* Names the link when the card's own text isn't enough, as in "Open Arcanine in Sword and Shield". */
+  ariaLabel?: string;
+  href: string;
+  imageUrl: string | null;
+  name: string;
+  number: string;
+  /* A hover note, such as the other numbering. */
+  title?: string;
+  types: (CodexPokemonCardType | null)[];
+};
+
+/*
+ * A Pokémon in a Codex list: the one Pokémon card, plain (nothing here is
+ * owned), opening the Pokémon's entry. The card's text names the link, so the
+ * art is decorative. Cards off screen skip rendering until reached.
+ */
+export const CodexPokemonCardLink = memo(
+  ({
+    ariaLabel,
+    href,
+    imageUrl,
+    name,
+    number,
+    title,
+    types,
+  }: CodexPokemonCardLinkProps) => {
+    return (
+      <Link
+        href={href}
+        aria-label={ariaLabel}
+        title={title}
+        className="block min-w-0 rounded-lg"
+      >
+        <PokemonCard
+          state="plain"
+          className="[contain-intrinsic-size:auto_128px_auto_172px] [content-visibility:auto]"
+          imageAlt=""
+          imageUrl={imageUrl}
+          name={name}
+          number={number}
+          types={types.filter((type) => type !== null)}
+        />
+      </Link>
+    );
+  },
+);
+
+CodexPokemonCardLink.displayName = "CodexPokemonCardLink";
+
+/* Three cards across on phones; on wider screens as many 128px columns as fit. */
+export const CodexPokemonGrid = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={cn(
+        "grid min-w-0 grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+};

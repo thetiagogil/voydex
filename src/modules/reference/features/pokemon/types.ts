@@ -1,4 +1,3 @@
-import type { PokemonCategoryFilterValue } from "@/modules/reference/features/pokemon/domain/pokemon-categories";
 import type {
   Ability,
   AbilityAttribute,
@@ -34,13 +33,11 @@ export type PokedexPokemonBrowseReference = {
 };
 
 export type PokedexPokemonBrowseCard = {
-  detailGameSlug: string;
+  /* The version group its entry opens in: the first of its own generation. */
+  detailVersionGroupSlug: string;
   id: number;
   imageUrl: string | null;
   introducedGeneration: PokedexPokemonBrowseReference | null;
-  isBaby: boolean;
-  isLegendary: boolean;
-  isMythical: boolean;
   name: string;
   nationalNumber: number;
   primaryType: PokedexPokemonBrowseReference | null;
@@ -73,10 +70,7 @@ export type PokemonDetailMenuPage = {
   total: number;
 };
 
-export type PokedexCategoryFilter = PokemonCategoryFilterValue;
-
 export type PokedexPageFilters = {
-  category: PokedexCategoryFilter;
   generation: string;
   query: string;
   type: string;
@@ -86,6 +80,8 @@ export type PokedexPageData = {
   filters: PokedexPageFilters;
   generations: Generation[];
   pokemon: PokedexPokemonBrowseCard[];
+  /* Each generation's home region, by generation slug: "Kanto" for Generation I. */
+  regionNameByGenerationSlug: Record<string, string>;
   types: Type[];
 };
 
