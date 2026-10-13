@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
+import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-section";
 import { PokemonDetailHero } from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-hero";
 import {
@@ -25,15 +26,18 @@ import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormImageUrl,
   getPokemonDetailFormShinyImageUrl,
-  getPokemonDetailFormSwitchItems,
+  getPokemonDetailFormSwitchOptions,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { getPokemonDetailGenerationNavigationItems } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
+import {
+  getPokemonDetailGenerationOptions,
+  getPokemonDetailVersionGroupOptions,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
+import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
   gameMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { formatPokemonDetailVersionGroupName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-version-group-display";
 import type { PokemonDetailData } from "@/modules/reference/types";
 import { cn } from "@/shared/utils/cn";
 
@@ -75,7 +79,8 @@ export const PokemonDetailShell = ({
   scope,
 }: PokemonDetailShellProps) => {
   const { form, generation } = scope;
-  const activeGameSlug = scope.game?.slug ?? null;
+  const activeVersionGroup = scope.versionGroup.versionGroup;
+  const versionGroupName = getVersionGroupShortName(activeVersionGroup.name);
   const pokemonName = form?.form.name ?? data.species.name;
   const typeSlug = getPokemonDetailFormTypeSlug(form);
   const stats = form?.attributes
@@ -90,7 +95,7 @@ export const PokemonDetailShell = ({
         abilities: data.abilities,
         abilityAttributes: data.abilityAttributes,
         attributes: form?.attributes ?? null,
-        currentVersionGroup: scope.versionGroup?.versionGroup ?? null,
+        currentVersionGroup: activeVersionGroup,
         versionGroups: data.generationDetails.flatMap((detail) => {
           return detail.versionGroups;
         }),
@@ -127,8 +132,8 @@ export const PokemonDetailShell = ({
     pokedexNumbers.length ? (
       <PokemonDetailPokedexNumbersCard
         key="pokedex-numbers"
-        gameSlug={activeGameSlug}
         numbers={pokedexNumbers}
+        versionGroupSlug={activeVersionGroup.slug}
       />
     ) : null,
   ];
@@ -136,20 +141,22 @@ export const PokemonDetailShell = ({
   return (
     <div className="flex min-w-0 flex-col">
       <PokemonDetailHead
-        activeGameSlug={activeGameSlug}
         activePokemon={{ name: data.species.name, slug: data.species.slug }}
-        generations={getPokemonDetailGenerationNavigationItems(data, scope)}
+        activeVersionGroupSlug={activeVersionGroup.slug}
+        generationOptions={getPokemonDetailGenerationOptions(data, scope)}
+        generationSlug={generation.generation.slug}
+        versionGroupOptions={getPokemonDetailVersionGroupOptions(data, scope)}
       />
 
       <PokemonDetailHero
+        key={form?.form.id ?? data.species.id}
+        activeFormSlug={form?.form.slug ?? null}
         eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
-        formSwitchItems={getPokemonDetailFormSwitchItems({
-          activeForm: form,
-          activeGameSlug,
-          activeGenerationSlug: generation.generation.slug,
+        formSwitchOptions={getPokemonDetailFormSwitchOptions({
           forms: scope.forms,
           speciesName: data.species.name,
           speciesSlug: data.species.slug,
+          versionGroupSlug: activeVersionGroup.slug,
         })}
         imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
         imageUrl={getPokemonDetailFormImageUrl(form)}
@@ -170,30 +177,24 @@ export const PokemonDetailShell = ({
 
         <PokemonDetailEvolutionSection
           activeFormId={form?.form.id ?? null}
-          activeGameSlug={activeGameSlug}
-          activeGenerationSlug={generation.generation.slug}
           activeGenerationSortOrder={generation.generation.sort_order}
           activeSpeciesId={data.species.id}
-          activeVersionGroupId={scope.versionGroup?.versionGroup.id ?? null}
-          activeVersionGroupSlug={scope.versionGroup?.versionGroup.slug ?? null}
+          activeVersionGroupId={activeVersionGroup.id}
+          activeVersionGroupSlug={activeVersionGroup.slug}
           family={data.evolutionFamily}
         />
 
         <PokemonDetailLearnsetsCard
           learnsets={scope.learnsets}
-          scopeName={
-            scope.versionGroup
-              ? formatPokemonDetailVersionGroupName(
-                  scope.versionGroup.versionGroup.name,
-                )
-              : null
-          }
+          scopeName={versionGroupName}
         />
 
         <PokemonDetailAvailabilityCard
-          activeGame={scope.game}
-          activeVersionGroup={scope.versionGroup?.versionGroup ?? null}
-          availability={scope.availability}
+          rows={getPokemonDetailWhereToFindRows({
+            availability: scope.availability,
+            versionGroup: scope.versionGroup,
+          })}
+          scopeName={versionGroupName}
         />
       </div>
     </div>

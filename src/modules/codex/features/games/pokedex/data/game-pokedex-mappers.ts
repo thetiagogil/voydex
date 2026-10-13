@@ -1,5 +1,6 @@
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
-import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import { sortVersionGroupPokedexes } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import {
   getPokedexEntryKey,
   selectGamePokedexEntryForms,
@@ -16,6 +17,7 @@ import type {
   PokemonForm,
   PokemonSpecies,
   Type,
+  VersionGroup,
 } from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,
@@ -27,12 +29,14 @@ type BuildGamePokedexDataParams = {
   attributes: PokemonAttributes[];
   entries: PokedexEntry[];
   forms: PokemonForm[];
-  game: Game;
+  games: Game[];
   generations: Generation[];
   pokedex: Pokedex;
   pokedexes: Pokedex[];
   species: PokemonSpecies[];
   types: Type[];
+  versionGroup: VersionGroup;
+  versionGroupById: Map<number, VersionGroup>;
 };
 
 const getGenerationSortOrder = (
@@ -42,18 +46,18 @@ const getGenerationSortOrder = (
   return generationById.get(generationId)?.sort_order ?? generationId;
 };
 
-const selectGameGenerationAttributes = ({
+const selectGenerationAttributes = ({
   attributes,
-  game,
   generationById,
+  generationId,
 }: {
   attributes: PokemonAttributes[];
-  game: Game;
   generationById: Map<number, Generation>;
+  generationId: number;
 }) => {
   const attributesByFormId = new Map<number, PokemonAttributes>();
   const gameGenerationOrder = getGenerationSortOrder(
-    game.generation_id,
+    generationId,
     generationById,
   );
 
@@ -122,27 +126,29 @@ export const buildGamePokedexData = ({
   attributes,
   entries,
   forms,
-  game,
+  games,
   generations,
   pokedex,
   pokedexes,
   species,
   types,
+  versionGroup,
+  versionGroupById,
 }: BuildGamePokedexDataParams): GamePokedexData => {
   const abilityById = byId(abilities);
   const generationById = byId(generations);
-  const generation = generationById.get(game.generation_id);
+  const generation = generationById.get(versionGroup.generation_id);
   const speciesById = byId(species);
   const typeById = byId(types);
 
   if (!generation) {
-    throw new Error("Unable to resolve game generation.");
+    throw new Error("Unable to resolve the version group's generation.");
   }
 
-  const attributesByFormId = selectGameGenerationAttributes({
+  const attributesByFormId = selectGenerationAttributes({
     attributes,
-    game,
     generationById,
+    generationId: generation.id,
   });
   const entryFormsByKey = selectGamePokedexEntryForms({ entries, forms });
 
@@ -172,15 +178,16 @@ export const buildGamePokedexData = ({
         },
       ];
     }),
-    game,
+    games,
     generation,
-    mechanics: resolveGameMechanics({
-      gameId: game.id,
+    mechanics: resolveVersionGroupMechanics({
+      gameIds: games.map((game) => game.id),
       generationId: generation.id,
-      versionGroupId: game.version_group_id,
+      versionGroupId: versionGroup.id,
     }),
     pokedex,
-    pokedexes,
+    pokedexes: sortVersionGroupPokedexes(pokedexes, versionGroupById),
     types,
+    versionGroup,
   };
 };

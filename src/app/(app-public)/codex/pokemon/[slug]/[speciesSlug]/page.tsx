@@ -2,6 +2,7 @@ import { PokemonDetailPage } from "@/modules/codex/features/pokemon/detail/pokem
 
 type PageProps = {
   params: Promise<{
+    /* A version group's slug; a game's slug redirects to its group. */
     slug: string;
     speciesSlug: string;
   }>;
@@ -11,13 +12,14 @@ type PageProps = {
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { slug: gameSlug, speciesSlug } = await params;
+  const { slug, speciesSlug } = await params;
+  const { form } = await searchParams;
 
   return (
     <PokemonDetailPage
-      gameSlug={gameSlug}
-      searchParams={await searchParams}
+      form={Array.isArray(form) ? form[0] : form}
       speciesSlug={speciesSlug}
+      versionGroupSlug={slug}
     />
   );
 }

@@ -1,7 +1,7 @@
 import type {
   GameCard,
-  GameDetailData,
   GamePokedexSummary,
+  VersionGroup,
 } from "@/modules/reference/types";
 
 export type CodexGamePokedexSummary = GamePokedexSummary & {
@@ -9,8 +9,14 @@ export type CodexGamePokedexSummary = GamePokedexSummary & {
   previewImageUrls: string[];
 };
 
-export type CodexGameDetailData = Omit<GameDetailData, "pokedexes"> & {
+/* A version group's page: Sword and Shield, read with one of its games picked. */
+export type CodexGameDetailData = {
+  availablePokemonCount: number;
   pokedexes: CodexGamePokedexSummary[];
-  /* Every version in this game's version group, this one included, in release order. */
+  relatedGames: GameCard[];
+  /* The picked game, which the cover and the eyebrow follow. */
+  version: GameCard;
+  versionGroup: VersionGroup;
+  /* Every game in the group, in its own order. */
   versions: GameCard[];
 };

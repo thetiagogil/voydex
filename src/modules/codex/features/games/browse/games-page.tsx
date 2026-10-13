@@ -4,10 +4,8 @@ import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 
 type GamesPageProps = {
   params?: {
+    kind?: string | null;
     q?: string | null;
-    type?: string | null;
-    generation?: string | null;
-    region?: string | null;
   };
 };
 

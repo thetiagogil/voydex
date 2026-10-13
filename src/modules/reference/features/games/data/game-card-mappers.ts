@@ -1,4 +1,5 @@
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
+import { getGameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import type { GameCard } from "@/modules/reference/features/games/types";
 import type {
   Game,
@@ -40,13 +41,23 @@ export const buildGameCards = (params: {
     platformsByGame.set(gamePlatform.game_id, current);
   }
 
-  return params.games.map((game) => ({
-    game,
-    coverImageUrl: getGameCoverImageUrl(game),
-    generation: generationById.get(game.generation_id) ?? null,
-    region: regionById.get(game.region_id) ?? null,
-    versionGroup: versionGroupById.get(game.version_group_id) ?? null,
-    gameType: gameTypeById.get(game.game_type_id) ?? null,
-    platforms: platformsByGame.get(game.id) ?? [],
-  }));
+  return params.games.map((game) => {
+    const gameType = gameTypeById.get(game.game_type_id) ?? null;
+    const versionGroup = versionGroupById.get(game.version_group_id);
+
+    if (!versionGroup) {
+      throw new Error(`Unable to resolve the version group of ${game.slug}.`);
+    }
+
+    return {
+      game,
+      coverImageUrl: getGameCoverImageUrl(game),
+      generation: generationById.get(game.generation_id) ?? null,
+      kind: getGameKind(game, gameType),
+      region: regionById.get(game.region_id) ?? null,
+      versionGroup,
+      gameType,
+      platforms: platformsByGame.get(game.id) ?? [],
+    };
+  });
 };

@@ -29,7 +29,7 @@ import {
 
 type PokemonDetailLearnsetsCardProps = {
   learnsets: PokemonLearnsetSummary[];
-  scopeName: string | null;
+  scopeName: string;
 };
 
 /* On phones a row folds into v3's card: how on the left, the figures labelled. */
@@ -72,7 +72,9 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
           </span>
           {addedContentName ? (
             <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2 py-0.5 font-bold">
-              <span className="sr-only">Added in </span>
+              {learnset.game ? null : (
+                <span className="sr-only">Added in </span>
+              )}
               {addedContentName}
             </span>
           ) : null}
@@ -190,9 +192,7 @@ export const PokemonDetailLearnsetsCard = ({
         </>
       ) : (
         <p className="text-14 text-ink-2 font-semibold">
-          {scopeName
-            ? `The moves it learns in ${scopeName} aren't recorded yet.`
-            : "The moves it learns aren't recorded yet."}
+          The moves it learns in {scopeName} aren&apos;t recorded yet.
         </p>
       )}
     </DetailSectionCard>

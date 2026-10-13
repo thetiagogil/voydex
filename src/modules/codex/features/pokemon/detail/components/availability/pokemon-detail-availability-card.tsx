@@ -1,101 +1,63 @@
 import Link from "next/link";
 
-import { appRoutes } from "@/config/routes";
-import {
-  getPokemonDetailAvailabilityContentGame,
-  getPokemonDetailAvailabilityContentLabel,
-  getPokemonDetailAvailabilityDetails,
-  getPokemonDetailAvailabilityKey,
-  getPokemonDetailAvailabilityMethodLabel,
-} from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
+import type { PokemonDetailWhereToFindRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { formatPokemonDetailVersionGroupName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-version-group-display";
-import type {
-  Game,
-  PokemonAvailabilitySummary,
-  VersionGroup,
-} from "@/modules/reference/types";
 
 type PokemonDetailAvailabilityCardProps = {
-  activeGame: Game | null;
-  activeVersionGroup: VersionGroup | null;
-  availability: PokemonAvailabilitySummary[];
+  rows: PokemonDetailWhereToFindRow[];
+  /* The group it is read in, as in "Sword and Shield". */
+  scopeName: string;
 };
 
-const AvailabilityRow = ({
-  activeGame,
-  activeVersionGroup,
-  availability,
-}: Omit<PokemonDetailAvailabilityCardProps, "availability"> & {
-  availability: PokemonAvailabilitySummary;
-}) => {
-  const contentGame = getPokemonDetailAvailabilityContentGame({
-    activeGame,
-    activeVersionGroup,
-    availability,
-  });
-  const contentLabel = getPokemonDetailAvailabilityContentLabel({
-    activeGame,
-    activeVersionGroup,
-    availability,
-  });
-  const details = getPokemonDetailAvailabilityDetails(availability);
-
+const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   return (
     <div className="border-line grid gap-1.5 py-3 not-first:border-t first:pt-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-3">
       <dt className="min-w-0 font-extrabold">
-        {contentGame ? (
+        {row.href ? (
           <Link
-            href={appRoutes.codexGame(contentGame.slug)}
+            href={row.href}
             className="hover:text-link focus-visible:outline-focus rounded-xs underline-offset-4 outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
           >
-            {contentLabel}
+            {row.label}
           </Link>
         ) : (
-          contentLabel
+          row.label
         )}
       </dt>
-      <dd className="min-w-0">
-        <span className="block font-bold">
-          {getPokemonDetailAvailabilityMethodLabel(availability)}
-        </span>
-        {details ? (
-          <span className="text-14 text-ink-2 block">{details}</span>
-        ) : null}
+      <dd className="flex min-w-0 flex-col gap-1.5">
+        {row.ways.length ? (
+          row.ways.map((way) => (
+            <span key={way.key} className="block">
+              <span className="block font-bold">{way.label}</span>
+              {way.detail ? (
+                <span className="text-14 text-ink-2 block">{way.detail}</span>
+              ) : null}
+            </span>
+          ))
+        ) : (
+          <span className="text-ink-2 font-semibold">{row.missingLabel}</span>
+        )}
       </dd>
     </div>
   );
 };
 
+/* v3's Where to find: one row per game in the group, then its expansions. */
 export const PokemonDetailAvailabilityCard = ({
-  activeGame,
-  activeVersionGroup,
-  availability,
+  rows,
+  scopeName,
 }: PokemonDetailAvailabilityCardProps) => {
-  const scopeName =
-    activeGame?.name ??
-    (activeVersionGroup
-      ? formatPokemonDetailVersionGroupName(activeVersionGroup.name)
-      : null);
-
   return (
     <DetailSectionCard title="Where to find" aside={scopeName}>
-      {availability.length ? (
+      {rows.length ? (
         <dl>
-          {availability.map((availabilityRow, index) => (
-            <AvailabilityRow
-              key={getPokemonDetailAvailabilityKey(availabilityRow, index)}
-              activeGame={activeGame}
-              activeVersionGroup={activeVersionGroup}
-              availability={availabilityRow}
-            />
+          {rows.map((row) => (
+            <WhereToFindRow key={row.key} row={row} />
           ))}
         </dl>
       ) : (
         <p className="text-14 text-ink-2 font-semibold">
-          {scopeName
-            ? `Where to find it in ${scopeName} isn't recorded yet.`
-            : "Where to find it isn't recorded yet."}
+          Where to find it in {scopeName} isn&apos;t recorded yet.
         </p>
       )}
     </DetailSectionCard>

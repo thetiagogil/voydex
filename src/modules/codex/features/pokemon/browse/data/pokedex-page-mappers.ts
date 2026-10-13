@@ -7,21 +7,60 @@ import {
 } from "@/modules/reference/reference-data";
 import type {
   Game,
+  Generation,
   PokedexPageData,
   PokemonForm,
+  Region,
+  VersionGroup,
 } from "@/modules/reference/types";
+import {
+  getBaseVersionGroupsForGeneration,
+  getVersionGroupGames,
+} from "@/modules/reference/features/games/domain/version-groups";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 
-const getDefaultDetailGameSlugByGenerationId = (games: Game[]) => {
-  const slugByGenerationId = new Map<number, string>();
+/*
+ * Where each generation starts: its first version group (the entry a card
+ * opens in) and that group's region (the list's group heading).
+ */
+export const getGenerationStarts = ({
+  games,
+  generations,
+  regions,
+  versionGroups,
+}: {
+  games: Game[];
+  generations: Generation[];
+  regions: Region[];
+  versionGroups: VersionGroup[];
+}) => {
+  const regionById = byId(regions);
 
-  for (const game of games) {
-    if (!slugByGenerationId.has(game.generation_id)) {
-      slugByGenerationId.set(game.generation_id, game.slug);
-    }
-  }
+  return new Map(
+    generations.flatMap((generation) => {
+      const [firstVersionGroup] = getBaseVersionGroupsForGeneration(
+        versionGroups,
+        generation.id,
+      );
 
-  return slugByGenerationId;
+      if (!firstVersionGroup) {
+        return [];
+      }
+
+      const [firstGame] = getVersionGroupGames(firstVersionGroup, games);
+      const region = firstGame ? regionById.get(firstGame.region_id) : null;
+
+      return [
+        [
+          generation.id,
+          {
+            regionName: region?.name ?? null,
+            versionGroupSlug: firstVersionGroup.slug,
+          },
+        ] as const,
+      ];
+    }),
+  );
 };
 
 const getDefaultFormBySpeciesId = (forms: PokemonForm[]) => {
@@ -41,15 +80,21 @@ export const buildPokedexPageData = ({
   defaultForms,
   games,
   generations,
+  regions,
   species,
   types,
+  versionGroups,
 }: PokedexPageRows): PokedexPageData => {
   const typeById = byId(types);
   const generationById = byId(generations);
   const defaultFormBySpeciesId = getDefaultFormBySpeciesId(defaultForms);
   const latestAttributesByFormId = selectLatestAttributes(attributes);
-  const defaultDetailGameSlugByGenerationId =
-    getDefaultDetailGameSlugByGenerationId(games);
+  const generationStarts = getGenerationStarts({
+    games,
+    generations,
+    regions,
+    versionGroups,
+  });
 
   return {
     filters: defaultPokedexPageFilters,
@@ -62,16 +107,16 @@ export const buildPokedexPageData = ({
       const typePair = resolveTypePair(latestAttributes, typeById);
       const introducedGeneration =
         generationById.get(pokemonSpecies.introduced_generation_id) ?? null;
-      const detailGameSlug = defaultDetailGameSlugByGenerationId.get(
+      const detailVersionGroupSlug = generationStarts.get(
         pokemonSpecies.introduced_generation_id,
-      );
+      )?.versionGroupSlug;
 
-      if (!detailGameSlug) {
-        throw new Error("Unable to resolve default Pokemon detail game.");
+      if (!detailVersionGroupSlug) {
+        throw new Error("Unable to resolve a Pokémon's first version group.");
       }
 
       return {
-        detailGameSlug,
+        detailVersionGroupSlug,
         id: pokemonSpecies.id,
         imageUrl: getPokemonFormImageUrl(defaultForm),
         introducedGeneration: introducedGeneration
@@ -81,9 +126,6 @@ export const buildPokedexPageData = ({
               slug: introducedGeneration.slug,
             }
           : null,
-        isBaby: pokemonSpecies.is_baby,
-        isLegendary: pokemonSpecies.is_legendary,
-        isMythical: pokemonSpecies.is_mythical,
         name: pokemonSpecies.name,
         nationalNumber: pokemonSpecies.national_number,
         primaryType: typePair.primaryType
@@ -103,6 +145,13 @@ export const buildPokedexPageData = ({
         slug: pokemonSpecies.slug,
       };
     }),
+    regionNameByGenerationSlug: Object.fromEntries(
+      generations.flatMap((generation) => {
+        const regionName = generationStarts.get(generation.id)?.regionName;
+
+        return regionName ? [[generation.slug, regionName]] : [];
+      }),
+    ),
     types,
   };
 };

@@ -10,7 +10,7 @@ import { getPokemonHref } from "@/modules/codex/features/pokemon/detail/client/p
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 
 type PokemonDetailSpeciesSelectorProps = {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activePokemon: {
     name: string;
     slug: string;
@@ -18,7 +18,7 @@ type PokemonDetailSpeciesSelectorProps = {
 };
 
 export const PokemonDetailSpeciesSelector = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activePokemon,
 }: PokemonDetailSpeciesSelectorProps) => {
   const router = useRouter();
@@ -35,7 +35,7 @@ export const PokemonDetailSpeciesSelector = ({
     pokemonItems,
     updateInputValue,
   } = usePokemonDetailSpeciesMenu({
-    activeGameSlug,
+    activeVersionGroupSlug,
     activePokemonSlug: activePokemon.slug,
   });
 
@@ -52,13 +52,13 @@ export const PokemonDetailSpeciesSelector = ({
       return;
     }
 
-    router.push(getPokemonHref(activeGameSlug, pokemonItem));
+    router.push(getPokemonHref(activeVersionGroupSlug, pokemonItem));
   };
 
   return (
     <>
       <PokemonDetailSpeciesSelectorDesktop
-        activeGameSlug={activeGameSlug}
+        activeVersionGroupSlug={activeVersionGroupSlug}
         activePokemon={activePokemon}
         activePokemonItem={activePokemonItem}
         groupHeaderBySlug={groupHeaderBySlug}
@@ -74,7 +74,7 @@ export const PokemonDetailSpeciesSelector = ({
       />
 
       <PokemonDetailSpeciesSelectorMobile
-        activeGameSlug={activeGameSlug}
+        activeVersionGroupSlug={activeVersionGroupSlug}
         activePokemon={activePokemon}
         groupHeaderBySlug={groupHeaderBySlug}
         handleListScroll={handleListScroll}

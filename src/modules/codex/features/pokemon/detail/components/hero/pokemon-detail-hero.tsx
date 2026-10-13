@@ -2,21 +2,22 @@
 
 import { useState } from "react";
 
-import {
-  PokemonDetailFormSwitch,
-  type PokemonDetailFormSwitchItem,
-} from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-form-switch";
 import type { PokemonDetailHeroSentencePart } from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-hero-model";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonTypePair } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/shared/components/segmented-control";
 import { Button } from "@/shared/components/ui/button";
 
 type PokemonDetailHeroProps = {
+  activeFormSlug: string | null;
   eyebrow: string;
-  formSwitchItems: PokemonDetailFormSwitchItem[];
+  formSwitchOptions: SegmentedControlOption<string>[];
   imageAlt: string;
   imageUrl: string | null;
   name: string;
@@ -29,12 +30,15 @@ type PokemonDetailHeroProps = {
 /*
  * v3's entry hero: the art, flat on its type tint, beside the number, the
  * name, the form switch, the types and the one sentence the page reads for
- * you. The shiny toggle sits where v3 keeps the entry's actions. The art
+ * you. The shiny toggle sits where v3 keeps the entry's actions; each form
+ * is its own page, and the shell remounts the hero for it, so the toggle
+ * starts off again. The art
  * keeps v3's 1 : 1.05 split and stops at the size v3's widest page gives it.
  */
 export const PokemonDetailHero = ({
+  activeFormSlug,
   eyebrow,
-  formSwitchItems,
+  formSwitchOptions,
   imageAlt,
   imageUrl,
   name,
@@ -70,13 +74,14 @@ export const PokemonDetailHero = ({
           {name}
         </h1>
 
-        {formSwitchItems.length > 1 ? (
+        {formSwitchOptions.length > 1 ? (
           <div className="mb-3.5">
-            <PokemonDetailFormSwitch
-              items={formSwitchItems}
-              onSelect={() => {
-                setShowShiny(false);
-              }}
+            <SegmentedControl
+              ariaLabel="Form"
+              variant="segment"
+              className="flex-wrap"
+              options={formSwitchOptions}
+              value={activeFormSlug}
             />
           </div>
         ) : null}

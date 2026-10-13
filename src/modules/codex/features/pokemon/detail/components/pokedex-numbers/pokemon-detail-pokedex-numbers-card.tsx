@@ -5,8 +5,8 @@ import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemo
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
-  gameSlug: string | null;
   numbers: PokemonDetailPokedexNumber[];
+  versionGroupSlug: string;
 };
 
 const PokedexNumberContent = ({
@@ -28,29 +28,23 @@ const PokedexNumberContent = ({
 
 /* v3's key and value grid: each Pokédex this Pokémon is listed in, and where. */
 export const PokemonDetailPokedexNumbersCard = ({
-  gameSlug,
   numbers,
+  versionGroupSlug,
 }: PokemonDetailPokedexNumbersCardProps) => {
   return (
     <DetailSectionCard title="Pokédex numbers">
       <ul className="grid grid-cols-2 gap-x-4.5 gap-y-2">
         {numbers.map((pokedexNumber) => (
           <li key={pokedexNumber.id} className="min-w-0">
-            {gameSlug ? (
-              <Link
-                href={appRoutes.codexGamePokedex(
-                  gameSlug,
-                  pokedexNumber.pokedexSlug,
-                )}
-                className="hover:bg-surface-2 focus-visible:outline-focus -mx-2 block rounded-sm px-2 py-1.5 transition-colors outline-none focus-visible:outline-3 focus-visible:outline-solid"
-              >
-                <PokedexNumberContent pokedexNumber={pokedexNumber} />
-              </Link>
-            ) : (
-              <div className="py-1.5">
-                <PokedexNumberContent pokedexNumber={pokedexNumber} />
-              </div>
-            )}
+            <Link
+              href={appRoutes.codexVersionGroupPokedex(
+                versionGroupSlug,
+                pokedexNumber.pokedexSlug,
+              )}
+              className="hover:bg-surface-2 focus-visible:outline-focus -mx-2 block rounded-sm px-2 py-1.5 transition-colors outline-none focus-visible:outline-3 focus-visible:outline-solid"
+            >
+              <PokedexNumberContent pokedexNumber={pokedexNumber} />
+            </Link>
           </li>
         ))}
       </ul>

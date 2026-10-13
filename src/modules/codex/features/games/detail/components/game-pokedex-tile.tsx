@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { CodexGamePokedexSummary } from "@/modules/codex/features/games/detail/types";
-import { getPokedexShortName } from "@/modules/codex/features/games/shared/utils/game-names";
+import { getPokedexShortName } from "@/modules/codex/shared/utils/game-names";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
@@ -27,9 +27,9 @@ const hopDelayClassNames = [
 ];
 
 type GamePokedexTileProps = {
-  gameSlug: string;
   layout: GamePokedexTileLayout;
   summary: CodexGamePokedexSummary;
+  versionGroupSlug: string;
 };
 
 const GamePokedexTileStrip = ({
@@ -76,11 +76,13 @@ const GamePokedexTileStrip = ({
  * One of the game's Pokédexes: a strip of its first entries, its kind, its
  * name and how many Pokémon it lists. A single Pokédex lays out in a row.
  * The visible text names the link, so the kind and count are read out too.
+ * The National Pokédex opens the game's own National list (386 in Ruby and
+ * Sapphire), outlined so the regional ones lead.
  */
 export const GamePokedexTile = ({
-  gameSlug,
   layout,
   summary,
+  versionGroupSlug,
 }: GamePokedexTileProps) => {
   const { pokedex, pokemonCount, previewImageUrls } = summary;
   const isNational = pokedex.pokedex_kind === "national";
@@ -90,7 +92,7 @@ export const GamePokedexTile = ({
 
   return (
     <Link
-      href={appRoutes.codexGamePokedex(gameSlug, pokedex.slug)}
+      href={appRoutes.codexVersionGroupPokedex(versionGroupSlug, pokedex.slug)}
       className={cn(
         "group/dex bg-surface-2 hover:bg-hover relative flex min-w-0 flex-col gap-3 rounded-lg px-4.5 py-4 transition-[transform,background-color] duration-150 motion-safe:hover:-translate-y-[3px]",
         isNational &&

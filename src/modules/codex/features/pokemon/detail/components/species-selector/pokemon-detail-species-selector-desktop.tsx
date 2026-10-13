@@ -26,7 +26,7 @@ import {
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PokemonDetailSpeciesSelectorDesktopProps = {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activePokemon: {
     name: string;
     slug: string;
@@ -47,7 +47,7 @@ type PokemonDetailSpeciesSelectorDesktopProps = {
 };
 
 export const PokemonDetailSpeciesSelectorDesktop = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activePokemon,
   activePokemonItem,
   groupHeaderBySlug,
@@ -88,7 +88,7 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
           render={
             <Button
               variant="ghost"
-              disabled={!activeGameSlug}
+              disabled={!activeVersionGroupSlug}
               className={pokemonDetailSpeciesSelectorTriggerClassName}
             />
           }
@@ -113,7 +113,7 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
             {loadState === "loading" ? (
               <Spinner aria-label="Loading Pokémon" className="text-action" />
             ) : (
-              getPokemonMenuEmptyLabel(loadState, activeGameSlug)
+              getPokemonMenuEmptyLabel(loadState, activeVersionGroupSlug)
             )}
           </ComboboxEmpty>
           <ComboboxList className="max-h-96 pt-0" onScroll={handleListScroll}>

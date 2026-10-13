@@ -28,7 +28,7 @@ import {
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PokemonDetailSpeciesSelectorMobileProps = {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activePokemon: {
     name: string;
     slug: string;
@@ -47,7 +47,7 @@ type PokemonDetailSpeciesSelectorMobileProps = {
 };
 
 export const PokemonDetailSpeciesSelectorMobile = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activePokemon,
   groupHeaderBySlug,
   handleListScroll,
@@ -67,7 +67,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
         render={
           <Button
             variant="ghost"
-            disabled={!activeGameSlug}
+            disabled={!activeVersionGroupSlug}
             className={cn(
               pokemonDetailSpeciesSelectorTriggerClassName,
               "md:hidden",
@@ -88,7 +88,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
         <SheetHeader>
           <SheetTitle>Choose Pokémon</SheetTitle>
           <SheetDescription>
-            Search the Pokémon available in this game.
+            Search the Pokémon you can find in these games.
           </SheetDescription>
         </SheetHeader>
 
@@ -147,7 +147,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
             </div>
           ) : (
             <p className="text-14 text-ink-2 px-2 py-8 text-center font-semibold">
-              {getPokemonMenuEmptyLabel(loadState, activeGameSlug)}
+              {getPokemonMenuEmptyLabel(loadState, activeVersionGroupSlug)}
             </p>
           )}
 

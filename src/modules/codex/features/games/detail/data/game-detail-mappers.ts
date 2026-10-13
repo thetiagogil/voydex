@@ -1,3 +1,4 @@
+import { sortVersionGroupPokedexes } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
@@ -18,10 +19,14 @@ import type {
 const fallbackSortOrder = Number.MAX_SAFE_INTEGER;
 const RELATED_GAME_LIMIT = 5;
 
-const getRelatedGameSortScore = (currentGame: Game, relatedGame: Game) => {
-  const sameGeneration =
-    relatedGame.generation_id === currentGame.generation_id;
-  const sameRegion = relatedGame.region_id === currentGame.region_id;
+/* Same generation and region first, then same generation, then same region. */
+const getRelatedGameSortScore = (versions: Game[], relatedGame: Game) => {
+  const sameGeneration = versions.some((version) => {
+    return version.generation_id === relatedGame.generation_id;
+  });
+  const sameRegion = versions.some((version) => {
+    return version.region_id === relatedGame.region_id;
+  });
 
   if (sameGeneration && sameRegion) {
     return 0;
@@ -31,29 +36,24 @@ const getRelatedGameSortScore = (currentGame: Game, relatedGame: Game) => {
 };
 
 const sortRelatedGames = (
-  currentGame: Game,
+  versions: Game[],
   generationById: Map<number, Generation>,
   versionGroupById: Map<number, VersionGroup>,
 ) => {
   return (firstCard: GameCard, secondCard: GameCard) => {
-    const firstGenerationSortOrder =
-      generationById.get(firstCard.game.generation_id)?.sort_order ??
+    const getGenerationOrder = (card: GameCard) =>
+      generationById.get(card.game.generation_id)?.sort_order ??
       fallbackSortOrder;
-    const secondGenerationSortOrder =
-      generationById.get(secondCard.game.generation_id)?.sort_order ??
-      fallbackSortOrder;
-    const firstVersionGroupSortOrder =
-      versionGroupById.get(firstCard.game.version_group_id)?.sort_order ??
-      fallbackSortOrder;
-    const secondVersionGroupSortOrder =
-      versionGroupById.get(secondCard.game.version_group_id)?.sort_order ??
+    const getVersionGroupOrder = (card: GameCard) =>
+      versionGroupById.get(card.game.version_group_id)?.sort_order ??
       fallbackSortOrder;
 
     return (
-      getRelatedGameSortScore(currentGame, firstCard.game) -
-        getRelatedGameSortScore(currentGame, secondCard.game) ||
-      firstGenerationSortOrder - secondGenerationSortOrder ||
-      firstVersionGroupSortOrder - secondVersionGroupSortOrder ||
+      getRelatedGameSortScore(versions, firstCard.game) -
+        getRelatedGameSortScore(versions, secondCard.game) ||
+      getGenerationOrder(firstCard) - getGenerationOrder(secondCard) ||
+      firstCard.game.release_year - secondCard.game.release_year ||
+      getVersionGroupOrder(firstCard) - getVersionGroupOrder(secondCard) ||
       firstCard.game.sort_order - secondCard.game.sort_order ||
       firstCard.game.name.localeCompare(secondCard.game.name)
     );
@@ -110,7 +110,8 @@ const buildPokedexSummaries = (
 
 export const buildGameDetailData = (
   rows: GameDetailRows,
-): CodexGameDetailData => {
+  versionSlug?: string,
+): CodexGameDetailData | null => {
   const cardRows = {
     gamePlatforms: rows.gamePlatforms,
     gameTypes: rows.gameTypes,
@@ -119,36 +120,42 @@ export const buildGameDetailData = (
     regions: rows.regions,
     versionGroups: rows.versionGroups,
   };
-  const [card] = buildGameCards({ ...cardRows, games: [rows.game] });
+  const versions = buildGameCards({ ...cardRows, games: rows.versions });
+  const version =
+    versions.find((card) => card.game.slug === versionSlug) ?? versions[0];
+
+  if (!version) {
+    return null;
+  }
+
   const generationById = byId(rows.generations);
   const versionGroupById = byId(rows.versionGroups);
-  const otherGameCards = buildGameCards({
-    ...cardRows,
-    games: rows.relatedGames,
-  });
-  /* The other versions of this game sit in the header's version switch, not among related games. */
-  const isVersion = (other: GameCard) =>
-    other.game.version_group_id === rows.game.version_group_id;
-  const versions = [card, ...otherGameCards.filter(isVersion)].toSorted(
-    (first, second) =>
-      first.game.sort_order - second.game.sort_order ||
-      first.game.name.localeCompare(second.game.name),
-  );
-  const relatedGames = otherGameCards
-    .filter((other) => !isVersion(other))
-    .sort(sortRelatedGames(rows.game, generationById, versionGroupById))
+  const relatedGames = buildGameCards({ ...cardRows, games: rows.relatedGames })
+    .sort(sortRelatedGames(rows.versions, generationById, versionGroupById))
     .slice(0, RELATED_GAME_LIMIT);
-  const pokedexes = buildPokedexSummaries(rows);
+  const pokedexes = buildPokedexSummaries({
+    ...rows,
+    pokedexes: sortVersionGroupPokedexes(rows.pokedexes, versionGroupById),
+  });
+  /* The base game's own largest Pokédex: not an expansion's, not the National one. */
   const availablePokemonCount = Math.max(
     0,
-    ...pokedexes.map((pokedex) => pokedex.pokemonCount),
+    ...pokedexes
+      .filter(({ pokedex }) => {
+        return (
+          pokedex.version_group_id === rows.versionGroup.id &&
+          pokedex.pokedex_kind !== "national"
+        );
+      })
+      .map((pokedex) => pokedex.pokemonCount),
   );
 
   return {
-    ...card,
     availablePokemonCount,
     pokedexes,
     relatedGames,
+    version,
+    versionGroup: rows.versionGroup,
     versions,
   };
 };

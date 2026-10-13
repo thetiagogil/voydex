@@ -1,112 +1,114 @@
-import type {
-  Game,
-  PokemonAvailabilitySummary,
-  VersionGroup,
-} from "@/modules/reference/types";
-import { formatPokemonDetailVersionGroupName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-version-group-display";
+import { appRoutes } from "@/config/routes";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import {
+  doesPokemonAvailabilityMatchGame,
+  getPokemonAvailabilityVersionGroups,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
+import type { PokemonAvailabilitySummary } from "@/modules/reference/types";
 
-const getAvailabilityContentVersionGroup = (
-  availability: PokemonAvailabilitySummary,
-) => {
-  return availability.sourceVersionGroup ?? availability.targetVersionGroup;
+export type PokemonDetailWhereToFindWay = {
+  detail: string | null;
+  key: string;
+  label: string;
 };
 
-export const getPokemonDetailAvailabilityContentLabel = ({
-  activeGame,
+/* One game of the group, or one of its expansions, and the ways to find the Pokémon there. */
+export type PokemonDetailWhereToFindRow = {
+  href: string | null;
+  key: string;
+  label: string;
+  /*
+   * Said when `ways` is empty: "Not in this version" when the other game has
+   * it (a version exclusive), "Not in the base game" when only an expansion does.
+   */
+  missingLabel: string;
+  ways: PokemonDetailWhereToFindWay[];
+};
+
+const getWay = (
+  availability: PokemonAvailabilitySummary,
+): PokemonDetailWhereToFindWay => {
+  const label = availability.method?.name ?? "Available";
+  const detail =
+    availability.availability.notes ?? availability.method?.description ?? null;
+
+  return { detail, key: `${label}:${detail ?? ""}`, label };
+};
+
+/* The same way twice (one row per game, say) reads once. */
+const getDistinctWays = (rows: PokemonAvailabilitySummary[]) => {
+  const ways = new Map<string, PokemonDetailWhereToFindWay>();
+
+  for (const row of rows) {
+    const way = getWay(row);
+
+    if (!ways.has(way.key)) {
+      ways.set(way.key, way);
+    }
+  }
+
+  return [...ways.values()];
+};
+
+/*
+ * v3's Where to find: one row per game in the group (Sword, then Shield),
+ * then one per expansion that adds the Pokémon. A game with no way to find it
+ * stays, saying so, since that is what makes a version exclusive.
+ */
+export const getPokemonDetailWhereToFindRows = ({
   availability,
-  activeVersionGroup,
+  versionGroup,
 }: {
-  activeGame: Game | null;
-  availability: PokemonAvailabilitySummary;
-  activeVersionGroup: VersionGroup | null;
-}) => {
-  const contentVersionGroup = getAvailabilityContentVersionGroup(availability);
-
-  if (!contentVersionGroup) {
-    return (
-      availability.game?.name ??
-      activeGame?.name ??
-      (activeVersionGroup
-        ? formatPokemonDetailVersionGroupName(activeVersionGroup.name)
-        : "This game")
-    );
+  availability: PokemonAvailabilitySummary[];
+  versionGroup: PokemonDetailVersionGroupScope;
+}): PokemonDetailWhereToFindRow[] => {
+  if (!availability.length) {
+    return [];
   }
 
-  if (activeGame && contentVersionGroup.id === activeGame.version_group_id) {
-    return availability.game?.name ?? activeGame.name;
-  }
-
-  if (
-    activeVersionGroup &&
-    contentVersionGroup.id === activeVersionGroup.id &&
-    !activeVersionGroup.parent_version_group_id
-  ) {
-    return (
-      availability.game?.name ??
-      formatPokemonDetailVersionGroupName(contentVersionGroup.name)
-    );
-  }
-
-  return formatPokemonDetailVersionGroupName(contentVersionGroup.name);
-};
-
-export const getPokemonDetailAvailabilityContentGame = ({
-  activeGame,
-  activeVersionGroup,
-  availability,
-}: {
-  activeGame: Game | null;
-  activeVersionGroup: VersionGroup | null;
-  availability: PokemonAvailabilitySummary;
-}) => {
-  const contentVersionGroup = getAvailabilityContentVersionGroup(availability);
-
-  if (!contentVersionGroup) {
-    return null;
-  }
-
-  if (activeGame && contentVersionGroup.id === activeGame.version_group_id) {
-    return availability.game ?? activeGame;
-  }
-
-  if (
-    availability.game &&
-    activeVersionGroup &&
-    contentVersionGroup.id === activeVersionGroup.id &&
-    !activeVersionGroup.parent_version_group_id
-  ) {
-    return availability.game;
-  }
-
-  return null;
-};
-
-export const getPokemonDetailAvailabilityMethodLabel = (
-  availability: PokemonAvailabilitySummary,
-) => {
-  return availability.method?.name ?? "Available";
-};
-
-export const getPokemonDetailAvailabilityDetails = (
-  availability: PokemonAvailabilitySummary,
-) => {
-  return (
-    availability.availability.notes ?? availability.method?.description ?? null
+  const expansionIds = new Set(
+    versionGroup.expansions.map((expansion) => expansion.id),
   );
-};
+  const getExpansionId = (row: PokemonAvailabilitySummary) => {
+    return (
+      getPokemonAvailabilityVersionGroups(row).find((scope) => {
+        return expansionIds.has(scope.id);
+      })?.id ?? null
+    );
+  };
+  const baseRows = availability.filter((row) => getExpansionId(row) === null);
+  const missingLabel = baseRows.length
+    ? "Not in this version"
+    : "Not in the base game";
+  const gameRows = versionGroup.games.map((game) => ({
+    href: appRoutes.codexVersionGroup(
+      versionGroup.versionGroup.slug,
+      game.slug,
+    ),
+    key: `game-${game.id}`,
+    label: game.name,
+    missingLabel,
+    ways: getDistinctWays(
+      baseRows.filter((row) => doesPokemonAvailabilityMatchGame(row, game)),
+    ),
+  }));
+  const expansionRows = versionGroup.expansions.flatMap((expansion) => {
+    const ways = getDistinctWays(
+      availability.filter((row) => getExpansionId(row) === expansion.id),
+    );
 
-export const getPokemonDetailAvailabilityKey = (
-  availability: PokemonAvailabilitySummary,
-  index: number,
-) => {
-  return [
-    availability.availability.id,
-    availability.availability.target_version_group_id,
-    availability.availability.source_version_group_id,
-    availability.availability.game_id,
-    availability.availability.form_id,
-    index,
-  ]
-    .filter((value) => value !== null)
-    .join("-");
+    return ways.length
+      ? [
+          {
+            href: null,
+            key: `expansion-${expansion.id}`,
+            label: expansion.name,
+            missingLabel,
+            ways,
+          },
+        ]
+      : [];
+  });
+
+  return [...gameRows, ...expansionRows];
 };

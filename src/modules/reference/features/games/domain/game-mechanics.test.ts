@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   gameMechanics,
   resolveGameMechanics,
+  resolveVersionGroupMechanics,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 
 const buildContext = (generationId: number) => ({
@@ -50,6 +51,49 @@ describe("resolveGameMechanics", () => {
       gameId: null,
       generationId: 3,
       versionGroupId: null,
+    });
+
+    expect(Object.values(profile.support)).toEqual([
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+    ]);
+  });
+});
+
+describe("resolveVersionGroupMechanics", () => {
+  it("resolves a version group from every game in it", () => {
+    const profile = resolveVersionGroupMechanics({
+      gameIds: [31, 32],
+      generationId: 8,
+      versionGroupId: 18,
+    });
+
+    expect(profile.context.gameId).toBeNull();
+    expect(Object.values(profile.support)).toEqual([
+      "supported",
+      "supported",
+      "supported",
+      "supported",
+    ]);
+  });
+
+  it("keeps Generation I limits for a group", () => {
+    const profile = resolveVersionGroupMechanics({
+      gameIds: [1, 2],
+      generationId: 1,
+      versionGroupId: 1,
+    });
+
+    expect(profile.support[gameMechanics.abilities]).toBe("unsupported");
+  });
+
+  it("stays unknown for a group without games", () => {
+    const profile = resolveVersionGroupMechanics({
+      gameIds: [],
+      generationId: 8,
+      versionGroupId: 19,
     });
 
     expect(Object.values(profile.support)).toEqual([

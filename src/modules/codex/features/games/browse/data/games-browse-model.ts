@@ -1,3 +1,4 @@
+import type { GameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import type {
   GameCard,
   GamesPageFilters,
@@ -16,10 +17,8 @@ export type GamesShelfSection = {
 };
 
 export const emptyGamesPageFilters: GamesPageFilters = {
-  gameType: "",
-  generation: "",
+  kind: "",
   query: "",
-  region: "",
 };
 
 const getSearchableGameText = (card: GameCard) => {
@@ -33,8 +32,8 @@ const getSearchableGameText = (card: GameCard) => {
     card.region?.slug,
     card.gameType?.name,
     card.gameType?.slug,
-    card.versionGroup?.name,
-    card.versionGroup?.slug,
+    card.versionGroup.name,
+    card.versionGroup.slug,
   ]
     .filter(Boolean)
     .join(" ")
@@ -45,15 +44,7 @@ export const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
   const normalizedQuery = filters.query.trim().toLowerCase();
 
   return games.filter((card) => {
-    if (filters.generation && card.generation?.slug !== filters.generation) {
-      return false;
-    }
-
-    if (filters.region && card.region?.slug !== filters.region) {
-      return false;
-    }
-
-    if (filters.gameType && card.gameType?.slug !== filters.gameType) {
+    if (filters.kind && card.kind !== filters.kind) {
       return false;
     }
 
@@ -64,16 +55,22 @@ export const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
 };
 
 export const hasActiveGamesFilters = (filters: GamesPageFilters) => {
-  return (
-    filters.query.trim() !== "" ||
-    filters.generation !== "" ||
-    filters.region !== "" ||
-    filters.gameType !== ""
-  );
+  return filters.query.trim() !== "" || filters.kind !== "";
 };
 
 export const countGenerations = (games: GameCard[]) => {
   return new Set(games.map((card) => card.generation?.id ?? null)).size;
+};
+
+/* How many games each kind holds, for the filter pills. */
+export const countGamesByKind = (games: GameCard[]) => {
+  const counts = new Map<GameKind, number>();
+
+  for (const card of games) {
+    counts.set(card.kind, (counts.get(card.kind) ?? 0) + 1);
+  }
+
+  return counts;
 };
 
 const formatYearSpan = (games: GameCard[]) => {
@@ -116,7 +113,7 @@ const getSectionIdentity = (card: GameCard, groupBy: GamesGroupBy) => {
 
 /*
  * The shelf's sections. Games arrive in release order (generation, then
- * version group); by generation that order is kept, by region the regions
+ * release year); by generation that order is kept, by region the regions
  * follow their own order. Newest first turns both the sections and the games
  * in them around.
  */

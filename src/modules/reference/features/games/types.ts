@@ -1,4 +1,5 @@
 import type { PokemonTypePair } from "@/modules/reference/features/pokemon/types";
+import type { GameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
   Ability,
@@ -20,8 +21,11 @@ export type GameCard = {
   coverImageUrl: string | null;
   game: Game;
   generation: Generation | null;
+  /* How the Codex groups it: core series, companions and remakes, or Legends. */
+  kind: GameKind;
   region: Region | null;
-  versionGroup: VersionGroup | null;
+  /* Every game belongs to one; a game whose group can't be resolved fails the read. */
+  versionGroup: VersionGroup;
   gameType: GameType | null;
   platforms: Platform[];
 };
@@ -32,24 +36,15 @@ export type GamePokedexSummary = {
 };
 
 export type GamesPageFilters = {
-  gameType: string;
-  generation: string;
+  /* A game kind, or "" for every game. */
+  kind: GameKind | "";
   query: string;
-  region: string;
 };
 
 export type GamesPageData = {
   filters: GamesPageFilters;
-  gameTypes: GameType[];
   games: GameCard[];
-  generations: Generation[];
   regions: Region[];
-};
-
-export type GameDetailData = GameCard & {
-  availablePokemonCount: number;
-  pokedexes: GamePokedexSummary[];
-  relatedGames: GameCard[];
 };
 
 export type GamePokedexPokemonAbility = {
@@ -70,10 +65,14 @@ export type GamePokedexPokemon = {
 
 export type GamePokedexData = {
   entries: GamePokedexPokemon[];
-  game: Game;
+  /* The version group's games, in their own order. */
+  games: Game[];
   generation: Generation;
   mechanics: GameMechanicsProfile;
   pokedex: Pokedex;
+  /* Every Pokédex of the version group, its expansions' included. */
   pokedexes: Pokedex[];
   types: Type[];
+  /* The base version group the Pokédex belongs to (Sword / Shield for Isle of Armor). */
+  versionGroup: VersionGroup;
 };

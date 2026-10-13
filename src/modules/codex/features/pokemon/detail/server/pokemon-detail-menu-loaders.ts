@@ -4,7 +4,6 @@ import {
   loadPagedReferenceRows,
 } from "@/modules/reference/reference-rows";
 import type {
-  Game,
   Generation,
   Pokedex,
   PokedexEntry,
@@ -17,7 +16,6 @@ import type {
 export type PokemonMenuReferenceRows = {
   generations: Generation[];
   types: Type[];
-  versionGroups: VersionGroup[];
 };
 
 export type PokemonMenuPokedexRows = {
@@ -25,54 +23,10 @@ export type PokemonMenuPokedexRows = {
   pokedexes: Pokedex[];
 };
 
-export const loadPokemonMenuGameBySlug = async (
-  supabase: ServerSupabaseClient,
-  gameSlug: string,
-) => {
-  const gameResult = await supabase
-    .schema("reference")
-    .from("games")
-    .select("*")
-    .eq("slug", gameSlug)
-    .maybeSingle();
-
-  if (gameResult.error) {
-    throw new Error("Unable to load Pokemon menu game.");
-  }
-
-  return gameResult.data;
-};
-
-export const loadPokemonMenuVersionGroupsForGameScope = async (
-  supabase: ServerSupabaseClient,
-  game: Game,
-) => {
-  const versionGroupsResult = await supabase
-    .schema("reference")
-    .from("version_groups")
-    .select("*")
-    .eq("generation_id", game.generation_id)
-    .order("sort_order", { ascending: true });
-
-  if (versionGroupsResult.error) {
-    throw new Error("Unable to load game version groups.");
-  }
-
-  const versionGroups = versionGroupsResult.data ?? [];
-
-  return versionGroups.filter((versionGroup) => {
-    return (
-      versionGroup.id === game.version_group_id ||
-      versionGroup.parent_version_group_id === game.version_group_id
-    );
-  });
-};
-
 export const loadPokemonMenuReferenceRows = async (
   supabase: ServerSupabaseClient,
-  game: Game,
 ): Promise<PokemonMenuReferenceRows> => {
-  const [typesResult, generationsResult, versionGroups] = await Promise.all([
+  const [typesResult, generationsResult] = await Promise.all([
     supabase
       .schema("reference")
       .from("types")
@@ -83,7 +37,6 @@ export const loadPokemonMenuReferenceRows = async (
       .from("generations")
       .select("*")
       .order("sort_order", { ascending: true }),
-    loadPokemonMenuVersionGroupsForGameScope(supabase, game),
   ]);
 
   if (typesResult.error || generationsResult.error) {
@@ -93,7 +46,6 @@ export const loadPokemonMenuReferenceRows = async (
   return {
     generations: generationsResult.data ?? [],
     types: typesResult.data ?? [],
-    versionGroups,
   };
 };
 

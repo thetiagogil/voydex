@@ -1,7 +1,7 @@
 import type { PokemonDetailMenuPage } from "@/modules/reference/types";
 
 export type PokemonMenuPageRequest = {
-  gameSlug: string;
+  versionGroupSlug: string;
   limit: number;
   offset: number;
   query: string;
@@ -12,22 +12,22 @@ export const POKEMON_MENU_PAGE_SIZE = 96;
 const pokemonMenuRequests = new Map<string, Promise<PokemonDetailMenuPage>>();
 
 const getPokemonMenuRequestKey = ({
-  gameSlug,
+  versionGroupSlug,
   limit,
   offset,
   query,
 }: PokemonMenuPageRequest) => {
-  return `${gameSlug}:${query}:${offset}:${limit}`;
+  return `${versionGroupSlug}:${query}:${offset}:${limit}`;
 };
 
 const getPokemonMenuApiHref = ({
-  gameSlug,
+  versionGroupSlug,
   limit,
   offset,
   query,
 }: PokemonMenuPageRequest) => {
   const searchParams = new URLSearchParams({
-    game: gameSlug,
+    versionGroup: versionGroupSlug,
     limit: String(limit),
     offset: String(offset),
   });

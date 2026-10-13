@@ -8,7 +8,7 @@ export type PokemonMenuLoadState = "idle" | "loading" | "loaded" | "error";
 export type PokemonMenuLoadMode = "append" | "replace";
 
 export type PokemonMenuState = {
-  gameSlug: string | null;
+  versionGroupSlug: string | null;
   items: PokemonDetailMenuPokemon[];
   loadState: PokemonMenuLoadState;
   loadingMore: boolean;
@@ -20,13 +20,13 @@ export type PokemonMenuState = {
 export const PRELOAD_REMAINING_POKEMON = 48;
 
 export const createPokemonMenuState = (
-  gameSlug: string | null,
+  versionGroupSlug: string | null,
   query = "",
 ): PokemonMenuState => {
   return {
-    gameSlug,
+    versionGroupSlug,
     items: [],
-    loadState: gameSlug ? "idle" : "loaded",
+    loadState: versionGroupSlug ? "idle" : "loaded",
     loadingMore: false,
     nextOffset: null,
     query,
@@ -57,10 +57,10 @@ export const mergePokemonMenuItems = (
 
 export const getPokemonMenuEmptyLabel = (
   loadState: PokemonMenuLoadState,
-  activeGameSlug: string | null,
+  activeVersionGroupSlug: string | null,
 ) => {
-  if (!activeGameSlug) {
-    return "No game selected.";
+  if (!activeVersionGroupSlug) {
+    return "No version group selected.";
   }
 
   if (loadState === "error") {
@@ -79,11 +79,11 @@ export const getPokemonPortraitType = (pokemon: PokemonDetailMenuPokemon) => {
 };
 
 export const getPokemonHref = (
-  gameSlug: string | null,
+  versionGroupSlug: string | null,
   pokemon: PokemonDetailMenuPokemon,
 ) => {
-  return gameSlug
-    ? appRoutes.codexPokemonGameSpecies(gameSlug, pokemon.slug)
+  return versionGroupSlug
+    ? appRoutes.codexPokemonEntry(versionGroupSlug, pokemon.slug)
     : appRoutes.codexPokemonSpecies(pokemon.slug);
 };
 

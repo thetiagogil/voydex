@@ -14,6 +14,10 @@ import {
   getGamePokedexStatColumns,
   getGamePokedexTableMinWidthClassName,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
+import {
+  getVersionGroupShortName,
+  getVersionGroupTitle,
+} from "@/modules/codex/shared/utils/game-names";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import {
   formatPokedexName,
@@ -64,8 +68,9 @@ export const GamePokedexTable = ({
         )}
       >
         <TableCaption className="sr-only">
-          {formatPokedexName(data.pokedex.name)} Pokémon in {data.game.name},
-          with their Pokédex number, types
+          {formatPokedexName(data.pokedex.name)} Pokémon in{" "}
+          {getVersionGroupTitle(data.versionGroup.name)}, with their Pokédex
+          number, types
           {hasAbilities ? ", abilities" : ""} and base stats.
         </TableCaption>
 
@@ -127,11 +132,11 @@ export const GamePokedexTable = ({
 
               <TableCell className="col-start-3 row-start-1 block min-w-0 p-0 pr-6 whitespace-normal xl:table-cell xl:p-2.5">
                 <Link
-                  href={appRoutes.codexPokemonGameSpecies(
-                    data.game.slug,
+                  href={appRoutes.codexPokemonEntry(
+                    data.versionGroup.slug,
                     entry.species.slug,
                   )}
-                  aria-label={`Open ${entry.species.name} in ${data.game.name}`}
+                  aria-label={`Open ${entry.species.name} in ${getVersionGroupShortName(data.versionGroup.name)}`}
                   className="text-15 group-hover:text-link hover:text-link rounded-xs font-extrabold transition-colors after:absolute after:inset-0 after:content-[''] xl:after:hidden"
                 >
                   {entry.species.name}
