@@ -1,15 +1,12 @@
 import { useId, type CSSProperties, type ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
+import { type AppIconComponent } from "@/shared/components/app-icon";
 import {
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  cardVariants,
-} from "@/shared/components/ui/card";
+  SectionHead,
+  type SectionHeadProps,
+} from "@/shared/components/section-head";
+import { CardContent, cardVariants } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 
 type DetailSectionCardProps = {
@@ -28,6 +25,8 @@ type DetailSectionCardProps = {
   headingLevel?: 2 | 3;
   icon?: AppIconComponent;
   id?: string;
+  /* The trailing link onward (v3 `.more`), before `action`. */
+  more?: SectionHeadProps["more"];
   showSeparator?: boolean;
   /* Variables the content reads, such as a type colour as `--t`. */
   style?: CSSProperties;
@@ -36,8 +35,8 @@ type DetailSectionCardProps = {
 };
 
 /*
- * A section of content as one quiet card with its heading inside. It is a
- * `<section>` labelled by that heading.
+ * A section of content as one quiet card with its `SectionHead` inside. It
+ * is a `<section>` labelled by that heading.
  */
 export const DetailSectionCard = ({
   action,
@@ -50,13 +49,13 @@ export const DetailSectionCard = ({
   headingLevel = 2,
   icon,
   id,
+  more,
   showSeparator = false,
   style,
   title,
   titleClassName,
 }: DetailSectionCardProps) => {
   const headingId = useId();
-  const Heading = headingLevel === 3 ? "h3" : "h2";
 
   return (
     <section
@@ -67,41 +66,18 @@ export const DetailSectionCard = ({
       style={style}
       className={cn(cardVariants(), "w-full min-w-0 gap-0 py-0", className)}
     >
-      <CardHeader
-        className={cn(
-          "flex items-center justify-between gap-3 px-5 pt-5 pb-3 sm:px-6 sm:pt-6",
-          headerClassName,
-        )}
-      >
-        <div className="flex min-w-0 gap-2">
-          {icon ? (
-            <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-sm">
-              <AppIcon icon={icon} size="sm" aria-hidden />
-            </span>
-          ) : null}
-
-          <div className="flex min-w-0 flex-col gap-1">
-            <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
-              <CardTitle className={cn("text-ink text-24", titleClassName)}>
-                <Heading id={headingId}>{title}</Heading>
-              </CardTitle>
-              {aside ? (
-                <span className="text-ink-3 text-14 font-semibold max-[559px]:hidden">
-                  {aside}
-                </span>
-              ) : null}
-            </div>
-
-            {description ? (
-              <CardDescription>{description}</CardDescription>
-            ) : null}
-          </div>
-        </div>
-
-        {action ? (
-          <CardAction className="self-center">{action}</CardAction>
-        ) : null}
-      </CardHeader>
+      <SectionHead
+        title={title}
+        titleId={headingId}
+        titleClassName={titleClassName}
+        headingLevel={headingLevel}
+        icon={icon}
+        aside={aside}
+        description={description}
+        more={more}
+        action={action}
+        className={cn("px-5 pt-5 pb-3 sm:px-6 sm:pt-6", headerClassName)}
+      />
 
       {showSeparator ? <Separator className="bg-line" /> : null}
 

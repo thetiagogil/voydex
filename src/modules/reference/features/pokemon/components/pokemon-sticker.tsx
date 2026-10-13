@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -91,12 +91,11 @@ export const PokemonSticker = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const stickerClassName = cn(
-    "group/sticker type-tint relative flex min-w-0 flex-col items-center rounded-xl border-4 border-white px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-[3px]",
-    variant === "default"
-      ? "shadow-[0_5px_0_color-mix(in_oklab,var(--t)_38%,var(--lip)),var(--shadow-soft-value)]"
-      : "shadow-[0_5px_0_color-mix(in_oklab,var(--t)_38%,var(--lip))]",
+    "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-[3px]",
+    variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
-    selected && "border-game shadow-[0_5px_0_var(--game-deep)]",
+    selected &&
+      "[--sticker-border:var(--game)] [--sticker-lip:var(--game-deep)] [--sticker-shadow:0_0_transparent]",
     className,
   );
   const content: ReactNode = (
@@ -125,10 +124,7 @@ export const PokemonSticker = ({
           <img src={imageUrl} alt="" className={variantClassName.art} />
         ) : (
           <span
-            className={cn(
-              "border-dash rounded-full border-[1.5px] border-dashed",
-              variantClassName.empty,
-            )}
+            className={cn("empty-slot rounded-full", variantClassName.empty)}
           />
         )}
       </span>
@@ -154,17 +150,12 @@ export const PokemonSticker = ({
             Lv. {level}
           </span>
         ) : null}
-        {types.map((type) =>
-          isPokemonTypeSlug(type.slug) ? (
-            <PokemonTypeBadge
-              key={type.slug}
-              type={type.slug}
-              label={type.name}
-              display="icon"
-              size={variantClassName.typeSize}
-            />
-          ) : null,
-        )}
+        <PokemonTypeList
+          types={types}
+          badgeDisplay="icon"
+          badgeSize={variantClassName.typeSize}
+          className="contents"
+        />
       </span>
     </>
   );
@@ -212,7 +203,7 @@ export const PokemonEmptySlot = ({
       role="img"
       aria-label={label}
       className={cn(
-        "border-dash text-ink-3 flex min-h-[212px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl border-[3px] border-dashed text-[13.5px] font-bold",
+        "empty-slot text-ink-3 flex min-h-[212px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold",
         className,
       )}
     >

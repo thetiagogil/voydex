@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PokemonPortraitFallbackImage } from "@/modules/reference/features/pokemon/components/pokemon-portrait-fallback-image";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -63,9 +63,8 @@ const sizeClassNames: Record<
 };
 
 const stateClassNames: Record<PokemonCardState, string> = {
-  caught:
-    "type-tint border-4 border-white px-1 pt-1 pb-2 shadow-[0_5px_0_color-mix(in_oklab,var(--t)_38%,var(--lip)),var(--shadow-soft-value)]",
-  missing: "border-[2.5px] border-dashed border-dash bg-transparent",
+  caught: "sticker px-1 pt-1 pb-2 [--sticker-shadow:var(--shadow-soft-value)]",
+  missing: "empty-slot",
   plain: "border border-line bg-surface",
   seen: "border border-line bg-surface",
 };
@@ -201,19 +200,12 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
-      <span className="mt-1 flex items-center gap-1">
-        {types.map((type) =>
-          isPokemonTypeSlug(type.slug) ? (
-            <PokemonTypeBadge
-              key={type.slug}
-              type={type.slug}
-              label={type.name}
-              display="icon"
-              size="sm"
-            />
-          ) : null,
-        )}
-      </span>
+      <PokemonTypeList
+        types={types}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="mt-1 items-center gap-1"
+      />
       {children}
     </div>
   );
