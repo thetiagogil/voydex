@@ -3,27 +3,20 @@ import type { ModuleKey } from "@/config/modules";
 import { getPublicAppShellData } from "@/features/app-shell/server/public-app-shell-query";
 
 type PublicAppShellProps = {
+  /* Routes still say which module they render; the bar reads the current path. */
   activeModuleKey?: ModuleKey;
   children: React.ReactNode;
   showAuthAction?: boolean;
 };
 
 export const PublicAppShell = async ({
-  activeModuleKey,
   children,
   showAuthAction,
 }: PublicAppShellProps) => {
-  const { moduleSelectorKey, userEmail } = await getPublicAppShellData({
-    activeModuleKey,
-  });
+  const { userEmail } = await getPublicAppShellData();
 
   return (
-    <AppShell
-      activeModuleKey={activeModuleKey}
-      moduleSelectorKey={moduleSelectorKey}
-      showAuthAction={showAuthAction}
-      userEmail={userEmail}
-    >
+    <AppShell showAuthAction={showAuthAction} userEmail={userEmail}>
       {children}
     </AppShell>
   );

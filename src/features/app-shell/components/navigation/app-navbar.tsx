@@ -1,45 +1,34 @@
 import { Logo } from "@/shared/components/brand/logo";
-import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppNavbarProps = {
-  afterLogo?: React.ReactNode;
   center?: React.ReactNode;
-  className?: string;
-  contentClassName?: string;
   end?: React.ReactNode;
-  showLogoText?: boolean;
+  showName?: boolean;
 };
 
+/*
+ * v3's bar: the V tile on the left, the sections centred, your utilities on
+ * the right. Navigation, so no card and no edge.
+ */
 export const AppNavbar = ({
-  afterLogo,
   center,
-  className,
-  contentClassName,
   end,
-  showLogoText = false,
+  showName = false,
 }: AppNavbarProps) => (
-  <header className={cn("text-ink relative z-40 w-full shrink-0", className)}>
-    <div
-      className={cn(
-        "mx-auto grid h-16 w-full max-w-320 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:h-17 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,2fr)_minmax(0,1fr)] lg:gap-5 lg:px-8",
-        contentClassName,
-      )}
-    >
-      <div className="flex h-10 min-w-0 items-center justify-start gap-2">
+  <header className="text-ink relative z-40 w-full shrink-0">
+    <div className="mx-auto grid h-15 w-full max-w-320 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 sm:px-6 lg:h-17 lg:px-8">
+      <div className="flex min-w-0 items-center">
         <Link
           href="/"
           aria-label="Voydex home"
-          className="inline-flex h-10 shrink-0 items-center rounded-sm"
+          className="inline-flex h-11 shrink-0 items-center rounded-sm"
         >
-          <Logo showText={showLogoText} markClassName="size-9" />
+          <Logo showText={showName} markClassName="text-17 size-8.5" />
         </Link>
-        {afterLogo}
       </div>
-      <div className="hidden h-10 min-w-0 items-center justify-center lg:flex">
-        {center}
-      </div>
-      <div className="flex h-10 items-center justify-end gap-1">{end}</div>
+      <div className="flex min-w-0 items-center justify-center">{center}</div>
+      <div className="flex min-w-0 items-center justify-end gap-1.5">{end}</div>
     </div>
   </header>
 );

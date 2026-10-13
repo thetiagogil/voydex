@@ -1,9 +1,10 @@
 "use client";
 
-import { PageHeader } from "@/shared/components/page-header";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import Link from "next/link";
+import { appRoutes } from "@/config/routes";
+import { SystemState } from "@/features/system/components/system-state";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Button, buttonVariants } from "@/shared/components/ui/button";
 
 export type ProtectedErrorPageProps = {
   error: Error & {
@@ -12,35 +13,31 @@ export type ProtectedErrorPageProps = {
   reset: () => void;
 };
 
+/* A page that failed to load: the same quiet layout as not found, with a retry. */
 export const ProtectedErrorPage = ({
   error,
   reset,
 }: ProtectedErrorPageProps) => {
   return (
-    <>
-      <PageHeader
-        title="Something went wrong"
-        description="Voydex could not load this workspace. Try again, or return to another section of the app."
-      />
-      <Card>
-        <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-start gap-3">
-            <AppIcon
-              icon={appIcons.status.error}
-              className="text-destructive mt-0.5 size-5 shrink-0"
-              aria-hidden
-            />
-            <p className="text-muted-foreground text-sm leading-6">
-              The current page failed to render.
-              {error.digest ? ` Error reference: ${error.digest}` : null}
-            </p>
-          </div>
-          <Button type="button" onClick={reset}>
-            <AppIcon icon={appIcons.actions.retry} aria-hidden />
+    <SystemState
+      eyebrow={error.digest ? `Error reference ${error.digest}` : undefined}
+      title="Something went wrong"
+      description="Voydex couldn't load this page. Try again, or go back home."
+      actions={
+        <>
+          <Button type="button" size="lg" onClick={reset}>
+            <AppIcon icon={appIcons.actions.retry} inline="start" />
             Try again
           </Button>
-        </CardContent>
-      </Card>
-    </>
+          <Link
+            href={appRoutes.appEntry}
+            className={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            <AppIcon icon={appIcons.actions.home} inline="start" />
+            Back home
+          </Link>
+        </>
+      }
+    />
   );
 };
