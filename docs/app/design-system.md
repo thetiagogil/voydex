@@ -131,25 +131,53 @@ Restyled primitives under `src/shared/components/ui` keep their names and APIs:
 secondaries; `destructive` is the danger outline), `Card` (`default` clay edge,
 `inset`, `interactive`, `bare`), `Badge`, `Dialog`, `Sheet`, `DropdownMenu`,
 `Select`, `Tabs`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
-`Switch`, `Toggle`, `Progress` (game-coloured), `NavigationMenu`.
+`Switch`, `Toggle`, `Progress` (how far along, in the context colour),
+`NavigationMenu`. Two are Soft Clay additions:
+
+- **`Meter`** (`ui/meter.tsx`): a measurement on a known scale (role `meter`),
+  such as a base stat, drawn as v3's pressed-in track with a fill in the given
+  colour (a type, for example). Use `Progress` for how far along something is.
+- **`Toaster`** (`ui/sonner.tsx`): mounted once in the app shell. Toasts are
+  v3's ink pill at the bottom centre with the float shadow, a status icon and
+  an action in the one action green. They slide in quietly and never bounce.
+  The shell sets `--toast-bottom` so toasts clear the phone bottom bar.
+
+**Fields** share one look from `ui/field-surface.ts`
+(`fieldSurfaceClassName`, `fieldFocusClassName`), used by `Input`,
+`Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. On the page ground a field
+is cream with a 1.5px line; inside a card, dialog, alert dialog, sheet or
+popover it takes the inset fill (`surface-2`) without the line. An invalid
+field takes the danger line; focus is the action-green outline. Inputs are
+48px tall; the search field and default select trigger are 46px. Don't style a
+field locally; extend the shared surface.
 
 Voydex components:
 
-| Component                            | Where                                                                        | Notes                                                                          |
-| ------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Play header and docked bar           | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx` | Game fill, dotted texture, Fredoka name, cover, game lip                       |
-| Play tabs                            | `mainline-play-navigation.tsx`                                               | `NavigationMenuControl*` with `variant="tab"`                                  |
-| `PokemonCard`                        | `modules/reference/features/pokemon/components/pokemon-card.tsx`             | The one Pokémon card: `plain`, `caught`, `seen`, `missing`                     |
-| `PokemonSticker`, `PokemonEmptySlot` | `.../pokemon/components/pokemon-sticker.tsx`                                 | Owned Pokémon only; empty slots are dashed                                     |
-| `PokemonTypeBadge`                   | `.../pokemon/components/pokemon-type-icon.tsx`                               | TypeChip (`icon-label`, `label`) and TypeDot (`icon`)                          |
-| `PokemonPortrait`                    | `.../pokemon/components/pokemon-portrait.tsx`                                | Art on its soft type-tint circle                                               |
-| `Medallion`, `RecordRow`             | `modules/mainline/features/plays/shared/components`                          | Moments: badge, gold, Pokémon, note, status, start                             |
-| `BadgeStamp`                         | `modules/mainline/features/plays/shared/components/badge-stamp.tsx`          | The only thing that tilts at rest                                              |
-| `SegmentedControl`                   | `src/shared/components/segmented-control.tsx`                                | `pills` for filters, `segment` for modes                                       |
-| `StatusBadge`                        | `src/shared/components/status-badge.tsx`                                     | Small meaning marks                                                            |
-| `EmptyState`                         | `src/shared/components/empty-state.tsx`                                      | One sentence, at most two actions; one Pokémon on grass when `artUrl` is given |
-| `PageHeader`, `DetailSectionCard`    | `src/shared/components`                                                      | Fredoka heading, quiet card                                                    |
-| `LogoMark`                           | `src/shared/components/brand/logo-mark.tsx`                                  | The "V" tile, a placeholder until the logo is designed                         |
+| Component                             | Where                                                                        | Notes                                                                                                                                                                                                   |
+| ------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App bars                              | `src/features/app-shell/components/navigation`                               | v3's top bar, the phone and tablet bottom bar, the account and public menus (see [Navigation And Routes](../product/navigation-and-routes.md))                                                          |
+| Play header and docked bar            | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx` | Game fill, dotted texture, Fredoka name, cover, game lip                                                                                                                                                |
+| Play tabs                             | `mainline-play-navigation.tsx`                                               | `NavigationMenuControl*` with `variant="tab"`                                                                                                                                                           |
+| `PokemonCard`                         | `modules/reference/features/pokemon/components/pokemon-card.tsx`             | The one Pokémon card: `plain`, `caught`, `seen`, `missing`                                                                                                                                              |
+| `PokemonSticker`, `PokemonEmptySlot`  | `.../pokemon/components/pokemon-sticker.tsx`                                 | Owned Pokémon only. `default` art hops on hover; `compact` fills roster grids with slot and shiny marks and can be a picked button (`selected` takes the Play's colour). Empty and missing slots dashed |
+| `PokemonTypeBadge`                    | `.../pokemon/components/pokemon-type-icon.tsx`                               | TypeChip (`icon-label`, `label`) and TypeDot (`icon`)                                                                                                                                                   |
+| `PokemonPortrait`                     | `.../pokemon/components/pokemon-portrait.tsx`                                | Art on its soft type-tint circle                                                                                                                                                                        |
+| `Medallion`                           | `modules/mainline/features/plays/shared/components/medallion.tsx`            | One per moment: `badge` (type), `gold`, `pokemon`, `note`, `status`, `start` (game colour)                                                                                                              |
+| `RecordRow`                           | `.../plays/shared/components/record-row.tsx`                                 | Medallion, kicker, line, optional body; `trailing` adds a third column, `wrap` shows text in full, `medallionFaded` for a Pokémon that left the team. Rows sit between rules inside one card            |
+| `PlayMomentTime`                      | `.../plays/shared/components/play-moment-time.tsx`                           | A moment's day in the viewer's time zone, its time on hover                                                                                                                                             |
+| `BadgeStamp`                          | `.../plays/shared/components/badge-stamp.tsx`                                | The only thing that tilts at rest                                                                                                                                                                       |
+| `CodexHead`                           | `modules/codex/shared/components/codex-head.tsx`                             | Every Codex page's head: "Codex", the `CodexSectionSwitch` (Pokémon or Games), then the crumb trail; `trailEnd` for a last step that is a control                                                       |
+| Codex list pieces                     | `modules/codex/shared/components`                                            | `CodexGenerationSection` (Fredoka heading over a hairline), `CodexTypeFilter` (one dot per type), `BrowseResultSummary` (shown only while a filter is on)                                               |
+| `SegmentedControl`                    | `src/shared/components/segmented-control.tsx`                                | `pills` for filters, `segment` for modes; sizes `md` and `sm` (v3 `.gens`, 40px on phones); options with `href` render as links with `aria-current`; optional counts and `fullWidth`                    |
+| `ProgressMeter`                       | `src/shared/components/progress-meter.tsx`                                   | v3's metric: a name, a big Fredoka percentage, a context-colour bar and one detail line; no card of its own; `href` makes it a link                                                                     |
+| `ExplanatoryTip`                      | `src/shared/components/explanatory-tip.tsx`                                  | The reason behind a figure: an "i" dot (`dot` inset, `raised` beside a control) or a custom trigger, opening an ink popover on hover, focus or press (pinned on press)                                  |
+| `StatusBadge`                         | `src/shared/components/status-badge.tsx`                                     | Small meaning marks                                                                                                                                                                                     |
+| `EmptyState`                          | `src/shared/components/empty-state.tsx`                                      | `card` (default): one sentence, at most two actions, one Pokémon on grass when `artUrl` is given; `bare`: one quiet centred sentence with no card                                                       |
+| `SystemState`                         | `src/features/system/components/system-state.tsx`                            | Not-found and error pages: centred Fredoka title, one sentence, at most two actions, optional Pokémon on grass                                                                                          |
+| `PageHeader`                          | `src/shared/components/page-header.tsx`                                      | Fredoka title, one line, an optional action; `headingLevel` `h1` (default) or `h2` where the page already has its `h1`, such as a Play tab                                                              |
+| `DetailSectionCard`                   | `src/shared/components/detail-section-card.tsx`                              | A content section as one quiet card with its heading inside                                                                                                                                             |
+| `BrowseFilterPanel`, `SelectableItem` | `src/shared/components`                                                      | The toolbar card (its fields take the inset fill); a picked row keeps its surface with an accent border                                                                                                 |
+| `LogoMark`                            | `src/shared/components/brand/logo-mark.tsx`                                  | The "V" tile, a placeholder until the logo is designed                                                                                                                                                  |
 
 Section grammar: a section that is a grid of cards keeps its heading on the
 page; a section of content (text, rows, stamps) is one card with the heading
@@ -163,6 +191,9 @@ inside.
 - Before adding or materially styling a recurring pattern, inventory the
   primitives and the components above and reuse the closest one. Add a variant
   only for a materially different contract.
+- Fields take the shared field surface; selected options take `bg-select-soft
+text-select-ink`; tips that explain a figure use `ExplanatoryTip`; feedback
+  after an action is a toast, not an inline banner.
 - Use the shared row-interaction variants for repeated data rows. Static
   timelines and prose lists don't get hover styling.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
@@ -199,10 +230,20 @@ Play. Where a page reads data for you, say it in one specific sentence.
 
 ## Migration Status
 
-Moved to Soft Clay: tokens, fonts, the app shell and nav, every shared
-primitive, the Play header and tabs, Play Overview and Play Pokédex. Other
-screens inherit the tokens and primitives but still need their own pass, in
-the brief's order: Team, Story, History, Analysis, Plan, Collectibles, Account
-settings, Plays; then the new screens, the Codex and the public site. Each
-screen's old parts are deleted as it moves over. `npm run design:check` fails
-on any reference to the retired journal design.
+Every existing screen is on Soft Clay on the `claude/soft-clay-redesign`
+branch, pending the owner's review: the app shell and bars, Plays, the Play
+header and tabs, Overview, Team (Roster, Plan, Analysis, History), Story,
+Pokédex, Collectibles, Account settings, the Codex (Pokémon list and entry,
+Games, game pages and Pokédexes), Home, Intro, Log in and the not-found and
+error pages. Old parts were deleted as each screen moved over;
+`npm run design:check` fails on any reference to the retired journal design.
+
+Not built yet, per the brief:
+
+- **New screens** the app doesn't have: Mainline home, the Play's History and
+  Settings tabs, New Play, Start a Play, Forgot password, New password
+  and Check your email.
+- **Parked screens** that need data the app doesn't have: Team Planner and My
+  Plans, Statistics, Collection, Welcome and the You page on phones. Their nav
+  links stay hidden or disabled until they ship.
+- Dark mode, Skeletons and the real logo are deliberately not scheduled.
