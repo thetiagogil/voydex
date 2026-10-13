@@ -3,6 +3,15 @@ import {
   compareMilestonesInCategory,
   isBlockingPrerequisiteKind,
 } from "@/modules/mainline/features/plays/hub/data/milestone-order";
+import {
+  getPokemonFormImageUrl,
+  getPokemonFormShinyImageUrl,
+} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
+
 import type {
   MainlinePlayProgressStoryData,
   StoryDecisionOption,
@@ -14,10 +23,8 @@ import type {
   StorySection,
   StoryTeamSnapshotMember,
 } from "../types";
-import {
-  getPokemonFormImageUrl,
-  getPokemonFormShinyImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getStoryBadgeTypeId } from "./story-badge-type";
+import { buildStoryStamps } from "./story-stamps";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -98,7 +105,6 @@ const parseDecisionOptions = (
     return Number.isFinite(id) && label
       ? [
           {
-            formName,
             id,
             imageUrl:
               speciesName && spriteSlug
@@ -135,15 +141,12 @@ const parsePrerequisites = (
     const name = toStringValue(prerequisite.prerequisite_milestone_name);
     const kindSlug =
       toStringValue(prerequisite.prerequisite_kind_slug) ?? "suggested";
-    const kindName =
-      toStringValue(prerequisite.prerequisite_kind_name) ?? "Suggested";
 
     return Number.isFinite(id) && name
       ? [
           {
             completed: completedMilestoneIds.has(id),
             id,
-            kindName,
             kindSlug,
             name,
           },
@@ -224,7 +227,25 @@ const addIncompletionImpacts = (milestones: StoryMilestone[]) => {
   }
 };
 
+/*
+ * What to record next: the first required milestone you can record now, else
+ * the first required one still open, else anything still open.
+ */
+const findNextMilestone = (milestones: StoryMilestone[]) => {
+  const incompleteRequired = milestones.filter(
+    (milestone) => milestone.isRequired && !milestone.isCompleted,
+  );
+
+  return (
+    incompleteRequired.find((milestone) => milestone.isAvailable) ??
+    incompleteRequired[0] ??
+    milestones.find((milestone) => !milestone.isCompleted) ??
+    null
+  );
+};
+
 export const buildStoryProgressModel = ({
+  badgeTypes,
   categories,
   decisionForms,
   milestones,
@@ -239,6 +260,11 @@ export const buildStoryProgressModel = ({
   const sequenceByScopeId = new Map<number, number>();
   const spriteSlugByDecisionFormId = new Map(
     decisionForms.map((form) => [form.id, form.sprite_slug]),
+  );
+  const badgeTypeById = new Map(
+    badgeTypes.flatMap((type): [number, PokemonTypeSlug][] =>
+      isPokemonTypeSlug(type.slug) ? [[type.id, type.slug]] : [],
+    ),
   );
   const snapshotMembersByMilestoneId = new Map<
     number,
@@ -286,6 +312,10 @@ export const buildStoryProgressModel = ({
           const isCompleted = Boolean(milestone.is_completed);
 
           return {
+            badgeType:
+              badgeTypeById.get(
+                getStoryBadgeTypeId(milestone.badge_refs) ?? -1,
+              ) ?? null,
             blockingPrerequisites,
             categoryId,
             completedAt: milestone.completed_at,
@@ -325,16 +355,14 @@ export const buildStoryProgressModel = ({
         });
 
       return {
-        completedCount: toFiniteNumber(category.completed_milestone_count),
-        completedRequiredCount: toFiniteNumber(
+        completedCount: toFiniteNumber(
           category.completed_required_milestone_count,
         ),
         id: categoryId,
         milestones: trackMilestones,
         name: category.category_name ?? "Story",
-        requiredCount: toFiniteNumber(category.required_milestone_count),
         slug: category.category_slug ?? `category-${categoryId}`,
-        totalCount: toFiniteNumber(category.milestone_count),
+        totalCount: toFiniteNumber(category.required_milestone_count),
       };
     });
 
@@ -349,31 +377,28 @@ export const buildStoryProgressModel = ({
   for (const section of sections) {
     const category = categoryById.get(section.id);
     const scopeId = toFiniteNumber(category?.version_group_id);
-    const scopeName = category?.version_group_name ?? "Main game";
-    const scopeSlug =
-      category?.version_group_slug ?? `content-scope-${scopeId}`;
-    const isBase = toFiniteNumber(category?.content_scope_sort_order) === 1;
     const existingScope = scopesById.get(scopeId);
 
     if (existingScope) {
       existingScope.sections.push(section);
       existingScope.completedCount += section.completedCount;
-      existingScope.completedRequiredCount += section.completedRequiredCount;
-      existingScope.requiredCount += section.requiredCount;
+      existingScope.milestoneCount += section.milestones.length;
       existingScope.totalCount += section.totalCount;
       continue;
     }
 
+    const isBase = toFiniteNumber(category?.content_scope_sort_order) === 1;
+
     scopesById.set(scopeId, {
       completedCount: section.completedCount,
-      completedRequiredCount: section.completedRequiredCount,
       id: scopeId,
-      isBase,
-      label: isBase ? "Main game" : scopeName,
-      name: scopeName,
-      requiredCount: section.requiredCount,
+      label: isBase
+        ? "Main game"
+        : (category?.version_group_name ?? "Main game"),
+      milestoneCount: section.milestones.length,
+      nextMilestone: null,
       sections: [section],
-      slug: scopeSlug,
+      stamps: null,
       totalCount: section.totalCount,
     });
   }
@@ -383,44 +408,16 @@ export const buildStoryProgressModel = ({
     scope.sections.flatMap((section) => section.milestones),
   );
   addIncompletionImpacts(orderedMilestones);
-  const incompleteRequired = orderedMilestones.filter(
-    (milestone) => milestone.isRequired && !milestone.isCompleted,
-  );
-  const nextMilestone =
-    incompleteRequired.find((milestone) => milestone.isAvailable) ??
-    incompleteRequired[0] ??
-    orderedMilestones.find((milestone) => !milestone.isCompleted) ??
-    null;
-  const completedMilestones = orderedMilestones.filter(
-    (milestone) => milestone.isCompleted,
-  );
-  const lastCompletedMilestone =
-    completedMilestones
-      .filter((milestone) => milestone.completedAt)
-      .sort((first, second) =>
-        (second.completedAt ?? "").localeCompare(first.completedAt ?? ""),
-      )[0] ??
-    completedMilestones.at(-1) ??
-    null;
-  const requiredCount = scopes.reduce(
-    (total, scope) => total + scope.requiredCount,
-    0,
-  );
-  const completedRequiredCount = scopes.reduce(
-    (total, scope) => total + scope.completedRequiredCount,
-    0,
-  );
+
+  for (const scope of scopes) {
+    scope.nextMilestone = findNextMilestone(
+      scope.sections.flatMap((section) => section.milestones),
+    );
+    scope.stamps = buildStoryStamps(scope.sections);
+  }
 
   return {
-    completedRequiredCount,
-    defaultMilestoneId:
-      nextMilestone?.id ??
-      lastCompletedMilestone?.id ??
-      orderedMilestones[0]?.id ??
-      null,
-    lastCompletedMilestone,
-    nextMilestone,
-    requiredCount,
+    nextMilestone: findNextMilestone(orderedMilestones),
     scopes,
   };
 };

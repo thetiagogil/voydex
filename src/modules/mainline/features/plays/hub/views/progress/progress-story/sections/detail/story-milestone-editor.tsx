@@ -28,21 +28,38 @@ import {
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone } from "../../types";
 import { getStoryMilestoneEditorCopy } from "../../utils/story-milestone-editor";
-import { StoryMilestoneEditorForm } from "./story-milestone-editor-form";
+import {
+  StoryMilestoneEditorForm,
+  type StoryMilestoneEditorSurface,
+} from "./story-milestone-editor-form";
 
-const storyMilestoneEditorDesktopContentClassName =
+const desktopContentClassName =
   "max-h-[85dvh] gap-0 overflow-hidden p-0 sm:min-w-xl sm:max-w-xl";
+const titleClassName = "text-24 outline-none";
 
+const EditorKicker = ({ milestone }: { milestone: StoryMilestone | null }) =>
+  milestone ? (
+    <p className="text-ink-3 text-13 font-extrabold">
+      Milestone {milestone.sequence} · {milestone.typeName}
+    </p>
+  ) : null;
+
+/*
+ * Recording a milestone, or changing what was recorded with it, is a quiet
+ * form: a dialog on wide screens and a bottom sheet on phones and tablets.
+ */
 export const StoryMilestoneEditor = ({
   intent,
   milestone,
   onOpenChange,
+  onSaved,
   open,
   playId,
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone | null;
   onOpenChange: (open: boolean) => void;
+  onSaved: (message: string | null) => void;
   open: boolean;
   playId: string;
 }) => {
@@ -50,32 +67,38 @@ export const StoryMilestoneEditor = ({
   const usesBottomSheet = useMainlinePlayDetailSheetLayout();
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
   const isOpen = open && Boolean(milestone);
+  const form = (surface: StoryMilestoneEditorSurface) =>
+    milestone ? (
+      <StoryMilestoneEditorForm
+        key={`${milestone.id}-${intent}-${open}-${surface}`}
+        intent={intent}
+        milestone={milestone}
+        onSaved={onSaved}
+        playId={playId}
+        surface={surface}
+      />
+    ) : null;
 
   if (usesBottomSheet) {
     return (
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
-          className="border-line bg-popover max-h-[82dvh] gap-0 rounded-t-xl p-0"
+          className="mx-auto max-h-[88dvh] w-full max-w-[560px] gap-0"
           initialFocus={titleRef}
         >
-          <SheetHeader className="border-line border-b pr-12">
-            <SheetTitle ref={titleRef} tabIndex={-1} className="outline-none">
+          <span
+            aria-hidden
+            className="bg-line mx-auto mt-2.5 h-[5px] w-11 shrink-0 rounded-full"
+          />
+          <SheetHeader className="gap-1 px-5 pt-3 pr-14 pb-2">
+            <EditorKicker milestone={milestone} />
+            <SheetTitle ref={titleRef} tabIndex={-1} className={titleClassName}>
               {copy.title}
             </SheetTitle>
             <SheetDescription>{copy.description}</SheetDescription>
           </SheetHeader>
-
-          {milestone ? (
-            <StoryMilestoneEditorForm
-              key={`${milestone.id}-${intent}-${open}-sheet`}
-              intent={intent}
-              milestone={milestone}
-              onCompleted={() => onOpenChange(false)}
-              playId={playId}
-              surface="sheet"
-            />
-          ) : null}
+          {form("sheet")}
         </SheetContent>
       </Sheet>
     );
@@ -85,30 +108,21 @@ export const StoryMilestoneEditor = ({
     return (
       <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
         <AlertDialogContent
-          className={storyMilestoneEditorDesktopContentClassName}
+          className={desktopContentClassName}
           initialFocus={titleRef}
         >
-          <AlertDialogHeader className="p-5">
+          <AlertDialogHeader className="gap-1 p-6 pb-4">
+            <EditorKicker milestone={milestone} />
             <AlertDialogTitle
               ref={titleRef}
               tabIndex={-1}
-              className="outline-none"
+              className={titleClassName}
             >
               {copy.title}
             </AlertDialogTitle>
             <AlertDialogDescription>{copy.description}</AlertDialogDescription>
           </AlertDialogHeader>
-
-          {milestone ? (
-            <StoryMilestoneEditorForm
-              key={`${milestone.id}-${intent}-${open}-alert-dialog`}
-              intent={intent}
-              milestone={milestone}
-              onCompleted={() => onOpenChange(false)}
-              playId={playId}
-              surface="alert-dialog"
-            />
-          ) : null}
+          {form("alert-dialog")}
         </AlertDialogContent>
       </AlertDialog>
     );
@@ -117,26 +131,17 @@ export const StoryMilestoneEditor = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
-        className={storyMilestoneEditorDesktopContentClassName}
+        className={desktopContentClassName}
         initialFocus={titleRef}
       >
-        <DialogHeader className="p-5 pr-12">
-          <DialogTitle ref={titleRef} tabIndex={-1} className="outline-none">
+        <DialogHeader className="gap-1 p-6 pr-16 pb-4">
+          <EditorKicker milestone={milestone} />
+          <DialogTitle ref={titleRef} tabIndex={-1} className={titleClassName}>
             {copy.title}
           </DialogTitle>
           <DialogDescription>{copy.description}</DialogDescription>
         </DialogHeader>
-
-        {milestone ? (
-          <StoryMilestoneEditorForm
-            key={`${milestone.id}-${intent}-${open}-dialog`}
-            intent={intent}
-            milestone={milestone}
-            onCompleted={() => onOpenChange(false)}
-            playId={playId}
-            surface="dialog"
-          />
-        ) : null}
+        {form("dialog")}
       </DialogContent>
     </Dialog>
   );

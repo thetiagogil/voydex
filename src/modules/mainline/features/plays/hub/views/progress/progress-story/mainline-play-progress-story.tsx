@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { flushSync } from "react-dom";
+import { toast } from "sonner";
 
 import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -8,12 +10,33 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { buildStoryProgressModel } from "./data/story-progress-model";
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
-import { StoryMilestoneInspector } from "./sections/detail/story-milestone-inspector";
+import {
+  StoryMilestonePanel,
+  storyPanelTitleId,
+} from "./sections/detail/story-milestone-panel";
 import { StoryMilestoneSheet } from "./sections/detail/story-milestone-sheet";
+import { StoryPageHead } from "./sections/head/story-page-head";
 import { StoryMilestoneList } from "./sections/milestones/story-milestone-list";
-import { StoryProgressSummarySection } from "./sections/summary/story-progress-summary-section";
-import type { MainlinePlayProgressStoryData, StoryMilestone } from "./types";
+import { getStoryMilestoneRowId } from "./sections/milestones/story-milestone-row";
+import { StoryStampCardSection } from "./sections/stamps/story-stamp-card-section";
+import type {
+  MainlinePlayProgressStoryData,
+  StoryMilestone,
+  StoryScope,
+} from "./types";
 
+const getScopeMilestones = (scope: StoryScope) =>
+  scope.sections.flatMap((section) => section.milestones);
+
+const getChapterName = (scope: StoryScope, milestone: StoryMilestone | null) =>
+  scope.sections.find((section) => section.id === milestone?.categoryId)
+    ?.name ?? null;
+
+/*
+ * Story: the milestones of one scope under their chapters, with the next
+ * objective and the stamp card beside them. Phones put the next objective
+ * first and the stamp card last, and open a picked milestone in a sheet.
+ */
 export const MainlinePlayProgressStory = ({
   data,
   playId,
@@ -26,55 +49,53 @@ export const MainlinePlayProgressStory = ({
 }) => {
   const model = useMemo(() => buildStoryProgressModel(data), [data]);
   const usesDetailSheet = useMainlinePlayDetailSheetLayout();
-  const recordTarget =
+  const findMilestone = (milestoneId: number | null) =>
     model.scopes
-      .flatMap((scope) =>
-        scope.sections.flatMap((section) => section.milestones),
-      )
-      .find((milestone) => milestone.id === recordMilestoneId) ?? null;
-  /* A locked or already recorded target is selected so its state shows, but not opened for recording. */
+      .flatMap(getScopeMilestones)
+      .find((milestone) => milestone.id === milestoneId) ?? null;
+  const findScope = (milestoneId: number | null) =>
+    model.scopes.find((scope) =>
+      getScopeMilestones(scope).some(
+        (milestone) => milestone.id === milestoneId,
+      ),
+    ) ?? null;
+  const recordTarget = findMilestone(recordMilestoneId);
+  /* A locked or already recorded target is shown, but not opened for recording. */
   const recordMilestone =
     recordTarget?.isAvailable && !recordTarget.isCompleted
       ? recordTarget
       : null;
-  const initialMilestoneId = recordTarget?.id ?? model.defaultMilestoneId;
   const defaultScope =
-    model.scopes.find((scope) =>
-      scope.sections.some((section) =>
-        section.milestones.some(
-          (milestone) => milestone.id === initialMilestoneId,
-        ),
-      ),
-    ) ?? model.scopes[0];
+    findScope(recordTarget?.id ?? model.nextMilestone?.id ?? null) ??
+    model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
   const [query, setQuery] = useState("");
-  const [selectedMilestoneId, setSelectedMilestoneId] =
-    useState(initialMilestoneId);
+  /* The milestone picked from the list; none shows the next objective. */
+  const [selectedMilestoneId, setSelectedMilestoneId] = useState(
+    recordTarget?.id ?? null,
+  );
   const [isDetailSheetOpen, setIsDetailSheetOpen] = useState(false);
   const [editorIntent, setEditorIntent] =
     useState<StoryMilestoneActionIntent>("complete");
-  const [editorMilestoneId, setEditorMilestoneId] = useState<number | null>(
+  const [editorMilestoneId, setEditorMilestoneId] = useState(
     recordMilestone?.id ?? null,
   );
   const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
+  /*
+   * The milestone recorded a moment ago: its row pops and its stamp slaps,
+   * once each. Each clears when its animation ends, and both clear when the
+   * list redraws, so a remount never replays them.
+   */
+  const [poppingMilestoneId, setPoppingMilestoneId] = useState<number | null>(
+    null,
+  );
+  const [slappingMilestoneId, setSlappingMilestoneId] = useState<number | null>(
+    null,
+  );
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
     defaultScope ??
     null;
-  const selectedMilestone =
-    model.scopes
-      .flatMap((scope) =>
-        scope.sections.flatMap((section) => section.milestones),
-      )
-      .find((milestone) => milestone.id === selectedMilestoneId) ??
-    activeScope?.sections[0]?.milestones[0] ??
-    null;
-  const editorMilestone =
-    model.scopes
-      .flatMap((scope) =>
-        scope.sections.flatMap((section) => section.milestones),
-      )
-      .find((milestone) => milestone.id === editorMilestoneId) ?? null;
 
   if (!activeScope) {
     return (
@@ -85,17 +106,15 @@ export const MainlinePlayProgressStory = ({
     );
   }
 
+  const selectedMilestone = getScopeMilestones(activeScope).find(
+    (milestone) => milestone.id === selectedMilestoneId,
+  );
+  const panelMilestone =
+    (!usesDetailSheet ? selectedMilestone : null) ?? activeScope.nextMilestone;
+  const editorMilestone = findMilestone(editorMilestoneId);
+
   const selectMilestone = (milestone: StoryMilestone) => {
-    const owningScope = model.scopes.find((scope) =>
-      scope.sections.some((section) =>
-        section.milestones.some((candidate) => candidate.id === milestone.id),
-      ),
-    );
-
-    if (owningScope) {
-      setActiveScopeId(owningScope.id);
-    }
-
+    setActiveScopeId(findScope(milestone.id)?.id ?? activeScope.id);
     setSelectedMilestoneId(milestone.id);
 
     if (usesDetailSheet) {
@@ -103,9 +122,30 @@ export const MainlinePlayProgressStory = ({
     }
   };
 
-  const revealSummaryMilestone = (milestone: StoryMilestone) => {
-    setQuery("");
-    selectMilestone(milestone);
+  /* Back to the next objective, with focus on the row that was open. */
+  const closePanel = (milestoneId: number) => {
+    flushSync(() => setSelectedMilestoneId(null));
+    (
+      document.getElementById(getStoryMilestoneRowId(milestoneId)) ??
+      document.getElementById(storyPanelTitleId)
+    )?.focus();
+  };
+
+  const endRecordingReward = () => {
+    setPoppingMilestoneId(null);
+    setSlappingMilestoneId(null);
+  };
+
+  const selectScope = (scopeId: number) => {
+    endRecordingReward();
+    setActiveScopeId(scopeId);
+    setSelectedMilestoneId(null);
+    setIsDetailSheetOpen(false);
+  };
+
+  const changeQuery = (nextQuery: string) => {
+    endRecordingReward();
+    setQuery(nextQuery);
   };
 
   const openEditor = (
@@ -118,74 +158,88 @@ export const MainlinePlayProgressStory = ({
     setIsEditorOpen(true);
   };
 
-  const selectScope = (scopeId: number) => {
-    const scope = model.scopes.find((candidate) => candidate.id === scopeId);
+  const finishEditing = (message: string | null) => {
+    setIsEditorOpen(false);
 
-    if (!scope) {
+    if (editorIntent === "complete" && editorMilestone) {
+      setPoppingMilestoneId(editorMilestone.id);
+      setSlappingMilestoneId(editorMilestone.id);
+      setSelectedMilestoneId(null);
+      toast.success(`${editorMilestone.name} recorded`);
       return;
     }
 
-    const scopeMilestones = scope.sections.flatMap(
-      (section) => section.milestones,
-    );
-    const preferredMilestone =
-      scopeMilestones.find(
-        (milestone) => milestone.id === model.nextMilestone?.id,
-      ) ??
-      scopeMilestones.find(
-        (milestone) => milestone.isAvailable && !milestone.isCompleted,
-      ) ??
-      scopeMilestones.find((milestone) => !milestone.isCompleted) ??
-      scopeMilestones.at(-1) ??
-      null;
-
-    setActiveScopeId(scopeId);
-    setSelectedMilestoneId(preferredMilestone?.id ?? null);
-    setIsDetailSheetOpen(false);
+    if (message) {
+      toast.success(message);
+    }
   };
 
   return (
-    <div className="grid gap-4">
-      <StoryProgressSummarySection
-        model={model}
-        onMilestoneSelect={revealSummaryMilestone}
+    <div className="grid min-w-0 gap-7">
+      <StoryPageHead
+        onScopeChange={selectScope}
+        scope={activeScope}
+        scopes={model.scopes}
       />
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(20rem,0.85fr)]">
-        <StoryMilestoneList
-          activeScope={activeScope}
-          onMilestoneSelect={selectMilestone}
-          onQueryChange={setQuery}
-          onScopeChange={selectScope}
-          query={query}
-          scopes={model.scopes}
-          selectedMilestoneId={selectedMilestone?.id ?? null}
-          showSelection={!usesDetailSheet || isDetailSheetOpen}
-        />
-
-        {selectedMilestone ? (
-          <StoryMilestoneInspector
-            milestone={selectedMilestone}
-            onAction={(intent) => openEditor(selectedMilestone, intent)}
+      {/*
+       * The side column comes first in the DOM, so on phones the next
+       * objective is read and reached before the list it sits above.
+       */}
+      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
+        <div className="contents lg:sticky lg:top-[calc(var(--play-dock-offset,0px)+0.75rem)] lg:col-start-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-5">
+          <StoryMilestonePanel
+            chapterName={getChapterName(activeScope, panelMilestone)}
+            className="order-1 lg:order-none"
+            milestone={panelMilestone}
+            onAction={openEditor}
+            onClose={
+              !usesDetailSheet && selectedMilestone
+                ? () => closePanel(selectedMilestone.id)
+                : undefined
+            }
+            scope={activeScope}
           />
-        ) : null}
+          {activeScope.stamps ? (
+            <StoryStampCardSection
+              className="order-3 lg:order-none"
+              onSlapEnd={() => setSlappingMilestoneId(null)}
+              slappingMilestoneId={slappingMilestoneId}
+              stamps={activeScope.stamps}
+            />
+          ) : null}
+        </div>
+
+        <StoryMilestoneList
+          className="order-2 lg:order-none lg:col-start-1 lg:row-start-1"
+          onMilestoneSelect={selectMilestone}
+          onPopEnd={() => setPoppingMilestoneId(null)}
+          onQueryChange={changeQuery}
+          poppingMilestoneId={poppingMilestoneId}
+          query={query}
+          scope={activeScope}
+          selectedMilestoneId={
+            !usesDetailSheet || isDetailSheetOpen
+              ? (selectedMilestone?.id ?? null)
+              : null
+          }
+        />
       </div>
 
       <StoryMilestoneSheet
-        milestone={selectedMilestone}
-        onAction={(intent) => {
-          if (selectedMilestone) {
-            openEditor(selectedMilestone, intent);
-          }
-        }}
+        chapterName={getChapterName(activeScope, selectedMilestone ?? null)}
+        milestone={selectedMilestone ?? null}
+        onAction={openEditor}
         onOpenChange={setIsDetailSheetOpen}
         open={usesDetailSheet && isDetailSheetOpen}
+        scope={activeScope}
       />
 
       <StoryMilestoneEditor
         intent={editorIntent}
         milestone={editorMilestone}
         onOpenChange={setIsEditorOpen}
+        onSaved={finishEditing}
         open={isEditorOpen}
         playId={playId}
       />

@@ -3,10 +3,12 @@ import type {
   MainlinePlayMilestoneCategorySummary,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonForm } from "@/modules/reference/types";
 
 export type StoryMilestoneSource = Pick<
   MainlinePlayMilestone,
+  | "badge_refs"
   | "category_id"
   | "category_name"
   | "category_slug"
@@ -36,14 +38,12 @@ export type StoryCategorySource = Pick<
   | "category_name"
   | "category_slug"
   | "category_sort_order"
-  | "completed_milestone_count"
   | "completed_required_milestone_count"
   | "content_scope_sort_order"
   | "milestone_count"
   | "required_milestone_count"
   | "version_group_id"
   | "version_group_name"
-  | "version_group_slug"
 >;
 
 export type StorySnapshotEventSource = Pick<
@@ -52,7 +52,6 @@ export type StorySnapshotEventSource = Pick<
 >;
 
 export type StoryDecisionOption = {
-  formName: string | null;
   id: number;
   imageUrl: string | null;
   label: string;
@@ -62,7 +61,6 @@ export type StoryDecisionOption = {
 export type StoryMilestonePrerequisite = {
   completed: boolean;
   id: number;
-  kindName: string;
   kindSlug: string;
   name: string;
 };
@@ -76,6 +74,8 @@ export type StoryTeamSnapshotMember = {
 };
 
 export type StoryMilestone = {
+  /* A gym milestone's badge type, so its medallion and stamp wear it. */
+  badgeType: PokemonTypeSlug | null;
   blockingPrerequisites: StoryMilestonePrerequisite[];
   categoryId: number;
   completedAt: string | null;
@@ -112,30 +112,42 @@ export type StoryMilestoneIncompletionImpact = {
 };
 
 export type StorySection = {
+  /* Required milestones recorded, the count Overview's Story metric uses. */
   completedCount: number;
-  completedRequiredCount: number;
   id: number;
   milestones: StoryMilestone[];
   name: string;
-  requiredCount: number;
   slug: string;
+  /* Required milestones, the count Overview's Story metric uses. */
   totalCount: number;
 };
 
-export type StoryScope = {
-  completedCount: number;
-  completedRequiredCount: number;
-  id: number;
-  isBase: boolean;
+export type StoryStamp = {
+  kind: "gym" | "league";
+  /* What the stamp card prints under it: "Grass" for the Grass Badge. */
   label: string;
-  name: string;
-  requiredCount: number;
+  milestone: StoryMilestone;
+  state: "earned" | "next" | "todo";
+};
+
+export type StoryScope = {
+  /* Required milestones recorded, the count Overview's Story metric uses. */
+  completedCount: number;
+  id: number;
+  label: string;
+  /* Every milestone listed, optional ones too: what a row's sequence counts. */
+  milestoneCount: number;
+  /* The milestone this scope's side card offers to record next. */
+  nextMilestone: StoryMilestone | null;
   sections: StorySection[];
-  slug: string;
+  /* The gym badges and the League, or null when the scope has no gyms. */
+  stamps: StoryStamp[] | null;
+  /* Required milestones, the count Overview's Story metric uses. */
   totalCount: number;
 };
 
 export type MainlinePlayProgressStoryData = {
+  badgeTypes: { id: number; slug: string }[];
   categories: StoryCategorySource[];
   decisionForms: Pick<PokemonForm, "id" | "sprite_slug">[];
   milestones: StoryMilestoneSource[];
@@ -143,10 +155,7 @@ export type MainlinePlayProgressStoryData = {
 };
 
 export type StoryProgressModel = {
-  completedRequiredCount: number;
-  defaultMilestoneId: number | null;
-  lastCompletedMilestone: StoryMilestone | null;
+  /* The Play's next objective across every scope; its scope opens first. */
   nextMilestone: StoryMilestone | null;
-  requiredCount: number;
   scopes: StoryScope[];
 };
