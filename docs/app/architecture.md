@@ -215,7 +215,6 @@ src/modules/reference/
       components/
       data/
       domain/
-      styles/
       types.ts
       utils/
     pokemon/
@@ -236,9 +235,10 @@ src/modules/reference/
 ```
 
 The three TypeScript root files are the public contracts for cross-module
-catalogue types, data helpers, and paged/chunked reference reads. Feature-owned
-CSS stays beside Games or Pokemon and is composed through the module's public
-`styles.css` manifest. Concrete game and Pokemon components or domain utilities
+catalogue types, data helpers, and paged/chunked reference reads. The Pokémon
+type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
+are composed through the module's public `styles.css` manifest. Game colours
+are one TypeScript table in `games/utils/game-color-styles.ts`. Concrete game and Pokemon components or domain utilities
 use their explicit feature paths. Codex-owned page composition remains in
 `modules/codex`; `reference` must not import Codex or Mainline.
 
@@ -261,10 +261,11 @@ src/modules/mainline/features/plays/
         data/
         server/
         sections/
-          journey-status/
+          badge-case/
+          next-objective/
+          progress-summary/
           recent-history/
           team/
-          progress-summary/
       team/
         data/
         server/

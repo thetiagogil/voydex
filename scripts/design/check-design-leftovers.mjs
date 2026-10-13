@@ -73,6 +73,10 @@ const retired = [
     pattern: /glowClassName|backgroundImageUrl|hover-shadow/,
   },
   {
+    label: "journal shadow scale (use a Soft Clay shadow role)",
+    pattern: /(?<!drop-)\bshadow-(?:2xs|xs|sm|md|lg|xl|2xl)\b/,
+  },
+  {
     label: "retired V1 styling doc",
     pattern: /design\/v1\/|v1-screen-flow|visual-language\.md/,
   },
