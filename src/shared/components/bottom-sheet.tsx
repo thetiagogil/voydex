@@ -35,6 +35,11 @@ type BottomSheetProps = {
    */
   label?: string;
   onOpenChange?: (open: boolean) => void;
+  /*
+   * After the open or close animation ends, such as scrolling the page to
+   * what was picked once the sheet has let go of it.
+   */
+  onOpenChangeComplete?: (open: boolean) => void;
   open?: boolean;
   /* The visible Fredoka 24 heading at the top of the body. */
   title?: ReactNode;
@@ -61,12 +66,18 @@ export const BottomSheet = ({
   initialFocus,
   label,
   onOpenChange,
+  onOpenChangeComplete,
   open,
   title,
   trigger,
 }: BottomSheetProps) => {
   return (
-    <Sheet open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <Sheet
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      onOpenChangeComplete={onOpenChangeComplete}
+    >
       {trigger ? <SheetTrigger render={trigger} /> : null}
       <SheetContent
         side="bottom"

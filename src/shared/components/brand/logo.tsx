@@ -5,18 +5,25 @@ type LogoProps = {
   className?: string;
   markClassName?: string;
   showText?: boolean;
+  textClassName?: string;
 };
 
 export const Logo = ({
   className,
   markClassName,
   showText = true,
+  textClassName,
 }: LogoProps) => {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark className={cn("size-8 shrink-0", markClassName)} />
       {showText ? (
-        <span className="font-display text-20 leading-none font-semibold">
+        <span
+          className={cn(
+            "font-display text-20 leading-none font-semibold",
+            textClassName,
+          )}
+        >
           <span className="text-ink">Voydex</span>
         </span>
       ) : null}

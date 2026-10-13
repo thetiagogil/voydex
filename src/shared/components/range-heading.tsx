@@ -11,6 +11,11 @@ type RangeHeadingProps = {
   /* `3` under a page or tab heading at level 2. */
   headingLevel?: 2 | 3;
   title: ReactNode;
+  /*
+   * Lets script move focus to the heading (`tabIndex={-1}`), such as after a
+   * jump or a bulk change. It never joins the tab order.
+   */
+  titleFocusable?: boolean;
   /* Give the group `aria-labelledby={titleId}`. */
   titleId?: string;
 };
@@ -25,6 +30,7 @@ export const RangeHeading = ({
   count,
   headingLevel = 2,
   title,
+  titleFocusable = false,
   titleId,
 }: RangeHeadingProps) => {
   const Heading = headingLevel === 3 ? "h3" : "h2";
@@ -37,7 +43,11 @@ export const RangeHeading = ({
         className,
       )}
     >
-      <Heading id={titleId} className="text-20 text-ink tracking-[-0.01em]">
+      <Heading
+        id={titleId}
+        tabIndex={titleFocusable ? -1 : undefined}
+        className="text-20 text-ink rounded-xs tracking-[-0.01em]"
+      >
         {title}
       </Heading>
       {count !== undefined && count !== null ? (

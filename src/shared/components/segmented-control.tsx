@@ -3,6 +3,11 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 export type SegmentedControlOption<TValue extends string> = {
@@ -15,6 +20,12 @@ export type SegmentedControlOption<TValue extends string> = {
   current?: boolean;
   /* Shown but not available: never selectable, and a link loses its href. */
   disabled?: boolean;
+  /*
+   * Why a disabled option isn't available, such as "Not available yet". It
+   * shows as a tooltip and joins the accessible name, and the option stays
+   * focusable (`aria-disabled`) so keyboard users can reach the reason.
+   */
+  disabledReason?: string;
   /*
    * A leading colour dot filled with `--game`, such as a version's colour:
    * pass `getGameColourStyle(slug)`. Decorative; the label carries the name.
@@ -154,6 +165,29 @@ export const SegmentedControl = <TValue extends string>({
             >
               {content}
             </span>
+          );
+        }
+
+        if (isDisabled && option.disabledReason) {
+          return (
+            <Tooltip key={option.value}>
+              <TooltipTrigger
+                render={
+                  <button
+                    type="button"
+                    aria-disabled="true"
+                    aria-pressed={false}
+                    aria-label={`${option.label}, ${option.disabledReason}`}
+                    className={optionClassName}
+                  />
+                }
+              >
+                {content}
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                {option.disabledReason}
+              </TooltipContent>
+            </Tooltip>
           );
         }
 
