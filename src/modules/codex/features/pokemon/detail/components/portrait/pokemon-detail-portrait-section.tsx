@@ -35,7 +35,7 @@ export const PokemonDetailPortraitSection = ({
   return (
     <section
       style={typeStyle}
-      className="ring-line bg-card relative overflow-hidden rounded-xl shadow-xs ring-1"
+      className="bg-surface shadow-card relative overflow-hidden rounded-xl"
     >
       <PokemonPortrait
         alt={`${isShowingShiny ? "Shiny " : ""}${imageAlt}`}

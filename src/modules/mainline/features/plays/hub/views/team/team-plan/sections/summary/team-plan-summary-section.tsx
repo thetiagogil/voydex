@@ -73,7 +73,7 @@ export const TeamPlanSummarySection = ({
   plan: MainlinePlayTeamPlanSummary;
 }) => {
   return (
-    <Card className="bg-card ring-line gap-0 py-0 shadow-xs">
+    <Card className="gap-0 py-0">
       <CardContent className="grid gap-4 p-4 xl:grid-cols-[minmax(20rem,1fr)_auto] xl:items-stretch">
         <div className="flex min-w-0 items-center gap-3">
           <span className="border-line bg-primary/8 text-primary flex size-11 shrink-0 items-center justify-center rounded-lg border">

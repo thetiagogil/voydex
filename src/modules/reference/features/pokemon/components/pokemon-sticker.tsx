@@ -60,10 +60,10 @@ export const PokemonSticker = ({
       <span className="font-display mt-2 w-full truncate text-[18px] leading-tight font-semibold">
         {name}
       </span>
-      <span className="text-ink-3 text-13 w-full truncate font-semibold">
+      <span className="text-ink-tint text-13 w-full truncate font-semibold">
         {subtitle ?? " "}
       </span>
-      <span className="text-ink-2 text-13 mt-2 flex items-center justify-center gap-1.5 font-bold">
+      <span className="text-ink-tint text-13 mt-2 flex items-center justify-center gap-1.5 font-bold">
         {level ? (
           <span className="rounded-full bg-white px-2 py-0.5 tabular-nums">
             Lv. {level}

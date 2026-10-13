@@ -13,7 +13,7 @@ export const StoryMilestoneInspector = ({
   onAction: (intent: StoryMilestoneActionIntent) => void;
 }) => {
   return (
-    <aside className="sticky top-4 hidden self-start lg:block">
+    <aside className="sticky top-[calc(var(--play-dock-offset,0px)+1rem)] hidden self-start lg:block">
       <MainlinePlayInspectorCard
         accessibilityTitle={`${milestone.name} details`}
       >

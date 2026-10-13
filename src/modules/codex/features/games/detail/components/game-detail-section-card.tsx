@@ -1,7 +1,6 @@
 import type { ComponentProps } from "react";
 
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { cn } from "@/shared/utils/cn";
 
 type GameDetailSectionCardProps = ComponentProps<typeof DetailSectionCard>;
 
@@ -13,11 +12,8 @@ export const GameDetailSectionCard = ({
 }: GameDetailSectionCardProps) => {
   return (
     <DetailSectionCard
-      className={cn("bg-card ring-line shadow-xs", className)}
-      titleClassName={cn(
-        "text-primary font-display text-base leading-none font-semibold",
-        titleClassName,
-      )}
+      className={className}
+      titleClassName={titleClassName}
       title={<h2>{title}</h2>}
       {...props}
     />

@@ -35,7 +35,7 @@ const GameDetailInfoHeading = ({ data }: GameDetailInfoCardProps) => {
 
 export const GameDetailInfoCard = ({ data }: GameDetailInfoCardProps) => {
   return (
-    <Card className="bg-card ring-line w-full min-w-0 gap-0 shadow-xs [--card-spacing:--spacing(5)] sm:[--card-spacing:--spacing(6)] lg:[--card-spacing:--spacing(7)]">
+    <Card className="w-full min-w-0 gap-0 [--card-spacing:--spacing(5)] sm:[--card-spacing:--spacing(6)] lg:[--card-spacing:--spacing(7)]">
       <CardContent className="flex min-w-0 flex-col gap-5">
         <div className="flex min-w-0 flex-col justify-center gap-5">
           <GameDetailInfoHeading data={data} />

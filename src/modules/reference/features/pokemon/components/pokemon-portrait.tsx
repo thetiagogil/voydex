@@ -49,7 +49,7 @@ export const PokemonPortrait = ({
     <div
       style={typeStyle}
       className={cn(
-        "bg-surface-2 relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-full",
+        "bg-surface-2 relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-full border border-transparent",
         type && pokemonTypeSoftBackgroundClassName,
         className,
       )}

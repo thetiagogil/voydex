@@ -53,7 +53,7 @@ export const getNavigationMenuControlClassName = ({
         : "bg-surface hover:bg-hover"),
     variant === "tab" &&
       (active
-        ? "bg-game font-extrabold text-on-game hover:bg-game hover:text-on-game focus:bg-game data-popup-open:bg-game data-popup-open:hover:bg-game"
+        ? "bg-game-strong font-extrabold text-white hover:bg-game-strong hover:text-white focus:bg-game-strong data-popup-open:bg-game-strong data-popup-open:hover:bg-game-strong"
         : "bg-white/65 hover:bg-white"),
     className,
   );

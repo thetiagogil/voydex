@@ -103,7 +103,6 @@ export const PokemonTypeBadge = ({
       <span
         role="img"
         aria-label={displayLabel}
-        title={displayLabel}
         className={cn("inline-flex shrink-0", className)}
       >
         <PokemonTypeMark

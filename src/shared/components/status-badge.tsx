@@ -12,7 +12,7 @@ type StatusBadgeProps = {
 
 const toneClassNames: Record<StatusBadgeTone, string> = {
   danger: "bg-danger-soft text-danger-deep",
-  gold: "bg-warn-soft text-warn-ink",
+  gold: "bg-gold text-ink",
   neutral: "bg-surface-2 text-ink-2",
   ok: "bg-ok-soft text-ok-deep",
   warn: "bg-warn-soft text-warn-ink",

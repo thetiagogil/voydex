@@ -42,6 +42,26 @@ export const MainlinePlayDockedBar = ({
     return () => observer.disconnect();
   }, []);
 
+  /*
+   * While docked, the bar covers the top of the page: keep focused elements
+   * and sticky panels clear of it.
+   */
+  useEffect(() => {
+    const root = document.documentElement.style;
+
+    if (!isDocked) {
+      return;
+    }
+
+    root.setProperty("--play-dock-offset", "76px");
+    root.setProperty("scroll-padding-top", "92px");
+
+    return () => {
+      root.removeProperty("--play-dock-offset");
+      root.removeProperty("scroll-padding-top");
+    };
+  }, [isDocked]);
+
   return (
     <>
       <div
@@ -67,7 +87,7 @@ export const MainlinePlayDockedBar = ({
             <p className="font-display text-17 hidden min-w-0 flex-1 truncate font-semibold sm:block">
               {title}
             </p>
-            <div className="no-scrollbar max-w-full min-w-0 overflow-x-auto">
+            <div className="no-scrollbar -m-1.5 max-w-full min-w-0 overflow-x-auto p-1.5">
               {navigation}
             </div>
           </div>

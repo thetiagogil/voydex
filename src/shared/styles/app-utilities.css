@@ -1,16 +1,15 @@
 /*
- * A Play's context colour. Set --game and --gt on the element (see
- * getGameColourStyle) and its tints are recomputed here, so everything inside
- * wears that game.
+ * A Play's context colour. Set --game, --gt and --game-strong on the element
+ * (see getGameColourStyle) and its tints are recomputed here, so everything
+ * inside wears that game.
  */
 @utility game-scope {
   --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
   --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
   --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 72%, #000);
-  --on-game: oklch(from var(--game) clamp(0.27, (0.64 - l) * 1000, 1) 0.012 70);
+  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
   --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 62%, var(--ink));
+  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
 }
 
 /* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */

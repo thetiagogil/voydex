@@ -58,7 +58,7 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "start":
       return {
-        "--mf": "var(--game)",
+        "--mf": "var(--game-strong)",
         "--mr": "var(--game-lip)",
       } as CSSProperties;
     case "status":
@@ -74,7 +74,7 @@ const contentColourClassNames: Record<MedallionContent["kind"], string> = {
   gold: "text-white [&_svg]:stroke-[2.4]",
   note: "text-warn-ink",
   pokemon: "",
-  start: "text-on-game",
+  start: "text-white",
   status: "text-ink-2",
 };
 
