@@ -94,4 +94,26 @@ describe("buildMainlinePlayBadgeCase", () => {
       "Become Champion",
     ]);
   });
+
+  it("keeps the League stamp where the journey reaches it", () => {
+    const badgeCase = buildMainlinePlayBadgeCase({
+      milestones: [
+        milestone({ milestone_id: 1, milestone_name: "Rising Badge" }),
+        milestone({
+          milestone_id: 2,
+          milestone_name: "Champion Lance",
+          milestone_type_slug: "champion",
+        }),
+        milestone({ milestone_id: 3, milestone_name: "Boulder Badge" }),
+      ],
+      types: [],
+    });
+
+    expect(badgeCase?.stamps.map((stamp) => stamp.name)).toEqual([
+      "Rising Badge",
+      "Champion Lance",
+      "Boulder Badge",
+    ]);
+    expect(badgeCase?.gymCount).toBe(2);
+  });
 });
