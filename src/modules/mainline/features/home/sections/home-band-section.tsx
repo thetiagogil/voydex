@@ -4,7 +4,6 @@ import { appRoutes } from "@/config/routes";
 import {
   HomeBandGround,
   HomeBandHeading,
-  homeBandClassName,
 } from "@/modules/mainline/features/home/components/home-band-parts";
 import { HomePartnerChoiceCast } from "@/modules/mainline/features/home/components/home-partner-choice";
 import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-play-shelf";
@@ -102,7 +101,7 @@ export const HomeBandSection = ({
     <section
       aria-labelledby="home-greeting"
       style={getGameColourStyle(current.gameSlug)}
-      className={`game-scope ${homeBandClassName}`}
+      className="game-scope"
     >
       <MeadowScene
         tinted

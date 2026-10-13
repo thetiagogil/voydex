@@ -19,7 +19,7 @@ const footerLinks = [
  */
 export const SiteFooter = () => (
   <footer className="border-line border-t">
-    <div className="mx-auto w-full max-w-320 px-4 pt-6.5 pb-8.5 sm:px-6 lg:px-8">
+    <div className="page-column pt-6.5 pb-8.5">
       <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5.5">
         <Link
           href={appRoutes.home}

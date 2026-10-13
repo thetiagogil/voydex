@@ -14,9 +14,10 @@ type MeadowSceneProps = {
   cast?: ReactNode;
   className?: string;
   /*
-   * `band` runs edge to edge under the top bar and rounds only at the bottom
-   * (Mainline Home, the site's Home and Start a Play); `card` is a rounded
-   * card (New Play, the Intro's closing meadow).
+   * `band` opens a page (Mainline Home, the site's Home and Start a Play): it
+   * runs edge to edge under the top bar (`page-band`), rounds only at the
+   * bottom and keeps its copy in the page column. `card` is a rounded card
+   * (New Play, the Intro's closing meadow).
    */
   form?: "band" | "card";
   /* The scene's height on phones and from `sm` up. */
@@ -61,12 +62,21 @@ export const MeadowScene = ({
         "relative isolate overflow-hidden",
         tinted ? "bg-game-soft" : "bg-sky",
         form === "band"
-          ? "rounded-b-[32px] sm:rounded-b-[56px]"
+          ? "page-band rounded-b-[32px] sm:rounded-b-[56px]"
           : "rounded-xl sm:rounded-2xl",
         className,
       )}
     >
-      {children ? <div className="relative z-6">{children}</div> : null}
+      {children ? (
+        <div
+          className={cn(
+            "relative z-6",
+            form === "band" && "mx-auto w-full max-w-(--page-width)",
+          )}
+        >
+          {children}
+        </div>
+      ) : null}
       <div
         className={cn("relative h-44 sm:h-54", sceneClassName)}
         data-slot="meadow-scene"

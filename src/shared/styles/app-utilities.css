@@ -56,6 +56,27 @@
   }
 }
 
+/* The page column: the frame's width, centred, with its side gutter. */
+@utility page-column {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+/*
+ * A page's top band (Home's meadow, Start a Play): it leaves the page column
+ * for the full width of the window and tucks under the bar, which sits on
+ * its colour, so the band and the bar read as one. Only the first thing on a
+ * page wears it; what it holds goes back in the column (`max-w-(--page-width)`).
+ */
+@utility page-band {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: calc(-1 * (var(--bar-h) + var(--page-top)));
+  padding-top: var(--bar-h);
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

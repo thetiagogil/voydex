@@ -57,26 +57,22 @@ export default async function Page({ searchParams }: StartRouteProps) {
       : null;
 
   return (
-    <PublicAppShell
-      hero={
-        <StartPage
-          art={publicArt}
-          isAuthenticated={isAuthenticated}
-          partnerSlug={intent?.partnerSpeciesSlug ?? null}
-          pick={pick}
-          shelf={
-            <StartGameShelf
-              /* A meadow partner opens the shelf afresh at its generation. */
-              key={generation ?? "shelf"}
-              games={games}
-              initialGeneration={generation}
-              value={pick?.game.slug ?? null}
-            />
-          }
-        />
-      }
-    >
-      {null}
+    <PublicAppShell>
+      <StartPage
+        art={publicArt}
+        isAuthenticated={isAuthenticated}
+        partnerSlug={intent?.partnerSpeciesSlug ?? null}
+        pick={pick}
+        shelf={
+          <StartGameShelf
+            /* A meadow partner opens the shelf afresh at its generation. */
+            key={generation ?? "shelf"}
+            games={games}
+            initialGeneration={generation}
+            value={pick?.game.slug ?? null}
+          />
+        }
+      />
     </PublicAppShell>
   );
 }

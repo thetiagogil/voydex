@@ -6,7 +6,6 @@ import type { StartIntent } from "@/config/start-intent";
 import {
   HomeBandGround,
   HomeBandHeading,
-  homeBandClassName,
 } from "@/modules/mainline/features/home/components/home-band-parts";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
@@ -17,7 +16,6 @@ import { getGameColourStyle } from "@/modules/reference/features/games/utils/gam
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
-import { cn } from "@/shared/utils/cn";
 
 type HomeFirstPlayPickerProps = {
   greeting: string;
@@ -83,7 +81,7 @@ export const HomeFirstPlayPicker = ({
     <section
       aria-labelledby="home-greeting"
       style={game ? getGameColourStyle(game.slug) : undefined}
-      className={cn(homeBandClassName, game && "game-scope")}
+      className={game ? "game-scope" : undefined}
     >
       <MeadowScene
         tinted={Boolean(game)}
