@@ -6,6 +6,8 @@ import { getEmailInitials } from "@/shared/utils/email-initials";
 type SettingsTrainerCardProps = {
   /* Null when your email could not be read right now. */
   email: string | null;
+  /* "November 2024"; null when it couldn't be read. */
+  trainerSince: string | null;
 };
 
 /* A long email wraps before its "@" on phones, not in the middle of a word. */
@@ -21,11 +23,15 @@ const nameClassName =
  * v3's trainer card (`.set-me .you-card`): who you are in Voydex, and the one
  * loud thing on Settings. A 4px white border and a lip tinted by your colour.
  * Until you can pick an icon and a name, it shows your initial on its own
- * white-rimmed disc, and your email. Without an email it is v3's empty card
+ * white-rimmed disc, your email and since when you've been a trainer.
+ * Without an email it is v3's empty card
  * (`.ob-cart.is-empty`): plain clay, the trainer glyph in a dashed circle and
  * a quiet placeholder.
  */
-export const SettingsTrainerCard = ({ email }: SettingsTrainerCardProps) => {
+export const SettingsTrainerCard = ({
+  email,
+  trainerSince,
+}: SettingsTrainerCardProps) => {
   const [localPart, domain] = email ? splitEmail(email) : [];
 
   return (
@@ -67,7 +73,9 @@ export const SettingsTrainerCard = ({ email }: SettingsTrainerCardProps) => {
               {domain}
             </p>
             <p className="text-ink-tint text-13 font-semibold">
-              The email you log in with
+              {trainerSince
+                ? `Trainer since ${trainerSince}`
+                : "The email you log in with"}
             </p>
           </>
         ) : (

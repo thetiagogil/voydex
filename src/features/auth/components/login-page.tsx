@@ -1,14 +1,15 @@
 import Link from "next/link";
 
+import type { PublicArt } from "@/config/public-art";
 import { appRoutes } from "@/config/routes";
+import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import { type AuthMode, LOGIN_DEFAULT_NEXT } from "@/features/auth/auth-mode";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthPanel } from "@/features/auth/components/auth-panel";
 import { AuthPeek } from "@/features/auth/components/auth-peek";
-import type { AuthArt } from "@/features/auth/types";
 
 type LoginPageProps = {
-  art: AuthArt;
+  art: Pick<PublicArt, "pokemon">;
   searchParams?: Promise<{
     error?: string;
     mode?: string;
@@ -26,7 +27,11 @@ export const LoginPage = async ({ art, searchParams }: LoginPageProps) => {
     <div className="flex w-full min-w-0 flex-1 justify-center pt-[100px] pb-10 sm:pt-[124px] sm:pb-14">
       <div className="relative w-full max-w-[440px] min-w-0">
         <AuthPeek art={art} mode={mode} />
-        <AuthPanel error={params?.error} mode={mode} next={next} />
+        <AuthPanel
+          error={parseAuthErrorCode(params?.error)}
+          mode={mode}
+          next={next}
+        />
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
           Just looking?{" "}
           <Link

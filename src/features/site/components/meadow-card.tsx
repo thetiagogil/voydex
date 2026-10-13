@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import type { PublicArt } from "@/config/public-art";
 import { MeadowPop } from "@/features/site/components/meadow-pop";
-import { PokemonRender } from "@/features/site/components/stills/pokemon-render";
+import { PokemonRender } from "@/features/site/components/pokemon-render";
 import { meadowPartners } from "@/features/site/data/meadow-partners";
-import type { SiteArt } from "@/features/site/types";
 import { cn } from "@/shared/utils/cn";
 
 const hillShape = "rounded-[50%_50%_0_0/100%_100%_0_0]";
@@ -21,7 +21,7 @@ const getPartnerStyle = (index: number, scale = 1): CSSProperties => {
 };
 
 type MeadowCardProps = {
-  art: SiteArt;
+  art: PublicArt;
   children: ReactNode;
   /*
    * `band` is Home's: edge to edge from the top of the page, under the bar,

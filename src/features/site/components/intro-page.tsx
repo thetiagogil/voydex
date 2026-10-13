@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { IntroChapter } from "@/features/site/components/intro/intro-chapter";
 import {
   CodexStage,
@@ -12,12 +13,11 @@ import { MeadowCard } from "@/features/site/components/meadow-card";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
-import type { SiteArt, SiteBadgeStamp } from "@/features/site/types";
 import { Card } from "@/shared/components/ui/card";
 
 type IntroPageProps = {
-  art: SiteArt;
-  badgeStamp: SiteBadgeStamp;
+  art: PublicArt;
+  playArt: PublicPlayArt;
 };
 
 const IntroSideCard = ({
@@ -44,7 +44,7 @@ const IntroSideCard = ({
  * How it works: one Play followed over time (day one, along the way, months
  * later), then two smaller things, and the meadow to finish.
  */
-export const IntroPage = async ({ art, badgeStamp }: IntroPageProps) => {
+export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
   const { isAuthenticated } = await getSiteVisitor();
 
   return (
@@ -62,31 +62,31 @@ export const IntroPage = async ({ art, badgeStamp }: IntroPageProps) => {
       <div className="mt-6.5 mb-4.5 flex flex-col gap-4.5 sm:mt-9 sm:mb-6 sm:gap-6">
         <Card className="gap-0 px-4.5 pt-5.5 pb-0.5 sm:px-9 sm:pt-8.5 sm:pb-2">
           <IntroChapter
-            art={art}
+            playArt={playArt}
             partner={introChapterPartners.dayOne}
             when="Day one"
             title="Start a Play"
             text="Pick the game, name the Play and choose what to track: story, Pokédex, collectibles, challenge rules. The Play takes its game's colour, so you always know which journey you're in."
           >
-            <StartAPlayStage art={art} />
+            <StartAPlayStage art={art} playArt={playArt} />
           </IntroChapter>
           <IntroChapter
-            art={art}
+            playArt={playArt}
             partner={introChapterPartners.alongTheWay}
             when="Along the way"
             title="Record as you go"
             text="Add Pokémon as they join the team, stamp each badge as you earn it, and mark the Pokédex while you play. Caught or seen, one tap each."
           >
-            <RecordAsYouGoStage art={art} badgeStamp={badgeStamp} />
+            <RecordAsYouGoStage art={art} playArt={playArt} />
           </IntroChapter>
           <IntroChapter
-            art={art}
+            playArt={playArt}
             partner={introChapterPartners.monthsLater}
             when="Months later"
             title="Look back"
             text="Every change becomes part of the Play's history, next to your own notes. Badges, evolutions, who joined the team and who retired, all in order."
           >
-            <LookBackStage art={art} />
+            <LookBackStage playArt={playArt} />
           </IntroChapter>
         </Card>
         <div className="grid gap-4.5 sm:gap-6 md:grid-cols-2">

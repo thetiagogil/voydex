@@ -1,9 +1,12 @@
-import { MomentMedallion } from "@/features/site/components/stills/moment-medallion";
+import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { samplePlay, samplePlayStory } from "@/features/site/data/sample-play";
-import type { SiteArt } from "@/features/site/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
+
+/* "32h 54m", as the Play's playtime reads. */
+const formatPlaytime = (minutes: number) =>
+  `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 
 const beatClassName =
   "relative z-1 grid grid-cols-[46px_minmax(0,1fr)] content-start gap-x-4 pb-4.5 text-left md:flex md:flex-col md:items-center md:gap-[3px] md:pb-0 md:text-center";
@@ -40,9 +43,11 @@ const BeatText = ({
 export const PlayStoryCard = ({
   art,
   className,
+  playArt,
 }: {
-  art: SiteArt;
+  art: PublicArt;
   className?: string;
+  playArt: PublicPlayArt;
 }) => (
   <Card className={cn("gap-0 px-5 py-5 sm:px-7 sm:py-6.5", className)}>
     <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
@@ -63,8 +68,10 @@ export const PlayStoryCard = ({
             {samplePlay.name}
           </p>
           <p className="text-13 text-ink-2 font-semibold">
-            {samplePlay.trainer} ·{" "}
-            <span className="tabular-nums">{samplePlay.playtime}</span>
+            Trainer {samplePlay.trainer} ·{" "}
+            <span className="tabular-nums">
+              {formatPlaytime(samplePlay.playtimeMinutes)}
+            </span>
           </p>
         </div>
       </div>
@@ -72,11 +79,10 @@ export const PlayStoryCard = ({
     <ol className="before:bg-line relative mt-5.5 grid grid-cols-1 before:absolute before:top-[26px] before:bottom-[60px] before:left-[22px] before:w-[3px] before:rounded-[3px] md:mt-8.5 md:grid-cols-5 md:gap-4 md:before:right-[30%] md:before:bottom-auto md:before:left-[10%] md:before:h-[3px] md:before:w-auto md:after:absolute md:after:top-[26px] md:after:right-[10%] md:after:left-[70%] md:after:h-[3px] md:after:bg-[repeating-linear-gradient(90deg,var(--dash)_0_8px,transparent_8px_15px)]">
       {samplePlayStory.beats.map((beat) => (
         <li key={beat.title} className={beatClassName}>
-          <MomentMedallion
-            art={art}
-            moment={beat.moment}
-            className="row-span-3 m-0 md:mt-[3px] md:mb-3.5"
-          />
+          {playArt.medallion({
+            className: "row-span-3 m-0 md:mt-[3px] md:mb-3.5",
+            moment: beat.moment,
+          })}
           <BeatText
             detail={beat.detail}
             isNote={beat.moment.kind === "note"}
@@ -86,7 +92,7 @@ export const PlayStoryCard = ({
         </li>
       ))}
       <li className={beatClassName}>
-        <span className="bg-bg border-dash text-ink-3 row-span-3 grid size-[46px] place-items-center rounded-full border-[2.5px] border-dashed md:mt-[5px] md:mb-4">
+        <span className="bg-bg empty-slot text-ink-3 row-span-3 grid size-[46px] place-items-center rounded-full md:mt-[5px] md:mb-4">
           <AppIcon icon={appIcons.milestones.champion} className="size-5" />
         </span>
         <BeatText

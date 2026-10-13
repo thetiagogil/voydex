@@ -5,6 +5,8 @@ import { PageHeader } from "@/shared/components/page-header";
 type SettingsPageProps = {
   /* The route's log out action, shared with the app shell's account menu. */
   signOutAction: () => Promise<void>;
+  /* "November 2024"; null when it couldn't be read. */
+  trainerSince: string | null;
   /* Null when the claims carry no email; the trainer card shows its empty state. */
   userEmail: string | null;
 };
@@ -12,6 +14,7 @@ type SettingsPageProps = {
 /* v3's Account settings: one column, the trainer card first, then quiet sections. */
 export const SettingsPage = ({
   signOutAction,
+  trainerSince,
   userEmail,
 }: SettingsPageProps) => {
   return (
@@ -21,7 +24,7 @@ export const SettingsPage = ({
         description="Your trainer card and your account"
       />
       <div className="mt-7 flex flex-col gap-6">
-        <SettingsTrainerCard email={userEmail} />
+        <SettingsTrainerCard email={userEmail} trainerSince={trainerSince} />
         <SettingsAccountSection signOutAction={signOutAction} />
       </div>
     </div>

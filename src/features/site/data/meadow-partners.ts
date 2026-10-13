@@ -1,6 +1,6 @@
-import type { SitePokemonForm } from "@/features/site/types";
+import type { PublicPokemonForm } from "@/config/public-art";
 
-type MeadowPartner = SitePokemonForm & {
+type MeadowPartner = PublicPokemonForm & {
   /* Each render sits differently in its square; a nudge makes them read the same size on the hill. */
   scale?: number;
 };

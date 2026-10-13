@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
+import type { SignedInAccount } from "@/features/app-shell/types";
 import {
   codexLink,
   isCurrentLink,
@@ -17,7 +18,7 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 type AppTabBarProps = {
-  email: string;
+  account: SignedInAccount;
 };
 
 type TabItemProps = {
@@ -54,7 +55,7 @@ const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
  * and the Planner; they join when their screens ship. You opens your account
  * menu until the You page ships.
  */
-export const AppTabBar = ({ email }: AppTabBarProps) => {
+export const AppTabBar = ({ account }: AppTabBarProps) => {
   const pathname = usePathname();
 
   return (
@@ -78,7 +79,7 @@ export const AppTabBar = ({ email }: AppTabBarProps) => {
         isCurrent={isCurrentLink(pathname, codexLink)}
         label={codexLink.label}
       />
-      <UserMenu email={email} placement="tab" />
+      <UserMenu account={account} placement="tab" />
     </nav>
   );
 };

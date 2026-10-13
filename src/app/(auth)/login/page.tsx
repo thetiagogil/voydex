@@ -1,4 +1,4 @@
-import { publicArt } from "@/modules/reference/shared/data/public-art";
+import { publicArt } from "@/modules/reference/public-art";
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 import { LoginPage } from "@/features/auth/components/login-page";
 

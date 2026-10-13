@@ -1,4 +1,7 @@
-import type { AuthMode } from "@/features/auth/auth-mode";
+import Link from "next/link";
+
+import { type AuthErrorCode, authErrorCopy } from "@/features/auth/auth-errors";
+import { type AuthMode, getAuthPageHref } from "@/features/auth/auth-mode";
 import { AuthModeSwitch } from "@/features/auth/components/auth-mode-switch";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { PasswordInput } from "@/features/auth/components/password-input";
@@ -21,7 +24,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 
 type AuthPanelProps = {
-  error?: string;
+  error: AuthErrorCode | null;
   mode: AuthMode;
   next: string;
 };
@@ -41,6 +44,7 @@ const copy: Record<AuthMode, { lede: string; title: string }> = {
 export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
+  const errorCopy = error ? authErrorCopy[error] : null;
 
   return (
     <Card className="relative z-1 gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
@@ -49,11 +53,24 @@ export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
         {copy[mode].title}
       </h1>
       <p className="text-ink-2 mb-5.5 font-semibold">{copy[mode].lede}</p>
-      {error ? (
+      {errorCopy ? (
         <Alert variant="destructive" className="mb-4.5">
           <AppIcon icon={appIcons.status.error} />
-          <AlertTitle>That didn&apos;t work</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertTitle>{errorCopy.title}</AlertTitle>
+          <AlertDescription>
+            {errorCopy.description}
+            {errorCopy.offersLogIn && isSignUp ? (
+              <>
+                {" "}
+                <Link
+                  href={getAuthPageHref({ mode: "log-in", next })}
+                  className="rounded-xs font-extrabold underline"
+                >
+                  Log in
+                </Link>
+              </>
+            ) : null}
+          </AlertDescription>
         </Alert>
       ) : null}
       <form action={action} className="flex flex-col gap-4">
@@ -78,6 +95,7 @@ export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
             aria-describedby={isSignUp ? "password-hint" : undefined}
             required
             minLength={6}
+            maxLength={72}
           />
           {isSignUp ? (
             <FieldDescription id="password-hint">
@@ -94,6 +112,7 @@ export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
               autoComplete="new-password"
               required
               minLength={6}
+              maxLength={72}
             />
           </Field>
         ) : null}

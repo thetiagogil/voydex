@@ -5,17 +5,24 @@ type PublicAppShellProps = {
   children: React.ReactNode;
   hero?: React.ReactNode;
   showAuthAction?: boolean;
+  showBrandName?: boolean;
 };
 
 export const PublicAppShell = async ({
   children,
   hero,
   showAuthAction,
+  showBrandName,
 }: PublicAppShellProps) => {
-  const { userEmail } = await getPublicAppShellData();
+  const { account } = await getPublicAppShellData();
 
   return (
-    <AppShell hero={hero} showAuthAction={showAuthAction} userEmail={userEmail}>
+    <AppShell
+      account={account}
+      hero={hero}
+      showAuthAction={showAuthAction}
+      showBrandName={showBrandName}
+    >
       {children}
     </AppShell>
   );

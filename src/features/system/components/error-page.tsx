@@ -1,23 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { appRoutes } from "@/config/routes";
+
 import { SystemState } from "@/features/system/components/system-state";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 
-export type ProtectedErrorPageProps = {
+/* What Next hands an `error.tsx` boundary. */
+export type ErrorBoundaryProps = {
   error: Error & {
     digest?: string;
   };
   reset: () => void;
 };
 
+type ErrorPageProps = ErrorBoundaryProps & {
+  /* Home for where you are: the app's entry inside the app, the front door outside it. */
+  homeHref: string;
+};
+
 /* A page that failed to load: the same quiet layout as not found, with a retry. */
-export const ProtectedErrorPage = ({
-  error,
-  reset,
-}: ProtectedErrorPageProps) => {
+export const ErrorPage = ({ error, homeHref, reset }: ErrorPageProps) => {
   return (
     <SystemState
       eyebrow={error.digest ? `Error reference ${error.digest}` : undefined}
@@ -30,7 +33,7 @@ export const ProtectedErrorPage = ({
             Try again
           </Button>
           <Link
-            href={appRoutes.appEntry}
+            href={homeHref}
             className={buttonVariants({ variant: "outline", size: "lg" })}
           >
             <AppIcon icon={appIcons.actions.home} inline="start" />

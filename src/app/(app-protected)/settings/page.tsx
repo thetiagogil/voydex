@@ -1,11 +1,15 @@
+import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
 import { signOut } from "@/features/app-shell/server/sign-out-action";
 import { SettingsPage as SettingsPageView } from "@/features/settings/components/settings-page";
-import { getUserEmailClaim } from "@/platform/supabase/auth";
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export default async function SettingsPage() {
-  const supabase = await createServerSupabaseClient();
-  const userEmail = await getUserEmailClaim(supabase);
+  const account = await getSignedInAccount();
 
-  return <SettingsPageView signOutAction={signOut} userEmail={userEmail} />;
+  return (
+    <SettingsPageView
+      signOutAction={signOut}
+      trainerSince={account?.trainerSince ?? null}
+      userEmail={account?.email ?? null}
+    />
+  );
 }

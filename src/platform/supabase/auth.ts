@@ -43,11 +43,3 @@ export const getOptionalUserEmail = async (
   }
   return typeof claims.email === "string" ? claims.email : "Account";
 };
-
-/* The email claim itself, or null when signed out or the claims carry none. */
-export const getUserEmailClaim = async (
-  supabase: SupabaseClient<Database>,
-): Promise<string | null> => {
-  const claims = await getSignedInClaims(supabase);
-  return typeof claims?.email === "string" ? claims.email : null;
-};

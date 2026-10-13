@@ -5,6 +5,7 @@ import {
   getModuleKeyForPathname,
 } from "@/config/modules";
 import { appRoutes, isProtectedRoute } from "@/config/routes";
+import { REQUEST_PATH_HEADER } from "@/features/app-shell/utils/request-path";
 import { refreshSupabaseProxySession } from "@/platform/supabase/proxy-session";
 
 const redirectWithSessionCookies = (
@@ -47,15 +48,15 @@ export const updateAppSession = async (request: NextRequest) => {
       routeModuleKey,
     );
   }
+  const requestPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+  request.headers.set(REQUEST_PATH_HEADER, requestPath);
   const { isAuthenticated, response } =
     await refreshSupabaseProxySession(request);
   if (!isAuthenticated) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = appRoutes.login;
-    loginUrl.searchParams.set(
-      "next",
-      `${request.nextUrl.pathname}${request.nextUrl.search}`,
-    );
+    loginUrl.search = "";
+    loginUrl.searchParams.set("next", requestPath);
     return syncActiveModuleCookie(
       redirectWithSessionCookies(loginUrl, response),
       routeModuleKey,

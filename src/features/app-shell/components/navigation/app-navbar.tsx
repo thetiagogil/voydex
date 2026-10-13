@@ -24,7 +24,12 @@ export const AppNavbar = ({
           aria-label="Voydex home"
           className="inline-flex h-11 shrink-0 items-center rounded-sm"
         >
-          <Logo showText={showName} markClassName="text-17 size-8.5" />
+          {/* v3 drops the word on narrow phones; the tile alone is the brand. */}
+          <Logo
+            showText={showName}
+            markClassName="text-17 size-8.5"
+            textClassName="max-sm:hidden"
+          />
         </Link>
       </div>
       <div className="flex min-w-0 items-center justify-center">{center}</div>

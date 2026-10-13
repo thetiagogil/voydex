@@ -1,11 +1,11 @@
-import type { SiteArt, SitePokemonForm } from "@/features/site/types";
+import type { PublicArt, PublicPokemonForm } from "@/config/public-art";
 import { cn } from "@/shared/utils/cn";
 
 type PokemonRenderProps = {
-  art: SiteArt;
+  art: PublicArt;
   className?: string;
   loading?: "eager" | "lazy";
-  pokemon: SitePokemonForm;
+  pokemon: PublicPokemonForm;
 };
 
 /* A Pokémon's render, decorative: the words around it name the Pokémon. */

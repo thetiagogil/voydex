@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 
+import type { PublicArt, PublicPokemonForm } from "@/config/public-art";
 import type { AuthMode } from "@/features/auth/auth-mode";
-import type { AuthArt, AuthPokemonForm } from "@/features/auth/types";
 import { cn } from "@/shared/utils/cn";
 
-type PeekingPokemon = AuthPokemonForm & {
+type PeekingPokemon = PublicPokemonForm & {
   /* Each render sits differently in its square, so each gets its own height. */
   offset: number;
 };
@@ -24,7 +24,7 @@ const peekingPokemon: Record<AuthMode, readonly PeekingPokemon[]> = {
 };
 
 type AuthPeekProps = {
-  art: AuthArt;
+  art: Pick<PublicArt, "pokemon">;
   mode: AuthMode;
 };
 
