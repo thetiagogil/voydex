@@ -1,6 +1,6 @@
-import { getGamesPageData } from "@/modules/codex/features/games/browse/server/games-page-query";
 import { GamesBrowser } from "@/modules/codex/features/games/browse/components/games-browser";
-import { CodexPageShell } from "@/modules/codex/shared/components/codex-page-shell";
+import { getGamesPageData } from "@/modules/codex/features/games/browse/server/games-page-query";
+import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 
 type GamesPageProps = {
   params?: {
@@ -15,11 +15,9 @@ export const GamesPage = async ({ params }: GamesPageProps) => {
   const data = await getGamesPageData(params);
 
   return (
-    <CodexPageShell
-      title="Games"
-      description="Browse the mainline and Legends games currently supported by Voydex data."
-    >
+    <div className="flex w-full min-w-0 flex-col">
+      <CodexHead />
       <GamesBrowser data={data} />
-    </CodexPageShell>
+    </div>
   );
 };

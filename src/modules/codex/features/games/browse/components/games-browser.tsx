@@ -2,83 +2,70 @@
 
 import { useMemo, useState } from "react";
 
-import { GamesFilterForm } from "@/modules/codex/features/games/browse/components/games-filter-form";
-import { GamesGrid } from "@/modules/codex/features/games/browse/components/games-grid";
-import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
-import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
+import { GamesShelf } from "@/modules/codex/features/games/browse/components/games-shelf";
+import { GamesToolbar } from "@/modules/codex/features/games/browse/components/games-toolbar";
+import {
+  countGenerations,
+  emptyGamesPageFilters,
+  filterGames,
+  groupGamesIntoSections,
+  hasActiveGamesFilters,
+  type GamesGroupBy,
+  type GamesSortOrder,
+} from "@/modules/codex/features/games/browse/data/games-browse-model";
+import { BrowseResultSummary } from "@/modules/codex/features/games/shared/components/browse-result-summary";
 import type {
-  GameCard,
   GamesPageData,
   GamesPageFilters,
 } from "@/modules/reference/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { EmptyState } from "@/shared/components/empty-state";
+import { SegmentedControl } from "@/shared/components/segmented-control";
+
+const countWords = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+];
+
+/* Small counts read as words in a sentence, as v3 writes "nine generations". */
+const spellCount = (count: number) => countWords[count] ?? String(count);
+
+const groupByOptions = [
+  { label: "Generation", value: "generation" },
+  { label: "Region", value: "region" },
+] as const;
 
 type GamesBrowserProps = {
   data: GamesPageData;
 };
 
-const defaultGamesPageFilters: GamesPageFilters = {
-  gameType: "",
-  generation: "",
-  query: "",
-  region: "",
-};
-
-const getSearchableGameText = (card: GameCard) => {
-  return [
-    card.game.name,
-    card.game.slug,
-    card.game.release_year,
-    card.generation?.name,
-    card.generation?.slug,
-    card.region?.name,
-    card.region?.slug,
-    card.gameType?.name,
-    card.gameType?.slug,
-    card.versionGroup?.name,
-    card.versionGroup?.slug,
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-};
-
-const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
-  const normalizedQuery = filters.query.trim().toLowerCase();
-
-  return games.filter((card) => {
-    if (filters.generation && card.generation?.slug !== filters.generation) {
-      return false;
-    }
-
-    if (filters.region && card.region?.slug !== filters.region) {
-      return false;
-    }
-
-    if (filters.gameType && card.gameType?.slug !== filters.gameType) {
-      return false;
-    }
-
-    return (
-      !normalizedQuery || getSearchableGameText(card).includes(normalizedQuery)
-    );
-  });
-};
-
-const hasActiveGamesFilters = (filters: GamesPageFilters) => {
-  return (
-    filters.query.trim() !== "" ||
-    filters.generation !== "" ||
-    filters.region !== "" ||
-    filters.gameType !== ""
-  );
-};
-
 export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
+  const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
+  const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
     () => filterGames(data.games, filters),
     [data.games, filters],
+  );
+  const sections = useMemo(
+    () =>
+      groupGamesIntoSections({
+        games: filteredGames,
+        groupBy,
+        regions: data.regions,
+        sortOrder,
+      }),
+    [data.regions, filteredGames, groupBy, sortOrder],
   );
   const hasActiveFilters = hasActiveGamesFilters(filters);
 
@@ -93,54 +80,58 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   };
 
   const clearFilters = () => {
-    setFilters(defaultGamesPageFilters);
+    setFilters(emptyGamesPageFilters);
   };
 
   return (
     <>
-      <GamesFilterForm
+      <div className="flex flex-col gap-4 pt-5.5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]">
+            Games
+          </h1>
+          <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
+            <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
+            across {spellCount(countGenerations(data.games))} generations.
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2.5">
+          <span className="text-ink-2 text-13 font-bold">Group by</span>
+          <SegmentedControl
+            ariaLabel="Group by"
+            onValueChange={setGroupBy}
+            options={groupByOptions}
+            value={groupBy}
+            variant="segment"
+          />
+        </div>
+      </div>
+
+      <GamesToolbar
         filters={filters}
         gameTypes={data.gameTypes}
         generations={data.generations}
-        onGameTypeChange={(gameType) => {
-          updateFilter("gameType", gameType);
-        }}
-        onGenerationChange={(generation) => {
-          updateFilter("generation", generation);
-        }}
-        onQueryChange={(query) => {
-          updateFilter("query", query);
-        }}
-        onRegionChange={(region) => {
-          updateFilter("region", region);
-        }}
+        onFilterChange={updateFilter}
+        onSortOrderChange={setSortOrder}
         regions={data.regions}
+        sortOrder={sortOrder}
       />
 
-      <div className="flex min-h-8 flex-row items-center justify-between gap-3">
-        <CodexBrowseMeta>
-          {hasActiveFilters
-            ? `Showing ${filteredGames.length} of ${data.games.length} games`
-            : `Showing ${data.games.length} games`}
-        </CodexBrowseMeta>
+      <BrowseResultSummary
+        hasActiveFilters={hasActiveFilters}
+        noun="games"
+        onClearFilters={clearFilters}
+        shownCount={filteredGames.length}
+        totalCount={data.games.length}
+      />
 
-        {hasActiveFilters ? (
-          <ClearFiltersButton
-            className="self-start sm:self-auto"
-            onClick={clearFilters}
-          />
-        ) : null}
-      </div>
-
-      {filteredGames.length ? (
-        <GamesGrid games={filteredGames} />
+      {sections.length ? (
+        <GamesShelf sections={sections} />
       ) : (
-        <CodexEmptyState
-          title="No games found"
-          description="Try a different search, generation, region, or type filter."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
-          }
+        <EmptyState
+          className="mt-6"
+          title="No games match"
+          description="Try a different search or filter."
         />
       )}
     </>

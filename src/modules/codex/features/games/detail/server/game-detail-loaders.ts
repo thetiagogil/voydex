@@ -1,4 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
   Game,
@@ -8,6 +9,7 @@ import type {
   Platform,
   Pokedex,
   PokedexEntry,
+  PokemonForm,
   Region,
   VersionGroup,
 } from "@/modules/reference/types";
@@ -20,9 +22,43 @@ export type GameDetailRows = {
   platforms: Platform[];
   pokedexEntries: PokedexEntry[];
   pokedexes: Pokedex[];
+  /* Forms for the first entries of each Pokédex, for the tiles' art strips. */
+  previewForms: PokemonForm[];
   relatedGames: Game[];
   regions: Region[];
   versionGroups: VersionGroup[];
+};
+
+const loadPokedexPreviewForms = async (
+  supabase: ServerSupabaseClient,
+  pokedexes: Pokedex[],
+  pokedexEntries: PokedexEntry[],
+): Promise<PokemonForm[]> => {
+  const speciesIds = [
+    ...new Set(
+      [...selectPokedexPreviewEntries(pokedexes, pokedexEntries).values()]
+        .flat()
+        .map((entry) => entry.species_id),
+    ),
+  ];
+
+  if (!speciesIds.length) {
+    return [];
+  }
+
+  const formsResult = await supabase
+    .schema("reference")
+    .from("pokemon_forms")
+    .select("*")
+    .in("species_id", speciesIds)
+    .order("species_id", { ascending: true })
+    .order("form_order", { ascending: true });
+
+  if (formsResult.error) {
+    throw new Error("Unable to load Pokédex preview art.");
+  }
+
+  return formsResult.data ?? [];
 };
 
 export const loadGameDetailRows = async (
@@ -116,6 +152,11 @@ export const loadGameDetailRows = async (
         "Unable to load game Pokédex entries.",
       )
     : [];
+  const previewForms = await loadPokedexPreviewForms(
+    supabase,
+    pokedexes,
+    pokedexEntries,
+  );
 
   return {
     game,
@@ -125,6 +166,7 @@ export const loadGameDetailRows = async (
     platforms: platformsResult.data ?? [],
     pokedexEntries,
     pokedexes,
+    previewForms,
     relatedGames: relatedGamesResult.data ?? [],
     regions: regionsResult.data ?? [],
     versionGroups: versionGroupsResult.data ?? [],

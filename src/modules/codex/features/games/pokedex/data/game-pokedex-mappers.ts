@@ -1,9 +1,9 @@
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
-  getGamePokedexEntryKey,
+  getPokedexEntryKey,
   selectGamePokedexEntryForms,
-} from "@/modules/codex/features/games/pokedex/data/game-pokedex-selectors";
+} from "@/modules/codex/features/games/shared/data/pokedex-entry-forms";
 import type {
   Ability,
   Game,
@@ -154,14 +154,7 @@ export const buildGamePokedexData = ({
         return [];
       }
 
-      const form =
-        entryFormsByKey.get(
-          getGamePokedexEntryKey({
-            pokedexId: entry.pokedex_id,
-            pokedexNumber: entry.pokedex_number,
-            speciesId: entry.species_id,
-          }),
-        ) ?? null;
+      const form = entryFormsByKey.get(getPokedexEntryKey(entry)) ?? null;
       const attributes = form
         ? (attributesByFormId.get(form.id) ?? null)
         : null;

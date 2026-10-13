@@ -9,6 +9,10 @@ export type GamePokedexFilters = {
   type: string;
 };
 
+export type GamePokedexSortKey = "name" | "national" | "regional";
+
+export type GamePokedexView = "grid" | "table";
+
 export type SearchableGamePokedexPokemon = GamePokedexPokemon & {
   searchText: string;
 };
@@ -150,6 +154,30 @@ export const filterGamePokedexPokemon = (
 
     return matchesQuery && matchesType;
   });
+};
+
+/* Entries arrive in the game's own numbering; the other orders are re-sorted copies. */
+export const sortGamePokedexPokemon = <TPokemon extends GamePokedexPokemon>(
+  pokemon: TPokemon[],
+  sortKey: GamePokedexSortKey,
+) => {
+  if (sortKey === "national") {
+    return pokemon.toSorted(
+      (first, second) =>
+        first.species.national_number - second.species.national_number ||
+        first.entry.pokedex_number - second.entry.pokedex_number,
+    );
+  }
+
+  if (sortKey === "name") {
+    return pokemon.toSorted(
+      (first, second) =>
+        first.species.name.localeCompare(second.species.name) ||
+        first.entry.pokedex_number - second.entry.pokedex_number,
+    );
+  }
+
+  return pokemon;
 };
 
 export const hasActiveGamePokedexFilters = (filters: GamePokedexFilters) => {
