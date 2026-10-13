@@ -1,5 +1,9 @@
-import type { ReactElement } from "react";
+import { Fragment, type ReactElement } from "react";
 
+import type {
+  CodexPokemonEntrySlotContext,
+  CodexPokemonEntrySlots,
+} from "@/modules/codex/codex-slots";
 import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
@@ -16,6 +20,7 @@ import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon
 import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-head";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
+import { PokemonDetailTrainingCard } from "@/modules/codex/features/pokemon/detail/components/training/pokemon-detail-training-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import {
   getPokemonDetailDefendingTypes,
@@ -38,12 +43,14 @@ import {
   gameMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import type { PokemonDetailData } from "@/modules/reference/types";
+import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
 import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailShellProps = {
   data: PokemonDetailData;
   scope: ResolvedPokemonDetailScope;
+  /* The route's signed-in pieces: Add to a Play and In your Plays. */
+  slots?: CodexPokemonEntrySlots;
 };
 
 /* Two section cards side by side on wide screens; one alone takes the row. */
@@ -70,6 +77,34 @@ const PokemonDetailCardRow = ({
   );
 };
 
+/* Cards two to a row; an odd one out takes the last row alone. */
+const pairCards = (cards: (ReactElement | null)[]) => {
+  const visibleCards = cards.filter((card) => card !== null);
+
+  return Array.from(
+    { length: Math.ceil(visibleCards.length / 2) },
+    (_, index) => visibleCards.slice(index * 2, index * 2 + 2),
+  );
+};
+
+/* The form's egg groups in slot order, from its attributes in this generation. */
+const getFormEggGroups = (
+  data: PokemonDetailData,
+  scope: ResolvedPokemonDetailScope,
+): EggGroup[] => {
+  const attributes = scope.form?.attributes;
+  const eggGroupIds = [
+    attributes?.primary_egg_group_id,
+    attributes?.secondary_egg_group_id,
+  ];
+
+  return eggGroupIds.flatMap((eggGroupId) => {
+    const eggGroup = data.eggGroups.find((group) => group.id === eggGroupId);
+
+    return eggGroup ? [eggGroup] : [];
+  });
+};
+
 /*
  * The Codex Pokémon entry, as v3 lays it out: the head, the hero, then quiet
  * section cards. Lively comes from the Pokémon's art and type colour only.
@@ -77,6 +112,7 @@ const PokemonDetailCardRow = ({
 export const PokemonDetailShell = ({
   data,
   scope,
+  slots,
 }: PokemonDetailShellProps) => {
   const { form, generation } = scope;
   const activeVersionGroup = scope.versionGroup.versionGroup;
@@ -104,6 +140,17 @@ export const PokemonDetailShell = ({
   const pokedexNumbers = getPokemonDetailPokedexNumbers({
     scopedPokedexEntries: scope.pokedexEntries,
   });
+  const slotContext: CodexPokemonEntrySlotContext = {
+    formId: form?.form.id ?? null,
+    formSlug: form && !form.form.is_default ? form.form.slug : null,
+    imageUrl: getPokemonDetailFormImageUrl(form),
+    pokemonName,
+    speciesId: data.species.id,
+    speciesName: data.species.name,
+    speciesSlug: data.species.slug,
+    versionGroupSlug: activeVersionGroup.slug,
+  };
+  const inYourPlays = slots?.inYourPlays?.(slotContext) ?? null;
 
   const readingCards = [
     stats.length ? (
@@ -129,6 +176,18 @@ export const PokemonDetailShell = ({
     abilitySlots.length ? (
       <PokemonDetailAbilitiesCard key="abilities" abilitySlots={abilitySlots} />
     ) : null,
+    <PokemonDetailTrainingCard
+      key="training"
+      eggGroups={
+        supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
+          ? getFormEggGroups(data, scope)
+          : null
+      }
+      hasGender={supportsGameMechanic(
+        scope.mechanics,
+        gameMechanics.pokemonGender,
+      )}
+    />,
     pokedexNumbers.length ? (
       <PokemonDetailPokedexNumbersCard
         key="pokedex-numbers"
@@ -150,6 +209,7 @@ export const PokemonDetailShell = ({
 
       <PokemonDetailHero
         key={form?.form.id ?? data.species.id}
+        actions={slots?.heroActions?.(slotContext)}
         activeFormSlug={form?.form.slug ?? null}
         eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
         formSwitchOptions={getPokemonDetailFormSwitchOptions({
@@ -168,12 +228,12 @@ export const PokemonDetailShell = ({
       />
 
       <div className="mt-10 flex flex-col gap-6 sm:mt-12 sm:gap-10">
-        {readingCards.some(Boolean) || referenceCards.some(Boolean) ? (
-          <div className="flex flex-col gap-6">
-            <PokemonDetailCardRow cards={readingCards} />
-            <PokemonDetailCardRow cards={referenceCards} />
-          </div>
-        ) : null}
+        <div className="flex flex-col gap-6">
+          <PokemonDetailCardRow cards={readingCards} />
+          {pairCards(referenceCards).map((cards) => (
+            <PokemonDetailCardRow key={cards[0]?.key} cards={cards} />
+          ))}
+        </div>
 
         <PokemonDetailEvolutionSection
           activeFormId={form?.form.id ?? null}
@@ -189,12 +249,20 @@ export const PokemonDetailShell = ({
           scopeName={versionGroupName}
         />
 
-        <PokemonDetailAvailabilityCard
-          rows={getPokemonDetailWhereToFindRows({
-            availability: scope.availability,
-            versionGroup: scope.versionGroup,
-          })}
-          scopeName={versionGroupName}
+        <PokemonDetailCardRow
+          cards={[
+            <PokemonDetailAvailabilityCard
+              key="where-to-find"
+              rows={getPokemonDetailWhereToFindRows({
+                availability: scope.availability,
+                versionGroup: scope.versionGroup,
+              })}
+              scopeName={versionGroupName}
+            />,
+            inYourPlays ? (
+              <Fragment key="in-your-plays">{inYourPlays}</Fragment>
+            ) : null,
+          ]}
         />
       </div>
     </div>

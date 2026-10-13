@@ -16,6 +16,10 @@ const toText = (parts: PokemonDetailHeroSentencePart[] | null) => {
   return parts?.map((part) => part.text).join("") ?? null;
 };
 
+const getPending = (parts: PokemonDetailHeroSentencePart[]) => {
+  return parts.filter((part) => part.pending).map((part) => part.text);
+};
+
 const getEmphasis = (parts: PokemonDetailHeroSentencePart[] | null) => {
   return parts?.filter((part) => part.emphasis).map((part) => part.text);
 };
@@ -55,15 +59,28 @@ const species = {
 
 describe("Pokémon detail hero model", () => {
   it("reads the number, the category and the generation it arrived in", () => {
-    expect(getPokemonDetailHeroEyebrow({ form: createForm(), species })).toBe(
-      "#0059 · since Generation I",
-    );
-    expect(
-      getPokemonDetailHeroEyebrow({
-        form: null,
-        species: { ...species, is_mythical: true },
-      }),
-    ).toBe("#0059 · Mythical Pokémon");
+    const eyebrow = getPokemonDetailHeroEyebrow({
+      form: createForm(),
+      species,
+    });
+
+    expect(eyebrow.map((part) => part.text)).toEqual([
+      "#0059",
+      "Category",
+      "since Generation I",
+    ]);
+    expect(getPending(eyebrow)).toEqual(["Category"]);
+
+    const mythical = getPokemonDetailHeroEyebrow({
+      form: null,
+      species: { ...species, is_mythical: true },
+    });
+
+    expect(mythical.map((part) => part.text)).toEqual([
+      "#0059",
+      "Mythical Pokémon",
+    ]);
+    expect(getPending(mythical)).toEqual([]);
   });
 
   it("leads with the size when it is recorded, as v3 does", () => {
@@ -83,38 +100,44 @@ describe("Pokémon detail hero model", () => {
     ]);
   });
 
-  it("names its best stat alone when the size isn't recorded", () => {
-    expect(
-      toText(
-        getPokemonDetailHeroSentence({
-          form: createForm(),
-          stats: createStats([90, 110, 80, 100, 95]),
-        }),
-      ),
-    ).toBe("Its best stat is Attack, at 110.");
-    expect(
-      toText(
-        getPokemonDetailHeroSentence({
-          form: createForm({ weight: 60 }),
-          stats: createStats([95, 95, 80, 95, 60]),
-        }),
-      ),
-    ).toBe(
-      "Weighs 6.0 kg, with HP, Attack and Special Attack its best stats at 95.",
+  it("keeps a pending piece where the size isn't recorded", () => {
+    const sentence = getPokemonDetailHeroSentence({
+      form: createForm(),
+      stats: createStats([90, 110, 80, 100, 95]),
+    });
+
+    expect(toText(sentence)).toBe(
+      "Height tall and Weight, with Attack its best stat at 110.",
     );
+    expect(getPending(sentence)).toEqual(["Height", "Weight"]);
+
+    const weightOnly = getPokemonDetailHeroSentence({
+      form: createForm({ weight: 60 }),
+      stats: createStats([95, 95, 80, 95, 60]),
+    });
+
+    expect(toText(weightOnly)).toBe(
+      "Height tall and 6.0 kg, with HP, Attack and Special Attack its best stats at 95.",
+    );
+    expect(getPending(weightOnly)).toEqual(["Height"]);
   });
 
-  it("says when every stat is the same, and stays quiet with nothing to read", () => {
+  it("says when every stat is the same, and keeps to the size without stats", () => {
     expect(
       toText(
         getPokemonDetailHeroSentence({
-          form: createForm(),
+          form: createForm({ height: 19, weight: 1550 }),
           stats: createStats([100, 100, 100, 100, 100]),
         }),
       ),
-    ).toBe("Every base stat is 100.");
+    ).toBe("1.9 m tall and 155.0 kg, with every base stat at 100.");
     expect(
-      getPokemonDetailHeroSentence({ form: createForm(), stats: [] }),
-    ).toBeNull();
+      toText(
+        getPokemonDetailHeroSentence({
+          form: createForm({ height: 19, weight: 1550 }),
+          stats: [],
+        }),
+      ),
+    ).toBe("1.9 m tall and 155.0 kg.");
   });
 });

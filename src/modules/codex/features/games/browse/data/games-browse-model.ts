@@ -6,6 +6,17 @@ import type {
 } from "@/modules/reference/types";
 
 export type GamesGroupBy = "generation" | "region";
+
+/* The kind filter: a kind of game, the games you've played, or every game. */
+export type GamesKindFilter = GameKind | "played" | "";
+
+/* The list's filters; "played" needs your Plays, so only the browser knows it. */
+export type GamesBrowseFilters = Omit<GamesPageFilters, "kind"> & {
+  kind: GamesKindFilter;
+};
+
+/* How many of your Plays each game has, by game slug. */
+export type GamePlayCounts = Readonly<Record<string, number>>;
 export type GamesSortOrder = "newest" | "oldest";
 
 export type GamesShelfSection = {
@@ -16,7 +27,7 @@ export type GamesShelfSection = {
   summary: string;
 };
 
-export const emptyGamesPageFilters: GamesPageFilters = {
+export const emptyGamesPageFilters: GamesBrowseFilters = {
   kind: "",
   query: "",
 };
@@ -40,11 +51,30 @@ const getSearchableGameText = (card: GameCard) => {
     .toLowerCase();
 };
 
-export const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
+export const getGamePlayCount = (
+  card: GameCard,
+  playCounts: GamePlayCounts | undefined,
+) => playCounts?.[card.game.slug] ?? 0;
+
+/* How many of the games you have at least one Play of. */
+export const countPlayedGames = (
+  games: GameCard[],
+  playCounts: GamePlayCounts | undefined,
+) => games.filter((card) => getGamePlayCount(card, playCounts) > 0).length;
+
+export const filterGames = (
+  games: GameCard[],
+  filters: GamesBrowseFilters,
+  playCounts?: GamePlayCounts,
+) => {
   const normalizedQuery = filters.query.trim().toLowerCase();
 
   return games.filter((card) => {
-    if (filters.kind && card.kind !== filters.kind) {
+    if (
+      filters.kind === "played"
+        ? getGamePlayCount(card, playCounts) === 0
+        : filters.kind && card.kind !== filters.kind
+    ) {
       return false;
     }
 
@@ -54,7 +84,7 @@ export const filterGames = (games: GameCard[], filters: GamesPageFilters) => {
   });
 };
 
-export const hasActiveGamesFilters = (filters: GamesPageFilters) => {
+export const hasActiveGamesFilters = (filters: GamesBrowseFilters) => {
   return filters.query.trim() !== "" || filters.kind !== "";
 };
 

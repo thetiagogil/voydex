@@ -1,13 +1,19 @@
 import { notFound } from "next/navigation";
 
+import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
+import { GameDetailExclusivesSection } from "@/modules/codex/features/games/detail/components/game-detail-exclusives-section";
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
 import { GameDetailPokedexesSection } from "@/modules/codex/features/games/detail/components/game-detail-pokedexes-section";
+import { GameDetailRegionSection } from "@/modules/codex/features/games/detail/components/game-detail-region-section";
 import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
 import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
 type GameDetailPageProps = {
+  /* Signed-in pieces the route fills: Start a Play, Your Plays, played flags. */
+  slots?: CodexVersionGroupSlots;
   /* The game picked in the version switch. */
   versionSlug?: string;
   versionGroupSlug: string;
@@ -19,6 +25,7 @@ type GameDetailPageProps = {
  * game's or an expansion's old address here, keeping the game it named.
  */
 export const GameDetailPage = async ({
+  slots,
   versionGroupSlug,
   versionSlug,
 }: GameDetailPageProps) => {
@@ -33,9 +40,23 @@ export const GameDetailPage = async ({
       <CodexHead
         trail={[{ label: getVersionGroupShortName(data.versionGroup.name) }]}
       />
-      <GameDetailHeaderSection data={data} />
+      <GameDetailHeaderSection
+        data={data}
+        actions={slots?.headerActions?.({
+          gameName: data.version.game.name,
+          gameShortName: getGameShortName(data.version.game.name),
+          gameSlug: data.version.game.slug,
+          versionGameSlugs: data.versions.map(({ game }) => game.slug),
+          versionGroupSlug: data.versionGroup.slug,
+        })}
+      />
       <GameDetailPokedexesSection data={data} />
-      <GameDetailRelatedGamesSection data={data} />
+      <GameDetailRegionSection data={data} />
+      <GameDetailExclusivesSection exclusives={data.versionExclusives} />
+      <GameDetailRelatedGamesSection
+        data={data}
+        playCounts={slots?.playedCountsByGameSlug}
+      />
     </div>
   );
 };

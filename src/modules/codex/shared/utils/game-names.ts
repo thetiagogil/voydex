@@ -1,9 +1,4 @@
-const POKEMON_NAME_PREFIX_PATTERN = /^Pok(?:e|é)mon\s+/i;
-
-/* "Pokémon Sword" reads as "Sword" on shelves, switches and crumbs. */
-export const getGameShortName = (name: string) => {
-  return name.replace(POKEMON_NAME_PREFIX_PATTERN, "");
-};
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
 const POKEDEX_SUFFIX_PATTERN = /\s+Pok(?:e|\u00e9)dex$/i;
 
@@ -32,9 +27,4 @@ export const getVersionGroupShortName = (name: string) => {
 /* A version group page's title: "Pokémon Sword and Shield". */
 export const getVersionGroupTitle = (name: string) => {
   return `Pokémon ${getVersionGroupShortName(name)}`;
-};
-
-/* "Generation VIII" reads as "VIII" beside a row's "Generation" label. */
-export const getGenerationNumeral = (generationName: string) => {
-  return generationName.replace(/^Generation\s+/, "");
 };

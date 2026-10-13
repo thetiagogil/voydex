@@ -1,20 +1,27 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
 import {
   formatNameList,
-  getGameShortName,
   getVersionGroupTitle,
 } from "@/modules/codex/shared/utils/game-names";
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type GameDetailHeaderSectionProps = {
+  /*
+   * The route's leading actions, signed in: "Start a {Version} Play" (the
+   * main button) and "Your Plays". Browse Pokémon then steps down.
+   */
+  actions?: ReactNode;
   data: CodexGameDetailData;
 };
 
@@ -58,9 +65,11 @@ const GameDetailFact = ({ label, value }: { label: string; value: string }) => {
 /*
  * v3's version group header, kept cream and flat in the Codex: the picked
  * game's cover with the version switch under it, then the eyebrow, the
- * group's title, its facts and the way into its Pokémon.
+ * group's title, its description and facts, and the actions: the route's
+ * (Start a Play, Your Plays), Browse Pokémon and Plan a team.
  */
 export const GameDetailHeaderSection = ({
+  actions,
   data,
 }: GameDetailHeaderSectionProps) => {
   const { version, versionGroup, versions } = data;
@@ -102,6 +111,12 @@ export const GameDetailHeaderSection = ({
         >
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
+        {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
+        <PendingData
+          className="mb-4 max-w-[60ch] items-start px-4.5 py-3.5 text-left"
+          label="About the games"
+          note="A few lines on what sets these games apart."
+        />
         <dl className="flex flex-wrap gap-x-8 gap-y-3">
           {version.gameType ? (
             <GameDetailFact label="Game type" value={version.gameType.name} />
@@ -113,10 +128,17 @@ export const GameDetailHeaderSection = ({
             />
           ) : null}
         </dl>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap gap-3">
+          {actions}
           <Link
             href={getBrowsePokemonHref(data)}
-            className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
+            className={cn(
+              buttonVariants({
+                size: "lg",
+                variant: actions ? "outline" : "default",
+              }),
+              "w-full sm:w-auto",
+            )}
           >
             <AppIcon
               icon={appIcons.product.pokedex}
@@ -124,6 +146,16 @@ export const GameDetailHeaderSection = ({
               aria-hidden
             />
             Browse Pokémon
+          </Link>
+          <Link
+            href={appRoutes.mainlinePlanNew(versionGroup.slug)}
+            className={cn(
+              buttonVariants({ size: "lg", variant: "outline" }),
+              "w-full sm:w-auto",
+            )}
+          >
+            <AppIcon icon={appIcons.product.team} inline="start" aria-hidden />
+            Plan a team
           </Link>
         </div>
       </div>

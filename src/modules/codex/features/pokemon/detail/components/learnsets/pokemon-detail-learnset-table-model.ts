@@ -1,4 +1,4 @@
-import { getGameShortName } from "@/modules/codex/shared/utils/game-names";
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";

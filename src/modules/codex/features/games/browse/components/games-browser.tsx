@@ -6,18 +6,18 @@ import { GamesShelf } from "@/modules/codex/features/games/browse/components/gam
 import { GamesToolbar } from "@/modules/codex/features/games/browse/components/games-toolbar";
 import {
   countGenerations,
+  countPlayedGames,
   emptyGamesPageFilters,
   filterGames,
   groupGamesIntoSections,
   hasActiveGamesFilters,
+  type GamePlayCounts,
+  type GamesBrowseFilters,
   type GamesGroupBy,
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
 import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
-import type {
-  GamesPageData,
-  GamesPageFilters,
-} from "@/modules/reference/types";
+import type { GamesPageData } from "@/modules/reference/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -48,15 +48,17 @@ const groupByOptions = [
 
 type GamesBrowserProps = {
   data: GamesPageData;
+  /* Your Plays per game, by game slug, when signed in. */
+  playCounts?: GamePlayCounts;
 };
 
-export const GamesBrowser = ({ data }: GamesBrowserProps) => {
-  const [filters, setFilters] = useState(data.filters);
+export const GamesBrowser = ({ data, playCounts }: GamesBrowserProps) => {
+  const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
   const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
   const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
-    () => filterGames(data.games, filters),
-    [data.games, filters],
+    () => filterGames(data.games, filters, playCounts),
+    [data.games, filters, playCounts],
   );
   const sections = useMemo(
     () =>
@@ -70,9 +72,9 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   );
   const hasActiveFilters = hasActiveGamesFilters(filters);
 
-  const updateFilter = <FilterKey extends keyof GamesPageFilters>(
+  const updateFilter = <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
-    value: GamesPageFilters[FilterKey],
+    value: GamesBrowseFilters[FilterKey],
   ) => {
     setFilters((currentFilters) => ({
       ...currentFilters,
@@ -93,6 +95,16 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           <>
             <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
             across {spellCount(countGenerations(data.games))} generations.
+            {playCounts ? (
+              <>
+                {" "}
+                You&apos;ve played{" "}
+                <b className="text-ink font-extrabold">
+                  {countPlayedGames(data.games, playCounts)}
+                </b>{" "}
+                of them.
+              </>
+            ) : null}
           </>
         }
         action={
@@ -114,6 +126,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
         games={data.games}
         onFilterChange={updateFilter}
         onSortOrderChange={setSortOrder}
+        playCounts={playCounts}
         sortOrder={sortOrder}
       />
 
@@ -126,7 +139,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
       />
 
       {sections.length ? (
-        <GamesShelf sections={sections} />
+        <GamesShelf sections={sections} playCounts={playCounts} />
       ) : (
         <EmptyState
           variant="bare"

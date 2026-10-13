@@ -1,5 +1,9 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
+import {
+  loadVersionExclusiveRows,
+  type VersionExclusiveRows,
+} from "@/modules/codex/features/games/detail/server/game-detail-exclusive-loaders";
 import { getVersionGroupFamilyIds } from "@/modules/reference/features/games/domain/version-groups";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
@@ -27,6 +31,8 @@ export type GameDetailRows = {
   previewForms: PokemonForm[];
   relatedGames: Game[];
   regions: Region[];
+  /* The base game's version exclusives, when the group has two games or more. */
+  versionExclusives: VersionExclusiveRows;
   /* The base version group the page is about. */
   versionGroup: VersionGroup;
   versionGroups: VersionGroup[];
@@ -162,11 +168,10 @@ export const loadGameDetailRows = async (
         "Unable to load game Pokédex entries.",
       )
     : [];
-  const previewForms = await loadPokedexPreviewForms(
-    supabase,
-    pokedexes,
-    pokedexEntries,
-  );
+  const [previewForms, versionExclusives] = await Promise.all([
+    loadPokedexPreviewForms(supabase, pokedexes, pokedexEntries),
+    loadVersionExclusiveRows(supabase, versionGroup, versions),
+  ]);
 
   return {
     gamePlatforms: gamePlatformsResult.data ?? [],
@@ -178,6 +183,7 @@ export const loadGameDetailRows = async (
     previewForms,
     relatedGames: relatedGamesResult.data ?? [],
     regions: regionsResult.data ?? [],
+    versionExclusives,
     versionGroup,
     versionGroups,
     versions,

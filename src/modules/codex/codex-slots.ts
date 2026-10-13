@@ -1,0 +1,68 @@
+import type { ReactNode } from "react";
+
+/*
+ * The Codex's slots for signed-in pieces another module owns, such as
+ * Mainline's "Add to a Play" or "Your Plays". The Codex can't import Mainline,
+ * so its routes fill these and pass them in, as the public pages take their
+ * art. Every slot is optional: left empty, the page reads as it does signed
+ * out.
+ */
+
+/* The Pokémon an entry is showing, as the route's pieces need it. */
+export type CodexPokemonEntrySlotContext = {
+  /* The shown form; its slug is null for the default form. */
+  formId: number | null;
+  formSlug: string | null;
+  imageUrl: string | null;
+  /* The shown form's name, such as "Hisuian Arcanine". */
+  pokemonName: string;
+  speciesId: number;
+  speciesName: string;
+  speciesSlug: string;
+  /* The base version group the entry is read in. */
+  versionGroupSlug: string;
+};
+
+export type CodexPokemonEntrySlots = {
+  /*
+   * The hero's first action, before Favourite: v3's "Add to a Play", the
+   * page's main button.
+   */
+  heroActions?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
+  /*
+   * v3's "In your Plays" section card (with its own empty state), beside
+   * Where to find. Render a `DetailSectionCard`.
+   */
+  inYourPlays?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
+};
+
+/* The version group page and the game picked in its version switch. */
+export type CodexVersionGroupSlotContext = {
+  /* "Pokémon Sword". */
+  gameName: string;
+  /* "Sword", for "Start a Sword Play". */
+  gameShortName: string;
+  gameSlug: string;
+  /* Every game in the group, for "Your Plays" across the pair. */
+  versionGameSlugs: string[];
+  versionGroupSlug: string;
+};
+
+export type CodexVersionGroupSlots = {
+  /*
+   * The header's leading actions: v3's "Start a {Version} Play" (the page's
+   * main button) and the "Your Plays (N)" menu. When given, Browse Pokémon
+   * steps down to a secondary button.
+   */
+  headerActions?: (context: CodexVersionGroupSlotContext) => ReactNode;
+  /* How many of your Plays each game has, by game slug, for the cards' flags. */
+  playedCountsByGameSlug?: Readonly<Record<string, number>>;
+};
+
+export type CodexGamesSlots = {
+  /*
+   * How many of your Plays each game has, by game slug. Given, the list adds
+   * the Played filter, "You've played N of them" and each card's flag.
+   */
+  playedCountsByGameSlug?: Readonly<Record<string, number>>;
+};

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import type { CodexPokemonEntrySlots } from "@/modules/codex/codex-slots";
 import { PokemonDetailShell } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-shell";
 import { resolvePokemonDetailScope } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
 import { getPokemonDetailData } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-page-query";
@@ -7,6 +8,8 @@ import { getCodexVersionGroupRoute } from "@/modules/codex/shared/server/version
 
 type PokemonDetailPageProps = {
   form?: string;
+  /* Signed-in pieces the route fills: Add to a Play and In your Plays. */
+  slots?: CodexPokemonEntrySlots;
   speciesSlug: string;
   versionGroupSlug: string;
 };
@@ -18,6 +21,7 @@ type PokemonDetailPageProps = {
  */
 export const PokemonDetailPage = async ({
   form,
+  slots,
   speciesSlug,
   versionGroupSlug,
 }: PokemonDetailPageProps) => {
@@ -37,5 +41,5 @@ export const PokemonDetailPage = async ({
     notFound();
   }
 
-  return <PokemonDetailShell data={data} scope={scope} />;
+  return <PokemonDetailShell data={data} scope={scope} slots={slots} />;
 };

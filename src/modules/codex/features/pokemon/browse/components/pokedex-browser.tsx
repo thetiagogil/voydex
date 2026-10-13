@@ -29,8 +29,8 @@ import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
 } from "@/modules/codex/shared/components/codex-pokemon-card-link";
-import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
-import { getGenerationNumeral } from "@/modules/codex/shared/utils/game-names";
+import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
+import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   PokedexPageData,
@@ -232,7 +232,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       />
 
       <div className="mt-3.5">
-        <CodexTypeFilter
+        <PokemonTypeFilter
           onValueChange={(type) => {
             updateFilter("type", type);
           }}

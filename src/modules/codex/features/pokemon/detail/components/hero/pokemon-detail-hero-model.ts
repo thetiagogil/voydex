@@ -9,9 +9,14 @@ import {
   formatPokemonWeight,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
-/* A piece of the hero's sentence; the figures and names are emphasised. */
+/*
+ * A piece of the hero's eyebrow or sentence. The figures and names are
+ * emphasised; a `pending` piece is a value Voydex doesn't have yet, shown as
+ * a pending marker labelled with `text`.
+ */
 export type PokemonDetailHeroSentencePart = {
   emphasis: boolean;
+  pending?: boolean;
   text: string;
 };
 
@@ -23,6 +28,12 @@ const plain = (text: string): PokemonDetailHeroSentencePart => ({
 const strong = (text: string): PokemonDetailHeroSentencePart => ({
   emphasis: true,
   text,
+});
+
+const pending = (label: string): PokemonDetailHeroSentencePart => ({
+  emphasis: false,
+  pending: true,
+  text: label,
 });
 
 /* "Attack", "Attack and Speed", "HP, Attack and Speed", each emphasised. */
@@ -49,29 +60,34 @@ const getPokemonDetailCategory = (species: PokemonSpecies) => {
   return species.is_baby ? "Baby Pokémon" : null;
 };
 
-/* v3's line over the name: "#0059 · Legendary Pokémon · since Generation I". */
+/*
+ * v3's line over the name: "#0059 · Legendary Pokémon · since Generation I".
+ * The category is the Pokédex's own ("Legendary Pokémon" for Arcanine);
+ * Voydex knows only the legendary, mythical and baby classes, so other
+ * Pokémon show a pending category.
+ */
 export const getPokemonDetailHeroEyebrow = ({
   form,
   species,
 }: {
   form: PokemonGenerationFormSummary | null;
   species: PokemonSpecies;
-}) => {
+}): PokemonDetailHeroSentencePart[] => {
   const introducedGeneration = form?.introducedGeneration?.name;
+  const category = getPokemonDetailCategory(species);
 
   return [
-    formatPokemonNationalNumber(species.national_number),
-    getPokemonDetailCategory(species),
-    introducedGeneration ? `since ${introducedGeneration}` : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+    plain(formatPokemonNationalNumber(species.national_number)),
+    // TODO(v3-data): the species' Pokédex category (genus), such as "Flame Pokémon".
+    category ? plain(category) : pending("Category"),
+    ...(introducedGeneration ? [plain(`since ${introducedGeneration}`)] : []),
+  ];
 };
 
 /*
- * The one sentence the entry reads for you (v3): its size when it's recorded,
- * then its best base stat. "1.9 m tall and 155.0 kg, with Attack its best stat
- * at 110." Without a size: "Its best stat is Attack, at 110."
+ * The one sentence the entry reads for you (v3): its size, then its best base
+ * stat. "1.9 m tall and 155.0 kg, with Attack its best stat at 110." A size
+ * Voydex hasn't recorded is a pending piece.
  */
 export const getPokemonDetailHeroSentence = ({
   form,
@@ -79,24 +95,22 @@ export const getPokemonDetailHeroSentence = ({
 }: {
   form: PokemonGenerationFormSummary | null;
   stats: PokemonDetailStat[];
-}): PokemonDetailHeroSentencePart[] | null => {
+}): PokemonDetailHeroSentencePart[] => {
   const heightDecimeters = form?.form.height_decimeters ?? null;
   const weightHectograms = form?.form.weight_hectograms ?? null;
+  // TODO(v3-data): heights and weights; `pokemon_forms.height_decimeters` and `weight_hectograms` are unseeded.
   const size = [
-    ...(heightDecimeters
-      ? [strong(formatPokemonHeight(heightDecimeters)), plain(" tall")]
-      : []),
-    ...(heightDecimeters && weightHectograms ? [plain(" and ")] : []),
-    ...(weightHectograms
-      ? [
-          ...(heightDecimeters ? [] : [plain("Weighs ")]),
-          strong(formatPokemonWeight(weightHectograms)),
-        ]
-      : []),
+    heightDecimeters
+      ? strong(formatPokemonHeight(heightDecimeters))
+      : pending("Height"),
+    plain(" tall and "),
+    weightHectograms
+      ? strong(formatPokemonWeight(weightHectograms))
+      : pending("Weight"),
   ];
 
   if (!stats.length) {
-    return size.length ? [...size, plain(".")] : null;
+    return [...size, plain(".")];
   }
 
   const best = Math.max(...stats.map((stat) => stat.value));
@@ -104,28 +118,19 @@ export const getPokemonDetailHeroSentence = ({
   const bestValue = strong(String(best));
 
   if (bestStats.length === stats.length) {
-    return size.length
-      ? [...size, plain(", with every base stat at "), bestValue, plain(".")]
-      : [plain("Every base stat is "), bestValue, plain(".")];
-  }
-
-  const isPlural = bestStats.length > 1;
-
-  if (size.length) {
     return [
       ...size,
-      plain(", with "),
-      ...listStatNames(bestStats),
-      plain(isPlural ? " its best stats at " : " its best stat at "),
+      plain(", with every base stat at "),
       bestValue,
       plain("."),
     ];
   }
 
   return [
-    plain(isPlural ? "Its best stats are " : "Its best stat is "),
+    ...size,
+    plain(", with "),
     ...listStatNames(bestStats),
-    plain(", at "),
+    plain(bestStats.length > 1 ? " its best stats at " : " its best stat at "),
     bestValue,
     plain("."),
   ];
