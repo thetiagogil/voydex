@@ -1,0 +1,23 @@
+import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
+import { signOut } from "@/features/settings/server/sign-out-action";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
+
+/*
+ * v3's Account section (`.set-sec` with `.trow` rows): what you do, one line on
+ * what it means, and its button on the right. On phones the button drops below.
+ */
+export const SettingsAccountSection = () => {
+  return (
+    <DetailSectionCard title={<h2>Account</h2>}>
+      <div className="flex flex-col items-start gap-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <p className="text-15 font-extrabold">Log out</p>
+          <p className="text-ink-2 text-13 font-semibold">On this device</p>
+        </div>
+        <form action={signOut} className="shrink-0">
+          <SettingsLogOutButton />
+        </form>
+      </div>
+    </DetailSectionCard>
+  );
+};
