@@ -17,6 +17,7 @@ one canonical owner; other documents should link to it instead of restating it.
 | Agreed redesign brief                      | [Soft Clay Brief](./design/soft-clay-brief.md)                        |
 | Frontend boundaries                        | [Frontend Architecture](./app/architecture.md)                        |
 | Setup and verification                     | [Setup](./app/setup.md) and [Verification](./app/verification.md)     |
+| Issues, labels, releases and platforms     | [Workflow](./app/workflow.md)                                         |
 | Database structure and integration         | [Database Architecture](./database/architecture.md)                   |
 | Tables, constraints, grants, and policies  | `database/schema`                                                     |
 | Seed facts                                 | `database/seeds`                                                      |
@@ -43,6 +44,7 @@ which slices are currently implemented.
 - [Design System](./app/design-system.md)
 - [Setup And Development](./app/setup.md)
 - [Verification](./app/verification.md)
+- [Workflow](./app/workflow.md)
 
 ## Database
 
@@ -59,6 +61,9 @@ which slices are currently implemented.
 - [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
 - [ADR 0003: Shared Visual Primitives](./decisions/0003-shared-visual-primitives.md)
 - [ADR 0004: Soft Clay Design System](./decisions/0004-soft-clay-design-system.md)
+- [ADR 0005: Supabase Postgres Is The Backend](./decisions/0005-postgres-is-the-backend.md)
+- [ADR 0006: Installable Web App First](./decisions/0006-installable-web-app-first.md)
+- [ADR 0007: Development Workflow](./decisions/0007-development-workflow.md)
 - [Design References](./design/README.md)
 - [Soft Clay Brief](./design/soft-clay-brief.md)
 - [Codex Pokémon Detail Direction](./design/codex-pokemon-detail.md)

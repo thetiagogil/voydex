@@ -397,6 +397,30 @@ use `data` for substantial pure models, mappers, or selectors. Add
 substantial module-wide responsibilities, but are not the default leaf-view
 shape.
 
+### Agreed Folder Names
+
+[ADR 0007](../decisions/0007-development-workflow.md) closes the folder
+vocabulary inside feature slices. `architecture:check` enforces it once the
+redesign merges and the existing `hooks/` and `types/` folders are folded in.
+
+| I am writing...                                 | It goes in                   |
+| ----------------------------------------------- | ---------------------------- |
+| A route, layout, loading or error file          | `src/app/...`, thin          |
+| A visible area of one screen                    | `<feature>/sections/<area>/` |
+| UI reused by several sections of one feature    | `<feature>/components/`      |
+| UI reused across modules, with no Pokémon rules | `src/shared/components/`     |
+| Pokémon or game UI used by Mainline and Codex   | `src/modules/reference/...`  |
+| A hook, state or optimistic logic for a client  | `<feature>/client/`          |
+| A database read, or a Server Action             | `<feature>/server/`          |
+| Pure mapping, models or selectors               | `<feature>/data/`            |
+| Small pure helpers, validation or formatting    | `<feature>/utils/`           |
+| Types for one feature                           | `<feature>/types.ts`         |
+| A unit test                                     | Next to the file it tests    |
+| An end-to-end test                              | `e2e/`                       |
+
+`domain/` stays only in `reference`; `shell/` and `views/` stay only in the
+Play Hub.
+
 ## Reads, Writes, And File Responsibilities
 
 The design goal is separation of concerns, not a fixed filename ritual.
@@ -442,6 +466,14 @@ The exact number of files depends on complexity. These responsibilities may be
 separate files within one `server` folder rather than separate responsibility
 folders. Database constraints and RLS remain authoritative; UI checks are not
 authorization.
+
+Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
+touches more than one table or creates a History moment goes through one
+database function so it is all-or-nothing. `create-play-command.ts`,
+`save-plan-command.ts` and `play-event-writer.ts` still write in several steps
+and move into database functions after the redesign merges. Readers and
+commands take a Supabase client as a parameter, and `data/`, `domain/` and
+`utils/` never import Next.js, React or `src/platform`.
 
 ### UI And Client Boundaries
 

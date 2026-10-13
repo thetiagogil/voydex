@@ -30,6 +30,12 @@ Read only what the task needs:
 - [Database Architecture](./docs/database/architecture.md),
   [Security](./docs/database/security.md) and
   [Reference Data](./docs/database/reference-data.md) for database work.
+- [Workflow](./docs/app/workflow.md) for issues, labels, branches, releases
+  and how each platform feature is used.
+- [ADR 0005](./docs/decisions/0005-postgres-is-the-backend.md),
+  [0006](./docs/decisions/0006-installable-web-app-first.md) and
+  [0007](./docs/decisions/0007-development-workflow.md) for the backend,
+  phone and workflow decisions.
 - Nearby code, generated types, tests, and configuration, always.
 
 Implementation evidence overrides stale documentation. Update the canonical
@@ -87,6 +93,8 @@ task; use more only when the user asks for parallel work on independent scopes.
   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; do not restore legacy anon-key
   aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
+- A write that touches more than one table or creates a History moment goes
+  through one database function; Server Actions stay thin adapters.
 - Remote writes, linked-project operations, production mutation and
   destructive local state are separate authority gates: each needs the user's
   explicit approval in this conversation.
@@ -110,6 +118,11 @@ task; use more only when the user asks for parallel work on independent scopes.
   separate when those responsibilities change independently. Do not force a
   file trio onto a simple use case.
 - Review concrete behavior and organization, not cosmetic preference.
+- The shadcn primitives in `src/shared/components/ui` are ours: edit them in
+  place for styling and variants only, never wrap them in a second component,
+  and keep product logic out of them.
+- Unit tests sit next to the file they test. Every bug fix adds a test that
+  failed before the fix.
 
 ## UI: Soft Clay
 
@@ -159,6 +172,8 @@ Report exact commands and outcomes; never claim a check that was not run.
 - Volatile implementation status belongs only in
   [Project Status](./docs/project-status.md).
 - Product and database facts belong in their canonical docs or source files.
+- Work is tracked as GitHub Issues with `type:` and `area:` labels; explain
+  any GitHub, Vercel or Supabase feature in plain words when switching it on.
 - Computer-change handoffs update only the existing `Next Chat Handoff` in
   [Project Status](./docs/project-status.md); do not create a competing handoff
   file.
