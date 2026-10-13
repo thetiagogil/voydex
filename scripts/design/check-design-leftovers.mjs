@@ -20,7 +20,6 @@ const scannedRoots = ["src", "docs", "scripts", "public", ".claude"];
 const scannedFiles = [
   "package.json",
   "components.json",
-  "AGENTS.md",
   "CLAUDE.md",
   "README.md",
 ];

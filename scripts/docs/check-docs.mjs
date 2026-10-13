@@ -81,10 +81,17 @@ export function inspectDocumentation(rootDir) {
     docsRoot,
     (filePath) => path.extname(filePath).toLowerCase() === ".md",
   );
+  const isMarkdown = (filePath) =>
+    path.extname(filePath).toLowerCase() === ".md";
   const markdownFiles = [
     path.join(rootDir, "README.md"),
-    path.join(rootDir, "AGENTS.md"),
-    path.join(rootDir, ".agents", "AGENTS.md"),
+    path.join(rootDir, "CLAUDE.md"),
+    path.join(rootDir, ".claude", "engineering-guide.md"),
+    ...collectFiles(path.join(rootDir, ".claude", "agents"), isMarkdown),
+    ...collectFiles(
+      path.join(rootDir, ".claude", "skills", "voydex-product-engineer"),
+      isMarkdown,
+    ),
     ...docsFiles,
   ].filter(fs.existsSync);
   const designAssets = collectFiles(path.join(docsRoot, "design"), (filePath) =>
