@@ -1,22 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { appRoutes } from "@/config/routes";
+import { usePathname } from "next/navigation";
+
 import { signOut } from "@/features/app-shell/server/sign-out-action";
+import {
+  accountLink,
+  isCurrentLink,
+} from "@/features/app-shell/utils/app-navigation";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
-import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { cn } from "@/shared/utils/cn";
 
 type UserMenuProps = {
   email: string;
+  /* `bar`: your icon at the end of the top bar. `tab`: the You tab of the bottom bar. */
+  placement?: "bar" | "tab";
 };
 
 const getInitials = (email: string) => {
@@ -24,48 +31,100 @@ const getInitials = (email: string) => {
   return name.slice(0, 2).toUpperCase();
 };
 
-export const UserMenu = ({ email }: UserMenuProps) => {
+/*
+ * You (v3 `.me-menu`): who is signed in, Settings, and Log out at the foot.
+ * A floating layer, so it takes the float shadow and no edge.
+ */
+export const UserMenu = ({ email, placement = "bar" }: UserMenuProps) => {
+  const pathname = usePathname();
+  const initials = getInitials(email);
+  const isSettingsCurrent = isCurrentLink(pathname, accountLink);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            aria-label="Open account menu"
-          />
+          placement === "tab" ? (
+            <button
+              type="button"
+              aria-current={isSettingsCurrent ? "page" : undefined}
+              className={cn(
+                "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-md px-0.5 pt-1.5 pb-1 font-bold",
+                isSettingsCurrent && "text-ink font-extrabold",
+              )}
+            />
+          ) : (
+            <button
+              type="button"
+              aria-label="Your account"
+              className="hover:bg-surface-2 aria-expanded:bg-surface-2 grid size-11 place-items-center rounded-full transition-colors"
+            />
+          )
         }
       >
-        <Avatar className="size-10">
-          <AvatarFallback className="bg-avatar text-avatar-ink font-extrabold">
-            {getInitials(email)}
-          </AvatarFallback>
-        </Avatar>
+        {placement === "tab" ? (
+          <>
+            <span
+              className={cn(
+                "grid h-8 w-12 place-items-center rounded-full transition-colors",
+                isSettingsCurrent && "bg-action-soft",
+              )}
+            >
+              <Avatar size="sm" aria-hidden>
+                <AvatarFallback>{initials}</AvatarFallback>
+              </Avatar>
+            </span>
+            You
+          </>
+        ) : (
+          <Avatar>
+            <AvatarFallback>{initials}</AvatarFallback>
+          </Avatar>
+        )}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-44">
+      <DropdownMenuContent
+        align="end"
+        side={placement === "tab" ? "top" : "bottom"}
+        sideOffset={8}
+        className="w-[min(20rem,calc(100vw-2rem))] p-2"
+      >
+        <div className="border-line mb-1 flex items-center gap-3 border-b px-2.5 pt-2 pb-3">
+          <Avatar size="lg">
+            <AvatarFallback>{initials}</AvatarFallback>
+          </Avatar>
+          <span className="text-16 min-w-0 truncate font-extrabold">
+            {email}
+          </span>
+        </div>
+
         <DropdownMenuGroup>
-          <DropdownMenuItem render={<Link href={appRoutes.settings} />}>
-            <AppIcon icon={appIcons.actions.settings} />
-            Settings
+          <DropdownMenuItem
+            render={<Link href={accountLink.href} />}
+            className="items-start gap-3 p-2.5"
+          >
+            <NavigationMenuOptionContent
+              active={isSettingsCurrent}
+              description="Your account"
+              leading={<AppIcon icon={appIcons.actions.settings} size="lg" />}
+              leadingClassName="text-action-lip"
+              muted={false}
+              title={accountLink.label}
+            />
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
-
-        <DropdownMenuGroup>
-          <form action={signOut}>
-            <DropdownMenuItem
-              variant="destructive"
-              render={<button type="submit" className="w-full" />}
-              nativeButton
-            >
-              <AppIcon icon={appIcons.actions.signOut} />
-              Log out
-            </DropdownMenuItem>
-          </form>
-        </DropdownMenuGroup>
+        <form action={signOut}>
+          <DropdownMenuItem
+            variant="destructive"
+            render={<button type="submit" className="w-full" />}
+            nativeButton
+            className="border-line mt-1 rounded-none rounded-b-md border-t px-2.5 py-3 font-extrabold"
+          >
+            <AppIcon icon={appIcons.actions.signOut} />
+            Log out
+          </DropdownMenuItem>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );

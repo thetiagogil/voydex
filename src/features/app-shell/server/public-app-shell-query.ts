@@ -1,32 +1,13 @@
-import { DEFAULT_MODULE_KEY, type ModuleKey } from "@/config/modules";
-import { getActiveModuleKeyFromCookies } from "@/features/app-shell/server/active-module";
 import { getOptionalUserEmail } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type PublicAppShellData = {
-  moduleSelectorKey: ModuleKey;
   userEmail: string | null;
 };
 
-export const getPublicAppShellData = async ({
-  activeModuleKey,
-}: {
-  activeModuleKey?: ModuleKey;
-}): Promise<PublicAppShellData> => {
-  const supabasePromise = createServerSupabaseClient();
-  const cookieModuleKeyPromise = activeModuleKey
-    ? Promise.resolve(activeModuleKey)
-    : getActiveModuleKeyFromCookies();
+/* A public page shows the signed-in bar when someone is signed in. */
+export const getPublicAppShellData = async (): Promise<PublicAppShellData> => {
+  const supabase = await createServerSupabaseClient();
 
-  const supabase = await supabasePromise;
-  const [cookieModuleKey, userEmail] = await Promise.all([
-    cookieModuleKeyPromise,
-    getOptionalUserEmail(supabase),
-  ]);
-
-  return {
-    moduleSelectorKey:
-      activeModuleKey ?? (userEmail ? cookieModuleKey : DEFAULT_MODULE_KEY),
-    userEmail,
-  };
+  return { userEmail: await getOptionalUserEmail(supabase) };
 };

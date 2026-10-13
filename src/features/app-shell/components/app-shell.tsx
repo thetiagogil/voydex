@@ -1,66 +1,98 @@
 import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
-import { ModuleNavigationMenu } from "@/features/app-shell/components/navigation/module-navigation-menu";
-import { ModuleViewNav } from "@/features/app-shell/components/navigation/module-view-nav";
+import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
+import {
+  CodexUtilityLink,
+  NavigationLinks,
+} from "@/features/app-shell/components/navigation/navigation-links";
+import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
+import {
+  mainlineLinks,
+  publicLinks,
+} from "@/features/app-shell/utils/app-navigation";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { Toaster } from "@/shared/components/ui/sonner";
+import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
+  /* Routes still say which module they render; the bar reads the current path. */
   activeModuleKey?: ModuleKey;
   children: React.ReactNode;
-  moduleSelectorKey?: ModuleKey;
   showAuthAction?: boolean;
   userEmail?: string | null;
 };
 
+/*
+ * v3's two bars. Signed in: the V tile, Mainline's sections in the middle,
+ * the Codex and your icon on the right; on phones and tablets the sections
+ * and You move to a bottom bar. Signed out: the V tile with the name, how it
+ * works and the Codex, and Log in; on phones the links fold into a menu.
+ */
 export const AppShell = ({
-  activeModuleKey,
   children,
-  moduleSelectorKey = activeModuleKey,
   showAuthAction = true,
   userEmail,
 }: AppShellProps) => {
-  const isAuthenticated = Boolean(userEmail);
   return (
-    <div className="relative isolate flex min-h-svh w-full flex-col">
-      <AppNavbar
-        afterLogo={
-          moduleSelectorKey ? (
-            <ModuleNavigationMenu
-              activeModuleKey={moduleSelectorKey}
-              isAuthenticated={isAuthenticated}
+    <div
+      className={cn(
+        "relative isolate flex min-h-svh w-full flex-col",
+        userEmail
+          ? "pb-[calc(4.75rem+env(safe-area-inset-bottom))] [--toast-bottom:5.75rem] lg:pb-0 lg:[--toast-bottom:1.5rem]"
+          : "[--toast-bottom:1.5rem]",
+      )}
+    >
+      {userEmail ? (
+        <AppNavbar
+          center={
+            <NavigationLinks
+              ariaLabel="Main"
+              links={mainlineLinks}
+              className="hidden lg:flex"
             />
-          ) : null
-        }
-        center={
-          activeModuleKey ? (
-            <div className="hidden lg:flex">
-              <ModuleViewNav activeModuleKey={activeModuleKey} />
-            </div>
-          ) : null
-        }
-        end={
-          <>
-            {userEmail ? (
+          }
+          end={
+            <div className="hidden items-center gap-2.5 lg:flex">
+              <CodexUtilityLink />
               <UserMenu email={userEmail} />
-            ) : showAuthAction ? (
-              <Link
-                href={appRoutes.login}
-                className={buttonVariants({ variant: "outline", size: "sm" })}
-              >
-                Log in
-              </Link>
-            ) : null}
-          </>
-        }
-      />
-      <main className="relative z-10 mx-auto flex w-full max-w-320 min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-2 pb-10 sm:px-6 lg:px-8 lg:pb-16">
+            </div>
+          }
+        />
+      ) : (
+        <AppNavbar
+          showName
+          center={
+            <NavigationLinks
+              ariaLabel="Main"
+              links={publicLinks}
+              className="hidden sm:flex"
+            />
+          }
+          end={
+            <>
+              {showAuthAction ? (
+                <Link
+                  href={appRoutes.login}
+                  className={buttonVariants({ variant: "outline" })}
+                >
+                  Log in
+                </Link>
+              ) : null}
+              <PublicMenu className="sm:hidden" />
+            </>
+          }
+        />
+      )}
+      <main className="relative z-10 mx-auto flex w-full max-w-320 min-w-0 flex-1 flex-col overflow-x-clip px-4 pt-2 pb-12 sm:px-6 lg:px-8 lg:pb-18">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           {children}
         </div>
       </main>
+      {userEmail ? <AppTabBar email={userEmail} /> : null}
+      <Toaster />
     </div>
   );
 };
