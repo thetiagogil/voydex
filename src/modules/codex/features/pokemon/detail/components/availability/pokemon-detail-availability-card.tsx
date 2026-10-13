@@ -8,7 +8,7 @@ import {
   getPokemonDetailAvailabilityKey,
   getPokemonDetailAvailabilityMethodLabel,
 } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { formatPokemonDetailVersionGroupName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-version-group-display";
 import type {
   Game,
@@ -79,7 +79,7 @@ export const PokemonDetailAvailabilityCard = ({
       : null);
 
   return (
-    <PokemonDetailSectionCard title="Where to find" aside={scopeName}>
+    <DetailSectionCard title="Where to find" aside={scopeName}>
       {availability.length ? (
         <dl>
           {availability.map((availabilityRow, index) => (
@@ -98,6 +98,6 @@ export const PokemonDetailAvailabilityCard = ({
             : "Where to find it isn't recorded yet."}
         </p>
       )}
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

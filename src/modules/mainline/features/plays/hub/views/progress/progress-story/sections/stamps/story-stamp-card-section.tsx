@@ -1,5 +1,9 @@
 import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import {
+  formatPlayMoment,
+  type ViewerClock,
+} from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 import type { StoryStamp } from "../../types";
@@ -8,10 +12,18 @@ import { getStoryMilestoneIcon } from "../../utils/story-milestone-icon";
 /* Stamps tilt at rest, each by its own small angle, as on Overview. */
 const stampTilts = [-6, 4, -3, 7, -5, 3, -7, 5, -2, 4, -4, 6];
 
-const getStampLabel = ({ milestone, state }: StoryStamp) =>
-  state === "earned"
-    ? `${milestone.name}, earned${milestone.completedAt ? ` ${formatPlayDate(milestone.completedAt)}` : ""}`
-    : `${milestone.name}, ${state === "next" ? "next" : "not earned yet"}`;
+const getStampLabel = (
+  { milestone, state }: StoryStamp,
+  clock: ViewerClock,
+) => {
+  if (state !== "earned") {
+    return `${milestone.name}, ${state === "next" ? "next" : "not earned yet"}`;
+  }
+
+  const earnedOn = formatPlayMoment(milestone.completedAt, clock)?.date;
+
+  return `${milestone.name}, earned${earnedOn ? ` ${earnedOn}` : ""}`;
+};
 
 const getStampState = (stamp: StoryStamp) => {
   const icon = getStoryMilestoneIcon(stamp.milestone.typeSlug);
@@ -44,6 +56,8 @@ export const StoryStampCardSection = ({
   slappingMilestoneId: number | null;
   stamps: StoryStamp[];
 }) => {
+  const clock = useViewerClock();
+
   return (
     <DetailSectionCard
       title="Stamp card"
@@ -61,7 +75,7 @@ export const StoryStampCardSection = ({
           return (
             <li key={stamp.milestone.id} className="flex flex-col">
               <BadgeStamp
-                label={getStampLabel(stamp)}
+                label={getStampLabel(stamp, clock)}
                 state={getStampState(stamp)}
                 tilt={stampTilts[index % stampTilts.length]}
                 slap={isSlapping}

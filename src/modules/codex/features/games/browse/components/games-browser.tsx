@@ -19,6 +19,7 @@ import type {
   GamesPageFilters,
 } from "@/modules/reference/types";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
 const countWords = [
@@ -85,27 +86,28 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4 pt-5.5 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <h1 className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]">
-            Games
-          </h1>
-          <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
+      <PageHeader
+        title="Games"
+        className="pt-5.5 sm:pt-5.5"
+        description={
+          <>
             <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
             across {spellCount(countGenerations(data.games))} generations.
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-2.5">
-          <span className="text-ink-2 text-13 font-bold">Group by</span>
-          <SegmentedControl
-            ariaLabel="Group by"
-            onValueChange={setGroupBy}
-            options={groupByOptions}
-            value={groupBy}
-            variant="segment"
-          />
-        </div>
-      </div>
+          </>
+        }
+        action={
+          <div className="flex shrink-0 items-center gap-2.5">
+            <span className="text-ink-2 text-13 font-bold">Group by</span>
+            <SegmentedControl
+              ariaLabel="Group by"
+              onValueChange={setGroupBy}
+              options={groupByOptions}
+              value={groupBy}
+              variant="segment"
+            />
+          </div>
+        }
+      />
 
       <GamesToolbar
         filters={filters}

@@ -4,7 +4,7 @@ import {
   PokemonDetailEvolutionNode,
   type PokemonDetailEvolutionLinkScope,
 } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import {
   getPokemonDetailDistinctEvolutionEdges,
   getPokemonDetailEvolutionConditionDescription,
@@ -169,12 +169,12 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionLinkScope;
 
   return (
-    <PokemonDetailSectionCard title="Evolution">
+    <DetailSectionCard title="Evolution">
       <div className="flex flex-col gap-6">
         {getPokemonDetailEvolutionTree(evolutionPaths).map((root) => (
           <EvolutionBranch key={root.key} linkScope={linkScope} node={root} />
         ))}
       </div>
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

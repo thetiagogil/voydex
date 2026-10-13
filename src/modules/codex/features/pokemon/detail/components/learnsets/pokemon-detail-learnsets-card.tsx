@@ -12,7 +12,7 @@ import {
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
@@ -127,7 +127,7 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <PokemonDetailSectionCard title="Learnset" aside={scopeName}>
+    <DetailSectionCard title="Learnset" aside={scopeName}>
       {learnsets.length ? (
         <>
           <div className="mb-2.5 flex flex-wrap items-center justify-between gap-3">
@@ -195,6 +195,6 @@ export const PokemonDetailLearnsetsCard = ({
             : "The moves it learns aren't recorded yet."}
         </p>
       )}
-    </PokemonDetailSectionCard>
+    </DetailSectionCard>
   );
 };

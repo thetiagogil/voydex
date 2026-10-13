@@ -7,13 +7,14 @@ describe("formatPlayMoment", () => {
     const value = "2025-06-30T23:30:00Z";
 
     expect(formatPlayMoment(value, { timeZone: "UTC", today: null })).toEqual({
+      date: "Jun 30, 2025",
       dateTime: value,
       day: "Jun 30",
       time: expect.stringMatching(/^11:30\sPM$/),
     });
     expect(
-      formatPlayMoment(value, { timeZone: "Europe/Lisbon", today: null })?.day,
-    ).toBe("Jul 1");
+      formatPlayMoment(value, { timeZone: "Europe/Lisbon", today: null }),
+    ).toMatchObject({ date: "Jul 1, 2025", day: "Jul 1" });
   });
 
   it("reads today and yesterday in the given time zone", () => {

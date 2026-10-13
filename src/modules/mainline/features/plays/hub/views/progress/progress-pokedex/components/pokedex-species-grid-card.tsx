@@ -8,7 +8,6 @@ import {
   formatPokedexNumber,
   PokedexCodexLink,
   type PokedexSpeciesPresentationProps,
-  PokedexStateIcon,
 } from "./pokedex-species-item-shared";
 
 const cardStateByProgress = {
@@ -35,7 +34,6 @@ export const PokedexSpeciesGridCard = ({
         state={cardStateByProgress[state]}
         imageAlt={entry.imageAlt}
         imageUrl={entry.imageUrl}
-        mark={<PokedexStateIcon state={state} />}
         name={entry.speciesName}
         number={formatPokedexNumber(entry.pokedexNumber)}
         onAnimationEnd={() => setIsPopping(false)}

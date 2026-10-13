@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
@@ -93,9 +93,15 @@ export const NextObjectiveSection = ({
               <b className="text-ink font-extrabold">
                 {lastCompletedMilestone.milestone_name}
               </b>
-              {lastCompletedMilestone.completed_at
-                ? ` · ${formatPlayDate(lastCompletedMilestone.completed_at)}`
-                : null}
+              {lastCompletedMilestone.completed_at ? (
+                <>
+                  {" · "}
+                  <PlayMomentTime
+                    value={lastCompletedMilestone.completed_at}
+                    format="date"
+                  />
+                </>
+              ) : null}
             </>
           ) : (
             "Nothing recorded yet."

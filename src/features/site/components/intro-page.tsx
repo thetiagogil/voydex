@@ -12,11 +12,12 @@ import { MeadowCard } from "@/features/site/components/meadow-card";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
-import type { SiteArt } from "@/features/site/types";
+import type { SiteArt, SiteBadgeStamp } from "@/features/site/types";
 import { Card } from "@/shared/components/ui/card";
 
 type IntroPageProps = {
   art: SiteArt;
+  badgeStamp: SiteBadgeStamp;
 };
 
 const IntroSideCard = ({
@@ -43,7 +44,7 @@ const IntroSideCard = ({
  * How it works: one Play followed over time (day one, along the way, months
  * later), then two smaller things, and the meadow to finish.
  */
-export const IntroPage = async ({ art }: IntroPageProps) => {
+export const IntroPage = async ({ art, badgeStamp }: IntroPageProps) => {
   const { isAuthenticated } = await getSiteVisitor();
 
   return (
@@ -76,7 +77,7 @@ export const IntroPage = async ({ art }: IntroPageProps) => {
             title="Record as you go"
             text="Add Pokémon as they join the team, stamp each badge as you earn it, and mark the Pokédex while you play. Caught or seen, one tap each."
           >
-            <RecordAsYouGoStage art={art} />
+            <RecordAsYouGoStage art={art} badgeStamp={badgeStamp} />
           </IntroChapter>
           <IntroChapter
             art={art}

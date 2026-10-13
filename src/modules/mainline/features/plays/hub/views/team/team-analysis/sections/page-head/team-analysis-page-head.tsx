@@ -3,6 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { PageHeader } from "@/shared/components/page-header";
 import { cn } from "@/shared/utils/cn";
 
 const readingClassName =
@@ -55,18 +56,12 @@ export const TeamAnalysisPageHead = ({
   showReadingSwitch?: boolean;
 }) => {
   return (
-    <div className="flex min-w-0 flex-wrap items-end gap-x-6 gap-y-4">
-      <div className="min-w-0">
-        <h2 className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]">
-          Team analysis
-        </h2>
-        <p className="text-ink-2 text-15 mt-1.5 font-semibold">{description}</p>
-      </div>
-      {showReadingSwitch ? (
-        <div className="sm:ml-auto">
-          <TeamAnalysisReadingSwitch />
-        </div>
-      ) : null}
-    </div>
+    <PageHeader
+      headingLevel="h2"
+      title="Team analysis"
+      description={description}
+      className="pt-0 sm:pt-0"
+      action={showReadingSwitch ? <TeamAnalysisReadingSwitch /> : undefined}
+    />
   );
 };

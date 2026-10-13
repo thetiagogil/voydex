@@ -4,19 +4,31 @@ import { formatPlayMoment } from "@/modules/mainline/features/plays/shared/utils
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 
 /*
- * The day a moment happened, in the viewer's time zone without a hydration
- * mismatch; its time shows on hover. Nothing when the moment has no date.
+ * When a moment happened, in the viewer's time zone without a hydration
+ * mismatch; its time shows on hover. `day` reads "Today", "Yesterday" or
+ * "Aug 12"; `date` always reads "Aug 12, 2025". `fallback` shows when the
+ * moment has no date.
  */
-export const PlayMomentTime = ({ value }: { value: string | null }) => {
+export const PlayMomentTime = ({
+  fallback = null,
+  format = "day",
+  value,
+}: {
+  fallback?: string | null;
+  format?: "date" | "day";
+  value: string | null;
+}) => {
   const moment = formatPlayMoment(value, useViewerClock());
 
   if (!moment) {
-    return null;
+    return fallback;
   }
 
+  const label = format === "date" ? moment.date : moment.day;
+
   return (
-    <time dateTime={moment.dateTime} title={`${moment.day} · ${moment.time}`}>
-      {moment.day}
+    <time dateTime={moment.dateTime} title={`${label} · ${moment.time}`}>
+      {label}
     </time>
   );
 };

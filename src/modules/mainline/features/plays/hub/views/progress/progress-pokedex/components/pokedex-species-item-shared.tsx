@@ -21,41 +21,6 @@ export type PokedexSpeciesPresentationProps = {
 export const formatPokedexNumber = (number: number) =>
   `#${String(number).padStart(3, "0")}`;
 
-/* The state mark: a Poké Ball on white when caught, an eye when seen. */
-export const PokedexStateIcon = ({
-  className,
-  state,
-}: {
-  className?: string;
-  state: PokedexProgressState;
-}) => {
-  if (state === "missing") {
-    return null;
-  }
-
-  const isCaught = state === "caught";
-
-  return (
-    <span
-      role="img"
-      aria-label={isCaught ? "Caught" : "Seen"}
-      className={cn(
-        "grid size-[26px] place-items-center rounded-full",
-        isCaught
-          ? "text-ball bg-white shadow-[0_2px_0_rgb(0_0_0/0.08)]"
-          : "bg-surface-2 text-ink-2",
-        className,
-      )}
-    >
-      <AppIcon
-        icon={isCaught ? appIcons.product.caught : appIcons.product.seen}
-        size="md"
-        aria-hidden
-      />
-    </span>
-  );
-};
-
 export const PokedexStateLabel = ({
   state,
 }: {

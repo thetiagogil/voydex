@@ -1,4 +1,4 @@
-import { useId, type ReactNode } from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
@@ -29,6 +29,8 @@ type DetailSectionCardProps = {
   icon?: AppIconComponent;
   id?: string;
   showSeparator?: boolean;
+  /* Variables the content reads, such as a type colour as `--t`. */
+  style?: CSSProperties;
   title: ReactNode;
   titleClassName?: string;
 };
@@ -49,6 +51,7 @@ export const DetailSectionCard = ({
   icon,
   id,
   showSeparator = false,
+  style,
   title,
   titleClassName,
 }: DetailSectionCardProps) => {
@@ -61,6 +64,7 @@ export const DetailSectionCard = ({
       aria-labelledby={headingId}
       data-slot="card"
       data-size="default"
+      style={style}
       className={cn(cardVariants(), "w-full min-w-0 gap-0 py-0", className)}
     >
       <CardHeader

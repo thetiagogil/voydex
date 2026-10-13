@@ -71,6 +71,7 @@ export const MainlinePlayProgressCollectibles = ({
   if (!activeGroup) {
     return (
       <EmptyState
+        headingLevel="h2"
         title="No collectibles available"
         description="This game doesn't have collectible tracking yet."
       />

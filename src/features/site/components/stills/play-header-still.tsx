@@ -1,4 +1,3 @@
-import { GameCover } from "@/features/site/components/stills/game-cover";
 import { samplePlay } from "@/features/site/data/sample-play";
 import type { SiteArt } from "@/features/site/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -14,11 +13,11 @@ export const PlayHeaderStill = ({ art }: { art: SiteArt }) => (
     className="game-scope bg-game-soft play-texture shadow-game block rounded-xl px-4.5 pt-4 pb-3.5 sm:rounded-2xl sm:px-5 sm:pt-4.5 sm:pb-4"
   >
     <span className="relative z-1 flex items-center gap-4">
-      <GameCover
-        art={art}
-        game={samplePlay.game}
-        className="h-[76px] rounded-sm border-[3px] border-white max-sm:hidden"
-      />
+      {art.gameCover({
+        className:
+          "h-[76px] rounded-sm border-[3px] border-white max-sm:hidden",
+        game: samplePlay.game,
+      })}
       <span className="min-w-0">
         <span className="text-game-deep text-13 block font-bold">
           {samplePlay.eyebrow}

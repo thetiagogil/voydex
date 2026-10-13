@@ -60,6 +60,7 @@ export const AppTabBar = ({ email }: AppTabBarProps) => {
   return (
     <nav
       aria-label="Main"
+      data-tab-bar
       className="border-line bg-surface fixed inset-x-0 bottom-0 z-30 grid auto-cols-[minmax(0,6.5rem)] grid-flow-col justify-center gap-0.5 border-t px-2 pt-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom))] lg:hidden"
     >
       {mainlineLinks.map((link) => (
