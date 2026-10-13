@@ -4,244 +4,108 @@ import { useState } from "react";
 
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import type {
-  TeamAnalysisDefensiveCell,
-  TeamAnalysisDefensiveRow,
-} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/components/ui/accordion";
-import { Button } from "@/shared/components/ui/button";
-import { ButtonGroup } from "@/shared/components/ui/button-group";
-import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
-import { cn } from "@/shared/utils/cn";
+import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 
-import {
-  getTeamAnalysisMemberId,
-  getTeamAnalysisMemberName,
-  TeamAnalysisMemberPortrait,
-} from "../../components/team-analysis-member";
-import { TeamAnalysisTypeLabel } from "../../components/team-analysis-type-label";
+import { TeamAnalysisDefensiveList } from "./team-analysis-defensive-list";
+import { TeamAnalysisDefensiveTable } from "./team-analysis-defensive-table";
+import { TeamAnalysisMatchupLegend } from "./team-analysis-matchup-cell";
 
-type MatchupFilter = "all" | "immunities" | "resistances" | "weaknesses";
+type MatchupFilter = "all" | "pressure" | "threats";
 
-const matchupFilters: { label: string; value: MatchupFilter }[] = [
-  { label: "All", value: "all" },
-  { label: "Weaknesses", value: "weaknesses" },
-  { label: "Resistances", value: "resistances" },
-  { label: "Immunities", value: "immunities" },
-];
-
-const getFilteredRows = (
-  rows: TeamAnalysisDefensiveRow[],
-  filter: MatchupFilter,
-) => {
-  if (filter === "weaknesses") {
-    return rows.filter((row) => row.weakCount > 0);
-  }
-  if (filter === "resistances") {
-    return rows.filter((row) => row.resistCount > 0);
-  }
-  if (filter === "immunities") {
-    return rows.filter((row) => row.immuneCount > 0);
-  }
-  return rows;
-};
-
-const matchupCellClassNames: Record<
-  TeamAnalysisDefensiveCell["effectiveness"],
-  string
-> = {
-  immune: "border-primary/20 bg-primary/8 text-primary",
-  neutral: "border-transparent text-muted-foreground",
-  resistant: "border-primary/20 bg-primary/8 text-primary",
-  unknown: "border-border bg-muted/40 text-muted-foreground",
-  weak: "border-destructive/20 bg-destructive/8 text-destructive",
-};
-
-const DefensiveCell = ({ cell }: { cell: TeamAnalysisDefensiveCell }) => {
-  const label =
-    cell.effectiveness === "unknown"
-      ? "Typing unavailable"
-      : `${cell.multiplierLabel} damage, ${cell.effectiveness}`;
-
-  return (
-    <span
-      className={cn(
-        "inline-flex min-h-6 min-w-10 items-center justify-center rounded-md border px-1.5 text-xs font-semibold",
-        matchupCellClassNames[cell.effectiveness],
-      )}
-      aria-label={label}
-      title={label}
-    >
-      {cell.multiplierLabel}
-    </span>
-  );
-};
-
-const DefensiveMatrix = ({
-  members,
-  rows,
-}: {
-  members: MainlinePlayTeamMember[];
-  rows: TeamAnalysisDefensiveRow[];
-}) => {
-  const gridTemplateColumns = `minmax(7rem, 1.35fr) repeat(${members.length}, minmax(3.25rem, 1fr)) repeat(3, minmax(2.5rem, .55fr))`;
-
-  return (
-    <div className="hidden md:block">
-      <div
-        className="border-line text-muted-foreground grid min-w-xl items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
-        style={{ gridTemplateColumns }}
-      >
-        <span className="text-left">Attacking type</span>
-        {members.map((member) => (
-          <div
-            key={getTeamAnalysisMemberId(member)}
-            className="flex min-w-0 items-center justify-center gap-1"
-          >
-            <TeamAnalysisMemberPortrait member={member} className="size-7" />
-            <span className="hidden min-w-0 truncate normal-case xl:block">
-              {getTeamAnalysisMemberName(member)}
-            </span>
-          </div>
-        ))}
-        <span>Weak</span>
-        <span>Resist</span>
-        <span>Immune</span>
-      </div>
-
-      <div className="divide-line divide-y">
-        {rows.map((row) => (
-          <div
-            key={row.attackingType.id}
-            className={cn(
-              rowInteractionVariants(),
-              "grid min-w-xl items-center gap-x-1 px-2 py-1 text-center",
-            )}
-            style={{ gridTemplateColumns }}
-          >
-            <div className="justify-self-start">
-              <TeamAnalysisTypeLabel compact type={row.attackingType} />
-            </div>
-            {row.cells.map((cell) => (
-              <DefensiveCell key={cell.memberId} cell={cell} />
-            ))}
-            <span className="text-destructive text-xs font-semibold">
-              {row.weakCount}
-            </span>
-            <span className="text-primary text-xs font-semibold">
-              {row.resistCount}
-            </span>
-            <span className="text-primary text-xs font-semibold">
-              {row.immuneCount}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const DefensiveAccordion = ({
-  members,
-  rows,
-}: {
-  members: MainlinePlayTeamMember[];
-  rows: TeamAnalysisDefensiveRow[];
-}) => {
-  return (
-    <Accordion className="md:hidden" multiple>
-      {rows.map((row) => (
-        <AccordionItem
-          key={row.attackingType.id}
-          value={row.attackingType.slug}
-        >
-          <AccordionTrigger className="items-center gap-3 px-1 hover:no-underline">
-            <TeamAnalysisTypeLabel type={row.attackingType} />
-            <span className="text-muted-foreground mr-2 ml-auto text-xs">
-              {row.weakCount} weak · {row.resistCount} resist ·{" "}
-              {row.immuneCount} immune
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="grid gap-2 px-1">
-            {row.cells.map((cell, index) => {
-              const member = members[index];
-
-              return member ? (
-                <div
-                  key={cell.memberId}
-                  className="flex items-center justify-between gap-3"
-                >
-                  <div className="flex min-w-0 items-center gap-2">
-                    <TeamAnalysisMemberPortrait
-                      member={member}
-                      className="size-8"
-                    />
-                    <span className="truncate text-xs font-medium">
-                      {getTeamAnalysisMemberName(member)}
-                    </span>
-                  </div>
-                  <DefensiveCell cell={cell} />
-                </div>
-              ) : null;
-            })}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  );
+const emptyFilterCopy: Record<MatchupFilter, string> = {
+  all: "No attacking types to read for this generation.",
+  pressure:
+    "No type hits two of your Pokémon super effectively, or one of them 4×.",
+  threats: "No type hits any of your Pokémon super effectively.",
 };
 
 export const TeamAnalysisDefensiveSection = ({
+  footnote,
+  lineupLabel,
   members,
   rows,
 }: {
+  /* What the reading is based on and what it leaves out, built on the server. */
+  footnote: string;
+  /* "Active team", "Final team" or "Last known team". */
+  lineupLabel: string;
   members: MainlinePlayTeamMember[];
+  /* In threat order: the types that hit the team hardest first. */
   rows: TeamAnalysisDefensiveRow[];
 }) => {
   const [filter, setFilter] = useState<MatchupFilter>("all");
-  const filteredRows = getFilteredRows(rows, filter);
+  const rowsByFilter: Record<MatchupFilter, TeamAnalysisDefensiveRow[]> = {
+    all: rows,
+    pressure: rows.filter((row) => row.isPressure),
+    threats: rows.filter((row) => row.weakCount > 0),
+  };
+  const visibleRows = rowsByFilter[filter];
 
   return (
     <MainlinePlaySectionCard
       title="Defensive matchups"
       headingLevel={3}
-      description="How the recorded lineup takes incoming attacks using base typing and this generation's type chart."
-      action={
-        <ButtonGroup
-          aria-label="Filter defensive matchups"
-          className="hidden sm:flex"
-        >
-          {matchupFilters.map((option) => (
-            <Button
-              key={option.value}
-              size="xs"
-              variant="outline"
-              aria-pressed={filter === option.value}
-              onClick={() => setFilter(option.value)}
-            >
-              {option.label}
-            </Button>
-          ))}
-        </ButtonGroup>
+      /* v3 hides the section aside on phones. */
+      description={
+        <span className="hidden sm:inline">
+          How each attacking type lands on your {lineupLabel.toLowerCase()}
+        </span>
       }
-      contentClassName="grid gap-4 pt-2"
-      showSeparator
+      /* Desktop keeps the key beside the title, as v3's section head does. */
+      action={<TeamAnalysisMatchupLegend className="hidden lg:flex" />}
+      contentClassName="grid grid-cols-1 gap-3 pt-2"
     >
-      {filteredRows.length ? (
+      <div className="flex flex-col gap-1.5">
+        <TeamAnalysisMatchupLegend className="lg:hidden" />
+        {/* Below desktop: one row of pills that scrolls to the card's edges. */}
+        <SegmentedControl
+          ariaLabel="Attacking types to show"
+          className="no-scrollbar -mx-5 w-[calc(100%+2.5rem)] max-w-none flex-nowrap overflow-x-auto px-5 py-1.5 sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 lg:mx-0 lg:w-auto lg:max-w-full lg:flex-wrap lg:overflow-visible lg:px-0 lg:py-0"
+          onValueChange={setFilter}
+          options={[
+            {
+              count: rowsByFilter.all.length,
+              label: "All types",
+              value: "all",
+            },
+            {
+              count: rowsByFilter.threats.length,
+              label: "Threats",
+              value: "threats",
+            },
+            {
+              count: rowsByFilter.pressure.length,
+              label: "Pressure",
+              value: "pressure",
+            },
+          ]}
+          value={filter}
+        />
+      </div>
+
+      {visibleRows.length ? (
         <>
-          <DefensiveMatrix members={members} rows={filteredRows} />
-          <DefensiveAccordion members={members} rows={filteredRows} />
+          <TeamAnalysisDefensiveTable
+            className="hidden md:block"
+            members={members}
+            rows={visibleRows}
+          />
+          <TeamAnalysisDefensiveList
+            className="md:hidden"
+            members={members}
+            rows={visibleRows}
+          />
         </>
       ) : (
-        <p className="text-muted-foreground py-6 text-center text-sm">
-          No matchups meet this filter.
+        <p className="text-ink-2 text-14 py-6 text-center font-semibold">
+          {emptyFilterCopy[filter]}
         </p>
       )}
+
+      <p className="border-line text-ink-2 text-13 mt-2 border-t pt-3.5 font-semibold">
+        {footnote}
+      </p>
     </MainlinePlaySectionCard>
   );
 };

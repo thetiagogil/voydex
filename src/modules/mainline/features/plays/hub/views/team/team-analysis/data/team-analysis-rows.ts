@@ -2,6 +2,7 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   getDefensiveTypeMultiplier,
   getPokemonTypesForGeneration,
@@ -14,7 +15,6 @@ import {
 import type { Type } from "@/modules/reference/types";
 
 import type {
-  TeamAnalysisCoverageMove,
   TeamAnalysisCoverageRow,
   TeamAnalysisDefensiveRow,
   TeamAnalysisEffectiveness,
@@ -37,7 +37,11 @@ const getEffectiveness = (
   return "neutral";
 };
 
-export const getTeamAnalysisMemberTypeSlugs = (
+export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
+  return member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
+};
+
+const getTeamAnalysisMemberTypeSlugs = (
   member: MainlinePlayTeamMember,
 ): PokemonTypeSlug[] => {
   return [member.primaryType?.slug, member.secondaryType?.slug].filter(
@@ -46,15 +50,22 @@ export const getTeamAnalysisMemberTypeSlugs = (
   );
 };
 
-export const isTeamAnalysisDamagingMove = (move: MainlinePlayTeamMove) => {
-  return Boolean(
+/* A damaging move's type; fixed-damage, reactive and status moves claim no type coverage. */
+const getDamagingMoveTypeSlug = (
+  move: MainlinePlayTeamMove,
+): PokemonTypeSlug | null => {
+  const moveTypeSlug = move.type?.slug;
+  const isDamaging =
     move.attributes &&
     move.attributes.damage_class !== "status" &&
     move.attributes.power !== null &&
-    move.attributes.power > 0 &&
-    move.type &&
-    isPokemonTypeSlug(move.type.slug),
-  );
+    move.attributes.power > 0;
+
+  return isDamaging &&
+    typeof moveTypeSlug === "string" &&
+    isPokemonTypeSlug(moveTypeSlug)
+    ? moveTypeSlug
+    : null;
 };
 
 const getAvailableTypes = (types: Type[], generationOrder: number) => {
@@ -66,6 +77,19 @@ const getAvailableTypes = (types: Type[], generationOrder: number) => {
   });
 };
 
+const getHighestMultiplier = (row: TeamAnalysisDefensiveRow) => {
+  return Math.max(0, ...row.cells.map((cell) => cell.multiplier ?? 0));
+};
+
+/* The types that hit the team hardest first; ties keep the type chart's order. */
+const sortByThreat = (rows: TeamAnalysisDefensiveRow[]) => {
+  return [...rows].sort(
+    (left, right) =>
+      right.weakCount - left.weakCount ||
+      getHighestMultiplier(right) - getHighestMultiplier(left),
+  );
+};
+
 const buildDefensiveRows = ({
   generationOrder,
   members,
@@ -75,12 +99,11 @@ const buildDefensiveRows = ({
   members: MainlinePlayTeamMember[];
   types: Type[];
 }): TeamAnalysisDefensiveRow[] => {
-  return types.map((attackingType) => {
+  const rows = types.map((attackingType) => {
     const attackingTypeSlug = isPokemonTypeSlug(attackingType.slug)
       ? attackingType.slug
       : null;
     const cells = members.map((member) => {
-      const memberId = member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
       const defendingTypes = getTeamAnalysisMemberTypeSlugs(member);
       const multiplier =
         attackingTypeSlug && defendingTypes.length
@@ -93,43 +116,34 @@ const buildDefensiveRows = ({
 
       return {
         effectiveness: getEffectiveness(multiplier),
-        memberId,
+        memberId: getTeamAnalysisMemberId(member),
+        memberName: getPlayTeamMemberName(member),
         multiplier,
         multiplierLabel: formatMultiplier(multiplier),
       };
     });
+    const weakCount = cells.filter(
+      (cell) => cell.effectiveness === "weak",
+    ).length;
 
     return {
       attackingType,
       cells,
       immuneCount: cells.filter((cell) => cell.effectiveness === "immune")
         .length,
+      isPressure:
+        weakCount >= 2 ||
+        cells.some((cell) => cell.multiplier !== null && cell.multiplier >= 4),
       resistCount: cells.filter((cell) => cell.effectiveness === "resistant")
         .length,
-      weakCount: cells.filter((cell) => cell.effectiveness === "weak").length,
+      weakCount,
     };
   });
+
+  return sortByThreat(rows);
 };
 
-const toCoverageMove = (
-  member: MainlinePlayTeamMember,
-  move: MainlinePlayTeamMove,
-): TeamAnalysisCoverageMove | null => {
-  if (!move.attributes || !move.type || !isPokemonTypeSlug(move.type.slug)) {
-    return null;
-  }
-
-  return {
-    damageClass: move.attributes.damage_class,
-    id: move.id,
-    name: move.name,
-    receivesStab: getTeamAnalysisMemberTypeSlugs(member).includes(
-      move.type.slug,
-    ),
-    type: move.type,
-  };
-};
-
+/* Per type: how many of the team's recorded damaging moves hit it super effectively. */
 const buildCoverageRows = ({
   generationOrder,
   members,
@@ -139,47 +153,27 @@ const buildCoverageRows = ({
   members: MainlinePlayTeamMember[];
   types: Type[];
 }): TeamAnalysisCoverageRow[] => {
+  const damagingMoveTypes = members.flatMap((member) =>
+    member.moves.flatMap((move) => getDamagingMoveTypeSlug(move) ?? []),
+  );
+
   return types.map((defendingType) => {
     const defendingTypeSlug = isPokemonTypeSlug(defendingType.slug)
       ? defendingType.slug
       : null;
-    const cells = members.map((member) => {
-      const memberId = member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
-      const moves = defendingTypeSlug
-        ? member.moves
-            .filter(isTeamAnalysisDamagingMove)
-            .filter((move) => {
-              const moveTypeSlug = move.type?.slug;
-
-              return (
-                typeof moveTypeSlug === "string" &&
-                isPokemonTypeSlug(moveTypeSlug) &&
-                getTypeEffectiveness(
-                  moveTypeSlug,
-                  defendingTypeSlug,
-                  generationOrder,
-                ) > 1
-              );
-            })
-            .flatMap((move) => {
-              const coverageMove = toCoverageMove(member, move);
-              return coverageMove ? [coverageMove] : [];
-            })
-        : [];
-
-      return { memberId, moves };
-    });
 
     return {
-      cells,
-      coveredByMemberCount: cells.filter((cell) => cell.moves.length).length,
       defendingType,
-      moveCount: cells.reduce((count, cell) => count + cell.moves.length, 0),
-      stabMoveCount: cells.reduce(
-        (count, cell) =>
-          count + cell.moves.filter((move) => move.receivesStab).length,
-        0,
-      ),
+      moveCount: defendingTypeSlug
+        ? damagingMoveTypes.filter(
+            (moveTypeSlug) =>
+              getTypeEffectiveness(
+                moveTypeSlug,
+                defendingTypeSlug,
+                generationOrder,
+              ) > 1,
+          ).length
+        : 0,
     };
   });
 };

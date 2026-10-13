@@ -68,8 +68,6 @@ const move = ({
   }) as MainlinePlayTeamMove;
 
 const member = ({
-  abilityId = null,
-  heldItemId = null,
   id,
   memberMoves = [],
   nickname = null,
@@ -79,8 +77,6 @@ const member = ({
   slot,
   speciesName,
 }: {
-  abilityId?: number | null;
-  heldItemId?: number | null;
   id: string;
   memberMoves?: MainlinePlayTeamMove[];
   nickname?: string | null;
@@ -91,8 +87,6 @@ const member = ({
   speciesName: string;
 }) =>
   ({
-    ability_id: abilityId,
-    held_item_id: heldItemId,
     moves: memberMoves,
     nickname,
     play_pokemon_id: id,
@@ -151,7 +145,6 @@ describe("buildTeamAnalysisModel", () => {
     ]);
     expect(model.evidence).toMatchObject({
       activeCount: 1,
-      possibleActiveCount: 6,
       possibleMoveCount: 4,
       recordedMoveCount: 1,
     });
@@ -167,14 +160,11 @@ describe("buildTeamAnalysisModel", () => {
     });
     expect(
       model.coverageRows.find((row) => row.defendingType.slug === "water")
-        ?.cells[0]?.moves[0],
-    ).toMatchObject({
-      name: "Thunderbolt",
-      receivesStab: true,
-    });
+        ?.moveCount,
+    ).toBe(1);
   });
 
-  it("counts STAB moves separately from all recorded coverage moves", () => {
+  it("counts every recorded move that hits a type super effectively", () => {
     const model = buildTeamAnalysisModel({
       generation: generation(1),
       mechanics: resolveGameMechanics({
@@ -215,12 +205,12 @@ describe("buildTeamAnalysisModel", () => {
     });
 
     expect(
-      model.coverageRows.find((row) => row.defendingType.slug === "water"),
-    ).toMatchObject({
-      coveredByMemberCount: 2,
-      moveCount: 2,
-      stabMoveCount: 1,
-    });
+      model.coverageRows.map((row) => [row.defendingType.slug, row.moveCount]),
+    ).toEqual([
+      ["fire", 0],
+      ["water", 2],
+      ["electric", 0],
+    ]);
   });
 
   it("applies historical type rules for the Play generation", () => {
@@ -252,7 +242,7 @@ describe("buildTeamAnalysisModel", () => {
     });
   });
 
-  it("omits unsupported evidence and retains supported evidence", () => {
+  it("notes the abilities and held items only where the game has them", () => {
     const legacyModel = buildTeamAnalysisModel({
       generation: generation(1),
       mechanics: resolveGameMechanics({
@@ -262,8 +252,6 @@ describe("buildTeamAnalysisModel", () => {
       }),
       members: [
         member({
-          abilityId: 1,
-          heldItemId: 1,
           id: "legacy",
           primaryType: fire,
           slot: 1,
@@ -282,8 +270,6 @@ describe("buildTeamAnalysisModel", () => {
       }),
       members: [
         member({
-          abilityId: 1,
-          heldItemId: 1,
           id: "modern",
           primaryType: fire,
           slot: 1,
@@ -294,15 +280,15 @@ describe("buildTeamAnalysisModel", () => {
       types: [fire],
     });
 
-    expect(legacyModel.evidence).toMatchObject({
-      abilityRecordedCount: null,
-      heldItemRecordedCount: null,
+    expect(legacyModel).toMatchObject({
+      abilitiesApply: false,
+      heldItemsApply: false,
     });
-    expect(modernModel.evidence).toMatchObject({
-      abilityRecordedCount: 1,
-      heldItemRecordedCount: 1,
+    expect(modernModel).toMatchObject({
+      abilitiesApply: true,
+      heldItemsApply: true,
     });
-    expect(modernModel.lineupLabel).toBe("Recorded Final Team");
+    expect(modernModel.lineupLabel).toBe("Final team");
   });
 
   it("does not claim type coverage for fixed-damage or reactive moves", () => {
@@ -335,5 +321,49 @@ describe("buildTeamAnalysisModel", () => {
     });
 
     expect(model.coverageRows.every((row) => row.moveCount === 0)).toBe(true);
+  });
+
+  it("lists attacking types hardest-hitting first and flags pressure", () => {
+    const model = buildTeamAnalysisModel({
+      generation: generation(1),
+      mechanics: resolveGameMechanics({
+        gameId: 1,
+        generationId: 1,
+        versionGroupId: 1,
+      }),
+      members: [
+        member({
+          id: "fire-member",
+          nickname: "Blaze",
+          primaryType: fire,
+          slot: 1,
+          speciesName: "Charmander",
+        }),
+        member({
+          id: "electric-member",
+          primaryType: electric,
+          slot: 2,
+          speciesName: "Pikachu",
+        }),
+      ],
+      play: play(),
+      types: [fire, water, electric, ground],
+    });
+
+    expect(model.defensiveRows.map((row) => row.attackingType.slug)).toEqual([
+      "ground",
+      "water",
+      "fire",
+      "electric",
+    ]);
+    expect(model.defensiveRows.map((row) => row.isPressure)).toEqual([
+      true,
+      false,
+      false,
+      false,
+    ]);
+    expect(
+      model.defensiveRows[0]?.cells.map((cell) => cell.memberName),
+    ).toEqual(["Blaze", "Pikachu"]);
   });
 });

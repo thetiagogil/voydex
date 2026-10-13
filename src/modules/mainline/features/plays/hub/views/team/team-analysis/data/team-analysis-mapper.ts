@@ -32,6 +32,5 @@ export const buildMainlinePlayTeamAnalysisData = ({
           types: rows.teamRows.types,
         })
       : null,
-    play,
   };
 };
