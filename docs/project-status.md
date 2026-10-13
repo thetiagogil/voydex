@@ -146,9 +146,8 @@ The first slice is built:
   progress filter pills with counts, marking mode, grid or list), number
   ranges, and the one Pokémon card in its caught, seen and missing states.
 
-Still open from the brief's first slice: card edges at 3px (current) or v3's
-4px, and whether Nunito on the main button stays warm enough. Both are shown
-side by side with v3 for the owner to decide.
+The first slice's two open calls are settled (owner, 2026-10-13): section
+cards keep the 3px clay edge, and the main button stays in Nunito.
 
 Every other screen already wears the new tokens and primitives but still needs
 its own pass, in the brief's order: Team, Story, History, Analysis, Plan,
