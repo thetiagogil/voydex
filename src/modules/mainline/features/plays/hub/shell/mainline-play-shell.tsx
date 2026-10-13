@@ -1,4 +1,5 @@
 import { MainlinePlayDockedBar } from "@/modules/mainline/features/plays/hub/shell/mainline-play-docked-bar";
+import { MainlinePlayGameColourRoot } from "@/modules/mainline/features/plays/hub/shell/mainline-play-game-colour-root";
 import { MainlinePlayNavigation } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation";
 import { MainlinePlayTopSection } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-top-section";
 import { getPlayTitle } from "@/modules/mainline/features/plays/hub/shell/top-section/play-title";
@@ -17,6 +18,7 @@ export const MainlinePlayShell = ({
   data,
   playId,
 }: MainlinePlayShellProps) => {
+  const gameColourStyle = getGameColourStyle(data.play.game_slug);
   const navigation = (
     <MainlinePlayNavigation
       collectiblesAvailable={data.collectiblesAvailable}
@@ -27,8 +29,9 @@ export const MainlinePlayShell = ({
   return (
     <div
       className="game-scope flex w-full min-w-0 flex-col gap-6 sm:gap-8"
-      style={getGameColourStyle(data.play.game_slug)}
+      style={gameColourStyle}
     >
+      <MainlinePlayGameColourRoot style={gameColourStyle} />
       <MainlinePlayDockedBar
         coverImageUrl={data.coverImageUrl}
         navigation={

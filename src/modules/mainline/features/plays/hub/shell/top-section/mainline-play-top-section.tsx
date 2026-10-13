@@ -32,7 +32,7 @@ export const MainlinePlayTopSection = ({
         />
         <MainlinePlayTopInfo data={data} titleId="mainline-play-title" />
       </div>
-      <div className="no-scrollbar relative z-1 mt-5 overflow-x-auto pb-1 sm:mt-[22px]">
+      <div className="no-scrollbar relative z-1 -mx-1.5 mt-3.5 overflow-x-auto p-1.5 sm:mt-4">
         {navigation}
       </div>
     </section>

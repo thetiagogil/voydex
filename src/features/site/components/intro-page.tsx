@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/shared/utils/cn";
 import { appRoutes } from "@/config/routes";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -67,10 +68,7 @@ export const IntroPage = () => {
           <div className="mt-8 flex w-full max-w-88 flex-col gap-3 sm:max-w-none sm:flex-row">
             <Link
               href={appRoutes.appEntry}
-              className={buttonVariants({
-                size: "lg",
-                className: "h-11 w-full sm:w-auto",
-              })}
+              className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
             >
               <AppIcon
                 icon={appIcons.actions.enterApp}
@@ -81,11 +79,10 @@ export const IntroPage = () => {
             </Link>
             <Link
               href={appRoutes.codexPokemon}
-              className={buttonVariants({
-                variant: "outline",
-                size: "lg",
-                className: "h-11 w-full sm:w-auto",
-              })}
+              className={cn(
+                buttonVariants({ size: "lg", variant: "outline" }),
+                "w-full sm:w-auto",
+              )}
             >
               <AppIcon
                 icon={appIcons.actions.browseCodex}

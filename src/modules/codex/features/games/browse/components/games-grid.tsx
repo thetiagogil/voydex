@@ -64,7 +64,7 @@ const GamesGridCard = ({
       aria-label={`Open ${card.game.name} game guide`}
       style={getGameColourStyle(card.game.slug)}
       className={cn(
-        "game-scope group focus-visible:ring-ring focus-visible:ring-offset-background border-line bg-card hover:border-game focus-visible:border-game block h-full rounded-xl border shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "game-scope group focus-visible:ring-ring focus-visible:ring-offset-background border-line bg-card hover:border-game focus-visible:border-game block h-full rounded-xl border transition-all duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
       )}
     >
       <article className="flex h-full flex-col overflow-hidden rounded-[inherit]">

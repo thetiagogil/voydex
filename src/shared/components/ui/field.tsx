@@ -114,7 +114,7 @@ const FieldLabel = ({
       data-slot="field-label"
       data-variant={variant}
       className={cn(
-        "group/field-label peer/field-label has-data-checked:border-primary/60 has-data-checked:bg-primary/10 flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:shadow-xs has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5",
+        "group/field-label peer/field-label has-data-checked:border-primary/60 has-data-checked:bg-primary/10 flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:shadow-none has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
         "data-[variant=filter]:text-muted-foreground data-[variant=filter]:text-xs data-[variant=filter]:font-bold data-[variant=filter]:tracking-[0.12em] data-[variant=filter]:uppercase",
         className,

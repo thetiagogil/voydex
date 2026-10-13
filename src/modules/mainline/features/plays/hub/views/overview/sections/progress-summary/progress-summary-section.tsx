@@ -19,7 +19,7 @@ export const ProgressSummarySection = ({
   const items = getProgressSummaryItems(overview, playId);
 
   return (
-    <Card aria-label="Progress" className="px-5 sm:px-7">
+    <Card role="region" aria-label="Progress" className="px-5 sm:px-7">
       {items.length ? (
         <div className="divide-line grid divide-y">
           {items.map((item) => (

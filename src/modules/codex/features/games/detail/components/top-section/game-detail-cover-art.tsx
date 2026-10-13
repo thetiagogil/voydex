@@ -12,7 +12,7 @@ export const GameDetailCoverArt = ({ data }: GameDetailCoverArtProps) => {
 
   return (
     <div className="relative flex h-52 w-full justify-center sm:h-64 md:h-full md:w-max md:justify-start">
-      <div className="ring-line bg-card relative flex h-full max-w-full justify-center overflow-hidden rounded-xl p-4 shadow-xs ring-1 sm:p-5 md:justify-start">
+      <div className="bg-surface shadow-card relative flex h-full max-w-full justify-center overflow-hidden rounded-xl p-4 sm:p-5 md:justify-start">
         {data.coverImageUrl ? (
           <Image
             src={data.coverImageUrl}

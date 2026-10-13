@@ -47,7 +47,7 @@ export const BadgeStamp = ({
         state.kind === "badge" &&
           "rotate-(--tilt) bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_5px_color-mix(in_oklab,var(--t)_45%,white),0_4px_0_5px_var(--lip)]",
         state.kind === "earned" &&
-          "bg-gold rotate-(--tilt) text-white shadow-[0_0_0_3px_#fff,0_0_0_5px_#f6d58e,0_4px_0_5px_var(--lip)]",
+          "bg-gold rotate-(--tilt) text-white shadow-[0_0_0_3px_#fff,0_0_0_5px_var(--gold-ring),0_4px_0_5px_var(--lip)]",
         (state.kind === "next" || state.kind === "todo") &&
           "text-ink-3 outline-lip shadow-[inset_0_0_0_3px_var(--line)] outline-3 outline-offset-3 outline-dashed",
         state.kind === "next" && "bg-surface-2",

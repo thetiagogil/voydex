@@ -16,6 +16,8 @@
   --ink-2: #6c6152;
   --ink-3: #766a58;
   --on-ink: #f4eee2;
+  /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
+  --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
   --line: #e8deca;
   --lip: #e2d6be;
   --track: #ede4d2;
@@ -58,17 +60,20 @@
 
   /*
    * Context colour. Pages without a Play wear Voydex green; a Play sets
-   * --game and --gt through `.game-scope` (see app-utilities.css).
+   * --game, --gt and --game-strong (see getGameColourStyle) on its
+   * `.game-scope` element and on the document root, so portalled menus and
+   * dialogs wear it too. --game-strong is the game colour darkened only as
+   * far as white text needs for 4.5:1; solid fills with labels use it.
    */
   --game: var(--action);
   --gt: 17%;
+  --game-strong: var(--action);
   --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
   --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
   --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 72%, #000);
-  --on-game: oklch(from var(--game) clamp(0.27, (0.64 - l) * 1000, 1) 0.012 70);
+  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
   --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 62%, var(--ink));
+  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
 
   /* Corners */
   --r-xs: 6px;
@@ -124,6 +129,7 @@
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
   --color-on-ink: var(--on-ink);
+  --color-ink-tint: var(--ink-tint);
   --color-line: var(--line);
   --color-lip: var(--lip);
   --color-track: var(--track);
@@ -162,7 +168,7 @@
   --color-game-wash: var(--game-wash);
   --color-game-lip: var(--game-lip);
   --color-game-deep: var(--game-deep);
-  --color-on-game: var(--on-game);
+  --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);
   --color-select-ink: var(--select-ink);
 

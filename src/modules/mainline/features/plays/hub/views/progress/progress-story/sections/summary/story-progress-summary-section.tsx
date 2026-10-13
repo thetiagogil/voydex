@@ -97,7 +97,7 @@ export const StoryProgressSummarySection = ({
     : 0;
 
   return (
-    <Card className="bg-card gap-0 py-0 shadow-xs">
+    <Card className="gap-0 py-0">
       <CardHeader className="sr-only">
         <CardTitle>
           <h2>Story progress summary</h2>

@@ -114,7 +114,7 @@ export const MainlinePlayTopInfo = ({
       >
         {getPlayTitle(data)}
       </h1>
-      <dl className="text-ink-2 text-13 sm:text-14 flex flex-wrap items-center gap-x-3.5 gap-y-2 font-semibold">
+      <dl className="text-ink-tint text-13 sm:text-14 flex flex-wrap items-center gap-x-3.5 gap-y-2 font-semibold">
         <div className="contents">
           <dt className="sr-only">Status</dt>
           <dd>

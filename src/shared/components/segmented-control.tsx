@@ -69,7 +69,7 @@ export const SegmentedControl = <TValue extends string>({
               <small
                 className={cn(
                   "text-[12.5px] font-bold tabular-nums",
-                  isSelected ? "text-select-ink/80" : "text-ink-3",
+                  isSelected ? "text-select-ink" : "text-ink-3",
                 )}
               >
                 {option.count}

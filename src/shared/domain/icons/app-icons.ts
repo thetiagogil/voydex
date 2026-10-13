@@ -26,7 +26,6 @@ import {
   Gamepad2,
   Gauge,
   Gem,
-  Gift,
   Grid2X2,
   HeartPulse,
   Home,
@@ -43,7 +42,6 @@ import {
   Mars,
   Monitor,
   Moon,
-  NotebookPen,
   Package,
   Pencil,
   Plus,
@@ -57,15 +55,11 @@ import {
   Sparkles,
   Star,
   Sun,
-  Target,
-  Trophy,
-  User,
   UserRoundPlus,
   UsersRound,
   Venus,
   WifiOff,
   X,
-  Zap,
   type LucideIcon,
 } from "lucide-react";
 
@@ -74,9 +68,6 @@ import { PokeballIcon } from "@/shared/domain/icons/pokeball-icon";
 export type AppIconComponent = LucideIcon;
 
 export const appIcons = {
-  account: {
-    user: User,
-  },
   actions: {
     back: ArrowLeft,
     browseCodex: BookOpenCheck,
@@ -99,14 +90,9 @@ export const appIcons = {
   },
   /* What sits inside a gold milestone medallion, by milestone type. */
   milestones: {
-    boss: Zap,
     champion: Crown,
-    collection: Gift,
-    decision: Sparkles,
     hallOfFame: Star,
     story: Flag,
-    tournament: Trophy,
-    trial: Target,
   },
   modules: {
     codex: BookOpen,
@@ -118,7 +104,6 @@ export const appIcons = {
     caught: PokeballIcon,
     collected: CheckCircle2,
     collectible: Gem,
-    completedPlay: Trophy,
     completion: Check,
     date: CalendarDays,
     details: ClipboardList,
@@ -134,14 +119,10 @@ export const appIcons = {
     journey: Compass,
     location: MapPin,
     milestone: ListChecks,
-    journal: NotebookPen,
-    nextMilestone: ArrowRight,
     optionalEntries: ShieldCheck,
     play: Backpack,
     playtime: Clock3,
-    pokeball: PokeballIcon,
     pokedex: ClipboardList,
-    recent: Clock3,
     reference: BookOpenCheck,
     replaced: RotateCcw,
     reserve: Package,

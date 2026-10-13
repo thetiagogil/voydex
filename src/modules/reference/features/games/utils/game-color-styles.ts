@@ -59,6 +59,7 @@ const fallbackGameColour: GameColour = ["#8C867D", 17];
 
 export type GameColourStyle = CSSProperties & {
   "--game": string;
+  "--game-strong": string;
   "--gt": string;
 };
 
@@ -66,6 +67,48 @@ export const getGameColour = (game: PokemonGameSlug | string | null) => {
   return game && isPokemonGameSlug(game)
     ? gameColours[game]
     : fallbackGameColour;
+};
+
+const parseHex = (hex: string) =>
+  [1, 3, 5].map(
+    (index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255,
+  );
+
+const toLinear = (channel: number) =>
+  channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+
+const contrastWithWhite = (channels: number[]) => {
+  const [red, green, blue] = channels.map(toLinear);
+  const luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+
+  return 1.05 / (luminance + 0.05);
+};
+
+const toHex = (channels: number[]) =>
+  `#${channels
+    .map((channel) =>
+      Math.round(Math.min(Math.max(channel, 0), 1) * 255)
+        .toString(16)
+        .padStart(2, "0"),
+    )
+    .join("")}`;
+
+/*
+ * The game colour darkened only as far as a white label needs to reach 4.5:1,
+ * for solid fills that carry text (the active Play tab, the start medallion).
+ */
+export const getGameStrongColour = (hex: string) => {
+  let channels = parseHex(hex);
+
+  for (
+    let step = 0;
+    step < 40 && contrastWithWhite(channels) < 4.5;
+    step += 1
+  ) {
+    channels = channels.map((channel) => channel * 0.97);
+  }
+
+  return toHex(channels);
 };
 
 /*
@@ -77,5 +120,9 @@ export const getGameColourStyle = (
 ): GameColourStyle => {
   const [hex, tintStrength] = getGameColour(game);
 
-  return { "--game": hex, "--gt": `${tintStrength}%` };
+  return {
+    "--game": hex,
+    "--game-strong": getGameStrongColour(hex),
+    "--gt": `${tintStrength}%`,
+  };
 };

@@ -16,29 +16,6 @@ export const formatPlayDate = (value: string | null, fallback = "Not set") => {
   }).format(date);
 };
 
-export const formatPlayDateTime = (
-  value: string | null,
-  fallback = "Not set",
-) => {
-  if (!value) {
-    return fallback;
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return fallback;
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(date);
-};
-
 export const formatPlayMinutes = (value: number | null) => {
   if (value === null) {
     return "Not tracked";

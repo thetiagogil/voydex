@@ -71,11 +71,18 @@ export const PokemonCard = ({
         className,
       )}
     >
-      <span className="text-ink-3 text-12 flex w-full justify-between px-1 font-extrabold tabular-nums">
+      <span
+        className={cn(
+          "text-12 flex w-full justify-between px-1 font-extrabold tabular-nums",
+          state === "caught" ? "text-ink-tint" : "text-ink-3",
+        )}
+      >
         {number}
       </span>
       {mark ? (
-        <span className="absolute top-[7px] right-[7px] z-10">{mark}</span>
+        <span className="pointer-events-none absolute top-[7px] right-[7px] z-10">
+          {mark}
+        </span>
       ) : null}
       <span
         className={cn(
@@ -111,7 +118,12 @@ export const PokemonCard = ({
         {name}
       </b>
       {subtitle ? (
-        <span className="text-ink-3 text-12 w-full truncate font-semibold">
+        <span
+          className={cn(
+            "text-12 w-full truncate font-semibold",
+            state === "caught" ? "text-ink-tint" : "text-ink-3",
+          )}
+        >
           {subtitle}
         </span>
       ) : null}

@@ -92,7 +92,7 @@ export const DatabaseHealthStatus = () => {
               variant="outline"
               size="icon"
               aria-label="Database unavailable"
-              className="relative rounded-full shadow-lg"
+              className="shadow-float relative rounded-full"
             />
           }
         >

@@ -41,7 +41,7 @@ const PlayCover = ({
   priority: boolean;
 }) => {
   return (
-    <div className="border-line bg-surface-2 col-start-1 row-start-1 size-28 shrink-0 rounded-lg border p-0.5 shadow-sm md:size-24 lg:size-28">
+    <div className="border-line bg-surface-2 shadow-cover col-start-1 row-start-1 size-28 shrink-0 rounded-lg border p-0.5 md:size-24 lg:size-28">
       {coverImageUrl ? (
         <div className="relative size-full overflow-hidden rounded-md">
           <Image
