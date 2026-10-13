@@ -3,74 +3,65 @@ import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/s
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
+import { teamRosterSize } from "../roster/team-roster-model";
 import { getTeamAnalysisPreview } from "./team-analysis-model";
 
 type TeamAnalysisSectionProps = {
+  className?: string;
   playId: string;
   roster: MainlinePlayTeamMember[];
 };
 
 const TeamAnalysisSignal = ({
-  detail,
   label,
   value,
 }: {
-  detail: string;
   label: string;
   value: string;
 }) => {
   return (
-    <div className="grid content-start gap-1.5 sm:px-4 sm:not-first:border-l sm:first:pl-0 sm:last:pr-0">
-      <dt className="text-muted-foreground text-xs font-medium">{label}</dt>
-      <dd className="text-foreground text-sm font-semibold">{value}</dd>
-      <dd className="text-muted-foreground text-xs leading-5">{detail}</dd>
+    <div className="grid content-start gap-0.5 py-3.5 first:pt-0 last:pb-0 @2xl:px-5 @2xl:py-0 @2xl:first:pl-0 @2xl:last:pr-0">
+      <dt className="text-ink-2 text-13 font-bold">{label}</dt>
+      <dd className="text-16 font-extrabold">{value}</dd>
     </div>
   );
 };
 
+/* A quick read of the team before the full analysis: one line each. */
 export const TeamAnalysisSection = ({
+  className,
   playId,
   roster,
 }: TeamAnalysisSectionProps) => {
-  const analysis = getTeamAnalysisPreview(roster);
-  const activeEvidence = analysis.activeCount
-    ? `${analysis.typedMemberCount} of ${analysis.activeCount} typed`
-    : "No Active members recorded";
-  const moveEvidence = analysis.activeCount
-    ? `${analysis.membersWithMoves} of ${analysis.activeCount} members`
-    : "No moves recorded";
-  const watchlist = analysis.unknownActivePositions
-    ? `${analysis.unknownActivePositions} positions not recorded`
-    : "All Active positions recorded";
+  const { activeCount, membersWithMoves, uniqueTypeCount, openSlotCount } =
+    getTeamAnalysisPreview(roster);
+  const types = activeCount
+    ? `${uniqueTypeCount} ${uniqueTypeCount === 1 ? "type" : "types"} across ${activeCount} Pokémon`
+    : "No Pokémon on the team yet";
+  const moves = activeCount
+    ? `${membersWithMoves} of ${activeCount} have moves recorded`
+    : "No moves recorded yet";
+  const slots = openSlotCount
+    ? `${openSlotCount} still empty`
+    : `All ${teamRosterSize} filled`;
 
   return (
     <MainlinePlaySectionCard
-      title="Team Analysis"
+      title="Team analysis"
+      headingLevel={3}
       action={
         <MainlinePlaySectionDestination
           href={appRoutes.mainlinePlayTeamAnalysis(playId)}
-          label="Open full analysis"
+          label="Open analysis"
         />
       }
-      contentClassName="py-4"
-      showSeparator
+      className={className}
+      contentClassName="@container pt-1"
     >
-      <dl className="grid gap-4 sm:grid-cols-3 sm:gap-0">
-        <TeamAnalysisSignal
-          label="Defensive evidence"
-          value={activeEvidence}
-          detail={`${analysis.uniqueTypeCount} distinct types represented in the Active lineup.`}
-        />
-        <TeamAnalysisSignal
-          label="Move coverage"
-          value={moveEvidence}
-          detail="Recorded damaging moves are evaluated with generation-correct type rules."
-        />
-        <TeamAnalysisSignal
-          label="Watchlist"
-          value={watchlist}
-          detail="No weakness claims are inferred from incomplete evidence."
-        />
+      <dl className="divide-line grid divide-y @2xl:grid-cols-3 @2xl:divide-x @2xl:divide-y-0">
+        <TeamAnalysisSignal label="Types" value={types} />
+        <TeamAnalysisSignal label="Move coverage" value={moves} />
+        <TeamAnalysisSignal label="Team slots" value={slots} />
       </dl>
     </MainlinePlaySectionCard>
   );

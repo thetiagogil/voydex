@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
-import { getTeamRosterSlots } from "./team-roster-model";
+import {
+  formatTeamRosterSummary,
+  getTeamRosterSlots,
+  getTeamRosterSummary,
+} from "./team-roster-model";
 
 const buildMember = (
   id: string,
@@ -54,5 +58,38 @@ describe("getTeamRosterSlots", () => {
     expect(slots[0]?.member?.play_pokemon_id).toBe("reserve-first");
     expect(slots[5]?.label).toBe("R6");
     expect(slots[5]?.member?.play_pokemon_id).toBe("reserve-last");
+  });
+});
+
+describe("getTeamRosterSummary", () => {
+  it("counts open slots only where the roster shows them", () => {
+    const teamOnly = getTeamRosterSummary([
+      buildMember("first", "active", 1),
+      buildMember("second", "active", 2),
+    ]);
+    const withReserve = getTeamRosterSummary([
+      ...Array.from({ length: 6 }, (_, index) =>
+        buildMember(`active-${index}`, "active", index + 1),
+      ),
+      buildMember("reserve-first", "reserve", 7),
+      buildMember("reserve-third", "reserve", 9),
+    ]);
+
+    expect(teamOnly).toEqual({
+      activeCount: 2,
+      openSlotCount: 4,
+      reserveCount: 0,
+      showsReserve: false,
+    });
+    expect(formatTeamRosterSummary(teamOnly)).toBe("2 active · 4 open slots");
+    expect(formatTeamRosterSummary(withReserve)).toBe(
+      "6 active · 2 in reserve · 4 open slots",
+    );
+  });
+
+  it("says so when the Play has no Pokémon yet", () => {
+    expect(formatTeamRosterSummary(getTeamRosterSummary([]))).toBe(
+      "No Pokémon yet",
+    );
   });
 });

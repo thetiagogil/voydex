@@ -16,9 +16,12 @@ export const getTeamMemberIdentity = (
   return formName;
 };
 
-export const formatTeamMemberGender = (gender: string | null): string => {
+/* A recorded gender, or null when it wasn't recorded. */
+export const formatTeamMemberGender = (
+  gender: string | null,
+): string | null => {
   if (!gender || gender === "unknown") {
-    return "Not recorded";
+    return null;
   }
 
   return gender.charAt(0).toUpperCase() + gender.slice(1);

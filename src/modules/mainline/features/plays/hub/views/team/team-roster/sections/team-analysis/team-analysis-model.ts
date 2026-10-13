@@ -1,15 +1,15 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
+import { teamRosterSize } from "../roster/team-roster-model";
+
 export type TeamAnalysisPreview = {
   activeCount: number;
   membersWithMoves: number;
-  typedMemberCount: number;
   uniqueTypeCount: number;
-  unknownActivePositions: number;
+  openSlotCount: number;
 };
 
-const activeRosterSize = 6;
-
+/* What the quick read needs: the Active team's types, moves and open slots. */
 export const getTeamAnalysisPreview = (
   roster: MainlinePlayTeamMember[],
 ): TeamAnalysisPreview => {
@@ -18,12 +18,10 @@ export const getTeamAnalysisPreview = (
   );
   const representedTypes = new Set<number>();
   let membersWithMoves = 0;
-  let typedMemberCount = 0;
 
   for (const member of activeMembers) {
     if (member.primaryType) {
       representedTypes.add(member.primaryType.id);
-      typedMemberCount += 1;
     }
 
     if (member.secondaryType) {
@@ -38,11 +36,7 @@ export const getTeamAnalysisPreview = (
   return {
     activeCount: activeMembers.length,
     membersWithMoves,
-    typedMemberCount,
     uniqueTypeCount: representedTypes.size,
-    unknownActivePositions: Math.max(
-      activeRosterSize - activeMembers.length,
-      0,
-    ),
+    openSlotCount: Math.max(teamRosterSize - activeMembers.length, 0),
   };
 };

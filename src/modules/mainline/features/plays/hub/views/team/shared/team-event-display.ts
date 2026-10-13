@@ -12,38 +12,19 @@ export type TeamEventTextPart = {
   text: string;
 };
 
-export type TeamEventVisual =
-  | {
-      kind: "destination";
-      label: "Active" | "Reserve";
-    }
-  | {
-      kind: "pokemon";
-      pokemon: TeamEventPokemon;
-    };
-
 export type TeamEventDisplay = {
   icon: AppIconComponent;
   label: string;
+  /*
+   * The Pokémon a moment is drawn with: what it evolved or changed into, the
+   * replacement, else the Pokémon it is about.
+   */
+  outcome: TeamEventPokemon;
   text: TeamEventTextPart[];
-  tone: TeamEventTone;
-  visuals: TeamEventVisual[];
 };
 
-export type TeamEventTone =
-  | "added"
-  | "evolved"
-  | "form-changed"
-  | "neutral"
-  | "replaced"
-  | "retired";
-
-const pokemonVisual = (pokemon: TeamEventPokemon): TeamEventVisual => ({
-  kind: "pokemon",
-  pokemon,
-});
-
 const unknownPokemon = (event: MainlinePlayTimelineEvent, role: string) => ({
+  formId: null,
   formName: null,
   imageUrl: null,
   key: `${event.event_id ?? "team-event"}-${role}`,
@@ -124,8 +105,7 @@ export const getTeamEventDisplay = (
         [from.name, true],
         ["."],
       ]),
-      tone: "evolved",
-      visuals: [pokemonVisual(from), pokemonVisual(to)],
+      outcome: to,
     };
   }
 
@@ -143,8 +123,7 @@ export const getTeamEventDisplay = (
         [from.name, true],
         ["."],
       ]),
-      tone: "form-changed",
-      visuals: [pokemonVisual(from), pokemonVisual(to)],
+      outcome: to,
     };
   }
 
@@ -165,8 +144,7 @@ export const getTeamEventDisplay = (
         [replaced.name, true],
         ["."],
       ]),
-      tone: "replaced",
-      visuals: [pokemonVisual(replaced), pokemonVisual(replacement)],
+      outcome: replacement,
     };
   }
 
@@ -179,6 +157,7 @@ export const getTeamEventDisplay = (
     return {
       icon: appIcons.actions.move,
       label: "Moved",
+      outcome: member,
       text: destination
         ? text([
             [member.name, true],
@@ -187,20 +166,11 @@ export const getTeamEventDisplay = (
             ["."],
           ])
         : getFallbackText(event),
-      tone: "neutral",
-      visuals: [
-        pokemonVisual(member),
-        ...(destination
-          ? ([{ kind: "destination", label: destination }] as const)
-          : []),
-      ],
     };
   }
 
   const member = subject ?? unknownPokemon(event, "subject");
-  const commonDisplay = {
-    visuals: [pokemonVisual(member)],
-  };
+  const commonDisplay = { outcome: member };
 
   switch (eventType) {
     case "pokemon_added":
@@ -209,7 +179,6 @@ export const getTeamEventDisplay = (
         icon: appIcons.product.teamAdded,
         label: "Added",
         text: text([[member.name, true], [" was added to the team."]]),
-        tone: "added",
       };
     case "pokemon_updated":
       return {
@@ -217,7 +186,6 @@ export const getTeamEventDisplay = (
         icon: appIcons.actions.edit,
         label: "Updated",
         text: text([[member.name, true], [" was updated."]]),
-        tone: "neutral",
       };
     case "pokemon_retired":
       return {
@@ -225,7 +193,6 @@ export const getTeamEventDisplay = (
         icon: appIcons.product.retired,
         label: "Retired",
         text: text([[member.name, true], [" retired from the team."]]),
-        tone: "retired",
       };
     case "pokemon_removed":
       return {
@@ -233,7 +200,6 @@ export const getTeamEventDisplay = (
         icon: appIcons.actions.clear,
         label: "Removed",
         text: text([[member.name, true], [" was removed from the team."]]),
-        tone: "retired",
       };
     case "pokemon_returned":
       return {
@@ -241,7 +207,6 @@ export const getTeamEventDisplay = (
         icon: appIcons.actions.retry,
         label: "Returned",
         text: text([[member.name, true], [" returned to the team."]]),
-        tone: "added",
       };
     default:
       return {
@@ -249,7 +214,11 @@ export const getTeamEventDisplay = (
         icon: appIcons.product.team,
         label: event.event_type_name ?? "Team event",
         text: getFallbackText(event),
-        tone: "neutral",
       };
   }
 };
+
+/* Kept for team-history-record.ts until History draws its rows with TeamEventRecordRow. */
+export const getTeamEventOutcomePokemon = (
+  display: TeamEventDisplay,
+): TeamEventPokemon => display.outcome;

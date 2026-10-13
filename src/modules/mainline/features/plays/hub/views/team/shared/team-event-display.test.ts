@@ -40,11 +40,7 @@ describe("getTeamEventDisplay", () => {
     expect(display.text.map((part) => part.text).join("")).toBe(
       "Skeledirge evolved from Crocalor.",
     );
-    expect(display.visuals).toHaveLength(2);
-    expect(display.visuals.map((visual) => visual.kind)).toEqual([
-      "pokemon",
-      "pokemon",
-    ]);
+    expect(display.outcome).toMatchObject({ name: "Skeledirge" });
   });
 
   it("shows the roster destination for a movement event", () => {
@@ -66,10 +62,6 @@ describe("getTeamEventDisplay", () => {
     expect(display.text.map((part) => part.text).join("")).toBe(
       "Comet moved to Reserve.",
     );
-    expect(display.visuals.at(-1)).toEqual({
-      kind: "destination",
-      label: "Reserve",
-    });
   });
 
   it("prefers a structured roster destination over event copy", () => {
@@ -92,23 +84,57 @@ describe("getTeamEventDisplay", () => {
     expect(display.text.map((part) => part.text).join("")).toBe(
       "Comet moved to Reserve.",
     );
-    expect(display.visuals.at(-1)).toEqual({
-      kind: "destination",
-      label: "Reserve",
+  });
+
+  it("draws a moment with its outcome Pokémon", () => {
+    const evolution = getTeamEventDisplay(
+      event("pokemon_evolved", [
+        {
+          form_id: 1,
+          play_pokemon_id: "starter",
+          role: "from",
+          species_name: "Crocalor",
+        },
+        {
+          form_id: 2,
+          play_pokemon_id: "starter",
+          role: "to",
+          species_name: "Skeledirge",
+        },
+      ]),
+    );
+    const movement = getTeamEventDisplay(
+      event(
+        "pokemon_moved",
+        [
+          {
+            destination: "reserve",
+            form_id: 3,
+            play_pokemon_id: "member",
+            role: "subject",
+            species_name: "Decidueye",
+          },
+        ],
+        "Decidueye moved",
+      ),
+    );
+
+    expect(evolution.outcome).toMatchObject({
+      formId: 2,
+      name: "Skeledirge",
+    });
+    expect(movement.outcome).toMatchObject({
+      formId: 3,
+      name: "Decidueye",
     });
   });
 
   it("keeps an image placeholder for a Team event with no Pokémon ref", () => {
     const display = getTeamEventDisplay(event("pokemon_removed", []));
 
-    expect(display.visuals).toEqual([
-      {
-        kind: "pokemon",
-        pokemon: expect.objectContaining({
-          imageUrl: null,
-          name: "Unknown Pokémon",
-        }),
-      },
-    ]);
+    expect(display.outcome).toMatchObject({
+      imageUrl: null,
+      name: "Unknown Pokémon",
+    });
   });
 });
