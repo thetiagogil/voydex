@@ -1,18 +1,31 @@
+import { appRoutes } from "@/config/routes";
 import { sortVersionGroupPokedexes } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
-import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
+import type {
+  CodexGameDetailData,
+  CodexGameFirstPartners,
+  CodexGamePokemon,
+  CodexGameVersionExclusives,
+} from "@/modules/codex/features/games/detail/types";
 import {
   getPokedexEntryKey,
   selectGamePokedexEntryForms,
 } from "@/modules/codex/features/games/shared/data/pokedex-entry-forms";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
-import { buildGameCards, byId } from "@/modules/reference/reference-data";
+import {
+  buildGameCards,
+  byId,
+  resolveTypePair,
+  selectAttributesInGeneration,
+} from "@/modules/reference/reference-data";
 import type {
   Game,
   GameCard,
+  GameStarters,
   Generation,
   PokedexEntry,
+  PokemonTypePair,
   VersionGroup,
 } from "@/modules/reference/types";
 
@@ -108,9 +121,131 @@ const buildPokedexSummaries = (
   }));
 };
 
+/* The game the version switch picks: the one the address names, else the group's first. */
+export const pickGameDetailVersion = (
+  versions: Game[],
+  versionSlug?: string,
+): Game | null => {
+  return (
+    versions.find((game) => game.slug === versionSlug) ?? versions[0] ?? null
+  );
+};
+
+/* A Pokémon's entry in this group, with a special form as `?form=`. */
+const getEntryHref = (
+  versionGroupSlug: string,
+  speciesSlug: string,
+  form: { isDefault: boolean; slug: string },
+) => {
+  const href = appRoutes.codexPokemonEntry(versionGroupSlug, speciesSlug);
+
+  return form.isDefault
+    ? href
+    : `${href}?${new URLSearchParams({ form: form.slug })}`;
+};
+
+const toCardTypes = (typePair: PokemonTypePair) => {
+  return [typePair.primaryType, typePair.secondaryType].flatMap((type) =>
+    type ? [{ name: type.name, slug: type.slug }] : [],
+  );
+};
+
+export const buildGameFirstPartners = (
+  starters: GameStarters | null,
+  versionGroupSlug: string,
+): CodexGameFirstPartners => {
+  return {
+    isSolo: starters?.isSolo ?? false,
+    pokemon: (starters?.starters ?? []).map((starter) => ({
+      href: getEntryHref(versionGroupSlug, starter.speciesSlug, {
+        isDefault: starter.isDefaultForm,
+        slug: starter.formSlug,
+      }),
+      imageUrl: starter.imageUrl,
+      key: String(starter.formId),
+      name: starter.isDefaultForm ? starter.name : starter.formName,
+      nationalNumber: starter.nationalNumber,
+      types: toCardTypes(starter.typePair),
+    })),
+  };
+};
+
+/* Each game's exclusives as cards, the picked game's column first. */
+const buildVersionExclusives = (
+  rows: GameDetailRows,
+  versions: GameCard[],
+  version: GameCard,
+): CodexGameVersionExclusives[] => {
+  if (versions.length < 2) {
+    return [];
+  }
+
+  const { attributes, exclusivesByGameId, forms, species, types } =
+    rows.versionExclusives;
+  const formById = byId(forms);
+  const speciesById = byId(species);
+  const typeById = byId(types);
+  const generation = rows.generations.find(
+    (candidate) => candidate.id === rows.versionGroup.generation_id,
+  );
+  const toPokemon = (formId: number, speciesId: number) => {
+    const form = formById.get(formId);
+    const speciesRow = speciesById.get(speciesId);
+
+    if (!form || !speciesRow) {
+      return [];
+    }
+
+    const pokemon: CodexGamePokemon = {
+      href: getEntryHref(rows.versionGroup.slug, speciesRow.slug, {
+        isDefault: form.is_default,
+        slug: form.slug,
+      }),
+      imageUrl: getPokemonFormImageUrl(form),
+      key: String(form.id),
+      name: form.is_default ? speciesRow.name : form.name,
+      nationalNumber: speciesRow.national_number,
+      types: toCardTypes(
+        resolveTypePair(
+          selectAttributesInGeneration({
+            attributes,
+            formId: form.id,
+            generation,
+            generations: rows.generations,
+          }),
+          typeById,
+        ),
+      ),
+    };
+
+    return [{ formOrder: form.form_order, pokemon }];
+  };
+
+  return versions
+    .toSorted(
+      (first, second) =>
+        Number(second.game.id === version.game.id) -
+        Number(first.game.id === version.game.id),
+    )
+    .map((card) => ({
+      pokemon: (exclusivesByGameId.get(card.game.id) ?? [])
+        .flatMap((exclusive) =>
+          toPokemon(exclusive.formId, exclusive.speciesId),
+        )
+        .toSorted(
+          (first, second) =>
+            first.pokemon.nationalNumber - second.pokemon.nationalNumber ||
+            first.formOrder - second.formOrder,
+        )
+        .map(({ pokemon }) => pokemon),
+      version: card,
+    }));
+};
+
 export const buildGameDetailData = (
   rows: GameDetailRows,
   versionSlug?: string,
+  starters: GameStarters | null = null,
 ): CodexGameDetailData | null => {
   const cardRows = {
     gamePlatforms: rows.gamePlatforms,
@@ -121,8 +256,8 @@ export const buildGameDetailData = (
     versionGroups: rows.versionGroups,
   };
   const versions = buildGameCards({ ...cardRows, games: rows.versions });
-  const version =
-    versions.find((card) => card.game.slug === versionSlug) ?? versions[0];
+  const pickedGame = pickGameDetailVersion(rows.versions, versionSlug);
+  const version = versions.find((card) => card.game.id === pickedGame?.id);
 
   if (!version) {
     return null;
@@ -152,9 +287,11 @@ export const buildGameDetailData = (
 
   return {
     availablePokemonCount,
+    firstPartners: buildGameFirstPartners(starters, rows.versionGroup.slug),
     pokedexes,
     relatedGames,
     version,
+    versionExclusives: buildVersionExclusives(rows, versions, version),
     versionGroup: rows.versionGroup,
     versions,
   };

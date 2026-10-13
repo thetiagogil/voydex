@@ -5,10 +5,8 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
-import {
-  getGenerationNumeral,
-  getVersionGroupShortName,
-} from "@/modules/codex/shared/utils/game-names";
+import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
+import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonDetailData } from "@/modules/reference/types";
 import type { SegmentedControlOption } from "@/shared/components/segmented-control";
 

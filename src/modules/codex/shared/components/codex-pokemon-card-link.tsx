@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { memo, type ReactNode } from "react";
 
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import {
+  PokemonCard,
+  type PokemonCardSize,
+} from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { cn } from "@/shared/utils/cn";
 
 type CodexPokemonCardType = { name: string; slug: string };
@@ -13,6 +16,8 @@ type CodexPokemonCardLinkProps = {
   imageUrl: string | null;
   name: string;
   number: string;
+  /* `md` in a list; `sm` where three share a narrow column. */
+  size?: PokemonCardSize;
   /* A hover note, such as the other numbering. */
   title?: string;
   types: (CodexPokemonCardType | null)[];
@@ -30,6 +35,7 @@ export const CodexPokemonCardLink = memo(
     imageUrl,
     name,
     number,
+    size = "md",
     title,
     types,
   }: CodexPokemonCardLinkProps) => {
@@ -42,11 +48,17 @@ export const CodexPokemonCardLink = memo(
       >
         <PokemonCard
           state="plain"
-          className="[contain-intrinsic-size:auto_128px_auto_172px] [content-visibility:auto]"
+          className={cn(
+            "[content-visibility:auto]",
+            size === "sm"
+              ? "[contain-intrinsic-size:auto_112px_auto_140px]"
+              : "[contain-intrinsic-size:auto_128px_auto_172px]",
+          )}
           imageAlt=""
           imageUrl={imageUrl}
           name={name}
           number={number}
+          size={size}
           types={types.filter((type) => type !== null)}
         />
       </Link>

@@ -20,7 +20,7 @@ import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
 } from "@/modules/codex/shared/components/codex-pokemon-card-link";
-import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
+import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
   gameMechanics,
@@ -159,7 +159,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
       />
 
       <div className="mt-3">
-        <CodexTypeFilter
+        <PokemonTypeFilter
           onValueChange={(type) => {
             updateFilter("type", type);
           }}
