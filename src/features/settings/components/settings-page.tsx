@@ -1,19 +1,28 @@
-import { AccountSettingsCard } from "@/features/settings/components/account-settings-card";
+import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
+import { SettingsTrainerCard } from "@/features/settings/components/settings-trainer-card";
 import { PageHeader } from "@/shared/components/page-header";
 
 type SettingsPageProps = {
-  userEmail: string;
+  /*
+   * The route's email, or a placeholder ("Account") when the claims had none.
+   * Anything that isn't an email reaches the trainer card's empty state.
+   */
+  userEmail: string | null;
 };
 
+/* v3's Account settings: one column, the trainer card first, then quiet sections. */
 export const SettingsPage = ({ userEmail }: SettingsPageProps) => {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
+    <div className="mx-auto flex w-full max-w-189 flex-col">
       <PageHeader
         title="Settings"
-        description="Manage your account and app preferences."
+        description="Your trainer card and your account"
       />
-      <div className="flex flex-col gap-4">
-        <AccountSettingsCard email={userEmail} />
+      <div className="mt-7 flex flex-col gap-6">
+        <SettingsTrainerCard
+          email={userEmail?.includes("@") ? userEmail : null}
+        />
+        <SettingsAccountSection />
       </div>
     </div>
   );
