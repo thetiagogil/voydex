@@ -1,78 +1,35 @@
-import Image from "next/image";
-
-import type { GamePokedexPokemon } from "@/modules/reference/types";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { Badge } from "@/shared/components/ui/badge";
+import type { GamePokedexStatKey } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
+import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { cn } from "@/shared/utils/cn";
+import type { GamePokedexPokemon } from "@/modules/reference/types";
+import { Badge } from "@/shared/components/ui/badge";
 
-type GamePokedexPokemonType = NonNullable<
-  GamePokedexPokemon["typePair"]["primaryType"]
->;
-
-export const gamePokedexSpriteColumnClassName = "w-14 min-w-14 max-w-14";
+export const gamePokedexSpriteColumnClassName = "w-16 min-w-16 max-w-16";
 export const gamePokedexDexColumnClassName = "w-16 min-w-16 max-w-16";
 export const gamePokedexStatColumnClassName = "w-12 min-w-12 max-w-12";
 
-export const GamePokedexPokemonSpriteCell = ({
+/* The art on its soft type-tint circle, as in the Play Pokédex list. */
+export const GamePokedexPokemonPortraitCell = ({
   pokemon,
 }: {
   pokemon: GamePokedexPokemon;
 }) => {
-  if (!pokemon.imageUrl) {
-    return (
-      <div className="bg-muted/35 flex size-12 items-center justify-center rounded-md">
-        <span className="text-muted-foreground text-xs">-</span>
-      </div>
-    );
-  }
+  const primaryType = pokemon.typePair.primaryType;
 
   return (
-    <div className="relative size-12 overflow-hidden rounded-md">
-      <Image
-        src={pokemon.imageUrl}
-        alt={pokemon.imageAlt || `${pokemon.species.name} sprite`}
-        fill
-        sizes="3rem"
-        className="object-contain"
-      />
-    </div>
-  );
-};
-
-export const GamePokedexPokemonTypeList = ({
-  className,
-  pokemon,
-}: {
-  className?: string;
-  pokemon: GamePokedexPokemon;
-}) => {
-  const types = [
-    pokemon.typePair.primaryType,
-    pokemon.typePair.secondaryType,
-  ].filter((type): type is GamePokedexPokemonType => Boolean(type));
-
-  if (!types.length) {
-    return <span className="text-muted-foreground">-</span>;
-  }
-
-  return (
-    <div className={cn("flex flex-wrap gap-1.5", className)}>
-      {types.map((type) =>
-        isPokemonTypeSlug(type.slug) ? (
-          <PokemonTypeBadge
-            key={type.id}
-            type={type.slug}
-            label={type.name}
-            size="sm"
-          />
-        ) : (
-          <Badge key={type.id} variant="outline">
-            {type.name}
-          </Badge>
-        ),
-      )}
-    </div>
+    <PokemonPortrait
+      alt=""
+      imageUrl={pokemon.imageUrl}
+      fallbackOnError
+      sizes="3rem"
+      type={
+        primaryType && isPokemonTypeSlug(primaryType.slug)
+          ? primaryType.slug
+          : null
+      }
+      className="size-12 shrink-0"
+      imageClassName="p-1"
+    />
   );
 };
 
@@ -82,11 +39,11 @@ export const GamePokedexPokemonAbilityList = ({
   pokemon: GamePokedexPokemon;
 }) => {
   if (!pokemon.abilities.length) {
-    return <span className="text-muted-foreground">-</span>;
+    return <span className="text-ink-3">-</span>;
   }
 
   return (
-    <div className="flex max-w-48 flex-wrap gap-1.5">
+    <div className="flex max-w-56 flex-wrap gap-1.5">
       {pokemon.abilities.map(({ ability, slot }) => (
         <Badge
           key={`${ability.id}-${slot}`}
@@ -108,15 +65,7 @@ export const GamePokedexPokemonStatCell = ({
   stat,
 }: {
   pokemon: GamePokedexPokemon;
-  stat: keyof Pick<
-    NonNullable<GamePokedexPokemon["attributes"]>,
-    | "base_attack"
-    | "base_defense"
-    | "base_hp"
-    | "base_special_attack"
-    | "base_special_defense"
-    | "base_speed"
-  >;
+  stat: GamePokedexStatKey;
 }) => {
   return (
     <span className="tabular-nums">

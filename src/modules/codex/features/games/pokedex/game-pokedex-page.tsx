@@ -2,11 +2,11 @@ import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import { GamePokedexBrowser } from "@/modules/codex/features/games/pokedex/components/game-pokedex-browser";
-import { GamePokedexSwitcher } from "@/modules/codex/features/games/pokedex/components/game-pokedex-switcher";
+import { GamePokedexHeadSection } from "@/modules/codex/features/games/pokedex/components/game-pokedex-head-section";
 import { getGamePokedexData } from "@/modules/codex/features/games/pokedex/server/game-pokedex-query";
-import { CodexBackLink } from "@/modules/codex/shared/components/codex-back-link";
+import { getGameShortName } from "@/modules/codex/features/games/shared/utils/game-names";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
-import { PageHeader } from "@/shared/components/page-header";
+import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 
 type GamePokedexPageProps = {
   gameSlug: string;
@@ -23,21 +23,18 @@ export const GamePokedexPage = async ({
     notFound();
   }
 
-  const pokedexName = formatPokedexName(data.pokedex.name);
-
   return (
-    <div className="flex w-full min-w-0 flex-col gap-5 sm:gap-6">
-      <CodexBackLink href={appRoutes.codexGame(data.game.slug)}>
-        Back to {data.game.name}
-      </CodexBackLink>
-
-      <PageHeader
-        title={pokedexName}
-        description={`${data.game.name} • ${data.generation.name} • ${data.entries.length} Pokémon`}
+    <div className="flex w-full min-w-0 flex-col">
+      <CodexHead
+        trail={[
+          {
+            href: appRoutes.codexGame(data.game.slug),
+            label: getGameShortName(data.game.name),
+          },
+          { label: formatPokedexName(data.pokedex.name) },
+        ]}
       />
-
-      <GamePokedexSwitcher data={data} />
-
+      <GamePokedexHeadSection data={data} />
       <GamePokedexBrowser data={data} />
     </div>
   );
