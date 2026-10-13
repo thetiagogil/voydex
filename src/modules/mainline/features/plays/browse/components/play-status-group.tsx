@@ -1,7 +1,7 @@
 import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
 import type { PlayStatusGroup as PlayStatusGroupModel } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
-import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 
 type PlayStatusGroupProps = {
   group: PlayStatusGroupModel<PlayBrowseItem>;

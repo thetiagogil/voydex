@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildMainlinePlayBrowseItems,
   type PlayBrowseMilestone,
-} from "@/modules/mainline/features/plays/browse/data/play-browse-mappers";
+} from "@/modules/mainline/features/plays/shared/data/play-library-mappers";
 import type {
   MainlinePlayOverview,
   MainlinePlaySummary,

@@ -1,9 +1,3 @@
-import type {
-  PlayBrowseItem,
-  PlayBrowseProgress,
-  PlayBrowseProgressItem,
-  PlayBrowseStoryPosition,
-} from "@/modules/mainline/features/plays/browse/types";
 import {
   orderPlayMilestones,
   pickNextMilestoneRow,
@@ -12,6 +6,10 @@ import type {
   MainlinePlayOverview,
   MainlinePlaySummary,
   MainlinePlayTeamMember,
+  PlayBrowseItem,
+  PlayBrowseProgress,
+  PlayBrowseProgressItem,
+  PlayBrowseStoryPosition,
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import type { Game } from "@/modules/reference/types";

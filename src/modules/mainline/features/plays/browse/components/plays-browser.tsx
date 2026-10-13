@@ -17,7 +17,7 @@ import {
   type PlayBrowseFilters,
   type PlayBrowseParams,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { cn } from "@/shared/utils/cn";

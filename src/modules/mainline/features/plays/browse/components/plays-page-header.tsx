@@ -1,14 +1,33 @@
+import Link from "next/link";
+
+import { appRoutes } from "@/config/routes";
 import { getPlayLibraryDescription } from "@/modules/mainline/features/plays/browse/play-browse-display";
-import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageHeader } from "@/shared/components/page-header";
+import { buttonVariants } from "@/shared/components/ui/button";
 
 type PlaysPageHeaderProps = {
   plays: PlayBrowseItem[];
 };
 
-/* The library at a glance: how many Plays and how much time they hold. */
+/*
+ * The library at a glance: how many Plays and how much time they hold, and
+ * New Play, the page's main button. An empty library offers its own start.
+ */
 export const PlaysPageHeader = ({ plays }: PlaysPageHeaderProps) => {
   return (
-    <PageHeader title="Plays" description={getPlayLibraryDescription(plays)} />
+    <PageHeader
+      title="Plays"
+      description={getPlayLibraryDescription(plays)}
+      action={
+        plays.length ? (
+          <Link href={appRoutes.mainlinePlayNew()} className={buttonVariants()}>
+            <AppIcon icon={appIcons.actions.create} inline="start" />
+            New Play
+          </Link>
+        ) : null
+      }
+    />
   );
 };

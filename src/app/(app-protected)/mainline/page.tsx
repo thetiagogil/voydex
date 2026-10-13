@@ -1,7 +1,13 @@
-import { redirect } from "next/navigation";
+import { MainlineHomePage } from "@/modules/mainline/features/home/mainline-home-page";
+import { getHomePageData } from "@/modules/mainline/features/home/server/home-page-query";
 
-import { appRoutes } from "@/config/routes";
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
-export default function MainlinePage() {
-  redirect(appRoutes.mainlinePlays);
+export default async function MainlineHomeRoute({ searchParams }: PageProps) {
+  const { play } = await searchParams;
+  const data = await getHomePageData(typeof play === "string" ? play : null);
+
+  return <MainlineHomePage data={data} />;
 }
