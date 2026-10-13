@@ -1,119 +1,106 @@
-import { Camera, GitFork, NotebookPen, RotateCcw } from "lucide-react";
+"use client";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone } from "../../types";
-import { getStoryMilestoneRecordingActionVariant } from "../../utils/story-milestone-action-variant";
 import {
   hasRecordedStoryMilestoneDecision,
   hasRecordedStoryMilestoneNote,
   hasRecordedStoryMilestoneSnapshot,
 } from "../../utils/story-milestone-recording";
 
-const fullWidthActionClassName = "sm:col-span-2";
-
+/*
+ * A milestone still ahead offers the main button to record it: large for the
+ * next objective, small for any other open milestone. A recorded one
+ * keeps its extras behind one quiet Edit menu: the note, the team snapshot,
+ * the decision, and marking it incomplete.
+ */
 export const StoryMilestoneActions = ({
+  className,
+  isNext,
   milestone,
   onAction,
 }: {
+  className?: string;
+  isNext: boolean;
   milestone: StoryMilestone;
   onAction: (intent: StoryMilestoneActionIntent) => void;
 }) => {
-  const hasDecision = milestone.decisionOptions.length > 0;
-  const canRecordStoryMoment = milestone.snapshotPolicySlug !== "none";
-  const hasSupportingAction = hasDecision || canRecordStoryMoment;
-  const hasRecordedDecision = hasRecordedStoryMilestoneDecision(milestone);
-  const hasRecordedNote = hasRecordedStoryMilestoneNote(milestone);
-  const hasRecordedSnapshot = hasRecordedStoryMilestoneSnapshot(milestone);
-  const isLocked = !milestone.isCompleted && !milestone.isAvailable;
-
   if (!milestone.isCompleted) {
     return (
-      <div className="grid gap-2">
-        <Button
-          type="button"
-          className="w-full"
-          disabled={isLocked}
-          onClick={() => onAction("complete")}
-        >
-          <AppIcon
-            icon={appIcons.product.completion}
-            inline="start"
-            aria-hidden
-          />
-          Complete milestone
-        </Button>
-        {isLocked ? (
-          <p className="text-muted-foreground text-xs leading-5">
-            Complete the required prerequisites before recording this milestone.
-          </p>
-        ) : (
-          <p className="text-muted-foreground text-xs leading-5">
-            You can add relevant details while completing it.
-          </p>
+      <Button
+        type="button"
+        size={isNext ? "lg" : "sm"}
+        disabled={!milestone.isAvailable}
+        onClick={() => onAction("complete")}
+        className={cn(
+          "h-auto w-full text-left whitespace-normal sm:w-auto",
+          isNext ? "min-h-13 py-3" : "min-h-9 py-1.5",
+          className,
         )}
-      </div>
+      >
+        <AppIcon icon={appIcons.product.completion} />
+        Record {milestone.name}
+      </Button>
     );
   }
 
+  const hasNote = hasRecordedStoryMilestoneNote(milestone);
+  const hasSnapshot = hasRecordedStoryMilestoneSnapshot(milestone);
+  const hasDecision = hasRecordedStoryMilestoneDecision(milestone);
+
   return (
-    <div className="grid gap-2 sm:grid-cols-2">
-      <Button
-        type="button"
-        variant={getStoryMilestoneRecordingActionVariant(hasRecordedNote)}
-        className={cn(
-          "w-full",
-          !hasSupportingAction && fullWidthActionClassName,
-        )}
-        onClick={() => onAction("note")}
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className={cn("w-full sm:w-auto", className)}
+          />
+        }
       >
-        <NotebookPen data-icon="inline-start" aria-hidden />
-        {hasRecordedNote ? "Update note" : "Add note"}
-      </Button>
-
-      {canRecordStoryMoment ? (
-        <Button
-          type="button"
-          variant={getStoryMilestoneRecordingActionVariant(hasRecordedSnapshot)}
-          className="w-full"
-          onClick={() => onAction("story-moment")}
-          aria-label={
-            hasRecordedSnapshot
-              ? "Replace the recorded team snapshot"
-              : undefined
-          }
-        >
-          <Camera data-icon="inline-start" aria-hidden />
-          {hasRecordedSnapshot ? "Snapshot recorded" : "Record snapshot"}
-        </Button>
-      ) : null}
-
-      {hasDecision ? (
-        <Button
-          type="button"
-          variant={getStoryMilestoneRecordingActionVariant(hasRecordedDecision)}
-          className="w-full"
-          onClick={() => onAction("decision")}
-        >
-          <GitFork data-icon="inline-start" aria-hidden />
-          {hasRecordedDecision ? "Update decision" : "Add decision"}
-        </Button>
-      ) : null}
-
-      <div className={cn("grid pt-1", fullWidthActionClassName)}>
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full"
+        <AppIcon icon={appIcons.actions.edit} inline="start" />
+        Edit
+        <AppIcon icon={appIcons.actions.expand} inline="end" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-auto min-w-56">
+        <DropdownMenuItem onClick={() => onAction("note")}>
+          <AppIcon icon={appIcons.actions.edit} />
+          {hasNote ? "Update note" : "Add note"}
+        </DropdownMenuItem>
+        {milestone.snapshotPolicySlug !== "none" ? (
+          <DropdownMenuItem onClick={() => onAction("story-moment")}>
+            <AppIcon icon={appIcons.product.team} />
+            {hasSnapshot ? "Update team snapshot" : "Record team snapshot"}
+          </DropdownMenuItem>
+        ) : null}
+        {milestone.decisionOptions.length ? (
+          <DropdownMenuItem onClick={() => onAction("decision")}>
+            <AppIcon icon={appIcons.product.activity} />
+            {hasDecision ? "Update decision" : "Add decision"}
+          </DropdownMenuItem>
+        ) : null}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          variant="destructive"
           onClick={() => onAction("incomplete")}
         >
-          <RotateCcw data-icon="inline-start" aria-hidden />
+          <AppIcon icon={appIcons.actions.retry} />
           Mark incomplete
-        </Button>
-      </div>
-    </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

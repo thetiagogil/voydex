@@ -15,6 +15,10 @@ import type { StoryMilestone } from "../../types";
 import { getStoryDecisionOptionSpanClassName } from "../../utils/story-decision-layout";
 import { StoryPokemonEvidence } from "./story-pokemon-evidence";
 
+/*
+ * The decision as choice cards, each with its radio ring showing, so the
+ * choice reads without relying on the card's tint.
+ */
 const StoryMilestoneDecisionRadioGroup = ({
   initialValue,
   milestone,
@@ -38,15 +42,18 @@ const StoryMilestoneDecisionRadioGroup = ({
           <FieldLabel
             key={option.id}
             className={cn(
-              "has-focus-visible:ring-ring/50 h-full cursor-pointer has-focus-visible:ring-3",
+              "h-full cursor-pointer",
               getStoryDecisionOptionSpanClassName(
                 milestone.decisionOptions.length,
                 optionIndex,
               ),
             )}
           >
-            <Field orientation="horizontal" className="min-h-16">
-              <RadioGroupItem className="sr-only" value={String(option.id)} />
+            <Field
+              orientation="horizontal"
+              className="min-h-16 gap-3 has-[>[data-slot=field-content]]:items-center"
+            >
+              <RadioGroupItem value={String(option.id)} />
               <FieldContent>
                 {option.speciesName ? (
                   <StoryPokemonEvidence
@@ -54,18 +61,18 @@ const StoryMilestoneDecisionRadioGroup = ({
                     name={option.speciesName}
                   />
                 ) : (
-                  <span className="text-sm font-semibold">{option.label}</span>
+                  <span className="text-15 font-extrabold">{option.label}</span>
                 )}
               </FieldContent>
             </Field>
           </FieldLabel>
         ))}
 
-        <FieldLabel className="has-focus-visible:ring-ring/50 col-span-full cursor-pointer has-focus-visible:ring-3">
-          <Field orientation="horizontal">
-            <RadioGroupItem className="sr-only" value="" />
+        <FieldLabel className="col-span-full cursor-pointer">
+          <Field orientation="horizontal" className="gap-3">
+            <RadioGroupItem value="" />
             <FieldContent>
-              <span className="text-sm font-semibold">Not recorded</span>
+              <span className="text-15 font-extrabold">Not recorded</span>
               <FieldDescription>
                 Keep the milestone without choosing an option.
               </FieldDescription>
