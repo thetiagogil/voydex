@@ -115,15 +115,6 @@ const getPokemonDetailGamePokemonMenuWithClient = async (
   });
 };
 
-export const getPokemonDetailGamePokemonMenu = async (
-  game: Game | null,
-  options: PokemonDetailGamePokemonMenuOptions = {},
-): Promise<PokemonDetailMenuPage> => {
-  const supabase = await createServerSupabaseClient();
-
-  return getPokemonDetailGamePokemonMenuWithClient(supabase, game, options);
-};
-
 export const getPokemonDetailGamePokemonMenuBySlug = async (
   gameSlug: string,
   options: PokemonDetailGamePokemonMenuOptions = {},

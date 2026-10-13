@@ -3,17 +3,12 @@ import Link from "next/link";
 import { cn } from "@/shared/utils/cn";
 import { PokemonDetailGameArtwork } from "@/modules/codex/features/pokemon/detail/components/generation-menu/pokemon-detail-game-artwork";
 import type { PokemonDetailGameNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   getNavigationMenuOptionClassName,
   NavigationMenuOption,
 } from "@/shared/components/navigation-menu/navigation-menu-option";
 import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
+import { StatusBadge } from "@/shared/components/status-badge";
 
 type PokemonDetailGenerationGameOptionProps = {
   game: PokemonDetailGameNavigationItem;
@@ -24,46 +19,24 @@ type PokemonDetailGenerationGameMobileOptionProps =
     onSelect?: () => void;
   };
 
-type GameAvailabilityTooltipProps = {
-  description: string;
-  label: string;
-  tone: "muted" | "warning";
-};
-
-const GameAvailabilityTooltip = ({
+/*
+ * Why a game is marked, as words the option itself owns: a small pill, with
+ * the full reason for screen readers. Nothing focusable sits inside the link.
+ */
+const GameAvailabilityMark = ({
   description,
   label,
   tone,
-}: GameAvailabilityTooltipProps) => {
-  const isWarning = tone === "warning";
-
+}: {
+  description: string;
+  label: string;
+  tone: "neutral" | "warn";
+}) => {
   return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <span
-            tabIndex={0}
-            role="img"
-            aria-label={label}
-            className={cn(
-              "focus-visible:ring-ring/50 inline-flex shrink-0 rounded-full outline-none focus-visible:ring-2",
-              isWarning
-                ? "text-warn-ink hover:text-warn-ink/90"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          />
-        }
-      >
-        <AppIcon
-          icon={isWarning ? appIcons.status.warning : appIcons.status.unknown}
-          size="sm"
-          aria-hidden
-        />
-      </TooltipTrigger>
-      <TooltipContent side="left" align="center" className="w-64">
-        {description}
-      </TooltipContent>
-    </Tooltip>
+    <StatusBadge tone={tone} className="shrink-0">
+      {label}
+      <span className="sr-only">: {description}</span>
+    </StatusBadge>
   );
 };
 
@@ -74,23 +47,23 @@ const getGameOptionLeading = (game: PokemonDetailGameNavigationItem) => {
 const getGameOptionTrailing = (game: PokemonDetailGameNavigationItem) => {
   if (game.availabilityKind === "dlc") {
     return (
-      <GameAvailabilityTooltip
+      <GameAvailabilityMark
         description={
           game.availabilityDescription ??
           "This Pokémon is only available through DLC for this game."
         }
-        label="DLC-only availability"
-        tone="warning"
+        label="DLC"
+        tone="warn"
       />
     );
   }
 
   if (game.availabilityKind === "unavailable" && !game.isActive) {
     return (
-      <GameAvailabilityTooltip
+      <GameAvailabilityMark
         description="This Pokémon does not appear in this game."
-        label="Unavailable game"
-        tone="muted"
+        label="Not in game"
+        tone="neutral"
       />
     );
   }
@@ -132,7 +105,8 @@ export const PokemonDetailGenerationGameMobileOption = ({
 }: PokemonDetailGenerationGameMobileOptionProps) => {
   const isMuted = !game.isAvailable;
   const optionClassName = cn(
-    "flex rounded-md text-sm transition-all",
+    "text-14 focus-visible:outline-focus flex transition-colors outline-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid",
+    game.isAvailable && !game.isActive && "hover:bg-hover",
     getNavigationMenuOptionClassName({
       active: game.isActive,
       muted: isMuted,

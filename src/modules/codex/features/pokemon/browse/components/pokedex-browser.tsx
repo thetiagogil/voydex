@@ -10,8 +10,8 @@ import {
 } from "react";
 
 import { PokedexFilterForm } from "@/modules/codex/features/pokemon/browse/components/pokedex-filter-form";
+import { PokedexGenerationFilter } from "@/modules/codex/features/pokemon/browse/components/pokedex-generation-filter";
 import { PokedexPokemonCard } from "@/modules/codex/features/pokemon/browse/components/pokedex-pokemon-card";
-import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
   filterPokedexPokemon,
   getSearchablePokedexPokemon,
@@ -20,15 +20,15 @@ import {
   defaultPokedexPageFilters,
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
-import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
-import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
+import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
-import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
+import { CodexTypeFilter } from "@/modules/codex/shared/components/codex-type-filter";
 import type {
   PokedexPageData,
   PokedexPageFilters,
 } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 
 type PokedexBrowserProps = {
@@ -37,6 +37,8 @@ type PokedexBrowserProps = {
 
 const INITIAL_VISIBLE_POKEMON = 96;
 const VISIBLE_POKEMON_INCREMENT = 48;
+
+const countFormat = new Intl.NumberFormat("en-US");
 
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -67,12 +69,15 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     [data.generations, visiblePokemon],
   );
 
-  const visiblePokemonIndexById = useMemo(
+  /* Each generation's heading counts every match, loaded or not. */
+  const filteredCountByGroupKey = useMemo(
     () =>
       new Map(
-        visiblePokemon.map((pokemon, index) => [pokemon.id, index] as const),
+        groupPokemonByGeneration(filteredPokemon, data.generations).map(
+          (group) => [group.key, group.pokemon.length] as const,
+        ),
       ),
-    [visiblePokemon],
+    [data.generations, filteredPokemon],
   );
 
   const hasActiveFilters = hasActivePokedexFilters(filters);
@@ -145,87 +150,95 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   return (
     <>
-      <PokedexFilterForm
-        filters={filters}
-        generations={data.generations}
-        onCategoryChange={(category) => {
-          updateFilter("category", category);
-        }}
-        onGenerationChange={(generation) => {
-          updateFilter("generation", generation);
-        }}
-        onQueryChange={(query) => {
-          updateFilter("query", query);
-        }}
-        onTypeChange={(type) => {
-          updateFilter("type", type);
-        }}
-        types={data.types}
+      <PageHeader
+        title="Pokémon"
+        description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
+        className="pt-5.5 sm:flex-wrap sm:pt-5.5"
+        action={
+          <PokedexGenerationFilter
+            generations={data.generations}
+            onValueChange={(generation) => {
+              updateFilter("generation", generation);
+            }}
+            value={filters.generation}
+          />
+        }
       />
 
-      <div className="flex min-h-8 flex-row items-center justify-between gap-3">
-        <CodexBrowseMeta>
-          <span>
-            Showing {visiblePokemon.length} of {filteredPokemon.length} Pokémon
-          </span>
-        </CodexBrowseMeta>
+      <div className="mt-5.5">
+        <PokedexFilterForm
+          category={filters.category}
+          onCategoryChange={(category) => {
+            updateFilter("category", category);
+          }}
+          onQueryChange={(query) => {
+            updateFilter("query", query);
+          }}
+          query={filters.query}
+        />
+      </div>
 
+      <div className="mt-3.5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <CodexTypeFilter
+          onValueChange={(type) => {
+            updateFilter("type", type);
+          }}
+          types={data.types}
+          value={filters.type}
+        />
         {hasActiveFilters ? (
-          <ClearFiltersButton
-            className="self-start sm:self-auto"
-            onClick={clearFilters}
-          />
+          <ClearFiltersButton onClick={clearFilters} />
         ) : null}
       </div>
 
-      {filteredPokemon.length ? (
-        <>
-          <div className="space-y-9">
-            {visiblePokemonGenerationGroups.map((group) => (
-              <CodexGenerationSection key={group.key} title={group.label}>
-                <CodexResourceGrid columns="pokemon">
-                  {group.pokemon.map((pokemon) => {
-                    const index = visiblePokemonIndexById.get(pokemon.id) ?? -1;
+      {/* Says how many match when the filters change, not as more load. */}
+      <p className="sr-only" aria-live="polite">
+        {countFormat.format(filteredPokemon.length)}{" "}
+        {filteredPokemon.length === 1 ? "Pokémon matches" : "Pokémon match"}
+      </p>
 
-                    return (
-                      <div key={pokemon.id} className="h-full">
-                        <PokedexPokemonCard
-                          pokemon={pokemon}
-                          priority={index > -1 && index < 4}
-                        />
-                      </div>
-                    );
-                  })}
-                </CodexResourceGrid>
-              </CodexGenerationSection>
-            ))}
-            {canLoadMore ? (
-              supportsAutomaticLoading ? (
-                <div
-                  ref={automaticLoadTriggerRef}
-                  className="h-px"
-                  aria-hidden
-                />
-              ) : (
-                <div className="flex justify-center pt-1">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    onClick={loadMorePokemon}
-                  >
-                    Show more Pokémon
-                  </Button>
+      {filteredPokemon.length ? (
+        <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">
+          {visiblePokemonGenerationGroups.map((group) => {
+            const matchCount = filteredCountByGroupKey.get(group.key) ?? 0;
+
+            return (
+              <CodexGenerationSection
+                key={group.key}
+                title={group.label}
+                meta={`${countFormat.format(matchCount)} Pokémon`}
+              >
+                <div className="grid min-w-0 grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+                  {group.pokemon.map((pokemon) => (
+                    <PokedexPokemonCard key={pokemon.id} pokemon={pokemon} />
+                  ))}
                 </div>
-              )
-            ) : null}
-          </div>
-        </>
+              </CodexGenerationSection>
+            );
+          })}
+          {canLoadMore ? (
+            supportsAutomaticLoading ? (
+              <div ref={automaticLoadTriggerRef} className="h-px" aria-hidden />
+            ) : (
+              <div className="flex justify-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={loadMorePokemon}
+                >
+                  Show more Pokémon
+                </Button>
+              </div>
+            )
+          ) : null}
+        </div>
       ) : (
-        <CodexEmptyState
-          title="No Pokémon found"
-          description="Try a different name or National Pokédex number."
-        />
+        <div className="mt-7.5 flex flex-col items-center gap-3 py-10 text-center">
+          <p className="text-ink-3 font-semibold">Nothing matches.</p>
+          {hasActiveFilters ? (
+            <ClearFiltersButton onClick={clearFilters} />
+          ) : null}
+        </div>
       )}
     </>
   );

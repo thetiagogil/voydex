@@ -14,39 +14,11 @@ import {
   getScopedPokedexEntries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scoped-rows";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import type {
-  Game,
-  PokemonDetailData,
-  PokemonGenerationDetail,
-  PokemonGenerationFormSummary,
-} from "@/modules/reference/types";
+import type { PokemonDetailData } from "@/modules/reference/types";
 import type {
   PokemonDetailScopeParams,
-  PokemonDetailVersionGroupScope,
   ResolvedPokemonDetailScope,
 } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-
-export const getPokemonDetailScopeQuery = (
-  generation: PokemonGenerationDetail,
-  versionGroup?: PokemonDetailVersionGroupScope | null,
-  game?: Game | null,
-  form?: PokemonGenerationFormSummary | null,
-) => {
-  const defaultVersionGroup =
-    versionGroup ??
-    getDefaultVersionGroup(
-      generation,
-      buildPokemonDetailVersionGroupScopes(generation),
-    );
-  const defaultGame = game ?? getDefaultGame(generation, defaultVersionGroup);
-
-  return {
-    form: form?.form.slug,
-    game: defaultGame?.slug,
-    generation: generation.generation.slug,
-    versionGroup: defaultVersionGroup?.versionGroup.slug,
-  } satisfies PokemonDetailScopeParams;
-};
 
 export const resolvePokemonDetailScope = (
   data: PokemonDetailData,

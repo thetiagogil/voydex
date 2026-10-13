@@ -6,8 +6,9 @@ import { cn } from "@/shared/utils/cn";
 import {
   PokemonDetailSpeciesSelectorGroupHeader,
   PokemonDetailSpeciesSelectorOptionContent,
+  pokemonDetailSpeciesSelectorActiveClassName,
+  pokemonDetailSpeciesSelectorTriggerClassName,
 } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
-import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
 import {
   getPokemonMenuEmptyLabel,
   type PokemonMenuLoadState,
@@ -30,7 +31,6 @@ type PokemonDetailSpeciesSelectorMobileProps = {
   activeGameSlug: string | null;
   activePokemon: {
     name: string;
-    nationalNumber: number;
     slug: string;
   };
   groupHeaderBySlug: Map<string, string>;
@@ -68,18 +68,23 @@ export const PokemonDetailSpeciesSelectorMobile = ({
           <Button
             variant="ghost"
             disabled={!activeGameSlug}
-            aria-label="Choose Pokémon"
-            className="hover:text-primary h-auto max-w-full justify-start gap-1 px-0 py-0 text-left text-2xl font-semibold tracking-normal hover:bg-transparent aria-expanded:bg-transparent sm:text-3xl md:hidden"
+            className={cn(
+              pokemonDetailSpeciesSelectorTriggerClassName,
+              "md:hidden",
+            )}
           />
         }
       >
-        <PokemonDetailSpeciesSelectorLabel pokemon={activePokemon} />
-        <AppIcon icon={appIcons.actions.expand} inline="end" aria-hidden />
+        <span className="sr-only">Choose another Pokémon. Now showing </span>
+        {activePokemon.name}
+        <AppIcon
+          icon={appIcons.actions.expand}
+          inline="end"
+          aria-hidden
+          className="text-ink-3"
+        />
       </SheetTrigger>
-      <SheetContent
-        side="bottom"
-        className="border-line bg-popover max-h-[86dvh] gap-0 rounded-t-xl p-0 md:hidden"
-      >
+      <SheetContent side="bottom" className="max-h-[86dvh] gap-0 p-0 md:hidden">
         <SheetHeader>
           <SheetTitle>Choose Pokémon</SheetTitle>
           <SheetDescription>
@@ -87,7 +92,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="border-border/50 border-y p-4">
+        <div className="border-line border-y px-4 py-3">
           <Input
             value={inputValue}
             onChange={(event) => {
@@ -107,7 +112,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
         >
           {loadState === "loading" ? (
             <div className="flex min-h-28 items-center justify-center">
-              <Spinner aria-label="Loading Pokémon" className="text-primary" />
+              <Spinner aria-label="Loading Pokémon" className="text-action" />
             </div>
           ) : pokemonItems.length ? (
             <div className="grid gap-1">
@@ -124,8 +129,8 @@ export const PokemonDetailSpeciesSelectorMobile = ({
                       variant="ghost"
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "h-auto min-h-14 w-full justify-start gap-3 p-2 text-left",
-                        isActive && "bg-accent text-accent-foreground",
+                        "text-ink h-auto min-h-14 w-full justify-start gap-3 rounded-sm p-2 text-left whitespace-normal",
+                        isActive && pokemonDetailSpeciesSelectorActiveClassName,
                       )}
                       onClick={() => {
                         navigateToPokemon(pokemonItem);
@@ -141,7 +146,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
               })}
             </div>
           ) : (
-            <p className="text-muted-foreground px-2 py-8 text-center text-sm">
+            <p className="text-14 text-ink-2 px-2 py-8 text-center font-semibold">
               {getPokemonMenuEmptyLabel(loadState, activeGameSlug)}
             </p>
           )}
@@ -150,7 +155,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
             <div className="flex justify-center py-3">
               <Spinner
                 aria-label="Loading more Pokémon"
-                className="text-primary"
+                className="text-action"
               />
             </div>
           ) : null}

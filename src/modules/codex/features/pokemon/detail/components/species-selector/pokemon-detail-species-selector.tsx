@@ -13,7 +13,6 @@ type PokemonDetailSpeciesSelectorProps = {
   activeGameSlug: string | null;
   activePokemon: {
     name: string;
-    nationalNumber: number;
     slug: string;
   };
 };
