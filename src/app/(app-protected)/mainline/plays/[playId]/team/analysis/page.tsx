@@ -7,13 +7,20 @@ type MainlinePlayTeamAnalysisRouteProps = {
   params: Promise<{
     playId: string;
   }>;
+  searchParams: Promise<{
+    reading?: string | string[];
+  }>;
 };
 
 export default async function MainlinePlayTeamAnalysisRoute({
   params,
+  searchParams,
 }: MainlinePlayTeamAnalysisRouteProps) {
-  const { playId } = await params;
-  const data = await getMainlinePlayTeamAnalysisData(playId);
+  const [{ playId }, { reading }] = await Promise.all([params, searchParams]);
+  const data = await getMainlinePlayTeamAnalysisData(
+    playId,
+    reading === "story" ? "story" : "overall",
+  );
 
   if (!data) {
     notFound();

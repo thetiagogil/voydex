@@ -4,6 +4,8 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import type { Generation, Type } from "@/modules/reference/types";
 
+import type { StoryMatchupsModel } from "./data/story-matchups-model";
+
 export type TeamAnalysisEffectiveness =
   | "immune"
   | "neutral"
@@ -74,8 +76,13 @@ export type TeamAnalysisModel = {
   members: MainlinePlayTeamMember[];
 };
 
+export type TeamAnalysisReading = "overall" | "story";
+
 export type MainlinePlayTeamAnalysisData = {
   analysis: TeamAnalysisModel | null;
+  reading: TeamAnalysisReading;
+  /* Read only for the Story matchups reading. */
+  storyMatchups: StoryMatchupsModel | null;
 };
 
 export type MainlinePlayTeamAnalysisRows = {

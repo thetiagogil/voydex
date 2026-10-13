@@ -1,7 +1,7 @@
+import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import type {
   MainlinePlayMilestone,
   MainlinePlayMilestoneCategorySummary,
-  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
 import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";

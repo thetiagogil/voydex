@@ -1,4 +1,7 @@
-import type { MainlinePlayTeamPlanRows } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayFollowablePlan,
+  MainlinePlayTeamPlanRows,
+} from "@/modules/mainline/features/plays/hub/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -71,4 +74,53 @@ export const readMainlinePlayTeamPlanRows = async (
     rows,
     types: typesResult?.data ?? [],
   };
+};
+
+/*
+ * Your Plans this Play could follow instead: the same game and version group
+ * (the link requires both), not archived, the latest changed first.
+ */
+export const readMainlinePlayFollowablePlans = async (
+  supabase: ServerSupabaseClient,
+  {
+    gameId,
+    userId,
+    versionGroupId,
+  }: {
+    gameId: number | null;
+    userId: string;
+    versionGroupId: number | null;
+  },
+): Promise<MainlinePlayFollowablePlan[]> => {
+  if (!gameId || !versionGroupId) {
+    return [];
+  }
+
+  const result = await supabase
+    .schema("views")
+    .from("mainline_team_plan_summary")
+    .select(
+      "team_plan_id, team_plan_name, member_count, status_slug, updated_at",
+    )
+    .eq("user_id", userId)
+    .eq("game_id", gameId)
+    .eq("version_group_id", versionGroupId)
+    .order("updated_at", { ascending: false });
+
+  if (result.error) {
+    throw new Error("Unable to load your Plans for this game.");
+  }
+
+  return (result.data ?? []).flatMap((row) =>
+    row.team_plan_id && row.status_slug !== "archived"
+      ? [
+          {
+            memberCount: row.member_count ?? 0,
+            name: row.team_plan_name ?? "Untitled Plan",
+            planId: row.team_plan_id,
+            updatedAt: row.updated_at,
+          },
+        ]
+      : [],
+  );
 };

@@ -4,6 +4,7 @@ import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   buildMainlinePlayOverviewData,
+  getMainlinePlayOverviewPartnerFormIds,
   buildMainlinePlayShellData,
   buildMainlinePlayTeamRosterData,
   buildMainlinePlayTeamPlanData,
@@ -12,6 +13,7 @@ import {
   readMainlinePlayOverviewMilestoneRows,
   readMainlinePlayOverview,
 } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-reader";
+import { readMainlinePlayOverviewPartnerRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-partner-reader";
 import { readMainlinePlayOverviewTeamRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-team-reader";
 import { readMainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/server/play-team-reader";
 import {
@@ -24,18 +26,26 @@ import type {
   MainlinePlayOverviewData,
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
-  MainlinePlayTeamHistoryData,
+  MainlinePlayHistoryData,
   MainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/types";
+import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/server/play-moment-context-reader";
 import {
   readMainlinePlayMilestoneTeamSnapshot,
-  readMainlinePlayTeamTimeline,
+  readMainlinePlayTimeline,
   readMainlinePlayTimelinePreview,
-} from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
-import { readMainlinePlayTeamPlanRows } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
+} from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
+import {
+  readMainlinePlayFollowablePlans,
+  readMainlinePlayTeamPlanRows,
+} from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
+import { readMainlinePlayStoryMatchupRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
 import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";
-import type { MainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import type {
+  MainlinePlayTeamAnalysisData,
+  TeamAnalysisReading,
+} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { readMainlinePlayStoryProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/server/story-progress-reader";
 import type { MainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import { readMainlinePlayPokedexProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/server/pokedex-progress-reader";
@@ -45,6 +55,8 @@ import {
   readMainlinePlayCollectiblesProgress,
 } from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/server/collectibles-progress-reader";
 import type { MainlinePlayProgressCollectiblesData } from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/types";
+import { readMainlinePlaySettings } from "@/modules/mainline/features/plays/hub/views/settings/server/play-settings-reader";
+import type { MainlinePlaySettingsData } from "@/modules/mainline/features/plays/hub/views/settings/types";
 import { isUuid } from "@/shared/utils/identifiers";
 
 const getMainlinePlayRequestContext = cache(async (playId: string) => {
@@ -115,10 +127,23 @@ export const getMainlinePlayOverviewData = cache(
         readMainlinePlayTimelinePreview(context.supabase, playId),
       ]);
 
+    const partnerFormIds = getMainlinePlayOverviewPartnerFormIds({
+      milestoneRows,
+      overview,
+      play: context.play,
+    });
+    const partnerRows = partnerFormIds.length
+      ? await readMainlinePlayOverviewPartnerRows(
+          context.supabase,
+          partnerFormIds,
+          context.play.generation_id,
+        )
+      : null;
     const data = buildMainlinePlayOverviewData({
       lastRecordedTeam: [],
       milestoneRows,
       overview,
+      partnerRows,
       play: context.play,
       teamPreviewRows,
       timelinePreview,
@@ -169,7 +194,7 @@ export const getMainlinePlayTeamPlanData = cache(
       return null;
     }
 
-    const [teamRows, teamPlanRows] = await Promise.all([
+    const [teamRows, teamPlanRows, followablePlans] = await Promise.all([
       readMainlinePlayTeamRows(
         context.supabase,
         playId,
@@ -182,9 +207,15 @@ export const getMainlinePlayTeamPlanData = cache(
         playId,
         context.play.generation_id,
       ),
+      readMainlinePlayFollowablePlans(context.supabase, {
+        gameId: context.play.game_id,
+        userId: context.userId,
+        versionGroupId: context.play.version_group_id,
+      }),
     ]);
 
     return buildMainlinePlayTeamPlanData({
+      followablePlans,
       play: context.play,
       teamPlanRows,
       teamRows,
@@ -193,38 +224,52 @@ export const getMainlinePlayTeamPlanData = cache(
 );
 
 export const getMainlinePlayTeamAnalysisData = cache(
-  async (playId: string): Promise<MainlinePlayTeamAnalysisData | null> => {
+  async (
+    playId: string,
+    reading: TeamAnalysisReading = "overall",
+  ): Promise<MainlinePlayTeamAnalysisData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
       return null;
     }
 
-    const rows = await readMainlinePlayTeamAnalysisRows(
-      context.supabase,
-      playId,
-      context.play.generation_id,
-      context.play.version_group_id,
-    );
+    const [rows, storyRows] = await Promise.all([
+      readMainlinePlayTeamAnalysisRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        context.play.version_group_id,
+      ),
+      reading === "story"
+        ? readMainlinePlayStoryMatchupRows(context.supabase, playId)
+        : null,
+    ]);
 
     return buildMainlinePlayTeamAnalysisData({
       play: context.play,
       rows,
+      storyRows,
     });
   },
 );
 
-export const getMainlinePlayTeamHistoryData = cache(
-  async (playId: string): Promise<MainlinePlayTeamHistoryData | null> => {
+export const getMainlinePlayHistoryData = cache(
+  async (playId: string): Promise<MainlinePlayHistoryData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
       return null;
     }
 
-    const events = await readMainlinePlayTeamTimeline(context.supabase, playId);
+    const events = await readMainlinePlayTimeline(context.supabase, playId);
+    const momentContext = await readMainlinePlayMomentContext(
+      context.supabase,
+      { events, generationId: context.play.generation_id, playId },
+    );
 
     return {
+      context: momentContext,
       events,
       play: context.play,
     };
@@ -285,6 +330,21 @@ export const getMainlinePlayProgressCollectiblesData = cache(
     return readMainlinePlayCollectiblesProgress(context.supabase, {
       gameName: context.play.game_name,
       playId,
+    });
+  },
+);
+
+export const getMainlinePlaySettingsData = cache(
+  async (playId: string): Promise<MainlinePlaySettingsData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    return readMainlinePlaySettings(context.supabase, {
+      playId,
+      userId: context.userId,
     });
   },
 );

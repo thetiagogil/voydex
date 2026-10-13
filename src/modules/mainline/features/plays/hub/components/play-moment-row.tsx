@@ -3,8 +3,8 @@ import { Fragment, type ReactNode } from "react";
 import {
   getPlayMomentRecord,
   type PlayMomentContext,
-} from "@/modules/mainline/features/plays/hub/data/play-moment-record";
-import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/data/play-moment-record";
+import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 
 type PlayMomentRowProps = {

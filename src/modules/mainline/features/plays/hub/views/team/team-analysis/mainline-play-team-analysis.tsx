@@ -10,6 +10,7 @@ import { joinTeamAnalysisList } from "./data/team-analysis-health";
 import { TeamAnalysisDefensiveSection } from "./sections/defensive-matchups/team-analysis-defensive-section";
 import { TeamAnalysisMoveCoverageSection } from "./sections/move-coverage/team-analysis-move-coverage-section";
 import { TeamAnalysisPageHead } from "./sections/page-head/team-analysis-page-head";
+import { StoryMatchupsSection } from "./sections/story-matchups/story-matchups-section";
 import { TeamAnalysisHealthSection } from "./sections/team-health/team-analysis-health-section";
 
 type MainlinePlayTeamAnalysisProps = {
@@ -25,18 +26,37 @@ const emptyTeamArtUrl = getPokemonFormImageUrl({
 /*
  * Team analysis is a tool, so it stays quiet: four health cards (Team health
  * first), then the defensive matrix and the move coverage. Only the data keeps
- * its colour: matchup tints, type colours and the Pokémon themselves.
+ * its colour: matchup tints, type colours and the Pokémon themselves. The
+ * Story matchups reading lists the battles of the Story instead.
  */
 export const MainlinePlayTeamAnalysis = ({
   data,
   playId,
 }: MainlinePlayTeamAnalysisProps) => {
-  const { analysis } = data;
+  const { analysis, storyMatchups } = data;
+
+  if (data.reading === "story" && storyMatchups) {
+    return (
+      <div className="grid min-w-0 gap-6 sm:gap-7">
+        <TeamAnalysisPageHead
+          description={`${analysis?.lineupLabel ?? "Active team"} · ${storyMatchups.wonCount} of ${storyMatchups.battleCount} battles won`}
+          playId={playId}
+          reading="story"
+          showReadingSwitch
+        />
+        <StoryMatchupsSection model={storyMatchups} />
+      </div>
+    );
+  }
 
   if (!analysis || analysis.members.length === 0) {
     return (
       <div className="grid min-w-0 gap-6 sm:gap-7">
-        <TeamAnalysisPageHead description="How your team holds up" />
+        <TeamAnalysisPageHead
+          description="How your team holds up"
+          playId={playId}
+          showReadingSwitch={Boolean(analysis)}
+        />
         <EmptyState
           artUrl={emptyTeamArtUrl}
           title={
@@ -75,6 +95,7 @@ export const MainlinePlayTeamAnalysis = ({
       <div className="grid min-w-0 gap-6 sm:gap-7">
         <TeamAnalysisPageHead
           description={`${analysis.lineupLabel} · ${evidence.activeCount} Pokémon · ${evidence.recordedMoveCount} of ${evidence.possibleMoveCount} moves recorded`}
+          playId={playId}
           showReadingSwitch
         />
         <TeamAnalysisHealthSection metrics={analysis.healthMetrics} />

@@ -1,4 +1,7 @@
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  MainlinePlaySummary,
+  MainlinePlayTimelineEvent,
+} from "@/modules/mainline/features/plays/shared/types";
 import type {
   AbilityAttribute,
   Game,
@@ -16,6 +19,8 @@ import type {
   OverviewAheadMilestone,
   OverviewMilestone,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
+import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
@@ -28,8 +33,6 @@ export type MainlinePlayMilestoneCategorySummary =
 export type MainlinePlayOverview = ViewRow<"mainline_play_overview">;
 export type MainlinePlayTeamMemberRow = ViewRow<"mainline_play_team_detail">;
 export type MainlinePlayTeamPlanRow = ViewRow<"mainline_play_team_plan_detail">;
-export type MainlinePlayTimelineEvent =
-  ViewRow<"mainline_play_timeline_detail">;
 export type MainlinePlayPokemonType = Type;
 
 export type MainlinePlayTeamMove = {
@@ -188,7 +191,8 @@ export type MainlinePlayTeamPlanSummary = {
   mechanics: GameMechanicsProfile;
   notes: string | null;
   offPlanCount: number;
-  offPlanMemberNames: string[];
+  /* Recorded in the Play, but not matched to any of the Plan's targets. */
+  offPlanMembers: MainlinePlayTeamMember[];
   planId: string;
   planName: string;
   statusName: string;
@@ -209,6 +213,8 @@ export type MainlinePlayShellData = {
 export type MainlinePlayOverviewData = {
   aheadMilestones: OverviewAheadMilestone[];
   badgeCase: BadgeCase | null;
+  /* A brand-new Play opens on its partner choice and first steps. */
+  freshPlay: OverviewFreshPlay | null;
   lastCompletedMilestone: OverviewMilestone | null;
   /* "Your team then": the team saved with the last milestone recorded. */
   lastRecordedTeam: PlayTeamSnapshotMember[];
@@ -226,11 +232,24 @@ export type MainlinePlayTeamRosterData = {
   roster: MainlinePlayTeamMember[];
 };
 
-export type MainlinePlayTeamPlanData = {
-  teamPlan: MainlinePlayTeamPlanSummary | null;
+/* One of your Plans this Play could follow: same game and version group. */
+export type MainlinePlayFollowablePlan = {
+  memberCount: number;
+  name: string;
+  planId: string;
+  updatedAt: string | null;
 };
 
-export type MainlinePlayTeamHistoryData = {
+export type MainlinePlayTeamPlanData = {
+  /* Your other Plans for this game, for "Follow a different Plan". */
+  followablePlans: MainlinePlayFollowablePlan[];
+  teamPlan: MainlinePlayTeamPlanSummary | null;
+  versionGroupSlug: string | null;
+};
+
+export type MainlinePlayHistoryData = {
+  /* Badge and form types for the moments' medallions. */
+  context: PlayMomentContextEntries;
   events: MainlinePlayTimelineEvent[];
   play: MainlinePlaySummary;
 };

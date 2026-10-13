@@ -11,9 +11,11 @@ import type {
 import { appRoutes } from "@/config/routes";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 
 import { TeamPlanCompareDialog } from "./sections/compare/team-plan-compare-dialog";
+import { TeamPlanFollowMenu } from "./sections/head/team-plan-follow-menu";
 import { TeamPlanSharedTip } from "./sections/head/team-plan-head";
 import { TeamPlanOffPlanSection } from "./sections/off-plan/team-plan-off-plan-section";
 import { TeamPlanSummarySection } from "./sections/summary/team-plan-summary-section";
@@ -43,18 +45,41 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
           title="Plan"
           description="The team you're aiming for"
           className="pt-0 sm:pt-0"
+          action={
+            <TeamPlanFollowMenu
+              currentPlanId={null}
+              label="Follow a Plan"
+              plans={data.followablePlans}
+              playId={playId}
+            />
+          }
         />
         <EmptyState
+          headingLevel="h2"
           title="No Plan yet"
-          description="A Plan is the team you're aiming for in this Play. Once this Play follows one, this page shows how close your team is."
+          description="A Plan is the team you're aiming for in this Play. Make one in the Team Planner and follow it here to see how close your team is."
           action={
-            <Button
-              variant="outline"
-              render={<Link href={appRoutes.mainlinePlayTeam(playId)} />}
-              nativeButton={false}
-            >
-              Open your team
-            </Button>
+            <>
+              <Button
+                render={
+                  <Link
+                    href={appRoutes.mainlinePlanNew(
+                      data.versionGroupSlug ?? undefined,
+                    )}
+                  />
+                }
+                nativeButton={false}
+              >
+                Plan a team
+              </Button>
+              <Button
+                variant="outline"
+                render={<Link href={appRoutes.mainlinePlayTeam(playId)} />}
+                nativeButton={false}
+              >
+                Open your team
+              </Button>
+            </>
           }
         />
       </div>
@@ -75,9 +100,28 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
                 {plan.foundCount} of {plan.targetCount}
               </b>{" "}
               targets recorded ·{" "}
-              <span className="tabular-nums">{plan.exactMatchCount}</span> exact{" "}
-              <TeamPlanSharedTip linkedPlayCount={plan.linkedPlayCount} />
+              <span className="tabular-nums">{plan.exactMatchCount}</span> exact
             </>
+          }
+          action={
+            <div className="flex flex-wrap items-center gap-2.5 sm:justify-end">
+              <TeamPlanFollowMenu
+                currentPlanId={plan.planId}
+                plans={data.followablePlans}
+                playId={playId}
+              />
+              <span className="inline-flex items-center gap-2">
+                <Button
+                  size="sm"
+                  render={<Link href={appRoutes.mainlinePlan(plan.planId)} />}
+                  nativeButton={false}
+                >
+                  <AppIcon icon={appIcons.actions.edit} inline="start" />
+                  Edit in Team Planner
+                </Button>
+                <TeamPlanSharedTip linkedPlayCount={plan.linkedPlayCount} />
+              </span>
+            </div>
           }
         />
         <TeamPlanSummarySection plan={plan} />
@@ -92,8 +136,12 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
         }}
       />
 
-      {plan.offPlanMemberNames.length ? (
-        <TeamPlanOffPlanSection names={plan.offPlanMemberNames} />
+      {plan.offPlanMembers.some(
+        (member) =>
+          member.roster_state_slug === "active" ||
+          member.roster_state_slug === "reserve",
+      ) ? (
+        <TeamPlanOffPlanSection members={plan.offPlanMembers} />
       ) : null}
 
       <TeamPlanCompareDialog

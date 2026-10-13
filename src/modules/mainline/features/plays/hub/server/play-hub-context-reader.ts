@@ -5,6 +5,11 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
+/*
+ * The Play the hub opens, archived or not: an archived Play still opens (from
+ * Collection or the Plays page's Archived list) and shows its banner with
+ * Restore.
+ */
 export const readMainlinePlaySummary = async (
   supabase: ServerSupabaseClient,
   userId: string,
@@ -16,7 +21,6 @@ export const readMainlinePlaySummary = async (
     .select("*")
     .eq("user_id", userId)
     .eq("play_id", playId)
-    .is("archived_at", null)
     .maybeSingle();
 
   if (playResult.error) {

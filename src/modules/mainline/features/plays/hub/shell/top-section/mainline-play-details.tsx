@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import {
@@ -100,6 +102,32 @@ const PlayDetailRows = ({ rows }: { rows: PlayDetailRow[] }) => (
   </dl>
 );
 
+/* v3 `.pd-acts`: the way on to the Play's settings, under its facts. */
+const PlaySettingsLink = ({
+  onNavigate,
+  playId,
+}: {
+  onNavigate: () => void;
+  playId: string;
+}) => (
+  <div className="border-line mt-1 border-t pt-3">
+    <Button
+      variant="outline"
+      size="sm"
+      nativeButton={false}
+      render={
+        <Link
+          href={appRoutes.mainlinePlaySettings(playId)}
+          onClick={onNavigate}
+        />
+      }
+    >
+      <AppIcon icon={appIcons.actions.settings} inline="start" />
+      Play settings
+    </Button>
+  </div>
+);
+
 /*
  * The header's Play details button (v3 `.ph-aside`): a flyout under it on
  * wide screens, a bottom sheet on phones, where it shrinks to a round "i" in
@@ -113,6 +141,12 @@ export const MainlinePlayDetails = ({
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const rows = getPlayDetailRows(data);
+  const settingsLink = data.play.play_id ? (
+    <PlaySettingsLink
+      onNavigate={() => setIsOpen(false)}
+      playId={data.play.play_id}
+    />
+  ) : null;
   const trigger = (
     <Button
       type="button"
@@ -140,6 +174,7 @@ export const MainlinePlayDetails = ({
         trigger={trigger}
       >
         <PlayDetailRows rows={rows} />
+        {settingsLink}
       </BottomSheet>
     );
   }
@@ -150,6 +185,7 @@ export const MainlinePlayDetails = ({
       <PopoverContent align="end" sideOffset={8} className="w-80 px-4 py-3.5">
         <PopoverTitle className="sr-only">Play details</PopoverTitle>
         <PlayDetailRows rows={rows} />
+        {settingsLink}
       </PopoverContent>
     </Popover>
   );

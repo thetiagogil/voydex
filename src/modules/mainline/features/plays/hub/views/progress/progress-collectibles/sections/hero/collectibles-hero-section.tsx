@@ -1,4 +1,5 @@
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PendingData } from "@/shared/components/pending-data";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
 
@@ -7,7 +8,8 @@ import { getCollectibleGroupCounts } from "../../utils/collectibles-progress-mod
 
 /*
  * The hero: the collectible on its gold tile (the loud part), how many are
- * found, the bar in the game's colour, and what's left.
+ * found, the bar in the game's colour, what's left and (once Voydex knows
+ * it) the reward for finding them all.
  */
 export const CollectiblesHeroSection = ({
   areaCount,
@@ -76,6 +78,11 @@ export const CollectiblesHeroSection = ({
                 of {areaCount} areas complete
               </span>
             ) : null}
+            {/* TODO(v3-data): reward text per collectible set (v3 "Find all 150 for the Alolan Diglett reward"); `tracking.mainline_collectibles` has no reward column. */}
+            <span className="inline-flex items-center gap-2">
+              Reward
+              <PendingData variant="inline" label="Not in Voydex yet" />
+            </span>
           </p>
         </div>
       </Card>

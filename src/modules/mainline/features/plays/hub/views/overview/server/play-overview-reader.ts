@@ -43,7 +43,7 @@ export const readMainlinePlayOverviewMilestoneRows = async (
       .schema("views")
       .from("mainline_play_milestone_detail")
       .select(
-        "badge_refs, category_id, category_name, completed_at, description, is_completed, is_required_for_completion, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, prerequisites, sort_order, version_group_id",
+        "badge_refs, category_id, category_name, completed_at, decision_options, description, is_completed, is_required_for_completion, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, prerequisites, selected_decision_option_id, sort_order, version_group_id",
       )
       .eq("play_id", playId),
   ]);

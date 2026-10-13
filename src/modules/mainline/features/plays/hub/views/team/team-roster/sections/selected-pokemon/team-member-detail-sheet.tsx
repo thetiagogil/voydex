@@ -9,34 +9,32 @@ import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
-import {
-  TeamMemberActions,
-  TeamMemberMoreActions,
-} from "./team-member-actions";
+import { TeamMemberActions } from "./team-member-actions";
 import {
   TeamMemberProfile,
   teamMemberNameClassName,
 } from "./team-member-profile";
 
 type TeamMemberDetailSheetProps = {
-  versionGroupSlug: string | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
+  onEdit: () => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
+  versionGroupSlug: string | null;
 };
 
 /*
- * On phones and tablets the selected Pokémon opens in a bottom sheet: Edit and
- * Open in Codex pinned to the foot, the editor's actions beside the close
- * button.
+ * On phones and tablets the selected Pokémon opens in a bottom sheet, Edit
+ * and Open in Codex pinned to the foot.
  */
 export const TeamMemberDetailSheet = ({
-  versionGroupSlug,
   mechanics,
   member,
+  onEdit,
   onOpenChange,
   open,
+  versionGroupSlug,
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const name = member ? getPlayTeamMemberName(member) : "Team member";
@@ -48,21 +46,13 @@ export const TeamMemberDetailSheet = ({
       initialFocus={titleRef}
       label={name}
       bodyClassName="px-[18px] pt-1.5 sm:px-5"
-      actions={
-        member ? (
-          <TeamMemberMoreActions
-            member={member}
-            variant="ghost"
-            className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink size-10 rounded-full"
-          />
-        ) : undefined
-      }
       footer={
         member ? (
           <TeamMemberActions
-            versionGroupSlug={versionGroupSlug}
             member={member}
+            onEdit={onEdit}
             stretch
+            versionGroupSlug={versionGroupSlug}
           />
         ) : undefined
       }

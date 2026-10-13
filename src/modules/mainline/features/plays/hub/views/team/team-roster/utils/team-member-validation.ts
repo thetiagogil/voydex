@@ -133,3 +133,86 @@ export const validateAddMainlinePlayPokemon = (
     nickname,
   };
 };
+
+/* What the Pokémon editor saves; ids are null when not recorded. */
+export type UpdateMainlinePlayPokemonInput = {
+  abilityId: number | null;
+  ballItemId: number | null;
+  gender: MainlineTeamGender;
+  heldItemId: number | null;
+  isShiny: boolean;
+  level: number | null;
+  metLevel: number | null;
+  metLocation: string | null;
+  /* In slot order; at most four, each once. */
+  moveIds: number[];
+  natureId: number | null;
+  nickname: string | null;
+  notes: string | null;
+};
+
+const assertOptionalId = (value: number | null, label: string) => {
+  if (value !== null) {
+    assertIntegerInRange(value, label, 1, Number.MAX_SAFE_INTEGER);
+  }
+};
+
+/*
+ * The editor's fields as the database takes them: trimmed text within its
+ * limits, levels from 1 to 100, real ids, and up to four distinct moves.
+ */
+export const validateUpdateMainlinePlayPokemon = (
+  input: UpdateMainlinePlayPokemonInput,
+): UpdateMainlinePlayPokemonInput => {
+  const nickname = normalizeOptionalText(input.nickname);
+  const metLocation = normalizeOptionalText(input.metLocation);
+  const notes = normalizeOptionalText(input.notes);
+
+  assertOptionalTextLength(nickname, "Nickname", 100);
+  assertOptionalTextLength(metLocation, "Met location", 200);
+  assertOptionalTextLength(notes, "Notes", 5000);
+
+  if (input.level !== null) {
+    assertIntegerInRange(input.level, "Level", 1, 100);
+  }
+
+  if (input.metLevel !== null) {
+    assertIntegerInRange(input.metLevel, "Met level", 1, 100);
+  }
+
+  if (
+    input.gender !== "female" &&
+    input.gender !== "genderless" &&
+    input.gender !== "male" &&
+    input.gender !== "unknown"
+  ) {
+    throw new MainlineTeamValidationError("Pick a gender from the list.");
+  }
+
+  assertOptionalId(input.natureId, "Nature");
+  assertOptionalId(input.abilityId, "Ability");
+  assertOptionalId(input.heldItemId, "Held item");
+  assertOptionalId(input.ballItemId, "Poké Ball");
+
+  if (input.moveIds.length > 4) {
+    throw new MainlineTeamValidationError(
+      "A team member can have at most four moves.",
+    );
+  }
+
+  if (new Set(input.moveIds).size !== input.moveIds.length) {
+    throw new MainlineTeamValidationError("A move can only be known once.");
+  }
+
+  input.moveIds.forEach((moveId) => {
+    assertIntegerInRange(moveId, "Move", 1, Number.MAX_SAFE_INTEGER);
+  });
+
+  return {
+    ...input,
+    isShiny: input.isShiny === true,
+    metLocation,
+    nickname,
+    notes,
+  };
+};

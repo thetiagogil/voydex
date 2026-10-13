@@ -1,3 +1,4 @@
+import { MainlinePlayArchivedBanner } from "@/modules/mainline/features/plays/hub/shell/mainline-play-archived-banner";
 import { MainlinePlayDockedBar } from "@/modules/mainline/features/plays/hub/shell/mainline-play-docked-bar";
 import { MainlinePlayGameColourRoot } from "@/modules/mainline/features/plays/hub/shell/mainline-play-game-colour-root";
 import { MainlinePlayNavigation } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation";
@@ -52,7 +53,15 @@ export const MainlinePlayShell = ({
         />
       </MainlinePlayDockedBar>
 
-      <div className="flex min-w-0 flex-col gap-6">{children}</div>
+      <div className="flex min-w-0 flex-col gap-6">
+        {data.play.archived_at ? (
+          <MainlinePlayArchivedBanner
+            playId={playId}
+            playName={data.play.play_name ?? "Untitled Play"}
+          />
+        ) : null}
+        {children}
+      </div>
     </div>
   );
 };

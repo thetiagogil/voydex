@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
+import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
 import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
 
@@ -92,6 +93,7 @@ export const MainlinePlayProgressStory = ({
   const [slappingMilestoneId, setSlappingMilestoneId] = useState<number | null>(
     null,
   );
+  const recording = useRecordMilestone(playId);
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
     defaultScope ??
@@ -149,10 +151,30 @@ export const MainlinePlayProgressStory = ({
     setQuery(nextQuery);
   };
 
+  const startRecordingReward = (milestoneId: number) => {
+    setPoppingMilestoneId(milestoneId);
+    setSlappingMilestoneId(milestoneId);
+    setSelectedMilestoneId(null);
+  };
+
+  /*
+   * Record is one tap (v3): the milestone is recorded where you are, its row
+   * pops and its stamp slaps, and the toast offers Undo. A choice milestone
+   * still opens the form, since its choice has to be made.
+   */
   const openEditor = (
     milestone: StoryMilestone,
     intent: StoryMilestoneActionIntent,
   ) => {
+    if (intent === "complete" && !milestone.decisionOptions.length) {
+      setIsDetailSheetOpen(false);
+      recording.record(
+        { id: milestone.id, name: milestone.name },
+        { onRecorded: startRecordingReward },
+      );
+      return;
+    }
+
     setIsDetailSheetOpen(false);
     setEditorMilestoneId(milestone.id);
     setEditorIntent(intent);
@@ -163,9 +185,7 @@ export const MainlinePlayProgressStory = ({
     setIsEditorOpen(false);
 
     if (editorIntent === "complete" && editorMilestone) {
-      setPoppingMilestoneId(editorMilestone.id);
-      setSlappingMilestoneId(editorMilestone.id);
-      setSelectedMilestoneId(null);
+      startRecordingReward(editorMilestone.id);
       toast.success(`${editorMilestone.name} recorded`);
       return;
     }

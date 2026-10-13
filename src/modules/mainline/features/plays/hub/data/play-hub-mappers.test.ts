@@ -56,6 +56,7 @@ describe("Play page data mappers", () => {
       lastRecordedTeam: [],
       milestoneRows: { categories: [], milestones: [], types: [] },
       overview: null,
+      partnerRows: null,
       play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
       teamPreviewRows: {
         attributes: [],
@@ -118,7 +119,11 @@ describe("Play page data mappers", () => {
       },
     });
 
-    expect(data).toEqual({ teamPlan: null });
+    expect(data).toEqual({
+      followablePlans: [],
+      teamPlan: null,
+      versionGroupSlug: null,
+    });
     expect(data).not.toHaveProperty("teamTimelinePreview");
   });
 });
