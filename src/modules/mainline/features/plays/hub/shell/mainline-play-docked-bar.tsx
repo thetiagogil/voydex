@@ -71,7 +71,7 @@ export const MainlinePlayDockedBar = ({
         aria-hidden={!isDocked}
         inert={!isDocked}
         className={cn(
-          "fixed inset-x-0 top-0 z-30 transition-[transform,opacity,visibility] duration-200 ease-out",
+          "fixed inset-x-0 top-0 z-30 transition-[translate,opacity,visibility] duration-200 ease-out",
           isDocked
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-[calc(100%+16px)] opacity-0",

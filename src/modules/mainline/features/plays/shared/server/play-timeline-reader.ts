@@ -46,6 +46,7 @@ const hydrateTimelineEventImages = async (
 export const readMainlinePlayTimelinePreview = async (
   supabase: ServerSupabaseClient,
   playId: string,
+  limit = 5,
 ): Promise<MainlinePlayTimelineEvent[]> => {
   const timelineResult = await supabase
     .schema("views")
@@ -54,7 +55,7 @@ export const readMainlinePlayTimelinePreview = async (
     .eq("play_id", playId)
     .order("timeline_order", { ascending: false })
     .order("happened_at", { ascending: false })
-    .limit(5);
+    .limit(limit);
 
   if (timelineResult.error) {
     throw new Error("Unable to load Mainline play timeline preview.");

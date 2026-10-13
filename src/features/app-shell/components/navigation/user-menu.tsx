@@ -47,7 +47,7 @@ export const UserMenu = ({ account }: UserMenuProps) => {
           <button
             type="button"
             aria-label="You"
-            className="hover:bg-surface-2 aria-expanded:bg-surface-2 grid size-11 place-items-center rounded-full transition-colors"
+            className="grid size-11 place-items-center rounded-full transition-colors hover:bg-(--bar-hover) aria-expanded:bg-(--bar-hover)"
           />
         }
       >

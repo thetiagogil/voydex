@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import { BandTintRoot } from "@/shared/components/band-tint-root";
 import { cn } from "@/shared/utils/cn";
 
 const hillShape = "rounded-[50%_50%_0_0/100%_100%_0_0]";
@@ -26,6 +27,7 @@ type MeadowSceneProps = {
   /*
    * Wears the game colour (set `game-scope` and its style): the sky takes the
    * game's soft tint and the hills lean toward it. Otherwise the plain sky.
+   * A tinted band also tints the top bar sitting on it (`BandTintRoot`).
    */
   tinted?: boolean;
   /* Everything on the sky above the hills: the heading, a shelf. */
@@ -67,6 +69,7 @@ export const MeadowScene = ({
         className,
       )}
     >
+      {tinted && form === "band" ? <BandTintRoot /> : null}
       {children ? (
         <div
           className={cn(

@@ -49,7 +49,8 @@ const getCopy = (mode: AuthMode, intent: StartIntentPreview | null) => {
           lede: "Create your account and your first Play will be ready.",
           pendingLabel: "Creating account...",
           submit: "Create account and start",
-          title: `Start your ${intent.gameShortName} journey`,
+          /* The game is on the card below, so the title stays the same. */
+          title: "Start your journey",
         }
       : {
           lede: "Keep every playthrough in one place.",
@@ -104,22 +105,6 @@ export const AuthPanel = ({
           changeHref={getStartPlayHref({ gameSlug: intentValue.gameSlug })}
         />
       ) : null}
-      {error ? (
-        <AuthErrorAlert
-          error={error}
-          description={
-            error === "email-taken" && preview
-              ? `Log in instead and your ${preview.gameShortName} Play will be ready.`
-              : undefined
-          }
-          links={{
-            "forgot-password": getForgotPasswordHref({ next }),
-            "log-in": isSignUp
-              ? getAuthPageHref({ intent: intentValue, mode: "log-in", next })
-              : undefined,
-          }}
-        />
-      ) : null}
       <form action={action} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />
         <StartIntentFields intent={intentValue} />
@@ -164,6 +149,22 @@ export const AuthPanel = ({
             </FieldDescription>
           ) : null}
         </Field>
+        {error ? (
+          <AuthErrorAlert
+            error={error}
+            description={
+              error === "email-taken" && preview
+                ? `Log in instead and your ${preview.gameShortName} Play will be ready.`
+                : undefined
+            }
+            links={{
+              "forgot-password": getForgotPasswordHref({ next }),
+              "log-in": isSignUp
+                ? getAuthPageHref({ intent: intentValue, mode: "log-in", next })
+                : undefined,
+            }}
+          />
+        ) : null}
         <AuthSubmitButton
           label={copy.submit}
           pendingLabel={copy.pendingLabel}

@@ -73,6 +73,7 @@ export const MeadowPartners = ({
           <Link
             key={partner.sprite_slug}
             href={getStartPlayHref({ generation: partner.generation })}
+            data-generation={partner.generation}
             aria-label={`${partner.name}: show the Generation ${romanNumerals[partner.generation - 1]} games`}
             style={getPartnerStyle(index, partner.scale)}
             className={cn(

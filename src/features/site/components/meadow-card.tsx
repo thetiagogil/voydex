@@ -1,12 +1,14 @@
 import type { CSSProperties, ReactNode } from "react";
 
-import type { PublicArt } from "@/config/public-art";
-import { MeadowPartners } from "@/features/site/components/meadow-partners";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { cn } from "@/shared/utils/cn";
 
 type MeadowCardProps = {
-  art: PublicArt;
+  /*
+   * Who stands on the hill: the first partners (`MeadowPartners`), or a
+   * picked game's starters on Start a Play.
+   */
+  cast: ReactNode;
   children: ReactNode;
   /*
    * `band` is Home's and Start a Play's: it opens the page, edge to edge
@@ -23,32 +25,20 @@ type MeadowCardProps = {
   gameStyle?: CSSProperties;
   /* What stands on the band's ground strip, such as Start a Play's line and button. */
   ground?: ReactNode;
-  /* Above the fold the partners load straight away. */
-  loading?: "eager" | "lazy";
-  /*
-   * The partners open Start a Play at their generation (v3: tapping one
-   * jumps the shelf there); elsewhere they just stand on the hill.
-   */
-  partnersOpenStart?: boolean;
-  /* Stands on the hill instead of the first partners, such as a game's starters. */
-  scene?: ReactNode;
   titleId: string;
 };
 
 /*
  * The site's meadow, on the shared `MeadowScene`: a front door's one loud
- * thing. The copy sits on the sky, and one first partner per generation
- * stands on the hill below it, popping in once per visit.
+ * thing. The copy sits on the sky, and its cast (usually one first partner
+ * per generation, popping in once per visit) stands on the hill below it.
  */
 export const MeadowCard = ({
-  art,
+  cast,
   children,
   form = "card",
   gameStyle,
   ground,
-  loading = "lazy",
-  partnersOpenStart = false,
-  scene,
   titleId,
 }: MeadowCardProps) => {
   const band = form === "band";
@@ -64,15 +54,7 @@ export const MeadowCard = ({
           gameStyle && "game-scope",
         )}
         sceneClassName={cn("sm:h-[206px]", band ? "h-40" : "h-[150px]")}
-        cast={
-          scene ?? (
-            <MeadowPartners
-              art={art}
-              loading={loading}
-              openStart={partnersOpenStart}
-            />
-          )
-        }
+        cast={cast}
         ground={ground}
       >
         <div

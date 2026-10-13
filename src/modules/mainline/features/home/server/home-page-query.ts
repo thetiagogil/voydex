@@ -146,13 +146,23 @@ const readPartnerChoice = async (
     : null;
 };
 
-/* The current Play's latest five moments, oldest first, as Home draws them. */
+const HOME_MOMENT_COUNT = 5;
+
+/*
+ * The current Play's latest five moments, oldest first, as Home draws them,
+ * and whether anything was recorded before them (one more is read to tell).
+ */
 const readHomeMoments = async (
   supabase: ServerSupabaseClient,
   play: PlayBrowseItem,
 ): Promise<HomeMomentsData> => {
   const playId = play.play_id ?? "";
-  const events = await readMainlinePlayTimelinePreview(supabase, playId);
+  const read = await readMainlinePlayTimelinePreview(
+    supabase,
+    playId,
+    HOME_MOMENT_COUNT + 1,
+  );
+  const events = read.slice(0, HOME_MOMENT_COUNT);
   const context = await readMainlinePlayMomentContext(supabase, {
     events,
     generationId: play.generation_id,
@@ -165,6 +175,7 @@ const readHomeMoments = async (
     events: events
       .filter((event) => event.event_type_slug !== "status_change")
       .toReversed(),
+    hasEarlier: read.length > HOME_MOMENT_COUNT,
   };
 };
 

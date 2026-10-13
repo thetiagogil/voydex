@@ -25,6 +25,32 @@ export const startIntentParams = {
   partner: "partner",
 } as const;
 
+/*
+ * Start a Play keeps its picks in the address without asking the server
+ * again: `history.replaceState` (which Next.js mirrors into
+ * `useSearchParams`), so a pick shows at once and a reload or a shared link
+ * opens the same place.
+ */
+export const replaceStartAddress = (href: string) => {
+  window.history.replaceState(null, "", href);
+};
+
+/*
+ * Tapping one of Start a Play's first partners asks the shelf to jump to its
+ * generation: the shelf (the reference module's) listens for this event, the
+ * meadow (the site's) sends it, with the generation number as its detail.
+ */
+export const START_GENERATION_EVENT = "voydex:start-generation";
+
+/* A generation number from the address (`?gen=`); undefined for anything else. */
+export const readStartGeneration = (value: string | null | undefined) => {
+  const generation = Number(value);
+
+  return Number.isInteger(generation) && generation >= 1 && generation <= 99
+    ? generation
+    : undefined;
+};
+
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const readSlug = (value: unknown): string | null =>

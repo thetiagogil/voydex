@@ -24,7 +24,7 @@ const coverLinkClassName =
  */
 export const HomePlayShelf = ({ currentPlayId, plays }: HomePlayShelfProps) => (
   <nav aria-label="Your Plays" className="relative z-6">
-    <ul className="no-scrollbar sm:justify-[safe_center] flex snap-x items-end gap-5 overflow-x-auto px-6 pt-9 pb-4 sm:gap-6.5 sm:pt-10">
+    <ul className="no-scrollbar flex snap-x items-end justify-center-safe gap-5 overflow-x-auto px-6 pt-9 pb-4 sm:gap-6.5 sm:pt-10">
       {plays.map((play) => {
         const isCurrent = play.id === currentPlayId;
         const leadType =

@@ -18,6 +18,7 @@ import {
   getCheckEmailHref,
   getWelcomeHref,
 } from "@/features/auth/auth-mode";
+import { getLogInLandingPath } from "@/features/auth/auth-redirects";
 import {
   forgetAuthEmail,
   readAuthEmail,
@@ -28,7 +29,6 @@ import {
   readEmail,
   readPassword,
   readSafeNext,
-  resolveAuthRedirectPath,
 } from "@/features/auth/server/auth-form";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
@@ -90,7 +90,7 @@ export const logInWithPassword = async (formData: FormData) => {
     redirect(appRoutes.mainline);
   }
 
-  redirect(await resolveAuthRedirectPath(context.next));
+  redirect(getLogInLandingPath(context.next));
 };
 
 /*

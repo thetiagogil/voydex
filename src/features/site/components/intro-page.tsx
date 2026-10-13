@@ -10,6 +10,7 @@ import {
   StartAPlayStage,
 } from "@/features/site/components/intro/intro-stages";
 import { MeadowCard } from "@/features/site/components/meadow-card";
+import { MeadowPartners } from "@/features/site/components/meadow-partners";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
@@ -104,7 +105,10 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
           </IntroSideCard>
         </div>
       </div>
-      <MeadowCard art={art} titleId="intro-next-title">
+      <MeadowCard
+        cast={<MeadowPartners art={art} loading="lazy" openStart={false} />}
+        titleId="intro-next-title"
+      >
         <h2
           id="intro-next-title"
           className="pt-7 text-[28px] tracking-[-0.02em] sm:pt-10.5 sm:text-[38px]"

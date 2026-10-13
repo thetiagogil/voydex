@@ -21,7 +21,7 @@ const cardVariants = cva(
           "bg-surface shadow-card in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:shadow-none in-data-[slot=dialog-content]:shadow-none in-data-[slot=alert-dialog-content]:shadow-none in-data-[slot=sheet-content]:shadow-none",
         inset: "bg-surface-2",
         interactive:
-          "bg-surface shadow-card transition-[transform,background-color] duration-150 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 group-hover/card-link:-translate-y-0.5 group-focus-visible/card-link:-translate-y-0.5",
+          "bg-surface shadow-card transition-[translate,background-color] duration-150 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 group-hover/card-link:-translate-y-0.5 group-focus-visible/card-link:-translate-y-0.5",
         bare: "gap-0 rounded-none bg-transparent py-0",
       },
     },

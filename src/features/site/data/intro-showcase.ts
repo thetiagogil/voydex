@@ -61,4 +61,25 @@ export const introCodexEntries: readonly (PublicPokemon & {
     type: "ghost",
     types: ["ghost", "poison"],
   },
+  {
+    name: "Pikachu",
+    number: "#0025",
+    sprite_slug: "pikachu",
+    type: "electric",
+    types: ["electric"],
+  },
+  {
+    name: "Eevee",
+    number: "#0133",
+    sprite_slug: "eevee",
+    type: "normal",
+    types: ["normal"],
+  },
+  {
+    name: "Dragonite",
+    number: "#0149",
+    sprite_slug: "dragonite",
+    type: "dragon",
+    types: ["dragon", "flying"],
+  },
 ];

@@ -12,7 +12,8 @@ type AppNavbarProps = {
 /*
  * v3's bar: the V tile on the left, the sections centred, your utilities on
  * the right. Navigation, so no card and no edge, and no ground of its own:
- * on a page that opens on a band it sits on the band's colour.
+ * on a page that opens on a band it sits on the band's colour, and on a
+ * tinted band its controls follow it (the `--bar-*` tokens).
  */
 export const AppNavbar = ({
   brandHref,
@@ -31,7 +32,7 @@ export const AppNavbar = ({
           {/* v3 drops the word on narrow phones; the tile alone is the brand. */}
           <Logo
             showText={showName}
-            markClassName="text-17 size-8.5"
+            markClassName="text-17 size-8.5 bg-(--bar-brand)"
             textClassName="max-sm:hidden"
           />
         </Link>

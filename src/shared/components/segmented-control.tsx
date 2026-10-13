@@ -54,6 +54,13 @@ type SegmentedControlProps<TValue extends string> = {
    * phones so it stays easy to tap.
    */
   size?: "md" | "sm";
+  /*
+   * `soft` is the one selected style. `strong` (the context colour's strong
+   * shade with a white label) is for pills that sit on a surface already
+   * wearing the soft tint, such as the game shelf's generation marks on the
+   * meadow, where the soft tint would disappear.
+   */
+  selectedTone?: "soft" | "strong";
   /* `null` when no option is the exact page or value. */
   value: TValue | null;
   /*
@@ -94,6 +101,7 @@ export const SegmentedControl = <TValue extends string>({
   fullWidth = false,
   onValueChange,
   options,
+  selectedTone = "soft",
   size = "md",
   value,
   variant = "pills",
@@ -126,7 +134,12 @@ export const SegmentedControl = <TValue extends string>({
           variant === "segment" && size === "md" && "h-9 px-3.5",
           fullWidth && "flex-1 justify-center",
           isActive
-            ? "bg-select-soft text-select-ink font-extrabold"
+            ? cn(
+                "font-extrabold",
+                selectedTone === "strong"
+                  ? "bg-game-strong text-white"
+                  : "bg-select-soft text-select-ink",
+              )
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           isDisabled && "cursor-not-allowed opacity-45",
@@ -146,7 +159,7 @@ export const SegmentedControl = <TValue extends string>({
               <small
                 className={cn(
                   "text-[12.5px] font-bold tabular-nums",
-                  isActive ? "text-select-ink" : "text-ink-3",
+                  isActive ? "text-current" : "text-ink-3",
                 )}
               >
                 {option.count}

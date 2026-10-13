@@ -12,7 +12,6 @@ import {
 } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { appIcons } from "@/shared/components/app-icon";
 import { cardVariants } from "@/shared/components/ui/card";
@@ -107,6 +106,12 @@ export const HomeMomentsSection = ({
     };
   });
   const beats = recorded.length ? recorded : getStartBeats(play);
+  /*
+   * The line runs in from the left when something came before the first
+   * moment shown, starts at it when it is the Play's first, and always ends
+   * at the last one.
+   */
+  const leadsIn = recorded.length > 0 && moments.hasEarlier;
 
   return (
     <section
@@ -118,44 +123,33 @@ export const HomeMomentsSection = ({
         "game-scope mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
       )}
     >
-      <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
-        <div className="min-w-0">
-          <h2
-            id="home-moments"
-            className="text-24 tracking-[-0.015em] sm:text-[27px]"
-          >
-            Latest moments
-          </h2>
-          <p className="text-ink-2 text-15 mt-1 font-semibold">
-            {recorded.length
-              ? "The last things you recorded in this Play."
-              : "Where this Play began, and where it stands."}
-          </p>
-        </div>
-        <div className="bg-game-wash ml-auto flex max-w-full items-center gap-3 rounded-md py-2 pr-4 pl-2">
-          <GameCover
-            alt=""
-            coverImageUrl={play.coverImageUrl}
-            gameName={play.gameName}
-            gameSlug={play.gameSlug ?? undefined}
-            size="dock"
-          />
-          <div className="min-w-0">
-            <b className="font-display text-game-deep block truncate text-[17px] font-semibold">
-              {play.label}
-            </b>
-            <span className="text-ink-2 text-13 font-semibold">
-              {play.trainerName ? `Trainer ${play.trainerName}` : play.gameName}
-            </span>
-          </div>
-        </div>
+      <div className="min-w-0">
+        <h2
+          id="home-moments"
+          className="text-24 tracking-[-0.015em] sm:text-[27px]"
+        >
+          Latest moments
+        </h2>
+        <p className="text-ink-2 text-15 mt-1 font-semibold">
+          {recorded.length
+            ? "The last things you recorded in this Play."
+            : "Where this Play began, and where it stands."}
+        </p>
       </div>
 
-      <ol className="sm:before:bg-line relative grid gap-4 sm:auto-cols-fr sm:grid-flow-col sm:gap-5 sm:before:absolute sm:before:inset-x-[8%] sm:before:top-7 sm:before:h-0.5 sm:before:rounded-full">
-        {beats.map((beat) => (
+      <ol className="relative grid gap-4 sm:auto-cols-fr sm:grid-flow-col sm:gap-5">
+        {beats.map((beat, index) => (
           <li
             key={beat.key}
-            className="relative grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 sm:grid-cols-1 sm:justify-items-center sm:gap-y-1.5 sm:text-center"
+            className={cn(
+              "relative isolate grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 sm:grid-cols-1 sm:justify-items-center sm:gap-y-1.5 sm:text-center",
+              /* The line from the moment before (or from the edge) to this one's medallion. */
+              (index > 0 || leadsIn) &&
+                "sm:before:bg-line sm:before:absolute sm:before:top-7 sm:before:right-1/2 sm:before:-z-1 sm:before:h-0.5 sm:before:rounded-full",
+              index > 0
+                ? "sm:before:left-[calc(-50%-1.25rem)]"
+                : "sm:before:left-0",
+            )}
           >
             <Medallion
               content={beat.medallion}

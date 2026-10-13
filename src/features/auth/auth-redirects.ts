@@ -45,3 +45,15 @@ export const getSafeAuthRedirectPath = (
   }
   return parseSafeAuthRedirectPath(value) ?? safeFallback;
 };
+
+/*
+ * Where Log in lands: always Mainline, unless a protected page sent you to
+ * Log in (`/login?next=`), which you go back to. `next` is already safe.
+ */
+export const getLogInLandingPath = (next: string): string => {
+  const { pathname } = new URL(next, AUTH_REDIRECT_BASE_URL);
+
+  return pathname !== appRoutes.appEntry && isProtectedRoute(pathname)
+    ? next
+    : appRoutes.mainline;
+};

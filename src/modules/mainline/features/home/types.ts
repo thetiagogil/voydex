@@ -24,6 +24,8 @@ export type HomeMomentsData = {
   context: PlayMomentContextEntries;
   /* Oldest first, at most five. */
   events: MainlinePlayTimelineEvent[];
+  /* Something was recorded before the first of them. */
+  hasEarlier: boolean;
 };
 
 export type HomePageData =

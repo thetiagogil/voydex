@@ -94,7 +94,7 @@ export const GamePokedexTile = ({
     <Link
       href={appRoutes.codexVersionGroupPokedex(versionGroupSlug, pokedex.slug)}
       className={cn(
-        "group/dex bg-surface-2 hover:bg-hover relative flex min-w-0 flex-col gap-3 rounded-lg px-4.5 py-4 transition-[transform,background-color] duration-150 motion-safe:hover:-translate-y-[3px]",
+        "group/dex bg-surface-2 hover:bg-hover relative flex min-w-0 flex-col gap-3 rounded-lg px-4.5 py-4 transition-[translate,background-color] duration-150 motion-safe:hover:-translate-y-[3px]",
         isNational &&
           "hover:bg-surface-2 bg-transparent shadow-[inset_0_0_0_1.5px_var(--line)]",
         layout === "compact" && "gap-2.5 p-3.5",

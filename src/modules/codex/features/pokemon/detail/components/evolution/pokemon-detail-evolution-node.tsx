@@ -63,7 +63,7 @@ export const PokemonDetailEvolutionNode = ({
       aria-current={isActive ? "page" : undefined}
       style={getPokemonTypeCssVariables(getNodeTypeSlug(node))}
       className={cn(
-        "focus-visible:outline-focus flex max-w-48 min-w-30 flex-col items-center rounded-xl px-2.5 pt-2.5 pb-3 text-center transition-[transform,background-color] duration-150 outline-none hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:min-w-37.5 sm:px-4.5 sm:pt-3.5",
+        "focus-visible:outline-focus flex max-w-48 min-w-30 flex-col items-center rounded-xl px-2.5 pt-2.5 pb-3 text-center transition-[translate,background-color] duration-150 outline-none hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:min-w-37.5 sm:px-4.5 sm:pt-3.5",
         isActive ? "type-tint" : "bg-surface-2 hover:bg-hover",
       )}
     >

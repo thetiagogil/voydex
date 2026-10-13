@@ -186,25 +186,28 @@ export const RecordAsYouGoStage = ({
 export const LookBackStage = ({ playArt }: { playArt: PublicPlayArt }) => (
   <IntroStage
     label={`Three moments from the Play's history: ${samplePlayHistory.map((record) => record.kicker).join("; ")}.`}
+    className="gap-2.5"
   >
-    <div className="bg-surface divide-line divide-y rounded-lg px-4 sm:px-4.5">
-      {samplePlayHistory.map((record) => (
-        <Fragment key={record.kicker}>
-          {playArt.recordRow({
-            description: record.description,
-            headline: record.headline.map((part) =>
-              typeof part === "string" ? (
-                part
-              ) : (
-                <b key={part.bold}>{part.bold}</b>
-              ),
+    {/* v3 `.itr-hist`: each moment on its own card, as History lists it. */}
+    {samplePlayHistory.map((record) => (
+      <div
+        key={record.kicker}
+        className="bg-surface shadow-card rounded-lg px-4 sm:px-4.5"
+      >
+        {playArt.recordRow({
+          description: record.description,
+          headline: record.headline.map((part) =>
+            typeof part === "string" ? (
+              part
+            ) : (
+              <b key={part.bold}>{part.bold}</b>
             ),
-            kicker: record.kicker,
-            moment: record.moment,
-          })}
-        </Fragment>
-      ))}
-    </div>
+          ),
+          kicker: record.kicker,
+          moment: record.moment,
+        })}
+      </div>
+    ))}
   </IntroStage>
 );
 
@@ -225,9 +228,10 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
       {introPlan.picks.map((pokemon) => (
         <span
           key={pokemon.sprite_slug}
-          className="border-line bg-surface grid aspect-square place-items-center rounded-md border"
+          style={getTypeColourStyle(pokemon.type)}
+          className="sticker grid aspect-square place-items-center rounded-md"
         >
-          <PokemonRender art={art} pokemon={pokemon} className="size-[84%]" />
+          <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
         </span>
       ))}
       {Array.from(
@@ -245,10 +249,12 @@ export const CodexStage = ({ art }: { art: PublicArt }) => (
     label={`Codex entries for ${introCodexEntries.map((entry) => entry.name).join(", ")}.`}
     className="flex-1 justify-center gap-3 sm:p-4.5"
   >
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
       {introCodexEntries.map((entry) => (
         <Fragment key={entry.sprite_slug}>
           {art.pokemonCard({
+            /* v3 `.dcard`: the plain card on its clay edge, filling its column. */
+            className: "w-full border-transparent shadow-card",
             number: entry.number,
             pokemon: entry,
             size: "sm",

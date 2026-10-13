@@ -3,6 +3,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -28,6 +29,12 @@ type GameShelfPickerProps = {
    * as when one of Home's first partners links to the picker.
    */
   initialGeneration?: number;
+  /*
+   * A request to jump to a generation after the shelf opened, as when one of
+   * Start a Play's first partners is tapped: each new `key` scrolls the shelf
+   * there the way a generation mark does.
+   */
+  jumpTo?: { generation: number; key: number };
   /* Picking the picked game again clears the pick (`null`). */
   onValueChange: (gameSlug: string | null) => void;
   /* The picked game's slug, or `null`. */
@@ -61,6 +68,7 @@ export const GameShelfPicker = ({
   coverSize = "md",
   games,
   initialGeneration,
+  jumpTo,
   onValueChange,
   value,
 }: GameShelfPickerProps) => {
@@ -142,9 +150,10 @@ export const GameShelfPicker = ({
    * Opening the shelf: the picked game in the middle, else the asked-for
    * generation, else the newest games (v3). Covers keep their platform's
    * shape, so their widths are known only once each image loads: the opening
-   * place is set again on every load until the reader moves the shelf.
+   * place is set again on every load until the reader moves the shelf. It is
+   * placed before the first paint, so the shelf never shows its start first.
    */
-  useEffect(() => {
+  useLayoutEffect(() => {
     const shelf = shelfRef.current;
 
     if (!shelf) {
@@ -279,6 +288,30 @@ export const GameShelfPicker = ({
     scrollToCover(game.slug, scrollBehavior());
   };
 
+  /* A new jump request moves the tab stop at once; the effect scrolls there. */
+  const jumpKey = jumpTo?.key;
+  const jumpGame =
+    jumpTo === undefined
+      ? undefined
+      : firstGameOfGeneration.get(jumpTo.generation);
+  const [handledJumpKey, setHandledJumpKey] = useState(jumpKey);
+
+  if (jumpKey !== handledJumpKey) {
+    setHandledJumpKey(jumpKey);
+
+    if (jumpGame) {
+      setActiveSlug(jumpGame.slug);
+    }
+  }
+
+  useEffect(() => {
+    if (jumpKey !== undefined && jumpGame) {
+      scrollToCover(jumpGame.slug, scrollBehavior());
+    }
+    // Only a new request jumps; the reader's own scrolling is left alone.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpKey]);
+
   const generationOptions = Array.from(firstGameOfGeneration.values()).map(
     (game) => ({
       current: game.generation.number === generationInView,
@@ -286,8 +319,9 @@ export const GameShelfPicker = ({
       value: String(game.generation.number),
     }),
   );
+  // v3 .hh-arr: the quiet button's lip plus a float shadow, pressing onto it.
   const arrowClassName =
-    "shadow-float absolute top-[calc(50%+12px)] z-10 size-11.5 -translate-y-1/2 rounded-full max-sm:hidden";
+    "absolute top-[calc(50%+12px)] z-10 size-11.5 -translate-y-1/2 rounded-full text-ink-2 shadow-[var(--shadow-quiet-value),var(--shadow-float-value)] hover:text-ink active:not-aria-[haspopup]:translate-y-[calc(-50%+3px)] active:not-aria-[haspopup]:shadow-float max-sm:hidden";
 
   return (
     <div
@@ -384,6 +418,7 @@ export const GameShelfPicker = ({
           className="max-w-none shrink-0 flex-nowrap gap-1"
           onValueChange={jumpToGeneration}
           options={generationOptions}
+          selectedTone="strong"
           size="sm"
           value={null}
         />

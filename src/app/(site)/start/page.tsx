@@ -1,77 +1,56 @@
-import { readStartIntentParams } from "@/config/start-intent";
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
-import {
-  StartPage,
-  type StartPick,
-} from "@/features/site/components/start-page";
+import { StartPage } from "@/features/site/components/start-page";
+import type { StartPick } from "@/features/site/components/start-meadow";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 import {
   readGameShelfGames,
-  readGameStarters,
+  readGameStartersByGameSlug,
 } from "@/modules/reference/features/games/server/game-shelf-reader";
 import { publicArt } from "@/modules/reference/public-art";
 
 import { StartGameShelf } from "@/modules/reference/features/games/components/start-game-shelf";
 
-type StartRouteProps = {
-  searchParams?: Promise<{ game?: string; gen?: string; partner?: string }>;
-};
-
-/* `?gen=` from a meadow partner: a generation the shelf can open at. */
-const readGeneration = (value: string | undefined) => {
-  const generation = Number(value);
-
-  return Number.isInteger(generation) && generation >= 1 && generation <= 99
-    ? generation
-    : undefined;
-};
-
-export default async function Page({ searchParams }: StartRouteProps) {
-  const params = await searchParams;
-  const intent = readStartIntentParams(params ?? {});
-  const generation = readGeneration(params?.gen);
-  const [games, starters, { isAuthenticated }] = await Promise.all([
+/*
+ * Start a Play reads every game and its first partners up front, so picking
+ * a game or a partner shows at once; the picks live in the address (`?game=`,
+ * `?partner=`, `?gen=`), which the page's client parts read.
+ */
+export default async function Page() {
+  const [games, startersByGame, { isAuthenticated }] = await Promise.all([
     readGameShelfGames(),
-    intent ? readGameStarters(intent.gameSlug) : null,
+    readGameStartersByGameSlug(),
     getSiteVisitor(),
   ]);
-  const game = intent
-    ? (games.find((candidate) => candidate.slug === intent.gameSlug) ?? null)
-    : null;
-  const pick: StartPick | null =
-    game && starters
-      ? {
-          game: {
-            name: game.name,
-            regionName: game.regionName,
-            shortName: game.shortName,
-            slug: game.slug,
-          },
-          isSolo: starters.isSolo,
-          starters: starters.starters.map((starter) => ({
-            imageUrl: starter.imageUrl,
-            name: starter.name,
-            speciesSlug: starter.speciesSlug,
-          })),
-        }
-      : null;
+  const picks: Record<string, StartPick> = {};
+
+  for (const game of games) {
+    const starters = startersByGame[game.slug];
+
+    if (starters) {
+      picks[game.slug] = {
+        game: {
+          name: game.name,
+          regionName: game.regionName,
+          shortName: game.shortName,
+          slug: game.slug,
+        },
+        isSolo: starters.isSolo,
+        starters: starters.starters.map((starter) => ({
+          imageUrl: starter.imageUrl,
+          name: starter.name,
+          speciesSlug: starter.speciesSlug,
+        })),
+      };
+    }
+  }
 
   return (
     <PublicAppShell>
       <StartPage
         art={publicArt}
         isAuthenticated={isAuthenticated}
-        partnerSlug={intent?.partnerSpeciesSlug ?? null}
-        pick={pick}
-        shelf={
-          <StartGameShelf
-            /* A meadow partner opens the shelf afresh at its generation. */
-            key={generation ?? "shelf"}
-            games={games}
-            initialGeneration={generation}
-            value={pick?.game.slug ?? null}
-          />
-        }
+        picks={picks}
+        shelf={<StartGameShelf games={games} />}
       />
     </PublicAppShell>
   );

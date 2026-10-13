@@ -86,7 +86,11 @@ export const AppShell = ({
               {showAuthAction ? (
                 <Link
                   href={appRoutes.login}
-                  className={buttonVariants({ variant: "outline" })}
+                  className={buttonVariants({
+                    className:
+                      "bg-(--bar-control) hover:bg-(--bar-control-hover)",
+                    variant: "outline",
+                  })}
                 >
                   Log in
                 </Link>

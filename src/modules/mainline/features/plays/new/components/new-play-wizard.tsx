@@ -21,9 +21,18 @@ import { cn } from "@/shared/utils/cn";
 
 type NewPlayWizardProps = {
   data: NewPlayPageData;
+  /*
+   * Set when New Play opens as a dialog (v3 opens it over the page): Close
+   * and Cancel call it instead of leading to Plays, and the card drops its
+   * clay edge since the dialog carries it.
+   */
+  onClose?: () => void;
 };
 
 type Step = 1 | 2 | 3;
+
+const closeClassName =
+  "bg-surface text-ink-2 hover:bg-hover hover:text-ink absolute top-3 right-3 z-8 rounded-full";
 
 const stepLabels: Record<Step, string> = { 1: "Game", 2: "Partner", 3: "Name" };
 
@@ -97,7 +106,7 @@ const NewPlaySteps = ({
  * Play's name, trainer name and what it tracks. Start writes the Play and
  * opens it.
  */
-export const NewPlayWizard = ({ data }: NewPlayWizardProps) => {
+export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const initialStarters = data.initial.gameSlug
     ? data.startersByGameSlug[data.initial.gameSlug]
     : undefined;
@@ -207,7 +216,8 @@ export const NewPlayWizard = ({ data }: NewPlayWizardProps) => {
       data-slot="card"
       style={game ? getGameColourStyle(game.slug) : undefined}
       className={cn(
-        "bg-surface shadow-card mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl",
+        "bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl",
+        onClose ? "max-sm:rounded-none" : "shadow-card",
         game && "game-scope",
       )}
     >
@@ -238,18 +248,30 @@ export const NewPlayWizard = ({ data }: NewPlayWizardProps) => {
         }
       >
         <NewPlaySteps step={step} onStepChange={setStep} />
-        <Link
-          href={appRoutes.mainlinePlays}
-          aria-label="Close New Play"
-          className={buttonVariants({
-            className:
-              "bg-surface text-ink-2 hover:bg-hover hover:text-ink absolute top-3 right-3 z-8 rounded-full",
-            size: "icon",
-            variant: "ghost",
-          })}
-        >
-          <AppIcon icon={appIcons.actions.close} size="lg" />
-        </Link>
+        {onClose ? (
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            aria-label="Close New Play"
+            onClick={onClose}
+            className={closeClassName}
+          >
+            <AppIcon icon={appIcons.actions.close} size="lg" />
+          </Button>
+        ) : (
+          <Link
+            href={appRoutes.mainlinePlays}
+            aria-label="Close New Play"
+            className={buttonVariants({
+              className: closeClassName,
+              size: "icon",
+              variant: "ghost",
+            })}
+          >
+            <AppIcon icon={appIcons.actions.close} size="lg" />
+          </Link>
+        )}
         <div className="px-6 pt-5 text-center sm:px-10">
           <h1
             id={titleId}
@@ -328,12 +350,18 @@ export const NewPlayWizard = ({ data }: NewPlayWizardProps) => {
           {summary}
         </p>
         {step === 1 ? (
-          <Link
-            href={appRoutes.mainlinePlays}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            Cancel
-          </Link>
+          onClose ? (
+            <Button type="button" size="sm" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+          ) : (
+            <Link
+              href={appRoutes.mainlinePlays}
+              className={buttonVariants({ size: "sm", variant: "outline" })}
+            >
+              Cancel
+            </Link>
+          )
         ) : (
           <Button
             type="button"

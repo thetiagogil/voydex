@@ -1,5 +1,6 @@
 import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { MeadowCard } from "@/features/site/components/meadow-card";
+import { MeadowPartners } from "@/features/site/components/meadow-partners";
 import { PlayStoryCard } from "@/features/site/components/play-story-card";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
@@ -15,10 +16,8 @@ export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
 
   return (
     <MeadowCard
-      art={art}
+      cast={<MeadowPartners art={art} loading="eager" openStart />}
       form="band"
-      loading="eager"
-      partnersOpenStart
       titleId="home-title"
     >
       <h1
