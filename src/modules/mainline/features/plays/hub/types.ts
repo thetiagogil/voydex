@@ -12,7 +12,10 @@ import type {
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
-import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type {
+  OverviewAheadMilestone,
+  OverviewMilestone,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -210,9 +213,11 @@ export type MainlinePlayShellData = {
 };
 
 export type MainlinePlayOverviewData = {
+  aheadMilestones: OverviewAheadMilestone[];
   badgeCase: BadgeCase | null;
   lastCompletedMilestone: OverviewMilestone | null;
   nextMilestone: OverviewMilestone | null;
+  nextMilestonePosition: { sequence: number; total: number } | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];

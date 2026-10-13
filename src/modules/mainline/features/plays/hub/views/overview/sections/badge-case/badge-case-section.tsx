@@ -1,19 +1,27 @@
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import type { OverviewAheadMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import { appIcons } from "@/shared/components/app-icon";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { cn } from "@/shared/utils/cn";
 
 /* Stamps tilt at rest, each by its own small angle. */
 const stampTilts = [-6, 4, -3, 7, -5, 3, -7, 5, -2, 4, -4, 6];
 
 type BadgeCaseSectionProps = {
+  aheadMilestones: OverviewAheadMilestone[];
   badgeCase: BadgeCase;
   storyHref: string;
 };
 
+/*
+ * The stamps, then what is ahead in the journey: the next objective and the
+ * open milestones after it, numbered as Story numbers them.
+ */
 export const BadgeCaseSection = ({
+  aheadMilestones,
   badgeCase,
   storyHref,
 }: BadgeCaseSectionProps) => {
@@ -67,6 +75,52 @@ export const BadgeCaseSection = ({
             : "League complete"}
         </span>
       </div>
+      {aheadMilestones.length ? (
+        <ol aria-label="Ahead in the story" className="mt-4.5">
+          {aheadMilestones.map(({ milestone, sequence }, index) => {
+            const isDone = Boolean(milestone.is_completed);
+
+            return (
+              <li
+                key={milestone.milestone_id}
+                className="border-line text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 border-t py-2.5"
+              >
+                <span
+                  aria-hidden
+                  className={cn(
+                    "text-12 grid size-7 place-items-center rounded-full font-extrabold tabular-nums",
+                    index === 0
+                      ? "bg-surface text-game-deep shadow-[inset_0_0_0_2px_var(--game)]"
+                      : "text-ink-3 shadow-[inset_0_0_0_1.5px_var(--line)]",
+                  )}
+                >
+                  {isDone ? (
+                    <AppIcon icon={appIcons.product.completion} size="sm" />
+                  ) : (
+                    sequence
+                  )}
+                </span>
+                <span
+                  className={cn(
+                    "truncate font-extrabold",
+                    isDone && "text-ink-3 line-through",
+                  )}
+                >
+                  <span className="sr-only">Milestone {sequence}, </span>
+                  {milestone.milestone_name}
+                </span>
+                <span className="text-ink-3 text-13 font-semibold">
+                  {index === 0
+                    ? "Next"
+                    : isDone
+                      ? "Recorded"
+                      : milestone.milestone_type_name}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+      ) : null}
     </DetailSectionCard>
   );
 };

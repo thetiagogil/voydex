@@ -18,6 +18,7 @@ const milestone = (
   is_required_for_completion: true,
   milestone_id: 1,
   milestone_name: "Milestone",
+  milestone_type_name: "Story",
   milestone_type_slug: "story",
   prerequisites: [],
   sort_order: 1,
@@ -91,5 +92,41 @@ describe("getOverviewMilestoneSummary", () => {
     ]);
 
     expect(summary.nextMilestone?.milestone_name).toBe("Open");
+  });
+});
+
+describe("getOverviewMilestoneSummary journey numbering", () => {
+  it("numbers the next objective within its journey and lists what follows", () => {
+    const summary = getOverviewMilestoneSummary(
+      orderOverviewMilestones({
+        categories,
+        milestones: [
+          milestone({ is_completed: true, milestone_id: 1, sort_order: 1 }),
+          milestone({ milestone_id: 2, sort_order: 2 }),
+          milestone({ is_completed: true, milestone_id: 3, sort_order: 3 }),
+          milestone({ milestone_id: 4, sort_order: 4 }),
+          milestone({ milestone_id: 5, sort_order: 5 }),
+          milestone({ milestone_id: 6, sort_order: 6 }),
+          milestone({
+            category_id: 102,
+            milestone_id: 50,
+            version_group_id: 2,
+          }),
+        ],
+      }),
+    );
+
+    expect(summary.nextMilestonePosition).toEqual({ sequence: 2, total: 6 });
+    expect(
+      summary.aheadMilestones.map(({ milestone, sequence }) => [
+        milestone.milestone_id,
+        sequence,
+      ]),
+    ).toEqual([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5],
+    ]);
   });
 });

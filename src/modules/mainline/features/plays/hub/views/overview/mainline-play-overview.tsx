@@ -37,7 +37,7 @@ export const MainlinePlayOverview = ({
         <NextObjectiveSection
           lastCompletedMilestone={data.lastCompletedMilestone}
           nextMilestone={data.nextMilestone}
-          overview={data.overview}
+          nextMilestonePosition={data.nextMilestonePosition}
           playId={playId}
         />
         <ProgressSummarySection overview={data.overview} playId={playId} />
@@ -50,7 +50,11 @@ export const MainlinePlayOverview = ({
       />
       {data.badgeCase ? (
         <div className="grid gap-5 lg:grid-cols-[1fr_1.2fr] lg:gap-6">
-          <BadgeCaseSection badgeCase={data.badgeCase} storyHref={storyHref} />
+          <BadgeCaseSection
+            aheadMilestones={data.aheadMilestones}
+            badgeCase={data.badgeCase}
+            storyHref={storyHref}
+          />
           {recentMoments}
         </div>
       ) : (

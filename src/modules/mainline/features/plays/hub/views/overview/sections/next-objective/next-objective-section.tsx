@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -12,22 +11,8 @@ import { cn } from "@/shared/utils/cn";
 type NextObjectiveSectionProps = {
   lastCompletedMilestone: OverviewMilestone | null;
   nextMilestone: OverviewMilestone | null;
-  overview: MainlinePlayOverview | null;
+  nextMilestonePosition: { sequence: number; total: number } | null;
   playId: string;
-};
-
-const getPosition = (
-  milestone: OverviewMilestone,
-  overview: MainlinePlayOverview | null,
-) => {
-  const completed = overview?.completed_required_milestone_count;
-  const total = overview?.required_milestone_count;
-
-  if (!milestone.is_required_for_completion || !total || completed == null) {
-    return null;
-  }
-
-  return `Milestone ${completed + 1} of ${total}`;
 };
 
 /*
@@ -37,10 +22,13 @@ const getPosition = (
 export const NextObjectiveSection = ({
   lastCompletedMilestone,
   nextMilestone,
-  overview,
+  nextMilestonePosition,
   playId,
 }: NextObjectiveSectionProps) => {
-  const position = nextMilestone ? getPosition(nextMilestone, overview) : null;
+  /* Numbered within its journey, as Story numbers it. */
+  const position = nextMilestonePosition
+    ? `Milestone ${nextMilestonePosition.sequence} of ${nextMilestonePosition.total}`
+    : null;
   const where =
     nextMilestone?.description ?? nextMilestone?.category_name ?? null;
 

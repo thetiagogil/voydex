@@ -134,7 +134,8 @@ export const MainlinePlayTopInfo = ({
           </div>
         ) : null}
         {data.play.started_on ? (
-          <div className="contents">
+          /* Phones keep v3's short header: status, trainer and playtime. */
+          <div className="max-sm:hidden sm:contents">
             <dt className="sr-only">Started</dt>
             <dd>Started {formatPlayDate(data.play.started_on)}</dd>
           </div>
