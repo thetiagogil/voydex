@@ -123,4 +123,27 @@ describe("SegmentedControl", () => {
     expect(html).toContain(">0</small>");
     expect(html).toMatch(/<span aria-hidden="true" style="color:red"/);
   });
+
+  it("keeps a disabled option with a reason focusable and names the reason", () => {
+    const html = renderToStaticMarkup(
+      <SegmentedControl<Section>
+        ariaLabel="Reading"
+        variant="segment"
+        value="games"
+        options={[
+          { label: "Games", value: "games" },
+          {
+            disabled: true,
+            disabledReason: "Not available yet",
+            label: "Moves",
+            value: "moves",
+          },
+        ]}
+      />,
+    );
+
+    expect(html).toContain('aria-label="Moves, Not available yet"');
+    expect(html).toContain('aria-disabled="true"');
+    expect(html).not.toMatch(/<button[^>]*disabled=""/);
+  });
 });

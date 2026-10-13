@@ -74,6 +74,7 @@ export const appIcons = {
     back: ArrowLeft,
     browseCodex: BookOpenCheck,
     clear: X,
+    close: X,
     continue: ArrowRight,
     create: Plus,
     enterApp: Compass,
