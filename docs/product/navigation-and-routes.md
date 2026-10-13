@@ -13,30 +13,32 @@ switcher.
 
 ### Signed In
 
-- **Top bar (desktop, `lg` and up):** the "V" tile on the left links to `/`.
-  Mainline's implemented sections sit centred (today only Plays). The Codex
-  link and your account icon sit on the right. The Codex link is bold while
-  you are anywhere under `/codex`.
-- **Account menu:** your email and when you became a trainer, Settings
+- **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
+  Mainline Home (`/mainline`). Mainline's views sit centred in module order:
+  Home, Plays, Team Planner (`/mainline/plans/new`, current anywhere under
+  `/mainline/plans`), Statistics and Collection. The Codex link and your
+  account icon sit on the right. The Codex link is bold while you are anywhere
+  under `/codex`.
+- **Account menu:** your name and when you became a trainer, Settings
   (`/settings`) and Log out at the foot.
-- **Bottom bar (phones and tablets, below `lg`):** the centred sections move
-  to a fixed bar on the bottom edge: Plays, Codex and You. You opens the same
-  account menu upward until a You page exists. The current item takes the
-  soft action tint. Toasts sit above the bar.
-- v3 also draws Home, Team Planner, Statistics and Collection in the bar.
-  Each joins only when its view ships in `src/config/modules.ts`; nothing
-  appears as a speculative `Coming soon` entry.
+- **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
+  Codex and You on a fixed bar along the bottom edge. You opens `/you` (the
+  trainer card, Statistics, Collection, Settings and Log out) and stays
+  current on You, Settings, Welcome, Statistics and Collection. The current
+  item takes the soft action tint. Toasts sit above the bar.
+- Mainline's views come from `src/config/modules.ts`; nothing appears as a
+  speculative `Coming soon` entry.
 
 ### Signed Out
 
 - **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
   phones), then How it works (`/intro`) and Codex centred, and Log in on the
   right. On phones the links fold into a menu behind one icon beside Log in;
-  it leads with Start a Play (`/login?mode=sign-up`), then How it works and
-  Codex.
+  it leads with Start a Play (`/start`), then How it works and Codex.
 - The signed-out frame ends on the quiet site footer (name, catchphrase, How
-  it works, Codex and the fan-project notice).
-- Protected destinations send you to `/login?next=[path and query]`: the
+  it works, Codex, Log in, Privacy, Terms and the fan-project notice).
+- Protected destinations (`/mainline`, `/settings`, `/welcome`, `/you` and
+  everything under them) send you to `/login?next=[path and query]`: the
   proxy redirects first, and the protected layout checks again from the path
   the proxy forwards, so you return where you were going.
 
@@ -59,7 +61,8 @@ server boundaries. Logging in and `/app` follow this precedence:
 1. A validated protected destination or action-resumption target wins when the
    user is returning from authentication.
 2. A signed-in user is sent to the default landing view of their last active,
-   currently available module (Mainline: Plays; Codex: Pokémon).
+   currently available module (Mainline: Home at `/mainline`; Codex:
+   Pokémon).
 3. Without a valid module preference, entry falls back to the Codex.
 4. A signed-out user receives the public product entry experience unless they
    explicitly requested a public Codex URL.
@@ -77,11 +80,11 @@ question; it is not yet a confirmed database requirement.
 
 Mainline owns:
 
-- Dashboard.
-- Plays and the Play Hub.
-- Plans.
+- Home (`/mainline`).
+- Plays, New Play and the Play Hub.
+- Plans: the Team Planner and My Plans.
 - Collection.
-- Stats.
+- Statistics.
 
 Codex owns:
 
@@ -94,29 +97,35 @@ reference/filter context; they are not currently a required top-level view.
 ## Route Families
 
 ```txt
-/mainline
-  /dashboard
-  /plays
-    /new
+/                       site Home
+/intro
+/start                  Start a Play: ?game=, ?partner=, ?gen=
+/privacy, /terms
+
+/login                  ?mode=sign-up, ?next=, ?game=, ?partner=
+/forgot-password        ?sent=
+/reset-password         where the reset link lands
+/check-email            after a sign-up that needs its email confirmed
+/auth/callback          every email link
+
+/mainline               Home: ?play= puts one of your Plays on the meadow
+  /plays                ?view=archived lists archived Plays, each with Restore
+    /new                ?game=
     /[playId]
-      /team
+      /team             ?pokemon=, ?add= (with ?form=)
         /plan
-        /analysis
-        /history
-      /progress
-        /story
+        /analysis       ?reading=story
+      /progress         redirects to Story
+        /story          ?record=
         /pokedex
-        /pokedex/[pokedexSlug]
         /collectibles
-        /collectibles/[collectibleGroupSlug]
       /history
       /settings
-  /plans
-    /new
-    /[planId]
-  /collection
-    /[speciesSlug]
+  /plans                My Plans
+    /new                the Team Planner on a blank Plan: ?vg=
+    /[planId]           ?vg=
   /stats
+  /collection           ?species=
 
 /codex
   /pokemon
@@ -127,14 +136,14 @@ reference/filter context; they are not currently a required top-level view.
     /[versionGroupSlug]/pokedexes/[pokedexSlug]
 
 /settings
+  /export               your rows as one JSON file
+/welcome                first run after sign-up
+/you
 ```
 
-This is the accepted route family, not evidence that every route is mounted.
-Thin route adapters compose feature-owned page entry points.
-Plans Hub keeps Team Plans and Game List as URL-backed sibling views under
-`/mainline/plans`; the exact query or nested-route representation may follow the
-established routing pattern during implementation, but it must preserve the
-active view on navigation and return.
+`src/config/routes.ts` builds every address. Thin route adapters compose feature-owned page entry points. Every
+route above is mounted. The Game List from the [Feature Contract](./feature-contract.md)
+has no route yet.
 
 The Codex reads by **version group**: a base group (Sword and Shield) with its
 expansions' child groups (The Isle of Armor, The Crown Tundra) included. Every
@@ -183,15 +192,18 @@ convenience, not a V1 routing or database requirement.
 ### Continue A Play
 
 ```txt
-Mainline Dashboard or Plays -> Play Hub
+Mainline Home (the shelf, Continue) or Plays -> Play Hub
 ```
 
 ### Create A Play
 
 ```txt
-Mainline Dashboard or Plays -> Select Game -> Play Hub
-Codex Game Detail -> Authenticate when needed -> Create Play with game context
-  -> Play Hub
+Mainline Home (no Plays: the game picker) -> Start -> Play Hub
+Plays or Home -> New Play (game, partner, details) -> Play Hub
+Codex game page -> Start a {Version} Play -> New Play with the game picked
+Start a Play (game, partner), signed out -> Sign up or Log in
+  -> Welcome -> Mainline Home offers that Play
+Start a Play, signed in -> New Play with the game picked
 ```
 
 Codex is an optional contextual entry, never a required funnel.
@@ -199,67 +211,59 @@ Codex is an optional contextual entry, never a required funnel.
 ### Plan A Team
 
 ```txt
-Mainline Plans -> Select Game -> Plan Detail -> Create Play Later
-Codex Game Detail -> Authenticate when needed -> Create Plan with game context
-  -> Plan Detail
+Team Planner (/mainline/plans/new) -> Save -> /mainline/plans/[planId]
+My Plans -> a Plan -> Team Planner
+A Play's Team -> Plan -> Follow a Plan, or Plan a team (the Planner on the
+  Play's version group)
 ```
 
-Creating a play keeps the plan and starts with an empty current roster.
-Create Plan may also resume with game and Pokémon/form context from Codex or
-with a fixed game and owning Play context from a Play that has no linked Plan.
-Standalone Plan Detail owns reusable authoring. The active Team tab owns a
-linked Play's automatic read-only comparison; V1 adds no separate comparison
-route or manual association actions.
+Creating a Play from a Plan is not built. A Play follows at most one Plan; its
+Team menu's `Plan` reads the automatic comparison.
 
 ### Use Codex Context
 
 ```txt
-Codex Game Detail -> Start Play, Create Plan, or Add to Game List
-  -> Mainline-owned flow
-Codex Pokémon Detail -> Use in Mainline -> Mainline handoff
+Codex game page -> Start a {Version} Play -> New Play (?game=)
+Codex game page -> Your Plays (N) -> a Play of this version group
+Codex Pokémon entry -> Add to a Play -> that Play's Roster with Add Pokémon
+  open on the species (?add=, ?form=)
+Codex Pokémon entry -> In your Plays -> a Play's Roster on that Pokémon
 ```
 
-These actions require authentication. If login is needed, the selected game,
-Pokémon, form, content scope, and intended action must survive the redirect so
-the user can resume the flow.
-
-Game Detail uses `Start a Play` as the primary action. It resumes Create Play
-with fixed game context and ends at the new Play Overview. `Create a Plan`
-resumes concise Draft creation and ends at Plan Detail. `Add to Game List`
-creates or edits the one existing game-intent row and may return to the same
-Game Detail with confirmation and a Game List link. Cancellation or recoverable
-failure returns to the exact source Detail without partial user data.
-
-`Use in Mainline` may continue to Add to an existing or new Plan, Add to an
-eligible Play, Check in a selected Play without writing, or View the species in
-Collection. Create Plan is part of Add to Plan rather than a duplicate
-top-level action. Cancellation or failure returns to the same game-scoped
-Pokémon Detail context.
+The Codex routes draw these pieces from Mainline through the Codex's
+signed-in slots; signed out they don't appear. Still accepted but not built:
+Create a Plan and Add to Game List from a game page, and Add to Plan or View
+in Collection from an entry, each resuming through login with its context and
+returning to the same Codex page on cancel or failure without partial user
+data.
 
 ### Authenticate Or Recover
 
 ```txt
-Protected destination or Codex action
--> /login with validated destination, intent, and public origin
--> Log in or Create account
--> email confirmation when required
--> owning protected flow revalidates and resumes
+Protected destination -> /login?next=[path] -> Log in -> the destination
+Start a Play -> /login?mode=sign-up&game=&partner= -> Sign up
+  -> /welcome (or /check-email, whose link returns through /auth/callback
+     to /welcome)
+Log in -> Forgot password -> /forgot-password (sent state)
+  -> the email's link -> /auth/callback -> /reset-password -> next
 ```
 
-`/login` owns Log in and Sign up modes plus focused recovery, Check Email, and
-new-password states. These may use validated query or callback state without
-adding separate top-level routes. A signed-in request to Login redirects to the
-validated destination or normal app entry.
+`/login` owns Log in and Sign up (`?mode=sign-up`). Reset your password
+(`/forgot-password`), Choose a new password (`/reset-password`) and Check your
+email (`/check-email`) are their own routes; `?next=` and the Start a Play
+pick (`?game=`, `?partner=`) travel through all of them. A signed-in request
+to Login redirects to the validated destination or normal app entry.
 
-Login renders a human-readable intent preview but never trusts the preview as
-mutation authority. External, protocol-relative, expired, malformed, or
-unsupported continuation targets fall back safely. A cancelled interrupted
-action returns to its exact public origin when valid; direct Login returns Home.
+The pick from Start a Play is stored on the account (user metadata
+`voydex_intent`), so a confirmation link opened on another device still
+carries it; Mainline Home offers to start that Play, then clears it. It is
+only a wish: New Play's command validates the game and partner again.
 
-An expired session returns to Login with an explicit reason and validated read
-destination. It never automatically replays a mutation after reauthentication.
-Recovery links return through `/auth/callback` and continue to the focused
-new-password state or Settings Account after validation.
+Every email link returns through `/auth/callback`: a sign-up confirmation
+continues to Welcome, a reset to `/reset-password`, an email change to
+Settings. A failed or expired reset link returns to `/forgot-password` with
+its reason; any other failed link to Log in. External, protocol-relative,
+malformed or unsupported continuation targets fall back safely.
 
 Codex supplies reference context; Mainline selects the destination, validates
 ownership, roster capacity, reuse policy, availability, form validity,
@@ -274,12 +278,14 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Team Analysis remains a focused child of Play Team and keeps Team as the
   active Play section.
 - Team is a compound primary destination. Its parent route opens Team Roster;
-  Plan, Analysis, and the Team History projection are route-backed child views
-  selected as `Plan`, `Analysis`, and `History` from the attached Team menu
-  while the shared Play shell remains visible. The Roster takes
+  Plan and Analysis are route-backed child views selected from the attached
+  Team menu while the shared Play shell remains visible. The Roster takes
   `?pokemon=[playPokemonId]` (`appRoutes.mainlinePlayTeamPokemon`) to open with
   that Pokémon selected, as an Overview sticker links; on phones and tablets
-  its detail sheet opens straight away.
+  its detail sheet opens straight away. `?add=` opens Add Pokémon, on one
+  species (and `?form=`) when given (`appRoutes.mainlinePlayTeamAdd`).
+- Team Analysis reads Overall by default; `?reading=story` opens Story
+  matchups.
 - Progress owns only Story, Pokédex, and Collectibles. Its parent route opens
   Story, the always-supported default destination. The attached Progress menu
   switches directly between the three route-backed child views while Progress
@@ -288,27 +294,26 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - The contextual Team Plan comparison is a focused view inside the active Team
   section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
   navigation remain visible.
-- Focused Team History lives at
-  `/mainline/plays/[playId]/team/history`. Every breakpoint keeps the full
-  read-only event record inline; the timeline does not add a contextual sheet,
-  another route, or another navigation level.
-- History event details remain contextual sheets within the active Play History
-  tab in V1. They do not require a separate route or a second navigation level.
-- Settings uses local sections inside the active Play Settings tab. General,
-  Completion & Tracking, Rules & Tags, and Play Status & Management do not
-  require separate V1 routes.
-- Standalone Plans and their reusable authoring routes remain under the Plans
-  module because they can exist independently. The contextual comparison does
-  not add another primary Play tab or V1 route.
-- Global Settings remains one `/settings` route with Profile, Preferences, and
-  Account sections. V1 does not add section routes or tabs.
+- History is the Play's History tab at `/mainline/plays/[playId]/history`;
+  its Story, Team, Notes and Play filters are local state. Team History is
+  retired: its old address is gone and its events are History's Team filter.
+- Settings is one route with four local cards (General, Tracking, Challenge
+  rules, Archive or delete); they add no routes.
+- An archived Play leaves Home and the Plays list but keeps its address: its
+  Hub opens with a quiet "Archived" note and Restore, and Plays links to an
+  Archived list (`/mainline/plays?view=archived`) where each Play restores.
+- Standalone Plans live under `/mainline/plans` because they exist without a
+  Play. The contextual comparison does not add another primary Play tab.
+- Global Settings remains one `/settings` page (the trainer card, Look and
+  feel, New Play defaults, Account, Your data) plus the `/settings/export`
+  download. On phones `/you` gathers the trainer card, Statistics, Collection
+  and Settings.
 - Public not-found states keep the public shell. Protected resource-not-found
   and permission states keep the authenticated shell and return to the nearest
   owning library without exposing inaccessible resource existence.
 - Compatibility routes redirect rather than duplicate feature logic.
 - Protected destinations preserve a validated `next` path through login.
 - Route helpers and product contracts never imply implementation status.
-- The Play navigation always exposes the accepted five-area hierarchy so users
-  can understand its shape before every workflow is mounted. Implemented
-  destinations are links; planned destinations remain visibly disabled until
-  their route content is ready.
+- The Play navigation always exposes the five areas: Overview, Team, Progress,
+  History and Settings. Collectibles appears in the Progress menu only for a
+  game that has them.

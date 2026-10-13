@@ -32,7 +32,7 @@ The app should store user intent and meaningful user state. It should derive sum
 
 These should be calculated through queries, views, or app services:
 
-- Dashboard summaries.
+- Mainline Home summaries.
 - Completion percentages.
 - Collection.
 - Used-before flags.
@@ -51,6 +51,19 @@ Supabase Auth owns account identity, email, password, confirmation, recovery,
 and authenticated session truth. `public.profiles` owns the optional Voydex
 Display name, while `public.user_preferences` owns global Pokémon reuse scope
 and warn/filter behavior.
+
+The game and partner picked on Start a Play are a wish, not a record: they
+travel as `?game=` and `?partner=`, then wait on the Auth user's metadata
+(`voydex_intent`) so a confirmation link opened on another device keeps them.
+Mainline reads them with `auth.getUser()`, validates them again when it starts
+the Play, and clears them once the Play is started or put aside. The email
+typed on an auth page is kept for half an hour in an HTTP-only cookie so the
+next page can say where the link went; it never goes in a URL.
+
+An email change is Auth-owned: Supabase sends a confirmation link and the
+change takes effect once it is opened. Download your data
+(`/settings/export`) is an owner-scoped read of every user table, limited by
+Row Level Security and leaving reference data out; it writes nothing.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never
@@ -95,7 +108,10 @@ Codex may pass exact game, species, persistent form, content or availability
 context, and an intended Mainline action. Mainline remains responsible for
 authentication, eligible destinations, ownership, validation, warnings, and
 all Plan, Play, Team, or Collection mutations. A failed or cancelled handoff
-must leave reference and user-owned truth unchanged.
+must leave reference and user-owned truth unchanged. The signed-in pieces on
+Codex pages (Add to a Play, In your Plays, Start a {Version} Play, Your Plays,
+Played counts) are Mainline reads that the Codex routes inject through the
+Codex's slots; they only link into Mainline, which owns the write.
 
 ## Codex Games
 
@@ -158,6 +174,15 @@ second History model. Returning a past member reuses the same Play Pokémon row,
 clears historical-only state, assigns one current slot, and records the return.
 It never creates a duplicate member.
 
+Adding a Pokémon goes through `add_mainline_play_pokemon`: the server picks
+the first open slot of the team or reserve, so two quick adds can't claim the
+same one, and the addition joins History. Choosing a brand-new Play's partner
+adds it to slot 1 of an empty team and records the game's partner-choice
+milestone with that choice and the team it starts; Undo reverses both.
+Moving a member between team and reserve, or to another slot, waits on an
+atomic roster-placement operation (a swap breaks the per-slot unique index
+mid-update).
+
 Important team actions can create timeline events:
 
 - Added.
@@ -197,6 +222,15 @@ Snapshot rows are owned by the timeline event that created them. They are not th
 Timeline ordering should not require exact timestamps. Old imported plays can use manual order or milestone order when exact dates are unknown.
 
 ## History Events And Ordering
+
+One History owns every moment of a Play; the former Team History is its Team
+filter, not a second projection. Recording a milestone in place (Overview's
+Record) writes its completion, its moment and, where the milestone keeps
+snapshots, the current team in one step; Undo marks it incomplete, which also
+removes the moment, and the database refuses when something recorded since
+depends on it. Journal notes and status changes are appended at the end of the
+timeline (`insertMainlinePlayEvent`, which takes the next place and retries
+once on a clash).
 
 History owns the user-facing event narrative and the event-time evidence
 attached to it. Story, Team, Progress, and Plan remain the sources of truth for
@@ -272,8 +306,9 @@ through an explicit mistaken-completion correction.
 Each routine transition owns one atomic status-and-applicable-date result.
 Starting and completing may write date value plus certainty; Pause, Resume,
 Abandon, and Reopen do not invent dates. Historical completion defaults to
-unrecorded date knowledge. No lifecycle mutation owns Progress completion or an
-automatic History event.
+unrecorded date knowledge. No lifecycle mutation owns Progress completion. As
+built (v3), a status change saved from Play Settings' General card also
+appends a status-change moment to History.
 
 `notes` owns durable general Play context. V1 has no next-session reminder. The
 existing `save_notes` column has no accepted V1 consumer and must not be exposed
@@ -302,6 +337,17 @@ rewrites an existing shared definition as a side effect of one Play's save.
 ## Team Plan
 
 A Team Plan is separate from a play's current team.
+
+As built, the Team Planner saves a Plan's name, game and Pokémon with their
+planned moves. There is no single save-Plan database function yet, so the
+Pokémon are rewritten in order and a failure puts the previous ones back. A
+Plan stores one game, its version group's first, until
+`planning.mainline_team_plans` holds a version preference. An unsaved new
+Plan lives only in the browser's local storage, and a shared Plan lives only
+in a link's hash; neither is user-owned truth until saved. Following a Plan
+from a Play links it through `link_mainline_team_plan_to_play`, or re-points
+the existing link in one update; the database checks the Plan is yours and
+for the same game.
 
 The product contract is one focused linked Team Plan per play.
 
@@ -360,7 +406,9 @@ usage. Planned members and Pokédex Seen/Caught state do not establish use.
 
 Collection has no primary mutable table. It is an owner-scoped read model over
 Play Pokémon, event Pokémon references, Team snapshots, and their Play and game
-context. Corrections remain owned by Team and History.
+context (archived Plays included). Corrections remain owned by Team and
+History. Collection and Statistics share one reader
+(`mainline/shared/server/trainer-pokemon-reader.ts`).
 
 ## Stats
 
