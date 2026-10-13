@@ -55,7 +55,8 @@ outline, inside a Play too.
   titles at 20px and up, list group headings, the Play name, the trainer name,
   the names of Pokémon you own on stickers, and figures of 24px and up.
   `h1`–`h3` default to it; card titles use it through `CardTitle`.
-- **Nunito (600–800)** is everything you operate: every button including the
+- **Nunito (600–800)** is everything you operate (settled 2026-10-13 after a
+  side-by-side with v3's Fredoka button): every button including the
   main one, tabs, pills, chips, labels, table headers and reference-card
   titles.
 - Nothing under 16px is Fredoka.
@@ -107,7 +108,7 @@ text-select-ink` (the soft tint of the context colour with deep ink). Solid
   row, and things you own (stickers, roster tiles, caught Pokémon cards,
   stamps, found collectibles, the trainer card) plus the small lip under
   medallions.
-- **Clay edge (quiet material)**: a section card on the page ground has a 3px
+- **Clay edge (quiet material)**: a section card on the page ground has a 3px (settled 2026-10-13 against v3's 4px)
   neutral edge (`shadow-card`, `--clay-edge`). It never moves when pressed and
   never takes game, type or gold colour. It drops when a card sits inside
   another card, a sheet or a dialog (`Card` handles this), and grid items you
