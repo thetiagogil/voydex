@@ -2,12 +2,14 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Button } from "@/shared/components/ui/button";
 
-import { TeamAnalysisOverviewSection } from "./sections/analysis-overview/team-analysis-overview-section";
+import { joinTeamAnalysisList } from "./data/team-analysis-health";
 import { TeamAnalysisDefensiveSection } from "./sections/defensive-matchups/team-analysis-defensive-section";
 import { TeamAnalysisMoveCoverageSection } from "./sections/move-coverage/team-analysis-move-coverage-section";
+import { TeamAnalysisPageHead } from "./sections/page-head/team-analysis-page-head";
 import { TeamAnalysisHealthSection } from "./sections/team-health/team-analysis-health-section";
 
 type MainlinePlayTeamAnalysisProps = {
@@ -15,55 +17,75 @@ type MainlinePlayTeamAnalysisProps = {
   playId: string;
 };
 
+const emptyTeamArtUrl = getPokemonFormImageUrl({
+  name: "Pikachu",
+  sprite_slug: "pikachu",
+});
+
+/*
+ * Team analysis is a tool, so it stays quiet: four health cards (Team health
+ * first), then the defensive matrix and the move coverage. Only the data keeps
+ * its colour: matchup tints, type colours and the Pokémon themselves.
+ */
 export const MainlinePlayTeamAnalysis = ({
   data,
   playId,
 }: MainlinePlayTeamAnalysisProps) => {
   const { analysis } = data;
-  const teamHref = appRoutes.mainlinePlayTeam(playId);
+
+  if (!analysis || analysis.members.length === 0) {
+    return (
+      <div className="grid min-w-0 gap-6 sm:gap-7">
+        <TeamAnalysisPageHead description="How your team holds up" />
+        <EmptyState
+          artUrl={emptyTeamArtUrl}
+          title={
+            analysis ? "Not enough team to read yet" : "No type chart to read"
+          }
+          description={
+            analysis
+              ? "Once Pokémon join your active team, this shows how it holds up: what it's weak to, what it resists and what your moves reach."
+              : "This Play's game has no generation recorded, so Voydex can't pick the type chart to read your team with."
+          }
+          action={
+            <Button
+              variant="outline"
+              nativeButton={false}
+              render={
+                <Link href={appRoutes.mainlinePlayTeam(playId)}>
+                  Open your team
+                </Link>
+              }
+            />
+          }
+        />
+      </div>
+    );
+  }
+
+  const { evidence } = analysis;
+  const leftOut = [
+    ...(analysis.abilitiesApply ? ["abilities"] : []),
+    ...(analysis.heldItemsApply ? ["held items"] : []),
+    "battle effects",
+  ];
 
   return (
-    <div className="grid gap-4">
-      <h2 className="sr-only">Team Analysis</h2>
-
-      {!analysis ? (
-        <EmptyState
-          title="Analysis unavailable"
-          description="This Play does not have enough game context to apply generation-correct type rules."
-          action={
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href={teamHref}>Open Team</Link>}
-            />
-          }
+    <div className="grid min-w-0 gap-8 sm:gap-10">
+      <div className="grid min-w-0 gap-6 sm:gap-7">
+        <TeamAnalysisPageHead
+          description={`${analysis.lineupLabel} · ${evidence.activeCount} Pokémon · ${evidence.recordedMoveCount} of ${evidence.possibleMoveCount} moves recorded`}
+          showReadingSwitch
         />
-      ) : analysis.members.length === 0 ? (
-        <EmptyState
-          title="No Active Pokémon recorded"
-          description="Move Pokémon into the Active lineup to see defensive matchups and recorded move coverage."
-          action={
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href={teamHref}>Open Team</Link>}
-            />
-          }
-        />
-      ) : (
-        <>
-          <TeamAnalysisOverviewSection analysis={analysis} />
-          <TeamAnalysisHealthSection metrics={analysis.healthMetrics} />
-          <TeamAnalysisDefensiveSection
-            members={analysis.members}
-            rows={analysis.defensiveRows}
-          />
-          <TeamAnalysisMoveCoverageSection
-            members={analysis.members}
-            rows={analysis.coverageRows}
-          />
-        </>
-      )}
+        <TeamAnalysisHealthSection metrics={analysis.healthMetrics} />
+      </div>
+      <TeamAnalysisDefensiveSection
+        footnote={`Read from each Pokémon's own typing on the ${analysis.generation.name} type chart, without ${joinTeamAnalysisList(leftOut, "or")}.`}
+        lineupLabel={analysis.lineupLabel}
+        members={analysis.members}
+        rows={analysis.defensiveRows}
+      />
+      <TeamAnalysisMoveCoverageSection rows={analysis.coverageRows} />
     </div>
   );
 };

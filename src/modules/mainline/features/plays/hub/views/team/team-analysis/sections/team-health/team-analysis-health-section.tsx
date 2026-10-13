@@ -1,172 +1,125 @@
-import {
-  CrosshairIcon,
-  HeartPulseIcon,
-  InfoIcon,
-  ShieldCheckIcon,
-  TriangleAlertIcon,
-  type LucideIcon,
-} from "lucide-react";
+import { Fragment } from "react";
 
-import { MainlinePlayMetricIcon } from "@/modules/mainline/features/plays/hub/shell/mainline-play-metric-icon";
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type {
   TeamAnalysisHealthMetric,
   TeamAnalysisHealthStatus,
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import {
+  StatusBadge,
+  type StatusBadgeTone,
+} from "@/shared/components/status-badge";
+import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
-const statusLabels: Record<TeamAnalysisHealthStatus, string> = {
-  "limited-data": "Limited data",
-  moderate: "Moderate",
-  strong: "Strong",
-  weak: "Weak",
+import { TeamAnalysisTypeName } from "../../components/team-analysis-type-name";
+import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
+
+const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
+  "limited-data": "neutral",
+  moderate: "warn",
+  strong: "ok",
+  weak: "danger",
 };
 
-const metricIcons: Record<TeamAnalysisHealthMetric["id"], LucideIcon> = {
-  "move-coverage": CrosshairIcon,
-  "team-health": HeartPulseIcon,
-  "threat-response": ShieldCheckIcon,
-  "weakness-control": TriangleAlertIcon,
-};
+/* v3 `.infotip`: the small "i" dot, a shade off the card it sits on. */
+const infoDotClassName =
+  "text-ink-2 hover:text-ink relative inline-grid size-4.5 shrink-0 cursor-help place-items-center rounded-full transition-colors after:absolute after:-inset-2.5";
 
-const statusIconClassNames: Record<TeamAnalysisHealthStatus, string> = {
-  "limited-data": "border-muted-foreground/20 bg-muted text-muted-foreground",
-  moderate: "border-warn/50 bg-warn-soft text-warn-ink",
-  strong: "border-ok-line bg-ok-soft text-ok",
-  weak: "border-destructive/25 bg-destructive/10 text-destructive",
-};
-
-const statusTextClassNames: Record<TeamAnalysisHealthStatus, string> = {
-  "limited-data": "text-muted-foreground",
-  moderate: "text-warn-ink",
-  strong: "text-ok",
-  weak: "text-destructive",
-};
-
-const TeamAnalysisHealthMetricColumn = ({
-  index,
+const TeamAnalysisHealthCard = ({
+  isLead,
   metric,
 }: {
-  index: number;
+  isLead: boolean;
   metric: TeamAnalysisHealthMetric;
 }) => {
-  const MetricIcon = metricIcons[metric.id];
+  const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    <article
-      className={cn(
-        "border-line grid content-start px-4 py-5",
-        index > 0 && "border-t sm:border-t-0 xl:border-l",
-        index % 2 === 1 && "sm:border-l",
-        index >= 2 && "sm:border-t xl:border-t-0",
-      )}
-    >
-      <div className="flex items-start gap-3">
-        <MainlinePlayMetricIcon
-          icon={MetricIcon}
-          className={statusIconClassNames[metric.status]}
-        />
-
-        <div className="min-w-0 flex-1">
-          <h4 className="text-sm leading-5 font-semibold">{metric.title}</h4>
-          <p
-            className={cn(
-              "mt-0.5 text-base leading-5 font-semibold",
-              statusTextClassNames[metric.status],
-            )}
-          >
-            {statusLabels[metric.status]}
-          </p>
-        </div>
-
+    /* Team health leads on the inset fill; the verdict is v3's small pill. */
+    <Card className={cn("gap-0 px-5.5 py-5", isLead && "bg-surface-2")}>
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
+          {metric.title}
+        </h3>
         <ExplanatoryTip
           align="end"
           side="bottom"
+          contentClassName="w-70"
           content={
-            <div className="grid gap-3">
-              <div>
-                <p className="font-semibold">Current result</p>
-                <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                  <span
-                    className={cn(
-                      "font-semibold",
-                      statusTextClassNames[metric.status],
-                    )}
-                  >
-                    {statusLabels[metric.status]}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {metric.evidence}
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <p className="font-semibold">How this is measured</p>
-                <p className="text-muted-foreground mt-1">
-                  {metric.explanation.description}
-                </p>
-              </div>
-
-              <div>
-                <p className="font-semibold">Status guide</p>
-                <ul className="text-muted-foreground mt-1 list-disc space-y-1 pl-4">
-                  {metric.explanation.rules.map((rule) => (
-                    <li key={rule}>{rule}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {metric.explanation.note ? (
-                <p className="border-border/70 text-muted-foreground border-t pt-2">
-                  {metric.explanation.note}
-                </p>
-              ) : null}
-            </div>
+            <p>
+              <b>{statusLabel}.</b> {metric.reason}
+            </p>
           }
-          contentClassName="w-80 max-w-[calc(100vw-2rem)] px-4 py-3"
           trigger={
             <button
               type="button"
-              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-7 shrink-0 cursor-help items-center justify-center rounded-full outline-none focus-visible:ring-2"
-              aria-label={`How ${metric.title} is assessed`}
+              aria-label={`Why ${metric.title} reads ${statusLabel}`}
+              className={cn(
+                infoDotClassName,
+                isLead ? "bg-surface" : "bg-surface-2",
+              )}
             />
           }
         >
-          <InfoIcon aria-hidden className="size-4" />
+          <span
+            aria-hidden
+            className="text-12 leading-none font-extrabold italic"
+          >
+            i
+          </span>
         </ExplanatoryTip>
       </div>
 
-      <p className="text-muted-foreground mt-4 text-xs leading-5">
-        {metric.summary}
+      <StatusBadge
+        tone={statusTones[metric.status]}
+        className={cn(
+          "text-13 mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
+          metric.status === "limited-data" && "bg-track",
+        )}
+      >
+        <span aria-hidden className="size-2 rounded-full bg-current" />
+        {statusLabel}
+      </StatusBadge>
+
+      <p className="text-14 text-ink-2 leading-normal font-medium">
+        {metric.line.map((part, index) => (
+          <Fragment key={index}>
+            {index > 0 ? " " : null}
+            {"type" in part ? (
+              <TeamAnalysisTypeName
+                size="sm"
+                type={part.type}
+                className="align-[-3px]"
+              />
+            ) : (
+              part.text
+            )}
+          </Fragment>
+        ))}
       </p>
-    </article>
+    </Card>
   );
 };
 
+/*
+ * How the team holds up, as four cards: a verdict each, backed by a line only
+ * this team could have; why it reads that way is in the card's tooltip.
+ */
 export const TeamAnalysisHealthSection = ({
   metrics,
 }: {
   metrics: TeamAnalysisHealthMetric[];
 }) => {
   return (
-    <MainlinePlaySectionCard
-      title="Team assessment"
-      headingLevel={3}
-      description="A quick reading of exact-generation typing and recorded damaging moves."
-      contentClassName="p-0"
-      showSeparator
-    >
-      <div className="grid sm:grid-cols-2 xl:grid-cols-4">
-        {metrics.map((metric, index) => (
-          <TeamAnalysisHealthMetricColumn
-            key={metric.id}
-            index={index}
-            metric={metric}
-          />
-        ))}
-      </div>
-    </MainlinePlaySectionCard>
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+      {metrics.map((metric) => (
+        <TeamAnalysisHealthCard
+          key={metric.id}
+          isLead={metric.id === "team-health"}
+          metric={metric}
+        />
+      ))}
+    </div>
   );
 };

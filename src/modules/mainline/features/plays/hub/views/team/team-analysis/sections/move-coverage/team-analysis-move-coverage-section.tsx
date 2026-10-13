@@ -1,217 +1,88 @@
 import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import type {
-  TeamAnalysisCoverageMove,
-  TeamAnalysisCoverageRow,
-} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import type { TeamAnalysisCoverageRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import {
-  getPokemonTypeCssVariables,
-  pokemonTypeSoftBackgroundClassName,
-  pokemonTypeSoftBorderClassName,
-  pokemonTypeTextClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+  PokemonTypeBadge,
+  PokemonTypeIcon,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/components/ui/accordion";
-import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
-import { cn } from "@/shared/utils/cn";
 
-import {
-  getTeamAnalysisMemberId,
-  getTeamAnalysisMemberName,
-  TeamAnalysisMemberPortrait,
-} from "../../components/team-analysis-member";
-import { TeamAnalysisTypeLabel } from "../../components/team-analysis-type-label";
+/*
+ * One chip per type: the type's own chip with how many recorded moves hit it
+ * super effectively, or a dashed chip when nothing does (a gap in coverage).
+ */
+const CoverageChip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
+  const typeSlug = isPokemonTypeSlug(row.defendingType.slug)
+    ? row.defendingType.slug
+    : null;
+  const { moveCount } = row;
+  const name = row.defendingType.name;
 
-const formatCount = (count: number, singular: string) =>
-  `${count} ${count === 1 ? singular : `${singular}s`}`;
-
-const CoverageMove = ({ move }: { move: TeamAnalysisCoverageMove }) => {
-  const typeSlug = isPokemonTypeSlug(move.type.slug) ? move.type.slug : null;
+  if (typeSlug && moveCount > 0) {
+    return (
+      <>
+        <span aria-hidden>
+          <PokemonTypeBadge
+            size="lg"
+            type={typeSlug}
+            label={`${name} ${moveCount}`}
+            className="tabular-nums"
+          />
+        </span>
+        <span className="sr-only">
+          {name}, {moveCount} recorded {moveCount === 1 ? "move" : "moves"}
+        </span>
+      </>
+    );
+  }
 
   return (
-    <span
-      style={typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined}
-      className={cn(
-        "inline-flex max-w-full items-center gap-1 rounded-md border px-1.5 py-1 text-[0.68rem] leading-none font-medium",
-        typeSlug && pokemonTypeSoftBackgroundClassName,
-        typeSlug && pokemonTypeSoftBorderClassName,
-        typeSlug && pokemonTypeTextClassName,
-      )}
-      title={`${move.name}${
-        move.receivesStab ? ", STAB (same-type attack bonus)" : ""
-      }`}
-    >
-      <span className="truncate">{move.name}</span>
-      {move.receivesStab ? (
-        <span
-          aria-label="STAB, same-type attack bonus"
-          className="border-l border-current/20 pl-1 text-[0.58rem] font-semibold tracking-wide"
-        >
-          STAB
-        </span>
-      ) : null}
+    <span className="border-dash text-ink-2 text-14 inline-flex h-8.5 items-center gap-1.75 rounded-full border-[1.5px] border-dashed pr-3.25 pl-1 leading-none font-extrabold whitespace-nowrap">
+      <span
+        aria-hidden
+        className="bg-surface-2 grid size-6 place-items-center rounded-full"
+      >
+        {typeSlug ? (
+          <PokemonTypeIcon
+            type={typeSlug}
+            className="size-3.5 opacity-50 invert-0"
+          />
+        ) : null}
+      </span>
+      {name}
+      <span className="sr-only">, no recorded move</span>
     </span>
   );
 };
 
-const MoveCoverageMatrix = ({
-  members,
-  rows,
-}: {
-  members: MainlinePlayTeamMember[];
-  rows: TeamAnalysisCoverageRow[];
-}) => {
-  const gridTemplateColumns = `minmax(7rem, 1.2fr) repeat(${members.length}, minmax(4rem, 1fr)) minmax(3.5rem, .65fr) minmax(3rem, .55fr) minmax(4rem, .65fr)`;
-
-  return (
-    <div className="hidden md:block">
-      <div
-        className="border-line text-muted-foreground grid min-w-176 items-center gap-x-1 border-b px-2 pb-1.5 text-center text-[0.68rem] font-medium tracking-wide uppercase"
-        style={{ gridTemplateColumns }}
-      >
-        <span className="text-left">Defending type</span>
-        {members.map((member) => (
-          <div
-            key={getTeamAnalysisMemberId(member)}
-            className="flex min-w-0 items-center justify-center gap-1"
-          >
-            <TeamAnalysisMemberPortrait member={member} className="size-7" />
-            <span className="hidden min-w-0 truncate normal-case xl:block">
-              {getTeamAnalysisMemberName(member)}
-            </span>
-          </div>
-        ))}
-        <span>Pokémon</span>
-        <span>Moves</span>
-        <span className="leading-tight">STAB moves</span>
-      </div>
-
-      <div className="divide-line divide-y">
-        {rows.map((row) => (
-          <div
-            key={row.defendingType.id}
-            className={cn(
-              rowInteractionVariants(),
-              "grid min-w-176 items-center gap-x-1 px-2 py-1 text-center",
-            )}
-            style={{ gridTemplateColumns }}
-          >
-            <div className="justify-self-start">
-              <TeamAnalysisTypeLabel compact type={row.defendingType} />
-            </div>
-            {row.cells.map((cell) => (
-              <div
-                key={cell.memberId}
-                className="flex min-w-0 flex-col items-center gap-1"
-              >
-                {cell.moves.length ? (
-                  cell.moves.map((move) => (
-                    <CoverageMove key={move.id} move={move} />
-                  ))
-                ) : (
-                  <span
-                    className="text-muted-foreground/60 text-xs"
-                    aria-label="No recorded super-effective damaging move"
-                  >
-                    —
-                  </span>
-                )}
-              </div>
-            ))}
-            <span className="text-xs font-semibold">
-              {row.coveredByMemberCount}
-            </span>
-            <span className="text-xs font-semibold">{row.moveCount}</span>
-            <span className="text-xs font-semibold">{row.stabMoveCount}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const MoveCoverageAccordion = ({
-  members,
-  rows,
-}: {
-  members: MainlinePlayTeamMember[];
-  rows: TeamAnalysisCoverageRow[];
-}) => {
-  return (
-    <Accordion className="md:hidden" multiple>
-      {rows.map((row) => (
-        <AccordionItem
-          key={row.defendingType.id}
-          value={row.defendingType.slug}
-        >
-          <AccordionTrigger className="items-center gap-3 px-1 hover:no-underline">
-            <TeamAnalysisTypeLabel type={row.defendingType} />
-            <span className="text-muted-foreground mr-2 ml-auto text-xs">
-              {row.coveredByMemberCount} Pokémon ·{" "}
-              {formatCount(row.moveCount, "move")} · {row.stabMoveCount} STAB
-            </span>
-          </AccordionTrigger>
-          <AccordionContent className="grid gap-2 px-1">
-            {row.cells.map((cell, index) => {
-              const member = members[index];
-
-              return member ? (
-                <div
-                  key={cell.memberId}
-                  className="flex items-center justify-between gap-3"
-                >
-                  <div className="flex min-w-0 items-center gap-2">
-                    <TeamAnalysisMemberPortrait
-                      member={member}
-                      className="size-8"
-                    />
-                    <span className="truncate text-xs font-medium">
-                      {getTeamAnalysisMemberName(member)}
-                    </span>
-                  </div>
-                  <div className="flex max-w-[55%] flex-wrap justify-end gap-1">
-                    {cell.moves.length ? (
-                      cell.moves.map((move) => (
-                        <CoverageMove key={move.id} move={move} />
-                      ))
-                    ) : (
-                      <span className="text-muted-foreground text-xs">
-                        Not recorded
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ) : null;
-            })}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  );
-};
-
 export const TeamAnalysisMoveCoverageSection = ({
-  members,
   rows,
 }: {
-  members: MainlinePlayTeamMember[];
   rows: TeamAnalysisCoverageRow[];
 }) => {
+  const coveredCount = rows.filter((row) => row.moveCount > 0).length;
+
   return (
     <MainlinePlaySectionCard
-      title="Recorded move coverage"
+      title="Move coverage"
       headingLevel={3}
-      description="Defending types that can be hit super effectively by recorded damaging moves."
+      /* v3 hides the section aside on phones. */
+      description={
+        <span className="hidden sm:inline">
+          <b className="text-ink font-extrabold tabular-nums">
+            {coveredCount} of {rows.length}
+          </b>{" "}
+          types hit super effectively
+        </span>
+      }
       contentClassName="pt-2"
-      showSeparator
     >
-      <MoveCoverageMatrix members={members} rows={rows} />
-      <MoveCoverageAccordion members={members} rows={rows} />
+      <ul aria-label="Move coverage by type" className="flex flex-wrap gap-2">
+        {rows.map((row) => (
+          <li key={row.defendingType.id}>
+            <CoverageChip row={row} />
+          </li>
+        ))}
+      </ul>
     </MainlinePlaySectionCard>
   );
 };
