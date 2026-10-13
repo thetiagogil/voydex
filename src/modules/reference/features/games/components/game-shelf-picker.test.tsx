@@ -12,6 +12,7 @@ const shelfGame = (
   numeral: string,
 ): GameShelfGame => ({
   coverImageUrl: null,
+  coverShape: "portrait",
   generation: {
     id: generationNumber,
     name: `Generation ${numeral}`,
@@ -62,11 +63,17 @@ describe("GameShelfPicker", () => {
     expect(tabStops(markup)).toEqual(["blue"]);
   });
 
-  it("shows no paging arrows until it knows the shelf overflows", () => {
-    const markup = render({});
+  it("shows the paging arrows for where the shelf opens from the first paint", () => {
+    const newest = render({});
+    const middle = render({ value: "blue" });
+    const start = render({ initialGeneration: 1 });
 
-    expect(markup).not.toContain("Earlier games");
-    expect(markup).not.toContain("Later games");
+    expect(newest).toContain("Earlier games");
+    expect(newest).not.toContain("Later games");
+    expect(middle).toContain("Earlier games");
+    expect(middle).toContain("Later games");
+    expect(start).not.toContain("Earlier games");
+    expect(start).toContain("Later games");
   });
 
   it("opens at the asked-for generation, else the newest game", () => {

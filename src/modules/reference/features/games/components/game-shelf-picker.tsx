@@ -14,9 +14,8 @@ import { GameCover } from "@/modules/reference/features/games/components/game-co
 import type { GameShelfGame } from "@/modules/reference/features/games/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Button } from "@/shared/components/ui/button";
+import { ShelfArrows } from "@/shared/components/shelf-arrows";
 import { cn } from "@/shared/utils/cn";
-import { readScrollEdges, type ScrollEdges } from "@/shared/utils/scroll-edges";
 
 type GameShelfPickerProps = {
   /* Names the shelf for assistive tech. */
@@ -44,6 +43,12 @@ type GameShelfPickerProps = {
 
 /* Where the shelf reads a cover as "in view": past its faded left edge. */
 const READING_EDGE = 0.1;
+
+/*
+ * Covers this close to where the shelf opens load at once; the rest wait
+ * until the shelf scrolls near them.
+ */
+const EAGER_COVER_REACH = 14;
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
@@ -87,23 +92,23 @@ export const GameShelfPicker = ({
     return firstByGeneration;
   }, [games]);
   const pickedGame = games.find((game) => game.slug === value) ?? null;
+  const generationOpeningSlug =
+    initialGeneration !== undefined
+      ? firstGameOfGeneration.get(initialGeneration)?.slug
+      : undefined;
+  /* Where the shelf opens: the picked game, the asked-for generation, else the newest. */
+  const [opening] = useState(() => {
+    const slug = pickedGame?.slug ?? generationOpeningSlug;
+    const index = slug ? games.findIndex((game) => game.slug === slug) : -1;
+
+    return index === -1
+      ? { atNewest: true, index: games.length - 1 }
+      : { atNewest: false, index };
+  });
   const [activeSlug, setActiveSlug] = useState<string | null>(
-    () =>
-      pickedGame?.slug ??
-      (initialGeneration !== undefined
-        ? firstGameOfGeneration.get(initialGeneration)?.slug
-        : undefined) ??
-      games.at(-1)?.slug ??
-      null,
+    () => games[opening.index]?.slug ?? null,
   );
   const [generationInView, setGenerationInView] = useState<number | null>(null);
-  /* Neither arrow until the shelf is measured (and none when it all fits). */
-  const [edges, setEdges] = useState<ScrollEdges>({
-    canScrollEnd: false,
-    canScrollStart: false,
-  });
-  const earlierRef = useRef<HTMLButtonElement>(null);
-  const laterRef = useRef<HTMLButtonElement>(null);
   const tabStopSlug =
     activeSlug && games.some((game) => game.slug === activeSlug)
       ? activeSlug
@@ -137,39 +142,6 @@ export const GameShelfPicker = ({
     setGenerationInView(game?.generation.number ?? null);
   }, [games]);
 
-  /*
-   * Which arrows the shelf needs. An arrow about to go while it has focus
-   * hands focus to the cover at that end, so focus never falls out.
-   */
-  const readEdges = useCallback(() => {
-    const shelf = shelfRef.current;
-
-    if (!shelf) {
-      return;
-    }
-
-    const next = readScrollEdges(shelf);
-    const focused = document.activeElement;
-    const endGame =
-      !next.canScrollStart && focused === earlierRef.current
-        ? games[0]
-        : !next.canScrollEnd && focused === laterRef.current
-          ? games.at(-1)
-          : undefined;
-
-    if (endGame) {
-      setActiveSlug(endGame.slug);
-      getCover(endGame.slug)?.focus({ preventScroll: true });
-    }
-
-    setEdges((current) =>
-      current.canScrollEnd === next.canScrollEnd &&
-      current.canScrollStart === next.canScrollStart
-        ? current
-        : next,
-    );
-  }, [games, getCover]);
-
   /* Scrolls a generation's first cover to the shelf's left reading edge. */
   const scrollToCover = useCallback(
     (slug: string, behavior: ScrollBehavior) => {
@@ -190,56 +162,32 @@ export const GameShelfPicker = ({
 
   /*
    * Opening the shelf: the picked game in the middle, else the asked-for
-   * generation, else the newest games (v3). Covers keep their platform's
-   * shape, so their widths are known only once each image loads: the opening
-   * place is set again on every load until the reader moves the shelf. It is
-   * placed before the first paint, so the shelf never shows its start first.
+   * generation, else the newest games (v3). Every cover holds its box's shape
+   * before its art loads, so the place is set once, before the first paint.
    */
   useLayoutEffect(() => {
     const shelf = shelfRef.current;
+    const openingSlug = games[opening.index]?.slug;
 
     if (!shelf) {
       return;
     }
 
-    const pickedSlug = pickedGame?.slug;
-    const generationSlug =
-      initialGeneration !== undefined
-        ? firstGameOfGeneration.get(initialGeneration)?.slug
-        : undefined;
-    const placeOpening = () => {
-      const pickedCover = pickedSlug ? getCover(pickedSlug) : null;
+    if (opening.atNewest || !openingSlug) {
+      shelf.scrollLeft = shelf.scrollWidth;
+    } else if (pickedGame?.slug === openingSlug) {
+      const pickedCover = getCover(openingSlug);
 
       if (pickedCover) {
         shelf.scrollLeft =
           pickedCover.offsetLeft -
           (shelf.clientWidth - pickedCover.offsetWidth) / 2;
-      } else if (generationSlug) {
-        scrollToCover(generationSlug, "auto");
-      } else {
-        shelf.scrollLeft = shelf.scrollWidth;
       }
+    } else {
+      scrollToCover(openingSlug, "auto");
+    }
 
-      readGenerationInView();
-      readEdges();
-    };
-    /* The whole picker: the shelf, its arrows and the generation marks. */
-    const picker = shelf.closest<HTMLElement>("[data-slot=game-shelf-picker]");
-    const readerEvents = ["keydown", "pointerdown", "touchstart", "wheel"];
-    const stopPlacing = () => {
-      shelf.removeEventListener("load", placeOpening, true);
-      readerEvents.forEach((type) =>
-        picker?.removeEventListener(type, stopPlacing),
-      );
-    };
-
-    placeOpening();
-    shelf.addEventListener("load", placeOpening, true);
-    readerEvents.forEach((type) =>
-      picker?.addEventListener(type, stopPlacing, { passive: true }),
-    );
-
-    return stopPlacing;
+    readGenerationInView();
     // Only where the shelf opens; later picks keep the reader's place.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -254,25 +202,19 @@ export const GameShelfPicker = ({
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        readGenerationInView();
-        readEdges();
-      });
+      frame = requestAnimationFrame(readGenerationInView);
     };
-    /* The shelf's width changes with the window; its content's as covers load. */
     const resizeObserver = new ResizeObserver(onScroll);
 
     resizeObserver.observe(shelf);
     shelf.addEventListener("scroll", onScroll, { passive: true });
-    shelf.addEventListener("load", onScroll, true);
 
     return () => {
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       shelf.removeEventListener("scroll", onScroll);
-      shelf.removeEventListener("load", onScroll, true);
     };
-  }, [readEdges, readGenerationInView]);
+  }, [readGenerationInView]);
 
   const pick = (slug: string) => {
     setActiveSlug(slug);
@@ -316,15 +258,6 @@ export const GameShelfPicker = ({
       event.preventDefault();
       pick(tabStopSlug);
     }
-  };
-
-  const pageShelf = (direction: -1 | 1) => {
-    const shelf = shelfRef.current;
-
-    shelf?.scrollBy({
-      behavior: scrollBehavior(),
-      left: direction * shelf.clientWidth * 0.7,
-    });
   };
 
   const jumpToGeneration = (generationNumber: string) => {
@@ -371,31 +304,22 @@ export const GameShelfPicker = ({
       value: String(game.generation.number),
     }),
   );
-  // v3 .hh-arr: the quiet button's lip plus a float shadow, pressing onto it.
-  const arrowClassName =
-    "absolute top-[calc(50%+12px)] z-10 size-11.5 -translate-y-1/2 rounded-full text-ink-2 shadow-[var(--shadow-quiet-value),var(--shadow-float-value)] hover:text-ink active:not-aria-[haspopup]:translate-y-[calc(-50%+3px)] active:not-aria-[haspopup]:shadow-float max-sm:hidden";
-
   return (
     <div
       data-slot="game-shelf-picker"
       className={cn("flex min-w-0 flex-col", className)}
     >
-      <div className="relative">
-        {edges.canScrollStart ? (
-          <Button
-            ref={earlierRef}
-            type="button"
-            variant="outline"
-            size="icon"
-            aria-label="Earlier games"
-            onClick={() => pageShelf(-1)}
-            className={cn(arrowClassName, "left-5")}
-          >
-            <AppIcon icon={appIcons.actions.previous} size="lg" />
-          </Button>
-        ) : null}
+      <ShelfArrows
+        earlierLabel="Earlier games"
+        laterLabel="Later games"
+        initialEdges={{
+          canScrollEnd: !opening.atNewest && opening.index < games.length - 1,
+          canScrollStart: opening.index > 0,
+        }}
+      >
         <div
           ref={shelfRef}
+          data-slot="shelf-scroller"
           role="listbox"
           aria-label={ariaLabel}
           aria-orientation="horizontal"
@@ -405,7 +329,7 @@ export const GameShelfPicker = ({
             "gap-3 px-4.5 pt-9 pb-4 sm:gap-4 sm:px-16 sm:pt-10",
           )}
         >
-          {games.map((game) => {
+          {games.map((game, index) => {
             const isPicked = game.slug === value;
 
             return (
@@ -429,8 +353,10 @@ export const GameShelfPicker = ({
                 <GameCover
                   alt=""
                   coverImageUrl={game.coverImageUrl}
+                  eager={Math.abs(index - opening.index) <= EAGER_COVER_REACH}
                   gameName={game.name}
                   gameSlug={game.slug}
+                  shape={game.coverShape}
                   size={coverSize === "lg" ? "pickerLarge" : "picker"}
                 />
                 {isPicked ? (
@@ -449,20 +375,7 @@ export const GameShelfPicker = ({
             );
           })}
         </div>
-        {edges.canScrollEnd ? (
-          <Button
-            ref={laterRef}
-            type="button"
-            variant="outline"
-            size="icon"
-            aria-label="Later games"
-            onClick={() => pageShelf(1)}
-            className={cn(arrowClassName, "right-5")}
-          >
-            <AppIcon icon={appIcons.actions.next} size="lg" />
-          </Button>
-        ) : null}
-      </div>
+      </ShelfArrows>
 
       <div className="no-scrollbar mt-1 flex items-center justify-center-safe gap-2 overflow-x-auto px-4.5">
         <span

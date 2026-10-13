@@ -172,7 +172,7 @@ describe("buildGameShelfGames", () => {
           created_at: createdAt,
           id: 1,
           name: "Nintendo Switch",
-          slug: "switch",
+          slug: "nintendo-switch",
           sort_order: 1,
         } as never,
       ],
@@ -185,6 +185,7 @@ describe("buildGameShelfGames", () => {
 
     expect(shelf.map((entry) => entry.slug)).toEqual(["red", "sword"]);
     expect(shelf[1]).toMatchObject({
+      coverShape: "portrait",
       generation: { name: "Generation VIII", numeral: "VIII", number: 8 },
       platformNames: ["Nintendo Switch"],
       shortName: "Sword",

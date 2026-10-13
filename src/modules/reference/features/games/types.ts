@@ -1,4 +1,5 @@
 import type { PokemonTypePair } from "@/modules/reference/features/pokemon/types";
+import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import type { GameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
@@ -36,6 +37,8 @@ export type GameCard = {
  */
 export type GameShelfGame = {
   coverImageUrl: string | null;
+  /* The box's shape, so the cover holds its place before the art loads. */
+  coverShape: GameCoverShape;
   generation: {
     id: number;
     /* "Generation VIII". */

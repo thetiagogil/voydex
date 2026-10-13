@@ -8,6 +8,7 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
+import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
 export type HomeTeamMember = {
@@ -22,6 +23,8 @@ export type HomeTeamMember = {
 export type HomePlay = {
   completedOn: string | null;
   coverImageUrl: string | null;
+  /* The box's shape, so the shelf holds each cover's place before it loads. */
+  coverShape: GameCoverShape | null;
   gameName: string;
   gameShortName: string;
   gameSlug: string | null;
@@ -64,6 +67,7 @@ export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
   return {
     completedOn: play.completed_on,
     coverImageUrl: play.coverImageUrl,
+    coverShape: null,
     gameName,
     gameShortName: getGameShortName(gameName),
     gameSlug: play.game_slug,

@@ -1,5 +1,6 @@
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { compareGamesByRelease } from "@/modules/reference/features/games/data/game-release-order";
+import { getGameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import type {
   GameShelfGame,
   GameStarter,
@@ -48,6 +49,7 @@ export const buildGameShelfGames = (rows: GameShelfRows): GameShelfGame[] => {
   const platformById = byId(rows.platforms);
   const compareByRelease = compareGamesByRelease(rows);
   const platformNamesByGameId = new Map<number, string[]>();
+  const firstPlatformSlugByGameId = new Map<number, string>();
 
   for (const gamePlatform of rows.gamePlatforms.toSorted(
     (first, second) => first.sort_order - second.sort_order,
@@ -59,6 +61,10 @@ export const buildGameShelfGames = (rows: GameShelfRows): GameShelfGame[] => {
     }
 
     const names = platformNamesByGameId.get(gamePlatform.game_id) ?? [];
+
+    if (!firstPlatformSlugByGameId.has(gamePlatform.game_id)) {
+      firstPlatformSlugByGameId.set(gamePlatform.game_id, platform.slug);
+    }
 
     names.push(platform.name);
     platformNamesByGameId.set(gamePlatform.game_id, names);
@@ -77,6 +83,7 @@ export const buildGameShelfGames = (rows: GameShelfRows): GameShelfGame[] => {
 
     return {
       coverImageUrl: getGameCoverImageUrl(game),
+      coverShape: getGameCoverShape(firstPlatformSlugByGameId.get(game.id)),
       generation: {
         id: generation.id,
         name: generation.name,

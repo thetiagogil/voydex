@@ -16,7 +16,10 @@ import { readNewPlayPickerData } from "@/modules/mainline/features/plays/shared/
 import { readStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
 import { readTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
-import { readGameStarters } from "@/modules/reference/features/games/server/game-shelf-reader";
+import {
+  readGameCatalogue,
+  readGameStarters,
+} from "@/modules/reference/features/games/server/game-shelf-reader";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -250,12 +253,18 @@ export const getHomePageData = async (
   const current =
     browseItems.find((play) => play.play_id === requestedPlayId) ??
     browseItems[0];
-  const [leadTypes, moments, partnerChoice, intentOffer] = await Promise.all([
-    readLeadTypes(supabase, browseItems),
-    readHomeMoments(supabase, current),
-    readPartnerChoice(supabase, current),
-    readIntentOffer(supabase),
-  ]);
+  const [leadTypes, moments, partnerChoice, intentOffer, catalogue] =
+    await Promise.all([
+      readLeadTypes(supabase, browseItems),
+      readHomeMoments(supabase, current),
+      readPartnerChoice(supabase, current),
+      readIntentOffer(supabase),
+      // The cached game list, for each cover's box shape on the shelf.
+      readGameCatalogue().catch(() => null),
+    ]);
+  const coverShapeByGameSlug = new Map(
+    catalogue?.games.map((game) => [game.slug, game.coverShape]),
+  );
   const plays = browseItems.flatMap((item): HomePlay[] => {
     const play = toHomePlay(item);
 
@@ -264,6 +273,9 @@ export const getHomePageData = async (
     return [
       {
         ...play,
+        coverShape: play.gameSlug
+          ? (coverShapeByGameSlug.get(play.gameSlug) ?? null)
+          : null,
         lead: play.lead
           ? { ...play.lead, typeSlug: leadTypes.get(play.lead.id) ?? null }
           : null,
