@@ -1,100 +1,98 @@
 "use client";
 
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 import type {
   MainlinePlayTeamPlanData,
   MainlinePlayTeamPlanMemberComparison,
 } from "@/modules/mainline/features/plays/hub/types";
+import { appRoutes } from "@/config/routes";
 import { EmptyState } from "@/shared/components/empty-state";
-import { cn } from "@/shared/utils/cn";
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { Button } from "@/shared/components/ui/button";
 
-import { TeamPlanComparisonInspector } from "./sections/comparison/team-plan-comparison-inspector";
-import { TeamPlanComparisonSection } from "./sections/comparison/team-plan-comparison-section";
-import { TeamPlanComparisonSheet } from "./sections/comparison/team-plan-comparison-sheet";
-import { TeamPlanNotesSection } from "./sections/notes/team-plan-notes-section";
+import { TeamPlanCompareDialog } from "./sections/compare/team-plan-compare-dialog";
+import {
+  TeamPlanHead,
+  TeamPlanSharedTip,
+} from "./sections/head/team-plan-head";
+import { TeamPlanOffPlanSection } from "./sections/off-plan/team-plan-off-plan-section";
 import { TeamPlanSummarySection } from "./sections/summary/team-plan-summary-section";
+import { TeamPlanTargetsSection } from "./sections/targets/team-plan-targets-section";
 
 type MainlinePlayTeamPlanProps = {
   data: MainlinePlayTeamPlanData;
 };
 
+/*
+ * Team Plan: how this Play compares with the Plan it follows. Nothing here is
+ * loud; the targets are lively (stickers once found, silhouettes until then)
+ * and each one's detail opens in the compare dialog.
+ */
 export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
   const plan = data.teamPlan;
-  const usesComparisonSheet = useMainlinePlayDetailSheetLayout();
-  const [selectedComparisonId, setSelectedComparisonId] = useState(
-    plan?.comparisons[0]?.planMemberId ?? null,
-  );
-  const [isComparisonSheetOpen, setIsComparisonSheetOpen] = useState(false);
-
-  const selectedComparison =
-    plan?.comparisons.find(
-      (comparison) => comparison.planMemberId === selectedComparisonId,
-    ) ??
-    plan?.comparisons[0] ??
-    null;
-
-  const selectComparison = (
-    comparison: MainlinePlayTeamPlanMemberComparison,
-  ) => {
-    setSelectedComparisonId(comparison.planMemberId);
-
-    if (usesComparisonSheet) {
-      setIsComparisonSheetOpen(true);
-    }
-  };
+  const { playId } = useParams<{ playId: string }>();
+  const [selectedComparison, setSelectedComparison] =
+    useState<MainlinePlayTeamPlanMemberComparison | null>(null);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   if (!plan) {
     return (
-      <EmptyState
-        title="No Team Plan linked"
-        description="This Play does not have a linked Team Plan to compare with its recorded team."
-      />
+      <div className="grid gap-5">
+        <TeamPlanHead title="Plan">
+          The team you&apos;re aiming for
+        </TeamPlanHead>
+        <EmptyState
+          title="No Plan yet"
+          description="A Plan is the team you're aiming for in this Play. Once this Play follows one, this page shows how close your team is."
+          action={
+            <Button
+              variant="outline"
+              render={<Link href={appRoutes.mainlinePlayTeam(playId)} />}
+              nativeButton={false}
+            >
+              Open your team
+            </Button>
+          }
+        />
+      </div>
     );
   }
 
   return (
-    <div className="grid gap-4">
-      <TeamPlanSummarySection plan={plan} />
-
-      <div
-        className={cn(
-          "grid gap-4",
-          selectedComparison &&
-            "lg:grid-cols-[minmax(0,1.7fr)_minmax(22rem,1fr)]",
-        )}
-      >
-        <div
-          className={cn(
-            "grid h-full gap-4",
-            plan.notes && "lg:grid-rows-[auto_minmax(0,1fr)]",
-          )}
-        >
-          <TeamPlanComparisonSection
-            comparisons={plan.comparisons}
-            fillHeight={!plan.notes}
-            onSelect={selectComparison}
-            selectedComparisonId={selectedComparison?.planMemberId ?? null}
-            showSelection={!usesComparisonSheet || isComparisonSheetOpen}
-          />
-
-          {plan.notes ? <TeamPlanNotesSection notes={plan.notes} /> : null}
-        </div>
-
-        {selectedComparison ? (
-          <TeamPlanComparisonInspector
-            comparison={selectedComparison}
-            mechanics={plan.mechanics}
-          />
-        ) : null}
+    <div className="grid min-w-0 gap-8 sm:gap-10">
+      <div className="grid gap-5">
+        <TeamPlanHead title={plan.planName}>
+          The Plan this Play follows ·{" "}
+          <b className="text-ink font-extrabold tabular-nums">
+            {plan.foundCount} of {plan.targetCount}
+          </b>{" "}
+          targets recorded ·{" "}
+          <span className="tabular-nums">{plan.exactMatchCount}</span> exact{" "}
+          <TeamPlanSharedTip linkedPlayCount={plan.linkedPlayCount} />
+        </TeamPlanHead>
+        <TeamPlanSummarySection plan={plan} />
       </div>
 
-      <TeamPlanComparisonSheet
+      <TeamPlanTargetsSection
+        comparisons={plan.comparisons}
+        mechanics={plan.mechanics}
+        onSelect={(comparison) => {
+          setSelectedComparison(comparison);
+          setIsCompareOpen(true);
+        }}
+      />
+
+      {plan.offPlanMemberNames.length ? (
+        <TeamPlanOffPlanSection names={plan.offPlanMemberNames} />
+      ) : null}
+
+      <TeamPlanCompareDialog
         comparison={selectedComparison}
         mechanics={plan.mechanics}
-        open={usesComparisonSheet && isComparisonSheetOpen}
-        onOpenChange={setIsComparisonSheetOpen}
+        open={isCompareOpen}
+        onOpenChange={setIsCompareOpen}
       />
     </div>
   );
