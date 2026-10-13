@@ -11,7 +11,6 @@ import {
 } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation-model";
 import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import {
-  NavigationMenuControlDisabled,
   NavigationMenuControlLink,
   NavigationMenuControlTrigger,
 } from "@/shared/components/navigation-menu/navigation-menu-control";
@@ -34,7 +33,6 @@ type TeamNavigationView = {
 
 const teamViewLabels: Record<MainlinePlayTeamView, string> = {
   analysis: "Analysis",
-  history: "History",
   plan: "Plan",
   roster: "Roster",
 };
@@ -97,12 +95,6 @@ export const MainlinePlayNavigation = ({
       href: appRoutes.mainlinePlayTeamAnalysis(playId),
       label: "Analysis",
       value: "analysis",
-    },
-    {
-      description: "Follow how the team changed over time.",
-      href: appRoutes.mainlinePlayTeamHistory(playId),
-      label: "History",
-      value: "history",
     },
   ];
   const progressViews = [
@@ -196,23 +188,25 @@ export const MainlinePlayNavigation = ({
       </NavigationMenuItem>
 
       <NavigationMenuItem>
-        <NavigationMenuControlDisabled
-          accessibilityLabel="History is not available yet"
-          className="px-4"
+        <NavigationMenuControlLink
+          active={state.activeSection === "history"}
+          render={<Link href={appRoutes.mainlinePlayHistory(playId)} />}
+          className="justify-center px-4"
           variant="tab"
         >
           History
-        </NavigationMenuControlDisabled>
+        </NavigationMenuControlLink>
       </NavigationMenuItem>
 
       <NavigationMenuItem>
-        <NavigationMenuControlDisabled
-          accessibilityLabel="Settings is not available yet"
-          className="px-4"
+        <NavigationMenuControlLink
+          active={state.activeSection === "settings"}
+          render={<Link href={appRoutes.mainlinePlaySettings(playId)} />}
+          className="justify-center px-4"
           variant="tab"
         >
           Settings
-        </NavigationMenuControlDisabled>
+        </NavigationMenuControlLink>
       </NavigationMenuItem>
     </NavigationMenuBar>
   );

@@ -3,6 +3,7 @@ import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/feature
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
   MainlineChallengeRule,
+  MainlinePlayFollowablePlan,
   MainlinePlayGameContextRows,
   MainlinePlayOverviewData,
   MainlinePlayOverview,
@@ -13,9 +14,11 @@ import type {
   MainlinePlayTeamPlanRows,
   MainlinePlayTeamPreviewRows,
   MainlinePlayTeamRows,
-  MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  MainlinePlaySummary,
+  MainlinePlayTimelineEvent,
+} from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
@@ -26,6 +29,13 @@ import {
   getOverviewMilestoneSummary,
   type MainlinePlayOverviewMilestoneRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import {
+  buildOverviewPartnerChoice,
+  findOverviewPartnerMilestone,
+  getOverviewPartnerFormIds,
+  isOverviewFreshPlay,
+  type OverviewPartnerFormRows,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 
@@ -59,11 +69,41 @@ export const buildMainlinePlayShellData = (params: {
   };
 };
 
+const getOverviewTeamCount = (overview: MainlinePlayOverview | null) =>
+  (overview?.active_team_count ?? 0) + (overview?.reserve_team_count ?? 0);
+
+/*
+ * The partner options to read for a brand-new Play's hero, or none once the
+ * Play is under way.
+ */
+export const getMainlinePlayOverviewPartnerFormIds = (params: {
+  milestoneRows: MainlinePlayOverviewMilestoneRows;
+  overview: MainlinePlayOverview | null;
+  play: MainlinePlaySummary;
+}): number[] => {
+  const orderedMilestones = orderPlayMilestones(params.milestoneRows);
+  const partnerMilestone = findOverviewPartnerMilestone(
+    orderedMilestones,
+    params.play.version_group_id,
+  );
+
+  return partnerMilestone &&
+    isOverviewFreshPlay({
+      orderedMilestones,
+      partnerMilestone,
+      teamCount: getOverviewTeamCount(params.overview),
+    })
+    ? getOverviewPartnerFormIds(partnerMilestone)
+    : [];
+};
+
 export const buildMainlinePlayOverviewData = (params: {
   /* The team saved with the last milestone recorded, if any. */
   lastRecordedTeam: PlayTeamSnapshotMember[];
   milestoneRows: MainlinePlayOverviewMilestoneRows;
   overview: MainlinePlayOverview | null;
+  /* Read only for a brand-new Play (see getMainlinePlayOverviewPartnerFormIds). */
+  partnerRows: OverviewPartnerFormRows | null;
   play: MainlinePlaySummary;
   teamPreviewRows: MainlinePlayTeamPreviewRows;
   timelinePreview: MainlinePlayTimelineEvent[];
@@ -73,9 +113,24 @@ export const buildMainlinePlayOverviewData = (params: {
     milestones: orderedMilestones,
     types: params.milestoneRows.types,
   };
+  const partnerMilestone = params.partnerRows
+    ? findOverviewPartnerMilestone(
+        orderedMilestones,
+        params.play.version_group_id,
+      )
+    : null;
+  const partner =
+    partnerMilestone && params.partnerRows
+      ? buildOverviewPartnerChoice({
+          formRows: params.partnerRows,
+          milestone: partnerMilestone,
+          orderedMilestones,
+        })
+      : null;
 
   return {
     badgeCase: buildMainlinePlayBadgeCase(badgeRows),
+    freshPlay: partner ? { partner } : null,
     ...getOverviewMilestoneSummary(
       orderedMilestones,
       getBadgeTypeByMilestoneId(badgeRows),
@@ -113,12 +168,15 @@ export const buildMainlinePlayTeamRosterData = (
 
 export const buildMainlinePlayTeamPlanData = (
   params: MainlinePlayTeamContextParams & {
+    followablePlans?: MainlinePlayFollowablePlan[];
     teamPlanRows: MainlinePlayTeamPlanRows;
   },
 ): MainlinePlayTeamPlanData => {
   const roster = buildMainlinePlayTeamPreview(params.teamRows);
 
   return {
+    followablePlans: params.followablePlans ?? [],
+    versionGroupSlug: params.play.version_group_slug ?? null,
     teamPlan: buildMainlinePlayTeamPlanSummary(
       params.teamPlanRows.rows,
       roster,

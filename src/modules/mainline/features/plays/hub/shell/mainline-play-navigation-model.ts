@@ -6,7 +6,7 @@ export type MainlinePlaySection =
   | "progress"
   | "settings"
   | "team";
-export type MainlinePlayTeamView = "analysis" | "history" | "plan" | "roster";
+export type MainlinePlayTeamView = "analysis" | "plan" | "roster";
 export type MainlinePlayProgressView = "collectibles" | "pokedex" | "story";
 
 export type MainlinePlayNavigationState = {
@@ -49,7 +49,6 @@ export const getMainlinePlayNavigationState = (
   }> = [
     { href: appRoutes.mainlinePlayTeamPlan(playId), view: "plan" },
     { href: appRoutes.mainlinePlayTeamAnalysis(playId), view: "analysis" },
-    { href: appRoutes.mainlinePlayTeamHistory(playId), view: "history" },
   ];
   const activeTeamView = teamViews.find(({ href }) =>
     matchesPath(pathname, href),

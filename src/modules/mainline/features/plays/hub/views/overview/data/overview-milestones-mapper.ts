@@ -14,6 +14,7 @@ export type OverviewMilestone = Pick<
   | "category_id"
   | "category_name"
   | "completed_at"
+  | "decision_options"
   | "description"
   | "is_completed"
   | "is_required_for_completion"
@@ -22,6 +23,7 @@ export type OverviewMilestone = Pick<
   | "milestone_type_name"
   | "milestone_type_slug"
   | "prerequisites"
+  | "selected_decision_option_id"
   | "sort_order"
   | "version_group_id"
 >;

@@ -1,5 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { readMainlinePlayMilestoneTimelineSnapshots } from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
+import { readMainlinePlayMilestoneTimelineSnapshots } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";

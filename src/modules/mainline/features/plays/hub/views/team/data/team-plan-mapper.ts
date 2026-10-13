@@ -109,9 +109,7 @@ export const buildMainlinePlayTeamPlanSummary = (
     mechanics: plannedReferences.mechanics,
     notes: plan.team_plan_notes,
     offPlanCount: offPlanMembers.length,
-    offPlanMemberNames: offPlanMembers.map(
-      (member) => member.nickname ?? member.species_name ?? "Unknown Pokémon",
-    ),
+    offPlanMembers,
     planId: plan.team_plan_id,
     planName: plan.team_plan_name,
     statusName: plan.team_plan_status_name ?? "Draft",

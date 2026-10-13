@@ -3,9 +3,9 @@ import {
   getOverviewMilestoneWhere,
   type OverviewAheadMilestone,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import { OverviewStampGrid } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";
 
@@ -35,7 +35,7 @@ export const BadgeCaseSection = ({
       more={{ href: storyHref, label: "Story" }}
       contentClassName="pt-2"
     >
-      <StampGrid
+      <OverviewStampGrid
         className="grid-cols-5 gap-x-2.5 gap-y-4 p-1 sm:grid-cols-9"
         stamps={badgeCase.stamps}
       />

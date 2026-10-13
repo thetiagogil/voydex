@@ -1,6 +1,6 @@
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 
-/* Why the Plan can't be changed here, behind v3's raised page-head info dot. */
+/* Why the Plan is edited in the Team Planner, beside v3's Edit button. */
 export const TeamPlanSharedTip = ({
   linkedPlayCount,
 }: {
@@ -8,15 +8,14 @@ export const TeamPlanSharedTip = ({
 }) => {
   return (
     <ExplanatoryTip
-      triggerLabel="Why is the Plan read only here?"
+      triggerLabel="Why edit in the Team Planner?"
       triggerVariant="raised"
       content={
         <p>
-          <b>Plans are shared.</b>{" "}
-          {linkedPlayCount > 1
-            ? `${linkedPlayCount} Plays follow this Plan, so it is read only here.`
-            : "Several Plays can follow one Plan, so it is read only here."}{" "}
-          This page shows how this Play compares.
+          <b>Plans are shared.</b> A Plan is edited only in the Team Planner, so
+          changes there reach every Play that follows it
+          {linkedPlayCount > 1 ? ` (${linkedPlayCount} do now)` : ""}. Here you
+          only see how this Play compares.
         </p>
       }
     />

@@ -1,25 +1,35 @@
 "use client";
 
+import { appRoutes } from "@/config/routes";
 import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
+import type { TeamAnalysisReading } from "../../types";
+
 /*
- * The reading switch on the right of the page head. Story matchups needs
- * encounter data the app doesn't have yet, so it shows but can't be picked.
+ * The reading switch on the right of the page head (v3's Overall / Story
+ * matchups): two links, so each reading has its own address.
  */
-const TeamAnalysisReadingSwitch = () => {
+const TeamAnalysisReadingSwitch = ({
+  playId,
+  reading,
+}: {
+  playId: string;
+  reading: TeamAnalysisReading;
+}) => {
+  const href = appRoutes.mainlinePlayTeamAnalysis(playId);
+
   return (
     <SegmentedControl
       ariaLabel="Reading"
       variant="segment"
-      value="overall"
+      value={reading}
       options={[
-        { label: "Overall", value: "overall" },
+        { href, label: "Overall", value: "overall" },
         {
-          disabled: true,
-          disabledReason: "Not available yet",
+          href: appRoutes.mainlinePlayTeamAnalysis(playId, "story"),
           label: "Story matchups",
-          value: "story-matchups",
+          value: "story",
         },
       ]}
     />
@@ -28,9 +38,13 @@ const TeamAnalysisReadingSwitch = () => {
 
 export const TeamAnalysisPageHead = ({
   description,
+  playId,
+  reading = "overall",
   showReadingSwitch = false,
 }: {
   description: string;
+  playId: string;
+  reading?: TeamAnalysisReading;
   showReadingSwitch?: boolean;
 }) => {
   return (
@@ -39,7 +53,11 @@ export const TeamAnalysisPageHead = ({
       title="Team analysis"
       description={description}
       className="pt-0 sm:pt-0"
-      action={showReadingSwitch ? <TeamAnalysisReadingSwitch /> : undefined}
+      action={
+        showReadingSwitch ? (
+          <TeamAnalysisReadingSwitch playId={playId} reading={reading} />
+        ) : undefined
+      }
     />
   );
 };
