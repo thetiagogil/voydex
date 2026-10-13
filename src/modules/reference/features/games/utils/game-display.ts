@@ -1,4 +1,4 @@
-const POKEMON_NAME_PREFIX_PATTERN = /^Pok(?:e|\u00e9)mon\s+/i;
+const POKEMON_NAME_PREFIX_PATTERN = /^Pok(?:e|é)mon\s+/i;
 
 export const getGameInitials = (name: string) => {
   const displayName = name.replace(POKEMON_NAME_PREFIX_PATTERN, "");
@@ -9,4 +9,14 @@ export const getGameInitials = (name: string) => {
     .map((word) => word.slice(0, 1))
     .join("")
     .toUpperCase();
+};
+
+/* "Pokémon Sword" reads as "Sword" on shelves, switches and crumbs. */
+export const getGameShortName = (name: string) => {
+  return name.replace(POKEMON_NAME_PREFIX_PATTERN, "");
+};
+
+/* "Generation VIII" reads as "VIII" beside a row's "Generation" label. */
+export const getGenerationNumeral = (generationName: string) => {
+  return generationName.replace(/^Generation\s+/, "");
 };
