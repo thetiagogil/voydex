@@ -8,6 +8,7 @@ import type { Json } from "@/shared/types/database.types";
 type JsonRecord = Record<string, Json>;
 
 export type TeamEventPokemon = {
+  formId: number | null;
   formName: string | null;
   imageUrl: string | null;
   key: string;
@@ -126,6 +127,7 @@ export const getTeamEventPokemon = (
 
     return [
       {
+        formId: getNumber(value, "form_id"),
         formName,
         imageUrl,
         key: `${event.event_id ?? "team-event"}-${role ?? "pokemon"}-${String(identityValue)}`,

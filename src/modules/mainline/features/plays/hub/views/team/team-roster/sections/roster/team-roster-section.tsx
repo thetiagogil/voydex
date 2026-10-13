@@ -1,59 +1,82 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 
-import { TeamRosterGroupSection } from "./team-roster-group-section";
+import {
+  getTeamRosterSlots,
+  teamRosterSize,
+  type TeamRosterGroup,
+} from "./team-roster-model";
+import { TeamRosterTile } from "./team-roster-tile";
 
 type TeamRosterSectionProps = {
   onSelect: (member: MainlinePlayTeamMember) => void;
   roster: MainlinePlayTeamMember[];
   selectedMemberId: string | null;
+  showsReserve: boolean;
 };
 
-export const TeamRosterSection = ({
+const groupTitles: Record<TeamRosterGroup, string> = {
+  active: "Active team",
+  reserve: "Reserve",
+};
+
+const TeamRosterGroupList = ({
+  group,
   onSelect,
   roster,
   selectedMemberId,
-}: TeamRosterSectionProps) => {
-  const addPokemonLabel = "Add Pokémon will be enabled with the Team picker";
+}: Omit<TeamRosterSectionProps, "showsReserve"> & {
+  group: TeamRosterGroup;
+}) => {
+  const slots = getTeamRosterSlots(roster, group);
+  const filledCount = slots.filter((slot) => slot.member).length;
+  const headingId = `team-${group}-heading`;
+  const groupName = group === "active" ? "Active" : "Reserve";
 
   return (
-    <MainlinePlaySectionCard
-      title="Roster"
-      action={
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            size="sm"
-            disabled
-            title={addPokemonLabel}
-            aria-label={addPokemonLabel}
-          >
-            <AppIcon
-              icon={appIcons.actions.create}
-              inline="start"
-              aria-hidden
-            />
-            Add Pokémon
-          </Button>
-        </div>
-      }
-      contentClassName="grid gap-4"
-      showSeparator
-    >
-      <TeamRosterGroupSection
-        group="active"
-        roster={roster}
-        selectedMemberId={selectedMemberId}
-        onSelect={onSelect}
-      />
-      <TeamRosterGroupSection
-        group="reserve"
-        roster={roster}
-        selectedMemberId={selectedMemberId}
-        onSelect={onSelect}
-      />
-    </MainlinePlaySectionCard>
+    <section aria-labelledby={headingId}>
+      <h3
+        id={headingId}
+        className="text-ink-3 text-13 mb-2.5 flex items-baseline gap-2 font-sans font-extrabold tracking-normal"
+      >
+        {groupTitles[group]}
+        <span className="tabular-nums">
+          {filledCount} / {teamRosterSize}
+        </span>
+      </h3>
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-[18px] sm:grid-cols-3">
+        {slots.map((slot) => (
+          <li key={slot.position} className="min-w-0">
+            {slot.member ? (
+              <TeamRosterTile
+                member={slot.member}
+                onSelect={onSelect}
+                selected={slot.member.play_pokemon_id === selectedMemberId}
+                slotLabel={slot.label}
+                slotName={`${groupName} slot ${slot.position}`}
+              />
+            ) : (
+              <PokemonEmptySlot
+                label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
+                className="text-14 h-full min-h-[150px]"
+              />
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+};
+
+/* Your team and reserve as stickers: the loud part of the page. */
+export const TeamRosterSection = ({
+  showsReserve,
+  ...props
+}: TeamRosterSectionProps) => {
+  return (
+    <div className="grid min-w-0 content-start gap-6.5">
+      <TeamRosterGroupList group="active" {...props} />
+      {showsReserve ? <TeamRosterGroupList group="reserve" {...props} /> : null}
+    </div>
   );
 };

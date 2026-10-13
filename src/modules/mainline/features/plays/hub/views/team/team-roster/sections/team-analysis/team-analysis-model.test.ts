@@ -39,9 +39,8 @@ describe("getTeamAnalysisPreview", () => {
     expect(getTeamAnalysisPreview([activeMember, reserveMember])).toEqual({
       activeCount: 1,
       membersWithMoves: 1,
-      typedMemberCount: 1,
       uniqueTypeCount: 2,
-      unknownActivePositions: 5,
+      openSlotCount: 5,
     });
   });
 });

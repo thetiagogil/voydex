@@ -1,138 +1,65 @@
-import {
-  type TeamMoveSlot,
-  getTeamMoveSlots,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/selected-pokemon/team-member-model";
-import type { MainlinePlayTeamMove } from "@/modules/mainline/features/plays/hub/types";
+import { useId } from "react";
+
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import {
-  getPokemonTypeCssVariables,
-  pokemonTypeSoftBackgroundClassName,
-  pokemonTypeSoftBorderClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { Badge } from "@/shared/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import { cn } from "@/shared/utils/cn";
 
-const TeamMoveTooltipValue = ({
-  accessibleLabel,
-  children,
-  tooltip,
-}: {
-  accessibleLabel: string;
-  children: React.ReactNode;
-  tooltip: string;
-}) => {
-  return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <span
-            tabIndex={0}
-            aria-label={accessibleLabel}
-            className="focus-visible:ring-ring/50 inline-flex rounded-full outline-none focus-visible:ring-2"
-          />
-        }
-      >
-        {children}
-      </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
-    </Tooltip>
-  );
-};
+import type { TeamMove } from "./team-member-model";
 
-const TeamMoveType = ({ move }: { move: TeamMoveSlot }) => {
-  if (!move.type || !isPokemonTypeSlug(move.type.slug)) {
-    return (
-      <TeamMoveTooltipValue
-        accessibleLabel="Type not recorded"
-        tooltip="Type not recorded"
-      >
-        <Badge variant="outline" className="size-6 justify-center p-0">
-          ?
-        </Badge>
-      </TeamMoveTooltipValue>
-    );
-  }
-
-  return (
-    <TeamMoveTooltipValue
-      accessibleLabel={`${move.type.name} type`}
-      tooltip={`${move.type.name} type`}
-    >
-      <PokemonTypeBadge
-        type={move.type.slug}
-        label={move.type.name}
-        display="icon"
-        size="sm"
-      />
-    </TeamMoveTooltipValue>
-  );
-};
-
-const TeamMoveRow = ({ move }: { move: TeamMoveSlot }) => {
-  if (!move.name) {
-    return (
-      <li
-        aria-label={`Move slot ${move.position} is empty`}
-        className="border-line bg-surface-2 flex min-h-8 items-center justify-center rounded-md border border-dashed px-2.5 py-1"
-      >
-        <span className="text-muted-foreground text-sm">Empty slot</span>
-      </li>
-    );
-  }
-
-  const moveTypeSlug =
+const TeamMoveRow = ({ move }: { move: TeamMove }) => {
+  const typeSlug =
     move.type && isPokemonTypeSlug(move.type.slug) ? move.type.slug : null;
+  const category = [
+    move.type?.name ?? "Type not recorded",
+    move.isStatus ? "Status" : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <li
-      style={getPokemonTypeCssVariables(moveTypeSlug)}
-      className={cn(
-        "grid min-h-8 grid-cols-[1.5rem_minmax(0,1fr)_1.5rem] items-center gap-2 rounded-md border px-2.5 py-1",
-        moveTypeSlug
-          ? [pokemonTypeSoftBackgroundClassName, pokemonTypeSoftBorderClassName]
-          : "border-line bg-surface-2",
-      )}
+      style={getPokemonTypeCssVariables(typeSlug)}
+      className="flex min-h-[60px] min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
     >
-      <div className="justify-self-start">
-        <TeamMoveType move={move} />
-      </div>
-      <span className="text-foreground min-w-0 truncate text-center text-sm font-medium">
-        {move.name}
+      {typeSlug ? (
+        <PokemonTypeBadge
+          type={typeSlug}
+          label={move.type?.name}
+          display="icon"
+          size="md"
+        />
+      ) : (
+        <span
+          aria-hidden
+          className="border-dash size-[22px] shrink-0 rounded-full border-[1.5px] border-dashed"
+        />
+      )}
+      <span className="min-w-0">
+        <span className="text-15 block truncate font-extrabold">
+          {move.name}
+        </span>
+        <span className="text-ink-tint text-12 block truncate font-bold">
+          {category}
+        </span>
       </span>
-      <span className="size-6" aria-hidden />
     </li>
   );
 };
 
-export const TeamMemberMoves = ({
-  moves,
-}: {
-  moves: MainlinePlayTeamMove[];
-}) => {
-  const moveSlots = getTeamMoveSlots(moves);
+/* The recorded moves, each on its type's tint. */
+export const TeamMemberMoves = ({ moves }: { moves: TeamMove[] }) => {
+  const labelId = useId();
 
   return (
-    <section
-      aria-labelledby="team-member-moves-heading"
-      className="grid content-start gap-2"
-    >
-      <h3
-        id="team-member-moves-heading"
-        className="text-primary font-display text-base font-semibold"
-      >
+    <div className="mt-5">
+      <p id={labelId} className="text-ink-3 text-13 mb-2.5 font-extrabold">
         Moves
-      </h3>
-      <ol className="grid auto-rows-fr gap-1.5 sm:grid-cols-2 lg:grid-cols-4">
-        {moveSlots.map((move) => (
+      </p>
+      <ol aria-labelledby={labelId} className="grid gap-2 sm:grid-cols-2">
+        {moves.map((move) => (
           <TeamMoveRow key={move.position} move={move} />
         ))}
       </ol>
-    </section>
+    </div>
   );
 };

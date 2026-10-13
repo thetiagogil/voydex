@@ -2,11 +2,28 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
 
-export type TeamMoveSlot = {
-  name: string | null;
+import {
+  formatTeamMemberGender,
+  getTeamMemberIdentity,
+} from "../../utils/team-member-display";
+
+export type TeamMove = {
+  isStatus: boolean;
+  name: string;
   position: number;
   type: MainlinePlayTeamMove["type"];
+};
+
+export type TeamMemberFact = {
+  detail: string | null;
+  label: string;
+  value: string;
 };
 
 const teamStatLabels: Record<string, string> = {
@@ -33,22 +50,101 @@ export const getTeamNatureEffectSummary = (
   const decreasedStat =
     teamStatLabels[member.natureDecreasedStat] ?? member.natureDecreasedStat;
 
-  return `Raises ${increasedStat} · lowers ${decreasedStat}`;
+  return `+${increasedStat} · −${decreasedStat}`;
 };
 
-export const getTeamMoveSlots = (
-  moves: MainlinePlayTeamMove[],
-): TeamMoveSlot[] => {
-  const moveByPosition = new Map(moves.map((move) => [move.slot, move]));
+/* Under the name: who it is, its level, gender and where it sits. */
+export const getTeamMemberMeta = (
+  member: MainlinePlayTeamMember,
+  mechanics: GameMechanicsProfile,
+): string => {
+  const gender = supportsGameMechanic(mechanics, gameMechanics.pokemonGender)
+    ? formatTeamMemberGender(member.gender)
+    : null;
+  const position =
+    member.roster_state_slug === "reserve"
+      ? "Reserve"
+      : member.slot
+        ? `Slot ${member.slot}`
+        : null;
 
-  return Array.from({ length: 4 }, (_, index) => {
-    const position = index + 1;
-    const move = moveByPosition.get(position);
+  return [
+    getTeamMemberIdentity(member),
+    member.level ? `Lv. ${member.level}` : null,
+    gender,
+    position,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+};
 
-    return {
-      name: move?.name ?? null,
-      position,
-      type: move?.type ?? null,
-    };
-  });
+/* Only what was recorded, and only what the game has. */
+export const getTeamMemberFacts = (
+  member: MainlinePlayTeamMember,
+  mechanics: GameMechanicsProfile,
+): TeamMemberFact[] => {
+  const facts: TeamMemberFact[] = [];
+
+  if (
+    member.nature_name &&
+    supportsGameMechanic(mechanics, gameMechanics.natures)
+  ) {
+    facts.push({
+      detail: getTeamNatureEffectSummary(member),
+      label: "Nature",
+      value: member.nature_name,
+    });
+  }
+
+  if (
+    member.ability_name &&
+    supportsGameMechanic(mechanics, gameMechanics.abilities)
+  ) {
+    facts.push({
+      detail: member.abilityEffectSummary,
+      label: "Ability",
+      value: member.ability_name,
+    });
+  }
+
+  if (
+    member.held_item_name &&
+    supportsGameMechanic(mechanics, gameMechanics.heldItems)
+  ) {
+    facts.push({
+      detail: null,
+      label: "Held item",
+      value: member.held_item_name,
+    });
+  }
+
+  const metDetail =
+    [member.met_level ? `Lv. ${member.met_level}` : null, member.ball_item_name]
+      .filter(Boolean)
+      .join(" · ") || null;
+
+  if (member.met_location_label) {
+    facts.push({
+      detail: metDetail,
+      label: "Met",
+      value: member.met_location_label,
+    });
+  } else if (metDetail) {
+    facts.push({ detail: null, label: "Met", value: metDetail });
+  }
+
+  return facts;
+};
+
+/* The recorded moves, in the order the Pokémon knows them. */
+export const getTeamMoves = (moves: MainlinePlayTeamMove[]): TeamMove[] => {
+  return moves
+    .filter((move) => move.name)
+    .toSorted((left, right) => left.slot - right.slot)
+    .map((move) => ({
+      isStatus: move.attributes?.damage_class === "status",
+      name: move.name,
+      position: move.slot,
+      type: move.type,
+    }));
 };

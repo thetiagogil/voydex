@@ -14,6 +14,7 @@ import {
   StatusBadge,
   type StatusBadgeTone,
 } from "@/shared/components/status-badge";
+import { Progress } from "@/shared/components/ui/progress";
 
 const followingStateTones = {
   following: "ok",
@@ -27,58 +28,55 @@ type LinkedPlanSummarySectionProps = {
   plan: MainlinePlayTeamPlanPreview;
 };
 
+/* The Plan this Play follows: how much of it you've found, and what differs. */
 export const LinkedPlanSummarySection = ({
   href,
   plan,
 }: LinkedPlanSummarySectionProps) => {
-  const activeTargetSummary = getTeamPlanActiveTargetSummary(plan);
-  const changeSummary = getTeamPlanChangeSummary(plan);
+  const foundPercent = plan.targetCount
+    ? Math.round((plan.foundCount / plan.targetCount) * 100)
+    : null;
+  const notes = [
+    getTeamPlanActiveTargetSummary(plan),
+    getTeamPlanChangeSummary(plan),
+  ].filter(Boolean);
 
   return (
     <MainlinePlaySectionCard
-      title="Team Plan"
-      action={<MainlinePlaySectionDestination href={href} label="View plan" />}
-      contentClassName="grid gap-3 py-3"
-      showSeparator
+      title="Plan"
+      headingLevel={3}
+      action={<MainlinePlaySectionDestination href={href} label="Open Plan" />}
+      contentClassName="grid gap-4 pt-1"
     >
-      <div className="grid justify-items-start gap-1.5">
-        <p className="text-foreground text-sm leading-5 font-semibold">
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <p className="text-16 min-w-0 font-extrabold break-words">
           {plan.planName}
         </p>
-        <StatusBadge
-          tone={followingStateTones[plan.followingState]}
-          className="normal-case"
-        >
+        <StatusBadge tone={followingStateTones[plan.followingState]}>
           {getTeamPlanFollowingLabel(plan.followingState)}
         </StatusBadge>
       </div>
 
-      <dl className="border-line grid gap-3 border-t pt-3">
-        <div className="grid gap-0.5">
-          <dt className="text-muted-foreground text-[0.6875rem] font-medium tracking-wide uppercase">
-            Plan coverage
-          </dt>
-          <dd className="text-foreground text-sm font-medium">
+      {foundPercent === null ? null : (
+        <Progress
+          value={foundPercent}
+          aria-label="Planned Pokémon found"
+          className="gap-y-2"
+        >
+          <span className="text-ink-2 text-14 font-bold">
             {getTeamPlanTargetProgressLabel(plan)}
-          </dd>
-          {activeTargetSummary ? (
-            <dd className="text-muted-foreground text-xs leading-5">
-              {activeTargetSummary}
-            </dd>
-          ) : null}
-        </div>
+          </span>
+          <span className="text-14 ml-auto font-extrabold tabular-nums">
+            {foundPercent}%
+          </span>
+        </Progress>
+      )}
 
-        {changeSummary ? (
-          <div className="grid gap-0.5">
-            <dt className="text-muted-foreground text-[0.6875rem] font-medium tracking-wide uppercase">
-              Changes from plan
-            </dt>
-            <dd className="text-foreground/80 text-xs leading-5">
-              {changeSummary}
-            </dd>
-          </div>
-        ) : null}
-      </dl>
+      {notes.length ? (
+        <p className="text-ink-2 text-13 border-line border-t pt-3 font-semibold">
+          {notes.join(" · ")}
+        </p>
+      ) : null}
     </MainlinePlaySectionCard>
   );
 };
