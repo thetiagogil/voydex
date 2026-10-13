@@ -180,38 +180,25 @@ checkpoint:
   Overview limited to a dedicated Active preview read that hydrates only the
   identity, portrait, level, slot, and exact-generation types its six summary
   positions render.
-- Desktop uses the accepted list-detail hierarchy: all six Active and six
-  Reserve positions remain visible with the same detailed row geometry. The
-  initial baseline has no Reserve summary or disclosure state. The first recorded member opens in
-  a larger selected-Pokémon inspector. List-detail inspectors now share one
-  restrained primary-ring Card treatment without a fixed visible Card header;
-  the changing subject leads inside the content. The selected Pokémon's Edit
-  action sits at the far right of its identity, nickname, and type row. The
-  substantially larger portrait is the
-  identity area's focal point, while an inline labelled star identifies shiny
-  members. The top row uses a 60/40 identity-to-caught-information split. Type
-  badges precede the adjacent Level and icon-labelled Gender chips, and Held
-  Item follows those chips.
-  Mechanic-dependent facts are resolved from the Play's exact game profile;
-  unsupported Ability, Nature, Held Item, or Gender rows are omitted instead of
-  presented as unrecorded. Caught information is now one compact section containing only Ball, met
-  location, and met level; Trainer is omitted until the application owns useful
-  per-member original-trainer data. The next row uses the same 60/40 hierarchy:
-  the wider Moves column sits on the left, while Ability and Nature stack on the
-  right with quiet separation, no decorative icons, and supported effect
-  context. The four move positions use a compact vertical list with a
-  left-aligned type icon, optically centered name, subtle type color, or a
-  matching `Empty slot`, followed by optional Notes and a responsive action
-  footer. Edit Pokémon now belongs to the selected panel or sheet header.
-- Missing Active and Reserve positions are labelled `Empty slot` and omit
-  placeholder media and explanatory copy. A completely blank Play keeps all six
+- Team (Soft Clay) opens on a page head (`PageHeader`, level 2) with the
+  Active and Reserve counts and the disabled Add Pokémon action, then the
+  roster as compact `PokemonSticker` tiles: all six Active and six Reserve
+  positions stay visible, and a picked sticker wears the Play's colour. On
+  wide screens the selected Pokémon sits beside the roster in a plain quiet
+  `Card`; the first recorded member opens by default. Its identity, caught
+  information (Ball, met location, met level), Moves, Ability and Nature keep
+  the earlier content contract: mechanic-dependent facts are resolved from the
+  Play's exact game profile, and unsupported Ability, Nature, Held Item or
+  Gender rows are omitted instead of presented as unrecorded. Edit Pokémon
+  belongs to the selected panel or sheet header.
+- Missing Active and Reserve positions are dashed `PokemonEmptySlot` tiles
+  labelled `Empty slot`. A completely blank Play keeps all six
   Reserve positions visible without inventing a member selection.
 - Tablet and phone keep the roster primary and open occupied members in a
   focused detail sheet. Populated and blank fixtures were browser-checked at
   desktop, tablet, and phone widths without horizontal overflow or console
   errors.
-- The Roster Card header now owns only the canonical disabled Add action. A
-  compact Team Plan Card appears directly below Roster for linked Plans,
+- A compact Team Plan Card appears directly below the roster for linked Plans,
   leads with the Plan identity, reports whether the current Team is following
   it, and separates target coverage from unplanned-member context. Its enabled
   View plan action opens the full-width `/team/plan` comparison while keeping
@@ -232,7 +219,7 @@ checkpoint:
   sheet capped at 82dvh with the compared identities first. Build grids contain
   only exact-game-supported mechanics; unsupported mechanics cannot affect
   automatic comparison status, and the Build section is absent when none apply.
-  Past Members has no Roster Card link until its focused destination is
+  Past Members has no roster link until its focused destination is
   implemented; selected detail remains the first right-side section.
 - Team Quick Analysis remains in the supporting right-side hierarchy as a
   compact evidence preview and now routes to the focused Team Analysis view.
