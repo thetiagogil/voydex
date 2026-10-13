@@ -30,6 +30,16 @@ const coverSizeClassNames = {
       "text-32 md:text-44 w-27.5 border-4 border-white md:h-55 md:w-auto",
     image: "h-auto w-27.5 max-w-full border-4 border-white md:h-55 md:w-auto",
   },
+  /* The game picker's cover shelf (Start a Play): 118px tall. */
+  picker: {
+    fallback: "text-24 h-29.5",
+    image: "h-29.5 w-auto max-w-none",
+  },
+  /* The game picker in New Play, a step larger: 150px tall. */
+  pickerLarge: {
+    fallback: "text-28 h-37.5",
+    image: "h-37.5 w-auto max-w-none",
+  },
   /* A shelf cover fits a 124px square (90px on phones). */
   shelf: {
     fallback: "text-20 sm:text-24 h-22.5 sm:h-31",

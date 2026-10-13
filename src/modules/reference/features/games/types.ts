@@ -30,6 +30,63 @@ export type GameCard = {
   platforms: Platform[];
 };
 
+/*
+ * A game on the cover shelf of the game picker (Start a Play, New Play, the
+ * Team Planner), in release order.
+ */
+export type GameShelfGame = {
+  coverImageUrl: string | null;
+  generation: {
+    id: number;
+    /* "Generation VIII". */
+    name: string;
+    /* "VIII". */
+    numeral: string;
+    /* The generation's place in the series: 8 for Generation VIII. */
+    number: number;
+  };
+  id: number;
+  /* "Pokémon Sword". */
+  name: string;
+  platformNames: string[];
+  regionName: string | null;
+  releaseYear: number;
+  /* "Sword". */
+  shortName: string;
+  slug: string;
+  /* The base version group it belongs to (Sword and Shield), for Codex and Planner links. */
+  versionGroupSlug: string;
+};
+
+/* One first partner, as a game offers it. */
+export type GameStarter = {
+  formId: number;
+  /* The form's own name, such as "Pikachu (Partner)" in Let's Go, Pikachu!. */
+  formName: string;
+  formSlug: string;
+  /* False for a special form, such as the Let's Go partners. */
+  isDefaultForm: boolean;
+  imageUrl: string | null;
+  /* The species' name: "Grookey". */
+  name: string;
+  nationalNumber: number;
+  speciesId: number;
+  speciesSlug: string;
+  /* The form's types in the game's generation. */
+  typePair: PokemonTypePair;
+};
+
+/*
+ * A game's first partner choice: the trio you pick from at the start, or the
+ * one partner chosen for you (`isSolo`), as in Yellow and the Let's Go games.
+ * Empty when Voydex has no starter for the game.
+ */
+export type GameStarters = {
+  gameSlug: string;
+  isSolo: boolean;
+  starters: GameStarter[];
+};
+
 export type GamePokedexSummary = {
   pokedex: Pokedex;
   pokemonCount: number;
