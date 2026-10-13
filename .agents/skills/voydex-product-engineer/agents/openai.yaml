@@ -1,7 +1,0 @@
-interface:
-  display_name: "Voydex Product Engineer"
-  short_description: "Build Voydex with Pokémon-aware decisions"
-  default_prompt: "Use $voydex-product-engineer to implement this Voydex change with project-consistent components and Pokémon-aware product decisions."
-
-policy:
-  allow_implicit_invocation: true
