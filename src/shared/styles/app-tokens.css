@@ -94,7 +94,7 @@
   --shadow-overlay-value: 0 30px 50px -20px rgb(40 30 15 / 0.45);
 
   /* Type: two families, one scale, nothing under 12px */
-  --font-display: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
   --font-body: var(--font-nunito), system-ui, sans-serif;
 
   /* Primitive aliases. shadcn-style primitives read these names. */
