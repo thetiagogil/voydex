@@ -1,6 +1,8 @@
 export const appRoutes = {
   appEntry: "/app",
   authCallback: "/auth/callback",
+  /* After sign-up without a session: confirm the email, resend or change it. */
+  checkEmail: "/check-email",
   codex: "/codex",
   codexGames: "/codex/games",
   codexPokemon: "/codex/pokemon",
@@ -16,13 +18,29 @@ export const appRoutes = {
       : `/codex/games/${versionGroupSlug}`,
   codexVersionGroupPokedex: (versionGroupSlug: string, pokedexSlug: string) =>
     `/codex/games/${versionGroupSlug}/pokedexes/${pokedexSlug}`,
+  /* Ask for a password reset link. */
+  forgotPassword: "/forgot-password",
   health: "/api/health",
   home: "/",
   intro: "/intro",
   login: "/login",
+  /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
   mainline: "/mainline",
+  mainlineCollection: "/mainline/collection",
+  mainlinePlan: (planId: string) => `/mainline/plans/${planId}`,
+  /* The Team Planner on a blank Plan, optionally for one version group. */
+  mainlinePlanNew: (versionGroupSlug?: string) =>
+    versionGroupSlug
+      ? `/mainline/plans/new?vg=${encodeURIComponent(versionGroupSlug)}`
+      : "/mainline/plans/new",
+  mainlinePlans: "/mainline/plans",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
   mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
+  /* New Play, optionally with its game already picked. */
+  mainlinePlayNew: (gameSlug?: string) =>
+    gameSlug
+      ? `/mainline/plays/new?game=${encodeURIComponent(gameSlug)}`
+      : "/mainline/plays/new",
   mainlinePlayProgress: (playId: string) =>
     `/mainline/plays/${playId}/progress`,
   mainlinePlayProgressCollectibles: (playId: string) =>
@@ -36,6 +54,23 @@ export const appRoutes = {
   mainlinePlaySettings: (playId: string) =>
     `/mainline/plays/${playId}/settings`,
   mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
+  /*
+   * The Roster with the Add Pokémon sheet open, optionally on one species
+   * (and form) already picked, as the Codex's "Add to a Play" opens it.
+   */
+  mainlinePlayTeamAdd: (
+    playId: string,
+    speciesSlug?: string,
+    formSlug?: string,
+  ) => {
+    const query = new URLSearchParams({ add: speciesSlug ?? "" });
+
+    if (formSlug) {
+      query.set("form", formSlug);
+    }
+
+    return `/mainline/plays/${playId}/team?${query.toString()}`;
+  },
   /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
   mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
     `/mainline/plays/${playId}/team?pokemon=${encodeURIComponent(playPokemonId)}`,
@@ -46,12 +81,25 @@ export const appRoutes = {
   mainlinePlayTeamPlan: (playId: string) =>
     `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
+  mainlineStats: "/mainline/stats",
+  privacy: "/privacy",
+  /* Choose a new password, from the reset link. */
+  resetPassword: "/reset-password",
   settings: "/settings",
+  /* Start a Play: pick a game and a partner before signing up. */
+  start: "/start",
+  terms: "/terms",
+  /* First run after sign-up: name and icon. */
+  welcome: "/welcome",
+  /* The You page on phones: trainer card, Statistics, Collection, Settings. */
+  you: "/you",
 } as const;
 
 export const protectedRoutePrefixes = [
   appRoutes.mainline,
   appRoutes.settings,
+  appRoutes.welcome,
+  appRoutes.you,
 ] as const;
 
 export const isProtectedRoute = (pathname: string) => {
