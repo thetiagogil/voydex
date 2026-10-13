@@ -1,0 +1,90 @@
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
+import type { ViewRow } from "@/shared/types/database-helpers";
+
+/* One of the trainer's Plays, as the Codex's hand-offs name it. */
+export type CodexPlay = {
+  gameName: string;
+  gameSlug: string | null;
+  id: string;
+  /* "Sword · Late Journey". */
+  label: string;
+  statusName: string | null;
+  statusSlug: string | null;
+  versionGroupSlug: string | null;
+};
+
+type CodexPlayRow = Pick<
+  ViewRow<"mainline_play_summary">,
+  | "game_name"
+  | "game_slug"
+  | "play_id"
+  | "play_name"
+  | "status_name"
+  | "status_slug"
+  | "version_group_slug"
+>;
+
+export const toCodexPlays = (rows: CodexPlayRow[]): CodexPlay[] =>
+  rows.flatMap((play) => {
+    if (!play.play_id) return [];
+
+    const gameName = play.game_name ?? "Unknown game";
+
+    return [
+      {
+        gameName,
+        gameSlug: play.game_slug,
+        id: play.play_id,
+        label: `${getGameShortName(gameName)} · ${play.play_name ?? "Untitled Play"}`,
+        statusName: play.status_name,
+        statusSlug: play.status_slug,
+        versionGroupSlug: play.version_group_slug,
+      },
+    ];
+  });
+
+/*
+ * The Plays a species can join: those whose Pokédex lists it. When that
+ * couldn't be read (null), every Play stays: the Add sheet says itself if
+ * the species can't join.
+ */
+export const filterPlaysWithSpecies = (
+  plays: CodexPlay[],
+  playIdsWithSpecies: ReadonlySet<string> | null,
+): CodexPlay[] =>
+  playIdsWithSpecies
+    ? plays.filter((play) => playIdsWithSpecies.has(play.id))
+    : plays;
+
+/* How many Plays use each game, by game slug. */
+export const countPlaysByGameSlug = (
+  rows: Pick<ViewRow<"mainline_play_summary">, "game_slug">[],
+): Record<string, number> => {
+  const counts: Record<string, number> = {};
+
+  for (const play of rows) {
+    if (play.game_slug) {
+      counts[play.game_slug] = (counts[play.game_slug] ?? 0) + 1;
+    }
+  }
+
+  return counts;
+};
+
+/*
+ * The Codex's signed-in extras are optional: a failed read is logged and
+ * the extra falls back (hidden, or no counts), so a public Codex page never
+ * errors because of the trainer's own data.
+ */
+export const settleCodexExtra = async <T>(
+  label: string,
+  read: () => Promise<T>,
+  fallback: T,
+): Promise<T> => {
+  try {
+    return await read();
+  } catch (error) {
+    console.error(`[codex] ${label} failed; hiding it.`, error);
+    return fallback;
+  }
+};

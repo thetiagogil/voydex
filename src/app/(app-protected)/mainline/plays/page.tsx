@@ -16,7 +16,9 @@ const getSearchParam = (
 
 export default async function PlaysPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const data = await getMainlinePlaysPageData();
+  const data = await getMainlinePlaysPageData(
+    getSearchParam(params, "view") === "archived" ? "archived" : "active",
+  );
 
   return (
     <MainlinePlaysPage

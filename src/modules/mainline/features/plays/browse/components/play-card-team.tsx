@@ -1,4 +1,4 @@
-import type { PlayBrowseTeam } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseTeam } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,

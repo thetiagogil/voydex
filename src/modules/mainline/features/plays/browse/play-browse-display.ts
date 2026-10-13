@@ -1,7 +1,7 @@
 import type {
   PlayBrowseItem,
   PlayBrowseStoryPosition,
-} from "@/modules/mainline/features/plays/browse/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 
 export const formatPlayCount = (count: number) => {

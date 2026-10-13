@@ -13,7 +13,7 @@ import {
   getPlayCardLinkLabel,
   getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
-import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";

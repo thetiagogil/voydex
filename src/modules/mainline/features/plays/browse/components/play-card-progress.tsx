@@ -1,4 +1,4 @@
-import type { PlayBrowseProgress } from "@/modules/mainline/features/plays/browse/types";
+import type { PlayBrowseProgress } from "@/modules/mainline/features/plays/shared/types";
 import { Progress } from "@/shared/components/ui/progress";
 import { cn } from "@/shared/utils/cn";
 
