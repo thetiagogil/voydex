@@ -112,7 +112,7 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
           Ready for your next Play?
         </h2>
         <p className="text-17 text-ink-2 mt-2.5 mb-6 font-semibold">
-          Keep every playthrough in one place.
+          Pick your game and meet your first partner.
         </p>
         <SiteActions isAuthenticated={isAuthenticated} />
       </MeadowCard>

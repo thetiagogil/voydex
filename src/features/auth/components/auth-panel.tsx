@@ -1,80 +1,128 @@
 import Link from "next/link";
 
-import { type AuthErrorCode, authErrorCopy } from "@/features/auth/auth-errors";
-import { type AuthMode, getAuthPageHref } from "@/features/auth/auth-mode";
+import type { PublicArt } from "@/config/public-art";
+import { appRoutes } from "@/config/routes";
+import {
+  getStartPlayHref,
+  type StartIntentPreview,
+} from "@/config/start-intent";
+import type { AuthErrorCode } from "@/features/auth/auth-errors";
+import {
+  type AuthMode,
+  getAuthPageHref,
+  getForgotPasswordHref,
+} from "@/features/auth/auth-mode";
+import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
+import { AuthHeading } from "@/features/auth/components/auth-frame";
 import { AuthModeSwitch } from "@/features/auth/components/auth-mode-switch";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
-import { PasswordInput } from "@/features/auth/components/password-input";
+import { PasswordInput } from "@/shared/components/password-input";
+import { StartIntentCard } from "@/features/auth/components/start-intent-card";
+import { StartIntentFields } from "@/features/auth/components/start-intent-fields";
 import {
   logInWithPassword,
   signUpWithPassword,
 } from "@/features/auth/server/auth-actions";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/shared/components/ui/alert";
-import { Card } from "@/shared/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldLabel,
 } from "@/shared/components/ui/field";
+import type { AuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 import { Input } from "@/shared/components/ui/input";
 
 type AuthPanelProps = {
+  art: Pick<PublicArt, "gameColour" | "gameCover">;
+  /* The email typed last time, filled back in after a failed try. */
+  email: string | null;
   error: AuthErrorCode | null;
+  /* The pick from Start a Play, with how the page shows it. */
+  intent: AuthStartIntent | null;
   mode: AuthMode;
   next: string;
 };
 
-const copy: Record<AuthMode, { lede: string; title: string }> = {
-  "log-in": {
-    lede: "Your Plays are right where you left them.",
+const getCopy = (mode: AuthMode, intent: StartIntentPreview | null) => {
+  if (mode === "sign-up") {
+    return intent
+      ? {
+          lede: "Create your account and your first Play will be ready.",
+          pendingLabel: "Creating account...",
+          submit: "Create account and start",
+          title: `Start your ${intent.gameShortName} journey`,
+        }
+      : {
+          lede: "Keep every playthrough in one place.",
+          pendingLabel: "Creating account...",
+          submit: "Create account",
+          title: "Start your journey",
+        };
+  }
+
+  return {
+    lede: intent
+      ? "Log in and your new Play will be ready."
+      : "Your Plays are right where you left them.",
+    pendingLabel: "Logging in...",
+    submit: intent ? "Log in and start" : "Log in",
     title: "Welcome back",
-  },
-  "sign-up": {
-    lede: "Keep every playthrough in one place.",
-    title: "Start your journey",
-  },
+  };
 };
 
-/* Log in and Sign up share one quiet card; the switch at the top moves between them. */
-export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
+const emailErrors = new Set<AuthErrorCode>(["email-invalid", "email-taken"]);
+const passwordErrors = new Set<AuthErrorCode>(["credentials", "weak-password"]);
+
+const textLinkClassName = "text-link rounded-xs font-extrabold hover:underline";
+
+/*
+ * Log in and Sign up share one quiet card; the switch at the top moves
+ * between them. Coming from Start a Play, the card says what you're starting
+ * and keeps it through either form.
+ */
+export const AuthPanel = ({
+  art,
+  email,
+  error,
+  intent,
+  mode,
+  next,
+}: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
-  const errorCopy = error ? authErrorCopy[error] : null;
+  const preview = intent?.preview ?? null;
+  const copy = getCopy(mode, preview);
+  const intentValue = intent?.value ?? null;
 
   return (
-    <Card className="relative z-1 gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
-      <AuthModeSwitch mode={mode} next={next} />
-      <h1 className="text-28 sm:text-32 mt-6 mb-1 tracking-[-0.015em]">
-        {copy[mode].title}
-      </h1>
-      <p className="text-ink-2 mb-5.5 font-semibold">{copy[mode].lede}</p>
-      {errorCopy ? (
-        <Alert variant="destructive" className="mb-4.5">
-          <AppIcon icon={appIcons.status.error} />
-          <AlertTitle>{errorCopy.title}</AlertTitle>
-          <AlertDescription>
-            {errorCopy.description}
-            {errorCopy.offersLogIn && isSignUp ? (
-              <>
-                {" "}
-                <Link
-                  href={getAuthPageHref({ mode: "log-in", next })}
-                  className="rounded-xs font-extrabold underline"
-                >
-                  Log in
-                </Link>
-              </>
-            ) : null}
-          </AlertDescription>
-        </Alert>
+    <>
+      <AuthModeSwitch intent={intentValue} mode={mode} next={next} />
+      <AuthHeading title={copy.title}>{copy.lede}</AuthHeading>
+      {intentValue && preview ? (
+        <StartIntentCard
+          art={art}
+          intent={preview}
+          changeHref={getStartPlayHref({ gameSlug: intentValue.gameSlug })}
+        />
+      ) : null}
+      {error ? (
+        <AuthErrorAlert
+          error={error}
+          description={
+            error === "email-taken" && preview
+              ? `Log in instead and your ${preview.gameShortName} Play will be ready.`
+              : undefined
+          }
+          links={{
+            "forgot-password": getForgotPasswordHref({ next }),
+            "log-in": isSignUp
+              ? getAuthPageHref({ intent: intentValue, mode: "log-in", next })
+              : undefined,
+          }}
+        />
       ) : null}
       <form action={action} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />
+        <StartIntentFields intent={intentValue} />
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
@@ -83,18 +131,31 @@ export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
             type="email"
             autoComplete="email"
             placeholder="you@example.com"
+            defaultValue={email ?? undefined}
+            aria-invalid={error && emailErrors.has(error) ? true : undefined}
             required
           />
         </Field>
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <div className="flex items-baseline justify-between gap-3">
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            {isSignUp ? null : (
+              <Link
+                href={getForgotPasswordHref({ next })}
+                className={`${textLinkClassName} text-13 relative after:absolute after:-inset-x-1 after:-inset-y-2.5`}
+              >
+                Forgot password?
+              </Link>
+            )}
+          </div>
           <PasswordInput
             id="password"
             name="password"
             autoComplete={isSignUp ? "new-password" : "current-password"}
             aria-describedby={isSignUp ? "password-hint" : undefined}
+            aria-invalid={error && passwordErrors.has(error) ? true : undefined}
             required
-            minLength={6}
+            minLength={isSignUp ? 6 : undefined}
             maxLength={72}
           />
           {isSignUp ? (
@@ -103,21 +164,24 @@ export const AuthPanel = ({ error, mode, next }: AuthPanelProps) => {
             </FieldDescription>
           ) : null}
         </Field>
+        <AuthSubmitButton
+          label={copy.submit}
+          pendingLabel={copy.pendingLabel}
+        />
         {isSignUp ? (
-          <Field>
-            <FieldLabel htmlFor="confirmPassword">Confirm password</FieldLabel>
-            <PasswordInput
-              id="confirmPassword"
-              name="confirmPassword"
-              autoComplete="new-password"
-              required
-              minLength={6}
-              maxLength={72}
-            />
-          </Field>
+          <p className="text-ink-3 mt-0.5 text-center text-[12.5px] leading-normal font-semibold">
+            By creating an account, you agree to the{" "}
+            <Link href={appRoutes.terms} className={textLinkClassName}>
+              Terms
+            </Link>{" "}
+            and the{" "}
+            <Link href={appRoutes.privacy} className={textLinkClassName}>
+              Privacy policy
+            </Link>
+            .
+          </p>
         ) : null}
-        <AuthSubmitButton mode={mode} />
       </form>
-    </Card>
+    </>
   );
 };

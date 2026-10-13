@@ -10,6 +10,7 @@ import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import type { SignedInAccount } from "@/features/app-shell/types";
 import {
+  getBrandHref,
   mainlineLinks,
   publicLinks,
 } from "@/features/app-shell/utils/app-navigation";
@@ -33,12 +34,12 @@ type AppShellProps = {
 };
 
 /*
- * v3's two bars. Signed in: the V tile, Mainline's sections in the middle,
- * the Codex and your icon on the right; on phones and tablets the sections
- * and You move to a bottom bar. Signed out: the V tile with the name, how it
- * works and the Codex, and Log in; on phones the links fold into a menu with
- * Start a Play. Home's bar shows the tile alone: the meadow carries the name. The
- * signed-out frame ends on the site footer.
+ * v3's two bars. Signed in: the V tile (to Mainline Home), Mainline's views
+ * in the middle, the Codex and your icon on the right; on phones and tablets
+ * the views, the Codex and You move to a bottom bar. Signed out: the V tile
+ * with the name, how it works and the Codex, and Log in; on phones the links
+ * fold into a menu with Start a Play. Home's bar shows the tile alone: the
+ * meadow carries the name. The signed-out frame ends on the site footer.
  */
 export const AppShell = ({
   account,
@@ -58,6 +59,7 @@ export const AppShell = ({
     >
       {account ? (
         <AppNavbar
+          brandHref={getBrandHref(true)}
           center={
             <NavigationLinks
               ariaLabel="Main"
@@ -74,6 +76,7 @@ export const AppShell = ({
         />
       ) : (
         <AppNavbar
+          brandHref={getBrandHref(false)}
           showName={showBrandName}
           center={
             <NavigationLinks

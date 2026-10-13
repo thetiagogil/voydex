@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { getStartPlayHref } from "@/config/start-intent";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 
@@ -9,8 +10,9 @@ type SiteActionsProps = {
 };
 
 /*
- * A front door's two ways in: the main button (Sign up, or Continue to the
- * module you used last once you're signed in) and Browse the Codex.
+ * A front door's two ways in: the main button (Start a Play, which opens the
+ * game picker, or Continue to the module you used last once you're signed
+ * in) and Browse the Codex.
  */
 export const SiteActions = ({ isAuthenticated }: SiteActionsProps) => (
   <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center">
@@ -24,10 +26,10 @@ export const SiteActions = ({ isAuthenticated }: SiteActionsProps) => (
       </Link>
     ) : (
       <Link
-        href={`${appRoutes.login}?mode=sign-up`}
+        href={getStartPlayHref()}
         className={buttonVariants({ size: "lg" })}
       >
-        Sign up
+        Start a Play
       </Link>
     )}
     <Link

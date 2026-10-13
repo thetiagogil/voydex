@@ -1,32 +1,44 @@
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
-import { SettingsTrainerCard } from "@/features/settings/components/settings-trainer-card";
+import { SettingsDataSection } from "@/features/settings/components/settings-data-section";
+import { SettingsPreferencesSections } from "@/features/settings/components/settings-preferences-sections";
+import { SettingsProfileSection } from "@/features/settings/components/settings-profile-section";
 import { PageHeader } from "@/shared/components/page-header";
 
 type SettingsPageProps = {
+  displayName: string | null;
+  /* Null when the claims carry no email. */
+  email: string | null;
   /* The route's log out action, shared with the app shell's account menu. */
   signOutAction: () => Promise<void>;
   /* "November 2024"; null when it couldn't be read. */
   trainerSince: string | null;
-  /* Null when the claims carry no email; the trainer card shows its empty state. */
-  userEmail: string | null;
 };
 
-/* v3's Account settings: one column, the trainer card first, then quiet sections. */
+/*
+ * v3's Account settings: one column, the trainer card first (it is the
+ * profile form), then quiet sections: Look and feel, New Play defaults,
+ * Account and Your data.
+ */
 export const SettingsPage = ({
+  displayName,
+  email,
   signOutAction,
   trainerSince,
-  userEmail,
-}: SettingsPageProps) => {
-  return (
-    <div className="mx-auto flex w-full max-w-189 flex-col">
-      <PageHeader
-        title="Settings"
-        description="Your trainer card and your account"
+}: SettingsPageProps) => (
+  <div className="mx-auto flex w-full max-w-189 flex-col">
+    <PageHeader
+      title="Settings"
+      description="How Voydex looks and behaves for you"
+    />
+    <div className="mt-7 flex flex-col gap-6">
+      <SettingsProfileSection
+        displayName={displayName}
+        email={email}
+        trainerSince={trainerSince}
       />
-      <div className="mt-7 flex flex-col gap-6">
-        <SettingsTrainerCard email={userEmail} trainerSince={trainerSince} />
-        <SettingsAccountSection signOutAction={signOutAction} />
-      </div>
+      <SettingsPreferencesSections />
+      <SettingsAccountSection email={email} signOutAction={signOutAction} />
+      <SettingsDataSection />
     </div>
-  );
-};
+  </div>
+);

@@ -6,14 +6,21 @@ import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 
 /*
  * The front door for all of Voydex: the meadow band with the name, the
- * catchphrase, one paragraph and the first partners. The route hands it to
- * the shell as its hero so it runs edge to edge under the bar.
+ * catchphrase, one paragraph and the first partners, each of which opens
+ * Start a Play at its generation. The route hands it to the shell as its
+ * hero so it runs edge to edge under the bar.
  */
 export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
   const { isAuthenticated } = await getSiteVisitor();
 
   return (
-    <MeadowCard art={art} form="band" loading="eager" titleId="home-title">
+    <MeadowCard
+      art={art}
+      form="band"
+      loading="eager"
+      partnersOpenStart
+      titleId="home-title"
+    >
       <h1
         id="home-title"
         className="text-60 pt-7 leading-none tracking-[-0.025em] sm:pt-11 sm:text-[112px]"

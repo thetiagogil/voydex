@@ -2,36 +2,50 @@ import Link from "next/link";
 
 import type { PublicArt } from "@/config/public-art";
 import { appRoutes } from "@/config/routes";
+import type { ResolveStartIntent } from "@/config/start-intent";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import { type AuthMode, LOGIN_DEFAULT_NEXT } from "@/features/auth/auth-mode";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
+import { AuthFrame } from "@/features/auth/components/auth-frame";
 import { AuthPanel } from "@/features/auth/components/auth-panel";
-import { AuthPeek } from "@/features/auth/components/auth-peek";
+import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
+import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
+import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 
-type LoginPageProps = {
-  art: Pick<PublicArt, "pokemon">;
-  searchParams?: Promise<{
-    error?: string;
-    mode?: string;
-    next?: string;
-  }>;
+export type LoginSearchParams = {
+  error?: string;
+  game?: string;
+  mode?: string;
+  next?: string;
+  partner?: string;
 };
 
-/* Log in and Sign up: a quiet form, with three first partners peeking over the card. */
-export const LoginPage = async ({ art, searchParams }: LoginPageProps) => {
+type LoginPageProps = {
+  art: Pick<PublicArt, "gameColour" | "gameCover" | "pokemon">;
+  /* Resolves the pick from Start a Play; without it the pick is kept but not shown. */
+  resolveIntent?: ResolveStartIntent;
+  searchParams?: Promise<LoginSearchParams>;
+};
+
+/* Log in and Sign up: a quiet form, with first partners peeking over the card. */
+export const LoginPage = async ({
+  art,
+  resolveIntent,
+  searchParams,
+}: LoginPageProps) => {
   const params = await searchParams;
   const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
+  const error = parseAuthErrorCode(params?.error);
+  const [intent, rememberedEmail] = await Promise.all([
+    readAuthStartIntent(params, resolveIntent),
+    readAuthEmail(),
+  ]);
 
   return (
-    <div className="flex w-full min-w-0 flex-1 justify-center pt-[100px] pb-10 sm:pt-[124px] sm:pb-14">
-      <div className="relative w-full max-w-[440px] min-w-0">
-        <AuthPeek art={art} mode={mode} />
-        <AuthPanel
-          error={parseAuthErrorCode(params?.error)}
-          mode={mode}
-          next={next}
-        />
+    <AuthFrame
+      cast={getAuthPeekCast(art, mode, intent?.preview ?? null)}
+      after={
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
           Just looking?{" "}
           <Link
@@ -42,7 +56,17 @@ export const LoginPage = async ({ art, searchParams }: LoginPageProps) => {
           </Link>
           . No account needed.
         </p>
-      </div>
-    </div>
+      }
+    >
+      <AuthPanel
+        art={art}
+        /* The email typed last on this device: after a failed try, "Log in with this email" or a sign-up. */
+        email={rememberedEmail}
+        error={error}
+        intent={intent}
+        mode={mode}
+        next={next}
+      />
+    </AuthFrame>
   );
 };

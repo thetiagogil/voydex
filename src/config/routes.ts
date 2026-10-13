@@ -26,8 +26,18 @@ export const appRoutes = {
   login: "/login",
   /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
   mainline: "/mainline",
+  /* Mainline Home with one of your Plays on the meadow. */
+  mainlineHomePlay: (playId: string) =>
+    `/mainline?play=${encodeURIComponent(playId)}`,
   mainlineCollection: "/mainline/collection",
-  mainlinePlan: (planId: string) => `/mainline/plans/${planId}`,
+  /* The Collection with one species' sheet open. */
+  mainlineCollectionSpecies: (speciesSlug: string) =>
+    `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,
+  /* A Plan in the Team Planner, optionally read in another version group. */
+  mainlinePlan: (planId: string, versionGroupSlug?: string) =>
+    versionGroupSlug
+      ? `/mainline/plans/${planId}?vg=${encodeURIComponent(versionGroupSlug)}`
+      : `/mainline/plans/${planId}`,
   /* The Team Planner on a blank Plan, optionally for one version group. */
   mainlinePlanNew: (versionGroupSlug?: string) =>
     versionGroupSlug
@@ -74,18 +84,23 @@ export const appRoutes = {
   /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
   mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
     `/mainline/plays/${playId}/team?pokemon=${encodeURIComponent(playPokemonId)}`,
-  mainlinePlayTeamAnalysis: (playId: string) =>
-    `/mainline/plays/${playId}/team/analysis`,
-  mainlinePlayTeamHistory: (playId: string) =>
-    `/mainline/plays/${playId}/team/history`,
+  /* Team analysis, on its Overall reading unless Story matchups is asked for. */
+  mainlinePlayTeamAnalysis: (playId: string, reading?: "story") =>
+    reading
+      ? `/mainline/plays/${playId}/team/analysis?reading=${reading}`
+      : `/mainline/plays/${playId}/team/analysis`,
   mainlinePlayTeamPlan: (playId: string) =>
     `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
+  /* The Plays you archived, each with Restore. */
+  mainlinePlaysArchived: "/mainline/plays?view=archived",
   mainlineStats: "/mainline/stats",
   privacy: "/privacy",
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
   settings: "/settings",
+  /* Your own rows as JSON, for Settings' Download. */
+  settingsExport: "/settings/export",
   /* Start a Play: pick a game and a partner before signing up. */
   start: "/start",
   terms: "/terms",

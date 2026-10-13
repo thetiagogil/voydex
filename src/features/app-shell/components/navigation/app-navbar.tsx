@@ -2,6 +2,8 @@ import { Logo } from "@/shared/components/brand/logo";
 import Link from "next/link";
 
 type AppNavbarProps = {
+  /* Where the V tile leads: Mainline Home signed in, the front door signed out. */
+  brandHref: string;
   center?: React.ReactNode;
   end?: React.ReactNode;
   showName?: boolean;
@@ -12,6 +14,7 @@ type AppNavbarProps = {
  * the right. Navigation, so no card and no edge.
  */
 export const AppNavbar = ({
+  brandHref,
   center,
   end,
   showName = false,
@@ -20,7 +23,7 @@ export const AppNavbar = ({
     <div className="mx-auto grid h-15 w-full max-w-320 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 sm:px-6 lg:h-17 lg:px-8">
       <div className="flex min-w-0 items-center">
         <Link
-          href="/"
+          href={brandHref}
           aria-label="Voydex home"
           className="inline-flex h-11 shrink-0 items-center rounded-sm"
         >

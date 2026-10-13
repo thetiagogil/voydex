@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 
-import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
+import { appRoutes } from "@/config/routes";
 import type { SignedInAccount } from "@/features/app-shell/types";
+import { getAccountInitial } from "@/features/app-shell/utils/account-display";
 import {
   codexLink,
   isCurrentLink,
-  mainlineLinks,
+  tabBarLinks,
+  youLinks,
 } from "@/features/app-shell/utils/app-navigation";
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { getMainlineViewIcon } from "@/features/app-shell/utils/mainline-view-icons";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { cn } from "@/shared/utils/cn";
 
 type AppTabBarProps = {
@@ -23,7 +24,7 @@ type AppTabBarProps = {
 
 type TabItemProps = {
   href: string;
-  icon: AppIconComponent;
+  icon: ReactNode;
   isCurrent: boolean;
   label: string;
 };
@@ -43,7 +44,7 @@ const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
         isCurrent && "bg-action-soft text-action-lip",
       )}
     >
-      <AppIcon icon={icon} className="size-5.5" />
+      {icon}
     </span>
     {label}
   </Link>
@@ -51,9 +52,9 @@ const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
 
 /*
  * Phones and tablets: the app's sections move to a bar on the bottom edge
- * (v3 `.tabbar`), its items kept together in the middle. v3 also draws Home
- * and the Planner; they join when their screens ship. You opens your account
- * menu until the You page ships.
+ * (v3 `.tabbar`), its items kept together in the middle: Mainline's views
+ * (Home, Plays and the Planner as each ships), the Codex, and You, which
+ * opens the You page with Statistics, Collection and Settings.
  */
 export const AppTabBar = ({ account }: AppTabBarProps) => {
   const pathname = usePathname();
@@ -64,22 +65,37 @@ export const AppTabBar = ({ account }: AppTabBarProps) => {
       data-tab-bar
       className="border-line bg-surface fixed inset-x-0 bottom-0 z-30 grid auto-cols-[minmax(0,6.5rem)] grid-flow-col justify-center gap-0.5 border-t px-2 pt-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom))] lg:hidden"
     >
-      {mainlineLinks.map((link) => (
+      {tabBarLinks.map((link) => (
         <TabItem
           key={link.href}
           href={link.href}
-          icon={appIcons.views.mainline[link.slug]}
+          icon={
+            <AppIcon
+              icon={getMainlineViewIcon(link.href)}
+              className="size-5.5"
+            />
+          }
           isCurrent={isCurrentLink(pathname, link)}
-          label={link.label}
+          label={link.shortLabel}
         />
       ))}
       <TabItem
         href={codexLink.href}
-        icon={appIcons.modules.codex}
+        icon={<AppIcon icon={appIcons.modules.codex} className="size-5.5" />}
         isCurrent={isCurrentLink(pathname, codexLink)}
         label={codexLink.label}
       />
-      <UserMenu account={account} placement="tab" />
+      <TabItem
+        href={appRoutes.you}
+        icon={
+          /* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */
+          <Avatar size="sm" aria-hidden>
+            <AvatarFallback>{getAccountInitial(account)}</AvatarFallback>
+          </Avatar>
+        }
+        isCurrent={youLinks.some((link) => isCurrentLink(pathname, link))}
+        label="You"
+      />
     </nav>
   );
 };
