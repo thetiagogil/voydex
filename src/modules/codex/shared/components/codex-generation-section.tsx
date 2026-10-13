@@ -6,6 +6,8 @@ type CodexGenerationSectionProps = Omit<ComponentProps<"section">, "title"> & {
   /* A quiet line beside the heading, such as how many it holds. */
   meta?: ReactNode;
   title: ReactNode;
+  /* Names the section by its heading. */
+  titleId?: string;
 };
 
 /* A group in a Codex list (v3 `.range`): a Fredoka heading over a hairline. */
@@ -14,12 +16,19 @@ export const CodexGenerationSection = ({
   className,
   meta,
   title,
+  titleId,
   ...props
 }: CodexGenerationSectionProps) => {
   return (
-    <section className={cn("min-w-0", className)} {...props}>
+    <section
+      aria-labelledby={titleId}
+      className={cn("min-w-0", className)}
+      {...props}
+    >
       <div className="border-line flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-b pb-3">
-        <h2 className="text-20 tracking-[-0.01em]">{title}</h2>
+        <h2 id={titleId} className="text-20 tracking-[-0.01em]">
+          {title}
+        </h2>
         {meta ? (
           <span className="text-14 text-ink-2 font-semibold tabular-nums">
             {meta}

@@ -13,3 +13,13 @@ export const publicArt = {
   pokemon: (form: { name: string; sprite_slug: string }) =>
     getPokemonFormImageUrl(form),
 };
+
+const psyduckArtUrl = getPokemonFormImageUrl({
+  name: "Psyduck",
+  sprite_slug: "psyduck",
+});
+
+/* The Pokémon that looks for a page that isn't there (v3's not found). */
+export const notFoundPokemon = psyduckArtUrl
+  ? { name: "Psyduck", artUrl: psyduckArtUrl }
+  : undefined;

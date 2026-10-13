@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useSyncExternalStore } from "react";
+import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { PlayCardProgress } from "@/modules/mainline/features/plays/browse/components/play-card-progress";
@@ -14,6 +14,7 @@ import {
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/browse/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
@@ -24,19 +25,10 @@ type PlayCardProps = {
 
 /*
  * The server renders the day in UTC; right after hydration it switches to the
- * viewer's time zone, as Team History does.
+ * viewer's time zone.
  */
-const subscribeToNothing = () => () => {};
-const getViewerTimeZone = () =>
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-const getServerTimeZone = () => "UTC";
-
 const PlayCardMeta = ({ play }: PlayCardProps) => {
-  const timeZone = useSyncExternalStore(
-    subscribeToNothing,
-    getViewerTimeZone,
-    getServerTimeZone,
-  );
+  const { timeZone } = useViewerClock();
   const updatedLabel = formatPlayUpdatedDate(play.updated_at, timeZone);
   const parts: ReactNode[] = [
     play.trainer_name ? `Trainer ${play.trainer_name}` : null,

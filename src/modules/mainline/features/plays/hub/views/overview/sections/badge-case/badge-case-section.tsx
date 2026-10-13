@@ -1,4 +1,4 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
@@ -18,8 +18,13 @@ export const BadgeCaseSection = ({
   storyHref,
 }: BadgeCaseSectionProps) => {
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Gym badges"
+      aside={
+        badgeCase.earnedGymCount === 0
+          ? `${badgeCase.gymCount} to earn`
+          : undefined
+      }
       action={<MainlinePlaySectionDestination href={storyHref} label="Story" />}
       contentClassName="pt-2"
     >
@@ -62,6 +67,6 @@ export const BadgeCaseSection = ({
             : "League complete"}
         </span>
       </div>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

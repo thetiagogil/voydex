@@ -2,24 +2,50 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
-type EmptyStateProps = {
-  /* Up to two actions. */
-  action?: ReactNode;
-  /* One Pokémon standing on its small patch of grass. */
-  artUrl?: string | null;
-  className?: string;
-  description: string;
-  title: string;
-};
+type EmptyStateProps =
+  | {
+      /* Up to two actions. */
+      action?: ReactNode;
+      /* One Pokémon standing on its small patch of grass. */
+      artUrl?: string | null;
+      className?: string;
+      description: string;
+      /* `h2` where the empty state stands in for a page's main content. */
+      headingLevel?: "h2" | "h3";
+      title: string;
+      variant?: "card";
+    }
+  | {
+      action?: ReactNode;
+      className?: string;
+      /* The one sentence, such as "Nothing matches." */
+      title: string;
+      /* v3 `.empty-note`: no card, one quiet centred sentence. */
+      variant: "bare";
+    };
 
 /* An empty state: one Pokémon on grass, one sentence, at most two actions. */
-export const EmptyState = ({
-  action,
-  artUrl,
-  className,
-  description,
-  title,
-}: EmptyStateProps) => {
+export const EmptyState = (props: EmptyStateProps) => {
+  const { action, className, title } = props;
+
+  if (props.variant === "bare") {
+    return (
+      <div
+        className={cn(
+          "text-ink-3 flex flex-col items-center gap-3 py-10 text-center font-semibold",
+          className,
+        )}
+      >
+        <p>{title}</p>
+        {action ? (
+          <div className="flex flex-wrap justify-center gap-3">{action}</div>
+        ) : null}
+      </div>
+    );
+  }
+
+  const { artUrl, description, headingLevel: Heading = "h3" } = props;
+
   return (
     <div
       data-slot="card"
@@ -39,7 +65,7 @@ export const EmptyState = ({
           <img src={artUrl} alt="" className="relative -mb-1 size-20" />
         </span>
       ) : null}
-      <h3 className="text-20">{title}</h3>
+      <Heading className="text-20">{title}</Heading>
       <p className="text-ink-2 text-15 mt-1.5 max-w-md font-semibold">
         {description}
       </p>

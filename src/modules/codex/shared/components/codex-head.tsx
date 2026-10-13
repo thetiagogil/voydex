@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { CodexSectionSwitch } from "@/modules/codex/shared/components/codex-section-switch";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -12,13 +13,15 @@ export type CodexCrumb = {
 type CodexHeadProps = {
   /* The path after the section switch, as in "/ Sword and Shield / Galar Pokédex". */
   trail?: readonly CodexCrumb[];
+  /* A last step that is more than a label, such as the Pokémon picker. */
+  trailEnd?: ReactNode;
 };
 
 /*
  * The head of every Codex page (v3 `codexHead`): the book and "Codex" as one
  * piece, the Pokémon | Games switch, then the path, which wraps as one piece.
  */
-export const CodexHead = ({ trail = [] }: CodexHeadProps) => {
+export const CodexHead = ({ trail = [], trailEnd }: CodexHeadProps) => {
   return (
     <nav
       aria-label="Breadcrumb"
@@ -29,7 +32,7 @@ export const CodexHead = ({ trail = [] }: CodexHeadProps) => {
         Codex
       </span>
       <CodexSectionSwitch />
-      {trail.length ? (
+      {trail.length || trailEnd ? (
         <ol className="inline-flex min-w-0 flex-wrap items-center gap-2">
           {trail.map((crumb) => (
             <li
@@ -51,6 +54,12 @@ export const CodexHead = ({ trail = [] }: CodexHeadProps) => {
               )}
             </li>
           ))}
+          {trailEnd ? (
+            <li className="inline-flex min-w-0 items-center gap-0.5">
+              <span aria-hidden>/</span>
+              {trailEnd}
+            </li>
+          ) : null}
         </ol>
       ) : null}
     </nav>

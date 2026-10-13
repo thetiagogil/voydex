@@ -23,15 +23,15 @@ export const PokemonDetailHead = ({
 }: PokemonDetailHeadProps) => {
   return (
     <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3">
-      <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-        <CodexHead />
-        <div className="text-14 text-ink-3 flex min-w-0 items-center gap-0.5 pt-2.5 font-bold">
-          <span aria-hidden>/</span>
-          <PokemonDetailSpeciesSelector
-            activeGameSlug={activeGameSlug}
-            activePokemon={activePokemon}
-          />
-        </div>
+      <div className="min-w-0">
+        <CodexHead
+          trailEnd={
+            <PokemonDetailSpeciesSelector
+              activeGameSlug={activeGameSlug}
+              activePokemon={activePokemon}
+            />
+          }
+        />
       </div>
       <div className="w-full min-w-0 md:ml-auto md:w-auto">
         <PokemonDetailGenerationMenu generations={generations} />

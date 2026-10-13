@@ -1,4 +1,4 @@
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import {
   getTeamPlanActiveTargetSummary,
@@ -42,7 +42,7 @@ export const LinkedPlanSummarySection = ({
   ].filter(Boolean);
 
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Plan"
       headingLevel={3}
       action={<MainlinePlaySectionDestination href={href} label="Open Plan" />}
@@ -77,6 +77,6 @@ export const LinkedPlanSummarySection = ({
           {notes.join(" · ")}
         </p>
       ) : null}
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };

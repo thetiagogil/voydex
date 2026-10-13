@@ -2,7 +2,6 @@ import { Fragment, type ReactNode } from "react";
 
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
-import { cn } from "@/shared/utils/cn";
 
 import {
   getTeamEventRecord,
@@ -10,28 +9,27 @@ import {
 } from "./team-event-record";
 
 type TeamEventRecordRowProps = {
-  className?: string;
   event: MainlinePlayTimelineEvent;
   typeByFormId?: TeamEventTypeByFormId;
   /* When it happened, after the kind in the kicker. */
   when?: ReactNode;
+  /* Let the line and note wrap in full. */
+  wrap?: boolean;
 };
 
 /* One Team moment as a record row, the same wherever the team's moments show. */
 export const TeamEventRecordRow = ({
-  className,
   event,
   typeByFormId,
   when,
+  wrap,
 }: TeamEventRecordRowProps) => {
   const record = getTeamEventRecord(event, typeByFormId);
 
   return (
     <RecordRow
-      className={cn(
-        record.faded && "[&_img]:opacity-75 [&_img]:saturate-30",
-        className,
-      )}
+      medallionFaded={record.faded}
+      wrap={wrap}
       kicker={
         when ? (
           <>

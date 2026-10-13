@@ -1,12 +1,19 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  PokemonEmptySlot,
+  PokemonSticker,
+} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 
+import {
+  getTeamMemberIdentity,
+  getTeamMemberName,
+} from "../../utils/team-member-display";
 import {
   getTeamRosterSlots,
   teamRosterSize,
   type TeamRosterGroup,
 } from "./team-roster-model";
-import { TeamRosterTile } from "./team-roster-tile";
 
 type TeamRosterSectionProps = {
   onSelect: (member: MainlinePlayTeamMember) => void;
@@ -18,6 +25,47 @@ type TeamRosterSectionProps = {
 const groupTitles: Record<TeamRosterGroup, string> = {
   active: "Active team",
   reserve: "Reserve",
+};
+
+type TeamRosterStickerProps = {
+  member: MainlinePlayTeamMember;
+  onSelect: (member: MainlinePlayTeamMember) => void;
+  selected: boolean;
+  slotLabel: string;
+  slotName: string;
+};
+
+/* A roster Pokémon as a compact sticker; picked, it wears the Play's colour. */
+const TeamRosterSticker = ({
+  member,
+  onSelect,
+  selected,
+  slotLabel,
+  slotName,
+}: TeamRosterStickerProps) => {
+  const name = getTeamMemberName(member);
+  const identity = getTeamMemberIdentity(member);
+  const level = member.level ? `Lv. ${member.level}` : null;
+
+  return (
+    <PokemonSticker
+      variant="compact"
+      className="size-full"
+      imageUrl={getPlayTeamMemberImageUrl(member)}
+      name={name}
+      subtitle={[identity, level].filter(Boolean).join(" · ")}
+      types={[member.primaryType, member.secondaryType].filter(
+        (type) => type !== null,
+      )}
+      shiny={member.is_shiny === true}
+      slotLabel={slotLabel}
+      selected={selected}
+      onClick={() => onSelect(member)}
+      label={[name, identity, level, member.is_shiny ? "Shiny" : null, slotName]
+        .filter(Boolean)
+        .join(", ")}
+    />
+  );
 };
 
 const TeamRosterGroupList = ({
@@ -48,7 +96,7 @@ const TeamRosterGroupList = ({
         {slots.map((slot) => (
           <li key={slot.position} className="min-w-0">
             {slot.member ? (
-              <TeamRosterTile
+              <TeamRosterSticker
                 member={slot.member}
                 onSelect={onSelect}
                 selected={slot.member.play_pokemon_id === selectedMemberId}

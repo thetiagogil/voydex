@@ -16,13 +16,11 @@ export const GamesShelf = ({ sections }: GamesShelfProps) => {
   return (
     <div className="mt-6 flex flex-col gap-7.5">
       {sections.map((section, sectionIndex) => {
-        const titleId = `games-section-${section.key}`;
-
         return (
           <CodexGenerationSection
             key={section.key}
-            aria-labelledby={titleId}
-            title={<span id={titleId}>{section.label}</span>}
+            title={section.label}
+            titleId={`games-section-${section.key}`}
             meta={section.summary}
           >
             <GameShelfGrid>

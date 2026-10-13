@@ -92,6 +92,9 @@
   --shadow-cover-value: 0 10px 18px -10px rgb(40 40 60 / 0.5);
   --shadow-float-value: 0 18px 34px -14px rgb(60 45 20 / 0.4);
   --shadow-overlay-value: 0 30px 50px -20px rgb(40 30 15 / 0.45);
+  /* Bars: a track pressed in at the top, a fill with a darker base. */
+  --shadow-track-value: inset 0 2px 0 rgb(90 70 35 / 0.08);
+  --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
 
   /* Type: two families, one scale, nothing under 12px */
   --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
@@ -219,6 +222,8 @@
   --shadow-cover: var(--shadow-cover-value);
   --shadow-float: var(--shadow-float-value);
   --shadow-overlay: var(--shadow-overlay-value);
+  --shadow-track: var(--shadow-track-value);
+  --shadow-fill: var(--shadow-fill-value);
   --shadow-card: 0 var(--clay-edge) 0 var(--lip), var(--shadow-soft-value);
   --shadow-action: 0 5px 0 var(--action-lip);
   --shadow-game: 0 5px 0 var(--game-lip);

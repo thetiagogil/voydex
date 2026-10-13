@@ -41,11 +41,37 @@ const DialogOverlay = ({
 const DialogContent = ({
   className,
   children,
+  fullScreenOnPhone = false,
   showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
+  /*
+   * Fills the screen on phones. The close button then takes its own row at the
+   * top instead of floating, so content never sits under it.
+   */
+  fullScreenOnPhone?: boolean;
   showCloseButton?: boolean;
 }) => {
+  const closeButton = showCloseButton ? (
+    <DialogPrimitive.Close
+      data-slot="dialog-close"
+      render={
+        <Button
+          variant="ghost"
+          className={cn(
+            "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-4 right-4 size-10 rounded-full",
+            fullScreenOnPhone &&
+              "max-sm:static max-sm:m-3 max-sm:mb-0 max-sm:shrink-0 max-sm:self-end max-sm:justify-self-end",
+          )}
+          size="icon"
+        />
+      }
+    >
+      <XIcon />
+      <span className="sr-only">Close</span>
+    </DialogPrimitive.Close>
+  ) : null;
+
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -53,26 +79,15 @@ const DialogContent = ({
         data-slot="dialog-content"
         className={cn(
           "bg-surface text-ink data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-overlay text-15 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-2xl p-6 duration-100 outline-none sm:max-w-sm",
+          fullScreenOnPhone &&
+            "max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none",
           className,
         )}
         {...props}
       >
+        {fullScreenOnPhone ? closeButton : null}
         {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            data-slot="dialog-close"
-            render={
-              <Button
-                variant="ghost"
-                className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-4 right-4 size-10 rounded-full"
-                size="icon"
-              />
-            }
-          >
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
+        {fullScreenOnPhone ? null : closeButton}
       </DialogPrimitive.Popup>
     </DialogPortal>
   );

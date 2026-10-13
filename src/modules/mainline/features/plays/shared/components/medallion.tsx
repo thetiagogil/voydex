@@ -81,6 +81,8 @@ const contentColourClassNames: Record<MedallionContent["kind"], string> = {
 type MedallionProps = {
   className?: string;
   content: MedallionContent;
+  /* A Pokémon that left the team: its art washed out (v3 .med.mon.faded). */
+  faded?: boolean;
   label?: string;
   size?: MedallionSize;
 };
@@ -88,6 +90,7 @@ type MedallionProps = {
 export const Medallion = ({
   className,
   content,
+  faded = false,
   label,
   size = "md",
 }: MedallionProps) => {
@@ -112,7 +115,11 @@ export const Medallion = ({
         <img
           src={content.imageUrl}
           alt=""
-          className={cn("max-w-none", imageSizeClassNames[size])}
+          className={cn(
+            "max-w-none",
+            imageSizeClassNames[size],
+            faded && "opacity-75 saturate-30",
+          )}
         />
       ) : (
         <AppIcon icon={content.icon} aria-hidden />

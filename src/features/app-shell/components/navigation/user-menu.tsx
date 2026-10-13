@@ -19,16 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
+import { getEmailInitials } from "@/shared/utils/email-initials";
 
 type UserMenuProps = {
   email: string;
   /* `bar`: your icon at the end of the top bar. `tab`: the You tab of the bottom bar. */
   placement?: "bar" | "tab";
-};
-
-const getInitials = (email: string) => {
-  const name = email.split("@")[0] ?? "U";
-  return name.slice(0, 2).toUpperCase();
 };
 
 /*
@@ -37,7 +33,7 @@ const getInitials = (email: string) => {
  */
 export const UserMenu = ({ email, placement = "bar" }: UserMenuProps) => {
   const pathname = usePathname();
-  const initials = getInitials(email);
+  const initials = getEmailInitials(email);
   const isSettingsCurrent = isCurrentLink(pathname, accountLink);
 
   return (

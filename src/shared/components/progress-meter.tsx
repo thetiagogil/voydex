@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Progress } from "@/shared/components/ui/progress";
@@ -7,6 +8,8 @@ type ProgressMeterProps = {
   className?: string;
   /* One quiet line under the bar, such as "112 of 400 caught". */
   detail?: ReactNode;
+  /* Makes the metric a link to its tracker; the name underlines on hover. */
+  href?: string;
   label?: string;
   max?: number;
   value: number;
@@ -19,6 +22,7 @@ type ProgressMeterProps = {
 export const ProgressMeter = ({
   className,
   detail,
+  href,
   label,
   max = 100,
   value,
@@ -26,15 +30,20 @@ export const ProgressMeter = ({
   const safeMax = max > 0 ? max : 100;
   const safeValue = Math.min(Math.max(value, 0), safeMax);
   const percentage = Math.round((safeValue / safeMax) * 100);
-
-  return (
-    <div
-      className={cn(
-        "grid grid-cols-[minmax(0,1fr)_auto] items-end gap-x-3 gap-y-1",
-        className,
-      )}
-    >
-      <span className="text-16 truncate font-extrabold">{label}</span>
+  const rootClassName = cn(
+    "group/metric grid grid-cols-[minmax(0,1fr)_auto] items-end gap-x-3 gap-y-1",
+    className,
+  );
+  const content = (
+    <>
+      <span
+        className={cn(
+          "text-16 truncate font-extrabold",
+          href && "group-hover/metric:underline",
+        )}
+      >
+        {label}
+      </span>
       <span className="font-display text-28 leading-none font-semibold tracking-[-0.02em] tabular-nums">
         {percentage}
         <small className="text-ink-3 ml-px text-[0.5em]">%</small>
@@ -50,6 +59,14 @@ export const ProgressMeter = ({
           {detail}
         </span>
       ) : null}
-    </div>
+    </>
+  );
+
+  return href ? (
+    <Link href={href} className={rootClassName}>
+      {content}
+    </Link>
+  ) : (
+    <div className={rootClassName}>{content}</div>
   );
 };

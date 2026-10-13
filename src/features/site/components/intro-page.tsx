@@ -10,7 +10,6 @@ import {
 } from "@/features/site/components/intro/intro-stages";
 import { MeadowCard } from "@/features/site/components/meadow-card";
 import { SiteActions } from "@/features/site/components/site-actions";
-import { SiteFooter } from "@/features/site/components/site-footer";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 import type { SiteArt } from "@/features/site/types";
@@ -116,7 +115,6 @@ export const IntroPage = async ({ art }: IntroPageProps) => {
         </p>
         <SiteActions isAuthenticated={isAuthenticated} />
       </MeadowCard>
-      <SiteFooter isAuthenticated={isAuthenticated} />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import type { ModuleKey } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
@@ -8,6 +7,7 @@ import {
 } from "@/features/app-shell/components/navigation/navigation-links";
 import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
+import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import {
   mainlineLinks,
   publicLinks,
@@ -18,8 +18,6 @@ import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
-  /* Routes still say which module they render; the bar reads the current path. */
-  activeModuleKey?: ModuleKey;
   children: React.ReactNode;
   showAuthAction?: boolean;
   userEmail?: string | null;
@@ -29,7 +27,8 @@ type AppShellProps = {
  * v3's two bars. Signed in: the V tile, Mainline's sections in the middle,
  * the Codex and your icon on the right; on phones and tablets the sections
  * and You move to a bottom bar. Signed out: the V tile with the name, how it
- * works and the Codex, and Log in; on phones the links fold into a menu.
+ * works and the Codex, and Log in; on phones the links fold into a menu. The
+ * signed-out frame ends on the site footer.
  */
 export const AppShell = ({
   children,
@@ -91,7 +90,7 @@ export const AppShell = ({
           {children}
         </div>
       </main>
-      {userEmail ? <AppTabBar email={userEmail} /> : null}
+      {userEmail ? <AppTabBar email={userEmail} /> : <SiteFooter />}
       <Toaster />
     </div>
   );

@@ -20,13 +20,11 @@ export type PokemonDetailStat = PokemonDetailStatDefinition & {
   value: number;
 };
 
-export const MAX_POKEMON_BASE_STAT = 255;
-
 /*
  * v3 draws a full bar at 160, so ordinary stats read at a useful length;
  * anything higher (Blissey's HP, say) simply fills it.
  */
-const STAT_BAR_FULL_AT = 160;
+export const POKEMON_DETAIL_STAT_BAR_FULL_AT = 160;
 
 const modernStatDefinitions = [
   { key: "base_hp", label: "HP", name: "HP" },
@@ -59,12 +57,6 @@ export const getPokemonDetailStats = (
     ...definition,
     value: attributes[definition.key],
   }));
-};
-
-export const getPokemonDetailStatBarWidth = (value: number) => {
-  const clampedValue = Math.min(Math.max(value, 0), STAT_BAR_FULL_AT);
-
-  return `${Math.round((clampedValue / STAT_BAR_FULL_AT) * 100)}%`;
 };
 
 export const getPokemonDetailStatsTotal = (stats: PokemonDetailStat[]) => {

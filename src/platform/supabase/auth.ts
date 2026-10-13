@@ -24,14 +24,30 @@ export const getClaimsWithTimeout = async (
   }
 };
 
-export const getOptionalUserEmail = async (
-  supabase: SupabaseClient<Database>,
-): Promise<string | null> => {
+/* The signed-in user's claims, or null when nobody is signed in. */
+const getSignedInClaims = async (supabase: SupabaseClient<Database>) => {
   const claimsResult = await getClaimsWithTimeout(supabase);
   if (!claimsResult || claimsResult.error || !claimsResult.data?.claims?.sub) {
     return null;
   }
-  return typeof claimsResult.data.claims.email === "string"
-    ? claimsResult.data.claims.email
-    : "Account";
+  return claimsResult.data.claims;
+};
+
+/* Null when signed out; "Account" stands in when the claims carry no email. */
+export const getOptionalUserEmail = async (
+  supabase: SupabaseClient<Database>,
+): Promise<string | null> => {
+  const claims = await getSignedInClaims(supabase);
+  if (!claims) {
+    return null;
+  }
+  return typeof claims.email === "string" ? claims.email : "Account";
+};
+
+/* The email claim itself, or null when signed out or the claims carry none. */
+export const getUserEmailClaim = async (
+  supabase: SupabaseClient<Database>,
+): Promise<string | null> => {
+  const claims = await getSignedInClaims(supabase);
+  return typeof claims?.email === "string" ? claims.email : null;
 };

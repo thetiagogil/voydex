@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamHistoryData } from "@/modules/mainline/features/plays/hub/types";
+import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Button } from "@/shared/components/ui/button";
@@ -20,10 +22,6 @@ import {
 import { TeamHistoryMonthSection } from "./sections/timeline/team-history-month";
 import { TeamHistoryStart } from "./sections/timeline/team-history-start";
 import { TeamHistoryToolbar } from "./sections/timeline/team-history-toolbar";
-import {
-  formatTeamHistoryCalendarDate,
-  getTeamHistoryToday,
-} from "./utils/team-history-date";
 
 const initialFilters: TeamHistoryFilters = {
   eventType: allTeamHistoryEventTypes,
@@ -33,32 +31,6 @@ const initialFilters: TeamHistoryFilters = {
 
 const pluralizeMoments = (count: number) =>
   count === 1 ? "Team moment" : "Team moments";
-
-const subscribeToNothing = () => () => {};
-const getViewerTimeZone = () =>
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-const getServerTimeZone = () => "UTC";
-const getViewerToday = () => getTeamHistoryToday(getViewerTimeZone());
-const getServerToday = () => null;
-
-/*
- * The server can't know the viewer's time zone or day, so the server render
- * and hydration read dates in UTC without "Today" or "Yesterday" and agree on
- * every month group and time; the viewer's own zone and day take over right
- * after hydration.
- */
-const useTeamHistoryClock = () => ({
-  timeZone: useSyncExternalStore(
-    subscribeToNothing,
-    getViewerTimeZone,
-    getServerTimeZone,
-  ),
-  today: useSyncExternalStore(
-    subscribeToNothing,
-    getViewerToday,
-    getServerToday,
-  ),
-});
 
 /*
  * Team history: the Team-only projection of the Play's timeline, drawn with
@@ -71,7 +43,7 @@ export const MainlinePlayTeamHistory = ({
   data: MainlinePlayTeamHistoryData;
 }) => {
   const [filters, setFilters] = useState<TeamHistoryFilters>(initialFilters);
-  const { timeZone, today } = useTeamHistoryClock();
+  const clock = useViewerClock();
   const eventTypeOptions = useMemo(
     () => getTeamHistoryEventTypeOptions(data.events, filters.query),
     [data.events, filters.query],
@@ -80,10 +52,9 @@ export const MainlinePlayTeamHistory = ({
     () =>
       groupTeamHistoryEventsByMonth(
         getFilteredTeamHistoryEvents(data.events, filters),
-        timeZone,
-        today,
+        clock,
       ),
-    [data.events, filters, timeZone, today],
+    [data.events, filters, clock],
   );
   const shownCount = months.reduce(
     (count, month) => count + month.entries.length,
@@ -91,9 +62,7 @@ export const MainlinePlayTeamHistory = ({
   );
   const totalCount = data.events.length;
   const startedOn = data.play.started_on;
-  const startedOnLabel = startedOn
-    ? formatTeamHistoryCalendarDate(startedOn)
-    : null;
+  const startedOnLabel = formatPlayDate(startedOn, "");
   const hasFilters = hasTeamHistoryFilters(filters);
   const hasRecordedTeam =
     (data.play.active_team_count ?? 0) > 0 ||

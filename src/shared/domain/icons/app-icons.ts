@@ -39,6 +39,7 @@ import {
   LogOut,
   Map,
   MapPin,
+  Menu,
   Mars,
   Monitor,
   Moon,
@@ -55,6 +56,7 @@ import {
   Sparkles,
   Star,
   Sun,
+  UserRound,
   UserRoundPlus,
   UsersRound,
   Venus,
@@ -81,6 +83,7 @@ export const appIcons = {
     home: Home,
     learnMore: Sparkles,
     login: LogIn,
+    menu: Menu,
     more: EllipsisVertical,
     move: ArrowLeftRight,
     retry: RotateCcw,
@@ -133,6 +136,7 @@ export const appIcons = {
     stats: BarChart3,
     team: UsersRound,
     teamAdded: UserRoundPlus,
+    trainer: UserRound,
     uncaught: Circle,
     uncollected: Circle,
   },
@@ -164,7 +168,7 @@ export const appIcons = {
       collectibles: Gem,
       dashboard: LayoutDashboard,
       overview: LayoutDashboard,
-      plays: Flag,
+      plays: Gamepad2,
       pokedex: ClipboardList,
       progress: Gauge,
       story: BookOpen,
@@ -172,14 +176,3 @@ export const appIcons = {
     },
   },
 } as const;
-
-const moduleIcons = {
-  codex: appIcons.modules.codex,
-  mainline: appIcons.modules.mainline,
-} satisfies Record<keyof typeof appIcons.modules, AppIconComponent>;
-
-type ModuleIconKey = keyof typeof moduleIcons;
-
-export const getModuleIcon = (moduleKey: ModuleIconKey) => {
-  return moduleIcons[moduleKey];
-};

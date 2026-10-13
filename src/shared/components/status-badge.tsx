@@ -4,10 +4,19 @@ import { cn } from "@/shared/utils/cn";
 /* Meaning colours are small marks: a pill, never a filled banner. */
 export type StatusBadgeTone = "danger" | "gold" | "neutral" | "ok" | "warn";
 
+export type StatusBadgeSize = "md" | "sm";
+
 type StatusBadgeProps = {
   children: React.ReactNode;
   className?: string;
+  /* `md` is v3's `.pstate`: 13px extrabold with a 14px mark. */
+  size?: StatusBadgeSize;
   tone?: StatusBadgeTone;
+};
+
+const sizeClassNames: Record<StatusBadgeSize, string> = {
+  md: "text-13 h-auto gap-1.5 px-[11px] py-1 font-extrabold [&>svg]:size-3.5!",
+  sm: "",
 };
 
 const toneClassNames: Record<StatusBadgeTone, string> = {
@@ -21,12 +30,18 @@ const toneClassNames: Record<StatusBadgeTone, string> = {
 export const StatusBadge = ({
   children,
   className,
+  size = "sm",
   tone = "neutral",
 }: StatusBadgeProps) => {
   return (
     <Badge
       variant="outline"
-      className={cn("border-transparent", toneClassNames[tone], className)}
+      className={cn(
+        "border-transparent",
+        sizeClassNames[size],
+        toneClassNames[tone],
+        className,
+      )}
     >
       {children}
     </Badge>

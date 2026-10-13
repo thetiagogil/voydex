@@ -18,8 +18,7 @@ const getGenerationNumeral = (generationName: string) => {
 /*
  * v3 `.gens`: the labelled generation pills beside the page title, compact
  * (13px, 30px tall) from small screens up and 40px tall on phones, where the
- * row scrolls sideways, edge to edge. The pill size is set through the group
- * until SegmentedControl has a compact size of its own.
+ * row scrolls sideways, edge to edge.
  */
 export const PokedexGenerationFilter = ({
   generations,
@@ -41,7 +40,8 @@ export const PokedexGenerationFilter = ({
       </span>
       <SegmentedControl
         ariaLabel="Generation"
-        className="*:text-13 max-w-none shrink-0 flex-nowrap *:min-w-10 *:justify-center *:px-2.5 *:font-extrabold sm:*:h-7.5"
+        className="max-w-none shrink-0 flex-nowrap"
+        size="sm"
         onValueChange={onValueChange}
         options={options}
         value={value}

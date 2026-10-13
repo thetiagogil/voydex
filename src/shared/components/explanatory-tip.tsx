@@ -25,11 +25,32 @@ type ExplanatoryTipProps = Pick<
   trigger?: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
   /* The accessible name of the default "i" dot. */
   triggerLabel?: string;
+  /*
+   * `dot` is the small inset dot for text; `raised` is v3's `.edit-wrap
+   * .infotip`, a 24px cream dot on a 2px lip that sits beside a control.
+   */
+  triggerVariant?: InfoDotVariant;
 };
 
-/* v3 `.infotip`: an 18px dot in the inset fill, with a 40px hit area. */
+type InfoDotVariant = "dot" | "raised";
+
+/* v3 `.infotip`: a round "i" dot with at least a 40px hit area. */
 const infoDotClassName =
-  "bg-surface-2 text-ink-2 hover:text-ink focus-visible:outline-focus relative inline-grid size-4.5 shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors after:absolute after:-inset-2.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid";
+  "text-ink-2 hover:text-ink focus-visible:outline-focus relative inline-grid shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid";
+
+const infoDotVariantClassNames: Record<
+  InfoDotVariant,
+  { dot: string; glyph: string }
+> = {
+  dot: {
+    dot: "bg-surface-2 size-4.5 after:absolute after:-inset-2.5",
+    glyph: "text-12",
+  },
+  raised: {
+    dot: "bg-surface size-6 shadow-[0_2px_0_var(--lip)] after:absolute after:-inset-2",
+    glyph: "text-13",
+  },
+};
 
 export const ExplanatoryTip = ({
   align,
@@ -43,6 +64,7 @@ export const ExplanatoryTip = ({
   sideOffset,
   trigger,
   triggerLabel = "More information",
+  triggerVariant = "dot",
 }: ExplanatoryTipProps) => {
   const [open, setOpen] = useState(false);
   const openedByKeyboardFocus = useRef(false);
@@ -88,7 +110,10 @@ export const ExplanatoryTip = ({
             <button
               type="button"
               aria-label={triggerLabel}
-              className={infoDotClassName}
+              className={cn(
+                infoDotClassName,
+                infoDotVariantClassNames[triggerVariant].dot,
+              )}
             />
           )
         }
@@ -142,7 +167,10 @@ export const ExplanatoryTip = ({
           (trigger ? null : (
             <span
               aria-hidden
-              className="text-12 leading-none font-extrabold italic"
+              className={cn(
+                "leading-none font-extrabold italic",
+                infoDotVariantClassNames[triggerVariant].glyph,
+              )}
             >
               i
             </span>

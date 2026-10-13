@@ -18,6 +18,10 @@ export type BadgeStampState =
 type BadgeStampProps = {
   className?: string;
   label: string;
+  /* Called once the slap has played. */
+  onSlapEnd?: () => void;
+  /* Slaps down once, at the moment it's recorded; never on load. */
+  slap?: boolean;
   state: BadgeStampState;
   tilt?: number;
 };
@@ -28,12 +32,19 @@ const typeColour = (type: PokemonTypeSlug | null) =>
 export const BadgeStamp = ({
   className,
   label,
+  onSlapEnd,
+  slap = false,
   state,
   tilt = 0,
 }: BadgeStampProps) => {
+  const tilted = state.kind === "badge" || state.kind === "earned";
+  /*
+   * The tilt is a transform, the same property the slap animates, so the slap
+   * lands on the stamp's own tilt and hands over to it without a jump.
+   */
   const style = {
     "--t": state.kind === "badge" ? typeColour(state.type) : undefined,
-    "--tilt": `${tilt}deg`,
+    "--tilt": tilted ? `${tilt}deg` : undefined,
   } as CSSProperties;
 
   return (
@@ -42,12 +53,23 @@ export const BadgeStamp = ({
       aria-label={label}
       title={label}
       style={style}
+      onAnimationEnd={
+        slap
+          ? (event) => {
+              if (event.target === event.currentTarget) {
+                onSlapEnd?.();
+              }
+            }
+          : undefined
+      }
       className={cn(
         "relative grid aspect-square w-full place-items-center rounded-full",
+        tilted && "transform-[rotate(var(--tilt))]",
+        slap && "animate-slap",
         state.kind === "badge" &&
-          "rotate-(--tilt) bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_5px_color-mix(in_oklab,var(--t)_45%,white),0_4px_0_5px_var(--lip)]",
+          "bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_5px_color-mix(in_oklab,var(--t)_45%,white),0_4px_0_5px_var(--lip)]",
         state.kind === "earned" &&
-          "bg-gold rotate-(--tilt) text-white shadow-[0_0_0_3px_#fff,0_0_0_5px_var(--gold-ring),0_4px_0_5px_var(--lip)]",
+          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_5px_var(--gold-ring),0_4px_0_5px_var(--lip)]",
         (state.kind === "next" || state.kind === "todo") &&
           "text-ink-3 outline-lip shadow-[inset_0_0_0_3px_var(--line)] outline-3 outline-offset-3 outline-dashed",
         state.kind === "next" && "bg-surface-2",

@@ -141,7 +141,7 @@ describe("Team History model", () => {
     });
     const months = groupTeamHistoryEventsByMonth(
       getFilteredTeamHistoryEvents([...events, undated], filters),
-      "UTC",
+      { timeZone: "UTC", today: null },
     );
 
     expect(

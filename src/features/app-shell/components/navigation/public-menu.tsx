@@ -17,17 +17,23 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
-/* Signed-out phones: the bar's links move into a menu (v3 `.pub-menu`). */
+/* Signed-out phones: the bar's links move into a menu behind one icon (v3 `.pub-menu`). */
 export const PublicMenu = ({ className }: { className?: string }) => {
   const pathname = usePathname();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" className={cn("px-3", className)} />}
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Menu"
+            className={cn("rounded-full", className)}
+          />
+        }
       >
-        Menu
-        <AppIcon icon={appIcons.actions.expand} inline="end" />
+        <AppIcon icon={appIcons.actions.menu} size="lg" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-52 p-2">
         {publicLinks.map((link) => {

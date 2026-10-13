@@ -1,6 +1,6 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
-import { ChevronDownIcon } from "lucide-react";
 
 const Accordion = ({ className, ...props }: AccordionPrimitive.Root.Props) => {
   return (
@@ -25,24 +25,44 @@ const AccordionItem = ({
   );
 };
 
-/* A row that opens in place (v3 `.mx-row`): Nunito 800, a quiet chevron that turns when open. */
+type AccordionHeadingLevel = 2 | 3 | 4 | 5 | 6;
+
+const headingTags = {
+  2: "h2",
+  3: "h3",
+  4: "h4",
+  5: "h5",
+  6: "h6",
+} as const;
+
+/*
+ * A row that opens in place (v3 `.mx-row`): Nunito 800, a quiet chevron that
+ * turns when open. Its header is a plain div unless `headingLevel` makes it a
+ * heading that fits the page's outline; the trigger stays Nunito either way.
+ */
 const AccordionTrigger = ({
   className,
   children,
+  headingLevel,
   ...props
-}: AccordionPrimitive.Trigger.Props) => {
+}: AccordionPrimitive.Trigger.Props & {
+  headingLevel?: AccordionHeadingLevel;
+}) => {
+  const HeadingTag = headingLevel ? headingTags[headingLevel] : "div";
+
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header render={<HeadingTag />} className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger text-15 text-ink focus-visible:outline-focus relative flex min-h-11 flex-1 items-center justify-between gap-3 rounded-sm py-2.5 text-left font-extrabold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:pointer-events-none aria-disabled:opacity-50",
+          "group/accordion-trigger text-15 text-ink focus-visible:outline-focus relative flex min-h-11 flex-1 items-center justify-between gap-3 rounded-sm py-2.5 text-left font-sans font-extrabold tracking-normal transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:pointer-events-none aria-disabled:opacity-50",
           className,
         )}
         {...props}
       >
         {children}
-        <ChevronDownIcon
+        <AppIcon
+          icon={appIcons.actions.expand}
           data-slot="accordion-trigger-icon"
           className="text-ink-3 pointer-events-none ml-auto size-4 shrink-0 transition-transform duration-200 group-aria-expanded/accordion-trigger:rotate-180"
         />

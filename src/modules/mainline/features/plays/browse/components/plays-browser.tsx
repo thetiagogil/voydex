@@ -134,6 +134,7 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
         </div>
       ) : (
         <EmptyState
+          headingLevel="h2"
           className="mt-5"
           title="No Plays found"
           description="Try another search, status or game."

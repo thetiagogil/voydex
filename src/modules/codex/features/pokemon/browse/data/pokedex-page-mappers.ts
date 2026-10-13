@@ -10,10 +10,7 @@ import type {
   PokedexPageData,
   PokemonForm,
 } from "@/modules/reference/types";
-import {
-  getPokemonFormImageAlt,
-  getPokemonFormImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 const getDefaultDetailGameSlugByGenerationId = (games: Game[]) => {
   const slugByGenerationId = new Map<number, string>();
@@ -76,7 +73,6 @@ export const buildPokedexPageData = ({
       return {
         detailGameSlug,
         id: pokemonSpecies.id,
-        imageAlt: getPokemonFormImageAlt(defaultForm),
         imageUrl: getPokemonFormImageUrl(defaultForm),
         introducedGeneration: introducedGeneration
           ? {

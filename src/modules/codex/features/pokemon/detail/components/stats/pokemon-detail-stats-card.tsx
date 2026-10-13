@@ -1,12 +1,12 @@
 import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
 import {
-  getPokemonDetailStatBarWidth,
   getPokemonDetailStatsTotal,
-  MAX_POKEMON_BASE_STAT,
+  POKEMON_DETAIL_STAT_BAR_FULL_AT,
   type PokemonDetailStat,
 } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { Meter } from "@/shared/components/ui/meter";
 
 type PokemonDetailStatsCardProps = {
   generationName: string;
@@ -36,20 +36,13 @@ export const PokemonDetailStatsCard = ({
             <span className="text-right font-extrabold tabular-nums">
               {stat.value}
             </span>
-            <span
-              role="meter"
+            <Meter
               aria-label={`${stat.label} base stat`}
-              aria-valuemin={0}
-              aria-valuemax={MAX_POKEMON_BASE_STAT}
-              aria-valuenow={stat.value}
-              aria-valuetext={String(stat.value)}
-              className="bg-track h-3.5 overflow-hidden rounded-full shadow-[inset_0_2px_0_var(--lip)]"
-            >
-              <span
-                className="block h-full rounded-full bg-(--t) shadow-[inset_0_-3px_0_color-mix(in_oklab,var(--t)_84%,var(--ink))]"
-                style={{ width: getPokemonDetailStatBarWidth(stat.value) }}
-              />
-            </span>
+              fill="var(--t)"
+              max={POKEMON_DETAIL_STAT_BAR_FULL_AT}
+              value={stat.value}
+              valueText={String(stat.value)}
+            />
           </div>
         ))}
       </div>

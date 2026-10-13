@@ -65,6 +65,7 @@ const TeamPlanPill = ({
   tone: TeamPlanTone;
 }) => (
   <StatusBadge
+    size="md"
     tone={badgeTones[tone]}
     className={cn(tone === "mute" && "text-ink-3")}
   >

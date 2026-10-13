@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -43,7 +43,7 @@ export const TeamAnalysisDefensiveSection = ({
   const visibleRows = rowsByFilter[filter];
 
   return (
-    <MainlinePlaySectionCard
+    <DetailSectionCard
       title="Defensive matchups"
       headingLevel={3}
       /* v3 hides the section aside on phones. */
@@ -106,6 +106,6 @@ export const TeamAnalysisDefensiveSection = ({
       <p className="border-line text-ink-2 text-13 mt-2 border-t pt-3.5 font-semibold">
         {footnote}
       </p>
-    </MainlinePlaySectionCard>
+    </DetailSectionCard>
   );
 };
