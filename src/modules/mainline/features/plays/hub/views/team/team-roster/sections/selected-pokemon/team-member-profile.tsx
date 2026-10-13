@@ -72,7 +72,7 @@ export const TeamMemberProfile = ({
         ) : (
           <span
             aria-hidden
-            className="border-dash relative size-[150px] rounded-full border-[1.5px] border-dashed sm:size-[190px]"
+            className="empty-slot relative size-[150px] rounded-full sm:size-[190px]"
           />
         )}
       </div>

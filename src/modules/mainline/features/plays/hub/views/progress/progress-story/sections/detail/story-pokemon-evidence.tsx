@@ -21,7 +21,7 @@ export const StoryPokemonEvidence = ({
       ) : (
         <span
           aria-hidden
-          className="border-dash size-11 shrink-0 rounded-full border-[1.5px] border-dashed"
+          className="empty-slot size-11 shrink-0 rounded-full"
         />
       )}
 

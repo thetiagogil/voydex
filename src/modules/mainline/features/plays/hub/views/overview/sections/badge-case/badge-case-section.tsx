@@ -1,12 +1,13 @@
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
-import type { OverviewAheadMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import {
+  getOverviewMilestoneWhere,
+  type OverviewAheadMilestone,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";
-
-import { BadgeCaseStamps } from "./badge-case-stamps";
 
 type BadgeCaseSectionProps = {
   aheadMilestones: OverviewAheadMilestone[];
@@ -16,7 +17,7 @@ type BadgeCaseSectionProps = {
 
 /*
  * The stamps, then what is ahead in the journey: the next objective and the
- * open milestones after it, numbered as Story numbers them.
+ * milestones after it, each with Story's marker and where it happens.
  */
 export const BadgeCaseSection = ({
   aheadMilestones,
@@ -31,10 +32,13 @@ export const BadgeCaseSection = ({
           ? `${badgeCase.gymCount} to earn`
           : undefined
       }
-      action={<MainlinePlaySectionDestination href={storyHref} label="Story" />}
+      more={{ href: storyHref, label: "Story" }}
       contentClassName="pt-2"
     >
-      <BadgeCaseStamps stamps={badgeCase.stamps} />
+      <StampGrid
+        className="grid-cols-5 gap-x-2.5 gap-y-4 p-1 sm:grid-cols-9"
+        stamps={badgeCase.stamps}
+      />
       <div className="text-ink-2 mt-5 flex flex-wrap justify-between gap-x-3 gap-y-1 text-[13.5px] font-semibold">
         <span>
           <b className="text-ink font-extrabold">
@@ -56,48 +60,38 @@ export const BadgeCaseSection = ({
       </div>
       {aheadMilestones.length ? (
         <ol aria-label="Ahead in the story" className="mt-4.5">
-          {aheadMilestones.map(({ milestone, sequence }, index) => {
-            const isDone = Boolean(milestone.is_completed);
-
-            return (
-              <li
-                key={milestone.milestone_id}
-                className="border-line text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 border-t py-2.5"
+          {aheadMilestones.map(({ badgeType, milestone, sequence, state }) => (
+            <li
+              key={milestone.milestone_id}
+              className="border-line text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 border-t py-2.5"
+            >
+              <MilestoneMarker
+                badgeType={badgeType}
+                sequence={sequence}
+                size="sm"
+                state={state}
+                typeSlug={milestone.milestone_type_slug}
+              />
+              <span
+                className={cn(
+                  "truncate font-extrabold",
+                  state === "done" && "text-ink-3 line-through",
+                )}
               >
-                <span
-                  aria-hidden
-                  className={cn(
-                    "text-12 grid size-7 place-items-center rounded-full font-extrabold tabular-nums",
-                    index === 0
-                      ? "bg-surface text-game-deep shadow-[inset_0_0_0_2px_var(--game)]"
-                      : "text-ink-3 shadow-[inset_0_0_0_1.5px_var(--line)]",
-                  )}
-                >
-                  {isDone ? (
-                    <AppIcon icon={appIcons.product.completion} size="sm" />
-                  ) : (
-                    sequence
-                  )}
+                <span className="sr-only">
+                  Milestone {sequence}
+                  {state === "done" ? ", recorded" : null},{" "}
                 </span>
-                <span
-                  className={cn(
-                    "truncate font-extrabold",
-                    isDone && "text-ink-3 line-through",
-                  )}
-                >
-                  <span className="sr-only">Milestone {sequence}, </span>
-                  {milestone.milestone_name}
-                </span>
-                <span className="text-ink-3 text-13 font-semibold">
-                  {index === 0
-                    ? "Next"
-                    : isDone
-                      ? "Recorded"
-                      : milestone.milestone_type_name}
-                </span>
-              </li>
-            );
-          })}
+                {milestone.milestone_name}
+              </span>
+              <span className="text-ink-3 text-13 max-w-[45vw] truncate font-semibold sm:max-w-56">
+                {state === "next"
+                  ? "Next"
+                  : (getOverviewMilestoneWhere(milestone) ??
+                    milestone.milestone_type_name)}
+              </span>
+            </li>
+          ))}
         </ol>
       ) : null}
     </DetailSectionCard>

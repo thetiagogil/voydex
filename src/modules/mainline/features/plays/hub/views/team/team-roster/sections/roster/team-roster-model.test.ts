@@ -4,6 +4,7 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 
 import {
   formatTeamRosterSummary,
+  getDefaultTeamMember,
   getTeamRosterSlots,
   getTeamRosterSummary,
 } from "./team-roster-model";
@@ -62,7 +63,7 @@ describe("getTeamRosterSlots", () => {
 });
 
 describe("getTeamRosterSummary", () => {
-  it("counts open slots only where the roster shows them", () => {
+  it("counts open slots in the team and the reserve, which always shows", () => {
     const teamOnly = getTeamRosterSummary([
       buildMember("first", "active", 1),
       buildMember("second", "active", 2),
@@ -77,11 +78,10 @@ describe("getTeamRosterSummary", () => {
 
     expect(teamOnly).toEqual({
       activeCount: 2,
-      openSlotCount: 4,
+      openSlotCount: 10,
       reserveCount: 0,
-      showsReserve: false,
     });
-    expect(formatTeamRosterSummary(teamOnly)).toBe("2 active · 4 open slots");
+    expect(formatTeamRosterSummary(teamOnly)).toBe("2 active · 10 open slots");
     expect(formatTeamRosterSummary(withReserve)).toBe(
       "6 active · 2 in reserve · 4 open slots",
     );
@@ -91,5 +91,24 @@ describe("getTeamRosterSummary", () => {
     expect(formatTeamRosterSummary(getTeamRosterSummary([]))).toBe(
       "No Pokémon yet",
     );
+  });
+});
+
+describe("getDefaultTeamMember", () => {
+  const roster = [
+    buildMember("second", "active", 2),
+    buildMember("first", "active", 1),
+    buildMember("reserve", "reserve", 7),
+  ];
+
+  it("opens on the Pokémon the link names", () => {
+    expect(getDefaultTeamMember(roster, "reserve")?.play_pokemon_id).toBe(
+      "reserve",
+    );
+  });
+
+  it("falls back to the first by slot for an unknown or missing id", () => {
+    expect(getDefaultTeamMember(roster, "gone")?.play_pokemon_id).toBe("first");
+    expect(getDefaultTeamMember(roster)?.play_pokemon_id).toBe("first");
   });
 });

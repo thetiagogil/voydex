@@ -23,9 +23,9 @@ export default async function PlaysPage({ searchParams }: PageProps) {
       data={data}
       params={{
         game: getSearchParam(params, "game"),
+        generation: getSearchParam(params, "generation"),
         q: getSearchParam(params, "q"),
         sort: getSearchParam(params, "sort"),
-        status: getSearchParam(params, "status"),
       }}
     />
   );

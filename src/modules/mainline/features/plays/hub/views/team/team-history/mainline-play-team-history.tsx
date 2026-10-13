@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
+import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/play-start-row";
 import type { MainlinePlayTeamHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
@@ -21,7 +22,6 @@ import {
   type TeamHistoryFilters,
 } from "./data/team-history-model";
 import { TeamHistoryMonthSection } from "./sections/timeline/team-history-month";
-import { TeamHistoryStart } from "./sections/timeline/team-history-start";
 import { TeamHistoryToolbar } from "./sections/timeline/team-history-toolbar";
 
 const initialFilters: TeamHistoryFilters = {
@@ -69,7 +69,9 @@ export const MainlinePlayTeamHistory = ({
     (data.play.active_team_count ?? 0) > 0 ||
     (data.play.reserve_team_count ?? 0) > 0 ||
     (data.play.historical_pokemon_count ?? 0) > 0;
-  const start = hasFilters ? null : <TeamHistoryStart startedOn={startedOn} />;
+  const start = hasFilters ? null : (
+    <PlayStartRow className="px-5 sm:px-7" startedOn={startedOn} />
+  );
 
   const updateFilter = <TKey extends keyof TeamHistoryFilters>(
     key: TKey,

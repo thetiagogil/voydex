@@ -10,7 +10,7 @@ import type { MainlinePlayPokedexEntry, PokedexProgressState } from "../types";
 
 export type PokedexSpeciesPresentationProps = {
   entry: MainlinePlayPokedexEntry;
-  gameSlug: string;
+  versionGroupSlug: string;
   isPending: boolean;
   isPressed: boolean;
   onToggle: () => void;
@@ -58,10 +58,10 @@ export const PokedexStateLabel = ({
 
 export const PokedexCodexLink = ({
   entry,
-  gameSlug,
+  versionGroupSlug,
 }: {
   entry: MainlinePlayPokedexEntry;
-  gameSlug: string;
+  versionGroupSlug: string;
 }) => {
   return (
     <ExplanatoryTip
@@ -70,7 +70,10 @@ export const PokedexCodexLink = ({
       pinOnPress={false}
       trigger={
         <Link
-          href={appRoutes.codexPokemonGameSpecies(gameSlug, entry.speciesSlug)}
+          href={appRoutes.codexPokemonEntry(
+            versionGroupSlug,
+            entry.speciesSlug,
+          )}
           aria-label={`Open ${entry.speciesName} in Codex`}
           role="link"
           className={buttonVariants({

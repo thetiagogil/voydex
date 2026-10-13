@@ -1,7 +1,6 @@
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
-import { getTeamEventDisplay } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-display";
-import { getTeamEventPokemon } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-payload";
-
+import { getPlayMomentPokemon } from "@/modules/mainline/features/plays/hub/data/play-moment-pokemon";
+import { getPlayMomentTeamLine } from "@/modules/mainline/features/plays/hub/data/play-moment-team-line";
 import type { ViewerClock } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 
 import {
@@ -61,7 +60,7 @@ const normalizeSearchValue = (value: string) =>
   value.trim().toLocaleLowerCase();
 
 const getEventSearchText = (event: MainlinePlayTimelineEvent) => {
-  const pokemonText = getTeamEventPokemon(event)
+  const pokemonText = getPlayMomentPokemon(event)
     .flatMap((pokemon) => [
       pokemon.nickname,
       pokemon.formName,
@@ -160,7 +159,7 @@ export const getTeamHistoryEventTypeOptions = (
 
     const option = eventTypes.get(slug) ?? {
       count: 0,
-      label: getTeamEventDisplay(event).label,
+      label: getPlayMomentTeamLine(event).label,
       value: slug,
     };
 

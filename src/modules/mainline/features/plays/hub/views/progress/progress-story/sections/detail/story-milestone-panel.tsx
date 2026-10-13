@@ -1,6 +1,9 @@
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
+import {
+  ObjectiveCard,
+  ObjectiveEyebrow,
+  objectiveTitleClassNames,
+} from "@/modules/mainline/features/plays/shared/components/objective-card";
+import { appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
@@ -11,13 +14,10 @@ import { StoryMilestoneDetail } from "./story-milestone-detail";
 /* The panel's heading, which takes focus when a closed row is out of view. */
 export const storyPanelTitleId = "story-panel-title";
 
-const titleClassName =
-  "text-32 mt-2.5 mb-2 leading-[1.02] tracking-[-0.025em] outline-none lg:text-[36px]";
-
 /*
  * The card beside the list: the scope's next objective, with the page's main
- * button, or the milestone you picked, read in full. Quiet: a Fredoka title on
- * a cream card.
+ * button, or the milestone you picked, read in full. The same objective card
+ * as Overview's next objective.
  */
 export const StoryMilestonePanel = ({
   chapterName,
@@ -40,72 +40,56 @@ export const StoryMilestonePanel = ({
 }) => {
   if (!milestone) {
     return (
-      <Card
-        role="region"
-        aria-labelledby={storyPanelTitleId}
-        className={cn("px-5 sm:px-7", className)}
-      >
-        <div>
-          <p className="text-game-deep text-13 flex items-center gap-2 font-extrabold">
-            <AppIcon icon={appIcons.product.completion} size="md" />
-            {scope.completedCount} of {scope.totalCount} recorded
-          </p>
-          <h2 id={storyPanelTitleId} tabIndex={-1} className={titleClassName}>
-            Journey complete
-          </h2>
-          <p className="text-ink-2 mt-3">
-            Every milestone of {scope.label} is recorded.
-          </p>
-        </div>
-      </Card>
+      <ObjectiveCard titleId={storyPanelTitleId} className={className}>
+        <ObjectiveEyebrow icon={appIcons.product.completion}>
+          {scope.completedCount} of {scope.totalCount} recorded
+        </ObjectiveEyebrow>
+        <h2
+          id={storyPanelTitleId}
+          tabIndex={-1}
+          className={objectiveTitleClassNames.md}
+        >
+          Journey complete
+        </h2>
+        <p className="text-ink-2 mt-1">
+          Every milestone of {scope.label} is recorded.
+        </p>
+      </ObjectiveCard>
     );
   }
 
   const isNext = milestone.id === scope.nextMilestone?.id;
 
   return (
-    <Card
-      role="region"
-      aria-labelledby={storyPanelTitleId}
-      className={cn("relative px-5 sm:px-7", className)}
-    >
-      {onClose ? (
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          aria-label="Back to your next objective"
-          onClick={onClose}
-          className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3.5 right-3.5 size-[38px] rounded-full"
-        >
-          <AppIcon icon={appIcons.actions.clear} />
-        </Button>
-      ) : null}
-      <div>
-        <StoryMilestoneDetail
-          chapterName={chapterName}
-          eyebrowClassName={onClose ? "pr-10" : undefined}
+    <ObjectiveCard
+      titleId={storyPanelTitleId}
+      className={className}
+      onClose={onClose}
+      closeLabel="Back to your next objective"
+      actions={
+        <StoryMilestoneActions
           isNext={isNext}
           milestone={milestone}
-          milestoneCount={scope.milestoneCount}
-          title={
-            <h2
-              id={storyPanelTitleId}
-              tabIndex={-1}
-              className={cn(titleClassName, onClose && "pr-10")}
-            >
-              {milestone.name}
-            </h2>
-          }
+          onAction={(intent) => onAction(milestone, intent)}
         />
-        <div className="mt-6 flex flex-wrap gap-3">
-          <StoryMilestoneActions
-            isNext={isNext}
-            milestone={milestone}
-            onAction={(intent) => onAction(milestone, intent)}
-          />
-        </div>
-      </div>
-    </Card>
+      }
+    >
+      <StoryMilestoneDetail
+        chapterName={chapterName}
+        eyebrowClassName={onClose ? "pr-10" : undefined}
+        isNext={isNext}
+        milestone={milestone}
+        milestoneCount={scope.milestoneCount}
+        title={
+          <h2
+            id={storyPanelTitleId}
+            tabIndex={-1}
+            className={cn(objectiveTitleClassNames.md, onClose && "pr-10")}
+          >
+            {milestone.name}
+          </h2>
+        }
+      />
+    </ObjectiveCard>
   );
 };

@@ -1,14 +1,16 @@
-import type { StoryTeamSnapshotMember } from "../../types";
+import {
+  getPlayTeamSnapshotMemberName,
+  type PlayTeamSnapshotMember,
+} from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 
 /*
- * The team as it stood when the milestone was recorded: small tiles in the
- * sticker's white border and lip. The snapshot carries no types, so the tiles
- * stay neutral.
+ * The team as it stood when the milestone was recorded: small stickers. The
+ * snapshot carries no types, so they wear the neutral tint.
  */
 export const StoryTeamSnapshot = ({
   members,
 }: {
-  members: StoryTeamSnapshotMember[];
+  members: PlayTeamSnapshotMember[];
 }) => {
   return (
     <ul
@@ -16,13 +18,13 @@ export const StoryTeamSnapshot = ({
       className="grid max-w-[22rem] grid-cols-6 gap-2"
     >
       {members.map((member) => {
-        const name = `${member.formName ?? member.speciesName}${member.isShiny ? ", shiny" : ""}`;
+        const name = getPlayTeamSnapshotMemberName(member);
 
         return (
           <li
             key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}
             title={name}
-            className="bg-surface-2 grid aspect-square place-items-center rounded-md border-[3px] border-white shadow-[0_3px_0_var(--lip)]"
+            className="sticker grid aspect-square place-items-center rounded-md [--t:var(--mute)]"
           >
             {member.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element

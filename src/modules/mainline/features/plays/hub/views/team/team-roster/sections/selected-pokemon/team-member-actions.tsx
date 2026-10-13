@@ -17,8 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
-
-import { getTeamMemberName } from "../../utils/team-member-display";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
 /* What the Pokémon editor will do once it ships. */
 const editorActions: Array<{ icon: AppIconComponent; label: string }> = [
@@ -49,7 +48,7 @@ export const TeamMemberMoreActions = ({
             type="button"
             variant={variant}
             size="icon"
-            aria-label={`More actions for ${getTeamMemberName(member)}`}
+            aria-label={`More actions for ${getPlayTeamMemberName(member)}`}
             className={className}
           />
         }
@@ -78,19 +77,19 @@ export const TeamMemberMoreActions = ({
  */
 export const TeamMemberActions = ({
   className,
-  gameSlug,
+  versionGroupSlug,
   member,
   stretch = false,
 }: {
   className?: string;
-  gameSlug: string | null;
+  versionGroupSlug: string | null;
   member: MainlinePlayTeamMember;
   stretch?: boolean;
 }) => {
-  const name = getTeamMemberName(member);
+  const name = getPlayTeamMemberName(member);
   const codexHref =
-    gameSlug && member.species_slug
-      ? appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)
+    versionGroupSlug && member.species_slug
+      ? appRoutes.codexPokemonEntry(versionGroupSlug, member.species_slug)
       : null;
   const buttonClassName = stretch ? "min-w-0 flex-1" : undefined;
   const codexContent = (

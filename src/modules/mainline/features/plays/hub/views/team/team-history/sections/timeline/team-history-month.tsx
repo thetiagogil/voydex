@@ -1,4 +1,5 @@
-import { TeamEventRecordRow } from "@/modules/mainline/features/plays/hub/views/team/shared/team-event-record-row";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
+import { RangeHeading } from "@/shared/components/range-heading";
 import { Card } from "@/shared/components/ui/card";
 
 import {
@@ -21,20 +22,18 @@ export const TeamHistoryMonthSection = ({
 
   return (
     <section aria-labelledby={headingId} className="min-w-0">
-      <div className="border-line flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-b pb-3">
-        <h3 id={headingId} className="text-20 tracking-[-0.01em]">
-          {month.label}
-        </h3>
-        <span className="text-ink-2 text-14 font-semibold tabular-nums">
-          {count} {count === 1 ? "moment" : "moments"}
-        </span>
-      </div>
+      <RangeHeading
+        headingLevel={3}
+        title={month.label}
+        titleId={headingId}
+        count={`${count} ${count === 1 ? "moment" : "moments"}`}
+      />
 
       <Card className="mt-3.5 gap-0 px-5 py-1.5 sm:px-7 sm:py-3">
         <ol className="divide-line grid min-w-0 divide-y">
           {month.entries.map(({ date, event }, index) => (
             <li key={getTeamHistoryEventKey(event, index)} className="min-w-0">
-              <TeamEventRecordRow
+              <PlayMomentRow
                 event={event}
                 wrap
                 when={

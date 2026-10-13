@@ -39,7 +39,7 @@ export type MainlinePlayPokedexScope = {
 
 export type MainlinePlayProgressPokedexData = {
   gameName: string;
-  gameSlug: string;
+  versionGroupSlug: string;
   scopes: MainlinePlayPokedexScope[];
 };
 

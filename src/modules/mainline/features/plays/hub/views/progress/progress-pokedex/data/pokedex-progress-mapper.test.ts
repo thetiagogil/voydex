@@ -73,7 +73,7 @@ describe("Mainline Play Pokédex mapper", () => {
 
     const data = buildMainlinePlayPokedexData({
       gameName: "Pokémon Red",
-      gameSlug: "pokemon-red",
+      versionGroupSlug: "pokemon-red",
       generationId: 1,
       rows: {
         attributes,

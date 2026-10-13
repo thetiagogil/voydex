@@ -1,19 +1,20 @@
-import { MainlinePlaySectionDestination } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-destination";
+import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/plays/hub/types";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 import {
   PokemonEmptySlot,
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
-
-import {
-  getTeamMemberImageUrl,
-  getTeamMemberName,
-  getTeamSlots,
-} from "./team-model";
+import { SectionHead } from "@/shared/components/section-head";
 
 type TeamSectionProps = {
   activeCount: number | null;
   href: string;
+  playId: string;
   reserveCount: number | null;
   team: MainlinePlayTeamPreviewMember[];
 };
@@ -21,10 +22,14 @@ type TeamSectionProps = {
 const countLabel = (count: number | null, label: string) =>
   count === null ? null : `${count} ${label}`;
 
-/* A grid of cards keeps its heading on the page: your team, as stickers. */
+/*
+ * A grid of cards keeps its heading on the page: your team, as stickers.
+ * Each opens the Roster with that Pokémon selected.
+ */
 export const TeamSection = ({
   activeCount,
   href,
+  playId,
   reserveCount,
   team,
 }: TeamSectionProps) => {
@@ -37,37 +42,37 @@ export const TeamSection = ({
 
   return (
     <section aria-labelledby="overview-team-title" className="grid gap-4">
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-        <h2 id="overview-team-title" className="text-24">
-          Your team
-        </h2>
-        {aside ? (
-          <span className="text-ink-3 text-14 hidden font-semibold sm:inline">
-            {aside}
-          </span>
-        ) : null}
-        <span className="ml-auto">
-          <MainlinePlaySectionDestination href={href} label="Open team" />
-        </span>
-      </div>
+      <SectionHead
+        title="Your team"
+        titleId="overview-team-title"
+        aside={aside || undefined}
+        more={{ href, label: "Open team" }}
+      />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-        {getTeamSlots(team).map(({ member, slotNumber }) => {
+        {getPlayTeamSlots(team).map(({ member, position }) => {
           if (!member) {
             return (
               <PokemonEmptySlot
-                key={slotNumber}
-                label={`Open team slot ${slotNumber}`}
+                key={position}
+                label={`Open team slot ${position}`}
               />
             );
           }
 
-          const name = getTeamMemberName(member);
+          const name = getPlayTeamMemberName(member);
 
           return (
             <PokemonSticker
-              key={slotNumber}
-              href={href}
-              imageUrl={getTeamMemberImageUrl(member)}
+              key={position}
+              href={
+                member.play_pokemon_id
+                  ? appRoutes.mainlinePlayTeamPokemon(
+                      playId,
+                      member.play_pokemon_id,
+                    )
+                  : href
+              }
+              imageUrl={getPlayTeamMemberImageUrl(member)}
               level={member.level}
               name={name}
               subtitle={

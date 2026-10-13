@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 
-import { getTeamEventDisplay } from "./team-event-display";
+import { getPlayMomentTeamLine } from "./play-moment-team-line";
 
 const event = (
   eventTypeSlug: string,
@@ -16,9 +16,9 @@ const event = (
     title,
   }) as MainlinePlayTimelineEvent;
 
-describe("getTeamEventDisplay", () => {
+describe("getPlayMomentTeamLine", () => {
   it("uses event-time before and after identities for evolutions", () => {
-    const display = getTeamEventDisplay(
+    const display = getPlayMomentTeamLine(
       event("pokemon_evolved", [
         {
           form_name: "Crocalor",
@@ -44,7 +44,7 @@ describe("getTeamEventDisplay", () => {
   });
 
   it("shows the roster destination for a movement event", () => {
-    const display = getTeamEventDisplay(
+    const display = getPlayMomentTeamLine(
       event(
         "pokemon_moved",
         [
@@ -65,7 +65,7 @@ describe("getTeamEventDisplay", () => {
   });
 
   it("prefers a structured roster destination over event copy", () => {
-    const display = getTeamEventDisplay(
+    const display = getPlayMomentTeamLine(
       event(
         "pokemon_moved",
         [
@@ -87,7 +87,7 @@ describe("getTeamEventDisplay", () => {
   });
 
   it("draws a moment with its outcome Pokémon", () => {
-    const evolution = getTeamEventDisplay(
+    const evolution = getPlayMomentTeamLine(
       event("pokemon_evolved", [
         {
           form_id: 1,
@@ -103,7 +103,7 @@ describe("getTeamEventDisplay", () => {
         },
       ]),
     );
-    const movement = getTeamEventDisplay(
+    const movement = getPlayMomentTeamLine(
       event(
         "pokemon_moved",
         [
@@ -130,7 +130,7 @@ describe("getTeamEventDisplay", () => {
   });
 
   it("keeps an image placeholder for a Team event with no Pokémon ref", () => {
-    const display = getTeamEventDisplay(event("pokemon_removed", []));
+    const display = getPlayMomentTeamLine(event("pokemon_removed", []));
 
     expect(display.outcome).toMatchObject({
       imageUrl: null,

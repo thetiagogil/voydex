@@ -52,9 +52,7 @@ export const CollectibleToken = ({
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
         "focus-visible:outline-focus relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 transition-transform duration-150 outline-none hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:cursor-wait",
-        isFound
-          ? "border-3 border-white bg-[color-mix(in_oklab,var(--gold)_24%,var(--surface))] shadow-[0_4px_0_color-mix(in_oklab,var(--gold)_45%,var(--lip))]"
-          : "border-dash border-[2.5px] border-dashed bg-transparent",
+        isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
         isPopping && "animate-pop",
         className,
       )}

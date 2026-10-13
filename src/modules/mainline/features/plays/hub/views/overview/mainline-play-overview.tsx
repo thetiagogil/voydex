@@ -1,7 +1,8 @@
 import { appRoutes } from "@/config/routes";
+import { getPlayMomentTypeByFormId } from "@/modules/mainline/features/plays/hub/data/play-moment-record";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
-import { getBadgeTypeByMilestoneId } from "./data/badge-case-mapper";
 import { BadgeCaseSection } from "./sections/badge-case/badge-case-section";
 import { NextObjectiveSection } from "./sections/next-objective/next-objective-section";
 import { ProgressSummarySection } from "./sections/progress-summary/progress-summary-section";
@@ -25,7 +26,15 @@ export const MainlinePlayOverview = ({
   const storyHref = appRoutes.mainlinePlayProgressStory(playId);
   const recentMoments = (
     <RecentHistorySection
-      badgeTypeByMilestoneId={getBadgeTypeByMilestoneId(data.badgeCase)}
+      context={{
+        badgeTypeByMilestoneId: new Map(
+          (data.badgeCase?.stamps ?? []).flatMap(
+            (stamp): [number, PokemonTypeSlug][] =>
+              stamp.badgeType ? [[stamp.milestoneId, stamp.badgeType]] : [],
+          ),
+        ),
+        typeByFormId: getPlayMomentTypeByFormId(data.teamPreview),
+      }}
       events={data.timelinePreview}
       startedOn={data.play.started_on}
     />
@@ -36,6 +45,7 @@ export const MainlinePlayOverview = ({
       <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr] lg:gap-6">
         <NextObjectiveSection
           lastCompletedMilestone={data.lastCompletedMilestone}
+          lastRecordedTeam={data.lastRecordedTeam}
           nextMilestone={data.nextMilestone}
           nextMilestonePosition={data.nextMilestonePosition}
           playId={playId}
@@ -45,6 +55,7 @@ export const MainlinePlayOverview = ({
       <TeamSection
         activeCount={data.overview?.active_team_count ?? null}
         href={appRoutes.mainlinePlayTeam(playId)}
+        playId={playId}
         reserveCount={data.overview?.reserve_team_count ?? null}
         team={data.teamPreview}
       />

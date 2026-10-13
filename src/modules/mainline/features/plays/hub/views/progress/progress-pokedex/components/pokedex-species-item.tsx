@@ -28,7 +28,7 @@ const getToggleLabel = ({
 
 export const PokedexSpeciesItem = ({
   entry,
-  gameSlug,
+  versionGroupSlug,
   isPending,
   mode,
   onStateChange,
@@ -36,7 +36,7 @@ export const PokedexSpeciesItem = ({
   viewMode,
 }: {
   entry: MainlinePlayPokedexEntry;
-  gameSlug: string;
+  versionGroupSlug: string;
   isPending: boolean;
   mode: PokedexUpdateMode;
   onStateChange: (state: PokedexProgressState) => void;
@@ -46,7 +46,7 @@ export const PokedexSpeciesItem = ({
   const nextState = getNextPokedexStateForMode({ mode, state });
   const presentationProps = {
     entry,
-    gameSlug,
+    versionGroupSlug,
     isPending,
     isPressed: state === mode,
     onToggle: () => onStateChange(nextState),

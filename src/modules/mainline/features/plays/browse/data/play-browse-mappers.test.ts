@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { buildMainlinePlayBrowseItems } from "@/modules/mainline/features/plays/browse/data/play-browse-mappers";
+import {
+  buildMainlinePlayBrowseItems,
+  type PlayBrowseMilestone,
+} from "@/modules/mainline/features/plays/browse/data/play-browse-mappers";
 import type {
   MainlinePlayOverview,
   MainlinePlaySummary,
@@ -27,6 +30,7 @@ const buildItems = (
   return buildMainlinePlayBrowseItems({
     availability: {
       progress: true,
+      story: true,
       team: true,
     },
     games: [
@@ -40,6 +44,7 @@ const buildItems = (
     overviews: [],
     plays: [buildPlay()],
     regions: [{ id: 2, name: "Johto" }],
+    storyRows: { categories: [], milestones: [] },
     teamMembers: [],
     ...overrides,
   });
@@ -98,6 +103,7 @@ describe("buildMainlinePlayBrowseItems", () => {
     const unavailableItem = buildItems({
       availability: {
         progress: false,
+        story: false,
         team: false,
       },
     })[0];
@@ -110,5 +116,90 @@ describe("buildMainlinePlayBrowseItems", () => {
 
     expect(unavailableItem?.progress).toEqual({ state: "unavailable" });
     expect(unavailableItem?.activeTeam.state).toBe("unavailable");
+  });
+});
+
+describe("buildMainlinePlayBrowseItems story and collectibles", () => {
+  const milestone = (
+    overrides: Partial<PlayBrowseMilestone>,
+  ): PlayBrowseMilestone => ({
+    category_id: 1,
+    is_completed: false,
+    is_required_for_completion: true,
+    milestone_id: 1,
+    milestone_name: "Milestone",
+    play_id: "play-1",
+    prerequisites: [],
+    sort_order: 1,
+    ...overrides,
+  });
+
+  it("names the next objective by Story's rule", () => {
+    const [item] = buildItems({
+      storyRows: {
+        categories: [
+          {
+            category_id: 1,
+            category_sort_order: 1,
+            content_scope_sort_order: 1,
+            play_id: "play-1",
+          },
+        ],
+        milestones: [
+          milestone({
+            milestone_id: 2,
+            milestone_name: "Zephyr Badge",
+            sort_order: 2,
+          }),
+          milestone({
+            is_completed: true,
+            milestone_id: 1,
+            milestone_name: "Choose a partner",
+          }),
+          milestone({
+            milestone_id: 3,
+            milestone_name: "Other Play",
+            play_id: "play-2",
+          }),
+        ],
+      },
+    });
+
+    expect(item?.storyPosition).toEqual({ kind: "next", name: "Zephyr Badge" });
+  });
+
+  it("says the story is complete, and has no position without milestones", () => {
+    expect(
+      buildItems({
+        storyRows: {
+          categories: [],
+          milestones: [milestone({ is_completed: true })],
+        },
+      })[0]?.storyPosition,
+    ).toEqual({ kind: "complete" });
+    expect(buildItems()[0]?.storyPosition).toBeNull();
+    expect(
+      buildItems({
+        availability: { progress: true, story: false, team: true },
+        storyRows: { categories: [], milestones: [milestone({})] },
+      })[0]?.storyPosition,
+    ).toBeNull();
+  });
+
+  it("shows Collectibles as Off when the Play doesn't track them", () => {
+    const [item] = buildItems({
+      overviews: [
+        {
+          include_collectibles_in_completion: false,
+          play_id: "play-1",
+          required_collectible_entry_count: 0,
+        } as MainlinePlayOverview,
+      ],
+    });
+
+    expect(item?.progress).toEqual({
+      items: [{ label: "Collectibles", percent: null }],
+      state: "available",
+    });
   });
 });

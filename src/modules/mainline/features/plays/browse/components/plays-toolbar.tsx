@@ -8,30 +8,22 @@ import type {
   PlayBrowseOption,
   PlayBrowseSort,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
+import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { Toolbar, ToolbarDivider } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetTitle,
-  SheetTrigger,
-} from "@/shared/components/ui/sheet";
 
 type PlaysToolbarProps = {
   filters: PlayBrowseFilters;
   games: PlayBrowseOption[];
+  generations: PlayBrowseOption[];
   /* How many Plays the current choices show, for the phone sheet's button. */
   matchingCount: number;
   onGameChange: (game: string) => void;
+  onGenerationChange: (generation: string) => void;
   onQueryChange: (query: string) => void;
   onSortChange: (sort: PlayBrowseSort) => void;
-  onStatusChange: (status: string) => void;
-  statuses: PlayBrowseOption[];
 };
 
 type FilterSelectsProps = Omit<
@@ -50,17 +42,17 @@ const sortOptions = [
 /*
  * The same three selects serve the toolbar and the phone sheet. Only the
  * toolbar's carry names: they sit in the form, so a search sent before the
- * page hydrates keeps the status, game and order. The sheet is portalled
+ * page hydrates keeps the game, generation and order. The sheet is portalled
  * outside the form.
  */
 const getFilterSelects = (
   {
     filters,
     games,
+    generations,
     onGameChange,
+    onGenerationChange,
     onSortChange,
-    onStatusChange,
-    statuses,
   }: FilterSelectsProps,
   {
     idPrefix,
@@ -68,9 +60,7 @@ const getFilterSelects = (
     sortPrefix,
   }: { idPrefix: string; isInForm?: boolean; sortPrefix?: string },
 ) => {
-  const getName = (name: keyof PlayBrowseFilters) => {
-    return isInForm ? name : undefined;
-  };
+  const getName = (name: string) => (isInForm ? name : undefined);
 
   return {
     game: (
@@ -82,6 +72,18 @@ const getFilterSelects = (
         onValueChange={onGameChange}
         options={[{ label: "All games", value: "" }, ...games]}
         placeholder="All games"
+        variant="ghost"
+      />
+    ),
+    generation: (
+      <SelectControl
+        id={`${idPrefix}-generation`}
+        name={getName("generation")}
+        ariaLabel="Filter Plays by generation"
+        value={filters.generation}
+        onValueChange={onGenerationChange}
+        options={[{ label: "All generations", value: "" }, ...generations]}
+        placeholder="All generations"
         variant="ghost"
       />
     ),
@@ -100,29 +102,13 @@ const getFilterSelects = (
         variant="ghost"
       />
     ),
-    status: (
-      <SelectControl
-        id={`${idPrefix}-status`}
-        name={getName("status")}
-        ariaLabel="Filter Plays by status"
-        value={filters.status}
-        onValueChange={onStatusChange}
-        options={[{ label: "All statuses", value: "" }, ...statuses]}
-        placeholder="All statuses"
-        variant="ghost"
-      />
-    ),
   };
 };
 
-const ToolbarSeparator = () => {
-  return <span aria-hidden className="bg-line my-2 w-px self-stretch" />;
-};
-
 /*
- * On phones the status, game and order move into a bottom sheet. Only its
- * trigger hides on wider screens, so a sheet left open across a resize stays
- * visible and can still be closed.
+ * On phones the game, generation and order move into a bottom sheet. Only
+ * its trigger hides on wider screens, so a sheet left open across a resize
+ * stays visible and can still be closed.
  */
 const PlaysFiltersSheet = ({
   matchingCount,
@@ -131,83 +117,59 @@ const PlaysFiltersSheet = ({
   const [isOpen, setIsOpen] = useState(false);
   const selects = getFilterSelects(selectProps, { idPrefix: "plays-sheet" });
   const rows = [
-    { control: selects.status, key: "status", label: "Status" },
     { control: selects.game, key: "game", label: "Game" },
+    { control: selects.generation, key: "generation", label: "Generation" },
     { control: selects.sort, key: "sort", label: "Sort" },
   ];
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger
-        render={
-          <Button type="button" variant="outline" className="md:hidden" />
-        }
-      >
-        Filters
-      </SheetTrigger>
-      <SheetContent
-        side="bottom"
-        className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0"
-      >
-        <span
-          aria-hidden
-          className="bg-line mx-auto mt-2.5 mb-0.5 h-1.25 w-11 shrink-0 rounded-full"
-        />
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 pt-2 pb-4">
-          <SheetTitle className="text-24 mt-2 mb-2 pr-12">Filters</SheetTitle>
-          <SheetDescription className="sr-only">
-            Choose which Plays the list shows and their order.
-          </SheetDescription>
-          <div className="divide-line grid divide-y">
-            {rows.map((row) => (
-              <div
-                key={row.key}
-                className="flex min-h-13 items-center justify-between gap-4 py-1"
-              >
-                <label
-                  htmlFor={`plays-sheet-${row.key}`}
-                  className="text-ink-2 text-13 font-bold"
-                >
-                  {row.label}
-                </label>
-                {row.control}
-              </div>
-            ))}
+    <BottomSheet
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      title="Filters"
+      description="Choose which Plays the list shows and their order."
+      descriptionHidden
+      trigger={
+        <Button type="button" variant="outline" className="sm:hidden">
+          Filters
+        </Button>
+      }
+      footer={
+        <Button type="button" onClick={() => setIsOpen(false)}>
+          Show {formatPlayCount(matchingCount)}
+        </Button>
+      }
+    >
+      <div className="divide-line grid divide-y">
+        {rows.map((row) => (
+          <div
+            key={row.key}
+            className="flex min-h-13 items-center justify-between gap-4 py-1"
+          >
+            <label
+              htmlFor={`plays-sheet-${row.key}`}
+              className="text-ink-2 text-13 font-bold"
+            >
+              {row.label}
+            </label>
+            {row.control}
           </div>
-        </div>
-        <SheetFooter className="border-line border-t px-5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
-          <SheetClose render={<Button type="button" className="w-full" />}>
-            Show {formatPlayCount(matchingCount)}
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        ))}
+      </div>
+    </BottomSheet>
   );
 };
 
 /*
- * The toolbar card (v3's Plays toolbar): search, then the status and game
+ * The toolbar (v3's Plays toolbar): search, then the game and generation
  * filters and the order as quiet selects. Phones keep the search and one
- * Filters button; the switch happens at `md`, where the full row fits.
+ * Filters button.
  */
 export const PlaysToolbar = ({
-  filters,
-  games,
   matchingCount,
-  onGameChange,
   onQueryChange,
-  onSortChange,
-  onStatusChange,
-  statuses,
+  ...selectProps
 }: PlaysToolbarProps) => {
-  const selectProps = {
-    filters,
-    games,
-    onGameChange,
-    onSortChange,
-    onStatusChange,
-    statuses,
-  };
   const selects = getFilterSelects(selectProps, {
     idPrefix: "plays",
     isInForm: true,
@@ -215,32 +177,37 @@ export const PlaysToolbar = ({
   });
 
   return (
-    <BrowseFilterPanel
+    <Toolbar
       aria-label="Filter Plays"
-      className="flex flex-nowrap items-center gap-2 p-2.5 md:flex-wrap md:gap-x-3.5 md:gap-y-2.5"
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
+      render={
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        />
+      }
+      search={
+        <div className="flex gap-2">
+          <SearchControl
+            id="plays-search"
+            name="q"
+            ariaLabel="Search Plays"
+            value={selectProps.filters.query}
+            onValueChange={onQueryChange}
+            placeholder="Search Plays"
+            className="min-w-0 flex-1"
+          />
+          <PlaysFiltersSheet {...selectProps} matchingCount={matchingCount} />
+        </div>
+      }
     >
-      <SearchControl
-        id="plays-search"
-        name="q"
-        ariaLabel="Search Plays"
-        value={filters.query}
-        onValueChange={onQueryChange}
-        placeholder="Search Plays"
-        className="min-w-0 flex-1 md:min-w-55 md:flex-[1_1_220px]"
-      />
-
-      <div className="hidden md:contents">
-        <ToolbarSeparator />
-        {selects.status}
+      <div className="hidden sm:contents">
+        <ToolbarDivider />
         {selects.game}
-        <ToolbarSeparator />
+        {selects.generation}
+        <ToolbarDivider />
         {selects.sort}
       </div>
-
-      <PlaysFiltersSheet {...selectProps} matchingCount={matchingCount} />
-    </BrowseFilterPanel>
+    </Toolbar>
   );
 };

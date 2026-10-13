@@ -16,6 +16,7 @@ import type {
   OverviewAheadMilestone,
   OverviewMilestone,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -194,15 +195,6 @@ export type MainlinePlayTeamPlanSummary = {
   targetCount: number;
 };
 
-export type MainlinePlayTeamPlanPreview = {
-  exactMatchCount: number;
-  foundCount: number;
-  followingState: MainlinePlayTeamPlanFollowingState;
-  offPlanCount: number;
-  planName: string;
-  targetCount: number;
-};
-
 export type MainlinePlayShellData = {
   collectiblesAvailable: boolean;
   coverImageUrl: string | null;
@@ -210,12 +202,16 @@ export type MainlinePlayShellData = {
   play: MainlinePlaySummary;
   region: Region | null;
   rules: MainlineChallengeRule[];
+  /* The Play's tags by name, shown in Play details. */
+  tags: string[];
 };
 
 export type MainlinePlayOverviewData = {
   aheadMilestones: OverviewAheadMilestone[];
   badgeCase: BadgeCase | null;
   lastCompletedMilestone: OverviewMilestone | null;
+  /* "Your team then": the team saved with the last milestone recorded. */
+  lastRecordedTeam: PlayTeamSnapshotMember[];
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   overview: MainlinePlayOverview | null;
@@ -228,8 +224,6 @@ export type MainlinePlayTeamRosterData = {
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
-  teamPlan: MainlinePlayTeamPlanPreview | null;
-  teamTimelinePreview: MainlinePlayTimelineEvent[];
 };
 
 export type MainlinePlayTeamPlanData = {

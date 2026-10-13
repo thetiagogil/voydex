@@ -2,7 +2,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { readMainlinePlayMilestoneTimelineSnapshots } from "@/modules/mainline/features/plays/hub/server/play-timeline-reader";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
-import { getStoryBadgeTypeId } from "../data/story-badge-type";
+import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { MainlinePlayProgressStoryData } from "../types";
 
 const getDecisionPokemonFormIds = (
@@ -69,7 +69,9 @@ export const readMainlinePlayStoryProgress = async (
   const milestones = milestonesResult.data ?? [];
   const decisionFormIds = getDecisionPokemonFormIds(milestones);
   const badgeTypeIds = uniqueNumberIds(
-    milestones.map((milestone) => getStoryBadgeTypeId(milestone.badge_refs)),
+    milestones.map((milestone) =>
+      getMilestoneBadgeTypeId(milestone.badge_refs),
+    ),
   );
   const [decisionFormsResult, badgeTypesResult] = await Promise.all([
     decisionFormIds.length

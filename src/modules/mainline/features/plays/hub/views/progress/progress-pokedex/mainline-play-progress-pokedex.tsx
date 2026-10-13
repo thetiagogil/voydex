@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {
@@ -56,12 +57,11 @@ export const MainlinePlayProgressPokedex = ({
     selectableScopes.find((scope) => scope.slug === initialScopeSlug) ??
     selectableScopes[0];
   const [activeScopeId, setActiveScopeId] = useState(initialScope?.id ?? null);
-  const [stateBySpeciesId, setStateBySpeciesId] = useState(() =>
-    buildInitialProgressState(data),
-  );
-  const [pendingSpeciesIds, setPendingSpeciesIds] = useState(
-    () => new Set<number>(),
-  );
+  const {
+    isPending: isSpeciesPending,
+    mark,
+    valueById: stateBySpeciesId,
+  } = useOptimisticMarks(() => buildInitialProgressState(data));
   const activeScope =
     selectableScopes.find((scope) => scope.id === activeScopeId) ??
     selectableScopes[0] ??
@@ -86,104 +86,49 @@ export const MainlinePlayProgressPokedex = ({
     requestedSpeciesIds: number[],
     state: PokedexProgressState,
   ) => {
-    const speciesIds = [...new Set(requestedSpeciesIds)].filter(
-      (speciesId) => !pendingSpeciesIds.has(speciesId),
-    );
     const entriesBySpeciesId = new Map(
       data.scopes
         .flatMap((scope) => scope.entries)
         .map((entry) => [entry.speciesId, entry] as const),
     );
-    const previousStates = new Map<number, PokedexProgressState>();
+    const previous = new Map<number, PokedexProgressState>();
 
-    for (const speciesId of speciesIds) {
-      const matchingEntry = entriesBySpeciesId.get(speciesId);
+    for (const speciesId of new Set(requestedSpeciesIds)) {
+      const entry = entriesBySpeciesId.get(speciesId);
 
-      if (!matchingEntry) {
+      if (!entry || isSpeciesPending(speciesId)) {
         continue;
       }
 
-      const previousState = getPokedexEntryState(
-        matchingEntry,
-        stateBySpeciesId,
-      );
+      const previousState = getPokedexEntryState(entry, stateBySpeciesId);
 
       if (previousState !== state) {
-        previousStates.set(speciesId, previousState);
+        previous.set(speciesId, previousState);
       }
     }
 
-    const speciesIdsToUpdate = [...previousStates.keys()];
+    const speciesIds = [...previous.keys()];
 
-    if (!speciesIdsToUpdate.length) {
+    if (!speciesIds.length) {
       return;
     }
 
-    setStateBySpeciesId((current) => {
-      const next = new Map(current);
-
-      for (const speciesId of speciesIdsToUpdate) {
-        next.set(speciesId, state);
-      }
-
-      return next;
-    });
-    setPendingSpeciesIds((current) => {
-      const next = new Set(current);
-
-      for (const speciesId of speciesIdsToUpdate) {
-        next.add(speciesId);
-      }
-
-      return next;
-    });
-
-    try {
-      const result =
-        speciesIdsToUpdate.length === 1
-          ? await updatePokedexSpeciesProgress({
+    const result = await mark({
+      fallbackError: "Unable to update Pokédex progress.",
+      next: new Map(speciesIds.map((speciesId) => [speciesId, state])),
+      previous,
+      save: () =>
+        speciesIds.length === 1
+          ? updatePokedexSpeciesProgress({
               playId,
-              speciesId: speciesIdsToUpdate[0],
+              speciesId: speciesIds[0],
               state,
             })
-          : await updatePokedexSpeciesProgressBulk({
-              playId,
-              speciesIds: speciesIdsToUpdate,
-              state,
-            });
+          : updatePokedexSpeciesProgressBulk({ playId, speciesIds, state }),
+    });
 
-      if (result.status === "error") {
-        throw new Error(result.message);
-      }
-
-      if (speciesIdsToUpdate.length > 1) {
-        toast.success(result.message);
-      }
-    } catch (error) {
-      setStateBySpeciesId((current) => {
-        const next = new Map(current);
-
-        for (const [speciesId, previousState] of previousStates) {
-          next.set(speciesId, previousState);
-        }
-
-        return next;
-      });
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Unable to update Pokédex progress.",
-      );
-    } finally {
-      setPendingSpeciesIds((current) => {
-        const next = new Set(current);
-
-        for (const speciesId of speciesIdsToUpdate) {
-          next.delete(speciesId);
-        }
-
-        return next;
-      });
+    if (result && speciesIds.length > 1) {
+      toast.success(result.message);
     }
   };
 
@@ -217,8 +162,8 @@ export const MainlinePlayProgressPokedex = ({
       <PokedexProgressBrowserSection
         key={activeScope.id}
         browseScopes={browseOnlyScopes}
-        gameSlug={data.gameSlug}
-        isSpeciesPending={(speciesId) => pendingSpeciesIds.has(speciesId)}
+        versionGroupSlug={data.versionGroupSlug}
+        isSpeciesPending={isSpeciesPending}
         onSpeciesBulkStateChange={(speciesIds, state) => {
           void updateSpeciesStates(speciesIds, state);
         }}

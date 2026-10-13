@@ -1,30 +1,29 @@
 import { Fragment, type ReactNode } from "react";
 
+import {
+  getPlayMomentRecord,
+  type PlayMomentContext,
+} from "@/modules/mainline/features/plays/hub/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/hub/types";
 import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 
-import {
-  getTeamEventRecord,
-  type TeamEventTypeByFormId,
-} from "./team-event-record";
-
-type TeamEventRecordRowProps = {
+type PlayMomentRowProps = {
+  context?: PlayMomentContext;
   event: MainlinePlayTimelineEvent;
-  typeByFormId?: TeamEventTypeByFormId;
   /* When it happened, after the kind in the kicker. */
   when?: ReactNode;
   /* Let the line and note wrap in full. */
   wrap?: boolean;
 };
 
-/* One Team moment as a record row, the same wherever the team's moments show. */
-export const TeamEventRecordRow = ({
+/* One recorded moment as a record row, the same wherever moments show. */
+export const PlayMomentRow = ({
+  context,
   event,
-  typeByFormId,
   when,
   wrap,
-}: TeamEventRecordRowProps) => {
-  const record = getTeamEventRecord(event, typeByFormId);
+}: PlayMomentRowProps) => {
+  const record = getPlayMomentRecord(event, context);
 
   return (
     <RecordRow

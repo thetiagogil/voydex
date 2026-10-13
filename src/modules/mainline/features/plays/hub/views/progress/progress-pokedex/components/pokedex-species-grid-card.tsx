@@ -18,7 +18,7 @@ const cardStateByProgress = {
 
 export const PokedexSpeciesGridCard = ({
   entry,
-  gameSlug,
+  versionGroupSlug,
   isPending,
   isPressed,
   onToggle,
@@ -55,7 +55,7 @@ export const PokedexSpeciesGridCard = ({
         }}
       />
       <span className="absolute right-1 bottom-1">
-        <PokedexCodexLink entry={entry} gameSlug={gameSlug} />
+        <PokedexCodexLink entry={entry} versionGroupSlug={versionGroupSlug} />
       </span>
     </div>
   );

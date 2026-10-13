@@ -53,6 +53,7 @@ describe("Play page data mappers", () => {
       roster_state_slug: "active",
     } as MainlinePlayTeamPreviewRow;
     const data = buildMainlinePlayOverviewData({
+      lastRecordedTeam: [],
       milestoneRows: { categories: [], milestones: [], types: [] },
       overview: null,
       play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
@@ -81,7 +82,6 @@ describe("Play page data mappers", () => {
 
     const data = buildMainlinePlayTeamRosterData({
       play: {} as Parameters<typeof buildMainlinePlayTeamRosterData>[0]["play"],
-      teamPlanRows: { attributes: [], rows: [], types: [] },
       teamRows: {
         abilityAttributes: [],
         attributes: [],
@@ -93,7 +93,6 @@ describe("Play page data mappers", () => {
         versionGroupId: null,
         versionGroups: [],
       },
-      teamTimelinePreview: [],
     });
 
     expect(data.roster.map((member) => member.play_pokemon_id)).toEqual([

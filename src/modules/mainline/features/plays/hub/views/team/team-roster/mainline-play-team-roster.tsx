@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 
-import { appRoutes } from "@/config/routes";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamRosterData,
 } from "@/modules/mainline/features/plays/hub/types";
-
 import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
-import { LinkedPlanSummarySection } from "./sections/linked-plan-summary/linked-plan-summary-section";
-import { TeamEventsSection } from "./sections/recent-team-events/team-events-section";
+
 import { TeamRosterHead } from "./sections/roster/team-roster-head";
 import {
   formatTeamRosterSummary,
@@ -20,29 +17,34 @@ import {
 import { TeamRosterSection } from "./sections/roster/team-roster-section";
 import { TeamMemberDetail } from "./sections/selected-pokemon/team-member-detail";
 import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
-import { TeamAnalysisSection } from "./sections/team-analysis/team-analysis-section";
 
 type MainlinePlayTeamRosterProps = {
   data: MainlinePlayTeamRosterData;
-  playId: string;
+  /* The Pokémon a link asked to open on, such as an Overview sticker. */
+  initialPokemonId?: string | null;
 };
 
 /*
- * Team: the roster as stickers beside the selected Pokémon (a bottom sheet on
- * phones and tablets), then the Plan, a quick analysis and recent moments.
+ * The Roster, as v3 draws it: the page head, the Active team and the Reserve
+ * as stickers, and the selected Pokémon's profile beside them (a bottom sheet
+ * on phones and tablets).
  */
 export const MainlinePlayTeamRoster = ({
   data,
-  playId,
+  initialPokemonId = null,
 }: MainlinePlayTeamRosterProps) => {
-  const { mechanics, roster, teamPlan, teamTimelinePreview: events } = data;
-  const gameSlug = data.play.game_slug;
-  const summary = getTeamRosterSummary(roster);
-  const defaultMember = getDefaultTeamMember(roster);
+  const { mechanics, roster } = data;
+  const versionGroupSlug = data.play.version_group_slug;
+  const defaultMember = getDefaultTeamMember(roster, initialPokemonId);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(
     defaultMember?.play_pokemon_id ?? null,
   );
-  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  /* A Pokémon named by the link opens straight away in the phone sheet. */
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(
+    Boolean(
+      initialPokemonId && defaultMember?.play_pokemon_id === initialPokemonId,
+    ),
+  );
   const usesDetailSheet = useMainlinePlayDetailSheetLayout();
   const selectedMember =
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
@@ -58,47 +60,28 @@ export const MainlinePlayTeamRoster = ({
 
   return (
     <div className="grid min-w-0 gap-8">
-      <TeamRosterHead summary={formatTeamRosterSummary(summary)} />
+      <TeamRosterHead
+        summary={formatTeamRosterSummary(getTeamRosterSummary(roster))}
+      />
 
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <TeamRosterSection
           roster={roster}
           selectedMemberId={selectedMember?.play_pokemon_id ?? null}
-          showsReserve={summary.showsReserve}
           onSelect={selectMember}
         />
         <div className="sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] hidden min-w-0 lg:block">
           <TeamMemberDetail
-            gameSlug={gameSlug}
+            versionGroupSlug={versionGroupSlug}
             mechanics={mechanics}
             member={selectedMember}
           />
         </div>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-7">
-        {teamPlan ? (
-          <LinkedPlanSummarySection
-            href={appRoutes.mainlinePlayTeamPlan(playId)}
-            plan={teamPlan}
-          />
-        ) : null}
-        <TeamAnalysisSection
-          className={teamPlan ? undefined : "lg:col-span-2"}
-          playId={playId}
-          roster={roster}
-        />
-        <TeamEventsSection
-          className="lg:col-span-2"
-          events={events}
-          playId={playId}
-          roster={roster}
-        />
-      </div>
-
       {/* Only in the sheet layout: widen the window and the panel takes over. */}
       <TeamMemberDetailSheet
-        gameSlug={gameSlug}
+        versionGroupSlug={versionGroupSlug}
         mechanics={mechanics}
         member={selectedMember}
         open={mobileDetailOpen && usesDetailSheet}

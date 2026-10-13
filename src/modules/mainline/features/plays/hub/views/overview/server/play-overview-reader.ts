@@ -1,6 +1,6 @@
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
-import { getBadgeTypeIds } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { MainlinePlayOverviewMilestoneRows } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -53,7 +53,11 @@ export const readMainlinePlayOverviewMilestoneRows = async (
   }
 
   const milestones = milestonesResult.data ?? [];
-  const typeIds = uniqueNumberIds(getBadgeTypeIds(milestones));
+  const typeIds = uniqueNumberIds(
+    milestones.map((milestone) =>
+      getMilestoneBadgeTypeId(milestone.badge_refs),
+    ),
+  );
   const typesResult = typeIds.length
     ? await supabase
         .schema("reference")

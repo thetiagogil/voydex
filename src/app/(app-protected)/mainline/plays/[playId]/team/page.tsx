@@ -7,17 +7,26 @@ type MainlinePlayTeamRouteProps = {
   params: Promise<{
     playId: string;
   }>;
+  searchParams: Promise<{
+    pokemon?: string | string[];
+  }>;
 };
 
 export default async function MainlinePlayTeamRoute({
   params,
+  searchParams,
 }: MainlinePlayTeamRouteProps) {
-  const { playId } = await params;
+  const [{ playId }, { pokemon }] = await Promise.all([params, searchParams]);
   const data = await getMainlinePlayTeamRosterData(playId);
 
   if (!data) {
     notFound();
   }
 
-  return <MainlinePlayTeamRoster data={data} playId={playId} />;
+  return (
+    <MainlinePlayTeamRoster
+      data={data}
+      initialPokemonId={typeof pokemon === "string" ? pokemon : null}
+    />
+  );
 }

@@ -1,6 +1,7 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
-import { getTeamPlanStatusLabel } from "@/modules/mainline/features/plays/hub/views/team/shared/team-plan-display";
+import { getTeamPlanStatusLabel } from "../../team-plan-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -10,7 +11,6 @@ import {
   getTeamPlanTypeStyle,
   TeamPlanArt,
   TeamPlanMatchLine,
-  TeamPlanTypeDots,
 } from "../../components/team-plan-pokemon";
 import {
   getTeamPlanCompareLabel,
@@ -59,10 +59,9 @@ export const TeamPlanTargetCard = ({
       style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
       className={cn(
         "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-xl px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-[3px]",
-        owned &&
-          "type-tint border-4 border-white shadow-[0_5px_0_color-mix(in_oklab,var(--t)_38%,var(--lip)),var(--shadow-soft-value)]",
+        owned && "sticker [--sticker-shadow:var(--shadow-soft-value)]",
         !owned && found && "bg-surface border-line border",
-        !found && "border-dash border-[3px] border-dashed bg-transparent",
+        !found && "empty-slot",
       )}
     >
       <span className="flex min-h-6 w-full items-center justify-between gap-2">
@@ -108,9 +107,14 @@ export const TeamPlanTargetCard = ({
         </span>
       ) : null}
 
-      <TeamPlanTypeDots
-        types={[comparison.plannedPrimaryType, comparison.plannedSecondaryType]}
-        className="mt-1.5 mb-3"
+      <PokemonTypeList
+        types={[
+          comparison.plannedPrimaryType,
+          comparison.plannedSecondaryType,
+        ].filter((type) => type !== null)}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="mt-1.5 mb-3 min-h-5 justify-center gap-1"
       />
 
       <TeamPlanMatchLine

@@ -2,7 +2,12 @@ import type {
   PlayBrowseItem,
   PlayBrowseProgress,
   PlayBrowseProgressItem,
+  PlayBrowseStoryPosition,
 } from "@/modules/mainline/features/plays/browse/types";
+import {
+  orderPlayMilestones,
+  pickNextMilestoneRow,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type {
   MainlinePlayOverview,
   MainlinePlaySummary,
@@ -10,12 +15,36 @@ import type {
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import type { Game } from "@/modules/reference/types";
-import type { ReferenceRow } from "@/shared/types/database-helpers";
+import type { ReferenceRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type PlayBrowseRegion = Pick<ReferenceRow<"regions">, "id" | "name">;
 
+export type PlayBrowseMilestone = Pick<
+  ViewRow<"mainline_play_milestone_detail">,
+  | "category_id"
+  | "is_completed"
+  | "is_required_for_completion"
+  | "milestone_id"
+  | "milestone_name"
+  | "play_id"
+  | "prerequisites"
+  | "sort_order"
+>;
+
+export type PlayBrowseMilestoneCategory = Pick<
+  ViewRow<"mainline_play_milestone_category_summary">,
+  "category_id" | "category_sort_order" | "content_scope_sort_order" | "play_id"
+>;
+
+/* Every Play's milestones and their categories, for the story position. */
+export type PlayBrowseStoryRows = {
+  categories: PlayBrowseMilestoneCategory[];
+  milestones: PlayBrowseMilestone[];
+};
+
 type PlayBrowseEnrichmentAvailability = {
   progress: boolean;
+  story: boolean;
   team: boolean;
 };
 
@@ -25,6 +54,7 @@ type BuildMainlinePlayBrowseItemsParams = {
   overviews: MainlinePlayOverview[];
   plays: MainlinePlaySummary[];
   regions: PlayBrowseRegion[];
+  storyRows: PlayBrowseStoryRows;
   teamMembers: MainlinePlayTeamMember[];
 };
 
@@ -68,6 +98,12 @@ const buildProgress = (
     return { items: [], state: "available" };
   }
 
+  /* Collectibles turned off for this Play: a quiet "Off" row instead of a bar. */
+  const collectiblesOff: PlayBrowseProgressItem | null =
+    overview.include_collectibles_in_completion === false
+      ? { label: "Collectibles", percent: null }
+      : null;
+
   return {
     items: [
       buildProgressItem(
@@ -82,15 +118,54 @@ const buildProgress = (
         overview.caught_required_pokedex_species_count,
         overview.required_pokedex_species_count,
       ),
-      buildProgressItem(
-        "Collectibles",
-        overview.collectible_completion_percent,
-        overview.collected_required_collectible_entry_count,
-        overview.required_collectible_entry_count,
-      ),
+      collectiblesOff ??
+        buildProgressItem(
+          "Collectibles",
+          overview.collectible_completion_percent,
+          overview.collected_required_collectible_entry_count,
+          overview.required_collectible_entry_count,
+        ),
     ].filter((item): item is PlayBrowseProgressItem => Boolean(item)),
     state: "available",
   };
+};
+
+const groupByPlayId = <TRow extends { play_id: string | null }>(
+  rows: readonly TRow[],
+) => {
+  const rowsByPlayId = new Map<string, TRow[]>();
+
+  for (const row of rows) {
+    if (!row.play_id) continue;
+
+    const playRows = rowsByPlayId.get(row.play_id) ?? [];
+    playRows.push(row);
+    rowsByPlayId.set(row.play_id, playRows);
+  }
+
+  return rowsByPlayId;
+};
+
+/* The next objective by Story's rule, or done once every milestone is. */
+const buildStoryPosition = (
+  milestones: PlayBrowseMilestone[] | undefined,
+  categories: PlayBrowseMilestoneCategory[] | undefined,
+): PlayBrowseStoryPosition | null => {
+  if (!milestones?.length) {
+    return null;
+  }
+
+  const next = pickNextMilestoneRow(
+    orderPlayMilestones({ categories: categories ?? [], milestones }),
+  );
+
+  if (!next) {
+    return { kind: "complete" };
+  }
+
+  return next.milestone_name
+    ? { kind: "next", name: next.milestone_name }
+    : null;
 };
 
 export const buildMainlinePlayBrowseItems = ({
@@ -99,8 +174,11 @@ export const buildMainlinePlayBrowseItems = ({
   overviews,
   plays,
   regions,
+  storyRows,
   teamMembers,
 }: BuildMainlinePlayBrowseItemsParams): PlayBrowseItem[] => {
+  const milestonesByPlayId = groupByPlayId(storyRows.milestones);
+  const categoriesByPlayId = groupByPlayId(storyRows.categories);
   const gameById = new Map(games.map((game) => [game.id, game]));
   const regionNameById = new Map(
     regions.map((region) => [region.id, region.name]),
@@ -110,15 +188,7 @@ export const buildMainlinePlayBrowseItems = ({
       .filter((overview) => overview.play_id)
       .map((overview) => [overview.play_id, overview]),
   );
-  const teamByPlayId = new Map<string, MainlinePlayTeamMember[]>();
-
-  for (const member of teamMembers) {
-    if (!member.play_id) continue;
-
-    const playTeam = teamByPlayId.get(member.play_id) ?? [];
-    playTeam.push(member);
-    teamByPlayId.set(member.play_id, playTeam);
-  }
+  const teamByPlayId = groupByPlayId(teamMembers);
 
   return plays.map((play) => {
     const playId = play.play_id;
@@ -143,6 +213,13 @@ export const buildMainlinePlayBrowseItems = ({
         availability.progress,
       ),
       regionName: game ? (regionNameById.get(game.region_id) ?? null) : null,
+      storyPosition:
+        availability.story && playId
+          ? buildStoryPosition(
+              milestonesByPlayId.get(playId),
+              categoriesByPlayId.get(playId),
+            )
+          : null,
     };
   });
 };

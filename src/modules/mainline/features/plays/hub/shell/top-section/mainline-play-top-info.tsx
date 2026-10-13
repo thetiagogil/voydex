@@ -1,14 +1,5 @@
-import {
-  formatPlayDate,
-  formatPlayMinutes,
-} from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 import { getPlayTitle } from "./play-title";
@@ -50,50 +41,6 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
   );
 };
 
-const MainlinePlayRules = ({ data }: { data: MainlinePlayShellData }) => {
-  if (!data.rules.length) {
-    return null;
-  }
-
-  const ruleSummary = data.rules.map((rule) => rule.name).join(" · ");
-
-  return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <button
-            type="button"
-            className="hover:text-ink flex min-w-0 items-center gap-1.5 rounded-xs text-left"
-            aria-label={`Challenge rules: ${ruleSummary}`}
-          />
-        }
-      >
-        <AppIcon icon={appIcons.product.details} size="sm" aria-hidden />
-        <span className="max-w-72 truncate">{ruleSummary}</span>
-      </TooltipTrigger>
-      <TooltipContent
-        side="bottom"
-        align="start"
-        className="grid max-w-sm gap-2 px-3.5 py-3"
-      >
-        <p className="font-extrabold">Challenge rules</p>
-        <ul className="grid gap-2">
-          {data.rules.map((rule) => (
-            <li key={rule.id} className="grid gap-0.5">
-              <span className="font-bold">{rule.name}</span>
-              {rule.description ? (
-                <span className="text-on-ink/80 font-medium">
-                  {rule.description}
-                </span>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </TooltipContent>
-    </Tooltip>
-  );
-};
-
 export const MainlinePlayTopInfo = ({
   data,
   titleId,
@@ -131,21 +78,6 @@ export const MainlinePlayTopInfo = ({
           <div className="contents">
             <dt className="sr-only">Playtime</dt>
             <dd className="tabular-nums">{playtime}</dd>
-          </div>
-        ) : null}
-        {data.play.started_on ? (
-          /* Phones keep v3's short header: status, trainer and playtime. */
-          <div className="max-sm:hidden sm:contents">
-            <dt className="sr-only">Started</dt>
-            <dd>Started {formatPlayDate(data.play.started_on)}</dd>
-          </div>
-        ) : null}
-        {data.rules.length ? (
-          <div className="contents">
-            <dt className="sr-only">Challenge rules</dt>
-            <dd className="min-w-0">
-              <MainlinePlayRules data={data} />
-            </dd>
           </div>
         ) : null}
       </dl>

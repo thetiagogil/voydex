@@ -1,5 +1,6 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import { SectionHead } from "@/shared/components/section-head";
 
 import { TeamPlanTargetCard } from "./team-plan-target-card";
 
@@ -17,16 +18,15 @@ export const TeamPlanTargetsSection = ({
 }: TeamPlanTargetsSectionProps) => {
   return (
     <section aria-labelledby="team-plan-targets-title" className="grid gap-4">
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-        <h2 id="team-plan-targets-title" className="text-24">
-          Planned team
-        </h2>
-        {comparisons.length ? (
-          <span className="text-ink-3 text-14 hidden font-semibold sm:inline">
-            Choose a target to compare it with what you recorded
-          </span>
-        ) : null}
-      </div>
+      <SectionHead
+        title="Planned team"
+        titleId="team-plan-targets-title"
+        aside={
+          comparisons.length
+            ? "Choose a target to compare it with what you recorded"
+            : undefined
+        }
+      />
 
       {comparisons.length ? (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
@@ -41,7 +41,7 @@ export const TeamPlanTargetsSection = ({
           ))}
         </ul>
       ) : (
-        <p className="border-dash text-ink-3 text-14 rounded-lg border-2 border-dashed p-6 text-center font-semibold">
+        <p className="empty-slot text-ink-3 text-14 rounded-lg p-6 text-center font-semibold">
           This Plan has no planned Pokémon yet.
         </p>
       )}

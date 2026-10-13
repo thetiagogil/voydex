@@ -1,6 +1,7 @@
 import { MainlinePlayDockedBar } from "@/modules/mainline/features/plays/hub/shell/mainline-play-docked-bar";
 import { MainlinePlayGameColourRoot } from "@/modules/mainline/features/plays/hub/shell/mainline-play-game-colour-root";
 import { MainlinePlayNavigation } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation";
+import { MainlinePlayDetails } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-details";
 import { MainlinePlayTopSection } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-top-section";
 import { getPlayTitle } from "@/modules/mainline/features/plays/hub/shell/top-section/play-title";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
@@ -44,7 +45,11 @@ export const MainlinePlayShell = ({
         }
         title={getPlayTitle(data)}
       >
-        <MainlinePlayTopSection data={data} navigation={navigation} />
+        <MainlinePlayTopSection
+          data={data}
+          details={<MainlinePlayDetails data={data} />}
+          navigation={navigation}
+        />
       </MainlinePlayDockedBar>
 
       <div className="flex min-w-0 flex-col gap-6">{children}</div>

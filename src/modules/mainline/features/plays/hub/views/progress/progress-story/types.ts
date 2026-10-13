@@ -3,6 +3,8 @@ import type {
   MainlinePlayMilestoneCategorySummary,
   MainlinePlayTimelineEvent,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonForm } from "@/modules/reference/types";
 
@@ -65,14 +67,6 @@ export type StoryMilestonePrerequisite = {
   name: string;
 };
 
-export type StoryTeamSnapshotMember = {
-  formName: string | null;
-  imageUrl: string | null;
-  isShiny: boolean;
-  position: number;
-  speciesName: string;
-};
-
 export type StoryMilestone = {
   /* A gym milestone's badge type, so its medallion and stamp wear it. */
   badgeType: PokemonTypeSlug | null;
@@ -94,7 +88,7 @@ export type StoryMilestone = {
   selectedDecisionLabel: string | null;
   sequence: number;
   snapshotCount: number;
-  snapshotMembers: StoryTeamSnapshotMember[];
+  snapshotMembers: PlayTeamSnapshotMember[];
   snapshotPolicySlug: string;
   typeName: string;
   typeSlug: string;
@@ -122,14 +116,6 @@ export type StorySection = {
   totalCount: number;
 };
 
-export type StoryStamp = {
-  kind: "gym" | "league";
-  /* What the stamp card prints under it: "Grass" for the Grass Badge. */
-  label: string;
-  milestone: StoryMilestone;
-  state: "earned" | "next" | "todo";
-};
-
 export type StoryScope = {
   /* Required milestones recorded, the count Overview's Story metric uses. */
   completedCount: number;
@@ -141,7 +127,7 @@ export type StoryScope = {
   nextMilestone: StoryMilestone | null;
   sections: StorySection[];
   /* The gym badges and the League, or null when the scope has no gyms. */
-  stamps: StoryStamp[] | null;
+  stamps: PlayStamp[] | null;
   /* Required milestones, the count Overview's Story metric uses. */
   totalCount: number;
 };

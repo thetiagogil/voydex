@@ -1,9 +1,14 @@
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import {
+  getMilestoneBadgeTypeId,
+  getPlayStampLabel,
+  getPlayStampStates,
+  type PlayStamp,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import type { Json } from "@/shared/types/database.types";
 
 export type MainlinePlayBadgeCaseMilestone = Pick<
   OverviewMilestone,
@@ -17,18 +22,9 @@ export type MainlinePlayBadgeCaseMilestone = Pick<
 >;
 
 export type MainlinePlayBadgeCaseRows = {
-  /* In Story's order (see orderOverviewMilestones). */
+  /* In Story's order (see orderPlayMilestones). */
   milestones: MainlinePlayBadgeCaseMilestone[];
   types: { id: number; slug: string }[];
-};
-
-export type BadgeCaseStamp = {
-  completedAt: string | null;
-  kind: "gym" | "league";
-  milestoneId: number;
-  name: string;
-  state: "earned" | "next" | "todo";
-  type: PokemonTypeSlug | null;
 };
 
 export type BadgeCase = {
@@ -36,31 +32,30 @@ export type BadgeCase = {
   gymCount: number;
   lastEarnedAt: string | null;
   nextName: string | null;
-  stamps: BadgeCaseStamp[];
+  stamps: PlayStamp[];
 };
 
-const getFirstBadgeTypeId = (badgeRefs: Json | null): number | null => {
-  if (!Array.isArray(badgeRefs)) {
-    return null;
-  }
+/* Each gym milestone's badge type, so its marker and moment wear the badge. */
+export const getBadgeTypeByMilestoneId = (
+  rows: MainlinePlayBadgeCaseRows,
+): Map<number, PokemonTypeSlug> => {
+  const typeSlugById = new Map(rows.types.map((type) => [type.id, type.slug]));
 
-  for (const ref of badgeRefs) {
-    if (
-      ref &&
-      typeof ref === "object" &&
-      !Array.isArray(ref) &&
-      typeof ref.type_id === "number"
-    ) {
-      return ref.type_id;
-    }
-  }
+  return new Map(
+    rows.milestones.flatMap((milestone): [number, PokemonTypeSlug][] => {
+      const typeSlug = typeSlugById.get(
+        getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
+      );
 
-  return null;
+      return milestone.milestone_type_slug === "gym" &&
+        milestone.milestone_id !== null &&
+        typeSlug &&
+        isPokemonTypeSlug(typeSlug)
+        ? [[milestone.milestone_id, typeSlug]]
+        : [];
+    }),
+  );
 };
-
-export const getBadgeTypeIds = (
-  milestones: Pick<MainlinePlayBadgeCaseMilestone, "badge_refs">[],
-) => milestones.map((milestone) => getFirstBadgeTypeId(milestone.badge_refs));
 
 /*
  * The badge case: every gym badge and the main game's Champion milestone (the
@@ -70,7 +65,6 @@ export const getBadgeTypeIds = (
 export const buildMainlinePlayBadgeCase = (
   rows: MainlinePlayBadgeCaseRows,
 ): BadgeCase | null => {
-  const typeSlugById = new Map(rows.types.map((type) => [type.id, type.slug]));
   const gyms = rows.milestones.filter(
     (milestone) => milestone.milestone_type_slug === "gym",
   );
@@ -79,6 +73,7 @@ export const buildMainlinePlayBadgeCase = (
     return null;
   }
 
+  const badgeTypeByMilestoneId = getBadgeTypeByMilestoneId(rows);
   const league = rows.milestones.find(
     (milestone) =>
       milestone.milestone_type_slug === "champion" &&
@@ -87,32 +82,27 @@ export const buildMainlinePlayBadgeCase = (
   /* In journey order: Gold's Champion comes after Johto's gyms, before Kanto's. */
   const ordered = rows.milestones.filter(
     (milestone) =>
-      milestone.milestone_type_slug === "gym" || milestone === league,
+      milestone.milestone_id !== null &&
+      (milestone.milestone_type_slug === "gym" || milestone === league),
   );
-  const nextMilestone = ordered.find((milestone) => !milestone.is_completed);
-  const stamps = ordered.flatMap((milestone): BadgeCaseStamp[] => {
-    if (milestone.milestone_id === null) {
-      return [];
-    }
+  const states = getPlayStampStates(ordered, (milestone) =>
+    Boolean(milestone.is_completed),
+  );
+  const stamps = ordered.map((milestone, index): PlayStamp => {
+    const kind = milestone.milestone_type_slug === "gym" ? "gym" : "league";
+    const name = milestone.milestone_name ?? "Unnamed milestone";
+    const milestoneId = milestone.milestone_id ?? 0;
 
-    const typeSlug = typeSlugById.get(
-      getFirstBadgeTypeId(milestone.badge_refs) ?? -1,
-    );
-
-    return [
-      {
-        completedAt: milestone.completed_at,
-        kind: milestone.milestone_type_slug === "gym" ? "gym" : "league",
-        milestoneId: milestone.milestone_id,
-        name: milestone.milestone_name ?? "Unnamed milestone",
-        state: milestone.is_completed
-          ? "earned"
-          : milestone === nextMilestone
-            ? "next"
-            : "todo",
-        type: typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
-      },
-    ];
+    return {
+      badgeType: badgeTypeByMilestoneId.get(milestoneId) ?? null,
+      completedAt: milestone.completed_at,
+      kind,
+      label: getPlayStampLabel(kind, name),
+      milestoneId,
+      milestoneTypeSlug: milestone.milestone_type_slug,
+      name,
+      state: states[index],
+    };
   });
   const earnedGyms = stamps.filter(
     (stamp) => stamp.kind === "gym" && stamp.state === "earned",
@@ -128,16 +118,7 @@ export const buildMainlinePlayBadgeCase = (
     earnedGymCount: earnedGyms.length,
     gymCount: gyms.length,
     lastEarnedAt,
-    nextName: nextMilestone?.milestone_name ?? null,
+    nextName: stamps.find((stamp) => stamp.state === "next")?.name ?? null,
     stamps,
   };
-};
-
-/* A gym milestone's badge type, so its recorded moment wears the badge's medallion. */
-export const getBadgeTypeByMilestoneId = (badgeCase: BadgeCase | null) => {
-  return new Map(
-    (badgeCase?.stamps ?? [])
-      .filter((stamp) => stamp.kind === "gym" && stamp.type)
-      .map((stamp) => [stamp.milestoneId, stamp.type as PokemonTypeSlug]),
-  );
 };

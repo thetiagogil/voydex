@@ -496,7 +496,7 @@ describe("buildStoryProgressModel", () => {
         stamp.label,
         stamp.kind,
         stamp.state,
-        stamp.milestone.badgeType,
+        stamp.badgeType,
       ]),
     ).toEqual([
       ["Grass", "gym", "earned", "grass"],

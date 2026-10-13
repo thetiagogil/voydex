@@ -36,7 +36,7 @@ const CoverageChip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
   }
 
   return (
-    <span className="border-dash text-ink-2 text-14 inline-flex h-8.5 items-center gap-1.75 rounded-full border-[1.5px] border-dashed pr-3.25 pl-1 leading-none font-extrabold whitespace-nowrap">
+    <span className="empty-slot text-ink-2 text-14 inline-flex h-8.5 items-center gap-1.75 rounded-full pr-3.25 pl-1 leading-none font-extrabold whitespace-nowrap">
       <span
         aria-hidden
         className="bg-surface-2 grid size-6 place-items-center rounded-full"
@@ -65,14 +65,13 @@ export const TeamAnalysisMoveCoverageSection = ({
     <DetailSectionCard
       title="Move coverage"
       headingLevel={3}
-      /* v3 hides the section aside on phones. */
-      description={
-        <span className="hidden sm:inline">
+      aside={
+        <>
           <b className="text-ink font-extrabold tabular-nums">
             {coveredCount} of {rows.length}
           </b>{" "}
           types hit super effectively
-        </span>
+        </>
       }
       contentClassName="pt-2"
     >

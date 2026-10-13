@@ -1,25 +1,21 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 import {
   PokemonEmptySlot,
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 
-import {
-  getTeamMemberIdentity,
-  getTeamMemberName,
-} from "../../utils/team-member-display";
-import {
-  getTeamRosterSlots,
-  teamRosterSize,
-  type TeamRosterGroup,
-} from "./team-roster-model";
+import { getTeamMemberIdentity } from "../../utils/team-member-display";
+import { getTeamRosterSlots, type TeamRosterGroup } from "./team-roster-model";
 
 type TeamRosterSectionProps = {
   onSelect: (member: MainlinePlayTeamMember) => void;
   roster: MainlinePlayTeamMember[];
   selectedMemberId: string | null;
-  showsReserve: boolean;
 };
 
 const groupTitles: Record<TeamRosterGroup, string> = {
@@ -43,7 +39,7 @@ const TeamRosterSticker = ({
   slotLabel,
   slotName,
 }: TeamRosterStickerProps) => {
-  const name = getTeamMemberName(member);
+  const name = getPlayTeamMemberName(member);
   const identity = getTeamMemberIdentity(member);
   const level = member.level ? `Lv. ${member.level}` : null;
 
@@ -73,7 +69,7 @@ const TeamRosterGroupList = ({
   onSelect,
   roster,
   selectedMemberId,
-}: Omit<TeamRosterSectionProps, "showsReserve"> & {
+}: TeamRosterSectionProps & {
   group: TeamRosterGroup;
 }) => {
   const slots = getTeamRosterSlots(roster, group);
@@ -89,7 +85,7 @@ const TeamRosterGroupList = ({
       >
         {groupTitles[group]}
         <span className="tabular-nums">
-          {filledCount} / {teamRosterSize}
+          {filledCount} / {playTeamSize}
         </span>
       </h3>
       <ul className="grid grid-cols-2 gap-x-4 gap-y-[18px] sm:grid-cols-3">
@@ -116,15 +112,15 @@ const TeamRosterGroupList = ({
   );
 };
 
-/* Your team and reserve as stickers: the loud part of the page. */
-export const TeamRosterSection = ({
-  showsReserve,
-  ...props
-}: TeamRosterSectionProps) => {
+/*
+ * Your team and reserve as stickers: the loud part of the page. The reserve
+ * always shows its six slots, as v3 does.
+ */
+export const TeamRosterSection = (props: TeamRosterSectionProps) => {
   return (
     <div className="grid min-w-0 content-start gap-6.5">
       <TeamRosterGroupList group="active" {...props} />
-      {showsReserve ? <TeamRosterGroupList group="reserve" {...props} /> : null}
+      <TeamRosterGroupList group="reserve" {...props} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { RangeHeading } from "@/shared/components/range-heading";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
@@ -84,58 +85,64 @@ export const CollectibleAreaSection = ({
       aria-busy={isPending}
       className="scroll-mt-[calc(100px-var(--play-dock-offset,0px))]"
     >
-      <div className="border-line flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-b pb-3">
-        <h3 id={headingId} tabIndex={-1} className="text-20 rounded-xs">
-          {area.label}
-        </h3>
-        <span className="text-ink-2 text-14 font-semibold tabular-nums">
-          {summary.foundCount} of {summary.entries.length}
-          {numberRange && !summary.isComplete ? ` · ${numberRange}` : null}
-        </span>
-        <div className="ml-auto flex items-center gap-1 self-center">
-          {summary.isComplete ? (
-            <StatusBadge
-              tone="warn"
-              className="text-13 h-7 gap-1.5 px-3 font-extrabold [&>svg]:size-3.5!"
-            >
-              <AppIcon
-                icon={appIcons.product.completion}
-                className="stroke-3"
-                aria-hidden
-              />
-              Complete
-            </StatusBadge>
-          ) : null}
-          {canMarkShown ? (
-            <Button
-              type="button"
-              size="sm"
-              variant="ghost"
-              ref={markButtonRef}
-              disabled={isPending}
-              focusableWhenDisabled
-              onClick={() => changeState(true)}
-            >
-              Mark {scope} found
-              <span className="sr-only"> in {area.label}</span>
-            </Button>
-          ) : null}
-          {canUnmarkShown ? (
-            <Button
-              type="button"
-              size="sm"
-              variant="ghost"
-              ref={unmarkButtonRef}
-              disabled={isPending}
-              focusableWhenDisabled
-              onClick={() => changeState(false)}
-            >
-              Unmark {scope}
-              <span className="sr-only"> in {area.label}</span>
-            </Button>
-          ) : null}
-        </div>
-      </div>
+      <RangeHeading
+        headingLevel={3}
+        /* Focus lands here before a bulk change. */
+        title={area.label}
+        titleFocusable
+        titleId={headingId}
+        count={
+          <>
+            {summary.foundCount} of {summary.entries.length}
+            {numberRange && !summary.isComplete ? ` · ${numberRange}` : null}
+          </>
+        }
+        actions={
+          <>
+            {summary.isComplete ? (
+              <StatusBadge
+                tone="warn"
+                className="text-13 h-7 gap-1.5 px-3 font-extrabold [&>svg]:size-3.5!"
+              >
+                <AppIcon
+                  icon={appIcons.product.completion}
+                  className="stroke-3"
+                  aria-hidden
+                />
+                Complete
+              </StatusBadge>
+            ) : null}
+            {canMarkShown ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                ref={markButtonRef}
+                disabled={isPending}
+                focusableWhenDisabled
+                onClick={() => changeState(true)}
+              >
+                Mark {scope} found
+                <span className="sr-only"> in {area.label}</span>
+              </Button>
+            ) : null}
+            {canUnmarkShown ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                ref={unmarkButtonRef}
+                disabled={isPending}
+                focusableWhenDisabled
+                onClick={() => changeState(false)}
+              >
+                Unmark {scope}
+                <span className="sr-only"> in {area.label}</span>
+              </Button>
+            ) : null}
+          </>
+        }
+      />
 
       <div className="mt-4 flex flex-wrap gap-x-8 gap-y-6 pb-3">
         {groupCollectibleEntriesByPlace({ area, areaLevel }).map((place) => {

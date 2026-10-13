@@ -27,7 +27,7 @@ const speciesListRowVariants = cva("", {
 
 export const PokedexSpeciesListRow = ({
   entry,
-  gameSlug,
+  versionGroupSlug,
   isPending,
   isPressed,
   onToggle,
@@ -64,8 +64,7 @@ export const PokedexSpeciesListRow = ({
             }
             className={cn(
               "size-12 shrink-0",
-              state === "missing" &&
-                "border-dash border-[1.5px] border-dashed bg-transparent",
+              state === "missing" && "empty-slot",
             )}
             imageClassName="p-1"
           />
@@ -105,7 +104,7 @@ export const PokedexSpeciesListRow = ({
         </span>
 
         <span className="pointer-events-auto justify-self-end">
-          <PokedexCodexLink entry={entry} gameSlug={gameSlug} />
+          <PokedexCodexLink entry={entry} versionGroupSlug={versionGroupSlug} />
         </span>
       </div>
 

@@ -15,5 +15,5 @@ const milestoneIconByTypeSlug: Record<string, AppIconComponent> = {
 };
 
 /* What a gold milestone medallion or League stamp holds, by milestone type. */
-export const getStoryMilestoneIcon = (typeSlug: string): AppIconComponent =>
+export const getMilestoneIcon = (typeSlug: string): AppIconComponent =>
   milestoneIconByTypeSlug[typeSlug] ?? appIcons.milestones.story;

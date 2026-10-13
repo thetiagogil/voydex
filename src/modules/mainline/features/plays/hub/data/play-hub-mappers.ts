@@ -10,7 +10,6 @@ import type {
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
   MainlinePlayTeamPlanData,
-  MainlinePlayTeamPlanPreview,
   MainlinePlayTeamPlanRows,
   MainlinePlayTeamPreviewRows,
   MainlinePlayTeamRows,
@@ -19,12 +18,16 @@ import type {
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import { buildMainlinePlayBadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import {
+  buildMainlinePlayBadgeCase,
+  getBadgeTypeByMilestoneId,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import {
   getOverviewMilestoneSummary,
-  orderOverviewMilestones,
   type MainlinePlayOverviewMilestoneRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
@@ -41,6 +44,7 @@ export const buildMainlinePlayShellData = (params: {
   gameContext: MainlinePlayGameContextRows;
   play: MainlinePlaySummary;
   ruleRows: MainlinePlayRuleRows;
+  tags: string[];
 }): MainlinePlayShellData => {
   return {
     collectiblesAvailable: params.collectiblesAvailable,
@@ -51,24 +55,32 @@ export const buildMainlinePlayShellData = (params: {
     play: params.play,
     region: params.gameContext.region,
     rules: buildMainlinePlayRules(params.ruleRows),
+    tags: params.tags,
   };
 };
 
 export const buildMainlinePlayOverviewData = (params: {
+  /* The team saved with the last milestone recorded, if any. */
+  lastRecordedTeam: PlayTeamSnapshotMember[];
   milestoneRows: MainlinePlayOverviewMilestoneRows;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreviewRows: MainlinePlayTeamPreviewRows;
   timelinePreview: MainlinePlayTimelineEvent[];
 }): MainlinePlayOverviewData => {
-  const orderedMilestones = orderOverviewMilestones(params.milestoneRows);
+  const orderedMilestones = orderPlayMilestones(params.milestoneRows);
+  const badgeRows = {
+    milestones: orderedMilestones,
+    types: params.milestoneRows.types,
+  };
 
   return {
-    badgeCase: buildMainlinePlayBadgeCase({
-      milestones: orderedMilestones,
-      types: params.milestoneRows.types,
-    }),
-    ...getOverviewMilestoneSummary(orderedMilestones),
+    badgeCase: buildMainlinePlayBadgeCase(badgeRows),
+    ...getOverviewMilestoneSummary(
+      orderedMilestones,
+      getBadgeTypeByMilestoneId(badgeRows),
+    ),
+    lastRecordedTeam: params.lastRecordedTeam,
     overview: params.overview,
     play: params.play,
     teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),
@@ -78,68 +90,44 @@ export const buildMainlinePlayOverviewData = (params: {
 
 type MainlinePlayTeamContextParams = {
   play: MainlinePlaySummary;
-  teamPlanRows: MainlinePlayTeamPlanRows;
   teamRows: MainlinePlayTeamRows;
 };
 
-const buildMainlinePlayTeamContext = (
-  params: MainlinePlayTeamContextParams,
-) => {
-  const roster = buildMainlinePlayTeamPreview(params.teamRows);
-  const mechanics = resolveGameMechanics({
-    gameId: params.play.game_id,
-    generationId: params.play.generation_id,
-    versionGroupId: params.play.version_group_id,
+const resolvePlayMechanics = (play: MainlinePlaySummary) =>
+  resolveGameMechanics({
+    gameId: play.game_id,
+    generationId: play.generation_id,
+    versionGroupId: play.version_group_id,
   });
-  const teamPlan = buildMainlinePlayTeamPlanSummary(
-    params.teamPlanRows.rows,
-    roster,
-    params.teamRows.evolutionEdges ?? [],
-    {
-      attributes: params.teamPlanRows.attributes,
-      mechanics,
-      types: params.teamPlanRows.types,
-    },
-  );
 
-  return { mechanics, roster, teamPlan };
-};
-
-const buildTeamPlanPreview = (
-  plan: NonNullable<
-    ReturnType<typeof buildMainlinePlayTeamContext>["teamPlan"]
-  >,
-): MainlinePlayTeamPlanPreview => {
-  return {
-    exactMatchCount: plan.exactMatchCount,
-    foundCount: plan.foundCount,
-    followingState: plan.followingState,
-    offPlanCount: plan.offPlanCount,
-    planName: plan.planName,
-    targetCount: plan.targetCount,
-  };
-};
-
+/* The Roster: the team and reserve, and what this game records. */
 export const buildMainlinePlayTeamRosterData = (
-  params: MainlinePlayTeamContextParams & {
-    teamTimelinePreview: MainlinePlayTimelineEvent[];
-  },
+  params: MainlinePlayTeamContextParams,
 ): MainlinePlayTeamRosterData => {
-  const { mechanics, roster, teamPlan } = buildMainlinePlayTeamContext(params);
-
   return {
-    mechanics,
+    mechanics: resolvePlayMechanics(params.play),
     play: params.play,
-    roster,
-    teamPlan: teamPlan ? buildTeamPlanPreview(teamPlan) : null,
-    teamTimelinePreview: params.teamTimelinePreview,
+    roster: buildMainlinePlayTeamPreview(params.teamRows),
   };
 };
 
 export const buildMainlinePlayTeamPlanData = (
-  params: MainlinePlayTeamContextParams,
+  params: MainlinePlayTeamContextParams & {
+    teamPlanRows: MainlinePlayTeamPlanRows;
+  },
 ): MainlinePlayTeamPlanData => {
-  const { teamPlan } = buildMainlinePlayTeamContext(params);
+  const roster = buildMainlinePlayTeamPreview(params.teamRows);
 
-  return { teamPlan };
+  return {
+    teamPlan: buildMainlinePlayTeamPlanSummary(
+      params.teamPlanRows.rows,
+      roster,
+      params.teamRows.evolutionEdges ?? [],
+      {
+        attributes: params.teamPlanRows.attributes,
+        mechanics: resolvePlayMechanics(params.play),
+        types: params.teamPlanRows.types,
+      },
+    ),
+  };
 };

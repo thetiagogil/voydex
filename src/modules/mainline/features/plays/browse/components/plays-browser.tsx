@@ -93,9 +93,13 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
       <PlaysToolbar
         filters={filters}
         games={options.games}
+        generations={options.generations}
         matchingCount={matchingCount}
         onGameChange={(game) => {
           updateFilter("game", game);
+        }}
+        onGenerationChange={(generation) => {
+          updateFilter("generation", generation);
         }}
         onQueryChange={(query) => {
           updateFilter("query", query);
@@ -103,10 +107,6 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
         onSortChange={(sort) => {
           updateFilter("sort", sort);
         }}
-        onStatusChange={(status) => {
-          updateFilter("status", status);
-        }}
-        statuses={options.statuses}
       />
 
       <div
@@ -137,7 +137,7 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
           headingLevel="h2"
           className="mt-5"
           title="No Plays found"
-          description="Try another search, status or game."
+          description="Try another search, game or generation."
           action={
             <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }

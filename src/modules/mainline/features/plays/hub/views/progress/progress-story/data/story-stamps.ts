@@ -1,4 +1,10 @@
-import type { StorySection, StoryStamp } from "../types";
+import {
+  getPlayStampLabel,
+  getPlayStampStates,
+  type PlayStamp,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
+
+import type { StorySection } from "../types";
 
 const leagueSectionSlug = "pokemon-league";
 
@@ -9,7 +15,7 @@ const leagueSectionSlug = "pokemon-league";
  */
 export const buildStoryStamps = (
   sections: StorySection[],
-): StoryStamp[] | null => {
+): PlayStamp[] | null => {
   const milestones = sections.flatMap((section) => section.milestones);
   const gyms = milestones.filter((milestone) => milestone.typeSlug === "gym");
 
@@ -22,19 +28,23 @@ export const buildStoryStamps = (
     .flatMap((section) => section.milestones)
     .filter((milestone) => milestone.typeSlug !== "gym");
   const ordered = [...gyms, ...league];
-  const next = ordered.find((milestone) => !milestone.isCompleted);
+  const states = getPlayStampStates(
+    ordered,
+    (milestone) => milestone.isCompleted,
+  );
 
-  return ordered.map((milestone) => ({
-    kind: milestone.typeSlug === "gym" ? "gym" : "league",
-    label:
-      milestone.typeSlug === "gym"
-        ? milestone.name.replace(/ Badge$/, "")
-        : milestone.name,
-    milestone,
-    state: milestone.isCompleted
-      ? "earned"
-      : milestone === next
-        ? "next"
-        : "todo",
-  }));
+  return ordered.map((milestone, index) => {
+    const kind = milestone.typeSlug === "gym" ? "gym" : "league";
+
+    return {
+      badgeType: milestone.badgeType,
+      completedAt: milestone.completedAt,
+      kind,
+      label: getPlayStampLabel(kind, milestone.name),
+      milestoneId: milestone.id,
+      milestoneTypeSlug: milestone.typeSlug,
+      name: milestone.name,
+      state: states[index],
+    };
+  });
 };

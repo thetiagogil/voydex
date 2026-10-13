@@ -1,13 +1,12 @@
-import {
-  compareMilestoneCategories,
-  compareMilestonesInCategory,
-  isBlockingPrerequisiteKind,
-} from "@/modules/mainline/features/plays/hub/data/milestone-order";
 import type {
   MainlinePlayMilestone,
   MainlinePlayMilestoneCategorySummary,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { Json } from "@/shared/types/database.types";
+import {
+  pickNextMilestoneRow,
+  type PlayMilestoneState,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 export type OverviewMilestone = Pick<
   MainlinePlayMilestone,
@@ -38,105 +37,20 @@ export type MainlinePlayOverviewMilestoneRows = {
   types: { id: number; slug: string }[];
 };
 
-/* The Play's milestones in Story's order. */
-export const orderOverviewMilestones = (
-  rows: Pick<MainlinePlayOverviewMilestoneRows, "categories" | "milestones">,
-) => {
-  const categoryById = new Map(
-    rows.categories.map((category) => [category.category_id, category]),
-  );
-  const categoryOf = (milestone: OverviewMilestone) =>
-    categoryById.get(milestone.category_id) ?? {
-      category_id: milestone.category_id,
-      category_sort_order: Number.MAX_SAFE_INTEGER,
-      content_scope_sort_order: Number.MAX_SAFE_INTEGER,
-    };
-
-  return [...rows.milestones].sort(
-    (first, second) =>
-      compareMilestoneCategories(categoryOf(first), categoryOf(second)) ||
-      compareMilestonesInCategory(first, second),
-  );
-};
-
-const getBlockingPrerequisiteIds = (prerequisites: Json | null) => {
-  if (!Array.isArray(prerequisites)) {
-    return [];
-  }
-
-  return prerequisites.flatMap((prerequisite) => {
-    if (
-      !prerequisite ||
-      typeof prerequisite !== "object" ||
-      Array.isArray(prerequisite) ||
-      typeof prerequisite.prerequisite_milestone_id !== "number"
-    ) {
-      return [];
-    }
-
-    const kindSlug =
-      typeof prerequisite.prerequisite_kind_slug === "string"
-        ? prerequisite.prerequisite_kind_slug
-        : "suggested";
-
-    return isBlockingPrerequisiteKind(kindSlug)
-      ? [prerequisite.prerequisite_milestone_id]
-      : [];
-  });
-};
-
-/*
- * The next objective and the last recorded milestone, chosen the way Story
- * chooses them: the first required milestone you can record now, else the
- * first required one still open, else anything still open.
- */
-export const getOverviewMilestoneSummary = (
-  orderedMilestones: OverviewMilestone[],
-) => {
-  const completedIds = new Set(
-    orderedMilestones
-      .filter((milestone) => milestone.is_completed)
-      .map((milestone) => milestone.milestone_id),
-  );
-  const isAvailable = (milestone: OverviewMilestone) =>
-    getBlockingPrerequisiteIds(milestone.prerequisites).every((id) =>
-      completedIds.has(id),
-    );
-  const openRequired = orderedMilestones.filter(
-    (milestone) =>
-      milestone.is_required_for_completion && !milestone.is_completed,
-  );
-  const completed = orderedMilestones.filter(
-    (milestone) => milestone.is_completed,
-  );
-  const lastCompletedMilestone =
-    completed
-      .filter((milestone) => milestone.completed_at)
-      .sort((first, second) =>
-        (second.completed_at ?? "").localeCompare(first.completed_at ?? ""),
-      )[0] ??
-    completed.at(-1) ??
-    null;
-
-  const nextMilestone =
-    openRequired.find(isAvailable) ??
-    openRequired[0] ??
-    orderedMilestones.find((milestone) => !milestone.is_completed) ??
-    null;
-
-  return {
-    lastCompletedMilestone,
-    nextMilestone,
-    ...getOverviewJourneyAhead(orderedMilestones, nextMilestone),
-  };
-};
-
 export type OverviewAheadMilestone = {
+  /* A gym milestone's badge type, so a recorded one wears its badge. */
+  badgeType: PokemonTypeSlug | null;
   milestone: OverviewMilestone;
   sequence: number;
+  state: PlayMilestoneState;
 };
 
 const aheadLimit = 4;
+
+/* Where a milestone happens, as Story and the next objective say it. */
+export const getOverviewMilestoneWhere = (
+  milestone: Pick<OverviewMilestone, "category_name" | "description">,
+) => milestone.description ?? milestone.category_name ?? null;
 
 /*
  * Story numbers milestones within their journey (the version group), so
@@ -146,6 +60,7 @@ const aheadLimit = 4;
 const getOverviewJourneyAhead = (
   orderedMilestones: OverviewMilestone[],
   nextMilestone: OverviewMilestone | null,
+  badgeTypeByMilestoneId: ReadonlyMap<number, PokemonTypeSlug>,
 ) => {
   if (!nextMilestone) {
     return { aheadMilestones: [], nextMilestonePosition: null };
@@ -161,12 +76,50 @@ const getOverviewJourneyAhead = (
   const aheadMilestones: OverviewAheadMilestone[] = journey
     .slice(nextIndex, nextIndex + aheadLimit)
     .map((milestone, index) => ({
+      badgeType:
+        milestone.milestone_id === null
+          ? null
+          : (badgeTypeByMilestoneId.get(milestone.milestone_id) ?? null),
       milestone,
       sequence: nextIndex + index + 1,
+      state: milestone.is_completed ? "done" : index === 0 ? "next" : "todo",
     }));
 
   return {
     aheadMilestones,
     nextMilestonePosition: { sequence: nextIndex + 1, total: journey.length },
+  };
+};
+
+/*
+ * The next objective, chosen by the rule Story uses, and the last milestone
+ * recorded: the newest by date, else the last recorded in Story's order.
+ * Pass the milestones in Story's order.
+ */
+export const getOverviewMilestoneSummary = (
+  orderedMilestones: OverviewMilestone[],
+  badgeTypeByMilestoneId: ReadonlyMap<number, PokemonTypeSlug> = new Map(),
+) => {
+  const completed = orderedMilestones.filter(
+    (milestone) => milestone.is_completed,
+  );
+  const lastCompletedMilestone =
+    completed
+      .filter((milestone) => milestone.completed_at)
+      .sort((first, second) =>
+        (second.completed_at ?? "").localeCompare(first.completed_at ?? ""),
+      )[0] ??
+    completed.at(-1) ??
+    null;
+  const nextMilestone = pickNextMilestoneRow(orderedMilestones);
+
+  return {
+    lastCompletedMilestone,
+    nextMilestone,
+    ...getOverviewJourneyAhead(
+      orderedMilestones,
+      nextMilestone,
+      badgeTypeByMilestoneId,
+    ),
   };
 };
