@@ -86,7 +86,7 @@ const NavigationMenuContent = ({
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       className={cn(
-        "data-ending-style:data-activation-direction=left:translate-x-1/2 data-ending-style:data-activation-direction=right:-translate-x-1/2 data-starting-style:data-activation-direction=left:-translate-x-1/2 data-starting-style:data-activation-direction=right:translate-x-1/2 group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:ring-foreground/10 data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out group-data-[viewport=false]/navigation-menu:data-open:animate-in group-data-[viewport=false]/navigation-menu:data-open:fade-in-0 group-data-[viewport=false]/navigation-menu:data-open:zoom-in-95 group-data-[viewport=false]/navigation-menu:data-closed:animate-out group-data-[viewport=false]/navigation-menu:data-closed:fade-out-0 group-data-[viewport=false]/navigation-menu:data-closed:zoom-out-95 h-full w-auto p-1 transition-[opacity,transform,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[viewport=false]/navigation-menu:rounded-lg group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:ring-1 group-data-[viewport=false]/navigation-menu:duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
+        "data-ending-style:data-activation-direction=left:translate-x-1/2 data-ending-style:data-activation-direction=right:-translate-x-1/2 data-starting-style:data-activation-direction=left:-translate-x-1/2 data-starting-style:data-activation-direction=right:translate-x-1/2 data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out h-full w-auto p-1 transition-[opacity,transform,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] data-ending-style:opacity-0 data-starting-style:opacity-0",
         className,
       )}
       {...props}
@@ -115,7 +115,7 @@ const NavigationMenuPositioner = ({
         )}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) bg-popover text-popover-foreground shadow-float relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
+        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) bg-surface text-ink shadow-float relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
           <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>
@@ -131,7 +131,7 @@ const NavigationMenuLink = ({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 focus-visible:outline-focus flex items-center gap-2 rounded-full p-2 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid in-data-[slot=navigation-menu-content]:rounded-sm [&_svg:not([class*='size-'])]:size-4",
+        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 focus-visible:outline-focus flex items-center gap-2 rounded-full p-2 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid in-data-[slot=navigation-menu-content]:rounded-sm in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -152,7 +152,7 @@ const NavigationMenuIndicator = ({
       )}
       {...props}
     >
-      <div className="bg-border shadow-float relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm" />
+      <div className="bg-surface shadow-float relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm" />
     </NavigationMenuPrimitive.Icon>
   );
 };

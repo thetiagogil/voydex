@@ -47,7 +47,7 @@ const ButtonGroupText = ({
     props: mergeProps<"div">(
       {
         className: cn(
-          "flex items-center gap-2 rounded-lg border bg-muted px-2.5 text-sm font-medium [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+          "border-line bg-surface-2 text-14 text-ink-2 flex items-center gap-2 rounded-lg border-[1.5px] px-3 font-bold [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
           className,
         ),
       },
@@ -70,7 +70,7 @@ const ButtonGroupSeparator = ({
       data-slot="button-group-separator"
       orientation={orientation}
       className={cn(
-        "bg-input relative self-stretch data-[orientation=horizontal]:mx-px data-[orientation=horizontal]:w-auto data-[orientation=vertical]:my-px data-[orientation=vertical]:h-auto",
+        "bg-line relative self-stretch data-[orientation=horizontal]:mx-px data-[orientation=horizontal]:w-auto data-[orientation=vertical]:my-px data-[orientation=vertical]:h-auto",
         className,
       )}
       {...props}

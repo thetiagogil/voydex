@@ -4,6 +4,11 @@ import * as React from "react";
 import { cn } from "@/shared/utils/cn";
 import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 
+/*
+ * Tables are quiet chrome (v3 `.ls-table`): small ink-3 column heads over a
+ * hairline, rows between hairlines, the inset fill under the row you point
+ * at. Their data keeps its colour.
+ */
 const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
   return (
     <div
@@ -12,7 +17,7 @@ const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn("text-14 w-full caption-bottom", className)}
         {...props}
       />
     </div>
@@ -26,7 +31,10 @@ const TableHeader = ({
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn(
+        "[&_tr]:border-line [&_tr]:hover:bg-transparent",
+        className,
+      )}
       {...props}
     />
   );
@@ -50,7 +58,7 @@ const TableFooter = ({
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
+        "border-line bg-surface-2 border-t font-bold [&>tr]:last:border-b-0",
         className,
       )}
       {...props}
@@ -64,7 +72,7 @@ const TableRow = ({ className, ...props }: React.ComponentProps<"tr">) => {
       data-slot="table-row"
       className={cn(
         rowInteractionVariants(),
-        "has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted border-b",
+        "border-line has-aria-expanded:bg-surface-2 data-[state=selected]:bg-select-soft border-b",
         className,
       )}
       {...props}
@@ -77,7 +85,7 @@ const TableHead = ({ className, ...props }: React.ComponentProps<"th">) => {
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap has-[[role=checkbox]]:pr-0",
+        "text-12 text-ink-3 h-9 px-2.5 pb-2 text-left align-bottom font-bold whitespace-nowrap has-[[role=checkbox]]:pr-0",
         className,
       )}
       {...props}
@@ -90,7 +98,7 @@ const TableCell = ({ className, ...props }: React.ComponentProps<"td">) => {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap has-[[role=checkbox]]:pr-0",
+        "px-2.5 py-2.5 align-middle whitespace-nowrap has-[[role=checkbox]]:pr-0",
         className,
       )}
       {...props}
@@ -105,7 +113,7 @@ const TableCaption = ({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
+      className={cn("text-13 text-ink-2 mt-4 font-semibold", className)}
       {...props}
     />
   );

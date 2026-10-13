@@ -52,7 +52,7 @@ const DialogContent = ({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "bg-popover text-popover-foreground data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-overlay fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-6 text-sm duration-100 outline-none sm:max-w-sm",
+          "bg-surface text-ink data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-overlay text-15 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-2xl p-6 duration-100 outline-none sm:max-w-sm",
           className,
         )}
         {...props}
@@ -64,8 +64,8 @@ const DialogContent = ({
             render={
               <Button
                 variant="ghost"
-                className="absolute top-2 right-2"
-                size="icon-sm"
+                className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-4 right-4 size-10 rounded-full"
+                size="icon"
               />
             }
           >
@@ -100,7 +100,7 @@ const DialogFooter = ({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "bg-muted/50 -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 sm:flex-row sm:justify-end",
+        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2.5 border-t px-6 py-4 sm:flex-row sm:items-center sm:justify-end",
         className,
       )}
       {...props}
@@ -136,7 +136,7 @@ const DialogDescription = ({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-muted-foreground *:[a]:hover:text-foreground text-sm *:[a]:underline *:[a]:underline-offset-3",
+        "text-14 text-ink-2 *:[a]:text-link font-semibold *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       {...props}

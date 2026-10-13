@@ -34,16 +34,16 @@ const ItemSeparator = ({
 };
 
 const itemVariants = cva(
-  "group/item flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted",
+  "group/item text-14 flex w-full flex-wrap items-center rounded-md border-[1.5px] transition-colors duration-100 outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid [a]:transition-colors [a]:hover:bg-surface-2",
   {
     variants: {
       variant: {
         default: "border-transparent",
-        outline: "border-border",
-        muted: "border-transparent bg-muted/50",
+        outline: "border-line",
+        muted: "border-transparent bg-surface-2",
       },
       size: {
-        default: "gap-2.5 px-3 py-2.5",
+        default: "gap-3 px-3.5 py-3",
         sm: "gap-2.5 px-3 py-2.5",
         xs: "gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
       },
@@ -129,7 +129,7 @@ const ItemTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="item-title"
       className={cn(
-        "line-clamp-1 flex w-fit items-center gap-2 text-sm leading-snug font-medium underline-offset-4",
+        "text-15 text-ink line-clamp-1 flex w-fit items-center gap-2 leading-snug font-extrabold underline-offset-4",
         className,
       )}
       {...props}
@@ -145,7 +145,7 @@ const ItemDescription = ({
     <p
       data-slot="item-description"
       className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary line-clamp-2 text-left text-sm leading-normal font-normal group-data-[size=xs]/item:text-xs [&>a]:underline [&>a]:underline-offset-4",
+        "text-13 text-ink-2 [&>a]:text-link group-data-[size=xs]/item:text-12 line-clamp-2 text-left leading-normal font-semibold [&>a]:underline [&>a]:underline-offset-4",
         className,
       )}
       {...props}
