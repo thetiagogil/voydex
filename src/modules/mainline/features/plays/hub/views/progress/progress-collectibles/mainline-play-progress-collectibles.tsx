@@ -7,16 +7,24 @@ import { toast } from "sonner";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import { CollectibleEntriesSection } from "./sections/entries/collectible-entries-section";
-import { CollectibleScopeOverviewSection } from "./sections/scope-overview/collectible-scope-overview-section";
+import { CollectiblesPageHead } from "./sections/head/collectibles-page-head";
+import { CollectiblesHeroSection } from "./sections/hero/collectibles-hero-section";
 import {
   updateCollectibleEntryProgress,
   updateCollectibleEntryProgressBulk,
 } from "./server/collectibles-progress-action";
 import type {
+  CollectibleSort,
   MainlinePlayCollectibleEntry,
   MainlinePlayProgressCollectiblesData,
 } from "./types";
-import { getCollectibleEntryState } from "./utils/collectibles-progress-model";
+import {
+  describeCollectibleWhereabouts,
+  getCollectibleAreaLevel,
+  getCollectibleAreaSummaries,
+  getCollectibleEntryState,
+  getCollectibleLocations,
+} from "./utils/collectibles-progress-model";
 
 const buildInitialCollectibleState = (
   data: MainlinePlayProgressCollectiblesData,
@@ -27,6 +35,12 @@ const buildInitialCollectibleState = (
     ),
   );
 
+/*
+ * Collectibles: the page head, the hero in gold and the checklist. Marking
+ * is optimistic; a failed save puts the tokens back and says why. The sort
+ * lives here, so the area summaries are worked out once for the hero and
+ * the checklist, and it stays when you switch collectible.
+ */
 export const MainlinePlayProgressCollectibles = ({
   data,
   initialGroupSlug,
@@ -48,6 +62,7 @@ export const MainlinePlayProgressCollectibles = ({
   const [pendingEntryIds, setPendingEntryIds] = useState(
     () => new Set<number>(),
   );
+  const [sort, setSort] = useState<CollectibleSort>("canonical");
   const activeGroup =
     data.groups.find((group) => group.id === activeGroupId) ??
     data.groups[0] ??
@@ -57,7 +72,7 @@ export const MainlinePlayProgressCollectibles = ({
     return (
       <EmptyState
         title="No collectibles available"
-        description="This game does not have collectible tracking data yet."
+        description="This game doesn't have collectible tracking yet."
       />
     );
   }
@@ -78,73 +93,20 @@ export const MainlinePlayProgressCollectibles = ({
     });
   };
 
-  const toggleEntry = async (entry: MainlinePlayCollectibleEntry) => {
-    if (pendingEntryIds.has(entry.id)) {
-      return;
-    }
-
-    const previousState = getCollectibleEntryState(entry, stateByEntryId);
-    const nextState = !previousState;
-
-    setStateByEntryId((current) => {
-      const next = new Map(current);
-      next.set(entry.id, nextState);
-      return next;
-    });
-    setPendingEntryIds((current) => new Set(current).add(entry.id));
-
-    try {
-      const result = await updateCollectibleEntryProgress({
-        collectibleEntryId: entry.id,
-        isCollected: nextState,
-        playId,
-      });
-
-      if (result.status === "error") {
-        throw new Error(result.message);
-      }
-    } catch (error) {
-      setStateByEntryId((current) => {
-        const next = new Map(current);
-        next.set(entry.id, previousState);
-        return next;
-      });
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Unable to update collectible progress.",
-      );
-    } finally {
-      setPendingEntryIds((current) => {
-        const next = new Set(current);
-        next.delete(entry.id);
-        return next;
-      });
-    }
-  };
-
-  const updateEntries = async (
-    entries: MainlinePlayCollectibleEntry[],
-    isCollected: boolean,
-  ) => {
-    const entriesToUpdate = entries.filter(
-      (entry) =>
-        !pendingEntryIds.has(entry.id) &&
-        getCollectibleEntryState(entry, stateByEntryId) !== isCollected,
-    );
-
-    if (!entriesToUpdate.length) {
-      return;
-    }
-
-    const previousStates = new Map(
-      entriesToUpdate.map(
-        (entry) =>
-          [entry.id, getCollectibleEntryState(entry, stateByEntryId)] as const,
-      ),
-    );
-    const entryIds = entriesToUpdate.map((entry) => entry.id);
-
+  /*
+   * Shows the new states at once and saves them. On failure the previous
+   * states come back. Reads no render state, so a toast's Undo can call it
+   * after later renders.
+   */
+  const saveEntryStates = async ({
+    entryIds,
+    isCollected,
+    previousStates,
+  }: {
+    entryIds: number[];
+    isCollected: boolean;
+    previousStates: ReadonlyMap<number, boolean>;
+  }) => {
     setStateByEntryId((current) => {
       const next = new Map(current);
 
@@ -165,17 +127,24 @@ export const MainlinePlayProgressCollectibles = ({
     });
 
     try {
-      const result = await updateCollectibleEntryProgressBulk({
-        collectibleEntryIds: entryIds,
-        isCollected,
-        playId,
-      });
+      const result =
+        entryIds.length === 1
+          ? await updateCollectibleEntryProgress({
+              collectibleEntryId: entryIds[0],
+              isCollected,
+              playId,
+            })
+          : await updateCollectibleEntryProgressBulk({
+              collectibleEntryIds: entryIds,
+              isCollected,
+              playId,
+            });
 
       if (result.status === "error") {
         throw new Error(result.message);
       }
 
-      toast.success(result.message);
+      return true;
     } catch (error) {
       setStateByEntryId((current) => {
         const next = new Map(current);
@@ -191,6 +160,8 @@ export const MainlinePlayProgressCollectibles = ({
           ? error.message
           : "Unable to update collectible progress.",
       );
+
+      return false;
     } finally {
       setPendingEntryIds((current) => {
         const next = new Set(current);
@@ -204,25 +175,133 @@ export const MainlinePlayProgressCollectibles = ({
     }
   };
 
+  const toggleEntry = async (entry: MainlinePlayCollectibleEntry) => {
+    if (pendingEntryIds.has(entry.id)) {
+      return;
+    }
+
+    const previousState = getCollectibleEntryState(entry, stateByEntryId);
+    const isCollected = !previousState;
+    const isSaved = await saveEntryStates({
+      entryIds: [entry.id],
+      isCollected,
+      previousStates: new Map([[entry.id, previousState]]),
+    });
+
+    if (isSaved) {
+      toast.success(
+        isCollected ? `${entry.name} found` : `${entry.name} unmarked`,
+        {
+          action: {
+            label: "Undo",
+            onClick: () => {
+              void saveEntryStates({
+                entryIds: [entry.id],
+                isCollected: previousState,
+                previousStates: new Map([[entry.id, isCollected]]),
+              });
+            },
+          },
+        },
+      );
+    }
+  };
+
+  const updateAreaEntries = async (
+    label: string,
+    entries: MainlinePlayCollectibleEntry[],
+    isCollected: boolean,
+  ) => {
+    const entryIds = entries
+      .filter(
+        (entry) =>
+          !pendingEntryIds.has(entry.id) &&
+          getCollectibleEntryState(entry, stateByEntryId) !== isCollected,
+      )
+      .map((entry) => entry.id);
+
+    if (!entryIds.length) {
+      return;
+    }
+
+    const previousStates = new Map(
+      entryIds.map((entryId) => [entryId, !isCollected] as const),
+    );
+    const isSaved = await saveEntryStates({
+      entryIds,
+      isCollected,
+      previousStates,
+    });
+
+    if (isSaved) {
+      toast.success(
+        isCollected
+          ? `${entryIds.length} marked found in ${label}`
+          : `${entryIds.length} unmarked in ${label}`,
+        {
+          action: {
+            label: "Undo",
+            onClick: () => {
+              void saveEntryStates({
+                entryIds,
+                isCollected: !isCollected,
+                previousStates: new Map(
+                  entryIds.map((entryId) => [entryId, isCollected] as const),
+                ),
+              });
+            },
+          },
+        },
+      );
+    }
+  };
+
+  const areaLevel = getCollectibleAreaLevel(activeGroup.entries);
+  const areaSummaries = getCollectibleAreaSummaries({
+    areaLevel,
+    entries: activeGroup.entries,
+    sort,
+    stateByEntryId,
+  });
+  const locations = getCollectibleLocations(activeGroup.entries);
+
   return (
-    <div className="grid gap-4">
-      <CollectibleScopeOverviewSection
+    <div className="grid min-w-0 grid-cols-1 gap-6">
+      <CollectiblesPageHead
         group={activeGroup}
         groups={data.groups}
         onGroupChange={selectGroup}
+        stateByEntryId={stateByEntryId}
+        whereabouts={describeCollectibleWhereabouts({
+          entries: activeGroup.entries,
+          gameName: data.gameName,
+        })}
+      />
+
+      <CollectiblesHeroSection
+        areaCount={areaSummaries.length}
+        completeAreaCount={
+          areaSummaries.filter((area) => area.isComplete).length
+        }
+        group={activeGroup}
+        place={locations.length === 1 ? locations[0] : data.gameName}
         stateByEntryId={stateByEntryId}
       />
 
       <CollectibleEntriesSection
         key={activeGroup.id}
+        areaLevel={areaLevel}
+        areaSummaries={areaSummaries}
         group={activeGroup}
         isEntryPending={(entryId) => pendingEntryIds.has(entryId)}
+        onAreaStateChange={(label, entries, isCollected) => {
+          void updateAreaEntries(label, entries, isCollected);
+        }}
         onEntryToggle={(entry) => {
           void toggleEntry(entry);
         }}
-        onSectionStateChange={(entries, isCollected) => {
-          void updateEntries(entries, isCollected);
-        }}
+        onSortChange={setSort}
+        sort={sort}
         stateByEntryId={stateByEntryId}
       />
     </div>

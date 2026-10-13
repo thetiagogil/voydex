@@ -8,16 +8,69 @@ import type {
   MainlinePlayProgressCollectiblesData,
 } from "../types";
 
-export type CollectibleLocationSection = {
+/*
+ * What an area is for one collectible. Usually its location label (an island,
+ * a region); when every entry shares one location, its places instead, so
+ * the Isle of Armor's Diglett split into Fields of Honor, Soothing Wetlands
+ * and the rest.
+ */
+export type CollectibleAreaLevel = "location" | "place";
+
+/* An area: the entries that share an area label, as one section. */
+export type CollectibleArea = {
   entries: MainlinePlayCollectibleEntry[];
   id: string;
   label: string;
 };
 
+export type CollectibleAreaSummary = CollectibleArea & {
+  foundCount: number;
+  isComplete: boolean;
+};
+
+/* A place inside an area (its sub-location), when the data names one. */
+type CollectiblePlace = {
+  entries: MainlinePlayCollectibleEntry[];
+  id: string;
+  label: string | null;
+};
+
 const UNKNOWN_LOCATION_LABEL = "Location not recorded";
+const MAX_LISTED_LOCATIONS = 3;
 
 const compareText = (left: string, right: string) =>
   left.localeCompare(right, undefined, { sensitivity: "base" });
+
+const toAnchorSlug = (label: string) =>
+  label.toLocaleLowerCase().replaceAll(/[^\p{L}\p{N}]+/gu, "-");
+
+/* A stable anchor for an area, so the Areas index can jump to it. */
+const getCollectibleAreaId = (label: string) =>
+  `collectible-area-${toAnchorSlug(label)}`;
+
+const getLocationLabel = (entry: MainlinePlayCollectibleEntry) =>
+  entry.locationLabel ?? UNKNOWN_LOCATION_LABEL;
+
+export const getCollectibleAreaLevel = (
+  entries: MainlinePlayCollectibleEntry[],
+): CollectibleAreaLevel => {
+  const locations = new Set(entries.map((entry) => entry.locationLabel));
+
+  return locations.size === 1 &&
+    !locations.has(null) &&
+    entries.some((entry) => entry.subLocationLabel)
+    ? "place"
+    : "location";
+};
+
+/* A place-level entry with no place falls back to its location's name. */
+const getAreaLabel = (
+  entry: MainlinePlayCollectibleEntry,
+  areaLevel: CollectibleAreaLevel,
+) =>
+  areaLevel === "place"
+    ? (entry.subLocationLabel ?? getLocationLabel(entry))
+    : getLocationLabel(entry);
 
 export const buildMainlinePlayCollectiblesData = ({
   gameName,
@@ -36,11 +89,7 @@ export const buildMainlinePlayCollectiblesData = ({
       !row.collectible_id ||
       !row.collectible_slug ||
       !row.collectible_name ||
-      !row.collectible_type_id ||
-      !row.collectible_type_slug ||
-      !row.collectible_type_name ||
       !row.collectible_entry_id ||
-      !row.collectible_entry_slug ||
       !row.collectible_entry_name ||
       !row.collectible_entry_sort_order
     ) {
@@ -53,25 +102,17 @@ export const buildMainlinePlayCollectiblesData = ({
       ({
         entries: [],
         id: row.collectible_id,
-        isIncludedInCompletion: row.is_included_in_completion === true,
-        isRequiredForCompletion: row.is_required_for_completion === true,
         name: row.collectible_name,
         slug: row.collectible_slug,
         sortOrder: sourceGroup?.sort_order ?? row.collectible_id,
-        totalCount: sourceGroup?.total_count ?? 0,
-        typeId: row.collectible_type_id,
-        typeName: row.collectible_type_name,
-        typeSlug: row.collectible_type_slug,
       } satisfies MainlinePlayCollectibleGroup);
 
     group.entries.push({
-      collectedAt: row.collected_at,
       description: row.description,
       id: row.collectible_entry_id,
       isCollected: row.is_collected === true,
       locationLabel: row.location_label,
       name: row.collectible_entry_name,
-      slug: row.collectible_entry_slug,
       sortOrder: row.collectible_entry_sort_order,
       subLocationLabel: row.sub_location_label,
     });
@@ -84,7 +125,6 @@ export const buildMainlinePlayCollectiblesData = ({
       entries: group.entries.sort(
         (left, right) => left.sortOrder - right.sortOrder,
       ),
-      totalCount: Math.max(group.totalCount, group.entries.length),
     }))
     .sort((left, right) => left.sortOrder - right.sortOrder);
 
@@ -118,14 +158,16 @@ export const getCollectibleGroupCounts = ({
 };
 
 export const filterCollectibleEntries = ({
+  area,
+  areaLevel,
   entries,
-  location,
   progressFilter,
   query,
   stateByEntryId,
 }: {
+  area: string;
+  areaLevel: CollectibleAreaLevel;
   entries: MainlinePlayCollectibleEntry[];
-  location: string;
   progressFilter: CollectibleProgressFilter;
   query: string;
   stateByEntryId: ReadonlyMap<number, boolean>;
@@ -138,9 +180,8 @@ export const filterCollectibleEntries = ({
       progressFilter === "all" ||
       (progressFilter === "collected" && isCollected) ||
       (progressFilter === "missing" && !isCollected);
-    const matchesLocation =
-      location === "all" ||
-      (entry.locationLabel ?? UNKNOWN_LOCATION_LABEL) === location;
+    const matchesArea =
+      area === "all" || getAreaLabel(entry, areaLevel) === area;
     const matchesQuery =
       !normalizedQuery ||
       [
@@ -150,23 +191,45 @@ export const filterCollectibleEntries = ({
         entry.description,
       ].some((value) => value?.toLocaleLowerCase().includes(normalizedQuery));
 
-    return matchesProgress && matchesLocation && matchesQuery;
+    return matchesProgress && matchesArea && matchesQuery;
   });
 };
 
-export const groupCollectibleEntriesByLocation = ({
+const groupBy = <TKey>(
+  entries: MainlinePlayCollectibleEntry[],
+  getKey: (entry: MainlinePlayCollectibleEntry) => TKey,
+) => {
+  const groups = new Map<TKey, MainlinePlayCollectibleEntry[]>();
+
+  for (const entry of entries) {
+    const key = getKey(entry);
+    const groupEntries = groups.get(key) ?? [];
+    groupEntries.push(entry);
+    groups.set(key, groupEntries);
+  }
+
+  return [...groups.entries()];
+};
+
+/*
+ * Areas follow the chosen order: the game's numbering (each area where its
+ * first entry falls) or areas and places from A to Z.
+ */
+export const groupCollectibleEntriesByArea = ({
+  areaLevel,
   entries,
   sort,
 }: {
+  areaLevel: CollectibleAreaLevel;
   entries: MainlinePlayCollectibleEntry[];
   sort: CollectibleSort;
-}): CollectibleLocationSection[] => {
+}): CollectibleArea[] => {
   const orderedEntries =
     sort === "location"
       ? [...entries].sort((left, right) => {
           const locationComparison = compareText(
-            left.locationLabel ?? UNKNOWN_LOCATION_LABEL,
-            right.locationLabel ?? UNKNOWN_LOCATION_LABEL,
+            getLocationLabel(left),
+            getLocationLabel(right),
           );
 
           if (locationComparison !== 0) {
@@ -181,31 +244,105 @@ export const groupCollectibleEntriesByLocation = ({
           return subLocationComparison || left.sortOrder - right.sortOrder;
         })
       : entries;
-  const sections = new Map<string, MainlinePlayCollectibleEntry[]>();
 
-  for (const entry of orderedEntries) {
-    const label = entry.locationLabel ?? UNKNOWN_LOCATION_LABEL;
-    const sectionEntries = sections.get(label) ?? [];
-    sectionEntries.push(entry);
-    sections.set(label, sectionEntries);
-  }
-
-  return [...sections.entries()].map(([label, sectionEntries], index) => ({
-    entries: sectionEntries,
-    id: `${index}:${label}`,
-    label,
-  }));
+  return groupBy(orderedEntries, (entry) => getAreaLabel(entry, areaLevel)).map(
+    ([label, areaEntries]) => ({
+      entries: areaEntries,
+      id: getCollectibleAreaId(label),
+      label,
+    }),
+  );
 };
 
-export const getCollectibleLocationOptions = (
+/*
+ * The places inside an area, in the order their first entry appears. When
+ * areas already are places, an area is one unnamed place.
+ */
+export const groupCollectibleEntriesByPlace = ({
+  area,
+  areaLevel,
+}: {
+  area: CollectibleArea;
+  areaLevel: CollectibleAreaLevel;
+}): CollectiblePlace[] =>
+  areaLevel === "place"
+    ? [{ entries: area.entries, id: `${area.id}-place`, label: null }]
+    : groupBy(area.entries, (entry) => entry.subLocationLabel).map(
+        ([label, placeEntries]) => ({
+          entries: placeEntries,
+          id: `${area.id}-${label ? toAnchorSlug(label) : "unnamed"}`,
+          label,
+        }),
+      );
+
+/* Every area of a collectible, found or not, with what has been found. */
+export const getCollectibleAreaSummaries = ({
+  areaLevel,
+  entries,
+  sort,
+  stateByEntryId,
+}: {
+  areaLevel: CollectibleAreaLevel;
+  entries: MainlinePlayCollectibleEntry[];
+  sort: CollectibleSort;
+  stateByEntryId: ReadonlyMap<number, boolean>;
+}): CollectibleAreaSummary[] =>
+  groupCollectibleEntriesByArea({ areaLevel, entries, sort }).map((area) => {
+    const foundCount = area.entries.filter((entry) =>
+      getCollectibleEntryState(entry, stateByEntryId),
+    ).length;
+
+    return {
+      ...area,
+      foundCount,
+      isComplete: foundCount === area.entries.length,
+    };
+  });
+
+/* The named locations a collectible is hidden in, in the game's order. */
+export const getCollectibleLocations = (
   entries: MainlinePlayCollectibleEntry[],
 ) => [
-  { label: "All locations", value: "all" },
-  ...[
-    ...new Set(
-      entries.map((entry) => entry.locationLabel ?? UNKNOWN_LOCATION_LABEL),
+  ...new Set(
+    entries.flatMap((entry) =>
+      entry.locationLabel ? [entry.locationLabel] : [],
     ),
-  ]
+  ),
+];
+
+/* One sentence for where a collectible hides: "Hidden around Isle of Armor". */
+export const describeCollectibleWhereabouts = ({
+  entries,
+  gameName,
+}: {
+  entries: MainlinePlayCollectibleEntry[];
+  gameName: string;
+}) => {
+  const locations = getCollectibleLocations(entries);
+
+  if (!locations.length) {
+    return `Hidden around ${gameName}`;
+  }
+
+  if (locations.length > MAX_LISTED_LOCATIONS) {
+    return `Hidden across ${locations.length} areas of ${gameName}`;
+  }
+
+  return `Hidden around ${new Intl.ListFormat("en", {
+    style: "long",
+    type: "conjunction",
+  }).format(locations)}`;
+};
+
+export const getCollectibleAreaOptions = ({
+  areaLevel,
+  entries,
+}: {
+  areaLevel: CollectibleAreaLevel;
+  entries: MainlinePlayCollectibleEntry[];
+}) => [
+  { label: "All areas", value: "all" },
+  ...[...new Set(entries.map((entry) => getAreaLabel(entry, areaLevel)))]
     .sort(compareText)
-    .map((location) => ({ label: location, value: location })),
+    .map((area) => ({ label: area, value: area })),
 ];

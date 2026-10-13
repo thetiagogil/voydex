@@ -1,13 +1,11 @@
 import type { TrackingRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlinePlayCollectibleEntry = {
-  collectedAt: string | null;
   description: string | null;
   id: number;
   isCollected: boolean;
   locationLabel: string | null;
   name: string;
-  slug: string;
   sortOrder: number;
   subLocationLabel: string | null;
 };
@@ -15,15 +13,9 @@ export type MainlinePlayCollectibleEntry = {
 export type MainlinePlayCollectibleGroup = {
   entries: MainlinePlayCollectibleEntry[];
   id: number;
-  isIncludedInCompletion: boolean;
-  isRequiredForCompletion: boolean;
   name: string;
   slug: string;
   sortOrder: number;
-  totalCount: number;
-  typeId: number;
-  typeName: string;
-  typeSlug: string;
 };
 
 export type MainlinePlayProgressCollectiblesData = {
