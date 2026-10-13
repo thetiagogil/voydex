@@ -1,10 +1,11 @@
 "use client";
 
+import { appRoutes } from "@/config/routes";
 import {
-  ProtectedErrorPage,
-  type ProtectedErrorPageProps,
-} from "@/features/system/components/protected-error-page";
+  ErrorPage,
+  type ErrorBoundaryProps,
+} from "@/features/system/components/error-page";
 
-export default function Error(props: ProtectedErrorPageProps) {
-  return <ProtectedErrorPage {...props} />;
+export default function Error(props: ErrorBoundaryProps) {
+  return <ErrorPage {...props} homeHref={appRoutes.appEntry} />;
 }

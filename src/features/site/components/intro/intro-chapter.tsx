@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
 
-import { MomentMedallion } from "@/features/site/components/stills/moment-medallion";
-import type { SiteArt, SitePokemon } from "@/features/site/types";
+import type { PublicPlayArt, PublicPokemon } from "@/config/public-art";
 
 type IntroChapterProps = {
-  art: SiteArt;
   children: ReactNode;
-  partner: SitePokemon;
+  partner: PublicPokemon;
+  playArt: PublicPlayArt;
   text: string;
   title: string;
   when: string;
@@ -17,19 +16,18 @@ type IntroChapterProps = {
  * dashed path to the next step, the words, then a drawing of the screen.
  */
 export const IntroChapter = ({
-  art,
   children,
   partner,
+  playArt,
   text,
   title,
   when,
 }: IntroChapterProps) => (
   <article className="sm:not-last:before:border-line relative grid grid-cols-1 gap-2.5 pb-8 sm:grid-cols-[84px_minmax(0,1fr)] sm:gap-7 sm:pb-[46px] sm:not-last:before:absolute sm:not-last:before:top-[100px] sm:not-last:before:bottom-3.5 sm:not-last:before:left-10 sm:not-last:before:border-l-[3px] sm:not-last:before:border-dashed">
-    <MomentMedallion
-      art={art}
-      moment={{ kind: "pokemon", pokemon: partner }}
-      size="lg"
-    />
+    {playArt.medallion({
+      moment: { kind: "pokemon", pokemon: partner },
+      size: "lg",
+    })}
     <div className="flex min-w-0 flex-col gap-5 sm:pt-1.5">
       <div>
         <p className="text-14 text-ink-3 mb-2 font-extrabold">

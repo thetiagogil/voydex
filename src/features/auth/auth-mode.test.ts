@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { getAuthPageHref, LOGIN_DEFAULT_NEXT } from "./auth-mode";
+import {
+  getAuthPageHref,
+  getLoginRedirectHref,
+  LOGIN_DEFAULT_NEXT,
+} from "./auth-mode";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "./auth-redirects";
 
 describe("auth page links", () => {
@@ -22,13 +26,33 @@ describe("auth page links", () => {
     );
   });
 
-  it("puts an error first", () => {
+  it("puts an error code first", () => {
     expect(
       getAuthPageHref({
-        error: "Passwords do not match.",
+        error: "password-mismatch",
         mode: "sign-up",
         next: DEFAULT_AUTH_REDIRECT_PATH,
       }),
-    ).toBe("/login?error=Passwords+do+not+match.&mode=sign-up");
+    ).toBe("/login?error=password-mismatch&mode=sign-up");
+  });
+});
+
+describe("protected page redirect", () => {
+  it("sends you to Log in with the page you asked for", () => {
+    expect(getLoginRedirectHref("/mainline/plays/abc/team?view=plan")).toBe(
+      "/login?next=%2Fmainline%2Fplays%2Fabc%2Fteam%3Fview%3Dplan",
+    );
+    expect(getLoginRedirectHref("/settings")).toBe("/login?next=%2Fsettings");
+  });
+
+  it("leaves next out when there is no path or it is the default", () => {
+    expect(getLoginRedirectHref(null)).toBe("/login");
+    expect(getLoginRedirectHref(LOGIN_DEFAULT_NEXT)).toBe("/login");
+  });
+
+  it("never sends you somewhere unsafe", () => {
+    expect(getLoginRedirectHref("https://example.com/mainline")).toBe("/login");
+    expect(getLoginRedirectHref("//example.com/mainline")).toBe("/login");
+    expect(getLoginRedirectHref("/not-a-module")).toBe("/login");
   });
 });

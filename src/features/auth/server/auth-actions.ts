@@ -3,6 +3,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { appRoutes } from "@/config/routes";
+import {
+  type AuthErrorCode,
+  getAuthErrorCode,
+} from "@/features/auth/auth-errors";
 import { type AuthMode, getAuthPageHref } from "@/features/auth/auth-mode";
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
@@ -36,18 +40,18 @@ const buildEmailRedirectTo = (origin: string | null, next: string) => {
   return callbackUrl.toString();
 };
 
+/* Back to the form with a fixed reason; Supabase's own message never reaches the page. */
 const redirectWithAuthError = (
-  message: string,
+  error: AuthErrorCode,
   mode: AuthMode,
   next: string,
 ): never => {
-  redirect(getAuthPageHref({ error: message, mode, next }));
+  redirect(getAuthPageHref({ error, mode, next }));
 };
 
 const getRequiredString = (
   formData: FormData,
   key: string,
-  label: string,
   mode: AuthMode,
   next: string,
 ): string => {
@@ -58,49 +62,36 @@ const getRequiredString = (
       return trimmedValue;
     }
   }
-  return redirectWithAuthError(`${label} is required.`, mode, next);
+  return redirectWithAuthError("missing-fields", mode, next);
 };
 
 export const logInWithPassword = async (formData: FormData) => {
   const next = await getSafeNext(formData);
-  const email = getRequiredString(formData, "email", "Email", "log-in", next);
-  const password = getRequiredString(
-    formData,
-    "password",
-    "Password",
-    "log-in",
-    next,
-  );
+  const email = getRequiredString(formData, "email", "log-in", next);
+  const password = getRequiredString(formData, "password", "log-in", next);
   const supabase = await createServerSupabaseClient();
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
   if (error) {
-    redirectWithAuthError(error.message, "log-in", next);
+    redirectWithAuthError(getAuthErrorCode(error.code), "log-in", next);
   }
   redirect(await resolveAuthRedirectPath(next));
 };
 
 export const signUpWithPassword = async (formData: FormData) => {
   const next = await getSafeNext(formData);
-  const email = getRequiredString(formData, "email", "Email", "sign-up", next);
-  const password = getRequiredString(
-    formData,
-    "password",
-    "Password",
-    "sign-up",
-    next,
-  );
+  const email = getRequiredString(formData, "email", "sign-up", next);
+  const password = getRequiredString(formData, "password", "sign-up", next);
   const confirmPassword = getRequiredString(
     formData,
     "confirmPassword",
-    "Confirm password",
     "sign-up",
     next,
   );
   if (password !== confirmPassword) {
-    redirectWithAuthError("Passwords do not match.", "sign-up", next);
+    redirectWithAuthError("password-mismatch", "sign-up", next);
   }
   const headerStore = await headers();
   const origin = headerStore.get("origin");
@@ -113,7 +104,7 @@ export const signUpWithPassword = async (formData: FormData) => {
     },
   });
   if (error) {
-    redirectWithAuthError(error.message, "sign-up", next);
+    redirectWithAuthError(getAuthErrorCode(error.code), "sign-up", next);
   }
   redirect(await resolveAuthRedirectPath(next));
 };

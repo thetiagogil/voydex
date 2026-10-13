@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
-import type { SiteTypeSlug } from "@/features/site/types";
+import type { PublicTypeSlug } from "@/config/public-art";
 
 /* A type's colour as `--t`, the variable every type-tinted surface reads. */
-export const getTypeColourStyle = (type: SiteTypeSlug): CSSProperties =>
+export const getTypeColourStyle = (type: PublicTypeSlug): CSSProperties =>
   ({ "--t": `var(--type-${type})` }) as CSSProperties;

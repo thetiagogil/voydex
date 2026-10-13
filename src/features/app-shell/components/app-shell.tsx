@@ -8,6 +8,7 @@ import {
 import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
+import type { SignedInAccount } from "@/features/app-shell/types";
 import {
   mainlineLinks,
   publicLinks,
@@ -18,6 +19,8 @@ import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
+  /* Who is signed in; null or left out for the signed-out frame. */
+  account?: SignedInAccount | null;
   children: React.ReactNode;
   /*
    * A full-width band between the bar and the page, such as Home's meadow.
@@ -25,32 +28,35 @@ type AppShellProps = {
    */
   hero?: React.ReactNode;
   showAuthAction?: boolean;
-  userEmail?: string | null;
+  /* The signed-out bar's name beside the V tile; Home leaves it to the meadow. */
+  showBrandName?: boolean;
 };
 
 /*
  * v3's two bars. Signed in: the V tile, Mainline's sections in the middle,
  * the Codex and your icon on the right; on phones and tablets the sections
  * and You move to a bottom bar. Signed out: the V tile with the name, how it
- * works and the Codex, and Log in; on phones the links fold into a menu. The
+ * works and the Codex, and Log in; on phones the links fold into a menu with
+ * Start a Play. Home's bar shows the tile alone: the meadow carries the name. The
  * signed-out frame ends on the site footer.
  */
 export const AppShell = ({
+  account,
   children,
   hero,
   showAuthAction = true,
-  userEmail,
+  showBrandName = true,
 }: AppShellProps) => {
   return (
     <div
       className={cn(
         "relative isolate flex min-h-svh w-full flex-col",
-        userEmail
+        account
           ? "pb-[calc(4.75rem+env(safe-area-inset-bottom))] [--toast-bottom:5.75rem] lg:pb-0 lg:[--toast-bottom:1.5rem]"
           : "[--toast-bottom:1.5rem]",
       )}
     >
-      {userEmail ? (
+      {account ? (
         <AppNavbar
           center={
             <NavigationLinks
@@ -62,13 +68,13 @@ export const AppShell = ({
           end={
             <div className="hidden items-center gap-2.5 lg:flex">
               <CodexUtilityLink />
-              <UserMenu email={userEmail} />
+              <UserMenu account={account} />
             </div>
           }
         />
       ) : (
         <AppNavbar
-          showName
+          showName={showBrandName}
           center={
             <NavigationLinks
               ariaLabel="Main"
@@ -97,7 +103,7 @@ export const AppShell = ({
           {children}
         </div>
       </main>
-      {userEmail ? <AppTabBar email={userEmail} /> : <SiteFooter />}
+      {account ? <AppTabBar account={account} /> : <SiteFooter />}
       <Toaster />
     </div>
   );

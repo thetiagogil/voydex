@@ -36,6 +36,12 @@ export const publicLinks: readonly AppNavigationLink[] = [
   codexLink,
 ];
 
+/* Signed-out phones: the menu leads with Start a Play, which begins at Sign up. */
+export const publicMenuLinks: readonly AppNavigationLink[] = [
+  { href: `${appRoutes.login}?mode=sign-up`, label: "Start a Play" },
+  ...publicLinks,
+];
+
 export const isCurrentLink = (pathname: string, link: AppNavigationLink) => {
   const section = link.section ?? link.href;
 

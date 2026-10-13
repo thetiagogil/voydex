@@ -1,9 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 
-import { MomentMedallion } from "@/features/site/components/stills/moment-medallion";
-import { PlayHeaderStill } from "@/features/site/components/stills/play-header-still";
-import { PokemonRender } from "@/features/site/components/stills/pokemon-render";
-import { TeamSticker } from "@/features/site/components/stills/team-sticker";
+import type { PublicArt, PublicPlayArt } from "@/config/public-art";
+import { PokemonRender } from "@/features/site/components/pokemon-render";
 import {
   introCodexEntries,
   introGamePicks,
@@ -16,7 +14,7 @@ import {
   samplePlayPokedex,
   samplePlayTeam,
 } from "@/features/site/data/sample-play";
-import type { SiteArt, SiteBadgeStamp } from "@/features/site/types";
+import { getTypeColourStyle } from "@/features/site/utils/type-colour";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
@@ -24,8 +22,9 @@ import { cn } from "@/shared/utils/cn";
 const stampTilts = [-6, 4, -3, 7, -5, 3, -7, 5];
 
 /*
- * A drawing of a screen on the inset fill. It is a picture, so it is one
- * image to a screen reader, described by its label.
+ * A screen drawn with the app's own pieces on the inset fill. It is a
+ * picture, so it is one image to a screen reader, described by its label,
+ * and inert: nothing inside it can be focused or pressed.
  */
 const IntroStage = ({
   children,
@@ -39,6 +38,7 @@ const IntroStage = ({
   <div
     role="img"
     aria-label={label}
+    inert
     className={cn(
       "bg-surface-2 flex flex-col gap-4.5 rounded-lg p-3.5 sm:rounded-xl sm:p-6",
       className,
@@ -63,9 +63,15 @@ const StageRow = ({
   </div>
 );
 
-export const StartAPlayStage = ({ art }: { art: SiteArt }) => (
+export const StartAPlayStage = ({
+  art,
+  playArt,
+}: {
+  art: PublicArt;
+  playArt: PublicPlayArt;
+}) => (
   <IntroStage
-    label={`Pick a game: ${introGamePicks.map((game) => game.name).join(", ")}, with ${samplePlay.game.name} picked. Your Play: ${samplePlay.name}, tracking its ${samplePlay.tracks.join(", ")}, in its game's colour.`}
+    label={`Pick a game: ${introGamePicks.map((game) => game.name).join(", ")}, with ${samplePlay.game.name} picked. Your Play: ${samplePlay.name}, in its game's colour.`}
   >
     <StageRow label="Pick a game">
       <div className="no-scrollbar -mx-3.5 -mt-2 -mb-1.5 flex items-end gap-3 overflow-x-auto px-3.5 pt-2 pb-3.5 sm:m-0 sm:overflow-visible sm:p-0">
@@ -96,7 +102,9 @@ export const StartAPlayStage = ({ art }: { art: SiteArt }) => (
       </div>
     </StageRow>
     <StageRow label="Your Play">
-      <PlayHeaderStill art={art} />
+      <div style={art.gameColour(samplePlay.game.slug)} className="game-scope">
+        {playArt.playHeader(samplePlay)}
+      </div>
     </StageRow>
   </IntroStage>
 );
@@ -109,10 +117,10 @@ const pokedexCaptions = {
 
 export const RecordAsYouGoStage = ({
   art,
-  badgeStamp,
+  playArt,
 }: {
-  art: SiteArt;
-  badgeStamp: SiteBadgeStamp;
+  art: PublicArt;
+  playArt: PublicPlayArt;
 }) => (
   <IntroStage
     label={`Team: ${samplePlayTeam.map((pokemon) => pokemon.name).join(", ")}. Gym badges: all eight stamped. Pokédex: ${samplePlayPokedex.map((entry) => `${entry.name} ${pokedexCaptions[entry.state].label.toLowerCase()}`).join(", ")}.`}
@@ -121,7 +129,13 @@ export const RecordAsYouGoStage = ({
     <StageRow label="Team">
       <div className="grid grid-cols-3 gap-2">
         {samplePlayTeam.map((pokemon) => (
-          <TeamSticker key={pokemon.sprite_slug} art={art} pokemon={pokemon} />
+          <span
+            key={pokemon.sprite_slug}
+            style={getTypeColourStyle(pokemon.type)}
+            className="sticker grid aspect-square place-items-center rounded-md"
+          >
+            <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
+          </span>
         ))}
       </div>
     </StageRow>
@@ -129,7 +143,10 @@ export const RecordAsYouGoStage = ({
       <div className="grid grid-cols-[repeat(4,42px)] gap-3 p-1">
         {samplePlayBadges.map((badge, index) => (
           <Fragment key={badge.name}>
-            {badgeStamp({ tilt: stampTilts[index] ?? 0, type: badge.type })}
+            {playArt.badgeStamp({
+              tilt: stampTilts[index] ?? 0,
+              type: badge.type,
+            })}
           </Fragment>
         ))}
       </div>
@@ -166,48 +183,32 @@ export const RecordAsYouGoStage = ({
   </IntroStage>
 );
 
-export const LookBackStage = ({ art }: { art: SiteArt }) => (
+export const LookBackStage = ({ playArt }: { playArt: PublicPlayArt }) => (
   <IntroStage
     label={`Three moments from the Play's history: ${samplePlayHistory.map((record) => record.kicker).join("; ")}.`}
   >
     <div className="bg-surface divide-line divide-y rounded-lg px-4 sm:px-4.5">
       {samplePlayHistory.map((record) => (
-        <div
-          key={record.kicker}
-          className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-4 py-3.5"
-        >
-          <MomentMedallion art={art} moment={record.moment} />
-          <div className="min-w-0">
-            <p className="text-ink-3 text-[12.5px] font-bold">
-              {record.kicker}
-            </p>
-            <p
-              className={cn(
-                "text-ink text-[15.5px] font-semibold",
-                record.moment.kind === "note" && "leading-[1.55] italic",
-              )}
-            >
-              {record.headline.map((part) =>
-                typeof part === "string" ? (
-                  part
-                ) : (
-                  <b key={part.bold} className="font-extrabold">
-                    {part.bold}
-                  </b>
-                ),
-              )}
-            </p>
-            {record.description ? (
-              <p className="text-14 text-ink-2">{record.description}</p>
-            ) : null}
-          </div>
-        </div>
+        <Fragment key={record.kicker}>
+          {playArt.recordRow({
+            description: record.description,
+            headline: record.headline.map((part) =>
+              typeof part === "string" ? (
+                part
+              ) : (
+                <b key={part.bold}>{part.bold}</b>
+              ),
+            ),
+            kicker: record.kicker,
+            moment: record.moment,
+          })}
+        </Fragment>
       ))}
     </div>
   </IntroStage>
 );
 
-export const PlanATeamStage = ({ art }: { art: SiteArt }) => (
+export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
   <IntroStage
     label={`A Plan called ${introPlan.name}: ${introPlan.picks.map((pokemon) => pokemon.name).join(", ")}, with ${introPlan.slots - introPlan.picks.length} slots still open.`}
     className="flex-1 justify-center gap-3 sm:p-4.5"
@@ -232,17 +233,14 @@ export const PlanATeamStage = ({ art }: { art: SiteArt }) => (
       {Array.from(
         { length: introPlan.slots - introPlan.picks.length },
         (_, index) => (
-          <span
-            key={index}
-            className="border-dash aspect-square rounded-md border-[2.5px] border-dashed"
-          />
+          <span key={index} className="empty-slot aspect-square rounded-md" />
         ),
       )}
     </div>
   </IntroStage>
 );
 
-export const CodexStage = ({ art }: { art: SiteArt }) => (
+export const CodexStage = ({ art }: { art: PublicArt }) => (
   <IntroStage
     label={`Codex entries for ${introCodexEntries.map((entry) => entry.name).join(", ")}.`}
     className="flex-1 justify-center gap-3 sm:p-4.5"

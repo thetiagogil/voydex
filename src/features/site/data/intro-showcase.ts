@@ -1,14 +1,18 @@
-import type { SitePokemon, SiteTypeSlug } from "@/features/site/types";
+import type {
+  PublicGame,
+  PublicPokemon,
+  PublicTypeSlug,
+} from "@/config/public-art";
 
 /* One Play, told by its partner: Grookey on day one, Thwackey along the way, Rillaboom months later. */
 export const introChapterPartners = {
   dayOne: { name: "Grookey", sprite_slug: "grookey", type: "grass" },
   alongTheWay: { name: "Thwackey", sprite_slug: "thwackey", type: "grass" },
   monthsLater: { name: "Rillaboom", sprite_slug: "rillaboom", type: "grass" },
-} as const satisfies Record<string, SitePokemon>;
+} as const satisfies Record<string, PublicPokemon>;
 
 /* The games on the "Pick a game" shelf; the example Play's game is the one picked. */
-export const introGamePicks: readonly { name: string; slug: string }[] = [
+export const introGamePicks: readonly PublicGame[] = [
   { name: "Pokémon Red", slug: "red" },
   { name: "Pokémon HeartGold", slug: "heartgold" },
   { name: "Pokémon X", slug: "x" },
@@ -19,7 +23,7 @@ export const introGamePicks: readonly { name: string; slug: string }[] = [
 /* A Plan in the making: four picks and two open slots. */
 export const introPlan: {
   name: string;
-  picks: readonly SitePokemon[];
+  picks: readonly PublicPokemon[];
   slots: number;
 } = {
   name: "Galar sweep",
@@ -32,9 +36,9 @@ export const introPlan: {
   slots: 6,
 };
 
-export const introCodexEntries: readonly (SitePokemon & {
+export const introCodexEntries: readonly (PublicPokemon & {
   number: string;
-  types: readonly SiteTypeSlug[];
+  types: readonly PublicTypeSlug[];
 })[] = [
   {
     name: "Arcanine",

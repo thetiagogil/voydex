@@ -1,38 +1,44 @@
 import type {
-  SiteMoment,
-  SitePokemon,
-  SiteTypeSlug,
-} from "@/features/site/types";
+  PublicMoment,
+  PublicPokemon,
+  PublicSamplePlay,
+  PublicTypeSlug,
+} from "@/config/public-art";
 
 /*
  * The example Play the public pages show ("Here's one."): a late Pokémon
  * Sword run. Every name, date and number below is the example's, drawn as
  * copy; none of it is anyone's data.
  */
-const grookey: SitePokemon = {
+const grookey: PublicPokemon = {
   name: "Grookey",
   sprite_slug: "grookey",
   type: "grass",
 };
-const toxtricity: SitePokemon = {
+const toxtricity: PublicPokemon = {
   name: "Toxtricity",
   sprite_slug: "toxtricity",
   type: "electric",
 };
 
-export const samplePlay = {
-  eyebrow: "Pokémon Sword · Galar · Generation VIII",
-  game: { name: "Pokémon Sword", slug: "sword" },
+export const samplePlay: PublicSamplePlay = {
+  game: {
+    generation: "Generation VIII",
+    name: "Pokémon Sword",
+    region: "Galar",
+    slug: "sword",
+  },
   name: "Sword · Late Journey",
-  playtime: "32h 54m",
+  playtimeMinutes: 32 * 60 + 54,
+  startedOn: "2025-05-07",
+  status: "Playing",
   tabs: ["Overview", "Team", "Progress", "History", "Settings"],
-  tracks: ["Story", "Pokédex", "Collectibles"],
-  trainer: "Trainer Bea",
-} as const;
+  trainer: "Bea",
+};
 
 type SampleStoryBeat = {
   detail: string;
-  moment: SiteMoment;
+  moment: PublicMoment;
   title: string;
   when: string;
 };
@@ -72,7 +78,7 @@ export const samplePlayStory: {
   next: { detail: "Wyndon Stadium", title: "Champion Cup" },
 };
 
-export const samplePlayTeam: readonly SitePokemon[] = [
+export const samplePlayTeam: readonly PublicPokemon[] = [
   { name: "Rillaboom", sprite_slug: "rillaboom", type: "grass" },
   { name: "Corviknight", sprite_slug: "corviknight", type: "flying" },
   { name: "Drednaw", sprite_slug: "drednaw", type: "water" },
@@ -84,7 +90,7 @@ export const samplePlayTeam: readonly SitePokemon[] = [
 /* Galar's eight gym badges, in order, by their gyms' types. */
 export const samplePlayBadges: readonly {
   name: string;
-  type: SiteTypeSlug;
+  type: PublicTypeSlug;
 }[] = [
   { name: "Grass Badge", type: "grass" },
   { name: "Water Badge", type: "water" },
@@ -96,10 +102,10 @@ export const samplePlayBadges: readonly {
   { name: "Dragon Badge", type: "dragon" },
 ];
 
-type SamplePokedexEntry = SitePokemon & {
+type SamplePokedexEntry = PublicPokemon & {
   number: string;
   state: "caught" | "missing" | "seen";
-  types: readonly SiteTypeSlug[];
+  types: readonly PublicTypeSlug[];
 };
 
 export const samplePlayPokedex: readonly SamplePokedexEntry[] = [
@@ -133,7 +139,7 @@ type SampleRecord = {
   description?: string;
   headline: readonly (string | { bold: string })[];
   kicker: string;
-  moment: SiteMoment;
+  moment: PublicMoment;
 };
 
 /* Three moments from the Play's history, newest first. */

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import type { SignedInAccount } from "@/features/app-shell/types";
 import { signOut } from "@/features/app-shell/server/sign-out-action";
 import {
   accountLink,
@@ -22,18 +23,20 @@ import { cn } from "@/shared/utils/cn";
 import { getEmailInitials } from "@/shared/utils/email-initials";
 
 type UserMenuProps = {
-  email: string;
+  account: SignedInAccount;
   /* `bar`: your icon at the end of the top bar. `tab`: the You tab of the bottom bar. */
   placement?: "bar" | "tab";
 };
 
 /*
- * You (v3 `.me-menu`): who is signed in, Settings, and Log out at the foot.
+ * You (v3 `.me-menu`): who is signed in and since when, Settings, and Log out
+ * at the foot.
  * A floating layer, so it takes the float shadow and no edge.
  */
-export const UserMenu = ({ email, placement = "bar" }: UserMenuProps) => {
+export const UserMenu = ({ account, placement = "bar" }: UserMenuProps) => {
   const pathname = usePathname();
-  const initials = getEmailInitials(email);
+  const name = account.email ?? "Account";
+  const initials = getEmailInitials(name);
   const isSettingsCurrent = isCurrentLink(pathname, accountLink);
 
   return (
@@ -89,8 +92,13 @@ export const UserMenu = ({ email, placement = "bar" }: UserMenuProps) => {
           <Avatar size="lg">
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
-          <span className="text-16 min-w-0 truncate font-extrabold">
-            {email}
+          <span className="flex min-w-0 flex-col">
+            <span className="text-16 truncate font-extrabold">{name}</span>
+            {account.trainerSince ? (
+              <span className="text-13 text-ink-2 font-semibold">
+                Trainer since {account.trainerSince}
+              </span>
+            ) : null}
           </span>
         </div>
 

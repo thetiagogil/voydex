@@ -5,6 +5,7 @@ import {
   codexLink,
   isCurrentLink,
   mainlineLinks,
+  publicMenuLinks,
 } from "./app-navigation";
 
 describe("app navigation", () => {
@@ -26,5 +27,14 @@ describe("app navigation", () => {
     expect(isCurrentLink("/codexes", codexLink)).toBe(false);
     expect(isCurrentLink("/settings-old", accountLink)).toBe(false);
     expect(isCurrentLink("/settings", accountLink)).toBe(true);
+  });
+
+  it("leads the signed-out phone menu with Start a Play", () => {
+    expect(publicMenuLinks.map((link) => link.label)).toEqual([
+      "Start a Play",
+      "How it works",
+      "Codex",
+    ]);
+    expect(publicMenuLinks[0]?.href).toBe("/login?mode=sign-up");
   });
 });

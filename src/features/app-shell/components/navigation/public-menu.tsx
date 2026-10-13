@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 import {
   isCurrentLink,
-  publicLinks,
+  publicMenuLinks,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
@@ -17,26 +18,33 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
 
-/* Signed-out phones: the bar's links move into a menu behind one icon (v3 `.pub-menu`). */
+/*
+ * Signed-out phones: Start a Play and the bar's links fold into a menu behind
+ * one icon (v3 `.pub-menu`), which turns into a close mark while it is open.
+ */
 export const PublicMenu = ({ className }: { className?: string }) => {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         render={
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Menu"
+            aria-label={open ? "Close the menu" : "Menu"}
             className={cn("rounded-full", className)}
           />
         }
       >
-        <AppIcon icon={appIcons.actions.menu} size="lg" />
+        <AppIcon
+          icon={open ? appIcons.actions.close : appIcons.actions.menu}
+          size="lg"
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-52 p-2">
-        {publicLinks.map((link) => {
+        {publicMenuLinks.map((link) => {
           const isCurrent = isCurrentLink(pathname, link);
 
           return (
