@@ -25,9 +25,7 @@ export const RecentHistorySection = ({
   historyHref,
   startedOn,
 }: RecentHistorySectionProps) => {
-  const moments = events
-    .filter((event) => event.event_type_slug !== "status_change")
-    .slice(0, recentMomentLimit);
+  const moments = events.slice(0, recentMomentLimit);
 
   return (
     <DetailSectionCard

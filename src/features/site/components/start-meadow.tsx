@@ -20,7 +20,7 @@ import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 /* A first partner as Start a Play shows it. */
-export type StartPartner = {
+type StartPartner = {
   imageUrl: string | null;
   name: string;
   speciesSlug: string;
@@ -59,7 +59,7 @@ const getStartHref = (
   partnerSpeciesSlug: string | undefined,
 ) => {
   if (isAuthenticated) {
-    return appRoutes.mainlineNewPlay(gameSlug);
+    return appRoutes.mainlineNewPlay(gameSlug, partnerSpeciesSlug);
   }
 
   const params = new URLSearchParams({ mode: "sign-up" });

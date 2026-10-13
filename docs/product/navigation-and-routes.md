@@ -109,7 +109,8 @@ reference/filter context; they are not currently a required top-level view.
 /auth/callback          every email link
 
 /mainline               Home: ?play= puts one of your Plays on the meadow,
-                        ?new= opens New Play over it (a game slug, or 1)
+                        ?new= opens New Play over it (a game slug, or 1),
+                        with ?partner= its first partner already picked
   /plays                ?view=archived lists archived Plays, each with Restore
     /[playId]
       /team             ?pokemon=, ?add= (with ?form=)
@@ -203,7 +204,8 @@ Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play with the game picked
 Start a Play (game, partner), signed out -> Sign up or Log in
   -> Welcome -> Mainline Home offers that Play
-Start a Play, signed in -> New Play with the game picked
+Start a Play, signed in -> New Play with the game and partner picked
+  (/mainline?new=&partner=)
 ```
 
 Codex is an optional contextual entry, never a required funnel.

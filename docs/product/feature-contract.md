@@ -109,7 +109,9 @@ static reference data, read once on the server through a cached reader and
 handed to Mainline with its layout, so it always opens complete. From outside
 Mainline (the Codex's "Start a {Version} Play", Start a Play signed in) a
 link to `/mainline?new=<game>` (`?new=1` for no game) opens it over Home on
-that game, and the parameter leaves the address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
+that game, with `&partner=<species>` (Start a Play's pick) already choosing
+its first partner when the game offers it, and the parameters leave the
+address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
 choose later), then the Play's name, trainer name and what it tracks
 (expansions you own; Story, the Pokédex mode, Collectibles and challenge rules
 show where their settings will go). Start writes the Play and opens it. The

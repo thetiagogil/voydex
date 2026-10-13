@@ -11,7 +11,7 @@ import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils
 import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
-export type HomeTeamMember = {
+type HomeTeamMember = {
   id: string;
   imageUrl: string | null;
   name: string;

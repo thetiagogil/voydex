@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
-import { NEW_PLAY_PARAM } from "@/config/routes";
+import { NEW_PLAY_PARAM, NEW_PLAY_PARTNER_PARAM } from "@/config/routes";
 import {
   NewPlayUnavailable,
   NewPlayWizard,
@@ -17,13 +17,15 @@ import {
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 
 /*
- * One opening, on its game when a trigger or the address gave one. A closed
- * opening stays (`isOpen: false`) so the wizard holds still while it leaves.
+ * One opening, on its game (and partner) when a trigger or the address gave
+ * one. A closed opening stays (`isOpen: false`) so the wizard holds still
+ * while it leaves.
  */
 type Opening = {
   gameSlug: string | null;
   id: string;
   isOpen: boolean;
+  partnerSpeciesSlug: string | null;
 };
 
 type NewPlayDialogProviderProps = {
@@ -35,8 +37,9 @@ type NewPlayDialogProviderProps = {
 /*
  * New Play over the page you're on (v3 `npxopen`), for every New Play button
  * in Mainline (`NewPlayTrigger`) and for links from outside it
- * (`appRoutes.mainlineNewPlay`: `?new=<game>`, or `?new=1` for none), whose
- * parameter it drops from the address once open. The address otherwise stays
+ * (`appRoutes.mainlineNewPlay`: `?new=<game>`, maybe with
+ * `&partner=<species>`, or `?new=1` for none), whose parameters it drops from
+ * the address once open. The address otherwise stays
  * the page's, so the bar keeps its place. Starting a Play opens it, and the
  * dialog stands down once you are on another page.
  */
@@ -47,6 +50,10 @@ export const NewPlayDialogProvider = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const requested = searchParams.get(NEW_PLAY_PARAM);
+  const requestedPartner = searchParams.get(NEW_PLAY_PARTNER_PARAM);
+  /* One request: the game and its partner, as the address asked. */
+  const request =
+    requested === null ? null : `${requested}:${requestedPartner ?? ""}`;
   const [intent, setIntent] = useState(data.intent);
   const [opening, setOpening] = useState<Opening | null>(null);
   const [openedOn, setOpenedOn] = useState(pathname);
@@ -62,32 +69,34 @@ export const NewPlayDialogProvider = ({
     close();
   }
 
-  /* `?new=` in the address: open on its game, once per request. */
-  if (requested !== seenRequest) {
-    setSeenRequest(requested);
+  /* `?new=` in the address: open on its game and partner, once per request. */
+  if (request !== seenRequest) {
+    setSeenRequest(request);
 
     if (requested !== null) {
       setOpening({
         gameSlug: requested,
-        id: `address-${requested}`,
+        id: `address-${request}`,
         isOpen: true,
+        partnerSpeciesSlug: requestedPartner,
       });
     }
   }
 
-  /* Then drop it from the address, without a navigation. */
+  /* Then drop them from the address, without a navigation. */
   useEffect(() => {
-    if (requested === null) return;
+    if (request === null) return;
 
     const url = new URL(window.location.href);
 
     url.searchParams.delete(NEW_PLAY_PARAM);
+    url.searchParams.delete(NEW_PLAY_PARTNER_PARAM);
     window.history.replaceState(
       null,
       "",
       `${url.pathname}${url.search}${url.hash}`,
     );
-  }, [requested]);
+  }, [request]);
 
   const opener = useMemo<NewPlayDialogOpener>(
     () => ({
@@ -103,6 +112,7 @@ export const NewPlayDialogProvider = ({
           gameSlug: options?.gameSlug ?? null,
           id: `trigger-${triggerCount.current}`,
           isOpen: true,
+          partnerSpeciesSlug: null,
         });
       },
     }),
@@ -131,7 +141,7 @@ export const NewPlayDialogProvider = ({
                 ...data.picker,
                 initial: resolveNewPlayInitialChoice(
                   data.picker.games,
-                  opening.gameSlug,
+                  opening,
                   intent,
                 ),
               }}

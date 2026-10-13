@@ -1,5 +1,7 @@
 /* Mainline's parameter that opens New Play: a game slug, or `1` for none. */
 export const NEW_PLAY_PARAM = "new";
+/* With `?new=<game>`, the first partner New Play opens with picked. */
+export const NEW_PLAY_PARTNER_PARAM = "partner";
 
 export const appRoutes = {
   appEntry: "/app",
@@ -30,11 +32,19 @@ export const appRoutes = {
   /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
   mainline: "/mainline",
   /*
-   * Mainline Home with New Play open over it, optionally with its game
-   * already picked. The dialog drops the parameter from the address once open.
+   * Mainline Home with New Play open over it, optionally with its game (and
+   * that game's partner) already picked. The dialog drops both parameters
+   * from the address once open.
    */
-  mainlineNewPlay: (gameSlug?: string) =>
-    `/mainline?${NEW_PLAY_PARAM}=${gameSlug ? encodeURIComponent(gameSlug) : "1"}`,
+  mainlineNewPlay: (gameSlug?: string, partnerSpeciesSlug?: string) => {
+    const query = new URLSearchParams({ [NEW_PLAY_PARAM]: gameSlug || "1" });
+
+    if (gameSlug && partnerSpeciesSlug) {
+      query.set(NEW_PLAY_PARTNER_PARAM, partnerSpeciesSlug);
+    }
+
+    return `/mainline?${query.toString()}`;
+  },
   /* Mainline Home with one of your Plays on the meadow. */
   mainlineHomePlay: (playId: string) =>
     `/mainline?play=${encodeURIComponent(playId)}`,
@@ -114,7 +124,7 @@ export const appRoutes = {
   you: "/you",
 } as const;
 
-export const protectedRoutePrefixes = [
+const protectedRoutePrefixes = [
   appRoutes.mainline,
   appRoutes.settings,
   appRoutes.welcome,

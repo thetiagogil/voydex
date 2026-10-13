@@ -1,9 +1,14 @@
+import { cache } from "react";
+
 import {
   parseStartIntent,
   START_INTENT_METADATA_KEY,
   type StartIntent,
 } from "@/config/start-intent";
-import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import {
+  createServerSupabaseClient,
+  type ServerSupabaseClient,
+} from "@/platform/supabase/server-client";
 
 /*
  * The game (and partner) picked on Start a Play before signing up, stored on
@@ -22,6 +27,14 @@ export const readStartIntent = async (
 
   return parseStartIntent(data.user.user_metadata?.[START_INTENT_METADATA_KEY]);
 };
+
+/*
+ * The wish, read once per request for the pages that show it: the Mainline
+ * layout (New Play) and Home. Actions read it fresh with `readStartIntent`.
+ */
+export const readSignedInStartIntent = cache(async () =>
+  readStartIntent(await createServerSupabaseClient()),
+);
 
 /* Forgets the wish once its Play is started or the trainer says not now. */
 export const clearStartIntent = async (supabase: ServerSupabaseClient) => {

@@ -1,4 +1,9 @@
 import {
+  HOME_HIDDEN_MOMENT_TYPES,
+  HOME_MOMENT_COUNT,
+  toHomeMoments,
+} from "@/modules/mainline/features/home/data/home-moments-model";
+import {
   toHomePlay,
   type HomePlay,
 } from "@/modules/mainline/features/home/data/home-play-model";
@@ -13,8 +18,8 @@ import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays
 import { readMainlinePlayTimelinePreview } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/server/play-library-reader";
 import { readNewPlayPickerData } from "@/modules/mainline/features/plays/shared/server/new-play-picker-query";
-import { readStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
-import { readTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
+import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
+import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
 import {
   readGameCatalogue,
@@ -149,44 +154,38 @@ const readPartnerChoice = async (
     : null;
 };
 
-const HOME_MOMENT_COUNT = 5;
-
 /*
  * The current Play's latest five moments, oldest first, as Home draws them,
- * and whether anything was recorded before them (one more is read to tell).
+ * and whether anything was recorded before them. Hidden types are left out
+ * in the read, and one more is read to tell.
  */
 const readHomeMoments = async (
   supabase: ServerSupabaseClient,
   play: PlayBrowseItem,
 ): Promise<HomeMomentsData> => {
   const playId = play.play_id ?? "";
-  const read = await readMainlinePlayTimelinePreview(
-    supabase,
-    playId,
-    HOME_MOMENT_COUNT + 1,
+  const { events, hasEarlier } = toHomeMoments(
+    await readMainlinePlayTimelinePreview(
+      supabase,
+      playId,
+      HOME_MOMENT_COUNT + 1,
+      { excludeEventTypeSlugs: HOME_HIDDEN_MOMENT_TYPES },
+    ),
   );
-  const events = read.slice(0, HOME_MOMENT_COUNT);
   const context = await readMainlinePlayMomentContext(supabase, {
     events,
     generationId: play.generation_id,
     playId,
   });
 
-  /* Status changes stay out, as on the Play's own recent moments. */
-  return {
-    context,
-    events: events
-      .filter((event) => event.event_type_slug !== "status_change")
-      .toReversed(),
-    hasEarlier: read.length > HOME_MOMENT_COUNT,
-  };
+  return { context, events, hasEarlier };
 };
 
 /* The Play picked before signing up, offered once the trainer has Plays. */
 const readIntentOffer = async (
   supabase: ServerSupabaseClient,
 ): Promise<HomeIntentOffer | null> => {
-  const intent = await readStartIntent(supabase);
+  const intent = await readSignedInStartIntent();
 
   if (!intent) {
     return null;
@@ -224,6 +223,8 @@ const readIntentOffer = async (
  * Mainline Home: with no Plays, the picker that starts one (and the game
  * picked before signing up); otherwise the shelf of Plays, the current one's
  * team on the meadow and its latest moments. `?play=` picks the current one.
+ * The trainer name and the wish are the request's shared reads, which the
+ * Mainline layout's New Play reads too.
  */
 export const getHomePageData = async (
   requestedPlayId: string | null,
@@ -231,14 +232,14 @@ export const getHomePageData = async (
   const supabase = await createServerSupabaseClient();
   const userId = await getSignedInTrainerId(supabase);
   const [displayName, browseItems] = await Promise.all([
-    readTrainerDisplayName(supabase, userId),
+    readSignedInTrainerDisplayName(),
     readMainlinePlayLibrary(supabase, userId),
   ]);
 
   if (!browseItems.length) {
     const [picker, intent] = await Promise.all([
-      readNewPlayPickerData(supabase, userId),
-      readStartIntent(supabase),
+      readNewPlayPickerData(),
+      readSignedInStartIntent(),
     ]);
 
     return {

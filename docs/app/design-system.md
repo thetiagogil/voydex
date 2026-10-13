@@ -153,10 +153,9 @@ Restyled primitives under `src/shared/components/ui` keep their names and APIs:
 quiet buttons with their 3px neutral lip; `ghost` and `link` are flat;
 `destructive` is the danger outline), `Card` (`default` clay edge,
 `inset`, `interactive`, `bare`), `Badge`, `Dialog`, `Sheet`, `DropdownMenu`,
-`Select`, `Tabs`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
+`Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
 `Switch`, `Progress` (how far along, in the context colour),
-`NavigationMenu`. `Tabs` has no screen yet; it is kept on purpose for the
-account preferences still to come. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
+`NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:
 
 - **`Meter`** (`ui/meter.tsx`): a measurement on a known scale (role `meter`),

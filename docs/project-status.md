@@ -32,7 +32,8 @@ the evidence for exact implementation details.
 ### Mainline
 
 - Mainline Home (`/mainline`), New Play (a dialog over any Mainline
-  page; links from outside open it with `/mainline?new=`), the Team
+  page; links from outside open it with `/mainline?new=`, plus `&partner=`
+  from Start a Play), the Team
   Planner (`/mainline/plans/new`, `/mainline/plans/[planId]`), My Plans
   (`/mainline/plans`), Statistics (`/mainline/stats`) and Collection
   (`/mainline/collection`) are built on real data; see the

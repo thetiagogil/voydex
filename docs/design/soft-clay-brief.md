@@ -117,7 +117,7 @@ What is loud on each screen. Anything not mentioned stays as v3 draws it.
 
 ## 7. Components to build first
 
-Restyled shadcn primitives (Button, Dialog, Sheet, Menu, Select, Tabs, Tooltip, Input, Switch) plus Voydex components:
+Restyled shadcn primitives (Button, Dialog, Sheet, Menu, Select, Tooltip, Input, Switch) plus Voydex components:
 
 1. **PlayHeader** and its docked bar (game colour, texture, Fredoka name, cover, 5px game lip) and Play tabs
 2. **PokemonCard** with caught, seen and missing states

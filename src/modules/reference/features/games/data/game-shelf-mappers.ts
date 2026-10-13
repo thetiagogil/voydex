@@ -32,7 +32,7 @@ import type {
 } from "@/modules/reference/shared/database-types";
 import { byId } from "@/shared/utils/collections";
 
-export type GameShelfRows = {
+type GameShelfRows = {
   gamePlatforms: GamePlatform[];
   games: Game[];
   generations: Generation[];

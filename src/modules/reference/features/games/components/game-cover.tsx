@@ -57,7 +57,7 @@ const coverSizeClassNames = {
   },
 } as const;
 
-export type GameCoverSize = keyof typeof coverSizeClassNames;
+type GameCoverSize = keyof typeof coverSizeClassNames;
 
 const coverShapeClassNames: Record<GameCoverShape, string> = {
   landscape: "aspect-[28/25]",
