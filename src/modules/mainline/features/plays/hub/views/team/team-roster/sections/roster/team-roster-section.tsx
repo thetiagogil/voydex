@@ -31,7 +31,7 @@ type TeamRosterStickerProps = {
   slotName: string;
 };
 
-/* A roster Pokémon as a compact sticker; picked, it wears the Play's colour. */
+/* A roster Pokémon as a compact sticker; picked, a ring in the Play's colour. */
 const TeamRosterSticker = ({
   member,
   onSelect,

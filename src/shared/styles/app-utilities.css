@@ -19,9 +19,8 @@
 
 /*
  * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
- * 5px lip tinted by the type. Set --t. Override --sticker-border and
- * --sticker-lip to pick it (the Play's colour), and add a float under the lip
- * with --sticker-shadow.
+ * 5px lip tinted by the type. Set --t. Add a float under the lip with
+ * --sticker-shadow, or `sticker-picked` to mark it as the chosen one.
  */
 @utility sticker {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
@@ -29,6 +28,14 @@
   box-shadow:
     0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
     var(--sticker-shadow, 0 0 transparent);
+}
+
+/*
+ * A picked sticker keeps its own border and type lip; a thin ring in the
+ * Play's colour wraps both, so loud game colours don't flood the card.
+ */
+@utility sticker-picked {
+  --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);
 }
 
 /* The one open slot: anything missing or not yet yours, dashed at one width. */

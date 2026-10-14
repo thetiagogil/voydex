@@ -99,8 +99,7 @@ export const PokemonSticker = ({
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
     variant === "compact" && variantClassName.height,
-    selected &&
-      "[--sticker-border:var(--game)] [--sticker-lip:var(--game-deep)] [--sticker-shadow:0_0_transparent]",
+    selected && "sticker-picked -translate-y-[3px]",
     className,
   );
   const content: ReactNode = (

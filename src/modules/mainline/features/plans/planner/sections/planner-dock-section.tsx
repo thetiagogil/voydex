@@ -301,8 +301,7 @@ export const PlannerDockSection = ({
               )}
               className={cn(
                 "sticker relative flex min-h-32 flex-col rounded-xl",
-                dropTarget === index &&
-                  "[--sticker-border:var(--game)] [--sticker-lip:var(--game-deep)]",
+                dropTarget === index && "sticker-picked",
                 dragFrom === index && "opacity-60",
               )}
             >
