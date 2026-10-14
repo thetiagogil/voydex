@@ -27,7 +27,7 @@ export const ProgressSummarySection = ({
               label={item.label}
               value={item.percent}
               detail={item.detail}
-              className="py-4 first:pt-1 last:pb-0"
+              className="py-2.5 first:pt-0 last:pb-0"
             />
           ))}
         </div>
