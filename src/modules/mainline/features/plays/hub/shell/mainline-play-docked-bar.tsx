@@ -15,8 +15,8 @@ type MainlinePlayDockedBarProps = {
 
 /*
  * Once the Play header scrolls away, it comes back condensed and docks to the
- * top edge, full width: the Play's colour, its lip and rounded bottom
- * corners, and the cover, the name and the same tabs in the page column.
+ * top edge, full width: the Play's colour and its lip on a straight edge,
+ * and the cover, the name and the same tabs in the page column.
  */
 export const MainlinePlayDockedBar = ({
   children,
@@ -77,7 +77,7 @@ export const MainlinePlayDockedBar = ({
             : "invisible -translate-y-[calc(100%+16px)] opacity-0",
         )}
       >
-        <div className="bg-game-soft rounded-b-xl shadow-[0_4px_0_var(--game-lip),var(--shadow-float-value)]">
+        <div className="bg-game-soft shadow-[0_4px_0_var(--game-lip),var(--shadow-float-value)]">
           <div className="page-column flex min-w-0 items-center gap-3 pt-2 pb-2.5">
             <GameCover
               alt=""
