@@ -63,10 +63,34 @@ const sizeClassNames: Record<
 };
 
 const stateClassNames: Record<PokemonCardState, string> = {
-  caught: "sticker px-1 pt-1 pb-2 [--sticker-shadow:var(--shadow-soft-value)]",
+  caught: "sticker [--sticker-shadow:var(--shadow-soft-value)]",
   missing: "empty-slot",
   plain: "border border-line bg-surface",
   seen: "border border-line bg-surface",
+};
+
+/*
+ * Padding per size and state. Each state draws a different border (1px card,
+ * 4px sticker, 2.5px dashed slot), so the padding makes up the difference:
+ * a card keeps one height whatever its state, and marking one never moves
+ * its row.
+ */
+const paddingClassNames: Record<
+  "md" | "sm",
+  Record<PokemonCardState, string>
+> = {
+  md: {
+    caught: "px-[5px] pt-[5px] pb-[9px]",
+    missing: "px-[6.5px] pt-[6.5px] pb-[10.5px]",
+    plain: "px-2 pt-2 pb-3",
+    seen: "px-2 pt-2 pb-3",
+  },
+  sm: {
+    caught: "px-px pt-[3px] pb-[7px]",
+    missing: "px-[2.5px] pt-[4.5px] pb-[8.5px]",
+    plain: "px-1 pt-1.5 pb-2.5",
+    seen: "px-1 pt-1.5 pb-2.5",
+  },
 };
 
 /* The state mark in the top corner: a Poké Ball on white when caught, an eye when seen. */
@@ -133,8 +157,8 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-[3px]",
-        size === "sm" ? "px-1 pt-1.5 pb-2.5" : "px-2 pt-2 pb-3",
         stateClassNames[state],
+        paddingClassNames[size === "sm" ? "sm" : "md"][state],
         pop && "animate-pop",
         className,
       )}
