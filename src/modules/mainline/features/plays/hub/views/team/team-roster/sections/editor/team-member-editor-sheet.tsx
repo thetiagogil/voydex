@@ -362,7 +362,6 @@ export const TeamMemberEditorSheet = ({
               <SegmentedControl
                 ariaLabel="Gender"
                 variant="segment"
-                className="no-scrollbar overflow-x-auto"
                 value={values.gender}
                 onValueChange={(value) => change("gender", value)}
                 options={genderOptions}

@@ -40,7 +40,7 @@ export const SettingsRow = ({
         </div>
       ) : null}
     </div>
-    <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
+    <div className="flex max-w-full min-w-0 shrink-0 flex-wrap items-center gap-2">
       {children}
     </div>
   </div>
