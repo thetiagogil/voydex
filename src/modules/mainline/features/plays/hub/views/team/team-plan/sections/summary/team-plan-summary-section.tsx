@@ -1,28 +1,24 @@
 import type { MainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/types";
-import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
+import { cn } from "@/shared/utils/cn";
 
 import {
   TeamPlanFollowingPill,
-  teamPlanPastIcon,
-  teamPlanToneIcons,
-  teamPlanToneTextClassNames,
+  teamPlanToneDotClassNames,
 } from "../../components/team-plan-pill";
 import {
   getTeamPlanFoundPercent,
   type TeamPlanTone,
 } from "../../team-plan-model";
 
-/* The same marks the target pills carry, so each pill has its entry. */
-const legend: { icon: AppIconComponent; label: string; tone: TeamPlanTone }[] =
-  [
-    { icon: teamPlanToneIcons.ok, label: "Exact", tone: "ok" },
-    { icon: teamPlanToneIcons.warn, label: "Build differs", tone: "warn" },
-    { icon: teamPlanToneIcons.info, label: "Evolution or form", tone: "info" },
-    { icon: teamPlanToneIcons.mute, label: "Not found", tone: "mute" },
-    { icon: teamPlanPastIcon, label: "Retired or replaced", tone: "mute" },
-  ];
+/* v3 `.ps-legend`: one coloured dot per pill colour. */
+const legend: { label: string; tone: TeamPlanTone }[] = [
+  { label: "Exact", tone: "ok" },
+  { label: "Build differs", tone: "warn" },
+  { label: "Evolution or form", tone: "info" },
+  { label: "Not found, retired or replaced", tone: "mute" },
+];
 
 /*
  * v3 `.plan-sum`: how this Play follows the Plan, the Plan's notes, how much
@@ -65,13 +61,14 @@ export const TeamPlanSummarySection = ({
           aria-label="What the target marks mean"
           className="text-13 text-ink-2 mt-3.5 flex flex-wrap gap-x-4 gap-y-2 font-bold"
         >
-          {legend.map(({ icon, label, tone }) => (
+          {legend.map(({ label, tone }) => (
             <li key={label} className="inline-flex items-center gap-1.5">
-              <AppIcon
-                icon={icon}
-                size="sm"
-                strokeWidth={2.6}
-                className={teamPlanToneTextClassNames[tone]}
+              <span
+                aria-hidden
+                className={cn(
+                  "size-2.5 shrink-0 rounded-full",
+                  teamPlanToneDotClassNames[tone],
+                )}
               />
               {label}
             </li>

@@ -39,7 +39,7 @@ new code prefers the role names.
 | Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2`, `ink-3`, `on-ink`, `ink-tint` (secondary text on type or game tints) |
 | Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                            |
 | Action         | `action #3B8360` and `action-lip`, `action-soft`, `link`, `focus`                                                                                   |
-| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `ball`                                                        |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                    |
 | Meadow         | `sky`, `hill`, `hill-2`                                                                                                                             |
 | Context        | `game`, `game-strong`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `select-soft`, `select-ink`                                               |
 | Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                              |
@@ -116,7 +116,9 @@ text-select-ink` (the soft tint of the context colour with deep ink). Where
   deepens only the four palest types so its white label reads; dots keep the
   official colour.
 - **Meaning colours** are small marks (`StatusBadge` tones `ok`, `warn`,
-  `danger`, `gold`, `neutral`), never filled banners.
+  `calm`, `danger`, `gold`, `neutral`), never filled banners. `calm` is v3's
+  quiet blue (`.pstate.info`) for a change that isn't a problem, such as an
+  evolution or form.
 - **Gold** is for what you earned: League stamps, milestones that aren't
   badges, collectibles found.
 

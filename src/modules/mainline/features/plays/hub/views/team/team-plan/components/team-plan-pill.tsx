@@ -24,7 +24,7 @@ import {
 } from "../team-plan-model";
 
 const badgeTones: Record<TeamPlanTone, StatusBadgeTone> = {
-  info: "neutral",
+  info: "calm",
   mute: "neutral",
   ok: "ok",
   warn: "warn",
@@ -38,12 +38,12 @@ export const teamPlanToneIcons: Record<TeamPlanTone, AppIconComponent> = {
   warn: appIcons.actions.edit,
 };
 
-/* Text colour of each tone's mark when it stands alone, as in the legend. */
-export const teamPlanToneTextClassNames: Record<TeamPlanTone, string> = {
-  info: "text-ink-2",
-  mute: "text-ink-3",
-  ok: "text-ok",
-  warn: "text-warn-ink",
+/* v3 `.ps-legend i`: each tone's dot in the legend, the colour of its pill. */
+export const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
+  info: "bg-calm",
+  mute: "bg-mute",
+  ok: "bg-ok",
+  warn: "bg-warn",
 };
 
 /* Retired and replaced matches share one mark, as on the match line. */

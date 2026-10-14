@@ -49,6 +49,10 @@
   --ok-soft: #e1f0e6;
   --ok-soft-2: #d2eadb;
   --ok-line: #9fcdb1;
+  /* v3 `.pstate.info`: a quieter, neutral meaning, such as "evolved or changed form". */
+  --calm: #4e7fb5;
+  --calm-ink: #2f5c8a;
+  --calm-soft: #e0eaf5;
   --ball: #d04c3c;
   --avatar: #f6d9a8;
   --avatar-ink: #6b4a12;
@@ -205,6 +209,9 @@
   --color-ok-soft: var(--ok-soft);
   --color-ok-soft-2: var(--ok-soft-2);
   --color-ok-line: var(--ok-line);
+  --color-calm: var(--calm);
+  --color-calm-ink: var(--calm-ink);
+  --color-calm-soft: var(--calm-soft);
   --color-ball: var(--ball);
   --color-avatar: var(--avatar);
   --color-avatar-ink: var(--avatar-ink);
