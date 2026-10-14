@@ -68,7 +68,8 @@ const StoryBattleRow = ({
         className={cn(
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[34px_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3.5 py-3",
-          "sm:grid-cols-[34px_minmax(0,1fr)_auto_auto] sm:gap-x-3.5 sm:px-[18px] sm:py-3.5",
+          /* Fixed type and verdict columns, so they line up from row to row. */
+          "sm:grid-cols-[34px_minmax(0,1fr)_3rem_8.5rem] sm:gap-x-3.5 sm:px-[18px] sm:py-3.5",
         )}
       >
         <Medallion
@@ -93,9 +94,9 @@ const StoryBattleRow = ({
           types={battle.specialtyTypes}
           badgeDisplay="icon"
           badgeSize="sm"
-          className="hidden gap-1 sm:flex"
+          className="hidden gap-1 justify-self-end sm:flex"
         />
-        <span className="justify-self-end">
+        <span className="justify-self-end sm:justify-self-start">
           {battle.state === "won" ? (
             <StatusBadge tone="ok">
               <AppIcon icon={appIcons.status.active} />
