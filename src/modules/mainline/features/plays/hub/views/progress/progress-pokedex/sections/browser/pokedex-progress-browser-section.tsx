@@ -1,15 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Toolbar } from "@/shared/components/toolbar";
-import { Button } from "@/shared/components/ui/button";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 import {
@@ -100,9 +100,6 @@ export const PokedexProgressBrowserSection = ({
   const [visibleSectionCount, setVisibleSectionCount] = useState(
     INITIAL_VISIBLE_SECTION_COUNT,
   );
-  const [supportsAutomaticLoading, setSupportsAutomaticLoading] =
-    useState(true);
-  const automaticLoadTriggerRef = useRef<HTMLDivElement | null>(null);
   const viewMode = preferredView ?? (isMobile ? "list" : "grid");
   const browseScope =
     browseScopes.find((candidate) => String(candidate.id) === browseScopeId) ??
@@ -181,46 +178,6 @@ export const PokedexProgressBrowserSection = ({
       Math.min(currentCount + 1, filteredSections.length),
     );
   }, [filteredSections.length]);
-
-  useEffect(() => {
-    if (!hasMoreSections || typeof window === "undefined") {
-      return;
-    }
-
-    if (!("IntersectionObserver" in window)) {
-      const fallbackTimer = setTimeout(() => {
-        setSupportsAutomaticLoading(false);
-      }, 0);
-
-      return () => {
-        clearTimeout(fallbackTimer);
-      };
-    }
-
-    const automaticLoadTrigger = automaticLoadTriggerRef.current;
-
-    if (!automaticLoadTrigger) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadNextSection();
-        }
-      },
-      {
-        rootMargin: "900px 0px",
-        threshold: 0,
-      },
-    );
-
-    observer.observe(automaticLoadTrigger);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [hasMoreSections, loadNextSection]);
 
   const resetFilters = () => {
     setQuery("");
@@ -350,19 +307,10 @@ export const PokedexProgressBrowserSection = ({
           </div>
 
           {hasMoreSections ? (
-            supportsAutomaticLoading ? (
-              <div ref={automaticLoadTriggerRef} className="h-px" aria-hidden />
-            ) : (
-              <div className="flex justify-center">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={loadNextSection}
-                >
-                  Show next 60 Pokémon
-                </Button>
-              </div>
-            )
+            <LoadMoreTrigger
+              label="Show next 60 Pokémon"
+              onLoadMore={loadNextSection}
+            />
           ) : null}
         </>
       ) : (

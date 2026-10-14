@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useDeferredValue, useMemo, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -38,12 +31,12 @@ import type {
 } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Toolbar } from "@/shared/components/toolbar";
-import { Button } from "@/shared/components/ui/button";
 
 type PokedexBrowserProps = {
   data: PokedexPageData;
@@ -58,9 +51,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
   const [sortKey, setSortKey] = useState<PokedexSortKey>("national");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
-  const [supportsAutomaticLoading, setSupportsAutomaticLoading] =
-    useState(true);
-  const automaticLoadTriggerRef = useRef<HTMLDivElement | null>(null);
 
   const deferredFilters = useDeferredValue(filters);
 
@@ -110,46 +100,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       ),
     );
   }, [filteredPokemon.length]);
-
-  useEffect(() => {
-    if (!canLoadMore || typeof window === "undefined") {
-      return;
-    }
-
-    if (!("IntersectionObserver" in window)) {
-      const fallbackTimer = setTimeout(() => {
-        setSupportsAutomaticLoading(false);
-      }, 0);
-
-      return () => {
-        clearTimeout(fallbackTimer);
-      };
-    }
-
-    const automaticLoadTrigger = automaticLoadTriggerRef.current;
-
-    if (!automaticLoadTrigger) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadMorePokemon();
-        }
-      },
-      {
-        rootMargin: "900px 0px",
-        threshold: 0,
-      },
-    );
-
-    observer.observe(automaticLoadTrigger);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [canLoadMore, loadMorePokemon]);
 
   const updateFilter = <FilterKey extends keyof PokedexPageFilters>(
     key: FilterKey,
@@ -294,19 +244,10 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
             );
           })}
           {canLoadMore ? (
-            supportsAutomaticLoading ? (
-              <div ref={automaticLoadTriggerRef} className="h-px" aria-hidden />
-            ) : (
-              <div className="flex justify-center">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={loadMorePokemon}
-                >
-                  Show more Pokémon
-                </Button>
-              </div>
-            )
+            <LoadMoreTrigger
+              label="Show more Pokémon"
+              onLoadMore={loadMorePokemon}
+            />
           ) : null}
         </div>
       ) : (
