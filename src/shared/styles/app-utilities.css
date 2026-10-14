@@ -20,7 +20,7 @@
 /*
  * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
  * 5px lip tinted by the type. Set --t. Add a float under the lip with
- * --sticker-shadow, or `sticker-picked` to mark it as the chosen one.
+ * --sticker-shadow, or `sticker-picked` to mark it as the target.
  */
 @utility sticker {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
@@ -31,8 +31,9 @@
 }
 
 /*
- * A picked sticker keeps its own border and type lip; a thin ring in the
- * Play's colour wraps both, so loud game colours don't flood the card.
+ * A sticker marked as the target, such as a planner slot under a drag: it
+ * keeps its own border and type lip, and a thin ring in the Play's colour
+ * wraps both, so loud game colours don't flood the card.
  */
 @utility sticker-picked {
   --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);

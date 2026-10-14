@@ -24,7 +24,10 @@ type PokemonStickerProps = {
   name: string;
   /* Makes the sticker a button that can be picked (see `selected`). */
   onClick?: () => void;
-  /* Picked: the border and lip take the Play's colour. */
+  /*
+   * The one shown beside the grid. Only announced (`aria-pressed`): the
+   * detail beside it already says which one it is.
+   */
   selected?: boolean;
   shiny?: boolean;
   /* A small slot number in the top-left corner. */
@@ -99,7 +102,6 @@ export const PokemonSticker = ({
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
     variant === "compact" && variantClassName.height,
-    selected && "sticker-picked -translate-y-[3px]",
     className,
   );
   const content: ReactNode = (
