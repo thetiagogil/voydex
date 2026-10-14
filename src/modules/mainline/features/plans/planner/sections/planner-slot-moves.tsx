@@ -12,9 +12,10 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import {
-  SearchSelect,
-  type SearchSelectOption,
-} from "@/shared/components/search-select";
+  MoveSlotSelect,
+  type MoveSlotOption,
+} from "@/modules/mainline/shared/components/move-slot-select";
+import { SearchSelect } from "@/shared/components/search-select";
 import { Label } from "@/shared/components/ui/label";
 import { Spinner } from "@/shared/components/ui/spinner";
 
@@ -77,9 +78,11 @@ export const PlannerSlotMoves = ({
   }
 
   const { heldItems, moves } = state.options;
-  const moveOptions: SearchSelectOption[] = moves.map((move) => ({
-    detail: [move.typeName, move.damageClass].filter(Boolean).join(" · "),
+  const moveOptions: MoveSlotOption[] = moves.map((move) => ({
+    category: move.damageClass,
     label: move.name,
+    typeName: move.typeName,
+    typeSlug: move.typeSlug,
     value: String(move.id),
   }));
   /* A saved move its learnset here no longer lists stays visible. */
@@ -121,10 +124,10 @@ export const PlannerSlotMoves = ({
         {moveOptions.length || savedOnly.length ? (
           <div className="grid gap-2 sm:grid-cols-2">
             {picked.map((value, index) => (
-              <SearchSelect
+              <MoveSlotSelect
                 key={index}
-                ariaLabel={`Move ${index + 1}`}
-                placeholder={`Move ${index + 1}: any`}
+                slot={index + 1}
+                emptyLabel="Any move"
                 value={value}
                 onValueChange={(next) => {
                   const moveIds = [...member.moveIds] as PlanMoveSlots;
