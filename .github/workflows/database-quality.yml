@@ -45,6 +45,13 @@ jobs:
         id: install
         run: npm ci
 
+      - name: Install pgFormatter
+        env:
+          PG_FORMATTER_VERSION: "5.11"
+        run: |
+          curl -fsSL "https://github.com/darold/pgFormatter/archive/refs/tags/v${PG_FORMATTER_VERSION}.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "PG_FORMAT_BIN=$RUNNER_TEMP/pgFormatter-${PG_FORMATTER_VERSION}/pg_format" >> "$GITHUB_ENV"
+
       - name: Start local Supabase
         run: npm run db:start
 
