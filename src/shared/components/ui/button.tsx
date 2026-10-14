@@ -24,6 +24,8 @@ const buttonVariants = cva(
         destructive:
           "border-danger-line bg-transparent font-extrabold text-danger hover:bg-danger-soft",
         link: "border-transparent font-bold text-link underline-offset-4 hover:underline",
+        // v3 .sh-act: a quiet action on a tinted band, such as a sheet's head.
+        tint: "border-transparent bg-white/75 font-extrabold text-ink hover:bg-white aria-expanded:bg-white",
       },
       size: {
         // v3 .btn.sm: the main button on the meadow and in dialogs.

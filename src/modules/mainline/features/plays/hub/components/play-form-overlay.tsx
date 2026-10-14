@@ -22,6 +22,8 @@ import { cn } from "@/shared/utils/cn";
 
 /* v3 `.sh-head`: the Pokémon a form is about, on its type's tint. */
 export type PlayFormHero = {
+  /* Under the identity, on the tint: the Pokémon's own actions. */
+  actions?: ReactNode;
   imageUrl: string | null;
   /* Under the title, such as the species, level and types. */
   meta?: ReactNode;
@@ -46,6 +48,8 @@ type PlayFormOverlayProps = {
    * get the bottom sheet.
    */
   presentation?: "dialog" | "side";
+  /* The side sheet's width: v3's 560px (`md`) or 640px (`lg`). */
+  size?: "lg" | "md";
   title: ReactNode;
   /*
    * Pinned under the title, such as a search: the title and it stay in view
@@ -94,6 +98,7 @@ export const PlayFormOverlay = ({
   onOpenChange,
   open,
   presentation = "dialog",
+  size = "md",
   title,
   toolbar,
 }: PlayFormOverlayProps) => {
@@ -125,14 +130,22 @@ export const PlayFormOverlay = ({
     <div
       style={getPokemonTypeCssVariables(hero.type)}
       className={cn(
-        "flex items-center gap-4.5 bg-[color-mix(in_oklab,var(--t)_18%,var(--surface))]",
+        "bg-[color-mix(in_oklab,var(--t)_18%,var(--surface))]",
         usesBottomSheet
-          ? "mt-1 gap-4 rounded-lg p-4"
+          ? "mt-1 rounded-lg p-4"
           : "px-4.5 py-4.5 sm:px-7 sm:pt-5.5",
       )}
     >
-      <HeroArt hero={hero} small={usesBottomSheet} />
-      {titleBlock}
+      <div
+        className={cn(
+          "flex items-center",
+          usesBottomSheet ? "gap-4" : "gap-4.5",
+        )}
+      >
+        <HeroArt hero={hero} small={usesBottomSheet} />
+        {titleBlock}
+      </div>
+      {hero.actions ? <div className="mt-4">{hero.actions}</div> : null}
     </div>
   ) : null;
   const footerRow = footer ? (
@@ -207,7 +220,12 @@ export const PlayFormOverlay = ({
         <SheetContent
           side="right"
           initialFocus={titleRef}
-          className="w-full gap-0 p-0 data-[side=right]:sm:max-w-[480px]"
+          className={cn(
+            "w-full gap-0 p-0",
+            size === "lg"
+              ? "data-[side=right]:sm:max-w-[640px]"
+              : "data-[side=right]:sm:max-w-[560px]",
+          )}
         >
           {content}
           {footerRow}

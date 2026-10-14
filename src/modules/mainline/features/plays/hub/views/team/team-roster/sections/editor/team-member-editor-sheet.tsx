@@ -27,6 +27,10 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PendingData } from "@/shared/components/pending-data";
 import { SearchSelect } from "@/shared/components/search-select";
+import {
+  MoveSlotSelect,
+  type MoveSlotOption,
+} from "@/modules/mainline/shared/components/move-slot-select";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Button } from "@/shared/components/ui/button";
@@ -262,10 +266,12 @@ export const TeamMemberEditorSheet = ({
 
   const selectValue = (value: string) => value || noneValue;
   const fromSelect = (value: string) => (value === noneValue ? "" : value);
-  const moveOptions = [
+  const moveOptions: MoveSlotOption[] = [
     ...(options?.moves ?? []).map((move) => ({
-      detail: [move.typeName, move.damageClass].filter(Boolean).join(" · "),
+      category: move.damageClass,
       label: move.name,
+      typeName: move.typeName,
+      typeSlug: move.typeSlug,
       value: String(move.id),
     })),
     /* Moves it knows that its learnset here doesn't list stay pickable. */
@@ -274,7 +280,12 @@ export const TeamMemberEditorSheet = ({
         (move) =>
           !(options?.moves ?? []).some((option) => option.id === move.id),
       )
-      .map((move) => ({ label: move.name, value: String(move.id) })),
+      .map((move) => ({
+        label: move.name,
+        typeName: move.type?.name ?? null,
+        typeSlug: move.type?.slug ?? null,
+        value: String(move.id),
+      })),
   ];
   const placeLabel =
     member.roster_state_slug === "active"
@@ -297,15 +308,21 @@ export const TeamMemberEditorSheet = ({
       <EditorStep title="Who">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field>
-            <FieldLabel>Species</FieldLabel>
-            <p className="text-15 flex h-12 items-center font-extrabold">
-              {member.species_name}
-              {member.form_name && member.form_name !== member.species_name ? (
-                <span className="text-ink-3 ml-2 font-semibold">
-                  {member.form_name}
-                </span>
-              ) : null}
-            </p>
+            <FieldLabel htmlFor={`${id}-species`}>Species</FieldLabel>
+            {/* It can't change here: Evolve and Change form do that. */}
+            <Input
+              id={`${id}-species`}
+              readOnly
+              value={[
+                member.species_name,
+                member.form_name && member.form_name !== member.species_name
+                  ? member.form_name
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+              className="text-ink-2 cursor-default"
+            />
           </Field>
           <Field>
             <EditorLabel htmlFor={`${id}-nickname`} edited={edited("nickname")}>
@@ -320,7 +337,9 @@ export const TeamMemberEditorSheet = ({
               onChange={(event) => change("nickname", event.target.value)}
             />
           </Field>
-          <Field>
+        </div>
+        <div className="flex flex-wrap items-end gap-x-5.5 gap-y-4">
+          <Field className="w-35">
             <EditorLabel htmlFor={`${id}-level`} edited={edited("level")}>
               Level
             </EditorLabel>
@@ -330,38 +349,38 @@ export const TeamMemberEditorSheet = ({
               inputMode="numeric"
               min={1}
               max={100}
-              placeholder="Not recorded"
+              placeholder="—"
               value={values.level}
               onChange={(event) => change("level", event.target.value)}
             />
           </Field>
-          <Field
-            orientation="horizontal"
-            className="items-center gap-3 self-end pb-3"
-          >
-            <Switch
-              id={`${id}-shiny`}
-              checked={values.isShiny}
-              onCheckedChange={(checked) => change("isShiny", checked)}
-            />
+          {supports.gender ? (
+            <Field className="w-auto">
+              <EditorLabel edited={edited("gender")}>
+                <span id={`${id}-gender`}>Gender</span>
+              </EditorLabel>
+              <SegmentedControl
+                ariaLabel="Gender"
+                variant="segment"
+                value={values.gender}
+                onValueChange={(value) => change("gender", value)}
+                options={genderOptions}
+              />
+            </Field>
+          ) : null}
+          <Field className="w-auto">
             <EditorLabel htmlFor={`${id}-shiny`} edited={edited("isShiny")}>
               Shiny
             </EditorLabel>
+            <div className="flex h-11 items-center">
+              <Switch
+                id={`${id}-shiny`}
+                checked={values.isShiny}
+                onCheckedChange={(checked) => change("isShiny", checked)}
+              />
+            </div>
           </Field>
         </div>
-        {supports.gender ? (
-          <Field>
-            <EditorLabel edited={edited("gender")}>
-              <span id={`${id}-gender`}>Gender</span>
-            </EditorLabel>
-            <SegmentedControl
-              ariaLabel="Gender"
-              value={values.gender}
-              onValueChange={(value) => change("gender", value)}
-              options={genderOptions}
-            />
-          </Field>
-        ) : null}
       </EditorStep>
 
       <EditorStep title="Where" aside={placeLabel}>
@@ -459,10 +478,9 @@ export const TeamMemberEditorSheet = ({
               </legend>
               <div className="grid gap-2.5 sm:grid-cols-2">
                 {values.moveIds.map((moveId, index) => (
-                  <SearchSelect
+                  <MoveSlotSelect
                     key={index}
-                    ariaLabel={`Move ${index + 1}`}
-                    placeholder={`Move ${index + 1}: empty`}
+                    slot={index + 1}
                     value={moveId || null}
                     onValueChange={(value) => {
                       const next = [
@@ -596,6 +614,7 @@ export const TeamMemberEditorSheet = ({
       open={open}
       onOpenChange={close}
       presentation="side"
+      size="lg"
       kicker={placeLabel}
       title={name}
       hero={{
@@ -620,6 +639,16 @@ export const TeamMemberEditorSheet = ({
           </div>
         ),
         type: primaryTypeSlug,
+        actions: (
+          <TeamMemberEditorActions
+            part="head"
+            member={member}
+            options={options}
+            onDone={() => close(false)}
+            onReplace={onReplace}
+            playId={playId}
+          />
+        ),
       }}
       footer={
         <>
@@ -662,18 +691,21 @@ export const TeamMemberEditorSheet = ({
         </>
       }
     >
-      <TeamMemberEditorActions
-        member={member}
-        options={options}
-        onDone={() => close(false)}
-        onReplace={onReplace}
-        playId={playId}
-      />
-      <div className="mt-6">
-        {/* Review hides the form, but Save still submits it. */}
-        <div hidden={isReviewing}>{details}</div>
-        {isReviewing ? review : null}
-      </div>
+      {/* Review hides the form, but Save still submits it. */}
+      <div hidden={isReviewing}>{details}</div>
+      {isReviewing ? review : null}
+      {isReviewing ? null : (
+        <div className="mt-6">
+          <TeamMemberEditorActions
+            part="delete"
+            member={member}
+            options={options}
+            onDone={() => close(false)}
+            onReplace={onReplace}
+            playId={playId}
+          />
+        </div>
+      )}
       {error ? <FieldError className="mt-4">{error}</FieldError> : null}
     </PlayFormOverlay>
   );

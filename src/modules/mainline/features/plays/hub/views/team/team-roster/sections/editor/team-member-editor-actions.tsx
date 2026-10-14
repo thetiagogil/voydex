@@ -39,15 +39,17 @@ import {
 type Confirm = "delete" | "retire" | null;
 
 /*
- * The editor's head actions (v3 `.sh-acts`): Evolve, Change form, Replace
- * and Retire act straight away, each recorded in History; Delete record is
- * for mistakes and asks first. Options the game doesn't offer are left out.
+ * The editor's actions. `head` (v3 `.sh-acts`, on the tinted head): Evolve,
+ * Change form, Replace and Retire act straight away, each recorded in
+ * History; options the game doesn't offer are left out. `delete` (v3
+ * `.ed-del-m`, under the form): Delete record, for mistakes, asks first.
  */
 export const TeamMemberEditorActions = ({
   member,
   onDone,
   onReplace,
   options,
+  part,
   playId,
 }: {
   member: MainlinePlayTeamMember;
@@ -55,6 +57,7 @@ export const TeamMemberEditorActions = ({
   onReplace: () => void;
   /* Null while the editor's options load. */
   options: TeamMemberEditorOptions | null;
+  part: "delete" | "head";
   playId: string;
 }) => {
   const router = useRouter();
@@ -110,95 +113,105 @@ export const TeamMemberEditorActions = ({
 
   return (
     <div className="grid gap-2">
-      <div className="flex flex-wrap gap-2">
-        {evolutions.length > 1 ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              disabled={isPending}
-              render={<Button type="button" variant="outline" size="sm" />}
-            >
-              <AppIcon icon={appIcons.product.evolved} inline="start" />
-              Evolve…
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {evolutions.map((target) => (
-                <DropdownMenuItem
-                  key={target.formId}
-                  onClick={() => evolve(target)}
-                >
-                  {target.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
+      {part === "delete" ? (
+        <div className="border-line grid justify-items-start gap-2 border-t pt-5">
           <Button
             type="button"
-            variant="outline"
+            variant="destructive"
             size="sm"
-            disabled={isPending || evolutions.length === 0}
-            onClick={() => evolutions[0] && evolve(evolutions[0])}
+            disabled={isPending}
+            onClick={() => setConfirm("delete")}
           >
-            <AppIcon icon={appIcons.product.evolved} inline="start" />
-            {evolutions[0] ? `Evolve into ${evolutions[0].name}` : "Evolve"}
+            Delete record
           </Button>
-        )}
-        {forms.length ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              disabled={isPending}
-              render={<Button type="button" variant="outline" size="sm" />}
-            >
-              <AppIcon icon={appIcons.product.formChanged} inline="start" />
-              Change form
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {forms.map((target) => (
-                <DropdownMenuItem
-                  key={target.formId}
-                  onClick={() => changeForm(target)}
+          <p className="text-ink-3 text-13 font-semibold">
+            For mistakes. To record that it left the team, use Retire.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-wrap gap-2">
+            {evolutions.length > 1 ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  disabled={isPending}
+                  render={<Button type="button" variant="tint" size="sm" />}
                 >
-                  {target.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : null}
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          disabled={isPending}
-          onClick={onReplace}
-        >
-          <AppIcon icon={appIcons.product.replaced} inline="start" />
-          Replace
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          disabled={isPending}
-          onClick={() => setConfirm("retire")}
-        >
-          <AppIcon icon={appIcons.product.retired} inline="start" />
-          Retire
-        </Button>
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          disabled={isPending}
-          onClick={() => setConfirm("delete")}
-        >
-          Delete record
-        </Button>
-      </div>
-      {options && !evolutions.length ? (
-        <p className="text-ink-3 text-13 font-semibold">
-          {`${species} doesn't evolve further in this game.`}
-        </p>
-      ) : null}
+                  <AppIcon icon={appIcons.product.evolved} inline="start" />
+                  Evolve…
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {evolutions.map((target) => (
+                    <DropdownMenuItem
+                      key={target.formId}
+                      onClick={() => evolve(target)}
+                    >
+                      {target.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                type="button"
+                variant="tint"
+                size="sm"
+                disabled={isPending || evolutions.length === 0}
+                onClick={() => evolutions[0] && evolve(evolutions[0])}
+              >
+                <AppIcon icon={appIcons.product.evolved} inline="start" />
+                {evolutions[0] ? `Evolve into ${evolutions[0].name}` : "Evolve"}
+              </Button>
+            )}
+            {forms.length ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  disabled={isPending}
+                  render={<Button type="button" variant="tint" size="sm" />}
+                >
+                  <AppIcon icon={appIcons.product.formChanged} inline="start" />
+                  Change form
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {forms.map((target) => (
+                    <DropdownMenuItem
+                      key={target.formId}
+                      onClick={() => changeForm(target)}
+                    >
+                      {target.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
+            <Button
+              type="button"
+              variant="tint"
+              size="sm"
+              disabled={isPending}
+              onClick={onReplace}
+            >
+              <AppIcon icon={appIcons.product.replaced} inline="start" />
+              Replace
+            </Button>
+            <Button
+              type="button"
+              variant="tint"
+              size="sm"
+              disabled={isPending}
+              onClick={() => setConfirm("retire")}
+            >
+              <AppIcon icon={appIcons.product.retired} inline="start" />
+              Retire
+            </Button>
+          </div>
+          {options && !evolutions.length ? (
+            <p className="text-ink-2 text-13 font-semibold">
+              {`${species} doesn't evolve further in this game.`}
+            </p>
+          ) : null}
+        </>
+      )}
 
       <AlertDialog
         open={confirm !== null}

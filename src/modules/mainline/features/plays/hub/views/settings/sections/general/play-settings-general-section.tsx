@@ -215,6 +215,7 @@ export const PlaySettingsGeneralSection = ({
         >
           <SegmentedControl
             ariaLabel="Status"
+            variant="segment"
             value={String(values.statusId)}
             onValueChange={(value) => change("statusId", Number(value))}
             options={data.statuses.map((status) => ({
