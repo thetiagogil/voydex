@@ -5,9 +5,9 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000a1', 'authenticated', 'authenticated', 'rpc-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000b2', 'authenticated', 'authenticated', 'rpc-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
-    VALUES
-        ('40000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 2, 'RPC Play'),
-        ('40000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 36, 23, 2, 'RPC Prerequisite Play');
+VALUES
+    ('40000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 2, 'RPC Play'),
+    ('40000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 36, 23, 2, 'RPC Prerequisite Play');
 INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('50000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 1, 'RPC Plan');
 INSERT INTO planning.mainline_team_plan_members (id, team_plan_id, slot, target_species_id, target_form_id, gender, notes)
@@ -63,19 +63,13 @@ SELECT
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150001,
-                p_progress_notes => 'Temporary milestone note',
-                p_decision_option_id => (
-                    SELECT id
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_progress_notes => 'Temporary milestone note', p_decision_option_id => (
+                    SELECT
+                        id
                     FROM tracking.mainline_milestone_decision_options
-                    WHERE milestone_id = 150001
-                        AND slug = 'rowlet'
-                ),
-                p_replace_progress_notes => TRUE,
-                p_replace_decision => TRUE
-            ) $$, 'the owner can replace milestone note and decision details');
+                    WHERE
+                        milestone_id = 150001
+                        AND slug = 'rowlet'), p_replace_progress_notes => TRUE, p_replace_decision => TRUE) $$, 'the owner can replace milestone note and decision details');
 SELECT
     IS ((
             SELECT
@@ -101,14 +95,7 @@ SELECT
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150001,
-                p_progress_notes => NULL,
-                p_decision_option_id => NULL,
-                p_replace_progress_notes => TRUE,
-                p_replace_decision => TRUE
-            ) $$, 'the owner can clear milestone note and decision details');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_progress_notes => NULL, p_decision_option_id => NULL, p_replace_progress_notes => TRUE, p_replace_decision => TRUE) $$, 'the owner can clear milestone note and decision details');
 SELECT
     IS ((
             SELECT
@@ -140,22 +127,16 @@ FROM
     gameplay.mainline_play_pokemon
     CROSS JOIN (
         VALUES (1, 33),
-        (2, 45),
-        (3, 75),
-        (4, 1)) AS move_slots (slot, move_id)
+            (2, 45),
+            (3, 75),
+            (4, 1)) AS move_slots (slot, move_id)
 WHERE
     mainline_play_pokemon.play_id = '40000000-0000-0000-0000-0000000000a1'
     AND mainline_play_pokemon.slot = 1;
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150003,
-                p_mark_prerequisite_milestone_ids => ARRAY[150002],
-                p_create_event => TRUE,
-                p_include_team_snapshot => TRUE
-            ) $$, 'the owner can record a milestone team snapshot');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150003, p_mark_prerequisite_milestone_ids => ARRAY[150002], p_create_event => TRUE, p_include_team_snapshot => TRUE) $$, 'the owner can record a milestone team snapshot');
 SELECT
     IS ((
             SELECT
@@ -163,9 +144,7 @@ SELECT
             FROM
                 gameplay.mainline_play_event_team_snapshots
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            1::bigint,
-            'milestone snapshot records the current active team');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 1::bigint, 'milestone snapshot records the current active team');
 SELECT
     IS ((
             SELECT
@@ -184,12 +163,7 @@ WHERE
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150003,
-                p_create_event => TRUE,
-                p_include_team_snapshot => TRUE
-            ) $$, 'the owner can replace a recorded milestone team snapshot');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150003, p_create_event => TRUE, p_include_team_snapshot => TRUE) $$, 'the owner can replace a recorded milestone team snapshot');
 SELECT
     IS ((
             SELECT
@@ -197,9 +171,7 @@ SELECT
             FROM
                 gameplay.mainline_play_event_team_snapshots
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            1::bigint,
-            're-recording replaces the milestone snapshot without duplicates');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 1::bigint, 're-recording replaces the milestone snapshot without duplicates');
 SELECT
     IS ((
             SELECT
@@ -207,9 +179,7 @@ SELECT
             FROM
                 gameplay.mainline_play_event_team_snapshots
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            'Updated Leaf',
-            'the replacement snapshot reflects the current active team');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 'Updated Leaf', 'the replacement snapshot reflects the current active team');
 -- The seeded Sun / Moon chain is only suggested; make it a hard chain so the cascade has dependents.
 RESET ROLE;
 UPDATE
@@ -227,10 +197,10 @@ WHERE
     AND milestone_id BETWEEN 150002 AND 150006;
 SET LOCAL ROLE authenticated;
 INSERT INTO gameplay.mainline_play_milestone_progress (play_id, milestone_id, completed_at, notes)
-    VALUES
-        ('40000000-0000-0000-0000-0000000000a1', 150004, NOW(), 'Cascade note'),
-        ('40000000-0000-0000-0000-0000000000a1', 150005, NOW(), NULL),
-        ('40000000-0000-0000-0000-0000000000a1', 150006, NOW(), NULL);
+VALUES
+    ('40000000-0000-0000-0000-0000000000a1', 150004, NOW(), 'Cascade note'),
+    ('40000000-0000-0000-0000-0000000000a1', 150005, NOW(), NULL),
+    ('40000000-0000-0000-0000-0000000000a1', 150006, NOW(), NULL);
 INSERT INTO gameplay.mainline_play_milestone_decisions (play_id, milestone_id, decision_option_id)
 SELECT
     '40000000-0000-0000-0000-0000000000a1',
@@ -244,49 +214,17 @@ WHERE
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.mark_mainline_play_milestone_incomplete (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150001,
-                p_expected_affected_milestone_ids => ARRAY[150001, 150002, 150003]
-            ) $$,
-        '40001',
-        'Milestone correction impact changed; review the updated milestone list',
-        'a stale correction preview cannot delete newly affected progress');
-
+            gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_expected_affected_milestone_ids => ARRAY[150001, 150002, 150003]) $$, '40001', 'Milestone correction impact changed; review the updated milestone list', 'a stale correction preview cannot delete newly affected progress');
 CREATE TEMPORARY TABLE milestone_incompletion_result ON COMMIT DROP AS
 SELECT
     *
 FROM
-    gameplay.mark_mainline_play_milestone_incomplete (
-        p_play_id => '40000000-0000-0000-0000-0000000000a1',
-        p_milestone_id => 150001,
-        p_expected_affected_milestone_ids => ARRAY[150001, 150002, 150003, 150004, 150005, 150006]
-    );
-
+    gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_expected_affected_milestone_ids => ARRAY[150001, 150002, 150003, 150004, 150005, 150006]);
 SELECT
-    results_eq (
-        $$
+    results_eq ($$
         SELECT
-            affected_milestone_ids,
-            affected_milestone_count,
-            removed_note_count,
-            removed_decision_count,
-            removed_history_event_count,
-            removed_team_snapshot_count
-        FROM
-            milestone_incompletion_result
-        $$,
-        $$
-        VALUES (
-            ARRAY[150001, 150002, 150003, 150004, 150005, 150006]::integer[],
-            6,
-            1,
-            1,
-            1,
-            1
-        )
-        $$,
-        'correction reports the complete transitive hard-dependency impact');
+            affected_milestone_ids, affected_milestone_count, removed_note_count, removed_decision_count, removed_history_event_count, removed_team_snapshot_count FROM milestone_incompletion_result $$, $$
+        VALUES (ARRAY[150001, 150002, 150003, 150004, 150005, 150006]::integer[], 6, 1, 1, 1, 1) $$, 'correction reports the complete transitive hard-dependency impact');
 SELECT
     IS ((
             SELECT
@@ -305,9 +243,7 @@ SELECT
             FROM
                 gameplay.mainline_play_milestone_decisions
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            0::bigint,
-            'correction removes decisions owned by affected milestones');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 0::bigint, 'correction removes decisions owned by affected milestones');
 SELECT
     IS ((
             SELECT
@@ -326,9 +262,7 @@ SELECT
             FROM
                 gameplay.mainline_play_events
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            1::bigint,
-            'correction preserves unrelated History events');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 1::bigint, 'correction preserves unrelated History events');
 SELECT
     IS ((
             SELECT
@@ -336,9 +270,7 @@ SELECT
             FROM
                 gameplay.mainline_play_event_team_snapshots
             WHERE
-                play_id = '40000000-0000-0000-0000-0000000000a1'),
-            0::bigint,
-            'correction removes affected milestone team snapshots');
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 0::bigint, 'correction removes affected milestone team snapshots');
 SELECT
     IS ((
             SELECT
@@ -354,12 +286,7 @@ SELECT
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (
-                p_play_id => '40000000-0000-0000-0000-0000000000a2',
-                p_milestone_id => 230030,
-                p_mark_prerequisite_milestone_ids => ARRAY[230016, 230023, 230029],
-                p_create_event => FALSE
-            ) $$, 'approved direct prerequisites can be completed atomically with the target milestone');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_mark_prerequisite_milestone_ids => ARRAY[230016, 230023, 230029], p_create_event => FALSE) $$, 'approved direct prerequisites can be completed atomically with the target milestone');
 SELECT
     lives_ok ($$
         SELECT
@@ -464,14 +391,7 @@ SELECT
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.mark_mainline_play_milestone_incomplete (
-                p_play_id => '40000000-0000-0000-0000-0000000000a1',
-                p_milestone_id => 150001,
-                p_expected_affected_milestone_ids => ARRAY[150001]
-            ) $$,
-        '23503',
-        'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1',
-        'another user cannot correct the owner milestone progress');
+            gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_expected_affected_milestone_ids => ARRAY[150001]) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot correct the owner milestone progress');
 SELECT
     throws_ok ($$
         SELECT

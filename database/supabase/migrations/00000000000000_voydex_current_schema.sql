@@ -4437,8 +4437,7 @@ WHERE
             JOIN tracking.mainline_milestone_prerequisites AS nested_prerequisites ON nested_prerequisites.milestone_id = blocking_prerequisites.prerequisite_milestone_id
             JOIN tracking.mainline_milestone_prerequisite_kinds AS nested_kinds ON nested_kinds.id = nested_prerequisites.prerequisite_kind_id
         WHERE
-            nested_kinds.slug IN ('required', 'story-unlock')
-    )
+            nested_kinds.slug IN ('required', 'story-unlock'))
     SELECT
         COALESCE(ARRAY_AGG(blocking_prerequisites.prerequisite_milestone_id ORDER BY blocking_prerequisites.prerequisite_milestone_id), '{}'::integer[])
     INTO
@@ -4562,44 +4561,41 @@ ON CONFLICT ON CONSTRAINT play_milestone_progress_primary_key
         IF p_include_team_snapshot THEN
             DELETE FROM gameplay.mainline_play_event_team_snapshots
             WHERE event_id = v_event_id;
-
             INSERT INTO gameplay.mainline_play_event_team_snapshots (event_id, play_id, play_pokemon_id, position, species_id, form_id, nickname, level, gender, is_shiny, nature_id, ability_id, held_item_id)
-                SELECT
-                    v_event_id,
-                    p_play_id,
-                    mainline_play_pokemon.id,
-                    mainline_play_pokemon.slot,
-                    mainline_play_pokemon.species_id,
-                    mainline_play_pokemon.form_id,
-                    mainline_play_pokemon.nickname,
-                    mainline_play_pokemon.level,
-                    mainline_play_pokemon.gender,
-                    mainline_play_pokemon.is_shiny,
-                    mainline_play_pokemon.nature_id,
-                    mainline_play_pokemon.ability_id,
-                    mainline_play_pokemon.held_item_id
-                FROM
-                    gameplay.mainline_play_pokemon
-                WHERE
-                    mainline_play_pokemon.play_id = p_play_id
-                    AND mainline_play_pokemon.roster_state_id = 1
-                    AND mainline_play_pokemon.slot BETWEEN 1 AND 6
-                ORDER BY
-                    mainline_play_pokemon.slot;
-
+            SELECT
+                v_event_id,
+                p_play_id,
+                mainline_play_pokemon.id,
+                mainline_play_pokemon.slot,
+                mainline_play_pokemon.species_id,
+                mainline_play_pokemon.form_id,
+                mainline_play_pokemon.nickname,
+                mainline_play_pokemon.level,
+                mainline_play_pokemon.gender,
+                mainline_play_pokemon.is_shiny,
+                mainline_play_pokemon.nature_id,
+                mainline_play_pokemon.ability_id,
+                mainline_play_pokemon.held_item_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                mainline_play_pokemon.play_id = p_play_id
+                AND mainline_play_pokemon.roster_state_id = 1
+                AND mainline_play_pokemon.slot BETWEEN 1 AND 6
+            ORDER BY
+                mainline_play_pokemon.slot;
             GET DIAGNOSTICS v_inserted_snapshot_count = ROW_COUNT;
-
             INSERT INTO gameplay.mainline_play_event_team_snapshot_moves (snapshot_id, slot, move_id)
-                SELECT
-                    mainline_play_event_team_snapshots.id,
-                    mainline_play_pokemon_moves.slot,
-                    mainline_play_pokemon_moves.move_id
-                FROM
-                    gameplay.mainline_play_event_team_snapshots
-                    JOIN gameplay.mainline_play_pokemon_moves ON mainline_play_pokemon_moves.play_pokemon_id = mainline_play_event_team_snapshots.play_pokemon_id
-                WHERE
-                    mainline_play_event_team_snapshots.event_id = v_event_id
-                    AND mainline_play_event_team_snapshots.play_id = p_play_id
+            SELECT
+                mainline_play_event_team_snapshots.id,
+                mainline_play_pokemon_moves.slot,
+                mainline_play_pokemon_moves.move_id
+            FROM
+                gameplay.mainline_play_event_team_snapshots
+                JOIN gameplay.mainline_play_pokemon_moves ON mainline_play_pokemon_moves.play_pokemon_id = mainline_play_event_team_snapshots.play_pokemon_id
+            WHERE
+                mainline_play_event_team_snapshots.event_id = v_event_id
+                AND mainline_play_event_team_snapshots.play_id = p_play_id
             ON CONFLICT (snapshot_id,
                 slot)
                 DO NOTHING;
@@ -4652,10 +4648,8 @@ BEGIN
         RAISE EXCEPTION 'milestone_id is required'
             USING ERRCODE = '23502';
     END IF;
-
     PERFORM
         pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(p_play_id::text)::bigint);
-
     IF NOT EXISTS (
         SELECT
             1
@@ -4663,10 +4657,9 @@ BEGIN
             gameplay.mainline_plays
         WHERE
             mainline_plays.id = p_play_id) THEN
-        RAISE EXCEPTION 'Unknown or unavailable play_id %', p_play_id
-            USING ERRCODE = '23503';
-    END IF;
-
+    RAISE EXCEPTION 'Unknown or unavailable play_id %', p_play_id
+        USING ERRCODE = '23503';
+END IF;
     IF NOT EXISTS (
         SELECT
             1
@@ -4675,10 +4668,9 @@ BEGIN
         WHERE
             mainline_play_milestone_progress.play_id = p_play_id
             AND mainline_play_milestone_progress.milestone_id = p_milestone_id) THEN
-        RAISE EXCEPTION 'Milestone % is not completed for play %', p_milestone_id, p_play_id
-            USING ERRCODE = '23514';
-    END IF;
-
+    RAISE EXCEPTION 'Milestone % is not completed for play %', p_milestone_id, p_play_id
+    USING ERRCODE = '23514';
+END IF;
     WITH RECURSIVE dependent_closure AS (
         SELECT
             p_milestone_id AS milestone_id
@@ -4690,8 +4682,7 @@ BEGIN
             JOIN tracking.mainline_milestone_prerequisites AS dependent_prerequisites ON dependent_prerequisites.prerequisite_milestone_id = dependent_closure.milestone_id
             JOIN tracking.mainline_milestone_prerequisite_kinds AS dependent_kinds ON dependent_kinds.id = dependent_prerequisites.prerequisite_kind_id
         WHERE
-            dependent_kinds.slug IN ('required', 'story-unlock')
-    )
+            dependent_kinds.slug IN ('required', 'story-unlock'))
     SELECT
         COALESCE(ARRAY_AGG(DISTINCT dependent_closure.milestone_id ORDER BY dependent_closure.milestone_id), '{}'::integer[])
     INTO
@@ -4700,22 +4691,19 @@ BEGIN
         dependent_closure
         JOIN gameplay.mainline_play_milestone_progress ON mainline_play_milestone_progress.play_id = p_play_id
             AND mainline_play_milestone_progress.milestone_id = dependent_closure.milestone_id;
-
     SELECT
         COALESCE(ARRAY_AGG(DISTINCT expected_id ORDER BY expected_id), '{}'::integer[])
     INTO
         v_expected_affected_milestone_ids
     FROM
         UNNEST(COALESCE(p_expected_affected_milestone_ids, '{}'::integer[])) AS expected (expected_id)
-    WHERE
-        expected_id IS NOT NULL
-        AND expected_id > 0;
-
+WHERE
+    expected_id IS NOT NULL
+    AND expected_id > 0;
     IF v_expected_affected_milestone_ids IS DISTINCT FROM v_affected_milestone_ids THEN
         RAISE EXCEPTION 'Milestone correction impact changed; review the updated milestone list'
             USING ERRCODE = '40001';
     END IF;
-
     SELECT
         COUNT(*) FILTER (WHERE NULLIF (BTRIM(mainline_play_milestone_progress.notes), '') IS NOT NULL)::integer
     INTO
@@ -4725,7 +4713,6 @@ BEGIN
     WHERE
         mainline_play_milestone_progress.play_id = p_play_id
         AND mainline_play_milestone_progress.milestone_id = ANY (v_affected_milestone_ids);
-
     SELECT
         COUNT(*)::integer
     INTO
@@ -4735,7 +4722,6 @@ BEGIN
     WHERE
         mainline_play_milestone_decisions.play_id = p_play_id
         AND mainline_play_milestone_decisions.milestone_id = ANY (v_affected_milestone_ids);
-
     SELECT
         COUNT(DISTINCT mainline_play_events.id)::integer,
         COUNT(DISTINCT mainline_play_events.id) FILTER (WHERE mainline_play_event_team_snapshots.event_id IS NOT NULL)::integer
@@ -4744,30 +4730,24 @@ BEGIN
         v_removed_team_snapshot_count
     FROM
         gameplay.mainline_play_events
-        LEFT JOIN gameplay.mainline_play_event_team_snapshots ON mainline_play_event_team_snapshots.event_id = mainline_play_events.id
-    WHERE
-        mainline_play_events.play_id = p_play_id
-        AND mainline_play_events.milestone_id = ANY (v_affected_milestone_ids);
-
+    LEFT JOIN gameplay.mainline_play_event_team_snapshots ON mainline_play_event_team_snapshots.event_id = mainline_play_events.id
+WHERE
+    mainline_play_events.play_id = p_play_id
+    AND mainline_play_events.milestone_id = ANY (v_affected_milestone_ids);
     DELETE FROM gameplay.mainline_play_events
     WHERE mainline_play_events.play_id = p_play_id
         AND mainline_play_events.milestone_id = ANY (v_affected_milestone_ids);
-
     DELETE FROM gameplay.mainline_play_milestone_decisions
     WHERE mainline_play_milestone_decisions.play_id = p_play_id
         AND mainline_play_milestone_decisions.milestone_id = ANY (v_affected_milestone_ids);
-
     DELETE FROM gameplay.mainline_play_milestone_progress
     WHERE mainline_play_milestone_progress.play_id = p_play_id
         AND mainline_play_milestone_progress.milestone_id = ANY (v_affected_milestone_ids);
-
     GET DIAGNOSTICS v_deleted_progress_count = ROW_COUNT;
-
     IF v_deleted_progress_count <> CARDINALITY(v_affected_milestone_ids) THEN
         RAISE EXCEPTION 'Milestone correction changed while it was being applied'
             USING ERRCODE = '40001';
     END IF;
-
     RETURN QUERY
     SELECT
         v_affected_milestone_ids,
