@@ -70,7 +70,7 @@ export const PokedexProgressEntrySection = ({
               size="sm"
               variant="ghost"
               aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
-              disabled={isPending || everyEntryIsMarked}
+              disabled={everyEntryIsMarked}
               onClick={() => onBulkStateChange(speciesIds, updateMode)}
             >
               Mark all {updateMode}
@@ -80,7 +80,7 @@ export const PokedexProgressEntrySection = ({
               size="sm"
               variant="ghost"
               aria-label={`Unmark all matching entries from ${section.label}`}
-              disabled={isPending || everyEntryIsMissing}
+              disabled={everyEntryIsMissing}
               onClick={() => onBulkStateChange(speciesIds, "missing")}
             >
               Unmark all
