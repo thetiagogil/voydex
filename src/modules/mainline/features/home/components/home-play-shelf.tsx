@@ -21,11 +21,11 @@ type HomePlayShelfProps = {
 };
 
 /*
- * How many Plays show at each width: two on phones, four on tablets, the
+ * How many Plays show at each width: one on phones, four on tablets, the
  * whole shelf on desktop. The rest are hidden by breakpoint (the current one
  * always shows), so the shelf never changes after the first paint.
  */
-const PHONE_PLAY_COUNT = 2;
+const PHONE_PLAY_COUNT = 1;
 const TABLET_PLAY_COUNT = 4;
 
 const getShelfItemClassName = (index: number) =>

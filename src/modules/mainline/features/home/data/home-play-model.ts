@@ -12,10 +12,10 @@ import type { GameCoverShape } from "@/modules/reference/features/games/domain/g
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
 /*
- * Home's shelf holds the latest Plays: six on desktop, four on tablets and
- * two on phones (the rest are hidden by breakpoint, so nothing jumps).
+ * Home's shelf holds the latest Plays: five on desktop, four on tablets and
+ * one on phones (the rest are hidden by breakpoint, so nothing jumps).
  */
-export const HOME_SHELF_PLAY_COUNT = 6;
+export const HOME_SHELF_PLAY_COUNT = 5;
 
 type HomeTeamMember = {
   id: string;
