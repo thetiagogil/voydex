@@ -32,15 +32,20 @@ const TeamAnalysisHealthCard = ({
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    /* v3 `.hcard.lead`: Team health leads on the game's soft tint and lip. */
-    <Card
-      className={cn(
-        "gap-0 px-5.5 py-5",
-        isLead && "bg-game-soft shadow-[0_4px_0_var(--game-lip)]",
-      )}
-    >
+    /*
+     * Team health leads by type and verdict size, not by colour: v3's game
+     * tint clashed with the verdict's meaning colour in red and pink games.
+     */
+    <Card className="gap-0 px-5.5 py-5">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
+        <h3
+          className={cn(
+            "leading-snug",
+            isLead
+              ? "text-20"
+              : "text-15 font-sans font-extrabold tracking-normal",
+          )}
+        >
           {metric.title}
         </h3>
         <ExplanatoryTip
@@ -59,7 +64,8 @@ const TeamAnalysisHealthCard = ({
       <StatusBadge
         tone={statusTones[metric.status]}
         className={cn(
-          "text-13 mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
+          "mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
+          isLead ? "text-15 px-3.5 py-1.5" : "text-13",
           metric.status === "limited-data" && "bg-track",
         )}
       >
