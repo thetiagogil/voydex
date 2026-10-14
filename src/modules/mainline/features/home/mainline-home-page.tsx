@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { appRoutes } from "@/config/routes";
 import { HomeIntentOfferCard } from "@/modules/mainline/features/home/components/home-intent-offer";
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
 import { HomePlaysView } from "@/modules/mainline/features/home/sections/home-plays-view";
@@ -39,9 +42,14 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
           : withName("Welcome back", data.displayName)
       }
       subtitle={
-        data.isFirstPlay
-          ? "Your first Play is right here, whenever you're ready."
-          : "Your teams are right where you left them."
+        data.isFirstPlay ? (
+          "Your first Play is right here, whenever you're ready."
+        ) : (
+          <>
+            Your latest Plays, right where you left them.{" "}
+            <Link href={appRoutes.mainlinePlays}>See all Plays</Link>
+          </>
+        )
       }
       intentOffer={
         data.intentOffer ? (

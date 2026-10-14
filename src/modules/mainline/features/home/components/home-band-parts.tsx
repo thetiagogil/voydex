@@ -7,7 +7,7 @@ export const HomeBandHeading = ({
 }: {
   greeting: string;
   id: string;
-  subtitle: string;
+  subtitle: ReactNode;
 }) => (
   <div className="px-6 pt-8 text-center sm:pt-9">
     <h1
@@ -16,7 +16,7 @@ export const HomeBandHeading = ({
     >
       {greeting}
     </h1>
-    <p className="text-ink-2 mx-auto mt-3 max-w-[34em] text-[16px] leading-relaxed font-semibold sm:text-[18px]">
+    <p className="text-ink-2 *:[a]:text-link mx-auto mt-3 max-w-[34em] text-[16px] leading-relaxed font-semibold sm:text-[18px] *:[a]:font-extrabold *:[a]:whitespace-nowrap *:[a]:underline *:[a]:underline-offset-3">
       {subtitle}
     </p>
   </div>

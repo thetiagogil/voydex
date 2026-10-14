@@ -14,7 +14,7 @@ type HomePlaysViewProps = {
   /* Between the band and the moments: the Play picked before signing up. */
   intentOffer?: ReactNode;
   isFirstPlay: boolean;
-  subtitle: string;
+  subtitle: ReactNode;
 };
 
 /*

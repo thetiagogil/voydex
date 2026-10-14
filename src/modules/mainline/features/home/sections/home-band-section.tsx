@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
@@ -26,7 +27,7 @@ type HomeBandSectionProps = {
   onSelectPlay: (playId: string) => void;
   partnerChoice: HomePartnerChoice | null;
   plays: HomePlay[];
-  subtitle: string;
+  subtitle: ReactNode;
 };
 
 const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
