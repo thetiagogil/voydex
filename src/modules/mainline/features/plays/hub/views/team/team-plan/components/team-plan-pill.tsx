@@ -6,11 +6,7 @@ import {
   getTeamPlanFollowingLabel,
   getTeamPlanStatusLabel,
 } from "../team-plan-display";
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { appIcons } from "@/shared/components/app-icon";
 import {
   StatusBadge,
   type StatusBadgeTone,
@@ -30,15 +26,7 @@ const badgeTones: Record<TeamPlanTone, StatusBadgeTone> = {
   warn: "warn",
 };
 
-/* The tone's mark, shared by the pills and the legend. */
-export const teamPlanToneIcons: Record<TeamPlanTone, AppIconComponent> = {
-  info: appIcons.product.activity,
-  mute: appIcons.product.uncaught,
-  ok: appIcons.status.active,
-  warn: appIcons.actions.edit,
-};
-
-/* v3 `.ps-legend i`: each tone's dot in the legend, the colour of its pill. */
+/* v3 `.ps-legend i`: each tone's dot, in the legend and on its pills. */
 export const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
   info: "bg-calm",
   mute: "bg-mute",
@@ -49,18 +37,11 @@ export const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
 /* Retired and replaced matches share one mark, as on the match line. */
 export const teamPlanPastIcon = appIcons.product.retired;
 
-const getStatusIcon = (status: MainlinePlayTeamPlanStatus) =>
-  status === "retired" || status === "replaced"
-    ? teamPlanPastIcon
-    : teamPlanToneIcons[getTeamPlanStatusTone(status)];
-
-/* v3 `.pstate`: a small meaning pill with its mark. */
+/* v3 `.pstate`: a small meaning pill, led by its legend dot. */
 const TeamPlanPill = ({
-  icon,
   label,
   tone,
 }: {
-  icon: AppIconComponent;
   label: string;
   tone: TeamPlanTone;
 }) => (
@@ -69,7 +50,13 @@ const TeamPlanPill = ({
     tone={badgeTones[tone]}
     className={cn(tone === "mute" && "text-ink-3")}
   >
-    <AppIcon icon={icon} strokeWidth={2.6} />
+    <span
+      aria-hidden
+      className={cn(
+        "size-2 shrink-0 rounded-full",
+        teamPlanToneDotClassNames[tone],
+      )}
+    />
     {label}
   </StatusBadge>
 );
@@ -81,13 +68,7 @@ export const TeamPlanStatusPill = ({
 }) => {
   const tone = getTeamPlanStatusTone(status);
 
-  return (
-    <TeamPlanPill
-      icon={getStatusIcon(status)}
-      label={getTeamPlanStatusLabel(status)}
-      tone={tone}
-    />
-  );
+  return <TeamPlanPill label={getTeamPlanStatusLabel(status)} tone={tone} />;
 };
 
 export const TeamPlanFollowingPill = ({
@@ -97,11 +78,5 @@ export const TeamPlanFollowingPill = ({
 }) => {
   const tone = getTeamPlanFollowingTone(state);
 
-  return (
-    <TeamPlanPill
-      icon={teamPlanToneIcons[tone]}
-      label={getTeamPlanFollowingLabel(state)}
-      tone={tone}
-    />
-  );
+  return <TeamPlanPill label={getTeamPlanFollowingLabel(state)} tone={tone} />;
 };
