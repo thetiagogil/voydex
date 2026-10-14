@@ -50,6 +50,7 @@ import {
   type TeamMemberEditorOptions,
   type TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
+import { getTeamMemberEditorHeadLine } from "../../utils/team-member-display";
 import { TeamMemberEditorActions } from "./team-member-editor-actions";
 
 type OptionsState =
@@ -642,12 +643,7 @@ export const TeamMemberEditorSheet = ({
         meta: (
           <div className="grid gap-2">
             <p className="text-ink-2 text-14 font-semibold">
-              {[
-                member.species_name,
-                values.level.trim() ? `Lv. ${values.level.trim()}` : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
+              {getTeamMemberEditorHeadLine(member)}
             </p>
             <PokemonTypeList
               primaryType={member.primaryType}
