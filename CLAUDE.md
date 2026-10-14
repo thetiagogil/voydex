@@ -135,8 +135,10 @@ Voydex is quiet where you work and loud where you remember. The
 - Fredoka for headings 20px and up, the Play and trainer names and owned
   sticker names; Nunito for everything you operate. Nothing under 16px is
   Fredoka.
-- Loud only for identity and reward; chrome stays quiet. One selected style:
-  `bg-select-soft text-select-ink`.
+- Loud only for identity and reward; chrome stays quiet. Selected rows, chips
+  and filter pills take `bg-select-soft text-select-ink`; a mode switch
+  (`SegmentedControl` `segment`) takes the strong context colour, as v3's
+  `.mode-seg`.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce the retired design;

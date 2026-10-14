@@ -147,3 +147,36 @@ describe("SegmentedControl", () => {
     expect(html).not.toMatch(/<button[^>]*disabled=""/);
   });
 });
+
+describe("SegmentedControl selected tone", () => {
+  const options = [option(), option({ label: "Moves", value: "moves" })];
+
+  it("fills a mode switch's pick with the strong context colour", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl
+        ariaLabel="Mode"
+        variant="segment"
+        options={options}
+        value="pokemon"
+        onValueChange={() => {}}
+      />,
+    );
+
+    expect(markup).toContain("bg-game-strong");
+    expect(markup).not.toContain("bg-select-soft");
+  });
+
+  it("keeps filter pills on the soft tint", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl
+        ariaLabel="Filter"
+        options={options}
+        value="pokemon"
+        onValueChange={() => {}}
+      />,
+    );
+
+    expect(markup).toContain("bg-select-soft");
+    expect(markup).not.toContain("bg-game-strong");
+  });
+});

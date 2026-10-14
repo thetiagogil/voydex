@@ -55,18 +55,19 @@ type SegmentedControlProps<TValue extends string> = {
    */
   size?: "md" | "sm";
   /*
-   * `soft` is the one selected style. `strong` (the context colour's strong
-   * shade with a white label) is for pills that sit on a surface already
-   * wearing the soft tint, such as the game shelf's generation marks on the
-   * meadow, where the soft tint would disappear.
+   * `strong` (the context colour's strong shade with a white label) is v3's
+   * `.mode-seg` pick, the default for a `segment` switch; `soft` is the
+   * selected tint, the default for `pills`. A pill set on a surface already
+   * wearing the soft tint (the game shelf's generation marks on the meadow)
+   * takes `strong` too, where the soft tint would disappear.
    */
   selectedTone?: "soft" | "strong";
   /* `null` when no option is the exact page or value. */
   value: TValue | null;
   /*
    * `pills`: separate cream pills, for filters. `segment`: one inset track,
-   * for a switch between modes; it scrolls sideways rather than overflow. Both share the one selected style: the soft
-   * tint of the context colour with deep ink.
+   * for a switch between modes; it scrolls sideways rather than overflow.
+   * See `selectedTone` for how each marks its pick.
    */
   variant?: "pills" | "segment";
 };
@@ -101,11 +102,13 @@ export const SegmentedControl = <TValue extends string>({
   fullWidth = false,
   onValueChange,
   options,
-  selectedTone = "soft",
+  selectedTone: selectedToneProp,
   size = "md",
   value,
   variant = "pills",
 }: SegmentedControlProps<TValue>) => {
+  const selectedTone =
+    selectedToneProp ?? (variant === "segment" ? "strong" : "soft");
   const isNavigation = options.some((option) => option.href !== undefined);
   const Container = isNavigation ? "nav" : "div";
 

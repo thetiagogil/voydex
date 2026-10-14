@@ -22,6 +22,8 @@ export const AuthModeSwitch = ({ intent, mode, next }: AuthModeSwitchProps) => (
   <SegmentedControl
     ariaLabel="Log in or sign up"
     variant="segment"
+    /* v3's `.formsw`: the form switch keeps the quiet tint. */
+    selectedTone="soft"
     fullWidth
     options={authModeOptions.map((option) => ({
       href: getAuthPageHref({ intent, mode: option.mode, next }),
