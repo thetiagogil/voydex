@@ -28,8 +28,10 @@ const AlertDialogOverlay = ({
   ...props
 }: AlertDialogPrimitive.Backdrop.Props) => {
   return (
+    /* Rendered even over a sheet, so a confirm sits on its own level. */
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-overlay"
+      forceRender
       className={cn(
         "data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 bg-scrim fixed inset-0 isolate z-50 duration-100",
         className,
@@ -86,7 +88,7 @@ const AlertDialogFooter = ({
     <div
       data-slot="alert-dialog-footer"
       className={cn(
-        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2.5 border-t px-6 py-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
+        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2.5 rounded-b-2xl border-t px-6 py-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
         className,
       )}
       {...props}
