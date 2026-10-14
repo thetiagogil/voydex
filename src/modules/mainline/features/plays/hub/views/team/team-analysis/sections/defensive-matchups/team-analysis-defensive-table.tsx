@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
@@ -13,9 +15,13 @@ import {
 
 const headerCellClassName = "px-1 pb-1.5 align-bottom";
 
-/* Rows are read across, so the whole row lifts to the inset fill on hover. */
+/*
+ * Rows are read across and columns down, so the hovered cell's whole row and
+ * whole column lift to the inset fill.
+ */
 const bodyCellClassName =
   "group-hover:bg-surface-2 h-10 p-0 text-center transition-colors";
+const columnHighlightClassName = "bg-surface-2";
 
 /* Desktop and tablet: one row per attacking type, one column per Pokémon (v3 `.matrix`). */
 export const TeamAnalysisDefensiveTable = ({
@@ -27,9 +33,21 @@ export const TeamAnalysisDefensiveTable = ({
   members: MainlinePlayTeamMember[];
   rows: TeamAnalysisDefensiveRow[];
 }) => {
+  /* The hovered column: each Pokémon, then Weak, then Resist. */
+  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
+  const weakColumn = members.length;
+  const resistColumn = members.length + 1;
+  const columnCell = (column: number) => ({
+    className: cn(hoveredColumn === column && columnHighlightClassName),
+    onMouseEnter: () => setHoveredColumn(column),
+  });
+
   return (
     <div className={cn("-mx-2 overflow-x-auto px-2", className)}>
-      <table className="text-14 w-full min-w-160 border-separate border-spacing-x-0 border-spacing-y-1">
+      <table
+        onMouseLeave={() => setHoveredColumn(null)}
+        className="text-14 w-full min-w-160 border-separate border-spacing-x-0 border-spacing-y-1"
+      >
         <caption className="sr-only">
           How each attacking type lands on each of your Pokémon
         </caption>
@@ -38,14 +56,20 @@ export const TeamAnalysisDefensiveTable = ({
             <th scope="col" className={cn(headerCellClassName, "text-left")}>
               Attacking type
             </th>
-            {members.map((member) => {
+            {members.map((member, column) => {
               const name = getPlayTeamMemberName(member);
+              const { className: highlight, onMouseEnter } = columnCell(column);
 
               return (
                 <th
                   key={getTeamAnalysisMemberId(member)}
                   scope="col"
-                  className={headerCellClassName}
+                  onMouseEnter={onMouseEnter}
+                  className={cn(
+                    headerCellClassName,
+                    "rounded-t-sm transition-colors",
+                    highlight,
+                  )}
                 >
                   <TeamAnalysisMemberSprite
                     member={member}
@@ -60,10 +84,26 @@ export const TeamAnalysisDefensiveTable = ({
                 </th>
               );
             })}
-            <th scope="col" className={headerCellClassName}>
+            <th
+              scope="col"
+              onMouseEnter={columnCell(weakColumn).onMouseEnter}
+              className={cn(
+                headerCellClassName,
+                "rounded-t-sm transition-colors",
+                columnCell(weakColumn).className,
+              )}
+            >
               Weak
             </th>
-            <th scope="col" className={headerCellClassName}>
+            <th
+              scope="col"
+              onMouseEnter={columnCell(resistColumn).onMouseEnter}
+              className={cn(
+                headerCellClassName,
+                "rounded-t-sm transition-colors",
+                columnCell(resistColumn).className,
+              )}
+            >
               Resist
             </th>
           </tr>
@@ -76,6 +116,7 @@ export const TeamAnalysisDefensiveTable = ({
               <tr key={row.attackingType.id} className="group">
                 <th
                   scope="row"
+                  onMouseEnter={() => setHoveredColumn(null)}
                   className={cn(
                     bodyCellClassName,
                     "rounded-l-sm pl-2.5 text-left font-normal",
@@ -86,14 +127,23 @@ export const TeamAnalysisDefensiveTable = ({
                     {row.isPressure ? <TeamAnalysisPressureTag /> : null}
                   </span>
                 </th>
-                {row.cells.map((cell) => (
-                  <td key={cell.memberId} className={bodyCellClassName}>
+                {row.cells.map((cell, column) => (
+                  <td
+                    key={cell.memberId}
+                    onMouseEnter={columnCell(column).onMouseEnter}
+                    className={cn(
+                      bodyCellClassName,
+                      columnCell(column).className,
+                    )}
+                  >
                     <TeamAnalysisMatchupCell cell={cell} />
                   </td>
                 ))}
                 <td
+                  onMouseEnter={columnCell(weakColumn).onMouseEnter}
                   className={cn(
                     bodyCellClassName,
+                    columnCell(weakColumn).className,
                     "font-extrabold tabular-nums",
                     row.weakCount >= 2 && "text-danger",
                   )}
@@ -101,8 +151,10 @@ export const TeamAnalysisDefensiveTable = ({
                   {row.weakCount}
                 </td>
                 <td
+                  onMouseEnter={columnCell(resistColumn).onMouseEnter}
                   className={cn(
                     bodyCellClassName,
+                    columnCell(resistColumn).className,
                     "rounded-r-sm pr-2.5 font-extrabold tabular-nums",
                     resistTotal >= 2 && "text-ok",
                   )}
