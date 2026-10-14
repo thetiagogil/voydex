@@ -131,15 +131,14 @@ export const SegmentedControl = <TValue extends string>({
             ? "text-13 h-10 min-w-10 justify-center px-2.5 font-extrabold sm:h-7.5"
             : "text-14 h-10 px-4 font-bold",
           variant === "pills" && !isActive && "bg-surface",
-          variant === "segment" && size === "md" && "h-9 px-3.5",
+          // With its 4px track, as tall as a form field (48px).
+          variant === "segment" && size === "md" && "h-10 px-3.5",
           fullWidth && "flex-1 justify-center",
+          // The weight never changes, so picking one doesn't shift its row.
           isActive
-            ? cn(
-                "font-extrabold",
-                selectedTone === "strong"
-                  ? "bg-game-strong text-white"
-                  : "bg-select-soft text-select-ink",
-              )
+            ? selectedTone === "strong"
+              ? "bg-game-strong text-white"
+              : "bg-select-soft text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           isDisabled && "cursor-not-allowed opacity-45",

@@ -87,7 +87,31 @@ const EditorStep = ({
   </section>
 );
 
-/* A field's label, saying "Edited" (not with colour) once it changed. */
+/*
+ * A field's label, marked once it changed: a dot that takes no width from
+ * the row (so an inline field never wraps), named "Edited" for screen
+ * readers and on hover. The footer lists every change.
+ */
+const EditedMark = ({
+  children,
+  edited,
+}: {
+  children: ReactNode;
+  edited: boolean;
+}) => (
+  <span className="relative">
+    {children}
+    {edited ? (
+      <span
+        title="Edited"
+        className="bg-game-deep absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
+      >
+        <span className="sr-only">, edited</span>
+      </span>
+    ) : null}
+  </span>
+);
+
 const EditorLabel = ({
   children,
   edited,
@@ -98,8 +122,7 @@ const EditorLabel = ({
   htmlFor?: string;
 }) => (
   <FieldLabel htmlFor={htmlFor}>
-    {children}
-    {edited ? <span className="text-game-deep">· Edited</span> : null}
+    <EditedMark edited={edited}>{children}</EditedMark>
   </FieldLabel>
 );
 
@@ -372,7 +395,7 @@ export const TeamMemberEditorSheet = ({
             <EditorLabel htmlFor={`${id}-shiny`} edited={edited("isShiny")}>
               Shiny
             </EditorLabel>
-            <div className="flex h-11 items-center">
+            <div className="flex h-12 items-center">
               <Switch
                 id={`${id}-shiny`}
                 checked={values.isShiny}
@@ -471,10 +494,7 @@ export const TeamMemberEditorSheet = ({
             </div>
             <fieldset className="grid gap-2.5">
               <legend className="text-14 mb-2 font-extrabold">
-                Moves
-                {edited("moveIds") ? (
-                  <span className="text-game-deep"> · Edited</span>
-                ) : null}
+                <EditedMark edited={edited("moveIds")}>Moves</EditedMark>
               </legend>
               <div className="grid gap-2.5 sm:grid-cols-2">
                 {values.moveIds.map((moveId, index) => (

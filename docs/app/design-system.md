@@ -173,9 +173,11 @@ additions:
 `Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. On the page ground a field
 is cream with a 1.5px line; inside a card, dialog, alert dialog, sheet or
 popover it takes the inset fill (`surface-2`) without the line. An invalid
-field takes the danger line; focus is the action-green outline. Inputs are
-48px tall; the search field and default select trigger are 46px. Don't style a
-field locally; extend the shared surface.
+field takes the danger line; focus is the action-green outline. Every form
+control is 48px tall (inputs, the search field, select triggers and the
+`segment` track), so controls side by side line up. Don't style a field
+locally; extend the shared surface. A selected option changes colour, never
+weight, so picking one doesn't shift its row.
 
 Voydex components:
 
