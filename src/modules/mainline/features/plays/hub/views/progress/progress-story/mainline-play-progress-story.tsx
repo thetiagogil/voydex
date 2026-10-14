@@ -203,6 +203,14 @@ export const MainlinePlayProgressStory = ({
         scopes={model.scopes}
       />
 
+      {activeScope.stamps ? (
+        <StoryStampCardSection
+          onSlapEnd={() => setSlappingMilestoneId(null)}
+          slappingMilestoneId={slappingMilestoneId}
+          stamps={activeScope.stamps}
+        />
+      ) : null}
+
       {/*
        * The side column comes first in the DOM, so on phones the next
        * objective is read and reached before the list it sits above.
@@ -221,14 +229,6 @@ export const MainlinePlayProgressStory = ({
             }
             scope={activeScope}
           />
-          {activeScope.stamps ? (
-            <StoryStampCardSection
-              className="order-3 lg:order-none"
-              onSlapEnd={() => setSlappingMilestoneId(null)}
-              slappingMilestoneId={slappingMilestoneId}
-              stamps={activeScope.stamps}
-            />
-          ) : null}
         </div>
 
         <StoryMilestoneList

@@ -1,10 +1,16 @@
+import type { CSSProperties } from "react";
+
 import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
 import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
+/* From tablets up the stamps share one row, wrapping only past ten. */
+const maxStampsPerRow = 10;
+
 /*
- * The stamp card: every badge and the League, tilted like stamps, each with
- * its label. The one you just recorded slaps down once; nothing moves on load.
+ * The stamp card, across the top of Story: every badge and the League in one
+ * row (wrapping on phones), tilted like stamps, each with its label. The one
+ * you just recorded slaps down once; nothing moves on load.
  */
 export const StoryStampCardSection = ({
   className,
@@ -26,10 +32,15 @@ export const StoryStampCardSection = ({
       className={className}
       headerClassName="sm:px-7"
       contentClassName="pt-2 sm:px-7"
+      style={
+        {
+          "--stamp-columns": Math.min(stamps.length, maxStampsPerRow),
+        } as CSSProperties
+      }
     >
       <StampGrid
         captions
-        className="grid-cols-[repeat(4,minmax(0,72px))] justify-between gap-4 px-1 pt-1 pb-1.5"
+        className="grid-cols-5 gap-x-2.5 gap-y-4 px-1 pt-1 pb-1.5 sm:grid-cols-[repeat(var(--stamp-columns),minmax(0,72px))] sm:justify-between sm:gap-x-3 sm:gap-y-5"
         onSlapEnd={onSlapEnd}
         slappingMilestoneId={slappingMilestoneId}
         stamps={stamps}
