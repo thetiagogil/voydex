@@ -22,7 +22,8 @@ type RangeHeadingProps = {
 
 /*
  * The head of a range inside a long list (v3 `.range`): a Fredoka 20 heading,
- * a count line and trailing actions over a hairline. It wraps on phones.
+ * a count line and trailing actions over a hairline, dropped when a card
+ * follows. It wraps on phones.
  */
 export const RangeHeading = ({
   actions,
@@ -40,6 +41,8 @@ export const RangeHeading = ({
       data-slot="range-heading"
       className={cn(
         "border-line flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-b pb-3",
+        /* A card right under it already separates the range: no hairline. */
+        "[&:has(+[data-slot=card])]:border-b-0 [&:has(+[data-slot=card])]:pb-0",
         className,
       )}
     >
