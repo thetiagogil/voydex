@@ -210,7 +210,7 @@ export const MainlinePlayProgressStory = ({
        * objective is read and reached before the list it sits above.
        */}
       <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
-        <div className="lg:sticky-column contents lg:col-start-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-5 lg:pb-1.5">
+        <div className="lg:sticky-column contents lg:col-start-2 lg:row-start-1 lg:-mx-4 lg:-mb-7 lg:flex lg:min-w-0 lg:flex-col lg:gap-5 lg:px-4 lg:pb-7">
           <StoryMilestonePanel
             chapterName={getChapterName(activeScope, panelMilestone)}
             className="order-1 lg:order-none"

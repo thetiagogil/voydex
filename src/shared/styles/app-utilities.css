@@ -88,7 +88,9 @@
 /*
  * A side column that follows the scroll beside a longer one. It never grows
  * past the screen: when its own content is taller, it scrolls on its own
- * instead of making you reach the page's end to see the rest.
+ * instead of making you reach the page's end to see the rest. A column
+ * holding cards gives their shadows room (negative margin, matching
+ * padding), since the scroll clips anything outside it.
  */
 @utility sticky-column {
   position: sticky;

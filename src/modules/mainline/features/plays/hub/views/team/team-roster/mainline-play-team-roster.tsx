@@ -125,7 +125,7 @@ export const MainlinePlayTeamRoster = ({
           selectedMemberId={selectedMember?.play_pokemon_id ?? null}
           onSelect={selectMember}
         />
-        <div className="sticky-column hidden min-w-0 pb-1.5 lg:block">
+        <div className="sticky-column -mx-4 -mb-7 hidden min-w-0 px-4 pb-7 lg:block">
           <TeamMemberDetail
             mechanics={mechanics}
             member={selectedMember}
