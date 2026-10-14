@@ -22,35 +22,15 @@ const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
   weak: "danger",
 };
 
-/* Team health's card wears its verdict's soft colour and lip. */
-const leadCardClassNames: Record<TeamAnalysisHealthStatus, string> = {
-  "limited-data": "bg-surface-2",
-  moderate:
-    "bg-warn-soft shadow-[0_4px_0_color-mix(in_oklab,var(--warn)_45%,white)]",
-  strong: "bg-ok-soft shadow-[0_4px_0_var(--ok-line)]",
-  weak: "bg-danger-soft shadow-[0_4px_0_var(--danger-line)]",
-};
-
 const TeamAnalysisHealthCard = ({
-  isLead,
   metric,
 }: {
-  isLead: boolean;
   metric: TeamAnalysisHealthMetric;
 }) => {
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    /*
-     * Team health leads on its verdict's colour, never the game's: v3's game
-     * tint clashed with the verdict in red and pink games.
-     */
-    <Card
-      className={cn(
-        "gap-0 px-5.5 py-5",
-        isLead && leadCardClassNames[metric.status],
-      )}
-    >
+    <Card className="gap-0 px-5.5 py-5">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
           {metric.title}
@@ -73,7 +53,6 @@ const TeamAnalysisHealthCard = ({
         className={cn(
           "text-13 mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
           metric.status === "limited-data" && "bg-track",
-          isLead && "bg-surface",
         )}
       >
         <span aria-hidden className="size-2 rounded-full bg-current" />
@@ -112,11 +91,7 @@ export const TeamAnalysisHealthSection = ({
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
       {metrics.map((metric) => (
-        <TeamAnalysisHealthCard
-          key={metric.id}
-          isLead={metric.id === "team-health"}
-          metric={metric}
-        />
+        <TeamAnalysisHealthCard key={metric.id} metric={metric} />
       ))}
     </div>
   );
