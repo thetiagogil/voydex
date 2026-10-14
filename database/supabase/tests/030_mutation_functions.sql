@@ -210,6 +210,22 @@ SELECT
                 play_id = '40000000-0000-0000-0000-0000000000a1'),
             'Updated Leaf',
             'the replacement snapshot reflects the current active team');
+-- The seeded Sun / Moon chain is only suggested; make it a hard chain so the cascade has dependents.
+RESET ROLE;
+UPDATE
+    tracking.mainline_milestone_prerequisites
+SET
+    prerequisite_kind_id = (
+        SELECT
+            id
+        FROM
+            tracking.mainline_milestone_prerequisite_kinds
+        WHERE
+            slug = 'required')
+WHERE
+    version_group_id = 15
+    AND milestone_id BETWEEN 150002 AND 150006;
+SET LOCAL ROLE authenticated;
 INSERT INTO gameplay.mainline_play_milestone_progress (play_id, milestone_id, completed_at, notes)
     VALUES
         ('40000000-0000-0000-0000-0000000000a1', 150004, NOW(), 'Cascade note'),

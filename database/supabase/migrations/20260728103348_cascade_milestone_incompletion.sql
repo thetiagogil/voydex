@@ -1,4 +1,4 @@
-CREATE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[])
+CREATE OR REPLACE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[])
     RETURNS TABLE (
         affected_milestone_ids integer[],
         affected_milestone_count integer,
