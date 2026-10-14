@@ -70,7 +70,6 @@ export const MainlinePlayProgressStory = ({
     findScope(recordTarget?.id ?? model.nextMilestone?.id ?? null) ??
     model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
-  const [query, setQuery] = useState("");
   /* The milestone picked from the list; none shows the next objective. */
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(
     recordTarget?.id ?? null,
@@ -144,11 +143,6 @@ export const MainlinePlayProgressStory = ({
     setActiveScopeId(scopeId);
     setSelectedMilestoneId(null);
     setIsDetailSheetOpen(false);
-  };
-
-  const changeQuery = (nextQuery: string) => {
-    endRecordingReward();
-    setQuery(nextQuery);
   };
 
   const startRecordingReward = (milestoneId: number) => {
@@ -235,9 +229,7 @@ export const MainlinePlayProgressStory = ({
           className="order-2 lg:order-none lg:col-start-1 lg:row-start-1"
           onMilestoneSelect={selectMilestone}
           onPopEnd={() => setPoppingMilestoneId(null)}
-          onQueryChange={changeQuery}
           poppingMilestoneId={poppingMilestoneId}
-          query={query}
           scope={activeScope}
           selectedMilestoneId={
             !usesDetailSheet || isDetailSheetOpen

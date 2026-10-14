@@ -1,16 +1,16 @@
-import type { CSSProperties } from "react";
-
 import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
 import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { Card } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/cn";
 
-/* From tablets up the stamps share one row, wrapping only past ten. */
-const maxStampsPerRow = 10;
+const titleId = "story-stamp-card-title";
 
 /*
  * The stamp card, across the top of Story: every badge and the League in one
- * row (wrapping on phones), tilted like stamps, each with its label. The one
- * you just recorded slaps down once; nothing moves on load.
+ * row, tilted like stamps, each with its label. The stamps name it, so its
+ * title is for screen readers only. A row longer than the card scrolls
+ * sideways rather than wrapping, so it never takes more than one row of
+ * height. The one you just recorded slaps down once; nothing moves on load.
  */
 export const StoryStampCardSection = ({
   className,
@@ -26,25 +26,21 @@ export const StoryStampCardSection = ({
   stamps: PlayStamp[];
 }) => {
   return (
-    <DetailSectionCard
-      title="Stamp card"
-      aside="Badges and the League"
-      className={className}
-      headerClassName="sm:px-7"
-      contentClassName="pt-2 sm:px-7"
-      style={
-        {
-          "--stamp-columns": Math.min(stamps.length, maxStampsPerRow),
-        } as CSSProperties
-      }
+    <Card
+      role="region"
+      aria-labelledby={titleId}
+      className={cn("gap-0 px-0 py-4 sm:py-5", className)}
     >
+      <h2 id={titleId} className="sr-only">
+        Stamp card
+      </h2>
       <StampGrid
         captions
-        className="grid-cols-5 gap-x-2.5 gap-y-4 px-1 pt-1 pb-1.5 sm:grid-cols-[repeat(var(--stamp-columns),minmax(0,72px))] sm:justify-between sm:gap-x-3 sm:gap-y-5"
+        className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-1 pb-1.5 sm:auto-cols-[64px] sm:px-7"
         onSlapEnd={onSlapEnd}
         slappingMilestoneId={slappingMilestoneId}
         stamps={stamps}
       />
-    </DetailSectionCard>
+    </Card>
   );
 };
