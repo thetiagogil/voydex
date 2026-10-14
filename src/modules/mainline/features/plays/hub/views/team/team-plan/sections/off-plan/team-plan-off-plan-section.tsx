@@ -3,7 +3,10 @@ import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import {
+  PokemonEmptySlot,
+  PokemonSticker,
+} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
@@ -78,9 +81,17 @@ export const TeamPlanOffPlanSection = ({
                   })}
                 </ul>
               ) : (
-                <p className="empty-slot text-ink-3 text-14 rounded-md px-4 py-5 text-center font-bold">
-                  Everything here is part of the Plan
-                </p>
+                /* One empty tile, the size of the stickers it stands in for. */
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <li className="min-w-0">
+                    <PokemonEmptySlot
+                      variant="compact"
+                      label={`Nothing ${column.title.toLowerCase()} outside the Plan`}
+                      text="All part of the Plan"
+                      className="text-14 h-full px-3 text-center"
+                    />
+                  </li>
+                </ul>
               )}
             </section>
           );

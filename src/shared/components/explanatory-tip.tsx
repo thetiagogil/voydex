@@ -168,7 +168,7 @@ export const ExplanatoryTip = ({
             <span
               aria-hidden
               className={cn(
-                "leading-none font-extrabold italic",
+                "leading-none font-extrabold",
                 infoDotVariantClassNames[triggerVariant].glyph,
               )}
             >

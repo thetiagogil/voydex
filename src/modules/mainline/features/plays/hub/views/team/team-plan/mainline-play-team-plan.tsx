@@ -51,6 +51,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
               label="Follow a Plan"
               plans={data.followablePlans}
               playId={playId}
+              versionGroupSlug={data.versionGroupSlug}
             />
           }
         />
@@ -109,6 +110,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
                 currentPlanId={plan.planId}
                 plans={data.followablePlans}
                 playId={playId}
+                versionGroupSlug={data.versionGroupSlug}
               />
               <span className="inline-flex items-center gap-2">
                 <Button

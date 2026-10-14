@@ -2,7 +2,6 @@ import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/fe
 import { getTeamPlanStatusLabel } from "../../team-plan-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import { TeamPlanStatusPill } from "../../components/team-plan-pill";
@@ -132,7 +131,6 @@ export const TeamPlanTargetCard = ({
           )}
         >
           {compareLabel}
-          <AppIcon icon={appIcons.actions.continue} size="sm" />
         </span>
       </span>
     </button>

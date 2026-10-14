@@ -107,14 +107,7 @@ export const TeamPlanMatchLine = ({
         className,
       )}
     >
-      <AppIcon
-        icon={placementIcons[placement.kind]}
-        size={15}
-        className={cn(
-          placement.kind === "team" && "text-game-deep",
-          placement.kind === "reserve" && "text-warn-ink",
-        )}
-      />
+      <AppIcon icon={placementIcons[placement.kind]} size={15} />
       <span className="truncate">
         <b className="text-ink font-extrabold">
           {getPlayTeamMemberName(member)}

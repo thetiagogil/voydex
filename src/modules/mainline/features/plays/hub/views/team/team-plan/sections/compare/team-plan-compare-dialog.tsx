@@ -171,8 +171,8 @@ type TeamPlanCompareDialogProps = {
 
 /*
  * v3 compare dialog: the planned target beside what this Play recorded, then
- * what the Plan asks for against what was recorded, row by row. The planned
- * Pokémon is reference, so it stays plain; only a match you own is a sticker.
+ * what the Plan asks for against what was recorded, row by row. Both sides
+ * are stickers, as in v3, and line up at the top.
  */
 export const TeamPlanCompareDialog = ({
   comparison,
@@ -197,7 +197,7 @@ export const TeamPlanCompareDialog = ({
 
           <div
             style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-center gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-[18px] sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
+            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-[18px] sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
           >
             <CompareSide
               label={[
@@ -210,10 +210,8 @@ export const TeamPlanCompareDialog = ({
               name={comparison.plannedName}
               art={
                 <span
-                  className={cn(
-                    artBoxClassName,
-                    "bg-surface border-line border",
-                  )}
+                  style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
+                  className={cn(artBoxClassName, "sticker")}
                 >
                   <TeamPlanArt
                     imageUrl={getTeamPlanPlannedImageUrl(comparison)}
@@ -225,7 +223,7 @@ export const TeamPlanCompareDialog = ({
             <AppIcon
               icon={appIcons.actions.continue}
               size="md"
-              className="text-ink-tint justify-self-center"
+              className="text-ink-tint mt-[3.25rem] justify-self-center sm:mt-[4.25rem]"
             />
             <RecordedSide comparison={comparison} />
           </div>

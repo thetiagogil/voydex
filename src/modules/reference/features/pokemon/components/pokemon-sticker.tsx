@@ -200,10 +200,13 @@ export const PokemonSticker = ({
 export const PokemonEmptySlot = ({
   className,
   label,
+  text = "Open slot",
   variant = "default",
 }: {
   className?: string;
   label: string;
+  /* What it says inside; "Open slot" unless the slot means something else. */
+  text?: string;
   /* Matches the stickers it sits among. */
   variant?: PokemonStickerVariant;
 }) => {
@@ -217,7 +220,7 @@ export const PokemonEmptySlot = ({
         className,
       )}
     >
-      Open slot
+      {text}
     </div>
   );
 };
