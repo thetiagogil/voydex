@@ -46,7 +46,7 @@ export const TeamAnalysisDefensiveTable = ({
     <div className={cn("-mx-2 overflow-x-auto px-2", className)}>
       <table
         onMouseLeave={() => setHoveredColumn(null)}
-        className="text-14 w-full min-w-160 border-separate border-spacing-x-0 border-spacing-y-1"
+        className="text-14 w-full min-w-160 border-separate border-spacing-0"
       >
         <caption className="sr-only">
           How each attacking type lands on each of your Pokémon
