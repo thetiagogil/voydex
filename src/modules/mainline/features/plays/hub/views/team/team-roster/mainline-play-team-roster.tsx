@@ -21,6 +21,7 @@ import { TeamRosterHead } from "./sections/roster/team-roster-head";
 import {
   formatTeamRosterSummary,
   getDefaultTeamMember,
+  getTeamRosterSheetKeys,
   getTeamRosterSummary,
 } from "./sections/roster/team-roster-model";
 import { TeamRosterSection } from "./sections/roster/team-roster-section";
@@ -105,6 +106,10 @@ export const MainlinePlayTeamRoster = ({
       router.replace(appRoutes.mainlinePlayTeam(playId), { scroll: false });
     }
   };
+  const sheetKeys = getTeamRosterSheetKeys(
+    selectedMember?.play_pokemon_id ?? "",
+    pickerMode,
+  );
 
   return (
     <div className="grid min-w-0 gap-8">
@@ -149,7 +154,7 @@ export const MainlinePlayTeamRoster = ({
 
       {selectedMember?.play_pokemon_id ? (
         <TeamMemberEditorSheet
-          key={selectedMember.play_pokemon_id}
+          key={sheetKeys.editor}
           mechanics={mechanics}
           member={selectedMember}
           open={editorOpen}
@@ -168,7 +173,7 @@ export const MainlinePlayTeamRoster = ({
       ) : null}
 
       <AddPokemonSheet
-        key={pickerMode.kind === "replace" ? pickerMode.playPokemonId : "add"}
+        key={sheetKeys.picker}
         mode={pickerMode}
         onAdded={setSelectedMemberId}
         onOpenChange={changePickerOpen}

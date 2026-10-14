@@ -6,6 +6,7 @@ import {
   formatTeamRosterSummary,
   getDefaultTeamMember,
   getTeamRosterSlots,
+  getTeamRosterSheetKeys,
   getTeamRosterSummary,
 } from "./team-roster-model";
 
@@ -110,5 +111,23 @@ describe("getDefaultTeamMember", () => {
   it("falls back to the first by slot for an unknown or missing id", () => {
     expect(getDefaultTeamMember(roster, "gone")?.play_pokemon_id).toBe("first");
     expect(getDefaultTeamMember(roster)?.play_pokemon_id).toBe("first");
+  });
+});
+
+describe("getTeamRosterSheetKeys", () => {
+  it("keeps the editor and the replace picker apart for the same Pokémon", () => {
+    const id = "55375abb-2373-bb27-7797-ab75702b5364";
+    const keys = getTeamRosterSheetKeys(id, {
+      kind: "replace",
+      playPokemonId: id,
+    });
+
+    expect(keys.editor).not.toBe(keys.picker);
+  });
+
+  it("gives the add picker one key whoever is selected", () => {
+    expect(getTeamRosterSheetKeys("a", { kind: "add" }).picker).toBe(
+      getTeamRosterSheetKeys("b", { kind: "add" }).picker,
+    );
   });
 });

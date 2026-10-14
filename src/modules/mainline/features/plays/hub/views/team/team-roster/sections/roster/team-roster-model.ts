@@ -92,3 +92,19 @@ export const getDefaultTeamMember = (
     null
   );
 };
+
+/*
+ * React keys for the roster's sheets, which sit side by side: the editor of
+ * the selected Pokémon, and the picker that adds one or replaces it. Each
+ * resets when its Pokémon changes, and they never share a key.
+ */
+export const getTeamRosterSheetKeys = (
+  selectedPlayPokemonId: string,
+  pickerMode: { kind: "add" } | { kind: "replace"; playPokemonId: string },
+) => ({
+  editor: `editor-${selectedPlayPokemonId}`,
+  picker:
+    pickerMode.kind === "replace"
+      ? `replace-${pickerMode.playPokemonId}`
+      : "add",
+});
