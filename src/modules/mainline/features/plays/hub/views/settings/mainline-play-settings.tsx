@@ -68,17 +68,17 @@ export const MainlinePlaySettings = ({
       </nav>
       <div className="grid min-w-0 gap-6 [&>section]:scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)]">
         <PlaySettingsGeneralSection
-          key={JSON.stringify(data.general)}
+          key={`general:${JSON.stringify(data.general)}`}
           data={data}
           playId={playId}
         />
         <PlaySettingsTrackingSection
-          key={data.selectedExpansionIds.join()}
+          key={`tracking:${data.selectedExpansionIds.join()}`}
           data={data}
           playId={playId}
         />
         <PlaySettingsRulesSection
-          key={data.selectedRuleIds.join()}
+          key={`rules:${data.selectedRuleIds.join()}`}
           data={data}
           playId={playId}
         />
