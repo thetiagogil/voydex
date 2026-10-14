@@ -137,8 +137,9 @@ Voydex is quiet where you work and loud where you remember. The
   Fredoka.
 - Loud only for identity and reward; chrome stays quiet. Selected rows, chips
   and filter pills take `bg-select-soft text-select-ink`; a mode switch
-  (`SegmentedControl` `segment`) takes the strong context colour, as v3's
-  `.mode-seg`.
+  (`SegmentedControl` `segment`) and a scope picker (which Pokédex, journey,
+  collectible set or version) take the strong context colour, as v3's
+  `.mode-seg` and `.pill.is-on`.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce the retired design;

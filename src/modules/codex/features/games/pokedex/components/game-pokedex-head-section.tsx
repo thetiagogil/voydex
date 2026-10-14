@@ -49,6 +49,7 @@ export const GamePokedexHeadSection = ({
       {data.pokedexes.length > 1 ? (
         <SegmentedControl
           ariaLabel={`Pokédexes in ${versionGroupTitle}`}
+          selectedTone="strong"
           className="mt-4.5"
           value={data.pokedex.slug}
           options={data.pokedexes.map((pokedex) => ({

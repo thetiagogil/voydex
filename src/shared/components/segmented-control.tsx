@@ -57,7 +57,9 @@ type SegmentedControlProps<TValue extends string> = {
   /*
    * `strong` (the context colour's strong shade with a white label) is v3's
    * `.mode-seg` pick, the default for a `segment` switch; `soft` is the
-   * selected tint, the default for `pills`. A pill set on a surface already
+   * selected tint, the default for `pills`. Pills that pick a scope (which
+   * Pokédex, Story journey, collectible set or version) take `strong`, as
+   * v3's `.pill.is-on`; filters stay soft. A pill set on a surface already
    * wearing the soft tint (the game shelf's generation marks on the meadow)
    * takes `strong` too, where the soft tint would disappear.
    */

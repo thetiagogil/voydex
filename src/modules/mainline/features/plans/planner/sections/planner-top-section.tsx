@@ -205,6 +205,7 @@ export const PlannerTopSection = ({
           {/* TODO(v3-data): a version preference on planning.mainline_team_plans; a Plan stores its group's first game until then. */}
           <SegmentedControl
             ariaLabel="Version"
+            selectedTone="strong"
             size="sm"
             value="either"
             options={[

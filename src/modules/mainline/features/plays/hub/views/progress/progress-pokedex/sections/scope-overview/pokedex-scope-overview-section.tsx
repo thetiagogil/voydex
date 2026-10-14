@@ -62,6 +62,7 @@ export const PokedexScopeOverviewSection = ({
           scopes.length > 1 ? (
             <SegmentedControl
               ariaLabel="Pokédex"
+              selectedTone="strong"
               className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
               onValueChange={(value) => onScopeChange(Number(value))}
               options={scopes.map((candidate) => {

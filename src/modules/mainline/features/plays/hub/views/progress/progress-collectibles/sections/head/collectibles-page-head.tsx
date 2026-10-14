@@ -31,6 +31,7 @@ export const CollectiblesPageHead = ({
         groups.length > 1 ? (
           <SegmentedControl
             ariaLabel="Collectible"
+            selectedTone="strong"
             className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:ml-auto sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
             onValueChange={(value) => onGroupChange(Number(value))}
             options={groups.map((candidate) => {
