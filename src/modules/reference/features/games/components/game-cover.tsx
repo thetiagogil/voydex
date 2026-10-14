@@ -12,8 +12,8 @@ import { getGameInitials } from "@/modules/reference/features/games/utils/game-d
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Each place a cover appears. Images keep their intrinsic width, so every
- * platform's box keeps its shape; the stand-in is a 3:4 box.
+ * Each place a cover appears outside a carousel. Images keep their intrinsic
+ * width, so every platform's box keeps its shape; the stand-in is a 3:4 box.
  */
 const coverSizeClassNames = {
   /* The Play's docked bar: a 40px thumbnail in a thin white frame. */
@@ -35,17 +35,7 @@ const coverSizeClassNames = {
       "text-32 md:text-44 w-27.5 border-4 border-white md:h-55 md:w-auto",
     image: "h-auto w-27.5 max-w-full border-4 border-white md:h-55 md:w-auto",
   },
-  /* The game picker's cover shelf (Start a Play): 118px tall. */
-  picker: {
-    fallback: "text-24 h-29.5",
-    image: "h-29.5 w-auto max-w-none",
-  },
-  /* The game picker in New Play, a step larger: 150px tall. */
-  pickerLarge: {
-    fallback: "text-28 h-37.5",
-    image: "h-37.5 w-auto max-w-none",
-  },
-  /* A shelf cover fits a 124px square (90px on phones). */
+  /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
     fallback: "text-20 sm:text-24 h-22.5 sm:h-31",
     image: "max-h-22.5 max-w-22.5 sm:max-h-31 sm:max-w-31",
@@ -57,34 +47,33 @@ const coverSizeClassNames = {
   },
 } as const;
 
-type GameCoverSize = keyof typeof coverSizeClassNames;
+/*
+ * The covers in a carousel. Every cover in one carousel stands the same
+ * height and takes its width from its box's shape, so each platform's box
+ * keeps its proportions; with a `shape` it holds that box before the art
+ * loads. Carousels may differ in height, the covers in one never do.
+ * `height` is the tallest it stands, in pixels, for the copy it loads.
+ */
+const carouselCoverSizes = {
+  /* The game picker (Start a Play, Home's first Play): 118px. */
+  picker: { className: "text-24 h-29.5", height: 118 },
+  /* The game picker in New Play, a step larger: 150px. */
+  pickerLarge: { className: "text-28 h-37.5", height: 150 },
+  /* Home's Plays: 90px on phones, 124px from `sm`. */
+  playShelf: { className: "text-20 sm:text-24 h-22.5 sm:h-31", height: 124 },
+} as const;
+
+type CarouselCoverSize = keyof typeof carouselCoverSizes;
+type GameCoverSize = keyof typeof coverSizeClassNames | CarouselCoverSize;
+
+const isCarouselCoverSize = (
+  size: GameCoverSize | undefined,
+): size is CarouselCoverSize => !!size && size in carouselCoverSizes;
 
 const coverShapeClassNames: Record<GameCoverShape, string> = {
   landscape: "aspect-[28/25]",
   portrait: "aspect-[8/13]",
   square: "aspect-square",
-};
-
-/*
- * The sizes that take a `shape` and hold their box before the art loads: the
- * box's longest side in pixels (its height, or the side of the square a
- * shelf cover fits), and the classes that set it for a wide or square box
- * and for a tall one.
- */
-const shapedCoverBoxes: Partial<
-  Record<
-    GameCoverSize,
-    { box: number; fitsSquare: boolean; tall: string; wide: string }
-  >
-> = {
-  picker: { box: 118, fitsSquare: false, tall: "h-29.5", wide: "h-29.5" },
-  pickerLarge: { box: 150, fitsSquare: false, tall: "h-37.5", wide: "h-37.5" },
-  shelf: {
-    box: 124,
-    fitsSquare: true,
-    tall: "h-22.5 w-auto sm:h-31 sm:w-auto",
-    wide: "h-auto w-22.5 sm:h-auto sm:w-31",
-  },
 };
 
 type GameCoverProps = {
@@ -101,9 +90,9 @@ type GameCoverProps = {
    */
   gameSlug?: string;
   /*
-   * The box's shape, where the size supports it (`picker`, `pickerLarge`,
-   * `shelf`): the cover then holds its place on a quiet tint from the first
-   * paint and loads a copy sized for it.
+   * The box's shape, for a carousel size (`picker`, `pickerLarge`,
+   * `playShelf`): the cover then holds its place on a quiet tint from the
+   * first paint and loads a copy sized for it.
    */
   shape?: GameCoverShape | null;
   size?: GameCoverSize;
@@ -125,16 +114,19 @@ export const GameCover = ({
   size,
 }: GameCoverProps) => {
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
-  const sizeClassNames = size ? coverSizeClassNames[size] : null;
-  const shapedBox = shape && size ? shapedCoverBoxes[size] : undefined;
-  const ratio = shape ? gameCoverAspectRatios[shape] : 1;
-  const shapedClassName =
-    shape && shapedBox
-      ? cn(
-          coverShapeClassNames[shape],
-          ratio >= 1 ? shapedBox.wide : shapedBox.tall,
-        )
-      : null;
+  const carouselSize = isCarouselCoverSize(size)
+    ? carouselCoverSizes[size]
+    : null;
+  const sizeClassNames =
+    size && !isCarouselCoverSize(size) ? coverSizeClassNames[size] : null;
+  // In a carousel: one height, the width from the box's shape.
+  const carouselClassName = carouselSize
+    ? cn(
+        carouselSize.className,
+        "w-auto max-w-none",
+        shape && coverShapeClassNames[shape],
+      )
+    : null;
   const markCoverFailed = () => {
     setFailedImageUrl(coverImageUrl);
   };
@@ -149,7 +141,7 @@ export const GameCover = ({
         className={cn(
           "bg-game-strong font-display shadow-cover grid aspect-3/4 shrink-0 place-items-center rounded-sm font-semibold text-white",
           sizeClassNames?.fallback,
-          shapedClassName,
+          carouselClassName,
           className,
         )}
       >
@@ -158,26 +150,19 @@ export const GameCover = ({
     );
   }
 
-  if (shapedBox && shapedClassName) {
-    // The box's own size: its height, or the square it fits.
-    const isWidthBound = shapedBox.fitsSquare && ratio >= 1;
-    const width = isWidthBound
-      ? shapedBox.box
-      : Math.round(shapedBox.box * ratio);
-    const height = isWidthBound
-      ? Math.round(shapedBox.box / ratio)
-      : shapedBox.box;
+  if (carouselSize && shape) {
+    const ratio = gameCoverAspectRatios[shape];
 
     return (
       <Image
         src={coverImageUrl}
         alt={alt}
-        width={width}
-        height={height}
+        width={Math.round(carouselSize.height * ratio)}
+        height={carouselSize.height}
         loading={eager ? "eager" : "lazy"}
         className={cn(
-          "bg-surface-2 shadow-cover block max-w-none shrink-0 rounded-sm object-cover",
-          shapedClassName,
+          "bg-surface-2 shadow-cover block shrink-0 rounded-sm object-cover",
+          carouselClassName,
           className,
         )}
         onError={markCoverFailed}
@@ -201,6 +186,7 @@ export const GameCover = ({
       className={cn(
         "shadow-cover block h-auto w-auto shrink-0 rounded-sm",
         sizeClassNames?.image,
+        carouselClassName,
         className,
       )}
       onError={markCoverFailed}

@@ -23,7 +23,9 @@ type HomeBandSectionProps = {
   greeting: string;
   /* A brand-new first Play: its partner stands alone, or waits to be tapped. */
   isFirstPlay: boolean;
+  onSelectPlay: (playId: string) => void;
   partnerChoice: HomePartnerChoice | null;
+  playCount: number;
   plays: HomePlay[];
   subtitle: string;
 };
@@ -66,7 +68,9 @@ export const HomeBandSection = ({
   current,
   greeting,
   isFirstPlay,
+  onSelectPlay,
   partnerChoice,
+  playCount,
   plays,
   subtitle,
 }: HomeBandSectionProps) => {
@@ -117,7 +121,7 @@ export const HomeBandSection = ({
             action={
               <Link
                 href={appRoutes.mainlinePlay(current.id)}
-                className={buttonVariants({ size: "lg" })}
+                className={buttonVariants()}
               >
                 {current.statusSlug === "completed" ? null : (
                   <AppIcon icon={appIcons.actions.continue} inline="start" />
@@ -133,7 +137,12 @@ export const HomeBandSection = ({
           greeting={greeting}
           subtitle={subtitle}
         />
-        <HomePlayShelf currentPlayId={current.id} plays={plays} />
+        <HomePlayShelf
+          currentPlayId={current.id}
+          onSelect={onSelectPlay}
+          playCount={playCount}
+          plays={plays}
+        />
       </MeadowScene>
     </section>
   );

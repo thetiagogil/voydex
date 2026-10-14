@@ -4,10 +4,11 @@ import {
   toHomeMoments,
 } from "@/modules/mainline/features/home/data/home-moments-model";
 import {
+  HOME_SHELF_PLAY_COUNT,
   toHomePlay,
-  type HomePlay,
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
+  HomeBand,
   HomeIntentOffer,
   HomeMomentsData,
   HomePageData,
@@ -221,8 +222,9 @@ const readIntentOffer = async (
 
 /*
  * Mainline Home: with no Plays, the picker that starts one (and the game
- * picked before signing up); otherwise the shelf of Plays, the current one's
- * team on the meadow and its latest moments. `?play=` picks the current one.
+ * picked before signing up); otherwise the shelf of your latest Plays, each
+ * with its team for the meadow and its latest moments. `?play=` picks the
+ * current one.
  * The trainer name and the wish are the request's shared reads, which the
  * Mainline layout's New Play reads too.
  */
@@ -251,47 +253,70 @@ export const getHomePageData = async (
   }
 
   /* TODO(v3-data): the shelf reads "last opened first"; there is no last-opened column on gameplay.mainline_plays, so it uses the latest update. */
-  const current =
-    browseItems.find((play) => play.play_id === requestedPlayId) ??
-    browseItems[0];
-  const [leadTypes, moments, partnerChoice, intentOffer, catalogue] =
-    await Promise.all([
-      readLeadTypes(supabase, browseItems),
-      readHomeMoments(supabase, current),
-      readPartnerChoice(supabase, current),
-      readIntentOffer(supabase),
-      // The cached game list, for each cover's box shape on the shelf.
-      readGameCatalogue().catch(() => null),
-    ]);
+  const requested = browseItems.find(
+    (play) => play.play_id === requestedPlayId,
+  );
+  const latest = browseItems.slice(0, HOME_SHELF_PLAY_COUNT);
+  /*
+   * The shelf holds the latest Plays. An older one asked for by `?play=`
+   * leads it, so a link to any Play still opens on that Play.
+   */
+  const shelfItems =
+    requested && !latest.includes(requested)
+      ? [requested, ...latest.slice(0, HOME_SHELF_PLAY_COUNT - 1)]
+      : latest;
+  const current = requested ?? shelfItems[0];
+  /*
+   * Every Play on the shelf comes with its band and moments, so picking one
+   * switches at once, without asking the server.
+   */
+  const [leadTypes, bandReads, intentOffer, catalogue] = await Promise.all([
+    readLeadTypes(supabase, shelfItems),
+    Promise.all(
+      shelfItems.map((item) =>
+        Promise.all([
+          readHomeMoments(supabase, item),
+          readPartnerChoice(supabase, item),
+        ]),
+      ),
+    ),
+    readIntentOffer(supabase),
+    // The cached game list, for each cover's box shape on the shelf.
+    readGameCatalogue().catch(() => null),
+  ]);
   const coverShapeByGameSlug = new Map(
     catalogue?.games.map((game) => [game.slug, game.coverShape]),
   );
-  const plays = browseItems.flatMap((item): HomePlay[] => {
+  const bands = shelfItems.flatMap((item, index): HomeBand[] => {
     const play = toHomePlay(item);
+    const [moments, partnerChoice] = bandReads[index];
 
     if (!play) return [];
 
     return [
       {
-        ...play,
-        coverShape: play.gameSlug
-          ? (coverShapeByGameSlug.get(play.gameSlug) ?? null)
-          : null,
-        lead: play.lead
-          ? { ...play.lead, typeSlug: leadTypes.get(play.lead.id) ?? null }
-          : null,
+        moments,
+        partnerChoice,
+        play: {
+          ...play,
+          coverShape: play.gameSlug
+            ? (coverShapeByGameSlug.get(play.gameSlug) ?? null)
+            : null,
+          lead: play.lead
+            ? { ...play.lead, typeSlug: leadTypes.get(play.lead.id) ?? null }
+            : null,
+        },
       },
     ];
   });
 
   return {
-    currentPlayId: current.play_id ?? plays[0].id,
+    bands,
+    currentPlayId: current.play_id ?? bands[0].play.id,
     displayName,
     intentOffer,
     isFirstPlay: browseItems.length === 1 && isBrandNewPlay(current),
     kind: "plays",
-    moments,
-    partnerChoice,
-    plays,
+    playCount: browseItems.length,
   };
 };

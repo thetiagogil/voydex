@@ -330,13 +330,12 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           {summary}
         </p>
         {step === 1 ? (
-          <Button type="button" size="sm" variant="outline" onClick={onClose}>
+          <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
         ) : (
           <Button
             type="button"
-            size="sm"
             variant="outline"
             disabled={isPending}
             onClick={() => setStep((current) => (current - 1) as Step)}
@@ -345,17 +344,12 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           </Button>
         )}
         {step === 1 ? (
-          <Button
-            type="button"
-            size="sm"
-            disabled={!game}
-            onClick={() => setStep(2)}
-          >
+          <Button type="button" disabled={!game} onClick={() => setStep(2)}>
             Next
             <AppIcon icon={appIcons.actions.continue} inline="end" />
           </Button>
         ) : step === 2 ? (
-          <Button type="button" size="sm" onClick={() => setStep(3)}>
+          <Button type="button" onClick={() => setStep(3)}>
             {partner || !starters.length ? (
               <>
                 Next
@@ -366,7 +360,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             )}
           </Button>
         ) : (
-          <Button type="button" size="sm" disabled={isPending} onClick={start}>
+          <Button type="button" disabled={isPending} onClick={start}>
             {isPending ? (
               <Spinner className="size-4" />
             ) : (
@@ -440,10 +434,10 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
           Pick a game to continue
         </p>
-        <Button type="button" size="sm" variant="outline" onClick={onClose}>
+        <Button type="button" variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button type="button" size="sm" disabled>
+        <Button type="button" disabled>
           Next
           <AppIcon icon={appIcons.actions.continue} inline="end" />
         </Button>

@@ -120,12 +120,7 @@ export const HomeFirstPlayPicker = ({
             }
             action={
               game ? (
-                <Button
-                  type="button"
-                  size="lg"
-                  disabled={isPending}
-                  onClick={start}
-                >
+                <Button type="button" disabled={isPending} onClick={start}>
                   {isPending ? <Spinner className="size-5" /> : null}
                   {partner
                     ? `Start with ${partner.name}`

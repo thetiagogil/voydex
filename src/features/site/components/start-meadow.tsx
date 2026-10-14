@@ -250,7 +250,7 @@ export const StartMeadow = ({
             pick.game.slug,
             partner?.speciesSlug,
           )}
-          className={buttonVariants({ className: "shrink-0", size: "lg" })}
+          className={buttonVariants({ className: "shrink-0" })}
         >
           {partner
             ? `Start with ${partner.name}`

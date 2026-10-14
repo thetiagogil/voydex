@@ -13,8 +13,8 @@ import {
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import type { GameShelfGame } from "@/modules/reference/features/games/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Carousel } from "@/shared/components/carousel";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { ShelfArrows } from "@/shared/components/shelf-arrows";
 import { cn } from "@/shared/utils/cn";
 
 type GameShelfPickerProps = {
@@ -309,73 +309,66 @@ export const GameShelfPicker = ({
       data-slot="game-shelf-picker"
       className={cn("flex min-w-0 flex-col", className)}
     >
-      <ShelfArrows
+      <Carousel
+        ref={shelfRef}
+        role="listbox"
+        aria-label={ariaLabel}
+        aria-orientation="horizontal"
+        onKeyDown={onShelfKeyDown}
         earlierLabel="Earlier games"
         laterLabel="Later games"
+        fadeEdges
         initialEdges={{
           canScrollEnd: !opening.atNewest && opening.index < games.length - 1,
           canScrollStart: opening.index > 0,
         }}
       >
-        <div
-          ref={shelfRef}
-          data-slot="shelf-scroller"
-          role="listbox"
-          aria-label={ariaLabel}
-          aria-orientation="horizontal"
-          onKeyDown={onShelfKeyDown}
-          className={cn(
-            "no-scrollbar relative flex items-end overflow-x-auto [mask-image:linear-gradient(90deg,transparent,black_7%,black_93%,transparent)]",
-            "gap-3 px-4.5 pt-9 pb-4 sm:gap-4 sm:px-16 sm:pt-10",
-          )}
-        >
-          {games.map((game, index) => {
-            const isPicked = game.slug === value;
+        {games.map((game, index) => {
+          const isPicked = game.slug === value;
 
-            return (
-              <div
-                key={game.slug}
-                role="option"
-                aria-selected={isPicked}
-                aria-label={`${game.name}, ${game.releaseYear}`}
-                title={game.name}
-                data-game-slug={game.slug}
-                tabIndex={game.slug === tabStopSlug ? 0 : -1}
-                onClick={() => pick(game.slug)}
-                onFocus={() => setActiveSlug(game.slug)}
-                className={cn(
-                  "group/cover relative shrink-0 cursor-pointer rounded-sm transition-transform duration-250 ease-[cubic-bezier(0.3,1.5,0.5,1)]",
-                  isPicked
-                    ? "-translate-y-5"
-                    : "motion-safe:hover:-translate-y-3 motion-safe:hover:-rotate-3",
-                )}
-              >
-                <GameCover
-                  alt=""
-                  coverImageUrl={game.coverImageUrl}
-                  eager={Math.abs(index - opening.index) <= EAGER_COVER_REACH}
-                  gameName={game.name}
-                  gameSlug={game.slug}
-                  shape={game.coverShape}
-                  size={coverSize === "lg" ? "pickerLarge" : "picker"}
-                />
-                {isPicked ? (
-                  <span
-                    aria-hidden
-                    className="bg-action absolute top-2 right-2 grid size-7 place-items-center rounded-full text-white ring-3 ring-white"
-                  >
-                    <AppIcon
-                      icon={appIcons.status.active}
-                      size="md"
-                      strokeWidth={3}
-                    />
-                  </span>
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
-      </ShelfArrows>
+          return (
+            <div
+              key={game.slug}
+              role="option"
+              aria-selected={isPicked}
+              aria-label={`${game.name}, ${game.releaseYear}`}
+              title={game.name}
+              data-game-slug={game.slug}
+              tabIndex={game.slug === tabStopSlug ? 0 : -1}
+              onClick={() => pick(game.slug)}
+              onFocus={() => setActiveSlug(game.slug)}
+              className={cn(
+                "group/cover relative shrink-0 cursor-pointer rounded-sm transition-transform duration-250 ease-[cubic-bezier(0.3,1.5,0.5,1)]",
+                isPicked
+                  ? "-translate-y-5"
+                  : "motion-safe:hover:-translate-y-3 motion-safe:hover:-rotate-3",
+              )}
+            >
+              <GameCover
+                alt=""
+                coverImageUrl={game.coverImageUrl}
+                eager={Math.abs(index - opening.index) <= EAGER_COVER_REACH}
+                gameName={game.name}
+                gameSlug={game.slug}
+                shape={game.coverShape}
+                size={coverSize === "lg" ? "pickerLarge" : "picker"}
+              />
+              {isPicked ? (
+                <span
+                  aria-hidden
+                  className="bg-action absolute top-2 right-2 grid size-7 place-items-center rounded-full text-white ring-3 ring-white"
+                >
+                  <AppIcon
+                    icon={appIcons.status.active}
+                    size="md"
+                    strokeWidth={3}
+                  />
+                </span>
+              ) : null}
+            </div>
+          );
+        })}
+      </Carousel>
 
       <div className="no-scrollbar mt-1 flex items-center justify-center-safe gap-2 overflow-x-auto px-4.5">
         <span

@@ -26,8 +26,9 @@ const buttonVariants = cva(
         link: "border-transparent font-bold text-link underline-offset-4 hover:underline",
       },
       size: {
+        // v3 .btn.sm: the main button on the meadow and in dialogs.
         default:
-          "h-11 gap-2 px-4 text-15 has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
+          "h-11 gap-2 px-4 text-[14.5px] has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
         xs: "h-7 gap-1 rounded-xs px-2.5 text-12 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-9 gap-1.5 rounded-sm px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-13 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",

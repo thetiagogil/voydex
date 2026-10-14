@@ -11,6 +11,12 @@ import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils
 import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
+/*
+ * Home's shelf holds the latest Plays: six on desktop, four on tablets and
+ * two on phones (the rest are hidden by breakpoint, so nothing jumps).
+ */
+export const HOME_SHELF_PLAY_COUNT = 6;
+
 type HomeTeamMember = {
   id: string;
   imageUrl: string | null;

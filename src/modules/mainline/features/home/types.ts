@@ -28,6 +28,14 @@ export type HomeMomentsData = {
   hasEarlier: boolean;
 };
 
+/* A Play on Home's shelf, with what its band and moments show. */
+export type HomeBand = {
+  moments: HomeMomentsData;
+  /* Its partner milestone, while a brand-new Play waits for the tap. */
+  partnerChoice: HomePartnerChoice | null;
+  play: HomePlay;
+};
+
 export type HomePageData =
   | {
       displayName: string | null;
@@ -36,13 +44,14 @@ export type HomePageData =
       picker: NewPlayPickerData;
     }
   | {
+      /* The shelf's Plays, latest first, at most `HOME_SHELF_PLAY_COUNT`. */
+      bands: HomeBand[];
       currentPlayId: string;
       displayName: string | null;
       intentOffer: HomeIntentOffer | null;
       /* The trainer's only Play has only just started (v3 `homefirst`). */
       isFirstPlay: boolean;
       kind: "plays";
-      moments: HomeMomentsData;
-      partnerChoice: HomePartnerChoice | null;
-      plays: HomePlay[];
+      /* All the trainer's Plays, on the shelf or not. */
+      playCount: number;
     };
