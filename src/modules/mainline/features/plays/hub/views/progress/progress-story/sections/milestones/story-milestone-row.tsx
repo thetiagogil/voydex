@@ -135,7 +135,11 @@ export const StoryMilestoneRow = ({
             </span>
           </span>
           {milestone.description ? (
-            <span className="text-ink-2 text-14 block">
+            /*
+             * One line from `sm` up, so a row with its team beside it is no
+             * taller than the rest; the panel shows it in full.
+             */
+            <span className="text-ink-2 text-14 block sm:truncate">
               {milestone.description}
             </span>
           ) : null}
