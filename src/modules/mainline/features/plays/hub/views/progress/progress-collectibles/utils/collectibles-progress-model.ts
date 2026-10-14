@@ -158,15 +158,11 @@ export const getCollectibleGroupCounts = ({
 };
 
 export const filterCollectibleEntries = ({
-  area,
-  areaLevel,
   entries,
   progressFilter,
   query,
   stateByEntryId,
 }: {
-  area: string;
-  areaLevel: CollectibleAreaLevel;
   entries: MainlinePlayCollectibleEntry[];
   progressFilter: CollectibleProgressFilter;
   query: string;
@@ -180,8 +176,6 @@ export const filterCollectibleEntries = ({
       progressFilter === "all" ||
       (progressFilter === "collected" && isCollected) ||
       (progressFilter === "missing" && !isCollected);
-    const matchesArea =
-      area === "all" || getAreaLabel(entry, areaLevel) === area;
     const matchesQuery =
       !normalizedQuery ||
       [
@@ -191,7 +185,7 @@ export const filterCollectibleEntries = ({
         entry.description,
       ].some((value) => value?.toLocaleLowerCase().includes(normalizedQuery));
 
-    return matchesProgress && matchesArea && matchesQuery;
+    return matchesProgress && matchesQuery;
   });
 };
 
@@ -333,16 +327,3 @@ export const describeCollectibleWhereabouts = ({
     type: "conjunction",
   }).format(locations)}`;
 };
-
-export const getCollectibleAreaOptions = ({
-  areaLevel,
-  entries,
-}: {
-  areaLevel: CollectibleAreaLevel;
-  entries: MainlinePlayCollectibleEntry[];
-}) => [
-  { label: "All areas", value: "all" },
-  ...[...new Set(entries.map((entry) => getAreaLabel(entry, areaLevel)))]
-    .sort(compareText)
-    .map((area) => ({ label: area, value: area })),
-];

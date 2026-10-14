@@ -1,8 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { RangeHeading } from "@/shared/components/range-heading";
-import { StatusBadge } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -20,11 +18,11 @@ export const getCollectibleAreaHeadingId = (areaId: string) =>
   `${areaId}-heading`;
 
 /*
- * One area: its name and how much of it is found, the bulk actions for what
- * the filters show, then its places, each with its tokens and any notes.
- * The checklist moves focus to the heading before a bulk change, which can
- * remove the button or the whole area. When the area stays, focus then goes
- * on to the opposite button, which the change always leaves.
+ * One area: its name and how much of it is found, Mark all found and
+ * Unmark all for what the filters show (as Pokédex's ranges), then its
+ * places, each with its tokens and any notes. The checklist moves focus to
+ * the heading before a bulk change, which can remove the whole area. When
+ * the area stays, focus then goes on to the opposite button.
  */
 export const CollectibleAreaSection = ({
   area,
@@ -99,47 +97,30 @@ export const CollectibleAreaSection = ({
         }
         actions={
           <>
-            {summary.isComplete ? (
-              <StatusBadge
-                tone="warn"
-                className="text-13 h-7 gap-1.5 px-3 font-extrabold [&>svg]:size-3.5!"
-              >
-                <AppIcon
-                  icon={appIcons.product.completion}
-                  className="stroke-3"
-                  aria-hidden
-                />
-                Complete
-              </StatusBadge>
-            ) : null}
-            {canMarkShown ? (
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                ref={markButtonRef}
-                disabled={isPending}
-                focusableWhenDisabled
-                onClick={() => changeState(true)}
-              >
-                Mark {scope} found
-                <span className="sr-only"> in {area.label}</span>
-              </Button>
-            ) : null}
-            {canUnmarkShown ? (
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                ref={unmarkButtonRef}
-                disabled={isPending}
-                focusableWhenDisabled
-                onClick={() => changeState(false)}
-              >
-                Unmark {scope}
-                <span className="sr-only"> in {area.label}</span>
-              </Button>
-            ) : null}
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              ref={markButtonRef}
+              disabled={!canMarkShown}
+              focusableWhenDisabled
+              onClick={() => changeState(true)}
+            >
+              Mark {scope === "area" ? "all" : "shown"} found
+              <span className="sr-only"> in {area.label}</span>
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              ref={unmarkButtonRef}
+              disabled={!canUnmarkShown}
+              focusableWhenDisabled
+              onClick={() => changeState(false)}
+            >
+              Unmark {scope === "area" ? "all" : "shown"}
+              <span className="sr-only"> in {area.label}</span>
+            </Button>
           </>
         }
       />

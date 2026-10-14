@@ -98,8 +98,6 @@ describe("collectibles progress model", () => {
 
     expect(
       filterCollectibleEntries({
-        area: "all",
-        areaLevel: "location",
         entries,
         progressFilter: "collected",
         query: "",
@@ -108,8 +106,6 @@ describe("collectibles progress model", () => {
     ).toEqual([101]);
     expect(
       filterCollectibleEntries({
-        area: "West Province",
-        areaLevel: "location",
         entries,
         progressFilter: "missing",
         query: "area two",
@@ -253,16 +249,6 @@ describe("collectibles progress model", () => {
     ).toEqual([
       { entries: areas[0].entries, id: `${areas[0].id}-place`, label: null },
     ]);
-    expect(
-      filterCollectibleEntries({
-        area: "Soothing Wetlands",
-        areaLevel,
-        entries,
-        progressFilter: "all",
-        query: "",
-        stateByEntryId: new Map(),
-      }).map((entry) => entry.id),
-    ).toEqual([102]);
   });
 
   it("says where a collectible hides in one sentence", () => {

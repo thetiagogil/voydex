@@ -21,7 +21,6 @@ import type {
 } from "../../types";
 import {
   filterCollectibleEntries,
-  getCollectibleAreaOptions,
   getCollectibleEntryState,
   groupCollectibleEntriesByArea,
   type CollectibleArea,
@@ -86,7 +85,6 @@ export const CollectibleEntriesSection = ({
   const [query, setQuery] = useState("");
   const [progressFilter, setProgressFilter] =
     useState<CollectibleProgressFilter>("all");
-  const [area, setArea] = useState("all");
   const [isAreaSheetOpen, setIsAreaSheetOpen] = useState(false);
   const checklistRef = useRef<HTMLElement>(null);
   const sheetJumpTargetRef = useRef<string | null>(null);
@@ -104,15 +102,9 @@ export const CollectibleEntriesSection = ({
 
     return () => wideQuery.removeEventListener("change", closeOnWide);
   }, []);
-  const areaOptions = useMemo(
-    () => getCollectibleAreaOptions({ areaLevel, entries: group.entries }),
-    [areaLevel, group.entries],
-  );
-  /* Each progress pill counts what the area filter and the search leave. */
+  /* Each progress pill counts what the search leaves. */
   const progressCounts = useMemo(() => {
     const entries = filterCollectibleEntries({
-      area,
-      areaLevel,
       entries: group.entries,
       progressFilter: "all",
       query,
@@ -127,18 +119,16 @@ export const CollectibleEntriesSection = ({
       collected: foundCount,
       missing: entries.length - foundCount,
     };
-  }, [area, areaLevel, group.entries, query, stateByEntryId]);
+  }, [group.entries, query, stateByEntryId]);
   const filteredEntries = useMemo(
     () =>
       filterCollectibleEntries({
-        area,
-        areaLevel,
         entries: group.entries,
         progressFilter,
         query,
         stateByEntryId,
       }),
-    [area, areaLevel, group.entries, progressFilter, query, stateByEntryId],
+    [group.entries, progressFilter, query, stateByEntryId],
   );
   const areas = useMemo(
     () =>
@@ -155,15 +145,13 @@ export const CollectibleEntriesSection = ({
   const shownAreaIds = new Set(areas.map((shownArea) => shownArea.id));
   const hasAreaIndex = areaSummaries.length > 1;
   /* The sort only orders; it filters nothing, so Clear filters keeps it. */
-  const hasFilters =
-    Boolean(query.trim()) || progressFilter !== "all" || area !== "all";
+  const hasFilters = Boolean(query.trim()) || progressFilter !== "all";
 
   const showingLabel = `Showing ${filteredEntries.length} of ${group.entries.length}`;
 
   const resetFilters = () => {
     setQuery("");
     setProgressFilter("all");
-    setArea("all");
   };
 
   /*
@@ -217,13 +205,23 @@ export const CollectibleEntriesSection = ({
         }
         trailing={
           <>
-            <SelectControl
-              ariaLabel="Filter by area"
-              onValueChange={setArea}
-              options={areaOptions}
-              placeholder="All areas"
-              value={area}
-              variant="ghost"
+            <SegmentedControl
+              ariaLabel="Show"
+              onValueChange={setProgressFilter}
+              options={[
+                { count: progressCounts.all, label: "All", value: "all" },
+                {
+                  count: progressCounts.collected,
+                  label: "Found",
+                  value: "collected",
+                },
+                {
+                  count: progressCounts.missing,
+                  label: "Missing",
+                  value: "missing",
+                },
+              ]}
+              value={progressFilter}
             />
             <SelectControl
               ariaLabel="Sort collectibles"
@@ -237,28 +235,7 @@ export const CollectibleEntriesSection = ({
           </>
         }
       >
-        <div className="flex w-full min-w-0 flex-wrap items-center gap-x-3 gap-y-2.5">
-          <SegmentedControl
-            ariaLabel="Show"
-            onValueChange={setProgressFilter}
-            options={[
-              { count: progressCounts.all, label: "All", value: "all" },
-              {
-                count: progressCounts.collected,
-                label: "Found",
-                value: "collected",
-              },
-              {
-                count: progressCounts.missing,
-                label: "Missing",
-                value: "missing",
-              },
-            ]}
-            value={progressFilter}
-          />
-          <p className="text-ink-2 text-13 px-1 font-semibold">
-            Tap one to mark it found
-          </p>
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-x-3 gap-y-2.5 lg:hidden">
           {hasAreaIndex ? (
             <BottomSheet
               open={isAreaSheetOpen}
@@ -307,17 +284,6 @@ export const CollectibleEntriesSection = ({
       <p className="sr-only" aria-live="polite">
         {hasFilters ? showingLabel : ""}
       </p>
-      {hasFilters ? (
-        <div className="flex min-h-8 flex-wrap items-center justify-between gap-x-3 gap-y-1">
-          <p
-            aria-hidden
-            className="text-ink-2 text-14 font-semibold tabular-nums"
-          >
-            {showingLabel}
-          </p>
-          <ClearFiltersButton onClick={resetFilters} />
-        </div>
-      ) : null}
 
       <div
         className={cn(
@@ -328,7 +294,7 @@ export const CollectibleEntriesSection = ({
         {hasAreaIndex ? (
           <nav
             aria-labelledby="collectible-area-index-label"
-            className="bg-surface shadow-card sticky top-[calc(var(--play-dock-offset,0px)+12px)] hidden max-h-[calc(100dvh-var(--play-dock-offset,0px)-24px)] flex-col overflow-y-auto rounded-xl p-4 lg:flex"
+            className="bg-surface shadow-card sticky-column hidden flex-col rounded-xl p-4 lg:flex"
           >
             <p
               id="collectible-area-index-label"
