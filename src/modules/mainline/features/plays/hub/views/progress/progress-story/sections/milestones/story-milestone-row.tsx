@@ -1,4 +1,8 @@
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
+import {
+  getMilestonePickItemClassName,
+  getMilestonePickRowClassName,
+} from "@/modules/mainline/features/plays/shared/components/milestone-pick-row";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { PlayTeamParty } from "@/modules/mainline/features/plays/shared/components/play-team-party";
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
@@ -59,11 +63,7 @@ const StoryMilestoneWhen = ({
   return "Not recorded";
 };
 
-/*
- * One milestone in the list. Recorded rows are cream with their medallion;
- * the next one is the loud row, with the game's border and lip; rows still
- * ahead are an outline on the page.
- */
+/* One milestone in the list, drawn as a milestone pick row. */
 export const StoryMilestoneRow = ({
   isJustRecorded,
   milestone,
@@ -80,9 +80,8 @@ export const StoryMilestoneRow = ({
   selected: boolean;
   state: PlayMilestoneState;
 }) => {
-  /* The next row stands apart: 14px above it and 16px below, gap included. */
   return (
-    <li className={cn(state === "next" && "mt-1.5 mb-2 first:mt-1 last:mb-0")}>
+    <li className={getMilestonePickItemClassName(state)}>
       <button
         id={getStoryMilestoneRowId(milestone.id)}
         type="button"
@@ -94,15 +93,9 @@ export const StoryMilestoneRow = ({
           }
         }}
         className={cn(
-          "grid w-full grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 rounded-lg px-3.5 py-3 text-left transition-transform duration-150 outline-none hover:translate-x-[3px]",
+          getMilestonePickRowClassName({ selected, state }),
+          "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-[18px] sm:py-3.5",
-          "focus-visible:outline-focus focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-          state === "done" && "bg-surface",
-          state === "next" &&
-            "bg-surface shadow-[inset_0_0_0_2.5px_var(--game),0_4px_0_var(--game-lip)]",
-          state === "todo" && "shadow-[inset_0_0_0_1.5px_var(--line)]",
-          selected &&
-            "outline-game outline-[2.5px] outline-offset-[-2.5px] outline-solid",
           isJustRecorded && "animate-pop",
         )}
       >

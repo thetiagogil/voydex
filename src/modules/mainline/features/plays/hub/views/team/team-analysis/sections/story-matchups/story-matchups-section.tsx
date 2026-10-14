@@ -7,7 +7,12 @@ import {
   Medallion,
   type MedallionContent,
 } from "@/modules/mainline/features/plays/shared/components/medallion";
+import {
+  getMilestonePickItemClassName,
+  getMilestonePickRowClassName,
+} from "@/modules/mainline/features/plays/shared/components/milestone-pick-row";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
+import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
@@ -33,7 +38,16 @@ const getBattleMedallion = (battle: StoryMatchupBattle): MedallionContent =>
       : { icon: appIcons.milestones.champion, kind: "gold" }
     : { icon: appIcons.product.battle, kind: "status" };
 
-/* v3 `.enc`: one battle in its chapter, picked to read its report. */
+const battleRowStates = {
+  ahead: "todo",
+  next: "next",
+  won: "done",
+} as const satisfies Record<StoryMatchupBattle["state"], PlayMilestoneState>;
+
+/*
+ * One battle in its chapter, picked to read its report: the same pick row as
+ * Progress Story, since both lists open the picked item beside them.
+ */
 const StoryBattleRow = ({
   battle,
   onSelect,
@@ -42,57 +56,68 @@ const StoryBattleRow = ({
   battle: StoryMatchupBattle;
   onSelect: () => void;
   selected: boolean;
-}) => (
-  <li>
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onSelect}
-      className={cn(
-        "grid w-full grid-cols-[42px_minmax(0,1fr)_auto] items-center gap-x-3.5 gap-y-1 rounded-lg px-3 py-3 text-left outline-none sm:grid-cols-[42px_minmax(0,1fr)_auto_auto] sm:px-4",
-        "hover:bg-surface-2 focus-visible:outline-focus focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid",
-        selected && "bg-select-soft text-select-ink hover:bg-select-soft",
-      )}
-    >
-      <Medallion
-        content={getBattleMedallion(battle)}
-        size="sm"
-        className="justify-self-center"
-      />
-      <span className="grid min-w-0">
-        <b className="text-16 truncate font-extrabold">{battle.name}</b>
-        <span className="text-ink-3 text-13 truncate font-semibold">
-          {battle.kind} · {battle.milestoneName}
-        </span>
-      </span>
-      <PokemonTypeList
-        types={battle.specialtyTypes}
-        badgeDisplay="icon"
-        badgeSize="sm"
-        className="hidden gap-1 sm:flex"
-      />
-      <span className="justify-self-end">
-        {battle.state === "won" ? (
-          <StatusBadge tone="ok">
-            <AppIcon icon={appIcons.status.active} />
-            Won
-            {battle.completedAt ? (
-              <>
-                {" "}
-                <PlayMomentTime value={battle.completedAt} />
-              </>
-            ) : null}
-          </StatusBadge>
-        ) : battle.state === "next" ? (
-          <StatusBadge tone="neutral">Next</StatusBadge>
-        ) : (
-          /* TODO(v3-data): the row verdict needs opponent parties. */
-          <PendingData variant="inline" label="No reading" />
+}) => {
+  const state = battleRowStates[battle.state];
+
+  return (
+    <li className={getMilestonePickItemClassName(state)}>
+      <button
+        type="button"
+        aria-pressed={selected}
+        onClick={onSelect}
+        className={cn(
+          getMilestonePickRowClassName({ selected, state }),
+          "grid grid-cols-[34px_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3.5 py-3",
+          "sm:grid-cols-[34px_minmax(0,1fr)_auto_auto] sm:gap-x-3.5 sm:px-[18px] sm:py-3.5",
         )}
-      </span>
-    </button>
-  </li>
-);
+      >
+        <Medallion
+          content={getBattleMedallion(battle)}
+          size="sm"
+          className="justify-self-center"
+        />
+        <span className="grid min-w-0">
+          <b
+            className={cn(
+              "text-16 truncate font-extrabold",
+              state === "todo" ? "text-ink-2" : "text-ink",
+            )}
+          >
+            {battle.name}
+          </b>
+          <span className="text-ink-3 text-13 truncate font-semibold">
+            {battle.kind} · {battle.milestoneName}
+          </span>
+        </span>
+        <PokemonTypeList
+          types={battle.specialtyTypes}
+          badgeDisplay="icon"
+          badgeSize="sm"
+          className="hidden gap-1 sm:flex"
+        />
+        <span className="justify-self-end">
+          {battle.state === "won" ? (
+            <StatusBadge tone="ok">
+              <AppIcon icon={appIcons.status.active} />
+              Won
+              {battle.completedAt ? (
+                <>
+                  {" "}
+                  <PlayMomentTime value={battle.completedAt} />
+                </>
+              ) : null}
+            </StatusBadge>
+          ) : battle.state === "next" ? (
+            <StatusBadge tone="neutral">Next</StatusBadge>
+          ) : (
+            /* TODO(v3-data): the row verdict needs opponent parties. */
+            <PendingData variant="inline" label="No reading" />
+          )}
+        </span>
+      </button>
+    </li>
+  );
+};
 
 /*
  * Story matchups (v3 `matchups`): the battles by chapter, and the picked
@@ -142,21 +167,18 @@ export const StoryMatchupsSection = ({
                 titleId={headingId}
                 count={`${chapter.wonCount} of ${chapter.battles.length} won`}
               />
-              <Card className="mt-3.5 gap-0 p-1.5 sm:p-2">
-                <ul className="grid gap-0.5">
-                  {chapter.battles.map((battle) => (
-                    <StoryBattleRow
-                      key={battle.id}
-                      battle={battle}
-                      onSelect={() => select(battle)}
-                      selected={
-                        (!usesSheet || isSheetOpen) &&
-                        battle.id === selected?.id
-                      }
-                    />
-                  ))}
-                </ul>
-              </Card>
+              <ul className="mt-3.5 grid gap-2">
+                {chapter.battles.map((battle) => (
+                  <StoryBattleRow
+                    key={battle.id}
+                    battle={battle}
+                    onSelect={() => select(battle)}
+                    selected={
+                      (!usesSheet || isSheetOpen) && battle.id === selected?.id
+                    }
+                  />
+                ))}
+              </ul>
             </section>
           );
         })}

@@ -283,6 +283,11 @@ text-select-ink` (a mode switch or scope picker takes `game-strong`); tips that 
   after an action is a toast, not an inline banner.
 - Use the shared row-interaction variants for repeated data rows. Static
   timelines and prose lists don't get hover styling.
+- A list you read (History, Recent moments) is one card with rows inside. A
+  list you pick from, where the pick opens beside it or in a sheet (Progress
+  Story, Story matchups), gives each row its own card through
+  `getMilestonePickRowClassName` in
+  `.../plays/shared/components/milestone-pick-row.ts`.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha
