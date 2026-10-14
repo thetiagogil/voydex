@@ -22,9 +22,21 @@ export type TeamMove = {
 
 export type TeamMemberFact = {
   detail: string | null;
+  /* Nothing recorded: the value is a quiet placeholder. */
+  empty?: true;
   label: string;
   value: string;
 };
+
+const notRecorded = (
+  label: string,
+  value = "Not recorded",
+): TeamMemberFact => ({
+  detail: null,
+  empty: true,
+  label,
+  value,
+});
 
 const teamStatLabels: Record<string, string> = {
   attack: "Attack",
@@ -85,37 +97,37 @@ export const getTeamMemberFacts = (
 ): TeamMemberFact[] => {
   const facts: TeamMemberFact[] = [];
 
-  if (
-    member.nature_name &&
-    supportsGameMechanic(mechanics, gameMechanics.natures)
-  ) {
-    facts.push({
-      detail: getTeamNatureEffectSummary(member),
-      label: "Nature",
-      value: member.nature_name,
-    });
+  // Every fact the game supports keeps its place, recorded or not.
+  if (supportsGameMechanic(mechanics, gameMechanics.natures)) {
+    facts.push(
+      member.nature_name
+        ? {
+            detail: getTeamNatureEffectSummary(member),
+            label: "Nature",
+            value: member.nature_name,
+          }
+        : notRecorded("Nature"),
+    );
   }
 
-  if (
-    member.ability_name &&
-    supportsGameMechanic(mechanics, gameMechanics.abilities)
-  ) {
-    facts.push({
-      detail: member.abilityEffectSummary,
-      label: "Ability",
-      value: member.ability_name,
-    });
+  if (supportsGameMechanic(mechanics, gameMechanics.abilities)) {
+    facts.push(
+      member.ability_name
+        ? {
+            detail: member.abilityEffectSummary,
+            label: "Ability",
+            value: member.ability_name,
+          }
+        : notRecorded("Ability"),
+    );
   }
 
-  if (
-    member.held_item_name &&
-    supportsGameMechanic(mechanics, gameMechanics.heldItems)
-  ) {
-    facts.push({
-      detail: null,
-      label: "Held item",
-      value: member.held_item_name,
-    });
+  if (supportsGameMechanic(mechanics, gameMechanics.heldItems)) {
+    facts.push(
+      member.held_item_name
+        ? { detail: null, label: "Held item", value: member.held_item_name }
+        : notRecorded("Held item", "None"),
+    );
   }
 
   const metDetail =
@@ -131,6 +143,8 @@ export const getTeamMemberFacts = (
     });
   } else if (metDetail) {
     facts.push({ detail: null, label: "Met", value: metDetail });
+  } else {
+    facts.push(notRecorded("Met"));
   }
 
   return facts;

@@ -94,7 +94,12 @@ export const TeamMemberProfile = ({
           {facts.map((fact) => (
             <div key={fact.label} className="min-w-0">
               <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>
-              <dd className="text-16 mt-0.5 font-extrabold break-words">
+              <dd
+                className={cn(
+                  "text-16 mt-0.5 break-words",
+                  fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
+                )}
+              >
                 {fact.value}
               </dd>
               {fact.detail ? (

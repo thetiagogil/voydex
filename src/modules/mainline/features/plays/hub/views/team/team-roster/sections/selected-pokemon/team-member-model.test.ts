@@ -98,7 +98,7 @@ describe("getTeamMemberMeta", () => {
 });
 
 describe("getTeamMemberFacts", () => {
-  it("lists only recorded facts the game supports", () => {
+  it("lists the facts the game supports", () => {
     expect(getTeamMemberFacts(buddy, modernGame)).toEqual([
       { detail: "+Attack · −Sp. Atk", label: "Nature", value: "Adamant" },
       {
@@ -134,7 +134,34 @@ describe("getTeamMemberFacts", () => {
         },
         modernGame,
       ),
-    ).toEqual([{ detail: null, label: "Met", value: "Lv. 5 · Poké Ball" }]);
+    ).toEqual([
+      { detail: null, empty: true, label: "Nature", value: "Not recorded" },
+      { detail: null, empty: true, label: "Ability", value: "Not recorded" },
+      { detail: null, empty: true, label: "Held item", value: "None" },
+      { detail: null, label: "Met", value: "Lv. 5 · Poké Ball" },
+    ]);
+  });
+
+  it("keeps every supported fact in place when nothing is recorded", () => {
+    expect(
+      getTeamMemberFacts(
+        {
+          ...buddy,
+          ability_name: null,
+          ball_item_name: null,
+          held_item_name: null,
+          met_level: null,
+          met_location_label: null,
+          nature_name: null,
+        },
+        modernGame,
+      ).map(({ label, value }) => [label, value]),
+    ).toEqual([
+      ["Nature", "Not recorded"],
+      ["Ability", "Not recorded"],
+      ["Held item", "None"],
+      ["Met", "Not recorded"],
+    ]);
   });
 });
 
