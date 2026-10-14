@@ -5,24 +5,18 @@ import type { MouseEvent } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
-import {
-  HOME_SHELF_PLAY_COUNT,
-  type HomePlay,
-} from "@/modules/mainline/features/home/data/home-play-model";
+import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Carousel } from "@/shared/components/carousel";
-import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type HomePlayShelfProps = {
   currentPlayId: string;
   /* Makes a shelf Play the current one, without leaving the page. */
   onSelect: (playId: string) => void;
-  /* All the trainer's Plays, to tell whether some are off the shelf. */
-  playCount: number;
   plays: HomePlay[];
 };
 
@@ -41,14 +35,6 @@ const getShelfItemClassName = (index: number) =>
       ? "max-md:hidden"
       : "max-lg:hidden";
 
-/* All Plays shows wherever some Plays are left off the shelf. */
-const getAllPlaysClassName = (playCount: number) =>
-  playCount > HOME_SHELF_PLAY_COUNT
-    ? undefined
-    : playCount > TABLET_PLAY_COUNT
-      ? "lg:hidden"
-      : "md:hidden";
-
 const coverLinkClassName =
   "group/shelf-item focus-visible:outline-focus relative flex shrink-0 flex-col items-center rounded-md outline-none focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-solid";
 
@@ -64,14 +50,12 @@ const isPlainClick = (event: MouseEvent) =>
  * v3 `.hb-shelf`: your latest Plays as covers, each with its lead Pokémon as
  * a small sticker; the current one stands up with a check. Picking one
  * switches the meadow, the line under it and the latest moments at once.
- * The dashed tile starts a new Play, and All Plays leads to the rest when
- * some are left off. Earlier and Later page through it on wider screens
- * when it overflows.
+ * The dashed tile starts a new Play; the rest live on the Plays page. Earlier
+ * and Later page through it on wider screens when it overflows.
  */
 export const HomePlayShelf = ({
   currentPlayId,
   onSelect,
-  playCount,
   plays,
 }: HomePlayShelfProps) => (
   <nav aria-label="Your Plays" className="relative z-6">
@@ -171,22 +155,6 @@ export const HomePlayShelf = ({
           </span>
         </NewPlayTrigger>
       </li>
-      {playCount > PHONE_PLAY_COUNT ? (
-        <li
-          className={cn(
-            "shrink-0 self-center",
-            getAllPlaysClassName(playCount),
-          )}
-        >
-          <Link
-            href={appRoutes.mainlinePlays}
-            className={buttonVariants({ size: "sm", variant: "ghost" })}
-          >
-            All Plays
-            <AppIcon icon={appIcons.actions.next} inline="end" />
-          </Link>
-        </li>
-      ) : null}
     </Carousel>
   </nav>
 );

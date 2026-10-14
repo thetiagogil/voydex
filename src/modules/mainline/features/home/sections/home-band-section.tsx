@@ -25,7 +25,6 @@ type HomeBandSectionProps = {
   isFirstPlay: boolean;
   onSelectPlay: (playId: string) => void;
   partnerChoice: HomePartnerChoice | null;
-  playCount: number;
   plays: HomePlay[];
   subtitle: string;
 };
@@ -70,7 +69,6 @@ export const HomeBandSection = ({
   isFirstPlay,
   onSelectPlay,
   partnerChoice,
-  playCount,
   plays,
   subtitle,
 }: HomeBandSectionProps) => {
@@ -140,7 +138,6 @@ export const HomeBandSection = ({
         <HomePlayShelf
           currentPlayId={current.id}
           onSelect={onSelectPlay}
-          playCount={playCount}
           plays={plays}
         />
       </MeadowScene>

@@ -52,6 +52,4 @@ export type HomePageData =
       /* The trainer's only Play has only just started (v3 `homefirst`). */
       isFirstPlay: boolean;
       kind: "plays";
-      /* All the trainer's Plays, on the shelf or not. */
-      playCount: number;
     };

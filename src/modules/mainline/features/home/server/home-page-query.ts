@@ -317,6 +317,5 @@ export const getHomePageData = async (
     intentOffer,
     isFirstPlay: browseItems.length === 1 && isBrandNewPlay(current),
     kind: "plays",
-    playCount: browseItems.length,
   };
 };

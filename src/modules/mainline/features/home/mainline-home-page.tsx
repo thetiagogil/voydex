@@ -32,7 +32,6 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
     <HomePlaysView
       bands={data.bands}
       currentPlayId={data.currentPlayId}
-      playCount={data.playCount}
       isFirstPlay={data.isFirstPlay}
       greeting={
         data.isFirstPlay

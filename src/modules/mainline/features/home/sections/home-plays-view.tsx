@@ -14,7 +14,6 @@ type HomePlaysViewProps = {
   /* Between the band and the moments: the Play picked before signing up. */
   intentOffer?: ReactNode;
   isFirstPlay: boolean;
-  playCount: number;
   subtitle: string;
 };
 
@@ -30,7 +29,6 @@ export const HomePlaysView = ({
   greeting,
   intentOffer,
   isFirstPlay,
-  playCount,
   subtitle,
 }: HomePlaysViewProps) => {
   const [selectedPlayId, setSelectedPlayId] = useState(currentPlayId);
@@ -57,7 +55,6 @@ export const HomePlaysView = ({
       <HomeBandSection
         current={band.play}
         plays={bands.map(({ play }) => play)}
-        playCount={playCount}
         onSelectPlay={selectPlay}
         isFirstPlay={isFirstPlay}
         partnerChoice={band.partnerChoice}
