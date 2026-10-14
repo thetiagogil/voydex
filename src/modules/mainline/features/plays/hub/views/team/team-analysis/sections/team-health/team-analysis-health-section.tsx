@@ -22,10 +22,6 @@ const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
   weak: "danger",
 };
 
-/* v3 `.infotip`: the small "i" dot, a shade off the card it sits on. */
-const infoDotClassName =
-  "text-ink-2 hover:text-ink relative inline-grid size-4.5 shrink-0 cursor-help place-items-center rounded-full transition-colors after:absolute after:-inset-2.5";
-
 const TeamAnalysisHealthCard = ({
   isLead,
   metric,
@@ -36,8 +32,13 @@ const TeamAnalysisHealthCard = ({
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    /* Team health leads on the inset fill; the verdict is v3's small pill. */
-    <Card className={cn("gap-0 px-5.5 py-5", isLead && "bg-surface-2")}>
+    /* v3 `.hcard.lead`: Team health leads on the game's soft tint and lip. */
+    <Card
+      className={cn(
+        "gap-0 px-5.5 py-5",
+        isLead && "bg-game-soft shadow-[0_4px_0_var(--game-lip)]",
+      )}
+    >
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
           {metric.title}
@@ -46,29 +47,13 @@ const TeamAnalysisHealthCard = ({
           align="end"
           side="bottom"
           contentClassName="w-70"
+          triggerLabel={`Why ${metric.title} reads ${statusLabel}`}
           content={
             <p>
               <b>{statusLabel}.</b> {metric.reason}
             </p>
           }
-          trigger={
-            <button
-              type="button"
-              aria-label={`Why ${metric.title} reads ${statusLabel}`}
-              className={cn(
-                infoDotClassName,
-                isLead ? "bg-surface" : "bg-surface-2",
-              )}
-            />
-          }
-        >
-          <span
-            aria-hidden
-            className="text-12 leading-none font-extrabold italic"
-          >
-            i
-          </span>
-        </ExplanatoryTip>
+        />
       </div>
 
       <StatusBadge
@@ -90,7 +75,7 @@ const TeamAnalysisHealthCard = ({
               <TeamAnalysisTypeName
                 size="sm"
                 type={part.type}
-                className="align-[-3px]"
+                className="align-[-1px]"
               />
             ) : (
               part.text
