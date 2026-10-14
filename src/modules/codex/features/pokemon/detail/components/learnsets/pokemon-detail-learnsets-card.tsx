@@ -192,7 +192,7 @@ export const PokemonDetailLearnsetsCard = ({
         </>
       ) : (
         <p className="text-14 text-ink-2 font-semibold">
-          The moves it learns in {scopeName} aren&apos;t recorded yet.
+          {`The moves it learns in ${scopeName} aren't recorded yet.`}
         </p>
       )}
     </DetailSectionCard>

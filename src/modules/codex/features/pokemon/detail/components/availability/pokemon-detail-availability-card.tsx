@@ -57,7 +57,7 @@ export const PokemonDetailAvailabilityCard = ({
         </dl>
       ) : (
         <p className="text-14 text-ink-2 font-semibold">
-          Where to find it in {scopeName} isn&apos;t recorded yet.
+          {`Where to find it in ${scopeName} isn't recorded yet.`}
         </p>
       )}
     </DetailSectionCard>

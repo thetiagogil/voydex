@@ -196,7 +196,7 @@ export const TeamMemberEditorActions = ({
       </div>
       {options && !evolutions.length ? (
         <p className="text-ink-3 text-13 font-semibold">
-          {species} doesn&apos;t evolve further in this game.
+          {`${species} doesn't evolve further in this game.`}
         </p>
       ) : null}
 
