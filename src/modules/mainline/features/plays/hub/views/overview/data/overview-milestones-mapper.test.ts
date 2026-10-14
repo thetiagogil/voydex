@@ -130,7 +130,6 @@ describe("getOverviewMilestoneSummary journey numbering", () => {
       [2, 2, "next"],
       [3, 3, "done"],
       [4, 4, "todo"],
-      [5, 5, "todo"],
     ]);
   });
 });

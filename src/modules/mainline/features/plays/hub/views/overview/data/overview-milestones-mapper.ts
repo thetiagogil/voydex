@@ -47,7 +47,7 @@ export type OverviewAheadMilestone = {
   state: PlayMilestoneState;
 };
 
-const aheadLimit = 4;
+const aheadLimit = 3;
 
 /* Where a milestone happens, as Story and the next objective say it. */
 export const getOverviewMilestoneWhere = (

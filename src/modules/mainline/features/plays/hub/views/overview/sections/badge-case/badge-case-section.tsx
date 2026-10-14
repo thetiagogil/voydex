@@ -36,7 +36,7 @@ export const BadgeCaseSection = ({
       contentClassName="pt-2"
     >
       <OverviewStampGrid
-        className="grid-cols-5 gap-x-2.5 gap-y-4 p-1 sm:grid-cols-9"
+        className="grid-cols-5 gap-4 p-1 sm:grid-cols-9"
         stamps={badgeCase.stamps}
       />
       <div className="text-ink-2 mt-5 flex flex-wrap justify-between gap-x-3 gap-y-1 text-[13.5px] font-semibold">
