@@ -5,6 +5,7 @@ import { HomeIntentOfferCard } from "@/modules/mainline/features/home/components
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
 import { HomePlaysView } from "@/modules/mainline/features/home/sections/home-plays-view";
 import type { HomePageData } from "@/modules/mainline/features/home/types";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlineHomePageProps = {
   data: HomePageData;
@@ -47,7 +48,10 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
         ) : (
           <>
             Your latest Plays, right where you left them.{" "}
-            <Link href={appRoutes.mainlinePlays}>See all Plays</Link>
+            <Link href={appRoutes.mainlinePlays}>
+              See all Plays
+              <AppIcon icon={appIcons.actions.next} />
+            </Link>
           </>
         )
       }
