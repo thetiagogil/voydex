@@ -21,7 +21,6 @@ import {
   supportsGameMechanic,
   type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -599,17 +598,10 @@ export const TeamMemberEditorSheet = ({
       presentation="side"
       kicker={placeLabel}
       title={name}
-      head={
-        <div className="mb-3 flex items-center gap-4">
-          <PokemonPortrait
-            alt=""
-            className="size-20 shrink-0"
-            fallbackOnError
-            imageUrl={getPlayTeamMemberImageUrl(member)}
-            sizes="80px"
-            type={primaryTypeSlug}
-          />
-          <div className="grid min-w-0 gap-1.5">
+      hero={{
+        imageUrl: getPlayTeamMemberImageUrl(member),
+        meta: (
+          <div className="grid gap-2">
             <p className="text-ink-2 text-14 font-semibold">
               {[
                 member.species_name,
@@ -626,8 +618,9 @@ export const TeamMemberEditorSheet = ({
               className="flex gap-1.5"
             />
           </div>
-        </div>
-      }
+        ),
+        type: primaryTypeSlug,
+      }}
       footer={
         <>
           <Button

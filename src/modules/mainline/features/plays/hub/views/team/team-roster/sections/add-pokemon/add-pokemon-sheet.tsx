@@ -13,7 +13,6 @@ import { toast } from "sonner";
 
 import { PlayFormOverlay } from "@/modules/mainline/features/plays/hub/components/play-form-overlay";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
-import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -388,36 +387,6 @@ export const AddPokemonSheet = ({
         save();
       }}
     >
-      <div className="flex items-center gap-4">
-        <PokemonPortrait
-          alt=""
-          className="size-24 shrink-0"
-          fallbackOnError
-          imageUrl={picked.imageUrl}
-          sizes="96px"
-          type={
-            picked.primaryType && isPokemonTypeSlug(picked.primaryType.slug)
-              ? picked.primaryType.slug
-              : null
-          }
-        />
-        <div className="grid min-w-0 gap-1.5">
-          <p className="text-ink-3 text-13 font-extrabold tabular-nums">
-            {formatNumber(picked.number)}
-          </p>
-          {picked.formName ? (
-            <p className="text-ink-2 text-13 font-semibold">
-              {picked.formName}
-            </p>
-          ) : null}
-          <PokemonTypeList
-            types={getChoiceTypes(picked)}
-            badgeDisplay="icon-label"
-            badgeSize="sm"
-            className="flex gap-1.5"
-          />
-        </div>
-      </div>
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>
@@ -502,6 +471,32 @@ export const AddPokemonSheet = ({
       kicker={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
       title={step === 1 ? "Which Pokémon?" : (picked?.speciesName ?? "")}
       toolbar={step === 1 ? searchControl : undefined}
+      hero={
+        picked
+          ? {
+              imageUrl: picked.imageUrl,
+              meta: (
+                <div className="grid gap-2">
+                  <p className="text-ink-2 text-14 font-semibold tabular-nums">
+                    {[formatNumber(picked.number), picked.formName]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                  <PokemonTypeList
+                    types={getChoiceTypes(picked)}
+                    badgeDisplay="icon-label"
+                    badgeSize="sm"
+                    className="flex gap-1.5"
+                  />
+                </div>
+              ),
+              type:
+                picked.primaryType && isPokemonTypeSlug(picked.primaryType.slug)
+                  ? picked.primaryType.slug
+                  : null,
+            }
+          : undefined
+      }
       footer={
         step === 1 ? (
           <>
