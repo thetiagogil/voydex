@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
-import { ProgressMeter } from "@/shared/components/progress-meter";
+import { ProgressDonut } from "@/shared/components/progress-donut";
 import { Card } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/cn";
 
 import { getProgressSummaryItems } from "./progress-summary-model";
 
@@ -9,7 +12,11 @@ type ProgressSummarySectionProps = {
   playId: string;
 };
 
-/* Progress is quiet: a name, a big figure and a bar in the game's colour. */
+/*
+ * Progress is quiet: one tile per tracker (Story, Pokédex and, where the game
+ * has them, Collectibles) sharing the card's width, each a donut in the
+ * game's colour with one line of detail. A tile opens its tracker.
+ */
 export const ProgressSummarySection = ({
   overview,
   playId,
@@ -17,18 +24,32 @@ export const ProgressSummarySection = ({
   const items = getProgressSummaryItems(overview, playId);
 
   return (
-    <Card role="region" aria-label="Progress" className="px-5 sm:px-7">
+    <Card role="region" aria-label="Progress" className="px-4 sm:px-5">
       {items.length ? (
-        <div className="grid">
+        <div
+          className={cn(
+            "grid h-full gap-2.5 sm:gap-3",
+            items.length === 3 ? "grid-cols-3" : "grid-cols-2",
+          )}
+        >
           {items.map((item) => (
-            <ProgressMeter
+            <Link
               key={item.label}
               href={item.href}
-              label={item.label}
-              value={item.percent}
-              detail={item.detail}
-              className="py-2.5 first:pt-0 last:pb-0"
-            />
+              className="group/tile bg-surface-2 hover:bg-hover flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-colors"
+            >
+              <span className="text-15 font-extrabold group-hover/tile:underline">
+                {item.label}
+              </span>
+              <ProgressDonut
+                label={`${item.label} progress`}
+                value={item.percent}
+                className="w-full max-w-24"
+              />
+              <span className="text-ink-2 text-12 leading-tight font-semibold">
+                {item.detail}
+              </span>
+            </Link>
           ))}
         </div>
       ) : (
