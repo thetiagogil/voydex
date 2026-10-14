@@ -58,6 +58,19 @@ jobs:
       - name: Verify database
         run: npm run db:verify
 
+      # When the type check fails, keep the regenerated file so the diff can be read and committed.
+      - name: Regenerate database types
+        id: regenerate_types
+        if: ${{ failure() && steps.install.outcome == 'success' }}
+        run: npm run db:types
+
+      - name: Upload regenerated database types
+        if: ${{ failure() && steps.regenerate_types.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-types
+          path: src/shared/types/database.types.ts
+
       - name: Stop local Supabase
         if: ${{ always() && steps.install.outcome == 'success' }}
         run: npm run db:stop -- --no-backup
