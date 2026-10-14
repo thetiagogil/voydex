@@ -1,4 +1,4 @@
-import { type CSSProperties, Fragment } from "react";
+import { Fragment } from "react";
 
 import type {
   TeamAnalysisHealthMetric,
@@ -22,11 +22,13 @@ const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
   weak: "danger",
 };
 
-const verdictColours: Record<TeamAnalysisHealthStatus, string> = {
-  "limited-data": "var(--line)",
-  moderate: "color-mix(in oklab, var(--warn) 55%, white)",
-  strong: "var(--ok-line)",
-  weak: "var(--danger-line)",
+/* Team health's card wears its verdict's soft colour and lip. */
+const leadCardClassNames: Record<TeamAnalysisHealthStatus, string> = {
+  "limited-data": "bg-surface-2",
+  moderate:
+    "bg-warn-soft shadow-[0_4px_0_color-mix(in_oklab,var(--warn)_45%,white)]",
+  strong: "bg-ok-soft shadow-[0_4px_0_var(--ok-line)]",
+  weak: "bg-danger-soft shadow-[0_4px_0_var(--danger-line)]",
 };
 
 const TeamAnalysisHealthCard = ({
@@ -40,20 +42,14 @@ const TeamAnalysisHealthCard = ({
 
   return (
     /*
-     * Team health leads with a ring and lip in its verdict's colour, never the
-     * game's: v3's game tint clashed with the verdict in red and pink games.
+     * Team health leads on its verdict's colour, never the game's: v3's game
+     * tint clashed with the verdict in red and pink games.
      */
     <Card
       className={cn(
         "gap-0 px-5.5 py-5",
-        isLead &&
-          "shadow-[inset_0_0_0_2px_var(--verdict),0_4px_0_var(--verdict)]",
+        isLead && leadCardClassNames[metric.status],
       )}
-      style={
-        isLead
-          ? ({ "--verdict": verdictColours[metric.status] } as CSSProperties)
-          : undefined
-      }
     >
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
@@ -77,6 +73,7 @@ const TeamAnalysisHealthCard = ({
         className={cn(
           "text-13 mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
           metric.status === "limited-data" && "bg-track",
+          isLead && "bg-surface",
         )}
       >
         <span aria-hidden className="size-2 rounded-full bg-current" />
