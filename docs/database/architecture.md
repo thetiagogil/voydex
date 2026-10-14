@@ -92,6 +92,12 @@ game-valid teams, history, snapshots, and representative custom states cover the
 gameplay and planning surfaces without turning UI tests into manual database
 setup.
 
+Day-to-day development points `.env.local` at the local stack. Local resets also
+create the public `reference-assets` Storage bucket and upload the game covers
+kept in `database/storage/reference-assets` (copies of the hosted bucket,
+`games/covers/<game-slug>.webp`). A new game needs its cover added there and in
+hosted Storage.
+
 The local Auth fixture must never be loaded into a linked project. When hosted
 development data is explicitly authorized, apply only gameplay seed files `002`
 through `006` to the dedicated fixture owner inside an owner-scoped transaction, then
