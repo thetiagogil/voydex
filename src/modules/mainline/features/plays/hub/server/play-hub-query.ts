@@ -31,7 +31,6 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/server/play-moment-context-reader";
 import {
-  readMainlinePlayMilestoneTeamSnapshot,
   readMainlinePlayTimeline,
   readMainlinePlayTimelinePreview,
 } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
@@ -141,8 +140,7 @@ export const getMainlinePlayOverviewData = cache(
           context.play.generation_id,
         )
       : null;
-    const data = buildMainlinePlayOverviewData({
-      lastRecordedTeam: [],
+    return buildMainlinePlayOverviewData({
       milestoneRows,
       overview,
       partnerRows,
@@ -150,19 +148,6 @@ export const getMainlinePlayOverviewData = cache(
       teamPreviewRows,
       timelinePreview,
     });
-    const lastRecordedId = data.lastCompletedMilestone?.milestone_id ?? null;
-
-    /* "Your team then" needs the last milestone, so it is read after. */
-    return lastRecordedId === null
-      ? data
-      : {
-          ...data,
-          lastRecordedTeam: await readMainlinePlayMilestoneTeamSnapshot(
-            context.supabase,
-            playId,
-            lastRecordedId,
-          ),
-        };
   },
 );
 

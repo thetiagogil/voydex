@@ -75,8 +75,6 @@ export const MainlinePlayOverview = ({
           ) : (
             <>
               <NextObjectiveSection
-                lastCompletedMilestone={data.lastCompletedMilestone}
-                lastRecordedTeam={data.lastRecordedTeam}
                 nextMilestone={data.nextMilestone}
                 nextMilestonePosition={data.nextMilestonePosition}
                 playId={playId}

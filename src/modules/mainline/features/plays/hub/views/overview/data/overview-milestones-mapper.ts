@@ -94,29 +94,16 @@ const getOverviewJourneyAhead = (
 };
 
 /*
- * The next objective, chosen by the rule Story uses, and the last milestone
- * recorded: the newest by date, else the last recorded in Story's order.
+ * The next objective, chosen by the rule Story uses, and the journey ahead.
  * Pass the milestones in Story's order.
  */
 export const getOverviewMilestoneSummary = (
   orderedMilestones: OverviewMilestone[],
   badgeTypeByMilestoneId: ReadonlyMap<number, PokemonTypeSlug> = new Map(),
 ) => {
-  const completed = orderedMilestones.filter(
-    (milestone) => milestone.is_completed,
-  );
-  const lastCompletedMilestone =
-    completed
-      .filter((milestone) => milestone.completed_at)
-      .sort((first, second) =>
-        (second.completed_at ?? "").localeCompare(first.completed_at ?? ""),
-      )[0] ??
-    completed.at(-1) ??
-    null;
   const nextMilestone = pickNextMilestoneRow(orderedMilestones);
 
   return {
-    lastCompletedMilestone,
     nextMilestone,
     ...getOverviewJourneyAhead(
       orderedMilestones,

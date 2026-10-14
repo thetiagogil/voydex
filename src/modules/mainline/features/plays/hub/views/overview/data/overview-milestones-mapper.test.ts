@@ -76,9 +76,6 @@ describe("getOverviewMilestoneSummary", () => {
     );
 
     expect(summary.nextMilestone?.milestone_name).toBe("Receive Pokédex");
-    expect(summary.lastCompletedMilestone?.milestone_name).toBe(
-      "Choose Starter",
-    );
   });
 
   it("skips a milestone whose required prerequisite is still open", () => {

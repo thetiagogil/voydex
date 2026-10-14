@@ -21,7 +21,6 @@ import type {
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -215,9 +214,6 @@ export type MainlinePlayOverviewData = {
   badgeCase: BadgeCase | null;
   /* A brand-new Play opens on its partner choice and first steps. */
   freshPlay: OverviewFreshPlay | null;
-  lastCompletedMilestone: OverviewMilestone | null;
-  /* "Your team then": the team saved with the last milestone recorded. */
-  lastRecordedTeam: PlayTeamSnapshotMember[];
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   overview: MainlinePlayOverview | null;

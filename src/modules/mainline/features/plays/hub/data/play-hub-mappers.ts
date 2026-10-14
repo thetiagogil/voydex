@@ -37,7 +37,6 @@ import {
   type OverviewPartnerFormRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
@@ -98,8 +97,6 @@ export const getMainlinePlayOverviewPartnerFormIds = (params: {
 };
 
 export const buildMainlinePlayOverviewData = (params: {
-  /* The team saved with the last milestone recorded, if any. */
-  lastRecordedTeam: PlayTeamSnapshotMember[];
   milestoneRows: MainlinePlayOverviewMilestoneRows;
   overview: MainlinePlayOverview | null;
   /* Read only for a brand-new Play (see getMainlinePlayOverviewPartnerFormIds). */
@@ -135,7 +132,6 @@ export const buildMainlinePlayOverviewData = (params: {
       orderedMilestones,
       getBadgeTypeByMilestoneId(badgeRows),
     ),
-    lastRecordedTeam: params.lastRecordedTeam,
     overview: params.overview,
     play: params.play,
     teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),

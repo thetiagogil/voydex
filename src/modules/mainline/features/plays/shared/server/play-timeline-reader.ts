@@ -4,10 +4,6 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-timeline-mappers";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import {
-  parsePlayTeamSnapshot,
-  type PlayTeamSnapshotMember,
-} from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
-import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
 } from "@/modules/reference/reference-rows";
@@ -118,32 +114,4 @@ export const readMainlinePlayMilestoneTimelineSnapshots = async (
   }
 
   return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
-};
-
-/* The team saved with one milestone when it was recorded, if any. */
-export const readMainlinePlayMilestoneTeamSnapshot = async (
-  supabase: ServerSupabaseClient,
-  playId: string,
-  milestoneId: number,
-): Promise<PlayTeamSnapshotMember[]> => {
-  const timelineResult = await supabase
-    .schema("views")
-    .from("mainline_play_timeline_detail")
-    .select("*")
-    .eq("play_id", playId)
-    .eq("milestone_id", milestoneId)
-    .order("timeline_order", { ascending: false })
-    .order("happened_at", { ascending: false })
-    .limit(1);
-
-  if (timelineResult.error) {
-    throw new Error("Unable to load the Mainline milestone Team snapshot.");
-  }
-
-  const [event] = await hydrateTimelineEventImages(
-    supabase,
-    timelineResult.data ?? [],
-  );
-
-  return event ? parsePlayTeamSnapshot(event.team_snapshots) : [];
 };

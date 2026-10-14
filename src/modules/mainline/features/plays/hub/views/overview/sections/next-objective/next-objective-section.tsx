@@ -13,17 +13,11 @@ import {
   ObjectiveWhere,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { PlayTeamParty } from "@/modules/mainline/features/plays/shared/components/play-team-party";
-import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type NextObjectiveSectionProps = {
-  lastCompletedMilestone: OverviewMilestone | null;
-  /* The team saved with the last milestone recorded. */
-  lastRecordedTeam: PlayTeamSnapshotMember[];
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   playId: string;
@@ -39,12 +33,9 @@ const hasDecision = (milestone: OverviewMilestone) =>
 /*
  * The next objective is quiet: a Fredoka title and the page's one main
  * button, which records it in place (a choice opens Story's form), then
- * "Add a note". Under a rule, the last thing recorded and, from `sm` up, the
- * team you had then.
+ * "Add a note".
  */
 export const NextObjectiveSection = ({
-  lastCompletedMilestone,
-  lastRecordedTeam,
   nextMilestone,
   nextMilestonePosition,
   playId,
@@ -94,30 +85,6 @@ export const NextObjectiveSection = ({
             </Link>
             <AddNoteDialog playId={playId} size="lg" />
           </>
-        )
-      }
-      footer={
-        lastCompletedMilestone ? (
-          <>
-            <span className="min-w-0">
-              Last recorded{" "}
-              <b className="text-ink font-extrabold">
-                {lastCompletedMilestone.milestone_name}
-              </b>
-              {lastCompletedMilestone.completed_at ? (
-                <>
-                  {" · "}
-                  <PlayMomentTime
-                    value={lastCompletedMilestone.completed_at}
-                    format="date"
-                  />
-                </>
-              ) : null}
-            </span>
-            <PlayTeamParty members={lastRecordedTeam} className="ml-auto" />
-          </>
-        ) : (
-          "Nothing recorded yet."
         )
       }
     >
