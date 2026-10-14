@@ -4174,7 +4174,7 @@ COMMENT ON COLUMN gameplay.mainline_challenge_rules.config IS 'Structured rule c
 -- ============================================================================
 CREATE TABLE gameplay.mainline_play_challenge_rules (
     play_id uuid NOT NULL REFERENCES gameplay.mainline_plays (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
     config_override jsonb,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT play_challenge_rules_primary_key PRIMARY KEY (play_id, challenge_rule_id),
@@ -6338,7 +6338,7 @@ COMMENT ON TABLE planning.mainline_team_plan_tags IS 'Typed tag links for team p
 -- ============================================================================
 CREATE TABLE planning.mainline_team_plan_challenge_rules (
     team_plan_id uuid NOT NULL REFERENCES planning.mainline_team_plans (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
     config_override jsonb,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT team_plan_challenge_rules_primary_key PRIMARY KEY (team_plan_id, challenge_rule_id),
