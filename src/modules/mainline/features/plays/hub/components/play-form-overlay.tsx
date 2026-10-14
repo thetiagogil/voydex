@@ -158,7 +158,8 @@ export const PlayFormOverlay = ({
   ) : null;
 
   if (usesBottomSheet) {
-    const pinned = hero || toolbar;
+    // Phones keep the hero in the scroll, as v3's `.bs-card`; only a toolbar pins.
+    const pinned = Boolean(toolbar);
 
     return (
       <BottomSheet
@@ -181,7 +182,7 @@ export const PlayFormOverlay = ({
           children
         ) : (
           <>
-            {titleBlock}
+            {heroBlock ?? titleBlock}
             <div className="mt-4">{children}</div>
           </>
         )}

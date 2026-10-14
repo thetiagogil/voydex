@@ -76,7 +76,7 @@ const EditorStep = ({
   children: ReactNode;
   title: string;
 }) => (
-  <section className="border-line grid gap-4 border-t pt-5 first:border-t-0 first:pt-0">
+  <section className="border-line grid min-w-0 gap-4 border-t pt-5 first:border-t-0 first:pt-0">
     <div className="flex items-baseline gap-3">
       <h3 className="text-20">{title}</h3>
       {aside ? (
@@ -338,7 +338,7 @@ export const TeamMemberEditorSheet = ({
             />
           </Field>
         </div>
-        <div className="flex flex-wrap items-end gap-x-5.5 gap-y-4">
+        <div className="flex min-w-0 flex-wrap items-end gap-x-5.5 gap-y-4">
           <Field className="w-35">
             <EditorLabel htmlFor={`${id}-level`} edited={edited("level")}>
               Level
@@ -355,13 +355,14 @@ export const TeamMemberEditorSheet = ({
             />
           </Field>
           {supports.gender ? (
-            <Field className="w-auto">
+            <Field className="w-auto max-w-full min-w-0">
               <EditorLabel edited={edited("gender")}>
                 <span id={`${id}-gender`}>Gender</span>
               </EditorLabel>
               <SegmentedControl
                 ariaLabel="Gender"
                 variant="segment"
+                className="no-scrollbar overflow-x-auto"
                 value={values.gender}
                 onValueChange={(value) => change("gender", value)}
                 options={genderOptions}
