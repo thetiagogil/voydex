@@ -21,10 +21,14 @@ const coverSizeClassNames = {
     fallback: "text-12 h-10 border-[2.5px] border-white",
     image: "h-10 w-[30px] border-[2.5px] border-white object-cover",
   },
-  /* The Play header's cover, in a white frame: 54px wide, 74px from `sm`. */
+  /*
+   * The Play header's cover, in a white frame: every platform's box stands
+   * 72px tall, 100px from `sm`, and takes its width from its own shape.
+   */
   header: {
-    fallback: "text-20 sm:text-24 w-[54px] border-4 border-white sm:w-[74px]",
-    image: "w-[54px] border-4 border-white sm:w-[74px]",
+    fallback:
+      "text-20 sm:text-24 h-[72px] w-auto border-4 border-white sm:h-[100px]",
+    image: "h-[72px] w-auto border-4 border-white sm:h-[100px]",
   },
   /*
    * The Codex game header's cover, in a white frame: 110px wide on phones,
