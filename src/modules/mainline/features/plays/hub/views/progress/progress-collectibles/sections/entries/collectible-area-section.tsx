@@ -125,11 +125,14 @@ export const CollectibleAreaSection = ({
         }
       />
 
-      <div className="mt-4 flex flex-wrap gap-x-8 gap-y-6 pb-3">
+      {/*
+       * Unnamed places fill the row as v3's grid. Named places share equal
+       * columns, so their names and tokens line up however many each holds.
+       */}
+      <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 pb-3 sm:grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] sm:gap-x-6">
         {groupCollectibleEntriesByPlace({ area, areaLevel }).map((place) => {
           const placeLabelId = `${place.id}-label`;
           const notes = place.entries.filter((entry) => entry.description);
-          /* Unnamed places fill the row as v3's grid; named ones share it. */
           const isGrid = !place.label;
 
           return (
@@ -138,9 +141,8 @@ export const CollectibleAreaSection = ({
               role="group"
               aria-labelledby={place.label ? placeLabelId : headingId}
               className={cn(
-                "flex max-w-full min-w-0 flex-col gap-3",
-                isGrid && "w-full",
-                notes.length > 0 && "min-w-[min(100%,15rem)]",
+                "flex min-w-0 flex-col gap-3",
+                isGrid && "col-span-full",
               )}
             >
               {place.label ? (
@@ -151,42 +153,44 @@ export const CollectibleAreaSection = ({
                   {place.label}
                 </p>
               ) : null}
-              <div
-                className={cn(
-                  "gap-x-2.5 gap-y-4 sm:gap-x-3 sm:gap-y-4.5",
-                  isGrid
-                    ? "grid grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))]"
-                    : "flex flex-wrap",
-                )}
-              >
-                {place.entries.map((entry) => (
-                  <CollectibleToken
-                    key={entry.id}
-                    className={isGrid ? "w-full" : "size-14 sm:size-16"}
-                    describedBy={
-                      entry.description
-                        ? `collectible-note-${entry.id}`
-                        : undefined
-                    }
-                    entry={entry}
-                    isFound={getCollectibleEntryState(entry, stateByEntryId)}
-                    isPending={isEntryPending(entry.id)}
-                    onToggle={() => onEntryToggle(entry)}
-                  />
-                ))}
-              </div>
-              {notes.length ? (
-                <ul className="text-ink-2 text-13 grid w-0 min-w-full gap-1 pt-1 font-semibold">
-                  {notes.map((entry) => (
-                    <li key={entry.id} id={`collectible-note-${entry.id}`}>
-                      <b className="text-ink font-extrabold tabular-nums">
-                        #{entry.sortOrder}
-                      </b>{" "}
-                      {entry.description}
-                    </li>
+              <div className="grid min-w-0 gap-3">
+                <div
+                  className={cn(
+                    "gap-x-2.5 gap-y-4 sm:gap-x-3 sm:gap-y-4.5",
+                    isGrid
+                      ? "grid grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))]"
+                      : "flex flex-wrap",
+                  )}
+                >
+                  {place.entries.map((entry) => (
+                    <CollectibleToken
+                      key={entry.id}
+                      className={isGrid ? "w-full" : "size-14 sm:size-16"}
+                      describedBy={
+                        entry.description
+                          ? `collectible-note-${entry.id}`
+                          : undefined
+                      }
+                      entry={entry}
+                      isFound={getCollectibleEntryState(entry, stateByEntryId)}
+                      isPending={isEntryPending(entry.id)}
+                      onToggle={() => onEntryToggle(entry)}
+                    />
                   ))}
-                </ul>
-              ) : null}
+                </div>
+                {notes.length ? (
+                  <ul className="text-ink-2 text-13 grid gap-1 pt-1 font-semibold">
+                    {notes.map((entry) => (
+                      <li key={entry.id} id={`collectible-note-${entry.id}`}>
+                        <b className="text-ink font-extrabold tabular-nums">
+                          #{entry.sortOrder}
+                        </b>{" "}
+                        {entry.description}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
             </div>
           );
         })}
