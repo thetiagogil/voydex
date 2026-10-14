@@ -26,8 +26,8 @@ const badgeTones: Record<TeamPlanTone, StatusBadgeTone> = {
   warn: "warn",
 };
 
-/* v3 `.ps-legend i`: each tone's dot, in the legend and on its pills. */
-export const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
+/* v3 `.ps-legend i`: each tone's dot, on its pills. */
+const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
   info: "bg-calm",
   mute: "bg-mute",
   ok: "bg-ok",
@@ -37,7 +37,7 @@ export const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
 /* Retired and replaced matches share one mark, as on the match line. */
 export const teamPlanPastIcon = appIcons.product.retired;
 
-/* v3 `.pstate`: a small meaning pill, led by its legend dot. */
+/* v3 `.pstate`: a small meaning pill, led by its tone dot. */
 const TeamPlanPill = ({
   label,
   tone,

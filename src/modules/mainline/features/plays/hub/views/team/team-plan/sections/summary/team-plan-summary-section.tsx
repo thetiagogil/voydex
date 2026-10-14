@@ -1,28 +1,14 @@
 import type { MainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/types";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
-import { cn } from "@/shared/utils/cn";
 
-import {
-  TeamPlanFollowingPill,
-  teamPlanToneDotClassNames,
-} from "../../components/team-plan-pill";
-import {
-  getTeamPlanFoundPercent,
-  type TeamPlanTone,
-} from "../../team-plan-model";
-
-/* v3 `.ps-legend`: one coloured dot per pill colour. */
-const legend: { label: string; tone: TeamPlanTone }[] = [
-  { label: "Exact", tone: "ok" },
-  { label: "Build differs", tone: "warn" },
-  { label: "Evolution or form", tone: "info" },
-  { label: "Not found, retired or replaced", tone: "mute" },
-];
+import { TeamPlanFollowingPill } from "../../components/team-plan-pill";
+import { getTeamPlanFoundPercent } from "../../team-plan-model";
 
 /*
- * v3 `.plan-sum`: how this Play follows the Plan, the Plan's notes, how much
- * of it is found, and what the target pills mean. Quiet: a tool's summary.
+ * v3 `.plan-sum`: how this Play follows the Plan, the Plan's notes and how
+ * much of it is found. Quiet: a tool's summary. The target pills carry their
+ * own words, so there is no legend.
  */
 export const TeamPlanSummarySection = ({
   plan,
@@ -57,23 +43,6 @@ export const TeamPlanSummarySection = ({
           />
           <b className="text-right font-extrabold tabular-nums">{percent}%</b>
         </div>
-        <ul
-          aria-label="What the target marks mean"
-          className="text-13 text-ink-2 mt-3.5 flex flex-wrap gap-x-4 gap-y-2 font-bold"
-        >
-          {legend.map(({ label, tone }) => (
-            <li key={label} className="inline-flex items-center gap-1.5">
-              <span
-                aria-hidden
-                className={cn(
-                  "size-2.5 shrink-0 rounded-full",
-                  teamPlanToneDotClassNames[tone],
-                )}
-              />
-              {label}
-            </li>
-          ))}
-        </ul>
       </div>
     </Card>
   );
