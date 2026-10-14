@@ -63,7 +63,7 @@ export const BadgeCaseSection = ({
           {aheadMilestones.map(({ badgeType, milestone, sequence, state }) => (
             <li
               key={milestone.milestone_id}
-              className="text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 py-2.5"
+              className="text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-start gap-3 py-2.5"
             >
               <MilestoneMarker
                 badgeType={badgeType}
@@ -72,24 +72,28 @@ export const BadgeCaseSection = ({
                 state={state}
                 typeSlug={milestone.milestone_type_slug}
               />
-              <span
-                className={cn(
-                  "truncate font-extrabold",
-                  state === "done" && "text-ink-3 line-through",
-                )}
-              >
-                <span className="sr-only">
-                  Milestone {sequence}
-                  {state === "done" ? ", recorded" : null},{" "}
+              {/* The name, then where it happens in full: nothing is cut. */}
+              <span className="grid min-w-0 gap-0.5">
+                <span
+                  className={cn(
+                    "font-extrabold",
+                    state === "done" && "text-ink-3 line-through",
+                  )}
+                >
+                  <span className="sr-only">
+                    Milestone {sequence}
+                    {state === "done" ? ", recorded" : null},{" "}
+                  </span>
+                  {milestone.milestone_name}
                 </span>
-                {milestone.milestone_name}
+                <span className="text-ink-3 text-13 font-semibold">
+                  {getOverviewMilestoneWhere(milestone) ??
+                    milestone.milestone_type_name}
+                </span>
               </span>
-              <span className="text-ink-3 text-13 max-w-[45vw] truncate font-semibold sm:max-w-56">
-                {state === "next"
-                  ? "Next"
-                  : (getOverviewMilestoneWhere(milestone) ??
-                    milestone.milestone_type_name)}
-              </span>
+              {state === "next" ? (
+                <span className="text-ink-2 text-13 font-extrabold">Next</span>
+              ) : null}
             </li>
           ))}
         </ol>
