@@ -256,7 +256,12 @@ Two utilities in `app-utilities.css` carry the recipes features may need
 without the component: `sticker` (an owned thing's surface: type tint from
 `--t`, 4px white border, 5px tinted lip; override `--sticker-border`,
 `--sticker-lip`, `--sticker-shadow`) and `empty-slot` (the one open slot:
-2.5px dashed `dash`, no fill). Don't hand-roll either.
+2.5px dashed `dash`, no fill). Don't hand-roll either. A side column that
+follows the scroll (Story's panel, Story matchups' report, the roster panel,
+Play settings' nav, the Collectibles areas) takes `sticky-column`: it sticks
+under the docked bar and never grows past the screen, scrolling on its own
+when its content is taller. A card using it also needs `overflow-y-auto`,
+since cards clip their overflow.
 
 **Public art.** The public pages (Home, Intro, Start a Play, Log in and the
 other auth pages, not found) are global features and can't import a module,

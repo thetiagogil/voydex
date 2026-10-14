@@ -51,7 +51,7 @@ export const MainlinePlaySettings = ({
     >
       <nav
         aria-label="Settings sections"
-        className="sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] hidden lg:block"
+        className="sticky-column hidden lg:block"
       >
         <ul className="grid gap-1">
           {sections.map((section) => (

@@ -189,7 +189,7 @@ export const StoryMatchupsSection = ({
         <Card
           role="region"
           aria-labelledby={reportTitleId}
-          className="sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] px-5 sm:px-7"
+          className="sticky-column overflow-y-auto px-5 sm:px-7"
         >
           <StoryBattleReport battle={selected} titleId={reportTitleId} />
         </Card>

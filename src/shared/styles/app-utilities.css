@@ -85,6 +85,20 @@
   padding-top: var(--bar-h);
 }
 
+/*
+ * A side column that follows the scroll beside a longer one. It never grows
+ * past the screen: when its own content is taller, it scrolls on its own
+ * instead of making you reach the page's end to see the rest.
+ */
+@utility sticky-column {
+  position: sticky;
+  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
+  max-height: calc(100dvh - var(--play-dock-offset, 0px) - 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
