@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -11,6 +18,7 @@ import { PokemonTypeList } from "@/modules/reference/features/pokemon/components
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
+import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PendingData } from "@/shared/components/pending-data";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -49,8 +57,8 @@ type LoadState =
       status: "ready";
     };
 
-const firstChoicesCount = 8;
-const resultLimit = 60;
+/* The list grows as you scroll, so a whole Pokédex opens at once. */
+const choiceBatchSize = 48;
 
 const getChoiceTypes = (choice: PokemonChoice) =>
   [choice.primaryType, choice.secondaryType].filter((type) => type !== null);
@@ -87,8 +95,8 @@ const ChoiceButton = ({
 );
 
 /*
- * Add Pokémon (v3 `addMonSheet`): first which Pokémon, searched by name or
- * number in the Play's Pokédex, then its nickname, level and where it goes.
+ * Add Pokémon (v3 `addMonSheet`): first which Pokémon, from the whole of the
+ * Play's Pokédex in order or searched by name or number, then its nickname, level and where it goes.
  * A bottom sheet on phones, v3's side sheet wider. Once added, the toast
  * offers Undo. It also picks who replaces a Pokémon, from the editor.
  */
@@ -120,6 +128,7 @@ export const AddPokemonSheet = ({
   const [loadState, setLoadState] = useState<LoadState>({ status: "idle" });
   const [presetMissing, setPresetMissing] = useState(false);
   const [query, setQuery] = useState("");
+  const [shownCount, setShownCount] = useState(choiceBatchSize);
   const [picked, setPicked] = useState<PokemonChoice | null>(null);
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState("");
@@ -170,8 +179,18 @@ export const AddPokemonSheet = ({
     });
   }, [loadState.status, open, playId, preset]);
 
+  const search = (nextQuery: string) => {
+    setQuery(nextQuery);
+    setShownCount(choiceBatchSize);
+  };
+
+  const showMore = useCallback(
+    () => setShownCount((count) => count + choiceBatchSize),
+    [],
+  );
+
   const reset = () => {
-    setQuery("");
+    search("");
     setPicked(null);
     setNickname("");
     setLevel("");
@@ -280,7 +299,7 @@ export const AddPokemonSheet = ({
   const choices = loadState.status === "ready" ? loadState.choices : [];
   const pokedexName =
     loadState.status === "ready" ? (loadState.pokedexName ?? "Pokédex") : "";
-  const results = filterPokemonChoices(choices, query);
+  const results = query.trim() ? filterPokemonChoices(choices, query) : choices;
   const step = picked ? 2 : 1;
 
   const stepOne = (
@@ -289,7 +308,7 @@ export const AddPokemonSheet = ({
         id={`${id}-search`}
         ariaLabel="Search Pokémon"
         value={query}
-        onValueChange={setQuery}
+        onValueChange={search}
         placeholder={
           pokedexName
             ? `Search by name or ${pokedexName} number`
@@ -321,56 +340,38 @@ export const AddPokemonSheet = ({
             </Button>
           }
         />
-      ) : query.trim() ? (
-        results.length ? (
-          <>
-            <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
-              {results.slice(0, resultLimit).map((choice) => (
-                <ChoiceButton
-                  key={`${choice.speciesId}-${choice.formId}`}
-                  choice={choice}
-                  onPick={setPicked}
-                />
-              ))}
-            </ul>
-            {results.length > resultLimit ? (
-              <p className="text-ink-3 text-13 font-semibold">
-                Showing {resultLimit} of {results.length}. Search to narrow it
-                down.
-              </p>
-            ) : null}
-          </>
-        ) : (
-          <EmptyState
-            variant="bare"
-            title={`Nothing in the ${pokedexName} matches “${query.trim()}”.`}
-          />
-        )
+      ) : query.trim() && !results.length ? (
+        <EmptyState
+          variant="bare"
+          title={`Nothing in the ${pokedexName} matches “${query.trim()}”.`}
+        />
       ) : (
-        <>
-          <div className="grid gap-2">
-            <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
-              Around the first routes
-              {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
-              <PendingData variant="inline" label="Not in Voydex yet" />
-            </p>
-            <p className="text-ink-3 text-13 font-extrabold">
-              Start of the {pokedexName}
-            </p>
-            <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
-              {choices.slice(0, firstChoicesCount).map((choice) => (
-                <ChoiceButton
-                  key={`${choice.speciesId}-${choice.formId}`}
-                  choice={choice}
-                  onPick={setPicked}
-                />
-              ))}
-            </ul>
-          </div>
-          <p className="text-ink-3 text-13 font-semibold">
-            Or search any Pokémon in the {pokedexName}.
-          </p>
-        </>
+        <div className="grid gap-2">
+          {query.trim() ? null : (
+            <>
+              <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
+                Around the first routes
+                {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
+                <PendingData variant="inline" label="Not in Voydex yet" />
+              </p>
+              <p className="text-ink-3 text-13 font-extrabold">
+                The whole {pokedexName}
+              </p>
+            </>
+          )}
+          <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+            {results.slice(0, shownCount).map((choice) => (
+              <ChoiceButton
+                key={`${choice.speciesId}-${choice.formId}`}
+                choice={choice}
+                onPick={setPicked}
+              />
+            ))}
+          </ul>
+          {results.length > shownCount ? (
+            <LoadMoreTrigger label="Show more Pokémon" onLoadMore={showMore} />
+          ) : null}
+        </div>
       )}
     </div>
   );
