@@ -128,6 +128,11 @@ read/write file roles. The rules most often missed:
 - Server Actions authenticate explicitly and parse their input. Multi-table
   writes follow action → validated command → repository or RPC → database
   constraints and RLS; these may be files in one `server` folder.
+- Long lists (Plays, Collection, History, Collectibles, Pokédexes) load
+  their full read model and draw it in batches as you scroll, through the
+  shared `LoadMoreTrigger`; search and filters stay local and instant. Page
+  from the database only when one trainer's data is too big to download,
+  because that moves search, filters and group counts to the server.
 - Derived comparisons stay derived. Linked Team Plan statuses are pure
   application mapping over authored Plan targets, Play Pokémon and reference
   evolution edges: keep raw reads, matching, display selection and UI
