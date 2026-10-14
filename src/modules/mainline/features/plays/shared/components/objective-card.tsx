@@ -102,7 +102,7 @@ export const ObjectiveCard = ({
       ) : null}
       {footer ? (
         <div className="mt-auto pt-6">
-          <div className="border-line text-ink-2 text-14 flex items-center gap-3.5 border-t pt-4 font-semibold">
+          <div className="text-ink-2 text-14 flex items-center gap-3.5 pt-4 font-semibold">
             {footer}
           </div>
         </div>

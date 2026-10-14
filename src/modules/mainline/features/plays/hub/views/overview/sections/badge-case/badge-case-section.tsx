@@ -63,7 +63,7 @@ export const BadgeCaseSection = ({
           {aheadMilestones.map(({ badgeType, milestone, sequence, state }) => (
             <li
               key={milestone.milestone_id}
-              className="border-line text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 border-t py-2.5"
+              className="text-14 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 py-2.5"
             >
               <MilestoneMarker
                 badgeType={badgeType}

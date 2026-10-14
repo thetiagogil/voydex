@@ -7,7 +7,6 @@ import {
   type SectionHeadProps,
 } from "@/shared/components/section-head";
 import { CardContent, cardVariants } from "@/shared/components/ui/card";
-import { Separator } from "@/shared/components/ui/separator";
 
 type DetailSectionCardProps = {
   action?: ReactNode;
@@ -27,7 +26,6 @@ type DetailSectionCardProps = {
   id?: string;
   /* The trailing link onward (v3 `.more`), before `action`. */
   more?: SectionHeadProps["more"];
-  showSeparator?: boolean;
   /* Variables the content reads, such as a type colour as `--t`. */
   style?: CSSProperties;
   title: ReactNode;
@@ -50,7 +48,6 @@ export const DetailSectionCard = ({
   icon,
   id,
   more,
-  showSeparator = false,
   style,
   title,
   titleClassName,
@@ -79,15 +76,8 @@ export const DetailSectionCard = ({
         className={cn("px-5 pt-5 pb-3 sm:px-6 sm:pt-6", headerClassName)}
       />
 
-      {showSeparator ? <Separator className="bg-line" /> : null}
-
       <CardContent
-        className={cn(
-          showSeparator
-            ? "px-5 py-5 sm:px-6"
-            : "px-5 pt-1 pb-5 sm:px-6 sm:pb-6",
-          contentClassName,
-        )}
+        className={cn("px-5 pt-1 pb-5 sm:px-6 sm:pb-6", contentClassName)}
       >
         {children}
       </CardContent>

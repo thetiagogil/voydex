@@ -49,7 +49,7 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
     href={href}
     className={cn(
       rowInteractionVariants({ interaction: "action" }),
-      "border-line grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3 not-first:rounded-t-none not-first:border-t",
+      "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
     )}
   >
     <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-sm">

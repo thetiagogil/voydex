@@ -11,7 +11,7 @@ type PokemonDetailAvailabilityCardProps = {
 
 const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   return (
-    <div className="border-line grid gap-1.5 py-3 not-first:border-t first:pt-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-3">
+    <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-3">
       <dt className="min-w-0 font-extrabold">
         {row.href ? (
           <Link

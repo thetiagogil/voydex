@@ -140,7 +140,7 @@ const PlaysFiltersSheet = ({
         </Button>
       }
     >
-      <div className="divide-line grid divide-y">
+      <div className="grid">
         {rows.map((row) => (
           <div
             key={row.key}

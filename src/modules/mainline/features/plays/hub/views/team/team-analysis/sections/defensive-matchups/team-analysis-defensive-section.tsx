@@ -98,9 +98,7 @@ export const TeamAnalysisDefensiveSection = ({
         </p>
       )}
 
-      <p className="border-line text-ink-2 text-13 mt-2 border-t pt-3.5 font-semibold">
-        {footnote}
-      </p>
+      <p className="text-ink-2 text-13 mt-2 pt-3.5 font-semibold">{footnote}</p>
     </DetailSectionCard>
   );
 };

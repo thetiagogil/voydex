@@ -102,12 +102,12 @@ export const WelcomeForm = ({
               It&apos;s also the trainer name for your new Plays.
             </p>
           </div>
-          <div className="border-line border-t py-4.5">
+          <div className="py-4.5">
             <h2 className={questionClassName}>Pick your icon</h2>
             {/* TODO(v3-data): a Pokémon icon on the profile (11 first partners and a search); profiles.avatar_url holds a URL, not a species. */}
             <PendingData note="Picking a Pokémon as your icon comes later." />
           </div>
-          <div className="border-line flex flex-wrap items-center gap-2.5 border-t pt-4.5 pb-6">
+          <div className="flex flex-wrap items-center gap-2.5 pt-4.5 pb-6">
             <p className="text-13 text-ink-2 mr-auto font-semibold">
               You can change all of this later in Settings.
             </p>

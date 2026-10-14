@@ -77,7 +77,7 @@ const EditorStep = ({
   children: ReactNode;
   title: string;
 }) => (
-  <section className="border-line grid min-w-0 gap-4 border-t pt-5 first:border-t-0 first:pt-0">
+  <section className="grid min-w-0 gap-4 pt-5 first:pt-0">
     <div className="flex items-baseline gap-3">
       <h3 className="text-20">{title}</h3>
       {aside ? (
@@ -594,7 +594,7 @@ export const TeamMemberEditorSheet = ({
         </p>
       </div>
       {changes.length ? (
-        <ul className="divide-line grid divide-y">
+        <ul className="grid">
           {changes.map((item) => (
             <li key={item.field} className="grid gap-2 py-3.5">
               <div className="flex items-center justify-between gap-3">

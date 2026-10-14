@@ -90,7 +90,7 @@ export const TeamMemberProfile = ({
       />
 
       {facts.length ? (
-        <dl className="border-line mt-5 grid gap-x-[18px] gap-y-3.5 border-t pt-[18px] sm:grid-cols-2">
+        <dl className="mt-5 grid gap-x-[18px] gap-y-3.5 pt-[18px] sm:grid-cols-2">
           {facts.map((fact) => (
             <div key={fact.label} className="min-w-0">
               <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>

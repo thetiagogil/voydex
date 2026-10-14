@@ -40,9 +40,7 @@ export const RangeHeading = ({
     <div
       data-slot="range-heading"
       className={cn(
-        "border-line flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-b pb-3",
-        /* A card right under it already separates the range: no hairline. */
-        "[&:has(+[data-slot=card])]:border-b-0 [&:has(+[data-slot=card])]:pb-0",
+        "flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5",
         className,
       )}
     >

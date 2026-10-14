@@ -69,7 +69,7 @@ export const SettingsProfileSection = ({
           trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
         }
       >
-        <div className="flex flex-col gap-4 border-t border-[color-mix(in_oklab,var(--t,var(--lip))_30%,var(--line))] pt-4.5">
+        <div className="flex flex-col gap-4 pt-4.5">
           <div className="flex flex-col gap-2">
             <p className={fieldLabelClassName}>Your icon</p>
             {/* TODO(v3-data): a Pokémon icon on the profile (profiles.avatar_url is a URL, not a species). */}

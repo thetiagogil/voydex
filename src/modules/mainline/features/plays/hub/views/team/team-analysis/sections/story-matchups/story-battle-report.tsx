@@ -26,7 +26,7 @@ const ReportPart = ({
   children: ReactNode;
   title: string;
 }) => (
-  <section className="border-line mt-5 border-t pt-4">
+  <section className="mt-5 pt-4">
     <h3 className="text-20 mb-3">{title}</h3>
     {children}
   </section>

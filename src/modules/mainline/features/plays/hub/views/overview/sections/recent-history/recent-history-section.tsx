@@ -35,7 +35,7 @@ export const RecentHistorySection = ({
         moments.length ? { href: historyHref, label: "History" } : undefined
       }
     >
-      <div className="divide-line grid divide-y">
+      <div className="grid">
         {moments.map((event, index) => {
           const happenedAt = event.happened_at ?? event.created_at;
 

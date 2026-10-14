@@ -19,7 +19,7 @@ export const ProgressSummarySection = ({
   return (
     <Card role="region" aria-label="Progress" className="px-5 sm:px-7">
       {items.length ? (
-        <div className="divide-line grid divide-y">
+        <div className="grid">
           {items.map((item) => (
             <ProgressMeter
               key={item.label}

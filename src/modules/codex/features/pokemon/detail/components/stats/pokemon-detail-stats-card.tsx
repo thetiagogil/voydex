@@ -46,7 +46,7 @@ export const PokemonDetailStatsCard = ({
           </div>
         ))}
       </div>
-      <div className="border-line mt-2.5 flex justify-between border-t pt-3 font-extrabold">
+      <div className="mt-2.5 flex justify-between pt-3 font-extrabold">
         <span>Total</span>
         <span className="tabular-nums">
           {getPokemonDetailStatsTotal(stats)}

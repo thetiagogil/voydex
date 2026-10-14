@@ -85,14 +85,11 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
   return rows.filter((row) => row !== null);
 };
 
-/* v3 `.pd-rows`: one fact per row between hairlines. */
+/* v3 `.pd-rows`: one fact per row. */
 const PlayDetailRows = ({ rows }: { rows: PlayDetailRow[] }) => (
   <dl className="grid">
     {rows.map((row) => (
-      <div
-        key={row.key}
-        className="border-line flex justify-between gap-4 border-b px-0.5 py-2.5 last:border-b-0"
-      >
+      <div key={row.key} className="flex justify-between gap-4 px-0.5 py-2.5">
         <dt className="text-ink-2 text-13 shrink-0 font-bold">{row.label}</dt>
         <dd className="text-ink text-14 min-w-0 text-right font-extrabold">
           {row.value}
@@ -110,7 +107,7 @@ const PlaySettingsLink = ({
   onNavigate: () => void;
   playId: string;
 }) => (
-  <div className="border-line mt-1 border-t pt-3">
+  <div className="mt-1 pt-3">
     <Button
       variant="outline"
       size="sm"

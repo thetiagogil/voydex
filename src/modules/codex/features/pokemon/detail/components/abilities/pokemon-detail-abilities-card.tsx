@@ -14,7 +14,7 @@ export const PokemonDetailAbilitiesCard = ({
         {abilitySlots.map((abilitySlot) => (
           <div
             key={`${abilitySlot.token}-${abilitySlot.ability.id}`}
-            className="border-line py-3 not-first:border-t first:pt-0 last:pb-0"
+            className="py-3 first:pt-0 last:pb-0"
           >
             <dt className="text-ink-2 text-12 font-bold">
               {abilitySlot.label}

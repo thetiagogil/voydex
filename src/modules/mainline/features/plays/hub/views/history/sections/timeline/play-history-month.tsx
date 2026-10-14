@@ -33,7 +33,7 @@ export const PlayHistoryMonthSection = ({
       />
 
       <Card className="mt-3.5 gap-0 px-5 py-1.5 sm:px-7 sm:py-3">
-        <ol className="divide-line grid min-w-0 divide-y">
+        <ol className="grid min-w-0">
           {month.entries.map(({ date, event }, index) => (
             <li key={getPlayHistoryEventKey(event, index)} className="min-w-0">
               <PlayMomentRow

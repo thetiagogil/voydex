@@ -122,7 +122,7 @@ export const TeamPlanTargetCard = ({
         className="mb-3.5"
       />
 
-      <span className="mt-auto flex w-full flex-wrap items-center justify-between gap-2 border-t border-dashed border-[color-mix(in_oklab,var(--t)_30%,var(--dash))] pt-3">
+      <span className="mt-auto flex w-full flex-wrap items-center justify-between gap-2 pt-3">
         <TeamPlanStatusPill status={comparison.status} />
         <span
           className={cn(

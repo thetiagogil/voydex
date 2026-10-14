@@ -201,7 +201,7 @@ export const PlaySettingsGeneralSection = ({
         </div>
 
         <SettingsRow
-          className="mt-4 border-t pt-4 first:border-t first:pt-4"
+          className="mt-4 pt-4 first:pt-4"
           title={
             <>
               Status

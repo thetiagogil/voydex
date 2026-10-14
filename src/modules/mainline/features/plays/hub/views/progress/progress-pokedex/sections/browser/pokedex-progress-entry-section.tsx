@@ -106,7 +106,7 @@ export const PokedexProgressEntrySection = ({
         </div>
       ) : (
         <Card size="sm" className="mt-4 gap-0 py-0">
-          <div role="list" className="divide-line grid min-w-0 divide-y">
+          <div role="list" className="grid min-w-0">
             {entries}
           </div>
         </Card>

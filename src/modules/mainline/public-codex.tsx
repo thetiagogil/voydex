@@ -164,7 +164,7 @@ export const CodexInYourPlays = async ({
       action={members.length ? addAction : undefined}
     >
       {members.length ? (
-        <ul className="divide-line grid divide-y">
+        <ul className="grid">
           {members.map((member) => {
             const play = member.play_id ? playById.get(member.play_id) : null;
 

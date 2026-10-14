@@ -80,7 +80,7 @@ export const GameDetailRegionSection = ({
       </div>
 
       {hasLeaders ? (
-        <div className="border-line mt-6 border-t pt-5">
+        <div className="mt-6 pt-5">
           <SectionHead
             title="Leaders and Champion"
             headingLevel={3}

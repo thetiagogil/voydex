@@ -70,7 +70,7 @@ const MatchupRow = ({
   label: string;
 }) => {
   return (
-    <div className="border-line grid gap-1.5 py-3 not-first:border-t first:pt-0 last:pb-0 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-3">
+    <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-3">
       <dt className="text-ink-2 text-12 font-bold sm:pt-1.5">{label}</dt>
       <dd>{children}</dd>
     </div>

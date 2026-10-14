@@ -59,7 +59,7 @@ export const FirstStepsSection = ({
       aside={`${doneCount} of ${steps.length}`}
       contentClassName="pt-0"
     >
-      <ol className="divide-line grid divide-y">
+      <ol className="grid">
         {steps.map((step, index) => (
           <li
             key={step.title}

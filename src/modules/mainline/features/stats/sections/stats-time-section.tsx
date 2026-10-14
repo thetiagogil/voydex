@@ -43,7 +43,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
       />
       <Card className="gap-0 px-4 py-3 sm:px-6 sm:py-4">
         {stats.time.length ? (
-          <ul className="divide-line grid divide-y">
+          <ul className="grid">
             {rows.map((row) => (
               <li
                 key={row.playId}
@@ -109,7 +109,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         ) : null}
 
         {stats.time.length && untracked.length ? (
-          <p className="text-ink-2 text-13 border-line mt-2 border-t pt-3 font-semibold">
+          <p className="text-ink-2 text-13 mt-2 pt-3 font-semibold">
             {untracked.length > 3
               ? `${untracked.length} Plays have no playtime recorded, so they aren't counted.`
               : `${joinStatsList(untracked, "and")} ${untracked.length === 1 ? "has" : "have"} no playtime recorded, so ${untracked.length === 1 ? "it isn't" : "they aren't"} counted.`}

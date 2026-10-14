@@ -119,7 +119,7 @@ export const CollectionSpeciesSheet = ({
     >
       <SheetSection title="Its Plays with you" aside={countLine}>
         {entry.members.length ? (
-          <ul className="divide-line grid divide-y">
+          <ul className="grid">
             {entry.members.map((member) => (
               <li
                 key={member.id}

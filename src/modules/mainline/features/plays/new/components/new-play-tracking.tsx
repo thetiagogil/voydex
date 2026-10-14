@@ -78,7 +78,7 @@ export const NewPlayTracking = ({
         </Button>
       </div>
 
-      <div id={panelId} hidden={!isOpen} className="divide-line mt-2 divide-y">
+      <div id={panelId} hidden={!isOpen} className="mt-2">
         <TrackingRow
           title="Story"
           description="Badges, league and the milestones in between"
