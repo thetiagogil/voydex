@@ -102,7 +102,8 @@ const TeamRosterGroupList = ({
             ) : (
               <PokemonEmptySlot
                 label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
-                className="text-14 h-full min-h-[150px]"
+                variant="compact"
+                className="text-14 h-full"
               />
             )}
           </li>

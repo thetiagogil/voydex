@@ -40,6 +40,8 @@ const variantClassNames: Record<
   {
     art: string;
     empty: string;
+    /* Shared with the open slot, so an empty row stands as tall as a full one. */
+    height: string;
     marks: string;
     name: string;
     sticker: string;
@@ -49,6 +51,7 @@ const variantClassNames: Record<
   compact: {
     art: "size-[92px]",
     empty: "my-1 size-[84px]",
+    height: "min-h-[194px]",
     marks: "mt-1.5 gap-1",
     name: "text-16 mt-0.5",
     sticker: "pb-3.5",
@@ -57,6 +60,7 @@ const variantClassNames: Record<
   default: {
     art: "size-[108px] transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-[132px]",
     empty: "size-[108px] sm:size-[132px]",
+    height: "min-h-[212px]",
     marks: "mt-2 gap-1.5",
     name: "mt-2 text-[18px]",
     sticker: "pb-4",
@@ -94,6 +98,7 @@ export const PokemonSticker = ({
     "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-[3px]",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
+    variant === "compact" && variantClassName.height,
     selected &&
       "[--sticker-border:var(--game)] [--sticker-lip:var(--game-deep)] [--sticker-shadow:0_0_transparent]",
     className,
@@ -194,16 +199,20 @@ export const PokemonSticker = ({
 export const PokemonEmptySlot = ({
   className,
   label,
+  variant = "default",
 }: {
   className?: string;
   label: string;
+  /* Matches the stickers it sits among. */
+  variant?: PokemonStickerVariant;
 }) => {
   return (
     <div
       role="img"
       aria-label={label}
       className={cn(
-        "empty-slot text-ink-3 flex min-h-[212px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold",
+        "empty-slot text-ink-3 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold",
+        variantClassNames[variant].height,
         className,
       )}
     >
