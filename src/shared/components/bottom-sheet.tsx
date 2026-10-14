@@ -27,6 +27,8 @@ type BottomSheetProps = {
   finalFocus?: SheetContentProps["finalFocus"];
   /* Pinned to the bottom above the safe area; its children share the width. */
   footer?: ReactNode;
+  /* Pinned above the scrolling body, such as a title and its search. */
+  header?: ReactNode;
   /* Where focus lands on open, such as the title (give it `tabIndex={-1}`). */
   initialFocus?: SheetContentProps["initialFocus"];
   /*
@@ -63,6 +65,7 @@ export const BottomSheet = ({
   descriptionHidden = false,
   finalFocus,
   footer,
+  header,
   initialFocus,
   label,
   onOpenChange,
@@ -97,6 +100,14 @@ export const BottomSheet = ({
         {actions ? (
           <div className="absolute top-3 right-15 z-10 flex items-center gap-2">
             {actions}
+          </div>
+        ) : null}
+        {header ? (
+          <div
+            data-slot="bottom-sheet-header"
+            className="shrink-0 px-5 pt-2 pb-3"
+          >
+            {header}
           </div>
         ) : null}
         <div

@@ -302,20 +302,23 @@ export const AddPokemonSheet = ({
   const results = query.trim() ? filterPokemonChoices(choices, query) : choices;
   const step = picked ? 2 : 1;
 
+  const searchControl = (
+    <SearchControl
+      id={`${id}-search`}
+      ariaLabel="Search Pokémon"
+      value={query}
+      onValueChange={search}
+      placeholder={
+        pokedexName
+          ? `Search by name or ${pokedexName} number`
+          : "Search by name or number"
+      }
+      autoComplete="off"
+    />
+  );
+
   const stepOne = (
     <div className="grid gap-4">
-      <SearchControl
-        id={`${id}-search`}
-        ariaLabel="Search Pokémon"
-        value={query}
-        onValueChange={search}
-        placeholder={
-          pokedexName
-            ? `Search by name or ${pokedexName} number`
-            : "Search by name or number"
-        }
-        autoComplete="off"
-      />
       {presetMissing ? (
         <p role="status" className="text-ink-2 text-14 font-semibold">
           That Pokémon isn&apos;t in this Play&apos;s Pokédex. Search for
@@ -498,6 +501,7 @@ export const AddPokemonSheet = ({
       presentation="side"
       kicker={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
       title={step === 1 ? "Which Pokémon?" : (picked?.speciesName ?? "")}
+      toolbar={step === 1 ? searchControl : undefined}
       footer={
         step === 1 ? (
           <>

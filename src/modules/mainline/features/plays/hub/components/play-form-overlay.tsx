@@ -38,12 +38,18 @@ type PlayFormOverlayProps = {
    */
   presentation?: "dialog" | "side";
   title: ReactNode;
+  /*
+   * Pinned under the title, such as a search: the title and it stay in view
+   * while only the body scrolls.
+   */
+  toolbar?: ReactNode;
 };
 
 /*
  * A Play's quiet forms (a note, adding or editing a Pokémon): a bottom sheet
  * on phones and tablets, a dialog or side sheet wider. Focus lands on the
- * title, and the footer stays in view while the body scrolls.
+ * title, and the footer stays in view while the body scrolls; with a
+ * toolbar, so do the title and the toolbar.
  */
 export const PlayFormOverlay = ({
   bodyClassName,
@@ -56,6 +62,7 @@ export const PlayFormOverlay = ({
   open,
   presentation = "dialog",
   title,
+  toolbar,
 }: PlayFormOverlayProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const usesBottomSheet = useMainlinePlayDetailSheetLayout();
@@ -71,6 +78,25 @@ export const PlayFormOverlay = ({
     </div>
   ) : null;
 
+  const sheetTitleBlock = (
+    <>
+      {head}
+      <div className="grid gap-1 pr-12">
+        {kickerLine}
+        <SheetTitle
+          ref={titleRef}
+          tabIndex={-1}
+          className="text-24 outline-none"
+        >
+          {title}
+        </SheetTitle>
+        {description ? (
+          <SheetDescription>{description}</SheetDescription>
+        ) : null}
+      </div>
+    </>
+  );
+
   if (usesBottomSheet) {
     return (
       <BottomSheet
@@ -80,22 +106,23 @@ export const PlayFormOverlay = ({
         label={typeof title === "string" ? title : undefined}
         bodyClassName={cn("pt-2", bodyClassName)}
         footer={footer}
+        header={
+          toolbar ? (
+            <>
+              {sheetTitleBlock}
+              <div className="mt-4">{toolbar}</div>
+            </>
+          ) : undefined
+        }
       >
-        {head}
-        <div className="grid gap-1 pr-12">
-          {kickerLine}
-          <SheetTitle
-            ref={titleRef}
-            tabIndex={-1}
-            className="text-24 outline-none"
-          >
-            {title}
-          </SheetTitle>
-          {description ? (
-            <SheetDescription>{description}</SheetDescription>
-          ) : null}
-        </div>
-        <div className="mt-4">{children}</div>
+        {toolbar ? (
+          children
+        ) : (
+          <>
+            {sheetTitleBlock}
+            <div className="mt-4">{children}</div>
+          </>
+        )}
       </BottomSheet>
     );
   }
@@ -108,52 +135,79 @@ export const PlayFormOverlay = ({
           initialFocus={titleRef}
           className="w-full gap-0 p-0 data-[side=right]:sm:max-w-[480px]"
         >
-          <div className="min-h-0 flex-1 overflow-y-auto px-6 pt-6 pb-6">
-            {head}
-            <div className="grid gap-1 pr-12">
-              {kickerLine}
-              <SheetTitle
-                ref={titleRef}
-                tabIndex={-1}
-                className="text-24 outline-none"
+          {toolbar ? (
+            <>
+              <div className="shrink-0 px-6 pt-6 pb-4">
+                {sheetTitleBlock}
+                <div className="mt-5">{toolbar}</div>
+              </div>
+              <div
+                className={cn(
+                  "min-h-0 flex-1 overflow-y-auto px-6 pt-1 pb-6",
+                  bodyClassName,
+                )}
               >
-                {title}
-              </SheetTitle>
-              {description ? (
-                <SheetDescription>{description}</SheetDescription>
-              ) : null}
+                {children}
+              </div>
+            </>
+          ) : (
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 pt-6 pb-6">
+              {sheetTitleBlock}
+              <div className={cn("mt-5", bodyClassName)}>{children}</div>
             </div>
-            <div className={cn("mt-5", bodyClassName)}>{children}</div>
-          </div>
+          )}
           {footerRow}
         </SheetContent>
       </Sheet>
     );
   }
 
+  const dialogTitleBlock = (
+    <>
+      {head}
+      <DialogHeader className="gap-1 pr-12">
+        {kickerLine}
+        <DialogTitle
+          ref={titleRef}
+          tabIndex={-1}
+          className="text-24 outline-none"
+        >
+          {title}
+        </DialogTitle>
+        {description ? (
+          <DialogDescription>{description}</DialogDescription>
+        ) : null}
+      </DialogHeader>
+    </>
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         initialFocus={titleRef}
-        className="max-h-[85dvh] gap-0 overflow-hidden p-0 sm:max-w-lg"
+        className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-lg"
       >
-        <div className="flex min-h-0 flex-col overflow-y-auto px-6 pt-6 pb-6">
-          {head}
-          <DialogHeader className="gap-1 pr-12">
-            {kickerLine}
-            <DialogTitle
-              ref={titleRef}
-              tabIndex={-1}
-              className="text-24 outline-none"
+        {toolbar ? (
+          <>
+            <div className="shrink-0 px-6 pt-6 pb-4">
+              {dialogTitleBlock}
+              <div className="mt-5">{toolbar}</div>
+            </div>
+            <div
+              className={cn(
+                "min-h-0 flex-1 overflow-y-auto px-6 pt-1 pb-6",
+                bodyClassName,
+              )}
             >
-              {title}
-            </DialogTitle>
-            {description ? (
-              <DialogDescription>{description}</DialogDescription>
-            ) : null}
-          </DialogHeader>
-          <div className={cn("mt-5", bodyClassName)}>{children}</div>
-        </div>
+              {children}
+            </div>
+          </>
+        ) : (
+          <div className="flex min-h-0 flex-col overflow-y-auto px-6 pt-6 pb-6">
+            {dialogTitleBlock}
+            <div className={cn("mt-5", bodyClassName)}>{children}</div>
+          </div>
+        )}
         {footerRow}
       </DialogContent>
     </Dialog>
