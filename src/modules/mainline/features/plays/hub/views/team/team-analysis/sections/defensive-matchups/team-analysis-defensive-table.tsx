@@ -1,51 +1,100 @@
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import { TeamAnalysisMemberSprite } from "../../components/team-analysis-member-sprite";
 import { TeamAnalysisTypeName } from "../../components/team-analysis-type-name";
 import { getTeamAnalysisMemberId } from "../../data/team-analysis-rows";
 import {
+  type DefensiveMatchupSort,
+  getDefensiveResistTotal,
+} from "./defensive-matchup-sort";
+import {
   TeamAnalysisMatchupCell,
   TeamAnalysisPressureTag,
 } from "./team-analysis-matchup-cell";
 
-const headerCellClassName = "px-1 pb-1.5 align-bottom";
+const headerCellClassName = "px-1.5 pt-2 pb-2 align-bottom";
 
 /*
- * Rows are read across and columns down, so the hovered cell's whole row and
- * whole column lift to the inset fill.
+ * Rows are read across, so the hovered row lifts to the inset fill; a
+ * Pokémon's column lifts too, so its matchups read down at a glance.
  */
 const bodyCellClassName =
-  "group-hover:bg-surface-2 h-10 p-0 text-center transition-colors";
+  "group-hover:bg-surface-2 h-11 p-0 text-center transition-colors";
 const columnHighlightClassName = "bg-surface-2";
+
+/* A header that sorts the table: the chart's order, or the most first. */
+const SortHeader = ({
+  children,
+  className,
+  onSortChange,
+  sort,
+  value,
+}: {
+  children: ReactNode;
+  className?: string;
+  onSortChange: (sort: DefensiveMatchupSort) => void;
+  sort: DefensiveMatchupSort;
+  value: DefensiveMatchupSort;
+}) => {
+  const isActive = sort === value;
+
+  return (
+    <th
+      scope="col"
+      aria-sort={
+        isActive ? (value === "type" ? "ascending" : "descending") : "none"
+      }
+      className={cn(headerCellClassName, className)}
+    >
+      <button
+        type="button"
+        onClick={() => onSortChange(value)}
+        className={cn(
+          "hover:text-ink focus-visible:outline-focus inline-flex items-center gap-1 rounded-xs outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+          isActive && "text-ink",
+        )}
+      >
+        {children}
+        <AppIcon
+          icon={appIcons.actions.expand}
+          size="xs"
+          aria-hidden
+          className={cn(!isActive && "opacity-0")}
+        />
+      </button>
+    </th>
+  );
+};
 
 /* Desktop and tablet: one row per attacking type, one column per Pokémon (v3 `.matrix`). */
 export const TeamAnalysisDefensiveTable = ({
   className,
   members,
+  onSortChange,
   rows,
+  sort,
 }: {
   className?: string;
   members: MainlinePlayTeamMember[];
+  onSortChange: (sort: DefensiveMatchupSort) => void;
   rows: TeamAnalysisDefensiveRow[];
+  sort: DefensiveMatchupSort;
 }) => {
-  /* The hovered column: each Pokémon, then Weak, then Resist. */
+  /* The hovered Pokémon's column, by its place in the team. */
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
-  const weakColumn = members.length;
-  const resistColumn = members.length + 1;
-  const columnCell = (column: number) => ({
-    className: cn(hoveredColumn === column && columnHighlightClassName),
-    onMouseEnter: () => setHoveredColumn(column),
-  });
+  const lastRowIndex = rows.length - 1;
+  const clearColumn = () => setHoveredColumn(null);
 
   return (
     <div className={cn("-mx-2 overflow-x-auto px-2", className)}>
       <table
-        onMouseLeave={() => setHoveredColumn(null)}
+        onMouseLeave={clearColumn}
         className="text-14 w-full min-w-160 border-separate border-spacing-0"
       >
         <caption className="sr-only">
@@ -53,22 +102,26 @@ export const TeamAnalysisDefensiveTable = ({
         </caption>
         <thead>
           <tr className="text-ink-3 text-13 font-bold">
-            <th scope="col" className={cn(headerCellClassName, "text-left")}>
+            <SortHeader
+              className="pl-3 text-left"
+              onSortChange={onSortChange}
+              sort={sort}
+              value="type"
+            >
               Attacking type
-            </th>
+            </SortHeader>
             {members.map((member, column) => {
               const name = getPlayTeamMemberName(member);
-              const { className: highlight, onMouseEnter } = columnCell(column);
 
               return (
                 <th
                   key={getTeamAnalysisMemberId(member)}
                   scope="col"
-                  onMouseEnter={onMouseEnter}
+                  onMouseEnter={() => setHoveredColumn(column)}
                   className={cn(
                     headerCellClassName,
-                    "rounded-t-sm transition-colors",
-                    highlight,
+                    "rounded-t-md transition-colors",
+                    hoveredColumn === column && columnHighlightClassName,
                   )}
                 >
                   <TeamAnalysisMemberSprite
@@ -84,42 +137,31 @@ export const TeamAnalysisDefensiveTable = ({
                 </th>
               );
             })}
-            <th
-              scope="col"
-              onMouseEnter={columnCell(weakColumn).onMouseEnter}
-              className={cn(
-                headerCellClassName,
-                "rounded-t-sm transition-colors",
-                columnCell(weakColumn).className,
-              )}
-            >
+            <SortHeader onSortChange={onSortChange} sort={sort} value="weak">
               Weak
-            </th>
-            <th
-              scope="col"
-              onMouseEnter={columnCell(resistColumn).onMouseEnter}
-              className={cn(
-                headerCellClassName,
-                "rounded-t-sm transition-colors",
-                columnCell(resistColumn).className,
-              )}
+            </SortHeader>
+            <SortHeader
+              className="pr-3"
+              onSortChange={onSortChange}
+              sort={sort}
+              value="resist"
             >
               Resist
-            </th>
+            </SortHeader>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => {
-            const resistTotal = row.resistCount + row.immuneCount;
+          {rows.map((row, rowIndex) => {
+            const resistTotal = getDefensiveResistTotal(row);
 
             return (
               <tr key={row.attackingType.id} className="group">
                 <th
                   scope="row"
-                  onMouseEnter={() => setHoveredColumn(null)}
+                  onMouseEnter={clearColumn}
                   className={cn(
                     bodyCellClassName,
-                    "rounded-l-sm pl-2.5 text-left font-normal",
+                    "rounded-l-md pl-3 text-left font-normal",
                   )}
                 >
                   <span className="inline-flex items-center gap-2">
@@ -130,20 +172,20 @@ export const TeamAnalysisDefensiveTable = ({
                 {row.cells.map((cell, column) => (
                   <td
                     key={cell.memberId}
-                    onMouseEnter={columnCell(column).onMouseEnter}
+                    onMouseEnter={() => setHoveredColumn(column)}
                     className={cn(
                       bodyCellClassName,
-                      columnCell(column).className,
+                      hoveredColumn === column && columnHighlightClassName,
+                      rowIndex === lastRowIndex && "rounded-b-md",
                     )}
                   >
                     <TeamAnalysisMatchupCell cell={cell} />
                   </td>
                 ))}
                 <td
-                  onMouseEnter={columnCell(weakColumn).onMouseEnter}
+                  onMouseEnter={clearColumn}
                   className={cn(
                     bodyCellClassName,
-                    columnCell(weakColumn).className,
                     "font-extrabold tabular-nums",
                     row.weakCount >= 2 && "text-danger",
                   )}
@@ -151,11 +193,10 @@ export const TeamAnalysisDefensiveTable = ({
                   {row.weakCount}
                 </td>
                 <td
-                  onMouseEnter={columnCell(resistColumn).onMouseEnter}
+                  onMouseEnter={clearColumn}
                   className={cn(
                     bodyCellClassName,
-                    columnCell(resistColumn).className,
-                    "rounded-r-sm pr-2.5 font-extrabold tabular-nums",
+                    "rounded-r-md pr-3 font-extrabold tabular-nums",
                     resistTotal >= 2 && "text-ok",
                   )}
                 >

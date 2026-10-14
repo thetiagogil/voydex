@@ -7,37 +7,14 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { SelectControl } from "@/shared/components/select-control";
 
+import {
+  type DefensiveMatchupSort,
+  defensiveMatchupSortOptions,
+  sortDefensiveMatchupRows,
+} from "./defensive-matchup-sort";
 import { TeamAnalysisDefensiveList } from "./team-analysis-defensive-list";
 import { TeamAnalysisDefensiveTable } from "./team-analysis-defensive-table";
 import { TeamAnalysisMatchupLegend } from "./team-analysis-matchup-cell";
-
-type MatchupSort = "resist" | "type" | "weak";
-
-const sortOptions = [
-  { label: "Type", value: "type" },
-  { label: "Most weak", value: "weak" },
-  { label: "Most resisted", value: "resist" },
-] as const;
-
-const byTypeOrder = (
-  left: TeamAnalysisDefensiveRow,
-  right: TeamAnalysisDefensiveRow,
-) => left.attackingType.sort_order - right.attackingType.sort_order;
-
-const getResistTotal = (row: TeamAnalysisDefensiveRow) =>
-  row.resistCount + row.immuneCount;
-
-/* Ties keep the type chart's order. */
-const sortRows: Record<
-  MatchupSort,
-  (left: TeamAnalysisDefensiveRow, right: TeamAnalysisDefensiveRow) => number
-> = {
-  resist: (left, right) =>
-    getResistTotal(right) - getResistTotal(left) || byTypeOrder(left, right),
-  type: byTypeOrder,
-  weak: (left, right) =>
-    right.weakCount - left.weakCount || byTypeOrder(left, right),
-};
 
 export const TeamAnalysisDefensiveSection = ({
   footnote,
@@ -52,8 +29,8 @@ export const TeamAnalysisDefensiveSection = ({
   members: MainlinePlayTeamMember[];
   rows: TeamAnalysisDefensiveRow[];
 }) => {
-  const [sort, setSort] = useState<MatchupSort>("type");
-  const visibleRows = rows.toSorted(sortRows[sort]);
+  const [sort, setSort] = useState<DefensiveMatchupSort>("type");
+  const visibleRows = sortDefensiveMatchupRows(rows, sort);
 
   return (
     <DetailSectionCard
@@ -66,14 +43,15 @@ export const TeamAnalysisDefensiveSection = ({
     >
       <div className="flex flex-col gap-1.5">
         <TeamAnalysisMatchupLegend className="lg:hidden" />
+        {/* The table sorts from its headers; phones keep a menu. */}
         <SelectControl
           id="defensive-matchups-sort"
           name="defensiveMatchupsSort"
           ariaLabel="Sort attacking types"
-          className="w-fit"
+          className="w-fit md:hidden"
           value={sort}
-          onValueChange={(value) => setSort(value as MatchupSort)}
-          options={sortOptions}
+          onValueChange={(value) => setSort(value as DefensiveMatchupSort)}
+          options={defensiveMatchupSortOptions}
           placeholder="Type"
           prefix="Sort"
           variant="ghost"
@@ -85,7 +63,9 @@ export const TeamAnalysisDefensiveSection = ({
           <TeamAnalysisDefensiveTable
             className="hidden md:block"
             members={members}
+            onSortChange={setSort}
             rows={visibleRows}
+            sort={sort}
           />
           <TeamAnalysisDefensiveList
             className="md:hidden"
