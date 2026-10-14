@@ -128,7 +128,8 @@ export const MainlinePlayProgressPokedex = ({
     });
 
     if (result && speciesIds.length > 1) {
-      toast.success(result.message);
+      /* One mark toast at a time: a quick run of taps replaces it. */
+      toast.success(result.message, { id: "pokedex-mark" });
     }
   };
 

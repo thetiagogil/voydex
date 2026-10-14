@@ -139,6 +139,8 @@ export const MainlinePlayProgressCollectibles = ({
       toast.success(
         isCollected ? `${entry.name} found` : `${entry.name} unmarked`,
         {
+          /* One mark toast at a time: a quick run of taps replaces it. */
+          id: "collectible-mark",
           action: {
             label: "Undo",
             onClick: () => {
@@ -178,6 +180,7 @@ export const MainlinePlayProgressCollectibles = ({
           ? `${entryIds.length} marked found in ${label}`
           : `${entryIds.length} unmarked in ${label}`,
         {
+          id: "collectible-mark",
           action: {
             label: "Undo",
             onClick: () => {
