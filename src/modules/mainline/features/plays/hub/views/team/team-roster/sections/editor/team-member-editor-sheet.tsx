@@ -661,7 +661,6 @@ export const TeamMemberEditorSheet = ({
         type: primaryTypeSlug,
         actions: (
           <TeamMemberEditorActions
-            part="head"
             member={member}
             options={options}
             onDone={() => close(false)}
@@ -714,18 +713,6 @@ export const TeamMemberEditorSheet = ({
       {/* Review hides the form, but Save still submits it. */}
       <div hidden={isReviewing}>{details}</div>
       {isReviewing ? review : null}
-      {isReviewing ? null : (
-        <div className="mt-6">
-          <TeamMemberEditorActions
-            part="delete"
-            member={member}
-            options={options}
-            onDone={() => close(false)}
-            onReplace={onReplace}
-            playId={playId}
-          />
-        </div>
-      )}
       {error ? <FieldError className="mt-4">{error}</FieldError> : null}
     </PlayFormOverlay>
   );
