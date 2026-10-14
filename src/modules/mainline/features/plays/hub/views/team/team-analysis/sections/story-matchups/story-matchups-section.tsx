@@ -96,7 +96,7 @@ const StoryBattleRow = ({
           badgeSize="sm"
           className="hidden gap-1 justify-self-end sm:flex"
         />
-        <span className="justify-self-end sm:justify-self-start">
+        <span className="justify-self-end">
           {battle.state === "won" ? (
             <StatusBadge tone="ok">
               <AppIcon icon={appIcons.status.active} />
