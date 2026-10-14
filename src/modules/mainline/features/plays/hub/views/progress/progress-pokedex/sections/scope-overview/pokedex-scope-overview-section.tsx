@@ -1,6 +1,5 @@
 import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Progress } from "@/shared/components/ui/progress";
 
 import {
   getPokedexScopeCounts,
@@ -81,12 +80,6 @@ export const PokedexScopeOverviewSection = ({
             />
           ) : null
         }
-      />
-      <Progress
-        aria-label={`${scope.name} ${
-          progress.kind === "completion" ? "completion" : "caught progress"
-        }`}
-        value={progress.percentage}
       />
     </section>
   );

@@ -6,7 +6,6 @@ import { PokemonCard } from "@/modules/reference/features/pokemon/components/pok
 
 import {
   formatPokedexNumber,
-  PokedexCodexLink,
   type PokedexSpeciesPresentationProps,
 } from "./pokedex-species-item-shared";
 
@@ -18,7 +17,6 @@ const cardStateByProgress = {
 
 export const PokedexSpeciesGridCard = ({
   entry,
-  versionGroupSlug,
   isPending,
   isPressed,
   onToggle,
@@ -54,9 +52,6 @@ export const PokedexSpeciesGridCard = ({
           onToggle();
         }}
       />
-      <span className="absolute right-1 bottom-1">
-        <PokedexCodexLink entry={entry} versionGroupSlug={versionGroupSlug} />
-      </span>
     </div>
   );
 };

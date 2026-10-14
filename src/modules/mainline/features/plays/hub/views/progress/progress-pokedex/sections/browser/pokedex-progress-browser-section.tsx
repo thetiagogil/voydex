@@ -7,10 +7,8 @@ import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
-import { SelectControl } from "@/shared/components/select-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Toolbar } from "@/shared/components/toolbar";
-import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 import {
   filterPokedexEntries,
@@ -20,22 +18,14 @@ import {
 } from "../../data/pokedex-progress-model";
 import type {
   MainlinePlayPokedexScope,
-  PokedexInclusionFilter,
   PokedexProgressFilter,
   PokedexProgressState,
   PokedexUpdateMode,
-  PokedexViewMode,
 } from "../../types";
 import { PokedexEntryScopeFilter } from "./pokedex-entry-scope-filter";
 import { PokedexProgressEntrySection } from "./pokedex-progress-entry-section";
 
 const INITIAL_VISIBLE_SECTION_COUNT = 1;
-
-const inclusionOptions = [
-  { label: "All entries", value: "all" },
-  { label: "Required", value: "required" },
-  { label: "Optional", value: "optional" },
-] as const;
 
 const updateModeOptions = [
   {
@@ -50,22 +40,8 @@ const updateModeOptions = [
   },
 ] as const;
 
-const viewModeOptions = [
-  {
-    icon: <AppIcon icon={appIcons.views.display.grid} aria-hidden />,
-    label: "Grid",
-    value: "grid",
-  },
-  {
-    icon: <AppIcon icon={appIcons.views.display.list} aria-hidden />,
-    label: "List",
-    value: "list",
-  },
-] as const;
-
 export const PokedexProgressBrowserSection = ({
   browseScopes,
-  versionGroupSlug,
   isSpeciesPending,
   onSpeciesBulkStateChange,
   onSpeciesStateChange,
@@ -73,7 +49,6 @@ export const PokedexProgressBrowserSection = ({
   stateBySpeciesId,
 }: {
   browseScopes: MainlinePlayPokedexScope[];
-  versionGroupSlug: string;
   isSpeciesPending: (speciesId: number) => boolean;
   onSpeciesBulkStateChange: (
     speciesIds: number[],
@@ -86,21 +61,14 @@ export const PokedexProgressBrowserSection = ({
   scope: MainlinePlayPokedexScope;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
 }) => {
-  const isMobile = useIsMobile();
   const [query, setQuery] = useState("");
   const [progressFilter, setProgressFilter] =
     useState<PokedexProgressFilter>("all");
-  const [inclusionFilter, setInclusionFilter] =
-    useState<PokedexInclusionFilter>("all");
   const [browseScopeId, setBrowseScopeId] = useState("all");
   const [updateMode, setUpdateMode] = useState<PokedexUpdateMode>("caught");
-  const [preferredView, setPreferredView] = useState<PokedexViewMode | null>(
-    null,
-  );
   const [visibleSectionCount, setVisibleSectionCount] = useState(
     INITIAL_VISIBLE_SECTION_COUNT,
   );
-  const viewMode = preferredView ?? (isMobile ? "list" : "grid");
   const browseScope =
     browseScopes.find((candidate) => String(candidate.id) === browseScopeId) ??
     null;
@@ -116,7 +84,6 @@ export const PokedexProgressBrowserSection = ({
   const progressCounts = useMemo(() => {
     const entries = filterPokedexEntries({
       entries: scopedEntries,
-      inclusionFilter,
       progressFilter: "all",
       query,
       stateBySpeciesId,
@@ -128,17 +95,16 @@ export const PokedexProgressBrowserSection = ({
     }
 
     return counts;
-  }, [inclusionFilter, query, scopedEntries, stateBySpeciesId]);
+  }, [query, scopedEntries, stateBySpeciesId]);
   const filteredEntries = useMemo(
     () =>
       filterPokedexEntries({
         entries: scopedEntries,
-        inclusionFilter,
         progressFilter,
         query,
         stateBySpeciesId,
       }),
-    [inclusionFilter, progressFilter, query, scopedEntries, stateBySpeciesId],
+    [progressFilter, query, scopedEntries, stateBySpeciesId],
   );
   const maxPokedexNumber = useMemo(
     () =>
@@ -158,16 +124,11 @@ export const PokedexProgressBrowserSection = ({
     [filteredEntries, maxPokedexNumber],
   );
   const visibleSections = filteredSections.slice(0, visibleSectionCount);
-  const visibleEntryCount = visibleSections.reduce(
-    (count, section) => count + section.entries.length,
-    0,
-  );
   const hasMoreSections = visibleSections.length < filteredSections.length;
   const hasFilters =
     Boolean(query.trim()) ||
     browseScopeId !== "all" ||
-    progressFilter !== "all" ||
-    inclusionFilter !== "all";
+    progressFilter !== "all";
 
   const resetVisibleSections = () => {
     setVisibleSectionCount(INITIAL_VISIBLE_SECTION_COUNT);
@@ -183,7 +144,6 @@ export const PokedexProgressBrowserSection = ({
     setQuery("");
     setBrowseScopeId("all");
     setProgressFilter("all");
-    setInclusionFilter("all");
     resetVisibleSections();
   };
 
@@ -247,46 +207,22 @@ export const PokedexProgressBrowserSection = ({
                 value={browseScopeId}
               />
             ) : null}
-            <SelectControl
-              ariaLabel="Filter Pokédex completion requirement"
-              className="w-40"
-              onValueChange={(value) => {
-                setInclusionFilter(value as PokedexInclusionFilter);
-                resetVisibleSections();
-              }}
-              options={inclusionOptions}
-              placeholder="All entries"
-              value={inclusionFilter}
-            />
+            {/* v3: one row, the marking mode at its end. */}
+            <div className="flex items-center gap-2.5">
+              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                Tap marks as
+              </span>
+              <SegmentedControl
+                ariaLabel="Marking mode"
+                onValueChange={setUpdateMode}
+                options={updateModeOptions}
+                value={updateMode}
+                variant="segment"
+              />
+            </div>
           </>
         }
-      >
-        <div className="flex flex-wrap items-center gap-2.5">
-          <span className="text-ink-2 text-13 font-bold">Tap marks as</span>
-          <SegmentedControl
-            ariaLabel="Marking mode"
-            onValueChange={setUpdateMode}
-            options={updateModeOptions}
-            value={updateMode}
-            variant="segment"
-          />
-          <SegmentedControl
-            ariaLabel="Pokédex display"
-            onValueChange={setPreferredView}
-            options={viewModeOptions}
-            value={viewMode}
-            variant="segment"
-          />
-        </div>
-      </Toolbar>
-
-      <div className="flex min-h-8 items-center justify-between gap-3">
-        <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
-          Showing {visibleEntryCount} of {filteredEntries.length} entries
-        </p>
-
-        {hasFilters ? <ClearFiltersButton onClick={resetFilters} /> : null}
-      </div>
+      />
 
       {visibleSections.length ? (
         <>
@@ -294,14 +230,12 @@ export const PokedexProgressBrowserSection = ({
             {visibleSections.map((section) => (
               <PokedexProgressEntrySection
                 key={section.id}
-                versionGroupSlug={versionGroupSlug}
                 isSpeciesPending={isSpeciesPending}
                 onBulkStateChange={onSpeciesBulkStateChange}
                 onSpeciesStateChange={onSpeciesStateChange}
                 section={section}
                 stateBySpeciesId={stateBySpeciesId}
                 updateMode={updateMode}
-                viewMode={viewMode}
               />
             ))}
           </div>

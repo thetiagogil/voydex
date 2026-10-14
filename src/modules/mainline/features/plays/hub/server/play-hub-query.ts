@@ -293,7 +293,6 @@ export const getMainlinePlayProgressPokedexData = cache(
 
     return readMainlinePlayPokedexProgress(context.supabase, {
       gameName: context.play.game_name,
-      versionGroupSlug: context.play.version_group_slug,
       generationId: context.play.generation_id,
       playId,
     });

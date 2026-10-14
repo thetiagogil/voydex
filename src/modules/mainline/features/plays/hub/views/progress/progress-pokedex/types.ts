@@ -39,7 +39,6 @@ export type MainlinePlayPokedexScope = {
 
 export type MainlinePlayProgressPokedexData = {
   gameName: string;
-  versionGroupSlug: string;
   scopes: MainlinePlayPokedexScope[];
 };
 
@@ -56,6 +55,4 @@ export type MainlinePlayPokedexSourceRows = {
 };
 
 export type PokedexProgressFilter = "all" | "missing" | "seen" | "caught";
-export type PokedexInclusionFilter = "all" | "required" | "optional";
 export type PokedexUpdateMode = "seen" | "caught";
-export type PokedexViewMode = "grid" | "list";

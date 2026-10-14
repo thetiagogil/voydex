@@ -3,10 +3,8 @@ import type {
   MainlinePlayPokedexEntry,
   PokedexProgressState,
   PokedexUpdateMode,
-  PokedexViewMode,
 } from "../types";
 import { PokedexSpeciesGridCard } from "./pokedex-species-grid-card";
-import { PokedexSpeciesListRow } from "./pokedex-species-list-row";
 
 const getToggleLabel = ({
   mode,
@@ -28,39 +26,30 @@ const getToggleLabel = ({
 
 export const PokedexSpeciesItem = ({
   entry,
-  versionGroupSlug,
   isPending,
   mode,
   onStateChange,
   state,
-  viewMode,
 }: {
   entry: MainlinePlayPokedexEntry;
-  versionGroupSlug: string;
   isPending: boolean;
   mode: PokedexUpdateMode;
   onStateChange: (state: PokedexProgressState) => void;
   state: PokedexProgressState;
-  viewMode: PokedexViewMode;
 }) => {
   const nextState = getNextPokedexStateForMode({ mode, state });
-  const presentationProps = {
-    entry,
-    versionGroupSlug,
-    isPending,
-    isPressed: state === mode,
-    onToggle: () => onStateChange(nextState),
-    state,
-    toggleLabel: getToggleLabel({
-      mode,
-      speciesName: entry.speciesName,
-      state,
-    }),
-  };
-
-  return viewMode === "list" ? (
-    <PokedexSpeciesListRow {...presentationProps} />
-  ) : (
-    <PokedexSpeciesGridCard {...presentationProps} />
+  return (
+    <PokedexSpeciesGridCard
+      entry={entry}
+      isPending={isPending}
+      isPressed={state === mode}
+      onToggle={() => onStateChange(nextState)}
+      state={state}
+      toggleLabel={getToggleLabel({
+        mode,
+        speciesName: entry.speciesName,
+        state,
+      })}
+    />
   );
 };

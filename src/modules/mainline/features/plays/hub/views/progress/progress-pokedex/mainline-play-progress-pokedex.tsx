@@ -162,7 +162,6 @@ export const MainlinePlayProgressPokedex = ({
       <PokedexProgressBrowserSection
         key={activeScope.id}
         browseScopes={browseOnlyScopes}
-        versionGroupSlug={data.versionGroupSlug}
         isSpeciesPending={isSpeciesPending}
         onSpeciesBulkStateChange={(speciesIds, state) => {
           void updateSpeciesStates(speciesIds, state);

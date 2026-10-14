@@ -1,29 +1,21 @@
 import { RangeHeading } from "@/shared/components/range-heading";
 import { Button } from "@/shared/components/ui/button";
-import { Card } from "@/shared/components/ui/card";
 
 import { PokedexSpeciesItem } from "../../components/pokedex-species-item";
 import {
   getPokedexEntryState,
   type PokedexProgressEntrySection as PokedexProgressEntrySectionModel,
 } from "../../data/pokedex-progress-model";
-import type {
-  PokedexProgressState,
-  PokedexUpdateMode,
-  PokedexViewMode,
-} from "../../types";
+import type { PokedexProgressState, PokedexUpdateMode } from "../../types";
 
 export const PokedexProgressEntrySection = ({
-  versionGroupSlug,
   isSpeciesPending,
   onBulkStateChange,
   onSpeciesStateChange,
   section,
   stateBySpeciesId,
   updateMode,
-  viewMode,
 }: {
-  versionGroupSlug: string;
   isSpeciesPending: (speciesId: number) => boolean;
   onBulkStateChange: (
     speciesIds: number[],
@@ -36,7 +28,6 @@ export const PokedexProgressEntrySection = ({
   section: PokedexProgressEntrySectionModel;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
   updateMode: PokedexUpdateMode;
-  viewMode: PokedexViewMode;
 }) => {
   const speciesIds = section.entries.map((entry) => entry.speciesId);
   const isPending = speciesIds.some(isSpeciesPending);
@@ -58,12 +49,10 @@ export const PokedexProgressEntrySection = ({
     <PokedexSpeciesItem
       key={`${section.id}:${entry.pokedexNumber}:${entry.speciesId}`}
       entry={entry}
-      versionGroupSlug={versionGroupSlug}
       isPending={isSpeciesPending(entry.speciesId)}
       mode={updateMode}
       onStateChange={(state) => onSpeciesStateChange(entry.speciesId, state)}
       state={getPokedexEntryState(entry, stateBySpeciesId)}
-      viewMode={viewMode}
     />
   ));
 
@@ -100,17 +89,9 @@ export const PokedexProgressEntrySection = ({
         }
       />
 
-      {viewMode === "grid" ? (
-        <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
-          {entries}
-        </div>
-      ) : (
-        <Card size="sm" className="mt-4 gap-0 py-0">
-          <div role="list" className="grid min-w-0">
-            {entries}
-          </div>
-        </Card>
-      )}
+      <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+        {entries}
+      </div>
     </section>
   );
 };

@@ -1,7 +1,6 @@
 import type {
   MainlinePlayPokedexEntry,
   MainlinePlayPokedexScope,
-  PokedexInclusionFilter,
   PokedexProgressFilter,
   PokedexProgressState,
   PokedexUpdateMode,
@@ -126,13 +125,11 @@ export const getPokedexEntryState = (
 
 export const filterPokedexEntries = ({
   entries,
-  inclusionFilter,
   progressFilter,
   query,
   stateBySpeciesId,
 }: {
   entries: MainlinePlayPokedexEntry[];
-  inclusionFilter: PokedexInclusionFilter;
   progressFilter: PokedexProgressFilter;
   query: string;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
@@ -145,10 +142,6 @@ export const filterPokedexEntries = ({
       (progressFilter === "missing" && state === "missing") ||
       (progressFilter === "seen" && state === "seen") ||
       (progressFilter === "caught" && state === "caught");
-    const matchesInclusion =
-      inclusionFilter === "all" ||
-      (inclusionFilter === "required" && entry.isIncludedInCompletion) ||
-      (inclusionFilter === "optional" && !entry.isIncludedInCompletion);
     const matchesQuery =
       !normalizedQuery ||
       entry.speciesName.toLocaleLowerCase().includes(normalizedQuery) ||
@@ -156,7 +149,7 @@ export const filterPokedexEntries = ({
       String(entry.pokedexNumber) === normalizedQuery ||
       String(entry.nationalNumber ?? "") === normalizedQuery;
 
-    return matchesProgress && matchesInclusion && matchesQuery;
+    return matchesProgress && matchesQuery;
   });
 
   return filtered;
