@@ -12,7 +12,6 @@ import {
   countTeamPlanDifferences,
   getTeamPlanCompareLabel,
   getTeamPlanCompareRows,
-  getTeamPlanFoundPercent,
   getTeamPlanMatchText,
   getTeamPlanMemberPlacement,
   getTeamPlanStatusTone,
@@ -222,10 +221,5 @@ describe("team plan model", () => {
         }),
       ),
     ).toEqual({ kind: "past", label: "Replaced" });
-  });
-
-  it("rounds the found share and survives an empty Plan", () => {
-    expect(getTeamPlanFoundPercent(5, 6)).toBe(83);
-    expect(getTeamPlanFoundPercent(0, 0)).toBe(0);
   });
 });

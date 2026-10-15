@@ -14,11 +14,11 @@ import { PageHeader } from "@/shared/components/page-header";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 
+import { TeamPlanFollowingPill } from "./components/team-plan-pill";
 import { TeamPlanCompareDialog } from "./sections/compare/team-plan-compare-dialog";
 import { TeamPlanFollowMenu } from "./sections/head/team-plan-follow-menu";
 import { TeamPlanSharedTip } from "./sections/head/team-plan-head";
 import { TeamPlanOffPlanSection } from "./sections/off-plan/team-plan-off-plan-section";
-import { TeamPlanSummarySection } from "./sections/summary/team-plan-summary-section";
 import { TeamPlanTargetsSection } from "./sections/targets/team-plan-targets-section";
 
 type MainlinePlayTeamPlanProps = {
@@ -95,14 +95,22 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
           title={plan.planName}
           className="pt-0 sm:pt-0"
           description={
-            <>
-              The Plan this Play follows ·{" "}
-              <b className="text-ink font-extrabold tabular-nums">
-                {plan.foundCount} of {plan.targetCount}
-              </b>{" "}
-              targets recorded ·{" "}
-              <span className="tabular-nums">{plan.exactMatchCount}</span> exact
-            </>
+            /*
+             * One line, as Story's and Pokédex's: how this Play follows the
+             * Plan, then how much of it is found. The card that repeated
+             * both as a pill and a bar is gone.
+             */
+            <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+              <TeamPlanFollowingPill state={plan.followingState} />
+              <span>
+                <b className="text-ink font-extrabold tabular-nums">
+                  {plan.foundCount} of {plan.targetCount}
+                </b>{" "}
+                targets found ·{" "}
+                <span className="tabular-nums">{plan.exactMatchCount}</span>{" "}
+                exact
+              </span>
+            </span>
           }
           action={
             <div className="flex flex-wrap items-center gap-2.5 sm:justify-end">
@@ -126,7 +134,11 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
             </div>
           }
         />
-        <TeamPlanSummarySection plan={plan} />
+        {plan.notes ? (
+          <p className="text-ink-2 text-15 max-w-prose leading-[1.55] whitespace-pre-line">
+            {plan.notes}
+          </p>
+        ) : null}
       </div>
 
       <TeamPlanTargetsSection

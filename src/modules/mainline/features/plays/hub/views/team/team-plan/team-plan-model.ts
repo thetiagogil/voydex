@@ -256,8 +256,3 @@ export const getTeamPlanCompareLabel = (
 
   return `${differences} ${differences === 1 ? "difference" : "differences"}`;
 };
-
-export const getTeamPlanFoundPercent = (
-  foundCount: number,
-  targetCount: number,
-) => (targetCount ? Math.round((foundCount / targetCount) * 100) : 0);
