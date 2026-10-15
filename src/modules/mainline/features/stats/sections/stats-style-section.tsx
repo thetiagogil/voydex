@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -9,13 +9,20 @@ import {
   type StatsMostPicked,
   type StatsTypeTally,
 } from "@/modules/mainline/features/stats/data/stats-model";
-import { formatCountWord } from "@/modules/mainline/features/stats/utils/stats-format";
+import {
+  formatCountWord,
+  formatMonthYear,
+} from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  AppIcon,
+  appIcons,
+  type AppIconComponent,
+} from "@/shared/components/app-icon";
 import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import {
@@ -34,7 +41,7 @@ type StatsStyleSectionProps = {
 };
 
 /* The grid shows the types you lean on; See all opens every one. */
-const typesShownFirst = 8;
+const typesShownFirst = 12;
 
 /* One type as v3's `.tygrid` tile: tinted by how often you pick it. */
 const TypeTile = ({
@@ -97,7 +104,26 @@ const TypeTile = ({
   );
 };
 
-/* The Pokémon in the most Plays, opening its own sheet. */
+/* A short fact under the most picked Pokémon, with its icon. */
+const PickedFact = ({
+  children,
+  icon,
+}: {
+  children: ReactNode;
+  icon: AppIconComponent;
+}) => (
+  <li className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
+    <span className="text-ink-2 bg-surface-2 grid size-8 shrink-0 place-items-center rounded-full">
+      <AppIcon icon={icon} size="sm" />
+    </span>
+    <span className="min-w-0">{children}</span>
+  </li>
+);
+
+/*
+ * The Pokémon in the most Plays: its art, name and types (opening its own
+ * sheet), then a few facts only it can tell.
+ */
 const MostPickedCard = ({
   mostPicked,
   onOpenPokemon,
@@ -108,6 +134,17 @@ const MostPickedCard = ({
   const { entry } = mostPicked;
   const slug = entry.types[0]?.slug;
   const playCount = entry.playIds.length;
+  const gameCount = entry.gameNames.length;
+  const onTeamNow = new Set(
+    entry.members
+      .filter((member) => member.isCurrent)
+      .map((member) => member.play.id),
+  ).size;
+  const highestLevel = Math.max(
+    0,
+    ...entry.members.map((member) => member.level ?? 0),
+  );
+  const firstJoined = formatMonthYear(entry.firstUsedAt?.slice(0, 10) ?? null);
 
   return (
     <Card className="gap-4 px-5 py-5 sm:px-6">
@@ -123,33 +160,53 @@ const MostPickedCard = ({
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
-        className="group/picked focus-visible:outline-focus flex flex-1 items-center gap-4 rounded-xl text-left outline-none focus-visible:outline-3 focus-visible:outline-solid md:flex-col md:justify-center md:gap-3 md:text-center"
+        className="group/picked focus-visible:outline-focus flex items-center gap-4 rounded-xl text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
       >
-        <span className="sticker grid size-24 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-[3px] md:size-36">
+        <span className="sticker grid size-22 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-[3px]">
           {entry.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={entry.imageUrl}
               alt=""
-              className="size-20 object-contain md:size-32"
+              className="size-19 object-contain"
             />
           ) : null}
         </span>
-        <span className="flex min-w-0 flex-col gap-1 md:items-center">
-          <span className="font-display text-24 leading-tight font-semibold">
+        <span className="flex min-w-0 flex-col gap-1.5">
+          <span className="font-display text-24 truncate leading-tight font-semibold">
             {entry.name}
-          </span>
-          <span className="text-ink-2 text-14 font-semibold">
-            In {formatCountWord(playCount)} of your Plays
           </span>
           <PokemonTypeList
             types={entry.types}
             badgeDisplay="icon-label"
             badgeSize="sm"
-            className="mt-1 flex flex-wrap gap-1.5"
+            className="flex flex-wrap gap-1.5"
           />
         </span>
       </button>
+      <ul className="flex flex-col gap-2.5">
+        <PickedFact icon={appIcons.product.game}>
+          In {formatCountWord(playCount)} Plays
+          {gameCount > 1 ? ` across ${formatCountWord(gameCount)} games` : ""}
+        </PickedFact>
+        {onTeamNow ? (
+          <PickedFact icon={appIcons.product.team}>
+            On{" "}
+            {onTeamNow === 1 ? "a team" : `${formatCountWord(onTeamNow)} teams`}{" "}
+            right now
+          </PickedFact>
+        ) : null}
+        {highestLevel ? (
+          <PickedFact icon={appIcons.product.evolved}>
+            Reached Lv. {highestLevel}
+          </PickedFact>
+        ) : null}
+        {firstJoined ? (
+          <PickedFact icon={appIcons.product.date}>
+            First joined you in {firstJoined}
+          </PickedFact>
+        ) : null}
+      </ul>
     </Card>
   );
 };
@@ -157,7 +214,7 @@ const MostPickedCard = ({
 /*
  * Your team style, three cards side by side and one height on wide screens
  * (Old friends moves under the other two on tablets): the Pokémon you pick
- * most; the types you pick as v3's tile grid (the eight you lean on, every
+ * most; the types you pick as v3's tile grid (the twelve you lean on, every
  * type in a dialog); and up to six families back for more than one run, each
  * opening its family's sheet.
  */
@@ -203,7 +260,7 @@ export const StatsStyleSection = ({
                 {ranked.slice(0, typesShownFirst).map((type) => (
                   <TypeTile
                     key={type.slug}
-                    className="justify-center py-3.5"
+                    className="justify-center py-2"
                     most={most}
                     type={type}
                   />
@@ -245,11 +302,8 @@ export const StatsStyleSection = ({
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
                     name={friend.entry.name}
-                    subtitle={
-                      friend.family.length > 1
-                        ? `Family · ${friend.playCount} Plays`
-                        : `${friend.playCount} Plays`
-                    }
+                    slotLabel={friend.family.length > 1 ? "Family" : undefined}
+                    subtitle={`${friend.playCount} Plays`}
                     types={friend.types}
                     showTypes={false}
                   />

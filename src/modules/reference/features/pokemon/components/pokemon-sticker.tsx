@@ -36,7 +36,7 @@ type PokemonStickerProps = {
    * still follows `types`.
    */
   showTypes?: boolean;
-  /* A small slot number in the top-left corner. */
+  /* A small label in the top-left corner: a slot number, or "Family". */
   slotLabel?: string;
   /* Shown under the name when it differs, such as the species of a nicknamed Pokémon. */
   subtitle?: string | null;

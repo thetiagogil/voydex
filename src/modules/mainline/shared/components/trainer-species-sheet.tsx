@@ -70,18 +70,24 @@ const SheetSection = ({
   </section>
 );
 
-/* One Play in the sheet: its cover, name and status, and what is there. */
+/*
+ * One Play in the sheet: its cover, name and status, and what is there. In
+ * a family's sheet the row leads with which Pokémon it is, in its type's
+ * colour, and the Play's name moves under it.
+ */
 const SpeciesPlayRow = ({
   detail,
   href,
   label,
   play,
+  pokemon,
   shiny,
 }: {
   detail: string;
   href: string;
   label: string;
   play: TrainerPlay;
+  pokemon?: { name: string; typeSlug: string | null };
   shiny: boolean;
 }) => (
   <li className="game-scope" style={getGameColourStyle(play.gameSlug)}>
@@ -100,9 +106,18 @@ const SpeciesPlayRow = ({
         size="dock"
       />
       <span className="min-w-0">
-        <span className="text-ink text-15 block truncate font-extrabold">
-          {play.name}
-        </span>
+        {pokemon ? (
+          <span
+            style={getPokemonTypeCssVariables(toTypeSlug(pokemon.typeSlug))}
+            className="type-ink text-15 block truncate font-extrabold"
+          >
+            {pokemon.name}
+          </span>
+        ) : (
+          <span className="text-ink text-15 block truncate font-extrabold">
+            {play.name}
+          </span>
+        )}
         <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
           {shiny ? (
             <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
@@ -110,7 +125,9 @@ const SpeciesPlayRow = ({
               Shiny
             </span>
           ) : null}
-          <span className="truncate">{detail}</span>
+          <span className="truncate">
+            {pokemon ? `${play.name} · ${detail}` : detail}
+          </span>
         </span>
       </span>
       {play.statusName ? (
@@ -251,15 +268,21 @@ export const TrainerSpeciesSheet = ({
               <SpeciesPlayRow
                 key={member.id}
                 detail={[
-                  member.name,
-                  showsFamily && member.name !== member.speciesName
-                    ? member.speciesName
-                    : null,
+                  showsFamily
+                    ? member.name !== member.speciesName
+                      ? member.name
+                      : null
+                    : member.name,
                   member.level ? `Lv. ${member.level}` : null,
                   member.placeLabel,
                 ]
                   .filter(Boolean)
                   .join(" · ")}
+                pokemon={
+                  showsFamily
+                    ? { name: member.speciesName, typeSlug: member.typeSlug }
+                    : undefined
+                }
                 href={appRoutes.mainlinePlayTeamPokemon(
                   member.play.id,
                   member.id,
@@ -283,7 +306,27 @@ export const TrainerSpeciesSheet = ({
             {before.map((past) => (
               <SpeciesPlayRow
                 key={past.play.id}
-                detail={past.detail}
+                detail={
+                  showsFamily && past.member
+                    ? [
+                        past.member.name !== past.member.speciesName
+                          ? past.member.name
+                          : null,
+                        past.member.level ? `Lv. ${past.member.level}` : null,
+                        past.member.placeLabel,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")
+                    : past.detail
+                }
+                pokemon={
+                  showsFamily && past.member
+                    ? {
+                        name: past.member.speciesName,
+                        typeSlug: past.member.typeSlug,
+                      }
+                    : undefined
+                }
                 href={past.href}
                 label={`${past.play.name}: ${past.detail}`}
                 play={past.play}
