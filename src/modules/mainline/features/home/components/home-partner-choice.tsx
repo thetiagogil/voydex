@@ -10,40 +10,34 @@ import {
   undoPlayPartnerAction,
 } from "@/modules/mainline/features/plays/shared/server/play-partner-action";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
-
-type HomePartnerChoiceProps = {
-  choice: HomePartnerChoice;
-};
+import { Button } from "@/shared/components/ui/button";
 
 /*
- * v3 `homefirst`: a brand-new Play's first partners wait on the meadow; tap
- * yours and it is recorded as the Play's first milestone (the Play's own
- * partner flow), with Undo in the toast.
+ * v3 `homefirst`, in two steps like Start a Play: tapping a first partner on
+ * the meadow only picks it; "Choose {name}" then records it as the Play's
+ * first milestone (the Play's own partner flow), with Undo in the toast.
  */
-export const HomePartnerChoiceCast = ({ choice }: HomePartnerChoiceProps) => {
+export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
   const router = useRouter();
   const [pickedId, setPickedId] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
+  const picked =
+    choice?.options.find((option) => option.starter.speciesId === pickedId) ??
+    null;
 
-  const choose = (speciesId: number | null) => {
-    const option = choice.options.find(
-      (candidate) => candidate.starter.speciesId === speciesId,
-    );
-
-    if (!option || isPending) {
+  const record = () => {
+    if (!choice || !picked || isPending) {
       return;
     }
 
-    setPickedId(speciesId);
     startTransition(async () => {
       const result = await choosePlayPartnerAction({
-        decisionOptionId: option.decisionOptionId,
+        decisionOptionId: picked.decisionOptionId,
         milestoneId: choice.milestoneId,
         playId: choice.playId,
       });
 
       if (result.status === "error") {
-        setPickedId(null);
         toast.error(result.message);
         return;
       }
@@ -72,14 +66,46 @@ export const HomePartnerChoiceCast = ({ choice }: HomePartnerChoiceProps) => {
     });
   };
 
-  return (
-    <div aria-busy={isPending}>
-      <PartnerCast
-        size="lg"
-        starters={choice.options.map((option) => option.starter)}
-        value={pickedId}
-        onValueChange={choose}
-      />
-    </div>
-  );
+  return {
+    isPending,
+    pickedId,
+    pickedName: picked?.starter.name ?? null,
+    record,
+    setPickedId,
+  };
 };
+
+type HomePartnerChoiceState = ReturnType<typeof useHomePartnerChoice>;
+
+/* The first partners on the meadow; tapping one picks it (again clears it). */
+export const HomePartnerChoiceCast = ({
+  choice,
+  state,
+}: {
+  choice: HomePartnerChoice;
+  state: HomePartnerChoiceState;
+}) => (
+  <div aria-busy={state.isPending}>
+    <PartnerCast
+      size="lg"
+      starters={choice.options.map((option) => option.starter)}
+      value={state.pickedId}
+      onValueChange={(speciesId) => {
+        if (!state.isPending) {
+          state.setPickedId(speciesId);
+        }
+      }}
+    />
+  </div>
+);
+
+/* The band's main button once a partner is picked: records it. */
+export const HomePartnerChoiceButton = ({
+  state,
+}: {
+  state: HomePartnerChoiceState;
+}) => (
+  <Button type="button" disabled={state.isPending} onClick={state.record}>
+    {state.isPending ? "Recording..." : `Choose ${state.pickedName}`}
+  </Button>
+);

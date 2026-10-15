@@ -128,3 +128,17 @@ export const getHomePlayStatusLine = (play: HomePlay) => {
     .filter(Boolean)
     .join(" · ");
 };
+
+/*
+ * Whether Home asks which partner you chose: only while the Play has nothing
+ * recorded at all, no milestone and no Pokémon. A Play you track only for
+ * its team never shows the partner pick over that team.
+ */
+export const isWaitingForPartner = (
+  play: Pick<
+    PlayBrowseItem,
+    "active_team_count" | "completed_milestone_count" | "reserve_team_count"
+  >,
+) =>
+  (play.completed_milestone_count ?? 0) === 0 &&
+  (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0) === 0;

@@ -6,7 +6,11 @@ import {
   HomeBandGround,
   HomeBandHeading,
 } from "@/modules/mainline/features/home/components/home-band-parts";
-import { HomePartnerChoiceCast } from "@/modules/mainline/features/home/components/home-partner-choice";
+import {
+  HomePartnerChoiceButton,
+  HomePartnerChoiceCast,
+  useHomePartnerChoice,
+} from "@/modules/mainline/features/home/components/home-partner-choice";
 import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-play-shelf";
 import {
   getHomePlayStatusLine,
@@ -62,7 +66,9 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
 /*
  * Home's meadow band (v3 `homeback`, `homefirst`): the greeting, the shelf
  * of your Plays, the current Play's team standing on the meadow in its
- * game's colour, and the line saying where it stands with Continue.
+ * game's colour, and the line saying where it stands with Continue. A Play
+ * with nothing recorded shows its first partners instead: tap one, then
+ * "Choose {name}" (in Continue's place) records it.
  */
 export const HomeBandSection = ({
   current,
@@ -73,9 +79,10 @@ export const HomeBandSection = ({
   plays,
   subtitle,
 }: HomeBandSectionProps) => {
+  const partnerState = useHomePartnerChoice(partnerChoice);
   const partner = current.team.find((member) => member !== null) ?? null;
   const cast = partnerChoice ? (
-    <HomePartnerChoiceCast choice={partnerChoice} />
+    <HomePartnerChoiceCast choice={partnerChoice} state={partnerState} />
   ) : isFirstPlay && partner ? (
     <MeadowPokemon
       name={partner.name}
@@ -90,7 +97,9 @@ export const HomeBandSection = ({
   const detail = partnerChoice
     ? [
         getHomePlayStatusLine(current),
-        "Which Pokémon did you choose? Tap your partner",
+        partnerState.pickedName
+          ? `Choose ${partnerState.pickedName} to record your partner`
+          : "Which Pokémon did you choose? Tap your partner",
       ]
         .filter(Boolean)
         .join(" · ")
@@ -118,15 +127,19 @@ export const HomeBandSection = ({
             title={current.label}
             detail={detail}
             action={
-              <Link
-                href={appRoutes.mainlinePlay(current.id)}
-                className={buttonVariants()}
-              >
-                {current.statusSlug === "completed" ? null : (
-                  <AppIcon icon={appIcons.actions.continue} inline="start" />
-                )}
-                {current.statusSlug === "completed" ? "Open" : "Continue"}
-              </Link>
+              partnerChoice && partnerState.pickedName ? (
+                <HomePartnerChoiceButton state={partnerState} />
+              ) : (
+                <Link
+                  href={appRoutes.mainlinePlay(current.id)}
+                  className={buttonVariants()}
+                >
+                  {current.statusSlug === "completed" ? null : (
+                    <AppIcon icon={appIcons.actions.continue} inline="start" />
+                  )}
+                  {current.statusSlug === "completed" ? "Open" : "Continue"}
+                </Link>
+              )
             }
           />
         }

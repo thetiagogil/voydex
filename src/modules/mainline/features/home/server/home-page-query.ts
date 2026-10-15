@@ -5,6 +5,7 @@ import {
 } from "@/modules/mainline/features/home/data/home-moments-model";
 import {
   HOME_SHELF_PLAY_COUNT,
+  isWaitingForPartner,
   toHomePlay,
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
@@ -103,7 +104,7 @@ const isBrandNewPlay = (play: PlayBrowseItem) =>
   (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0) <= 1 &&
   (play.timeline_event_count ?? 0) <= 2;
 
-/* The partner a brand-new Play is still waiting for, to tap on Home's meadow. */
+/* The partner a Play with nothing recorded yet is waiting for, to pick on Home's meadow. */
 const readPartnerChoice = async (
   supabase: ServerSupabaseClient,
   play: PlayBrowseItem,
@@ -112,7 +113,7 @@ const readPartnerChoice = async (
     !play.play_id ||
     !play.game_slug ||
     !play.version_group_id ||
-    (play.completed_milestone_count ?? 0) > 0
+    !isWaitingForPartner(play)
   ) {
     return null;
   }
