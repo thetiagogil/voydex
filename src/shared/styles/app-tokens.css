@@ -61,7 +61,7 @@
   --sky: #fbf5e8;
   --hill: #e0e9cb;
   --hill-2: #d2deb6;
-  /* A main page's band where its content brings the colour (the Team Planner). */
+  /* The band that opens Plays, the Team Planner, Statistics and Collection. */
   --band-sand: color-mix(in oklab, var(--lip) 62%, var(--bg));
 
   /*
