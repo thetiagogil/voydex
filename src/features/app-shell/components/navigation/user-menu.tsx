@@ -53,7 +53,10 @@ export const UserMenu = ({ account }: UserMenuProps) => {
       >
         {/* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */}
         <Avatar>
-          <AvatarFallback>{initial}</AvatarFallback>
+          {/* The bar's own quiet surface, white over a tinted band. */}
+          <AvatarFallback className="text-ink bg-(--bar-control)">
+            {initial}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 

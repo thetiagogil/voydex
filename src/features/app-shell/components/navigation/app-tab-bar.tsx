@@ -90,7 +90,9 @@ export const AppTabBar = ({ account }: AppTabBarProps) => {
         icon={
           /* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */
           <Avatar size="sm" aria-hidden>
-            <AvatarFallback>{getAccountInitial(account)}</AvatarFallback>
+            <AvatarFallback className="bg-surface-2 text-ink-2">
+              {getAccountInitial(account)}
+            </AvatarFallback>
           </Avatar>
         }
         isCurrent={youLinks.some((link) => isCurrentLink(pathname, link))}
