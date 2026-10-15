@@ -118,11 +118,13 @@ text-select-ink` (the soft tint of the context colour with deep ink). A mode
   the active tab only.
 - **The top bar follows a tinted band.** A band that opens the page in a
   game's colour (Mainline Home, Start a Play with a game picked) copies that
-  colour to the document root through `BandTintRoot` (inside `MeadowScene`
-  and `PageBand`),
+  colour to the document root through `BandTintRoot` (inside `MeadowScene`),
   which marks it `data-band-tint`. The bar reads the `--bar-*` tokens: its
   quiet controls sit on soft white over the tint, its current link and the V
-  tile take `game-strong`, its secondary words deepen to `ink-tint`.
+  tile take `game-strong`, its secondary words deepen to `ink-tint`. The
+  neutral sand `PageBand` leaves the bar neutral. The bar's current mark
+  swaps at once (no fade) and each link keeps its bold width, so changing
+  section never flickers or nudges the other links.
 - **Codex** has no game-colour surfaces; covers carry the game, on a soft
   stage in their game's colour on `GameShelfCard`.
 - **Type colours** keep the official hexes. A labelled chip (`type-chip`)

@@ -18,8 +18,26 @@ type NavigationLinksProps = {
 };
 
 /*
+ * A link's label, as wide as its bold self whether or not it is current, so
+ * moving between sections never nudges the bar's other links.
+ */
+const SteadyLabel = ({ children }: { children: string }) => (
+  <span className="grid justify-items-center">
+    <span className="col-start-1 row-start-1">{children}</span>
+    <span
+      aria-hidden
+      className="invisible col-start-1 row-start-1 font-extrabold"
+    >
+      {children}
+    </span>
+  </span>
+);
+
+/*
  * The bar's sections (v3 `.links`): quiet words; the current one sits on the
  * surface, or on the game's strong shade when the bar is on a tinted band.
+ * The current mark swaps at once, never fades, so a change of section
+ * doesn't flicker between the two links.
  */
 export const NavigationLinks = ({
   ariaLabel,
@@ -39,12 +57,12 @@ export const NavigationLinks = ({
             href={link.href}
             aria-current={isCurrent ? "page" : undefined}
             className={cn(
-              "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(color:--bar-ink-2) transition-colors hover:bg-(--bar-hover)",
+              "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(color:--bar-ink-2) hover:bg-(--bar-hover)",
               isCurrent &&
                 "bg-(--bar-current) font-extrabold text-(color:--bar-current-ink) hover:bg-(--bar-current) hover:text-(color:--bar-current-ink)",
             )}
           >
-            {link.label}
+            <SteadyLabel>{link.label}</SteadyLabel>
           </Link>
         );
       })}
@@ -62,13 +80,13 @@ export const CodexUtilityLink = ({ className }: { className?: string }) => {
       href={codexLink.href}
       aria-current={isCurrent ? "page" : undefined}
       className={cn(
-        "text-14 hover:text-ink inline-flex h-10 items-center gap-1.5 rounded-full px-2.5 font-semibold text-(color:--bar-ink-2) transition-colors hover:bg-(--bar-hover)",
+        "text-14 hover:text-ink inline-flex h-10 items-center gap-1.5 rounded-full px-2.5 font-semibold text-(color:--bar-ink-2) hover:bg-(--bar-hover)",
         isCurrent && "text-ink font-extrabold",
         className,
       )}
     >
       <AppIcon icon={appIcons.modules.codex} className="size-4.5" />
-      {codexLink.label}
+      <SteadyLabel>{codexLink.label}</SteadyLabel>
     </Link>
   );
 };

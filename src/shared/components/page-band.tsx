@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { BandTintRoot } from "@/shared/components/band-tint-root";
 import { cn } from "@/shared/utils/cn";
 
 type PageBandProps = {
@@ -14,11 +13,11 @@ type PageBandProps = {
  * the top bar, which sits on it. The sand stays neutral so what the page
  * shows (type-coloured stickers, covers) brings the colour; game colour
  * belongs inside a Play. Home keeps the meadow. What follows the band sits
- * on the plain page ground.
+ * on the plain page ground. Being neutral, it leaves the top bar neutral too
+ * (no `BandTintRoot`), so the bar looks the same while the next page loads.
  */
 export const PageBand = ({ children, className }: PageBandProps) => (
   <div className="page-band bg-band-sand relative isolate rounded-b-[28px] sm:rounded-b-[44px]">
-    <BandTintRoot />
     <div
       className={cn(
         "mx-auto w-full max-w-(--page-width) px-(--page-gutter) pb-6 sm:pb-8",
