@@ -1,6 +1,6 @@
 import { Fragment, type CSSProperties } from "react";
 
-import { StatsCoverFan } from "@/modules/mainline/features/stats/components/stats-cover-fan";
+import { StatsCoverRow } from "@/modules/mainline/features/stats/components/stats-cover-row";
 import {
   getTrainerTitleReason,
   type StatsCover,
@@ -91,8 +91,8 @@ const TitlePicture = ({
     const covers = title.kind === "hopper" ? regionCovers : playCovers;
 
     return covers.length ? (
-      <div className="h-40 w-full sm:h-48 md:w-[300px] lg:w-[340px]">
-        <StatsCoverFan covers={covers} />
+      <div className="w-full min-w-0 md:w-[300px] lg:w-[360px] xl:w-[480px]">
+        <StatsCoverRow covers={covers} />
       </div>
     ) : null;
   }
@@ -194,7 +194,7 @@ export const StatsHeroSection = ({
         ]
       : [],
   );
-  /* The most recently played on top of the fan. */
+  /* The most recently played on top of the row. */
   const playCovers = stats.playCovers.slice(0, 10).toReversed();
   const playsLabel = stats.playCount === 1 ? "Play" : "Plays";
 
@@ -254,7 +254,7 @@ export const StatsHeroSection = ({
               )}
             </p>
           </div>
-          <div className="flex justify-center max-md:order-first">
+          <div className="flex min-w-0 justify-center max-md:order-first">
             <TitlePicture
               onOpenPokemon={onOpenPokemon}
               playCovers={playCovers}

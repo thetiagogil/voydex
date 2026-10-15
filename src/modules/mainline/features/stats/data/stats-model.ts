@@ -63,7 +63,7 @@ export type StatsMostPicked = {
   family: TrainerPokemonEntry[];
 };
 
-/* A game's cover, for the fans of covers beside the trainer title. */
+/* A game's cover, for the row of covers beside the trainer title. */
 export type StatsCover = {
   coverImageUrl: string | null;
   gameName: string;

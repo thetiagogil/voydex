@@ -149,10 +149,9 @@
   --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
-  /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up, covers deal out. */
+  /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up. */
   --animate-title-rise: title-rise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.25) both;
   --animate-fade-up: fade-up 0.45s ease-out both;
-  --animate-cover-deal: cover-deal 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
 
@@ -195,14 +194,6 @@
   @keyframes fade-up {
     from {
       transform: translateY(8px);
-      opacity: 0;
-    }
-  }
-
-  /* From one stacked pile into the fan: each cover keeps its own translate and rotate. */
-  @keyframes cover-deal {
-    from {
-      rotate: 0deg;
       opacity: 0;
     }
   }
