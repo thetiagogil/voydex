@@ -86,16 +86,15 @@
 }
 
 /*
- * The ground of a main page's band (`PageBand`): the context colour's soft
- * tint. Set --band-end to blend toward a second colour on the right, as a
- * Plan for either game of a pair does.
+ * The rise of ground at the foot of a main page's band (`PageBand`): a step
+ * deeper than the band's sky in the same colour. Set --band-floor to give it
+ * another colour, as a Plan for either game of a pair does (the second
+ * game's).
  */
-@utility band-ground {
-  background-color: var(--game-soft);
-  background-image: linear-gradient(
-    100deg,
-    var(--game-soft) 30%,
-    var(--band-end, var(--game-soft)) 75%
+@utility band-floor {
+  background-color: var(
+    --band-floor,
+    color-mix(in oklab, var(--game) calc(var(--gt) + 9%), #fff)
   );
 }
 

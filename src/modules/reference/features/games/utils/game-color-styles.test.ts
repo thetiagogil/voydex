@@ -37,11 +37,11 @@ describe("game colours", () => {
     });
   });
 
-  it("blends a pair's band toward the second game and keeps one game solid", () => {
+  it("grounds a pair's band in the second game and keeps one game whole", () => {
     expect(getGameBandStyle(["sword", "shield"])).toMatchObject({
-      "--band-end": "color-mix(in oklab, #B44E57 17%, #fff)",
+      "--band-floor": "color-mix(in oklab, #B44E57 26%, #fff)",
       "--game": "#3A6EA8",
     });
-    expect(getGameBandStyle(["emerald"])).not.toHaveProperty("--band-end");
+    expect(getGameBandStyle(["emerald"])).not.toHaveProperty("--band-floor");
   });
 });
