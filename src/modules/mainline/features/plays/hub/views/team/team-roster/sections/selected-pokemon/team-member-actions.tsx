@@ -13,6 +13,8 @@ import {
 import { cn } from "@/shared/utils/cn";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
+import { canEditTeamMember } from "./team-member-model";
+
 const ActionTip = ({
   label,
   trigger,
@@ -30,7 +32,8 @@ const ActionTip = ({
  * The selected Pokémon's two actions as icon buttons in the top corner of
  * its art (on the type's tint): Edit, which opens the editor where Evolve,
  * Replace, Retire and the rest live, and Open in Codex. Each names itself
- * in a tooltip.
+ * in a tooltip. A Pokémon that retired or was replaced has only Open in
+ * Codex: History keeps it as it was.
  */
 export const TeamMemberActions = ({
   className,
@@ -55,20 +58,22 @@ export const TeamMemberActions = ({
 
   return (
     <div className={cn("flex gap-2", className)}>
-      <ActionTip
-        label={editLabel}
-        trigger={
-          <Button
-            type="button"
-            variant="tint"
-            size="icon"
-            aria-label={editLabel}
-            onClick={onEdit}
-          >
-            <AppIcon icon={appIcons.actions.edit} />
-          </Button>
-        }
-      />
+      {canEditTeamMember(member) ? (
+        <ActionTip
+          label={editLabel}
+          trigger={
+            <Button
+              type="button"
+              variant="tint"
+              size="icon"
+              aria-label={editLabel}
+              onClick={onEdit}
+            >
+              <AppIcon icon={appIcons.actions.edit} />
+            </Button>
+          }
+        />
+      ) : null}
       <ActionTip
         label={codexLabel}
         trigger={

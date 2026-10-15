@@ -65,7 +65,16 @@ export const getTeamNatureEffectSummary = (
   return `+${increasedStat} · −${decreasedStat}`;
 };
 
-/* Under the name: who it is, its level, gender and where it sits. */
+/*
+ * Only a Pokémon still on the team or in reserve can be edited. One that
+ * retired or was replaced is History's now: a link (the Collection's sheet)
+ * can still open it, read-only.
+ */
+export const canEditTeamMember = (member: MainlinePlayTeamMember) =>
+  member.roster_state_slug === "active" ||
+  member.roster_state_slug === "reserve";
+
+/* Under the name: who it is, its level, gender and where it sits (or that it left). */
 export const getTeamMemberMeta = (
   member: MainlinePlayTeamMember,
   mechanics: GameMechanicsProfile,
@@ -76,9 +85,13 @@ export const getTeamMemberMeta = (
   const position =
     member.roster_state_slug === "reserve"
       ? "Reserve"
-      : member.slot
-        ? `Slot ${member.slot}`
-        : null;
+      : member.roster_state_slug === "retired"
+        ? "Retired"
+        : member.roster_state_slug === "replaced"
+          ? "Replaced"
+          : member.slot
+            ? `Slot ${member.slot}`
+            : null;
 
   return [
     getTeamMemberIdentity(member),

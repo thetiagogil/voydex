@@ -7,6 +7,7 @@ import type {
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 
 import {
+  canEditTeamMember,
   getTeamMemberFacts,
   getTeamMemberMeta,
   getTeamMoves,
@@ -90,9 +91,39 @@ describe("getTeamMemberMeta", () => {
     ).toBe("Lv. 48 · Reserve");
   });
 
+  it("says when a Pokémon has left the roster", () => {
+    expect(
+      getTeamMemberMeta(
+        { ...buddy, roster_state_slug: "retired", slot: null },
+        modernGame,
+      ),
+    ).toBe("Rillaboom · Lv. 48 · Male · Retired");
+    expect(
+      getTeamMemberMeta(
+        { ...buddy, roster_state_slug: "replaced", slot: null },
+        modernGame,
+      ),
+    ).toBe("Rillaboom · Lv. 48 · Male · Replaced");
+  });
+
   it("leaves gender out of games without it", () => {
     expect(getTeamMemberMeta(buddy, firstGenerationGame)).toBe(
       "Rillaboom · Lv. 48 · Slot 1",
+    );
+  });
+});
+
+describe("canEditTeamMember", () => {
+  it("edits only Pokémon still on the team or in reserve", () => {
+    expect(canEditTeamMember(buddy)).toBe(true);
+    expect(canEditTeamMember({ ...buddy, roster_state_slug: "reserve" })).toBe(
+      true,
+    );
+    expect(canEditTeamMember({ ...buddy, roster_state_slug: "retired" })).toBe(
+      false,
+    );
+    expect(canEditTeamMember({ ...buddy, roster_state_slug: "replaced" })).toBe(
+      false,
     );
   });
 });
