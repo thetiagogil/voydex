@@ -128,6 +128,7 @@ export const buildMainlinePlayOverviewData = (params: {
   return {
     badgeCase: buildMainlinePlayBadgeCase(badgeRows),
     freshPlay: partner ? { partner } : null,
+    nextDecisionMilestone: null,
     ...getOverviewMilestoneSummary(
       orderedMilestones,
       getBadgeTypeByMilestoneId(badgeRows),

@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { appRoutes } from "@/config/routes";
 import { getPlayMomentTypeByFormId } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
@@ -14,6 +16,8 @@ import { TeamSection } from "./sections/team/team-section";
 
 type MainlinePlayOverviewProps = {
   data: MainlinePlayOverviewData;
+  /* The route's main button for a choice milestone, recording in place. */
+  decisionRecord?: ReactNode;
   playId: string;
 };
 
@@ -25,6 +29,7 @@ type MainlinePlayOverviewProps = {
  */
 export const MainlinePlayOverview = ({
   data,
+  decisionRecord,
   playId,
 }: MainlinePlayOverviewProps) => {
   const storyHref = appRoutes.mainlinePlayProgressStory(playId);
@@ -75,6 +80,7 @@ export const MainlinePlayOverview = ({
           ) : (
             <>
               <NextObjectiveSection
+                decisionRecord={decisionRecord}
                 nextMilestone={data.nextMilestone}
                 nextMilestonePosition={data.nextMilestonePosition}
                 playId={playId}

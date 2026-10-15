@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
@@ -18,6 +19,8 @@ import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type NextObjectiveSectionProps = {
+  /* The page's main button when the next milestone is a choice: it records in place. */
+  decisionRecord?: ReactNode;
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   playId: string;
@@ -25,17 +28,18 @@ type NextObjectiveSectionProps = {
 
 const titleId = "next-objective-title";
 
-/* A choice milestone needs its choice, so it records from Story's form. */
+/* A choice milestone needs its choice, so it records through Story's form. */
 const hasDecision = (milestone: OverviewMilestone) =>
   Array.isArray(milestone.decision_options) &&
   milestone.decision_options.length > 0;
 
 /*
  * The next objective is quiet: a Fredoka title and the page's one main
- * button, which records it in place (a choice opens Story's form), then
- * "Add a note".
+ * button, which records it in place (a choice opens Story's record form
+ * right here), then "Add a note".
  */
 export const NextObjectiveSection = ({
+  decisionRecord,
   nextMilestone,
   nextMilestonePosition,
   playId,
@@ -53,19 +57,21 @@ export const NextObjectiveSection = ({
         nextMilestone?.milestone_id != null ? (
           <>
             {hasDecision(nextMilestone) ? (
-              <Link
-                href={appRoutes.mainlinePlayProgressStoryRecord(
-                  playId,
-                  nextMilestone.milestone_id,
-                )}
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
-                )}
-              >
-                <AppIcon icon={appIcons.status.active} />
-                Record {nextMilestone.milestone_name}
-              </Link>
+              (decisionRecord ?? (
+                <Link
+                  href={appRoutes.mainlinePlayProgressStoryRecord(
+                    playId,
+                    nextMilestone.milestone_id,
+                  )}
+                  className={cn(
+                    buttonVariants({ size: "lg" }),
+                    "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
+                  )}
+                >
+                  <AppIcon icon={appIcons.status.active} />
+                  Record {nextMilestone.milestone_name}
+                </Link>
+              ))
             ) : (
               <OverviewRecordButton
                 milestoneId={nextMilestone.milestone_id}

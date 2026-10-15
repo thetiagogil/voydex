@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import type { StoryCategorySource, StoryMilestoneSource } from "../types";
-import { buildStoryProgressModel } from "./story-progress-model";
+import {
+  buildStoryProgressModel,
+  findStoryMilestone,
+} from "./story-progress-model";
 
 const category = (
   overrides: Partial<StoryCategorySource> = {},
@@ -516,5 +519,30 @@ describe("buildStoryProgressModel", () => {
     });
 
     expect(model.scopes[0]?.stamps).toBeNull();
+  });
+});
+
+describe("findStoryMilestone", () => {
+  it("finds a milestone by id in any section, or null", () => {
+    const model = buildStoryProgressModel({
+      categories: [
+        category({ category_id: 2, category_slug: "post-game" }),
+        category(),
+      ],
+      badgeTypes: [],
+      decisionForms: [],
+      milestones: [
+        milestone(),
+        milestone({
+          category_id: 2,
+          milestone_id: 7,
+          milestone_name: "Rematch",
+        }),
+      ],
+      snapshotEvents: [],
+    });
+
+    expect(findStoryMilestone(model, 7)?.name).toBe("Rematch");
+    expect(findStoryMilestone(model, 99)).toBeNull();
   });
 });

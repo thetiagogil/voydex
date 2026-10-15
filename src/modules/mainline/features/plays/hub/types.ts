@@ -15,6 +15,7 @@ import type {
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import type {
   OverviewAheadMilestone,
   OverviewMilestone,
@@ -215,6 +216,11 @@ export type MainlinePlayOverviewData = {
   /* A brand-new Play opens on its partner choice and first steps. */
   freshPlay: OverviewFreshPlay | null;
   nextMilestone: OverviewMilestone | null;
+  /*
+   * The next milestone as Story's record form needs it, read only when it
+   * is a choice (Choose Starter), so Overview records it in place.
+   */
+  nextDecisionMilestone: StoryMilestone | null;
   nextMilestonePosition: { sequence: number; total: number } | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;

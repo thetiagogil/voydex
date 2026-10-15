@@ -46,6 +46,10 @@ import type {
   TeamAnalysisReading,
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { readMainlinePlayStoryProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/server/story-progress-reader";
+import {
+  buildStoryProgressModel,
+  findStoryMilestone,
+} from "@/modules/mainline/features/plays/hub/views/progress/progress-story/data/story-progress-model";
 import type { MainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import { readMainlinePlayPokedexProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/server/pokedex-progress-reader";
 import type { MainlinePlayProgressPokedexData } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/types";
@@ -140,7 +144,7 @@ export const getMainlinePlayOverviewData = cache(
           context.play.generation_id,
         )
       : null;
-    return buildMainlinePlayOverviewData({
+    const data = buildMainlinePlayOverviewData({
       milestoneRows,
       overview,
       partnerRows,
@@ -148,6 +152,30 @@ export const getMainlinePlayOverviewData = cache(
       teamPreviewRows,
       timelinePreview,
     });
+    const next = data.nextMilestone;
+
+    /* A choice records through Story's form, so Overview reads it as Story does. */
+    if (
+      !data.freshPlay &&
+      next?.milestone_id != null &&
+      Array.isArray(next.decision_options) &&
+      next.decision_options.length > 0
+    ) {
+      const story = await readMainlinePlayStoryProgress(
+        context.supabase,
+        playId,
+      );
+
+      return {
+        ...data,
+        nextDecisionMilestone: findStoryMilestone(
+          buildStoryProgressModel(story),
+          next.milestone_id,
+        ),
+      };
+    }
+
+    return data;
   },
 );
 

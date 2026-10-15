@@ -368,3 +368,23 @@ export const buildStoryProgressModel = ({
     scopes,
   };
 };
+
+/* One milestone of the Story model by id, wherever its scope and section. */
+export const findStoryMilestone = (
+  model: StoryProgressModel,
+  milestoneId: number,
+): StoryMilestone | null => {
+  for (const scope of model.scopes) {
+    for (const section of scope.sections) {
+      const milestone = section.milestones.find(
+        (candidate) => candidate.id === milestoneId,
+      );
+
+      if (milestone) {
+        return milestone;
+      }
+    }
+  }
+
+  return null;
+};
