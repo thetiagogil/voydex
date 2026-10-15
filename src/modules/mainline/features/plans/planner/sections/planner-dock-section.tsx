@@ -10,9 +10,10 @@ import {
 import type { PlanRandomMode } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import type { PlanTeamTip } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
-import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import {
+  PokemonEmptySlot,
+  PokemonSticker,
+} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
@@ -73,18 +74,10 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
   warn: "bg-warn-soft text-warn-ink",
 };
 
-const SlotNumber = ({ index }: { index: number }) => (
-  <span
-    aria-hidden
-    className="text-12 grid size-6 place-items-center rounded-full bg-white/70 font-extrabold tabular-nums"
-  >
-    {index + 1}
-  </span>
-);
-
 /*
- * v3 `.dock`, on the Planner's band: the six slots of the Plan's team. Each
- * holds its Pokémon as a sticker (role, a flag when it needs something),
+ * v3 `.dock`, on the Planner's band: the six slots of the Plan's team, as
+ * the Play roster's stickers (the art large, its role under the name, a flag
+ * when it needs something; an open slot just says Empty). Each
  * opens its slot sheet, can be dragged onto another slot to swap and removed
  * with Undo. Over it: Random and Clear; under it the one tip that matters
  * most, with Team check for the rest.
@@ -217,13 +210,12 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      <ol className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
+      <ol className="grid grid-cols-2 gap-x-4 gap-y-[18px] sm:grid-cols-3 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.speciesId) : undefined;
           const worst = member
             ? getWorstIssueFor(member.speciesId, issues)
             : null;
-          const typeSlug = pokemon?.types[0]?.slug;
           const dragProps = {
             onDragLeave: () => setDropTarget(null),
             onDragOver: (event: DragEvent) => {
@@ -241,26 +233,30 @@ export const PlannerDockSection = ({
 
           if (!member || !pokemon) {
             return (
-              <li key={`open-${index}`} {...dragProps}>
+              <li key={`open-${index}`} className="min-w-0" {...dragProps}>
                 {replacing ? (
                   <button
                     type="button"
                     onClick={() => onPlace(index)}
-                    className="empty-slot text-ink-2 text-13 focus-visible:outline-focus flex h-full min-h-20 w-full items-center justify-center gap-2 rounded-xl font-bold outline-none hover:bg-white/50 focus-visible:outline-3 focus-visible:outline-solid"
+                    className="focus-visible:outline-focus block w-full rounded-xl outline-none focus-visible:outline-3 focus-visible:outline-solid"
                   >
-                    <SlotNumber index={index} />
-                    Put here
+                    <PokemonEmptySlot
+                      label={`Put ${replacing.name} in slot ${index + 1}`}
+                      text="Put here"
+                      variant="compact"
+                      className="text-14 hover:bg-white/50"
+                    />
                   </button>
                 ) : (
-                  <div
+                  <PokemonEmptySlot
+                    label={`Empty slot ${index + 1}`}
+                    text="Empty"
+                    variant="compact"
                     className={cn(
-                      "empty-slot text-ink-tint text-13 flex h-full min-h-20 items-center justify-center gap-2 rounded-xl font-bold",
+                      "text-14 h-full",
                       dropTarget === index && "bg-white/50",
                     )}
-                  >
-                    <SlotNumber index={index} />
-                    Empty
-                  </div>
+                  />
                 )}
               </li>
             );
@@ -279,59 +275,31 @@ export const PlannerDockSection = ({
                 setDropTarget(null);
               }}
               {...dragProps}
-              style={getPokemonTypeCssVariables(
-                typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
-              )}
               className={cn(
-                "sticker group/removable relative flex min-h-20 rounded-xl",
-                dropTarget === index && "sticker-picked",
+                "group/removable relative min-w-0 rounded-xl",
                 replacing &&
                   "hover:outline-game motion-safe:animate-wiggle hover:animate-none hover:outline-3 hover:outline-offset-2 hover:outline-solid",
                 dragFrom === index && "opacity-60",
               )}
             >
-              <button
-                type="button"
-                onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
-                aria-label={
+              <PokemonSticker
+                variant="compact"
+                className={cn(
+                  "w-full",
+                  dropTarget === index && "sticker-picked",
+                )}
+                imageUrl={pokemon.imageUrl}
+                name={pokemon.name}
+                slotLabel={String(index + 1)}
+                subtitle={replacing ? "Replace" : member.role}
+                types={pokemon.types}
+                label={
                   replacing
                     ? `Replace ${pokemon.name} with ${replacing.name}`
                     : `${pokemon.name}, slot ${index + 1}. Edit`
                 }
-                className="focus-visible:outline-focus flex h-full w-full min-w-0 items-center gap-1.5 rounded-lg py-1.5 pr-2.5 pl-1 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
-              >
-                {pokemon.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={pokemon.imageUrl}
-                    alt=""
-                    className="size-12 shrink-0 sm:size-15"
-                  />
-                ) : (
-                  <span className="empty-slot size-10 shrink-0 rounded-full sm:size-12" />
-                )}
-                <span className="flex min-w-0 flex-col gap-0.5">
-                  <span className="font-display text-15 sm:text-16 truncate leading-tight font-semibold">
-                    {pokemon.name}
-                  </span>
-                  <PokemonTypeList
-                    types={pokemon.types}
-                    badgeDisplay="icon"
-                    badgeSize="sm"
-                    className="flex gap-1"
-                  />
-                  <span className="text-ink-tint text-12 truncate font-bold">
-                    {replacing ? (
-                      <span className="inline-flex items-center gap-1">
-                        <AppIcon icon={appIcons.actions.move} size="sm" />
-                        Replace
-                      </span>
-                    ) : (
-                      (member.role ?? "\u00a0")
-                    )}
-                  </span>
-                </span>
-              </button>
+                onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
+              />
               {worst && !replacing ? (
                 <Tooltip>
                   <TooltipTrigger
@@ -341,7 +309,7 @@ export const PlannerDockSection = ({
                         onClick={onOpenCheck}
                         aria-label={`${worst.title}. Details`}
                         className={cn(
-                          "text-12 absolute -top-2 -left-2 grid size-6 place-items-center rounded-full font-extrabold ring-2 ring-white",
+                          "text-12 absolute -top-2 -left-2 z-10 grid size-6 place-items-center rounded-full font-extrabold ring-2 ring-white",
                           worst.severity === "block" ||
                             worst.severity === "hard"
                             ? "bg-danger text-white"

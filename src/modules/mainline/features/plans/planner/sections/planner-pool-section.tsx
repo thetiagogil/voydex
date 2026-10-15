@@ -94,6 +94,8 @@ export const PlannerPoolSection = ({
       <SectionHead
         title="Pick your Pokémon"
         titleId="planner-pool"
+        className="flex-wrap gap-y-3"
+        titleClassName="whitespace-nowrap"
         aside={
           isFull
             ? "Team is full. Tap one to swap it in"
@@ -105,7 +107,7 @@ export const PlannerPoolSection = ({
               ariaLabel="Pokédex"
               selectedTone="strong"
               size="sm"
-              className="no-scrollbar max-w-full flex-nowrap overflow-x-auto"
+              className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:px-0 sm:py-0"
               value={filters.dex}
               onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
               options={[
