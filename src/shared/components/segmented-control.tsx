@@ -154,7 +154,11 @@ export const SegmentedControl = <TValue extends string>({
               <span
                 aria-hidden
                 style={option.dot}
-                className="bg-game size-2.5 shrink-0 rounded-full"
+                className={cn(
+                  "bg-game size-2.5 shrink-0 rounded-full",
+                  // On the strong fill the dot keeps its colour inside a white ring.
+                  isActive && selectedTone === "strong" && "ring-2 ring-white",
+                )}
               />
             ) : null}
             {option.icon}
