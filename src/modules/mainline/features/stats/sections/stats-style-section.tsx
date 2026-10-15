@@ -41,6 +41,9 @@ type StatsStyleSectionProps = {
 /* The grid shows the types you lean on; See all opens every one. */
 const typesShownFirst = 12;
 
+/* Old friends shows once it can fill a row. */
+const oldFriendsShownFrom = 3;
+
 /* One type as v3's `.tygrid` tile: tinted by how often you pick it. */
 const TypeTile = ({
   className,
@@ -219,7 +222,7 @@ const MostPickedCard = ({
  * (Old friends moves under the other two on tablets): the Pokémon you pick
  * most; the types you pick as v3's tile grid (the twelve you lean on, every
  * type in a dialog); and up to six families back for more than one run, each
- * opening its family's sheet.
+ * opening its family's sheet, shown once there are three of them.
  */
 export const StatsStyleSection = ({
   onOpenFriend,
@@ -232,6 +235,8 @@ export const StatsStyleSection = ({
   );
   const used = ranked.filter((type) => type.count > 0);
   const most = Math.max(1, used[0]?.count ?? 1);
+  /* A lone friend or two reads as a gap, so the card waits for a full row. */
+  const showFriends = stats.friends.length >= oldFriendsShownFrom;
   return (
     <section aria-labelledby="stats-style" className="flex flex-col gap-4">
       <SectionHead title="Your team style" titleId="stats-style" />
@@ -239,8 +244,10 @@ export const StatsStyleSection = ({
         className={cn(
           "grid gap-4",
           stats.mostPicked
-            ? "md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)_minmax(0,1.3fr)]"
-            : "xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1.1fr)]",
+            ? showFriends
+              ? "md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)_minmax(0,1.3fr)]"
+              : "md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)]"
+            : showFriends && "xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1.1fr)]",
         )}
       >
         {stats.mostPicked ? (
@@ -287,15 +294,15 @@ export const StatsStyleSection = ({
           )}
         </Card>
 
-        <Card className="gap-4 px-5 py-5 sm:px-6 md:col-span-full xl:col-span-1">
-          <SectionHead
-            headingLevel={3}
-            title="Old friends"
-            titleClassName="text-20"
-            aside="Back for more than one run"
-          />
-          {stats.friends.length ? (
-            <ul className="grid flex-1 grid-cols-2 gap-2.5 min-[480px]:grid-cols-3">
+        {showFriends ? (
+          <Card className="gap-4 px-5 py-5 sm:px-6 md:col-span-full xl:col-span-1">
+            <SectionHead
+              headingLevel={3}
+              title="Old friends"
+              titleClassName="text-20"
+              aside="Back for more than one run"
+            />
+            <ul className="grid flex-1 grid-cols-2 content-start gap-2.5 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
                   key={friend.speciesSlug}
@@ -334,17 +341,13 @@ export const StatsStyleSection = ({
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-ink-2 text-14 font-semibold">
-              Use a Pokémon in a second Play and it shows up here.
-            </p>
-          )}
-          <SectionMoreLink
-            href={appRoutes.mainlineCollection}
-            label="See your whole Collection"
-            className="self-start"
-          />
-        </Card>
+            <SectionMoreLink
+              href={appRoutes.mainlineCollection}
+              label="See your whole Collection"
+              className="self-start"
+            />
+          </Card>
+        ) : null}
       </div>
 
       <Dialog open={isAllTypesOpen} onOpenChange={setIsAllTypesOpen}>

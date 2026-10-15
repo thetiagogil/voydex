@@ -105,9 +105,7 @@ const TitlePicture = ({
         aria-hidden
         className={cn(
           "group-data-reveal/title:animate-fade-up absolute left-1/2 grid size-36 -translate-x-1/2 place-items-center rounded-full bg-white/25 [animation-delay:200ms] motion-reduce:animate-none sm:size-44",
-          title.pokemon.length
-            ? "top-0 pb-8 sm:pb-10"
-            : "top-1/2 -translate-y-1/2",
+          title.pokemon.length ? "top-0" : "top-1/2 -translate-y-1/2",
         )}
       >
         <PokemonTypeIcon
