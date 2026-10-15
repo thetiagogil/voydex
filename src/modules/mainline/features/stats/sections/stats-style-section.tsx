@@ -237,6 +237,11 @@ export const StatsStyleSection = ({
   const most = Math.max(1, used[0]?.count ?? 1);
   /* A lone friend or two reads as a gap, so the card waits for a full row. */
   const showFriends = stats.friends.length >= oldFriendsShownFrom;
+  /*
+   * With a card missing, Types you pick takes the room: six across on wide
+   * screens, so every type shows and "See all" goes.
+   */
+  const typesTakeRoom = !stats.mostPicked || !showFriends;
   return (
     <section aria-labelledby="stats-style" className="flex flex-col gap-4">
       <SectionHead title="Your team style" titleId="stats-style" />
@@ -266,11 +271,22 @@ export const StatsStyleSection = ({
           />
           {used.length ? (
             <>
-              <ol className="grid flex-1 grid-cols-4 gap-2">
-                {ranked.slice(0, typesShownFirst).map((type) => (
+              <ol
+                className={cn(
+                  "grid flex-1 grid-cols-4 gap-2",
+                  typesTakeRoom && "xl:grid-cols-6",
+                )}
+              >
+                {(typesTakeRoom
+                  ? ranked
+                  : ranked.slice(0, typesShownFirst)
+                ).map((type, index) => (
                   <TypeTile
                     key={type.slug}
-                    className="justify-center py-2"
+                    className={cn(
+                      "justify-center py-2",
+                      index >= typesShownFirst && "max-xl:hidden",
+                    )}
                     most={most}
                     type={type}
                   />
@@ -280,7 +296,10 @@ export const StatsStyleSection = ({
                 <button
                   type="button"
                   onClick={() => setIsAllTypesOpen(true)}
-                  className="text-link text-14 focus-visible:outline-focus -mt-1 inline-flex min-h-10 items-center gap-1.5 self-start rounded-xs font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                  className={cn(
+                    "text-link text-14 focus-visible:outline-focus -mt-1 inline-flex min-h-10 items-center gap-1.5 self-start rounded-xs font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    typesTakeRoom && "xl:hidden",
+                  )}
                 >
                   See all {ranked.length} types
                   <AppIcon icon={appIcons.actions.next} size="sm" />
