@@ -6,13 +6,11 @@ import type {
 } from "../types";
 import {
   buildMainlinePlayCollectiblesData,
-  describeCollectibleWhereabouts,
   filterCollectibleEntries,
   getCollectibleAreaLevel,
   getCollectibleAreaSummaries,
   getCollectibleGroupCounts,
   groupCollectibleEntriesByArea,
-  groupCollectibleEntriesByPlace,
 } from "./collectibles-progress-model";
 
 const groupRow = {
@@ -181,17 +179,6 @@ describe("collectibles progress model", () => {
     expect(areaLevel).toBe("location");
     expect(southProvince.id).toBe("collectible-area-south-province");
     expect(
-      groupCollectibleEntriesByPlace({ area: southProvince, areaLevel }).map(
-        (place) => ({
-          ids: place.entries.map((entry) => entry.id),
-          label: place.label,
-        }),
-      ),
-    ).toEqual([
-      { ids: [101], label: "Area One" },
-      { ids: [102], label: "Area Two" },
-    ]);
-    expect(
       getCollectibleAreaSummaries({
         areaLevel,
         entries,
@@ -244,48 +231,5 @@ describe("collectibles progress model", () => {
       "Soothing Wetlands",
       "Isle of Armor",
     ]);
-    expect(
-      groupCollectibleEntriesByPlace({ area: areas[0], areaLevel }),
-    ).toEqual([
-      { entries: areas[0].entries, id: `${areas[0].id}-place`, label: null },
-    ]);
-  });
-
-  it("says where a collectible hides in one sentence", () => {
-    const entry = buildMainlinePlayCollectiblesData({
-      gameName: "Pokémon Scarlet",
-      groupRows: [groupRow],
-      rows: [detailRow()],
-    }).groups[0].entries[0];
-    const inLocation = (locationLabel: string | null, id: number) => ({
-      ...entry,
-      id,
-      locationLabel,
-    });
-
-    expect(
-      describeCollectibleWhereabouts({
-        entries: [inLocation("Isle of Armor", 1), inLocation(null, 2)],
-        gameName: "Pokémon Sword",
-      }),
-    ).toBe("Hidden around Isle of Armor");
-    expect(
-      describeCollectibleWhereabouts({
-        entries: [inLocation("North", 1), inLocation("South", 2)],
-        gameName: "Pokémon Scarlet",
-      }),
-    ).toBe("Hidden around North and South");
-    expect(
-      describeCollectibleWhereabouts({
-        entries: ["A", "B", "C", "D"].map(inLocation),
-        gameName: "Pokémon Sun",
-      }),
-    ).toBe("Hidden across 4 areas of Pokémon Sun");
-    expect(
-      describeCollectibleWhereabouts({
-        entries: [inLocation(null, 1)],
-        gameName: "Pokémon Legends: Arceus",
-      }),
-    ).toBe("Hidden around Pokémon Legends: Arceus");
   });
 });

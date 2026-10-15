@@ -15,28 +15,29 @@ import type { MainlinePlayCollectibleEntry } from "../types";
  */
 export const CollectibleToken = ({
   className,
-  describedBy,
   entry,
   isFound,
   isPending,
   onToggle,
+  place,
 }: {
   /* Its size: a fixed square in a row of places, or a grid cell. */
   className: string;
-  describedBy?: string;
   entry: MainlinePlayCollectibleEntry;
   isFound: boolean;
   isPending: boolean;
   onToggle: () => void;
+  /* Where it hides, when the area holds several places. */
+  place: string | null;
 }) => {
   const [isPopping, setIsPopping] = useState(false);
 
   return (
     <button
       type="button"
-      aria-label={`${entry.name} found`}
+      aria-label={`${entry.name}${place ? `, ${place},` : ""} found`}
+      title={place ?? undefined}
       aria-pressed={isFound}
-      aria-describedby={describedBy}
       aria-disabled={isPending || undefined}
       onClick={() => {
         if (isPending) {

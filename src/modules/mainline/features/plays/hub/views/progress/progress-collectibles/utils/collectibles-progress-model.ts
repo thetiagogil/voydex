@@ -28,15 +28,7 @@ export type CollectibleAreaSummary = CollectibleArea & {
   isComplete: boolean;
 };
 
-/* A place inside an area (its sub-location), when the data names one. */
-type CollectiblePlace = {
-  entries: MainlinePlayCollectibleEntry[];
-  id: string;
-  label: string | null;
-};
-
 const UNKNOWN_LOCATION_LABEL = "Location not recorded";
-const MAX_LISTED_LOCATIONS = 3;
 
 const compareText = (left: string, right: string) =>
   left.localeCompare(right, undefined, { sensitivity: "base" });
@@ -248,27 +240,6 @@ export const groupCollectibleEntriesByArea = ({
   );
 };
 
-/*
- * The places inside an area, in the order their first entry appears. When
- * areas already are places, an area is one unnamed place.
- */
-export const groupCollectibleEntriesByPlace = ({
-  area,
-  areaLevel,
-}: {
-  area: CollectibleArea;
-  areaLevel: CollectibleAreaLevel;
-}): CollectiblePlace[] =>
-  areaLevel === "place"
-    ? [{ entries: area.entries, id: `${area.id}-place`, label: null }]
-    : groupBy(area.entries, (entry) => entry.subLocationLabel).map(
-        ([label, placeEntries]) => ({
-          entries: placeEntries,
-          id: `${area.id}-${label ? toAnchorSlug(label) : "unnamed"}`,
-          label,
-        }),
-      );
-
 /* Every area of a collectible, found or not, with what has been found. */
 export const getCollectibleAreaSummaries = ({
   areaLevel,
@@ -292,38 +263,3 @@ export const getCollectibleAreaSummaries = ({
       isComplete: foundCount === area.entries.length,
     };
   });
-
-/* The named locations a collectible is hidden in, in the game's order. */
-export const getCollectibleLocations = (
-  entries: MainlinePlayCollectibleEntry[],
-) => [
-  ...new Set(
-    entries.flatMap((entry) =>
-      entry.locationLabel ? [entry.locationLabel] : [],
-    ),
-  ),
-];
-
-/* One sentence for where a collectible hides: "Hidden around Isle of Armor". */
-export const describeCollectibleWhereabouts = ({
-  entries,
-  gameName,
-}: {
-  entries: MainlinePlayCollectibleEntry[];
-  gameName: string;
-}) => {
-  const locations = getCollectibleLocations(entries);
-
-  if (!locations.length) {
-    return `Hidden around ${gameName}`;
-  }
-
-  if (locations.length > MAX_LISTED_LOCATIONS) {
-    return `Hidden across ${locations.length} areas of ${gameName}`;
-  }
-
-  return `Hidden around ${new Intl.ListFormat("en", {
-    style: "long",
-    type: "conjunction",
-  }).format(locations)}`;
-};

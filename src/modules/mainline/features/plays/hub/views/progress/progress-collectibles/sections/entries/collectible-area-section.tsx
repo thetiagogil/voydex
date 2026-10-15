@@ -1,14 +1,13 @@
 import { useEffect, useRef } from "react";
 
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { Button } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 
 import { CollectibleToken } from "../../components/collectible-token";
 import type { MainlinePlayCollectibleEntry } from "../../types";
 import {
   getCollectibleEntryState,
-  groupCollectibleEntriesByPlace,
   type CollectibleArea,
   type CollectibleAreaLevel,
   type CollectibleAreaSummary,
@@ -20,7 +19,7 @@ export const getCollectibleAreaHeadingId = (areaId: string) =>
 /*
  * One area: its name and how much of it is found, Mark all found and
  * Unmark all for what the filters show (as Pokédex's ranges), then its
- * places, each with its tokens and any notes. The checklist moves focus to
+ * tokens in one grid. The checklist moves focus to
  * the heading before a bulk change, which can remove the whole area. When
  * the area stays, focus then goes on to the opposite button.
  */
@@ -126,72 +125,41 @@ export const CollectibleAreaSection = ({
       />
 
       {/*
-       * Unnamed places fill the row as v3's grid. Named places share equal
-       * columns, so their names and tokens line up however many each holds.
+       * Every collectible of the area in one grid, as v3's. Where it hides is
+       * in its name; a collectible with a requirement wears an "i" that
+       * opens it, so notes never break the grid.
        */}
-      <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 pb-3 sm:grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] sm:gap-x-6">
-        {groupCollectibleEntriesByPlace({ area, areaLevel }).map((place) => {
-          const placeLabelId = `${place.id}-label`;
-          const notes = place.entries.filter((entry) => entry.description);
-          const isGrid = !place.label;
+      <div className="mt-4 grid grid-cols-5 gap-x-2.5 gap-y-4 pb-3 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))] sm:gap-x-3 sm:gap-y-4.5">
+        {area.entries.map((entry) => {
+          const place =
+            areaLevel === "place" ? null : entry.subLocationLabel || null;
 
           return (
-            <div
-              key={place.id}
-              role="group"
-              aria-labelledby={place.label ? placeLabelId : headingId}
-              className={cn(
-                "flex min-w-0 flex-col gap-3",
-                isGrid && "col-span-full",
-              )}
-            >
-              {place.label ? (
-                <p
-                  id={placeLabelId}
-                  className="text-ink-2 text-14 leading-tight font-bold"
-                >
-                  {place.label}
-                </p>
-              ) : null}
-              <div className="grid min-w-0 gap-3">
-                <div
-                  className={cn(
-                    "gap-x-2.5 gap-y-4 sm:gap-x-3 sm:gap-y-4.5",
-                    isGrid
-                      ? "grid grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))]"
-                      : "flex flex-wrap",
-                  )}
-                >
-                  {place.entries.map((entry) => (
-                    <CollectibleToken
-                      key={entry.id}
-                      className={isGrid ? "w-full" : "size-14 sm:size-16"}
-                      describedBy={
-                        entry.description
-                          ? `collectible-note-${entry.id}`
-                          : undefined
-                      }
-                      entry={entry}
-                      isFound={getCollectibleEntryState(entry, stateByEntryId)}
-                      isPending={isEntryPending(entry.id)}
-                      onToggle={() => onEntryToggle(entry)}
-                    />
-                  ))}
-                </div>
-                {notes.length ? (
-                  <ul className="text-ink-2 text-13 grid gap-1 pt-1 font-semibold">
-                    {notes.map((entry) => (
-                      <li key={entry.id} id={`collectible-note-${entry.id}`}>
-                        <b className="text-ink font-extrabold tabular-nums">
-                          #{entry.sortOrder}
-                        </b>{" "}
+            <span key={entry.id} className="relative">
+              <CollectibleToken
+                className="w-full"
+                entry={entry}
+                isFound={getCollectibleEntryState(entry, stateByEntryId)}
+                isPending={isEntryPending(entry.id)}
+                onToggle={() => onEntryToggle(entry)}
+                place={place}
+              />
+              {entry.description ? (
+                <span className="absolute -top-2 -right-2 z-10">
+                  <ExplanatoryTip
+                    triggerVariant="raised"
+                    triggerLabel={`What #${entry.sortOrder} needs`}
+                    contentClassName="w-64"
+                    content={
+                      <p>
+                        {place ? <b>{place}. </b> : null}
                         {entry.description}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            </div>
+                      </p>
+                    }
+                  />
+                </span>
+              ) : null}
+            </span>
           );
         })}
       </div>
