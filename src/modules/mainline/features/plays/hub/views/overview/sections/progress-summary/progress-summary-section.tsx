@@ -16,7 +16,8 @@ type ProgressSummarySectionProps = {
  * Progress is quiet: one tile per tracker (Story, Pokédex and, where the game
  * has them, Collectibles) sharing the card's width, each a donut in the
  * game's colour and one short count ("21 of 28", caught for the Pokédex)
- * that never wraps. A tile opens its tracker.
+ * that never wraps. A tile opens its tracker and lifts on hover: a darker
+ * fill would read like the donut's own track.
  */
 export const ProgressSummarySection = ({
   overview,
@@ -37,7 +38,7 @@ export const ProgressSummarySection = ({
             <Link
               key={item.label}
               href={item.href}
-              className="bg-surface-2 hover:bg-hover flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-colors"
+              className="bg-surface-2 focus-visible:outline-focus flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-transform duration-150 outline-none hover:-translate-y-[3px] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
             >
               <span className="text-15 font-extrabold">{item.label}</span>
               <ProgressDonut
