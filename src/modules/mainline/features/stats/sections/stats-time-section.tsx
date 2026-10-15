@@ -127,15 +127,15 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
       </Card>
 
       <Dialog open={isAllOpen} onOpenChange={setIsAllOpen}>
-        <DialogContent className="flex flex-col gap-4 sm:max-w-2xl">
-          <DialogHeader>
+        <DialogContent className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
+          <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
             <DialogTitle>Where your time went</DialogTitle>
             <DialogDescription>
               {formatHoursAndMinutes(stats.minutes)} across {stats.time.length}{" "}
               Plays
             </DialogDescription>
           </DialogHeader>
-          <ul className="-mx-1 grid overflow-y-auto px-1">
+          <ul className="grid min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-2">
             {stats.time.map((row) => (
               <StatsTimeRowItem key={row.playId} longest={longest} row={row} />
             ))}
