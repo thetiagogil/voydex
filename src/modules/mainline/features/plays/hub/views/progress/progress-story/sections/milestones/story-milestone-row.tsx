@@ -66,8 +66,8 @@ const StoryMilestoneWhen = ({
 /*
  * One milestone in the list, drawn as a milestone pick row. A recorded one
  * shows small marks for what it kept: a signpost for a decision and a camera
- * for a saved team (the team itself with "Show teams"; the panel shows it in
- * full).
+ * for a saved team (the choice and the team themselves with "Show
+ * details"; the panel shows them in full).
  */
 export const StoryMilestoneRow = ({
   isJustRecorded,
@@ -75,7 +75,7 @@ export const StoryMilestoneRow = ({
   onPopEnd,
   onSelect,
   selected,
-  showTeam,
+  showDetails,
   state,
 }: {
   isJustRecorded: boolean;
@@ -84,12 +84,19 @@ export const StoryMilestoneRow = ({
   onPopEnd: () => void;
   onSelect: () => void;
   selected: boolean;
-  /* The list's "Show teams": the saved team beside the row, not just its mark. */
-  showTeam: boolean;
+  /*
+   * The list's "Show details": the decision and the saved team beside the
+   * row, not just their marks.
+   */
+  showDetails: boolean;
   state: PlayMilestoneState;
 }) => {
   const hasTeam = milestone.snapshotMembers.length > 0;
   const decision = milestone.selectedDecisionLabel;
+  const decisionOption =
+    milestone.decisionOptions.find(
+      (option) => option.id === milestone.selectedDecisionId,
+    ) ?? null;
 
   return (
     <li className={getMilestonePickItemClassName(state)}>
@@ -157,13 +164,31 @@ export const StoryMilestoneRow = ({
         </span>
         {state === "done" && (hasTeam || decision) ? (
           <span className="text-ink-3 col-start-2 flex items-center gap-2 sm:col-start-auto sm:pl-1">
-            {decision ? (
+            {decision && showDetails ? (
+              <span className="bg-surface-2 text-ink-2 text-13 inline-flex max-w-44 items-center gap-1.5 rounded-full py-0.5 pr-2.5 pl-1 font-bold">
+                {decisionOption?.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={decisionOption.imageUrl}
+                    alt=""
+                    className="size-6 shrink-0 object-contain"
+                  />
+                ) : (
+                  <AppIcon
+                    icon={appIcons.product.decision}
+                    size="sm"
+                    className="ml-1"
+                  />
+                )}
+                <span className="truncate">{decision}</span>
+              </span>
+            ) : decision ? (
               <span title={`Decision: ${decision}`} className="inline-flex">
                 <AppIcon icon={appIcons.product.decision} size="sm" />
                 <span className="sr-only">Decision: {decision}.</span>
               </span>
             ) : null}
-            {hasTeam && showTeam ? (
+            {hasTeam && showDetails ? (
               <PlayTeamParty
                 decorative
                 members={milestone.snapshotMembers}

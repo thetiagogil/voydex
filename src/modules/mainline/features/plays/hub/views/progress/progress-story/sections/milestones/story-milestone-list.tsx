@@ -14,8 +14,9 @@ import {
 
 /*
  * The scope's milestones under their chapters, as Fredoka group headings.
- * Saved teams stay out of the rows (a camera marks them) until "Show teams"
- * beside a chapter's heading brings them in, for the whole list.
+ * Decisions and saved teams stay out of the rows (a signpost and a camera
+ * mark them) until "Show details" beside a chapter's heading brings them
+ * in, for the whole list.
  */
 export const StoryMilestoneList = ({
   className,
@@ -35,7 +36,7 @@ export const StoryMilestoneList = ({
   selectedMilestoneId: number | null;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
-  const [showTeams, setShowTeams] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <div className={cn("flex min-w-0 flex-col gap-6", className)}>
@@ -50,17 +51,19 @@ export const StoryMilestoneList = ({
               {section.name}
             </h3>
             {section.milestones.some(
-              (milestone) => milestone.snapshotMembers.length > 0,
+              (milestone) =>
+                milestone.snapshotMembers.length > 0 ||
+                milestone.selectedDecisionLabel,
             ) ? (
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                aria-pressed={showTeams}
-                onClick={() => setShowTeams((current) => !current)}
+                aria-pressed={showDetails}
+                onClick={() => setShowDetails((current) => !current)}
               >
-                <AppIcon icon={appIcons.product.team} inline="start" />
-                {showTeams ? "Hide teams" : "Show teams"}
+                <AppIcon icon={appIcons.product.details} inline="start" />
+                {showDetails ? "Hide details" : "Show details"}
               </Button>
             ) : null}
           </div>
@@ -75,7 +78,7 @@ export const StoryMilestoneList = ({
                 onPopEnd={onPopEnd}
                 onSelect={() => onMilestoneSelect(milestone)}
                 selected={milestone.id === selectedMilestoneId}
-                showTeam={showTeams}
+                showDetails={showDetails}
                 state={getStoryMilestoneRowState(milestone, nextMilestoneId)}
               />
             ))}
