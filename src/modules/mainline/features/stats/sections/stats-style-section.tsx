@@ -22,8 +22,8 @@ type StatsStyleSectionProps = {
  * Your team style: the types you pick as v3's tile grid (`.tygrid`), every
  * type tinted by how often it's on your teams, unused ones dashed, with one
  * line saying what stands out; and the families back for more than one run
- * (one row of three beside the types on wide screens, so both cards stand
- * as tall), each opening its family's sheet here.
+ * (one row of three beside the types on wide screens, centred in its card
+ * at its own height), each opening its family's sheet here.
  */
 export const StatsStyleSection = ({
   onOpenFriend,
@@ -137,7 +137,7 @@ export const StatsStyleSection = ({
             aside="Back for more than one run"
           />
           {stats.friends.length ? (
-            <ul className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 lg:flex-1">
+            <ul className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 lg:my-auto">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
                   key={friend.speciesSlug}
