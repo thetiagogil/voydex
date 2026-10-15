@@ -7,6 +7,7 @@ import { buildStatsModel, getTrainerTitle } from "./stats-model";
 
 const rows: TrainerPokemonRows = {
   attributes: [],
+  evolutions: [],
   forms: [],
   games: [],
   plays: [],

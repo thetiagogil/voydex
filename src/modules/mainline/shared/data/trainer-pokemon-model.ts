@@ -30,6 +30,8 @@ export type TrainerPlay = {
 export type TrainerPokemonMember = {
   id: string;
   imageUrl: string | null;
+  /* The species it evolved from, as recorded in History, earliest first. */
+  evolvedFrom: string[];
   /* On the team or in reserve now, not retired or replaced. */
   isCurrent: boolean;
   isShiny: boolean;
@@ -115,6 +117,44 @@ export const createTrainerFormTypeResolver = (
   };
 };
 
+type EvolutionRef = {
+  play_pokemon_id?: string | null;
+  role?: string;
+  species_name?: string | null;
+};
+
+const isEvolutionRef = (value: unknown): value is EvolutionRef =>
+  typeof value === "object" && value !== null;
+
+/*
+ * What each roster Pokémon evolved from, read from the evolutions recorded
+ * in History (the Evolve action saves one with "from" and "to"), keyed by
+ * the Pokémon on the roster.
+ */
+export const getEvolvedFromByPlayPokemon = (
+  evolutions: TrainerPokemonRows["evolutions"],
+) => {
+  const evolvedFrom = new Map<string, string[]>();
+
+  for (const evolution of evolutions) {
+    const refs = Array.isArray(evolution.pokemon_refs)
+      ? evolution.pokemon_refs.filter(isEvolutionRef)
+      : [];
+    const playPokemonId = refs.find(
+      (ref) => ref.play_pokemon_id,
+    )?.play_pokemon_id;
+    const from = refs.find((ref) => ref.role === "from")?.species_name;
+
+    if (!playPokemonId || !from) continue;
+
+    const names = evolvedFrom.get(playPokemonId) ?? [];
+    if (!names.includes(from)) names.push(from);
+    evolvedFrom.set(playPokemonId, names);
+  }
+
+  return evolvedFrom;
+};
+
 /*
  * Every species that has joined the trainer's teams: on a roster, in a
  * recorded moment or in a team saved with a milestone. Each entry reads its
@@ -131,6 +171,7 @@ export const buildTrainerPokemonEntries = (
   );
   const formById = new Map(rows.forms.map((form) => [form.id, form]));
   const getFormTypes = createTrainerFormTypeResolver(rows);
+  const evolvedFromByMember = getEvolvedFromByPlayPokemon(rows.evolutions);
 
   type Draft = Omit<
     TrainerPokemonEntry,
@@ -214,6 +255,7 @@ export const buildTrainerPokemonEntries = (
     draft.onTeamNow ||= member.roster_state_slug === "active";
     draft.shiny ||= member.is_shiny === true;
     draft.members.push({
+      evolvedFrom: evolvedFromByMember.get(member.play_pokemon_id) ?? [],
       id: member.play_pokemon_id,
       imageUrl: getPlayTeamMemberImageUrl(member),
       isCurrent:
@@ -353,7 +395,9 @@ export const splitTrainerSpeciesPlays = ({
       relative
         ? {
             detail: [
-              `Now ${relative.speciesName}`,
+              species.some((each) => relative.evolvedFrom.includes(each.name))
+                ? `Evolved into ${relative.speciesName}`
+                : `Now ${relative.speciesName}`,
               relative.level ? `Lv. ${relative.level}` : null,
             ]
               .filter(Boolean)

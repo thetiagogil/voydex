@@ -28,12 +28,19 @@ export type TrainerPokemonUse = {
   used_at: string | null;
 };
 
+/* One recorded evolution: its Play and its Pokémon refs ("from", "to"). */
+export type TrainerPokemonEvolution = {
+  play_id: string | null;
+  pokemon_refs: unknown;
+};
+
 /*
  * Everything the trainer's Pokémon pages read: every Play (archived too, so a
  * Pokémon keeps the Play it was in), every Pokémon on those Plays' rosters,
- * every recorded use, and the reference rows that draw them.
+ * every recorded use and evolution, and the reference rows that draw them.
  */
 export type TrainerPokemonRows = {
+  evolutions: TrainerPokemonEvolution[];
   attributes: PokemonAttributes[];
   forms: Pick<
     PokemonForm,
@@ -103,6 +110,28 @@ const readTrainerUses = async (
         .order("source_row_id", { ascending: true })
         .range(from, to),
     "Unable to load the Pokémon you've used.",
+  );
+};
+
+const readTrainerEvolutions = async (
+  supabase: ServerSupabaseClient,
+  playIds: string[],
+) => {
+  if (!playIds.length) {
+    return [];
+  }
+
+  return loadPagedReferenceRows<TrainerPokemonEvolution>(
+    (from, to) =>
+      supabase
+        .schema("views")
+        .from("mainline_play_timeline_detail")
+        .select("play_id, pokemon_refs")
+        .eq("event_type_slug", "pokemon_evolved")
+        .in("play_id", playIds)
+        .order("event_id", { ascending: true })
+        .range(from, to),
+    "Unable to load your Pokémon's evolutions.",
   );
 };
 
@@ -187,9 +216,10 @@ export const readTrainerPokemonRows = async (
 ): Promise<TrainerPokemonRows> => {
   const plays = await readTrainerPlays(supabase, userId);
   const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
-  const [roster, uses, gameRows] = await Promise.all([
+  const [roster, uses, evolutions, gameRows] = await Promise.all([
     readTrainerRoster(supabase, playIds),
     playIds.length ? readTrainerUses(supabase, userId) : [],
+    readTrainerEvolutions(supabase, playIds),
     readGamesAndRegions(
       supabase,
       uniqueNumberIds(plays.map((play) => play.game_id)),
@@ -207,6 +237,7 @@ export const readTrainerPokemonRows = async (
   return {
     ...formRows,
     ...gameRows,
+    evolutions,
     plays,
     roster,
     types,

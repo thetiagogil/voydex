@@ -291,8 +291,10 @@ export const TrainerSpeciesSheet = ({
                     : member.name,
                   member.level ? `Lv. ${member.level}` : null,
                   ...(showsFamily
-                    ? getEarlierFamilyNames(species, member).map(
-                        (name) => `was ${name}`,
+                    ? getEarlierFamilyNames(species, member).map((name) =>
+                        member.evolvedFrom.includes(name)
+                          ? `evolved from ${name}`
+                          : `was ${name}`,
                       )
                     : []),
                 ]

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   countTrainerSpeciesPlays,
+  getEvolvedFromByPlayPokemon,
   getEarlierFamilyNames,
   getTrainerFamilyEntries,
   splitTrainerSpeciesPlays,
@@ -68,6 +69,7 @@ const member = (
   speciesName: string,
   isCurrent: boolean,
 ): TrainerPokemonMember => ({
+  evolvedFrom: [],
   id,
   imageUrl: null,
   isCurrent,
@@ -130,6 +132,27 @@ describe("splitTrainerSpeciesPlays", () => {
     ]);
   });
 
+  it("says it evolved when History recorded the evolution", () => {
+    const evolvedZard: TrainerPokemonEntry = {
+      ...charizard,
+      members: [
+        {
+          ...member("zard", "C Play", "Charizard", true),
+          evolvedFrom: ["Charmander"],
+        },
+      ],
+    };
+    const { before } = splitTrainerSpeciesPlays({
+      ...hrefs,
+      family: [evolvedZard],
+      species: [charmander],
+    });
+
+    expect(before.find((one) => one.play.id === "C Play")?.detail).toBe(
+      "Evolved into Charizard · Lv. 30",
+    );
+  });
+
   it("counts a Play as now when any of the family is on it", () => {
     const { before, now } = splitTrainerSpeciesPlays({
       ...hrefs,
@@ -171,5 +194,29 @@ describe("family counts", () => {
   it("splits a species' Plays into now and before", () => {
     expect(countTrainerSpeciesPlays(ivysaur)).toEqual({ before: 1, now: 2 });
     expect(countTrainerSpeciesPlays(venusaur)).toEqual({ before: 0, now: 1 });
+  });
+});
+
+describe("getEvolvedFromByPlayPokemon", () => {
+  it("reads what each roster Pokémon evolved from out of History", () => {
+    const evolved = getEvolvedFromByPlayPokemon([
+      {
+        play_id: "a",
+        pokemon_refs: [
+          { play_pokemon_id: "venu", role: "from", species_name: "Bulbasaur" },
+          { play_pokemon_id: "venu", role: "to", species_name: "Ivysaur" },
+        ],
+      },
+      {
+        play_id: "a",
+        pokemon_refs: [
+          { play_pokemon_id: null, role: "from", species_name: "Ivysaur" },
+          { play_pokemon_id: "venu", role: "to", species_name: "Venusaur" },
+        ],
+      },
+      { play_id: "a", pokemon_refs: null },
+    ]);
+
+    expect(evolved.get("venu")).toEqual(["Bulbasaur", "Ivysaur"]);
   });
 });
