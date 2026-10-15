@@ -7,7 +7,7 @@ import { formatPlayHistoryDate } from "./play-history-date";
 const utc = { timeZone: "UTC", today: null };
 
 describe("formatPlayHistoryDate", () => {
-  it("keeps an unknown event date distinct from its database creation time", () => {
+  it("dates a moment given no date by when it was recorded", () => {
     const display = formatPlayHistoryDate(
       {
         created_at: "2025-07-01T12:00:00Z",
@@ -16,11 +16,8 @@ describe("formatPlayHistoryDate", () => {
       utc,
     );
 
-    expect(display).toEqual({
-      moment: null,
-      monthKey: "undated",
-      monthLabel: "Date not recorded",
-    });
+    expect(display.moment?.day).toBe("Jul 1");
+    expect(display.monthLabel).toBe("July 2025");
   });
 
   it("reads a recorded date month first and groups it by month", () => {

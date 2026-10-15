@@ -3,6 +3,7 @@ import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/p
 import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
+import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type RecentHistorySectionProps = {
@@ -37,7 +38,7 @@ export const RecentHistorySection = ({
     >
       <div className="grid">
         {moments.map((event, index) => {
-          const happenedAt = event.happened_at ?? event.created_at;
+          const happenedAt = getPlayMomentInstant(event);
 
           return (
             <PlayMomentRow

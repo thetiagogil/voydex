@@ -1,14 +1,15 @@
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import {
   formatPlayMoment,
+  getPlayMomentInstant,
   type PlayMoment,
   type ViewerClock,
 } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 
 export type PlayHistoryDate = {
   /*
-   * When it happened, or null when the event has no effective date; the month
-   * group carries the year.
+   * When it happened, or null when the event has no valid date at all; the
+   * month group carries the year.
    */
   moment: PlayMoment | null;
   monthKey: string;
@@ -62,16 +63,15 @@ const getMonthKey = (formatter: Intl.DateTimeFormat, date: Date) => {
 
 /*
  * When a moment happened, read in the clock's time zone, so the month
- * groups and times come out the same wherever this runs. An event without an
- * effective date stays undated: its database creation time is not when it
- * happened. With the clock's `today`, the latest two days read "Today" and
- * "Yesterday".
+ * groups and times come out the same wherever this runs. A moment given no
+ * date reads when it was recorded, as everywhere else moments show. With the
+ * clock's `today`, the latest two days read "Today" and "Yesterday".
  */
 export const formatPlayHistoryDate = (
   event: MainlinePlayTimelineEvent,
   clock: ViewerClock,
 ): PlayHistoryDate => {
-  const moment = formatPlayMoment(event.happened_at, clock);
+  const moment = formatPlayMoment(getPlayMomentInstant(event), clock);
 
   if (!moment) {
     return undatedDate;

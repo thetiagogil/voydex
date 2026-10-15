@@ -7,6 +7,15 @@ export type ViewerClock = {
   today: string | null;
 };
 
+/*
+ * When a moment happened: the date it was given, else when it was recorded,
+ * so every moment has a date.
+ */
+export const getPlayMomentInstant = (event: {
+  created_at: string | null;
+  happened_at: string | null;
+}) => event.happened_at ?? event.created_at;
+
 /* When a moment happened, read in the viewer's time zone. */
 export type PlayMoment = {
   /* Month first with the year ("Aug 12, 2025"), never relative. */

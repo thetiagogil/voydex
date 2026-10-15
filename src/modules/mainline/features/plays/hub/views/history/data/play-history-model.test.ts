@@ -11,11 +11,13 @@ import {
 } from "./play-history-model";
 
 const event = ({
+  createdAt,
   eventId,
   eventTypeSlug,
   happenedAt,
   timelineOrder,
 }: {
+  createdAt?: string;
   eventId: string;
   eventTypeSlug: string;
   happenedAt?: string;
@@ -23,6 +25,7 @@ const event = ({
 }) =>
   ({
     body: null,
+    created_at: createdAt ?? null,
     event_id: eventId,
     event_type_slug: eventTypeSlug,
     happened_at: happenedAt ?? null,
@@ -112,13 +115,14 @@ describe("Play History model", () => {
   });
 
   it("groups consecutive moments by month without reordering them", () => {
-    const undated = event({
-      eventId: "undated",
+    const imported = event({
+      createdAt: "2025-05-20T12:00:00Z",
+      eventId: "imported",
       eventTypeSlug: "pokemon_added",
       timelineOrder: 5,
     });
     const months = groupPlayHistoryEventsByMonth(
-      getShownPlayHistoryEvents([...events, undated], {
+      getShownPlayHistoryEvents([...events, imported], {
         filter: "all",
         sort: "newest",
       }),
@@ -133,7 +137,7 @@ describe("Play History model", () => {
     ).toEqual([
       { events: ["paused", "note", "badge"], label: "July 2025" },
       { events: ["added"], label: "June 2025" },
-      { events: ["undated"], label: "Date not recorded" },
+      { events: ["imported"], label: "May 2025" },
     ]);
   });
 });

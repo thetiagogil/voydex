@@ -12,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { appIcons } from "@/shared/components/app-icon";
 import { cardVariants } from "@/shared/components/ui/card";
@@ -89,7 +90,7 @@ export const HomeMomentsSection = ({
   const context = toPlayMomentContext(moments.context);
   const recorded: Beat[] = moments.events.map((event, index) => {
     const record = getPlayMomentRecord(event, context);
-    const happenedAt = event.happened_at ?? event.created_at;
+    const happenedAt = getPlayMomentInstant(event);
 
     return {
       body: record.label,

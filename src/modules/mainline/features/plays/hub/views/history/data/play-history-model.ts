@@ -1,6 +1,9 @@
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
-import type { ViewerClock } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
+import {
+  getPlayMomentInstant,
+  type ViewerClock,
+} from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 
 import {
   formatPlayHistoryDate,
@@ -89,14 +92,12 @@ const compareTimelineOrder = (
     return orderDifference;
   }
 
-  const leftDate = left.happened_at
-    ? new Date(left.happened_at).getTime()
-    : Number.NEGATIVE_INFINITY;
-  const rightDate = right.happened_at
-    ? new Date(right.happened_at).getTime()
-    : Number.NEGATIVE_INFINITY;
+  const getTime = (event: MainlinePlayTimelineEvent) => {
+    const instant = getPlayMomentInstant(event);
+    return instant ? new Date(instant).getTime() : Number.NEGATIVE_INFINITY;
+  };
 
-  return leftDate - rightDate;
+  return getTime(left) - getTime(right);
 };
 
 /*
