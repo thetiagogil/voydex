@@ -61,6 +61,8 @@
   --sky: #fbf5e8;
   --hill: #e0e9cb;
   --hill-2: #d2deb6;
+  /* A main page's band where its content brings the colour (the Team Planner). */
+  --band-sand: color-mix(in oklab, var(--lip) 62%, var(--bg));
 
   /*
    * Context colour. Pages without a Play wear Voydex green; a Play sets
@@ -218,6 +220,7 @@
   --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
+  --color-band-sand: var(--band-sand);
   --color-game: var(--game);
   --color-game-soft: var(--game-soft);
   --color-game-wash: var(--game-wash);

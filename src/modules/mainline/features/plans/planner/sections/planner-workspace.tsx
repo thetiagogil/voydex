@@ -330,7 +330,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
   return (
     <div className="flex flex-col gap-6 sm:gap-8">
-      <PageBand className="flex flex-col gap-6 sm:gap-7">
+      <PageBand tone="sand" className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           isSaved={Boolean(plan)}
