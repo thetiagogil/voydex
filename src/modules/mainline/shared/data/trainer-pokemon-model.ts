@@ -1,8 +1,5 @@
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
-import type {
-  MainlinePlaySummary,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/shared/types";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -38,8 +35,6 @@ export type TrainerPokemonMember = {
   isShiny: boolean;
   level: number | null;
   name: string;
-  /* "On the team", "In reserve", or the roster state's own name. */
-  placeLabel: string;
   play: TrainerPlay;
   speciesName: string;
   typeSlug: string | null;
@@ -87,12 +82,6 @@ const toTrainerPlay = (play: MainlinePlaySummary): TrainerPlay | null => {
     statusName: play.status_name,
     statusSlug: play.status_slug,
   };
-};
-
-const getPlaceLabel = (member: MainlinePlayTeamMember) => {
-  if (member.roster_state_slug === "active") return "On the team";
-  if (member.roster_state_slug === "reserve") return "In reserve";
-  return member.roster_state_name ?? "Left the team";
 };
 
 const laterOf = (left: string | null, right: string | null) => {
@@ -233,7 +222,6 @@ export const buildTrainerPokemonEntries = (
       isShiny: member.is_shiny === true,
       level: member.level,
       name: getPlayTeamMemberName(member),
-      placeLabel: getPlaceLabel(member),
       play,
       speciesName: member.species_name ?? draft.name,
       typeSlug: types[0]?.slug ?? null,
@@ -302,7 +290,7 @@ export type TrainerPastPlay = {
   /* Where the row leads: the Pokémon on that Play's roster, else its History. */
   href: string;
   play: TrainerPlay;
-  /* "Now Charizard · Lv. 36 · On the team", "Retired", "In a recorded moment". */
+  /* "Charmander · Lv. 30", "Now Charizard · Lv. 36", "In a recorded moment". */
   detail: string;
   /* The roster Pokémon the row is about, when there is one. */
   member: TrainerPokemonMember | null;
@@ -342,11 +330,7 @@ export const splitTrainerSpeciesPlays = ({
 
     beforePlayIds.add(member.play.id);
     before.push({
-      detail: [
-        member.name,
-        member.level ? `Lv. ${member.level}` : null,
-        member.placeLabel,
-      ]
+      detail: [member.name, member.level ? `Lv. ${member.level}` : null]
         .filter(Boolean)
         .join(" · "),
       href: getMemberHref(member),
@@ -371,7 +355,6 @@ export const splitTrainerSpeciesPlays = ({
             detail: [
               `Now ${relative.speciesName}`,
               relative.level ? `Lv. ${relative.level}` : null,
-              relative.placeLabel,
             ]
               .filter(Boolean)
               .join(" · "),

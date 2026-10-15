@@ -290,7 +290,6 @@ export const TrainerSpeciesSheet = ({
                       : null
                     : member.name,
                   member.level ? `Lv. ${member.level}` : null,
-                  member.placeLabel,
                   ...(showsFamily
                     ? getEarlierFamilyNames(species, member).map(
                         (name) => `was ${name}`,
@@ -334,7 +333,6 @@ export const TrainerSpeciesSheet = ({
                           ? past.member.name
                           : null,
                         past.member.level ? `Lv. ${past.member.level}` : null,
-                        past.member.placeLabel,
                       ]
                         .filter(Boolean)
                         .join(" · ")

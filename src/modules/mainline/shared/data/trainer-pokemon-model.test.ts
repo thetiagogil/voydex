@@ -74,7 +74,6 @@ const member = (
   isShiny: false,
   level: 30,
   name: speciesName,
-  placeLabel: isCurrent ? "On the team" : "Retired",
   play: play(playId),
   speciesName,
   typeSlug: null,
@@ -111,13 +110,13 @@ describe("splitTrainerSpeciesPlays", () => {
     expect(now.map((one) => one.id)).toEqual(["now"]);
     expect(before).toEqual([
       {
-        detail: "Charmander · Lv. 30 · Retired",
+        detail: "Charmander · Lv. 30",
         href: "/member/retired",
         member: charmander.members[1],
         play: play("B Play"),
       },
       {
-        detail: "Now Charizard · Lv. 30 · On the team",
+        detail: "Now Charizard · Lv. 30",
         href: "/member/zard",
         member: charizard.members[0],
         play: play("C Play"),
