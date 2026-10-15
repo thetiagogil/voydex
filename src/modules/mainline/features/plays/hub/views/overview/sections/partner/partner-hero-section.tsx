@@ -22,9 +22,15 @@ import {
   ObjectiveEyebrow,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import {
+  PokemonCard,
+  pokemonCardPickedClassName,
+} from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { appIcons } from "@/shared/components/app-icon";
+import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -33,10 +39,17 @@ const titleId = "partner-hero-title";
 const getOptionTypes = (option: OverviewPartnerOption) =>
   [option.primaryType, option.secondaryType].filter((type) => type !== null);
 
+const getOptionTypeSlug = (option: OverviewPartnerOption) =>
+  option.primaryType && isPokemonTypeSlug(option.primaryType.slug)
+    ? option.primaryType.slug
+    : null;
+
 /*
  * A brand-new Play's hero (v3 `.fresh-hero`): which partner you chose. The
- * options are plain cards until one is picked; the pick becomes your
- * sticker and pops once, the others step back, and the toast offers Undo.
+ * options are plain cards; tapping one picks it (its type and a ring), and
+ * "Choose {name}" in the footer records it, as on Home and Start a Play.
+ * The recorded partner becomes your sticker and pops once, the others step
+ * back, and the toast offers Undo.
  * Once chosen, the next milestone waits under the rule with Record.
  */
 export const PartnerHeroSection = ({
@@ -52,13 +65,17 @@ export const PartnerHeroSection = ({
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [pendingOptionId, setPendingOptionId] = useState<number | null>(null);
+  const [pickedOptionId, setPickedOptionId] = useState<number | null>(null);
   const [poppingOptionId, setPoppingOptionId] = useState<number | null>(null);
   const chosen = partner.isRecorded
     ? (partner.options.find(
         (option) => option.decisionOptionId === partner.chosenOptionId,
       ) ?? null)
     : null;
+  const picked =
+    partner.options.find(
+      (option) => option.decisionOptionId === pickedOptionId,
+    ) ?? null;
   const position = `Milestone ${partner.position.sequence} of ${partner.position.total}`;
 
   const undo = (addedPlayPokemonId: string | null) => {
@@ -77,8 +94,7 @@ export const PartnerHeroSection = ({
     });
   };
 
-  const choose = (option: OverviewPartnerOption) => {
-    setPendingOptionId(option.decisionOptionId);
+  const record = (option: OverviewPartnerOption) => {
     startTransition(async () => {
       const result = await choosePlayPartnerAction({
         decisionOptionId: option.decisionOptionId,
@@ -86,13 +102,12 @@ export const PartnerHeroSection = ({
         playId,
       });
 
-      setPendingOptionId(null);
-
       if (result.status === "error") {
         toast.error(result.message);
         return;
       }
 
+      setPickedOptionId(null);
       setPoppingOptionId(option.decisionOptionId);
       toast.success(`${result.partnerName} is your partner`, {
         action: {
@@ -139,10 +154,25 @@ export const PartnerHeroSection = ({
             <span>Every milestone recorded.</span>
           )
         ) : (
-          <span>
-            <b className="text-ink font-extrabold">Not sure yet?</b> You can
-            record your partner later, from Story.
-          </span>
+          <>
+            <span>
+              <b className="text-ink font-extrabold">Not sure yet?</b> You can
+              record your partner later, from Story.
+            </span>
+            {picked ? (
+              <Button
+                type="button"
+                size="sm"
+                className="ml-auto shrink-0"
+                disabled={isPending}
+                aria-busy={isPending}
+                onClick={() => record(picked)}
+              >
+                {isPending ? <Spinner /> : null}
+                Choose {picked.name}
+              </Button>
+            ) : null}
+          </>
         )
       }
     >
@@ -159,7 +189,7 @@ export const PartnerHeroSection = ({
       <p className="text-ink-2 font-semibold">
         {chosen
           ? "Your journey starts here."
-          : "Every journey starts with a partner. Tap the one you picked."}
+          : "Every journey starts with a partner. Tap the one you picked, then choose it."}
       </p>
 
       <ul
@@ -168,7 +198,7 @@ export const PartnerHeroSection = ({
       >
         {partner.options.map((option) => {
           const isChosen = chosen?.decisionOptionId === option.decisionOptionId;
-          const isSaving = pendingOptionId === option.decisionOptionId;
+          const isPicked = pickedOptionId === option.decisionOptionId;
 
           return (
             <li key={option.decisionOptionId} className="min-w-0">
@@ -200,9 +230,12 @@ export const PartnerHeroSection = ({
                 <button
                   type="button"
                   disabled={isPending}
-                  aria-busy={isSaving}
-                  aria-label={`Choose ${option.name} as your partner`}
-                  onClick={() => choose(option)}
+                  aria-pressed={isPicked}
+                  aria-label={`${option.name} is my partner`}
+                  onClick={() =>
+                    setPickedOptionId(isPicked ? null : option.decisionOptionId)
+                  }
+                  style={getPokemonTypeCssVariables(getOptionTypeSlug(option))}
                   className="focus-visible:outline-focus relative block w-full rounded-lg outline-offset-2 focus-visible:outline-3 focus-visible:outline-solid disabled:cursor-wait"
                 >
                   <PokemonCard
@@ -213,10 +246,8 @@ export const PartnerHeroSection = ({
                     name={option.name}
                     number=""
                     types={getOptionTypes(option)}
+                    className={cn(isPicked && pokemonCardPickedClassName)}
                   />
-                  {isSaving ? (
-                    <Spinner className="text-ink-2 absolute top-2 right-2" />
-                  ) : null}
                 </button>
               )}
             </li>

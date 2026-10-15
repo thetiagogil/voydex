@@ -97,9 +97,7 @@ export const HomeBandSection = ({
   const detail = partnerChoice
     ? [
         getHomePlayStatusLine(current),
-        partnerState.pickedName
-          ? `Choose ${partnerState.pickedName} to record your partner`
-          : "Which Pokémon did you choose? Tap your partner",
+        "Which Pokémon did you choose? Tap your partner",
       ]
         .filter(Boolean)
         .join(" · ")

@@ -8,7 +8,10 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import {
+  PokemonCard,
+  pokemonCardPickedClassName,
+} from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -212,9 +215,7 @@ export const PlannerPoolSection = ({
                           number={formatNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
                           className={cn(
-                            /* v3 `.ptile.in`: picked wears its type, with a ring. */
-                            slot !== undefined &&
-                              "border-transparent bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] shadow-[inset_0_0_0_2.5px_color-mix(in_oklab,var(--t)_55%,white)]",
+                            slot !== undefined && pokemonCardPickedClassName,
                             replacingId === pokemon.speciesId &&
                               "outline-game outline-3 outline-offset-2 outline-solid",
                           )}

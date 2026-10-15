@@ -12,6 +12,13 @@ import { cn } from "@/shared/utils/cn";
 
 export type PokemonCardState = "caught" | "missing" | "plain" | "seen";
 
+/*
+ * v3 `.ptile.in`: a plain card you have picked wears its type, with a ring.
+ * Set the type's colour (`--t`, `getPokemonTypeCssVariables`) around it.
+ */
+export const pokemonCardPickedClassName =
+  "border-transparent bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] shadow-[inset_0_0_0_2.5px_color-mix(in_oklab,var(--t)_55%,white)]";
+
 type PokemonCardType = { name: string; slug: string };
 
 type PokemonCardProps = {
