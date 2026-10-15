@@ -21,6 +21,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme="light"
       position={isMobile ? "bottom-center" : "bottom-right"}
+      /* A run of marks stays readable: toasts stack open, three at a time. */
+      expand
+      visibleToasts={3}
       offset={{ bottom: "var(--toast-bottom, 24px)" }}
       mobileOffset={{ bottom: "var(--toast-bottom, 18px)" }}
       icons={{
