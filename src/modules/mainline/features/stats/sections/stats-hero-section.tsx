@@ -7,16 +7,14 @@ import type {
 import {
   formatCountWord,
   formatMonthYear,
+  joinStatsList,
 } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { PageBand } from "@/shared/components/page-band";
 
 type StatsHeroSectionProps = {
@@ -24,133 +22,119 @@ type StatsHeroSectionProps = {
   stats: StatsModel;
 };
 
-const BigFigure = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex min-w-0 flex-col-reverse gap-1 rounded-xl bg-white/60 px-4 py-3.5 sm:px-5 sm:py-4">
+const toTypeSlug = (slug: string | undefined): PokemonTypeSlug | null =>
+  slug && isPokemonTypeSlug(slug) ? slug : null;
+
+/* A fact under the headline: its figure over what it counts. */
+const Stamp = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex min-w-0 flex-col-reverse gap-1 rounded-xl bg-white/60 px-4 py-3 sm:px-5">
     <dt className="text-ink-2 text-14 font-bold">{label}</dt>
-    <dd className="font-display text-[34px] leading-none font-semibold tabular-nums sm:text-[44px]">
+    <dd className="font-display text-24 leading-none font-semibold tabular-nums sm:text-[28px]">
       {value}
     </dd>
   </div>
 );
 
-const SmallFact = ({
+/* The words in the headline that carry a colour: the friend's or the type's. */
+const Coloured = ({
   children,
-  icon,
+  type,
 }: {
   children: ReactNode;
-  icon: AppIconComponent;
+  type: PokemonTypeSlug | null;
 }) => (
-  <li className="text-ink-2 text-14 inline-flex items-center gap-1.5 rounded-full bg-white/50 px-3 py-1.5 font-bold">
-    <AppIcon icon={icon} size="sm" />
+  <span style={getPokemonTypeCssVariables(type)} className="type-ink">
     {children}
-  </li>
+  </span>
 );
 
-const highlightCardClassName =
-  "bg-surface shadow-card flex w-full items-center gap-4 rounded-2xl p-4 text-left sm:gap-5 sm:p-5";
-
-/* The highlight beside the figures: one thing that stands out, shown. */
-const Highlight = ({ onOpenFriend, stats }: StatsHeroSectionProps) => {
+/*
+ * How the headline ends: the old friend back for the most runs, else a
+ * clear favourite type, else the Play with the most time.
+ */
+const HeadlineTail = ({ stats }: { stats: StatsModel }) => {
   const { highlight } = stats;
 
   if (highlight.kind === "old-friend") {
     const { friend } = highlight;
-    const type = friend.types[0]?.slug;
+
+    return (
+      <>
+        , and{" "}
+        <Coloured type={toTypeSlug(friend.types[0]?.slug)}>
+          {friend.name}
+        </Coloured>{" "}
+        {friend.family.length > 1 ? "have" : "has"} joined you in{" "}
+        {formatCountWord(friend.playCount)} Plays
+      </>
+    );
+  }
+
+  if (highlight.kind === "favourite-type") {
+    return (
+      <>
+        , and you keep coming back to{" "}
+        <Coloured type={toTypeSlug(highlight.type.slug)}>
+          {highlight.type.name}
+        </Coloured>{" "}
+        types
+      </>
+    );
+  }
+
+  if (highlight.kind === "most-time") {
+    return <>, and most of your time went to {highlight.label}</>;
+  }
+
+  return null;
+};
+
+/* Beside the headline: the friend's art (opening its family), or the type. */
+const HeadlineArt = ({ onOpenFriend, stats }: StatsHeroSectionProps) => {
+  const { highlight } = stats;
+
+  if (highlight.kind === "old-friend") {
+    const { friend } = highlight;
 
     return (
       <button
         type="button"
         onClick={() => onOpenFriend(friend)}
-        className={`${highlightCardClassName} hover:bg-hover focus-visible:outline-focus outline-none focus-visible:outline-3 focus-visible:outline-solid`}
+        aria-label={`${friend.name}: see their Plays`}
+        style={getPokemonTypeCssVariables(toTypeSlug(friend.types[0]?.slug))}
+        className="sticker focus-visible:outline-focus grid size-28 shrink-0 place-items-center rounded-2xl outline-none hover:-translate-y-[3px] focus-visible:outline-3 focus-visible:outline-solid sm:size-36"
       >
-        <span
-          aria-hidden
-          style={getPokemonTypeCssVariables(
-            type && isPokemonTypeSlug(type) ? type : null,
-          )}
-          className="sticker grid size-24 shrink-0 place-items-center rounded-xl sm:size-28"
-        >
-          {friend.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={friend.imageUrl}
-              alt=""
-              className="size-20 object-contain sm:size-24"
-            />
-          ) : null}
-        </span>
-        <span className="flex min-w-0 flex-col gap-1">
-          <span className="text-ink-3 text-13 font-extrabold">
-            Your old friend
-          </span>
-          <span className="font-display text-24 leading-tight font-semibold">
-            {friend.name}
-          </span>
-          <span className="text-ink-2 text-14 font-semibold">
-            With you in {formatCountWord(friend.playCount)} Plays
-          </span>
-          <PokemonTypeList
-            types={friend.types}
-            badgeDisplay="icon-label"
-            badgeSize="sm"
-            className="mt-1 flex flex-wrap gap-1.5"
+        {friend.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={friend.imageUrl}
+            alt=""
+            className="size-24 object-contain sm:size-32"
           />
-        </span>
+        ) : null}
       </button>
     );
   }
 
   if (highlight.kind === "favourite-type") {
-    const slug = isPokemonTypeSlug(highlight.type.slug)
-      ? highlight.type.slug
-      : null;
+    const slug = toTypeSlug(highlight.type.slug);
 
-    return (
-      <div className={highlightCardClassName}>
-        {slug ? (
-          <PokemonTypeMark
-            type={slug}
-            className="size-20 shrink-0"
-            iconClassName="size-10"
-          />
-        ) : null}
-        <div className="flex min-w-0 flex-col gap-1">
-          <span className="text-ink-3 text-13 font-extrabold">
-            Your favourite type
-          </span>
-          <span className="font-display text-24 leading-tight font-semibold">
-            {highlight.type.name}
-          </span>
-          <span className="text-ink-2 text-14 font-semibold">
-            {highlight.type.count} on your teams
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  if (highlight.kind === "most-time") {
-    return (
-      <div className={highlightCardClassName}>
-        <div className="flex min-w-0 flex-col gap-1">
-          <span className="text-ink-3 text-13 font-extrabold">
-            Most of your time
-          </span>
-          <span className="font-display text-24 leading-tight font-semibold">
-            {highlight.label}
-          </span>
-        </div>
-      </div>
-    );
+    return slug ? (
+      <PokemonTypeMark
+        type={slug}
+        className="size-24 shrink-0 sm:size-28"
+        iconClassName="size-12 sm:size-14"
+      />
+    ) : null;
   }
 
   return null;
 };
 
 /*
- * Statistics' band (v3 `.st-hero`): your journey as three big figures, a few
- * small facts under them, and beside them the one thing that stands out,
- * shown rather than told; your old friend opens its sheet.
+ * Statistics' band (v3 `.st-hero`): your journey said in one sentence, which
+ * is the page's title and ends on the one thing that stands out, a few facts
+ * under it as stamps, and the friend or type it names beside it.
  */
 export const StatsHeroSection = ({
   onOpenFriend,
@@ -158,52 +142,44 @@ export const StatsHeroSection = ({
 }: StatsHeroSectionProps) => {
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
-  const hasHighlight = stats.highlight.kind !== "none";
+  const counts = [
+    hours ? `${hours} ${hours === 1 ? "hour" : "hours"}` : null,
+    `${formatCountWord(stats.playCount)} ${stats.playCount === 1 ? "Play" : "Plays"}`,
+    `${stats.speciesCount} Pokémon`,
+  ].filter((count): count is string => Boolean(count));
 
   return (
-    <PageBand className="flex flex-col gap-5 pt-6 sm:pt-9">
-      <h1 className="text-28 leading-tight tracking-[-0.02em] sm:text-[34px]">
-        Your journey so far
-      </h1>
-      <div
-        className={
-          hasHighlight
-            ? "grid items-center gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"
-            : "grid gap-5"
-        }
-      >
-        <div className="flex flex-col gap-3">
-          <dl className="grid grid-cols-3 gap-2.5 sm:gap-3">
-            <BigFigure
-              label={hours === 1 ? "hour" : "hours"}
-              value={String(hours)}
+    <PageBand className="pt-6 sm:pt-9">
+      <div className="flex items-center gap-6 sm:gap-8">
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <p className="text-ink-2 text-14 font-extrabold">
+              Your journey so far
+            </p>
+            <h1 className="text-24 leading-tight tracking-[-0.01em] sm:text-[32px]">
+              {joinStatsList(counts, "and")}
+              <HeadlineTail stats={stats} />.
+            </h1>
+          </div>
+          <dl className="grid max-w-xl grid-cols-3 gap-2.5 sm:gap-3">
+            <Stamp
+              label={
+                stats.completedCount === 1
+                  ? "Play completed"
+                  : "Plays completed"
+              }
+              value={String(stats.completedCount)}
             />
-            <BigFigure
-              label={stats.playCount === 1 ? "Play" : "Plays"}
-              value={String(stats.playCount)}
+            <Stamp
+              label={stats.shinyCount === 1 ? "shiny" : "shinies"}
+              value={String(stats.shinyCount)}
             />
-            <BigFigure label="Pokémon met" value={String(stats.speciesCount)} />
+            {firstPlay ? <Stamp label="first Play" value={firstPlay} /> : null}
           </dl>
-          <ul
-            aria-label="More about your Plays"
-            className="flex flex-wrap gap-2"
-          >
-            <SmallFact icon={appIcons.product.completion}>
-              {stats.completedCount} completed
-            </SmallFact>
-            <SmallFact icon={appIcons.product.shiny}>
-              {stats.shinyCount} {stats.shinyCount === 1 ? "shiny" : "shinies"}
-            </SmallFact>
-            {firstPlay ? (
-              <SmallFact icon={appIcons.product.date}>
-                First Play {firstPlay}
-              </SmallFact>
-            ) : null}
-          </ul>
         </div>
-        {hasHighlight ? (
-          <Highlight onOpenFriend={onOpenFriend} stats={stats} />
-        ) : null}
+        <div className="hidden sm:block">
+          <HeadlineArt onOpenFriend={onOpenFriend} stats={stats} />
+        </div>
       </div>
     </PageBand>
   );

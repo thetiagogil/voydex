@@ -60,6 +60,7 @@ export type StatsFriend = {
 export type StatsHighlight =
   | { kind: "favourite-type"; type: StatsTypeTally }
   | { kind: "old-friend"; friend: StatsFriend }
+  /* The Play's own name. */
   | { kind: "most-time"; label: string }
   | { kind: "none" };
 
@@ -220,7 +221,7 @@ export const buildStatsModel = (
     : favourite
       ? { kind: "favourite-type", type: favourite }
       : tracked[0]
-        ? { kind: "most-time", label: getTrainerPlayLabel(tracked[0]) }
+        ? { kind: "most-time", label: tracked[0].play_name ?? "Untitled Play" }
         : { kind: "none" };
 
   const regions = rows.regions.map((region) => {
