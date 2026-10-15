@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import {
   getTrainerFamilyEntries,
+  splitTrainerSpeciesPlays,
+  type TrainerPlay,
   type TrainerPokemonEntry,
+  type TrainerPokemonMember,
 } from "./trainer-pokemon-model";
 
 const entry = (
@@ -19,6 +22,7 @@ const entry = (
   nationalNumber: speciesId,
   onTeamNow: false,
   playIds: [],
+  plays: [],
   shiny: false,
   speciesId,
   speciesSlug: `pokemon-${speciesId}`,
@@ -43,5 +47,96 @@ describe("getTrainerFamilyEntries", () => {
   it("finds nobody for a lone species or an unknown family", () => {
     expect(getTrainerFamilyEntries(entries, pikachu)).toEqual([]);
     expect(getTrainerFamilyEntries(entries, unknown)).toEqual([]);
+  });
+});
+
+const play = (id: string): TrainerPlay => ({
+  gameName: "Sword",
+  gameSlug: "sword",
+  id,
+  label: `Sword · ${id}`,
+  name: id,
+  statusName: "Playing",
+  statusSlug: "playing",
+});
+
+const member = (
+  id: string,
+  playId: string,
+  speciesName: string,
+  isCurrent: boolean,
+): TrainerPokemonMember => ({
+  id,
+  imageUrl: null,
+  isCurrent,
+  isShiny: false,
+  level: 30,
+  name: speciesName,
+  placeLabel: isCurrent ? "On the team" : "Retired",
+  play: play(playId),
+  speciesName,
+  typeSlug: null,
+});
+
+describe("splitTrainerSpeciesPlays", () => {
+  const hrefs = {
+    getMemberHref: (one: TrainerPokemonMember) => `/member/${one.id}`,
+    getPlayHref: (one: TrainerPlay) => `/history/${one.id}`,
+  };
+  const charmander: TrainerPokemonEntry = {
+    ...entry(4, 2),
+    name: "Charmander",
+    members: [
+      member("now", "A Play", "Charmander", true),
+      member("retired", "B Play", "Charmander", false),
+    ],
+    plays: [play("A Play"), play("B Play"), play("C Play"), play("D Play")],
+  };
+  const charizard: TrainerPokemonEntry = {
+    ...entry(6, 2),
+    name: "Charizard",
+    members: [member("zard", "C Play", "Charizard", true)],
+    plays: [play("C Play")],
+  };
+
+  it("keeps the Plays it is on now apart from the ones it was in before", () => {
+    const { before, now } = splitTrainerSpeciesPlays({
+      ...hrefs,
+      family: [charizard],
+      species: [charmander],
+    });
+
+    expect(now.map((one) => one.id)).toEqual(["now"]);
+    expect(before).toEqual([
+      {
+        detail: "Charmander · Lv. 30 · Retired",
+        href: "/member/retired",
+        member: charmander.members[1],
+        play: play("B Play"),
+      },
+      {
+        detail: "Now Charizard · Lv. 30 · On the team",
+        href: "/member/zard",
+        member: charizard.members[0],
+        play: play("C Play"),
+      },
+      {
+        detail: "In a recorded moment",
+        href: "/history/D Play",
+        member: null,
+        play: play("D Play"),
+      },
+    ]);
+  });
+
+  it("counts a Play as now when any of the family is on it", () => {
+    const { before, now } = splitTrainerSpeciesPlays({
+      ...hrefs,
+      family: [],
+      species: [charmander, charizard],
+    });
+
+    expect(now.map((one) => one.id)).toEqual(["now", "zard"]);
+    expect(before.map((one) => one.play.id)).toEqual(["B Play", "D Play"]);
   });
 });

@@ -33,6 +33,8 @@ export type TrainerPlay = {
 export type TrainerPokemonMember = {
   id: string;
   imageUrl: string | null;
+  /* On the team or in reserve now, not retired or replaced. */
+  isCurrent: boolean;
   isShiny: boolean;
   level: number | null;
   name: string;
@@ -55,6 +57,8 @@ export type TrainerPokemonEntry = {
   nationalNumber: number | null;
   onTeamNow: boolean;
   playIds: string[];
+  /* Every Play it joined, on a roster or only in recorded moments. */
+  plays: TrainerPlay[];
   shiny: boolean;
   speciesId: number;
   speciesSlug: string;
@@ -139,7 +143,10 @@ export const buildTrainerPokemonEntries = (
   const formById = new Map(rows.forms.map((form) => [form.id, form]));
   const getFormTypes = createTrainerFormTypeResolver(rows);
 
-  type Draft = Omit<TrainerPokemonEntry, "gameNames" | "imageUrl" | "types"> & {
+  type Draft = Omit<
+    TrainerPokemonEntry,
+    "gameNames" | "imageUrl" | "plays" | "types"
+  > & {
     latestFormId: number | null;
     latestFormAt: string | null;
   };
@@ -220,6 +227,9 @@ export const buildTrainerPokemonEntries = (
     draft.members.push({
       id: member.play_pokemon_id,
       imageUrl: getPlayTeamMemberImageUrl(member),
+      isCurrent:
+        member.roster_state_slug === "active" ||
+        member.roster_state_slug === "reserve",
       isShiny: member.is_shiny === true,
       level: member.level,
       name: getPlayTeamMemberName(member),
@@ -243,6 +253,10 @@ export const buildTrainerPokemonEntries = (
       nationalNumber: draft.nationalNumber,
       onTeamNow: draft.onTeamNow,
       playIds: draft.playIds,
+      plays: draft.playIds.flatMap((playId) => {
+        const play = playById.get(playId);
+        return play ? [play] : [];
+      }),
       shiny: draft.shiny,
       speciesId: draft.speciesId,
       speciesSlug: draft.speciesSlug,
@@ -282,3 +296,97 @@ export const getTrainerFamilyEntries = (
             (left.nationalNumber ?? Infinity) -
             (right.nationalNumber ?? Infinity),
         );
+
+/* A Play the species (or its family) was in before, and isn't now. */
+export type TrainerPastPlay = {
+  /* Where the row leads: the Pokémon on that Play's roster, else its History. */
+  href: string;
+  play: TrainerPlay;
+  /* "Now Charizard · Lv. 36 · On the team", "Retired", "In a recorded moment". */
+  detail: string;
+  /* The roster Pokémon the row is about, when there is one. */
+  member: TrainerPokemonMember | null;
+};
+
+/*
+ * Splits the Plays a species, or a whole family, joined: `now` is every one
+ * on a team or in reserve; `before` every Play where it was earlier, as a
+ * Pokémon that has since left the roster, or only in recorded moments, with
+ * what of its family is there now (it may have evolved).
+ */
+export const splitTrainerSpeciesPlays = ({
+  family,
+  getMemberHref,
+  getPlayHref,
+  species,
+}: {
+  /* The rest of the family that has joined you, to say what it is now. */
+  family: TrainerPokemonEntry[];
+  getMemberHref: (member: TrainerPokemonMember) => string;
+  getPlayHref: (play: TrainerPlay) => string;
+  /* The species shown: one, or every member of a family. */
+  species: TrainerPokemonEntry[];
+}) => {
+  const byPlayName = (
+    left: { play: TrainerPlay },
+    right: { play: TrainerPlay },
+  ) => left.play.name.localeCompare(right.play.name);
+  const members = species.flatMap((each) => each.members);
+  const now = members.filter((member) => member.isCurrent).toSorted(byPlayName);
+  const nowPlayIds = new Set(now.map((member) => member.play.id));
+  const before: TrainerPastPlay[] = [];
+  const beforePlayIds = new Set<string>();
+
+  for (const member of members) {
+    if (member.isCurrent || nowPlayIds.has(member.play.id)) continue;
+
+    beforePlayIds.add(member.play.id);
+    before.push({
+      detail: [
+        member.name,
+        member.level ? `Lv. ${member.level}` : null,
+        member.placeLabel,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      href: getMemberHref(member),
+      member,
+      play: member.play,
+    });
+  }
+
+  const relativesNow = family
+    .flatMap((relative) => relative.members)
+    .filter((member) => member.isCurrent);
+
+  for (const play of species.flatMap((each) => each.plays)) {
+    if (nowPlayIds.has(play.id) || beforePlayIds.has(play.id)) continue;
+
+    beforePlayIds.add(play.id);
+    const relative = relativesNow.find((member) => member.play.id === play.id);
+
+    before.push(
+      relative
+        ? {
+            detail: [
+              `Now ${relative.speciesName}`,
+              relative.level ? `Lv. ${relative.level}` : null,
+              relative.placeLabel,
+            ]
+              .filter(Boolean)
+              .join(" · "),
+            href: getMemberHref(relative),
+            member: relative,
+            play,
+          }
+        : {
+            detail: "In a recorded moment",
+            href: getPlayHref(play),
+            member: null,
+            play,
+          },
+    );
+  }
+
+  return { before: before.toSorted(byPlayName), now };
+};

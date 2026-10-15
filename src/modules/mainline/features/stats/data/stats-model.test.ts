@@ -32,6 +32,7 @@ const entry = (
   nationalNumber: speciesId,
   onTeamNow: false,
   playIds,
+  plays: [],
   shiny: false,
   speciesId,
   speciesSlug: name.toLowerCase(),

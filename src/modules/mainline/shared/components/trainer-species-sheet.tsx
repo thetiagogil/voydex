@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
+import {
+  splitTrainerSpeciesPlays,
+  type TrainerPlay,
+  type TrainerPokemonEntry,
+} from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
@@ -66,10 +70,66 @@ const SheetSection = ({
   </section>
 );
 
+/* One Play in the sheet: its cover, name and status, and what is there. */
+const SpeciesPlayRow = ({
+  detail,
+  href,
+  label,
+  play,
+  shiny,
+}: {
+  detail: string;
+  href: string;
+  label: string;
+  play: TrainerPlay;
+  shiny: boolean;
+}) => (
+  <li className="game-scope" style={getGameColourStyle(play.gameSlug)}>
+    <Link
+      href={href}
+      aria-label={label}
+      className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
+    >
+      <GameCover
+        alt=""
+        coverImageUrl={
+          play.gameSlug ? getGameCoverImageUrlBySlug(play.gameSlug) : null
+        }
+        gameName={play.gameName}
+        gameSlug={play.gameSlug ?? undefined}
+        size="dock"
+      />
+      <span className="min-w-0">
+        <span className="text-ink text-15 block truncate font-extrabold">
+          {play.name}
+        </span>
+        <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
+          {shiny ? (
+            <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
+              <AppIcon icon={appIcons.product.shiny} size="sm" />
+              Shiny
+            </span>
+          ) : null}
+          <span className="truncate">{detail}</span>
+        </span>
+      </span>
+      {play.statusName ? (
+        <StatusBadge tone={getPlayStatusTone(play.statusSlug)}>
+          {play.statusName}
+        </StatusBadge>
+      ) : (
+        <span />
+      )}
+      <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
+    </Link>
+  </li>
+);
+
 /*
- * One species in your Collection (v3 `colSheet`): its art, every Pokémon of
- * it on your Plays' rosters (each row its Play's cover and name, opening it
- * on that Play's roster), and the rest of its family that has joined you.
+ * One species in your Collection (v3 `colSheet`): its art, the Plays it is
+ * on now and the ones it was in before (left the roster, or has evolved),
+ * each row its Play's cover and name, and the rest of its family that has
+ * joined you.
  * The Collection and Statistics both open it in place.
  * It stays mounted so it slides in and out, showing the last species while
  * it closes.
@@ -104,13 +164,16 @@ export const TrainerSpeciesSheet = ({
           (right.nationalNumber ?? Infinity),
       )
     : [entry];
-  const members = species
-    .flatMap((each) => each.members)
-    .toSorted((left, right) => left.play.name.localeCompare(right.play.name));
-  const playCount = new Set(species.flatMap((each) => each.playIds)).size;
-  const countLine = `${playCount} ${playCount === 1 ? "Play" : "Plays"}${
-    members.length ? ` · ${members.length} on a roster` : ""
-  }`;
+  const { before, now } = splitTrainerSpeciesPlays({
+    family: showsFamily ? [] : family,
+    getMemberHref: (member) =>
+      appRoutes.mainlinePlayTeamPokemon(member.play.id, member.id),
+    getPlayHref: (play) => appRoutes.mainlinePlayHistory(play.id),
+    species,
+  });
+  const nowPlayCount = new Set(now.map((member) => member.play.id)).size;
+  const countPlays = (count: number) =>
+    `${count} ${count === 1 ? "Play" : "Plays"}`;
   const relatives = showsFamily ? species : family;
 
   return (
@@ -172,84 +235,58 @@ export const TrainerSpeciesSheet = ({
         </PokemonSheetHead>
       }
     >
-      <SheetSection title="Its Plays with you" aside={countLine}>
-        {members.length ? (
+      <SheetSection
+        title="With you now"
+        aside={nowPlayCount ? countPlays(nowPlayCount) : undefined}
+      >
+        {now.length ? (
           <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
-            {members.map((member) => (
-              <li
+            {now.map((member) => (
+              <SpeciesPlayRow
                 key={member.id}
-                className="game-scope"
-                style={getGameColourStyle(member.play.gameSlug)}
-              >
-                <Link
-                  href={appRoutes.mainlinePlayTeamPokemon(
-                    member.play.id,
-                    member.id,
-                  )}
-                  aria-label={`Open ${member.isShiny ? "shiny " : ""}${member.name} in ${member.play.name}`}
-                  className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
-                >
-                  <GameCover
-                    alt=""
-                    coverImageUrl={
-                      member.play.gameSlug
-                        ? getGameCoverImageUrlBySlug(member.play.gameSlug)
-                        : null
-                    }
-                    gameName={member.play.gameName}
-                    gameSlug={member.play.gameSlug ?? undefined}
-                    size="dock"
-                  />
-                  <span className="min-w-0">
-                    <span className="text-ink text-15 block truncate font-extrabold">
-                      {member.play.name}
-                    </span>
-                    <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
-                      {member.isShiny ? (
-                        <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
-                          <AppIcon icon={appIcons.product.shiny} size="sm" />
-                          Shiny
-                        </span>
-                      ) : null}
-                      <span className="truncate">
-                        {[
-                          member.name,
-                          showsFamily && member.name !== member.speciesName
-                            ? member.speciesName
-                            : null,
-                          member.level ? `Lv. ${member.level}` : null,
-                          member.placeLabel,
-                        ]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </span>
-                    </span>
-                  </span>
-                  {member.play.statusName ? (
-                    <StatusBadge
-                      tone={getPlayStatusTone(member.play.statusSlug)}
-                    >
-                      {member.play.statusName}
-                    </StatusBadge>
-                  ) : (
-                    <span />
-                  )}
-                  <AppIcon
-                    icon={appIcons.actions.next}
-                    size="sm"
-                    className="text-ink-3"
-                  />
-                </Link>
-              </li>
+                detail={[
+                  member.name,
+                  showsFamily && member.name !== member.speciesName
+                    ? member.speciesName
+                    : null,
+                  member.level ? `Lv. ${member.level}` : null,
+                  member.placeLabel,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+                href={appRoutes.mainlinePlayTeamPokemon(
+                  member.play.id,
+                  member.id,
+                )}
+                label={`Open ${member.isShiny ? "shiny " : ""}${member.name} in ${member.play.name}`}
+                play={member.play}
+                shiny={member.isShiny}
+              />
             ))}
           </ul>
         ) : (
           <p className="text-ink-2 text-14 font-semibold">
-            It was part of a team in a moment you recorded, and isn&apos;t on a
-            roster now.
+            Not on any team or in reserve right now.
           </p>
         )}
       </SheetSection>
+
+      {before.length ? (
+        <SheetSection title="Before" aside={countPlays(before.length)}>
+          <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
+            {before.map((past) => (
+              <SpeciesPlayRow
+                key={past.play.id}
+                detail={past.detail}
+                href={past.href}
+                label={`${past.play.name}: ${past.detail}`}
+                play={past.play}
+                shiny={past.member?.isShiny ?? false}
+              />
+            ))}
+          </ul>
+        </SheetSection>
+      ) : null}
 
       {relatives.length ? (
         <SheetSection
