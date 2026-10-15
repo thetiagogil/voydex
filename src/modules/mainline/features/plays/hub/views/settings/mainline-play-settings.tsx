@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 
 import { PageHeader } from "@/shared/components/page-header";
 
+import { SettingsSectionNav } from "./components/settings-section-nav";
 import { PlaySettingsDangerSection } from "./sections/danger/play-settings-danger-section";
 import { PlaySettingsGeneralSection } from "./sections/general/play-settings-general-section";
 import { PlaySettingsRulesSection } from "./sections/rules/play-settings-rules-section";
@@ -20,7 +21,7 @@ const actionScopeStyle = {
   "--gt": "17%",
 } as CSSProperties;
 
-const sections = [
+const sections: { href: `#${string}`; label: string }[] = [
   { href: "#general", label: "General" },
   { href: "#tracking", label: "Tracking" },
   { href: "#rules", label: "Challenge rules" },
@@ -51,23 +52,7 @@ export const MainlinePlaySettings = ({
       className="game-scope grid min-w-0 items-start gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8"
       style={actionScopeStyle}
     >
-      <nav
-        aria-label="Settings sections"
-        className="sticky-column hidden lg:block"
-      >
-        <ul className="grid gap-1">
-          {sections.map((section) => (
-            <li key={section.href}>
-              <a
-                href={section.href}
-                className="text-ink-2 text-14 hover:bg-hover hover:text-ink focus-visible:outline-focus flex min-h-10 items-center rounded-md px-3.5 font-bold focus-visible:outline-3 focus-visible:outline-solid"
-              >
-                {section.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <SettingsSectionNav sections={sections} />
       <div className="grid min-w-0 gap-6 [&>section]:scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)]">
         <PlaySettingsGeneralSection
           key={`general:${JSON.stringify(data.general)}`}

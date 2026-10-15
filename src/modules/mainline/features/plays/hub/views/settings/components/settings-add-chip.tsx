@@ -77,7 +77,7 @@ export const SettingsAddChip = ({
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
       >
-        <AppIcon icon={appIcons.actions.create} />
+        <AppIcon icon={appIcons.actions.create} size="sm" />
         {label}
       </button>
     );

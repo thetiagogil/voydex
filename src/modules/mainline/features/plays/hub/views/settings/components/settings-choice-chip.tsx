@@ -31,7 +31,7 @@ export const SettingsChoiceChip = ({
         : "border-line text-ink-2 hover:bg-hover hover:text-ink",
     )}
   >
-    {pressed ? <AppIcon icon={appIcons.status.active} /> : null}
+    {pressed ? <AppIcon icon={appIcons.status.active} size="sm" /> : null}
     {label}
   </button>
 );
