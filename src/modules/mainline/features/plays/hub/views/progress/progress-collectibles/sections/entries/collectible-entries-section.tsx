@@ -1,17 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Toolbar } from "@/shared/components/toolbar";
-import { Button } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 
 import type {
   CollectibleProgressFilter,
@@ -27,7 +23,6 @@ import {
   type CollectibleAreaLevel,
   type CollectibleAreaSummary,
 } from "../../utils/collectibles-progress-model";
-import { CollectibleAreaIndex } from "./collectible-area-index";
 import {
   CollectibleAreaSection,
   getCollectibleAreaHeadingId,
@@ -44,17 +39,11 @@ const focusAreaHeading = (areaId: string) => {
     ?.focus({ preventScroll: true });
 };
 
-/* Scroll an area to the top and move focus to its heading. */
-const jumpToArea = (areaId: string) => {
-  document.getElementById(areaId)?.scrollIntoView({ block: "start" });
-  focusAreaHeading(areaId);
-};
-
 /*
- * The checklist: a quiet toolbar, then the areas. On wide screens an Areas
- * index sticks beside them; on phones and tablets it opens as a bottom sheet. The
- * area summaries and the sort come from the view, which shares them with
- * the hero.
+ * The checklist, as Pokédex's: a quiet toolbar (search, an area to show,
+ * found or missing, the order), then the areas at full width, each with its
+ * count. The area summaries and the sort come from the view, which shares
+ * them with the page head.
  */
 export const CollectibleEntriesSection = ({
   areaLevel,
@@ -85,27 +74,28 @@ export const CollectibleEntriesSection = ({
   const [query, setQuery] = useState("");
   const [progressFilter, setProgressFilter] =
     useState<CollectibleProgressFilter>("all");
-  const [isAreaSheetOpen, setIsAreaSheetOpen] = useState(false);
+  /* The area to show, by id, or every area. */
+  const [areaId, setAreaId] = useState("all");
   const checklistRef = useRef<HTMLElement>(null);
-  const sheetJumpTargetRef = useRef<string | null>(null);
 
-  /* The sheet is for narrow screens; widening past lg closes it. */
-  useEffect(() => {
-    const wideQuery = window.matchMedia("(min-width: 64rem)");
-    const closeOnWide = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        setIsAreaSheetOpen(false);
-      }
-    };
-
-    wideQuery.addEventListener("change", closeOnWide);
-
-    return () => wideQuery.removeEventListener("change", closeOnWide);
-  }, []);
-  /* Each progress pill counts what the search leaves. */
+  const areaEntries = useMemo(
+    () =>
+      areaSummaries.find((summary) => summary.id === areaId)?.entries ??
+      group.entries,
+    [areaId, areaSummaries, group.entries],
+  );
+  const areaOptions = [
+    { label: "All areas", value: "all" },
+    ...areaSummaries.map((summary) => ({
+      description: `${summary.foundCount} of ${summary.entries.length} found`,
+      label: summary.label,
+      value: summary.id,
+    })),
+  ];
+  /* Each progress pill counts what the area and the search leave. */
   const progressCounts = useMemo(() => {
     const entries = filterCollectibleEntries({
-      entries: group.entries,
+      entries: areaEntries,
       progressFilter: "all",
       query,
       stateByEntryId,
@@ -119,16 +109,16 @@ export const CollectibleEntriesSection = ({
       collected: foundCount,
       missing: entries.length - foundCount,
     };
-  }, [group.entries, query, stateByEntryId]);
+  }, [areaEntries, query, stateByEntryId]);
   const filteredEntries = useMemo(
     () =>
       filterCollectibleEntries({
-        entries: group.entries,
+        entries: areaEntries,
         progressFilter,
         query,
         stateByEntryId,
       }),
-    [group.entries, progressFilter, query, stateByEntryId],
+    [areaEntries, progressFilter, query, stateByEntryId],
   );
   const areas = useMemo(
     () =>
@@ -142,16 +132,17 @@ export const CollectibleEntriesSection = ({
   const summaryByAreaId = new Map(
     areaSummaries.map((summary) => [summary.id, summary]),
   );
-  const shownAreaIds = new Set(areas.map((shownArea) => shownArea.id));
-  const hasAreaIndex = areaSummaries.length > 1;
+  const hasAreas = areaSummaries.length > 1;
   /* The sort only orders; it filters nothing, so Clear filters keeps it. */
-  const hasFilters = Boolean(query.trim()) || progressFilter !== "all";
+  const hasFilters =
+    Boolean(query.trim()) || progressFilter !== "all" || areaId !== "all";
 
   const showingLabel = `Showing ${filteredEntries.length} of ${group.entries.length}`;
 
   const resetFilters = () => {
     setQuery("");
     setProgressFilter("all");
+    setAreaId("all");
   };
 
   /*
@@ -205,6 +196,17 @@ export const CollectibleEntriesSection = ({
         }
         trailing={
           <>
+            {hasAreas ? (
+              <SelectControl
+                ariaLabel="Show one area"
+                className="w-48 min-w-0"
+                onValueChange={setAreaId}
+                options={areaOptions}
+                placeholder="All areas"
+                value={areaId}
+                variant="ghost"
+              />
+            ) : null}
             <SegmentedControl
               ariaLabel="Show"
               onValueChange={setProgressFilter}
@@ -234,82 +236,13 @@ export const CollectibleEntriesSection = ({
             />
           </>
         }
-      >
-        <div className="flex w-full min-w-0 flex-wrap items-center gap-x-3 gap-y-2.5 lg:hidden">
-          {hasAreaIndex ? (
-            <BottomSheet
-              open={isAreaSheetOpen}
-              onOpenChange={setIsAreaSheetOpen}
-              className="lg:hidden"
-              title="Areas"
-              description={`Jump to an area of ${group.name}.`}
-              descriptionHidden
-              bodyClassName="px-2.5"
-              /* A jump moves focus itself, so the trigger doesn't take it back. */
-              finalFocus={() => sheetJumpTargetRef.current === null}
-              onOpenChangeComplete={(open) => {
-                const areaId = sheetJumpTargetRef.current;
-
-                /* Once the sheet has let go of the page, jump there. */
-                if (!open && areaId) {
-                  sheetJumpTargetRef.current = null;
-                  jumpToArea(areaId);
-                }
-              }}
-              trigger={
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="ml-auto lg:hidden"
-                >
-                  <AppIcon icon={appIcons.product.location} inline="start" />
-                  Areas
-                </Button>
-              }
-            >
-              <CollectibleAreaIndex
-                areas={areaSummaries}
-                onJump={(areaId) => {
-                  sheetJumpTargetRef.current = areaId;
-                  setIsAreaSheetOpen(false);
-                }}
-                shownAreaIds={shownAreaIds}
-              />
-            </BottomSheet>
-          ) : null}
-        </div>
-      </Toolbar>
+      />
 
       <p className="sr-only" aria-live="polite">
         {hasFilters ? showingLabel : ""}
       </p>
 
-      <div
-        className={cn(
-          "mt-6 grid min-w-0 items-start gap-8",
-          hasAreaIndex && "lg:grid-cols-[250px_minmax(0,1fr)]",
-        )}
-      >
-        {hasAreaIndex ? (
-          <nav
-            aria-labelledby="collectible-area-index-label"
-            className="bg-surface shadow-card sticky-column hidden flex-col rounded-xl p-4 lg:flex"
-          >
-            <p
-              id="collectible-area-index-label"
-              className="text-ink-2 text-13 mb-2 px-2.5 font-bold"
-            >
-              Areas
-            </p>
-            <CollectibleAreaIndex
-              areas={areaSummaries}
-              onJump={jumpToArea}
-              shownAreaIds={shownAreaIds}
-            />
-          </nav>
-        ) : null}
-
+      <div className="mt-6 min-w-0">
         {areas.length ? (
           <div className="grid min-w-0 gap-7.5">
             {areas.map((shownArea) => {
