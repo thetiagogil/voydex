@@ -30,6 +30,8 @@ type PlayPickerMenuProps = {
   /* The last item: start a new Play instead. */
   newPlay?: { href: string; label: string };
   triggerLabel: string;
+  /* `lg` beside a page hero's other actions. */
+  triggerSize?: "default" | "lg";
   triggerVariant?: "default" | "outline";
 };
 
@@ -43,11 +45,19 @@ export const PlayPickerMenu = ({
   items,
   newPlay,
   triggerLabel,
+  triggerSize = "default",
   triggerVariant = "outline",
 }: PlayPickerMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger
-      render={<Button type="button" variant={triggerVariant} />}
+      render={
+        <Button
+          type="button"
+          size={triggerSize}
+          variant={triggerVariant}
+          className={triggerSize === "lg" ? "w-full sm:w-auto" : undefined}
+        />
+      }
     >
       {triggerLabel}
       <AppIcon icon={appIcons.actions.expand} inline="end" />
