@@ -82,10 +82,10 @@ const SlotNumber = ({ index }: { index: number }) => (
 );
 
 /*
- * v3 `.dock`, on the Planner's band: the six slots of the Plan's team. Each holds its Pokémon as a
- * sticker (role, a dot when it has build details, a flag when it needs
- * something), opens its slot sheet, can be dragged onto another slot to swap
- * and removed with Undo. Over it: Team check, Random and Clear; under it the
+ * v3 `.dock`, on the Planner's band: the six slots of the Plan's team. Each
+ * holds its Pokémon as a sticker (role, a flag when it needs something),
+ * opens its slot sheet, can be dragged onto another slot to swap and removed
+ * with Undo. Over it: Team check, Random and Clear; under it the
  * one tip that matters most.
  */
 export const PlannerDockSection = ({
@@ -245,13 +245,6 @@ export const PlannerDockSection = ({
             ? getWorstIssueFor(member.speciesId, issues)
             : null;
           const typeSlug = pokemon?.types[0]?.slug;
-          const hasBuild = Boolean(
-            member?.abilityId ||
-            member?.natureId ||
-            member?.gender ||
-            member?.heldItemId ||
-            member?.moveIds.some((moveId) => moveId !== null),
-          );
           const dragProps = {
             onDragLeave: () => setDropTarget(null),
             onDragOver: (event: DragEvent) => {
@@ -348,7 +341,7 @@ export const PlannerDockSection = ({
                     badgeSize="sm"
                     className="flex gap-1"
                   />
-                  <span className="text-ink-tint text-12 truncate pr-3 font-bold">
+                  <span className="text-ink-tint text-12 truncate font-bold">
                     {replacing ? (
                       <span className="inline-flex items-center gap-1">
                         <AppIcon icon={appIcons.actions.move} size="sm" />
@@ -359,16 +352,7 @@ export const PlannerDockSection = ({
                     )}
                   </span>
                 </span>
-                {hasBuild ? (
-                  <span className="sr-only">Has build details</span>
-                ) : null}
               </button>
-              {hasBuild ? (
-                <span
-                  aria-hidden
-                  className="bg-game absolute right-2.5 bottom-2.5 size-2 rounded-full ring-2 ring-white"
-                />
-              ) : null}
               {worst && !replacing ? (
                 <Tooltip>
                   <TooltipTrigger
