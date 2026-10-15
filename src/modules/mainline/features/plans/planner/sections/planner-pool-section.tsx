@@ -234,7 +234,7 @@ export const PlannerPoolSection = ({
                          * anything outside): the "!" of Your team's slots,
                          * then the slot number, both raised 24px dots.
                          */
-                        <span className="absolute top-1 right-1 z-10 flex items-center gap-1">
+                        <span className="absolute top-2 right-2 z-10 flex items-center gap-1">
                           {notes.length ? (
                             <ExplanatoryTip
                               triggerVariant="raised"
