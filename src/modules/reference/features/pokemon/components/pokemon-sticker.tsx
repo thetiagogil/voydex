@@ -30,6 +30,12 @@ type PokemonStickerProps = {
    */
   selected?: boolean;
   shiny?: boolean;
+  /*
+   * Shows the type marks under the name; off where the sticker stands for
+   * more than one Pokémon (a family), so its types would mislead. The tint
+   * still follows `types`.
+   */
+  showTypes?: boolean;
   /* A small slot number in the top-left corner. */
   slotLabel?: string;
   /* Shown under the name when it differs, such as the species of a nicknamed Pokémon. */
@@ -87,6 +93,7 @@ export const PokemonSticker = ({
   onClick,
   selected = false,
   shiny = false,
+  showTypes = true,
   slotLabel,
   subtitle,
   types,
@@ -156,12 +163,14 @@ export const PokemonSticker = ({
             Lv. {level}
           </span>
         ) : null}
-        <PokemonTypeList
-          types={types}
-          badgeDisplay="icon"
-          badgeSize={variantClassName.typeSize}
-          className="contents"
-        />
+        {showTypes ? (
+          <PokemonTypeList
+            types={types}
+            badgeDisplay="icon"
+            badgeSize={variantClassName.typeSize}
+            className="contents"
+          />
+        ) : null}
       </span>
     </>
   );

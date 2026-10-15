@@ -6,6 +6,7 @@ import { appRoutes } from "@/config/routes";
 import type {
   StatsFriend,
   StatsModel,
+  StatsMostPicked,
 } from "@/modules/mainline/features/stats/data/stats-model";
 import { StatsHeroSection } from "@/modules/mainline/features/stats/sections/stats-hero-section";
 import { StatsRegionsSection } from "@/modules/mainline/features/stats/sections/stats-regions-section";
@@ -34,10 +35,7 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
     setOpenFamily(friend.family);
     setFamilyTitle(friend.family.length > 1 ? friend.name : undefined);
   };
-  const openPokemon = (
-    entry: TrainerPokemonEntry,
-    family: TrainerPokemonEntry[],
-  ) => {
+  const openPokemon = ({ entry, family }: StatsMostPicked) => {
     setOpenEntry(entry);
     setOpenFamily([entry, ...family]);
     setFamilyTitle(undefined);
@@ -49,8 +47,12 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
-      <StatsHeroSection onOpenPokemon={openPokemon} stats={stats} />
-      <StatsStyleSection onOpenFriend={openFriend} stats={stats} />
+      <StatsHeroSection stats={stats} />
+      <StatsStyleSection
+        onOpenFriend={openFriend}
+        onOpenPokemon={openPokemon}
+        stats={stats}
+      />
       <StatsRegionsSection stats={stats} />
       <StatsTimeSection stats={stats} />
       <TrainerSpeciesSheet

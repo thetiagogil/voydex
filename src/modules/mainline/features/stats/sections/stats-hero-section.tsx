@@ -1,12 +1,11 @@
+import type { ReactNode } from "react";
+
 import {
   getTrainerTitle,
   type StatsModel,
 } from "@/modules/mainline/features/stats/data/stats-model";
-import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
-import {
-  formatCountWord,
-  formatMonthYear,
-} from "@/modules/mainline/features/stats/utils/stats-format";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
+import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -21,143 +20,164 @@ import { PageBand } from "@/shared/components/page-band";
 import { cn } from "@/shared/utils/cn";
 
 type StatsHeroSectionProps = {
-  onOpenPokemon: (
-    entry: TrainerPokemonEntry,
-    family: TrainerPokemonEntry[],
-  ) => void;
   stats: StatsModel;
 };
 
 const toTypeSlug = (slug: string | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
 
-/* One figure in the row under the title: big number, plain label. */
+/* One figure under the title: big number, plain label, its own small picture. */
 const Tile = ({
-  icon,
+  art,
   label,
   note,
   value,
 }: {
-  icon?: AppIconComponent;
+  art: ReactNode;
   label: string;
-  note?: string;
+  note?: string | null;
   value: string;
 }) => (
-  <div className="flex min-w-0 flex-col gap-1 rounded-xl bg-white/60 px-4 py-3.5 sm:px-5">
-    <dd className="font-display flex items-center gap-2 text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
-      {value}
-      {icon ? <AppIcon icon={icon} size="md" className="text-ink-2" /> : null}
-    </dd>
-    <dt className="text-ink-2 text-14 font-bold">
-      {label}
-      {note ? (
-        <span className="text-ink-3 text-13 block font-semibold">{note}</span>
-      ) : null}
-    </dt>
+  <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl bg-white/60 py-3.5 pr-3 pl-4 sm:pl-5">
+    <div className="flex min-w-0 flex-col gap-1">
+      <dd className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
+        {value}
+      </dd>
+      <dt className="text-ink-2 text-14 min-w-0 font-bold">
+        {label}
+        {note ? (
+          <span className="text-ink-3 text-13 block truncate font-semibold">
+            {note}
+          </span>
+        ) : null}
+      </dt>
+    </div>
+    <div aria-hidden className="flex shrink-0 items-center">
+      {art}
+    </div>
   </div>
 );
 
-/*
- * Beside the title: the Pokémon in the most Plays, its art opening its own
- * sheet, with a caption saying so.
- */
-const FavouritePokemon = ({ onOpenPokemon, stats }: StatsHeroSectionProps) => {
-  const { highlight } = stats;
+/* Up to three Pokémon, overlapping a little, as a tile's picture. */
+const TileSprites = ({ urls }: { urls: string[] }) => (
+  <>
+    {urls.map((url, index) => (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        key={url}
+        src={url}
+        alt=""
+        className={cn(
+          "size-12 object-contain sm:size-14",
+          index > 0 && "-ml-5",
+        )}
+      />
+    ))}
+  </>
+);
 
-  if (highlight.kind !== "favourite-pokemon") {
-    return null;
-  }
+/* A tile's picture when it has no art: its icon on a white disc. */
+const TileIcon = ({ icon }: { icon: AppIconComponent }) => (
+  <span className="text-ink-2 grid size-12 place-items-center rounded-full bg-white sm:size-14">
+    <AppIcon icon={icon} size="md" />
+  </span>
+);
 
-  const { entry, family } = highlight;
-  const playCount = entry.playIds.length;
-
-  return (
-    <button
-      type="button"
-      onClick={() => onOpenPokemon(entry, family)}
-      style={getPokemonTypeCssVariables(toTypeSlug(entry.types[0]?.slug))}
-      className="group/favourite focus-visible:outline-focus flex shrink-0 items-center gap-4 rounded-2xl text-left outline-none focus-visible:outline-3 focus-visible:outline-solid lg:flex-col lg:gap-2.5 lg:text-center"
-    >
-      <span className="sticker grid size-24 shrink-0 place-items-center rounded-2xl transition-transform group-hover/favourite:-translate-y-[3px] lg:size-36">
-        {entry.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={entry.imageUrl}
-            alt=""
-            className="size-20 object-contain lg:size-32"
-          />
-        ) : null}
-      </span>
-      <span className="flex min-w-0 flex-col gap-0.5">
-        <span className="text-ink-3 text-13 font-extrabold">Most picked</span>
-        <span className="font-display text-20 leading-tight font-semibold">
-          {entry.name}
-        </span>
-        <span className="text-ink-2 text-14 font-semibold">
-          In {formatCountWord(playCount)} of your Plays
-        </span>
-      </span>
-    </button>
-  );
-};
+const coverTilts = ["-rotate-6", "rotate-0", "rotate-6"];
 
 /*
  * Statistics' band: who you are as a trainer at a glance (a playful title
- * read from your Plays, and why), your journey as four figures, and the
- * Pokémon you pick most beside them.
+ * read from your Plays, and why), then your journey as four figures, each
+ * with a small picture of what it counts.
  */
-export const StatsHeroSection = ({
-  onOpenPokemon,
-  stats,
-}: StatsHeroSectionProps) => {
+export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
   const trainer = getTrainerTitle(stats);
   const titleType = toTypeSlug(trainer.typeSlug ?? undefined);
 
   return (
-    <PageBand className="pt-6 sm:pt-9">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
-          <div className="flex flex-col gap-1">
-            {firstPlay ? (
-              <p className="text-ink-2 text-14 font-extrabold">
-                Trainer since {firstPlay}
-              </p>
-            ) : null}
-            <h1
-              style={
-                titleType ? getPokemonTypeCssVariables(titleType) : undefined
-              }
-              className={cn(
-                "text-28 leading-tight tracking-[-0.02em] sm:text-[36px]",
-                titleType ? "type-ink" : null,
-              )}
-            >
-              {trainer.title}
-            </h1>
-            <p className="text-ink-2 text-15 font-semibold">{trainer.reason}</p>
-          </div>
-          <dl className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-            <Tile
-              label={hours === 1 ? "hour" : "hours"}
-              value={String(hours)}
-            />
-            <Tile
-              label={stats.playCount === 1 ? "Play" : "Plays"}
-              note={`${stats.completedCount} completed`}
-              value={String(stats.playCount)}
-            />
-            <Tile label="Pokémon met" value={String(stats.speciesCount)} />
-            <Tile
-              icon={appIcons.product.shiny}
-              label={stats.shinyCount === 1 ? "shiny" : "shinies"}
-              value={String(stats.shinyCount)}
-            />
-          </dl>
-        </div>
-        <FavouritePokemon onOpenPokemon={onOpenPokemon} stats={stats} />
+    <PageBand className="flex flex-col gap-5 pt-6 sm:pt-9">
+      <div className="flex flex-col gap-1">
+        {firstPlay ? (
+          <p className="text-ink-2 text-14 font-extrabold">
+            Trainer since {firstPlay}
+          </p>
+        ) : null}
+        <h1
+          style={titleType ? getPokemonTypeCssVariables(titleType) : undefined}
+          className={cn(
+            "text-28 leading-tight tracking-[-0.02em] sm:text-[36px]",
+            titleType ? "type-ink" : null,
+          )}
+        >
+          {trainer.title}
+        </h1>
+        <p className="text-ink-2 text-15 font-semibold">{trainer.reason}</p>
       </div>
+      <dl className="grid gap-2.5 sm:grid-cols-2 sm:gap-3 xl:grid-cols-4">
+        <Tile
+          art={<TileIcon icon={appIcons.product.playtime} />}
+          label={hours === 1 ? "hour played" : "hours played"}
+          note={
+            stats.longestPlayName ? `Most in ${stats.longestPlayName}` : null
+          }
+          value={String(hours)}
+        />
+        <Tile
+          art={
+            stats.recentCovers.length ? (
+              <span className="flex items-center pr-1">
+                {stats.recentCovers.map((cover, index) => (
+                  <span
+                    key={cover.gameSlug ?? cover.gameName}
+                    className={cn(
+                      "drop-shadow-sm",
+                      coverTilts[index],
+                      index > 0 && "-ml-3",
+                    )}
+                  >
+                    <GameCover
+                      alt=""
+                      coverImageUrl={cover.coverImageUrl}
+                      gameName={cover.gameName}
+                      gameSlug={cover.gameSlug ?? undefined}
+                      size="dock"
+                    />
+                  </span>
+                ))}
+              </span>
+            ) : (
+              <TileIcon icon={appIcons.views.mainline.plays} />
+            )
+          }
+          label={stats.playCount === 1 ? "Play" : "Plays"}
+          note={`${stats.completedCount} completed`}
+          value={String(stats.playCount)}
+        />
+        <Tile
+          art={
+            stats.pokemonArt.length ? (
+              <TileSprites urls={stats.pokemonArt} />
+            ) : (
+              <TileIcon icon={appIcons.views.mainline.collection} />
+            )
+          }
+          label="Pokémon met"
+          value={String(stats.speciesCount)}
+        />
+        <Tile
+          art={
+            stats.shinyArt.length ? (
+              <TileSprites urls={stats.shinyArt} />
+            ) : (
+              <TileIcon icon={appIcons.product.shiny} />
+            )
+          }
+          label={stats.shinyCount === 1 ? "shiny" : "shinies"}
+          value={String(stats.shinyCount)}
+        />
+      </dl>
     </PageBand>
   );
 };

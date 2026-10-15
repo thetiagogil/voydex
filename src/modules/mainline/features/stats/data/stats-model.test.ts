@@ -43,12 +43,18 @@ describe("buildStatsModel old friends", () => {
   const gallade = entry(475, "Gallade", ["c"], "2026-06-01");
   const kirlia = entry(281, "Kirlia", ["a", "b"], "2026-05-01");
   const gardevoir = entry(282, "Gardevoir", ["b", "d"], "2026-01-01");
+  /* In the most Plays, so it is the most picked and Kirlia's family stays. */
+  const pikachu = {
+    ...entry(25, "Pikachu", ["a", "b", "c"], "2026-02-01"),
+    evolutionFamilyId: 10,
+  };
 
   it("leads a family with the member in the most Plays and names it after it", () => {
     const [friend] = buildStatsModel(rows, [
       gallade,
       kirlia,
       gardevoir,
+      pikachu,
     ]).friends;
 
     expect(friend?.name).toBe("Kirlia family");
@@ -58,13 +64,13 @@ describe("buildStatsModel old friends", () => {
     expect(friend?.playCount).toBe(4);
   });
 
-  it("highlights one species, the one in the most Plays", () => {
-    const { highlight } = buildStatsModel(rows, [gallade, kirlia, gardevoir]);
+  it("picks one species, the one in the most Plays, and leaves its family out of Old friends", () => {
+    const stats = buildStatsModel(rows, [gallade, kirlia, gardevoir, pikachu]);
 
-    expect(highlight.kind).toBe("favourite-pokemon");
-    expect(
-      highlight.kind === "favourite-pokemon" ? highlight.entry : null,
-    ).toBe(kirlia);
+    expect(stats.mostPicked?.entry).toBe(pikachu);
+    expect(stats.friends.map((friend) => friend.name)).toEqual([
+      "Kirlia family",
+    ]);
   });
 });
 

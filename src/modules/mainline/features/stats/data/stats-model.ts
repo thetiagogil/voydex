@@ -57,28 +57,34 @@ export type StatsFriend = {
   types: TrainerPokemonType[];
 };
 
-/*
- * The one thing the band shows beside the figures: the species in the most
- * Plays, else a clear favourite type, else the Play with the most time.
- */
-export type StatsHighlight =
-  | { kind: "favourite-type"; type: StatsTypeTally }
-  | {
-      kind: "favourite-pokemon";
-      entry: TrainerPokemonEntry;
-      /* The rest of its family that has joined you, for its sheet. */
-      family: TrainerPokemonEntry[];
-    }
-  /* The Play's own name. */
-  | { kind: "most-time"; label: string }
-  | { kind: "none" };
+/* A game cover as the figures draw it. */
+export type StatsCover = {
+  coverImageUrl: string | null;
+  gameName: string;
+  gameSlug: string | null;
+};
+
+/* The species in the most Plays, with the rest of its family for its sheet. */
+export type StatsMostPicked = {
+  entry: TrainerPokemonEntry;
+  family: TrainerPokemonEntry[];
+};
 
 export type StatsModel = {
   completedCount: number;
   /* The earliest day a Play started, "YYYY-MM-DD", or null when none is recorded. */
   firstStartedOn: string | null;
+  /* Old friends, leaving out the most picked Pokémon's family. */
   friends: StatsFriend[];
-  highlight: StatsHighlight;
+  /* The name of the Play with the most time, when any time is recorded. */
+  longestPlayName: string | null;
+  mostPicked: StatsMostPicked | null;
+  /* Art of the Pokémon in the most Plays, up to three. */
+  pokemonArt: string[];
+  /* Covers of the games played most recently, each game once, up to three. */
+  recentCovers: StatsCover[];
+  /* Art of your shiny Pokémon, up to three. */
+  shinyArt: string[];
   minutes: number;
   playCount: number;
   /* Every Play's label, the most recently updated first. */
@@ -255,27 +261,37 @@ export const buildStatsModel = (
     );
   const types = countTypes(rows);
   const friends = findOldFriends(entries);
-  const favourite = getClearFavouriteType(types);
   const firstStartedOn =
     plays
       .map((play) => play.started_on)
       .filter((value): value is string => Boolean(value))
       .toSorted()[0] ?? null;
 
-  const [favouritePokemon] = entries
-    .filter((entry) => entry.playIds.length > 1)
-    .toSorted(byPlaysThenRecent);
-  const highlight: StatsHighlight = favouritePokemon
+  const byPlays = entries.toSorted(byPlaysThenRecent);
+  const [favouritePokemon] = byPlays.filter(
+    (entry) => entry.playIds.length > 1,
+  );
+  const mostPicked = favouritePokemon
     ? {
         entry: favouritePokemon,
         family: getTrainerFamilyEntries(entries, favouritePokemon),
-        kind: "favourite-pokemon",
       }
-    : favourite
-      ? { kind: "favourite-type", type: favourite }
-      : tracked[0]
-        ? { kind: "most-time", label: tracked[0].play_name ?? "Untitled Play" }
-        : { kind: "none" };
+    : null;
+  const recentCovers: StatsCover[] = [];
+
+  for (const play of plays) {
+    const game = play.game_id === null ? undefined : gameById.get(play.game_id);
+
+    if (!game || recentCovers.some((cover) => cover.gameSlug === game.slug)) {
+      continue;
+    }
+    recentCovers.push({
+      coverImageUrl: getGameCoverImageUrl(game),
+      gameName: game.name,
+      gameSlug: game.slug,
+    });
+    if (recentCovers.length === 3) break;
+  }
 
   const regions = rows.regions.map((region) => {
     const regionPlays = plays.filter((play) => {
@@ -302,12 +318,25 @@ export const buildStatsModel = (
     completedCount: plays.filter((play) => play.status_slug === "completed")
       .length,
     firstStartedOn,
-    friends,
-    highlight,
+    friends: friends.filter(
+      (friend) => !mostPicked || !friend.family.includes(mostPicked.entry),
+    ),
+    longestPlayName: tracked[0]?.play_name ?? null,
     minutes,
+    mostPicked,
     playCount: plays.length,
     playLabels: plays.map(getTrainerPlayLabel),
+    pokemonArt: byPlays
+      .flatMap((entry) => (entry.imageUrl ? [entry.imageUrl] : []))
+      .slice(0, 3),
+    recentCovers,
     regions,
+    shinyArt: entries
+      .flatMap((entry) => entry.members)
+      .flatMap((member) =>
+        member.isShiny && member.imageUrl ? [member.imageUrl] : [],
+      )
+      .slice(0, 3),
     shinyCount: rows.roster.filter((member) => member.is_shiny).length,
     speciesCount: entries.length,
     time: tracked.map((play) => {
