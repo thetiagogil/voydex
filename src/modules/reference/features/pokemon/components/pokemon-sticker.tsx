@@ -12,7 +12,7 @@ import { cn } from "@/shared/utils/cn";
 
 type StickerType = { name: string; slug: string };
 
-type PokemonStickerVariant = "compact" | "default";
+type PokemonStickerVariant = "compact" | "default" | "mini";
 
 type PokemonStickerProps = {
   className?: string;
@@ -66,6 +66,16 @@ const variantClassNames: Record<
     sticker: "pb-3.5",
     typeSize: "sm",
   },
+  /* A small sticker for a row of several, such as Statistics' Old friends. */
+  mini: {
+    art: "size-16",
+    empty: "my-1 size-14",
+    height: "min-h-[132px]",
+    marks: "mt-1 gap-1",
+    name: "text-16 mt-0.5",
+    sticker: "pb-3",
+    typeSize: "sm",
+  },
   default: {
     art: "size-[108px] transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-[132px]",
     empty: "size-[108px] sm:size-[132px]",
@@ -108,7 +118,7 @@ export const PokemonSticker = ({
     "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-[3px]",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
-    variant === "compact" && variantClassName.height,
+    variant !== "default" && variantClassName.height,
     className,
   );
   const content: ReactNode = (

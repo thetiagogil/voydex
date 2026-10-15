@@ -1,10 +1,7 @@
-import type { ReactNode } from "react";
-
 import {
   getTrainerTitle,
   type StatsModel,
 } from "@/modules/mainline/features/stats/data/stats-model";
-import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -26,69 +23,36 @@ type StatsHeroSectionProps = {
 const toTypeSlug = (slug: string | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
 
-/* One figure under the title: big number, plain label, its own small picture. */
+/* One figure under the title: big number, plain label, its icon. */
 const Tile = ({
-  art,
+  icon,
   label,
-  note,
   value,
 }: {
-  art: ReactNode;
+  icon: AppIconComponent;
   label: string;
-  note?: string | null;
   value: string;
 }) => (
-  <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl bg-white/60 py-3.5 pr-3 pl-4 sm:pl-5">
+  <div className="flex min-w-0 items-center justify-between gap-3 rounded-xl bg-white/60 py-3.5 pr-3.5 pl-4 sm:pl-5">
     <div className="flex min-w-0 flex-col gap-1">
       <dd className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
         {value}
       </dd>
-      <dt className="text-ink-2 text-14 min-w-0 font-bold">
-        {label}
-        {note ? (
-          <span className="text-ink-3 text-13 block truncate font-semibold">
-            {note}
-          </span>
-        ) : null}
-      </dt>
+      <dt className="text-ink-2 text-14 font-bold">{label}</dt>
     </div>
-    <div aria-hidden className="flex shrink-0 items-center">
-      {art}
-    </div>
+    <span
+      aria-hidden
+      className="text-ink-2 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
+    >
+      <AppIcon icon={icon} size="xl" />
+    </span>
   </div>
 );
-
-/* Up to three Pokémon, overlapping a little, as a tile's picture. */
-const TileSprites = ({ urls }: { urls: string[] }) => (
-  <>
-    {urls.map((url, index) => (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        key={url}
-        src={url}
-        alt=""
-        className={cn(
-          "size-12 object-contain sm:size-14",
-          index > 0 && "-ml-5",
-        )}
-      />
-    ))}
-  </>
-);
-
-/* A tile's picture when it has no art: its icon on a white disc. */
-const TileIcon = ({ icon }: { icon: AppIconComponent }) => (
-  <span className="text-ink-2 grid size-12 place-items-center rounded-full bg-white sm:size-14">
-    <AppIcon icon={icon} size="md" />
-  </span>
-);
-
-const coverTilts = ["-rotate-6", "rotate-0", "rotate-6"];
 
 /*
  * Statistics' band: who you are as a trainer at a glance (a playful title
  * read from your Plays, and why), then your journey as four figures, each
- * with a small picture of what it counts.
+ * with its icon.
  */
 export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
   const hours = Math.round(stats.minutes / 60);
@@ -115,65 +79,24 @@ export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
         </h1>
         <p className="text-ink-2 text-15 font-semibold">{trainer.reason}</p>
       </div>
-      <dl className="grid gap-2.5 sm:grid-cols-2 sm:gap-3 xl:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-4">
         <Tile
-          art={<TileIcon icon={appIcons.product.playtime} />}
+          icon={appIcons.product.playtime}
           label={hours === 1 ? "hour played" : "hours played"}
-          note={
-            stats.longestPlayName ? `Most in ${stats.longestPlayName}` : null
-          }
           value={String(hours)}
         />
         <Tile
-          art={
-            stats.recentCovers.length ? (
-              <span className="flex items-center pr-1">
-                {stats.recentCovers.map((cover, index) => (
-                  <span
-                    key={cover.gameSlug ?? cover.gameName}
-                    className={cn(
-                      "drop-shadow-sm",
-                      coverTilts[index],
-                      index > 0 && "-ml-3",
-                    )}
-                  >
-                    <GameCover
-                      alt=""
-                      coverImageUrl={cover.coverImageUrl}
-                      gameName={cover.gameName}
-                      gameSlug={cover.gameSlug ?? undefined}
-                      size="dock"
-                    />
-                  </span>
-                ))}
-              </span>
-            ) : (
-              <TileIcon icon={appIcons.views.mainline.plays} />
-            )
-          }
+          icon={appIcons.product.game}
           label={stats.playCount === 1 ? "Play" : "Plays"}
-          note={`${stats.completedCount} completed`}
           value={String(stats.playCount)}
         />
         <Tile
-          art={
-            stats.pokemonArt.length ? (
-              <TileSprites urls={stats.pokemonArt} />
-            ) : (
-              <TileIcon icon={appIcons.views.mainline.collection} />
-            )
-          }
+          icon={appIcons.product.caught}
           label="Pokémon met"
           value={String(stats.speciesCount)}
         />
         <Tile
-          art={
-            stats.shinyArt.length ? (
-              <TileSprites urls={stats.shinyArt} />
-            ) : (
-              <TileIcon icon={appIcons.product.shiny} />
-            )
-          }
+          icon={appIcons.product.shiny}
           label={stats.shinyCount === 1 ? "shiny" : "shinies"}
           value={String(stats.shinyCount)}
         />

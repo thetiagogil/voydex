@@ -4,16 +4,12 @@ import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
-  getClearFavouriteType,
   type StatsFriend,
   type StatsModel,
   type StatsMostPicked,
   type StatsTypeTally,
 } from "@/modules/mainline/features/stats/data/stats-model";
-import {
-  formatCountWord,
-  joinStatsList,
-} from "@/modules/mainline/features/stats/utils/stats-format";
+import { formatCountWord } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -38,9 +34,7 @@ type StatsStyleSectionProps = {
 };
 
 /* The grid shows the types you lean on; See all opens every one. */
-const typesShownFirst = 10;
-
-const typeTileGridClassName = "grid grid-cols-3 gap-2 min-[480px]:grid-cols-5";
+const typesShownFirst = 8;
 
 /* One type as v3's `.tygrid` tile: tinted by how often you pick it. */
 const TypeTile = ({
@@ -161,11 +155,11 @@ const MostPickedCard = ({
 };
 
 /*
- * Your team style, three cards side by side on wide screens (Old friends
- * moves under the other two on tablets): the Pokémon
- * you pick most; the types you pick as v3's tile grid (the ten you lean on,
- * every type in a dialog), with one line saying what stands out; and the
- * families back for more than one run, each opening its family's sheet.
+ * Your team style, three cards side by side and one height on wide screens
+ * (Old friends moves under the other two on tablets): the Pokémon you pick
+ * most; the types you pick as v3's tile grid (the eight you lean on, every
+ * type in a dialog); and up to six families back for more than one run, each
+ * opening its family's sheet.
  */
 export const StatsStyleSection = ({
   onOpenFriend,
@@ -177,22 +171,7 @@ export const StatsStyleSection = ({
     (left, right) => right.count - left.count,
   );
   const used = ranked.filter((type) => type.count > 0);
-  const unused = ranked.filter((type) => type.count === 0);
   const most = Math.max(1, used[0]?.count ?? 1);
-  const favourite = getClearFavouriteType(stats.types);
-  const leaning = favourite
-    ? `Your clear favourite is ${favourite.name}`
-    : `You reach for ${joinStatsList(
-        used.slice(0, 3).map((type) => type.name),
-        "and",
-      )} most`;
-  const missing = unused.length
-    ? `, and you haven't used ${joinStatsList(
-        unused.map((type) => type.name),
-        "or",
-      )} yet`
-    : "";
-
   return (
     <section aria-labelledby="stats-style" className="flex flex-col gap-4">
       <SectionHead title="Your team style" titleId="stats-style" />
@@ -220,25 +199,16 @@ export const StatsStyleSection = ({
           />
           {used.length ? (
             <>
-              <ol className={typeTileGridClassName}>
-                {ranked.slice(0, typesShownFirst).map((type, index) => (
+              <ol className="grid flex-1 grid-cols-4 gap-2">
+                {ranked.slice(0, typesShownFirst).map((type) => (
                   <TypeTile
                     key={type.slug}
-                    /* Phones show nine, three full rows. */
-                    className={
-                      index === typesShownFirst - 1
-                        ? "max-[479px]:hidden"
-                        : undefined
-                    }
+                    className="justify-center py-3.5"
                     most={most}
                     type={type}
                   />
                 ))}
               </ol>
-              <p className="text-ink-2 text-14 font-semibold">
-                {leaning}
-                {missing}.
-              </p>
               {ranked.length > typesShownFirst ? (
                 <button
                   type="button"
@@ -265,14 +235,11 @@ export const StatsStyleSection = ({
             aside="Back for more than one run"
           />
           {stats.friends.length ? (
-            <ul className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 md:grid-cols-4 xl:my-auto xl:grid-cols-3">
+            <ul className="grid grid-cols-2 gap-2.5 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
-                <li
-                  key={friend.speciesSlug}
-                  className="flex min-w-0 md:max-xl:nth-[n+5]:hidden xl:nth-[n+4]:hidden"
-                >
+                <li key={friend.speciesSlug} className="flex min-w-0">
                   <PokemonSticker
-                    variant="compact"
+                    variant="mini"
                     className="w-full"
                     label={`${friend.name}, in ${friend.playCount} Plays. Open`}
                     onClick={() => onOpenFriend(friend)}
@@ -310,12 +277,7 @@ export const StatsStyleSection = ({
               {used.length} of {stats.types.length} used, most picked first
             </DialogDescription>
           </DialogHeader>
-          <ol
-            className={cn(
-              typeTileGridClassName,
-              "min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-5 min-[480px]:grid-cols-6",
-            )}
-          >
+          <ol className="grid min-h-0 flex-1 grid-cols-3 gap-2 overflow-y-auto overscroll-contain px-6 py-5 min-[480px]:grid-cols-6">
             {ranked.map((type) => (
               <TypeTile key={type.slug} most={most} type={type} />
             ))}

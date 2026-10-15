@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
 import {
-  formatHoursAndMinutes,
+  formatWholeHours,
   joinStatsList,
 } from "@/modules/mainline/features/stats/utils/stats-format";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
@@ -24,19 +24,44 @@ type StatsTimeSectionProps = {
   stats: StatsModel;
 };
 
+type TimeRow = StatsModel["time"][number];
+
+/* The donut names the five Plays with the most time; the rest share a slice. */
 const shownByDefault = 5;
 
-type StatsTimeRowItemProps = {
-  longest: number;
-  row: StatsModel["time"][number];
+const RADIUS = 42;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+/* The gap between slices, along the ring. */
+const SLICE_GAP = 1.6;
+
+/*
+ * Each Play's colour: its game's, lighter for a second or third Play of the
+ * same game (v3), so two Scarlet Plays stay apart.
+ */
+const getRowColours = (rows: TimeRow[]) => {
+  const seen = new Map<string, number>();
+
+  return rows.map((row) => {
+    const key = row.gameSlug ?? row.gameName;
+    const repeat = seen.get(key) ?? 0;
+
+    seen.set(key, repeat + 1);
+
+    return {
+      ...getGameColourStyle(row.gameSlug),
+      "--slice":
+        repeat === 0
+          ? "var(--game)"
+          : `color-mix(in oklab, var(--game) ${repeat === 1 ? 60 : 35}%, white)`,
+    } as CSSProperties;
+  });
 };
 
-/* One Play's time: its cover, its name, a bar on the shared scale, its share. */
-const StatsTimeRowItem = ({ longest, row }: StatsTimeRowItemProps) => (
+/* One Play's time as a small card: colour dot, cover, name, hours, share. */
+const TimeCard = ({ colour, row }: { colour: CSSProperties; row: TimeRow }) => (
   <li
-    key={row.playId}
-    style={getGameColourStyle(row.gameSlug)}
-    className="game-scope grid grid-cols-[34px_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1.5 py-2.5 sm:grid-cols-[34px_minmax(0,14rem)_minmax(0,1fr)_5.5rem_3rem]"
+    style={colour}
+    className="bg-surface-2 flex min-w-0 items-center gap-3 rounded-lg px-3 py-2.5"
   >
     <GameCover
       alt=""
@@ -45,41 +70,116 @@ const StatsTimeRowItem = ({ longest, row }: StatsTimeRowItemProps) => (
       gameSlug={row.gameSlug ?? undefined}
       size="dock"
     />
-    <b className="text-ink text-14 truncate font-extrabold">{row.playName}</b>
-    <span className="text-ink text-14 text-right font-extrabold tabular-nums sm:order-last sm:hidden">
-      {formatHoursAndMinutes(row.minutes)}
-    </span>
-    <span
-      aria-hidden
-      className="bg-track col-span-3 col-start-1 h-2.5 overflow-hidden rounded-full sm:col-span-1 sm:col-start-auto"
-    >
-      <span
-        className="bg-game block h-full rounded-full"
-        style={{
-          width: `${Math.max(4, (row.minutes / longest) * 100)}%`,
-        }}
-      />
-    </span>
-    <span className="text-ink text-14 hidden text-right font-extrabold tabular-nums sm:block">
-      {formatHoursAndMinutes(row.minutes)}
-    </span>
-    <span className="text-ink-3 text-13 hidden text-right font-bold tabular-nums sm:block">
-      {row.share}%
+    <span className="min-w-0 flex-1">
+      <span className="text-ink text-14 block truncate font-extrabold">
+        {row.playName}
+      </span>
+      <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
+        <span
+          aria-hidden
+          className="size-2.5 shrink-0 rounded-full bg-(--slice)"
+        />
+        {formatWholeHours(row.minutes)} · {row.share}%
+      </span>
     </span>
   </li>
 );
 
 /*
- * Where your time went: the five Plays with the most playtime, the bars on
- * one scale; See all opens every one in a dialog. Plays without playtime
- * are named under the list, not counted.
+ * The time as one ring: a slice per Play in its game's colour, the rest as
+ * one quiet slice, and the total in the middle.
+ */
+const TimeDonut = ({
+  colours,
+  minutes,
+  otherMinutes,
+  rows,
+}: {
+  colours: CSSProperties[];
+  minutes: number;
+  otherMinutes: number;
+  rows: TimeRow[];
+}) => {
+  const total = Math.max(minutes, 1);
+  const slices = [
+    ...rows.map((row, index) => ({
+      colour: colours[index],
+      key: row.playId,
+      minutes: row.minutes,
+    })),
+    ...(otherMinutes
+      ? [
+          {
+            colour: { "--slice": "var(--mute)" } as CSSProperties,
+            key: "other",
+            minutes: otherMinutes,
+          },
+        ]
+      : []),
+  ];
+  let start = 0;
+
+  return (
+    <div className="relative grid size-44 shrink-0 place-items-center sm:size-52">
+      <svg
+        viewBox="0 0 100 100"
+        aria-hidden
+        className="absolute inset-0 -rotate-90"
+      >
+        <circle
+          cx="50"
+          cy="50"
+          r={RADIUS}
+          fill="none"
+          strokeWidth="13"
+          className="stroke-track"
+        />
+        {slices.map((slice) => {
+          const length = (slice.minutes / total) * CIRCUMFERENCE;
+          const offset = start;
+
+          start += length;
+
+          return (
+            <circle
+              key={slice.key}
+              cx="50"
+              cy="50"
+              r={RADIUS}
+              fill="none"
+              strokeWidth="13"
+              style={slice.colour}
+              className="stroke-(--slice)"
+              strokeDasharray={`${Math.max(length - SLICE_GAP, 0.5)} ${CIRCUMFERENCE}`}
+              strokeDashoffset={-offset}
+            />
+          );
+        })}
+      </svg>
+      <span className="relative flex flex-col items-center">
+        <span className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[34px]">
+          {Math.round(minutes / 60)}
+        </span>
+        <span className="text-ink-2 text-13 font-bold">hours</span>
+      </span>
+    </div>
+  );
+};
+
+/*
+ * Where your time went: one ring with a slice per Play (the five with the
+ * most time, then the rest together) beside a card for each; See all opens
+ * every Play's card in a dialog. Plays without playtime are named under it,
+ * not counted.
  */
 export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
   const [isAllOpen, setIsAllOpen] = useState(false);
+  const colours = getRowColours(stats.time);
   const rows = stats.time.slice(0, shownByDefault);
   const hidden = stats.time.slice(shownByDefault);
-  const longest = stats.time[0]?.minutes ?? 1;
+  const otherMinutes = hidden.reduce((total, row) => total + row.minutes, 0);
   const untracked = stats.untrackedPlayLabels;
+  const hours = Math.round(stats.minutes / 60);
 
   return (
     <section aria-labelledby="stats-time" className="flex flex-col gap-4">
@@ -88,37 +188,59 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         titleId="stats-time"
         aside={
           stats.time.length
-            ? `${formatHoursAndMinutes(stats.minutes)} across ${stats.time.length} ${stats.time.length === 1 ? "Play" : "Plays"}`
+            ? `${hours} ${hours === 1 ? "hour" : "hours"} across ${stats.time.length} ${stats.time.length === 1 ? "Play" : "Plays"}`
             : "No playtime recorded yet"
         }
       />
-      <Card className="gap-0 px-4 py-3 sm:px-6 sm:py-4">
+      <Card className="gap-4 px-5 py-5 sm:px-6">
         {stats.time.length ? (
-          <ul className="grid">
-            {rows.map((row) => (
-              <StatsTimeRowItem key={row.playId} longest={longest} row={row} />
-            ))}
-          </ul>
+          <div className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-8">
+            <TimeDonut
+              colours={colours}
+              minutes={stats.minutes}
+              otherMinutes={otherMinutes}
+              rows={rows}
+            />
+            <ul className="grid w-full min-w-0 flex-1 gap-2 sm:grid-cols-2">
+              {rows.map((row, index) => (
+                <TimeCard key={row.playId} colour={colours[index]!} row={row} />
+              ))}
+              {hidden.length ? (
+                <li className="flex min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => setIsAllOpen(true)}
+                    className="bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                  >
+                    <span className="text-ink-2 grid h-10 w-[30px] shrink-0 place-items-center">
+                      <AppIcon icon={appIcons.actions.next} size="md" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="text-link text-14 block truncate font-extrabold">
+                        See all {stats.time.length} Plays
+                      </span>
+                      <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
+                        <span
+                          aria-hidden
+                          className="bg-mute size-2.5 shrink-0 rounded-full"
+                        />
+                        {hidden.length} more · {formatWholeHours(otherMinutes)}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ) : null}
+            </ul>
+          </div>
         ) : (
-          <p className="text-ink-2 text-14 py-2 font-semibold">
+          <p className="text-ink-2 text-14 font-semibold">
             Add playtime in a Play&apos;s settings and this shows where your
             hours go. It&apos;s optional. Everything else here works without it.
           </p>
         )}
 
-        {hidden.length ? (
-          <button
-            type="button"
-            onClick={() => setIsAllOpen(true)}
-            className="text-link text-14 focus-visible:outline-focus mt-1 inline-flex min-h-10 items-center gap-1.5 self-start rounded-xs font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid"
-          >
-            See all {stats.time.length} Plays
-            <AppIcon icon={appIcons.actions.next} size="sm" />
-          </button>
-        ) : null}
-
         {stats.time.length && untracked.length ? (
-          <p className="text-ink-2 text-13 mt-2 pt-3 font-semibold">
+          <p className="text-ink-2 text-13 font-semibold">
             {untracked.length > 3
               ? `${untracked.length} Plays have no playtime recorded, so they aren't counted.`
               : `${joinStatsList(untracked, "and")} ${untracked.length === 1 ? "has" : "have"} no playtime recorded, so ${untracked.length === 1 ? "it isn't" : "they aren't"} counted.`}
@@ -131,13 +253,12 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
           <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
             <DialogTitle>Where your time went</DialogTitle>
             <DialogDescription>
-              {formatHoursAndMinutes(stats.minutes)} across {stats.time.length}{" "}
-              Plays
+              {hours} hours across {stats.time.length} Plays, most first
             </DialogDescription>
           </DialogHeader>
-          <ul className="grid min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-2">
-            {stats.time.map((row) => (
-              <StatsTimeRowItem key={row.playId} longest={longest} row={row} />
+          <ul className="grid min-h-0 flex-1 gap-2 overflow-y-auto overscroll-contain px-6 py-5 sm:grid-cols-2">
+            {stats.time.map((row, index) => (
+              <TimeCard key={row.playId} colour={colours[index]!} row={row} />
             ))}
           </ul>
         </DialogContent>
