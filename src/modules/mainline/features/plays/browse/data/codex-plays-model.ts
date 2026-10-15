@@ -8,6 +8,8 @@ export type CodexPlay = {
   id: string;
   /* "Sword · Late Journey". */
   label: string;
+  /* "Late Journey". */
+  name: string;
   statusName: string | null;
   statusSlug: string | null;
   versionGroupSlug: string | null;
@@ -29,13 +31,15 @@ export const toCodexPlays = (rows: CodexPlayRow[]): CodexPlay[] =>
     if (!play.play_id) return [];
 
     const gameName = play.game_name ?? "Unknown game";
+    const name = play.play_name ?? "Untitled Play";
 
     return [
       {
         gameName,
         gameSlug: play.game_slug,
         id: play.play_id,
-        label: `${getGameShortName(gameName)} · ${play.play_name ?? "Untitled Play"}`,
+        label: `${getGameShortName(gameName)} · ${name}`,
+        name,
         statusName: play.status_name,
         statusSlug: play.status_slug,
         versionGroupSlug: play.version_group_slug,

@@ -8,15 +8,11 @@ import {
   countTrainerSpeciesPlays,
   getEarlierFamilyNames,
   splitTrainerSpeciesPlays,
-  type TrainerPlay,
   type TrainerPokemonEntry,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
-import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
-import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -26,7 +22,6 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
-import { StatusBadge } from "@/shared/components/status-badge";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
@@ -79,83 +74,6 @@ const SheetSection = ({
     </div>
     {children}
   </section>
-);
-
-/*
- * One Play in the sheet: its cover, name and status, and what is there. In
- * a family's sheet the line under the name starts with which Pokémon it is,
- * in its type's colour.
- */
-const SpeciesPlayRow = ({
-  detail,
-  href,
-  label,
-  play,
-  pokemon,
-  shiny,
-}: {
-  detail: string;
-  href: string;
-  label: string;
-  play: TrainerPlay;
-  pokemon?: { name: string; typeSlug: string | null };
-  shiny: boolean;
-}) => (
-  <li className="game-scope" style={getGameColourStyle(play.gameSlug)}>
-    <Link
-      href={href}
-      aria-label={label}
-      className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
-    >
-      <GameCover
-        alt=""
-        coverImageUrl={
-          play.gameSlug ? getGameCoverImageUrlBySlug(play.gameSlug) : null
-        }
-        gameName={play.gameName}
-        gameSlug={play.gameSlug ?? undefined}
-        size="dock"
-      />
-      <span className="min-w-0">
-        <span className="text-ink text-15 block truncate font-extrabold">
-          {play.name}
-        </span>
-        <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
-          {shiny ? (
-            <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
-              <AppIcon icon={appIcons.product.shiny} size="sm" />
-              Shiny
-            </span>
-          ) : null}
-          <span className="truncate">
-            {pokemon ? (
-              <>
-                <span
-                  style={getPokemonTypeCssVariables(
-                    toTypeSlug(pokemon.typeSlug),
-                  )}
-                  className="type-ink"
-                >
-                  {pokemon.name}
-                </span>
-                {detail ? ` · ${detail}` : null}
-              </>
-            ) : (
-              detail
-            )}
-          </span>
-        </span>
-      </span>
-      {play.statusName ? (
-        <StatusBadge tone={getPlayStatusTone(play.statusSlug)}>
-          {play.statusName}
-        </StatusBadge>
-      ) : (
-        <span />
-      )}
-      <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
-    </Link>
-  </li>
 );
 
 /*
@@ -281,7 +199,7 @@ export const TrainerSpeciesSheet = ({
         {now.length ? (
           <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
             {now.map((member) => (
-              <SpeciesPlayRow
+              <TrainerPlayRow
                 key={member.id}
                 detail={[
                   showsFamily
@@ -326,7 +244,7 @@ export const TrainerSpeciesSheet = ({
         <SheetSection title="Before" aside={countPlays(before.length)}>
           <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
             {before.map((past) => (
-              <SpeciesPlayRow
+              <TrainerPlayRow
                 key={past.play.id}
                 detail={
                   showsFamily && past.member

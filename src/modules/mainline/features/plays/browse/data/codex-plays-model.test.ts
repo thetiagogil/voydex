@@ -71,6 +71,7 @@ describe("toCodexPlays", () => {
         gameSlug: "sword",
         id: "p1",
         label: "Sword · Late Journey",
+        name: "Late Journey",
         statusName: "Playing",
         statusSlug: "playing",
         versionGroupSlug: "sword-shield",

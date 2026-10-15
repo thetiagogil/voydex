@@ -11,11 +11,8 @@ import {
   readPlayedGameCounts,
   type CodexPlay,
 } from "@/modules/mainline/features/plays/browse/server/codex-plays-reader";
-import {
-  getPlayTeamMemberImageUrl,
-  getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -175,51 +172,30 @@ export const CodexInYourPlays = async ({
 
             if (!play || !member.play_pokemon_id) return null;
 
-            const imageUrl = getPlayTeamMemberImageUrl(member);
+            const name = getPlayTeamMemberName(member);
 
             return (
-              <li
+              <TrainerPlayRow
                 key={member.play_pokemon_id}
-                className="game-scope"
-                style={getGameColourStyle(play.gameSlug)}
-              >
-                <Link
-                  href={appRoutes.mainlinePlayTeamPokemon(
-                    play.id,
-                    member.play_pokemon_id,
-                  )}
-                  className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-14 grid-cols-[44px_minmax(0,1fr)] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
-                >
-                  {imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={imageUrl}
-                      alt=""
-                      className="size-11 object-contain"
-                    />
-                  ) : (
-                    <span className="empty-slot size-10 rounded-full" />
-                  )}
-                  <span className="min-w-0">
-                    <span className="text-ink text-15 block truncate font-extrabold">
-                      {getPlayTeamMemberName(member)}
-                    </span>
-                    <span className="text-ink-2 text-13 block truncate font-semibold">
-                      {[
-                        play.label,
-                        member.roster_state_slug === "active"
-                          ? "On the team"
-                          : member.roster_state_slug === "reserve"
-                            ? "In reserve"
-                            : member.roster_state_name,
-                        member.level ? `Lv. ${member.level}` : null,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </span>
-                  </span>
-                </Link>
-              </li>
+                detail={[
+                  name,
+                  member.level ? `Lv. ${member.level}` : null,
+                  member.roster_state_slug === "active"
+                    ? "On the team"
+                    : member.roster_state_slug === "reserve"
+                      ? "In reserve"
+                      : member.roster_state_name,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+                href={appRoutes.mainlinePlayTeamPokemon(
+                  play.id,
+                  member.play_pokemon_id,
+                )}
+                label={`Open ${member.is_shiny ? "shiny " : ""}${name} in ${play.name}`}
+                play={play}
+                shiny={Boolean(member.is_shiny)}
+              />
             );
           })}
         </ul>
