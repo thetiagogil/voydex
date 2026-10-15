@@ -5,10 +5,8 @@ import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
-import {
-  formatNationalNumber,
-  getPlayStatusTone,
-} from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";

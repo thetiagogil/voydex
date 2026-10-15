@@ -1,5 +1,9 @@
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import {
+  getPlayStatusTone,
+  playStatusDotClassNames,
+} from "@/modules/mainline/shared/utils/play-status-tone";
 import { cn } from "@/shared/utils/cn";
 
 import { getPlayTitle } from "./play-title";
@@ -7,13 +11,6 @@ import { getPlayTitle } from "./play-title";
 type MainlinePlayTopInfoProps = {
   data: MainlinePlayShellData;
   titleId: string;
-};
-
-const statusDotClassNames: Record<string, string> = {
-  abandoned: "bg-danger",
-  completed: "bg-gold",
-  paused: "bg-warn",
-  playing: "bg-action",
 };
 
 const getEyebrow = (data: MainlinePlayShellData) => {
@@ -33,7 +30,7 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
         aria-hidden
         className={cn(
           "size-2 rounded-full",
-          statusDotClassNames[data.play.status_slug ?? ""] ?? "bg-mute",
+          playStatusDotClassNames[getPlayStatusTone(data.play.status_slug)],
         )}
       />
       {data.play.status_name}
