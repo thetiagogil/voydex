@@ -44,10 +44,13 @@ const coverSizeClassNames = {
     fallback: "text-20 sm:text-24 h-22.5 sm:h-31",
     image: "max-h-22.5 max-w-22.5 sm:max-h-31 sm:max-w-31",
   },
-  /* A Play's cover on its token on the Plays list. */
+  /*
+   * A Play's cover on the Plays list, framed like the Play header's: every
+   * platform's box stands 80px tall, 96px from `sm`, its width from its shape.
+   */
   token: {
-    fallback: "text-24 h-24",
-    image: "max-h-28 max-w-full",
+    fallback: "text-20 sm:text-24 h-20 w-auto border-4 border-white sm:h-24",
+    image: "h-20 w-auto max-w-full border-4 border-white sm:h-24",
   },
 } as const;
 

@@ -24,7 +24,7 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   return (
     <ul
       aria-label="Active team"
-      className={cn("grid grid-cols-[repeat(6,40px)] gap-0.5", className)}
+      className={cn("grid grid-cols-[repeat(6,52px)] gap-0.5", className)}
     >
       {getPlayTeamSlots(team.members).map(({ member, position }) => {
         const imageUrl = member ? getPlayTeamMemberImageUrl(member) : null;
@@ -33,7 +33,7 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
         return (
           <li
             key={member?.play_pokemon_id ?? `open-${position}`}
-            className="grid size-10 place-items-center"
+            className="grid size-13 place-items-center"
           >
             {member && imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -42,7 +42,7 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
                 alt={memberName ?? ""}
                 title={memberName ?? undefined}
                 loading="lazy"
-                className="size-10 object-contain"
+                className="size-13 object-contain"
               />
             ) : member ? (
               <span

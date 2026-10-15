@@ -11,7 +11,6 @@ import {
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
   getPlayCardLinkLabel,
-  getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -32,7 +31,6 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
   const { timeZone } = useViewerClock();
   const updatedLabel = formatPlayUpdatedDate(play.updated_at, timeZone);
   const parts: ReactNode[] = [
-    play.trainer_name ? `Trainer ${play.trainer_name}` : null,
     typeof play.playtime_minutes === "number" ? (
       <span className="tabular-nums">
         {formatPlayMinutes(play.playtime_minutes)}
@@ -59,30 +57,6 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
   );
 };
 
-/* v3 `.pos`: where the Play is in its story, under its name. */
-const PlayCardStoryPosition = ({ play }: PlayCardProps) => {
-  const position = play.storyPosition;
-
-  if (!position) {
-    return null;
-  }
-
-  return (
-    <p className="text-ink mt-2 flex min-w-0 items-center gap-1.5 text-[13.5px] font-extrabold">
-      <AppIcon
-        icon={
-          position.kind === "complete"
-            ? appIcons.milestones.champion
-            : appIcons.milestones.story
-        }
-        size="sm"
-        className="text-game-deep shrink-0"
-      />
-      <span className="truncate">{getPlayStoryPositionLabel(position)}</span>
-    </p>
-  );
-};
-
 /*
  * One Play in the list. The card is quiet; the Play's cover tile is the loud
  * part, its team stays lively and its progress bars take the game's colour.
@@ -94,7 +68,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
   const content = (
     <Card
       variant={play.play_id ? "interactive" : "default"}
-      className="grid grid-cols-[96px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[130px_minmax(0,1fr)_170px] sm:gap-6 sm:py-3.5 sm:pr-5.5 sm:pl-3.5 xl:grid-cols-[150px_minmax(0,1.3fr)_minmax(0,1fr)_190px_24px]"
+      className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[100px_minmax(0,1fr)_170px] sm:gap-6 sm:py-3.5 sm:pr-5.5 sm:pl-3.5 xl:grid-cols-[100px_minmax(0,1.2fr)_minmax(0,1.1fr)_190px_24px]"
     >
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
@@ -106,7 +80,6 @@ export const PlayCard = ({ play }: PlayCardProps) => {
           {playName}
         </h3>
         <PlayCardMeta play={play} />
-        <PlayCardStoryPosition play={play} />
       </div>
 
       <PlayCardTeam team={play.activeTeam} className="hidden xl:grid" />

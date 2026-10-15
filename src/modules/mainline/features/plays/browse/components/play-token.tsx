@@ -6,12 +6,13 @@ type PlayTokenProps = {
 };
 
 /*
- * A Play's cover on its soft game tile: the one game-colour fill on a Plays
- * card. It is the Play's own, so it keeps a white border and a game lip.
- * Wear it inside `game-scope`.
+ * A Play's cover on the Plays list, as the Play header shows it: the box
+ * itself in a white frame, no tile behind it. Every cover stands the same
+ * height, centred in the card's cover column, so the text beside it lines up
+ * whatever the platform's box shape.
  */
 export const PlayToken = ({ coverImageUrl, gameName }: PlayTokenProps) => (
-  <div className="grid h-34 place-items-center overflow-hidden rounded-lg border-4 border-white bg-[color-mix(in_oklab,var(--game)_14%,var(--surface))] px-1.5 shadow-[0_4px_0_var(--game-lip)]">
+  <div className="grid place-items-center">
     <GameCover
       alt={`${gameName} cover art`}
       coverImageUrl={coverImageUrl}
