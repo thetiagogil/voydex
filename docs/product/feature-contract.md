@@ -526,9 +526,11 @@ As built (v3), History (`/mainline/plays/[playId]/history`) lists every
 moment the Play kept under month headings, newest or oldest first, with where
 the Play began closing the list. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
-Notes and Play (status changes and the rest). `Add a note` keeps a journal
-note at the end of the timeline. Search, Highlights, editing, arranging and
-deleting entries below are accepted but not built.
+Notes and Play (status changes and the rest). A search in front of the
+filters matches each moment's kind, line and note, and the filter counts
+follow it. `Add a note` keeps a journal note at the end of the timeline.
+Highlights, editing, arranging and deleting entries below are accepted but
+not built.
 
 The Play Timeline is a user-facing History and journal, not a technical audit
 log. Use one full-width journey timeline with a compact search, category,

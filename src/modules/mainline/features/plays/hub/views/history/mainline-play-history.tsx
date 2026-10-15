@@ -8,6 +8,7 @@ import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/da
 import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
@@ -16,6 +17,7 @@ import {
   getPlayHistoryFilterOptions,
   getShownPlayHistoryEvents,
   groupPlayHistoryEventsByMonth,
+  searchPlayHistoryEvents,
   type PlayHistoryFilter,
   type PlayHistorySort,
 } from "./data/play-history-model";
@@ -37,6 +39,7 @@ const emptyFilterTitles: Record<PlayHistoryFilter, string> = {
  * A Play's History (v3 `history`): every moment it kept, newest first, under
  * month headings, with where the Play began closing the list. Filters split
  * it into Story, Team, Notes and Play; Team is what Team history used to be.
+ * The search narrows every filter, so their counts follow it.
  */
 export const MainlinePlayHistory = ({
   data,
@@ -45,6 +48,7 @@ export const MainlinePlayHistory = ({
   data: MainlinePlayHistoryData;
   playId: string;
 }) => {
+  const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PlayHistoryFilter>("all");
   const [sort, setSort] = useState<PlayHistorySort>("newest");
   const clock = useViewerClock();
@@ -52,18 +56,23 @@ export const MainlinePlayHistory = ({
     () => toPlayMomentContext(data.context),
     [data.context],
   );
+  const searchedEvents = useMemo(
+    () => searchPlayHistoryEvents(data.events, query),
+    [data.events, query],
+  );
   const filterOptions = useMemo(
-    () => getPlayHistoryFilterOptions(data.events),
-    [data.events],
+    () => getPlayHistoryFilterOptions(searchedEvents),
+    [searchedEvents],
   );
   const months = useMemo(
     () =>
       groupPlayHistoryEventsByMonth(
-        getShownPlayHistoryEvents(data.events, { filter, sort }),
+        getShownPlayHistoryEvents(searchedEvents, { filter, sort }),
         clock,
       ),
-    [data.events, filter, sort, clock],
+    [searchedEvents, filter, sort, clock],
   );
+  const isSearching = Boolean(query.trim());
   const shownCount = months.reduce(
     (count, month) => count + month.entries.length,
     0,
@@ -72,7 +81,7 @@ export const MainlinePlayHistory = ({
   const startedOnLabel = formatPlayDate(data.play.started_on, "");
   /* Where the Play began belongs to the whole story, not to one filter. */
   const start =
-    filter === "all" ? (
+    filter === "all" && !isSearching ? (
       <PlayStartRow className="px-5 sm:px-7" startedOn={data.play.started_on} />
     ) : null;
 
@@ -108,7 +117,9 @@ export const MainlinePlayHistory = ({
             filter={filter}
             filterOptions={filterOptions}
             onFilterChange={setFilter}
+            onQueryChange={setQuery}
             onSortChange={setSort}
+            query={query}
             sort={sort}
           />
           <p className="sr-only" aria-live="polite">
@@ -130,6 +141,20 @@ export const MainlinePlayHistory = ({
             ))}
             {sort === "newest" ? start : null}
           </>
+        ) : isSearching ? (
+          <EmptyState
+            title="No moments match"
+            description="Try another word, or clear the search and filters."
+            action={
+              <ClearFiltersButton
+                variant="outline"
+                onClick={() => {
+                  setQuery("");
+                  setFilter("all");
+                }}
+              />
+            }
+          />
         ) : totalCount ? (
           <EmptyState
             title={emptyFilterTitles[filter]}

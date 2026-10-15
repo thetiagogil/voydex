@@ -7,6 +7,7 @@ import {
   getPlayHistoryFilterOptions,
   getShownPlayHistoryEvents,
   groupPlayHistoryEventsByMonth,
+  searchPlayHistoryEvents,
 } from "./play-history-model";
 
 const event = ({
@@ -90,6 +91,24 @@ describe("Play History model", () => {
     expect(ids("all", "newest")).toEqual(["paused", "note", "badge", "added"]);
     expect(ids("all", "oldest")).toEqual(["added", "badge", "note", "paused"]);
     expect(ids("team", "newest")).toEqual(["added"]);
+  });
+
+  it("searches the kind, the line and the note a moment shows", () => {
+    const withNote = {
+      ...events[1],
+      body: "Beat Milo at the Turffield Stadium.",
+    } as MainlinePlayTimelineEvent;
+    const ids = (query: string) =>
+      searchPlayHistoryEvents(
+        [events[0], withNote, ...events.slice(2)],
+        query,
+      ).map((item) => item.event_id);
+
+    expect(ids("  ")).toEqual(["added", "badge", "note", "paused"]);
+    expect(ids("JOURNAL")).toEqual(["note"]);
+    expect(ids("paused")).toEqual(["paused"]);
+    expect(ids("turffield")).toEqual(["badge"]);
+    expect(ids("nothing like this")).toEqual([]);
   });
 
   it("groups consecutive moments by month without reordering them", () => {

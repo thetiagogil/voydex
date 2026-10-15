@@ -1,3 +1,4 @@
+import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import type { ViewerClock } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 
@@ -96,6 +97,31 @@ const compareTimelineOrder = (
     : Number.NEGATIVE_INFINITY;
 
   return leftDate - rightDate;
+};
+
+/*
+ * A search matches what the moment shows: its kind, its line (Pokémon,
+ * milestone or note) and the note that came with it.
+ */
+export const searchPlayHistoryEvents = (
+  events: MainlinePlayTimelineEvent[],
+  query: string,
+) => {
+  const normalizedQuery = query.trim().toLocaleLowerCase("en");
+
+  if (!normalizedQuery) {
+    return events;
+  }
+
+  return events.filter((event) => {
+    const record = getPlayMomentRecord(event);
+
+    return [
+      record.label,
+      record.headline.map((part) => part.text).join(""),
+      record.description,
+    ].some((value) => value?.toLocaleLowerCase("en").includes(normalizedQuery));
+  });
 };
 
 /* The five filters of v3's History, each with how many moments it holds. */
