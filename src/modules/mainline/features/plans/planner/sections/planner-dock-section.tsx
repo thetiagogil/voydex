@@ -369,10 +369,7 @@ export const PlannerDockSection = ({
             onClick={onOpenCheck}
             className="shrink-0"
           >
-            Team check
-            {tip.more ? (
-              <span className="text-ink-3 tabular-nums">+{tip.more}</span>
-            ) : null}
+            {tip.more ? `${tip.more} more in Team check` : "Team check"}
           </Button>
         ) : null}
       </p>
