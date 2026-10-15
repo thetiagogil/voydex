@@ -23,7 +23,8 @@ import {
  * A milestone still ahead offers the main button to record it: large for the
  * next objective, small for any other open milestone. A recorded one
  * keeps its extras behind one quiet Edit menu: the note, the team snapshot,
- * the decision, and marking it incomplete.
+ * the decision, and marking it incomplete. Adding wears a plus, updating the
+ * pencil.
  */
 export const StoryMilestoneActions = ({
   className,
@@ -77,7 +78,9 @@ export const StoryMilestoneActions = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-auto min-w-56">
         <DropdownMenuItem onClick={() => onAction("note")}>
-          <AppIcon icon={appIcons.actions.edit} />
+          <AppIcon
+            icon={hasNote ? appIcons.actions.edit : appIcons.actions.create}
+          />
           {hasNote ? "Update note" : "Add note"}
         </DropdownMenuItem>
         {milestone.snapshotPolicySlug !== "none" ? (
@@ -88,7 +91,11 @@ export const StoryMilestoneActions = ({
         ) : null}
         {milestone.decisionOptions.length ? (
           <DropdownMenuItem onClick={() => onAction("decision")}>
-            <AppIcon icon={appIcons.product.activity} />
+            <AppIcon
+              icon={
+                hasDecision ? appIcons.actions.edit : appIcons.actions.create
+              }
+            />
             {hasDecision ? "Update decision" : "Add decision"}
           </DropdownMenuItem>
         ) : null}
