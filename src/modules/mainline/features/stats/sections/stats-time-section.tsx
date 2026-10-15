@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties, type FocusEvent } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
@@ -60,6 +60,10 @@ const getRowColours = (rows: TimeRow[]) => {
   });
 };
 
+/* Only a keyboard focus picks a Play out; a click or a returned focus doesn't. */
+const isKeyboardFocus = (event: FocusEvent<HTMLElement>) =>
+  event.currentTarget.matches(":focus-visible");
+
 /* Faded while another Play (or the rest) is picked out. */
 const getDimClassName = (activeKey: string | null, key: string) =>
   activeKey && activeKey !== key ? "opacity-40" : null;
@@ -84,7 +88,9 @@ const TimeCard = ({
       href={appRoutes.mainlinePlay(row.playId)}
       onMouseEnter={() => onActiveChange?.(row.playId)}
       onMouseLeave={() => onActiveChange?.(null)}
-      onFocus={() => onActiveChange?.(row.playId)}
+      onFocus={(event) => {
+        if (isKeyboardFocus(event)) onActiveChange?.(row.playId);
+      }}
       onBlur={() => onActiveChange?.(null)}
       className={cn(
         "bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 transition-opacity outline-none focus-visible:outline-3 focus-visible:outline-solid",
@@ -216,6 +222,8 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   /* The Play (or "other", the rest) picked out by hovering. */
   const [activeKey, setActiveKey] = useState<string | null>(null);
+  /* Set briefly while the closed dialog returns focus to See all. */
+  const returningFocus = useRef(false);
   const colours = getRowColours(stats.time);
   const rows = stats.time.slice(0, shownByDefault);
   const hidden = stats.time.slice(shownByDefault);
@@ -255,10 +263,18 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                 <li className="flex min-w-0">
                   <button
                     type="button"
-                    onClick={() => setIsAllOpen(true)}
+                    onClick={() => {
+                      setActiveKey(null);
+                      setIsAllOpen(true);
+                    }}
                     onMouseEnter={() => setActiveKey("other")}
                     onMouseLeave={() => setActiveKey(null)}
-                    onFocus={() => setActiveKey("other")}
+                    onFocus={(event) => {
+                      /* Not when the closing dialog hands focus back. */
+                      if (isKeyboardFocus(event) && !returningFocus.current) {
+                        setActiveKey("other");
+                      }
+                    }}
                     onBlur={() => setActiveKey(null)}
                     className={cn(
                       "bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-opacity outline-none focus-visible:outline-3 focus-visible:outline-solid",
@@ -301,7 +317,18 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         ) : null}
       </Card>
 
-      <Dialog open={isAllOpen} onOpenChange={setIsAllOpen}>
+      <Dialog
+        open={isAllOpen}
+        onOpenChange={(open) => {
+          setIsAllOpen(open);
+          if (open) return;
+          setActiveKey(null);
+          returningFocus.current = true;
+          window.setTimeout(() => {
+            returningFocus.current = false;
+          }, 400);
+        }}
+      >
         <DialogContent className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
           <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
             <DialogTitle>Where your time went</DialogTitle>
