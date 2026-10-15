@@ -17,6 +17,11 @@ type ResponsiveDetailSheetProps = {
    * names the sheet.
    */
   head: ReactNode;
+  /*
+   * The head fills the top edge to edge and brings its own padding, such as
+   * a Pokémon's head on its type tint.
+   */
+  headBleed?: boolean;
   /* The accessible name for the phone sheet, as the head's title reads. */
   label: string;
   onOpenChange: (open: boolean) => void;
@@ -34,6 +39,7 @@ export const ResponsiveDetailSheet = ({
   children,
   footer,
   head,
+  headBleed = false,
   label,
   onOpenChange,
   open,
@@ -68,9 +74,13 @@ export const ResponsiveDetailSheet = ({
             : "data-[side=right]:sm:max-w-[480px]",
         )}
       >
-        <div className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-5">
-          {head}
-        </div>
+        {headBleed ? (
+          <div className="shrink-0">{head}</div>
+        ) : (
+          <div className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-5">
+            {head}
+          </div>
+        )}
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
           <div className="flex flex-col gap-6">{children}</div>
         </div>

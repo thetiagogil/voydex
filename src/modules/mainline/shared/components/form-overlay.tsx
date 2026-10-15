@@ -2,8 +2,8 @@
 
 import { useRef, type ReactNode } from "react";
 
+import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import {
@@ -58,36 +58,6 @@ type FormOverlayProps = {
   toolbar?: ReactNode;
 };
 
-const HeroArt = ({
-  hero,
-  small,
-}: {
-  hero: FormOverlayHero;
-  small: boolean;
-}) => (
-  <span
-    aria-hidden
-    className={cn(
-      "sticker grid shrink-0 place-items-center rounded-xl",
-      small ? "size-21" : "size-20 sm:size-27.5",
-    )}
-  >
-    {hero.imageUrl ? (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={hero.imageUrl}
-        alt=""
-        className={cn(
-          "max-w-none object-contain",
-          small ? "size-18" : "size-17.5 sm:size-24",
-        )}
-      />
-    ) : (
-      <span className="empty-slot size-3/4 rounded-full" />
-    )}
-  </span>
-);
-
 /*
  * Mainline's quiet forms (a note, adding or editing a Pokémon in a Play, a
  * Plan's slot): a bottom sheet on phones and tablets, a dialog or side sheet
@@ -134,26 +104,14 @@ export const FormOverlay = ({
     </div>
   );
   const heroBlock = hero ? (
-    <div
-      style={getPokemonTypeCssVariables(hero.type)}
-      className={cn(
-        "bg-[color-mix(in_oklab,var(--t)_18%,var(--surface))]",
-        usesBottomSheet
-          ? "mt-1 rounded-lg p-4"
-          : "px-4.5 py-4.5 sm:px-7 sm:pt-5.5",
-      )}
+    <PokemonSheetHead
+      actions={hero.actions}
+      imageUrl={hero.imageUrl}
+      layout={usesBottomSheet ? "inset" : "flush"}
+      type={hero.type}
     >
-      <div
-        className={cn(
-          "flex items-center",
-          usesBottomSheet ? "gap-4" : "gap-4.5",
-        )}
-      >
-        <HeroArt hero={hero} small={usesBottomSheet} />
-        {titleBlock}
-      </div>
-      {hero.actions ? <div className="mt-4">{hero.actions}</div> : null}
-    </div>
+      {titleBlock}
+    </PokemonSheetHead>
   ) : null;
   const footerRow = footer ? (
     <div
