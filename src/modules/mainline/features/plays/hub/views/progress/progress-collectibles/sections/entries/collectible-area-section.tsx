@@ -135,7 +135,11 @@ export const CollectibleAreaSection = ({
             areaLevel === "place" ? null : entry.subLocationLabel || null;
 
           return (
-            <span key={entry.id} className="relative">
+            /* The token and its "i" lift together on hover. */
+            <span
+              key={entry.id}
+              className="relative transition-transform duration-150 hover:-translate-y-0.5"
+            >
               <CollectibleToken
                 className="w-full"
                 entry={entry}

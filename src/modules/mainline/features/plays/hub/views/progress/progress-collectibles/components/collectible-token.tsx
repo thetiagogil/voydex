@@ -11,7 +11,8 @@ import type { MainlinePlayCollectibleEntry } from "../types";
  * One collectible as a token: missing is a dashed square with its number;
  * found is gold, with a white border, a gold lip and the number on a tab. It
  * pops only at the moment it is marked found. While it saves it stays
- * focusable, so a keyboard keeps its place in the list.
+ * focusable, so a keyboard keeps its place in the list. Its place in the
+ * grid lifts it on hover, so anything pinned to it lifts too.
  */
 export const CollectibleToken = ({
   className,
@@ -52,7 +53,7 @@ export const CollectibleToken = ({
       }}
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
-        "focus-visible:outline-focus relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 transition-transform duration-150 outline-none hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:cursor-wait",
+        "focus-visible:outline-focus relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:cursor-wait",
         isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
         isPopping && "animate-pop",
         className,
