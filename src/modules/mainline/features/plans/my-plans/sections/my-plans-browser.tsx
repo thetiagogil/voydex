@@ -19,12 +19,15 @@ import { getGameColourStyle } from "@/modules/reference/features/games/utils/gam
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Toolbar } from "@/shared/components/toolbar";
 import { Card } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/cn";
 
 type MyPlansBrowserProps = {
   plans: MyPlan[];
@@ -42,21 +45,34 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
     >
       <Link
         href={appRoutes.mainlinePlan(plan.id)}
-        className="group/card-link focus-visible:outline-focus block rounded-2xl outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+        className="group/card-link focus-visible:outline-focus block h-full rounded-2xl outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
       >
         <Card variant="interactive" className="h-full gap-3 px-5 py-4">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2">
             <span className="bg-game-wash text-game-deep text-13 rounded-full px-2.5 py-0.5 font-extrabold">
               {plan.versionGroupName}
             </span>
             {plan.updatedAt ? (
-              <span className="text-ink-3 text-13 font-semibold">
+              <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
                 Updated <PlayMomentTime value={plan.updatedAt} />
               </span>
             ) : null}
           </div>
-          <h2 className="text-20 line-clamp-2 leading-tight">{plan.name}</h2>
-          <ul aria-label="Team" className="grid grid-cols-6 gap-1.5">
+          <h2
+            className={cn(
+              "text-20 line-clamp-2 leading-tight",
+              plan.isArchived && "text-ink-3",
+            )}
+          >
+            {plan.name}
+          </h2>
+          <ul
+            aria-label="Team"
+            className={cn(
+              "grid grid-cols-6 gap-1.5",
+              plan.isArchived && "opacity-55",
+            )}
+          >
             {slots.map((member, index) =>
               member ? (
                 <li
@@ -125,6 +141,15 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
     <div className="flex flex-col gap-5">
       <Toolbar
         aria-label="Filter your Plans"
+        search={
+          <SearchControl
+            id="my-plans-search"
+            ariaLabel="Search your Plans"
+            placeholder="Search your Plans"
+            value={filters.query}
+            onValueChange={(query) => update({ query })}
+          />
+        }
         trailing={
           <>
             <SegmentedControl
@@ -169,7 +194,15 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
           ))}
         </ul>
       ) : (
-        <EmptyState variant="bare" title="No Plans match." />
+        <EmptyState
+          variant="bare"
+          title="No Plans match."
+          action={
+            <ClearFiltersButton
+              onClick={() => setFilters(defaultMyPlansFilters)}
+            />
+          }
+        />
       )}
     </div>
   );

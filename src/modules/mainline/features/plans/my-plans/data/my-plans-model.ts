@@ -21,6 +21,8 @@ export type MyPlan = {
 export type MyPlansFilters = {
   /* A version group's slug, or "" for every game. */
   game: string;
+  /* Matches a Plan's name, its game or one of its Pokémon. */
+  query: string;
   sort: MyPlansSort;
   status: "active" | "all" | "archived";
 };
@@ -29,6 +31,7 @@ export type MyPlansSort = "game" | "name" | "updated";
 
 export const defaultMyPlansFilters: MyPlansFilters = {
   game: "",
+  query: "",
   sort: "updated",
   status: "all",
 };
@@ -48,11 +51,21 @@ const sorters: Record<MyPlansSort, (left: MyPlan, right: MyPlan) => number> = {
     (right.updatedAt ?? "").localeCompare(left.updatedAt ?? ""),
 };
 
+const matchesQuery = (plan: MyPlan, query: string) =>
+  [
+    plan.name,
+    plan.versionGroupName,
+    ...plan.members.map((member) => member.name),
+  ].some((text) => text.toLocaleLowerCase().includes(query));
+
 export const filterAndSortMyPlans = (
   plans: MyPlan[],
   filters: MyPlansFilters,
-) =>
-  plans
+) => {
+  const query = filters.query.trim().toLocaleLowerCase();
+
+  return plans
+    .filter((plan) => !query || matchesQuery(plan, query))
     .filter(
       (plan) =>
         filters.status === "all" ||
@@ -60,6 +73,7 @@ export const filterAndSortMyPlans = (
     )
     .filter((plan) => !filters.game || plan.versionGroupSlug === filters.game)
     .toSorted(sorters[filters.sort]);
+};
 
 /* The games the Plans are for, for the game filter. */
 export const getMyPlansGames = (plans: MyPlan[]) =>

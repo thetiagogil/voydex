@@ -67,6 +67,29 @@ describe("My Plans model", () => {
     ]);
   });
 
+  it("searches a Plan's name, game and Pokémon", () => {
+    const withMembers = [
+      ...plans,
+      plan({
+        id: "d",
+        members: [
+          { imageUrl: null, name: "Charizard", slot: 1, typeSlug: "fire" },
+        ],
+        name: "Fire run",
+      }),
+    ];
+    const search = (query: string) =>
+      filterAndSortMyPlans(withMembers, {
+        ...defaultMyPlansFilters,
+        query,
+      }).map((item) => item.id);
+
+    expect(search("  kan ")).toEqual(["c"]);
+    expect(search("RED AND")).toEqual(["c"]);
+    expect(search("chari")).toEqual(["d"]);
+    expect(search("missingno")).toEqual([]);
+  });
+
   it("says who follows a Plan, or that it is empty", () => {
     expect(getMyPlanFootnote(plan({ linkedPlayCount: 2 }))).toBe(
       "Followed by 2 Plays",

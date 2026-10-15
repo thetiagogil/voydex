@@ -6,6 +6,7 @@ import { MyPlansBrowser } from "@/modules/mainline/features/plans/my-plans/secti
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
 import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
 
@@ -33,7 +34,7 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <div className="flex flex-col gap-1">
+      <PageBand className="flex flex-col gap-1">
         <Link
           href={appRoutes.mainlinePlanNew()}
           className="text-link text-14 focus-visible:outline-focus inline-flex min-h-9 items-center gap-1.5 self-start rounded-xs pt-4 font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid sm:pt-6"
@@ -51,7 +52,7 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
           }
           action={plans.length ? newPlan : null}
         />
-      </div>
+      </PageBand>
 
       {plans.length ? (
         <MyPlansBrowser plans={plans} />
