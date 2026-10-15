@@ -47,7 +47,7 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
-      <StatsHeroSection stats={stats} />
+      <StatsHeroSection onOpenPokemon={openPokemon} stats={stats} />
       <StatsStyleSection
         onOpenFriend={openFriend}
         onOpenPokemon={openPokemon}

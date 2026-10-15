@@ -63,6 +63,51 @@ export type StatsMostPicked = {
   family: TrainerPokemonEntry[];
 };
 
+/* A game's cover, for the fans of covers beside the trainer title. */
+export type StatsCover = {
+  coverImageUrl: string | null;
+  gameName: string;
+  gameSlug: string | null;
+};
+
+/*
+ * Who you are as a trainer, read from your Plays, with what earned it. Each
+ * kind carries the numbers its reason names; the band draws its picture.
+ */
+export type TrainerTitle =
+  | {
+      kind: "specialist";
+      /* How many of your Pokémon are of this type. */
+      count: number;
+      /*
+       * Up to three of your top Pokémon of the type, never the most picked
+       * one shown below; the band stands them in front of the type's mark.
+       */
+      pokemon: StatsMostPicked[];
+      /* The next type and how far behind it is; null when no other type is used. */
+      runnerUp: { gap: number; name: string } | null;
+      title: string;
+      typeName: string;
+      typeSlug: string;
+    }
+  | {
+      kind: "hopper";
+      playCount: number;
+      title: string;
+      regionCount: number;
+      visitedCount: number;
+    }
+  | {
+      kind: "trainer";
+      playCount: number;
+      /* Regions still to play in to become a Region Hopper. */
+      regionsToHopper: number;
+      title: string;
+    };
+
+/* A run of words in a sentence; `strong` ones are the key numbers. */
+export type StatsPhrase = { strong?: boolean; text: string }[];
+
 export type StatsModel = {
   completedCount: number;
   /* The earliest day a Play started, "YYYY-MM-DD", or null when none is recorded. */
@@ -71,6 +116,8 @@ export type StatsModel = {
   friends: StatsFriend[];
   mostPicked: StatsMostPicked | null;
   minutes: number;
+  /* One cover per game you've played, the most recently updated Play first. */
+  playCovers: StatsCover[];
   playCount: number;
   /* Every Play's label, the most recently updated first. */
   playLabels: string[];
@@ -78,6 +125,7 @@ export type StatsModel = {
   shinyCount: number;
   speciesCount: number;
   time: StatsTimeRow[];
+  title: TrainerTitle;
   /* Plays with no playtime, which the time section doesn't count. */
   untrackedPlayLabels: string[];
   types: StatsTypeTally[];
@@ -99,45 +147,127 @@ export const getClearFavouriteType = (
     : null;
 };
 
+/* Regions a trainer must have played in to be a Region Hopper. */
+const hopperRegionCount = 3;
+
+const plural = (count: number, one: string, many: string) =>
+  `${count} ${count === 1 ? one : many}`;
+
 /*
  * A playful title for the trainer, read from what they record (as Duolingo
- * and PlayStation name a player's style): a clear favourite type makes a
- * specialist, travelling three regions or more a region hopper; otherwise
- * plainly a trainer. The reason says what earned it.
+ * and Spotify name a player's style): a clear favourite type makes a
+ * specialist, playing in three regions or more a region hopper; otherwise
+ * plainly a trainer. A specialist's picture is the type's mark with up to
+ * three of their top Pokémon of it, skipping the most picked one, which the
+ * page already shows.
  */
 export const getTrainerTitle = (
-  stats: Pick<StatsModel, "playCount" | "regions" | "types">,
-): { reason: string; title: string; typeSlug: string | null } => {
+  stats: Pick<StatsModel, "mostPicked" | "playCount" | "regions" | "types">,
+  entries: TrainerPokemonEntry[] = [],
+): TrainerTitle => {
   const favourite = getClearFavouriteType(stats.types);
 
   if (favourite) {
+    const [runnerUp] = stats.types
+      .filter((type) => type.slug !== favourite.slug && type.count > 0)
+      .toSorted((left, right) => right.count - left.count);
+    const top = entries
+      .filter(
+        (entry) =>
+          entry !== stats.mostPicked?.entry &&
+          entry.types.some((type) => type.slug === favourite.slug),
+      )
+      .toSorted(byPlaysThenRecent)
+      .slice(0, 3);
+
     return {
-      reason: `${favourite.name} types are on your teams more than any other.`,
+      count: favourite.count,
+      kind: "specialist",
+      pokemon: top.map((entry) => ({
+        entry,
+        family: getTrainerFamilyEntries(entries, entry),
+      })),
+      runnerUp: runnerUp
+        ? { gap: favourite.count - runnerUp.count, name: runnerUp.name }
+        : null,
       title: `${favourite.name} Specialist`,
+      typeName: favourite.name,
       typeSlug: favourite.slug,
     };
   }
 
-  const visited = stats.regions.filter(
+  const visitedCount = stats.regions.filter(
     (region) => region.playLabels.length,
   ).length;
 
-  if (visited >= 3) {
+  if (visitedCount >= hopperRegionCount) {
     return {
-      reason:
-        visited === stats.regions.length
-          ? `You've travelled every region, all ${visited} of them.`
-          : `You've travelled ${visited} of the ${stats.regions.length} regions.`,
+      kind: "hopper",
+      playCount: stats.playCount,
+      regionCount: stats.regions.length,
       title: "Region Hopper",
-      typeSlug: null,
+      visitedCount,
     };
   }
 
   return {
-    reason: `${stats.playCount} ${stats.playCount === 1 ? "Play" : "Plays"} and counting.`,
+    kind: "trainer",
+    playCount: stats.playCount,
+    regionsToHopper: hopperRegionCount - visitedCount,
     title: "Pokémon Trainer",
-    typeSlug: null,
   };
+};
+
+/* What earned the title, with its key numbers marked to be set in bold. */
+export const getTrainerTitleReason = (title: TrainerTitle): StatsPhrase => {
+  switch (title.kind) {
+    case "specialist":
+      return [
+        { strong: true, text: String(title.count) },
+        {
+          text: ` of your Pokémon ${title.count === 1 ? "is a" : "are"} ${title.typeName} ${title.count === 1 ? "type" : "types"}, `,
+        },
+        ...(title.runnerUp
+          ? [
+              { strong: true, text: `${title.runnerUp.gap} more` },
+              { text: ` than ${title.runnerUp.name}.` },
+            ]
+          : [{ text: "more than any other type." }]),
+      ];
+    case "hopper":
+      return [
+        { text: "You've played in " },
+        {
+          strong: true,
+          text:
+            title.visitedCount === title.regionCount
+              ? `all ${title.regionCount} regions`
+              : `${title.visitedCount} of the ${title.regionCount} regions`,
+        },
+        { text: ", across " },
+        { strong: true, text: plural(title.playCount, "Play", "Plays") },
+        { text: "." },
+      ];
+    case "trainer":
+      return [
+        { strong: true, text: plural(title.playCount, "Play", "Plays") },
+        { text: " and counting." },
+        ...(title.regionsToHopper > 0
+          ? [
+              { text: " Play in " },
+              {
+                strong: true,
+                text: plural(
+                  title.regionsToHopper,
+                  "more region",
+                  "more regions",
+                ),
+              },
+              { text: " to become a Region Hopper." },
+            ]
+          : []),
+      ];
+  }
 };
 
 const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
@@ -283,6 +413,19 @@ export const buildStatsModel = (
     };
   });
 
+  const playCovers: StatsCover[] = [];
+  for (const play of plays) {
+    const game = play.game_id === null ? undefined : gameById.get(play.game_id);
+    if (!game || playCovers.some((cover) => cover.gameSlug === game.slug)) {
+      continue;
+    }
+    playCovers.push({
+      coverImageUrl: getGameCoverImageUrl(game),
+      gameName: game.name,
+      gameSlug: game.slug,
+    });
+  }
+
   return {
     completedCount: plays.filter((play) => play.status_slug === "completed")
       .length,
@@ -292,6 +435,7 @@ export const buildStatsModel = (
     ),
     minutes,
     mostPicked,
+    playCovers,
     playCount: plays.length,
     playLabels: plays.map(getTrainerPlayLabel),
     regions,
@@ -312,6 +456,10 @@ export const buildStatsModel = (
         share: minutes ? Math.round((playMinutes / minutes) * 100) : 0,
       };
     }),
+    title: getTrainerTitle(
+      { mostPicked, playCount: plays.length, regions, types },
+      entries,
+    ),
     types,
     untrackedPlayLabels: plays
       .filter((play) => !play.playtime_minutes)

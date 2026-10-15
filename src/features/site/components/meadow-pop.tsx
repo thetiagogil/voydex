@@ -1,21 +1,8 @@
 "use client";
 
-import { useEffect, useSyncExternalStore, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
-const seenKey = "voydex:meadow-seen";
-
-const subscribeToNothing = () => () => {};
-
-/* Without storage the partners just stand there, as on a later visit. */
-const readSeen = () => {
-  try {
-    return window.sessionStorage.getItem(seenKey) === "1";
-  } catch {
-    return true;
-  }
-};
-
-const readSeenOnServer = () => false;
+import { useFirstVisit } from "@/shared/hooks/use-first-visit";
 
 /*
  * Lets the meadow's partners pop in once per visit: the first time in a
@@ -32,23 +19,11 @@ export const MeadowPop = ({
   /* Names the row when its partners are links; without one the row is decoration. */
   label?: string;
 }) => {
-  const seen = useSyncExternalStore(
-    subscribeToNothing,
-    readSeen,
-    readSeenOnServer,
-  );
-
-  useEffect(() => {
-    try {
-      window.sessionStorage.setItem(seenKey, "1");
-    } catch {
-      /* Storage is unavailable: nothing to remember. */
-    }
-  }, []);
+  const firstVisit = useFirstVisit("voydex:meadow-seen");
 
   return (
     <div
-      data-pop={seen ? undefined : ""}
+      data-pop={firstVisit ? "" : undefined}
       role={label ? "group" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
