@@ -74,6 +74,13 @@ export const TeamMemberDetail = ({
       className="gap-0 px-5 py-5 sm:px-7 sm:py-6.5"
     >
       <TeamMemberProfile
+        actions={
+          <TeamMemberActions
+            member={member}
+            onEdit={onEdit}
+            versionGroupSlug={versionGroupSlug}
+          />
+        }
         mechanics={mechanics}
         member={member}
         title={
@@ -81,12 +88,6 @@ export const TeamMemberDetail = ({
             {getPlayTeamMemberName(member)}
           </h3>
         }
-      />
-      <TeamMemberActions
-        className="mt-5"
-        member={member}
-        onEdit={onEdit}
-        versionGroupSlug={versionGroupSlug}
       />
     </Card>
   );

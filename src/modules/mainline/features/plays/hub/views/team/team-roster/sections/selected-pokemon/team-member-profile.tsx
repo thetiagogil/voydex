@@ -21,19 +21,23 @@ export const teamMemberNameClassName =
   "text-32 leading-[1.1] tracking-[-0.02em] break-words";
 
 /*
- * The selected Pokémon: its art on the type's tint (lively), then a quiet
- * record of who it is, what it knows and where you met it.
+ * The selected Pokémon: its art on the type's tint (lively), with the shiny
+ * tag top left and its actions top right, then a quiet record of who it is,
+ * what it knows and where you met it.
  */
 export const TeamMemberProfile = ({
+  actions,
+  actionsBesideClose = false,
   mechanics,
   member,
-  shinyTagSide = "right",
   title,
 }: {
+  /* Icon buttons in the art's top right corner (Edit, Open in Codex). */
+  actions?: ReactNode;
+  /* A sheet's close button sits over the corner, so the actions step left. */
+  actionsBesideClose?: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
-  /* A sheet keeps its close button top right, so the tag moves left there. */
-  shinyTagSide?: "left" | "right";
   title: ReactNode;
 }) => {
   const imageUrl = getPlayTeamMemberImageUrl(member);
@@ -52,15 +56,20 @@ export const TeamMemberProfile = ({
           className="absolute size-[210px] rounded-full bg-[color-mix(in_oklab,var(--t)_28%,white)]"
         />
         {member.is_shiny ? (
-          <span
-            className={cn(
-              "type-ink text-13 absolute top-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-[5px] font-extrabold",
-              shinyTagSide === "left" ? "left-3.5" : "right-3.5",
-            )}
-          >
+          <span className="type-ink text-13 absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-[5px] font-extrabold">
             <AppIcon icon={appIcons.product.shiny} size="sm" />
             Shiny
           </span>
+        ) : null}
+        {actions ? (
+          <div
+            className={cn(
+              "absolute top-3 z-10",
+              actionsBesideClose ? "right-14" : "right-3",
+            )}
+          >
+            {actions}
+          </div>
         ) : null}
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element

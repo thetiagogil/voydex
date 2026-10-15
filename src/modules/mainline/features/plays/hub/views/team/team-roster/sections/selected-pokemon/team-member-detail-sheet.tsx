@@ -26,7 +26,7 @@ type TeamMemberDetailSheetProps = {
 
 /*
  * On phones and tablets the selected Pokémon opens in a bottom sheet, Edit
- * and Open in Codex pinned to the foot.
+ * and Open in Codex in its art's corner as on wide screens.
  */
 export const TeamMemberDetailSheet = ({
   mechanics,
@@ -46,22 +46,19 @@ export const TeamMemberDetailSheet = ({
       initialFocus={titleRef}
       label={name}
       bodyClassName="px-[18px] pt-1.5 sm:px-5"
-      footer={
-        member ? (
-          <TeamMemberActions
-            member={member}
-            onEdit={onEdit}
-            stretch
-            versionGroupSlug={versionGroupSlug}
-          />
-        ) : undefined
-      }
     >
       {member ? (
         <TeamMemberProfile
+          actions={
+            <TeamMemberActions
+              member={member}
+              onEdit={onEdit}
+              versionGroupSlug={versionGroupSlug}
+            />
+          }
+          actionsBesideClose
           mechanics={mechanics}
           member={member}
-          shinyTagSide="left"
           title={
             <SheetTitle
               ref={titleRef}

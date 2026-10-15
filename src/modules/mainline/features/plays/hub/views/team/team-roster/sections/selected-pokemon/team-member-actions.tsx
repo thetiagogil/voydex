@@ -1,28 +1,46 @@
 import Link from "next/link";
+import type { ReactElement } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
+const ActionTip = ({
+  label,
+  trigger,
+}: {
+  label: string;
+  trigger: ReactElement;
+}) => (
+  <Tooltip>
+    <TooltipTrigger render={trigger} />
+    <TooltipContent>{label}</TooltipContent>
+  </Tooltip>
+);
+
 /*
- * Edit is the panel's main button and Open in Codex its secondary. Edit
- * opens the editor, where Evolve, Replace, Retire and the rest live. In a
- * sheet's footer the two buttons share the width.
+ * The selected Pokémon's two actions as icon buttons in the top corner of
+ * its art (on the type's tint): Edit, which opens the editor where Evolve,
+ * Replace, Retire and the rest live, and Open in Codex. Each names itself
+ * in a tooltip.
  */
 export const TeamMemberActions = ({
   className,
   member,
   onEdit,
-  stretch = false,
   versionGroupSlug,
 }: {
   className?: string;
   member: MainlinePlayTeamMember;
   onEdit: () => void;
-  stretch?: boolean;
   versionGroupSlug: string | null;
 }) => {
   const name = getPlayTeamMemberName(member);
@@ -30,46 +48,53 @@ export const TeamMemberActions = ({
     versionGroupSlug && member.species_slug
       ? appRoutes.codexPokemonEntry(versionGroupSlug, member.species_slug)
       : null;
-  const buttonClassName = stretch ? "min-w-0 flex-1" : undefined;
-  const codexContent = (
-    <>
-      <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
-      <span className="min-w-0 truncate">Open in Codex</span>
-    </>
-  );
+  const editLabel = `Edit ${name}`;
+  const codexLabel = codexHref
+    ? "Open in Codex"
+    : "Open in Codex (not available yet)";
 
   return (
-    <div
-      className={cn(
-        "flex gap-2.5",
-        stretch ? "flex-nowrap gap-2" : "flex-wrap",
-        className,
-      )}
-    >
-      <Button type="button" onClick={onEdit} className={buttonClassName}>
-        <AppIcon icon={appIcons.actions.edit} inline="start" />
-        <span className="min-w-0 truncate">Edit {name}</span>
-      </Button>
-      {codexHref ? (
-        <Button
-          render={<Link href={codexHref} />}
-          nativeButton={false}
-          variant="outline"
-          className={buttonClassName}
-        >
-          {codexContent}
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          variant="outline"
-          disabled
-          aria-label="Open in Codex (not available yet)"
-          className={buttonClassName}
-        >
-          {codexContent}
-        </Button>
-      )}
+    <div className={cn("flex gap-2", className)}>
+      <ActionTip
+        label={editLabel}
+        trigger={
+          <Button
+            type="button"
+            variant="tint"
+            size="icon"
+            aria-label={editLabel}
+            onClick={onEdit}
+          >
+            <AppIcon icon={appIcons.actions.edit} />
+          </Button>
+        }
+      />
+      <ActionTip
+        label={codexLabel}
+        trigger={
+          codexHref ? (
+            <Button
+              render={<Link href={codexHref} />}
+              nativeButton={false}
+              variant="tint"
+              size="icon"
+              aria-label={codexLabel}
+            >
+              <AppIcon icon={appIcons.actions.browseCodex} />
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="tint"
+              size="icon"
+              disabled
+              aria-label={codexLabel}
+            >
+              <AppIcon icon={appIcons.actions.browseCodex} />
+            </Button>
+          )
+        }
+      />
     </div>
   );
 };
