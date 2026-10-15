@@ -14,9 +14,10 @@ import {
   type CollectionKind,
   type CollectionSort,
 } from "@/modules/mainline/features/collection/data/collection-browse-model";
-import type {
-  TrainerPokemonEntry,
-  TrainerPokemonType,
+import {
+  getTrainerFamilyEntries,
+  type TrainerPokemonEntry,
+  type TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
@@ -96,34 +97,33 @@ export const CollectionBrowser = ({
           />
         }
         trailing={
-          <SelectControl
-            id="collection-sort"
-            ariaLabel="Sort your Collection"
-            prefix="Sort"
-            value={filters.sort}
-            variant="ghost"
-            placeholder={collectionSortLabels.dex}
-            onValueChange={(sort) => update({ sort: sort as CollectionSort })}
-            options={sortOrder.map((sort) => ({
-              label: collectionSortLabels[sort],
-              value: sort,
-            }))}
-          />
+          <>
+            <SegmentedControl
+              ariaLabel="Show"
+              value={filters.kind}
+              onValueChange={(kind) => update({ kind })}
+              options={kindOrder.map((kind) => ({
+                count: counts[kind],
+                label: collectionKindLabels[kind],
+                value: kind,
+              }))}
+            />
+            <SelectControl
+              id="collection-sort"
+              ariaLabel="Sort your Collection"
+              prefix="Sort"
+              value={filters.sort}
+              variant="ghost"
+              placeholder={collectionSortLabels.dex}
+              onValueChange={(sort) => update({ sort: sort as CollectionSort })}
+              options={sortOrder.map((sort) => ({
+                label: collectionSortLabels[sort],
+                value: sort,
+              }))}
+            />
+          </>
         }
-      >
-        <div className="w-full min-w-0">
-          <SegmentedControl
-            ariaLabel="Show"
-            value={filters.kind}
-            onValueChange={(kind) => update({ kind })}
-            options={kindOrder.map((kind) => ({
-              count: counts[kind],
-              label: collectionKindLabels[kind],
-              value: kind,
-            }))}
-          />
-        </div>
-      </Toolbar>
+      />
 
       <PokemonTypeFilter
         types={types}
@@ -174,6 +174,8 @@ export const CollectionBrowser = ({
 
       <TrainerSpeciesSheet
         entry={openEntry}
+        family={openEntry ? getTrainerFamilyEntries(entries, openEntry) : []}
+        onOpenSpecies={(relative) => setOpenSpeciesId(relative.speciesId)}
         onOpenChange={(open) => {
           if (!open) setOpenSpeciesId(null);
         }}

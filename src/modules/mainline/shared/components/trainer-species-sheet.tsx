@@ -9,11 +9,12 @@ import {
   formatNationalNumber,
   getPlayStatusTone,
 } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
+import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -29,7 +30,11 @@ type TrainerSpeciesSheetProps = {
   collectionHref?: string;
   /* The species to show; null closes the sheet. */
   entry: TrainerPokemonEntry | null;
+  /* The rest of its evolution family that has joined you. */
+  family?: TrainerPokemonEntry[];
   onOpenChange: (open: boolean) => void;
+  /* Shows another species (one of its family) in the sheet. */
+  onOpenSpecies?: (entry: TrainerPokemonEntry) => void;
 };
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
@@ -57,15 +62,18 @@ const SheetSection = ({
 
 /*
  * One species in your Collection (v3 `colSheet`): its art, every Pokémon of
- * it on your Plays' rosters (each opens on its Play's roster), and the games
- * it has joined you in. The Collection and Statistics both open it in place.
+ * it on your Plays' rosters (each row its Play's cover and name, opening it
+ * on that Play's roster), and the rest of its family that has joined you.
+ * The Collection and Statistics both open it in place.
  * It stays mounted so it slides in and out, showing the last species while
  * it closes.
  */
 export const TrainerSpeciesSheet = ({
   collectionHref,
   entry: openEntry,
+  family = [],
   onOpenChange,
+  onOpenSpecies,
 }: TrainerSpeciesSheetProps) => {
   const [shownEntry, setShownEntry] = useState(openEntry);
 
@@ -155,38 +163,29 @@ export const TrainerSpeciesSheet = ({
                     member.play.id,
                     member.id,
                   )}
-                  className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[52px_minmax(0,1fr)_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                  aria-label={`Open ${member.name} in ${member.play.name}`}
+                  className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
                 >
-                  <span
-                    style={getPokemonTypeCssVariables(
-                      toTypeSlug(member.typeSlug),
-                    )}
-                    className="sticker grid size-12 place-items-center rounded-sm"
-                  >
-                    {member.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={member.imageUrl}
-                        alt=""
-                        className="size-10 object-contain"
-                      />
-                    ) : null}
-                  </span>
+                  <GameCover
+                    alt=""
+                    coverImageUrl={
+                      member.play.gameSlug
+                        ? getGameCoverImageUrlBySlug(member.play.gameSlug)
+                        : null
+                    }
+                    gameName={member.play.gameName}
+                    gameSlug={member.play.gameSlug ?? undefined}
+                    size="dock"
+                  />
                   <span className="min-w-0">
                     <span className="text-ink text-15 block truncate font-extrabold">
-                      {member.name}
-                      {member.name !== member.speciesName ? (
-                        <span className="text-ink-2 font-semibold">
-                          {" "}
-                          · {member.speciesName}
-                        </span>
-                      ) : null}
+                      {member.play.name}
                     </span>
                     <span className="text-ink-2 text-13 block truncate font-semibold">
                       {[
-                        member.play.label,
-                        member.placeLabel,
+                        member.name,
                         member.level ? `Lv. ${member.level}` : null,
+                        member.placeLabel,
                       ]
                         .filter(Boolean)
                         .join(" · ")}
@@ -198,7 +197,14 @@ export const TrainerSpeciesSheet = ({
                     >
                       {member.play.statusName}
                     </StatusBadge>
-                  ) : null}
+                  ) : (
+                    <span />
+                  )}
+                  <AppIcon
+                    icon={appIcons.actions.next}
+                    size="sm"
+                    className="text-ink-3"
+                  />
                 </Link>
               </li>
             ))}
@@ -211,24 +217,31 @@ export const TrainerSpeciesSheet = ({
         )}
       </SheetSection>
 
-      <SheetSection title="Across your games">
-        <ul className="flex flex-wrap gap-1.5">
-          {entry.gameNames.map((gameName) => (
-            <li
-              key={gameName}
-              className="bg-surface-2 text-ink-2 text-13 rounded-full px-3 py-1 font-bold"
-            >
-              {gameName}
-            </li>
-          ))}
-        </ul>
-        {entry.lastUsedAt ? (
-          <p className="text-ink-2 text-14 font-semibold">
-            Last recorded{" "}
-            <PlayMomentTime value={entry.lastUsedAt} format="date" />.
-          </p>
-        ) : null}
-      </SheetSection>
+      {family.length ? (
+        <SheetSection
+          title="Its family with you"
+          aside={`${family.length} more species`}
+        >
+          <ul className="grid grid-cols-3 gap-2.5">
+            {family.map((relative) => (
+              <li key={relative.speciesId} className="min-w-0">
+                <PokemonSticker
+                  variant="compact"
+                  className="w-full"
+                  imageUrl={relative.imageUrl}
+                  name={relative.name}
+                  subtitle={`${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}`}
+                  types={relative.types}
+                  label={`${relative.name}, in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
+                  onClick={
+                    onOpenSpecies ? () => onOpenSpecies(relative) : undefined
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        </SheetSection>
+      ) : null}
     </ResponsiveDetailSheet>
   );
 };

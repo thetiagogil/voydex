@@ -36,6 +36,8 @@ export type StatsRegion = {
 export type StatsFriend = {
   /* The species as the Collection has it, for its sheet. */
   entry: TrainerPokemonEntry;
+  /* Every species of its family that has joined you, itself included. */
+  family: TrainerPokemonEntry[];
   imageUrl: string | null;
   name: string;
   playCount: number;
@@ -112,7 +114,12 @@ const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
 const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
   const families = new Map<
     string,
-    { lastUsedAt: string; playIds: Set<string>; shown: TrainerPokemonEntry }
+    {
+      entries: TrainerPokemonEntry[];
+      lastUsedAt: string;
+      playIds: Set<string>;
+      shown: TrainerPokemonEntry;
+    }
   >();
 
   for (const entry of entries) {
@@ -125,6 +132,7 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
 
     if (!family) {
       families.set(key, {
+        entries: [entry],
         lastUsedAt,
         playIds: new Set(entry.playIds),
         shown: entry,
@@ -132,6 +140,7 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
       continue;
     }
 
+    family.entries.push(entry);
     entry.playIds.forEach((playId) => family.playIds.add(playId));
 
     if (lastUsedAt > family.lastUsedAt) {
@@ -147,8 +156,9 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
         right.playIds.size - left.playIds.size ||
         right.lastUsedAt.localeCompare(left.lastUsedAt),
     )
-    .map(({ playIds, shown }) => ({
+    .map(({ entries: familyEntries, playIds, shown }) => ({
       entry: shown,
+      family: familyEntries,
       imageUrl: shown.imageUrl,
       name: shown.name,
       playCount: playIds.size,

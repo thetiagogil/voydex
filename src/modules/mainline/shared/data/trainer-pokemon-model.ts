@@ -259,3 +259,26 @@ export const buildTrainerPokemonEntries = (
     };
   });
 };
+
+/*
+ * The rest of a species' evolution family that has joined you (Charmander
+ * and Charizard beside your Charmeleon), in Pokédex order. None when its
+ * family isn't known.
+ */
+export const getTrainerFamilyEntries = (
+  entries: TrainerPokemonEntry[],
+  entry: TrainerPokemonEntry,
+): TrainerPokemonEntry[] =>
+  entry.evolutionFamilyId === null
+    ? []
+    : entries
+        .filter(
+          (other) =>
+            other.evolutionFamilyId === entry.evolutionFamilyId &&
+            other.speciesId !== entry.speciesId,
+        )
+        .toSorted(
+          (left, right) =>
+            (left.nationalNumber ?? Infinity) -
+            (right.nationalNumber ?? Infinity),
+        );
