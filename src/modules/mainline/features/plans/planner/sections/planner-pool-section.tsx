@@ -102,7 +102,7 @@ export const PlannerPoolSection = ({
         aside={
           isFull
             ? "Team is full. Tap one to swap it in"
-            : "Tap to add to the next open slot"
+            : "Tap to add, tap again to take it off"
         }
         action={
           sections.length > 1 ? (

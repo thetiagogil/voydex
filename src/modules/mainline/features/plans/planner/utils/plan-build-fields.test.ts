@@ -6,6 +6,7 @@ import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import {
   clearUnsupportedBuildFields,
   getPlanBuildFields,
+  hasPlanMemberDetails,
 } from "./plan-build-fields";
 
 const member: PlanMember = {
@@ -82,5 +83,31 @@ describe("plan build fields", () => {
         role: "Lead",
       });
     }
+  });
+});
+
+describe("hasPlanMemberDetails", () => {
+  const blank: PlanMember = {
+    ...member,
+    abilityId: null,
+    gender: null,
+    heldItemId: null,
+    moveIds: [null, null, null, null],
+    natureId: null,
+    notes: null,
+    role: null,
+  };
+
+  it("is false for a Pokémon just added", () => {
+    expect(hasPlanMemberDetails(blank)).toBe(false);
+    expect(hasPlanMemberDetails({ ...blank, notes: "  " })).toBe(false);
+  });
+
+  it("is true once anything is filled in", () => {
+    expect(hasPlanMemberDetails(member)).toBe(true);
+    expect(
+      hasPlanMemberDetails({ ...blank, moveIds: [null, 33, null, null] }),
+    ).toBe(true);
+    expect(hasPlanMemberDetails({ ...blank, notes: "Sweeper" })).toBe(true);
   });
 });

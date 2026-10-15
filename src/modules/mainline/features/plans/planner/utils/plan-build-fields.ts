@@ -45,3 +45,16 @@ export const clearUnsupportedBuildFields = (
     ? member
     : cleared;
 };
+
+/*
+ * Whether a planned Pokémon has anything you filled in (ability, gender,
+ * item, nature, role, notes or a move), so removing it asks first.
+ */
+export const hasPlanMemberDetails = (member: PlanMember) =>
+  member.abilityId !== null ||
+  member.gender !== null ||
+  member.heldItemId !== null ||
+  member.natureId !== null ||
+  Boolean(member.role?.trim()) ||
+  Boolean(member.notes?.trim()) ||
+  member.moveIds.some((moveId) => moveId !== null);

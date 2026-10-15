@@ -33,6 +33,7 @@ import {
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
 import { PlannerNameDialog } from "@/modules/mainline/features/plans/planner/sections/planner-name-dialog";
+import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
 import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
@@ -43,7 +44,10 @@ import {
   encodePlanShare,
   type PlanShare,
 } from "@/modules/mainline/features/plans/planner/utils/plan-share-code";
-import { clearUnsupportedBuildFields } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
+import {
+  clearUnsupportedBuildFields,
+  hasPlanMemberDetails,
+} from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type {
   PlanMember,
@@ -112,6 +116,10 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const [replacingId, setReplacingId] = useState<number | null>(null);
   const [swapIndex, setSwapIndex] = useState<number | null>(null);
   const [openSlot, setOpenSlot] = useState<number | null>(null);
+  /* The slot whose filled-in Pokémon waits on "Remove …?". */
+  const [confirmRemoveIndex, setConfirmRemoveIndex] = useState<number | null>(
+    null,
+  );
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isNameOpen, setIsNameOpen] = useState(false);
@@ -287,6 +295,18 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* Off the team at once, unless you filled in its build: then ask first. */
+  const requestRemove = (index: number) => {
+    const member = team.slots[index];
+
+    if (member && hasPlanMemberDetails(member)) {
+      setConfirmRemoveIndex(index);
+      return;
+    }
+
+    team.removeSlot(index);
+  };
+
   const pick = (pokemon: PlannerPokemon) => {
     if (swapIndex !== null) {
       team.putInSlot(swapIndex, pokemon);
@@ -296,8 +316,9 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
     const slot = slotBySpeciesId.get(pokemon.speciesId);
 
+    /* Tapping one already on the team takes it off; its card opens it. */
     if (slot !== undefined) {
-      setOpenSlot(slot - 1);
+      requestRemove(slot - 1);
       return;
     }
 
@@ -523,7 +544,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onPlace={place}
           onRandom={random}
           onRandomModeChange={setRandomMode}
-          onRemove={team.removeSlot}
+          onRemove={requestRemove}
           randomMode={randomMode}
           replacing={
             replacingId === null ? null : (byId.get(replacingId) ?? null)
@@ -582,6 +603,26 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         onUpdate={team.updateSlot}
         slots={team.slots}
         versionGroup={context.versionGroup}
+      />
+
+      <PlannerRemoveDialog
+        name={
+          confirmRemoveIndex === null
+            ? ""
+            : (byId.get(team.slots[confirmRemoveIndex]?.speciesId ?? -1)
+                ?.name ?? "this Pokémon")
+        }
+        open={confirmRemoveIndex !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmRemoveIndex(null);
+        }}
+        onConfirm={() => {
+          if (confirmRemoveIndex !== null) {
+            team.removeSlot(confirmRemoveIndex);
+          }
+
+          setConfirmRemoveIndex(null);
+        }}
       />
 
       <PlannerTeamCheckSheet
