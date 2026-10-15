@@ -16,6 +16,34 @@ export const getPlayMomentInstant = (event: {
   happened_at: string | null;
 }) => event.happened_at ?? event.created_at;
 
+const getPlayMomentTime = (event: {
+  created_at: string | null;
+  happened_at: string | null;
+}) => {
+  const instant = getPlayMomentInstant(event);
+  const time = instant ? new Date(instant).getTime() : Number.NaN;
+  return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
+};
+
+/*
+ * Oldest first by when each moment happened; the timeline order only breaks
+ * ties, so a moment logged later for an earlier day still sits on that day.
+ */
+export const comparePlayMoments = (
+  left: {
+    created_at: string | null;
+    happened_at: string | null;
+    timeline_order: number | null;
+  },
+  right: {
+    created_at: string | null;
+    happened_at: string | null;
+    timeline_order: number | null;
+  },
+) =>
+  getPlayMomentTime(left) - getPlayMomentTime(right) ||
+  (left.timeline_order ?? 0) - (right.timeline_order ?? 0);
+
 /* When a moment happened, read in the viewer's time zone. */
 export type PlayMoment = {
   /* Month first with the year ("Aug 12, 2025"), never relative. */

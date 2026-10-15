@@ -59,8 +59,8 @@ export const readMainlinePlayTimelinePreview = async (
     ? query.not("event_type_slug", "in", `(${excludeEventTypeSlugs.join(",")})`)
     : query;
   const timelineResult = await visibleQuery
+    .order("happened_at", { ascending: false, nullsFirst: false })
     .order("timeline_order", { ascending: false })
-    .order("happened_at", { ascending: false })
     .limit(limit);
 
   if (timelineResult.error) {
@@ -86,8 +86,8 @@ export const readMainlinePlayTimeline = async (
         .from("mainline_play_timeline_detail")
         .select("*")
         .eq("play_id", playId)
+        .order("happened_at", { ascending: false, nullsFirst: false })
         .order("timeline_order", { ascending: false })
-        .order("happened_at", { ascending: false })
         .order("event_id", { ascending: false })
         .range(from, to),
     "Unable to load the Play's History.",

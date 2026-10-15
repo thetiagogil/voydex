@@ -1,7 +1,7 @@
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import {
-  getPlayMomentInstant,
+  comparePlayMoments,
   type ViewerClock,
 } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 
@@ -80,26 +80,6 @@ export const getPlayHistoryEventKey = (
   event.event_id ??
   `${event.event_type_slug ?? "moment"}-${event.timeline_order ?? index}`;
 
-/* Timeline order wins over dates, as the database orders the timeline. */
-const compareTimelineOrder = (
-  left: MainlinePlayTimelineEvent,
-  right: MainlinePlayTimelineEvent,
-) => {
-  const orderDifference =
-    (left.timeline_order ?? 0) - (right.timeline_order ?? 0);
-
-  if (orderDifference !== 0) {
-    return orderDifference;
-  }
-
-  const getTime = (event: MainlinePlayTimelineEvent) => {
-    const instant = getPlayMomentInstant(event);
-    return instant ? new Date(instant).getTime() : Number.NEGATIVE_INFINITY;
-  };
-
-  return getTime(left) - getTime(right);
-};
-
 /*
  * A search matches what the moment shows: its kind, its line (Pokémon,
  * milestone or note) and the note that came with it.
@@ -152,7 +132,7 @@ export const getShownPlayHistoryEvents = (
       (event) => filter === "all" || getPlayHistoryCategory(event) === filter,
     )
     .toSorted((left, right) => {
-      const comparison = compareTimelineOrder(left, right);
+      const comparison = comparePlayMoments(left, right);
       return sort === "newest" ? -comparison : comparison;
     });
 

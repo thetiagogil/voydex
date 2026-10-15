@@ -292,8 +292,8 @@ work and confirm the linked Supabase migration list before any later remote
 database write.
 
 Team History is retired: History reads the shared Play event store and its
-Team filter shows the roster events, with event-time Pokémon identity and the
-canonical timeline order (never database creation time).
+Team filter shows the roster events, with event-time Pokémon identity, ordered by
+when each moment happened (see Data Ownership).
 
 The bounded route-backed `Progress - Story` workspace is mounted:
 `/progress` opens Story, the attached menu has no Overall item, and the UI

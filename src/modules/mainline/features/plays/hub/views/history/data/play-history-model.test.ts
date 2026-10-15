@@ -96,6 +96,42 @@ describe("Play History model", () => {
     expect(ids("team", "newest")).toEqual(["added"]);
   });
 
+  it("orders by when moments happened even when the timeline order disagrees", () => {
+    const outOfOrder = [
+      event({
+        eventId: "october",
+        eventTypeSlug: "journal_note",
+        happenedAt: "2026-10-01T12:00:00Z",
+        timelineOrder: 2,
+      }),
+      event({
+        eventId: "july",
+        eventTypeSlug: "journal_note",
+        happenedAt: "2026-07-01T12:00:00Z",
+        timelineOrder: 3,
+      }),
+      event({
+        createdAt: "2026-08-01T12:00:00Z",
+        eventId: "august-undated",
+        eventTypeSlug: "journal_note",
+        timelineOrder: 1,
+      }),
+      event({
+        eventId: "july-tie",
+        eventTypeSlug: "journal_note",
+        happenedAt: "2026-07-01T12:00:00Z",
+        timelineOrder: 4,
+      }),
+    ];
+
+    expect(
+      getShownPlayHistoryEvents(outOfOrder, {
+        filter: "all",
+        sort: "newest",
+      }).map((item) => item.event_id),
+    ).toEqual(["october", "august-undated", "july-tie", "july"]);
+  });
+
   it("searches the kind, the line and the note a moment shows", () => {
     const withNote = {
       ...events[1],

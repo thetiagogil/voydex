@@ -237,9 +237,11 @@ attached to it. Story, Team, Progress, and Plan remain the sources of truth for
 their current facts; a History entry records what was deliberately preserved
 about a moment rather than becoming a second current-state model.
 
-One explicit journey sequence is the canonical order for exact, approximate,
-and undated events. Date certainty and date values remain separate metadata.
-Database creation time is never a fallback for user-facing recency. Highlighting
+History, Overview and Home order moments by when they happened: the date a
+moment was given, else when it was recorded. The journey sequence
+(`timeline_order`) only breaks ties, so a moment logged later for an earlier
+day still sits on that day and out-of-order positions never scramble the
+months. Date certainty and date values remain separate metadata. Highlighting
 an event changes only its pinned state; it does not change the journey sequence
 or create a duplicate entry.
 

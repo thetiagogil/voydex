@@ -63,4 +63,15 @@ describe("readMainlinePlayTimelinePreview", () => {
     expect(query.not).not.toHaveBeenCalled();
     expect(query.limit).toHaveBeenCalledWith(5);
   });
+
+  it("reads the latest moments by when they happened, not by when they were logged", async () => {
+    const { client, query } = createTimelineClient();
+
+    await readMainlinePlayTimelinePreview(client, "play-1");
+
+    expect(query.order.mock.calls).toEqual([
+      ["happened_at", { ascending: false, nullsFirst: false }],
+      ["timeline_order", { ascending: false }],
+    ]);
+  });
 });
