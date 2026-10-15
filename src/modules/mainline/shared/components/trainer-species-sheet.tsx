@@ -72,8 +72,8 @@ const SheetSection = ({
 
 /*
  * One Play in the sheet: its cover, name and status, and what is there. In
- * a family's sheet the row leads with which Pokémon it is, in its type's
- * colour, and the Play's name moves under it.
+ * a family's sheet the line under the name starts with which Pokémon it is,
+ * in its type's colour.
  */
 const SpeciesPlayRow = ({
   detail,
@@ -106,18 +106,9 @@ const SpeciesPlayRow = ({
         size="dock"
       />
       <span className="min-w-0">
-        {pokemon ? (
-          <span
-            style={getPokemonTypeCssVariables(toTypeSlug(pokemon.typeSlug))}
-            className="type-ink text-15 block truncate font-extrabold"
-          >
-            {pokemon.name}
-          </span>
-        ) : (
-          <span className="text-ink text-15 block truncate font-extrabold">
-            {play.name}
-          </span>
-        )}
+        <span className="text-ink text-15 block truncate font-extrabold">
+          {play.name}
+        </span>
         <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
           {shiny ? (
             <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
@@ -126,7 +117,21 @@ const SpeciesPlayRow = ({
             </span>
           ) : null}
           <span className="truncate">
-            {pokemon ? `${play.name} · ${detail}` : detail}
+            {pokemon ? (
+              <>
+                <span
+                  style={getPokemonTypeCssVariables(
+                    toTypeSlug(pokemon.typeSlug),
+                  )}
+                  className="type-ink"
+                >
+                  {pokemon.name}
+                </span>
+                {detail ? ` · ${detail}` : null}
+              </>
+            ) : (
+              detail
+            )}
           </span>
         </span>
       </span>

@@ -9,10 +9,7 @@ import {
   type StatsMostPicked,
   type StatsTypeTally,
 } from "@/modules/mainline/features/stats/data/stats-model";
-import {
-  formatCountWord,
-  formatMonthYear,
-} from "@/modules/mainline/features/stats/utils/stats-format";
+import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -23,6 +20,7 @@ import {
   appIcons,
   type AppIconComponent,
 } from "@/shared/components/app-icon";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import {
@@ -160,50 +158,55 @@ const MostPickedCard = ({
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
-        className="group/picked focus-visible:outline-focus flex items-center gap-4 rounded-xl text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+        className="group/picked focus-visible:outline-focus flex flex-col items-center gap-2.5 rounded-xl text-center outline-none focus-visible:outline-3 focus-visible:outline-solid"
       >
-        <span className="sticker grid size-22 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-[3px]">
+        <span className="sticker grid size-28 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-[3px]">
           {entry.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={entry.imageUrl}
               alt=""
-              className="size-19 object-contain"
+              className="size-24 object-contain"
             />
           ) : null}
         </span>
-        <span className="flex min-w-0 flex-col gap-1.5">
-          <span className="font-display text-24 truncate leading-tight font-semibold">
-            {entry.name}
-          </span>
-          <PokemonTypeList
-            types={entry.types}
-            badgeDisplay="icon-label"
-            badgeSize="sm"
-            className="flex flex-wrap gap-1.5"
-          />
+        <span className="font-display text-24 max-w-full truncate leading-tight font-semibold">
+          {entry.name}
         </span>
+        <PokemonTypeList
+          types={entry.types}
+          badgeDisplay="icon-label"
+          badgeSize="sm"
+          className="flex flex-wrap justify-center gap-1.5"
+        />
       </button>
       <ul className="flex flex-col gap-2.5">
         <PickedFact icon={appIcons.product.game}>
-          In {formatCountWord(playCount)} Plays
-          {gameCount > 1 ? ` across ${formatCountWord(gameCount)} games` : ""}
+          In <b className="text-ink">{playCount} Plays</b>
+          {gameCount > 1 ? (
+            <>
+              {" "}
+              across <b className="text-ink">{gameCount} games</b>
+            </>
+          ) : null}
         </PickedFact>
         {onTeamNow ? (
           <PickedFact icon={appIcons.product.team}>
             On{" "}
-            {onTeamNow === 1 ? "a team" : `${formatCountWord(onTeamNow)} teams`}{" "}
+            <b className="text-ink">
+              {onTeamNow === 1 ? "a team" : `${onTeamNow} teams`}
+            </b>{" "}
             right now
           </PickedFact>
         ) : null}
         {highestLevel ? (
           <PickedFact icon={appIcons.product.evolved}>
-            Reached Lv. {highestLevel}
+            Reached <b className="text-ink">Lv. {highestLevel}</b>
           </PickedFact>
         ) : null}
         {firstJoined ? (
           <PickedFact icon={appIcons.product.date}>
-            First joined you in {firstJoined}
+            First joined you in <b className="text-ink">{firstJoined}</b>
           </PickedFact>
         ) : null}
       </ul>
@@ -294,19 +297,40 @@ export const StatsStyleSection = ({
           {stats.friends.length ? (
             <ul className="grid grid-cols-2 gap-2.5 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
-                <li key={friend.speciesSlug} className="flex min-w-0">
+                <li
+                  key={friend.speciesSlug}
+                  className="relative flex min-w-0 transition-transform duration-150 hover:-translate-y-[3px]"
+                >
                   <PokemonSticker
                     variant="mini"
-                    className="w-full"
+                    /* The card lifts instead, carrying the family tip. */
+                    className="w-full hover:translate-y-0"
                     label={`${friend.name}, in ${friend.playCount} Plays. Open`}
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
                     name={friend.entry.name}
-                    slotLabel={friend.family.length > 1 ? "Family" : undefined}
                     subtitle={`${friend.playCount} Plays`}
                     types={friend.types}
                     showTypes={false}
                   />
+                  {friend.family.length > 1 ? (
+                    <span className="absolute -top-2 -left-2 z-10">
+                      <ExplanatoryTip
+                        triggerVariant="raised"
+                        triggerLabel={`${friend.entry.name}'s family`}
+                        contentClassName="w-60"
+                        content={
+                          <p>
+                            <b>{friend.entry.name}&apos;s family.</b> You used{" "}
+                            {friend.memberNames} across {friend.playCount}{" "}
+                            Plays.
+                          </p>
+                        }
+                      >
+                        <AppIcon icon={appIcons.product.family} size="sm" />
+                      </ExplanatoryTip>
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ul>
