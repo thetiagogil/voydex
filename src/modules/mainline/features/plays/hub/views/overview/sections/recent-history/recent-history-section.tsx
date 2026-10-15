@@ -16,11 +16,9 @@ type RecentHistorySectionProps = {
 const recentMomentLimit = 3;
 
 /*
- * Recent moments: the Play's newest three records, drawn as History draws
- * them, with the way on to History once there are any. While there are
- * fewer, where the Play began closes the list at the card's foot (the card
- * is as tall as the badge case beside it), so the gap reads as the road
- * travelled since.
+ * Recent moments: the Play's newest records, drawn as History draws them,
+ * with the way on to History once there are any. While there are fewer than
+ * three, where the Play began closes the list.
  */
 export const RecentHistorySection = ({
   context,
@@ -33,12 +31,12 @@ export const RecentHistorySection = ({
   return (
     <DetailSectionCard
       title="Recent moments"
-      contentClassName="flex flex-1 flex-col pt-0"
+      contentClassName="pt-0"
       more={
         moments.length ? { href: historyHref, label: "History" } : undefined
       }
     >
-      <div className="flex flex-1 flex-col">
+      <div className="grid">
         {moments.map((event, index) => {
           const happenedAt = getPlayMomentInstant(event);
 
@@ -52,7 +50,7 @@ export const RecentHistorySection = ({
           );
         })}
         {moments.length < recentMomentLimit ? (
-          <PlayStartRow className="mt-auto" startedOn={startedOn} />
+          <PlayStartRow startedOn={startedOn} />
         ) : null}
       </div>
     </DetailSectionCard>

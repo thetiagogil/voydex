@@ -126,7 +126,6 @@ describe("getOverviewMilestoneSummary journey numbering", () => {
     ).toEqual([
       [2, 2, "next"],
       [3, 3, "done"],
-      [4, 4, "todo"],
     ]);
   });
 });

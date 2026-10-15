@@ -47,7 +47,8 @@ export type OverviewAheadMilestone = {
   state: PlayMilestoneState;
 };
 
-const aheadLimit = 3;
+/* The next milestone and the one after: the badge case stays as tall as Recent moments beside it. */
+const aheadLimit = 2;
 
 /* Where a milestone happens, as Story and the next objective say it. */
 export const getOverviewMilestoneWhere = (
