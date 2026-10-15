@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  countTrainerSpeciesPlays,
+  getEarlierFamilyNames,
   getTrainerFamilyEntries,
   splitTrainerSpeciesPlays,
   type TrainerPlay,
@@ -138,5 +140,37 @@ describe("splitTrainerSpeciesPlays", () => {
 
     expect(now.map((one) => one.id)).toEqual(["now", "zard"]);
     expect(before.map((one) => one.play.id)).toEqual(["B Play", "D Play"]);
+  });
+});
+
+describe("family counts", () => {
+  const ivysaur: TrainerPokemonEntry = {
+    ...entry(2, 1),
+    name: "Ivysaur",
+    members: [
+      member("ivy-a", "A Play", "Ivysaur", true),
+      member("ivy-b", "B Play", "Ivysaur", true),
+    ],
+    playIds: ["A Play", "B Play", "C Play"],
+  };
+  const venusaur: TrainerPokemonEntry = {
+    ...entry(3, 1),
+    name: "Venusaur",
+    members: [member("venu-c", "C Play", "Venusaur", true)],
+    playIds: ["C Play"],
+  };
+
+  it("says which member came before the one in a Play now", () => {
+    expect(
+      getEarlierFamilyNames([ivysaur, venusaur], venusaur.members[0]!),
+    ).toEqual(["Ivysaur"]);
+    expect(
+      getEarlierFamilyNames([ivysaur, venusaur], ivysaur.members[0]!),
+    ).toEqual([]);
+  });
+
+  it("splits a species' Plays into now and before", () => {
+    expect(countTrainerSpeciesPlays(ivysaur)).toEqual({ before: 1, now: 2 });
+    expect(countTrainerSpeciesPlays(venusaur)).toEqual({ before: 0, now: 1 });
   });
 });

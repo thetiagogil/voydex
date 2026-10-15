@@ -5,6 +5,8 @@ import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
+  countTrainerSpeciesPlays,
+  getEarlierFamilyNames,
   splitTrainerSpeciesPlays,
   type TrainerPlay,
   type TrainerPokemonEntry,
@@ -45,6 +47,15 @@ type TrainerSpeciesSheetProps = {
   onOpenChange: (open: boolean) => void;
   /* Shows another species (one of its family) in the sheet. */
   onOpenSpecies?: (entry: TrainerPokemonEntry) => void;
+};
+
+/* "2 now · 1 before", or "3 Plays" when it's in every one of them now. */
+const getNowBeforeLine = (entry: TrainerPokemonEntry) => {
+  const { before, now } = countTrainerSpeciesPlays(entry);
+
+  if (!before) return `${now} ${now === 1 ? "Play" : "Plays"}`;
+  if (!now) return `${before} before`;
+  return `${now} now · ${before} before`;
 };
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
@@ -280,6 +291,11 @@ export const TrainerSpeciesSheet = ({
                     : member.name,
                   member.level ? `Lv. ${member.level}` : null,
                   member.placeLabel,
+                  ...(showsFamily
+                    ? getEarlierFamilyNames(species, member).map(
+                        (name) => `was ${name}`,
+                      )
+                    : []),
                 ]
                   .filter(Boolean)
                   .join(" · ")}
@@ -359,7 +375,7 @@ export const TrainerSpeciesSheet = ({
                   className="w-full"
                   imageUrl={relative.imageUrl}
                   name={relative.name}
-                  subtitle={`${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}`}
+                  subtitle={getNowBeforeLine(relative)}
                   types={relative.types}
                   label={`${relative.name}, in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
                   onClick={

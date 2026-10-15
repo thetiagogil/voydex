@@ -390,3 +390,37 @@ export const splitTrainerSpeciesPlays = ({
 
   return { before: before.toSorted(byPlayName), now };
 };
+
+/*
+ * In a family's sheet: the other members that were in this Play before the
+ * one there now (it evolved from them, or they left), so a row can say
+ * "was Ivysaur" and each member's count adds up.
+ */
+export const getEarlierFamilyNames = (
+  family: TrainerPokemonEntry[],
+  member: TrainerPokemonMember,
+): string[] =>
+  family
+    .filter(
+      (each) =>
+        each.name !== member.speciesName &&
+        each.playIds.includes(member.play.id) &&
+        !each.members.some(
+          (other) => other.isCurrent && other.play.id === member.play.id,
+        ),
+    )
+    .map((each) => each.name);
+
+/*
+ * A species' Plays split by when: on a team or in reserve now, and the rest
+ * it was in before. Together they make its Play count.
+ */
+export const countTrainerSpeciesPlays = (entry: TrainerPokemonEntry) => {
+  const now = new Set(
+    entry.members
+      .filter((member) => member.isCurrent)
+      .map((member) => member.play.id),
+  ).size;
+
+  return { before: entry.playIds.length - now, now };
+};
