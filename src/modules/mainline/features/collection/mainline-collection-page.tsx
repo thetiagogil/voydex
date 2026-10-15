@@ -7,6 +7,7 @@ import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/compone
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
 import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
 
@@ -42,7 +43,9 @@ export const MainlineCollectionPage = ({
 }: MainlineCollectionPageProps) => {
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PageHeader title="Collection" description={getDescription(data)} />
+      <PageBand>
+        <PageHeader title="Collection" description={getDescription(data)} />
+      </PageBand>
 
       {data.entries.length ? (
         <CollectionBrowser

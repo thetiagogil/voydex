@@ -11,6 +11,7 @@ import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/compone
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
 import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
 
@@ -30,23 +31,25 @@ const emptyLibraryArtUrl = getPokemonFormImageUrl({
  */
 const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
   <div className="flex flex-col gap-5 sm:gap-6">
-    <PageHeader
-      title="Archived Plays"
-      description={
-        plays.length
-          ? `${formatPlayCount(plays.length)} · hidden from Home and your list until you restore them`
-          : "None archived"
-      }
-      action={
-        <Link
-          href={appRoutes.mainlinePlays}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          <AppIcon icon={appIcons.actions.back} inline="start" />
-          All Plays
-        </Link>
-      }
-    />
+    <PageBand>
+      <PageHeader
+        title="Archived Plays"
+        description={
+          plays.length
+            ? `${formatPlayCount(plays.length)} · hidden from Home and your list until you restore them`
+            : "None archived"
+        }
+        action={
+          <Link
+            href={appRoutes.mainlinePlays}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            <AppIcon icon={appIcons.actions.back} inline="start" />
+            All Plays
+          </Link>
+        }
+      />
+    </PageBand>
 
     <section aria-label="Archived Plays">
       {plays.length ? (
@@ -69,7 +72,9 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PlaysPageHeader plays={data.plays} />
+      <PageBand>
+        <PlaysPageHeader plays={data.plays} />
+      </PageBand>
 
       <section aria-label="Play library">
         {data.plays.length ? (

@@ -7,7 +7,7 @@ import {
 } from "@/modules/mainline/features/stats/utils/stats-format";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { Card } from "@/shared/components/ui/card";
+import { PageBand } from "@/shared/components/page-band";
 
 type StatsHeroSectionProps = {
   stats: StatsModel;
@@ -59,9 +59,9 @@ const HeadlineTail = ({ stats }: StatsHeroSectionProps) => {
 };
 
 /*
- * v3 `.st-hero`: your journey in one sentence, then three figures the
- * sentence doesn't already state. Only claims a favourite type when it
- * clearly leads.
+ * v3 `.st-hero`, on the page's band: your journey in one sentence, then
+ * three figures the sentence doesn't already state. Only claims a favourite
+ * type when it clearly leads.
  */
 export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
   const hours = Math.round(stats.minutes / 60);
@@ -79,7 +79,7 @@ export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
   ];
 
   return (
-    <Card className="gap-6 px-5 py-6 sm:px-8 sm:py-8">
+    <PageBand className="flex flex-col gap-6 pt-6 sm:pt-9">
       <div>
         <p className="text-ink-2 text-14 font-extrabold">Your journey so far</p>
         <h1 className="text-28 mt-2 max-w-4xl leading-[1.15] tracking-[-0.02em] sm:text-[36px]">
@@ -94,7 +94,7 @@ export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
         {figures.map((figure) => (
           <div
             key={figure.label}
-            className="bg-surface-2 flex flex-col-reverse gap-1 rounded-lg px-3 py-3 sm:px-4"
+            className="bg-surface/70 flex flex-col-reverse gap-1 rounded-lg px-3 py-3 sm:px-4"
           >
             <dt className="text-ink-2 text-13 font-bold">{figure.label}</dt>
             <dd className="font-display text-24 leading-none font-semibold tabular-nums">
@@ -103,6 +103,6 @@ export const StatsHeroSection = ({ stats }: StatsHeroSectionProps) => {
           </div>
         ))}
       </dl>
-    </Card>
+    </PageBand>
   );
 };

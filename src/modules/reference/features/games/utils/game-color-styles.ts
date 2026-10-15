@@ -126,24 +126,3 @@ export const getGameColourStyle = (
     "--gt": `${tintStrength}%`,
   };
 };
-
-export type GameBandStyle = GameColourStyle & { "--band-end"?: string };
-
-/*
- * Style for a band (`PageBand`) that stands for a version group without
- * picking a game: it wears the first game's colour, and with a second game
- * its right half takes that game's soft tint, split with a hard edge.
- */
-export const getGameBandStyle = (
-  gameSlugs: readonly string[],
-): GameBandStyle => {
-  const style: GameBandStyle = getGameColourStyle(gameSlugs[0] ?? null);
-  const second = gameSlugs[1];
-
-  if (second) {
-    const [hex, tintStrength] = getGameColour(second);
-    style["--band-end"] = `color-mix(in oklab, ${hex} ${tintStrength}%, #fff)`;
-  }
-
-  return style;
-};

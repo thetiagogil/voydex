@@ -86,22 +86,6 @@
 }
 
 /*
- * The ground of a main page's band (`PageBand`): the context colour's soft
- * tint, flat. Set --band-end to split it with a hard, slanted edge into a
- * second colour on the right, as a Plan for either game of a pair does: the
- * pair's two colours, side by side, never blended.
- */
-@utility band-ground {
-  background-color: var(--game-soft);
-  background-image: linear-gradient(
-    102deg,
-    var(--game-soft) 50%,
-    /* One pixel apart, so the edge stays crisp without stair steps. */
-      var(--band-end, var(--game-soft)) calc(50% + 1px)
-  );
-}
-
-/*
  * A detail panel that follows the scroll beside a longer list (Story's
  * panel, the Story matchups report, the roster panel). `useStickyPanel`
  * moves `top` up for a panel taller than the screen, so it scrolls with the

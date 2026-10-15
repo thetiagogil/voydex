@@ -6,6 +6,7 @@ import { StatsTimeSection } from "@/modules/mainline/features/stats/sections/sta
 import { formatWholeHours } from "@/modules/mainline/features/stats/utils/stats-format";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PageBand } from "@/shared/components/page-band";
 import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
@@ -36,7 +37,9 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PageHeader title="Statistics" description="Your Plays, added up" />
+      <PageBand>
+        <PageHeader title="Statistics" description="Your Plays, added up" />
+      </PageBand>
       <Card className="gap-5 px-5 py-6 sm:px-8">
         <p className="font-display text-24 leading-tight font-semibold">
           {stats.playCount && firstPlayLabel ? (
@@ -92,7 +95,7 @@ export const MainlineStatsPage = ({ stats }: MainlineStatsPageProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-8 pt-4 sm:gap-10 sm:pt-6">
+    <div className="flex flex-col gap-8 sm:gap-10">
       <StatsHeroSection stats={stats} />
       <StatsTimeSection stats={stats} />
       <StatsRegionsSection stats={stats} />

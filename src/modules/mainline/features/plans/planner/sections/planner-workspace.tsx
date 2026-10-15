@@ -49,7 +49,6 @@ import type {
   PlannerPageData,
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
-import { getGameBandStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { PageBand } from "@/shared/components/page-band";
 import { Button } from "@/shared/components/ui/button";
 
@@ -330,12 +329,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   )}`;
 
   return (
-    <div
-      style={getGameBandStyle(
-        context.versionGroup.games.map((game) => game.slug),
-      )}
-      className="game-scope flex flex-col gap-6 sm:gap-8"
-    >
+    <div className="flex flex-col gap-6 sm:gap-8">
       <PageBand className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
