@@ -5,6 +5,7 @@ import { PageHeader } from "@/shared/components/page-header";
 import { PlaySettingsDangerSection } from "./sections/danger/play-settings-danger-section";
 import { PlaySettingsGeneralSection } from "./sections/general/play-settings-general-section";
 import { PlaySettingsRulesSection } from "./sections/rules/play-settings-rules-section";
+import { PlaySettingsTagsSection } from "./sections/tags/play-settings-tags-section";
 import { PlaySettingsTrackingSection } from "./sections/tracking/play-settings-tracking-section";
 import type { MainlinePlaySettingsData } from "./types";
 
@@ -23,11 +24,12 @@ const sections = [
   { href: "#general", label: "General" },
   { href: "#tracking", label: "Tracking" },
   { href: "#rules", label: "Challenge rules" },
+  { href: "#tags", label: "Tags" },
   { href: "#archive", label: "Archive or delete" },
 ];
 
 /*
- * Play settings (v3 `settings`): a quiet form in four cards, with a side
+ * Play settings (v3 `settings`): a quiet form in five cards, with a side
  * list of them on wide screens. Each card saves on its own from the footer
  * that appears once it has unsaved changes.
  */
@@ -79,6 +81,11 @@ export const MainlinePlaySettings = ({
         />
         <PlaySettingsRulesSection
           key={`rules:${data.selectedRuleIds.join()}`}
+          data={data}
+          playId={playId}
+        />
+        <PlaySettingsTagsSection
+          key={`tags:${data.selectedTagIds.join()}`}
           data={data}
           playId={playId}
         />

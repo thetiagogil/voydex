@@ -114,3 +114,46 @@ export const diffIdSets = <TId>(
   added: after.filter((id) => !before.includes(id)),
   removed: before.filter((id) => !after.includes(id)),
 });
+
+/*
+ * A name for a rule or tag you add: trimmed, inner spaces collapsed, 1 to
+ * `maximum` characters.
+ */
+export const parseSettingsChipName = (
+  value: string,
+  { label, maximum }: { label: string; maximum: number },
+) => {
+  const name = value.trim().replace(/\s+/g, " ");
+
+  if (!name) {
+    throw new PlaySettingsValidationError(`Give the ${label} a name.`);
+  }
+
+  if (name.length > maximum) {
+    throw new PlaySettingsValidationError(
+      `A ${label}'s name can be ${maximum} characters at most.`,
+    );
+  }
+
+  return name;
+};
+
+/*
+ * The stable key the database keeps beside a name: lowercase letters and
+ * digits joined by `separator` ("No healing" → "no_healing"), accents
+ * dropped. Null when nothing is left (a name of only symbols).
+ */
+export const toSettingsSlug = (
+  name: string,
+  { maximum, separator }: { maximum: number; separator: "-" | "_" },
+) => {
+  const words = name
+    .normalize("NFKD")
+    .replace(/\p{Mark}/gu, "")
+    .toLowerCase()
+    .match(/[a-z0-9]+/g);
+  const slug = (words ?? []).join(separator).slice(0, maximum);
+  const trimmed = slug.replace(new RegExp(`\\${separator}+$`), "");
+
+  return trimmed || null;
+};

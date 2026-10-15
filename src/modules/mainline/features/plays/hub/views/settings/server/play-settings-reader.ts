@@ -1,11 +1,12 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import type { MainlinePlaySettingsData } from "../types";
+import type { MainlinePlaySettingsData, PlaySettingsChoice } from "../types";
 
 /*
  * Everything Play settings shows, read as the owner (archived Plays too): the
- * Play's own row, the statuses, the game's optional content (expansions) and which are on, and
- * the challenge rules you can attach with the ones attached.
+ * Play's own row, the statuses, the game's optional content (expansions)
+ * and which are on, and the challenge rules and tags you can attach with the
+ * ones attached.
  */
 export const readMainlinePlaySettings = async (
   supabase: ServerSupabaseClient,
@@ -37,6 +38,8 @@ export const readMainlinePlaySettings = async (
     selectedScopesResult,
     rulesResult,
     selectedRulesResult,
+    tagsResult,
+    selectedTagsResult,
   ] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -58,12 +61,22 @@ export const readMainlinePlaySettings = async (
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rules")
-      .select("id, name, description")
+      .select("id, name")
       .order("name", { ascending: true }),
     supabase
       .schema("gameplay")
       .from("mainline_play_challenge_rules")
       .select("challenge_rule_id")
+      .eq("play_id", playId),
+    supabase
+      .from("tags")
+      .select("id, name")
+      .eq("user_id", userId)
+      .order("name", { ascending: true }),
+    supabase
+      .schema("gameplay")
+      .from("mainline_play_tags")
+      .select("tag_id")
       .eq("play_id", playId),
   ]);
 
@@ -72,7 +85,9 @@ export const readMainlinePlaySettings = async (
     scopesResult.error ||
     selectedScopesResult.error ||
     rulesResult.error ||
-    selectedRulesResult.error
+    selectedRulesResult.error ||
+    tagsResult.error ||
+    selectedTagsResult.error
   ) {
     throw new Error("Unable to load Play settings.");
   }
@@ -102,10 +117,7 @@ export const readMainlinePlaySettings = async (
    * Your own rule can share a name with Voydex's or another of yours; the
    * chips show each name once, keeping the one this Play already has.
    */
-  const rulesByName = new Map<
-    string,
-    MainlinePlaySettingsData["rules"][number]
-  >();
+  const rulesByName = new Map<string, PlaySettingsChoice>();
 
   for (const rule of (rulesResult.data ?? []).toSorted(
     (left, right) =>
@@ -139,6 +151,8 @@ export const readMainlinePlaySettings = async (
       (scope) => scope.version_group_id,
     ),
     selectedRuleIds,
+    selectedTagIds: (selectedTagsResult.data ?? []).map((link) => link.tag_id),
     statuses: statusesResult.data ?? [],
+    tags: tagsResult.data ?? [],
   };
 };

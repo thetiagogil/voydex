@@ -2,8 +2,8 @@ export type PlaySettingsStatus = { id: number; name: string; slug: string };
 
 export type PlaySettingsExpansion = { name: string; versionGroupId: number };
 
-export type PlaySettingsRule = {
-  description: string | null;
+/* A rule or tag the Play can keep, shown as a chip. */
+export type PlaySettingsChoice = {
   id: string;
   name: string;
 };
@@ -21,8 +21,11 @@ export type MainlinePlaySettingsData = {
   /* Archived Plays offer Restore where others offer Archive. */
   isArchived: boolean;
   /* The rules you can attach: Voydex's own catalogue and your own. */
-  rules: PlaySettingsRule[];
+  rules: PlaySettingsChoice[];
   selectedExpansionIds: number[];
   selectedRuleIds: string[];
+  selectedTagIds: string[];
   statuses: PlaySettingsStatus[];
+  /* Your own tags, shared by all your Plays. */
+  tags: PlaySettingsChoice[];
 };
