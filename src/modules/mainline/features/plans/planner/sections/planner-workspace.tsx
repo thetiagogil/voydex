@@ -336,50 +336,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       )}
       className="game-scope flex flex-col gap-6 sm:gap-8"
     >
-      <PageBand
-        className="flex flex-col gap-6 sm:gap-7"
-        ground={
-          <div className="flex flex-col gap-3">
-            <PlannerDockSection
-              byId={byId}
-              issues={issues}
-              onCancelReplace={() => {
-                setReplacingId(null);
-                setSwapIndex(null);
-              }}
-              onClear={team.clearSlots}
-              onMove={team.moveSlot}
-              onOpenCheck={() => setIsCheckOpen(true)}
-              onOpenSlot={setOpenSlot}
-              onPlace={place}
-              onRandom={random}
-              onRandomModeChange={setRandomMode}
-              onRemove={team.removeSlot}
-              randomMode={randomMode}
-              replacing={
-                replacingId === null ? null : (byId.get(replacingId) ?? null)
-              }
-              slots={team.slots}
-              tip={tip}
-            />
-
-            {swapIndex !== null ? (
-              <p role="status" className="text-ink text-15 font-semibold">
-                Pick the Pokémon for slot {swapIndex + 1}.{" "}
-                <Button
-                  type="button"
-                  variant="link"
-                  size="sm"
-                  className="h-auto px-0"
-                  onClick={() => setSwapIndex(null)}
-                >
-                  Cancel
-                </Button>
-              </p>
-            ) : null}
-          </div>
-        }
-      >
+      <PageBand className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           isSaved={Boolean(plan)}
@@ -439,6 +396,44 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
               Continue
             </Button>
           </section>
+        ) : null}
+
+        <PlannerDockSection
+          byId={byId}
+          issues={issues}
+          onCancelReplace={() => {
+            setReplacingId(null);
+            setSwapIndex(null);
+          }}
+          onClear={team.clearSlots}
+          onMove={team.moveSlot}
+          onOpenCheck={() => setIsCheckOpen(true)}
+          onOpenSlot={setOpenSlot}
+          onPlace={place}
+          onRandom={random}
+          onRandomModeChange={setRandomMode}
+          onRemove={team.removeSlot}
+          randomMode={randomMode}
+          replacing={
+            replacingId === null ? null : (byId.get(replacingId) ?? null)
+          }
+          slots={team.slots}
+          tip={tip}
+        />
+
+        {swapIndex !== null ? (
+          <p role="status" className="text-ink text-15 font-semibold">
+            Pick the Pokémon for slot {swapIndex + 1}.{" "}
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
+              className="h-auto px-0"
+              onClick={() => setSwapIndex(null)}
+            >
+              Cancel
+            </Button>
+          </p>
         ) : null}
       </PageBand>
 

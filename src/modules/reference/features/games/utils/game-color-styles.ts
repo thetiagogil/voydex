@@ -127,13 +127,12 @@ export const getGameColourStyle = (
   };
 };
 
-export type GameBandStyle = GameColourStyle & { "--band-floor"?: string };
+export type GameBandStyle = GameColourStyle & { "--band-end"?: string };
 
 /*
  * Style for a band (`PageBand`) that stands for a version group without
  * picking a game: it wears the first game's colour, and with a second game
- * the ground at its foot takes that game's colour, a step deeper than its
- * soft tint.
+ * its right half takes that game's soft tint, split with a hard edge.
  */
 export const getGameBandStyle = (
   gameSlugs: readonly string[],
@@ -143,8 +142,7 @@ export const getGameBandStyle = (
 
   if (second) {
     const [hex, tintStrength] = getGameColour(second);
-    style["--band-floor"] =
-      `color-mix(in oklab, ${hex} ${tintStrength + 9}%, #fff)`;
+    style["--band-end"] = `color-mix(in oklab, ${hex} ${tintStrength}%, #fff)`;
   }
 
   return style;
