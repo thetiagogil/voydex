@@ -74,7 +74,7 @@ export const getProgressSummaryItems = (
   return [
     createProgressSummaryItem({
       completedCount: storyCompletedCount,
-      detail: `${storyCompletedCount ?? 0} of ${storyTotalCount ?? 0} milestones`,
+      detail: `${storyCompletedCount ?? 0} of ${storyTotalCount ?? 0}`,
       explicitPercent: overview?.milestone_completion_percent,
       href: appRoutes.mainlinePlayProgressStory(playId),
       label: "Story",
@@ -82,11 +82,7 @@ export const getProgressSummaryItems = (
     }),
     createProgressSummaryItem({
       completedCount: pokedexCompletedCount,
-      detail: [
-        `${pokedexCompletedCount ?? 0} caught`,
-        `${overview?.seen_required_pokedex_species_count ?? 0} seen`,
-        `of ${pokedexTotalCount ?? 0}`,
-      ].join(" · "),
+      detail: `${pokedexCompletedCount ?? 0} of ${pokedexTotalCount ?? 0}`,
       explicitPercent: overview?.pokedex_completion_percent,
       href: appRoutes.mainlinePlayProgressPokedex(playId),
       label: "Pokédex",
@@ -94,7 +90,7 @@ export const getProgressSummaryItems = (
     }),
     createProgressSummaryItem({
       completedCount: collectibleCompletedCount,
-      detail: `${collectibleCompletedCount ?? 0} of ${collectibleTotalCount ?? 0} found`,
+      detail: `${collectibleCompletedCount ?? 0} of ${collectibleTotalCount ?? 0}`,
       explicitPercent: overview?.collectible_completion_percent,
       href: appRoutes.mainlinePlayProgressCollectibles(playId),
       label: "Collectibles",

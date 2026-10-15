@@ -15,7 +15,8 @@ type ProgressSummarySectionProps = {
 /*
  * Progress is quiet: one tile per tracker (Story, Pokédex and, where the game
  * has them, Collectibles) sharing the card's width, each a donut in the
- * game's colour with one line of detail. A tile opens its tracker.
+ * game's colour and one short count ("21 of 28", caught for the Pokédex)
+ * that never wraps. A tile opens its tracker.
  */
 export const ProgressSummarySection = ({
   overview,
@@ -46,7 +47,7 @@ export const ProgressSummarySection = ({
                 value={item.percent}
                 className="w-full max-w-24"
               />
-              <span className="text-ink-2 text-12 leading-tight font-semibold">
+              <span className="text-ink-2 text-13 font-semibold whitespace-nowrap tabular-nums">
                 {item.detail}
               </span>
             </Link>
