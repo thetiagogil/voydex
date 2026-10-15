@@ -34,6 +34,14 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
     setOpenFamily(friend.family);
     setFamilyTitle(friend.family.length > 1 ? friend.name : undefined);
   };
+  const openPokemon = (
+    entry: TrainerPokemonEntry,
+    family: TrainerPokemonEntry[],
+  ) => {
+    setOpenEntry(entry);
+    setOpenFamily([entry, ...family]);
+    setFamilyTitle(undefined);
+  };
   const openSpecies = (entry: TrainerPokemonEntry) => {
     setOpenEntry(entry);
     setFamilyTitle(undefined);
@@ -41,7 +49,7 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
-      <StatsHeroSection onOpenFriend={openFriend} stats={stats} />
+      <StatsHeroSection onOpenPokemon={openPokemon} stats={stats} />
       <StatsStyleSection onOpenFriend={openFriend} stats={stats} />
       <StatsRegionsSection stats={stats} />
       <StatsTimeSection stats={stats} />

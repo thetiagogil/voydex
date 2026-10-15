@@ -1,5 +1,6 @@
 import {
   createTrainerFormTypeResolver,
+  getTrainerFamilyEntries,
   getTrainerPlayLabel,
   type TrainerPokemonEntry,
   type TrainerPokemonType,
@@ -36,7 +37,10 @@ export type StatsRegion = {
 };
 
 export type StatsFriend = {
-  /* The species used most recently, as the Collection has it: its art leads. */
+  /*
+   * The member in the most Plays (the most recent breaks a tie), as the
+   * Collection has it: it stands for the family.
+   */
   entry: TrainerPokemonEntry;
   /*
    * Every species of its family that has joined you, itself included, in
@@ -44,9 +48,9 @@ export type StatsFriend = {
    */
   family: TrainerPokemonEntry[];
   imageUrl: string | null;
-  /* Each family member's art, in Pokédex order. */
-  imageUrls: string[];
   /* The members you used, in Pokédex order: "Kirlia, Gardevoir and Gallade". */
+  memberNames: string;
+  /* "Kirlia family", or the species' own name when it's the only one. */
   name: string;
   playCount: number;
   speciesSlug: string;
@@ -54,12 +58,17 @@ export type StatsFriend = {
 };
 
 /*
- * The one thing the band shows beside the figures: the Pokémon back for the
- * most runs, else a clear favourite type, else the Play with the most time.
+ * The one thing the band shows beside the figures: the species in the most
+ * Plays, else a clear favourite type, else the Play with the most time.
  */
 export type StatsHighlight =
   | { kind: "favourite-type"; type: StatsTypeTally }
-  | { kind: "old-friend"; friend: StatsFriend }
+  | {
+      kind: "favourite-pokemon";
+      entry: TrainerPokemonEntry;
+      /* The rest of its family that has joined you, for its sheet. */
+      family: TrainerPokemonEntry[];
+    }
   /* The Play's own name. */
   | { kind: "most-time"; label: string }
   | { kind: "none" };
@@ -99,6 +108,47 @@ export const getClearFavouriteType = (
     : null;
 };
 
+/*
+ * A playful title for the trainer, read from what they record (as Duolingo
+ * and PlayStation name a player's style): a clear favourite type makes a
+ * specialist, travelling three regions or more a region hopper; otherwise
+ * plainly a trainer. The reason says what earned it.
+ */
+export const getTrainerTitle = (
+  stats: Pick<StatsModel, "playCount" | "regions" | "types">,
+): { reason: string; title: string; typeSlug: string | null } => {
+  const favourite = getClearFavouriteType(stats.types);
+
+  if (favourite) {
+    return {
+      reason: `${favourite.name} types are on your teams more than any other.`,
+      title: `${favourite.name} Specialist`,
+      typeSlug: favourite.slug,
+    };
+  }
+
+  const visited = stats.regions.filter(
+    (region) => region.playLabels.length,
+  ).length;
+
+  if (visited >= 3) {
+    return {
+      reason:
+        visited === stats.regions.length
+          ? `You've travelled every region, all ${visited} of them.`
+          : `You've travelled ${visited} of the ${stats.regions.length} regions.`,
+      title: "Region Hopper",
+      typeSlug: null,
+    };
+  }
+
+  return {
+    reason: `${stats.playCount} ${stats.playCount === 1 ? "Play" : "Plays"} and counting.`,
+    title: "Pokémon Trainer",
+    typeSlug: null,
+  };
+};
+
 const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
   const getFormTypes = createTrainerFormTypeResolver(rows);
   const counts = new Map<string, number>();
@@ -116,20 +166,22 @@ const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
   }));
 };
 
+const byPlaysThenRecent = (
+  left: TrainerPokemonEntry,
+  right: TrainerPokemonEntry,
+) =>
+  right.playIds.length - left.playIds.length ||
+  (right.lastUsedAt ?? "").localeCompare(left.lastUsedAt ?? "");
+
 /*
- * Old friends: evolution families that joined more than one Play, named by
- * every member you used and led by the one used most recently; the most
- * Plays first, then the most recent.
+ * Old friends: evolution families that joined more than one Play, each led
+ * by the member in the most Plays and named after it ("Kirlia family"); the
+ * most Plays first, then the most recent.
  */
 const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
   const families = new Map<
     string,
-    {
-      entries: TrainerPokemonEntry[];
-      lastUsedAt: string;
-      playIds: Set<string>;
-      shown: TrainerPokemonEntry;
-    }
+    { entries: TrainerPokemonEntry[]; lastUsedAt: string; playIds: Set<string> }
   >();
 
   for (const entry of entries) {
@@ -137,26 +189,18 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
       entry.evolutionFamilyId === null
         ? `species-${entry.speciesId}`
         : `family-${entry.evolutionFamilyId}`;
-    const family = families.get(key);
-    const lastUsedAt = entry.lastUsedAt ?? "";
-
-    if (!family) {
-      families.set(key, {
-        entries: [entry],
-        lastUsedAt,
-        playIds: new Set(entry.playIds),
-        shown: entry,
-      });
-      continue;
-    }
+    const family = families.get(key) ?? {
+      entries: [],
+      lastUsedAt: "",
+      playIds: new Set<string>(),
+    };
 
     family.entries.push(entry);
     entry.playIds.forEach((playId) => family.playIds.add(playId));
-
-    if (lastUsedAt > family.lastUsedAt) {
-      family.lastUsedAt = lastUsedAt;
-      family.shown = entry;
+    if ((entry.lastUsedAt ?? "") > family.lastUsedAt) {
+      family.lastUsedAt = entry.lastUsedAt ?? "";
     }
+    families.set(key, family);
   }
 
   return [...families.values()]
@@ -166,28 +210,30 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
         right.playIds.size - left.playIds.size ||
         right.lastUsedAt.localeCompare(left.lastUsedAt),
     )
-    .map(({ entries: familyEntries, playIds, shown }) => {
+    .flatMap(({ entries: familyEntries, playIds }) => {
+      const [lead] = familyEntries.toSorted(byPlaysThenRecent);
+      if (!lead) return [];
+
       const family = familyEntries.toSorted(
         (left, right) =>
           (left.nationalNumber ?? Infinity) -
           (right.nationalNumber ?? Infinity),
       );
-
-      return {
-        entry: shown,
-        family,
-        imageUrl: shown.imageUrl,
-        imageUrls: family
-          .map((member) => member.imageUrl)
-          .filter((url): url is string => Boolean(url)),
-        name: joinStatsList(
-          family.map((member) => member.name),
-          "and",
-        ),
-        playCount: playIds.size,
-        speciesSlug: shown.speciesSlug,
-        types: shown.types,
-      };
+      return [
+        {
+          entry: lead,
+          family,
+          imageUrl: lead.imageUrl,
+          memberNames: joinStatsList(
+            family.map((member) => member.name),
+            "and",
+          ),
+          name: family.length > 1 ? `${lead.name} family` : lead.name,
+          playCount: playIds.size,
+          speciesSlug: lead.speciesSlug,
+          types: lead.types,
+        },
+      ];
     });
 };
 
@@ -216,8 +262,15 @@ export const buildStatsModel = (
       .filter((value): value is string => Boolean(value))
       .toSorted()[0] ?? null;
 
-  const highlight: StatsHighlight = friends[0]
-    ? { friend: friends[0], kind: "old-friend" }
+  const [favouritePokemon] = entries
+    .filter((entry) => entry.playIds.length > 1)
+    .toSorted(byPlaysThenRecent);
+  const highlight: StatsHighlight = favouritePokemon
+    ? {
+        entry: favouritePokemon,
+        family: getTrainerFamilyEntries(entries, favouritePokemon),
+        kind: "favourite-pokemon",
+      }
     : favourite
       ? { kind: "favourite-type", type: favourite }
       : tracked[0]

@@ -18,12 +18,6 @@ type PokemonStickerProps = {
   className?: string;
   href?: string;
   imageUrl: string | null;
-  /*
-   * Several Pokémon on one sticker, such as the members of a family you have
-   * used: their art side by side in place of `imageUrl`, and the name wraps
-   * to name them all.
-   */
-  imageUrls?: string[];
   /* The accessible name when the sticker is a button. */
   label?: string;
   level?: number | null;
@@ -87,7 +81,6 @@ export const PokemonSticker = ({
   className,
   href,
   imageUrl,
-  imageUrls,
   label,
   level,
   name,
@@ -131,35 +124,8 @@ export const PokemonSticker = ({
           {label ? null : <span className="sr-only">Shiny</span>}
         </>
       ) : null}
-      <span
-        className={cn(
-          "relative grid place-items-center",
-          imageUrls && imageUrls.length > 1 && "w-full",
-        )}
-      >
-        {imageUrls && imageUrls.length > 1 ? (
-          <span
-            className={cn(
-              "flex items-center justify-center",
-              variantClassName.art,
-              "w-full",
-            )}
-          >
-            {imageUrls.slice(0, 3).map((url, index) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={url}
-                src={url}
-                alt=""
-                className={cn(
-                  "min-w-0 shrink-0 object-contain",
-                  imageUrls.length > 2 ? "size-18" : "size-20",
-                  index > 0 && (imageUrls.length > 2 ? "-ml-8" : "-ml-6"),
-                )}
-              />
-            ))}
-          </span>
-        ) : imageUrl ? (
+      <span className="relative grid place-items-center">
+        {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={imageUrl} alt="" className={variantClassName.art} />
         ) : (
@@ -170,8 +136,7 @@ export const PokemonSticker = ({
       </span>
       <span
         className={cn(
-          "font-display w-full leading-tight font-semibold",
-          imageUrls && imageUrls.length > 1 ? "text-balance" : "truncate",
+          "font-display w-full truncate leading-tight font-semibold",
           variantClassName.name,
         )}
       >

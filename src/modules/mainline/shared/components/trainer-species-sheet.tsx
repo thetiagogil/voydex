@@ -37,9 +37,9 @@ type TrainerSpeciesSheetProps = {
   /* The rest of its evolution family that has joined you. */
   family?: TrainerPokemonEntry[];
   /*
-   * Shows the whole family instead of one species, named this way ("Kirlia,
-   * Gardevoir and Gallade"): every Play any of them joined, each row saying
-   * which one it was.
+   * Shows the whole family instead of one species, named this way ("Kirlia
+   * family"): its members under the name, and every Play any of them joined,
+   * each row saying which one it was.
    */
   familyTitle?: string;
   onOpenChange: (open: boolean) => void;
@@ -225,12 +225,18 @@ export const TrainerSpeciesSheet = ({
             <SheetTitle className="text-24 mt-0.5">
               {showsFamily ? familyTitle : entry.name}
             </SheetTitle>
-            <PokemonTypeList
-              types={entry.types}
-              badgeDisplay="icon-label"
-              badgeSize="sm"
-              className="mt-2 flex flex-wrap gap-1.5"
-            />
+            {showsFamily ? (
+              <p className="text-ink-2 text-14 mt-1.5 font-semibold">
+                {species.map((each) => each.name).join(" · ")}
+              </p>
+            ) : (
+              <PokemonTypeList
+                types={entry.types}
+                badgeDisplay="icon-label"
+                badgeSize="sm"
+                className="mt-2 flex flex-wrap gap-1.5"
+              />
+            )}
           </div>
         </PokemonSheetHead>
       }
