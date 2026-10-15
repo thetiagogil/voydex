@@ -45,7 +45,7 @@ const StatsTimeRowItem = ({ longest, row }: StatsTimeRowItemProps) => (
       gameSlug={row.gameSlug ?? undefined}
       size="dock"
     />
-    <b className="text-ink text-14 truncate font-extrabold">{row.label}</b>
+    <b className="text-ink text-14 truncate font-extrabold">{row.playName}</b>
     <span className="text-ink text-14 text-right font-extrabold tabular-nums sm:order-last sm:hidden">
       {formatHoursAndMinutes(row.minutes)}
     </span>

@@ -17,9 +17,10 @@ export type StatsTimeRow = {
   gameName: string;
   gameSlug: string | null;
   coverImageUrl: string | null;
-  label: string;
   minutes: number;
   playId: string;
+  /* The Play's own name; its cover beside it already shows the game. */
+  playName: string;
   /* Its share of all recorded time, 0 to 100. */
   share: number;
 };
@@ -242,9 +243,9 @@ export const buildStatsModel = (
         coverImageUrl: game ? getGameCoverImageUrl(game) : null,
         gameName: play.game_name ?? "Unknown game",
         gameSlug: play.game_slug,
-        label: getTrainerPlayLabel(play),
         minutes: playMinutes,
         playId: play.play_id ?? "",
+        playName: play.play_name ?? "Untitled Play",
         share: minutes ? Math.round((playMinutes / minutes) * 100) : 0,
       };
     }),
