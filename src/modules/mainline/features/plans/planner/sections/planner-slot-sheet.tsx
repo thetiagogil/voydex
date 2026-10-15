@@ -14,16 +14,18 @@ import type {
   PlannerVersionGroup,
 } from "@/modules/mainline/features/plans/types";
 import { PlannerSlotMoves } from "./planner-slot-moves";
-import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
+import {
+  getShownPlanSlot,
+  type ShownPlanSlot,
+} from "@/modules/mainline/features/plans/planner/utils/plan-shown-slot";
+import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import { Label } from "@/shared/components/ui/label";
-import { SheetTitle } from "@/shared/components/ui/sheet";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { cn } from "@/shared/utils/cn";
 
@@ -51,6 +53,7 @@ type PlannerSlotSheetProps = {
   versionGroup: PlannerVersionGroup;
 };
 
+/* v3 `.step`, as the roster's editor: one part under its Fredoka heading. */
 const SheetStep = ({
   aside,
   children,
@@ -60,8 +63,8 @@ const SheetStep = ({
   children: ReactNode;
   title: string;
 }) => (
-  <section className="flex flex-col gap-3">
-    <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+  <section className="grid min-w-0 gap-4">
+    <div className="flex items-baseline gap-3">
       <h3 className="text-20">{title}</h3>
       {aside ? (
         <span className="text-ink-3 text-13 font-semibold">{aside}</span>
@@ -70,6 +73,13 @@ const SheetStep = ({
     {children}
   </section>
 );
+
+/*
+ * Fields side by side that share the row: each fills its share, wraps when
+ * narrower than 15rem, and one alone takes the whole width.
+ */
+const fieldRowClassName =
+  "flex flex-wrap gap-4 *:min-w-[min(100%,15rem)] *:flex-1";
 
 const anyValue = "";
 
@@ -92,13 +102,24 @@ export const PlannerSlotSheet = ({
   slots,
   versionGroup,
 }: PlannerSlotSheetProps) => {
-  const member = index === null ? null : slots[index];
-  const pokemon = member ? byId.get(member.speciesId) : undefined;
-  const [showBuild, setShowBuild] = useState(false);
+  const isOpen = index !== null && Boolean(slots[index]);
+  /* Stays mounted so it slides in and out with the slot it showed. */
+  const [shown, setShown] = useState<ShownPlanSlot | null>(null);
+  const [buildOpenFor, setBuildOpenFor] = useState<number | null>(null);
+  const nextShown = getShownPlanSlot(shown, index, slots);
 
-  if (index === null || !member || !pokemon) {
+  if (nextShown !== shown) {
+    setShown(nextShown);
+  }
+
+  const member = shown?.member ?? null;
+  const pokemon = member ? byId.get(member.speciesId) : undefined;
+
+  if (!shown || !member || !pokemon) {
     return null;
   }
+
+  const slotIndex = shown.index;
 
   const hasBuild = Boolean(
     member.abilityId ||
@@ -107,7 +128,7 @@ export const PlannerSlotSheet = ({
     member.heldItemId ||
     member.moveIds.some((moveId) => moveId !== null),
   );
-  const isBuildOpen = showBuild || hasBuild;
+  const isBuildOpen = buildOpenFor === slotIndex || hasBuild;
   const primaryType = pokemon.types[0]?.slug;
   const unsupported = [
     !buildFields.ability && "abilities",
@@ -123,42 +144,33 @@ export const PlannerSlotSheet = ({
   ].filter(Boolean);
 
   return (
-    <ResponsiveDetailSheet
-      open
+    <FormOverlay
+      open={isOpen}
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
-      label={pokemon.name}
-      head={
-        <div className="flex flex-wrap items-center gap-4">
-          <PokemonPortrait
-            alt=""
-            imageUrl={pokemon.imageUrl}
-            type={
-              primaryType && isPokemonTypeSlug(primaryType) ? primaryType : null
-            }
-            className="size-20 shrink-0"
-            imageClassName="size-18"
-            sizes="80px"
+      presentation="side"
+      kicker={`Plan slot ${slotIndex + 1} · ${versionGroup.name}`}
+      title={pokemon.name}
+      hero={{
+        imageUrl: pokemon.imageUrl,
+        meta: (
+          <PokemonTypeList
+            types={pokemon.types}
+            badgeDisplay="icon-label"
+            badgeSize="sm"
+            className="flex flex-wrap gap-1.5"
           />
-          <div className="min-w-0 flex-1">
-            <p className="text-ink-2 text-13 font-bold">
-              Plan slot {index + 1} · {versionGroup.name}
-            </p>
-            <SheetTitle className="text-24 mt-0.5">{pokemon.name}</SheetTitle>
-            <PokemonTypeList
-              types={pokemon.types}
-              badgeDisplay="icon-label"
-              badgeSize="sm"
-              className="mt-2 flex flex-wrap gap-1.5"
-            />
-          </div>
-          <div className="flex w-full flex-wrap gap-2">
+        ),
+        type:
+          primaryType && isPokemonTypeSlug(primaryType) ? primaryType : null,
+        actions: (
+          <div className="flex flex-wrap gap-2">
             <Button
               type="button"
-              variant="outline"
+              variant="tint"
               size="sm"
-              onClick={() => onSwap(index)}
+              onClick={() => onSwap(slotIndex)}
             >
               <AppIcon icon={appIcons.actions.search} inline="start" />
               Swap Pokémon
@@ -168,265 +180,269 @@ export const PlannerSlotSheet = ({
                 versionGroup.slug,
                 pokemon.speciesSlug,
               )}
-              className={buttonVariants({ size: "sm", variant: "outline" })}
+              className={buttonVariants({ size: "sm", variant: "tint" })}
             >
               <AppIcon icon={appIcons.modules.codex} inline="start" />
               Open in Codex
             </Link>
           </div>
-        </div>
-      }
+        ),
+      }}
       footer={
         <>
           <Button
             type="button"
             variant="destructive"
             size="sm"
+            className="mr-auto"
             onClick={() => {
-              onRemove(index);
+              onRemove(slotIndex);
               onClose();
             }}
           >
             Remove from Plan
           </Button>
-          <Button type="button" size="sm" className="ml-auto" onClick={onClose}>
+          <Button type="button" size="sm" onClick={onClose}>
             <AppIcon icon={appIcons.status.active} inline="start" />
             Done
           </Button>
         </>
       }
     >
-      <SheetStep title="Slot" aside="Where it sits in the team">
-        <div
-          role="group"
-          aria-label="Move to slot"
-          className="grid grid-cols-6 gap-1.5"
-        >
-          {slots.map((other, slotIndex) => {
-            const otherPokemon =
-              other && slotIndex !== index
-                ? byId.get(other.speciesId)
-                : undefined;
-            const isHere = slotIndex === index;
-
-            return (
-              <button
-                key={slotIndex}
-                type="button"
-                aria-pressed={isHere}
-                aria-label={
-                  isHere
-                    ? `Slot ${slotIndex + 1}`
-                    : otherPokemon
-                      ? `Move to slot ${slotIndex + 1}, swapping with ${otherPokemon.name}`
-                      : `Move to slot ${slotIndex + 1}`
-                }
-                onClick={() => onMove(index, slotIndex)}
-                className={cn(
-                  "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
-                  isHere
-                    ? "bg-select-soft text-select-ink"
-                    : "bg-surface-2 text-ink-2 hover:bg-hover",
-                )}
-              >
-                {otherPokemon?.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={otherPokemon.imageUrl} alt="" className="size-8" />
-                ) : null}
-                <span>{slotIndex + 1}</span>
-              </button>
-            );
-          })}
-        </div>
-      </SheetStep>
-
-      <SheetStep title="Role" aside="What it's for in this team">
-        {/* Pills on the sheet's surface take the inset fill, as fields do. */}
-        <div role="group" aria-label="Role" className="flex flex-wrap gap-1.5">
-          {[
-            ...planRoles,
-            ...(member.role &&
-            !planRoles.includes(member.role as (typeof planRoles)[number])
-              ? [member.role]
-              : []),
-          ].map((role) => {
-            const isPicked = member.role === role;
-
-            return (
-              <button
-                key={role}
-                type="button"
-                aria-pressed={isPicked}
-                onClick={() =>
-                  onUpdate(index, { role: isPicked ? null : role })
-                }
-                className={cn(
-                  "text-14 focus-visible:outline-focus inline-flex h-10 items-center gap-1.5 rounded-full px-4 font-bold outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-                  isPicked
-                    ? "bg-select-soft text-select-ink font-extrabold"
-                    : "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink",
-                )}
-              >
-                {isPicked ? (
-                  <AppIcon icon={appIcons.status.active} size="sm" />
-                ) : null}
-                {role}
-              </button>
-            );
-          })}
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <Label
-            htmlFor="plan-slot-note"
-            className="text-ink-2 text-13 font-bold"
+      <div className="grid gap-6">
+        <SheetStep title="Slot" aside="Where it sits in the team">
+          <div
+            role="group"
+            aria-label="Move to slot"
+            className="grid grid-cols-6 gap-1.5"
           >
-            Note
-          </Label>
-          <Textarea
-            id="plan-slot-note"
-            rows={2}
-            maxLength={5000}
-            value={member.notes ?? ""}
-            placeholder="Why this one? For example, answers the Water gym"
-            onChange={(event) =>
-              onUpdate(index, { notes: event.currentTarget.value || null })
-            }
-          />
-        </div>
-      </SheetStep>
+            {slots.map((other, otherIndex) => {
+              const otherPokemon =
+                other && otherIndex !== slotIndex
+                  ? byId.get(other.speciesId)
+                  : undefined;
+              const isHere = otherIndex === slotIndex;
 
-      {isBuildOpen ? (
-        <SheetStep
-          title="Build"
-          aside={`What ${versionGroup.name} lets you choose`}
-        >
-          <div className="grid gap-3 sm:grid-cols-2">
-            {buildFields.ability && pokemon.abilities.length ? (
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="plan-slot-ability"
-                  className="text-ink-2 text-13 font-bold"
-                >
-                  Ability
-                </Label>
-                <SelectControl
-                  id="plan-slot-ability"
-                  ariaLabel="Ability"
-                  placeholder="Any"
-                  value={member.abilityId ? String(member.abilityId) : anyValue}
-                  onValueChange={(value) =>
-                    onUpdate(index, { abilityId: value ? Number(value) : null })
+              return (
+                <button
+                  key={otherIndex}
+                  type="button"
+                  aria-pressed={isHere}
+                  aria-label={
+                    isHere
+                      ? `Slot ${otherIndex + 1}`
+                      : otherPokemon
+                        ? `Move to slot ${otherIndex + 1}, swapping with ${otherPokemon.name}`
+                        : `Move to slot ${otherIndex + 1}`
                   }
-                  options={[
-                    { label: "Any", value: anyValue },
-                    ...pokemon.abilities.map((ability) => ({
-                      label: ability.hidden
-                        ? `${ability.name} (hidden)`
-                        : ability.name,
-                      value: String(ability.id),
-                    })),
-                  ]}
-                />
-              </div>
-            ) : null}
-            {buildFields.nature && natures.length ? (
-              <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="plan-slot-nature"
-                  className="text-ink-2 text-13 font-bold"
+                  onClick={() => onMove(slotIndex, otherIndex)}
+                  className={cn(
+                    "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    isHere
+                      ? "bg-select-soft text-select-ink"
+                      : "bg-surface-2 text-ink-2 hover:bg-hover",
+                  )}
                 >
-                  Nature
-                </Label>
-                <SelectControl
-                  id="plan-slot-nature"
-                  ariaLabel="Nature"
-                  placeholder="Any"
-                  value={member.natureId ? String(member.natureId) : anyValue}
-                  onValueChange={(value) =>
-                    onUpdate(index, { natureId: value ? Number(value) : null })
-                  }
-                  options={[
-                    { label: "Any", value: anyValue },
-                    ...natures.map((nature) => ({
-                      label: nature.name,
-                      value: String(nature.id),
-                    })),
-                  ]}
-                />
-              </div>
-            ) : null}
+                  {otherPokemon?.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={otherPokemon.imageUrl}
+                      alt=""
+                      className="size-8"
+                    />
+                  ) : null}
+                  <span>{otherIndex + 1}</span>
+                </button>
+              );
+            })}
           </div>
-          {buildFields.gender ? (
-            <div className="flex flex-col gap-1.5">
-              <span className="text-ink-2 text-13 font-bold">Gender</span>
-              <SegmentedControl
-                ariaLabel="Gender"
-                variant="segment"
-                value={member.gender ?? "any"}
-                onValueChange={(value) =>
-                  onUpdate(index, {
-                    gender: value === "any" ? null : (value as PlanGender),
-                  })
-                }
-                options={[
-                  { label: "Any", value: "any" },
-                  { label: "Male", value: "male" },
-                  { label: "Female", value: "female" },
-                ]}
-              />
-            </div>
-          ) : null}
-          <PlannerSlotMoves
-            heldItemsApply={buildFields.heldItem}
-            member={member}
-            versionGroupSlug={versionGroup.slug}
-            onChange={(changes) => onUpdate(index, changes)}
-          />
-          {unsupported.length ? (
-            <p className="text-ink-3 text-13 font-semibold first-letter:uppercase">
-              {unsupported.join(", ").replace(/, ([^,]*)$/, " and $1")}{" "}
-              don&apos;t exist in {versionGroup.name}, so they aren&apos;t
-              offered.
-            </p>
-          ) : null}
-          {hasBuild ? (
-            <Button
-              type="button"
-              variant="link"
-              size="sm"
-              className="self-start px-0"
-              onClick={() => {
-                setShowBuild(false);
-                onUpdate(index, {
-                  abilityId: null,
-                  gender: null,
-                  heldItemId: null,
-                  moveIds: emptyPlanMoveSlots(),
-                  natureId: null,
-                });
-              }}
-            >
-              Remove build
-            </Button>
-          ) : null}
         </SheetStep>
-      ) : offered.length ? (
-        <button
-          type="button"
-          onClick={() => setShowBuild(true)}
-          className="empty-slot hover:bg-hover focus-visible:outline-focus flex items-center gap-3 rounded-md px-4 py-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
-        >
-          <AppIcon icon={appIcons.actions.create} size="md" />
-          <span>
-            <b className="text-ink text-15 block font-extrabold">
-              Add build details
-            </b>
-            <span className="text-ink-2 text-13 font-semibold">
-              Optional: {offered.join(", ")}
+
+        <SheetStep title="Role" aside="What it's for in this team">
+          {/* Pills on the sheet's surface take the inset fill, as fields do. */}
+          <div
+            role="group"
+            aria-label="Role"
+            className="flex flex-wrap gap-1.5"
+          >
+            {[
+              ...planRoles,
+              ...(member.role &&
+              !planRoles.includes(member.role as (typeof planRoles)[number])
+                ? [member.role]
+                : []),
+            ].map((role) => {
+              const isPicked = member.role === role;
+
+              return (
+                <button
+                  key={role}
+                  type="button"
+                  aria-pressed={isPicked}
+                  onClick={() =>
+                    onUpdate(slotIndex, { role: isPicked ? null : role })
+                  }
+                  className={cn(
+                    "text-14 focus-visible:outline-focus inline-flex h-10 items-center gap-1.5 rounded-full px-4 font-bold outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+                    isPicked
+                      ? "bg-select-soft text-select-ink font-extrabold"
+                      : "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink",
+                  )}
+                >
+                  {isPicked ? (
+                    <AppIcon icon={appIcons.status.active} size="sm" />
+                  ) : null}
+                  {role}
+                </button>
+              );
+            })}
+          </div>
+          <Field>
+            <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>
+            <Textarea
+              id="plan-slot-note"
+              rows={2}
+              maxLength={5000}
+              value={member.notes ?? ""}
+              placeholder="Why this one? For example, answers the Water gym"
+              onChange={(event) =>
+                onUpdate(slotIndex, {
+                  notes: event.currentTarget.value || null,
+                })
+              }
+            />
+          </Field>
+        </SheetStep>
+
+        {isBuildOpen ? (
+          <SheetStep
+            title="Build"
+            aside={`What ${versionGroup.name} lets you choose`}
+          >
+            <div className={fieldRowClassName}>
+              {buildFields.ability && pokemon.abilities.length ? (
+                <Field>
+                  <FieldLabel htmlFor="plan-slot-ability">Ability</FieldLabel>
+                  <SelectControl
+                    id="plan-slot-ability"
+                    ariaLabel="Ability"
+                    placeholder="Any"
+                    value={
+                      member.abilityId ? String(member.abilityId) : anyValue
+                    }
+                    onValueChange={(value) =>
+                      onUpdate(slotIndex, {
+                        abilityId: value ? Number(value) : null,
+                      })
+                    }
+                    options={[
+                      { label: "Any", value: anyValue },
+                      ...pokemon.abilities.map((ability) => ({
+                        label: ability.hidden
+                          ? `${ability.name} (hidden)`
+                          : ability.name,
+                        value: String(ability.id),
+                      })),
+                    ]}
+                  />
+                </Field>
+              ) : null}
+              {buildFields.nature && natures.length ? (
+                <Field>
+                  <FieldLabel htmlFor="plan-slot-nature">Nature</FieldLabel>
+                  <SelectControl
+                    id="plan-slot-nature"
+                    ariaLabel="Nature"
+                    placeholder="Any"
+                    value={member.natureId ? String(member.natureId) : anyValue}
+                    onValueChange={(value) =>
+                      onUpdate(slotIndex, {
+                        natureId: value ? Number(value) : null,
+                      })
+                    }
+                    options={[
+                      { label: "Any", value: anyValue },
+                      ...natures.map((nature) => ({
+                        label: nature.name,
+                        value: String(nature.id),
+                      })),
+                    ]}
+                  />
+                </Field>
+              ) : null}
+            </div>
+            {buildFields.gender ? (
+              <Field className="w-auto max-w-full min-w-0 justify-self-start">
+                <FieldLabel>Gender</FieldLabel>
+                <SegmentedControl
+                  ariaLabel="Gender"
+                  variant="segment"
+                  value={member.gender ?? "any"}
+                  onValueChange={(value) =>
+                    onUpdate(slotIndex, {
+                      gender: value === "any" ? null : (value as PlanGender),
+                    })
+                  }
+                  options={[
+                    { label: "Any", value: "any" },
+                    { label: "Male", value: "male" },
+                    { label: "Female", value: "female" },
+                  ]}
+                />
+              </Field>
+            ) : null}
+            <PlannerSlotMoves
+              heldItemsApply={buildFields.heldItem}
+              member={member}
+              versionGroupSlug={versionGroup.slug}
+              onChange={(changes) => onUpdate(slotIndex, changes)}
+            />
+            {unsupported.length ? (
+              <p className="text-ink-3 text-13 font-semibold first-letter:uppercase">
+                {unsupported.join(", ").replace(/, ([^,]*)$/, " and $1")}{" "}
+                don&apos;t exist in {versionGroup.name}, so they aren&apos;t
+                offered.
+              </p>
+            ) : null}
+            {hasBuild ? (
+              <Button
+                type="button"
+                variant="link"
+                size="sm"
+                className="justify-self-start px-0"
+                onClick={() => {
+                  setBuildOpenFor(null);
+                  onUpdate(slotIndex, {
+                    abilityId: null,
+                    gender: null,
+                    heldItemId: null,
+                    moveIds: emptyPlanMoveSlots(),
+                    natureId: null,
+                  });
+                }}
+              >
+                Remove build
+              </Button>
+            ) : null}
+          </SheetStep>
+        ) : offered.length ? (
+          <button
+            type="button"
+            onClick={() => setBuildOpenFor(slotIndex)}
+            className="empty-slot hover:bg-hover focus-visible:outline-focus flex items-center gap-3 rounded-md px-4 py-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+          >
+            <AppIcon icon={appIcons.actions.create} size="md" />
+            <span>
+              <b className="text-ink text-15 block font-extrabold">
+                Add build details
+              </b>
+              <span className="text-ink-2 text-13 font-semibold">
+                Optional: {offered.join(", ")}
+              </span>
             </span>
-          </span>
-        </button>
-      ) : null}
-    </ResponsiveDetailSheet>
+          </button>
+        ) : null}
+      </div>
+    </FormOverlay>
   );
 };

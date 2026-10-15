@@ -19,7 +19,7 @@ const getDetailSheetSnapshot = () => {
 
 const getDetailSheetServerSnapshot = () => false;
 
-export const useMainlinePlayDetailSheetLayout = () => {
+export const useDetailSheetLayout = () => {
   return useSyncExternalStore(
     subscribeToDetailLayout,
     getDetailSheetSnapshot,

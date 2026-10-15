@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { PlayFormOverlay } from "@/modules/mainline/features/plays/hub/components/play-form-overlay";
+import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -464,7 +464,7 @@ export const AddPokemonSheet = ({
   ) : null;
 
   return (
-    <PlayFormOverlay
+    <FormOverlay
       open={open}
       onOpenChange={changeOpen}
       presentation="side"
@@ -547,6 +547,6 @@ export const AddPokemonSheet = ({
       }
     >
       {step === 1 ? stepOne : stepTwo}
-    </PlayFormOverlay>
+    </FormOverlay>
   );
 };

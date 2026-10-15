@@ -16,7 +16,7 @@ import {
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
 import { SearchSelect } from "@/shared/components/search-select";
-import { Label } from "@/shared/components/ui/label";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type OptionsState =
@@ -96,15 +96,10 @@ export const PlannerSlotMoves = ({
   );
 
   return (
-    <div className="grid gap-3">
+    <div className="grid gap-4">
       {heldItemsApply ? (
-        <div className="flex flex-col gap-1.5">
-          <Label
-            htmlFor="plan-slot-held-item"
-            className="text-ink-2 text-13 font-bold"
-          >
-            Held item
-          </Label>
+        <Field>
+          <FieldLabel htmlFor="plan-slot-held-item">Held item</FieldLabel>
           <SearchSelect
             id="plan-slot-held-item"
             placeholder="Any"
@@ -117,12 +112,12 @@ export const PlannerSlotMoves = ({
               value: String(item.id),
             }))}
           />
-        </div>
+        </Field>
       ) : null}
-      <fieldset className="grid gap-1.5">
-        <legend className="text-ink-2 text-13 mb-1.5 font-bold">Moves</legend>
+      <fieldset className="grid gap-2.5">
+        <legend className="text-14 mb-2 font-extrabold">Moves</legend>
         {moveOptions.length || savedOnly.length ? (
-          <div className="grid gap-2 sm:grid-cols-2">
+          <div className="grid gap-2.5 sm:grid-cols-2">
             {picked.map((value, index) => (
               <MoveSlotSelect
                 key={index}

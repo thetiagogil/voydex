@@ -8,7 +8,7 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamRosterData,
 } from "@/modules/mainline/features/plays/hub/types";
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
@@ -75,7 +75,7 @@ export const MainlinePlayTeamRoster = ({
     kind: "add",
   });
   const [editorOpen, setEditorOpen] = useState(false);
-  const usesDetailSheet = useMainlinePlayDetailSheetLayout();
+  const usesDetailSheet = useDetailSheetLayout();
   const selectedMember =
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
     defaultMember;

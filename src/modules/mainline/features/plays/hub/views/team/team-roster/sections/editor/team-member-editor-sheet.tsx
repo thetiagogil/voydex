@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { PlayFormOverlay } from "@/modules/mainline/features/plays/hub/components/play-form-overlay";
+import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -631,7 +631,7 @@ export const TeamMemberEditorSheet = ({
   );
 
   return (
-    <PlayFormOverlay
+    <FormOverlay
       open={open}
       onOpenChange={close}
       presentation="side"
@@ -710,6 +710,6 @@ export const TeamMemberEditorSheet = ({
       <div hidden={isReviewing}>{details}</div>
       {isReviewing ? review : null}
       {error ? <FieldError className="mt-4">{error}</FieldError> : null}
-    </PlayFormOverlay>
+    </FormOverlay>
   );
 };

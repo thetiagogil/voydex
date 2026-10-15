@@ -5,7 +5,7 @@ import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
@@ -50,7 +50,7 @@ export const MainlinePlayProgressStory = ({
   recordMilestoneId?: number | null;
 }) => {
   const model = useMemo(() => buildStoryProgressModel(data), [data]);
-  const usesDetailSheet = useMainlinePlayDetailSheetLayout();
+  const usesDetailSheet = useDetailSheetLayout();
   const findMilestone = (milestoneId: number | null) =>
     model.scopes
       .flatMap(getScopeMilestones)

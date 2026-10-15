@@ -2,7 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
@@ -21,7 +21,7 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /* v3 `.sh-head`: the Pokémon a form is about, on its type's tint. */
-export type PlayFormHero = {
+export type FormOverlayHero = {
   /* Under the identity, on the tint: the Pokémon's own actions. */
   actions?: ReactNode;
   imageUrl: string | null;
@@ -30,14 +30,14 @@ export type PlayFormHero = {
   type: PokemonTypeSlug | null;
 };
 
-type PlayFormOverlayProps = {
+type FormOverlayProps = {
   bodyClassName?: string;
   children: ReactNode;
   description?: ReactNode;
   /* Pinned under the body: Cancel and the form's main button. */
   footer?: ReactNode;
   /* Puts the title beside the Pokémon's art on its type tint, pinned. */
-  hero?: PlayFormHero;
+  hero?: FormOverlayHero;
   /* A short line over the title, such as "Add · Sword". */
   kicker?: ReactNode;
   onOpenChange: (open: boolean) => void;
@@ -58,7 +58,13 @@ type PlayFormOverlayProps = {
   toolbar?: ReactNode;
 };
 
-const HeroArt = ({ hero, small }: { hero: PlayFormHero; small: boolean }) => (
+const HeroArt = ({
+  hero,
+  small,
+}: {
+  hero: FormOverlayHero;
+  small: boolean;
+}) => (
   <span
     aria-hidden
     className={cn(
@@ -83,12 +89,13 @@ const HeroArt = ({ hero, small }: { hero: PlayFormHero; small: boolean }) => (
 );
 
 /*
- * A Play's quiet forms (a note, adding or editing a Pokémon): a bottom sheet
- * on phones and tablets, a dialog or side sheet wider. Focus lands on the
+ * Mainline's quiet forms (a note, adding or editing a Pokémon in a Play, a
+ * Plan's slot): a bottom sheet on phones and tablets, a dialog or side sheet
+ * wider. Focus lands on the
  * title, and the footer stays in view while the body scrolls; with a hero or
  * a toolbar, so does everything above the body.
  */
-export const PlayFormOverlay = ({
+export const FormOverlay = ({
   bodyClassName,
   children,
   description,
@@ -101,9 +108,9 @@ export const PlayFormOverlay = ({
   size = "md",
   title,
   toolbar,
-}: PlayFormOverlayProps) => {
+}: FormOverlayProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const usesBottomSheet = useMainlinePlayDetailSheetLayout();
+  const usesBottomSheet = useDetailSheetLayout();
   const isSheet = usesBottomSheet || presentation === "side";
   const Title = isSheet ? SheetTitle : DialogTitle;
   const Description = isSheet ? SheetDescription : DialogDescription;

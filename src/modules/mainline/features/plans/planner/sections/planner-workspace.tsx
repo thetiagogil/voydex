@@ -445,7 +445,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       />
 
       <PlannerSlotSheet
-        key={openSlot ?? "closed"}
         buildFields={context.buildFields}
         byId={byId}
         index={openSlot}

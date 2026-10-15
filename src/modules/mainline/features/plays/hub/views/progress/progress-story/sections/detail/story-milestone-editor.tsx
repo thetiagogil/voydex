@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -64,7 +64,7 @@ export const StoryMilestoneEditor = ({
   playId: string;
 }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const usesBottomSheet = useMainlinePlayDetailSheetLayout();
+  const usesBottomSheet = useDetailSheetLayout();
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
   const isOpen = open && Boolean(milestone);
   const form = (surface: StoryMilestoneEditorSurface) =>

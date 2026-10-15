@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
 import {
   Medallion,
   type MedallionContent,
@@ -130,7 +130,7 @@ export const StoryMatchupsSection = ({
 }: {
   model: StoryMatchupsModel;
 }) => {
-  const usesSheet = useMainlinePlayDetailSheetLayout();
+  const usesSheet = useDetailSheetLayout();
   const [reportPanelStyle, bindReportPanel] = useStickyPanel<HTMLDivElement>();
   const [selectedId, setSelectedId] = useState(model.defaultBattleId);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
