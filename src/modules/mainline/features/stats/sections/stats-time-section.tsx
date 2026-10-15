@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 
+import { appRoutes } from "@/config/routes";
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
 import {
   formatWholeHours,
@@ -19,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
+import { cn } from "@/shared/utils/cn";
 
 type StatsTimeSectionProps = {
   stats: StatsModel;
@@ -57,46 +60,77 @@ const getRowColours = (rows: TimeRow[]) => {
   });
 };
 
-/* One Play's time as a small card: colour dot, cover, name, hours, share. */
-const TimeCard = ({ colour, row }: { colour: CSSProperties; row: TimeRow }) => (
-  <li
-    style={colour}
-    className="bg-surface-2 flex min-w-0 items-center gap-3 rounded-lg px-3 py-2.5"
-  >
-    <GameCover
-      alt=""
-      coverImageUrl={row.coverImageUrl}
-      gameName={row.gameName}
-      gameSlug={row.gameSlug ?? undefined}
-      size="dock"
-    />
-    <span className="min-w-0 flex-1">
-      <span className="text-ink text-14 block truncate font-extrabold">
-        {row.playName}
+/* Faded while another Play (or the rest) is picked out. */
+const getDimClassName = (activeKey: string | null, key: string) =>
+  activeKey && activeKey !== key ? "opacity-40" : null;
+
+/*
+ * One Play's time as a small card that opens the Play: colour dot, cover,
+ * name, hours and share. Hovering it picks out its slice.
+ */
+const TimeCard = ({
+  activeKey,
+  colour,
+  onActiveChange,
+  row,
+}: {
+  activeKey?: string | null;
+  colour: CSSProperties;
+  onActiveChange?: (key: string | null) => void;
+  row: TimeRow;
+}) => (
+  <li style={colour} className="flex min-w-0">
+    <Link
+      href={appRoutes.mainlinePlay(row.playId)}
+      onMouseEnter={() => onActiveChange?.(row.playId)}
+      onMouseLeave={() => onActiveChange?.(null)}
+      onFocus={() => onActiveChange?.(row.playId)}
+      onBlur={() => onActiveChange?.(null)}
+      className={cn(
+        "bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 transition-opacity outline-none focus-visible:outline-3 focus-visible:outline-solid",
+        getDimClassName(activeKey ?? null, row.playId),
+      )}
+    >
+      <GameCover
+        alt=""
+        coverImageUrl={row.coverImageUrl}
+        gameName={row.gameName}
+        gameSlug={row.gameSlug ?? undefined}
+        size="dock"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="text-ink text-14 block truncate font-extrabold">
+          {row.playName}
+        </span>
+        <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
+          <span
+            aria-hidden
+            className="size-2.5 shrink-0 rounded-full bg-(--slice)"
+          />
+          {formatWholeHours(row.minutes)} · {row.share}%
+        </span>
       </span>
-      <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
-        <span
-          aria-hidden
-          className="size-2.5 shrink-0 rounded-full bg-(--slice)"
-        />
-        {formatWholeHours(row.minutes)} · {row.share}%
-      </span>
-    </span>
+    </Link>
   </li>
 );
 
 /*
  * The time as one ring: a slice per Play in its game's colour, the rest as
- * one quiet slice, and the total in the middle.
+ * one quiet slice, and the total in the middle. Hovering a slice picks out
+ * its card (the rest's is See all) and fades the others.
  */
 const TimeDonut = ({
+  activeKey,
   colours,
   minutes,
+  onActiveChange,
   otherMinutes,
   rows,
 }: {
+  activeKey: string | null;
   colours: CSSProperties[];
   minutes: number;
+  onActiveChange: (key: string | null) => void;
   otherMinutes: number;
   rows: TimeRow[];
 }) => {
@@ -147,9 +181,14 @@ const TimeDonut = ({
               cy="50"
               r={RADIUS}
               fill="none"
-              strokeWidth="13"
+              strokeWidth={activeKey === slice.key ? 16 : 13}
               style={slice.colour}
-              className="stroke-(--slice)"
+              onMouseEnter={() => onActiveChange(slice.key)}
+              onMouseLeave={() => onActiveChange(null)}
+              className={cn(
+                "cursor-pointer stroke-(--slice) transition-[opacity,stroke-width]",
+                getDimClassName(activeKey, slice.key),
+              )}
               strokeDasharray={`${Math.max(length - SLICE_GAP, 0.5)} ${CIRCUMFERENCE}`}
               strokeDashoffset={-offset}
             />
@@ -168,12 +207,15 @@ const TimeDonut = ({
 
 /*
  * Where your time went: one ring with a slice per Play (the five with the
- * most time, then the rest together) beside a card for each; See all opens
- * every Play's card in a dialog. Plays without playtime are named under it,
+ * most time, then the rest together) beside a card for each, picked out
+ * together on hover; a card opens its Play, and See all opens every Play's
+ * card in a dialog. Plays without playtime are named under it,
  * not counted.
  */
 export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
   const [isAllOpen, setIsAllOpen] = useState(false);
+  /* The Play (or "other", the rest) picked out by hovering. */
+  const [activeKey, setActiveKey] = useState<string | null>(null);
   const colours = getRowColours(stats.time);
   const rows = stats.time.slice(0, shownByDefault);
   const hidden = stats.time.slice(shownByDefault);
@@ -186,31 +228,42 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
       <SectionHead
         title="Where your time went"
         titleId="stats-time"
-        aside={
-          stats.time.length
-            ? `${hours} ${hours === 1 ? "hour" : "hours"} across ${stats.time.length} ${stats.time.length === 1 ? "Play" : "Plays"}`
-            : "No playtime recorded yet"
-        }
+        aside={stats.time.length ? undefined : "No playtime recorded yet"}
       />
       <Card className="gap-4 px-5 py-5 sm:px-6">
         {stats.time.length ? (
           <div className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-8">
             <TimeDonut
+              activeKey={activeKey}
               colours={colours}
               minutes={stats.minutes}
+              onActiveChange={setActiveKey}
               otherMinutes={otherMinutes}
               rows={rows}
             />
             <ul className="grid w-full min-w-0 flex-1 gap-2 sm:grid-cols-2">
               {rows.map((row, index) => (
-                <TimeCard key={row.playId} colour={colours[index]!} row={row} />
+                <TimeCard
+                  key={row.playId}
+                  activeKey={activeKey}
+                  colour={colours[index]!}
+                  onActiveChange={setActiveKey}
+                  row={row}
+                />
               ))}
               {hidden.length ? (
                 <li className="flex min-w-0">
                   <button
                     type="button"
                     onClick={() => setIsAllOpen(true)}
-                    className="bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                    onMouseEnter={() => setActiveKey("other")}
+                    onMouseLeave={() => setActiveKey(null)}
+                    onFocus={() => setActiveKey("other")}
+                    onBlur={() => setActiveKey(null)}
+                    className={cn(
+                      "bg-surface-2 hover:bg-hover focus-visible:outline-focus flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-opacity outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                      getDimClassName(activeKey, "other"),
+                    )}
                   >
                     <span className="text-ink-2 grid h-10 w-[30px] shrink-0 place-items-center">
                       <AppIcon icon={appIcons.actions.next} size="md" />

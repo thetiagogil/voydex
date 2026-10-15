@@ -295,7 +295,7 @@ export const StatsStyleSection = ({
             aside="Back for more than one run"
           />
           {stats.friends.length ? (
-            <ul className="grid grid-cols-2 gap-2.5 min-[480px]:grid-cols-3">
+            <ul className="grid flex-1 grid-cols-2 gap-2.5 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
                   key={friend.speciesSlug}
@@ -304,7 +304,7 @@ export const StatsStyleSection = ({
                   <PokemonSticker
                     variant="mini"
                     /* The card lifts instead, carrying the family tip. */
-                    className="w-full hover:translate-y-0"
+                    className="w-full justify-center hover:translate-y-0"
                     label={`${friend.name}, in ${friend.playCount} Plays. Open`}
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
