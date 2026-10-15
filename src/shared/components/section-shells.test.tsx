@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { DetailSectionCard } from "./detail-section-card";
 import { RangeHeading } from "./range-heading";
 import { SectionHead } from "./section-head";
-import { Toolbar } from "./toolbar";
+import { Toolbar, ToolbarGroup } from "./toolbar";
 
 describe("SectionHead", () => {
   it("renders the title, aside and more link", () => {
@@ -59,21 +59,34 @@ describe("RangeHeading", () => {
 });
 
 describe("Toolbar", () => {
-  it("counts as a card and puts a divider between search and trailing", () => {
+  it("counts as a card and gives each trailing item its own group", () => {
     const html = renderToStaticMarkup(
-      <Toolbar search={<input aria-label="Search" />} trailing="Sort" />,
+      <Toolbar
+        search={<input aria-label="Search" />}
+        trailing={
+          <>
+            <button type="button">All</button>
+            {null}
+            <ToolbarGroup>
+              <select aria-label="Game" />
+              <select aria-label="Generation" />
+            </ToolbarGroup>
+            <button type="button">Sort</button>
+          </>
+        }
+      />,
     );
 
     expect(html).toMatch(/^<div data-slot="card"/);
-    expect(html).toContain('data-slot="toolbar-divider"');
+    expect(html.match(/data-slot="toolbar-group"/g)).toHaveLength(3);
   });
 
-  it("renders as a form and skips the divider without a trailing slot", () => {
+  it("renders as a form with no groups without a trailing slot", () => {
     const html = renderToStaticMarkup(
       <Toolbar render={<form />} search={<input aria-label="Search" />} />,
     );
 
     expect(html).toMatch(/^<form data-slot="card"/);
-    expect(html).not.toContain("toolbar-divider");
+    expect(html).not.toContain("toolbar-group");
   });
 });

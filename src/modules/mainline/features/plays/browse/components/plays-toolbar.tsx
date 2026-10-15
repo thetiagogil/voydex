@@ -11,7 +11,7 @@ import type {
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar, ToolbarDivider } from "@/shared/components/toolbar";
+import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
 
 type PlaysToolbarProps = {
@@ -162,8 +162,8 @@ const PlaysFiltersSheet = ({
 
 /*
  * The toolbar (v3's Plays toolbar): search, then the game and generation
- * filters and the order as quiet selects. Phones keep the search and one
- * Filters button.
+ * filters and the order as quiet selects, each group between hairlines.
+ * Phones keep the search and one Filters button.
  */
 export const PlaysToolbar = ({
   matchingCount,
@@ -200,14 +200,15 @@ export const PlaysToolbar = ({
           <PlaysFiltersSheet {...selectProps} matchingCount={matchingCount} />
         </div>
       }
-    >
-      <div className="hidden sm:contents">
-        <ToolbarDivider />
-        {selects.game}
-        {selects.generation}
-        <ToolbarDivider />
-        {selects.sort}
-      </div>
-    </Toolbar>
+      trailing={
+        <>
+          <ToolbarGroup className="hidden sm:flex">
+            {selects.game}
+            {selects.generation}
+          </ToolbarGroup>
+          <ToolbarGroup className="hidden sm:flex">{selects.sort}</ToolbarGroup>
+        </>
+      }
+    />
   );
 };

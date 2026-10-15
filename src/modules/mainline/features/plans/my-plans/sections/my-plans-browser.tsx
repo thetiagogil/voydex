@@ -23,7 +23,7 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { Toolbar, ToolbarDivider } from "@/shared/components/toolbar";
+import { Toolbar } from "@/shared/components/toolbar";
 import { Card } from "@/shared/components/ui/card";
 
 type MyPlansBrowserProps = {
@@ -123,40 +123,44 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
 
   return (
     <div className="flex flex-col gap-5">
-      <Toolbar aria-label="Filter your Plans">
-        <SegmentedControl
-          ariaLabel="Show"
-          value={filters.status}
-          onValueChange={(status) => update({ status })}
-          options={[
-            { label: "All", value: "all" },
-            { label: "Active", value: "active" },
-            { label: "Archived", value: "archived" },
-          ]}
-        />
-        <ToolbarDivider />
-        <SelectControl
-          id="my-plans-game"
-          ariaLabel="Filter Plans by game"
-          variant="ghost"
-          placeholder="All games"
-          value={filters.game}
-          onValueChange={(game) => update({ game })}
-          options={[{ label: "All games", value: "" }, ...games]}
-        />
-        <SelectControl
-          id="my-plans-sort"
-          ariaLabel="Sort Plans"
-          variant="ghost"
-          prefix="Sort"
-          placeholder={myPlansSortLabels.updated}
-          value={filters.sort}
-          onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
-          options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
-            (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
-          )}
-        />
-      </Toolbar>
+      <Toolbar
+        aria-label="Filter your Plans"
+        trailing={
+          <>
+            <SegmentedControl
+              ariaLabel="Show"
+              value={filters.status}
+              onValueChange={(status) => update({ status })}
+              options={[
+                { label: "All", value: "all" },
+                { label: "Active", value: "active" },
+                { label: "Archived", value: "archived" },
+              ]}
+            />
+            <SelectControl
+              id="my-plans-game"
+              ariaLabel="Filter Plans by game"
+              variant="ghost"
+              placeholder="All games"
+              value={filters.game}
+              onValueChange={(game) => update({ game })}
+              options={[{ label: "All games", value: "" }, ...games]}
+            />
+            <SelectControl
+              id="my-plans-sort"
+              ariaLabel="Sort Plans"
+              variant="ghost"
+              prefix="Sort"
+              placeholder={myPlansSortLabels.updated}
+              value={filters.sort}
+              onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
+              options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
+                (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
+              )}
+            />
+          </>
+        }
+      />
 
       {shown.length ? (
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
