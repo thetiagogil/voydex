@@ -19,8 +19,9 @@ type PokemonDetailHeadProps = {
 
 /*
  * v3's Codex head: the crumb, ending in the Pokémon's name (it opens the
- * picker), and the generation pills on the right. When the generation has
- * several version groups, their switch sits under the pills.
+ * picker), and the generation pills on the right, level with the crumb's
+ * switch. When the generation has several version groups, their switch sits
+ * under the pills.
  */
 export const PokemonDetailHead = ({
   activePokemon,
@@ -30,7 +31,7 @@ export const PokemonDetailHead = ({
   versionGroupOptions,
 }: PokemonDetailHeadProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3">
+    <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3 lg:items-start">
       <div className="min-w-0">
         <CodexHead
           trailEnd={
@@ -41,9 +42,10 @@ export const PokemonDetailHead = ({
           }
         />
       </div>
-      <div className="flex w-full min-w-0 flex-col gap-2.5 md:ml-auto md:w-auto md:items-end">
+      <div className="flex w-full min-w-0 flex-col gap-2.5 md:ml-auto md:w-auto md:items-end lg:pt-3.5">
         <CodexGenerationPills
           options={generationOptions}
+          selectedTone="strong"
           value={generationSlug}
         />
         {versionGroupOptions.length ? (

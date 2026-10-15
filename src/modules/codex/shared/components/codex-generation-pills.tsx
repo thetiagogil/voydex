@@ -13,12 +13,15 @@ type CodexGenerationPillsProps<TValue extends string> = {
   /* Not needed when every option is a link. */
   onValueChange?: (value: TValue) => void;
   options: readonly SegmentedControlOption<TValue>[];
+  /* `strong` where the pills pick the generation a page is read at. */
+  selectedTone?: "soft" | "strong";
   value: TValue | null;
 };
 
 /*
  * v3 `.gens`: the labelled generation pills of every Codex page that reads by
- * generation. Filters on the Pokémon list, links on a Pokémon's entry. On
+ * generation. Filters on the Pokémon list (soft); on a Pokémon's entry they
+ * pick the generation it is read at, a scope, so the pick is strong. On
  * phones the row scrolls sideways, edge to edge, and keeps the current pill
  * in view with the one before it.
  */
@@ -26,6 +29,7 @@ export const CodexGenerationPills = <TValue extends string>({
   className,
   onValueChange,
   options,
+  selectedTone,
   value,
 }: CodexGenerationPillsProps<TValue>) => {
   const rowRef = useRef<HTMLDivElement>(null);
@@ -63,6 +67,7 @@ export const CodexGenerationPills = <TValue extends string>({
         size="sm"
         onValueChange={onValueChange}
         options={options}
+        selectedTone={selectedTone}
         value={value}
       />
     </div>
