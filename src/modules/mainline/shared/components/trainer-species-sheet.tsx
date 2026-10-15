@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import {
   formatNationalNumber,
   getPlayStatusTone,
-} from "@/modules/mainline/features/collection/utils/collection-display";
+} from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
@@ -24,7 +24,10 @@ import { StatusBadge } from "@/shared/components/status-badge";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 
-type CollectionSpeciesSheetProps = {
+type TrainerSpeciesSheetProps = {
+  /* Outside the Collection: where "See in Collection" leads. */
+  collectionHref?: string;
+  /* The species to show; null closes the sheet. */
   entry: TrainerPokemonEntry | null;
   onOpenChange: (open: boolean) => void;
 };
@@ -55,12 +58,23 @@ const SheetSection = ({
 /*
  * One species in your Collection (v3 `colSheet`): its art, every Pokémon of
  * it on your Plays' rosters (each opens on its Play's roster), and the games
- * it has joined you in.
+ * it has joined you in. The Collection and Statistics both open it in place.
+ * It stays mounted so it slides in and out, showing the last species while
+ * it closes.
  */
-export const CollectionSpeciesSheet = ({
-  entry,
+export const TrainerSpeciesSheet = ({
+  collectionHref,
+  entry: openEntry,
   onOpenChange,
-}: CollectionSpeciesSheetProps) => {
+}: TrainerSpeciesSheetProps) => {
+  const [shownEntry, setShownEntry] = useState(openEntry);
+
+  if (openEntry && openEntry !== shownEntry) {
+    setShownEntry(openEntry);
+  }
+
+  const entry = openEntry ?? shownEntry;
+
   if (!entry) {
     return null;
   }
@@ -73,7 +87,7 @@ export const CollectionSpeciesSheet = ({
 
   return (
     <ResponsiveDetailSheet
-      open
+      open={Boolean(openEntry)}
       onOpenChange={onOpenChange}
       label={entry.name}
       head={
@@ -102,17 +116,27 @@ export const CollectionSpeciesSheet = ({
               badgeSize="sm"
               className="mt-2 flex flex-wrap gap-1.5"
             />
-            <Link
-              href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
-              className={buttonVariants({
-                className: "mt-3",
-                size: "sm",
-                variant: "outline",
-              })}
-            >
-              <AppIcon icon={appIcons.modules.codex} inline="start" />
-              Open in Codex
-            </Link>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {collectionHref ? (
+                <Link
+                  href={collectionHref}
+                  className={buttonVariants({ size: "sm", variant: "outline" })}
+                >
+                  <AppIcon
+                    icon={appIcons.views.mainline.collection}
+                    inline="start"
+                  />
+                  See in Collection
+                </Link>
+              ) : null}
+              <Link
+                href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
+                className={buttonVariants({ size: "sm", variant: "outline" })}
+              >
+                <AppIcon icon={appIcons.modules.codex} inline="start" />
+                Open in Codex
+              </Link>
+            </div>
           </div>
         </div>
       }

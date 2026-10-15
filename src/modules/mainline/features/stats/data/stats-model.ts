@@ -34,6 +34,8 @@ export type StatsRegion = {
 };
 
 export type StatsFriend = {
+  /* The species as the Collection has it, for its sheet. */
+  entry: TrainerPokemonEntry;
   imageUrl: string | null;
   name: string;
   playCount: number;
@@ -41,8 +43,11 @@ export type StatsFriend = {
   types: TrainerPokemonType[];
 };
 
-/* The one clause the hero sentence ends on, picked from what stands out. */
-export type StatsHeadlineTail =
+/*
+ * The one thing the band shows beside the figures: the Pokémon back for the
+ * most runs, else a clear favourite type, else the Play with the most time.
+ */
+export type StatsHighlight =
   | { kind: "favourite-type"; type: StatsTypeTally }
   | { kind: "old-friend"; friend: StatsFriend }
   | { kind: "most-time"; label: string }
@@ -53,7 +58,7 @@ export type StatsModel = {
   /* The earliest day a Play started, "YYYY-MM-DD", or null when none is recorded. */
   firstStartedOn: string | null;
   friends: StatsFriend[];
-  headlineTail: StatsHeadlineTail;
+  highlight: StatsHighlight;
   minutes: number;
   playCount: number;
   /* Every Play's label, the most recently updated first. */
@@ -143,6 +148,7 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
         right.lastUsedAt.localeCompare(left.lastUsedAt),
     )
     .map(({ playIds, shown }) => ({
+      entry: shown,
       imageUrl: shown.imageUrl,
       name: shown.name,
       playCount: playIds.size,
@@ -176,10 +182,10 @@ export const buildStatsModel = (
       .filter((value): value is string => Boolean(value))
       .toSorted()[0] ?? null;
 
-  const headlineTail: StatsHeadlineTail = favourite
-    ? { kind: "favourite-type", type: favourite }
-    : friends[0]
-      ? { friend: friends[0], kind: "old-friend" }
+  const highlight: StatsHighlight = friends[0]
+    ? { friend: friends[0], kind: "old-friend" }
+    : favourite
+      ? { kind: "favourite-type", type: favourite }
       : tracked[0]
         ? { kind: "most-time", label: getTrainerPlayLabel(tracked[0]) }
         : { kind: "none" };
@@ -210,7 +216,7 @@ export const buildStatsModel = (
       .length,
     firstStartedOn,
     friends,
-    headlineTail,
+    highlight,
     minutes,
     playCount: plays.length,
     playLabels: plays.map(getTrainerPlayLabel),

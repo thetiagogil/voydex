@@ -1,8 +1,5 @@
+import { StatsBoard } from "@/modules/mainline/features/stats/components/stats-board";
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
-import { StatsHeroSection } from "@/modules/mainline/features/stats/sections/stats-hero-section";
-import { StatsRegionsSection } from "@/modules/mainline/features/stats/sections/stats-regions-section";
-import { StatsStyleSection } from "@/modules/mainline/features/stats/sections/stats-style-section";
-import { StatsTimeSection } from "@/modules/mainline/features/stats/sections/stats-time-section";
 import { formatWholeHours } from "@/modules/mainline/features/stats/utils/stats-format";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -85,21 +82,13 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
 };
 
 /*
- * Statistics (v3 `statistics`): your Plays added up. One sentence leads,
- * then where your time went, the regions you've travelled and your team
- * style. Every figure is read from what you recorded.
+ * Statistics (v3 `statistics`): your Plays added up, shown rather than
+ * told (see `StatsBoard`). Every figure is read from what you recorded.
  */
 export const MainlineStatsPage = ({ stats }: MainlineStatsPageProps) => {
   if (stats.playCount <= 1) {
     return <StatsStartingOut stats={stats} />;
   }
 
-  return (
-    <div className="flex flex-col gap-8 sm:gap-10">
-      <StatsHeroSection stats={stats} />
-      <StatsTimeSection stats={stats} />
-      <StatsRegionsSection stats={stats} />
-      <StatsStyleSection stats={stats} />
-    </div>
-  );
+  return <StatsBoard stats={stats} />;
 };

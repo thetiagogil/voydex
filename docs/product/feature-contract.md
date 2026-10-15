@@ -1179,10 +1179,15 @@ Plays are not forced into a false global chronology.
 
 Stats are derived from user data.
 
-As built (v3, `/mainline/stats`), Statistics leads with one sentence, then
-where your time went, the regions you've travelled and your team style (types
-you pick, old friends), all read from what you recorded; a new account says
-what fills in as it records more.
+As built (v3, `/mainline/stats`), Statistics shows rather than tells: a band
+with three big figures (hours, Plays, Pokémon met), small facts under them and
+one highlight (the old friend back for the most runs, else a clear favourite
+type, else the Play with the most time); then your team style (the types you
+pick as a ranked chart, old friends), the regions you've travelled and, last,
+where your time went (the top five, every Play in a dialog), since most Plays
+record no playtime. A Pokémon opens the shared species sheet in place, with
+"See in Collection". All of it is read from what you recorded; a new account
+says what fills in as it records more.
 
 Stats may include:
 

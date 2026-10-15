@@ -18,8 +18,8 @@ import type {
   TrainerPokemonEntry,
   TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
-import { CollectionSpeciesSheet } from "@/modules/mainline/features/collection/sections/collection-species-sheet";
-import { formatNationalNumber } from "@/modules/mainline/features/collection/utils/collection-display";
+import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -172,7 +172,7 @@ export const CollectionBrowser = ({
         />
       )}
 
-      <CollectionSpeciesSheet
+      <TrainerSpeciesSheet
         entry={openEntry}
         onOpenChange={(open) => {
           if (!open) setOpenSpeciesId(null);
