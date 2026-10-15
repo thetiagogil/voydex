@@ -16,7 +16,7 @@ import type { GameCard } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 
 type GamesToolbarProps = {
   filters: GamesBrowseFilters;
@@ -41,9 +41,10 @@ const isGamesSortOrder = (value: string): value is GamesSortOrder => {
 };
 
 /*
- * v3's games toolbar: the search and the sort, then the kinds of game as
- * pills on their own row, with Played (your games) after All games when
- * signed in. On phones the pills scroll sideways, fading at the edge to show
+ * v3's games toolbar, one line on wide screens: the search, the kinds of
+ * game as pills (with Played, your games, after All games when signed in)
+ * and the sort. Narrower, the pills take their own line under the search
+ * and the sort; on phones they scroll sideways, fading at the edge to show
  * there is more.
  */
 export const GamesToolbar = ({
@@ -95,31 +96,35 @@ export const GamesToolbar = ({
         />
       }
       trailing={
-        <SelectControl
-          ariaLabel="Sort games"
-          variant="ghost"
-          size="sm"
-          prefix="Sort"
-          value={sortOrder}
-          onValueChange={(value) => {
-            if (isGamesSortOrder(value)) {
-              onSortOrderChange(value);
-            }
-          }}
-          options={sortOptions}
-          placeholder="Oldest first"
-        />
+        <>
+          {/* Under xl the pills wrap anyway, so the sort stays beside the search. */}
+          <ToolbarGroup className="max-xl:order-1">
+            <SegmentedControl<GamesKindFilter>
+              ariaLabel="Filter by kind of game"
+              className="no-scrollbar max-sm:-my-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[mask-image:linear-gradient(90deg,black_calc(100%-1.5rem),transparent)] max-sm:py-1 max-sm:pr-6"
+              onValueChange={(kind) => {
+                onFilterChange("kind", kind);
+              }}
+              options={kindOptions}
+              value={filters.kind}
+            />
+          </ToolbarGroup>
+          <SelectControl
+            ariaLabel="Sort games"
+            variant="ghost"
+            size="sm"
+            prefix="Sort"
+            value={sortOrder}
+            onValueChange={(value) => {
+              if (isGamesSortOrder(value)) {
+                onSortOrderChange(value);
+              }
+            }}
+            options={sortOptions}
+            placeholder="Oldest first"
+          />
+        </>
       }
-    >
-      <SegmentedControl<GamesKindFilter>
-        ariaLabel="Filter by kind of game"
-        className="no-scrollbar -m-1 w-[calc(100%+0.5rem)] basis-full flex-nowrap overflow-x-auto [mask-image:linear-gradient(90deg,black_calc(100%-1.5rem),transparent)] p-1 pr-6 sm:flex-wrap sm:overflow-visible sm:[mask-image:none] sm:p-1"
-        onValueChange={(kind) => {
-          onFilterChange("kind", kind);
-        }}
-        options={kindOptions}
-        value={filters.kind}
-      />
-    </Toolbar>
+    />
   );
 };
