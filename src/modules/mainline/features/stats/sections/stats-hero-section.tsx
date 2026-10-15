@@ -204,7 +204,7 @@ export const StatsHeroSection = ({
         data-reveal={firstVisit ? "" : undefined}
         className="group/title flex flex-col gap-5 sm:gap-6"
       >
-        <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
+        <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8 lg:grid-cols-[auto_auto] lg:justify-start lg:gap-14">
           <div className="flex min-w-0 flex-col gap-1.5">
             <p
               className={cn(
@@ -254,7 +254,7 @@ export const StatsHeroSection = ({
               )}
             </p>
           </div>
-          <div className="max-md:order-first">
+          <div className="flex justify-center max-md:order-first">
             <TitlePicture
               onOpenPokemon={onOpenPokemon}
               playCovers={playCovers}
