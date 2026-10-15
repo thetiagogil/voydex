@@ -29,23 +29,17 @@ type TabItemProps = {
   label: string;
 };
 
+/* The current item sits in one soft pill, its icon and label together. */
 const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
   <Link
     href={href}
     aria-current={isCurrent ? "page" : undefined}
     className={cn(
-      "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-md px-0.5 pt-1.5 pb-1 font-bold",
-      isCurrent && "text-ink font-extrabold",
+      "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-xl px-0.5 pt-1.5 pb-1 font-bold transition-colors",
+      isCurrent && "bg-action-soft text-action-lip font-extrabold",
     )}
   >
-    <span
-      className={cn(
-        "grid h-8 w-12 place-items-center rounded-full transition-colors",
-        isCurrent && "bg-action-soft text-action-lip",
-      )}
-    >
-      {icon}
-    </span>
+    <span className="grid h-8 w-12 place-items-center">{icon}</span>
     {label}
   </Link>
 );
