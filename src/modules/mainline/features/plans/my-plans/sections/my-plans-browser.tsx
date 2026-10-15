@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -14,6 +16,7 @@ import {
   type MyPlansFilters,
   type MyPlansSort,
 } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
+import { deletePlanAction } from "@/modules/mainline/features/plans/my-plans/server/delete-plan-action";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
@@ -25,17 +28,58 @@ import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Toolbar } from "@/shared/components/toolbar";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/shared/components/ui/alert-dialog";
+import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
+import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type MyPlansBrowserProps = {
   plans: MyPlan[];
 };
 
+/*
+ * One Plan: the card opens it in the Team Planner; the More menu in its
+ * corner deletes it, after a confirm that says what goes with it.
+ */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
+  const router = useRouter();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDeleting, startDeleting] = useTransition();
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const deletePlan = () => {
+    startDeleting(async () => {
+      const result = await deletePlanAction(plan.id);
+
+      if (result.status === "error") {
+        setDeleteError(result.message);
+        return;
+      }
+
+      setIsConfirmOpen(false);
+      toast.success(`${plan.name} deleted`);
+      router.refresh();
+    });
+  };
+
   return (
     <li
-      className="game-scope min-w-0"
+      className="game-scope relative min-w-0"
       style={getGameColourStyle(plan.gameSlug)}
     >
       <Link
@@ -65,7 +109,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
             members={plan.members}
             className={cn(plan.isArchived && "opacity-55")}
           />
-          <div className="mt-auto flex flex-wrap items-center gap-2">
+          <div className="mt-auto flex flex-wrap items-center gap-2 pr-10">
             <span
               className={
                 plan.linkedPlayCount
@@ -84,6 +128,70 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
           </div>
         </Card>
       </Link>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`More for ${plan.name}`}
+              className="absolute right-3 bottom-3"
+            />
+          }
+        >
+          <AppIcon icon={appIcons.actions.more} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => {
+              setDeleteError(null);
+              setIsConfirmOpen(true);
+            }}
+          >
+            <AppIcon icon={appIcons.actions.delete} />
+            Delete Plan
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialog
+        open={isConfirmOpen}
+        onOpenChange={(open) => {
+          if (!isDeleting) setIsConfirmOpen(open);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {plan.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Its Pokémon and their builds go with it.
+              {plan.linkedPlayCount
+                ? ` The ${plan.linkedPlayCount === 1 ? "Play that follows it stops" : `${plan.linkedPlayCount} Plays that follow it stop`} comparing against it.`
+                : ""}{" "}
+              This can&apos;t be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          {deleteError ? (
+            <p role="alert" className="text-danger text-13 font-bold">
+              {deleteError}
+            </p>
+          ) : null}
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Keep it</AlertDialogCancel>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isDeleting}
+              aria-busy={isDeleting}
+              onClick={deletePlan}
+            >
+              {isDeleting ? <Spinner data-icon="inline-start" /> : null}
+              Delete Plan
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </li>
   );
 };

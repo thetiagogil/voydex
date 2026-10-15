@@ -20,6 +20,8 @@ import { Toolbar } from "@/shared/components/toolbar";
 import { cn } from "@/shared/utils/cn";
 
 export type PlannerPoolFilters = {
+  /* One Pokédex's key (the base game or an expansion), or "" for all. */
+  dex: string;
   fullyEvolved: boolean;
   query: string;
   type: string;
@@ -58,8 +60,8 @@ const formatNumber = (value: number) => `#${String(value).padStart(3, "0")}`;
 
 /*
  * v3 `.sec.pick`: every Pokémon of the version group, one range per
- * Pokédex (base, then each expansion) with jump links, search, "Fully
- * evolved only" and the type dots. A tile shows its slot once picked and a
+ * Pokédex (base, then each expansion) with a scope picker to show one,
+ * search, "Fully evolved only" and the type dots. A tile shows its slot once picked and a
  * small "!" when it needs something; tapping adds it to the next open slot,
  * or, with a full team, asks which one it replaces.
  */
@@ -82,7 +84,10 @@ export const PlannerPoolSection = ({
       return pokemon && matchesPoolFilters(pokemon, filters) ? [pokemon] : [];
     }),
   }));
-  const hasAny = shownSections.some((section) => section.pokemon.length);
+  const scopedSections = shownSections.filter(
+    (section) => !filters.dex || section.key === filters.dex,
+  );
+  const hasAny = scopedSections.some((section) => section.pokemon.length);
 
   return (
     <section aria-labelledby="planner-pool" className="flex flex-col gap-4">
@@ -94,23 +99,34 @@ export const PlannerPoolSection = ({
             ? "Team is full. Tap one to swap it in"
             : "Tap to add to the next open slot"
         }
+        action={
+          sections.length > 1 ? (
+            <SegmentedControl
+              ariaLabel="Pokédex"
+              selectedTone="strong"
+              size="sm"
+              className="no-scrollbar max-w-full flex-nowrap overflow-x-auto"
+              value={filters.dex}
+              onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
+              options={[
+                {
+                  count: shownSections.reduce(
+                    (total, section) => total + section.pokemon.length,
+                    0,
+                  ),
+                  label: "All",
+                  value: "",
+                },
+                ...shownSections.map((section) => ({
+                  count: section.pokemon.length,
+                  label: section.name,
+                  value: section.key,
+                })),
+              ]}
+            />
+          ) : null
+        }
       />
-      {sections.length > 1 ? (
-        <nav aria-label="Jump to a Pokédex" className="flex flex-wrap gap-1.5">
-          {shownSections.map((section) => (
-            <a
-              key={section.key}
-              href={`#dex-${section.key}`}
-              className="bg-surface text-ink-2 hover:bg-hover hover:text-ink text-13 focus-visible:outline-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 font-bold outline-none focus-visible:outline-3 focus-visible:outline-solid"
-            >
-              {section.name}
-              <span className="text-ink-3 tabular-nums">
-                {section.pokemon.length}
-              </span>
-            </a>
-          ))}
-        </nav>
-      ) : null}
       <Toolbar
         aria-label="Filter the Pokémon"
         search={
@@ -143,7 +159,7 @@ export const PlannerPoolSection = ({
       />
 
       {hasAny ? (
-        shownSections
+        scopedSections
           .filter((section) => section.pokemon.length)
           .map((section) => (
             <section

@@ -32,6 +32,7 @@ import {
   PlannerPoolSection,
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
+import { PlannerNameDialog } from "@/modules/mainline/features/plans/planner/sections/planner-name-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
 import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
@@ -63,6 +64,7 @@ const continueDraftHash = "draft";
 const replaceToastId = "planner-replace";
 
 const defaultFilters: PlannerPoolFilters = {
+  dex: "",
   fullyEvolved: false,
   query: "",
   type: "",
@@ -112,6 +114,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const [openSlot, setOpenSlot] = useState<number | null>(null);
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isNameOpen, setIsNameOpen] = useState(false);
   const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
   const [isSaving, startSaving] = useTransition();
   const [origin, setOrigin] = useState("");
@@ -346,17 +349,23 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   };
 
   const random = () => {
-    const candidates =
-      randomMode === "filtered"
-        ? context.pokemon.filter((pokemon) =>
-            matchesPoolFilters(pokemon, filters),
-          )
-        : context.sections.flatMap((section) =>
-            section.speciesIds.flatMap((speciesId) => {
-              const pokemon = byId.get(speciesId);
-              return pokemon ? [pokemon] : [];
-            }),
-          );
+    /* "Random from filters" keeps to the Pokédex shown, too. */
+    const candidates = context.sections
+      .filter(
+        (section) =>
+          randomMode !== "filtered" ||
+          !filters.dex ||
+          section.key === filters.dex,
+      )
+      .flatMap((section) =>
+        section.speciesIds.flatMap((speciesId) => {
+          const pokemon = byId.get(speciesId);
+          return pokemon &&
+            (randomMode !== "filtered" || matchesPoolFilters(pokemon, filters))
+            ? [pokemon]
+            : [];
+        }),
+      );
 
     team.applyRandom(
       pickRandomTeam({
@@ -368,12 +377,22 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     );
   };
 
+  /* A Plan without a name asks for one before it is saved. */
   const save = () => {
+    if (!name.trim()) {
+      setIsNameOpen(true);
+      return;
+    }
+
+    saveAs(name);
+  };
+
+  const saveAs = (planName: string) => {
     startSaving(async () => {
       const result = await savePlanAction({
         expansionVersionGroupIds: expansions,
         members,
-        name,
+        name: planName,
         planId: plan?.id ?? null,
         versionGroupSlug: context.versionGroup.slug,
       });
@@ -383,7 +402,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         return;
       }
 
-      const savedName = name.trim() || untitledPlanName;
+      const savedName = planName.trim() || untitledPlanName;
 
       if (result.created) {
         clearPlanDraft(data.trainerId);
@@ -396,7 +415,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         JSON.stringify({
           expansions: expansions.toSorted(),
           members,
-          name,
+          name: planName,
           versionGroupSlug: context.versionGroup.slug,
         }),
       );
@@ -577,6 +596,17 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         planName={name.trim() || untitledPlanName}
         team={teamPokemon}
         versionGroup={context.versionGroup}
+      />
+
+      <PlannerNameDialog
+        gameName={context.versionGroup.name}
+        open={isNameOpen}
+        onOpenChange={setIsNameOpen}
+        onSave={(planName) => {
+          setName(planName);
+          setIsNameOpen(false);
+          saveAs(planName);
+        }}
       />
 
       <PlannerShareDialog

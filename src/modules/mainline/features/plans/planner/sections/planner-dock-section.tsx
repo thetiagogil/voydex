@@ -85,8 +85,8 @@ const SlotNumber = ({ index }: { index: number }) => (
  * v3 `.dock`, on the Planner's band: the six slots of the Plan's team. Each
  * holds its Pokémon as a sticker (role, a flag when it needs something),
  * opens its slot sheet, can be dragged onto another slot to swap and removed
- * with Undo. Over it: Team check, Random and Clear; under it the
- * one tip that matters most.
+ * with Undo. Over it: Random and Clear; under it the one tip that matters
+ * most, with Team check for the rest.
  */
 export const PlannerDockSection = ({
   byId,
@@ -142,29 +142,7 @@ export const PlannerDockSection = ({
           <span className="text-ink-3 text-14 font-bold tabular-nums">
             {filled} of 6
           </span>
-          <div className="-mx-1 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-1 max-sm:w-full sm:ml-auto sm:gap-1.5 [&>*]:shrink-0">
-            {filled ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={onOpenCheck}
-                className="max-sm:px-2"
-              >
-                <span
-                  aria-hidden
-                  className={cn(
-                    "size-2.5 rounded-full",
-                    tip.tone === "good"
-                      ? "bg-ok"
-                      : tip.tone === "idle"
-                        ? "bg-mute"
-                        : "bg-warn",
-                  )}
-                />
-                Team check
-              </Button>
-            ) : null}
+          <div className="-mx-1 -mt-1 -mb-2 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 max-sm:w-full sm:ml-auto sm:gap-1.5 [&>*]:shrink-0">
             <div className="flex items-center">
               <Button
                 type="button"
@@ -414,15 +392,18 @@ export const PlannerDockSection = ({
           />
         </span>
         <span className="min-w-0 flex-1">{tip.text}</span>
-        {tip.more ? (
+        {filled ? (
           <Button
             type="button"
-            variant="link"
+            variant="ghost"
             size="sm"
             onClick={onOpenCheck}
-            className="h-auto px-0"
+            className="shrink-0"
           >
-            +{tip.more} more
+            Team check
+            {tip.more ? (
+              <span className="text-ink-3 tabular-nums">+{tip.more}</span>
+            ) : null}
           </Button>
         ) : null}
       </p>
