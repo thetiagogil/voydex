@@ -5,6 +5,7 @@ import {
   type TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
+import { joinStatsList } from "@/modules/mainline/features/stats/utils/stats-format";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 export type StatsTypeTally = {
@@ -35,11 +36,17 @@ export type StatsRegion = {
 };
 
 export type StatsFriend = {
-  /* The species as the Collection has it, for its sheet. */
+  /* The species used most recently, as the Collection has it: its art leads. */
   entry: TrainerPokemonEntry;
-  /* Every species of its family that has joined you, itself included. */
+  /*
+   * Every species of its family that has joined you, itself included, in
+   * Pokédex order.
+   */
   family: TrainerPokemonEntry[];
   imageUrl: string | null;
+  /* Each family member's art, in Pokédex order. */
+  imageUrls: string[];
+  /* The members you used, in Pokédex order: "Kirlia, Gardevoir and Gallade". */
   name: string;
   playCount: number;
   speciesSlug: string;
@@ -109,8 +116,9 @@ const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
 };
 
 /*
- * Old friends: evolution families that joined more than one Play, drawn as
- * the member used most recently; the most Plays first, then the most recent.
+ * Old friends: evolution families that joined more than one Play, named by
+ * every member you used and led by the one used most recently; the most
+ * Plays first, then the most recent.
  */
 const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
   const families = new Map<
@@ -157,15 +165,29 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
         right.playIds.size - left.playIds.size ||
         right.lastUsedAt.localeCompare(left.lastUsedAt),
     )
-    .map(({ entries: familyEntries, playIds, shown }) => ({
-      entry: shown,
-      family: familyEntries,
-      imageUrl: shown.imageUrl,
-      name: shown.name,
-      playCount: playIds.size,
-      speciesSlug: shown.speciesSlug,
-      types: shown.types,
-    }));
+    .map(({ entries: familyEntries, playIds, shown }) => {
+      const family = familyEntries.toSorted(
+        (left, right) =>
+          (left.nationalNumber ?? Infinity) -
+          (right.nationalNumber ?? Infinity),
+      );
+
+      return {
+        entry: shown,
+        family,
+        imageUrl: shown.imageUrl,
+        imageUrls: family
+          .map((member) => member.imageUrl)
+          .filter((url): url is string => Boolean(url)),
+        name: joinStatsList(
+          family.map((member) => member.name),
+          "and",
+        ),
+        playCount: playIds.size,
+        speciesSlug: shown.speciesSlug,
+        types: shown.types,
+      };
+    });
 };
 
 export const buildStatsModel = (

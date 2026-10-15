@@ -217,3 +217,11 @@
     from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
   );
 }
+
+/*
+ * Text or an icon in the type's own colour, darkened only as far as it needs
+ * to read on its tint (Electric, Ice and the other pale types). Set --t.
+ */
+@utility type-ink {
+  color: oklch(from var(--t) min(l, 0.52) c h);
+}

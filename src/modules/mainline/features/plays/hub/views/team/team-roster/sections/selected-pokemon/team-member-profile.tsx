@@ -54,7 +54,7 @@ export const TeamMemberProfile = ({
         {member.is_shiny ? (
           <span
             className={cn(
-              "text-warn-ink text-13 absolute top-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-[5px] font-extrabold",
+              "type-ink text-13 absolute top-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-[5px] font-extrabold",
               shinyTagSide === "left" ? "left-3.5" : "right-3.5",
             )}
           >

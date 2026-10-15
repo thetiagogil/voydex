@@ -7,12 +7,13 @@ import { appRoutes } from "@/config/routes";
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
-import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -22,6 +23,7 @@ import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-she
 import { StatusBadge } from "@/shared/components/status-badge";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { SheetTitle } from "@/shared/components/ui/sheet";
+import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 type TrainerSpeciesSheetProps = {
   /* Outside the Collection: where "See in Collection" leads. */
@@ -30,6 +32,12 @@ type TrainerSpeciesSheetProps = {
   entry: TrainerPokemonEntry | null;
   /* The rest of its evolution family that has joined you. */
   family?: TrainerPokemonEntry[];
+  /*
+   * Shows the whole family instead of one species, named this way ("Kirlia,
+   * Gardevoir and Gallade"): every Play any of them joined, each row saying
+   * which one it was.
+   */
+  familyTitle?: string;
   onOpenChange: (open: boolean) => void;
   /* Shows another species (one of its family) in the sheet. */
   onOpenSpecies?: (entry: TrainerPokemonEntry) => void;
@@ -70,9 +78,11 @@ export const TrainerSpeciesSheet = ({
   collectionHref,
   entry: openEntry,
   family = [],
+  familyTitle,
   onOpenChange,
   onOpenSpecies,
 }: TrainerSpeciesSheetProps) => {
+  const isMobile = useIsMobile();
   const [shownEntry, setShownEntry] = useState(openEntry);
 
   if (openEntry && openEntry !== shownEntry) {
@@ -86,43 +96,36 @@ export const TrainerSpeciesSheet = ({
   }
 
   const primaryType = toTypeSlug(entry.types[0]?.slug);
-  const playCount = entry.playIds.length;
+  const showsFamily = Boolean(familyTitle) && family.length > 0;
+  const species = showsFamily
+    ? [entry, ...family].toSorted(
+        (left, right) =>
+          (left.nationalNumber ?? Infinity) -
+          (right.nationalNumber ?? Infinity),
+      )
+    : [entry];
+  const members = species
+    .flatMap((each) => each.members)
+    .toSorted((left, right) => left.play.name.localeCompare(right.play.name));
+  const playCount = new Set(species.flatMap((each) => each.playIds)).size;
   const countLine = `${playCount} ${playCount === 1 ? "Play" : "Plays"}${
-    entry.members.length ? ` · ${entry.members.length} on a roster` : ""
+    members.length ? ` · ${members.length} on a roster` : ""
   }`;
+  const relatives = showsFamily ? species : family;
 
   return (
     <ResponsiveDetailSheet
       open={Boolean(openEntry)}
       onOpenChange={onOpenChange}
-      label={entry.name}
+      label={showsFamily && familyTitle ? familyTitle : entry.name}
+      headBleed
       head={
-        <div className="flex items-center gap-4">
-          <PokemonPortrait
-            alt=""
-            imageUrl={entry.imageUrl}
-            type={primaryType}
-            className="size-22 shrink-0"
-            imageClassName="size-20"
-            sizes="88px"
-          />
-          <div className="min-w-0">
-            <p className="text-ink-2 text-13 font-bold">
-              {[
-                formatNationalNumber(entry.nationalNumber),
-                "In your Collection",
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-            </p>
-            <SheetTitle className="text-24 mt-0.5">{entry.name}</SheetTitle>
-            <PokemonTypeList
-              types={entry.types}
-              badgeDisplay="icon-label"
-              badgeSize="sm"
-              className="mt-2 flex flex-wrap gap-1.5"
-            />
-            <div className="mt-3 flex flex-wrap gap-2">
+        <PokemonSheetHead
+          imageUrl={entry.imageUrl}
+          layout={isMobile ? "inset" : "flush"}
+          type={primaryType}
+          actions={
+            <div className="flex flex-wrap gap-2">
               {collectionHref ? (
                 <Link
                   href={collectionHref}
@@ -143,14 +146,36 @@ export const TrainerSpeciesSheet = ({
                 Open in Codex
               </Link>
             </div>
+          }
+        >
+          <div className="min-w-0 pr-12">
+            <p className="text-ink-2 text-13 font-bold">
+              {showsFamily
+                ? `Old friend · ${species.length} species`
+                : [
+                    formatNationalNumber(entry.nationalNumber),
+                    "In your Collection",
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+            </p>
+            <SheetTitle className="text-24 mt-0.5">
+              {showsFamily ? familyTitle : entry.name}
+            </SheetTitle>
+            <PokemonTypeList
+              types={entry.types}
+              badgeDisplay="icon-label"
+              badgeSize="sm"
+              className="mt-2 flex flex-wrap gap-1.5"
+            />
           </div>
-        </div>
+        </PokemonSheetHead>
       }
     >
       <SheetSection title="Its Plays with you" aside={countLine}>
-        {entry.members.length ? (
-          <ul className="grid">
-            {entry.members.map((member) => (
+        {members.length ? (
+          <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
+            {members.map((member) => (
               <li
                 key={member.id}
                 className="game-scope"
@@ -161,7 +186,7 @@ export const TrainerSpeciesSheet = ({
                     member.play.id,
                     member.id,
                   )}
-                  aria-label={`Open ${member.name} in ${member.play.name}`}
+                  aria-label={`Open ${member.isShiny ? "shiny " : ""}${member.name} in ${member.play.name}`}
                   className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
                 >
                   <GameCover
@@ -179,14 +204,25 @@ export const TrainerSpeciesSheet = ({
                     <span className="text-ink text-15 block truncate font-extrabold">
                       {member.play.name}
                     </span>
-                    <span className="text-ink-2 text-13 block truncate font-semibold">
-                      {[
-                        member.name,
-                        member.level ? `Lv. ${member.level}` : null,
-                        member.placeLabel,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}
+                    <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
+                      {member.isShiny ? (
+                        <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
+                          <AppIcon icon={appIcons.product.shiny} size="sm" />
+                          Shiny
+                        </span>
+                      ) : null}
+                      <span className="truncate">
+                        {[
+                          member.name,
+                          showsFamily && member.name !== member.speciesName
+                            ? member.speciesName
+                            : null,
+                          member.level ? `Lv. ${member.level}` : null,
+                          member.placeLabel,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </span>
                     </span>
                   </span>
                   {member.play.statusName ? (
@@ -215,13 +251,17 @@ export const TrainerSpeciesSheet = ({
         )}
       </SheetSection>
 
-      {family.length ? (
+      {relatives.length ? (
         <SheetSection
-          title="Its family with you"
-          aside={`${family.length} more species`}
+          title={showsFamily ? "Each of them" : "Its family with you"}
+          aside={
+            showsFamily
+              ? `${relatives.length} species`
+              : `${relatives.length} more species`
+          }
         >
           <ul className="grid grid-cols-3 gap-2.5">
-            {family.map((relative) => (
+            {relatives.map((relative) => (
               <li key={relative.speciesId} className="min-w-0">
                 <PokemonSticker
                   variant="compact"

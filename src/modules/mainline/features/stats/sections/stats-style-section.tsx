@@ -151,15 +151,16 @@ export const StatsStyleSection = ({
             aside="Back for more than one run"
           />
           {stats.friends.length ? (
-            <ul className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3">
+            <ul className="grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 lg:grid-cols-2">
               {stats.friends.slice(0, 6).map((friend) => (
-                <li key={friend.speciesSlug} className="min-w-0">
+                <li key={friend.speciesSlug} className="flex min-w-0">
                   <PokemonSticker
                     variant="compact"
                     className="w-full"
                     label={`${friend.name}, in ${friend.playCount} Plays. Open`}
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
+                    imageUrls={friend.imageUrls}
                     name={friend.name}
                     subtitle={`${friend.playCount} Plays`}
                     types={friend.types}
