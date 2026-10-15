@@ -216,43 +216,41 @@ export const PlannerPoolSection = ({
                           number={formatNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
                           className={cn(
+                            /* The whole tile lifts, carrying its marks. */
+                            "hover:translate-y-0",
                             slot !== undefined && pokemonCardPickedClassName,
                             replacingId === pokemon.speciesId &&
                               "outline-game outline-3 outline-offset-2 outline-solid",
                           )}
-                        >
+                        ></PokemonCard>
+                      </button>
+                      {slot !== undefined || notes.length ? (
+                        /*
+                         * The tile's marks in its top corner, inside it so
+                         * they lift with it (the list's sections clip
+                         * anything outside): the "!" of Your team's slots,
+                         * then the slot number, both raised 24px dots.
+                         */
+                        <span className="absolute top-1 right-1 z-10 flex items-center gap-1">
+                          {notes.length ? (
+                            <ExplanatoryTip
+                              triggerVariant="raised"
+                              triggerTone="warn"
+                              triggerLabel={`${pokemon.name}: ${notes[0]}`}
+                              contentClassName="w-64"
+                              content={notes.map((note) => (
+                                <p key={note}>{note}</p>
+                              ))}
+                            />
+                          ) : null}
                           {slot !== undefined ? (
                             <span
                               aria-hidden
-                              className="bg-game text-12 absolute top-1.5 right-1.5 grid size-5.5 place-items-center rounded-full font-extrabold text-white tabular-nums"
+                              className="bg-game text-13 grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--game-lip)]"
                             >
                               {slot}
                             </span>
                           ) : null}
-                        </PokemonCard>
-                      </button>
-                      {notes.length ? (
-                        /*
-                         * The raised "!" of Your team's slots, inside the
-                         * card's top corner (the list's sections clip
-                         * anything outside), beside the slot number once
-                         * picked.
-                         */
-                        <span
-                          className={cn(
-                            "absolute top-1 z-10",
-                            slot !== undefined ? "right-8" : "right-1",
-                          )}
-                        >
-                          <ExplanatoryTip
-                            triggerVariant="raised"
-                            triggerTone="warn"
-                            triggerLabel={`${pokemon.name}: ${notes[0]}`}
-                            contentClassName="w-64"
-                            content={notes.map((note) => (
-                              <p key={note}>{note}</p>
-                            ))}
-                          />
                         </span>
                       ) : null}
                     </li>
