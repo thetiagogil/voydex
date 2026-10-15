@@ -26,6 +26,11 @@ type ExplanatoryTipProps = Pick<
   /* The accessible name of the default "i" dot. */
   triggerLabel?: string;
   /*
+   * `info` is the "i" dot; `warn` and `danger` turn it into a soft "!" that
+   * flags something to look at (a Plan slot that needs something).
+   */
+  triggerTone?: InfoDotTone;
+  /*
    * `dot` is the small inset dot for text; `raised` is v3's `.edit-wrap
    * .infotip`, a 24px cream dot on a 2px lip that sits beside a control.
    */
@@ -33,6 +38,13 @@ type ExplanatoryTipProps = Pick<
 };
 
 type InfoDotVariant = "dot" | "raised";
+type InfoDotTone = "danger" | "info" | "warn";
+
+const infoDotToneClassNames: Record<InfoDotTone, string> = {
+  danger: "bg-danger-soft text-danger-deep hover:text-danger-deep",
+  info: "",
+  warn: "bg-warn-soft text-warn-ink hover:text-warn-ink",
+};
 
 /* v3 `.infotip`: a round "i" dot with at least a 40px hit area. */
 const infoDotClassName =
@@ -64,6 +76,7 @@ export const ExplanatoryTip = ({
   sideOffset,
   trigger,
   triggerLabel = "More information",
+  triggerTone = "info",
   triggerVariant = "dot",
 }: ExplanatoryTipProps) => {
   const [open, setOpen] = useState(false);
@@ -113,6 +126,7 @@ export const ExplanatoryTip = ({
               className={cn(
                 infoDotClassName,
                 infoDotVariantClassNames[triggerVariant].dot,
+                infoDotToneClassNames[triggerTone],
               )}
             />
           )
@@ -172,7 +186,7 @@ export const ExplanatoryTip = ({
                 infoDotVariantClassNames[triggerVariant].glyph,
               )}
             >
-              i
+              {triggerTone === "info" ? "i" : "!"}
             </span>
           ))}
       </PopoverTrigger>

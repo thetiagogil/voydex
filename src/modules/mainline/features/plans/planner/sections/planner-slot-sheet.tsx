@@ -217,11 +217,10 @@ export const PlannerSlotSheet = ({
             className="grid grid-cols-6 gap-1.5"
           >
             {slots.map((other, otherIndex) => {
-              const otherPokemon =
-                other && otherIndex !== slotIndex
-                  ? byId.get(other.speciesId)
-                  : undefined;
               const isHere = otherIndex === slotIndex;
+              /* Every slot shows who sits in it, this one included. */
+              const slotPokemon = other ? byId.get(other.speciesId) : undefined;
+              const otherPokemon = isHere ? undefined : slotPokemon;
 
               return (
                 <button
@@ -237,20 +236,22 @@ export const PlannerSlotSheet = ({
                   }
                   onClick={() => onMove(slotIndex, otherIndex)}
                   className={cn(
-                    "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
                     isHere
                       ? "bg-select-soft text-select-ink"
                       : "bg-surface-2 text-ink-2 hover:bg-hover",
                   )}
                 >
-                  {otherPokemon?.imageUrl ? (
+                  {slotPokemon?.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={otherPokemon.imageUrl}
-                      alt=""
-                      className="size-8"
+                    <img src={slotPokemon.imageUrl} alt="" className="size-8" />
+                  ) : (
+                    /* An open slot keeps the art's place, so numbers line up. */
+                    <span
+                      aria-hidden
+                      className="empty-slot size-7 rounded-full [border-width:2px]"
                     />
-                  ) : null}
+                  )}
                   <span>{otherIndex + 1}</span>
                 </button>
               );

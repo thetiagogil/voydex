@@ -15,6 +15,7 @@ import {
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -26,11 +27,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 export const randomModeLabels: Record<
@@ -276,8 +272,11 @@ export const PlannerDockSection = ({
               }}
               {...dragProps}
               className={cn(
-                "group/removable relative min-w-0 rounded-xl",
-                replacing && "motion-safe:animate-wiggle hover:animate-none",
+                /* The slot lifts as one, with its × and "!". */
+                "group/removable relative min-w-0 rounded-xl transition-transform duration-150",
+                replacing
+                  ? "motion-safe:animate-wiggle hover:animate-none"
+                  : "hover:-translate-y-[3px]",
                 dragFrom === index && "opacity-60",
               )}
             >
@@ -286,11 +285,9 @@ export const PlannerDockSection = ({
                 className={cn(
                   "w-full",
                   dropTarget === index && "sticker-picked",
-                  /*
-                   * While it wiggles, hovering stills it and rings it (card
-                   * and lip, as a drop target): no lift.
-                   */
-                  replacing && "hover:sticker-picked hover:translate-y-0",
+                  /* The slot lifts instead; while it wiggles, hovering rings it. */
+                  "hover:translate-y-0",
+                  replacing && "hover:sticker-picked",
                 )}
                 imageUrl={pokemon.imageUrl}
                 name={pokemon.name}
@@ -305,27 +302,30 @@ export const PlannerDockSection = ({
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
               />
               {worst && !replacing ? (
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <button
-                        type="button"
-                        onClick={onOpenCheck}
-                        aria-label={`${worst.title}. Details`}
-                        className={cn(
-                          "text-12 absolute -top-2 -left-2 z-10 grid size-6 place-items-center rounded-full font-extrabold ring-2 ring-white",
-                          worst.severity === "block" ||
-                            worst.severity === "hard"
-                            ? "bg-danger text-white"
-                            : "bg-warn text-ink",
-                        )}
-                      />
+                <span className="absolute -top-2 -left-2 z-10">
+                  <ExplanatoryTip
+                    triggerVariant="raised"
+                    triggerTone={
+                      worst.severity === "block" || worst.severity === "hard"
+                        ? "danger"
+                        : "warn"
                     }
-                  >
-                    !
-                  </TooltipTrigger>
-                  <TooltipContent>{worst.title}</TooltipContent>
-                </Tooltip>
+                    triggerLabel={`${pokemon.name}: ${worst.title}`}
+                    contentClassName="w-64"
+                    content={
+                      <>
+                        <p>{worst.title}</p>
+                        <button
+                          type="button"
+                          onClick={onOpenCheck}
+                          className="text-14 mt-1 font-extrabold underline underline-offset-2"
+                        >
+                          Open Team check
+                        </button>
+                      </>
+                    }
+                  />
+                </span>
               ) : null}
               {replacing ? null : (
                 <CornerRemoveButton
