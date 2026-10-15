@@ -20,6 +20,7 @@ import { SearchControl } from "@/shared/components/search-control";
 import { SectionHead } from "@/shared/components/section-head";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Toolbar } from "@/shared/components/toolbar";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 
 export type PlannerPoolFilters = {
@@ -185,7 +186,7 @@ export const PlannerPoolSection = ({
                   const notes = getPoolTileNotes(pokemon, versionGroup);
 
                   return (
-                    <li key={pokemon.speciesId} className="min-w-0">
+                    <li key={pokemon.speciesId} className="relative min-w-0">
                       <button
                         type="button"
                         aria-pressed={slot !== undefined}
@@ -228,16 +229,32 @@ export const PlannerPoolSection = ({
                               {slot}
                             </span>
                           ) : null}
-                          {notes.length ? (
-                            <span
-                              aria-hidden
-                              className="bg-warn-soft text-warn-ink text-12 absolute bottom-1.5 left-1.5 grid size-5.5 place-items-center rounded-full font-extrabold"
-                            >
-                              !
-                            </span>
-                          ) : null}
                         </PokemonCard>
                       </button>
+                      {notes.length ? (
+                        /*
+                         * The raised "!" of Your team's slots, inside the
+                         * card's top corner (the list's sections clip
+                         * anything outside), beside the slot number once
+                         * picked.
+                         */
+                        <span
+                          className={cn(
+                            "absolute top-1 z-10",
+                            slot !== undefined ? "right-8" : "right-1",
+                          )}
+                        >
+                          <ExplanatoryTip
+                            triggerVariant="raised"
+                            triggerTone="warn"
+                            triggerLabel={`${pokemon.name}: ${notes[0]}`}
+                            contentClassName="w-64"
+                            content={notes.map((note) => (
+                              <p key={note}>{note}</p>
+                            ))}
+                          />
+                        </span>
+                      ) : null}
                     </li>
                   );
                 })}
