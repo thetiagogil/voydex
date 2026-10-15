@@ -9,6 +9,8 @@ import type {
   PlannerVersionGroupOption,
 } from "@/modules/mainline/features/plans/types";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
+import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -24,6 +26,7 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { cn } from "@/shared/utils/cn";
 
 type PlannerTopSectionProps = {
   canSave: boolean;
@@ -41,9 +44,9 @@ type PlannerTopSectionProps = {
 };
 
 /*
- * v3 `.pl-top`: the version group the Plan is for (a menu of every base
- * group), the Plan's name (tap to rename), and Share, My Plans and the
- * page's main button, Save.
+ * The head of the Planner's band (v3 `.pl-top`): the version group the Plan
+ * is for (its covers; a menu of every base group), the Plan's name (tap to
+ * rename) and Share, My Plans and the page's main button, Save.
  */
 export const PlannerTopSection = ({
   canSave,
@@ -61,35 +64,43 @@ export const PlannerTopSection = ({
 }: PlannerTopSectionProps) => {
   const [isRenaming, setIsRenaming] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const firstGameSlug = versionGroup.games[0]?.slug ?? null;
 
   useEffect(() => {
     if (isRenaming) inputRef.current?.focus();
   }, [isRenaming]);
 
   return (
-    <div className="flex flex-col gap-4 pt-4 sm:pt-6">
+    <div className="flex flex-col gap-4 pt-4 sm:pt-7">
       <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
               <button
                 type="button"
-                style={getGameColourStyle(firstGameSlug)}
-                className="game-scope bg-surface shadow-card hover:bg-hover focus-visible:outline-focus flex min-h-14 items-center gap-3 rounded-lg py-2 pr-3 pl-4 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                className="bg-surface shadow-card hover:bg-hover focus-visible:outline-focus flex min-h-16 items-center gap-3 rounded-xl py-2 pr-3 pl-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
               />
             }
           >
-            <span
-              aria-hidden
-              className="bg-game size-3 shrink-0 rounded-full"
-            />
+            <span aria-hidden className="flex shrink-0 items-center pl-1">
+              {versionGroup.games.slice(0, 2).map((game, index) => (
+                <GameCover
+                  key={game.slug}
+                  alt=""
+                  coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
+                  eager
+                  gameName={game.name}
+                  gameSlug={game.slug}
+                  size="dock"
+                  className={index === 0 ? "-rotate-6" : "-ml-3 rotate-6"}
+                />
+              ))}
+            </span>
             <span className="min-w-0">
               <span className="text-ink-2 text-12 block font-bold">
                 Gen {versionGroup.generationNumeral}
                 {versionGroup.regionName ? ` · ${versionGroup.regionName}` : ""}
               </span>
-              <b className="text-ink text-15 block font-extrabold">
+              <b className="text-ink text-16 block font-extrabold">
                 {versionGroup.name}
               </b>
             </span>
@@ -124,7 +135,7 @@ export const PlannerTopSection = ({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div className="order-first flex min-w-0 basis-full flex-col gap-1.5 sm:order-none sm:flex-1 sm:basis-0">
+        <div className="order-first flex min-w-0 basis-full flex-col gap-1.5 lg:order-none lg:flex-1 lg:basis-0">
           {isRenaming ? (
             <Input
               ref={inputRef}
@@ -146,24 +157,27 @@ export const PlannerTopSection = ({
               <button
                 type="button"
                 onClick={() => setIsRenaming(true)}
-                className="group/title text-28 focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left leading-tight tracking-[-0.02em] outline-none focus-visible:outline-3 focus-visible:outline-solid sm:text-[34px]"
+                className="group/title text-28 focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left leading-tight tracking-[-0.02em] outline-none focus-visible:outline-3 focus-visible:outline-solid sm:text-[38px]"
               >
                 <span
-                  className={name.trim() ? "truncate" : "text-ink-3 truncate"}
+                  className={cn(
+                    "line-clamp-2 text-balance [overflow-wrap:anywhere]",
+                    !name.trim() && "text-ink-3",
+                  )}
                 >
                   {name.trim() || untitledPlanName}
                 </span>
                 <AppIcon
                   icon={appIcons.actions.edit}
                   size="lg"
-                  className="text-ink-3 group-hover/title:text-ink shrink-0"
+                  className="text-ink-tint group-hover/title:text-ink shrink-0 transition-opacity group-focus-visible/title:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/title:opacity-100"
                 />
                 <span className="sr-only">Rename</span>
               </button>
             </h1>
           )}
           {linkedPlayCount ? (
-            <p className="text-ink-2 text-14 flex items-center gap-1.5 font-semibold">
+            <p className="text-ink-tint text-14 flex items-center gap-1.5 font-semibold">
               <AppIcon icon={appIcons.milestones.story} size="sm" />
               Followed by {linkedPlayCount}{" "}
               {linkedPlayCount === 1 ? "Play" : "Plays"}. Saving updates{" "}
@@ -172,20 +186,21 @@ export const PlannerTopSection = ({
           ) : null}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={onShare}>
+        <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+          <Button type="button" variant="outline" onClick={onShare}>
+            <AppIcon icon={appIcons.actions.share} inline="start" />
             Share
           </Button>
           <Link
             href={appRoutes.mainlinePlans}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
+            className={buttonVariants({ variant: "outline" })}
           >
+            <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
             My Plans
             <span className="text-ink-3 tabular-nums">{planCount}</span>
           </Link>
           <Button
             type="button"
-            size="sm"
             disabled={!canSave || isSaving}
             onClick={onSave}
           >

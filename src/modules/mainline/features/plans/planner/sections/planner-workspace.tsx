@@ -49,7 +49,8 @@ import type {
   PlannerPageData,
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameBandStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { PageBand } from "@/shared/components/page-band";
 import { Button } from "@/shared/components/ui/button";
 
 type PlannerWorkspaceProps = {
@@ -330,105 +331,111 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
   return (
     <div
-      style={getGameColourStyle(context.versionGroup.games[0]?.slug ?? null)}
+      style={getGameBandStyle(
+        context.versionGroup.games.map((game) => game.slug),
+      )}
       className="game-scope flex flex-col gap-6 sm:gap-8"
     >
-      <PlannerTopSection
-        canSave={members.length > 0 && isDirty}
-        isSaved={Boolean(plan)}
-        isSaving={isSaving}
-        linkedPlayCount={plan?.linkedPlayCount ?? 0}
-        name={name}
-        onNameChange={setName}
-        onSave={save}
-        onShare={() => setIsShareOpen(true)}
-        onVersionGroupChange={changeVersionGroup}
-        planCount={data.planCount}
-        versionGroup={context.versionGroup}
-        versionGroups={data.versionGroups}
-      />
+      <PageBand className="flex flex-col gap-6 sm:gap-7">
+        <PlannerTopSection
+          canSave={members.length > 0 && isDirty}
+          isSaved={Boolean(plan)}
+          isSaving={isSaving}
+          linkedPlayCount={plan?.linkedPlayCount ?? 0}
+          name={name}
+          onNameChange={setName}
+          onSave={save}
+          onShare={() => setIsShareOpen(true)}
+          onVersionGroupChange={changeVersionGroup}
+          planCount={data.planCount}
+          versionGroup={context.versionGroup}
+          versionGroups={data.versionGroups}
+        />
 
-      {offered ? (
-        <section
-          aria-label="Unsaved Plan"
-          data-slot="card"
-          className="bg-surface shadow-card flex flex-wrap items-center gap-3 rounded-2xl px-5 py-4"
-        >
-          <p className="text-ink text-15 mr-auto font-semibold">
-            <b className="font-extrabold">Continue your unsaved Plan?</b>{" "}
-            {offered.name.trim() || untitledPlanName}, {offered.members.length}{" "}
-            Pokémon.
-          </p>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              clearPlanDraft(data.trainerId);
-              dismissOffer();
-            }}
+        {offered ? (
+          <section
+            aria-label="Unsaved Plan"
+            data-slot="card"
+            className="bg-surface shadow-card flex flex-wrap items-center gap-3 rounded-2xl px-5 py-4"
           >
-            Start fresh
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            onClick={() => {
-              if (offered.versionGroupSlug !== context.versionGroup.slug) {
-                router.push(
-                  appRoutes.mainlinePlanNew(offered.versionGroupSlug),
+            <p className="text-ink text-15 mr-auto font-semibold">
+              <b className="font-extrabold">Continue your unsaved Plan?</b>{" "}
+              {offered.name.trim() || untitledPlanName},{" "}
+              {offered.members.length} Pokémon.
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                clearPlanDraft(data.trainerId);
+                dismissOffer();
+              }}
+            >
+              Start fresh
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => {
+                if (offered.versionGroupSlug !== context.versionGroup.slug) {
+                  router.push(
+                    appRoutes.mainlinePlanNew(offered.versionGroupSlug),
+                  );
+                  return;
+                }
+
+                team.setSlots(
+                  toPlannerSlots(fitToVersionGroup(offered.members)),
                 );
-                return;
-              }
+                setName(offered.name);
+                setExpansions(offered.expansionVersionGroupIds);
+                dismissOffer();
+              }}
+            >
+              Continue
+            </Button>
+          </section>
+        ) : null}
 
-              team.setSlots(toPlannerSlots(fitToVersionGroup(offered.members)));
-              setName(offered.name);
-              setExpansions(offered.expansionVersionGroupIds);
-              dismissOffer();
-            }}
-          >
-            Continue
-          </Button>
-        </section>
-      ) : null}
+        <PlannerDockSection
+          byId={byId}
+          issues={issues}
+          onCancelReplace={() => {
+            setReplacingId(null);
+            setSwapIndex(null);
+          }}
+          onClear={team.clearSlots}
+          onMove={team.moveSlot}
+          onOpenCheck={() => setIsCheckOpen(true)}
+          onOpenSlot={setOpenSlot}
+          onPlace={place}
+          onRandom={random}
+          onRandomModeChange={setRandomMode}
+          onRemove={team.removeSlot}
+          randomMode={randomMode}
+          replacing={
+            replacingId === null ? null : (byId.get(replacingId) ?? null)
+          }
+          slots={team.slots}
+          tip={tip}
+        />
 
-      <PlannerDockSection
-        byId={byId}
-        issues={issues}
-        onCancelReplace={() => {
-          setReplacingId(null);
-          setSwapIndex(null);
-        }}
-        onClear={team.clearSlots}
-        onMove={team.moveSlot}
-        onOpenCheck={() => setIsCheckOpen(true)}
-        onOpenSlot={setOpenSlot}
-        onPlace={place}
-        onRandom={random}
-        onRandomModeChange={setRandomMode}
-        onRemove={team.removeSlot}
-        randomMode={randomMode}
-        replacing={
-          replacingId === null ? null : (byId.get(replacingId) ?? null)
-        }
-        slots={team.slots}
-        tip={tip}
-      />
-
-      {swapIndex !== null ? (
-        <p role="status" className="text-ink text-15 font-semibold">
-          Pick the Pokémon for slot {swapIndex + 1}.{" "}
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            className="h-auto px-0"
-            onClick={() => setSwapIndex(null)}
-          >
-            Cancel
-          </Button>
-        </p>
-      ) : null}
+        {swapIndex !== null ? (
+          <p role="status" className="text-ink text-15 font-semibold">
+            Pick the Pokémon for slot {swapIndex + 1}.{" "}
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
+              className="h-auto px-0"
+              onClick={() => setSwapIndex(null)}
+            >
+              Cancel
+            </Button>
+          </p>
+        ) : null}
+      </PageBand>
 
       <PlannerPoolSection
         byId={byId}

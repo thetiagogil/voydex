@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   gameColours,
+  getGameBandStyle,
   getGameColourStyle,
   getGameStrongColour,
 } from "./game-color-styles";
@@ -34,5 +35,13 @@ describe("game colours", () => {
       "--game": "#8C867D",
       "--gt": "17%",
     });
+  });
+
+  it("blends a pair's band toward the second game and keeps one game solid", () => {
+    expect(getGameBandStyle(["sword", "shield"])).toMatchObject({
+      "--band-end": "color-mix(in oklab, #B44E57 17%, #fff)",
+      "--game": "#3A6EA8",
+    });
+    expect(getGameBandStyle(["emerald"])).not.toHaveProperty("--band-end");
   });
 });

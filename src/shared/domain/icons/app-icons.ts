@@ -102,6 +102,7 @@ export const appIcons = {
     retry: RotateCcw,
     search: Search,
     settings: Settings,
+    share: ArrowRight,
     signOut: LogOut,
   },
   /* What sits inside a gold milestone medallion, by milestone type. */
@@ -185,6 +186,7 @@ export const appIcons = {
       home: Home,
       overview: LayoutDashboard,
       planner: ClipboardPen,
+      plans: BookOpen,
       plays: Gamepad2,
       pokedex: ClipboardList,
       progress: Gauge,

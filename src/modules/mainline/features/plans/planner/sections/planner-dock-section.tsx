@@ -72,8 +72,17 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
   warn: "bg-warn-soft text-warn-ink",
 };
 
+const SlotNumber = ({ index }: { index: number }) => (
+  <span
+    aria-hidden
+    className="text-12 grid size-6 place-items-center rounded-full bg-white/70 font-extrabold tabular-nums"
+  >
+    {index + 1}
+  </span>
+);
+
 /*
- * v3 `.dock`: the six slots of the Plan's team. Each holds its Pokémon as a
+ * v3 `.dock`, on the Planner's band: the six slots of the Plan's team. Each holds its Pokémon as a
  * sticker (role, a dot when it has build details, a flag when it needs
  * something), opens its slot sheet, can be dragged onto another slot to swap
  * and removed with Undo. Over it: Team check, Random and Clear; under it the
@@ -101,11 +110,7 @@ export const PlannerDockSection = ({
   const filled = slots.filter(Boolean).length;
 
   return (
-    <section
-      aria-labelledby="planner-team"
-      data-slot="card"
-      className="bg-surface shadow-card flex flex-col gap-4 rounded-2xl p-4 sm:p-5"
-    >
+    <section aria-labelledby="planner-team" className="flex flex-col gap-3">
       {replacing ? (
         <div className="flex flex-wrap items-center gap-3">
           {replacing.imageUrl ? (
@@ -137,13 +142,14 @@ export const PlannerDockSection = ({
           <span className="text-ink-3 text-14 font-bold tabular-nums">
             {filled} of 6
           </span>
-          <div className="ml-auto flex flex-wrap items-center gap-1.5">
+          <div className="-mx-1 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-1 max-sm:w-full sm:ml-auto sm:gap-1.5 [&>*]:shrink-0">
             {filled ? (
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={onOpenCheck}
+                className="max-sm:px-2"
               >
                 <span
                   aria-hidden
@@ -165,9 +171,13 @@ export const PlannerDockSection = ({
                 variant="ghost"
                 size="sm"
                 onClick={onRandom}
-                className="rounded-r-none"
+                className="rounded-r-none max-sm:px-2"
               >
-                <AppIcon icon={appIcons.product.activity} inline="start" />
+                <AppIcon
+                  icon={appIcons.product.activity}
+                  inline="start"
+                  className="max-sm:hidden"
+                />
                 {randomModeLabels[randomMode].label}
               </Button>
               <DropdownMenu>
@@ -220,6 +230,7 @@ export const PlannerDockSection = ({
               size="sm"
               disabled={!filled}
               onClick={onClear}
+              className="max-sm:px-2"
             >
               Clear
             </Button>
@@ -227,7 +238,7 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      <ol className="grid grid-cols-3 gap-2.5 sm:grid-cols-6 sm:gap-3">
+      <ol className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.speciesId) : undefined;
           const worst = member
@@ -263,19 +274,19 @@ export const PlannerDockSection = ({
                   <button
                     type="button"
                     onClick={() => onPlace(index)}
-                    className="empty-slot text-ink-2 text-13 focus-visible:outline-focus hover:bg-hover flex h-full min-h-32 w-full flex-col items-center justify-center gap-1 rounded-xl font-bold outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                    className="empty-slot text-ink-2 text-13 focus-visible:outline-focus flex h-full min-h-20 w-full items-center justify-center gap-2 rounded-xl font-bold outline-none hover:bg-white/50 focus-visible:outline-3 focus-visible:outline-solid"
                   >
-                    <span className="tabular-nums">{index + 1}</span>
+                    <SlotNumber index={index} />
                     Put here
                   </button>
                 ) : (
                   <div
                     className={cn(
-                      "empty-slot text-ink-3 text-13 flex h-full min-h-32 flex-col items-center justify-center gap-1 rounded-xl font-bold",
-                      dropTarget === index && "bg-select-soft",
+                      "empty-slot text-ink-tint text-13 flex h-full min-h-20 items-center justify-center gap-2 rounded-xl font-bold",
+                      dropTarget === index && "bg-white/50",
                     )}
                   >
-                    <span className="tabular-nums">{index + 1}</span>
+                    <SlotNumber index={index} />
                     Empty
                   </div>
                 )}
@@ -300,7 +311,7 @@ export const PlannerDockSection = ({
                 typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
               )}
               className={cn(
-                "sticker relative flex min-h-32 flex-col rounded-xl",
+                "sticker group/slot relative flex min-h-20 rounded-xl",
                 dropTarget === index && "sticker-picked",
                 dragFrom === index && "opacity-60",
               )}
@@ -313,35 +324,38 @@ export const PlannerDockSection = ({
                     ? `Replace ${pokemon.name} with ${replacing.name}`
                     : `${pokemon.name}, slot ${index + 1}. Edit`
                 }
-                className="focus-visible:outline-focus flex h-full flex-col items-center gap-0.5 rounded-lg px-1.5 pt-2.5 pb-2.5 text-center outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                className="focus-visible:outline-focus flex h-full w-full min-w-0 items-center gap-1.5 rounded-lg py-1.5 pr-2.5 pl-1 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
               >
-                <span
-                  aria-hidden
-                  className="text-ink-tint text-12 absolute top-2 left-2.5 font-extrabold tabular-nums"
-                >
-                  {index + 1}
-                </span>
                 {pokemon.imageUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={pokemon.imageUrl}
                     alt=""
-                    className="size-16 sm:size-18"
+                    className="size-12 shrink-0 sm:size-15"
                   />
                 ) : (
-                  <span className="empty-slot size-14 rounded-full" />
+                  <span className="empty-slot size-10 shrink-0 rounded-full sm:size-12" />
                 )}
-                <span className="font-display text-16 w-full truncate font-semibold">
-                  {pokemon.name}
-                </span>
-                <PokemonTypeList
-                  types={pokemon.types}
-                  badgeDisplay="icon"
-                  badgeSize="sm"
-                  className="flex justify-center gap-1"
-                />
-                <span className="text-ink-tint text-12 w-full truncate font-bold">
-                  {replacing ? "Replace" : (member.role ?? " ")}
+                <span className="flex min-w-0 flex-col gap-0.5">
+                  <span className="font-display text-15 sm:text-16 truncate leading-tight font-semibold">
+                    {pokemon.name}
+                  </span>
+                  <PokemonTypeList
+                    types={pokemon.types}
+                    badgeDisplay="icon"
+                    badgeSize="sm"
+                    className="flex gap-1"
+                  />
+                  <span className="text-ink-tint text-12 truncate pr-3 font-bold">
+                    {replacing ? (
+                      <span className="inline-flex items-center gap-1">
+                        <AppIcon icon={appIcons.actions.move} size="sm" />
+                        Replace
+                      </span>
+                    ) : (
+                      (member.role ?? "\u00a0")
+                    )}
+                  </span>
                 </span>
                 {hasBuild ? (
                   <span className="sr-only">Has build details</span>
@@ -350,7 +364,7 @@ export const PlannerDockSection = ({
               {hasBuild ? (
                 <span
                   aria-hidden
-                  className="bg-action absolute top-2.5 right-8 size-2 rounded-full"
+                  className="bg-game absolute right-2.5 bottom-2.5 size-2 rounded-full ring-2 ring-white"
                 />
               ) : null}
               {worst && !replacing ? (
@@ -381,7 +395,7 @@ export const PlannerDockSection = ({
                   type="button"
                   onClick={() => onRemove(index)}
                   aria-label={`Remove ${pokemon.name}`}
-                  className="text-ink-2 hover:text-ink focus-visible:outline-focus bg-surface absolute top-1 right-1 grid size-7 place-items-center rounded-full outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                  className="text-ink-2 hover:text-ink focus-visible:outline-focus bg-surface shadow-quiet absolute -top-2 -right-2 grid size-6 place-items-center rounded-full outline-none focus-visible:opacity-100 focus-visible:outline-3 focus-visible:outline-solid pointer-fine:opacity-0 pointer-fine:group-hover/slot:opacity-100"
                 >
                   <AppIcon icon={appIcons.actions.close} size="sm" />
                 </button>
@@ -393,22 +407,26 @@ export const PlannerDockSection = ({
 
       <p
         aria-live="polite"
-        className={cn(
-          "text-14 flex items-center gap-2 rounded-md px-3 py-2 font-semibold",
-          tipToneClassNames[tip.tone],
-        )}
+        className="text-ink text-14 flex min-h-12 items-center gap-2.5 rounded-lg bg-white/70 px-3 py-2 font-semibold"
       >
-        <AppIcon
-          icon={
-            tip.tone === "good"
-              ? appIcons.status.active
-              : tip.tone === "idle"
-                ? appIcons.product.activity
-                : appIcons.status.warning
-          }
-          size="md"
-          className="shrink-0"
-        />
+        <span
+          aria-hidden
+          className={cn(
+            "grid size-6 shrink-0 place-items-center rounded-full",
+            tipToneClassNames[tip.tone],
+          )}
+        >
+          <AppIcon
+            icon={
+              tip.tone === "good"
+                ? appIcons.status.active
+                : tip.tone === "idle"
+                  ? appIcons.product.activity
+                  : appIcons.status.warning
+            }
+            size="sm"
+          />
+        </span>
         <span className="min-w-0 flex-1">{tip.text}</span>
         {tip.more ? (
           <Button
