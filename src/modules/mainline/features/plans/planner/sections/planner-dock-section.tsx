@@ -277,8 +277,7 @@ export const PlannerDockSection = ({
               {...dragProps}
               className={cn(
                 "group/removable relative min-w-0 rounded-xl",
-                replacing &&
-                  "hover:outline-game motion-safe:animate-wiggle hover:animate-none hover:outline-3 hover:outline-offset-2 hover:outline-solid",
+                replacing && "motion-safe:animate-wiggle hover:animate-none",
                 dragFrom === index && "opacity-60",
               )}
             >
@@ -287,8 +286,11 @@ export const PlannerDockSection = ({
                 className={cn(
                   "w-full",
                   dropTarget === index && "sticker-picked",
-                  /* While it wiggles, hovering only stills it: no lift. */
-                  replacing && "hover:translate-y-0",
+                  /*
+                   * While it wiggles, hovering stills it and rings it (card
+                   * and lip, as a drop target): no lift.
+                   */
+                  replacing && "hover:sticker-picked hover:translate-y-0",
                 )}
                 imageUrl={pokemon.imageUrl}
                 name={pokemon.name}
