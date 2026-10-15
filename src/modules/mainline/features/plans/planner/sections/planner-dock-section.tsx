@@ -287,6 +287,8 @@ export const PlannerDockSection = ({
                 className={cn(
                   "w-full",
                   dropTarget === index && "sticker-picked",
+                  /* While it wiggles, hovering only stills it: no lift. */
+                  replacing && "hover:translate-y-0",
                 )}
                 imageUrl={pokemon.imageUrl}
                 name={pokemon.name}
