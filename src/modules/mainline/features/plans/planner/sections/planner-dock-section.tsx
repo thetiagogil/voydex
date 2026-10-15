@@ -14,6 +14,7 @@ import { PokemonTypeList } from "@/modules/reference/features/pokemon/components
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
@@ -282,7 +283,7 @@ export const PlannerDockSection = ({
                 typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
               )}
               className={cn(
-                "sticker group/slot relative flex min-h-20 rounded-xl",
+                "sticker group/removable relative flex min-h-20 rounded-xl",
                 dropTarget === index && "sticker-picked",
                 replacing &&
                   "hover:outline-game motion-safe:animate-wiggle hover:animate-none hover:outline-3 hover:outline-offset-2 hover:outline-solid",
@@ -355,14 +356,10 @@ export const PlannerDockSection = ({
                 </Tooltip>
               ) : null}
               {replacing ? null : (
-                <button
-                  type="button"
+                <CornerRemoveButton
+                  label={`Remove ${pokemon.name}`}
                   onClick={() => onRemove(index)}
-                  aria-label={`Remove ${pokemon.name}`}
-                  className="text-ink-2 hover:text-ink focus-visible:outline-focus bg-surface shadow-quiet absolute -top-2 -right-2 grid size-6 place-items-center rounded-full outline-none focus-visible:opacity-100 focus-visible:outline-3 focus-visible:outline-solid pointer-fine:opacity-0 pointer-fine:group-hover/slot:opacity-100"
-                >
-                  <AppIcon icon={appIcons.actions.close} size="sm" />
-                </button>
+                />
               )}
             </li>
           );

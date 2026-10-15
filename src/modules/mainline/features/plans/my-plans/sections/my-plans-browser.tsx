@@ -21,6 +21,7 @@ import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
@@ -39,12 +40,6 @@ import {
 } from "@/shared/components/ui/alert-dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -53,8 +48,9 @@ type MyPlansBrowserProps = {
 };
 
 /*
- * One Plan: the card opens it in the Team Planner; the More menu in its
- * corner deletes it, after a confirm that says what goes with it.
+ * One Plan: the card opens it in the Team Planner; the × on its corner (as
+ * on the Planner's team slots) deletes it, after a confirm that says what
+ * goes with it.
  */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   const router = useRouter();
@@ -79,7 +75,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
 
   return (
     <li
-      className="game-scope relative min-w-0"
+      className="game-scope group/removable relative min-w-0"
       style={getGameColourStyle(plan.gameSlug)}
     >
       <Link
@@ -109,7 +105,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
             members={plan.members}
             className={cn(plan.isArchived && "opacity-55")}
           />
-          <div className="mt-auto flex flex-wrap items-center gap-2 pr-10">
+          <div className="mt-auto flex flex-wrap items-center gap-2">
             <span
               className={
                 plan.linkedPlayCount
@@ -128,33 +124,13 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
           </div>
         </Card>
       </Link>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`More for ${plan.name}`}
-              className="absolute right-3 bottom-3"
-            />
-          }
-        >
-          <AppIcon icon={appIcons.actions.more} />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => {
-              setDeleteError(null);
-              setIsConfirmOpen(true);
-            }}
-          >
-            <AppIcon icon={appIcons.actions.delete} />
-            Delete Plan
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <CornerRemoveButton
+        label={`Delete ${plan.name}`}
+        onClick={() => {
+          setDeleteError(null);
+          setIsConfirmOpen(true);
+        }}
+      />
       <AlertDialog
         open={isConfirmOpen}
         onOpenChange={(open) => {
