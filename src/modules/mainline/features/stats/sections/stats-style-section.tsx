@@ -201,12 +201,12 @@ const MostPickedCard = ({
         ) : null}
         {highestLevel ? (
           <PickedFact icon={appIcons.product.evolved}>
-            Reached <b className="text-ink">Lv. {highestLevel}</b>
+            Reached max <b className="text-ink">Lv. {highestLevel}</b>
           </PickedFact>
         ) : null}
         {firstJoined ? (
           <PickedFact icon={appIcons.product.date}>
-            First joined you in <b className="text-ink">{firstJoined}</b>
+            First joined in <b className="text-ink">{firstJoined}</b>
           </PickedFact>
         ) : null}
       </ul>
