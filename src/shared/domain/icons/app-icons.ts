@@ -10,6 +10,7 @@ import {
   BookOpen,
   BookOpenCheck,
   CalendarDays,
+  Camera,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -59,6 +60,7 @@ import {
   Shield,
   ShieldAlert,
   ShieldCheck,
+  Signpost,
   SlidersHorizontal,
   Sparkles,
   Star,
@@ -125,6 +127,8 @@ export const appIcons = {
     collectible: Gem,
     completion: Check,
     date: CalendarDays,
+    /* A milestone where a choice was recorded (first partner, fossil). */
+    decision: Signpost,
     details: ClipboardList,
     evolved: ChevronsUp,
     family: Dna,
@@ -153,6 +157,8 @@ export const appIcons = {
     stats: BarChart3,
     team: UsersRound,
     teamAdded: UserRoundPlus,
+    /* A moment that kept the team as it was (a milestone's snapshot). */
+    teamSnapshot: Camera,
     trainer: UserRound,
     uncaught: Circle,
     uncollected: Circle,

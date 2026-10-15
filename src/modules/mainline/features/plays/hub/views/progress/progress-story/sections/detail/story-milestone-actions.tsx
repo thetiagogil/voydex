@@ -20,20 +20,18 @@ import {
 } from "../../utils/story-milestone-recording";
 
 /*
- * A milestone still ahead offers the main button to record it: large for the
- * next objective, small for any other open milestone. A recorded one
+ * A milestone still ahead offers the main button to record it, the same
+ * size for every milestone. A recorded one
  * keeps its extras behind one quiet Edit menu: the note, the team snapshot,
  * the decision, and marking it incomplete. Adding wears a plus, updating the
  * pencil.
  */
 export const StoryMilestoneActions = ({
   className,
-  isNext,
   milestone,
   onAction,
 }: {
   className?: string;
-  isNext: boolean;
   milestone: StoryMilestone;
   onAction: (intent: StoryMilestoneActionIntent) => void;
 }) => {
@@ -41,12 +39,11 @@ export const StoryMilestoneActions = ({
     return (
       <Button
         type="button"
-        size={isNext ? "lg" : "sm"}
+        size="lg"
         disabled={!milestone.isAvailable}
         onClick={() => onAction("complete")}
         className={cn(
-          "h-auto w-full text-left whitespace-normal sm:w-auto",
-          isNext ? "min-h-13 py-3" : "min-h-9 py-1.5",
+          "h-auto min-h-13 w-full py-3 text-left whitespace-normal sm:w-auto",
           className,
         )}
       >

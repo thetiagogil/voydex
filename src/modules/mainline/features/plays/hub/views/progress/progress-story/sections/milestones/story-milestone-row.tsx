@@ -63,13 +63,19 @@ const StoryMilestoneWhen = ({
   return "Not recorded";
 };
 
-/* One milestone in the list, drawn as a milestone pick row. */
+/*
+ * One milestone in the list, drawn as a milestone pick row. A recorded one
+ * shows small marks for what it kept: a signpost for a decision and a camera
+ * for a saved team (the team itself with "Show teams"; the panel shows it in
+ * full).
+ */
 export const StoryMilestoneRow = ({
   isJustRecorded,
   milestone,
   onPopEnd,
   onSelect,
   selected,
+  showTeam,
   state,
 }: {
   isJustRecorded: boolean;
@@ -78,8 +84,13 @@ export const StoryMilestoneRow = ({
   onPopEnd: () => void;
   onSelect: () => void;
   selected: boolean;
+  /* The list's "Show teams": the saved team beside the row, not just its mark. */
+  showTeam: boolean;
   state: PlayMilestoneState;
 }) => {
+  const hasTeam = milestone.snapshotMembers.length > 0;
+  const decision = milestone.selectedDecisionLabel;
+
   return (
     <li className={getMilestonePickItemClassName(state)}>
       <button
@@ -144,13 +155,27 @@ export const StoryMilestoneRow = ({
             </span>
           ) : null}
         </span>
-        {state === "done" ? (
-          <PlayTeamParty
-            decorative
-            members={milestone.snapshotMembers}
-            size="sm"
-            className="pl-1"
-          />
+        {state === "done" && (hasTeam || decision) ? (
+          <span className="text-ink-3 col-start-2 flex items-center gap-2 sm:col-start-auto sm:pl-1">
+            {decision ? (
+              <span title={`Decision: ${decision}`} className="inline-flex">
+                <AppIcon icon={appIcons.product.decision} size="sm" />
+                <span className="sr-only">Decision: {decision}.</span>
+              </span>
+            ) : null}
+            {hasTeam && showTeam ? (
+              <PlayTeamParty
+                decorative
+                members={milestone.snapshotMembers}
+                size="sm"
+              />
+            ) : hasTeam ? (
+              <span title="Team saved with it" className="inline-flex">
+                <AppIcon icon={appIcons.product.teamSnapshot} size="sm" />
+                <span className="sr-only">Team saved with it.</span>
+              </span>
+            ) : null}
+          </span>
         ) : null}
       </button>
     </li>

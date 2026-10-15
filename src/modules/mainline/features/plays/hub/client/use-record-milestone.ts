@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import {
   recordMainlinePlayMilestoneAction,
+  recordMainlinePlayMilestoneTeamAction,
   undoMainlinePlayMilestoneAction,
 } from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
 
@@ -24,8 +25,10 @@ type RecordOptions = {
 
 /*
  * v3's Record: one tap records the milestone where you are (Overview,
- * Story), the toast says so with Undo, and the page redraws from the server.
- * Undo marks it incomplete again, taking its moment out of History too.
+ * Story), without the team; the toast says so with Undo and, where the
+ * milestone keeps snapshots, "Add team" to save the team you have now with
+ * it. The page redraws from the server. Undo marks it incomplete again,
+ * taking its moment out of History too.
  */
 export const useRecordMilestone = (playId: string) => {
   const router = useRouter();
@@ -45,6 +48,21 @@ export const useRecordMilestone = (playId: string) => {
       }
 
       toast.success(`${milestone.name} is no longer recorded`);
+      router.refresh();
+    });
+  };
+
+  const addTeam = (milestone: RecordableMilestone) => {
+    void recordMainlinePlayMilestoneTeamAction({
+      milestoneId: milestone.id,
+      playId,
+    }).then((result) => {
+      if (result.status === "error") {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
       router.refresh();
     });
   };
@@ -79,9 +97,14 @@ export const useRecordMilestone = (playId: string) => {
           (result.totalCount
             ? `${result.milestoneName} recorded · ${result.completedCount} of ${result.totalCount}`
             : `${result.milestoneName} recorded`),
-        {
-          action: { label: "Undo", onClick: () => undo(milestone) },
-        },
+        result.keepsSnapshot
+          ? {
+              action: { label: "Add team", onClick: () => addTeam(milestone) },
+              cancel: { label: "Undo", onClick: () => undo(milestone) },
+              /* Two choices to read, so it stays a little longer. */
+              duration: 8000,
+            }
+          : { action: { label: "Undo", onClick: () => undo(milestone) } },
       );
       router.refresh();
     });

@@ -68,7 +68,6 @@ export const StoryMilestonePanel = ({
       closeLabel="Back to your next objective"
       actions={
         <StoryMilestoneActions
-          isNext={isNext}
           milestone={milestone}
           onAction={(intent) => onAction(milestone, intent)}
         />

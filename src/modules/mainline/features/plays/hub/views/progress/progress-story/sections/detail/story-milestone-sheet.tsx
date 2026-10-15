@@ -51,7 +51,6 @@ export const StoryMilestoneSheet = ({
       footer={
         milestone ? (
           <StoryMilestoneActions
-            isNext={isNext}
             milestone={milestone}
             onAction={(intent) => onAction(milestone, intent)}
             className="justify-center sm:w-full"
