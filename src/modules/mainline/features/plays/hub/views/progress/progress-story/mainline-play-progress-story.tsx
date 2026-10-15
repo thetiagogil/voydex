@@ -11,6 +11,7 @@ import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
+import type { StoryMilestoneChoice } from "./sections/detail/story-milestone-actions";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
 import {
   StoryMilestonePanel,
@@ -79,6 +80,8 @@ export const MainlinePlayProgressStory = ({
   const [isDetailSheetOpen, setIsDetailSheetOpen] = useState(false);
   const [editorIntent, setEditorIntent] =
     useState<StoryMilestoneActionIntent>("complete");
+  /* "Record with your team" on a choice: the form opens with the team ticked. */
+  const [editorRecordsTeam, setEditorRecordsTeam] = useState(false);
   const [editorMilestoneId, setEditorMilestoneId] = useState(
     recordMilestone?.id ?? null,
   );
@@ -160,13 +163,16 @@ export const MainlinePlayProgressStory = ({
    */
   const openEditor = (
     milestone: StoryMilestone,
-    intent: StoryMilestoneActionIntent,
+    choice: StoryMilestoneChoice,
   ) => {
+    const withTeam = choice === "complete-with-team";
+    const intent = withTeam ? "complete" : choice;
+
     if (intent === "complete" && !milestone.decisionOptions.length) {
       setIsDetailSheetOpen(false);
       recording.record(
         { id: milestone.id, name: milestone.name },
-        { onRecorded: startRecordingReward },
+        { includeTeam: withTeam, onRecorded: startRecordingReward },
       );
       return;
     }
@@ -174,6 +180,7 @@ export const MainlinePlayProgressStory = ({
     setIsDetailSheetOpen(false);
     setEditorMilestoneId(milestone.id);
     setEditorIntent(intent);
+    setEditorRecordsTeam(withTeam);
     setIsEditorOpen(true);
   };
 
@@ -261,6 +268,7 @@ export const MainlinePlayProgressStory = ({
         onSaved={finishEditing}
         open={isEditorOpen}
         playId={playId}
+        recordsTeam={editorRecordsTeam}
       />
     </div>
   );

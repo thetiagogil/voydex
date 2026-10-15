@@ -82,12 +82,14 @@ export const StoryMilestoneEditorForm = ({
   milestone,
   onSaved,
   playId,
+  recordsTeam = false,
   surface,
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone;
   onSaved: (message: string | null) => void;
   playId: string;
+  recordsTeam?: boolean;
   surface: StoryMilestoneEditorSurface;
 }) => {
   const router = useRouter();
@@ -172,6 +174,7 @@ export const StoryMilestoneEditorForm = ({
           {canRecordStoryMoment ? (
             <CheckboxCard
               id="story-milestone-record-moment"
+              defaultChecked={recordsTeam}
               name="recordStoryMoment"
               title="Record team snapshot"
               description="Add this milestone to History and save the current Active Team."

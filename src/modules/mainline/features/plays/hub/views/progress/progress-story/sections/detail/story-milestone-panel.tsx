@@ -6,9 +6,11 @@ import {
 import { appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
-import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone, StoryScope } from "../../types";
-import { StoryMilestoneActions } from "./story-milestone-actions";
+import {
+  StoryMilestoneActions,
+  type StoryMilestoneChoice,
+} from "./story-milestone-actions";
 import { StoryMilestoneDetail } from "./story-milestone-detail";
 
 /* The panel's heading, which takes focus when a closed row is out of view. */
@@ -30,10 +32,7 @@ export const StoryMilestonePanel = ({
   chapterName: string | null;
   className?: string;
   milestone: StoryMilestone | null;
-  onAction: (
-    milestone: StoryMilestone,
-    intent: StoryMilestoneActionIntent,
-  ) => void;
+  onAction: (milestone: StoryMilestone, choice: StoryMilestoneChoice) => void;
   /* Given while a picked milestone replaces the next objective. */
   onClose?: () => void;
   scope: StoryScope;

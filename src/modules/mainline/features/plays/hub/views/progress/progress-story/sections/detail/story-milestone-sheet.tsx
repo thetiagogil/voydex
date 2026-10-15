@@ -5,9 +5,11 @@ import { useRef } from "react";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 
-import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone, StoryScope } from "../../types";
-import { StoryMilestoneActions } from "./story-milestone-actions";
+import {
+  StoryMilestoneActions,
+  type StoryMilestoneChoice,
+} from "./story-milestone-actions";
 import { StoryMilestoneDetail } from "./story-milestone-detail";
 
 /*
@@ -24,10 +26,7 @@ export const StoryMilestoneSheet = ({
 }: {
   chapterName: string | null;
   milestone: StoryMilestone | null;
-  onAction: (
-    milestone: StoryMilestone,
-    intent: StoryMilestoneActionIntent,
-  ) => void;
+  onAction: (milestone: StoryMilestone, choice: StoryMilestoneChoice) => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
   scope: StoryScope;

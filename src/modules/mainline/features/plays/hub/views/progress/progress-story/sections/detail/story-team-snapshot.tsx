@@ -13,10 +13,7 @@ export const StoryTeamSnapshot = ({
   members: PlayTeamSnapshotMember[];
 }) => {
   return (
-    <ul
-      aria-label="Your team then"
-      className="grid max-w-[22rem] grid-cols-6 gap-2"
-    >
+    <ul aria-label="Your team then" className="grid grid-cols-6 gap-2">
       {members.map((member) => {
         const name = getPlayTeamSnapshotMemberName(member);
 

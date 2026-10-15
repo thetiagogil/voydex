@@ -17,6 +17,8 @@ type RecordableMilestone = {
 
 type RecordOptions = {
   decisionOptionId?: number | null;
+  /* Saves the team you have now with it ("Record with your team"). */
+  includeTeam?: boolean;
   /* Runs once it is saved, such as starting the stamp's slap. */
   onRecorded?: (milestoneId: number) => void;
   /* The toast's line, when the default "X recorded · n of total" won't do. */
@@ -80,6 +82,7 @@ export const useRecordMilestone = (playId: string) => {
     startTransition(async () => {
       const result = await recordMainlinePlayMilestoneAction({
         decisionOptionId: options.decisionOptionId ?? null,
+        includeTeam: options.includeTeam ?? false,
         milestoneId: milestone.id,
         playId,
       });
@@ -97,7 +100,7 @@ export const useRecordMilestone = (playId: string) => {
           (result.totalCount
             ? `${result.milestoneName} recorded · ${result.completedCount} of ${result.totalCount}`
             : `${result.milestoneName} recorded`),
-        result.keepsSnapshot
+        result.keepsSnapshot && !options.includeTeam
           ? {
               action: { label: "Add team", onClick: () => addTeam(milestone) },
               cancel: { label: "Undo", onClick: () => undo(milestone) },

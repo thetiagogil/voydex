@@ -55,6 +55,7 @@ export const StoryMilestoneEditor = ({
   onSaved,
   open,
   playId,
+  recordsTeam = false,
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone | null;
@@ -62,6 +63,8 @@ export const StoryMilestoneEditor = ({
   onSaved: (message: string | null) => void;
   open: boolean;
   playId: string;
+  /* Recording: start with "Record team snapshot" ticked. */
+  recordsTeam?: boolean;
 }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const usesBottomSheet = useDetailSheetLayout();
@@ -75,6 +78,7 @@ export const StoryMilestoneEditor = ({
         milestone={milestone}
         onSaved={onSaved}
         playId={playId}
+        recordsTeam={recordsTeam}
         surface={surface}
       />
     ) : null;

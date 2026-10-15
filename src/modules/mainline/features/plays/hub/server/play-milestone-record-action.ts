@@ -65,16 +65,20 @@ const getAuthenticatedClient = async () => {
 
 /*
  * Records a milestone in one tap (v3's Record): no form, and the moment
- * joins History without the team; where the milestone keeps snapshots the
- * toast offers "Add team" (recordMainlinePlayMilestoneTeamAction). A choice
- * milestone records its decision when one is given.
+ * joins History without the team unless asked ("Record with your team");
+ * where the milestone keeps snapshots the toast then offers "Add team"
+ * (recordMainlinePlayMilestoneTeamAction). A choice milestone records its
+ * decision when one is given.
  */
 export const recordMainlinePlayMilestoneAction = async ({
   decisionOptionId = null,
+  includeTeam = false,
   milestoneId,
   playId,
 }: {
   decisionOptionId?: number | null;
+  /* "Record with your team": saves the team you have now with the moment. */
+  includeTeam?: boolean;
   milestoneId: number;
   playId: string;
 }): Promise<PlayMilestoneRecordResult> => {
@@ -117,7 +121,7 @@ export const recordMainlinePlayMilestoneAction = async ({
         p_completed_at: new Date().toISOString(),
         p_create_event: true,
         p_decision_option_id: decisionOptionId ?? undefined,
-        p_include_team_snapshot: false,
+        p_include_team_snapshot: includeTeam && keepsSnapshot,
         p_milestone_id: milestoneId,
         p_play_id: playId,
         p_replace_decision: decisionOptionId !== null,
