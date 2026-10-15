@@ -164,24 +164,15 @@ export const StoryMilestoneRow = ({
         </span>
         {state === "done" && (hasTeam || decision) ? (
           <span className="text-ink-3 col-start-2 flex items-center gap-2 sm:col-start-auto sm:pl-1">
-            {decision && showDetails ? (
-              <span className="bg-surface-2 text-ink-2 text-13 inline-flex max-w-44 items-center gap-1.5 rounded-full py-0.5 pr-2.5 pl-1 font-bold">
-                {decisionOption?.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={decisionOption.imageUrl}
-                    alt=""
-                    className="size-6 shrink-0 object-contain"
-                  />
-                ) : (
-                  <AppIcon
-                    icon={appIcons.product.decision}
-                    size="sm"
-                    className="ml-1"
-                  />
-                )}
-                <span className="truncate">{decision}</span>
-              </span>
+            {decision && showDetails && decisionOption?.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={decisionOption.imageUrl}
+                alt={`Decision: ${decision}`}
+                title={`Decision: ${decision}`}
+                loading="lazy"
+                className="size-[30px] max-w-none shrink-0 object-contain"
+              />
             ) : decision ? (
               <span title={`Decision: ${decision}`} className="inline-flex">
                 <AppIcon icon={appIcons.product.decision} size="sm" />
