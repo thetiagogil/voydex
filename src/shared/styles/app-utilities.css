@@ -86,11 +86,20 @@
 }
 
 /*
- * A side column that follows the scroll beside a longer one. It never grows
- * past the screen: when its own content is taller, it scrolls on its own
- * instead of making you reach the page's end to see the rest. A column
- * holding cards gives their shadows room (negative margin, matching
- * padding), since the scroll clips anything outside it.
+ * A detail panel that follows the scroll beside a longer list (Story's
+ * panel, the Story matchups report, the roster panel). `useStickyPanel`
+ * moves `top` up for a panel taller than the screen, so it scrolls with the
+ * page and sticks at its bottom instead of scrolling on its own.
+ */
+@utility sticky-panel {
+  position: sticky;
+  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
+}
+
+/*
+ * A navigation list that follows the scroll beside a longer page (Play
+ * settings' menu, the Collectibles areas). It never grows past the screen:
+ * when its own content is taller, it scrolls on its own.
  */
 @utility sticky-column {
   position: sticky;

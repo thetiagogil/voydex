@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
 import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
+import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
@@ -70,6 +71,7 @@ export const MainlinePlayProgressStory = ({
     findScope(recordTarget?.id ?? model.nextMilestone?.id ?? null) ??
     model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
+  const [sidePanelStyle, bindSidePanel] = useStickyPanel<HTMLDivElement>();
   /* The milestone picked from the list; none shows the next objective. */
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(
     recordTarget?.id ?? null,
@@ -210,7 +212,11 @@ export const MainlinePlayProgressStory = ({
        * objective is read and reached before the list it sits above.
        */}
       <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
-        <div className="lg:sticky-column contents lg:col-start-2 lg:row-start-1 lg:-mx-4 lg:-mb-7 lg:flex lg:min-w-0 lg:flex-col lg:gap-5 lg:px-4 lg:pb-7">
+        <div
+          ref={bindSidePanel}
+          style={sidePanelStyle}
+          className="lg:sticky-panel contents lg:col-start-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-5"
+        >
           <StoryMilestonePanel
             chapterName={getChapterName(activeScope, panelMilestone)}
             className="order-1 lg:order-none"

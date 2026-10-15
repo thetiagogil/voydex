@@ -10,6 +10,7 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { useMainlinePlayDetailSheetLayout } from "@/modules/mainline/features/plays/hub/shell/use-mainline-play-detail-sheet-layout";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import {
   AddPokemonSheet,
@@ -59,6 +60,7 @@ export const MainlinePlayTeamRoster = ({
   const { mechanics, roster } = data;
   const versionGroupSlug = data.play.version_group_slug;
   const defaultMember = getDefaultTeamMember(roster, initialPokemonId);
+  const [detailPanelStyle, bindDetailPanel] = useStickyPanel<HTMLDivElement>();
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(
     defaultMember?.play_pokemon_id ?? null,
   );
@@ -125,7 +127,11 @@ export const MainlinePlayTeamRoster = ({
           selectedMemberId={selectedMember?.play_pokemon_id ?? null}
           onSelect={selectMember}
         />
-        <div className="sticky-column -mx-4 -mb-7 hidden min-w-0 px-4 pb-7 lg:block">
+        <div
+          ref={bindDetailPanel}
+          style={detailPanelStyle}
+          className="sticky-panel hidden min-w-0 lg:block"
+        >
           <TeamMemberDetail
             mechanics={mechanics}
             member={selectedMember}

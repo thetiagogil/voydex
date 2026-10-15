@@ -22,6 +22,7 @@ import { RangeHeading } from "@/shared/components/range-heading";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
+import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import type {
   StoryMatchupBattle,
@@ -130,6 +131,7 @@ export const StoryMatchupsSection = ({
   model: StoryMatchupsModel;
 }) => {
   const usesSheet = useMainlinePlayDetailSheetLayout();
+  const [reportPanelStyle, bindReportPanel] = useStickyPanel<HTMLDivElement>();
   const [selectedId, setSelectedId] = useState(model.defaultBattleId);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const battles = model.chapters.flatMap((chapter) => chapter.battles);
@@ -189,7 +191,9 @@ export const StoryMatchupsSection = ({
         <Card
           role="region"
           aria-labelledby={reportTitleId}
-          className="sticky-column overflow-y-auto px-5 sm:px-7"
+          ref={bindReportPanel}
+          style={reportPanelStyle}
+          className="sticky-panel px-5 sm:px-7"
         >
           <StoryBattleReport battle={selected} titleId={reportTitleId} />
         </Card>
