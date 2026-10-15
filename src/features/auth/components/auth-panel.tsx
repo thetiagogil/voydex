@@ -16,6 +16,7 @@ import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
 import { AuthHeading } from "@/features/auth/components/auth-frame";
 import { AuthModeSwitch } from "@/features/auth/components/auth-mode-switch";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
+import { DevAccountPicker } from "@/features/auth/components/dev-account-picker";
 import { PasswordInput } from "@/shared/components/password-input";
 import { StartIntentCard } from "@/features/auth/components/start-intent-card";
 import { StartIntentFields } from "@/features/auth/components/start-intent-fields";
@@ -28,6 +29,7 @@ import {
   FieldDescription,
   FieldLabel,
 } from "@/shared/components/ui/field";
+import type { DevTestAccount } from "@/features/auth/dev-test-account";
 import type { AuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 import { Input } from "@/shared/components/ui/input";
 
@@ -40,6 +42,8 @@ type AuthPanelProps = {
   intent: AuthStartIntent | null;
   mode: AuthMode;
   next: string;
+  /* Local development only: the seeded accounts Log in can fill in. */
+  testAccounts?: DevTestAccount[] | null;
 };
 
 const getCopy = (mode: AuthMode, intent: StartIntentPreview | null) => {
@@ -87,6 +91,7 @@ export const AuthPanel = ({
   intent,
   mode,
   next,
+  testAccounts,
 }: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
   const action = isSignUp ? signUpWithPassword : logInWithPassword;
@@ -108,6 +113,9 @@ export const AuthPanel = ({
       <form action={action} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />
         <StartIntentFields intent={intentValue} />
+        {!isSignUp && testAccounts?.length ? (
+          <DevAccountPicker accounts={testAccounts} />
+        ) : null}
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input

@@ -10,6 +10,7 @@ import { AuthFrame } from "@/features/auth/components/auth-frame";
 import { AuthPanel } from "@/features/auth/components/auth-panel";
 import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
+import { readDevTestAccounts } from "@/features/auth/server/dev-test-accounts";
 import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 
 export type LoginSearchParams = {
@@ -66,6 +67,7 @@ export const LoginPage = async ({
         intent={intent}
         mode={mode}
         next={next}
+        testAccounts={readDevTestAccounts()}
       />
     </AuthFrame>
   );
