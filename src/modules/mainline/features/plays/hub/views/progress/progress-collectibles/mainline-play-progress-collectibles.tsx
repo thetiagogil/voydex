@@ -9,7 +9,6 @@ import { EmptyState } from "@/shared/components/empty-state";
 
 import { CollectibleEntriesSection } from "./sections/entries/collectible-entries-section";
 import { CollectiblesPageHead } from "./sections/head/collectibles-page-head";
-import { CollectiblesHeroSection } from "./sections/hero/collectibles-hero-section";
 import {
   updateCollectibleEntryProgress,
   updateCollectibleEntryProgressBulk,
@@ -20,11 +19,9 @@ import type {
   MainlinePlayProgressCollectiblesData,
 } from "./types";
 import {
-  describeCollectibleWhereabouts,
   getCollectibleAreaLevel,
   getCollectibleAreaSummaries,
   getCollectibleEntryState,
-  getCollectibleLocations,
 } from "./utils/collectibles-progress-model";
 
 const buildInitialCollectibleState = (
@@ -199,7 +196,6 @@ export const MainlinePlayProgressCollectibles = ({
     sort,
     stateByEntryId,
   });
-  const locations = getCollectibleLocations(activeGroup.entries);
 
   return (
     <div className="grid min-w-0 grid-cols-1 gap-6">
@@ -207,20 +203,10 @@ export const MainlinePlayProgressCollectibles = ({
         group={activeGroup}
         groups={data.groups}
         onGroupChange={selectGroup}
-        stateByEntryId={stateByEntryId}
-        whereabouts={describeCollectibleWhereabouts({
-          entries: activeGroup.entries,
-          gameName: data.gameName,
-        })}
-      />
-
-      <CollectiblesHeroSection
         areaCount={areaSummaries.length}
         completeAreaCount={
           areaSummaries.filter((area) => area.isComplete).length
         }
-        group={activeGroup}
-        place={locations.length === 1 ? locations[0] : data.gameName}
         stateByEntryId={stateByEntryId}
       />
 
