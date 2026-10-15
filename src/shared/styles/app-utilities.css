@@ -98,7 +98,32 @@
   max-height: calc(100dvh - var(--play-dock-offset, 0px) - 1.5rem);
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
+  /* More below: the bottom edge fades until you reach the end. */
+  animation: sticky-column-more linear both;
+  animation-timeline: scroll(self);
+
+  /* The scrollbar keeps clear of the rounded corners. */
+  &::-webkit-scrollbar-track {
+    margin-block: 0.875rem;
+  }
+}
+
+/*
+ * Runs only while the column overflows (its scroll timeline is inactive
+ * otherwise), so a column that fits never fades.
+ */
+@keyframes sticky-column-more {
+  0%,
+  96% {
+    mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 3.5rem),
+      transparent
+    );
+  }
+  100% {
+    mask-image: none;
+  }
 }
 
 @utility no-scrollbar {
