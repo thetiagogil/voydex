@@ -12,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
   Popover,
@@ -21,7 +22,36 @@ import {
 } from "@/shared/components/ui/popover";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 
-type PlayDetailRow = { key: string; label: string; value: ReactNode };
+type PlayDetailRow = {
+  key: string;
+  label: string;
+  /* A list (rules, tags) wraps under its label instead of beside it. */
+  stacked?: boolean;
+  value: ReactNode;
+};
+
+/* Rules and tags as small chips, so a long list wraps instead of piling up. */
+const PlayDetailChips = ({
+  items,
+  label,
+}: {
+  items: { id: string; name: string; title?: string }[];
+  label: string;
+}) => (
+  <ul aria-label={label} className="flex flex-wrap gap-1.5">
+    {items.map((item) => (
+      <li key={item.id}>
+        <Badge
+          variant="secondary"
+          title={item.title}
+          className="text-13 h-auto min-h-7 px-3 whitespace-normal"
+        >
+          {item.name}
+        </Badge>
+      </li>
+    ))}
+  </ul>
+);
 
 /*
  * What a Play records but its header has no room for. A category with
@@ -61,24 +91,34 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
       ? {
           key: "rules",
           label: "Rules",
+          stacked: true,
           value: (
-            <ul className="grid gap-1.5">
-              {data.rules.map((rule) => (
-                <li key={rule.id}>
-                  {rule.name}
-                  {rule.description ? (
-                    <span className="text-ink-2 text-13 block font-semibold">
-                      {rule.description}
-                    </span>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
+            <PlayDetailChips
+              label="Rules"
+              items={data.rules.map((rule) => ({
+                id: rule.id,
+                name: rule.name,
+                title: rule.description ?? undefined,
+              }))}
+            />
           ),
         }
       : null,
     data.tags?.length
-      ? { key: "tags", label: "Tags", value: data.tags.join(" · ") }
+      ? {
+          key: "tags",
+          label: "Tags",
+          stacked: true,
+          value: (
+            <PlayDetailChips
+              label="Tags"
+              items={data.tags.map((tag, index) => ({
+                id: `${index}:${tag}`,
+                name: tag,
+              }))}
+            />
+          ),
+        }
       : null,
   ];
 
@@ -88,14 +128,21 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
 /* v3 `.pd-rows`: one fact per row. */
 const PlayDetailRows = ({ rows }: { rows: PlayDetailRow[] }) => (
   <dl className="grid">
-    {rows.map((row) => (
-      <div key={row.key} className="flex justify-between gap-4 px-0.5 py-2.5">
-        <dt className="text-ink-2 text-13 shrink-0 font-bold">{row.label}</dt>
-        <dd className="text-ink text-14 min-w-0 text-right font-extrabold">
-          {row.value}
-        </dd>
-      </div>
-    ))}
+    {rows.map((row) =>
+      row.stacked ? (
+        <div key={row.key} className="grid gap-2 px-0.5 py-2.5">
+          <dt className="text-ink-2 text-13 font-bold">{row.label}</dt>
+          <dd className="min-w-0">{row.value}</dd>
+        </div>
+      ) : (
+        <div key={row.key} className="flex justify-between gap-4 px-0.5 py-2.5">
+          <dt className="text-ink-2 text-13 shrink-0 font-bold">{row.label}</dt>
+          <dd className="text-ink text-14 min-w-0 text-right font-extrabold">
+            {row.value}
+          </dd>
+        </div>
+      ),
+    )}
   </dl>
 );
 
