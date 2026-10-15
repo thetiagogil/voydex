@@ -37,11 +37,9 @@ export const ProgressSummarySection = ({
             <Link
               key={item.label}
               href={item.href}
-              className="group/tile bg-surface-2 hover:bg-hover flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-colors"
+              className="bg-surface-2 hover:bg-hover flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-colors"
             >
-              <span className="text-15 font-extrabold group-hover/tile:underline">
-                {item.label}
-              </span>
+              <span className="text-15 font-extrabold">{item.label}</span>
               <ProgressDonut
                 label={`${item.label} progress`}
                 value={item.percent}
