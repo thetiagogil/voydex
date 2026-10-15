@@ -149,6 +149,8 @@
   --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
+  --animate-wiggle: wiggle 1.4s ease-in-out infinite;
 
   @keyframes slap {
     0% {
@@ -176,6 +178,19 @@
     }
     100% {
       transform: none;
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(-1.2deg);
+    }
+    75% {
+      transform: rotate(1.2deg);
     }
   }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
@@ -49,12 +49,18 @@ import type {
   PlannerPageData,
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
+import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PageBand } from "@/shared/components/page-band";
 import { Button } from "@/shared/components/ui/button";
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
 };
+
+/* The address mark that opens the unsaved Plan on arrival. */
+const continueDraftHash = "draft";
+
+const replaceToastId = "planner-replace";
 
 const defaultFilters: PlannerPoolFilters = {
   fullyEvolved: false,
@@ -139,6 +145,20 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     expansionVersionGroupIds: expansions,
     members,
     name,
+    preview: members.flatMap((member) => {
+      const pokemon = byId.get(member.speciesId);
+      return pokemon
+        ? [
+            {
+              imageUrl: pokemon.imageUrl,
+              name: pokemon.name,
+              slot: member.slot,
+              typeSlug: pokemon.types[0]?.slug ?? null,
+            },
+          ]
+        : [];
+    }),
+    versionGroupName: context.versionGroup.name,
     versionGroupSlug: context.versionGroup.slug,
   };
   const { dismissOffer, offered } = usePlanDraft({
@@ -146,6 +166,40 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     enabled: !plan,
     trainerId: data.trainerId,
   });
+  /* Set when Continue opened the Planner on the draft's own game. */
+  const continueOnArrival = useRef(false);
+
+  /*
+   * Continue: a draft for this game fills the Planner at once; one for
+   * another game opens that game's Planner, which fills itself on arrival
+   * (`#draft`), so one tap is enough either way.
+   */
+  const continueDraft = (draftToOpen: PlanDraft) => {
+    if (draftToOpen.versionGroupSlug !== context.versionGroup.slug) {
+      router.push(
+        `${appRoutes.mainlinePlanNew(draftToOpen.versionGroupSlug)}#${continueDraftHash}`,
+      );
+      return;
+    }
+
+    team.setSlots(toPlannerSlots(fitToVersionGroup(draftToOpen.members)));
+    setName(draftToOpen.name);
+    setExpansions(draftToOpen.expansionVersionGroupIds);
+    dismissOffer();
+  };
+
+  useEffect(() => {
+    if (
+      offered &&
+      continueOnArrival.current &&
+      offered.versionGroupSlug === context.versionGroup.slug
+    ) {
+      continueOnArrival.current = false;
+      continueDraft(offered);
+    }
+    // Only when the stored draft has been read.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offered]);
   /*
    * What was last saved, so Save changes only wakes up for a change,
    * including opening the Plan in another version group.
@@ -206,6 +260,16 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
     if (plan) return;
 
+    if (window.location.hash === `#${continueDraftHash}`) {
+      continueOnArrival.current = true;
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+      return;
+    }
+
     const share = decodePlanShare(window.location.hash);
 
     if (!share) return;
@@ -235,14 +299,49 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     }
 
     if (!team.addToNextOpen(pokemon)) {
-      setReplacingId(pokemon.speciesId);
+      askWhichToReplace(pokemon);
     }
+  };
+
+  /*
+   * A full team: the team's Pokémon wiggle until one is tapped, the team
+   * comes into view, and a toast says what to do until it is done.
+   */
+  const askWhichToReplace = (pokemon: PlannerPokemon) => {
+    setReplacingId(pokemon.speciesId);
+    toast(`Team is full`, {
+      action: { label: "Cancel", onClick: () => cancelReplace() },
+      description: `Tap the Pokémon ${pokemon.name} should replace.`,
+      duration: Infinity,
+      id: replaceToastId,
+    });
+    document.getElementById("planner-team")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      block: "center",
+    });
+  };
+
+  /* The toast waits on this page only. */
+  useEffect(
+    () => () => {
+      toast.dismiss(replaceToastId);
+    },
+    [],
+  );
+
+  const cancelReplace = () => {
+    toast.dismiss(replaceToastId);
+    setReplacingId(null);
+    setSwapIndex(null);
   };
 
   const place = (index: number) => {
     const pokemon = replacingId === null ? undefined : byId.get(replacingId);
 
     if (pokemon) team.putInSlot(index, pokemon);
+    toast.dismiss(replaceToastId);
     setReplacingId(null);
   };
 
@@ -350,55 +449,54 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           <section
             aria-label="Unsaved Plan"
             data-slot="card"
-            className="bg-surface shadow-card flex flex-wrap items-center gap-3 rounded-2xl px-5 py-4"
+            className="bg-surface shadow-card flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl px-5 py-4"
           >
-            <p className="text-ink text-15 mr-auto font-semibold">
-              <b className="font-extrabold">Continue your unsaved Plan?</b>{" "}
-              {offered.name.trim() || untitledPlanName},{" "}
-              {offered.members.length} Pokémon.
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                clearPlanDraft(data.trainerId);
-                dismissOffer();
-              }}
-            >
-              Start fresh
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              onClick={() => {
-                if (offered.versionGroupSlug !== context.versionGroup.slug) {
-                  router.push(
-                    appRoutes.mainlinePlanNew(offered.versionGroupSlug),
-                  );
-                  return;
-                }
-
-                team.setSlots(
-                  toPlannerSlots(fitToVersionGroup(offered.members)),
-                );
-                setName(offered.name);
-                setExpansions(offered.expansionVersionGroupIds);
-                dismissOffer();
-              }}
-            >
-              Continue
-            </Button>
+            <div className="flex min-w-0 flex-1 basis-60 flex-col gap-1">
+              <p className="text-ink-3 text-13 font-extrabold">
+                Continue your unsaved Plan?
+              </p>
+              <p className="text-ink text-16 font-extrabold">
+                {offered.name.trim() || untitledPlanName}
+              </p>
+              <p className="text-ink-2 text-13 font-semibold">
+                {[offered.versionGroupName, `${offered.members.length} Pokémon`]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            </div>
+            {offered.preview.length ? (
+              <PlanTeamStrip
+                members={offered.preview}
+                className="w-full max-w-64 sm:w-64"
+              />
+            ) : null}
+            <div className="flex gap-2 max-sm:w-full max-sm:*:flex-1">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  clearPlanDraft(data.trainerId);
+                  dismissOffer();
+                }}
+              >
+                Start fresh
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => continueDraft(offered)}
+              >
+                Continue
+              </Button>
+            </div>
           </section>
         ) : null}
 
         <PlannerDockSection
           byId={byId}
           issues={issues}
-          onCancelReplace={() => {
-            setReplacingId(null);
-            setSwapIndex(null);
-          }}
+          onCancelReplace={cancelReplace}
           onClear={team.clearSlots}
           onMove={team.moveSlot}
           onOpenCheck={() => setIsCheckOpen(true)}

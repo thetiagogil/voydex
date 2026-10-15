@@ -44,9 +44,10 @@ type PlannerTopSectionProps = {
 };
 
 /*
- * The head of the Planner's band (v3 `.pl-top`): the version group the Plan
- * is for (its covers; a menu of every base group), the Plan's name (tap to
- * rename) and Share, My Plans and the page's main button, Save.
+ * The head of the Planner's band (v3 `.pl-top`): the Plan's name on its own
+ * line (tap to rename), then one row with the version group it is for (its
+ * covers; a menu of every base group) and its version, and Share, My Plans
+ * and the page's main button, Save, at the end.
  */
 export const PlannerTopSection = ({
   canSave,
@@ -70,8 +71,58 @@ export const PlannerTopSection = ({
   }, [isRenaming]);
 
   return (
-    <div className="flex flex-col gap-4 pt-4 sm:pt-7">
-      <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
+    <div className="flex flex-col gap-5 pt-4 sm:pt-7">
+      <div className="flex min-w-0 flex-col gap-1.5">
+        {isRenaming ? (
+          <Input
+            ref={inputRef}
+            aria-label="Plan name"
+            value={name}
+            maxLength={200}
+            placeholder={untitledPlanName}
+            onChange={(event) => onNameChange(event.currentTarget.value)}
+            onBlur={() => setIsRenaming(false)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === "Escape") {
+                setIsRenaming(false);
+              }
+            }}
+            className="font-display text-24 h-13 max-w-xl font-semibold"
+          />
+        ) : (
+          <h1 className="min-w-0">
+            <button
+              type="button"
+              onClick={() => setIsRenaming(true)}
+              className="group/title text-28 focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left leading-tight tracking-[-0.02em] outline-none focus-visible:outline-3 focus-visible:outline-solid sm:text-[38px]"
+            >
+              <span
+                className={cn(
+                  "line-clamp-2 text-balance [overflow-wrap:anywhere]",
+                  !name.trim() && "text-ink-3",
+                )}
+              >
+                {name.trim() || untitledPlanName}
+              </span>
+              <AppIcon
+                icon={appIcons.actions.edit}
+                size="lg"
+                className="text-ink-tint group-hover/title:text-ink shrink-0 transition-opacity group-focus-visible/title:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/title:opacity-100"
+              />
+              <span className="sr-only">Rename</span>
+            </button>
+          </h1>
+        )}
+        {linkedPlayCount ? (
+          <p className="text-ink-tint text-14 flex items-center gap-1.5 font-semibold">
+            <AppIcon icon={appIcons.milestones.story} size="sm" />
+            Followed by {linkedPlayCount}{" "}
+            {linkedPlayCount === 1 ? "Play" : "Plays"}. Saving updates{" "}
+            {linkedPlayCount === 1 ? "its" : "their"} comparison.
+          </p>
+        ) : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
@@ -134,58 +185,29 @@ export const PlannerTopSection = ({
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <div className="order-first flex min-w-0 basis-full flex-col gap-1.5 lg:order-none lg:flex-1 lg:basis-0">
-          {isRenaming ? (
-            <Input
-              ref={inputRef}
-              aria-label="Plan name"
-              value={name}
-              maxLength={200}
-              placeholder={untitledPlanName}
-              onChange={(event) => onNameChange(event.currentTarget.value)}
-              onBlur={() => setIsRenaming(false)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === "Escape") {
-                  setIsRenaming(false);
-                }
-              }}
-              className="font-display text-24 h-13 max-w-xl font-semibold"
+        {versionGroup.games.length > 1 ? (
+          <div className="flex items-center gap-2">
+            <span className="text-ink-2 text-13 font-bold">Version</span>
+            {/* TODO(v3-data): a version preference on planning.mainline_team_plans; a Plan stores its group's first game until then. */}
+            <SegmentedControl
+              ariaLabel="Version"
+              selectedTone="strong"
+              size="sm"
+              value="either"
+              options={[
+                { label: "Either", value: "either" },
+                ...versionGroup.games.map((game) => ({
+                  disabled: true,
+                  disabledReason:
+                    "Saving a version preference isn't in Voydex yet",
+                  dot: getGameColourStyle(game.slug),
+                  label: game.shortName,
+                  value: game.slug,
+                })),
+              ]}
             />
-          ) : (
-            <h1 className="min-w-0">
-              <button
-                type="button"
-                onClick={() => setIsRenaming(true)}
-                className="group/title text-28 focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left leading-tight tracking-[-0.02em] outline-none focus-visible:outline-3 focus-visible:outline-solid sm:text-[38px]"
-              >
-                <span
-                  className={cn(
-                    "line-clamp-2 text-balance [overflow-wrap:anywhere]",
-                    !name.trim() && "text-ink-3",
-                  )}
-                >
-                  {name.trim() || untitledPlanName}
-                </span>
-                <AppIcon
-                  icon={appIcons.actions.edit}
-                  size="lg"
-                  className="text-ink-tint group-hover/title:text-ink shrink-0 transition-opacity group-focus-visible/title:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/title:opacity-100"
-                />
-                <span className="sr-only">Rename</span>
-              </button>
-            </h1>
-          )}
-          {linkedPlayCount ? (
-            <p className="text-ink-tint text-14 flex items-center gap-1.5 font-semibold">
-              <AppIcon icon={appIcons.milestones.story} size="sm" />
-              Followed by {linkedPlayCount}{" "}
-              {linkedPlayCount === 1 ? "Play" : "Plays"}. Saving updates{" "}
-              {linkedPlayCount === 1 ? "its" : "their"} comparison.
-            </p>
-          ) : null}
-        </div>
-
+          </div>
+        ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
           <Button type="button" variant="outline" onClick={onShare}>
             <AppIcon icon={appIcons.actions.share} inline="start" />
@@ -213,30 +235,6 @@ export const PlannerTopSection = ({
           </Button>
         </div>
       </div>
-
-      {versionGroup.games.length > 1 ? (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-ink-2 text-13 font-bold">Version</span>
-          {/* TODO(v3-data): a version preference on planning.mainline_team_plans; a Plan stores its group's first game until then. */}
-          <SegmentedControl
-            ariaLabel="Version"
-            selectedTone="strong"
-            size="sm"
-            value="either"
-            options={[
-              { label: "Either", value: "either" },
-              ...versionGroup.games.map((game) => ({
-                disabled: true,
-                disabledReason:
-                  "Saving a version preference isn't in Voydex yet",
-                dot: getGameColourStyle(game.slug),
-                label: game.shortName,
-                value: game.slug,
-              })),
-            ]}
-          />
-        </div>
-      ) : null}
     </div>
   );
 };

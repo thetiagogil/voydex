@@ -9,6 +9,8 @@ import type {
   PlanType,
 } from "@/modules/mainline/features/plans/types";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { EmptyState } from "@/shared/components/empty-state";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
@@ -175,6 +177,12 @@ export const PlannerPoolSection = ({
                           .join(". ")}
                         title={notes.join(" ") || undefined}
                         onClick={() => onPick(pokemon)}
+                        style={getPokemonTypeCssVariables(
+                          pokemon.types[0] &&
+                            isPokemonTypeSlug(pokemon.types[0].slug)
+                            ? pokemon.types[0].slug
+                            : null,
+                        )}
                         className="focus-visible:outline-focus block w-full rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
                       >
                         <PokemonCard
@@ -186,16 +194,17 @@ export const PlannerPoolSection = ({
                           number={formatNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
                           className={cn(
+                            /* v3 `.ptile.in`: picked wears its type, with a ring. */
                             slot !== undefined &&
-                              "bg-select-soft text-select-ink border-transparent",
+                              "border-transparent bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] shadow-[inset_0_0_0_2.5px_color-mix(in_oklab,var(--t)_55%,white)]",
                             replacingId === pokemon.speciesId &&
-                              "border-game border-2",
+                              "outline-game outline-3 outline-offset-2 outline-solid",
                           )}
                         >
                           {slot !== undefined ? (
                             <span
                               aria-hidden
-                              className="bg-select-ink text-12 absolute top-1.5 right-1.5 grid size-5.5 place-items-center rounded-full font-extrabold text-white tabular-nums"
+                              className="bg-game text-12 absolute top-1.5 right-1.5 grid size-5.5 place-items-center rounded-full font-extrabold text-white tabular-nums"
                             >
                               {slot}
                             </span>

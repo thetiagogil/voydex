@@ -14,10 +14,9 @@ import {
   type MyPlansFilters,
   type MyPlansSort,
 } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
+import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -34,10 +33,6 @@ type MyPlansBrowserProps = {
 };
 
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
-  const slots = Array.from({ length: 6 }, (_, index) =>
-    plan.members.find((member) => member.slot === index + 1),
-  );
-
   return (
     <li
       className="game-scope min-w-0"
@@ -66,43 +61,10 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
           >
             {plan.name}
           </h2>
-          <ul
-            aria-label="Team"
-            className={cn(
-              "grid grid-cols-6 gap-1.5",
-              plan.isArchived && "opacity-55",
-            )}
-          >
-            {slots.map((member, index) =>
-              member ? (
-                <li
-                  key={index}
-                  style={getPokemonTypeCssVariables(
-                    member.typeSlug && isPokemonTypeSlug(member.typeSlug)
-                      ? member.typeSlug
-                      : null,
-                  )}
-                  className="sticker grid aspect-square place-items-center rounded-md [border-width:3px]"
-                >
-                  {member.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={member.imageUrl}
-                      alt={member.name}
-                      title={member.name}
-                      className="size-full object-contain"
-                    />
-                  ) : (
-                    <span className="sr-only">{member.name}</span>
-                  )}
-                </li>
-              ) : (
-                <li key={index} className="empty-slot aspect-square rounded-md">
-                  <span className="sr-only">Open slot {index + 1}</span>
-                </li>
-              ),
-            )}
-          </ul>
+          <PlanTeamStrip
+            members={plan.members}
+            className={cn(plan.isArchived && "opacity-55")}
+          />
           <div className="mt-auto flex flex-wrap items-center gap-2">
             <span
               className={

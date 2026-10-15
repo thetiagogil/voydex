@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import type { PlanTeamStripMember } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import {
   emptyPlanMoveSlots,
   type PlanMember,
@@ -12,6 +13,12 @@ export type PlanDraft = {
   expansionVersionGroupIds: number[];
   members: PlanMember[];
   name: string;
+  /*
+   * How the offer shows it before it is opened, whatever game the Planner is
+   * on: its game's name and its Pokémon. Empty in drafts from before.
+   */
+  preview: PlanTeamStripMember[];
+  versionGroupName: string | null;
   versionGroupSlug: string;
 };
 
@@ -47,6 +54,11 @@ const readDraft = (trainerId: string): PlanDraft | null => {
             moveIds: member.moveIds ?? emptyPlanMoveSlots(),
           })),
           name: typeof draft.name === "string" ? draft.name : "",
+          preview: Array.isArray(draft.preview) ? draft.preview : [],
+          versionGroupName:
+            typeof draft.versionGroupName === "string"
+              ? draft.versionGroupName
+              : null,
           versionGroupSlug: draft.versionGroupSlug,
         }
       : null;

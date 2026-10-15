@@ -146,7 +146,7 @@ export const PlannerDockSection = ({
             {filled ? (
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={onOpenCheck}
                 className="max-sm:px-2"
@@ -168,7 +168,7 @@ export const PlannerDockSection = ({
             <div className="flex items-center">
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={onRandom}
                 className="rounded-r-none max-sm:px-2"
@@ -185,7 +185,7 @@ export const PlannerDockSection = ({
                   render={
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       size="icon-sm"
                       aria-label="Random options"
                       className="rounded-l-none"
@@ -226,7 +226,7 @@ export const PlannerDockSection = ({
             </div>
             <Button
               type="button"
-              variant="ghost"
+              variant="outline"
               size="sm"
               disabled={!filled}
               onClick={onClear}
@@ -313,6 +313,8 @@ export const PlannerDockSection = ({
               className={cn(
                 "sticker group/slot relative flex min-h-20 rounded-xl",
                 dropTarget === index && "sticker-picked",
+                replacing &&
+                  "hover:outline-game motion-safe:animate-wiggle hover:animate-none hover:outline-3 hover:outline-offset-2 hover:outline-solid",
                 dragFrom === index && "opacity-60",
               )}
             >
@@ -407,7 +409,7 @@ export const PlannerDockSection = ({
 
       <p
         aria-live="polite"
-        className="text-ink text-14 flex min-h-12 items-center gap-2.5 rounded-lg bg-white/70 px-3 py-2 font-semibold"
+        className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold"
       >
         <span
           aria-hidden
