@@ -33,7 +33,6 @@ export type CodexGameVersionExclusives = {
 
 /* A version group's page: Sword and Shield, read with one of its games picked. */
 export type CodexGameDetailData = {
-  availablePokemonCount: number;
   firstPartners: CodexGameFirstPartners;
   pokedexes: CodexGamePokedexSummary[];
   relatedGames: GameCard[];

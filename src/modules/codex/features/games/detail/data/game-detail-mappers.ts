@@ -272,21 +272,7 @@ export const buildGameDetailData = (
     ...rows,
     pokedexes: sortVersionGroupPokedexes(rows.pokedexes, versionGroupById),
   });
-  /* The base game's own largest Pokédex: not an expansion's, not the National one. */
-  const availablePokemonCount = Math.max(
-    0,
-    ...pokedexes
-      .filter(({ pokedex }) => {
-        return (
-          pokedex.version_group_id === rows.versionGroup.id &&
-          pokedex.pokedex_kind !== "national"
-        );
-      })
-      .map((pokedex) => pokedex.pokemonCount),
-  );
-
   return {
-    availablePokemonCount,
     firstPartners: buildGameFirstPartners(starters, rows.versionGroup.slug),
     pokedexes,
     relatedGames,

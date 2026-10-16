@@ -19,25 +19,10 @@ import { cn } from "@/shared/utils/cn";
 type GameDetailHeaderSectionProps = {
   /*
    * The route's leading actions, signed in: "Start a {Version} Play" (the
-   * main button) and "Your Plays". Browse Pokémon then steps down.
+   * main button) and "Your Plays". Plan a team then steps down.
    */
   actions?: ReactNode;
   data: CodexGameDetailData;
-};
-
-/*
- * The group's first Pokédex: a regional one, or its National Pokédex when
- * that is all it has (they are sorted National last).
- */
-const getBrowsePokemonHref = (data: CodexGameDetailData) => {
-  const firstPokedex = data.pokedexes[0]?.pokedex;
-
-  return firstPokedex
-    ? appRoutes.codexVersionGroupPokedex(
-        data.versionGroup.slug,
-        firstPokedex.slug,
-      )
-    : appRoutes.codexPokemon;
 };
 
 const getGameEyebrow = ({ version }: CodexGameDetailData) => {
@@ -53,20 +38,12 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
     .join(" · ");
 };
 
-const GameDetailFact = ({ label, value }: { label: string; value: string }) => {
-  return (
-    <div className="min-w-0">
-      <dt className="text-13 text-ink-2 font-bold">{label}</dt>
-      <dd className="text-16 font-extrabold tabular-nums">{value}</dd>
-    </div>
-  );
-};
-
 /*
  * v3's version group header, on the page's band (the Codex stays neutral,
- * no game tint): the picked game's cover with the version switch under it, then the eyebrow, the
- * group's title, its description and facts, and the actions: the route's
- * (Start a Play, Your Plays), Browse Pokémon and Plan a team.
+ * no game tint): the picked game's cover with the version switch under it,
+ * then the eyebrow, the group's title, its description and v3's three
+ * actions: the route's (Start a Play, Your Plays) and Plan a team. The
+ * Pokédexes right below are the way into the Pokémon.
  */
 export const GameDetailHeaderSection = ({
   actions,
@@ -113,44 +90,19 @@ export const GameDetailHeaderSection = ({
         </h1>
         {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
         <PendingData
-          className="mb-4 max-w-[60ch] items-start px-4.5 py-3.5 text-left"
+          className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
           label="About the games"
           note="A few lines on what sets these games apart."
         />
-        <dl className="flex flex-wrap gap-x-8 gap-y-3">
-          {version.gameType ? (
-            <GameDetailFact label="Game type" value={version.gameType.name} />
-          ) : null}
-          {data.availablePokemonCount ? (
-            <GameDetailFact
-              label="Available Pokémon"
-              value={data.availablePokemonCount.toLocaleString()}
-            />
-          ) : null}
-        </dl>
         <div className="mt-6 flex flex-wrap gap-3">
           {actions}
           <Link
-            href={getBrowsePokemonHref(data)}
+            href={appRoutes.mainlinePlanNew(versionGroup.slug)}
             className={cn(
               buttonVariants({
                 size: "lg",
                 variant: actions ? "outline" : "default",
               }),
-              "w-full sm:w-auto",
-            )}
-          >
-            <AppIcon
-              icon={appIcons.product.pokedex}
-              inline="start"
-              aria-hidden
-            />
-            Browse Pokémon
-          </Link>
-          <Link
-            href={appRoutes.mainlinePlanNew(versionGroup.slug)}
-            className={cn(
-              buttonVariants({ size: "lg", variant: "outline" }),
               "w-full sm:w-auto",
             )}
           >
