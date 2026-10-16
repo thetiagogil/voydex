@@ -35,6 +35,7 @@ import {
   Grid2X2,
   HeartPulse,
   Home,
+  Hourglass,
   Info,
   Layers3,
   LayoutDashboard,
@@ -167,6 +168,8 @@ export const appIcons = {
     active: Check,
     error: AlertTriangle,
     info: Info,
+    /* Something a game doesn't have yet: it arrives in a later generation. */
+    later: Hourglass,
     locked: Lock,
     offline: WifiOff,
     unknown: CircleHelp,

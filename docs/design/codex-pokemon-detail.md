@@ -104,13 +104,17 @@ colour only.
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
 - Abilities: the abilities the Pokémon has, each with its slot and effect.
-  In a game without abilities the card keeps its place and says why in quiet
-  ink: "Abilities arrive in Generation III." or "This game has no
-  abilities." (the reference's `getGameMechanicAbsence`).
-- Training and breeding: every fact keeps its place in every game; breeding
-  and gender read "From Generation II" or "Not in this game" in quiet ink
-  where the game has none. That plain note is a fact about the game, never
-  the dashed pending marker, which means data Voydex doesn't have yet.
+  In a game without abilities the card keeps its place and shows the calm
+  note ("Abilities arrive in Generation III", or "This game has no
+  abilities"), with "See it in Generation III" when the Pokémon is there.
+- Training and breeding: one card in two named groups, Training (EV yield,
+  catch rate, friendship, base experience, growth rate) and Breeding (egg
+  groups, egg cycles, gender). A game without eggs shows the calm note in
+  Breeding's place, keeping Gender where the game has it (Let's Go).
+- The calm note (`PokemonDetailMechanicNoteCard`, an hourglass on the calm
+  tint) is a fact about the game, read from the reference's
+  `getGameMechanicAbsence`; never the dashed pending marker, which means data
+  Voydex doesn't have yet.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
 - Learnset: searchable, filterable moves with method, type, category, power,

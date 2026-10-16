@@ -1,32 +1,45 @@
 import type { GameMechanicAbsence } from "@/modules/reference/features/games/domain/game-mechanics";
 import { formatGenerationName } from "@/modules/reference/features/games/utils/game-display";
 
-/*
- * What a fact the game doesn't have reads in its place, quietly and as a
- * fact about the game (never the dashed "not in Voydex yet" marker, which is
- * data Voydex owes): "From Generation II", or "Not in this game".
- */
-export const getPokemonDetailAbsenceLabel = (
-  absence: GameMechanicAbsence | null,
-) => {
-  if (!absence) {
-    return null;
-  }
-
-  return absence.kind === "later-generation"
-    ? `From ${formatGenerationName(absence.introducedGeneration)}`
-    : "Not in this game";
+/* A note in place of something the game doesn't have, and when it arrives. */
+export type PokemonDetailMechanicNote = {
+  /* The generation it arrives in, for a link there; null for a game that leaves it out. */
+  arrivesIn: number | null;
+  text: string;
 };
 
-/* The Abilities card's line when the game has none. */
-export const getPokemonDetailAbilitiesAbsence = (
+const noteText = {
+  abilities: {
+    laterGeneration: (generation: string) =>
+      `Abilities arrive in ${generation}`,
+    notInGame: "This game has no abilities",
+  },
+  breeding: {
+    laterGeneration: (generation: string) =>
+      `Breeding arrives in ${generation}`,
+    notInGame: "This game has no eggs or Day Care",
+  },
+} as const;
+
+/*
+ * What stands in for abilities or breeding when the game has none: a fact
+ * about the game ("Abilities arrive in Generation III"), never the dashed
+ * pending marker, which means data Voydex doesn't have yet.
+ */
+export const getPokemonDetailMechanicNote = (
   absence: GameMechanicAbsence | null,
-) => {
+  subject: keyof typeof noteText,
+): PokemonDetailMechanicNote | null => {
   if (!absence) {
     return null;
   }
 
   return absence.kind === "later-generation"
-    ? `Abilities arrive in ${formatGenerationName(absence.introducedGeneration)}.`
-    : "This game has no abilities.";
+    ? {
+        arrivesIn: absence.introducedGeneration,
+        text: noteText[subject].laterGeneration(
+          formatGenerationName(absence.introducedGeneration),
+        ),
+      }
+    : { arrivesIn: null, text: noteText[subject].notInGame };
 };

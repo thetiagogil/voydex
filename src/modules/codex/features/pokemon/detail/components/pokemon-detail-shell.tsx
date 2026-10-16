@@ -39,10 +39,11 @@ import {
   getGameMechanicAbsence,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+import { getPokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import {
-  getPokemonDetailAbilitiesAbsence,
-  getPokemonDetailAbsenceLabel,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
+  formatGenerationName,
+  getGenerationNumeral,
+} from "@/modules/reference/features/games/utils/game-display";
 import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
 import { PageBand } from "@/shared/components/page-band";
 
@@ -117,6 +118,25 @@ export const PokemonDetailShell = ({
     versionGroupSlug: activeVersionGroup.slug,
   };
   const inYourPlays = slots?.inYourPlays?.(slotContext) ?? null;
+  const generationOptions = getPokemonDetailGenerationOptions(data, scope);
+  /* The entry in another generation, for a note's "See it in Generation III". */
+  const getGenerationHref = (generation: number | null) => {
+    const numeral = generation
+      ? getGenerationNumeral(formatGenerationName(generation))
+      : null;
+
+    return (
+      generationOptions.find((option) => option.label === numeral)?.href ?? null
+    );
+  };
+  const abilitiesNote = getPokemonDetailMechanicNote(
+    getGameMechanicAbsence(scope.mechanics, gameMechanics.abilities),
+    "abilities",
+  );
+  const breedingNote = getPokemonDetailMechanicNote(
+    getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
+    "breeding",
+  );
 
   return (
     <div className="flex min-w-0 flex-col">
@@ -124,7 +144,7 @@ export const PokemonDetailShell = ({
         <PokemonDetailHead
           activePokemon={{ name: data.species.name, slug: data.species.slug }}
           activeVersionGroupSlug={activeVersionGroup.slug}
-          generationOptions={getPokemonDetailGenerationOptions(data, scope)}
+          generationOptions={generationOptions}
           generationSlug={generation.generation.slug}
         />
 
@@ -158,21 +178,19 @@ export const PokemonDetailShell = ({
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
         <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [&>*]:h-full">
           <PokemonDetailAbilitiesCard
-            absence={getPokemonDetailAbilitiesAbsence(
-              getGameMechanicAbsence(scope.mechanics, gameMechanics.abilities),
-            )}
             abilitySlots={abilitySlots}
+            note={abilitiesNote}
+            noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
           />
           <PokemonDetailTrainingCard
-            breedingAbsence={getPokemonDetailAbsenceLabel(
-              getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
+            breedingNote={breedingNote}
+            breedingNoteHref={getGenerationHref(
+              breedingNote?.arrivesIn ?? null,
             )}
             eggGroups={getFormEggGroups(data, scope)}
-            genderAbsence={getPokemonDetailAbsenceLabel(
-              getGameMechanicAbsence(
-                scope.mechanics,
-                gameMechanics.pokemonGender,
-              ),
+            hasGender={supportsGameMechanic(
+              scope.mechanics,
+              gameMechanics.pokemonGender,
             )}
           />
         </div>

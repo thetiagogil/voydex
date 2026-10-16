@@ -1,32 +1,31 @@
 import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
+import { PokemonDetailMechanicNoteCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-mechanic-note";
+import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAbilitiesCardProps = {
-  /* What the card says when the game has no abilities. */
-  absence: string | null;
   abilitySlots: PokemonDetailAbilitySlot[];
+  /* In place of abilities when the game has none, with the entry where they arrive. */
+  note: PokemonDetailMechanicNote | null;
+  noteHref?: string | null;
 };
 
 /*
  * The abilities the Pokémon has, each with its slot and effect. In a game
- * without abilities the card stays in its place and says why, quietly.
+ * without abilities the card keeps its place and shows the calm note.
  */
 export const PokemonDetailAbilitiesCard = ({
-  absence,
   abilitySlots,
+  note,
+  noteHref,
 }: PokemonDetailAbilitiesCardProps) => {
-  const isEmpty = Boolean(absence) || !abilitySlots.length;
-
   return (
-    <DetailSectionCard
-      title="Abilities"
-      contentClassName={
-        isEmpty ? "flex flex-1 items-center justify-center" : undefined
-      }
-    >
-      {isEmpty ? (
-        <p className="text-14 text-ink-3 py-4 text-center font-semibold">
-          {absence ?? "Its abilities aren't recorded yet."}
+    <DetailSectionCard title="Abilities">
+      {note ? (
+        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
+      ) : !abilitySlots.length ? (
+        <p className="text-14 text-ink-3 font-semibold">
+          Its abilities aren&apos;t recorded yet.
         </p>
       ) : (
         <dl>
