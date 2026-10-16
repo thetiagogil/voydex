@@ -42,7 +42,7 @@ export const PokemonDetailTrainingCard = ({
 
   return (
     <DetailSectionCard title={hasBreeding ? "Training & breeding" : "Training"}>
-      <dl className="grid grid-cols-2 gap-x-4.5 gap-y-3.5">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
         {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
         <TrainingFact label="EV yield">
           <CodexPendingValue />

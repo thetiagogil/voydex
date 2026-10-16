@@ -157,13 +157,13 @@ export const PokemonDetailShell = ({
       </PageBand>
 
       {/*
-       * Below the band, the short facts side by side (abilities, training
-       * and breeding), then each section across the page, the learnset last
+       * Below the band, the short facts side by side (abilities, the wider,
+       * beside training and breeding), then each section across the page, the learnset last
        * of the reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
         {abilitySlots.length ? (
-          <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
+          <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [&>*]:h-full">
             <PokemonDetailAbilitiesCard abilitySlots={abilitySlots} />
             {trainingCard}
           </div>
