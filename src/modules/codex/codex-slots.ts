@@ -25,8 +25,8 @@ export type CodexPokemonEntrySlotContext = {
 
 export type CodexPokemonEntrySlots = {
   /*
-   * The hero's first action, before Favourite: "Your Plays (N)", the page's
-   * main button, a jump to the In your Plays section at the end.
+   * The hero's first action, beside the form switch and before Favourite:
+   * the Your Plays icon, a jump to the In your Plays section at the end.
    */
   heroActions?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
   /*
@@ -51,9 +51,14 @@ export type CodexVersionGroupSlotContext = {
 
 export type CodexVersionGroupSlots = {
   /*
+   * The head's Your Plays icon, beside the version switch: a jump to the
+   * Your Plays section at the end.
+   */
+  headActions?: (context: CodexVersionGroupSlotContext) => ReactNode;
+  /*
    * "Your Plays", the page's last section: your Plays of these games, with
-   * Start a {Version} Play and Plan a team in line with the title. The head
-   * carries no actions. Render a `DetailSectionCard`.
+   * Start a {Version} Play and Plan a team in line with the title. Render a
+   * `DetailSectionCard`.
    */
   yourPlays?: (context: CodexVersionGroupSlotContext) => ReactNode;
 };

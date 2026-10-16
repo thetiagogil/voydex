@@ -1,6 +1,9 @@
 import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
 import { GameDetailPage } from "@/modules/codex/features/games/detail/game-detail-page";
-import { CodexGameYourPlays } from "@/modules/mainline/public-codex";
+import {
+  CodexGameYourPlays,
+  CodexGameYourPlaysLink,
+} from "@/modules/mainline/public-codex";
 
 type PageProps = {
   params: Promise<{
@@ -24,6 +27,11 @@ export default async function Page({ params, searchParams }: PageProps) {
       slots={
         account
           ? {
+              headActions: (context) => (
+                <CodexGameYourPlaysLink
+                  versionGroupSlug={context.versionGroupSlug}
+                />
+              ),
               yourPlays: (context) => (
                 <CodexGameYourPlays
                   gameShortName={context.gameShortName}

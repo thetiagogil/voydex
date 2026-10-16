@@ -18,6 +18,7 @@ import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-pla
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { IconTip } from "@/shared/components/icon-tip";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 /*
@@ -98,10 +99,35 @@ type CodexYourPlaysLinkProps = {
 };
 
 /*
- * The entry hero's main button: "Your Plays (N)", N the Plays this species
- * is on, or "Add to a Play" with none. Either way it jumps to the In your
- * Plays section at the page's end, which shows where it already is before
- * offering to add it, so nobody adds it twice by accident.
+ * A Codex head's Your Plays icon: it jumps to the page's own Plays section at
+ * the end (`#in-your-plays` on an entry, `#your-plays` on a game), which
+ * shows what's there before offering to add or start, so nobody adds a
+ * Pokémon twice by accident. Its tip names the count.
+ */
+const CodexPlaysJumpIcon = ({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) => (
+  <IconTip
+    label={label}
+    trigger={
+      <a
+        href={href}
+        aria-label={label}
+        className={buttonVariants({ size: "icon" })}
+      >
+        <AppIcon icon={appIcons.product.play} />
+      </a>
+    }
+  />
+);
+
+/*
+ * The entry head's Your Plays icon: "Your Plays (N)", N the Plays this
+ * species is on, or "Add to a Play" with none.
  */
 export const CodexYourPlaysLink = async ({
   speciesSlug,
@@ -115,10 +141,37 @@ export const CodexYourPlaysLink = async ({
   const playCount = new Set(read.members.map((member) => member.play_id)).size;
 
   return (
-    <a href="#in-your-plays" className={buttonVariants()}>
-      <AppIcon icon={appIcons.product.play} inline="start" />
-      {playCount ? `Your Plays (${playCount})` : "Add to a Play"}
-    </a>
+    <CodexPlaysJumpIcon
+      href="#in-your-plays"
+      label={playCount ? `Your Plays (${playCount})` : "Add to a Play"}
+    />
+  );
+};
+
+/*
+ * The game head's Your Plays icon: "Your Plays (N)", N your Plays of these
+ * games, or "Start a Play" with none.
+ */
+export const CodexGameYourPlaysLink = async ({
+  versionGroupSlug,
+}: {
+  versionGroupSlug: string;
+}) => {
+  const library = await readCodexPlays();
+
+  if (!library) {
+    return null;
+  }
+
+  const playCount = library.plays.filter(
+    (play) => play.versionGroupSlug === versionGroupSlug,
+  ).length;
+
+  return (
+    <CodexPlaysJumpIcon
+      href="#your-plays"
+      label={playCount ? `Your Plays (${playCount})` : "Start a Play"}
+    />
   );
 };
 

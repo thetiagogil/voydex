@@ -9,6 +9,8 @@ import { PokemonTypeList } from "@/modules/reference/features/pokemon/components
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonTypePair } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { IconTip } from "@/shared/components/icon-tip";
+import { PendingData } from "@/shared/components/pending-data";
 import {
   SegmentedControl,
   type SegmentedControlOption,
@@ -17,8 +19,8 @@ import { Button } from "@/shared/components/ui/button";
 
 type PokemonDetailHeroProps = {
   /*
-   * The route's leading actions, before Favourite: "Add to a Play" when
-   * signed in.
+   * The route's actions, before Favourite: the Your Plays icon when signed
+   * in.
    */
   actions?: ReactNode;
   activeFormSlug: string | null;
@@ -50,13 +52,13 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 
 /*
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
- * type's shade (v3 `.cx-art`), beside the eyebrow, the name, the form
- * switch, the types, the one sentence the page reads for you (the Pokédex's
- * words are per game in Pokédex numbers), then the actions: the route's (Add
- * to a Play), Favourite and the shiny toggle. Each form is its own page, and the shell
- * remounts the hero for it, so the toggle starts off again. The art and the
- * text sit as one pair centred in the band, the text capped at a readable
- * width.
+ * type's shade (v3 `.cx-art`), beside the eyebrow, the name with its type
+ * marks, one line of the form switch and the actions as icons (the route's
+ * Your Plays, Favourite, the shiny toggle), the description, and the one
+ * sentence the page reads for you (the Pokédex's words are per game in
+ * Pokédex numbers). Each form is its own page, and the shell remounts the
+ * hero for it, so the toggle starts off again. The art and the text sit as
+ * one pair centred in the band.
  */
 export const PokemonDetailHero = ({
   actions,
@@ -104,12 +106,26 @@ export const PokemonDetailHero = ({
             </span>
           ))}
         </p>
-        <h1 className="text-44 sm:text-60 mt-1.5 mb-4 leading-none tracking-[-0.015em] break-words">
-          {name}
-        </h1>
+        <div className="mt-1.5 mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h1 className="text-44 sm:text-60 leading-none tracking-[-0.015em] break-words">
+            {name}
+          </h1>
+          <PokemonTypeList
+            primaryType={typePair?.primaryType ?? null}
+            secondaryType={typePair?.secondaryType ?? null}
+            badgeDisplay="icon"
+            badgeSize="xl"
+            className="gap-2"
+          />
+        </div>
 
-        {formSwitchOptions.length > 1 ? (
-          <div className="mb-3.5">
+        {/*
+         * One line: the form switch, then the actions as icons naming
+         * themselves on hover: the route's (Your Plays), Favourite and the
+         * shiny toggle.
+         */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {formSwitchOptions.length > 1 ? (
             <SegmentedControl
               ariaLabel="Form"
               variant="segment"
@@ -117,46 +133,55 @@ export const PokemonDetailHero = ({
               options={formSwitchOptions}
               value={activeFormSlug}
             />
+          ) : null}
+          {/* The icons wrap as one group, never one by one. */}
+          <div className="flex items-center gap-2.5">
+            {actions}
+            {/* TODO(v3-data): favourites (no table for a user's favourite Pokémon). */}
+            <IconTip
+              label="Favourite: not in Voydex yet"
+              trigger={
+                <span
+                  role="img"
+                  aria-label="Favourite, not in Voydex yet"
+                  className="empty-slot text-ink-3 grid size-11 place-items-center rounded-full"
+                >
+                  <AppIcon icon={appIcons.product.favourite} />
+                </span>
+              }
+            />
+            {shinyImageUrl ? (
+              <IconTip
+                label={isShowingShiny ? "Show regular colours" : "Show shiny"}
+                trigger={
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Shiny"
+                    aria-pressed={isShowingShiny}
+                    onClick={() => {
+                      setShowShiny((current) => !current);
+                    }}
+                  >
+                    <AppIcon icon={appIcons.product.shiny} />
+                  </Button>
+                }
+              />
+            ) : null}
           </div>
-        ) : null}
+        </div>
 
-        <PokemonTypeList
-          primaryType={typePair?.primaryType ?? null}
-          secondaryType={typePair?.secondaryType ?? null}
-          badgeSize="lg"
-          className="flex-wrap gap-2"
+        {/* TODO(v3-data): a general description of each species. */}
+        <PendingData
+          className="mt-5 items-start px-4.5 py-3.5 text-left"
+          label="About this Pokémon"
+          note="A few lines on what it is; its Pokédex entries are per game below."
         />
 
-        {/* The Pokédex's words live per game in Pokédex numbers below. */}
-        <p className="text-16 text-ink-2 mt-5 leading-relaxed">
+        <p className="text-16 text-ink-2 mt-4 leading-relaxed">
           {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
           <HeroParts parts={sentence} />
         </p>
-
-        {/*
-         * On phones the main button takes the full width and Favourite and
-         * Shiny share the line under it.
-         */}
-        <div className="mt-7 flex flex-wrap gap-2.5 *:flex-1 sm:*:flex-none [&>*:first-child]:basis-full sm:[&>*:first-child]:basis-auto">
-          {actions}
-          {/* TODO(v3-data): favourites (no table for a user's favourite Pokémon). */}
-          <CodexPendingValue
-            label="Favourite"
-            className="h-11 w-full justify-center rounded-lg px-4 text-[14.5px] sm:w-auto"
-          />
-          {shinyImageUrl ? (
-            <Button
-              variant="outline"
-              aria-pressed={isShowingShiny}
-              onClick={() => {
-                setShowShiny((current) => !current);
-              }}
-            >
-              <AppIcon icon={appIcons.product.shiny} inline="start" />
-              Shiny
-            </Button>
-          ) : null}
-        </div>
       </div>
     </section>
   );

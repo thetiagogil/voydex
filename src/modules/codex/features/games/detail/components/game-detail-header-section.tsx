@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { appRoutes } from "@/config/routes";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
 import {
@@ -11,6 +13,8 @@ import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
 type GameDetailHeaderSectionProps = {
+  /* The route's Your Plays icon, beside the version switch, signed in. */
+  actions?: ReactNode;
   data: CodexGameDetailData;
 };
 
@@ -31,11 +35,13 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
  * v3's version group header, on the page's band (the Codex stays neutral,
  * no game tint), centred as the Pokémon entry's hero is: the picked game's
  * cover, then the eyebrow, the group's title with the version switch under
- * it (as the form switch sits under a Pokémon's name) and its description.
- * No actions: starting a Play or planning a team waits in Your Plays at the
- * page's end, and the Pokédexes right below are the way into the Pokémon.
+ * it (as the form switch sits under a Pokémon's name) and, beside the
+ * switch, the Your Plays icon, a jump to the section at the page's end
+ * where you start a Play or plan a team; then its description. The
+ * Pokédexes right below are the way into the Pokémon.
  */
 export const GameDetailHeaderSection = ({
+  actions,
   data,
 }: GameDetailHeaderSectionProps) => {
   const { version, versionGroup, versions } = data;
@@ -64,19 +70,25 @@ export const GameDetailHeaderSection = ({
         >
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
-        {versions.length > 1 ? (
-          <div className="mb-4">
-            <SegmentedControl
-              ariaLabel="Version"
-              variant="segment"
-              value={version.game.slug}
-              options={versions.map(({ game }) => ({
-                dot: getGameColourStyle(game.slug),
-                href: appRoutes.codexVersionGroup(versionGroup.slug, game.slug),
-                label: getGameShortName(game.name),
-                value: game.slug,
-              }))}
-            />
+        {versions.length > 1 || actions ? (
+          <div className="mb-4 flex flex-wrap items-center gap-2.5">
+            {versions.length > 1 ? (
+              <SegmentedControl
+                ariaLabel="Version"
+                variant="segment"
+                value={version.game.slug}
+                options={versions.map(({ game }) => ({
+                  dot: getGameColourStyle(game.slug),
+                  href: appRoutes.codexVersionGroup(
+                    versionGroup.slug,
+                    game.slug,
+                  ),
+                  label: getGameShortName(game.name),
+                  value: game.slug,
+                }))}
+              />
+            ) : null}
+            {actions}
           </div>
         ) : null}
         {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}

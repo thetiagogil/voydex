@@ -65,12 +65,16 @@ Important rules:
   you're reading marked; each link jumps there. A section the page leaves out
   has no link.
 - **Hero:** centred in the band as one pair, the art on its type tint in a 6px white rim on a lip of its type's
-  shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
-  form switch, the types, the one sentence read from the data, and the
-  actions. Signed in, the main action is "Your Plays (N)" ("Add to a Play"
-  with none), a jump to In your Plays at the page's end, which shows where
-  the Pokémon already is before its Add to a Play menu. The
-  Pokédex's entries live per game in Pokédex numbers, not in the hero.
+  shade (v3 `.cx-art`), beside the number, the name (the page's `h1`) with
+  its type marks, one line of the form switch and the actions as icons that
+  name themselves on hover (Your Plays, Favourite as a heart, the shiny
+  toggle), a description (pending data), and the one sentence read from
+  the data. Signed in, the Your Plays icon ("Your Plays (N)", or "Add to a
+  Play" with none) jumps to In your Plays at the page's end, which shows
+  where the Pokémon already is before its Add to a Play menu. The game page
+  head works the same way: the version switch with the Your Plays icon
+  beside it. The Pokédex's entries live per game in Pokédex numbers, not in
+  the hero.
 - **Sections:** Abilities, Training and Breeding in one row from `xl`, then
   Base stats beside Type matchups (side by side from `lg`; every
   card keeps its place in every game), then one section a row: Evolution,
