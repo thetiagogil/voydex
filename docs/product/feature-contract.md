@@ -1012,8 +1012,9 @@ the group instead). It must:
 - have an independent semantic `h1` for National number and species identity;
 - retain the active version group while switching species and update the
   canonical route when switching group or persistent form;
-- offer one pill per generation the species exists in, each opening that
-  generation's first group the species can be found in; the entry reads by
+- offer one pill per generation, always all of them, disabled where the
+  species isn't, each other opening that generation's first group the
+  species can be found in; the entry reads by
   generation, and only the learnset picks a group, with a game switch that
   shows but disables a group the species can't be found in;
 - retain a searchable, contextual species switcher and direct Shiny artwork

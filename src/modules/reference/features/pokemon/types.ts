@@ -173,6 +173,8 @@ export type PokemonDetailData = {
   species: PokemonSpecies;
   forms: PokemonFormSummary[];
   generationDetails: PokemonGenerationDetail[];
+  /* Every generation, in order, for the entry's pills (those it isn't in show disabled). */
+  generations: Generation[];
   availability: PokemonAvailabilitySummary[];
   learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];

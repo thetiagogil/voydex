@@ -34,7 +34,8 @@ Important rules:
   in (Legends: Arceus for Wyrdeer, Let's Go for Meltan), as its generation
   pill does. The Pokémon list's cards still open the generation's first base
   group: the list does not read availability.
-- Generation pills list the generations the species exists in; each opens that
+- Generation pills list every generation, always, so the row never shifts;
+  one the species isn't in shows disabled, and each other opens that
   generation's first group the species can be found in. There is no
   version-group switch in the head.
 - Where to find, the Pokédex numbers and the form switch cover every base

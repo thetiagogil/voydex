@@ -16,32 +16,38 @@ const getScopedFormSlug = (scope: ResolvedPokemonDetailScope) => {
 };
 
 /*
- * The generation pills: each opens the entry in that generation's first
- * group the Pokémon can be found in.
+ * The generation pills: every generation, always, so the row never shifts.
+ * One the Pokémon is in opens that generation's first group it can be found
+ * in; one it isn't in (before it existed, or a generation without it) shows
+ * disabled.
  */
 export const getPokemonDetailGenerationOptions = (
   data: PokemonDetailData,
   scope: ResolvedPokemonDetailScope,
 ): SegmentedControlOption<string>[] => {
-  return data.generationDetails.flatMap((generation) => {
-    const versionGroup = getDefaultVersionGroup(
-      generation,
-      buildPokemonDetailVersionGroupScopes(generation),
-    );
+  return data.generations.map((generationRow) => {
+    const generation = data.generationDetails.find((detail) => {
+      return detail.generation.id === generationRow.id;
+    });
+    const versionGroup = generation
+      ? getDefaultVersionGroup(
+          generation,
+          buildPokemonDetailVersionGroupScopes(generation),
+        )
+      : null;
+    const option = {
+      label: getGenerationNumeral(generationRow.name),
+      value: generationRow.slug,
+    };
 
-    if (!versionGroup) {
-      return [];
-    }
-
-    return [
-      {
-        href: getPokemonDetailScopeHref(data.species.slug, {
-          form: getScopedFormSlug(scope),
-          versionGroup: versionGroup.versionGroup.slug,
-        }),
-        label: getGenerationNumeral(generation.generation.name),
-        value: generation.generation.slug,
-      },
-    ];
+    return versionGroup
+      ? {
+          ...option,
+          href: getPokemonDetailScopeHref(data.species.slug, {
+            form: getScopedFormSlug(scope),
+            versionGroup: versionGroup.versionGroup.slug,
+          }),
+        }
+      : { ...option, disabled: true, href: "" };
   });
 };

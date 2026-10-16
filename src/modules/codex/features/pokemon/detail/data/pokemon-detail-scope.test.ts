@@ -7,6 +7,7 @@ import {
   getDefaultVersionGroup,
   getFirstFoundBaseVersionGroup,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
+import { getPokemonDetailGenerationOptions } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
 import { gameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
   Game,
@@ -338,6 +339,34 @@ describe("the entry's generation-wide reading", () => {
     ).toEqual([
       ["arcanine", "swsh"],
       ["hisuian-arcanine", "bdsp"],
+    ]);
+  });
+});
+
+describe("getPokemonDetailGenerationOptions", () => {
+  it("keeps every generation, disabling one the Pokémon isn't in", () => {
+    const withGenerations = {
+      ...data,
+      generations: [
+        { id: 8, name: "Generation VIII", slug: "generation-viii" },
+        { id: 9, name: "Generation IX", slug: "generation-ix" },
+      ],
+    } as unknown as PokemonDetailData;
+    const scope = resolvePokemonDetailScope(withGenerations, {
+      versionGroup: "swsh",
+    });
+
+    if (!scope) {
+      throw new Error("Expected a scope.");
+    }
+
+    expect(
+      getPokemonDetailGenerationOptions(withGenerations, scope).map(
+        (option) => [option.label, Boolean(option.disabled)],
+      ),
+    ).toEqual([
+      ["VIII", false],
+      ["IX", true],
     ]);
   });
 });

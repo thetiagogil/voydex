@@ -51,16 +51,26 @@ export const PokemonDetailHead = ({
           value={generationSlug}
         />
         {gameNames.length ? (
-          <p className="text-13 text-ink-3 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-semibold md:justify-end">
+          <p className="text-13 text-ink-3 flex items-start gap-2 leading-5 font-semibold md:justify-end">
             <span>In</span>
-            {gameNames.map((gameName, index) => (
-              <span key={gameName} className="inline-flex items-center gap-2">
-                {index ? (
-                  <span aria-hidden className="bg-ink-3/45 h-3.5 w-px" />
-                ) : null}
-                {gameName}
+            {/*
+             * Each game leads with its hairline, and the list sits a
+             * hairline's space left of its clip, so no line, first or
+             * wrapped, ever starts with one.
+             */}
+            <span className="min-w-0 overflow-hidden">
+              <span className="-ml-[9px] flex flex-wrap gap-x-2 gap-y-0.5 md:justify-end">
+                {gameNames.map((gameName) => (
+                  <span
+                    key={gameName}
+                    className="inline-flex items-center gap-2"
+                  >
+                    <span aria-hidden className="bg-ink-3/45 h-3.5 w-px" />
+                    {gameName}
+                  </span>
+                ))}
               </span>
-            ))}
+            </span>
           </p>
         ) : null}
       </div>
