@@ -3,7 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 import { trainerStatePath } from "./e2e/support/accounts";
 
 const isCI = Boolean(process.env.CI);
-const port = 3000;
+/* `E2E_PORT` runs the tests beside a dev server already on 3000. */
+const port = Number(process.env.E2E_PORT ?? 3000);
 const baseURL = `http://localhost:${port}`;
 
 /*
@@ -17,7 +18,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 1 : 0,
-  workers: isCI ? 2 : undefined,
+  /* The dev server compiles pages on first visit, so keep the load modest. */
+  workers: isCI ? 2 : 3,
+  timeout: 60_000,
   reporter: isCI
     ? [["github"], ["html", { open: "never", outputFolder: "e2e/.report" }]]
     : [["list"], ["html", { open: "never", outputFolder: "e2e/.report" }]],
@@ -47,7 +50,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: isCI ? "npm run start" : "npm run dev",
+    command: `npm run ${isCI ? "start" : "dev"} -- --port ${port}`,
     url: baseURL,
     reuseExistingServer: !isCI,
     timeout: 180_000,
