@@ -15,19 +15,61 @@ const mainlinePlayHubViewsPrefix = [
   "views",
 ];
 const responsibilityFolderNames = new Set([
-  "__tests__",
-  "application",
   "client",
   "components",
   "data",
-  "display",
-  "domain",
-  "infrastructure",
   "sections",
   "server",
   "shared",
-  "types",
   "utils",
+]);
+/* Responsibility folders that hold files only, never another folder. */
+const flatFolderNames = new Set(["client", "data", "server", "utils"]);
+/*
+ * Folder names reserved for one place each (see Agreed Folder Names in
+ * docs/app/architecture.md), and names that the vocabulary retired. Any
+ * other kebab-case name is a feature, view or section area.
+ */
+const placedFolderNames = new Map([
+  ["domain", (segments) => segments[1] === "reference"],
+  [
+    "features",
+    (segments) => segments[0] === "modules" && segments.length === 3,
+  ],
+  [
+    "shell",
+    (segments) =>
+      startsWithSegments(segments, mainlinePlayHubViewsPrefix.slice(0, -1)) &&
+      segments.length === mainlinePlayHubViewsPrefix.length,
+  ],
+  [
+    "styles",
+    (segments) =>
+      segments.join("/") === "modules/reference/features/pokemon/styles",
+  ],
+  [
+    "views",
+    (segments) => segments.join("/") === mainlinePlayHubViewsPrefix.join("/"),
+  ],
+]);
+const retiredFolderNames = new Set([
+  "__tests__",
+  "actions",
+  "api",
+  "application",
+  "constants",
+  "context",
+  "display",
+  "helpers",
+  "hooks",
+  "infrastructure",
+  "lib",
+  "models",
+  "queries",
+  "services",
+  "test",
+  "tests",
+  "types",
 ]);
 
 /* Product modules whose features must not reach into each other. */
@@ -45,8 +87,10 @@ const startsWithSegments = (segments, prefix) =>
 function getPlayHubLeafView(segments) {
   const candidate = segments[mainlinePlayHubViewsPrefix.length + 1];
 
+  /* `types` is the view's types.ts, imported without its extension. */
   if (
     !candidate ||
+    candidate === "types" ||
     responsibilityFolderNames.has(candidate) ||
     sourceExtensions.has(path.extname(candidate))
   ) {
@@ -229,6 +273,87 @@ function verifyPlayHubBoundaryFixtures() {
       );
     }
   }
+}
+
+/*
+ * Why a folder under src/modules or src/features breaks the closed folder
+ * vocabulary, or null when it fits. `segments` is its path below src.
+ */
+function getFolderViolation(segments) {
+  const name = segments.at(-1);
+  const parent = segments.at(-2);
+
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) {
+    return "folder names are kebab-case";
+  }
+
+  if (retiredFolderNames.has(name)) {
+    return `\`${name}/\` is not in the folder vocabulary; use client/, server/, data/, utils/, a types.ts file, or keep tests beside their file`;
+  }
+
+  const isPlaced = placedFolderNames.get(name);
+
+  if (isPlaced && !isPlaced(segments)) {
+    return `\`${name}/\` is reserved for one place in the folder vocabulary`;
+  }
+
+  if (flatFolderNames.has(parent)) {
+    return `\`${parent}/\` holds files only; move \`${name}/\` into sections/ or a feature folder`;
+  }
+
+  return null;
+}
+
+function verifyFolderVocabularyFixtures() {
+  const fixtures = [
+    ["modules/codex/features/pokemon/detail/hooks", true],
+    ["modules/mainline/features/plays/hub/server/__tests__", true],
+    ["modules/mainline/features/stats/types", true],
+    ["modules/mainline/features/stats/domain", true],
+    ["modules/mainline/features/stats/server/readers", true],
+    ["modules/mainline/features/stats/views", true],
+    ["modules/codex/features/games/shell", true],
+    ["modules/mainline/features/stats/Sections", true],
+    ["modules/reference/features/games/domain", false],
+    ["modules/mainline/features/plays/hub/shell/top-section", false],
+    ["modules/mainline/features/plays/hub/views/team/team-roster", false],
+    ["modules/mainline/features/stats/sections/stats-time", false],
+    ["modules/reference/features/pokemon/styles", false],
+    ["features/app-shell/components/navigation", false],
+  ];
+
+  for (const [folder, violates] of fixtures) {
+    if (Boolean(getFolderViolation(folder.split("/"))) !== violates) {
+      throw new Error(`Folder vocabulary fixture failed: ${folder}`);
+    }
+  }
+}
+
+async function collectFolderViolations(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const violations = [];
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+
+    const entryPath = path.join(directory, entry.name);
+    const segments = normalizePath(path.relative(sourceRoot, entryPath)).split(
+      "/",
+    );
+    const violation = getFolderViolation(segments);
+
+    if (violation) {
+      violations.push(
+        `${normalizePath(path.relative(projectRoot, entryPath))}: ${violation}`,
+      );
+    }
+
+    violations.push(...(await collectFolderViolations(entryPath)));
+  }
+
+  return violations;
 }
 
 async function collectSourceFiles(directory) {
@@ -579,11 +704,20 @@ async function checkFile(filePath) {
 
 verifyPlayHubBoundaryFixtures();
 verifyFeatureBoundaryFixtures();
+verifyFolderVocabularyFixtures();
 
 const sourceFiles = await collectSourceFiles(sourceRoot);
-const violations = (await Promise.all(sourceFiles.map(checkFile)))
-  .flat()
-  .sort();
+const folderViolations = (
+  await Promise.all(
+    ["modules", "features"].map((area) =>
+      collectFolderViolations(path.join(sourceRoot, area)),
+    ),
+  )
+).flat();
+const violations = [
+  ...folderViolations,
+  ...(await Promise.all(sourceFiles.map(checkFile))).flat(),
+].sort();
 
 if (violations.length > 0) {
   console.error("Architecture boundary violations:");
