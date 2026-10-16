@@ -6,56 +6,30 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import type { GameCard } from "@/modules/reference/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 type GameShelfCardProps = {
   card: GameCard;
   eager?: boolean;
-  /* How many of your Plays are of this game, signed in; flags the card. */
-  playCount?: number;
 };
-
-const formatPlayCount = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 /*
  * v3's game card, the one card for a game in the Codex (the Games list and
  * Related games): the cover on a soft stage in the game's colour, the short
  * name, and when and where it is set. A reference card you don't own, so it
- * is flat with a 1px line; a game you have Plays of carries the count on a
- * raised mark on the card's corner, like the app's other marks (Old
- * friends' family dot), in the action green so played games stand out. Hover picks the cover up. It opens its version
- * group's page with this game picked in the version switch.
+ * is flat with a 1px line, and never marks the games you have Plays of (a
+ * game's page has "Your Plays (N)"). Hover picks the cover up. It opens its
+ * version group's page with this game picked in the version switch.
  */
-export const GameShelfCard = ({
-  card,
-  eager = false,
-  playCount = 0,
-}: GameShelfCardProps) => {
+export const GameShelfCard = ({ card, eager = false }: GameShelfCardProps) => {
   return (
     <Link
       href={appRoutes.codexVersionGroup(card.versionGroup.slug, card.game.slug)}
-      aria-label={[
-        card.game.name,
-        card.game.release_year,
-        card.region?.name,
-        playCount ? `you have ${formatPlayCount(playCount)}` : null,
-      ]
+      aria-label={[card.game.name, card.game.release_year, card.region?.name]
         .filter(Boolean)
         .join(", ")}
       className="group/game bg-surface border-line relative flex min-w-0 flex-col gap-3 rounded-xl border p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-[3px]"
     >
-      {playCount ? (
-        <span
-          aria-hidden
-          title={`You have ${formatPlayCount(playCount)} of ${getGameShortName(card.game.name)}`}
-          className="bg-action text-13 absolute -top-2 -right-2 z-10 inline-flex h-6 min-w-6 items-center justify-center gap-1 rounded-full px-2 font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--action-lip)]"
-        >
-          <AppIcon icon={appIcons.product.play} size="xs" />
-          {playCount}
-        </span>
-      ) : null}
       <span
         style={getGameColourStyle(card.game.slug)}
         className="game-scope bg-game-soft grid h-30 place-items-center overflow-hidden rounded-md sm:h-37"

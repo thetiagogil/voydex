@@ -76,8 +76,9 @@ const getTrailingGroups = (trailing: ReactNode) => {
 /*
  * The toolbar card (v3 `.toolbar`): the search, then each group of controls
  * at its own width with a hairline between groups, wrapping on narrow
- * screens; the search fills whatever the controls leave and takes the whole
- * first row on phones. Each group carries its hairline on its left, and the
+ * screens; the search fills whatever the controls leave (never narrower
+ * than 220px: the controls wrap first) and takes the whole first row on
+ * phones. Each group carries its hairline on its left, and the
  * line sits a hairline's space to the left of the card's clip, so the
  * hairline of a group that starts a line is never seen. It counts as a card,
  * so fields and secondary buttons inside take the inset fill. Wrap a filter
@@ -101,7 +102,7 @@ export const Toolbar = ({
       <>
         <div className="-ml-2 flex min-w-0 flex-wrap items-center gap-y-2.5 sm:-ml-7">
           {search ? (
-            <div className="flex min-w-0 flex-[1_1_100%] items-center pl-2 sm:flex-[1_1_220px] sm:pl-7 [&>*]:min-w-0 [&>*]:flex-1">
+            <div className="flex min-w-0 flex-[1_1_100%] items-center pl-2 sm:min-w-[calc(220px+1.75rem)] sm:flex-[1_1_220px] sm:pl-7 [&>*]:min-w-0 [&>*]:flex-1">
               {search}
             </div>
           ) : null}

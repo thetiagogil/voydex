@@ -1,9 +1,6 @@
 import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
 import { GameDetailPage } from "@/modules/codex/features/games/detail/game-detail-page";
-import {
-  CodexGamePlays,
-  readPlayedGameCounts,
-} from "@/modules/mainline/public-codex";
+import { CodexGamePlays } from "@/modules/mainline/public-codex";
 
 type PageProps = {
   params: Promise<{
@@ -21,9 +18,6 @@ export default async function Page({ params, searchParams }: PageProps) {
     /* The public shell's own read, cached per request: no extra auth work. */
     getSignedInAccount(),
   ]);
-  const playedCountsByGameSlug = account
-    ? await readPlayedGameCounts()
-    : undefined;
 
   return (
     <GameDetailPage
@@ -37,7 +31,6 @@ export default async function Page({ params, searchParams }: PageProps) {
                   versionGroupSlug={context.versionGroupSlug}
                 />
               ),
-              playedCountsByGameSlug,
             }
           : undefined
       }

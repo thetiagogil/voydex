@@ -14,7 +14,7 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { PageBand } from "@/shared/components/page-band";
 
 type GameDetailPageProps = {
-  /* Signed-in pieces the route fills: Start a Play, Your Plays, played flags. */
+  /* Signed-in pieces the route fills: Start a Play and Your Plays. */
   slots?: CodexVersionGroupSlots;
   /* The game picked in the version switch. */
   versionSlug?: string;
@@ -60,10 +60,7 @@ export const GameDetailPage = async ({
       <GameDetailPokedexesSection data={data} />
       <GameDetailRegionSection data={data} />
       <GameDetailExclusivesSection exclusives={data.versionExclusives} />
-      <GameDetailRelatedGamesSection
-        data={data}
-        playCounts={slots?.playedCountsByGameSlug}
-      />
+      <GameDetailRelatedGamesSection data={data} />
     </div>
   );
 };

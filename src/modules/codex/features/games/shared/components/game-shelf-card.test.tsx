@@ -17,18 +17,7 @@ const card = {
 } as unknown as GameCard;
 
 describe("GameShelfCard", () => {
-  it("flags a game you have Plays of and says so in its name", () => {
-    const markup = renderToStaticMarkup(
-      <GameShelfCard card={card} playCount={2} />,
-    );
-
-    expect(markup).toContain(
-      'aria-label="Pokémon Sword, 2019, Galar, you have 2 Plays"',
-    );
-    expect(markup).toContain('title="You have 2 Plays of Sword"');
-  });
-
-  it("stays unflagged without Plays", () => {
+  it("names the game, its year and region, never your Plays", () => {
     const markup = renderToStaticMarkup(<GameShelfCard card={card} />);
 
     expect(markup).toContain('aria-label="Pokémon Sword, 2019, Galar"');

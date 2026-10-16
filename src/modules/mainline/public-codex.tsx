@@ -8,7 +8,6 @@ import {
   readCodexPlayIdsWithSpecies,
   readCodexPlays,
   readCodexSpeciesRoster,
-  readPlayedGameCounts,
   type CodexPlay,
 } from "@/modules/mainline/features/plays/browse/server/codex-plays-reader";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
@@ -24,8 +23,6 @@ import { cn } from "@/shared/utils/cn";
  * reads the signed-in trainer's Plays and renders nothing for a visitor or
  * when that read fails: these are extras, never a reason to fail the page.
  */
-
-export { readPlayedGameCounts };
 
 const getAddItems = (
   plays: CodexPlay[],

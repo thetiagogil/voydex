@@ -1,8 +1,4 @@
-import {
-  getGamePlayCount,
-  type GamePlayCounts,
-  type GamesShelfSection,
-} from "@/modules/codex/features/games/browse/data/games-browse-model";
+import type { GamesShelfSection } from "@/modules/codex/features/games/browse/data/games-browse-model";
 import {
   GameShelfCard,
   GameShelfGrid,
@@ -12,13 +8,11 @@ import { RangeHeading } from "@/shared/components/range-heading";
 const EAGER_COVER_COUNT = 6;
 
 type GamesShelfProps = {
-  /* Your Plays per game, for each card's flag. */
-  playCounts?: GamePlayCounts;
   sections: GamesShelfSection[];
 };
 
 /* The cover shelf: one Codex list range per generation or region, then the covers. */
-export const GamesShelf = ({ playCounts, sections }: GamesShelfProps) => {
+export const GamesShelf = ({ sections }: GamesShelfProps) => {
   return (
     <div className="mt-6 flex flex-col gap-7.5">
       {sections.map((section, sectionIndex) => {
@@ -41,7 +35,6 @@ export const GamesShelf = ({ playCounts, sections }: GamesShelfProps) => {
                   key={card.game.id}
                   card={card}
                   eager={sectionIndex === 0 && cardIndex < EAGER_COVER_COUNT}
-                  playCount={getGamePlayCount(card, playCounts)}
                 />
               ))}
             </GameShelfGrid>

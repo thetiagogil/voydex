@@ -2,75 +2,73 @@
 
 import {
   countGamesByKind,
-  countPlayedGames,
-  type GamePlayCounts,
   type GamesBrowseFilters,
-  type GamesKindFilter,
+  type GamesGroupBy,
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
 import {
   gameKindLabels,
   gameKinds,
+  type GameKind,
 } from "@/modules/reference/features/games/domain/game-kinds";
 import type { GameCard } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 
 type GamesToolbarProps = {
   filters: GamesBrowseFilters;
   games: GameCard[];
+  groupBy: GamesGroupBy;
   onFilterChange: <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
     value: GamesBrowseFilters[FilterKey],
   ) => void;
+  onGroupByChange: (groupBy: GamesGroupBy) => void;
   onSortOrderChange: (sortOrder: GamesSortOrder) => void;
-  /* Your Plays per game, signed in: adds the Played filter. */
-  playCounts?: GamePlayCounts;
   sortOrder: GamesSortOrder;
 };
+
+/* The Kind menu's "every game", as a select value. */
+const ALL_KINDS = "all";
+
+const groupByOptions = [
+  { label: "Generation", value: "generation" },
+  { label: "Region", value: "region" },
+] satisfies { label: string; value: GamesGroupBy }[];
 
 const sortOptions = [
   { label: "Oldest first", value: "oldest" },
   { label: "Newest first", value: "newest" },
 ] satisfies { label: string; value: GamesSortOrder }[];
 
-const isGamesSortOrder = (value: string): value is GamesSortOrder => {
-  return sortOptions.some((option) => option.value === value);
+const isGameKind = (value: string): value is GameKind => {
+  return (gameKinds as readonly string[]).includes(value);
 };
 
 /*
- * v3's games toolbar, one line on wide screens: the search, the kinds of
- * game as pills (with Played, your games, after All games when signed in)
- * and the sort. Narrower, the pills take their own line under the search
- * and the sort; on phones they scroll sideways, fading at the edge to show
- * there is more.
+ * The games toolbar, one line on wide screens: the search, then the kind of
+ * game (a filter), how the shelf is grouped and its order (how it's
+ * arranged), each a compact menu. Phones put the menus under the search.
  */
 export const GamesToolbar = ({
   filters,
   games,
+  groupBy,
   onFilterChange,
+  onGroupByChange,
   onSortOrderChange,
-  playCounts,
   sortOrder,
 }: GamesToolbarProps) => {
   const kindCounts = countGamesByKind(games);
   const kindOptions = [
-    { label: "All games", value: "" as const },
-    ...(playCounts
-      ? [
-          {
-            count: countPlayedGames(games, playCounts),
-            label: "Played",
-            value: "played" as const,
-          },
-        ]
-      : []),
+    { label: "All games", value: ALL_KINDS },
     ...gameKinds.flatMap((kind) => {
       const count = kindCounts.get(kind) ?? 0;
 
-      return count ? [{ count, label: gameKindLabels[kind], value: kind }] : [];
+      return count
+        ? [{ label: `${gameKindLabels[kind]} (${count})`, value: kind }]
+        : [];
     }),
   ];
 
@@ -97,32 +95,44 @@ export const GamesToolbar = ({
       }
       trailing={
         <>
-          {/* Under xl the pills wrap anyway, so the sort stays beside the search. */}
-          <ToolbarGroup className="max-xl:order-1">
-            <SegmentedControl<GamesKindFilter>
-              ariaLabel="Filter by kind of game"
-              className="no-scrollbar max-sm:-my-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[mask-image:linear-gradient(90deg,black_calc(100%-1.5rem),transparent)] max-sm:py-1 max-sm:pr-6"
-              onValueChange={(kind) => {
-                onFilterChange("kind", kind);
-              }}
-              options={kindOptions}
-              value={filters.kind}
-            />
-          </ToolbarGroup>
           <SelectControl
-            ariaLabel="Sort games"
+            ariaLabel="Kind of game"
             variant="ghost"
             size="sm"
-            prefix="Sort"
-            value={sortOrder}
+            prefix="Kind"
+            value={filters.kind || ALL_KINDS}
             onValueChange={(value) => {
-              if (isGamesSortOrder(value)) {
-                onSortOrderChange(value);
-              }
+              onFilterChange("kind", isGameKind(value) ? value : "");
             }}
-            options={sortOptions}
-            placeholder="Oldest first"
+            options={kindOptions}
+            placeholder="All games"
           />
+          <ToolbarGroup>
+            <SelectControl
+              ariaLabel="Group games by"
+              variant="ghost"
+              size="sm"
+              prefix="Group"
+              value={groupBy}
+              onValueChange={(value) => {
+                onGroupByChange(value === "region" ? "region" : "generation");
+              }}
+              options={groupByOptions}
+              placeholder="Generation"
+            />
+            <SelectControl
+              ariaLabel="Sort games"
+              variant="ghost"
+              size="sm"
+              prefix="Sort"
+              value={sortOrder}
+              onValueChange={(value) => {
+                onSortOrderChange(value === "newest" ? "newest" : "oldest");
+              }}
+              options={sortOptions}
+              placeholder="Oldest first"
+            />
+          </ToolbarGroup>
         </>
       }
     />

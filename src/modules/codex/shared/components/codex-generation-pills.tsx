@@ -19,9 +19,9 @@ type CodexGenerationPillsProps<TValue extends string> = {
 };
 
 /*
- * v3 `.gens`: the labelled generation pills of every Codex page that reads by
- * generation. Filters on the Pokémon list (soft); on a Pokémon's entry they
- * pick the generation it is read at, a scope, so the pick is strong. On
+ * v3 `.gens`: the labelled generation pills of a Pokémon's entry, which pick
+ * the generation it is read at, a scope, so the pick is strong (the
+ * Pokémon list filters by generation from its toolbar's menu instead). On
  * phones the row scrolls sideways, edge to edge, and keeps the current pill
  * in view with the one before it.
  */

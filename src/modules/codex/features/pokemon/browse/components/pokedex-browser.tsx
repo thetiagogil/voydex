@@ -17,12 +17,12 @@ import {
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
 import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
-import { CodexGenerationPills } from "@/modules/codex/shared/components/codex-generation-pills";
 import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
 } from "@/modules/codex/shared/components/codex-pokemon-card-link";
-import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
@@ -36,7 +36,7 @@ import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 
 type PokedexBrowserProps = {
   data: PokedexPageData;
@@ -47,6 +47,14 @@ const VISIBLE_POKEMON_INCREMENT = 48;
 
 const countFormat = new Intl.NumberFormat("en-US");
 
+/* The menus' "every type" and "every generation", as a select value. */
+const ALL = "all";
+
+/*
+ * The Codex's Pokémon: the title and count, one toolbar row (search, Type
+ * and Generation filters, Sort) and the cards, in generation ranges loaded
+ * in batches.
+ */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
   const [sortKey, setSortKey] = useState<PokedexSortKey>("national");
@@ -117,8 +125,29 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     setFilters(defaultPokedexPageFilters);
   };
 
+  /* Filters, in the toolbar's menus: a type (with its mark) and a generation. */
+  const typeOptions = [
+    { label: "All", value: ALL },
+    ...data.types.flatMap((type) =>
+      isPokemonTypeSlug(type.slug)
+        ? [
+            {
+              icon: (
+                <PokemonTypeMark
+                  type={type.slug}
+                  className="size-5"
+                  iconClassName="size-3"
+                />
+              ),
+              label: type.name,
+              value: type.slug,
+            },
+          ]
+        : [],
+    ),
+  ];
   const generationOptions = [
-    { label: "All", value: "" },
+    { label: "All", value: ALL },
     ...data.generations.map((generation) => ({
       label: getGenerationNumeral(generation.name),
       value: generation.slug,
@@ -130,16 +159,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       <PageHeader
         title="Pokémon"
         description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
-        className="pt-5.5 sm:flex-wrap sm:pt-5.5"
-        action={
-          <CodexGenerationPills
-            options={generationOptions}
-            onValueChange={(generation) => {
-              updateFilter("generation", generation);
-            }}
-            value={filters.generation}
-          />
-        }
+        className="pt-5.5 sm:pt-5.5"
       />
 
       <Toolbar
@@ -163,33 +183,51 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           />
         }
         trailing={
-          <SelectControl
-            ariaLabel="Sort Pokémon"
-            variant="ghost"
-            size="sm"
-            prefix="Sort"
-            value={sortKey}
-            onValueChange={(value) => {
-              if (isPokedexSortKey(value)) {
-                setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                setSortKey(value);
-              }
-            }}
-            options={pokedexSortOptions}
-            placeholder="National number"
-          />
+          <>
+            <ToolbarGroup>
+              <SelectControl
+                ariaLabel="Filter by type"
+                variant="ghost"
+                size="sm"
+                prefix="Type"
+                value={filters.type || ALL}
+                onValueChange={(value) => {
+                  updateFilter("type", value === ALL ? "" : value);
+                }}
+                options={typeOptions}
+                placeholder="All"
+              />
+              <SelectControl
+                ariaLabel="Filter by generation"
+                variant="ghost"
+                size="sm"
+                prefix="Generation"
+                value={filters.generation || ALL}
+                onValueChange={(value) => {
+                  updateFilter("generation", value === ALL ? "" : value);
+                }}
+                options={generationOptions}
+                placeholder="All"
+              />
+            </ToolbarGroup>
+            <SelectControl
+              ariaLabel="Sort Pokémon"
+              variant="ghost"
+              size="sm"
+              prefix="Sort"
+              value={sortKey}
+              onValueChange={(value) => {
+                if (isPokedexSortKey(value)) {
+                  setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                  setSortKey(value);
+                }
+              }}
+              options={pokedexSortOptions}
+              placeholder="National number"
+            />
+          </>
         }
       />
-
-      <div className="mt-3.5">
-        <PokemonTypeFilter
-          onValueChange={(type) => {
-            updateFilter("type", type);
-          }}
-          types={data.types}
-          value={filters.type}
-        />
-      </div>
 
       {/* Counts every match, not just the ones loaded so far. */}
       <BrowseResultSummary

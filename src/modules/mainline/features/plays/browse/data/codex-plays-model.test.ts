@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
-  countPlaysByGameSlug,
   filterPlaysWithSpecies,
   settleCodexExtra,
   toCodexPlays,
@@ -77,19 +76,6 @@ describe("toCodexPlays", () => {
         versionGroupSlug: "sword-shield",
       },
     ]);
-  });
-});
-
-describe("countPlaysByGameSlug", () => {
-  it("counts per exact game, not per version group", () => {
-    expect(
-      countPlaysByGameSlug([
-        { game_slug: "sword" },
-        { game_slug: "shield" },
-        { game_slug: "sword" },
-        { game_slug: null },
-      ]),
-    ).toEqual({ shield: 1, sword: 2 });
   });
 });
 

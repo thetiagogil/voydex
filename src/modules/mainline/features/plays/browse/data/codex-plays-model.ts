@@ -60,21 +60,6 @@ export const filterPlaysWithSpecies = (
     ? plays.filter((play) => playIdsWithSpecies.has(play.id))
     : plays;
 
-/* How many Plays use each game, by game slug. */
-export const countPlaysByGameSlug = (
-  rows: Pick<ViewRow<"mainline_play_summary">, "game_slug">[],
-): Record<string, number> => {
-  const counts: Record<string, number> = {};
-
-  for (const play of rows) {
-    if (play.game_slug) {
-      counts[play.game_slug] = (counts[play.game_slug] ?? 0) + 1;
-    }
-  }
-
-  return counts;
-};
-
 /*
  * The Codex's signed-in extras are optional: a failed read is logged and
  * the extra falls back (hidden, or no counts), so a public Codex page never

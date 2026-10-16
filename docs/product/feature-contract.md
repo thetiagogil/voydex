@@ -1078,8 +1078,9 @@ also shows the region the picked game is set in with its first partners
 (the leaders are pending data; Legends games leave them out) and the version
 exclusives: one column per game of the pair, the picked game first, counting
 only what each game gives you itself. Signed in, its head offers `Start a
-{Version} Play` and `Your Plays (N)`, and Games Browse adds a Played filter
-and a flag on each game you've played.
+{Version} Play` and `Your Plays (N)`. Games Browse stays reference: one
+toolbar row (Search, Kind, Group by generation or region, Sort) and no mark
+for the games you've played.
 
 Named Pokédexes are listed under the base group, its own first and then its
 expansions', so seeded DLC scopes are not lost merely because their Pokédex

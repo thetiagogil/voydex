@@ -1,6 +1,4 @@
-import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
 import { GamesPage } from "@/modules/codex/features/games/browse/games-page";
-import { readPlayedGameCounts } from "@/modules/mainline/public-codex";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -16,11 +14,7 @@ const getSearchParam = (
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const [params, account] = await Promise.all([
-    searchParams,
-    /* The public shell's own read, cached per request: no extra auth work. */
-    getSignedInAccount(),
-  ]);
+  const params = await searchParams;
 
   return (
     <GamesPage
@@ -28,11 +22,6 @@ export default async function Page({ searchParams }: PageProps) {
         kind: getSearchParam(params, "kind"),
         q: getSearchParam(params, "q"),
       }}
-      slots={
-        account
-          ? { playedCountsByGameSlug: await readPlayedGameCounts() }
-          : undefined
-      }
     />
   );
 }

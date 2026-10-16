@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   countGamesByKind,
-  countPlayedGames,
   emptyGamesPageFilters,
   filterGames,
   groupGamesIntoSections,
@@ -141,30 +140,5 @@ describe("filterGames by kind", () => {
         ["companion", 2],
       ]),
     );
-  });
-});
-
-describe("filterGames by your Plays", () => {
-  const playCounts = { firered: 1, red: 2 };
-
-  it("keeps the games you have Plays of", () => {
-    expect(
-      filterGames(
-        games,
-        { ...emptyGamesPageFilters, kind: "played" },
-        playCounts,
-      ).map((card) => card.game.slug),
-    ).toEqual(["red", "firered"]);
-  });
-
-  it("counts the games you've played", () => {
-    expect(countPlayedGames(games, playCounts)).toBe(2);
-    expect(countPlayedGames(games, undefined)).toBe(0);
-  });
-
-  it("keeps none without Plays", () => {
-    expect(
-      filterGames(games, { ...emptyGamesPageFilters, kind: "played" }),
-    ).toEqual([]);
   });
 });

@@ -1,7 +1,6 @@
 import { cache } from "react";
 
 import {
-  countPlaysByGameSlug,
   settleCodexExtra,
   toCodexPlays,
   type CodexPlay,
@@ -137,35 +136,3 @@ export const readCodexPlayIdsWithSpecies = async (
     null,
   );
 };
-
-/*
- * How many Plays the trainer has of each game, by game slug (archived ones
- * too: the game was still played). Empty when nobody is signed in or the
- * read fails: the counts are an extra, never a reason to fail the page.
- */
-export const readPlayedGameCounts = async (): Promise<Record<string, number>> =>
-  settleCodexExtra(
-    "Counting the games you've played",
-    async () => {
-      const session = await readSignedInClient();
-
-      if (!session) {
-        return {};
-      }
-
-      const { data, error } = await session.supabase
-        .schema("views")
-        .from("mainline_play_summary")
-        .select("game_slug")
-        .eq("user_id", session.userId);
-
-      if (error) {
-        throw new Error("Unable to load the games you've played.", {
-          cause: error,
-        });
-      }
-
-      return countPlaysByGameSlug(data ?? []);
-    },
-    {},
-  );

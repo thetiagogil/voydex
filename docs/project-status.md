@@ -129,8 +129,9 @@ the evidence for exact implementation details.
   species was introduced in.
 - v3 additions: the game page's region with its first partners and its
   version exclusives, the entry's Training and breeding card, and the
-  signed-in pieces Mainline fills through `codex-slots.ts` (Add to a Play, In
-  your Plays, Start a {Version} Play, Your Plays, the Played filter).
+  signed-in pieces Mainline fills through `codex-slots.ts` (Your Plays and In
+  your Plays on an entry, Start a {Version} Play and Your Plays on a game).
+  The lists never mark what you've played or used: the Codex is reference.
 
 ### Global Features
 
@@ -264,8 +265,8 @@ Codex (Soft Clay, version-group scoped):
   rule (`resolveVersionGroupRoute`); route layouts settle the 404 or 308
   before the loading state streams. Routes are in
   [Navigation And Routes](./product/navigation-and-routes.md).
-- Pokémon Browse: Search, Sort (National number, Name), generation pills and
-  type dots over `CodexPokemonCardLink` cards, grouped by introduced generation
+- Pokémon Browse: one toolbar row (Search, Type and Generation menus, Sort)
+  over `CodexPokemonCardLink` cards, grouped by introduced generation
   under its region and appended as you scroll with a manual fallback. Each
   card opens the first base group of its introduced generation. Filters are
   client state; a query on `/codex/pokemon` redirects to the bare path.

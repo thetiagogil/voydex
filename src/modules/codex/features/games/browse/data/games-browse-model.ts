@@ -7,16 +7,13 @@ import type {
 
 export type GamesGroupBy = "generation" | "region";
 
-/* The kind filter: a kind of game, the games you've played, or every game. */
-export type GamesKindFilter = GameKind | "played" | "";
+/* The kind filter: a kind of game, or every game. */
+export type GamesKindFilter = GameKind | "";
 
-/* The list's filters; "played" needs your Plays, so only the browser knows it. */
 export type GamesBrowseFilters = Omit<GamesPageFilters, "kind"> & {
   kind: GamesKindFilter;
 };
 
-/* How many of your Plays each game has, by game slug. */
-export type GamePlayCounts = Readonly<Record<string, number>>;
 export type GamesSortOrder = "newest" | "oldest";
 
 export type GamesShelfSection = {
@@ -51,30 +48,11 @@ const getSearchableGameText = (card: GameCard) => {
     .toLowerCase();
 };
 
-export const getGamePlayCount = (
-  card: GameCard,
-  playCounts: GamePlayCounts | undefined,
-) => playCounts?.[card.game.slug] ?? 0;
-
-/* How many of the games you have at least one Play of. */
-export const countPlayedGames = (
-  games: GameCard[],
-  playCounts: GamePlayCounts | undefined,
-) => games.filter((card) => getGamePlayCount(card, playCounts) > 0).length;
-
-export const filterGames = (
-  games: GameCard[],
-  filters: GamesBrowseFilters,
-  playCounts?: GamePlayCounts,
-) => {
+export const filterGames = (games: GameCard[], filters: GamesBrowseFilters) => {
   const normalizedQuery = filters.query.trim().toLowerCase();
 
   return games.filter((card) => {
-    if (
-      filters.kind === "played"
-        ? getGamePlayCount(card, playCounts) === 0
-        : filters.kind && card.kind !== filters.kind
-    ) {
+    if (filters.kind && card.kind !== filters.kind) {
       return false;
     }
 
@@ -92,7 +70,7 @@ export const countGenerations = (games: GameCard[]) => {
   return new Set(games.map((card) => card.generation?.id ?? null)).size;
 };
 
-/* How many games each kind holds, for the filter pills. */
+/* How many games each kind holds, for the Kind menu. */
 export const countGamesByKind = (games: GameCard[]) => {
   const counts = new Map<GameKind, number>();
 

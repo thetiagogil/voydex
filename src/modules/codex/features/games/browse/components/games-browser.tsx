@@ -6,12 +6,10 @@ import { GamesShelf } from "@/modules/codex/features/games/browse/components/gam
 import { GamesToolbar } from "@/modules/codex/features/games/browse/components/games-toolbar";
 import {
   countGenerations,
-  countPlayedGames,
   emptyGamesPageFilters,
   filterGames,
   groupGamesIntoSections,
   hasActiveGamesFilters,
-  type GamePlayCounts,
   type GamesBrowseFilters,
   type GamesGroupBy,
   type GamesSortOrder,
@@ -20,7 +18,6 @@ import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-re
 import type { GamesPageData } from "@/modules/reference/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 
 const countWords = [
   "zero",
@@ -41,24 +38,22 @@ const countWords = [
 /* Small counts read as words in a sentence, as v3 writes "nine generations". */
 const spellCount = (count: number) => countWords[count] ?? String(count);
 
-const groupByOptions = [
-  { label: "Generation", value: "generation" },
-  { label: "Region", value: "region" },
-] as const;
-
 type GamesBrowserProps = {
   data: GamesPageData;
-  /* Your Plays per game, by game slug, when signed in. */
-  playCounts?: GamePlayCounts;
 };
 
-export const GamesBrowser = ({ data, playCounts }: GamesBrowserProps) => {
+/*
+ * The Codex's games: the title and how many there are, the toolbar (search,
+ * Kind, Group, Sort) and the shelf of covers, grouped by generation or
+ * region. A reference list: it never says which games you've played.
+ */
+export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
   const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
   const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
-    () => filterGames(data.games, filters, playCounts),
-    [data.games, filters, playCounts],
+    () => filterGames(data.games, filters),
+    [data.games, filters],
   );
   const sections = useMemo(
     () =>
@@ -95,38 +90,17 @@ export const GamesBrowser = ({ data, playCounts }: GamesBrowserProps) => {
           <>
             <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
             across {spellCount(countGenerations(data.games))} generations.
-            {playCounts ? (
-              <>
-                {" "}
-                You&apos;ve played{" "}
-                <b className="text-ink font-extrabold">
-                  {countPlayedGames(data.games, playCounts)}
-                </b>{" "}
-                of them.
-              </>
-            ) : null}
           </>
-        }
-        action={
-          <div className="flex shrink-0 items-center gap-2.5">
-            <span className="text-ink-2 text-13 font-bold">Group by</span>
-            <SegmentedControl
-              ariaLabel="Group by"
-              onValueChange={setGroupBy}
-              options={groupByOptions}
-              value={groupBy}
-              variant="segment"
-            />
-          </div>
         }
       />
 
       <GamesToolbar
         filters={filters}
         games={data.games}
+        groupBy={groupBy}
         onFilterChange={updateFilter}
+        onGroupByChange={setGroupBy}
         onSortOrderChange={setSortOrder}
-        playCounts={playCounts}
         sortOrder={sortOrder}
       />
 
@@ -139,7 +113,7 @@ export const GamesBrowser = ({ data, playCounts }: GamesBrowserProps) => {
       />
 
       {sections.length ? (
-        <GamesShelf sections={sections} playCounts={playCounts} />
+        <GamesShelf sections={sections} />
       ) : (
         <EmptyState
           variant="bare"

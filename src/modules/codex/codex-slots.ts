@@ -56,14 +56,4 @@ export type CodexVersionGroupSlots = {
    * steps down to a secondary button.
    */
   headerActions?: (context: CodexVersionGroupSlotContext) => ReactNode;
-  /* How many of your Plays each game has, by game slug, for the cards' flags. */
-  playedCountsByGameSlug?: Readonly<Record<string, number>>;
-};
-
-export type CodexGamesSlots = {
-  /*
-   * How many of your Plays each game has, by game slug. Given, the list adds
-   * the Played filter, "You've played N of them" and each card's flag.
-   */
-  playedCountsByGameSlug?: Readonly<Record<string, number>>;
 };
