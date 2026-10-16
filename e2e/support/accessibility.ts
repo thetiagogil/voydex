@@ -6,7 +6,7 @@ const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 /*
  * Rules the app breaks today in many places, skipped until they are fixed
  * so that every other rule still fails a test. Remove a rule here once its
- * findings are gone.
+ * findings are gone (#39).
  */
 const knownIssueRules = [
   /* Muted ink on sand, white on light type colours. */

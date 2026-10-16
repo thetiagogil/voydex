@@ -79,7 +79,7 @@ confirm the linked Supabase migration list before any remote database write.
 - The browser tests skip two axe rules the app breaks in many places: colour
   contrast (muted ink on sand, white on light type colours) and label-in-name
   (stickers, cards and slots whose label leaves out part of their text). Both
-  are listed in `e2e/support/accessibility.ts` until fixed.
+  are listed in `e2e/support/accessibility.ts` until fixed (issue #39).
 - The Team Planner saves through several writes, not one database function: a
   failed new Plan is deleted, and a failed edit restores the previous Plan.
   Creating a Play and recording a History moment have the same shape. Phase 3
