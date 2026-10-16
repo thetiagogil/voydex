@@ -137,6 +137,3 @@ export const OverviewStampGrid = (
     />
   );
 };
-
-/* For the partner hero, which records through the same flow. */
-export const useOverviewRecord = () => useOverviewRecording().record;

@@ -7,9 +7,7 @@ export {
 } from "@/modules/reference/features/pokemon/data/pokemon-attribute-selectors";
 export {
   byId,
-  byNullableId,
   isNumber,
   normalizeSearchQuery,
   normalizeSlug,
-  resolveReferenceFilter,
 } from "@/modules/reference/shared/data/reference-value-utils";

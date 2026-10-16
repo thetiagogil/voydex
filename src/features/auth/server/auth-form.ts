@@ -7,9 +7,6 @@ import {
 } from "@/features/auth/auth-redirects";
 import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
 
-/* Supabase Auth refuses passwords over 72 characters; the form says the same. */
-export const PASSWORD_MAX_LENGTH = 72;
-
 /* Where the form asked to go afterwards, or the module you were last in. */
 export const readSafeNext = async (formData: FormData) =>
   getSafeAuthRedirectPath(
