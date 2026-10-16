@@ -1,6 +1,5 @@
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
-import { CodexPokemonCardLink } from "@/modules/codex/shared/components/codex-pokemon-card-link";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { PendingData } from "@/shared/components/pending-data";
 import { SectionHead } from "@/shared/components/section-head";
 import { cardVariants } from "@/shared/components/ui/card";
@@ -60,17 +59,16 @@ export const GameDetailRegionSection = ({
             </h3>
             <ul
               aria-labelledby="game-first-partners-title"
-              className="grid grid-cols-3 gap-2 md:w-[312px]"
+              className="grid grid-cols-3 gap-2.5 md:flex"
             >
               {firstPartners.pokemon.map((pokemon) => (
                 <li key={pokemon.key} className="min-w-0">
-                  <CodexPokemonCardLink
+                  <PokemonTile
                     href={pokemon.href}
                     imageUrl={pokemon.imageUrl}
                     name={pokemon.name}
-                    number={formatPokemonNationalNumber(pokemon.nationalNumber)}
-                    size="sm"
-                    types={pokemon.types}
+                    primaryTypeSlug={pokemon.types[0]?.slug}
+                    tone="type"
                   />
                 </li>
               ))}

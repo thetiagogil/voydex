@@ -3,10 +3,9 @@
 import { useState } from "react";
 
 import type { CodexGameVersionExclusives } from "@/modules/codex/features/games/detail/types";
-import { CodexPokemonCardLink } from "@/modules/codex/shared/components/codex-pokemon-card-link";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { Button } from "@/shared/components/ui/button";
@@ -92,19 +91,14 @@ export const GameDetailExclusivesSection = ({
               {pokemon.length ? (
                 <ul
                   aria-labelledby={titleId}
-                  className="grid grid-cols-3 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(96px,1fr))]"
+                  className="grid grid-cols-[repeat(auto-fill,minmax(84px,1fr))] gap-2"
                 >
                   {pokemon.map((entry) => (
                     <li key={entry.key} className="min-w-0">
-                      <CodexPokemonCardLink
+                      <PokemonTile
                         href={entry.href}
                         imageUrl={entry.imageUrl}
                         name={entry.name}
-                        number={formatPokemonNationalNumber(
-                          entry.nationalNumber,
-                        )}
-                        size="sm"
-                        types={entry.types}
                       />
                     </li>
                   ))}
