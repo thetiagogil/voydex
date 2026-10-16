@@ -8,7 +8,8 @@ type PageBandProps = {
 };
 
 /*
- * The band that opens Plays, the Team Planner, Statistics and Collection:
+ * The band that opens Plays, the Team Planner, Statistics, Collection and
+ * the Codex's game and Pokémon pages:
  * the page's head (and the Planner's team) on warm sand, edge to edge under
  * the top bar, which sits on it. The sand stays neutral so what the page
  * shows (type-coloured stickers, covers) brings the colour; game colour

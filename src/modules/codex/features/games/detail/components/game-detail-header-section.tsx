@@ -63,8 +63,8 @@ const GameDetailFact = ({ label, value }: { label: string; value: string }) => {
 };
 
 /*
- * v3's version group header, kept cream and flat in the Codex: the picked
- * game's cover with the version switch under it, then the eyebrow, the
+ * v3's version group header, on the page's band (the Codex stays neutral,
+ * no game tint): the picked game's cover with the version switch under it, then the eyebrow, the
  * group's title, its description and facts, and the actions: the route's
  * (Start a Play, Your Plays), Browse Pokémon and Plan a team.
  */
@@ -77,7 +77,7 @@ export const GameDetailHeaderSection = ({
   return (
     <section
       aria-labelledby="game-detail-title"
-      className="bg-surface mt-5 grid gap-6 rounded-2xl px-5 py-6 sm:px-8 sm:py-7 md:grid-cols-[auto_minmax(0,1fr)] md:gap-9"
+      className="mt-5 grid gap-6 md:grid-cols-[auto_minmax(0,1fr)] md:gap-9"
     >
       <div className="flex min-w-0 flex-col items-center gap-3.5">
         <GameCover

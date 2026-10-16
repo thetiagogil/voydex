@@ -11,6 +11,7 @@ import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
+import { PageBand } from "@/shared/components/page-band";
 
 type GameDetailPageProps = {
   /* Signed-in pieces the route fills: Start a Play, Your Plays, played flags. */
@@ -38,22 +39,24 @@ export const GameDetailPage = async ({
 
   return (
     <div className="flex w-full min-w-0 flex-col">
-      <CodexHead
-        trail={[
-          { href: appRoutes.codexGames, label: "Games" },
-          { label: getVersionGroupShortName(data.versionGroup.name) },
-        ]}
-      />
-      <GameDetailHeaderSection
-        data={data}
-        actions={slots?.headerActions?.({
-          gameName: data.version.game.name,
-          gameShortName: getGameShortName(data.version.game.name),
-          gameSlug: data.version.game.slug,
-          versionGameSlugs: data.versions.map(({ game }) => game.slug),
-          versionGroupSlug: data.versionGroup.slug,
-        })}
-      />
+      <PageBand>
+        <CodexHead
+          trail={[
+            { href: appRoutes.codexGames, label: "Games" },
+            { label: getVersionGroupShortName(data.versionGroup.name) },
+          ]}
+        />
+        <GameDetailHeaderSection
+          data={data}
+          actions={slots?.headerActions?.({
+            gameName: data.version.game.name,
+            gameShortName: getGameShortName(data.version.game.name),
+            gameSlug: data.version.game.slug,
+            versionGameSlugs: data.versions.map(({ game }) => game.slug),
+            versionGroupSlug: data.versionGroup.slug,
+          })}
+        />
+      </PageBand>
       <GameDetailPokedexesSection data={data} />
       <GameDetailRegionSection data={data} />
       <GameDetailExclusivesSection exclusives={data.versionExclusives} />
