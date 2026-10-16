@@ -210,7 +210,9 @@ the directed dependency on `reference`; consumers cannot reach into
 rejected; the retired Mainline `plays/detail` boundary and old species-only
 Pokemon compatibility route path are rejected; Client Components cannot import
 server queries/readers; component folders cannot create database clients or
-perform raw schema reads; and folders under `src/modules` and `src/features`
+perform raw schema reads; readers, loaders, commands and repositories never
+create a database client; `data/`, `domain/` and `utils/` stay free of
+runtime framework imports; and folders under `src/modules` and `src/features`
 use the closed folder vocabulary. Add stricter rules only after the corresponding
 migration phase is complete.
 
@@ -254,10 +256,10 @@ src/modules/reference/
 The three TypeScript root files are the public contracts for cross-module
 catalogue types, data helpers, and paged/chunked reference reads. The game
 picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
-(`games/server/game-shelf-reader.ts`, `start-intent-resolver.ts`) also live in
-reference, so Start a Play, the auth pages, New Play and the Planner share
-them. `readGameCatalogue` (every game, its first partners and expansions) is
-the one cached read: static reference data read without a session through
+(`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`,
+`start-intent-resolver.ts`) also live in reference, so Start a Play, the auth
+pages, New Play and the Planner share them. `readGameCatalogue` (every game,
+its first partners and expansions) is the one cached read: static reference data read without a session through
 `createPublicSupabaseClient` and `unstable_cache` (a day, tag
 `reference-games`), so the Mainline layout can hand New Play its games on
 every load.
@@ -470,9 +472,12 @@ Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
 touches more than one table or creates a History moment goes through one
 database function so it is all-or-nothing. `create-play-command.ts`,
 `save-plan-command.ts` and `play-event-writer.ts` still write in several steps
-and move into database functions after the redesign merges. Readers and
-commands take a Supabase client as a parameter, and `data/`, `domain/` and
-`utils/` never import Next.js, React or `src/platform`.
+and move into database functions in the restructure. Readers, loaders,
+commands, repositories and writers take a Supabase client as a parameter; the
+query or Server Action that calls them creates it (a simple read may still be
+one `*-query.ts` that does both). `data/`, `domain/` and `utils/` never import
+Next.js, React or `src/platform` at runtime; type-only imports are fine.
+`architecture:check` enforces both rules.
 
 ### UI And Client Boundaries
 
