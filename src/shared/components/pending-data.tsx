@@ -55,7 +55,9 @@ export const PendingData = ({
         </div>
       ) : null}
       <p className="text-14 font-extrabold">{label}</p>
-      {note ? <p className="text-13 max-w-80 font-semibold">{note}</p> : null}
+      {note ? (
+        <p className="text-13 max-w-[60ch] font-semibold">{note}</p>
+      ) : null}
     </div>
   );
 };

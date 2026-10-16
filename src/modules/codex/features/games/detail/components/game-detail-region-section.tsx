@@ -43,7 +43,7 @@ export const GameDetailRegionSection = ({
           </h2>
           {/* TODO(v3-data): a description for each region (none on reference.regions). */}
           <PendingData
-            className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
+            className="items-start px-4.5 py-3.5 text-left"
             label="About the region"
             note="Where the journey runs, from the first town to the League."
           />
@@ -78,21 +78,29 @@ export const GameDetailRegionSection = ({
       </div>
 
       {hasLeaders ? (
-        <div className="mt-6 pt-5">
+        <div className="border-line mt-6 border-t pt-5">
           <SectionHead
-            title="Leaders and Champion"
+            title="Gym Leaders and Champion"
+            aside="In badge order"
             headingLevel={3}
             titleClassName="text-20"
           />
           {/* TODO(v3-data): leaders for the Codex; tracking.mainline_opponents and mainline_badges are readable signed in only (no anon grant), and opponents have no town or ace. */}
           <PendingData
-            className="mt-3.5"
-            label="Leaders and Champion"
+            className="mt-3.5 gap-3 pt-4 pb-4"
             note="Each leader's type, ace and town, in badge order."
           >
-            <span className="flex flex-wrap justify-center gap-2.5">
+            {/* v3's row: a type stamp over each leader's name and town. */}
+            <span className="grid grid-cols-3 gap-x-2.5 gap-y-4 sm:grid-cols-5 lg:grid-cols-9">
               {Array.from({ length: LEADER_PREVIEW_COUNT }, (_, index) => (
-                <span key={index} className="empty-slot size-9 rounded-full" />
+                <span
+                  key={index}
+                  className="flex flex-col items-center gap-1.5"
+                >
+                  <span className="empty-slot size-11 rounded-full" />
+                  <span className="bg-line h-2.5 w-14 rounded-full" />
+                  <span className="bg-line/60 h-2 w-10 rounded-full" />
+                </span>
               ))}
             </span>
           </PendingData>
