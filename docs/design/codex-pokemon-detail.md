@@ -98,9 +98,9 @@ availability, and game validity, and Pokémon like Arceus have many. So:
 - Single evolutions run on in a row; where the line branches, the branches sit
   below, each with what it takes over its first stage. This handles mixed
   branch lengths such as Applin -> Flapple/Appletun/Dipplin -> Hydrapple.
-- Every stage opens its own entry in the same group. Stages are flat on the
-  inset fill; the Pokémon you're reading sits on its type tint
-  (`aria-current="page"`).
+- Every stage opens its own entry in the same group. Each stage is the one
+  `PokemonCard` the Codex lists use; the Pokémon you're reading wears the
+  picked look (`pokemonCardPickedClassName`, `aria-current="page"`).
 
 ## Section Direction
 
