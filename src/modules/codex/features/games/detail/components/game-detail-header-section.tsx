@@ -39,8 +39,10 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
 
 /*
  * v3's version group header, on the page's band (the Codex stays neutral,
- * no game tint): the picked game's cover with the version switch under it,
- * then the eyebrow, the group's title, its description and v3's three
+ * no game tint), centred as the Pokémon entry's hero is: the picked game's
+ * cover, then the eyebrow, the group's title with the version switch under
+ * it (as the form switch sits under a Pokémon's name), its description and
+ * v3's three
  * actions: the route's (Start a Play, Your Plays) and Plan a team. The
  * Pokédexes right below are the way into the Pokémon.
  */
@@ -53,9 +55,9 @@ export const GameDetailHeaderSection = ({
   return (
     <section
       aria-labelledby="game-detail-title"
-      className="mt-5 grid gap-6 md:grid-cols-[auto_minmax(0,1fr)] md:gap-9"
+      className="mt-5 grid items-center gap-6 md:grid-cols-[auto_minmax(0,36rem)] md:justify-center md:gap-10"
     >
-      <div className="flex min-w-0 flex-col items-center gap-3.5">
+      <div className="flex min-w-0 justify-center">
         <GameCover
           alt={`${version.game.name} cover art`}
           coverImageUrl={version.coverImageUrl}
@@ -64,19 +66,6 @@ export const GameDetailHeaderSection = ({
           gameSlug={version.game.slug}
           size="hero"
         />
-        {versions.length > 1 ? (
-          <SegmentedControl
-            ariaLabel="Version"
-            variant="segment"
-            value={version.game.slug}
-            options={versions.map(({ game }) => ({
-              dot: getGameColourStyle(game.slug),
-              href: appRoutes.codexVersionGroup(versionGroup.slug, game.slug),
-              label: getGameShortName(game.name),
-              value: game.slug,
-            }))}
-          />
-        ) : null}
       </div>
 
       <div className="flex min-w-0 flex-col justify-center">
@@ -87,6 +76,21 @@ export const GameDetailHeaderSection = ({
         >
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
+        {versions.length > 1 ? (
+          <div className="mb-4">
+            <SegmentedControl
+              ariaLabel="Version"
+              variant="segment"
+              value={version.game.slug}
+              options={versions.map(({ game }) => ({
+                dot: getGameColourStyle(game.slug),
+                href: appRoutes.codexVersionGroup(versionGroup.slug, game.slug),
+                label: getGameShortName(game.name),
+                value: game.slug,
+              }))}
+            />
+          </div>
+        ) : null}
         {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
         <PendingData
           className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
