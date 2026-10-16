@@ -523,8 +523,8 @@ Current route groups remain:
 - protected app: Mainline Home (`/mainline`), Plays and New Play, every Play
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
-  (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`
-  with its `/settings/export` Route Handler, `/welcome` and `/you`;
+  (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
+  `/welcome` and `/you`;
 - API: `/api/health` and `/api/codex/pokemon-menu`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every

@@ -61,9 +61,8 @@ typed on an auth page is kept for half an hour in an HTTP-only cookie so the
 next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the
-change takes effect once it is opened. Download your data
-(`/settings/export`) is an owner-scoped read of every user table, limited by
-Row Level Security and leaving reference data out; it writes nothing.
+change takes effect once it is opened. Voydex offers no export or import of
+your data for now; a Plan's share link is the one import.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never

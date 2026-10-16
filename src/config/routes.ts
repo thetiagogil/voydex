@@ -113,8 +113,6 @@ export const appRoutes = {
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
   settings: "/settings",
-  /* Your own rows as JSON, for Settings' Download. */
-  settingsExport: "/settings/export",
   /* Start a Play: pick a game and a partner before signing up. */
   start: "/start",
   terms: "/terms",

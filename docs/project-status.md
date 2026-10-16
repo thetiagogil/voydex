@@ -140,8 +140,8 @@ the evidence for exact implementation details.
 - Start a Play (`/start`), Forgot password, New password and Check your email
   (`/forgot-password`, `/reset-password`, `/check-email`), Welcome
   (`/welcome`), You (`/you`), Privacy and Terms, and Settings with profile,
-  Change email, Change password and Download your data (`/settings/export`)
-  are built.
+  Change email and Change password are built. Voydex keeps no export or
+  import of your data for now (a Plan's share link is the one import).
 
 ## Current Product And Design Checkpoint
 

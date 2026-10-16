@@ -309,8 +309,8 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - Standalone Plans live under `/mainline/plans` because they exist without a
   Play. The contextual comparison does not add another primary Play tab.
 - Global Settings remains one `/settings` page (the trainer card, Look and
-  feel, New Play defaults, Account, Your data) plus the `/settings/export`
-  download. On phones `/you` gathers the trainer card, Statistics, Collection
+  feel, New Play defaults, Account, Your data); there is no data export.
+  On phones `/you` gathers the trainer card, Statistics, Collection
   and Settings.
 - Public not-found states keep the public shell. Protected resource-not-found
   and permission states keep the authenticated shell and return to the nearest

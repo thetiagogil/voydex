@@ -1297,9 +1297,9 @@ changed), Look and feel, New Play defaults, Account and Your data. On phones
 
 Account shows your email with Change email (confirmed by a link Supabase
 sends; the change takes effect once it is opened), Change password, and Log
-out on this device. Your data offers Download your data (`/settings/export`,
-every row you recorded as one JSON file; reference data is left out) and
-Delete your account. Account deletion requires recent-auth handling when
+out on this device. Your data offers Delete your account; there is no
+download or import of your data for now (a Plan's share link is the one
+import). Account deletion requires recent-auth handling when
 necessary, a complete consequence summary, typed confirmation, one reviewed
 server-owned operation, and no partial success; it removes the Auth identity
 and dependent user-owned data, clears the session, and returns to the public
