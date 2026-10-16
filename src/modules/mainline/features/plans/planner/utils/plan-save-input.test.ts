@@ -37,3 +37,55 @@ describe("parsePlanSaveInput moves", () => {
     );
   });
 });
+
+describe("parsePlanSaveInput", () => {
+  it("names an untitled Plan, sorts its slots and keeps each expansion once", () => {
+    const input = parsePlanSaveInput({
+      ...plan([
+        { ...member(undefined), slot: 3 },
+        { ...member(undefined), slot: 1 },
+      ]),
+      expansionVersionGroupIds: [26, 26],
+      name: "   ",
+    });
+
+    expect(input.name).toBe("Untitled Plan");
+    expect(input.members.map((planned) => planned.slot)).toEqual([1, 3]);
+    expect(input.expansionVersionGroupIds).toEqual([26]);
+    expect(input.members[0]).toMatchObject({
+      abilityId: null,
+      gender: null,
+      notes: null,
+      role: null,
+    });
+  });
+
+  it("refuses what the Plan can't hold, with the Planner's words", () => {
+    expect(() => parsePlanSaveInput(null)).toThrow("There's no Plan to save.");
+    expect(() =>
+      parsePlanSaveInput({ ...plan([]), planId: "not-a-plan" }),
+    ).toThrow("That Plan isn't one of yours.");
+    expect(() =>
+      parsePlanSaveInput({ ...plan([]), versionGroupSlug: "Sword Shield" }),
+    ).toThrow("Pick a game for the Plan.");
+    expect(() =>
+      parsePlanSaveInput(
+        plan(
+          Array.from({ length: 7 }, (_, index) => ({
+            ...member(undefined),
+            slot: index + 1,
+          })),
+        ),
+      ),
+    ).toThrow("A Plan holds up to six Pokémon.");
+    expect(() =>
+      parsePlanSaveInput(plan([member(undefined), member(undefined)])),
+    ).toThrow("Two Pokémon can't share a slot.");
+    expect(() =>
+      parsePlanSaveInput(plan([{ ...member(undefined), gender: "robot" }])),
+    ).toThrow("A planned gender isn't one Voydex knows.");
+    expect(() =>
+      parsePlanSaveInput({ ...plan([]), name: "a".repeat(201) }),
+    ).toThrow("The Plan name can be at most 200 characters.");
+  });
+});

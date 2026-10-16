@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIntegerSchema,
+} from "@/shared/utils/input-schemas";
 
 import { POKEDEX_PROGRESS_SECTION_SIZE } from "../data/pokedex-progress-model";
 import type { PokedexProgressState } from "../types";
@@ -15,38 +20,41 @@ export type PokedexProgressActionResult = {
   status: "error" | "success";
 };
 
-const isPokedexProgressState = (value: string): value is PokedexProgressState =>
-  value === "missing" || value === "seen" || value === "caught";
+const speciesIdsMessage =
+  "Between 1 and 60 valid Pokémon species are required.";
 
-const updatePokedexSpeciesProgressBatch = async ({
-  playId,
-  speciesIds,
-  state,
-}: {
+const pokedexProgressInputSchema = z.object({
+  playId: playIdSchema,
+  speciesIds: z
+    .array(positiveIntegerSchema(speciesIdsMessage), {
+      error: speciesIdsMessage,
+    })
+    .transform((speciesIds) => [...new Set(speciesIds)])
+    .refine(
+      (speciesIds) =>
+        speciesIds.length > 0 &&
+        speciesIds.length <= POKEDEX_PROGRESS_SECTION_SIZE,
+      { error: speciesIdsMessage },
+    ),
+  state: z.enum(
+    ["missing", "seen", "caught"] satisfies PokedexProgressState[],
+    {
+      error: "Unknown Pokédex progress state.",
+    },
+  ),
+});
+
+const updatePokedexSpeciesProgressBatch = async (input: {
   playId: string;
   speciesIds: number[];
   state: string;
 }): Promise<PokedexProgressActionResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    const uniqueSpeciesIds = [...new Set(speciesIds)];
-
-    if (
-      uniqueSpeciesIds.length === 0 ||
-      uniqueSpeciesIds.length > POKEDEX_PROGRESS_SECTION_SIZE ||
-      uniqueSpeciesIds.some(
-        (speciesId) => !Number.isInteger(speciesId) || speciesId <= 0,
-      )
-    ) {
-      throw new Error("Between 1 and 60 valid Pokémon species are required.");
-    }
-
-    if (!isPokedexProgressState(state)) {
-      throw new Error("Unknown Pokédex progress state.");
-    }
+    const {
+      playId,
+      speciesIds: uniqueSpeciesIds,
+      state,
+    } = parseInput(pokedexProgressInputSchema, input);
 
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);

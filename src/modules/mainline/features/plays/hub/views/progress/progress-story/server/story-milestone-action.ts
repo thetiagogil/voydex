@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIntegerSchema,
+} from "@/shared/utils/input-schemas";
 
 export type StoryMilestoneActionIntent =
   | "complete"
@@ -19,99 +24,74 @@ export type StoryMilestoneActionState = {
   status: "idle" | "error" | "success";
 };
 
-const getRequiredString = (formData: FormData, key: string) => {
-  const value = formData.get(key);
+const requiredTextSchema = (key: string) =>
+  z
+    .string({ error: `${key} is required.` })
+    .trim()
+    .min(1, { error: `${key} is required.` });
 
-  if (typeof value !== "string" || !value.trim()) {
-    throw new Error(`${key} is required.`);
-  }
+const positiveIntegerFieldSchema = (key: string) =>
+  positiveIntegerSchema(`${key} must be a positive integer.`);
 
-  return value.trim();
-};
+/* The form fields every intent sends. */
+const storyMilestoneFormSchema = z.object({
+  playId: requiredTextSchema("playId").refine(isUuid, {
+    error: "A valid play is required.",
+  }),
+  milestoneId: requiredTextSchema("milestoneId")
+    .transform(Number)
+    .pipe(positiveIntegerFieldSchema("milestoneId")),
+  intent: requiredTextSchema("intent").pipe(
+    z.enum(["complete", "decision", "incomplete", "note", "story-moment"], {
+      error: "Unknown milestone action.",
+    }),
+  ),
+});
 
-const getRequiredInteger = (formData: FormData, key: string) => {
-  const value = Number(getRequiredString(formData, key));
+const decisionOptionIdSchema = z
+  .unknown()
+  .transform((value) => (value === null || value === "" ? null : Number(value)))
+  .pipe(positiveIntegerFieldSchema("decisionOptionId").nullable());
 
-  if (!Number.isInteger(value) || value <= 0) {
-    throw new Error(`${key} must be a positive integer.`);
-  }
+const notesSchema = z
+  .unknown()
+  .transform((value) => (typeof value === "string" ? value.trim() : ""))
+  .pipe(
+    z
+      .string()
+      .max(4000, { error: "Milestone notes cannot exceed 4,000 characters." }),
+  )
+  .transform((notes) => notes || null);
 
-  return value;
-};
-
-const getOptionalInteger = (formData: FormData, key: string) => {
-  const value = formData.get(key);
-
-  if (value === null || value === "") {
-    return null;
-  }
-
-  const parsed = Number(value);
-
-  if (!Number.isInteger(parsed) || parsed <= 0) {
-    throw new Error(`${key} must be a positive integer.`);
-  }
-
-  return parsed;
-};
-
-const getRequiredIntegerList = (formData: FormData, key: string) => {
-  const values = formData.getAll(key).map((value) => Number(value));
-
-  if (
-    !values.length ||
-    values.some((value) => !Number.isInteger(value) || value <= 0)
-  ) {
-    throw new Error(`${key} must contain positive integers.`);
-  }
-
-  return [...new Set(values)].sort((first, second) => first - second);
-};
-
-const getIntent = (formData: FormData): StoryMilestoneActionIntent => {
-  const intent = getRequiredString(formData, "intent");
-
-  if (
-    intent !== "complete" &&
-    intent !== "decision" &&
-    intent !== "incomplete" &&
-    intent !== "note" &&
-    intent !== "story-moment"
-  ) {
-    throw new Error("Unknown milestone action.");
-  }
-
-  return intent;
-};
-
-const getOptionalText = (formData: FormData, key: string) => {
-  const value = formData.get(key);
-
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim();
-
-  if (trimmed.length > 4000) {
-    throw new Error("Milestone notes cannot exceed 4,000 characters.");
-  }
-
-  return trimmed || null;
-};
+const affectedMilestoneIdsSchema = z
+  .array(z.unknown())
+  .transform((values) => values.map(Number))
+  .pipe(
+    z
+      .array(
+        positiveIntegerSchema(
+          "affectedMilestoneId must contain positive integers.",
+        ),
+      )
+      .min(1, { error: "affectedMilestoneId must contain positive integers." }),
+  )
+  .transform((ids) =>
+    [...new Set(ids)].sort((first, second) => first - second),
+  );
 
 export const updateStoryMilestoneAction = async (
   _previousState: StoryMilestoneActionState,
   formData: FormData,
 ): Promise<StoryMilestoneActionState> => {
   try {
-    const playId = getRequiredString(formData, "playId");
-    const milestoneId = getRequiredInteger(formData, "milestoneId");
-    const intent = getIntent(formData);
-
-    if (!isUuid(playId)) {
-      throw new Error("A valid play is required.");
-    }
+    const { intent, milestoneId, playId } = parseInput(
+      storyMilestoneFormSchema,
+      {
+        intent: formData.get("intent"),
+        milestoneId: formData.get("milestoneId"),
+        playId: formData.get("playId"),
+      },
+    );
 
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);
@@ -139,9 +119,9 @@ export const updateStoryMilestoneAction = async (
     }
 
     if (intent === "incomplete") {
-      const expectedAffectedMilestoneIds = getRequiredIntegerList(
-        formData,
-        "affectedMilestoneId",
+      const expectedAffectedMilestoneIds = parseInput(
+        affectedMilestoneIdsSchema,
+        formData.getAll("affectedMilestoneId"),
       );
 
       if (!expectedAffectedMilestoneIds.includes(milestoneId)) {
@@ -181,11 +161,11 @@ export const updateStoryMilestoneAction = async (
 
     const decisionOptionId =
       intent === "complete" || intent === "decision"
-        ? getOptionalInteger(formData, "decisionOptionId")
+        ? parseInput(decisionOptionIdSchema, formData.get("decisionOptionId"))
         : null;
     const notes =
       intent === "complete" || intent === "note"
-        ? getOptionalText(formData, "notes")
+        ? parseInput(notesSchema, formData.get("notes"))
         : null;
     const requestedStoryMoment =
       intent === "story-moment" ||

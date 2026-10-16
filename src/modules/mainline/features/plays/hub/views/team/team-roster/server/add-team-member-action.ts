@@ -1,8 +1,14 @@
 "use server";
 
+import { z } from "zod";
+
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
+import {
+  parseInput,
+  positiveIntegerSchema,
+} from "@/shared/utils/input-schemas";
 
 import {
   mainlineTeamRosterStates,
@@ -25,6 +31,19 @@ export type AddTeamMemberInput = {
   speciesId: number;
 };
 
+const addTeamMemberInputSchema = z.object({
+  playId: playIdSchema,
+  placement: z.enum(["reserve", "team"], {
+    error: "Pick the team or the reserve.",
+  }),
+  speciesId: positiveIntegerSchema(
+    "That Pokémon isn't in this Play's Pokédex.",
+  ),
+  formId: positiveIntegerSchema("That Pokémon isn't in this Play's Pokédex."),
+  level: z.number({ error: "Level must be a number." }).nullable(),
+  nickname: z.string({ error: "Nickname must be text." }).nullable(),
+});
+
 /*
  * Add Pokémon (v3 `addMonSheet`): a species of the Play's Pokédexes joins
  * the first open slot of the team or the reserve, through
@@ -32,13 +51,14 @@ export type AddTeamMemberInput = {
  * picked here, so two quick adds can't both claim the same one.
  */
 export const addMainlinePlayPokemonAction = async (
-  input: AddTeamMemberInput,
+  rawInput: AddTeamMemberInput,
 ): Promise<TeamMemberActionResult> => {
   try {
-    if (!isUuid(input.playId)) {
-      throw new MainlineTeamValidationError("A valid Play is required.");
-    }
-
+    const input = parseInput(
+      addTeamMemberInputSchema,
+      rawInput,
+      (message) => new MainlineTeamValidationError(message),
+    );
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);
 

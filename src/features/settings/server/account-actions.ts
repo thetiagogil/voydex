@@ -3,16 +3,18 @@
 import { headers } from "next/headers";
 
 import { appRoutes } from "@/config/routes";
+import {
+  newEmailSchema,
+  newPasswordSchema,
+} from "@/features/settings/utils/account-input";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { safeParseInput } from "@/shared/utils/input-schemas";
 
 export type AccountFormState = {
   message: string | null;
   status: "error" | "idle" | "success";
 };
-
-const PASSWORD_MIN_LENGTH = 6;
-const PASSWORD_MAX_LENGTH = 72;
 
 /* Supabase Auth's codes, in Voydex's own words; anything else gets the generic line. */
 const accountErrorMessages: Record<string, string> = {
@@ -55,12 +57,13 @@ export const changeEmailAction = async (
   _previousState: AccountFormState,
   formData: FormData,
 ): Promise<AccountFormState> => {
-  const value = formData.get("email");
-  const email = typeof value === "string" ? value.trim() : "";
+  const parsed = safeParseInput(newEmailSchema, formData.get("email"));
 
-  if (!email || !email.includes("@") || email.length > 320) {
-    return errorState("Type the new email you want to use.");
+  if (!parsed.ok) {
+    return errorState(parsed.message);
   }
+
+  const email = parsed.data;
 
   const {
     email: currentEmail,
@@ -104,24 +107,13 @@ export const changePasswordAction = async (
   _previousState: AccountFormState,
   formData: FormData,
 ): Promise<AccountFormState> => {
-  const value = formData.get("password");
-  /* Spaces count in a password, so it is never trimmed. */
-  const password = typeof value === "string" ? value : "";
+  const parsed = safeParseInput(newPasswordSchema, formData.get("password"));
 
-  if (!password.trim()) {
-    return errorState("Type your new password.");
-  }
-  if (
-    password.length < PASSWORD_MIN_LENGTH ||
-    password.length > PASSWORD_MAX_LENGTH
-  ) {
-    return errorState(
-      password.length < PASSWORD_MIN_LENGTH
-        ? "Use at least 6 characters."
-        : "Keep it to 72 characters.",
-    );
+  if (!parsed.ok) {
+    return errorState(parsed.message);
   }
 
+  const password = parsed.data;
   const { isSignedIn, supabase } = await getSignedInEmail();
 
   if (!isSignedIn) {

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type DeletePlanResult =
   | { status: "success" }
@@ -19,8 +19,13 @@ export type DeletePlanResult =
 export const deletePlanAction = async (
   planId: unknown,
 ): Promise<DeletePlanResult> => {
-  if (typeof planId !== "string" || !isUuid(planId)) {
-    return { message: "That Plan couldn't be found.", status: "error" };
+  const parsed = safeParseInput(
+    uuidSchema("That Plan couldn't be found."),
+    planId,
+  );
+
+  if (!parsed.ok) {
+    return { message: parsed.message, status: "error" };
   }
 
   const supabase = await createServerSupabaseClient();
@@ -35,7 +40,7 @@ export const deletePlanAction = async (
     .schema("planning")
     .from("mainline_team_plans")
     .delete()
-    .eq("id", planId)
+    .eq("id", parsed.data)
     .eq("user_id", userId)
     .select("id");
 
