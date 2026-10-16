@@ -1,9 +1,11 @@
+import type { ReactNode } from "react";
+
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type {
   PokemonDetailTypeMatchup,
   PokemonDetailTypeMatchups,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailTypeMatchupsCardProps = {
@@ -11,110 +13,109 @@ type PokemonDetailTypeMatchupsCardProps = {
   pokemonName: string;
 };
 
-/*
- * What a tile says: hurt more (2×, 4× the stronger), hurt less (½, ¼), not
- * at all (0), or normally, which stays quiet so the rest stand out.
- */
-const getMatchupToneClassName = (multiplier: number) => {
-  if (multiplier >= 4) {
-    return "bg-danger text-white";
+type MatchupTone = "resist" | "weak";
+
+const MatchupChips = ({
+  matchups,
+  tone,
+}: {
+  matchups: PokemonDetailTypeMatchup[];
+  tone: MatchupTone;
+}) => {
+  if (!matchups.length) {
+    return <p className="text-13 text-ink-2 pt-1 font-semibold">Nothing</p>;
   }
 
-  if (multiplier > 1) {
-    return "bg-danger-soft text-danger-deep";
-  }
+  return (
+    <ul className="flex flex-wrap gap-1.5">
+      {matchups.map((matchup) => {
+        const isQuadruple = tone === "weak" && matchup.multiplier >= 4;
 
-  if (multiplier === 0) {
-    return "bg-calm-soft text-calm-ink";
-  }
-
-  if (multiplier < 1) {
-    return "bg-ok-soft text-ok-deep";
-  }
-
-  return "bg-surface-2 text-ink-3";
+        return (
+          <li
+            key={matchup.attackingType}
+            aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
+            title={matchup.typeLabel}
+            className={cn(
+              "text-13 inline-flex items-center gap-1 rounded-full py-[3px] pr-2 pl-[3px] font-extrabold",
+              isQuadruple ? "bg-danger-soft" : "bg-surface-2",
+            )}
+          >
+            <PokemonTypeMark
+              type={matchup.attackingType}
+              className="size-6"
+              iconClassName="size-3.5"
+            />
+            <b
+              className={cn(
+                "pl-0.5 tabular-nums",
+                tone === "resist" && "text-ok",
+                tone === "weak" &&
+                  (isQuadruple ? "text-danger-deep" : "text-danger"),
+              )}
+            >
+              {matchup.multiplierLabel}
+            </b>
+          </li>
+        );
+      })}
+    </ul>
+  );
 };
 
-/* The key under the chart: what each tile colour means. */
-const matchupKey = [
-  { className: getMatchupToneClassName(2), label: "Takes more damage" },
-  { className: getMatchupToneClassName(0.5), label: "Takes less" },
-  { className: getMatchupToneClassName(0), label: "No effect" },
-  { className: getMatchupToneClassName(1), label: "Normal" },
-];
-
-const getMatchupDescription = ({
-  multiplier,
-  multiplierLabel,
-  typeLabel,
-}: PokemonDetailTypeMatchup) => {
-  if (multiplier === 0) {
-    return `${typeLabel}: no effect`;
-  }
-
-  return multiplier === 1
-    ? `${typeLabel}: normal damage`
-    : `${typeLabel}: ${multiplierLabel} damage`;
+const MatchupRow = ({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) => {
+  return (
+    <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-3">
+      <dt className="text-ink-2 text-12 font-bold sm:pt-1.5">{label}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
 };
 
 /*
- * The type chart against this Pokémon: one tile per attacking type of the
- * generation, always in chart order, so each type sits in the same place on
- * every entry. Its icon over the damage it deals; a tile that hurts more is
- * red, one that hurts less green, and normal damage stays quiet.
+ * v3's matchups, compact: what hurts and what doesn't as type marks with
+ * their multiplier (the type's name on hover and read out), then how many
+ * types hit normally as one quiet line.
  */
 export const PokemonDetailTypeMatchupsCard = ({
   matchups,
   pokemonName,
 }: PokemonDetailTypeMatchupsCardProps) => {
+  const { immunities, neutralCount, resistances, weaknesses } = matchups;
+
   return (
     <DetailSectionCard
       title="Type matchups"
       aside={`When ${pokemonName} is hit`}
-      contentClassName="flex flex-1 flex-col"
     >
-      {/* Beside the taller stat shape, the tiles grow to fill the card. */}
-      <ul className="grid flex-1 auto-rows-fr grid-cols-6 gap-1.5 sm:gap-2">
-        {matchups.all.map((matchup) => (
-          <li
-            key={matchup.attackingType}
-            aria-label={getMatchupDescription(matchup)}
-            title={getMatchupDescription(matchup)}
-            className={cn(
-              "flex min-w-0 flex-col items-center justify-center gap-1.5 rounded-md px-1 pt-2.5 pb-2 sm:pt-3.5 sm:pb-3",
-              getMatchupToneClassName(matchup.multiplier),
-            )}
-          >
-            <PokemonTypeMark
-              type={matchup.attackingType}
-              className={cn(
-                "size-7 sm:size-8",
-                matchup.multiplier === 1 && "opacity-55",
-              )}
-              iconClassName="size-3.5"
-            />
-            <span className="text-14 leading-none font-extrabold tabular-nums">
-              {matchup.multiplier === 1 ? "1" : matchup.multiplierLabel}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <ul
-        aria-hidden
-        className="text-13 text-ink-2 mt-4 flex flex-wrap gap-x-4 gap-y-1.5 font-semibold"
-      >
-        {matchupKey.map(({ className, label }) => (
-          <li key={label} className="inline-flex items-center gap-1.5">
-            <span
-              className={cn(
-                "size-3 rounded-full border border-current",
-                className,
-              )}
-            />
-            {label}
-          </li>
-        ))}
-      </ul>
+      <dl>
+        <MatchupRow label="Weak to">
+          <MatchupChips matchups={weaknesses} tone="weak" />
+        </MatchupRow>
+        <MatchupRow label="Resists">
+          <MatchupChips matchups={resistances} tone="resist" />
+        </MatchupRow>
+        {immunities.length ? (
+          <MatchupRow label="Immune to">
+            <MatchupChips matchups={immunities} tone="resist" />
+          </MatchupRow>
+        ) : null}
+        {neutralCount ? (
+          <MatchupRow label="Normal">
+            <p className="text-13 text-ink-3 font-semibold sm:pt-1">
+              {neutralCount === 1
+                ? "1 other type"
+                : `${neutralCount} other types`}
+            </p>
+          </MatchupRow>
+        ) : null}
+      </dl>
     </DetailSectionCard>
   );
 };

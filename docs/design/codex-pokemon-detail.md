@@ -96,12 +96,12 @@ availability, and game validity, and Pokémon like Arceus have many. So:
 Keep each section focused and quiet; lively comes from the art and type
 colour only.
 
-- Base stats: the games' stat shape, one corner per stat (HP up, then
-  Attack, Defense, Speed, Sp. Def, Sp. Atk; a pentagon with Gen I's Special),
-  filled in the type colour, full at 160, with the total under it.
-- Type matchups: one tile per attacking type of the generation in chart
-  order, its icon over the damage it deals; red hurts more, green less, blue
-  no effect, quiet normal, with a key under the grid.
+- Base stats: v3's bars in the type colour, in tight rows, with Gen I's
+  single Special; the best stat reads bold, and a figure of 120 and up or 50
+  and under takes a quiet tint.
+- Type matchups: Weak to, Resists and Immune to as type marks with their
+  multiplier (the type's name on hover and read out), then how many other
+  types hit normally as one quiet line.
 - Abilities: slot, ability and effect, only where the group has abilities.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
