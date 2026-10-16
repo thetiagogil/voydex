@@ -81,7 +81,9 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
         }}
         autoHighlight
       >
+        {/* A combobox takes its name from a label, never from its text. */}
         <ComboboxTrigger
+          aria-label={`Choose another Pokémon. Now showing ${activePokemon.name}`}
           onClick={loadInitialPokemonItems}
           onFocus={loadInitialPokemonItems}
           onPointerEnter={loadInitialPokemonItems}
@@ -93,7 +95,6 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
             />
           }
         >
-          <span className="sr-only">Choose another Pokémon. Now showing </span>
           <ComboboxValue>
             {(selectedPokemon: PokemonDetailMenuPokemon | null) => {
               return (selectedPokemon ?? activePokemon).name;
