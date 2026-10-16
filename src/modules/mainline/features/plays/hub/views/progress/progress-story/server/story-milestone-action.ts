@@ -19,24 +19,6 @@ export type StoryMilestoneActionState = {
   status: "idle" | "error" | "success";
 };
 
-type StoryMilestoneIncompletionResult = {
-  affected_milestone_count: number;
-};
-
-type StoryMilestoneIncompletionRpc = {
-  rpc: (
-    functionName: "mark_mainline_play_milestone_incomplete",
-    args: {
-      p_expected_affected_milestone_ids: number[];
-      p_milestone_id: number;
-      p_play_id: string;
-    },
-  ) => PromiseLike<{
-    data: StoryMilestoneIncompletionResult[] | null;
-    error: { message: string } | null;
-  }>;
-};
-
 const getRequiredString = (formData: FormData, key: string) => {
   const value = formData.get(key);
 
@@ -168,19 +150,13 @@ export const updateStoryMilestoneAction = async (
         );
       }
 
-      // The generated schema types cannot include this local migration until it
-      // is applied to a database. Keep the temporary cast scoped to this RPC.
-      const gameplaySchema = supabase.schema(
-        "gameplay",
-      ) as unknown as StoryMilestoneIncompletionRpc;
-      const incompleteResult = await gameplaySchema.rpc(
-        "mark_mainline_play_milestone_incomplete",
-        {
+      const incompleteResult = await supabase
+        .schema("gameplay")
+        .rpc("mark_mainline_play_milestone_incomplete", {
           p_expected_affected_milestone_ids: expectedAffectedMilestoneIds,
           p_milestone_id: milestoneId,
           p_play_id: playId,
-        },
-      );
+        });
 
       if (incompleteResult.error) {
         throw new Error(incompleteResult.error.message);

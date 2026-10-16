@@ -1,4 +1,4 @@
-import { choosePlayPartnerAction } from "@/modules/mainline/features/plays/shared/server/play-partner-action";
+import { choosePlayPartner } from "@/modules/mainline/features/plays/shared/server/play-partner-command";
 import {
   NewPlayInputError,
   type NewPlayInput,
@@ -60,10 +60,11 @@ const readOwnedExpansions = async (
 
 /* The partner must be one the game offers (its trio, or the one it gives you). */
 const assertGamePartner = async (
+  supabase: ServerSupabaseClient,
   gameSlug: string,
   partner: NonNullable<NewPlayInput["partner"]>,
 ) => {
-  const starters = await readGameStarters(gameSlug);
+  const starters = await readGameStarters(supabase, gameSlug);
   const isOffered = starters?.starters.some(
     (starter) =>
       starter.speciesId === partner.speciesId &&
@@ -106,11 +107,7 @@ const addPartner = async (
   });
 
   if (decision) {
-    const result = await choosePlayPartnerAction({ ...decision, playId });
-
-    if (result.status === "error") {
-      throw new Error(result.message);
-    }
+    await choosePlayPartner(supabase, { ...decision, playId });
 
     return;
   }
@@ -155,7 +152,9 @@ export const createMainlinePlay = async ({
       .select("id")
       .eq("slug", playingStatusSlug)
       .single(),
-    input.partner ? assertGamePartner(game.slug, input.partner) : null,
+    input.partner
+      ? assertGamePartner(supabase, game.slug, input.partner)
+      : null,
   ]);
 
   if (statusResult.error) {
