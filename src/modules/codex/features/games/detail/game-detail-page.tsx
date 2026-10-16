@@ -4,7 +4,6 @@ import { appRoutes } from "@/config/routes";
 import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
 import { GameDetailExclusivesSection } from "@/modules/codex/features/games/detail/components/game-detail-exclusives-section";
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
-import { GameDetailPokedexesSection } from "@/modules/codex/features/games/detail/components/game-detail-pokedexes-section";
 import { GameDetailRegionSection } from "@/modules/codex/features/games/detail/components/game-detail-region-section";
 import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
 import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/game-detail-query";
@@ -59,7 +58,6 @@ export const GameDetailPage = async ({
           actions={slots?.headActions?.(slotContext)}
         />
       </PageBand>
-      <GameDetailPokedexesSection data={data} />
       <GameDetailRegionSection data={data} />
       <GameDetailExclusivesSection exclusives={data.versionExclusives} />
       <GameDetailRelatedGamesSection data={data} />

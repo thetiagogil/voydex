@@ -3,7 +3,6 @@ import {
   getPokedexPokemonCounts,
   sortVersionGroupPokedexes,
 } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
-import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
 import type {
   CodexGameDetailData,
@@ -11,10 +10,6 @@ import type {
   CodexGamePokemon,
   CodexGameVersionExclusives,
 } from "@/modules/codex/features/games/detail/types";
-import {
-  getPokedexEntryKey,
-  selectGamePokedexEntryForms,
-} from "@/modules/codex/features/games/shared/data/pokedex-entry-forms";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import {
   buildGameCards,
@@ -79,27 +74,10 @@ const buildPokedexSummaries = (
   rows: GameDetailRows,
 ): CodexGameDetailData["pokedexes"] => {
   const pokemonCountByPokedexId = getPokedexPokemonCounts(rows.pokedexEntries);
-  const previewEntriesByPokedexId = selectPokedexPreviewEntries(
-    rows.pokedexes,
-    rows.pokedexEntries,
-  );
-  const previewFormsByEntryKey = selectGamePokedexEntryForms({
-    entries: [...previewEntriesByPokedexId.values()].flat(),
-    forms: rows.previewForms,
-  });
 
   return rows.pokedexes.map((pokedex) => ({
     pokedex,
     pokemonCount: pokemonCountByPokedexId.get(pokedex.id) ?? 0,
-    previewImageUrls: (previewEntriesByPokedexId.get(pokedex.id) ?? []).flatMap(
-      (entry) => {
-        const imageUrl = getPokemonFormImageUrl(
-          previewFormsByEntryKey.get(getPokedexEntryKey(entry)) ?? null,
-        );
-
-        return imageUrl ? [imageUrl] : [];
-      },
-    ),
   }));
 };
 

@@ -4,11 +4,6 @@ import type {
   VersionGroup,
 } from "@/modules/reference/types";
 
-export type CodexGamePokedexSummary = GamePokedexSummary & {
-  /* Art for the first entries, shown as the strip on the Pokédex tile. */
-  previewImageUrls: string[];
-};
-
 /* A Pokémon the page shows as a card (a first partner, an exclusive), opening its entry. */
 export type CodexGamePokemon = {
   href: string;
@@ -34,7 +29,8 @@ export type CodexGameVersionExclusives = {
 /* A version group's page: Sword and Shield, read with one of its games picked. */
 export type CodexGameDetailData = {
   firstPartners: CodexGameFirstPartners;
-  pokedexes: CodexGamePokedexSummary[];
+  /* The group's Pokédexes, its expansions' too, each with its count. */
+  pokedexes: GamePokedexSummary[];
   relatedGames: GameCard[];
   /* The picked game, which the cover and the eyebrow follow. */
   version: GameCard;

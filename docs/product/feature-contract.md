@@ -1085,8 +1085,9 @@ the last section, Your Plays, lists your Plays of these games with `Start a
 toolbar row (Search, Kind, Group by generation or region, Sort) and no mark
 for the games you've played.
 
-Named Pokédexes are listed under the base group, its own first and then its
-expansions', so seeded DLC scopes are not lost merely because their Pokédex
+Named Pokédexes are listed under the base group (as pills with their counts
+in the page's head, the same pills the Pokédex page switches with), its own
+first and then its expansions', so seeded DLC scopes are not lost merely because their Pokédex
 rows belong to a child version group. `Available species` is shown only when it is a
 distinct-species count from the resolved game/content availability model. It
 must never reuse the largest listed Pokédex size. Related releases require an

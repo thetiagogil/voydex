@@ -69,7 +69,6 @@ const rows = (): GameDetailRows => ({
   platforms: [],
   pokedexEntries: [],
   pokedexes: [],
-  previewForms: [],
   relatedGames: [],
   regions: [],
   versionExclusives: {

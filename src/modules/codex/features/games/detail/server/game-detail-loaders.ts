@@ -1,5 +1,4 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import {
   loadVersionExclusiveRows,
   type VersionExclusiveRows,
@@ -14,7 +13,6 @@ import type {
   Platform,
   Pokedex,
   PokedexEntry,
-  PokemonForm,
   Region,
   VersionGroup,
 } from "@/modules/reference/types";
@@ -27,8 +25,6 @@ export type GameDetailRows = {
   pokedexEntries: PokedexEntry[];
   /* The group's Pokédexes and its expansions' (Isle of Armor, Crown Tundra). */
   pokedexes: Pokedex[];
-  /* Forms for the first entries of each Pokédex, for the tiles' art strips. */
-  previewForms: PokemonForm[];
   relatedGames: Game[];
   regions: Region[];
   /* The base game's version exclusives, when the group has two games or more. */
@@ -38,38 +34,6 @@ export type GameDetailRows = {
   versionGroups: VersionGroup[];
   /* The group's own games, Sword and Shield. */
   versions: Game[];
-};
-
-const loadPokedexPreviewForms = async (
-  supabase: ServerSupabaseClient,
-  pokedexes: Pokedex[],
-  pokedexEntries: PokedexEntry[],
-): Promise<PokemonForm[]> => {
-  const speciesIds = [
-    ...new Set(
-      [...selectPokedexPreviewEntries(pokedexes, pokedexEntries).values()]
-        .flat()
-        .map((entry) => entry.species_id),
-    ),
-  ];
-
-  if (!speciesIds.length) {
-    return [];
-  }
-
-  const formsResult = await supabase
-    .schema("reference")
-    .from("pokemon_forms")
-    .select("*")
-    .in("species_id", speciesIds)
-    .order("species_id", { ascending: true })
-    .order("form_order", { ascending: true });
-
-  if (formsResult.error) {
-    throw new Error("Unable to load Pokédex preview art.");
-  }
-
-  return formsResult.data ?? [];
 };
 
 /*
@@ -168,10 +132,11 @@ export const loadGameDetailRows = async (
         "Unable to load game Pokédex entries.",
       )
     : [];
-  const [previewForms, versionExclusives] = await Promise.all([
-    loadPokedexPreviewForms(supabase, pokedexes, pokedexEntries),
-    loadVersionExclusiveRows(supabase, versionGroup, versions),
-  ]);
+  const versionExclusives = await loadVersionExclusiveRows(
+    supabase,
+    versionGroup,
+    versions,
+  );
 
   return {
     gamePlatforms: gamePlatformsResult.data ?? [],
@@ -180,7 +145,6 @@ export const loadGameDetailRows = async (
     platforms: platformsResult.data ?? [],
     pokedexEntries,
     pokedexes,
-    previewForms,
     relatedGames: relatedGamesResult.data ?? [],
     regions: regionsResult.data ?? [],
     versionExclusives,

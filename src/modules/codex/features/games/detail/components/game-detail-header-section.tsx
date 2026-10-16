@@ -4,11 +4,13 @@ import { appRoutes } from "@/config/routes";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
 import {
   formatNameList,
+  getPokedexShortName,
   getVersionGroupTitle,
 } from "@/modules/codex/shared/utils/game-names";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
@@ -37,8 +39,8 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
  * cover, then the eyebrow, the group's title with the version switch under
  * it (as the form switch sits under a Pokémon's name) and, beside the
  * switch, the Your Plays icon, a jump to the section at the page's end
- * where you start a Play or plan a team; then its description. The
- * Pokédexes right below are the way into the Pokémon.
+ * where you start a Play or plan a team; then the group's Pokédexes as
+ * pills with their counts (the way into the Pokémon) and its description.
  */
 export const GameDetailHeaderSection = ({
   actions,
@@ -89,6 +91,28 @@ export const GameDetailHeaderSection = ({
               />
             ) : null}
             {actions}
+          </div>
+        ) : null}
+        {data.pokedexes.length ? (
+          <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span className="text-13 text-ink-2 font-bold">
+              {data.pokedexes.length === 1 ? "Pokédex" : "Pokédexes"}
+            </span>
+            {/* The same pills as the Pokédex page's switch, each opening its Pokédex. */}
+            <SegmentedControl
+              ariaLabel={`Pokédexes in ${getVersionGroupTitle(versionGroup.name)}`}
+              className="flex-wrap"
+              value={null}
+              options={data.pokedexes.map(({ pokedex, pokemonCount }) => ({
+                count: pokemonCount,
+                href: appRoutes.codexVersionGroupPokedex(
+                  versionGroup.slug,
+                  pokedex.slug,
+                ),
+                label: getPokedexShortName(formatPokedexName(pokedex.name)),
+                value: pokedex.slug,
+              }))}
+            />
           </div>
         ) : null}
         {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}

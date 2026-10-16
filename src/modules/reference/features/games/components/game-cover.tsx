@@ -32,13 +32,14 @@ const coverSizeClassNames = {
   },
   /*
    * The Codex game header's cover, in a white frame: 110px wide on phones,
-   * where it sits above the title; beside it, every game's box stands 228px
-   * tall, as tall as the eyebrow, title, version switch and description.
+   * where it sits above the title; beside it, every game's box stands 284px
+   * tall, as tall as the eyebrow, title, switches, Pokédex pills and
+   * description.
    */
   hero: {
     fallback:
-      "text-32 md:text-44 w-27.5 border-4 border-white md:h-57 md:w-auto",
-    image: "h-auto w-27.5 max-w-full border-4 border-white md:h-57 md:w-auto",
+      "text-32 md:text-44 w-27.5 border-4 border-white md:h-71 md:w-auto",
+    image: "h-auto w-27.5 max-w-full border-4 border-white md:h-71 md:w-auto",
   },
   /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
