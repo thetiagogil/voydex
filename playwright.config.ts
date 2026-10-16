@@ -17,6 +17,8 @@ export default defineConfig({
   outputDir: "./e2e/.results",
   fullyParallel: true,
   forbidOnly: isCI,
+  /* On GitHub, stop once several tests fail: something is broken for all. */
+  maxFailures: isCI ? 5 : undefined,
   retries: isCI ? 1 : 0,
   /* The dev server compiles pages on first visit, so keep the load modest. */
   workers: isCI ? 2 : 3,
