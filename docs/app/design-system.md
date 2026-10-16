@@ -267,11 +267,14 @@ Section grammar: a section that is a grid of cards keeps its heading on the
 page (`SectionHead`); a section of content (text, rows, stamps) is one card
 with the heading inside (`DetailSectionCard`).
 
-Two utilities in `app-utilities.css` carry the recipes features may need
+The utilities in `app-utilities.css` carry the recipes features may need
 without the component: `sticker` (an owned thing's surface: type tint from
 `--t`, 4px white border, 5px tinted lip; override `--sticker-border`,
 `--sticker-lip`, `--sticker-shadow`) and `empty-slot` (the one open slot:
-2.5px dashed `dash`, no fill). Don't hand-roll either. A detail panel that
+2.5px dashed `dash`, no fill). Don't hand-roll either. `step-back` fades
+what belongs to another game than the one picked (the other version's
+exclusives, a game a Pokémon isn't in) and greys its art; it comes back on
+hover or focus. A detail panel that
 follows the scroll beside a longer list (Story's panel, the Story matchups
 report, the roster panel) takes `sticky-panel` with `useStickyPanel`: it
 sticks under the docked bar when it fits, and when it is taller than the

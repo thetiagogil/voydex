@@ -45,6 +45,25 @@
   background-color: transparent;
 }
 
+/*
+ * v3's step back: something that applies to another game than the one you
+ * picked (the other version's exclusives, a game the Pokémon isn't in). It
+ * fades and its art greys a little, and comes back when you reach for it.
+ */
+@utility step-back {
+  opacity: 0.62;
+  transition: opacity 150ms ease;
+
+  & img {
+    filter: saturate(0.55);
+  }
+
+  &:hover,
+  &:focus-within {
+    opacity: 1;
+  }
+}
+
 /* The dotted texture. Only the Play header wears it. */
 @utility play-texture {
   position: relative;

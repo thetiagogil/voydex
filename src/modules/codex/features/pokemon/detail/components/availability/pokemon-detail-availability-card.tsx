@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { PokemonDetailWhereToFindRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailAvailabilityCardProps = {
   rows: PokemonDetailWhereToFindRow[];
@@ -12,7 +13,13 @@ type PokemonDetailAvailabilityCardProps = {
 
 const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   return (
-    <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[2.5rem_220px_minmax(0,1fr)] sm:gap-x-4">
+    <div
+      className={cn(
+        "grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[2.5rem_220px_minmax(0,1fr)] sm:gap-x-4",
+        /* A game it isn't in steps back, as the other version's exclusives do. */
+        !row.ways.length && "step-back",
+      )}
+    >
       <span
         aria-hidden
         className="row-span-2 flex justify-center sm:row-span-1"
