@@ -9,7 +9,7 @@ history.
 - `/codex/pokemon` is the stable Codex browse view for now.
 - `/codex/pokemon/[versionGroupSlug]/[speciesSlug]` is on Soft Clay (v3's
   entry): the head and the hero on the page's band, then quiet section cards
-  in a wide and a narrow column, then the learnset across the page.
+  one a row but the two short ones, the learnset and your Plays last.
 
 ## Route And Scope Model
 
@@ -43,8 +43,10 @@ Important rules:
   another group counts only where the form is found there.
 - The learnset is the one section read per group, since moves differ between
   a generation's games: when the generation has several base groups, a game
-  switch sits at the top of the Learnset card; a group the species can't be
-  found in is shown but disabled.
+  switch sits in the Learnset card's head, on the right, and switches on the
+  page (every group's moves are already loaded); a group the species or form
+  can't be found in is shown but disabled. Under the head, one line holds the
+  move search and the how-it's-learned filter.
 - The form switch lists every form found in the generation; a form opens in
   the address's group when it is found there, else in the first group that
   has it (Hisuian Arcanine opens in Legends: Arceus). A non-default form
@@ -58,12 +60,11 @@ Important rules:
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, the types, one sentence read from the data, and the actions.
-- **Sections:** a wide column (Base stats, Type matchups, Evolution, Where to
-  find) beside a narrow one of short facts (Abilities, Training and breeding,
-  Pokédex numbers, In your Plays), then the Learnset across the page. Phones
-  read one column: stats, matchups, abilities, training, evolution, where to
-  find, Pokédex numbers, In your Plays, learnset. An absent section is left
-  out.
+- **Sections:** Abilities beside Training and breeding (side by side from
+  `lg`), then one section a row: Base stats, Type matchups, Evolution,
+  Pokédex numbers (each Pokédex's number, with its entry text pending), Where
+  to find (each game with its box), Learnset, and In your Plays last. An
+  absent section is left out.
 
 ## Forms And Shiny
 

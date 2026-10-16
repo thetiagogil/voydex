@@ -17,10 +17,7 @@ import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/component
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
-import {
-  SegmentedControl,
-  type SegmentedControlOption,
-} from "@/shared/components/segmented-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import {
   Table,
   TableBody,
@@ -30,16 +27,20 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 
-type PokemonDetailLearnsetsCardProps = {
+/* One base group's learnset: the moves differ between a generation's games. */
+export type PokemonDetailLearnsetGroup = {
+  /* Shown but not offered: the Pokémon (or this form) isn't found there. */
+  disabled: boolean;
+  label: string;
   learnsets: PokemonLearnsetSummary[];
-  scopeName: string;
-  /*
-   * The generation's games when it has several (Sword and Shield, Brilliant
-   * Diamond and Shining Pearl, Legends: Arceus): moves differ between them,
-   * so the learnset is the one section read per game.
-   */
-  versionGroupOptions?: SegmentedControlOption<string>[];
-  versionGroupSlug?: string;
+  slug: string;
+};
+
+type PokemonDetailLearnsetsCardProps = {
+  /* The generation's groups, in order; one alone has no switch. */
+  groups: PokemonDetailLearnsetGroup[];
+  /* The group the page's address names, picked first. */
+  initialSlug: string;
 };
 
 /* On phones a row folds into v3's card: how on the left, the figures labelled. */
@@ -119,13 +120,20 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
   );
 };
 
+/*
+ * v3's Learnset: the game switch in the head when the generation has several
+ * groups (a switch on the page, every group's moves already here), then one
+ * line of search and the how-it's-learned filter, then the table.
+ */
 export const PokemonDetailLearnsetsCard = ({
-  learnsets,
-  scopeName,
-  versionGroupOptions = [],
-  versionGroupSlug,
+  groups,
+  initialSlug,
 }: PokemonDetailLearnsetsCardProps) => {
-  const hasGameSwitch = versionGroupOptions.length > 1;
+  const [groupSlug, setGroupSlug] = useState(initialSlug);
+  const group =
+    groups.find((candidate) => candidate.slug === groupSlug) ?? groups[0];
+  const learnsets = useMemo(() => group?.learnsets ?? [], [group]);
+  const scopeName = group?.label ?? "";
   const [query, setQuery] = useState("");
   const [method, setMethod] = useState<PokemonDetailLearnsetMethodFilter>(
     POKEMON_DETAIL_LEARNSET_ALL_METHODS,
@@ -144,35 +152,46 @@ export const PokemonDetailLearnsetsCard = ({
   return (
     <DetailSectionCard
       title="Learnset"
-      aside={hasGameSwitch ? undefined : scopeName}
+      aside={groups.length > 1 ? undefined : scopeName}
+      headerClassName="flex-wrap [&>div:last-child]:max-w-full [&>div:last-child]:shrink"
+      action={
+        groups.length > 1 ? (
+          <SegmentedControl
+            ariaLabel="Game"
+            size="sm"
+            variant="segment"
+            selectedTone="strong"
+            className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
+            options={groups.map((candidate) => ({
+              disabled: candidate.disabled,
+              label: candidate.label,
+              value: candidate.slug,
+            }))}
+            value={group?.slug ?? null}
+            onValueChange={(slug) => {
+              setGroupSlug(slug);
+              setMethod(POKEMON_DETAIL_LEARNSET_ALL_METHODS);
+            }}
+          />
+        ) : null
+      }
     >
-      {hasGameSwitch ? (
-        <SegmentedControl
-          ariaLabel="Game"
-          size="sm"
-          variant="segment"
-          selectedTone="strong"
-          className="no-scrollbar mb-4 max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
-          options={versionGroupOptions}
-          value={versionGroupSlug ?? null}
-        />
-      ) : null}
       {learnsets.length ? (
         <>
-          <div className="mb-2.5 flex flex-wrap items-center justify-between gap-3">
-            <SegmentedControl
-              ariaLabel="Filter moves by how they're learned"
-              value={method}
-              onValueChange={setMethod}
-              options={methodOptions}
-              className="no-scrollbar max-sm:w-full max-sm:flex-nowrap max-sm:overflow-x-auto"
-            />
+          <div className="mb-2.5 flex flex-wrap items-center gap-3">
             <SearchControl
               value={query}
               onValueChange={setQuery}
               placeholder="Search moves"
               ariaLabel="Search moves"
-              className="w-full sm:w-64"
+              className="min-w-0 flex-[1_1_100%] sm:flex-[1_1_220px]"
+            />
+            <SegmentedControl
+              ariaLabel="Filter moves by how they're learned"
+              value={method}
+              onValueChange={setMethod}
+              options={methodOptions}
+              className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
             />
           </div>
 

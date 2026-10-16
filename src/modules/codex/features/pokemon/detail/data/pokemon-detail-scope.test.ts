@@ -291,6 +291,22 @@ describe("the entry's generation-wide reading", () => {
     ]);
   });
 
+  it("offers each group's learnset, not where the form isn't found", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      versionGroup: "swsh",
+    });
+
+    expect(
+      scope?.generationLearnsets.map(({ isFound, versionGroup }) => [
+        versionGroup.versionGroup.slug,
+        isFound,
+      ]),
+    ).toEqual([
+      ["swsh", true],
+      ["bdsp", false],
+    ]);
+  });
+
   it("opens a form found only in another group in that group", () => {
     const scope = resolvePokemonDetailScope(generationData, {
       versionGroup: "swsh",

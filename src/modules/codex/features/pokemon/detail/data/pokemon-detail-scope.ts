@@ -84,6 +84,15 @@ export const resolvePokemonDetailScope = (
     const forms = scopedForms.length ? scopedForms : generation.forms;
     const form = getDefaultForm(forms, params.form);
     const availability = getScopedAvailability(generation, versionGroup, form);
+    const learnsets = getScopedLearnsets(generation, versionGroup, form);
+    const isFormFoundIn = (scope: PokemonDetailVersionGroupScope) => {
+      return (
+        scope === versionGroup ||
+        getScopedForms(generation, scope).some((candidate) => {
+          return !form || candidate.form.id === form.form.id;
+        })
+      );
+    };
 
     return {
       availability,
@@ -101,15 +110,17 @@ export const resolvePokemonDetailScope = (
         forms,
         versionGroup,
       }),
+      generationLearnsets: versionGroups.map((scope) => ({
+        isFound: isFormFoundIn(scope),
+        learnsets:
+          scope === versionGroup
+            ? learnsets
+            : getScopedLearnsets(generation, scope, form),
+        versionGroup: scope,
+      })),
       /* Another group's Pokédexes count only when the form is found there. */
       generationPokedexEntries: versionGroups.flatMap((scope) => {
-        if (
-          scope !== versionGroup &&
-          form &&
-          !getScopedForms(generation, scope).some(
-            (candidate) => candidate.form.id === form.form.id,
-          )
-        ) {
+        if (!isFormFoundIn(scope)) {
           return [];
         }
 
@@ -120,7 +131,7 @@ export const resolvePokemonDetailScope = (
           }),
         );
       }),
-      learnsets: getScopedLearnsets(generation, versionGroup, form),
+      learnsets,
       mechanics: resolveVersionGroupMechanics({
         gameIds: versionGroup.games.map((game) => game.id),
         generationId: generation.generation.id,

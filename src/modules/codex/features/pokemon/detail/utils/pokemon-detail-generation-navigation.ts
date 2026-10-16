@@ -1,11 +1,9 @@
 import {
   buildPokemonDetailVersionGroupScopes,
   getDefaultVersionGroup,
-  isPokemonInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
-import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonDetailData } from "@/modules/reference/types";
 import type { SegmentedControlOption } from "@/shared/components/segmented-control";
@@ -45,36 +43,5 @@ export const getPokemonDetailGenerationOptions = (
         value: generation.generation.slug,
       },
     ];
-  });
-};
-
-/*
- * The learnset's game switch, when a generation has several groups (Ruby
- * and Sapphire, FireRed and LeafGreen, Emerald). A group the Pokémon can't
- * be found in is shown but not offered.
- */
-export const getPokemonDetailVersionGroupOptions = (
-  data: PokemonDetailData,
-  scope: ResolvedPokemonDetailScope,
-): SegmentedControlOption<string>[] => {
-  if (scope.versionGroups.length <= 1) {
-    return [];
-  }
-
-  return scope.versionGroups.map((versionGroup) => {
-    const isCurrent =
-      versionGroup.versionGroup.id === scope.versionGroup.versionGroup.id;
-
-    return {
-      disabled:
-        !isCurrent &&
-        !isPokemonInVersionGroupScope(scope.generation, versionGroup),
-      href: getPokemonDetailScopeHref(data.species.slug, {
-        form: getScopedFormSlug(scope),
-        versionGroup: versionGroup.versionGroup.slug,
-      }),
-      label: getVersionGroupShortName(versionGroup.versionGroup.name),
-      value: versionGroup.versionGroup.slug,
-    };
   });
 };

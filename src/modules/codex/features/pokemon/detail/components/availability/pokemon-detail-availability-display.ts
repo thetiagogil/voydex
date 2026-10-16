@@ -4,6 +4,7 @@ import {
   doesPokemonAvailabilityMatchGame,
   getPokemonAvailabilityVersionGroups,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
+import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import type { PokemonAvailabilitySummary } from "@/modules/reference/types";
 
 export type PokemonDetailWhereToFindWay = {
@@ -14,6 +15,12 @@ export type PokemonDetailWhereToFindWay = {
 
 /* One game of the group, or one of its expansions, and the ways to find the Pokémon there. */
 export type PokemonDetailWhereToFindRow = {
+  /* The game's box; an expansion has none of its own. */
+  cover: {
+    coverImageUrl: string | null;
+    gameName: string;
+    gameSlug: string;
+  } | null;
   href: string | null;
   key: string;
   label: string;
@@ -81,6 +88,11 @@ export const getPokemonDetailWhereToFindRows = ({
     ? "Not in this version"
     : "Not in the base game";
   const gameRows = versionGroup.games.map((game) => ({
+    cover: {
+      coverImageUrl: getGameCoverImageUrl(game),
+      gameName: game.name,
+      gameSlug: game.slug,
+    },
     href: appRoutes.codexVersionGroup(
       versionGroup.versionGroup.slug,
       game.slug,
@@ -100,6 +112,7 @@ export const getPokemonDetailWhereToFindRows = ({
     return ways.length
       ? [
           {
+            cover: null,
             href: null,
             key: `expansion-${expansion.id}`,
             label: expansion.name,

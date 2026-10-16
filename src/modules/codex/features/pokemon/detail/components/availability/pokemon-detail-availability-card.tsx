@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { PokemonDetailWhereToFindRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAvailabilityCardProps = {
@@ -11,8 +12,22 @@ type PokemonDetailAvailabilityCardProps = {
 
 const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   return (
-    <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-3">
-      <dt className="min-w-0 font-extrabold">
+    <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[2.5rem_220px_minmax(0,1fr)] sm:gap-x-4">
+      <span
+        aria-hidden
+        className="row-span-2 flex justify-center sm:row-span-1"
+      >
+        {row.cover ? (
+          <GameCover
+            alt=""
+            coverImageUrl={row.cover.coverImageUrl}
+            gameName={row.cover.gameName}
+            gameSlug={row.cover.gameSlug}
+            size="dock"
+          />
+        ) : null}
+      </span>
+      <dt className="min-w-0 font-extrabold sm:pt-2">
         {row.href ? (
           <Link
             href={row.href}
@@ -24,7 +39,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
           row.label
         )}
       </dt>
-      <dd className="flex min-w-0 flex-col gap-1.5">
+      <dd className="flex min-w-0 flex-col gap-1.5 sm:pt-2">
         {row.ways.length ? (
           row.ways.map((way) => (
             <span key={way.key} className="block">
@@ -44,7 +59,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
 
 /*
  * v3's Where to find, for the whole generation: one row per game of each
- * group, then that group's expansions.
+ * group with its box, then that group's expansions.
  */
 export const PokemonDetailAvailabilityCard = ({
   rows,

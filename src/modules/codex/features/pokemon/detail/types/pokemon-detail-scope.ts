@@ -49,6 +49,15 @@ export type ResolvedPokemonDetailScope = {
     versionGroup: PokemonDetailVersionGroupScope;
   }[];
   generationForms: PokemonDetailGenerationForm[];
+  /*
+   * Each base group's learnset, for the learnset's game switch, which picks
+   * among them on the page. `isFound` is false where the form can't be found.
+   */
+  generationLearnsets: {
+    isFound: boolean;
+    learnsets: PokemonLearnsetSummary[];
+    versionGroup: PokemonDetailVersionGroupScope;
+  }[];
   generationPokedexEntries: PokemonDetailGenerationPokedexEntry[];
   learnsets: PokemonLearnsetSummary[];
   mechanics: GameMechanicsProfile;
