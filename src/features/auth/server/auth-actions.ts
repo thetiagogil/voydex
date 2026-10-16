@@ -1,127 +1,159 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
 import { appRoutes } from "@/config/routes";
 import {
-  DEFAULT_AUTH_REDIRECT_PATH,
-  getSafeAuthRedirectPath,
-} from "@/features/auth/auth-redirects";
-import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
+  readStartIntentFormData,
+  START_INTENT_METADATA_KEY,
+  type StartIntent,
+} from "@/config/start-intent";
+import {
+  type AuthErrorCode,
+  getAuthErrorCode,
+} from "@/features/auth/auth-errors";
+import {
+  type AuthMode,
+  getAuthPageHref,
+  getCheckEmailHref,
+  getWelcomeHref,
+} from "@/features/auth/auth-mode";
+import { getLogInLandingPath } from "@/features/auth/auth-redirects";
+import {
+  forgetAuthEmail,
+  readAuthEmail,
+  rememberAuthEmail,
+} from "@/features/auth/server/auth-email-cookie";
+import {
+  buildAuthCallbackUrl,
+  readEmail,
+  readPassword,
+  readSafeNext,
+} from "@/features/auth/server/auth-form";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
-type AuthMode = "log-in" | "sign-up";
-
-const getSafeNext = async (formData: FormData) => {
-  return getSafeAuthRedirectPath(
-    formData.get("next"),
-    await getAuthDefaultRouteFromCookies(),
-  );
+type AuthFormContext = {
+  intent: StartIntent | null;
+  mode: AuthMode;
+  next: string;
 };
 
-const resolveAuthRedirectPath = async (next: string) => {
-  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
-    return next;
-  }
-  return getAuthDefaultRouteFromCookies();
-};
-
-const buildEmailRedirectTo = (origin: string | null, next: string) => {
-  if (!origin) {
-    return undefined;
-  }
-  const callbackUrl = new URL(appRoutes.authCallback, origin);
-  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
-    callbackUrl.searchParams.set("next", next);
-  }
-  return callbackUrl.toString();
-};
-
+/* Back to the form with a fixed reason; Supabase's own message never reaches the page. */
 const redirectWithAuthError = (
-  message: string,
-  mode: AuthMode,
-  next: string,
-): never => {
-  const params = new URLSearchParams({ error: message });
-  if (mode === "sign-up") {
-    params.set("mode", mode);
-  }
-  if (next !== DEFAULT_AUTH_REDIRECT_PATH) {
-    params.set("next", next);
-  }
-  redirect(`/login?${params.toString()}`);
-};
+  error: AuthErrorCode,
+  context: AuthFormContext,
+): never => redirect(getAuthPageHref({ error, ...context }));
 
-const getRequiredString = (
-  formData: FormData,
-  key: string,
-  label: string,
-  mode: AuthMode,
-  next: string,
-): string => {
-  const value = formData.get(key);
-  if (typeof value === "string") {
-    const trimmedValue = value.trim();
-    if (trimmedValue.length > 0) {
-      return trimmedValue;
+const readAuthForm = async (formData: FormData, mode: AuthMode) => {
+  const context: AuthFormContext = {
+    intent: readStartIntentFormData(formData),
+    mode,
+    next: await readSafeNext(formData),
+  };
+  const email = readEmail(formData);
+  const password = readPassword(formData);
+
+  if (!email || !password) {
+    if (email) {
+      await rememberAuthEmail(email);
     }
+    return redirectWithAuthError("missing-fields", context);
   }
-  return redirectWithAuthError(`${label} is required.`, mode, next);
+
+  return { context, email, password };
 };
 
 export const logInWithPassword = async (formData: FormData) => {
-  const next = await getSafeNext(formData);
-  const email = getRequiredString(formData, "email", "Email", "log-in", next);
-  const password = getRequiredString(
-    formData,
-    "password",
-    "Password",
-    "log-in",
-    next,
-  );
+  const { context, email, password } = await readAuthForm(formData, "log-in");
   const supabase = await createServerSupabaseClient();
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
+
   if (error) {
-    redirectWithAuthError(error.message, "log-in", next);
+    await rememberAuthEmail(email);
+    redirectWithAuthError(getAuthErrorCode(error.code), context);
   }
-  redirect(await resolveAuthRedirectPath(next));
+
+  await forgetAuthEmail();
+
+  if (context.intent) {
+    /*
+     * Logging in from Start a Play: the pick waits on the account, where
+     * Mainline starts the Play from it. If it can't be stored, you still land
+     * in Mainline and can start the Play from there.
+     */
+    await supabase.auth.updateUser({
+      data: { [START_INTENT_METADATA_KEY]: context.intent },
+    });
+    redirect(appRoutes.mainline);
+  }
+
+  redirect(getLogInLandingPath(context.next));
 };
 
+/*
+ * One password with Show, no confirmation field (v3). A new account goes to
+ * Welcome first; when its email still needs confirming, to Check your email,
+ * and the email's link leads to Welcome. The game picked on Start a Play is
+ * stored on the account, so the link works on any device.
+ */
 export const signUpWithPassword = async (formData: FormData) => {
-  const next = await getSafeNext(formData);
-  const email = getRequiredString(formData, "email", "Email", "sign-up", next);
-  const password = getRequiredString(
-    formData,
-    "password",
-    "Password",
-    "sign-up",
-    next,
-  );
-  const confirmPassword = getRequiredString(
-    formData,
-    "confirmPassword",
-    "Confirm password",
-    "sign-up",
-    next,
-  );
-  if (password !== confirmPassword) {
-    redirectWithAuthError("Passwords do not match.", "sign-up", next);
-  }
-  const headerStore = await headers();
-  const origin = headerStore.get("origin");
+  const { context, email, password } = await readAuthForm(formData, "sign-up");
+  const welcomeHref = getWelcomeHref(context.next);
   const supabase = await createServerSupabaseClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: buildEmailRedirectTo(origin, next),
+      data: context.intent
+        ? { [START_INTENT_METADATA_KEY]: context.intent }
+        : undefined,
+      emailRedirectTo: await buildAuthCallbackUrl(welcomeHref),
     },
   });
+
   if (error) {
-    redirectWithAuthError(error.message, "sign-up", next);
+    await rememberAuthEmail(email);
+    redirectWithAuthError(getAuthErrorCode(error.code), context);
   }
-  redirect(await resolveAuthRedirectPath(next));
+
+  if (data.session) {
+    await forgetAuthEmail();
+    redirect(welcomeHref);
+  }
+
+  await rememberAuthEmail(email);
+  redirect(getCheckEmailHref({ intent: context.intent, next: context.next }));
+};
+
+/* Check your email's "Send it again": the same confirmation link, to the email just used. */
+export const resendSignUpEmail = async (formData: FormData) => {
+  const intent = readStartIntentFormData(formData);
+  const next = await readSafeNext(formData);
+  const email = await readAuthEmail();
+
+  if (!email) {
+    /* The remembered email has gone: start Sign up again with the same pick. */
+    redirect(getAuthPageHref({ intent, mode: "sign-up", next }));
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.auth.resend({
+    email,
+    options: {
+      emailRedirectTo: await buildAuthCallbackUrl(getWelcomeHref(next)),
+    },
+    type: "signup",
+  });
+
+  redirect(
+    getCheckEmailHref({
+      error: error ? getAuthErrorCode(error.code) : null,
+      intent,
+      next,
+      resent: !error,
+    }),
+  );
 };

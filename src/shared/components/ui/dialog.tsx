@@ -27,10 +27,12 @@ const DialogOverlay = ({
   ...props
 }: DialogPrimitive.Backdrop.Props) => {
   return (
+    /* Rendered even over a sheet, so a dialog sits on its own level. */
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
+      forceRender
       className={cn(
-        "data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs",
+        "data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 bg-scrim fixed inset-0 isolate z-50 duration-100",
         className,
       )}
       {...props}
@@ -41,38 +43,53 @@ const DialogOverlay = ({
 const DialogContent = ({
   className,
   children,
+  fullScreenOnPhone = false,
   showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
+  /*
+   * Fills the screen on phones. The close button then takes its own row at the
+   * top instead of floating, so content never sits under it.
+   */
+  fullScreenOnPhone?: boolean;
   showCloseButton?: boolean;
 }) => {
+  const closeButton = showCloseButton ? (
+    <DialogPrimitive.Close
+      data-slot="dialog-close"
+      render={
+        <Button
+          variant="ghost"
+          className={cn(
+            "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-4 right-4 size-10 rounded-full",
+            fullScreenOnPhone &&
+              "max-sm:static max-sm:m-3 max-sm:mb-0 max-sm:shrink-0 max-sm:self-end max-sm:justify-self-end",
+          )}
+          size="icon"
+        />
+      }
+    >
+      <XIcon />
+      <span className="sr-only">Close</span>
+    </DialogPrimitive.Close>
+  ) : null;
+
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "bg-popover text-popover-foreground ring-foreground/10 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 text-sm ring-1 duration-100 outline-none sm:max-w-sm",
+          "bg-surface text-ink data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-overlay text-15 fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-2xl p-6 duration-100 outline-none sm:max-w-sm",
+          fullScreenOnPhone &&
+            "max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none",
           className,
         )}
         {...props}
       >
+        {fullScreenOnPhone ? closeButton : null}
         {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            data-slot="dialog-close"
-            render={
-              <Button
-                variant="ghost"
-                className="absolute top-2 right-2"
-                size="icon-sm"
-              />
-            }
-          >
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
+        {fullScreenOnPhone ? null : closeButton}
       </DialogPrimitive.Popup>
     </DialogPortal>
   );
@@ -100,7 +117,7 @@ const DialogFooter = ({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "bg-muted/50 -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 sm:flex-row sm:justify-end",
+        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2.5 rounded-b-2xl border-t px-6 py-4 sm:flex-row sm:items-center sm:justify-end",
         className,
       )}
       {...props}
@@ -119,7 +136,10 @@ const DialogTitle = ({ className, ...props }: DialogPrimitive.Title.Props) => {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-base leading-none font-medium", className)}
+      className={cn(
+        "font-display text-20 text-ink leading-tight font-semibold tracking-[-0.01em]",
+        className,
+      )}
       {...props}
     />
   );
@@ -133,7 +153,7 @@ const DialogDescription = ({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-muted-foreground *:[a]:hover:text-foreground text-sm *:[a]:underline *:[a]:underline-offset-3",
+        "text-14 text-ink-2 *:[a]:text-link font-semibold *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       {...props}

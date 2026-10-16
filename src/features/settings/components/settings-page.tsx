@@ -1,20 +1,44 @@
-import { AccountSettingsCard } from "@/features/settings/components/account-settings-card";
+import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
+import { SettingsDataSection } from "@/features/settings/components/settings-data-section";
+import { SettingsPreferencesSections } from "@/features/settings/components/settings-preferences-sections";
+import { SettingsProfileSection } from "@/features/settings/components/settings-profile-section";
 import { PageHeader } from "@/shared/components/page-header";
 
 type SettingsPageProps = {
-  userEmail: string;
+  displayName: string | null;
+  /* Null when the claims carry no email. */
+  email: string | null;
+  /* The route's log out action, shared with the app shell's account menu. */
+  signOutAction: () => Promise<void>;
+  /* "November 2024"; null when it couldn't be read. */
+  trainerSince: string | null;
 };
 
-export const SettingsPage = ({ userEmail }: SettingsPageProps) => {
-  return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
-      <PageHeader
-        title="Settings"
-        description="Manage your account and app preferences."
+/*
+ * v3's Account settings: one column, the trainer card first (it is the
+ * profile form), then quiet sections: Look and feel, New Play defaults,
+ * Account and Your data.
+ */
+export const SettingsPage = ({
+  displayName,
+  email,
+  signOutAction,
+  trainerSince,
+}: SettingsPageProps) => (
+  <div className="mx-auto flex w-full max-w-189 flex-col">
+    <PageHeader
+      title="Settings"
+      description="How Voydex looks and behaves for you"
+    />
+    <div className="mt-7 flex flex-col gap-6">
+      <SettingsProfileSection
+        displayName={displayName}
+        email={email}
+        trainerSince={trainerSince}
       />
-      <div className="flex flex-col gap-4">
-        <AccountSettingsCard email={userEmail} />
-      </div>
+      <SettingsPreferencesSections />
+      <SettingsAccountSection email={email} signOutAction={signOutAction} />
+      <SettingsDataSection />
     </div>
-  );
-};
+  </div>
+);

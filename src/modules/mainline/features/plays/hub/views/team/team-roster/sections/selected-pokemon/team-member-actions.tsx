@@ -2,91 +2,86 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Button } from "@/shared/components/ui/button";
+import { IconTip } from "@/shared/components/icon-tip";
 import { cn } from "@/shared/utils/cn";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
-const TeamMemberDisabledAction = ({
+import { canEditTeamMember } from "./team-member-model";
+
+/*
+ * The selected Pokémon's two actions as icon buttons in the top corner of
+ * its art (on the type's tint): Edit, which opens the editor where Evolve,
+ * Replace, Retire and the rest live, and Open in Codex. Each names itself
+ * in a tooltip. A Pokémon that retired or was replaced has only Open in
+ * Codex: History keeps it as it was.
+ */
+export const TeamMemberActions = ({
   className,
-  icon,
-  label,
+  member,
+  onEdit,
+  versionGroupSlug,
 }: {
   className?: string;
-  icon: AppIconComponent;
-  label: string;
-}) => {
-  return (
-    <Button
-      disabled
-      variant="outline"
-      size="sm"
-      className={cn("min-w-32 flex-1 justify-center", className)}
-      aria-label={`${label} (not available yet)`}
-    >
-      <AppIcon icon={icon} inline="start" aria-hidden />
-      {label}
-    </Button>
-  );
-};
-
-export const TeamMemberActions = ({
-  gameSlug,
-  member,
-}: {
-  gameSlug: string | null;
   member: MainlinePlayTeamMember;
+  onEdit: () => void;
+  versionGroupSlug: string | null;
 }) => {
+  const name = getPlayTeamMemberName(member);
   const codexHref =
-    gameSlug && member.species_slug
-      ? appRoutes.codexPokemonGameSpecies(gameSlug, member.species_slug)
+    versionGroupSlug && member.species_slug
+      ? appRoutes.codexPokemonEntry(versionGroupSlug, member.species_slug)
       : null;
+  const editLabel = `Edit ${name}`;
+  const codexLabel = codexHref
+    ? "Open in Codex"
+    : "Open in Codex (not available yet)";
 
   return (
-    <section aria-label="Quick actions">
-      <div className="flex flex-wrap gap-2">
-        {codexHref ? (
-          <Link
-            href={codexHref}
-            className={buttonVariants({
-              variant: "outline",
-              size: "sm",
-              className: "min-w-32 flex-1 justify-center",
-            })}
-          >
-            <AppIcon
-              icon={appIcons.actions.browseCodex}
-              inline="start"
-              aria-hidden
-            />
-            Open in Codex
-          </Link>
-        ) : (
-          <TeamMemberDisabledAction
-            icon={appIcons.actions.browseCodex}
-            label="Open in Codex"
-          />
-        )}
-        <TeamMemberDisabledAction
-          icon={appIcons.actions.move}
-          label="Move slot"
+    <div className={cn("flex gap-2", className)}>
+      {canEditTeamMember(member) ? (
+        <IconTip
+          label={editLabel}
+          trigger={
+            <Button
+              type="button"
+              variant="tint"
+              size="icon"
+              aria-label={editLabel}
+              onClick={onEdit}
+            >
+              <AppIcon icon={appIcons.actions.edit} />
+            </Button>
+          }
         />
-        <TeamMemberDisabledAction
-          icon={appIcons.product.replaced}
-          label="Replace"
-        />
-        <TeamMemberDisabledAction
-          icon={appIcons.product.evolved}
-          label="Evolve"
-        />
-        <TeamMemberDisabledAction
-          icon={appIcons.product.retired}
-          label="Retire"
-        />
-      </div>
-    </section>
+      ) : null}
+      <IconTip
+        label={codexLabel}
+        trigger={
+          codexHref ? (
+            <Button
+              render={<Link href={codexHref} />}
+              nativeButton={false}
+              variant="tint"
+              size="icon"
+              aria-label={codexLabel}
+            >
+              <AppIcon icon={appIcons.actions.browseCodex} />
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="tint"
+              size="icon"
+              disabled
+              aria-label={codexLabel}
+            >
+              <AppIcon icon={appIcons.actions.browseCodex} />
+            </Button>
+          )
+        }
+      />
+    </div>
   );
 };

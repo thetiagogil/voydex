@@ -1,30 +1,74 @@
-import {
-  AuthPanel,
-  type AuthMode,
-} from "@/features/auth/components/auth-panel";
-import { DEFAULT_MODULE_KEY, modules } from "@/config/modules";
-import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
+import Link from "next/link";
 
-type LoginPageProps = {
-  searchParams?: Promise<{
-    error?: string;
-    mode?: string;
-    next?: string;
-  }>;
+import type { PublicArt } from "@/config/public-art";
+import { appRoutes } from "@/config/routes";
+import type { ResolveStartIntent } from "@/config/start-intent";
+import { parseAuthErrorCode } from "@/features/auth/auth-errors";
+import { type AuthMode, LOGIN_DEFAULT_NEXT } from "@/features/auth/auth-mode";
+import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
+import { AuthFrame } from "@/features/auth/components/auth-frame";
+import { AuthPanel } from "@/features/auth/components/auth-panel";
+import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
+import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
+import { readDevTestAccounts } from "@/features/auth/server/dev-test-accounts";
+import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
+
+export type LoginSearchParams = {
+  error?: string;
+  game?: string;
+  mode?: string;
+  next?: string;
+  partner?: string;
 };
 
-export const LoginPage = async ({ searchParams }: LoginPageProps) => {
+type LoginPageProps = {
+  art: Pick<PublicArt, "gameColour" | "gameCover" | "pokemon">;
+  /* Resolves the pick from Start a Play; without it the pick is kept but not shown. */
+  resolveIntent?: ResolveStartIntent;
+  searchParams?: Promise<LoginSearchParams>;
+};
+
+/* Log in and Sign up: a quiet form, with first partners peeking over the card. */
+export const LoginPage = async ({
+  art,
+  resolveIntent,
+  searchParams,
+}: LoginPageProps) => {
   const params = await searchParams;
-  const defaultNext = modules[DEFAULT_MODULE_KEY].defaultHref;
-  const next = getSafeAuthRedirectPath(params?.next, defaultNext);
+  const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
   const mode: AuthMode = params?.mode === "sign-up" ? "sign-up" : "log-in";
+  const error = parseAuthErrorCode(params?.error);
+  const [intent, rememberedEmail] = await Promise.all([
+    readAuthStartIntent(params, resolveIntent),
+    readAuthEmail(),
+  ]);
 
   return (
-    <div className="flex w-full min-w-0 flex-1 items-center justify-center py-4 lg:py-8">
-      <div className="mx-auto w-full max-w-[calc(100vw-2rem)] min-w-0 sm:max-w-md">
-        <h1 className="sr-only">Log in to Voydex</h1>
-        <AuthPanel error={params?.error} mode={mode} next={next} />
-      </div>
-    </div>
+    <AuthFrame
+      cast={getAuthPeekCast(art, mode, intent?.preview ?? null)}
+      after={
+        <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
+          Just looking?{" "}
+          <Link
+            href={appRoutes.codexPokemon}
+            className="text-link rounded-xs font-extrabold hover:underline"
+          >
+            Browse the Codex
+          </Link>
+          . No account needed.
+        </p>
+      }
+    >
+      <AuthPanel
+        art={art}
+        /* The email typed last on this device: after a failed try, "Log in with this email" or a sign-up. */
+        email={rememberedEmail}
+        error={error}
+        intent={intent}
+        mode={mode}
+        next={next}
+        testAccounts={readDevTestAccounts()}
+      />
+    </AuthFrame>
   );
 };

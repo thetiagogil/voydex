@@ -1,5 +1,4 @@
-import { RotateCcw } from "lucide-react";
-
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   Alert,
   AlertDescription,
@@ -37,7 +36,7 @@ export const StoryMilestoneIncompletionImpact = ({
       ))}
 
       <Alert>
-        <RotateCcw aria-hidden />
+        <AppIcon icon={appIcons.actions.retry} />
         <AlertTitle>
           {completionCount === 1
             ? "This recorded completion will be removed."
@@ -46,7 +45,7 @@ export const StoryMilestoneIncompletionImpact = ({
         <AlertDescription>
           {dependentMilestones.length ? (
             <div className="mt-2">
-              <p className="font-medium text-current">
+              <p className="text-ink font-extrabold">
                 Completed milestones that depend on this one
               </p>
               <ul className="mt-1 list-disc space-y-1 pl-4">
@@ -58,7 +57,7 @@ export const StoryMilestoneIncompletionImpact = ({
           ) : null}
 
           <div className="mt-3">
-            <p className="font-medium text-current">Recorded data removed</p>
+            <p className="text-ink font-extrabold">Recorded data removed</p>
             <ul className="mt-1 list-disc space-y-1 pl-4">
               <li>
                 {countLabel(completionCount, "completion record")} will be

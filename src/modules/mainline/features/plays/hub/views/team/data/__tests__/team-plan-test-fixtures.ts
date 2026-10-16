@@ -14,10 +14,11 @@ import type {
   Type,
 } from "@/modules/reference/types";
 
+/* Pokémon Scarlet: a modern game with every build mechanic. */
 const modernMechanics = resolveGameMechanics({
-  gameId: 13,
+  gameId: 36,
   generationId: 9,
-  versionGroupId: 22,
+  versionGroupId: 23,
 });
 
 export const buildTeamPlanSummary = (

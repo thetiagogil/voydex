@@ -4,8 +4,17 @@ Local resets create a login-capable fixture account and a deterministic set of
 playthrough scenarios for product and database testing.
 
 - Email: `fixture@voydex.test`
-- Password: `voydex-local`
+- Password: `123456` (every local fixture account uses it)
 - Scope: local Supabase only
+
+Two smaller accounts (`007_trainer_title_fixture_users.sql`) show the
+Statistics trainer titles the main account doesn't reach; the main account is
+a Region Hopper:
+
+- `specialist@voydex.test`: three Plays (Red, Gold, Sword) whose teams lean on
+  Water, so it reads as a Water Specialist.
+- `trainer@voydex.test`: two Kanto Plays (Red, FireRed) with evenly spread
+  types, so it reads as a Pokémon Trainer two regions short of Region Hopper.
 
 The dataset contains exactly two plays for each of the 22 supported base version
 groups: one populated play and one deliberately blank play. Populated plays are

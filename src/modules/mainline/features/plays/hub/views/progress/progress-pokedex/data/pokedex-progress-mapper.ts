@@ -3,6 +3,7 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   Generation,
   PokemonAttributes,
@@ -96,12 +97,10 @@ const selectDefaultForms = (forms: PokemonForm[]) => {
 
 export const buildMainlinePlayPokedexData = ({
   gameName,
-  gameSlug,
   generationId,
   rows,
 }: {
   gameName: string;
-  gameSlug: string;
   generationId: number;
   rows: MainlinePlayPokedexSourceRows;
 }): MainlinePlayProgressPokedexData => {
@@ -177,7 +176,7 @@ export const buildMainlinePlayPokedexData = ({
         id: pokedex.id,
         isCompletionRelevant: pokedex.is_completion_relevant,
         kind: pokedex.pokedex_kind,
-        name: pokedex.name,
+        name: formatPokedexName(pokedex.name),
         slug: pokedex.slug,
         sortOrder: pokedex.sort_order,
       } satisfies MainlinePlayPokedexScope,
@@ -188,7 +187,6 @@ export const buildMainlinePlayPokedexData = ({
 
   return {
     gameName,
-    gameSlug,
     scopes,
   };
 };

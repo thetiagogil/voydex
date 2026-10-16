@@ -5,6 +5,11 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
+/*
+ * The Play the hub opens, archived or not: an archived Play still opens (from
+ * Collection or the Plays page's Archived list) and shows its banner with
+ * Restore.
+ */
 export const readMainlinePlaySummary = async (
   supabase: ServerSupabaseClient,
   userId: string,
@@ -16,7 +21,6 @@ export const readMainlinePlaySummary = async (
     .select("*")
     .eq("user_id", userId)
     .eq("play_id", playId)
-    .is("archived_at", null)
     .maybeSingle();
 
   if (playResult.error) {
@@ -111,4 +115,46 @@ export const readMainlinePlayRuleRows = async (
     links,
     rules: rulesResult.data ?? [],
   };
+};
+
+/* The Play's tags by name, for Play details. */
+export const readMainlinePlayTagNames = async (
+  supabase: ServerSupabaseClient,
+  playId: string,
+): Promise<string[]> => {
+  const linksResult = await supabase
+    .schema("gameplay")
+    .from("mainline_play_tags")
+    .select("tag_id")
+    .eq("play_id", playId)
+    .order("created_at", { ascending: true });
+
+  if (linksResult.error) {
+    throw new Error("Unable to load Mainline play tags.");
+  }
+
+  const tagIds = (linksResult.data ?? []).map((link) => link.tag_id);
+
+  if (!tagIds.length) {
+    return [];
+  }
+
+  const tagsResult = await supabase
+    .from("tags")
+    .select("id, name")
+    .in("id", tagIds);
+
+  if (tagsResult.error) {
+    throw new Error("Unable to load Mainline tags.");
+  }
+
+  const nameById = new Map(
+    (tagsResult.data ?? []).map((tag) => [tag.id, tag.name]),
+  );
+
+  return tagIds.flatMap((tagId) => {
+    const name = nameById.get(tagId);
+
+    return name ? [name] : [];
+  });
 };

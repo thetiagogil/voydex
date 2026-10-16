@@ -92,6 +92,7 @@ export const buildPokemonDetailData = ({
       typeById,
       versionGroupById,
     }),
+    generations: baseRows.generations,
     learnsets,
     pokedexEntries,
     species: baseRows.species,

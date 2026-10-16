@@ -2,19 +2,16 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
-  getDefensiveTypeMultiplier,
-  getPokemonTypesForGeneration,
-  getTypeEffectiveness,
-} from "@/modules/reference/features/pokemon/domain/type-effectiveness";
-import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
+  buildTeamTypeCoverage,
+  buildTeamTypeMatchups,
+  toPokemonTypeSlugs,
+  type TeamTypeMember,
+} from "@/modules/mainline/shared/data/team-type-analysis";
 import type { Type } from "@/modules/reference/types";
 
 import type {
-  TeamAnalysisCoverageMove,
   TeamAnalysisCoverageRow,
   TeamAnalysisDefensiveRow,
   TeamAnalysisEffectiveness,
@@ -37,152 +34,32 @@ const getEffectiveness = (
   return "neutral";
 };
 
-export const getTeamAnalysisMemberTypeSlugs = (
-  member: MainlinePlayTeamMember,
-): PokemonTypeSlug[] => {
-  return [member.primaryType?.slug, member.secondaryType?.slug].filter(
-    (slug): slug is PokemonTypeSlug =>
-      typeof slug === "string" && isPokemonTypeSlug(slug),
-  );
+export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
+  return member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
 };
 
-export const isTeamAnalysisDamagingMove = (move: MainlinePlayTeamMove) => {
-  return Boolean(
+/* A damaging move's type; fixed-damage, reactive and status moves claim no type coverage. */
+const getDamagingMoveTypeSlug = (move: MainlinePlayTeamMove) => {
+  const isDamaging =
     move.attributes &&
     move.attributes.damage_class !== "status" &&
     move.attributes.power !== null &&
-    move.attributes.power > 0 &&
-    move.type &&
-    isPokemonTypeSlug(move.type.slug),
-  );
+    move.attributes.power > 0;
+
+  return isDamaging ? move.type?.slug : null;
 };
 
-const getAvailableTypes = (types: Type[], generationOrder: number) => {
-  const typeBySlug = new Map(types.map((type) => [type.slug, type]));
-
-  return getPokemonTypesForGeneration(generationOrder).flatMap((slug) => {
-    const type = typeBySlug.get(slug);
-    return type ? [type] : [];
-  });
-};
-
-const buildDefensiveRows = ({
-  generationOrder,
-  members,
-  types,
-}: {
-  generationOrder: number;
-  members: MainlinePlayTeamMember[];
-  types: Type[];
-}): TeamAnalysisDefensiveRow[] => {
-  return types.map((attackingType) => {
-    const attackingTypeSlug = isPokemonTypeSlug(attackingType.slug)
-      ? attackingType.slug
-      : null;
-    const cells = members.map((member) => {
-      const memberId = member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
-      const defendingTypes = getTeamAnalysisMemberTypeSlugs(member);
-      const multiplier =
-        attackingTypeSlug && defendingTypes.length
-          ? getDefensiveTypeMultiplier(
-              attackingTypeSlug,
-              defendingTypes,
-              generationOrder,
-            )
-          : null;
-
-      return {
-        effectiveness: getEffectiveness(multiplier),
-        memberId,
-        multiplier,
-        multiplierLabel: formatMultiplier(multiplier),
-      };
-    });
-
-    return {
-      attackingType,
-      cells,
-      immuneCount: cells.filter((cell) => cell.effectiveness === "immune")
-        .length,
-      resistCount: cells.filter((cell) => cell.effectiveness === "resistant")
-        .length,
-      weakCount: cells.filter((cell) => cell.effectiveness === "weak").length,
-    };
-  });
-};
-
-const toCoverageMove = (
-  member: MainlinePlayTeamMember,
-  move: MainlinePlayTeamMove,
-): TeamAnalysisCoverageMove | null => {
-  if (!move.attributes || !move.type || !isPokemonTypeSlug(move.type.slug)) {
-    return null;
-  }
-
-  return {
-    damageClass: move.attributes.damage_class,
-    id: move.id,
-    name: move.name,
-    receivesStab: getTeamAnalysisMemberTypeSlugs(member).includes(
-      move.type.slug,
-    ),
-    type: move.type,
-  };
-};
-
-const buildCoverageRows = ({
-  generationOrder,
-  members,
-  types,
-}: {
-  generationOrder: number;
-  members: MainlinePlayTeamMember[];
-  types: Type[];
-}): TeamAnalysisCoverageRow[] => {
-  return types.map((defendingType) => {
-    const defendingTypeSlug = isPokemonTypeSlug(defendingType.slug)
-      ? defendingType.slug
-      : null;
-    const cells = members.map((member) => {
-      const memberId = member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
-      const moves = defendingTypeSlug
-        ? member.moves
-            .filter(isTeamAnalysisDamagingMove)
-            .filter((move) => {
-              const moveTypeSlug = move.type?.slug;
-
-              return (
-                typeof moveTypeSlug === "string" &&
-                isPokemonTypeSlug(moveTypeSlug) &&
-                getTypeEffectiveness(
-                  moveTypeSlug,
-                  defendingTypeSlug,
-                  generationOrder,
-                ) > 1
-              );
-            })
-            .flatMap((move) => {
-              const coverageMove = toCoverageMove(member, move);
-              return coverageMove ? [coverageMove] : [];
-            })
-        : [];
-
-      return { memberId, moves };
-    });
-
-    return {
-      cells,
-      coveredByMemberCount: cells.filter((cell) => cell.moves.length).length,
-      defendingType,
-      moveCount: cells.reduce((count, cell) => count + cell.moves.length, 0),
-      stabMoveCount: cells.reduce(
-        (count, cell) =>
-          count + cell.moves.filter((move) => move.receivesStab).length,
-        0,
-      ),
-    };
-  });
-};
+/* The team as the shared type reading takes it: its types and recorded damaging moves. */
+const toTeamTypeMember = (member: MainlinePlayTeamMember): TeamTypeMember => ({
+  attackingTypeSlugs: toPokemonTypeSlugs(
+    member.moves.map(getDamagingMoveTypeSlug),
+  ),
+  defendingTypeSlugs: toPokemonTypeSlugs([
+    member.primaryType?.slug,
+    member.secondaryType?.slug,
+  ]),
+  id: getTeamAnalysisMemberId(member),
+});
 
 export const buildTeamAnalysisRows = ({
   generationOrder,
@@ -192,19 +69,34 @@ export const buildTeamAnalysisRows = ({
   generationOrder: number;
   members: MainlinePlayTeamMember[];
   types: Type[];
-}) => {
-  const availableTypes = getAvailableTypes(types, generationOrder);
+}): {
+  coverageRows: TeamAnalysisCoverageRow[];
+  defensiveRows: TeamAnalysisDefensiveRow[];
+} => {
+  const teamTypeMembers = members.map(toTeamTypeMember);
 
   return {
-    coverageRows: buildCoverageRows({
+    coverageRows: buildTeamTypeCoverage({
       generationOrder,
-      members,
-      types: availableTypes,
-    }),
-    defensiveRows: buildDefensiveRows({
+      members: teamTypeMembers,
+      types,
+    }).map((row) => ({
+      defendingType: row.defendingType,
+      moveCount: row.superEffectiveCount,
+    })),
+    defensiveRows: buildTeamTypeMatchups({
       generationOrder,
-      members,
-      types: availableTypes,
-    }),
+      members: teamTypeMembers,
+      types,
+    }).map(({ cells, ...row }) => ({
+      ...row,
+      cells: cells.map((multiplier, index) => ({
+        effectiveness: getEffectiveness(multiplier),
+        memberId: teamTypeMembers[index].id,
+        memberName: getPlayTeamMemberName(members[index]),
+        multiplier,
+        multiplierLabel: formatMultiplier(multiplier),
+      })),
+    })),
   };
 };

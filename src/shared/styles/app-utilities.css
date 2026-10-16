@@ -1,90 +1,263 @@
-@layer utilities {
-  .app-background-hero-overlay {
-    background: var(--app-background-overlay-hero);
+/*
+ * A Play's context colour. Set --game, --gt and --game-strong on the element
+ * (see getGameColourStyle) and its tints are recomputed here, so everything
+ * inside wears that game.
+ */
+@utility game-scope {
+  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
+  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
+  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
+  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
+  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
+  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
+}
+
+/* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
+@utility type-tint {
+  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+}
+
+/*
+ * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
+ * 5px lip tinted by the type. Set --t. Add a float under the lip with
+ * --sticker-shadow, or `sticker-picked` to mark it as the target.
+ */
+@utility sticker {
+  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+  border: 4px solid var(--sticker-border, #fff);
+  box-shadow:
+    0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
+    var(--sticker-shadow, 0 0 transparent);
+}
+
+/*
+ * A sticker marked as the target, such as a planner slot under a drag: it
+ * keeps its own border and type lip, and a thin ring in the Play's colour
+ * wraps both, so loud game colours don't flood the card.
+ */
+@utility sticker-picked {
+  --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);
+}
+
+/* The one open slot: anything missing or not yet yours, dashed at one width. */
+@utility empty-slot {
+  border: 2.5px dashed var(--dash);
+  background-color: transparent;
+}
+
+/*
+ * v3's step back: something that applies to another game than the one you
+ * picked (the other version's exclusives, a game the Pokémon isn't in). It
+ * fades and its art greys a little, and comes back when you reach for it.
+ */
+@utility step-back {
+  opacity: 0.62;
+  transition: opacity 150ms ease;
+
+  & img {
+    filter: saturate(0.55);
   }
 
-  .app-background-intro-overlay {
-    background: linear-gradient(
-      180deg,
-      var(--app-background-overlay-hero) 0%,
-      var(--app-background-overlay-intro) 42%,
-      var(--app-background-overlay-page) 100%
+  &:hover,
+  &:focus-within {
+    opacity: 1;
+  }
+}
+
+/* The dotted texture. Only the Play header wears it. */
+@utility play-texture {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(
+      rgb(255 255 255 / 0.55) 1.6px,
+      transparent 1.7px
     );
-    backdrop-filter: blur(1px) saturate(1.06);
-    -webkit-backdrop-filter: blur(1px) saturate(1.06);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(100deg, transparent 45%, #000 90%);
+    pointer-events: none;
   }
+}
 
-  .app-background-page-overlay {
-    background: var(--app-background-overlay-page);
+/* The page column: the frame's width, centred, with its side gutter. */
+@utility page-column {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+/*
+ * A page's top band (Home's meadow, Start a Play): it leaves the page column
+ * for the full width of the window and tucks under the bar, which sits on
+ * its colour, so the band and the bar read as one. Only the first thing on a
+ * page wears it; what it holds goes back in the column (`max-w-(--page-width)`).
+ */
+@utility page-band {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: calc(-1 * (var(--bar-h) + var(--page-top)));
+  padding-top: var(--bar-h);
+}
+
+/*
+ * A detail panel that follows the scroll beside a longer list (Story's
+ * panel, the Story matchups report, the roster panel). `useStickyPanel`
+ * moves `top` up for a panel taller than the screen, so it scrolls with the
+ * page and sticks at its bottom instead of scrolling on its own.
+ */
+@utility sticky-panel {
+  position: sticky;
+  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
+}
+
+/*
+ * A navigation list that follows the scroll beside a longer page (Play
+ * settings' menu, the Collectibles areas). It never grows past the screen:
+ * when its own content is taller, it scrolls on its own.
+ */
+@utility sticky-column {
+  position: sticky;
+  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
+  max-height: calc(100dvh - var(--play-dock-offset, 0px) - 1.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* More below: the bottom edge fades until you reach the end. */
+  animation: sticky-column-more linear both;
+  animation-timeline: scroll(self);
+
+  /* The scrollbar keeps clear of the rounded corners. */
+  &::-webkit-scrollbar-track {
+    margin-block: 0.875rem;
   }
+}
 
-  .app-nav-surface {
-    color: var(--app-nav-foreground);
-  }
-
-  .app-nav-surface-initial .app-module-trigger {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-  }
-
-  .app-page-surface {
-    background-color: var(--app-journal-surface);
-    background-image: url("/design/journal-paper-texture.webp");
-    background-position: top center;
-    background-repeat: repeat;
-    background-size: 72rem 72rem;
-    border-inline: 1px solid var(--app-surface-border);
-    box-shadow:
-      0 0 68px -46px oklch(0.24 0.045 62 / 0.46),
-      1px 0 0 oklch(1 0 0 / 0.68) inset,
-      -1px 0 0 oklch(1 0 0 / 0.68) inset;
-  }
-
-  .app-module-trigger {
-    color: var(--app-nav-foreground);
-    background: oklch(1 0 0 / 0.58);
-    border: 1px solid var(--app-nav-outline);
-    box-shadow: 0 3px 10px -7px oklch(0.26 0.04 67 / 0.48);
-  }
-
-  .app-module-trigger:hover,
-  .app-module-trigger:focus,
-  .app-module-trigger[data-open],
-  .app-module-trigger[data-popup-open] {
-    color: var(--app-nav-foreground);
-    background: var(--app-nav-hover);
-  }
-
-  .app-nav-icon-control {
-    color: var(--app-nav-foreground);
-    border: 1px solid transparent;
-  }
-
-  .app-nav-icon-control:hover,
-  .app-nav-icon-control:focus,
-  .app-nav-icon-control[aria-expanded="true"] {
-    color: var(--app-nav-foreground);
-    background: var(--app-nav-hover);
-    border-color: var(--app-nav-outline);
-  }
-
-  .app-background-fade {
-    background: linear-gradient(
-      90deg,
-      var(--background) 0%,
-      transparent 18%,
-      transparent 82%,
-      var(--background) 100%
+/*
+ * Runs only while the column overflows (its scroll timeline is inactive
+ * otherwise), so a column that fits never fades.
+ */
+@keyframes sticky-column-more {
+  0%,
+  96% {
+    mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 3.5rem),
+      transparent
     );
   }
-
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  100% {
+    mask-image: none;
   }
+}
 
-  .no-scrollbar::-webkit-scrollbar {
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Motion is a reward: slap and pop play only at the moment something is recorded. */
+@theme {
+  --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up. */
+  --animate-title-rise: title-rise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.25) both;
+  --animate-fade-up: fade-up 0.45s ease-out both;
+  /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
+  --animate-wiggle: wiggle 1.4s ease-in-out infinite;
+
+  @keyframes slap {
+    0% {
+      transform: scale(2) rotate(-20deg);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(0.92) rotate(6deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(var(--tilt, 0deg));
+    }
+  }
+
+  /* The meadow's partners pop up out of the grass, once per visit. */
+  @keyframes meadow-pop {
+    0% {
+      transform: translateY(18px) scale(0.6);
+      opacity: 0;
+    }
+    60% {
+      transform: translateY(-4px) scale(1.04);
+      opacity: 1;
+    }
+    100% {
+      transform: none;
+    }
+  }
+
+  @keyframes title-rise {
+    from {
+      transform: translateY(45%) scale(0.96);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      transform: translateY(8px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(-1.2deg);
+    }
+    75% {
+      transform: rotate(1.2deg);
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1.12) rotate(-3deg);
+    }
+    60% {
+      transform: scale(0.97) rotate(1deg);
+    }
+    100% {
+      transform: scale(1) rotate(0);
+    }
+  }
+}
+
+/*
+ * A labelled type chip: the four palest types (Electric, Ice, Ground, Steel)
+ * deepen toward L 0.7 so a white label reads; every other type keeps its
+ * official colour. Set --t.
+ */
+@utility type-chip {
+  background-color: oklch(
+    from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
+  );
+}
+
+/*
+ * Text or an icon in the type's own colour, darkened only as far as it needs
+ * to read on its tint (Electric, Ice and the other pale types). Set --t.
+ */
+@utility type-ink {
+  color: oklch(from var(--t) min(l, 0.52) c h);
 }

@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { Progress } from "@/shared/components/ui/progress";
+import { PageHeader } from "@/shared/components/page-header";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 
 import {
   getPokedexScopeCounts,
@@ -9,8 +9,20 @@ import type {
   MainlinePlayPokedexScope,
   PokedexProgressState,
 } from "../../types";
-import { PokedexScopeNavigation } from "./pokedex-scope-navigation";
 
+const getScopeProgress = (
+  scope: MainlinePlayPokedexScope,
+  stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>,
+) =>
+  getPokedexScopeProgress({
+    counts: getPokedexScopeCounts({ entries: scope.entries, stateBySpeciesId }),
+    isCompletionRelevant: scope.isCompletionRelevant,
+  });
+
+/*
+ * The Pokédex page head: its name, one line of progress, and a pill for each
+ * Pokédex that counts toward completion.
+ */
 export const PokedexScopeOverviewSection = ({
   onScopeChange,
   scope,
@@ -22,74 +34,53 @@ export const PokedexScopeOverviewSection = ({
   scopes: MainlinePlayPokedexScope[];
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
 }) => {
-  const counts = getPokedexScopeCounts({
-    entries: scope.entries,
-    stateBySpeciesId,
-  });
-  const progress = getPokedexScopeProgress({
-    counts,
-    isCompletionRelevant: scope.isCompletionRelevant,
-  });
-  const progressLabel = progress.kind === "completion" ? "Completed" : "Caught";
+  const progress = getScopeProgress(scope, stateBySpeciesId);
 
   return (
-    <section aria-labelledby="pokedex-scope-heading">
-      <h2 id="pokedex-scope-heading" className="sr-only">
-        {scope.name}
-      </h2>
-      <Card className="bg-card ring-app-surface-border/80 gap-0 py-0 shadow-xs">
-        <CardContent className="grid gap-2.5 px-4 py-4 lg:px-5">
-          <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2">
-            <PokedexScopeNavigation
-              onScopeChange={onScopeChange}
-              scope={scope}
-              scopes={scopes}
+    <section
+      aria-labelledby="pokedex-scope-heading"
+      className="grid min-w-0 grid-cols-1 gap-4"
+    >
+      <PageHeader
+        headingId="pokedex-scope-heading"
+        headingLevel="h2"
+        title={scope.name}
+        className="pt-0 sm:flex-wrap sm:pt-0"
+        description={
+          <>
+            <b className="text-ink font-extrabold tabular-nums">
+              {progress.percentage}%
+            </b>{" "}
+            {progress.kind === "completion" ? "complete" : "caught"} ·{" "}
+            <span className="tabular-nums">
+              {progress.caughtCount} of {progress.totalCount}
+            </span>
+          </>
+        }
+        action={
+          scopes.length > 1 ? (
+            <SegmentedControl
+              ariaLabel="Pokédex"
+              selectedTone="strong"
+              className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
+              onValueChange={(value) => onScopeChange(Number(value))}
+              options={scopes.map((candidate) => {
+                const candidateProgress = getScopeProgress(
+                  candidate,
+                  stateBySpeciesId,
+                );
+
+                return {
+                  count: `${candidateProgress.caughtCount}/${candidateProgress.totalCount}`,
+                  label: candidate.name,
+                  value: String(candidate.id),
+                };
+              })}
+              value={String(scope.id)}
             />
-
-            <div className="ml-auto flex w-full min-w-0 flex-wrap items-baseline gap-x-1 text-sm sm:w-auto">
-              <span className="inline-flex items-baseline gap-x-1 whitespace-nowrap">
-                <span className="text-primary text-xl font-semibold tabular-nums">
-                  {progress.caughtCount}
-                </span>
-                <span className="font-medium">caught</span>
-              </span>
-              <span className="inline-flex items-baseline gap-x-1 whitespace-nowrap">
-                <span className="text-muted-foreground" aria-hidden>
-                  ·
-                </span>
-                <span className="text-secondary-foreground text-xl tabular-nums">
-                  {counts.seenCount}
-                </span>
-                <span>seen</span>
-              </span>
-              <span className="inline-flex items-baseline gap-x-1 whitespace-nowrap">
-                <span className="text-muted-foreground" aria-hidden>
-                  ·
-                </span>
-                <span className="text-xl tabular-nums">
-                  {progress.totalCount}
-                </span>
-                <span className="text-muted-foreground">in total</span>
-                <span className="text-muted-foreground" aria-hidden>
-                  ·
-                </span>
-                <span className="text-xl tabular-nums">
-                  {progress.percentage}%
-                </span>
-                <span className="text-muted-foreground">{progressLabel}</span>
-              </span>
-            </div>
-          </div>
-
-          <Progress
-            aria-label={`${scope.name} ${
-              progress.kind === "completion" ? "completion" : "caught progress"
-            }`}
-            className="**:data-[slot=progress-track]:h-1.5"
-            value={progress.percentage}
-          />
-        </CardContent>
-      </Card>
+          ) : null
+        }
+      />
     </section>
   );
 };

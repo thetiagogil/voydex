@@ -1,29 +1,94 @@
-import { MainlinePlayInspectorCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-inspector-card";
-import { TeamMemberDetailContent } from "./team-member-detail-content";
-import { TeamMemberEditAction } from "./team-member-edit-action";
+import Link from "next/link";
+import { useId } from "react";
+
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import { appRoutes } from "@/config/routes";
+import { EmptyState } from "@/shared/components/empty-state";
+import { Button } from "@/shared/components/ui/button";
+import { Card } from "@/shared/components/ui/card";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
+import { TeamMemberActions } from "./team-member-actions";
+import {
+  TeamMemberProfile,
+  teamMemberNameClassName,
+} from "./team-member-profile";
+
+/*
+ * A brand-new Play's empty roster (v3 `.ro-start`): the team starts with
+ * your partner, then the Pokémon you catch.
+ */
+export const TeamRosterStart = ({
+  onAdd,
+  playId,
+}: {
+  onAdd: () => void;
+  playId: string;
+}) => (
+  <EmptyState
+    title="Your team starts with your partner"
+    description="Record the Pokémon you chose, then add the ones you catch along the way."
+    action={
+      <>
+        <Button
+          nativeButton={false}
+          render={<Link href={appRoutes.mainlinePlay(playId)} />}
+        >
+          Choose your partner
+        </Button>
+        <Button type="button" variant="outline" onClick={onAdd}>
+          Add Pokémon
+        </Button>
+      </>
+    }
+  />
+);
+
+/* Beside the roster on wide screens: the selected Pokémon, in a quiet card. */
 export const TeamMemberDetail = ({
-  gameSlug,
   mechanics,
   member,
+  onAdd,
+  onEdit,
+  playId,
+  versionGroupSlug,
 }: {
-  gameSlug: string | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
+  onAdd: () => void;
+  onEdit: () => void;
+  playId: string;
+  versionGroupSlug: string | null;
 }) => {
+  const titleId = useId();
+
+  if (!member) {
+    return <TeamRosterStart onAdd={onAdd} playId={playId} />;
+  }
+
   return (
-    <MainlinePlayInspectorCard
-      accessibilityTitle="Selected Pokémon details"
-      contentClassName="py-5"
+    <Card
+      role="region"
+      aria-labelledby={titleId}
+      className="gap-0 px-5 py-5 sm:px-7 sm:py-6.5"
     >
-      <TeamMemberDetailContent
-        identityAction={member ? <TeamMemberEditAction /> : undefined}
-        gameSlug={gameSlug}
+      <TeamMemberProfile
+        actions={
+          <TeamMemberActions
+            member={member}
+            onEdit={onEdit}
+            versionGroupSlug={versionGroupSlug}
+          />
+        }
         mechanics={mechanics}
         member={member}
+        title={
+          <h3 id={titleId} className={teamMemberNameClassName}>
+            {getPlayTeamMemberName(member)}
+          </h3>
+        }
       />
-    </MainlinePlayInspectorCard>
+    </Card>
   );
 };

@@ -1,7 +1,4 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-
-export const getTeamMemberName = getPlayTeamMemberName;
 
 export const getTeamMemberIdentity = (
   member: MainlinePlayTeamMember,
@@ -16,10 +13,24 @@ export const getTeamMemberIdentity = (
   return formName;
 };
 
-export const formatTeamMemberGender = (gender: string | null): string => {
+/* A recorded gender, or null when it wasn't recorded. */
+export const formatTeamMemberGender = (
+  gender: string | null,
+): string | null => {
   if (!gender || gender === "unknown") {
-    return "Not recorded";
+    return null;
   }
 
   return gender.charAt(0).toUpperCase() + gender.slice(1);
 };
+
+/*
+ * The editor head's line under the name, such as "Rillaboom · Lv. 48". It
+ * shows what is saved, like the name above it, never the unsaved form.
+ */
+export const getTeamMemberEditorHeadLine = (
+  member: Pick<MainlinePlayTeamMember, "level" | "species_name">,
+): string =>
+  [member.species_name, member.level ? `Lv. ${member.level}` : null]
+    .filter(Boolean)
+    .join(" · ");

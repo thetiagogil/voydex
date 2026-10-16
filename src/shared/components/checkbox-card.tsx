@@ -21,6 +21,7 @@ type CheckboxCardProps = Omit<
   title: ReactNode;
 };
 
+/* A choice card with its box showing: flat, the soft selected tint once ticked. */
 export const CheckboxCard = ({
   className,
   description,
@@ -33,23 +34,23 @@ export const CheckboxCard = ({
     <FieldLabel
       htmlFor={id}
       className={cn(
-        "has-focus-visible:border-ring has-focus-visible:ring-ring/40 cursor-pointer has-focus-visible:ring-2 has-disabled:cursor-not-allowed",
+        "cursor-pointer has-disabled:cursor-not-allowed",
         className,
       )}
     >
       <Field
         orientation="horizontal"
-        className="relative min-h-16 gap-0"
+        className="min-h-16 gap-3"
         data-disabled={disabled || undefined}
       >
         <Checkbox
           {...checkboxProps}
-          className="absolute size-px overflow-hidden border-0 p-0 opacity-0"
+          className="mt-0.5"
           disabled={disabled}
           id={id}
         />
         <FieldContent>
-          <span className="text-sm font-semibold">{title}</span>
+          <span className="text-15 font-extrabold">{title}</span>
           {description ? (
             <FieldDescription>{description}</FieldDescription>
           ) : null}

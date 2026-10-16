@@ -10,18 +10,19 @@ export const playBrowseSortValues = [
 
 export type PlayBrowseSort = (typeof playBrowseSortValues)[number];
 
+/* v3's filters: game and generation; status already groups the list. */
 export type PlayBrowseFilters = {
   game: string;
+  generation: string;
   query: string;
   sort: PlayBrowseSort;
-  status: string;
 };
 
 export type PlayBrowseParams = Partial<{
   game: string | null;
+  generation: string | null;
   q: string | null;
   sort: string | null;
-  status: string | null;
 }>;
 
 export type PlayBrowseOption = {
@@ -31,37 +32,46 @@ export type PlayBrowseOption = {
 
 export const defaultPlayBrowseFilters: PlayBrowseFilters = {
   game: "",
+  generation: "",
   query: "",
   sort: "recent",
-  status: "",
 };
 
 const isPlayBrowseSort = (value?: string | null): value is PlayBrowseSort => {
   return playBrowseSortValues.some((sortValue) => sortValue === value);
 };
 
+/* One option per value, ordered by `getOrder` and then by label. */
 const getUniqueOptions = (
   plays: MainlinePlaySummary[],
   getValue: (play: MainlinePlaySummary) => string | null,
   getLabel: (play: MainlinePlaySummary) => string | null,
+  getOrder: (play: MainlinePlaySummary) => number = () => 0,
 ) => {
-  const options = new Map<string, string>();
+  const options = new Map<string, { label: string; order: number }>();
 
   for (const play of plays) {
     const value = getValue(play);
     const label = getLabel(play);
 
     if (value && label && !options.has(value)) {
-      options.set(value, label);
+      options.set(value, { label, order: getOrder(play) });
     }
   }
 
-  return Array.from(options, ([value, label]) => ({ label, value })).sort(
-    (firstOption, secondOption) =>
-      firstOption.label.localeCompare(secondOption.label, undefined, {
-        sensitivity: "base",
-      }),
-  );
+  return Array.from(options, ([value, { label, order }]) => ({
+    label,
+    order,
+    value,
+  }))
+    .sort(
+      (firstOption, secondOption) =>
+        firstOption.order - secondOption.order ||
+        firstOption.label.localeCompare(secondOption.label, undefined, {
+          sensitivity: "base",
+        }),
+    )
+    .map(({ label, value }) => ({ label, value }));
 };
 
 export const getPlayBrowseOptions = (plays: MainlinePlaySummary[]) => {
@@ -71,10 +81,12 @@ export const getPlayBrowseOptions = (plays: MainlinePlaySummary[]) => {
       (play) => play.game_slug,
       (play) => play.game_name,
     ),
-    statuses: getUniqueOptions(
+    /* In generation order, not by name: II before IV. */
+    generations: getUniqueOptions(
       plays,
-      (play) => play.status_slug,
-      (play) => play.status_name,
+      (play) => play.generation_slug,
+      (play) => play.generation_name,
+      (play) => play.generation_id ?? Number.MAX_SAFE_INTEGER,
     ),
   };
 };
@@ -83,28 +95,28 @@ export const getInitialPlayBrowseFilters = (
   params: PlayBrowseParams | undefined,
   options: {
     games: PlayBrowseOption[];
-    statuses: PlayBrowseOption[];
+    generations: PlayBrowseOption[];
   },
 ): PlayBrowseFilters => {
   const game = options.games.some((option) => option.value === params?.game)
     ? (params?.game ?? "")
     : "";
-  const status = options.statuses.some(
-    (option) => option.value === params?.status,
+  const generation = options.generations.some(
+    (option) => option.value === params?.generation,
   )
-    ? (params?.status ?? "")
+    ? (params?.generation ?? "")
     : "";
 
   return {
     game,
+    generation,
     query: params?.q?.trim() ?? "",
     sort: isPlayBrowseSort(params?.sort) ? params.sort : "recent",
-    status,
   };
 };
 
 export const hasActivePlayBrowseFilters = (filters: PlayBrowseFilters) => {
-  return Boolean(filters.query.trim() || filters.game || filters.status);
+  return Boolean(filters.query.trim() || filters.game || filters.generation);
 };
 
 const getSearchText = (play: MainlinePlaySummary) => {
@@ -194,7 +206,7 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
 
   return plays
     .filter((play) => {
-      if (filters.status && play.status_slug !== filters.status) {
+      if (filters.generation && play.generation_slug !== filters.generation) {
         return false;
       }
 
@@ -213,6 +225,56 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
     .map(({ play }) => play);
 };
 
+/*
+ * Status groups in the order a library reads: what you're playing first, what
+ * is finished or dropped last. Statuses the list doesn't know follow by name.
+ */
+const statusGroupOrder = [
+  "playing",
+  "not_started",
+  "paused",
+  "completed",
+  "abandoned",
+];
+
+export type PlayStatusGroup<Play extends MainlinePlaySummary> = {
+  id: string;
+  name: string;
+  plays: Play[];
+};
+
+const getStatusGroupRank = (groupId: string) => {
+  const rank = statusGroupOrder.indexOf(groupId);
+
+  return rank === -1 ? statusGroupOrder.length : rank;
+};
+
+/* Groups keep the order of the Plays they are given. */
+export const groupPlaysByStatus = <Play extends MainlinePlaySummary>(
+  plays: Play[],
+): PlayStatusGroup<Play>[] => {
+  const groups = new Map<string, PlayStatusGroup<Play>>();
+
+  for (const play of plays) {
+    const id = play.status_slug ?? "";
+    const group = groups.get(id) ?? {
+      id,
+      name: play.status_name ?? "Other",
+      plays: [],
+    };
+
+    group.plays.push(play);
+    groups.set(id, group);
+  }
+
+  return Array.from(groups.values()).sort(
+    (firstGroup, secondGroup) =>
+      getStatusGroupRank(firstGroup.id) - getStatusGroupRank(secondGroup.id) ||
+      Number(!firstGroup.id) - Number(!secondGroup.id) ||
+      compareText(firstGroup.name, secondGroup.name),
+  );
+};
+
 export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
   const searchParams = new URLSearchParams();
 
@@ -220,12 +282,12 @@ export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
     searchParams.set("q", filters.query.trim());
   }
 
-  if (filters.status) {
-    searchParams.set("status", filters.status);
-  }
-
   if (filters.game) {
     searchParams.set("game", filters.game);
+  }
+
+  if (filters.generation) {
+    searchParams.set("generation", filters.generation);
   }
 
   if (filters.sort !== defaultPlayBrowseFilters.sort) {

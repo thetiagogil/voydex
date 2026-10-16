@@ -3,7 +3,13 @@ import path from "node:path";
 import sharp from "sharp";
 
 const rootDir = process.cwd();
-const globalsPath = path.join(rootDir, "src", "app", "globals.css");
+const tokensPath = path.join(
+  rootDir,
+  "src",
+  "shared",
+  "styles",
+  "app-tokens.css",
+);
 const sourceSvgPath = path.join(
   rootDir,
   "public",
@@ -19,7 +25,7 @@ function parseToken(css, tokenName) {
   const rootBody = rootMatch?.groups?.body;
 
   if (!rootBody) {
-    throw new Error("Could not find :root token block in globals.css.");
+    throw new Error("Could not find :root token block in app-tokens.css.");
   }
 
   const tokenMatch = rootBody.match(
@@ -28,7 +34,7 @@ function parseToken(css, tokenName) {
   const value = tokenMatch?.groups?.value?.trim();
 
   if (!value) {
-    throw new Error(`Could not find --${tokenName} in globals.css.`);
+    throw new Error(`Could not find --${tokenName} in app-tokens.css.`);
   }
 
   return value;
@@ -106,13 +112,11 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-function createIconSvg({ primary, primaryForeground }) {
+/* The "V" tile: a placeholder until the logo is designed. */
+function createIconSvg({ action, onAction }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <path fill="${primary}" d="M235 48Q256 36 277 48L425 134Q446 146 446 170V342Q446 366 425 378L277 464Q256 476 235 464L87 378Q66 366 66 342V170Q66 146 87 134Z"/>
-  <g transform="rotate(60 256 256)">
-    <path fill="${primaryForeground}" d="m256 136 60 120-60-30-60 30Z"/>
-    <path fill="${primaryForeground}" fill-opacity="0.52" d="m256 376-60-120 60 30 60-30Z"/>
-  </g>
+  <rect width="512" height="512" rx="120" fill="${action}"/>
+  <path d="M168 168 256 352 344 168" fill="none" stroke="${onAction}" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
 }
@@ -153,15 +157,9 @@ async function renderPng(svg, size) {
   return sharp(Buffer.from(svg)).resize(size, size).png().toBuffer();
 }
 
-const css = await fs.readFile(globalsPath, "utf8");
-const primary = colorTokenToHex(parseToken(css, "primary"));
-const primaryForeground = colorTokenToHex(
-  parseToken(css, "primary-foreground"),
-);
-const svg = createIconSvg({
-  primary,
-  primaryForeground,
-});
+const css = await fs.readFile(tokensPath, "utf8");
+const action = colorTokenToHex(parseToken(css, "action"));
+const svg = createIconSvg({ action, onAction: "#ffffff" });
 
 await fs.writeFile(sourceSvgPath, svg, "utf8");
 await fs.writeFile(iconPath, await renderPng(svg, 512));
@@ -177,4 +175,4 @@ const faviconPngs = await Promise.all(
 
 await fs.writeFile(faviconPath, createIco(faviconPngs));
 
-console.log(`Generated app icons with --primary ${primary}.`);
+console.log(`Generated app icons with --action ${action}.`);

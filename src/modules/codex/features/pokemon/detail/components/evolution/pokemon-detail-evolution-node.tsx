@@ -1,109 +1,83 @@
 import Link from "next/link";
 
-import { PokemonDetailActionPortrait } from "@/modules/codex/features/pokemon/detail/components/portrait/pokemon-detail-action-portrait";
-import { getPokemonDetailEvolutionDisplayForm } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
-import type {
-  PokemonEvolutionEdgeSummary,
-  PokemonEvolutionSpeciesSummary,
-  PokemonForm,
-  PokemonTypePair,
-} from "@/modules/reference/types";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import type { PokemonDetailEvolutionTreeNode } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-tree";
 import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
-import {
-  getPokemonFormImageAlt,
-  getPokemonFormImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+  PokemonCard,
+  pokemonCardPickedClassName,
+} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { cn } from "@/shared/utils/cn";
 
-export type PokemonDetailEvolutionNodeLinkScope = {
-  activeGameSlug: string | null;
-  activeGenerationSlug: string;
-  activeVersionGroupSlug: string | null;
+export type PokemonDetailEvolutionLinkScope = {
+  activeFormId: number | null;
+  activeSpeciesId: number;
+  activeVersionGroupSlug: string;
 };
 
 type PokemonDetailEvolutionNodeProps = {
-  activeFormId: number | null;
-  activeSpeciesId: number;
-  linkScope: PokemonDetailEvolutionNodeLinkScope;
-  pokemon: PokemonEvolutionSpeciesSummary;
-  scopedEdges: PokemonEvolutionEdgeSummary[];
+  linkScope: PokemonDetailEvolutionLinkScope;
+  node: PokemonDetailEvolutionTreeNode;
 };
 
-type EvolutionNodeTypeSlug = PokemonTypeSlug | null;
-
-const getEvolutionNodeDisplayTypeSlug = ({
+/* The stage's types, from the form it shows when it shows one. */
+const getNodeTypes = ({
   displayForm,
   pokemon,
-}: {
-  displayForm: PokemonForm | null;
-  pokemon: PokemonEvolutionSpeciesSummary;
-}): EvolutionNodeTypeSlug => {
-  const displayFormTypePair =
-    displayForm &&
-    pokemon.forms.find((formSummary) => {
-      return formSummary.form.id === displayForm.id;
-    })?.typePair;
-  const typePair: PokemonTypePair = displayFormTypePair ?? pokemon.typePair;
-  const typeSlug = typePair.primaryType?.slug;
+}: PokemonDetailEvolutionTreeNode) => {
+  const typePair =
+    (displayForm
+      ? pokemon.forms.find((formSummary) => {
+          return formSummary.form.id === displayForm.id;
+        })?.typePair
+      : null) ?? pokemon.typePair;
 
-  return typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null;
+  return [typePair.primaryType, typePair.secondaryType].flatMap((type) =>
+    type ? [{ name: type.name, slug: type.slug }] : [],
+  );
 };
 
+/*
+ * A stage of the line as the one Pokémon card the Codex lists use (number,
+ * art on its type circle, name, type dots), the Pokémon you're reading
+ * picked like a chosen card elsewhere. Every stage opens its own entry.
+ */
 export const PokemonDetailEvolutionNode = ({
-  activeFormId,
-  activeSpeciesId,
   linkScope,
-  pokemon,
-  scopedEdges,
+  node,
 }: PokemonDetailEvolutionNodeProps) => {
-  const displayForm = getPokemonDetailEvolutionDisplayForm({
-    pokemon,
-    scopedEdges,
-  });
-  const imageAlt =
-    getPokemonFormImageAlt(displayForm) || `${pokemon.species.name} artwork`;
-  const imageUrl = getPokemonFormImageUrl(displayForm);
-  const typeSlug = getEvolutionNodeDisplayTypeSlug({
-    displayForm,
-    pokemon,
-  });
-  const style = getPokemonTypeCssVariables(typeSlug);
-  const nationalNumber = formatPokemonNationalNumber(
-    pokemon.species.national_number,
-  );
+  const { displayForm, pokemon } = node;
+  const name =
+    displayForm && !displayForm.is_default
+      ? displayForm.name
+      : pokemon.species.name;
+  const isActive =
+    pokemon.species.id === linkScope.activeSpeciesId &&
+    (!linkScope.activeFormId ||
+      !displayForm ||
+      displayForm.id === linkScope.activeFormId);
   const href = getPokemonDetailScopeHref(pokemon.species.slug, {
     form: displayForm?.is_default ? undefined : displayForm?.slug,
-    game: linkScope.activeGameSlug ?? undefined,
-    generation: linkScope.activeGenerationSlug,
-    versionGroup: linkScope.activeVersionGroupSlug ?? undefined,
+    versionGroup: linkScope.activeVersionGroupSlug,
   });
-  const isActive =
-    pokemon.species.id === activeSpeciesId &&
-    (!activeFormId || !displayForm || displayForm.id === activeFormId);
 
   return (
-    <article
-      aria-label={`${nationalNumber} ${pokemon.species.name}`}
-      className="min-w-0"
+    <Link
+      href={href}
+      aria-current={isActive ? "page" : undefined}
+      className="focus-visible:outline-focus block w-28 shrink-0 rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:w-32"
     >
-      <Link
-        href={href}
-        aria-label={`Open ${nationalNumber} ${pokemon.species.name}`}
-        style={style}
-        className="group focus-visible:ring-primary focus-visible:ring-offset-background block rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-      >
-        <PokemonDetailActionPortrait
-          alt={imageAlt}
-          imageUrl={imageUrl}
-          isActive={isActive}
-          type={typeSlug}
-        />
-      </Link>
-    </article>
+      <PokemonCard
+        state="plain"
+        className={cn(isActive && pokemonCardPickedClassName)}
+        imageAlt=""
+        imageUrl={getPokemonFormImageUrl(displayForm)}
+        name={name}
+        number={formatPokemonNationalNumber(pokemon.species.national_number)}
+        size="fluid"
+        types={getNodeTypes(node)}
+      />
+    </Link>
   );
 };

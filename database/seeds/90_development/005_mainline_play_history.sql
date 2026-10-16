@@ -10,19 +10,126 @@
 -- and team snapshots with historical moves.
 -- ============================================================================
 
-WITH ranked_progress AS (
+-- Every moment of a fixture Play in one insert, so each takes its place in
+-- the timeline by when it happened: the team joins and the story unfolds from
+-- the day the Play started, then the latest note and status.
+WITH play_rows AS (
   SELECT
+    mainline_plays.*
+  FROM gameplay.mainline_plays
+  WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid
+),
+milestone_events AS (
+  SELECT
+    md5('voydex-fixture:event:milestone:' || mainline_play_milestone_progress.play_id || ':' || mainline_play_milestone_progress.milestone_id)::uuid AS id,
     mainline_play_milestone_progress.play_id,
+    1 AS event_type_id,
+    3 AS event_origin_id,
+    mainline_milestones.name AS title,
+    COALESCE(mainline_milestones.description, 'Completed story milestone recorded by the fixture journey.') AS body,
+    mainline_play_milestone_progress.completed_at AS happened_at,
     mainline_play_milestone_progress.milestone_id,
-    mainline_play_milestone_progress.completed_at,
-    mainline_milestones.name AS milestone_name,
-    mainline_milestones.description,
-    ROW_NUMBER() OVER (PARTITION BY mainline_play_milestone_progress.play_id ORDER BY mainline_milestones.sort_order, mainline_milestones.id) AS timeline_order
+    ROW_NUMBER() OVER (PARTITION BY mainline_play_milestone_progress.play_id ORDER BY mainline_play_milestone_progress.completed_at, mainline_play_milestone_progress.milestone_id) = 1 AS is_pinned
   FROM
     gameplay.mainline_play_milestone_progress
     JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_play_milestone_progress.milestone_id
-    JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_milestone_progress.play_id
-  WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid
+    JOIN play_rows ON play_rows.id = mainline_play_milestone_progress.play_id
+),
+journal_events AS (
+  SELECT
+    md5('voydex-fixture:event:journal:' || play_rows.version_group_id)::uuid AS id,
+    play_rows.id AS play_id,
+    8 AS event_type_id,
+    1 AS event_origin_id,
+    'Journey field note' AS title,
+    play_rows.save_notes AS body,
+    play_rows.updated_at - INTERVAL '2 hours' AS happened_at,
+    NULL::integer AS milestone_id,
+    TRUE AS is_pinned
+  FROM play_rows
+),
+status_events AS (
+  SELECT
+    md5('voydex-fixture:event:status:' || play_rows.version_group_id)::uuid AS id,
+    play_rows.id AS play_id,
+    9 AS event_type_id,
+    5 AS event_origin_id,
+    'Play status imported' AS title,
+    'Imported fixture status: ' || mainline_play_statuses.name || '.' AS body,
+    play_rows.updated_at AS happened_at,
+    NULL::integer AS milestone_id,
+    FALSE AS is_pinned
+  FROM
+    play_rows
+    JOIN gameplay.mainline_play_statuses ON mainline_play_statuses.id = play_rows.status_id
+),
+added_events AS (
+  SELECT
+    md5('voydex-fixture:event:added:' || mainline_play_pokemon.id)::uuid AS id,
+    mainline_play_pokemon.play_id,
+    2 AS event_type_id,
+    2 AS event_origin_id,
+    pokemon_species.name || ' joined the team' AS title,
+    CASE WHEN mainline_play_pokemon.slot = 1 THEN 'The team lead was registered as the journey partner.' ELSE 'A game-valid team member was added to the active roster.' END AS body,
+    play_rows.started_on + TIME '14:00' + (((mainline_play_pokemon.slot - 1) * 2) || ' days')::interval AS happened_at,
+    NULL::integer AS milestone_id,
+    FALSE AS is_pinned
+  FROM
+    gameplay.mainline_play_pokemon
+    JOIN play_rows ON play_rows.id = mainline_play_pokemon.play_id
+    JOIN reference.pokemon_species ON pokemon_species.id = mainline_play_pokemon.species_id
+  WHERE
+    mainline_play_pokemon.roster_state_id = 1
+    AND mainline_play_pokemon.id = md5('voydex-fixture:pokemon:' || play_rows.version_group_id || ':' || mainline_play_pokemon.slot)::uuid
+),
+hall_of_fame_events AS (
+  SELECT
+    md5('voydex-fixture:event:hall-of-fame:' || play_rows.version_group_id)::uuid AS id,
+    play_rows.id AS play_id,
+    7 AS event_type_id,
+    4 AS event_origin_id,
+    'Hall of Fame team' AS title,
+    'Main story team preserved at the championship checkpoint.' AS body,
+    COALESCE(play_rows.completed_on + TIME '20:00', play_rows.updated_at - INTERVAL '7 days') AS happened_at,
+    NULL::integer AS milestone_id,
+    TRUE AS is_pinned
+  FROM play_rows
+  WHERE play_rows.version_group_id IN (4, 5, 9, 10, 14, 15, 21, 22, 23)
+),
+custom_definition (version_group_id, event_key, event_type_id, title, body, minute_offset) AS (
+  VALUES
+    (23, 'evolved', 3, 'Crocalor evolved', 'The starter reached its final evolution during the Victory Road path.', 1),
+    (23, 'retired', 4, 'Flamigo retired', 'A trusted early-route member moved to the historical roster.', 2),
+    (23, 'replaced', 5, 'Tinkaton joined the final six', 'Tinkaton replaced Arboliva for the endgame team.', 3),
+    (18, 'form-changed', 6, 'Toxtricity changed form', 'A historical form correction was recorded for timeline testing.', 1)
+),
+custom_events AS (
+  SELECT
+    md5('voydex-fixture:event:custom:' || custom_definition.version_group_id || ':' || custom_definition.event_key)::uuid AS id,
+    play_rows.id AS play_id,
+    custom_definition.event_type_id,
+    1 AS event_origin_id,
+    custom_definition.title,
+    custom_definition.body,
+    play_rows.started_on + TIME '18:00' + INTERVAL '40 days' + (custom_definition.minute_offset || ' minutes')::interval AS happened_at,
+    NULL::integer AS milestone_id,
+    FALSE AS is_pinned
+  FROM
+    custom_definition
+    JOIN play_rows ON play_rows.version_group_id = custom_definition.version_group_id
+),
+all_events AS (
+  SELECT * FROM milestone_events
+UNION ALL
+SELECT * FROM journal_events
+UNION ALL
+SELECT * FROM status_events
+UNION ALL
+SELECT * FROM added_events
+UNION ALL
+SELECT * FROM hall_of_fame_events
+UNION ALL
+SELECT * FROM custom_events
 )
 INSERT INTO gameplay.mainline_play_events (
   id,
@@ -37,92 +144,17 @@ INSERT INTO gameplay.mainline_play_events (
   is_pinned
 )
 SELECT
-  md5('voydex-fixture:event:milestone:' || play_id || ':' || milestone_id)::uuid,
+  id,
   play_id,
-  1,
-  3,
-  milestone_name,
-  COALESCE(description, 'Completed story milestone recorded by the fixture journey.'),
-  completed_at,
-  timeline_order,
+  event_type_id,
+  event_origin_id,
+  title,
+  body,
+  happened_at,
+  ROW_NUMBER() OVER (PARTITION BY play_id ORDER BY happened_at, event_type_id, id),
   milestone_id,
-  timeline_order = 1
-FROM ranked_progress;
-
-INSERT INTO gameplay.mainline_play_events (
-  id,
-  play_id,
-  event_type_id,
-  event_origin_id,
-  title,
-  body,
-  happened_at,
-  timeline_order,
   is_pinned
-)
-SELECT
-  md5('voydex-fixture:event:journal:' || mainline_plays.version_group_id)::uuid,
-  mainline_plays.id,
-  8,
-  1,
-  'Journey field note',
-  mainline_plays.save_notes,
-  mainline_plays.updated_at - INTERVAL '2 hours',
-  900,
-  TRUE
-FROM gameplay.mainline_plays
-WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;
-
-INSERT INTO gameplay.mainline_play_events (
-  id,
-  play_id,
-  event_type_id,
-  event_origin_id,
-  title,
-  body,
-  happened_at,
-  timeline_order
-)
-SELECT
-  md5('voydex-fixture:event:status:' || mainline_plays.version_group_id)::uuid,
-  mainline_plays.id,
-  9,
-  5,
-  'Play status imported',
-  'Imported fixture status: ' || mainline_play_statuses.name || '.',
-  NULL,
-  901
-FROM
-  gameplay.mainline_plays
-  JOIN gameplay.mainline_play_statuses ON mainline_play_statuses.id = mainline_plays.status_id
-WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;
-
-INSERT INTO gameplay.mainline_play_events (
-  id,
-  play_id,
-  event_type_id,
-  event_origin_id,
-  title,
-  body,
-  happened_at,
-  timeline_order
-)
-SELECT
-  md5('voydex-fixture:event:added:' || mainline_play_pokemon.id)::uuid,
-  mainline_play_pokemon.play_id,
-  2,
-  2,
-  pokemon_species.name || ' joined the team',
-  CASE WHEN mainline_play_pokemon.slot = 1 THEN 'The team lead was registered as the journey partner.' ELSE 'A game-valid team member was added to the active roster.' END,
-  mainline_plays.created_at + (mainline_play_pokemon.slot || ' days')::interval,
-  100 + mainline_play_pokemon.slot
-FROM
-  gameplay.mainline_play_pokemon
-  JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_pokemon.play_id
-  JOIN reference.pokemon_species ON pokemon_species.id = mainline_play_pokemon.species_id
-WHERE
-  mainline_play_pokemon.roster_state_id = 1
-  AND mainline_play_pokemon.id = md5('voydex-fixture:pokemon:' || mainline_plays.version_group_id || ':' || mainline_play_pokemon.slot)::uuid;
+FROM all_events;
 
 INSERT INTO gameplay.mainline_play_event_pokemon_refs (
   id,
@@ -151,35 +183,6 @@ FROM
   gameplay.mainline_play_pokemon
   JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_pokemon.play_id
 WHERE mainline_play_pokemon.id = md5('voydex-fixture:pokemon:' || mainline_plays.version_group_id || ':' || mainline_play_pokemon.slot)::uuid;
-
-WITH hall_of_fame_stages (version_group_id) AS (
-  VALUES (4), (5), (9), (10), (14), (15), (21), (22), (23)
-)
-INSERT INTO gameplay.mainline_play_events (
-  id,
-  play_id,
-  event_type_id,
-  event_origin_id,
-  title,
-  body,
-  happened_at,
-  timeline_order,
-  is_pinned
-)
-SELECT
-  md5('voydex-fixture:event:hall-of-fame:' || hall_of_fame_stages.version_group_id)::uuid,
-  mainline_plays.id,
-  7,
-  4,
-  'Hall of Fame team',
-  'Main story team preserved at the championship checkpoint.',
-  COALESCE(mainline_plays.completed_on::timestamptz, mainline_plays.updated_at - INTERVAL '7 days'),
-  2000,
-  TRUE
-FROM
-  hall_of_fame_stages
-  JOIN gameplay.mainline_plays ON mainline_plays.version_group_id = hall_of_fame_stages.version_group_id
-    AND mainline_plays.id = md5('voydex-fixture:play:data:' || hall_of_fame_stages.version_group_id)::uuid;
 
 WITH last_milestone_event AS (
   SELECT DISTINCT ON (mainline_play_events.play_id)
@@ -260,34 +263,6 @@ SELECT
 FROM
   gameplay.mainline_play_event_team_snapshots
   JOIN gameplay.mainline_play_pokemon_moves ON mainline_play_pokemon_moves.play_pokemon_id = mainline_play_event_team_snapshots.play_pokemon_id;
-
-WITH custom_events (version_group_id, event_key, event_type_id, title, body, timeline_order) AS (
-  VALUES
-    (23, 'evolved', 3, 'Crocalor evolved', 'The starter reached its final evolution during the Victory Road path.', 3001),
-    (23, 'retired', 4, 'Flamigo retired', 'A trusted early-route member moved to the historical roster.', 3002),
-    (23, 'replaced', 5, 'Tinkaton joined the final six', 'Tinkaton replaced Arboliva for the endgame team.', 3003),
-    (18, 'form-changed', 6, 'Toxtricity changed form', 'A historical form correction was recorded for timeline testing.', 3001)
-)
-INSERT INTO gameplay.mainline_play_events (
-  id,
-  play_id,
-  event_type_id,
-  event_origin_id,
-  title,
-  body,
-  happened_at,
-  timeline_order
-)
-SELECT
-  md5('voydex-fixture:event:custom:' || custom_events.version_group_id || ':' || custom_events.event_key)::uuid,
-  md5('voydex-fixture:play:data:' || custom_events.version_group_id)::uuid,
-  custom_events.event_type_id,
-  1,
-  custom_events.title,
-  custom_events.body,
-  '2026-06-01 12:00:00+00'::timestamptz + (custom_events.timeline_order || ' minutes')::interval,
-  custom_events.timeline_order
-FROM custom_events;
 
 WITH ref_definition (version_group_id, event_key, sort_order, role, species_slug, form_slug, current_slot, historical_key) AS (
   VALUES

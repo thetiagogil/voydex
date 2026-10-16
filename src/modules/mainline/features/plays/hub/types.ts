@@ -1,4 +1,7 @@
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  MainlinePlaySummary,
+  MainlinePlayTimelineEvent,
+} from "@/modules/mainline/features/plays/shared/types";
 import type {
   AbilityAttribute,
   Game,
@@ -11,6 +14,14 @@ import type {
   VersionGroup,
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
+import type {
+  OverviewAheadMilestone,
+  OverviewMilestone,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
+import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -22,8 +33,6 @@ export type MainlinePlayMilestoneCategorySummary =
 export type MainlinePlayOverview = ViewRow<"mainline_play_overview">;
 export type MainlinePlayTeamMemberRow = ViewRow<"mainline_play_team_detail">;
 export type MainlinePlayTeamPlanRow = ViewRow<"mainline_play_team_plan_detail">;
-export type MainlinePlayTimelineEvent =
-  ViewRow<"mainline_play_timeline_detail">;
 export type MainlinePlayPokemonType = Type;
 
 export type MainlinePlayTeamMove = {
@@ -182,25 +191,12 @@ export type MainlinePlayTeamPlanSummary = {
   mechanics: GameMechanicsProfile;
   notes: string | null;
   offPlanCount: number;
-  offPlanMemberNames: string[];
+  /* Recorded in the Play, but not matched to any of the Plan's targets. */
+  offPlanMembers: MainlinePlayTeamMember[];
   planId: string;
   planName: string;
   statusName: string;
   targetCount: number;
-};
-
-export type MainlinePlayTeamPlanPreview = {
-  exactMatchCount: number;
-  foundCount: number;
-  followingState: MainlinePlayTeamPlanFollowingState;
-  offPlanCount: number;
-  planName: string;
-  targetCount: number;
-};
-
-export type MainlinePlayMilestoneRows = {
-  lastCompletedMilestone: MainlinePlayMilestone | null;
-  nextMilestone: MainlinePlayMilestone | null;
 };
 
 export type MainlinePlayShellData = {
@@ -210,11 +206,22 @@ export type MainlinePlayShellData = {
   play: MainlinePlaySummary;
   region: Region | null;
   rules: MainlineChallengeRule[];
+  /* The Play's tags by name, shown in Play details. */
+  tags: string[];
 };
 
 export type MainlinePlayOverviewData = {
-  lastCompletedMilestone: MainlinePlayMilestone | null;
-  nextMilestone: MainlinePlayMilestone | null;
+  aheadMilestones: OverviewAheadMilestone[];
+  badgeCase: BadgeCase | null;
+  /* A brand-new Play opens on its partner choice and first steps. */
+  freshPlay: OverviewFreshPlay | null;
+  nextMilestone: OverviewMilestone | null;
+  /*
+   * The next milestone as Story's record form needs it, read only when it
+   * is a choice (Choose Starter), so Overview records it in place.
+   */
+  nextDecisionMilestone: StoryMilestone | null;
+  nextMilestonePosition: { sequence: number; total: number } | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];
@@ -225,15 +232,26 @@ export type MainlinePlayTeamRosterData = {
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
-  teamPlan: MainlinePlayTeamPlanPreview | null;
-  teamTimelinePreview: MainlinePlayTimelineEvent[];
+};
+
+/* One of your Plans this Play could follow: same game and version group. */
+export type MainlinePlayFollowablePlan = {
+  memberCount: number;
+  name: string;
+  planId: string;
+  updatedAt: string | null;
 };
 
 export type MainlinePlayTeamPlanData = {
+  /* Your other Plans for this game, for "Follow a different Plan". */
+  followablePlans: MainlinePlayFollowablePlan[];
   teamPlan: MainlinePlayTeamPlanSummary | null;
+  versionGroupSlug: string | null;
 };
 
-export type MainlinePlayTeamHistoryData = {
+export type MainlinePlayHistoryData = {
+  /* Badge and form types for the moments' medallions. */
+  context: PlayMomentContextEntries;
   events: MainlinePlayTimelineEvent[];
   play: MainlinePlaySummary;
 };

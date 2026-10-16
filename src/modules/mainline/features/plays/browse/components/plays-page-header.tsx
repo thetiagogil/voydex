@@ -1,11 +1,31 @@
+import { getPlayLibraryDescription } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
+import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageHeader } from "@/shared/components/page-header";
+import { buttonVariants } from "@/shared/components/ui/button";
 
-export const PlaysPageHeader = () => {
+type PlaysPageHeaderProps = {
+  plays: PlayBrowseItem[];
+};
+
+/*
+ * The library at a glance: how many Plays and how much time they hold, and
+ * New Play, the page's main button. An empty library offers its own start.
+ */
+export const PlaysPageHeader = ({ plays }: PlaysPageHeaderProps) => {
   return (
     <PageHeader
-      className="gap-3"
       title="Plays"
-      description="Find an adventure and continue where you left off."
+      description={getPlayLibraryDescription(plays)}
+      action={
+        plays.length ? (
+          <NewPlayTrigger className={buttonVariants()}>
+            <AppIcon icon={appIcons.actions.create} inline="start" />
+            New Play
+          </NewPlayTrigger>
+        ) : null
+      }
     />
   );
 };

@@ -6,7 +6,6 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-menu-species-row-builders";
 import { isNumber } from "@/modules/reference/reference-data";
 import type {
-  Game,
   Pokedex,
   PokedexEntry,
   PokemonSpecies,
@@ -24,19 +23,12 @@ type PagedPokemonMenuSpeciesRowsParams = {
   versionGroups: VersionGroup[];
 };
 
-export const getSpeciesIdsForGame = (
+/* Every species found anywhere in the group, in any of its games. */
+export const getSpeciesIdsForVersionGroups = (
   availabilityRows: ResolvedPokemonAvailability[],
-  game: Game,
 ) => {
   return [
-    ...new Set(
-      availabilityRows
-        .filter((row) => {
-          return !row.game_id || row.game_id === game.id;
-        })
-        .map((row) => row.species_id)
-        .filter(isNumber),
-    ),
+    ...new Set(availabilityRows.map((row) => row.species_id).filter(isNumber)),
   ];
 };
 

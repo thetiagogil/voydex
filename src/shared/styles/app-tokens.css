@@ -1,56 +1,286 @@
+/*
+ * Soft Clay tokens, named by role. Every colour, corner, depth and size the
+ * app uses comes from here. Light values only for now; dark mode will be a
+ * second set of values for the same names.
+ * Reference: docs/app/design-system.md.
+ */
 :root {
-  --app-background-overlay-hero: oklch(0.96 0.02 86 / 0.08);
-  --app-background-overlay-intro: oklch(0.94 0.028 86 / 0.2);
-  --app-background-overlay-page: oklch(0.95 0.022 86 / 0.08);
-  --app-nav-surface: oklch(0.986 0.012 86 / 0.9);
-  --app-nav-foreground: oklch(0.315 0.072 158);
-  --app-nav-muted: oklch(0.49 0.034 68);
-  --app-nav-border: oklch(0.84 0.03 79 / 0.82);
-  --app-nav-outline: oklch(0.77 0.036 78 / 0.78);
-  --app-nav-hover: oklch(0.945 0.024 86);
-  --app-journal-surface: oklch(0.975 0.018 86);
-  --app-surface-border: oklch(0.79 0.045 78 / 0.76);
-  --app-journal-rule: oklch(0.842 0.03 80);
-  --app-surface-shadow:
-    0 22px 54px -34px oklch(0.24 0.045 62 / 0.38),
-    0 1px 0 oklch(1 0 0 / 0.72) inset;
-  --app-scrollbar-thumb: color-mix(
-    in oklch,
-    var(--primary),
-    var(--background) 42%
-  );
-  --app-scrollbar-thumb-hover: color-mix(
-    in oklch,
-    var(--primary),
-    var(--foreground) 8%
-  );
-  --app-scrollbar-track: transparent;
-  --app-success: oklch(0.51 0.12 149);
-  --app-info: oklch(0.56 0.11 225);
-  --app-warning: oklch(0.7 0.15 92);
-  --app-rare: oklch(0.62 0.128 325);
-  --app-legendary: oklch(0.67 0.14 56);
-  --app-mythic: oklch(0.61 0.145 311);
-  --app-seen: oklch(0.54 0.09 252);
-  --app-battle: oklch(0.6 0.16 30);
-  --app-milestone: oklch(0.66 0.16 63);
-  --app-decision: oklch(0.62 0.14 302);
+  color-scheme: light;
+
+  /* Ground, surfaces, ink and lines */
+  --bg: #f2ede1;
+  --surface: #fffcf5;
+  --surface-2: #f7f1e4;
+  --hover: #f0e7d5;
+  --ink: #3a3226;
+  --ink-2: #6c6152;
+  --ink-3: #766a58;
+  --on-ink: #f4eee2;
+  /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
+  --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
+  --line: #e8deca;
+  --lip: #e2d6be;
+  --track: #ede4d2;
+  --dash: #dcd0b8;
+  --mute: #c8bca5;
+  --scrim: rgb(58 50 38 / 0.42);
+
+  /* The one action colour */
+  --link: #33704f;
+  --action: #3b8360;
+  --action-lip: #2a6447;
+  --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
+  --focus: #2a6447;
+
+  /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
+  --gold: #edb443;
+  --gold-deep: #d9a21b;
+  --gold-ring: #f5d58f;
+  --warn: #e9a23b;
+  --warn-ink: #93600f;
+  --warn-soft: #fbeed3;
+  --danger: #ae3f2c;
+  --danger-deep: #8a2a1b;
+  --danger-soft: #f9e1da;
+  --danger-soft-2: #f2c6bb;
+  --danger-line: #d9a497;
+  --ok: #2f7550;
+  --ok-deep: #2a6443;
+  --ok-soft: #e1f0e6;
+  --ok-soft-2: #d2eadb;
+  --ok-line: #9fcdb1;
+  /* v3 `.pstate.info`: a quieter, neutral meaning, such as "evolved or changed form". */
+  --calm: #4e7fb5;
+  --calm-ink: #2f5c8a;
+  --calm-soft: #e0eaf5;
+  --ball: #d04c3c;
+  --avatar: #f6d9a8;
+  --avatar-ink: #6b4a12;
+
+  /* The meadow (front doors and choosing a game) */
+  --sky: #fbf5e8;
+  --hill: #e0e9cb;
+  --hill-2: #d2deb6;
+  /* The band that opens Plays, the Team Planner, Statistics and Collection. */
+  --band-sand: color-mix(in oklab, var(--lip) 62%, var(--bg));
+
+  /*
+   * Context colour. Pages without a Play wear Voydex green; a Play sets
+   * --game, --gt and --game-strong (see getGameColourStyle) on its
+   * `.game-scope` element and on the document root, so portalled menus and
+   * dialogs wear it too. --game-strong is the game colour darkened only as
+   * far as white text needs for 4.5:1; solid fills with labels use it.
+   */
+  --game: var(--action);
+  --gt: 17%;
+  --game-strong: var(--action);
+  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
+  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
+  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
+  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
+  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
+  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
+
+  /* Corners */
+  --r-xs: 6px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 20px;
+  --r-xl: 26px;
+  --r-2xl: 32px;
+
+  /*
+   * Depth. A lip is the solid edge under a surface. The clay edge on section
+   * cards is 3px (the brief's choice; v3 drew 4px).
+   */
+  --clay-edge: 3px;
+  --shadow-soft-value: 0 16px 26px -18px rgb(90 70 35 / 0.45);
+  --shadow-cover-value: 0 10px 18px -10px rgb(40 40 60 / 0.5);
+  --shadow-float-value: 0 18px 34px -14px rgb(60 45 20 / 0.4);
+  --shadow-overlay-value: 0 30px 50px -20px rgb(40 30 15 / 0.45);
+  /* v3 .btn-2: the quiet button's 3px neutral lip, pressed away on :active. */
+  --shadow-quiet-value: 0 3px 0 var(--lip);
+  /* Bars: a track pressed in at the top, a fill with a darker base. */
+  --shadow-track-value: inset 0 2px 0 rgb(90 70 35 / 0.08);
+  --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
+
+  /*
+   * The page frame: the column every page, bar and footer lines up in, its
+   * side gutter, the bar's height and the gap between the bar and the page.
+   * A top band (`page-band`) uses them to run edge to edge under the bar.
+   */
+  --page-width: 80rem;
+  --page-gutter: 1rem;
+  --page-top: 0.5rem;
+  --bar-h: 3.75rem;
+
+  @variant sm {
+    --page-gutter: 1.5rem;
+  }
+
+  @variant lg {
+    --page-gutter: 2rem;
+    --bar-h: 4.25rem;
+  }
+
+  /* Type: two families, one scale, nothing under 12px */
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-body: var(--font-nunito), system-ui, sans-serif;
+
+  /* Primitive aliases. shadcn-style primitives read these names. */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--action);
+  --primary-foreground: #fff;
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-2);
+  --accent: var(--hover);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --destructive-foreground: #fff;
+  --border: var(--line);
+  --input: var(--lip);
+  --ring: var(--focus);
+  --radius: var(--r-sm);
+
+  /*
+   * The top bar. On the plain ground or sky it is neutral; on a tinted band
+   * (`BandTintRoot` marks the root) its quiet controls sit on soft white over
+   * the tint, and the current link and the V tile take the game's strong
+   * shade, which holds 4.5:1 with a white label for every game.
+   */
+  --bar-control: var(--surface);
+  --bar-control-hover: var(--hover);
+  --bar-hover: var(--surface-2);
+  --bar-current: var(--surface);
+  --bar-current-ink: var(--ink);
+  --bar-brand: var(--action);
+  --bar-ink-2: var(--ink-2);
+}
+
+:root[data-band-tint] {
+  --bar-control: rgb(255 255 255 / 0.72);
+  --bar-control-hover: rgb(255 255 255 / 0.92);
+  --bar-hover: rgb(255 255 255 / 0.55);
+  --bar-current: var(--game-strong);
+  --bar-current-ink: #fff;
+  --bar-brand: var(--game-strong);
+  --bar-ink-2: var(--ink-tint);
 }
 
 @theme inline {
-  --color-background-overlay-hero: var(--app-background-overlay-hero);
-  --color-background-overlay-intro: var(--app-background-overlay-intro);
-  --color-background-overlay-page: var(--app-background-overlay-page);
-  --color-app-surface-border: var(--app-surface-border);
-  --color-app-journal-rule: var(--app-journal-rule);
-  --color-success: var(--app-success);
-  --color-info: var(--app-info);
-  --color-warning: var(--app-warning);
-  --color-rare: var(--app-rare);
-  --color-legendary: var(--app-legendary);
-  --color-mythic: var(--app-mythic);
-  --color-seen: var(--app-seen);
-  --color-battle: var(--app-battle);
-  --color-milestone: var(--app-milestone);
-  --color-decision: var(--app-decision);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-hover: var(--hover);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-on-ink: var(--on-ink);
+  --color-ink-tint: var(--ink-tint);
+  --color-line: var(--line);
+  --color-lip: var(--lip);
+  --color-track: var(--track);
+  --color-dash: var(--dash);
+  --color-mute: var(--mute);
+  --color-scrim: var(--scrim);
+  --color-link: var(--link);
+  --color-action: var(--action);
+  --color-action-lip: var(--action-lip);
+  --color-action-soft: var(--action-soft);
+  --color-focus: var(--focus);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-gold-ring: var(--gold-ring);
+  --color-warn: var(--warn);
+  --color-warn-ink: var(--warn-ink);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-deep: var(--danger-deep);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-soft-2: var(--danger-soft-2);
+  --color-danger-line: var(--danger-line);
+  --color-ok: var(--ok);
+  --color-ok-deep: var(--ok-deep);
+  --color-ok-soft: var(--ok-soft);
+  --color-ok-soft-2: var(--ok-soft-2);
+  --color-ok-line: var(--ok-line);
+  --color-calm: var(--calm);
+  --color-calm-ink: var(--calm-ink);
+  --color-calm-soft: var(--calm-soft);
+  --color-ball: var(--ball);
+  --color-avatar: var(--avatar);
+  --color-avatar-ink: var(--avatar-ink);
+  --color-sky: var(--sky);
+  --color-hill: var(--hill);
+  --color-hill-2: var(--hill-2);
+  --color-band-sand: var(--band-sand);
+  --color-game: var(--game);
+  --color-game-soft: var(--game-soft);
+  --color-game-wash: var(--game-wash);
+  --color-game-lip: var(--game-lip);
+  --color-game-deep: var(--game-deep);
+  --color-game-strong: var(--game-strong);
+  --color-select-soft: var(--select-soft);
+  --color-select-ink: var(--select-ink);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17: 17px;
+  --text-20: 20px;
+  --text-24: 24px;
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-44: 44px;
+  --text-60: 60px;
+
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+  --radius-2xl: var(--r-2xl);
+
+  --shadow-soft: var(--shadow-soft-value);
+  --shadow-cover: var(--shadow-cover-value);
+  --shadow-float: var(--shadow-float-value);
+  --shadow-overlay: var(--shadow-overlay-value);
+  --shadow-track: var(--shadow-track-value);
+  --shadow-fill: var(--shadow-fill-value);
+  --shadow-card: 0 var(--clay-edge) 0 var(--lip), var(--shadow-soft-value);
+  --shadow-action: 0 5px 0 var(--action-lip);
+  --shadow-quiet: var(--shadow-quiet-value);
+  --shadow-game: 0 5px 0 var(--game-lip);
 }

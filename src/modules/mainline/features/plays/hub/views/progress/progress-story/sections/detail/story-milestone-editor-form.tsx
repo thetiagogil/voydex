@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { type CSSProperties, useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 
@@ -31,11 +31,9 @@ import {
 import type { StoryMilestone } from "../../types";
 import {
   getStoryMilestoneEditorCopy,
-  getStoryMilestoneSubmitVariant,
   type StoryMilestoneEditorCopy,
 } from "../../utils/story-milestone-editor";
 import { StoryMilestoneDecisionField } from "./story-milestone-decision-field";
-import { StoryMilestoneEditorContext } from "./story-milestone-editor-context";
 import { StoryMilestoneIncompletionImpact } from "./story-milestone-incompletion-impact";
 import { StoryMilestoneSnapshotPreview } from "./story-milestone-snapshot-preview";
 
@@ -46,19 +44,30 @@ const initialStoryMilestoneActionState: StoryMilestoneActionState = {
   status: "idle",
 };
 
+/*
+ * In a form the only colour is the action green, so the form re-scopes the
+ * context colour to it: a chosen decision takes the green selected tint, not
+ * the game's.
+ */
+const actionScopeStyle = {
+  "--game": "var(--action)",
+  "--game-strong": "var(--action)",
+  "--gt": "17%",
+} as CSSProperties;
+
 const StoryMilestoneSubmitButton = ({
   copy,
-  variant,
+  intent,
 }: {
   copy: StoryMilestoneEditorCopy;
-  variant: "default" | "destructive" | "outline";
+  intent: StoryMilestoneActionIntent;
 }) => {
   const { pending } = useFormStatus();
 
   return (
     <Button
       type="submit"
-      variant={variant}
+      variant={intent === "incomplete" ? "destructive" : "default"}
       disabled={pending}
       aria-busy={pending}
     >
@@ -71,14 +80,16 @@ const StoryMilestoneSubmitButton = ({
 export const StoryMilestoneEditorForm = ({
   intent,
   milestone,
-  onCompleted,
+  onSaved,
   playId,
+  recordsTeam = false,
   surface,
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone;
-  onCompleted: () => void;
+  onSaved: (message: string | null) => void;
   playId: string;
+  recordsTeam?: boolean;
   surface: StoryMilestoneEditorSurface;
 }) => {
   const router = useRouter();
@@ -86,6 +97,7 @@ export const StoryMilestoneEditorForm = ({
     updateStoryMilestoneAction,
     initialStoryMilestoneActionState,
   );
+  const handledStateRef = useRef<StoryMilestoneActionState | null>(null);
   const showsDecision =
     (intent === "complete" || intent === "decision") &&
     milestone.decisionOptions.length > 0;
@@ -93,16 +105,16 @@ export const StoryMilestoneEditorForm = ({
   const canRecordStoryMoment =
     intent === "complete" && milestone.snapshotPolicySlug !== "none";
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
-  const submitVariant = getStoryMilestoneSubmitVariant(intent, milestone);
 
   useEffect(() => {
-    if (state.status !== "success") {
+    if (state.status !== "success" || handledStateRef.current === state) {
       return;
     }
 
-    onCompleted();
+    handledStateRef.current = state;
+    onSaved(state.message);
     router.refresh();
-  }, [onCompleted, router, state.status]);
+  }, [onSaved, router, state]);
 
   const footerActions = (
     <>
@@ -117,24 +129,26 @@ export const StoryMilestoneEditorForm = ({
           Cancel
         </SheetClose>
       )}
-      <StoryMilestoneSubmitButton copy={copy} variant={submitVariant} />
+      <StoryMilestoneSubmitButton copy={copy} intent={intent} />
     </>
   );
 
   return (
-    <form action={formAction} className="flex min-h-0 flex-1 flex-col">
+    <form
+      action={formAction}
+      className="game-scope flex min-h-0 flex-1 flex-col"
+      style={actionScopeStyle}
+    >
       <input type="hidden" name="intent" value={intent} />
       <input type="hidden" name="playId" value={playId} />
       <input type="hidden" name="milestoneId" value={milestone.id} />
 
       <div
         className={cn(
-          "flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto",
-          surface === "sheet" ? "px-4 py-4" : "px-5 pb-5",
+          "flex min-h-0 flex-1 flex-col overflow-y-auto",
+          surface === "sheet" ? "px-5 pt-2 pb-5" : "px-6 pb-6",
         )}
       >
-        <StoryMilestoneEditorContext milestone={milestone} />
-
         <FieldGroup>
           {showsDecision ? (
             <StoryMilestoneDecisionField milestone={milestone} />
@@ -160,8 +174,9 @@ export const StoryMilestoneEditorForm = ({
           {canRecordStoryMoment ? (
             <CheckboxCard
               id="story-milestone-record-moment"
+              defaultChecked={recordsTeam}
               name="recordStoryMoment"
-              title="Record snapshot"
+              title="Record team snapshot"
               description="Add this milestone to History and save the current Active Team."
               value="true"
             />
@@ -184,15 +199,13 @@ export const StoryMilestoneEditorForm = ({
       </div>
 
       {surface === "alert-dialog" ? (
-        <AlertDialogFooter className="mx-0 mb-0 px-5 py-4">
+        <AlertDialogFooter className="mx-0 mb-0">
           {footerActions}
         </AlertDialogFooter>
       ) : surface === "dialog" ? (
-        <DialogFooter className="mx-0 mb-0 px-5 py-4">
-          {footerActions}
-        </DialogFooter>
+        <DialogFooter className="mx-0 mb-0">{footerActions}</DialogFooter>
       ) : (
-        <SheetFooter className="border-app-surface-border/60 bg-muted/30 flex-row justify-end border-t">
+        <SheetFooter className="border-line flex-row justify-end border-t px-5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] *:flex-1">
           {footerActions}
         </SheetFooter>
       )}

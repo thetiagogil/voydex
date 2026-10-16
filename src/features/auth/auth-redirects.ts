@@ -8,6 +8,8 @@ const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
 const isAllowedAuthRedirectPath = (pathname: string) => {
   return (
     pathname === appRoutes.appEntry ||
+    /* Where a password reset link lands, through the callback. */
+    pathname === appRoutes.resetPassword ||
     isProtectedRoute(pathname) ||
     Boolean(getModuleKeyForPathname(pathname))
   );
@@ -44,4 +46,14 @@ export const getSafeAuthRedirectPath = (
   return parseSafeAuthRedirectPath(value) ?? safeFallback;
 };
 
-export { appRoutes };
+/*
+ * Where Log in lands: always Mainline, unless a protected page sent you to
+ * Log in (`/login?next=`), which you go back to. `next` is already safe.
+ */
+export const getLogInLandingPath = (next: string): string => {
+  const { pathname } = new URL(next, AUTH_REDIRECT_BASE_URL);
+
+  return pathname !== appRoutes.appEntry && isProtectedRoute(pathname)
+    ? next
+    : appRoutes.mainline;
+};

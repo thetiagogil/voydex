@@ -7,17 +7,32 @@ type MainlinePlayProgressStoryRouteProps = {
   params: Promise<{
     playId: string;
   }>;
+  searchParams: Promise<{
+    record?: string;
+  }>;
 };
 
 export default async function MainlinePlayProgressStoryRoute({
   params,
+  searchParams,
 }: MainlinePlayProgressStoryRouteProps) {
-  const { playId } = await params;
+  const [{ playId }, { record }] = await Promise.all([params, searchParams]);
+  const recordMilestoneId = record ? Number.parseInt(record, 10) : null;
   const data = await getMainlinePlayProgressStoryData(playId);
 
   if (!data) {
     notFound();
   }
 
-  return <MainlinePlayProgressStory data={data} playId={playId} />;
+  return (
+    <MainlinePlayProgressStory
+      data={data}
+      playId={playId}
+      recordMilestoneId={
+        recordMilestoneId && Number.isFinite(recordMilestoneId)
+          ? recordMilestoneId
+          : null
+      }
+    />
+  );
 }

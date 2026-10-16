@@ -2,68 +2,74 @@
 
 import { useRef } from "react";
 
-import { getTeamMemberName } from "../../utils/team-member-display";
-import { TeamMemberDetailContent } from "./team-member-detail-content";
-import { TeamMemberEditAction } from "./team-member-edit-action";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { SheetTitle } from "@/shared/components/ui/sheet";
+import { cn } from "@/shared/utils/cn";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+
+import { TeamMemberActions } from "./team-member-actions";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/shared/components/ui/sheet";
+  TeamMemberProfile,
+  teamMemberNameClassName,
+} from "./team-member-profile";
 
 type TeamMemberDetailSheetProps = {
-  gameSlug: string | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
+  onEdit: () => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
+  versionGroupSlug: string | null;
 };
 
+/*
+ * On phones and tablets the selected Pokémon opens in a bottom sheet, Edit
+ * and Open in Codex in its art's corner as on wide screens.
+ */
 export const TeamMemberDetailSheet = ({
-  gameSlug,
   mechanics,
   member,
+  onEdit,
   onOpenChange,
   open,
+  versionGroupSlug,
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const name = member ? getPlayTeamMemberName(member) : "Team member";
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="right"
-        className="overflow-y-auto data-[side=right]:w-full sm:max-w-xl"
-        initialFocus={titleRef}
-      >
-        <SheetHeader className="border-app-surface-border/60 border-b pr-12">
-          <div className="flex items-start justify-between gap-3">
-            <div className="grid min-w-0 gap-0.5">
-              <SheetTitle
-                ref={titleRef}
-                tabIndex={-1}
-                className="font-serif text-lg font-semibold outline-none"
-              >
-                {member ? getTeamMemberName(member) : "Team member"}
-              </SheetTitle>
-              <SheetDescription>
-                Current Play-owned Pokémon record
-              </SheetDescription>
-            </div>
-            {member ? <TeamMemberEditAction /> : null}
-          </div>
-        </SheetHeader>
-        <div className="px-4 pb-6">
-          <TeamMemberDetailContent
-            gameSlug={gameSlug}
-            mechanics={mechanics}
-            member={member}
-          />
-        </div>
-      </SheetContent>
-    </Sheet>
+    <BottomSheet
+      open={open && Boolean(member)}
+      onOpenChange={onOpenChange}
+      initialFocus={titleRef}
+      label={name}
+      bodyClassName="px-[18px] pt-1.5 sm:px-5"
+    >
+      {member ? (
+        <TeamMemberProfile
+          actions={
+            <TeamMemberActions
+              member={member}
+              onEdit={onEdit}
+              versionGroupSlug={versionGroupSlug}
+            />
+          }
+          actionsBesideClose
+          mechanics={mechanics}
+          member={member}
+          title={
+            <SheetTitle
+              ref={titleRef}
+              tabIndex={-1}
+              className={cn(teamMemberNameClassName, "outline-none")}
+            >
+              {name}
+            </SheetTitle>
+          }
+        />
+      ) : null}
+    </BottomSheet>
   );
 };

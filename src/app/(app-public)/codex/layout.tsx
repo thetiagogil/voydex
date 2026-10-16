@@ -5,5 +5,5 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  return <PublicAppShell activeModuleKey="codex">{children}</PublicAppShell>;
+  return <PublicAppShell>{children}</PublicAppShell>;
 }

@@ -1,36 +1,48 @@
 import { appRoutes } from "@/config/routes";
+import { modules } from "@/config/modules";
+import { SystemState } from "@/features/system/components/system-state";
+import {
+  getNotFoundDescription,
+  type NotFoundPokemon,
+} from "@/features/system/utils/not-found-copy";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 import Link from "next/link";
 
-export const PublicNotFoundPage = () => {
+type PublicNotFoundPageProps = {
+  /* The Pokémon that looked for the page, when the route passes its art. */
+  pokemon?: NotFoundPokemon;
+};
+
+/* v3's not found: one Pokémon on grass, one sentence, home and the Codex. */
+export const PublicNotFoundPage = ({ pokemon }: PublicNotFoundPageProps) => {
   return (
-    <section className="flex flex-1 items-center justify-center py-12 text-center">
-      <div className="w-full max-w-xl">
-        <h1 className="mt-3 text-3xl leading-tight font-bold tracking-normal sm:text-4xl">
-          Page not found
-        </h1>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link
-            href={appRoutes.appEntry}
-            className={buttonVariants({ size: "lg" })}
-          >
-            <AppIcon
-              icon={appIcons.actions.enterApp}
-              inline="start"
-              aria-hidden
-            />
-            Enter the app
-          </Link>
+    <SystemState
+      artUrl={pokemon?.artUrl}
+      eyebrow="404"
+      title="This page wandered off"
+      description={getNotFoundDescription(
+        pokemon,
+        "The link might be old, or the page moved.",
+      )}
+      actions={
+        <>
           <Link
             href={appRoutes.home}
+            className={buttonVariants({ size: "lg" })}
+          >
+            <AppIcon icon={appIcons.actions.home} inline="start" />
+            Back home
+          </Link>
+          <Link
+            href={modules.codex.defaultHref}
             className={buttonVariants({ variant: "outline", size: "lg" })}
           >
-            <AppIcon icon={appIcons.actions.home} inline="start" aria-hidden />
-            Home
+            <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
+            Browse the Codex
           </Link>
-        </div>
-      </div>
-    </section>
+        </>
+      }
+    />
   );
 };

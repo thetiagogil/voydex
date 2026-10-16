@@ -1,28 +1,17 @@
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailScopeParams } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
+/* A Pokémon's entry in a version group, with a non-default form as `?form=`. */
 export const getPokemonDetailScopeHref = (
   speciesSlug: string,
   params: PokemonDetailScopeParams,
 ) => {
-  const searchParams = new URLSearchParams();
+  const baseHref = appRoutes.codexPokemonEntry(
+    params.versionGroup,
+    speciesSlug,
+  );
 
-  if (!params.game && params.generation) {
-    searchParams.set("generation", params.generation);
-  }
-
-  if (!params.game && params.versionGroup) {
-    searchParams.set("versionGroup", params.versionGroup);
-  }
-
-  if (params.form) {
-    searchParams.set("form", params.form);
-  }
-
-  const queryString = searchParams.toString();
-  const baseHref = params.game
-    ? appRoutes.codexPokemonGameSpecies(params.game, speciesSlug)
-    : appRoutes.codexPokemonSpecies(speciesSlug);
-
-  return queryString ? `${baseHref}?${queryString}` : baseHref;
+  return params.form
+    ? `${baseHref}?${new URLSearchParams({ form: params.form })}`
+    : baseHref;
 };

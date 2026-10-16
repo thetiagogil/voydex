@@ -1,87 +1,53 @@
-import Link from "next/link";
-import { appRoutes } from "@/config/routes";
-import { BrandImage } from "@/shared/components/brand/brand-image";
-import { HomeAppEntryButton } from "@/features/site/components/home-app-entry-button";
-import { buttonVariants } from "@/shared/components/ui/button";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { getHomePageData } from "@/features/site/server/home-page-query";
+import type { PublicArt, PublicPlayArt } from "@/config/public-art";
+import { MeadowCard } from "@/features/site/components/meadow-card";
+import { MeadowPartners } from "@/features/site/components/meadow-partners";
+import { PlayStoryCard } from "@/features/site/components/play-story-card";
+import { SiteActions } from "@/features/site/components/site-actions";
+import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 
-const homeActions = [
-  {
-    href: appRoutes.codexPokemon,
-    label: "Browse Codex",
-    icon: appIcons.actions.browseCodex,
-  },
-  {
-    href: appRoutes.intro,
-    label: "Learn more",
-    icon: appIcons.actions.learnMore,
-  },
-] as const;
-
-export const HomePage = async () => {
-  const { isAuthenticated } = await getHomePageData();
+/*
+ * The front door for all of Voydex: the meadow band with the name, the
+ * catchphrase, one paragraph and the first partners, each of which opens
+ * Start a Play at its generation. It opens the page, so it runs edge to
+ * edge under the bar.
+ */
+export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
+  const { isAuthenticated } = await getSiteVisitor();
 
   return (
-    <main className="text-foreground min-h-screen">
-      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <section className="flex w-full min-w-0 flex-1 items-start justify-center overflow-hidden pt-24 pb-14 text-center sm:pt-36 lg:pt-40">
-          <div className="flex w-full max-w-[calc(100vw-2rem)] flex-col items-center sm:max-w-5xl">
-            <h1 className="sr-only">Voydex</h1>
-
-            <BrandImage
-              width={1886}
-              height={1026}
-              className="w-24 sm:w-28 lg:w-32"
-              layers={[
-                {
-                  src: "/brand/voydex-mark-primary-mask.webp",
-                  className: "bg-primary",
-                },
-                {
-                  src: "/brand/voydex-mark-accent-mask.webp",
-                  className: "bg-primary",
-                },
-              ]}
-            />
-            <BrandImage
-              width={3564}
-              height={1203}
-              className="-mt-4 w-full max-w-72 sm:-mt-7 sm:max-w-xl"
-              layers={[
-                {
-                  src: "/brand/voydex-title-primary-mask.webp",
-                  className: "bg-primary",
-                },
-              ]}
-            />
-
-            <p className="text-foreground/78 -mt-1 w-full max-w-88 text-base leading-7 sm:max-w-xl sm:text-lg">
-              Keep the story behind every playthrough.
-            </p>
-
-            <div className="mt-8 flex w-full max-w-88 flex-col items-stretch justify-center gap-3 sm:max-w-3xl sm:flex-row sm:items-center">
-              <HomeAppEntryButton isAuthenticated={isAuthenticated} />
-              {homeActions.map((action) => {
-                return (
-                  <Link
-                    key={action.href}
-                    href={action.href}
-                    className={buttonVariants({
-                      variant: "outline",
-                      size: "lg",
-                      className: "min-w-0 sm:min-w-40",
-                    })}
-                  >
-                    <AppIcon icon={action.icon} inline="start" aria-hidden />
-                    {action.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
+    <MeadowCard
+      cast={<MeadowPartners art={art} loading="eager" openStart />}
+      form="band"
+      titleId="home-title"
+    >
+      <h1
+        id="home-title"
+        className="text-60 pt-7 leading-none tracking-[-0.025em] sm:pt-11 sm:text-[112px]"
+      >
+        Voydex
+      </h1>
+      <p className="font-display mt-2.5 text-[22px] leading-tight font-semibold tracking-[-0.01em] sm:text-[30px]">
+        Keep the story behind every playthrough.
+      </p>
+      <p className="text-ink-2 mt-2.5 mb-5 max-w-[35em] text-[15.5px] leading-[1.6] font-semibold sm:mt-3.5 sm:mb-6.5 sm:text-[17.5px]">
+        One place for all your Pokémon games, from every generation. Log each
+        run as a Play, and Voydex remembers its team, its badges, its Pokédex
+        and exactly where you left off.
+      </p>
+      <SiteActions isAuthenticated={isAuthenticated} />
+    </MeadowCard>
   );
 };
+
+/* Below the meadow: what a Play remembers. */
+export const HomePage = ({
+  art,
+  playArt,
+}: {
+  art: PublicArt;
+  playArt: PublicPlayArt;
+}) => (
+  <div className="flex min-w-0 flex-col">
+    <PlayStoryCard art={art} playArt={playArt} className="mt-6 sm:mt-10" />
+  </div>
+);

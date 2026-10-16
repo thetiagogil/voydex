@@ -7,7 +7,6 @@ import {
   PokemonTypeBadge,
   type PokemonTypeBadgeDisplay,
   type PokemonTypeBadgeSize,
-  type PokemonTypeBadgeVariant,
 } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -18,20 +17,28 @@ type PokemonTypeDisplay = Pick<Type, "name" | "slug"> &
 type PokemonTypeListProps = {
   badgeDisplay?: PokemonTypeBadgeDisplay;
   badgeSize?: PokemonTypeBadgeSize;
-  badgeVariant?: PokemonTypeBadgeVariant;
   className?: string;
-  primaryType: PokemonTypeDisplay | null;
-  secondaryType: PokemonTypeDisplay | null;
-};
+} & (
+  | {
+      primaryType: PokemonTypeDisplay | null;
+      secondaryType: PokemonTypeDisplay | null;
+      types?: never;
+    }
+  | {
+      primaryType?: never;
+      secondaryType?: never;
+      /* The types in slot order; an empty list renders nothing. */
+      types: readonly PokemonTypeDisplay[];
+    }
+);
 
 type TypeBadgeProps = {
   display: PokemonTypeBadgeDisplay;
   size: PokemonTypeBadgeSize;
   type: PokemonTypeDisplay | null;
-  variant: PokemonTypeBadgeVariant;
 };
 
-const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
+const TypeBadge = ({ display, size, type }: TypeBadgeProps) => {
   if (!type) {
     return <Badge variant="outline">Unknown</Badge>;
   }
@@ -44,35 +51,40 @@ const TypeBadge = ({ display, size, type, variant }: TypeBadgeProps) => {
       label={type.name}
       display={display}
       size={size}
-      variant={variant}
     />
   );
 };
 
+/*
+ * A Pokémon's types as chips or dots. Pass `types` in slot order, or the
+ * `primaryType` and `secondaryType` pair (a missing primary shows "Unknown").
+ */
 export const PokemonTypeList = ({
   badgeDisplay = "icon-label",
   badgeSize = "md",
-  badgeVariant = "soft",
   className,
   primaryType,
   secondaryType,
+  types,
 }: PokemonTypeListProps) => {
+  const entries: (PokemonTypeDisplay | null)[] = types
+    ? [...types]
+    : [primaryType ?? null, ...(secondaryType ? [secondaryType] : [])];
+
+  if (entries.length === 0) {
+    return null;
+  }
+
   return (
-    <div className={cn("flex gap-2", className)}>
-      <TypeBadge
-        type={primaryType}
-        display={badgeDisplay}
-        size={badgeSize}
-        variant={badgeVariant}
-      />
-      {secondaryType ? (
+    <div className={cn("flex gap-1.5", className)}>
+      {entries.map((type, index) => (
         <TypeBadge
-          type={secondaryType}
+          key={type?.slug ?? `unknown-${index}`}
+          type={type}
           display={badgeDisplay}
           size={badgeSize}
-          variant={badgeVariant}
         />
-      ) : null}
+      ))}
     </div>
   );
 };
