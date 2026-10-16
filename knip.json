@@ -1,7 +1,11 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.mjs"],
-  "project": ["src/**/*.{ts,tsx,css}!", "scripts/**/*.mjs!"],
+  "entry": [
+    "src/**/*.test.{ts,tsx}",
+    "scripts/**/*.test.mjs",
+    "e2e/**/*.setup.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx,css}!", "scripts/**/*.mjs!", "e2e/**/*.ts"],
   "ignoreExportsUsedInFile": true,
   "ignoreDependencies": ["supabase", "sharp"],
   "ignoreIssues": {

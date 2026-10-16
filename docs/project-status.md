@@ -58,13 +58,16 @@ phase 6; the New Plan cache fix is parked on the local branch
   under `database` with generated load artifacts and types. Local resets seed a
   login-capable development account with 44 gameplay scenarios (a populated and
   a blank Play for each of 22 base version groups).
+- **Tests**: Vitest beside the code, pgTAP for the database, and Playwright
+  with axe in `e2e/` for the main flows (see
+  [Verification](./app/verification.md#browser-tests)).
 
 ## Next Chat Handoff
 
-Phase 1 is in progress on `chore/tidy-up`: the code tidy-up and the docs are
-committed; the labels, milestones and the 28 issues from the tidied Later list
-follow, created from the owner's Mac. Phase 2 (browser tests) starts once
-phase 1's pull request merges.
+Phase 1 merged on 2026-10-16 (pull request #10). Phase 2 is on
+`test/browser-tests`: Playwright and axe, the Play flow, Plans, Codex, auth and
+Statistics tests, and the Browser Tests workflow. Phase 3 (restructure) starts
+once it merges, with these tests as its safety net.
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
@@ -73,7 +76,10 @@ confirm the linked Supabase migration list before any remote database write.
 
 ## Known Gaps
 
-- There is no committed end-to-end browser suite yet (phase 2).
+- The browser tests skip two axe rules the app breaks in many places: colour
+  contrast (muted ink on sand, white on light type colours) and label-in-name
+  (stickers, cards and slots whose label leaves out part of their text). Both
+  are listed in `e2e/support/accessibility.ts` until fixed (issue #39).
 - The Team Planner saves through several writes, not one database function: a
   failed new Plan is deleted, and a failed edit restores the previous Plan.
   Creating a Play and recording a History moment have the same shape. Phase 3
