@@ -1,0 +1,45 @@
+name: Bug
+description: Something is broken or behaves incorrectly.
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What goes wrong, in one or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The shortest path from a fresh page to the problem.
+      placeholder: |
+        1. Open …
+        2. Tap …
+        3. See …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual
+      description: What happens instead. Add a screenshot if it helps.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: Device, browser and width, such as "iPhone, Safari, 375px".
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Likely cause, related code (`path:line`) or related issues.

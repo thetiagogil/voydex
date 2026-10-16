@@ -102,7 +102,6 @@ const SamplePlayTabs = ({ tabs }: { tabs: readonly string[] }) => (
         className={getNavigationMenuControlClassName({
           active: index === 0,
           className: "inline-flex items-center px-4",
-          variant: "tab",
         })}
       >
         {tab}

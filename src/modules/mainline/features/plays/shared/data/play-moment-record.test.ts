@@ -114,7 +114,7 @@ describe("getPlayMomentRecord for other moments", () => {
     );
 
     expect(record.medallion.kind).toBe("note");
-    expect(record.label).toBe("Journal note");
+    expect(record.label).toBe("Note");
     expect(record.headline).toEqual([{ text: "“Saved before Leon”" }]);
   });
 

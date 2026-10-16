@@ -3,7 +3,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 const uniqueViolation = "23505";
 
 /*
- * Adds one moment at the end of a Play's timeline (a journal note, a status
+ * Adds one moment at the end of a Play's timeline (a note, a status
  * change): it looks its type and origin up by slug and takes the next
  * timeline place, retrying once if another write took that place first.
  * Row-level security keeps it to the owner's Play.

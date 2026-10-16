@@ -15,7 +15,7 @@ export type PlayNoteActionResult = {
 };
 
 /*
- * Keeps a journal note in the Play's History: a manual `journal_note` event
+ * Keeps a note in the Play's History: a manual `journal_note` event
  * placed after every other moment.
  */
 export const addMainlinePlayNoteAction = async ({

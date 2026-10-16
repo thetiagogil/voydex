@@ -31,7 +31,7 @@ type SelectControlProps = {
   placeholder: string;
   /* A quiet word before the value, as in v3's "Sort Recently played". */
   prefix?: string;
-  size?: "default" | "sm" | "lg";
+  size?: "default" | "sm";
   value?: string;
   variant?: ComponentProps<typeof SelectTrigger>["variant"];
 };

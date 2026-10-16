@@ -8,23 +8,19 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-action-soft text-action-lip",
         secondary: "bg-surface-2 text-ink-2",
-        destructive: "bg-danger-soft text-danger-deep",
         outline: "border-line bg-surface text-ink-2",
-        ghost: "text-ink-2 hover:bg-hover",
-        link: "text-link underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "outline",
     },
   },
 );
 
 const Badge = ({
   className,
-  variant = "default",
+  variant = "outline",
   render,
   ...props
 }: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) => {

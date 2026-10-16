@@ -10,9 +10,13 @@ npm run verify
 ```
 
 The command runs documentation validation, the retired-design guard,
-formatting, lint, type-checking, architecture boundaries, Vitest, and the
+formatting, lint, type-checking, architecture boundaries, Knip, Vitest, and the
 production build. `design:check` fails on any reference to the journal design
-that Soft Clay replaced; see [Design System](./design-system.md).
+that Soft Clay replaced; see [Design System](./design-system.md). `knip` fails
+on a file, export, type or package nothing uses; its settings are in
+`knip.json` (the vendored primitives under `src/shared/components/ui` and the
+generated database types may keep unused exports, and the Supabase CLI and
+`sharp` are reached outside imports).
 
 Individual commands remain available:
 
@@ -23,6 +27,7 @@ npm run format:check
 npm run lint
 npm run typecheck
 npm run architecture:check
+npm run knip
 npm run test
 npm run build
 ```
