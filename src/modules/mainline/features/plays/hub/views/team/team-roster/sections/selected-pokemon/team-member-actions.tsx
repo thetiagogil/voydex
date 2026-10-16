@@ -1,32 +1,14 @@
 import Link from "next/link";
-import type { ReactElement } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
+import { IconTip } from "@/shared/components/icon-tip";
 import { cn } from "@/shared/utils/cn";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
 import { canEditTeamMember } from "./team-member-model";
-
-const ActionTip = ({
-  label,
-  trigger,
-}: {
-  label: string;
-  trigger: ReactElement;
-}) => (
-  <Tooltip>
-    <TooltipTrigger render={trigger} />
-    <TooltipContent>{label}</TooltipContent>
-  </Tooltip>
-);
 
 /*
  * The selected Pokémon's two actions as icon buttons in the top corner of
@@ -59,7 +41,7 @@ export const TeamMemberActions = ({
   return (
     <div className={cn("flex gap-2", className)}>
       {canEditTeamMember(member) ? (
-        <ActionTip
+        <IconTip
           label={editLabel}
           trigger={
             <Button
@@ -74,7 +56,7 @@ export const TeamMemberActions = ({
           }
         />
       ) : null}
-      <ActionTip
+      <IconTip
         label={codexLabel}
         trigger={
           codexHref ? (
