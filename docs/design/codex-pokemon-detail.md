@@ -60,8 +60,8 @@ Important rules:
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, one row of two labelled groups (Type, and the Abilities as
-  chips), the Pokédex entry with the one sentence read from the data as one
-  paragraph, and the actions.
+  chips), the one sentence read from the data, and the actions. The
+  Pokédex's entries live per game in Pokédex numbers, not in the hero.
 - **Sections:** Base stats beside Type matchups (side by side from `lg`;
   both exist in every generation), Training and breeding as one strip across
   (as many facts as the generation has), then one section a row: Evolution,

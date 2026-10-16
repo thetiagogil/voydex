@@ -62,8 +62,8 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
  * type's shade (v3 `.cx-art`), beside the eyebrow, the name, the form
  * switch, one row of its type and the abilities it has as chips (each effect
- * on hover or tap; none before Generation III), the Pokédex's quote with the
- * one sentence the page reads for you, then the actions: the route's (Add to a Play),
+ * on hover or tap; none before Generation III), the one sentence the page
+ * reads for you (the Pokédex's words are per game in Pokédex numbers), then the actions: the route's (Add to a Play),
  * Favourite and the shiny toggle. Each form is its own page, and the shell
  * remounts the hero for it, so the toggle starts off again. The art keeps
  * v3's 1 : 1.05 split and stops at the size v3's widest page gives it.
@@ -179,17 +179,11 @@ export const PokemonDetailHero = ({
           ) : null}
         </dl>
 
-        {/* The Pokédex's quote and the size sentence, read as one paragraph. */}
-        <div className="text-16 text-ink-2 mt-5 max-w-[46ch] leading-relaxed">
-          {/* TODO(v3-data): Pokédex flavour text per game, with the game it's from. */}
-          <p>
-            <CodexPendingValue label="Pokédex entry" />
-          </p>
-          <p className="mt-1.5">
-            {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
-            <HeroParts parts={sentence} />
-          </p>
-        </div>
+        {/* The Pokédex's words live per game in Pokédex numbers below. */}
+        <p className="text-16 text-ink-2 mt-5 max-w-[46ch] leading-relaxed">
+          {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
+          <HeroParts parts={sentence} />
+        </p>
 
         <div className="mt-7 flex flex-wrap gap-3">
           {actions}
