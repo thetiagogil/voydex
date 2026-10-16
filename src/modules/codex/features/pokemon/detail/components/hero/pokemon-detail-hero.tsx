@@ -128,7 +128,7 @@ export const PokemonDetailHero = ({
         />
 
         {/* The Pokédex's words live per game in Pokédex numbers below. */}
-        <p className="text-16 text-ink-2 mt-5 max-w-[46ch] leading-relaxed">
+        <p className="text-16 text-ink-2 mt-5 leading-relaxed">
           {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
           <HeroParts parts={sentence} />
         </p>
