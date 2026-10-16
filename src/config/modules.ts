@@ -68,7 +68,6 @@ export const modules = {
 } as const;
 
 export type ModuleKey = keyof typeof modules;
-export type AppModule = (typeof modules)[ModuleKey];
 
 export const moduleKeys = Object.keys(modules) as ModuleKey[];
 

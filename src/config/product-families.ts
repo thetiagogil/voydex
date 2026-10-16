@@ -5,6 +5,3 @@ export const productFamilies = {
     workspaceLabel: "Mainline",
   },
 } as const;
-
-export type ProductFamilyKey = keyof typeof productFamilies;
-export type ProductFamily = (typeof productFamilies)[ProductFamilyKey];

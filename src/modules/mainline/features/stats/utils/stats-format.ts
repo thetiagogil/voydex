@@ -1,24 +1,3 @@
-const countWords = [
-  "no",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-];
-
-/* Small counts read as words in a sentence ("three Plays"); larger ones as figures. */
-export const formatCountWord = (count: number) =>
-  countWords[count] ?? String(count);
-
-export const formatHoursAndMinutes = (minutes: number) =>
-  `${Math.floor(minutes / 60)}h ${String(minutes % 60).padStart(2, "0")}m`;
-
 export const formatWholeHours = (minutes: number) =>
   `${Math.round(minutes / 60)}h`;
 

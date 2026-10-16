@@ -24,11 +24,6 @@ type NavigationMenuControlLinkProps = Omit<
   variant?: NavigationMenuControlVariant;
 };
 
-type NavigationMenuControlDisabledProps = ComponentPropsWithoutRef<"span"> & {
-  accessibilityLabel: string;
-  variant?: NavigationMenuControlVariant;
-};
-
 /*
  * Pills: cream with no edge, and one selected style everywhere (the soft tint
  * of the context colour with deep ink). A Play's tabs use `tab`: the active
@@ -94,28 +89,5 @@ export const NavigationMenuControlLink = ({
         variant,
       })}
     />
-  );
-};
-
-export const NavigationMenuControlDisabled = ({
-  accessibilityLabel,
-  children,
-  className,
-  variant,
-  ...props
-}: NavigationMenuControlDisabledProps) => {
-  return (
-    <span
-      {...props}
-      aria-disabled="true"
-      aria-label={accessibilityLabel}
-      title={accessibilityLabel}
-      className={cn(
-        getNavigationMenuControlClassName({ className, variant }),
-        "inline-flex w-max cursor-not-allowed items-center justify-center opacity-55",
-      )}
-    >
-      {children}
-    </span>
   );
 };
