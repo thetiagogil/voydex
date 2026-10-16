@@ -109,9 +109,11 @@ New Play has three short steps on one card. Inside Mainline every New Play
 button opens it as a dialog over the current page (the address and the bar's
 active link don't change). Its games, first partners and expansions are
 static reference data, read once on the server through a cached reader and
-handed to Mainline with its layout, so it always opens complete. From outside
-Mainline (the Codex's "Start a {Version} Play", Start a Play signed in) a
-link to `/mainline?new=<game>` (`?new=1` for no game) opens it over Home on
+handed to Mainline with its layout, so it always opens complete. The Codex's
+game page and Pokémon entry host it too (their Your Plays and In your Plays
+sections), so "Start a {Version} Play" and "Start a new Play" open it over the
+page and only starting the Play moves on. From elsewhere outside Mainline
+(Start a Play signed in) a link to `/mainline?new=<game>` (`?new=1` for no game) opens it over Home on
 that game, with `&partner=<species>` (Start a Play's pick) already choosing
 its first partner when the game offers it, and the parameters leave the
 address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+import { appRoutes } from "@/config/routes";
+import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -28,9 +30,31 @@ type PlayPickerMenuProps = {
   heading: string;
   items: PlayPickerMenuItem[];
   /* The last item: start a new Play instead. */
-  newPlay?: { href: string; label: string };
+  newPlay?: { label: string };
   triggerLabel: string;
   triggerVariant?: "default" | "outline";
+};
+
+/*
+ * Start a new Play from the menu: New Play opens over the page where a page
+ * hosts it (Mainline, the Codex entry), otherwise a link to Mainline's.
+ */
+const NewPlayMenuItem = ({ label }: { label: string }) => {
+  const opener = useNewPlayDialog();
+  const content = (
+    <>
+      <AppIcon icon={appIcons.actions.create} />
+      {label}
+    </>
+  );
+
+  return opener ? (
+    <DropdownMenuItem onClick={() => opener.open()}>{content}</DropdownMenuItem>
+  ) : (
+    <DropdownMenuItem render={<Link href={appRoutes.mainlineNewPlay()} />}>
+      {content}
+    </DropdownMenuItem>
+  );
 };
 
 /*
@@ -71,10 +95,7 @@ export const PlayPickerMenu = ({
       {newPlay ? (
         <>
           <DropdownMenuSeparator />
-          <DropdownMenuItem render={<Link href={newPlay.href} />}>
-            <AppIcon icon={appIcons.actions.create} />
-            {newPlay.label}
-          </DropdownMenuItem>
+          <NewPlayMenuItem label={newPlay.label} />
         </>
       ) : null}
     </DropdownMenuContent>

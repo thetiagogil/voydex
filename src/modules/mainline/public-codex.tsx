@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { cache } from "react";
+import { cache, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { PlayPickerMenu } from "@/modules/mainline/features/plays/browse/components/play-picker-menu";
+import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";
+import { getNewPlayDialogData } from "@/modules/mainline/features/plays/new/server/new-play-dialog-query";
+import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { filterPlaysWithSpecies } from "@/modules/mainline/features/plays/browse/data/codex-plays-model";
 import {
   readCodexPlayIdsWithSpecies,
@@ -23,6 +26,17 @@ import { buttonVariants } from "@/shared/components/ui/button";
  * reads the signed-in trainer's Plays and renders nothing for a visitor or
  * when that read fails: these are extras, never a reason to fail the page.
  */
+
+/*
+ * New Play, hosted on a Codex page as the Mainline layout hosts it: Start a
+ * Play opens the dialog over the page, and only starting the Play moves on,
+ * to the new Play.
+ */
+const CodexNewPlayHost = async ({ children }: { children: ReactNode }) => (
+  <NewPlayDialogProvider data={await getNewPlayDialogData()}>
+    {children}
+  </NewPlayDialogProvider>
+);
 
 const getAddItems = (
   plays: CodexPlay[],
@@ -101,7 +115,7 @@ export const CodexYourPlaysLink = async ({
   const playCount = new Set(read.members.map((member) => member.play_id)).size;
 
   return (
-    <a href="#in-your-plays" className={buttonVariants({ size: "lg" })}>
+    <a href="#in-your-plays" className={buttonVariants()}>
       <AppIcon icon={appIcons.product.play} inline="start" />
       {playCount ? `Your Plays (${playCount})` : "Add to a Play"}
     </a>
@@ -138,67 +152,68 @@ export const CodexInYourPlays = async ({
       heading="Add to"
       triggerLabel="Add to a Play"
       items={getAddItems(addablePlays, speciesSlug)}
-      newPlay={{ href: appRoutes.mainlineNewPlay(), label: "Start a new Play" }}
+      newPlay={{ label: "Start a new Play" }}
     />
   ) : (
-    <Link
-      href={appRoutes.mainlineNewPlay()}
+    <NewPlayTrigger
       className={buttonVariants({ size: "sm", variant: "outline" })}
     >
       Start a Play
-    </Link>
+    </NewPlayTrigger>
   );
 
   return (
-    <DetailSectionCard
-      title="In your Plays"
-      aside={
-        members.length
-          ? `${members.length} on your rosters`
-          : "Not in any Play yet"
-      }
-      action={addAction}
-    >
-      {members.length ? (
-        <ul className="grid">
-          {members.map((member) => {
-            const play = member.play_id ? playById.get(member.play_id) : null;
+    <CodexNewPlayHost>
+      <DetailSectionCard
+        title="In your Plays"
+        aside={
+          members.length
+            ? `${members.length} on your rosters`
+            : "Not in any Play yet"
+        }
+        action={addAction}
+      >
+        {members.length ? (
+          <ul className="grid">
+            {members.map((member) => {
+              const play = member.play_id ? playById.get(member.play_id) : null;
 
-            if (!play || !member.play_pokemon_id) return null;
+              if (!play || !member.play_pokemon_id) return null;
 
-            const name = getPlayTeamMemberName(member);
+              const name = getPlayTeamMemberName(member);
 
-            return (
-              <TrainerPlayRow
-                key={member.play_pokemon_id}
-                detail={[
-                  name,
-                  member.level ? `Lv. ${member.level}` : null,
-                  member.roster_state_slug === "active"
-                    ? "On the team"
-                    : member.roster_state_slug === "reserve"
-                      ? "In reserve"
-                      : member.roster_state_name,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-                href={appRoutes.mainlinePlayTeamPokemon(
-                  play.id,
-                  member.play_pokemon_id,
-                )}
-                label={`Open ${member.is_shiny ? "shiny " : ""}${name} in ${play.name}`}
-                play={play}
-                shiny={Boolean(member.is_shiny)}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        <p className="text-ink-2 text-15 font-semibold">
-          It hasn&apos;t joined one of your teams yet.
-        </p>
-      )}
-    </DetailSectionCard>
+              return (
+                <TrainerPlayRow
+                  key={member.play_pokemon_id}
+                  detail={[
+                    name,
+                    member.level ? `Lv. ${member.level}` : null,
+                    member.roster_state_slug === "active"
+                      ? "On the team"
+                      : member.roster_state_slug === "reserve"
+                        ? "In reserve"
+                        : member.roster_state_name,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                  href={appRoutes.mainlinePlayTeamPokemon(
+                    play.id,
+                    member.play_pokemon_id,
+                  )}
+                  label={`Open ${member.is_shiny ? "shiny " : ""}${name} in ${play.name}`}
+                  play={play}
+                  shiny={Boolean(member.is_shiny)}
+                />
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="text-ink-2 text-15 font-semibold">
+            It hasn&apos;t joined one of your teams yet.
+          </p>
+        )}
+      </DetailSectionCard>
+    </CodexNewPlayHost>
   );
 };
 
@@ -231,50 +246,52 @@ export const CodexGameYourPlays = async ({
   );
 
   return (
-    <DetailSectionCard
-      title="Your Plays"
-      aside={
-        plays.length
-          ? `${plays.length} of these games`
-          : "None of these games yet"
-      }
-      action={
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href={appRoutes.mainlineNewPlay(gameSlug)}
-            className={buttonVariants({ size: "sm" })}
-          >
-            <AppIcon icon={appIcons.actions.create} inline="start" />
-            Start a {gameShortName} Play
-          </Link>
-          <Link
-            href={appRoutes.mainlinePlanNew(versionGroupSlug)}
-            className={buttonVariants({ size: "sm", variant: "outline" })}
-          >
-            <AppIcon icon={appIcons.product.team} inline="start" />
-            Plan a team
-          </Link>
-        </div>
-      }
-    >
-      {plays.length ? (
-        <ul className="grid">
-          {plays.map((play) => (
-            <TrainerPlayRow
-              key={play.id}
-              detail={getGameShortName(play.gameName)}
-              href={appRoutes.mainlinePlay(play.id)}
-              label={`Open ${play.label}`}
-              play={play}
-              shiny={false}
-            />
-          ))}
-        </ul>
-      ) : (
-        <p className="text-ink-2 text-15 font-semibold">
-          You haven&apos;t started a Play of these games yet.
-        </p>
-      )}
-    </DetailSectionCard>
+    <CodexNewPlayHost>
+      <DetailSectionCard
+        title="Your Plays"
+        aside={
+          plays.length
+            ? `${plays.length} of these games`
+            : "None of these games yet"
+        }
+        action={
+          <div className="flex flex-wrap gap-2">
+            <NewPlayTrigger
+              gameSlug={gameSlug}
+              className={buttonVariants({ size: "sm" })}
+            >
+              <AppIcon icon={appIcons.actions.create} inline="start" />
+              Start a {gameShortName} Play
+            </NewPlayTrigger>
+            <Link
+              href={appRoutes.mainlinePlanNew(versionGroupSlug)}
+              className={buttonVariants({ size: "sm", variant: "outline" })}
+            >
+              <AppIcon icon={appIcons.product.team} inline="start" />
+              Plan a team
+            </Link>
+          </div>
+        }
+      >
+        {plays.length ? (
+          <ul className="grid">
+            {plays.map((play) => (
+              <TrainerPlayRow
+                key={play.id}
+                detail={getGameShortName(play.gameName)}
+                href={appRoutes.mainlinePlay(play.id)}
+                label={`Open ${play.label}`}
+                play={play}
+                shiny={false}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className="text-ink-2 text-15 font-semibold">
+            You haven&apos;t started a Play of these games yet.
+          </p>
+        )}
+      </DetailSectionCard>
+    </CodexNewPlayHost>
   );
 };

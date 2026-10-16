@@ -203,7 +203,7 @@ Mainline Home (the shelf, Continue) or Plays -> Play Hub
 ```txt
 Mainline Home (no Plays: the game picker) -> Start -> Play Hub
 Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
-Codex game page -> Start a {Version} Play -> New Play with the game picked
+Codex game page -> Start a {Version} Play -> New Play dialog over the page, game picked
 Start a Play (game, partner), signed out -> Sign up or Log in
   -> Welcome -> Mainline Home offers that Play
 Start a Play, signed in -> New Play with the game and partner picked
@@ -227,7 +227,7 @@ Team menu's `Plan` reads the automatic comparison.
 ### Use Codex Context
 
 ```txt
-Codex game page -> Your Plays -> Start a {Version} Play -> New Play (/mainline?new=)
+Codex game page -> Your Plays -> Start a {Version} Play -> New Play dialog, then the new Play
 Codex game page -> Your Plays -> a Play of this version group
 Codex Pokémon entry -> Add to a Play -> that Play's Roster with Add Pokémon
   open on the species (?add=, ?form=)
