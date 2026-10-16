@@ -76,6 +76,7 @@ Area labels: `area: mainline`, `area: codex`, `area: reference`,
 | Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves         | Merges the big ones         |
 | Vercel previews           | A live copy of the app per pull request      | Checking a change on a phone before merging                      | Opens the preview link      |
 | Vercel production         | The real site                                | Deploys when `main` changes                                      | Nothing                     |
+| Vercel function region    | Where the server code runs                   | Paris (`cdg1` in `vercel.json`), beside the hosted database      | Nothing                     |
 | Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset` | Nothing                     |
 | Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user       | Approves migration releases |
 | Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                        | Nothing                     |
