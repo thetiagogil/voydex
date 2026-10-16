@@ -4,7 +4,7 @@ import {
   POKEMON_DETAIL_STAT_BAR_FULL_AT,
   POKEMON_DETAIL_STAT_TOTAL_FULL_AT_EACH,
   type PokemonDetailStat,
-} from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
+} from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { Meter } from "@/shared/components/ui/meter";

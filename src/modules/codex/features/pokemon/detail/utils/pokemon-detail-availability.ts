@@ -1,4 +1,4 @@
-import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
 import type {
   Game,
   PokemonAvailabilitySummary,

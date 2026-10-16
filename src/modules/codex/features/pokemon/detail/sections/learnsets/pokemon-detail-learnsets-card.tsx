@@ -11,7 +11,7 @@ import {
   getPokemonDetailLearnsetMethodOptions,
   POKEMON_DETAIL_LEARNSET_ALL_METHODS,
   type PokemonDetailLearnsetMethodFilter,
-} from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnset-table-model";
+} from "@/modules/codex/features/pokemon/detail/sections/learnsets/pokemon-detail-learnset-table-model";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";

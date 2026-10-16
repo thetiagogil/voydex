@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { PokemonDetailSpeciesSelectorDesktop } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-desktop";
 import { PokemonDetailSpeciesSelectorMobile } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-mobile";
-import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/hooks/use-pokemon-detail-species-menu";
+import { usePokemonDetailSpeciesMenu } from "@/modules/codex/features/pokemon/detail/client/use-pokemon-detail-species-menu";
 import { getPokemonHref } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 

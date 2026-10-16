@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
 import {
   Medallion,
   type MedallionContent,
