@@ -1,24 +1,30 @@
 import type { Pokedex, PokedexEntry } from "@/modules/reference/types";
 
+/* How many Pokémon a Pokédex row shows; the strip fades out at its end. */
+const POKEDEX_PREVIEW_SIZE = 20;
+
 /*
- * How many entries a Pokédex tile shows: one Pokédex fills its row with a
- * long strip, two or three share the row with five each, four or more are
- * compact tiles with three.
+ * Entries spread evenly across the Pokédex in its own numbering, so a row
+ * shows its variety: the first entries alone would be the starters and
+ * their evolutions in nearly every game. The pick is the same on every
+ * visit.
  */
-const getPokedexPreviewSize = (pokedexCount: number) => {
-  if (pokedexCount <= 1) {
-    return 16;
+export const pickSpreadEntries = <Entry>(entries: Entry[], size: number) => {
+  if (entries.length <= size) {
+    return entries;
   }
 
-  return pokedexCount <= 3 ? 5 : 3;
+  return Array.from(
+    { length: size },
+    (_, index) => entries[Math.floor((index * entries.length) / size)]!,
+  );
 };
 
-/* The first entries of each Pokédex, in its own numbering. */
+/* A spread of each Pokédex's entries, in its own numbering. */
 export const selectPokedexPreviewEntries = (
   pokedexes: Pokedex[],
   entries: PokedexEntry[],
 ) => {
-  const previewSize = getPokedexPreviewSize(pokedexes.length);
   const entriesByPokedexId = new Map<number, PokedexEntry[]>();
 
   for (const entry of entries) {
@@ -31,11 +37,12 @@ export const selectPokedexPreviewEntries = (
   return new Map(
     pokedexes.map((pokedex) => [
       pokedex.id,
-      (entriesByPokedexId.get(pokedex.id) ?? [])
-        .toSorted(
+      pickSpreadEntries(
+        (entriesByPokedexId.get(pokedex.id) ?? []).toSorted(
           (first, second) => first.pokedex_number - second.pokedex_number,
-        )
-        .slice(0, previewSize),
+        ),
+        POKEDEX_PREVIEW_SIZE,
+      ),
     ]),
   );
 };
