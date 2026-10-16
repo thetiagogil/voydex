@@ -98,6 +98,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
         filters={filters}
         games={data.games}
         groupBy={groupBy}
+        onClearFilters={hasActiveFilters ? clearFilters : undefined}
         onFilterChange={updateFilter}
         onGroupByChange={setGroupBy}
         onSortOrderChange={setSortOrder}
@@ -107,7 +108,6 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
       <BrowseResultSummary
         hasActiveFilters={hasActiveFilters}
         noun="games"
-        onClearFilters={clearFilters}
         shownCount={filteredGames.length}
         totalCount={data.games.length}
       />

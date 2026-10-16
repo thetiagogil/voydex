@@ -265,8 +265,9 @@ Codex (Soft Clay, version-group scoped):
   rule (`resolveVersionGroupRoute`); route layouts settle the 404 or 308
   before the loading state streams. Routes are in
   [Navigation And Routes](./product/navigation-and-routes.md).
-- Pokémon Browse: one toolbar row (Search, Type and Generation menus, Sort)
-  over `CodexPokemonCardLink` cards, grouped by introduced generation
+- Pokémon Browse: one toolbar row (Search, Generation menu, Sort, Clear
+  filters while one is on) and the type dots under it, over
+  `CodexPokemonCardLink` cards, grouped by introduced generation
   under its region and appended as you scroll with a manual fallback. Each
   card opens the first base group of its introduced generation. Filters are
   client state; a query on `/codex/pokemon` redirects to the bare path.

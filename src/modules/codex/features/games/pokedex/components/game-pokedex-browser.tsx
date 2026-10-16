@@ -32,6 +32,7 @@ import {
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -154,6 +155,12 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
               value={view}
               variant="segment"
             />
+            {activeFilters ? (
+              <ClearFiltersButton
+                labelClassName="max-lg:sr-only"
+                onClick={clearFilters}
+              />
+            ) : null}
           </>
         }
       />
@@ -171,7 +178,6 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
       <BrowseResultSummary
         hasActiveFilters={activeFilters}
         noun="Pokémon"
-        onClearFilters={clearFilters}
         shownCount={visiblePokemon.length}
         totalCount={data.entries.length}
       />

@@ -1,52 +1,29 @@
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
-import { cn } from "@/shared/utils/cn";
-
 const countFormat = new Intl.NumberFormat("en-US");
 
 type BrowseResultSummaryProps = {
   hasActiveFilters: boolean;
   /* What the list holds, as in "Showing 12 of 40 games". */
   noun: string;
-  onClearFilters: () => void;
   shownCount: number;
   totalCount: number;
 };
 
 /*
- * How many items the filters leave, with the way back to all of them. It
- * shows only while a filter is on; otherwise it is read out but not seen,
- * since the page head already says how many there are.
+ * How many items the filters leave, read out as they change but never
+ * shown: a line appearing under the toolbar would push the list down. The
+ * way back is the toolbar's Clear filters, and an empty list says so itself.
  */
 export const BrowseResultSummary = ({
   hasActiveFilters,
   noun,
-  onClearFilters,
   shownCount,
   totalCount,
 }: BrowseResultSummaryProps) => {
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between gap-3",
-        hasActiveFilters && "mt-3 min-h-9",
-      )}
-    >
-      <p
-        aria-live="polite"
-        className={cn(
-          "text-ink-2 text-14 font-semibold",
-          !hasActiveFilters && "sr-only",
-        )}
-      >
-        Showing{" "}
-        <span className="tabular-nums">{countFormat.format(shownCount)}</span>{" "}
-        of{" "}
-        <span className="tabular-nums">{countFormat.format(totalCount)}</span>{" "}
-        {noun}
-      </p>
-      {hasActiveFilters ? (
-        <ClearFiltersButton onClick={onClearFilters} />
-      ) : null}
-    </div>
+    <p aria-live="polite" className="sr-only">
+      {hasActiveFilters
+        ? `Showing ${countFormat.format(shownCount)} of ${countFormat.format(totalCount)} ${noun}`
+        : `Showing all ${countFormat.format(totalCount)} ${noun}`}
+    </p>
   );
 };

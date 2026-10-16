@@ -21,8 +21,7 @@ import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
 } from "@/modules/codex/shared/components/codex-pokemon-card-link";
-import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
@@ -47,13 +46,13 @@ const VISIBLE_POKEMON_INCREMENT = 48;
 
 const countFormat = new Intl.NumberFormat("en-US");
 
-/* The menus' "every type" and "every generation", as a select value. */
+/* The Generation menu's "every generation", as a select value. */
 const ALL = "all";
 
 /*
- * The Codex's Pokémon: the title and count, one toolbar row (search, Type
- * and Generation filters, Sort) and the cards, in generation ranges loaded
- * in batches.
+ * The Codex's Pokémon: the title and count, one toolbar row (search, the
+ * Generation filter, Sort, Clear filters while one is on), the type dots
+ * under it, and the cards, in generation ranges loaded in batches.
  */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -125,27 +124,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     setFilters(defaultPokedexPageFilters);
   };
 
-  /* Filters, in the toolbar's menus: a type (with its mark) and a generation. */
-  const typeOptions = [
-    { label: "All", value: ALL },
-    ...data.types.flatMap((type) =>
-      isPokemonTypeSlug(type.slug)
-        ? [
-            {
-              icon: (
-                <PokemonTypeMark
-                  type={type.slug}
-                  className="size-5"
-                  iconClassName="size-3"
-                />
-              ),
-              label: type.name,
-              value: type.slug,
-            },
-          ]
-        : [],
-    ),
-  ];
+  /* The generation filter, a toolbar menu. */
   const generationOptions = [
     { label: "All", value: ALL },
     ...data.generations.map((generation) => ({
@@ -186,18 +165,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           <>
             <ToolbarGroup>
               <SelectControl
-                ariaLabel="Filter by type"
-                variant="ghost"
-                size="sm"
-                prefix="Type"
-                value={filters.type || ALL}
-                onValueChange={(value) => {
-                  updateFilter("type", value === ALL ? "" : value);
-                }}
-                options={typeOptions}
-                placeholder="All"
-              />
-              <SelectControl
                 ariaLabel="Filter by generation"
                 variant="ghost"
                 size="sm"
@@ -225,15 +192,31 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
               options={pokedexSortOptions}
               placeholder="National number"
             />
+            {hasActiveFilters ? (
+              <ClearFiltersButton
+                labelClassName="max-lg:sr-only"
+                onClick={clearFilters}
+              />
+            ) : null}
           </>
         }
       />
+
+      {/* The types under the bar: they give the list its colour. */}
+      <div className="mt-3.5">
+        <PokemonTypeFilter
+          onValueChange={(type) => {
+            updateFilter("type", type);
+          }}
+          types={data.types}
+          value={filters.type}
+        />
+      </div>
 
       {/* Counts every match, not just the ones loaded so far. */}
       <BrowseResultSummary
         hasActiveFilters={hasActiveFilters}
         noun="Pokémon"
-        onClearFilters={clearFilters}
         shownCount={filteredPokemon.length}
         totalCount={data.pokemon.length}
       />
