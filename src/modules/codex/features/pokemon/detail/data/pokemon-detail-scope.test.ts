@@ -249,3 +249,61 @@ describe("getPokemonDetailWhereToFindRows", () => {
     ).toEqual([]);
   });
 });
+
+describe("the entry's generation-wide reading", () => {
+  const form = (id: number, slug: string, isDefault: boolean) =>
+    ({
+      form: { id, is_default: isDefault, name: slug, slug },
+    }) as unknown as PokemonGenerationDetail["forms"][number];
+  const withForm = (row: PokemonAvailabilitySummary, formId: number) =>
+    ({
+      ...row,
+      availability: { ...row.availability, form_id: formId },
+    }) as PokemonAvailabilitySummary;
+  const regional = form(2, "hisuian-arcanine", false);
+  const generation = {
+    ...generationEight,
+    availability: [
+      availability(1, swsh, { game: sword, method: "Wild" }),
+      withForm(availability(3, bdsp, { method: "Raid" }), 2),
+    ],
+    forms: [form(1, "arcanine", true), regional],
+  } as unknown as PokemonGenerationDetail;
+  const generationData = {
+    ...data,
+    generationDetails: [generation],
+  } as unknown as PokemonDetailData;
+
+  it("reads Where to find in every base group of the generation", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      versionGroup: "swsh",
+    });
+
+    expect(
+      scope?.generationAvailability.map(({ availability, versionGroup }) => [
+        versionGroup.versionGroup.slug,
+        availability.length,
+      ]),
+    ).toEqual([
+      ["swsh", 1],
+      /* The other group's rows are the regional form's, not this one's. */
+      ["bdsp", 0],
+    ]);
+  });
+
+  it("opens a form found only in another group in that group", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      versionGroup: "swsh",
+    });
+
+    expect(
+      scope?.generationForms.map(({ form, versionGroupSlug }) => [
+        form.form.slug,
+        versionGroupSlug,
+      ]),
+    ).toEqual([
+      ["arcanine", "swsh"],
+      ["hisuian-arcanine", "bdsp"],
+    ]);
+  });
+});

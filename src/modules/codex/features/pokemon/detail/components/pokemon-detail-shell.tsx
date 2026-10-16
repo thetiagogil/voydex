@@ -1,5 +1,3 @@
-import { Fragment, type ReactElement } from "react";
-
 import type {
   CodexPokemonEntrySlotContext,
   CodexPokemonEntrySlots,
@@ -44,47 +42,13 @@ import {
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
-import { cn } from "@/shared/utils/cn";
+import { PageBand } from "@/shared/components/page-band";
 
 type PokemonDetailShellProps = {
   data: PokemonDetailData;
   scope: ResolvedPokemonDetailScope;
   /* The route's signed-in pieces: Add to a Play and In your Plays. */
   slots?: CodexPokemonEntrySlots;
-};
-
-/* Two section cards side by side on wide screens; one alone takes the row. */
-const PokemonDetailCardRow = ({
-  cards,
-}: {
-  cards: (ReactElement | null)[];
-}) => {
-  const visibleCards = cards.filter((card) => card !== null);
-
-  if (!visibleCards.length) {
-    return null;
-  }
-
-  return (
-    <div
-      className={cn(
-        "grid items-start gap-6",
-        visibleCards.length > 1 && "lg:grid-cols-2",
-      )}
-    >
-      {visibleCards}
-    </div>
-  );
-};
-
-/* Cards two to a row; an odd one out takes the last row alone. */
-const pairCards = (cards: (ReactElement | null)[]) => {
-  const visibleCards = cards.filter((card) => card !== null);
-
-  return Array.from(
-    { length: Math.ceil(visibleCards.length / 2) },
-    (_, index) => visibleCards.slice(index * 2, index * 2 + 2),
-  );
 };
 
 /* The form's egg groups in slot order, from its attributes in this generation. */
@@ -106,8 +70,9 @@ const getFormEggGroups = (
 };
 
 /*
- * The Codex Pokémon entry, as v3 lays it out: the head, the hero, then quiet
- * section cards. Lively comes from the Pokémon's art and type colour only.
+ * The Codex Pokémon entry, read by generation: the head and the hero on the
+ * page's band, then quiet section cards in a wide and a narrow column, and
+ * the learnset, the one section read per game. Lively comes from the Pokémon's art and type colour only.
  */
 export const PokemonDetailShell = ({
   data,
@@ -138,7 +103,7 @@ export const PokemonDetailShell = ({
       })
     : [];
   const pokedexNumbers = getPokemonDetailPokedexNumbers({
-    scopedPokedexEntries: scope.pokedexEntries,
+    scopedPokedexEntries: scope.generationPokedexEntries,
   });
   const slotContext: CodexPokemonEntrySlotContext = {
     formId: form?.form.id ?? null,
@@ -152,117 +117,117 @@ export const PokemonDetailShell = ({
   };
   const inYourPlays = slots?.inYourPlays?.(slotContext) ?? null;
 
-  const readingCards = [
-    stats.length ? (
-      <PokemonDetailStatsCard
-        key="stats"
-        generationName={generation.generation.name}
-        stats={stats}
-        type={typeSlug}
-      />
-    ) : null,
-    defendingTypes.length ? (
-      <PokemonDetailTypeMatchupsCard
-        key="matchups"
-        matchups={getPokemonDetailTypeMatchups({
-          defendingTypes,
-          generationOrder: generation.generation.sort_order,
-        })}
-        pokemonName={pokemonName}
-      />
-    ) : null,
-  ];
-  const referenceCards = [
-    abilitySlots.length ? (
-      <PokemonDetailAbilitiesCard key="abilities" abilitySlots={abilitySlots} />
-    ) : null,
-    <PokemonDetailTrainingCard
-      key="training"
-      eggGroups={
-        supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
-          ? getFormEggGroups(data, scope)
-          : null
-      }
-      hasGender={supportsGameMechanic(
-        scope.mechanics,
-        gameMechanics.pokemonGender,
-      )}
-    />,
-    pokedexNumbers.length ? (
-      <PokemonDetailPokedexNumbersCard
-        key="pokedex-numbers"
-        numbers={pokedexNumbers}
-        versionGroupSlug={activeVersionGroup.slug}
-      />
-    ) : null,
-  ];
-
   return (
     <div className="flex min-w-0 flex-col">
-      <PokemonDetailHead
-        activePokemon={{ name: data.species.name, slug: data.species.slug }}
-        activeVersionGroupSlug={activeVersionGroup.slug}
-        generationOptions={getPokemonDetailGenerationOptions(data, scope)}
-        generationSlug={generation.generation.slug}
-        versionGroupOptions={getPokemonDetailVersionGroupOptions(data, scope)}
-      />
-
-      <PokemonDetailHero
-        key={form?.form.id ?? data.species.id}
-        actions={slots?.heroActions?.(slotContext)}
-        activeFormSlug={form?.form.slug ?? null}
-        eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
-        formSwitchOptions={getPokemonDetailFormSwitchOptions({
-          forms: scope.forms,
-          speciesName: data.species.name,
-          speciesSlug: data.species.slug,
-          versionGroupSlug: activeVersionGroup.slug,
-        })}
-        imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
-        imageUrl={getPokemonDetailFormImageUrl(form)}
-        name={pokemonName}
-        sentence={getPokemonDetailHeroSentence({ form, stats })}
-        shinyImageUrl={getPokemonDetailFormShinyImageUrl(form)}
-        typePair={form?.typePair ?? null}
-        typeSlug={typeSlug}
-      />
-
-      <div className="mt-10 flex flex-col gap-6 sm:mt-12 sm:gap-10">
-        <div className="flex flex-col gap-6">
-          <PokemonDetailCardRow cards={readingCards} />
-          {pairCards(referenceCards).map((cards) => (
-            <PokemonDetailCardRow key={cards[0]?.key} cards={cards} />
-          ))}
-        </div>
-
-        <PokemonDetailEvolutionSection
-          activeFormId={form?.form.id ?? null}
-          activeGenerationSortOrder={generation.generation.sort_order}
-          activeSpeciesId={data.species.id}
-          activeVersionGroupId={activeVersionGroup.id}
+      <PageBand>
+        <PokemonDetailHead
+          activePokemon={{ name: data.species.name, slug: data.species.slug }}
           activeVersionGroupSlug={activeVersionGroup.slug}
-          family={data.evolutionFamily}
+          generationOptions={getPokemonDetailGenerationOptions(data, scope)}
+          generationSlug={generation.generation.slug}
         />
 
+        <PokemonDetailHero
+          key={form?.form.id ?? data.species.id}
+          actions={slots?.heroActions?.(slotContext)}
+          activeFormSlug={form?.form.slug ?? null}
+          eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
+          formSwitchOptions={getPokemonDetailFormSwitchOptions({
+            forms: scope.generationForms,
+            speciesName: data.species.name,
+            speciesSlug: data.species.slug,
+          })}
+          imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
+          imageUrl={getPokemonDetailFormImageUrl(form)}
+          name={pokemonName}
+          sentence={getPokemonDetailHeroSentence({ form, stats })}
+          shinyImageUrl={getPokemonDetailFormShinyImageUrl(form)}
+          typePair={form?.typePair ?? null}
+          typeSlug={typeSlug}
+        />
+      </PageBand>
+
+      {/*
+       * Below the band, a wide column for what you read across (stats,
+       * matchups, evolution, where to find) beside a narrow one of short
+       * facts, then the learnset across the page. Phones read one column,
+       * the facts after the matchups.
+       */}
+      <div className="mt-8 flex flex-col gap-6 sm:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start xl:grid-cols-[minmax(0,1fr)_23rem]">
+        <div className="flex min-w-0 flex-col gap-6 max-lg:contents">
+          {stats.length ? (
+            <PokemonDetailStatsCard
+              generationName={generation.generation.name}
+              stats={stats}
+              type={typeSlug}
+            />
+          ) : null}
+          {defendingTypes.length ? (
+            <PokemonDetailTypeMatchupsCard
+              matchups={getPokemonDetailTypeMatchups({
+                defendingTypes,
+                generationOrder: generation.generation.sort_order,
+              })}
+              pokemonName={pokemonName}
+            />
+          ) : null}
+          <div className="min-w-0 max-lg:order-1">
+            <PokemonDetailEvolutionSection
+              activeFormId={form?.form.id ?? null}
+              activeGenerationSortOrder={generation.generation.sort_order}
+              activeSpeciesId={data.species.id}
+              activeVersionGroupId={activeVersionGroup.id}
+              activeVersionGroupSlug={activeVersionGroup.slug}
+              family={data.evolutionFamily}
+            />
+          </div>
+          <div className="min-w-0 max-lg:order-1">
+            <PokemonDetailAvailabilityCard
+              rows={scope.generationAvailability.flatMap(
+                ({ availability, versionGroup }) => {
+                  return getPokemonDetailWhereToFindRows({
+                    availability,
+                    versionGroup,
+                  });
+                },
+              )}
+              scopeName={generation.generation.name}
+            />
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-6 max-lg:contents">
+          {abilitySlots.length ? (
+            <PokemonDetailAbilitiesCard abilitySlots={abilitySlots} />
+          ) : null}
+          <PokemonDetailTrainingCard
+            eggGroups={
+              supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
+                ? getFormEggGroups(data, scope)
+                : null
+            }
+            hasGender={supportsGameMechanic(
+              scope.mechanics,
+              gameMechanics.pokemonGender,
+            )}
+          />
+          {pokedexNumbers.length ? (
+            <div className="min-w-0 max-lg:order-2">
+              <PokemonDetailPokedexNumbersCard numbers={pokedexNumbers} />
+            </div>
+          ) : null}
+          {inYourPlays ? (
+            <div className="min-w-0 max-lg:order-2">{inYourPlays}</div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="mt-6">
         <PokemonDetailLearnsetsCard
           learnsets={scope.learnsets}
           scopeName={versionGroupName}
-        />
-
-        <PokemonDetailCardRow
-          cards={[
-            <PokemonDetailAvailabilityCard
-              key="where-to-find"
-              rows={getPokemonDetailWhereToFindRows({
-                availability: scope.availability,
-                versionGroup: scope.versionGroup,
-              })}
-              scopeName={versionGroupName}
-            />,
-            inYourPlays ? (
-              <Fragment key="in-your-plays">{inYourPlays}</Fragment>
-            ) : null,
-          ]}
+          versionGroupOptions={getPokemonDetailVersionGroupOptions(data, scope)}
+          versionGroupSlug={activeVersionGroup.slug}
         />
       </div>
     </div>

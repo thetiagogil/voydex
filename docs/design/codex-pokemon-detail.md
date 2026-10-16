@@ -8,12 +8,14 @@ history.
 
 - `/codex/pokemon` is the stable Codex browse view for now.
 - `/codex/pokemon/[versionGroupSlug]/[speciesSlug]` is on Soft Clay (v3's
-  entry): the head, the hero, then quiet section cards. Iterate section by
-  section without reorganizing that foundation.
+  entry): the head and the hero on the page's band, then quiet section cards
+  in a wide and a narrow column, then the learnset across the page.
 
 ## Route And Scope Model
 
-A Pokémon's entry is read in one base version group, its expansions included:
+A Pokémon's entry reads by generation (as Pokémon Database does). The address
+still names one base version group, its expansions included, which picks the
+generation and the game the learnset is read in:
 
 ```txt
 /codex/pokemon/[versionGroupSlug]/[speciesSlug]?form=[formSlug]
@@ -33,28 +35,35 @@ Important rules:
   pill does. The Pokémon list's cards still open the generation's first base
   group: the list does not read availability.
 - Generation pills list the generations the species exists in; each opens that
-  generation's first group the species can be found in. When a generation has
-  several base groups (Ruby and Sapphire, Emerald, FireRed and LeafGreen), a
-  version-group switch sits under the pills; a group the species can't be
+  generation's first group the species can be found in. There is no
+  version-group switch in the head.
+- Where to find, the Pokédex numbers and the form switch cover every base
+  group of the generation. Where to find lists each group's games, then its
+  expansions (saying "Not in the base game" when only an expansion has it);
+  another group counts only where the form is found there.
+- The learnset is the one section read per group, since moves differ between
+  a generation's games: when the generation has several base groups, a game
+  switch sits at the top of the Learnset card; a group the species can't be
   found in is shown but disabled.
-- Expansion availability counts for the group, but Where to find lists each
-  expansion separately (and says "Not in the base game" when only an
-  expansion has it).
-- Forms must be validated against the selected group. A form that appears in
-  the generation but not in the group must not be selectable there. A
-  non-default form carries over when switching generation or group.
+- The form switch lists every form found in the generation; a form opens in
+  the address's group when it is found there, else in the first group that
+  has it (Hisuian Arcanine opens in Legends: Arceus). A non-default form
+  carries over when switching generation or group.
 
 ## Page Structure
 
-- **Head:** the Codex crumb ending in the Pokémon's name, which opens the
-  searchable species picker, and the generation pills (with the version-group
-  switch) on the right.
-- **Hero:** the art on its type tint beside the number, the name (the page's
-  `h1`), the form switch, the types, one sentence read from the data, and the
-  Shiny toggle.
-- **Sections:** Battle stats beside Type matchups, Abilities beside Pokédex
-  numbers (one alone takes the row), then Evolution, Learnset and Where to
-  find. An absent section is left out.
+- **Band:** the head and the hero sit on the page's sand band.
+- **Head:** the path back to Pokémon ending in the Pokémon's name, which opens
+  the searchable species picker, and the generation pills on the right.
+- **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
+  shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
+  form switch, the types, one sentence read from the data, and the actions.
+- **Sections:** a wide column (Base stats, Type matchups, Evolution, Where to
+  find) beside a narrow one of short facts (Abilities, Training and breeding,
+  Pokédex numbers, In your Plays), then the Learnset across the page. Phones
+  read one column: stats, matchups, abilities, training, evolution, where to
+  find, Pokédex numbers, In your Plays, learnset. An absent section is left
+  out.
 
 ## Forms And Shiny
 
@@ -84,17 +93,18 @@ availability, and game validity, and Pokémon like Arceus have many. So:
 ## Section Direction
 
 Keep each section focused and quiet; lively comes from the art and type
-colour only. Preserve the section order; visual iterations happen inside a
-section rather than moving sections around.
+colour only.
 
 - Battle stats: generation-aware stat rows, including Gen I Special.
 - Type matchups: the all-type effectiveness grid, explained per attacking type
   against the current typing.
 - Abilities: slot, ability and effect, only where the group has abilities.
-- Pokédex numbers: the group's Pokédexes and the Pokémon's number in each.
+- Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
+  each.
 - Learnset: searchable, filterable moves with method, type, category, power,
-  accuracy and PP for the group.
-- Where to find: one row per game in the group, then its expansions.
+  accuracy and PP for the group picked in its game switch.
+- Where to find: one row per game of each of the generation's groups, then
+  that group's expansions.
 
 On narrow screens, wide data rows become labelled stacked rows inside the same
 section. They must not widen the document or require page-level horizontal

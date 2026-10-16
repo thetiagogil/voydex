@@ -1,3 +1,4 @@
+import type { PokemonDetailGenerationForm } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,
@@ -52,19 +53,21 @@ export const getPokemonDetailFormSwitchLabel = (
     : formName;
 };
 
-/* Each form of the generation, linked in the version group you're reading. */
+/*
+ * Each form of the generation, linked in the group you're reading when it is
+ * found there, else in the first group that has it (Hisuian Arcanine opens
+ * in Legends: Arceus).
+ */
 export const getPokemonDetailFormSwitchOptions = ({
   forms,
   speciesName,
   speciesSlug,
-  versionGroupSlug,
 }: {
-  forms: PokemonGenerationFormSummary[];
+  forms: PokemonDetailGenerationForm[];
   speciesName: string;
   speciesSlug: string;
-  versionGroupSlug: string;
 }): SegmentedControlOption<string>[] => {
-  return forms.map((form) => ({
+  return forms.map(({ form, versionGroupSlug }) => ({
     href: getPokemonDetailScopeHref(speciesSlug, {
       form: form.form.is_default ? undefined : form.form.slug,
       versionGroup: versionGroupSlug,

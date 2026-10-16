@@ -17,7 +17,10 @@ import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/component
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
-import { SegmentedControl } from "@/shared/components/segmented-control";
+import {
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/shared/components/segmented-control";
 import {
   Table,
   TableBody,
@@ -30,6 +33,13 @@ import {
 type PokemonDetailLearnsetsCardProps = {
   learnsets: PokemonLearnsetSummary[];
   scopeName: string;
+  /*
+   * The generation's games when it has several (Sword and Shield, Brilliant
+   * Diamond and Shining Pearl, Legends: Arceus): moves differ between them,
+   * so the learnset is the one section read per game.
+   */
+  versionGroupOptions?: SegmentedControlOption<string>[];
+  versionGroupSlug?: string;
 };
 
 /* On phones a row folds into v3's card: how on the left, the figures labelled. */
@@ -112,7 +122,10 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
 export const PokemonDetailLearnsetsCard = ({
   learnsets,
   scopeName,
+  versionGroupOptions = [],
+  versionGroupSlug,
 }: PokemonDetailLearnsetsCardProps) => {
+  const hasGameSwitch = versionGroupOptions.length > 1;
   const [query, setQuery] = useState("");
   const [method, setMethod] = useState<PokemonDetailLearnsetMethodFilter>(
     POKEMON_DETAIL_LEARNSET_ALL_METHODS,
@@ -129,7 +142,21 @@ export const PokemonDetailLearnsetsCard = ({
   }, [learnsets, method, query]);
 
   return (
-    <DetailSectionCard title="Learnset" aside={scopeName}>
+    <DetailSectionCard
+      title="Learnset"
+      aside={hasGameSwitch ? undefined : scopeName}
+    >
+      {hasGameSwitch ? (
+        <SegmentedControl
+          ariaLabel="Game"
+          size="sm"
+          variant="segment"
+          selectedTone="strong"
+          className="no-scrollbar mb-4 max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
+          options={versionGroupOptions}
+          value={versionGroupSlug ?? null}
+        />
+      ) : null}
       {learnsets.length ? (
         <>
           <div className="mb-2.5 flex flex-wrap items-center justify-between gap-3">

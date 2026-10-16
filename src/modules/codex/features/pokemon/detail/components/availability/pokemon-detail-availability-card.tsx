@@ -5,7 +5,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailAvailabilityCardProps = {
   rows: PokemonDetailWhereToFindRow[];
-  /* The group it is read in, as in "Sword and Shield". */
+  /* What it is read in, as in "Generation VIII". */
   scopeName: string;
 };
 
@@ -42,7 +42,10 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   );
 };
 
-/* v3's Where to find: one row per game in the group, then its expansions. */
+/*
+ * v3's Where to find, for the whole generation: one row per game of each
+ * group, then that group's expansions.
+ */
 export const PokemonDetailAvailabilityCard = ({
   rows,
   scopeName,

@@ -1013,9 +1013,9 @@ the group instead). It must:
 - retain the active version group while switching species and update the
   canonical route when switching group or persistent form;
 - offer one pill per generation the species exists in, each opening that
-  generation's first group the species can be found in, and, when a generation
-  has several base groups, a version-group switch that shows but disables a
-  group the species can't be found in;
+  generation's first group the species can be found in; the entry reads by
+  generation, and only the learnset picks a group, with a game switch that
+  shows but disables a group the species can't be found in;
 - retain a searchable, contextual species switcher and direct Shiny artwork
   toggle;
 - show a form selector only for persistent forms valid or meaningful in the

@@ -139,6 +139,26 @@ export const getScopedAvailability = (
 };
 
 /*
+ * Where one form is found in a group, strictly: the generation-wide Where to
+ * find reads every group of the generation, and a group without the form has
+ * nothing to say about it (no Hisuian Arcanine in Sword and Shield).
+ */
+export const getFormAvailabilityInVersionGroup = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope,
+  form: PokemonGenerationFormSummary | null,
+) => {
+  return dedupeAvailabilityRows(
+    generation.availability.filter((row) => {
+      return (
+        isPokemonAvailabilityInVersionGroupScope(row, versionGroup) &&
+        doesPokemonAvailabilityMatchForm(row, form)
+      );
+    }),
+  );
+};
+
+/*
  * The group's learnset, every game in it: a row recorded for one game only
  * stays, marked as that game's (see the learnset table).
  */

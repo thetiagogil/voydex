@@ -49,9 +49,9 @@ export const getPokemonDetailGenerationOptions = (
 };
 
 /*
- * The version group switch, when a generation has several (Ruby and
- * Sapphire, FireRed and LeafGreen, Emerald). A group the Pokémon can't be
- * found in is shown but not offered.
+ * The learnset's game switch, when a generation has several groups (Ruby
+ * and Sapphire, FireRed and LeafGreen, Emerald). A group the Pokémon can't
+ * be found in is shown but not offered.
  */
 export const getPokemonDetailVersionGroupOptions = (
   data: PokemonDetailData,

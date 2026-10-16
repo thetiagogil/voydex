@@ -6,7 +6,6 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
   numbers: PokemonDetailPokedexNumber[];
-  versionGroupSlug: string;
 };
 
 const PokedexNumberContent = ({
@@ -29,7 +28,6 @@ const PokedexNumberContent = ({
 /* v3's key and value grid: each Pokédex this Pokémon is listed in, and where. */
 export const PokemonDetailPokedexNumbersCard = ({
   numbers,
-  versionGroupSlug,
 }: PokemonDetailPokedexNumbersCardProps) => {
   return (
     <DetailSectionCard title="Pokédex numbers">
@@ -38,7 +36,7 @@ export const PokemonDetailPokedexNumbersCard = ({
           <li key={pokedexNumber.id} className="min-w-0">
             <Link
               href={appRoutes.codexVersionGroupPokedex(
-                versionGroupSlug,
+                pokedexNumber.versionGroupSlug,
                 pokedexNumber.pokedexSlug,
               )}
               className="hover:bg-surface-2 focus-visible:outline-focus -mx-2 block rounded-sm px-2 py-1.5 transition-colors outline-none focus-visible:outline-3 focus-visible:outline-solid"

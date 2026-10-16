@@ -50,7 +50,8 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 };
 
 /*
- * v3's entry hero: the art, flat on its type tint, beside the eyebrow, the
+ * v3's entry hero: the art on its type tint in a white rim, on a lip of its
+ * type's shade (v3 `.cx-art`), beside the eyebrow, the
  * name, the form switch, the types, the Pokédex's quote and the one sentence
  * the page reads for you, then the actions: the route's (Add to a Play),
  * Favourite and the shiny toggle. Each form is its own page, and the shell
@@ -85,7 +86,7 @@ export const PokemonDetailHero = ({
         fallbackOnError
         preload
         sizes="(min-width: 768px) 46vw, calc(100vw - 2rem)"
-        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-0"
+        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white shadow-[0_6px_0_color-mix(in_oklab,var(--t)_36%,var(--lip))]"
         imageClassName="p-[9%]"
       />
 

@@ -23,15 +23,37 @@ export type PokemonDetailVersionGroupScope = {
   versionGroup: VersionGroup;
 };
 
+/* A form the generation has, and the group its page opens in. */
+export type PokemonDetailGenerationForm = {
+  form: PokemonGenerationFormSummary;
+  versionGroupSlug: string;
+};
+
+/* A Pokédex listing, and the group whose Pokédex page it opens. */
+export type PokemonDetailGenerationPokedexEntry = PokemonPokedexSummary & {
+  versionGroupSlug: string;
+};
+
 export type ResolvedPokemonDetailScope = {
   availability: PokemonAvailabilitySummary[];
   form: PokemonGenerationFormSummary | null;
   forms: PokemonGenerationFormSummary[];
   generation: PokemonGenerationDetail;
+  /*
+   * The entry reads by generation: Where to find, the Pokédex numbers and
+   * the form switch cover every base group of it. Only the learnset is read
+   * in the address's group, since moves differ between a generation's games.
+   */
+  generationAvailability: {
+    availability: PokemonAvailabilitySummary[];
+    versionGroup: PokemonDetailVersionGroupScope;
+  }[];
+  generationForms: PokemonDetailGenerationForm[];
+  generationPokedexEntries: PokemonDetailGenerationPokedexEntry[];
   learnsets: PokemonLearnsetSummary[];
   mechanics: GameMechanicsProfile;
   pokedexEntries: PokemonPokedexSummary[];
   versionGroup: PokemonDetailVersionGroupScope;
-  /* The generation's base version groups, for the version group switch. */
+  /* The generation's base version groups, for the learnset's game switch. */
   versionGroups: PokemonDetailVersionGroupScope[];
 };

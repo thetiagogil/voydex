@@ -1,3 +1,4 @@
+import type { PokemonDetailGenerationPokedexEntry } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import type { PokemonPokedexSummary } from "@/modules/reference/types";
 import {
   formatPokedexName,
@@ -13,6 +14,8 @@ export type PokemonDetailPokedexNumber = {
   pokedexName: string;
   pokedexSlug: string;
   sortOrder: number;
+  /* The group whose Pokédex page the number opens. */
+  versionGroupSlug: string;
 };
 
 const NATIONAL_POKEDEX_KIND = "national";
@@ -71,12 +74,12 @@ const collectPokemonDetailPokedexNumbers = ({
   seenIds,
 }: {
   includeNational: boolean;
-  pokedexEntries: PokemonPokedexSummary[];
+  pokedexEntries: PokemonDetailGenerationPokedexEntry[];
   seenIds: Set<string>;
 }) => {
   const numbers: PokemonDetailPokedexNumber[] = [];
 
-  for (const { entry, pokedex } of pokedexEntries) {
+  for (const { entry, pokedex, versionGroupSlug } of pokedexEntries) {
     if (!pokedex) {
       continue;
     }
@@ -110,16 +113,18 @@ const collectPokemonDetailPokedexNumbers = ({
       pokedexName: formatPokedexName(pokedex.name),
       pokedexSlug: pokedex.slug,
       sortOrder: pokedex.sort_order,
+      versionGroupSlug,
     });
   }
 
   return numbers;
 };
 
+/* Each Pokédex of the generation that lists the Pokémon, the National one first. */
 export const getPokemonDetailPokedexNumbers = ({
   scopedPokedexEntries,
 }: {
-  scopedPokedexEntries: PokemonPokedexSummary[];
+  scopedPokedexEntries: PokemonDetailGenerationPokedexEntry[];
 }) => {
   const seenIds = new Set<string>();
 
