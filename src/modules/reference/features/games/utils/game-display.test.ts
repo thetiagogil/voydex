@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   getGameInitials,
   getGameShortName,
+  formatGenerationName,
   getGenerationNumeral,
 } from "./game-display";
 
@@ -30,5 +31,12 @@ describe("getGameShortName", () => {
 describe("getGenerationNumeral", () => {
   it("keeps the numeral of a generation's name", () => {
     expect(getGenerationNumeral("Generation VIII")).toBe("VIII");
+  });
+});
+
+describe("formatGenerationName", () => {
+  it("names a generation by its number", () => {
+    expect(formatGenerationName(3)).toBe("Generation III");
+    expect(formatGenerationName(9)).toBe("Generation IX");
   });
 });

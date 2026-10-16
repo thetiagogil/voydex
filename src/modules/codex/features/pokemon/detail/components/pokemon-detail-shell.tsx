@@ -3,6 +3,7 @@ import type {
   CodexPokemonEntrySlots,
 } from "@/modules/codex/codex-slots";
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
+import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
 import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
 import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-section";
@@ -35,8 +36,13 @@ import { getPokemonDetailGenerationOptions } from "@/modules/codex/features/poke
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
   gameMechanics,
+  getGameMechanicAbsence,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  getPokemonDetailAbilitiesAbsence,
+  getPokemonDetailAbsenceLabel,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
 import { PageBand } from "@/shared/components/page-band";
 
@@ -125,11 +131,6 @@ export const PokemonDetailShell = ({
         <PokemonDetailHero
           key={form?.form.id ?? data.species.id}
           actions={slots?.heroActions?.(slotContext)}
-          abilities={abilitySlots.map((slot) => ({
-            effect: slot.effectSummary,
-            isHidden: slot.isHidden,
-            name: slot.ability.name,
-          }))}
           activeFormSlug={form?.form.slug ?? null}
           eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
           formSwitchOptions={getPokemonDetailFormSwitchOptions({
@@ -148,12 +149,33 @@ export const PokemonDetailShell = ({
       </PageBand>
 
       {/*
-       * Below the band, the two sections every generation has side by side
-       * from `lg` (stats and the type chart), training and breeding as one
-       * strip across, then each section across the page, the learnset last
+       * Below the band, two pairs side by side from `lg`: abilities (the
+       * wider) beside training and breeding, then stats beside the type
+       * chart. Each keeps its place in every game, saying quietly what a game
+       * doesn't have. Then each section across the page, the learnset last
        * of the reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
+        <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [&>*]:h-full">
+          <PokemonDetailAbilitiesCard
+            absence={getPokemonDetailAbilitiesAbsence(
+              getGameMechanicAbsence(scope.mechanics, gameMechanics.abilities),
+            )}
+            abilitySlots={abilitySlots}
+          />
+          <PokemonDetailTrainingCard
+            breedingAbsence={getPokemonDetailAbsenceLabel(
+              getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
+            )}
+            eggGroups={getFormEggGroups(data, scope)}
+            genderAbsence={getPokemonDetailAbsenceLabel(
+              getGameMechanicAbsence(
+                scope.mechanics,
+                gameMechanics.pokemonGender,
+              ),
+            )}
+          />
+        </div>
         <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
           {stats.length ? (
             <PokemonDetailStatsCard
@@ -172,17 +194,7 @@ export const PokemonDetailShell = ({
             />
           ) : null}
         </div>
-        <PokemonDetailTrainingCard
-          eggGroups={
-            supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
-              ? getFormEggGroups(data, scope)
-              : null
-          }
-          hasGender={supportsGameMechanic(
-            scope.mechanics,
-            gameMechanics.pokemonGender,
-          )}
-        />
+
         <PokemonDetailEvolutionSection
           activeFormId={form?.form.id ?? null}
           activeGenerationSortOrder={generation.generation.sort_order}

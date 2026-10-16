@@ -127,6 +127,31 @@ export const resolveGameMechanics = (
   };
 };
 
+/*
+ * Why a game lacks a mechanic, to say so plainly: it comes in a later
+ * generation (abilities in Generation III), or this title leaves it out (no
+ * abilities in Let's Go). Null when the mechanic is supported or unknown.
+ */
+export type GameMechanicAbsence =
+  | { introducedGeneration: number; kind: "later-generation" }
+  | { kind: "not-in-game" };
+
+export const getGameMechanicAbsence = (
+  profile: GameMechanicsProfile,
+  mechanic: GameMechanic,
+): GameMechanicAbsence | null => {
+  if (profile.support[mechanic] !== "unsupported") {
+    return null;
+  }
+
+  const introducedGeneration = introducedGenerationByMechanic[mechanic];
+  const { generationId } = profile.context;
+
+  return generationId !== null && generationId < introducedGeneration
+    ? { introducedGeneration, kind: "later-generation" }
+    : { kind: "not-in-game" };
+};
+
 export const getGameMechanicSupport = (
   profile: GameMechanicsProfile,
   mechanic: GameMechanic,

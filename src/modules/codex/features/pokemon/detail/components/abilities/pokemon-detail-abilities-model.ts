@@ -18,7 +18,6 @@ type PokemonDetailAbilitySlotDefinition = {
 export type PokemonDetailAbilitySlot = {
   ability: Ability;
   effectSummary: string | null;
-  isHidden: boolean;
   label: string;
   token: string;
 };
@@ -124,7 +123,6 @@ export const getPokemonDetailAbilitySlots = ({
         currentVersionGroup,
         versionGroupById,
       }),
-      isHidden: slot.abilityKey === "hidden_ability_id",
       label: slot.label,
       token: slot.token,
     };

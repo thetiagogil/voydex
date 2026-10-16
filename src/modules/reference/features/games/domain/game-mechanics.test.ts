@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   gameMechanics,
+  getGameMechanicAbsence,
   resolveGameMechanics,
   resolveVersionGroupMechanics,
 } from "@/modules/reference/features/games/domain/game-mechanics";
@@ -174,5 +175,38 @@ describe("resolveVersionGroupMechanics", () => {
       "unknown",
       "unknown",
     ]);
+  });
+});
+
+describe("getGameMechanicAbsence", () => {
+  it("says a mechanic comes in a later generation", () => {
+    expect(
+      getGameMechanicAbsence(
+        resolveGameMechanics(buildContext(1)),
+        gameMechanics.abilities,
+      ),
+    ).toEqual({ introducedGeneration: 3, kind: "later-generation" });
+  });
+
+  it("says a title leaves a mechanic out", () => {
+    expect(
+      getGameMechanicAbsence(
+        resolveGameMechanics({
+          gameId: 29,
+          generationId: 7,
+          versionGroupId: 17,
+        }),
+        gameMechanics.abilities,
+      ),
+    ).toEqual({ kind: "not-in-game" });
+  });
+
+  it("is null for a supported mechanic", () => {
+    expect(
+      getGameMechanicAbsence(
+        resolveGameMechanics(buildContext(8)),
+        gameMechanics.abilities,
+      ),
+    ).toBeNull();
   });
 });

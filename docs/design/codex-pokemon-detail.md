@@ -59,15 +59,14 @@ Important rules:
   the searchable species picker, and the generation pills on the right.
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
-  form switch, one row of two labelled groups (Type, and the Abilities as
-  chips), the one sentence read from the data, and the actions. The
+  form switch, the types, the one sentence read from the data, and the
+  actions. The
   Pokédex's entries live per game in Pokédex numbers, not in the hero.
-- **Sections:** Base stats beside Type matchups (side by side from `lg`;
-  both exist in every generation), Training and breeding as one strip across
-  (as many facts as the generation has), then one section a row: Evolution,
+- **Sections:** Abilities (the wider) beside Training and breeding, then
+  Base stats beside Type matchups (each pair side by side from `lg`; every
+  card keeps its place in every game), then one section a row: Evolution,
   Pokédex numbers (each Pokédex's number, with its entry text pending), Where
-  to find (each game with its box), Learnset, and In your Plays last. An
-  absent section is left out.
+  to find (each game with its box), Learnset, and In your Plays last.
 
 ## Forms And Shiny
 
@@ -104,9 +103,14 @@ colour only.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
-- Abilities: in the hero beside the type, one chip per ability the Pokémon
-  has (the hidden one marked), its effect on hover or tap; no line where the
-  game has no abilities (before Generation III, Let's Go, the Legends games).
+- Abilities: the abilities the Pokémon has, each with its slot and effect.
+  In a game without abilities the card keeps its place and says why in quiet
+  ink: "Abilities arrive in Generation III." or "This game has no
+  abilities." (the reference's `getGameMechanicAbsence`).
+- Training and breeding: every fact keeps its place in every game; breeding
+  and gender read "From Generation II" or "Not in this game" in quiet ink
+  where the game has none. That plain note is a fact about the game, never
+  the dashed pending marker, which means data Voydex doesn't have yet.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
 - Learnset: searchable, filterable moves with method, type, category, power,

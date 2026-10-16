@@ -6,12 +6,13 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailTrainingCardProps = {
   /*
-   * Its egg groups, in slot order, when the game has breeding; `null` when it
-   * doesn't (the Let's Go and Legends games), which leaves breeding out.
+   * What breeding and gender read when the game has none, such as "From
+   * Generation II" or "Not in this game"; null when it has them.
    */
-  eggGroups: EggGroup[] | null;
-  /* False before Generation II, which has no gender. */
-  hasGender: boolean;
+  breedingAbsence: string | null;
+  /* Its egg groups, in slot order, when the game has breeding. */
+  eggGroups: EggGroup[];
+  genderAbsence: string | null;
 };
 
 const TrainingFact = ({
@@ -29,22 +30,25 @@ const TrainingFact = ({
   );
 };
 
+/* A fact the game doesn't have: said plainly, in quiet ink. */
+const AbsentValue = ({ children }: { children: string }) => {
+  return <span className="text-14 text-ink-3 font-semibold">{children}</span>;
+};
+
 /*
- * v3's Training & breeding card as one strip across the page: what training
- * it gives and how it breeds, as many facts as the generation has, in one
- * line where they fit.
- * Only its egg groups are in Voydex so far; every other value is a pending
- * marker until its data lands.
+ * v3's Training & breeding card: what training it gives and how it breeds.
+ * Every fact keeps its place in every game; one the game doesn't have says
+ * so quietly ("From Generation II"), and a value Voydex doesn't have yet is
+ * the pending marker until its data lands (only egg groups are in so far).
  */
 export const PokemonDetailTrainingCard = ({
+  breedingAbsence,
   eggGroups,
-  hasGender,
+  genderAbsence,
 }: PokemonDetailTrainingCardProps) => {
-  const hasBreeding = eggGroups !== null;
-
   return (
-    <DetailSectionCard title={hasBreeding ? "Training & breeding" : "Training"}>
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4 xl:auto-cols-fr xl:grid-flow-col xl:grid-cols-none">
+    <DetailSectionCard title="Training & breeding">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
         {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
         <TrainingFact label="EV yield">
           <CodexPendingValue />
@@ -61,28 +65,32 @@ export const PokemonDetailTrainingCard = ({
         <TrainingFact label="Growth rate">
           <CodexPendingValue />
         </TrainingFact>
-        {eggGroups ? (
-          <>
-            <TrainingFact label="Egg groups">
-              {eggGroups.length ? (
-                eggGroups.map((eggGroup) => eggGroup.name).join(" · ")
-              ) : (
-                // TODO(v3-data): this form's egg groups (no egg group ids on its attributes).
-                <CodexPendingValue />
-              )}
-            </TrainingFact>
-            <TrainingFact label="Egg cycles">
-              {/* TODO(v3-data): egg cycles per species. */}
-              <CodexPendingValue />
-            </TrainingFact>
-          </>
-        ) : null}
-        {hasGender ? (
-          <TrainingFact label="Gender">
-            {/* TODO(v3-data): gender ratio per species (and the ratio bar). */}
+        <TrainingFact label="Egg groups">
+          {breedingAbsence ? (
+            <AbsentValue>{breedingAbsence}</AbsentValue>
+          ) : eggGroups.length ? (
+            eggGroups.map((eggGroup) => eggGroup.name).join(" · ")
+          ) : (
+            // TODO(v3-data): this form's egg groups (no egg group ids on its attributes).
             <CodexPendingValue />
-          </TrainingFact>
-        ) : null}
+          )}
+        </TrainingFact>
+        <TrainingFact label="Egg cycles">
+          {breedingAbsence ? (
+            <AbsentValue>{breedingAbsence}</AbsentValue>
+          ) : (
+            // TODO(v3-data): egg cycles per species.
+            <CodexPendingValue />
+          )}
+        </TrainingFact>
+        <TrainingFact label="Gender">
+          {genderAbsence ? (
+            <AbsentValue>{genderAbsence}</AbsentValue>
+          ) : (
+            // TODO(v3-data): gender ratio per species (and the ratio bar).
+            <CodexPendingValue />
+          )}
+        </TrainingFact>
       </dl>
     </DetailSectionCard>
   );
