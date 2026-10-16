@@ -117,7 +117,7 @@ const CodexPlaysJumpIcon = ({
       <a
         href={href}
         aria-label={label}
-        className={buttonVariants({ size: "icon" })}
+        className={buttonVariants({ size: "icon", variant: "outline" })}
       >
         <AppIcon icon={appIcons.product.play} />
       </a>
