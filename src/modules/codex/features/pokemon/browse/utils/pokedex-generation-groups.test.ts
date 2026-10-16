@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   groupPokemonByGeneration,
   groupPokemonByType,
+  takePokemonFromGroups,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import type {
   Generation,
@@ -72,6 +73,34 @@ describe("groupPokemonByType", () => {
       ["Grass", [1]],
       ["Fire", [6, 4]],
       ["Unknown type", [9]],
+    ]);
+  });
+});
+
+describe("takePokemonFromGroups", () => {
+  it("fills each range before starting the next", () => {
+    const group = (key: string, ids: number[]) => ({
+      key,
+      label: key,
+      pokemon: ids.map((id) => buildPokemon(id, null)),
+    });
+    const taken = takePokemonFromGroups(
+      [
+        group("normal", [16, 17, 18]),
+        group("fire", [4, 5]),
+        group("water", [7]),
+      ],
+      4,
+    );
+
+    expect(
+      taken.map((range) => [
+        range.key,
+        range.pokemon.map((pokemon) => pokemon.id),
+      ]),
+    ).toEqual([
+      ["normal", [16, 17, 18]],
+      ["fire", [4]],
     ]);
   });
 });

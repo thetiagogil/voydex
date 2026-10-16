@@ -18,6 +18,7 @@ import {
 import {
   groupPokemonByGeneration,
   groupPokemonByType,
+  takePokemonFromGroups,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
   CodexPokemonCardLink,
@@ -87,11 +88,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     [searchablePokemon, deferredFilters, sortKey],
   );
 
-  const visiblePokemon = useMemo(
-    () => filteredPokemon.slice(0, visibleCount),
-    [filteredPokemon, visibleCount],
-  );
-
   const groupPokemon = useCallback(
     (pokemon: typeof filteredPokemon) =>
       groupBy === "type"
@@ -100,24 +96,20 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     [data.generations, data.types, groupBy],
   );
 
-  const visiblePokemonGenerationGroups = useMemo(
-    () => groupPokemon(visiblePokemon),
-    [groupPokemon, visiblePokemon],
-  );
-
-  /* Each generation's heading counts every match, loaded or not. */
-  const filteredCountByGroupKey = useMemo(
-    () =>
-      new Map(
-        groupPokemon(filteredPokemon).map(
-          (group) => [group.key, group.pokemon.length] as const,
-        ),
-      ),
+  /* Every match in its range; each heading counts the whole range. */
+  const filteredPokemonGroups = useMemo(
+    () => groupPokemon(filteredPokemon),
     [filteredPokemon, groupPokemon],
   );
 
+  /* Batches load range by range, so no range shows half its cards early. */
+  const visiblePokemonGroups = useMemo(
+    () => takePokemonFromGroups(filteredPokemonGroups, visibleCount),
+    [filteredPokemonGroups, visibleCount],
+  );
+
   const hasActiveFilters = hasActivePokedexFilters(filters);
-  const canLoadMore = visiblePokemon.length < filteredPokemon.length;
+  const canLoadMore = visibleCount < filteredPokemon.length;
 
   const loadMorePokemon = useCallback(() => {
     setVisibleCount((currentCount) =>
@@ -252,8 +244,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
       {filteredPokemon.length ? (
         <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">
-          {visiblePokemonGenerationGroups.map((group) => {
-            const matchCount = filteredCountByGroupKey.get(group.key) ?? 0;
+          {visiblePokemonGroups.map((group, index) => {
+            const matchCount =
+              filteredPokemonGroups[index]?.pokemon.length ?? 0;
             const regionName = data.regionNameByGenerationSlug[group.key];
             const titleId = `pokemon-${group.key}`;
 

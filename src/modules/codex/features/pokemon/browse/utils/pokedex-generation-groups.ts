@@ -118,3 +118,29 @@ export const groupPokemonByType = (
 
   return groups;
 };
+
+/*
+ * The first `count` Pokémon in range order, still in their ranges. The list
+ * loads range by range, so a range is never shown half-filled while the
+ * next one already has cards.
+ */
+export const takePokemonFromGroups = (
+  groups: PokedexPokemonGenerationGroup[],
+  count: number,
+): PokedexPokemonGenerationGroup[] => {
+  const taken: PokedexPokemonGenerationGroup[] = [];
+  let remaining = count;
+
+  for (const group of groups) {
+    if (remaining <= 0) {
+      break;
+    }
+
+    const pokemon = group.pokemon.slice(0, remaining);
+
+    taken.push({ ...group, pokemon });
+    remaining -= pokemon.length;
+  }
+
+  return taken;
+};
