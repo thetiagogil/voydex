@@ -39,8 +39,8 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
  * cover, then the eyebrow, the group's title with the version switch under
  * it (as the form switch sits under a Pokémon's name) and, beside the
  * switch, the Your Plays icon, a jump to the section at the page's end
- * where you start a Play or plan a team; then the group's Pokédexes as
- * pills with their counts (the way into the Pokémon) and its description.
+ * where you start a Play or plan a team; then its description and the
+ * group's Pokédexes as pills with their counts (the way into the Pokémon).
  */
 export const GameDetailHeaderSection = ({
   actions,
@@ -93,8 +93,14 @@ export const GameDetailHeaderSection = ({
             {actions}
           </div>
         ) : null}
+        {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
+        <PendingData
+          className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
+          label="About the games"
+          note="A few lines on what sets these games apart."
+        />
         {data.pokedexes.length ? (
-          <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="text-13 text-ink-2 font-bold">
               {data.pokedexes.length === 1 ? "Pokédex" : "Pokédexes"}
             </span>
@@ -115,12 +121,6 @@ export const GameDetailHeaderSection = ({
             />
           </div>
         ) : null}
-        {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
-        <PendingData
-          className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
-          label="About the games"
-          note="A few lines on what sets these games apart."
-        />
       </div>
     </section>
   );
