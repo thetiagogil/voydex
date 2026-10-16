@@ -2,7 +2,7 @@ import type {
   ResolveStartIntent,
   StartIntentPokemon,
 } from "@/config/start-intent";
-import { readGameCatalogue } from "@/modules/reference/features/games/server/game-shelf-reader";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import type { GameStarter } from "@/modules/reference/types";
 
 const toIntentPokemon = (starter: GameStarter): StartIntentPokemon => ({
