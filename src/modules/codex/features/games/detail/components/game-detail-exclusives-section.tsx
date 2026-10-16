@@ -59,7 +59,12 @@ export const GameDetailExclusivesSection = ({
             <section
               key={column.version.game.slug}
               aria-labelledby={titleId}
-              className="min-w-0"
+              className={cn(
+                "min-w-0",
+                /* v3: the other game's column steps back, until you reach for it. */
+                index > 0 &&
+                  "opacity-[0.62] transition-opacity focus-within:opacity-100 hover:opacity-100 [&_img]:saturate-[0.55]",
+              )}
             >
               <div className="mb-3 flex min-h-10 flex-wrap items-center gap-x-2.5 gap-y-1">
                 <GameCover

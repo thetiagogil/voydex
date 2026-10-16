@@ -44,7 +44,7 @@ export const CodexPokemonCardLink = memo(
         href={href}
         aria-label={ariaLabel}
         title={title}
-        className="block min-w-0 rounded-lg"
+        className="block h-full min-w-0 rounded-lg"
       >
         <PokemonCard
           state="plain"

@@ -135,6 +135,7 @@ const PokemonCardMark = ({
 
 /*
  * The one Pokémon card: number, the art on a soft type-tint circle, the name
+ * (wrapping to a second line rather than cutting off "Galarian Farfetch'd")
  * and type dots. A Play layers its state on it: caught is a sticker with a
  * Poké Ball, seen a plain card with an eye, missing a dashed outline and a
  * silhouette.
@@ -163,7 +164,7 @@ export const PokemonCard = ({
         (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
       )}
       className={cn(
-        "relative flex min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-[3px]",
+        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-[3px]",
         stateClassNames[state],
         paddingClassNames[size === "sm" ? "sm" : "md"][state],
         pop && "animate-pop",
@@ -214,7 +215,7 @@ export const PokemonCard = ({
       </span>
       <b
         className={cn(
-          "w-full truncate font-extrabold",
+          "line-clamp-2 w-full font-extrabold text-balance break-words",
           sizes.name,
           state === "missing" && "text-ink-3",
         )}
@@ -235,7 +236,7 @@ export const PokemonCard = ({
         types={types}
         badgeDisplay="icon"
         badgeSize="sm"
-        className="mt-1 items-center gap-1"
+        className="mt-auto items-center gap-1 pt-1"
       />
       {children}
     </div>
