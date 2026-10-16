@@ -64,10 +64,12 @@ phase 6; the New Plan cache fix is parked on the local branch
 
 ## Next Chat Handoff
 
-Phase 1 merged on 2026-10-16 (pull request #10). Phase 2 is on
-`test/browser-tests`: Playwright and axe, the Play flow, Plans, Codex, auth and
-Statistics tests, and the Browser Tests workflow. Phase 3 (restructure) starts
-once it merges, with these tests as its safety net.
+Phase 1 merged on 2026-10-16 (pull request #10) and phase 2, the browser
+tests, merged on 2026-10-16 (pull request #40). Phase 3 (restructure) is under
+way as one pull request per step, tracked in issues #41 to #45 of the
+Restructure milestone: the folder vocabulary, readers and commands that take
+their client, Zod, the largest files split, and the multi-table writes as
+database functions. Run `npm run test:e2e` after each move.
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
