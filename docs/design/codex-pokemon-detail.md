@@ -59,8 +59,9 @@ Important rules:
   the searchable species picker, and the generation pills on the right.
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
-  form switch, the types, the abilities, one sentence read from the data,
-  and the actions.
+  form switch, one row of two labelled groups (Type, and the Abilities as
+  chips), the Pokédex entry with the one sentence read from the data as one
+  paragraph, and the actions.
 - **Sections:** Base stats beside Type matchups (side by side from `lg`;
   both exist in every generation), Training and breeding as one strip across
   (as many facts as the generation has), then one section a row: Evolution,
@@ -103,7 +104,7 @@ colour only.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
-- Abilities: in the hero under the types, one chip per ability the Pokémon
+- Abilities: in the hero beside the type, one chip per ability the Pokémon
   has (the hidden one marked), its effect on hover or tap; no line where the
   game has no abilities (before Generation III, Let's Go, the Legends games).
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in

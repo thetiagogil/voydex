@@ -14,7 +14,6 @@ import {
   type SegmentedControlOption,
 } from "@/shared/components/segmented-control";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
-import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 
 /* One of the Pokémon's abilities in the generation, its effect on hover. */
@@ -62,9 +61,9 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 /*
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
  * type's shade (v3 `.cx-art`), beside the eyebrow, the name, the form
- * switch, the types, the abilities it has as chips (each effect on hover or
- * tap; none before Generation III), the Pokédex's quote and the one sentence
- * the page reads for you, then the actions: the route's (Add to a Play),
+ * switch, one row of its type and the abilities it has as chips (each effect
+ * on hover or tap; none before Generation III), the Pokédex's quote with the
+ * one sentence the page reads for you, then the actions: the route's (Add to a Play),
  * Favourite and the shiny toggle. Each form is its own page, and the shell
  * remounts the hero for it, so the toggle starts off again. The art keeps
  * v3's 1 : 1.05 split and stops at the size v3's widest page gives it.
@@ -132,56 +131,65 @@ export const PokemonDetailHero = ({
           </div>
         ) : null}
 
-        <PokemonTypeList
-          primaryType={typePair?.primaryType ?? null}
-          secondaryType={typePair?.secondaryType ?? null}
-          badgeSize="lg"
-          className="flex-wrap gap-2"
-        />
-
-        {abilities.length ? (
-          <div className="mt-3.5 flex flex-wrap items-center gap-2">
-            <span className="text-14 text-ink-3 mr-0.5 font-bold">
-              Abilities
-            </span>
-            {abilities.map((ability) => (
-              <ExplanatoryTip
-                key={ability.name}
-                side="bottom"
-                contentClassName="w-64"
-                content={
-                  <p>
-                    <b>{ability.name}.</b>{" "}
-                    {ability.effect ?? "No effect summary recorded."}
-                  </p>
-                }
-                trigger={
-                  <button
-                    type="button"
-                    className="bg-surface text-14 hover:bg-hover focus-visible:outline-focus inline-flex h-8 items-center gap-1.5 rounded-full px-3 font-extrabold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
-                  />
-                }
-              >
-                {ability.name}
-                {ability.isHidden ? (
-                  <span className="text-12 text-ink-3 font-bold">Hidden</span>
-                ) : null}
-              </ExplanatoryTip>
-            ))}
+        {/* Type and abilities: one row of two labelled groups. */}
+        <dl className="flex flex-wrap items-start gap-x-8 gap-y-3">
+          <div className="flex flex-col gap-1.5">
+            <dt className="text-12 text-ink-3 font-bold">Type</dt>
+            <dd>
+              <PokemonTypeList
+                primaryType={typePair?.primaryType ?? null}
+                secondaryType={typePair?.secondaryType ?? null}
+                badgeSize="lg"
+                className="flex-wrap gap-2"
+              />
+            </dd>
           </div>
-        ) : null}
+          {abilities.length ? (
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <dt className="text-12 text-ink-3 font-bold">Abilities</dt>
+              <dd className="flex flex-wrap items-center gap-2">
+                {abilities.map((ability) => (
+                  <ExplanatoryTip
+                    key={ability.name}
+                    side="bottom"
+                    contentClassName="w-64"
+                    content={
+                      <p>
+                        <b>{ability.name}.</b>{" "}
+                        {ability.effect ?? "No effect summary recorded."}
+                      </p>
+                    }
+                    trigger={
+                      <button
+                        type="button"
+                        className="bg-surface text-14 hover:bg-hover focus-visible:outline-focus inline-flex h-8 items-center gap-1.5 rounded-full px-3 font-extrabold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                      />
+                    }
+                  >
+                    {ability.name}
+                    {ability.isHidden ? (
+                      <span className="text-12 text-ink-3 font-bold">
+                        Hidden
+                      </span>
+                    ) : null}
+                  </ExplanatoryTip>
+                ))}
+              </dd>
+            </div>
+          ) : null}
+        </dl>
 
-        {/* TODO(v3-data): Pokédex flavour text per game, with the game it's from. */}
-        <PendingData
-          className="mt-5.5 max-w-[46ch] items-start px-5 py-4 text-left"
-          label="Pokédex entry"
-          note="What the Pokédex says about it, quoted from a game."
-        />
-
-        <p className="text-16 text-ink-2 mt-4.5 max-w-[44ch] leading-relaxed">
-          {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
-          <HeroParts parts={sentence} />
-        </p>
+        {/* The Pokédex's quote and the size sentence, read as one paragraph. */}
+        <div className="text-16 text-ink-2 mt-5 max-w-[46ch] leading-relaxed">
+          {/* TODO(v3-data): Pokédex flavour text per game, with the game it's from. */}
+          <p>
+            <CodexPendingValue label="Pokédex entry" />
+          </p>
+          <p className="mt-1.5">
+            {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
+            <HeroParts parts={sentence} />
+          </p>
+        </div>
 
         <div className="mt-7 flex flex-wrap gap-3">
           {actions}
