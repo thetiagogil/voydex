@@ -55,7 +55,7 @@ export const PokemonDetailTrainingCard = () => {
 };
 
 /*
- * Eggs and gender. A game without eggs shows the note in their place,
+ * Eggs and gender, one fact a line. A game without eggs shows the note in their place,
  * keeping Gender where the game has it (Let's Go). Only egg groups are in
  * Voydex so far; the rest is the pending marker.
  */
@@ -66,12 +66,19 @@ export const PokemonDetailBreedingCard = ({
   noteHref,
 }: PokemonDetailBreedingCardProps) => {
   return (
-    <DetailSectionCard title="Breeding" contentClassName="flex flex-col gap-3">
+    <DetailSectionCard
+      title="Breeding"
+      contentClassName="flex flex-1 flex-col gap-3"
+    >
       {note ? (
-        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
+        <PokemonDetailMechanicNoteCard
+          arrivesHref={noteHref}
+          layout={hasGender ? "row" : "fill"}
+          note={note}
+        />
       ) : null}
       {!note || hasGender ? (
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+        <dl className="grid grid-cols-1 gap-y-2.5">
           {note ? null : (
             <>
               <Fact label="Egg groups">

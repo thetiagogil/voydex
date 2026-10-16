@@ -62,8 +62,8 @@ Important rules:
   form switch, the types, the one sentence read from the data, and the
   actions. The
   Pokédex's entries live per game in Pokédex numbers, not in the hero.
-- **Sections:** Abilities (the wider) beside Training over Breeding, then
-  Base stats beside Type matchups (each pair side by side from `lg`; every
+- **Sections:** Abilities, Training and Breeding in one row from `xl`, then
+  Base stats beside Type matchups (side by side from `lg`; every
   card keeps its place in every game), then one section a row: Evolution,
   Pokédex numbers (each Pokédex's number, with its entry text pending), Where
   to find (each game with its box), Learnset, and In your Plays last.
@@ -103,15 +103,17 @@ colour only.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
-- Abilities: one inset tile per ability (slot, name, effect), the tiles
-  sharing the card's height so it stays full beside Training over Breeding.
-  In a game without abilities the note fills the card ("Abilities arrive in
-  Generation III", or "This game has no abilities"), with "See it in
-  Generation III" when the Pokémon is there.
+- Abilities, Training and Breeding share one row on wide screens (`xl`),
+  Abilities taking more of it the more abilities there are; tablets put
+  Abilities on its own row above the other two, phones stack all three.
+- Abilities: one mini card per ability (slot, name, effect) side by side, each
+  as tall as the card. In a game without abilities the note fills the card
+  ("Abilities arrive in Generation III", or "This game has no abilities"),
+  with "See it in Generation III" when the Pokémon is there.
 - Training (EV yield, catch rate, friendship, base experience, growth rate)
-  and Breeding (egg groups, egg cycles, gender) are two cards, stacked beside
-  Abilities. A game without eggs shows the note in Breeding, keeping Gender
-  where the game has it (Let's Go).
+  in two columns; Breeding (egg groups, egg cycles, gender) in one. A game
+  without eggs shows the note in Breeding, filling it unless Gender stays
+  (Let's Go).
 - The note (`PokemonDetailMechanicNoteCard`, an hourglass on the card's
   inset fill, no colour of its own) is a fact about the game, read from the
   reference's `getGameMechanicAbsence`; never the dashed pending marker,

@@ -49,12 +49,25 @@ import {
 } from "@/modules/reference/features/games/utils/game-display";
 import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
 import { PageBand } from "@/shared/components/page-band";
+import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailShellProps = {
   data: PokemonDetailData;
   scope: ResolvedPokemonDetailScope;
   /* The route's signed-in pieces: Add to a Play and In your Plays. */
   slots?: CodexPokemonEntrySlots;
+};
+
+/*
+ * Abilities, Training and Breeding share one row on wide screens, Abilities
+ * taking more of it the more abilities there are (one mini card each).
+ * Tablets put Abilities on its own row above the other two.
+ */
+const factsRowClassNames: Record<number, string> = {
+  0: "xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
+  1: "xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
+  2: "xl:grid-cols-[minmax(0,2.2fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
+  3: "xl:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
 };
 
 /* The form's egg groups in slot order, from its attributes in this generation. */
@@ -172,31 +185,35 @@ export const PokemonDetailShell = ({
       </PageBand>
 
       {/*
-       * Below the band, two pairs side by side from `lg`: abilities (the
-       * wider, filling its side) beside training over breeding, then stats
-       * beside the type chart. Each keeps its place in every game, saying
+       * Below the band, abilities, training and breeding in one row on wide
+       * screens, then stats beside the type chart from `lg`. Each keeps its place in every game, saying
        * quietly what a game doesn't have. Then each section across the page, the learnset last
        * of the reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <PokemonDetailAbilitiesCard
-            abilitySlots={abilitySlots}
-            note={abilitiesNote}
-            noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
-          />
-          <div className="flex min-w-0 flex-col gap-6">
-            <PokemonDetailTrainingCard />
-            <PokemonDetailBreedingCard
-              eggGroups={getFormEggGroups(data, scope)}
-              hasGender={supportsGameMechanic(
-                scope.mechanics,
-                gameMechanics.pokemonGender,
-              )}
-              note={breedingNote}
-              noteHref={getGenerationHref(breedingNote?.arrivesIn ?? null)}
+        <div
+          className={cn(
+            "grid gap-6 md:grid-cols-2 [&>*]:h-full",
+            factsRowClassNames[Math.min(abilitySlots.length, 3)],
+          )}
+        >
+          <div className="min-w-0 md:col-span-2 xl:col-span-1">
+            <PokemonDetailAbilitiesCard
+              abilitySlots={abilitySlots}
+              note={abilitiesNote}
+              noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
             />
           </div>
+          <PokemonDetailTrainingCard />
+          <PokemonDetailBreedingCard
+            eggGroups={getFormEggGroups(data, scope)}
+            hasGender={supportsGameMechanic(
+              scope.mechanics,
+              gameMechanics.pokemonGender,
+            )}
+            note={breedingNote}
+            noteHref={getGenerationHref(breedingNote?.arrivesIn ?? null)}
+          />
         </div>
         <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
           {stats.length ? (

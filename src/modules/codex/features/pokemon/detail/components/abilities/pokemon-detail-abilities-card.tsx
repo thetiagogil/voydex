@@ -2,6 +2,7 @@ import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/
 import { PokemonDetailMechanicNoteCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-mechanic-note";
 import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailAbilitiesCardProps = {
   abilitySlots: PokemonDetailAbilitySlot[];
@@ -11,10 +12,17 @@ type PokemonDetailAbilitiesCardProps = {
 };
 
 /*
- * The abilities the Pokémon has, one inset tile each (its slot, name and
- * effect), the tiles sharing the card's height so it is always full beside
- * Training and Breeding. In a game without abilities the note fills it.
+ * The abilities the Pokémon has as mini cards side by side (its slot, name
+ * and effect), each as tall as the card. The row of Abilities, Training and
+ * Breeding gives this card more room the more abilities there are. In a game
+ * without abilities the note fills it.
  */
+const abilityColumnClassNames: Record<number, string> = {
+  1: "sm:grid-cols-1",
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-3",
+};
+
 export const PokemonDetailAbilitiesCard = ({
   abilitySlots,
   note,
@@ -37,11 +45,16 @@ export const PokemonDetailAbilitiesCard = ({
           Its abilities aren&apos;t recorded yet.
         </p>
       ) : (
-        <dl className="flex flex-1 flex-col gap-3">
+        <dl
+          className={cn(
+            "grid flex-1 gap-3",
+            abilityColumnClassNames[abilitySlots.length],
+          )}
+        >
           {abilitySlots.map((abilitySlot) => (
             <div
               key={`${abilitySlot.token}-${abilitySlot.ability.id}`}
-              className="bg-surface-2 flex flex-1 flex-col justify-center rounded-lg px-4 py-3.5"
+              className="bg-surface-2 flex min-w-0 flex-col rounded-lg px-4 py-3.5"
             >
               <dt className="text-ink-2 text-12 font-bold">
                 {abilitySlot.label}
