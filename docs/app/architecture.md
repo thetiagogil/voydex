@@ -457,7 +457,7 @@ Use this direction for interactive application writes:
 ```txt
 Client Component
   -> Server Action
-  -> validation
+  -> Zod input schema
   -> command/use case
   -> repository or database RPC
   -> constraints, grants, and RLS
@@ -465,7 +465,12 @@ Client Component
 
 The exact number of files depends on complexity. These responsibilities may be
 separate files within one `server` folder rather than separate responsibility
-folders. Database constraints and RLS remain authoritative; UI checks are not
+folders. Every Server Action parses its input with Zod before any
+database call, through the helpers in `src/shared/utils/input-schemas.ts`
+(`parseInput` throws the schema's first message, `safeParseInput` returns
+it). Schemas sit beside the action, or in the feature's `utils/` when a
+parser is shared or tested on its own; the messages are the ones the form
+shows. Database constraints and RLS remain authoritative; UI checks are not
 authorization.
 
 Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
