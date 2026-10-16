@@ -5,7 +5,7 @@ import type {
   ResolvedPokemonAvailability,
   VersionGroup,
 } from "@/modules/reference/types";
-import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
 
 export const matchesSlugOrId = (
   row: { id: number; slug: string },

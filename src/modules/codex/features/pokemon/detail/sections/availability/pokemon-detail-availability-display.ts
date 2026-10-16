@@ -1,5 +1,5 @@
 import { appRoutes } from "@/config/routes";
-import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
 import {
   doesPokemonAvailabilityMatchGame,
   getPokemonAvailabilityVersionGroups,

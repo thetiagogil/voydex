@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createSequencedSupabaseClient,
   SupabaseQueryStub,
-} from "@/modules/mainline/features/plays/hub/server/__tests__/supabase-query-stub";
+} from "@/modules/mainline/features/plays/hub/server/supabase-query-stub";
 import type { MainlinePlayTeamPlanRow } from "@/modules/mainline/features/plays/hub/types";
 import type { PokemonAttributes } from "@/modules/reference/types";
 

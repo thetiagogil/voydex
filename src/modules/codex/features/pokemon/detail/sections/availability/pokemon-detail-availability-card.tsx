@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import type { PokemonDetailWhereToFindRow } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
+import type { PokemonDetailWhereToFindRow } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";

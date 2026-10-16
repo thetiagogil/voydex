@@ -14,7 +14,7 @@ import {
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";

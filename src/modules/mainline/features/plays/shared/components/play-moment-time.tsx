@@ -1,7 +1,7 @@
 "use client";
 
 import { formatPlayMoment } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 
 /*
  * When a moment happened, in the viewer's time zone without a hydration

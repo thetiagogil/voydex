@@ -5,7 +5,7 @@ import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
-import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 

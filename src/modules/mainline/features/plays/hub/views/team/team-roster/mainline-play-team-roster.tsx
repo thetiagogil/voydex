@@ -8,7 +8,7 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamRosterData,
 } from "@/modules/mainline/features/plays/hub/types";
-import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 

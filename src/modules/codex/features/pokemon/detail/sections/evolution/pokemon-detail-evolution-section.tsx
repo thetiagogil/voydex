@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import {
   PokemonDetailEvolutionNode,
   type PokemonDetailEvolutionLinkScope,
-} from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
+} from "@/modules/codex/features/pokemon/detail/sections/evolution/pokemon-detail-evolution-node";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import {
   getPokemonDetailDistinctEvolutionEdges,

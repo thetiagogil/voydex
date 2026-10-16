@@ -10,7 +10,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getMilestoneIcon } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import { formatPlayMoment } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { cn } from "@/shared/utils/cn";
 
 /* Stamps tilt at rest, each by its own small angle. */

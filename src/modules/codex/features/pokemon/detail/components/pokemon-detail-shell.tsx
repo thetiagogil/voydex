@@ -2,33 +2,33 @@ import type {
   CodexPokemonEntrySlotContext,
   CodexPokemonEntrySlots,
 } from "@/modules/codex/codex-slots";
-import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
-import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
-import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
-import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
-import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-section";
-import { PokemonDetailHero } from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-hero";
+import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/sections/abilities/pokemon-detail-abilities-model";
+import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/sections/abilities/pokemon-detail-abilities-card";
+import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-card";
+import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-display";
+import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/sections/evolution/pokemon-detail-evolution-section";
+import { PokemonDetailHero } from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero";
 import {
   getPokemonDetailHeroEyebrow,
   getPokemonDetailHeroSentence,
-} from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-hero-model";
-import { PokemonDetailLearnsetsCard } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-card";
-import { PokemonDetailPokedexNumbersCard } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-card";
-import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
+} from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero-model";
+import { PokemonDetailLearnsetsCard } from "@/modules/codex/features/pokemon/detail/sections/learnsets/pokemon-detail-learnsets-card";
+import { PokemonDetailPokedexNumbersCard } from "@/modules/codex/features/pokemon/detail/sections/pokedex-numbers/pokemon-detail-pokedex-numbers-card";
+import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon/detail/sections/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
 import { PokemonDetailSectionBar } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-bar";
 import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-head";
-import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
-import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
+import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-card";
+import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
 import {
   PokemonDetailBreedingCard,
   PokemonDetailTrainingCard,
-} from "@/modules/codex/features/pokemon/detail/components/training/pokemon-detail-training-card";
-import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
+} from "@/modules/codex/features/pokemon/detail/sections/training/pokemon-detail-training-card";
+import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/sections/type-matchups/pokemon-detail-type-matchups-card";
 import {
   getPokemonDetailDefendingTypes,
   getPokemonDetailTypeMatchups,
-} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
-import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+} from "@/modules/codex/features/pokemon/detail/sections/type-matchups/pokemon-detail-type-matchups-model";
+import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types";
 import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormImageUrl,

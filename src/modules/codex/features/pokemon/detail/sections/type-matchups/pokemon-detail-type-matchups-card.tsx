@@ -4,7 +4,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import type {
   PokemonDetailTypeMatchup,
   PokemonDetailTypeMatchups,
-} from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
+} from "@/modules/codex/features/pokemon/detail/sections/type-matchups/pokemon-detail-type-matchups-model";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { cn } from "@/shared/utils/cn";
 
