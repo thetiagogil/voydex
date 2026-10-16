@@ -32,15 +32,13 @@ const coverSizeClassNames = {
   },
   /*
    * The Codex game header's cover, in a white frame: 110px wide on phones,
-   * where it sits above the title. Beside it, a tall box (Switch) stands as
-   * tall as the title, switch, description and actions; a square or wide one
-   * (Game Boy, 3DS) stops at a set width instead, so it never outweighs them.
+   * where it sits above the title; beside it, every game's box stands 228px
+   * tall, as tall as the eyebrow, title, version switch and description.
    */
   hero: {
     fallback:
-      "text-32 md:text-44 w-27.5 border-4 border-white md:h-60 md:w-auto lg:h-73",
-    image:
-      "h-auto w-27.5 max-w-full border-4 border-white md:max-h-60 md:w-auto md:max-w-52 lg:max-h-73 lg:max-w-65",
+      "text-32 md:text-44 w-27.5 border-4 border-white md:h-57 md:w-auto",
+    image: "h-auto w-27.5 max-w-full border-4 border-white md:h-57 md:w-auto",
   },
   /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
