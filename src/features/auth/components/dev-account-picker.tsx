@@ -68,7 +68,11 @@ export const DevAccountPicker = ({
         }}
         autoHighlight
       >
+        {/* A combobox takes its name from a label, never from its text. */}
         <ComboboxTrigger
+          aria-label={
+            picked ? `Test account: ${picked.label}` : "Pick a test account"
+          }
           render={
             <Button
               type="button"
