@@ -59,12 +59,14 @@ Important rules:
   the searchable species picker, and the generation pills on the right.
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
-  form switch, the types, one sentence read from the data, and the actions.
-- **Sections:** Abilities (the wider) beside Training and breeding, then
-  Base stats beside Type matchups (each pair side by side from `lg`), then
-  one section a row: Evolution, Pokédex numbers (each Pokédex's number, with
-  its entry text pending), Where to find (each game with its box), Learnset,
-  and In your Plays last. An absent section is left out.
+  form switch, the types, the abilities, one sentence read from the data,
+  and the actions.
+- **Sections:** Base stats beside Type matchups (side by side from `lg`;
+  both exist in every generation), Training and breeding as one strip across
+  (as many facts as the generation has), then one section a row: Evolution,
+  Pokédex numbers (each Pokédex's number, with its entry text pending), Where
+  to find (each game with its box), Learnset, and In your Plays last. An
+  absent section is left out.
 
 ## Forms And Shiny
 
@@ -101,10 +103,9 @@ colour only.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
-- Abilities: all three slots (Primary, Secondary, Hidden), each with its
-  ability and effect, an empty slot saying "None" and the hidden slot before
-  Generation V saying hidden abilities arrive then (the reference's
-  `hidden-abilities` mechanic); only where the group has abilities.
+- Abilities: in the hero under the types, one chip per ability the Pokémon
+  has (the hidden one marked), its effect on hover or tap; no line where the
+  game has no abilities (before Generation III, Let's Go, the Legends games).
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
 - Learnset: searchable, filterable moves with method, type, category, power,

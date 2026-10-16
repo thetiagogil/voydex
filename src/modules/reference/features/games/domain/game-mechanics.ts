@@ -3,8 +3,6 @@ export const gameMechanics = {
   /* Eggs, the Day Care and egg groups. */
   breeding: "breeding",
   heldItems: "held-items",
-  /* A third, hidden ability slot (Generation V on). */
-  hiddenAbilities: "hidden-abilities",
   natures: "natures",
   pokemonGender: "pokemon-gender",
 } as const;
@@ -28,7 +26,6 @@ const introducedGenerationByMechanic = {
   [gameMechanics.abilities]: 3,
   [gameMechanics.breeding]: 2,
   [gameMechanics.heldItems]: 2,
-  [gameMechanics.hiddenAbilities]: 5,
   [gameMechanics.natures]: 3,
   [gameMechanics.pokemonGender]: 2,
 } satisfies Record<GameMechanic, number>;
@@ -60,11 +57,6 @@ const unsupportedVersionGroupIdsByMechanic: Partial<
     ...legendsZaVersionGroupIds,
   ]),
   [gameMechanics.heldItems]: new Set([
-    ...letsGoVersionGroupIds,
-    ...legendsArceusVersionGroupIds,
-    ...legendsZaVersionGroupIds,
-  ]),
-  [gameMechanics.hiddenAbilities]: new Set([
     ...letsGoVersionGroupIds,
     ...legendsArceusVersionGroupIds,
     ...legendsZaVersionGroupIds,
@@ -122,10 +114,6 @@ export const resolveGameMechanics = (
       [gameMechanics.heldItems]: resolveMechanicSupport(
         context,
         gameMechanics.heldItems,
-      ),
-      [gameMechanics.hiddenAbilities]: resolveMechanicSupport(
-        context,
-        gameMechanics.hiddenAbilities,
       ),
       [gameMechanics.natures]: resolveMechanicSupport(
         context,
@@ -189,9 +177,6 @@ export const resolveVersionGroupMechanics = ({
       [gameMechanics.abilities]: resolveAgreedSupport(gameMechanics.abilities),
       [gameMechanics.breeding]: resolveAgreedSupport(gameMechanics.breeding),
       [gameMechanics.heldItems]: resolveAgreedSupport(gameMechanics.heldItems),
-      [gameMechanics.hiddenAbilities]: resolveAgreedSupport(
-        gameMechanics.hiddenAbilities,
-      ),
       [gameMechanics.natures]: resolveAgreedSupport(gameMechanics.natures),
       [gameMechanics.pokemonGender]: resolveAgreedSupport(
         gameMechanics.pokemonGender,

@@ -13,10 +13,20 @@ import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "@/shared/components/segmented-control";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 
+/* One of the Pokémon's abilities in the generation, its effect on hover. */
+export type PokemonDetailHeroAbility = {
+  effect: string | null;
+  isHidden: boolean;
+  name: string;
+};
+
 type PokemonDetailHeroProps = {
+  /* Empty before Generation III and in games without abilities. */
+  abilities: PokemonDetailHeroAbility[];
   /*
    * The route's leading actions, before Favourite: "Add to a Play" when
    * signed in.
@@ -51,14 +61,16 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 
 /*
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
- * type's shade (v3 `.cx-art`), beside the eyebrow, the
- * name, the form switch, the types, the Pokédex's quote and the one sentence
+ * type's shade (v3 `.cx-art`), beside the eyebrow, the name, the form
+ * switch, the types, the abilities it has as chips (each effect on hover or
+ * tap; none before Generation III), the Pokédex's quote and the one sentence
  * the page reads for you, then the actions: the route's (Add to a Play),
  * Favourite and the shiny toggle. Each form is its own page, and the shell
  * remounts the hero for it, so the toggle starts off again. The art keeps
  * v3's 1 : 1.05 split and stops at the size v3's widest page gives it.
  */
 export const PokemonDetailHero = ({
+  abilities,
   actions,
   activeFormSlug,
   eyebrow,
@@ -126,6 +138,38 @@ export const PokemonDetailHero = ({
           badgeSize="lg"
           className="flex-wrap gap-2"
         />
+
+        {abilities.length ? (
+          <div className="mt-3.5 flex flex-wrap items-center gap-2">
+            <span className="text-14 text-ink-3 mr-0.5 font-bold">
+              Abilities
+            </span>
+            {abilities.map((ability) => (
+              <ExplanatoryTip
+                key={ability.name}
+                side="bottom"
+                contentClassName="w-64"
+                content={
+                  <p>
+                    <b>{ability.name}.</b>{" "}
+                    {ability.effect ?? "No effect summary recorded."}
+                  </p>
+                }
+                trigger={
+                  <button
+                    type="button"
+                    className="bg-surface text-14 hover:bg-hover focus-visible:outline-focus inline-flex h-8 items-center gap-1.5 rounded-full px-3 font-extrabold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                  />
+                }
+              >
+                {ability.name}
+                {ability.isHidden ? (
+                  <span className="text-12 text-ink-3 font-bold">Hidden</span>
+                ) : null}
+              </ExplanatoryTip>
+            ))}
+          </div>
+        ) : null}
 
         {/* TODO(v3-data): Pokédex flavour text per game, with the game it's from. */}
         <PendingData

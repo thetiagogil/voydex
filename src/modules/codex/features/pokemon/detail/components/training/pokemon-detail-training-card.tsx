@@ -30,7 +30,9 @@ const TrainingFact = ({
 };
 
 /*
- * v3's Training & breeding card: what training it gives and how it breeds.
+ * v3's Training & breeding card as one strip across the page: what training
+ * it gives and how it breeds, as many facts as the generation has, in one
+ * line where they fit.
  * Only its egg groups are in Voydex so far; every other value is a pending
  * marker until its data lands.
  */
@@ -42,7 +44,7 @@ export const PokemonDetailTrainingCard = ({
 
   return (
     <DetailSectionCard title={hasBreeding ? "Training & breeding" : "Training"}>
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4 xl:auto-cols-fr xl:grid-flow-col xl:grid-cols-none">
         {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
         <TrainingFact label="EV yield">
           <CodexPendingValue />

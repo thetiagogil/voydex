@@ -2,7 +2,6 @@ import type {
   CodexPokemonEntrySlotContext,
   CodexPokemonEntrySlots,
 } from "@/modules/codex/codex-slots";
-import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-card";
 import { getPokemonDetailAbilitySlots } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-card";
 import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
@@ -93,10 +92,6 @@ export const PokemonDetailShell = ({
         abilityAttributes: data.abilityAttributes,
         attributes: form?.attributes ?? null,
         currentVersionGroup: activeVersionGroup,
-        hasHiddenAbilities: supportsGameMechanic(
-          scope.mechanics,
-          gameMechanics.hiddenAbilities,
-        ),
         versionGroups: data.generationDetails.flatMap((detail) => {
           return detail.versionGroups;
         }),
@@ -116,19 +111,6 @@ export const PokemonDetailShell = ({
     versionGroupSlug: activeVersionGroup.slug,
   };
   const inYourPlays = slots?.inYourPlays?.(slotContext) ?? null;
-  const trainingCard = (
-    <PokemonDetailTrainingCard
-      eggGroups={
-        supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
-          ? getFormEggGroups(data, scope)
-          : null
-      }
-      hasGender={supportsGameMechanic(
-        scope.mechanics,
-        gameMechanics.pokemonGender,
-      )}
-    />
-  );
 
   return (
     <div className="flex min-w-0 flex-col">
@@ -143,6 +125,11 @@ export const PokemonDetailShell = ({
         <PokemonDetailHero
           key={form?.form.id ?? data.species.id}
           actions={slots?.heroActions?.(slotContext)}
+          abilities={abilitySlots.map((slot) => ({
+            effect: slot.effectSummary,
+            isHidden: slot.isHidden,
+            name: slot.ability.name,
+          }))}
           activeFormSlug={form?.form.slug ?? null}
           eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
           formSwitchOptions={getPokemonDetailFormSwitchOptions({
@@ -161,20 +148,12 @@ export const PokemonDetailShell = ({
       </PageBand>
 
       {/*
-       * Below the band, pairs side by side from `lg` (abilities, the wider,
-       * beside training and breeding; the stat shape beside the type chart),
-       * then each section across the page, the learnset last of the
-       * reference, and your own Plays at the very end.
+       * Below the band, the two sections every generation has side by side
+       * from `lg` (stats and the type chart), training and breeding as one
+       * strip across, then each section across the page, the learnset last
+       * of the reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
-        {abilitySlots.length ? (
-          <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [&>*]:h-full">
-            <PokemonDetailAbilitiesCard abilitySlots={abilitySlots} />
-            {trainingCard}
-          </div>
-        ) : (
-          trainingCard
-        )}
         <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
           {stats.length ? (
             <PokemonDetailStatsCard
@@ -193,6 +172,17 @@ export const PokemonDetailShell = ({
             />
           ) : null}
         </div>
+        <PokemonDetailTrainingCard
+          eggGroups={
+            supportsGameMechanic(scope.mechanics, gameMechanics.breeding)
+              ? getFormEggGroups(data, scope)
+              : null
+          }
+          hasGender={supportsGameMechanic(
+            scope.mechanics,
+            gameMechanics.pokemonGender,
+          )}
+        />
         <PokemonDetailEvolutionSection
           activeFormId={form?.form.id ?? null}
           activeGenerationSortOrder={generation.generation.sort_order}
