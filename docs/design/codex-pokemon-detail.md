@@ -101,7 +101,10 @@ colour only.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
-- Abilities: slot, ability and effect, only where the group has abilities.
+- Abilities: all three slots (Primary, Secondary, Hidden), each with its
+  ability and effect, an empty slot saying "None" and the hidden slot before
+  Generation V saying hidden abilities arrive then (the reference's
+  `hidden-abilities` mechanic); only where the group has abilities.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
 - Learnset: searchable, filterable moves with method, type, category, power,

@@ -93,6 +93,10 @@ export const PokemonDetailShell = ({
         abilityAttributes: data.abilityAttributes,
         attributes: form?.attributes ?? null,
         currentVersionGroup: activeVersionGroup,
+        hasHiddenAbilities: supportsGameMechanic(
+          scope.mechanics,
+          gameMechanics.hiddenAbilities,
+        ),
         versionGroups: data.generationDetails.flatMap((detail) => {
           return detail.versionGroups;
         }),

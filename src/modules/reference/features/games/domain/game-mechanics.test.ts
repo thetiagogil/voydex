@@ -20,6 +20,7 @@ describe("resolveGameMechanics", () => {
       [gameMechanics.abilities]: "unsupported",
       [gameMechanics.breeding]: "unsupported",
       [gameMechanics.heldItems]: "unsupported",
+      [gameMechanics.hiddenAbilities]: "unsupported",
       [gameMechanics.natures]: "unsupported",
       [gameMechanics.pokemonGender]: "unsupported",
     });
@@ -40,13 +41,27 @@ describe("resolveGameMechanics", () => {
   it("enables abilities and natures from Generation III", () => {
     const profile = resolveGameMechanics(buildContext(3));
 
-    expect(Object.values(profile.support)).toEqual([
-      "supported",
-      "supported",
-      "supported",
-      "supported",
-      "supported",
-    ]);
+    expect(profile.support).toEqual({
+      [gameMechanics.abilities]: "supported",
+      [gameMechanics.breeding]: "supported",
+      [gameMechanics.heldItems]: "supported",
+      [gameMechanics.hiddenAbilities]: "unsupported",
+      [gameMechanics.natures]: "supported",
+      [gameMechanics.pokemonGender]: "supported",
+    });
+  });
+
+  it("adds the hidden ability slot from Generation V", () => {
+    expect(
+      resolveGameMechanics(buildContext(4)).support[
+        gameMechanics.hiddenAbilities
+      ],
+    ).toBe("unsupported");
+    expect(
+      resolveGameMechanics(buildContext(5)).support[
+        gameMechanics.hiddenAbilities
+      ],
+    ).toBe("supported");
   });
 
   it("preserves unknown support when the exact game context is incomplete", () => {
@@ -56,13 +71,9 @@ describe("resolveGameMechanics", () => {
       versionGroupId: null,
     });
 
-    expect(Object.values(profile.support)).toEqual([
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-    ]);
+    expect(new Set(Object.values(profile.support))).toEqual(
+      new Set(["unknown"]),
+    );
   });
 });
 
@@ -98,6 +109,9 @@ describe("exact-title exceptions", () => {
       });
 
       expect(profile.support[gameMechanics.abilities]).toBe("unsupported");
+      expect(profile.support[gameMechanics.hiddenAbilities]).toBe(
+        "unsupported",
+      );
       expect(profile.support[gameMechanics.heldItems]).toBe("unsupported");
       expect(profile.support[gameMechanics.natures]).toBe("supported");
     },
@@ -141,13 +155,9 @@ describe("resolveVersionGroupMechanics", () => {
     });
 
     expect(profile.context.gameId).toBeNull();
-    expect(Object.values(profile.support)).toEqual([
-      "supported",
-      "supported",
-      "supported",
-      "supported",
-      "supported",
-    ]);
+    expect(new Set(Object.values(profile.support))).toEqual(
+      new Set(["supported"]),
+    );
   });
 
   it("keeps Generation I limits for a group", () => {
@@ -167,12 +177,8 @@ describe("resolveVersionGroupMechanics", () => {
       versionGroupId: 19,
     });
 
-    expect(Object.values(profile.support)).toEqual([
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-    ]);
+    expect(new Set(Object.values(profile.support))).toEqual(
+      new Set(["unknown"]),
+    );
   });
 });

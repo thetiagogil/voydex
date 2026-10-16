@@ -16,8 +16,10 @@ type PokemonDetailAbilitySlotDefinition = {
 };
 
 export type PokemonDetailAbilitySlot = {
-  ability: Ability;
+  /* Null for an empty slot, which then says why in `emptyLabel`. */
+  ability: Ability | null;
   effectSummary: string | null;
+  emptyLabel: string;
   label: string;
   token: string;
 };
@@ -87,44 +89,56 @@ const getPokemonDetailAbilityEffectSummary = ({
   );
 };
 
+/*
+ * The three ability slots, always all three so every entry reads the same:
+ * an empty one says "None", and the hidden slot before Generation V says it
+ * arrives then (from the reference's hidden-ability mechanic). Nothing when
+ * the Pokémon has no ability at all in the generation.
+ */
 export const getPokemonDetailAbilitySlots = ({
   abilities,
   abilityAttributes,
   attributes,
   currentVersionGroup,
+  hasHiddenAbilities,
   versionGroups,
 }: {
   abilities: Ability[];
   abilityAttributes: AbilityAttribute[];
   attributes: PokemonAttributes | null;
   currentVersionGroup: VersionGroup | null;
+  hasHiddenAbilities: boolean;
   versionGroups: VersionGroup[];
-}) => {
+}): PokemonDetailAbilitySlot[] => {
   if (!attributes) {
     return [];
   }
 
   const abilityById = byId(abilities);
   const versionGroupById = byId(versionGroups);
-
-  return pokemonDetailAbilitySlotDefinitions.flatMap((slot) => {
+  const slots = pokemonDetailAbilitySlotDefinitions.map((slot) => {
     const abilityId = attributes[slot.abilityKey];
-    const ability = abilityId ? abilityById.get(abilityId) : null;
-
-    if (!ability) {
-      return [];
-    }
+    const ability = (abilityId ? abilityById.get(abilityId) : null) ?? null;
+    const isHidden = slot.abilityKey === "hidden_ability_id";
 
     return {
       ability,
-      effectSummary: getPokemonDetailAbilityEffectSummary({
-        ability,
-        abilityAttributes,
-        currentVersionGroup,
-        versionGroupById,
-      }),
+      effectSummary: ability
+        ? getPokemonDetailAbilityEffectSummary({
+            ability,
+            abilityAttributes,
+            currentVersionGroup,
+            versionGroupById,
+          })
+        : null,
+      emptyLabel:
+        isHidden && !hasHiddenAbilities
+          ? "Hidden abilities arrive in Generation V"
+          : "None",
       label: slot.label,
       token: slot.token,
     };
   });
+
+  return slots.some((slot) => slot.ability) ? slots : [];
 };
