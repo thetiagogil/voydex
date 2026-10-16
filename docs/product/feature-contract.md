@@ -254,7 +254,7 @@ Record): one tap, no form, the moment joins History, the current team is saved
 with it where the milestone keeps snapshots, the stamp slaps once and the
 toast offers Undo, which marks it incomplete again (the database refuses if
 something recorded since depends on it). A choice milestone opens Story's
-form instead. `Add a note` keeps a journal note in History. A brand-new Play
+form instead. `Add a note` keeps a note in History. A brand-new Play
 opens on its partner choice (the pick becomes your sticker, with Undo) and
 three first steps: choose your partner, add the Pokémon you catch, mark your
 Pokédex.
@@ -530,7 +530,7 @@ the Play began closing the list. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
 Notes and Play (status changes and the rest). A search in front of the
 filters matches each moment's kind, line and note, and the filter counts
-follow it. `Add a note` keeps a journal note at the end of the timeline.
+follow it. `Add a note` keeps a note at the end of the timeline.
 Highlights, editing, arranging and deleting entries below are accepted but
 not built.
 
@@ -546,7 +546,7 @@ Timeline entries focus on deliberately preserved events:
 - recorded Pokémon additions, evolutions, persistent form changes,
   retirements, replacements, and returns;
 - current, remembered, final-Team, and Hall of Fame snapshots;
-- manual memories and journal notes;
+- manual memories and notes;
 - explicitly recorded Play completion or abandonment;
 - complete Pokédex scopes, Collectible groups, or similar major achievements
   only when the user chooses to preserve them.

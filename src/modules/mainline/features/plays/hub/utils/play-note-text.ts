@@ -9,7 +9,7 @@ export type PlayNoteText = {
 };
 
 /*
- * A journal note as one event: its first line is the title History shows
+ * A note as one event: its first line is the title History shows
  * (clipped at a word to fit 200 characters), and the full text is kept as
  * the body only when the title doesn't already hold all of it.
  */
