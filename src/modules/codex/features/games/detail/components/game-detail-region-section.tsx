@@ -78,7 +78,7 @@ export const GameDetailRegionSection = ({
       </div>
 
       {hasLeaders ? (
-        <div className="border-line mt-6 border-t pt-5">
+        <div className="mt-8">
           <SectionHead
             title="Gym Leaders and Champion"
             aside="In badge order"
