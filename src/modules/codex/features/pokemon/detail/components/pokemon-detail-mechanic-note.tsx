@@ -15,11 +15,11 @@ type PokemonDetailMechanicNoteCardProps = {
 };
 
 /*
- * In place of something the game doesn't have: an hourglass and the fact
- * ("Abilities arrive in Generation III"), with a link to read the entry in
- * that generation. On the card's own inset fill, like the rest of the Codex:
- * the game's history needs no colour of its own, and it never wears the
- * dashed marker, which means data Voydex is missing.
+ * In place of something the game doesn't have: an hourglass, the fact
+ * ("Abilities arrive in") and, on its own line, the generation it arrives
+ * in. When the Pokémon is in that generation the whole panel is the link
+ * there, its arrow saying so. On the card's own inset fill, like the rest of
+ * the Codex, and never the dashed marker, which means data Voydex is missing.
  */
 export const PokemonDetailMechanicNoteCard = ({
   arrivesHref,
@@ -28,17 +28,18 @@ export const PokemonDetailMechanicNoteCard = ({
   note,
 }: PokemonDetailMechanicNoteCardProps) => {
   const isFill = layout === "fill";
-
-  return (
-    <div
-      className={cn(
-        "bg-surface-2 text-ink-2 flex gap-3 rounded-lg px-4 py-3.5",
-        isFill
-          ? "flex-1 flex-col items-center justify-center py-8 text-center"
-          : "items-center",
-        className,
-      )}
-    >
+  const href = note.arrivesIn ? arrivesHref : null;
+  const panelClassName = cn(
+    "bg-surface-2 text-ink-2 flex gap-3 rounded-lg px-4 py-3.5",
+    isFill
+      ? "flex-1 flex-col items-center justify-center py-8 text-center"
+      : "items-center",
+    href &&
+      "hover:bg-hover focus-visible:outline-focus transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+    className,
+  );
+  const content = (
+    <>
       <span
         className={cn(
           "bg-surface text-ink-2 grid shrink-0 place-items-center rounded-full",
@@ -57,16 +58,31 @@ export const PokemonDetailMechanicNoteCard = ({
           isFill && "items-center",
         )}
       >
-        <span className="text-ink text-15 font-extrabold">{note.text}</span>
-        {note.arrivesIn && arrivesHref ? (
-          <Link
-            href={arrivesHref}
-            className="text-link text-14 focus-visible:outline-focus w-fit rounded-xs font-bold underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+        <span className="text-14 font-bold">
+          {note.arrivesIn ? `${note.text}:` : note.text}
+        </span>
+        {note.arrivesIn ? (
+          <span
+            className={cn(
+              "text-15 text-ink inline-flex items-center gap-1 font-extrabold",
+              href && "text-link",
+            )}
           >
-            See it in {formatGenerationName(note.arrivesIn)}
-          </Link>
+            {formatGenerationName(note.arrivesIn)}
+            {href ? (
+              <AppIcon icon={appIcons.actions.continue} size="sm" aria-hidden />
+            ) : null}
+          </span>
         ) : null}
       </span>
-    </div>
+    </>
+  );
+
+  return href ? (
+    <Link href={href} className={panelClassName}>
+      {content}
+    </Link>
+  ) : (
+    <div className={panelClassName}>{content}</div>
   );
 };

@@ -108,8 +108,9 @@ colour only.
   Abilities on its own row above the other two, phones stack all three.
 - Abilities: one mini card per ability (slot, name, effect) side by side, each
   as tall as the card. In a game without abilities the note fills the card
-  ("Abilities arrive in Generation III", or "This game has no abilities"),
-  with "See it in Generation III" when the Pokémon is there.
+  ("Abilities arrive in:" over "Generation III →", or "This game has no
+  abilities"); when the Pokémon is in that generation the whole note is the
+  link there, its arrow saying so.
 - Training (EV yield, catch rate, friendship, base experience, growth rate)
   in two columns; Breeding (egg groups, egg cycles, gender) in one. A game
   without eggs shows the note in Breeding, filling it unless Gender stays

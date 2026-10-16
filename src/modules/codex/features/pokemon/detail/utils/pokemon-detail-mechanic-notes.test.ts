@@ -9,7 +9,7 @@ describe("getPokemonDetailMechanicNote", () => {
         { introducedGeneration: 3, kind: "later-generation" },
         "abilities",
       ),
-    ).toEqual({ arrivesIn: 3, text: "Abilities arrive in Generation III" });
+    ).toEqual({ arrivesIn: 3, text: "Abilities arrive in" });
   });
 
   it("says a game leaves it out", () => {
