@@ -73,8 +73,8 @@ files in your brief; when asked for an audit, do not edit.
 
 Follow the brief's order. Moving a screen means rebuilding it on the Soft Clay
 primitives and components and deleting its old parts in the same change;
-cross-page refactors are expected on the redesign branch. Update the design
-system's Migration Status when a screen moves. `npm run design:check` must
+cross-page refactors are expected. Update the design system's Migration
+Status when a screen moves. `npm run design:check` must
 stay green.
 
 ## Verify

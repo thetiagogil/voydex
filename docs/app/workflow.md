@@ -53,14 +53,17 @@ Area labels: `area: mainline`, `area: codex`, `area: reference`,
 
 ## Phases
 
-| Milestone           | Contents                                                                                          | Starts                          |
-| ------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------- |
-| Foundation          | Local database for daily work, CI green, unused packages removed, Playwright and axe, agent setup | Now                             |
-| Finish the redesign | Bug, change and design-mismatch issues on the redesign branch                                     | Now                             |
-| Restructure         | Multi-table writes into database functions, closed folder names, oversized files split            | After the redesign merges       |
-| Harden              | Security headers, Sentry, page-weight budget, accessibility and loading pass, backups             | After Restructure               |
-| Data and features   | Schema work for `TODO(v3-data)` placeholders, backlog features                                    | After Restructure               |
-| Phone               | Installable web app (PWA); store apps only if demand appears                                      | After Harden, Data and features |
+The six phases of the plan agreed on 2026-10-16, in order. Nobody else uses
+Voydex until all six are done.
+
+| Milestone         | Contents                                                                                                                                 |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Tidy up           | Dead code, unused packages, Knip, Project Status truth, the to-do list on GitHub                                                         |
+| Browser tests     | Playwright and axe on the local database, run on every pull request                                                                      |
+| Restructure       | One folder vocabulary, portable readers and commands, multi-table writes as database functions, Zod, split the largest files             |
+| Components        | Rebuild every component family on shared pieces; each family's look is settled with the owner while it is rebuilt                        |
+| Data and features | Reference data one section at a time, and the backlog features                                                                           |
+| Ready for others  | Security headers, Sentry, backups, production database and release step, sign-up emails, legal, speed, analytics, installable on a phone |
 
 ## Platform Features
 
