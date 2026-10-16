@@ -227,7 +227,7 @@ filter, not a second projection. Recording a milestone in place (Overview's
 Record) writes its completion, its moment and, where the milestone keeps
 snapshots, the current team in one step; Undo marks it incomplete, which also
 removes the moment, and the database refuses when something recorded since
-depends on it. Journal notes and status changes are appended at the end of the
+depends on it. Notes and status changes are appended at the end of the
 timeline (`insertMainlinePlayEvent`, which takes the next place and retries
 once on a clash).
 

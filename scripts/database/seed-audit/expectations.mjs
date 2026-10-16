@@ -1654,8 +1654,6 @@ export const expectedBerryItemSlugs = [
   "maranga-berry",
 ];
 
-export const expectedBerryAvailableItemSlugs = expectedBerryItemSlugs;
-
 export function expectedSlugRange(sourceSlugs, fromSlug, toSlug) {
   const fromIndex = sourceSlugs.indexOf(fromSlug);
   const toIndex = sourceSlugs.indexOf(toSlug);

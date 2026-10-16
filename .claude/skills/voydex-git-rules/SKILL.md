@@ -19,3 +19,8 @@ formats for commits, pull requests, releases and labels are in
   git and `gh` login) or by Tiago himself. Cloud sessions may commit locally
   but never push or write to GitHub; they hand their changes to the Mac
   session as a patch.
+- **Every change goes through a branch and a pull request.** Only a tiny
+  one-off change Tiago names goes straight to `main`.
+- **Clean up after a merge without asking.** Once a pull request is merged,
+  delete its branch locally and on GitHub, switch to `main` and pull. Never
+  delete a branch that isn't merged.

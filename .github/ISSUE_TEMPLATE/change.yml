@@ -1,0 +1,40 @@
+name: Change
+description: Something works today but should work differently.
+labels: ["type: change"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: The change and why it matters, in one or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: Today
+      description: How it works now, with the screens or code involved.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How it should work instead.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What must be true to close this issue.
+      placeholder: |
+        - [ ] …
+        - [ ] …
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Data or database needs, open decisions, related issues.
