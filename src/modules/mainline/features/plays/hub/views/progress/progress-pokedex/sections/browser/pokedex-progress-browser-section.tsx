@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from "react";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -222,6 +223,15 @@ export const PokedexProgressBrowserSection = ({
             </div>
           </>
         }
+      />
+
+      <FilterResultsLine
+        className="-mt-2"
+        hasActiveFilters={hasFilters}
+        noun="Pokémon"
+        onClearFilters={resetFilters}
+        shownCount={filteredEntries.length}
+        totalCount={scope.entries.length}
       />
 
       {visibleSections.length ? (

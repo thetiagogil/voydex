@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   defaultMyPlansFilters,
+  hasActiveMyPlansFilters,
   filterAndSortMyPlans,
   getMyPlanFootnote,
   getMyPlansGames,
@@ -98,5 +99,20 @@ describe("My Plans model", () => {
     expect(getMyPlanFootnote(plan({ memberCount: 0 }))).toBe(
       "Empty, just named",
     );
+  });
+});
+
+describe("hasActiveMyPlansFilters", () => {
+  it("counts a search, a game or a status, never the order alone", () => {
+    expect(hasActiveMyPlansFilters(defaultMyPlansFilters)).toBe(false);
+    expect(
+      hasActiveMyPlansFilters({ ...defaultMyPlansFilters, sort: "name" }),
+    ).toBe(false);
+    expect(
+      hasActiveMyPlansFilters({ ...defaultMyPlansFilters, query: "gar" }),
+    ).toBe(true);
+    expect(
+      hasActiveMyPlansFilters({ ...defaultMyPlansFilters, status: "archived" }),
+    ).toBe(true);
   });
 });

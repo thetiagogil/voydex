@@ -15,7 +15,6 @@ import {
   type GamePokedexSortKey,
   type GamePokedexView,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
-import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
@@ -34,6 +33,7 @@ import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -155,12 +155,6 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
               value={view}
               variant="segment"
             />
-            {activeFilters ? (
-              <ClearFiltersButton
-                labelClassName="max-lg:sr-only"
-                onClick={clearFilters}
-              />
-            ) : null}
           </>
         }
       />
@@ -175,9 +169,11 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
         />
       </div>
 
-      <BrowseResultSummary
+      <FilterResultsLine
+        className="mt-2"
         hasActiveFilters={activeFilters}
         noun="Pokémon"
+        onClearFilters={clearFilters}
         shownCount={visiblePokemon.length}
         totalCount={data.entries.length}
       />
@@ -219,6 +215,9 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
               hasAbilities
                 ? "No Pokémon match that name, number, ability or type."
                 : "No Pokémon match that name, number or type."
+            }
+            action={
+              <ClearFiltersButton variant="outline" onClick={clearFilters} />
             }
           />
         )}

@@ -12,7 +12,6 @@ import {
   type GameKind,
 } from "@/modules/reference/features/games/domain/game-kinds";
 import type { GameCard } from "@/modules/reference/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
@@ -21,8 +20,6 @@ type GamesToolbarProps = {
   filters: GamesBrowseFilters;
   games: GameCard[];
   groupBy: GamesGroupBy;
-  /* Given while a filter is on: the toolbar ends with Clear filters. */
-  onClearFilters?: () => void;
   onFilterChange: <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
     value: GamesBrowseFilters[FilterKey],
@@ -52,14 +49,12 @@ const isGameKind = (value: string): value is GameKind => {
 /*
  * The games toolbar, one line on wide screens: the search, then the kind of
  * game (a filter), how the shelf is grouped and its order (how it's
- * arranged), each a compact menu, and Clear filters while one is on.
- * Phones put the menus under the search.
+ * arranged), each a compact menu. Phones put the menus under the search.
  */
 export const GamesToolbar = ({
   filters,
   games,
   groupBy,
-  onClearFilters,
   onFilterChange,
   onGroupByChange,
   onSortOrderChange,
@@ -138,12 +133,6 @@ export const GamesToolbar = ({
               placeholder="Oldest first"
             />
           </ToolbarGroup>
-          {onClearFilters ? (
-            <ClearFiltersButton
-              labelClassName="max-lg:sr-only"
-              onClick={onClearFilters}
-            />
-          ) : null}
         </>
       }
     />

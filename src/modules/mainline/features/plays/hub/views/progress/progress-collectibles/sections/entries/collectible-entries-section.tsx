@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -137,8 +138,6 @@ export const CollectibleEntriesSection = ({
   const hasFilters =
     Boolean(query.trim()) || progressFilter !== "all" || areaId !== "all";
 
-  const showingLabel = `Showing ${filteredEntries.length} of ${group.entries.length}`;
-
   const resetFilters = () => {
     setQuery("");
     setProgressFilter("all");
@@ -238,11 +237,16 @@ export const CollectibleEntriesSection = ({
         }
       />
 
-      <p className="sr-only" aria-live="polite">
-        {hasFilters ? showingLabel : ""}
-      </p>
+      <FilterResultsLine
+        className="-mt-2"
+        hasActiveFilters={hasFilters}
+        noun={group.name}
+        onClearFilters={resetFilters}
+        shownCount={filteredEntries.length}
+        totalCount={group.entries.length}
+      />
 
-      <div className="mt-6 min-w-0">
+      <div className="mt-2 min-w-0">
         {areas.length ? (
           <div className="grid min-w-0 gap-7.5">
             {areas.map((shownArea) => {

@@ -14,9 +14,10 @@ import {
   type GamesGroupBy,
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
-import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import type { GamesPageData } from "@/modules/reference/types";
+import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { PageHeader } from "@/shared/components/page-header";
 
 const countWords = [
@@ -98,16 +99,17 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
         filters={filters}
         games={data.games}
         groupBy={groupBy}
-        onClearFilters={hasActiveFilters ? clearFilters : undefined}
         onFilterChange={updateFilter}
         onGroupByChange={setGroupBy}
         onSortOrderChange={setSortOrder}
         sortOrder={sortOrder}
       />
 
-      <BrowseResultSummary
+      <FilterResultsLine
+        className="mt-3"
         hasActiveFilters={hasActiveFilters}
         noun="games"
+        onClearFilters={clearFilters}
         shownCount={filteredGames.length}
         totalCount={data.games.length}
       />
@@ -119,6 +121,9 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           variant="bare"
           className="mt-6"
           title="No games match that search or filter."
+          action={
+            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+          }
         />
       )}
     </>

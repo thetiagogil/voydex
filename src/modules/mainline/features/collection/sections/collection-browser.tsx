@@ -23,6 +23,7 @@ import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/traine
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { EmptyState } from "@/shared/components/empty-state";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -131,16 +132,13 @@ export const CollectionBrowser = ({
         onValueChange={(type) => update({ type })}
       />
 
-      <div className="flex min-h-9 items-center justify-between gap-3 px-1">
-        <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
-          {hasFilters
-            ? `Showing ${shown.length} of ${entries.length}`
-            : `Showing all ${entries.length}`}
-        </p>
-        {hasFilters && shown.length ? (
-          <ClearFiltersButton onClick={clearFilters} />
-        ) : null}
-      </div>
+      <FilterResultsLine
+        hasActiveFilters={hasFilters}
+        noun="Pokémon"
+        onClearFilters={clearFilters}
+        shownCount={shown.length}
+        totalCount={entries.length}
+      />
 
       {shown.length ? (
         <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">

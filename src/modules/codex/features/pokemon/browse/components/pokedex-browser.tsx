@@ -16,7 +16,6 @@ import {
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
 import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
-import { BrowseResultSummary } from "@/modules/codex/shared/components/browse-result-summary";
 import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
@@ -30,6 +29,7 @@ import type {
 } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
@@ -51,8 +51,8 @@ const ALL = "all";
 
 /*
  * The Codex's Pokémon: the title and count, one toolbar row (search, the
- * Generation filter, Sort, Clear filters while one is on), the type dots
- * under it, and the cards, in generation ranges loaded in batches.
+ * Generation filter, Sort), the type dots under it, the results line, and
+ * the cards, in generation ranges loaded in batches.
  */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -192,12 +192,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
               options={pokedexSortOptions}
               placeholder="National number"
             />
-            {hasActiveFilters ? (
-              <ClearFiltersButton
-                labelClassName="max-lg:sr-only"
-                onClick={clearFilters}
-              />
-            ) : null}
           </>
         }
       />
@@ -214,9 +208,11 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       </div>
 
       {/* Counts every match, not just the ones loaded so far. */}
-      <BrowseResultSummary
+      <FilterResultsLine
+        className="mt-2"
         hasActiveFilters={hasActiveFilters}
         noun="Pokémon"
+        onClearFilters={clearFilters}
         shownCount={filteredPokemon.length}
         totalCount={data.pokemon.length}
       />

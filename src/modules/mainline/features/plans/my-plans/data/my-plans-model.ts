@@ -36,6 +36,12 @@ export const defaultMyPlansFilters: MyPlansFilters = {
   status: "all",
 };
 
+/* Whether a filter narrows the list (the order alone doesn't). */
+export const hasActiveMyPlansFilters = (filters: MyPlansFilters) =>
+  filters.query.trim() !== "" ||
+  filters.game !== "" ||
+  filters.status !== defaultMyPlansFilters.status;
+
 export const myPlansSortLabels: Record<MyPlansSort, string> = {
   game: "Game",
   name: "Plan name",

@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { PlayStatusGroup } from "@/modules/mainline/features/plays/browse/components/play-status-group";
 import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
-import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import {
   defaultPlayBrowseFilters,
   filterAndSortPlays,
@@ -20,7 +19,7 @@ import {
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
-import { cn } from "@/shared/utils/cn";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 
 type PlaysBrowserProps = {
   params?: PlayBrowseParams;
@@ -109,22 +108,15 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
         }}
       />
 
-      <div
-        className={cn(
-          "mt-3 flex min-h-9 items-center justify-between gap-3 px-1",
-          !hasActiveFilters && "sr-only",
-        )}
-      >
-        <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
-          {hasActiveFilters
-            ? `Showing ${shownCount} of ${formatPlayCount(plays.length)}`
-            : `Showing all ${formatPlayCount(plays.length)}`}
-        </p>
-        {/* With no matches, the empty state below carries the recovery. */}
-        {hasActiveFilters && shownCount ? (
-          <ClearFiltersButton onClick={clearFilters} />
-        ) : null}
-      </div>
+      <FilterResultsLine
+        className="mt-3"
+        hasActiveFilters={hasActiveFilters}
+        noun="Plays"
+        nounOne="Play"
+        onClearFilters={clearFilters}
+        shownCount={shownCount}
+        totalCount={plays.length}
+      />
 
       {groups.length ? (
         <div className="mt-6 grid gap-8 sm:mt-8">

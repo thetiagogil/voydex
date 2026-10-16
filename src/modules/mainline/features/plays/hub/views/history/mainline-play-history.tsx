@@ -10,6 +10,7 @@ import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/p
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 
@@ -73,6 +74,11 @@ export const MainlinePlayHistory = ({
     [searchedEvents, filter, sort, clock],
   );
   const isSearching = Boolean(query.trim());
+  /* The order alone filters nothing, so clearing keeps it. */
+  const clearFilters = () => {
+    setQuery("");
+    setFilter("all");
+  };
   const shownCount = months.reduce(
     (count, month) => count + month.entries.length,
     0,
@@ -122,13 +128,19 @@ export const MainlinePlayHistory = ({
             query={query}
             sort={sort}
           />
-          <p className="sr-only" aria-live="polite">
-            {shownCount} {pluralizeMoments(shownCount)} shown
-          </p>
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={isSearching || filter !== "all"}
+            noun="moments"
+            nounOne="moment"
+            onClearFilters={clearFilters}
+            shownCount={shownCount}
+            totalCount={totalCount}
+          />
         </>
       ) : null}
 
-      <div className="mt-8 grid min-w-0 gap-8">
+      <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
           <>
             {sort === "oldest" ? start : null}
@@ -146,13 +158,7 @@ export const MainlinePlayHistory = ({
             title="No moments match"
             description="Try another word, or clear the search and filters."
             action={
-              <ClearFiltersButton
-                variant="outline"
-                onClick={() => {
-                  setQuery("");
-                  setFilter("all");
-                }}
-              />
+              <ClearFiltersButton variant="outline" onClick={clearFilters} />
             }
           />
         ) : totalCount ? (

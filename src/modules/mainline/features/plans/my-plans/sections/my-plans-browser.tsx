@@ -11,6 +11,7 @@ import {
   filterAndSortMyPlans,
   getMyPlanFootnote,
   getMyPlansGames,
+  hasActiveMyPlansFilters,
   myPlansSortLabels,
   type MyPlan,
   type MyPlansFilters,
@@ -24,6 +25,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -182,6 +184,10 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
   const games = useMemo(() => getMyPlansGames(plans), [plans]);
   const update = (next: Partial<MyPlansFilters>) =>
     setFilters((current) => ({ ...current, ...next }));
+  /* Back to every Plan, keeping the order you picked. */
+  const clearFilters = () =>
+    setFilters((current) => ({ ...defaultMyPlansFilters, sort: current.sort }));
+  const hasActiveFilters = hasActiveMyPlansFilters(filters);
 
   return (
     <div className="flex flex-col gap-5">
@@ -233,6 +239,16 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
         }
       />
 
+      <FilterResultsLine
+        className="-mt-2"
+        hasActiveFilters={hasActiveFilters}
+        noun="Plans"
+        nounOne="Plan"
+        onClearFilters={clearFilters}
+        shownCount={shown.length}
+        totalCount={plans.length}
+      />
+
       {shown.length ? (
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {shown.map((plan) => (
@@ -244,9 +260,7 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
           variant="bare"
           title="No Plans match."
           action={
-            <ClearFiltersButton
-              onClick={() => setFilters(defaultMyPlansFilters)}
-            />
+            <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }
         />
       )}
