@@ -133,17 +133,20 @@ export const PokemonDetailHero = ({
           <HeroParts parts={sentence} />
         </p>
 
-        <div className="mt-7 flex flex-wrap gap-3">
+        {/*
+         * On phones the main button takes the full width and Favourite and
+         * Shiny share the line under it.
+         */}
+        <div className="mt-7 flex flex-wrap gap-2.5 *:flex-1 sm:*:flex-none [&>*:first-child]:basis-full sm:[&>*:first-child]:basis-auto">
           {actions}
           {/* TODO(v3-data): favourites (no table for a user's favourite Pokémon). */}
           <CodexPendingValue
             label="Favourite"
-            className="text-15 h-13 rounded-lg px-5"
+            className="h-11 w-full justify-center rounded-lg px-4 text-[14.5px] sm:w-auto"
           />
           {shinyImageUrl ? (
             <Button
               variant="outline"
-              size="lg"
               aria-pressed={isShowingShiny}
               onClick={() => {
                 setShowShiny((current) => !current);
