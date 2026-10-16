@@ -108,7 +108,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
   };
 
   return (
-    <section aria-label={`${pokedexName} entries`} className="mt-5">
+    <section aria-label={`${pokedexName} entries`} className="mt-8">
       <Toolbar
         render={
           <form

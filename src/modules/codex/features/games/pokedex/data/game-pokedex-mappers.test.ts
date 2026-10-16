@@ -36,6 +36,7 @@ const buildData = (generationId: number) => {
     generations: [generation],
     pokedex: { id: 1, name: "Regional Pokédex" } as Pokedex,
     pokedexes: [],
+    pokemonCountByPokedexId: new Map(),
     species: [],
     types: [],
     versionGroup,

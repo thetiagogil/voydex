@@ -16,8 +16,10 @@ import {
   loadGamePokedexEntries,
   loadGamePokedexForms,
   loadGamePokedexSpecies,
+  loadPokedexSpeciesRows,
   loadVersionGroupFamilyPokedexes,
 } from "@/modules/codex/features/games/pokedex/server/game-pokedex-loaders";
+import { getPokedexPokemonCounts } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import { getCodexVersionGroupRouteRows } from "@/modules/codex/shared/server/version-group-route-query";
 import {
   resolveVersionGroupRoute,
@@ -128,9 +130,15 @@ export const getGamePokedexPage = async (
     return null;
   }
 
-  const [baseRows, entries] = await Promise.all([
+  const [baseRows, entries, otherPokedexRows] = await Promise.all([
     loadGamePokedexBaseRows(supabase, route.versionGroup),
     loadGamePokedexEntries(supabase, route.pokedex.id),
+    loadPokedexSpeciesRows(
+      supabase,
+      route.pokedexes
+        .filter((pokedex) => pokedex.id !== route.pokedex.id)
+        .map((pokedex) => pokedex.id),
+    ),
   ]);
   const speciesIds = selectGamePokedexSpeciesIds(entries);
   const [species, forms] = await Promise.all([
@@ -153,6 +161,10 @@ export const getGamePokedexPage = async (
     generations: baseRows.generations,
     pokedex: route.pokedex,
     pokedexes: route.pokedexes,
+    pokemonCountByPokedexId: getPokedexPokemonCounts([
+      ...entries,
+      ...otherPokedexRows,
+    ]),
     species,
     types: baseRows.types,
     versionGroupById: new Map(

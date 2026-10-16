@@ -6,15 +6,14 @@ import {
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { cardVariants } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
 
 type GamePokedexHeadSectionProps = {
   data: GamePokedexData;
 };
 
 /*
- * v3's Pokédex head, cream in the Codex: the version group, the Pokédex's
+ * v3's Pokédex head, on the page's band as the Codex's other entries are
+ * (no game tint): the version group, the Pokédex's
  * name, one sentence on what it lists, and a switch between the group's
  * Pokédexes, its expansions' (Galar, Isle of Armor, Crown Tundra) and its
  * own National Pokédex.
@@ -25,11 +24,7 @@ export const GamePokedexHeadSection = ({
   const versionGroupTitle = getVersionGroupTitle(data.versionGroup.name);
 
   return (
-    <section
-      aria-labelledby="game-pokedex-title"
-      data-slot="card"
-      className={cn(cardVariants(), "mt-5 gap-0 px-5 py-6 sm:px-7 sm:py-6.5")}
-    >
+    <section aria-labelledby="game-pokedex-title" className="mt-5">
       <p className="text-13 text-ink-2 font-bold">
         {versionGroupTitle} · {data.generation.name}
       </p>
@@ -57,6 +52,7 @@ export const GamePokedexHeadSection = ({
               data.versionGroup.slug,
               pokedex.slug,
             ),
+            count: data.pokemonCountByPokedexId[pokedex.id],
             label: getPokedexShortName(formatPokedexName(pokedex.name)),
             value: pokedex.slug,
           }))}

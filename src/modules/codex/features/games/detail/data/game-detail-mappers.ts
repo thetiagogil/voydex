@@ -1,5 +1,8 @@
 import { appRoutes } from "@/config/routes";
-import { sortVersionGroupPokedexes } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
+import {
+  getPokedexPokemonCounts,
+  sortVersionGroupPokedexes,
+} from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import { selectPokedexPreviewEntries } from "@/modules/codex/features/games/detail/data/game-detail-pokedex-previews";
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
 import type {
@@ -24,7 +27,6 @@ import type {
   GameCard,
   GameStarters,
   Generation,
-  PokedexEntry,
   PokemonTypePair,
   VersionGroup,
 } from "@/modules/reference/types";
@@ -71,26 +73,6 @@ const sortRelatedGames = (
       firstCard.game.name.localeCompare(secondCard.game.name)
     );
   };
-};
-
-const getPokedexPokemonCounts = (entries: PokedexEntry[]) => {
-  const speciesIdsByPokedexId = new Map<number, Set<number>>();
-
-  for (const entry of entries) {
-    const speciesIds =
-      speciesIdsByPokedexId.get(entry.pokedex_id) ?? new Set<number>();
-
-    speciesIds.add(entry.species_id);
-    speciesIdsByPokedexId.set(entry.pokedex_id, speciesIds);
-  }
-
-  return new Map(
-    Array.from(speciesIdsByPokedexId.entries()).map(
-      ([pokedexId, speciesIds]) => {
-        return [pokedexId, speciesIds.size];
-      },
-    ),
-  );
 };
 
 const buildPokedexSummaries = (

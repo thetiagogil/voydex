@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { sortVersionGroupPokedexes } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
+import {
+  getPokedexPokemonCounts,
+  sortVersionGroupPokedexes,
+} from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
 import type { Pokedex, VersionGroup } from "@/modules/reference/types";
 
 const pokedex = (
@@ -45,5 +48,18 @@ describe("sortVersionGroupPokedexes", () => {
         versionGroupById,
       ).map((entry) => entry.slug),
     ).toEqual(["hoenn", "national"]);
+  });
+});
+
+describe("getPokedexPokemonCounts", () => {
+  it("counts each Pokédex's species once, whatever its forms", () => {
+    const counts = getPokedexPokemonCounts([
+      { pokedex_id: 1, species_id: 10 },
+      { pokedex_id: 1, species_id: 10 },
+      { pokedex_id: 1, species_id: 11 },
+      { pokedex_id: 2, species_id: 10 },
+    ]);
+
+    expect(Object.fromEntries(counts)).toEqual({ 1: 2, 2: 1 });
   });
 });

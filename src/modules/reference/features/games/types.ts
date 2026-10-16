@@ -149,6 +149,8 @@ export type GamePokedexData = {
   pokedex: Pokedex;
   /* Every Pokédex of the version group, its expansions' included. */
   pokedexes: Pokedex[];
+  /* How many Pokémon each of them lists, by Pokédex id. */
+  pokemonCountByPokedexId: Record<number, number>;
   types: Type[];
   /* The base version group the Pokédex belongs to (Sword / Shield for Isle of Armor). */
   versionGroup: VersionGroup;

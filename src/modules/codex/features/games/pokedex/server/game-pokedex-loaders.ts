@@ -109,6 +109,35 @@ export const loadGamePokedexEntries = async (
   );
 };
 
+/*
+ * Which species each of the other Pokédexes lists, for the switch's counts
+ * (Galar 400, Isle of Armor 211).
+ */
+export const loadPokedexSpeciesRows = async (
+  supabase: ServerSupabaseClient,
+  pokedexIds: number[],
+): Promise<Pick<PokedexEntry, "pokedex_id" | "species_id">[]> => {
+  if (!pokedexIds.length) {
+    return [];
+  }
+
+  return loadChunkedReferenceRows<
+    Pick<PokedexEntry, "pokedex_id" | "species_id">
+  >(
+    pokedexIds,
+    (ids, from, to) =>
+      supabase
+        .schema("reference")
+        .from("pokedex_entries")
+        .select("pokedex_id, species_id")
+        .in("pokedex_id", ids)
+        .order("pokedex_id", { ascending: true })
+        .order("pokedex_number", { ascending: true })
+        .range(from, to),
+    "Unable to load Pokedex counts.",
+  );
+};
+
 export const loadGamePokedexSpecies = async (
   supabase: ServerSupabaseClient,
   speciesIds: number[],

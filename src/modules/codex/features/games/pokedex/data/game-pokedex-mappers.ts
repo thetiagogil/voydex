@@ -33,6 +33,7 @@ type BuildGamePokedexDataParams = {
   generations: Generation[];
   pokedex: Pokedex;
   pokedexes: Pokedex[];
+  pokemonCountByPokedexId: Map<number, number>;
   species: PokemonSpecies[];
   types: Type[];
   versionGroup: VersionGroup;
@@ -130,6 +131,7 @@ export const buildGamePokedexData = ({
   generations,
   pokedex,
   pokedexes,
+  pokemonCountByPokedexId,
   species,
   types,
   versionGroup,
@@ -187,6 +189,7 @@ export const buildGamePokedexData = ({
     }),
     pokedex,
     pokedexes: sortVersionGroupPokedexes(pokedexes, versionGroupById),
+    pokemonCountByPokedexId: Object.fromEntries(pokemonCountByPokedexId),
     types,
     versionGroup,
   };
