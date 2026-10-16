@@ -25,7 +25,7 @@ const formatPlayCount = (count: number) =>
  * name, and when and where it is set. A reference card you don't own, so it
  * is flat with a 1px line; a game you have Plays of carries the count on a
  * raised mark on the card's corner, like the app's other marks (Old
- * friends' family dot). Hover picks the cover up. It opens its version
+ * friends' family dot), in the action green so played games stand out. Hover picks the cover up. It opens its version
  * group's page with this game picked in the version switch.
  */
 export const GameShelfCard = ({
@@ -50,7 +50,7 @@ export const GameShelfCard = ({
         <span
           aria-hidden
           title={`You have ${formatPlayCount(playCount)} of ${getGameShortName(card.game.name)}`}
-          className="bg-surface text-13 text-ink-2 absolute -top-2 -right-2 z-10 inline-flex h-6 min-w-6 items-center justify-center gap-1 rounded-full px-2 font-extrabold tabular-nums shadow-[0_2px_0_var(--lip)]"
+          className="bg-action text-13 absolute -top-2 -right-2 z-10 inline-flex h-6 min-w-6 items-center justify-center gap-1 rounded-full px-2 font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--action-lip)]"
         >
           <AppIcon icon={appIcons.product.play} size="xs" />
           {playCount}
