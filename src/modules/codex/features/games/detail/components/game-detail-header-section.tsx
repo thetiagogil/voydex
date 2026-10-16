@@ -33,8 +33,9 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
 
 /*
  * v3's version group header, on the page's band (the Codex stays neutral,
- * no game tint), centred as the Pokémon entry's hero is: the picked game's
- * cover, then the eyebrow, the group's title with the version switch under
+ * no game tint), from the left as a Play's header is (the Pokémon entry
+ * centres its round art; a box cover reads better leading): the picked
+ * game's cover, then the eyebrow, the group's title with the version switch under
  * it (as the form switch sits under a Pokémon's name) and, beside the
  * switch, the Your Plays icon, a jump to the section at the page's end
  * where you start a Play or plan a team; then its description. The
@@ -49,9 +50,9 @@ export const GameDetailHeaderSection = ({
   return (
     <section
       aria-labelledby="game-detail-title"
-      className="mt-5 grid items-center gap-6 md:grid-cols-[auto_minmax(0,36rem)] md:justify-center md:gap-10"
+      className="mt-5 grid items-center gap-6 md:grid-cols-[auto_minmax(0,36rem)] md:gap-10"
     >
-      <div className="flex min-w-0 justify-center">
+      <div className="flex min-w-0 justify-center md:justify-start">
         <GameCover
           alt={`${version.game.name} cover art`}
           coverImageUrl={version.coverImageUrl}
