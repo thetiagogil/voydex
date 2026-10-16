@@ -236,6 +236,24 @@ describe("getPokemonDetailWhereToFindRows", () => {
     expect(rows[2]?.ways.map((way) => way.label)).toEqual(["Max Raid"]);
   });
 
+  it("lists a group's games as not there once the generation records it elsewhere", () => {
+    const scope = resolvePokemonDetailScope(data, { versionGroup: "bdsp" });
+
+    if (!scope) {
+      throw new Error("Expected a scope.");
+    }
+
+    const rows = getPokemonDetailWhereToFindRows({
+      availability: scope.availability,
+      listWhenAbsent: true,
+      versionGroup: scope.versionGroup,
+    });
+
+    expect(rows.map((row) => [row.label, row.missingLabel])).toEqual([
+      ["Pokémon brilliant-diamond", "Not in this game"],
+    ]);
+  });
+
   it("is empty when nothing is recorded", () => {
     const scope = resolvePokemonDetailScope(data, { versionGroup: "bdsp" });
 

@@ -64,12 +64,20 @@ const getDistinctWays = (rows: PokemonAvailabilitySummary[]) => {
  */
 export const getPokemonDetailWhereToFindRows = ({
   availability,
+  listWhenAbsent = false,
   versionGroup,
 }: {
   availability: PokemonAvailabilitySummary[];
+  /*
+   * List the group's games even with no way to find the Pokémon there,
+   * each saying "Not in this game": the generation-wide card does, once
+   * another group of the generation records it (so a gap in the data never
+   * reads as the game lacking it).
+   */
+  listWhenAbsent?: boolean;
   versionGroup: PokemonDetailVersionGroupScope;
 }): PokemonDetailWhereToFindRow[] => {
-  if (!availability.length) {
+  if (!availability.length && !listWhenAbsent) {
     return [];
   }
 
@@ -84,9 +92,11 @@ export const getPokemonDetailWhereToFindRows = ({
     );
   };
   const baseRows = availability.filter((row) => getExpansionId(row) === null);
-  const missingLabel = baseRows.length
-    ? "Not in this version"
-    : "Not in the base game";
+  const missingLabel = !availability.length
+    ? "Not in this game"
+    : baseRows.length
+      ? "Not in this version"
+      : "Not in the base game";
   const gameRows = versionGroup.games.map((game) => ({
     cover: {
       coverImageUrl: getGameCoverImageUrl(game),

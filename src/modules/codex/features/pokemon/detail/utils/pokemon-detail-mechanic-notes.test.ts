@@ -8,17 +8,27 @@ describe("getPokemonDetailMechanicNote", () => {
       getPokemonDetailMechanicNote(
         { introducedGeneration: 3, kind: "later-generation" },
         "abilities",
+        "Ruby and Sapphire",
       ),
     ).toEqual({ arrivesIn: 3, text: "Abilities arrive in" });
   });
 
-  it("says a game leaves it out", () => {
+  it("names the game that leaves it out", () => {
     expect(
-      getPokemonDetailMechanicNote({ kind: "not-in-game" }, "breeding"),
-    ).toEqual({ arrivesIn: null, text: "This game has no eggs or Day Care" });
+      getPokemonDetailMechanicNote(
+        { kind: "not-in-game" },
+        "breeding",
+        "Legends: Arceus",
+      ),
+    ).toEqual({
+      arrivesIn: null,
+      text: "No eggs or Day Care in Legends: Arceus",
+    });
   });
 
   it("says nothing when the game has it", () => {
-    expect(getPokemonDetailMechanicNote(null, "abilities")).toBeNull();
+    expect(
+      getPokemonDetailMechanicNote(null, "abilities", "Sword and Shield"),
+    ).toBeNull();
   });
 });

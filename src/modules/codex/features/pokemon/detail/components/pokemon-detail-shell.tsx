@@ -148,10 +148,12 @@ export const PokemonDetailShell = ({
   const abilitiesNote = getPokemonDetailMechanicNote(
     getGameMechanicAbsence(scope.mechanics, gameMechanics.abilities),
     "abilities",
+    getVersionGroupShortName(activeVersionGroup.name),
   );
   const breedingNote = getPokemonDetailMechanicNote(
     getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
     "breeding",
+    getVersionGroupShortName(activeVersionGroup.name),
   );
 
   return (
@@ -160,6 +162,12 @@ export const PokemonDetailShell = ({
         <PokemonDetailHead
           activePokemon={{ name: data.species.name, slug: data.species.slug }}
           activeVersionGroupSlug={activeVersionGroup.slug}
+          gameNames={scope.generationLearnsets.flatMap(
+            ({ isFound, versionGroup }) =>
+              isFound
+                ? [getVersionGroupShortName(versionGroup.versionGroup.name)]
+                : [],
+          )}
           generationOptions={generationOptions}
           generationSlug={generation.generation.slug}
         />
@@ -250,6 +258,9 @@ export const PokemonDetailShell = ({
             ({ availability, versionGroup }) => {
               return getPokemonDetailWhereToFindRows({
                 availability,
+                listWhenAbsent: scope.generationAvailability.some(
+                  (group) => group.availability.length > 0,
+                ),
                 versionGroup,
               });
             },

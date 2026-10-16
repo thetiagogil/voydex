@@ -26,6 +26,12 @@ export type PokemonDetailStat = PokemonDetailStatDefinition & {
  */
 export const POKEMON_DETAIL_STAT_BAR_FULL_AT = 160;
 
+/*
+ * The total's bar is full at 120 a stat (720 for six, 600 for Generation I's
+ * five), the strongest legendaries' total; anything higher fills it.
+ */
+export const POKEMON_DETAIL_STAT_TOTAL_FULL_AT_EACH = 120;
+
 const modernStatDefinitions = [
   { key: "base_hp", label: "HP", name: "HP" },
   { key: "base_attack", label: "Attack", name: "Attack" },

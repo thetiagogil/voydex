@@ -2,6 +2,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import {
   getPokemonDetailStatsTotal,
   POKEMON_DETAIL_STAT_BAR_FULL_AT,
+  POKEMON_DETAIL_STAT_TOTAL_FULL_AT_EACH,
   type PokemonDetailStat,
 } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -17,7 +18,8 @@ type PokemonDetailStatsCardProps = {
 
 /*
  * Base stats as v3's bars, filled in the Pokémon's own type colour, in tight
- * rows; the best stat reads bold.
+ * rows; the best stat reads bold. The total sits in the same columns with its
+ * own bar in the type's deep shade.
  */
 export const PokemonDetailStatsCard = ({
   generationName,
@@ -25,6 +27,7 @@ export const PokemonDetailStatsCard = ({
   type,
 }: PokemonDetailStatsCardProps) => {
   const best = Math.max(...stats.map((stat) => stat.value));
+  const total = getPokemonDetailStatsTotal(stats);
 
   return (
     <DetailSectionCard
@@ -64,11 +67,17 @@ export const PokemonDetailStatsCard = ({
           </div>
         ))}
       </div>
-      <div className="mt-1.5 flex justify-between pt-2 font-extrabold">
-        <span>Total</span>
-        <span className="tabular-nums">
-          {getPokemonDetailStatsTotal(stats)}
-        </span>
+      {/* The total in the same columns, its bar in the type's deep shade. */}
+      <div className="mt-1.5 grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2.5 pt-2 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3">
+        <span className="text-14 text-ink font-extrabold">Total</span>
+        <span className="text-right font-extrabold tabular-nums">{total}</span>
+        <Meter
+          aria-label="Base stat total"
+          fill="color-mix(in oklab, var(--t) 62%, var(--ink))"
+          max={stats.length * POKEMON_DETAIL_STAT_TOTAL_FULL_AT_EACH}
+          value={total}
+          valueText={String(total)}
+        />
       </div>
     </DetailSectionCard>
   );

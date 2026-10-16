@@ -3,21 +3,22 @@ import type { GameMechanicAbsence } from "@/modules/reference/features/games/dom
 /*
  * A note in place of something the game doesn't have: its text ("Abilities
  * arrive in"), then the generation it arrives in on its own line, or null
- * for a game that leaves it out ("This game has no abilities").
+ * for a game that leaves it out ("No abilities in Legends: Arceus").
  */
 export type PokemonDetailMechanicNote = {
   arrivesIn: number | null;
   text: string;
 };
 
+/* The game is named, since a generation holds several and the page may be reading only one. */
 const noteText = {
   abilities: {
     laterGeneration: "Abilities arrive in",
-    notInGame: "This game has no abilities",
+    notInGame: (game: string) => `No abilities in ${game}`,
   },
   breeding: {
     laterGeneration: "Breeding arrives in",
-    notInGame: "This game has no eggs or Day Care",
+    notInGame: (game: string) => `No eggs or Day Care in ${game}`,
   },
 } as const;
 
@@ -29,6 +30,8 @@ const noteText = {
 export const getPokemonDetailMechanicNote = (
   absence: GameMechanicAbsence | null,
   subject: keyof typeof noteText,
+  /* The game the page reads, as in "Legends: Arceus". */
+  gameName: string,
 ): PokemonDetailMechanicNote | null => {
   if (!absence) {
     return null;
@@ -39,5 +42,5 @@ export const getPokemonDetailMechanicNote = (
         arrivesIn: absence.introducedGeneration,
         text: noteText[subject].laterGeneration,
       }
-    : { arrivesIn: null, text: noteText[subject].notInGame };
+    : { arrivesIn: null, text: noteText[subject].notInGame(gameName) };
 };

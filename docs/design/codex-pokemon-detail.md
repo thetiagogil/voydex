@@ -56,7 +56,9 @@ Important rules:
 
 - **Band:** the head and the hero sit on the page's sand band.
 - **Head:** the path back to Pokémon ending in the Pokémon's name, which opens
-  the searchable species picker, and the generation pills on the right.
+  the searchable species picker, and the generation pills on the right, with
+  a quiet line under them naming the generation's games the Pokémon (or this
+  form) is in ("In Legends: Arceus" for Hisuian Arcanine).
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, the types, the one sentence read from the data, and the
@@ -99,7 +101,8 @@ Keep each section focused and quiet; lively comes from the art and type
 colour only.
 
 - Base stats: v3's bars in the type colour, in tight rows, with Gen I's
-  single Special; the best stat reads bold.
+  single Special; the best stat reads bold. The total sits in the same
+  columns with its own bar in the type's deep shade, full at 120 a stat.
 - Type matchups: Weak to, Resists, Immune to (always shown, "None" when
   empty) as type marks with their multiplier (the type's name on hover and
   read out), then how many other types hit normally as one quiet line.
@@ -108,8 +111,8 @@ colour only.
   Abilities on its own row above the other two, phones stack all three.
 - Abilities: one mini card per ability (slot, name, effect) side by side, each
   as tall as the card. In a game without abilities the note fills the card
-  ("Abilities arrive in:" over "Generation III →", or "This game has no
-  abilities"); when the Pokémon is in that generation the whole note is the
+  ("Abilities arrive in:" over "Generation III →", or "No abilities in
+  Legends: Arceus", naming the game the page reads); when the Pokémon is in that generation the whole note is the
   link there, its arrow saying so.
 - Training (EV yield, catch rate, friendship, base experience, growth rate)
   in two columns; Breeding (egg groups, egg cycles, gender) in one. A game
@@ -124,7 +127,9 @@ colour only.
 - Learnset: searchable, filterable moves with method, type, category, power,
   accuracy and PP for the group picked in its game switch.
 - Where to find: one row per game of each of the generation's groups, then
-  that group's expansions.
+  that group's expansions; a game without the Pokémon says "Not in this game"
+  (once the generation records it somewhere, so a data gap never reads as
+  the game lacking it).
 
 On narrow screens, wide data rows become labelled stacked rows inside the same
 section. They must not widen the document or require page-level horizontal
