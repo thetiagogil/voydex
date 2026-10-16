@@ -125,7 +125,7 @@ read/write file roles. The rules most often missed:
 - Give each route the smallest cohesive read model it needs; an Overview
   preview must not reuse a detailed workspace reader that loads unrelated
   data.
-- Server Actions authenticate explicitly and parse their input. Multi-table
+- Server Actions authenticate explicitly and parse their input with Zod. Multi-table
   writes follow action → validated command → repository or RPC → database
   constraints and RLS; these may be files in one `server` folder.
 - Long lists (Plays, Collection, History, Collectibles, Pokédexes) load
