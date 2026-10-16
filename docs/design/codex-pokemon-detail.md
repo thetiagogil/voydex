@@ -64,7 +64,7 @@ Important rules:
   (as a Play's does) with the Pokémon and an index of its sections, the one
   you're reading marked; each link jumps there. A section the page leaves out
   has no link.
-- **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
+- **Hero:** centred in the band as one pair, the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, the types, the one sentence read from the data, and the
   actions. Signed in, the main action is "Your Plays (N)" ("Add to a Play"

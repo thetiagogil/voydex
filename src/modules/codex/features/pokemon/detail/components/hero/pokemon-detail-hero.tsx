@@ -54,8 +54,9 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
  * switch, the types, the one sentence the page reads for you (the Pokédex's
  * words are per game in Pokédex numbers), then the actions: the route's (Add
  * to a Play), Favourite and the shiny toggle. Each form is its own page, and the shell
- * remounts the hero for it, so the toggle starts off again. The art keeps
- * v3's 1 : 1.05 split and stops at the size v3's widest page gives it.
+ * remounts the hero for it, so the toggle starts off again. The art and the
+ * text sit as one pair centred in the band, the text capped at a readable
+ * width.
  */
 export const PokemonDetailHero = ({
   actions,
@@ -76,7 +77,7 @@ export const PokemonDetailHero = ({
   return (
     <section
       aria-label={name}
-      className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(525px,calc((100%_-_2.5rem)/2.05))_minmax(0,1fr)] md:gap-10"
+      className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(460px,calc((100%_-_2.5rem)/2))_minmax(0,32rem)] md:justify-center md:gap-10"
     >
       <PokemonPortrait
         alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
