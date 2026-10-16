@@ -6,14 +6,14 @@ import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pendi
 import type { EggGroup } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
-type PokemonDetailTrainingCardProps = {
-  /* In place of eggs when the game has none, with the entry where they arrive. */
-  breedingNote: PokemonDetailMechanicNote | null;
-  breedingNoteHref?: string | null;
+type PokemonDetailBreedingCardProps = {
   /* Its egg groups, in slot order, when the game has breeding. */
   eggGroups: EggGroup[];
   /* False before Generation II, which has no gender. */
   hasGender: boolean;
+  /* In place of eggs when the game has none, with the entry where they arrive. */
+  note: PokemonDetailMechanicNote | null;
+  noteHref?: string | null;
 };
 
 const Fact = ({ children, label }: { children: ReactNode; label: string }) => {
@@ -25,96 +25,77 @@ const Fact = ({ children, label }: { children: ReactNode; label: string }) => {
   );
 };
 
-const FactGroup = ({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title: string;
-}) => {
+/*
+ * What defeating and raising it gives. Values Voydex doesn't have yet are
+ * the pending marker until their data lands.
+ */
+export const PokemonDetailTrainingCard = () => {
   return (
-    <section className="flex flex-col gap-2.5">
-      <h3 className="text-13 text-ink-3 font-extrabold tracking-wide uppercase">
-        {title}
-      </h3>
-      {children}
-    </section>
+    <DetailSectionCard title="Training">
+      {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+        <Fact label="EV yield">
+          <CodexPendingValue />
+        </Fact>
+        <Fact label="Catch rate">
+          <CodexPendingValue />
+        </Fact>
+        <Fact label="Base friendship">
+          <CodexPendingValue />
+        </Fact>
+        <Fact label="Base experience">
+          <CodexPendingValue />
+        </Fact>
+        <Fact label="Growth rate">
+          <CodexPendingValue />
+        </Fact>
+      </dl>
+    </DetailSectionCard>
   );
 };
 
 /*
- * v3's Training & breeding card, in two named groups so each fact says what
- * it is for: Training (what defeating and raising it gives) and Breeding
- * (eggs and gender). A game without eggs shows the calm note in their place;
- * a value Voydex doesn't have yet is the pending marker (only egg groups are
- * in so far).
+ * Eggs and gender. A game without eggs shows the note in their place,
+ * keeping Gender where the game has it (Let's Go). Only egg groups are in
+ * Voydex so far; the rest is the pending marker.
  */
-export const PokemonDetailTrainingCard = ({
-  breedingNote,
-  breedingNoteHref,
+export const PokemonDetailBreedingCard = ({
   eggGroups,
   hasGender,
-}: PokemonDetailTrainingCardProps) => {
+  note,
+  noteHref,
+}: PokemonDetailBreedingCardProps) => {
   return (
-    <DetailSectionCard
-      title="Training & breeding"
-      contentClassName="flex flex-col gap-5"
-    >
-      <FactGroup title="Training">
-        {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
+    <DetailSectionCard title="Breeding" contentClassName="flex flex-col gap-3">
+      {note ? (
+        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
+      ) : null}
+      {!note || hasGender ? (
         <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-          <Fact label="EV yield">
-            <CodexPendingValue />
-          </Fact>
-          <Fact label="Catch rate">
-            <CodexPendingValue />
-          </Fact>
-          <Fact label="Base friendship">
-            <CodexPendingValue />
-          </Fact>
-          <Fact label="Base experience">
-            <CodexPendingValue />
-          </Fact>
-          <Fact label="Growth rate">
-            <CodexPendingValue />
-          </Fact>
-        </dl>
-      </FactGroup>
-
-      <FactGroup title="Breeding">
-        {breedingNote ? (
-          <PokemonDetailMechanicNoteCard
-            arrivesHref={breedingNoteHref}
-            note={breedingNote}
-          />
-        ) : null}
-        {!breedingNote || hasGender ? (
-          <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-            {breedingNote ? null : (
-              <>
-                <Fact label="Egg groups">
-                  {eggGroups.length ? (
-                    eggGroups.map((eggGroup) => eggGroup.name).join(" · ")
-                  ) : (
-                    // TODO(v3-data): this form's egg groups (no egg group ids on its attributes).
-                    <CodexPendingValue />
-                  )}
-                </Fact>
-                <Fact label="Egg cycles">
-                  {/* TODO(v3-data): egg cycles per species. */}
+          {note ? null : (
+            <>
+              <Fact label="Egg groups">
+                {eggGroups.length ? (
+                  eggGroups.map((eggGroup) => eggGroup.name).join(" · ")
+                ) : (
+                  // TODO(v3-data): this form's egg groups (no egg group ids on its attributes).
                   <CodexPendingValue />
-                </Fact>
-              </>
-            )}
-            {hasGender ? (
-              <Fact label="Gender">
-                {/* TODO(v3-data): gender ratio per species (and the ratio bar). */}
+                )}
+              </Fact>
+              <Fact label="Egg cycles">
+                {/* TODO(v3-data): egg cycles per species. */}
                 <CodexPendingValue />
               </Fact>
-            ) : null}
-          </dl>
-        ) : null}
-      </FactGroup>
+            </>
+          )}
+          {hasGender ? (
+            <Fact label="Gender">
+              {/* TODO(v3-data): gender ratio per species (and the ratio bar). */}
+              <CodexPendingValue />
+            </Fact>
+          ) : null}
+        </dl>
+      ) : null}
     </DetailSectionCard>
   );
 };

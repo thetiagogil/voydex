@@ -18,7 +18,10 @@ import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon
 import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-head";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
-import { PokemonDetailTrainingCard } from "@/modules/codex/features/pokemon/detail/components/training/pokemon-detail-training-card";
+import {
+  PokemonDetailBreedingCard,
+  PokemonDetailTrainingCard,
+} from "@/modules/codex/features/pokemon/detail/components/training/pokemon-detail-training-card";
 import { PokemonDetailTypeMatchupsCard } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-card";
 import {
   getPokemonDetailDefendingTypes,
@@ -170,29 +173,30 @@ export const PokemonDetailShell = ({
 
       {/*
        * Below the band, two pairs side by side from `lg`: abilities (the
-       * wider) beside training and breeding, then stats beside the type
-       * chart. Each keeps its place in every game, saying quietly what a game
-       * doesn't have. Then each section across the page, the learnset last
+       * wider, filling its side) beside training over breeding, then stats
+       * beside the type chart. Each keeps its place in every game, saying
+       * quietly what a game doesn't have. Then each section across the page, the learnset last
        * of the reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
-        <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [&>*]:h-full">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <PokemonDetailAbilitiesCard
             abilitySlots={abilitySlots}
             note={abilitiesNote}
             noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
           />
-          <PokemonDetailTrainingCard
-            breedingNote={breedingNote}
-            breedingNoteHref={getGenerationHref(
-              breedingNote?.arrivesIn ?? null,
-            )}
-            eggGroups={getFormEggGroups(data, scope)}
-            hasGender={supportsGameMechanic(
-              scope.mechanics,
-              gameMechanics.pokemonGender,
-            )}
-          />
+          <div className="flex min-w-0 flex-col gap-6">
+            <PokemonDetailTrainingCard />
+            <PokemonDetailBreedingCard
+              eggGroups={getFormEggGroups(data, scope)}
+              hasGender={supportsGameMechanic(
+                scope.mechanics,
+                gameMechanics.pokemonGender,
+              )}
+              note={breedingNote}
+              noteHref={getGenerationHref(breedingNote?.arrivesIn ?? null)}
+            />
+          </div>
         </div>
         <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
           {stats.length ? (

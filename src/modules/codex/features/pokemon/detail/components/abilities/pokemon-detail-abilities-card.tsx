@@ -11,8 +11,9 @@ type PokemonDetailAbilitiesCardProps = {
 };
 
 /*
- * The abilities the Pokémon has, each with its slot and effect. In a game
- * without abilities the card keeps its place and shows the calm note.
+ * The abilities the Pokémon has, one inset tile each (its slot, name and
+ * effect), the tiles sharing the card's height so it is always full beside
+ * Training and Breeding. In a game without abilities the note fills it.
  */
 export const PokemonDetailAbilitiesCard = ({
   abilitySlots,
@@ -20,19 +21,27 @@ export const PokemonDetailAbilitiesCard = ({
   noteHref,
 }: PokemonDetailAbilitiesCardProps) => {
   return (
-    <DetailSectionCard title="Abilities">
+    <DetailSectionCard
+      title="Abilities"
+      className="h-full"
+      contentClassName="flex flex-1 flex-col gap-3"
+    >
       {note ? (
-        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
+        <PokemonDetailMechanicNoteCard
+          arrivesHref={noteHref}
+          layout="fill"
+          note={note}
+        />
       ) : !abilitySlots.length ? (
         <p className="text-14 text-ink-3 font-semibold">
           Its abilities aren&apos;t recorded yet.
         </p>
       ) : (
-        <dl>
+        <dl className="flex flex-1 flex-col gap-3">
           {abilitySlots.map((abilitySlot) => (
             <div
               key={`${abilitySlot.token}-${abilitySlot.ability.id}`}
-              className="py-3 first:pt-0 last:pb-0"
+              className="bg-surface-2 flex flex-1 flex-col justify-center rounded-lg px-4 py-3.5"
             >
               <dt className="text-ink-2 text-12 font-bold">
                 {abilitySlot.label}
