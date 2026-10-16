@@ -181,7 +181,7 @@ export const appIcons = {
     codex: {
       games: Gamepad2,
       generations: Layers3,
-      pokemon: BookOpenCheck,
+      pokemon: PokeballIcon,
     },
     display: {
       grid: Grid2X2,

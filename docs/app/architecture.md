@@ -50,7 +50,7 @@ The active source follows these ownership rules:
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
 - `src/modules/codex/shared` contains only Codex-owned shared pieces: its head
-  and section switch, generation pills, Pokémon card link and grid, result
+  (the path back to a list), generation pills, Pokémon card link and grid, result
   summary, pending value, game-name helpers, and the version-group route read
   every Codex address resolves through. The Pokémon type filter is the
   reference module's `PokemonTypeFilter`, shared with Mainline.

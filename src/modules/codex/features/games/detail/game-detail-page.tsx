@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { appRoutes } from "@/config/routes";
 import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
 import { GameDetailExclusivesSection } from "@/modules/codex/features/games/detail/components/game-detail-exclusives-section";
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
@@ -38,7 +39,10 @@ export const GameDetailPage = async ({
   return (
     <div className="flex w-full min-w-0 flex-col">
       <CodexHead
-        trail={[{ label: getVersionGroupShortName(data.versionGroup.name) }]}
+        trail={[
+          { href: appRoutes.codexGames, label: "Games" },
+          { label: getVersionGroupShortName(data.versionGroup.name) },
+        ]}
       />
       <GameDetailHeaderSection
         data={data}

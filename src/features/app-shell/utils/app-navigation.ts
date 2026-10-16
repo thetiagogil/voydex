@@ -64,6 +64,21 @@ export const codexLink: AppNavigationLink = {
   section: modules.codex.basePath,
 };
 
+export type CodexViewLink = AppNavigationLink & {
+  description: string;
+  slug: (typeof modules.codex.views)[number]["slug"];
+};
+
+/* The Codex's pages, which its menu offers on every bar (Pokémon, Games). */
+export const codexViewLinks: readonly CodexViewLink[] = modules.codex.views.map(
+  (view) => ({
+    description: view.description,
+    href: view.href,
+    label: view.label,
+    slug: view.slug,
+  }),
+);
+
 export const accountLink: AppNavigationLink = {
   href: appRoutes.settings,
   label: "Settings",
@@ -86,12 +101,12 @@ export const startPlayLink: AppNavigationLink = {
   label: "Start a Play",
 };
 
+/* Signed out, the bar's one plain link; the Codex menu sits beside it. */
 export const publicLinks: readonly AppNavigationLink[] = [
   { href: appRoutes.intro, label: "How it works" },
-  codexLink,
 ];
 
-/* Signed-out phones: the menu leads with Start a Play. */
+/* Signed-out phones: the menu leads with Start a Play, the Codex's pages last. */
 export const publicMenuLinks: readonly AppNavigationLink[] = [
   startPlayLink,
   ...publicLinks,

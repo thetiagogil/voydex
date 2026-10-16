@@ -15,11 +15,13 @@ export const modules = {
     slug: "codex",
     views: [
       {
+        description: "Every species and its forms",
         href: appRoutes.codexPokemon,
         label: "Pokémon",
         slug: "pokemon",
       },
       {
+        description: "Every game and its Pokédexes",
         href: appRoutes.codexGames,
         label: "Games",
         slug: "games",

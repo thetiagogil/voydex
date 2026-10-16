@@ -16,13 +16,15 @@ switcher.
 - **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
   Mainline Home (`/mainline`). Mainline's views sit centred in module order:
   Home, Plays, Team Planner (`/mainline/plans/new`, current anywhere under
-  `/mainline/plans`), Statistics and Collection. The Codex link and your
-  account icon sit on the right. The Codex link is bold while you are anywhere
-  under `/codex`.
+  `/mainline/plans`), Statistics and Collection. The Codex menu and your
+  account icon sit on the right. The Codex menu (the book and "Codex") opens
+  the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
+  open theirs; it is bold while you are anywhere under `/codex`.
 - **Account menu:** your name and when you became a trainer, Settings
   (`/settings`) and Log out at the foot.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
-  Codex and You on a fixed bar along the bottom edge. You opens `/you` (the
+  Codex and You on a fixed bar along the bottom edge. Codex opens the same
+  Pokémon and Games menu upward. You opens `/you` (the
   trainer card, Statistics, Collection, Settings and Log out) and stays
   current on You, Settings, Welcome, Statistics and Collection. The current
   item takes the soft action tint. Toasts sit above the bar.
@@ -32,9 +34,10 @@ switcher.
 ### Signed Out
 
 - **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
-  phones), then How it works (`/intro`) and Codex centred, and Log in on the
-  right. On phones the links fold into a menu behind one icon beside Log in;
-  it leads with Start a Play (`/start`), then How it works and Codex.
+  phones), then How it works (`/intro`) and the Codex menu centred, and Log
+  in on the right. On phones the links fold into a menu behind one icon
+  beside Log in; it leads with Start a Play (`/start`), then How it works,
+  then the Codex's Pokémon and Games under its name.
 - The signed-out frame ends on the quiet site footer (name, catchphrase, How
   it works, Codex, Log in, Privacy, Terms and the fan-project notice).
 - Protected destinations (`/mainline`, `/settings`, `/welcome`, `/you` and
@@ -44,11 +47,10 @@ switcher.
 
 ### Inside A Module
 
-- **Codex pages** start with the Codex head: the book and "Codex", the
-  `[Pokémon | Games]` switch, then the path to the current page (for example
-  `Codex [Pokémon | Games] / Sword and Shield / Galar Pokédex`). The switch is
-  the Codex's own section navigation; the address decides which section is
-  current.
+- **Codex pages:** the Pokémon and Games lists open on their own title; the
+  bar's Codex menu moves between them, since every module will bring its own
+  Codex pages. A page inside a list starts with the path back to it (for
+  example `Games / Sword and Shield / Galar Pokédex`).
 - **A Play** keeps its header and tabs (Overview, Team, Progress, History,
   Settings) under the top bar; its docked bar returns when the header scrolls
   away.

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   accountLink,
   codexLink,
+  codexViewLinks,
   getBrandHref,
   isCurrentLink,
   mainlineLinks,
@@ -31,6 +32,18 @@ describe("app navigation", () => {
     expect(codexLink.href).toBe("/codex/pokemon");
     expect(isCurrentLink("/codex/games/sword", codexLink)).toBe(true);
     expect(isCurrentLink("/codex/pokemon/bulbasaur", codexLink)).toBe(true);
+  });
+
+  it("offers the Codex's pages, each current under its own path", () => {
+    expect(codexViewLinks.map((link) => link.label)).toEqual([
+      "Pokémon",
+      "Games",
+    ]);
+    const [pokemon, games] = codexViewLinks;
+
+    expect(isCurrentLink("/codex/pokemon/bulbasaur", pokemon!)).toBe(true);
+    expect(isCurrentLink("/codex/pokemon/bulbasaur", games!)).toBe(false);
+    expect(isCurrentLink("/codex/games/sword-shield", games!)).toBe(true);
   });
 
   it("does not match a path that only shares a prefix", () => {
@@ -68,7 +81,6 @@ describe("app navigation", () => {
     expect(publicMenuLinks.map((link) => link.label)).toEqual([
       "Start a Play",
       "How it works",
-      "Codex",
     ]);
     expect(publicMenuLinks[0]?.href).toBe("/start");
   });

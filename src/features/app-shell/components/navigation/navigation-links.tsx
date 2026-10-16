@@ -4,11 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import {
-  codexLink,
   isCurrentLink,
   type AppNavigationLink,
 } from "@/features/app-shell/utils/app-navigation";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 type NavigationLinksProps = {
@@ -21,7 +19,7 @@ type NavigationLinksProps = {
  * A link's label, as wide as its bold self whether or not it is current, so
  * moving between sections never nudges the bar's other links.
  */
-const SteadyLabel = ({ children }: { children: string }) => (
+export const SteadyLabel = ({ children }: { children: string }) => (
   <span className="grid justify-items-center">
     <span className="col-start-1 row-start-1">{children}</span>
     <span
@@ -67,26 +65,5 @@ export const NavigationLinks = ({
         );
       })}
     </nav>
-  );
-};
-
-/* The Codex beside your account (v3 `.codex-link`): bold while you're in it. */
-export const CodexUtilityLink = ({ className }: { className?: string }) => {
-  const pathname = usePathname();
-  const isCurrent = isCurrentLink(pathname, codexLink);
-
-  return (
-    <Link
-      href={codexLink.href}
-      aria-current={isCurrent ? "page" : undefined}
-      className={cn(
-        "text-14 hover:text-ink inline-flex h-10 items-center gap-1.5 rounded-full px-2.5 font-semibold text-(color:--bar-ink-2) hover:bg-(--bar-hover)",
-        isCurrent && "text-ink font-extrabold",
-        className,
-      )}
-    >
-      <AppIcon icon={appIcons.modules.codex} className="size-4.5" />
-      <SteadyLabel>{codexLink.label}</SteadyLabel>
-    </Link>
   );
 };

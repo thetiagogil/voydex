@@ -7,14 +7,14 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import type { SignedInAccount } from "@/features/app-shell/types";
 import { getAccountInitial } from "@/features/app-shell/utils/account-display";
+import { CodexTabMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import {
-  codexLink,
   isCurrentLink,
   tabBarLinks,
   youLinks,
 } from "@/features/app-shell/utils/app-navigation";
 import { getMainlineViewIcon } from "@/features/app-shell/utils/mainline-view-icons";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { AppIcon } from "@/shared/components/app-icon";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { cn } from "@/shared/utils/cn";
 
@@ -30,14 +30,17 @@ type TabItemProps = {
 };
 
 /* The current item sits in one soft pill, its icon and label together; it moves at once, never fades. */
+const getTabItemClassName = (isCurrent: boolean) =>
+  cn(
+    "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-xl px-0.5 pt-1.5 pb-1 font-bold",
+    isCurrent && "bg-action-soft text-action-lip font-extrabold",
+  );
+
 const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
   <Link
     href={href}
     aria-current={isCurrent ? "page" : undefined}
-    className={cn(
-      "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-xl px-0.5 pt-1.5 pb-1 font-bold",
-      isCurrent && "bg-action-soft text-action-lip font-extrabold",
-    )}
+    className={getTabItemClassName(isCurrent)}
   >
     <span className="grid h-8 w-12 place-items-center">{icon}</span>
     {label}
@@ -47,7 +50,8 @@ const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
 /*
  * Phones and tablets: the app's sections move to a bar on the bottom edge
  * (v3 `.tabbar`), its items kept together in the middle: Mainline's views
- * (Home, Plays and the Planner as each ships), the Codex, and You, which
+ * (Home, Plays and the Planner as each ships), the Codex (a menu of its
+ * pages), and You, which
  * opens the You page with Statistics, Collection and Settings.
  */
 export const AppTabBar = ({ account }: AppTabBarProps) => {
@@ -73,12 +77,7 @@ export const AppTabBar = ({ account }: AppTabBarProps) => {
           label={link.shortLabel}
         />
       ))}
-      <TabItem
-        href={codexLink.href}
-        icon={<AppIcon icon={appIcons.modules.codex} className="size-5.5" />}
-        isCurrent={isCurrentLink(pathname, codexLink)}
-        label={codexLink.label}
-      />
+      <CodexTabMenu triggerClassName={getTabItemClassName} />
       <TabItem
         href={appRoutes.you}
         icon={

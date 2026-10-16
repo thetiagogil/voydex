@@ -1,10 +1,8 @@
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
-import {
-  CodexUtilityLink,
-  NavigationLinks,
-} from "@/features/app-shell/components/navigation/navigation-links";
+import { CodexMenu } from "@/features/app-shell/components/navigation/codex-menu";
+import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
 import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
@@ -30,7 +28,7 @@ type AppShellProps = {
 
 /*
  * v3's two bars. Signed in: the V tile (to Mainline Home), Mainline's views
- * in the middle, the Codex and your icon on the right; on phones and tablets
+ * in the middle, the Codex menu and your icon on the right; on phones and tablets
  * the views, the Codex and You move to a bottom bar. Signed out: the V tile
  * with the name, how it works and the Codex, and Log in; on phones the links
  * fold into a menu with Start a Play. Home's bar shows the tile alone: the
@@ -65,7 +63,7 @@ export const AppShell = ({
           }
           end={
             <div className="hidden items-center gap-2.5 lg:flex">
-              <CodexUtilityLink />
+              <CodexMenu />
               <UserMenu account={account} />
             </div>
           }
@@ -75,11 +73,14 @@ export const AppShell = ({
           brandHref={getBrandHref(false)}
           showName={showBrandName}
           center={
-            <NavigationLinks
-              ariaLabel="Main"
-              links={publicLinks}
-              className="hidden sm:flex"
-            />
+            <div className="hidden items-center gap-1 sm:flex">
+              <NavigationLinks
+                ariaLabel="Main"
+                links={publicLinks}
+                className="flex"
+              />
+              <CodexMenu />
+            </div>
           }
           end={
             <>

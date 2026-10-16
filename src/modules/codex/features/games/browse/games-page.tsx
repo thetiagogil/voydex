@@ -1,7 +1,6 @@
 import type { CodexGamesSlots } from "@/modules/codex/codex-slots";
 import { GamesBrowser } from "@/modules/codex/features/games/browse/components/games-browser";
 import { getGamesPageData } from "@/modules/codex/features/games/browse/server/games-page-query";
-import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 
 type GamesPageProps = {
   params?: {
@@ -17,7 +16,6 @@ export const GamesPage = async ({ params, slots }: GamesPageProps) => {
 
   return (
     <div className="flex w-full min-w-0 flex-col">
-      <CodexHead />
       <GamesBrowser data={data} playCounts={slots?.playedCountsByGameSlug} />
     </div>
   );

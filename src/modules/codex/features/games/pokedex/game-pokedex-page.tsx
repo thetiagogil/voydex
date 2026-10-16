@@ -28,6 +28,7 @@ export const GamePokedexPage = async ({
     <div className="flex w-full min-w-0 flex-col">
       <CodexHead
         trail={[
+          { href: appRoutes.codexGames, label: "Games" },
           {
             href: appRoutes.codexVersionGroup(data.versionGroup.slug),
             label: getVersionGroupShortName(data.versionGroup.name),
