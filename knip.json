@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.mjs"],
+  "project": ["src/**/*.{ts,tsx,css}!", "scripts/**/*.mjs!"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": ["supabase", "sharp"],
+  "ignoreIssues": {
+    "src/shared/components/ui/**": ["exports", "types"],
+    "src/shared/types/database.types.ts": ["exports", "types"]
+  }
+}

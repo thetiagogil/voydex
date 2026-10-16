@@ -37,6 +37,9 @@ jobs:
       - name: Check documentation
         run: npm run docs:check
 
+      - name: Check for retired design leftovers
+        run: npm run design:check
+
       - name: Check formatting
         run: npm run format:check
 
@@ -48,6 +51,9 @@ jobs:
 
       - name: Check architecture boundaries
         run: npm run architecture:check
+
+      - name: Check for unused files, exports and packages
+        run: npm run knip
 
       - name: Run unit tests
         run: npm run test
