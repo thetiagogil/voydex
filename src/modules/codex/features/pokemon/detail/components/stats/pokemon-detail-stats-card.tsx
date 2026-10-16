@@ -16,21 +16,8 @@ type PokemonDetailStatsCardProps = {
 };
 
 /*
- * Where a stat stands out: 120 and up is high, 50 and under low. Only the
- * figure takes the colour, so the bars stay the Pokémon's own.
- */
-const getStatValueClassName = (value: number) => {
-  if (value >= 120) {
-    return "text-ok-deep";
-  }
-
-  return value <= 50 ? "text-danger" : null;
-};
-
-/*
  * Base stats as v3's bars, filled in the Pokémon's own type colour, in tight
- * rows: the best stat reads bold, and a very high or very low figure takes a
- * quiet tint.
+ * rows; the best stat reads bold.
  */
 export const PokemonDetailStatsCard = ({
   generationName,
@@ -63,7 +50,6 @@ export const PokemonDetailStatsCard = ({
               className={cn(
                 "text-right tabular-nums",
                 stat.value === best ? "font-extrabold" : "font-semibold",
-                getStatValueClassName(stat.value),
               )}
             >
               {stat.value}

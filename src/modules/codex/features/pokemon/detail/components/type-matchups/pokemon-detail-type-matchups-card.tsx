@@ -23,7 +23,11 @@ const MatchupChips = ({
   tone: MatchupTone;
 }) => {
   if (!matchups.length) {
-    return <p className="text-13 text-ink-2 pt-1 font-semibold">Nothing</p>;
+    return (
+      <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
+        None
+      </p>
+    );
   }
 
   return (
@@ -101,14 +105,13 @@ export const PokemonDetailTypeMatchupsCard = ({
         <MatchupRow label="Resists">
           <MatchupChips matchups={resistances} tone="resist" />
         </MatchupRow>
-        {immunities.length ? (
-          <MatchupRow label="Immune to">
-            <MatchupChips matchups={immunities} tone="resist" />
-          </MatchupRow>
-        ) : null}
+        {/* Always shown, saying "None" when it has none, so every entry reads the same four rows. */}
+        <MatchupRow label="Immune to">
+          <MatchupChips matchups={immunities} tone="resist" />
+        </MatchupRow>
         {neutralCount ? (
           <MatchupRow label="Normal">
-            <p className="text-13 text-ink-3 font-semibold sm:pt-1">
+            <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
               {neutralCount === 1
                 ? "1 other type"
                 : `${neutralCount} other types`}

@@ -97,11 +97,10 @@ Keep each section focused and quiet; lively comes from the art and type
 colour only.
 
 - Base stats: v3's bars in the type colour, in tight rows, with Gen I's
-  single Special; the best stat reads bold, and a figure of 120 and up or 50
-  and under takes a quiet tint.
-- Type matchups: Weak to, Resists and Immune to as type marks with their
-  multiplier (the type's name on hover and read out), then how many other
-  types hit normally as one quiet line.
+  single Special; the best stat reads bold.
+- Type matchups: Weak to, Resists, Immune to (always shown, "None" when
+  empty) as type marks with their multiplier (the type's name on hover and
+  read out), then how many other types hit normally as one quiet line.
 - Abilities: slot, ability and effect, only where the group has abilities.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
