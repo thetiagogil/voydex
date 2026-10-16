@@ -1,0 +1,67 @@
+name: Browser Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Applies the schema and loads the committed seed, test accounts included.
+      - name: Start local Supabase
+        run: npm run db:start
+
+      - name: Point the app at local Supabase
+        run: |
+          supabase_env="$(node scripts/database/supabase.mjs status -o env 2>/dev/null)"
+          api_url="$(printf '%s\n' "$supabase_env" | sed -n 's/^API_URL="\{0,1\}\([^"]*\)"\{0,1\}$/\1/p')"
+          publishable_key="$(printf '%s\n' "$supabase_env" | sed -n 's/^PUBLISHABLE_KEY="\{0,1\}\([^"]*\)"\{0,1\}$/\1/p')"
+          test -n "$api_url" && test -n "$publishable_key"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$api_url" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$publishable_key" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: npm run build
+
+      - name: Run browser tests
+        run: npm run test:e2e
+
+      - name: Upload the test report
+        if: ${{ failure() && steps.install.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-report
+          path: e2e/.report
+          retention-days: 14
+
+      - name: Stop local Supabase
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        run: npm run db:stop -- --no-backup
