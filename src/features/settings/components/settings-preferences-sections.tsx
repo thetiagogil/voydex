@@ -30,14 +30,14 @@ export const SettingsPreferencesSections = () => (
     >
       {/* TODO(v3-data): New Play defaults for Pokédex mode, Story and collectibles tracking (no columns on public.user_preferences). */}
       <SettingsRow
-        title="Pokédex"
-        description="Mark what you catch, or what you catch and what you've seen"
+        title="Track Story"
+        description="Badges, league and the milestones in between"
       >
         <PendingData variant="inline" />
       </SettingsRow>
       <SettingsRow
-        title="Track Story"
-        description="Badges, league and the milestones in between"
+        title="Track Pokédex"
+        description="Mark what you catch, or what you catch and what you've seen"
       >
         <PendingData variant="inline" />
       </SettingsRow>

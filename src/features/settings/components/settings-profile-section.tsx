@@ -25,6 +25,9 @@ const initialState: ProfileFormState = { message: null, status: "idle" };
 
 const fieldLabelClassName = "text-13 text-ink-2 font-bold";
 
+/* How many icon slots the picker's outline shows until icons exist. */
+const ICON_PREVIEW_COUNT = 6;
+
 /*
  * Settings' profile (v3 `.set-me`): the trainer card is the form. Type a name
  * and the card changes as you do; the footer offers Save and Cancel only
@@ -73,7 +76,18 @@ export const SettingsProfileSection = ({
           <div className="flex flex-col gap-2">
             <p className={fieldLabelClassName}>Your icon</p>
             {/* TODO(v3-data): a Pokémon icon on the profile (profiles.avatar_url is a URL, not a species). */}
-            <PendingData variant="inline" className="w-fit" />
+            {/* v3's picker row in outline: a few icons to pick from, then the marker. */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span aria-hidden className="flex gap-2">
+                {Array.from({ length: ICON_PREVIEW_COUNT }, (_, index) => (
+                  <span
+                    key={index}
+                    className="empty-slot size-11 rounded-full"
+                  />
+                ))}
+              </span>
+              <PendingData variant="inline" />
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field>
@@ -93,7 +107,11 @@ export const SettingsProfileSection = ({
             <div className="flex flex-col gap-1.5">
               <p className={fieldLabelClassName}>Default trainer name</p>
               {/* TODO(v3-data): a default trainer name for new Plays on the profile. */}
-              <PendingData variant="inline" className="w-fit" />
+              {/* Shaped like the field beside it, so the two line up. */}
+              <PendingData
+                variant="inline"
+                className="h-11 w-full rounded-lg px-3.5"
+              />
             </div>
           </div>
         </div>

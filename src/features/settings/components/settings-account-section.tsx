@@ -3,6 +3,7 @@ import {
   ChangePasswordDialog,
 } from "@/features/settings/components/account-change-dialogs";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
+import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { SettingsRow } from "@/shared/components/settings-row";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
@@ -29,7 +30,7 @@ export const SettingsAccountSection = ({
     </SettingsRow>
     <SettingsRow title="Log out" description="On this device">
       <form action={signOutAction}>
-        <SettingsLogOutButton />
+        <SettingsLogOutButton className={SETTINGS_ACTION_CLASS_NAME} />
       </form>
     </SettingsRow>
   </DetailSectionCard>

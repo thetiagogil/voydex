@@ -4,6 +4,7 @@ import { type ReactNode, useActionState, useState } from "react";
 import { toast } from "sonner";
 
 import type { AccountFormState } from "@/features/settings/server/account-actions";
+import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
@@ -76,7 +77,11 @@ export const AccountFormDialog = ({
         }
       }}
     >
-      <DialogTrigger render={<Button variant="outline" size="sm" />}>
+      <DialogTrigger
+        render={
+          <Button variant="outline" className={SETTINGS_ACTION_CLASS_NAME} />
+        }
+      >
         {triggerLabel}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
