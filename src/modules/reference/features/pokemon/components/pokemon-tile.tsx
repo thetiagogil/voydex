@@ -37,7 +37,7 @@ const toneClassNames: Record<
     art: "size-[72px]",
     frame: "",
     name: "text-14",
-    tile: "bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] px-3 pt-2 pb-2.5",
+    tile: "bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] px-1.5 pt-2 pb-2.5 sm:px-3",
   },
 };
 
